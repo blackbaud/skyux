@@ -1,9 +1,10 @@
 #!/usr/bin/env pwsh
 
+[CmdletBinding()]
 param (
   [string]$LtsBranchName,
   [string]$TempPath,
-  [string]$IsDryRun
+  [string]$IsDryRun="false"
 )
 
 if (-not $LtsBranchName)
@@ -76,13 +77,17 @@ else
   }
   Write-Output "`n::endgroup::`n"
 
-  Write-Output "`n::group::Update library resources`n"
+  Write-Output "`n::group::NPM Install`n"
   Write-Output "`n# npm ci"
   npm ci --no-audit --no-progress --no-fund
-  Write-Output ""
+  Write-Output "`n::endgroup::`n"
+
+  Write-Output "`n::group::Update library resources`n"
   Write-Output "`n# npm run dev:create-library-resources"
   npm run dev:create-library-resources
-  Write-Output ""
+  Write-Output "`n::endgroup::`n"
+
+  Write-Output "`n::group::Prettier`n"
   Write-Output "`n# npx nx format:write"
   npx nx format:write
   Write-Output "`n::endgroup::`n"
@@ -133,14 +138,28 @@ else
     $prForChanges = gh pr list --json title,url,headRefName --jq ".[] | select(.headRefName == `"${LtsBranchName}`")"
     if ($prForChanges)
     {
-      $pr = $prForChanges | ConvertFrom-Json
-      Write-Output "`n➡︎ Pull request already exists for changes:`n  $($pr.title)`n  $($pr.url)`n"
+      if ($env:GITHUB_OUTPUT)
+      {
+        Write-Output "prCreated=false" >> $env:GITHUB_OUTPUT
+      }
     }
     else
     {
       Write-Output "`n➡︎ Creating a pull request for changes"
       Write-Output "`n# gh pr create --base $TranslationBranchName --head $LtsBranchName --title '${CommitMessage}'"
       gh pr create --base $TranslationBranchName --head $LtsBranchName --title "${CommitMessage}"
+      $prForChanges = gh pr list --json title,url,headRefName --jq ".[] | select(.headRefName == `"${LtsBranchName}`")"
+      if ($env:GITHUB_OUTPUT)
+      {
+        Write-Output "prCreated=true" >> $env:GITHUB_OUTPUT
+      }
+    }
+    $pr = $prForChanges | ConvertFrom-Json
+    Write-Output "`n➡︎ Pull request for changes:`n  $($pr.title)`n  $($pr.url)`n"
+    if ($env:GITHUB_OUTPUT)
+    {
+      Write-Output "prTitle=$($pr.title)" >> $env:GITHUB_OUTPUT
+      Write-Output "prUrl=$($pr.url)" >> $env:GITHUB_OUTPUT
     }
     Write-Output "`n::endgroup::`n"
   }
