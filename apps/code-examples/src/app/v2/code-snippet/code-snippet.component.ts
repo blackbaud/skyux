@@ -1,12 +1,15 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   ViewEncapsulation,
   computed,
   inject,
   input,
+  viewChild,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SkyIconModule } from '@skyux/icon';
 
 import highlight from 'highlight.js/lib/core';
 import hlJavascript from 'highlight.js/lib/languages/javascript';
@@ -14,17 +17,9 @@ import hlScss from 'highlight.js/lib/languages/scss';
 import hlTypescript from 'highlight.js/lib/languages/typescript';
 import hlXml from 'highlight.js/lib/languages/xml';
 
-export const SKY_CODE_VIEWER_LANGUAGES = ['html', 'js', 'scss', 'ts'] as const;
+import { SkyClipboardService } from '../shared/clipboard.service';
 
-export type SkyCodeSnippetLanguage = (typeof SKY_CODE_VIEWER_LANGUAGES)[number];
-
-export function assertCodeSnippetLanguage(
-  value: string | undefined,
-): asserts value is SkyCodeSnippetLanguage {
-  if (!SKY_CODE_VIEWER_LANGUAGES.includes(value as SkyCodeSnippetLanguage)) {
-    throw new Error(`Value "${value}" is not a supported language type.`);
-  }
-}
+import { type SkyCodeSnippetLanguage } from './code-snippet-language';
 
 highlight.registerLanguage('html', hlXml);
 highlight.registerLanguage('js', hlJavascript);
@@ -34,16 +29,68 @@ highlight.registerLanguage('ts', hlTypescript);
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [],
+  imports: [SkyIconModule],
   selector: 'sky-code-snippet',
-  styleUrl: './code-snippet.component.scss',
-  templateUrl: './code-snippet.component.html',
+  styles: `
+    sky-code-snippet {
+      display: block;
+
+      .sky-code-snippet-controls {
+        float: right;
+        margin-left: 12px;
+      }
+
+      .sky-code-snippet-pre {
+        margin: 0;
+        font-size: 90%;
+        line-height: var(--modern-line_height-150);
+      }
+
+      .hljs-tag,
+      .hljs-selector-tag,
+      .hljs-regexp {
+        color: var(--sky-text-color-action-primary);
+      }
+
+      .hljs-name,
+      .hljs-keyword,
+      .hljs-type,
+      .hljs-attribute {
+        color: var(--sky-highlight-color-danger);
+      }
+
+      .hljs-string,
+      .hljs-subst {
+        color: var(--sky-color-border-success);
+        filter: brightness(65%);
+      }
+    }
+  `,
+  template: `<div class="sky-code-snippet-controls">
+      @let clipboardLabel = 'Copy code to clipboard';
+      <button
+        class="sky-btn sky-btn-icon-borderless"
+        type="button"
+        [attr.aria-label]="clipboardLabel"
+        [attr.title]="clipboardLabel"
+        (click)="onClipboardButtonClick()"
+      >
+        <sky-icon iconName="clipboard-multiple" />
+      </button>
+    </div>
+    <pre
+      #codeRef
+      class="sky-code-snippet-pre"
+    ><code [innerHTML]="formatted()"></code></pre> `,
 })
 export class SkyCodeSnippetComponent {
+  readonly #clipboardSvc = inject(SkyClipboardService);
   readonly #sanitizer = inject(DomSanitizer);
 
   public readonly code = input.required<string>();
   public readonly language = input.required<SkyCodeSnippetLanguage>();
+
+  protected readonly codeRef = viewChild<ElementRef>('codeRef');
 
   protected formatted = computed(() => {
     const code = this.code();
@@ -54,4 +101,12 @@ export class SkyCodeSnippetComponent {
 
     return this.#sanitizer.bypassSecurityTrustHtml(formatted.value);
   });
+
+  protected onClipboardButtonClick(): void {
+    const el = this.codeRef();
+
+    if (el) {
+      this.#clipboardSvc.copyTextContent(el, 'Code copied');
+    }
+  }
 }
