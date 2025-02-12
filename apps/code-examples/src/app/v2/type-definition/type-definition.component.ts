@@ -6,10 +6,12 @@ import {
   input,
 } from '@angular/core';
 import { SkyLabelModule, SkyStatusIndicatorModule } from '@skyux/indicators';
+import { SkyDescriptionListModule } from '@skyux/layout';
 import {
-  SkyManifestChildDefinition,
+  type SkyManifestChildDefinition,
   type SkyManifestDocumentationTypeDefinition,
-} from '@skyux/manifest/src';
+  isDirectiveDefinition,
+} from '@skyux/manifest';
 
 import { SkyElementAnchorDirective } from '../element-anchor/element-anchor.directive';
 import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
@@ -21,6 +23,7 @@ import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
     JsonPipe,
     NgClass,
     SkySafeHtmlPipe,
+    SkyDescriptionListModule,
     SkyElementAnchorDirective,
     SkyLabelModule,
     SkyMarkdownPipe,
@@ -86,13 +89,22 @@ import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
       <div [innerHTML]="def.description | skyMarkdown"></div>
     }
 
-    <div>
-      <code class="sky-codespan"
-        >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
-          def.packageName
-        }}';</code
-      >
-    </div>
+    <sky-description-list mode="vertical">
+      @if (selector()) {
+        <sky-description-list-content>
+          <sky-description-list-term> Selector: </sky-description-list-term>
+          <sky-description-list-description>
+            <code class="sky-codespan">{{ selector() }}</code>
+          </sky-description-list-description>
+        </sky-description-list-content>
+      }
+      <sky-description-list-content>
+        <sky-description-list-term> Import from: </sky-description-list-term>
+        <sky-description-list-description>
+          <code class="sky-codespan">{{ def.packageName }}</code>
+        </sky-description-list-description>
+      </sky-description-list-content>
+    </sky-description-list>
 
     @if (properties()) {
       <h4>Properties</h4>
@@ -108,9 +120,6 @@ import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
           @for (property of properties(); track property.name) {
             <tr>
               <td>
-                <!-- <pre
-              style="max-width: 200px; overflow: auto"
-            ><code>{{child|json}}</code></pre> -->
                 @if (property.kind === 'directive-input') {
                   <code>&#64;Input()</code><br />
                 }
@@ -204,6 +213,16 @@ export class SkyTypeDefinitionComponent {
       }
     }
   }
+
+  protected selector = computed<string | undefined>(() => {
+    const def = this.definition();
+
+    if (isDirectiveDefinition(def)) {
+      return def.selector;
+    }
+
+    return undefined;
+  });
 
   protected getMethodName(
     parent: { isStatic?: boolean; name: string },

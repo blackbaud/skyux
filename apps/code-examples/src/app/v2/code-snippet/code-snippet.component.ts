@@ -41,8 +41,8 @@ highlight.registerLanguage('ts', hlTypescript);
       }
 
       .sky-code-snippet-pre {
+        font-family: 'Roboto Mono', serif;
         margin: 0;
-        font-size: 90%;
         line-height: var(--modern-line_height-150);
       }
 

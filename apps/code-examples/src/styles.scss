@@ -1,9 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono&family=Roboto+Mono&display=swap');
+
 body {
   background-color: #fff !important;
 }
 
+code {
+  font-family: 'Roboto Mono', serif;
+}
+
 code.sky-codespan {
-  padding: 3px;
   background-color: color-mix(
     in srgb,
     var(--sky-color-background-container-info) 25%,
