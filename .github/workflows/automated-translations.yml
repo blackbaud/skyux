@@ -1,0 +1,40 @@
+# Developers commit changes to the LTS branch. This workflow keeps the `automated-translations` branch up to date
+# with the LTS branch.
+#
+# Lingoport will watch the automated-translations branch and automatically translate the resources_en_US.json
+# files to the target languages. The translated files will be committed back to the automated-translations branch.
+#
+# When the `automated-translations` branch has changes to merge back, this workflow creates a pull request.
+#
+# When the `automated-translations` branch is merged and deleted, this workflow recreates the branch.
+
+name: Automated Translations 11.x.x
+on:
+  push:
+    branches:
+      - 11.x.x
+      - automated-translations
+env:
+  LTS_BRANCH: '11.x.x'
+  TRANSLATION_BRANCH: 'automated-translations'
+jobs:
+  automated-translations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
+      - uses: actions/setup-node@v4
+        id: setup-node
+        with:
+          node-version-file: '.nvmrc'
+      - name: Ensure cache directory exists
+        run: mkdir -p /home/runner/.npm
+        continue-on-error: true
+      - name: Sync Translation Branch
+        run: |
+          ./scripts/automated-translations.ps1 \
+            -LtsBranchName $LTS_BRANCH \
+            -TranslationBranchName $TRANSLATION_BRANCH
+        env:
+          GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
