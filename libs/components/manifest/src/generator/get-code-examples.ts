@@ -49,6 +49,8 @@ export async function getCodeExamples(
     if (selector) {
       codeExamples.examples[definition.docsId] = {
         componentName: definition.name,
+        demoHidden:
+          definition.extraTags?.['demoHidden'] !== undefined ? true : undefined,
         files,
         importPath: '@skyux/code-examples',
         primaryFile: path.basename(definition.filePath),

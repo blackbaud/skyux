@@ -16,12 +16,12 @@ import hlXml from 'highlight.js/lib/languages/xml';
 
 export const SKY_CODE_VIEWER_LANGUAGES = ['html', 'js', 'scss', 'ts'] as const;
 
-export type SkyCodeViewerLanguage = (typeof SKY_CODE_VIEWER_LANGUAGES)[number];
+export type SkyCodeSnippetLanguage = (typeof SKY_CODE_VIEWER_LANGUAGES)[number];
 
-export function assertCodeViewerLanguage(
+export function assertCodeSnippetLanguage(
   value: string | undefined,
-): asserts value is SkyCodeViewerLanguage {
-  if (!SKY_CODE_VIEWER_LANGUAGES.includes(value as SkyCodeViewerLanguage)) {
+): asserts value is SkyCodeSnippetLanguage {
+  if (!SKY_CODE_VIEWER_LANGUAGES.includes(value as SkyCodeSnippetLanguage)) {
     throw new Error(`Value "${value}" is not a supported language type.`);
   }
 }
@@ -35,15 +35,15 @@ highlight.registerLanguage('ts', hlTypescript);
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [],
-  selector: 'sky-code-viewer',
-  styleUrl: './code-viewer.component.scss',
-  templateUrl: './code-viewer.component.html',
+  selector: 'sky-code-snippet',
+  styleUrl: './code-snippet.component.scss',
+  templateUrl: './code-snippet.component.html',
 })
-export class SkyCodeViewerComponent {
+export class SkyCodeSnippetComponent {
   readonly #sanitizer = inject(DomSanitizer);
 
   public readonly code = input.required<string>();
-  public readonly language = input.required<SkyCodeViewerLanguage>();
+  public readonly language = input.required<SkyCodeSnippetLanguage>();
 
   protected formatted = computed(() => {
     const code = this.code();

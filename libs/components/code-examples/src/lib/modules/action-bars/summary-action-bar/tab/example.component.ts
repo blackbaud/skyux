@@ -5,7 +5,7 @@ import { SkyTabsModule } from '@skyux/tabs';
 
 /**
  * @title Tab with summary action bar
- * @docsDemoHidden
+ * @demoHidden
  */
 @Component({
   selector: 'app-action-bars-summary-action-bar-tab-example',

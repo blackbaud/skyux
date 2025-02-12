@@ -26,7 +26,11 @@
   </sky-box-controls>
 
   <div class="sky-padding-even-xl">
-    <ng-template [ngComponentOutlet]="componentType()" />
+    @if (!demoHidden()) {
+      <ng-template [ngComponentOutlet]="componentType()" />
+    } @else {
+      Open this code example in StackBlitz to view the demo.
+    }
   </div>
 
   @if (isCodeVisible()) {
@@ -37,7 +41,7 @@
             [tabHeading]="obj.key"
             [active]="obj.key === primaryFile()"
           >
-            <sky-code-viewer
+            <sky-code-snippet
               [code]="obj.value"
               [language]="getCodeLanguage(obj.key)"
             />

@@ -20,6 +20,7 @@ export type SkyManifestCodeExampleFiles = Record<string, string>;
  */
 export interface SkyManifestCodeExample {
   componentName: string;
+  demoHidden?: boolean;
   files: SkyManifestCodeExampleFiles;
   importPath: string;
   primaryFile: string;

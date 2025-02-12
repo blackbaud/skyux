@@ -4,7 +4,7 @@ import { SkyKeyInfoModule } from '@skyux/indicators';
 
 /**
  * @title Basic summary action bar
- * @docsDemoHidden
+ * @demoHidden
  */
 @Component({
   selector: 'app-action-bars-summary-action-bar-basic-example',

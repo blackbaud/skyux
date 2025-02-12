@@ -12,11 +12,11 @@ import { SkyBoxModule } from '@skyux/layout';
 import { SkyVerticalTabsetModule } from '@skyux/tabs';
 
 import {
-  SkyCodeViewerComponent,
-  SkyCodeViewerLanguage,
-  assertCodeViewerLanguage,
-} from './code-viewer.component';
-import { StackBlitzLauncherService } from './stackblitz-launcher.service';
+  SkyCodeSnippetComponent,
+  SkyCodeSnippetLanguage,
+  assertCodeSnippetLanguage,
+} from '../code-snippet/code-snippet.component';
+import { StackBlitzLauncherService } from '../shared/stackblitz-launcher.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,7 +25,7 @@ import { StackBlitzLauncherService } from './stackblitz-launcher.service';
     JsonPipe,
     NgComponentOutlet,
     SkyBoxModule,
-    SkyCodeViewerComponent,
+    SkyCodeSnippetComponent,
     SkyIconModule,
     SkyVerticalTabsetModule,
   ],
@@ -39,15 +39,16 @@ export class SkyExampleViewerComponent {
   public readonly componentName = input.required<string>();
   public readonly componentSelector = input.required<string>();
   public readonly componentType = input.required<Type<unknown>>();
+  public readonly demoHidden = input<boolean>(true);
   public readonly files = input.required<Record<string, string>>();
   public readonly primaryFile = input.required<string>();
   public readonly title = input.required<string>();
 
   protected readonly isCodeVisible = signal(false);
 
-  protected getCodeLanguage(fileName: string): SkyCodeViewerLanguage {
+  protected getCodeLanguage(fileName: string): SkyCodeSnippetLanguage {
     const extension = fileName.split('.').pop();
-    assertCodeViewerLanguage(extension);
+    assertCodeSnippetLanguage(extension);
     return extension;
   }
 

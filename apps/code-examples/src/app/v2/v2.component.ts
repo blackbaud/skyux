@@ -21,7 +21,7 @@ import {
   getDocumentationGroup,
 } from '@skyux/manifest';
 
-import { SkyExampleViewerComponent } from './example-viewer.component';
+import { SkyExampleViewerComponent } from './example-viewer/example-viewer.component';
 
 const DOCS = getDocumentationConfig();
 const EXAMPLES = codeExampleExports as Record<string, Type<unknown>>;
@@ -63,6 +63,7 @@ const SEPARATOR = ' - ';
         [componentName]="example.componentName"
         [componentSelector]="example.selector"
         [componentType]="getComponentType(example.componentName)"
+        [demoHidden]="!!example.demoHidden"
         [files]="example.files"
         [primaryFile]="example.primaryFile"
         [title]="example.title || 'Example'"
