@@ -1,5 +1,17 @@
 # Changelog
 
+## [11.41.0](https://github.com/blackbaud/skyux/compare/11.40.0...11.41.0) (2025-02-11)
+
+
+### Features
+
+* **components/core:** add SkyViewkeeper support for SkyAppViewportService properties ([#3120](https://github.com/blackbaud/skyux/issues/3120)) ([f994ff7](https://github.com/blackbaud/skyux/commit/f994ff75cb27c00a5cfdadad5c55aebabb001f8c))
+
+
+### Bug Fixes
+
+* **components/datetime:** address flaky display behavior of key date tooltips ([#3128](https://github.com/blackbaud/skyux/issues/3128)) ([bd94278](https://github.com/blackbaud/skyux/commit/bd942789232b3affeee8303190ee234aee7d27ef))
+
 ## [11.40.0](https://github.com/blackbaud/skyux/compare/11.39.0...11.40.0) (2025-02-10)
 
 
