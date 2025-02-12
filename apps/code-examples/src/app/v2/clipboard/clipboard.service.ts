@@ -6,11 +6,12 @@ import { SkyToastService } from '@skyux/toast';
   providedIn: 'root',
 })
 export class SkyClipboardService {
-  #toastSvc = inject(SkyToastService);
-  #windowRef = inject(SkyAppWindowRef);
+  readonly #toastSvc = inject(SkyToastService);
+  readonly #windowRef = inject(SkyAppWindowRef);
 
   public copyTextContent(el: ElementRef, successMessage: string): void {
     const text = el.nativeElement.textContent.trim();
+
     this.#windowRef.nativeWindow.navigator.clipboard.writeText(text);
     this.#toastSvc.openMessage(successMessage, { autoClose: true });
   }

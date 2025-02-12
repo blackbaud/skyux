@@ -1,34 +1,90 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { SkyLabelModule } from '@skyux/indicators';
-import { type SkyManifestDocumentationTypeDefinition } from '@skyux/manifest/src';
+import { JsonPipe, NgClass } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
+import { SkyLabelModule, SkyStatusIndicatorModule } from '@skyux/indicators';
+import {
+  SkyManifestChildDefinition,
+  type SkyManifestDocumentationTypeDefinition,
+} from '@skyux/manifest/src';
 
 import { SkyElementAnchorDirective } from '../element-anchor/element-anchor.directive';
 import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
+import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyElementAnchorDirective, SkyLabelModule, SkyMarkdownPipe],
+  imports: [
+    JsonPipe,
+    NgClass,
+    SkySafeHtmlPipe,
+    SkyElementAnchorDirective,
+    SkyLabelModule,
+    SkyMarkdownPipe,
+    SkyStatusIndicatorModule,
+  ],
   selector: 'sky-type-definition',
   styles: `
     :host {
       display: block;
+      margin-bottom: 40px;
     }
 
-    // code.sky-definition-highlight-code {
-    //   padding: 3px;
-    //   background-color: color-mix(
-    //     in srgb,
-    //     var(--sky-color-background-container-info) 25%,
-    //     transparent
-    //   );
-    // }
-  `,
-  template: `
-    @let def = definition();
+    .sky-type-definition-deprecated {
+      text-decoration: line-through;
+    }
 
-    <h3 [attr.id]="def.anchorId" skyElementAnchor>
-      {{ def.name }}
+    .sky-type-definition-table {
+      width: 100%;
+      border-spacing: 0;
+      border-collapse: collapse;
+
+      td,
+      th {
+        border-bottom: 1px solid var(--sky-border-color-neutral-medium);
+        text-align: left;
+      }
+
+      td {
+        padding: 8px 16px;
+      }
+
+      th {
+        padding: 14px 16px;
+        font-weight: 600;
+      }
+    }
+  `,
+  // templateUrl: './type-definition.component.html',
+  template: `@let def = definition();
+
+    <h3
+      [attr.id]="def.anchorId"
+      [ngClass]="{
+        'sky-type-definition-deprecated': def.isDeprecated,
+      }"
+      skyElementAnchor
+    >
+      <code>{{ def.name }}</code>
     </h3>
+
+    @if (def.deprecationReason) {
+      <sky-status-indicator descriptionType="warning" indicatorType="warning">
+        <div
+          [innerHTML]="
+            '<strong>Deprecated. </strong>' + def.deprecationReason
+              | skyMarkdown
+          "
+        ></div>
+      </sky-status-indicator>
+    }
+
+    @if (def.description) {
+      <div [innerHTML]="def.description | skyMarkdown"></div>
+    }
 
     <div>
       <code class="sky-codespan"
@@ -38,13 +94,125 @@ import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
       >
     </div>
 
-    @if (def.description) {
-      <div [innerHTML]="def.description | skyMarkdown"></div>
+    @if (properties()) {
+      <h4>Properties</h4>
+
+      <table class="sky-type-definition-table sky-margin-stacked-xl">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (property of properties(); track property.name) {
+            <tr>
+              <td>
+                <!-- <pre
+              style="max-width: 200px; overflow: auto"
+            ><code>{{child|json}}</code></pre> -->
+                @if (property.kind === 'directive-input') {
+                  <code>&#64;Input()</code><br />
+                }
+                @if (property.kind === 'directive-output') {
+                  <code>&#64;Output()</code><br />
+                }
+                <code
+                  [innerHTML]="getPropertyName(def, property) | skySafeHtml"
+                  [ngClass]="{
+                    'sky-type-definition-deprecated': property.isDeprecated,
+                  }"
+                ></code>
+              </td>
+              <td>
+                @if (property.description) {
+                  <div [innerHTML]="property.description | skyMarkdown"></div>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     }
 
-    <h4>Properties</h4>
-  `,
+    @if (methods()?.length) {
+      <h4>Methods</h4>
+
+      <table class="sky-type-definition-table sky-margin-stacked-xl">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (method of methods(); track method.name) {
+            <tr>
+              <td>
+                <code
+                  [innerHTML]="getMethodName(def, method) | skySafeHtml"
+                  [ngClass]="{
+                    'sky-type-definition-deprecated': method.isDeprecated,
+                  }"
+                ></code>
+              </td>
+              <td>
+                @if (method.description) {
+                  <div [innerHTML]="method.description | skyMarkdown"></div>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } `,
 })
 export class SkyTypeDefinitionComponent {
   public definition = input.required<SkyManifestDocumentationTypeDefinition>();
+
+  protected methods = computed<SkyManifestChildDefinition[] | undefined>(() => {
+    const def = this.definition();
+    return def.children?.filter((c) => c.kind === 'class-method');
+  });
+
+  protected properties = computed<SkyManifestChildDefinition[] | undefined>(
+    () => {
+      const def = this.definition();
+      return def.children?.filter((c) => c.kind !== 'class-method');
+    },
+  );
+
+  protected getPropertyName(
+    parent: { name: string },
+    child: { kind: string; name: string; type: string },
+  ): string {
+    switch (child.kind) {
+      case 'class-method': {
+        return `${child.name}`;
+      }
+
+      case 'enum-member': {
+        return `${parent.name}.${child.name}`;
+      }
+
+      case 'interface-property': {
+        return `${child.name}?: ${child.type}`;
+      }
+
+      default: {
+        return `${child.name}: ${child.type}`;
+      }
+    }
+  }
+
+  protected getMethodName(
+    parent: { isStatic?: boolean; name: string },
+    child: { kind: string; name: string; type: string },
+  ): string {
+    if (parent.isStatic) {
+      return `${parent.name}.${child.name}`;
+    }
+
+    return child.name;
+  }
 }
