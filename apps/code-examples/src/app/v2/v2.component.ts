@@ -18,6 +18,7 @@ import {
   getDocumentationConfig,
   getDocumentationGroup,
 } from '@skyux/manifest';
+import { SkyPageModule } from '@skyux/pages';
 
 import { SkyExampleViewerComponent } from './example-viewer/example-viewer.component';
 import { SkyShowcaseModule } from './showcase/showcase.module';
@@ -33,6 +34,7 @@ const SEPARATOR = ' - ';
     ReactiveFormsModule,
     SkyExampleViewerComponent,
     SkyInputBoxModule,
+    SkyPageModule,
     SkyShowcaseModule,
   ],
   selector: 'app-code-examples-v2',
@@ -43,26 +45,28 @@ const SEPARATOR = ' - ';
     }
   `,
   template: `
-    <form [formGroup]="formGroup">
-      <sky-input-box labelText="Documentation group" stacked>
-        <select formControlName="documentationGroup">
-          <option value="" selected>Select a documentation group...</option>
-          @for (group of documentationGroups; track group) {
-            <option [value]="group">
-              {{ group }}
-            </option>
-          }
-        </select>
-      </sky-input-box>
-    </form>
+    <sky-page>
+      <form [formGroup]="formGroup">
+        <sky-input-box labelText="Documentation group" stacked>
+          <select formControlName="documentationGroup">
+            <option value="" selected>Select a documentation group...</option>
+            @for (group of documentationGroups; track group) {
+              <option [value]="group">
+                {{ group }}
+              </option>
+            }
+          </select>
+        </sky-input-box>
+      </form>
 
-    @if (data(); as manifest) {
-      <sky-showcase [manifest]="manifest">
-        <sky-showcase-content category="development">
-          This content describes the development tab.
-        </sky-showcase-content>
-      </sky-showcase>
-    }
+      @if (data(); as manifest) {
+        <sky-showcase [manifest]="manifest">
+          <sky-showcase-content category="development">
+            This content describes the development tab.
+          </sky-showcase-content>
+        </sky-showcase>
+      }
+    </sky-page>
   `,
 })
 export default class CodeExamplesLandingComponent {
@@ -91,8 +95,6 @@ export default class CodeExamplesLandingComponent {
         const parts = value.split(SEPARATOR);
         const packageName = parts[0];
         const groupName = parts[1];
-
-        console.log('eh?', value);
 
         this.data.set(getDocumentationGroup(packageName, groupName));
       });

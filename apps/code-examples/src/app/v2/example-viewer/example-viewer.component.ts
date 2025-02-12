@@ -16,7 +16,7 @@ import {
   assertCodeSnippetLanguage,
 } from '../code-snippet/code-snippet-language';
 import { SkyCodeSnippetComponent } from '../code-snippet/code-snippet.component';
-import { StackBlitzLauncherService } from '../shared/stackblitz-launcher.service';
+import { StackBlitzLauncherService } from '../stackblitz/stackblitz-launcher.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

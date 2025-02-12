@@ -10,12 +10,18 @@ import { SkyManifestDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
 
 import { SkyExampleViewerComponent } from '../example-viewer/example-viewer.component';
+import { SkyTypeDefinitionComponent } from '../type-definition/type-definition.component';
 
 import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JsonPipe, SkyExampleViewerComponent, SkyTabsModule],
+  imports: [
+    JsonPipe,
+    SkyExampleViewerComponent,
+    SkyTabsModule,
+    SkyTypeDefinitionComponent,
+  ],
   selector: 'sky-showcase',
   styles: `
     :host {
@@ -27,7 +33,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
     }
   `,
   template: `
-    <sky-tabset>
+    <sky-tabset permalinkId="docs">
       <sky-tab tabHeading="Design">
         <div class="sky-showcase-tab-content">
           <ng-content select="sky-showcase-content[category=design]" />
@@ -37,6 +43,9 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
       <sky-tab tabHeading="Development">
         <div class="sky-showcase-tab-content">
           <ng-content select="sky-showcase-content[category=development]" />
+          @for (definition of manifest().publicApi; track definition.docsId) {
+            <sky-type-definition [definition]="definition" />
+          }
           <pre>{{ manifest().publicApi | json }}</pre>
         </div>
       </sky-tab>
@@ -49,6 +58,8 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
       </sky-tab>
 
       <sky-tab tabHeading="Examples">
+        <!-- TODO: DON"T LOAD THIS TAB UNTIL IT"S CLICKED! -->
+
         <div class="sky-showcase-tab-content">
           <ng-content select="sky-showcase-content[category=examples]" />
 

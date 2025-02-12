@@ -1,0 +1,12 @@
+body {
+  background-color: #fff !important;
+}
+
+code.sky-codespan {
+  padding: 3px;
+  background-color: color-mix(
+    in srgb,
+    var(--sky-color-background-container-info) 25%,
+    transparent
+  );
+}

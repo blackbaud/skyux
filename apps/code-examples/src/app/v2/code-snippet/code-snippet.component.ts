@@ -17,7 +17,7 @@ import hlScss from 'highlight.js/lib/languages/scss';
 import hlTypescript from 'highlight.js/lib/languages/typescript';
 import hlXml from 'highlight.js/lib/languages/xml';
 
-import { SkyClipboardService } from '../shared/clipboard.service';
+import { SkyClipboardService } from '../clipboard/clipboard.service';
 
 import { type SkyCodeSnippetLanguage } from './code-snippet-language';
 
