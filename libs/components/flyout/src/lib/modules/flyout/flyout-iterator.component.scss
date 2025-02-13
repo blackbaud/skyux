@@ -8,6 +8,7 @@
 
 @include compatMixins.sky-modern-overrides('.sky-flyout-iterators') {
   --sky-override-flyout-iterator-margin-right: var(--sky-space-inline-s);
+  --sky-override-sky-icon-svg-size-s: 21px !important;
 }
 
 .sky-btn {

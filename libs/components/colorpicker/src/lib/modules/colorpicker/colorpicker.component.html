@@ -66,10 +66,19 @@
   >
     @if (pickerButtonIcon) {
       <sky-icon
+        *skyThemeIf="'modern'"
         class="sky-colorpicker-button-icon"
-        [icon]="pickerButtonIcon"
-        [iconType]="pickerButtonIconType"
-        [size]="'1x'"
+        iconSize="m"
+        variant="solid"
+        [iconName]="pickerButtonIcon"
+        [style.color]="iconColor"
+      />
+      <sky-icon
+        *skyThemeIf="'default'"
+        class="sky-colorpicker-button-icon"
+        iconSize="s"
+        variant="solid"
+        [iconName]="pickerButtonIcon"
         [style.color]="iconColor"
       />
     }
@@ -77,7 +86,7 @@
       <sky-icon
         class="sky-colorpicker-button-modern-chevron"
         iconName="chevron-down"
-        displayStrategy="standalone"
+        iconSize="xs"
         [ngClass]="{
           'sky-colorpicker-button-modern-chevron-disabled': disabled
         }"
@@ -346,8 +355,8 @@
       }"
       (click)="onResetClick()"
     >
-      <sky-icon *skyThemeIf="'default'" iconName="dismiss" />
-      <sky-icon *skyThemeIf="'modern'" iconName="delete" size="lg" />
+      <sky-icon *skyThemeIf="'default'" iconName="dismiss" iconSize="s" />
+      <sky-icon *skyThemeIf="'modern'" iconName="delete" iconSize="m" />
     </button>
   }
 </div>

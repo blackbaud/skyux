@@ -7,19 +7,10 @@
     [ngClass]="classNames"
   >
     <div *skyThemeIf="'modern'" aria-hidden="true" class="sky-toast-icon">
-      <sky-icon
-        [iconName]="iconName"
-        variant="solid"
-        size="2x"
-        displayStrategy="standalone"
-      />
+      <sky-icon iconSize="xl" variant="solid" [iconName]="iconName" />
     </div>
     <div *skyThemeIf="'default'" aria-hidden="true" class="sky-toast-icon">
-      <sky-icon
-        [iconName]="iconName"
-        variant="solid"
-        displayStrategy="standalone"
-      />
+      <sky-icon iconSize="s" variant="solid" [iconName]="iconName" />
     </div>
     <div
       #toastContent
@@ -36,7 +27,7 @@
       [attr.aria-labelledby]="toastCloseMessage.id + ' ' + toastContent.id"
       (click)="close()"
     >
-      <sky-icon iconName="dismiss" />
+      <sky-icon iconName="dismiss" iconSize="s" />
     </button>
   </div>
   <span

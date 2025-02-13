@@ -64,7 +64,7 @@
         (blur)="onReorderHandleBlur($event)"
         (keydown)="onReorderHandleKeyDown($event)"
       >
-        <sky-icon icon="arrows-v" />
+        <sky-icon iconName="arrow-sort" iconSize="s" />
       </button>
     }
     @if (selectable) {
@@ -119,7 +119,7 @@
           "
           (click)="moveToTop($event)"
         >
-          <sky-icon icon="arrow-up" />
+          <sky-icon iconName="arrow-up" iconSize="s" />
           {{ 'skyux_repeater_item_reorder_top' | skyLibResources }}
         </button>
       }

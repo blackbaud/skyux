@@ -38,6 +38,7 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-label') {
+  --sky-override-sky-icon-svg-size-s: 21px;
   --sky-override-label-line-height: 1;
   --sky-override-label-margin: 0 3px;
   --sky-override-label-inner-icon-path-color-info: var(--modern-color-gray-105);

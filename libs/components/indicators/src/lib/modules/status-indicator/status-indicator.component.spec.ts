@@ -65,7 +65,7 @@ describe('Status indicator component', () => {
 
     const iconEl = statusIndicatorEl.querySelector('.sky-icon');
 
-    expect(iconEl).toHaveCssClass(`fa-${expectedIcon}`);
+    expect(iconEl?.getAttribute('data-sky-icon')).toBe(`sky-${expectedIcon}`);
   }
 
   function validateDescription(
@@ -128,8 +128,8 @@ describe('Status indicator component', () => {
     validateIcon(fixture, undefined, 'warning');
 
     validateIcon(fixture, 'danger', 'warning');
-    validateIcon(fixture, 'info', 'exclamation-circle');
-    validateIcon(fixture, 'success', 'check');
+    validateIcon(fixture, 'info', 'info');
+    validateIcon(fixture, 'success', 'success');
     validateIcon(fixture, 'warning', 'warning');
   });
 
@@ -206,40 +206,6 @@ describe('Status indicator component', () => {
           ],
         },
       });
-    });
-
-    function validateIconStack(
-      fixture: ComponentFixture<StatusIndicatorTestComponent>,
-      indicatorType: string | undefined,
-      expectedBaseIcon: string,
-      expectedTopIcon: string,
-    ): void {
-      fixture.componentInstance.indicatorType = indicatorType;
-
-      fixture.detectChanges();
-
-      const statusIndicatorEl = getStatusIndicatorEl(fixture);
-
-      validateIconWrapperClass(statusIndicatorEl, indicatorType);
-
-      const iconStackEl = statusIndicatorEl.querySelector('.sky-icon-stack');
-
-      const baseIconEl = iconStackEl?.querySelector('.fa-stack-2x');
-      const topIconEl = iconStackEl?.querySelector('.fa-stack-1x');
-
-      expect(baseIconEl).toHaveCssClass(`sky-i-${expectedBaseIcon}`);
-      expect(topIconEl).toHaveCssClass(`sky-i-${expectedTopIcon}`);
-    }
-
-    it('should display the expected icon', () => {
-      const fixture = TestBed.createComponent(StatusIndicatorTestComponent);
-      fixture.componentInstance.descriptionType = 'none';
-
-      validateIconStack(fixture, undefined, 'triangle-solid', 'exclamation');
-      validateIconStack(fixture, 'danger', 'triangle-solid', 'exclamation');
-      validateIconStack(fixture, 'info', 'circle-solid', 'help-i');
-      validateIconStack(fixture, 'success', 'circle-solid', 'check');
-      validateIconStack(fixture, 'warning', 'triangle-solid', 'exclamation');
     });
   });
 });

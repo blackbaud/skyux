@@ -16,9 +16,6 @@ import { SkyIconVariantType } from './types/icon-variant-type';
   styleUrls: ['./icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
-  host: {
-    '[class]': 'iconSize() ? "sky-icon-svg-flex" : ""',
-  },
 })
 export class SkyIconComponent {
   /**
@@ -58,6 +55,7 @@ export class SkyIconComponent {
    * consistent height, but their widths vary and can throw off vertical alignment. Use a fixed width when
    * you stack icons vertically, such as in lists.
    * @default false
+   * @deprecated all icons using iconName are automatically fixed width.
    */
   @Input()
   public fixedWidth: boolean | undefined;
@@ -73,7 +71,7 @@ export class SkyIconComponent {
    * The explicit icon size
    * @default 'sm'
    */
-  public readonly iconSize = input<'s' | 'm' | 'l' | 'xl'>();
+  public readonly iconSize = input<'xs' | 's' | 'm' | 'l' | 'xl'>();
 
   protected themeSvc = inject(SkyThemeService, { optional: true });
 }

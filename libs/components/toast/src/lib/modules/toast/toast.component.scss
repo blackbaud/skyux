@@ -13,7 +13,7 @@
   --sky-override-toast-close-button-margin: 0;
   --sky-override-toast-close-button-opacity: 0.8;
   --sky-override-toast-close-button-padding: 0;
-  --sky-override-toast-close-button-size: 32px;
+  // --sky-override-toast-close-button-size: 32px;
   --sky-override-toast-color-background-danger: #{$sky-background-color-danger};
   --sky-override-toast-color-background-info: #{$sky-background-color-info};
   --sky-override-toast-color-background-success: #{$sky-background-color-success};
@@ -105,14 +105,14 @@ sky-toast {
       line-height: 1;
       opacity: var(--sky-override-toast-close-button-opacity, 1);
 
-      height: var(
-        --sky-override-toast-close-button-size,
-        var(--sky-size-icon-m)
-      );
-      width: var(
-        --sky-override-toast-close-button-size,
-        var(--sky-size-icon-m)
-      );
+      // height: var(
+      //   --sky-override-toast-close-button-size,
+      //   var(--sky-size-icon-m)
+      // );
+      // width: var(
+      //   --sky-override-toast-close-button-size,
+      //   var(--sky-size-icon-m)
+      // );
       margin: var(
         --sky-override-toast-close-button-margin,
         calc(calc(var(--sky-space-inset-balanced-xl) * 0.5) * -1)

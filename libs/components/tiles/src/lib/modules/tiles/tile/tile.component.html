@@ -41,7 +41,7 @@
               }"
               (click)="helpButtonClicked()"
             >
-              <sky-icon icon="question-circle" />
+              <sky-icon iconName="question-circle" iconSize="s" />
             </button>
           }
         </ng-container>
@@ -74,7 +74,7 @@
             }"
             (click)="settingsButtonClicked()"
           >
-            <sky-icon icon="cog" />
+            <sky-icon iconName="settings" iconSize="s" />
           </button>
         }
         @if (isInDashboardColumn) {
@@ -95,7 +95,7 @@
             (click)="$event.stopPropagation()"
             (keydown)="moveTile($event)"
           >
-            <sky-icon icon="tile-drag" />
+            <sky-icon iconName="grid-dots" iconSize="s" />
           </button>
         }
       </div>

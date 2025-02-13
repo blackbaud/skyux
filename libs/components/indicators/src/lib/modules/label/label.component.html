@@ -1,6 +1,17 @@
 <span class="sky-label" [ngClass]="'sky-label-' + labelTypeOrDefault">
   <span class="sky-label-icon">
-    <sky-icon [iconName]="iconName" variant="solid" size="lg" />
+    <sky-icon
+      *skyThemeIf="'default'"
+      iconSize="m"
+      variant="solid"
+      [iconName]="iconName"
+    />
+    <sky-icon
+      *skyThemeIf="'modern'"
+      iconSize="s"
+      variant="solid"
+      [iconName]="iconName"
+    />
   </span>
   @if (descriptionComputed) {
     <span class="sky-screen-reader-only">

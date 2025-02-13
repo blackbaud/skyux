@@ -33,8 +33,17 @@
           [disabled]="isPreviousButtonDisabled"
           (click)="previousPage()"
         >
-          <sky-icon *skyThemeIf="'default'" icon="caret-left" />
-          <sky-icon *skyThemeIf="'modern'" icon="chevron-left" />
+          <sky-icon
+            *skyThemeIf="'default'"
+            iconName="caret-left"
+            iconSize="s"
+            variant="solid"
+          />
+          <sky-icon
+            *skyThemeIf="'modern'"
+            iconName="chevron-left"
+            iconSize="s"
+          />
         </button>
       </li>
       @for (pageNumber of displayedPages; track pageNumber) {
@@ -64,8 +73,17 @@
           [disabled]="isNextButtonDisabled"
           (click)="nextPage()"
         >
-          <sky-icon *skyThemeIf="'default'" icon="caret-right" />
-          <sky-icon *skyThemeIf="'modern'" icon="chevron-right" />
+          <sky-icon
+            *skyThemeIf="'default'"
+            iconName="caret-right"
+            iconSize="s"
+            variant="solid"
+          />
+          <sky-icon
+            *skyThemeIf="'modern'"
+            iconName="chevron-right"
+            iconSize="s"
+          />
         </button>
       </li>
     </ul>

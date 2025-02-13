@@ -18,6 +18,7 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-flyout') {
+  --sky-override-sky-icon-svg-size-s: 21px;
   --sky-override-flyout-header-border-bottom: none;
   --sky-override-flyout-header-button-line-height: calc(20 / 14);
   --sky-override-flyout-header-button-padding: 9px 21px;

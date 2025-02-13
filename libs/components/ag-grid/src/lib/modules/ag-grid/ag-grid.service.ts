@@ -563,8 +563,8 @@ export class SkyAgGridService implements OnDestroy {
         }
       },
       icons: {
-        sortDescending: this.#getIconTemplate('sortDescending'),
-        sortAscending: this.#getIconTemplate('sortAscending'),
+        // sortDescending: this.#getIconTemplate('sortDescending'),
+        // sortAscending: this.#getIconTemplate('sortAscending'),
         columnMoveMove: this.#getIconTemplate('columnMoveMove'),
         columnMoveHide: this.#getIconTemplate('columnMoveHide'),
         columnMoveLeft: this.#getIconTemplate('columnMoveLeft'),
@@ -666,12 +666,8 @@ export class SkyAgGridService implements OnDestroy {
 
   #getIconTemplate(iconName: keyof IconMapType): () => string {
     return () => {
-      const icon = iconMap[iconName];
-      if (this.#currentTheme?.theme.name === 'modern' && icon.skyIcon) {
-        return `<i aria-hidden="true" class="sky-i-${icon.skyIcon}"></i>`;
-      } else {
-        return `<i aria-hidden="true" class="fa fa-${icon.faIcon}"></i>`;
-      }
+      const iconInfo = iconMap[iconName];
+      return `<svg height="16" width="16"><use xlink:href="#sky-i-${iconInfo.name}-${iconInfo.size}-solid"></use></svg>`;
     };
   }
 

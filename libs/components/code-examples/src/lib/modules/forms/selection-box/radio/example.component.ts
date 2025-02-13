@@ -32,13 +32,13 @@ export class FormsSelectionBoxRadioExampleComponent {
     },
     {
       name: 'Boost engagement',
-      icon: 'user',
+      icon: 'person',
       description: 'Encourage supporters to interact with your organization.',
       value: 'engagement',
     },
     {
       name: 'Build relationships',
-      icon: 'users',
+      icon: 'people-team',
       description:
         'Connect to supporters on a personal level and maintain accurate data.',
       value: 'relationships',

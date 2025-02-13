@@ -1,6 +1,7 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-icon-svg') {
+  --sky-override-sky-icon-svg-size-s: 9px;
   --sky-override-sky-icon-svg-size-s: 15px;
   --sky-override-sky-icon-svg-size-m: 20px;
   --sky-override-sky-icon-svg-size-l: 22.5px;
@@ -42,6 +43,13 @@
 
   &-responsive-5x {
     --sky-icon-svg-img-size: 5em;
+  }
+
+  &-xs {
+    --sky-icon-svg-img-size: var(
+      --sky-override-sky-icon-svg-size-xs,
+      var(--sky-size-icon-xs)
+    );
   }
 
   &-m {

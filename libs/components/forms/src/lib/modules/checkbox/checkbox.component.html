@@ -34,7 +34,7 @@
     <span
       class="sky-switch-control sky-rounded-corners"
       [ngClass]="{
-        'sky-switch-control-icon': icon,
+        'sky-switch-control-icon': icon || iconName,
         'sky-switch-control-info': checkboxType === 'info',
         'sky-switch-control-success': checkboxType === 'success',
         'sky-switch-control-warning': checkboxType === 'warning',
@@ -43,7 +43,7 @@
     >
       @if (icon || iconName) {
         @if (iconName) {
-          <sky-icon [fixedWidth]="true" [iconName]="iconName" />
+          <sky-icon [iconName]="iconName" iconSize="m" variant="solid" />
         } @else {
           <sky-icon [fixedWidth]="true" [icon]="icon" />
         }
@@ -51,14 +51,15 @@
         @if (indeterminate) {
           <sky-icon
             class="sky-checkbox-icon-indeterminate sky-checkbox-icon-modern-indeterminate"
-            icon="square"
-            [fixedWidth]="true"
+            iconName="square"
+            iconSize="s"
+            variant="solid"
           />
         } @else if (checked) {
           <sky-icon
             class="sky-checkbox-icon-modern-checked"
-            icon="check"
-            [fixedWidth]="true"
+            iconName="checkmark"
+            iconSize="s"
           />
         }
       }

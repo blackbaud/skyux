@@ -5,7 +5,7 @@
       aria-hidden="true"
       (click)="onMenuClick($event)"
     >
-      <sky-icon iconName="more-horizontal" />
+      <sky-icon iconName="more-horizontal" iconSize="s" />
     </span>
   }
   <div class="ag-header-cell-label" role="presentation">
@@ -33,7 +33,7 @@
         <span
           aria-hidden="true"
           class="ag-header-icon ag-header-label-icon ag-filter-icon"
-          ><sky-icon iconName="filter"
+          ><sky-icon iconName="filter" iconSize="s"
         /></span>
       }
       @if (params()?.enableSorting) {
@@ -46,8 +46,15 @@
             @if (sortDirection === 'desc') {
               <span class="ag-header-icon ag-header-label-icon">
                 <sky-icon
+                  *skyThemeIf="'default'"
+                  iconName="caret-down"
+                  iconSize="s"
+                  variant="solid"
+                />
+                <sky-icon
+                  *skyThemeIf="'modern'"
                   iconName="chevron-down"
-                  displayStrategy="standalone"
+                  iconSize="s"
                 />
                 <span class="sky-screen-reader-only">{{
                   'sky_ag_grid_column_header_sort_button_aria_label_currently_desc'
@@ -57,7 +64,17 @@
             }
             @if (sortDirection === 'asc') {
               <span class="ag-header-icon ag-header-label-icon">
-                <sky-icon iconName="chevron-up" displayStrategy="standalone" />
+                <sky-icon
+                  *skyThemeIf="'default'"
+                  iconName="caret-up"
+                  iconSize="s"
+                  variant="solid"
+                />
+                <sky-icon
+                  *skyThemeIf="'modern'"
+                  iconName="chevron-up"
+                  iconSize="s"
+                />
                 <span class="sky-screen-reader-only">{{
                   'sky_ag_grid_column_header_sort_button_aria_label_currently_asc'
                     | skyLibResources: displayName() ?? accessibleHeaderText()
