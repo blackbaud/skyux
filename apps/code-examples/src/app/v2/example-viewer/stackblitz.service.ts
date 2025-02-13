@@ -5,23 +5,13 @@ import stackblitz from '@stackblitz/sdk';
 
 import { firstValueFrom } from 'rxjs';
 
-export const TEMPLATE_FILES = [
-  // '.stackblitzrc',
-  // 'angular.json',
-  // 'karma.conf.js',
-  'package.json',
-  'package-lock.json',
-  // 'tsconfig.app.json',
-  // 'tsconfig.json',
-  // 'tsconfig.spec.json',
-  // 'src/index.html',
-  // 'src/main.ts',
-  // 'src/styles.scss',
-  // 'src/test.ts',
-];
+/**
+ * Files to be read from the host SPA's assets folder.
+ */
+export const TEMPLATE_FILES = ['package.json', 'package-lock.json'];
 
 @Injectable({ providedIn: 'root' })
-export class StackBlitzLauncherService {
+export class StackBlitzService {
   readonly #http = inject(HttpClient);
   readonly #assetsSvc = inject(SkyAppAssetsService);
 

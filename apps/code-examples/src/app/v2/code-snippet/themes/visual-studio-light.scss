@@ -1,0 +1,32 @@
+sky-code-snippet {
+  .sky-code-snippet-pre {
+    font-family: 'Roboto Mono', serif;
+    margin: 0;
+  }
+
+  .hljs-attribute,
+  .hljs-doctag,
+  .hljs-keyword,
+  .hljs-literal,
+  .hljs-name,
+  .hljs-tag .hljs-string,
+  .hljs-type {
+    color: #0000ff;
+  }
+
+  .hljs-string {
+    color: #a31515;
+  }
+
+  .hljs-comment {
+    color: #008000;
+  }
+
+  .hljs-tag .hljs-name {
+    color: #800000;
+  }
+
+  .hljs-tag .hljs-attr {
+    color: #e50000;
+  }
+}

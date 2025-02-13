@@ -65,7 +65,8 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
 
           @for (
             example of manifest().codeExamples;
-            track example.componentName
+            track example.componentName;
+            let last = $last
           ) {
             <sky-example-viewer
               [componentName]="example.componentName"
@@ -74,6 +75,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
               [demoHidden]="!!example.demoHidden"
               [files]="example.files"
               [primaryFile]="example.primaryFile"
+              [stacked]="!last"
               [title]="example.title || 'Example'"
             />
           }

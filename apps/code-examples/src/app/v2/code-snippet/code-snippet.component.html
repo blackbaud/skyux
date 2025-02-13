@@ -1,0 +1,16 @@
+<div class="sky-code-snippet-controls">
+  @let clipboardLabel = 'Copy code to clipboard';
+  <button
+    class="sky-btn sky-btn-icon-borderless"
+    type="button"
+    [attr.aria-label]="clipboardLabel"
+    [attr.title]="clipboardLabel"
+    (click)="onClipboardButtonClick()"
+  >
+    <sky-icon iconName="clipboard-multiple" />
+  </button>
+</div>
+<pre
+  #codeRef
+  class="sky-code-snippet-pre"
+><code [innerHTML]="formatted()"></code></pre>
