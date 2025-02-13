@@ -68,7 +68,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
             track example.componentName;
             let last = $last
           ) {
-            <sky-example-viewer
+            <sky-code-example-viewer
               [componentName]="example.componentName"
               [componentSelector]="example.selector"
               [componentType]="getComponentType(example.componentName)"

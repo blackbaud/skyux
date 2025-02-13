@@ -17,6 +17,12 @@ import { SkyElementAnchorDirective } from '../element-anchor/element-anchor.dire
 import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
 import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
 
+import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
+import { SkyTypeDefinitionPropertiesTableComponent } from './properties-table.component';
+
+/**
+ * @internal
+ */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -24,10 +30,12 @@ import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
     NgClass,
     SkySafeHtmlPipe,
     SkyDescriptionListModule,
+    SkyDeprecationReasonComponent,
     SkyElementAnchorDirective,
     SkyLabelModule,
     SkyMarkdownPipe,
     SkyStatusIndicatorModule,
+    SkyTypeDefinitionPropertiesTableComponent,
   ],
   selector: 'sky-type-definition',
   styles: `
@@ -61,7 +69,6 @@ import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
       }
     }
   `,
-  // templateUrl: './type-definition.component.html',
   template: `@let def = definition();
 
     <h3
@@ -75,14 +82,7 @@ import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
     </h3>
 
     @if (def.deprecationReason) {
-      <sky-status-indicator descriptionType="warning" indicatorType="warning">
-        <div
-          [innerHTML]="
-            '<strong>Deprecated. </strong>' + def.deprecationReason
-              | skyMarkdown
-          "
-        ></div>
-      </sky-status-indicator>
+      <sky-deprecation-reason [message]="def.deprecationReason" />
     }
 
     @if (def.description) {
@@ -98,6 +98,7 @@ import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
           </sky-description-list-description>
         </sky-description-list-content>
       }
+
       <sky-description-list-content>
         <sky-description-list-term> Import from: </sky-description-list-term>
         <sky-description-list-description>
@@ -106,74 +107,23 @@ import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
       </sky-description-list-content>
     </sky-description-list>
 
-    @if (properties()) {
-      <h4>Properties</h4>
+    @let methodsValue = methods();
+    @let propertiesValue = properties();
 
-      <table class="sky-type-definition-table sky-margin-stacked-xl">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (property of properties(); track property.name) {
-            <tr>
-              <td>
-                @if (property.kind === 'directive-input') {
-                  <code>&#64;Input()</code><br />
-                }
-                @if (property.kind === 'directive-output') {
-                  <code>&#64;Output()</code><br />
-                }
-                <code
-                  [innerHTML]="getPropertyName(def, property) | skySafeHtml"
-                  [ngClass]="{
-                    'sky-type-definition-deprecated': property.isDeprecated,
-                  }"
-                ></code>
-              </td>
-              <td>
-                @if (property.description) {
-                  <div [innerHTML]="property.description | skyMarkdown"></div>
-                }
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+    @if (propertiesValue && propertiesValue.length > 0) {
+      <h4>Properties</h4>
+      <sky-type-definition-properties-table
+        [parentDefinition]="def"
+        [properties]="propertiesValue"
+      />
     }
 
-    @if (methods()?.length) {
+    @if (methodsValue && methodsValue.length > 0) {
       <h4>Methods</h4>
-
-      <table class="sky-type-definition-table sky-margin-stacked-xl">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (method of methods(); track method.name) {
-            <tr>
-              <td>
-                <code
-                  [innerHTML]="getMethodName(def, method) | skySafeHtml"
-                  [ngClass]="{
-                    'sky-type-definition-deprecated': method.isDeprecated,
-                  }"
-                ></code>
-              </td>
-              <td>
-                @if (method.description) {
-                  <div [innerHTML]="method.description | skyMarkdown"></div>
-                }
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+      <sky-type-definition-properties-table
+        [parentDefinition]="def"
+        [properties]="methodsValue"
+      />
     } `,
 })
 export class SkyTypeDefinitionComponent {
@@ -190,29 +140,6 @@ export class SkyTypeDefinitionComponent {
       return def.children?.filter((c) => c.kind !== 'class-method');
     },
   );
-
-  protected getPropertyName(
-    parent: { name: string },
-    child: { kind: string; name: string; type: string },
-  ): string {
-    switch (child.kind) {
-      case 'class-method': {
-        return `${child.name}`;
-      }
-
-      case 'enum-member': {
-        return `${parent.name}.${child.name}`;
-      }
-
-      case 'interface-property': {
-        return `${child.name}?: ${child.type}`;
-      }
-
-      default: {
-        return `${child.name}: ${child.type}`;
-      }
-    }
-  }
 
   protected selector = computed<string | undefined>(() => {
     const def = this.definition();
