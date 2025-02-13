@@ -8,7 +8,7 @@ import { SkyToastType } from './toast-type';
  */
 export interface SkyToastConfig {
   /**
-   * The `SkyToastType` type that determines the color and icon for the toast. This property defaults to `SkyToastType.Info`.
+   * The `SkyToastType` type that determines the color and icon for the toast. This property defaults to `Info`.
    */
   type?: SkyToastType;
 
