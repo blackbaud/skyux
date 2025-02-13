@@ -46,23 +46,30 @@ highlight.registerLanguage('ts', hlTypescript);
         line-height: var(--modern-line_height-150);
       }
 
-      .hljs-tag,
-      .hljs-selector-tag,
-      .hljs-regexp {
-        color: var(--sky-text-color-action-primary);
-      }
-
-      .hljs-name,
+      .hljs-attribute,
+      .hljs-doctag,
       .hljs-keyword,
-      .hljs-type,
-      .hljs-attribute {
-        color: var(--sky-highlight-color-danger);
+      .hljs-literal,
+      .hljs-name,
+      .hljs-tag .hljs-string,
+      .hljs-type {
+        color: #0000ff;
       }
 
-      .hljs-string,
-      .hljs-subst {
-        color: var(--sky-color-border-success);
-        filter: brightness(65%);
+      .hljs-string {
+        color: #a31515;
+      }
+
+      .hljs-comment {
+        color: #008000;
+      }
+
+      .hljs-tag .hljs-name {
+        color: #800000;
+      }
+
+      .hljs-tag .hljs-attr {
+        color: #e50000;
       }
     }
   `,
