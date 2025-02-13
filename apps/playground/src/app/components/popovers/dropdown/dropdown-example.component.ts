@@ -6,11 +6,7 @@ import { SkyDropdownModule } from '@skyux/popovers';
   selector: 'app-dropdown-example',
   imports: [SkyDropdownModule, SkyIconModule],
   templateUrl: './dropdown-example.component.html',
-  styles: `
-    :host {
-      display: block;
-    }
-  `,
+  styleUrl: './dropdown-example.component.scss',
 })
 export class DropdownExampleComponent {
   public readonly disabledState = input(true);

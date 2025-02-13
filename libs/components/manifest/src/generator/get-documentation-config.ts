@@ -16,7 +16,7 @@ const validateJson = ajv.compile(documentationSchema);
 export async function getDocumentationConfig(
   publicApi: SkyManifestPublicApi,
   projects: ProjectDefinition[],
-): Promise<SkyManifestDocumentationConfig> {
+): Promise<[SkyManifestDocumentationConfig, string[]]> {
   const errors: string[] = [];
 
   const documentationConfig: SkyManifestDocumentationConfig = {
@@ -40,7 +40,9 @@ export async function getDocumentationConfig(
     );
 
     if (!validateJson(config)) {
-      errors.push(`Schema validation failed for ${documentationJsonPath}`);
+      errors.push(
+        `Schema validation failed for the documentation.json file found in the "${project.projectName}" project.`,
+      );
     }
 
     const packageJson = JSON.parse(
@@ -55,12 +57,5 @@ export async function getDocumentationConfig(
 
   errors.push(...validateDocumentationConfig(publicApi, documentationConfig));
 
-  if (errors.length > 0) {
-    throw new Error(
-      'Encountered the following errors when generating documentation:\n - ' +
-        errors.join('\n - '),
-    );
-  }
-
-  return documentationConfig;
+  return [documentationConfig, errors];
 }

@@ -12,7 +12,7 @@ import { CustomToastComponent } from './custom-toast.component';
 export class ToastCustomComponentExampleComponent {
   readonly #toastSvc = inject(SkyToastService);
 
-  protected openToast(): void {
+  public openToast(): void {
     const context = new CustomToastContext(
       'This toast has embedded a custom component for its content.',
     );
@@ -31,7 +31,7 @@ export class ToastCustomComponentExampleComponent {
     );
   }
 
-  protected closeAll(): void {
+  public closeAll(): void {
     this.#toastSvc.closeAll();
   }
 }
