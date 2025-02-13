@@ -1,5 +1,32 @@
 # Changelog
 
+## [12.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.3...12.0.0-alpha.4) (2025-02-13)
+
+
+### Features
+
+* **components/core:** add SkyViewkeeper support for SkyAppViewportService properties ([#3120](https://github.com/blackbaud/skyux/issues/3120)) ([#3143](https://github.com/blackbaud/skyux/issues/3143)) ([c266930](https://github.com/blackbaud/skyux/commit/c266930f2995026d4dbe1b75a3348f9ec5bc0053))
+* **components/errors:** tokenize error styles ([#3123](https://github.com/blackbaud/skyux/issues/3123)) ([42888cf](https://github.com/blackbaud/skyux/commit/42888cfe6775edea1b36797e321edfc251337895))
+* **components/flyout:** tokenize flyout styles ([#3098](https://github.com/blackbaud/skyux/issues/3098)) ([2866813](https://github.com/blackbaud/skyux/commit/2866813ddea6456e561b5ee9c5539d4685c7f840))
+* **components/inline-form:** tokenize inline form styles ([#3116](https://github.com/blackbaud/skyux/issues/3116)) ([ec58102](https://github.com/blackbaud/skyux/commit/ec581023dc089425f344c6916de5fa4688559e6a))
+* **components/layout:** add action button harness ([#3101](https://github.com/blackbaud/skyux/issues/3101)) ([#3113](https://github.com/blackbaud/skyux/issues/3113)) ([04dc4c1](https://github.com/blackbaud/skyux/commit/04dc4c1b6775d9e3e28f8ff0f4680c9ed1f446a9))
+* **components/layout:** add harness for description list ([#3124](https://github.com/blackbaud/skyux/issues/3124)) ([#3125](https://github.com/blackbaud/skyux/issues/3125)) ([dae3191](https://github.com/blackbaud/skyux/commit/dae319123a2e1146f70641a15065712c0f3d373e))
+* **components/layout:** tokenize inline delete styles ([#3111](https://github.com/blackbaud/skyux/issues/3111)) ([7c3407a](https://github.com/blackbaud/skyux/commit/7c3407afdc9285d845427c4853b7468f9e7c328d))
+* **components/manifest:** add code example file contents (internal use only) ([#3122](https://github.com/blackbaud/skyux/issues/3122)) ([f86d464](https://github.com/blackbaud/skyux/commit/f86d4649afc98aebc6fffa08da0ffa17ca1efbb8))
+* **components/pages:** add `sky-modal-link-list` component ([#3131](https://github.com/blackbaud/skyux/issues/3131)) ([#3132](https://github.com/blackbaud/skyux/issues/3132)) ([306f929](https://github.com/blackbaud/skyux/commit/306f929dce5f92dbdcf8ecbd250c4c6fd431ee81))
+* **components/pages:** tokenize action hub styles ([#3109](https://github.com/blackbaud/skyux/issues/3109)) ([74b697c](https://github.com/blackbaud/skyux/commit/74b697c5b8942510aee3666ba38fde7323a12e9d))
+* **components/popovers:** add custom trigger option to dropdown ([#3118](https://github.com/blackbaud/skyux/issues/3118)) ([#3126](https://github.com/blackbaud/skyux/issues/3126)) ([043b548](https://github.com/blackbaud/skyux/commit/043b548010189a03d86a271dac5065d2efc83471))
+* **components/popovers:** add support for custom trigger buttons to dropdown harness ([#3129](https://github.com/blackbaud/skyux/issues/3129)) ([#3137](https://github.com/blackbaud/skyux/issues/3137)) ([86d699b](https://github.com/blackbaud/skyux/commit/86d699bce557020e3d432845f5a6cf3d724b46f1))
+* **components/split-view:** tokenize split view styles ([#3119](https://github.com/blackbaud/skyux/issues/3119)) ([14adddd](https://github.com/blackbaud/skyux/commit/14addddc2dc726efe72335448c8b88ca57a738e4))
+* **components/toast:** add toast and toaster harness ([#3141](https://github.com/blackbaud/skyux/issues/3141)) ([#3147](https://github.com/blackbaud/skyux/issues/3147)) ([02caf83](https://github.com/blackbaud/skyux/commit/02caf83be078812ae7158aeec6d42701f34e4248))
+
+
+### Bug Fixes
+
+* **components/datetime:** address flaky display behavior of key date tooltips ([#3128](https://github.com/blackbaud/skyux/issues/3128)) ([#3140](https://github.com/blackbaud/skyux/issues/3140)) ([3ea3a71](https://github.com/blackbaud/skyux/commit/3ea3a71602ae5671ea051c240fa554dabe52e12e))
+* **components/manifest:** replace `[@docs](https://github.com/docs)IncludeIds` with documentation.json files ([#3112](https://github.com/blackbaud/skyux/issues/3112)) ([ec60cba](https://github.com/blackbaud/skyux/commit/ec60cba50c25cd1f03ad05d62f50ecc414c0df92))
+* **components/router:** skyHref should shut down when the application is destroyed ([#3134](https://github.com/blackbaud/skyux/issues/3134)) ([#3136](https://github.com/blackbaud/skyux/issues/3136)) ([b5e1689](https://github.com/blackbaud/skyux/commit/b5e1689257ba2bf74197a0ec61c7b0d870a4bd93))
+
 ## [11.41.0](https://github.com/blackbaud/skyux/compare/11.40.0...11.41.0) (2025-02-11)
 
 
