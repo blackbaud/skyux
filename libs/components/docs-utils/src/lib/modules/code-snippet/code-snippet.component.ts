@@ -48,6 +48,7 @@ export class SkyCodeSnippetComponent {
   protected formatted = computed(() => {
     const code = this.code();
     const language = this.language();
+
     const formatted = highlight.highlight(code, {
       language,
     });
@@ -62,10 +63,10 @@ export class SkyCodeSnippetComponent {
     highlight.registerLanguage('ts', hlTypeScript);
   }
 
-  protected onClipboardButtonClick(): void {
+  protected onClipboardButtonClick(copySuccessMessage: string): void {
     const el = this.codeRef();
     if (el) {
-      this.#clipboardSvc.copyTextContent(el, 'Code copied');
+      this.#clipboardSvc.copyTextContent(el, copySuccessMessage);
     }
   }
 }

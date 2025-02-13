@@ -1,12 +1,14 @@
 <div class="sky-code-snippet-controls">
   @let clipboardLabel =
     'sky_code_snippet_copy_to_clipboard_button_label' | skyLibResources;
+  @let copySuccessMessage =
+    'sky_code_snippet_copy_to_clipboard_success_message' | skyLibResources;
   <button
     class="sky-btn sky-btn-icon-borderless"
     type="button"
     [attr.aria-label]="clipboardLabel"
     [attr.title]="clipboardLabel"
-    (click)="onClipboardButtonClick()"
+    (click)="onClipboardButtonClick(copySuccessMessage)"
   >
     <sky-icon iconName="clipboard-multiple" />
   </button>
