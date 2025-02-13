@@ -17,8 +17,9 @@ import {
   assertCodeSnippetLanguage,
 } from '../code-snippet/code-snippet-language';
 import { SkyCodeSnippetModule } from '../code-snippet/code-snippet.module';
+import { SkyDocsUtilsResourcesModule } from '../shared/sky-docs-utils-resources.module';
 
-import { StackBlitzService } from './stackblitz.service';
+import { SkyStackBlitzService } from './stackblitz.service';
 
 /**
  * @internal
@@ -33,24 +34,26 @@ import { StackBlitzService } from './stackblitz.service';
     NgComponentOutlet,
     SkyBoxModule,
     SkyCodeSnippetModule,
+    SkyDocsUtilsResourcesModule,
     SkyIconModule,
     SkyVerticalTabsetModule,
   ],
-  selector: 'sky-example-viewer',
-  styleUrl: './example-viewer.component.scss',
-  templateUrl: './example-viewer.component.html',
+  selector: 'sky-code-example-viewer',
+  styleUrl: './code-example-viewer.component.scss',
+  templateUrl: './code-example-viewer.component.html',
 })
-export class SkyExampleViewerComponent {
-  readonly #stackblitzSvc = inject(StackBlitzService);
+export class SkyCodeExampleViewerComponent {
+  readonly #stackblitzSvc = inject(SkyStackBlitzService);
 
   public readonly componentName = input.required<string>();
   public readonly componentSelector = input.required<string>();
   public readonly componentType = input.required<Type<unknown>>();
-  public readonly demoHidden = input<boolean>(true);
   public readonly files = input.required<Record<string, string>>();
   public readonly primaryFile = input.required<string>();
-  public readonly stacked = input(false, { transform: booleanAttribute });
   public readonly headingText = input.required<string>();
+
+  public readonly demoHidden = input<boolean>(false);
+  public readonly stacked = input(false, { transform: booleanAttribute });
 
   protected readonly isCodeVisible = signal(false);
 

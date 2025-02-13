@@ -14,9 +14,9 @@ export const TEMPLATE_FILES = ['package.json', 'package-lock.json'];
  * @internal
  */
 @Injectable({ providedIn: 'root' })
-export class StackBlitzService {
-  readonly #http = inject(HttpClient);
-  readonly #assetsSvc = inject(SkyAppAssetsService);
+export class SkyStackBlitzService {
+  readonly #http = inject(HttpClient, { optional: true });
+  readonly #assetsSvc = inject(SkyAppAssetsService, { optional: true });
 
   public async launch(data: {
     componentName: string;
@@ -338,7 +338,11 @@ context.keys().map(context);
 
   async #fetchTemplateFileContents(file: string): Promise<string | undefined> {
     const filePath = `assets/stack-blitz/${file}`;
-    const url = this.#assetsSvc.getUrl(filePath) ?? filePath;
+    const url = this.#assetsSvc?.getUrl(filePath) ?? filePath;
+
+    if (!this.#http) {
+      return undefined;
+    }
 
     return await firstValueFrom(
       this.#http.get(url, { responseType: 'text' }),

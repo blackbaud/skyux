@@ -6,7 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { SkyExampleViewerModule } from '@skyux/docs-utils';
+import { SkyCodeExampleViewerModule } from '@skyux/docs-utils';
 import { SkyManifestDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
 
@@ -18,7 +18,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     JsonPipe,
-    SkyExampleViewerModule,
+    SkyCodeExampleViewerModule,
     SkyTabsModule,
     SkyTypeDefinitionComponent,
   ],

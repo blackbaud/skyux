@@ -1,8 +1,12 @@
 <sky-box headingLevel="3" headingStyle="3" [headingText]="headingText()">
   <sky-box-controls>
-    @let ariaLabel = isCodeVisible() ? 'Hide code' : 'Show code';
+    @let ariaLabel =
+      isCodeVisible()
+        ? ('sky_example_viewer_hide_code_button_label' | skyLibResources)
+        : ('sky_example_viewer_show_code_button_label' | skyLibResources);
     <button
       class="sky-btn sky-btn-icon-borderless sky-margin-inline-sm"
+      data-sky-id="toggle-code-visibility-btn"
       type="button"
       [attr.aria-label]="ariaLabel"
       [attr.title]="ariaLabel"
@@ -13,6 +17,7 @@
     <button
       aria-label="Open code in StackBlitz"
       class="sky-btn sky-btn-icon-borderless"
+      data-sky-id="stackblitz-btn"
       type="button"
       (click)="openInStackBlitz()"
     >
@@ -20,16 +25,16 @@
     </button>
   </sky-box-controls>
 
-  <div class="sky-padding-even-xl">
+  <div class="sky-code-example-viewer-demo sky-padding-even-xl">
     @if (!demoHidden()) {
       <ng-template [ngComponentOutlet]="componentType()" />
     } @else {
-      Open this code example in StackBlitz to view the demo.
+      {{ 'sky_example_viewer_demo_hidden_message' | skyLibResources }}
     }
   </div>
 
   @if (isCodeVisible()) {
-    <div class="sky-example-viewer-code-container">
+    <div class="sky-code-example-viewer-code">
       <sky-vertical-tabset>
         @for (obj of files() | keyvalue; track obj.key) {
           <sky-vertical-tab

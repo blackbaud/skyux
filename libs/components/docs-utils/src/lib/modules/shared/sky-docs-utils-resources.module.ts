@@ -20,6 +20,11 @@ const RESOURCES: Record<string, SkyLibResources> = {
     sky_code_snippet_copy_to_clipboard_success_message: {
       message: 'Code copied',
     },
+    sky_example_viewer_demo_hidden_message: {
+      message: 'Open this code example in StackBlitz to view the demo.',
+    },
+    sky_example_viewer_hide_code_button_label: { message: 'Hide code' },
+    sky_example_viewer_show_code_button_label: { message: 'Show code' },
   },
 };
 
