@@ -12,20 +12,15 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { SkyIconModule } from '@skyux/icon';
 
 import highlight from 'highlight.js/lib/core';
-import hlJavascript from 'highlight.js/lib/languages/javascript';
+import hlJavaScript from 'highlight.js/lib/languages/javascript';
 import hlScss from 'highlight.js/lib/languages/scss';
-import hlTypescript from 'highlight.js/lib/languages/typescript';
+import hlTypeScript from 'highlight.js/lib/languages/typescript';
 import hlXml from 'highlight.js/lib/languages/xml';
 
 import { SkyClipboardService } from '../clipboard/clipboard.service';
 import { SkyDocsUtilsResourcesModule } from '../shared/sky-docs-utils-resources.module';
 
 import { type SkyCodeSnippetLanguage } from './code-snippet-language';
-
-highlight.registerLanguage('html', hlXml);
-highlight.registerLanguage('js', hlJavascript);
-highlight.registerLanguage('scss', hlScss);
-highlight.registerLanguage('ts', hlTypescript);
 
 /**
  * @internal
@@ -59,6 +54,13 @@ export class SkyCodeSnippetComponent {
 
     return this.#sanitizer.bypassSecurityTrustHtml(formatted.value);
   });
+
+  constructor() {
+    highlight.registerLanguage('html', hlXml);
+    highlight.registerLanguage('js', hlJavaScript);
+    highlight.registerLanguage('scss', hlScss);
+    highlight.registerLanguage('ts', hlTypeScript);
+  }
 
   protected onClipboardButtonClick(): void {
     const el = this.codeRef();

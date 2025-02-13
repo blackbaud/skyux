@@ -20,10 +20,6 @@ describe('clipboard.service', () => {
     clipboardSvc: SkyClipboardService;
     fixture: ComponentFixture<TestComponent>;
   } {
-    TestBed.configureTestingModule({
-      imports: [TestComponent],
-    });
-
     const clipboardSpy = spyOn(
       TestBed.inject(SkyAppWindowRef).nativeWindow.navigator.clipboard,
       'writeText',
@@ -34,6 +30,12 @@ describe('clipboard.service', () => {
 
     return { clipboardSpy, clipboardSvc, fixture };
   }
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TestComponent],
+    });
+  });
 
   it("should save an element's text content to the system clipboard", () => {
     const { clipboardSpy, clipboardSvc, fixture } = setupTest();
