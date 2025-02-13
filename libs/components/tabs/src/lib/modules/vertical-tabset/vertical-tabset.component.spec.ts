@@ -474,7 +474,7 @@ describe('Vertical tabset component', () => {
     allTabs[1].click();
     fixture.detectChanges();
 
-    // focus back into the tabset content container
+    // focus the tabset content container
     const verticalTabsetContent = el.querySelector(
       '.sky-vertical-tabset-content',
     );
