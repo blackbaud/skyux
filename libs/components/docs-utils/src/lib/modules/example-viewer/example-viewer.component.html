@@ -1,11 +1,11 @@
-<sky-box headingLevel="3" headingStyle="3" [headingText]="title()">
+<sky-box headingLevel="3" headingStyle="3" [headingText]="headingText()">
   <sky-box-controls>
     @let ariaLabel = isCodeVisible() ? 'Hide code' : 'Show code';
     <button
-      [attr.aria-label]="ariaLabel"
-      [attr.title]="ariaLabel"
       class="sky-btn sky-btn-icon-borderless sky-margin-inline-sm"
       type="button"
+      [attr.aria-label]="ariaLabel"
+      [attr.title]="ariaLabel"
       (click)="toggleCodeVisibility()"
     >
       <sky-icon iconName="code" />
@@ -33,8 +33,8 @@
       <sky-vertical-tabset>
         @for (obj of files() | keyvalue; track obj.key) {
           <sky-vertical-tab
-            [tabHeading]="obj.key"
             [active]="obj.key === primaryFile()"
+            [tabHeading]="obj.key"
           >
             <sky-code-snippet
               [code]="obj.value"

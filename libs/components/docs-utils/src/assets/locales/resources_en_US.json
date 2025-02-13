@@ -1,0 +1,6 @@
+{
+  "sky_code_snippet_copy_to_clipboard_button_label": {
+    "_description": "The ARIA label for the copy-code-to-clipboard button",
+    "message": "Copy code to clipboard"
+  }
+}

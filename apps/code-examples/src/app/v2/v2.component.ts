@@ -20,7 +20,6 @@ import {
 } from '@skyux/manifest';
 import { SkyPageModule } from '@skyux/pages';
 
-import { SkyExampleViewerComponent } from './example-viewer/example-viewer.component';
 import { SkyShowcaseModule } from './showcase/showcase.module';
 
 const DOCS = getDocumentationConfig();
@@ -32,7 +31,6 @@ const SEPARATOR = ' - ';
     FormsModule,
     NgComponentOutlet,
     ReactiveFormsModule,
-    SkyExampleViewerComponent,
     SkyInputBoxModule,
     SkyPageModule,
     SkyShowcaseModule,

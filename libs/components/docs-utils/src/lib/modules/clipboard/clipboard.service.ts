@@ -2,6 +2,9 @@ import { ElementRef, Injectable, inject } from '@angular/core';
 import { SkyAppWindowRef } from '@skyux/core';
 import { SkyToastService } from '@skyux/toast';
 
+/**
+ * @internal
+ */
 @Injectable({
   providedIn: 'root',
 })

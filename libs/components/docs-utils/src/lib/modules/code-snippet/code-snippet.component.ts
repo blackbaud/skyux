@@ -18,6 +18,7 @@ import hlTypescript from 'highlight.js/lib/languages/typescript';
 import hlXml from 'highlight.js/lib/languages/xml';
 
 import { SkyClipboardService } from '../clipboard/clipboard.service';
+import { SkyDocsUtilsResourcesModule } from '../shared/sky-docs-utils-resources.module';
 
 import { type SkyCodeSnippetLanguage } from './code-snippet-language';
 
@@ -32,7 +33,7 @@ highlight.registerLanguage('ts', hlTypescript);
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [SkyIconModule],
+  imports: [SkyIconModule, SkyDocsUtilsResourcesModule],
   selector: 'sky-code-snippet',
   styleUrls: [
     './code-snippet.component.scss',

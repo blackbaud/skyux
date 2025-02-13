@@ -16,10 +16,13 @@ import {
   type SkyCodeSnippetLanguage,
   assertCodeSnippetLanguage,
 } from '../code-snippet/code-snippet-language';
-import { SkyCodeSnippetComponent } from '../code-snippet/code-snippet.component';
+import { SkyCodeSnippetModule } from '../code-snippet/code-snippet.module';
 
 import { StackBlitzService } from './stackblitz.service';
 
+/**
+ * @internal
+ */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -29,7 +32,7 @@ import { StackBlitzService } from './stackblitz.service';
     KeyValuePipe,
     NgComponentOutlet,
     SkyBoxModule,
-    SkyCodeSnippetComponent,
+    SkyCodeSnippetModule,
     SkyIconModule,
     SkyVerticalTabsetModule,
   ],
@@ -47,7 +50,7 @@ export class SkyExampleViewerComponent {
   public readonly files = input.required<Record<string, string>>();
   public readonly primaryFile = input.required<string>();
   public readonly stacked = input(false, { transform: booleanAttribute });
-  public readonly title = input.required<string>();
+  public readonly headingText = input.required<string>();
 
   protected readonly isCodeVisible = signal(false);
 
@@ -63,7 +66,7 @@ export class SkyExampleViewerComponent {
       componentSelector: this.componentSelector(),
       files: this.files(),
       primaryFile: this.primaryFile(),
-      title: this.title(),
+      title: this.headingText(),
     });
   }
 

@@ -6,10 +6,10 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { SkyExampleViewerModule } from '@skyux/docs-utils';
 import { SkyManifestDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
 
-import { SkyExampleViewerComponent } from '../example-viewer/example-viewer.component';
 import { SkyTypeDefinitionComponent } from '../type-definition/type-definition.component';
 
 import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
@@ -18,7 +18,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     JsonPipe,
-    SkyExampleViewerComponent,
+    SkyExampleViewerModule,
     SkyTabsModule,
     SkyTypeDefinitionComponent,
   ],
@@ -74,9 +74,9 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
               [componentType]="getComponentType(example.componentName)"
               [demoHidden]="!!example.demoHidden"
               [files]="example.files"
+              [headingText]="example.title || 'Example'"
               [primaryFile]="example.primaryFile"
               [stacked]="!last"
-              [title]="example.title || 'Example'"
             />
           }
         </div>

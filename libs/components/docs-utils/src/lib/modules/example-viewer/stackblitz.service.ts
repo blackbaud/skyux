@@ -10,6 +10,9 @@ import { firstValueFrom } from 'rxjs';
  */
 export const TEMPLATE_FILES = ['package.json', 'package-lock.json'];
 
+/**
+ * @internal
+ */
 @Injectable({ providedIn: 'root' })
 export class StackBlitzService {
   readonly #http = inject(HttpClient);
@@ -316,7 +319,7 @@ getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDyn
 // Then we find all the tests.
 const context = (import.meta as any).webpackContext('./', {
   recursive: true,
-  regExp: /\.spec\.ts$/,
+  regExp: /\\.spec\\.ts$/,
 });
 
 // And load the modules.
