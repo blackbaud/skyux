@@ -446,7 +446,7 @@ describe('Vertical tabset component', () => {
     expect(elementHasFocus(tabButtons[0])).toBeTrue();
   });
 
-  fit('should reset tab index when leaving tab list view in mobile view', () => {
+  it('should reset tab index when leaving tab list view in mobile view', () => {
     mediaQueryController.setBreakpoint('xs');
     const fixture = createTestComponent();
     const el = fixture.nativeElement;
