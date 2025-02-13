@@ -17,7 +17,7 @@ import {
   assertCodeSnippetLanguage,
 } from '../code-snippet/code-snippet-language';
 import { SkyCodeSnippetModule } from '../code-snippet/code-snippet.module';
-import { SkyDocsUtilsResourcesModule } from '../shared/sky-docs-utils-resources.module';
+import { SkyDocsToolsResourcesModule } from '../shared/sky-docs-tools-resources.module';
 
 import { SkyStackBlitzService } from './stackblitz.service';
 
@@ -34,7 +34,7 @@ import { SkyStackBlitzService } from './stackblitz.service';
     NgComponentOutlet,
     SkyBoxModule,
     SkyCodeSnippetModule,
-    SkyDocsUtilsResourcesModule,
+    SkyDocsToolsResourcesModule,
     SkyIconModule,
     SkyVerticalTabsetModule,
   ],

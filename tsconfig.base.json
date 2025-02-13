@@ -64,7 +64,7 @@
       "@skyux/datetime/testing": [
         "libs/components/datetime/testing/src/public-api.ts"
       ],
-      "@skyux/docs-utils": ["libs/components/docs-utils/src/index.ts"],
+      "@skyux/docs-tools": ["libs/components/docs-tools/src/index.ts"],
       "@skyux/errors": ["libs/components/errors/src/index.ts"],
       "@skyux/errors/testing": [
         "libs/components/errors/testing/src/public-api.ts"

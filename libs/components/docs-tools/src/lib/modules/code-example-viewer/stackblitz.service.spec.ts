@@ -1,59 +1,104 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { TestBed } from '@angular/core/testing';
 import { SkyAppAssetsService } from '@skyux/assets';
 import stackblitz from '@stackblitz/sdk';
 
-import { firstValueFrom } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 
-/**
- * Files to be read from the host SPA's assets folder.
- */
-export const TEMPLATE_FILES = ['package.json', 'package-lock.json'];
+import { SkyStackBlitzLaunchConfig } from './stackblitz-launch-config';
+import { SkyStackBlitzService } from './stackblitz.service';
 
-/**
- * @internal
- */
-@Injectable({ providedIn: 'root' })
-export class SkyStackBlitzService {
-  readonly #http = inject(HttpClient, { optional: true });
-  readonly #assetsSvc = inject(SkyAppAssetsService, { optional: true });
+describe('stackblitz.service', () => {
+  function setupTest(options: {
+    assetsMap?: Record<string, string>;
+    provideHttpClient?: boolean;
+    templateFiles?: Record<string, string>;
+  }): {
+    defaultConfig: SkyStackBlitzLaunchConfig;
+    openProjectSpy: jasmine.Spy;
+    stackblitzSvc: SkyStackBlitzService;
+  } {
+    const providers: unknown[] = [];
 
-  public async launch(data: {
-    componentName: string;
-    componentSelector: string;
-    files: Record<string, string>;
-    primaryFile: string;
-    title: string;
-  }): Promise<void> {
-    const files: Record<string, string> = {};
+    const assetsMap = options.assetsMap;
 
-    for (const [file, contents] of Object.entries(data.files)) {
-      files[`src/example/${file}`] = contents;
+    if (assetsMap) {
+      providers.push({
+        provide: SkyAppAssetsService,
+        useValue: {
+          getUrl(url: string): string {
+            return assetsMap[url];
+          },
+        },
+      });
     }
 
-    for (const file of TEMPLATE_FILES) {
-      let contents = await this.#fetchTemplateFileContents(file);
-
-      if (contents === undefined && !file.endsWith('.template')) {
-        contents = await this.#fetchTemplateFileContents(`${file}.template`);
-      }
-
-      if (contents === undefined) {
-        throw new Error(`Failed to retrieve StackBlitz template file: ${file}`);
-      }
-
-      files[file.replace(/\.template$/, '')] = contents;
+    if (options.provideHttpClient !== false) {
+      providers.push(provideHttpClient());
     }
 
-    const bootstrapImportPath = `./example/${data.primaryFile.replace(/\.ts$/, '')}`;
+    TestBed.configureTestingModule({
+      providers,
+    });
 
-    files['.stackblitzrc'] = `{
+    if (options.provideHttpClient !== false) {
+      spyOn(TestBed.inject(HttpClient), 'get').and.callFake(((
+        url: string,
+      ): Observable<string> => {
+        if (options.templateFiles) {
+          if (Object.keys(options.templateFiles).includes(url)) {
+            return of(options.templateFiles[url]);
+          }
+        }
+
+        return throwError(() => new Error('Not found.'));
+      }) as never);
+    }
+
+    const defaultConfig: SkyStackBlitzLaunchConfig = {
+      componentName: 'FooExampleComponent',
+      componentSelector: 'foo-example',
+      files: {
+        'example.component.html': 'HTML_CONTENTS',
+        'example.component.scss': 'SCSS_CONTENTS',
+        'example.component.ts': 'TS_CONTENTS',
+      },
+      primaryFile: 'example.component.ts',
+      title: 'Foo basic example',
+    };
+
+    const openProjectSpy = spyOn(stackblitz, 'openProject');
+
+    const stackblitzSvc = TestBed.inject(SkyStackBlitzService);
+
+    return { defaultConfig, openProjectSpy, stackblitzSvc };
+  }
+
+  it('should launch StackBlitz', async () => {
+    const { defaultConfig, openProjectSpy, stackblitzSvc } = setupTest({
+      templateFiles: {
+        'assets/stack-blitz/package.json': 'PACKAGE_JSON_CONTENTS',
+        'assets/stack-blitz/package-lock.json': 'PACKAGE_LOCK_JSON_CONTENTS',
+      },
+    });
+
+    await stackblitzSvc.launch(defaultConfig);
+
+    expect(openProjectSpy).toHaveBeenCalledWith(
+      {
+        title: defaultConfig.title,
+        files: {
+          'src/example/example.component.html': 'HTML_CONTENTS',
+          'src/example/example.component.scss': 'SCSS_CONTENTS',
+          'src/example/example.component.ts': 'TS_CONTENTS',
+          'package.json': 'PACKAGE_JSON_CONTENTS',
+          'package-lock.json': 'PACKAGE_LOCK_JSON_CONTENTS',
+          '.stackblitzrc': `{
   "installDependencies": true,
   "startCommand": "ng serve"
 }
-`;
-
-    files['angular.json'] = `{
+`,
+          'angular.json': `{
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
@@ -162,10 +207,8 @@ export class SkyStackBlitzService {
     }
   }
 }
-`;
-
-    files['karma.conf.js'] =
-      `// Karma configuration file, see link for more information
+`,
+          'karma.conf.js': `// Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
 module.exports = function (config) {
@@ -206,9 +249,8 @@ module.exports = function (config) {
     restartOnFileChange: true,
   });
 };
-`;
-
-    files['tsconfig.app.json'] = `{
+`,
+          'tsconfig.app.json': `{
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
@@ -217,9 +259,8 @@ module.exports = function (config) {
   "files": ["src/main.ts"],
   "include": ["src/**/*.d.ts"]
 }
-`;
-
-    files['tsconfig.json'] = `{
+`,
+          'tsconfig.json': `{
   "compileOnSave": false,
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
@@ -244,9 +285,8 @@ module.exports = function (config) {
     "strictTemplates": true
   }
 }
-`;
-
-    files['tsconfig.spec.json'] = `{
+`,
+          'tsconfig.spec.json': `{
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
@@ -255,13 +295,12 @@ module.exports = function (config) {
   "files": ["src/test.ts"],
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
 }
-`;
-
-    files['src/index.html'] = `<!doctype html>
+`,
+          'src/index.html': `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>${data.title}</title>
+    <title>Foo basic example</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!--
@@ -273,38 +312,33 @@ module.exports = function (config) {
     <link rel="stylesheet" type="text/css" href="https://sky.blackbaudcdn.net/static/skyux-icons/7.10.0/assets/css/skyux-icons.min.css" crossorigin="anonymous">
   </head>
   <body>
-    <${data.componentSelector}></${data.componentSelector}>
+    <foo-example></foo-example>
   </body>
 </html>
-`;
-
-    files['src/main.ts'] =
-      `import { provideHttpClient } from '@angular/common/http';
+`,
+          'src/main.ts': `import { provideHttpClient } from '@angular/common/http';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideInitialTheme } from '@skyux/theme';
-import { ${data.componentName} } from '${bootstrapImportPath}';
+import { FooExampleComponent } from './example/example.component';
 
-bootstrapApplication(${data.componentName}, {
+bootstrapApplication(FooExampleComponent, {
   providers: [
     provideAnimations(),
     provideInitialTheme('modern'),
     provideHttpClient()
   ],
 }).catch((err) => console.error(err));
-`;
-
-    files['src/styles.scss'] = `@import url('@skyux/theme/css/sky');
+`,
+          'src/styles.scss': `@import url('@skyux/theme/css/sky');
 @import url('@skyux/theme/css/themes/modern/styles');
 
 body {
   background-color: #fff;
   margin: 15px;
 }
-`;
-
-    files['src/test.ts'] =
-      `// This file is required by karma.conf.js and loads recursively all the .spec and framework files
+`,
+          'src/test.ts': `// This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
 import 'zone.js/testing';
 import {getTestBed} from '@angular/core/testing';
@@ -324,30 +358,73 @@ const context = (import.meta as any).webpackContext('./', {
 
 // And load the modules.
 context.keys().map(context);
-`;
-
-    stackblitz.openProject(
-      {
-        title: data.title,
-        files,
+`,
+        },
         template: 'node',
       },
-      { openFile: data.primaryFile },
+      { openFile: defaultConfig.primaryFile },
     );
-  }
+  });
 
-  async #fetchTemplateFileContents(file: string): Promise<string | undefined> {
-    const filePath = `assets/stack-blitz/${file}`;
-    const url = this.#assetsSvc?.getUrl(filePath) ?? filePath;
-
-    if (!this.#http) {
-      return undefined;
-    }
-
-    return await firstValueFrom(
-      this.#http.get(url, { responseType: 'text' }),
-    ).catch(() => {
-      return undefined;
+  it('should throw if template files not found', async () => {
+    const { defaultConfig, stackblitzSvc } = setupTest({
+      templateFiles: undefined,
     });
-  }
-}
+
+    await expectAsync(
+      stackblitzSvc.launch(defaultConfig),
+    ).toBeRejectedWithError(
+      'Failed to retrieve StackBlitz template file: package.json',
+    );
+  });
+
+  it('should handle ".template" files', async () => {
+    const { defaultConfig, openProjectSpy, stackblitzSvc } = setupTest({
+      templateFiles: {
+        'assets/stack-blitz/package.json.template': 'PACKAGE_JSON_CONTENTS',
+        'assets/stack-blitz/package-lock.json.template':
+          'PACKAGE_LOCK_JSON_CONTENTS',
+      },
+    });
+
+    await stackblitzSvc.launch(defaultConfig);
+
+    expect(openProjectSpy).toHaveBeenCalled();
+  });
+
+  it('should handle unresolved HttpClient', async () => {
+    const { defaultConfig, stackblitzSvc } = setupTest({
+      provideHttpClient: false,
+      templateFiles: {
+        'assets/stack-blitz/package.json': 'PACKAGE_JSON_CONTENTS',
+        'assets/stack-blitz/package-lock.json': 'PACKAGE_LOCK_JSON_CONTENTS',
+      },
+    });
+
+    await expectAsync(
+      stackblitzSvc.launch(defaultConfig),
+    ).toBeRejectedWithError(
+      'Failed to retrieve StackBlitz template file: package.json',
+    );
+  });
+
+  it('should use assets service to resolve hashed template urls', async () => {
+    const { defaultConfig, openProjectSpy, stackblitzSvc } = setupTest({
+      assetsMap: {
+        'assets/stack-blitz/package.json':
+          'assets/stack-blitz/package-HASH.json',
+        'assets/stack-blitz/package-lock.json':
+          'assets/stack-blitz/package-HASH.json',
+      },
+      templateFiles: {
+        'assets/stack-blitz/package-HASH.json': 'PACKAGE_JSON_CONTENTS',
+        'assets/stack-blitz/package-lock-HASH.json':
+          'PACKAGE_LOCK_JSON_CONTENTS',
+      },
+    });
+
+    await stackblitzSvc.launch(defaultConfig);
+
+    expect(openProjectSpy).toHaveBeenCalled();
+  });
+});

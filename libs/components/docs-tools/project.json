@@ -1,23 +1,23 @@
 {
-  "name": "docs-utils",
+  "name": "docs-tools",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/components/docs-utils/src",
+  "sourceRoot": "libs/components/docs-tools/src",
   "prefix": "sky",
   "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/libs/components/docs-utils"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/docs-tools"],
       "options": {
-        "project": "libs/components/docs-utils/ng-package.json"
+        "project": "libs/components/docs-tools/ng-package.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "libs/components/docs-utils/tsconfig.lib.prod.json"
+          "tsConfig": "libs/components/docs-tools/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "libs/components/docs-utils/tsconfig.lib.json"
+          "tsConfig": "libs/components/docs-tools/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production",
@@ -31,16 +31,16 @@
       "inputs": [
         "buildInputs",
         "^buildInputs",
-        "{workspaceRoot}/libs/components/docs-utils/testing/src/**/*",
-        "!{workspaceRoot}/libs/components/docs-utils/testing/src/**/*.spec.ts",
-        "!{workspaceRoot}/libs/components/docs-utils/testing/src/**/fixtures/**/*"
+        "{workspaceRoot}/libs/components/docs-tools/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/docs-tools/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/docs-tools/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "tsConfig": "libs/components/docs-utils/tsconfig.spec.json",
-        "karmaConfig": "libs/components/docs-utils/karma.conf.js",
+        "tsConfig": "libs/components/docs-tools/tsconfig.spec.json",
+        "karmaConfig": "libs/components/docs-tools/karma.conf.js",
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"

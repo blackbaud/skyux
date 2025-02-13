@@ -6,7 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { SkyCodeExampleViewerModule } from '@skyux/docs-utils';
+import { SkyCodeExampleViewerModule } from '@skyux/docs-tools';
 import { SkyManifestDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
 

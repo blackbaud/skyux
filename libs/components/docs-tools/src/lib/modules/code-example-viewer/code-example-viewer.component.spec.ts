@@ -62,6 +62,19 @@ describe('code-example-viewer.component', () => {
     );
   }
 
+  function toggleCodeVisibility(
+    fixture: ComponentFixture<SkyCodeExampleViewerComponent>,
+  ): void {
+    const toggleCodeButton = (
+      fixture.nativeElement as HTMLElement
+    ).querySelector<HTMLButtonElement>(
+      'button[data-sky-id="toggle-code-visibility-btn"]',
+    );
+
+    toggleCodeButton?.click();
+    fixture.detectChanges();
+  }
+
   beforeEach(() => {
     defaults = {
       componentName: 'FooExampleComponent',
@@ -111,19 +124,11 @@ class FooExampleComponent {}`,
 
     expect(getCodeWrapper(fixture)).toBeNull();
 
-    const toggleCodeButton = (
-      fixture.nativeElement as HTMLElement
-    ).querySelector<HTMLButtonElement>(
-      'button[data-sky-id="toggle-code-visibility-btn"]',
-    );
-
-    toggleCodeButton?.click();
-    fixture.detectChanges();
+    toggleCodeVisibility(fixture);
 
     expect(getCodeWrapper(fixture)).not.toBeNull();
 
-    toggleCodeButton?.click();
-    fixture.detectChanges();
+    toggleCodeVisibility(fixture);
 
     expect(getCodeWrapper(fixture)).toBeNull();
   });
@@ -149,5 +154,32 @@ class FooExampleComponent {}`,
       primaryFile: defaults.primaryFile,
       title: defaults.headingText,
     });
+  });
+
+  it('should hide the demo', () => {
+    const { fixture } = setupTest(defaults);
+
+    fixture.componentRef.setInput('demoHidden', true);
+    fixture.detectChanges();
+
+    expect(getDemoWrapper(fixture)?.textContent).toContain(
+      'Open this code example in StackBlitz to view the demo.',
+    );
+  });
+
+  it('should throw if language not recognized', () => {
+    const { fixture } = setupTest(defaults);
+
+    const { files } = defaults;
+
+    // Add an unsupported file type.
+    files['foo.cs'] = ``;
+
+    fixture.componentRef.setInput('files', files);
+    fixture.detectChanges();
+
+    expect(() => toggleCodeVisibility(fixture)).toThrowError(
+      'Value "cs" is not a supported language type.',
+    );
   });
 });
