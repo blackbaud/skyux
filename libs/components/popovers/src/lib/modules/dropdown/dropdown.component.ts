@@ -199,7 +199,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     if (value) {
       this.#destroyAffixer();
       this.#createAffixer(value);
-      this.#changeDetector.markForCheck();
     }
   }
 
@@ -433,9 +432,12 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   #createOverlay(): void {
+    /* istanbul ignore next */
     if (this.#overlay) {
       return;
     }
+
+    this.isVisible = false;
 
     if (this.menuContainerTemplateRef) {
       const overlay = this.#overlayService.create({
@@ -462,6 +464,8 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
       this.#overlay = overlay;
     }
+
+    this.#changeDetector.markForCheck();
   }
 
   #destroyAffixer(): void {
@@ -481,7 +485,9 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   #createAffixer(menuContainerElementRef: ElementRef): void {
-    const affixer = this.#affixService.createAffixer(menuContainerElementRef);
+    const affixer = (this.#affixer = this.#affixService.createAffixer(
+      menuContainerElementRef,
+    ));
 
     affixer.placementChange
       .pipe(takeUntil(this.#ngUnsubscribe))
@@ -490,15 +496,29 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
         this.#changeDetector.markForCheck();
       });
 
-    this.#affixer = affixer;
+    affixer.affixTo(this.triggerButton?.nativeElement, {
+      autoFitContext: SkyAffixAutoFitContext.Viewport,
+      enableAutoFit: true,
+      horizontalAlignment: parseAffixHorizontalAlignment(
+        this.horizontalAlignment,
+      ),
+      isSticky: true,
+      placement: 'below',
+    });
+
+    this.isVisible = true;
+
+    this.#changeDetector.markForCheck();
   }
 
   #handleIncomingMessages(message: SkyDropdownMessage): void {
     if (!this.disabled) {
       switch (message.type) {
         case SkyDropdownMessageType.Open:
-          this.isOpen = true;
-          this.#positionDropdownMenu();
+          if (!this.isOpen) {
+            this.isOpen = true;
+            this.#createOverlay();
+          }
           break;
 
         case SkyDropdownMessageType.Close:
@@ -523,30 +543,5 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   #sendMessage(type: SkyDropdownMessageType): void {
     this.messageStream?.next({ type });
-  }
-
-  #positionDropdownMenu(): void {
-    this.isVisible = false;
-    this.#createOverlay();
-    this.#changeDetector.markForCheck();
-
-    // Explicitly declare the `setTimeout` from the `window` object in order to use the DOM typings
-    // during a unit test (instead of confusing this with Node's `setTimeout`).
-    this.#positionTimeout = window.setTimeout(() => {
-      if (this.#affixer) {
-        this.#affixer.affixTo(this.triggerButton?.nativeElement, {
-          autoFitContext: SkyAffixAutoFitContext.Viewport,
-          enableAutoFit: true,
-          horizontalAlignment: parseAffixHorizontalAlignment(
-            this.horizontalAlignment,
-          ),
-          isSticky: true,
-          placement: 'below',
-        });
-
-        this.isVisible = true;
-        this.#changeDetector.markForCheck();
-      }
-    });
   }
 }
