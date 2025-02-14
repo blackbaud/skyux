@@ -4,9 +4,10 @@ import {
   Component,
   booleanAttribute,
   input,
+  numberAttribute,
 } from '@angular/core';
 
-type SkySimpleGridColumnAlignment = 'left' | 'center' | 'right';
+export type SkyGridColumnAlignment = 'left' | 'center' | 'right';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,9 +21,8 @@ type SkySimpleGridColumnAlignment = 'left' | 'center' | 'right';
   template: ``,
 })
 export class SkySimpleGridColumnComponent {
-  // Frequent
   /**
-   * Question: What does this even do?
+   * @deprecated This doesn't do anything?
    */
   public description = input<string>();
   public field = input<string>();
@@ -31,8 +31,6 @@ export class SkySimpleGridColumnComponent {
   public id = input<string>();
   public isSortable = input(true, { transform: booleanAttribute });
   public locked = input(false, { transform: booleanAttribute });
-  public width = input<number | undefined>();
-
-  // Infrequent
-  public alignment = input<SkySimpleGridColumnAlignment>('left');
+  public width = input(undefined, { transform: numberAttribute });
+  public alignment = input<SkyGridColumnAlignment>('left');
 }

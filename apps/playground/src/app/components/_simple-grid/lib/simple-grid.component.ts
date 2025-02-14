@@ -1,5 +1,4 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { JsonPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,16 +17,58 @@ import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyResizeObserverService } from '@skyux/core';
 
 import { AgGridModule } from 'ag-grid-angular';
-import { ColDef, GridApi, GridOptions } from 'ag-grid-community';
+import {
+  ColDef,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  SelectionChangedEvent,
+} from 'ag-grid-community';
 import { debounceTime } from 'rxjs';
 
-import { SkySimpleGridColumnComponent } from './simple-grid-column.component';
+import {
+  SkyGridColumnAlignment,
+  SkySimpleGridColumnComponent,
+} from './simple-grid-column.component';
+
+export enum SkyGridSelectedRowsSource {
+  CheckboxChange,
+  ClearAll,
+  RowClick,
+  SelectAll,
+  SelectedRowIdsChange,
+}
+
+export interface SkyGridSelectedRowsModelChange {
+  /**
+   * The IDs of the rows that are selected.
+   */
+  selectedRowIds?: string[];
+
+  /**
+   * @internal
+   * Defines the source of the change. This will typically be used to determine
+   * if the change came from user interaction or a programmatic source.
+   */
+  source?: SkyGridSelectedRowsSource;
+}
 
 type SkySimpleGridFit = 'scroll' | 'width';
 
+function toCellType(
+  alignment: SkyGridColumnAlignment,
+): SkyCellType | undefined {
+  switch (alignment) {
+    case 'right':
+      return SkyCellType.RightAligned;
+    default:
+      return undefined;
+  }
+}
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, JsonPipe, SkyAgGridModule],
+  imports: [AgGridModule, SkyAgGridModule],
   selector: 'sky-grid',
   styles: `
     :host {
@@ -40,6 +81,8 @@ type SkySimpleGridFit = 'scroll' | 'width';
           skyBackToTop
           [gridOptions]="gridOptions()"
           [rowData]="rowData()"
+          (gridReady)="onGridReady($event)"
+          (selectionChanged)="onSelectionChanged($event)"
         />
       </sky-ag-grid-wrapper>
     }
@@ -52,15 +95,16 @@ export class SkySimpleGridComponent {
   readonly #agGridSvc = inject(SkyAgGridService);
   readonly #resizeObserver = inject(SkyResizeObserverService);
 
-  // Frequent:
   public data = input.required<unknown[]>();
+
   public enableMultiselect = input(false, { transform: booleanAttribute });
+
   public fit = input<SkySimpleGridFit>('width');
 
   // Infrequent:
   public selectedColumnIds = input();
   public selectedRowIds = input();
-  public multiselectSelectionChange = output();
+  public multiselectSelectionChange = output<SkyGridSelectedRowsModelChange>();
   public sortFieldChange = output();
 
   protected columnRefs = contentChildren(SkySimpleGridColumnComponent);
@@ -87,10 +131,23 @@ export class SkySimpleGridComponent {
     }
 
     for (const columnRef of columnRefs) {
+      const types: string[] = [];
+
+      const alignmentType = toCellType(columnRef.alignment());
+
+      if (alignmentType) {
+        types.push(alignmentType);
+      }
+
       defs.push({
         colId: columnRef.id(),
         field: columnRef.field(),
         headerName: columnRef.heading(),
+        hide: columnRef.hidden(),
+        sortable: columnRef.isSortable(),
+        lockPosition: columnRef.locked(),
+        maxWidth: columnRef.width(),
+        type: types,
       });
     }
 
@@ -103,11 +160,6 @@ export class SkySimpleGridComponent {
 
       const gridOptions: GridOptions = {
         columnDefs,
-        onGridReady: ({ api }) => {
-          this.#gridApi = api;
-          api.sizeColumnsToFit();
-          api.resetRowHeights();
-        },
       };
 
       const options = this.#agGridSvc.getGridOptions({
@@ -126,11 +178,31 @@ export class SkySimpleGridComponent {
       });
   }
 
+  /**
+   * Need to destroy and recreate the grid if options change.
+   * @see https://www.ag-grid.com/angular-data-grid/grid-interface/#initial-grid-options
+   * @see https://ag-grid.zendesk.com/hc/en-us/articles/360016033371-Create-and-destroy-grids
+   */
   #reactivateGrid(): void {
     this.activated.set(false);
 
     setTimeout(() => {
       this.activated.set(true);
     });
+  }
+
+  protected onGridReady({ api }: GridReadyEvent): void {
+    this.#gridApi = api;
+
+    api.sizeColumnsToFit();
+    api.resetRowHeights();
+  }
+
+  protected onSelectionChanged({ api }: SelectionChangedEvent): void {
+    if (this.enableMultiselect()) {
+      this.multiselectSelectionChange.emit({
+        selectedRowIds: api.getSelectedNodes().map((n) => n.data.id),
+      });
+    }
   }
 }

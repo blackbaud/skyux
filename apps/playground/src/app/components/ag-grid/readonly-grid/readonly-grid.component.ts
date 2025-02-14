@@ -143,6 +143,9 @@ export class ReadonlyGridComponent implements OnInit {
     this.gridApi.resetRowHeights();
     this.gridApi.addEventListener('rowSelected', (event: RowSelectedEvent) => {
       const row = event.node;
+
+      console.log('eh?', row.id);
+
       if (row.isSelected()) {
         this.gridOptions.context.rowDeleteIds = [
           ...this.gridOptions.context.rowDeleteIds,
