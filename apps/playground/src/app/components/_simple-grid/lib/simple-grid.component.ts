@@ -25,7 +25,7 @@ type SkySimpleGridFit = 'scroll' | 'width';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AgGridModule, SkyAgGridModule],
-  selector: 'sky-simple-grid',
+  selector: 'sky-grid-grid',
   styles: `
     :host {
       display: block;
@@ -39,7 +39,7 @@ type SkySimpleGridFit = 'scroll' | 'width';
       />
     </sky-ag-grid-wrapper>
     <ng-container>
-      <ng-content select="sky-simple-grid-column" />
+      <ng-content select="sky-grid-grid-column" />
     </ng-container> `,
 })
 export class SkySimpleGridComponent {
@@ -84,7 +84,6 @@ export class SkySimpleGridComponent {
 
   protected columnDefs = computed(() => {
     const columnRefs = this.columnRefs();
-
     const defs: ColDef[] = [];
 
     for (const columnRef of columnRefs) {

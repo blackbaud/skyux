@@ -11,7 +11,7 @@ type SkySimpleGridColumnAlignment = 'left' | 'center' | 'right';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
-  selector: 'sky-simple-grid-column',
+  selector: 'sky-grid-grid-column',
   styles: `
     :host {
       display: block;
