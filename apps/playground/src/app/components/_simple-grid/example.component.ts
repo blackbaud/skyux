@@ -27,7 +27,7 @@ interface User {
     </sky-grid>
 
     <ng-template #foobar let-value="value" let-row="row">
-      This is a template. {{ value }}
+      <strong>{{ value }}</strong>
       {{ row | json }}
     </ng-template>
   }`,

@@ -95,15 +95,18 @@ export class SkySimpleGridComponent {
   readonly #agGridSvc = inject(SkyAgGridService);
   readonly #resizeObserver = inject(SkyResizeObserverService);
 
+  //#region heavily used
   public data = input.required<unknown[]>();
   public enableMultiselect = input(false, { transform: booleanAttribute });
   public fit = input<SkySimpleGridFit>('width');
+  //#endregion
 
-  // Infrequent:
+  //#region rarely used
   public selectedColumnIds = input();
   public selectedRowIds = input();
   public multiselectSelectionChange = output<SkyGridSelectedRowsModelChange>();
   public sortFieldChange = output();
+  //#endregion
 
   protected columnRefs = contentChildren(SkySimpleGridColumnComponent);
   protected activated = signal(false);
