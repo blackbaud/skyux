@@ -50,11 +50,10 @@ export class SkyCodeExampleViewerComponent {
   public readonly componentName = input.required<string>();
   public readonly componentSelector = input.required<string>();
   public readonly componentType = input.required<Type<unknown>>();
-  public readonly files = input.required<Record<string, string>>();
-  public readonly primaryFile = input.required<string>();
-  public readonly headingText = input.required<string>();
-
   public readonly demoHidden = input<boolean>(false);
+  public readonly files = input.required<Record<string, string>>();
+  public readonly headingText = input.required<string>();
+  public readonly primaryFile = input.required<string>();
   public readonly stacked = input(false, { transform: booleanAttribute });
 
   protected readonly isCodeVisible = signal(false);

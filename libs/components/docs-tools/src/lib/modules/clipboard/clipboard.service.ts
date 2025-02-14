@@ -16,6 +16,7 @@ export class SkyClipboardService {
     const text = el.nativeElement.textContent.trim();
 
     this.#windowRef.nativeWindow.navigator.clipboard.writeText(text);
+
     this.#toastSvc.openMessage(successMessage, { autoClose: true });
   }
 }
