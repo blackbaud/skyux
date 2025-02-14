@@ -78,6 +78,39 @@ export class SkyFlyoutHarness extends SkyQueryableComponentHarness {
   }
 
   /**
+   * Gets the flyout's maximum width.
+   */
+  public async getFlyoutMaxWidth(): Promise<number> {
+    const resizeHandle = await this.locatorFor('.sky-flyout-resize-handle')();
+    const currentWidthAttr = (await resizeHandle.getAttribute(
+      'aria-valuemax',
+    )) as string;
+    return parseInt(currentWidthAttr);
+  }
+
+  /**
+   * Gets the flyout's minimum width.
+   */
+  public async getFlyoutMinWidth(): Promise<number> {
+    const resizeHandle = await this.locatorFor('.sky-flyout-resize-handle')();
+    const currentWidthAttr = (await resizeHandle.getAttribute(
+      'aria-valuemin',
+    )) as string;
+    return parseInt(currentWidthAttr);
+  }
+
+  /**
+   * Gets the flyout's current width.
+   */
+  public async getFlyoutWidth(): Promise<number> {
+    const resizeHandle = await this.locatorFor('.sky-flyout-resize-handle')();
+    const currentWidthAttr = (await resizeHandle.getAttribute(
+      'aria-valuenow',
+    )) as string;
+    return parseInt(currentWidthAttr);
+  }
+
+  /**
    * Gets the label for the flyout's permalink button.
    */
   public async getPermalinkButtonLabel(): Promise<string> {

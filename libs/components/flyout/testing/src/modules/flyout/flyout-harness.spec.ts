@@ -85,6 +85,18 @@ describe('Flyout harness', () => {
     await expectAsync(flyoutHarness.getAriaRole()).toBeResolvedTo('dialog');
   });
 
+  it('should get the flyout width, min width, and max width', async () => {
+    const { flyoutHarness } = await setupTest({
+      defaultWidth: 500,
+      maxWidth: 600,
+      minWidth: 400,
+    });
+
+    await expectAsync(flyoutHarness.getFlyoutWidth()).toBeResolvedTo(500);
+    await expectAsync(flyoutHarness.getFlyoutMaxWidth()).toBeResolvedTo(600);
+    await expectAsync(flyoutHarness.getFlyoutMinWidth()).toBeResolvedTo(400);
+  });
+
   it('should close the flyout', async () => {
     const { flyoutHarness, fixture } = await setupTest();
 
@@ -120,6 +132,25 @@ describe('Flyout harness', () => {
     await expectAsync(
       flyoutHarness.clickPreviousIteratorButton(),
     ).toBeRejectedWithError('Could not find iterator buttons.');
+  });
+
+  it('should throw an error when trying to click disabled iterator buttons', async () => {
+    const { flyoutHarness } = await setupTest({
+      showIterator: true,
+      iteratorNextButtonDisabled: true,
+      iteratorPreviousButtonDisabled: true,
+    });
+
+    await expectAsync(
+      flyoutHarness.clickNextIteratorButton(),
+    ).toBeRejectedWithError(
+      'Could not click the next iterator because it is disabled.',
+    );
+    await expectAsync(
+      flyoutHarness.clickPreviousIteratorButton(),
+    ).toBeRejectedWithError(
+      'Could not click the previous iterator because it is disabled.',
+    );
   });
 
   it('should interact with a primary action button', async () => {

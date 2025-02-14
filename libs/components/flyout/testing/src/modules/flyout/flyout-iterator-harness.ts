@@ -1,3 +1,4 @@
+import { TestElement } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
 /**
@@ -18,6 +19,11 @@ export class SkyFlyoutIteratorHarness extends SkyComponentHarness {
    */
   public async clickNextButton(): Promise<void> {
     const button = await this.#getNextButton();
+    if (await this.#buttonIsDisabled(button)) {
+      throw new Error(
+        'Could not click the next iterator because it is disabled.',
+      );
+    }
     await button.click();
   }
 
@@ -26,6 +32,16 @@ export class SkyFlyoutIteratorHarness extends SkyComponentHarness {
    */
   public async clickPreviousButton(): Promise<void> {
     const button = await this.#getPreviousButton();
+    if (await this.#buttonIsDisabled(button)) {
+      throw new Error(
+        'Could not click the previous iterator because it is disabled.',
+      );
+    }
     await button.click();
+  }
+
+  async #buttonIsDisabled(button: TestElement): Promise<boolean> {
+    const disabled = await button.getAttribute('disabled');
+    return disabled !== null;
   }
 }

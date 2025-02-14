@@ -49,8 +49,11 @@ describe('Flyout harness', () => {
     await flyoutHarness.clickPreviousIteratorButton();
     expect(fixture.componentInstance.recordNumber).toBe(0);
     // previous button is disabled
-    await flyoutHarness.clickPreviousIteratorButton();
-    expect(fixture.componentInstance.recordNumber).toBe(0);
+    await expectAsync(
+      flyoutHarness.clickPreviousIteratorButton(),
+    ).toBeRejectedWithError(
+      'Could not click the previous iterator because it is disabled.',
+    );
   });
 
   it('should set up the flyout with permalink', async () => {

@@ -32,6 +32,9 @@ describe('Flyout harness', () => {
       'flyout-title',
     );
     await expectAsync(flyoutHarness.getAriaRole()).toBeResolvedTo('dialog');
+    await expectAsync(flyoutHarness.getFlyoutWidth()).toBeResolvedTo(350);
+    await expectAsync(flyoutHarness.getFlyoutMinWidth()).toBeResolvedTo(200);
+    await expectAsync(flyoutHarness.getFlyoutMaxWidth()).toBeResolvedTo(500);
 
     await flyoutHarness.closeFlyout();
   });
