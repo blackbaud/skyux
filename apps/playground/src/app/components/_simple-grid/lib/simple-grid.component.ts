@@ -1,4 +1,5 @@
 /* eslint-disable @angular-eslint/component-selector */
+import { JsonPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,12 +7,14 @@ import {
   booleanAttribute,
   computed,
   contentChildren,
+  effect,
   inject,
   input,
   output,
+  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SkyAgGridModule, SkyAgGridService } from '@skyux/ag-grid';
+import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyResizeObserverService } from '@skyux/core';
 
 import { AgGridModule } from 'ag-grid-angular';
@@ -24,22 +27,25 @@ type SkySimpleGridFit = 'scroll' | 'width';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, SkyAgGridModule],
-  selector: 'sky-grid-grid',
+  imports: [AgGridModule, JsonPipe, SkyAgGridModule],
+  selector: 'sky-grid',
   styles: `
     :host {
       display: block;
     }
   `,
-  template: `<sky-ag-grid-wrapper>
-      <ag-grid-angular
-        skyBackToTop
-        [gridOptions]="gridOptions()"
-        [rowData]="rowData()"
-      />
-    </sky-ag-grid-wrapper>
+  template: `@if (activated()) {
+      <sky-ag-grid-wrapper>
+        <ag-grid-angular
+          skyBackToTop
+          [gridOptions]="gridOptions()"
+          [rowData]="rowData()"
+        />
+      </sky-ag-grid-wrapper>
+    }
+
     <ng-container>
-      <ng-content select="sky-grid-grid-column" />
+      <ng-content select="sky-grid-column" />
     </ng-container> `,
 })
 export class SkySimpleGridComponent {
@@ -58,24 +64,11 @@ export class SkySimpleGridComponent {
   public sortFieldChange = output();
 
   protected columnRefs = contentChildren(SkySimpleGridColumnComponent);
+  protected activated = signal(false);
 
   #gridApi: GridApi | undefined;
 
-  protected gridOptions = computed(() => {
-    const columnDefs = this.columnDefs();
-    const gridOptions: GridOptions = {
-      columnDefs,
-      onGridReady: ({ api }) => {
-        this.#gridApi = api;
-        api.sizeColumnsToFit();
-        api.resetRowHeights();
-      },
-    };
-
-    return this.#agGridSvc.getGridOptions({
-      gridOptions,
-    });
-  });
+  protected gridOptions = signal<GridOptions | undefined>(undefined);
 
   protected rowData = computed(() => {
     const data = this.data();
@@ -85,6 +78,13 @@ export class SkySimpleGridComponent {
   protected columnDefs = computed(() => {
     const columnRefs = this.columnRefs();
     const defs: ColDef[] = [];
+
+    if (this.enableMultiselect()) {
+      defs.push({
+        field: 'selected',
+        type: SkyCellType.RowSelector,
+      });
+    }
 
     for (const columnRef of columnRefs) {
       defs.push({
@@ -98,11 +98,39 @@ export class SkySimpleGridComponent {
   });
 
   constructor() {
+    effect(() => {
+      const columnDefs = this.columnDefs();
+
+      const gridOptions: GridOptions = {
+        columnDefs,
+        onGridReady: ({ api }) => {
+          this.#gridApi = api;
+          api.sizeColumnsToFit();
+          api.resetRowHeights();
+        },
+      };
+
+      const options = this.#agGridSvc.getGridOptions({
+        gridOptions,
+      });
+
+      this.gridOptions.set(options);
+      this.#reactivateGrid();
+    });
+
     this.#resizeObserver
       .observe(inject(ElementRef))
       .pipe(takeUntilDestroyed(), debounceTime(200))
       .subscribe(() => {
-        this.#gridApi.sizeColumnsToFit();
+        this.#gridApi?.sizeColumnsToFit();
       });
+  }
+
+  #reactivateGrid(): void {
+    this.activated.set(false);
+
+    setTimeout(() => {
+      this.activated.set(true);
+    });
   }
 }

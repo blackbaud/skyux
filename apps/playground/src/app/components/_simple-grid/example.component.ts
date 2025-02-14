@@ -13,11 +13,11 @@ interface User {
   imports: [SkySimpleGridModule],
   styles: ``,
   template: `@if (data(); as data) {
-    <sky-grid-grid [data]="data">
-      <sky-grid-grid-column field="firstName" />
-      <sky-grid-grid-column field="lastName" />
-      <sky-grid-grid-column field="emailAddress" />
-    </sky-grid-grid>
+    <sky-grid enableMultiselect [data]="data">
+      <sky-grid-column field="firstName" />
+      <sky-grid-column field="lastName" />
+      <sky-grid-column field="emailAddress" />
+    </sky-grid>
   }`,
 })
 export default class SimpleGridExampleComponent {

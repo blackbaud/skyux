@@ -10,7 +10,6 @@ import {
   HostBinding,
   Input,
   OnDestroy,
-  OnInit,
   booleanAttribute,
   computed,
   inject,
@@ -59,7 +58,7 @@ let idIndex = 0;
   standalone: false,
 })
 export class SkyAgGridWrapperComponent
-  implements AfterContentInit, AfterViewInit, OnDestroy, OnInit
+  implements AfterContentInit, AfterViewInit, OnDestroy
 {
   @ContentChild(AgGridAngular, {
     static: true,
@@ -154,11 +153,30 @@ export class SkyAgGridWrapperComponent
     this.beforeAnchorId = 'sky-ag-grid-nav-anchor-before-' + idIndex;
     this.gridId = 'sky-ag-grid-' + idIndex;
     this.wrapperClasses$ = this.#wrapperClasses.asObservable();
+
+    combineLatest<[boolean, boolean, SkyThemeSettingsChange | undefined]>([
+      this.#hasEditableClass.pipe(distinctUntilChanged()),
+      this.#isCompact.pipe(distinctUntilChanged()),
+      this.#themeSvc?.settingsChange ?? of(undefined),
+    ])
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(([hasEditableClass, isCompact, settings]) => {
+        console.log('update grid!');
+        this.#updateGridTheme(
+          hasEditableClass,
+          isCompact,
+          settings?.currentSettings,
+        );
+        setTimeout(() => {
+          this.#changeDetector.markForCheck();
+        });
+      });
   }
 
   public ngAfterContentInit(): void {
     if (this.agGrid) {
       const domLayout = this.agGrid.gridOptions?.domLayout;
+
       if (domLayout === 'autoHeight') {
         if (this.agGrid.gridOptions?.context?.enableTopScroll) {
           this.viewkeeperClasses.push(
@@ -172,21 +190,25 @@ export class SkyAgGridWrapperComponent
         this.isNormalLayout = true;
         this.#parentChangeDetector?.detectChanges();
       }
+
       this.agGrid.gridReady
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
           this.#moveHorizontalScroll();
         });
+
       this.agGrid.firstDataRendered
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
           this.#moveHorizontalScroll();
         });
+
       this.agGrid.rowDataUpdated
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
           this.#moveHorizontalScroll();
         });
+
       this.agGrid.cellEditingStarted
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((params: CellEditingStartedEvent) => {
@@ -209,6 +231,7 @@ export class SkyAgGridWrapperComponent
             }
           }
         });
+
       this.agGrid.cellEditingStopped
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
@@ -218,6 +241,7 @@ export class SkyAgGridWrapperComponent
               .filter((c) => !c.startsWith('sky-ag-grid-cell-editing-')),
           );
         });
+
       this.agGrid.cellFocused
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((event: CellFocusedEvent) => {
@@ -257,22 +281,6 @@ export class SkyAgGridWrapperComponent
     this.#hasEditableClass.complete();
     this.#isCompact.complete();
     this.#wrapperClasses.complete();
-  }
-
-  public ngOnInit(): void {
-    combineLatest<[boolean, boolean, SkyThemeSettingsChange | undefined]>([
-      this.#hasEditableClass.pipe(distinctUntilChanged()),
-      this.#isCompact.pipe(distinctUntilChanged()),
-      this.#themeSvc?.settingsChange ?? of(undefined),
-    ])
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(([hasEditableClass, isCompact, settings]) => {
-        this.#updateGridTheme(
-          hasEditableClass,
-          isCompact,
-          settings?.currentSettings,
-        );
-      });
   }
 
   public ngAfterViewInit(): void {
@@ -366,17 +374,22 @@ export class SkyAgGridWrapperComponent
     themeSettings?: SkyThemeSettings,
   ): void {
     const agTheme = agGridTheme(hasEditableClass, themeSettings, isCompact);
+
     const previousValue = this.#wrapperClasses.getValue();
+
     let value = [
       ...previousValue.filter((c) => !c.startsWith('ag-theme-')),
       agTheme,
     ];
+
     const textSelectionClass = 'sky-ag-grid-text-selection';
+
     if (this.#getTextSelection(hasEditableClass)) {
       value.push(textSelectionClass);
     } else {
       value = value.filter((c) => c !== textSelectionClass);
     }
+
     this.#wrapperClasses.next([...new Set(value)]);
   }
 
