@@ -20,21 +20,7 @@
           "tsConfig": "libs/components/docs-tools/tsconfig.lib.json"
         }
       },
-      "defaultConfiguration": "production",
-      "dependsOn": [
-        "^build",
-        {
-          "projects": ["core"],
-          "target": "build"
-        }
-      ],
-      "inputs": [
-        "buildInputs",
-        "^buildInputs",
-        "{workspaceRoot}/libs/components/docs-tools/testing/src/**/*",
-        "!{workspaceRoot}/libs/components/docs-tools/testing/src/**/*.spec.ts",
-        "!{workspaceRoot}/libs/components/docs-tools/testing/src/**/fixtures/**/*"
-      ]
+      "defaultConfiguration": "production"
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
