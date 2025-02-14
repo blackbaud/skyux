@@ -374,7 +374,7 @@ context.keys().map(context);
     await expectAsync(
       stackblitzSvc.launch(defaultConfig),
     ).toBeRejectedWithError(
-      'Failed to retrieve StackBlitz template file: package.json',
+      'Failed to read StackBlitz template file: package.json',
     );
   });
 
@@ -404,7 +404,7 @@ context.keys().map(context);
     await expectAsync(
       stackblitzSvc.launch(defaultConfig),
     ).toBeRejectedWithError(
-      'Failed to retrieve StackBlitz template file: package.json',
+      'Failed to read StackBlitz template file: package.json',
     );
   });
 

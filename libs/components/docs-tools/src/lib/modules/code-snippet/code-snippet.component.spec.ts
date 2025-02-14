@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HighlightOptions, HighlightResult } from 'highlight.js';
+import { type HighlightOptions, type HighlightResult } from 'highlight.js';
 import highlight from 'highlight.js/lib/core';
 import hlJavaScript from 'highlight.js/lib/languages/javascript';
 import hlScss from 'highlight.js/lib/languages/scss';
