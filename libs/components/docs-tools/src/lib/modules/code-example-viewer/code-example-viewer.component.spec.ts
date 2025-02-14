@@ -54,14 +54,6 @@ describe('code-example-viewer.component', () => {
     );
   }
 
-  function getCodeWrapper(
-    fixture: ComponentFixture<SkyCodeExampleViewerComponent>,
-  ): HTMLDivElement | null {
-    return (fixture.nativeElement as HTMLElement).querySelector<HTMLDivElement>(
-      '.sky-code-example-viewer-code',
-    );
-  }
-
   function toggleCodeVisibility(
     fixture: ComponentFixture<SkyCodeExampleViewerComponent>,
   ): void {
@@ -73,6 +65,21 @@ describe('code-example-viewer.component', () => {
 
     toggleCodeButton?.click();
     fixture.detectChanges();
+  }
+
+  function expectCodeVisible(
+    fixture: ComponentFixture<SkyCodeExampleViewerComponent>,
+    visible: boolean,
+  ): void {
+    const codeWrapper = (
+      fixture.nativeElement as HTMLElement
+    ).querySelector<HTMLDivElement>('sky-vertical-tabset');
+
+    if (visible) {
+      expect(codeWrapper?.getAttribute('hidden')).toBeNull();
+    } else {
+      expect(codeWrapper?.getAttribute('hidden')).toEqual('');
+    }
   }
 
   beforeEach(() => {
@@ -114,7 +121,7 @@ class FooExampleComponent {}`,
 
     expect(demoEl?.textContent).toContain('Hello, from Foo.');
 
-    expect(getCodeWrapper(fixture)).toBeNull();
+    expectCodeVisible(fixture, false);
   });
 
   it('should toggle code visibility', () => {
@@ -122,15 +129,15 @@ class FooExampleComponent {}`,
 
     fixture.detectChanges();
 
-    expect(getCodeWrapper(fixture)).toBeNull();
+    expectCodeVisible(fixture, false);
 
     toggleCodeVisibility(fixture);
 
-    expect(getCodeWrapper(fixture)).not.toBeNull();
+    expectCodeVisible(fixture, true);
 
     toggleCodeVisibility(fixture);
 
-    expect(getCodeWrapper(fixture)).toBeNull();
+    expectCodeVisible(fixture, false);
   });
 
   it('should open in StackBlitz', () => {
@@ -176,9 +183,8 @@ class FooExampleComponent {}`,
     files['foo.cs'] = ``;
 
     fixture.componentRef.setInput('files', files);
-    fixture.detectChanges();
 
-    expect(() => toggleCodeVisibility(fixture)).toThrowError(
+    expect(() => fixture.detectChanges()).toThrowError(
       'Value "cs" is not a supported language type.',
     );
   });

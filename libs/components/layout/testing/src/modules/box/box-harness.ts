@@ -13,11 +13,12 @@ export class SkyBoxHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-box';
 
   #getBox = this.locatorFor('.sky-box');
-  #getHeading = this.locatorFor('.sky-box-header-content');
+  #getHeading = this.locatorForOptional(
+    '.sky-box-header-content h2, .sky-box-header-content h3, .sky-box-header-content h4, .sky-box-header-content h5',
+  );
   #getH2 = this.locatorForOptional('.sky-box-header-content h2');
   #getH3 = this.locatorForOptional('.sky-box-header-content h3');
   #getH4 = this.locatorForOptional('.sky-box-header-content h4');
-  #getH5 = this.locatorForOptional('.sky-box-header-content h5');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -57,18 +58,14 @@ export class SkyBoxHarness extends SkyComponentHarness {
    * the text will still be returned.
    */
   public async getHeadingText(): Promise<string | undefined> {
-    return await (await this.#getHeading()).text();
+    return await (await this.#getHeading())?.text();
   }
 
   /**
    * Whether the heading is hidden.
    */
   public async getHeadingHidden(): Promise<boolean> {
-    const heading =
-      (await this.#getH2()) ||
-      (await this.#getH3()) ||
-      (await this.#getH4()) ||
-      (await this.#getH5());
+    const heading = await this.#getHeading();
     return (await heading?.hasClass('sky-screen-reader-only')) ?? false;
   }
 
@@ -89,11 +86,7 @@ export class SkyBoxHarness extends SkyComponentHarness {
    * The heading style used for the checkbox group.
    */
   public async getHeadingStyle(): Promise<SkyBoxHeadingStyle> {
-    const heading =
-      (await this.#getH2()) ||
-      (await this.#getH3()) ||
-      (await this.#getH4()) ||
-      (await this.#getH5());
+    const heading = await this.#getHeading();
 
     const isHeadingStyle2 = await heading?.hasClass('sky-font-heading-2');
     const isHeadingStyle3 = await heading?.hasClass('sky-font-heading-3');
