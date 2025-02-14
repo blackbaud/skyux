@@ -8,6 +8,7 @@ describe('popovers-storybook', () => {
           cy.visit(
             `/iframe.html?globals=theme:${theme}&id=dropdowncomponent-dropdown--dropdown-${buttonStyle}-button`,
           );
+          cy.get('#ready').should('exist');
           cy.get('app-dropdown')
             .should('exist')
             .should('be.visible')
@@ -33,6 +34,7 @@ describe('popovers-storybook', () => {
 
           ['select', 'context-menu', 'tab', 'custom'].forEach((buttonType) => {
             it(`should open the ${buttonType} style dropdown's menu`, () => {
+              cy.get('#ready').should('exist');
               cy.get('app-dropdown').should('exist').should('be.visible');
               cy.get(
                 buttonType === 'custom'
