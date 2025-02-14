@@ -1,53 +1,61 @@
 <sky-box headingLevel="3" headingStyle="3" [headingText]="headingText()">
   <sky-box-controls>
-    @let ariaLabel =
-      isCodeVisible()
-        ? ('sky_example_viewer_hide_code_button_label' | skyLibResources)
-        : ('sky_example_viewer_show_code_button_label' | skyLibResources);
     <button
-      class="sky-btn sky-btn-icon-borderless sky-margin-inline-sm"
-      data-sky-id="toggle-code-visibility-btn"
-      type="button"
-      [attr.aria-label]="ariaLabel"
-      [attr.title]="ariaLabel"
-      (click)="toggleCodeVisibility()"
-    >
-      <sky-icon iconName="code" />
-    </button>
-    <button
-      aria-label="Open code in StackBlitz"
-      class="sky-btn sky-btn-icon-borderless"
+      class="sky-btn sky-btn-default"
       data-sky-id="stackblitz-btn"
       type="button"
-      (click)="openInStackBlitz()"
+      (click)="launchStackBlitz()"
     >
-      <sky-icon iconName="open" />
+      <sky-icon iconName="edit" />
+      {{ 'sky_code_example_viewer_demo_stack_blitz_button' | skyLibResources }}
     </button>
   </sky-box-controls>
 
-  <div class="sky-code-example-viewer-demo sky-padding-even-xl">
-    @if (!demoHidden()) {
-      <ng-template [ngComponentOutlet]="componentType()" />
-    } @else {
-      {{ 'sky_example_viewer_demo_hidden_message' | skyLibResources }}
-    }
-  </div>
-
-  @if (isCodeVisible()) {
-    <div class="sky-code-example-viewer-code">
-      <sky-vertical-tabset>
-        @for (obj of files() | keyvalue; track obj.key) {
-          <sky-vertical-tab
-            [active]="obj.key === primaryFile()"
-            [tabHeading]="obj.key"
-          >
-            <sky-code-snippet
-              [code]="obj.value"
-              [language]="getCodeLanguage(obj.key)"
-            />
-          </sky-vertical-tab>
-        }
-      </sky-vertical-tabset>
+  <sky-box-content>
+    <div
+      class="sky-code-example-viewer-demo sky-padding-even-md sky-margin-stacked-lg"
+    >
+      @if (!demoHidden()) {
+        <ng-template [ngComponentOutlet]="componentType()" />
+      } @else {
+        {{ 'sky_code_example_viewer_demo_hidden_message' | skyLibResources }}
+      }
     </div>
-  }
+
+    <div class="sky-margin-stacked-sm">
+      <button
+        class="sky-btn sky-btn-link"
+        data-sky-id="toggle-code-visibility-btn"
+        type="button"
+        [attr.aria-controls]="codeRef.id"
+        [attr.aria-expanded]="isCodeVisible()"
+        (click)="toggleCodeVisibility()"
+      >
+        <sky-icon
+          [iconName]="isCodeVisible() ? 'chevron-down' : 'chevron-right'"
+        />
+        {{
+          isCodeVisible()
+            ? ('sky_code_example_viewer_hide_code_button_label'
+              | skyLibResources)
+            : ('sky_code_example_viewer_show_code_button_label'
+              | skyLibResources)
+        }}
+      </button>
+    </div>
+
+    <sky-vertical-tabset #codeRef="skyId" skyId [hidden]="!isCodeVisible()">
+      @for (obj of files() | keyvalue; track obj.key) {
+        <sky-vertical-tab
+          [active]="obj.key === primaryFile()"
+          [tabHeading]="obj.key"
+        >
+          <sky-code-snippet
+            [code]="obj.value"
+            [language]="getCodeLanguage(obj.key)"
+          />
+        </sky-vertical-tab>
+      }
+    </sky-vertical-tabset>
+  </sky-box-content>
 </sky-box>

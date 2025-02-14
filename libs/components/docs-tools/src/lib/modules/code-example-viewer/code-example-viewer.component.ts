@@ -8,6 +8,7 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { SkyIdModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyVerticalTabsetModule } from '@skyux/tabs';
@@ -36,6 +37,7 @@ import { SkyStackBlitzService } from './stackblitz.service';
     SkyCodeSnippetModule,
     SkyDocsToolsResourcesModule,
     SkyIconModule,
+    SkyIdModule,
     SkyVerticalTabsetModule,
   ],
   selector: 'sky-code-example-viewer',
@@ -63,7 +65,7 @@ export class SkyCodeExampleViewerComponent {
     return extension;
   }
 
-  protected openInStackBlitz(): void {
+  protected launchStackBlitz(): void {
     void this.#stackblitzSvc.launch({
       componentName: this.componentName(),
       componentSelector: this.componentSelector(),

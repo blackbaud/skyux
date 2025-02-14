@@ -1,4 +1,4 @@
-import { NgComponentOutlet } from '@angular/common';
+import { JsonPipe, NgComponentOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -29,6 +29,7 @@ const SEPARATOR = ' - ';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
+    JsonPipe,
     NgComponentOutlet,
     ReactiveFormsModule,
     SkyInputBoxModule,
@@ -63,6 +64,7 @@ const SEPARATOR = ' - ';
             This content describes the development tab.
           </sky-showcase-content>
         </sky-showcase>
+        <pre><code>{{manifest|json}}</code></pre>
       }
     </sky-page>
   `,
