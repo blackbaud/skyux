@@ -8,27 +8,27 @@ import { map } from 'rxjs/operators';
 const SPRITE_ID = 'sky-icon-svg-sprite';
 
 async function waitForSvgSprite(): Promise<void> {
-  if (document.getElementById(SPRITE_ID)) {
-    return await Promise.resolve();
-  }
-
   return await new Promise<void>((resolve) => {
-    const observer = new MutationObserver((mutations) => {
-      if (
-        mutations.some((mutation) =>
-          Array.from(mutation.addedNodes).some(
-            (node) => (node as Element).id === SPRITE_ID,
-          ),
-        )
-      ) {
-        observer.disconnect();
-        resolve();
-      }
-    });
+    if (document.getElementById(SPRITE_ID)) {
+      resolve();
+    } else {
+      const observer = new MutationObserver((mutations) => {
+        if (
+          mutations.some((mutation) =>
+            Array.from(mutation.addedNodes).some(
+              (node) => (node as Element).id === SPRITE_ID,
+            ),
+          )
+        ) {
+          observer.disconnect();
+          resolve();
+        }
+      });
 
-    observer.observe(document.body, {
-      childList: true,
-    });
+      observer.observe(document.body, {
+        childList: true,
+      });
+    }
   });
 }
 
