@@ -147,8 +147,6 @@ export class SkySimpleGridComponent {
         extras.cellRendererParams = {
           template: columnRef.template(),
         };
-
-        console.log('extras?', extras);
       }
 
       defs.push({

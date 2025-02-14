@@ -1,8 +1,10 @@
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
+// import { SkyGridModule } from '@skyux/grids';
+
 import { SkyGridSelectedRowsModelChange } from './lib/simple-grid.component';
-import { SkySimpleGridModule } from './lib/simple-grid.module';
+import { SkyGridModule } from './lib/simple-grid.module';
 
 interface User {
   id: string;
@@ -13,7 +15,7 @@ interface User {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkySimpleGridModule, JsonPipe],
+  imports: [SkyGridModule, JsonPipe],
   styles: ``,
   template: `@if (data(); as data) {
     <sky-grid
@@ -21,9 +23,13 @@ interface User {
       [enableMultiselect]="true"
       (multiselectSelectionChange)="onMultiselectSelectionChange($event)"
     >
-      <sky-grid-column field="firstName" />
-      <sky-grid-column field="lastName" />
-      <sky-grid-column field="emailAddress" [template]="foobar" />
+      <sky-grid-column field="firstName" heading="First name" />
+      <sky-grid-column field="lastName" heading="Last name" />
+      <sky-grid-column
+        field="emailAddress"
+        heading="Email address"
+        [template]="foobar"
+      />
     </sky-grid>
 
     <ng-template #foobar let-value="value" let-row="row">

@@ -7,4 +7,4 @@ import { SkySimpleGridComponent } from './simple-grid.component';
   imports: [SkySimpleGridComponent, SkySimpleGridColumnComponent],
   exports: [SkySimpleGridComponent, SkySimpleGridColumnComponent],
 })
-export class SkySimpleGridModule {}
+export class SkyGridModule {}
