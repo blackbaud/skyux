@@ -3,6 +3,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { expectAsync } from '@skyux-sdk/testing';
 import { SkyBoxHarness } from '@skyux/layout/testing';
 
 import { SkyCodeExampleViewerComponent } from './code-example-viewer.component';
@@ -122,6 +123,8 @@ class FooExampleComponent {}`,
     expect(demoEl?.textContent).toContain('Hello, from Foo.');
 
     expectCodeVisible(fixture, false);
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
   it('should toggle code visibility', () => {
