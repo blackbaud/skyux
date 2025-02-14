@@ -3,12 +3,134 @@
 //
 import type { StorybookConfig } from '@storybook/types';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { rootMain } from '../../../../.storybook/main';
 
 const config: StorybookConfig = {
   ...rootMain,
   // There needs to be one local story in order for composition to work.
   stories: ['../src/lib/**/*.stories.@(js|ts)'],
+
+  refs: {
+    'a11y-storybook': {
+      title: 'a11y-storybook',
+      url: '../storybooks/a11y-storybook/',
+    },
+    'action-bars-storybook': {
+      title: 'action-bars-storybook',
+      url: '../storybooks/action-bars-storybook/',
+    },
+    'ag-grid-storybook': {
+      title: 'ag-grid-storybook',
+      url: '../storybooks/ag-grid-storybook/',
+    },
+    'angular-tree-component-storybook': {
+      title: 'angular-tree-component-storybook',
+      url: '../storybooks/angular-tree-component-storybook/',
+    },
+    'avatar-storybook': {
+      title: 'avatar-storybook',
+      url: '../storybooks/avatar-storybook/',
+    },
+    'colorpicker-storybook': {
+      title: 'colorpicker-storybook',
+      url: '../storybooks/colorpicker-storybook/',
+    },
+    'core-storybook': {
+      title: 'core-storybook',
+      url: '../storybooks/core-storybook/',
+    },
+    'data-manager-storybook': {
+      title: 'data-manager-storybook',
+      url: '../storybooks/data-manager-storybook/',
+    },
+    'datetime-storybook': {
+      title: 'datetime-storybook',
+      url: '../storybooks/datetime-storybook/',
+    },
+    'errors-storybook': {
+      title: 'errors-storybook',
+      url: '../storybooks/errors-storybook/',
+    },
+    'flyout-storybook': {
+      title: 'flyout-storybook',
+      url: '../storybooks/flyout-storybook/',
+    },
+    'forms-storybook': {
+      title: 'forms-storybook',
+      url: '../storybooks/forms-storybook/',
+    },
+    'help-inline-storybook': {
+      title: 'help-inline-storybook',
+      url: '../storybooks/help-inline-storybook/',
+    },
+    'indicators-storybook': {
+      title: 'indicators-storybook',
+      url: '../storybooks/indicators-storybook/',
+    },
+    'inline-form-storybook': {
+      title: 'inline-form-storybook',
+      url: '../storybooks/inline-form-storybook/',
+    },
+    'layout-storybook': {
+      title: 'layout-storybook',
+      url: '../storybooks/layout-storybook/',
+    },
+    'lists-storybook': {
+      title: 'lists-storybook',
+      url: '../storybooks/lists-storybook/',
+    },
+    'lookup-storybook': {
+      title: 'lookup-storybook',
+      url: '../storybooks/lookup-storybook/',
+    },
+    'modals-storybook': {
+      title: 'modals-storybook',
+      url: '../storybooks/modals-storybook/',
+    },
+    'navbar-storybook': {
+      title: 'navbar-storybook',
+      url: '../storybooks/navbar-storybook/',
+    },
+    'pages-storybook': {
+      title: 'pages-storybook',
+      url: '../storybooks/pages-storybook/',
+    },
+    'phone-field-storybook': {
+      title: 'phone-field-storybook',
+      url: '../storybooks/phone-field-storybook/',
+    },
+    'popovers-storybook': {
+      title: 'popovers-storybook',
+      url: '../storybooks/popovers-storybook/',
+    },
+    'progress-indicator-storybook': {
+      title: 'progress-indicator-storybook',
+      url: '../storybooks/progress-indicator-storybook/',
+    },
+    'split-view-storybook': {
+      title: 'split-view-storybook',
+      url: '../storybooks/split-view-storybook/',
+    },
+    'tabs-storybook': {
+      title: 'tabs-storybook',
+      url: '../storybooks/tabs-storybook/',
+    },
+    'text-editor-storybook': {
+      title: 'text-editor-storybook',
+      url: '../storybooks/text-editor-storybook/',
+    },
+    'theme-storybook': {
+      title: 'theme-storybook',
+      url: '../storybooks/theme-storybook/',
+    },
+    'tiles-storybook': {
+      title: 'tiles-storybook',
+      url: '../storybooks/tiles-storybook/',
+    },
+    'toast-storybook': {
+      title: 'toast-storybook',
+      url: '../storybooks/toast-storybook/',
+    },
+  },
 };
-module.exports = config;
+export default config;

@@ -7,6 +7,10 @@ const routes: Routes = [
     loadComponent: () => import('./home/home.component'),
   },
   {
+    path: 'v2',
+    loadComponent: () => import('./v2/v2.component'),
+  },
+  {
     path: 'action-bars',
     loadChildren: () =>
       import('./features/action-bars.module').then((m) => m.ActionBarsModule),

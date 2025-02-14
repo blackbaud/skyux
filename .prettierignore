@@ -17,8 +17,7 @@ test.ts
 # The 'release-please' GitHub action is responsible for the changelog's content.
 CHANGELOG.md
 
-.angular
-
 /.nx/cache
-
 /.nx/workspace-data
+
+*.template
