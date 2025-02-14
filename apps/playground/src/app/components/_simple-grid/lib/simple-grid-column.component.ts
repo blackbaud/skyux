@@ -2,6 +2,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  TemplateRef,
   booleanAttribute,
   input,
   numberAttribute,
@@ -33,4 +34,5 @@ export class SkySimpleGridColumnComponent {
   public locked = input(false, { transform: booleanAttribute });
   public width = input(undefined, { transform: numberAttribute });
   public alignment = input<SkyGridColumnAlignment>('left');
+  public template = input<TemplateRef<unknown> | undefined>(undefined);
 }

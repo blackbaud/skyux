@@ -1,3 +1,4 @@
+import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
 import { SkyGridSelectedRowsModelChange } from './lib/simple-grid.component';
@@ -12,7 +13,7 @@ interface User {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkySimpleGridModule],
+  imports: [SkySimpleGridModule, JsonPipe],
   styles: ``,
   template: `@if (data(); as data) {
     <sky-grid
@@ -22,8 +23,13 @@ interface User {
     >
       <sky-grid-column field="firstName" />
       <sky-grid-column field="lastName" />
-      <sky-grid-column field="emailAddress" />
+      <sky-grid-column field="emailAddress" [template]="foobar" />
     </sky-grid>
+
+    <ng-template #foobar let-value="value" let-row="row">
+      This is a template. {{ value }}
+      {{ row | json }}
+    </ng-template>
   }`,
 })
 export default class SimpleGridExampleComponent {

@@ -96,9 +96,7 @@ export class SkySimpleGridComponent {
   readonly #resizeObserver = inject(SkyResizeObserverService);
 
   public data = input.required<unknown[]>();
-
   public enableMultiselect = input(false, { transform: booleanAttribute });
-
   public fit = input<SkySimpleGridFit>('width');
 
   // Infrequent:
@@ -139,6 +137,17 @@ export class SkySimpleGridComponent {
         types.push(alignmentType);
       }
 
+      const extras: ColDef = {};
+
+      if (columnRef.template()) {
+        types.push(SkyCellType.Template);
+        extras.cellRendererParams = {
+          template: columnRef.template(),
+        };
+
+        console.log('extras?', extras);
+      }
+
       defs.push({
         colId: columnRef.id(),
         field: columnRef.field(),
@@ -148,6 +157,7 @@ export class SkySimpleGridComponent {
         lockPosition: columnRef.locked(),
         maxWidth: columnRef.width(),
         type: types,
+        ...extras,
       });
     }
 
