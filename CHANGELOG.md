@@ -1,5 +1,18 @@
 # Changelog
 
+## [12.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.4...12.0.0-alpha.5) (2025-02-14)
+
+
+### Features
+
+* add code example viewer component (internal use only) ([#3155](https://github.com/blackbaud/skyux/issues/3155)) ([2b3a72e](https://github.com/blackbaud/skyux/commit/2b3a72ef9eb615c18a9a2f48ad9c303fee4f8500))
+
+
+### Bug Fixes
+
+* **components/layout:** exclude controls text content when returning heading text for the box harness ([#3156](https://github.com/blackbaud/skyux/issues/3156)) ([ec018cd](https://github.com/blackbaud/skyux/commit/ec018cd51da808c147d910f9ac359cb06e9f2b17))
+* **components/tabs:** vertical tabs keyboard operable in mobile view ([#3150](https://github.com/blackbaud/skyux/issues/3150)) ([#3151](https://github.com/blackbaud/skyux/issues/3151)) ([ec7abbb](https://github.com/blackbaud/skyux/commit/ec7abbb24e14f84582011bac136880cddfc16609))
+
 ## [12.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.3...12.0.0-alpha.4) (2025-02-13)
 
 
