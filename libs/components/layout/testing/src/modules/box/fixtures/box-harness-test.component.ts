@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, booleanAttribute, input } from '@angular/core';
 
 // #region Test component
 @Component({
@@ -18,5 +18,7 @@ export class BoxHarnessTestComponent {
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
   public otherBox = 'otherBox';
+
+  public showControls = input(false, { transform: booleanAttribute });
 }
 // #endregion Test component
