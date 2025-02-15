@@ -221,7 +221,9 @@ export class SkyGridComponent {
       .observe(inject(ElementRef))
       .pipe(takeUntilDestroyed(), debounceTime(200))
       .subscribe(() => {
-        this.#gridApi?.sizeColumnsToFit();
+        if (this.activated()) {
+          this.#gridApi?.sizeColumnsToFit();
+        }
       });
   }
 

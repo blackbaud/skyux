@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import {
   SkyGridModule,
   type SkyGridSelectedRowsModelChange,
-} from '@skyux/grids';
+} from '@skyux/grids-new';
 
 interface User {
   id: string;
