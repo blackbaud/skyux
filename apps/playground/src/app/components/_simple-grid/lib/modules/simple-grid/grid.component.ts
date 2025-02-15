@@ -15,6 +15,11 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyResizeObserverService } from '@skyux/core';
+import {
+  SkyDataManagerModule,
+  SkyDataManagerService,
+  SkyDataManagerState,
+} from '@skyux/data-manager';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -32,6 +37,8 @@ import {
 } from './grid-column.component';
 import { SkyGridSelectionChange } from './types';
 
+const VIEW_ID = 'grid';
+
 function toCellType(
   alignment: SkyGridColumnAlignment,
 ): SkyCellType | undefined {
@@ -45,32 +52,41 @@ function toCellType(
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, SkyAgGridModule],
+  imports: [AgGridModule, SkyAgGridModule, SkyDataManagerModule],
+  providers: [SkyDataManagerService],
   selector: 'sky-grid',
   styles: `
     :host {
       display: block;
     }
   `,
-  template: `@if (activated()) {
-      <sky-ag-grid-wrapper>
-        <ag-grid-angular
-          skyBackToTop
-          [gridOptions]="gridOptions()"
-          [rowData]="rowData()"
-          (gridReady)="onGridReady($event)"
-          (selectionChanged)="onSelectionChanged($event)"
-        />
-      </sky-ag-grid-wrapper>
+  template: `
+    @if (activated()) {
+      <sky-data-manager>
+        <sky-data-manager-toolbar />
+        <sky-data-view skyAgGridDataManagerAdapter viewId="grid">
+          <sky-ag-grid-wrapper>
+            <ag-grid-angular
+              skyBackToTop
+              [gridOptions]="gridOptions()"
+              [rowData]="rowData()"
+              (gridReady)="onGridReady($event)"
+              (selectionChanged)="onSelectionChanged($event)"
+            />
+          </sky-ag-grid-wrapper>
+        </sky-data-view>
+      </sky-data-manager>
     }
 
     <ng-container>
       <ng-content select="sky-grid-column" />
-    </ng-container> `,
+    </ng-container>
+  `,
 })
 export class SkyGridComponent {
   readonly #agGridSvc = inject(SkyAgGridService);
   readonly #resizeObserver = inject(SkyResizeObserverService);
+  readonly #dataManagerSvc = inject(SkyDataManagerService);
 
   public data = input.required<unknown[]>();
   public multiselect = input(false, { transform: booleanAttribute });
@@ -134,18 +150,71 @@ export class SkyGridComponent {
   });
 
   constructor() {
-    effect(() => {
-      const columnDefs = this.columnDefs();
-      const gridOptions: GridOptions = {
-        columnDefs,
-      };
+    this.#dataManagerSvc
+      .getDataStateUpdates(VIEW_ID)
+      .pipe(takeUntilDestroyed())
+      .subscribe((state) => {
+        console.log('data state:', state);
 
-      const options = this.#agGridSvc.getGridOptions({
-        gridOptions,
+        // TODO: update displayed items based on filters, search text, etc.
       });
 
-      this.gridOptions.set(options);
+    effect(() => {
+      const columnDefs = this.columnDefs();
+      const columnRefs = this.columnRefs();
+
+      const gridOptions = this.#agGridSvc.getGridOptions({
+        gridOptions: {
+          columnDefs,
+        },
+      });
+
+      this.gridOptions.set(gridOptions);
+
       this.#reactivateGrid();
+
+      this.#dataManagerSvc.initDataView({
+        id: VIEW_ID,
+        name: 'Grid',
+        searchEnabled: true,
+        multiselectToolbarEnabled: this.multiselect(),
+        columnPickerEnabled: true,
+        filterButtonEnabled: true,
+        columnOptions: [
+          {
+            id: 'selected',
+            label: '',
+            alwaysDisplayed: true,
+          },
+          {
+            id: 'context',
+            label: '',
+            alwaysDisplayed: true,
+          },
+          ...columnRefs.map((ref) => {
+            return {
+              id: ref.columnId() ?? ref.field(),
+              label: ref.headingText(),
+              description: ref.description(),
+            };
+          }),
+        ],
+      });
+
+      this.#dataManagerSvc.initDataManager({
+        activeViewId: VIEW_ID,
+        dataManagerConfig: {},
+        defaultDataState: new SkyDataManagerState({
+          views: [
+            {
+              viewId: VIEW_ID,
+              displayedColumnIds: [
+                ...columnRefs.map((ref) => ref.columnId() ?? ref.field()),
+              ],
+            },
+          ],
+        }),
+      });
     });
 
     this.#resizeObserver

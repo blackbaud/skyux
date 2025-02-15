@@ -18,6 +18,7 @@ export type SkyGridColumnAlignment = 'left' | 'center' | 'right';
   template: '',
 })
 export class SkyGridColumnComponent {
+  public description = input<string>();
   public field = input<string>();
   public headingText = input<string>();
   public hidden = input(false, { transform: booleanAttribute });

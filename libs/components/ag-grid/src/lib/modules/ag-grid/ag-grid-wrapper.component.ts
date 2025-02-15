@@ -161,7 +161,6 @@ export class SkyAgGridWrapperComponent
     ])
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(([hasEditableClass, isCompact, settings]) => {
-        console.log('update grid!');
         this.#updateGridTheme(
           hasEditableClass,
           isCompact,

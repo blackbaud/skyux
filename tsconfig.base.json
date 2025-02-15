@@ -74,6 +74,9 @@
         "libs/components/forms/testing/src/public-api.ts"
       ],
       "@skyux/grids": ["libs/components/grids/src/index.ts"],
+      "@skyux/grids-new": [
+        "apps/playground/src/app/components/_simple-grid/lib/modules/drop-in/index.ts"
+      ],
       "@skyux/help-inline": ["libs/components/help-inline/src/index.ts"],
       "@skyux/help-inline/testing": [
         "libs/components/help-inline/testing/src/public-api.ts"
