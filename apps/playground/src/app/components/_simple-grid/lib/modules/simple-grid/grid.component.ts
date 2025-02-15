@@ -28,32 +28,9 @@ import { debounceTime } from 'rxjs';
 
 import {
   SkyGridColumnAlignment,
-  SkySimpleGridColumnComponent,
-} from './simple-grid-column.component';
-
-export enum SkyGridSelectedRowsSource {
-  CheckboxChange,
-  ClearAll,
-  RowClick,
-  SelectAll,
-  SelectedRowIdsChange,
-}
-
-export interface SkyGridSelectedRowsModelChange {
-  /**
-   * The IDs of the rows that are selected.
-   */
-  selectedRowIds?: string[];
-
-  /**
-   * @internal
-   * Defines the source of the change. This will typically be used to determine
-   * if the change came from user interaction or a programmatic source.
-   */
-  source?: SkyGridSelectedRowsSource;
-}
-
-type SkySimpleGridFit = 'scroll' | 'width';
+  SkyGridColumnComponent,
+} from './grid-column.component';
+import { SkyGridSelectionChange } from './types';
 
 function toCellType(
   alignment: SkyGridColumnAlignment,
@@ -91,24 +68,15 @@ function toCellType(
       <ng-content select="sky-grid-column" />
     </ng-container> `,
 })
-export class SkySimpleGridComponent {
+export class SkyGridComponent {
   readonly #agGridSvc = inject(SkyAgGridService);
   readonly #resizeObserver = inject(SkyResizeObserverService);
 
-  //#region heavily used
   public data = input.required<unknown[]>();
-  public enableMultiselect = input(false, { transform: booleanAttribute });
-  public fit = input<SkySimpleGridFit>('width');
-  //#endregion
+  public multiselect = input(false, { transform: booleanAttribute });
+  public selectionChange = output<SkyGridSelectionChange>();
 
-  //#region rarely used
-  public selectedColumnIds = input();
-  public selectedRowIds = input();
-  public multiselectSelectionChange = output<SkyGridSelectedRowsModelChange>();
-  public sortFieldChange = output();
-  //#endregion
-
-  protected columnRefs = contentChildren(SkySimpleGridColumnComponent);
+  protected columnRefs = contentChildren(SkyGridColumnComponent);
   protected activated = signal(false);
 
   #gridApi: GridApi | undefined;
@@ -124,7 +92,7 @@ export class SkySimpleGridComponent {
     const columnRefs = this.columnRefs();
     const defs: ColDef[] = [];
 
-    if (this.enableMultiselect()) {
+    if (this.multiselect()) {
       defs.push({
         field: 'selected',
         type: SkyCellType.RowSelector,
@@ -134,7 +102,7 @@ export class SkySimpleGridComponent {
     for (const columnRef of columnRefs) {
       const types: string[] = [];
 
-      const alignmentType = toCellType(columnRef.alignment());
+      const alignmentType = toCellType(columnRef.textAlignment());
 
       if (alignmentType) {
         types.push(alignmentType);
@@ -142,21 +110,21 @@ export class SkySimpleGridComponent {
 
       const extras: ColDef = {};
 
-      if (columnRef.template()) {
+      if (columnRef.templateRef()) {
         types.push(SkyCellType.Template);
         extras.cellRendererParams = {
-          template: columnRef.template(),
+          template: columnRef.templateRef(),
         };
       }
 
       defs.push({
-        colId: columnRef.id(),
+        colId: columnRef.columnId(),
         field: columnRef.field(),
-        headerName: columnRef.heading(),
+        headerName: columnRef.headingText(),
         hide: columnRef.hidden(),
-        sortable: columnRef.isSortable(),
-        lockPosition: columnRef.locked(),
-        maxWidth: columnRef.width(),
+        sortable: columnRef.sortable(),
+        lockPosition: columnRef.lockPosition(),
+        maxWidth: columnRef.maxWidth(),
         type: types,
         ...extras,
       });
@@ -168,7 +136,6 @@ export class SkySimpleGridComponent {
   constructor() {
     effect(() => {
       const columnDefs = this.columnDefs();
-
       const gridOptions: GridOptions = {
         columnDefs,
       };
@@ -196,7 +163,6 @@ export class SkySimpleGridComponent {
    */
   #reactivateGrid(): void {
     this.activated.set(false);
-
     setTimeout(() => {
       this.activated.set(true);
     });
@@ -204,14 +170,13 @@ export class SkySimpleGridComponent {
 
   protected onGridReady({ api }: GridReadyEvent): void {
     this.#gridApi = api;
-
     api.sizeColumnsToFit();
     api.resetRowHeights();
   }
 
   protected onSelectionChanged({ api }: SelectionChangedEvent): void {
-    if (this.enableMultiselect()) {
-      this.multiselectSelectionChange.emit({
+    if (this.multiselect()) {
+      this.selectionChange.emit({
         selectedRowIds: api.getSelectedNodes().map((n) => n.data.id),
       });
     }

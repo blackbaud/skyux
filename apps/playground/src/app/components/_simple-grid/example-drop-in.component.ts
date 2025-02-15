@@ -1,10 +1,12 @@
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
-// import { SkyGridModule } from '@skyux/grids';
+import {
+  SkyGridModule,
+  SkyGridSelectedRowsModelChange,
+} from './lib/modules/drop-in';
 
-import { SkyGridSelectedRowsModelChange } from './lib/simple-grid.component';
-import { SkyGridModule } from './lib/simple-grid.module';
+// import { SkyGridModule, SkyGridSelectedRowsModelChange } from '@skyux/grids';
 
 interface User {
   id: string;
@@ -38,7 +40,7 @@ interface User {
     </ng-template>
   }`,
 })
-export default class SimpleGridExampleComponent {
+export default class GridDropInExampleComponent {
   protected data = signal<User[] | undefined>([
     {
       id: 'a1',

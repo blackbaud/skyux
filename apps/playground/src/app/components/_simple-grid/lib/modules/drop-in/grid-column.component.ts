@@ -14,17 +14,10 @@ export type SkyGridColumnAlignment = 'left' | 'center' | 'right';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   selector: 'sky-grid-column',
-  styles: `
-    :host {
-      display: block;
-    }
-  `,
-  template: ``,
+  styles: '',
+  template: '',
 })
-export class SkySimpleGridColumnComponent {
-  /**
-   * @deprecated This doesn't do anything?
-   */
+export class SkyGridColumnComponent {
   public description = input<string>();
   public field = input<string>();
   public heading = input<string>();
