@@ -56,15 +56,27 @@ export default class SimpleGridExampleComponent {
   protected data = signal<User[] | undefined>([
     {
       id: 'user1',
-      firstName: 'John',
-      lastName: 'Doe',
-      emailAddress: 'john.doe@foo.com',
+      firstName: 'Michael',
+      lastName: 'Scott',
+      emailAddress: 'mscott@dundermifflin.com',
     },
     {
       id: 'user2',
-      firstName: 'Mary',
-      lastName: 'Sue',
-      emailAddress: 'mary.sue@bar.net',
+      firstName: 'Dwight',
+      lastName: 'Schrute',
+      emailAddress: 'dschrute@dundermifflin.com',
+    },
+    {
+      id: 'user3',
+      firstName: 'Jan',
+      lastName: 'Levinson',
+      emailAddress: 'jlevinson@dundermifflin.com',
+    },
+    {
+      id: 'user4',
+      firstName: 'Mose',
+      lastName: 'Schrute',
+      emailAddress: 'moseknows@beetfarmers.net',
     },
   ]);
 }

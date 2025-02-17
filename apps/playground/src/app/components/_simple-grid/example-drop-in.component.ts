@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import {
   SkyGridModule,
   type SkyGridSelectedRowsModelChange,
-} from '@skyux/grids-new';
+} from '@skyux/grids';
 
 interface User {
   id: string;
@@ -27,14 +27,14 @@ interface User {
         <sky-grid-column
           field="emailAddress"
           heading="Email address"
-          [template]="foobar"
+          [template]="emailTemplateRef"
         />
       </sky-grid>
-
-      <ng-template #foobar let-value="value" let-row="row">
-        <a [href]="'mailto:' + value">{{ value }}</a>
-      </ng-template>
     }
+
+    <ng-template #emailTemplateRef let-value="value" let-row="row">
+      <a [href]="'mailto:' + value">{{ value }}</a>
+    </ng-template>
   `,
 })
 export default class GridDropInExampleComponent {
