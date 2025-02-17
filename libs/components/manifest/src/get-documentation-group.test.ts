@@ -29,18 +29,24 @@ describe('get-documentation-group', () => {
       codeExamples: {
         examples: {
           FooCodeExample: {
+            componentName: 'FooComponent',
             files: {
               'foo.component.ts': 'TS_CONTENTS',
               'foo.component.html': 'HTML_CONTENTS',
             },
+            importPath: '@skyux/foo',
             primaryFile: 'foo.component.ts',
+            selector: 'lib-foo',
           },
           IndicatorCodeExample: {
+            componentName: 'FooIndicatorComponent',
             files: {
               'indicator.component.ts': 'TS_CONTENTS',
               'indicator.component.html': 'HTML_CONTENTS',
             },
+            importPath: '@skyux/foo-indicator',
             primaryFile: 'indicator.component.ts',
+            selector: 'lib-indicator',
           },
         },
       },

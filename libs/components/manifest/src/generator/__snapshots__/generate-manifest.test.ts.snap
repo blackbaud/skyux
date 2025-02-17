@@ -15,8 +15,9 @@ exports[`generate-manifest should generate manifest 1`] = `
           \\"title\\": \\"This is a title\\"
         },
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/code-examples/src/lib/types.ts\\",
-        \\"kind\\": \\"class\\",
-        \\"name\\": \\"FooCodeExample1\\"
+        \\"kind\\": \\"component\\",
+        \\"name\\": \\"FooCodeExample1\\",
+        \\"selector\\": \\"foo-example-1\\"
       }
     ],
     \\"@skyux/foo\\": [
@@ -129,7 +130,7 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"refOrUndefined\\",
-            \\"type\\": \\"undefined | T\\"
+            \\"type\\": \\"T | undefined\\"
           }
         ],
         \\"docsId\\": \\"FooBasicTypeParamClass\\",
@@ -144,7 +145,7 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"ref\\",
-            \\"type\\": \\"undefined | T\\"
+            \\"type\\": \\"T | undefined\\"
           }
         ],
         \\"docsId\\": \\"FooBasicTypeParamDefaultValueClass\\",
@@ -183,17 +184,17 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"arrayOfFunctionTypesOrUndefined\\",
-            \\"type\\": \\"undefined | ((a: boolean, b?: string) => void)[]\\"
+            \\"type\\": \\"((a: boolean, b?: string) => void)[] | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"arrayOfIntrinsicTypes\\",
-            \\"type\\": \\"undefined | string[]\\"
+            \\"type\\": \\"string[] | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"arrayOfReflectionTypes\\",
-            \\"type\\": \\"undefined | { a: boolean; b: string; }[]\\"
+            \\"type\\": \\"{ a: boolean; b: string; }[] | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
@@ -203,12 +204,12 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"closureTypeOrUndefined\\",
-            \\"type\\": \\"undefined | (() => void)\\"
+            \\"type\\": \\"(() => void) | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"intrinsicType\\",
-            \\"type\\": \\"undefined | string\\"
+            \\"type\\": \\"string | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
@@ -218,22 +219,22 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"literalType\\",
-            \\"type\\": \\"undefined | 0 | 1\\"
+            \\"type\\": \\"0 | 1 | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"mapType\\",
-            \\"type\\": \\"undefined | Map<string, number>\\"
+            \\"type\\": \\"Map<string, number> | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"referenceType\\",
-            \\"type\\": \\"undefined | TClass\\"
+            \\"type\\": \\"TClass | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"reflectionIndexSignatureType\\",
-            \\"type\\": \\"undefined | { [key: string]: boolean; }\\"
+            \\"type\\": \\"{ [key: string]: boolean; } | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
@@ -243,12 +244,12 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"reflectionTypeOrUndefined\\",
-            \\"type\\": \\"undefined | { a: boolean; b?: string; }\\"
+            \\"type\\": \\"{ a: boolean; b?: string; } | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"unionType\\",
-            \\"type\\": \\"undefined | null | true | \\\\\\"a\\\\\\" | \\\\\\"b\\\\\\"\\"
+            \\"type\\": \\"null | true | \\\\\\"a\\\\\\" | \\\\\\"b\\\\\\" | undefined\\"
           },
           {
             \\"description\\": \\"Describes a method which returns a MappedType (e.g. \`{ [K in keyof T]: string }\`).\\",
@@ -358,7 +359,7 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"defaultValue\\": \\"'baz'\\",
             \\"kind\\": \\"directive-input\\",
             \\"name\\": \\"bar\\",
-            \\"type\\": \\"undefined | string\\",
+            \\"type\\": \\"string | undefined\\",
             \\"isRequired\\": true
           },
           {
@@ -605,7 +606,7 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"parameters\\": [
               {
                 \\"name\\": \\"value\\",
-                \\"type\\": \\"undefined | string\\"
+                \\"type\\": \\"string | undefined\\"
               },
               {
                 \\"defaultValue\\": \\"false\\",
@@ -725,10 +726,13 @@ exports[`generate-manifest should generate manifest 1`] = `
       "{
   \\"examples\\": {
     \\"FooCodeExample1\\": {
+      \\"componentName\\": \\"FooCodeExample1\\",
       \\"files\\": {
-        \\"types.ts\\": \\"/**\\\\n * @title This is a title\\\\n */\\\\nexport class FooCodeExample1 {}\\\\n\\"
+        \\"types.ts\\": \\"import { Component } from '@angular/core';\\\\n\\\\n/**\\\\n * @title This is a title\\\\n */\\\\n@Component({\\\\n  selector: 'foo-example-1',\\\\n})\\\\nexport class FooCodeExample1 {}\\\\n\\"
       },
+      \\"importPath\\": \\"@skyux/code-examples\\",
       \\"primaryFile\\": \\"types.ts\\",
+      \\"selector\\": \\"foo-example-1\\",
       \\"title\\": \\"This is a title\\"
     }
   }

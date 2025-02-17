@@ -80,5 +80,14 @@ export function formatType(
     getNearestProjectReflection(reflection),
   );
 
+  // TypeDoc puts "undefined" as the first member of a union, but
+  // we want it at the end.
+  if (formatted.startsWith('undefined |')) {
+    const parts = formatted.split(' | ');
+    parts.shift();
+    parts.push('undefined');
+    formatted = parts.join(' | ');
+  }
+
   return formatted;
 }

@@ -4,11 +4,14 @@ exports[`get-documentation-group should return information about a documentation
 Object {
   "codeExamples": Array [
     Object {
+      "componentName": "FooComponent",
       "files": Object {
         "foo.component.html": "HTML_CONTENTS",
         "foo.component.ts": "TS_CONTENTS",
       },
+      "importPath": "@skyux/foo",
       "primaryFile": "foo.component.ts",
+      "selector": "lib-foo",
     },
   ],
   "publicApi": Array [
