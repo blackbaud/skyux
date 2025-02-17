@@ -19,6 +19,7 @@ export async function getCodeExamples(
   const definitions = publicApi.packages[
     '@skyux/code-examples'
   ] as SkyManifestDirectiveDefinition[];
+
   const errors: string[] = [];
 
   const codeExamples: SkyManifestCodeExamples = {
