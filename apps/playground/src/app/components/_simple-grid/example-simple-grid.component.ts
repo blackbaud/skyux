@@ -15,26 +15,10 @@ interface User {
 }
 
 @Component({
-  selector: 'app-foo:not([heading])',
-  template: `foo`,
-})
-export class FooComponent {}
-
-@Component({
-  selector: 'app-foo[heading]',
-  template: `foo with heading`,
-})
-export class Foo1Component {
-  public heading = input.required<string>();
-}
-
-@Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FooComponent, Foo1Component, SkyGridModule],
+  imports: [SkyGridModule],
   styles: ``,
   template: `
-    <app-foo />
-    <app-foo heading="foo" />
     @if (data(); as data) {
       <sky-grid [data]="data">
         <sky-grid-column field="firstName" headingText="First name" />
