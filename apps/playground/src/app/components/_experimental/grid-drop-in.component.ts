@@ -14,30 +14,9 @@ interface User {
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyGridModule],
-  styles: ``,
-  template: `
-    @if (data(); as data) {
-      <sky-grid
-        [data]="data"
-        [enableMultiselect]="true"
-        (multiselectSelectionChange)="onMultiselectSelectionChange($event)"
-      >
-        <sky-grid-column field="firstName" heading="First name" />
-        <sky-grid-column field="lastName" heading="Last name" />
-        <sky-grid-column
-          field="emailAddress"
-          heading="Email address"
-          [template]="emailTemplateRef"
-        />
-      </sky-grid>
-    }
-
-    <ng-template #emailTemplateRef let-value="value" let-row="row">
-      <a [href]="'mailto:' + value">{{ value }}</a>
-    </ng-template>
-  `,
+  templateUrl: './grid-drop-in.component.html',
 })
-export default class GridDropInExampleComponent {
+export default class GridDropInComponent {
   protected data = signal<User[] | undefined>([
     {
       id: 'user1',

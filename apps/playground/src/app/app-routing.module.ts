@@ -12,14 +12,9 @@ const routes: Routes = [
       import('./components/components.module').then((m) => m.ComponentsModule),
   },
   {
-    path: 'simple-grid/drop-in',
+    path: 'grid/drop-in',
     loadComponent: () =>
-      import('./components/_simple-grid/example-drop-in.component'),
-  },
-  {
-    path: 'simple-grid/new',
-    loadComponent: () =>
-      import('./components/_simple-grid/example-simple-grid.component'),
+      import('./components/_experimental/grid-drop-in.component'),
   },
 ];
 
