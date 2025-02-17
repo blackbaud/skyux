@@ -7,10 +7,10 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { SkyGridSelectedRowsModelChange } from '@skyux/grids';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 
+import { SkyGridSelectedRowsModelChange } from '../../grid/types/grid-selected-rows-model-change';
 import { SkyListViewGridComponent } from '../list-view-grid.component';
 import { SkyListViewGridMessage } from '../types/list-view-grid-message';
 import { SkyListViewGridMessageType } from '../types/list-view-grid-message-type';

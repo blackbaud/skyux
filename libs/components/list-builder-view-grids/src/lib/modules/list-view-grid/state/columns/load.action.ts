@@ -1,4 +1,4 @@
-import { SkyGridColumnModel } from '@skyux/grids';
+import { SkyGridColumnModel } from '../../../grid/grid-column.model';
 
 /**
  * @internal

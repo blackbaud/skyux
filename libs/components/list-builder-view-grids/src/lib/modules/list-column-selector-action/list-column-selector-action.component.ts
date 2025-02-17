@@ -8,7 +8,6 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { SkyGridColumnModel } from '@skyux/grids';
 import {
   ListState,
   ListStateDispatcher,
@@ -29,6 +28,7 @@ import {
   SkyColumnSelectorModel,
 } from '../column-selector/column-selector-context';
 import { SkyColumnSelectorComponent } from '../column-selector/column-selector-modal.component';
+import { SkyGridColumnModel } from '../grid/grid-column.model';
 import { SkyListViewGridComponent } from '../list-view-grid/list-view-grid.component';
 import { ListViewDisplayedGridColumnsLoadAction } from '../list-view-grid/state/displayed-columns/load.action';
 import { GridStateModel } from '../list-view-grid/state/grid-state.model';

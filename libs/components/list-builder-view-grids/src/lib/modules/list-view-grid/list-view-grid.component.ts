@@ -13,17 +13,6 @@ import {
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import {
-  SkyGridColumnComponent,
-  SkyGridColumnDescriptionModelChange,
-  SkyGridColumnHeadingModelChange,
-  SkyGridColumnModel,
-  SkyGridComponent,
-  SkyGridMessage,
-  SkyGridMessageType,
-  SkyGridSelectedRowsModelChange,
-  SkyGridSelectedRowsSource,
-} from '@skyux/grids';
-import {
   ListSearchModel,
   ListSelectedModel,
   ListState,
@@ -47,6 +36,16 @@ import {
   take,
   takeUntil,
 } from 'rxjs/operators';
+
+import { SkyGridColumnLegacyComponent as SkyGridColumnComponent } from '../grid/grid-column.component';
+import { SkyGridColumnModel } from '../grid/grid-column.model';
+import { SkyGridLegacyComponent as SkyGridComponent } from '../grid/grid.component';
+import { SkyGridColumnDescriptionModelChange } from '../grid/types/grid-column-description-model-change';
+import { SkyGridColumnHeadingModelChange } from '../grid/types/grid-column-heading-model-change';
+import { SkyGridMessage } from '../grid/types/grid-message';
+import { SkyGridMessageType } from '../grid/types/grid-message-type';
+import { SkyGridSelectedRowsModelChange } from '../grid/types/grid-selected-rows-model-change';
+import { SkyGridSelectedRowsSource } from '../grid/types/grid-selected-rows-source';
 
 import { ListViewGridColumnsLoadAction } from './state/columns/load.action';
 import { ListViewDisplayedGridColumnsLoadAction } from './state/displayed-columns/load.action';

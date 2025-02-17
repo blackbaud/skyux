@@ -1,0 +1,35 @@
+@if (data(); as data) {
+  <h2>Grid</h2>
+
+  <sky-grid
+    [data]="data"
+    [enableMultiselect]="true"
+    (multiselectSelectionChange)="onMultiselectSelectionChange($event)"
+  >
+    <sky-grid-column field="firstName" headingText="First name" />
+    <sky-grid-column field="lastName" headingText="Last name" />
+    <sky-grid-column
+      field="emailAddress"
+      headingText="Email address"
+      [template]="emailTemplateRef"
+    />
+  </sky-grid>
+
+  <h2>List view grid</h2>
+
+  <sky-list [data]="data$">
+    <sky-list-view-grid fit="scroll">
+      <sky-grid-column field="firstName" heading="First name" />
+      <sky-grid-column field="lastName" heading="Last name" />
+      <sky-grid-column
+        field="emailAddress"
+        heading="Email address"
+        [template]="emailTemplateRef"
+      />
+    </sky-list-view-grid>
+  </sky-list>
+}
+
+<ng-template #emailTemplateRef let-value="value" let-row="row">
+  <a [href]="'mailto:' + value">{{ value }}</a>
+</ng-template>

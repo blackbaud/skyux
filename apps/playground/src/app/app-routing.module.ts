@@ -21,6 +21,11 @@ const routes: Routes = [
     loadComponent: () =>
       import('./components/_simple-grid/example-simple-grid.component'),
   },
+  {
+    path: 'simple-grid/list-builder',
+    loadComponent: () =>
+      import('./components/_simple-grid/example-list-builder.component'),
+  },
 ];
 
 @NgModule({
