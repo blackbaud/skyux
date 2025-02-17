@@ -20,6 +20,16 @@ import { SkyDropdownHarness } from './dropdown-harness';
       <sky-dropdown-menu [ariaRole]="menuRole"></sky-dropdown-menu>
     </sky-dropdown>
 
+    <sky-dropdown
+      data-sky-id="custom-trigger"
+      [disabled]="disabledFlag"
+      [label]="ariaLabel"
+      [title]="tooltipTitle"
+    >
+      <button type="button" skyDropdownTrigger></button>
+      <sky-dropdown-menu [ariaRole]="menuRole"></sky-dropdown-menu>
+    </sky-dropdown>
+
     <sky-dropdown data-sky-id="other-dropdown" [buttonStyle]="'primary'">
       <sky-dropdown-menu [ariaRole]="'otherDropdownMenu'"></sky-dropdown-menu>
     </sky-dropdown>
@@ -38,11 +48,7 @@ class TestDropdownComponent {
 // #endregion Test component
 
 describe('Dropdown test harness', () => {
-  async function setupTest(
-    options: {
-      dataSkyId?: string;
-    } = {},
-  ): Promise<{
+  async function setupTest(dataSkyId?: string): Promise<{
     dropdownHarness: SkyDropdownHarness;
     fixture: ComponentFixture<TestDropdownComponent>;
     loader: HarnessLoader;
@@ -57,10 +63,10 @@ describe('Dropdown test harness', () => {
 
     let dropdownHarness: SkyDropdownHarness;
 
-    if (options.dataSkyId) {
+    if (dataSkyId) {
       dropdownHarness = await loader.getHarness(
         SkyDropdownHarness.with({
-          dataSkyId: options.dataSkyId,
+          dataSkyId: dataSkyId,
         }),
       );
     } else {
@@ -70,166 +76,178 @@ describe('Dropdown test harness', () => {
     return { dropdownHarness, fixture, loader };
   }
 
-  it('should get the dropdown from its data-sky-id', async () => {
-    const { dropdownHarness, fixture } = await setupTest({
-      dataSkyId: 'other-dropdown',
+  function runTriggerTests(dataSkyId?: string): void {
+    it('should get the default value for disabled button', async () => {
+      const { dropdownHarness, fixture } = await setupTest(dataSkyId);
+
+      fixture.detectChanges();
+
+      await expectAsync(dropdownHarness.isDisabled()).toBeResolvedTo(false);
     });
 
-    fixture.detectChanges();
+    it('should get the correct value for disabled button', async () => {
+      const { dropdownHarness, fixture } = await setupTest(dataSkyId);
 
-    await expectAsync(dropdownHarness.getButtonStyle()).toBeResolvedTo(
-      'primary',
-    );
-  });
-
-  it('should get the default button style', async () => {
-    const { dropdownHarness, fixture } = await setupTest();
-
-    fixture.detectChanges();
-
-    await expectAsync(dropdownHarness.getButtonStyle()).toBeResolvedTo(
-      'default',
-    );
-  });
-
-  it('should get the button style', async () => {
-    const { dropdownHarness, fixture } = await setupTest();
-    const styles = ['default', 'primary', 'link'];
-
-    for (const style of styles) {
-      fixture.componentInstance.buttonStyle = style;
+      fixture.componentInstance.disabledFlag = true;
       fixture.detectChanges();
 
-      await expectAsync(dropdownHarness.getButtonStyle()).toBeResolvedTo(style);
-    }
-  });
+      await expectAsync(dropdownHarness.isDisabled()).toBeResolvedTo(true);
 
-  it('should get default button type', async () => {
-    const { dropdownHarness, fixture } = await setupTest();
-
-    fixture.detectChanges();
-
-    await expectAsync(dropdownHarness.getButtonType()).toBeResolvedTo('select');
-  });
-
-  it('should get the button type', async () => {
-    const { dropdownHarness, fixture } = await setupTest();
-
-    const types = ['select', 'tab', 'context-menu'];
-
-    for (const type of types) {
-      fixture.componentInstance.buttonType = type;
+      fixture.componentInstance.disabledFlag = false;
       fixture.detectChanges();
 
-      await expectAsync(dropdownHarness.getButtonType()).toBeResolvedTo(type);
-    }
+      await expectAsync(dropdownHarness.isDisabled()).toBeResolvedTo(false);
+    });
+
+    it('should get the aria-label', async () => {
+      const { dropdownHarness, fixture } = await setupTest(dataSkyId);
+
+      fixture.componentInstance.ariaLabel = 'aria-label';
+      fixture.detectChanges();
+
+      await expectAsync(dropdownHarness.getAriaLabel()).toBeResolvedTo(
+        'aria-label',
+      );
+    });
+
+    it('should have no tooltip if undefined', async () => {
+      const { dropdownHarness, fixture } = await setupTest(dataSkyId);
+
+      fixture.detectChanges();
+
+      await expectAsync(dropdownHarness.getTitle()).toBeResolvedTo(null);
+    });
+
+    it('should get the tooltip title', async () => {
+      const { dropdownHarness, fixture } = await setupTest();
+
+      fixture.componentInstance.tooltipTitle = 'dropdown demo';
+      fixture.detectChanges();
+
+      await expectAsync(dropdownHarness.getTitle()).toBeResolvedTo(
+        'dropdown demo',
+      );
+    });
+
+    it('should get the correct value if dropdown menu is open or not', async () => {
+      const { dropdownHarness, fixture } = await setupTest(dataSkyId);
+
+      fixture.detectChanges();
+
+      await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
+
+      await dropdownHarness.clickDropdownButton();
+      fixture.detectChanges();
+
+      await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
+
+      await dropdownHarness.clickDropdownButton();
+      fixture.detectChanges();
+
+      await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
+    });
+
+    it('should close the dropdown menu if clicking out', async () => {
+      const { dropdownHarness, fixture } = await setupTest(dataSkyId);
+
+      fixture.detectChanges();
+      await dropdownHarness.clickDropdownButton();
+      fixture.detectChanges();
+      await (await dropdownHarness.getDropdownMenu()).clickOut();
+
+      await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
+    });
+
+    it('should get the dropdown menu harness', async () => {
+      const { dropdownHarness, fixture } = await setupTest(dataSkyId);
+
+      fixture.componentInstance.menuRole = 'dropdown-menu';
+      fixture.detectChanges();
+      await dropdownHarness.clickDropdownButton();
+      fixture.detectChanges();
+
+      const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
+
+      await expectAsync(dropdownMenuHarness.getAriaRole()).toBeResolvedTo(
+        'dropdown-menu',
+      );
+    });
+  }
+
+  describe('with default trigger button', () => {
+    it('should get the dropdown from its data-sky-id', async () => {
+      const { dropdownHarness, fixture } = await setupTest('other-dropdown');
+
+      fixture.detectChanges();
+
+      await expectAsync(dropdownHarness.getButtonStyle()).toBeResolvedTo(
+        'primary',
+      );
+    });
+
+    it('should get the default button style', async () => {
+      const { dropdownHarness, fixture } = await setupTest();
+
+      fixture.detectChanges();
+
+      await expectAsync(dropdownHarness.getButtonStyle()).toBeResolvedTo(
+        'default',
+      );
+    });
+
+    it('should get the button style', async () => {
+      const { dropdownHarness, fixture } = await setupTest();
+      const styles = ['default', 'primary', 'link'];
+
+      for (const style of styles) {
+        fixture.componentInstance.buttonStyle = style;
+        fixture.detectChanges();
+
+        await expectAsync(dropdownHarness.getButtonStyle()).toBeResolvedTo(
+          style,
+        );
+      }
+    });
+
+    it('should get default button type', async () => {
+      const { dropdownHarness, fixture } = await setupTest();
+
+      fixture.detectChanges();
+
+      await expectAsync(dropdownHarness.getButtonType()).toBeResolvedTo(
+        'select',
+      );
+    });
+
+    it('should get the button type', async () => {
+      const { dropdownHarness, fixture } = await setupTest();
+
+      const types = ['select', 'tab', 'context-menu'];
+
+      for (const type of types) {
+        fixture.componentInstance.buttonType = type;
+        fixture.detectChanges();
+
+        await expectAsync(dropdownHarness.getButtonType()).toBeResolvedTo(type);
+      }
+    });
+
+    it('should have default aria-label for context menus', async () => {
+      const { dropdownHarness, fixture } = await setupTest();
+      fixture.componentInstance.buttonType = 'context-menu';
+
+      fixture.detectChanges();
+
+      await expectAsync(dropdownHarness.getAriaLabel()).toBeResolvedTo(
+        'Context menu',
+      );
+    });
+
+    runTriggerTests();
   });
 
-  it('should get the default value for disabled button', async () => {
-    const { dropdownHarness, fixture } = await setupTest();
-
-    fixture.detectChanges();
-
-    await expectAsync(dropdownHarness.isDisabled()).toBeResolvedTo(false);
-  });
-
-  it('should get the correct value for disabled button', async () => {
-    const { dropdownHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.disabledFlag = true;
-    fixture.detectChanges();
-
-    await expectAsync(dropdownHarness.isDisabled()).toBeResolvedTo(true);
-
-    fixture.componentInstance.disabledFlag = false;
-    fixture.detectChanges();
-
-    await expectAsync(dropdownHarness.isDisabled()).toBeResolvedTo(false);
-  });
-
-  it('should have default aria-label for context menus', async () => {
-    const { dropdownHarness, fixture } = await setupTest();
-    fixture.componentInstance.buttonType = 'context-menu';
-
-    fixture.detectChanges();
-
-    await expectAsync(dropdownHarness.getAriaLabel()).toBeResolvedTo(
-      'Context menu',
-    );
-  });
-
-  it('should get the aria-label', async () => {
-    const { dropdownHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.ariaLabel = 'aria-label';
-    fixture.detectChanges();
-
-    await expectAsync(dropdownHarness.getAriaLabel()).toBeResolvedTo(
-      'aria-label',
-    );
-  });
-
-  it('should have no tooltip if undefined', async () => {
-    const { dropdownHarness, fixture } = await setupTest();
-
-    fixture.detectChanges();
-
-    await expectAsync(dropdownHarness.getTitle()).toBeResolvedTo(null);
-  });
-
-  it('should get the tooltip title', async () => {
-    const { dropdownHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.tooltipTitle = 'dropdown demo';
-    fixture.detectChanges();
-
-    await expectAsync(dropdownHarness.getTitle()).toBeResolvedTo(
-      'dropdown demo',
-    );
-  });
-
-  it('should get the correct value if dropdown menu is open or not', async () => {
-    const { dropdownHarness, fixture } = await setupTest();
-
-    fixture.detectChanges();
-
-    await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
-
-    await dropdownHarness.clickDropdownButton();
-    fixture.detectChanges();
-
-    await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
-
-    await dropdownHarness.clickDropdownButton();
-    fixture.detectChanges();
-
-    await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
-  });
-
-  it('should close the dropdown menu if clicking out', async () => {
-    const { dropdownHarness, fixture } = await setupTest();
-
-    fixture.detectChanges();
-    await dropdownHarness.clickDropdownButton();
-    fixture.detectChanges();
-    await (await dropdownHarness.getDropdownMenu()).clickOut();
-
-    await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
-  });
-
-  it('should get the dropdown menu harness', async () => {
-    const { dropdownHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.menuRole = 'dropdown-menu';
-    fixture.detectChanges();
-    await dropdownHarness.clickDropdownButton();
-    fixture.detectChanges();
-
-    const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
-
-    await expectAsync(dropdownMenuHarness.getAriaRole()).toBeResolvedTo(
-      'dropdown-menu',
-    );
+  describe('with custom trigger button', () => {
+    runTriggerTests('custom-trigger');
   });
 
   describe('Dropdown menu test harness', () => {

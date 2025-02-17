@@ -39,6 +39,8 @@ export class HrefResolverFixtureService implements SkyHrefResolver {
       });
     } else if (url.startsWith('error://')) {
       throw new Error(`Error while resolving ${url}`);
+    } else if (url.startsWith('reject://')) {
+      return Promise.reject(`Unable to resolve ${url}`);
     } else {
       return Promise.resolve<SkyHref>({
         url,

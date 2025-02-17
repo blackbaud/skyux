@@ -10,14 +10,6 @@ import { SkyCodeExampleViewerComponent } from './code-example-viewer.component';
 import { SkyCodeExampleViewerModule } from './code-example-viewer.module';
 import { SkyStackBlitzService } from './stackblitz.service';
 
-const EXAMPLE_TEMPLATE = `<div class="foo-example">Hello, from Foo.</div>`;
-
-@Component({
-  selector: 'foo-example',
-  template: EXAMPLE_TEMPLATE,
-})
-class FooExampleComponent {}
-
 interface SetupConfig {
   componentName: string;
   componentSelector: string;
@@ -25,6 +17,14 @@ interface SetupConfig {
   primaryFile: string;
   headingText: string;
 }
+
+const EXAMPLE_TEMPLATE = `<div class="foo-example">Hello, from Foo.</div>`;
+
+@Component({
+  selector: 'foo-example',
+  template: EXAMPLE_TEMPLATE,
+})
+class FooExampleComponent {}
 
 describe('code-example-viewer.component', () => {
   let defaults: SetupConfig;
@@ -127,7 +127,7 @@ class FooExampleComponent {}`,
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
-  it('should toggle code visibility', () => {
+  it('should toggle code visibility', async () => {
     const { fixture } = setupTest(defaults);
 
     fixture.detectChanges();
@@ -137,6 +137,8 @@ class FooExampleComponent {}`,
     toggleCodeVisibility(fixture);
 
     expectCodeVisible(fixture, true);
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
 
     toggleCodeVisibility(fixture);
 

@@ -40,6 +40,7 @@ async function skyuxDevCommand(
     const npmConfig = [
       [`@skyux:registry`, `http:${localRepo}`],
       [`@skyux-sdk:registry`, `http:${localRepo}`],
+      [`registry`, `http:${localRepo}`],
       // Having an auth token is required for publishing to a local registry, even if it's not used.
       [`${localRepo}:_authToken`, `YXV0aFRva2Vu`],
     ];

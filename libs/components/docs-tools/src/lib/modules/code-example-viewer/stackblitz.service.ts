@@ -5,10 +5,10 @@ import stackblitz from '@stackblitz/sdk';
 
 import { firstValueFrom } from 'rxjs';
 
-import { SkyStackBlitzLaunchConfig } from './stackblitz-launch-config';
+import type { SkyStackBlitzLaunchConfig } from './stackblitz-launch-config';
 
 /**
- * Files to be read from the host SPA's assets folder.
+ * Files to be read from the host SPA's "src/assets/stack-blitz" directory.
  */
 const TEMPLATE_FILES = ['package.json', 'package-lock.json'];
 
@@ -35,7 +35,7 @@ export class SkyStackBlitzService {
       }
 
       if (contents === undefined) {
-        throw new Error(`Failed to retrieve StackBlitz template file: ${file}`);
+        throw new Error(`Failed to read StackBlitz template file: ${file}`);
       }
 
       files[file.replace(/\.template$/, '')] = contents;

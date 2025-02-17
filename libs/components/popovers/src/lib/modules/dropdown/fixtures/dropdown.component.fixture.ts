@@ -49,6 +49,8 @@ export class DropdownFixtureComponent {
 
   public useNativeFocus: boolean | undefined;
 
+  public useCustomTrigger = false;
+
   //#endregion directive properties
 
   @ViewChild('dropdownRef', {
