@@ -15,7 +15,7 @@ import { remapLambdaName } from './remap-lambda-names';
 
 export function isInput(
   reflection: DeclarationReflectionWithDecorators,
-): boolean {
+): reflection is DeclarationReflectionWithDecorators {
   return (
     getDecorator(reflection) === 'Input' ||
     (reflection.type instanceof ReferenceType &&
@@ -39,10 +39,16 @@ function getInput(
   const property = getProperty(reflection);
   const { isRequired } = getComment(reflection);
 
+  // Use the input's alias, if provided.
+  const inputName =
+    reflection.decorators?.[0]?.arguments?.['bindingPropertyName'] ??
+    property.name;
+
   const input: SkyManifestDirectiveInputDefinition = {
     ...property,
     kind: 'directive-input',
     isRequired,
+    name: inputName,
   };
 
   return input;

@@ -372,6 +372,12 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"type\\": \\"InputSignal<boolean>\\"
           },
           {
+            \\"description\\": \\"This describes an input with an alias.\\",
+            \\"kind\\": \\"directive-input\\",
+            \\"name\\": \\"myAlias\\",
+            \\"type\\": \\"undefined | TemplateRef<unknown>\\"
+          },
+          {
             \\"description\\": \\"This describes an input with a setter.\\",
             \\"defaultValue\\": \\"true\\",
             \\"kind\\": \\"directive-input\\",
