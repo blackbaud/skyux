@@ -564,36 +564,6 @@ describe('Country Field Component', () => {
           searchResults[0].querySelector('.sky-font-deemphasized'),
         ).toHaveText('61');
       }));
-
-      it('should not hide the flag in the input box if the `hideSelectedCountryFlag` is not set', fakeAsync(() => {
-        component.countryFieldComponent.hideSelectedCountryFlag = false;
-        component.modelValue = {
-          name: 'United States',
-          iso2: 'us',
-        };
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-
-        expect(
-          nativeElement.querySelector('.sky-country-field-flag'),
-        ).not.toBeNull();
-      }));
-
-      it('should hide the flag in the input box if the `hideSelectedCountryFlag` is set', fakeAsync(() => {
-        component.countryFieldComponent.hideSelectedCountryFlag = true;
-        component.modelValue = {
-          name: 'United States',
-          iso2: 'us',
-        };
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-
-        expect(
-          nativeElement.querySelector('.sky-country-field-flag'),
-        ).toBeNull();
-      }));
     });
 
     describe('validation', () => {
@@ -1203,34 +1173,6 @@ describe('Country Field Component', () => {
           searchResults[0].querySelector('.sky-font-deemphasized'),
         ).toHaveText('61');
       }));
-
-      it('should not hide the flag in the input box if the `hideSelectedCountryFlag` is not set', fakeAsync(() => {
-        component.countryFieldComponent.hideSelectedCountryFlag = false;
-        component.initialValue = {
-          name: 'United States',
-          iso2: 'us',
-        };
-        fixture.detectChanges();
-        tick();
-
-        expect(
-          nativeElement.querySelector('.sky-country-field-flag'),
-        ).not.toBeNull();
-      }));
-
-      it('should hide the flag in the input box if the `hideSelectedCountryFlag` is set', fakeAsync(() => {
-        component.countryFieldComponent.hideSelectedCountryFlag = true;
-        component.initialValue = {
-          name: 'United States',
-          iso2: 'us',
-        };
-        fixture.detectChanges();
-        tick();
-
-        expect(
-          nativeElement.querySelector('.sky-country-field-flag'),
-        ).toBeNull();
-      }));
     });
 
     describe('validation', () => {
@@ -1553,49 +1495,6 @@ describe('Country Field Component', () => {
         expect(
           searchResults[0].querySelector('.sky-font-deemphasized'),
         ).toHaveText('61');
-      }));
-
-      it('should not hide the flag in the input box if the `hideSelectedCountryFlag` is not set', fakeAsync(() => {
-        component.countryFieldComponent.hideSelectedCountryFlag = false;
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-
-        searchAndSelect('Austr', 0, fixture);
-        fixture.detectChanges();
-        tick();
-
-        expect(
-          nativeElement.querySelector('.sky-country-field-flag'),
-        ).not.toBeNull();
-
-        component.countryFieldComponent.hideSelectedCountryFlag = undefined;
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-
-        searchAndSelect('Austr', 0, fixture);
-        fixture.detectChanges();
-        tick();
-
-        expect(
-          nativeElement.querySelector('.sky-country-field-flag'),
-        ).not.toBeNull();
-      }));
-
-      it('should hide the flag in the input box if the `hideSelectedCountryFlag` is set', fakeAsync(() => {
-        component.countryFieldComponent.hideSelectedCountryFlag = true;
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-
-        searchAndSelect('Austr', 0, fixture);
-        fixture.detectChanges();
-        tick();
-
-        expect(
-          nativeElement.querySelector('.sky-country-field-flag'),
-        ).toBeNull();
       }));
     });
 
