@@ -10,7 +10,7 @@ import { By } from '@angular/platform-browser';
 import { SkyLiveAnnouncerFixtureComponent } from './fixtures/live-announcer.component.fixture';
 import { SkyLiveAnnouncerService } from './live-announcer.service';
 
-fdescribe('SkyLiveAnnouncer', () => {
+describe('SkyLiveAnnouncer', () => {
   let announcer: SkyLiveAnnouncerService;
   let fixture: ComponentFixture<SkyLiveAnnouncerFixtureComponent>;
 
