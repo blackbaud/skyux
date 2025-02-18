@@ -682,6 +682,10 @@ export class SkyLookupComponent
     }
   }
 
+  protected onFocus($event: FocusEvent): void {
+    ($event.target as HTMLTextAreaElement).select();
+  }
+
   #createSelectionModalInstance(
     initialSearch: string,
   ): SkySelectionModalInstance {
