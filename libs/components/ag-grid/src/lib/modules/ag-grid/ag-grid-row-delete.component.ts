@@ -27,7 +27,6 @@ import { SkyInlineDeleteModule } from '@skyux/layout';
         #inlineDeleteRef
         class="sky-ag-grid-row-delete"
         [id]="'row-delete-ref-' + row.id"
-        [attr.data-row-id]="row.id"
         [ngStyle]="{
           height: row.rowHeight + 'px',
           position: 'fixed',
