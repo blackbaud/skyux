@@ -83,13 +83,14 @@ import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
               ></code>
             </td>
             <td>
+              @if (property.description) {
+                <p [innerHTML]="property.description | skyMarkdown"></p>
+              }
               @if (property.deprecationReason) {
                 <sky-deprecation-reason
+                  class="sky-margin-stacked-sm"
                   [message]="property.deprecationReason"
                 />
-              }
-              @if (property.description) {
-                <div [innerHTML]="property.description | skyMarkdown"></div>
               }
             </td>
           </tr>

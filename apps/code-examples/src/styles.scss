@@ -9,9 +9,22 @@ code {
 }
 
 code.sky-codespan {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: var(--sky-border-radius-s);
   background-color: color-mix(
     in srgb,
     var(--sky-color-background-container-info) 25%,
     transparent
   );
+  font-size: var(--sky-font-size-body-s);
+}
+
+.sky-type-definition-table {
+  td,
+  th {
+    p {
+      margin: 1em 0;
+    }
+  }
 }

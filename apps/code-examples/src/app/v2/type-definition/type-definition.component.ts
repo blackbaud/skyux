@@ -15,10 +15,13 @@ import {
 
 import { SkyHeadingAnchorComponent } from '../heading-anchor/heading-anchor.component';
 import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
+import { SkyPillComponent } from '../pill/pill.component';
 import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
 
 import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
 import { SkyTypeDefinitionPropertiesTableComponent } from './properties-table.component';
+import { SkyTypeDefinitionKindToLabelPipe } from './type-definition-kind-to-label.pipe';
+import { SkyTypeDefinitionPillTypePipe } from './type-definition-pill-type.pipe';
 
 /**
  * @internal
@@ -28,12 +31,15 @@ import { SkyTypeDefinitionPropertiesTableComponent } from './properties-table.co
   imports: [
     JsonPipe,
     NgClass,
+    SkyTypeDefinitionKindToLabelPipe,
     SkySafeHtmlPipe,
     SkyDescriptionListModule,
     SkyDeprecationReasonComponent,
     SkyLabelModule,
     SkyHeadingAnchorComponent,
     SkyMarkdownPipe,
+    SkyPillComponent,
+    SkyTypeDefinitionPillTypePipe,
     SkyStatusIndicatorModule,
     SkyTypeDefinitionPropertiesTableComponent,
   ],
@@ -46,6 +52,10 @@ import { SkyTypeDefinitionPropertiesTableComponent } from './properties-table.co
 
     .sky-type-definition-deprecated {
       text-decoration: line-through;
+    }
+
+    .sky-type-definition-tags {
+      margin-top: -8px;
     }
 
     .sky-type-definition-table {
@@ -79,30 +89,41 @@ import { SkyTypeDefinitionPropertiesTableComponent } from './properties-table.co
       [headingText]="def.name"
     />
 
-    @if (def.deprecationReason) {
-      <sky-deprecation-reason [message]="def.deprecationReason" />
-    }
+    <div class="sky-type-definition-tags sky-margin-stacked-lg">
+      <sky-pill
+        [textContent]="def.kind | skyTypeDefinitionKindToLabel"
+        [categoryType]="def.kind | skyTypeDefinitionPillType"
+      />
+    </div>
 
     @if (def.description) {
-      <span [innerHTML]="def.description | skyMarkdown"></span>
+      <p [innerHTML]="def.description | skyMarkdown"></p>
+    }
+
+    @if (def.deprecationReason) {
+      <sky-deprecation-reason stacked [message]="def.deprecationReason" />
     }
 
     <sky-description-list mode="vertical">
-      @if (selector()) {
-        <sky-description-list-content>
-          <sky-description-list-term> Selector: </sky-description-list-term>
-          <sky-description-list-description>
-            <code class="sky-codespan">{{ selector() }}</code>
-          </sky-description-list-description>
-        </sky-description-list-content>
-      }
-
       <sky-description-list-content>
         <sky-description-list-term> Import from: </sky-description-list-term>
         <sky-description-list-description>
-          <code class="sky-codespan">{{ def.packageName }}</code>
+          <code class="sky-codespan"
+            >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
+              def.packageName
+            }}';</code
+          >
         </sky-description-list-description>
       </sky-description-list-content>
+
+      @if (selector(); as selector) {
+        <sky-description-list-content>
+          <sky-description-list-term> Selector: </sky-description-list-term>
+          <sky-description-list-description>
+            <code class="sky-codespan">{{ selector }}</code>
+          </sky-description-list-description>
+        </sky-description-list-content>
+      }
     </sky-description-list>
 
     @let methodsValue = methods();

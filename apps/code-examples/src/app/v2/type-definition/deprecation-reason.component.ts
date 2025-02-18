@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  booleanAttribute,
+  input,
+} from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
@@ -8,6 +13,9 @@ import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.sky-margin-stacked-lg]': 'stacked()',
+  },
   imports: [SkyMarkdownPipe, SkyStatusIndicatorModule],
   selector: 'sky-deprecation-reason',
   styles: `
@@ -17,14 +25,11 @@ import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
   `,
   template: `
     <sky-status-indicator descriptionType="warning" indicatorType="warning">
-      <div
-        [innerHTML]="
-          '<strong>Deprecated. </strong>' + (message() | skyMarkdown)
-        "
-      ></div>
+      <span [innerHTML]="'Deprecated. ' + message() | skyMarkdown"></span>
     </sky-status-indicator>
   `,
 })
 export class SkyDeprecationReasonComponent {
   public readonly message = input.required<string>();
+  public readonly stacked = input(false, { transform: booleanAttribute });
 }

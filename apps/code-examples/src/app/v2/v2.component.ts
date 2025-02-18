@@ -61,7 +61,7 @@ const SEPARATOR = ' - ';
       @if (data(); as manifest) {
         <sky-showcase [manifest]="manifest">
           <sky-showcase-content category="development">
-            This content describes the development tab.
+            <p>This content describes the development tab.</p>
           </sky-showcase-content>
         </sky-showcase>
         <pre><code>{{manifest|json}}</code></pre>
