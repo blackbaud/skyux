@@ -2,49 +2,58 @@ import { Injectable } from '@angular/core';
 
 import { SkyIconVariantType } from './types/icon-variant-type';
 
+let icons: Map<string, number[]>;
+let iconRequest: Promise<Response>;
+
 async function getIconMap(): Promise<Map<string, number[]>> {
-  const response = await fetch(
-    `https://sky.blackbaudcdn.net/static/skyux-icons/7/assets/svg/skyux-icons.svg`,
-  );
+  if (!iconRequest) {
+    iconRequest = fetch(
+      `https://sky.blackbaudcdn.net/static/skyux-icons/7/assets/svg/skyux-icons.svg`,
+    );
 
-  if (!response.ok) {
-    throw new Error('Icon sprite could not be loaded.');
-  }
+    const response = await iconRequest;
 
-  const markup = await response.text();
-
-  document.body.insertAdjacentHTML('afterbegin', markup);
-
-  const iconMap = Array.from<SVGSymbolElement>(
-    document.querySelectorAll('#sky-icon-svg-sprite symbol'),
-  ).reduce((map, el) => {
-    const idParts = el.id.split('-');
-
-    // Construct the icon name by removing `sky-i-` from the beginning
-    // and `-<size>-<variant>` from the end.
-    const name = idParts.slice(2, idParts.length - 2).join('-');
-
-    let sizes = map.get(name);
-
-    if (!sizes) {
-      sizes = [];
-      map.set(name, sizes);
+    if (!response.ok) {
+      throw new Error('Icon sprite could not be loaded.');
     }
 
-    // The penultimate segment is the size for which the icon has
-    // been optimized.
-    sizes.push(+idParts[idParts.length - 2]);
+    const markup = await response.text();
 
-    return map;
-  }, new Map<string, number[]>());
+    document.body.insertAdjacentHTML('afterbegin', markup);
 
-  // Sort all the sizes for later comparison.
-  for (const id of iconMap.keys()) {
-    // Dedupe and sort the icon sizes.
-    iconMap.set(id, [...new Set(iconMap.get(id))].sort());
+    const iconMap = Array.from<SVGSymbolElement>(
+      document.querySelectorAll('#sky-icon-svg-sprite symbol'),
+    ).reduce((map, el) => {
+      const idParts = el.id.split('-');
+
+      // Construct the icon name by removing `sky-i-` from the beginning
+      // and `-<size>-<variant>` from the end.
+      const name = idParts.slice(2, idParts.length - 2).join('-');
+
+      let sizes = map.get(name);
+
+      if (!sizes) {
+        sizes = [];
+        map.set(name, sizes);
+      }
+
+      // The penultimate segment is the size for which the icon has
+      // been optimized.
+      sizes.push(+idParts[idParts.length - 2]);
+
+      return map;
+    }, new Map<string, number[]>());
+
+    // Sort all the sizes for later comparison.
+    for (const id of iconMap.keys()) {
+      // Dedupe and sort the icon sizes.
+      iconMap.set(id, [...new Set(iconMap.get(id))].sort());
+    }
+
+    icons = iconMap;
   }
 
-  return iconMap;
+  return icons;
 }
 
 function getNearestSize(
@@ -87,18 +96,12 @@ function getNearestSize(
   providedIn: 'root',
 })
 export class SkyIconSvgResolverService {
-  #iconMapPromise: Promise<Map<string, number[]>> | undefined;
-
   public async resolveHref(
     name: string,
     pixelSize = 16,
     variant: SkyIconVariantType = 'line',
   ): Promise<string> {
-    if (!this.#iconMapPromise) {
-      this.#iconMapPromise = getIconMap();
-    }
-
-    const iconMap = await this.#iconMapPromise;
+    const iconMap = await getIconMap();
 
     let href = `#sky-i-${name}`;
 

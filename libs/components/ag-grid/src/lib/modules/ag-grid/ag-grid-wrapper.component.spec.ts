@@ -787,7 +787,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     ).toEqual('Current Value help replaced');
   });
 
-  xdescribe('accessibility', () => {
+  describe('accessibility', () => {
     [false, true].forEach((enableTopScroll) => {
       it(`should be accessible in view mode ${
         enableTopScroll ? 'with' : 'without'

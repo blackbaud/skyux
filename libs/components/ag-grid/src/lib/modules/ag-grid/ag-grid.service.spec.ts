@@ -214,7 +214,7 @@ describe('SkyAgGridService', () => {
       expect(typeof options.icons?.['sortDescending']).toBe('function');
 
       expect((options.icons?.['sortDescending'] as () => string)()).toBe(
-        `<i aria-hidden="true" class="fa fa-caret-down"></i>`,
+        `<svg height="16" width="16"><use xlink:href="#sky-i-caret-down-16-solid"></use></svg>`,
       );
 
       // Trigger change to modern theme
@@ -228,7 +228,7 @@ describe('SkyAgGridService', () => {
       });
 
       expect((options.icons?.['sortDescending'] as () => string)()).toBe(
-        `<i aria-hidden="true" class="sky-i-chevron-down"></i>`,
+        `<svg height="16" width="16"><use xlink:href="#sky-i-chevron-down-16-solid"></use></svg>`,
       );
     });
 

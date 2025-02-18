@@ -563,8 +563,8 @@ export class SkyAgGridService implements OnDestroy {
         }
       },
       icons: {
-        // sortDescending: this.#getIconTemplate('sortDescending'),
-        // sortAscending: this.#getIconTemplate('sortAscending'),
+        sortDescending: this.#getIconTemplate('sortDescending'),
+        sortAscending: this.#getIconTemplate('sortAscending'),
         columnMoveMove: this.#getIconTemplate('columnMoveMove'),
         columnMoveHide: this.#getIconTemplate('columnMoveHide'),
         columnMoveLeft: this.#getIconTemplate('columnMoveLeft'),
@@ -664,10 +664,19 @@ export class SkyAgGridService implements OnDestroy {
     return defaultGridOptions;
   }
 
-  #getIconTemplate(iconName: keyof IconMapType): () => string {
+  #getIconTemplate(iconKey: keyof IconMapType): () => string {
     return () => {
-      const iconInfo = iconMap[iconName];
-      return `<svg height="16" width="16"><use xlink:href="#sky-i-${iconInfo.name}-${iconInfo.size}-solid"></use></svg>`;
+      const iconInfo = iconMap[iconKey];
+      const isModernTheme = this.#currentTheme?.theme?.name === 'modern';
+      const iconName =
+        iconInfo.modernName && isModernTheme
+          ? iconInfo.modernName
+          : iconInfo.defaultName;
+      const iconSize =
+        iconInfo.modernSize && isModernTheme
+          ? iconInfo.modernSize
+          : iconInfo.defaultSize;
+      return `<svg height="16" width="16"><use xlink:href="#sky-i-${iconName}-${iconSize}-solid"></use></svg>`;
     };
   }
 

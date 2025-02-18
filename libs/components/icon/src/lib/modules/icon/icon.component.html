@@ -4,12 +4,13 @@
     [responsiveSize]="size"
     [iconSize]="iconSize()"
     [iconVariant]="variant"
+    [attr.data-sky-icon]="iconName"
   />
 } @else if (icon) {
   <i
     aria-hidden="true"
     class="sky-icon"
-    [attr.data-sky-icon]="iconName || icon"
+    [attr.data-sky-icon]="icon"
     [attr.data-sky-icon-type]="iconType"
     [attr.data-sky-icon-variant]="variant"
     [ngClass]="

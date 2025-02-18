@@ -14,13 +14,20 @@ import { SkyIconVariantType } from './types/icon-variant-type';
 
 const SIZE_BASE = 16;
 
-const SIZES = new Map([
-  ['', SIZE_BASE],
+const FLUID_SIZES = new Map([
+  ['md', SIZE_BASE],
   ['lg', 21.333 /* SIZE_BASE * (4/3) */],
   ['2x', 32 /* SIZE_BASE * 2 */],
   ['3x', 48 /* SIZE_BASE * 3 */],
   ['4x', 64 /* SIZE_BASE * 4 */],
   ['5x', 80 /* SIZE_BASE * 5 */],
+]);
+
+const FIXED_SIZES = new Map([
+  ['s', SIZE_BASE],
+  ['m', 20],
+  ['l', 24],
+  ['xl', 32],
 ]);
 
 /**
@@ -47,7 +54,8 @@ export class SkyIconSvgComponent {
   readonly #iconInfo = computed(() => {
     return {
       src: this.iconName(),
-      size: this.iconSize(),
+      responsiveSize: this.responsiveSize(),
+      iconSize: this.iconSize(),
       variant: this.iconVariant(),
     };
   });
@@ -57,7 +65,9 @@ export class SkyIconSvgComponent {
       switchMap((info) =>
         this.#resolverSvc.resolveHref(
           info.src,
-          SIZES.get(info.size ?? ''),
+          info.iconSize !== undefined
+            ? FIXED_SIZES.get(info.iconSize)
+            : FLUID_SIZES.get(info.responsiveSize),
           info.variant,
         ),
       ),

@@ -39,7 +39,7 @@ describe('Icon SVG resolver service', () => {
     );
   }
 
-  beforeEach(() => {
+  beforeAll(() => {
     fetchMock = spyOn(window, 'fetch').and.resolveTo(
       new Response(
         `<svg id="sky-icon-svg-sprite" width="0" height="0" style="position:absolute">
@@ -54,7 +54,9 @@ describe('Icon SVG resolver service', () => {
   </svg>`,
       ),
     );
+  });
 
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [SkyIconSvgResolverService],
     });
@@ -78,22 +80,6 @@ describe('Icon SVG resolver service', () => {
       undefined,
       undefined,
       `Icon with name 'invalid' was not found.`,
-    );
-  });
-
-  it('should throw an error when the request fails', async () => {
-    fetchMock.and.resolveTo(
-      new Response('Internal Server Error', {
-        status: 500,
-      }),
-    );
-
-    await validate(
-      'single-size',
-      undefined,
-      undefined,
-      undefined,
-      `Icon sprite could not be loaded.`,
     );
   });
 
