@@ -70,6 +70,7 @@ jobs:
             components/list-builder-view-grids
             components/lists
             components/lookup
+            components/manifest
             components/modals
             components/navbar
             components/packages
