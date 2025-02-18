@@ -4,7 +4,9 @@ import {
   Component,
   Input,
 } from '@angular/core';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
+import { SkyPopoverModule } from '@skyux/popovers';
 
 import { AgColumn, CellFocusedEvent } from 'ag-grid-community';
 import { Subject } from 'rxjs';
@@ -19,7 +21,7 @@ import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator
   styleUrls: ['ag-grid-cell-validator-tooltip.component.scss'],
   templateUrl: 'ag-grid-cell-validator-tooltip.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [SkyPopoverModule, SkyStatusIndicatorModule],
 })
 export class SkyAgGridCellValidatorTooltipComponent {
   @Input()

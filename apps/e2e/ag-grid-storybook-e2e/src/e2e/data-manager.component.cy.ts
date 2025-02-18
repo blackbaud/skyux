@@ -43,7 +43,9 @@ describe(`ag-grid-storybook data manager`, () => {
 
               if (!domLayout.includes('no-select')) {
                 // Verify that the checkboxes are visible.
-                cy.get('[name="center"] .sky-ag-grid-cell-row-selector')
+                cy.get(
+                  '.ag-viewport.ag-center-cols-viewport .sky-ag-grid-cell-row-selector',
+                )
                   .should('have.length.gt', 14)
                   .should('have.descendants', '.sky-switch-control');
               }

@@ -19,18 +19,22 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  AllCommunityModule,
   ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
   ICellEditorParams,
   IRowNode,
+  ModuleRegistry,
   NewValueParams,
 } from 'ag-grid-community';
 
 import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './data';
 import { EditModalContext } from './edit-modal-context';
 import { MarkInactiveComponent } from './mark-inactive.component';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-edit-modal',

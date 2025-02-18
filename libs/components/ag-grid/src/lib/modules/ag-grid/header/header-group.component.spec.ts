@@ -17,7 +17,7 @@ import { SkyAgGridHeaderGroupComponent } from './header-group.component';
 
 @Component({
   template: `<span class="test-help-component">Help text</span>`,
-  standalone: false,
+  imports: [SkyI18nModule, SkyIconModule, SkyThemeModule],
 })
 class TestHelpComponent {}
 
@@ -66,8 +66,13 @@ describe('SkyAgGridHeaderGroupComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SkyAgGridHeaderGroupComponent, TestHelpComponent],
-      imports: [SkyI18nModule, SkyIconModule, SkyThemeModule],
+      imports: [
+        SkyI18nModule,
+        SkyIconModule,
+        SkyThemeModule,
+        SkyAgGridHeaderGroupComponent,
+        TestHelpComponent,
+      ],
       providers: [],
     });
     events = {};

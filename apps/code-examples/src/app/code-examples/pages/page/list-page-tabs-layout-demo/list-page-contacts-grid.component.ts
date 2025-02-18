@@ -10,9 +10,17 @@ import { SkyIconModule } from '@skyux/icon';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
 import { AgGridModule } from 'ag-grid-angular';
-import { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
+import {
+  AllCommunityModule,
+  ColDef,
+  GridOptions,
+  ICellRendererParams,
+  ModuleRegistry,
+} from 'ag-grid-community';
 
 import { ContactContextMenuComponent } from './contact-context-menu.component';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 interface Contact {
   name: string;
