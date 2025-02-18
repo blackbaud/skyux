@@ -53,6 +53,16 @@ describe('Box test harness', () => {
     await expectAsync(boxHarness.getHeadingText()).toBeResolvedTo('Box header');
   });
 
+  it('should get the heading text and exclude the text content of controls', async () => {
+    const { boxHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.headingText = 'Box header';
+    fixture.componentRef.setInput('showControls', true);
+    fixture.detectChanges();
+
+    await expectAsync(boxHarness.getHeadingText()).toBeResolvedTo('Box header');
+  });
+
   it('should get the heading text when heading text is hidden', async () => {
     const { boxHarness, fixture } = await setupTest();
 
