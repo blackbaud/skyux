@@ -13,7 +13,7 @@ import {
   isDirectiveDefinition,
 } from '@skyux/manifest';
 
-import { SkyElementAnchorDirective } from '../element-anchor/element-anchor.directive';
+import { SkyHeadingAnchorComponent } from '../heading-anchor/heading-anchor.component';
 import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
 import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
 
@@ -31,8 +31,8 @@ import { SkyTypeDefinitionPropertiesTableComponent } from './properties-table.co
     SkySafeHtmlPipe,
     SkyDescriptionListModule,
     SkyDeprecationReasonComponent,
-    SkyElementAnchorDirective,
     SkyLabelModule,
+    SkyHeadingAnchorComponent,
     SkyMarkdownPipe,
     SkyStatusIndicatorModule,
     SkyTypeDefinitionPropertiesTableComponent,
@@ -69,24 +69,22 @@ import { SkyTypeDefinitionPropertiesTableComponent } from './properties-table.co
       }
     }
   `,
-  template: `@let def = definition();
+  template: `
+    @let def = definition();
 
-    <h3
-      [attr.id]="def.anchorId"
-      [ngClass]="{
-        'sky-type-definition-deprecated': def.isDeprecated,
-      }"
-      skyElementAnchor
-    >
-      <code>{{ def.name }}</code>
-    </h3>
+    <sky-heading-anchor
+      headingLevel="3"
+      headingTextFormat="code"
+      [headingId]="def.anchorId"
+      [headingText]="def.name"
+    />
 
     @if (def.deprecationReason) {
       <sky-deprecation-reason [message]="def.deprecationReason" />
     }
 
     @if (def.description) {
-      <div [innerHTML]="def.description | skyMarkdown"></div>
+      <span [innerHTML]="def.description | skyMarkdown"></span>
     }
 
     <sky-description-list mode="vertical">
@@ -124,7 +122,8 @@ import { SkyTypeDefinitionPropertiesTableComponent } from './properties-table.co
         [parentDefinition]="def"
         [properties]="methodsValue"
       />
-    } `,
+    }
+  `,
 })
 export class SkyTypeDefinitionComponent {
   public definition = input.required<SkyManifestDocumentationTypeDefinition>();

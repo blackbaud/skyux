@@ -55,44 +55,48 @@ import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
       }
     }
   `,
-  template: `<table class="sky-type-definition-table sky-margin-stacked-xl">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (property of properties(); track property.name) {
+  template: `
+    <table class="sky-type-definition-table sky-margin-stacked-xl">
+      <thead>
         <tr>
-          <td>
-            @if (property.kind === 'directive-input') {
-              <code>&#64;Input()</code><br />
-            }
-            @if (property.kind === 'directive-output') {
-              <code>&#64;Output()</code><br />
-            }
-            <code
-              [innerHTML]="
-                getPropertyName(parentDefinition(), property) | skySafeHtml
-              "
-              [ngClass]="{
-                'sky-type-definition-deprecated': property.isDeprecated,
-              }"
-            ></code>
-          </td>
-          <td>
-            @if (property.deprecationReason) {
-              <sky-deprecation-reason [message]="property.deprecationReason" />
-            }
-            @if (property.description) {
-              <div [innerHTML]="property.description | skyMarkdown"></div>
-            }
-          </td>
+          <th>Name</th>
+          <th>Description</th>
         </tr>
-      }
-    </tbody>
-  </table>`,
+      </thead>
+      <tbody>
+        @for (property of properties(); track property.name) {
+          <tr>
+            <td>
+              @if (property.kind === 'directive-input') {
+                <code>&#64;Input()</code><br />
+              }
+              @if (property.kind === 'directive-output') {
+                <code>&#64;Output()</code><br />
+              }
+              <code
+                [innerHTML]="
+                  getPropertyName(parentDefinition(), property) | skySafeHtml
+                "
+                [ngClass]="{
+                  'sky-type-definition-deprecated': property.isDeprecated,
+                }"
+              ></code>
+            </td>
+            <td>
+              @if (property.deprecationReason) {
+                <sky-deprecation-reason
+                  [message]="property.deprecationReason"
+                />
+              }
+              @if (property.description) {
+                <div [innerHTML]="property.description | skyMarkdown"></div>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  `,
 })
 export class SkyTypeDefinitionPropertiesTableComponent {
   public parentDefinition = input.required<SkyManifestParentDefinition>();

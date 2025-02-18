@@ -15,14 +15,15 @@ import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
       display: block;
     }
   `,
-  template: `<sky-status-indicator
-    descriptionType="warning"
-    indicatorType="warning"
-  >
-    <div
-      [innerHTML]="'<strong>Deprecated. </strong>' + message() | skyMarkdown"
-    ></div>
-  </sky-status-indicator>`,
+  template: `
+    <sky-status-indicator descriptionType="warning" indicatorType="warning">
+      <div
+        [innerHTML]="
+          '<strong>Deprecated. </strong>' + (message() | skyMarkdown)
+        "
+      ></div>
+    </sky-status-indicator>
+  `,
 })
 export class SkyDeprecationReasonComponent {
   public readonly message = input.required<string>();
