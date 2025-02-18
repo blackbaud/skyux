@@ -21,11 +21,11 @@ export function getMethods(
 
   if (reflection.children) {
     for (const child of reflection.children) {
-      if (
-        child.kind === ReflectionKind.Method &&
-        !child.name.startsWith('ng')
-      ) {
-        methods.push(getMethod(child));
+      if (child.kind === ReflectionKind.Method) {
+        if (!child.name.startsWith('ng')) {
+          console.log('getMethod!', child);
+          methods.push(getMethod(child));
+        }
       }
     }
   }
