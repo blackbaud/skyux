@@ -76,13 +76,20 @@ function addDecoratorInfo(context, decl) {
             };
             break;
 
-          case 'Input':
-            if (args.text) {
+          case 'Input': {
+            const alias =
+              args.text ??
+              args.symbol?.members.get('alias')?.valueDeclaration.initializer
+                .text;
+
+            if (alias) {
               decorator.arguments = {
-                bindingPropertyName: args.text,
+                bindingPropertyName: alias,
               };
             }
+
             break;
+          }
         }
       }
 
