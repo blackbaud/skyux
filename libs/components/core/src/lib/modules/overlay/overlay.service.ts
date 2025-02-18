@@ -1,4 +1,5 @@
 import {
+  ApplicationRef,
   ComponentRef,
   EnvironmentInjector,
   Injectable,
@@ -27,6 +28,7 @@ export class SkyOverlayService {
   private static overlays: SkyOverlayInstance[] = [];
 
   readonly #adapter = inject(SkyOverlayAdapterService);
+  readonly #applicationRef = inject(ApplicationRef);
   readonly #dynamicComponentSvc: SkyDynamicComponentService;
   readonly #environmentInjector = inject(EnvironmentInjector);
 
@@ -67,7 +69,8 @@ export class SkyOverlayService {
    */
   public close(instance: SkyOverlayInstance): void {
     this.#destroyOverlay(instance);
-    this.#dynamicComponentSvc.removeComponent(instance.componentRef);
+    this.#applicationRef.detachView(instance.componentRef.hostView);
+    instance.componentRef.destroy();
 
     // In some cases, Angular keeps dynamically-generated component's nodes in the DOM during
     // unit tests. This can make querying difficult because the older DOM nodes still exist and

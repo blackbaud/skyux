@@ -133,14 +133,6 @@ export class SkyDynamicComponentService {
       return;
     }
 
-    if (componentRef.location.nativeElement.parentElement) {
-      this.#renderer.removeChild(
-        componentRef.location.nativeElement.parentElement,
-        componentRef.location.nativeElement,
-      );
-    }
-    componentRef.location.nativeElement.remove();
-
     if (!this.#applicationRef.destroyed) {
       this.#applicationRef.detachView(componentRef.hostView);
     }
