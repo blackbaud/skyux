@@ -16,10 +16,12 @@ import {
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  AllCommunityModule,
   ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
+  ModuleRegistry,
   RowSelectedEvent,
   ValueFormatterParams,
 } from 'ag-grid-community';
@@ -28,6 +30,8 @@ import { Subject, of, takeUntil } from 'rxjs';
 import { ContextMenuComponent } from './context-menu.component';
 import { AgGridDemoRow } from './data';
 import { Filters } from './filters';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-view-grid',

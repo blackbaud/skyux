@@ -11,10 +11,12 @@ import { SkySearchModule } from '@skyux/lookup';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  AllCommunityModule,
   ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
+  ModuleRegistry,
   ValueFormatterParams,
 } from 'ag-grid-community';
 import { of } from 'rxjs';
@@ -22,6 +24,8 @@ import { of } from 'rxjs';
 import { ContextMenuComponent } from './context-menu.component';
 import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
 import { InlineHelpComponent } from './inline-help.component';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-ag-grid-data-grid-inline-help-example',

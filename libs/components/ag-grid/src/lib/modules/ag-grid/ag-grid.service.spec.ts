@@ -232,52 +232,24 @@ describe('SkyAgGridService', () => {
       );
     });
 
-    it('should unsubscribe from the theme service when destroyed', () => {
-      expect(agGridService.getHeaderHeight()).toBe(37);
-      expect(
-        agGridService.getGridOptions({ gridOptions: {} }).columnTypes?.[
-          SkyCellType.Date
-        ].minWidth,
-      ).toBe(160);
-
-      // Trigger change to modern theme
+    it('should set options for modern theme, dark mode', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.dark,
         ),
         previousSettings:
           mockThemeSvc.settingsChange.getValue().currentSettings,
       });
 
-      // Get new grid options after theme change
-      expect(agGridService.getHeaderHeight()).toBe(60);
-      expect(
-        agGridService.getGridOptions({ gridOptions: {} }).columnTypes?.[
-          SkyCellType.Date
-        ].minWidth,
-      ).toBe(180);
-
-      // Destroy subscription
-      agGridService.ngOnDestroy();
-
-      // Trigger change to default theme
-      mockThemeSvc.settingsChange.next({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings:
-          mockThemeSvc.settingsChange.getValue().currentSettings,
+      const options = agGridService.getEditableGridOptions({
+        gridOptions: {},
       });
 
-      // Get new grid options after theme change, but expect heights have not changed
-      expect(agGridService.getHeaderHeight()).toBe(60);
-      expect(
-        agGridService.getGridOptions({ gridOptions: {} }).columnTypes?.[
-          SkyCellType.Date
-        ].minWidth,
-      ).toBe(180);
+      expect((options.icons?.['sortDescending'] as () => string)()).toBe(
+        `<i aria-hidden="true" class="sky-i-chevron-down"></i>`,
+      );
+      expect(options.columnTypes?.[SkyCellType.Date].minWidth).toBe(180);
     });
 
     it('should not overwrite default component definitions', () => {
@@ -357,6 +329,21 @@ describe('SkyAgGridService', () => {
       });
 
       expect(editableGridOptions.rowSelection).toBeUndefined();
+    });
+
+    it('should disable checkboxes if row selection is enabled', () => {
+      const editableGridOptions = agGridService.getEditableGridOptions({
+        gridOptions: {
+          rowSelection: {
+            mode: 'singleRow',
+          },
+        },
+      });
+
+      expect(editableGridOptions.rowSelection).toEqual({
+        checkboxes: false,
+        mode: 'singleRow',
+      });
     });
   });
 

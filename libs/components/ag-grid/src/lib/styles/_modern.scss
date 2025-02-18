@@ -2,6 +2,20 @@
 
 .ag-theme-sky-data-grid-modern-light,
 .ag-theme-sky-data-grid-modern-dark,
+.ag-theme-sky-data-grid-modern-light-compact,
+.ag-theme-sky-data-grid-modern-dark-compact {
+  --initial-column-resize-handle-height: 15px;
+}
+
+.ag-theme-sky-data-entry-grid-modern-light,
+.ag-theme-sky-data-entry-grid-modern-dark,
+.ag-theme-sky-data-entry-grid-modern-light-compact,
+.ag-theme-sky-data-entry-grid-modern-dark-compact {
+  --initial-column-resize-handle-height: 100%;
+}
+
+.ag-theme-sky-data-grid-modern-light,
+.ag-theme-sky-data-grid-modern-dark,
 .ag-theme-sky-data-entry-grid-modern-light,
 .ag-theme-sky-data-entry-grid-modern-dark,
 .ag-theme-sky-data-grid-modern-light-compact,
@@ -13,6 +27,8 @@
   }
 
   .ag-header-cell {
+    overflow: visible;
+
     &:not(
         .sky-ag-grid-header-resizable.ag-column-resizing,
         .sky-ag-grid-header-resizable:has(> .ag-header-cell-resize:hover)
@@ -20,7 +36,9 @@
       --ag-header-column-resize-handle-color: var(
         --sky-border-color-neutral-medium-dark
       );
-      --ag-header-column-resize-handle-height: 15px;
+      --ag-header-column-resize-handle-height: var(
+        --initial-column-resize-handle-height
+      );
       .ag-header-cell-resize::after {
         mask-size: 1px 2px;
         -webkit-mask-size: 1px 2px;
@@ -65,6 +83,7 @@
   }
 
   @for $i from 1 through 100 {
+    // Hover, not while resizing
     .ag-root:has(
         .ag-header-cell.sky-ag-grid-header-resizable:not(
             .ag-column-resizing
@@ -80,12 +99,11 @@
         --ag-header-column-separator-width: 1px;
       }
       .ag-cell:nth-child(#{$i}) {
-        --ag-cell-horizontal-border: 1px
-          solid
-          var(--sky-text-color-action-primary);
+        border-right-color: var(--sky-text-color-action-primary);
       }
     }
 
+    // While resizing
     .ag-root:has(
         .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing:nth-child(
             #{$i}
@@ -103,6 +121,7 @@
         --ag-cell-horizontal-border: 3px
           solid
           var(--sky-text-color-action-primary);
+        border-right-color: var(--sky-text-color-action-primary);
         border-right-width: 3px;
       }
     }

@@ -36,6 +36,8 @@ import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 import { SecondInlineHelpComponent } from './fixtures/inline-help.component';
 import { SkyCellType } from './types/cell-type';
 
+import Spy = jasmine.Spy;
+
 describe('SkyAgGridWrapperComponent', () => {
   let gridFixture: ComponentFixture<SkyAgGridFixtureComponent>;
   let gridAdapterService: SkyAgGridAdapterService;
@@ -253,6 +255,7 @@ describe('SkyAgGridWrapperComponent', () => {
   });
 
   it('should add and remove the cell editing class', () => {
+    (agGrid.api.getEditingCells as Spy).and.returnValue([]);
     agGrid.cellEditingStarted.next({ colDef: {} } as CellEditingStartedEvent);
     agGrid.cellEditingStopped.next({} as CellEditingStoppedEvent);
     agGrid.cellEditingStarted.next({
@@ -319,9 +322,11 @@ describe('SkyAgGridWrapperComponent', () => {
     it('should not move focus when tab is pressed but cells are being edited', () => {
       const col = {} as AgColumn;
       spyOn(gridAdapterService, 'setFocusedElementById');
-      (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([
-        { rowIndex: 0, column: col, rowPinned: undefined },
-      ]);
+      agGrid.cellEditingStarted.next({
+        colDef: { type: 'test' },
+        rowIndex: 0,
+        column: col,
+      } as unknown as CellEditingStartedEvent);
 
       fireKeydownOnGrid('Tab', false);
 

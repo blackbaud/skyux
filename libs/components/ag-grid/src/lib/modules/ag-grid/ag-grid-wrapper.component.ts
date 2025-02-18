@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { AsyncPipe, DOCUMENT, NgClass } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -18,6 +18,7 @@ import {
   numberAttribute,
 } from '@angular/core';
 import { SkyMutationObserverService } from '@skyux/core';
+import { SkyViewkeeperModule } from '@skyux/core';
 import {
   SkyThemeService,
   SkyThemeSettings,
@@ -42,7 +43,10 @@ import {
   takeUntil,
 } from 'rxjs';
 
-import { agGridTheme } from '../../styles/ag-grid-theme';
+import {
+  getSkyAgGridTheme,
+  getSkyAgGridThemeClassName,
+} from '../../styles/ag-grid-theme';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyCellType } from './types/cell-type';
@@ -53,7 +57,7 @@ let idIndex = 0;
   selector: 'sky-ag-grid-wrapper',
   templateUrl: './ag-grid-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgClass, SkyViewkeeperModule, AsyncPipe],
 })
 export class SkyAgGridWrapperComponent
   implements AfterContentInit, AfterViewInit, OnDestroy, OnInit
@@ -96,17 +100,11 @@ export class SkyAgGridWrapperComponent
     this.#changeDetector.markForCheck();
   }
 
-  get #isInEditMode(): boolean {
-    if (this.agGrid && this.agGrid.api) {
-      return this.agGrid.api.getEditingCells().length > 0;
-    }
-    return false;
-  }
-
   protected readonly minHeightStyle = computed(() => {
     return `--sky-ag-grid-min-height: ${this.minHeight()}px;`;
   });
 
+  #isInEditMode = false;
   #_viewkeeperClasses: string[] = [];
   readonly #ngUnsubscribe = new Subject<void>();
   readonly #themeSvc = inject(SkyThemeService, {
@@ -169,6 +167,7 @@ export class SkyAgGridWrapperComponent
       this.agGrid.cellEditingStarted
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((params: CellEditingStartedEvent) => {
+          this.#isInEditMode = true;
           if (params.colDef.type) {
             const types = Array.isArray(params.colDef.type)
               ? params.colDef.type
@@ -191,6 +190,9 @@ export class SkyAgGridWrapperComponent
       this.agGrid.cellEditingStopped
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
+          this.#isInEditMode =
+            !this.agGrid?.api.isDestroyed() &&
+            !!this.agGrid?.api.getEditingCells().length;
           this.#wrapperClasses.next(
             this.#wrapperClasses
               .getValue()
@@ -344,7 +346,18 @@ export class SkyAgGridWrapperComponent
     isCompact: boolean,
     themeSettings?: SkyThemeSettings,
   ): void {
-    const agTheme = agGridTheme(hasEditableClass, themeSettings, isCompact);
+    const skyAgGridTheme = getSkyAgGridTheme(
+      hasEditableClass ? 'data-entry-grid' : 'data-grid',
+      themeSettings?.theme?.name,
+      themeSettings?.mode?.name,
+      isCompact ? 'compact' : themeSettings?.spacing?.name,
+    );
+    this.agGrid?.api.setGridOption('theme', skyAgGridTheme);
+    const agTheme = getSkyAgGridThemeClassName(
+      hasEditableClass,
+      themeSettings,
+      isCompact,
+    );
     const previousValue = this.#wrapperClasses.getValue();
     let value = [
       ...previousValue.filter((c) => !c.startsWith('ag-theme-')),
