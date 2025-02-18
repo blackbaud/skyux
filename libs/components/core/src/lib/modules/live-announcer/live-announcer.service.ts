@@ -78,14 +78,12 @@ export class SkyLiveAnnouncerService implements OnDestroy {
     clearTimeout(this.#durationTimeout);
   }
 
-  // Calculate a default duration for an announced message based on the number of words in the string.
   #calculateDefaultDurationFromString(message: string): number {
     // Research suggests normal WPM is 110 for english. Lowering here to be conservative.
     const baseWordsPerMinute = 80;
     const minuteInMilliseconds = 60000;
     const numberOfWords = message.split(' ').length;
 
-    // Calculate a base time based on a slow words per minute.
     const baseTime =
       (numberOfWords / baseWordsPerMinute) * minuteInMilliseconds;
 
