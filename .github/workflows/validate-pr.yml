@@ -55,6 +55,7 @@ jobs:
             components/core
             components/data-manager
             components/datetime
+            components/docs-tools
             components/errors
             components/flyout
             components/forms

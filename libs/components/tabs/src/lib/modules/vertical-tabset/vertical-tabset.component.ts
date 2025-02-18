@@ -195,7 +195,7 @@ export class SkyVerticalTabsetComponent
     this.tabService.focusActiveTab(this.tabGroups);
   }
 
-  protected tabGroupsFocusIn(): void {
+  protected trapFocusInTablist(): void {
     // This will set the tab index of the the vertical tabset element to -1
     // while focus is inside the tab list, allowing Shift+Tab to move
     // to the next element above the tab list element. Otherwise focus would
@@ -203,7 +203,7 @@ export class SkyVerticalTabsetComponent
     this.tablistHasFocus = true;
   }
 
-  protected tabGroupsFocusOut(): void {
+  protected resetTabIndex(): void {
     this.tablistHasFocus = false;
   }
 

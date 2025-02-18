@@ -446,6 +446,44 @@ describe('Vertical tabset component', () => {
     expect(elementHasFocus(tabButtons[0])).toBeTrue();
   });
 
+  it('should reset tab index when leaving tab list view in mobile view', () => {
+    mediaQueryController.setBreakpoint('xs');
+    const fixture = createTestComponent();
+    const el = fixture.nativeElement;
+    const tabset = getTabset(fixture);
+    fixture.detectChanges();
+
+    expect(tabset.tabIndex).toBe(0);
+
+    // click show tabs button
+    const showTabsButton = el.querySelector(
+      '.sky-vertical-tabset-show-tabs-btn',
+    );
+    showTabsButton.click();
+    fixture.detectChanges();
+
+    // focus into tablist
+    const tabsContainer = getTabsContainer(fixture);
+    SkyAppTestUtility.fireDomEvent(tabsContainer, 'focusin');
+    fixture.detectChanges();
+
+    expect(tabset.tabIndex).toBe(-1);
+
+    // click the second tab
+    const allTabs = el.querySelectorAll('.sky-vertical-tab');
+    allTabs[1].click();
+    fixture.detectChanges();
+
+    // focus the tabset content container
+    const verticalTabsetContent = el.querySelector(
+      '.sky-vertical-tabset-content',
+    );
+    SkyAppTestUtility.fireDomEvent(verticalTabsetContent, 'focusin');
+    fixture.detectChanges();
+
+    expect(tabset.tabIndex).toBe(0);
+  });
+
   it('should set a tab active=false when set to undefined', () => {
     const fixture = createTestComponent();
 

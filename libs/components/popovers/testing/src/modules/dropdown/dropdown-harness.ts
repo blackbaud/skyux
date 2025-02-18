@@ -12,7 +12,12 @@ export class SkyDropdownHarness extends SkyComponentHarness {
 
   #documentRootLocator = this.documentRootLocatorFactory();
 
-  #getDropdownButton = this.locatorFor('.sky-dropdown-button');
+  #getDropdownButton = this.locatorFor(
+    // Default trigger button
+    '.sky-dropdown-button',
+    // Custom trigger button
+    '[skyDropdownTrigger]',
+  );
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
