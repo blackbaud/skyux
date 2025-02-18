@@ -374,7 +374,12 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"description\\": \\"This describes an input with an alias.\\",
             \\"kind\\": \\"directive-input\\",
-            \\"name\\": \\"myAlias\\",
+            \\"name\\": \\"alias1\\",
+            \\"type\\": \\"undefined | TemplateRef<unknown>\\"
+          },
+          {
+            \\"kind\\": \\"directive-input\\",
+            \\"name\\": \\"alias2\\",
             \\"type\\": \\"undefined | TemplateRef<unknown>\\"
           },
           {

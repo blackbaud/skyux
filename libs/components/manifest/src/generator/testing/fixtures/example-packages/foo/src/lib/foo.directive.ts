@@ -75,8 +75,11 @@ export class FooWithInputsOutputsDirective {
   /**
    * This describes an input with an alias.
    */
-  @Input('myAlias')
-  public someInput: TemplateRef<unknown> | undefined;
+  @Input('alias1')
+  public inputWithAlias1: TemplateRef<unknown> | undefined;
+
+  @Input({ alias: 'alias2' })
+  public inputWithAlias2: TemplateRef<unknown> | undefined;
 
   /**
    * This describes a decorated output.
