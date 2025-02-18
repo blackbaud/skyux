@@ -1,3 +1,9 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-text-expand-container') {
+  --sky-text-expand-see-more-margin-left: 5px;
+}
+
 .sky-text-expand-ellipsis {
   letter-spacing: 2px;
   white-space: nowrap;
@@ -9,7 +15,10 @@
 
 .sky-text-expand-see-more {
   white-space: nowrap;
-  margin-left: 5px;
+  margin-left: var(
+    --sky-text-expand-see-more-margin-left,
+    var(--sky-space-gap-text_action-xs)
+  );
 }
 
 .sky-text-expand-text {

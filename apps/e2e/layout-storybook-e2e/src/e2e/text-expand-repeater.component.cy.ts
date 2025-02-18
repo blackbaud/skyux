@@ -25,5 +25,5 @@ describe('layout-storybook - text expand repeater', () => {
         );
       });
     });
-  });
+  }, true);
 });
