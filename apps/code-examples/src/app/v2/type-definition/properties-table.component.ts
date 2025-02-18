@@ -43,6 +43,8 @@ import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
       th {
         border-bottom: 1px solid var(--sky-border-color-neutral-medium);
         text-align: left;
+        width: 50%;
+        font-size: 15px;
       }
 
       td {
@@ -86,11 +88,14 @@ import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
               @if (property.description) {
                 <p [innerHTML]="property.description | skyMarkdown"></p>
               }
+
               @if (property.deprecationReason) {
-                <sky-deprecation-reason
-                  class="sky-margin-stacked-sm"
-                  [message]="property.deprecationReason"
-                />
+                <p>
+                  <sky-deprecation-reason
+                    class="sky-margin-stacked-sm"
+                    [message]="property.deprecationReason"
+                  />
+                </p>
               }
             </td>
           </tr>

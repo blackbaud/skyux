@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
+/**
+ * @internal
+ */
 @Pipe({
   name: 'skySafeHtml',
   pure: true,

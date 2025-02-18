@@ -25,7 +25,9 @@ import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
   `,
   template: `
     <sky-status-indicator descriptionType="warning" indicatorType="warning">
-      <span [innerHTML]="'Deprecated. ' + message() | skyMarkdown"></span>
+      <span
+        [innerHTML]="'<strong>Deprecated.</strong> ' + message() | skyMarkdown"
+      ></span>
     </sky-status-indicator>
   `,
 })

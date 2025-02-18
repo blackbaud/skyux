@@ -8,6 +8,10 @@ code {
   font-family: 'Roboto Mono', serif;
 }
 
+:not(h2, h3, pre) > code {
+  font-size: 90%;
+}
+
 code.sky-codespan {
   display: inline-block;
   padding: 2px 6px;
@@ -17,14 +21,23 @@ code.sky-codespan {
     var(--sky-color-background-container-info) 25%,
     transparent
   );
-  font-size: var(--sky-font-size-body-s);
 }
 
 .sky-type-definition-table {
-  td,
-  th {
+  td {
     p {
-      margin: 1em 0;
+      line-height: 1.17;
+    }
+
+    &:first-child {
+      code {
+        font-size: 13px;
+        background-color: color-mix(
+          in srgb,
+          var(--sky-color-background-container-info) 25%,
+          transparent
+        );
+      }
     }
   }
 }

@@ -55,7 +55,7 @@ import { SkyTypeDefinitionPillTypePipe } from './type-definition-pill-type.pipe'
     }
 
     .sky-type-definition-tags {
-      margin-top: -8px;
+      /*margin-top: -14px;*/
     }
 
     .sky-type-definition-table {
@@ -104,27 +104,21 @@ import { SkyTypeDefinitionPillTypePipe } from './type-definition-pill-type.pipe'
       <sky-deprecation-reason stacked [message]="def.deprecationReason" />
     }
 
-    <sky-description-list mode="vertical">
-      <sky-description-list-content>
-        <sky-description-list-term> Import from: </sky-description-list-term>
-        <sky-description-list-description>
-          <code class="sky-codespan"
-            >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
-              def.packageName
-            }}';</code
-          >
-        </sky-description-list-description>
-      </sky-description-list-content>
+    @if (def.kind === 'module' || def.kind === 'service') {
+      <p>
+        <code class="sky-codespan"
+          >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
+            def.packageName
+          }}';</code
+        >
+      </p>
+    }
 
-      @if (selector(); as selector) {
-        <sky-description-list-content>
-          <sky-description-list-term> Selector: </sky-description-list-term>
-          <sky-description-list-description>
-            <code class="sky-codespan">{{ selector }}</code>
-          </sky-description-list-description>
-        </sky-description-list-content>
-      }
-    </sky-description-list>
+    @if (selector(); as selector) {
+      <p>
+        Selector: <code class="sky-codespan">{{ selector }}</code>
+      </p>
+    }
 
     @let methodsValue = methods();
     @let propertiesValue = properties();

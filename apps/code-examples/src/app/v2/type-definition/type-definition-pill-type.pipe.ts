@@ -12,15 +12,23 @@ export class SkyTypeDefinitionPillTypePipe implements PipeTransform {
     value: SkyManifestParentDefinitionKind,
   ): SkyPillCategoryType {
     switch (value) {
+      case 'module':
+        return 'red';
+
       case 'component':
       case 'directive':
-        return 'blue';
+      case 'pipe':
+        return 'purple';
+
+      case 'class':
+      case 'interface':
+        return 'yellow';
 
       case 'enumeration':
-      case 'interface':
       case 'type-alias':
         return 'orange';
 
+      case 'function':
       case 'service':
         return 'teal';
 
