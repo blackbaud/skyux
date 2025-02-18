@@ -90,11 +90,6 @@ export class SkyCountryFieldFixture {
   }
 
   //#region helpers
-
-  #getCountryFlag(): DebugElement {
-    return this.#debugEl.query(By.css('.sky-country-field-flag'));
-  }
-
   #getAutocompleteElement(): HTMLElement {
     return document.querySelector('.sky-autocomplete-results') as HTMLElement;
   }

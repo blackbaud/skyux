@@ -119,21 +119,8 @@ describe('Country Field Component', () => {
   function validateSelectedCountry(
     nativeElement: HTMLElement,
     value: string,
-    flag?: string,
   ): void {
     expect(nativeElement.querySelector('textarea')?.value).toBe(value);
-
-    const flagEl = nativeElement.querySelector('.sky-country-field-flag');
-
-    if (!value) {
-      expect(flagEl).toBeNull();
-    }
-
-    if (flag) {
-      const flagInnerEl = flagEl?.querySelector('.iti__flag');
-
-      expect(flagInnerEl).toHaveCssClass('iti__' + flag);
-    }
   }
 
   //#endregion
@@ -170,7 +157,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'United States', 'us');
+        validateSelectedCountry(nativeElement, 'United States');
       }));
 
       it('should initialize with a set country but only the iso2 code', fakeAsync(() => {
@@ -181,7 +168,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'United States', 'us');
+        validateSelectedCountry(nativeElement, 'United States');
       }));
 
       it('should initialize with a set country and fix an invalid name', fakeAsync(() => {
@@ -193,7 +180,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'United States', 'us');
+        validateSelectedCountry(nativeElement, 'United States');
       }));
 
       it('should initialize without a set country', fakeAsync(() => {
@@ -202,10 +189,6 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
 
         validateSelectedCountry(nativeElement, '');
-
-        expect(
-          nativeElement.querySelector('.sky-country-field-flag'),
-        ).toBeNull();
       }));
     });
 
@@ -219,13 +202,13 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'United States', 'us');
+        validateSelectedCountry(nativeElement, 'United States');
 
         searchAndSelect('Austr', 0, fixture);
 
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'Australia', 'au');
+        validateSelectedCountry(nativeElement, 'Australia');
       }));
 
       it('should change countries correctly via a model change', fakeAsync(() => {
@@ -237,7 +220,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'United States', 'us');
+        validateSelectedCountry(nativeElement, 'United States');
 
         component.modelValue = {
           name: 'Australia',
@@ -248,7 +231,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'Australia', 'au');
+        validateSelectedCountry(nativeElement, 'Australia');
       }));
 
       it('should change countries correctly via a model change with an invalid name', fakeAsync(() => {
@@ -260,7 +243,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'United States', 'us');
+        validateSelectedCountry(nativeElement, 'United States');
 
         component.modelValue = {
           name: 'Test Name',
@@ -271,7 +254,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'Australia', 'au');
+        validateSelectedCountry(nativeElement, 'Australia');
       }));
 
       it('should change countries correctly via a model change with only a iso2 code', fakeAsync(() => {
@@ -283,7 +266,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'United States', 'us');
+        validateSelectedCountry(nativeElement, 'United States');
 
         component.modelValue = {
           name: 'Australia',
@@ -294,7 +277,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'Australia', 'au');
+        validateSelectedCountry(nativeElement, 'Australia');
       }));
 
       it('should display the default country first in the result list with not selection', fakeAsync(() => {
@@ -717,7 +700,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'United States', 'us');
+        validateSelectedCountry(nativeElement, 'United States');
       }));
 
       it('should initialize with a set country but only the iso2 code', fakeAsync(() => {
@@ -728,7 +711,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'United States', 'us');
+        validateSelectedCountry(nativeElement, 'United States');
       }));
 
       it('should initialize with a set country and fix an invalid name', fakeAsync(() => {
@@ -740,7 +723,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'United States', 'us');
+        validateSelectedCountry(nativeElement, 'United States');
       }));
 
       it('should initialize without a set country', fakeAsync(() => {
@@ -749,9 +732,6 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
 
         expect(nativeElement.querySelector('textarea')?.value).toBe('');
-        expect(
-          nativeElement.querySelector('.sky-country-field-flag'),
-        ).toBeNull();
       }));
     });
 
@@ -765,13 +745,13 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'United States', 'us');
+        validateSelectedCountry(nativeElement, 'United States');
 
         searchAndSelect('Austr', 0, fixture);
 
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'Australia', 'au');
+        validateSelectedCountry(nativeElement, 'Australia');
       }));
 
       it('should change countries correctly via a model change, even when disabled', fakeAsync(() => {
@@ -783,7 +763,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'United States', 'us');
+        validateSelectedCountry(nativeElement, 'United States');
 
         component.countryControl?.setValue({
           name: 'Australia',
@@ -794,7 +774,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'Australia', 'au');
+        validateSelectedCountry(nativeElement, 'Australia');
 
         component.countryFieldComponent.disabled = true;
 
@@ -811,7 +791,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'United States', 'us');
+        validateSelectedCountry(nativeElement, 'United States');
       }));
 
       it('should change countries correctly via a model change with an invalid name', fakeAsync(() => {
@@ -823,7 +803,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'United States', 'us');
+        validateSelectedCountry(nativeElement, 'United States');
 
         component.countryControl?.setValue({
           name: 'Test Name',
@@ -834,7 +814,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'Australia', 'au');
+        validateSelectedCountry(nativeElement, 'Australia');
       }));
 
       it('should change countries correctly via a model change with only a iso2 code', fakeAsync(() => {
@@ -846,7 +826,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'United States', 'us');
+        validateSelectedCountry(nativeElement, 'United States');
 
         component.countryControl?.setValue({
           name: 'Australia',
@@ -857,7 +837,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'Australia', 'au');
+        validateSelectedCountry(nativeElement, 'Australia');
       }));
 
       it('should display the default country first in the result list with not selection', fakeAsync(() => {
@@ -1004,9 +984,6 @@ describe('Country Field Component', () => {
 
         expect(component.countryControl?.value).toBeUndefined();
         expect(nativeElement.querySelector('textarea')?.value).toBe('');
-        expect(
-          nativeElement.querySelector('.sky-country-field-flag'),
-        ).toBeNull();
       }));
 
       it('should mark the form as touched when the form loses focus', fakeAsync(() => {
@@ -1327,7 +1304,7 @@ describe('Country Field Component', () => {
 
         fixture.detectChanges();
 
-        validateSelectedCountry(nativeElement, 'Australia', 'au');
+        validateSelectedCountry(nativeElement, 'Australia');
       }));
 
       it('should display the default country first in the result list with not selection', fakeAsync(() => {
@@ -1424,9 +1401,6 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
 
         expect(nativeElement.querySelector('textarea')?.value).toBe('');
-        expect(
-          nativeElement.querySelector('.sky-country-field-flag'),
-        ).toBeNull();
       }));
 
       it('should emit the countryChange event correctly', fakeAsync(() => {
