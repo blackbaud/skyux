@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  TemplateRef,
   input,
   output,
 } from '@angular/core';
@@ -70,6 +71,15 @@ export class FooWithInputsOutputsDirective {
   public get inputD(): boolean {
     return this.#_inputD;
   }
+
+  /**
+   * This describes an input with an alias.
+   */
+  @Input('alias1')
+  public inputWithAlias1: TemplateRef<unknown> | undefined;
+
+  @Input({ alias: 'alias2' })
+  public inputWithAlias2: TemplateRef<unknown> | undefined;
 
   /**
    * This describes a decorated output.
