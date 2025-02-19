@@ -99,7 +99,7 @@ describe('Viewport service', () => {
     item1.style.width = '100px';
     item1.style.overflow = 'hidden';
     item1.style.position = 'absolute';
-    item1.style.top = '0';
+    item1.style.top = '40px';
     item1.style.left = '0';
     item1.appendChild(document.createTextNode('Item 1'));
     container.appendChild(item1);
@@ -115,6 +115,23 @@ describe('Viewport service', () => {
     item2.style.left = '0';
     item2.appendChild(document.createTextNode('Item 2'));
     container.appendChild(item2);
+
+    const item3 = document.createElement('div');
+    item3.style.backgroundColor = 'lch(73% 48% 326deg)';
+    item3.style.height = '40px';
+    item3.style.width = '120px';
+    item3.style.overflow = 'hidden';
+    item3.style.position = 'fixed';
+    item3.style.top = '0';
+    item3.style.left = '40px';
+    item3.style.zIndex = '10';
+    const item3Child = document.createElement('div');
+    item3Child.style.height = '100%';
+    item3Child.style.width = '100%';
+    item3Child.style.margin = '0';
+    item3Child.appendChild(document.createTextNode('Item 3'));
+    item3.appendChild(item3Child);
+    container.appendChild(item3);
 
     document.body.appendChild(container);
 
@@ -132,10 +149,17 @@ describe('Viewport service', () => {
       reserveForElement: item2,
     });
 
+    svc.reserveSpace({
+      id: 'item3-test',
+      position: 'top',
+      size: 40,
+      reserveForElement: item3,
+    });
+
     await new Promise((resolve) => setTimeout(resolve, 32));
     await new Promise((resolve) => requestAnimationFrame(resolve));
     expect(isInViewport(item1)).toBeTrue();
-    validateViewportSpace('top', 50);
+    validateViewportSpace('top', 90);
     window.scrollTo({
       top: viewportHeight + 50,
       behavior: 'instant',
@@ -144,11 +168,11 @@ describe('Viewport service', () => {
     await new Promise((resolve) => requestAnimationFrame(resolve));
     expect(isInViewport(item1)).toBeFalse();
     expect(isInViewport(item2)).toBeTrue();
-    validateViewportSpace('top', 54);
+    validateViewportSpace('top', 94);
 
     svc.unreserveSpace('item2-test');
     await new Promise((resolve) => requestAnimationFrame(resolve));
-    validateViewportSpace('top', 0);
+    validateViewportSpace('top', 40);
     window.scrollTo({
       top: 0,
       behavior: 'instant',
@@ -156,10 +180,10 @@ describe('Viewport service', () => {
     await new Promise((resolve) => setTimeout(resolve, 32));
     await new Promise((resolve) => requestAnimationFrame(resolve));
     expect(isInViewport(item1)).toBeTrue();
-    validateViewportSpace('top', 50);
+    validateViewportSpace('top', 90);
     svc.unreserveSpace('item1-test');
     await new Promise((resolve) => requestAnimationFrame(resolve));
-    validateViewportSpace('top', 0);
+    validateViewportSpace('top', 40);
 
     document.body.removeChild(container);
   }));

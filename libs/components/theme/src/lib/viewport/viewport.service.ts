@@ -67,7 +67,9 @@ export class SkyAppViewportService {
   public reserveSpace(args: SkyAppViewportReserveArgs): void {
     const item = {
       ...args,
-      active: !args.reserveForElement,
+      active:
+        !args.reserveForElement ||
+        this.#isElementVisible(args.reserveForElement),
     };
     this.#reserveItems.set(args.id, item);
     this.#watchVisibility(item);
@@ -143,7 +145,7 @@ export class SkyAppViewportService {
       rect.x <= window.innerWidth &&
       rect.x >= 0 &&
       // Element is not hidden by another element
-      this.#document.elementFromPoint(rect.x + 1, rect.y + 1) === element
+      element.contains(this.#document.elementFromPoint(rect.x + 1, rect.y + 1))
     );
   }
 }
