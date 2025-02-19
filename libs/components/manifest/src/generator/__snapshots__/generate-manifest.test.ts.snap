@@ -250,18 +250,6 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"unionType\\",
             \\"type\\": \\"null | true | \\\\\\"a\\\\\\" | \\\\\\"b\\\\\\" | undefined\\"
-          },
-          {
-            \\"description\\": \\"Describes a method which returns a MappedType (e.g. \`{ [K in keyof T]: string }\`).\\",
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"getStrings\\",
-            \\"type\\": \\"Observable<{ [K in string | number | symbol]: string }>\\"
-          },
-          {
-            \\"description\\": \\"Describes a method without any parameters.\\",
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"methodWithoutParameters\\",
-            \\"type\\": \\"void\\"
           }
         ],
         \\"description\\": \\"This is the foo class.\\",
@@ -311,19 +299,6 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"isStatic\\": true,
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"someStaticProperty\\",
-            \\"type\\": \\"boolean\\"
-          },
-          {
-            \\"description\\": \\"This describes the abstract method.\\",
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"someAbstractMethod\\",
-            \\"type\\": \\"void\\"
-          },
-          {
-            \\"description\\": \\"This describes the static method.\\",
-            \\"isStatic\\": true,
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"someStaticMethod\\",
             \\"type\\": \\"boolean\\"
           }
         ],
@@ -602,11 +577,6 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"kind\\": \\"class-method\\",
             \\"name\\": \\"forRoot\\",
             \\"type\\": \\"ModuleWithProviders<FooModule>\\"
-          },
-          {
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"forRoot\\",
-            \\"type\\": \\"ModuleWithProviders<FooModule>\\"
           }
         ],
         \\"docsId\\": \\"FooModule\\",
@@ -642,12 +612,6 @@ exports[`generate-manifest should generate manifest 1`] = `
               }
             ],
             \\"type\\": \\"string\\"
-          },
-          {
-            \\"description\\": \\"This describes the transform method.\\",
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"transform\\",
-            \\"type\\": \\"string\\"
           }
         ],
         \\"description\\": \\"This describes the Foo pipe.\\",
@@ -660,6 +624,12 @@ exports[`generate-manifest should generate manifest 1`] = `
       {
         \\"anchorId\\": \\"class_foo-service\\",
         \\"children\\": [
+          {
+            \\"description\\": \\"This describes a public method.\\",
+            \\"kind\\": \\"class-method\\",
+            \\"name\\": \\"someMethod\\",
+            \\"type\\": \\"Promise<Type<string>>\\"
+          },
           {
             \\"defaultValue\\": \\"''\\",
             \\"kind\\": \\"class-property\\",

@@ -44,13 +44,8 @@ function getTypeForAccessor(
   // The accessor does not have a getter, so we need to find the type from the
   // setter's parameter.
   if (!type) {
-    const param = signatures.find((s) => s.kind === ReflectionKind.SetSignature)
-      ?.parameters?.[0];
-
-    if (param) {
-      console.error('param!', param);
-      type = param.type;
-    }
+    type = signatures.find((s) => s.kind === ReflectionKind.SetSignature)
+      ?.parameters?.[0]?.type;
   }
 
   return type;

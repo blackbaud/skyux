@@ -21,10 +21,11 @@ export function getMethods(
 
   if (reflection.children) {
     for (const child of reflection.children) {
-      if (child.kind === ReflectionKind.Method) {
-        if (!child.name.startsWith('ng')) {
-          methods.push(getMethod(child));
-        }
+      if (
+        !child.name.startsWith('ng') &&
+        child.kind === ReflectionKind.Method
+      ) {
+        methods.push(getMethod(child));
       }
     }
   }
@@ -99,7 +100,7 @@ export function getProperties(
 
   if (reflection.children) {
     for (const child of reflection.children) {
-      if (child.name !== 'constructor') {
+      if (child.kind === ReflectionKind.Property) {
         const property = getProperty(child);
         properties.push(property);
       }
