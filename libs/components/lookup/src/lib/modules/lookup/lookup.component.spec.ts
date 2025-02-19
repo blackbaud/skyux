@@ -8,6 +8,7 @@ import { NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
+import { SkyLiveAnnouncerTestingModule } from '@skyux/core/testing';
 import { SkyModalHostService, SkyModalService } from '@skyux/modals';
 
 import { SkyAutocompleteMessageType } from '../autocomplete/types/autocomplete-message-type';
@@ -542,7 +543,7 @@ describe('Lookup component', function () {
 
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [SkyLookupFixturesModule],
+      imports: [SkyLookupFixturesModule, SkyLiveAnnouncerTestingModule],
     });
 
     // Confirm all modals are closed before another test is executed.

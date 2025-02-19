@@ -3,8 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyLiveAnnouncerTestingModule } from '@skyux/core/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
-import { SkyLookupHarness } from '@skyux/lookup/testing';
-import { SkyAutocompleteInputHarness } from '@skyux/lookup/testing';
+import {
+  SkyAutocompleteInputHarness,
+  SkyLookupHarness,
+} from '@skyux/lookup/testing';
 
 import { of } from 'rxjs';
 
