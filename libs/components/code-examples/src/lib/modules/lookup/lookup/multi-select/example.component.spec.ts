@@ -1,6 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyLiveAnnouncerTestingModule } from '@skyux/core/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
 
@@ -34,7 +35,11 @@ describe('Lookup multi-select example', () => {
     mockSvc = jasmine.createSpyObj<DemoService>('DemoService', ['search']);
 
     TestBed.configureTestingModule({
-      imports: [LookupMultiSelectExampleComponent, NoopAnimationsModule],
+      imports: [
+        LookupMultiSelectExampleComponent,
+        NoopAnimationsModule,
+        SkyLiveAnnouncerTestingModule,
+      ],
       providers: [
         {
           provide: DemoService,

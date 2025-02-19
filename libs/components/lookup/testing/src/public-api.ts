@@ -2,6 +2,7 @@ export { SkyAutocompleteHarness } from './modules/autocomplete/autocomplete-harn
 export { SkyAutocompleteHarnessFilters } from './modules/autocomplete/autocomplete-harness-filters';
 export { SkyAutocompleteSearchResultHarness } from './modules/autocomplete/autocomplete-search-result-harness';
 export { SkyAutocompleteSearchResultHarnessFilters } from './modules/autocomplete/autocomplete-search-result-harness-filters';
+export { SkyAutocompleteInputHarness } from './modules/autocomplete/autocomplete-input-harness';
 
 export { SkyCountryFieldFixture } from './legacy/country-field/country-field-fixture';
 export { SkyCountryFieldTestingModule } from './legacy/country-field/country-field-testing.module';

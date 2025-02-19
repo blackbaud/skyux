@@ -18,3 +18,4 @@ export { SkyHarnessFilters } from './shared/harness-filters';
 export { SkyHarnessUtility } from './shared/harness-utility';
 export { SkyInputHarness } from './shared/input-harness';
 export { SkyQueryableComponentHarness } from './shared/queryable-component-harness';
+export { SkyLiveAnnouncerTestingModule } from './modules/live-announcer/live-announcer-testing.module';

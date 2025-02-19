@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyLiveAnnouncerTestingModule } from '@skyux/core/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyCountryFieldHarness } from '@skyux/lookup/testing';
 
@@ -27,7 +28,7 @@ describe('Basic country field demo', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [DemoComponent],
+      imports: [DemoComponent, SkyLiveAnnouncerTestingModule],
     });
   });
 

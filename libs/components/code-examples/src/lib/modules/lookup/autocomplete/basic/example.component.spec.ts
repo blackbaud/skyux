@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyLiveAnnouncerTestingModule } from '@skyux/core/testing';
 import { SkyAutocompleteHarness } from '@skyux/lookup/testing';
 
 import { LookupAutocompleteBasicExampleComponent } from './example.component';
@@ -26,7 +27,10 @@ describe('Basic autocomplete example', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LookupAutocompleteBasicExampleComponent],
+      imports: [
+        LookupAutocompleteBasicExampleComponent,
+        SkyLiveAnnouncerTestingModule,
+      ],
     });
   });
 
