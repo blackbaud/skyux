@@ -21,7 +21,7 @@ export class DemoComponent {
     this.#flyout = undefined;
   }
 
-  protected openFlyoutWithCustomWidth(): void {
+  public openFlyoutWithCustomWidth(): void {
     this.#flyout = this.#flyoutSvc.open(FlyoutComponent, {
       ariaLabelledBy: 'flyout-title',
       ariaRole: 'dialog',
