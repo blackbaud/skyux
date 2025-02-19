@@ -35,7 +35,7 @@ export class DemoComponent {
     });
   }
 
-  public openSimpleFlyout(): void {
+  protected openSimpleFlyout(): void {
     this.#flyout = this.#flyoutSvc.open(FlyoutComponent, {
       ariaLabelledBy: 'flyout-title',
       ariaRole: 'dialog',

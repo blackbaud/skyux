@@ -1,11 +1,10 @@
-import { TestElement } from '@angular/cdk/testing';
-import { SkyComponentHarness } from '@skyux/core/testing';
+import { ComponentHarness, TestElement } from '@angular/cdk/testing';
 
 /**
  * Harness for interacting with a flyout iterator component in tests.
  * @internal
  */
-export class SkyFlyoutIteratorHarness extends SkyComponentHarness {
+export class SkyFlyoutIteratorHarness extends ComponentHarness {
   /**
    * @internal
    */

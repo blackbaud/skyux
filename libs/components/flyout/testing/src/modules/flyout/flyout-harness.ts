@@ -50,28 +50,28 @@ export class SkyFlyoutHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets the flyout's ARIA-describedby attribute.
+   * Gets the flyout's aria-describedby attribute.
    */
   public async getAriaDescribedBy(): Promise<string | null> {
     return await (await this.#getFlyout()).getAttribute('aria-describedby');
   }
 
   /**
-   * Gets the flyout's ARIA-label attribute.
+   * Gets the flyout's aria-label attribute.
    */
   public async getAriaLabel(): Promise<string | null> {
     return await (await this.#getFlyout()).getAttribute('aria-label');
   }
 
   /**
-   * Gets the flyout's ARIA-labelledby attribute.
+   * Gets the flyout's aria-labelledby attribute.
    */
   public async getAriaLabelledBy(): Promise<string | null> {
     return await (await this.#getFlyout()).getAttribute('aria-labelledby');
   }
 
   /**
-   * Gets the flyout's ARIA role.
+   * Gets the flyout's aria role.
    */
   public async getAriaRole(): Promise<string | null> {
     return await (await this.#getFlyout()).getAttribute('role');
