@@ -2,6 +2,7 @@ import {
   ArrayType,
   DeclarationReflection,
   Reflection,
+  ReflectionKind,
   ReflectionType,
   SomeType,
   UnionType,
@@ -31,6 +32,30 @@ function needsCustomFormatting(type: SomeType): boolean {
   );
 }
 
+function getTypeForAccessor(
+  reflection: DeclarationReflection,
+): SomeType | undefined {
+  const signatures = reflection.getAllSignatures();
+
+  let type = signatures.find(
+    (s) => s.kind === ReflectionKind.GetSignature,
+  )?.type;
+
+  // The accessor does not have a getter, so we need to find the type from the
+  // setter's parameter.
+  if (!type) {
+    const param = signatures.find((s) => s.kind === ReflectionKind.SetSignature)
+      ?.parameters?.[0];
+
+    if (param) {
+      console.error('param!', param);
+      type = param.type;
+    }
+  }
+
+  return type;
+}
+
 /**
  * Returns a string representation of a reflection's type.
  */
@@ -43,9 +68,15 @@ export function formatType(
 
   // If the type has signatures, it's type information is stored there.
   if (!type && reflection instanceof DeclarationReflection) {
-    type =
-      reflection.type ??
-      reflection.getAllSignatures().find((signature) => signature.type)?.type;
+    if (reflection.type) {
+      type = reflection.type;
+    } else if (reflection.kind === ReflectionKind.Accessor) {
+      type = getTypeForAccessor(reflection);
+    } else {
+      type = reflection
+        .getAllSignatures()
+        .find((signature) => signature.type)?.type;
+    }
   }
 
   if (!type) {

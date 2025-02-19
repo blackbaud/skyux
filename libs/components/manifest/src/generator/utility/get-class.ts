@@ -23,7 +23,6 @@ export function getMethods(
     for (const child of reflection.children) {
       if (child.kind === ReflectionKind.Method) {
         if (!child.name.startsWith('ng')) {
-          console.log('getMethod!', child);
           methods.push(getMethod(child));
         }
       }

@@ -375,6 +375,13 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"type\\": \\"InputSignal<string>\\"
           },
           {
+            \\"description\\": \\"This describes an input with only a setter.\\",
+            \\"defaultValue\\": \\"false\\",
+            \\"kind\\": \\"directive-input\\",
+            \\"name\\": \\"compact\\",
+            \\"type\\": \\"boolean\\"
+          },
+          {
             \\"description\\": \\"This describes the onClick output.\\",
             \\"kind\\": \\"directive-output\\",
             \\"name\\": \\"onClick\\",
@@ -443,12 +450,12 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"description\\": \\"This describes an input with an alias.\\",
             \\"kind\\": \\"directive-input\\",
             \\"name\\": \\"alias1\\",
-            \\"type\\": \\"undefined | TemplateRef<unknown>\\"
+            \\"type\\": \\"TemplateRef<unknown> | undefined\\"
           },
           {
             \\"kind\\": \\"directive-input\\",
             \\"name\\": \\"alias2\\",
-            \\"type\\": \\"undefined | TemplateRef<unknown>\\"
+            \\"type\\": \\"TemplateRef<unknown> | undefined\\"
           },
           {
             \\"description\\": \\"This describes an input with a setter.\\",
