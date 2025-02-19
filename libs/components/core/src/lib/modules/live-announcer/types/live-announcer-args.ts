@@ -6,4 +6,5 @@ import { SkyLiveAnnouncerPoliteness } from './live-announcer-politeness';
  */
 export interface SkyLiveAnnouncerArgs {
   politeness?: SkyLiveAnnouncerPoliteness;
+  duration?: number;
 }

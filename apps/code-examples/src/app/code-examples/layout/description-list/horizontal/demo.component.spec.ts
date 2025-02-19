@@ -1,7 +1,10 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SkyHelpTestingModule } from '@skyux/core/testing';
+import {
+  SkyHelpTestingModule,
+  SkyLiveAnnouncerTestingModule,
+} from '@skyux/core/testing';
 import { SkyDescriptionListHarness } from '@skyux/layout/testing';
 
 import { DemoComponent } from './demo.component';
@@ -16,7 +19,12 @@ describe('Horizontal description list', () => {
     fixture: ComponentFixture<DemoComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [DemoComponent, SkyHelpTestingModule, NoopAnimationsModule],
+      imports: [
+        DemoComponent,
+        SkyHelpTestingModule,
+        NoopAnimationsModule,
+        SkyLiveAnnouncerTestingModule,
+      ],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(DemoComponent);

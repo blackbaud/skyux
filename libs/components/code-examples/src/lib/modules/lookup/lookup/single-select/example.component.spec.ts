@@ -1,8 +1,10 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyLiveAnnouncerTestingModule } from '@skyux/core/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
+import { SkyAutocompleteInputHarness } from '@skyux/lookup/testing';
 
 import { of } from 'rxjs';
 
@@ -15,6 +17,7 @@ describe('Lookup single-select example', () => {
   async function setupTest(): Promise<{
     lookupHarness: SkyLookupHarness;
     fixture: ComponentFixture<LookupSingleSelectExampleComponent>;
+    control: SkyAutocompleteInputHarness;
   }> {
     const fixture = TestBed.createComponent(LookupSingleSelectExampleComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -25,7 +28,9 @@ describe('Lookup single-select example', () => {
       )
     ).queryHarness(SkyLookupHarness);
 
-    return { lookupHarness, fixture };
+    const control = await lookupHarness.getControl();
+
+    return { lookupHarness, fixture, control };
   }
 
   beforeEach(() => {
@@ -34,7 +39,11 @@ describe('Lookup single-select example', () => {
     mockSvc = jasmine.createSpyObj<DemoService>('DemoService', ['search']);
 
     TestBed.configureTestingModule({
-      imports: [LookupSingleSelectExampleComponent, NoopAnimationsModule],
+      imports: [
+        LookupSingleSelectExampleComponent,
+        NoopAnimationsModule,
+        SkyLiveAnnouncerTestingModule,
+      ],
       providers: [
         {
           provide: DemoService,
@@ -45,13 +54,13 @@ describe('Lookup single-select example', () => {
   });
 
   it('should set the expected initial value', async () => {
-    const { lookupHarness } = await setupTest();
+    const { control } = await setupTest();
 
-    await expectAsync(lookupHarness.getValue()).toBeResolvedTo('Shirley');
+    await expectAsync(control.getValue()).toBeResolvedTo('Shirley');
   });
 
   it('should update the form control when a favorite name is selected', async () => {
-    const { lookupHarness, fixture } = await setupTest();
+    const { lookupHarness, fixture, control } = await setupTest();
 
     mockSvc.search.and.callFake((searchText) =>
       of({
@@ -68,7 +77,7 @@ describe('Lookup single-select example', () => {
       }),
     );
 
-    await lookupHarness.enterText('b');
+    await control.setValue('b');
     await lookupHarness.selectSearchResult({
       text: 'Bernard',
     });
