@@ -2,17 +2,23 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   input,
   numberAttribute,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SkyIconModule } from '@skyux/icon';
 
+import { SkyHeadingAnchorService } from './heading-anchor.service';
+
 type SkyHeadingAnchorHeadingTextFormat = 'normal' | 'code';
 type SkyHeadingAnchorHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 const DEFAULT_HEADING_LEVEL: SkyHeadingAnchorHeadingLevel = 2;
 
+/**
+ * @internal
+ */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -83,6 +89,8 @@ const DEFAULT_HEADING_LEVEL: SkyHeadingAnchorHeadingLevel = 2;
   `,
 })
 export class SkyHeadingAnchorComponent {
+  readonly #anchorSvc = inject(SkyHeadingAnchorService, { skipSelf: true });
+
   public headingId = input.required<string>();
   public headingText = input.required<string>();
   public headingTextFormat = input<SkyHeadingAnchorHeadingTextFormat>('normal');
@@ -98,4 +106,8 @@ export class SkyHeadingAnchorComponent {
       return DEFAULT_HEADING_LEVEL;
     },
   });
+
+  constructor() {
+    this.#anchorSvc.register(this);
+  }
 }

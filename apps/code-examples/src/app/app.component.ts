@@ -1,5 +1,12 @@
-import { Component, Renderer2 } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  Component,
+  Injector,
+  Renderer2,
+  afterNextRender,
+  inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   SkyAppViewportService,
   SkyTheme,
@@ -15,6 +22,9 @@ import {
   standalone: false,
 })
 export class AppComponent {
+  #activatedRoute = inject(ActivatedRoute);
+  #injector = inject(Injector);
+
   public height = 80;
 
   constructor(
@@ -35,6 +45,26 @@ export class AppComponent {
     );
 
     themeSvc.init(document.body, renderer, themeSettings);
+
+    this.#activatedRoute.fragment
+      .pipe(takeUntilDestroyed())
+      .subscribe((fragment) => {
+        if (fragment) {
+          afterNextRender(
+            {
+              write: () => {
+                const el = document.getElementById(fragment);
+                if (el) {
+                  el.scrollIntoView({
+                    behavior: 'smooth',
+                  });
+                }
+              },
+            },
+            { injector: this.#injector },
+          );
+        }
+      });
   }
 
   public isHome(): boolean {

@@ -1,4 +1,4 @@
-import { JsonPipe } from '@angular/common';
+import { JsonPipe, TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,22 +10,33 @@ import { SkyCodeExampleViewerModule } from '@skyux/docs-tools';
 import { SkyManifestDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
 
+import { SkyHeadingAnchorService } from '../heading-anchor/heading-anchor.service';
 import { SkyTypeDefinitionComponent } from '../type-definition/type-definition.component';
 
 import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
+import { SkyShowcasePanelComponent } from './showcase-panel.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     JsonPipe,
     SkyCodeExampleViewerModule,
+    SkyShowcasePanelComponent,
     SkyTabsModule,
     SkyTypeDefinitionComponent,
+    TitleCasePipe,
   ],
+  providers: [SkyHeadingAnchorService],
   selector: 'sky-showcase',
   styles: `
     :host {
       display: block;
+    }
+
+    pre {
+      width: 100%;
+      overflow: auto;
+      border: 1px solid red;
     }
 
     .sky-showcase-tab-content {
@@ -41,13 +52,18 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
       </sky-tab>
 
       <sky-tab tabHeading="Development">
-        <div class="sky-showcase-tab-content">
+        <sky-showcase-panel
+          [headingText]="(headingText() | titlecase) + ' Development'"
+          [scrollContainerSelector]="scrollContainerSelector()"
+        >
           <ng-content select="sky-showcase-content[category=development]" />
+
           @for (definition of manifest().publicApi; track definition.docsId) {
             <sky-type-definition [definition]="definition" />
           }
+
           <pre>{{ manifest().publicApi | json }}</pre>
-        </div>
+        </sky-showcase-panel>
       </sky-tab>
 
       <sky-tab tabHeading="Testing">
@@ -87,7 +103,9 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
 export class SkyShowcaseComponent {
   readonly #examples = inject(SKY_SHOWCASE_EXAMPLES);
 
+  public headingText = input.required<string>();
   public manifest = input.required<SkyManifestDocumentationGroup>();
+  public scrollContainerSelector = input<string | undefined>(undefined);
 
   protected getComponentType(componentName: string): Type<unknown> {
     return this.#examples[componentName];
