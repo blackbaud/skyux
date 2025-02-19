@@ -1,5 +1,21 @@
 # Changelog
 
+## [12.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.4...12.0.0-alpha.5) (2025-02-19)
+
+
+### Features
+
+* add code example viewer component (internal use only) ([#3155](https://github.com/blackbaud/skyux/issues/3155)) ([2b3a72e](https://github.com/blackbaud/skyux/commit/2b3a72ef9eb615c18a9a2f48ad9c303fee4f8500))
+* **components/layout:** tokenize text expand styles ([#3161](https://github.com/blackbaud/skyux/issues/3161)) ([f9362cf](https://github.com/blackbaud/skyux/commit/f9362cfbe3139b8ddc1341cf31d1df8dd4c54680))
+
+
+### Bug Fixes
+
+* **components/layout:** exclude controls text content when returning heading text for the box harness ([#3156](https://github.com/blackbaud/skyux/issues/3156)) ([ec018cd](https://github.com/blackbaud/skyux/commit/ec018cd51da808c147d910f9ac359cb06e9f2b17))
+* **components/popovers:** fix sporadic dropdown menu misalignment ([#3153](https://github.com/blackbaud/skyux/issues/3153)) ([#3154](https://github.com/blackbaud/skyux/issues/3154)) ([3a889d2](https://github.com/blackbaud/skyux/commit/3a889d2da4cdf966205b31dec839cdbdd6d41fb6))
+* **components/tabs:** vertical tabs keyboard operable in mobile view ([#3150](https://github.com/blackbaud/skyux/issues/3150)) ([#3151](https://github.com/blackbaud/skyux/issues/3151)) ([ec7abbb](https://github.com/blackbaud/skyux/commit/ec7abbb24e14f84582011bac136880cddfc16609))
+* use alias instead of property name for directive inputs in the manifest ([#3160](https://github.com/blackbaud/skyux/issues/3160)) ([#3162](https://github.com/blackbaud/skyux/issues/3162)) ([566e6bd](https://github.com/blackbaud/skyux/commit/566e6bd6adcde78ef683c31cbcd28feb0f092794))
+
 ## [11.42.0](https://github.com/blackbaud/skyux/compare/11.41.0...11.42.0) (2025-02-14)
 
 
