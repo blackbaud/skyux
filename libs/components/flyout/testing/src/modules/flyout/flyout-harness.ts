@@ -71,7 +71,7 @@ export class SkyFlyoutHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets the flyout's aria role.
+   * Gets the flyout's ARIA role.
    */
   public async getAriaRole(): Promise<string | null> {
     return await (await this.#getFlyout()).getAttribute('role');
