@@ -76,7 +76,7 @@ describe('Lookup asynchronous search example', () => {
       }),
     );
 
-    await lookupHarness.enterText('b');
+    await (await lookupHarness.getControl()).setValue('b');
     await lookupHarness.selectSearchResult({
       text: 'Bernard',
     });

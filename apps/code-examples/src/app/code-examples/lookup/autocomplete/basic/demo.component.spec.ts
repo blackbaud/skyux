@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyLiveAnnouncerTestingModule } from '@skyux/core/testing';
 import { SkyAutocompleteHarness } from '@skyux/lookup/testing';
 
 import { DemoComponent } from './demo.component';
@@ -24,7 +25,7 @@ describe('Basic autocomplete demo', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [DemoComponent],
+      imports: [DemoComponent, SkyLiveAnnouncerTestingModule],
     });
   });
 
@@ -32,16 +33,17 @@ describe('Basic autocomplete demo', () => {
     const { harness, fixture } = await setupTest({
       dataSkyId: 'favorite-color',
     });
+    const control = await harness.getControl();
 
-    await harness.focus();
-    await harness.enterText('b');
+    await control.focus();
+    await control.setValue('b');
 
     const searchResultsText = await harness.getSearchResultsText();
 
     expect(searchResultsText.length).toBe(3);
 
-    await harness.clear();
-    await harness.enterText('blu');
+    await control.clear();
+    await control.setValue('blu');
 
     const searchResults = await harness.getSearchResults();
     await expectAsync(searchResults[0].getDescriptorValue()).toBeResolvedTo(

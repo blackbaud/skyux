@@ -75,7 +75,7 @@ describe('Lookup multi-select example', () => {
       }),
     );
 
-    await lookupHarness.enterText('b');
+    await (await lookupHarness.getControl()).setValue('b');
     await lookupHarness.selectSearchResult({
       text: 'Bernard',
     });

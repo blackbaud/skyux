@@ -1,6 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyLiveAnnouncerTestingModule } from '@skyux/core/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
 
@@ -34,7 +35,11 @@ describe('Lookup single-select demo', () => {
     mockSvc = jasmine.createSpyObj<DemoService>('DemoService', ['search']);
 
     TestBed.configureTestingModule({
-      imports: [DemoComponent, NoopAnimationsModule],
+      imports: [
+        DemoComponent,
+        NoopAnimationsModule,
+        SkyLiveAnnouncerTestingModule,
+      ],
       providers: [
         {
           provide: DemoService,
@@ -68,7 +73,7 @@ describe('Lookup single-select demo', () => {
       }),
     );
 
-    await lookupHarness.enterText('b');
+    await (await lookupHarness.getControl()).setValue('b');
     await lookupHarness.selectSearchResult({
       text: 'Bernard',
     });

@@ -38,16 +38,17 @@ describe('Basic autocomplete example', () => {
     const { harness, fixture } = await setupTest({
       dataSkyId: 'favorite-color',
     });
+    const control = await harness.getControl();
 
-    await harness.focus();
-    await harness.enterText('b');
+    await control.focus();
+    await control.setValue('b');
 
     const searchResultsText = await harness.getSearchResultsText();
 
     expect(searchResultsText.length).toBe(3);
 
-    await harness.clear();
-    await harness.enterText('blu');
+    await control.clear();
+    await control.setValue('blu');
 
     const searchResults = await harness.getSearchResults();
     await expectAsync(searchResults[0].getDescriptorValue()).toBeResolvedTo(
