@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.42.1](https://github.com/blackbaud/skyux/compare/11.42.0...11.42.1) (2025-02-19)
+
+
+### Bug Fixes
+
+* **components/theme:** set initial active status for viewport reserve space element ([#3168](https://github.com/blackbaud/skyux/issues/3168)) ([73f3056](https://github.com/blackbaud/skyux/commit/73f30561a80981bc641a976a6e3c7bfb18dd6f29))
+* use alias instead of property name for directive inputs in the manifest ([#3160](https://github.com/blackbaud/skyux/issues/3160)) ([17374a9](https://github.com/blackbaud/skyux/commit/17374a90d317c9ec3325ee05892f38483df693d5))
+
 ## [11.42.0](https://github.com/blackbaud/skyux/compare/11.41.0...11.42.0) (2025-02-14)
 
 
