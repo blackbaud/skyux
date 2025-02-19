@@ -99,7 +99,7 @@
         --ag-header-column-separator-width: 1px;
       }
       .ag-cell:nth-child(#{$i}) {
-        border-right-color: var(--sky-text-color-action-primary);
+        --ag-column-border: 1px solid var(--sky-text-color-action-primary);
       }
     }
 
@@ -121,8 +121,7 @@
         --ag-cell-horizontal-border: 3px
           solid
           var(--sky-text-color-action-primary);
-        border-right-color: var(--sky-text-color-action-primary);
-        border-right-width: 3px;
+        --ag-column-border: 3px solid var(--sky-text-color-action-primary);
       }
     }
   }

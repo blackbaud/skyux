@@ -7,6 +7,12 @@ import { AppComponent } from './app.component';
 
 const routes: Route[] = [
   {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('@skyux/storybook/route-list').then((m) => m.RouteListComponent),
+  },
+  {
     path: 'ag-grid-widgets',
     loadComponent: () =>
       import('./ag-grid-widgets/ag-grid-widgets.component').then(

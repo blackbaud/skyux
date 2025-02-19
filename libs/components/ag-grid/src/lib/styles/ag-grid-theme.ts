@@ -4,8 +4,8 @@ import {
   Theme,
   colorSchemeDark,
   colorSchemeLight,
-  createTheme,
   iconSetAlpine,
+  themeQuartz,
 } from 'ag-grid-community';
 
 const defaultsForAllThemes = {
@@ -43,6 +43,7 @@ const defaultsForAllThemes = {
   spacing: 4,
   textColor: 'var(--sky-text-color-default)',
   tooltipBackgroundColor: 'var(--sky-background-color-neutral-light)',
+  wrapperBorderRadius: 0,
 };
 const defaultsForDataEntryGrid = {
   backgroundColor: 'var(--sky-background-color-neutral-light)',
@@ -90,7 +91,7 @@ const modernThemeDarkBase = {
   rowHeight: 60,
 };
 
-const SkyAgGridDataGridDefault = createTheme()
+const SkyAgGridDataGridDefault = themeQuartz
   .withPart(colorSchemeLight)
   .withPart(iconSetAlpine)
   .withParams(defaultThemeBase);
@@ -106,7 +107,7 @@ const SkyAgGridDataEntryGridDefault = SkyAgGridDataGridDefault.withParams(
   },
 });
 
-const SkyAgGridDataGridModernLight = createTheme()
+const SkyAgGridDataGridModernLight = themeQuartz
   .withPart(colorSchemeLight)
   .withPart(iconSetAlpine)
   .withParams(modernThemeBase);
@@ -114,7 +115,7 @@ const SkyAgGridDataGridModernLight = createTheme()
 const SkyAgGridDataGridModernLightCompact =
   SkyAgGridDataGridModernLight.withParams(modernCompactThemeBase);
 
-const SkyAgGridDataGridModernDark = createTheme()
+const SkyAgGridDataGridModernDark = themeQuartz
   .withPart(colorSchemeDark)
   .withPart(iconSetAlpine)
   .withParams(modernThemeDarkBase);
