@@ -6,13 +6,13 @@ import { SkyManifestParentDefinitionKind } from '@skyux/manifest';
   pure: true,
 })
 export class SkyTypeDefinitionKindToLabelPipe implements PipeTransform {
-  public transform(value: SkyManifestParentDefinitionKind): string {
-    switch (value) {
+  public transform(kind: SkyManifestParentDefinitionKind): string {
+    switch (kind) {
       case 'type-alias':
         return 'Type alias';
 
       default:
-        return value.charAt(0).toLocaleUpperCase() + value.slice(1);
+        return kind.charAt(0).toLocaleUpperCase() + kind.slice(1);
     }
   }
 }

@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   inject,
   input,
@@ -28,6 +29,9 @@ import { type SkyCodeSnippetLanguage } from './code-snippet-language';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  host: {
+    class: 'sky-elevation-0-bordered sky-padding-even-md',
+  },
   imports: [SkyIconModule, SkyDocsToolsResourcesModule],
   selector: 'sky-code-snippet',
   styleUrls: [
@@ -41,6 +45,7 @@ export class SkyCodeSnippetComponent {
   readonly #sanitizer = inject(DomSanitizer);
 
   public readonly code = input.required<string>();
+  public readonly hideToolbar = input(false, { transform: booleanAttribute });
   public readonly language = input.required<SkyCodeSnippetLanguage>();
 
   protected readonly codeRef = viewChild<ElementRef>('codeRef');

@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  afterNextRender,
   inject,
   input,
   numberAttribute,
@@ -108,6 +109,8 @@ export class SkyHeadingAnchorComponent {
   });
 
   constructor() {
-    this.#anchorSvc.register(this);
+    afterNextRender(() => {
+      this.#anchorSvc.register(this);
+    });
   }
 }

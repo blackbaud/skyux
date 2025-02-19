@@ -1,16 +1,33 @@
-import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { JsonPipe, NgClass } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  booleanAttribute,
+  input,
+} from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 import {
-  SkyManifestChildDefinition,
-  SkyManifestClassPropertyDefinition,
-  SkyManifestParentDefinition,
+  type SkyManifestClassPropertyDefinition,
+  type SkyManifestDirectiveInputDefinition,
+  type SkyManifestDirectiveOutputDefinition,
+  type SkyManifestEnumerationMemberDefinition,
+  type SkyManifestInterfacePropertyDefinition,
+  type SkyManifestParentDefinition,
 } from '@skyux/manifest';
 
 import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
 import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
 
 import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
+import { SkyDocsPropertyTypeDefinitionDefaultValuePipe } from './pipes/default-value.pipe';
+import { SkyDocsPropertyNamePipe } from './pipes/property-name.pipe';
+
+export type PropertyDefinition =
+  | SkyManifestClassPropertyDefinition
+  | SkyManifestInterfacePropertyDefinition
+  | SkyManifestEnumerationMemberDefinition
+  | SkyManifestDirectiveInputDefinition
+  | SkyManifestDirectiveOutputDefinition;
 
 /**
  * @internal
@@ -18,20 +35,19 @@ import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    JsonPipe,
     NgClass,
     SkyMarkdownPipe,
     SkySafeHtmlPipe,
     SkyStatusIndicatorModule,
     SkyDeprecationReasonComponent,
+    SkyDocsPropertyTypeDefinitionDefaultValuePipe,
+    SkyDocsPropertyNamePipe,
   ],
   selector: 'sky-type-definition-properties-table',
   styles: `
     :host {
       display: block;
-    }
-
-    .sky-type-definition-deprecated {
-      text-decoration: line-through;
     }
 
     .sky-type-definition-table {
@@ -66,6 +82,8 @@ import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
         </tr>
       </thead>
       <tbody>
+        @let parentDef = parentDefinition();
+
         @for (property of properties(); track property.name) {
           <tr>
             <td>
@@ -77,18 +95,14 @@ import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
               }
               <code
                 [innerHTML]="
-                  getPropertyName(parentDefinition(), property) | skySafeHtml
+                  property | skyDocsPropertyName: parentDef | skySafeHtml
                 "
                 [ngClass]="{
-                  'sky-type-definition-deprecated': property.isDeprecated,
+                  'sky-text-strikethrough': property.isDeprecated,
                 }"
               ></code>
             </td>
             <td>
-              @if (property.description) {
-                <p [innerHTML]="property.description | skyMarkdown"></p>
-              }
-
               @if (property.deprecationReason) {
                 <p>
                   <sky-deprecation-reason
@@ -96,6 +110,26 @@ import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
                     [message]="property.deprecationReason"
                   />
                 </p>
+              }
+
+              @if (property.description) {
+                <p [innerHTML]="property.description | skyMarkdown"></p>
+              }
+
+              @let defaultValue = property | skyDocsPropertyDefaultValue;
+
+              @if (defaultValue) {
+                <p>
+                  Default:
+                  <code [innerHTML]="defaultValue | skySafeHtml"></code>
+                </p>
+              }
+
+              @if (showData()) {
+                <pre
+                  style="border: 1px solid red;overflow:auto;width:100%;height:250px;"
+                  >{{ property | json }}</pre
+                >
               }
             </td>
           </tr>
@@ -106,32 +140,6 @@ import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
 })
 export class SkyTypeDefinitionPropertiesTableComponent {
   public parentDefinition = input.required<SkyManifestParentDefinition>();
-  public properties = input.required<SkyManifestChildDefinition[]>();
-
-  protected getPropertyName(
-    parent: SkyManifestParentDefinition,
-    property: SkyManifestChildDefinition,
-  ): string {
-    switch (property.kind) {
-      case 'class-method': {
-        if ((property as SkyManifestClassPropertyDefinition).isStatic) {
-          return `${parent.name}.${property.name}`;
-        }
-
-        return `${property.name}`;
-      }
-
-      case 'enum-member': {
-        return `${parent.name}.${property.name}`;
-      }
-
-      case 'interface-property': {
-        return `${property.name}?: ${property.type}`;
-      }
-
-      default: {
-        return `${property.name}: ${property.type}`;
-      }
-    }
-  }
+  public properties = input.required<PropertyDefinition[]>();
+  public showData = input(false, { transform: booleanAttribute });
 }

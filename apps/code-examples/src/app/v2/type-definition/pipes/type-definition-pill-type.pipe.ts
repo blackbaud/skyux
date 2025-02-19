@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { SkyManifestParentDefinitionKind } from '@skyux/manifest';
 
-import { SkyPillCategoryType } from '../pill/pill-category-type';
+import { SkyPillCategoryType } from '../../pill/pill-category-type';
 
 @Pipe({
   name: 'skyTypeDefinitionPillType',

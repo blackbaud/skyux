@@ -8,7 +8,7 @@ import {
 import { SkyLabelModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyDescriptionListModule } from '@skyux/layout';
 import {
-  type SkyManifestChildDefinition,
+  SkyManifestClassMethodDefinition,
   type SkyManifestDocumentationTypeDefinition,
   isDirectiveDefinition,
 } from '@skyux/manifest';
@@ -19,9 +19,13 @@ import { SkyPillComponent } from '../pill/pill.component';
 import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
 
 import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
-import { SkyTypeDefinitionPropertiesTableComponent } from './properties-table.component';
-import { SkyTypeDefinitionKindToLabelPipe } from './type-definition-kind-to-label.pipe';
-import { SkyTypeDefinitionPillTypePipe } from './type-definition-pill-type.pipe';
+import { SkyTypeDefinitionMethodsTableComponent } from './methods-table.component';
+import { SkyTypeDefinitionKindToLabelPipe } from './pipes/type-definition-kind-to-label.pipe';
+import { SkyTypeDefinitionPillTypePipe } from './pipes/type-definition-pill-type.pipe';
+import {
+  PropertyDefinition,
+  SkyTypeDefinitionPropertiesTableComponent,
+} from './properties-table.component';
 
 /**
  * @internal
@@ -40,6 +44,7 @@ import { SkyTypeDefinitionPillTypePipe } from './type-definition-pill-type.pipe'
     SkyMarkdownPipe,
     SkyPillComponent,
     SkyTypeDefinitionPillTypePipe,
+    SkyTypeDefinitionMethodsTableComponent,
     SkyStatusIndicatorModule,
     SkyTypeDefinitionPropertiesTableComponent,
   ],
@@ -48,10 +53,6 @@ import { SkyTypeDefinitionPillTypePipe } from './type-definition-pill-type.pipe'
     :host {
       display: block;
       margin-bottom: 40px;
-    }
-
-    .sky-type-definition-deprecated {
-      text-decoration: line-through;
     }
 
     .sky-type-definition-tags {
@@ -87,6 +88,7 @@ import { SkyTypeDefinitionPillTypePipe } from './type-definition-pill-type.pipe'
       headingTextFormat="code"
       [headingId]="def.anchorId"
       [headingText]="def.name"
+      [class.sky-text-strikethrough]="def.isDeprecated"
     />
 
     <div class="sky-type-definition-tags sky-margin-stacked-lg">
@@ -96,12 +98,12 @@ import { SkyTypeDefinitionPillTypePipe } from './type-definition-pill-type.pipe'
       />
     </div>
 
-    @if (def.description) {
-      <p [innerHTML]="def.description | skyMarkdown"></p>
-    }
-
     @if (def.deprecationReason) {
       <sky-deprecation-reason stacked [message]="def.deprecationReason" />
+    }
+
+    @if (def.description) {
+      <p [innerHTML]="def.description | skyMarkdown"></p>
     }
 
     @if (def.kind === 'module' || def.kind === 'service') {
@@ -133,9 +135,9 @@ import { SkyTypeDefinitionPillTypePipe } from './type-definition-pill-type.pipe'
 
     @if (methodsValue && methodsValue.length > 0) {
       <h4>Methods</h4>
-      <sky-type-definition-properties-table
+      <sky-type-definition-methods-table
         [parentDefinition]="def"
-        [properties]="methodsValue"
+        [methods]="methodsValue"
       />
     }
   `,
@@ -143,17 +145,23 @@ import { SkyTypeDefinitionPillTypePipe } from './type-definition-pill-type.pipe'
 export class SkyTypeDefinitionComponent {
   public definition = input.required<SkyManifestDocumentationTypeDefinition>();
 
-  protected methods = computed<SkyManifestChildDefinition[] | undefined>(() => {
-    const def = this.definition();
-    return def.children?.filter((c) => c.kind === 'class-method');
-  });
-
-  protected properties = computed<SkyManifestChildDefinition[] | undefined>(
+  protected methods = computed<SkyManifestClassMethodDefinition[] | undefined>(
     () => {
       const def = this.definition();
-      return def.children?.filter((c) => c.kind !== 'class-method');
+
+      return def.children?.filter((c) => c.kind === 'class-method') as
+        | SkyManifestClassMethodDefinition[]
+        | undefined;
     },
   );
+
+  protected properties = computed<PropertyDefinition[] | undefined>(() => {
+    const def = this.definition();
+
+    return def.children?.filter((c) => c.kind !== 'class-method') as
+      | PropertyDefinition[]
+      | undefined;
+  });
 
   protected selector = computed<string | undefined>(() => {
     const def = this.definition();

@@ -1,4 +1,4 @@
-import { Injectable, afterNextRender } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -22,13 +22,7 @@ export class SkyHeadingAnchorService {
   public register(anchor: SkyHeadingAnchorComponent): void {
     if (!this.#anchors.includes(anchor)) {
       this.#anchors.push(anchor);
-
-      // TODO: Is this needed?
-      afterNextRender({
-        read: () => {
-          this.#anchorsChange.next(this.#getLinks());
-        },
-      });
+      this.#anchorsChange.next(this.#getLinks());
     }
   }
 

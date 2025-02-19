@@ -19,13 +19,6 @@ import {
 import { SkyHeadingAnchorService } from '../heading-anchor/heading-anchor.service';
 import { SkyTableOfContentsComponent } from '../table-of-contents/table-of-contents.component';
 
-// interface Anchor {
-//   active: boolean;
-//   top?: number;
-//   title: string;
-//   anchorId: string;
-// }
-
 interface Link {
   active: boolean;
   anchorId: string;
@@ -71,26 +64,12 @@ interface Link {
   `,
 })
 export class SkyShowcasePanelComponent {
-  /**
-   * When the anchor service emits new anchors,
-   * get the top value for each and determine which link is active.
-   * Pass these decisions to the toc component.
-   * When the scroll container selector changes, convert it to an observable,
-   * switchMap it, and return a fromEvent observable for the scroll event.
-   * Subscribe to this event and determine which link is active.
-   * Send these decisions to the toc component.
-   */
-
-  readonly #anchorsSvc = inject(SkyHeadingAnchorService);
-  readonly #anchors = toSignal(this.#anchorsSvc.anchorsChange);
-
-  // protected links = signal<({ active: boolean; anchorId: string; title: string }[])|undefined>(undefined);
+  readonly #anchors = toSignal(inject(SkyHeadingAnchorService).anchorsChange);
+  readonly #elementRef = inject(ElementRef);
 
   protected links = computed<Link[] | undefined>(() => {
     const anchors = this.#anchors();
-    const activeAnchorId = this.#activeAnchorId();
-
-    console.log('activeAnchorId!', activeAnchorId);
+    const activeAnchorId = this.#activeAnchorIdOnScroll();
 
     return anchors?.map((a) => ({
       active: a.anchorId === activeAnchorId,
@@ -101,56 +80,36 @@ export class SkyShowcasePanelComponent {
 
   #scrollEl: HTMLElement | Window = window;
 
-  // readonly #destroyRef = inject(DestroyRef);
-  readonly #elementRef = inject(ElementRef);
-
   public headingText = input.required<string>();
   public scrollContainerSelector = input<string | undefined>(undefined);
 
-  #activeAnchorId = toSignal(
+  #activeAnchorIdOnScroll = toSignal(
     toObservable(this.scrollContainerSelector).pipe(
       switchMap((scrollContainerSelector) => {
-        let scrollEl: HTMLElement | Window = window;
+        this.#scrollEl = this.#getScrollEl(scrollContainerSelector);
 
-        if (scrollContainerSelector) {
-          const el = document.querySelector<HTMLElement>(
-            scrollContainerSelector,
-          );
-
-          if (el) {
-            scrollEl = el;
-          }
-        }
-
-        this.#scrollEl = scrollEl;
-
-        // TODO: Add the listener outside of angular zone?
-        return fromEvent(scrollEl, 'scroll').pipe(
+        return fromEvent(this.#scrollEl, 'scroll').pipe(
           debounceTime(10),
           map(() => this.#getActiveLink()),
         );
-        // .pipe(takeUntilDestroyed(this.#destroyRef), debounceTime(10))
-        // .subscribe(() => {
-        //   const anchors = this.#anchors();
-
-        //   if (anchors) {
-        //     const scrollOffset = this.#getScrollOffset();
-
-        //     for (const anchor of anchors) {
-        //       const headingEl = document.querySelector<HTMLElement>(
-        //         anchor.anchorId,
-        //       );
-        //       if (headingEl) {
-        //       }
-        //     }
-        //   }
-
-        //   console.log('SCROLL EL!');
-        // });
       }),
       distinctUntilChanged(),
     ),
   );
+
+  #getScrollEl(selector?: string): HTMLElement | Window {
+    let scrollEl: HTMLElement | Window = window;
+
+    if (selector) {
+      const el = document.querySelector<HTMLElement>(selector);
+
+      if (el) {
+        scrollEl = el;
+      }
+    }
+
+    return scrollEl;
+  }
 
   #getScrollOffset(scrollEl: HTMLElement | Window): number {
     const { top } = this.#elementRef.nativeElement.getBoundingClientRect();
