@@ -163,7 +163,6 @@ export class SkyAgGridCellEditorLookupComponent
         this.#elementRef.nativeElement.querySelector('.sky-lookup-input');
       lookupInput.focus();
       if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
-        lookupInput.select();
         lookupInput.setRangeText(`${this.#params?.eventKey}`);
         // Ensure the cursor is at the end of the text.
         lookupInput.setSelectionRange(
@@ -171,9 +170,14 @@ export class SkyAgGridCellEditorLookupComponent
           lookupInput.value.length,
         );
         lookupInput.dispatchEvent(new Event('input'));
-      }
-      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
-        lookupInput.select();
+      } else if (
+        this.#triggerType === SkyAgGridCellEditorInitialAction.Untouched
+      ) {
+        // Ensure the cursor is at the end of the text.
+        lookupInput.setSelectionRange(
+          lookupInput.value.length,
+          lookupInput.value.length,
+        );
       }
     });
   }
