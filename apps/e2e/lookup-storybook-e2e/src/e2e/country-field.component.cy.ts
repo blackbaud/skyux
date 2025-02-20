@@ -25,40 +25,36 @@ describe('lookup-storybook', () => {
           );
         });
       });
-      [
-        'empty',
-        'disabled',
-        'prepopulated',
-        'hide-flag-prepopulated',
-        'disabled-prepopulated',
-      ].forEach((mode) => {
-        describe(`in ${mode} country field`, () => {
-          beforeEach(() =>
-            cy
-              .visit(
-                `/iframe.html?globals=theme:${theme}&id=countryfieldcomponent-countryfield--${mode}-country-field`,
-              )
-              .get('#ready')
-              .should('exist')
-              .end(),
-          );
-
-          it('should render the component', () => {
-            cy.get('app-country-field')
-              .should('exist')
-              .should('be.visible')
-              .screenshot(
-                `countryfieldcomponent-countryfield--${mode}-country-field-${theme}`,
-              );
-            cy.get('app-country-field').percySnapshot(
-              `countryfieldcomponent-countryfield--${mode}-country-field-${theme}`,
-              {
-                widths: E2eVariations.DISPLAY_WIDTHS,
-              },
+      ['empty', 'disabled', 'prepopulated', 'disabled-prepopulated'].forEach(
+        (mode) => {
+          describe(`in ${mode} country field`, () => {
+            beforeEach(() =>
+              cy
+                .visit(
+                  `/iframe.html?globals=theme:${theme}&id=countryfieldcomponent-countryfield--${mode}-country-field`,
+                )
+                .get('#ready')
+                .should('exist')
+                .end(),
             );
+
+            it('should render the component', () => {
+              cy.get('app-country-field')
+                .should('exist')
+                .should('be.visible')
+                .screenshot(
+                  `countryfieldcomponent-countryfield--${mode}-country-field-${theme}`,
+                );
+              cy.get('app-country-field').percySnapshot(
+                `countryfieldcomponent-countryfield--${mode}-country-field-${theme}`,
+                {
+                  widths: E2eVariations.DISPLAY_WIDTHS,
+                },
+              );
+            });
           });
-        });
-      });
+        },
+      );
       beforeEach(() =>
         cy
           .visit(
