@@ -109,6 +109,12 @@ import {
     }
 
     @if (def.kind === 'module' || def.kind === 'service') {
+      <!--<sky-code-snippet
+        class="sky-margin-stacked-lg"
+        hideToolbar
+        language="ts"
+        [code]="getImportStatement(def)"
+      />-->
       <p class="sky-font-body-lg">
         <code #importRef class="sky-codespan sky-margin-inline-xs"
           >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
@@ -216,4 +222,10 @@ export class SkyTypeDefinitionComponent {
 
     return undefined;
   });
+
+  protected getImportStatement(
+    def: SkyManifestDocumentationTypeDefinition,
+  ): string {
+    return `import { ${def.name} } from '${def.packageName}';`;
+  }
 }

@@ -65,7 +65,8 @@ code.sky-codespan {
   td,
   th,
   p {
-    font-size: var(--sky-font-size-body-s);
+    // font-size: var(--sky-font-size-body-s);
+    font-size: 14px;
   }
 
   td {
@@ -81,11 +82,11 @@ code.sky-codespan {
     // }
 
     sky-code-snippet {
-      margin: var(--sky-margin-stacked-md) 0;
+      margin: 1em 0;
     }
   }
 
-  // th {
-  //   font-weight: 600;
-  // }
+  th {
+    font-weight: 600;
+  }
 }

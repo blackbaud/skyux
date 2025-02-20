@@ -1,4 +1,7 @@
 sky-code-snippet {
   display: block;
-  overflow-x: auto;
+
+  pre {
+    overflow-x: auto;
+  }
 }

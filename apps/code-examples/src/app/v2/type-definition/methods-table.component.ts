@@ -77,7 +77,6 @@ import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
               }
 
               <sky-code-snippet
-                class="sky-margin-stacked-sm"
                 hideToolbar
                 language="ts"
                 [code]="getCodeSignature(method)"

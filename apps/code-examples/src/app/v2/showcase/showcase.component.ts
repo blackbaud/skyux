@@ -58,16 +58,19 @@ import { SkyShowcasePanelComponent } from './showcase-panel.component';
           @for (definition of manifest().publicApi; track definition.docsId) {
             <sky-type-definition [definition]="definition" />
           }
-
-          <pre>{{ manifest().publicApi | json }}</pre>
         </sky-showcase-panel>
       </sky-tab>
 
       <sky-tab tabHeading="Testing">
-        <div class="sky-showcase-tab-content">
+        <sky-showcase-panel
+          [tocHeadingText]="(labelText() | titlecase) + ' Testing'"
+        >
           <ng-content select="sky-showcase-content[category=testing]" />
-          <pre>{{ manifest().testing | json }}</pre>
-        </div>
+
+          @for (definition of manifest().testing; track definition.docsId) {
+            <sky-type-definition [definition]="definition" />
+          }
+        </sky-showcase-panel>
       </sky-tab>
 
       <sky-tab tabHeading="Examples">
