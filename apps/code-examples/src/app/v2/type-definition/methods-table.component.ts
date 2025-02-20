@@ -42,35 +42,12 @@ import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
     :host {
       display: block;
     }
-
-    .sky-type-definition-table {
-      width: 100%;
-      border-spacing: 0;
-      border-collapse: collapse;
-      table-layout: fixed;
-
-      td,
-      th {
-        border-bottom: 1px solid var(--sky-border-color-neutral-medium);
-        text-align: left;
-        font-size: 15px;
-      }
-
-      td {
-        padding: 8px 16px;
-      }
-
-      th {
-        padding: 14px 16px;
-        font-weight: 600;
-      }
-    }
   `,
   template: `
     <table class="sky-type-definition-table sky-margin-stacked-xl">
       <thead>
         <tr>
-          <th width="20%">Name</th>
+          <th width="35%">Name</th>
           <th>Details</th>
         </tr>
       </thead>
@@ -112,7 +89,7 @@ import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
                 <table class="sky-type-definition-table sky-margin-stacked-xl">
                   <thead>
                     <tr>
-                      <th width="30%">Name</th>
+                      <th width="50%">Name</th>
                       <th>Description</th>
                     </tr>
                   </thead>
@@ -182,13 +159,10 @@ export class SkyTypeDefinitionMethodsTableComponent {
   // TODO: Make this a pipe instead.
   protected getCodeSignature(method: SkyManifestClassMethodDefinition): string {
     return (
-      'public ' +
-      method.name +
-      '(' +
+      `public ${method.isStatic ? 'static ' : ''}${method.name}(` +
       (method.parameters?.map((p) => this.#paramPipe.transform(p)).join(', ') ??
         '') +
-      '): ' +
-      method.type
+      `): ${method.type}`
     );
   }
 }

@@ -33,10 +33,21 @@ code.sky-codespan {
 }
 
 .sky-type-definition-table {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  td,
+  th {
+    border-bottom: 1px solid var(--sky-border-color-neutral-medium);
+    text-align: left;
+    font-size: 15px;
+    word-wrap: break-word;
+  }
+
   td {
-    p {
-      line-height: 1.17;
-    }
+    padding: 8px 16px;
 
     &:first-child {
       code {
@@ -48,5 +59,15 @@ code.sky-codespan {
         );
       }
     }
+
+    p,
+    sky-code-snippet {
+      margin: var(--sky-margin-stacked-lg) 0;
+    }
+  }
+
+  th {
+    padding: 14px 16px;
+    font-weight: 600;
   }
 }

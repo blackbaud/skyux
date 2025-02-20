@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   afterNextRender,
   inject,
   input,
@@ -89,7 +90,7 @@ const DEFAULT_HEADING_LEVEL: SkyHeadingAnchorHeadingLevel = 2;
     </ng-template>
   `,
 })
-export class SkyHeadingAnchorComponent {
+export class SkyHeadingAnchorComponent implements OnDestroy {
   readonly #anchorSvc = inject(SkyHeadingAnchorService, { skipSelf: true });
 
   public headingId = input.required<string>();
@@ -112,5 +113,9 @@ export class SkyHeadingAnchorComponent {
     afterNextRender(() => {
       this.#anchorSvc.register(this);
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.#anchorSvc.unregister(this);
   }
 }

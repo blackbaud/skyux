@@ -5,12 +5,15 @@ import {
   computed,
   input,
 } from '@angular/core';
+import { SkyClipboardModule, SkyCodeSnippetModule } from '@skyux/docs-tools';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyLabelModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyDescriptionListModule } from '@skyux/layout';
 import {
   SkyManifestClassMethodDefinition,
   type SkyManifestDocumentationTypeDefinition,
   isDirectiveDefinition,
+  isPipeDefinition,
 } from '@skyux/manifest';
 
 import { SkyHeadingAnchorComponent } from '../heading-anchor/heading-anchor.component';
@@ -22,6 +25,7 @@ import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
 import { SkyTypeDefinitionMethodsTableComponent } from './methods-table.component';
 import { SkyTypeDefinitionKindToLabelPipe } from './pipes/type-definition-kind-to-label.pipe';
 import { SkyTypeDefinitionPillTypePipe } from './pipes/type-definition-pill-type.pipe';
+import { SkyFormatTypeAliasTypeDefinitionPipe } from './pipes/type-definition-type-alias.pipe';
 import {
   PropertyDefinition,
   SkyTypeDefinitionPropertiesTableComponent,
@@ -35,6 +39,8 @@ import {
   imports: [
     JsonPipe,
     NgClass,
+    SkyFormatTypeAliasTypeDefinitionPipe,
+    SkyIconModule,
     SkyTypeDefinitionKindToLabelPipe,
     SkySafeHtmlPipe,
     SkyDescriptionListModule,
@@ -42,11 +48,13 @@ import {
     SkyLabelModule,
     SkyHeadingAnchorComponent,
     SkyMarkdownPipe,
+    SkyCodeSnippetModule,
     SkyPillComponent,
     SkyTypeDefinitionPillTypePipe,
     SkyTypeDefinitionMethodsTableComponent,
     SkyStatusIndicatorModule,
     SkyTypeDefinitionPropertiesTableComponent,
+    SkyClipboardModule,
   ],
   selector: 'sky-type-definition',
   styles: `
@@ -55,29 +63,12 @@ import {
       margin-bottom: 40px;
     }
 
-    .sky-type-definition-tags {
-      /*margin-top: -14px;*/
+    .sky-type-definition-selector {
+      font-size: 15px;
     }
 
-    .sky-type-definition-table {
-      width: 100%;
-      border-spacing: 0;
-      border-collapse: collapse;
-
-      td,
-      th {
-        border-bottom: 1px solid var(--sky-border-color-neutral-medium);
-        text-align: left;
-      }
-
-      td {
-        padding: 8px 16px;
-      }
-
-      th {
-        padding: 14px 16px;
-        font-weight: 600;
-      }
+    .sky-type-definition-tags {
+      margin-top: -10px;
     }
   `,
   template: `
@@ -108,37 +99,69 @@ import {
 
     @if (def.kind === 'module' || def.kind === 'service') {
       <p>
-        <code class="sky-codespan"
+        <code #importRef class="sky-codespan sky-margin-inline-xs"
           >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
             def.packageName
           }}';</code
         >
+        <button
+          class="sky-btn sky-btn-icon-borderless"
+          copySuccessMessage="Code copied"
+          skyClipboardButton
+          type="button"
+          [clipboardTarget]="importRef"
+        >
+          <sky-icon iconName="clipboard-multiple" />
+        </button>
       </p>
     }
 
     @if (selector(); as selector) {
-      <p>
+      <p class="sky-type-definition-selector">
         Selector: <code class="sky-codespan">{{ selector }}</code>
       </p>
     }
 
-    @let methodsValue = methods();
-    @let propertiesValue = properties();
+    @if (pipeName(); as pipeName) {
+      <p class="sky-type-definition-selector">
+        Pipe name: <code class="sky-codespan">{{ pipeName }}</code>
+      </p>
+    }
 
-    @if (propertiesValue && propertiesValue.length > 0) {
-      <h4>Properties</h4>
-      <sky-type-definition-properties-table
-        [parentDefinition]="def"
-        [properties]="propertiesValue"
+    @if (def.codeExample) {
+      <h4>Example</h4>
+      <sky-code-snippet
+        hideToolbar
+        [code]="def.codeExample"
+        [language]="def.codeExampleLanguage ?? 'html'"
       />
     }
 
-    @if (methodsValue && methodsValue.length > 0) {
-      <h4>Methods</h4>
-      <sky-type-definition-methods-table
-        [parentDefinition]="def"
-        [methods]="methodsValue"
+    @if (def.kind === 'type-alias') {
+      <sky-code-snippet
+        hideToolbar
+        language="ts"
+        [code]="def | skyFormatTypeAliasTypeDefinition"
       />
+    } @else {
+      @let methodsValue = methods();
+      @let propertiesValue = properties();
+
+      @if (propertiesValue && propertiesValue.length > 0) {
+        <h4>Properties</h4>
+        <sky-type-definition-properties-table
+          [parentDefinition]="def"
+          [properties]="propertiesValue"
+        />
+      }
+
+      @if (methodsValue && methodsValue.length > 0) {
+        <h4>Methods</h4>
+        <sky-type-definition-methods-table
+          [parentDefinition]="def"
+          [methods]="methodsValue"
+        />
+      }
     }
   `,
 })
@@ -173,14 +196,13 @@ export class SkyTypeDefinitionComponent {
     return undefined;
   });
 
-  protected getMethodName(
-    parent: { isStatic?: boolean; name: string },
-    child: { kind: string; name: string; type: string },
-  ): string {
-    if (parent.isStatic) {
-      return `${parent.name}.${child.name}`;
+  protected pipeName = computed<string | undefined>(() => {
+    const def = this.definition();
+
+    if (isPipeDefinition(def)) {
+      return def.templateBindingName;
     }
 
-    return child.name;
-  }
+    return undefined;
+  });
 }

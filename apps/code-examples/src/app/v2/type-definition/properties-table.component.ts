@@ -49,29 +49,6 @@ export type PropertyDefinition =
     :host {
       display: block;
     }
-
-    .sky-type-definition-table {
-      width: 100%;
-      border-spacing: 0;
-      border-collapse: collapse;
-
-      td,
-      th {
-        border-bottom: 1px solid var(--sky-border-color-neutral-medium);
-        text-align: left;
-        width: 50%;
-        font-size: 15px;
-      }
-
-      td {
-        padding: 8px 16px;
-      }
-
-      th {
-        padding: 14px 16px;
-        font-weight: 600;
-      }
-    }
   `,
   template: `
     <table class="sky-type-definition-table sky-margin-stacked-xl">
@@ -127,7 +104,7 @@ export type PropertyDefinition =
 
               @if (showData()) {
                 <pre
-                  style="border: 1px solid red;overflow:auto;width:100%;height:250px;"
+                  style="border: 1px solid red;overflow:auto;width:100%;height:250px;max-width:500px;"
                   >{{ property | json }}</pre
                 >
               }

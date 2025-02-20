@@ -26,6 +26,13 @@ export class SkyHeadingAnchorService {
     }
   }
 
+  public unregister(anchor: SkyHeadingAnchorComponent): void {
+    if (this.#anchors.includes(anchor)) {
+      this.#anchors.splice(this.#anchors.indexOf(anchor));
+      this.#anchorsChange.next(this.#getLinks());
+    }
+  }
+
   #getLinks() {
     return this.#anchors.map((a) => {
       return {

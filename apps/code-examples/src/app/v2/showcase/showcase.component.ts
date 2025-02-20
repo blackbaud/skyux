@@ -52,10 +52,7 @@ import { SkyShowcasePanelComponent } from './showcase-panel.component';
       </sky-tab>
 
       <sky-tab tabHeading="Development">
-        <sky-showcase-panel
-          [headingText]="(headingText() | titlecase) + ' Development'"
-          [scrollContainerSelector]="scrollContainerSelector()"
-        >
+        <sky-showcase-panel [tocHeadingText]="labelText() | titlecase">
           <ng-content select="sky-showcase-content[category=development]" />
 
           @for (definition of manifest().publicApi; track definition.docsId) {
@@ -103,9 +100,8 @@ import { SkyShowcasePanelComponent } from './showcase-panel.component';
 export class SkyShowcaseComponent {
   readonly #examples = inject(SKY_SHOWCASE_EXAMPLES);
 
-  public headingText = input.required<string>();
-  public manifest = input.required<SkyManifestDocumentationGroup>();
-  public scrollContainerSelector = input<string | undefined>(undefined);
+  public readonly labelText = input.required<string>();
+  public readonly manifest = input.required<SkyManifestDocumentationGroup>();
 
   protected getComponentType(componentName: string): Type<unknown> {
     return this.#examples[componentName];

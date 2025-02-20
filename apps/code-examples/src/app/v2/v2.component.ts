@@ -59,11 +59,7 @@ const SEPARATOR = ' - ';
       </form>
 
       @if (data(); as manifest) {
-        <sky-showcase
-          [headingText]="selectedGroupName()"
-          [manifest]="manifest"
-          scrollContainerSelector="#content"
-        >
+        <sky-showcase [labelText]="selectedGroupName()" [manifest]="manifest">
           <sky-showcase-content category="development">
             <p>This content describes the development tab.</p>
           </sky-showcase-content>

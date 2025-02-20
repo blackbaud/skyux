@@ -1,14 +1,18 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  OnDestroy,
   computed,
   inject,
   input,
 } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyScrollableHostService } from '@skyux/core';
 
 import {
+  BehaviorSubject,
   debounceTime,
   distinctUntilChanged,
   fromEvent,
@@ -54,7 +58,10 @@ interface Link {
   template: `
     @if (links(); as links) {
       <div class="sky-docs-showcase-panel-toc">
-        <sky-table-of-contents [headingText]="headingText()" [links]="links" />
+        <sky-table-of-contents
+          [headingText]="tocHeadingText()"
+          [links]="links"
+        />
       </div>
     }
 
@@ -63,9 +70,12 @@ interface Link {
     </div>
   `,
 })
-export class SkyShowcasePanelComponent {
+export class SkyShowcasePanelComponent implements AfterViewInit, OnDestroy {
   readonly #anchors = toSignal(inject(SkyHeadingAnchorService).anchorsChange);
+  readonly #scrollableHostSvc = inject(SkyScrollableHostService);
   readonly #elementRef = inject(ElementRef);
+
+  public tocHeadingText = input.required<string>();
 
   protected links = computed<Link[] | undefined>(() => {
     const anchors = this.#anchors();
@@ -78,15 +88,23 @@ export class SkyShowcasePanelComponent {
     }));
   });
 
+  #loaded = new BehaviorSubject<boolean>(false);
   #scrollEl: HTMLElement | Window = window;
 
-  public headingText = input.required<string>();
-  public scrollContainerSelector = input<string | undefined>(undefined);
+  public ngAfterViewInit(): void {
+    this.#loaded.next(true);
+  }
+
+  public ngOnDestroy(): void {
+    this.#loaded.complete();
+  }
 
   #activeAnchorIdOnScroll = toSignal(
-    toObservable(this.scrollContainerSelector).pipe(
-      switchMap((scrollContainerSelector) => {
-        this.#scrollEl = this.#getScrollEl(scrollContainerSelector);
+    this.#loaded.pipe(
+      switchMap(() => {
+        this.#scrollEl = this.#scrollableHostSvc.getScrollableHost(
+          this.#elementRef,
+        );
 
         return fromEvent(this.#scrollEl, 'scroll').pipe(
           debounceTime(10),
@@ -96,20 +114,6 @@ export class SkyShowcasePanelComponent {
       distinctUntilChanged(),
     ),
   );
-
-  #getScrollEl(selector?: string): HTMLElement | Window {
-    let scrollEl: HTMLElement | Window = window;
-
-    if (selector) {
-      const el = document.querySelector<HTMLElement>(selector);
-
-      if (el) {
-        scrollEl = el;
-      }
-    }
-
-    return scrollEl;
-  }
 
   #getScrollOffset(scrollEl: HTMLElement | Window): number {
     const { top } = this.#elementRef.nativeElement.getBoundingClientRect();
@@ -121,6 +125,10 @@ export class SkyShowcasePanelComponent {
     return scrollEl.scrollY + top;
   }
 
+  /**
+   * A link is considered active if the page is scrolled past the anchor without
+   * also being scrolled passed the next link.
+   */
   #getActiveLink(): string | undefined {
     const anchors = this.#anchors();
 

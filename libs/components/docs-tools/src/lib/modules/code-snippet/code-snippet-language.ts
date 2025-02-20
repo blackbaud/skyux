@@ -1,7 +1,16 @@
 /**
  * @internal
  */
-export const SKY_CODE_SNIPPET_LANGUAGES = ['html', 'js', 'scss', 'ts'] as const;
+export const SKY_CODE_SNIPPET_LANGUAGES = [
+  'html',
+  'markup',
+  'javascript',
+  'js',
+  'css',
+  'scss',
+  'typescript',
+  'ts',
+] as const;
 
 /**
  * @internal
