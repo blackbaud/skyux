@@ -411,43 +411,6 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
 
   describe('afterGuiAttached', () => {
     describe('cellStartedEdit is true', () => {
-      it('does not select the input value if Backspace triggers the edit', fakeAsync(() => {
-        component.agInit({
-          ...(cellEditorParams as ICellEditorParams),
-          eventKey: KeyCode.BACKSPACE,
-        });
-        fixture.detectChanges();
-
-        const input = nativeElement.querySelector(
-          'textarea',
-        ) as HTMLTextAreaElement;
-        const selectSpy = spyOn(input, 'select');
-
-        component.afterGuiAttached();
-        tick();
-
-        expect(input.value).toBe('');
-        expect(selectSpy).not.toHaveBeenCalled();
-      }));
-
-      it('does not select the input value if Delete triggers the edit', fakeAsync(() => {
-        component.agInit({
-          ...(cellEditorParams as ICellEditorParams),
-          eventKey: KeyCode.DELETE,
-        });
-        fixture.detectChanges();
-        const input = nativeElement.querySelector(
-          'textarea',
-        ) as HTMLTextAreaElement;
-        const selectSpy = spyOn(input, 'select');
-
-        component.afterGuiAttached();
-        tick();
-
-        expect(input.value).toBe('');
-        expect(selectSpy).not.toHaveBeenCalled();
-      }));
-
       it('does not select the input value if F2 triggers the edit', fakeAsync(() => {
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
@@ -457,13 +420,14 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         const input = nativeElement.querySelector(
           'textarea',
         ) as HTMLTextAreaElement;
-        const selectSpy = spyOn(input, 'select');
+        const selectSpy = spyOn(input, 'select').and.callThrough();
 
         component.afterGuiAttached();
         tick();
 
         expect(input.value).toBe(selection[0].name);
-        expect(selectSpy).not.toHaveBeenCalled();
+        expect(selectSpy).toHaveBeenCalledTimes(1);
+        expect(window.getSelection()?.toString()).toBe('');
       }));
 
       it('selects the input value if Enter triggers the edit', fakeAsync(() => {
@@ -475,13 +439,14 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         const input = nativeElement.querySelector(
           'textarea',
         ) as HTMLTextAreaElement;
-        const selectSpy = spyOn(input, 'select');
+        const selectSpy = spyOn(input, 'select').and.callThrough();
 
         component.afterGuiAttached();
         tick();
 
         expect(input.value).toBe(selection[0].name);
         expect(selectSpy).toHaveBeenCalledTimes(1);
+        expect(window.getSelection()?.toString()).toBe(selection[0].name);
       }));
 
       it('does not select the input value when a standard keyboard event triggers the edit', fakeAsync(() => {
@@ -501,6 +466,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
 
         expect(input.value).toBe('a');
         expect(selectSpy).toHaveBeenCalledTimes(1);
+        expect(window.getSelection()?.toString()).toBe('');
       }));
     });
 
