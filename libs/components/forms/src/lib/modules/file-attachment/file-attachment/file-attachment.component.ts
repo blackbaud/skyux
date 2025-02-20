@@ -574,6 +574,8 @@ export class SkyFileAttachmentComponent
       try {
         const previousFileName = this.value?.file.name;
 
+        file.url = await this.#fileReaderSvc.readAsDataURL(file.file);
+
         if (previousFileName) {
           this.#announceState(
             'skyux_file_attachment_file_upload_file_replaced',
@@ -586,8 +588,6 @@ export class SkyFileAttachmentComponent
             file.file.name,
           );
         }
-
-        file.url = await this.#fileReaderSvc.readAsDataURL(file.file);
 
         this.#emitFileChangeEvent(file);
       } catch {
