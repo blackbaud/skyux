@@ -70,6 +70,9 @@
         "libs/components/errors/testing/src/public-api.ts"
       ],
       "@skyux/flyout": ["libs/components/flyout/src/index.ts"],
+      "@skyux/flyout/testing": [
+        "libs/components/flyout/testing/src/public-api.ts"
+      ],
       "@skyux/forms": ["libs/components/forms/src/index.ts"],
       "@skyux/forms/testing": [
         "libs/components/forms/testing/src/public-api.ts"
