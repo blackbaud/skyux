@@ -354,7 +354,10 @@ export class SkyAgGridService implements OnDestroy {
         const minWidth = params.column?.getMinWidth() ?? 0;
         // istanbul ignore next
         const maxWidth = params.column?.getMaxWidth() ?? Infinity;
-        if (params.column?.isResizable() && minWidth < maxWidth) {
+        if (
+          params.columnGroup?.isResizable() ||
+          (params.column?.isResizable() && minWidth < maxWidth)
+        ) {
           return [...classNames, SkyHeaderClass.Resizable];
         }
         return classNames;

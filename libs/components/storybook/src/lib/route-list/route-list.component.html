@@ -1,8 +1,33 @@
-<h1>Route List</h1>
-<ul>
-  @for (route of routes; track route.path) {
-    <li>
-      <a [routerLink]="route.path">{{ route.path }}</a>
-    </li>
-  }
-</ul>
+<sky-page layout="blocks">
+  <sky-page-header pageTitle="Index" />
+  <sky-page-content>
+    <sky-fluid-grid>
+      <sky-row>
+        <sky-column [screenSmall]="6">
+          <sky-box class="sky-margin-stacked-xl" headingText="Route List">
+            <sky-box-content>
+              <ul>
+                @for (route of routes; track route.path) {
+                  <li>
+                    <a [routerLink]="route.path">{{ route.path }}</a>
+                  </li>
+                }
+              </ul>
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="6">
+          <sky-box class="sky-margin-stacked-xl" headingText="Theme">
+            <sky-box-content>
+              <sky-radio-group [formControl]="themeField">
+                @for (theme of themeOptions | keyvalue; track theme.key) {
+                  <sky-radio [value]="theme.key" [labelText]="theme.key" />
+                }
+              </sky-radio-group>
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </sky-page-content>
+</sky-page>

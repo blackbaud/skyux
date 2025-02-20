@@ -53,6 +53,11 @@
   .ag-ltr .ag-header-cell-resize {
     right: -4px;
   }
+
+  .ag-checkbox {
+    --ag-icon-size: var(--sky-size-switch);
+    --ag-focus-shadow: none;
+  }
 }
 
 .ag-theme-sky-data-grid-default,
@@ -170,11 +175,6 @@
 ag-grid-angular {
   .ag-root-wrapper {
     border: none;
-  }
-
-  input:focus {
-    border: none;
-    outline: none;
   }
 
   input::-ms-clear {

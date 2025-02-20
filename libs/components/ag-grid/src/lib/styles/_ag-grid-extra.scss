@@ -95,8 +95,8 @@
     input.ag-checkbox-input[type='checkbox'] {
       appearance: none;
       display: inline-flex;
-      width: var(--sky-switch-size);
-      height: var(--sky-switch-size);
+      width: var(--sky-size-switch);
+      height: var(--sky-size-switch);
 
       &:disabled {
         background-color: var(--sky-background-color-disabled);

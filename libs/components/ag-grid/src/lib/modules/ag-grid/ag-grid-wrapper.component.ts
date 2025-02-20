@@ -57,7 +57,7 @@ let idIndex = 0;
   selector: 'sky-ag-grid-wrapper',
   templateUrl: './ag-grid-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, SkyViewkeeperModule, AsyncPipe],
+  imports: [AsyncPipe, NgClass, SkyViewkeeperModule],
 })
 export class SkyAgGridWrapperComponent
   implements AfterContentInit, AfterViewInit, OnDestroy, OnInit
@@ -353,7 +353,7 @@ export class SkyAgGridWrapperComponent
       isCompact ? 'compact' : themeSettings?.spacing?.name,
     );
     this.agGrid?.api.setGridOption('theme', skyAgGridTheme);
-    const agTheme = getSkyAgGridThemeClassName(
+    const skyAgGridThemeClassName = getSkyAgGridThemeClassName(
       hasEditableClass,
       themeSettings,
       isCompact,
@@ -361,7 +361,7 @@ export class SkyAgGridWrapperComponent
     const previousValue = this.#wrapperClasses.getValue();
     let value = [
       ...previousValue.filter((c) => !c.startsWith('ag-theme-')),
-      agTheme,
+      skyAgGridThemeClassName,
     ];
     const textSelectionClass = 'sky-ag-grid-text-selection';
     if (this.#getTextSelection(hasEditableClass)) {
