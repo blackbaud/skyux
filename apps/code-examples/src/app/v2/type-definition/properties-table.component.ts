@@ -98,7 +98,10 @@ export type PropertyDefinition =
               @if (defaultValue) {
                 <p>
                   Default:
-                  <code [innerHTML]="defaultValue | skySafeHtml"></code>
+                  <code
+                    class="sky-codespan"
+                    [innerHTML]="defaultValue | skySafeHtml"
+                  ></code>
                 </p>
               }
 

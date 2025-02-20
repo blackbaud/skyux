@@ -1,4 +1,4 @@
-import { JsonPipe, NgClass } from '@angular/common';
+import { JsonPipe, NgClass, UpperCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,9 +36,13 @@ import {
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'sky-margin-stacked-xxl',
+  },
   imports: [
     JsonPipe,
     NgClass,
+    UpperCasePipe,
     SkyFormatTypeAliasTypeDefinitionPipe,
     SkyIconModule,
     SkyTypeDefinitionKindToLabelPipe,
@@ -60,22 +64,22 @@ import {
   styles: `
     :host {
       display: block;
-      margin-bottom: 40px;
     }
 
-    .sky-type-definition-selector {
-      font-size: 15px;
-    }
+    // .sky-type-definition-selector {
+    //   font-size: 15px;
+    // }
 
     .sky-type-definition-tags {
-      margin-top: -10px;
+      margin-top: -5px;
+      display: none;
     }
   `,
   template: `
     @let def = definition();
 
     <sky-heading-anchor
-      headingLevel="3"
+      headingLevel="2"
       headingTextFormat="code"
       [headingId]="def.anchorId"
       [headingText]="def.name"
@@ -90,29 +94,36 @@ import {
     </div>
 
     @if (def.deprecationReason) {
-      <sky-deprecation-reason stacked [message]="def.deprecationReason" />
+      <sky-deprecation-reason
+        class="sky-font-body-lg"
+        stacked
+        [message]="def.deprecationReason"
+      />
     }
 
     @if (def.description) {
-      <p [innerHTML]="def.description | skyMarkdown"></p>
+      <p
+        class="sky-font-body-lg"
+        [innerHTML]="def.description | skyMarkdown"
+      ></p>
     }
 
     @if (def.kind === 'module' || def.kind === 'service') {
-      <p>
+      <p class="sky-font-body-lg">
         <code #importRef class="sky-codespan sky-margin-inline-xs"
           >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
             def.packageName
           }}';</code
         >
-        <button
-          class="sky-btn sky-btn-icon-borderless"
+        <!--<button
+          class="sky-btn sky-btn-default"
           copySuccessMessage="Code copied"
           skyClipboardButton
           type="button"
           [clipboardTarget]="importRef"
         >
-          <sky-icon iconName="clipboard-multiple" />
-        </button>
+          <sky-icon iconName="clipboard-multiple" /> Copy
+        </button>-->
       </p>
     }
 
@@ -129,7 +140,7 @@ import {
     }
 
     @if (def.codeExample) {
-      <h4>Example</h4>
+      <h3>Example</h3>
       <sky-code-snippet
         hideToolbar
         [code]="def.codeExample"
@@ -148,7 +159,7 @@ import {
       @let propertiesValue = properties();
 
       @if (propertiesValue && propertiesValue.length > 0) {
-        <h4>Properties</h4>
+        <h3>Properties</h3>
         <sky-type-definition-properties-table
           [parentDefinition]="def"
           [properties]="propertiesValue"
@@ -156,7 +167,7 @@ import {
       }
 
       @if (methodsValue && methodsValue.length > 0) {
-        <h4>Methods</h4>
+        <h3>Methods</h3>
         <sky-type-definition-methods-table
           [parentDefinition]="def"
           [methods]="methodsValue"

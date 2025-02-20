@@ -84,7 +84,7 @@ import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
               />
 
               @if (method.parameters) {
-                <h5>Parameters</h5>
+                <h4>Parameters</h4>
 
                 <table class="sky-type-definition-table sky-margin-stacked-xl">
                   <thead>
@@ -116,7 +116,7 @@ import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
                 </table>
               }
 
-              <h5>Returns</h5>
+              <h4>Returns</h4>
 
               <p>
                 <code

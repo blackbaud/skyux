@@ -13,6 +13,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyIconModule } from '@skyux/icon';
 import {
   type SkyManifestDocumentationGroup,
   getDocumentationConfig,
@@ -35,6 +36,7 @@ const SEPARATOR = ' - ';
     SkyInputBoxModule,
     SkyPageModule,
     SkyShowcaseModule,
+    SkyIconModule,
   ],
   selector: 'app-code-examples-v2',
   styles: `

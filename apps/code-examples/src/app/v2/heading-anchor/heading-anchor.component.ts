@@ -11,6 +11,8 @@ import {
 import { RouterLink } from '@angular/router';
 import { SkyIconModule } from '@skyux/icon';
 
+import { SkyPillComponent } from '../pill/pill.component';
+
 import { SkyHeadingAnchorService } from './heading-anchor.service';
 
 type SkyHeadingAnchorHeadingTextFormat = 'normal' | 'code';
@@ -26,15 +28,32 @@ const DEFAULT_HEADING_LEVEL: SkyHeadingAnchorHeadingLevel = 2;
   host: {
     '[attr.id]': 'headingId()',
   },
-  imports: [NgTemplateOutlet, RouterLink, SkyIconModule],
+  imports: [NgTemplateOutlet, RouterLink, SkyIconModule, SkyPillComponent],
   selector: 'sky-heading-anchor',
   styles: `
     :host {
       display: block;
+      &:hover {
+        .sky-heading-anchor {
+          opacity: 1;
+        }
+      }
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      position: relative;
     }
 
     .sky-heading-anchor {
+      opacity: 0;
       margin-left: var(--sky-margin-inline-xs);
+      transition: opacity 250ms;
+      position: absolute;
     }
   `,
   template: `
