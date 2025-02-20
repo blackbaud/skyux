@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyLiveAnnouncerTestingModule } from '@skyux/core/testing';
 
 import { of } from 'rxjs';
 
@@ -17,7 +18,7 @@ async function setupTest(options: {
   harness: SkySelectionModalHarness;
 }> {
   await TestBed.configureTestingModule({
-    imports: [SelectionModalHarnessTestModule],
+    imports: [SelectionModalHarnessTestModule, SkyLiveAnnouncerTestingModule],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(SelectionModalHarnessTestComponent);

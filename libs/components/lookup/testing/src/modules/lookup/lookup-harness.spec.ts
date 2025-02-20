@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyLiveAnnouncerTestingModule } from '@skyux/core/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
 import { SkyAutocompleteInputHarness } from '../autocomplete/autocomplete-input-harness';
@@ -18,7 +19,7 @@ async function setupTest(options: {
   lookupInputHarness: SkyAutocompleteInputHarness;
 }> {
   await TestBed.configureTestingModule({
-    imports: [LookupHarnessTestModule],
+    imports: [LookupHarnessTestModule, SkyLiveAnnouncerTestingModule],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(LookupHarnessTestComponent);
