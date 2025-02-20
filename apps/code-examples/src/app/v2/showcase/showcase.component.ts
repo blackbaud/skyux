@@ -44,6 +44,9 @@ import { SkyShowcasePanelComponent } from './showcase-panel.component';
     }
   `,
   template: `
+    @let developmentDefinitions = manifest().publicApi;
+    @let testingDefinitions = manifest().testing;
+
     <sky-tabset permalinkId="docs">
       <sky-tab tabHeading="Design">
         <div class="sky-showcase-tab-content">
@@ -51,27 +54,34 @@ import { SkyShowcasePanelComponent } from './showcase-panel.component';
         </div>
       </sky-tab>
 
-      <sky-tab tabHeading="Development">
-        <sky-showcase-panel [tocHeadingText]="labelText() | titlecase">
-          <ng-content select="sky-showcase-content[category=development]" />
+      @if (developmentDefinitions.length > 0) {
+        <sky-tab tabHeading="Development">
+          <sky-showcase-panel [tocHeadingText]="labelText() | titlecase">
+            <ng-content select="sky-showcase-content[category=development]" />
 
-          @for (definition of manifest().publicApi; track definition.docsId) {
-            <sky-type-definition [definition]="definition" />
-          }
-        </sky-showcase-panel>
-      </sky-tab>
+            @for (
+              definition of developmentDefinitions;
+              track definition.docsId
+            ) {
+              <sky-type-definition [definition]="definition" />
+            }
+          </sky-showcase-panel>
+        </sky-tab>
+      }
 
-      <sky-tab tabHeading="Testing">
-        <sky-showcase-panel
-          [tocHeadingText]="(labelText() | titlecase) + ' Testing'"
-        >
-          <ng-content select="sky-showcase-content[category=testing]" />
+      @if (testingDefinitions.length > 0) {
+        <sky-tab tabHeading="Testing">
+          <sky-showcase-panel
+            [tocHeadingText]="(labelText() | titlecase) + ' Testing'"
+          >
+            <ng-content select="sky-showcase-content[category=testing]" />
 
-          @for (definition of manifest().testing; track definition.docsId) {
-            <sky-type-definition [definition]="definition" />
-          }
-        </sky-showcase-panel>
-      </sky-tab>
+            @for (definition of testingDefinitions; track definition.docsId) {
+              <sky-type-definition [definition]="definition" />
+            }
+          </sky-showcase-panel>
+        </sky-tab>
+      }
 
       <sky-tab tabHeading="Examples">
         <!-- TODO: DON"T LOAD THIS TAB UNTIL IT"S CLICKED! -->

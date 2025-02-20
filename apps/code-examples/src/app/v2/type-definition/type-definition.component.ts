@@ -12,6 +12,8 @@ import { SkyDescriptionListModule } from '@skyux/layout';
 import {
   SkyManifestClassMethodDefinition,
   type SkyManifestDocumentationTypeDefinition,
+  SkyManifestFunctionDefinition,
+  SkyManifestParameterDefinition,
   isDirectiveDefinition,
   isPipeDefinition,
 } from '@skyux/manifest';
@@ -23,6 +25,7 @@ import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
 
 import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
 import { SkyTypeDefinitionMethodsTableComponent } from './methods-table.component';
+import { SkyTypeDefinitionParametersTableComponent } from './parameters-table.component';
 import { SkyTypeDefinitionKindToLabelPipe } from './pipes/type-definition-kind-to-label.pipe';
 import { SkyTypeDefinitionPillTypePipe } from './pipes/type-definition-pill-type.pipe';
 import { SkyFormatTypeAliasTypeDefinitionPipe } from './pipes/type-definition-type-alias.pipe';
@@ -59,6 +62,7 @@ import {
     SkyStatusIndicatorModule,
     SkyTypeDefinitionPropertiesTableComponent,
     SkyClipboardModule,
+    SkyTypeDefinitionParametersTableComponent,
   ],
   selector: 'sky-type-definition',
   styles: `
@@ -133,6 +137,31 @@ import {
       </p>
     }
 
+    @if (def.kind === 'function') {
+      <sky-code-snippet
+        class="sky-margin-stacked-lg"
+        hideToolbar
+        language="ts"
+        [code]="getFunctionSignature(def)"
+      />
+
+      @let parametersValue = parameters();
+
+      @if (parametersValue && parametersValue.length > 0) {
+        <h3>Parameters</h3>
+        <sky-type-definition-parameters-table [parameters]="parametersValue" />
+      }
+
+      <!--<h3>Returns</h3>
+
+      <p>
+        <code
+          class="sky-codespan"
+          [innerHTML]="def.type | skySafeHtml"
+        ></code>
+      </p>-->
+    }
+
     @if (selector(); as selector) {
       <p class="sky-type-definition-selector">
         Selector: <code class="sky-codespan">{{ selector }}</code>
@@ -203,6 +232,18 @@ export class SkyTypeDefinitionComponent {
       | undefined;
   });
 
+  protected parameters = computed<SkyManifestParameterDefinition[] | undefined>(
+    () => {
+      const def = this.definition();
+
+      if (def.kind === 'function') {
+        return (def as unknown as SkyManifestFunctionDefinition).parameters;
+      }
+
+      return undefined;
+    },
+  );
+
   protected selector = computed<string | undefined>(() => {
     const def = this.definition();
 
@@ -223,9 +264,17 @@ export class SkyTypeDefinitionComponent {
     return undefined;
   });
 
-  protected getImportStatement(
-    def: SkyManifestDocumentationTypeDefinition,
+  // protected getImportStatement(
+  //   def: SkyManifestDocumentationTypeDefinition,
+  // ): string {
+  //   return `import { ${def.name} } from '${def.packageName}';`;
+  // }
+
+  protected getFunctionSignature(
+    definition: SkyManifestDocumentationTypeDefinition,
   ): string {
-    return `import { ${def.name} } from '${def.packageName}';`;
+    const def = definition as unknown as SkyManifestFunctionDefinition;
+
+    return `function ${def.name}(): ${def.type}`;
   }
 }

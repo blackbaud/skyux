@@ -47,8 +47,8 @@ import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
     <table class="sky-type-definition-table sky-margin-stacked-xl">
       <thead>
         <tr>
-          <th width="35%">Name</th>
-          <th>Details</th>
+          <th>Name</th>
+          <th>Description</th>
         </tr>
       </thead>
       <tbody>
@@ -88,7 +88,7 @@ import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
                 <table class="sky-type-definition-table sky-margin-stacked-xl">
                   <thead>
                     <tr>
-                      <th width="50%">Name</th>
+                      <th>Name</th>
                       <th>Description</th>
                     </tr>
                   </thead>

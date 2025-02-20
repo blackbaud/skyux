@@ -56,11 +56,13 @@ interface Link {
     }
   `,
   template: `
-    @if (links(); as links) {
+    @let linksValue = links();
+
+    @if (linksValue && linksValue.length > 0) {
       <div class="sky-docs-showcase-panel-toc">
         <sky-table-of-contents
           [headingText]="tocHeadingText()"
-          [links]="links"
+          [links]="linksValue"
         />
       </div>
     }
