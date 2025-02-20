@@ -25,6 +25,18 @@
 * **components/toast:** move harness files under `/toast` to match docs ([#3173](https://github.com/blackbaud/skyux/issues/3173)) ([#3174](https://github.com/blackbaud/skyux/issues/3174)) ([1e84b16](https://github.com/blackbaud/skyux/commit/1e84b16de3488f44169908db85a2e17a13e37356))
 * use alias instead of property name for directive inputs in the manifest ([#3160](https://github.com/blackbaud/skyux/issues/3160)) ([#3162](https://github.com/blackbaud/skyux/issues/3162)) ([566e6bd](https://github.com/blackbaud/skyux/commit/566e6bd6adcde78ef683c31cbcd28feb0f092794))
 
+## [11.43.0](https://github.com/blackbaud/skyux/compare/11.42.1...11.43.0) (2025-02-20)
+
+
+### Features
+
+* **components/flyout:** add flyout test harness ([#3149](https://github.com/blackbaud/skyux/issues/3149)) ([5827aef](https://github.com/blackbaud/skyux/commit/5827aef3ca22bedb3f91f6d163665c3bee7e4bdc))
+
+
+### Bug Fixes
+
+* **components/toast:** move harness files under `/toast` to match docs ([#3173](https://github.com/blackbaud/skyux/issues/3173)) ([d8797e9](https://github.com/blackbaud/skyux/commit/d8797e96c0213296679c77f43ff7f459c84a5ea8))
+
 ## [11.42.1](https://github.com/blackbaud/skyux/compare/11.42.0...11.42.1) (2025-02-19)
 
 
