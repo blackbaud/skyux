@@ -27,9 +27,6 @@ export class CountryFieldComponent {
   }
 
   @Input()
-  public hideCountryFlag = false;
-
-  @Input()
   public set disabledFlag(value: boolean) {
     this.#_disabledFlag = value;
     if (value) {

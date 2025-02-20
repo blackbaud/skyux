@@ -123,19 +123,6 @@ export class SkyCountryFieldComponent
   }
 
   /**
-   * Whether to hide the flag in the input element.
-   * @default false
-   */
-  @Input()
-  public set hideSelectedCountryFlag(value: boolean | undefined) {
-    this.#_hideSelectedCountryFlag = value ?? false;
-  }
-
-  public get hideSelectedCountryFlag(): boolean {
-    return this.#_hideSelectedCountryFlag;
-  }
-
-  /**
    * Whether to include phone information in the selected country and country dropdown.
    * @default false
    * @internal
@@ -286,8 +273,6 @@ export class SkyCountryFieldComponent
   #_defaultCountry: string | undefined;
 
   #_disabled = false;
-
-  #_hideSelectedCountryFlag = false;
 
   #_includePhoneInfo = false;
 
@@ -464,14 +449,13 @@ export class SkyCountryFieldComponent
 
     // Ignoring coverage here as this will be removed in the next release.
     // istanbul ignore next
-    if (!this.includePhoneInfo && !this.hideSelectedCountryFlag) {
+    if (!this.includePhoneInfo) {
       if (
         (
           this.#elRef.nativeElement.parentElement as HTMLElement
         )?.classList?.contains('sky-phone-field-country-search')
       ) {
         this.includePhoneInfo = true;
-        this.hideSelectedCountryFlag = true;
       }
     }
 
