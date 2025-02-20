@@ -19,6 +19,7 @@ describe('lists-storybook - sort', () => {
         ),
       );
       it('should render the component', () => {
+        cy.get('#ready').should('exist');
         cy.get('app-sort')
           .should('exist')
           .should('be.visible')
@@ -31,6 +32,7 @@ describe('lists-storybook - sort', () => {
       sortVariations.forEach((sort) => {
         const textDescriptor = sort.hasText ? 'with' : 'without';
         it(`should open the sort ${textDescriptor} button text`, () => {
+          cy.get('#ready').should('exist');
           cy.get('app-sort')
             .should('exist')
             .should('be.visible')

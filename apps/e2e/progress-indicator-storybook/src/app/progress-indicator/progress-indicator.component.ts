@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-progress-indicator',
@@ -6,4 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./progress-indicator.component.scss'],
   standalone: false,
 })
-export class ProgressIndicatorComponent {}
+export class ProgressIndicatorComponent {
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
+}

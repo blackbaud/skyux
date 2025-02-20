@@ -3,3 +3,7 @@
     <sky-label [labelType]="type"> {{ type }} label </sky-label>
   </div>
 </ng-container>
+
+@if (ready()) {
+  <span id="ready"></span>
+}

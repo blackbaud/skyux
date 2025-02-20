@@ -9,6 +9,7 @@ describe('forms-storybook - single file attachment', () => {
         ),
       );
       it('should render the single file attachment component', () => {
+        cy.get('#ready').should('exist');
         cy.get('app-single-file-attachment')
           .should('exist')
           .should('be.visible');

@@ -5,6 +5,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyAvatarModule } from '@skyux/avatar';
@@ -19,6 +20,7 @@ import {
   SkySplitViewMessageType,
   SkySplitViewModule,
 } from '@skyux/split-view';
+import { FontLoadingService } from '@skyux/storybook';
 
 import { Subject } from 'rxjs';
 
@@ -54,6 +56,7 @@ interface WorkspaceItem {
 })
 export default class FitPageComponent {
   public readonly showLinks = input<boolean>(false);
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   protected set activeIndex(value: number) {
     this.#_activeIndex = value;

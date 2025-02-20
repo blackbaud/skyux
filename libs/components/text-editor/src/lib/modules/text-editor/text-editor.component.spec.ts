@@ -914,8 +914,8 @@ describe('Text editor', () => {
       tick();
       fixture.detectChanges();
 
-      expect(getFontPicker().textContent).toContain('Arial');
-      expect(getFontSizePicker().textContent).toContain('16px');
+      expect(getFontPicker().textContent?.trim()).toBe('Arial');
+      expect(getFontSizePicker().textContent?.trim()).toBe('16px');
       expect(
         getFontStylePicker().querySelectorAll('.sky-switch-input:checked')
           .length,

@@ -9,6 +9,7 @@ describe('forms-storybook - input box', () => {
         ),
       );
       it('should render the component', () => {
+        cy.get('#ready').should('exist');
         cy.get('app-input-box')
           .should('exist')
           .should('be.visible')
@@ -22,6 +23,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a standard input box', () => {
+        cy.get('#ready').should('exist');
         cy.get('#input-box-basic')
           .should('exist')
           .should('be.visible')
@@ -40,6 +42,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a textarea input box', () => {
+        cy.get('#ready').should('exist');
         cy.get('#input-box-textarea')
           .should('exist')
           .should('be.visible')
@@ -58,6 +61,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a select input box', () => {
+        cy.get('#ready').should('exist');
         cy.get('#input-box-select')
           .should('exist')
           .should('be.visible')
@@ -76,6 +80,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a input box with buttons', () => {
+        cy.get('#ready').should('exist');
         cy.get('#input-box-button-multiple')
           .should('exist')
           .should('be.visible')
@@ -94,6 +99,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a input box with an error', () => {
+        cy.get('#ready').should('exist');
         cy.get('#input-box-form-control-error')
           .should('exist')
           .should('be.visible')
@@ -112,6 +118,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a input box with a left button', () => {
+        cy.get('#ready').should('exist');
         cy.get('#input-box-button-single-left')
           .should('exist')
           .should('be.visible')
@@ -130,6 +137,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a input box with an inset button', () => {
+        cy.get('#ready').should('exist');
         cy.get('#input-box-button-inset')
           .should('exist')
           .should('be.visible')
@@ -148,6 +156,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a input box with an inset icon', () => {
+        cy.get('#ready').should('exist');
         cy.get('#input-box-icon-inset')
           .should('exist')
           .should('be.visible')
@@ -166,6 +175,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a input box with an inset icon on left', () => {
+        cy.get('#ready').should('exist');
         cy.get('#input-box-icon-inset-left')
           .should('exist')
           .should('be.visible')

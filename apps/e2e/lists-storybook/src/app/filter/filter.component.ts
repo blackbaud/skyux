@@ -1,6 +1,14 @@
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, inject } from '@angular/core';
+import { FontLoadingService } from '@skyux/storybook';
 
-import { BehaviorSubject } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  combineLatest,
+  filter,
+  first,
+  map,
+} from 'rxjs';
 
 @Component({
   selector: 'app-filter',
@@ -8,6 +16,9 @@ import { BehaviorSubject } from 'rxjs';
   standalone: false,
 })
 export class FilterComponent implements AfterViewInit, OnDestroy {
+  public readonly ready: Observable<boolean>;
+  readonly #fontLoadingService = inject(FontLoadingService);
+
   public filtersActive = false;
 
   public appliedFilters = [
@@ -60,15 +71,26 @@ export class FilterComponent implements AfterViewInit, OnDestroy {
     },
   ];
 
-  public readonly ready = new BehaviorSubject<boolean>(false);
+  readonly #filterReady = new BehaviorSubject<boolean>(false);
 
   public ngAfterViewInit(): void {
     setTimeout(() => {
-      this.ready.next(true);
+      this.#filterReady.next(true);
     }, 300);
   }
 
   public ngOnDestroy(): void {
-    this.ready.complete();
+    this.#filterReady.complete();
+  }
+
+  constructor() {
+    this.ready = combineLatest([
+      this.#filterReady,
+      this.#fontLoadingService.ready(true),
+    ]).pipe(
+      filter(([filterReady, fontsLoaded]) => filterReady && fontsLoaded),
+      first(),
+      map(() => true),
+    );
   }
 }

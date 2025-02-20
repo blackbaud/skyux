@@ -11,6 +11,7 @@ describe('forms-storybook', () => {
             ),
           );
           it('should render the component', () => {
+            cy.get('#ready').should('exist');
             cy.get('app-file-attachment')
               .should('exist')
               .should('be.visible')
@@ -33,6 +34,7 @@ describe('forms-storybook', () => {
           ),
         );
         it(`should render component drag and drop`, () => {
+          cy.get('#ready').should('exist');
           cy.get('app-file-attachment').should('exist').should('be.visible');
           cy.get('.sky-file-drop-col')
             .first()

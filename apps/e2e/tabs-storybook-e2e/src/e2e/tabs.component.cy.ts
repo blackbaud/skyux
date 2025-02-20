@@ -10,6 +10,7 @@ describe(`tabs-storybook`, () => {
           ),
         );
         it('should render the component', () => {
+          cy.get('#ready').should('exist');
           cy.get('app-tabs')
             .should('exist')
             .should('be.visible')
@@ -25,6 +26,7 @@ describe(`tabs-storybook`, () => {
           ),
         );
         it('should render the component', () => {
+          cy.get('#ready').should('exist');
           cy.get('app-tabs')
             .should('exist')
             .should('be.visible')

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-sort',
@@ -46,4 +48,6 @@ export class SortComponent {
       descending: true,
     },
   ];
+
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 }

@@ -8,5 +8,5 @@ import { FontLoadingService } from '@skyux/storybook/font-loading';
   standalone: false,
 })
 export class SearchComponent {
-  public readonly ready$ = inject(FontLoadingService).ready();
+  public readonly ready$ = inject(FontLoadingService).ready(true);
 }

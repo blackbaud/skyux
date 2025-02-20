@@ -1,3 +1,7 @@
 <sky-tokens [tokens]="data" [dismissible]="true" />
 <sky-tokens [tokens]="data" [dismissible]="false" />
 <sky-tokens [tokens]="data" [disabled]="true" [dismissible]="true" />
+
+@if (ready()) {
+  <span id="ready"></span>
+}

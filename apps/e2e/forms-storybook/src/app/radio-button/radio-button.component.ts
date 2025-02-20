@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormBuilder,
@@ -6,6 +7,7 @@ import {
   FormGroup,
   ValidationErrors,
 } from '@angular/forms';
+import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-radio-button',
@@ -25,10 +27,30 @@ export class RadioButtonComponent {
   ];
 
   public radioIconOptions = [
-    { icon: 'table', label: 'Table', name: 'table', disabled: false },
-    { icon: 'list-ul', label: 'List', name: 'list', disabled: true },
-    { icon: 'map-marker', label: 'Map', name: 'map', disabled: false },
+    {
+      icon: 'table',
+      iconName: 'table',
+      label: 'Table',
+      name: 'table',
+      disabled: false,
+    },
+    {
+      icon: 'list-ul',
+      iconName: 'text-bullet-list-ltr',
+      label: 'List',
+      name: 'list',
+      disabled: true,
+    },
+    {
+      icon: 'map-marker',
+      iconName: 'location',
+      label: 'Map',
+      name: 'map',
+      disabled: false,
+    },
   ];
+
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   constructor(formBuilder: FormBuilder) {
     this.invalidRadioButtonOption = new FormControl(undefined, [

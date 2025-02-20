@@ -9,6 +9,7 @@ describe('progress-indicator-storybook', () => {
         ),
       );
       it('should render the component', () => {
+        cy.get('#ready').should('exist');
         cy.get('app-progress-indicator')
           .should('exist')
           .should('be.visible')

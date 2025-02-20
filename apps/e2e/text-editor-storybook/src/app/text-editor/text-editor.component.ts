@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { FontLoadingService } from '@skyux/storybook';
 import {
   SkyTextEditorMenuType,
   SkyTextEditorMergeField,
@@ -36,6 +38,8 @@ export class TextEditorComponent {
   public get disabledFlag(): boolean {
     return this.#_disabledFlag;
   }
+
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   public labelText = 'Text editor';
 

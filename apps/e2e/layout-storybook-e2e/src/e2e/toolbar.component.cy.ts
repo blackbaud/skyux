@@ -9,6 +9,7 @@ describe('layout-storybook', () => {
         ),
       );
       it('should render the component', () => {
+        cy.get('#ready').should('exist');
         cy.get('app-toolbar')
           .should('exist')
           .should('be.visible')

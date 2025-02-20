@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormControl,
@@ -7,6 +8,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyFieldGroupModule, SkyInputBoxModule } from '@skyux/forms';
+import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-field-group',
@@ -21,6 +23,7 @@ import { SkyFieldGroupModule, SkyInputBoxModule } from '@skyux/forms';
 })
 export class FieldGroupComponent {
   public formGroup: FormGroup;
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   #formBuilder = inject(FormBuilder);
 

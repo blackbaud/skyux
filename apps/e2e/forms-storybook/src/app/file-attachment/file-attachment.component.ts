@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyFileDropChange, SkyFileItem, SkyFileLink } from '@skyux/forms';
+import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-file-attachment',
@@ -76,6 +78,8 @@ export class FileAttachmentComponent {
       this.filesUpdated(testUpload);
     }
   }
+
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   constructor() {
     this.filesToUpload = [];

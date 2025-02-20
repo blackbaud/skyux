@@ -15,6 +15,7 @@ describe(`pages-storybook-tabs-tile-dashboard`, () => {
           });
 
           it('should render the component', () => {
+            cy.get('#ready').should('exist');
             cy.get(SELECTOR_PAGE)
               .should('exist')
               .should('be.visible')

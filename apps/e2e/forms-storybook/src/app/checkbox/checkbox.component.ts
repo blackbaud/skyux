@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormBuilder,
@@ -6,6 +7,7 @@ import {
   FormGroup,
   ValidationErrors,
 } from '@angular/forms';
+import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-checkbox',
@@ -22,6 +24,7 @@ export class CheckboxComponent {
   protected standardCheckboxGroupFormGroup3: FormGroup;
   protected standardCheckboxGroupFormGroup4: FormGroup;
   protected iconCheckboxGroupFormGroup: FormGroup;
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   constructor() {
     this.standardCheckboxGroupFormGroup1 = this.#formBuilder.group({

@@ -1,4 +1,6 @@
 import { Component, OnDestroy, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FontLoadingService } from '@skyux/storybook';
 import { SkyToastService, SkyToastType } from '@skyux/toast';
 
 import { ToastCustomComponent } from './toast-custom.component';
@@ -11,6 +13,8 @@ import { ToastCustomComponent } from './toast-custom.component';
 })
 export class ToastComponent implements OnDestroy {
   #toastService = inject(SkyToastService);
+
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   public ngOnDestroy(): void {
     this.#toastService.closeAll();

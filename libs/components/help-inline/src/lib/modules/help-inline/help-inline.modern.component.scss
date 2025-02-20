@@ -14,11 +14,9 @@
   --sky-override-help-inline-padding-sides: var(--modern-size-6);
 }
 
-@include compatMixins.sky-modern-v2('.sky-help-inline') {
-  line-height: 1;
-}
-
 @include mixins.sky-component('modern', '.sky-help-inline') {
+  font-size: var(--sky-size-icon-s);
+  line-height: 1;
   border: none;
   outline: none;
   padding: var(--sky-space-inset-pillarbox-1_4-top-xs)

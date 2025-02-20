@@ -8,6 +8,7 @@ describe('inline-form-storybook', () => {
           `/iframe.html?globals=theme:${theme}&id=inlineformcomponent-inlineform--inline-form-custom-buttons`,
         );
 
+        cy.get('#ready').should('exist');
         cy.get('app-inline-form')
           .should('exist')
           .should('be.visible')
@@ -35,6 +36,7 @@ describe('inline-form-storybook', () => {
             ),
           );
           it(`should render the open inline form component`, () => {
+            cy.get('#ready').should('exist');
             cy.get('app-inline-form').should('exist').should('be.visible');
 
             cy.get('button')

@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyTimepickerTimeOutput } from '@skyux/datetime';
+import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-timepicker',
@@ -10,6 +12,8 @@ import { SkyTimepickerTimeOutput } from '@skyux/datetime';
 export class TimepickerComponent {
   @Input()
   public timeFormat: 'hh' | 'HH' = 'hh';
+
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   public time: SkyTimepickerTimeOutput = {
     hour: 0,

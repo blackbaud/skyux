@@ -138,7 +138,7 @@ export class DataManagerComponent implements AfterViewInit {
     });
     this.ready = combineLatest([
       this.#gridReady,
-      this.#fontLoadingService.ready(),
+      this.#fontLoadingService.ready(true),
     ]).pipe(
       filter(([gridReady, fontsLoaded]) => gridReady && fontsLoaded),
       first(),

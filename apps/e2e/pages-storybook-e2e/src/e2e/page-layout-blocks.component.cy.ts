@@ -30,6 +30,7 @@ describe(`pages-storybook`, () => {
           );
 
           it('should render the component', () => {
+            cy.get('#ready').should('exist');
             cy.get('app-blocks-page sky-page')
               .should('exist')
               .should('be.visible');
@@ -38,6 +39,7 @@ describe(`pages-storybook`, () => {
           });
 
           it('should render the component on mobile', () => {
+            cy.get('#ready').should('exist');
             cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
 
             cy.get('app-blocks-page sky-page')

@@ -45,7 +45,7 @@ export class FlyoutComponent implements AfterViewInit, OnDestroy {
 
   public ngAfterViewInit() {
     this.#subscriptions.add(
-      this.#fontLoadingService.ready().subscribe(() => {
+      this.#fontLoadingService.ready(true).subscribe(() => {
         this.ready.next(true);
       }),
     );

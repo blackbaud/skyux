@@ -13,6 +13,7 @@ describe('text-editor-storybook', () => {
           );
 
           it('should render', () => {
+            cy.get('#ready').should('exist');
             cy.get('app-text-editor')
               .should('exist')
               .should('be.visible')
@@ -36,6 +37,7 @@ describe('text-editor-storybook', () => {
           ),
         );
         it('should display entered text', () => {
+          cy.get('#ready').should('exist');
           cy.get('app-text-editor')
             .should('exist')
             .should('be.visible')
@@ -57,6 +59,7 @@ describe('text-editor-storybook', () => {
         });
 
         it('should display an error state', () => {
+          cy.get('#ready').should('exist');
           cy.get('app-text-editor')
             .should('exist')
             .should('be.visible')
@@ -78,6 +81,7 @@ describe('text-editor-storybook', () => {
         });
 
         it('should open all the menus', () => {
+          cy.get('#ready').should('exist');
           cy.get('app-text-editor')
             .should('exist')
             .should('be.visible')
@@ -109,6 +113,7 @@ describe('text-editor-storybook', () => {
         });
 
         it('should open create link dialog', () => {
+          cy.get('#ready').should('exist');
           cy.get('app-text-editor')
             .should('exist')
             .should('be.visible')

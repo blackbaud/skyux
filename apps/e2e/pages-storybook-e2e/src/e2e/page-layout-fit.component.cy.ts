@@ -14,6 +14,7 @@ describe(`pages-storybook`, () => {
             cy.visit(`/iframe.html?globals=theme:${theme}&id=${ID}`),
           );
           it('should render the component', () => {
+            cy.get('#ready').should('exist');
             cy.get('app-fit-page sky-page')
               .should('exist')
               .should('be.visible');

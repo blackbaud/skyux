@@ -1,14 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import {
-  SkyTheme,
-  SkyThemeMode,
-  SkyThemeService,
-  SkyThemeSettings,
-  SkyThemeSettingsChange,
-} from '@skyux/theme';
-
-import { BehaviorSubject } from 'rxjs';
 
 import { StatusIndicatorTestComponent } from './fixtures/status-indicator.component.fixture';
 import { SkyStatusIndicatorModule } from './status-indicator.module';
@@ -63,7 +54,7 @@ describe('Status indicator component', () => {
 
     validateIconWrapperClass(statusIndicatorEl, indicatorType);
 
-    const iconEl = statusIndicatorEl.querySelector('.sky-icon');
+    const iconEl = statusIndicatorEl.querySelector('sky-icon-svg');
 
     expect(iconEl?.getAttribute('data-sky-icon')).toBe(`sky-${expectedIcon}`);
   }
@@ -182,30 +173,5 @@ describe('Status indicator component', () => {
     fixture.detectChanges();
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
-  });
-
-  describe('when modern theme', () => {
-    beforeEach(() => {
-      const mockThemeSvc = {
-        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.modern,
-            SkyThemeMode.presets.light,
-          ),
-          previousSettings: undefined,
-        }),
-      };
-
-      TestBed.overrideComponent(StatusIndicatorTestComponent, {
-        add: {
-          providers: [
-            {
-              provide: SkyThemeService,
-              useValue: mockThemeSvc,
-            },
-          ],
-        },
-      });
-    });
   });
 });

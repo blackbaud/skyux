@@ -9,6 +9,7 @@ describe('lists-storybook', () => {
         ),
       );
       it('should render the component', () => {
+        cy.get('#ready').should('exist');
         cy.get('app-repeater')
           .should('exist')
           .should('be.visible')

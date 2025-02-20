@@ -67,9 +67,9 @@ describe('Toast component', () => {
 
     const toastEl = document.querySelector('sky-toast');
 
-    const iconEl = toastEl?.querySelector('.sky-icon');
+    const iconEl = toastEl?.querySelector('sky-icon-svg');
 
-    expect(iconEl).toHaveCssClass(`fa-${expectedIcon}`);
+    expect(iconEl?.getAttribute('data-sky-icon')).toBe(expectedIcon);
   }
 
   function setupTest(): void {
@@ -88,11 +88,11 @@ describe('Toast component', () => {
 
   it('should show the correct icon based on the icon type', () => {
     setupTest();
-    validateIcon(undefined, 'exclamation-circle'); // default
-    validateIcon(SkyToastType.Info, 'exclamation-circle');
-    validateIcon(SkyToastType.Success, 'check');
-    validateIcon(SkyToastType.Warning, 'warning');
-    validateIcon(SkyToastType.Danger, 'warning');
+    validateIcon(undefined, 'sky-info'); // default
+    validateIcon(SkyToastType.Info, 'sky-info');
+    validateIcon(SkyToastType.Success, 'sky-success');
+    validateIcon(SkyToastType.Warning, 'sky-warning');
+    validateIcon(SkyToastType.Danger, 'sky-warning');
   });
 
   it('should close the toast when clicking close button', () => {

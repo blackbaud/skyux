@@ -75,6 +75,9 @@
 }
 
 .sky-icon-svg-container {
+  &::before {
+    content: '\200B';
+  }
   height: var(--sky-icon-svg-img-size);
   width: var(--sky-icon-svg-img-size);
   display: inline-flex;

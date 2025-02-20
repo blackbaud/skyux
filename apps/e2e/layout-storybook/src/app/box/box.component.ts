@@ -40,5 +40,5 @@ export class BoxComponent {
     },
   ];
 
-  protected readonly ready$ = inject(FontLoadingService).ready();
+  protected readonly ready$ = inject(FontLoadingService).ready(true);
 }
