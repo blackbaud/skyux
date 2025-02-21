@@ -10,22 +10,24 @@ export class SkyKindToPillColorPipe implements PipeTransform {
   public transform(value: SkyManifestParentDefinitionKind): SkyPillColor {
     switch (value) {
       case 'module':
-        return 'blue';
-
-      case 'component':
-      case 'directive':
-      case 'pipe':
         return 'purple';
 
-      case 'interface':
-      case 'enumeration':
-      case 'type-alias':
+      case 'component':
         return 'orange';
 
+      case 'directive':
+      case 'pipe':
+        return 'yellow';
+
       case 'class':
+      case 'interface':
+      case 'enumeration':
       case 'function':
-      case 'service':
+      case 'type-alias':
         return 'light-blue';
+
+      case 'service':
+        return 'teal';
 
       default:
         return 'light-blue';

@@ -88,11 +88,12 @@ import {
     @let def = definition();
 
     <sky-heading-anchor
+      class="sky-margin-stacked-lg"
       headingLevel="2"
       headingTextFormat="code"
       [anchorId]="def.anchorId"
-      [class.sky-text-strikethrough]="def.isDeprecated"
       [headingText]="def.name"
+      [strikethrough]="def.isDeprecated"
     >
       <sky-pill [color]="def.kind | skyKindToPillColor">
         <span class="sky-screen-reader-only">Type: </span

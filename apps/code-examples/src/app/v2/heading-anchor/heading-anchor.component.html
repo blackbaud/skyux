@@ -46,9 +46,14 @@
 <ng-content />
 
 <ng-template #headingTextRef>
-  @if (headingTextFormat() === 'code') {
-    <code>{{ headingText() }}</code>
-  } @else {
-    {{ headingText() }}
-  }
+  <span
+    class="sky-heading-anchor-heading-text"
+    [class.sky-heading-anchor-strikethrough]="strikethrough()"
+  >
+    @if (headingTextFormat() === 'code') {
+      <code>{{ headingText() }}</code>
+    } @else {
+      {{ headingText() }}
+    }
+  </span>
 </ng-template>

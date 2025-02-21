@@ -15,7 +15,7 @@ import type { SkyPillColor } from './pill-color';
   styles: `
     :host {
       display: inline-flex;
-      padding: 4px 7px;
+      padding: 3px 7px;
       background-color: var(--sky-pill-background-color);
     }
 

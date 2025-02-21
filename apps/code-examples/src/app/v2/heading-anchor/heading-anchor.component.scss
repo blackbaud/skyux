@@ -16,7 +16,11 @@ h3,
 h4,
 h5,
 h6 {
-  margin-right: var(--sky-margin-inline-xs);
+  margin: 0;
+}
+
+.sky-heading-anchor-heading-text {
+  margin-right: 7px;
 }
 
 .sky-heading-anchor-link {
@@ -24,5 +28,9 @@ h6 {
   transition: opacity 250ms;
   color: var(--sky-text-color-action-primary);
   position: absolute;
-  left: -1em;
+  left: calc(-1em - 5px);
+}
+
+.sky-heading-anchor-strikethrough {
+  text-decoration: line-through;
 }

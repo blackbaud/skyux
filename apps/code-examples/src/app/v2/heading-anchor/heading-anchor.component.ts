@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  booleanAttribute,
   inject,
   input,
   numberAttribute,
@@ -50,6 +51,8 @@ export class SkyHeadingAnchorComponent implements OnInit, OnDestroy {
       return DEFAULT_HEADING_LEVEL;
     },
   });
+
+  public readonly strikethrough = input(false, { transform: booleanAttribute });
 
   public ngOnInit(): void {
     this.#anchorSvc.register(this);

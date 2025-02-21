@@ -1,0 +1,16 @@
+<div class="sky-docs-toc-heading sky-font-heading-5">
+  {{ headingText() }}
+</div>
+
+<nav [attr.aria-label]="'Table of contents for ' + headingText()">
+  @for (link of links(); track link.anchorId) {
+    <a
+      class="sky-docs-toc-link"
+      queryParamsHandling="merge"
+      [class.sky-docs-toc-link-active]="link.active"
+      [fragment]="link.anchorId"
+      [routerLink]="[]"
+      >{{ link.title }}</a
+    >
+  }
+</nav>
