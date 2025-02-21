@@ -8,7 +8,6 @@ import { IDTypeDictionary } from '@blackbaud/angular-tree-component/lib/defs/api
 
 @Component({
   templateUrl: './tree-view.fixture.component.html',
-  
 })
 export class SkyTreeViewFixtureComponent {
   public activeNodeIds: any;

@@ -26,7 +26,6 @@ import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
   templateUrl: './selection-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  
 })
 export class SkySelectionBoxComponent implements OnDestroy {
   /**

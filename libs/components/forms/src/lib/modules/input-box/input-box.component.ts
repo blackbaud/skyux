@@ -57,7 +57,6 @@ import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
   // Note that change detection is not set to OnPush; default change detection allows the
   // invalid CSS class to be added when the content control's invalid/dirty state changes.
   encapsulation: ViewEncapsulation.None,
-  
 })
 export class SkyInputBoxComponent
   implements OnInit, AfterContentChecked, OnDestroy

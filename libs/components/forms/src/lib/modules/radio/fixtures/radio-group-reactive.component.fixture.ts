@@ -13,7 +13,6 @@ import { SkyRadioGroupHeadingStyle } from '../types/radio-group-heading-style';
 
 @Component({
   templateUrl: './radio-group-reactive.component.fixture.html',
-  
 })
 export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
   public ariaLabel: string | undefined;

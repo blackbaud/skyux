@@ -13,7 +13,6 @@ import {
   selector: 'sky-angular-tree-toolbar',
   templateUrl: './angular-tree-toolbar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  
 })
 export class SkyTreeViewToolbarComponent {
   @Input()

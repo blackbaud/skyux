@@ -50,7 +50,6 @@ const SKY_TOGGLE_SWITCH_VALIDATOR = {
     SKY_TOGGLE_SWITCH_VALIDATOR,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  
 })
 export class SkyToggleSwitchComponent
   implements AfterContentInit, OnDestroy, ControlValueAccessor, Validator

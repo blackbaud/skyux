@@ -34,7 +34,6 @@ const SKY_SELECTION_BOX_CLASS_NAME = '.sky-selection-box';
   styleUrls: ['./selection-box-grid.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  
 })
 export class SkySelectionBoxGridComponent implements OnDestroy, OnInit {
   /**

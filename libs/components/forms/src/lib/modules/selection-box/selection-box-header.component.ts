@@ -6,6 +6,5 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-selection-box-header',
   templateUrl: './selection-box-header.component.html',
-  
 })
 export class SkySelectionBoxHeaderComponent {}

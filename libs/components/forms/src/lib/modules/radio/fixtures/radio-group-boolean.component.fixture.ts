@@ -4,7 +4,6 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 @Component({
   selector: 'app-radio-group-boolean-test',
   templateUrl: './radio-group-boolean.component.fixture.html',
-  
 })
 export class SkyRadioGroupBooleanTestComponent {
   public radioForm: UntypedFormGroup;

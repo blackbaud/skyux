@@ -10,7 +10,6 @@ import { SkyLogService } from '@skyux/core';
 @Component({
   selector: 'sky-radio-label',
   templateUrl: './radio-label.component.html',
-  
 })
 export class SkyRadioLabelComponent {
   // When clicking on a checkbox label, Angular registers two click events.

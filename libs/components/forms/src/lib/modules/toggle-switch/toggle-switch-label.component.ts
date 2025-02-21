@@ -11,7 +11,6 @@ import { SkyLogService } from '@skyux/core';
   selector: 'sky-toggle-switch-label',
   templateUrl: './toggle-switch-label.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  
 })
 export class SkyToggleSwitchLabelComponent {
   constructor() {

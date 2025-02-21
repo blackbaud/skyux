@@ -12,7 +12,6 @@ import { Component } from '@angular/core';
       }
     </sky-radio-group>
   `,
-  
 })
 export class SkyRadioGroupFixtureComponent {
   public disableRadioGroup = false;

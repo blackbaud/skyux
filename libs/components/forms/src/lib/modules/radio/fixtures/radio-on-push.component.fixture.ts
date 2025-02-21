@@ -7,7 +7,6 @@ import {
 @Component({
   templateUrl: './radio-on-push.component.fixture.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  
 })
 export class SkyRadioOnPushTestComponent {
   public selectedValue = '1';
