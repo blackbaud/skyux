@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { SkyPillCategoryType } from './pill-category-type';
+import type { SkyDocsPillColor } from './pill-color';
 
 /**
  * @internal
@@ -9,50 +9,46 @@ import { SkyPillCategoryType } from './pill-category-type';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'sky-rounded-corners sky-font-body-sm',
-    '[class]': '"sky-pill-category-" + categoryType()',
+    '[class]': '"sky-docs-pill-color-" + color()',
   },
   imports: [],
-  selector: 'sky-pill',
+  selector: 'sky-docs-pill',
   styles: `
     :host {
-      display: inline-block;
-      padding: 2px 7px;
-      margin-top: -2px;
-      margin-bottom: -2px;
-      vertical-align: baseline;
+      display: inline-flex;
+      padding: 4px 7px;
     }
 
-    :host(.sky-pill-category-blue) {
+    :host(.sky-docs-pill-color-blue) {
       background-color: var(--sky-category-color-blue);
     }
 
-    :host(.sky-pill-category-light-blue) {
+    :host(.sky-docs-pill-color-light-blue) {
       background-color: var(--sky-category-color-light-blue);
     }
 
-    :host(.sky-pill-category-orange) {
+    :host(.sky-docs-pill-color-orange) {
       background-color: var(--sky-category-color-orange);
     }
 
-    :host(.sky-pill-category-purple) {
+    :host(.sky-docs-pill-color-purple) {
       background-color: var(--sky-category-color-purple);
     }
 
-    :host(.sky-pill-category-red) {
+    :host(.sky-docs-pill-color-red) {
       background-color: var(--sky-category-color-red);
     }
 
-    :host(.sky-pill-category-teal) {
+    :host(.sky-docs-pill-color-teal) {
       background-color: var(--sky-category-color-teal);
     }
 
-    :host(.sky-pill-category-yellow) {
+    :host(.sky-docs-pill-color-yellow) {
       background-color: var(--sky-category-color-yellow);
     }
   `,
-  template: `{{ textContent() }}`,
+  template: `<ng-content />`,
 })
-export class SkyPillComponent {
-  public textContent = input.required<string>();
-  public categoryType = input.required<SkyPillCategoryType>();
+export class SkyDocsPillComponent {
+  public color = input.required<SkyDocsPillColor>();
 }

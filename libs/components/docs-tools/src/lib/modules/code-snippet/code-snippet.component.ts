@@ -29,9 +29,6 @@ import { type SkyCodeSnippetLanguage } from './code-snippet-language';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  host: {
-    class: 'sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners',
-  },
   imports: [SkyClipboardModule, SkyIconModule, SkyDocsToolsResourcesModule],
   selector: 'sky-code-snippet',
   styleUrls: [

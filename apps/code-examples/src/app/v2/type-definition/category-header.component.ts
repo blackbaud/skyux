@@ -19,8 +19,8 @@ type Category =
   styles: `
     :host {
       display: block;
-      border-left: 3px solid grey;
-      padding-left: 10px;
+      // border-left: 3px solid grey;
+      // padding-left: 10px;
     }
 
     .subheading {
@@ -32,7 +32,7 @@ type Category =
       // font-weight: bold;
       // font-size: 10px;
       // text-transform: uppercase;
-      // display: none;
+      display: none;
       font-size: 13px;
       margin-top: -15px;
     }

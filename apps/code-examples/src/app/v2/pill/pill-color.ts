@@ -1,4 +1,4 @@
-export type SkyPillCategoryType =
+export type SkyDocsPillColor =
   | 'blue'
   | 'light-blue'
   | 'orange'

@@ -77,6 +77,7 @@ import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
               }
 
               <sky-code-snippet
+                class="sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners sky-margin-stacked-lg"
                 hideToolbar
                 language="ts"
                 [code]="getCodeSignature(method)"

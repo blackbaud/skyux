@@ -11,8 +11,6 @@ import {
 import { RouterLink } from '@angular/router';
 import { SkyIconModule } from '@skyux/icon';
 
-import { SkyPillComponent } from '../pill/pill.component';
-
 import { SkyHeadingAnchorService } from './heading-anchor.service';
 
 type SkyHeadingAnchorHeadingTextFormat = 'normal' | 'code';
@@ -28,13 +26,16 @@ const DEFAULT_HEADING_LEVEL: SkyHeadingAnchorHeadingLevel = 2;
   host: {
     '[attr.id]': 'headingId()',
   },
-  imports: [NgTemplateOutlet, RouterLink, SkyIconModule, SkyPillComponent],
+  imports: [NgTemplateOutlet, RouterLink, SkyIconModule],
   selector: 'sky-heading-anchor',
   styles: `
     :host {
-      display: block;
+      display: flex;
+      align-items: center;
+      position: relative;
+
       &:hover {
-        .sky-heading-anchor {
+        .sky-heading-anchor-link {
           opacity: 1;
         }
       }
@@ -46,29 +47,30 @@ const DEFAULT_HEADING_LEVEL: SkyHeadingAnchorHeadingLevel = 2;
     h4,
     h5,
     h6 {
-      position: relative;
+      margin-right: var(--sky-margin-inline-sm);
     }
 
-    .sky-heading-anchor {
+    .sky-heading-anchor-link {
       opacity: 0;
-      margin-left: var(--sky-margin-inline-xs);
       transition: opacity 250ms;
+      color: var(--sky-text-color-action-primary);
       position: absolute;
+      left: -1.1em;
     }
-
-    // .heading-icon {
-    //   background-color: #006ea8;
-    //   color: #fff;
-    //   width: 30px;
-    //   height: 30px;
-    //   border-radius: 100%;
-    //   display: inline-flex;
-    //   margin-right: 8px;
-    //   align-items: center;
-    //   justify-content: center;
-    // }
   `,
   template: `
+    <a
+      class="sky-heading-anchor-link sky-font-heading-{{ headingLevel() }}"
+      queryParamsHandling="merge"
+      [fragment]="headingId()"
+      [routerLink]="[]"
+    >
+      <sky-icon iconName="link" />
+      <span class="sky-screen-reader-only"
+        >Link for section titled {{ headingText() }}</span
+      >
+    </a>
+
     @switch (headingLevel()) {
       @case (1) {
         <h1>
@@ -102,22 +104,16 @@ const DEFAULT_HEADING_LEVEL: SkyHeadingAnchorHeadingLevel = 2;
       }
     }
 
+    <span class="sky-heading-anchor-content">
+      <ng-content />
+    </span>
+
     <ng-template #headingTextRef>
       @if (headingTextFormat() === 'code') {
         <code>{{ headingText() }}</code>
       } @else {
         {{ headingText() }}
       }
-
-      <a
-        class="sky-heading-anchor"
-        queryParamsHandling="merge"
-        [fragment]="headingId()"
-        [routerLink]="[]"
-      >
-        <sky-icon iconName="link" />
-        <span hidden>Section titled {{ headingText() }}</span>
-      </a>
     </ng-template>
   `,
 })

@@ -20,7 +20,7 @@ import {
 
 import { SkyHeadingAnchorComponent } from '../heading-anchor/heading-anchor.component';
 import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
-import { SkyPillComponent } from '../pill/pill.component';
+import { SkyDocsPillComponent } from '../pill/pill.component';
 import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
 
 import { SkyDocsCategoryHeader } from './category-header.component';
@@ -58,7 +58,7 @@ import {
     SkyHeadingAnchorComponent,
     SkyMarkdownPipe,
     SkyCodeSnippetModule,
-    SkyPillComponent,
+    SkyDocsPillComponent,
     SkyTypeDefinitionPillTypePipe,
     SkyTypeDefinitionMethodsTableComponent,
     SkyStatusIndicatorModule,
@@ -84,25 +84,18 @@ import {
   template: `
     @let def = definition();
 
-    <sky-docs-category-header
-      [category]="def.kind | skyTypeDefinitionPillType"
-      [categoryLabel]="def.kind | skyTypeDefinitionKindToLabel"
+    <sky-heading-anchor
+      headingLevel="2"
+      headingTextFormat="code"
+      [class.sky-text-strikethrough]="def.isDeprecated"
+      [headingId]="def.anchorId"
+      [headingText]="def.name"
     >
-      <sky-heading-anchor
-        headingLevel="2"
-        headingTextFormat="code"
-        [headingId]="def.anchorId"
-        [headingText]="def.name"
-        [class.sky-text-strikethrough]="def.isDeprecated"
-      />
-    </sky-docs-category-header>
-
-    <div class="sky-type-definition-tags sky-margin-stacked-lg">
-      <sky-pill
-        [textContent]="def.kind | skyTypeDefinitionKindToLabel"
-        [categoryType]="def.kind | skyTypeDefinitionPillType"
-      />
-    </div>
+      <sky-docs-pill [color]="def.kind | skyTypeDefinitionPillType">
+        <span class="sky-screen-reader-only">Type: </span
+        >{{ def.kind | skyTypeDefinitionKindToLabel }}
+      </sky-docs-pill>
+    </sky-heading-anchor>
 
     @if (def.deprecationReason) {
       <sky-deprecation-reason stacked [message]="def.deprecationReason" />
@@ -151,7 +144,9 @@ import {
 
     @if (def.codeExample) {
       <h3>Example</h3>
+
       <sky-code-snippet
+        class="sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners sky-margin-stacked-lg"
         hideToolbar
         [code]="def.codeExample"
         [language]="def.codeExampleLanguage ?? 'html'"
@@ -161,7 +156,7 @@ import {
     @switch (def.kind) {
       @case ('function') {
         <sky-code-snippet
-          class="sky-margin-stacked-lg"
+          class="sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners sky-margin-stacked-lg"
           hideToolbar
           language="ts"
           [code]="getFunctionSignature(def)"
@@ -188,6 +183,7 @@ import {
 
       @case ('type-alias') {
         <sky-code-snippet
+          class="sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners sky-margin-stacked-lg"
           hideToolbar
           language="ts"
           [code]="def | skyFormatTypeAliasTypeDefinition"
