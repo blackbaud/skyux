@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &:hover {
+    .sky-heading-anchor-link {
+      opacity: 1;
+    }
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-right: var(--sky-margin-inline-xs);
+}
+
+.sky-heading-anchor-link {
+  opacity: 0;
+  transition: opacity 250ms;
+  color: var(--sky-text-color-action-primary);
+  position: absolute;
+  left: -1em;
+}

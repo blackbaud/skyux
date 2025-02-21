@@ -14,13 +14,13 @@ import { SkyTableOfContentsLink } from './table-of-contents-links';
   styles: `
     :host {
       display: block;
-      border-left: 1px solid var(--sky-border-color-neutral-medium);
+      border-left: 2px solid var(--sky-border-color-neutral-medium);
     }
 
     a.sky-docs-toc-link,
     .sky-docs-toc-heading {
       margin-bottom: 8px;
-      padding-left: 15px;
+      padding-left: 10px;
     }
 
     a.sky-docs-toc-link {
@@ -36,9 +36,8 @@ import { SkyTableOfContentsLink } from './table-of-contents-links';
       &.sky-docs-toc-link-active {
         color: var(--sky-text-color-action-primary);
         text-decoration: none;
-        border-left: 3px solid var(--sky-text-color-action-primary);
-        padding-left: 13px;
-        margin-left: -1px;
+        border-left: 2px solid var(--sky-text-color-action-primary);
+        margin-left: -2px;
       }
     }
   `,

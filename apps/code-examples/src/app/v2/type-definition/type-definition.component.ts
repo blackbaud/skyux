@@ -5,7 +5,11 @@ import {
   computed,
   input,
 } from '@angular/core';
-import { SkyClipboardModule, SkyCodeSnippetModule } from '@skyux/docs-tools';
+import {
+  SkyClipboardModule,
+  SkyCodeSnippetModule,
+  SkyPillModule,
+} from '@skyux/docs-tools';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyLabelModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyDescriptionListModule } from '@skyux/layout';
@@ -20,15 +24,14 @@ import {
 
 import { SkyHeadingAnchorComponent } from '../heading-anchor/heading-anchor.component';
 import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
-import { SkyDocsPillComponent } from '../pill/pill.component';
 import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
 
 import { SkyDocsCategoryHeader } from './category-header.component';
 import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
 import { SkyTypeDefinitionMethodsTableComponent } from './methods-table.component';
 import { SkyTypeDefinitionParametersTableComponent } from './parameters-table.component';
+import { SkyKindToPillColorPipe } from './pipes/kind-to-pill-color.pipe';
 import { SkyTypeDefinitionKindToLabelPipe } from './pipes/type-definition-kind-to-label.pipe';
-import { SkyTypeDefinitionPillTypePipe } from './pipes/type-definition-pill-type.pipe';
 import { SkyFormatTypeAliasTypeDefinitionPipe } from './pipes/type-definition-type-alias.pipe';
 import {
   PropertyDefinition,
@@ -58,8 +61,8 @@ import {
     SkyHeadingAnchorComponent,
     SkyMarkdownPipe,
     SkyCodeSnippetModule,
-    SkyDocsPillComponent,
-    SkyTypeDefinitionPillTypePipe,
+    SkyKindToPillColorPipe,
+    SkyPillModule,
     SkyTypeDefinitionMethodsTableComponent,
     SkyStatusIndicatorModule,
     SkyTypeDefinitionPropertiesTableComponent,
@@ -87,14 +90,14 @@ import {
     <sky-heading-anchor
       headingLevel="2"
       headingTextFormat="code"
+      [anchorId]="def.anchorId"
       [class.sky-text-strikethrough]="def.isDeprecated"
-      [headingId]="def.anchorId"
       [headingText]="def.name"
     >
-      <sky-docs-pill [color]="def.kind | skyTypeDefinitionPillType">
+      <sky-pill [color]="def.kind | skyKindToPillColor">
         <span class="sky-screen-reader-only">Type: </span
         >{{ def.kind | skyTypeDefinitionKindToLabel }}
-      </sky-docs-pill>
+      </sky-pill>
     </sky-heading-anchor>
 
     @if (def.deprecationReason) {

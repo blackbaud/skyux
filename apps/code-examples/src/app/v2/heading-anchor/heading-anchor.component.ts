@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
-  afterNextRender,
+  OnInit,
   inject,
   input,
   numberAttribute,
@@ -24,107 +24,22 @@ const DEFAULT_HEADING_LEVEL: SkyHeadingAnchorHeadingLevel = 2;
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[attr.id]': 'headingId()',
+    '[attr.id]': 'anchorId()',
   },
   imports: [NgTemplateOutlet, RouterLink, SkyIconModule],
   selector: 'sky-heading-anchor',
-  styles: `
-    :host {
-      display: flex;
-      align-items: center;
-      position: relative;
-
-      &:hover {
-        .sky-heading-anchor-link {
-          opacity: 1;
-        }
-      }
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      margin-right: var(--sky-margin-inline-sm);
-    }
-
-    .sky-heading-anchor-link {
-      opacity: 0;
-      transition: opacity 250ms;
-      color: var(--sky-text-color-action-primary);
-      position: absolute;
-      left: -1.1em;
-    }
-  `,
-  template: `
-    <a
-      class="sky-heading-anchor-link sky-font-heading-{{ headingLevel() }}"
-      queryParamsHandling="merge"
-      [fragment]="headingId()"
-      [routerLink]="[]"
-    >
-      <sky-icon iconName="link" />
-      <span class="sky-screen-reader-only"
-        >Link for section titled {{ headingText() }}</span
-      >
-    </a>
-
-    @switch (headingLevel()) {
-      @case (1) {
-        <h1>
-          <ng-container [ngTemplateOutlet]="headingTextRef" />
-        </h1>
-      }
-      @case (2) {
-        <h2>
-          <ng-container [ngTemplateOutlet]="headingTextRef" />
-        </h2>
-      }
-      @case (3) {
-        <h3>
-          <ng-container [ngTemplateOutlet]="headingTextRef" />
-        </h3>
-      }
-      @case (4) {
-        <h4>
-          <ng-container [ngTemplateOutlet]="headingTextRef" />
-        </h4>
-      }
-      @case (5) {
-        <h5>
-          <ng-container [ngTemplateOutlet]="headingTextRef" />
-        </h5>
-      }
-      @case (6) {
-        <h6>
-          <ng-container [ngTemplateOutlet]="headingTextRef" />
-        </h6>
-      }
-    }
-
-    <span class="sky-heading-anchor-content">
-      <ng-content />
-    </span>
-
-    <ng-template #headingTextRef>
-      @if (headingTextFormat() === 'code') {
-        <code>{{ headingText() }}</code>
-      } @else {
-        {{ headingText() }}
-      }
-    </ng-template>
-  `,
+  styleUrl: './heading-anchor.component.scss',
+  templateUrl: './heading-anchor.component.html',
 })
-export class SkyHeadingAnchorComponent implements OnDestroy {
-  readonly #anchorSvc = inject(SkyHeadingAnchorService, { skipSelf: true });
+export class SkyHeadingAnchorComponent implements OnInit, OnDestroy {
+  readonly #anchorSvc = inject(SkyHeadingAnchorService);
 
-  public headingId = input.required<string>();
-  public headingText = input.required<string>();
-  public headingTextFormat = input<SkyHeadingAnchorHeadingTextFormat>('normal');
+  public readonly anchorId = input.required<string>();
+  public readonly headingText = input.required<string>();
+  public readonly headingTextFormat =
+    input<SkyHeadingAnchorHeadingTextFormat>('normal');
 
-  public headingLevel = input(DEFAULT_HEADING_LEVEL, {
+  public readonly headingLevel = input(DEFAULT_HEADING_LEVEL, {
     transform: (value) => {
       const numValue = numberAttribute(value);
 
@@ -136,10 +51,8 @@ export class SkyHeadingAnchorComponent implements OnDestroy {
     },
   });
 
-  constructor() {
-    afterNextRender(() => {
-      this.#anchorSvc.register(this);
-    });
+  public ngOnInit(): void {
+    this.#anchorSvc.register(this);
   }
 
   public ngOnDestroy(): void {

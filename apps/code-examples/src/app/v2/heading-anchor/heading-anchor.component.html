@@ -1,0 +1,54 @@
+<a
+  class="sky-heading-anchor-link sky-font-heading-{{ headingLevel() }}"
+  queryParamsHandling="merge"
+  [fragment]="anchorId()"
+  [routerLink]="[]"
+>
+  <sky-icon iconName="link" />
+  <span class="sky-screen-reader-only"
+    >Link for section titled {{ headingText() }}</span
+  >
+</a>
+
+@switch (headingLevel()) {
+  @case (1) {
+    <h1>
+      <ng-container [ngTemplateOutlet]="headingTextRef" />
+    </h1>
+  }
+  @case (2) {
+    <h2>
+      <ng-container [ngTemplateOutlet]="headingTextRef" />
+    </h2>
+  }
+  @case (3) {
+    <h3>
+      <ng-container [ngTemplateOutlet]="headingTextRef" />
+    </h3>
+  }
+  @case (4) {
+    <h4>
+      <ng-container [ngTemplateOutlet]="headingTextRef" />
+    </h4>
+  }
+  @case (5) {
+    <h5>
+      <ng-container [ngTemplateOutlet]="headingTextRef" />
+    </h5>
+  }
+  @case (6) {
+    <h6>
+      <ng-container [ngTemplateOutlet]="headingTextRef" />
+    </h6>
+  }
+}
+
+<ng-content />
+
+<ng-template #headingTextRef>
+  @if (headingTextFormat() === 'code') {
+    <code>{{ headingText() }}</code>
+  } @else {
+    {{ headingText() }}
+  }
+</ng-template>

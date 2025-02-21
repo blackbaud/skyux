@@ -1,23 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
+import { SkyHeadingAnchorLink } from './heading-anchor-link';
 import { SkyHeadingAnchorComponent } from './heading-anchor.component';
-
-interface SkyHeadingAnchorLink {
-  anchorId: string;
-  title: string;
-}
 
 /**
  * @internal
  */
 @Injectable()
-export class SkyHeadingAnchorService {
-  #anchors: SkyHeadingAnchorComponent[] = [];
-  #anchorsChange = new BehaviorSubject<SkyHeadingAnchorLink[]>([]);
+export class SkyHeadingAnchorService implements OnDestroy {
+  readonly #anchors: SkyHeadingAnchorComponent[] = [];
+  readonly #anchorsChange = new BehaviorSubject<SkyHeadingAnchorLink[]>([]);
 
   public readonly anchorsChange = this.#anchorsChange.asObservable();
+
+  public ngOnDestroy(): void {
+    this.#anchorsChange.complete();
+  }
 
   public register(anchor: SkyHeadingAnchorComponent): void {
     if (!this.#anchors.includes(anchor)) {
@@ -33,10 +33,10 @@ export class SkyHeadingAnchorService {
     }
   }
 
-  #getLinks() {
+  #getLinks(): SkyHeadingAnchorLink[] {
     return this.#anchors.map((a) => {
       return {
-        anchorId: a.headingId(),
+        anchorId: a.anchorId(),
         title: a.headingText(),
       };
     });

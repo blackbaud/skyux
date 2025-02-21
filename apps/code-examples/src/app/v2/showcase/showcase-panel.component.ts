@@ -48,7 +48,7 @@ interface Link {
 
     .sky-docs-showcase-panel-body {
       width: 75%;
-      padding-right: 25px;
+      padding-right: 30px;
     }
 
     .sky-docs-showcase-panel-toc {
