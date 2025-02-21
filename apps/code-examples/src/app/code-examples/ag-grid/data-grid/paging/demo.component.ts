@@ -13,10 +13,12 @@ import { SkyPagingModule } from '@skyux/lists';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  AllCommunityModule,
   ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
+  ModuleRegistry,
   ValueFormatterParams,
 } from 'ag-grid-community';
 import { Subscription } from 'rxjs';
@@ -24,6 +26,8 @@ import { filter, map } from 'rxjs/operators';
 
 import { ContextMenuComponent } from './context-menu.component';
 import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-demo',

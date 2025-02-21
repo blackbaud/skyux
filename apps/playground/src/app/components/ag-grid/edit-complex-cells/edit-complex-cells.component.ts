@@ -21,11 +21,13 @@ import { SkyThemeService } from '@skyux/theme';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  AllCommunityModule,
   ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
   IGetRowsParams,
+  ModuleRegistry,
   RowSelectedEvent,
 } from 'ag-grid-community';
 import { BehaviorSubject, of } from 'rxjs';
@@ -43,6 +45,8 @@ import {
   EditableGridRow,
 } from './edit-complex-cells-data';
 import { InlineHelpComponent } from './inline-help/inline-help.component';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-edit-complex-cells-visual',

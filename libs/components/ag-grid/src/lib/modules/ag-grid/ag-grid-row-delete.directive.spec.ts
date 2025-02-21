@@ -11,6 +11,12 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SkyAgGridRowDeleteFixtureComponent } from './fixtures/ag-grid-row-delete.component.fixture';
 import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 
+// 16ms is the fakeAsync time for requestAnimationFrame, simulating ~60fps.
+// https://github.com/angular/angular/blob/19.1.x/packages/zone.js/lib/zone-spec/fake-async-test.ts#L682-L693
+function tickForAnimationFrame(): void {
+  tick(16);
+}
+
 describe('SkyAgGridRowDeleteDirective', () => {
   let fixture: ComponentFixture<SkyAgGridRowDeleteFixtureComponent>;
 
@@ -57,50 +63,51 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   describe('show row delete elements correctly', () => {
-    it('should show for one row', async () => {
+    it('should show for one row', fakeAsync(() => {
       setupTest();
-      await fixture.whenStable();
+      tick();
 
       expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
 
       fixture.componentInstance.rowDeleteIds = ['0'];
       fixture.detectChanges();
-      await fixture.whenStable();
+      tickForAnimationFrame();
 
       expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
       expect(
         document.querySelectorAll('.sky-inline-delete-standard').length,
       ).toBe(1);
-    });
+    }));
 
-    it('should show for multiple rows', async () => {
+    it('should show for multiple rows', fakeAsync(() => {
       setupTest();
-      await fixture.whenStable();
+      tick();
 
       expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
 
       fixture.componentInstance.rowDeleteIds = ['0', '2'];
       fixture.detectChanges();
-      await fixture.whenStable();
+      tickForAnimationFrame();
 
       expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
       expect(
         document.querySelectorAll('.sky-inline-delete-standard').length,
       ).toBe(2);
-    });
+    }));
 
-    it('should respond to data changes', async () => {
+    it('should respond to data changes', fakeAsync(() => {
       setupTest();
-      await fixture.whenStable();
+      fixture.detectChanges();
+      tick();
 
       fixture.componentInstance.rowDeleteIds = ['0', '2'];
       fixture.detectChanges();
-      await fixture.whenStable();
+      tickForAnimationFrame();
 
       fixture.componentInstance.addDataPoint();
 
       fixture.detectChanges();
-      await fixture.whenStable();
+      tickForAnimationFrame();
 
       expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
       expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
@@ -108,20 +115,20 @@ describe('SkyAgGridRowDeleteDirective', () => {
       expect(
         document.querySelectorAll('.sky-inline-delete-standard').length,
       ).toBe(2);
-    });
+    }));
 
-    it('should respond to sorting', async () => {
+    it('should respond to sorting', fakeAsync(() => {
       setupTest();
-      await fixture.whenStable();
+      tick();
 
       fixture.componentInstance.rowDeleteIds = ['0', '2'];
       fixture.detectChanges();
-      await fixture.whenStable();
+      tickForAnimationFrame();
 
-      await fixture.componentInstance.sortName();
-
+      fixture.componentInstance.sortName();
+      tick();
       fixture.detectChanges();
-      await fixture.whenStable();
+      tickForAnimationFrame();
 
       expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
       expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
@@ -129,20 +136,33 @@ describe('SkyAgGridRowDeleteDirective', () => {
       expect(
         document.querySelectorAll('.sky-inline-delete-standard').length,
       ).toBe(2);
-    });
+    }));
 
-    it('should respond to filtering', async () => {
+    it('should respond to filtering', fakeAsync(() => {
       setupTest();
-      await fixture.whenStable();
+      tick();
 
       fixture.componentInstance.rowDeleteIds = ['0', '2'];
-      fixture.detectChanges();
-      await fixture.whenStable();
 
-      await fixture.componentInstance.filterName();
-
+      // Once cycle to pick up the initial value.
       fixture.detectChanges();
-      await fixture.whenStable();
+      tickForAnimationFrame();
+      // Another cycle to position the row delete elements.
+      fixture.detectChanges();
+      tickForAnimationFrame();
+
+      fixture.componentInstance.filterName('Mar');
+      tick();
+
+      // Once cycle to apply the grid changes.
+      fixture.detectChanges();
+      tickForAnimationFrame();
+      // Once cycle to pick up the changes.
+      fixture.detectChanges();
+      tickForAnimationFrame();
+      // Another cycle to destroy the row delete elements.
+      fixture.detectChanges();
+      tickForAnimationFrame();
 
       expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
       expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
@@ -151,9 +171,38 @@ describe('SkyAgGridRowDeleteDirective', () => {
         document.querySelectorAll('.sky-inline-delete-standard').length,
       ).toBe(2);
 
-      await fixture.componentInstance.clearFilter();
+      fixture.componentInstance.filterName('Jil');
+      tick();
+
+      // Once cycle to apply the grid changes.
       fixture.detectChanges();
-      await fixture.whenStable();
+      tickForAnimationFrame();
+      // Once cycle to pick up the changes.
+      fixture.detectChanges();
+      tickForAnimationFrame();
+      // Another cycle to destroy the row delete elements.
+      fixture.detectChanges();
+      tickForAnimationFrame();
+
+      expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
+      expect(document.querySelector('#row-delete-ref-0')).toBeNull();
+      expect(document.querySelector('#row-delete-ref-2')).toBeNull();
+      expect(
+        document.querySelectorAll('.sky-inline-delete-standard').length,
+      ).toBe(0);
+
+      fixture.componentInstance.clearFilter();
+      tick();
+
+      // Once cycle to apply the grid changes.
+      fixture.detectChanges();
+      tickForAnimationFrame();
+      // Once cycle to pick up the changes.
+      fixture.detectChanges();
+      tickForAnimationFrame();
+      // Another cycle to position the row delete elements.
+      fixture.detectChanges();
+      tickForAnimationFrame();
 
       expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
       expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
@@ -161,20 +210,29 @@ describe('SkyAgGridRowDeleteDirective', () => {
       expect(
         document.querySelectorAll('.sky-inline-delete-standard').length,
       ).toBe(2);
-    });
+    }));
 
     it('should respond dataset changes', fakeAsync(() => {
       setupTest();
-      tick(16);
+      tickForAnimationFrame();
 
       fixture.componentInstance.rowDeleteIds = ['0', '2'];
+
+      // Once cycle to pick up the initial value.
       fixture.detectChanges();
-      tick(16);
+      tickForAnimationFrame();
+      // Another cycle to position the row delete elements.
+      fixture.detectChanges();
+      tickForAnimationFrame();
 
       fixture.componentInstance.removeFirstItem();
 
+      // Once cycle to pick up the changes.
       fixture.detectChanges();
-      tick(16);
+      tickForAnimationFrame();
+      // Another cycle to destroy the row delete elements.
+      fixture.detectChanges();
+      tickForAnimationFrame();
 
       expect(fixture.componentInstance.rowDeleteIds).toEqual(['2']);
       expect(document.querySelector('#row-delete-ref-0')).toBeNull();
@@ -185,10 +243,10 @@ describe('SkyAgGridRowDeleteDirective', () => {
     }));
   });
 
-  it('should cancel row delete elements correctly via them being removed from the id array', async () => {
+  it('should cancel row delete elements correctly via them being removed from the id array', fakeAsync(() => {
     setupTest();
     fixture.detectChanges();
-    await fixture.whenStable();
+    tick();
     fixture.detectChanges();
 
     expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
@@ -196,7 +254,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.componentInstance.rowDeleteIds = ['0'];
 
     fixture.detectChanges();
-    await fixture.whenStable();
+    tickForAnimationFrame();
     fixture.detectChanges();
 
     expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
@@ -207,16 +265,16 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.componentInstance.rowDeleteIds = [];
 
     fixture.detectChanges();
-    await fixture.whenStable();
+    tickForAnimationFrame();
     fixture.detectChanges();
 
     expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
-  });
+  }));
 
-  it('should cancel row delete elements correctly via the id array being set to undefined', async () => {
+  it('should cancel row delete elements correctly via the id array being set to undefined', fakeAsync(() => {
     setupTest();
     fixture.detectChanges();
-    await fixture.whenStable();
+    tick();
     fixture.detectChanges();
 
     expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
@@ -224,7 +282,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.componentInstance.rowDeleteIds = ['0'];
 
     fixture.detectChanges();
-    await fixture.whenStable();
+    tickForAnimationFrame();
     fixture.detectChanges();
 
     expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
@@ -235,23 +293,23 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.componentInstance.rowDeleteIds = undefined;
 
     fixture.detectChanges();
-    await fixture.whenStable();
+    tickForAnimationFrame();
     fixture.detectChanges();
 
     expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
-  });
+  }));
 
-  it('should cancel row delete elements correctly via click', async () => {
+  it('should cancel row delete elements correctly via click', fakeAsync(() => {
     setupTest();
     fixture.detectChanges();
-    await fixture.whenStable();
+    tick();
     fixture.detectChanges();
 
     expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
 
     fixture.componentInstance.rowDeleteIds = ['0'];
     fixture.detectChanges();
-    await fixture.whenStable();
+    tickForAnimationFrame();
     fixture.detectChanges();
 
     expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
@@ -265,17 +323,17 @@ describe('SkyAgGridRowDeleteDirective', () => {
       )[0] as HTMLElement
     ).click();
     fixture.detectChanges();
-    await fixture.whenStable();
+    tickForAnimationFrame();
     fixture.detectChanges();
 
     expect(fixture.componentInstance.rowDeleteIds).toEqual([]);
     expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
-  });
+  }));
 
-  it('should update the pending status of a row being deleted correctly', async () => {
+  it('should update the pending status of a row being deleted correctly', fakeAsync(() => {
     setupTest();
     fixture.detectChanges();
-    await fixture.whenStable();
+    tick();
     fixture.detectChanges();
 
     expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
@@ -283,7 +341,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.componentInstance.rowDeleteIds = ['0'];
 
     fixture.detectChanges();
-    await fixture.whenStable();
+    tickForAnimationFrame();
     fixture.detectChanges();
 
     expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
@@ -300,7 +358,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
       document.querySelectorAll('.sky-inline-delete-button')[0] as HTMLElement
     ).click();
     fixture.detectChanges();
-    await fixture.whenStable();
+    tickForAnimationFrame();
     fixture.detectChanges();
 
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0']);
@@ -316,7 +374,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
     fixture.componentInstance.rowDeleteIds = ['0'];
     fixture.detectChanges();
-    await fixture.whenStable();
+    tickForAnimationFrame();
     fixture.detectChanges();
 
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0']);
@@ -329,22 +387,20 @@ describe('SkyAgGridRowDeleteDirective', () => {
         '.sky-inline-delete-standard .sky-wait-mask-loading-blocking',
       ).length,
     );
-  });
+  }));
 
-  it('should output the delete event correctly', async () => {
+  it('should output the delete event correctly', fakeAsync(() => {
     setupTest();
     spyOn(fixture.componentInstance, 'cancelRowDelete').and.callThrough();
     spyOn(fixture.componentInstance, 'finishRowDelete').and.callThrough();
 
     fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+    tick();
 
     fixture.componentInstance.rowDeleteIds = ['0', '1'];
 
     fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+    tickForAnimationFrame();
 
     expect(fixture.componentInstance.finishRowDelete).not.toHaveBeenCalled();
 
@@ -352,28 +408,27 @@ describe('SkyAgGridRowDeleteDirective', () => {
       document.querySelectorAll('.sky-inline-delete-button')[0] as HTMLElement
     ).click();
     fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+    tickForAnimationFrame();
 
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
     expect(fixture.componentInstance.cancelRowDelete).not.toHaveBeenCalled();
     expect(fixture.componentInstance.finishRowDelete).toHaveBeenCalledWith({
       id: '0',
     });
-  });
+  }));
 
-  it('should output the cancel event correctly', async () => {
+  it('should output the cancel event correctly', fakeAsync(() => {
     setupTest();
     spyOn(fixture.componentInstance, 'cancelRowDelete').and.callThrough();
     spyOn(fixture.componentInstance, 'finishRowDelete').and.callThrough();
 
     fixture.detectChanges();
-    await fixture.whenStable();
+    tick();
 
     fixture.componentInstance.rowDeleteIds = ['0', '1'];
 
     fixture.detectChanges();
-    await fixture.whenStable();
+    tickForAnimationFrame();
 
     expect(
       document.querySelectorAll('.sky-inline-delete-standard').length,
@@ -386,24 +441,25 @@ describe('SkyAgGridRowDeleteDirective', () => {
       )[0] as HTMLElement
     ).click();
     fixture.detectChanges();
-    await fixture.whenStable();
+    tickForAnimationFrame();
+    fixture.detectChanges();
+    tickForAnimationFrame();
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['1']);
     expect(fixture.componentInstance.cancelRowDelete).toHaveBeenCalledWith({
       id: '0',
     });
     expect(fixture.componentInstance.finishRowDelete).not.toHaveBeenCalled();
-  });
+  }));
 
-  it('should set the z-index of the row delete overlays correctly', async () => {
+  it('should set the z-index of the row delete overlays correctly', fakeAsync(() => {
     setupTest();
     fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+    tick();
 
     fixture.componentInstance.rowDeleteIds = ['0', '1'];
 
     fixture.detectChanges();
-    await fixture.whenStable();
+    tickForAnimationFrame();
     fixture.detectChanges();
 
     const overlays = Array.from(
@@ -419,19 +475,18 @@ describe('SkyAgGridRowDeleteDirective', () => {
       TestBed.inject(SkyScrollableHostService)
         .watchScrollableHostClipPathChanges,
     ).not.toHaveBeenCalled();
-  });
+  }));
 
-  it('should set the z-index of the row delete overlays with stacking context', async () => {
+  it('should set the z-index of the row delete overlays with stacking context', fakeAsync(() => {
     setupTest({
       stackingContextZIndex: 1111,
     });
-    await fixture.whenStable();
+    tick();
 
     fixture.componentInstance.rowDeleteIds = ['0', '1'];
 
     fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+    tickForAnimationFrame();
 
     const overlays = Array.from(
       document.querySelectorAll('.sky-overlay'),
@@ -443,13 +498,12 @@ describe('SkyAgGridRowDeleteDirective', () => {
       TestBed.inject(SkyScrollableHostService)
         .watchScrollableHostClipPathChanges,
     ).toHaveBeenCalled();
-  });
+  }));
 
-  it('should not change the column widths when a row delete is triggered', async () => {
+  it('should not change the column widths when a row delete is triggered', fakeAsync(() => {
     setupTest();
     fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+    tick();
 
     const columnWidths: number[] = [];
     let columns = Array.from(
@@ -459,23 +513,21 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.componentInstance.rowDeleteIds = ['0'];
 
     fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+    tickForAnimationFrame();
 
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0']);
     columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
     for (let i = 0; i < columns.length; i++) {
       expect((columns[i] as HTMLElement).offsetWidth).toEqual(columnWidths[i]);
     }
-  });
+  }));
 
-  it('should not change the column widths when a row delete is triggered when all columns have set widths', async () => {
+  it('should not change the column widths when a row delete is triggered when all columns have set widths', fakeAsync(() => {
     setupTest();
     fixture.componentInstance.allColumnWidth = 100;
 
     fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+    tickForAnimationFrame();
 
     const columnWidths: number[] = [];
     let columns = Array.from(
@@ -485,60 +537,28 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.componentInstance.rowDeleteIds = ['0'];
 
     fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+    tickForAnimationFrame();
 
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0']);
     columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
     for (let i = 0; i < columns.length; i++) {
       expect((columns[i] as HTMLElement).offsetWidth).toEqual(columnWidths[i]);
     }
-  });
+  }));
 
-  it('should place the row delete overlay on top of the row correctly', async () => {
-    setupTest();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    fixture.componentInstance.rowDeleteIds = ['0', '1'];
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    const row1Rect = fixture.nativeElement
-      .querySelector('[row-id="0"] div')
-      .getBoundingClientRect();
-    const row2Rect = fixture.nativeElement
-      .querySelector('[row-id="1"] div')
-      .getBoundingClientRect();
-    const inlineDelete1 = document.querySelector(
-      '#row-delete-ref-0',
-    ) as HTMLElement;
-    const inlineDelete2 = document.querySelector(
-      '#row-delete-ref-1',
-    ) as HTMLElement;
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
-    expect(inlineDelete1.offsetLeft).toEqual(Math.round(row1Rect.left));
-    expect(inlineDelete1.offsetTop).toEqual(Math.round(row1Rect.top));
-    expect(inlineDelete2.offsetLeft).toEqual(Math.round(row2Rect.left));
-    expect(inlineDelete2.offsetTop).toEqual(Math.round(row2Rect.top));
-  });
-
-  it('should place the row delete overlay on top of the row correctly', async () => {
+  it('should place the row delete overlay on top of the row correctly', fakeAsync(() => {
     setupTest({
       hideFirstColumn: true,
     });
     fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+    tick();
 
     fixture.componentInstance.rowDeleteIds = ['0', '1'];
 
     fixture.detectChanges();
-    await fixture.whenStable();
+    tickForAnimationFrame();
     fixture.detectChanges();
+    tickForAnimationFrame();
 
     const row1Rect = fixture.nativeElement
       .querySelector('[row-id="0"] div')
@@ -557,5 +577,5 @@ describe('SkyAgGridRowDeleteDirective', () => {
     expect(inlineDelete1.offsetTop).toEqual(Math.round(row1Rect.top));
     expect(inlineDelete2.offsetLeft).toEqual(Math.round(row2Rect.left));
     expect(inlineDelete2.offsetTop).toEqual(Math.round(row2Rect.top));
-  });
+  }));
 });

@@ -16,13 +16,17 @@ import { SkyPagingContentChangeArgs, SkyPagingModule } from '@skyux/lists';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  AllCommunityModule,
   ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
+  ModuleRegistry,
 } from 'ag-grid-community';
 
 import { DataManagerPagedItemsPipe } from './data-manager-paged-items.pipe';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-data-view-grid',
