@@ -445,12 +445,13 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
 
   protected uploadLink(file: SkyFileLink): void {
     this.linkChanged.emit(file);
+
     this.#_uploadedFiles?.push(file);
-    this.#notifyChange?.(this.#_uploadedFiles);
     this.#announceState(
       'skyux_file_attachment_file_upload_link_added',
       file.url,
     );
+    this.#notifyChange?.(this.#_uploadedFiles);
   }
 
   public onLinkBlur(): void {
@@ -520,11 +521,11 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
         rejectedFileArray,
         validFileArray,
       );
+      this.#_uploadedFiles?.push(file);
       this.#announceState(
         'skyux_file_attachment_file_upload_file_added',
         file.file.name,
       );
-      this.#_uploadedFiles?.push(file);
       this.#notifyChange?.(this.#_uploadedFiles);
     } catch {
       fileDrop.#filesRejected(

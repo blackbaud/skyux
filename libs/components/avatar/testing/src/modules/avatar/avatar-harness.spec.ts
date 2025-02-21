@@ -2,6 +2,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component, computed, input, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAvatarModule, SkyAvatarSize } from '@skyux/avatar';
+import { SkyLiveAnnouncerTestingModule } from '@skyux/core/testing';
 import { SkyFileItem } from '@skyux/forms';
 
 import { SkyAvatarHarness } from './avatar-harness';
@@ -46,6 +47,9 @@ describe('Avatar harness', () => {
     fixture: ComponentFixture<TestComponent>;
     harness: SkyAvatarHarness;
   }> {
+    await TestBed.configureTestingModule({
+      imports: [SkyLiveAnnouncerTestingModule],
+    });
     const fixture = TestBed.createComponent(TestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const harness: SkyAvatarHarness = await loader.getHarness(

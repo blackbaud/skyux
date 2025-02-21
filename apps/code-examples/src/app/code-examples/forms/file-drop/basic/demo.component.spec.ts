@@ -3,6 +3,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyLiveAnnouncerTestingModule } from '@skyux/core/testing';
 import {
   SkyFileDropHarness,
   SkyFileItemHarness,
@@ -37,7 +38,11 @@ describe('Basic file drop demo', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [DemoComponent, NoopAnimationsModule],
+      imports: [
+        DemoComponent,
+        NoopAnimationsModule,
+        SkyLiveAnnouncerTestingModule,
+      ],
     });
   });
 

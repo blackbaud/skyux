@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
+import { SkyLiveAnnouncerTestingModule } from '@skyux/core/testing';
 
 import { TokensHarnessTestComponent } from './fixtures/tokens-harness-test.component';
 import { TokensHarnessTestModule } from './fixtures/tokens-harness-test.module';
@@ -8,7 +9,7 @@ import { SkyTokensHarness } from './tokens-harness';
 describe('Tokens harness', () => {
   async function setupTest(options: { dataSkyId: string }) {
     await TestBed.configureTestingModule({
-      imports: [TokensHarnessTestModule],
+      imports: [TokensHarnessTestModule, SkyLiveAnnouncerTestingModule],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TokensHarnessTestComponent);

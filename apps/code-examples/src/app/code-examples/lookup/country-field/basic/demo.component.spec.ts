@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyLiveAnnouncerTestingModule } from '@skyux/core/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyCountryFieldHarness } from '@skyux/lookup/testing';
 
@@ -27,7 +28,11 @@ describe('Basic country field demo', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [DemoComponent],
+      imports: [
+        DemoComponent,
+        SkyLiveAnnouncerTestingModule,
+        SkyLiveAnnouncerTestingModule,
+      ],
     });
   });
 
@@ -35,16 +40,17 @@ describe('Basic country field demo', () => {
     const { harness, fixture } = await setupTest({
       dataSkyId: 'country-field',
     });
+    const countryFieldControl = await harness.getControl();
 
-    await harness.focus();
-    await harness.enterText('ger');
+    await countryFieldControl.focus();
+    await countryFieldControl.setValue('ger');
 
     const searchResultsText = await harness.getSearchResultsText();
 
     expect(searchResultsText.length).toBe(4);
 
-    await harness.clear();
-    await harness.enterText('can');
+    await countryFieldControl.clear();
+    await countryFieldControl.setValue('can');
 
     const searchResults = await harness.getSearchResults();
     await expectAsync(searchResults[1].getText()).toBeResolvedTo('Canada');

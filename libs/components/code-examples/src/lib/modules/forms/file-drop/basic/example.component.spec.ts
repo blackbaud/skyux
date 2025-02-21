@@ -3,6 +3,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyLiveAnnouncerTestingModule } from '@skyux/core/testing';
 import {
   SkyFileDropHarness,
   SkyFileItemHarness,
@@ -37,7 +38,11 @@ describe('Basic file drop example', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FormsFileDropBasicExampleComponent, NoopAnimationsModule],
+      imports: [
+        FormsFileDropBasicExampleComponent,
+        NoopAnimationsModule,
+        SkyLiveAnnouncerTestingModule,
+      ],
     });
   });
 
@@ -93,6 +98,7 @@ describe('Basic file drop example', () => {
     ).toBeResolvedTo(false);
     expect(formControl.valid).toBe(true);
 
+    // upload link does not have a promise anymore so gotta pull the announce state stuff into its own thing and make it properly a promise\
     await harness.enterLinkUploadText('foo.bar');
     await harness.clickLinkUploadDoneButton();
 
