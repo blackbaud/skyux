@@ -8,7 +8,7 @@ import type { SkyPillColor } from './pill-color';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'sky-rounded-corners sky-font-body-sm',
+    class: 'sky-rounded-corners',
     '[class]': '"sky-pill-color-" + color()',
   },
   selector: 'sky-pill',

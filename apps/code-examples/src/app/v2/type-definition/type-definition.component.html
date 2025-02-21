@@ -1,0 +1,231 @@
+@let def = definition();
+<sky-heading-anchor
+  class="sky-margin-stacked-lg"
+  headingLevel="2"
+  headingTextFormat="code"
+  [anchorId]="def.anchorId"
+  [headingText]="def.name"
+  [strikethrough]="def.isDeprecated"
+>
+  <sky-pill
+    class="sky-margin-inline-xs"
+    [color]="def.kind | skyKindToPillColor"
+  >
+    <span class="sky-screen-reader-only">Type: </span>
+    {{ def.kind | skyTypeDefinitionKindToLabel }}
+  </sky-pill>
+  @if (def.isDeprecated) {
+    <sky-pill color="red"> Deprecated </sky-pill>
+  }
+</sky-heading-anchor>
+@if (def.deprecationReason) {
+  <sky-deprecation-reason stacked [message]="def.deprecationReason" />
+}
+@if (def.description) {
+  <p [innerHTML]="def.description | skyMarkdown"></p>
+}
+@if (def.kind === 'module' || def.kind === 'service') {
+  <p>
+    <code class="sky-codespan"
+      >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
+        def.packageName
+      }}';</code
+    >
+  </p>
+}
+@if (selector(); as selector) {
+  <p>
+    Selector: <code class="sky-codespan">{{ selector }}</code>
+  </p>
+}
+@if (pipeName(); as pipeName) {
+  <p>
+    Pipe name: <code class="sky-codespan">{{ pipeName }}</code>
+  </p>
+}
+@if (def.codeExample) {
+  <h3>Example</h3>
+  <sky-code-snippet
+    class="sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners sky-margin-stacked-lg"
+    hideToolbar
+    [code]="def.codeExample"
+    [language]="def.codeExampleLanguage ?? 'html'"
+  />
+}
+@switch (def.kind) {
+  @case ('function') {
+    <sky-code-snippet
+      class="sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners sky-margin-stacked-lg"
+      hideToolbar
+      language="ts"
+      [code]="getFunctionSignature(def)"
+    />
+    @let parametersValue = parameters();
+    @if (parametersValue && parametersValue.length > 0) {
+      <h3>Parameters</h3>
+      <table class="sky-type-definition-table sky-margin-stacked-xl">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (parameter of parametersValue; track parameter.name) {
+            <tr>
+              <td>
+                <code
+                  [innerHTML]="parameter | skyDocsParameterName | skySafeHtml"
+                ></code>
+              </td>
+              <td>
+                @if (parameter.description) {
+                  <p [innerHTML]="parameter.description | skyMarkdown"></p>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  }
+  @case ('type-alias') {
+    <sky-code-snippet
+      class="sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners sky-margin-stacked-lg"
+      hideToolbar
+      language="ts"
+      [code]="def | skyFormatTypeAliasTypeDefinition"
+    />
+  }
+  @default {
+    @let propertiesValue = properties();
+    @if (propertiesValue && propertiesValue.length > 0) {
+      <h3>Properties</h3>
+      @for (property of propertiesValue; track property.name) {
+        <div
+          class="sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners sky-margin-stacked-lg"
+        >
+          <div class="my-box-header sky-margin-stacked-lg">
+            <h4 class="my-box-heading">
+              <code
+                class="sky-margin-inline-sm"
+                [class.sky-text-strikethrough]="property.isDeprecated"
+                [innerHTML]="property.name | skySafeHtml"
+              ></code>
+            </h4>
+            <sky-code-snippet
+              class="my-box-type"
+              hideToolbar
+              [code]="property.type"
+              language="ts"
+            />
+          </div>
+          @if (property.deprecationReason) {
+            <p>
+              <sky-deprecation-reason
+                class="sky-margin-stacked-sm"
+                [message]="property.deprecationReason"
+              />
+            </p>
+          }
+          @if (property.description) {
+            <p [innerHTML]="property.description | skyMarkdown"></p>
+          }
+          @let defaultValue = property | skyDocsPropertyDefaultValue;
+          @if (defaultValue) {
+            <p>
+              Default:
+              <code
+                class="sky-codespan"
+                [innerHTML]="defaultValue | skySafeHtml"
+              ></code>
+            </p>
+          }
+        </div>
+      }
+    }
+    @let methodsValue = methods();
+    @if (methodsValue && methodsValue.length > 0) {
+      <h3>Methods</h3>
+      @for (method of methodsValue; track method.name) {
+        <div
+          class="sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners sky-margin-stacked-lg"
+        >
+          <div class="my-box-header sky-margin-stacked-lg">
+            <h4 class="my-box-heading">
+              <code
+                class="sky-margin-inline-sm"
+                [class.sky-text-strikethrough]="method.isDeprecated"
+                [innerHTML]="method | skyDocsMethodName: def | skySafeHtml"
+              ></code>
+            </h4>
+            <sky-code-snippet
+              class="my-box-type"
+              hideToolbar
+              [code]="method.type"
+              language="ts"
+            />
+          </div>
+          @if (method.deprecationReason) {
+            <p>
+              <sky-deprecation-reason
+                class="sky-margin-stacked-sm"
+                [message]="method.deprecationReason"
+              />
+            </p>
+          }
+          @if (method.description) {
+            <p [innerHTML]="method.description | skyMarkdown"></p>
+          }
+          <sky-code-snippet
+            class="sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners sky-margin-stacked-lg"
+            hideToolbar
+            language="ts"
+            [code]="method | skyDocsMethodSignature"
+          />
+          @if (method.parameters) {
+            <h4>Parameters</h4>
+            @for (param of method.parameters; track param.name) {
+              <h5>
+                <code
+                  [innerHTML]="param | skyDocsParameterName | skySafeHtml"
+                ></code>
+              </h5>
+              @if (param.description) {
+                <p [innerHTML]="param.description | skyMarkdown"></p>
+              }
+            }
+            <!-- <table class="sky-type-definition-table sky-margin-stacked-xl">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (param of method.parameters; track param.name) {
+                  <tr>
+                    <td>
+                      <code
+                        [innerHTML]="param | skyDocsParameterName | skySafeHtml"
+                      ></code>
+                    </td>
+                    <td>
+                      @if (param.description) {
+                        <p [innerHTML]="param.description | skyMarkdown"></p>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table> -->
+          }
+          <h4>Returns</h4>
+          <p>
+            <code [innerHTML]="method.type | skySafeHtml"></code>
+          </p>
+        </div>
+      }
+    }
+  }
+}

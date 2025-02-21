@@ -12,7 +12,7 @@ import {
 } from '@skyux/docs-tools';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyLabelModule, SkyStatusIndicatorModule } from '@skyux/indicators';
-import { SkyDescriptionListModule } from '@skyux/layout';
+import { SkyBoxModule, SkyDescriptionListModule } from '@skyux/layout';
 import {
   SkyManifestClassMethodDefinition,
   type SkyManifestDocumentationTypeDefinition,
@@ -30,7 +30,12 @@ import { SkyDocsCategoryHeader } from './category-header.component';
 import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
 import { SkyTypeDefinitionMethodsTableComponent } from './methods-table.component';
 import { SkyTypeDefinitionParametersTableComponent } from './parameters-table.component';
+import { SkyDocsPropertyTypeDefinitionDefaultValuePipe } from './pipes/default-value.pipe';
 import { SkyKindToPillColorPipe } from './pipes/kind-to-pill-color.pipe';
+import { SkyDocsMethodNamePipe } from './pipes/method-name.pipe';
+import { SkyDocsMethodSignaturePipe } from './pipes/method-signature.pipe';
+import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
+import { SkyDocsPropertyNamePipe } from './pipes/property-name.pipe';
 import { SkyTypeDefinitionKindToLabelPipe } from './pipes/type-definition-kind-to-label.pipe';
 import { SkyFormatTypeAliasTypeDefinitionPipe } from './pipes/type-definition-type-alias.pipe';
 import {
@@ -62,160 +67,39 @@ import {
     SkyMarkdownPipe,
     SkyCodeSnippetModule,
     SkyKindToPillColorPipe,
+    SkyBoxModule,
     SkyPillModule,
     SkyTypeDefinitionMethodsTableComponent,
     SkyStatusIndicatorModule,
     SkyTypeDefinitionPropertiesTableComponent,
     SkyClipboardModule,
     SkyTypeDefinitionParametersTableComponent,
+    SkyDocsPropertyNamePipe,
+    SkyDocsPropertyTypeDefinitionDefaultValuePipe,
+    SkyDocsMethodNamePipe,
+    SkyDocsParameterNamePipe,
+    SkyDocsMethodSignaturePipe,
   ],
+  providers: [SkyDocsParameterNamePipe],
   selector: 'sky-type-definition',
   styles: `
     :host {
       display: block;
     }
 
-    // .sky-type-definition-selector {
-    //   font-size: var();
-    // }
+    .my-box-header {
+      display: flex;
+      justify-content: space-between;
+    }
 
-    .sky-type-definition-tags {
-      margin-top: -5px;
-      display: none;
+    .my-box-heading {
+      margin: 0;
+    }
+
+    .my-box-type {
     }
   `,
-  template: `
-    @let def = definition();
-
-    <sky-heading-anchor
-      class="sky-margin-stacked-lg"
-      headingLevel="2"
-      headingTextFormat="code"
-      [anchorId]="def.anchorId"
-      [headingText]="def.name"
-      [strikethrough]="def.isDeprecated"
-    >
-      <sky-pill [color]="def.kind | skyKindToPillColor">
-        <span class="sky-screen-reader-only">Type: </span
-        >{{ def.kind | skyTypeDefinitionKindToLabel }}
-      </sky-pill>
-    </sky-heading-anchor>
-
-    @if (def.deprecationReason) {
-      <sky-deprecation-reason stacked [message]="def.deprecationReason" />
-    }
-
-    @if (def.description) {
-      <p [innerHTML]="def.description | skyMarkdown"></p>
-    }
-
-    @if (def.kind === 'module' || def.kind === 'service') {
-      <!--<sky-code-snippet
-        class="sky-margin-stacked-lg"
-        hideToolbar
-        language="ts"
-        [code]="getImportStatement(def)"
-      />-->
-      <p>
-        <code #importRef class="sky-codespan sky-margin-inline-xs"
-          >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
-            def.packageName
-          }}';</code
-        >
-        <!--<button
-          class="sky-btn sky-btn-default"
-          copySuccessMessage="Code copied"
-          skyClipboardButton
-          type="button"
-          [clipboardTarget]="importRef"
-        >
-          <sky-icon iconName="clipboard-multiple" /> Copy
-        </button>-->
-      </p>
-    }
-
-    @if (selector(); as selector) {
-      <p>
-        Selector: <code class="sky-codespan">{{ selector }}</code>
-      </p>
-    }
-
-    @if (pipeName(); as pipeName) {
-      <p>
-        Pipe name: <code class="sky-codespan">{{ pipeName }}</code>
-      </p>
-    }
-
-    @if (def.codeExample) {
-      <h3>Example</h3>
-
-      <sky-code-snippet
-        class="sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners sky-margin-stacked-lg"
-        hideToolbar
-        [code]="def.codeExample"
-        [language]="def.codeExampleLanguage ?? 'html'"
-      />
-    }
-
-    @switch (def.kind) {
-      @case ('function') {
-        <sky-code-snippet
-          class="sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners sky-margin-stacked-lg"
-          hideToolbar
-          language="ts"
-          [code]="getFunctionSignature(def)"
-        />
-
-        @let parametersValue = parameters();
-
-        @if (parametersValue && parametersValue.length > 0) {
-          <h3>Parameters</h3>
-          <sky-type-definition-parameters-table
-            [parameters]="parametersValue"
-          />
-        }
-
-        <!--<h3>Returns</h3>
-
-      <p>
-        <code
-          class="sky-codespan"
-          [innerHTML]="def.type | skySafeHtml"
-        ></code>
-      </p>-->
-      }
-
-      @case ('type-alias') {
-        <sky-code-snippet
-          class="sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners sky-margin-stacked-lg"
-          hideToolbar
-          language="ts"
-          [code]="def | skyFormatTypeAliasTypeDefinition"
-        />
-      }
-
-      @default {
-        @let methodsValue = methods();
-        @let propertiesValue = properties();
-
-        @if (propertiesValue && propertiesValue.length > 0) {
-          <h3>Properties</h3>
-          <sky-type-definition-properties-table
-            [parentDefinition]="def"
-            [properties]="propertiesValue"
-          />
-        }
-
-        @if (methodsValue && methodsValue.length > 0) {
-          <h3>Methods</h3>
-          <sky-type-definition-methods-table
-            [parentDefinition]="def"
-            [methods]="methodsValue"
-          />
-        }
-      }
-    }
-  `,
+  templateUrl: './type-definition.component.html',
 })
 export class SkyTypeDefinitionComponent {
   public definition = input.required<SkyManifestDocumentationTypeDefinition>();
