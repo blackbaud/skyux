@@ -55,8 +55,29 @@
   }
 
   .ag-checkbox {
-    --ag-icon-size: var(--sky-size-switch);
+    --ag-icon-size: var(--sky-size-switch, var(--sky-switch-size));
     --ag-focus-shadow: none;
+    --ag-checkbox-checked-border-color: var(--sky-background-color-disabled);
+    --ag-checkbox-unchecked-border-color: var(--sky-background-color-disabled);
+  }
+
+  .ag-disabled {
+    .ag-checkbox-input-wrapper,
+    .ag-radio-button-input-wrapper {
+      --ag-checkbox-checked-shape-color: var(--ag-cell-text-color);
+      --ag-checkbox-checked-background-color: var(
+        --sky-background-color-disabled
+      );
+      --ag-checkbox-checked-border-color: var(
+        --ag-checkbox-checked-shape-color
+      );
+      --ag-checkbox-unchecked-background-color: var(
+        --sky-background-color-disabled
+      );
+      --ag-checkbox-unchecked-border-color: var(
+        --ag-checkbox-checked-shape-color
+      );
+    }
   }
 }
 
@@ -110,6 +131,10 @@
 .ag-theme-sky-data-entry-grid-modern-dark,
 .ag-theme-sky-data-entry-grid-modern-light-compact,
 .ag-theme-sky-data-entry-grid-modern-dark-compact {
+  .ag-center-cols-viewport {
+    border-bottom: var(--ag-row-border);
+  }
+
   &.sky-ag-grid-cell-editing-skyCellLookup {
     .ag-row .ag-cell.ag-cell-focus,
     .ag-popup .ag-popup-editor {

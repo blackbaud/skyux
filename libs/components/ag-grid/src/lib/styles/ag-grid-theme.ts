@@ -11,13 +11,15 @@ import {
 const defaultsForAllThemes = {
   backgroundColor: 'var(--sky-background-color-page-default)',
   borderColor: 'var(--sky-border-color-neutral-medium)',
+  borderRadius: 'var(--sky-border-radius-s, 3px)',
   cardShadow: 'none',
   cellHorizontalPadding: 12,
-  checkboxCheckedBackgroundColor: 'var(--sky-color-background-selected-heavy)',
+  checkboxCheckedBackgroundColor:
+    'var(--sky-color-background-selected-heavy, transparent)',
   checkboxCheckedShapeColor:
-    'var(--sky-override-switch-checked-color, var(--sky-color-icon-inverse))',
+    'var(--sky-override-switch-checked-color, var(--sky-color-icon-inverse, var(--sky-text-color-default)))',
   checkboxIndeterminateBackgroundColor:
-    'var(--sky-override-switch-checked-color, var(--sky-color-icon-inverse))',
+    'var(--sky-override-switch-checked-color, var(--sky-color-icon-inverse, transparent))',
   checkboxUncheckedBackgroundColor: 'transparent',
   checkboxCheckedShapeImage: {
     svg: `<svg width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m8.5 16.586-3.793-3.793a1 1 0 0 0-1.414 1.414l4.5 4.5a1 1 0 0 0 1.414 0l11-11a1 1 0 0 0-1.414-1.414L8.5 16.586Z" fill="#212121"/></svg>`,
@@ -25,7 +27,7 @@ const defaultsForAllThemes = {
   // eslint-disable-next-line @cspell/spellchecker
   fontFamily: ['BLKB Sans', 'Helvetica Neue', 'Arial', 'sans-serif'],
   foregroundColor: 'var(--sky-text-color-default)',
-  headerBackgroundColor: { ref: 'backgroundColor' },
+  headerBackgroundColor: 'var(--sky-background-color-page-default)',
   headerColumnBorder: {
     style: 'solid' as const,
     width: 1,
@@ -42,7 +44,7 @@ const defaultsForAllThemes = {
   inputFocusShadow: 'none',
   invalidColor: 'var(--sky-background-color-danger-dark)',
   listItemHeight: { ref: 'rowHeight' },
-  oddRowBackgroundColor: { ref: 'headerBackgroundColor' },
+  oddRowBackgroundColor: 'var(--sky-background-color-page-default)',
   pickerListBackgroundColor: { ref: 'backgroundColor' },
   popupShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)',
   rowHoverColor: 'transparent',
@@ -53,11 +55,13 @@ const defaultsForAllThemes = {
   wrapperBorderRadius: 0,
 };
 const defaultsForDataEntryGrid = {
+  backgroundColor: 'var(--sky-background-color-page-default)',
   columnBorder: true,
   popupShadow: 'none',
 };
 const defaultThemeBase = {
   ...defaultsForAllThemes,
+  backgroundColor: '#fbfbfb', //SkyDefaultDesignTokens.color.gray['01'],
   fontSize: 15,
   headerHeight: 37,
   inputFocusBorderColor: 'var(--sky-highlight-color-info)',
