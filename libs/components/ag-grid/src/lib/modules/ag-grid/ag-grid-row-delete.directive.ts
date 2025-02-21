@@ -81,10 +81,13 @@ export class SkyAgGridRowDeleteDirective
     'id' | 'overlay'
   >[] = [];
   readonly #rowDeleteContentsQueued = new Subject<void>();
-  readonly #rowDeleteIdsInternal = linkedSignal<string[], string[]>({
+  readonly #rowDeleteIdsInternal = linkedSignal<unknown[], string[]>({
     source: this.rowDeleteIds,
     computation: (value) =>
-      [...new Set(value)].sort((a, b) => a.localeCompare(b)),
+      [...new Set(value)]
+        .filter(Boolean)
+        .map(String)
+        .sort((a, b) => a.localeCompare(b)),
     equal: (a, b) => a.length === b.length && a.every((v, i) => v === b[i]),
   });
   readonly #clipPath = new BehaviorSubject<string | undefined>(undefined);
@@ -107,7 +110,7 @@ export class SkyAgGridRowDeleteDirective
           this.#zIndex.next(zIndex);
         });
     }
-    const rowDeleteIds = toObservable(this.#rowDeleteIdsInternal);
+    const rowDeleteIds = toObservable<string[]>(this.#rowDeleteIdsInternal);
     toObservable(this.agGrid)
       .pipe(
         takeUntil(this.#ngUnsubscribe),

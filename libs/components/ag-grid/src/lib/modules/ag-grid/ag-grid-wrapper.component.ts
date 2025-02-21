@@ -100,11 +100,29 @@ export class SkyAgGridWrapperComponent
     this.#changeDetector.markForCheck();
   }
 
+  get #isInEditMode(): boolean {
+    if (this.agGrid && this.agGrid.api) {
+      const primaryGridEditing = this.agGrid.api.getEditingCells().length > 0;
+      if (primaryGridEditing) {
+        return true;
+      } else if (this.agGrid.api.getGridOption('masterDetail')) {
+        let innerEditing = false;
+        this.agGrid.api.forEachDetailGridInfo((detailGrid) => {
+          if (detailGrid?.api && detailGrid.api.getEditingCells().length > 0) {
+            innerEditing = true;
+          }
+        });
+
+        return innerEditing;
+      }
+    }
+    return false;
+  }
+
   protected readonly minHeightStyle = computed(() => {
     return `--sky-ag-grid-min-height: ${this.minHeight()}px;`;
   });
 
-  #isInEditMode = false;
   #_viewkeeperClasses: string[] = [];
   readonly #ngUnsubscribe = new Subject<void>();
   readonly #themeSvc = inject(SkyThemeService, {
@@ -167,7 +185,6 @@ export class SkyAgGridWrapperComponent
       this.agGrid.cellEditingStarted
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((params: CellEditingStartedEvent) => {
-          this.#isInEditMode = true;
           if (params.colDef.type) {
             const types = Array.isArray(params.colDef.type)
               ? params.colDef.type
@@ -190,9 +207,6 @@ export class SkyAgGridWrapperComponent
       this.agGrid.cellEditingStopped
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
-          this.#isInEditMode =
-            !this.agGrid?.api.isDestroyed() &&
-            !!this.agGrid?.api.getEditingCells().length;
           this.#wrapperClasses.next(
             this.#wrapperClasses
               .getValue()

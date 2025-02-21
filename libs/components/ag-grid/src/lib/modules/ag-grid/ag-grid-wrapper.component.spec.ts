@@ -36,8 +36,6 @@ import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 import { SecondInlineHelpComponent } from './fixtures/inline-help.component';
 import { SkyCellType } from './types/cell-type';
 
-import Spy = jasmine.Spy;
-
 describe('SkyAgGridWrapperComponent', () => {
   let gridFixture: ComponentFixture<SkyAgGridFixtureComponent>;
   let gridAdapterService: SkyAgGridAdapterService;
@@ -83,8 +81,8 @@ describe('SkyAgGridWrapperComponent', () => {
       forEachDetailGridInfo: spyOn(agGridApi, 'forEachDetailGridInfo'),
       getAllDisplayedColumns: spyOn(agGridApi, 'getAllDisplayedColumns'),
       getDisplayedRowAtIndex: spyOn(agGridApi, 'getDisplayedRowAtIndex'),
-      getEditingCells: spyOn(agGridApi, 'getEditingCells'),
-      getGridOption: spyOn(agGridApi, 'getGridOption'),
+      getEditingCells: spyOn(agGridApi, 'getEditingCells').and.returnValue([]),
+      getGridOption: spyOn(agGridApi, 'getGridOption').and.returnValue(false),
       isDestroyed: spyOn(agGridApi, 'isDestroyed'),
       redrawRows: spyOn(agGridApi, 'redrawRows'),
       refreshCells: spyOn(agGridApi, 'refreshCells'),
@@ -255,7 +253,6 @@ describe('SkyAgGridWrapperComponent', () => {
   });
 
   it('should add and remove the cell editing class', () => {
-    (agGrid.api.getEditingCells as Spy).and.returnValue([]);
     agGrid.cellEditingStarted.next({ colDef: {} } as CellEditingStartedEvent);
     agGrid.cellEditingStopped.next({} as CellEditingStoppedEvent);
     agGrid.cellEditingStarted.next({
@@ -322,20 +319,19 @@ describe('SkyAgGridWrapperComponent', () => {
     it('should not move focus when tab is pressed but cells are being edited', () => {
       const col = {} as AgColumn;
       spyOn(gridAdapterService, 'setFocusedElementById');
-      agGrid.cellEditingStarted.next({
-        colDef: { type: 'test' },
-        rowIndex: 0,
-        column: col,
-      } as unknown as CellEditingStartedEvent);
+      (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([
+        { rowIndex: 0, column: col, rowPinned: undefined },
+      ]);
 
       fireKeydownOnGrid('Tab', false);
 
       expect(gridAdapterService.setFocusedElementById).not.toHaveBeenCalled();
     });
 
-    xit('should not move focus when tab is pressed but master/detail cells are being edited', () => {
+    it('should not move focus when tab is pressed but master/detail cells are being edited', () => {
       const col = {} as AgColumn;
       spyOn(gridAdapterService, 'setFocusedElementById');
+      (agGrid.api.getGridOption as jasmine.Spy).and.returnValue(true);
       (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([]);
       (agGrid.api.forEachDetailGridInfo as jasmine.Spy).and.callFake((fn) => {
         fn(
@@ -367,6 +363,7 @@ describe('SkyAgGridWrapperComponent', () => {
     it(`should move focus to the anchor after the grid when tab is pressed, no cells are being edited,
       and the grid was previously focused`, () => {
       (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([]);
+      (agGrid.api.getGridOption as jasmine.Spy).and.returnValue(true);
       (agGrid.api.forEachDetailGridInfo as jasmine.Spy).and.callFake((fn) => {
         fn(
           {
