@@ -14,17 +14,17 @@ import { SkyTableOfContentsLink } from './table-of-contents-links';
   styles: `
     :host {
       display: block;
-      padding-left: 15px;
-      border-left: 3px solid var(--sky-background-color-info-light);
+      border-left: 1px solid var(--sky-border-color-neutral-medium);
     }
 
     a.sky-docs-toc-link,
     .sky-docs-toc-heading {
       margin-bottom: 8px;
+      padding-left: 15px;
     }
 
     a.sky-docs-toc-link {
-      color: var(--sky-text-color-default);
+      color: var(--sky-text-color-deemphasized);
       display: block;
       width: 100%;
       font-size: var(--sky-font-size-body-s);
@@ -32,10 +32,13 @@ import { SkyTableOfContentsLink } from './table-of-contents-links';
       overflow: hidden;
 
       &:hover,
-      &:focus,
+      &:focus-visible,
       &.sky-docs-toc-link-active {
         color: var(--sky-text-color-action-primary);
         text-decoration: none;
+        border-left: 3px solid var(--sky-text-color-action-primary);
+        padding-left: 13px;
+        margin-left: -1px;
       }
     }
   `,

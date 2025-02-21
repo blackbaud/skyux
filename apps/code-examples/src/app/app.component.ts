@@ -5,8 +5,7 @@ import {
   afterNextRender,
   inject,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import {
   SkyAppViewportService,
   SkyTheme,
@@ -22,7 +21,6 @@ import {
   standalone: false,
 })
 export class AppComponent {
-  #activatedRoute = inject(ActivatedRoute);
   #injector = inject(Injector);
 
   public height = 80;
@@ -46,14 +44,16 @@ export class AppComponent {
 
     themeSvc.init(document.body, renderer, themeSettings);
 
-    this.#activatedRoute.fragment
-      .pipe(takeUntilDestroyed())
-      .subscribe((fragment) => {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const fragment = this.router.parseUrl(event.url).fragment;
+
         if (fragment) {
           afterNextRender(
             {
               write: () => {
                 const el = document.getElementById(fragment);
+
                 if (el) {
                   el.scrollIntoView({
                     behavior: 'smooth',
@@ -64,7 +64,29 @@ export class AppComponent {
             { injector: this.#injector },
           );
         }
-      });
+      }
+    });
+
+    // this.#activatedRoute.fragment
+    //   .pipe(takeUntilDestroyed())
+    //   .subscribe((fragment) => {
+    //     if (fragment) {
+    //       afterNextRender(
+    //         {
+    //           write: () => {
+    //             const el = document.getElementById(fragment);
+
+    //             if (el) {
+    //               el.scrollIntoView({
+    //                 behavior: 'smooth',
+    //               });
+    //             }
+    //           },
+    //         },
+    //         { injector: this.#injector },
+    //       );
+    //     }
+    //   });
   }
 
   public isHome(): boolean {
