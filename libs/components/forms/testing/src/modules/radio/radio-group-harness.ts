@@ -117,14 +117,7 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
    * Gets the help popover content.
    */
   public async getHelpPopoverContent(): Promise<string | undefined> {
-    const content = await (await this.#getHelpInline()).getPopoverContent();
-
-    /* istanbul ignore if */
-    if (typeof content === 'object') {
-      throw Error('Unexpected template ref');
-    }
-
-    return content;
+    return await (await this.#getHelpInline()).getPopoverContent();
   }
 
   /**
