@@ -10,6 +10,7 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of, switchMap } from 'rxjs';
 
 import { SkyIconSvgResolverService } from './icon-svg-resolver.service';
+import { SkyIconSize } from './types/icon-size';
 import { SkyIconVariantType } from './types/icon-variant-type';
 
 const SIZE_BASE = 16;
@@ -47,7 +48,7 @@ export class SkyIconSvgComponent {
   readonly #resolverSvc = inject(SkyIconSvgResolverService);
 
   public readonly iconName = input.required<string>();
-  public readonly iconSize = input<'xs' | 's' | 'm' | 'l' | 'xl'>();
+  public readonly iconSize = input<SkyIconSize>();
   public readonly responsiveSize = input<string>('md');
   public readonly iconVariant = input<SkyIconVariantType>();
 

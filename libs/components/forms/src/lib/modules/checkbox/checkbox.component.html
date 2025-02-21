@@ -43,7 +43,7 @@
     >
       @if (icon || iconName) {
         @if (iconName) {
-          <sky-icon [iconName]="iconName" iconSize="m" variant="solid" />
+          <sky-icon iconSize="m" variant="solid" [iconName]="iconName" />
         } @else {
           <sky-icon [fixedWidth]="true" [icon]="icon" />
         }

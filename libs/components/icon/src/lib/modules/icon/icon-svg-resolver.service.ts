@@ -3,10 +3,12 @@ import { Injectable } from '@angular/core';
 import { SkyIconVariantType } from './types/icon-variant-type';
 
 async function getIconMap(): Promise<Map<string, number[]>> {
+  console.log('omg');
   const response = await fetch(
     `https://sky.blackbaudcdn.net/static/skyux-icons/7/assets/svg/skyux-icons.svg`,
   );
 
+  /* istanbul ignore next */
   if (!response.ok) {
     throw new Error('Icon sprite could not be loaded.');
   }

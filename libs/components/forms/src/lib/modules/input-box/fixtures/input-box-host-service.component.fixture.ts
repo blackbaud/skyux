@@ -5,7 +5,7 @@ import { SkyInputBoxHostService } from '../input-box-host.service';
 @Component({
   selector: 'sky-input-box-host-service-fixture',
   templateUrl: './input-box-host-service.component.fixture.html',
-  standalone: false,
+  
 })
 export class InputBoxHostServiceFixtureComponent implements OnInit {
   @ViewChild('inputTemplate', {

@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { SkyThemeService } from '@skyux/theme';
 
+import { SkyIconSize } from './types/icon-size';
 import { SkyIconType } from './types/icon-type';
 import { SkyIconVariantType } from './types/icon-variant-type';
 
@@ -77,7 +78,7 @@ export class SkyIconComponent {
    * The explicit icon size
    * @default 'sm'
    */
-  public readonly iconSize = input<'xs' | 's' | 'm' | 'l' | 'xl'>();
+  public readonly iconSize = input<SkyIconSize>();
 
   protected themeSvc = inject(SkyThemeService, { optional: true });
 
