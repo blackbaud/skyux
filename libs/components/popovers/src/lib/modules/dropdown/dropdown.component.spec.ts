@@ -1248,8 +1248,8 @@ describe('Dropdown component', () => {
             mockThemeService.settingsChange.getValue().currentSettings,
         });
         detectChangesFakeAsync();
-        const icon = fixture.nativeElement.querySelector('.sky-i-chevron-down');
-        expect(icon).toExist();
+        const icon = fixture.nativeElement.querySelector('sky-icon-svg');
+        expect(icon.getAttribute('data-sky-icon')).toBe('chevron-down');
       }));
 
       it('should allow setting button style and type', fakeAsync(() => {

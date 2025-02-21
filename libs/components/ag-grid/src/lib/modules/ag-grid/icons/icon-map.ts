@@ -1,76 +1,43 @@
 export const iconMap: Record<
   string,
   {
-    faIcon: string;
-    skyIcon?: string;
+    defaultName: string;
+    modernName?: string;
+    defaultSize: number;
+    modernSize?: number;
   }
 > = {
   sortDescending: {
-    faIcon: 'caret-down',
-    skyIcon: 'chevron-down',
+    defaultName: 'caret-down',
+    defaultSize: 16,
+    modernName: 'chevron-down',
+    modernSize: 16,
   },
   sortAscending: {
-    faIcon: 'caret-up',
-    skyIcon: 'chevron-up',
+    defaultName: 'caret-up',
+    defaultSize: 16,
+    modernName: 'chevron-up',
+    modernSize: 16,
   },
   columnMoveMove: {
-    faIcon: 'arrows',
+    defaultName: 'arrow-move',
+    defaultSize: 20,
   },
   columnMoveHide: {
-    faIcon: 'eye-slash',
-    skyIcon: 'hide',
+    defaultName: 'eye-off',
+    defaultSize: 16,
   },
   columnMoveLeft: {
-    faIcon: 'arrows',
+    defaultName: 'arrow-move',
+    defaultSize: 20,
   },
   columnMoveRight: {
-    faIcon: 'arrows',
-  },
-  columnMoveGroup: {
-    faIcon: 'arrows',
+    defaultName: 'arrow-move',
+    defaultSize: 20,
   },
   columnMovePin: {
-    faIcon: 'arrows',
-  },
-  columnGroupOpened: {
-    faIcon: 'caret-right',
-    skyIcon: 'double-chevron-right',
-  },
-  columnGroupClosed: {
-    faIcon: 'caret-left',
-    skyIcon: 'double-chevron-left',
-  },
-  dropNotAllowed: {
-    faIcon: 'ban',
-    skyIcon: 'ban',
-  },
-  menu: {
-    faIcon: 'menu',
-    skyIcon: 'bars-2',
-  },
-  filter: {
-    faIcon: 'filter',
-    skyIcon: 'filter',
-  },
-  columns: {
-    faIcon: 'columns',
-    skyIcon: 'columns',
-  },
-  last: {
-    faIcon: 'step-forward',
-    skyIcon: 'double-chevron-right',
-  },
-  next: {
-    faIcon: 'caret-right',
-    skyIcon: 'chevron-right',
-  },
-  previous: {
-    faIcon: 'caret-left',
-    skyIcon: 'chevron-left',
-  },
-  first: {
-    faIcon: 'step-backward',
-    skyIcon: 'double-chevron-left',
+    defaultName: 'arrow-move',
+    defaultSize: 20,
   },
 };
 export type IconMapType = typeof iconMap;

@@ -33,7 +33,7 @@ export class DatepickerComponent implements OnInit {
   public selectedDate: Date | undefined;
   public startingDay: number | undefined;
   public strict = false;
-  public readonly ready$ = inject(FontLoadingService).ready();
+  public readonly ready$ = inject(FontLoadingService).ready(true);
 
   constructor(formBuilder: FormBuilder) {
     this.reactiveDate = new FormControl<Date>(

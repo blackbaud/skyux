@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ITreeOptions } from '@blackbaud/angular-tree-component';
+import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-angular-tree-component',
@@ -23,6 +25,8 @@ export class AngularTreeComponentComponent {
 
   @Input()
   public singleSelectFlag = false;
+
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   public basicOptions: ITreeOptions = {
     animateExpand: true,

@@ -22,6 +22,10 @@
   </table>
 </sky-inline-form>
 
+@if (ready()) {
+  <span id="ready"></span>
+}
+
 <ng-template #inlineFormTemplate>
   <form novalidate [formGroup]="myForm">
     <sky-input-box labelText="First name" stacked="true">

@@ -253,6 +253,7 @@ sky-input-box {
         transition: $sky-form-border-and-color-transitions;
         width: var(--sky-input-box-button-width);
 
+        // we need to leave this for input boxes that may still be using font-based icons
         .sky-icon {
           font-size: 24px;
         }
@@ -282,6 +283,7 @@ sky-input-box {
     .sky-input-group-icon {
       .sky-icon {
         color: var(--sky-color-text-deemphasized);
+        // we need to leave this for input boxes that may still be using font-based icons
         font-size: 24px;
       }
     }

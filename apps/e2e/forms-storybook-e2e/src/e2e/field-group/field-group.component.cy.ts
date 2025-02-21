@@ -10,6 +10,7 @@ describe('field-group', () => {
       );
 
       it('should render the component', () => {
+        cy.get('#ready').should('exist');
         cy.get('app-field-group')
           .should('exist')
           .should('be.visible')

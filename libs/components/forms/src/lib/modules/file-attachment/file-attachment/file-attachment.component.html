@@ -89,7 +89,7 @@
         (click)="onDropClicked()"
         (blur)="onButtonBlur()"
       >
-        <sky-icon icon="folder-open-o" />
+        <sky-icon iconName="folder-open" iconSize="s" />
         {{
           value
             ? ('skyux_file_attachment_button_label_replace_file'
@@ -100,7 +100,11 @@
       </button>
     }
     @if (value && !isImage && currentThemeName === 'modern') {
-      <sky-icon class="sky-file-attachment-icon" icon="file-o" />
+      <sky-icon
+        class="sky-file-attachment-icon"
+        iconName="document"
+        iconSize="s"
+      />
     }
     @if (value || currentThemeName === 'default') {
       <span class="sky-file-attachment-file-link">
@@ -135,7 +139,7 @@
         [disabled]="disabled"
         (click)="deleteFileAttachment()"
       >
-        <sky-icon icon="trash-o" size="md" />
+        <sky-icon iconName="delete" iconSize="s" />
       </button>
     }
   </div>

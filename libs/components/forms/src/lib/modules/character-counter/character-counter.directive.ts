@@ -23,7 +23,6 @@ import { SkyCharacterCounterIndicatorComponent } from './character-counter-indic
       multi: true,
     },
   ],
-  standalone: false,
 })
 export class SkyCharacterCounterInputDirective implements Validator {
   /**

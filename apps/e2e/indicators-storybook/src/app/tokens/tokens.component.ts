@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyToken } from '@skyux/indicators';
+import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-tokens',
@@ -8,6 +10,8 @@ import { SkyToken } from '@skyux/indicators';
   standalone: false,
 })
 export class TokensComponent {
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
+
   public data: SkyToken<{ name: string }>[] = [
     {
       value: {

@@ -664,14 +664,19 @@ export class SkyAgGridService implements OnDestroy {
     return defaultGridOptions;
   }
 
-  #getIconTemplate(iconName: keyof IconMapType): () => string {
+  #getIconTemplate(iconKey: keyof IconMapType): () => string {
     return () => {
-      const icon = iconMap[iconName];
-      if (this.#currentTheme?.theme.name === 'modern' && icon.skyIcon) {
-        return `<i aria-hidden="true" class="sky-i-${icon.skyIcon}"></i>`;
-      } else {
-        return `<i aria-hidden="true" class="fa fa-${icon.faIcon}"></i>`;
-      }
+      const iconInfo = iconMap[iconKey];
+      const isModernTheme = this.#currentTheme?.theme?.name === 'modern';
+      const iconName =
+        iconInfo.modernName && isModernTheme
+          ? iconInfo.modernName
+          : iconInfo.defaultName;
+      const iconSize =
+        iconInfo.modernSize && isModernTheme
+          ? iconInfo.modernSize
+          : iconInfo.defaultSize;
+      return `<svg height="16" width="16"><use xlink:href="#sky-i-${iconName}-${iconSize}-solid"></use></svg>`;
     };
   }
 

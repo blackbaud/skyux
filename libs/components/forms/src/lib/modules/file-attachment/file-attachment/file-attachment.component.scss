@@ -225,9 +225,5 @@
     --sky-override-file-attachment-file-icon-margin,
     0 0 0 var(--sky-gap-icon-m)
   );
-  font-size: var(
-    --sky-override-file-attachment-file-icon-font-size,
-    var(--sky-size-icon-xl)
-  );
   line-height: var(--sky-override-file-attachment-file-icon-line-height, 1);
 }

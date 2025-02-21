@@ -82,9 +82,9 @@
 @include compatMixins.sky-modern-overrides('.sky-input-group', false) {
   --sky-override-colorpicker-button-border-color: var(--modern-color-gray-15);
   --sky-override-colorpicker-button-size: 40px;
-  --sky-override-colorpicker-icon-font-size: 16px;
   --sky-override-colorpicker-reset-button-size: 40px;
-  --sky-override-colorpicker-reset-font-size: 1.33em;
+  --sky-override-sky-icon-svg-size-s: 21px;
+  --sky-override-sky-icon-svg-size-m: 16px;
 }
 
 @include compatMixins.sky-modern-overrides(
@@ -214,10 +214,6 @@ sky-colorpicker.sky-form-field-stacked {
     position: relative;
     // TODO: remove positioning when updating to SVG icons
     bottom: var(--sky-override-colorpicker-icon-offset, 1px);
-    font-size: var(
-      --sky-override-colorpicker-icon-font-size,
-      var(--sky-size-icon-m)
-    );
   }
 }
 
@@ -295,13 +291,6 @@ sky-colorpicker.sky-form-field-stacked {
   height: var(--sky-override-colorpicker-reset-button-size);
   margin-left: var(--sky-space-gap-action_group-m);
 
-  i {
-    font-size: var(
-      --sky-override-colorpicker-reset-font-size,
-      var(--sky-size-icon-s)
-    );
-  }
-
   &.sky-colorpicker-reset-button-disabled {
     background-color: var(--sky-color-background-action-tertiary-disabled);
   }
@@ -330,12 +319,7 @@ sky-colorpicker.sky-form-field-stacked {
   bottom: var(--sky-colorpicker-border-padding-size);
   color: var(--sky-color-icon-default);
   right: var(--sky-colorpicker-border-padding-size);
-  font-size: var(--sky-size-icon-xs);
 
-  i {
-    height: var(--sky-size-icon-xs);
-    width: var(--sky-size-icon-xs);
-  }
   &.sky-colorpicker-button-modern-chevron-disabled {
     color: var(--sky-color-text-deemphasized);
   }

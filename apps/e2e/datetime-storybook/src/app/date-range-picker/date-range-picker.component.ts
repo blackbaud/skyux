@@ -75,7 +75,7 @@ export class DateRangePickerComponent {
     rangeInvalid: FormControl<SkyDateRangeCalculation | null>;
     disabled: FormControl<SkyDateRangeCalculation | null>;
   }>;
-  public readonly ready$ = inject(FontLoadingService).ready();
+  public readonly ready$ = inject(FontLoadingService).ready(true);
 
   constructor(formBuilder: FormBuilder) {
     const value: Partial<SkyDateRangeCalculation> = {

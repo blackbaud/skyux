@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-help-inline',
@@ -6,4 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./help-inline.component.scss'],
   standalone: false,
 })
-export class HelpInlineComponent {}
+export class HelpInlineComponent {
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
+}

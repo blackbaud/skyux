@@ -3,9 +3,11 @@ import {
   Component,
   Input,
   inject,
+  input,
 } from '@angular/core';
 import { SkyThemeService } from '@skyux/theme';
 
+import { SkyIconSize } from './types/icon-size';
 import { SkyIconType } from './types/icon-type';
 import { SkyIconVariantType } from './types/icon-variant-type';
 
@@ -21,14 +23,13 @@ export class SkyIconComponent {
    * The name of
    * [the Font Awesome 4.7 icon](https://fontawesome.com/v4.7/icons/) or the SKY UX icon to
    * display. When specifying a Font Awesome icon, do not prefix the name with `fa-`.
-   * @required
+   * @deprecated
    */
   @Input()
   public icon: string | undefined;
 
   /**
-   * The name of the Blackbaud SVG icon to display. For internal use only.
-   * @internal
+   * The name of the Blackbaud SVG icon to display.
    */
   @Input()
   public iconName: string | undefined;
@@ -48,13 +49,20 @@ export class SkyIconComponent {
    * [Font Awesome sizes](https://fontawesome.com/v4/examples/). Do not prefix the size with `fa-`.
    */
   @Input()
-  public size: string | undefined;
+  public get size(): string {
+    return this.#_size;
+  }
+
+  public set size(value: string | undefined) {
+    this.#_size = value ?? 'md';
+  }
 
   /**
    * Whether to enforce a fixed width based on icon size. By default, icons of a specified size share a
    * consistent height, but their widths vary and can throw off vertical alignment. Use a fixed width when
    * you stack icons vertically, such as in lists.
    * @default false
+   * @deprecated all icons using iconName are automatically fixed width.
    */
   @Input()
   public fixedWidth: boolean | undefined;
@@ -66,5 +74,13 @@ export class SkyIconComponent {
   @Input()
   public variant: SkyIconVariantType | undefined;
 
+  /**
+   * The explicit icon size
+   * @default 'sm'
+   */
+  public readonly iconSize = input<SkyIconSize>();
+
   protected themeSvc = inject(SkyThemeService, { optional: true });
+
+  #_size = 'md';
 }

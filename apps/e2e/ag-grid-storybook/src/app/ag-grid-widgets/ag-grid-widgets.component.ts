@@ -126,7 +126,7 @@ export class AgGridWidgetsComponent
       'theme',
       this.#themeSvc.settingsChange.pipe(map(() => true)),
     );
-    this.#gridsReady.set('font', this.#fontLoadingService.ready());
+    this.#gridsReady.set('font', this.#fontLoadingService.ready(true));
     this.#ngUnsubscribe.add(
       this.#themeSvc.settingsChange.subscribe((settings) => {
         this.skyTheme = settings.currentSettings;

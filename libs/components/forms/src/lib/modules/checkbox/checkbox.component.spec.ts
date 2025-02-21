@@ -83,7 +83,6 @@ import { SkyCheckboxModule } from './checkbox.module';
       </sky-checkbox>
     }
   </div>`,
-  standalone: false,
 })
 class SingleCheckboxComponent implements AfterViewInit {
   public checkboxType: string | undefined;
@@ -128,7 +127,6 @@ class SingleCheckboxComponent implements AfterViewInit {
       </form>
     </div>
   `,
-  standalone: false,
 })
 class CheckboxWithFormDirectivesComponent {
   public isGood = false;
@@ -156,7 +154,6 @@ class CheckboxWithFormDirectivesComponent {
       </form>
     </div>
   `,
-  standalone: false,
 })
 class CheckboxWithRequiredInputComponent {
   public required = true;
@@ -181,7 +178,6 @@ class CheckboxWithRequiredInputComponent {
       </form>
     </div>
   `,
-  standalone: false,
 })
 class CheckboxWithRequiredAttributeComponent {
   public showInlineHelp = false;
@@ -206,7 +202,6 @@ class CheckboxWithRequiredAttributeComponent {
       </form>
     </div>
   `,
-  standalone: false,
 })
 class CheckboxWithReactiveFormComponent {
   public checkbox1: UntypedFormControl = new UntypedFormControl(false);
@@ -234,7 +229,6 @@ class CheckboxWithReactiveFormComponent {
       </form>
     </div>
   `,
-  standalone: false,
 })
 class CheckboxWithReactiveFormRequiredInputComponent {
   public checkbox1: UntypedFormControl = new UntypedFormControl(false);
@@ -254,7 +248,6 @@ class CheckboxWithReactiveFormRequiredInputComponent {
       </form>
     </div>
   `,
-  standalone: false,
 })
 class CheckboxWithReactiveFormRequiredValidatorComponent {
   public checkbox1: UntypedFormControl = new UntypedFormControl(
@@ -272,7 +265,6 @@ class CheckboxWithReactiveFormRequiredValidatorComponent {
     </sky-checkbox>
     <sky-checkbox>Option 2</sky-checkbox>
   `,
-  standalone: false,
 })
 class MultipleCheckboxesComponent {}
 
@@ -282,7 +274,6 @@ class MultipleCheckboxesComponent {}
     [tabindex]="customTabIndex"
     [disabled]="isDisabled"
   />`,
-  standalone: false,
 })
 class CheckboxWithTabIndexComponent {
   public customTabIndex = 7;
@@ -292,21 +283,18 @@ class CheckboxWithTabIndexComponent {
 /** Simple test component with an aria-label set. */
 @Component({
   template: `<sky-checkbox label="Super effective" />`,
-  standalone: false,
 })
 class CheckboxWithAriaLabelComponent {}
 
 /** Simple test component with an aria-label set. */
 @Component({
   template: `<sky-checkbox labelledBy="some-id" />`,
-  standalone: false,
 })
 class CheckboxWithAriaLabelledbyComponent {}
 
 /** Simple test component with name attribute */
 @Component({
   template: `<sky-checkbox [name]="name" />`,
-  standalone: false,
 })
 class CheckboxWithNameAttributeComponent {
   public name: string | undefined = 'test-name';
@@ -315,7 +303,6 @@ class CheckboxWithNameAttributeComponent {
 /** Simple test component with change event */
 @Component({
   template: `<sky-checkbox id="test-id" (change)="lastEvent = $event" />`,
-  standalone: false,
 })
 class CheckboxWithChangeEventComponent {
   public lastEvent: SkyCheckboxChange | undefined;
@@ -327,7 +314,6 @@ class CheckboxWithChangeEventComponent {
     <sky-checkbox id="simple-check" [(ngModel)]="isChecked" />
   </div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
 })
 class CheckboxWithOnPushChangeDetectionComponent {
   public isChecked = false;

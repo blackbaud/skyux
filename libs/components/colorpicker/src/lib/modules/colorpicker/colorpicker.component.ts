@@ -37,7 +37,6 @@ import {
   SKY_FORM_ERRORS_ENABLED,
   SkyRequiredStateDirective,
 } from '@skyux/forms';
-import { SkyIconType } from '@skyux/icon';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Subject, fromEvent } from 'rxjs';
@@ -83,14 +82,6 @@ export class SkyColorpickerComponent
    */
   @Input()
   public pickerButtonIcon: string | undefined;
-
-  /**
-   * The type of icon to display. Specifying `fa` will display a Font Awesome icon, while specifying `skyux` will display an icon from the custom SKY UX icon font. Note that the custom SKY UX icon font is currently in beta.
-   * @internal
-   * @deprecated
-   */
-  @Input()
-  public pickerButtonIconType: SkyIconType = 'fa';
 
   /**
    * The ARIA label for the colorpicker. This sets the colorpicker's `aria-label` attribute

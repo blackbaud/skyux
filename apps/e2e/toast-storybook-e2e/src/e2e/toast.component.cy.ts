@@ -10,6 +10,7 @@ describe('toast-storybook', () => {
       );
 
       it('should render the components when only a message is used ', () => {
+        cy.get('#ready').should('exist');
         cy.get('app-toast')
           .should('exist')
           .should('be.visible')
@@ -27,6 +28,7 @@ describe('toast-storybook', () => {
       });
 
       it('should render the components when a custom component is used', () => {
+        cy.get('#ready').should('exist');
         cy.get('app-toast')
           .should('exist')
           .should('be.visible')
