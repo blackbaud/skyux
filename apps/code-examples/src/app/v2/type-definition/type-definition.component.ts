@@ -23,6 +23,7 @@ import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
 import { SkyPillComponent } from '../pill/pill.component';
 import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
 
+import { SkyDocsCategoryHeader } from './category-header.component';
 import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
 import { SkyTypeDefinitionMethodsTableComponent } from './methods-table.component';
 import { SkyTypeDefinitionParametersTableComponent } from './parameters-table.component';
@@ -46,6 +47,7 @@ import {
     JsonPipe,
     NgClass,
     UpperCasePipe,
+    SkyDocsCategoryHeader,
     SkyFormatTypeAliasTypeDefinitionPipe,
     SkyIconModule,
     SkyTypeDefinitionKindToLabelPipe,
@@ -71,7 +73,7 @@ import {
     }
 
     // .sky-type-definition-selector {
-    //   font-size: 15px;
+    //   font-size: var();
     // }
 
     .sky-type-definition-tags {
@@ -82,13 +84,18 @@ import {
   template: `
     @let def = definition();
 
-    <sky-heading-anchor
-      headingLevel="2"
-      headingTextFormat="code"
-      [headingId]="def.anchorId"
-      [headingText]="def.name"
-      [class.sky-text-strikethrough]="def.isDeprecated"
-    />
+    <sky-docs-category-header
+      [category]="def.kind | skyTypeDefinitionPillType"
+      [categoryLabel]="def.kind | skyTypeDefinitionKindToLabel"
+    >
+      <sky-heading-anchor
+        headingLevel="2"
+        headingTextFormat="code"
+        [headingId]="def.anchorId"
+        [headingText]="def.name"
+        [class.sky-text-strikethrough]="def.isDeprecated"
+      />
+    </sky-docs-category-header>
 
     <div class="sky-type-definition-tags sky-margin-stacked-lg">
       <sky-pill
@@ -98,18 +105,11 @@ import {
     </div>
 
     @if (def.deprecationReason) {
-      <sky-deprecation-reason
-        class="sky-font-body-lg"
-        stacked
-        [message]="def.deprecationReason"
-      />
+      <sky-deprecation-reason stacked [message]="def.deprecationReason" />
     }
 
     @if (def.description) {
-      <p
-        class="sky-font-body-lg"
-        [innerHTML]="def.description | skyMarkdown"
-      ></p>
+      <p [innerHTML]="def.description | skyMarkdown"></p>
     }
 
     @if (def.kind === 'module' || def.kind === 'service') {
@@ -119,7 +119,7 @@ import {
         language="ts"
         [code]="getImportStatement(def)"
       />-->
-      <p class="sky-font-body-lg">
+      <p>
         <code #importRef class="sky-codespan sky-margin-inline-xs"
           >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
             def.packageName
@@ -137,39 +137,14 @@ import {
       </p>
     }
 
-    @if (def.kind === 'function') {
-      <sky-code-snippet
-        class="sky-margin-stacked-lg"
-        hideToolbar
-        language="ts"
-        [code]="getFunctionSignature(def)"
-      />
-
-      @let parametersValue = parameters();
-
-      @if (parametersValue && parametersValue.length > 0) {
-        <h3>Parameters</h3>
-        <sky-type-definition-parameters-table [parameters]="parametersValue" />
-      }
-
-      <!--<h3>Returns</h3>
-
-      <p>
-        <code
-          class="sky-codespan"
-          [innerHTML]="def.type | skySafeHtml"
-        ></code>
-      </p>-->
-    }
-
     @if (selector(); as selector) {
-      <p class="sky-type-definition-selector">
+      <p>
         Selector: <code class="sky-codespan">{{ selector }}</code>
       </p>
     }
 
     @if (pipeName(); as pipeName) {
-      <p class="sky-type-definition-selector">
+      <p>
         Pipe name: <code class="sky-codespan">{{ pipeName }}</code>
       </p>
     }
@@ -183,30 +158,61 @@ import {
       />
     }
 
-    @if (def.kind === 'type-alias') {
-      <sky-code-snippet
-        hideToolbar
-        language="ts"
-        [code]="def | skyFormatTypeAliasTypeDefinition"
-      />
-    } @else {
-      @let methodsValue = methods();
-      @let propertiesValue = properties();
+    @switch (def.kind) {
+      @case ('function') {
+        <sky-code-snippet
+          class="sky-margin-stacked-lg"
+          hideToolbar
+          language="ts"
+          [code]="getFunctionSignature(def)"
+        />
 
-      @if (propertiesValue && propertiesValue.length > 0) {
-        <h3>Properties</h3>
-        <sky-type-definition-properties-table
-          [parentDefinition]="def"
-          [properties]="propertiesValue"
+        @let parametersValue = parameters();
+
+        @if (parametersValue && parametersValue.length > 0) {
+          <h3>Parameters</h3>
+          <sky-type-definition-parameters-table
+            [parameters]="parametersValue"
+          />
+        }
+
+        <!--<h3>Returns</h3>
+
+      <p>
+        <code
+          class="sky-codespan"
+          [innerHTML]="def.type | skySafeHtml"
+        ></code>
+      </p>-->
+      }
+
+      @case ('type-alias') {
+        <sky-code-snippet
+          hideToolbar
+          language="ts"
+          [code]="def | skyFormatTypeAliasTypeDefinition"
         />
       }
 
-      @if (methodsValue && methodsValue.length > 0) {
-        <h3>Methods</h3>
-        <sky-type-definition-methods-table
-          [parentDefinition]="def"
-          [methods]="methodsValue"
-        />
+      @default {
+        @let methodsValue = methods();
+        @let propertiesValue = properties();
+
+        @if (propertiesValue && propertiesValue.length > 0) {
+          <h3>Properties</h3>
+          <sky-type-definition-properties-table
+            [parentDefinition]="def"
+            [properties]="propertiesValue"
+          />
+        }
+
+        @if (methodsValue && methodsValue.length > 0) {
+          <h3>Methods</h3>
+          <sky-type-definition-methods-table
+            [parentDefinition]="def"
+            [methods]="methodsValue"
+          />
+        }
       }
     }
   `,
@@ -236,6 +242,7 @@ export class SkyTypeDefinitionComponent {
     () => {
       const def = this.definition();
 
+      // TODO: Create a isFunctionDefinition utility function.
       if (def.kind === 'function') {
         return (def as unknown as SkyManifestFunctionDefinition).parameters;
       }

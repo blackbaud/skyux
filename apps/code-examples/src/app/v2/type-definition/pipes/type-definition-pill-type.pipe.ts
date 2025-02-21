@@ -13,24 +13,22 @@ export class SkyTypeDefinitionPillTypePipe implements PipeTransform {
   ): SkyPillCategoryType {
     switch (value) {
       case 'module':
-        return 'red';
+        return 'blue';
 
       case 'component':
       case 'directive':
       case 'pipe':
         return 'purple';
 
-      case 'class':
       case 'interface':
-        return 'yellow';
-
       case 'enumeration':
       case 'type-alias':
         return 'orange';
 
+      case 'class':
       case 'function':
       case 'service':
-        return 'teal';
+        return 'light-blue';
 
       default:
         return 'light-blue';

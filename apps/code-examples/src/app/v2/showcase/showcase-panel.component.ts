@@ -31,6 +31,9 @@ interface Link {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'sky-padding-even-xl',
+  },
   imports: [SkyTableOfContentsComponent],
   providers: [SkyHeadingAnchorService],
   selector: 'sky-showcase-panel',

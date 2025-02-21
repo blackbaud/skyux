@@ -15,21 +15,21 @@ import { SkyTableOfContentsLink } from './table-of-contents-links';
     :host {
       display: block;
       padding-left: 15px;
-      border-left: 4px solid var(--sky-background-color-info-light);
+      border-left: 3px solid var(--sky-background-color-info-light);
+    }
+
+    a.sky-docs-toc-link,
+    .sky-docs-toc-heading {
+      margin-bottom: 8px;
     }
 
     a.sky-docs-toc-link {
       color: var(--sky-text-color-default);
       display: block;
       width: 100%;
-      font-size: 13px;
+      font-size: var(--sky-font-size-body-s);
       text-overflow: ellipsis;
-      margin-bottom: 8px;
       overflow: hidden;
-
-      &:active {
-        color: var(--sky-text-color-default);
-      }
 
       &:hover,
       &:focus,
@@ -38,13 +38,12 @@ import { SkyTableOfContentsLink } from './table-of-contents-links';
         text-decoration: none;
       }
     }
-
-    .sky-docs-toc-heading {
-      margin: 0 0 8px;
-    }
   `,
   template: `
-    <h4 class="sky-docs-toc-heading sky-font-heading-5">{{ headingText() }}</h4>
+    <div class="sky-docs-toc-heading sky-font-heading-5">
+      {{ headingText() }}
+    </div>
+
     <nav [attr.aria-label]="'Table of contents for ' + headingText()">
       @for (link of links(); track link.anchorId) {
         <a

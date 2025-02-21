@@ -55,6 +55,18 @@ const DEFAULT_HEADING_LEVEL: SkyHeadingAnchorHeadingLevel = 2;
       transition: opacity 250ms;
       position: absolute;
     }
+
+    // .heading-icon {
+    //   background-color: #006ea8;
+    //   color: #fff;
+    //   width: 30px;
+    //   height: 30px;
+    //   border-radius: 100%;
+    //   display: inline-flex;
+    //   margin-right: 8px;
+    //   align-items: center;
+    //   justify-content: center;
+    // }
   `,
   template: `
     @switch (headingLevel()) {

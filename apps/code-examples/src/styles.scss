@@ -13,9 +13,9 @@ code {
   font-family: 'Roboto Mono', serif;
 }
 
-// :not(h2, h3, pre) > code {
-//   font-size: 90%;
-// }
+:not(h1, h2, h3, h4, h5, h6, pre) > code {
+  font-size: 90%;
+}
 
 .sky-text-strikethrough {
   text-decoration: line-through;
@@ -60,17 +60,20 @@ table.sky-type-definition-table {
     text-align: left;
     // font-size: 15px;
     word-wrap: break-word;
-    padding: 8px 15px;
+  }
+
+  th:first-child {
+    width: 40%;
   }
 
   td,
-  th,
   p {
     // font-size: var(--sky-font-size-body-s);
     font-size: 14px;
   }
 
   td {
+    padding: 4px 8px;
     // &:first-child {
     //   code {
     //     font-size: 13px;
@@ -93,5 +96,6 @@ table.sky-type-definition-table {
 
   th {
     font-weight: 600;
+    padding: 14px 16px;
   }
 }

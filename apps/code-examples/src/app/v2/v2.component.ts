@@ -21,6 +21,7 @@ import {
 } from '@skyux/manifest';
 import { SkyPageModule } from '@skyux/pages';
 
+import { SkyDocsDesignGuidelinesModule } from './design-guidelines/design-guidelines.module';
 import { SkyShowcaseModule } from './showcase/showcase.module';
 
 const DOCS = getDocumentationConfig();
@@ -37,6 +38,7 @@ const SEPARATOR = ' - ';
     SkyPageModule,
     SkyShowcaseModule,
     SkyIconModule,
+    SkyDocsDesignGuidelinesModule,
   ],
   selector: 'app-code-examples-v2',
   styles: `
@@ -62,9 +64,13 @@ const SEPARATOR = ' - ';
 
       @if (data(); as manifest) {
         <sky-showcase [labelText]="selectedGroupName()" [manifest]="manifest">
-          <sky-showcase-content category="development">
+          <!--<sky-docs-design-guidelines>
+            <sky-docs-design-guideline> </sky-docs-design-guideline>
+          </sky-docs-design-guidelines>-->
+
+          <!--<sky-showcase-content category="development">
             <p>This content describes the development tab.</p>
-          </sky-showcase-content>
+          </sky-showcase-content>-->
         </sky-showcase>
         <pre>{{ manifest | json }}</pre>
       }
