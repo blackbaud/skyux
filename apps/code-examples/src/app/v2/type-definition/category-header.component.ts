@@ -12,7 +12,7 @@ type Category =
 
 @Component({
   host: {
-    '[class]': "'sky-margin-stacked-lg sky-docs-category-header-' + category()",
+    '[class]': "'sky-docs-category-header-' + category()",
   },
   imports: [NgClass],
   selector: 'sky-docs-category-header',
@@ -24,6 +24,15 @@ type Category =
     }
 
     .subheading {
+      // display: inline-block;
+      // background-color: grey;
+      // color: #fff;
+      // padding: 2px 7px;
+      // border-radius: 6px;
+      // font-weight: bold;
+      // font-size: 10px;
+      // text-transform: uppercase;
+      // display: none;
       font-size: 13px;
       margin-top: -15px;
     }
