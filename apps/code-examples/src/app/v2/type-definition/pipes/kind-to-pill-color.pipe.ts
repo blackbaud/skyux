@@ -16,8 +16,10 @@ export class SkyKindToPillColorPipe implements PipeTransform {
         return 'orange';
 
       case 'directive':
-      case 'pipe':
         return 'yellow';
+
+      case 'pipe':
+        return 'blue';
 
       case 'class':
       case 'interface':

@@ -95,7 +95,7 @@ import {
       display: flex;
       justify-content: space-between;
       border-radius: 5px 5px 0 0;
-      background-color: #eee;
+      background-color: var(--sky-background-color-disabled);
     }
 
     .my-box-heading {

@@ -72,6 +72,7 @@ const SEPARATOR = ' - ';
             <p>This content describes the development tab.</p>
           </sky-showcase-content>-->
         </sky-showcase>
+        <pre>{{ manifest | json }}</pre>
       }
     </sky-page>
   `,

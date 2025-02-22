@@ -109,7 +109,6 @@
         [code]="def | skyDocsInterfaceSignature"
       />
     }
-
     @if (def.kind === 'enumeration') {
       <sky-code-snippet
         class="sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners sky-margin-stacked-lg"
@@ -186,12 +185,12 @@
                 [innerHTML]="method | skyDocsMethodName: def | skySafeHtml"
               ></code>
             </h4>
-            <sky-code-snippet
+            <!-- <sky-code-snippet
               class="my-box-type"
               hideToolbar
               [code]="method.type"
               language="ts"
-            />
+            /> -->
           </div>
           <div class="sky-padding-even-md">
             @if (method.deprecationReason) {
@@ -226,7 +225,10 @@
             }
             <h4>Returns</h4>
             <p>
-              <code [innerHTML]="method.type | skySafeHtml"></code>
+              <code
+                class="sky-codespan"
+                [innerHTML]="method.type | skySafeHtml"
+              ></code>
             </p>
           </div>
         </div>
