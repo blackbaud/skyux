@@ -1,5 +1,16 @@
 # Changelog
 
+## [12.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.5...12.0.0-alpha.6) (2025-02-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/help-inline:** remove TemplateRef return type on getPopoverContent ([#3176](https://github.com/blackbaud/skyux/issues/3176))
+
+### Features
+
+* **components/help-inline:** remove TemplateRef return type on getPopoverContent ([#3176](https://github.com/blackbaud/skyux/issues/3176)) ([9e200ef](https://github.com/blackbaud/skyux/commit/9e200ef7b425433014c1c58be7094f91ed29195f))
+
 ## [12.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.4...12.0.0-alpha.5) (2025-02-20)
 
 
