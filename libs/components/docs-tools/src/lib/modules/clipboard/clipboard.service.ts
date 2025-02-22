@@ -1,4 +1,4 @@
-import { ElementRef, Injectable, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { SkyAppWindowRef } from '@skyux/core';
 import { SkyToastService } from '@skyux/toast';
 
@@ -12,8 +12,8 @@ export class SkyClipboardService {
   readonly #toastSvc = inject(SkyToastService);
   readonly #windowRef = inject(SkyAppWindowRef);
 
-  public copyTextContent(el: ElementRef, successMessage: string): void {
-    const text = el.nativeElement.textContent.trim();
+  public copyTextContent(el: HTMLElement, successMessage: string): void {
+    const text = el.textContent?.trim() ?? '';
 
     this.#windowRef.nativeWindow.navigator.clipboard.writeText(text);
 

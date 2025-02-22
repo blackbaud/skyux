@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   inject,
   input,
@@ -17,7 +18,7 @@ import hlScss from 'highlight.js/lib/languages/scss';
 import hlTypeScript from 'highlight.js/lib/languages/typescript';
 import hlXml from 'highlight.js/lib/languages/xml';
 
-import { SkyClipboardService } from '../clipboard/clipboard.service';
+import { SkyClipboardModule } from '../clipboard/clipboard.module';
 import { SkyDocsToolsResourcesModule } from '../shared/sky-docs-tools-resources.module';
 
 import { type SkyCodeSnippetLanguage } from './code-snippet-language';
@@ -28,7 +29,7 @@ import { type SkyCodeSnippetLanguage } from './code-snippet-language';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [SkyIconModule, SkyDocsToolsResourcesModule],
+  imports: [SkyClipboardModule, SkyIconModule, SkyDocsToolsResourcesModule],
   selector: 'sky-code-snippet',
   styleUrls: [
     './code-snippet.component.scss',
@@ -37,10 +38,10 @@ import { type SkyCodeSnippetLanguage } from './code-snippet-language';
   templateUrl: './code-snippet.component.html',
 })
 export class SkyCodeSnippetComponent {
-  readonly #clipboardSvc = inject(SkyClipboardService);
   readonly #sanitizer = inject(DomSanitizer);
 
   public readonly code = input.required<string>();
+  public readonly hideToolbar = input(false, { transform: booleanAttribute });
   public readonly language = input.required<SkyCodeSnippetLanguage>();
 
   protected readonly codeRef = viewChild<ElementRef>('codeRef');
@@ -58,15 +59,12 @@ export class SkyCodeSnippetComponent {
 
   constructor() {
     highlight.registerLanguage('html', hlXml);
+    highlight.registerLanguage('markup', hlXml);
     highlight.registerLanguage('js', hlJavaScript);
+    highlight.registerLanguage('javascript', hlJavaScript);
+    highlight.registerLanguage('css', hlScss);
     highlight.registerLanguage('scss', hlScss);
     highlight.registerLanguage('ts', hlTypeScript);
-  }
-
-  protected onClipboardButtonClick(copySuccessMessage: string): void {
-    const el = this.codeRef();
-    if (el) {
-      this.#clipboardSvc.copyTextContent(el, copySuccessMessage);
-    }
+    highlight.registerLanguage('typescript', hlTypeScript);
   }
 }
