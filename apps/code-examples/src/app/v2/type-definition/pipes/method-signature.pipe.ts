@@ -11,7 +11,7 @@ export class SkyDocsMethodSignaturePipe implements PipeTransform {
 
   public transform(method: SkyManifestClassMethodDefinition): string {
     return (
-      `public ${method.isStatic ? 'static ' : ''}${method.name}(` +
+      `public ${method.isStatic ? 'static ' : ''}${method.type.startsWith('Promise') ? 'async ' : ''}${method.name}(` +
       (method.parameters?.map((p) => this.#paramPipe.transform(p)).join(', ') ??
         '') +
       `): ${method.type}`

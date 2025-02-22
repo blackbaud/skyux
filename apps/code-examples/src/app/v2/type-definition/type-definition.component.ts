@@ -31,6 +31,8 @@ import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
 import { SkyTypeDefinitionMethodsTableComponent } from './methods-table.component';
 import { SkyTypeDefinitionParametersTableComponent } from './parameters-table.component';
 import { SkyDocsPropertyTypeDefinitionDefaultValuePipe } from './pipes/default-value.pipe';
+import { SkyDocsEnumerationSignaturePipe } from './pipes/enum-signature.pipe';
+import { SkyDocsInterfaceSignaturePipe } from './pipes/interface-signature.pipe';
 import { SkyKindToPillColorPipe } from './pipes/kind-to-pill-color.pipe';
 import { SkyDocsMethodNamePipe } from './pipes/method-name.pipe';
 import { SkyDocsMethodSignaturePipe } from './pipes/method-signature.pipe';
@@ -79,6 +81,8 @@ import {
     SkyDocsMethodNamePipe,
     SkyDocsParameterNamePipe,
     SkyDocsMethodSignaturePipe,
+    SkyDocsInterfaceSignaturePipe,
+    SkyDocsEnumerationSignaturePipe,
   ],
   providers: [SkyDocsParameterNamePipe],
   selector: 'sky-type-definition',
@@ -90,6 +94,8 @@ import {
     .my-box-header {
       display: flex;
       justify-content: space-between;
+      border-radius: 5px 5px 0 0;
+      background-color: #eee;
     }
 
     .my-box-heading {
@@ -154,12 +160,6 @@ export class SkyTypeDefinitionComponent {
 
     return undefined;
   });
-
-  // protected getImportStatement(
-  //   def: SkyManifestDocumentationTypeDefinition,
-  // ): string {
-  //   return `import { ${def.name} } from '${def.packageName}';`;
-  // }
 
   protected getFunctionSignature(
     definition: SkyManifestDocumentationTypeDefinition,

@@ -42,7 +42,7 @@ describe('clipboard.service', () => {
 
     fixture.detectChanges();
 
-    clipboardSvc.copyTextContent(fixture.elementRef, 'Copied');
+    clipboardSvc.copyTextContent(fixture.nativeElement, 'Copied');
 
     expect(clipboardSpy).toHaveBeenCalledWith('<h1>Hello, world!</h1>');
   });
