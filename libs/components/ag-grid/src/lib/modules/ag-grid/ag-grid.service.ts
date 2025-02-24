@@ -6,6 +6,8 @@ import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
   CellClassParams,
+  CellRendererSelectorFunc,
+  CellRendererSelectorResult,
   ColDef,
   EditableCallbackParams,
   GridOptions,
@@ -17,10 +19,6 @@ import {
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import {
-  CellRendererSelectorFunc,
-  CellRendererSelectorResult,
-} from 'ag-grid-community/dist/types/src/entities/colDef';
 import { Subject, takeUntil } from 'rxjs';
 
 import { getSkyAgGridTheme } from '../../styles/ag-grid-theme';
@@ -41,7 +39,6 @@ import { SkyAgGridCellRendererTemplateComponent } from './cell-renderers/cell-re
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
 import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
 import { SkyAgGridHeaderComponent } from './header/header.component';
-import { IconMapType, iconMap } from './icons/icon-map';
 import { SkyAgGridLoadingComponent } from './loading/loading.component';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
@@ -269,10 +266,6 @@ export class SkyAgGridService implements OnDestroy {
           ? providedClasses
           : [providedClasses];
         return [...defaultClasses, ...providedClassesArray];
-      },
-      icons: {
-        ...defaultGridOptions.icons,
-        ...providedGridOptions.icons,
       },
       onCellFocused: (event): void => {
         defaultGridOptions.onCellFocused?.(event);
@@ -566,15 +559,6 @@ export class SkyAgGridService implements OnDestroy {
           return [];
         }
       },
-      icons: {
-        sortDescending: this.#getIconTemplate('sortDescending'),
-        sortAscending: this.#getIconTemplate('sortAscending'),
-        columnMoveMove: this.#getIconTemplate('columnMoveMove'),
-        columnMoveHide: this.#getIconTemplate('columnMoveHide'),
-        columnMoveLeft: this.#getIconTemplate('columnMoveLeft'),
-        columnMoveRight: this.#getIconTemplate('columnMoveRight'),
-        columnMovePin: this.#getIconTemplate('columnMovePin'),
-      },
       loadingOverlayComponent: SkyAgGridLoadingComponent,
       onCellFocused: () => this.#onCellFocused(),
       rowModelType: 'clientSide',
@@ -678,17 +662,6 @@ export class SkyAgGridService implements OnDestroy {
       this.#currentTheme?.spacing?.name,
     );
     return defaultGridOptions;
-  }
-
-  #getIconTemplate(iconName: keyof IconMapType): () => string {
-    return () => {
-      const icon = iconMap[iconName];
-      if (this.#currentTheme?.theme.name === 'modern' && icon.skyIcon) {
-        return `<i aria-hidden="true" class="sky-i-${icon.skyIcon}"></i>`;
-      } else {
-        return `<i aria-hidden="true" class="fa fa-${icon.faIcon}"></i>`;
-      }
-    };
   }
 
   #suppressTab(params: SuppressKeyboardEventParams): boolean {

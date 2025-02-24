@@ -43,11 +43,7 @@
       border-right: var(--ag-column-border);
       padding-right: calc(var(--ag-spacing) * 3 - 1px);
     }
-    &:not(
-        .ag-header-cell:not(.sky-ag-grid-header-resizable),
-        .sky-ag-grid-header-resizable.ag-column-resizing,
-        .sky-ag-grid-header-resizable:has(> .ag-header-cell-resize:hover)
-      ) {
+    &:not(.ag-column-resizing, :has(> .ag-header-cell-resize:hover)) {
       --ag-header-column-resize-handle-color: var(
         --sky-border-color-neutral-medium-dark
       );
@@ -68,11 +64,6 @@
       }
     }
   }
-
-  .ag-header-cell:not(.sky-ag-grid-header-resizable) {
-    --ag-header-column-resize-handle-color: transparent;
-  }
-
   .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing,
   .ag-header-cell.sky-ag-grid-header-resizable > .ag-header-cell-resize:hover {
     --ag-header-column-resize-handle-color: var(

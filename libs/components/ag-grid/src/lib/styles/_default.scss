@@ -141,6 +141,9 @@
 
 .ag-theme-sky-data-grid-default,
 .ag-theme-sky-data-entry-grid-default {
+  --ag-header-foreground-color: var(--sky-text-color-deemphasized);
+  --ag-text-color: var(--sky-text-color-deemphasized);
+
   .ag-header .ag-header-cell .ag-header-cell-label-sortable {
     color: var(--sky-text-color-deemphasized);
 
