@@ -57,8 +57,6 @@
   .ag-checkbox {
     --ag-icon-size: var(--sky-size-switch, var(--sky-switch-size));
     --ag-focus-shadow: none;
-    --ag-checkbox-checked-border-color: var(--ag-checkbox-checked-shape-color);
-    --ag-checkbox-unchecked-border-color: var(--ag-text-color);
   }
 
   .ag-disabled {
