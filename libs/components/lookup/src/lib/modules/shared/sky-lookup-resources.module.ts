@@ -21,6 +21,9 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_autocomplete_show_all: { message: 'Show all' },
     skyux_autocomplete_show_all_count: { message: 'Show all {0}' },
     skyux_autocomplete_show_matches_count: { message: 'Show matches ({0})' },
+    skyux_country_field_dropdown_hint_text: {
+      message: 'Type to search for a country',
+    },
     skyux_country_field_search_placeholder: { message: 'Search for a country' },
     skyux_lookup_search_button_show_more: {
       message: 'Show all search results',
