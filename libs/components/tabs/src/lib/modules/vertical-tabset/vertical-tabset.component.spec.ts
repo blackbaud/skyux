@@ -428,6 +428,34 @@ describe('Vertical tabset component', () => {
     flush();
   }));
 
+  it('should focus the active tab when the tab container is opened on mobile view', fakeAsync(() => {
+    mediaQueryController.setBreakpoint('xs');
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    const el = fixture.nativeElement;
+
+    // click show tabs button to open tab group
+    let showTabsButton = el.querySelector('.sky-vertical-tabset-show-tabs-btn');
+    showTabsButton.click();
+    fixture.detectChanges();
+
+    // click second tab in second group
+    clickGroupButton(fixture, 1);
+    clickTab(fixture, 1, 1);
+
+    // open tab group
+    showTabsButton = el.querySelector('.sky-vertical-tabset-show-tabs-btn');
+    showTabsButton.click();
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+
+    SkyAppTestUtility.fireDomEvent(tabsContainer, 'focus');
+    expect(elementHasFocus(getTab(fixture, 1, 1))).toBeTrue();
+    flush();
+  }));
+
   it('should focus the first tab when the tabs container is focused and no tab is active', () => {
     mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
