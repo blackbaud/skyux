@@ -5,7 +5,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyLookupSelectModeType } from '@skyux/lookup';
 
@@ -21,7 +21,6 @@ import { of } from 'rxjs';
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
 
 import { SkyAgGridCellEditorLookupComponent } from './cell-editor-lookup.component';
-import { SkyAgGridCellEditorLookupModule } from './cell-editor-lookup.module';
 
 describe('SkyAgGridCellEditorLookupComponent', () => {
   let api: jasmine.SpyObj<GridApi>;
@@ -45,8 +44,8 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       nativeElement: jasmine.createSpyObj('nativeElement', ['matches']),
     };
     TestBed.configureTestingModule({
-      imports: [SkyAgGridCellEditorLookupModule, NoopAnimationsModule],
       providers: [
+        provideNoopAnimations(),
         {
           provide: ElementRef,
           useValue: elementRef,

@@ -10,10 +10,18 @@ import { SkyIconModule } from '@skyux/icon';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
 import { AgGridModule } from 'ag-grid-angular';
-import { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
+import {
+  AllCommunityModule,
+  ColDef,
+  GridOptions,
+  ICellRendererParams,
+  ModuleRegistry,
+} from 'ag-grid-community';
 
 import { Attachment } from './attachment';
 import { AttachmentsGridContextMenuComponent } from './attachments-grid-context-menu.component';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-record-page-attachments-tab',
