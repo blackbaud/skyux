@@ -1,12 +1,12 @@
 import { AfterViewInit, Directive, ElementRef, inject } from '@angular/core';
 
-import { SkyAnchorIdService } from './pipes/anchor-id.service';
+import { SkyTypeAnchorIdsService } from './pipes/type-anchor-ids.service';
 
 @Directive({
   selector: '[skyTypeDefinitionAnchors]',
 })
 export class SkyTypeDefinitionAnchorsDirective implements AfterViewInit {
-  readonly #anchorSvc = inject(SkyAnchorIdService);
+  readonly #anchorSvc = inject(SkyTypeAnchorIdsService);
   readonly #elementRef = inject(ElementRef);
   // readonly #ngZone = inject(NgZone);
   // readonly #renderer = inject(Renderer2);

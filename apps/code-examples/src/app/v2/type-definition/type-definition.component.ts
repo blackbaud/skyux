@@ -7,7 +7,9 @@ import {
 } from '@angular/core';
 import {
   SkyClipboardModule,
+  SkyCodeHighlightPipe,
   SkyCodeSnippetModule,
+  SkyHeadingAnchorModule,
   SkyPillModule,
 } from '@skyux/docs-tools';
 import { SkyIconModule } from '@skyux/icon';
@@ -22,23 +24,21 @@ import {
   isPipeDefinition,
 } from '@skyux/manifest';
 
-import { SkyHeadingAnchorComponent } from '../heading-anchor/heading-anchor.component';
-import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
-
 import { SkyDocsCategoryHeader } from './category-header.component';
 import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
 import { SkyTypeDefinitionMethodsTableComponent } from './methods-table.component';
 import { SkyTypeDefinitionParametersTableComponent } from './parameters-table.component';
-import { SkyDocsAnchorLinkPipe } from './pipes/anchor-id.pipe';
 import { SkyDocsPropertyTypeDefinitionDefaultValuePipe } from './pipes/default-value.pipe';
 import { SkyDocsEnumerationSignaturePipe } from './pipes/enum-signature.pipe';
 import { SkyEscapeHtmlPipe } from './pipes/escape-html.pipe';
 import { SkyDocsInterfaceSignaturePipe } from './pipes/interface-signature.pipe';
 import { SkyKindToPillColorPipe } from './pipes/kind-to-pill-color.pipe';
+import { SkyMarkdownPipe } from './pipes/markdown.pipe';
 import { SkyDocsMethodNamePipe } from './pipes/method-name.pipe';
 import { SkyDocsMethodSignaturePipe } from './pipes/method-signature.pipe';
 import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
 import { SkyDocsPropertyNamePipe } from './pipes/property-name.pipe';
+import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
 import { SkyTypeDefinitionKindToLabelPipe } from './pipes/type-definition-kind-to-label.pipe';
 import { SkyFormatTypeAliasTypeDefinitionPipe } from './pipes/type-definition-type-alias.pipe';
 import {
@@ -67,8 +67,8 @@ import { SkyTypeDefinitionAnchorsDirective } from './type-definition-anchors.dir
     SkyEscapeHtmlPipe,
     SkyDescriptionListModule,
     SkyDeprecationReasonComponent,
+    SkyHeadingAnchorModule,
     SkyLabelModule,
-    SkyHeadingAnchorComponent,
     SkyMarkdownPipe,
     SkyCodeSnippetModule,
     SkyKindToPillColorPipe,
@@ -86,9 +86,22 @@ import { SkyTypeDefinitionAnchorsDirective } from './type-definition-anchors.dir
     SkyDocsMethodSignaturePipe,
     SkyDocsInterfaceSignaturePipe,
     SkyDocsEnumerationSignaturePipe,
-    SkyDocsAnchorLinkPipe,
+    SkyTypeAnchorLinksPipe,
+    SkyCodeHighlightPipe,
   ],
-  providers: [SkyDocsParameterNamePipe],
+  providers: [
+    SkyDocsParameterNamePipe,
+
+    // TODO: Is this overkill?
+    //   {
+    //   provide: SKY_CODE_SNIPPET_FORMATTER,
+    //   useFactory(anchorIdsSvc: SkyTypeAnchorIdsService): SkyCodeSnippetFormatterFn {
+    //     return () =>
+    //   },
+    //   deps: [SkyTypeAnchorIdsService],
+    //   multi: true
+    // }
+  ],
   selector: 'sky-type-definition',
   styles: `
     :host {

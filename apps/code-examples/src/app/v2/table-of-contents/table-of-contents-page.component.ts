@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyScrollableHostService } from '@skyux/core';
+import { SkyHeadingAnchorService } from '@skyux/docs-tools';
 
 import {
   BehaviorSubject,
@@ -16,8 +17,6 @@ import {
   map,
   switchMap,
 } from 'rxjs';
-
-import { SkyHeadingAnchorService } from '../heading-anchor/heading-anchor.service';
 
 import { SkyTableOfContentsLink } from './table-of-contents-links';
 import { SkyTableOfContentsComponent } from './table-of-contents.component';
@@ -44,7 +43,7 @@ export class SkyTableOfContentsPage {
     return anchors?.map((a) => ({
       active: a.anchorId === activeAnchorId,
       anchorId: a.anchorId,
-      text: a.headingText,
+      text: a.text,
     }));
   });
 

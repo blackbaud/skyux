@@ -14,9 +14,9 @@ import { SkyBoxModule } from '@skyux/layout';
 import { SkyVerticalTabsetModule } from '@skyux/tabs';
 
 import {
-  type SkyCodeSnippetLanguage,
-  assertCodeSnippetLanguage,
-} from '../code-snippet/code-snippet-language';
+  type SkyCodeHighlightLanguage,
+  assertCodeHighlightLanguage,
+} from '../code-highlight/code-highlight-language';
 import { SkyCodeSnippetModule } from '../code-snippet/code-snippet.module';
 import { SkyDocsToolsResourcesModule } from '../shared/sky-docs-tools-resources.module';
 
@@ -58,9 +58,9 @@ export class SkyCodeExampleViewerComponent {
 
   protected readonly isCodeVisible = signal(false);
 
-  protected getCodeLanguage(fileName: string): SkyCodeSnippetLanguage {
+  protected getCodeLanguage(fileName: string): SkyCodeHighlightLanguage {
     const extension = fileName.split('.').pop();
-    assertCodeSnippetLanguage(extension);
+    assertCodeHighlightLanguage(extension);
     return extension;
   }
 

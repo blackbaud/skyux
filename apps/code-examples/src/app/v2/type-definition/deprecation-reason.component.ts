@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
-import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
+import { SkyMarkdownPipe } from './pipes/markdown.pipe';
 
 /**
  * @internal

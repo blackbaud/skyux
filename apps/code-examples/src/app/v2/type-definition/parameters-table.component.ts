@@ -2,9 +2,8 @@ import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { SkyManifestParameterDefinition } from '@skyux/manifest';
 
-import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
-
 import { SkyEscapeHtmlPipe } from './pipes/escape-html.pipe';
+import { SkyMarkdownPipe } from './pipes/markdown.pipe';
 import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
 
 /**

@@ -37,7 +37,7 @@ export class SkyHeadingAnchorService implements OnDestroy {
     return this.#anchors.map((a) => {
       return {
         anchorId: a.anchorId(),
-        headingText: a.headingText(),
+        text: a.headingText(),
       };
     });
   }

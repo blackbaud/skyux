@@ -14,7 +14,8 @@
     </button>
   </div>
 }
+
 <pre
   #codeRef
   class="sky-code-snippet-pre"
-><code [innerHTML]="formatted()"></code></pre>
+>@if (formatted()) {<code [innerHTML]="formatted()"></code>} @else {<ng-content select="code" />}</pre>

@@ -15,11 +15,10 @@ import {
   type SkyManifestParentDefinition,
 } from '@skyux/manifest';
 
-import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
-
 import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
 import { SkyDocsPropertyTypeDefinitionDefaultValuePipe } from './pipes/default-value.pipe';
 import { SkyEscapeHtmlPipe } from './pipes/escape-html.pipe';
+import { SkyMarkdownPipe } from './pipes/markdown.pipe';
 import { SkyDocsPropertyNamePipe } from './pipes/property-name.pipe';
 
 export type PropertyDefinition =

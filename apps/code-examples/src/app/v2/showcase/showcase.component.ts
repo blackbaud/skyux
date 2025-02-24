@@ -12,7 +12,7 @@ import { SkyManifestDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
 
 import { SkyTableOfContentsModule } from '../table-of-contents/table-of-contents.module';
-import { SkyAnchorIdService } from '../type-definition/pipes/anchor-id.service';
+import { SkyTypeAnchorIdsService } from '../type-definition/pipes/type-anchor-ids.service';
 import { SkyTypeDefinitionComponent } from '../type-definition/type-definition.component';
 
 import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
@@ -27,7 +27,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
     TitleCasePipe,
     SkyTableOfContentsModule,
   ],
-  providers: [SkyAnchorIdService],
+  providers: [SkyTypeAnchorIdsService],
   selector: 'sky-showcase',
   styles: `
     :host {
@@ -114,7 +114,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
   `,
 })
 export class SkyShowcaseComponent {
-  readonly #anchorSvc = inject(SkyAnchorIdService);
+  readonly #anchorSvc = inject(SkyTypeAnchorIdsService);
   readonly #examples = inject(SKY_SHOWCASE_EXAMPLES);
 
   public readonly labelText = input.required<string>();

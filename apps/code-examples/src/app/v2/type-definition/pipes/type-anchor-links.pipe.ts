@@ -8,30 +8,38 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { SkyAnchorIdService } from './anchor-id.service';
+import { SkyTypeAnchorIdsService } from './type-anchor-ids.service';
 
 const NOT_WORD_REGEXP = /\w+/g;
 
 /**
+ * For the given string, finds known tokens and wraps them in an anchor linking to the respective element ID.
  * @internal
  */
 @Pipe({
-  name: 'skyDocsAnchorId',
+  name: 'skyTypeAnchorLinks',
   pure: false,
 })
-export class SkyDocsAnchorLinkPipe implements PipeTransform {
+export class SkyTypeAnchorLinksPipe implements PipeTransform {
   readonly #activatedRoute = inject(ActivatedRoute);
-  readonly #anchorSvc = inject(SkyAnchorIdService);
+  readonly #anchorSvc = inject(SkyTypeAnchorIdsService);
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #destroyRef = inject(DestroyRef);
 
   readonly #cache: Record<string, string> = {};
   readonly #currentRoute = this.#activatedRoute.snapshot.url.toString();
 
-  public transform(value: string): string | undefined {
+  public transform(
+    value: string,
+    options?: { ignore: string[] },
+  ): string | undefined {
     const typeWrappedWithAnchor = value?.replace(
       NOT_WORD_REGEXP,
       (maybeType) => {
+        if (options?.ignore.includes(maybeType)) {
+          return maybeType;
+        }
+
         const anchorId = this.#anchorSvc.getAnchorId(maybeType);
 
         if (anchorId) {

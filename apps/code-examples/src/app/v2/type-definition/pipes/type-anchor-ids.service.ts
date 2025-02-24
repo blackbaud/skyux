@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 
+/**
+ * Registers known type symbols with their corresponding anchor IDs.
+ * @internal
+ */
 @Injectable()
-export class SkyAnchorIdService {
+export class SkyTypeAnchorIdsService {
   #anchorIds = new Map<string, string>();
-  // #names: string[] = [];
 
-  public setAnchorIds(anchorIds: { [typeName: string]: string }): void {
+  public setAnchorIds(anchorIds: { [token: string]: string }): void {
     this.#anchorIds = new Map(Object.entries(anchorIds));
 
     // Sort items by character length.

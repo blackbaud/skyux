@@ -49,7 +49,9 @@ code.sky-codespan {
 
 a.sky-docs-codespan-anchor {
   color: currentColor;
-  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 table.sky-type-definition-table {
