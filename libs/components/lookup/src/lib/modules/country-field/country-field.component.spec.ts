@@ -76,6 +76,14 @@ describe('Country Field Component', () => {
     return document.querySelector('.sky-autocomplete-results') as HTMLElement;
   }
 
+  function getDisplayedHintText(): string {
+    return (
+      document
+        .querySelector('.sky-autocomplete-dropdown-hint-text')
+        ?.textContent.trim() || ''
+    );
+  }
+
   function getInputElement(): HTMLTextAreaElement {
     return document.querySelector('textarea') as HTMLTextAreaElement;
   }
@@ -189,6 +197,18 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
 
         validateSelectedCountry(nativeElement, '');
+      }));
+
+      it('should show hint text in dropdown before searching', fakeAsync(() => {
+        fixture.detectChanges();
+
+        SkyAppTestUtility.fireDomEvent(getInputElement(), 'focus');
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(getDisplayedHintText()).toBe('Type to search for a country');
       }));
     });
 
@@ -732,6 +752,18 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
 
         expect(nativeElement.querySelector('textarea')?.value).toBe('');
+      }));
+
+      it('should show hint text in dropdown before searching', fakeAsync(() => {
+        fixture.detectChanges();
+
+        SkyAppTestUtility.fireDomEvent(getInputElement(), 'focus');
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(getDisplayedHintText()).toBe('Type to search for a country');
       }));
     });
 

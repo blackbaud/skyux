@@ -12,6 +12,7 @@
     <sky-autocomplete
       [ariaLabelledBy]="inputId"
       [data]="countries"
+      [dropdownHintText]="'Type to search for a country'"
       [propertiesToSearch]="['name', 'iso2']"
       [searchResultTemplate]="countrySearchResultTemplate"
       [searchTextMinimumCharacters]="searchTextMinimumCharacters"

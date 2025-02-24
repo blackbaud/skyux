@@ -134,6 +134,13 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   /**
+   * Hint test to show in the dropdown
+   * @internal
+   */
+  @Input()
+  public dropdownHintText: string | undefined;
+
+  /**
    * @internal
    * Whether to display a button in the dropdown that opens a picker where users can view all options.
    */
@@ -415,7 +422,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         .pipe(takeUntil(this.#inputDirectiveUnsubscribe))
         .subscribe(() => {
           this.#hasFocus = true;
-          if (this.showActionsArea) {
+          if (this.showActionsArea || this.dropdownHintText) {
             this.#openDropdown();
           }
         });
@@ -598,7 +605,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           if (targetIsSearchResult) {
             this.#selectSearchResultById(activeElementId);
 
-            if (!this.showActionsArea) {
+            if (!this.showActionsArea && !this.dropdownHintText) {
               this.#closeDropdown();
             } else {
               this.#resetSearch();
@@ -701,7 +708,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   public onResultClick(id: string, event: MouseEvent): void {
     this.#selectSearchResultById(id);
 
-    if (!this.showActionsArea) {
+    if (!this.showActionsArea && !this.dropdownHintText) {
       this.#closeDropdown();
     } else {
       this.#resetSearch();
@@ -740,7 +747,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           });
         }
 
-        if (!this.showActionsArea) {
+        if (!this.showActionsArea && !this.dropdownHintText) {
           this.#closeDropdown();
         } else {
           this.#resetSearch();
