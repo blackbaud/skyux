@@ -19,13 +19,8 @@ import {
 
 import { SkyHeadingAnchorService } from '../heading-anchor/heading-anchor.service';
 
+import { SkyTableOfContentsLink } from './table-of-contents-links';
 import { SkyTableOfContentsComponent } from './table-of-contents.component';
-
-interface Link {
-  active: boolean;
-  anchorId: string;
-  title: string;
-}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,14 +37,14 @@ export class SkyTableOfContentsPage {
 
   public menuHeadingText = input.required<string>();
 
-  protected links = computed<Link[] | undefined>(() => {
+  protected links = computed<SkyTableOfContentsLink[] | undefined>(() => {
     const anchors = this.#anchors();
     const activeAnchorId = this.#activeAnchorIdOnScroll();
 
     return anchors?.map((a) => ({
       active: a.anchorId === activeAnchorId,
       anchorId: a.anchorId,
-      title: a.title,
+      text: a.headingText,
     }));
   });
 

@@ -4,7 +4,6 @@ import { SkyManifestParentDefinitionKind } from '@skyux/manifest';
 
 @Pipe({
   name: 'skyKindToPillColor',
-  pure: true,
 })
 export class SkyKindToPillColorPipe implements PipeTransform {
   public transform(value: SkyManifestParentDefinitionKind): SkyPillColor {

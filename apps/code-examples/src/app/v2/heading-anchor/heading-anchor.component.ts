@@ -33,7 +33,7 @@ const DEFAULT_HEADING_LEVEL: SkyHeadingAnchorHeadingLevel = 2;
   templateUrl: './heading-anchor.component.html',
 })
 export class SkyHeadingAnchorComponent implements OnInit, OnDestroy {
-  readonly #anchorSvc = inject(SkyHeadingAnchorService);
+  readonly #anchorSvc = inject(SkyHeadingAnchorService, { optional: true });
 
   public readonly anchorId = input.required<string>();
   public readonly headingText = input.required<string>();
@@ -55,10 +55,10 @@ export class SkyHeadingAnchorComponent implements OnInit, OnDestroy {
   public readonly strikethrough = input(false, { transform: booleanAttribute });
 
   public ngOnInit(): void {
-    this.#anchorSvc.register(this);
+    this.#anchorSvc?.register(this);
   }
 
   public ngOnDestroy(): void {
-    this.#anchorSvc.unregister(this);
+    this.#anchorSvc?.unregister(this);
   }
 }

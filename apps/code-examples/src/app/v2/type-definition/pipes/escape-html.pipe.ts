@@ -5,7 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
  */
 @Pipe({
   name: 'skyEscapeHtml',
-  pure: true,
 })
 export class SkyEscapeHtmlPipe implements PipeTransform {
   // readonly #sanitizer = inject(DomSanitizer);

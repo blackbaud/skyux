@@ -45,11 +45,13 @@ async function getTypeDocProjectReflection(
       transpileOnly: true,
     },
     exclude: [
-      `!**/${projectRoot}/**`,
+      // `!**/${projectRoot}/**`,
       '**/(fixtures|node_modules)/**',
       '**/*+(.fixture|.spec).ts',
     ],
-    externalPattern: [`!**/${projectRoot}/**`],
+    // TODO: properties from "extends" types are not being brought into the result!
+    // TODO: create git-compatible file paths to link out?
+    // externalPattern: [`!**/node_modules/**`],
   });
 
   const projectRefl = await app.convert();

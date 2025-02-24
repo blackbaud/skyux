@@ -3,7 +3,6 @@ import { SkyManifestParentDefinitionKind } from '@skyux/manifest';
 
 @Pipe({
   name: 'skyTypeDefinitionKindToLabel',
-  pure: true,
 })
 export class SkyTypeDefinitionKindToLabelPipe implements PipeTransform {
   public transform(kind: SkyManifestParentDefinitionKind): string {

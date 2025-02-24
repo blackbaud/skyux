@@ -3,5 +3,5 @@
  */
 export interface SkyHeadingAnchorLink {
   anchorId: string;
-  title: string;
+  headingText: string;
 }
