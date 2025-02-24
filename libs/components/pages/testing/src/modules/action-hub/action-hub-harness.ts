@@ -13,6 +13,9 @@ import { SkyActionHubHarnessFilters } from './action-hub-harness-filters';
  * Harness for interacting with an action hub component in tests.
  */
 export class SkyActionHubHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-action-hub';
 
   readonly #pageHeader = this.locatorFor(SkyPageHeaderHarness);
