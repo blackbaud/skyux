@@ -15,7 +15,7 @@ export class FooService implements OnDestroy {
   }
 
   /**
-   * This describes a public method.
+   * This describes a public method that returns a promise.
    */
   public someMethod(): Promise<Type<string>> {
     return {} as unknown as Promise<Type<string>>;

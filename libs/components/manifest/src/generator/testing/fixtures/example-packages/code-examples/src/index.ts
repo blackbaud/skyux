@@ -1,1 +1,1 @@
-export { FooCodeExample1, FooCodeExampleInterface } from './lib/types';
+export { FooCodeExample1 } from './lib/types';

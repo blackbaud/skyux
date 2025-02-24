@@ -529,6 +529,14 @@ exports[`generate-manifest should generate manifest 1`] = `
       },
       {
         \\"anchorId\\": \\"interface_foo-empty-interface\\",
+        \\"children\\": [
+          {
+            \\"description\\": \\"This describes the bar string.\\",
+            \\"kind\\": \\"interface-property\\",
+            \\"name\\": \\"bar\\",
+            \\"type\\": \\"string\\"
+          }
+        ],
         \\"docsId\\": \\"FooEmptyInterface\\",
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.interface.ts\\",
         \\"kind\\": \\"interface\\",
@@ -625,7 +633,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"anchorId\\": \\"class_foo-service\\",
         \\"children\\": [
           {
-            \\"description\\": \\"This describes a public method.\\",
+            \\"description\\": \\"This describes a public method that returns a promise.\\",
             \\"kind\\": \\"class-method\\",
             \\"name\\": \\"someMethod\\",
             \\"type\\": \\"Promise<Type<string>>\\"

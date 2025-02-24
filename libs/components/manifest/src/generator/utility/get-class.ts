@@ -22,8 +22,8 @@ export function getMethods(
   if (reflection.children) {
     for (const child of reflection.children) {
       if (
-        !child.name.startsWith('ng') &&
-        child.kind === ReflectionKind.Method
+        child.kind === ReflectionKind.Method &&
+        !child.name.startsWith('ng')
       ) {
         methods.push(getMethod(child));
       }
