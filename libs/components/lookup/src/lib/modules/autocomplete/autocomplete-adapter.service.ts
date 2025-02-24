@@ -61,13 +61,19 @@ export class SkyAutocompleteAdapterService {
     dropdownRef: ElementRef,
     isInputBox: boolean,
   ): void {
-    const parentElement = isInputBox
-      ? elementRef.nativeElement.closest('.sky-input-box')
-      : elementRef.nativeElement;
-    if (parentElement) {
-      const width = parentElement.getBoundingClientRect().width;
-      this.#renderer.setStyle(dropdownRef.nativeElement, 'width', `${width}px`);
-    }
+    setTimeout(() => {
+      const parentElement = isInputBox
+        ? elementRef.nativeElement.closest('.sky-input-box')
+        : elementRef.nativeElement;
+      if (parentElement) {
+        const width = parentElement.getBoundingClientRect().width;
+        this.#renderer.setStyle(
+          dropdownRef.nativeElement,
+          'width',
+          `${width}px`,
+        );
+      }
+    });
   }
 
   /**
