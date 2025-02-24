@@ -1,4 +1,4 @@
-import { JsonPipe, NgComponentOutlet } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -32,7 +32,6 @@ const SEPARATOR = ' - ';
   imports: [
     FormsModule,
     JsonPipe,
-    NgComponentOutlet,
     ReactiveFormsModule,
     SkyInputBoxModule,
     SkyPageModule,

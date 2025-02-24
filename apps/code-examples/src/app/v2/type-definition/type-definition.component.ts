@@ -24,14 +24,15 @@ import {
 
 import { SkyHeadingAnchorComponent } from '../heading-anchor/heading-anchor.component';
 import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
-import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
 
 import { SkyDocsCategoryHeader } from './category-header.component';
 import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
 import { SkyTypeDefinitionMethodsTableComponent } from './methods-table.component';
 import { SkyTypeDefinitionParametersTableComponent } from './parameters-table.component';
+import { SkyDocsAnchorLinkPipe } from './pipes/anchor-id.pipe';
 import { SkyDocsPropertyTypeDefinitionDefaultValuePipe } from './pipes/default-value.pipe';
 import { SkyDocsEnumerationSignaturePipe } from './pipes/enum-signature.pipe';
+import { SkyEscapeHtmlPipe } from './pipes/escape-html.pipe';
 import { SkyDocsInterfaceSignaturePipe } from './pipes/interface-signature.pipe';
 import { SkyKindToPillColorPipe } from './pipes/kind-to-pill-color.pipe';
 import { SkyDocsMethodNamePipe } from './pipes/method-name.pipe';
@@ -44,6 +45,7 @@ import {
   PropertyDefinition,
   SkyTypeDefinitionPropertiesTableComponent,
 } from './properties-table.component';
+import { SkyTypeDefinitionAnchorsDirective } from './type-definition-anchors.directive';
 
 /**
  * @internal
@@ -54,6 +56,7 @@ import {
     class: 'sky-margin-stacked-xxl',
   },
   imports: [
+    SkyTypeDefinitionAnchorsDirective,
     JsonPipe,
     NgClass,
     UpperCasePipe,
@@ -61,7 +64,7 @@ import {
     SkyFormatTypeAliasTypeDefinitionPipe,
     SkyIconModule,
     SkyTypeDefinitionKindToLabelPipe,
-    SkySafeHtmlPipe,
+    SkyEscapeHtmlPipe,
     SkyDescriptionListModule,
     SkyDeprecationReasonComponent,
     SkyLabelModule,
@@ -83,6 +86,7 @@ import {
     SkyDocsMethodSignaturePipe,
     SkyDocsInterfaceSignaturePipe,
     SkyDocsEnumerationSignaturePipe,
+    SkyDocsAnchorLinkPipe,
   ],
   providers: [SkyDocsParameterNamePipe],
   selector: 'sky-type-definition',

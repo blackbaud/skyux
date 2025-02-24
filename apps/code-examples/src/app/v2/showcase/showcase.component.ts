@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Type,
+  effect,
   inject,
   input,
 } from '@angular/core';
@@ -10,23 +11,23 @@ import { SkyCodeExampleViewerModule } from '@skyux/docs-tools';
 import { SkyManifestDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
 
-import { SkyHeadingAnchorService } from '../heading-anchor/heading-anchor.service';
+import { SkyTableOfContentsModule } from '../table-of-contents/table-of-contents.module';
+import { SkyAnchorIdService } from '../type-definition/pipes/anchor-id.service';
 import { SkyTypeDefinitionComponent } from '../type-definition/type-definition.component';
 
 import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
-import { SkyShowcasePanelComponent } from './showcase-panel.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     JsonPipe,
     SkyCodeExampleViewerModule,
-    SkyShowcasePanelComponent,
     SkyTabsModule,
     SkyTypeDefinitionComponent,
     TitleCasePipe,
+    SkyTableOfContentsModule,
   ],
-  providers: [SkyHeadingAnchorService],
+  providers: [SkyAnchorIdService],
   selector: 'sky-showcase',
   styles: `
     :host {
@@ -56,30 +57,32 @@ import { SkyShowcasePanelComponent } from './showcase-panel.component';
 
       @if (developmentDefinitions.length > 0) {
         <sky-tab tabHeading="Development">
-          <sky-showcase-panel [tocHeadingText]="labelText() | titlecase">
+          <sky-toc-page
+            class="sky-padding-even-xl"
+            [menuHeadingText]="labelText() | titlecase"
+          >
             <ng-content select="sky-showcase-content[category=development]" />
-
             @for (
               definition of developmentDefinitions;
               track definition.docsId
             ) {
               <sky-type-definition [definition]="definition" />
             }
-          </sky-showcase-panel>
+          </sky-toc-page>
         </sky-tab>
       }
 
       @if (testingDefinitions.length > 0) {
         <sky-tab tabHeading="Testing">
-          <sky-showcase-panel
-            [tocHeadingText]="(labelText() | titlecase) + ' Testing'"
+          <sky-toc-page
+            class="sky-padding-even-xl"
+            [menuHeadingText]="(labelText() | titlecase) + ' Testing'"
           >
             <ng-content select="sky-showcase-content[category=testing]" />
-
             @for (definition of testingDefinitions; track definition.docsId) {
               <sky-type-definition [definition]="definition" />
             }
-          </sky-showcase-panel>
+          </sky-toc-page>
         </sky-tab>
       }
 
@@ -111,10 +114,28 @@ import { SkyShowcasePanelComponent } from './showcase-panel.component';
   `,
 })
 export class SkyShowcaseComponent {
+  readonly #anchorSvc = inject(SkyAnchorIdService);
   readonly #examples = inject(SKY_SHOWCASE_EXAMPLES);
 
   public readonly labelText = input.required<string>();
   public readonly manifest = input.required<SkyManifestDocumentationGroup>();
+
+  constructor() {
+    effect(() => {
+      const manifest = this.manifest();
+      const anchorIds: Record<string, string> = {};
+
+      manifest.publicApi.forEach((d) => {
+        anchorIds[d.name] = d.anchorId;
+      });
+
+      manifest.testing.forEach((d) => {
+        anchorIds[d.name] = d.anchorId;
+      });
+
+      this.#anchorSvc.setAnchorIds(anchorIds);
+    });
+  }
 
   protected getComponentType(componentName: string): Type<unknown> {
     return this.#examples[componentName];

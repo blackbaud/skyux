@@ -3,13 +3,13 @@
   border-left: 3px solid var(--sky-border-color-neutral-medium);
 }
 
-a.sky-docs-toc-link,
-.sky-docs-toc-heading {
+a.sky-toc-link,
+.sky-toc-heading {
   margin-bottom: 8px;
   padding-left: 15px;
 }
 
-a.sky-docs-toc-link {
+a.sky-toc-link {
   color: var(--sky-text-color-deemphasized);
   display: block;
   width: 100%;
@@ -19,7 +19,7 @@ a.sky-docs-toc-link {
 
   &:hover,
   &:focus-visible,
-  &.sky-docs-toc-link-active {
+  &.sky-toc-link-active {
     color: var(--sky-text-color-action-primary);
     text-decoration: none;
     border-left: 3px solid #999;

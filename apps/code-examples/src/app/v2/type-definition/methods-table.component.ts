@@ -14,10 +14,10 @@ import {
 } from '@skyux/manifest';
 
 import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
-import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
 
 import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
 import { SkyDocsPropertyTypeDefinitionDefaultValuePipe } from './pipes/default-value.pipe';
+import { SkyEscapeHtmlPipe } from './pipes/escape-html.pipe';
 import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
 
 /**
@@ -30,7 +30,7 @@ import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
     NgClass,
     SkyCodeSnippetModule,
     SkyMarkdownPipe,
-    SkySafeHtmlPipe,
+    SkyEscapeHtmlPipe,
     SkyStatusIndicatorModule,
     SkyDeprecationReasonComponent,
     SkyDocsParameterNamePipe,
@@ -56,7 +56,7 @@ import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
           <tr>
             <td>
               <code
-                [innerHTML]="getMethodName(method) | skySafeHtml"
+                [innerHTML]="getMethodName(method) | skyEscapeHtml"
                 [ngClass]="{
                   'sky-text-strikethrough': method.isDeprecated,
                 }"
@@ -99,7 +99,7 @@ import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
                         <td>
                           <code
                             [innerHTML]="
-                              param | skyDocsParameterName | skySafeHtml
+                              param | skyDocsParameterName | skyEscapeHtml
                             "
                           ></code>
                         </td>
@@ -121,7 +121,7 @@ import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
               <p>
                 <code
                   class="sky-codespan"
-                  [innerHTML]="method.type | skySafeHtml"
+                  [innerHTML]="method.type | skyEscapeHtml"
                 ></code>
               </p>
 

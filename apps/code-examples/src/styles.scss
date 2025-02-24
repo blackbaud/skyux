@@ -47,6 +47,11 @@ code.sky-codespan {
   );
 }
 
+a.sky-docs-codespan-anchor {
+  color: currentColor;
+  text-decoration: underline;
+}
+
 table.sky-type-definition-table {
   width: 100%;
   border-spacing: 0;

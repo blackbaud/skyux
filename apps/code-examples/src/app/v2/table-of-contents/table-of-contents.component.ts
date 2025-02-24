@@ -9,7 +9,7 @@ import { SkyTableOfContentsLink } from './table-of-contents-links';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
-  selector: 'sky-table-of-contents',
+  selector: 'sky-toc',
   styleUrl: './table-of-contents.component.scss',
   templateUrl: './table-of-contents.component.html',
 })

@@ -16,10 +16,10 @@ import {
 } from '@skyux/manifest';
 
 import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
-import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
 
 import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
 import { SkyDocsPropertyTypeDefinitionDefaultValuePipe } from './pipes/default-value.pipe';
+import { SkyEscapeHtmlPipe } from './pipes/escape-html.pipe';
 import { SkyDocsPropertyNamePipe } from './pipes/property-name.pipe';
 
 export type PropertyDefinition =
@@ -38,7 +38,7 @@ export type PropertyDefinition =
     JsonPipe,
     NgClass,
     SkyMarkdownPipe,
-    SkySafeHtmlPipe,
+    SkyEscapeHtmlPipe,
     SkyStatusIndicatorModule,
     SkyDeprecationReasonComponent,
     SkyDocsPropertyTypeDefinitionDefaultValuePipe,
@@ -72,7 +72,7 @@ export type PropertyDefinition =
               }
               <code
                 [innerHTML]="
-                  property | skyDocsPropertyName: parentDef | skySafeHtml
+                  property | skyDocsPropertyName: parentDef | skyEscapeHtml
                 "
                 [ngClass]="{
                   'sky-text-strikethrough': property.isDeprecated,
@@ -100,7 +100,7 @@ export type PropertyDefinition =
                   Default:
                   <code
                     class="sky-codespan"
-                    [innerHTML]="defaultValue | skySafeHtml"
+                    [innerHTML]="defaultValue | skyEscapeHtml"
                   ></code>
                 </p>
               }

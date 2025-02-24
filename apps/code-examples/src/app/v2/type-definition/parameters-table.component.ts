@@ -3,8 +3,8 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { SkyManifestParameterDefinition } from '@skyux/manifest';
 
 import { SkyMarkdownPipe } from '../markdown/markdown.pipe';
-import { SkySafeHtmlPipe } from '../safe-html/safe-html.pipe';
 
+import { SkyEscapeHtmlPipe } from './pipes/escape-html.pipe';
 import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
 
 /**
@@ -14,7 +14,7 @@ import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     JsonPipe,
-    SkySafeHtmlPipe,
+    SkyEscapeHtmlPipe,
     SkyMarkdownPipe,
     SkyDocsParameterNamePipe,
   ],
@@ -37,7 +37,7 @@ import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
           <tr>
             <td>
               <code
-                [innerHTML]="parameter | skyDocsParameterName | skySafeHtml"
+                [innerHTML]="parameter | skyDocsParameterName | skyEscapeHtml"
               ></code>
             </td>
             <td>
