@@ -101,7 +101,7 @@
     "@blackbaud/angular-tree-component": "1.0.0",
     "@blackbaud/skyux-design-tokens": "0.0.44",
     "@nx/angular": "20.3.0",
-    "@skyux/icons": "7.12.1",
+    "@skyux/icons": "7.14.0",
     "@stackblitz/sdk": "1.11.0",
     "@storybook/addon-interactions": "8.4.7",
     "ag-grid-angular": "32.3.3",

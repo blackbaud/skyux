@@ -12,6 +12,7 @@ import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
     </div>
     <div #outside>I'm outside the parent!</div>
   `,
+  standalone: false,
 })
 class SkySelectionBoxAdapterTestComponent {
   public parentWidth: string | undefined;

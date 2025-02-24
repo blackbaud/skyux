@@ -44,6 +44,7 @@ const SKY_RADIO_CONTROL_VALUE_ACCESSOR: Provider = {
   providers: [SKY_RADIO_CONTROL_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [SkyThemeComponentClassDirective],
+  standalone: false,
 })
 export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   /**

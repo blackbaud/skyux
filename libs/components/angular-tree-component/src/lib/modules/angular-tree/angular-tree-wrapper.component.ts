@@ -25,6 +25,7 @@ import { IDTypeDictionary } from '@blackbaud/angular-tree-component/lib/defs/api
   templateUrl: './angular-tree-wrapper.component.html',
   styleUrls: ['./angular-tree-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   /**

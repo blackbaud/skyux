@@ -8,6 +8,7 @@ import {
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './selection-box.component.fixture.html',
+  standalone: false,
 })
 export class SelectionBoxTestComponent {
   public myForm: UntypedFormGroup;
