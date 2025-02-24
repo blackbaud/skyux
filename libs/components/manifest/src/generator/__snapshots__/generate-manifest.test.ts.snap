@@ -15,8 +15,9 @@ exports[`generate-manifest should generate manifest 1`] = `
           \\"title\\": \\"This is a title\\"
         },
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/code-examples/src/lib/types.ts\\",
-        \\"kind\\": \\"class\\",
-        \\"name\\": \\"FooCodeExample1\\"
+        \\"kind\\": \\"component\\",
+        \\"name\\": \\"FooCodeExample1\\",
+        \\"selector\\": \\"foo-example-1\\"
       }
     ],
     \\"@skyux/foo\\": [
@@ -129,7 +130,7 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"refOrUndefined\\",
-            \\"type\\": \\"undefined | T\\"
+            \\"type\\": \\"T | undefined\\"
           }
         ],
         \\"docsId\\": \\"FooBasicTypeParamClass\\",
@@ -144,7 +145,7 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"ref\\",
-            \\"type\\": \\"undefined | T\\"
+            \\"type\\": \\"T | undefined\\"
           }
         ],
         \\"docsId\\": \\"FooBasicTypeParamDefaultValueClass\\",
@@ -183,17 +184,17 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"arrayOfFunctionTypesOrUndefined\\",
-            \\"type\\": \\"undefined | ((a: boolean, b?: string) => void)[]\\"
+            \\"type\\": \\"((a: boolean, b?: string) => void)[] | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"arrayOfIntrinsicTypes\\",
-            \\"type\\": \\"undefined | string[]\\"
+            \\"type\\": \\"string[] | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"arrayOfReflectionTypes\\",
-            \\"type\\": \\"undefined | { a: boolean; b: string; }[]\\"
+            \\"type\\": \\"{ a: boolean; b: string; }[] | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
@@ -203,12 +204,12 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"closureTypeOrUndefined\\",
-            \\"type\\": \\"undefined | (() => void)\\"
+            \\"type\\": \\"(() => void) | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"intrinsicType\\",
-            \\"type\\": \\"undefined | string\\"
+            \\"type\\": \\"string | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
@@ -218,22 +219,22 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"literalType\\",
-            \\"type\\": \\"undefined | 0 | 1\\"
+            \\"type\\": \\"0 | 1 | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"mapType\\",
-            \\"type\\": \\"undefined | Map<string, number>\\"
+            \\"type\\": \\"Map<string, number> | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"referenceType\\",
-            \\"type\\": \\"undefined | TClass\\"
+            \\"type\\": \\"TClass | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"reflectionIndexSignatureType\\",
-            \\"type\\": \\"undefined | { [key: string]: boolean; }\\"
+            \\"type\\": \\"{ [key: string]: boolean; } | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
@@ -243,24 +244,12 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"reflectionTypeOrUndefined\\",
-            \\"type\\": \\"undefined | { a: boolean; b?: string; }\\"
+            \\"type\\": \\"{ a: boolean; b?: string; } | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"unionType\\",
-            \\"type\\": \\"undefined | null | true | \\\\\\"a\\\\\\" | \\\\\\"b\\\\\\"\\"
-          },
-          {
-            \\"description\\": \\"Describes a method which returns a MappedType (e.g. \`{ [K in keyof T]: string }\`).\\",
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"getStrings\\",
-            \\"type\\": \\"Observable<{ [K in string | number | symbol]: string }>\\"
-          },
-          {
-            \\"description\\": \\"Describes a method without any parameters.\\",
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"methodWithoutParameters\\",
-            \\"type\\": \\"void\\"
+            \\"type\\": \\"null | true | \\\\\\"a\\\\\\" | \\\\\\"b\\\\\\" | undefined\\"
           }
         ],
         \\"description\\": \\"This is the foo class.\\",
@@ -311,19 +300,6 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"someStaticProperty\\",
             \\"type\\": \\"boolean\\"
-          },
-          {
-            \\"description\\": \\"This describes the abstract method.\\",
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"someAbstractMethod\\",
-            \\"type\\": \\"void\\"
-          },
-          {
-            \\"description\\": \\"This describes the static method.\\",
-            \\"isStatic\\": true,
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"someStaticMethod\\",
-            \\"type\\": \\"boolean\\"
           }
         ],
         \\"description\\": \\"This describes the foo abstract class.\\",
@@ -358,7 +334,7 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"defaultValue\\": \\"'baz'\\",
             \\"kind\\": \\"directive-input\\",
             \\"name\\": \\"bar\\",
-            \\"type\\": \\"undefined | string\\",
+            \\"type\\": \\"string | undefined\\",
             \\"isRequired\\": true
           },
           {
@@ -372,6 +348,13 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"kind\\": \\"directive-input\\",
             \\"name\\": \\"fooRequired\\",
             \\"type\\": \\"InputSignal<string>\\"
+          },
+          {
+            \\"description\\": \\"This describes an input with only a setter.\\",
+            \\"defaultValue\\": \\"false\\",
+            \\"kind\\": \\"directive-input\\",
+            \\"name\\": \\"compact\\",
+            \\"type\\": \\"boolean\\"
           },
           {
             \\"description\\": \\"This describes the onClick output.\\",
@@ -442,12 +425,12 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"description\\": \\"This describes an input with an alias.\\",
             \\"kind\\": \\"directive-input\\",
             \\"name\\": \\"alias1\\",
-            \\"type\\": \\"undefined | TemplateRef<unknown>\\"
+            \\"type\\": \\"TemplateRef<unknown> | undefined\\"
           },
           {
             \\"kind\\": \\"directive-input\\",
             \\"name\\": \\"alias2\\",
-            \\"type\\": \\"undefined | TemplateRef<unknown>\\"
+            \\"type\\": \\"TemplateRef<unknown> | undefined\\"
           },
           {
             \\"description\\": \\"This describes an input with a setter.\\",
@@ -546,6 +529,14 @@ exports[`generate-manifest should generate manifest 1`] = `
       },
       {
         \\"anchorId\\": \\"interface_foo-empty-interface\\",
+        \\"children\\": [
+          {
+            \\"description\\": \\"This describes the bar string.\\",
+            \\"kind\\": \\"interface-property\\",
+            \\"name\\": \\"bar\\",
+            \\"type\\": \\"string\\"
+          }
+        ],
         \\"docsId\\": \\"FooEmptyInterface\\",
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.interface.ts\\",
         \\"kind\\": \\"interface\\",
@@ -594,11 +585,6 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"kind\\": \\"class-method\\",
             \\"name\\": \\"forRoot\\",
             \\"type\\": \\"ModuleWithProviders<FooModule>\\"
-          },
-          {
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"forRoot\\",
-            \\"type\\": \\"ModuleWithProviders<FooModule>\\"
           }
         ],
         \\"docsId\\": \\"FooModule\\",
@@ -616,7 +602,7 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"parameters\\": [
               {
                 \\"name\\": \\"value\\",
-                \\"type\\": \\"undefined | string\\"
+                \\"type\\": \\"string | undefined\\"
               },
               {
                 \\"defaultValue\\": \\"false\\",
@@ -634,12 +620,6 @@ exports[`generate-manifest should generate manifest 1`] = `
               }
             ],
             \\"type\\": \\"string\\"
-          },
-          {
-            \\"description\\": \\"This describes the transform method.\\",
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"transform\\",
-            \\"type\\": \\"string\\"
           }
         ],
         \\"description\\": \\"This describes the Foo pipe.\\",
@@ -652,6 +632,12 @@ exports[`generate-manifest should generate manifest 1`] = `
       {
         \\"anchorId\\": \\"class_foo-service\\",
         \\"children\\": [
+          {
+            \\"description\\": \\"This describes a public method that returns a promise.\\",
+            \\"kind\\": \\"class-method\\",
+            \\"name\\": \\"someMethod\\",
+            \\"type\\": \\"Promise<Type<string>>\\"
+          },
           {
             \\"defaultValue\\": \\"''\\",
             \\"kind\\": \\"class-property\\",
@@ -736,10 +722,13 @@ exports[`generate-manifest should generate manifest 1`] = `
       "{
   \\"examples\\": {
     \\"FooCodeExample1\\": {
+      \\"componentName\\": \\"FooCodeExample1\\",
       \\"files\\": {
-        \\"types.ts\\": \\"/**\\\\n * @title This is a title\\\\n */\\\\nexport class FooCodeExample1 {}\\\\n\\"
+        \\"types.ts\\": \\"import { Component } from '@angular/core';\\\\n\\\\n/**\\\\n * @title This is a title\\\\n */\\\\n@Component({\\\\n  selector: 'foo-example-1',\\\\n})\\\\nexport class FooCodeExample1 {}\\\\n\\"
       },
+      \\"importPath\\": \\"@skyux/code-examples\\",
       \\"primaryFile\\": \\"types.ts\\",
+      \\"selector\\": \\"foo-example-1\\",
       \\"title\\": \\"This is a title\\"
     }
   }

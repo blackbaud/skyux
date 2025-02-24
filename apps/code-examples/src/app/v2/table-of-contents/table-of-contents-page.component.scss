@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row-reverse;
+}
+
+.sky-toc-body {
+  width: 75%;
+  padding-right: 30px;
+}
+
+.sky-toc-menu {
+  position: sticky;
+  top: 0;
+  width: 25%;
+  padding-top: 25px;
+}

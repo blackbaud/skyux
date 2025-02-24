@@ -1,0 +1,9 @@
+@let linksValue = links();
+@if (linksValue && linksValue.length > 0) {
+  <div class="sky-toc-menu">
+    <sky-toc [headingText]="menuHeadingText()" [links]="linksValue" />
+  </div>
+}
+<div class="sky-toc-body">
+  <ng-content />
+</div>

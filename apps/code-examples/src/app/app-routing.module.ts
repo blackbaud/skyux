@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./home/home.component'),
+  },
+  {
+    path: 'v2',
+    loadComponent: () => import('./v2/v2.component'),
   },
   {
     path: 'action-bars',
@@ -191,8 +195,14 @@ const routes: Routes = [
   },
 ];
 
+const routerOptions: ExtraOptions = {
+  scrollPositionRestoration: 'enabled',
+  anchorScrolling: 'enabled',
+  onSameUrlNavigation: 'reload',
+};
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [RouterModule.forRoot(routes, routerOptions)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

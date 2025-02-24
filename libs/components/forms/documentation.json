@@ -73,6 +73,7 @@
         "SkyFileDropChange",
         "SkyFileLink",
         "SkyFileItem",
+        "SkyFileItemErrorType",
         "SkyFileValidateFn",
         "SkyFileDropHarness",
         "SkyFileDropHarnessFilters",

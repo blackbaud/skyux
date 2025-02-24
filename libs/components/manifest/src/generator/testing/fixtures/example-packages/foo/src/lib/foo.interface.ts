@@ -1,3 +1,5 @@
+import { BarBaseInterface } from '../../../bar/src/index';
+
 /**
  * This is the Foo interface.
  */
@@ -15,4 +17,4 @@ export interface FooInterface<A, B> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type, @typescript-eslint/no-empty-interface
-export interface FooEmptyInterface {}
+export interface FooEmptyInterface extends BarBaseInterface {}

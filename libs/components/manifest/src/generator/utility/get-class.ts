@@ -100,7 +100,7 @@ export function getProperties(
 
   if (reflection.children) {
     for (const child of reflection.children) {
-      if (child.name !== 'constructor') {
+      if (child.kind === ReflectionKind.Property) {
         const property = getProperty(child);
         properties.push(property);
       }

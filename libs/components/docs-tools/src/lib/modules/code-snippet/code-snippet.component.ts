@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   inject,
   input,
@@ -11,16 +12,10 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { SkyIconModule } from '@skyux/icon';
 
-import highlight from 'highlight.js/lib/core';
-import hlJavaScript from 'highlight.js/lib/languages/javascript';
-import hlScss from 'highlight.js/lib/languages/scss';
-import hlTypeScript from 'highlight.js/lib/languages/typescript';
-import hlXml from 'highlight.js/lib/languages/xml';
-
-import { SkyClipboardService } from '../clipboard/clipboard.service';
+import { SkyClipboardModule } from '../clipboard/clipboard.module';
+import { type SkyCodeHighlightLanguage } from '../code-highlight/code-highlight-language';
+import { SkyCodeHighlightService } from '../code-highlight/code-highlight.service';
 import { SkyDocsToolsResourcesModule } from '../shared/sky-docs-tools-resources.module';
-
-import { type SkyCodeSnippetLanguage } from './code-snippet-language';
 
 /**
  * @internal
@@ -28,7 +23,10 @@ import { type SkyCodeSnippetLanguage } from './code-snippet-language';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [SkyIconModule, SkyDocsToolsResourcesModule],
+  host: {
+    class: 'sky-elevation-0-bordered sky-padding-even-md sky-rounded-corners',
+  },
+  imports: [SkyClipboardModule, SkyIconModule, SkyDocsToolsResourcesModule],
   selector: 'sky-code-snippet',
   styleUrls: [
     './code-snippet.component.scss',
@@ -37,11 +35,13 @@ import { type SkyCodeSnippetLanguage } from './code-snippet-language';
   templateUrl: './code-snippet.component.html',
 })
 export class SkyCodeSnippetComponent {
-  readonly #clipboardSvc = inject(SkyClipboardService);
+  readonly #highlightSvc = inject(SkyCodeHighlightService);
   readonly #sanitizer = inject(DomSanitizer);
+  // readonly #formatters = inject(SKY_CODE_SNIPPET_FORMATTER, { optional: true });
 
-  public readonly code = input.required<string>();
-  public readonly language = input.required<SkyCodeSnippetLanguage>();
+  public readonly code = input<string | undefined>();
+  public readonly hideToolbar = input(false, { transform: booleanAttribute });
+  public readonly language = input<SkyCodeHighlightLanguage | undefined>();
 
   protected readonly codeRef = viewChild<ElementRef>('codeRef');
 
@@ -49,24 +49,19 @@ export class SkyCodeSnippetComponent {
     const code = this.code();
     const language = this.language();
 
-    const formatted = highlight.highlight(code, {
-      language,
-    });
+    if (code && language) {
+      const highlighted = this.#highlightSvc.highlight(code, language);
 
-    return this.#sanitizer.bypassSecurityTrustHtml(formatted.value);
-  });
+      // TODO: Is this overkill?
+      // if (this.#formatters) {
+      //   for (const formatter of this.#formatters) {
+      //     highlighted = formatter(highlighted);
+      //   }
+      // }
 
-  constructor() {
-    highlight.registerLanguage('html', hlXml);
-    highlight.registerLanguage('js', hlJavaScript);
-    highlight.registerLanguage('scss', hlScss);
-    highlight.registerLanguage('ts', hlTypeScript);
-  }
-
-  protected onClipboardButtonClick(copySuccessMessage: string): void {
-    const el = this.codeRef();
-    if (el) {
-      this.#clipboardSvc.copyTextContent(el, copySuccessMessage);
+      return this.#sanitizer.bypassSecurityTrustHtml(highlighted);
     }
-  }
+
+    return undefined;
+  });
 }

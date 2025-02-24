@@ -7,6 +7,9 @@ import { SkyHrefHarnessFilters } from './href-harness-filters';
  * Allows interaction with a SkyHref directive during testing.
  */
 export class SkyHrefHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = '.sky-href';
 
   /**
