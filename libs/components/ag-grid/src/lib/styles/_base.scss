@@ -57,25 +57,28 @@
   .ag-checkbox {
     --ag-icon-size: var(--sky-size-switch, var(--sky-switch-size));
     --ag-focus-shadow: none;
-    --ag-checkbox-checked-border-color: var(--sky-background-color-disabled);
-    --ag-checkbox-unchecked-border-color: var(--sky-background-color-disabled);
+    --ag-checkbox-checked-border-color: var(--ag-checkbox-checked-shape-color);
+    --ag-checkbox-unchecked-border-color: var(--ag-text-color);
   }
 
   .ag-disabled {
+    filter: initial;
+    opacity: initial;
+
     .ag-checkbox-input-wrapper,
     .ag-radio-button-input-wrapper {
-      --ag-checkbox-checked-shape-color: var(--ag-cell-text-color);
+      --ag-checkbox-checked-shape-color: var(--ag-text-color);
       --ag-checkbox-checked-background-color: var(
         --sky-background-color-disabled
       );
       --ag-checkbox-checked-border-color: var(
-        --ag-checkbox-checked-shape-color
+        --sky-border-color-neutral-medium-dark
       );
       --ag-checkbox-unchecked-background-color: var(
         --sky-background-color-disabled
       );
       --ag-checkbox-unchecked-border-color: var(
-        --ag-checkbox-checked-shape-color
+        --sky-border-color-neutral-medium-dark
       );
     }
   }
@@ -93,18 +96,6 @@
 
   .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
     padding-top: var(--ag-row-height);
-  }
-
-  /* Remove border added by https://github.com/ag-grid/ag-grid/blob/latest/community-modules/styles/src/internal/base/parts/_grid-borders.scss#L80 */
-  .ag-ltr,
-  .ag-rtl {
-    .ag-cell-focus:not(.ag-cell-range-selected):focus-within,
-    .ag-context-menu-open .ag-cell-focus:not(.ag-cell-range-selected),
-    .ag-full-width-row.ag-row-focus:focus .ag-cell-wrapper.ag-row-group,
-    .ag-cell-range-single-cell,
-    .ag-cell-range-single-cell.ag-cell-range-handle {
-      border-top-width: 0;
-    }
   }
 }
 
@@ -142,12 +133,18 @@
     }
   }
 
+  .ag-cell.ag-cell-inline-editing {
+    --ag-border-radius: 0;
+  }
+
   .ag-cell.ag-cell-focus {
     z-index: 1;
+    --ag-cell-horizontal-padding: 11px;
 
     &.ag-cell-inline-editing {
       border-left-width: 0;
       border-right-width: 0;
+      --ag-border-radius: 0;
 
       &.sky-ag-grid-cell-template {
         padding-left: calc(

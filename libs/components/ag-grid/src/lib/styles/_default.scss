@@ -116,6 +116,27 @@
       outline: var(--ag-range-selection-border-color) solid 2px;
     }
   }
+
+  .ag-wrapper.ag-input-wrapper.ag-checkbox-input-wrapper:not(.ag-disabled) {
+    --ag-checkbox-checked-background-color: var(
+      --sky-background-color-input-selected
+    );
+    --ag-checkbox-checked-border-color: var(--sky-highlight-color-info);
+  }
+
+  .ag-cell-focus
+    .ag-wrapper.ag-input-wrapper.ag-checkbox-input-wrapper:not(.ag-disabled) {
+    --ag-checkbox-checked-border-color: var(--ag-text-color);
+  }
+
+  .ag-wrapper.ag-input-wrapper.ag-checkbox-input-wrapper.ag-disabled {
+    --ag-checkbox-checked-border-color: var(
+      --ag-checkbox-checked-background-color
+    );
+    --ag-checkbox-unchecked-border-color: var(
+      --ag-checkbox-unchecked-background-color
+    );
+  }
 }
 
 .ag-theme-sky-data-grid-default,

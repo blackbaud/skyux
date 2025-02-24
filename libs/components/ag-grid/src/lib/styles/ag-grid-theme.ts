@@ -84,7 +84,7 @@ const modernThemeBase = {
   inputFocusBorderColor: '#1870B8', // SkyModernDesignTokens['border-color']['primary-dark'],
   rowBorderColor: 'var(--sky-border-color-neutral-medium)',
   rowHeight: 60,
-  rangeSelectionBorderColor: 'var(--sky-highlight-color-info)',
+  rangeSelectionBorderColor: { ref: 'inputFocusBorderColor' },
   secondaryForegroundColor: 'var(--sky-text-color-deemphasized)',
 };
 const modernCompactThemeBase = {
