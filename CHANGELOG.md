@@ -1,5 +1,42 @@
 # Changelog
 
+## [12.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.4...12.0.0-alpha.5) (2025-02-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/lookup:** 
+
+### Features
+
+* add code example viewer component (internal use only) ([#3155](https://github.com/blackbaud/skyux/issues/3155)) ([2b3a72e](https://github.com/blackbaud/skyux/commit/2b3a72ef9eb615c18a9a2f48ad9c303fee4f8500))
+* **components/flyout:** add flyout test harness ([#3149](https://github.com/blackbaud/skyux/issues/3149)) ([#3171](https://github.com/blackbaud/skyux/issues/3171)) ([04ac8be](https://github.com/blackbaud/skyux/commit/04ac8be257fa9ef0784e42fbc5af3a0b7dbb57dc))
+* **components/layout:** tokenize text expand styles ([#3161](https://github.com/blackbaud/skyux/issues/3161)) ([f9362cf](https://github.com/blackbaud/skyux/commit/f9362cfbe3139b8ddc1341cf31d1df8dd4c54680))
+* **components/lookup:** lookup and country field input contents are selected automatically on focus ([#3167](https://github.com/blackbaud/skyux/issues/3167)) ([b7e3b85](https://github.com/blackbaud/skyux/commit/b7e3b85cac028170e18aa2aade8b38f80b8fa3aa))
+* **components/lookup:** remove flag from country field input ([#3166](https://github.com/blackbaud/skyux/issues/3166)) ([f9a25be](https://github.com/blackbaud/skyux/commit/f9a25bea521495419317e7e9b4f8c61643316bf4))
+
+
+### Bug Fixes
+
+* **components/layout:** exclude controls text content when returning heading text for the box harness ([#3156](https://github.com/blackbaud/skyux/issues/3156)) ([ec018cd](https://github.com/blackbaud/skyux/commit/ec018cd51da808c147d910f9ac359cb06e9f2b17))
+* **components/popovers:** fix sporadic dropdown menu misalignment ([#3153](https://github.com/blackbaud/skyux/issues/3153)) ([#3154](https://github.com/blackbaud/skyux/issues/3154)) ([3a889d2](https://github.com/blackbaud/skyux/commit/3a889d2da4cdf966205b31dec839cdbdd6d41fb6))
+* **components/tabs:** vertical tabs keyboard operable in mobile view ([#3150](https://github.com/blackbaud/skyux/issues/3150)) ([#3151](https://github.com/blackbaud/skyux/issues/3151)) ([ec7abbb](https://github.com/blackbaud/skyux/commit/ec7abbb24e14f84582011bac136880cddfc16609))
+* **components/theme:** set initial active status for viewport reserve space element ([#3168](https://github.com/blackbaud/skyux/issues/3168)) ([#3169](https://github.com/blackbaud/skyux/issues/3169)) ([b2cdda6](https://github.com/blackbaud/skyux/commit/b2cdda6789e527b5476f950c4379906d413b7057))
+* **components/toast:** move harness files under `/toast` to match docs ([#3173](https://github.com/blackbaud/skyux/issues/3173)) ([#3174](https://github.com/blackbaud/skyux/issues/3174)) ([1e84b16](https://github.com/blackbaud/skyux/commit/1e84b16de3488f44169908db85a2e17a13e37356))
+* use alias instead of property name for directive inputs in the manifest ([#3160](https://github.com/blackbaud/skyux/issues/3160)) ([#3162](https://github.com/blackbaud/skyux/issues/3162)) ([566e6bd](https://github.com/blackbaud/skyux/commit/566e6bd6adcde78ef683c31cbcd28feb0f092794))
+
+## [11.43.0](https://github.com/blackbaud/skyux/compare/11.42.1...11.43.0) (2025-02-20)
+
+
+### Features
+
+* **components/flyout:** add flyout test harness ([#3149](https://github.com/blackbaud/skyux/issues/3149)) ([5827aef](https://github.com/blackbaud/skyux/commit/5827aef3ca22bedb3f91f6d163665c3bee7e4bdc))
+
+
+### Bug Fixes
+
+* **components/toast:** move harness files under `/toast` to match docs ([#3173](https://github.com/blackbaud/skyux/issues/3173)) ([d8797e9](https://github.com/blackbaud/skyux/commit/d8797e96c0213296679c77f43ff7f459c84a5ea8))
+
 ## [11.42.1](https://github.com/blackbaud/skyux/compare/11.42.0...11.42.1) (2025-02-19)
 
 

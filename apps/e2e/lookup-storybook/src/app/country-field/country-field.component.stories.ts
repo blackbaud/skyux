@@ -34,12 +34,6 @@ PrepopulatedCountryField.args = {
   prePopulatedFlag: true,
 };
 
-export const HideFlagPrepopulatedCountryField: Story = {};
-HideFlagPrepopulatedCountryField.args = {
-  hideCountryFlag: true,
-  prePopulatedFlag: true,
-};
-
 export const DisabledPrepopulatedCountryField: Story = {};
 DisabledPrepopulatedCountryField.args = {
   disabledFlag: true,

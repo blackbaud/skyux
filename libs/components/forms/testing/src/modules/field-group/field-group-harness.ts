@@ -1,5 +1,4 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import {
   SkyFieldGroupHeadingLevel,
@@ -95,9 +94,7 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
   /**
    * Gets the help popover content.
    */
-  public async getHelpPopoverContent(): Promise<
-    TemplateRef<unknown> | string | undefined
-  > {
+  public async getHelpPopoverContent(): Promise<string | undefined> {
     return await (await this.#getHelpInline()).getPopoverContent();
   }
 
