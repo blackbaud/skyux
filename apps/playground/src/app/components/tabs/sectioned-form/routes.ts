@@ -6,7 +6,7 @@ export default [
     loadComponent: () => import('./sectioned-form.component'),
     data: {
       name: 'Sectioned form',
-      icon: 'object-group',
+      icon: 'form',
       library: 'tabs',
     },
   },

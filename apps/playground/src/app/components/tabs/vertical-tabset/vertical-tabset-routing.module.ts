@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: VerticalTabsetComponent,
     data: {
       name: 'Vertical tabset',
-      icon: 'folder-open-o',
+      icon: 'folder-open',
       library: 'tabs',
     },
   },

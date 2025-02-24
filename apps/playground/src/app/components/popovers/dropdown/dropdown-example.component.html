@@ -35,7 +35,9 @@
 <br />
 
 <sky-dropdown label="Filter">
-  <sky-dropdown-button><sky-icon icon="filter" /></sky-dropdown-button>
+  <sky-dropdown-button
+    ><sky-icon iconName="filter" iconSize="s"
+  /></sky-dropdown-button>
   <sky-dropdown-menu>
     @for (item of items; track item.name) {
       <sky-dropdown-item>
@@ -58,9 +60,9 @@
     skyDropdownTrigger
   >
     <div class="custom-trigger-inner">
-      <sky-icon iconName="add" />
+      <sky-icon iconName="add" iconSize="s" />
       New
-      <sky-icon iconName="chevron-down" />
+      <sky-icon iconName="chevron-down" iconSize="s" />
     </div>
   </button>
   <sky-dropdown-menu>

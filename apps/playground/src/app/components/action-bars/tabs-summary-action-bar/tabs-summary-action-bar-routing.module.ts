@@ -12,7 +12,7 @@ const routes: ComponentRouteInfo[] = [
     data: {
       name: 'Summary action bar (tab)',
       library: 'action-bars',
-      icon: 'sun-o',
+      icon: 'data-bar-horizontal',
     },
   },
 ];

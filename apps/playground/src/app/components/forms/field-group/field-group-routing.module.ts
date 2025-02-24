@@ -9,7 +9,7 @@ const routes: Routes = [
     component: FieldGroupComponent,
     data: {
       name: 'Field group',
-      icon: 'list-alt',
+      icon: 'text-bullet-list',
       library: 'forms',
     },
   },

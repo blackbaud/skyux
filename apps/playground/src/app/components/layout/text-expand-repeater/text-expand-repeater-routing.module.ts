@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: TextExpandRepeaterComponent,
     data: {
       name: 'Text expand repeater',
-      icon: 'bars',
+      icon: 'navigation',
       library: 'layout',
     },
   },
