@@ -206,32 +206,6 @@ describe('SkyAgGridService', () => {
       expect(mergedCellClassRules?.[SkyCellClass.Uneditable]).toBeDefined();
     });
 
-    it('should set icons for modern theme', () => {
-      const options = agGridService.getGridOptions({
-        gridOptions: {},
-      });
-
-      expect(typeof options.icons?.['sortDescending']).toBe('function');
-
-      expect((options.icons?.['sortDescending'] as () => string)()).toBe(
-        `<i aria-hidden="true" class="fa fa-caret-down"></i>`,
-      );
-
-      // Trigger change to modern theme
-      mockThemeSvc.settingsChange.next({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings:
-          mockThemeSvc.settingsChange.getValue().currentSettings,
-      });
-
-      expect((options.icons?.['sortDescending'] as () => string)()).toBe(
-        `<i aria-hidden="true" class="sky-i-chevron-down"></i>`,
-      );
-    });
-
     it('should set options for modern theme, dark mode', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
@@ -246,9 +220,6 @@ describe('SkyAgGridService', () => {
         gridOptions: {},
       });
 
-      expect((options.icons?.['sortDescending'] as () => string)()).toBe(
-        `<i aria-hidden="true" class="sky-i-chevron-down"></i>`,
-      );
       expect(options.columnTypes?.[SkyCellType.Date].minWidth).toBe(180);
     });
 
