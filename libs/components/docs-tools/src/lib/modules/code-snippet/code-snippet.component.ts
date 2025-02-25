@@ -37,7 +37,6 @@ import { SkyDocsToolsResourcesModule } from '../shared/sky-docs-tools-resources.
 export class SkyCodeSnippetComponent {
   readonly #highlightSvc = inject(SkyCodeHighlightService);
   readonly #sanitizer = inject(DomSanitizer);
-  // readonly #formatters = inject(SKY_CODE_SNIPPET_FORMATTER, { optional: true });
 
   public readonly code = input<string | undefined>();
   public readonly hideToolbar = input(false, { transform: booleanAttribute });
@@ -45,19 +44,12 @@ export class SkyCodeSnippetComponent {
 
   protected readonly codeRef = viewChild<ElementRef>('codeRef');
 
-  protected formatted = computed(() => {
+  protected highlighted = computed(() => {
     const code = this.code();
     const language = this.language();
 
     if (code && language) {
       const highlighted = this.#highlightSvc.highlight(code, language);
-
-      // TODO: Is this overkill?
-      // if (this.#formatters) {
-      //   for (const formatter of this.#formatters) {
-      //     highlighted = formatter(highlighted);
-      //   }
-      // }
 
       return this.#sanitizer.bypassSecurityTrustHtml(highlighted);
     }

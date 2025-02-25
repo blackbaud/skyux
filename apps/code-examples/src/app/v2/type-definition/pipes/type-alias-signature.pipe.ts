@@ -5,9 +5,9 @@ import {
 } from '@skyux/manifest/src';
 
 @Pipe({
-  name: 'skyFormatTypeAliasTypeDefinition',
+  name: 'skyDocsTypeAliasSignature',
 })
-export class SkyFormatTypeAliasTypeDefinitionPipe implements PipeTransform {
+export class SkyDocsTypeAliasSignaturePipe implements PipeTransform {
   public transform(definition: SkyManifestParentDefinition): string {
     const def = definition as SkyManifestTypeAliasDefinition;
 

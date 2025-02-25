@@ -12,11 +12,7 @@ export class SkyDocsEnumerationSignaturePipe implements PipeTransform {
     const def = definition as SkyManifestEnumerationDefinition;
 
     return `enum ${def.name} {
-  ${def.children
-    ?.map((c) => {
-      return `${c.name} = ${c.type},`;
-    })
-    .join('\n  ')}
+  ${def.children?.map((c) => `${c.name} = ${c.type},`).join('\n  ')}
 }`;
   }
 }

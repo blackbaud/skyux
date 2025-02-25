@@ -29,10 +29,7 @@ export class SkyTypeAnchorLinksPipe implements PipeTransform {
   readonly #cache: Record<string, string> = {};
   readonly #currentRoute = this.#activatedRoute.snapshot.url.toString();
 
-  public transform(
-    value: string,
-    options?: { ignore: string[] },
-  ): string | undefined {
+  public transform(value: string, options?: { ignore: string[] }): string {
     const typeWrappedWithAnchor = value?.replace(
       NOT_WORD_REGEXP,
       (maybeType) => {

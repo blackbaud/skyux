@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { SkyFluidGridModule } from '@skyux/layout';
 
-import { SkyDocsThumbnailComponent } from '../thumbnail/thumbnail.component';
+import { SkyDocsThumbnailComponent } from './thumbnail/thumbnail.component';
 
 /**
  * @internal

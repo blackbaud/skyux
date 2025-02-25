@@ -7,11 +7,13 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { SkyCodeExampleViewerModule } from '@skyux/docs-tools';
+import {
+  SkyCodeExampleViewerModule,
+  SkyTableOfContentsModule,
+} from '@skyux/docs-tools';
 import { SkyManifestDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
 
-import { SkyTableOfContentsModule } from '../table-of-contents/table-of-contents.module';
 import { SkyTypeAnchorIdsService } from '../type-definition/pipes/type-anchor-ids.service';
 import { SkyTypeDefinitionComponent } from '../type-definition/type-definition.component';
 
@@ -62,6 +64,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
             [menuHeadingText]="labelText() | titlecase"
           >
             <ng-content select="sky-showcase-content[category=development]" />
+
             @for (
               definition of developmentDefinitions;
               track definition.docsId
@@ -79,6 +82,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
             [menuHeadingText]="(labelText() | titlecase) + ' Testing'"
           >
             <ng-content select="sky-showcase-content[category=testing]" />
+
             @for (definition of testingDefinitions; track definition.docsId) {
               <sky-type-definition [definition]="definition" />
             }

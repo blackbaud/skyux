@@ -71,7 +71,7 @@
         class="sky-margin-stacked-lg"
         hideToolbar
         language="ts"
-        [code]="getFunctionSignature(def)"
+        [code]="def | skyDocsFunctionSignature"
       />
       @let parametersValue = parameters();
       @if (parametersValue && parametersValue.length > 0) {
@@ -109,7 +109,7 @@
         <code
           [innerHTML]="
             def
-              | skyFormatTypeAliasTypeDefinition
+              | skyDocsTypeAliasSignature
               | skyCodeHighlight: 'typescript'
               | skyTypeAnchorLinks: { ignore: [def.name] }
           "
@@ -141,9 +141,9 @@
             class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-lg"
           >
             <div
-              class="my-box-header sky-padding-even-md sky-border-bottom-dark"
+              class="sky-type-definition-box-header sky-padding-even-md sky-border-bottom-dark"
             >
-              <h4 class="my-box-heading">
+              <h4 class="sky-type-definition-box-heading">
                 <code
                   class="sky-margin-inline-sm"
                   [class.sky-text-strikethrough]="property.isDeprecated"
@@ -155,10 +155,7 @@
                   "
                 ></code>
               </h4>
-              <code
-                class="my-box-type"
-                [innerHTML]="property.type | skyTypeAnchorLinks"
-              ></code>
+              <code [innerHTML]="property.type | skyTypeAnchorLinks"></code>
             </div>
             <div class="sky-padding-even-md">
               @if (property.deprecationReason) {
@@ -194,9 +191,9 @@
             class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-lg"
           >
             <div
-              class="my-box-header sky-padding-even-md sky-border-bottom-dark"
+              class="sky-type-definition-box-header sky-padding-even-md sky-border-bottom-dark"
             >
-              <h4 class="my-box-heading">
+              <h4 class="sky-type-definition-box-heading">
                 <code
                   class="sky-margin-inline-sm"
                   [class.sky-text-strikethrough]="method.isDeprecated"

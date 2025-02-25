@@ -17,6 +17,7 @@ export {
   SKY_CODE_SNIPPET_FORMATTER,
   SkyCodeSnippetFormatterFn,
 } from './lib/modules/code-snippet/code-snippet-formatter.token';
+export { SkyTableOfContentsModule } from './lib/modules/table-of-contents/table-of-contents.module';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

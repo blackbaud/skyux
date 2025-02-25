@@ -1,0 +1,26 @@
+sky-type-definition {
+  display: block;
+
+  p {
+    margin-top: 0;
+  }
+
+  *:last-child {
+    margin-bottom: 0;
+  }
+
+  .sky-text-strikethrough {
+    text-decoration: line-through;
+  }
+
+  .sky-type-definition-box-header {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px 5px 0 0;
+    background-color: var(--sky-background-color-disabled);
+  }
+
+  .sky-type-definition-box-heading {
+    margin: 0;
+  }
+}

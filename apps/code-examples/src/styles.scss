@@ -17,9 +17,9 @@ code {
   font-size: 90%;
 }
 
-.sky-text-strikethrough {
-  text-decoration: line-through;
-}
+// .sky-text-strikethrough {
+//   text-decoration: line-through;
+// }
 
 // sky-heading-anchor {
 //   h3 {
@@ -54,57 +54,57 @@ a.sky-docs-codespan-anchor {
   }
 }
 
-table.sky-type-definition-table {
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: collapse;
-  word-break: break-word;
-  // table-layout: fixed;
+// table.sky-type-definition-table {
+//   width: 100%;
+//   border-spacing: 0;
+//   border-collapse: collapse;
+//   word-break: break-word;
+//   // table-layout: fixed;
 
-  td,
-  th {
-    border-bottom: 1px solid var(--sky-border-color-neutral-medium);
-    text-align: left;
-    // font-size: 15px;
-    word-wrap: break-word;
-    // padding: 10px 15px;
-  }
+//   td,
+//   th {
+//     border-bottom: 1px solid var(--sky-border-color-neutral-medium);
+//     text-align: left;
+//     // font-size: 15px;
+//     word-wrap: break-word;
+//     // padding: 10px 15px;
+//   }
 
-  th:first-child {
-    width: 40%;
-  }
+//   th:first-child {
+//     width: 40%;
+//   }
 
-  // td,
-  // p {
-  //   // font-size: var(--sky-font-size-body-s);
-  //   font-size: 14px;
-  // }
+//   // td,
+//   // p {
+//   //   // font-size: var(--sky-font-size-body-s);
+//   //   font-size: 14px;
+//   // }
 
-  td {
-    padding: 10px 15px;
-    // padding: 4px 8px;
-    // &:first-child {
-    //   code {
-    //     font-size: 13px;
-    //     background-color: color-mix(
-    //       in srgb,
-    //       var(--sky-color-background-container-info) 25%,
-    //       transparent
-    //     );
-    //   }
-    // }
+//   td {
+//     padding: 10px 15px;
+//     // padding: 4px 8px;
+//     // &:first-child {
+//     //   code {
+//     //     font-size: 13px;
+//     //     background-color: color-mix(
+//     //       in srgb,
+//     //       var(--sky-color-background-container-info) 25%,
+//     //       transparent
+//     //     );
+//     //   }
+//     // }
 
-    pre {
-      white-space: normal;
-    }
+//     pre {
+//       white-space: normal;
+//     }
 
-    sky-code-snippet {
-      margin: 1em 0;
-    }
-  }
+//     sky-code-snippet {
+//       margin: 1em 0;
+//     }
+//   }
 
-  th {
-    font-weight: 600;
-    padding: 15px;
-  }
-}
+//   th {
+//     font-weight: 600;
+//     padding: 15px;
+//   }
+// }
