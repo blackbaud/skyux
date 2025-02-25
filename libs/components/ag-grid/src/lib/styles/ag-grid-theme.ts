@@ -22,7 +22,10 @@ const defaultsForAllThemes = {
   checkboxIndeterminateBackgroundColor:
     'var(--sky-override-switch-checked-color, var(--sky-color-icon-inverse, transparent))',
   checkboxUncheckedBackgroundColor: 'transparent',
-  checkboxUncheckedBorderColor: 'var(--sky-border-color-neutral-medium-dark)',
+  checkboxUncheckedBorderColor: `var(
+    --sky-border-color-neutral-medium-dark,
+    var(--sky-border-color-neutral-medium)
+  )`,
   checkboxCheckedShapeImage: {
     svg: `<svg width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m8.5 16.586-3.793-3.793a1 1 0 0 0-1.414 1.414l4.5 4.5a1 1 0 0 0 1.414 0l11-11a1 1 0 0 0-1.414-1.414L8.5 16.586Z" fill="#212121"/></svg>`,
   },
@@ -49,7 +52,9 @@ const defaultsForAllThemes = {
   oddRowBackgroundColor: 'var(--sky-background-color-page-default)',
   pickerListBackgroundColor: { ref: 'backgroundColor' },
   popupShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)',
+  rowBorderColor: 'var(--sky-border-color-neutral-medium)',
   rowHoverColor: 'transparent',
+  secondaryForegroundColor: 'var(--sky-text-color-deemphasized)',
   selectedRowBackgroundColor: 'var(--sky-background-color-selected)',
   spacing: 4,
   textColor: 'var(--sky-text-color-default)',
@@ -67,10 +72,8 @@ const defaultThemeBase = {
   fontSize: 15,
   headerHeight: 37,
   inputFocusBorderColor: 'var(--sky-highlight-color-info)',
-  rowBorderColor: 'var(--sky-border-color-neutral-medium)',
   rowHeight: 38,
   rangeSelectionBorderColor: 'var(--sky-highlight-color-info)',
-  secondaryForegroundColor: 'var(--sky-text-color-deemphasized)',
 };
 const modernThemeBase = {
   ...defaultsForAllThemes,
@@ -84,10 +87,8 @@ const modernThemeBase = {
   headerColumnSeparatorColor: { ref: 'headerBackgroundColor' },
   headerHeight: 60,
   inputFocusBorderColor: '#1870B8', // SkyModernDesignTokens['border-color']['primary-dark'],
-  rowBorderColor: 'var(--sky-border-color-neutral-medium)',
   rowHeight: 60,
   rangeSelectionBorderColor: { ref: 'inputFocusBorderColor' },
-  secondaryForegroundColor: 'var(--sky-text-color-deemphasized)',
 };
 const modernCompactThemeBase = {
   headerHeight: 32,

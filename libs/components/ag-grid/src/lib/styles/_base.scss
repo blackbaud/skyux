@@ -57,6 +57,10 @@
   .ag-checkbox {
     --ag-icon-size: var(--sky-size-switch, var(--sky-switch-size));
     --ag-focus-shadow: none;
+    --ag-checkbox-unchecked-border-color: var(
+      --sky-border-color-neutral-medium-dark,
+      var(--sky-border-color-neutral-medium)
+    );
   }
 
   .ag-disabled {
@@ -69,8 +73,16 @@
       --ag-checkbox-checked-background-color: var(
         --sky-background-color-disabled
       );
+      --ag-checkbox-checked-border-color: var(
+        --sky-border-color-neutral-medium-dark,
+        var(--sky-border-color-neutral-medium)
+      );
       --ag-checkbox-unchecked-background-color: var(
         --sky-background-color-disabled
+      );
+      --ag-checkbox-unchecked-border-color: var(
+        --sky-border-color-neutral-medium-dark,
+        var(--sky-border-color-neutral-medium)
       );
     }
   }
