@@ -5,9 +5,11 @@ import { SkyConfirmButtonHarnessFilters } from './confirm-button-harness-filters
 
 /**
  * Harness for interacting with a confirm component in tests.
- * @internal
  */
 export class SkyConfirmButtonHarness extends ComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = '.sky-confirm-buttons .sky-btn';
 
   /**
