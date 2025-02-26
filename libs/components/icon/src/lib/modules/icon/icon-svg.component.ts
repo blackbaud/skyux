@@ -48,7 +48,7 @@ export class SkyIconSvgComponent {
   readonly #resolverSvc = inject(SkyIconSvgResolverService);
 
   public readonly iconName = input.required<string>();
-  public readonly iconSize = input<SkyIconSize>();
+  public readonly iconSize = input<SkyIconSize | undefined>();
   public readonly responsiveSize = input<string>('md');
   public readonly iconVariant = input<SkyIconVariantType>();
 
