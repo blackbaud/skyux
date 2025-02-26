@@ -36,12 +36,6 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
       display: block;
     }
 
-    pre {
-      width: 100%;
-      overflow: auto;
-      border: 1px solid red;
-    }
-
     .sky-showcase-tab-content {
       padding-top: 30px;
     }
@@ -60,8 +54,8 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
       @if (developmentDefinitions.length > 0) {
         <sky-tab tabHeading="Development">
           <sky-toc-page
-            class="sky-padding-even-xl"
-            [menuHeadingText]="labelText() | titlecase"
+            class="sky-showcase-tab-content"
+            [menuHeadingText]="(labelText() | titlecase) + ' Development'"
           >
             <ng-content select="sky-showcase-content[category=development]" />
 
@@ -78,7 +72,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
       @if (testingDefinitions.length > 0) {
         <sky-tab tabHeading="Testing">
           <sky-toc-page
-            class="sky-padding-even-xl"
+            class="sky-showcase-tab-content"
             [menuHeadingText]="(labelText() | titlecase) + ' Testing'"
           >
             <ng-content select="sky-showcase-content[category=testing]" />

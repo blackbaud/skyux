@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { SkyScrollableHostService } from '@skyux/core';
+import { SkyMediaQueryService, SkyScrollableHostService } from '@skyux/core';
 
 import { debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
 
@@ -20,6 +20,9 @@ import { SkyTableOfContentsComponent } from './table-of-contents.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.sky-toc-page-with-links]': 'links()',
+  },
   imports: [SkyTableOfContentsComponent],
   providers: [SkyHeadingAnchorService],
   selector: 'sky-toc-page',
@@ -36,8 +39,16 @@ export class SkyTableOfContentsPageComponent implements AfterViewInit {
   readonly #activeAnchorIdOnScroll = signal<string | undefined>(undefined);
   #scrollEl: HTMLElement | Window = window;
 
+  protected readonly breakpoint = toSignal(
+    inject(SkyMediaQueryService).breakpointChange,
+  );
+
   protected readonly links = computed<SkyTableOfContentsLink[] | undefined>(
     () => {
+      if (this.breakpoint() === 'xs') {
+        return;
+      }
+
       const anchors = this.#anchors();
       const activeAnchorId = this.#activeAnchorIdOnScroll();
 

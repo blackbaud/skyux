@@ -1,41 +1,40 @@
 @if (definition(); as def) {
-  <!-- <sky-code-snippet>
-    <code
-      [innerHTML]="
-        'public getEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions&lt;any>'
-          | skyCodeHighlight: 'typescript'
-          | skyTypeAnchorLinks
-      "
-    ></code>
-  </sky-code-snippet> -->
-
   <sky-heading-anchor
     class="sky-margin-stacked-lg"
     headingLevel="2"
-    headingTextFormat="code"
     [anchorId]="def.anchorId"
     [headingText]="def.name"
     [strikethrough]="def.isDeprecated"
   >
     <sky-pill
-      class="sky-margin-inline-xs"
+      class="sky-margin-inline-xs sky-font-body-sm"
       [color]="def.kind | skyKindToPillColor"
     >
       <span class="sky-screen-reader-only">Type: </span>
       {{ def.kind | skyTypeDefinitionKindToLabel }}
     </sky-pill>
     @if (def.isDeprecated) {
-      <sky-pill color="red"> Deprecated </sky-pill>
+      <sky-pill class="sky-margin-inline-xs sky-font-body-sm" color="red">
+        Deprecated
+      </sky-pill>
     }
     @if (def.isPreview) {
-      <sky-pill color="teal"> Preview </sky-pill>
+      <sky-pill class="sky-margin-inline-xs sky-font-body-sm" color="teal">
+        Preview
+      </sky-pill>
     }
   </sky-heading-anchor>
   @if (def.deprecationReason) {
     <sky-deprecation-reason stacked [message]="def.deprecationReason" />
   }
   @if (def.description) {
-    <p [innerHTML]="def.description | skyMarkdown"></p>
+    <p
+      [innerHTML]="
+        def.description
+          | skyMarkdown
+          | skyTypeAnchorLinks: { ignore: [def.name] }
+      "
+    ></p>
   }
   @if (def.kind === 'module' || def.kind === 'service') {
     <p>
@@ -43,6 +42,13 @@
         >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
           def.packageName
         }}';</code
+      >
+    </p>
+    <p>
+      <a [attr.href]="'https://www.npmjs.com/package/' + def.packageName"
+        >View in NPM</a
+      >&nbsp;|&nbsp;<a href="https://github.com/blackbaud/skyux"
+        >View in GitHub</a
       >
     </p>
   }
@@ -59,6 +65,7 @@
   @if (def.codeExample) {
     <h3>Example</h3>
     <sky-code-snippet
+      bordered
       class="sky-margin-stacked-lg"
       hideToolbar
       [code]="def.codeExample"
@@ -68,14 +75,19 @@
   @switch (def.kind) {
     @case ('function') {
       <sky-code-snippet
+        bordered
         class="sky-margin-stacked-lg"
         hideToolbar
         language="ts"
-        [code]="def | skyDocsFunctionSignature"
+        [code]="
+          def
+            | skyDocsFunctionSignature
+            | skyTypeAnchorLinks: { ignore: [def.name] }
+        "
       />
       @let parametersValue = parameters();
       @if (parametersValue && parametersValue.length > 0) {
-        <h3>Parameters</h3>
+        <!-- <h3>Parameters</h3>
         <table class="sky-type-definition-table sky-margin-stacked-xl">
           <thead>
             <tr>
@@ -101,11 +113,11 @@
               </tr>
             }
           </tbody>
-        </table>
+        </table> -->
       }
     }
     @case ('type-alias') {
-      <sky-code-snippet class="sky-margin-stacked-lg" hideToolbar>
+      <sky-code-snippet bordered hideToolbar stacked>
         <code
           [innerHTML]="
             def
@@ -119,17 +131,19 @@
     @default {
       @if (def.kind === 'interface') {
         <sky-code-snippet
-          class="sky-margin-stacked-lg"
+          bordered
           hideToolbar
           language="ts"
+          stacked
           [code]="def | skyDocsInterfaceSignature"
         />
       }
       @if (def.kind === 'enumeration') {
         <sky-code-snippet
-          class="sky-margin-stacked-lg"
+          bordered
           hideToolbar
           language="ts"
+          stacked
           [code]="def | skyDocsEnumerationSignature"
         />
       }
@@ -138,12 +152,13 @@
         <h3>Properties</h3>
         @for (property of propertiesValue; track property.name) {
           <div
-            class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-lg"
+            class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-xl"
           >
             <div
               class="sky-type-definition-box-header sky-padding-even-md sky-border-bottom-dark"
             >
               <h4 class="sky-type-definition-box-heading">
+                <!-- TODO: MAKE THIS A PIPE! -->
                 <code
                   class="sky-margin-inline-sm"
                   [class.sky-text-strikethrough]="property.isDeprecated"
@@ -157,7 +172,7 @@
               </h4>
               <code [innerHTML]="property.type | skyTypeAnchorLinks"></code>
             </div>
-            <div class="sky-padding-even-md">
+            <div class="sky-type-definition-box-body sky-padding-even-md">
               @if (property.deprecationReason) {
                 <p>
                   <sky-deprecation-reason
@@ -167,7 +182,11 @@
                 </p>
               }
               @if (property.description) {
-                <p [innerHTML]="property.description | skyMarkdown"></p>
+                <p
+                  [innerHTML]="
+                    property.description | skyMarkdown | skyTypeAnchorLinks
+                  "
+                ></p>
               }
               @let defaultValue = property | skyDocsPropertyDefaultValue;
               @if (defaultValue) {
@@ -175,7 +194,9 @@
                   Default:
                   <code
                     class="sky-codespan"
-                    [innerHTML]="defaultValue | skyEscapeHtml"
+                    [innerHTML]="
+                      defaultValue | skyEscapeHtml | skyTypeAnchorLinks
+                    "
                   ></code>
                 </p>
               }
@@ -188,7 +209,7 @@
         <h3>Methods</h3>
         @for (method of methodsValue; track method.name) {
           <div
-            class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-lg"
+            class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-xl"
           >
             <div
               class="sky-type-definition-box-header sky-padding-even-md sky-border-bottom-dark"
@@ -197,11 +218,16 @@
                 <code
                   class="sky-margin-inline-sm"
                   [class.sky-text-strikethrough]="method.isDeprecated"
-                  [innerHTML]="method | skyDocsMethodName: def | skyEscapeHtml"
+                  [innerHTML]="
+                    method
+                      | skyDocsMethodName: def
+                      | skyEscapeHtml
+                      | skyTypeAnchorLinks
+                  "
                 ></code>
               </h4>
             </div>
-            <div class="sky-padding-even-md">
+            <div class="sky-type-definition-box-body sky-padding-even-md">
               @if (method.deprecationReason) {
                 <p>
                   <sky-deprecation-reason
@@ -211,22 +237,16 @@
                 </p>
               }
               @if (method.description) {
-                <p [innerHTML]="method.description | skyMarkdown"></p>
-              }
-              <sky-code-snippet class="sky-margin-stacked-lg" hideToolbar>
-                <code
+                <p
                   [innerHTML]="
-                    method
-                      | skyDocsMethodSignature
-                      | skyCodeHighlight: 'typescript'
-                      | skyTypeAnchorLinks: { ignore: [method.name] }
+                    method.description | skyMarkdown | skyTypeAnchorLinks
                   "
-                ></code>
-              </sky-code-snippet>
+                ></p>
+              }
               @if (method.parameters) {
                 <h4>Parameters</h4>
                 @for (param of method.parameters; track param.name) {
-                  <h5>
+                  <h5 class="sky-type-definition-parameter-heading">
                     <code
                       [innerHTML]="
                         param
@@ -237,7 +257,13 @@
                     ></code>
                   </h5>
                   @if (param.description) {
-                    <p [innerHTML]="param.description | skyMarkdown"></p>
+                    <div class="sky-type-definition-parameter-body">
+                      <p
+                        [innerHTML]="
+                          param.description | skyMarkdown | skyTypeAnchorLinks
+                        "
+                      ></p>
+                    </div>
                   }
                 }
               }

@@ -4,11 +4,12 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./home/home.component'),
+    loadComponent: () => import('./v2/v2.component'),
+    pathMatch: 'full',
   },
   {
-    path: 'v2',
-    loadComponent: () => import('./v2/v2.component'),
+    path: 'legacy',
+    loadComponent: () => import('./home/home.component'),
   },
   {
     path: 'action-bars',

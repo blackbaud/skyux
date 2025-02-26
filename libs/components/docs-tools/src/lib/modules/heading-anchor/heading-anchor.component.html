@@ -1,43 +1,31 @@
-<a
-  class="sky-heading-anchor-link sky-font-heading-{{ headingLevel() }}"
-  queryParamsHandling="merge"
-  [fragment]="anchorId()"
-  [routerLink]="[]"
->
-  <sky-icon iconName="link" />
-  <span class="sky-screen-reader-only"
-    >Link for section titled {{ headingText() }}</span
-  >
-</a>
-
 @switch (headingLevel()) {
   @case (1) {
-    <h1>
+    <h1 class="sky-heading-anchor-heading">
       <ng-container [ngTemplateOutlet]="headingTextRef" />
     </h1>
   }
   @case (2) {
-    <h2>
+    <h2 class="sky-heading-anchor-heading">
       <ng-container [ngTemplateOutlet]="headingTextRef" />
     </h2>
   }
   @case (3) {
-    <h3>
+    <h3 class="sky-heading-anchor-heading">
       <ng-container [ngTemplateOutlet]="headingTextRef" />
     </h3>
   }
   @case (4) {
-    <h4>
+    <h4 class="sky-heading-anchor-heading">
       <ng-container [ngTemplateOutlet]="headingTextRef" />
     </h4>
   }
   @case (5) {
-    <h5>
+    <h5 class="sky-heading-anchor-heading">
       <ng-container [ngTemplateOutlet]="headingTextRef" />
     </h5>
   }
   @case (6) {
-    <h6>
+    <h6 class="sky-heading-anchor-heading">
       <ng-container [ngTemplateOutlet]="headingTextRef" />
     </h6>
   }
@@ -46,10 +34,18 @@
 <ng-content />
 
 <ng-template #headingTextRef>
-  <span
-    class="sky-heading-anchor-heading-text"
-    [class.sky-heading-anchor-strikethrough]="strikethrough()"
+  <a
+    class="sky-heading-anchor-link"
+    queryParamsHandling="merge"
+    [fragment]="anchorId()"
+    [routerLink]="[]"
   >
+    <sky-icon iconName="link" />
+    <span class="sky-screen-reader-only"
+      >Link for section titled {{ headingText() }}</span
+    >
+  </a>
+  <span [class.sky-heading-anchor-strikethrough]="strikethrough()">
     @if (headingTextFormat() === 'code') {
       <code>{{ headingText() }}</code>
     } @else {

@@ -16,11 +16,26 @@ sky-type-definition {
   .sky-type-definition-box-header {
     display: flex;
     justify-content: space-between;
-    border-radius: 5px 5px 0 0;
-    background-color: var(--sky-background-color-disabled);
+    border-radius: var(--sky-border-radius-s) var(--sky-border-radius-s) 0 0;
+    background-color: var(--sky-background-color-info-light);
   }
 
   .sky-type-definition-box-heading {
     margin: 0;
+    font-weight: normal;
+    line-height: 1.5;
+  }
+
+  .sky-type-definition-parameter-heading {
+    font-weight: normal;
+  }
+
+  .sky-type-definition-parameter-body {
+    padding-left: 15px;
+  }
+
+  .sky-type-definition-import-info-anchors {
+    display: inline-block;
+    margin-top: 15px;
   }
 }

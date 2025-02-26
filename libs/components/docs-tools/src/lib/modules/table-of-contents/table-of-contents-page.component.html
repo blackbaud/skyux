@@ -1,7 +1,6 @@
-@let linksValue = links();
-@if (linksValue && linksValue.length > 0) {
+@if (links(); as links) {
   <div class="sky-toc-menu">
-    <sky-toc [headingText]="menuHeadingText()" [links]="linksValue" />
+    <sky-toc [headingText]="menuHeadingText()" [links]="links" />
   </div>
 }
 <div class="sky-toc-body">

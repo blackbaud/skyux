@@ -24,7 +24,7 @@ import { SkyPageModule } from '@skyux/pages';
 import { SkyShowcaseModule } from './showcase/showcase.module';
 
 const DOCS = getDocumentationConfig();
-const SEPARATOR = ' - ';
+const SEPARATOR = ' | ';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -61,12 +61,10 @@ const SEPARATOR = ' - ';
 
       @if (data(); as manifest) {
         <sky-showcase [labelText]="selectedGroupName()" [manifest]="manifest">
-          <sky-showcase-content category="development">
+          <!--<sky-showcase-content category="development">
             <p>This content describes the development tab.</p>
-          </sky-showcase-content>
+          </sky-showcase-content>-->
         </sky-showcase>
-
-        <pre>{{ manifest | json }}</pre>
       }
     </sky-page>
   `,
