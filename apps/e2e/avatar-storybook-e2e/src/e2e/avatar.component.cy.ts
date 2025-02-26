@@ -29,5 +29,5 @@ describe('avatar-storybook', () => {
         );
       });
     });
-  });
+  }, true);
 });
