@@ -17,23 +17,7 @@
       [searchTextMinimumCharacters]="searchTextMinimumCharacters"
       (selectionChange)="onCountrySelected($event)"
     >
-      <div
-        class="sky-country-field-input"
-        [ngClass]="{
-          'sky-country-field-input-with-flag':
-            selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag
-        }"
-      >
-        @if (
-          selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag
-        ) {
-          <div class="sky-country-field-flag">
-            <div
-              class="iti__flag"
-              [ngClass]="'iti__' + selectedCountry.iso2.toLowerCase()"
-            ></div>
-          </div>
-        }
+      <div class="sky-country-field-input">
         <textarea
           class="sky-form-control"
           name="selectedCountry"

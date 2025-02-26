@@ -1,0 +1,6 @@
+<sky-input-box labelText="Live announcer text" stacked="true">
+  <input type="text" [(ngModel)]="announcementMessage" />
+</sky-input-box>
+<button class="sky-btn sky-btn-primary" type="button" (click)="announce()">
+  Trigger live announcer
+</button>
