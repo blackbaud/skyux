@@ -5,7 +5,6 @@
 
 ### ⚠ BREAKING CHANGES
 
-* **components/core:** 
 * **components/help-inline:** remove TemplateRef return type on getPopoverContent ([#3176](https://github.com/blackbaud/skyux/issues/3176))
 
 ### Features
