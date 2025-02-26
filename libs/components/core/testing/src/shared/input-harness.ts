@@ -2,7 +2,6 @@ import { ComponentHarness } from '@angular/cdk/testing';
 
 /**
  * Harness used to interact with native input elements in tests.
- * @internal
  */
 export class SkyInputHarness extends ComponentHarness {
   /**
