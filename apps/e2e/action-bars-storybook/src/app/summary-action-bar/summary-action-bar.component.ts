@@ -36,7 +36,7 @@ export class SummaryActionBarComponent implements OnDestroy {
     return this.#_type;
   }
 
-  public readonly ready$ = inject(FontLoadingService).ready();
+  public readonly ready$ = inject(FontLoadingService).ready(true);
 
   #_type: 'tab' | 'page' | 'split-view' | 'modal' | 'modal-full-page' = 'page';
 
