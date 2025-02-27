@@ -1,5 +1,38 @@
 # Changelog
 
+## [11.43.0](https://github.com/blackbaud/skyux/compare/11.42.1...11.43.0) (2025-02-20)
+
+
+### Features
+
+* **components/flyout:** add flyout test harness ([#3149](https://github.com/blackbaud/skyux/issues/3149)) ([5827aef](https://github.com/blackbaud/skyux/commit/5827aef3ca22bedb3f91f6d163665c3bee7e4bdc))
+
+
+### Bug Fixes
+
+* **components/toast:** move harness files under `/toast` to match docs ([#3173](https://github.com/blackbaud/skyux/issues/3173)) ([d8797e9](https://github.com/blackbaud/skyux/commit/d8797e96c0213296679c77f43ff7f459c84a5ea8))
+
+## [11.42.1](https://github.com/blackbaud/skyux/compare/11.42.0...11.42.1) (2025-02-19)
+
+
+### Bug Fixes
+
+* **components/theme:** set initial active status for viewport reserve space element ([#3168](https://github.com/blackbaud/skyux/issues/3168)) ([73f3056](https://github.com/blackbaud/skyux/commit/73f30561a80981bc641a976a6e3c7bfb18dd6f29))
+* use alias instead of property name for directive inputs in the manifest ([#3160](https://github.com/blackbaud/skyux/issues/3160)) ([17374a9](https://github.com/blackbaud/skyux/commit/17374a90d317c9ec3325ee05892f38483df693d5))
+
+## [11.42.0](https://github.com/blackbaud/skyux/compare/11.41.0...11.42.0) (2025-02-14)
+
+
+### Features
+
+* **components/toast:** add toast and toaster harness ([#3141](https://github.com/blackbaud/skyux/issues/3141)) ([6eae2c0](https://github.com/blackbaud/skyux/commit/6eae2c0c8291b7a8b1be372672f3465983b764a6))
+
+
+### Bug Fixes
+
+* **components/popovers:** fix sporadic dropdown menu misalignment ([#3153](https://github.com/blackbaud/skyux/issues/3153)) ([1d8c052](https://github.com/blackbaud/skyux/commit/1d8c052df55254694028595ed61a8a71ee9e272c))
+* **components/tabs:** vertical tabs keyboard operable in mobile view ([#3150](https://github.com/blackbaud/skyux/issues/3150)) ([7f2111d](https://github.com/blackbaud/skyux/commit/7f2111d5542aef31d65b3d032b40234b0bd074dc))
+
 ## [11.41.0](https://github.com/blackbaud/skyux/compare/11.40.0...11.41.0) (2025-02-11)
 
 
