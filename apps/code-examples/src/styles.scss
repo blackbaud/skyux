@@ -35,15 +35,15 @@ body {
 // }
 
 code.sky-codespan {
-  display: inline-block;
-  padding: 2px 6px;
-  border-radius: var(--sky-border-radius-s);
+  // display: inline-block;
+  // padding: 2px 6px;
+  // border-radius: var(--sky-border-radius-s);
   background-color: color-mix(
     in srgb,
     var(--sky-color-background-container-info, #c1e8fb) 25%,
     transparent
   );
-  font-size: 14px;
+  // font-size: 14px;
 }
 
 a.sky-docs-codespan-anchor {
