@@ -25,6 +25,7 @@ $CommitMessage = "chore: update library resources"
 $GitUser = "user.name=blackbaud-sky-build-user"
 $GitEmail = "user.email=sky-build-user@blackbaud.com"
 $GitRepo = "blackbaud/skyux"
+$GitUsername = gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user --jq=.login
 $TranslationBranchName = "automated-translations"
 $WorkingCopy = "$TempPath/$TranslationBranchName"
 
@@ -45,8 +46,8 @@ Write-Output "`n# git config user.name '$GitUser'"
 git config user.name "$GitUser"
 Write-Output "`n# git config user.email '$GitEmail'"
 git config user.email "$GitEmail"
-Write-Output "`n# gh auth login --with-token"
-gh auth login --with-token
+Write-Output "`n# git remote set-url origin 'https://${GitUsername}:********@github.com/${GitRepo}.git'"
+git remote set-url origin "https://${GitUsername}:${env:GH_TOKEN}@github.com/${GitRepo}.git"
 $remoteBranchExists = git ls-remote -b origin $TranslationBranchName
 
 if (-not $remoteBranchExists)
