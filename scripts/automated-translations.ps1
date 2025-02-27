@@ -22,8 +22,8 @@ if (-not $TempPath -or -not (Test-Path -Path $TempPath -PathType Container))
 $IsDryRunBool = [System.Convert]::ToBoolean("$IsDryRun")
 
 $CommitMessage = "chore: update library resources"
-$GitUser = "user.name=blackbaud-sky-build-user"
-$GitEmail = "user.email=sky-build-user@blackbaud.com"
+$GitUser = "blackbaud-sky-build-user"
+$GitEmail = "sky-build-user@blackbaud.com"
 $GitRepo = "blackbaud/skyux"
 $GitUsername = gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user --jq=.login
 $TranslationBranchName = "automated-translations"
@@ -63,6 +63,10 @@ if (-not $remoteBranchExists)
     git push origin $TranslationBranchName
   }
   Write-Output "`n::endgroup::`n"
+  if ($env:GITHUB_OUTPUT)
+  {
+    Write-Output "success=true" >> $env:GITHUB_OUTPUT
+  }
 }
 else
 {
@@ -143,7 +147,7 @@ else
   if ($changesFromLts)
   {
     Write-Output "`n::group::Pull request`n"
-    $prForChanges = gh pr list --json title,url,headRefName --jq ".[] | select(.headRefName == `"${LtsBranchName}`")"
+    $prForChanges = gh pr list --json title,url,headRefName --jq ".[] | select(.headRefName == `"${TranslationBranchName}`")"
     if ($prForChanges)
     {
       if ($env:GITHUB_OUTPUT)
@@ -157,8 +161,10 @@ else
       Write-Output "`n# gh pr create --base $LtsBranchName --head $TranslationBranchName --title '${CommitMessage}'"
       gh pr create --base $LtsBranchName --head $TranslationBranchName `
         --title "${CommitMessage}" `
-        --body ":robot: This pull request was created by the automated translations script."
-      $prForChanges = gh pr list --json title,url,headRefName --jq ".[] | select(.headRefName == `"${LtsBranchName}`")"
+        --body ":robot: This pull request was created by the automated translations script." `
+        --label "risk level (author): 1" `
+        --label "skip e2e"
+      $prForChanges = gh pr list --json title,url,headRefName --jq ".[] | select(.headRefName == `"${TranslationBranchName}`")"
       if ($env:GITHUB_OUTPUT)
       {
         Write-Output "prCreated=true" >> $env:GITHUB_OUTPUT
@@ -170,6 +176,10 @@ else
     {
       Write-Output "prTitle=$($pr.title)" >> $env:GITHUB_OUTPUT
       Write-Output "prUrl=$($pr.url)" >> $env:GITHUB_OUTPUT
+      if ($pr.url)
+      {
+        Write-Output "success=true" >> $env:GITHUB_OUTPUT
+      }
     }
     Write-Output "`n::endgroup::`n"
   }
@@ -178,5 +188,9 @@ else
     Write-Output "`n::group::No pull request`n"
     Write-Output "`n➡︎ No changes to merge to $LtsBranchName branch from $TranslationBranchName branch.`n"
     Write-Output "`n::endgroup::`n"
+    if ($env:GITHUB_OUTPUT)
+    {
+      Write-Output "success=true" >> $env:GITHUB_OUTPUT
+    }
   }
 }

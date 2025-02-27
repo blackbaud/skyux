@@ -72,7 +72,7 @@ jobs:
           MSG_MINIMAL: 'true'
 
       - name: Notify Slack for fails
-        if: ${{ failure() }}
+        if: ${{ failure() || steps.sync.outputs.success != 'true' }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
