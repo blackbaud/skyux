@@ -1,6 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { marked } from 'marked';
+import { Tokens, marked } from 'marked';
+
+const renderer = {
+  codespan(token: Tokens.Codespan): string {
+    return `<code class="sky-codespan">${token.text}</code>`;
+  },
+};
+
+marked.use({
+  renderer,
+});
 
 @Pipe({
   name: 'skyMarkdown',

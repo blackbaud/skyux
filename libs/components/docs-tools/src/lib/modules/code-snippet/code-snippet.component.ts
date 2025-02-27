@@ -36,7 +36,7 @@ import { SkyDocsToolsResourcesModule } from '../shared/sky-docs-tools-resources.
   selector: 'sky-code-snippet',
   styleUrls: [
     './code-snippet.component.scss',
-    './themes/visual-studio-light.scss',
+    './themes/vscode-modern-light.scss',
   ],
   templateUrl: './code-snippet.component.html',
 })
@@ -55,7 +55,6 @@ export class SkyCodeSnippetComponent {
   protected hostClasses = computed(() => {
     const stacked = this.stacked();
     const bordered = this.bordered();
-
     const classnames: string[] = [];
 
     if (stacked) {

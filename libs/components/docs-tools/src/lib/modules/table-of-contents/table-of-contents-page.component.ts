@@ -2,13 +2,14 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   computed,
   inject,
   input,
   signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService, SkyScrollableHostService } from '@skyux/core';
 
 import { debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
@@ -31,13 +32,15 @@ import { SkyTableOfContentsComponent } from './table-of-contents.component';
 })
 export class SkyTableOfContentsPageComponent implements AfterViewInit {
   readonly #anchors = toSignal(inject(SkyHeadingAnchorService).anchorsChange);
+  readonly #destroyRef = inject(DestroyRef);
   readonly #scrollableHostSvc = inject(SkyScrollableHostService);
   readonly #elementRef = inject(ElementRef);
 
   public readonly menuHeadingText = input.required<string>();
 
   readonly #activeAnchorIdOnScroll = signal<string | undefined>(undefined);
-  #scrollEl: HTMLElement | Window = window;
+  // #scrollEl: HTMLElement | Window = window;
+  #scrollOffset = 0;
 
   protected readonly breakpoint = toSignal(
     inject(SkyMediaQueryService).breakpointChange,
@@ -61,15 +64,18 @@ export class SkyTableOfContentsPageComponent implements AfterViewInit {
   );
 
   public ngAfterViewInit(): void {
-    this.#scrollEl = this.#scrollableHostSvc.getScrollableHost(
+    const scrollEl = this.#scrollableHostSvc.getScrollableHost(
       this.#elementRef,
     );
 
-    fromEvent(this.#scrollEl, 'scroll')
+    this.#scrollOffset = this.#getScrollOffset(scrollEl);
+
+    fromEvent(scrollEl, 'scroll')
       .pipe(
         debounceTime(10),
         map(() => this.#getActiveLink()),
         distinctUntilChanged(),
+        takeUntilDestroyed(this.#destroyRef),
       )
       .subscribe((activeLink) => {
         this.#activeAnchorIdOnScroll.set(activeLink);
@@ -84,7 +90,7 @@ export class SkyTableOfContentsPageComponent implements AfterViewInit {
     const anchors = this.#anchors();
 
     if (anchors) {
-      const scrollOffset = this.#getScrollOffset();
+      // const scrollOffset = this.#getScrollOffset();
 
       for (let i = 0; i < anchors.length; i++) {
         const anchor = anchors[i];
@@ -98,22 +104,35 @@ export class SkyTableOfContentsPageComponent implements AfterViewInit {
           .getElementById(nextAnchor?.anchorId)
           ?.getBoundingClientRect();
 
+        // if (anchor.anchorId === 'class_sky-ag-grid-wrapper-component') {
+        //   console.log(this.#scrollOffset, rect?.top, nextRect?.top);
+        // }
+
         if (
           rect &&
-          rect.top - scrollOffset < 0 &&
-          (nextRect === undefined || nextRect.top - scrollOffset > 0)
+          Math.round(rect.top - this.#scrollOffset) <= 0 &&
+          (nextRect === undefined ||
+            Math.round(nextRect.top - this.#scrollOffset) > 0)
         ) {
           return anchor.anchorId;
         }
+
+        // if (
+        //   rect &&
+        //   rect.top - scrollOffset < 0 &&
+        //   (nextRect === undefined || nextRect.top - scrollOffset > 0)
+        // ) {
+        //   return anchor.anchorId;
+        // }
       }
     }
 
     return undefined;
   }
 
-  #getScrollOffset(): number {
-    return this.#scrollEl instanceof HTMLElement
-      ? this.#scrollEl.getBoundingClientRect().top
+  #getScrollOffset(scrollEl: HTMLElement | Window): number {
+    return scrollEl instanceof HTMLElement
+      ? scrollEl.getBoundingClientRect().top
       : 0;
   }
 }

@@ -1,17 +1,17 @@
 sky-type-definition {
   display: block;
 
-  p {
-    margin-top: 0;
+  // p {
+  //   margin-top: 0;
 
-    code {
-      font-size: 90%;
-    }
-  }
+  //   code {
+  //     font-size: 90%;
+  //   }
+  // }
 
-  *:last-child {
-    margin-bottom: 0;
-  }
+  // *:last-child {
+  //   margin-bottom: 0;
+  // }
 
   .sky-text-strikethrough {
     text-decoration: line-through;
@@ -22,6 +22,12 @@ sky-type-definition {
     justify-content: space-between;
     border-radius: var(--sky-border-radius-s) var(--sky-border-radius-s) 0 0;
     background-color: var(--sky-background-color-info-light);
+    // background-color: color-mix(
+    //   in srgb,
+    //   var(--sky-background-color-info-light) 25%,
+    //   transparent
+    // );
+    // background-color: #eee;
   }
 
   .sky-type-definition-box-heading {
@@ -30,16 +36,16 @@ sky-type-definition {
     line-height: 1.5;
   }
 
-  .sky-type-definition-parameter-heading {
-    font-weight: normal;
-  }
+  // .sky-type-definition-parameter-heading {
+  //   font-weight: normal;
+  // }
 
-  .sky-type-definition-parameter-body {
-    padding-left: 15px;
-  }
+  // .sky-type-definition-parameter-body {
+  //   padding-left: 15px;
+  // }
 
-  .sky-type-definition-import-info-anchors {
-    display: inline-block;
-    margin-top: 15px;
-  }
+  // .sky-type-definition-import-info-anchors {
+  //   display: inline-block;
+  //   margin-top: 15px;
+  // }
 }

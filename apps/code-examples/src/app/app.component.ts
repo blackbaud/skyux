@@ -1,10 +1,4 @@
-import {
-  Component,
-  Injector,
-  Renderer2,
-  afterNextRender,
-  inject,
-} from '@angular/core';
+import { Component, NgZone, Renderer2, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import {
   SkyAppViewportService,
@@ -21,7 +15,8 @@ import {
   standalone: false,
 })
 export class AppComponent {
-  #injector = inject(Injector);
+  // #injector = inject(Injector);
+  #zone = inject(NgZone);
 
   public height = 80;
 
@@ -49,20 +44,17 @@ export class AppComponent {
         const fragment = this.router.parseUrl(event.url).fragment;
 
         if (fragment) {
-          afterNextRender(
-            {
-              write: () => {
-                const el = document.getElementById(fragment);
+          setTimeout(() => {
+            this.#zone.runOutsideAngular(() => {
+              const el = document.getElementById(fragment);
 
-                if (el) {
-                  el.scrollIntoView({
-                    behavior: 'smooth',
-                  });
-                }
-              },
-            },
-            { injector: this.#injector },
-          );
+              if (el) {
+                el.scrollIntoView({
+                  behavior: 'smooth',
+                });
+              }
+            });
+          });
         }
       }
     });
