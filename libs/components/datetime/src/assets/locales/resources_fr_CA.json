@@ -1,0 +1,166 @@
+{
+  "skyux_datepicker_format_hint_text": {
+    "_description": "Texte d’aide pour le format de date actuellement défini dans le sélecteur de date.",
+    "message": "Utilisez le format {0}."
+  },
+  "skyux_datepicker_trigger_button_label": {
+    "_description": "Étiquette pour le bouton de déclenchement du sélecteur de date.",
+    "message": "Sélectionner la date"
+  },
+  "skyux_datepicker_trigger_button_label_context": {
+    "_description": "Étiquette pour le bouton de déclenchement du sélecteur de date lorsque le contexte est disponible.",
+    "message": "Ouvrir le calendrier pour {0}"
+  },
+  "skyux_datepicker_move_calendar_previous_day": {
+    "_description": "Étiquette ARIA du bouton du mois précédent en mode « jour »",
+    "message": "Mois précédent"
+  },
+  "skyux_datepicker_move_calendar_next_day": {
+    "_description": "Étiquette ARIA du bouton du mois suivant en mode « jour »",
+    "message": "Le mois prochain"
+  },
+  "skyux_datepicker_move_calendar_previous_month": {
+    "_description": "Étiquette ARIA du bouton de l’année précédente en mode « mois »",
+    "message": "Année précédente"
+  },
+  "skyux_datepicker_move_calendar_next_month": {
+    "_description": "Étiquette ARIA du bouton de l’année suivante en mode « mois »",
+    "message": "Année suivante"
+  },
+  "skyux_datepicker_move_calendar_previous_year": {
+    "_description": "Étiquette ARIA du bouton de la page précédente du calendrier en mode « année »",
+    "message": "Page précédente"
+  },
+  "skyux_datepicker_move_calendar_next_year": {
+    "_description": "Étiquette ARIA du bouton de la page suivante du calendrier en mode « année »",
+    "message": "Page suivante"
+  },
+  "skyux_timepicker_button_label": {
+    "_description": "Texte du lecteur d’écran pour le bouton de déclenchement du sélecteur d’heure",
+    "message": "Choisir l’heure"
+  },
+  "skyux_timepicker_button_label_context": {
+    "_description": "Texte du lecteur d’écran pour le bouton de déclenchement du sélecteur d’heure lorsque le contexte est disponible",
+    "message": "Ouvrir le sélecteur d’heure pour {0}"
+  },
+  "skyux_timepicker_close": {
+    "_description": "Le bouton fermer pour l’élément modal du sélecteur d’heure",
+    "message": "Terminé"
+  },
+  "skyux_date_range_picker_default_label": {
+    "_description": "L’étiquette par défaut pour le sélecteur de plage de dates.",
+    "message": "Sélectionner une plage de dates"
+  },
+  "skyux_date_range_picker_end_date_before_start_date_error_label_text": {
+    "_description": "Le message d’erreur pour le sélecteur de plage de dates pour l’erreur date de fin avant date de début.",
+    "message": "Modifiez la plage de date de façon à ce que la date de fin soit avant la date de début."
+  },
+  "skyux_date_range_picker_format_label_specific_range": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Plage spécifique du composant sélecteur de plage de dates.",
+    "message": "Plage spécifique"
+  },
+  "skyux_date_range_picker_format_label_before": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Avant du composant sélecteur de plage de dates.",
+    "message": "Avant"
+  },
+  "skyux_date_range_picker_format_label_after": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Après du composant sélecteur de plage de dates.",
+    "message": "Après"
+  },
+  "skyux_date_range_picker_format_label_any_time": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné N’importe quand du composant sélecteur de plage de dates.",
+    "message": "N’importe quand"
+  },
+  "skyux_date_range_picker_format_label_yesterday": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Hier du composant sélecteur de plage de dates.",
+    "message": "Hier"
+  },
+  "skyux_date_range_picker_format_label_today": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Aujourd’hui du composant sélecteur de plage de dates.",
+    "message": "Aujourd’hui"
+  },
+  "skyux_date_range_picker_format_label_tomorrow": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Demain du composant sélecteur de plage de dates.",
+    "message": "Demain"
+  },
+  "skyux_date_range_picker_format_label_last_week": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné La semaine dernière du composant sélecteur de plage de dates.",
+    "message": "La semaine dernière"
+  },
+  "skyux_date_range_picker_format_label_this_week": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Cette semaine du composant sélecteur de plage de dates.",
+    "message": "Cette semaine"
+  },
+  "skyux_date_range_picker_format_label_next_week": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné La semaine prochaine du composant sélecteur de plage de dates.",
+    "message": "La semaine prochaine"
+  },
+  "skyux_date_range_picker_format_label_last_month": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Le mois dernier du composant sélecteur de plage de dates.",
+    "message": "Le mois dernier"
+  },
+  "skyux_date_range_picker_format_label_this_month": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Ce mois-ci du composant sélecteur de plage de dates.",
+    "message": "Ce mois-ci"
+  },
+  "skyux_date_range_picker_format_label_next_month": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Le mois prochain du composant sélecteur de plage de dates.",
+    "message": "Le mois prochain"
+  },
+  "skyux_date_range_picker_format_label_last_quarter": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Le trimestre dernier du composant sélecteur de plage de dates.",
+    "message": "Le trimestre dernier"
+  },
+  "skyux_date_range_picker_format_label_this_quarter": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Ce trimestre du composant sélecteur de plage de dates.",
+    "message": "Ce trimestre"
+  },
+  "skyux_date_range_picker_format_label_next_quarter": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Le trimestre prochain du composant sélecteur de plage de dates.",
+    "message": "Le trimestre prochain"
+  },
+  "skyux_date_range_picker_format_label_last_calendar_year": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné La dernière année civile du composant sélecteur de plage de dates.",
+    "message": "Dernière année civile"
+  },
+  "skyux_date_range_picker_format_label_this_calendar_year": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Cette année civile du composant sélecteur de plage de dates.",
+    "message": "Cette année civile"
+  },
+  "skyux_date_range_picker_format_label_next_calendar_year": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Prochaine année civile du composant sélecteur de plage de dates.",
+    "message": "Prochaine année civile"
+  },
+  "skyux_date_range_picker_format_label_last_fiscal_year": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Le dernier exercice du composant sélecteur de plage de dates.",
+    "message": "Dernier exercice"
+  },
+  "skyux_date_range_picker_format_label_this_fiscal_year": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné L’exercice en cours du composant sélecteur de plage de dates.",
+    "message": "L’exercice en cours"
+  },
+  "skyux_date_range_picker_format_label_next_fiscal_year": {
+    "_description": "L’étiquette pour le type de format du champ sélectionné Le prochain exercice du composant sélecteur de plage de dates.",
+    "message": "Le prochain exercice"
+  },
+  "skyux_date_range_picker_start_date_label": {
+    "_description": "L’étiquette pour le type de format Plage spécifique du sélectionneur de la première date.",
+    "message": "À partir de la date du"
+  },
+  "skyux_date_range_picker_end_date_label": {
+    "_description": "L’étiquette pour le type de format Plage spécifique du sélectionneur de la seconde date.",
+    "message": "À ce jour"
+  },
+  "skyux_date_range_picker_before_date_label": {
+    "_description": "L’étiquette pour le type de format du champ Avant du sélecteur de plage de dates.",
+    "message": "Date avant"
+  },
+  "skyux_date_range_picker_after_date_label": {
+    "_description": "L’étiquette pour le type de format du champ Après du sélecteur de plage de dates.",
+    "message": "Date après"
+  },
+  "skyux_date_range_picker_default_aria_label": {
+    "_description": "Étiquette aria par défaut spécifique au contexte pour les sélecteurs de date avec un sélecteur de plage de dates",
+    "message": "{0} pour {1}"
+  }
+}
