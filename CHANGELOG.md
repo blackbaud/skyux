@@ -1,5 +1,23 @@
 # Changelog
 
+## [12.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.5...12.0.0-alpha.6) (2025-02-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/help-inline:** remove TemplateRef return type on getPopoverContent ([#3176](https://github.com/blackbaud/skyux/issues/3176))
+
+### Features
+
+* **components/avatar:** tokenize avatar styles ([#3164](https://github.com/blackbaud/skyux/issues/3164)) ([b497851](https://github.com/blackbaud/skyux/commit/b49785195772d97e6ccf85180872dc374d5e16af))
+* **components/help-inline:** remove TemplateRef return type on getPopoverContent ([#3176](https://github.com/blackbaud/skyux/issues/3176)) ([9e200ef](https://github.com/blackbaud/skyux/commit/9e200ef7b425433014c1c58be7094f91ed29195f))
+
+
+### Bug Fixes
+
+* **components/core:** remove live announcer message from DOM after a set duration ([#3178](https://github.com/blackbaud/skyux/issues/3178)) ([de695e1](https://github.com/blackbaud/skyux/commit/de695e1be4881b141edd36fb1045fab40a7a3a7d))
+* mark all harness `hostSelector` properties as "internal" ([#3180](https://github.com/blackbaud/skyux/issues/3180)) ([#3183](https://github.com/blackbaud/skyux/issues/3183)) ([4f07e73](https://github.com/blackbaud/skyux/commit/4f07e734267d0c774ecbdd2aa509a814cdf53ce6))
+
 ## [12.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.4...12.0.0-alpha.5) (2025-02-20)
 
 

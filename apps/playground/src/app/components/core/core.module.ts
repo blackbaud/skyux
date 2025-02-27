@@ -31,6 +31,15 @@ const routes: Routes = [
       library: 'core',
     },
   },
+  {
+    path: 'live-announcer',
+    loadComponent: () => import('./live-announcer/live-announcer.component'),
+    data: {
+      name: 'Live announcer',
+      library: 'core',
+      icon: 'universal-access',
+    },
+  },
 ];
 
 @NgModule({
