@@ -147,7 +147,9 @@ else
     {
       Write-Output "`n➡︎ Creating a pull request for changes"
       Write-Output "`n# gh pr create --base $TranslationBranchName --head $LtsBranchName --title '${CommitMessage}'"
-      gh pr create --base $TranslationBranchName --head $LtsBranchName --title "${CommitMessage}"
+      gh pr create --base $TranslationBranchName --head $LtsBranchName `
+        --title "${CommitMessage}" `
+        --body ":robot: This pull request was created by the automated translations script."
       $prForChanges = gh pr list --json title,url,headRefName --jq ".[] | select(.headRefName == `"${LtsBranchName}`")"
       if ($env:GITHUB_OUTPUT)
       {
