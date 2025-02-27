@@ -32,7 +32,16 @@
     >
       @switch (buttonType) {
         @case ('context-menu') {
-          <sky-icon iconName="more-horizontal" iconSize="s" />
+          <sky-icon
+            *skyThemeIf="'modern'"
+            iconName="more-horizontal"
+            iconSize="s"
+          />
+          <sky-icon
+            *skyThemeIf="'default'"
+            iconName="more-horizontal"
+            iconSize="m"
+          />
         }
         @default {
           <div class="sky-dropdown-button-container">

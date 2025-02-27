@@ -83,8 +83,6 @@
   --sky-override-colorpicker-button-border-color: var(--modern-color-gray-15);
   --sky-override-colorpicker-button-size: 40px;
   --sky-override-colorpicker-reset-button-size: 40px;
-  --sky-override-sky-icon-svg-size-s: 21px;
-  --sky-override-sky-icon-svg-size-m: 16px;
 }
 
 @include compatMixins.sky-modern-overrides(

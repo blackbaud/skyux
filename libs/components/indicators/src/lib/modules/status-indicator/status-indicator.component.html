@@ -5,18 +5,7 @@
       class="sky-status-indicator-icon"
       [ngClass]="'sky-status-indicator-icon-' + indicatorTypeOrDefault"
     >
-      <sky-icon
-        *skyThemeIf="'default'"
-        iconSize="s"
-        variant="solid"
-        [iconName]="iconName"
-      />
-      <sky-icon
-        *skyThemeIf="'modern'"
-        iconSize="m"
-        variant="solid"
-        [iconName]="iconName"
-      />
+      <sky-icon iconSize="m" variant="solid" [iconName]="iconName" />
     </div>
     <div class="sky-status-indicator-message-wrapper">
       @if (descriptionComputed) {
