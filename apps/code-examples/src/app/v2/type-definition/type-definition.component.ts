@@ -127,7 +127,29 @@ export class SkyTypeDefinitionComponent {
       | SkyManifestDirectiveInputDefinition[]
       | undefined;
 
-    return inputs && inputs.length > 0 ? inputs : undefined;
+    return inputs && inputs.length > 0
+      ? inputs
+          .sort((a, b) => {
+            if (a.name < b.name) {
+              return -1;
+            }
+            if (a.name > b.name) {
+              return 1;
+            }
+            return 0;
+          })
+          .sort((a, b) => {
+            if (a.isRequired && !b.isRequired) {
+              return -1;
+            }
+
+            if (!a.isRequired && b.isRequired) {
+              return 1;
+            }
+
+            return 0;
+          })
+      : undefined;
   });
 
   protected outputs = computed<

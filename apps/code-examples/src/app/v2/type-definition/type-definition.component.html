@@ -8,20 +8,24 @@
     [headingText]="def.name"
     [strikethrough]="def.isDeprecated"
   >
-    <sky-pill class="sky-font-body-sm" [color]="def.kind | skyKindToPillColor">
+    <sky-pill [color]="def.kind | skyKindToPillColor">
       <span class="sky-screen-reader-only">Type: </span>
       {{ def.kind | skyTypeDefinitionKindToLabel }}
     </sky-pill>
+
     @if (def.isDeprecated) {
-      <sky-pill class="sky-font-body-sm" color="red"> Deprecated </sky-pill>
+      <sky-pill color="red"> Deprecated </sky-pill>
     }
+
     @if (def.isPreview) {
-      <sky-pill class="sky-font-body-sm" color="teal"> Preview </sky-pill>
+      <sky-pill color="teal"> Preview </sky-pill>
     }
   </sky-heading-anchor>
+
   @if (def.deprecationReason) {
     <sky-deprecation-reason stacked [message]="def.deprecationReason" />
   }
+
   @if (def.description) {
     <p
       [innerHTML]="
@@ -31,7 +35,7 @@
       "
     ></p>
   }
-  <!--
+
   @if (def.kind === 'module' || def.kind === 'service') {
     <p>
       <code class="sky-codespan"
@@ -48,19 +52,19 @@
       >
     </p>
   }
-  -->
-  <!--
+
   @if (selector(); as selector) {
     <p>
       Selector: <code class="sky-codespan">{{ selector }}</code>
     </p>
   }
-  -->
+
   @if (pipeName(); as pipeName) {
     <p>
       Pipe name: <code class="sky-codespan">{{ pipeName }}</code>
     </p>
   }
+
   @if (def.codeExample) {
     <h3>Example</h3>
     <sky-code-snippet
@@ -177,12 +181,30 @@
                   />
                 </p>
               }
-              @if (input.description) {
-                <p
-                  [innerHTML]="
-                    input.description | skyMarkdown | skyTypeAnchorLinks
-                  "
-                ></p>
+              <!--@if (input.isRequired) {
+                <p>
+                  <sky-status-indicator descriptionType="error" indicatorType="error">
+                    <strong class="sky-font-emphasized">Deprecated. </strong
+                    ><span [innerHTML]="message() | skyMarkdown | skyTypeAnchorLinks"></span>
+                  </sky-status-indicator>
+                </p>
+              }-->
+              @if (input.description || input.isRequired) {
+                <p>
+                  @if (input.isRequired) {
+                    <strong>Required. </strong>
+                  }
+                  @if (input.description) {
+                    <span
+                      [innerHTML]="
+                        input.description
+                          | skyEscapeHtml
+                          | skyMarkdown
+                          | skyTypeAnchorLinks
+                      "
+                    ></span>
+                  }
+                </p>
               }
               @let defaultValue = input | skyDocsPropertyDefaultValue;
               @if (defaultValue) {
