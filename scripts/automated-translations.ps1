@@ -36,13 +36,17 @@ if (Test-Path -Path $WorkingCopy -PathType Container)
 
 # Sync the translation branch with the LTS branch
 Write-Output "`n::group::Clone $LtsBranchName branch`n"
-Write-Output "`n# gh auth login --with-token"
-gh auth login --with-token
 Write-Output "`n# gh repo clone $GitRepo $WorkingCopy --upstream-remote-name origin -- --branch $LtsBranchName"
 gh repo clone $GitRepo $WorkingCopy --upstream-remote-name origin -- --branch $LtsBranchName
 Write-Output "`n::endgroup::`n"
 
 Set-Location -Path $WorkingCopy
+Write-Output "`n# git config user.name '$GitUser'"
+git config user.name "$GitUser"
+Write-Output "`n# git config user.email '$GitEmail'"
+git config user.email "$GitEmail"
+Write-Output "`n# gh auth login --with-token"
+gh auth login --with-token
 $remoteBranchExists = git ls-remote -b origin $TranslationBranchName
 
 if (-not $remoteBranchExists)
@@ -75,7 +79,7 @@ else
   else
   {
     Write-Output "`n# git merge -X theirs $LtsBranchName"
-    git -c "$GitUser" -c "$GitEmail" merge -X theirs $LtsBranchName
+    git merge -X theirs $LtsBranchName
   }
   Write-Output "`n::endgroup::`n"
 
@@ -115,7 +119,7 @@ else
 
       Write-Output "`n::group::Push changes to $TranslationBranchName branch`n"
       Write-Output "`n# git commit -m '${CommitMessage}'"
-      git -c "$GitUser" -c "$GitEmail" commit -m "${CommitMessage}"
+      git commit -m "${CommitMessage}"
     }
   }
   else

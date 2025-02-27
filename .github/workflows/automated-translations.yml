@@ -39,6 +39,7 @@ jobs:
             -TempPath ${{ runner.temp }}
         env:
           GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          GH_PROMPT_DISABLED: 1
 
       - name: Notify Slack when a PR is created
         if: ${{ steps.sync.outputs.prCreated == 'true' && steps.sync.outputs.prTitle && steps.sync.outputs.prUrl }}
