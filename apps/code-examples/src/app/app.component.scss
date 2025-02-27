@@ -3,14 +3,7 @@
   margin: 5px;
 }
 
-#content {
-  overflow-y: auto;
-}
-
 #controls {
-  position: sticky;
-  top: 0;
-  z-index: 500;
   display: flex;
   background-color: #ffd597;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);

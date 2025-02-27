@@ -6,22 +6,15 @@
     [headingText]="def.name"
     [strikethrough]="def.isDeprecated"
   >
-    <sky-pill
-      class="sky-margin-inline-xs sky-font-body-sm"
-      [color]="def.kind | skyKindToPillColor"
-    >
+    <sky-pill class="sky-font-body-sm" [color]="def.kind | skyKindToPillColor">
       <span class="sky-screen-reader-only">Type: </span>
       {{ def.kind | skyTypeDefinitionKindToLabel }}
     </sky-pill>
     @if (def.isDeprecated) {
-      <sky-pill class="sky-margin-inline-xs sky-font-body-sm" color="red">
-        Deprecated
-      </sky-pill>
+      <sky-pill class="sky-font-body-sm" color="red"> Deprecated </sky-pill>
     }
     @if (def.isPreview) {
-      <sky-pill class="sky-margin-inline-xs sky-font-body-sm" color="teal">
-        Preview
-      </sky-pill>
+      <sky-pill class="sky-font-body-sm" color="teal"> Preview </sky-pill>
     }
   </sky-heading-anchor>
   @if (def.deprecationReason) {
