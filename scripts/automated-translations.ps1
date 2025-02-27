@@ -36,6 +36,8 @@ if (Test-Path -Path $WorkingCopy -PathType Container)
 
 # Sync the translation branch with the LTS branch
 Write-Output "`n::group::Clone $LtsBranchName branch`n"
+Write-Output "`n# gh auth login --with-token"
+gh auth login --with-token
 Write-Output "`n# gh repo clone $GitRepo $WorkingCopy --upstream-remote-name origin -- --branch $LtsBranchName"
 gh repo clone $GitRepo $WorkingCopy --upstream-remote-name origin -- --branch $LtsBranchName
 Write-Output "`n::endgroup::`n"
@@ -93,6 +95,8 @@ else
   Write-Output "`n::endgroup::`n"
 
   Write-Output "`n::group::Check for changes`n"
+  Write-Output "`n# git add -A"
+  git add -A
   Write-Output "`n# git status"
   git status
   Write-Output "#"
@@ -110,8 +114,7 @@ else
       Write-Output "`n::endgroup::`n"
 
       Write-Output "`n::group::Push changes to $TranslationBranchName branch`n"
-      Write-Output "`n# git commit -am '${CommitMessage}'"
-      git add -A
+      Write-Output "`n# git commit -m '${CommitMessage}'"
       git -c "$GitUser" -c "$GitEmail" commit -m "${CommitMessage}"
     }
   }
