@@ -444,16 +444,13 @@ describe('Vertical tabset component', () => {
     clickGroupButton(fixture, 1);
     clickTab(fixture, 1, 1);
 
-    // open tab group
+    // open tab group and wait for timer to finish
     showTabsButton = el.querySelector('.sky-vertical-tabset-show-tabs-btn');
     showTabsButton.click();
     fixture.detectChanges();
+    tick();
 
-    const tabsContainer = getTabsContainer(fixture);
-
-    SkyAppTestUtility.fireDomEvent(tabsContainer, 'focus');
     expect(elementHasFocus(getTab(fixture, 1, 1))).toBeTrue();
-    flush();
   }));
 
   it('should focus the first tab when the tabs container is focused and no tab is active', () => {
