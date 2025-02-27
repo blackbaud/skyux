@@ -59,6 +59,58 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_sort_button_label: { message: 'Sort' },
     skyux_sort_menu_heading: { message: 'Sort by' },
   },
+  'FR-CA': {
+    skyux_filter_aria_label_descriptor: { message: 'Filtrer {0}' },
+    skyux_filter_button_title: { message: 'Filtre' },
+    skyux_filter_summary_close: { message: 'Retirer le filtre' },
+    skyux_filter_summary_header: { message: 'Filtre' },
+    skyux_infinite_scroll_load_more_button: { message: 'Charger encore' },
+    skyux_paging_label: { message: 'Pagination' },
+    skyux_paging_loaded: { message: 'Page {0} chargée.' },
+    skyux_paging_loading: { message: 'Chargement de la page {0}' },
+    skyux_paging_next: { message: 'Suivant' },
+    skyux_paging_page_label: { message: 'Page {0} de {1}' },
+    skyux_paging_page_link_aria_label: { message: 'Page {0}' },
+    skyux_paging_previous: { message: 'Précédent' },
+    skyux_repeater_label: { message: 'Liste des éléments' },
+    skyux_repeater_item_collapse: { message: 'Réduire {0}' },
+    skyux_repeater_item_collapse_default: { message: 'Réduire' },
+    skyux_repeater_item_expand: { message: 'Agrandir {0}' },
+    skyux_repeater_item_expand_default: { message: 'Agrandir' },
+    skyux_repeater_item_checkbox_label: { message: 'Sélectionner {0}' },
+    skyux_repeater_item_checkbox_label_default: {
+      message: 'Sélectionner une ligne',
+    },
+    skyux_repeater_item_reorder_cancel: {
+      message:
+        'La réorganisation de l’élément a été annulée. L’élément a été retourné à sa position initiale.',
+    },
+    skyux_repeater_item_reorder_finish: {
+      message: 'A déposé l’élément en position',
+    },
+    skyux_repeater_item_reorder_instructions: {
+      message:
+        'Élément saisi. Appuyez sur les flèches vers le haut et vers le bas pour modifier la position. Appuyez sur la touche Entrée ou Espace pour déposer. Et appuyez sur la touche d’échappement pour annuler.',
+    },
+    skyux_repeater_item_reorder_moved: {
+      message: 'L’élément a été déplacé à la position',
+    },
+    skyux_repeater_item_reorder_label_default: { message: 'Réorganiser' },
+    skyux_repeater_item_reorder_label: { message: 'Réorganiser {0}' },
+    skyux_repeater_item_reorder_operation: {
+      message: 'Appuyez sur la touche Espace ou Entrée pour réorganiser.',
+    },
+    skyux_repeater_item_reorder_top: { message: 'Haut' },
+    skyux_repeater_item_reorder_top_label: {
+      message: 'Déplacer {0} dans le haut',
+    },
+    skyux_repeater_item_reorder_top_label_default: {
+      message: 'Déplacer au haut',
+    },
+    skyux_sort_aria_label_descriptor: { message: 'Trier {0}' },
+    skyux_sort_button_label: { message: 'Trier' },
+    skyux_sort_menu_heading: { message: 'Trier par' },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);

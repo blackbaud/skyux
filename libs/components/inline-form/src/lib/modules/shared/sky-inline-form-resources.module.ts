@@ -19,6 +19,12 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_inline_form_button_done: { message: 'Done' },
     skyux_inline_form_button_save: { message: 'Save' },
   },
+  'FR-CA': {
+    skyux_inline_form_button_cancel: { message: 'Annuler' },
+    skyux_inline_form_button_delete: { message: 'Supprimer' },
+    skyux_inline_form_button_done: { message: 'Terminé' },
+    skyux_inline_form_button_save: { message: 'Sauvegarder' },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);
