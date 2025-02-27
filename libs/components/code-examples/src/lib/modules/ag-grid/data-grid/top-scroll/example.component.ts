@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-import { SkyDataManagerService } from '@skyux/data-manager';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
 
@@ -17,11 +16,13 @@ import { of } from 'rxjs';
 import { ContextMenuComponent } from './context-menu.component';
 import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
 
+/**
+ * @title Basic setup with top scrollbar (without data manager)
+ */
 @Component({
   selector: 'app-ag-grid-data-grid-top-scroll-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [SkyDataManagerService],
   imports: [AgGridModule, SkyAgGridModule, SkySearchModule, SkyToolbarModule],
 })
 export class AgGridDataGridTopScrollExampleComponent {

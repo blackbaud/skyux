@@ -7,6 +7,9 @@ import { ValueFormatterParams } from 'ag-grid-community';
 
 import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
 
+/**
+ * @title Setting initial focus for keyboard navigation
+ */
 @Component({
   selector: 'app-ag-grid-data-entry-grid-focus-example',
   templateUrl: './example.component.html',

@@ -5,7 +5,6 @@ import {
   inject,
 } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-import { SkyDataManagerService } from '@skyux/data-manager';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
 
@@ -23,11 +22,13 @@ import { ContextMenuComponent } from './context-menu.component';
 import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
 import { InlineHelpComponent } from './inline-help.component';
 
+/**
+ * @title Basic setup with inline help (without data manager)
+ */
 @Component({
   selector: 'app-ag-grid-data-grid-inline-help-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [SkyDataManagerService],
   imports: [AgGridModule, SkyAgGridModule, SkySearchModule, SkyToolbarModule],
 })
 export class AgGridDataGridInlineHelpExampleComponent {

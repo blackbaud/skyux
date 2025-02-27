@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-import { SkyDataManagerService } from '@skyux/data-manager';
 
 import { AgGridModule } from 'ag-grid-angular';
 import { ColDef, GridOptions, ValueFormatterParams } from 'ag-grid-community';
@@ -9,11 +8,13 @@ import { of } from 'rxjs';
 import { ContextMenuComponent } from './context-menu.component';
 import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
 
+/**
+ * @title Basic multiselect setup (without data manager)
+ */
 @Component({
   selector: 'app-ag-grid-data-grid-basic-multiselect-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [SkyDataManagerService],
   imports: [AgGridModule, SkyAgGridModule],
 })
 export class AgGridDataGridBasicMultiselectExampleComponent {

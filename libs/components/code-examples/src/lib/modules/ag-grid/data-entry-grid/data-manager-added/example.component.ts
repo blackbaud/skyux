@@ -21,6 +21,9 @@ import { EditModalComponent } from './edit-modal.component';
 import { FilterModalComponent } from './filter-modal.component';
 import { ViewGridComponent } from './view-grid.component';
 
+/**
+ * @title Data manager setup
+ */
 @Component({
   selector: 'app-ag-grid-data-entry-grid-data-manager-added-example',
   templateUrl: './example.component.html',

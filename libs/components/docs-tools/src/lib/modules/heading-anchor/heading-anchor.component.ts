@@ -10,6 +10,7 @@ import {
   numberAttribute,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { SkyTrimModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 
 import { SkyHeadingAnchorService } from './heading-anchor.service';
@@ -27,7 +28,7 @@ const DEFAULT_HEADING_LEVEL: SkyHeadingAnchorHeadingLevel = 2;
   host: {
     '[attr.id]': 'anchorId()',
   },
-  imports: [NgTemplateOutlet, RouterLink, SkyIconModule],
+  imports: [NgTemplateOutlet, RouterLink, SkyIconModule, SkyTrimModule],
   selector: 'sky-heading-anchor',
   styleUrl: './heading-anchor.component.scss',
   templateUrl: './heading-anchor.component.html',
