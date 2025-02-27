@@ -213,13 +213,4 @@ export class SkyVerticalTabsetComponent
   protected tabGroupsArrowUp(): void {
     this.adapterService.focusPreviousButton(this.tabGroups);
   }
-
-  protected showTabs(): void {
-    this.tabService.showTabs();
-
-    // Wait for tabs to finish opening.
-    setTimeout(() => {
-      this.tabService.focusActiveTab(this.tabGroups);
-    });
-  }
 }

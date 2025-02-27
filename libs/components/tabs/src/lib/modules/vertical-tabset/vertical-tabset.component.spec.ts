@@ -448,6 +448,8 @@ describe('Vertical tabset component', () => {
     showTabsButton = el.querySelector('.sky-vertical-tabset-show-tabs-btn');
     showTabsButton.click();
     fixture.detectChanges();
+
+    //wait for animation to finish
     tick();
 
     expect(elementHasFocus(getTab(fixture, 1, 1))).toBeTrue();
