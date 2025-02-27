@@ -17,7 +17,10 @@ import { SkyIconModule } from '@skyux/icon';
 import { SkyLabelModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyBoxModule, SkyDescriptionListModule } from '@skyux/layout';
 import {
+  SkyManifestChildDefinitionKind,
   SkyManifestClassMethodDefinition,
+  SkyManifestDirectiveInputDefinition,
+  SkyManifestDirectiveOutputDefinition,
   type SkyManifestDocumentationTypeDefinition,
   SkyManifestFunctionDefinition,
   SkyManifestParameterDefinition,
@@ -102,9 +105,41 @@ export class SkyTypeDefinitionComponent {
   protected properties = computed<PropertyDefinition[] | undefined>(() => {
     const def = this.definition();
 
-    return def.children?.filter((c) => c.kind !== 'class-method') as
+    const ignore: SkyManifestChildDefinitionKind[] = [
+      'class-method',
+      'directive-input',
+      'directive-output',
+    ];
+
+    const properties = def.children?.filter((c) => !ignore.includes(c.kind)) as
       | PropertyDefinition[]
       | undefined;
+
+    return properties && properties.length > 0 ? properties : undefined;
+  });
+
+  protected inputs = computed<
+    SkyManifestDirectiveInputDefinition[] | undefined
+  >(() => {
+    const def = this.definition();
+
+    const inputs = def.children?.filter((c) => c.kind === 'directive-input') as
+      | SkyManifestDirectiveInputDefinition[]
+      | undefined;
+
+    return inputs && inputs.length > 0 ? inputs : undefined;
+  });
+
+  protected outputs = computed<
+    SkyManifestDirectiveOutputDefinition[] | undefined
+  >(() => {
+    const def = this.definition();
+
+    const outputs = def.children?.filter(
+      (c) => c.kind === 'directive-output',
+    ) as SkyManifestDirectiveOutputDefinition[] | undefined;
+
+    return outputs && outputs.length > 0 ? outputs : undefined;
   });
 
   protected parameters = computed<SkyManifestParameterDefinition[] | undefined>(

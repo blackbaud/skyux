@@ -140,12 +140,101 @@
           [code]="def | skyDocsEnumerationSignature"
         />
       }
-      @let propertiesValue = properties();
-      @if (propertiesValue && propertiesValue.length > 0) {
-        <h3>Properties</h3>
-        @for (property of propertiesValue; track property.name) {
+      @if (inputs(); as inputs) {
+        <h3>Inputs</h3>
+        @for (input of inputs; track input.name) {
           <div
-            class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-xl"
+            class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-lg"
+          >
+            <div
+              class="sky-type-definition-box-header sky-padding-even-md sky-border-bottom-dark"
+            >
+              <h4 class="sky-type-definition-box-heading">
+                <code
+                  class="sky-margin-inline-sm"
+                  [class.sky-text-strikethrough]="input.isDeprecated"
+                  [innerHTML]="input.name | skyEscapeHtml"
+                ></code>
+              </h4>
+              <code [innerHTML]="input.type | skyTypeAnchorLinks"></code>
+            </div>
+            <div class="sky-type-definition-box-body sky-padding-even-md">
+              @if (input.deprecationReason) {
+                <p>
+                  <sky-deprecation-reason
+                    class="sky-margin-stacked-sm"
+                    [message]="input.deprecationReason"
+                  />
+                </p>
+              }
+              @if (input.description) {
+                <p
+                  [innerHTML]="
+                    input.description | skyMarkdown | skyTypeAnchorLinks
+                  "
+                ></p>
+              }
+              @let defaultValue = input | skyDocsPropertyDefaultValue;
+              @if (defaultValue) {
+                <p>
+                  Default:
+                  <code
+                    class="sky-codespan"
+                    [innerHTML]="
+                      defaultValue | skyEscapeHtml | skyTypeAnchorLinks
+                    "
+                  ></code>
+                </p>
+              }
+            </div>
+          </div>
+        }
+      }
+
+      @if (outputs(); as outputs) {
+        <h3>Outputs</h3>
+        @for (output of outputs; track output.name) {
+          <div
+            class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-lg"
+          >
+            <div
+              class="sky-type-definition-box-header sky-padding-even-md sky-border-bottom-dark"
+            >
+              <h4 class="sky-type-definition-box-heading">
+                <code
+                  class="sky-margin-inline-sm"
+                  [class.sky-text-strikethrough]="output.isDeprecated"
+                  [innerHTML]="output.name | skyEscapeHtml"
+                ></code>
+              </h4>
+              <code [innerHTML]="output.type | skyTypeAnchorLinks"></code>
+            </div>
+            <div class="sky-type-definition-box-body sky-padding-even-md">
+              @if (output.deprecationReason) {
+                <p>
+                  <sky-deprecation-reason
+                    class="sky-margin-stacked-sm"
+                    [message]="output.deprecationReason"
+                  />
+                </p>
+              }
+              @if (output.description) {
+                <p
+                  [innerHTML]="
+                    output.description | skyMarkdown | skyTypeAnchorLinks
+                  "
+                ></p>
+              }
+            </div>
+          </div>
+        }
+      }
+
+      @if (properties(); as properties) {
+        <h3>Properties</h3>
+        @for (property of properties; track property.name) {
+          <div
+            class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-lg"
           >
             <div
               class="sky-type-definition-box-header sky-padding-even-md sky-border-bottom-dark"
@@ -202,7 +291,7 @@
         <h3>Methods</h3>
         @for (method of methodsValue; track method.name) {
           <div
-            class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-xl"
+            class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-lg"
           >
             <div
               class="sky-type-definition-box-header sky-padding-even-md sky-border-bottom-dark"
