@@ -1,7 +1,6 @@
 <sky-paging
-  data-sky-id="my-paging-content"
   [itemCount]="(pagedData | async)?.totalCount ?? 0"
-  [maxPages]="3"
+  [maxPages]="maxPages"
   [pageSize]="pageSize"
   [(currentPage)]="currentPage"
   (contentChange)="contentChange.next($event)"
@@ -30,3 +29,5 @@
     </sky-repeater>
   </sky-paging-content>
 </sky-paging>
+
+<sky-paging data-sky-id="other-paging"></sky-paging>
