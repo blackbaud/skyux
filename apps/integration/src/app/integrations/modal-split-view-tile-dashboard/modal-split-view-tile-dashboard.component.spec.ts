@@ -41,7 +41,7 @@ describe('ModalSplitViewTileDashboardComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    fixture.componentInstance.onOpenModalClick();
+    fixture.componentInstance.onOpenFullPageModalClick();
     fixture.detectChanges();
     await fixture.whenStable();
 

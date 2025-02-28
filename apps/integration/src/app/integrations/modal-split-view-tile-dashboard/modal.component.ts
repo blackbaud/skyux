@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyRepeaterModule } from '@skyux/lists';
-import { SkyModalModule } from '@skyux/modals';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkySplitViewModule } from '@skyux/split-view';
 import { SkyTileDashboardConfig, SkyTilesModule } from '@skyux/tiles';
 
@@ -115,6 +115,8 @@ export class ModalComponent {
   ];
 
   protected activeRecord: TestRecord = this.items[0];
+  protected layout = this.#context.layout ?? 'none';
+  protected readonly instance = inject(SkyModalInstance);
 
   constructor() {
     this.demoForm = new FormGroup({

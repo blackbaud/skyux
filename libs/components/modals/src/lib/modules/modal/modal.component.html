@@ -83,7 +83,13 @@
       [skyScrollShadowEnabled]="scrollShadowEnabled"
       (skyScrollShadow)="scrollShadowChange($event)"
     >
-      <ng-content select="sky-modal-content" />
+      <div
+        skyLayoutHost
+        [layout]="layout()"
+        [style.display]="layout() === 'none' ? 'contents' : undefined"
+      >
+        <ng-content select="sky-modal-content" />
+      </div>
     </div>
     <div
       class="sky-modal-footer"
