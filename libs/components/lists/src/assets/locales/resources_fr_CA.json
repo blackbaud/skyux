@@ -1,0 +1,130 @@
+{
+  "skyux_filter_aria_label_descriptor": {
+    "_description": "Étiquette ARIA par défaut pour un bouton de filtre lorsqu’un descripteur est donné",
+    "message": "Filtrer {0}"
+  },
+  "skyux_filter_button_title": {
+    "_description": "Texte pour le titre du bouton de filtre",
+    "message": "Filtre"
+  },
+  "skyux_filter_summary_close": {
+    "_description": "Texte pour le bouton fermer du composant de filtre du résumé",
+    "message": "Retirer le filtre"
+  },
+  "skyux_filter_summary_header": {
+    "_description": "Texte pour le composant de filtre du résumé",
+    "message": "Filtre"
+  },
+  "skyux_infinite_scroll_load_more_button": {
+    "_description": "Texte pour charger encore dans le bouton de défilement à l’infini",
+    "message": "Charger encore"
+  },
+  "skyux_paging_label": {
+    "_description": "Texte par défaut de l’étiquette pour le composant de pagination",
+    "message": "Pagination"
+  },
+  "skyux_paging_loaded": {
+    "_description": "Texte lu par la technologie d’assistance lorsque le chargement du contenu du composant de pagination est terminé",
+    "message": "Page {0} chargée."
+  },
+  "skyux_paging_loading": {
+    "_description": "Texte lu par la technologie d’assistance lorsque le chargement du contenu du composant de pagination commence",
+    "message": "Chargement de la page {0}"
+  },
+  "skyux_paging_next": {
+    "_description": "Texte pour l’étiquette du bouton suivant sur le composant de pagination",
+    "message": "Suivant"
+  },
+  "skyux_paging_page_label": {
+    "_description": "L’étiquette ARIA pour le groupe de pages actuel",
+    "message": "Page {0} de {1}"
+  },
+  "skyux_paging_page_link_aria_label": {
+    "_description": "Étiquette aria utilisée pour l’étiquette de pagination du lien",
+    "message": "Page {0}"
+  },
+  "skyux_paging_previous": {
+    "_description": "Texte pour l’étiquette du bouton précédent sur le composant de pagination",
+    "message": "Précédent"
+  },
+  "skyux_repeater_label": {
+    "_description": "Étiquette pour l’enveloppe de la liste de cases du composant répéteur",
+    "message": "Liste des éléments"
+  },
+  "skyux_repeater_item_collapse": {
+    "_description": "Étiquette accessible pour le bouton agrandir et réduire sur un élément répéteur. Identifie l’élément avec son nom lisible.",
+    "message": "Réduire {0}"
+  },
+  "skyux_repeater_item_collapse_default": {
+    "_description": "Étiquette générique pour le bouton agrandir et réduire sur un élément répéteur. Utilisé lorsque le nom lisible n’est pas fourni.",
+    "message": "Réduire"
+  },
+  "skyux_repeater_item_expand": {
+    "_description": "Étiquette accessible pour le bouton agrandir et réduire sur un élément répéteur. Identifie l’élément avec son nom lisible.",
+    "message": "Agrandir {0}"
+  },
+  "skyux_repeater_item_expand_default": {
+    "_description": "Étiquette générique pour le bouton agrandir et réduire sur un élément répéteur. Utilisé lorsque le nom lisible n’est pas fourni.",
+    "message": "Agrandir"
+  },
+  "skyux_repeater_item_checkbox_label": {
+    "_description": "Étiquette accessible pour la case sur un élément répéteur. Identifie l’élément avec son nom lisible.",
+    "message": "Sélectionner {0}"
+  },
+  "skyux_repeater_item_checkbox_label_default": {
+    "_description": "Étiquette générique pour la case sur un élément répéteur. Utilisé lorsque le nom lisible n’est pas fourni.",
+    "message": "Sélectionner une ligne"
+  },
+  "skyux_repeater_item_reorder_cancel": {
+    "_description": "Texte du lecteur d’écran accessible lorsqu’une réorganisation est terminée",
+    "message": "La réorganisation de l’élément a été annulée. L’élément a été retourné à sa position initiale."
+  },
+  "skyux_repeater_item_reorder_finish": {
+    "_description": "Texte du lecteur d’écran accessible lorsqu’une réorganisation est terminée",
+    "message": "A déposé l’élément en position"
+  },
+  "skyux_repeater_item_reorder_instructions": {
+    "_description": "Instructions accessibles de fonctionnement pour réorganiser un élément répéteur",
+    "message": "Élément saisi. Appuyez sur les flèches vers le haut et vers le bas pour modifier la position. Appuyez sur la touche Entrée ou Espace pour déposer. Et appuyez sur la touche d’échappement pour annuler."
+  },
+  "skyux_repeater_item_reorder_moved": {
+    "_description": "Avise l’utilisateur de la nouvelle position où les articles ont été déplacés. N’inclut pas la variable due au cas d’utilisation",
+    "message": "L’élément a été déplacé à la position"
+  },
+  "skyux_repeater_item_reorder_label_default": {
+    "_description": "Étiquette générique pour le bouton de réorganisation sur un élément répéteur. Utilisé lorsque le nom lisible n’est pas fourni.",
+    "message": "Réorganiser"
+  },
+  "skyux_repeater_item_reorder_label": {
+    "_description": "Étiquette accessible pour le bouton de réorganisation sur un élément répéteur. Identifie l’élément avec son nom lisible.",
+    "message": "Réorganiser {0}"
+  },
+  "skyux_repeater_item_reorder_operation": {
+    "_description": "Instructions accessibles de fonctionnement pour déclencher une réorganisation un élément répéteur",
+    "message": "Appuyez sur la touche Espace ou Entrée pour réorganiser."
+  },
+  "skyux_repeater_item_reorder_top": {
+    "_description": "Texte pour le bouton de réorganisation d’un élément répéteur dans le haut de la liste",
+    "message": "Haut"
+  },
+  "skyux_repeater_item_reorder_top_label": {
+    "_description": "Étiquette accessible pour le bouton pour déplacer un élément répéteur dans le haut de la liste. Identifie l’élément avec son nom lisible.",
+    "message": "Déplacer {0} dans le haut"
+  },
+  "skyux_repeater_item_reorder_top_label_default": {
+    "_description": "Étiquette générique pour le bouton pour déplacer un élément répéteur dans le haut de la liste. Utilisé lorsque le nom lisible n’est pas fourni.",
+    "message": "Déplacer au haut"
+  },
+  "skyux_sort_aria_label_descriptor": {
+    "_description": "Étiquette ARIA par défaut pour un bouton trier lorsqu’un descripteur est donné",
+    "message": "Trier {0}"
+  },
+  "skyux_sort_button_label": {
+    "_description": "Texte pour le bouton trier",
+    "message": "Trier"
+  },
+  "skyux_sort_menu_heading": {
+    "_description": "Texte pour l’en-tête dans la liste déroulante de triage",
+    "message": "Trier par"
+  }
+}

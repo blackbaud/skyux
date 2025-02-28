@@ -1,0 +1,118 @@
+{
+  "skyux_autocomplete_add": {
+    "_description": "Étiquette pour le bouton ajout de la saisie automatique",
+    "message": "Nouveau"
+  },
+  "skyux_autocomplete_multiple_results": {
+    "_description": "Texte uniquement pour le lecteur d’écran pour plusieurs résultats disponibles",
+    "message": "{0} résultats disponibles."
+  },
+  "skyux_autocomplete_no_results": {
+    "_description": "Texte du signet pour le composant de la saisie automatique lorsqu’aucun résultat n’est trouvé",
+    "message": "Aucune correspondance trouvée"
+  },
+  "skyux_autocomplete_one_result": {
+    "_description": "Texte uniquement pour le lecteur d’écran pour un résultat singulier disponible",
+    "message": "Un résultat disponible."
+  },
+  "skyux_autocomplete_show_all": {
+    "_description": "Texte de l’élément du menu à afficher lorsqu’un nombre inconnu d’éléments peut être sélectionné",
+    "message": "Afficher tout"
+  },
+  "skyux_autocomplete_show_all_count": {
+    "_description": "Texte de l’élément du menu à afficher lorsqu’un nombre connu d’éléments peut être sélectionné",
+    "message": "Afficher tout {0}"
+  },
+  "skyux_autocomplete_show_matches_count": {
+    "_description": "Texte de l’élément du menu à afficher à l’utilisateur qui a effectué la recherche lorsqu’il n’y a plus d’éléments à afficher",
+    "message": "Afficher les correspondances ({0})"
+  },
+  "skyux_country_field_search_placeholder": {
+    "_description": "Signet pour la saisie automatique de la recherche d’un pays",
+    "message": "Rechercher un pays"
+  },
+  "skyux_lookup_search_button_show_more": {
+    "_description": "Étiquette pour un bouton de recherche qui ouvre l’élément modal de la liste de vérification",
+    "message": "Afficher tous les résultats de la recherche"
+  },
+  "skyux_lookup_show_more_add": {
+    "_description": "Étiquette pour le bouton modal ajouter de la recherche afficher plus",
+    "message": "Nouveau"
+  },
+  "skyux_lookup_show_more_add_button_aria_label": {
+    "_description": "Texte de l’étiquette Aria pour le bouton ajouter dans la barre de recherche afficher plus",
+    "message": "Ajouter {0}"
+  },
+  "skyux_lookup_show_more_displayed_items_updated": {
+    "_description": "Texte de l’annonceur en direct lorsque la liste d’éléments à sélectionner change d’état",
+    "message": "{1} éléments affichés, avec {0} sélectionné(s)."
+  },
+  "skyux_lookup_show_more_select_all_button_aria_label": {
+    "_description": "Texte de l’étiquette Aria pour le bouton sélectionner tout dans la barre de recherche à sélection multiple afficher plus",
+    "message": "Sélectionner tout {0}"
+  },
+  "skyux_lookup_show_more_select_all_button_title": {
+    "_description": "Texte pour le bouton sélectionner tout dans la barre de recherche à sélection multiple afficher plus",
+    "message": "Sélectionner tout"
+  },
+  "skyux_lookup_show_more_clear_all_button_aria_label": {
+    "_description": "Texte de l’étiquette Aria pour le bouton sélectionner tout dans la barre de recherche à sélection multiple afficher plus",
+    "message": "Supprimer tous les éléments sélectionnés {0}"
+  },
+  "skyux_lookup_show_more_clear_all_button_title": {
+    "_description": "Texte pour le bouton effacer tout dans la barre de recherche à sélection multiple afficher plus",
+    "message": "Effacer tout"
+  },
+  "skyux_lookup_show_more_show_selected_option_aria_label": {
+    "_description": "Texte de l’étiquette Aria pour la case afficher la sélection dans la barre de recherche à sélection multiple afficher plus",
+    "message": "Montrer seulement ce qui est sélectionné {0}"
+  },
+  "skyux_lookup_show_more_show_selected_option_title": {
+    "_description": "Texte pour le bouton afficher la sélection dans la barre de recherche à sélection multiple afficher plus",
+    "message": "Montrer seulement les éléments sélectionnés"
+  },
+  "skyux_lookup_show_more_cancel": {
+    "_description": "Étiquette pour le bouton modal annuler de la recherche afficher plus",
+    "message": "Annuler"
+  },
+  "skyux_lookup_show_more_modal_title": {
+    "_description": "L’affichage par défaut montre plus de titre modal en utilisant la sélection contextuelle",
+    "message": "Sélectionner {0}"
+  },
+  "skyux_lookup_show_more_no_results": {
+    "_description": "Texte du signet pour l’élément modal afficher plus de la recherche lorsqu’aucun résultat n’est trouvé",
+    "message": "Aucune correspondance trouvée"
+  },
+  "skyux_lookup_show_more_select": {
+    "_description": "Étiquette pour le bouton modal sélectionner (sauvegarder) de la recherche afficher plus",
+    "message": "Sélectionner"
+  },
+  "skyux_lookup_show_more_select_context": {
+    "_description": "Étiquette pour le bouton modal sélectionner (sauvegarder) de la recherche afficher plus lorsque le contexte est donné",
+    "message": "Sélectionner {0}"
+  },
+  "skyux_lookup_tokens_summary": {
+    "_description": "Texte affiché lorsque l’utilisateur a plus que le nombre maximal d’éléments sélectionné",
+    "message": "{0} articles sélectionnés"
+  },
+  "skyux_search_aria_label_descriptor": {
+    "_description": "Étiquette aria par défaut pour une recherche lorsqu’un descripteur est donné",
+    "message": "Rechercher {0}"
+  },
+  "skyux_search_dismiss": {
+    "_description": "Étiquette pour omettre une entrée de recherche",
+    "message": "Omettre la recherche"
+  },
+  "skyux_search_label": {
+    "_description": "Étiquette pour la fonctionnalité du composant de recherche",
+    "message": "Rechercher des articles"
+  },
+  "skyux_search_open": {
+    "_description": "Étiquette pour ouvrir une entrée de recherche",
+    "message": "Ouvrir la recherche"
+  },
+  "skyux_search_placeholder": {
+    "_description": "Texte du signet pour le composant de l’entrée de recherche",
+    "message": "Trouver dans cette liste"
+  }
+}

@@ -22,9 +22,10 @@ if (-not $TempPath -or -not (Test-Path -Path $TempPath -PathType Container))
 $IsDryRunBool = [System.Convert]::ToBoolean("$IsDryRun")
 
 $CommitMessage = "chore: update library resources"
-$GitUser = "user.name=blackbaud-sky-build-user"
-$GitEmail = "user.email=sky-build-user@blackbaud.com"
+$GitUser = "blackbaud-sky-build-user"
+$GitEmail = "sky-build-user@blackbaud.com"
 $GitRepo = "blackbaud/skyux"
+$GitUsername = gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user --jq=.login
 $TranslationBranchName = "automated-translations"
 $WorkingCopy = "$TempPath/$TranslationBranchName"
 
@@ -41,6 +42,12 @@ gh repo clone $GitRepo $WorkingCopy --upstream-remote-name origin -- --branch $L
 Write-Output "`n::endgroup::`n"
 
 Set-Location -Path $WorkingCopy
+Write-Output "`n# git config user.name '$GitUser'"
+git config user.name "$GitUser"
+Write-Output "`n# git config user.email '$GitEmail'"
+git config user.email "$GitEmail"
+Write-Output "`n# git remote set-url origin 'https://${GitUsername}:********@github.com/${GitRepo}.git'"
+git remote set-url origin "https://${GitUsername}:${env:GH_TOKEN}@github.com/${GitRepo}.git"
 $remoteBranchExists = git ls-remote -b origin $TranslationBranchName
 
 if (-not $remoteBranchExists)
@@ -56,6 +63,10 @@ if (-not $remoteBranchExists)
     git push origin $TranslationBranchName
   }
   Write-Output "`n::endgroup::`n"
+  if ($env:GITHUB_OUTPUT)
+  {
+    Write-Output "success=true" >> $env:GITHUB_OUTPUT
+  }
 }
 else
 {
@@ -73,7 +84,7 @@ else
   else
   {
     Write-Output "`n# git merge -X theirs $LtsBranchName"
-    git -c "$GitUser" -c "$GitEmail" merge -X theirs $LtsBranchName
+    git merge -X theirs $LtsBranchName
   }
   Write-Output "`n::endgroup::`n"
 
@@ -93,6 +104,8 @@ else
   Write-Output "`n::endgroup::`n"
 
   Write-Output "`n::group::Check for changes`n"
+  Write-Output "`n# git add -A"
+  git add -A
   Write-Output "`n# git status"
   git status
   Write-Output "#"
@@ -110,9 +123,8 @@ else
       Write-Output "`n::endgroup::`n"
 
       Write-Output "`n::group::Push changes to $TranslationBranchName branch`n"
-      Write-Output "`n# git commit -am '${CommitMessage}'"
-      git add -A
-      git -c "$GitUser" -c "$GitEmail" commit -m "${CommitMessage}"
+      Write-Output "`n# git commit -m '${CommitMessage}'"
+      git commit -m "${CommitMessage}"
     }
   }
   else
@@ -135,7 +147,7 @@ else
   if ($changesFromLts)
   {
     Write-Output "`n::group::Pull request`n"
-    $prForChanges = gh pr list --json title,url,headRefName --jq ".[] | select(.headRefName == `"${LtsBranchName}`")"
+    $prForChanges = gh pr list --json title,url,headRefName --jq ".[] | select(.headRefName == `"${TranslationBranchName}`")"
     if ($prForChanges)
     {
       if ($env:GITHUB_OUTPUT)
@@ -146,9 +158,13 @@ else
     else
     {
       Write-Output "`n➡︎ Creating a pull request for changes"
-      Write-Output "`n# gh pr create --base $TranslationBranchName --head $LtsBranchName --title '${CommitMessage}'"
-      gh pr create --base $TranslationBranchName --head $LtsBranchName --title "${CommitMessage}"
-      $prForChanges = gh pr list --json title,url,headRefName --jq ".[] | select(.headRefName == `"${LtsBranchName}`")"
+      Write-Output "`n# gh pr create --base $LtsBranchName --head $TranslationBranchName --title '${CommitMessage}'"
+      gh pr create --base $LtsBranchName --head $TranslationBranchName `
+        --title "${CommitMessage}" `
+        --body ":robot: This pull request was created by the automated translations script." `
+        --label "risk level (author): 1" `
+        --label "skip e2e"
+      $prForChanges = gh pr list --json title,url,headRefName --jq ".[] | select(.headRefName == `"${TranslationBranchName}`")"
       if ($env:GITHUB_OUTPUT)
       {
         Write-Output "prCreated=true" >> $env:GITHUB_OUTPUT
@@ -160,6 +176,10 @@ else
     {
       Write-Output "prTitle=$($pr.title)" >> $env:GITHUB_OUTPUT
       Write-Output "prUrl=$($pr.url)" >> $env:GITHUB_OUTPUT
+      if ($pr.url)
+      {
+        Write-Output "success=true" >> $env:GITHUB_OUTPUT
+      }
     }
     Write-Output "`n::endgroup::`n"
   }
@@ -168,5 +188,9 @@ else
     Write-Output "`n::group::No pull request`n"
     Write-Output "`n➡︎ No changes to merge to $LtsBranchName branch from $TranslationBranchName branch.`n"
     Write-Output "`n::endgroup::`n"
+    if ($env:GITHUB_OUTPUT)
+    {
+      Write-Output "success=true" >> $env:GITHUB_OUTPUT
+    }
   }
 }
