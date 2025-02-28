@@ -19,7 +19,7 @@ class MockWaitSvc {
 
 describe('ModalSplitViewTileDashboardComponent', () => {
   async function setupTest(): Promise<{
-    modalHarness: SkyModalHarness;
+    modalHarness: () => Promise<SkyModalHarness>;
     fixture: ComponentFixture<ModalSplitViewTileDashboardComponent>;
   }> {
     TestBed.configureTestingModule({
@@ -41,24 +41,38 @@ describe('ModalSplitViewTileDashboardComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    fixture.componentInstance.onOpenFullPageModalClick();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
-    const modalHarness = await loader.getHarness(
-      SkyModalHarness.with({
-        dataSkyId: 'modal-demo',
-      }),
-    );
+    const modalHarness = async () =>
+      await loader.getHarness(
+        SkyModalHarness.with({
+          dataSkyId: 'modal-demo',
+        }),
+      );
 
     return { modalHarness, fixture };
   }
 
-  it('should create', async () => {
+  it('should create full page modal', async () => {
     const { fixture, modalHarness } = await setupTest();
     expect(fixture.componentInstance).toBeTruthy();
-    expect(await modalHarness.isFullPage()).toBeTrue();
+
+    fixture.componentInstance.onOpenFullPageModalClick();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(await (await modalHarness()).isFullPage()).toBeTrue();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+  });
+
+  it('should create fit layout modal', async () => {
+    const { fixture, modalHarness } = await setupTest();
+    expect(fixture.componentInstance).toBeTruthy();
+
+    fixture.componentInstance.onOpenLargeModalClick();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(await (await modalHarness()).getSize()).toEqual('large');
     await new Promise((resolve) => setTimeout(resolve, 0));
   });
 });
