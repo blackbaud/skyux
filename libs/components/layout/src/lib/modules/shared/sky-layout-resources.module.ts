@@ -29,6 +29,24 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_text_expand_see_less: { message: 'See less' },
     skyux_text_expand_see_more: { message: 'See more' },
   },
+  'FR-CA': {
+    skyux_back_to_top: { message: 'Retour en haut' },
+    skyux_card_checkbox_label: { message: 'Sélectionner la carte' },
+    skyux_definition_list_none_found: { message: 'Aucun trouvé.' },
+    skyux_description_list_none_found: { message: 'Aucun trouvé.' },
+    skyux_inline_delete_assistive_text: {
+      message: 'Êtes-vous certain de vouloir supprimer cet élément?',
+    },
+    skyux_inline_delete_cancel: { message: 'Annuler' },
+    skyux_inline_delete_confirm_deletion: {
+      message: 'Confirmer la suppression',
+    },
+    skyux_inline_delete_delete: { message: 'Supprimer' },
+    skyux_text_expand_close_text: { message: 'Fermer' },
+    skyux_text_expand_modal_title: { message: 'Vue agrandie' },
+    skyux_text_expand_see_less: { message: 'Voir moins' },
+    skyux_text_expand_see_more: { message: 'Voir plus' },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);

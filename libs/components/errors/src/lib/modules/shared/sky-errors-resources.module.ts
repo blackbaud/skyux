@@ -33,6 +33,29 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: "Heads up!\nYou're in a restricted area.",
     },
   },
+  'FR-CA': {
+    skyux_errors_broken_description: {
+      message:
+        'Un problème est survenu.\nEssayez à nouveau ou revenez plus tard.',
+    },
+    skyux_errors_broken_title: { message: 'C’est curieux…' },
+    skyux_errors_construction_description: {
+      message:
+        'Nous apprécions votre patience pendant que \nnous apportons des améliorations.',
+    },
+    skyux_errors_construction_title: { message: 'Travaux en cours.' },
+    skyux_errors_not_found_description: {
+      message:
+        'Nous sommes désolés, mais cette page \nest manquante ou a été déplacée.',
+    },
+    skyux_errors_not_found_title: { message: 'Il n’y a rien à voir ici.' },
+    skyux_errors_security_description: {
+      message: 'Demandez à votre administrateur de vous accorder l’accès.',
+    },
+    skyux_errors_security_title: {
+      message: 'Attention!\nVous êtes dans une zone restreinte.',
+    },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);
