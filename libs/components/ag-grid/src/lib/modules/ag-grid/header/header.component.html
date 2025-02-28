@@ -45,17 +45,7 @@
           >
             @if (sortDirection === 'desc') {
               <span class="ag-header-icon ag-header-label-icon">
-                <sky-icon
-                  *skyThemeIf="'default'"
-                  iconName="caret-down"
-                  iconSize="s"
-                  variant="solid"
-                />
-                <sky-icon
-                  *skyThemeIf="'modern'"
-                  iconName="chevron-down"
-                  iconSize="s"
-                />
+                <sky-icon iconName="chevron-down" iconSize="s" />
                 <span class="sky-screen-reader-only">{{
                   'sky_ag_grid_column_header_sort_button_aria_label_currently_desc'
                     | skyLibResources: displayName() ?? accessibleHeaderText()
@@ -64,17 +54,7 @@
             }
             @if (sortDirection === 'asc') {
               <span class="ag-header-icon ag-header-label-icon">
-                <sky-icon
-                  *skyThemeIf="'default'"
-                  iconName="caret-up"
-                  iconSize="s"
-                  variant="solid"
-                />
-                <sky-icon
-                  *skyThemeIf="'modern'"
-                  iconName="chevron-up"
-                  iconSize="s"
-                />
+                <sky-icon iconName="chevron-up" iconSize="s" />
                 <span class="sky-screen-reader-only">{{
                   'sky_ag_grid_column_header_sort_button_aria_label_currently_asc'
                     | skyLibResources: displayName() ?? accessibleHeaderText()

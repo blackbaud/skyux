@@ -213,10 +213,6 @@ describe('SkyAgGridService', () => {
 
       expect(typeof options.icons?.['sortDescending']).toBe('function');
 
-      expect((options.icons?.['sortDescending'] as () => string)()).toBe(
-        `<svg height="16" width="16"><use xlink:href="#sky-i-caret-down-16-solid"></use></svg>`,
-      );
-
       // Trigger change to modern theme
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(

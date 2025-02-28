@@ -41,7 +41,16 @@
               }"
               (click)="helpButtonClicked()"
             >
-              <sky-icon iconName="question-circle" iconSize="s" />
+              <sky-icon
+                *skyThemeIf="'default'"
+                iconName="question-circle"
+                iconSize="m"
+              />
+              <sky-icon
+                *skyThemeIf="'modern'"
+                iconName="question-circle"
+                iconSize="s"
+              />
             </button>
           }
         </ng-container>
@@ -74,7 +83,12 @@
             }"
             (click)="settingsButtonClicked()"
           >
-            <sky-icon iconName="settings" iconSize="s" />
+            <sky-icon
+              *skyThemeIf="'default'"
+              iconName="settings"
+              iconSize="m"
+            />
+            <sky-icon *skyThemeIf="'modern'" iconName="settings" iconSize="s" />
           </button>
         }
         @if (isInDashboardColumn) {
@@ -95,7 +109,16 @@
             (click)="$event.stopPropagation()"
             (keydown)="moveTile($event)"
           >
-            <sky-icon iconName="grid-dots" iconSize="s" />
+            <sky-icon
+              *skyThemeIf="'default'"
+              iconName="re-order-dots-vertical"
+              iconSize="m"
+            />
+            <sky-icon
+              *skyThemeIf="'modern'"
+              iconName="re-order-dots-vertical"
+              iconSize="s"
+            />
           </button>
         }
       </div>

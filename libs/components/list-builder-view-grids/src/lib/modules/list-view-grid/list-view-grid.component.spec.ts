@@ -331,7 +331,7 @@ describe('List View Grid Component', () => {
         const headerIconEl = nativeElement
           .querySelectorAll('th sky-icon-svg')
           .item(0) as HTMLElement;
-        expect(headerIconEl.getAttribute('data-sky-icon')).toBe('caret-up');
+        expect(headerIconEl.getAttribute('data-sky-icon')).toBe('chevron-up');
       }));
 
       it('should handle async column headings', fakeAsync(() => {

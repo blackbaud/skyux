@@ -701,7 +701,7 @@ describe('Grid Component', () => {
             headerEl
               .querySelector('sky-icon-svg')
               .getAttribute('data-sky-icon'),
-          ).toBe('caret-down');
+          ).toBe('chevron-down');
           expect(skyIcon).toHaveCssClass('sky-grid-heading-sort-visible');
 
           SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup', {
@@ -721,7 +721,7 @@ describe('Grid Component', () => {
             headerEl
               .querySelector('sky-icon-svg')
               .getAttribute('data-sky-icon'),
-          ).toBe('caret-up');
+          ).toBe('chevron-up');
           expect(skyIcon).toHaveCssClass('sky-grid-heading-sort-visible');
         });
 
@@ -757,7 +757,7 @@ describe('Grid Component', () => {
             headerEl
               .querySelector('sky-icon-svg')
               .getAttribute('data-sky-icon'),
-          ).toBe('caret-up');
+          ).toBe('chevron-up');
         });
 
         it('should have proper aria-sort labels', async () => {
@@ -814,7 +814,7 @@ describe('Grid Component', () => {
             headerEl.nativeElement
               .querySelector('sky-icon-svg')
               .getAttribute('data-sky-icon'),
-          ).toBe('caret-down');
+          ).toBe('chevron-down');
 
           headerEl.triggerEventHandler('keydown', { key: ' ' });
           fixture.detectChanges();
@@ -827,7 +827,7 @@ describe('Grid Component', () => {
             headerEl.nativeElement
               .querySelector('sky-icon-svg')
               .getAttribute('data-sky-icon'),
-          ).toBe('caret-up');
+          ).toBe('chevron-up');
         });
       });
 

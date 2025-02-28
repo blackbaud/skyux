@@ -667,16 +667,7 @@ export class SkyAgGridService implements OnDestroy {
   #getIconTemplate(iconKey: keyof IconMapType): () => string {
     return () => {
       const iconInfo = iconMap[iconKey];
-      const isModernTheme = this.#currentTheme?.theme?.name === 'modern';
-      const iconName =
-        iconInfo.modernName && isModernTheme
-          ? iconInfo.modernName
-          : iconInfo.defaultName;
-      const iconSize =
-        iconInfo.modernSize && isModernTheme
-          ? iconInfo.modernSize
-          : iconInfo.defaultSize;
-      return `<svg height="16" width="16"><use xlink:href="#sky-i-${iconName}-${iconSize}-solid"></use></svg>`;
+      return `<svg height="16" width="16"><use xlink:href="#sky-i-${iconInfo.name}-${iconInfo.size}-solid"></use></svg>`;
     };
   }
 

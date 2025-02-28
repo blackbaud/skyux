@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: DropdownComponent,
     data: {
       name: 'Dropdown',
-      icon: 'caret-down',
+      icon: 'chevron-down',
       library: 'popovers',
     },
   },

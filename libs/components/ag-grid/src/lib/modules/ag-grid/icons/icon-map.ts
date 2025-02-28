@@ -1,43 +1,37 @@
 export const iconMap: Record<
   string,
   {
-    defaultName: string;
-    modernName?: string;
-    defaultSize: number;
-    modernSize?: number;
+    name: string;
+    size: number;
   }
 > = {
   sortDescending: {
-    defaultName: 'caret-down',
-    defaultSize: 16,
-    modernName: 'chevron-down',
-    modernSize: 16,
+    name: 'chevron-down',
+    size: 16,
   },
   sortAscending: {
-    defaultName: 'caret-up',
-    defaultSize: 16,
-    modernName: 'chevron-up',
-    modernSize: 16,
+    name: 'chevron-up',
+    size: 16,
   },
   columnMoveMove: {
-    defaultName: 'arrow-move',
-    defaultSize: 20,
+    name: 'arrow-move',
+    size: 20,
   },
   columnMoveHide: {
-    defaultName: 'eye-off',
-    defaultSize: 16,
+    name: 'eye-off',
+    size: 16,
   },
   columnMoveLeft: {
-    defaultName: 'arrow-move',
-    defaultSize: 20,
+    name: 'arrow-move',
+    size: 20,
   },
   columnMoveRight: {
-    defaultName: 'arrow-move',
-    defaultSize: 20,
+    name: 'arrow-move',
+    size: 20,
   },
   columnMovePin: {
-    defaultName: 'arrow-move',
-    defaultSize: 20,
+    name: 'arrow-move',
+    size: 20,
   },
 };
 export type IconMapType = typeof iconMap;
