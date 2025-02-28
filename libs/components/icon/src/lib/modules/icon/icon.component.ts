@@ -50,13 +50,7 @@ export class SkyIconComponent {
    * @deprecated `size` is deprecated and will be removed in SKY UX 13. Use `iconSize` to set a specific size that does not scale with font size instead.
    */
   @Input()
-  public get size(): string {
-    return this.#_size;
-  }
-
-  public set size(value: string | undefined) {
-    this.#_size = value ?? 'md';
-  }
+  public size: string | undefined;
 
   /**
    * Whether to enforce a fixed width based on icon size. By default, icons of a specified size share a
@@ -82,6 +76,4 @@ export class SkyIconComponent {
   public readonly iconSize = input<SkyIconSize | undefined>();
 
   protected themeSvc = inject(SkyThemeService, { optional: true });
-
-  #_size = 'md';
 }

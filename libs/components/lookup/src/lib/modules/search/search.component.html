@@ -65,7 +65,7 @@
               [disabled]="disabled"
               (click)="clearSearchText()"
             >
-              <sky-icon iconName="dismiss" iconSize="s" />
+              <sky-icon iconName="dismiss" />
             </button>
           </span>
           <span
@@ -108,11 +108,7 @@
             iconName="chevron-left"
             iconSize="m"
           />
-          <sky-icon
-            *skyThemeIf="'modern'"
-            iconName="chevron-double-left"
-            iconSize="s"
-          />
+          <sky-icon *skyThemeIf="'modern'" iconName="chevron-double-left" />
         </button>
       }
     </div>

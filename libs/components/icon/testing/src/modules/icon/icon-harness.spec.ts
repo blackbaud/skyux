@@ -26,7 +26,7 @@ import { SkyIconHarness } from './icon-harness';
       [variant]="variant"
       [size]="size"
     />
-    <sky-icon data-sky-id="test-icon" icon="sort" />
+    <sky-icon data-sky-id="test-icon" icon="sort" size="md" />
     <sky-icon
       data-sky-id="svg-icon"
       [iconName]="svgIconName"

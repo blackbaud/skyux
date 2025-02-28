@@ -97,7 +97,7 @@ describe('Icon component', () => {
       setupIcon('spinner', undefined, undefined, undefined, undefined);
 
       expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-spinner');
-      expect(element.querySelector('.sky-icon')?.classList.length).toBe(4);
+      expect(element.querySelector('.sky-icon')?.classList.length).toBe(3);
     });
 
     it('should display the specified variant', () => {

@@ -16,11 +16,11 @@
   );
 
   &.sky-icon-svg {
-    &-responsive-md {
+    &-relative-md {
       --sky-icon-svg-img-size: 1em;
     }
 
-    &-responsive-lg {
+    &-relative-lg {
       .sky-icon-svg-img {
         transform: scale(1.33);
       }
@@ -30,19 +30,19 @@
       }
     }
 
-    &-responsive-2x {
+    &-relative-2x {
       --sky-icon-svg-img-size: 2em;
     }
 
-    &-responsive-3x {
+    &-relative-3x {
       --sky-icon-svg-img-size: 3em;
     }
 
-    &-responsive-4x {
+    &-relative-4x {
       --sky-icon-svg-img-size: 4em;
     }
 
-    &-responsive-5x {
+    &-relative-5x {
       --sky-icon-svg-img-size: 5em;
     }
 

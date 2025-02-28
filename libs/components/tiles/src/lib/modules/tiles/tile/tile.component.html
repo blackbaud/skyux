@@ -46,11 +46,7 @@
                 iconName="question-circle"
                 iconSize="m"
               />
-              <sky-icon
-                *skyThemeIf="'modern'"
-                iconName="question-circle"
-                iconSize="s"
-              />
+              <sky-icon *skyThemeIf="'modern'" iconName="question-circle" />
             </button>
           }
         </ng-container>
@@ -88,7 +84,7 @@
               iconName="settings"
               iconSize="m"
             />
-            <sky-icon *skyThemeIf="'modern'" iconName="settings" iconSize="s" />
+            <sky-icon *skyThemeIf="'modern'" iconName="settings" />
           </button>
         }
         @if (isInDashboardColumn) {
@@ -117,7 +113,6 @@
             <sky-icon
               *skyThemeIf="'modern'"
               iconName="re-order-dots-vertical"
-              iconSize="s"
             />
           </button>
         }

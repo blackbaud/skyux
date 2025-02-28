@@ -76,7 +76,6 @@
       <sky-icon
         *skyThemeIf="'default'"
         class="sky-colorpicker-button-icon"
-        iconSize="s"
         variant="solid"
         [iconName]="pickerButtonIcon"
         [style.color]="iconColor"
@@ -355,8 +354,8 @@
       }"
       (click)="onResetClick()"
     >
-      <sky-icon *skyThemeIf="'default'" iconName="dismiss" iconSize="s" />
-      <sky-icon *skyThemeIf="'modern'" iconName="delete" iconSize="s" />
+      <sky-icon *skyThemeIf="'default'" iconName="dismiss" />
+      <sky-icon *skyThemeIf="'modern'" iconName="delete" />
     </button>
   }
 </div>

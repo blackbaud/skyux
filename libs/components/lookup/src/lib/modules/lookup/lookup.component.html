@@ -122,7 +122,7 @@
       (click)="onSearchButtonClick()"
     >
       <sky-icon *skyThemeIf="'modern'" iconName="search" iconSize="l" />
-      <sky-icon *skyThemeIf="'default'" iconName="search" iconSize="s" />
+      <sky-icon *skyThemeIf="'default'" iconName="search" />
     </button>
   </div>
 </ng-template>
@@ -133,6 +133,6 @@
     [ngClass]="{ 'sky-lookup-disabled': disabled }"
   >
     <sky-icon *skyThemeIf="'modern'" iconName="search" iconSize="l" />
-    <sky-icon *skyThemeIf="'default'" iconName="search" iconSize="s" />
+    <sky-icon *skyThemeIf="'default'" iconName="search" />
   </div>
 </ng-template>
