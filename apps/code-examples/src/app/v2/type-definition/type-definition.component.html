@@ -55,11 +55,11 @@
     </p>
   }
 
-  @if (selector(); as selector) {
+  <!-- @if (selector(); as selector) {
     <p>
       Selector: <code class="sky-codespan">{{ selector }}</code>
     </p>
-  }
+  } -->
 
   @if (pipeName(); as pipeName) {
     <p>
@@ -155,8 +155,10 @@
       @if (inputs(); as inputs) {
         <h3>Inputs</h3>
         @for (input of inputs; track input.name) {
-          <sky-type-definition-box
+          <sky-docs-type-definition-box
+            stacked
             [deprecated]="input.isDeprecated"
+            [required]="input.isRequired"
             [headingText]="
               input
                 | skyDocsPropertyName: def
@@ -180,22 +182,16 @@
                 </sky-status-indicator>
               </p>
             }-->
-            @if (input.description || input.isRequired) {
+            @if (input.description) {
               <p>
-                @if (input.isRequired) {
-                  <!-- <p><strong>Required.</strong></p> -->
-                  <p><sky-pill color="red">Required</sky-pill></p>
-                }
-                @if (input.description) {
-                  <span
-                    [innerHTML]="
-                      input.description
-                        | skyEscapeHtml
-                        | skyMarkdown
-                        | skyTypeAnchorLinks
-                    "
-                  ></span>
-                }
+                <span
+                  [innerHTML]="
+                    input.description
+                      | skyEscapeHtml
+                      | skyMarkdown
+                      | skyTypeAnchorLinks
+                  "
+                ></span>
               </p>
             }
             @let defaultValue = input | skyDocsPropertyDefaultValue;
@@ -210,14 +206,15 @@
                 ></code>
               </p>
             }
-          </sky-type-definition-box>
+          </sky-docs-type-definition-box>
         }
       }
 
       @if (outputs(); as outputs) {
         <h3>Outputs</h3>
         @for (output of outputs; track output.name) {
-          <sky-type-definition-box
+          <sky-docs-type-definition-box
+            stacked
             [deprecated]="output.isDeprecated"
             [headingText]="
               output
@@ -241,14 +238,15 @@
                 "
               ></p>
             }
-          </sky-type-definition-box>
+          </sky-docs-type-definition-box>
         }
       }
 
       @if (properties(); as properties) {
         <h3>Properties</h3>
         @for (property of properties; track property.name) {
-          <sky-type-definition-box
+          <sky-docs-type-definition-box
+            stacked
             [deprecated]="property.isDeprecated"
             [headingText]="
               property
@@ -284,14 +282,15 @@
                 ></code>
               </p>
             }
-          </sky-type-definition-box>
+          </sky-docs-type-definition-box>
         }
       }
       @let methodsValue = methods();
       @if (methodsValue && methodsValue.length > 0) {
         <h3>Methods</h3>
         @for (method of methodsValue; track method.name) {
-          <sky-type-definition-box
+          <sky-docs-type-definition-box
+            stacked
             [deprecated]="method.isDeprecated"
             [headingText]="
               method
@@ -378,7 +377,7 @@
                 [innerHTML]="method.type | skyEscapeHtml | skyTypeAnchorLinks"
               ></code>
             </p>
-          </sky-type-definition-box>
+          </sky-docs-type-definition-box>
         }
       }
     }

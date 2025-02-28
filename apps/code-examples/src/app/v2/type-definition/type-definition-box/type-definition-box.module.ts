@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 
-import { SkyTypeDefinitionBoxComponent } from './type-definition-box.component';
+import { SkyDocsTypeDefinitionBoxComponent } from './type-definition-box.component';
 
+/**
+ * @internal
+ */
 @NgModule({
-  imports: [SkyTypeDefinitionBoxComponent],
-  exports: [SkyTypeDefinitionBoxComponent],
+  imports: [SkyDocsTypeDefinitionBoxComponent],
+  exports: [SkyDocsTypeDefinitionBoxComponent],
 })
-export class SkyTypeDefinitionBoxModule {}
+export class SkyDocsTypeDefinitionBoxModule {}

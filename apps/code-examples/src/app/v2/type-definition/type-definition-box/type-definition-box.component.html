@@ -1,0 +1,14 @@
+<div class="sky-docs-type-definition-box-header">
+  <h4 class="sky-docs-type-definition-box-heading">
+    <code
+      [class.sky-docs-type-definition-text-strikethrough]="deprecated()"
+      [innerHTML]="headingText()"
+    ></code>
+  </h4>
+  @if (required()) {
+    <sky-pill color="red">Required</sky-pill>
+  }
+</div>
+<div class="sky-padding-even-xl">
+  <ng-content />
+</div>

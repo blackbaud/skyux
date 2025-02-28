@@ -44,7 +44,7 @@ import { SkyDocsTypeAliasSignaturePipe } from './pipes/type-alias-signature.pipe
 import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
 import { SkyTypeDefinitionKindToLabelPipe } from './pipes/type-definition-kind-to-label.pipe';
 import { PropertyDefinition } from './property-definition';
-import { SkyTypeDefinitionBoxModule } from './type-definition-box/type-definition-box.module';
+import { SkyDocsTypeDefinitionBoxModule } from './type-definition-box/type-definition-box.module';
 
 /**
  * @internal
@@ -82,7 +82,7 @@ import { SkyTypeDefinitionBoxModule } from './type-definition-box/type-definitio
     SkyDocsInterfaceSignaturePipe,
     SkyDocsEnumerationSignaturePipe,
     SkyTypeAnchorLinksPipe,
-    SkyTypeDefinitionBoxModule,
+    SkyDocsTypeDefinitionBoxModule,
     SkyCodeHighlightPipe,
     SkyDocsFunctionSignaturePipe,
   ],

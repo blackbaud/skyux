@@ -14,11 +14,9 @@ a.sky-toc-link,
 a.sky-toc-link {
   padding: 0 0 0 12px;
   border-left: 3px solid transparent;
-  display: block;
-  width: 100%;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: var(--sky-margin-inline-xs);
 
   &:focus-visible,
   &.sky-toc-link-active {
@@ -27,9 +25,20 @@ a.sky-toc-link {
 
   &:hover {
     text-decoration: none;
-
     .sky-toc-link-text {
       text-decoration: underline;
     }
+  }
+
+  .sky-toc-link-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .sky-toc-link-category {
+    flex-shrink: 1;
+    white-space: nowrap;
   }
 }

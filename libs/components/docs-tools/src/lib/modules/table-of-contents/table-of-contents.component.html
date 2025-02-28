@@ -11,14 +11,14 @@
       [fragment]="link.anchorId"
       [routerLink]="[]"
     >
+      <span class="sky-toc-link-text">{{ link.text }}</span>
       @if (link.categoryColor) {
         <sky-pill
-          class="sky-toc-link-category sky-font-body-sm sky-margin-inline-xs"
+          class="sky-toc-link-category sky-font-body-sm"
           [color]="link.categoryColor"
           >{{ link.categoryText }}</sky-pill
         >
       }
-      <span class="sky-toc-link-text">{{ link.text }}</span>
     </a>
   }
 </nav>
