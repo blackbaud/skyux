@@ -19,11 +19,6 @@ type Story = StoryObj<CountryFieldComponent>;
 export const EmptyCountryField: Story = {};
 EmptyCountryField.args = {};
 
-export const PhoneInfoCountryField: Story = {};
-PhoneInfoCountryField.args = {
-  phoneInfoFlag: true,
-};
-
 export const DisabledCountryField: Story = {};
 DisabledCountryField.args = {
   disabledFlag: true,

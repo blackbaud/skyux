@@ -1,16 +1,6 @@
 <form [formGroup]="countryForm">
-  @if (phoneInfoFlag) {
-    <app-country-field-mock-phone-field>
-      <ng-container [ngTemplateOutlet]="countryFieldTemplate" />
-    </app-country-field-mock-phone-field>
-  } @else {
-    <ng-container [ngTemplateOutlet]="countryFieldTemplate" />
-  }
-</form>
-<span *ngIf="ready$ | async" id="ready"></span>
-
-<ng-template #countryFieldTemplate>
   <sky-input-box labelText="Country field input" [disabled]="disabledFlag">
     <sky-country-field formControlName="countryControl" />
   </sky-input-box>
-</ng-template>
+</form>
+<span *ngIf="ready$ | async" id="ready"></span>
