@@ -20,6 +20,13 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_split_view_back_to_list: { message: 'Back to list' },
   },
+  'FR-CA': {
+    skyux_split_view_resize_handle: {
+      message:
+        'Redimensionnez le panneau du menu latéral. Utilisez la flèche de droite pour agrandir et la flèche de gauche pour réduire.',
+    },
+    skyux_split_view_back_to_list: { message: 'Retour à la liste' },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);

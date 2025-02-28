@@ -34,6 +34,31 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_colorpicker_red: { message: 'R:' },
     skyux_colorpicker_reset: { message: 'Reset color value to white' },
   },
+  'FR-CA': {
+    skyux_colorpicker_alpha: { message: 'A :' },
+    skyux_colorpicker_apply: { message: 'Appliquer' },
+    skyux_colorpicker_aria_alpha: {
+      message: 'Valeur du canal alpha entre 0 et 1',
+    },
+    skyux_colorpicker_aria_blue: { message: 'Valeur bleue entre 0 et 255' },
+    skyux_colorpicker_aria_green: { message: 'Valeur verte entre 0 et 255' },
+    skyux_colorpicker_aria_hex: { message: 'Code de couleur hexadécimal' },
+    skyux_colorpicker_aria_red: { message: 'Valeur rouge entre 0 et 255' },
+    skyux_colorpicker_aria_rgba: { message: 'Valeurs RGBA' },
+    skyux_colorpicker_blue: { message: 'B :' },
+    skyux_colorpicker_close: { message: 'Annuler' },
+    skyux_colorpicker_dropdown_button: {
+      message: 'Sélectionner la valeur de la couleur',
+    },
+    skyux_colorpicker_green: { message: 'G :' },
+    skyux_colorpicker_hex: { message: 'Hexadécimale :' },
+    skyux_colorpicker_input_default_label: { message: 'Valeur de la couleur' },
+    skyux_colorpicker_preset_color: { message: 'Couleur prédéfinie :' },
+    skyux_colorpicker_red: { message: 'R :' },
+    skyux_colorpicker_reset: {
+      message: 'Réinitialiser la valeur de la couleur à blanc',
+    },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);

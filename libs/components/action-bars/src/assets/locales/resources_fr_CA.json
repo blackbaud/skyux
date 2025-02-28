@@ -1,0 +1,10 @@
+{
+  "skyux_summary_action_bar_open_secondary": {
+    "_description": "Étiquette du bouton qui montre un menu secondaire dans la barre de menus du résumé",
+    "message": "Montrer les actions secondaires"
+  },
+  "skyux_summary_action_bar_expand": {
+    "_description": "Étiquette du bouton agrandir et réduire dans la barre de menus du résumé",
+    "message": "Agrandir ou réduire le résumé"
+  }
+}

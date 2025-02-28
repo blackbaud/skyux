@@ -1,0 +1,66 @@
+{
+  "sky_ag_grid_row_selector_aria_label": {
+    "_description": "étiquette aria pour la case permettant de sélectionner une ligne",
+    "message": "Sélecteur de ligne pour la ligne {0}"
+  },
+  "sky_ag_grid_row_selector_column_heading": {
+    "_description": "en-tête de la colonne au-dessus des cases pour sélectionner les lignes",
+    "message": "Sélection d’une ligne"
+  },
+  "sky_ag_grid_cell_editor_datepicker_aria_label": {
+    "_description": "étiquette aria pour un éditeur de cellule à saisie automatique",
+    "message": "Date modifiable {0} pour la ligne {1}"
+  },
+  "sky_ag_grid_cell_editor_datepicker_hint_text": {
+    "_description": "Texte d’aide pour le format de date actuellement défini dans le sélecteur de date.",
+    "message": "Utilisez le format {0}."
+  },
+  "sky_ag_grid_cell_editor_number_aria_label": {
+    "_description": "étiquette aria pour l’éditeur de numéro de cellule",
+    "message": "Numéro modifiable {0} pour la ligne {1}"
+  },
+  "sky_ag_grid_cell_editor_text_aria_label": {
+    "_description": "étiquette aria pour un éditeur de cellule de texte",
+    "message": "Texte modifiable {0} pour la ligne {1}"
+  },
+  "sky_ag_grid_cell_editor_autocomplete_aria_label": {
+    "_description": "étiquette aria pour un éditeur de cellule à saisie automatique",
+    "message": "Saisie automatique modifiable {0} pour la ligne {1}"
+  },
+  "sky_ag_grid_cell_renderer_number_validator_message": {
+    "_description": "erreur d’affichage pour le validateur de numéro",
+    "message": "Entrez un numéro valide."
+  },
+  "sky_ag_grid_cell_renderer_currency_validator_message": {
+    "_description": "erreur d’affichage pour le validateur de devise",
+    "message": "Entrez une devise valide."
+  },
+  "skyux_lookup_tokens_summary": {
+    "_description": "Texte affiché lorsque l’utilisateur a plus que le nombre maximal d’éléments sélectionné",
+    "message": "{0} articles sélectionnés"
+  },
+  "sky_ag_grid_cell_editor_currency_aria_label": {
+    "_description": "étiquette aria pour un éditeur de cellule de devise",
+    "message": "Devise modifiable {0} pour la ligne {1}"
+  },
+  "sky_ag_grid_column_header_sort_button_aria_label_currently_asc": {
+    "_description": "étiquette aria pour le bouton trier de l’en-tête de colonne lorsque la colonne est actuellement triée dans l’ordre croissant",
+    "message": "Trier la colonne {0}, actuellement en ordre croissant"
+  },
+  "sky_ag_grid_column_header_sort_button_aria_label_currently_desc": {
+    "_description": "étiquette aria pour le bouton trier de l’en-tête de colonne lorsque la colonne est actuellement triée dans l’ordre décroissant",
+    "message": "Trier la colonne {0}, actuellement en ordre décroissant"
+  },
+  "sky_ag_grid_column_header_sort_button_aria_label_currently_not_sorted": {
+    "_description": "étiquette aria pour le bouton trier de l’en-tête de colonne lorsque la colonne est actuellement non triée",
+    "message": "Trier la colonne {0}, actuellement non triée"
+  },
+  "sky_ag_grid_column_group_header_expand_aria_label": {
+    "_description": "étiquette aria pour le bouton de l’en-tête du groupe de colonnes à agrandir",
+    "message": "Agrandir le groupe de colonnes {0}"
+  },
+  "sky_ag_grid_column_group_header_collapse_aria_label": {
+    "_description": "étiquette aria pour le bouton de l’en-tête du groupe de colonnes à réduire",
+    "message": "Réduire le groupe de colonnes {0}"
+  }
+}

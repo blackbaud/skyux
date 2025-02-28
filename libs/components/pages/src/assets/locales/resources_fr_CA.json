@@ -1,0 +1,22 @@
+{
+  "sky_action_hub_related_links": {
+    "_description": "En-tête pour les liens connexes",
+    "message": "Liens connexes"
+  },
+  "sky_action_hub_recent_links": {
+    "_description": "En-tête pour les liens accédés récemment",
+    "message": "Accédés récemment"
+  },
+  "sky_action_hub_settings_links": {
+    "_description": "En-tête pour les liens de paramètres",
+    "message": "Paramètres"
+  },
+  "sky_action_hub_needs_attention": {
+    "_description": "En-tête pour les éléments nécessitant une attention particulière",
+    "message": "Nécessite une attention particulière"
+  },
+  "sky_action_hub_needs_attention_empty": {
+    "_description": "Afficher lorsque la liste nécessite une attention particulière est vide",
+    "message": "Aucun problème ne nécessite actuellement une attention particulière"
+  }
+}
