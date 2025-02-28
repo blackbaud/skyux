@@ -62,11 +62,7 @@ export class SkyCodeSnippetComponent {
     }
 
     if (bordered) {
-      classnames.push(
-        'sky-elevation-0-bordered',
-        'sky-padding-even-md',
-        'sky-rounded-corners',
-      );
+      classnames.push('sky-elevation-0-bordered', 'sky-rounded-corners');
     }
 
     return classnames.join(' ');

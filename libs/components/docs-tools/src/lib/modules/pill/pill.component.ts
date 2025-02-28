@@ -15,8 +15,25 @@ import type { SkyPillColor } from './pill-color';
   styles: `
     :host {
       display: inline-flex;
-      padding: 3px 7px;
+      padding: 5px 10px;
       background-color: var(--sky-pill-background-color);
+      // box-shadow: inset 0 0 0 2px
+      //   color-mix(
+      //     in srgb,
+      //     var(--sky-pill-background-color) 95%,
+      //     var(--sky-text-color-default)
+      //   );
+      // color: color-mix(
+      //   in srgb,
+      //   var(--sky-pill-background-color) 15%,
+      //   var(--sky-text-color-default)
+      // );
+      color: var(--sky-text-color-default);
+
+      // box-shadow:
+      //   0 1px 1px rgba(255, 255, 255, 0.25),
+      //   0 1px 0px rgba(0, 0, 0, 0.075) inset;
+      // text-shadow: 0px 1px 0 rgba(255, 255, 255, 0.075);
     }
 
     :host(.sky-pill-color-blue) {

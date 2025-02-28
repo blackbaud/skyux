@@ -153,219 +153,199 @@
       @if (inputs(); as inputs) {
         <h3>Inputs</h3>
         @for (input of inputs; track input.name) {
-          <div
-            class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-xl"
+          <sky-type-definition-box
+            [deprecated]="input.isDeprecated"
+            [required]="input.isRequired"
+            [headingText]="
+              input
+                | skyDocsPropertyName: def
+                | skyEscapeHtml
+                | skyTypeAnchorLinks
+            "
           >
-            <div
-              class="sky-type-definition-box-header sky-padding-even-md sky-border-bottom-dark"
-            >
-              <h4 class="sky-type-definition-box-heading">
+            @if (input.deprecationReason) {
+              <p>
+                <sky-deprecation-reason
+                  class="sky-margin-stacked-sm"
+                  [message]="input.deprecationReason"
+                />
+              </p>
+            }
+            <!--@if (input.isRequired) {
+              <p>
+                <sky-status-indicator descriptionType="error" indicatorType="error">
+                  <strong class="sky-font-emphasized">Deprecated. </strong
+                  ><span [innerHTML]="message() | skyMarkdown | skyTypeAnchorLinks"></span>
+                </sky-status-indicator>
+              </p>
+            }-->
+            @if (input.description || input.isRequired) {
+              <p>
+                @if (input.isRequired) {
+                  <!-- <p><strong>Required.</strong></p> -->
+                  <p><sky-pill color="red">Required</sky-pill></p>
+                }
+                @if (input.description) {
+                  <span
+                    [innerHTML]="
+                      input.description
+                        | skyEscapeHtml
+                        | skyMarkdown
+                        | skyTypeAnchorLinks
+                    "
+                  ></span>
+                }
+              </p>
+            }
+            @let defaultValue = input | skyDocsPropertyDefaultValue;
+            @if (defaultValue) {
+              <p>
+                Default:
                 <code
-                  class="sky-margin-inline-sm"
-                  [class.sky-text-strikethrough]="input.isDeprecated"
+                  class="sky-codespan"
                   [innerHTML]="
-                    input
-                      | skyDocsPropertyName: def
-                      | skyEscapeHtml
-                      | skyTypeAnchorLinks
+                    defaultValue | skyEscapeHtml | skyTypeAnchorLinks
                   "
                 ></code>
-              </h4>
-            </div>
-            <div class="sky-type-definition-box-body sky-padding-even-md">
-              @if (input.deprecationReason) {
-                <p>
-                  <sky-deprecation-reason
-                    class="sky-margin-stacked-sm"
-                    [message]="input.deprecationReason"
-                  />
-                </p>
-              }
-              <!--@if (input.isRequired) {
-                <p>
-                  <sky-status-indicator descriptionType="error" indicatorType="error">
-                    <strong class="sky-font-emphasized">Deprecated. </strong
-                    ><span [innerHTML]="message() | skyMarkdown | skyTypeAnchorLinks"></span>
-                  </sky-status-indicator>
-                </p>
-              }-->
-              @if (input.description || input.isRequired) {
-                <p>
-                  @if (input.isRequired) {
-                    <strong>Required. </strong>
-                  }
-                  @if (input.description) {
-                    <span
-                      [innerHTML]="
-                        input.description
-                          | skyEscapeHtml
-                          | skyMarkdown
-                          | skyTypeAnchorLinks
-                      "
-                    ></span>
-                  }
-                </p>
-              }
-              @let defaultValue = input | skyDocsPropertyDefaultValue;
-              @if (defaultValue) {
-                <p>
-                  Default:
-                  <code
-                    class="sky-codespan"
-                    [innerHTML]="
-                      defaultValue | skyEscapeHtml | skyTypeAnchorLinks
-                    "
-                  ></code>
-                </p>
-              }
-            </div>
-          </div>
+              </p>
+            }
+          </sky-type-definition-box>
         }
       }
 
       @if (outputs(); as outputs) {
         <h3>Outputs</h3>
         @for (output of outputs; track output.name) {
-          <div
-            class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-xl"
+          <sky-type-definition-box
+            [deprecated]="output.isDeprecated"
+            [headingText]="
+              output
+                | skyDocsPropertyName: def
+                | skyEscapeHtml
+                | skyTypeAnchorLinks
+            "
           >
-            <div
-              class="sky-type-definition-box-header sky-padding-even-md sky-border-bottom-dark"
-            >
-              <h4 class="sky-type-definition-box-heading">
-                <code
-                  class="sky-margin-inline-sm"
-                  [class.sky-text-strikethrough]="output.isDeprecated"
-                  [innerHTML]="
-                    output
-                      | skyDocsPropertyName: def
-                      | skyEscapeHtml
-                      | skyTypeAnchorLinks
-                  "
-                ></code>
-              </h4>
-            </div>
-            <div class="sky-type-definition-box-body sky-padding-even-md">
-              @if (output.deprecationReason) {
-                <p>
-                  <sky-deprecation-reason
-                    class="sky-margin-stacked-sm"
-                    [message]="output.deprecationReason"
-                  />
-                </p>
-              }
-              @if (output.description) {
-                <p
-                  [innerHTML]="
-                    output.description | skyMarkdown | skyTypeAnchorLinks
-                  "
-                ></p>
-              }
-            </div>
-          </div>
+            @if (output.deprecationReason) {
+              <p>
+                <sky-deprecation-reason
+                  class="sky-margin-stacked-sm"
+                  [message]="output.deprecationReason"
+                />
+              </p>
+            }
+            @if (output.description) {
+              <p
+                [innerHTML]="
+                  output.description | skyMarkdown | skyTypeAnchorLinks
+                "
+              ></p>
+            }
+          </sky-type-definition-box>
         }
       }
 
       @if (properties(); as properties) {
         <h3>Properties</h3>
         @for (property of properties; track property.name) {
-          <div
-            class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-xl"
+          <sky-type-definition-box
+            [deprecated]="property.isDeprecated"
+            [headingText]="
+              property
+                | skyDocsPropertyName: def
+                | skyEscapeHtml
+                | skyTypeAnchorLinks: { ignore: [def.name] }
+            "
           >
-            <div
-              class="sky-type-definition-box-header sky-padding-even-md sky-border-bottom-dark"
-            >
-              <h4 class="sky-type-definition-box-heading">
+            @if (property.deprecationReason) {
+              <p>
+                <sky-deprecation-reason
+                  class="sky-margin-stacked-sm"
+                  [message]="property.deprecationReason"
+                />
+              </p>
+            }
+            @if (property.description) {
+              <p
+                [innerHTML]="
+                  property.description | skyMarkdown | skyTypeAnchorLinks
+                "
+              ></p>
+            }
+            @let defaultValue = property | skyDocsPropertyDefaultValue;
+            @if (defaultValue) {
+              <p>
+                Default:
                 <code
-                  class="sky-margin-inline-sm"
-                  [class.sky-text-strikethrough]="property.isDeprecated"
+                  class="sky-codespan"
                   [innerHTML]="
-                    property
-                      | skyDocsPropertyName: def
-                      | skyEscapeHtml
-                      | skyTypeAnchorLinks: { ignore: [def.name] }
+                    defaultValue | skyEscapeHtml | skyTypeAnchorLinks
                   "
                 ></code>
-              </h4>
-            </div>
-            <div class="sky-type-definition-box-body sky-padding-even-md">
-              @if (property.deprecationReason) {
-                <p>
-                  <sky-deprecation-reason
-                    class="sky-margin-stacked-sm"
-                    [message]="property.deprecationReason"
-                  />
-                </p>
-              }
-              @if (property.description) {
-                <p
-                  [innerHTML]="
-                    property.description | skyMarkdown | skyTypeAnchorLinks
-                  "
-                ></p>
-              }
-              @let defaultValue = property | skyDocsPropertyDefaultValue;
-              @if (defaultValue) {
-                <p>
-                  Default:
-                  <code
-                    class="sky-codespan"
-                    [innerHTML]="
-                      defaultValue | skyEscapeHtml | skyTypeAnchorLinks
-                    "
-                  ></code>
-                </p>
-              }
-            </div>
-          </div>
+              </p>
+            }
+          </sky-type-definition-box>
         }
       }
       @let methodsValue = methods();
       @if (methodsValue && methodsValue.length > 0) {
         <h3>Methods</h3>
         @for (method of methodsValue; track method.name) {
-          <div
-            class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-xl"
+          <sky-type-definition-box
+            [deprecated]="method.isDeprecated"
+            [headingText]="
+              method
+                | skyDocsMethodName: def
+                | skyEscapeHtml
+                | skyTypeAnchorLinks: { ignore: [def.name] }
+            "
           >
-            <div
-              class="sky-type-definition-box-header sky-padding-even-md sky-border-bottom-dark"
-            >
-              <h4 class="sky-type-definition-box-heading">
-                <code
-                  class="sky-margin-inline-sm"
-                  [class.sky-text-strikethrough]="method.isDeprecated"
-                  [innerHTML]="
-                    method
-                      | skyDocsMethodName: def
-                      | skyEscapeHtml
-                      | skyTypeAnchorLinks: { ignore: [def.name] }
-                  "
-                ></code>
-              </h4>
-            </div>
-            <div class="sky-type-definition-box-body sky-padding-even-md">
-              @if (method.deprecationReason) {
-                <p>
-                  <sky-deprecation-reason
-                    class="sky-margin-stacked-sm"
-                    [message]="method.deprecationReason"
-                  />
-                </p>
-              }
-              @if (method.description) {
-                <p
-                  [innerHTML]="
-                    method.description | skyMarkdown | skyTypeAnchorLinks
-                  "
-                ></p>
-              }
-              @if (method.parameters) {
-                <h4>Parameters</h4>
+            @if (method.deprecationReason) {
+              <p>
+                <sky-deprecation-reason
+                  class="sky-margin-stacked-sm"
+                  [message]="method.deprecationReason"
+                />
+              </p>
+            }
+            @if (method.description) {
+              <p
+                [innerHTML]="
+                  method.description | skyMarkdown | skyTypeAnchorLinks
+                "
+              ></p>
+            }
+            @if (method.parameters) {
+              <h4>Parameters</h4>
 
-                @for (param of method.parameters; track param.name) {
-                  <h5
-                    class="sky-type-definition-parameter-heading sky-font-body-default"
-                  >
+              @for (param of method.parameters; track param.name) {
+                <h5
+                  class="sky-type-definition-parameter-heading sky-font-body-default"
+                >
+                  <code
+                    class="sky-codespan"
+                    [innerHTML]="
+                      param
+                        | skyDocsParameterName
+                        | skyEscapeHtml
+                        | skyTypeAnchorLinks
+                    "
+                  ></code>
+                </h5>
+                @if (param.description) {
+                  <div class="sky-type-definition-parameter-body">
+                    <p
+                      [innerHTML]="
+                        param.description | skyMarkdown | skyTypeAnchorLinks
+                      "
+                    ></p>
+                  </div>
+                }
+              }
+
+              <!--<sky-description-list defaultDescription="&nbsp;">
+              @for (param of method.parameters; track param.name) {
+                <sky-description-list-content>
+                  <sky-description-list-term>
                     <code
                       [innerHTML]="
                         param
@@ -374,55 +354,30 @@
                           | skyTypeAnchorLinks
                       "
                     ></code>
-                  </h5>
-                  @if (param.description) {
-                    <div class="sky-type-definition-parameter-body">
-                      <p
+                  </sky-description-list-term>
+                  <sky-description-list-description>
+                    @if (param.description) {
+                      <span
                         [innerHTML]="
-                          param.description | skyMarkdown | skyTypeAnchorLinks
+                          param.description
+                            | skyMarkdown
+                            | skyTypeAnchorLinks
                         "
-                      ></p>
-                    </div>
-                  }
-                }
-
-                <!--<sky-description-list defaultDescription="&nbsp;">
-                  @for (param of method.parameters; track param.name) {
-                    <sky-description-list-content>
-                      <sky-description-list-term>
-                        <code
-                          [innerHTML]="
-                            param
-                              | skyDocsParameterName
-                              | skyEscapeHtml
-                              | skyTypeAnchorLinks
-                          "
-                        ></code>
-                      </sky-description-list-term>
-                      <sky-description-list-description>
-                        @if (param.description) {
-                          <span
-                            [innerHTML]="
-                              param.description
-                                | skyMarkdown
-                                | skyTypeAnchorLinks
-                            "
-                          ></span>
-                        }
-                      </sky-description-list-description>
-                    </sky-description-list-content>
-                  }
-                </sky-description-list>-->
+                      ></span>
+                    }
+                  </sky-description-list-description>
+                </sky-description-list-content>
               }
-              <h4>Returns</h4>
-              <p>
-                <code
-                  class="sky-codespan"
-                  [innerHTML]="method.type | skyEscapeHtml | skyTypeAnchorLinks"
-                ></code>
-              </p>
-            </div>
-          </div>
+            </sky-description-list>-->
+            }
+            <h4>Returns</h4>
+            <p>
+              <code
+                class="sky-codespan"
+                [innerHTML]="method.type | skyEscapeHtml | skyTypeAnchorLinks"
+              ></code>
+            </p>
+          </sky-type-definition-box>
         }
       }
     }

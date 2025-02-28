@@ -16,16 +16,6 @@ Use a specific selector so it beats out "stacked" classes added to the host.
   margin-top: -15px;
 }
 
-.sky-heading-anchor-link {
-  opacity: 0;
-  transition: opacity 250ms;
-  margin-left: -30px;
-  margin-top: 2px;
-  display: inline-block;
-  margin-left: calc(-1em - var(--sky-margin-inline-xs));
-  margin-right: var(--sky-margin-inline-xs);
-}
-
 .sky-heading-anchor-heading {
   word-break: break-all;
   position: relative;
@@ -36,6 +26,15 @@ Use a specific selector so it beats out "stacked" classes added to the host.
       opacity: 1;
     }
   }
+}
+
+.sky-heading-anchor-link {
+  opacity: 0;
+  position: absolute;
+  transition: opacity 250ms;
+  display: inline-block;
+  left: calc(-1em - var(--sky-margin-inline-xs));
+  top: -2px;
 }
 
 .sky-heading-anchor-strikethrough {
