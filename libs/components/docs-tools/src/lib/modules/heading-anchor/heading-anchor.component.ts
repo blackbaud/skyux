@@ -13,7 +13,7 @@ import { RouterLink } from '@angular/router';
 import { SkyTrimModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 
-import { SkyPillColor } from '../pill/pill-color';
+import { SkyDocsPillColor } from '../pill/pill-color';
 
 import { SkyHeadingAnchorService } from './heading-anchor.service';
 
@@ -34,7 +34,7 @@ const DEFAULT_HEADING_LEVEL: SkyHeadingAnchorHeadingLevel = 2;
     NgTemplateOutlet,
     RouterLink,
     SkyIconModule,
-    // SkyPillModule,
+    // SkyDocsPillModule,
     SkyTrimModule,
   ],
   selector: 'sky-heading-anchor',
@@ -49,7 +49,7 @@ export class SkyHeadingAnchorComponent implements OnInit, OnDestroy {
   public readonly headingTextFormat =
     input<SkyHeadingAnchorHeadingTextFormat>('normal');
 
-  public readonly categoryColor = input<SkyPillColor | undefined>();
+  public readonly categoryColor = input<SkyDocsPillColor | undefined>();
   public readonly categoryText = input<string | undefined>();
 
   public readonly headingLevel = input(DEFAULT_HEADING_LEVEL, {

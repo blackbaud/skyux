@@ -1,0 +1,34 @@
+:host {
+  display: inline-flex;
+  padding: 5px 10px;
+  background-color: var(--sky-docs-pill-background-color);
+  color: var(--sky-text-color-default);
+}
+
+:host(.sky-docs-pill-color-blue) {
+  --sky-docs-pill-background-color: var(--sky-category-color-blue);
+}
+
+:host(.sky-docs-pill-color-light-blue) {
+  --sky-docs-pill-background-color: var(--sky-category-color-light-blue);
+}
+
+:host(.sky-docs-pill-color-orange) {
+  --sky-docs-pill-background-color: var(--sky-category-color-orange);
+}
+
+:host(.sky-docs-pill-color-purple) {
+  --sky-docs-pill-background-color: var(--sky-category-color-purple);
+}
+
+:host(.sky-docs-pill-color-red) {
+  --sky-docs-pill-background-color: var(--sky-category-color-red);
+}
+
+:host(.sky-docs-pill-color-teal) {
+  --sky-docs-pill-background-color: var(--sky-category-color-teal);
+}
+
+:host(.sky-docs-pill-color-yellow) {
+  --sky-docs-pill-background-color: var(--sky-category-color-yellow);
+}

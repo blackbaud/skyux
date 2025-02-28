@@ -10,17 +10,17 @@
     [headingText]="def.name"
     [strikethrough]="def.isDeprecated"
   >
-    <sky-pill [color]="def.kind | skyKindToPillColor">
+    <sky-docs-pill [color]="def.kind | skyKindToPillColor">
       <span class="sky-screen-reader-only">Type: </span>
       {{ def.kind | skyTypeDefinitionKindToLabel }}
-    </sky-pill>
+    </sky-docs-pill>
 
     @if (def.isDeprecated) {
-      <sky-pill color="red"> Deprecated </sky-pill>
+      <sky-docs-pill color="red"> Deprecated </sky-docs-pill>
     }
 
     @if (def.isPreview) {
-      <sky-pill color="teal"> Preview </sky-pill>
+      <sky-docs-pill color="teal"> Preview </sky-docs-pill>
     }
   </sky-heading-anchor>
 

@@ -4,7 +4,7 @@ import {
   booleanAttribute,
   input,
 } from '@angular/core';
-import { SkyPillModule } from '@skyux/docs-tools';
+import { SkyDocsPillModule } from '@skyux/docs-tools';
 
 /**
  * @internal
@@ -14,7 +14,7 @@ import { SkyPillModule } from '@skyux/docs-tools';
   host: {
     '[class.sky-margin-stacked-xl]': 'stacked()',
   },
-  imports: [SkyPillModule],
+  imports: [SkyDocsPillModule],
   selector: 'sky-docs-type-definition-box',
   styleUrl: './type-definition-box.component.scss',
   templateUrl: './type-definition-box.component.html',

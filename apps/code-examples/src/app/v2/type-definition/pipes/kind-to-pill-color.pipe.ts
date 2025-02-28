@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SkyPillColor } from '@skyux/docs-tools';
+import { SkyDocsPillColor } from '@skyux/docs-tools';
 import { SkyManifestParentDefinitionKind } from '@skyux/manifest';
 
 @Pipe({
   name: 'skyKindToPillColor',
 })
 export class SkyKindToPillColorPipe implements PipeTransform {
-  public transform(value: SkyManifestParentDefinitionKind): SkyPillColor {
+  public transform(value: SkyManifestParentDefinitionKind): SkyDocsPillColor {
     switch (value) {
       case 'module':
         return 'purple';

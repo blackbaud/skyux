@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 
-import { SkyPillComponent } from './pill.component';
+import { SkyDocsPillComponent } from './pill.component';
 
 /**
  * @internal
  */
 @NgModule({
-  imports: [SkyPillComponent],
-  exports: [SkyPillComponent],
+  imports: [SkyDocsPillComponent],
+  exports: [SkyDocsPillComponent],
 })
-export class SkyPillModule {}
+export class SkyDocsPillModule {}

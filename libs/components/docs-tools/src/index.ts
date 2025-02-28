@@ -15,8 +15,8 @@ export {
 export { SkyCodeSnippetModule } from './lib/modules/code-snippet/code-snippet.module';
 export { SkyHeadingAnchorModule } from './lib/modules/heading-anchor/heading-anchor.module';
 export { SkyHeadingAnchorService } from './lib/modules/heading-anchor/heading-anchor.service';
-export { SkyPillColor } from './lib/modules/pill/pill-color';
-export { SkyPillModule } from './lib/modules/pill/pill.module';
+export { SkyDocsPillColor } from './lib/modules/pill/pill-color';
+export { SkyDocsPillModule } from './lib/modules/pill/pill.module';
 export { SkyTableOfContentsModule } from './lib/modules/table-of-contents/table-of-contents.module';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
@@ -25,5 +25,5 @@ export { SkyClipboardButtonDirective as λ3 } from './lib/modules/clipboard/clip
 export { SkyCodeExampleViewerComponent as λ2 } from './lib/modules/code-example-viewer/code-example-viewer.component';
 export { SkyCodeSnippetComponent as λ1 } from './lib/modules/code-snippet/code-snippet.component';
 export { SkyHeadingAnchorComponent as λ5 } from './lib/modules/heading-anchor/heading-anchor.component';
-export { SkyPillComponent as λ4 } from './lib/modules/pill/pill.component';
+export { SkyDocsPillComponent as λ4 } from './lib/modules/pill/pill.component';
 export { SkyTableOfContentsPageComponent as λ6 } from './lib/modules/table-of-contents/table-of-contents-page.component';

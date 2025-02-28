@@ -10,8 +10,8 @@ import {
   SkyClipboardModule,
   SkyCodeHighlightPipe,
   SkyCodeSnippetModule,
+  SkyDocsPillModule,
   SkyHeadingAnchorModule,
-  SkyPillModule,
 } from '@skyux/docs-tools';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyLabelModule, SkyStatusIndicatorModule } from '@skyux/indicators';
@@ -71,7 +71,7 @@ import { SkyDocsTypeDefinitionBoxModule } from './type-definition-box/type-defin
     SkyCodeSnippetModule,
     SkyKindToPillColorPipe,
     SkyBoxModule,
-    SkyPillModule,
+    SkyDocsPillModule,
     SkyStatusIndicatorModule,
     SkyClipboardModule,
     SkyDocsPropertyNamePipe,

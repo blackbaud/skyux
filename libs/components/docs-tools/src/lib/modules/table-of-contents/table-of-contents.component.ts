@@ -2,7 +2,7 @@ import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { SkyPillModule } from '../pill/pill.module';
+import { SkyDocsPillModule } from '../pill/pill.module';
 
 import { SkyTableOfContentsLink } from './table-of-contents-links';
 
@@ -11,7 +11,7 @@ import { SkyTableOfContentsLink } from './table-of-contents-links';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, JsonPipe, SkyPillModule],
+  imports: [RouterLink, JsonPipe, SkyDocsPillModule],
   selector: 'sky-toc',
   styleUrl: './table-of-contents.component.scss',
   templateUrl: './table-of-contents.component.html',

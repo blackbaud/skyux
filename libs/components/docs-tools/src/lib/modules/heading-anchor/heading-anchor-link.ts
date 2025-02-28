@@ -1,11 +1,11 @@
-import { SkyPillColor } from '../pill/pill-color';
+import { SkyDocsPillColor } from '../pill/pill-color';
 
 /**
  * @internal
  */
 export interface SkyHeadingAnchorLink {
   anchorId: string;
-  categoryColor?: SkyPillColor;
+  categoryColor?: SkyDocsPillColor;
   categoryText?: string;
   text: string;
 }
