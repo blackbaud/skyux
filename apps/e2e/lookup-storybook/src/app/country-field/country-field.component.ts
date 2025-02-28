@@ -4,28 +4,17 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { SKY_COUNTRY_FIELD_CONTEXT } from '@skyux/lookup';
 import { FontLoadingService } from '@skyux/storybook/font-loading';
-
-let countryFieldPhoneInfo = false;
 
 @Component({
   selector: 'app-country-field',
   templateUrl: './country-field.component.html',
   styleUrls: ['./country-field.component.scss'],
   standalone: false,
-  providers: [
-    {
-      provide: SKY_COUNTRY_FIELD_CONTEXT,
-      useValue: { inPhoneField: countryFieldPhoneInfo },
-    },
-  ],
 })
 export class CountryFieldComponent {
   @Input()
-  public set phoneInfoFlag(value: boolean) {
-    countryFieldPhoneInfo = value;
-  }
+  public phoneInfoFlag = false;
 
   @Input()
   public set prePopulatedFlag(value: boolean) {
