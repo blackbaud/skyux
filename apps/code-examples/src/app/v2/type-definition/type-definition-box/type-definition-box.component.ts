@@ -12,16 +12,10 @@ import { SkyDocsPillModule } from '@skyux/docs-tools';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    class: 'sky-rounded-corners sky-elevation-0-bordered',
     '[class.sky-margin-stacked-xl]': 'stacked()',
-    // '[skyThemeClass]': `{
-    //   'sky-shadow sky-border-dark': 'default',
-    //   'sky-elevation-1-bordered': 'modern'
-    // }`,
   },
-  imports: [
-    SkyDocsPillModule,
-    // SkyThemeModule
-  ],
+  imports: [SkyDocsPillModule],
   selector: 'sky-docs-type-definition-box',
   styleUrl: './type-definition-box.component.scss',
   templateUrl: './type-definition-box.component.html',
