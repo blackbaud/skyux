@@ -1,11 +1,6 @@
-import {
-  Component,
-  ViewEncapsulation,
-  computed,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { catchError, of, switchMap } from 'rxjs';
 
@@ -38,24 +33,24 @@ const FIXED_SIZES = new Map([
   selector: 'sky-icon-svg',
   templateUrl: './icon-svg.component.html',
   styleUrls: ['./icon-svg.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   host: {
     '[class]':
-      'iconSize() ? "sky-icon-svg sky-icon-svg-" + iconSize() : "sky-icon-svg sky-icon-svg-responsive-" + responsiveSize()',
+      'iconSize() ? "sky-icon-svg-" + iconSize() : "sky-icon-svg-responsive-" + relativeSize()',
   },
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyIconSvgComponent {
   readonly #resolverSvc = inject(SkyIconSvgResolverService);
 
   public readonly iconName = input.required<string>();
   public readonly iconSize = input<SkyIconSize | undefined>();
-  public readonly responsiveSize = input<string>('md');
+  public readonly relativeSize = input<string>('md');
   public readonly iconVariant = input<SkyIconVariantType>();
 
   readonly #iconInfo = computed(() => {
     return {
       src: this.iconName(),
-      responsiveSize: this.responsiveSize(),
+      relativeSize: this.relativeSize(),
       iconSize: this.iconSize(),
       variant: this.iconVariant(),
     };
@@ -68,7 +63,7 @@ export class SkyIconSvgComponent {
           info.src,
           info.iconSize !== undefined
             ? FIXED_SIZES.get(info.iconSize)
-            : FLUID_SIZES.get(info.responsiveSize),
+            : FLUID_SIZES.get(info.relativeSize),
           info.variant,
         ),
       ),

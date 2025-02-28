@@ -32,7 +32,7 @@ import { SkyIconHarness } from './icon-harness';
       [iconName]="svgIconName"
       [variant]="svgVariant"
       [iconSize]="svgIconSize"
-      [size]="svgIconResponsiveSize"
+      [size]="svgIconRelativeSize"
     />
   `,
   standalone: false,
@@ -46,7 +46,7 @@ class TestComponent {
   public svgIconName: string | undefined = 'filter';
   public svgVariant: string | undefined;
   public svgIconSize: string | undefined;
-  public svgIconResponsiveSize: string | undefined;
+  public svgIconRelativeSize: string | undefined;
 }
 //#endregion Test component
 
@@ -105,28 +105,28 @@ async function validateFixedWidth(
 async function validateIconSize(
   iconHarness: SkyIconHarness,
   fixture: ComponentFixture<TestComponent>,
-  responsiveSize: string | undefined,
+  relativeSize: string | undefined,
 ): Promise<void> {
-  fixture.componentInstance.size = responsiveSize;
+  fixture.componentInstance.size = relativeSize;
 
   fixture.detectChanges();
 
-  await expectAsync(iconHarness.getIconSize()).toBeResolvedTo(responsiveSize);
+  await expectAsync(iconHarness.getIconSize()).toBeResolvedTo(relativeSize);
 }
 
 async function validateSvgIconSize(
   iconHarness: SkyIconHarness,
   fixture: ComponentFixture<TestComponent>,
-  responsiveSize: string | undefined,
+  relativeSize: string | undefined,
   fixedSize: string | undefined,
 ): Promise<void> {
-  fixture.componentInstance.svgIconResponsiveSize = responsiveSize;
+  fixture.componentInstance.svgIconRelativeSize = relativeSize;
   fixture.componentInstance.svgIconSize = fixedSize;
 
   fixture.detectChanges();
 
   await expectAsync(iconHarness.getIconSize()).toBeResolvedTo(
-    responsiveSize || fixedSize,
+    relativeSize || fixedSize,
   );
 }
 
@@ -156,7 +156,7 @@ async function validateSvgVariant(
 
 const iconTypes = ['fa', 'skyux'];
 const variants = ['line', 'solid'];
-const responsiveSizes = ['lg', '2x', '3x', '4x', '5x'];
+const relativeSizes = ['lg', '2x', '3x', '4x', '5x'];
 const sizes = ['xxxs', 'xxs', 'xs', 's', 'm', 'l', 'xl', 'xxl'];
 
 describe('Icon harness', () => {
@@ -237,7 +237,7 @@ describe('Icon harness', () => {
   it('should return the correct icon size', async () => {
     const { iconHarness, fixture } = await setupTest();
 
-    for (const size of responsiveSizes) {
+    for (const size of relativeSizes) {
       await validateIconSize(iconHarness, fixture, size);
     }
   });
@@ -343,7 +343,7 @@ describe('Icon harness', () => {
       const { iconHarness, fixture } = await setupTest({
         dataSkyId: 'svg-icon',
       });
-      for (const size of responsiveSizes) {
+      for (const size of relativeSizes) {
         await validateSvgIconSize(iconHarness, fixture, size, undefined);
       }
     });

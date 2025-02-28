@@ -23,7 +23,7 @@ export class SkyIconComponent {
    * The name of
    * [the Font Awesome 4.7 icon](https://fontawesome.com/v4.7/icons/) or the SKY UX icon to
    * display. When specifying a Font Awesome icon, do not prefix the name with `fa-`.
-   * @deprecated Font Awesome icons are deprecated and support will be removed in SKY UX 13. Use `iconName` instead.
+   * @deprecated Font Awesome support will be removed in SKY UX 13. Use iconName instead.
    */
   @Input()
   public icon: string | undefined;
