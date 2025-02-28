@@ -1,9 +1,9 @@
 {
-  "sky_code_snippet_copy_to_clipboard_button_label": {
+  "sky_docs_code_snippet_copy_to_clipboard_button_label": {
     "_description": "The ARIA label for the copy-code-to-clipboard button",
     "message": "Copy"
   },
-  "sky_code_snippet_copy_to_clipboard_success_message": {
+  "sky_docs_code_snippet_copy_to_clipboard_success_message": {
     "_description": "The message displayed to the user when the text is successfully saved to the clipboard",
     "message": "Code copied"
   },

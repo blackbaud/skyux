@@ -1,15 +1,21 @@
 import { Pipe, PipeTransform, inject } from '@angular/core';
 
-import { SkyCodeHighlightLanguage } from './code-highlight-language';
-import { SkyCodeHighlightService } from './code-highlight.service';
+import { SkyDocsCodeHighlightLanguage } from './code-highlight-language';
+import { SkyDocsCodeHighlightService } from './code-highlight.service';
 
+/**
+ * @internal
+ */
 @Pipe({
-  name: 'skyCodeHighlight',
+  name: 'skyDocsCodeHighlight',
 })
-export class SkyCodeHighlightPipe implements PipeTransform {
-  readonly #highlightSvc = inject(SkyCodeHighlightService);
+export class SkyDocsCodeHighlightPipe implements PipeTransform {
+  readonly #highlightSvc = inject(SkyDocsCodeHighlightService);
 
-  public transform(value: string, language: SkyCodeHighlightLanguage): string {
+  public transform(
+    value: string,
+    language: SkyDocsCodeHighlightLanguage,
+  ): string {
     return this.#highlightSvc.highlight(value, language);
   }
 }

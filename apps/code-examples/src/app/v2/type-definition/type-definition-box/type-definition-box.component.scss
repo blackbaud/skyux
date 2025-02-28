@@ -1,10 +1,12 @@
 :host {
-  --sky-docs-type-definition-box-border-color: color-mix(
-    in srgb,
-    var(--sky-background-color-info-light) 30%,
-    var(--sky-border-color-neutral-medium-dark)
+  // --sky-docs-type-definition-box-border-color: color-mix(
+  //   in srgb,
+  //   var(--sky-background-color-info-light) 30%,
+  //   var(--sky-border-color-neutral-medium-dark)
+  // );
+  --sky-docs-type-definition-box-border-color: var(
+    --sky-border-color-neutral-medium
   );
-
   display: block;
   border: 1px solid var(--sky-docs-type-definition-box-border-color);
   border-radius: var(--sky-border-radius-s);

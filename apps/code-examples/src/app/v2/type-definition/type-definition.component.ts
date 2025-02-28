@@ -7,9 +7,9 @@ import {
   input,
 } from '@angular/core';
 import {
-  SkyCodeHighlightPipe,
-  SkyCodeSnippetModule,
   SkyDocsClipboardModule,
+  SkyDocsCodeHighlightPipe,
+  SkyDocsCodeSnippetModule,
   SkyDocsPillModule,
   SkyHeadingAnchorModule,
 } from '@skyux/docs-tools';
@@ -68,7 +68,7 @@ import { SkyDocsTypeDefinitionBoxModule } from './type-definition-box/type-defin
     SkyHeadingAnchorModule,
     SkyLabelModule,
     SkyMarkdownPipe,
-    SkyCodeSnippetModule,
+    SkyDocsCodeSnippetModule,
     SkyKindToPillColorPipe,
     SkyBoxModule,
     SkyDocsPillModule,
@@ -83,7 +83,7 @@ import { SkyDocsTypeDefinitionBoxModule } from './type-definition-box/type-defin
     SkyDocsEnumerationSignaturePipe,
     SkyTypeAnchorLinksPipe,
     SkyDocsTypeDefinitionBoxModule,
-    SkyCodeHighlightPipe,
+    SkyDocsCodeHighlightPipe,
     SkyDocsFunctionSignaturePipe,
   ],
   providers: [SkyDocsParameterNamePipe],

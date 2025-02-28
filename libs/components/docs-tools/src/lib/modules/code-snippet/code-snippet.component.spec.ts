@@ -8,20 +8,22 @@ import hlScss from 'highlight.js/lib/languages/scss';
 import hlTypeScript from 'highlight.js/lib/languages/typescript';
 import hlXml from 'highlight.js/lib/languages/xml';
 
-import { SkyClipboardService } from '../clipboard/clipboard.service';
+import { SkyDocsClipboardService } from '../clipboard/clipboard.service';
 
-import { SkyCodeSnippetComponent } from './code-snippet.component';
-import { SkyCodeSnippetModule } from './code-snippet.module';
+import { SkyDocsCodeSnippetComponent } from './code-snippet.component';
+import { SkyDocsCodeSnippetModule } from './code-snippet.module';
 
 describe('code-snippet.component', () => {
-  function setupTest(): { fixture: ComponentFixture<SkyCodeSnippetComponent> } {
-    const fixture = TestBed.createComponent(SkyCodeSnippetComponent);
+  function setupTest(): {
+    fixture: ComponentFixture<SkyDocsCodeSnippetComponent>;
+  } {
+    const fixture = TestBed.createComponent(SkyDocsCodeSnippetComponent);
 
     return { fixture };
   }
 
   function getPreElement(
-    fixture: ComponentFixture<SkyCodeSnippetComponent>,
+    fixture: ComponentFixture<SkyDocsCodeSnippetComponent>,
   ): HTMLPreElement | null {
     return (fixture.nativeElement as HTMLElement).querySelector<HTMLPreElement>(
       '.sky-code-snippet-pre',
@@ -30,7 +32,7 @@ describe('code-snippet.component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyCodeSnippetModule],
+      imports: [SkyDocsCodeSnippetModule],
     });
   });
 
@@ -85,7 +87,7 @@ describe('code-snippet.component', () => {
     const { fixture } = setupTest();
 
     const clipboardSpy = spyOn(
-      TestBed.inject(SkyClipboardService),
+      TestBed.inject(SkyDocsClipboardService),
       'copyTextContent',
     );
 

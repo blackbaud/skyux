@@ -6,10 +6,10 @@ import hlScss from 'highlight.js/lib/languages/scss';
 import hlTypeScript from 'highlight.js/lib/languages/typescript';
 import hlXml from 'highlight.js/lib/languages/xml';
 
-import { SkyCodeHighlightLanguage } from './code-highlight-language';
+import { SkyDocsCodeHighlightLanguage } from './code-highlight-language';
 
 @Injectable({ providedIn: 'root' })
-export class SkyCodeHighlightService {
+export class SkyDocsCodeHighlightService {
   constructor() {
     highlight.registerLanguage('html', hlXml);
     highlight.registerLanguage('markup', hlXml);
@@ -21,7 +21,10 @@ export class SkyCodeHighlightService {
     highlight.registerLanguage('typescript', hlTypeScript);
   }
 
-  public highlight(code: string, language: SkyCodeHighlightLanguage): string {
+  public highlight(
+    code: string,
+    language: SkyDocsCodeHighlightLanguage,
+  ): string {
     const highlighted = highlight.highlight(code, {
       language,
     });

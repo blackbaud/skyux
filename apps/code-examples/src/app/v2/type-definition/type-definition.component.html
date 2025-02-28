@@ -69,7 +69,7 @@
 
   @if (def.codeExample) {
     <h3>Example</h3>
-    <sky-code-snippet
+    <sky-docs-code-snippet
       bordered
       class="sky-margin-stacked-lg"
       hideToolbar
@@ -79,7 +79,7 @@
   }
   @switch (def.kind) {
     @case ('function') {
-      <sky-code-snippet
+      <sky-docs-code-snippet
         bordered
         class="sky-margin-stacked-lg"
         hideToolbar
@@ -122,20 +122,20 @@
       }
     }
     @case ('type-alias') {
-      <sky-code-snippet bordered hideToolbar stacked>
+      <sky-docs-code-snippet bordered hideToolbar stacked>
         <code
           [innerHTML]="
             def
               | skyDocsTypeAliasSignature
-              | skyCodeHighlight: 'typescript'
+              | skyDocsCodeHighlight: 'typescript'
               | skyTypeAnchorLinks: { ignore: [def.name] }
           "
         ></code>
-      </sky-code-snippet>
+      </sky-docs-code-snippet>
     }
     @default {
       @if (def.kind === 'interface') {
-        <sky-code-snippet
+        <sky-docs-code-snippet
           bordered
           hideToolbar
           language="ts"
@@ -144,7 +144,7 @@
         />
       }
       @if (def.kind === 'enumeration') {
-        <sky-code-snippet
+        <sky-docs-code-snippet
           bordered
           hideToolbar
           language="ts"

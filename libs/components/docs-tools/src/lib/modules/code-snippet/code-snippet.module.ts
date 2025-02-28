@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 
-import { SkyCodeSnippetComponent } from './code-snippet.component';
+import { SkyDocsCodeSnippetWrapperComponent } from './code-snippet-wrapper.component';
+import { SkyDocsCodeSnippetComponent } from './code-snippet.component';
 
 /**
  * @internal
  */
 @NgModule({
-  imports: [SkyCodeSnippetComponent],
-  exports: [SkyCodeSnippetComponent],
+  imports: [SkyDocsCodeSnippetComponent, SkyDocsCodeSnippetWrapperComponent],
+  exports: [SkyDocsCodeSnippetComponent, SkyDocsCodeSnippetWrapperComponent],
 })
-export class SkyCodeSnippetModule {}
+export class SkyDocsCodeSnippetModule {}

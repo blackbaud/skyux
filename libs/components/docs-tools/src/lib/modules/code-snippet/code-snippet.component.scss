@@ -1,5 +1,5 @@
-sky-code-snippet {
-  --sky-code-snippet-scrollbar-height: 8px;
+sky-docs-code-snippet {
+  --sky-docs-code-snippet-scrollbar-height: 8px;
 
   overflow-x: auto;
   display: flex;
@@ -8,17 +8,17 @@ sky-code-snippet {
   font-size: 14px;
   line-height: 1.5;
 
-  pre.sky-code-snippet-pre {
+  pre {
     margin: 0;
   }
 }
 
-sky-code-snippet::-webkit-scrollbar {
+sky-docs-code-snippet::-webkit-scrollbar {
   -webkit-appearance: none;
-  height: var(--sky-code-snippet-scrollbar-height);
+  height: var(--sky-docs-code-snippet-scrollbar-height);
 }
 
-sky-code-snippet::-webkit-scrollbar-track {
+sky-docs-code-snippet::-webkit-scrollbar-track {
   background-color: color-mix(
     in srgb,
     var(--sky-border-color-neutral-medium-dark) 5%,
@@ -27,7 +27,7 @@ sky-code-snippet::-webkit-scrollbar-track {
   border-radius: var(--sky-border-radius-s);
 }
 
-sky-code-snippet::-webkit-scrollbar-thumb {
+sky-docs-code-snippet::-webkit-scrollbar-thumb {
   background-color: color-mix(
     in srgb,
     var(--sky-border-color-neutral-medium-dark) 20%,
@@ -36,6 +36,6 @@ sky-code-snippet::-webkit-scrollbar-thumb {
   border-radius: var(--sky-border-radius-s);
 }
 
-sky-code-snippet.sky-elevation-0-bordered {
+sky-docs-code-snippet.sky-elevation-0-bordered {
   padding: var(--sky-padding-even-xl);
 }

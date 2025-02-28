@@ -14,10 +14,10 @@ import { SkyBoxModule } from '@skyux/layout';
 import { SkyVerticalTabsetModule } from '@skyux/tabs';
 
 import {
-  type SkyCodeHighlightLanguage,
+  type SkyDocsCodeHighlightLanguage,
   assertCodeHighlightLanguage,
 } from '../code-highlight/code-highlight-language';
-import { SkyCodeSnippetModule } from '../code-snippet/code-snippet.module';
+import { SkyDocsCodeSnippetModule } from '../code-snippet/code-snippet.module';
 import { SkyDocsToolsResourcesModule } from '../shared/sky-docs-tools-resources.module';
 
 import { SkyStackBlitzService } from './stackblitz.service';
@@ -34,7 +34,7 @@ import { SkyStackBlitzService } from './stackblitz.service';
     KeyValuePipe,
     NgComponentOutlet,
     SkyBoxModule,
-    SkyCodeSnippetModule,
+    SkyDocsCodeSnippetModule,
     SkyDocsToolsResourcesModule,
     SkyIconModule,
     SkyIdModule,
@@ -58,7 +58,7 @@ export class SkyCodeExampleViewerComponent {
 
   protected readonly isCodeVisible = signal(false);
 
-  protected getCodeLanguage(fileName: string): SkyCodeHighlightLanguage {
+  protected getCodeLanguage(fileName: string): SkyDocsCodeHighlightLanguage {
     const extension = fileName.split('.').pop();
     assertCodeHighlightLanguage(extension);
     return extension;

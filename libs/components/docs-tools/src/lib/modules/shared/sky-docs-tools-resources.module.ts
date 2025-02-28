@@ -14,8 +14,8 @@ import {
 
 const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
-    sky_code_snippet_copy_to_clipboard_button_label: { message: 'Copy' },
-    sky_code_snippet_copy_to_clipboard_success_message: {
+    sky_docs_code_snippet_copy_to_clipboard_button_label: { message: 'Copy' },
+    sky_docs_code_snippet_copy_to_clipboard_success_message: {
       message: 'Code copied',
     },
     sky_code_example_viewer_demo_hidden_message: {

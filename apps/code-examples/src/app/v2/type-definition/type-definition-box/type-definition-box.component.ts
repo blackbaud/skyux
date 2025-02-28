@@ -13,8 +13,15 @@ import { SkyDocsPillModule } from '@skyux/docs-tools';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.sky-margin-stacked-xl]': 'stacked()',
+    // '[skyThemeClass]': `{
+    //   'sky-shadow sky-border-dark': 'default',
+    //   'sky-elevation-1-bordered': 'modern'
+    // }`,
   },
-  imports: [SkyDocsPillModule],
+  imports: [
+    SkyDocsPillModule,
+    // SkyThemeModule
+  ],
   selector: 'sky-docs-type-definition-box',
   styleUrl: './type-definition-box.component.scss',
   templateUrl: './type-definition-box.component.html',

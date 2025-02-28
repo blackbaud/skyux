@@ -3,16 +3,12 @@ export { SkyDocsClipboardService } from './lib/modules/clipboard/clipboard.servi
 export { SkyCodeExampleViewerModule } from './lib/modules/code-example-viewer/code-example-viewer.module';
 export { SkyStackBlitzLaunchConfig } from './lib/modules/code-example-viewer/stackblitz-launch-config';
 export {
-  SKY_CODE_HIGHLIGHT_LANGUAGES,
-  SkyCodeHighlightLanguage,
+  SKY_DOCS_CODE_HIGHLIGHT_LANGUAGES,
+  SkyDocsCodeHighlightLanguage,
 } from './lib/modules/code-highlight/code-highlight-language';
-export { SkyCodeHighlightPipe } from './lib/modules/code-highlight/code-highlight.pipe';
-export { SkyCodeHighlightService } from './lib/modules/code-highlight/code-highlight.service';
-export {
-  SKY_CODE_SNIPPET_FORMATTER,
-  SkyCodeSnippetFormatterFn,
-} from './lib/modules/code-snippet/code-snippet-formatter.token';
-export { SkyCodeSnippetModule } from './lib/modules/code-snippet/code-snippet.module';
+export { SkyDocsCodeHighlightPipe } from './lib/modules/code-highlight/code-highlight.pipe';
+export { SkyDocsCodeHighlightService } from './lib/modules/code-highlight/code-highlight.service';
+export { SkyDocsCodeSnippetModule } from './lib/modules/code-snippet/code-snippet.module';
 export { SkyHeadingAnchorModule } from './lib/modules/heading-anchor/heading-anchor.module';
 export { SkyHeadingAnchorService } from './lib/modules/heading-anchor/heading-anchor.service';
 export { SkyDocsPillColor } from './lib/modules/pill/pill-color';
@@ -23,7 +19,8 @@ export { SkyTableOfContentsModule } from './lib/modules/table-of-contents/table-
 // Obscure names are used to indicate types are not part of the public API.
 export { SkyDocsClipboardButtonDirective as λ3 } from './lib/modules/clipboard/clipboard-button.directive';
 export { SkyCodeExampleViewerComponent as λ2 } from './lib/modules/code-example-viewer/code-example-viewer.component';
-export { SkyCodeSnippetComponent as λ1 } from './lib/modules/code-snippet/code-snippet.component';
+export { SkyDocsCodeSnippetWrapperComponent as λ7 } from './lib/modules/code-snippet/code-snippet-wrapper.component';
+export { SkyDocsCodeSnippetComponent as λ1 } from './lib/modules/code-snippet/code-snippet.component';
 export { SkyHeadingAnchorComponent as λ5 } from './lib/modules/heading-anchor/heading-anchor.component';
 export { SkyDocsPillComponent as λ4 } from './lib/modules/pill/pill.component';
 export { SkyTableOfContentsPageComponent as λ6 } from './lib/modules/table-of-contents/table-of-contents-page.component';
