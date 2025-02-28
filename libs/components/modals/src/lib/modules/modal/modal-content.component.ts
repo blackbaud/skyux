@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { SkyResponsiveHostDirective } from '@skyux/core';
 
 /**
@@ -9,5 +9,7 @@ import { SkyResponsiveHostDirective } from '@skyux/core';
   standalone: true,
   selector: 'sky-modal-content',
   template: `<ng-content />`,
+  styleUrls: ['./modal-content.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyModalContentComponent {}
