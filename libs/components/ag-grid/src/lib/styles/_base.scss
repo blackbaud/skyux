@@ -86,6 +86,17 @@
       );
     }
   }
+
+  .ag-picker-field-wrapper {
+    border-radius: 0;
+
+    &.ag-picker-has-focus,
+    &:focus-within {
+      background-color: transparent;
+      border: none;
+      outline-color: transparent;
+    }
+  }
 }
 
 .ag-theme-sky-data-grid-default,
@@ -130,11 +141,11 @@
     border-bottom: var(--ag-row-border);
   }
 
-  &.sky-ag-grid-cell-editing-skyCellLookup {
-    .ag-row .ag-cell.ag-cell-focus,
-    .ag-popup .ag-popup-editor {
-      outline: none;
-    }
+  .ag-row .ag-cell.ag-cell-focus,
+  .ag-popup .ag-popup-editor,
+  .ag-wrapper.ag-picker-field-wrapper {
+    box-shadow: none;
+    outline: none;
   }
 
   .ag-cell.ag-cell-inline-editing {
@@ -159,10 +170,17 @@
       }
     }
 
+    &.ag-cell-focus:not(.ag-cell-range-selected):focus-within,
     &.ag-cell-inline-editing,
-    &.ag-cell-popup-editing {
-      outline-offset: -2px;
-      outline: var(--ag-range-selection-border-color) solid 2px;
+    &.ag-cell-popup-editing:not(
+        :is(.sky-ag-grid-cell-editing-skyCellLookup *)
+      ) {
+      outline-offset: calc(-1 * var(--sky-border-width-input-focus, 2px));
+      outline: var(
+          --sky-color-border-input-focus,
+          var(--ag-range-selection-border-color)
+        )
+        solid var(--sky-border-width-input-focus, 2px);
       box-shadow: none;
     }
 
@@ -172,7 +190,7 @@
   }
 
   .ag-popup {
-    .ag-popup-editor {
+    .ag-popup-editor:not(:is(.sky-ag-grid-cell-editing-skyCellLookup *)) {
       border: none;
       box-shadow: none;
       outline-offset: -2px;

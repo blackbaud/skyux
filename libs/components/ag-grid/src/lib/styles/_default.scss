@@ -62,10 +62,6 @@
     }
   }
 
-  .ag-picker-field-wrapper {
-    border-radius: 0;
-  }
-
   .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
     align-items: flex-start;
   }
@@ -113,7 +109,11 @@
     .ag-cell.ag-cell-focus {
       z-index: 1;
       outline-offset: -2px;
-      outline: var(--ag-range-selection-border-color) solid 2px;
+      outline: var(
+          --sky-color-border-input-focus,
+          var(--ag-range-selection-border-color)
+        )
+        solid var(--sky-border-width-input-focus, 2px);
     }
   }
 

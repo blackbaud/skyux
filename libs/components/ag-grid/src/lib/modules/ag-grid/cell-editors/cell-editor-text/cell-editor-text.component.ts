@@ -35,11 +35,9 @@ export class SkyAgGridCellEditorTextComponent
 {
   public textInputLabel: string | undefined;
   public columnHeader: string | undefined;
-  public columnWidth: number | undefined;
   public editorForm = new UntypedFormGroup({
     text: new UntypedFormControl(),
   });
-  public rowHeightWithoutBorders: number | undefined;
   public rowNumber: number | undefined;
   public maxlength: number | undefined;
 
@@ -93,8 +91,6 @@ export class SkyAgGridCellEditorTextComponent
       'header',
     );
     this.rowNumber = this.#params.rowIndex + 1;
-    this.columnWidth = this.#params.column.getActualWidth();
-    this.rowHeightWithoutBorders = (this.#params.node.rowHeight as number) - 4;
   }
 
   /**

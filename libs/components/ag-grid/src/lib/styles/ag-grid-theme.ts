@@ -13,6 +13,7 @@ const defaultsForAllThemes = {
   borderColor: 'var(--sky-border-color-neutral-medium)',
   borderRadius: 'var(--sky-border-radius-s, 3px)',
   cardShadow: 'none',
+  cellEditingBorder: 'none',
   cellHorizontalPadding: 12,
   checkboxCheckedBackgroundColor:
     'var(--sky-color-background-selected-heavy, var(--sky-background-color-input-selected, transparent))',
@@ -118,7 +119,6 @@ const SkyAgGridDataEntryGridDefault = SkyAgGridDataGridDefault.withParams(
 });
 
 const SkyAgGridDataGridModernLight = themeQuartz
-  // .withoutPart('checkboxStyle')
   .withPart(colorSchemeLight)
   .withPart(iconSetQuartz)
   .withParams(modernThemeBase);
@@ -127,7 +127,6 @@ const SkyAgGridDataGridModernLightCompact =
   SkyAgGridDataGridModernLight.withParams(modernCompactThemeBase);
 
 const SkyAgGridDataGridModernDark = themeQuartz
-  // .withoutPart('checkboxStyle')
   .withPart(colorSchemeDark)
   .withPart(iconSetQuartz)
   .withParams(modernThemeDarkBase);
