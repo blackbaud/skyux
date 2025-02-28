@@ -13,7 +13,7 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { SkyIconModule } from '@skyux/icon';
 
-import { SkyClipboardModule } from '../clipboard/clipboard.module';
+import { SkyDocsClipboardModule } from '../clipboard/clipboard.module';
 import { type SkyCodeHighlightLanguage } from '../code-highlight/code-highlight-language';
 import { SkyCodeHighlightService } from '../code-highlight/code-highlight.service';
 import { SkyDocsToolsResourcesModule } from '../shared/sky-docs-tools-resources.module';
@@ -29,7 +29,7 @@ import { SkyDocsToolsResourcesModule } from '../shared/sky-docs-tools-resources.
   },
   imports: [
     NgClass,
-    SkyClipboardModule,
+    SkyDocsClipboardModule,
     SkyIconModule,
     SkyDocsToolsResourcesModule,
   ],

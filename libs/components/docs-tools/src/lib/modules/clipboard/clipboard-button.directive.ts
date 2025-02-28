@@ -1,6 +1,6 @@
 import { Directive, inject, input } from '@angular/core';
 
-import { SkyClipboardService } from './clipboard.service';
+import { SkyDocsClipboardService } from './clipboard.service';
 
 /**
  * @internal
@@ -9,10 +9,10 @@ import { SkyClipboardService } from './clipboard.service';
   host: {
     '(click)': 'onClick()',
   },
-  selector: '[skyClipboardButton]',
+  selector: '[skyDocsClipboardButton]',
 })
-export class SkyClipboardButtonDirective {
-  readonly #clipboardSvc = inject(SkyClipboardService);
+export class SkyDocsClipboardButtonDirective {
+  readonly #clipboardSvc = inject(SkyDocsClipboardService);
 
   public readonly clipboardTarget = input.required<HTMLElement>();
   public readonly copySuccessMessage = input.required<string>();

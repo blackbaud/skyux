@@ -1,5 +1,5 @@
-export { SkyClipboardModule } from './lib/modules/clipboard/clipboard.module';
-export { SkyClipboardService } from './lib/modules/clipboard/clipboard.service';
+export { SkyDocsClipboardModule } from './lib/modules/clipboard/clipboard.module';
+export { SkyDocsClipboardService } from './lib/modules/clipboard/clipboard.service';
 export { SkyCodeExampleViewerModule } from './lib/modules/code-example-viewer/code-example-viewer.module';
 export { SkyStackBlitzLaunchConfig } from './lib/modules/code-example-viewer/stackblitz-launch-config';
 export {
@@ -21,7 +21,7 @@ export { SkyTableOfContentsModule } from './lib/modules/table-of-contents/table-
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
-export { SkyClipboardButtonDirective as λ3 } from './lib/modules/clipboard/clipboard-button.directive';
+export { SkyDocsClipboardButtonDirective as λ3 } from './lib/modules/clipboard/clipboard-button.directive';
 export { SkyCodeExampleViewerComponent as λ2 } from './lib/modules/code-example-viewer/code-example-viewer.component';
 export { SkyCodeSnippetComponent as λ1 } from './lib/modules/code-snippet/code-snippet.component';
 export { SkyHeadingAnchorComponent as λ5 } from './lib/modules/heading-anchor/heading-anchor.component';

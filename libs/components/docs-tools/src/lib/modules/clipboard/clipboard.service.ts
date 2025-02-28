@@ -8,7 +8,7 @@ import { SkyToastService } from '@skyux/toast';
 @Injectable({
   providedIn: 'root',
 })
-export class SkyClipboardService {
+export class SkyDocsClipboardService {
   readonly #toastSvc = inject(SkyToastService);
   readonly #windowRef = inject(SkyAppWindowRef);
 

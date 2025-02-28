@@ -7,9 +7,9 @@ import {
   input,
 } from '@angular/core';
 import {
-  SkyClipboardModule,
   SkyCodeHighlightPipe,
   SkyCodeSnippetModule,
+  SkyDocsClipboardModule,
   SkyDocsPillModule,
   SkyHeadingAnchorModule,
 } from '@skyux/docs-tools';
@@ -73,7 +73,7 @@ import { SkyDocsTypeDefinitionBoxModule } from './type-definition-box/type-defin
     SkyBoxModule,
     SkyDocsPillModule,
     SkyStatusIndicatorModule,
-    SkyClipboardModule,
+    SkyDocsClipboardModule,
     SkyDocsPropertyNamePipe,
     SkyDocsPropertyTypeDefinitionDefaultValuePipe,
     SkyDocsMethodNamePipe,
