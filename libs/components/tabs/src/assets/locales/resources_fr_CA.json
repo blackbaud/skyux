@@ -1,0 +1,42 @@
+{
+  "skyux_tab_add": {
+    "_description": "Étiquette du bouton ajouter un onglet",
+    "message": "Ajouter un onglet"
+  },
+  "skyux_tab_close": {
+    "_description": "Étiquette pour le bouton fermer l’onglet",
+    "message": "Fermer l’onglet {0}"
+  },
+  "skyux_tabs_navigator_finish": {
+    "_description": "Texte affiché sur le bouton terminer de l’onglet.",
+    "message": "Terminer"
+  },
+  "skyux_tabs_navigator_next": {
+    "_description": "Texte affiché sur le bouton suivant de l’onglet.",
+    "message": "Suivant"
+  },
+  "skyux_tabs_navigator_previous": {
+    "_description": "Texte affiché sur le bouton précédent de l’onglet.",
+    "message": "Précédent"
+  },
+  "skyux_tab_open": {
+    "_description": "Étiquette pour le bouton ouvrir l’onglet",
+    "message": "Ouvrir l’onglet"
+  },
+  "skyux_vertical_tabs_show_tabs_text": {
+    "_description": "Le texte par défaut pour le bouton afficher les onglets sur un appareil mobile",
+    "message": "Liste des onglets"
+  },
+  "skyux_wizard_sr_step_current": {
+    "_description": "Texte qui décrit l’état d’une étape de l’assistant comme étant celle en cours",
+    "message": "Étape {0} de {1}, en cours : {2}"
+  },
+  "skyux_wizard_sr_step_completed": {
+    "_description": "Texte qui décrit l’état d’une étape de l’assistant comme étant terminée",
+    "message": "Étape {0} de {1}, terminée : {2}"
+  },
+  "skyux_wizard_sr_step_unavailable": {
+    "_description": "Texte qui décrit l’état d’une étape de l’assistant comme étant non disponible",
+    "message": "Étape {0} de {1}, non disponible : {2}"
+  }
+}
