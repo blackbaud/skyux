@@ -17,6 +17,14 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_help_inline_button_title: { message: 'Show help content' },
     skyux_help_inline_aria_label: { message: 'Show help content for {0}' },
   },
+  'FR-CA': {
+    skyux_help_inline_button_title: {
+      message: 'Afficher le contenu de l’aide',
+    },
+    skyux_help_inline_aria_label: {
+      message: 'Afficher le contenu de l’aide pour {0}',
+    },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);

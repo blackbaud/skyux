@@ -28,6 +28,7 @@
       class="sky-vertical-tabset-group-container"
       [@tabGroupEnter]="tabService.animationTabsVisibleState"
       [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
+      (@tabGroupEnter.done)="tabsetFocus()"
       (keydown.arrowdown)="tabGroupsArrowDown(); $event.preventDefault()"
       (keydown.arrowup)="tabGroupsArrowUp(); $event.preventDefault()"
       (focusin)="trapFocusInTablist()"
