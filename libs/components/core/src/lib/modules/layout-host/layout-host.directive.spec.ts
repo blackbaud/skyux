@@ -27,6 +27,10 @@ describe('SkyLayoutHostDirective', () => {
     fixture.componentRef.setInput('layout', 'fit');
     fixture.detectChanges();
     expect(fixture.nativeElement).toHaveClass('sky-layout-host-fit');
+    fixture.componentRef.setInput('layout', 'none');
+    fixture.detectChanges();
+    expect(fixture.nativeElement).toHaveClass('sky-layout-host-none');
+    expect(fixture.nativeElement).not.toHaveClass('sky-layout-host-fit');
   });
 
   it('should have child layout tabs', () => {
