@@ -78,8 +78,7 @@
             </div>
           }
         </div>
-      }
-      @if (dropdownHintText && (isResultsVisible | async) === false) {
+      } @else if (dropdownHintText) {
         <div class="sky-autocomplete-dropdown-hint-text sky-font-deemphasized">
           {{ dropdownHintText }}
         </div>
