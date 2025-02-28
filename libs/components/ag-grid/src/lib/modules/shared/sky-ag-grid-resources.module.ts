@@ -59,6 +59,54 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Collapse column group {0}',
     },
   },
+  'FR-CA': {
+    sky_ag_grid_row_selector_aria_label: {
+      message: 'Sélecteur de ligne pour la ligne {0}',
+    },
+    sky_ag_grid_row_selector_column_heading: {
+      message: 'Sélection d’une ligne',
+    },
+    sky_ag_grid_cell_editor_datepicker_aria_label: {
+      message: 'Date modifiable {0} pour la ligne {1}',
+    },
+    sky_ag_grid_cell_editor_datepicker_hint_text: {
+      message: 'Utilisez le format {0}.',
+    },
+    sky_ag_grid_cell_editor_number_aria_label: {
+      message: 'Numéro modifiable {0} pour la ligne {1}',
+    },
+    sky_ag_grid_cell_editor_text_aria_label: {
+      message: 'Texte modifiable {0} pour la ligne {1}',
+    },
+    sky_ag_grid_cell_editor_autocomplete_aria_label: {
+      message: 'Saisie automatique modifiable {0} pour la ligne {1}',
+    },
+    sky_ag_grid_cell_renderer_number_validator_message: {
+      message: 'Entrez un numéro valide.',
+    },
+    sky_ag_grid_cell_renderer_currency_validator_message: {
+      message: 'Entrez une devise valide.',
+    },
+    skyux_lookup_tokens_summary: { message: '{0} articles sélectionnés' },
+    sky_ag_grid_cell_editor_currency_aria_label: {
+      message: 'Devise modifiable {0} pour la ligne {1}',
+    },
+    sky_ag_grid_column_header_sort_button_aria_label_currently_asc: {
+      message: 'Trier la colonne {0}, actuellement en ordre croissant',
+    },
+    sky_ag_grid_column_header_sort_button_aria_label_currently_desc: {
+      message: 'Trier la colonne {0}, actuellement en ordre décroissant',
+    },
+    sky_ag_grid_column_header_sort_button_aria_label_currently_not_sorted: {
+      message: 'Trier la colonne {0}, actuellement non triée',
+    },
+    sky_ag_grid_column_group_header_expand_aria_label: {
+      message: 'Agrandir le groupe de colonnes {0}',
+    },
+    sky_ag_grid_column_group_header_collapse_aria_label: {
+      message: 'Réduire le groupe de colonnes {0}',
+    },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);
