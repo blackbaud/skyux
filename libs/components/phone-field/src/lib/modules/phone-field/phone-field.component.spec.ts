@@ -8,23 +8,12 @@ import { NgModel, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import {
-  SkyTheme,
-  SkyThemeMode,
-  SkyThemeService,
-  SkyThemeSettings,
-  SkyThemeSettingsChange,
-} from '@skyux/theme';
-
-import { BehaviorSubject } from 'rxjs';
 
 import { PhoneFieldInputBoxTestComponent } from './fixtures/phone-field-input-box.component.fixture';
 import { PhoneFieldReactiveTestComponent } from './fixtures/phone-field-reactive.component.fixture';
 import { PhoneFieldTestComponent } from './fixtures/phone-field.component.fixture';
 
 describe('Phone Field Component', () => {
-  let mockThemeSvc: Partial<SkyThemeService>;
-
   function checkCountrySearchToggleButtonFlag(
     iso: string,
     fixture: ComponentFixture<
@@ -240,27 +229,6 @@ describe('Phone Field Component', () => {
 
     expect(model?.touched).toBe(isTouched);
   }
-
-  function setModernTheme(
-    fixture: ComponentFixture<
-      | PhoneFieldTestComponent
-      | PhoneFieldReactiveTestComponent
-      | PhoneFieldInputBoxTestComponent
-    >,
-  ): void {
-    const modernTheme = new SkyThemeSettings(
-      SkyTheme.presets.modern,
-      SkyThemeMode.presets.light,
-    );
-    (
-      mockThemeSvc.settingsChange as BehaviorSubject<SkyThemeSettingsChange>
-    ).next({
-      currentSettings: modernTheme,
-      previousSettings: undefined,
-    });
-    fixture.detectChanges();
-    tick();
-  }
   // #endregion
 
   describe('template form', () => {
@@ -269,24 +237,8 @@ describe('Phone Field Component', () => {
     let nativeElement: HTMLElement;
 
     beforeEach(() => {
-      mockThemeSvc = {
-        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light,
-          ),
-          previousSettings: undefined,
-        }),
-      };
-
       TestBed.configureTestingModule({
         imports: [PhoneFieldTestComponent, NoopAnimationsModule],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-        ],
       });
 
       fixture = TestBed.createComponent(PhoneFieldTestComponent);
@@ -1345,24 +1297,8 @@ describe('Phone Field Component', () => {
     let nativeElement: HTMLElement;
 
     beforeEach(() => {
-      mockThemeSvc = {
-        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light,
-          ),
-          previousSettings: undefined,
-        }),
-      };
-
       TestBed.configureTestingModule({
         imports: [PhoneFieldReactiveTestComponent, NoopAnimationsModule],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-        ],
       });
 
       fixture = TestBed.createComponent(PhoneFieldReactiveTestComponent);
@@ -2229,24 +2165,8 @@ describe('Phone Field Component', () => {
     let nativeElement: HTMLElement;
 
     beforeEach(() => {
-      mockThemeSvc = {
-        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light,
-          ),
-          previousSettings: undefined,
-        }),
-      };
-
       TestBed.configureTestingModule({
         imports: [PhoneFieldInputBoxTestComponent, NoopAnimationsModule],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-        ],
       });
 
       fixture = TestBed.createComponent(PhoneFieldInputBoxTestComponent);
