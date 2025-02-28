@@ -12,6 +12,11 @@ export class SkyClipboardService {
   readonly #toastSvc = inject(SkyToastService);
   readonly #windowRef = inject(SkyAppWindowRef);
 
+  /**
+   * Saves an element's text content to the system clipboard.
+   * @param el The element whose text should be copied.
+   * @param successMessage The message to display after the action is successful.
+   */
   public copyTextContent(el: HTMLElement, successMessage: string): void {
     const text = el.textContent?.trim() ?? '';
 

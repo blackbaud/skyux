@@ -2,6 +2,9 @@ import { Directive, inject, input } from '@angular/core';
 
 import { SkyClipboardService } from './clipboard.service';
 
+/**
+ * @internal
+ */
 @Directive({
   host: {
     '(click)': 'onClick()',
