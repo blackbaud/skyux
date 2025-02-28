@@ -13,6 +13,8 @@ import { RouterLink } from '@angular/router';
 import { SkyTrimModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 
+import { SkyPillColor } from '../pill/pill-color';
+
 import { SkyHeadingAnchorService } from './heading-anchor.service';
 
 type SkyHeadingAnchorHeadingTextFormat = 'normal' | 'code';
@@ -28,7 +30,13 @@ const DEFAULT_HEADING_LEVEL: SkyHeadingAnchorHeadingLevel = 2;
   host: {
     '[attr.id]': 'anchorId()',
   },
-  imports: [NgTemplateOutlet, RouterLink, SkyIconModule, SkyTrimModule],
+  imports: [
+    NgTemplateOutlet,
+    RouterLink,
+    SkyIconModule,
+    // SkyPillModule,
+    SkyTrimModule,
+  ],
   selector: 'sky-heading-anchor',
   styleUrl: './heading-anchor.component.scss',
   templateUrl: './heading-anchor.component.html',
@@ -40,6 +48,9 @@ export class SkyHeadingAnchorComponent implements OnInit, OnDestroy {
   public readonly headingText = input.required<string>();
   public readonly headingTextFormat =
     input<SkyHeadingAnchorHeadingTextFormat>('normal');
+
+  public readonly categoryColor = input<SkyPillColor | undefined>();
+  public readonly categoryText = input<string | undefined>();
 
   public readonly headingLevel = input(DEFAULT_HEADING_LEVEL, {
     transform: (value) => {

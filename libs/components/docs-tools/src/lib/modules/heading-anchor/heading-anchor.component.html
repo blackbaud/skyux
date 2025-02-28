@@ -31,6 +31,12 @@
   }
 }
 
+<!-- @if (categoryColor(); as categoryColor) {
+  <sky-pill [color]="categoryColor">
+    {{ categoryText() }}
+  </sky-pill>
+} -->
+
 <ng-content />
 
 <ng-template #headingTextRef>

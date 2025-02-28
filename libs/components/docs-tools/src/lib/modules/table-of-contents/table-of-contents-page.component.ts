@@ -58,6 +58,8 @@ export class SkyTableOfContentsPageComponent implements AfterViewInit {
       return anchors?.map((a) => ({
         active: a.anchorId === activeAnchorId,
         anchorId: a.anchorId,
+        categoryColor: a.categoryColor,
+        categoryText: a.categoryText,
         text: a.text,
       }));
     },

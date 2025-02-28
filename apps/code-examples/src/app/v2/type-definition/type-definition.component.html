@@ -5,6 +5,8 @@
     class="sky-margin-stacked-lg"
     headingLevel="2"
     [anchorId]="def.anchorId"
+    [categoryColor]="def.kind | skyKindToPillColor"
+    [categoryText]="def.kind | skyTypeDefinitionKindToLabel"
     [headingText]="def.name"
     [strikethrough]="def.isDeprecated"
   >
@@ -155,7 +157,6 @@
         @for (input of inputs; track input.name) {
           <sky-type-definition-box
             [deprecated]="input.isDeprecated"
-            [required]="input.isRequired"
             [headingText]="
               input
                 | skyDocsPropertyName: def

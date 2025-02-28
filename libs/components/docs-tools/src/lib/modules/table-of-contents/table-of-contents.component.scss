@@ -18,9 +18,18 @@ a.sky-toc-link {
   width: 100%;
   text-overflow: ellipsis;
   overflow: hidden;
+  white-space: nowrap;
 
   &:focus-visible,
   &.sky-toc-link-active {
     border-color: var(--sky-text-color-action-primary);
+  }
+
+  &:hover {
+    text-decoration: none;
+
+    .sky-toc-link-text {
+      text-decoration: underline;
+    }
   }
 }

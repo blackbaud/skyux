@@ -4,7 +4,6 @@ import {
   booleanAttribute,
   input,
 } from '@angular/core';
-import { SkyPillModule } from '@skyux/docs-tools';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12,7 +11,7 @@ import { SkyPillModule } from '@skyux/docs-tools';
     // class: 'sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-lg',
     class: 'sky-margin-stacked-xl',
   },
-  imports: [SkyPillModule],
+  imports: [],
   selector: 'sky-type-definition-box',
   styles: `
     :host {
@@ -67,5 +66,4 @@ import { SkyPillModule } from '@skyux/docs-tools';
 export class SkyTypeDefinitionBoxComponent {
   public deprecated = input(false, { transform: booleanAttribute });
   public headingText = input.required<string>();
-  public required = input(false, { transform: booleanAttribute });
 }
