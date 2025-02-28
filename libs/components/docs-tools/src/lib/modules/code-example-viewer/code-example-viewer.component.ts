@@ -20,7 +20,7 @@ import {
 import { SkyDocsCodeSnippetModule } from '../code-snippet/code-snippet.module';
 import { SkyDocsToolsResourcesModule } from '../shared/sky-docs-tools-resources.module';
 
-import { SkyStackBlitzService } from './stackblitz.service';
+import { SkyDocsStackBlitzService } from './stackblitz.service';
 
 /**
  * @internal
@@ -40,20 +40,21 @@ import { SkyStackBlitzService } from './stackblitz.service';
     SkyIdModule,
     SkyVerticalTabsetModule,
   ],
-  selector: 'sky-code-example-viewer',
+  selector: 'sky-docs-code-example-viewer',
   styleUrl: './code-example-viewer.component.scss',
   templateUrl: './code-example-viewer.component.html',
 })
-export class SkyCodeExampleViewerComponent {
-  readonly #stackblitzSvc = inject(SkyStackBlitzService);
+export class SkyDocsCodeExampleViewerComponent {
+  readonly #stackblitzSvc = inject(SkyDocsStackBlitzService);
 
   public readonly componentName = input.required<string>();
   public readonly componentSelector = input.required<string>();
   public readonly componentType = input.required<Type<unknown>>();
-  public readonly demoHidden = input<boolean>(false);
   public readonly files = input.required<Record<string, string>>();
   public readonly headingText = input.required<string>();
   public readonly primaryFile = input.required<string>();
+
+  public readonly demoHidden = input(false, { transform: booleanAttribute });
   public readonly stacked = input(false, { transform: booleanAttribute });
 
   protected readonly isCodeVisible = signal(false);

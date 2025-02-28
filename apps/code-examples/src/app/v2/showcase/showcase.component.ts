@@ -8,7 +8,7 @@ import {
   input,
 } from '@angular/core';
 import {
-  SkyCodeExampleViewerModule,
+  SkyDocsCodeExampleViewerModule,
   SkyTableOfContentsModule,
 } from '@skyux/docs-tools';
 import { SkyManifestDocumentationGroup } from '@skyux/manifest';
@@ -23,7 +23,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     JsonPipe,
-    SkyCodeExampleViewerModule,
+    SkyDocsCodeExampleViewerModule,
     SkyTabsModule,
     SkyTypeDefinitionComponent,
     TitleCasePipe,
@@ -95,7 +95,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
             track example.componentName;
             let last = $last
           ) {
-            <sky-code-example-viewer
+            <sky-docs-code-example-viewer
               [componentName]="example.componentName"
               [componentSelector]="example.selector"
               [componentType]="getComponentType(example.componentName)"

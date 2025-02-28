@@ -21,8 +21,9 @@ import { SkyDocsPillModule } from '@skyux/docs-tools';
   templateUrl: './type-definition-box.component.html',
 })
 export class SkyDocsTypeDefinitionBoxComponent {
-  public deprecated = input(false, { transform: booleanAttribute });
   public headingText = input.required<string>();
+
+  public deprecated = input(false, { transform: booleanAttribute });
   public required = input(false, { transform: booleanAttribute });
   public stacked = input(false, { transform: booleanAttribute });
 }
