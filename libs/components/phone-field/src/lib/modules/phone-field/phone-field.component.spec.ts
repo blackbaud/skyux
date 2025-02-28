@@ -770,25 +770,6 @@ describe('Phone Field Component', () => {
         ).toBeTruthy();
       }));
 
-      it('should show placeholder text in both themes', fakeAsync(() => {
-        fixture.detectChanges();
-        const countryInput = getCountrySearchToggleButton(fixture);
-        countryInput.click();
-        detectChangesAndTick(fixture);
-
-        const inputEl = getCountrySearchInput(fixture);
-
-        expect(inputEl.getAttribute('placeholder')).toEqual(
-          'Search for a country',
-        );
-
-        setModernTheme(fixture);
-
-        expect(inputEl.getAttribute('placeholder')).toEqual(
-          'Search for a country',
-        );
-      }));
-
       it('should be accessible when country search is shown', async () => {
         fixture.detectChanges();
         const countryInput = getCountrySearchToggleButton(fixture);
@@ -1918,25 +1899,6 @@ describe('Phone Field Component', () => {
         setCountry('Canada', fixture);
 
         expect(document.activeElement === phoneInput).toBeTruthy();
-      }));
-
-      it('should show placeholder text in both themes', fakeAsync(() => {
-        fixture.detectChanges();
-        const countryInput = getCountrySearchToggleButton(fixture);
-        countryInput.click();
-        detectChangesAndTick(fixture);
-
-        const inputEl = getCountrySearchInput(fixture);
-
-        expect(inputEl.getAttribute('placeholder')).toEqual(
-          'Search for a country',
-        );
-
-        setModernTheme(fixture);
-
-        expect(inputEl.getAttribute('placeholder')).toEqual(
-          'Search for a country',
-        );
       }));
 
       it('should be accessible when country search is shown', async () => {

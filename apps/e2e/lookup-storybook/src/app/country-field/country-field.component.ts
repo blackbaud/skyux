@@ -17,7 +17,7 @@ let countryFieldPhoneInfo = false;
   providers: [
     {
       provide: SKY_COUNTRY_FIELD_CONTEXT,
-      useValue: { showPlaceholderText: countryFieldPhoneInfo },
+      useValue: { inPhoneField: countryFieldPhoneInfo },
     },
   ],
 })
