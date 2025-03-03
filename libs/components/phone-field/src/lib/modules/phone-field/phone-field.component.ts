@@ -84,7 +84,7 @@ const DEFAULT_COUNTRY_CODE = 'us';
     },
     {
       provide: SKY_COUNTRY_FIELD_CONTEXT,
-      useValue: { showPlaceholderText: true },
+      useValue: { inPhoneField: true },
     },
   ],
   animations: [

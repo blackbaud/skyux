@@ -1,7 +1,11 @@
 <div>
   <form>
-    <sky-input-box [hintText]="hintText">
-      <sky-country-field name="countryField" [(ngModel)]="modelValue" />
+    <sky-input-box labelText="Country" [hintText]="hintText">
+      <sky-country-field
+        name="countryField"
+        [(ngModel)]="modelValue"
+        (selectedCountryChange)="countryChanged($event)"
+      />
     </sky-input-box>
   </form>
 </div>

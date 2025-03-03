@@ -76,6 +76,14 @@ describe('Country Field Component', () => {
     return document.querySelector('.sky-autocomplete-results') as HTMLElement;
   }
 
+  function getDisplayedHintText(): string {
+    return (
+      document
+        .querySelector('.sky-autocomplete-dropdown-hint-text')
+        ?.textContent.trim() || ''
+    );
+  }
+
   function getInputElement(): HTMLTextAreaElement {
     return document.querySelector('textarea') as HTMLTextAreaElement;
   }
@@ -189,6 +197,18 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
 
         validateSelectedCountry(nativeElement, '');
+      }));
+
+      it('should show hint text in dropdown before searching', fakeAsync(() => {
+        fixture.detectChanges();
+
+        SkyAppTestUtility.fireDomEvent(getInputElement(), 'focus');
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(getDisplayedHintText()).toBe('Type to search for a country');
       }));
     });
 
@@ -473,80 +493,6 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
         expect(changeEventSpy).not.toHaveBeenCalled();
       }));
-
-      it('should not include dial code information when the `includePhoneInfo` input is not set', fakeAsync(() => {
-        const changeEventSpy = spyOn(
-          component,
-          'countryChanged',
-        ).and.callThrough();
-        component.countryFieldComponent.includePhoneInfo = false;
-        component.modelValue = {
-          name: 'United States',
-          iso2: 'us',
-        };
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-
-        expect(changeEventSpy).not.toHaveBeenCalled();
-        searchAndSelect('Austr', 0, fixture);
-        fixture.detectChanges();
-        tick();
-        expect(changeEventSpy).toHaveBeenCalledWith({
-          name: 'Australia',
-          iso2: 'au',
-        });
-
-        let searchResults = searchAndGetResults('Austr', fixture);
-        expect(
-          searchResults[0].querySelector('.sky-font-deemphasized'),
-        ).toBeNull();
-
-        component.countryFieldComponent.includePhoneInfo = undefined;
-        searchAndSelect('Austr', 0, fixture);
-        fixture.detectChanges();
-        tick();
-        expect(changeEventSpy).toHaveBeenCalledWith({
-          name: 'Australia',
-          iso2: 'au',
-        });
-
-        searchResults = searchAndGetResults('Austr', fixture);
-        expect(
-          searchResults[0].querySelector('.sky-font-deemphasized'),
-        ).toBeNull();
-      }));
-
-      it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
-        const changeEventSpy = spyOn(
-          component,
-          'countryChanged',
-        ).and.callThrough();
-        component.countryFieldComponent.includePhoneInfo = true;
-        component.modelValue = {
-          name: 'United States',
-          iso2: 'us',
-        };
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-
-        expect(changeEventSpy).not.toHaveBeenCalled();
-        searchAndSelect('Austr', 0, fixture);
-        fixture.detectChanges();
-        tick();
-        expect(changeEventSpy).toHaveBeenCalledWith({
-          name: 'Australia',
-          iso2: 'au',
-          dialCode: '61',
-          priority: 0,
-        });
-
-        const searchResults = searchAndGetResults('Austr', fixture);
-        expect(
-          searchResults[0].querySelector('.sky-font-deemphasized'),
-        ).toHaveText('61');
-      }));
     });
 
     describe('validation', () => {
@@ -653,6 +599,9 @@ describe('Country Field Component', () => {
         await fixture.whenStable();
         fixture.detectChanges();
         await expectAsync(document.body).toBeAccessible(axeConfig);
+        expect(getInputElement().getAttribute('aria-label')).toBe(
+          'Type to search for a country',
+        );
       });
 
       it('should be accessible (populated)', async () => {
@@ -664,6 +613,9 @@ describe('Country Field Component', () => {
         await fixture.whenStable();
         fixture.detectChanges();
         await expectAsync(document.body).toBeAccessible(axeConfig);
+        expect(getInputElement().getAttribute('aria-label')).toBe(
+          'Type to search for a country',
+        );
       });
     });
   });
@@ -732,6 +684,18 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
 
         expect(nativeElement.querySelector('textarea')?.value).toBe('');
+      }));
+
+      it('should show hint text in dropdown before searching', fakeAsync(() => {
+        fixture.detectChanges();
+
+        SkyAppTestUtility.fireDomEvent(getInputElement(), 'focus');
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(getDisplayedHintText()).toBe('Type to search for a country');
       }));
     });
 
@@ -1092,64 +1056,6 @@ describe('Country Field Component', () => {
           iso2: 'au',
         });
       }));
-
-      it('should not include dial code information when the `includePhoneInfo` input is not set', fakeAsync(() => {
-        const changeEventSpy = spyOn(
-          component,
-          'formValueChanged',
-        ).and.callThrough();
-        component.countryFieldComponent.includePhoneInfo = false;
-        component.initialValue = {
-          name: 'United States',
-          iso2: 'us',
-        };
-        fixture.detectChanges();
-        tick();
-
-        expect(changeEventSpy).not.toHaveBeenCalled();
-        searchAndSelect('Austr', 0, fixture);
-        fixture.detectChanges();
-        tick();
-        expect(changeEventSpy).toHaveBeenCalledWith({
-          name: 'Australia',
-          iso2: 'au',
-        });
-
-        const searchResults = searchAndGetResults('Austr', fixture);
-        expect(
-          searchResults[0].querySelector('.sky-font-deemphasized'),
-        ).toBeNull();
-      }));
-
-      it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
-        const changeEventSpy = spyOn(
-          component,
-          'formValueChanged',
-        ).and.callThrough();
-        component.countryFieldComponent.includePhoneInfo = true;
-        component.initialValue = {
-          name: 'United States',
-          iso2: 'us',
-        };
-        fixture.detectChanges();
-        tick();
-
-        expect(changeEventSpy).not.toHaveBeenCalled();
-        searchAndSelect('Austr', 0, fixture);
-        fixture.detectChanges();
-        tick();
-        expect(changeEventSpy).toHaveBeenCalledWith({
-          name: 'Australia',
-          iso2: 'au',
-          dialCode: '61',
-          priority: 0,
-        });
-
-        const searchResults = searchAndGetResults('Austr', fixture);
-        expect(
-          searchResults[0].querySelector('.sky-font-deemphasized'),
-        ).toHaveText('61');
-      }));
     });
 
     describe('validation', () => {
@@ -1256,6 +1162,9 @@ describe('Country Field Component', () => {
         await fixture.whenStable();
         fixture.detectChanges();
         await expectAsync(document.body).toBeAccessible(axeConfig);
+        expect(getInputElement().getAttribute('aria-label')).toBe(
+          'Type to search for a country',
+        );
       });
 
       it('should be accessible (populated)', async () => {
@@ -1267,6 +1176,9 @@ describe('Country Field Component', () => {
         await fixture.whenStable();
         fixture.detectChanges();
         await expectAsync(document.body).toBeAccessible(axeConfig);
+        expect(getInputElement().getAttribute('aria-label')).toBe(
+          'Type to search for a country',
+        );
       });
     });
   });
@@ -1420,56 +1332,6 @@ describe('Country Field Component', () => {
           iso2: 'au',
         });
       }));
-
-      it('should not include dial code information when the `includePhoneInfo` input is not set', fakeAsync(() => {
-        const changeEventSpy = spyOn(
-          component,
-          'countryChanged',
-        ).and.callThrough();
-        component.countryFieldComponent.includePhoneInfo = false;
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-
-        searchAndSelect('Austr', 0, fixture);
-        fixture.detectChanges();
-        tick();
-        expect(changeEventSpy).toHaveBeenCalledWith({
-          name: 'Australia',
-          iso2: 'au',
-        });
-
-        const searchResults = searchAndGetResults('Austr', fixture);
-        expect(
-          searchResults[0].querySelector('.sky-font-deemphasized'),
-        ).toBeNull();
-      }));
-
-      it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
-        const changeEventSpy = spyOn(
-          component,
-          'countryChanged',
-        ).and.callThrough();
-        component.countryFieldComponent.includePhoneInfo = true;
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-
-        searchAndSelect('Austr', 0, fixture);
-        fixture.detectChanges();
-        tick();
-        expect(changeEventSpy).toHaveBeenCalledWith({
-          name: 'Australia',
-          iso2: 'au',
-          dialCode: '61',
-          priority: 0,
-        });
-
-        const searchResults = searchAndGetResults('Austr', fixture);
-        expect(
-          searchResults[0].querySelector('.sky-font-deemphasized'),
-        ).toHaveText('61');
-      }));
     });
 
     describe('a11y', () => {
@@ -1486,6 +1348,9 @@ describe('Country Field Component', () => {
         await fixture.whenStable();
         fixture.detectChanges();
         await expectAsync(document.body).toBeAccessible(axeConfig);
+        expect(getInputElement().getAttribute('aria-label')).toBe(
+          'Type to search for a country',
+        );
       });
 
       it('should be accessible (populated)', async () => {
@@ -1516,13 +1381,25 @@ describe('Country Field Component', () => {
         await fixture.whenStable();
         fixture.detectChanges();
         await expectAsync(document.body).toBeAccessible(axeConfig);
+        expect(getInputElement().getAttribute('aria-label')).toBe(
+          'Type to search for a country',
+        );
       });
     });
   });
 
   describe('inside input box', () => {
     let fixture: ComponentFixture<CountryFieldInputBoxTestComponent>;
+    let component: CountryFieldInputBoxTestComponent;
     let nativeElement: HTMLElement;
+
+    const axeConfig = {
+      rules: {
+        region: {
+          enabled: false,
+        },
+      },
+    };
 
     //#region helpers
     function setModernTheme(): void {
@@ -1554,6 +1431,7 @@ describe('Country Field Component', () => {
         });
 
         fixture = TestBed.createComponent(CountryFieldInputBoxTestComponent);
+        component = fixture.componentInstance;
         nativeElement = fixture.nativeElement as HTMLElement;
       });
 
@@ -1588,19 +1466,28 @@ describe('Country Field Component', () => {
         expect(inputBoxInsetIcon).not.toBeNull();
       }));
 
-      it('should remove placeholder in modern theme', fakeAsync(() => {
+      it('should not include dial code information', fakeAsync(() => {
+        const changeEventSpy = spyOn(
+          component,
+          'countryChanged',
+        ).and.callThrough();
         fixture.detectChanges();
         tick();
 
-        const input = nativeElement.querySelector('.sky-form-control');
-        expect(input?.getAttribute('placeholder')).toEqual(
-          'Search for a country',
-        );
+        expect(changeEventSpy).not.toHaveBeenCalled();
 
-        setModernTheme();
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+        expect(changeEventSpy).toHaveBeenCalledWith({
+          name: 'Australia',
+          iso2: 'au',
+        });
 
-        const modernInput = nativeElement.querySelector('.sky-form-control');
-        expect(modernInput?.getAttribute('placeholder')).toEqual('');
+        const searchResults = searchAndGetResults('Austr', fixture);
+        expect(
+          searchResults[0].querySelector('.sky-font-deemphasized'),
+        ).toBeNull();
       }));
 
       it('should set aria-describedby when hint text is specified', () => {
@@ -1624,7 +1511,7 @@ describe('Country Field Component', () => {
       });
     });
 
-    describe('with country field context', () => {
+    describe('with country field context setting in a phone field', () => {
       beforeEach(() => {
         TestBed.configureTestingModule({
           imports: [CountryFieldInputBoxTestComponent],
@@ -1635,31 +1522,134 @@ describe('Country Field Component', () => {
             },
             {
               provide: SKY_COUNTRY_FIELD_CONTEXT,
-              useValue: { showPlaceholderText: true },
+              useValue: { inPhoneField: true },
             },
           ],
         });
 
         fixture = TestBed.createComponent(CountryFieldInputBoxTestComponent);
+        component = fixture.componentInstance;
         nativeElement = fixture.nativeElement as HTMLElement;
       });
 
-      it('should include placeholder in modern theme when the country field context calls for it', fakeAsync(() => {
+      it('should include dial code information ', fakeAsync(() => {
+        const changeEventSpy = spyOn(
+          component,
+          'countryChanged',
+        ).and.callThrough();
         fixture.detectChanges();
         tick();
 
-        const input = nativeElement.querySelector('.sky-form-control');
-        expect(input?.getAttribute('placeholder')).toEqual(
-          'Search for a country',
-        );
+        expect(changeEventSpy).not.toHaveBeenCalled();
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+        expect(changeEventSpy).toHaveBeenCalledWith({
+          name: 'Australia',
+          iso2: 'au',
+          dialCode: '61',
+          priority: 0,
+        });
 
-        setModernTheme();
-
-        const modernInput = nativeElement.querySelector('.sky-form-control');
-        expect(modernInput?.getAttribute('placeholder')).toEqual(
-          'Search for a country',
-        );
+        const searchResults = searchAndGetResults('Austr', fixture);
+        expect(
+          searchResults[0].querySelector('.sky-font-deemphasized'),
+        ).toHaveText('61');
       }));
+
+      it('should be accessible (empty)', async () => {
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+        expect(getInputElement().getAttribute('aria-label')).toBe(
+          'Type to search for a country',
+        );
+      });
+
+      it('should be accessible (populated)', async () => {
+        component.modelValue = {
+          name: 'United States',
+          iso2: 'us',
+        };
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+        expect(getInputElement().getAttribute('aria-label')).toBe(
+          'Type to search for a country',
+        );
+      });
+    });
+
+    describe('with country field context setting not in a phone field', () => {
+      beforeEach(() => {
+        TestBed.configureTestingModule({
+          imports: [CountryFieldInputBoxTestComponent],
+          providers: [
+            {
+              provide: SkyThemeService,
+              useValue: mockThemeSvc,
+            },
+            {
+              provide: SKY_COUNTRY_FIELD_CONTEXT,
+              useValue: { inPhoneField: false },
+            },
+          ],
+        });
+
+        fixture = TestBed.createComponent(CountryFieldInputBoxTestComponent);
+        component = fixture.componentInstance;
+        nativeElement = fixture.nativeElement as HTMLElement;
+      });
+
+      it('should not include dial code information', fakeAsync(() => {
+        const changeEventSpy = spyOn(
+          component,
+          'countryChanged',
+        ).and.callThrough();
+        fixture.detectChanges();
+        tick();
+
+        expect(changeEventSpy).not.toHaveBeenCalled();
+
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+        expect(changeEventSpy).toHaveBeenCalledWith({
+          name: 'Australia',
+          iso2: 'au',
+        });
+
+        const searchResults = searchAndGetResults('Austr', fixture);
+        expect(
+          searchResults[0].querySelector('.sky-font-deemphasized'),
+        ).toBeNull();
+      }));
+
+      it('should be accessible (empty)', async () => {
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+        expect(getInputElement().getAttribute('aria-label')).toBeNull();
+      });
+
+      it('should be accessible (populated)', async () => {
+        component.modelValue = {
+          name: 'United States',
+          iso2: 'us',
+        };
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+        expect(getInputElement().getAttribute('aria-label')).toBeNull();
+      });
     });
   });
 });

@@ -10,6 +10,8 @@
   --sky-override-autocomplete-actions-no-results-padding: 7px 13px;
   --sky-override-autocomplete-actions-top-border: 1px solid
     #{$sky-border-color-neutral-medium};
+  --sky-override-autocomplete-dropdown-hint-text-line-height: normal;
+  --sky-override-autocomplete-dropdown-hint-text-padding: 7px 13px;
   --sky-override-autocomplete-no-results-font-size: 15px;
   --sky-override-autocomplete-no-results-padding: #{$sky-padding-squish-default};
   --sky-override-autocomplete-result-background-color: transparent;
@@ -33,6 +35,8 @@
     --sky-override-autocomplete-actions-no-results-padding: 7px 13px;
     --sky-override-autocomplete-actions-top-border: 1px solid
       #{$sky-border-color-neutral-medium};
+    --sky-override-autocomplete-dropdown-hint-text-line-height: normal;
+    --sky-override-autocomplete-dropdown-hint-text-padding: 7px 13px;
     --sky-override-autocomplete-no-results-font-size: 15px;
     --sky-override-autocomplete-no-results-padding: #{$sky-padding-squish-default};
     --sky-override-autocomplete-result-margin-bottom: 0;
@@ -142,6 +146,20 @@
       var(--sky-font-line_height-body-m)
     );
   }
+}
+
+.sky-autocomplete-dropdown-hint-text {
+  display: inline-block;
+  padding: var(
+    --sky-override-autocomplete-dropdown-hint-text-padding,
+    var(--sky-space-inset-pillarbox-1_2-top-m) 0
+      var(--sky-space-inset-pillarbox-1_2-bottom-m)
+      var(--sky-space-inset-pillarbox-1_2-left-m)
+  );
+  line-height: var(
+    --sky-override-autocomplete-dropdown-hint-text-line-height,
+    var(--sky-font-line_height-body-m)
+  );
 }
 
 .sky-autocomplete-action-add {

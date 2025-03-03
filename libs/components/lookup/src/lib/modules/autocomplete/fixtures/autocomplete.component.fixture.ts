@@ -48,6 +48,7 @@ export class SkyAutocompleteFixtureComponent {
   public debounceTime: number | undefined;
   public descriptorProperty: string | undefined;
   public disabled: boolean | undefined = false;
+  public dropdownHintText: string | undefined;
   public enableShowMore: boolean | undefined = false;
   public hideInput = false;
   public propertiesToSearch: string[] | undefined;
