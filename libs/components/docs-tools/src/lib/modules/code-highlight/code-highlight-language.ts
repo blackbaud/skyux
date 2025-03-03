@@ -2,7 +2,6 @@
  * @internal
  */
 export const SKY_DOCS_CODE_HIGHLIGHT_LANGUAGES = [
-  'bash',
   'html',
   'markup',
   'javascript',
