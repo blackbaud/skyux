@@ -100,7 +100,11 @@
       </button>
     }
     @if (value && !isImage && currentThemeName === 'modern') {
-      <sky-icon class="sky-file-attachment-icon" iconName="document" />
+      <sky-icon
+        class="sky-file-attachment-icon"
+        iconName="document"
+        iconSize="xl"
+      />
     }
     @if (value || currentThemeName === 'default') {
       <span class="sky-file-attachment-file-link">
