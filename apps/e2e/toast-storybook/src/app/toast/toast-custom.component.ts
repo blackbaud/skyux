@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FontLoadingService } from '@skyux/storybook';
 import { SkyToastInstance } from '@skyux/toast';
 
 @Component({
@@ -8,5 +10,7 @@ import { SkyToastInstance } from '@skyux/toast';
   standalone: false,
 })
 export class ToastCustomComponent {
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
+
   constructor(public message: SkyToastInstance) {}
 }
