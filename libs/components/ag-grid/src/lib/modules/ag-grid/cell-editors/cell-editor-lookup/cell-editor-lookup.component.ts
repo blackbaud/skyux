@@ -7,7 +7,15 @@ import {
   HostListener,
   inject,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { SkyIdModule } from '@skyux/core';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyLookupModule } from '@skyux/lookup';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ColumnResizedEvent } from 'ag-grid-community';
@@ -26,7 +34,13 @@ import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
   templateUrl: './cell-editor-lookup.component.html',
   styleUrls: ['./cell-editor-lookup.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    SkyInputBoxModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SkyLookupModule,
+    SkyIdModule,
+  ],
 })
 export class SkyAgGridCellEditorLookupComponent
   implements ICellEditorAngularComp

@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -16,6 +17,9 @@ import {
   SkyDynamicComponentLocation,
   SkyDynamicComponentService,
 } from '@skyux/core';
+import { SkyI18nModule } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
 import { ColumnMovedEvent } from 'ag-grid-community';
@@ -32,12 +36,12 @@ import { SkyAgGridHeaderParams } from '../types/header-params';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
   host: {
     '[attr.title]': 'accessibleHeaderText()',
     '[attr.aria-label]': 'displayName() || accessibleHeaderText()',
     '[attr.role]': '"note"',
   },
+  imports: [SkyIconModule, SkyThemeModule, AsyncPipe, SkyI18nModule],
 })
 export class SkyAgGridHeaderComponent
   implements IHeaderAngularComp, OnDestroy, AfterViewInit
