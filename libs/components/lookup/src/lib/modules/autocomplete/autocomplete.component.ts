@@ -134,7 +134,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   /**
-   * Hint test to show in the dropdown
+   * Hint text to show in the dropdown
    * @internal
    */
   @Input()
