@@ -9,7 +9,7 @@ import {
 import {
   SkyContainerBreakpointObserver,
   SkyHelpService,
-  SkyLayoutHostDirective,
+  λSkyLayoutHostDirective,
   provideSkyBreakpointObserver,
 } from '@skyux/core';
 
@@ -30,7 +30,7 @@ import { SkyPageLayoutType } from './types/page-layout-type';
   ],
   hostDirectives: [
     {
-      directive: SkyLayoutHostDirective,
+      directive: λSkyLayoutHostDirective,
       inputs: ['layout'],
     },
   ],

@@ -19,7 +19,7 @@ import {
   SkyDockLocation,
   SkyDockService,
   SkyIdModule,
-  SkyLayoutHostDirective,
+  λSkyLayoutHostDirective,
   SkyLiveAnnouncerService,
   SkyScrollShadowDirective,
   SkyScrollShadowEventArgs,
@@ -65,7 +65,7 @@ const ARIA_ROLE_DEFAULT = 'dialog';
     SkyModalHeaderComponent,
     SkyScrollShadowDirective,
     SkyModalsResourcesModule,
-    SkyLayoutHostDirective,
+    λSkyLayoutHostDirective,
   ],
 })
 export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {

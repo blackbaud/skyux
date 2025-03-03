@@ -8,7 +8,7 @@ import { SkyResponsiveHostDirective } from '@skyux/core';
   hostDirectives: [SkyResponsiveHostDirective],
   standalone: true,
   selector: 'sky-modal-content',
-  template: `<ng-content />`,
+  templateUrl: './modal-content.component.html',
   styleUrls: ['./modal-content.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })

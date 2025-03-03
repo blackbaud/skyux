@@ -19,6 +19,10 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+
+  &:has(.sky-modal-content.sky-layout-host-fit) {
+    height: var(--sky-modal-content-max-height, 100%);
+  }
 }
 
 .sky-modal:focus {
@@ -78,18 +82,9 @@
     outline-offset: -1px;
   }
 
-  &:has(> .sky-layout-host-fit) {
+  &.sky-layout-host-fit {
     flex-grow: 1;
-    height: var(--sky-modal-content-max-height, 100%);
     position: relative;
-  }
-
-  .sky-layout-host-fit ::ng-deep sky-modal-content {
-    padding: 0;
-  }
-
-  .sky-layout-host-none {
-    display: contents;
   }
 }
 

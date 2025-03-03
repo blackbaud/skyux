@@ -79,13 +79,13 @@
       role="region"
       tabindex="0"
       skyId
+      skyLayoutHost
+      [layout]="layout()"
       [attr.aria-labelledby]="headerId.id"
       [skyScrollShadowEnabled]="scrollShadowEnabled"
       (skyScrollShadow)="scrollShadowChange($event)"
     >
-      <div skyLayoutHost [layout]="layout()">
-        <ng-content select="sky-modal-content" />
-      </div>
+      <ng-content select="sky-modal-content" />
     </div>
     <div
       class="sky-modal-footer"

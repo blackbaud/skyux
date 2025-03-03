@@ -21,7 +21,7 @@ const LAYOUT_CLASS_PREFIX = 'sky-layout-host-';
   standalone: true,
   providers: [SkyLayoutHostService],
 })
-export class SkyLayoutHostDirective<T = 'none' | 'fit'> {
+export class λSkyLayoutHostDirective<T = 'none' | 'fit'> {
   readonly #elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly #layoutForChild = toSignal(
     inject(SkyLayoutHostService).hostLayoutForChild,
@@ -37,17 +37,18 @@ export class SkyLayoutHostDirective<T = 'none' | 'fit'> {
       if (layoutForChild) {
         cssClass.push(`${LAYOUT_FOR_CHILD_CLASS_PREFIX}${layoutForChild}`);
       }
-      this.#elementRef.nativeElement.classList.forEach((className) => {
+      const classList = this.#elementRef.nativeElement.classList.values();
+      for (const className of classList) {
         if (
           className.startsWith(LAYOUT_CLASS_PREFIX) &&
           !cssClass.includes(className)
         ) {
           this.#renderer.removeClass(this.#elementRef.nativeElement, className);
         }
-      });
-      cssClass.forEach((className) =>
-        this.#renderer.addClass(this.#elementRef.nativeElement, className),
-      );
+      }
+      for (const className of cssClass) {
+        this.#renderer.addClass(this.#elementRef.nativeElement, className);
+      }
     });
   }
 }

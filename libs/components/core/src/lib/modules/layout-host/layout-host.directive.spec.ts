@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SkyLayoutHostDirective } from './layout-host.directive';
+import { λSkyLayoutHostDirective } from './layout-host.directive';
 import { SkyLayoutHostService } from './layout-host.service';
 
 @Component({
   selector: 'app-test',
   template: ``,
-  hostDirectives: [{ directive: SkyLayoutHostDirective, inputs: ['layout'] }],
+  hostDirectives: [{ directive: λSkyLayoutHostDirective, inputs: ['layout'] }],
 })
 class TestComponent {}
 
