@@ -14,6 +14,9 @@ import {
 
 const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': { skyux_grid_multiselect_select_row: { message: 'Select row' } },
+  'FR-CA': {
+    skyux_grid_multiselect_select_row: { message: 'Sélectionner une ligne' },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);
