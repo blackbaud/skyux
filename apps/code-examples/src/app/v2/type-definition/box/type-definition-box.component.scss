@@ -1,13 +1,6 @@
 :host {
-  // --sky-docs-type-definition-box-border-color: color-mix(
-  //   in srgb,
-  //   var(--sky-background-color-info) 30%,
-  //   var(--sky-border-color-neutral-medium-dark)
-  // );
-
   display: block;
   overflow: hidden;
-  // border: 1px solid var(--sky-docs-type-definition-box-border-color);
 }
 
 .sky-docs-type-definition-box-header {
@@ -15,7 +8,6 @@
   align-items: center;
   gap: 10px;
   background-color: var(--sky-background-color-info-light);
-  // border-bottom: 1px solid var(--sky-docs-type-definition-box-border-color);
 }
 
 .sky-docs-type-definition-box-heading {
@@ -23,14 +15,6 @@
   font-weight: normal;
   word-break: break-all;
 }
-
-// .sky-docs-type-definition-box-body {
-//   background-color: color-mix(
-//     in srgb,
-//     var(--sky-background-color-info-light) 25%,
-//     var(--sky-background-color-page-default)
-//   );
-// }
 
 .sky-docs-type-definition-text-strikethrough {
   text-decoration: line-through;

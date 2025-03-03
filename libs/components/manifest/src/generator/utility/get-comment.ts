@@ -155,8 +155,7 @@ export function getComment(reflection: {
       comment.summary
         .map((item) => item.text)
         .join('')
-        .trim()
-        .replace(/(\r\n|\n|\r)/gm, ' ') || undefined;
+        .trim() || undefined;
   }
 
   return {

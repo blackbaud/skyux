@@ -23,14 +23,14 @@ import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
     }
   `,
   template: `
-    <p
+    <div
       [innerHTML]="
         description()
           | skyEscapeHtml
-          | skyMarkdown
+          | skyMarkdown: 'block'
           | skyTypeAnchorLinks: { ignore: [definitionName()] }
       "
-    ></p>
+    ></div>
   `,
 })
 export class SkyDocsTypeDefinitionDescriptionComponent {
