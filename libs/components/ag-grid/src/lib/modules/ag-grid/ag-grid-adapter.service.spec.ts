@@ -14,7 +14,6 @@ describe('SkyAgGridAdapterService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SkyAgGridAdapterFixtureComponent],
       providers: [SkyAgGridAdapterService],
     });
 

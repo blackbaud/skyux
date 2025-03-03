@@ -24,6 +24,17 @@ const RESOURCES: Record<string, SkyLibResources> = {
         'Resize the flyout window. Press the enter or space key to activate, then use left arrow key to expand the flyout window and right arrow key to shrink the flyout window. Press the enter, space, or tab key to deactivate.',
     },
   },
+  'FR-CA': {
+    skyux_flyout_close: { message: 'Fermer la fenêtre contextuelle' },
+    skyux_flyout_iterator_previous_button: { message: 'Précédent' },
+    skyux_flyout_iterator_next_button: { message: 'Suivant' },
+    skyux_flyout_permalink_button: { message: 'Visualiser le dossier' },
+    skyux_flyout_primary_action_button: { message: 'Créer une liste' },
+    skyux_flyout_resize_handle: {
+      message:
+        'Redimensionnez la fenêtre contextuelle. Appuyez sur la touche Entrée ou Espace pour l’activer, puis utiliser la flèche de gauche pour agrandir la fenêtre contextuelle et la flèche de droite pour réduire la fenêtre contextuelle. Appuyez sur la touche Entrée, Espace ou Tabulation pour la désactiver.',
+    },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);

@@ -3,28 +3,6 @@ import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 describe('lookup-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
-      describe(`in country field with phone info`, () => {
-        it(`should render the input dropdown`, () => {
-          cy.visit(
-            `/iframe.html?globals=theme:${theme}&id=countryfieldcomponent-countryfield--phone-info-country-field`,
-          )
-            .get('#ready')
-            .should('exist')
-            .end();
-          cy.get('app-country-field').should('exist').should('be.visible');
-          cy.get('textarea').should('exist').should('be.visible').type('ba');
-
-          cy.get('app-country-field').screenshot(
-            `countryfieldcomponent-countryfield--country-field-dropdown-with-phone-info-${theme}`,
-          );
-          cy.get('app-country-field').percySnapshot(
-            `countryfieldcomponent-countryfield--country-field-dropdown-with-phone-info-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
-          );
-        });
-      });
       ['empty', 'disabled', 'prepopulated', 'disabled-prepopulated'].forEach(
         (mode) => {
           describe(`in ${mode} country field`, () => {

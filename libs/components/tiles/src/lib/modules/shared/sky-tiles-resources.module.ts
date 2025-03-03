@@ -31,6 +31,24 @@ const RESOURCES: Record<string, SkyLibResources> = {
         '{0} moved. Current column: {1} of {2}. Current position in column: {3} of {4}',
     },
   },
+  'FR-CA': {
+    skyux_tile_expand: { message: 'Agrandir ou réduire {0}' },
+    skyux_tile_expand_default: { message: 'Agrandir ou réduire' },
+    skyux_tile_help: { message: '{0} aide' },
+    skyux_tile_help_default: { message: 'Aide' },
+    skyux_tile_settings: { message: '{0} paramètres' },
+    skyux_tile_settings_default: { message: 'Paramètres' },
+    skyux_tile_move: { message: 'Déplacer {0}' },
+    skyux_tile_move_default: { message: 'Déplacer' },
+    skyux_tile_move_instructions: {
+      message:
+        'Lorsque le curseur est placé sur le bouton déplacer d’une mosaïque, utilisez les touches fléchées pour la déplacer. Les flèches vers le haut et vers le bas modifie la position dans une colonne. Les flèches de gauche et de droite la déplace d’une colonne à l’autre.',
+    },
+    skyux_tile_moved_assistive_text: {
+      message:
+        '{0} déplacé(e). Colonne actuelle : {1} de {2}. Position actuelle dans la colonne : {3} de {4}',
+    },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);

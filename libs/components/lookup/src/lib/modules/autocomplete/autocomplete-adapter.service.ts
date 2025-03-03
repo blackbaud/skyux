@@ -61,13 +61,20 @@ export class SkyAutocompleteAdapterService {
     dropdownRef: ElementRef,
     isInputBox: boolean,
   ): void {
-    const parentElement = isInputBox
-      ? elementRef.nativeElement.closest('.sky-input-box')
-      : elementRef.nativeElement;
-    if (parentElement) {
-      const width = parentElement.getBoundingClientRect().width;
-      this.#renderer.setStyle(dropdownRef.nativeElement, 'width', `${width}px`);
-    }
+    // `setTimeout` ensures that the input box size is correct when grabbing the width. When the input is initially focused a parent's `overflow-y: auto` value can cause the width to be incorrect during initial rendering.
+    setTimeout(() => {
+      const parentElement = isInputBox
+        ? elementRef.nativeElement.closest('.sky-input-box')
+        : elementRef.nativeElement;
+      if (parentElement) {
+        const width = parentElement.getBoundingClientRect().width;
+        this.#renderer.setStyle(
+          dropdownRef.nativeElement,
+          'width',
+          `${width}px`,
+        );
+      }
+    });
   }
 
   /**

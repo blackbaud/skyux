@@ -1,11 +1,10 @@
-import { CommonModule } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import {
   Component,
   ElementRef,
-  QueryList,
   TemplateRef,
-  ViewChild,
-  ViewChildren,
+  viewChild,
+  viewChildren,
 } from '@angular/core';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 
@@ -31,6 +30,7 @@ import { SkyInlineDeleteModule } from '@skyux/layout';
         [ngStyle]="{
           height: row.rowHeight + 'px',
           position: 'fixed',
+          top: '-100vh',
           width: tableWidth + 'px',
         }"
       >
@@ -42,12 +42,13 @@ import { SkyInlineDeleteModule } from '@skyux/layout';
       </div>
     </ng-template>
   `,
-  imports: [CommonModule, SkyInlineDeleteModule],
+  imports: [NgStyle, SkyInlineDeleteModule],
 })
 export class SkyAgGridRowDeleteComponent {
-  @ViewChildren('inlineDeleteRef')
-  public inlineDeleteRefs: QueryList<ElementRef> | undefined;
+  public readonly inlineDeleteRefs =
+    viewChildren<ElementRef<HTMLDivElement>>('inlineDeleteRef');
 
-  @ViewChild('inlineDeleteTemplateRef', { read: TemplateRef })
-  public inlineDeleteTemplateRef: TemplateRef<unknown> | undefined;
+  public readonly inlineDeleteTemplateRef = viewChild<TemplateRef<unknown>>(
+    'inlineDeleteTemplateRef',
+  );
 }

@@ -5,6 +5,11 @@
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
     },
+    "ag-grid": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./update-12/ag-grid/ag-grid.schematic",
+      "description": "Changes to support AG Grid 33."
+    },
     "axe-core": {
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./update-12/axe-core/axe-core.schematic",

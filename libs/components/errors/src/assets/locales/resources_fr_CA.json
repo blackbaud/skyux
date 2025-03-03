@@ -1,0 +1,34 @@
+{
+  "skyux_errors_broken_description": {
+    "_description": "Le message de description du composant d’erreur pour le type d’erreur cassé",
+    "message": "Un problème est survenu.\nEssayez à nouveau ou revenez plus tard."
+  },
+  "skyux_errors_broken_title": {
+    "_description": "Le message de titre du composant d’erreur pour le type d’erreur cassé",
+    "message": "C’est curieux…"
+  },
+  "skyux_errors_construction_description": {
+    "_description": "Le message de description du composant d’erreur pour le type d’erreur de construction",
+    "message": "Nous apprécions votre patience pendant que \nnous apportons des améliorations."
+  },
+  "skyux_errors_construction_title": {
+    "_description": "Le message de titre du composant d’erreur pour le type d’erreur de construction",
+    "message": "Travaux en cours."
+  },
+  "skyux_errors_not_found_description": {
+    "_description": "Le message de description du composant d’erreur pour le type d’erreur introuvable",
+    "message": "Nous sommes désolés, mais cette page \nest manquante ou a été déplacée."
+  },
+  "skyux_errors_not_found_title": {
+    "_description": "Le message de titre du composant d’erreur pour le type d’erreur introuvable",
+    "message": "Il n’y a rien à voir ici."
+  },
+  "skyux_errors_security_description": {
+    "_description": "Le message de description du composant d’erreur pour le type d’erreur de sécurité",
+    "message": "Demandez à votre administrateur de vous accorder l’accès."
+  },
+  "skyux_errors_security_title": {
+    "_description": "Le message de titre du composant d’erreur pour le type d’erreur de sécurité",
+    "message": "Attention!\nVous êtes dans une zone restreinte."
+  }
+}

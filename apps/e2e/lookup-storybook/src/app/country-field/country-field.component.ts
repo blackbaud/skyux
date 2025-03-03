@@ -14,9 +14,6 @@ import { FontLoadingService } from '@skyux/storybook/font-loading';
 })
 export class CountryFieldComponent {
   @Input()
-  public phoneInfoFlag = false;
-
-  @Input()
   public set prePopulatedFlag(value: boolean) {
     if (value) {
       this.countryControl.setValue({

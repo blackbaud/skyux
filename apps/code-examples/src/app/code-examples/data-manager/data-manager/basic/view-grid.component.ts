@@ -16,10 +16,12 @@ import {
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  AllCommunityModule,
   ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
+  ModuleRegistry,
   RowSelectedEvent,
 } from 'ag-grid-community';
 import { Subject, of } from 'rxjs';
@@ -27,6 +29,8 @@ import { takeUntil } from 'rxjs/operators';
 
 import { DataManagerDemoRow } from './data';
 import { Filters } from './filters';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-view-grid',

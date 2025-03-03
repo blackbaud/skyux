@@ -5,16 +5,20 @@ import { SkySearchModule } from '@skyux/lookup';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  AllCommunityModule,
   ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
+  ModuleRegistry,
   ValueFormatterParams,
 } from 'ag-grid-community';
 import { of } from 'rxjs';
 
 import { ContextMenuComponent } from './context-menu.component';
 import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 /**
  * @title Basic setup with top scrollbar (without data manager)

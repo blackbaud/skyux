@@ -43,6 +43,14 @@ describe('Autocomplete component', () => {
     return document.querySelector('sky-autocomplete') as HTMLElement;
   }
 
+  function getDisplayedHintText(): string {
+    return (
+      document
+        .querySelector('.sky-autocomplete-dropdown-hint-text')
+        ?.textContent.trim() || ''
+    );
+  }
+
   function getInputElement(async = false): HTMLInputElement {
     if (async) {
       return document.getElementById(
@@ -450,6 +458,83 @@ describe('Autocomplete component', () => {
 
       const actionsContainer = getActionsContainer();
       expect(actionsContainer).toBeNull();
+    }));
+
+    it('should show a dropdown hint message', fakeAsync(() => {
+      const expectedMessage = 'Type to search for a person';
+      component.dropdownHintText = expectedMessage;
+      fixture.detectChanges();
+
+      const inputElement = getInputElement();
+
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      const hintText = getDisplayedHintText();
+      expect(hintText).toBe(expectedMessage);
+
+      const actionsContainer = getActionsContainer();
+      expect(actionsContainer).toBeNull();
+    }));
+
+    it('should not show a dropdown hint message when no results are found', fakeAsync(() => {
+      const expectedMessage = 'Type to search for a person';
+      component.dropdownHintText = expectedMessage;
+      fixture.detectChanges();
+
+      const inputElement = getInputElement();
+
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      let hintText = getDisplayedHintText();
+      expect(hintText).toBe(expectedMessage);
+
+      let actionsContainer = getActionsContainer();
+      expect(actionsContainer).toBeNull();
+
+      enterSearch('abcdefgh', fixture);
+
+      const container = getSearchResultsSection();
+      expect(container?.textContent?.trim()).toBe('No matches found');
+
+      actionsContainer = getActionsContainer();
+      expect(actionsContainer).toBeNull();
+
+      hintText = getDisplayedHintText();
+      expect(hintText).toBe('');
+    }));
+
+    it('should not show a dropdown hint message when results are found', fakeAsync(() => {
+      const expectedMessage = 'Type to search for a person';
+      component.dropdownHintText = expectedMessage;
+      fixture.detectChanges();
+
+      const inputElement = getInputElement();
+
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      let hintText = getDisplayedHintText();
+      expect(hintText).toBe(expectedMessage);
+
+      const actionsContainer = getActionsContainer();
+      expect(actionsContainer).toBeNull();
+
+      const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
+
+      enterSearch('r', fixture);
+
+      expect(spy.calls.argsFor(0)[0]).toEqual('r');
+
+      hintText = getDisplayedHintText();
+      expect(hintText).toBe('');
     }));
 
     it('should show a no results found message in the actions area if the add button is shown', fakeAsync(() => {

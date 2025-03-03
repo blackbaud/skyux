@@ -3,9 +3,15 @@ import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyInputBoxModule } from '@skyux/forms';
 
 import { AgGridModule } from 'ag-grid-angular';
-import { ValueFormatterParams } from 'ag-grid-community';
+import {
+  AllCommunityModule,
+  ModuleRegistry,
+  ValueFormatterParams,
+} from 'ag-grid-community';
 
 import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 /**
  * @title Setting initial focus for keyboard navigation

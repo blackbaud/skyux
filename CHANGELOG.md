@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.43.1](https://github.com/blackbaud/skyux/compare/11.43.0...11.43.1) (2025-02-28)
+
+
+### Bug Fixes
+
+* **components/tabs:** puts focus on active tab in mobile view ([#3182](https://github.com/blackbaud/skyux/issues/3182)) ([154f5b2](https://github.com/blackbaud/skyux/commit/154f5b25c48de646abcacfaa23b0684b7b098925))
+* mark all harness `hostSelector` properties as "internal" ([#3180](https://github.com/blackbaud/skyux/issues/3180)) ([e9666c7](https://github.com/blackbaud/skyux/commit/e9666c797bb5101b3b0eba05518b1c5cd932c438))
+
 ## [12.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.5...12.0.0-alpha.6) (2025-02-26)
 
 

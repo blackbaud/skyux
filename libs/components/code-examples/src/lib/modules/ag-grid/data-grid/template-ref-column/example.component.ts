@@ -8,9 +8,15 @@ import {
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
 import { AgGridModule } from 'ag-grid-angular';
-import { GridOptions } from 'ag-grid-community';
+import {
+  AllCommunityModule,
+  GridOptions,
+  ModuleRegistry,
+} from 'ag-grid-community';
 
 import { AG_GRID_DEMO_DATA } from './data';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 /**
  * @title Basic setup with template ref column type (without data manager)

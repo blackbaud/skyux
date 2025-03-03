@@ -2,11 +2,19 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
 import { AgGridModule } from 'ag-grid-angular';
-import { ColDef, GridOptions, ValueFormatterParams } from 'ag-grid-community';
+import {
+  AllCommunityModule,
+  ColDef,
+  GridOptions,
+  ModuleRegistry,
+  ValueFormatterParams,
+} from 'ag-grid-community';
 import { of } from 'rxjs';
 
 import { ContextMenuComponent } from './context-menu.component';
 import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 /**
  * @title Basic multiselect setup (without data manager)

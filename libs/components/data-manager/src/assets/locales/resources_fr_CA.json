@@ -1,0 +1,62 @@
+{
+  "skyux_data_manager_column_picker_title": {
+    "_description": "Texte pour le titre du sélecteur de colonnes du gestionnaire de données",
+    "message": "Choisir les colonnes à indiquer dans la liste"
+  },
+  "skyux_data_manager_apply_changes_button_title": {
+    "_description": "Texte pour le bouton appliquer les modifications du sélecteur de colonnes du gestionnaire de données",
+    "message": "Appliquez les changements"
+  },
+  "skyux_data_manager_cancel_button_title": {
+    "_description": "Texte pour le bouton annuler du sélecteur de colonnes du gestionnaire de données",
+    "message": "Annuler"
+  },
+  "skyux_data_manager_select_all_button_aria_label": {
+    "_description": "Texte de l’étiquette aria pour le bouton sélectionner tout dans la barre de recherche à sélection multiple du gestionnaire de données",
+    "message": "Sélectionner tout {0}"
+  },
+  "skyux_data_manager_select_all_button_title": {
+    "_description": "Texte pour le bouton sélectionner tout dans la barre de recherche à sélection multiple du gestionnaire de données",
+    "message": "Sélectionner tout"
+  },
+  "skyux_data_manager_clear_all_button_aria_label": {
+    "_description": "Texte de l’étiquette aria pour le bouton supprimer tout dans la barre de recherche à sélection multiple du gestionnaire de données",
+    "message": "Supprimer tous les éléments sélectionnés {0}"
+  },
+  "skyux_data_manager_clear_all_button_title": {
+    "_description": "Texte pour le bouton effacer tout dans la barre de recherche à sélection multiple du gestionnaire de données",
+    "message": "Effacer tout"
+  },
+  "skyux_data_manager_show_selected_option_aria_label": {
+    "_description": "Texte de l’étiquette aria pour le bouton afficher la sélection dans la barre de recherche à sélection multiple du gestionnaire de données",
+    "message": "Montrer seulement ce qui est sélectionné {0}"
+  },
+  "skyux_data_manager_show_selected_option_title": {
+    "_description": "Texte pour le bouton afficher la sélection dans la barre de recherche à sélection multiple du gestionnaire de données",
+    "message": "Montrer seulement les éléments sélectionnés"
+  },
+  "skyux_data_manager_columns_button_aria_label": {
+    "_description": "Texte de l’étiquette aria pour le bouton sélectionneur de colonnes tout dans la barre de recherche du gestionnaire de données",
+    "message": "Choisir les colonnes pour {0}"
+  },
+  "skyux_data_manager_columns_button_title": {
+    "_description": "Texte pour le bouton sélectionneur de colonnes dans la barre de recherche du gestionnaire de données",
+    "message": "Colonnes"
+  },
+  "skyux_data_manager_select_column_status_indicator_title": {
+    "_description": "Texte pour l’indicateur de statut du sélecteur de colonnes du gestionnaire de données",
+    "message": "Sélectionnez au moins une colonne."
+  },
+  "skyux_data_manager_status_update_with_selections": {
+    "_description": "Texte pour la mise à jour du statut à propos des éléments affichés lorsque tous les éléments sont affichés",
+    "message": "{0} de {1} éléments répondent aux critères et {2} sont sélectionnés."
+  },
+  "skyux_data_manager_status_update_without_selections": {
+    "_description": "Texte pour la mise à jour du statut à propos des éléments affichés lorsque tous les éléments sont affichés",
+    "message": "{0} de {1} éléments répondent aux critères."
+  },
+  "skyux_data_manager_status_update_only_selected": {
+    "_description": "Texte pour la mise à jour du statut à propos des éléments affichés lorsque seuls les éléments sélectionnés sont affichés",
+    "message": "{0} de {1} éléments répondent aux critères et {2} sont sélectionnés. Seuls les éléments sélectionnés sont affichés."
+  }
+}

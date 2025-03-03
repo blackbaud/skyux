@@ -21,7 +21,14 @@ import {
 } from '@skyux/theme';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, ColGroupDef, GridOptions, GridState } from 'ag-grid-community';
+import {
+  AllCommunityModule,
+  ColDef,
+  ColGroupDef,
+  GridOptions,
+  GridState,
+  ModuleRegistry,
+} from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
@@ -30,6 +37,8 @@ import {
   columnDefinitions,
   data,
 } from '../shared/baseball-players-data';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   imports: [

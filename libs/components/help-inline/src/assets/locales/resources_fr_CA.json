@@ -1,0 +1,10 @@
+{
+  "skyux_help_inline_button_title": {
+    "_description": "Le titre du bouton d’aide.",
+    "message": "Afficher le contenu de l’aide"
+  },
+  "skyux_help_inline_aria_label": {
+    "_description": "L’étiquette aria pour le bouton d’aide en ligne.",
+    "message": "Afficher le contenu de l’aide pour {0}"
+  }
+}

@@ -8,7 +8,14 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { SkyDatepickerModule } from '@skyux/datetime';
+import { SkyI18nModule } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
@@ -30,7 +37,12 @@ import { SkyAgGridDatepickerProperties } from '../../types/datepicker-properties
   styleUrls: ['./cell-editor-datepicker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SkyDatepickerModule,
+    SkyI18nModule,
+  ],
 })
 export class SkyAgGridCellEditorDatepickerComponent
   extends PopupComponent
