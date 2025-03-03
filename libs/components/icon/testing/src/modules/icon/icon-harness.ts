@@ -41,10 +41,8 @@ export class SkyIconHarness extends SkyComponentHarness {
       // match a class name that starts with `fa-` and follows with `lg`, `2x`, `3x`, `4x`, `5x`
       if (/^fa-(?=2xs|lg|[2-5]+x)/.test(iconClass)) {
         return iconClass.replace('fa-', '');
-      } else if (
-        /^sky-icon-svg-responsive-(?=2xs|lg|[2-5]+x)/.test(iconClass)
-      ) {
-        return iconClass.replace('sky-icon-svg-responsive-', '');
+      } else if (/^sky-icon-svg-relative-(?=2xs|lg|[2-5]+x)/.test(iconClass)) {
+        return iconClass.replace('sky-icon-svg-relative-', '');
       } else if (/^sky-icon-svg-(?=xxxs|xxs|xs|s|m|l|xl|xxl)/.test(iconClass)) {
         return iconClass.replace('sky-icon-svg-', '');
       }
@@ -65,7 +63,7 @@ export class SkyIconHarness extends SkyComponentHarness {
    */
   public async getVariant(): Promise<string | undefined> {
     const iconInfo = await this.#getSpecifiedIconInfo();
-    const svgIcon = await this.locatorForOptional('.sky-icon-svg')();
+    const svgIcon = await this.locatorForOptional('sky-icon-svg')();
 
     if (svgIcon || iconInfo.iconType === 'skyux') {
       return iconInfo.variant || 'line';
@@ -87,7 +85,7 @@ export class SkyIconHarness extends SkyComponentHarness {
 
   async #getIcon(): Promise<TestElement> {
     const icon = await this.locatorForOptional('.sky-icon')();
-    const svgIcon = await this.locatorForOptional('.sky-icon-svg')();
+    const svgIcon = await this.locatorForOptional('sky-icon-svg')();
 
     if (icon) {
       return icon;

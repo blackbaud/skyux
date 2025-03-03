@@ -39,7 +39,7 @@ function defaultSize(value: SkyIconSize | undefined): SkyIconSize {
   styleUrls: ['./icon-svg.component.scss'],
   host: {
     '[class]':
-      'relativeSize() ? "sky-icon-svg-relative=" + relativeSize() : "sky-icon-svg-" + iconSize()',
+      'relativeSize() ? "sky-icon-svg-relative-" + relativeSize() : "sky-icon-svg-" + iconSize()',
   },
   hostDirectives: [SkyThemeComponentClassDirective],
 })

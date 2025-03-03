@@ -339,7 +339,7 @@ describe('Icon harness', () => {
       }
     });
 
-    it('should return the correct icon size when responsive size is used', async () => {
+    it('should return the correct icon size when relative size is used', async () => {
       const { iconHarness, fixture } = await setupTest({
         dataSkyId: 'svg-icon',
       });
