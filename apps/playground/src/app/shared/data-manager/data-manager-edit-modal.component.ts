@@ -15,17 +15,21 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  AllCommunityModule,
   ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
   ICellEditorParams,
   IRowNode,
+  ModuleRegistry,
   NewValueParams,
 } from 'ag-grid-community';
 
 import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './data-manager-data';
 import { DataManagerEditModalContext } from './data-manager-edit-modal-context';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-data-manager-edit-modal',

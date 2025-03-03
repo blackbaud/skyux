@@ -39,10 +39,7 @@ function toColumnWidthName(breakpoint: SkyBreakpoint): 'xs' | 'sm' {
 /**
  * @internal
  */
-@Directive({
-  selector: '[skyAgGridDataManagerAdapter]',
-  standalone: false,
-})
+@Directive({ selector: '[skyAgGridDataManagerAdapter]' })
 export class SkyAgGridDataManagerAdapterDirective
   implements AfterContentInit, OnDestroy
 {

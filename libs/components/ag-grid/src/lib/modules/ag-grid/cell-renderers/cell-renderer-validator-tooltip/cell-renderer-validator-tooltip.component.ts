@@ -8,6 +8,7 @@ import {
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ValueFormatterParams } from 'ag-grid-community';
 
+import { SkyAgGridCellValidatorTooltipComponent } from '../../cell-validator/ag-grid-cell-validator-tooltip.component';
 import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-validator-params';
 
 /**
@@ -17,7 +18,7 @@ import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-valida
   selector: 'sky-ag-grid-cell-renderer-validator-tooltip',
   templateUrl: 'cell-renderer-validator-tooltip.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [SkyAgGridCellValidatorTooltipComponent],
 })
 export class SkyAgGridCellRendererValidatorTooltipComponent
   implements ICellRendererAngularComp

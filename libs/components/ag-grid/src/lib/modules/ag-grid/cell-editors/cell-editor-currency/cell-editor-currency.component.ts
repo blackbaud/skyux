@@ -7,7 +7,14 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { SkyAutonumericModule } from '@skyux/autonumeric';
+import { SkyI18nModule } from '@skyux/i18n';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
@@ -24,7 +31,12 @@ import { SkyAgGridCurrencyProperties } from '../../types/currency-properties';
   templateUrl: './cell-editor-currency.component.html',
   styleUrls: ['./cell-editor-currency.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SkyAutonumericModule,
+    SkyI18nModule,
+  ],
 })
 export class SkyAgGridCellEditorCurrencyComponent
   implements ICellEditorAngularComp

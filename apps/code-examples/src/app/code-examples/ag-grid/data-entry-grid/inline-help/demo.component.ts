@@ -15,10 +15,12 @@ import {
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  AllCommunityModule,
   ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
+  ModuleRegistry,
   ValueFormatterParams,
 } from 'ag-grid-community';
 import { of } from 'rxjs';
@@ -28,6 +30,8 @@ import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
 import { EditModalContext } from './edit-modal-context';
 import { EditModalComponent } from './edit-modal.component';
 import { InlineHelpComponent } from './inline-help.component';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-demo',

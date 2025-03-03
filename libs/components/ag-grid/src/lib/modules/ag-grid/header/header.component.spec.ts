@@ -14,13 +14,13 @@ import { SkyAgGridHeaderComponent } from './header.component';
 
 @Component({
   template: `<span class="test-help-component">Help text</span>`,
-  standalone: false,
+  imports: [SkyI18nModule, SkyIconModule, SkyThemeModule],
 })
 class TestHelpComponent {}
 
 @Component({
   template: `<span class="other-help-component">Other help text</span>`,
-  standalone: false,
+  imports: [SkyI18nModule, SkyIconModule, SkyThemeModule],
 })
 class OtherTestHelpComponent {}
 
@@ -34,12 +34,14 @@ describe('HeaderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        SkyI18nModule,
+        SkyIconModule,
+        SkyThemeModule,
         SkyAgGridHeaderComponent,
         TestHelpComponent,
         OtherTestHelpComponent,
       ],
-      imports: [SkyI18nModule, SkyIconModule, SkyThemeModule],
     });
     apiEvents = {};
     columnEvents = {};
