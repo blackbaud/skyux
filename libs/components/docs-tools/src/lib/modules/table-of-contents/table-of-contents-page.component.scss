@@ -2,6 +2,7 @@
   display: flex;
   align-items: flex-start;
   flex-direction: row-reverse;
+  gap: 40px;
 }
 
 :host(:not(.sky-docs-toc-page-with-links)) {
@@ -12,14 +13,13 @@
 
 :host(.sky-docs-toc-page-with-links) {
   .sky-docs-toc-body {
-    width: 75%;
-    padding-right: 40px;
+    min-width: 50%;
   }
 
   .sky-docs-toc-menu {
     position: sticky;
     top: 0;
-    width: 25%;
-    padding-top: 25px;
+    flex-shrink: 1;
+    max-width: 40%;
   }
 }

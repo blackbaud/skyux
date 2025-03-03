@@ -1,22 +1,20 @@
 :host {
+  --sky-docs-toc-active-border-size: 4px;
   display: block;
 }
 
 .sky-docs-toc-heading {
-  padding: 0 0 0 15px;
-}
-
-a.sky-docs-toc-link,
-.sky-docs-toc-heading {
-  margin-bottom: 10px;
+  padding: 0 0 0 var(--sky-padding-even-md);
 }
 
 a.sky-docs-toc-link {
-  padding: 0 0 0 12px;
-  border-left: 3px solid transparent;
   display: flex;
   align-items: center;
   gap: var(--sky-margin-inline-xs);
+
+  padding: 0 0 0
+    calc(var(--sky-padding-even-md) - var(--sky-docs-toc-active-border-size));
+  border-left: var(--sky-docs-toc-active-border-size) solid transparent;
 
   &:focus-visible,
   &.sky-docs-toc-link-active {

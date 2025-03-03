@@ -19,6 +19,9 @@ import { SkyDocsHeadingAnchorService } from '../heading-anchor/heading-anchor.se
 import { SkyDocsTableOfContentsLink } from './table-of-contents-links';
 import { SkyDocsTableOfContentsComponent } from './table-of-contents.component';
 
+/**
+ * @internal
+ */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -34,14 +37,14 @@ export class SkyDocsTableOfContentsPageComponent implements AfterViewInit {
   readonly #anchors = toSignal(
     inject(SkyDocsHeadingAnchorService).anchorsChange,
   );
+
   readonly #destroyRef = inject(DestroyRef);
-  readonly #scrollableHostSvc = inject(SkyScrollableHostService);
   readonly #elementRef = inject(ElementRef);
+  readonly #scrollableHostSvc = inject(SkyScrollableHostService);
 
   public readonly menuHeadingText = input.required<string>();
 
   readonly #activeAnchorIdOnScroll = signal<string | undefined>(undefined);
-  // #scrollEl: HTMLElement | Window = window;
   #scrollOffset = 0;
 
   protected readonly breakpoint = toSignal(
@@ -59,9 +62,7 @@ export class SkyDocsTableOfContentsPageComponent implements AfterViewInit {
 
       return anchors?.map((anchor) => {
         const link = anchor as SkyDocsTableOfContentsLink;
-
         link.active = link.anchorId === activeAnchorId;
-
         return link;
       });
     },
@@ -94,8 +95,6 @@ export class SkyDocsTableOfContentsPageComponent implements AfterViewInit {
     const anchors = this.#anchors();
 
     if (anchors) {
-      // const scrollOffset = this.#getScrollOffset();
-
       for (let i = 0; i < anchors.length; i++) {
         const anchor = anchors[i];
         const nextAnchor = anchors[i + 1];
@@ -108,10 +107,6 @@ export class SkyDocsTableOfContentsPageComponent implements AfterViewInit {
           .getElementById(nextAnchor?.anchorId)
           ?.getBoundingClientRect();
 
-        // if (anchor.anchorId === 'class_sky-ag-grid-wrapper-component') {
-        //   console.log(this.#scrollOffset, rect?.top, nextRect?.top);
-        // }
-
         if (
           rect &&
           Math.round(rect.top - this.#scrollOffset) <= 0 &&
@@ -120,14 +115,6 @@ export class SkyDocsTableOfContentsPageComponent implements AfterViewInit {
         ) {
           return anchor.anchorId;
         }
-
-        // if (
-        //   rect &&
-        //   rect.top - scrollOffset < 0 &&
-        //   (nextRect === undefined || nextRect.top - scrollOffset > 0)
-        // ) {
-        //   return anchor.anchorId;
-        // }
       }
     }
 
