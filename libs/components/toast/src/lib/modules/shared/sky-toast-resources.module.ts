@@ -17,6 +17,10 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_toast_close_button_aria_label: { message: 'Close message:' },
     skyux_toast_close_button_title: { message: 'Close the message' },
   },
+  'FR-CA': {
+    skyux_toast_close_button_aria_label: { message: 'Message de fermeture :' },
+    skyux_toast_close_button_title: { message: 'Fermer le message' },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);

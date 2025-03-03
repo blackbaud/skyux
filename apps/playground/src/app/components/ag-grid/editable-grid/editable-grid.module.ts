@@ -4,11 +4,15 @@ import { SkyAgGridModule } from '@skyux/ag-grid';
 import { SkyToolbarModule } from '@skyux/layout';
 
 import { AgGridModule } from 'ag-grid-angular';
+import { AllCommunityModule } from 'ag-grid-community';
+import { ModuleRegistry } from 'ag-grid-community';
 
 import { EditInModalGridRoutingModule } from '../edit-in-modal-grid/edit-in-modal-grid-routing.module';
 
 import { EditableGridRoutingModule } from './editable-grid-routing.module';
 import { EditableGridComponent } from './editable-grid.component';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @NgModule({
   declarations: [EditableGridComponent],

@@ -5,6 +5,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  AllCommunityModule,
   CellValueChangedEvent,
   ColDef,
   GridApi,
@@ -12,10 +13,13 @@ import {
   GridReadyEvent,
   ICellEditorParams,
   IRowNode,
+  ModuleRegistry,
 } from 'ag-grid-community';
 
 import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './ag-grid-demo-data';
 import { SkyAgGridEditModalContext } from './ag-grid-edit-modal-context';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-demo-edit-modal-form',

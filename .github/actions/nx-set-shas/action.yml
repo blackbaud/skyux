@@ -31,7 +31,7 @@ runs:
 
     - name: Derive appropriate SHAs for base and head for `nx affected` commands (using nrwl/nx-set-shas).
       id: nx-set-shas
-      uses: nrwl/nx-set-shas@v4
+      uses: nrwl/nx-set-shas@v4.1
       with:
         main-branch-name: ${{ steps.read-default-base.outputs.main-branch-name }}
         workflow-id: ${{ inputs.workflow-id }}

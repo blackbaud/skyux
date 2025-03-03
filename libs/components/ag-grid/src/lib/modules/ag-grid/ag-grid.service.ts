@@ -6,6 +6,8 @@ import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
   CellClassParams,
+  CellRendererSelectorFunc,
+  CellRendererSelectorResult,
   ColDef,
   EditableCallbackParams,
   GridOptions,
@@ -18,6 +20,8 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 import { Subject, takeUntil } from 'rxjs';
+
+import { getSkyAgGridTheme } from '../../styles/ag-grid-theme';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { applySkyLookupPropertiesDefaults } from './apply-lookup-properties-defaults';
@@ -93,10 +97,11 @@ function dateComparator(date1: Date | string, date2: Date | string): number {
   return date1value ? 1 : -1;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function getValidatorCellRendererSelector(component: string, fallback?: any) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (params: ICellRendererParams): any => {
+function getValidatorCellRendererSelector(
+  component: string,
+  fallback?: CellRendererSelectorResult,
+): CellRendererSelectorFunc {
+  return (params: ICellRendererParams) => {
     if (
       params.colDef &&
       typeof params.colDef.cellRendererParams?.skyComponentProperties
@@ -192,13 +197,6 @@ export class SkyAgGridService implements OnDestroy {
     return mergedGridOptions;
   }
 
-  /**
-   * @deprecated The `getHeaderHeight` method is no longer needed. Header height is managed in CSS.
-   */
-  public getHeaderHeight(): number {
-    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 37;
-  }
-
   #mergeGridOptions(
     defaultGridOptions: GridOptions & {
       getRowClass: (params: RowClassParams) => string[];
@@ -216,18 +214,17 @@ export class SkyAgGridService implements OnDestroy {
       providedGridOptions.rowSelection === 'multiple'
     ) {
       const rowSelectionOptions: Record<string, RowSelectionOptions> = {
-        single: { mode: 'singleRow' },
-        multiple: { mode: 'multiRow' },
+        single: { mode: 'singleRow', checkboxes: false },
+        multiple: { mode: 'multiRow', checkboxes: false },
       };
       providedGridOptions.rowSelection =
         rowSelectionOptions[providedGridOptions.rowSelection];
     }
-    if (
-      defaultGridOptions.rowSelection &&
-      providedGridOptions.rowSelection?.mode
-    ) {
+    if (providedGridOptions.rowSelection?.mode) {
       providedGridOptions.rowSelection = {
-        ...(defaultGridOptions.rowSelection as RowSelectionOptions),
+        ...((defaultGridOptions.rowSelection as RowSelectionOptions) ?? {
+          checkboxes: false,
+        }),
         ...providedGridOptions.rowSelection,
       } as RowSelectionOptions;
     }
@@ -270,10 +267,6 @@ export class SkyAgGridService implements OnDestroy {
           ? providedClasses
           : [providedClasses];
         return [...defaultClasses, ...providedClassesArray];
-      },
-      icons: {
-        ...defaultGridOptions.icons,
-        ...providedGridOptions.icons,
       },
       onCellFocused: (event): void => {
         defaultGridOptions.onCellFocused?.(event);
@@ -355,7 +348,10 @@ export class SkyAgGridService implements OnDestroy {
         const minWidth = params.column?.getMinWidth() ?? 0;
         // istanbul ignore next
         const maxWidth = params.column?.getMaxWidth() ?? Infinity;
-        if (params.column?.isResizable() && minWidth < maxWidth) {
+        if (
+          (params.columnGroup?.isResizable() || params.column?.isResizable()) &&
+          minWidth < maxWidth
+        ) {
           return [...classNames, SkyHeaderClass.Resizable];
         }
         return classNames;
@@ -389,6 +385,7 @@ export class SkyAgGridService implements OnDestroy {
           cellEditor: SkyAgGridCellEditorCurrencyComponent,
           headerClass: getHeaderClass(SkyHeaderClass.RightAligned),
           minWidth: 185,
+          sortingOrder: [null, 'desc', 'asc'],
           suppressKeyboardEvent: (params) =>
             this.#suppressEnter(params) || this.#suppressTab(params),
         },
@@ -453,6 +450,7 @@ export class SkyAgGridService implements OnDestroy {
           ),
           cellEditor: SkyAgGridCellEditorNumberComponent,
           headerClass: getHeaderClass(SkyHeaderClass.RightAligned),
+          sortingOrder: [null, 'desc', 'asc'],
         },
         [SkyCellType.RightAligned]: {
           cellClassRules: {
@@ -573,6 +571,7 @@ export class SkyAgGridService implements OnDestroy {
       },
       loadingOverlayComponent: SkyAgGridLoadingComponent,
       onCellFocused: () => this.#onCellFocused(),
+      rowModelType: 'clientSide',
       rowSelection: {
         mode: 'multiRow',
         enableClickSelection: false,
@@ -581,8 +580,13 @@ export class SkyAgGridService implements OnDestroy {
         headerCheckbox: false,
       },
       singleClickEdit: true,
-      sortingOrder: ['desc', 'asc', null],
       suppressDragLeaveHidesColumns: true,
+      theme: getSkyAgGridTheme(
+        'data-grid',
+        this.#currentTheme?.theme?.name,
+        this.#currentTheme?.mode?.name,
+        this.#currentTheme?.spacing?.name,
+      ),
     };
 
     const columnTypes = defaultSkyGridOptions.columnTypes as Record<
@@ -661,6 +665,12 @@ export class SkyAgGridService implements OnDestroy {
   } {
     const defaultGridOptions = this.#getDefaultGridOptions(args);
     defaultGridOptions.rowSelection = undefined;
+    defaultGridOptions.theme = getSkyAgGridTheme(
+      'data-entry-grid',
+      this.#currentTheme?.theme?.name,
+      this.#currentTheme?.mode?.name,
+      this.#currentTheme?.spacing?.name,
+    );
     return defaultGridOptions;
   }
 

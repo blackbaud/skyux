@@ -1,0 +1,18 @@
+{
+  "skyux_inline_form_button_cancel": {
+    "_description": "Texte pour le bouton annuler",
+    "message": "Annuler"
+  },
+  "skyux_inline_form_button_delete": {
+    "_description": "Texte pour le bouton supprimer",
+    "message": "Supprimer"
+  },
+  "skyux_inline_form_button_done": {
+    "_description": "Texte pour le bouton terminé",
+    "message": "Terminé"
+  },
+  "skyux_inline_form_button_save": {
+    "_description": "Texte pour le bouton sauvegarder",
+    "message": "Sauvegarder"
+  }
+}
