@@ -1,43 +1,25 @@
-@let selectorValue = selector();
-
 @if (definition(); as def) {
+  @let categoryText = def.kind | skyTypeDefinitionKindToLabel;
   <sky-heading-anchor
     class="sky-margin-stacked-lg"
     headingLevel="2"
     [anchorId]="def.anchorId"
     [categoryColor]="def.kind | skyKindToPillColor"
-    [categoryText]="def.kind | skyTypeDefinitionKindToLabel"
+    [categoryText]="categoryText"
     [headingText]="def.name"
     [strikethrough]="def.isDeprecated"
   >
     <sky-docs-pill [color]="def.kind | skyKindToPillColor">
       <span class="sky-screen-reader-only">Type: </span>
-      {{ def.kind | skyTypeDefinitionKindToLabel }}
+      {{ categoryText }}
     </sky-docs-pill>
-
     @if (def.isDeprecated) {
       <sky-docs-pill color="red"> Deprecated </sky-docs-pill>
     }
-
     @if (def.isPreview) {
       <sky-docs-pill color="teal"> Preview </sky-docs-pill>
     }
   </sky-heading-anchor>
-
-  @if (def.deprecationReason) {
-    <sky-deprecation-reason stacked [message]="def.deprecationReason" />
-  }
-
-  @if (def.description) {
-    <p
-      [innerHTML]="
-        def.description
-          | skyMarkdown
-          | skyTypeAnchorLinks: { ignore: [def.name] }
-      "
-    ></p>
-  }
-
   @if (def.kind === 'module' || def.kind === 'service') {
     <p>
       <code class="sky-codespan"
@@ -54,19 +36,25 @@
       >
     </p>
   }
-
-  <!-- @if (selector(); as selector) {
+  @if (def.deprecationReason) {
+    <sky-docs-deprecation-reason [message]="def.deprecationReason" />
+  }
+  @if (def.description) {
+    <sky-docs-type-definition-description
+      [definitionName]="def.name"
+      [description]="def.description"
+    />
+  }
+  @if (selector(); as selector) {
     <p>
       Selector: <code class="sky-codespan">{{ selector }}</code>
     </p>
-  } -->
-
+  }
   @if (pipeName(); as pipeName) {
     <p>
       Pipe name: <code class="sky-codespan">{{ pipeName }}</code>
     </p>
   }
-
   @if (def.codeExample) {
     <h3>Example</h3>
     <sky-docs-code-snippet
@@ -163,36 +151,20 @@
               input
                 | skyDocsPropertyName: def
                 | skyEscapeHtml
-                | skyTypeAnchorLinks
+                | skyTypeAnchorLinks: { ignore: [def.name] }
             "
           >
             @if (input.deprecationReason) {
-              <p>
-                <sky-deprecation-reason
-                  class="sky-margin-stacked-sm"
-                  [message]="input.deprecationReason"
-                />
-              </p>
+              <sky-docs-deprecation-reason
+                class="sky-margin-stacked-sm"
+                [message]="input.deprecationReason"
+              />
             }
-            <!--@if (input.isRequired) {
-              <p>
-                <sky-status-indicator descriptionType="error" indicatorType="error">
-                  <strong class="sky-font-emphasized">Deprecated. </strong
-                  ><span [innerHTML]="message() | skyMarkdown | skyTypeAnchorLinks"></span>
-                </sky-status-indicator>
-              </p>
-            }-->
             @if (input.description) {
-              <p>
-                <span
-                  [innerHTML]="
-                    input.description
-                      | skyEscapeHtml
-                      | skyMarkdown
-                      | skyTypeAnchorLinks
-                  "
-                ></span>
-              </p>
+              <sky-docs-type-definition-description
+                [definitionName]="input.name"
+                [description]="input.description"
+              />
             }
             @let defaultValue = input | skyDocsPropertyDefaultValue;
             @if (defaultValue) {
@@ -209,7 +181,6 @@
           </sky-docs-type-definition-box>
         }
       }
-
       @if (outputs(); as outputs) {
         <h3>Outputs</h3>
         @for (output of outputs; track output.name) {
@@ -220,28 +191,24 @@
               output
                 | skyDocsPropertyName: def
                 | skyEscapeHtml
-                | skyTypeAnchorLinks
+                | skyTypeAnchorLinks: { ignore: [def.name] }
             "
           >
             @if (output.deprecationReason) {
-              <p>
-                <sky-deprecation-reason
-                  class="sky-margin-stacked-sm"
-                  [message]="output.deprecationReason"
-                />
-              </p>
+              <sky-docs-deprecation-reason
+                class="sky-margin-stacked-sm"
+                [message]="output.deprecationReason"
+              />
             }
             @if (output.description) {
-              <p
-                [innerHTML]="
-                  output.description | skyMarkdown | skyTypeAnchorLinks
-                "
-              ></p>
+              <sky-docs-type-definition-description
+                [definitionName]="output.name"
+                [description]="output.description"
+              />
             }
           </sky-docs-type-definition-box>
         }
       }
-
       @if (properties(); as properties) {
         <h3>Properties</h3>
         @for (property of properties; track property.name) {
@@ -256,19 +223,16 @@
             "
           >
             @if (property.deprecationReason) {
-              <p>
-                <sky-deprecation-reason
-                  class="sky-margin-stacked-sm"
-                  [message]="property.deprecationReason"
-                />
-              </p>
+              <sky-docs-deprecation-reason
+                class="sky-margin-stacked-sm"
+                [message]="property.deprecationReason"
+              />
             }
             @if (property.description) {
-              <p
-                [innerHTML]="
-                  property.description | skyMarkdown | skyTypeAnchorLinks
-                "
-              ></p>
+              <sky-docs-type-definition-description
+                [definitionName]="property.name"
+                [description]="property.description"
+              />
             }
             @let defaultValue = property | skyDocsPropertyDefaultValue;
             @if (defaultValue) {
@@ -300,27 +264,21 @@
             "
           >
             @if (method.deprecationReason) {
-              <p>
-                <sky-deprecation-reason
-                  class="sky-margin-stacked-sm"
-                  [message]="method.deprecationReason"
-                />
-              </p>
+              <sky-docs-deprecation-reason
+                class="sky-margin-stacked-sm"
+                [message]="method.deprecationReason"
+              />
             }
             @if (method.description) {
-              <p
-                [innerHTML]="
-                  method.description | skyMarkdown | skyTypeAnchorLinks
-                "
-              ></p>
+              <sky-docs-type-definition-description
+                [definitionName]="method.name"
+                [description]="method.description"
+              />
             }
             @if (method.parameters) {
               <h4>Parameters</h4>
-
               @for (param of method.parameters; track param.name) {
-                <h5
-                  class="sky-type-definition-parameter-heading sky-font-body-default"
-                >
+                <h5 class="sky-font-body-default">
                   <code
                     class="sky-codespan"
                     [innerHTML]="
@@ -332,43 +290,12 @@
                   ></code>
                 </h5>
                 @if (param.description) {
-                  <div class="sky-type-definition-parameter-body">
-                    <p
-                      [innerHTML]="
-                        param.description | skyMarkdown | skyTypeAnchorLinks
-                      "
-                    ></p>
-                  </div>
+                  <sky-docs-type-definition-description
+                    [definitionName]="param.name"
+                    [description]="param.description"
+                  />
                 }
               }
-
-              <!--<sky-description-list defaultDescription="&nbsp;">
-              @for (param of method.parameters; track param.name) {
-                <sky-description-list-content>
-                  <sky-description-list-term>
-                    <code
-                      [innerHTML]="
-                        param
-                          | skyDocsParameterName
-                          | skyEscapeHtml
-                          | skyTypeAnchorLinks
-                      "
-                    ></code>
-                  </sky-description-list-term>
-                  <sky-description-list-description>
-                    @if (param.description) {
-                      <span
-                        [innerHTML]="
-                          param.description
-                            | skyMarkdown
-                            | skyTypeAnchorLinks
-                        "
-                      ></span>
-                    }
-                  </sky-description-list-description>
-                </sky-description-list-content>
-              }
-            </sky-description-list>-->
             }
             <h4>Returns</h4>
             <p>

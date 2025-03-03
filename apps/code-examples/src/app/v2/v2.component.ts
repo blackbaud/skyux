@@ -66,9 +66,10 @@ const SEPARATOR = ' | ';
           </sky-showcase-content>-->
         </sky-showcase>
 
-        <pre style="max-width:100%;max-height:900px;overflow:scroll;">{{
-          manifest | json
-        }}</pre>
+        <pre
+          style="max-width:100%;max-height:900px;overflow:scroll;border:1px solid red;"
+          >{{ manifest | json }}</pre
+        >
       }
     </sky-page>
   `,

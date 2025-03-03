@@ -12,8 +12,8 @@ import { SkyDocsPillModule } from '@skyux/docs-tools';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'sky-rounded-corners sky-elevation-0-bordered',
-    '[class.sky-margin-stacked-xl]': 'stacked()',
+    class: 'sky-rounded-corners',
+    '[class.sky-margin-stacked-md]': 'stacked()',
   },
   imports: [SkyDocsPillModule],
   selector: 'sky-docs-type-definition-box',

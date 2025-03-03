@@ -28,7 +28,9 @@ import {
   isPipeDefinition,
 } from '@skyux/manifest';
 
-import { SkyDeprecationReasonComponent } from './deprecation-reason.component';
+import { SkyDocsTypeDefinitionBoxModule } from './box/type-definition-box.module';
+import { SkyDocsDeprecationReasonComponent } from './deprecation-reason.component';
+import { SkyDocsTypeDefinitionDescriptionComponent } from './description.component';
 import { SkyDocsPropertyTypeDefinitionDefaultValuePipe } from './pipes/default-value.pipe';
 import { SkyDocsEnumerationSignaturePipe } from './pipes/enum-signature.pipe';
 import { SkyEscapeHtmlPipe } from './pipes/escape-html.pipe';
@@ -44,7 +46,6 @@ import { SkyDocsTypeAliasSignaturePipe } from './pipes/type-alias-signature.pipe
 import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
 import { SkyTypeDefinitionKindToLabelPipe } from './pipes/type-definition-kind-to-label.pipe';
 import { PropertyDefinition } from './property-definition';
-import { SkyDocsTypeDefinitionBoxModule } from './type-definition-box/type-definition-box.module';
 
 /**
  * @internal
@@ -64,7 +65,7 @@ import { SkyDocsTypeDefinitionBoxModule } from './type-definition-box/type-defin
     SkyTypeDefinitionKindToLabelPipe,
     SkyEscapeHtmlPipe,
     SkyDescriptionListModule,
-    SkyDeprecationReasonComponent,
+    SkyDocsDeprecationReasonComponent,
     SkyHeadingAnchorModule,
     SkyLabelModule,
     SkyMarkdownPipe,
@@ -85,6 +86,7 @@ import { SkyDocsTypeDefinitionBoxModule } from './type-definition-box/type-defin
     SkyDocsTypeDefinitionBoxModule,
     SkyDocsCodeHighlightPipe,
     SkyDocsFunctionSignaturePipe,
+    SkyDocsTypeDefinitionDescriptionComponent,
   ],
   providers: [SkyDocsParameterNamePipe],
   selector: 'sky-type-definition',

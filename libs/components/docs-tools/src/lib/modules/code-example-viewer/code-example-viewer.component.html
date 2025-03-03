@@ -7,7 +7,9 @@
       (click)="launchStackBlitz()"
     >
       <sky-icon iconName="edit" />
-      {{ 'sky_code_example_viewer_demo_stack_blitz_button' | skyLibResources }}
+      {{
+        'sky_docs_code_example_viewer_demo_stack_blitz_button' | skyLibResources
+      }}
     </button>
   </sky-box-controls>
 
@@ -18,7 +20,9 @@
       @if (!demoHidden()) {
         <ng-template [ngComponentOutlet]="componentType()" />
       } @else {
-        {{ 'sky_code_example_viewer_demo_hidden_message' | skyLibResources }}
+        {{
+          'sky_docs_code_example_viewer_demo_hidden_message' | skyLibResources
+        }}
       }
     </div>
 
@@ -36,9 +40,9 @@
         />
         {{
           isCodeVisible()
-            ? ('sky_code_example_viewer_hide_code_button_label'
+            ? ('sky_docs_code_example_viewer_hide_code_button_label'
               | skyLibResources)
-            : ('sky_code_example_viewer_show_code_button_label'
+            : ('sky_docs_code_example_viewer_show_code_button_label'
               | skyLibResources)
         }}
       </button>
