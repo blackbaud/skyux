@@ -4,11 +4,13 @@
   class="sky-autocomplete"
   role="combobox"
   [attr.aria-expanded]="
-    isOpen && (showActionsArea || (isResultsVisible | async))
+    isOpen &&
+    (showActionsArea || dropdownHintText || (isResultsVisible | async))
   "
   [attr.aria-labelledby]="ariaLabelledBy"
   [attr.aria-controls]="
-    isOpen && (showActionsArea || (isResultsVisible | async))
+    isOpen &&
+    (showActionsArea || dropdownHintText || (isResultsVisible | async))
       ? resultsListId
       : null
   "
@@ -75,6 +77,10 @@
               }}
             </div>
           }
+        </div>
+      } @else if (dropdownHintText) {
+        <div class="sky-autocomplete-dropdown-hint-text sky-font-deemphasized">
+          {{ dropdownHintText }}
         </div>
       }
       @if (showActionsArea) {
