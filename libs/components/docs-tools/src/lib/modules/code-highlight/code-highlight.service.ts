@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import highlight from 'highlight.js/lib/core';
+import hlBash from 'highlight.js/lib/languages/bash';
 import hlCss from 'highlight.js/lib/languages/css';
 import hlJavaScript from 'highlight.js/lib/languages/javascript';
 import hlScss from 'highlight.js/lib/languages/scss';
@@ -15,6 +16,7 @@ import { SkyDocsCodeHighlightLanguage } from './code-highlight-language';
 @Injectable({ providedIn: 'root' })
 export class SkyDocsCodeHighlightService {
   constructor() {
+    highlight.registerLanguage('bash', hlBash);
     highlight.registerLanguage('html', hlXml);
     highlight.registerLanguage('markup', hlXml);
     highlight.registerLanguage('js', hlJavaScript);

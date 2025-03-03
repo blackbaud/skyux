@@ -22,15 +22,15 @@ import {
   SkyManifestDirectiveInputDefinition,
   SkyManifestDirectiveOutputDefinition,
   type SkyManifestDocumentationTypeDefinition,
-  SkyManifestFunctionDefinition,
   SkyManifestParameterDefinition,
   isDirectiveDefinition,
+  isFunctionDefinition,
   isPipeDefinition,
 } from '@skyux/manifest';
 
-import { SkyDocsTypeDefinitionBoxModule } from './box/type-definition-box.module';
-import { SkyDocsDeprecationReasonComponent } from './deprecation-reason.component';
-import { SkyDocsTypeDefinitionDescriptionComponent } from './description.component';
+import { SkyDocsTypeDefinitionBoxComponent } from './components/box.component';
+import { SkyDocsDeprecationReasonComponent } from './components/deprecation-reason.component';
+import { SkyDocsTypeDefinitionDescriptionComponent } from './components/description.component';
 import { SkyDocsPropertyTypeDefinitionDefaultValuePipe } from './pipes/default-value.pipe';
 import { SkyDocsEnumerationSignaturePipe } from './pipes/enum-signature.pipe';
 import { SkyEscapeHtmlPipe } from './pipes/escape-html.pipe';
@@ -57,6 +57,7 @@ import { PropertyDefinition } from './property-definition';
     class: 'sky-margin-stacked-xxl',
   },
   imports: [
+    SkyDocsClipboardModule,
     JsonPipe,
     NgClass,
     UpperCasePipe,
@@ -83,46 +84,49 @@ import { PropertyDefinition } from './property-definition';
     SkyDocsInterfaceSignaturePipe,
     SkyDocsEnumerationSignaturePipe,
     SkyTypeAnchorLinksPipe,
-    SkyDocsTypeDefinitionBoxModule,
+    SkyDocsTypeDefinitionBoxComponent,
     SkyDocsCodeHighlightPipe,
     SkyDocsFunctionSignaturePipe,
     SkyDocsTypeDefinitionDescriptionComponent,
   ],
   providers: [SkyDocsParameterNamePipe],
-  selector: 'sky-type-definition',
+  selector: 'sky-docs-type-definition',
   styleUrl: './type-definition.component.scss',
   templateUrl: './type-definition.component.html',
 })
 export class SkyTypeDefinitionComponent {
-  public definition = input.required<SkyManifestDocumentationTypeDefinition>();
+  public readonly definition =
+    input.required<SkyManifestDocumentationTypeDefinition>();
 
-  protected methods = computed<SkyManifestClassMethodDefinition[] | undefined>(
+  protected readonly methods = computed<
+    SkyManifestClassMethodDefinition[] | undefined
+  >(() => {
+    const def = this.definition();
+
+    return def.children?.filter((c) => c.kind === 'class-method') as
+      | SkyManifestClassMethodDefinition[]
+      | undefined;
+  });
+
+  protected readonly properties = computed<PropertyDefinition[] | undefined>(
     () => {
       const def = this.definition();
 
-      return def.children?.filter((c) => c.kind === 'class-method') as
-        | SkyManifestClassMethodDefinition[]
-        | undefined;
+      const ignore: SkyManifestChildDefinitionKind[] = [
+        'class-method',
+        'directive-input',
+        'directive-output',
+      ];
+
+      const properties = def.children?.filter(
+        (c) => !ignore.includes(c.kind),
+      ) as PropertyDefinition[] | undefined;
+
+      return properties && properties.length > 0 ? properties : undefined;
     },
   );
 
-  protected properties = computed<PropertyDefinition[] | undefined>(() => {
-    const def = this.definition();
-
-    const ignore: SkyManifestChildDefinitionKind[] = [
-      'class-method',
-      'directive-input',
-      'directive-output',
-    ];
-
-    const properties = def.children?.filter((c) => !ignore.includes(c.kind)) as
-      | PropertyDefinition[]
-      | undefined;
-
-    return properties && properties.length > 0 ? properties : undefined;
-  });
-
-  protected inputs = computed<
+  protected readonly inputs = computed<
     SkyManifestDirectiveInputDefinition[] | undefined
   >(() => {
     const def = this.definition();
@@ -133,6 +137,7 @@ export class SkyTypeDefinitionComponent {
 
     return inputs && inputs.length > 0
       ? inputs
+          // Sort alphabetically by name.
           .sort((a, b) => {
             if (a.name < b.name) {
               return -1;
@@ -142,6 +147,7 @@ export class SkyTypeDefinitionComponent {
             }
             return 0;
           })
+          // List "required" inputs first.
           .sort((a, b) => {
             if (a.isRequired && !b.isRequired) {
               return -1;
@@ -156,7 +162,7 @@ export class SkyTypeDefinitionComponent {
       : undefined;
   });
 
-  protected outputs = computed<
+  protected readonly outputs = computed<
     SkyManifestDirectiveOutputDefinition[] | undefined
   >(() => {
     const def = this.definition();
@@ -168,36 +174,23 @@ export class SkyTypeDefinitionComponent {
     return outputs && outputs.length > 0 ? outputs : undefined;
   });
 
-  protected parameters = computed<SkyManifestParameterDefinition[] | undefined>(
-    () => {
-      const def = this.definition();
-
-      // TODO: Create a isFunctionDefinition utility function.
-      if (def.kind === 'function') {
-        return (def as unknown as SkyManifestFunctionDefinition).parameters;
-      }
-
-      return undefined;
-    },
-  );
-
-  protected selector = computed<string | undefined>(() => {
+  protected readonly parameters = computed<
+    SkyManifestParameterDefinition[] | undefined
+  >(() => {
     const def = this.definition();
 
-    if (isDirectiveDefinition(def)) {
-      return def.selector;
-    }
-
-    return undefined;
+    return isFunctionDefinition(def) ? def.parameters : undefined;
   });
 
-  protected pipeName = computed<string | undefined>(() => {
+  protected readonly selector = computed<string | undefined>(() => {
     const def = this.definition();
 
-    if (isPipeDefinition(def)) {
-      return def.templateBindingName;
-    }
+    return isDirectiveDefinition(def) ? def.selector : undefined;
+  });
 
-    return undefined;
+  protected readonly pipeName = computed<string | undefined>(() => {
+    const def = this.definition();
+
+    return isPipeDefinition(def) ? def.templateBindingName : undefined;
   });
 }

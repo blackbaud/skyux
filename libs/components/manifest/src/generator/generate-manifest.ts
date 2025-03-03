@@ -10,6 +10,7 @@ import type {
 
 import { getCodeExamples } from './get-code-examples';
 import { getDocumentationConfig } from './get-documentation-config';
+import { SkyManifestPackagesInfo, getPackagesInfo } from './get-packages-info';
 import { getProjectDefinitions } from './get-project-definitions';
 import { getPublicApi } from './get-public-api';
 
@@ -30,6 +31,7 @@ async function writeManifestFiles(
   publicApi: SkyManifestPublicApi,
   documentationConfig: SkyManifestDocumentationConfig,
   codeExamples: SkyManifestCodeExamples,
+  packagesInfo: SkyManifestPackagesInfo,
 ): Promise<void> {
   const publicApiPath = path.join(outDir, 'public-api.json');
   const documentationConfigPath = path.join(
@@ -37,6 +39,7 @@ async function writeManifestFiles(
     'documentation-config.json',
   );
   const codeExamplesPath = path.join(outDir, 'code-examples.json');
+  const packagesInfoPath = path.join(outDir, 'packages-info.json');
 
   await ensureDirectory(outDir);
 
@@ -59,7 +62,14 @@ async function writeManifestFiles(
     JSON.stringify(codeExamples, undefined, 2),
   );
 
-  console.log(`Created ${codeExamplesPath}\n`);
+  console.log(`Created ${codeExamplesPath}`);
+
+  await fsPromises.writeFile(
+    packagesInfoPath,
+    JSON.stringify(packagesInfo, undefined, 2),
+  );
+
+  console.log(`Created ${packagesInfoPath}`);
 }
 
 /**
@@ -84,10 +94,13 @@ export async function generateManifest(
     documentationConfig,
   );
 
+  const [packagesInfo, packagesInfoErrors] = await getPackagesInfo(publicApi);
+
   const errors = [
     ...publicApiErrors,
     ...documentationConfigErrors,
     ...codeExamplesErrors,
+    ...packagesInfoErrors,
   ];
 
   if (errors.length > 0) {
@@ -104,6 +117,7 @@ export async function generateManifest(
     publicApi,
     documentationConfig,
     codeExamples,
+    packagesInfo,
   );
 
   return { publicApi };

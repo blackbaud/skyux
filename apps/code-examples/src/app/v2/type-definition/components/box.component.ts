@@ -17,8 +17,8 @@ import { SkyDocsCategoryTagModule } from '@skyux/docs-tools';
   },
   imports: [SkyDocsCategoryTagModule],
   selector: 'sky-docs-type-definition-box',
-  styleUrl: './type-definition-box.component.scss',
-  templateUrl: './type-definition-box.component.html',
+  styleUrl: './box.component.scss',
+  templateUrl: './box.component.html',
 })
 export class SkyDocsTypeDefinitionBoxComponent {
   public headingText = input.required<string>();

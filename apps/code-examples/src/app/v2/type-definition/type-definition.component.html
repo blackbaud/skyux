@@ -19,7 +19,30 @@
       <sky-docs-category-tag color="teal"> Preview </sky-docs-category-tag>
     }
   </sky-docs-heading-anchor>
-  @if (def.kind === 'module' || def.kind === 'service') {
+  <!-- <p>
+    <code class="sky-codespan"
+      >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
+        def.packageName
+      }}';</code
+    >
+  </p> -->
+  <!--@if (def.kind === 'module' || def.kind === 'service') {
+    <h4>Installation</h4>
+    <p>
+      <code class="sky-codespan sky-margin-inline-sm" #installationRef
+        >npm install --save-exact {{ def.packageName }}</code
+      >
+      <button
+        class="sky-btn sky-btn-default"
+        type="button"
+        skyDocsClipboardButton
+        copySuccessMessage="Command copied"
+        [clipboardTarget]="installationRef"
+      >
+        <sky-icon iconName="clipboard-multiple" />
+        Copy
+      </button>
+    </p>
     <p>
       <code class="sky-codespan"
         >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
@@ -34,7 +57,7 @@
         >View in GitHub</a
       >
     </p>
-  }
+  }-->
   @if (def.deprecationReason) {
     <sky-docs-deprecation-reason [message]="def.deprecationReason" />
   }
@@ -80,7 +103,7 @@
       @let parametersValue = parameters();
       @if (parametersValue && parametersValue.length > 0) {
         <!-- <h3>Parameters</h3>
-        <table class="sky-type-definition-table sky-margin-stacked-xl">
+        <table class="sky-docs-type-definition-table sky-margin-stacked-xl">
           <thead>
             <tr>
               <th>Name</th>

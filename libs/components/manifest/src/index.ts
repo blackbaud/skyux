@@ -43,4 +43,8 @@ export type {
 export type { SkyManifestPipeDefinition } from './types/pipe-def';
 export type { SkyManifestTypeAliasDefinition } from './types/type-alias-def';
 export type { SkyManifestVariableDefinition } from './types/variable-def';
-export { isDirectiveDefinition, isPipeDefinition } from './utils';
+export {
+  isDirectiveDefinition,
+  isFunctionDefinition,
+  isPipeDefinition,
+} from './utils';

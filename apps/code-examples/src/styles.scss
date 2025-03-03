@@ -8,38 +8,10 @@ body {
   background-color: #fff !important;
 }
 
-// code {
-//   font-family: monospace;
-// }
-
-// :not(h1, h2, h3, h4, h5, h6, pre) > code {
-//   font-size: 90%;
-// }
-
-// .sky-text-strikethrough {
-//   text-decoration: line-through;
-// }
-
-// sky-docs-heading-anchor {
-//   h3 {
-//     font-weight: bold;
-//     code {
-//       padding: 0 7px;
-//       border-radius: 3px;
-//       background-color: color-mix(
-//         in srgb,
-//         var(--sky-color-background-container-info) 25%,
-//         transparent
-//       );
-//     }
-//   }
-// }
-
 code.sky-codespan {
   word-break: break-all;
   display: inline-block;
-  padding: 0.1rem 0.4rem;
-  // font-size: 90%;
+  padding: 4px 7px;
   border-radius: var(--sky-border-radius-s);
   color: color-mix(
     in srgb,
@@ -51,8 +23,8 @@ code.sky-codespan {
     var(--sky-background-color-info-light) 25%,
     transparent
   );
-  box-shadow: inset 0 -1px 0 0px
-    color-mix(in srgb, var(--sky-background-color-info-light) 40%, transparent);
+  box-shadow: inset 0 -1px 0 0
+    color-mix(in srgb, var(--sky-background-color-info-light) 50%, transparent);
 }
 
 a {
@@ -65,58 +37,3 @@ a.sky-docs-codespan-anchor {
   color: currentColor;
   text-decoration: underline;
 }
-
-// table.sky-type-definition-table {
-//   width: 100%;
-//   border-spacing: 0;
-//   border-collapse: collapse;
-//   word-break: break-word;
-//   // table-layout: fixed;
-
-//   td,
-//   th {
-//     border-bottom: 1px solid var(--sky-border-color-neutral-medium);
-//     text-align: left;
-//     // font-size: 15px;
-//     word-wrap: break-word;
-//     // padding: 10px 15px;
-//   }
-
-//   th:first-child {
-//     width: 40%;
-//   }
-
-//   // td,
-//   // p {
-//   //   // font-size: var(--sky-font-size-body-s);
-//   //   font-size: 14px;
-//   // }
-
-//   td {
-//     padding: 10px 15px;
-//     // padding: 4px 8px;
-//     // &:first-child {
-//     //   code {
-//     //     font-size: 13px;
-//     //     background-color: color-mix(
-//     //       in srgb,
-//     //       var(--sky-color-background-container-info) 25%,
-//     //       transparent
-//     //     );
-//     //   }
-//     // }
-
-//     pre {
-//       white-space: normal;
-//     }
-
-//     sky-docs-code-snippet {
-//       margin: 1em 0;
-//     }
-//   }
-
-//   th {
-//     font-weight: 600;
-//     padding: 15px;
-//   }
-// }

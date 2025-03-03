@@ -49,11 +49,23 @@ export interface SkyManifestDocumentationTypeDefinition
 }
 
 /**
+ * @internal
+ */
+export interface SkyManifestDocumentationGroupDetails {
+  packageName: string;
+  packageVersion: string;
+  peerDependencies: Record<string, string>;
+  registryUrl: string;
+  repoUrl: string;
+}
+
+/**
  * Information about a documentation group.
  * @internal
  */
 export interface SkyManifestDocumentationGroup {
   codeExamples: SkyManifestCodeExample[];
+  details: SkyManifestDocumentationGroupDetails;
   publicApi: SkyManifestDocumentationTypeDefinition[];
   testing: SkyManifestDocumentationTypeDefinition[];
 }

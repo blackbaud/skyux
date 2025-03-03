@@ -8,9 +8,13 @@ import {
   input,
 } from '@angular/core';
 import {
+  SkyDocsClipboardModule,
   SkyDocsCodeExampleViewerModule,
+  SkyDocsHeadingAnchorModule,
   SkyDocsTableOfContentsModule,
 } from '@skyux/docs-tools';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyDescriptionListModule } from '@skyux/layout';
 import { SkyManifestDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
 
@@ -18,16 +22,22 @@ import { SkyTypeAnchorIdsService } from '../type-definition/pipes/type-anchor-id
 import { SkyTypeDefinitionComponent } from '../type-definition/type-definition.component';
 
 import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
+import { SkyDocsInstallationInfoComponent } from './installation-info.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     JsonPipe,
+    SkyDescriptionListModule,
     SkyDocsCodeExampleViewerModule,
+    SkyDocsHeadingAnchorModule,
+    SkyIconModule,
     SkyTabsModule,
     SkyTypeDefinitionComponent,
+    SkyDocsClipboardModule,
     TitleCasePipe,
     SkyDocsTableOfContentsModule,
+    SkyDocsInstallationInfoComponent,
   ],
   providers: [SkyTypeAnchorIdsService],
   selector: 'sky-showcase',
@@ -43,6 +53,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
   template: `
     @let developmentDefinitions = manifest().publicApi;
     @let testingDefinitions = manifest().testing;
+    @let details = manifest().details;
 
     <sky-tabset permalinkId="docs">
       <sky-tab tabHeading="Design">
@@ -57,13 +68,22 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
             class="sky-showcase-tab-content"
             [menuHeadingText]="(labelText() | titlecase) + ' Development'"
           >
+            <sky-docs-heading-anchor
+              class="sky-margin-stacked-lg"
+              headingLevel="2"
+              anchorId="installation"
+              headingText="Installation"
+            />
+
+            <sky-docs-installation-info [details]="details" />
+
             <ng-content select="sky-showcase-content[category=development]" />
 
             @for (
               definition of developmentDefinitions;
               track definition.docsId
             ) {
-              <sky-type-definition [definition]="definition" />
+              <sky-docs-type-definition [definition]="definition" />
             }
           </sky-docs-toc-page>
         </sky-tab>
@@ -78,7 +98,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
             <ng-content select="sky-showcase-content[category=testing]" />
 
             @for (definition of testingDefinitions; track definition.docsId) {
-              <sky-type-definition [definition]="definition" />
+              <sky-docs-type-definition [definition]="definition" />
             }
           </sky-docs-toc-page>
         </sky-tab>
