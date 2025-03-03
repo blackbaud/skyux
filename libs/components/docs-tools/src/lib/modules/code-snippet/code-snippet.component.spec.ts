@@ -1,36 +1,38 @@
-import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { type HighlightOptions, type HighlightResult } from 'highlight.js';
 import highlight from 'highlight.js/lib/core';
+import hlCss from 'highlight.js/lib/languages/css';
 import hlJavaScript from 'highlight.js/lib/languages/javascript';
 import hlScss from 'highlight.js/lib/languages/scss';
 import hlTypeScript from 'highlight.js/lib/languages/typescript';
 import hlXml from 'highlight.js/lib/languages/xml';
 
-import { SkyClipboardService } from '../clipboard/clipboard.service';
+import { SkyDocsClipboardService } from '../clipboard/clipboard.service';
 
-import { SkyCodeSnippetComponent } from './code-snippet.component';
-import { SkyCodeSnippetModule } from './code-snippet.module';
+import { SkyDocsCodeSnippetComponent } from './code-snippet.component';
+import { SkyDocsCodeSnippetModule } from './code-snippet.module';
 
 describe('code-snippet.component', () => {
-  function setupTest(): { fixture: ComponentFixture<SkyCodeSnippetComponent> } {
-    const fixture = TestBed.createComponent(SkyCodeSnippetComponent);
+  function setupTest(): {
+    fixture: ComponentFixture<SkyDocsCodeSnippetComponent>;
+  } {
+    const fixture = TestBed.createComponent(SkyDocsCodeSnippetComponent);
 
     return { fixture };
   }
 
   function getPreElement(
-    fixture: ComponentFixture<SkyCodeSnippetComponent>,
+    fixture: ComponentFixture<SkyDocsCodeSnippetComponent>,
   ): HTMLPreElement | null {
     return (fixture.nativeElement as HTMLElement).querySelector<HTMLPreElement>(
-      '.sky-code-snippet-pre',
+      'pre',
     );
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyCodeSnippetModule],
+      imports: [SkyDocsCodeSnippetModule],
     });
   });
 
@@ -74,18 +76,22 @@ describe('code-snippet.component', () => {
     fixture.componentRef.setInput('language', 'ts');
     fixture.detectChanges();
 
-    expect(registerSpy).toHaveBeenCalledTimes(4);
+    expect(registerSpy).toHaveBeenCalledTimes(8);
     expect(registerSpy).toHaveBeenCalledWith('html', hlXml);
+    expect(registerSpy).toHaveBeenCalledWith('markup', hlXml);
     expect(registerSpy).toHaveBeenCalledWith('js', hlJavaScript);
+    expect(registerSpy).toHaveBeenCalledWith('javascript', hlJavaScript);
+    expect(registerSpy).toHaveBeenCalledWith('css', hlCss);
     expect(registerSpy).toHaveBeenCalledWith('scss', hlScss);
     expect(registerSpy).toHaveBeenCalledWith('ts', hlTypeScript);
+    expect(registerSpy).toHaveBeenCalledWith('typescript', hlTypeScript);
   });
 
   it('should copy snippet to clipboard', () => {
     const { fixture } = setupTest();
 
     const clipboardSpy = spyOn(
-      TestBed.inject(SkyClipboardService),
+      TestBed.inject(SkyDocsClipboardService),
       'copyTextContent',
     );
 
@@ -101,7 +107,7 @@ describe('code-snippet.component', () => {
     fixture.detectChanges();
 
     expect(clipboardSpy).toHaveBeenCalledWith(
-      jasmine.any(ElementRef),
+      jasmine.any(HTMLElement),
       'Code copied',
     );
   });
