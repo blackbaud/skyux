@@ -13,10 +13,15 @@ import { SkyManifestDocumentationGroupDetails } from '@skyux/manifest/src/types/
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyDescriptionListModule, SkyDocsClipboardModule, SkyIconModule],
   selector: 'sky-docs-installation-info',
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
   template: `
     @let detailsValue = details();
 
-    <sky-description-list class="sky-margin-stacked-xxl">
+    <sky-description-list>
       <sky-description-list-content>
         <sky-description-list-term> NPM package </sky-description-list-term>
         <sky-description-list-description>

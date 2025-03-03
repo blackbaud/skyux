@@ -14,7 +14,7 @@ import {
   SkyDocsTableOfContentsModule,
 } from '@skyux/docs-tools';
 import { SkyIconModule } from '@skyux/icon';
-import { SkyDescriptionListModule } from '@skyux/layout';
+import { SkyBoxModule, SkyDescriptionListModule } from '@skyux/layout';
 import { SkyManifestDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
 
@@ -37,6 +37,7 @@ import { SkyDocsInstallationInfoComponent } from './installation-info.component'
     SkyDocsClipboardModule,
     TitleCasePipe,
     SkyDocsTableOfContentsModule,
+    SkyBoxModule,
     SkyDocsInstallationInfoComponent,
   ],
   providers: [SkyTypeAnchorIdsService],
@@ -68,14 +69,18 @@ import { SkyDocsInstallationInfoComponent } from './installation-info.component'
             class="sky-showcase-tab-content"
             [menuHeadingText]="(labelText() | titlecase) + ' Development'"
           >
-            <sky-docs-heading-anchor
-              class="sky-margin-stacked-lg"
-              headingLevel="2"
-              anchorId="installation"
-              headingText="Installation"
-            />
+            <sky-box class="sky-margin-stacked-xxl" headingText="Installation">
+              <sky-box-content>
+                <!--<sky-docs-heading-anchor
+                  class="sky-margin-stacked-lg"
+                  headingLevel="2"
+                  anchorId="installation"
+                  headingText="Installation"
+                />-->
 
-            <sky-docs-installation-info [details]="details" />
+                <sky-docs-installation-info [details]="details" />
+              </sky-box-content>
+            </sky-box>
 
             <ng-content select="sky-showcase-content[category=development]" />
 
