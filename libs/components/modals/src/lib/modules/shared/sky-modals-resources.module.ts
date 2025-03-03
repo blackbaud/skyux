@@ -30,6 +30,25 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_modal_dirty_default_keep_working_text: { message: 'Keep working' },
   },
+  'FR-CA': {
+    skyux_confirm_dialog_default_ok_text: { message: 'OK' },
+    skyux_confirm_dialog_default_yes_text: { message: 'Oui' },
+    skyux_confirm_dialog_default_no_text: { message: 'Non' },
+    skyux_confirm_dialog_default_cancel_text: { message: 'Annuler' },
+    skyux_modal_close: { message: 'Fermer le modal' },
+    skyux_modal_open_help: { message: 'Ouvrir l’aide' },
+    skyux_modal_footer_cancel_button: { message: 'Annuler' },
+    skyux_modal_footer_primary_button: { message: 'Sauvegarder' },
+    skyux_modal_dirty_default_message: {
+      message: 'Êtes-vous certain de vouloir supprimer ces changements?',
+    },
+    skyux_modal_dirty_default_discard_changes_text: {
+      message: 'Supprimer les changements',
+    },
+    skyux_modal_dirty_default_keep_working_text: {
+      message: 'Continuer à travailler',
+    },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);

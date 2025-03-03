@@ -19,6 +19,12 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_numeric_thousands_symbol: { message: 'K' },
     skyux_numeric_trillions_symbol: { message: 'T' },
   },
+  'FR-CA': {
+    skyux_numeric_billions_symbol: { message: 'G' },
+    skyux_numeric_millions_symbol: { message: 'M' },
+    skyux_numeric_thousands_symbol: { message: 'K' },
+    skyux_numeric_trillions_symbol: { message: 'T' },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);

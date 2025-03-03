@@ -61,6 +61,60 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Page loading complete.',
     },
   },
+  'FR-CA': {
+    skyux_alert_close: { message: 'Fermer l’alerte' },
+    skyux_alert_sr_attention: { message: 'Attention :' },
+    skyux_alert_sr_caution: { message: 'Mise en garde :' },
+    skyux_alert_sr_completed: { message: 'Terminé :' },
+    skyux_alert_sr_danger: { message: 'Danger :' },
+    skyux_alert_sr_error: { message: 'Erreur :' },
+    skyux_alert_sr_important_info: { message: 'Information importante :' },
+    skyux_alert_sr_important_warning: { message: 'Avertissement important :' },
+    skyux_alert_sr_success: { message: 'Réussi :' },
+    skyux_alert_sr_warning: { message: 'Avertissement :' },
+    skyux_help_inline_button_title: {
+      message: 'Afficher le contenu de l’aide',
+    },
+    skyux_label_sr_attention: { message: 'Attention :' },
+    skyux_label_sr_caution: { message: 'Mise en garde :' },
+    skyux_label_sr_completed: { message: 'Terminé :' },
+    skyux_label_sr_danger: { message: 'Danger :' },
+    skyux_label_sr_error: { message: 'Erreur :' },
+    skyux_label_sr_important_info: { message: 'Information importante :' },
+    skyux_label_sr_important_warning: { message: 'Avertissement important :' },
+    skyux_label_sr_success: { message: 'Réussi :' },
+    skyux_label_sr_warning: { message: 'Avertissement :' },
+    skyux_status_indicator_sr_attention: { message: 'Attention :' },
+    skyux_status_indicator_sr_caution: { message: 'Mise en garde :' },
+    skyux_status_indicator_sr_completed: { message: 'Terminé :' },
+    skyux_status_indicator_sr_danger: { message: 'Danger :' },
+    skyux_status_indicator_sr_error: { message: 'Erreur :' },
+    skyux_status_indicator_sr_important_info: {
+      message: 'Information importante :',
+    },
+    skyux_status_indicator_sr_important_warning: {
+      message: 'Avertissement important :',
+    },
+    skyux_status_indicator_sr_success: { message: 'Réussi :' },
+    skyux_status_indicator_sr_warning: { message: 'Avertissement :' },
+    skyux_tokens_dismiss_button_default_label: { message: 'Retirer ' },
+    skyux_tokens_dismiss_button_title: { message: 'Retirer l’article' },
+    skyux_tokens_token_dismissed: { message: '{0} retiré' },
+    skyux_wait_aria_alt_text: { message: 'Chargement en cours.' },
+    skyux_wait_blocking_aria_alt_text: {
+      message: 'Chargement en cours. Veuillez patienter.',
+    },
+    skyux_wait_page_aria_alt_text: {
+      message: 'Chargement de la page en cours.',
+    },
+    skyux_wait_page_blocking_aria_alt_text: {
+      message: 'Chargement de la page en cours. Veuillez patienter.',
+    },
+    skyux_wait_screen_reader_completed_text: { message: 'Chargement terminé.' },
+    skyux_wait_page_screen_reader_completed_text: {
+      message: 'Chargement de la page terminé.',
+    },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);

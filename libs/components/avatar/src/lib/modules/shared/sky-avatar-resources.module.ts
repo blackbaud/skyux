@@ -32,6 +32,30 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Add profile photo of {0}. Drag a file here or click to browse.',
     },
   },
+  'FR-CA': {
+    skyux_avatar_error_not_image_description: {
+      message: 'Veuillez choisir un fichier qui soit une image valide.',
+    },
+    skyux_avatar_error_not_image_title: {
+      message: 'Le fichier n’est pas une image.',
+    },
+    skyux_avatar_error_too_large_description: {
+      message: 'Veuillez choisir une image de moins de {0}.',
+    },
+    skyux_avatar_error_too_large_title: {
+      message: 'Le fichier est trop gros.',
+    },
+    skyux_avatar_errormodal_ok: { message: 'OK' },
+    skyux_avatar_inner_description: { message: 'Photo de profil de {0}' },
+    skyux_avatar_upload_change_aria_label: {
+      message:
+        'Modifier la photo de profil de {0}. Faites glisser un fichier ici ou cliquez pour naviguer.',
+    },
+    skyux_avatar_upload_new_aria_label: {
+      message:
+        'Ajoutez une photo de profil pour {0}. Faites glisser un fichier ici ou cliquez pour naviguer.',
+    },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);

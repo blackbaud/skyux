@@ -116,6 +116,96 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_date_range_picker_after_date_label: { message: 'After date' },
     skyux_date_range_picker_default_aria_label: { message: '{0} for {1}' },
   },
+  'FR-CA': {
+    skyux_datepicker_format_hint_text: { message: 'Utilisez le format {0}.' },
+    skyux_datepicker_trigger_button_label: { message: 'Sélectionner la date' },
+    skyux_datepicker_trigger_button_label_context: {
+      message: 'Ouvrir le calendrier pour {0}',
+    },
+    skyux_datepicker_move_calendar_previous_day: { message: 'Mois précédent' },
+    skyux_datepicker_move_calendar_next_day: { message: 'Le mois prochain' },
+    skyux_datepicker_move_calendar_previous_month: {
+      message: 'Année précédente',
+    },
+    skyux_datepicker_move_calendar_next_month: { message: 'Année suivante' },
+    skyux_datepicker_move_calendar_previous_year: {
+      message: 'Page précédente',
+    },
+    skyux_datepicker_move_calendar_next_year: { message: 'Page suivante' },
+    skyux_timepicker_button_label: { message: 'Choisir l’heure' },
+    skyux_timepicker_button_label_context: {
+      message: 'Ouvrir le sélecteur d’heure pour {0}',
+    },
+    skyux_timepicker_close: { message: 'Terminé' },
+    skyux_date_range_picker_default_label: {
+      message: 'Sélectionner une plage de dates',
+    },
+    skyux_date_range_picker_end_date_before_start_date_error_label_text: {
+      message:
+        'Modifiez la plage de date de façon à ce que la date de fin soit avant la date de début.',
+    },
+    skyux_date_range_picker_format_label_specific_range: {
+      message: 'Plage spécifique',
+    },
+    skyux_date_range_picker_format_label_before: { message: 'Avant' },
+    skyux_date_range_picker_format_label_after: { message: 'Après' },
+    skyux_date_range_picker_format_label_any_time: {
+      message: 'N’importe quand',
+    },
+    skyux_date_range_picker_format_label_yesterday: { message: 'Hier' },
+    skyux_date_range_picker_format_label_today: { message: 'Aujourd’hui' },
+    skyux_date_range_picker_format_label_tomorrow: { message: 'Demain' },
+    skyux_date_range_picker_format_label_last_week: {
+      message: 'La semaine dernière',
+    },
+    skyux_date_range_picker_format_label_this_week: {
+      message: 'Cette semaine',
+    },
+    skyux_date_range_picker_format_label_next_week: {
+      message: 'La semaine prochaine',
+    },
+    skyux_date_range_picker_format_label_last_month: {
+      message: 'Le mois dernier',
+    },
+    skyux_date_range_picker_format_label_this_month: { message: 'Ce mois-ci' },
+    skyux_date_range_picker_format_label_next_month: {
+      message: 'Le mois prochain',
+    },
+    skyux_date_range_picker_format_label_last_quarter: {
+      message: 'Le trimestre dernier',
+    },
+    skyux_date_range_picker_format_label_this_quarter: {
+      message: 'Ce trimestre',
+    },
+    skyux_date_range_picker_format_label_next_quarter: {
+      message: 'Le trimestre prochain',
+    },
+    skyux_date_range_picker_format_label_last_calendar_year: {
+      message: 'Dernière année civile',
+    },
+    skyux_date_range_picker_format_label_this_calendar_year: {
+      message: 'Cette année civile',
+    },
+    skyux_date_range_picker_format_label_next_calendar_year: {
+      message: 'Prochaine année civile',
+    },
+    skyux_date_range_picker_format_label_last_fiscal_year: {
+      message: 'Dernier exercice',
+    },
+    skyux_date_range_picker_format_label_this_fiscal_year: {
+      message: 'L’exercice en cours',
+    },
+    skyux_date_range_picker_format_label_next_fiscal_year: {
+      message: 'Le prochain exercice',
+    },
+    skyux_date_range_picker_start_date_label: {
+      message: 'À partir de la date du',
+    },
+    skyux_date_range_picker_end_date_label: { message: 'À ce jour' },
+    skyux_date_range_picker_before_date_label: { message: 'Date avant' },
+    skyux_date_range_picker_after_date_label: { message: 'Date après' },
+    skyux_date_range_picker_default_aria_label: { message: '{0} pour {1}' },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);

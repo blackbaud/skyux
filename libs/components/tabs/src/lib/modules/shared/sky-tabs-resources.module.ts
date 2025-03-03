@@ -29,6 +29,24 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Step {0} of {1}, unavailable: {2}',
     },
   },
+  'FR-CA': {
+    skyux_tab_add: { message: 'Ajouter un onglet' },
+    skyux_tab_close: { message: 'Fermer l’onglet {0}' },
+    skyux_tabs_navigator_finish: { message: 'Terminer' },
+    skyux_tabs_navigator_next: { message: 'Suivant' },
+    skyux_tabs_navigator_previous: { message: 'Précédent' },
+    skyux_tab_open: { message: 'Ouvrir l’onglet' },
+    skyux_vertical_tabs_show_tabs_text: { message: 'Liste des onglets' },
+    skyux_wizard_sr_step_current: {
+      message: 'Étape {0} de {1}, en cours : {2}',
+    },
+    skyux_wizard_sr_step_completed: {
+      message: 'Étape {0} de {1}, terminée : {2}',
+    },
+    skyux_wizard_sr_step_unavailable: {
+      message: 'Étape {0} de {1}, non disponible : {2}',
+    },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);
