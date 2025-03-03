@@ -1,8 +1,8 @@
-import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { type HighlightOptions, type HighlightResult } from 'highlight.js';
 import highlight from 'highlight.js/lib/core';
+import hlCss from 'highlight.js/lib/languages/css';
 import hlJavaScript from 'highlight.js/lib/languages/javascript';
 import hlScss from 'highlight.js/lib/languages/scss';
 import hlTypeScript from 'highlight.js/lib/languages/typescript';
@@ -26,7 +26,7 @@ describe('code-snippet.component', () => {
     fixture: ComponentFixture<SkyDocsCodeSnippetComponent>,
   ): HTMLPreElement | null {
     return (fixture.nativeElement as HTMLElement).querySelector<HTMLPreElement>(
-      '.sky-code-snippet-pre',
+      'pre',
     );
   }
 
@@ -76,11 +76,15 @@ describe('code-snippet.component', () => {
     fixture.componentRef.setInput('language', 'ts');
     fixture.detectChanges();
 
-    expect(registerSpy).toHaveBeenCalledTimes(4);
+    expect(registerSpy).toHaveBeenCalledTimes(8);
     expect(registerSpy).toHaveBeenCalledWith('html', hlXml);
+    expect(registerSpy).toHaveBeenCalledWith('markup', hlXml);
     expect(registerSpy).toHaveBeenCalledWith('js', hlJavaScript);
+    expect(registerSpy).toHaveBeenCalledWith('javascript', hlJavaScript);
+    expect(registerSpy).toHaveBeenCalledWith('css', hlCss);
     expect(registerSpy).toHaveBeenCalledWith('scss', hlScss);
     expect(registerSpy).toHaveBeenCalledWith('ts', hlTypeScript);
+    expect(registerSpy).toHaveBeenCalledWith('typescript', hlTypeScript);
   });
 
   it('should copy snippet to clipboard', () => {
@@ -103,7 +107,7 @@ describe('code-snippet.component', () => {
     fixture.detectChanges();
 
     expect(clipboardSpy).toHaveBeenCalledWith(
-      jasmine.any(ElementRef),
+      jasmine.any(HTMLElement),
       'Code copied',
     );
   });

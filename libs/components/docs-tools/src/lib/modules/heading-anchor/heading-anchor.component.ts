@@ -17,10 +17,9 @@ import { SkyIconModule } from '@skyux/icon';
 import { SkyDocsCategoryColor } from '../category-tag/category-color';
 import { SkyDocsCategoryTagModule } from '../category-tag/category-tag.module';
 
+import { SkyDocsHeadingAnchorHeadingLevel } from './heading-anchor-heading-level';
+import { SkyDocsHeadingAnchorHeadingTextFormat } from './heading-anchor-heading-text-format';
 import { SkyDocsHeadingAnchorService } from './heading-anchor.service';
-
-type SkyDocsHeadingAnchorHeadingTextFormat = 'normal' | 'code';
-type SkyDocsHeadingAnchorHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 const DEFAULT_HEADING_LEVEL: SkyDocsHeadingAnchorHeadingLevel = 2;
 
