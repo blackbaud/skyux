@@ -1,47 +1,51 @@
 @switch (headingLevel()) {
   @case (1) {
-    <h1 class="sky-heading-anchor-heading">
+    <h1 class="sky-docs-heading-anchor-heading">
       <ng-container [ngTemplateOutlet]="headingTextRef" />
     </h1>
   }
   @case (2) {
-    <h2 class="sky-heading-anchor-heading">
+    <h2 class="sky-docs-heading-anchor-heading">
       <ng-container [ngTemplateOutlet]="headingTextRef" />
     </h2>
   }
   @case (3) {
-    <h3 class="sky-heading-anchor-heading">
+    <h3 class="sky-docs-heading-anchor-heading">
       <ng-container [ngTemplateOutlet]="headingTextRef" />
     </h3>
   }
   @case (4) {
-    <h4 class="sky-heading-anchor-heading">
+    <h4 class="sky-docs-heading-anchor-heading">
       <ng-container [ngTemplateOutlet]="headingTextRef" />
     </h4>
   }
   @case (5) {
-    <h5 class="sky-heading-anchor-heading">
+    <h5 class="sky-docs-heading-anchor-heading">
       <ng-container [ngTemplateOutlet]="headingTextRef" />
     </h5>
   }
   @case (6) {
-    <h6 class="sky-heading-anchor-heading">
+    <h6 class="sky-docs-heading-anchor-heading">
       <ng-container [ngTemplateOutlet]="headingTextRef" />
     </h6>
   }
 }
 
-<!-- @if (categoryColor(); as categoryColor) {
-  <sky-docs-pill [color]="categoryColor">
-    {{ categoryText() }}
-  </sky-docs-pill>
-} -->
+@if (categoryColor(); as categoryColor) {
+  <sky-docs-category-tag [color]="categoryColor">
+    @if (categoryTemplate(); as categoryTemplate) {
+      <ng-container [ngTemplateOutlet]="categoryTemplate" />
+    } @else {
+      {{ categoryText() }}
+    }
+  </sky-docs-category-tag>
+}
 
 <ng-content />
 
 <ng-template #headingTextRef>
   <a
-    class="sky-heading-anchor-link"
+    class="sky-docs-heading-anchor-link"
     queryParamsHandling="merge"
     [fragment]="anchorId()"
     [routerLink]="[]"
@@ -51,7 +55,7 @@
       >Link for section titled {{ headingText() }}</span
     >
   </a>
-  <span skyTrim [class.sky-heading-anchor-strikethrough]="strikethrough()">
+  <span skyTrim [class.sky-docs-heading-anchor-strikethrough]="strikethrough()">
     @if (headingTextFormat() === 'code') {
       <code>{{ headingText() }}</code>
     } @else {

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import {
   SkyDocsCodeExampleViewerModule,
-  SkyTableOfContentsModule,
+  SkyDocsTableOfContentsModule,
 } from '@skyux/docs-tools';
 import { SkyManifestDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
@@ -27,7 +27,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
     SkyTabsModule,
     SkyTypeDefinitionComponent,
     TitleCasePipe,
-    SkyTableOfContentsModule,
+    SkyDocsTableOfContentsModule,
   ],
   providers: [SkyTypeAnchorIdsService],
   selector: 'sky-showcase',
@@ -53,7 +53,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
 
       @if (developmentDefinitions.length > 0) {
         <sky-tab tabHeading="Development">
-          <sky-toc-page
+          <sky-docs-toc-page
             class="sky-showcase-tab-content"
             [menuHeadingText]="(labelText() | titlecase) + ' Development'"
           >
@@ -65,13 +65,13 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
             ) {
               <sky-type-definition [definition]="definition" />
             }
-          </sky-toc-page>
+          </sky-docs-toc-page>
         </sky-tab>
       }
 
       @if (testingDefinitions.length > 0) {
         <sky-tab tabHeading="Testing">
-          <sky-toc-page
+          <sky-docs-toc-page
             class="sky-showcase-tab-content"
             [menuHeadingText]="(labelText() | titlecase) + ' Testing'"
           >
@@ -80,7 +80,7 @@ import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
             @for (definition of testingDefinitions; track definition.docsId) {
               <sky-type-definition [definition]="definition" />
             }
-          </sky-toc-page>
+          </sky-docs-toc-page>
         </sky-tab>
       }
 

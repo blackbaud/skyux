@@ -14,24 +14,26 @@ import { SkyMediaQueryService, SkyScrollableHostService } from '@skyux/core';
 
 import { debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
 
-import { SkyHeadingAnchorService } from '../heading-anchor/heading-anchor.service';
+import { SkyDocsHeadingAnchorService } from '../heading-anchor/heading-anchor.service';
 
-import { SkyTableOfContentsLink } from './table-of-contents-links';
-import { SkyTableOfContentsComponent } from './table-of-contents.component';
+import { SkyDocsTableOfContentsLink } from './table-of-contents-links';
+import { SkyDocsTableOfContentsComponent } from './table-of-contents.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[class.sky-toc-page-with-links]': 'links()',
+    '[class.sky-docs-toc-page-with-links]': 'links()',
   },
-  imports: [SkyTableOfContentsComponent],
-  providers: [SkyHeadingAnchorService],
-  selector: 'sky-toc-page',
+  imports: [SkyDocsTableOfContentsComponent],
+  providers: [SkyDocsHeadingAnchorService],
+  selector: 'sky-docs-toc-page',
   styleUrl: './table-of-contents-page.component.scss',
   templateUrl: './table-of-contents-page.component.html',
 })
-export class SkyTableOfContentsPageComponent implements AfterViewInit {
-  readonly #anchors = toSignal(inject(SkyHeadingAnchorService).anchorsChange);
+export class SkyDocsTableOfContentsPageComponent implements AfterViewInit {
+  readonly #anchors = toSignal(
+    inject(SkyDocsHeadingAnchorService).anchorsChange,
+  );
   readonly #destroyRef = inject(DestroyRef);
   readonly #scrollableHostSvc = inject(SkyScrollableHostService);
   readonly #elementRef = inject(ElementRef);
@@ -46,7 +48,7 @@ export class SkyTableOfContentsPageComponent implements AfterViewInit {
     inject(SkyMediaQueryService).breakpointChange,
   );
 
-  protected readonly links = computed<SkyTableOfContentsLink[] | undefined>(
+  protected readonly links = computed<SkyDocsTableOfContentsLink[] | undefined>(
     () => {
       if (this.breakpoint() === 'xs') {
         return;
@@ -55,13 +57,13 @@ export class SkyTableOfContentsPageComponent implements AfterViewInit {
       const anchors = this.#anchors();
       const activeAnchorId = this.#activeAnchorIdOnScroll();
 
-      return anchors?.map((a) => ({
-        active: a.anchorId === activeAnchorId,
-        anchorId: a.anchorId,
-        categoryColor: a.categoryColor,
-        categoryText: a.categoryText,
-        text: a.text,
-      }));
+      return anchors?.map((anchor) => {
+        const link = anchor as SkyDocsTableOfContentsLink;
+
+        link.active = link.anchorId === activeAnchorId;
+
+        return link;
+      });
     },
   );
 

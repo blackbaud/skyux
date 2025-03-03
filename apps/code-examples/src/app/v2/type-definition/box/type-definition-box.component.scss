@@ -1,21 +1,21 @@
 :host {
-  --sky-docs-type-definition-box-border-color: color-mix(
-    in srgb,
-    var(--sky-background-color-info) 40%,
-    var(--sky-border-color-neutral-medium-dark)
-  );
+  // --sky-docs-type-definition-box-border-color: color-mix(
+  //   in srgb,
+  //   var(--sky-background-color-info) 30%,
+  //   var(--sky-border-color-neutral-medium-dark)
+  // );
 
   display: block;
   overflow: hidden;
-  border: 1px solid var(--sky-docs-type-definition-box-border-color);
+  // border: 1px solid var(--sky-docs-type-definition-box-border-color);
 }
 
 .sky-docs-type-definition-box-header {
   display: flex;
   align-items: center;
   gap: 10px;
-  background-color: var(--sky-background-color-info);
-  border-bottom: 1px solid var(--sky-docs-type-definition-box-border-color);
+  background-color: var(--sky-background-color-info-light);
+  // border-bottom: 1px solid var(--sky-docs-type-definition-box-border-color);
 }
 
 .sky-docs-type-definition-box-heading {
@@ -24,13 +24,13 @@
   word-break: break-all;
 }
 
-.sky-docs-type-definition-box-body {
-  background-color: color-mix(
-    in srgb,
-    var(--sky-background-color-info-light) 25%,
-    transparent
-  );
-}
+// .sky-docs-type-definition-box-body {
+//   background-color: color-mix(
+//     in srgb,
+//     var(--sky-background-color-info-light) 25%,
+//     var(--sky-background-color-page-default)
+//   );
+// }
 
 .sky-docs-type-definition-text-strikethrough {
   text-decoration: line-through;

@@ -1,22 +1,22 @@
-import { JsonPipe } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { SkyDocsPillModule } from '../pill/pill.module';
+import { SkyDocsCategoryTagModule } from '../category-tag/category-tag.module';
 
-import { SkyTableOfContentsLink } from './table-of-contents-links';
+import { SkyDocsTableOfContentsLink } from './table-of-contents-links';
 
 /**
  * @internal
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, JsonPipe, SkyDocsPillModule],
-  selector: 'sky-toc',
+  imports: [NgTemplateOutlet, RouterLink, SkyDocsCategoryTagModule],
+  selector: 'sky-docs-toc',
   styleUrl: './table-of-contents.component.scss',
   templateUrl: './table-of-contents.component.html',
 })
-export class SkyTableOfContentsComponent {
+export class SkyDocsTableOfContentsComponent {
   public headingText = input.required<string>();
-  public links = input.required<SkyTableOfContentsLink[]>();
+  public links = input.required<SkyDocsTableOfContentsLink[]>();
 }

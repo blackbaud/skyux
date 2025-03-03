@@ -1,4 +1,6 @@
-<div class="sky-docs-type-definition-box-header sky-padding-even-md">
+<div
+  class="sky-docs-type-definition-box-header sky-border-bottom-dark sky-padding-even-md"
+>
   <h4 class="sky-docs-type-definition-box-heading">
     <code
       [class.sky-docs-type-definition-text-strikethrough]="deprecated()"
@@ -6,7 +8,7 @@
     ></code>
   </h4>
   @if (required()) {
-    <sky-docs-pill color="red">Required</sky-docs-pill>
+    <sky-docs-category-tag color="red">Required</sky-docs-category-tag>
   }
 </div>
 <div class="sky-docs-type-definition-box-body sky-padding-even-md">

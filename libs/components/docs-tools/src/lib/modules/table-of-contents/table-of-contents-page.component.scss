@@ -4,19 +4,19 @@
   flex-direction: row-reverse;
 }
 
-:host(:not(.sky-toc-page-with-links)) {
-  .sky-toc-body {
+:host(:not(.sky-docs-toc-page-with-links)) {
+  .sky-docs-toc-body {
     width: 100%;
   }
 }
 
-:host(.sky-toc-page-with-links) {
-  .sky-toc-body {
+:host(.sky-docs-toc-page-with-links) {
+  .sky-docs-toc-body {
     width: 75%;
     padding-right: 40px;
   }
 
-  .sky-toc-menu {
+  .sky-docs-toc-menu {
     position: sticky;
     top: 0;
     width: 25%;

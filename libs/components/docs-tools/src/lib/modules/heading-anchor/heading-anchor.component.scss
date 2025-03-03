@@ -1,5 +1,3 @@
-@use '../../../../../theme/src/lib/styles/mixins' as mixins;
-
 :host {
   display: flex;
   flex-wrap: wrap;
@@ -16,19 +14,19 @@ Use a specific selector so it beats out "stacked" classes added to the host.
   margin-top: -15px;
 }
 
-.sky-heading-anchor-heading {
+.sky-docs-heading-anchor-heading {
   word-break: break-all;
   position: relative;
   margin: 0;
 
   &:hover {
-    .sky-heading-anchor-link {
+    .sky-docs-heading-anchor-link {
       opacity: 1;
     }
   }
 }
 
-.sky-heading-anchor-link {
+.sky-docs-heading-anchor-link {
   opacity: 0;
   position: absolute;
   transition: opacity 250ms;
@@ -37,6 +35,6 @@ Use a specific selector so it beats out "stacked" classes added to the host.
   top: -2px;
 }
 
-.sky-heading-anchor-strikethrough {
+.sky-docs-heading-anchor-strikethrough {
   text-decoration: line-through;
 }

@@ -1,25 +1,24 @@
 @if (definition(); as def) {
-  @let categoryText = def.kind | skyTypeDefinitionKindToLabel;
-  <sky-heading-anchor
+  <sky-docs-heading-anchor
     class="sky-margin-stacked-lg"
     headingLevel="2"
     [anchorId]="def.anchorId"
-    [categoryColor]="def.kind | skyKindToPillColor"
-    [categoryText]="categoryText"
+    [categoryColor]="def.kind | skyDocsDefinitionKindToCategoryColor"
+    [categoryTemplate]="categoryTemplate"
     [headingText]="def.name"
     [strikethrough]="def.isDeprecated"
   >
-    <sky-docs-pill [color]="def.kind | skyKindToPillColor">
+    <ng-template #categoryTemplate>
       <span class="sky-screen-reader-only">Type: </span>
-      {{ categoryText }}
-    </sky-docs-pill>
+      {{ def.kind | skyTypeDefinitionKindToLabel }}
+    </ng-template>
     @if (def.isDeprecated) {
-      <sky-docs-pill color="red"> Deprecated </sky-docs-pill>
+      <sky-docs-category-tag color="red"> Deprecated </sky-docs-category-tag>
     }
     @if (def.isPreview) {
-      <sky-docs-pill color="teal"> Preview </sky-docs-pill>
+      <sky-docs-category-tag color="teal"> Preview </sky-docs-category-tag>
     }
-  </sky-heading-anchor>
+  </sky-docs-heading-anchor>
   @if (def.kind === 'module' || def.kind === 'service') {
     <p>
       <code class="sky-codespan"

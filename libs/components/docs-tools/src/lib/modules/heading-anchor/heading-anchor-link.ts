@@ -1,11 +1,14 @@
-import { SkyDocsPillColor } from '../pill/pill-color';
+import { TemplateRef } from '@angular/core';
+
+import { SkyDocsCategoryColor } from '../category-tag/category-color';
 
 /**
  * @internal
  */
-export interface SkyHeadingAnchorLink {
+export interface SkyDocsHeadingAnchorLink {
   anchorId: string;
-  categoryColor?: SkyDocsPillColor;
+  categoryColor?: SkyDocsCategoryColor;
+  categoryTemplate?: TemplateRef<unknown>;
   categoryText?: string;
   text: string;
 }

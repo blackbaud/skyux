@@ -1,8 +1,8 @@
-import { SkyHeadingAnchorLink } from '../heading-anchor/heading-anchor-link';
+import { SkyDocsHeadingAnchorLink } from '../heading-anchor/heading-anchor-link';
 
 /**
  * @internal
  */
-export interface SkyTableOfContentsLink extends SkyHeadingAnchorLink {
-  active?: boolean;
+export interface SkyDocsTableOfContentsLink extends SkyDocsHeadingAnchorLink {
+  active: boolean;
 }

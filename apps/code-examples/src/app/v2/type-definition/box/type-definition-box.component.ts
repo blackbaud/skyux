@@ -4,7 +4,7 @@ import {
   booleanAttribute,
   input,
 } from '@angular/core';
-import { SkyDocsPillModule } from '@skyux/docs-tools';
+import { SkyDocsCategoryTagModule } from '@skyux/docs-tools';
 
 /**
  * @internal
@@ -12,10 +12,10 @@ import { SkyDocsPillModule } from '@skyux/docs-tools';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'sky-rounded-corners',
-    '[class.sky-margin-stacked-md]': 'stacked()',
+    class: 'sky-elevation-0-bordered sky-rounded-corners',
+    '[class.sky-margin-stacked-xl]': 'stacked()',
   },
-  imports: [SkyDocsPillModule],
+  imports: [SkyDocsCategoryTagModule],
   selector: 'sky-docs-type-definition-box',
   styleUrl: './type-definition-box.component.scss',
   templateUrl: './type-definition-box.component.html',

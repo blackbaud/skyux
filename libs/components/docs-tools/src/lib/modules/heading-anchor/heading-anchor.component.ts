@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  TemplateRef,
   booleanAttribute,
   inject,
   input,
@@ -13,14 +14,15 @@ import { RouterLink } from '@angular/router';
 import { SkyTrimModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 
-import { SkyDocsPillColor } from '../pill/pill-color';
+import { SkyDocsCategoryColor } from '../category-tag/category-color';
+import { SkyDocsCategoryTagModule } from '../category-tag/category-tag.module';
 
-import { SkyHeadingAnchorService } from './heading-anchor.service';
+import { SkyDocsHeadingAnchorService } from './heading-anchor.service';
 
-type SkyHeadingAnchorHeadingTextFormat = 'normal' | 'code';
-type SkyHeadingAnchorHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+type SkyDocsHeadingAnchorHeadingTextFormat = 'normal' | 'code';
+type SkyDocsHeadingAnchorHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
-const DEFAULT_HEADING_LEVEL: SkyHeadingAnchorHeadingLevel = 2;
+const DEFAULT_HEADING_LEVEL: SkyDocsHeadingAnchorHeadingLevel = 2;
 
 /**
  * @internal
@@ -33,23 +35,24 @@ const DEFAULT_HEADING_LEVEL: SkyHeadingAnchorHeadingLevel = 2;
   imports: [
     NgTemplateOutlet,
     RouterLink,
+    SkyDocsCategoryTagModule,
     SkyIconModule,
-    // SkyDocsPillModule,
     SkyTrimModule,
   ],
-  selector: 'sky-heading-anchor',
+  selector: 'sky-docs-heading-anchor',
   styleUrl: './heading-anchor.component.scss',
   templateUrl: './heading-anchor.component.html',
 })
-export class SkyHeadingAnchorComponent implements OnInit, OnDestroy {
-  readonly #anchorSvc = inject(SkyHeadingAnchorService, { optional: true });
+export class SkyDocsHeadingAnchorComponent implements OnInit, OnDestroy {
+  readonly #anchorSvc = inject(SkyDocsHeadingAnchorService, { optional: true });
 
   public readonly anchorId = input.required<string>();
   public readonly headingText = input.required<string>();
   public readonly headingTextFormat =
-    input<SkyHeadingAnchorHeadingTextFormat>('normal');
+    input<SkyDocsHeadingAnchorHeadingTextFormat>('normal');
 
-  public readonly categoryColor = input<SkyDocsPillColor | undefined>();
+  public readonly categoryColor = input<SkyDocsCategoryColor | undefined>();
+  public readonly categoryTemplate = input<TemplateRef<unknown> | undefined>();
   public readonly categoryText = input<string | undefined>();
 
   public readonly headingLevel = input(DEFAULT_HEADING_LEVEL, {
@@ -57,7 +60,7 @@ export class SkyHeadingAnchorComponent implements OnInit, OnDestroy {
       const numValue = numberAttribute(value);
 
       if (numValue > 0 && numValue < 7) {
-        return numValue as SkyHeadingAnchorHeadingLevel;
+        return numValue as SkyDocsHeadingAnchorHeadingLevel;
       }
 
       return DEFAULT_HEADING_LEVEL;

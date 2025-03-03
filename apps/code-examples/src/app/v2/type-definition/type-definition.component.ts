@@ -7,11 +7,11 @@ import {
   input,
 } from '@angular/core';
 import {
+  SkyDocsCategoryTagModule,
   SkyDocsClipboardModule,
   SkyDocsCodeHighlightPipe,
   SkyDocsCodeSnippetModule,
-  SkyDocsPillModule,
-  SkyHeadingAnchorModule,
+  SkyDocsHeadingAnchorModule,
 } from '@skyux/docs-tools';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyLabelModule, SkyStatusIndicatorModule } from '@skyux/indicators';
@@ -36,7 +36,7 @@ import { SkyDocsEnumerationSignaturePipe } from './pipes/enum-signature.pipe';
 import { SkyEscapeHtmlPipe } from './pipes/escape-html.pipe';
 import { SkyDocsFunctionSignaturePipe } from './pipes/function-signature.pipe';
 import { SkyDocsInterfaceSignaturePipe } from './pipes/interface-signature.pipe';
-import { SkyKindToPillColorPipe } from './pipes/kind-to-pill-color.pipe';
+import { SkyDocsDefinitionKindToCategoryColorPipe } from './pipes/kind-to-category-color.pipe';
 import { SkyMarkdownPipe } from './pipes/markdown.pipe';
 import { SkyDocsMethodNamePipe } from './pipes/method-name.pipe';
 import { SkyDocsMethodSignaturePipe } from './pipes/method-signature.pipe';
@@ -66,13 +66,13 @@ import { PropertyDefinition } from './property-definition';
     SkyEscapeHtmlPipe,
     SkyDescriptionListModule,
     SkyDocsDeprecationReasonComponent,
-    SkyHeadingAnchorModule,
+    SkyDocsHeadingAnchorModule,
     SkyLabelModule,
     SkyMarkdownPipe,
     SkyDocsCodeSnippetModule,
-    SkyKindToPillColorPipe,
+    SkyDocsDefinitionKindToCategoryColorPipe,
     SkyBoxModule,
-    SkyDocsPillModule,
+    SkyDocsCategoryTagModule,
     SkyStatusIndicatorModule,
     SkyDocsClipboardModule,
     SkyDocsPropertyNamePipe,

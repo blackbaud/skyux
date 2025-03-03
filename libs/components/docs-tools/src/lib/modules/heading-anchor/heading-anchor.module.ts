@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 
-import { SkyHeadingAnchorComponent } from './heading-anchor.component';
+import { SkyDocsHeadingAnchorComponent } from './heading-anchor.component';
 
+/**
+ * @internal
+ */
 @NgModule({
-  imports: [SkyHeadingAnchorComponent],
-  exports: [SkyHeadingAnchorComponent],
+  imports: [SkyDocsHeadingAnchorComponent],
+  exports: [SkyDocsHeadingAnchorComponent],
 })
-export class SkyHeadingAnchorModule {}
+export class SkyDocsHeadingAnchorModule {}
