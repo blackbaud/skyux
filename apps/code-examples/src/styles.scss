@@ -8,6 +8,10 @@ body {
   background-color: #fff !important;
 }
 
+:not(h1, h2, h3, h4, h5, h6, pre) > code {
+  font-size: 90%;
+}
+
 code.sky-codespan {
   word-break: break-all;
   display: inline-block;
