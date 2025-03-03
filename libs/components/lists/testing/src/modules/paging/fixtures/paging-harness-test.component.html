@@ -2,6 +2,7 @@
   [itemCount]="(pagedData | async)?.totalCount ?? 0"
   [maxPages]="maxPages"
   [pageSize]="pageSize"
+  pagingLabel="Paging label"
   [(currentPage)]="currentPage"
   (contentChange)="contentChange.next($event)"
 >

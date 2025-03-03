@@ -67,6 +67,9 @@ export class SkyPagingHarness extends SkyComponentHarness {
     await button.click();
   }
 
+  /**
+   * Gets the current page number.
+   */
   public async getCurrentPage(): Promise<number> {
     const currentPage = await this.locatorForOptional(
       'button.sky-paging-current',
@@ -97,6 +100,16 @@ export class SkyPagingHarness extends SkyComponentHarness {
    */
   public async getPagingContent(): Promise<SkyPagingContentHarness> {
     return await this.locatorFor(SkyPagingContentHarness)();
+  }
+
+  public async getPagingLabel(): Promise<string> {
+    const pageNav = await this.locatorForOptional('nav.sky-paging')();
+
+    if (pageNav === null) {
+      throw new Error('Could not find paging label.');
+    }
+
+    return (await pageNav.getAttribute('aria-label')) as string;
   }
 
   async #buttonIsDisabled(button: TestElement): Promise<boolean> {

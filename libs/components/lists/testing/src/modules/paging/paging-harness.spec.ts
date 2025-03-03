@@ -107,9 +107,20 @@ describe('Paging test harness', () => {
     await expectAsync(pageControls[2].isDisabled()).toBeResolvedTo(false);
   });
 
+  it('should get the paging label', async () => {
+    const { pagingHarness } = await setupTest();
+
+    await expectAsync(pagingHarness.getPagingLabel()).toBeResolvedTo(
+      'Paging label',
+    );
+  });
+
   it('should throw an error if the paging controls are not present', async () => {
     const { pagingHarness } = await setupTest({ dataSkyId: 'other-paging' });
 
+    await expectAsync(pagingHarness.getPagingLabel()).toBeRejectedWithError(
+      'Could not find paging label.',
+    );
     await expectAsync(pagingHarness.getCurrentPage()).toBeRejectedWithError(
       'Could not find current page.',
     );
