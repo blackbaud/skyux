@@ -33,7 +33,13 @@ import { SkyManifestDocumentationGroupDetails } from '@skyux/manifest/src/types/
           ><a [attr.href]="detailsValue.repoUrl">View in GitHub</a>
         </sky-description-list-description>
       </sky-description-list-content>
-      <sky-description-list-content>
+      <sky-description-list-content
+        [helpPopoverContent]="
+          'The following command will install the ' +
+          detailsValue.packageName +
+          ' NPM package and its peer dependencies. Run this command in the context of an Angular CLI project.'
+        "
+      >
         <sky-description-list-term>
           Install with NPM
         </sky-description-list-term>

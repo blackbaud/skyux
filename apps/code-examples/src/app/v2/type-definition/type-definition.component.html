@@ -26,8 +26,8 @@
       }}';</code
     >
   </p> -->
-  <!--@if (def.kind === 'module' || def.kind === 'service') {
-    <h4>Installation</h4>
+  @if (def.kind === 'module' || def.kind === 'service') {
+    <!-- <h4>Installation</h4>
     <p>
       <code class="sky-codespan sky-margin-inline-sm" #installationRef
         >npm install --save-exact {{ def.packageName }}</code
@@ -42,7 +42,7 @@
         <sky-icon iconName="clipboard-multiple" />
         Copy
       </button>
-    </p>
+    </p> -->
     <p>
       <code class="sky-codespan"
         >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
@@ -50,14 +50,14 @@
         }}';</code
       >
     </p>
-    <p>
+    <!-- <p>
       <a [attr.href]="'https://www.npmjs.com/package/' + def.packageName"
         >View in NPM</a
       >&nbsp;|&nbsp;<a href="https://github.com/blackbaud/skyux"
         >View in GitHub</a
       >
-    </p>
-  }-->
+    </p> -->
+  }
   @if (def.deprecationReason) {
     <sky-docs-deprecation-reason [message]="def.deprecationReason" />
   }

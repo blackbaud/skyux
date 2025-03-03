@@ -50,6 +50,10 @@ import { SkyDocsInstallationInfoComponent } from './installation-info.component'
     .sky-showcase-tab-content {
       padding-top: 30px;
     }
+
+    .sky-docs-showcase-box-heading {
+      margin-top: 0;
+    }
   `,
   template: `
     @let developmentDefinitions = manifest().publicApi;
@@ -69,18 +73,18 @@ import { SkyDocsInstallationInfoComponent } from './installation-info.component'
             class="sky-showcase-tab-content"
             [menuHeadingText]="(labelText() | titlecase) + ' Development'"
           >
-            <sky-box class="sky-margin-stacked-xxl" headingText="Installation">
-              <sky-box-content>
-                <!--<sky-docs-heading-anchor
-                  class="sky-margin-stacked-lg"
-                  headingLevel="2"
-                  anchorId="installation"
-                  headingText="Installation"
-                />-->
+            <div
+              class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-xxl sky-padding-even-xl"
+            >
+              <sky-docs-heading-anchor
+                anchorId="installation"
+                class="sky-margin-stacked-lg"
+                headingText="Installation"
+              />
+              <!--<h2 class="sky-docs-showcase-box-heading">Installation</h2>-->
 
-                <sky-docs-installation-info [details]="details" />
-              </sky-box-content>
-            </sky-box>
+              <sky-docs-installation-info [details]="details" />
+            </div>
 
             <ng-content select="sky-showcase-content[category=development]" />
 
