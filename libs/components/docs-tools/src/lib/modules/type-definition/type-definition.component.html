@@ -16,15 +16,6 @@
       <sky-docs-category-tag color="teal"> Preview </sky-docs-category-tag>
     }
   </sky-docs-heading-anchor>
-  <!-- @if (def.kind !== 'component' && def.kind !== 'directive') {
-    <p>
-      <code class="sky-codespan"
-        >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
-          def.packageName
-        }}';</code
-      >
-    </p>
-  } -->
   @if (selector(); as selector) {
     <p>
       Selector: <code class="sky-codespan">{{ selector }}</code>
@@ -69,33 +60,26 @@
       />
       @let parametersValue = parameters();
       @if (parametersValue && parametersValue.length > 0) {
-        <!-- <h3>Parameters</h3>
-        <table class="sky-docs-type-definition-table sky-margin-stacked-xl">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (parameter of parametersValue; track parameter.name) {
-              <tr>
-                <td>
-                  <code
-                    [innerHTML]="
-                      parameter | skyDocsParameterName | skyEscapeHtml
-                    "
-                  ></code>
-                </td>
-                <td>
-                  @if (parameter.description) {
-                    <p [innerHTML]="parameter.description | skyMarkdown"></p>
-                  }
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table> -->
+        <h3>Parameters</h3>
+        @for (parameter of parametersValue; track parameter.name) {
+          <h4 class="sky-font-body-default">
+            <code
+              class="sky-codespan"
+              [innerHTML]="
+                parameter
+                  | skyDocsParameterName
+                  | skyDocsEscapeHtml
+                  | skyTypeAnchorLinks
+              "
+            ></code>
+          </h4>
+          @if (parameter.description) {
+            <sky-docs-type-definition-description
+              [definitionName]="parameter.name"
+              [description]="parameter.description"
+            />
+          }
+        }
       }
     }
     @case ('type-alias') {
@@ -139,7 +123,7 @@
             [headingText]="
               input
                 | skyDocsPropertyName: def
-                | skyEscapeHtml
+                | skyDocsEscapeHtml
                 | skyTypeAnchorLinks: { ignore: [def.name] }
             "
           >
@@ -162,7 +146,7 @@
                 <code
                   class="sky-codespan"
                   [innerHTML]="
-                    defaultValue | skyEscapeHtml | skyTypeAnchorLinks
+                    defaultValue | skyDocsEscapeHtml | skyTypeAnchorLinks
                   "
                 ></code>
               </p>
@@ -179,7 +163,7 @@
             [headingText]="
               output
                 | skyDocsPropertyName: def
-                | skyEscapeHtml
+                | skyDocsEscapeHtml
                 | skyTypeAnchorLinks: { ignore: [def.name] }
             "
           >
@@ -207,7 +191,7 @@
             [headingText]="
               property
                 | skyDocsPropertyName: def
-                | skyEscapeHtml
+                | skyDocsEscapeHtml
                 | skyTypeAnchorLinks: { ignore: [def.name] }
             "
           >
@@ -230,7 +214,7 @@
                 <code
                   class="sky-codespan"
                   [innerHTML]="
-                    defaultValue | skyEscapeHtml | skyTypeAnchorLinks
+                    defaultValue | skyDocsEscapeHtml | skyTypeAnchorLinks
                   "
                 ></code>
               </p>
@@ -248,7 +232,7 @@
             [headingText]="
               method
                 | skyDocsMethodName: def
-                | skyEscapeHtml
+                | skyDocsEscapeHtml
                 | skyTypeAnchorLinks: { ignore: [def.name] }
             "
           >
@@ -273,7 +257,7 @@
                     [innerHTML]="
                       param
                         | skyDocsParameterName
-                        | skyEscapeHtml
+                        | skyDocsEscapeHtml
                         | skyTypeAnchorLinks
                     "
                   ></code>
@@ -290,7 +274,9 @@
             <p>
               <code
                 class="sky-codespan"
-                [innerHTML]="method.type | skyEscapeHtml | skyTypeAnchorLinks"
+                [innerHTML]="
+                  method.type | skyDocsEscapeHtml | skyTypeAnchorLinks
+                "
               ></code>
             </p>
           </sky-docs-type-definition-box>

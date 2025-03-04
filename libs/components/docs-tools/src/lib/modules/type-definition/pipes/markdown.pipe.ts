@@ -13,9 +13,9 @@ marked.use({
 });
 
 @Pipe({
-  name: 'skyMarkdown',
+  name: 'skyDocsMarkdown',
 })
-export class SkyMarkdownPipe implements PipeTransform {
+export class SkyDocsMarkdownPipe implements PipeTransform {
   public transform(
     value: string,
     parserStyle: 'block' | 'inline' = 'inline',

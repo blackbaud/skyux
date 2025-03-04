@@ -6,7 +6,9 @@ import type {
   SkyManifestInterfacePropertyDefinition,
 } from '@skyux/manifest';
 
-// TODO: Make this an export of Manifest?
+/**
+ * @internal
+ */
 export type PropertyDefinition =
   | SkyManifestClassPropertyDefinition
   | SkyManifestInterfacePropertyDefinition

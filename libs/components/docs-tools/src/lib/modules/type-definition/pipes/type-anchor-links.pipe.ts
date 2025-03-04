@@ -8,7 +8,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { SkyTypeAnchorIdsService } from './type-anchor-ids.service';
+import { SkyDocsTypeDefinitionAnchorIdsService } from '../type-anchor-ids.service';
 
 const NOT_WORD_REGEXP = /\w+/g;
 
@@ -22,7 +22,7 @@ const NOT_WORD_REGEXP = /\w+/g;
 })
 export class SkyTypeAnchorLinksPipe implements PipeTransform {
   readonly #activatedRoute = inject(ActivatedRoute);
-  readonly #anchorSvc = inject(SkyTypeAnchorIdsService);
+  readonly #anchorSvc = inject(SkyDocsTypeDefinitionAnchorIdsService);
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #destroyRef = inject(DestroyRef);
 

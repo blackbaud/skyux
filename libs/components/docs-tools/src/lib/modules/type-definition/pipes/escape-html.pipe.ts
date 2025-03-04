@@ -4,9 +4,9 @@ import { Pipe, PipeTransform } from '@angular/core';
  * @internal
  */
 @Pipe({
-  name: 'skyEscapeHtml',
+  name: 'skyDocsEscapeHtml',
 })
-export class SkyEscapeHtmlPipe implements PipeTransform {
+export class SkyDocsEscapeHtmlPipe implements PipeTransform {
   public transform(value: string): string {
     return value.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
   }

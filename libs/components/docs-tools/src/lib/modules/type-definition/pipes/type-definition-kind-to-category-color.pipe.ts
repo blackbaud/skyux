@@ -5,7 +5,9 @@ import { SkyManifestParentDefinitionKind } from '@skyux/manifest';
 @Pipe({
   name: 'skyDocsDefinitionKindToCategoryColor',
 })
-export class SkyDocsDefinitionKindToCategoryColorPipe implements PipeTransform {
+export class SkyDocsTypeDefinitionKindToCategoryColorPipe
+  implements PipeTransform
+{
   public transform(
     value: SkyManifestParentDefinitionKind,
   ): SkyDocsCategoryColor {

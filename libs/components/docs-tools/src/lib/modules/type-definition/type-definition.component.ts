@@ -1,4 +1,3 @@
-import { JsonPipe, NgClass, UpperCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,14 +7,10 @@ import {
 } from '@angular/core';
 import {
   SkyDocsCategoryTagModule,
-  SkyDocsClipboardModule,
   SkyDocsCodeHighlightPipe,
   SkyDocsCodeSnippetModule,
   SkyDocsHeadingAnchorModule,
 } from '@skyux/docs-tools';
-import { SkyIconModule } from '@skyux/icon';
-import { SkyLabelModule, SkyStatusIndicatorModule } from '@skyux/indicators';
-import { SkyBoxModule, SkyDescriptionListModule } from '@skyux/layout';
 import {
   SkyManifestChildDefinitionKind,
   SkyManifestClassMethodDefinition,
@@ -33,18 +28,16 @@ import { SkyDocsDeprecationReasonComponent } from './components/deprecation-reas
 import { SkyDocsTypeDefinitionDescriptionComponent } from './components/description.component';
 import { SkyDocsPropertyTypeDefinitionDefaultValuePipe } from './pipes/default-value.pipe';
 import { SkyDocsEnumerationSignaturePipe } from './pipes/enum-signature.pipe';
-import { SkyEscapeHtmlPipe } from './pipes/escape-html.pipe';
+import { SkyDocsEscapeHtmlPipe } from './pipes/escape-html.pipe';
 import { SkyDocsFunctionSignaturePipe } from './pipes/function-signature.pipe';
 import { SkyDocsInterfaceSignaturePipe } from './pipes/interface-signature.pipe';
-import { SkyDocsDefinitionKindToCategoryColorPipe } from './pipes/kind-to-category-color.pipe';
-import { SkyMarkdownPipe } from './pipes/markdown.pipe';
 import { SkyDocsMethodNamePipe } from './pipes/method-name.pipe';
-import { SkyDocsMethodSignaturePipe } from './pipes/method-signature.pipe';
 import { SkyDocsParameterNamePipe } from './pipes/parameter-name.pipe';
 import { SkyDocsPropertyNamePipe } from './pipes/property-name.pipe';
 import { SkyDocsTypeAliasSignaturePipe } from './pipes/type-alias-signature.pipe';
 import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
-import { SkyTypeDefinitionKindToLabelPipe } from './pipes/type-definition-kind-to-label.pipe';
+import { SkyDocsTypeDefinitionKindToCategoryColorPipe } from './pipes/type-definition-kind-to-category-color.pipe';
+import { SkyDocsTypeDefinitionKindToLabelPipe } from './pipes/type-definition-kind-to-label.pipe';
 import { PropertyDefinition } from './property-definition';
 
 /**
@@ -57,37 +50,25 @@ import { PropertyDefinition } from './property-definition';
     class: 'sky-margin-stacked-xxl',
   },
   imports: [
-    SkyDocsClipboardModule,
-    JsonPipe,
-    NgClass,
-    UpperCasePipe,
-    SkyDocsTypeAliasSignaturePipe,
-    SkyIconModule,
-    SkyTypeDefinitionKindToLabelPipe,
-    SkyEscapeHtmlPipe,
-    SkyDescriptionListModule,
-    SkyDocsDeprecationReasonComponent,
-    SkyDocsHeadingAnchorModule,
-    SkyLabelModule,
-    SkyMarkdownPipe,
-    SkyDocsCodeSnippetModule,
-    SkyDocsDefinitionKindToCategoryColorPipe,
-    SkyBoxModule,
     SkyDocsCategoryTagModule,
-    SkyStatusIndicatorModule,
-    SkyDocsClipboardModule,
-    SkyDocsPropertyNamePipe,
-    SkyDocsPropertyTypeDefinitionDefaultValuePipe,
+    SkyDocsCodeHighlightPipe,
+    SkyDocsCodeSnippetModule,
+    SkyDocsDeprecationReasonComponent,
+    SkyDocsEnumerationSignaturePipe,
+    SkyDocsHeadingAnchorModule,
+    SkyDocsFunctionSignaturePipe,
+    SkyDocsInterfaceSignaturePipe,
     SkyDocsMethodNamePipe,
     SkyDocsParameterNamePipe,
-    SkyDocsMethodSignaturePipe,
-    SkyDocsInterfaceSignaturePipe,
-    SkyDocsEnumerationSignaturePipe,
-    SkyTypeAnchorLinksPipe,
+    SkyDocsPropertyNamePipe,
+    SkyDocsPropertyTypeDefinitionDefaultValuePipe,
+    SkyDocsTypeAliasSignaturePipe,
     SkyDocsTypeDefinitionBoxComponent,
-    SkyDocsCodeHighlightPipe,
-    SkyDocsFunctionSignaturePipe,
     SkyDocsTypeDefinitionDescriptionComponent,
+    SkyDocsTypeDefinitionKindToCategoryColorPipe,
+    SkyDocsTypeDefinitionKindToLabelPipe,
+    SkyDocsEscapeHtmlPipe,
+    SkyTypeAnchorLinksPipe,
   ],
   providers: [SkyDocsParameterNamePipe],
   selector: 'sky-docs-type-definition',

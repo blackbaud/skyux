@@ -3,9 +3,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import {
   SkyDocsHeadingAnchorService,
   SkyDocsTableOfContentsModule,
+  SkyDocsTypeDefinitionModule,
 } from '@skyux/docs-tools';
-
-import { SkyDocsTypeDefinitionModule } from '../type-definition/type-definition.module';
 
 import { SkyDocsShowcaseHostService } from './showcase-host.service';
 

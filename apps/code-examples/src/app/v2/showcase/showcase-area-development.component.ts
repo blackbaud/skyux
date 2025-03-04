@@ -5,11 +5,10 @@ import {
   SkyDocsHeadingAnchorModule,
   SkyDocsHeadingAnchorService,
   SkyDocsTableOfContentsModule,
+  SkyDocsTypeDefinitionModule,
 } from '@skyux/docs-tools';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyDescriptionListModule } from '@skyux/layout';
-
-import { SkyDocsTypeDefinitionModule } from '../type-definition/type-definition.module';
 
 import { SkyDocsShowcaseHostService } from './showcase-host.service';
 

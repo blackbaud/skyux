@@ -16,6 +16,8 @@ export { SkyDocsHeadingAnchorHeadingTextFormat } from './lib/modules/heading-anc
 export { SkyDocsHeadingAnchorModule } from './lib/modules/heading-anchor/heading-anchor.module';
 export { SkyDocsHeadingAnchorService } from './lib/modules/heading-anchor/heading-anchor.service';
 export { SkyDocsTableOfContentsModule } from './lib/modules/table-of-contents/table-of-contents.module';
+export { SkyDocsTypeDefinitionAnchorIdsService } from './lib/modules/type-definition/type-anchor-ids.service';
+export { SkyDocsTypeDefinitionModule } from './lib/modules/type-definition/type-definition.module';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
@@ -26,3 +28,4 @@ export { SkyDocsCodeSnippetWrapperComponent as λ7 } from './lib/modules/code-sn
 export { SkyDocsCodeSnippetComponent as λ1 } from './lib/modules/code-snippet/code-snippet.component';
 export { SkyDocsHeadingAnchorComponent as λ5 } from './lib/modules/heading-anchor/heading-anchor.component';
 export { SkyDocsTableOfContentsPageComponent as λ6 } from './lib/modules/table-of-contents/table-of-contents-page.component';
+export { SkyDocsTypeDefinitionComponent as λ8 } from './lib/modules/type-definition/type-definition.component';

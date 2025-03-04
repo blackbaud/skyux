@@ -4,7 +4,7 @@ import { SkyManifestParentDefinitionKind } from '@skyux/manifest';
 @Pipe({
   name: 'skyTypeDefinitionKindToLabel',
 })
-export class SkyTypeDefinitionKindToLabelPipe implements PipeTransform {
+export class SkyDocsTypeDefinitionKindToLabelPipe implements PipeTransform {
   public transform(kind: SkyManifestParentDefinitionKind): string {
     switch (kind) {
       case 'type-alias':

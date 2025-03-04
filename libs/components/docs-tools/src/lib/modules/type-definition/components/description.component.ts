@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
-import { SkyEscapeHtmlPipe } from '../pipes/escape-html.pipe';
-import { SkyMarkdownPipe } from '../pipes/markdown.pipe';
+import { SkyDocsEscapeHtmlPipe } from '../pipes/escape-html.pipe';
+import { SkyDocsMarkdownPipe } from '../pipes/markdown.pipe';
 import { SkyTypeAnchorLinksPipe } from '../pipes/type-anchor-links.pipe';
 
 /**
@@ -11,8 +11,8 @@ import { SkyTypeAnchorLinksPipe } from '../pipes/type-anchor-links.pipe';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    SkyEscapeHtmlPipe,
-    SkyMarkdownPipe,
+    SkyDocsEscapeHtmlPipe,
+    SkyDocsMarkdownPipe,
     SkyStatusIndicatorModule,
     SkyTypeAnchorLinksPipe,
   ],
@@ -26,8 +26,8 @@ import { SkyTypeAnchorLinksPipe } from '../pipes/type-anchor-links.pipe';
     <div
       [innerHTML]="
         description()
-          | skyEscapeHtml
-          | skyMarkdown: 'block'
+          | skyDocsEscapeHtml
+          | skyDocsMarkdown: 'block'
           | skyTypeAnchorLinks: { ignore: [definitionName()] }
       "
     ></div>

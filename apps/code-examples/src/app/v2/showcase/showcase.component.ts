@@ -7,10 +7,9 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { SkyDocsTypeDefinitionAnchorIdsService } from '@skyux/docs-tools';
 import { SkyManifestDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
-
-import { SkyTypeAnchorIdsService } from '../type-definition/pipes/type-anchor-ids.service';
 
 import { SkyDocsShowcaseAreaDevelopmentComponent } from './showcase-area-development.component';
 import { SkyDocsShowcaseAreaExamplesComponent } from './showcase-area-examples.component';
@@ -30,7 +29,10 @@ import { SkyDocsShowcaseHostService } from './showcase-host.service';
     SkyDocsShowcaseAreaTestingComponent,
     SkyTabsModule,
   ],
-  providers: [SkyTypeAnchorIdsService, SkyDocsShowcaseHostService],
+  providers: [
+    SkyDocsTypeDefinitionAnchorIdsService,
+    SkyDocsShowcaseHostService,
+  ],
   selector: 'sky-docs-showcase',
   styles: `
     :host {
@@ -41,7 +43,7 @@ import { SkyDocsShowcaseHostService } from './showcase-host.service';
 })
 export class SkyDocsShowcaseComponent {
   readonly #manifestSvc = inject(SkyDocsShowcaseHostService);
-  readonly #anchorSvc = inject(SkyTypeAnchorIdsService);
+  readonly #anchorSvc = inject(SkyDocsTypeDefinitionAnchorIdsService);
 
   public readonly labelText = input.required<string>();
   public readonly manifest = input.required<SkyManifestDocumentationGroup>();
