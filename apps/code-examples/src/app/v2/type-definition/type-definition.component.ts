@@ -54,7 +54,7 @@ import { PropertyDefinition } from './property-definition';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {
-    class: 'sky-margin-stacked-xxl',
+    class: 'sky-margin-stacked-xxl sky-border-bottom-row',
   },
   imports: [
     SkyDocsClipboardModule,

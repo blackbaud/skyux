@@ -37,6 +37,8 @@ async function getTypeDocProjectReflection(
     excludeInternal: false, // Include internal declarations for usage metrics.
     excludePrivate: true,
     excludeProtected: true,
+    gitRemote: 'origin',
+    gitRevision: 'main',
     logLevel: 'Error',
     plugin: [TYPEDOC_PLUGIN_PATH],
     tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,

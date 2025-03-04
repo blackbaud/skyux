@@ -12,37 +12,11 @@
       <span class="sky-screen-reader-only">Type: </span>
       {{ def.kind | skyTypeDefinitionKindToLabel }}
     </ng-template>
-    @if (def.isDeprecated) {
-      <sky-docs-category-tag color="red"> Deprecated </sky-docs-category-tag>
-    }
     @if (def.isPreview) {
       <sky-docs-category-tag color="teal"> Preview </sky-docs-category-tag>
     }
   </sky-docs-heading-anchor>
-  <!-- <p>
-    <code class="sky-codespan"
-      >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
-        def.packageName
-      }}';</code
-    >
-  </p> -->
   @if (def.kind === 'module' || def.kind === 'service') {
-    <!-- <h4>Installation</h4>
-    <p>
-      <code class="sky-codespan sky-margin-inline-sm" #installationRef
-        >npm install --save-exact {{ def.packageName }}</code
-      >
-      <button
-        class="sky-btn sky-btn-default"
-        type="button"
-        skyDocsClipboardButton
-        copySuccessMessage="Command copied"
-        [clipboardTarget]="installationRef"
-      >
-        <sky-icon iconName="clipboard-multiple" />
-        Copy
-      </button>
-    </p> -->
     <p>
       <code class="sky-codespan"
         >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
@@ -50,23 +24,12 @@
         }}';</code
       >
     </p>
-    <!-- <p>
-      <a [attr.href]="'https://www.npmjs.com/package/' + def.packageName"
-        >View in NPM</a
-      >&nbsp;|&nbsp;<a href="https://github.com/blackbaud/skyux"
-        >View in GitHub</a
-      >
-    </p> -->
   }
-  @if (def.deprecationReason) {
-    <sky-docs-deprecation-reason [message]="def.deprecationReason" />
-  }
-  @if (def.description) {
-    <sky-docs-type-definition-description
-      [definitionName]="def.name"
-      [description]="def.description"
+  <p>
+    <a [attr.href]="def.repoUrl">View source</a>&nbsp;<sky-icon
+      iconName="open"
     />
-  }
+  </p>
   @if (selector(); as selector) {
     <p>
       Selector: <code class="sky-codespan">{{ selector }}</code>
@@ -76,6 +39,15 @@
     <p>
       Pipe name: <code class="sky-codespan">{{ pipeName }}</code>
     </p>
+  }
+  @if (def.deprecationReason) {
+    <sky-docs-deprecation-reason [message]="def.deprecationReason" />
+  }
+  @if (def.description) {
+    <sky-docs-type-definition-description
+      [definitionName]="def.name"
+      [description]="def.description"
+    />
   }
   @if (def.codeExample) {
     <h3>Example</h3>

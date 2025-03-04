@@ -12,6 +12,7 @@ import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
 import { getDefaultValue } from './get-default-value';
 import { getParameters } from './get-parameters';
+import { getRepoUrl } from './get-repo-url';
 import { remapLambdaName } from './remap-lambda-names';
 
 export function getMethods(
@@ -127,6 +128,7 @@ export function getClass(
     isPreview,
   } = getComment(reflection);
 
+  const repoUrl = getRepoUrl(reflection);
   const className = remapLambdaName(reflection);
   const methods = getMethods(reflection) ?? [];
   const properties = getProperties(reflection) ?? [];
@@ -147,6 +149,7 @@ export function getClass(
     isPreview,
     kind,
     name: className,
+    repoUrl,
     typeParameters: formatTypeParameters(reflection),
   };
 
