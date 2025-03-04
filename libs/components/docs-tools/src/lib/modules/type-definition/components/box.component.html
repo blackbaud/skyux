@@ -1,0 +1,16 @@
+<div
+  class="sky-docs-type-definition-box-header sky-border-bottom-dark sky-padding-even-xl"
+>
+  <h4 class="sky-docs-type-definition-box-heading">
+    <code
+      [class.sky-docs-type-definition-text-strikethrough]="deprecated()"
+      [innerHTML]="headingText()"
+    ></code>
+  </h4>
+  @if (required()) {
+    <sky-docs-category-tag color="red">Required</sky-docs-category-tag>
+  }
+</div>
+<div class="sky-docs-type-definition-box-body sky-padding-even-xl">
+  <ng-content />
+</div>

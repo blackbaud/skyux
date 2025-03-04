@@ -1,9 +1,10 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   OnDestroy,
-  OnInit,
   TemplateRef,
   booleanAttribute,
   inject,
@@ -42,7 +43,8 @@ const DEFAULT_HEADING_LEVEL: SkyDocsHeadingAnchorHeadingLevel = 2;
   styleUrl: './heading-anchor.component.scss',
   templateUrl: './heading-anchor.component.html',
 })
-export class SkyDocsHeadingAnchorComponent implements OnInit, OnDestroy {
+export class SkyDocsHeadingAnchorComponent implements AfterViewInit, OnDestroy {
+  readonly #elementRef = inject(ElementRef);
   readonly #anchorSvc = inject(SkyDocsHeadingAnchorService, { optional: true });
 
   public readonly anchorId = input.required<string>();
@@ -53,6 +55,10 @@ export class SkyDocsHeadingAnchorComponent implements OnInit, OnDestroy {
   public readonly categoryColor = input<SkyDocsCategoryColor | undefined>();
   public readonly categoryTemplate = input<TemplateRef<unknown> | undefined>();
   public readonly categoryText = input<string | undefined>();
+
+  public equals(el: Element): boolean {
+    return this.#elementRef.nativeElement === el;
+  }
 
   public readonly headingLevel = input(DEFAULT_HEADING_LEVEL, {
     transform: (value) => {
@@ -68,7 +74,7 @@ export class SkyDocsHeadingAnchorComponent implements OnInit, OnDestroy {
 
   public readonly strikethrough = input(false, { transform: booleanAttribute });
 
-  public ngOnInit(): void {
+  public ngAfterViewInit(): void {
     this.#anchorSvc?.register(this);
   }
 

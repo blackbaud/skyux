@@ -25,10 +25,9 @@ import { SkyDocsTableOfContentsComponent } from './table-of-contents.component';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[class.sky-docs-toc-page-with-links]': 'links()',
+    '[class.sky-docs-toc-page-with-links]': 'links().length > 0',
   },
   imports: [SkyDocsTableOfContentsComponent],
-  providers: [SkyDocsHeadingAnchorService],
   selector: 'sky-docs-toc-page',
   styleUrl: './table-of-contents-page.component.scss',
   templateUrl: './table-of-contents-page.component.html',
@@ -51,22 +50,22 @@ export class SkyDocsTableOfContentsPageComponent implements AfterViewInit {
     inject(SkyMediaQueryService).breakpointChange,
   );
 
-  protected readonly links = computed<SkyDocsTableOfContentsLink[] | undefined>(
-    () => {
-      if (this.breakpoint() === 'xs') {
-        return;
-      }
+  protected readonly links = computed<SkyDocsTableOfContentsLink[]>(() => {
+    if (this.breakpoint() === 'xs') {
+      return [];
+    }
 
-      const anchors = this.#anchors();
-      const activeAnchorId = this.#activeAnchorIdOnScroll();
+    const anchors = this.#anchors();
+    const activeAnchorId = this.#activeAnchorIdOnScroll();
 
-      return anchors?.map((anchor) => {
+    return (
+      anchors?.map((anchor) => {
         const link = anchor as SkyDocsTableOfContentsLink;
         link.active = link.anchorId === activeAnchorId;
         return link;
-      });
-    },
-  );
+      }) ?? []
+    );
+  });
 
   public ngAfterViewInit(): void {
     const scrollEl = this.#scrollableHostSvc.getScrollableHost(

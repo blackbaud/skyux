@@ -31,7 +31,7 @@ Use a specific selector so it beats out "stacked" classes added to the host.
   position: absolute;
   transition: opacity 250ms;
   display: inline-block;
-  left: calc(-1em - var(--sky-margin-inline-xs));
+  left: calc(-1em - 1px);
   top: -2px;
 }
 
