@@ -35,7 +35,21 @@ export class SkyDocsHeadingAnchorService implements OnDestroy {
   }
 
   #getLinks(): SkyDocsHeadingAnchorLink[] {
-    return this.#anchors.map((a) => {
+    const els = document.querySelectorAll('sky-docs-heading-anchor');
+    const anchorsSorted: SkyDocsHeadingAnchorComponent[] = [];
+
+    // Since heading anchors can be registered at any point in the lifecycle
+    // of the app, we need to sort the links by their location in the DOM,
+    // rather than the order at which they were registered.
+    for (const el of els) {
+      this.#anchors.forEach((anchor) => {
+        if (anchor.equals(el)) {
+          anchorsSorted.push(anchor);
+        }
+      });
+    }
+
+    return anchorsSorted.map((a) => {
       return {
         anchorId: a.anchorId(),
         categoryColor: a.categoryColor(),
