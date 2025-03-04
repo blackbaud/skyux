@@ -1,6 +1,6 @@
-@if (links(); as links) {
+@if (links().length > 0) {
   <div class="sky-docs-toc-menu">
-    <sky-docs-toc [headingText]="menuHeadingText()" [links]="links" />
+    <sky-docs-toc [headingText]="menuHeadingText()" [links]="links()" />
   </div>
 }
 <div class="sky-docs-toc-body">

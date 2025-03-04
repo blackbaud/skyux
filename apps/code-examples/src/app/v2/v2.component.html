@@ -1,0 +1,56 @@
+<sky-page>
+  <form [formGroup]="formGroup">
+    <sky-input-box labelText="Documentation group" stacked>
+      <select formControlName="documentationGroup">
+        <option value="" selected>Select a documentation group...</option>
+        @for (group of documentationGroups; track group) {
+          <option [value]="group">
+            {{ group }}
+          </option>
+        }
+      </select>
+    </sky-input-box>
+  </form>
+
+  @if (data(); as manifest) {
+    <sky-showcase [labelText]="selectedGroupName()" [manifest]="manifest">
+      <sky-showcase-area-overview>
+        <sky-docs-heading-anchor anchorId="usage" headingText="Usage" />
+        <p>
+          This content should only appear in the "overview" (or "design")
+          section.
+        </p>
+      </sky-showcase-area-overview>
+
+      <sky-showcase-area-development>
+        <div class="sky-margin-stacked-xxl">
+          <sky-docs-heading-anchor
+            anchorId="overview"
+            headingText="Getting started"
+          />
+          <p>This extra content should only appear in the "development" tab.</p>
+        </div>
+      </sky-showcase-area-development>
+
+      <sky-showcase-area-testing>
+        <div class="sky-margin-stacked-xxl">
+          <sky-docs-heading-anchor
+            anchorId="overview"
+            headingText="Getting started"
+          />
+          <p>This extra content should only appear in the "testing" tab.</p>
+        </div>
+      </sky-showcase-area-testing>
+    </sky-showcase>
+
+    <pre
+      style="
+        max-width: 100%;
+        max-height: 900px;
+        overflow: scroll;
+        border: 1px solid red;
+      "
+      >{{ manifest | json }}</pre
+    >
+  }
+</sky-page>

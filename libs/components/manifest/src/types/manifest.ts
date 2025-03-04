@@ -53,8 +53,6 @@ export interface SkyManifestDocumentationTypeDefinition
  */
 export interface SkyManifestDocumentationGroupPackageInfo {
   packageName: string;
-  packageVersion: string;
-  peerDependencies: Record<string, string>;
   registryUrl: string;
   repoUrl: string;
 }

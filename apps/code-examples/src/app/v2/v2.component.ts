@@ -12,6 +12,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { SkyDocsHeadingAnchorModule } from '@skyux/docs-tools';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/icon';
 import {
@@ -36,6 +37,7 @@ const SEPARATOR = ' | ';
     SkyPageModule,
     SkyShowcaseModule,
     SkyIconModule,
+    SkyDocsHeadingAnchorModule,
   ],
   selector: 'app-code-examples-v2',
   styles: `
@@ -44,35 +46,7 @@ const SEPARATOR = ' | ';
       padding: 30px;
     }
   `,
-  template: `
-    <sky-page>
-      <form [formGroup]="formGroup">
-        <sky-input-box labelText="Documentation group" stacked>
-          <select formControlName="documentationGroup">
-            <option value="" selected>Select a documentation group...</option>
-            @for (group of documentationGroups; track group) {
-              <option [value]="group">
-                {{ group }}
-              </option>
-            }
-          </select>
-        </sky-input-box>
-      </form>
-
-      @if (data(); as manifest) {
-        <sky-showcase [labelText]="selectedGroupName()" [manifest]="manifest">
-          <!--<sky-showcase-content category="development">
-            <p>This content describes the development tab.</p>
-          </sky-showcase-content>-->
-        </sky-showcase>
-
-        <pre
-          style="max-width:100%;max-height:900px;overflow:scroll;border:1px solid red;"
-          >{{ manifest | json }}</pre
-        >
-      }
-    </sky-page>
-  `,
+  templateUrl: './v2.component.html',
 })
 export default class CodeExamplesLandingComponent {
   #documentationGroupControl = new FormControl<string>('', {

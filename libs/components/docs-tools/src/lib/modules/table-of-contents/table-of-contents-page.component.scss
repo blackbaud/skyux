@@ -14,6 +14,7 @@
 :host(.sky-docs-toc-page-with-links) {
   .sky-docs-toc-body {
     min-width: 50%;
+    flex: 1;
   }
 
   .sky-docs-toc-menu {
@@ -21,5 +22,6 @@
     top: 0;
     flex-shrink: 1;
     max-width: 40%;
+    min-width: 20%;
   }
 }

@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 export class SkyTypeAnchorIdsService {
   #anchorIds = new Map<string, string>();
 
-  public setAnchorIds(anchorIds: { [token: string]: string }): void {
+  public updateAnchorIds(anchorIds: { [token: string]: string }): void {
     this.#anchorIds = new Map(Object.entries(anchorIds));
 
     // Sort items by character length.

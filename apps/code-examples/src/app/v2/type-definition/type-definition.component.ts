@@ -54,7 +54,7 @@ import { PropertyDefinition } from './property-definition';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {
-    class: 'sky-margin-stacked-xxl sky-border-bottom-row',
+    class: 'sky-margin-stacked-xxl',
   },
   imports: [
     SkyDocsClipboardModule,
@@ -94,7 +94,7 @@ import { PropertyDefinition } from './property-definition';
   styleUrl: './type-definition.component.scss',
   templateUrl: './type-definition.component.html',
 })
-export class SkyTypeDefinitionComponent {
+export class SkyDocsTypeDefinitionComponent {
   public readonly definition =
     input.required<SkyManifestDocumentationTypeDefinition>();
 

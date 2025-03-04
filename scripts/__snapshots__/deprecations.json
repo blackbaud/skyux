@@ -1,7 +1,6 @@
 [
   "@skyux/a11y:SkySkipLinkModule",
   "@skyux/ag-grid:SkyAgGridLookupProperties:autocompleteAttribute",
-  "@skyux/ag-grid:SkyAgGridService:getHeaderHeight",
   "@skyux/ag-grid:SkyAutocompleteProperties",
   "@skyux/ag-grid:SkyDatepickerProperties",
   "@skyux/avatar/testing:SkyAvatarFixture",

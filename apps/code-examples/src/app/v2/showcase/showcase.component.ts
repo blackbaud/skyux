@@ -1,8 +1,8 @@
-import { JsonPipe, TitleCasePipe } from '@angular/common';
+import { JsonPipe, NgTemplateOutlet, TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Type,
+  contentChild,
   effect,
   inject,
   input,
@@ -19,151 +19,73 @@ import { SkyManifestDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
 
 import { SkyTypeAnchorIdsService } from '../type-definition/pipes/type-anchor-ids.service';
-import { SkyTypeDefinitionComponent } from '../type-definition/type-definition.component';
+import { SkyDocsTypeDefinitionModule } from '../type-definition/type-definition.module';
 
-import { SKY_SHOWCASE_EXAMPLES } from './examples-token';
 import { SkyDocsInstallationInfoComponent } from './installation-info.component';
+import { SkyShowcaseAreaDevelopmentComponent } from './showcase-area-development.component';
+import { SkyShowcaseAreaExamplesComponent } from './showcase-area-examples.component';
+import { SkyShowcaseAreaOverviewComponent } from './showcase-area-overview.component';
+import { SkyShowcaseAreaTestingComponent } from './showcase-area-testing.component';
+import { SkyDocsShowcaseHostService } from './showcase-host.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     JsonPipe,
+    NgTemplateOutlet,
     SkyDescriptionListModule,
     SkyDocsCodeExampleViewerModule,
     SkyDocsHeadingAnchorModule,
     SkyIconModule,
     SkyTabsModule,
-    SkyTypeDefinitionComponent,
+    SkyDocsTypeDefinitionModule,
     SkyDocsClipboardModule,
     TitleCasePipe,
     SkyDocsTableOfContentsModule,
     SkyBoxModule,
     SkyDocsInstallationInfoComponent,
+    SkyShowcaseAreaDevelopmentComponent,
+    SkyShowcaseAreaExamplesComponent,
+    SkyShowcaseAreaOverviewComponent,
+    SkyShowcaseAreaTestingComponent,
   ],
-  providers: [SkyTypeAnchorIdsService],
+  providers: [SkyTypeAnchorIdsService, SkyDocsShowcaseHostService],
   selector: 'sky-showcase',
   styles: `
     :host {
       display: block;
     }
-
-    .sky-showcase-tab-content {
-      padding-top: 30px;
-    }
-
-    .sky-docs-showcase-box-heading {
-      margin-top: 0;
-    }
   `,
-  template: `
-    @let developmentDefinitions = manifest().publicApi;
-    @let testingDefinitions = manifest().testing;
-    @let packageInfo = manifest().packageInfo;
-
-    <sky-tabset permalinkId="docs">
-      <sky-tab tabHeading="Design">
-        <div class="sky-showcase-tab-content">
-          <ng-content select="sky-showcase-content[category=design]" />
-        </div>
-      </sky-tab>
-
-      @if (developmentDefinitions.length > 0) {
-        <sky-tab tabHeading="Development">
-          <sky-docs-toc-page
-            class="sky-showcase-tab-content"
-            [menuHeadingText]="(labelText() | titlecase) + ' Development'"
-          >
-            <div
-              class="sky-elevation-0-bordered sky-rounded-corners sky-margin-stacked-xxl sky-padding-even-xl"
-            >
-              <sky-docs-heading-anchor
-                anchorId="installation"
-                class="sky-margin-stacked-lg"
-                headingText="Installation"
-              />
-
-              <sky-docs-installation-info [packageInfo]="packageInfo" />
-            </div>
-
-            <ng-content select="sky-showcase-content[category=development]" />
-
-            @for (
-              definition of developmentDefinitions;
-              track definition.docsId
-            ) {
-              <sky-docs-type-definition [definition]="definition" />
-            }
-          </sky-docs-toc-page>
-        </sky-tab>
-      }
-
-      @if (testingDefinitions.length > 0) {
-        <sky-tab tabHeading="Testing">
-          <sky-docs-toc-page
-            class="sky-showcase-tab-content"
-            [menuHeadingText]="(labelText() | titlecase) + ' Testing'"
-          >
-            <ng-content select="sky-showcase-content[category=testing]" />
-
-            @for (definition of testingDefinitions; track definition.docsId) {
-              <sky-docs-type-definition [definition]="definition" />
-            }
-          </sky-docs-toc-page>
-        </sky-tab>
-      }
-
-      <sky-tab tabHeading="Examples">
-        <!-- TODO: DON"T LOAD THIS TAB UNTIL IT"S CLICKED! -->
-
-        <div class="sky-showcase-tab-content">
-          <ng-content select="sky-showcase-content[category=examples]" />
-
-          @for (
-            example of manifest().codeExamples;
-            track example.componentName;
-            let last = $last
-          ) {
-            <sky-docs-code-example-viewer
-              [componentName]="example.componentName"
-              [componentSelector]="example.selector"
-              [componentType]="getComponentType(example.componentName)"
-              [demoHidden]="!!example.demoHidden"
-              [files]="example.files"
-              [headingText]="example.title || 'Example'"
-              [primaryFile]="example.primaryFile"
-              [stacked]="!last"
-            />
-          }
-        </div>
-      </sky-tab>
-    </sky-tabset>
-  `,
+  templateUrl: './showcase.component.html',
 })
 export class SkyShowcaseComponent {
+  readonly #manifestSvc = inject(SkyDocsShowcaseHostService);
   readonly #anchorSvc = inject(SkyTypeAnchorIdsService);
-  readonly #examples = inject(SKY_SHOWCASE_EXAMPLES);
 
   public readonly labelText = input.required<string>();
   public readonly manifest = input.required<SkyManifestDocumentationGroup>();
+
+  protected developmentContent = contentChild(
+    SkyShowcaseAreaDevelopmentComponent,
+  );
+  protected overviewContent = contentChild(SkyShowcaseAreaOverviewComponent);
+  protected testingContent = contentChild(SkyShowcaseAreaTestingComponent);
 
   constructor() {
     effect(() => {
       const manifest = this.manifest();
       const anchorIds: Record<string, string> = {};
 
-      manifest.publicApi.forEach((d) => {
-        anchorIds[d.name] = d.anchorId;
+      manifest.publicApi.forEach((def) => {
+        anchorIds[def.name] = def.anchorId;
       });
 
-      manifest.testing.forEach((d) => {
-        anchorIds[d.name] = d.anchorId;
+      manifest.testing.forEach((def) => {
+        anchorIds[def.name] = def.anchorId;
       });
 
-      this.#anchorSvc.setAnchorIds(anchorIds);
+      this.#anchorSvc.updateAnchorIds(anchorIds);
+      this.#manifestSvc.updateGroup(manifest);
     });
-  }
-
-  protected getComponentType(componentName: string): Type<unknown> {
-    return this.#examples[componentName];
   }
 }
