@@ -16,14 +16,23 @@
       <sky-docs-category-tag color="teal"> Preview </sky-docs-category-tag>
     }
   </sky-docs-heading-anchor>
+  @if (def.kind === 'module') {
+    <p>
+      <code class="sky-docs-codespan"
+        >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
+          def.packageName
+        }}';</code
+      >
+    </p>
+  }
   @if (selector(); as selector) {
     <p>
-      Selector: <code class="sky-codespan">{{ selector }}</code>
+      Selector: <code class="sky-docs-codespan">{{ selector }}</code>
     </p>
   }
   @if (pipeName(); as pipeName) {
     <p>
-      Pipe name: <code class="sky-codespan">{{ pipeName }}</code>
+      Pipe name: <code class="sky-docs-codespan">{{ pipeName }}</code>
     </p>
   }
   @if (def.deprecationReason) {
@@ -64,7 +73,7 @@
         @for (parameter of parametersValue; track parameter.name) {
           <h4 class="sky-font-body-default">
             <code
-              class="sky-codespan"
+              class="sky-docs-codespan"
               [innerHTML]="
                 parameter
                   | skyDocsParameterName
@@ -144,7 +153,7 @@
               <p>
                 Default:
                 <code
-                  class="sky-codespan"
+                  class="sky-docs-codespan"
                   [innerHTML]="
                     defaultValue | skyDocsEscapeHtml | skyTypeAnchorLinks
                   "
@@ -212,7 +221,7 @@
               <p>
                 Default:
                 <code
-                  class="sky-codespan"
+                  class="sky-docs-codespan"
                   [innerHTML]="
                     defaultValue | skyDocsEscapeHtml | skyTypeAnchorLinks
                   "
@@ -253,7 +262,7 @@
               @for (param of method.parameters; track param.name) {
                 <h5 class="sky-font-body-default">
                   <code
-                    class="sky-codespan"
+                    class="sky-docs-codespan"
                     [innerHTML]="
                       param
                         | skyDocsParameterName
@@ -273,7 +282,7 @@
             <h4>Returns</h4>
             <p>
               <code
-                class="sky-codespan"
+                class="sky-docs-codespan"
                 [innerHTML]="
                   method.type | skyDocsEscapeHtml | skyTypeAnchorLinks
                 "

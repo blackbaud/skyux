@@ -5,16 +5,20 @@ import {
   SkyDocsHeadingAnchorService,
 } from '@skyux/docs-tools';
 
-import { SkyDocsExampleNameToComponentTypePipe } from './component-type.pipe';
+import { SkyDocsCodeExampleNameToComponentTypePipe } from './code-example-types/code-example-types.pipe';
 import { SkyDocsShowcaseHostService } from './showcase-host.service';
 
+/**
+ * Content for the "Examples" tab.
+ * @internal
+ */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'sky-padding-even-xl',
   },
   imports: [
-    SkyDocsExampleNameToComponentTypePipe,
+    SkyDocsCodeExampleNameToComponentTypePipe,
     SkyDocsCodeExampleViewerModule,
   ],
   providers: [SkyDocsHeadingAnchorService],
@@ -24,28 +28,7 @@ import { SkyDocsShowcaseHostService } from './showcase-host.service';
       display: block;
     }
   `,
-  template: `
-    @if (groupChange()?.codeExamples; as codeExamples) {
-      @for (
-        example of codeExamples;
-        track example.componentName;
-        let last = $last
-      ) {
-        <sky-docs-code-example-viewer
-          [componentName]="example.componentName"
-          [componentSelector]="example.selector"
-          [componentType]="
-            example.componentName | skyDocsExampleNameToComponentType
-          "
-          [demoHidden]="!!example.demoHidden"
-          [files]="example.files"
-          [headingText]="example.title || 'Example'"
-          [primaryFile]="example.primaryFile"
-          [stacked]="!last"
-        />
-      }
-    }
-  `,
+  templateUrl: './showcase-area-examples.component.html',
 })
 export class SkyDocsShowcaseAreaExamplesComponent {
   readonly #hostSvc = inject(SkyDocsShowcaseHostService);

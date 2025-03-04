@@ -4,6 +4,10 @@ import {
   SkyDocsTableOfContentsModule,
 } from '@skyux/docs-tools';
 
+/**
+ * Content for the "Overview" tab.
+ * @internal
+ */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

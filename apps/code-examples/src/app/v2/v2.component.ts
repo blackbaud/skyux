@@ -58,7 +58,6 @@ export default class CodeExamplesLandingComponent {
   protected formGroup = inject(FormBuilder).group({
     documentationGroup: this.#documentationGroupControl,
   });
-  protected selectedGroupName = signal<string>('');
 
   constructor() {
     for (const [packageName, config] of Object.entries(DOCS.packages)) {
@@ -76,7 +75,6 @@ export default class CodeExamplesLandingComponent {
         const packageName = parts[0];
         const groupName = parts[1];
 
-        this.selectedGroupName.set(groupName.replace(/-/g, ' '));
         this.data.set(getDocumentationGroup(packageName, groupName));
       });
   }

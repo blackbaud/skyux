@@ -12,7 +12,7 @@ body {
   font-size: 90%;
 }
 
-code.sky-codespan {
+code.sky-docs-codespan {
   word-break: break-all;
   display: inline-block;
   padding: 2px 7px;
@@ -32,7 +32,7 @@ code.sky-codespan {
 }
 
 a {
-  > code.sky-codespan {
+  > code.sky-docs-codespan {
     text-decoration: underline;
   }
 }

@@ -42,19 +42,22 @@ import { SkyDocsShowcaseHostService } from './showcase-host.service';
   templateUrl: './showcase.component.html',
 })
 export class SkyDocsShowcaseComponent {
-  readonly #manifestSvc = inject(SkyDocsShowcaseHostService);
-  readonly #anchorSvc = inject(SkyDocsTypeDefinitionAnchorIdsService);
+  readonly #anchorIdsSvc = inject(SkyDocsTypeDefinitionAnchorIdsService);
+  readonly #showcaseHostSvc = inject(SkyDocsShowcaseHostService);
 
-  public readonly labelText = input.required<string>();
   public readonly manifest = input.required<SkyManifestDocumentationGroup>();
 
-  protected developmentContent = contentChild(
+  protected readonly developmentContent = contentChild(
     SkyDocsShowcaseAreaDevelopmentComponent,
   );
-  protected overviewContent = contentChild(
+
+  protected readonly overviewContent = contentChild(
     SkyDocsShowcaseAreaOverviewComponent,
   );
-  protected testingContent = contentChild(SkyDocsShowcaseAreaTestingComponent);
+
+  protected readonly testingContent = contentChild(
+    SkyDocsShowcaseAreaTestingComponent,
+  );
 
   constructor() {
     effect(() => {
@@ -69,8 +72,8 @@ export class SkyDocsShowcaseComponent {
         anchorIds[def.name] = def.anchorId;
       });
 
-      this.#anchorSvc.updateAnchorIds(anchorIds);
-      this.#manifestSvc.updateGroup(manifest);
+      this.#anchorIdsSvc.updateAnchorIds(anchorIds);
+      this.#showcaseHostSvc.updateGroup(manifest);
     });
   }
 }

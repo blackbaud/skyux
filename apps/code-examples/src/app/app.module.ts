@@ -9,10 +9,10 @@ import { SkyThemeService } from '@skyux/theme';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SkyThemeSelectorComponent } from './shared/theme-selector/theme-selector.component';
-import { type SkyDocsShowcaseModuleExportsType } from './v2/showcase/examples-token';
-import { provideSkyDocsShowcaseExamples } from './v2/showcase/provide-showcase';
+import { type SkyDocsCodeExampleComponentTypes } from './v2/showcase/code-example-types/code-example-types-token';
+import { provideSkyDocsCodeExampleTypes } from './v2/showcase/code-example-types/provide-code-example-types';
 
-const EXAMPLES = codeExampleExports as SkyDocsShowcaseModuleExportsType;
+const EXAMPLES = codeExampleExports as SkyDocsCodeExampleComponentTypes;
 
 @Injectable()
 class CodeExamplesPlaygroundAssetsService extends SkyAppAssetsService {
@@ -42,7 +42,7 @@ class CodeExamplesPlaygroundAssetsService extends SkyAppAssetsService {
       provide: SkyAppAssetsService,
       useClass: CodeExamplesPlaygroundAssetsService,
     },
-    provideSkyDocsShowcaseExamples(EXAMPLES),
+    provideSkyDocsCodeExampleTypes(EXAMPLES),
   ],
   bootstrap: [AppComponent],
 })

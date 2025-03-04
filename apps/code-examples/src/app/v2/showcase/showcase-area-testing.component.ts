@@ -9,6 +9,7 @@ import {
 import { SkyDocsShowcaseHostService } from './showcase-host.service';
 
 /**
+ * Content for the "Testing" tab.
  * @internal
  */
 @Component({
@@ -24,17 +25,7 @@ import { SkyDocsShowcaseHostService } from './showcase-host.service';
       display: block;
     }
   `,
-  template: `
-    <sky-docs-toc-page menuHeadingText="Testing">
-      <ng-content />
-
-      @if (groupChange()?.testing; as definitions) {
-        @for (definition of definitions; track definition.docsId) {
-          <sky-docs-type-definition [definition]="definition" />
-        }
-      }
-    </sky-docs-toc-page>
-  `,
+  templateUrl: './showcase-area-testing.component.html',
 })
 export class SkyDocsShowcaseAreaTestingComponent {
   readonly #hostSvc = inject(SkyDocsShowcaseHostService);

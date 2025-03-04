@@ -1,0 +1,9 @@
+<sky-docs-toc-page menuHeadingText="Testing">
+  <ng-content />
+
+  @if (groupChange()?.testing; as definitions) {
+    @for (definition of definitions; track definition.docsId) {
+      <sky-docs-type-definition [definition]="definition" />
+    }
+  }
+</sky-docs-toc-page>

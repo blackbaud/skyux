@@ -4,7 +4,7 @@ import { Tokens, marked } from 'marked';
 
 const renderer = {
   codespan(token: Tokens.Codespan): string {
-    return `<code class="sky-codespan">${token.text}</code>`;
+    return `<code class="sky-docs-codespan">${token.text}</code>`;
   },
 };
 
