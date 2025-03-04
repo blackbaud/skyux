@@ -10,6 +10,15 @@ type ReserveItemType = SkyAppViewportReserveArgs & {
   active: boolean;
 };
 
+const masksToIgnore = [
+  // From host.
+  '.mask-loading',
+  '.sky-modal-host-backdrop',
+  '.sky-overlay',
+  '.sky-overlay-backdrop',
+  '.sky-wait-mask',
+];
+
 /**
  * Provides information about the state of the application's viewport.
  */
@@ -137,15 +146,32 @@ export class SkyAppViewportService {
 
   #isElementVisible(element: HTMLElement): boolean {
     const rect = element.getBoundingClientRect();
-    return (
+    if (
       // Vertically in view
       rect.y <= window.innerHeight &&
       rect.y >= 0 &&
       // Horizontally in view
       rect.x <= window.innerWidth &&
-      rect.x >= 0 &&
+      rect.x >= 0
+    ) {
       // Element is not hidden by another element
-      element.contains(this.#document.elementFromPoint(rect.x + 1, rect.y + 1))
-    );
+      const stackElements = this.#document.elementsFromPoint(
+        rect.x + 1,
+        rect.y + 1,
+      );
+      const ignoreSelectors = masksToIgnore
+        .concat(masksToIgnore.map((mask) => mask + ' *'))
+        .join(', ');
+      for (const stackElement of stackElements) {
+        if (element.contains(stackElement)) {
+          return true;
+        }
+        if (stackElement.matches(ignoreSelectors)) {
+          continue;
+        }
+        return false;
+      }
+    }
+    return false;
   }
 }

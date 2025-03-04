@@ -187,4 +187,111 @@ describe('Viewport service', () => {
 
     document.body.removeChild(container);
   }));
+
+  it('should reserve space for elements underneath an overlay', waitForAsync(async () => {
+    const viewportHeight = window.innerHeight;
+
+    expect(viewportHeight).toBeGreaterThan(50);
+
+    const container = document.createElement('div');
+    container.style.height = 'calc(100vh - 20px)';
+    container.style.position = 'relative';
+    container.style.marginTop = '20px';
+    container.appendChild(document.createTextNode('Container'));
+
+    const item1 = document.createElement('div');
+    item1.style.backgroundColor = 'lightblue';
+    item1.style.height = '50px';
+    item1.style.width = '100px';
+    item1.style.overflow = 'hidden';
+    item1.style.position = 'absolute';
+    item1.style.top = '40px';
+    item1.style.left = '0';
+    item1.style.zIndex = '1';
+    item1.appendChild(document.createTextNode('Item 1'));
+    container.appendChild(item1);
+
+    const inertOverlay = document.createElement('div');
+    inertOverlay.classList.add('mask-loading');
+    // eslint-disable-next-line @cspell/spellchecker
+    inertOverlay.style.backgroundColor = 'lightgreen';
+    inertOverlay.style.height = '100px';
+    inertOverlay.style.width = '100px';
+    inertOverlay.style.overflow = 'hidden';
+    inertOverlay.style.position = 'absolute';
+    inertOverlay.style.top = `0`;
+    inertOverlay.style.left = '0';
+    inertOverlay.style.opacity = '0.4';
+    inertOverlay.style.zIndex = '10';
+    inertOverlay.appendChild(document.createTextNode('Mask'));
+    container.appendChild(inertOverlay);
+
+    document.body.appendChild(container);
+
+    svc.reserveSpace({
+      id: 'item1-test',
+      position: 'top',
+      size: 50,
+      reserveForElement: item1,
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    validateViewportSpace('top', 50);
+
+    document.body.removeChild(container);
+  }));
+
+  it('should not reserve space for elements underneath an intentional overlay', waitForAsync(async () => {
+    const viewportHeight = window.innerHeight;
+
+    expect(viewportHeight).toBeGreaterThan(50);
+
+    const container = document.createElement('div');
+    container.style.height = 'calc(100vh - 20px)';
+    container.style.position = 'relative';
+    container.style.marginTop = '20px';
+    container.appendChild(document.createTextNode('Container'));
+
+    const item1 = document.createElement('div');
+    item1.style.backgroundColor = 'lightblue';
+    item1.style.height = '50px';
+    item1.style.width = '100px';
+    item1.style.overflow = 'hidden';
+    item1.style.position = 'absolute';
+    item1.style.top = '40px';
+    item1.style.left = '0';
+    item1.style.zIndex = '1';
+    item1.appendChild(document.createTextNode('Item 1'));
+    container.appendChild(item1);
+
+    const inertOverlay = document.createElement('div');
+    // eslint-disable-next-line @cspell/spellchecker
+    inertOverlay.style.backgroundColor = 'lightgreen';
+    inertOverlay.style.height = '100px';
+    inertOverlay.style.width = '100px';
+    inertOverlay.style.overflow = 'hidden';
+    inertOverlay.style.position = 'absolute';
+    inertOverlay.style.top = `0`;
+    inertOverlay.style.left = '0';
+    inertOverlay.style.opacity = '0.4';
+    inertOverlay.style.zIndex = '10';
+    inertOverlay.appendChild(document.createTextNode('Mask'));
+    container.appendChild(inertOverlay);
+
+    document.body.appendChild(container);
+
+    svc.reserveSpace({
+      id: 'item1-test',
+      position: 'top',
+      size: 50,
+      reserveForElement: item1,
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    validateViewportSpace('top', 0);
+
+    document.body.removeChild(container);
+  }));
 });
