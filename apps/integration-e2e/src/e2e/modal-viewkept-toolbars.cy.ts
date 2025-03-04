@@ -30,7 +30,7 @@ describe('modal-viewkept-toolbars', () => {
           .should('exist')
           .should('be.visible');
         cy.get(
-          '.sky-lookup-show-more-modal-toolbar sky-icon[iconName="search"] > i',
+          '.sky-lookup-show-more-modal-toolbar sky-icon[iconName="search"] > sky-icon-svg',
         )
           .should('exist')
           .should('be.visible')
@@ -48,7 +48,7 @@ describe('modal-viewkept-toolbars', () => {
             el.first() && parseFloat(el.first().css('opacity')) > 0.9,
         );
         cy.get(
-          '.sky-lookup-show-more-modal-toolbar sky-icon[iconName="search"] > i',
+          '.sky-lookup-show-more-modal-toolbar sky-icon[iconName="search"] > sky-icon-svg',
         ).should(
           'satisfy',
           (el: JQuery<HTMLElement>) =>

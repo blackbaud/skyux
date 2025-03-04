@@ -87,15 +87,22 @@ export class FlyoutComponent implements AfterViewInit, OnDestroy {
         break;
     }
 
-    this.flyout = this.#flyoutService.open(
-      this.responsive ? FlyoutResponsiveComponent : FlyoutStandardComponent,
-      {
+    if (this.responsive) {
+      this.flyout = this.#flyoutService.open(FlyoutResponsiveComponent, {
         defaultWidth: width,
         primaryAction: primaryAction,
         permalink: permalink,
         showIterator: this.showHeaderButtons,
         maxWidth: 5000,
-      },
-    );
+      });
+    } else {
+      this.flyout = this.#flyoutService.open(FlyoutStandardComponent, {
+        defaultWidth: width,
+        primaryAction: primaryAction,
+        permalink: permalink,
+        showIterator: this.showHeaderButtons,
+        maxWidth: 5000,
+      });
+    }
   }
 }

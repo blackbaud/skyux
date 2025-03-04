@@ -25,25 +25,31 @@ describe('action-bars-storybook - summary action bar', () => {
                 cy.viewport(width, height).visit(
                   `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
                 );
+                cy.get('#readyFonts').should('exist');
+
                 cy.get('app-summary-action-bar')
                   .should('exist')
                   .should('be.visible');
 
                 if (E2eVariations.MOBILE_WIDTHS.includes(width)) {
-                  cy.get('#ready').should('exist');
+                  cy.get('#readyIcons').should('exist');
                 }
 
                 cy.get('.sky-summary-action-bar')
                   .should('exist')
                   .should('be.visible');
 
-                if (style === 'modal' && theme === 'default') {
-                  cy.get('#ready').should('exist');
+                if (style === 'modal') {
+                  cy.get('#readyIcons').should('exist');
 
                   cy.get('sky-modal-content')
                     .should('exist')
                     .should('be.visible')
                     .click();
+                }
+
+                if (style === 'modal-full-page' && theme === 'default') {
+                  cy.get('#readyIcons').should('exist');
                 }
 
                 cy.window().skyVisualTest(
@@ -69,7 +75,7 @@ describe('action-bars-storybook - summary action bar', () => {
                     .should('exist')
                     .should('be.visible');
 
-                  cy.get('#ready').should('exist');
+                  cy.get('#readyIcons').should('exist');
 
                   cy.get('.sky-summary-action-bar-details-collapse button')
                     .should('exist')
@@ -112,7 +118,7 @@ describe('action-bars-storybook - summary action bar', () => {
                     .should('be.visible')
                     .end()
 
-                    .get('#ready')
+                    .get('#readyIcons')
                     .should('exist')
                     .end()
 

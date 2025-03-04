@@ -59,4 +59,10 @@
 <ng-container *ngIf="type === 'page'">
   <ng-container *ngTemplateOutlet="actionBar" />
 </ng-container>
-<span *ngIf="ready$ | async" id="ready"></span>
+@if (readyFonts()) {
+  <span id="readyFonts"></span>
+}
+
+@if (readyIcons()) {
+  <span id="readyFonts"></span>
+}
