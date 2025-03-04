@@ -19,10 +19,10 @@ import {
   SkyDockLocation,
   SkyDockService,
   SkyIdModule,
-  λSkyLayoutHostDirective,
   SkyLiveAnnouncerService,
   SkyScrollShadowDirective,
   SkyScrollShadowEventArgs,
+  λSkyLayoutHostDirective,
 } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/icon';

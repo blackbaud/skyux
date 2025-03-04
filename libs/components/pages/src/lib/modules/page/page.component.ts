@@ -9,8 +9,8 @@ import {
 import {
   SkyContainerBreakpointObserver,
   SkyHelpService,
-  λSkyLayoutHostDirective,
   provideSkyBreakpointObserver,
+  λSkyLayoutHostDirective,
 } from '@skyux/core';
 
 import { SkyPageThemeAdapterService } from './page-theme-adapter.service';
