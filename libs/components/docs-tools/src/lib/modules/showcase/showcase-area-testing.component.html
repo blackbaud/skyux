@@ -1,5 +1,9 @@
 <sky-docs-toc-page menuHeadingText="Testing">
-  <ng-content />
+  <div
+    class="sky-docs-showcase-section sky-margin-stacked-xxl sky-border-bottom-row"
+  >
+    <ng-content />
+  </div>
 
   @if (groupChange()?.testing; as definitions) {
     @for (definition of definitions; track definition.docsId) {

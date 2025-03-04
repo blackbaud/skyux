@@ -7,9 +7,10 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { SkyDocsTypeDefinitionAnchorIdsService } from '@skyux/docs-tools';
 import { SkyManifestDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
+
+import { SkyDocsTypeDefinitionAnchorIdsService } from '../type-definition/type-anchor-ids.service';
 
 import { SkyDocsShowcaseAreaDevelopmentComponent } from './showcase-area-development.component';
 import { SkyDocsShowcaseAreaExamplesComponent } from './showcase-area-examples.component';

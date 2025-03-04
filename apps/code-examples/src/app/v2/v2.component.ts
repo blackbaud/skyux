@@ -12,7 +12,10 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { SkyDocsHeadingAnchorModule } from '@skyux/docs-tools';
+import {
+  SkyDocsHeadingAnchorModule,
+  SkyDocsShowcaseModule,
+} from '@skyux/docs-tools';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/icon';
 import {
@@ -21,8 +24,6 @@ import {
   getDocumentationGroup,
 } from '@skyux/manifest';
 import { SkyPageModule } from '@skyux/pages';
-
-import { SkyDocsShowcaseModule } from './showcase/showcase.module';
 
 const DOCS = getDocumentationConfig();
 const SEPARATOR = ' | ';

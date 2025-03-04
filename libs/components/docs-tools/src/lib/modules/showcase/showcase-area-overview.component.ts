@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  SkyDocsHeadingAnchorService,
-  SkyDocsTableOfContentsModule,
-} from '@skyux/docs-tools';
+
+import { SkyDocsHeadingAnchorService } from '../heading-anchor/heading-anchor.service';
+import { SkyDocsTableOfContentsModule } from '../table-of-contents/table-of-contents.module';
 
 /**
  * Content for the "Overview" tab.

@@ -1,11 +1,14 @@
 <sky-docs-toc-page menuHeadingText="Development">
   @if (groupChange()?.packageInfo; as packageInfo) {
-    <div class="sky-margin-stacked-xxl">
+    <div
+      class="sky-docs-showcase-section sky-margin-stacked-xxl sky-border-bottom-row"
+    >
       <sky-docs-heading-anchor
         anchorId="installation"
         class="sky-margin-stacked-lg"
         headingText="Installation"
       />
+
       <sky-description-list>
         <sky-description-list-content>
           <sky-description-list-term> NPM package </sky-description-list-term>
@@ -26,8 +29,8 @@
           </sky-description-list-term>
           <sky-description-list-description>
             <code
-              class="sky-docs-codespan sky-margin-inline-sm sky-margin-stacked-sm"
               #installationRef
+              class="sky-docs-codespan sky-margin-inline-sm sky-margin-stacked-sm"
             >
               npm install --save-exact {{ packageInfo.packageName }}
             </code>
@@ -47,7 +50,11 @@
     </div>
   }
 
-  <ng-content />
+  <div
+    class="sky-docs-showcase-section sky-margin-stacked-xxl sky-border-bottom-row"
+  >
+    <ng-content />
+  </div>
 
   @if (groupChange()?.publicApi; as definitions) {
     @for (definition of definitions; track definition.docsId) {

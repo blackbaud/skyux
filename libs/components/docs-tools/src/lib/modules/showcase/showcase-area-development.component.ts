@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-  SkyDocsClipboardModule,
-  SkyDocsHeadingAnchorModule,
-  SkyDocsHeadingAnchorService,
-  SkyDocsTableOfContentsModule,
-  SkyDocsTypeDefinitionModule,
-} from '@skyux/docs-tools';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyDescriptionListModule } from '@skyux/layout';
+
+import { SkyDocsClipboardModule } from '../clipboard/clipboard.module';
+import { SkyDocsHeadingAnchorModule } from '../heading-anchor/heading-anchor.module';
+import { SkyDocsHeadingAnchorService } from '../heading-anchor/heading-anchor.service';
+import { SkyDocsTableOfContentsModule } from '../table-of-contents/table-of-contents.module';
+import { SkyDocsTypeDefinitionModule } from '../type-definition/type-definition.module';
 
 import { SkyDocsShowcaseHostService } from './showcase-host.service';
 
@@ -34,6 +33,14 @@ import { SkyDocsShowcaseHostService } from './showcase-host.service';
   styles: `
     :host {
       display: block;
+    }
+
+    .sky-docs-showcase-section {
+      padding-bottom: var(--sky-padding-even-xl);
+
+      &:empty {
+        display: none;
+      }
     }
   `,
   templateUrl: './showcase-area-development.component.html',

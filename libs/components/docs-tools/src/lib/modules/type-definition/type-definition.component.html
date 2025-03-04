@@ -16,7 +16,7 @@
       <sky-docs-category-tag color="teal"> Preview </sky-docs-category-tag>
     }
   </sky-docs-heading-anchor>
-  @if (def.kind === 'module') {
+  @if (def.kind === 'module' || def.name.endsWith('Harness')) {
     <p>
       <code class="sky-docs-codespan"
         >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{

@@ -4,13 +4,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppAssetsService } from '@skyux/assets';
 import * as codeExampleExports from '@skyux/code-examples';
+import {
+  SkyDocsCodeExampleComponentTypes,
+  provideSkyDocsCodeExampleTypes,
+} from '@skyux/docs-tools';
 import { SkyThemeService } from '@skyux/theme';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SkyThemeSelectorComponent } from './shared/theme-selector/theme-selector.component';
-import { type SkyDocsCodeExampleComponentTypes } from './v2/showcase/code-example-types/code-example-types-token';
-import { provideSkyDocsCodeExampleTypes } from './v2/showcase/code-example-types/provide-code-example-types';
 
 const EXAMPLES = codeExampleExports as SkyDocsCodeExampleComponentTypes;
 
