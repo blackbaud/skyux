@@ -37,6 +37,7 @@ export type {
   SkyManifestCodeExampleFiles,
   SkyManifestCodeExamples,
   SkyManifestDocumentationGroup,
+  SkyManifestDocumentationGroupPackageInfo,
   SkyManifestDocumentationTypeDefinition,
   SkyManifestPublicApi,
 } from './types/manifest.js';

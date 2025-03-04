@@ -16,19 +16,19 @@ interface PackageJson {
 
 interface SkyManifestPackageInfo {
   peerDependencies: Record<string, string>;
+  version: string;
 }
 
 export interface SkyManifestPackagesInfo {
   packages: Record<string, SkyManifestPackageInfo>;
-  version: string;
 }
 
-const CACHE = new Map<string, SkyManifestPackageInfo>();
+const PACKAGES_CACHE = new Map<string, SkyManifestPackageInfo>();
 let PACKAGES_UPDATE_GROUP = new Map<string, string>();
 let THIS_VERSION = 'latest';
 
 async function getAllPackages(): Promise<void> {
-  if (CACHE.size > 0) {
+  if (PACKAGES_CACHE.size > 0) {
     return;
   }
 
@@ -57,8 +57,9 @@ async function getAllPackages(): Promise<void> {
       }
     }
 
-    CACHE.set(packageJson.name, {
+    PACKAGES_CACHE.set(packageJson.name, {
       peerDependencies: packageJson.peerDependencies ?? {},
+      version: THIS_VERSION,
     });
   }
 }
@@ -70,11 +71,10 @@ export async function getPackagesInfo(
 
   const info: SkyManifestPackagesInfo = {
     packages: {},
-    version: THIS_VERSION,
   };
 
   for (const packageName of Object.keys(publicApi.packages)) {
-    const packageJson = CACHE.get(packageName);
+    const packageJson = PACKAGES_CACHE.get(packageName);
 
     if (packageJson) {
       const peerDependencies: Record<string, string> = {};
@@ -95,6 +95,7 @@ export async function getPackagesInfo(
 
       info.packages[packageName] = {
         peerDependencies,
+        version: packageJson.version,
       };
     }
   }

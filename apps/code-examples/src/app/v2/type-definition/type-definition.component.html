@@ -16,7 +16,7 @@
       <sky-docs-category-tag color="teal"> Preview </sky-docs-category-tag>
     }
   </sky-docs-heading-anchor>
-  @if (def.kind === 'module' || def.kind === 'service') {
+  @if (def.kind !== 'component' && def.kind !== 'directive') {
     <p>
       <code class="sky-codespan"
         >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
@@ -25,11 +25,6 @@
       >
     </p>
   }
-  <p>
-    <a [attr.href]="def.repoUrl">View source</a>&nbsp;<sky-icon
-      iconName="open"
-    />
-  </p>
   @if (selector(); as selector) {
     <p>
       Selector: <code class="sky-codespan">{{ selector }}</code>
@@ -40,6 +35,11 @@
       Pipe name: <code class="sky-codespan">{{ pipeName }}</code>
     </p>
   }
+  <p>
+    <a [attr.href]="def.repoUrl">View source</a>&nbsp;<sky-icon
+      iconName="open"
+    />
+  </p>
   @if (def.deprecationReason) {
     <sky-docs-deprecation-reason [message]="def.deprecationReason" />
   }

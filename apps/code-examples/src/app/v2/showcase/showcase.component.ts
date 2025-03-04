@@ -58,7 +58,7 @@ import { SkyDocsInstallationInfoComponent } from './installation-info.component'
   template: `
     @let developmentDefinitions = manifest().publicApi;
     @let testingDefinitions = manifest().testing;
-    @let details = manifest().details;
+    @let packageInfo = manifest().packageInfo;
 
     <sky-tabset permalinkId="docs">
       <sky-tab tabHeading="Design">
@@ -81,9 +81,8 @@ import { SkyDocsInstallationInfoComponent } from './installation-info.component'
                 class="sky-margin-stacked-lg"
                 headingText="Installation"
               />
-              <!--<h2 class="sky-docs-showcase-box-heading">Installation</h2>-->
 
-              <sky-docs-installation-info [details]="details" />
+              <sky-docs-installation-info [packageInfo]="packageInfo" />
             </div>
 
             <ng-content select="sky-showcase-content[category=development]" />

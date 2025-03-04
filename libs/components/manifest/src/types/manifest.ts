@@ -51,7 +51,7 @@ export interface SkyManifestDocumentationTypeDefinition
 /**
  * @internal
  */
-export interface SkyManifestDocumentationGroupDetails {
+export interface SkyManifestDocumentationGroupPackageInfo {
   packageName: string;
   packageVersion: string;
   peerDependencies: Record<string, string>;
@@ -65,7 +65,7 @@ export interface SkyManifestDocumentationGroupDetails {
  */
 export interface SkyManifestDocumentationGroup {
   codeExamples: SkyManifestCodeExample[];
-  details: SkyManifestDocumentationGroupDetails;
+  packageInfo: SkyManifestDocumentationGroupPackageInfo;
   publicApi: SkyManifestDocumentationTypeDefinition[];
   testing: SkyManifestDocumentationTypeDefinition[];
 }

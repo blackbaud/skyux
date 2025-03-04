@@ -8,7 +8,7 @@ import { SkyManifestDocumentationConfig } from './types/documentation-config';
 import type {
   SkyManifestCodeExamples,
   SkyManifestDocumentationGroup,
-  SkyManifestDocumentationGroupDetails,
+  SkyManifestDocumentationGroupPackageInfo,
   SkyManifestDocumentationTypeDefinition,
 } from './types/manifest';
 import { parseVersion } from './utility/semver-utils';
@@ -18,15 +18,16 @@ const DOCS_CONFIG = documentationConfigJson as SkyManifestDocumentationConfig;
 const CODE_EXAMPLES = codeExamplesJson as SkyManifestCodeExamples;
 const PACKAGES_INFO = packagesInfoJson as SkyManifestPackagesInfo;
 
-function getGroupDetails(
+function getGroupPackageInfo(
   primaryDocsId: string,
-): SkyManifestDocumentationGroupDetails {
-  const { filePath, packageName } = getDefinitionByDocsId(primaryDocsId);
+): SkyManifestDocumentationGroupPackageInfo {
+  const { packageName, repoUrl } = getDefinitionByDocsId(primaryDocsId);
 
+  const packageInfo = PACKAGES_INFO.packages[packageName];
   const peerDependencies: Record<string, string> = {};
 
   for (const [peerDependency, peerVersion] of Object.entries(
-    PACKAGES_INFO.packages[packageName].peerDependencies,
+    packageInfo.peerDependencies,
   )) {
     const parsed = parseVersion(peerVersion);
     peerDependencies[peerDependency] = parsed.semverRange;
@@ -34,11 +35,11 @@ function getGroupDetails(
 
   return {
     packageName,
-    packageVersion: parseVersion(PACKAGES_INFO.version).semverRange,
+    packageVersion: parseVersion(packageInfo.version).semverRange,
     peerDependencies,
     registryUrl: `https://www.npmjs.com/package/${packageName}`,
-    repoUrl: `https://github.com/blackbaud/skyux/tree/main/${filePath}`,
-  };
+    repoUrl,
+  } satisfies SkyManifestDocumentationGroupPackageInfo;
 }
 
 function getDefinitionByDocsId(
@@ -65,7 +66,7 @@ function getPublicApiByDocsIds(
 ): SkyManifestDocumentationGroup {
   const documentation: SkyManifestDocumentationGroup = {
     codeExamples: [],
-    details: getGroupDetails(primaryDocsId),
+    packageInfo: getGroupPackageInfo(primaryDocsId),
     publicApi: [],
     testing: [],
   };

@@ -1,3 +1,4 @@
+import { execSync } from 'node:child_process';
 import path from 'node:path';
 import {
   Application,
@@ -29,6 +30,8 @@ async function getTypeDocProjectReflection(
   entryPoints: string[],
   projectRoot: string,
 ): Promise<ProjectReflectionWithChildren> {
+  const branch = execSync('git branch --show-current', { encoding: 'utf-8' });
+
   const app = await Application.bootstrapWithPlugins({
     alwaysCreateEntryPointModule: true,
     entryPoints,
@@ -38,7 +41,7 @@ async function getTypeDocProjectReflection(
     excludePrivate: true,
     excludeProtected: true,
     gitRemote: 'origin',
-    gitRevision: 'main',
+    gitRevision: branch,
     logLevel: 'Error',
     plugin: [TYPEDOC_PLUGIN_PATH],
     tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
@@ -46,14 +49,7 @@ async function getTypeDocProjectReflection(
       skipLibCheck: true,
       transpileOnly: true,
     },
-    exclude: [
-      // `!**/${projectRoot}/**`,
-      '**/(fixtures|node_modules)/**',
-      '**/*+(.fixture|.spec).ts',
-    ],
-    // TODO: properties from "extends" types are not being brought into the result!
-    // TODO: create git-compatible file paths to link out?
-    // externalPattern: [`!**/node_modules/**`],
+    exclude: ['**/(fixtures|node_modules)/**', '**/*+(.fixture|.spec).ts'],
   });
 
   const projectRefl = await app.convert();

@@ -7,7 +7,7 @@ import {
 import { SkyDocsClipboardModule } from '@skyux/docs-tools';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyDescriptionListModule } from '@skyux/layout';
-import { SkyManifestDocumentationGroupDetails } from '@skyux/manifest/src/types/manifest';
+import { SkyManifestDocumentationGroupPackageInfo } from '@skyux/manifest';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,24 +19,24 @@ import { SkyManifestDocumentationGroupDetails } from '@skyux/manifest/src/types/
     }
   `,
   template: `
-    @let detailsValue = details();
+    @let packageInfoValue = packageInfo();
 
     <sky-description-list>
       <sky-description-list-content>
         <sky-description-list-term> NPM package </sky-description-list-term>
         <sky-description-list-description>
           <code class="sky-codespan sky-margin-inline-sm">{{
-            detailsValue.packageName
+            packageInfoValue.packageName
           }}</code>
-          <a [attr.href]="detailsValue.registryUrl">View in NPM</a
+          <a [attr.href]="packageInfoValue.registryUrl">View in NPM</a
           ><span> | </span
-          ><a [attr.href]="detailsValue.repoUrl">View in GitHub</a>
+          ><a [attr.href]="packageInfoValue.repoUrl">View in GitHub</a>
         </sky-description-list-description>
       </sky-description-list-content>
       <sky-description-list-content
         [helpPopoverContent]="
           'The following command will install the ' +
-          detailsValue.packageName +
+          packageInfoValue.packageName +
           ' NPM package and its peer dependencies. Run this command in the context of an Angular CLI project.'
         "
       >
@@ -66,27 +66,31 @@ import { SkyManifestDocumentationGroupDetails } from '@skyux/manifest/src/types/
   `,
 })
 export class SkyDocsInstallationInfoComponent {
-  public readonly details =
-    input.required<SkyManifestDocumentationGroupDetails>();
+  public readonly packageInfo =
+    input.required<SkyManifestDocumentationGroupPackageInfo>();
 
   protected peersInstallCommand = computed(() => {
-    const details = this.details();
+    const packageInfo = this.packageInfo();
 
-    const skyuxPackages = `@skyux/{${details.packageName.replace('@skyux/', '')},${Object.entries(
-      details.peerDependencies,
-    )
-      .filter(([packageName]) => packageName.startsWith('@skyux/'))
-      .map(([packageName]) => packageName.replace('@skyux/', ''))
-      .join(',')}}@${details.packageVersion}`;
+    const skyuxPackages = [
+      packageInfo.packageName.replace('@skyux/', ''),
+      ...Object.entries(packageInfo.peerDependencies)
+        .filter(([packageName]) => packageName.startsWith('@skyux/'))
+        .map(([packageName]) => packageName.replace('@skyux/', '')),
+    ];
+
+    const skyuxPackagesFormatted =
+      skyuxPackages.length === 1
+        ? `${packageInfo.packageName}@${packageInfo.packageVersion}`
+        : `@skyux/{${skyuxPackages.join(',')}}@${packageInfo.packageVersion}`;
+
+    const thirdPartyPackages = Object.entries(packageInfo.peerDependencies)
+      .filter(([packageName]) => !packageName.startsWith('@skyux/'))
+      .map(([packageName, version]) => `${packageName}@${version}`);
 
     return (
-      `npm install --save-exact ${skyuxPackages} ` +
-      Object.entries(details.peerDependencies)
-        .filter(([packageName]) => !packageName.startsWith('@skyux/'))
-        .map(([packageName, version]) => {
-          return `${packageName}@${version}`;
-        })
-        .join(' ')
+      `npm install --save-exact ` +
+      [skyuxPackagesFormatted, ...thirdPartyPackages].join(' ')
     );
   });
 }
