@@ -1,8 +1,13 @@
 :host {
   display: inline-flex;
-  padding: 0.3em 0.6em;
+  padding: 0.2em 0.6em;
   background-color: var(--sky-docs-category-tag-background-color);
   color: var(--sky-text-color-default);
+  color: color-mix(
+    in srgb,
+    var(--sky-docs-category-tag-background-color) 20%,
+    var(--sky-text-color-default)
+  );
 }
 
 :host(.sky-docs-category-tag-color-blue) {

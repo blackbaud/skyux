@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SkyDocsCategoryColor } from '@skyux/docs-tools';
 import { SkyManifestParentDefinitionKind } from '@skyux/manifest';
+
+import { SkyDocsCategoryColor } from '../../category-tag/category-color';
 
 @Pipe({
   name: 'skyDocsDefinitionKindToCategoryColor',

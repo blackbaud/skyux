@@ -124,9 +124,9 @@
       }
       @if (inputs(); as inputs) {
         <h3>Inputs</h3>
-        @for (input of inputs; track input.name) {
+        @for (input of inputs; track input.name; let last = $last) {
           <sky-docs-type-definition-box
-            stacked
+            [stacked]="!last"
             [deprecated]="input.isDeprecated"
             [required]="input.isRequired"
             [headingText]="
@@ -165,9 +165,9 @@
       }
       @if (outputs(); as outputs) {
         <h3>Outputs</h3>
-        @for (output of outputs; track output.name) {
+        @for (output of outputs; track output.name; let last = $last) {
           <sky-docs-type-definition-box
-            stacked
+            [stacked]="!last"
             [deprecated]="output.isDeprecated"
             [headingText]="
               output
@@ -193,9 +193,9 @@
       }
       @if (properties(); as properties) {
         <h3>Properties</h3>
-        @for (property of properties; track property.name) {
+        @for (property of properties; track property.name; let last = $last) {
           <sky-docs-type-definition-box
-            stacked
+            [stacked]="!last"
             [deprecated]="property.isDeprecated"
             [headingText]="
               property
@@ -234,9 +234,9 @@
       @let methodsValue = methods();
       @if (methodsValue && methodsValue.length > 0) {
         <h3>Methods</h3>
-        @for (method of methodsValue; track method.name) {
+        @for (method of methodsValue; track method.name; let last = $last) {
           <sky-docs-type-definition-box
-            stacked
+            [stacked]="!last"
             [deprecated]="method.isDeprecated"
             [headingText]="
               method

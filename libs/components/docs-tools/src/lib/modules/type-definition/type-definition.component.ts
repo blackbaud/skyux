@@ -6,12 +6,6 @@ import {
   input,
 } from '@angular/core';
 import {
-  SkyDocsCategoryTagModule,
-  SkyDocsCodeHighlightPipe,
-  SkyDocsCodeSnippetModule,
-  SkyDocsHeadingAnchorModule,
-} from '@skyux/docs-tools';
-import {
   SkyManifestChildDefinitionKind,
   SkyManifestClassMethodDefinition,
   SkyManifestDirectiveInputDefinition,
@@ -22,6 +16,11 @@ import {
   isFunctionDefinition,
   isPipeDefinition,
 } from '@skyux/manifest';
+
+import { SkyDocsCategoryTagModule } from '../category-tag/category-tag.module';
+import { SkyDocsCodeHighlightPipe } from '../code-highlight/code-highlight.pipe';
+import { SkyDocsCodeSnippetModule } from '../code-snippet/code-snippet.module';
+import { SkyDocsHeadingAnchorModule } from '../heading-anchor/heading-anchor.module';
 
 import { SkyDocsTypeDefinitionBoxComponent } from './components/box.component';
 import { SkyDocsDeprecationReasonComponent } from './components/deprecation-reason.component';
@@ -46,9 +45,6 @@ import { PropertyDefinition } from './property-definition';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  host: {
-    class: 'sky-margin-stacked-xxl',
-  },
   imports: [
     SkyDocsCategoryTagModule,
     SkyDocsCodeHighlightPipe,

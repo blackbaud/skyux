@@ -4,7 +4,8 @@ import {
   booleanAttribute,
   input,
 } from '@angular/core';
-import { SkyDocsCategoryTagModule } from '@skyux/docs-tools';
+
+import { SkyDocsCategoryTagModule } from '../../category-tag/category-tag.module';
 
 /**
  * @internal

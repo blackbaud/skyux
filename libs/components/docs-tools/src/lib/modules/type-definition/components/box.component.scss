@@ -1,6 +1,11 @@
 :host {
   display: block;
   overflow: hidden;
+  background-color: color-mix(
+    in srgb,
+    var(--sky-background-color-info-light) 15%,
+    var(--sky-background-color-page-default)
+  );
 }
 
 .sky-docs-type-definition-box-header {

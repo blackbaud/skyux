@@ -27,8 +27,8 @@ code.sky-docs-codespan {
     var(--sky-background-color-info-light) 25%,
     transparent
   );
-  box-shadow: inset 0 -1px 0 0
-    color-mix(in srgb, var(--sky-background-color-info-light) 50%, transparent);
+  // box-shadow: inset 0 -1px 0 0
+  //   color-mix(in srgb, var(--sky-background-color-info-light) 50%, transparent);
 }
 
 a {
