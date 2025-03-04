@@ -21,6 +21,8 @@ describe('flyout-storybook', () => {
           );
           cy.get('#ready').should('exist').end();
 
+          cy.get('#readyFlyout').should('exist');
+
           cy.get('.sky-flyout .sky-flyout-content')
             .should('exist')
             .should('be.visible')
