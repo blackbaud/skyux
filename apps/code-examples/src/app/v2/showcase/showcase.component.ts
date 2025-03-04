@@ -1,4 +1,4 @@
-import { JsonPipe, NgTemplateOutlet, TitleCasePipe } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,50 +7,31 @@ import {
   inject,
   input,
 } from '@angular/core';
-import {
-  SkyDocsClipboardModule,
-  SkyDocsCodeExampleViewerModule,
-  SkyDocsHeadingAnchorModule,
-  SkyDocsTableOfContentsModule,
-} from '@skyux/docs-tools';
-import { SkyIconModule } from '@skyux/icon';
-import { SkyBoxModule, SkyDescriptionListModule } from '@skyux/layout';
 import { SkyManifestDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
 
 import { SkyTypeAnchorIdsService } from '../type-definition/pipes/type-anchor-ids.service';
-import { SkyDocsTypeDefinitionModule } from '../type-definition/type-definition.module';
 
-import { SkyDocsInstallationInfoComponent } from './installation-info.component';
-import { SkyShowcaseAreaDevelopmentComponent } from './showcase-area-development.component';
-import { SkyShowcaseAreaExamplesComponent } from './showcase-area-examples.component';
-import { SkyShowcaseAreaOverviewComponent } from './showcase-area-overview.component';
-import { SkyShowcaseAreaTestingComponent } from './showcase-area-testing.component';
+import { SkyDocsShowcaseAreaDevelopmentComponent } from './showcase-area-development.component';
+import { SkyDocsShowcaseAreaExamplesComponent } from './showcase-area-examples.component';
+import { SkyDocsShowcaseAreaOverviewComponent } from './showcase-area-overview.component';
+import { SkyDocsShowcaseAreaTestingComponent } from './showcase-area-testing.component';
 import { SkyDocsShowcaseHostService } from './showcase-host.service';
 
+/**
+ * @internal
+ */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    JsonPipe,
     NgTemplateOutlet,
-    SkyDescriptionListModule,
-    SkyDocsCodeExampleViewerModule,
-    SkyDocsHeadingAnchorModule,
-    SkyIconModule,
+    SkyDocsShowcaseAreaDevelopmentComponent,
+    SkyDocsShowcaseAreaExamplesComponent,
+    SkyDocsShowcaseAreaTestingComponent,
     SkyTabsModule,
-    SkyDocsTypeDefinitionModule,
-    SkyDocsClipboardModule,
-    TitleCasePipe,
-    SkyDocsTableOfContentsModule,
-    SkyBoxModule,
-    SkyDocsInstallationInfoComponent,
-    SkyShowcaseAreaDevelopmentComponent,
-    SkyShowcaseAreaExamplesComponent,
-    SkyShowcaseAreaOverviewComponent,
-    SkyShowcaseAreaTestingComponent,
   ],
   providers: [SkyTypeAnchorIdsService, SkyDocsShowcaseHostService],
-  selector: 'sky-showcase',
+  selector: 'sky-docs-showcase',
   styles: `
     :host {
       display: block;
@@ -58,7 +39,7 @@ import { SkyDocsShowcaseHostService } from './showcase-host.service';
   `,
   templateUrl: './showcase.component.html',
 })
-export class SkyShowcaseComponent {
+export class SkyDocsShowcaseComponent {
   readonly #manifestSvc = inject(SkyDocsShowcaseHostService);
   readonly #anchorSvc = inject(SkyTypeAnchorIdsService);
 
@@ -66,10 +47,12 @@ export class SkyShowcaseComponent {
   public readonly manifest = input.required<SkyManifestDocumentationGroup>();
 
   protected developmentContent = contentChild(
-    SkyShowcaseAreaDevelopmentComponent,
+    SkyDocsShowcaseAreaDevelopmentComponent,
   );
-  protected overviewContent = contentChild(SkyShowcaseAreaOverviewComponent);
-  protected testingContent = contentChild(SkyShowcaseAreaTestingComponent);
+  protected overviewContent = contentChild(
+    SkyDocsShowcaseAreaOverviewComponent,
+  );
+  protected testingContent = contentChild(SkyDocsShowcaseAreaTestingComponent);
 
   constructor() {
     effect(() => {

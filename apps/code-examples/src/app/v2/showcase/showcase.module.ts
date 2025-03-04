@@ -1,24 +1,27 @@
 import { NgModule } from '@angular/core';
 
-import { SkyShowcaseAreaDevelopmentComponent } from './showcase-area-development.component';
-import { SkyShowcaseAreaExamplesComponent } from './showcase-area-examples.component';
-import { SkyShowcaseAreaOverviewComponent } from './showcase-area-overview.component';
-import { SkyShowcaseAreaTestingComponent } from './showcase-area-testing.component';
-import { SkyShowcaseComponent } from './showcase.component';
+import { SkyDocsShowcaseAreaDevelopmentComponent } from './showcase-area-development.component';
+import { SkyDocsShowcaseAreaExamplesComponent } from './showcase-area-examples.component';
+import { SkyDocsShowcaseAreaOverviewComponent } from './showcase-area-overview.component';
+import { SkyDocsShowcaseAreaTestingComponent } from './showcase-area-testing.component';
+import { SkyDocsShowcaseComponent } from './showcase.component';
 
+/**
+ * @internal
+ */
 @NgModule({
   imports: [
-    SkyShowcaseComponent,
-    SkyShowcaseAreaDevelopmentComponent,
-    SkyShowcaseAreaExamplesComponent,
-    SkyShowcaseAreaOverviewComponent,
-    SkyShowcaseAreaTestingComponent,
+    SkyDocsShowcaseComponent,
+    SkyDocsShowcaseAreaDevelopmentComponent,
+    SkyDocsShowcaseAreaExamplesComponent,
+    SkyDocsShowcaseAreaOverviewComponent,
+    SkyDocsShowcaseAreaTestingComponent,
   ],
   exports: [
-    SkyShowcaseComponent,
-    SkyShowcaseAreaDevelopmentComponent,
-    SkyShowcaseAreaOverviewComponent,
-    SkyShowcaseAreaTestingComponent,
+    SkyDocsShowcaseComponent,
+    SkyDocsShowcaseAreaDevelopmentComponent,
+    SkyDocsShowcaseAreaOverviewComponent,
+    SkyDocsShowcaseAreaTestingComponent,
   ],
 })
-export class SkyShowcaseModule {}
+export class SkyDocsShowcaseModule {}

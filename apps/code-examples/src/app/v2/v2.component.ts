@@ -22,7 +22,7 @@ import {
 } from '@skyux/manifest';
 import { SkyPageModule } from '@skyux/pages';
 
-import { SkyShowcaseModule } from './showcase/showcase.module';
+import { SkyDocsShowcaseModule } from './showcase/showcase.module';
 
 const DOCS = getDocumentationConfig();
 const SEPARATOR = ' | ';
@@ -35,7 +35,7 @@ const SEPARATOR = ' | ';
     ReactiveFormsModule,
     SkyInputBoxModule,
     SkyPageModule,
-    SkyShowcaseModule,
+    SkyDocsShowcaseModule,
     SkyIconModule,
     SkyDocsHeadingAnchorModule,
   ],

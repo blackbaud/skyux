@@ -9,6 +9,9 @@ import { SkyDocsTypeDefinitionModule } from '../type-definition/type-definition.
 
 import { SkyDocsShowcaseHostService } from './showcase-host.service';
 
+/**
+ * @internal
+ */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -16,7 +19,7 @@ import { SkyDocsShowcaseHostService } from './showcase-host.service';
   },
   imports: [SkyDocsTableOfContentsModule, SkyDocsTypeDefinitionModule],
   providers: [SkyDocsHeadingAnchorService],
-  selector: 'sky-showcase-area-testing',
+  selector: 'sky-docs-showcase-area-testing',
   styles: `
     :host {
       display: block;
@@ -34,7 +37,7 @@ import { SkyDocsShowcaseHostService } from './showcase-host.service';
     </sky-docs-toc-page>
   `,
 })
-export class SkyShowcaseAreaTestingComponent {
+export class SkyDocsShowcaseAreaTestingComponent {
   readonly #hostSvc = inject(SkyDocsShowcaseHostService);
 
   protected readonly groupChange = toSignal(this.#hostSvc.documentationGroup);

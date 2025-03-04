@@ -13,16 +13,16 @@
   </form>
 
   @if (data(); as manifest) {
-    <sky-showcase [labelText]="selectedGroupName()" [manifest]="manifest">
-      <sky-showcase-area-overview>
+    <sky-docs-showcase [labelText]="selectedGroupName()" [manifest]="manifest">
+      <sky-docs-showcase-area-overview>
         <sky-docs-heading-anchor anchorId="usage" headingText="Usage" />
         <p>
           This content should only appear in the "overview" (or "design")
           section.
         </p>
-      </sky-showcase-area-overview>
+      </sky-docs-showcase-area-overview>
 
-      <sky-showcase-area-development>
+      <sky-docs-showcase-area-development>
         <div class="sky-margin-stacked-xxl">
           <sky-docs-heading-anchor
             anchorId="overview"
@@ -30,9 +30,9 @@
           />
           <p>This extra content should only appear in the "development" tab.</p>
         </div>
-      </sky-showcase-area-development>
+      </sky-docs-showcase-area-development>
 
-      <sky-showcase-area-testing>
+      <sky-docs-showcase-area-testing>
         <div class="sky-margin-stacked-xxl">
           <sky-docs-heading-anchor
             anchorId="overview"
@@ -40,8 +40,8 @@
           />
           <p>This extra content should only appear in the "testing" tab.</p>
         </div>
-      </sky-showcase-area-testing>
-    </sky-showcase>
+      </sky-docs-showcase-area-testing>
+    </sky-docs-showcase>
 
     <pre
       style="

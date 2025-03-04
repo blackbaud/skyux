@@ -11,7 +11,7 @@ import {
   },
   imports: [SkyDocsTableOfContentsModule],
   providers: [SkyDocsHeadingAnchorService],
-  selector: 'sky-showcase-area-overview',
+  selector: 'sky-docs-showcase-area-overview',
   styles: `
     :host {
       display: block;
@@ -23,4 +23,4 @@ import {
     </sky-docs-toc-page>
   `,
 })
-export class SkyShowcaseAreaOverviewComponent {}
+export class SkyDocsShowcaseAreaOverviewComponent {}

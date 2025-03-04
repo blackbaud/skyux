@@ -18,7 +18,7 @@ import { SkyDocsShowcaseHostService } from './showcase-host.service';
     SkyDocsCodeExampleViewerModule,
   ],
   providers: [SkyDocsHeadingAnchorService],
-  selector: 'sky-showcase-area-examples',
+  selector: 'sky-docs-showcase-area-examples',
   styles: `
     :host {
       display: block;
@@ -47,7 +47,7 @@ import { SkyDocsShowcaseHostService } from './showcase-host.service';
     }
   `,
 })
-export class SkyShowcaseAreaExamplesComponent {
+export class SkyDocsShowcaseAreaExamplesComponent {
   readonly #hostSvc = inject(SkyDocsShowcaseHostService);
 
   protected readonly groupChange = toSignal(this.#hostSvc.documentationGroup);
