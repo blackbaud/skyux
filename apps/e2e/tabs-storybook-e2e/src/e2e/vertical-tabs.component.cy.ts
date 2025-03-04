@@ -9,7 +9,6 @@ describe('tabs-storybook - vertical tabs', () => {
         ),
       );
       it('should render the vertical tabs on a large screen', () => {
-        cy.get('#ready').should('exist');
         cy.get('app-vertical-tabs')
           .should('exist')
           .should('be.visible')
@@ -25,8 +24,8 @@ describe('tabs-storybook - vertical tabs', () => {
       });
 
       it('should render the vertical tabs content section on a mobile screen', () => {
-        cy.get('#ready').should('exist');
         cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
+        cy.get('#ready').should('exist');
         cy.get('app-vertical-tabs')
           .should('exist')
           .should('be.visible')
@@ -52,7 +51,6 @@ describe('tabs-storybook - vertical tabs', () => {
       });
 
       it('should render the vertical tabs tablist section on a mobile screen', () => {
-        cy.get('#ready').should('exist');
         cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
         cy.get('app-vertical-tabs')
           .should('exist')

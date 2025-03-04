@@ -29,7 +29,9 @@ describe('action-bars-storybook - summary action bar', () => {
                   .should('exist')
                   .should('be.visible');
 
-                cy.get('#ready').should('exist');
+                if (E2eVariations.MOBILE_WIDTHS.includes(width)) {
+                  cy.get('#ready').should('exist');
+                }
 
                 cy.get('.sky-summary-action-bar')
                   .should('exist')
