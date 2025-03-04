@@ -13,7 +13,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
   let fixture: ComponentFixture<SkyAgGridCellValidatorTooltipFixtureComponent>;
   let component: SkyAgGridCellValidatorTooltipFixtureComponent;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
     });
