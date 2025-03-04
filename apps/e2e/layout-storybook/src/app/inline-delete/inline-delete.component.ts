@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-
-import { BehaviorSubject } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 @Component({
   selector: 'app-inline-delete',
@@ -8,16 +8,6 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./inline-delete.component.scss'],
   standalone: false,
 })
-export class InlineDeleteComponent implements AfterViewInit, OnDestroy {
-  public readonly ready = new BehaviorSubject<boolean>(false);
-
-  public ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.ready.next(true);
-    }, 300);
-  }
-
-  public ngOnDestroy(): void {
-    this.ready.complete();
-  }
+export class InlineDeleteComponent {
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 }

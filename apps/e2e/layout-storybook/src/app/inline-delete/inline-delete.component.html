@@ -17,4 +17,6 @@
     <sky-inline-delete [pending]="true" />
   </div>
 </div>
-<span *ngIf="ready | async" id="ready"></span>
+@if (ready()) {
+  <span id="ready"></span>
+}
