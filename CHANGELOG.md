@@ -1,5 +1,17 @@
 # Changelog
 
+## [11.44.0](https://github.com/blackbaud/skyux/compare/11.43.1...11.44.0) (2025-03-05)
+
+
+### Features
+
+* **components/modals:** support `fit` layout in modal content ([#3181](https://github.com/blackbaud/skyux/issues/3181)) ([6098f64](https://github.com/blackbaud/skyux/commit/6098f64b5a11bcaf9b8bfa23ec6dd8cefbf05605))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** show validator changes for editable cell ([#3194](https://github.com/blackbaud/skyux/issues/3194)) ([d33574a](https://github.com/blackbaud/skyux/commit/d33574a630db71ef0dbfd6f2e2a74201fcb5e492))
+
 ## [11.43.1](https://github.com/blackbaud/skyux/compare/11.43.0...11.43.1) (2025-02-28)
 
 
