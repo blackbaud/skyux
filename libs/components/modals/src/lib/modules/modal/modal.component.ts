@@ -12,12 +12,14 @@ import {
   TemplateRef,
   ViewChild,
   inject,
+  input,
 } from '@angular/core';
 import {
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
   SkyIdModule,
+  SkyLayoutHostDirective,
   SkyLiveAnnouncerService,
   SkyScrollShadowDirective,
   SkyScrollShadowEventArgs,
@@ -62,6 +64,7 @@ const ARIA_ROLE_DEFAULT = 'dialog';
     SkyModalHeaderComponent,
     SkyScrollShadowDirective,
     SkyModalsResourcesModule,
+    SkyLayoutHostDirective,
   ],
 })
 export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
@@ -149,6 +152,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   public get ariaLabelledBy(): string | undefined {
     return this.#_ariaLabelledBy;
   }
+
+  public readonly layout = input<'none' | 'fit'>('none');
 
   public ariaOwns: string | null = null;
 

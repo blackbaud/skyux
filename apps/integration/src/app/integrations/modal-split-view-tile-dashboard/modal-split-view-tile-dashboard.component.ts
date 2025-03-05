@@ -27,7 +27,7 @@ export class ModalSplitViewTileDashboardComponent implements OnDestroy {
     this.#ngUnsubscribe.complete();
   }
 
-  public onOpenModalClick(): void {
+  public onOpenFullPageModalClick(): void {
     // Display a blocking wait while data is loaded from the data service.
     this.#waitSvc
       .blockingWrap(this.#dataSvc.load())
@@ -41,6 +41,26 @@ export class ModalSplitViewTileDashboardComponent implements OnDestroy {
             },
           ],
           fullPage: true,
+        };
+
+        this.#modalSvc.open(ModalComponent, options);
+      });
+  }
+
+  public onOpenLargeModalClick(): void {
+    // Display a blocking wait while data is loaded from the data service.
+    this.#waitSvc
+      .blockingWrap(this.#dataSvc.load())
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((data) => {
+        const options: SkyModalConfigurationInterface = {
+          providers: [
+            {
+              provide: ModalDemoContext,
+              useValue: new ModalDemoContext(data, 'fit'),
+            },
+          ],
+          size: 'large',
         };
 
         this.#modalSvc.open(ModalComponent, options);
