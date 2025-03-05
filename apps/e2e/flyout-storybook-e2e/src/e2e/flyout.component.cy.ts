@@ -52,7 +52,6 @@ describe('flyout-storybook', () => {
           cy.get('app-flyout').percySnapshot(
             `flyoutcomponent-flyout--flyout-${style}-${theme}`,
             {
-              enableJavaScript: true,
               widths: E2eVariations.DISPLAY_WIDTHS,
             },
           );
