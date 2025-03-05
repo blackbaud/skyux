@@ -300,4 +300,19 @@ export class AppModule {}`);
       dependencies: {},
     });
   });
+
+  it('should update "testing" imports', async () => {
+    tree.create(
+      '/projects/my-app/src/app/foo.spec.ts',
+      `import { SkyIconHarness, SkyIconHarnessFilters } from '@skyux/indicators/testing';`,
+    );
+
+    await runner.runSchematic('icons-migration', {}, tree);
+
+    const content = tree.readContent('/projects/my-app/src/app/foo.spec.ts');
+
+    expect(content).toEqual(
+      `import { SkyIconHarness, SkyIconHarnessFilters } from '@skyux/icon/testing';\n`,
+    );
+  });
 });
