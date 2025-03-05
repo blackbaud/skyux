@@ -40,9 +40,6 @@ describe('flyout-storybook', () => {
             ).should('exist');
           }
 
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
-          cy.wait(5000);
-
           cy.get('app-flyout')
             .should('exist')
             .should('be.visible')
