@@ -277,6 +277,14 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"unionType\\",
             \\"type\\": \\"null | true | \\\\\\"a\\\\\\" | \\\\\\"b\\\\\\" | undefined\\"
+          },
+          {
+            \\"description\\": \\"This is a static getter without a setter.\\",
+            \\"isDeprecated\\": true,
+            \\"isStatic\\": true,
+            \\"kind\\": \\"class-property\\",
+            \\"name\\": \\"count\\",
+            \\"type\\": \\"number\\"
           }
         ],
         \\"description\\": \\"This is the foo class.\\",
@@ -293,7 +301,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooWithDocsIdOverrideClass\\",
-        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L117\\"
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L125\\"
       },
       {
         \\"anchorId\\": \\"class_foo-with-extra-tags-class\\",
@@ -305,7 +313,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooWithExtraTagsClass\\",
-        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L123\\"
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L131\\"
       },
       {
         \\"anchorId\\": \\"class_foo-with-static-properties-class\\",
@@ -337,7 +345,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooWithStaticPropertiesClass\\",
-        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L95\\"
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L103\\"
       },
       {
         \\"anchorId\\": \\"class_sky-foo-non-standalone-component\\",
