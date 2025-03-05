@@ -102,7 +102,7 @@ export class DemoDataService {
       totalCount: people.length,
     }).pipe(
       // Simulate network latency.
-      delay(100),
+      delay(1000),
     );
   }
 }
