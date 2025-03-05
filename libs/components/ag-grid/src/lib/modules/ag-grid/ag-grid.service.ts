@@ -108,6 +108,7 @@ function getValidatorCellRendererSelector(
         ?.validator === 'function'
     ) {
       if (
+        params.column?.isCellEditable(params.node) ||
         !params.colDef.cellRendererParams.skyComponentProperties.validator(
           params.value,
           params.data,
@@ -338,6 +339,7 @@ export class SkyAgGridService implements OnDestroy {
 
     const validatorCellClassRules = {
       [SkyCellClass.Invalid]: getValidatorFn(),
+      [SkyCellClass.Validator]: cellClassRuleTrueExpression,
     };
 
     function getHeaderClass(

@@ -22,10 +22,6 @@
     border-block-start: none;
   }
 
-  .ag-cell.sky-ag-grid-cell-invalid {
-    border: 1px solid var(--sky-highlight-color-danger);
-  }
-
   .ag-row:not(.ag-row-first) {
     border-top: none;
   }
@@ -77,10 +73,6 @@
 
   .ag-cell:hover {
     border: 1px solid variables.$sky-theme-modern-border-color-primary-dark;
-  }
-
-  .ag-cell.sky-ag-grid-cell-invalid {
-    border: 1px solid var(--sky-highlight-color-danger);
   }
 
   .sky-ag-grid-cell-editable {
