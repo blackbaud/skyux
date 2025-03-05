@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyViewkeeperModule } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
@@ -7,6 +8,7 @@ import { SkyIconModule } from '@skyux/icon';
 import { SkyBackToTopModule, SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+import { FontLoadingService } from '@skyux/storybook/font-loading';
 import { SkyThemeModule } from '@skyux/theme';
 
 @Component({
@@ -29,4 +31,5 @@ import { SkyThemeModule } from '@skyux/theme';
 })
 export class ModalViewkeptToolbarsModalComponent {
   protected readonly modalInstance = inject(SkyModalInstance);
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 }
