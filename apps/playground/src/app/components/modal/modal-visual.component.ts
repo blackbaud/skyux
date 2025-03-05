@@ -6,6 +6,7 @@ import {
   SkyModalService,
 } from '@skyux/modals';
 
+import { SplitViewModalComponent } from './layout/fit/modal.component';
 import { ModalCloseConfirmComponent } from './modal-close-confirm.component';
 import { ModalContentAutofocusComponent } from './modal-content-autofocus.component';
 import { ModalContentDemoComponent } from './modal-content-demo.component';
@@ -132,6 +133,10 @@ export class ModalVisualComponent {
 
   protected openTabsModal(): void {
     this.openModalInstance(ModalWithTabsComponent, { size: 'large' });
+  }
+
+  protected openSplitviewModal(): void {
+    this.openModalInstance(SplitViewModalComponent, { size: 'large' });
   }
 
   public hideButtons(): void {
