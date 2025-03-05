@@ -16,5 +16,8 @@ export interface FooInterface<A, B> {
   [_: string]: unknown;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type, @typescript-eslint/no-empty-interface
-export interface FooEmptyInterface extends BarBaseInterface {}
+// eslint-disable-next-line
+export interface FooEmptyInterface {}
+
+// eslint-disable-next-line
+export interface FooEmptyExtendedInterface extends BarBaseInterface {}

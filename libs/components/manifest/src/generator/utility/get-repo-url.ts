@@ -1,15 +1,12 @@
 import { DeclarationReflection } from 'typedoc';
 
-const DEFAULT_REPO_URL = 'https://github.com/blackbaud/skyux';
-
 export function getRepoUrl(reflection: DeclarationReflection): string {
-  let repoUrl = reflection.sources?.[0].url;
+  const repoUrl = reflection.sources?.[0].url;
 
+  /* istanbul ignore if: safety check */
   if (!repoUrl) {
-    repoUrl = DEFAULT_REPO_URL;
-    console.warn(
-      `A repo URL could not be determined for type "${reflection.escapedName}". ` +
-        `Using the default repo URL '${DEFAULT_REPO_URL}'.`,
+    throw new Error(
+      `A repo URL could not be determined for type "${reflection.escapedName}".`,
     );
   }
 

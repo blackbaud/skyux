@@ -19,6 +19,19 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"name\\": \\"FooCodeExample1\\",
         \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/code-examples/src/lib/types.ts#L9\\",
         \\"selector\\": \\"foo-example-1\\"
+      },
+      {
+        \\"anchorId\\": \\"class_foo-code-example2\\",
+        \\"docsId\\": \\"FooCodeExample2\\",
+        \\"extraTags\\": {
+          \\"title\\": \\"This code example hides its demo.\\",
+          \\"docsDemoHidden\\": \\"\\"
+        },
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/code-examples/src/lib/types.ts\\",
+        \\"kind\\": \\"component\\",
+        \\"name\\": \\"FooCodeExample2\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/code-examples/src/lib/types.ts#L18\\",
+        \\"selector\\": \\"foo-example-2\\"
       }
     ],
     \\"@skyux/foo\\": [
@@ -556,7 +569,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"typeParameters\\": \\"<T extends string>\\"
       },
       {
-        \\"anchorId\\": \\"interface_foo-empty-interface\\",
+        \\"anchorId\\": \\"interface_foo-empty-extended-interface\\",
         \\"children\\": [
           {
             \\"description\\": \\"This describes the bar string.\\",
@@ -565,6 +578,14 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"type\\": \\"string\\"
           }
         ],
+        \\"docsId\\": \\"FooEmptyExtendedInterface\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.interface.ts\\",
+        \\"kind\\": \\"interface\\",
+        \\"name\\": \\"FooEmptyExtendedInterface\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.interface.ts#L23\\"
+      },
+      {
+        \\"anchorId\\": \\"interface_foo-empty-interface\\",
         \\"docsId\\": \\"FooEmptyInterface\\",
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.interface.ts\\",
         \\"kind\\": \\"interface\\",
@@ -743,7 +764,8 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"docs-id-override\\",
             \\"FooWithStaticPropertiesClass\\",
             \\"FooClass\\",
-            \\"FooCodeExample1\\"
+            \\"FooCodeExample1\\",
+            \\"FooCodeExample2\\"
           ],
           \\"primaryDocsId\\": \\"FooClass\\"
         }
@@ -765,6 +787,17 @@ exports[`generate-manifest should generate manifest 1`] = `
       \\"primaryFile\\": \\"types.ts\\",
       \\"selector\\": \\"foo-example-1\\",
       \\"title\\": \\"This is a title\\"
+    },
+    \\"FooCodeExample2\\": {
+      \\"componentName\\": \\"FooCodeExample2\\",
+      \\"demoHidden\\": true,
+      \\"files\\": {
+        \\"types.ts\\": \\"import { Component } from '@angular/core';\\\\n\\\\n/**\\\\n * @title This is a title\\\\n */\\\\n@Component({\\\\n  selector: 'foo-example-1',\\\\n})\\\\nexport class FooCodeExample1 {}\\\\n\\\\n/**\\\\n * @title This code example hides its demo.\\\\n * @docsDemoHidden\\\\n */\\\\n@Component({\\\\n  selector: 'foo-example-2',\\\\n})\\\\nexport class FooCodeExample2 {}\\\\n\\"
+      },
+      \\"importPath\\": \\"@skyux/code-examples\\",
+      \\"primaryFile\\": \\"types.ts\\",
+      \\"selector\\": \\"foo-example-2\\",
+      \\"title\\": \\"This code example hides its demo.\\"
     }
   }
 }",

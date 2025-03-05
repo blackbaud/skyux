@@ -63,9 +63,7 @@ export function formatType(
 
   // If the type has signatures, it's type information is stored there.
   if (!type && reflection instanceof DeclarationReflection) {
-    if (reflection.type) {
-      type = reflection.type;
-    } else if (reflection.kind === ReflectionKind.Accessor) {
+    if (reflection.kind === ReflectionKind.Accessor) {
       type = getTypeForAccessor(reflection);
     } else {
       type = reflection
