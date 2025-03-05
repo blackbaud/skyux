@@ -1,5 +1,25 @@
 # Changelog
 
+## [12.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.6...12.0.0-alpha.7) (2025-03-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/ag-grid:** support AG Grid 33.0 ([#3121](https://github.com/blackbaud/skyux/issues/3121))
+
+### Features
+
+* **components/ag-grid:** support AG Grid 33.0 ([#3121](https://github.com/blackbaud/skyux/issues/3121)) ([65dcaeb](https://github.com/blackbaud/skyux/commit/65dcaebd294771be0cc65558fdcf32824926f138))
+* **components/lookup:** country field displays hint text within the dropdown before a search is executed ([#3179](https://github.com/blackbaud/skyux/issues/3179)) ([9283bbf](https://github.com/blackbaud/skyux/commit/9283bbfb57fd187d4d5b1484255db28edff98d1b))
+* **components/modals:** support `fit` layout in modal content ([#3181](https://github.com/blackbaud/skyux/issues/3181)) ([#3199](https://github.com/blackbaud/skyux/issues/3199)) ([8182967](https://github.com/blackbaud/skyux/commit/8182967320306b8bdd7971172d659c5d0b36a30e))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** show validator changes for editable cell ([#3194](https://github.com/blackbaud/skyux/issues/3194)) ([#3200](https://github.com/blackbaud/skyux/issues/3200)) ([be11e05](https://github.com/blackbaud/skyux/commit/be11e0517b90151f870b15ecab6700c26614d9fc))
+* **components/icon:** migrate harness types from @skyux/indicators/testing ([#3197](https://github.com/blackbaud/skyux/issues/3197)) ([3fe7edc](https://github.com/blackbaud/skyux/commit/3fe7edc282a190abc840ba7f1c97096d37c6b01f))
+* **components/tabs:** puts focus on active tab in mobile view ([#3182](https://github.com/blackbaud/skyux/issues/3182)) ([#3190](https://github.com/blackbaud/skyux/issues/3190)) ([84babe9](https://github.com/blackbaud/skyux/commit/84babe9466889c7c491fe72294eec5c95642d5f9))
+
 ## [11.43.1](https://github.com/blackbaud/skyux/compare/11.43.0...11.43.1) (2025-02-28)
 
 
