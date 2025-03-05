@@ -159,7 +159,7 @@ export class DemoComponent implements OnInit {
           data,
           hasMore: this.personList.length < this.personDataSet.length,
         });
-      }, 100);
+      }, 1000);
     });
   }
 }
