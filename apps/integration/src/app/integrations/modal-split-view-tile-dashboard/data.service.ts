@@ -9,7 +9,7 @@ import { ModalDemoData } from './data';
 export const ModalDemoDataServiceDelay = new InjectionToken(
   'ModalDemoDataServiceDelay',
   {
-    factory: (): number => 1000,
+    factory: (): number => 100,
     providedIn: 'root',
   },
 );

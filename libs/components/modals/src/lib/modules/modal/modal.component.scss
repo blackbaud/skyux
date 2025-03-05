@@ -1,6 +1,13 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+:host {
+  --sky-viewport-top: 0;
+  --sky-viewport-bottom: 0;
+  --sky-viewport-left: 0;
+  --sky-viewport-right: 0;
+}
+
 .sky-modal {
   @include mixins.sky-border(dark, top, bottom, left, right);
   position: fixed;
@@ -12,6 +19,10 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+
+  &:has(.sky-modal-content.sky-layout-host-fit) {
+    height: var(--sky-modal-content-max-height, 100%);
+  }
 }
 
 .sky-modal:focus {
@@ -69,6 +80,11 @@
     outline-style: dotted;
     outline-width: thin;
     outline-offset: -1px;
+  }
+
+  &.sky-layout-host-fit {
+    flex-grow: 1;
+    position: relative;
   }
 }
 
