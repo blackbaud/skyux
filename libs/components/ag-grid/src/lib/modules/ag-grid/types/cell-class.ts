@@ -14,4 +14,5 @@ export enum SkyCellClass {
   Template = 'sky-ag-grid-cell-template',
   Text = 'sky-ag-grid-cell-text',
   Uneditable = 'sky-ag-grid-cell-uneditable',
+  Validator = 'sky-ag-grid-cell-validator',
 }

@@ -192,6 +192,17 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
   .ag-ltr .ag-header-cell-resize {
     right: -4px;
   }
+
+  // Stretch the cell wrapper to the full height of the row so validator popovers are triggered on the entire cell.
+  .ag-row > .ag-cell.sky-ag-grid-cell-validator > .ag-cell-wrapper {
+    align-items: stretch;
+    height: 100%;
+  }
+
+  .ag-cell.sky-ag-grid-cell-invalid {
+    border: 1px solid var(--sky-highlight-color-danger);
+    --ag-range-selection-border-color: var(--sky-highlight-color-danger);
+  }
 }
 
 .ag-theme-sky-data-grid-default,

@@ -14,6 +14,11 @@ import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currenc
  */
 @Component({
   selector: 'sky-ag-grid-cell-renderer-currency-validator',
+  styles: `
+    :host {
+      display: contents;
+    }
+  `,
   templateUrl: 'cell-renderer-currency-validator.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
