@@ -14,6 +14,7 @@ import { getProjectDefinitions } from './get-project-definitions';
 import { getPublicApi } from './get-public-api';
 
 interface SkyManifestOptions {
+  codeExamplesPackageName: string;
   outDir: string;
   projectNames: string[];
   projectsRootDirectory: string;
@@ -82,6 +83,7 @@ export async function generateManifest(
   const [codeExamples, codeExamplesErrors] = await getCodeExamples(
     publicApi,
     documentationConfig,
+    options.codeExamplesPackageName,
   );
 
   const errors = [

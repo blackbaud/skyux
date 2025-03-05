@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export interface SkyManifestDocumentationConfig {
   packages: Record<
     string,

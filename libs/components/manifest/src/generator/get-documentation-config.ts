@@ -45,6 +45,9 @@ export async function getDocumentationConfig(
       );
     }
 
+    // Remove the schema field before merging it into the larger configuration.
+    delete config['$schema'];
+
     const packageJson = JSON.parse(
       await fsPromises.readFile(
         path.join(project.projectRoot, 'package.json'),

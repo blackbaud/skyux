@@ -29,18 +29,24 @@ describe('get-documentation-group', () => {
       codeExamples: {
         examples: {
           FooCodeExample: {
+            componentName: 'FooCodeExample',
             files: {
-              'foo.component.ts': 'TS_CONTENTS',
-              'foo.component.html': 'HTML_CONTENTS',
+              'example.component.ts': 'TS_CONTENTS',
+              'example.component.html': 'HTML_CONTENTS',
             },
-            primaryFile: 'foo.component.ts',
+            importPath: '@skyux/code-examples',
+            primaryFile: 'example.component.ts',
+            selector: 'lib-foo',
           },
           IndicatorCodeExample: {
+            componentName: 'IndicatorCodeExample',
             files: {
-              'indicator.component.ts': 'TS_CONTENTS',
-              'indicator.component.html': 'HTML_CONTENTS',
+              'example.component.ts': 'TS_CONTENTS',
+              'example.component.html': 'HTML_CONTENTS',
             },
-            primaryFile: 'indicator.component.ts',
+            importPath: '@skyux/code-examples',
+            primaryFile: 'example.component.ts',
+            selector: 'lib-indicator',
           },
         },
       },
@@ -82,43 +88,43 @@ describe('get-documentation-group', () => {
               extraTags: {
                 title: 'My code example',
               },
+              repoUrl: 'https://repo.com/foo',
             },
             {
               name: 'IndicatorCodeExample',
               docsId: 'IndicatorCodeExample',
+              repoUrl: 'https://repo.com/foo',
             },
           ] as SkyManifestParentDefinition[],
           '@skyux/core': [
             {
               name: 'FooComponent',
               docsId: 'FooComponent',
-            },
-            {
-              name: 'FooCodeExample',
-              docsId: 'FooCodeExample',
-              extraTags: {
-                title: 'This is my title',
-              },
+              repoUrl: 'https://repo.com/foo',
             },
             {
               name: 'BarComponent',
               docsId: 'BarComponent',
+              repoUrl: 'https://repo.com/foo',
             },
           ] as SkyManifestParentDefinition[],
           '@skyux/core/testing': [
             {
               name: 'FooHarness',
               docsId: 'FooHarness',
+              repoUrl: 'https://repo.com/foo',
             },
           ] as SkyManifestParentDefinition[],
           '@skyux/indicators': [
             {
               name: 'IndicatorComponent',
               docsId: 'IndicatorComponent',
+              repoUrl: 'https://repo.com/foo',
             },
             {
               name: 'IndicatorCodeExample',
               docsId: 'IndicatorCodeExample',
+              repoUrl: 'https://repo.com/foo',
             },
           ] as SkyManifestParentDefinition[],
         },
@@ -173,6 +179,35 @@ describe('get-documentation-group', () => {
 
     expect(() =>
       getDocumentationGroup('@skyux/core', 'invalid'),
+    ).toThrowErrorMatchingSnapshot();
+  });
+
+  it('should throw if docsId unrecognized', async () => {
+    setup({
+      codeExamples: {
+        examples: {},
+      },
+      documentationConfig: {
+        packages: {
+          '@skyux/core': {
+            groups: {
+              foo: {
+                docsIds: ['invalid'],
+                primaryDocsId: 'invalid',
+              },
+            },
+          },
+        },
+      },
+      publicApi: {
+        packages: {},
+      },
+    });
+
+    const { getDocumentationGroup } = await import('./get-documentation-group');
+
+    expect(() =>
+      getDocumentationGroup('@skyux/core', 'foo'),
     ).toThrowErrorMatchingSnapshot();
   });
 });

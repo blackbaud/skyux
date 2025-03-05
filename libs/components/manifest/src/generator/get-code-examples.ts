@@ -2,7 +2,8 @@ import glob from 'fast-glob';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 
-import { SkyManifestDocumentationConfig } from '../types/documentation-config';
+import type { SkyManifestDirectiveDefinition } from '../types/directive-def';
+import type { SkyManifestDocumentationConfig } from '../types/documentation-config';
 import type {
   SkyManifestCodeExampleFiles,
   SkyManifestCodeExamples,
@@ -14,8 +15,13 @@ import { validateCodeExamples } from './validations';
 export async function getCodeExamples(
   publicApi: SkyManifestPublicApi,
   documentationConfig: SkyManifestDocumentationConfig,
+  codeExamplesPackageName: string,
 ): Promise<[SkyManifestCodeExamples, string[]]> {
-  const definitions = publicApi.packages['@skyux/code-examples'];
+  const definitions = publicApi.packages[
+    codeExamplesPackageName
+  ] as SkyManifestDirectiveDefinition[];
+
+  const errors: string[] = [];
 
   const codeExamples: SkyManifestCodeExamples = {
     examples: {},
@@ -40,14 +46,35 @@ export async function getCodeExamples(
       });
     }
 
-    codeExamples.examples[definition.docsId] = {
-      files,
-      primaryFile: path.basename(definition.filePath),
-      title: definition.extraTags?.['title'],
-    };
+    const selector = definition.selector;
+
+    if (selector) {
+      codeExamples.examples[definition.docsId] = {
+        componentName: definition.name,
+        demoHidden:
+          definition.extraTags?.['docsDemoHidden'] !== undefined
+            ? true
+            : undefined,
+        files,
+        importPath: codeExamplesPackageName,
+        primaryFile: path.basename(definition.filePath),
+        selector,
+        title: definition.extraTags?.['title'],
+      };
+    } else {
+      errors.push(
+        `The code example '${definition.docsId}' must specify a selector.`,
+      );
+    }
   }
 
-  const errors = validateCodeExamples(publicApi, documentationConfig);
+  errors.push(
+    ...validateCodeExamples(
+      publicApi,
+      documentationConfig,
+      codeExamplesPackageName,
+    ),
+  );
 
   return [codeExamples, errors];
 }

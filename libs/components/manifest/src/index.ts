@@ -1,3 +1,4 @@
+export { getDocumentationConfig } from './get-documentation-config';
 export { getDocumentationGroup } from './get-documentation-group';
 export { getPublicApi } from './get-public-api';
 export type {
@@ -17,6 +18,7 @@ export type {
   SkyManifestDirectiveInputDefinition,
   SkyManifestDirectiveOutputDefinition,
 } from './types/directive-def';
+export type { SkyManifestDocumentationConfig } from './types/documentation-config';
 export type {
   SkyManifestEnumerationDefinition,
   SkyManifestEnumerationMemberDefinition,
@@ -35,10 +37,15 @@ export type {
   SkyManifestCodeExampleFiles,
   SkyManifestCodeExamples,
   SkyManifestDocumentationGroup,
+  SkyManifestDocumentationGroupPackageInfo,
   SkyManifestDocumentationTypeDefinition,
   SkyManifestPublicApi,
 } from './types/manifest.js';
 export type { SkyManifestPipeDefinition } from './types/pipe-def';
 export type { SkyManifestTypeAliasDefinition } from './types/type-alias-def';
 export type { SkyManifestVariableDefinition } from './types/variable-def';
-export { isDirectiveDefinition } from './utils';
+export {
+  isDirectiveDefinition,
+  isFunctionDefinition,
+  isPipeDefinition,
+} from './utils';

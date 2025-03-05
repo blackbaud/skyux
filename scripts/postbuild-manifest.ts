@@ -59,7 +59,7 @@ function createDeprecationsSnapshot(publicApi: SkyManifestPublicApi): string[] {
     }
   }
 
-  return deprecations.sort();
+  return [...new Set(deprecations.sort())];
 }
 
 /**
@@ -134,6 +134,7 @@ void (async (): Promise<void> => {
   }
 
   const manifest = await generateManifest({
+    codeExamplesPackageName: '@skyux/code-examples',
     outDir: 'dist/libs/components/manifest',
     projectNames,
     projectsRootDirectory: 'libs/components/',

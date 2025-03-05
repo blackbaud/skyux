@@ -1,6 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyIconHarness } from '@skyux/indicators/testing';
+import { SkyIconHarness } from '@skyux/icon/testing';
 
 import { IconIconButtonExampleComponent } from './example.component';
 

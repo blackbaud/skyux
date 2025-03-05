@@ -11,6 +11,7 @@ import type { SkyManifestTypeAliasDefinition } from '../../types/type-alias-def'
 import { formatType } from './format-type';
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
+import { getRepoUrl } from './get-repo-url';
 
 /**
  * Gets the formatted type for a const assertion union.
@@ -62,6 +63,7 @@ export function getTypeAlias(
     isPreview,
   } = getComment(reflection);
 
+  const repoUrl = getRepoUrl(reflection);
   const formattedType =
     formatConstAssertionUnionType(reflection) ?? formatType(reflection);
 
@@ -79,6 +81,7 @@ export function getTypeAlias(
     isPreview,
     kind: 'type-alias',
     name: reflection.name,
+    repoUrl,
     type: formattedType,
   };
 

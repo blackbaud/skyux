@@ -4,31 +4,33 @@ exports[`get-documentation-group should return information about a documentation
 Object {
   "codeExamples": Array [
     Object {
+      "componentName": "FooCodeExample",
       "files": Object {
-        "foo.component.html": "HTML_CONTENTS",
-        "foo.component.ts": "TS_CONTENTS",
+        "example.component.html": "HTML_CONTENTS",
+        "example.component.ts": "TS_CONTENTS",
       },
-      "primaryFile": "foo.component.ts",
+      "importPath": "@skyux/code-examples",
+      "primaryFile": "example.component.ts",
+      "selector": "lib-foo",
     },
   ],
+  "packageInfo": Object {
+    "packageName": "@skyux/core",
+    "registryUrl": "https://www.npmjs.com/package/@skyux/core",
+    "repoUrl": "https://repo.com/foo",
+  },
   "publicApi": Array [
     Object {
       "docsId": "FooComponent",
       "name": "FooComponent",
       "packageName": "@skyux/core",
+      "repoUrl": "https://repo.com/foo",
     },
     Object {
       "docsId": "IndicatorComponent",
       "name": "IndicatorComponent",
       "packageName": "@skyux/indicators",
-    },
-    Object {
-      "docsId": "FooCodeExample",
-      "extraTags": Object {
-        "title": "This is my title",
-      },
-      "name": "FooCodeExample",
-      "packageName": "@skyux/core",
+      "repoUrl": "https://repo.com/foo",
     },
   ],
   "testing": Array [
@@ -36,10 +38,13 @@ Object {
       "docsId": "FooHarness",
       "name": "FooHarness",
       "packageName": "@skyux/core/testing",
+      "repoUrl": "https://repo.com/foo",
     },
   ],
 }
 `;
+
+exports[`get-documentation-group should throw if docsId unrecognized 1`] = `"Failed to retrieve type definition with docsId \\"invalid\\"."`;
 
 exports[`get-documentation-group should throw if group name unrecognized 1`] = `"Documentation exists for a package named \\"@skyux/core\\", but it does not include a group with the name \\"invalid\\"."`;
 
