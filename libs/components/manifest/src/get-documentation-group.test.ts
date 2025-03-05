@@ -181,4 +181,33 @@ describe('get-documentation-group', () => {
       getDocumentationGroup('@skyux/core', 'invalid'),
     ).toThrowErrorMatchingSnapshot();
   });
+
+  it('should throw if docsId unrecognized', async () => {
+    setup({
+      codeExamples: {
+        examples: {},
+      },
+      documentationConfig: {
+        packages: {
+          '@skyux/core': {
+            groups: {
+              foo: {
+                docsIds: ['invalid'],
+                primaryDocsId: 'invalid',
+              },
+            },
+          },
+        },
+      },
+      publicApi: {
+        packages: {},
+      },
+    });
+
+    const { getDocumentationGroup } = await import('./get-documentation-group');
+
+    expect(() =>
+      getDocumentationGroup('@skyux/core', 'foo'),
+    ).toThrowErrorMatchingSnapshot();
+  });
 });

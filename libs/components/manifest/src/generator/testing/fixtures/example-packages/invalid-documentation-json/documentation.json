@@ -6,7 +6,13 @@
       "primaryDocsId": "FooClass"
     },
     "invalid": {
-      "docsIds": ["FooInternalClass", "Duplicate1", "Duplicate1", "Invalid2"],
+      "docsIds": [
+        "FooInternalClass",
+        "Duplicate1",
+        "Duplicate1",
+        "Invalid2",
+        "FooCodeExampleNoSelector"
+      ],
       "primaryDocsId": "ModuleNotListed",
       "unrecognizedProperty": true
     }

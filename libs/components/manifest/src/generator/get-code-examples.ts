@@ -15,9 +15,10 @@ import { validateCodeExamples } from './validations';
 export async function getCodeExamples(
   publicApi: SkyManifestPublicApi,
   documentationConfig: SkyManifestDocumentationConfig,
+  codeExamplesPackageName: string,
 ): Promise<[SkyManifestCodeExamples, string[]]> {
   const definitions = publicApi.packages[
-    '@skyux/code-examples'
+    codeExamplesPackageName
   ] as SkyManifestDirectiveDefinition[];
 
   const errors: string[] = [];
@@ -51,7 +52,9 @@ export async function getCodeExamples(
       codeExamples.examples[definition.docsId] = {
         componentName: definition.name,
         demoHidden:
-          definition.extraTags?.['demoHidden'] !== undefined ? true : undefined,
+          definition.extraTags?.['docsDemoHidden'] !== undefined
+            ? true
+            : undefined,
         files,
         importPath: '@skyux/code-examples',
         primaryFile: path.basename(definition.filePath),
@@ -65,7 +68,13 @@ export async function getCodeExamples(
     }
   }
 
-  errors.push(...validateCodeExamples(publicApi, documentationConfig));
+  errors.push(
+    ...validateCodeExamples(
+      publicApi,
+      documentationConfig,
+      codeExamplesPackageName,
+    ),
+  );
 
   return [codeExamples, errors];
 }

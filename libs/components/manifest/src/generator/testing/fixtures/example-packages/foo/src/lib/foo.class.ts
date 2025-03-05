@@ -89,6 +89,8 @@ export class FooClass<TClass extends FooBaseClass> {
 
 /**
  * This describes the foo abstract class.
+ *
+ * It has multiple paragraphs in its description.
  */
 export abstract class FooWithStaticPropertiesClass {
   /**

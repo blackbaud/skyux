@@ -14,6 +14,11 @@ Object {
       "selector": "lib-foo",
     },
   ],
+  "packageInfo": Object {
+    "packageName": "@skyux/core",
+    "registryUrl": "https://www.npmjs.com/package/@skyux/core",
+    "repoUrl": undefined,
+  },
   "publicApi": Array [
     Object {
       "docsId": "FooComponent",
@@ -25,14 +30,6 @@ Object {
       "name": "IndicatorComponent",
       "packageName": "@skyux/indicators",
     },
-    Object {
-      "docsId": "FooCodeExample",
-      "extraTags": Object {
-        "title": "This is my title",
-      },
-      "name": "FooCodeExample",
-      "packageName": "@skyux/core",
-    },
   ],
   "testing": Array [
     Object {
@@ -43,6 +40,8 @@ Object {
   ],
 }
 `;
+
+exports[`get-documentation-group should throw if docsId unrecognized 1`] = `"Failed to retrieve type definition with docsId \\"invalid\\"."`;
 
 exports[`get-documentation-group should throw if group name unrecognized 1`] = `"Documentation exists for a package named \\"@skyux/core\\", but it does not include a group with the name \\"invalid\\"."`;
 

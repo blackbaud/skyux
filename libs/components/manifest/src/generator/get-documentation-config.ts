@@ -45,6 +45,8 @@ export async function getDocumentationConfig(
       );
     }
 
+    delete config['$schema'];
+
     const packageJson = JSON.parse(
       await fsPromises.readFile(
         path.join(project.projectRoot, 'package.json'),
