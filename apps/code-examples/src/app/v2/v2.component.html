@@ -12,43 +12,35 @@
     </sky-input-box>
   </form>
 
-  @if (data(); as manifest) {
-    <sky-docs-showcase [manifest]="manifest">
-      <sky-docs-showcase-area-overview>
-        <sky-docs-heading-anchor anchorId="usage" headingText="Usage" />
-        <p>
-          This content should only appear in the "overview" (or "design")
-          section.
-        </p>
-      </sky-docs-showcase-area-overview>
+  @if (groupName(); as groupName) {
+    @if (packageName(); as packageName) {
+      <sky-docs-showcase [groupName]="groupName" [packageName]="packageName">
+        <sky-docs-showcase-area-overview>
+          <sky-docs-heading-anchor anchorId="usage" headingText="Usage" />
+          <p>
+            This content should only appear in the "overview" (or "design")
+            section.
+          </p>
+        </sky-docs-showcase-area-overview>
 
-      <sky-docs-showcase-area-development>
-        <sky-docs-heading-anchor
-          anchorId="overview"
-          headingText="Getting started"
-        />
+        <sky-docs-showcase-area-development>
+          <sky-docs-heading-anchor
+            anchorId="overview"
+            headingText="Getting started"
+          />
 
-        <p>This extra content should only appear in the "development" tab.</p>
-      </sky-docs-showcase-area-development>
+          <p>This extra content should only appear in the "development" tab.</p>
+        </sky-docs-showcase-area-development>
 
-      <sky-docs-showcase-area-testing>
-        <sky-docs-heading-anchor
-          anchorId="overview"
-          headingText="Getting started"
-        />
+        <sky-docs-showcase-area-testing>
+          <sky-docs-heading-anchor
+            anchorId="overview"
+            headingText="Getting started"
+          />
 
-        <p>This extra content should only appear in the "testing" tab.</p>
-      </sky-docs-showcase-area-testing>
-    </sky-docs-showcase>
-
-    <pre
-      style="
-        max-width: 100%;
-        max-height: 900px;
-        overflow: scroll;
-        border: 1px solid red;
-      "
-      >{{ manifest | json }}</pre
-    >
+          <p>This extra content should only appear in the "testing" tab.</p>
+        </sky-docs-showcase-area-testing>
+      </sky-docs-showcase>
+    }
   }
 </sky-page>

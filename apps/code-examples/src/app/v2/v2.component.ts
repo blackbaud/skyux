@@ -2,10 +2,10 @@ import { JsonPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
-  signal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormControl,
@@ -18,11 +18,7 @@ import {
 } from '@skyux/docs-tools';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/icon';
-import {
-  type SkyManifestDocumentationGroup,
-  getDocumentationConfig,
-  getDocumentationGroup,
-} from '@skyux/manifest';
+import { getDocumentationConfig } from '@skyux/manifest';
 import { SkyPageModule } from '@skyux/pages';
 
 const DOCS = getDocumentationConfig();
@@ -54,8 +50,24 @@ export default class CodeExamplesLandingComponent {
     nonNullable: true,
   });
 
-  protected data = signal<SkyManifestDocumentationGroup | undefined>(undefined);
+  readonly #value = toSignal(this.#documentationGroupControl.valueChanges);
+
+  protected readonly groupName = computed(() => {
+    const value = this.#value();
+    const parts = value?.split(SEPARATOR);
+
+    return parts?.[1];
+  });
+
+  protected readonly packageName = computed(() => {
+    const value = this.#value();
+    const parts = value?.split(SEPARATOR);
+
+    return parts?.[0];
+  });
+
   protected documentationGroups: string[] = [];
+
   protected formGroup = inject(FormBuilder).group({
     documentationGroup: this.#documentationGroupControl,
   });
@@ -68,15 +80,5 @@ export default class CodeExamplesLandingComponent {
     }
 
     this.documentationGroups.sort();
-
-    this.#documentationGroupControl.valueChanges
-      .pipe(takeUntilDestroyed())
-      .subscribe((value) => {
-        const parts = value.split(SEPARATOR);
-        const packageName = parts[0];
-        const groupName = parts[1];
-
-        this.data.set(getDocumentationGroup(packageName, groupName));
-      });
   }
 }

@@ -22,9 +22,9 @@ import { SkyDocsCodeHighlightPipe } from '../code-highlight/code-highlight.pipe'
 import { SkyDocsCodeSnippetModule } from '../code-snippet/code-snippet.module';
 import { SkyDocsHeadingAnchorModule } from '../heading-anchor/heading-anchor.module';
 
-import { SkyDocsTypeDefinitionBoxComponent } from './components/box.component';
-import { SkyDocsDeprecationReasonComponent } from './components/deprecation-reason.component';
-import { SkyDocsTypeDefinitionDescriptionComponent } from './components/description.component';
+import { SkyDocsTypeDefinitionBoxComponent } from './box.component';
+import { SkyDocsDeprecationReasonComponent } from './deprecation-reason.component';
+import { SkyDocsTypeDefinitionDescriptionComponent } from './description.component';
 import { SkyDocsPropertyTypeDefinitionDefaultValuePipe } from './pipes/default-value.pipe';
 import { SkyDocsEnumerationSignaturePipe } from './pipes/enum-signature.pipe';
 import { SkyDocsEscapeHtmlPipe } from './pipes/escape-html.pipe';

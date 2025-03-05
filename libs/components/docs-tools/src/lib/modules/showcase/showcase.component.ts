@@ -2,12 +2,13 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   contentChild,
   effect,
   inject,
   input,
 } from '@angular/core';
-import { SkyManifestDocumentationGroup } from '@skyux/manifest';
+import { getDocumentationGroup } from '@skyux/manifest';
 import { SkyTabsModule } from '@skyux/tabs';
 
 import { SkyDocsTypeDefinitionAnchorIdsService } from '../type-definition/type-anchor-ids.service';
@@ -46,7 +47,15 @@ export class SkyDocsShowcaseComponent {
   readonly #anchorIdsSvc = inject(SkyDocsTypeDefinitionAnchorIdsService);
   readonly #showcaseHostSvc = inject(SkyDocsShowcaseHostService);
 
-  public readonly manifest = input.required<SkyManifestDocumentationGroup>();
+  public readonly groupName = input.required<string>();
+  public readonly packageName = input.required<string>();
+
+  protected docsGroup = computed(() => {
+    const groupName = this.groupName();
+    const packageName = this.packageName();
+
+    return getDocumentationGroup(packageName, groupName);
+  });
 
   protected readonly developmentContent = contentChild(
     SkyDocsShowcaseAreaDevelopmentComponent,
@@ -62,19 +71,19 @@ export class SkyDocsShowcaseComponent {
 
   constructor() {
     effect(() => {
-      const manifest = this.manifest();
+      const docsGroup = this.docsGroup();
       const anchorIds: Record<string, string> = {};
 
-      manifest.publicApi.forEach((def) => {
+      docsGroup.publicApi.forEach((def) => {
         anchorIds[def.name] = def.anchorId;
       });
 
-      manifest.testing.forEach((def) => {
+      docsGroup.testing.forEach((def) => {
         anchorIds[def.name] = def.anchorId;
       });
 
       this.#anchorIdsSvc.updateAnchorIds(anchorIds);
-      this.#showcaseHostSvc.updateGroup(manifest);
+      this.#showcaseHostSvc.updateGroup(docsGroup);
     });
   }
 }

@@ -4,7 +4,7 @@
       <ng-container [ngTemplateOutlet]="overviewContentRef" />
     </sky-tab>
   }
-  @if (manifest().publicApi.length > 0 || developmentContent()) {
+  @if (docsGroup().publicApi.length > 0 || developmentContent()) {
     <sky-tab tabHeading="Development">
       @if (developmentContent()) {
         <ng-container [ngTemplateOutlet]="developmentContentRef" />
@@ -13,7 +13,7 @@
       }
     </sky-tab>
   }
-  @if (manifest().testing.length > 0 || testingContent()) {
+  @if (docsGroup().testing.length > 0 || testingContent()) {
     <sky-tab tabHeading="Testing">
       @if (testingContent()) {
         <ng-container [ngTemplateOutlet]="testingContentRef" />
@@ -22,7 +22,7 @@
       }
     </sky-tab>
   }
-  @if (manifest().codeExamples.length > 0) {
+  @if (docsGroup().codeExamples.length > 0) {
     <sky-tab tabHeading="Examples">
       <sky-docs-showcase-area-examples />
     </sky-tab>
