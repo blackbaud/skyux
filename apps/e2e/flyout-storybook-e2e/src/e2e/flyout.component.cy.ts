@@ -19,9 +19,13 @@ describe('flyout-storybook', () => {
           cy.visit(
             `/iframe.html?globals=theme:${theme}&id=flyoutcomponent-flyout--flyout-${style}`,
           );
-          cy.get('#ready').should('exist').end();
+          cy.get('#ready').should('exist');
 
-          cy.get('#readyFlyout').should('exist');
+          if (style.includes('responsive')) {
+            cy.get('#readyResponsiveFlyout').should('exist');
+          } else {
+            cy.get('#readyStandardFlyout').should('exist');
+          }
 
           cy.get('.sky-flyout .sky-flyout-content')
             .should('exist')
