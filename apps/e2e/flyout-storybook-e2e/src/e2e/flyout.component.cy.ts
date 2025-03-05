@@ -40,6 +40,8 @@ describe('flyout-storybook', () => {
             ).should('exist');
           }
 
+          cy.wait(250);
+
           cy.get('app-flyout')
             .should('exist')
             .should('be.visible')
