@@ -18,7 +18,12 @@ import { SkyDockLocation, SkyDockService } from '@skyux/core';
 import { FontLoadingService } from '@skyux/storybook/font-loading';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
-import { ColDef, GridOptions, RowSelectedEvent } from 'ag-grid-community';
+import {
+  ColDef,
+  GridApi,
+  GridOptions,
+  RowSelectedEvent,
+} from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
@@ -65,6 +70,7 @@ export class AgGridStoriesComponent
   public skyTheme: SkyThemeSettings | undefined;
 
   readonly #gridsReady = new Map<string, Observable<boolean>>();
+  readonly #gridsApi = new Map<string, GridApi>();
   readonly #agGridService: SkyAgGridService;
   readonly #themeSvc: SkyThemeService;
   readonly #changeDetectorRef: ChangeDetectorRef;
@@ -178,6 +184,7 @@ export class AgGridStoriesComponent
           suppressHorizontalScroll: true,
           suppressRowVirtualisation: true,
           onGridReady: (params) => {
+            this.#gridsApi.set(dataSet.id, params.api);
             if (dataSet.id === 'row-delete') {
               params.api.addEventListener(
                 'rowSelected',
@@ -224,26 +231,23 @@ export class AgGridStoriesComponent
 
           setTimeout(() => {
             // Select a row to show the row delete button.
-            this.#doc
-              .querySelector(
-                /* spell-checker: disable-next-line */
-                '#row-delete .sky-ag-grid-row-killeha01 [col-id="select"] label',
-              )
-              ?.dispatchEvent(new MouseEvent('click'));
+            this.#gridsApi.get('row-delete')?.setNodesSelected({
+              nodes: [
+                this.#gridsApi.get('row-delete')!.getRowNode('killeha01')!,
+              ],
+              newValue: true,
+            });
 
             setTimeout(() => {
               // Trigger validation popover to show up.
-              this.#doc
-                .querySelector(
-                  /* spell-checker: disable-next-line */
-                  '#validation .sky-ag-grid-row-martipe02 [col-id="seasons_played"]',
-                )
-                ?.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowUp' }));
+              this.#gridsApi
+                .get('validation')
+                ?.setFocusedCell(1, 'seasons_played');
 
               // Tell Cypress we're ready.
               setTimeout(() => this.ready.next(true), 100);
-            });
-          });
+            }, 300);
+          }, 300);
         }),
     );
     if (!this.skyTheme) {

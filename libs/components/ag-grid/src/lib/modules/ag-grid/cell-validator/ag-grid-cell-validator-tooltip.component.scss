@@ -1,5 +1,10 @@
+:host {
+  display: contents;
+}
+
 :host div.sky-validator-cell {
   height: 100%;
+  min-height: var(--ag-row-height);
   width: 100%;
 
   &:focus {
