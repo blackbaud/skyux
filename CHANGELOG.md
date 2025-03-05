@@ -20,6 +20,18 @@
 * **components/icon:** migrate harness types from @skyux/indicators/testing ([#3197](https://github.com/blackbaud/skyux/issues/3197)) ([3fe7edc](https://github.com/blackbaud/skyux/commit/3fe7edc282a190abc840ba7f1c97096d37c6b01f))
 * **components/tabs:** puts focus on active tab in mobile view ([#3182](https://github.com/blackbaud/skyux/issues/3182)) ([#3190](https://github.com/blackbaud/skyux/issues/3190)) ([84babe9](https://github.com/blackbaud/skyux/commit/84babe9466889c7c491fe72294eec5c95642d5f9))
 
+## [11.44.0](https://github.com/blackbaud/skyux/compare/11.43.1...11.44.0) (2025-03-05)
+
+
+### Features
+
+* **components/modals:** support `fit` layout in modal content ([#3181](https://github.com/blackbaud/skyux/issues/3181)) ([6098f64](https://github.com/blackbaud/skyux/commit/6098f64b5a11bcaf9b8bfa23ec6dd8cefbf05605))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** show validator changes for editable cell ([#3194](https://github.com/blackbaud/skyux/issues/3194)) ([d33574a](https://github.com/blackbaud/skyux/commit/d33574a630db71ef0dbfd6f2e2a74201fcb5e492))
+
 ## [11.43.1](https://github.com/blackbaud/skyux/compare/11.43.0...11.43.1) (2025-02-28)
 
 
