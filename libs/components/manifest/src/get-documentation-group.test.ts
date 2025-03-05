@@ -88,16 +88,19 @@ describe('get-documentation-group', () => {
               extraTags: {
                 title: 'My code example',
               },
+              repoUrl: 'https://repo.com/foo',
             },
             {
               name: 'IndicatorCodeExample',
               docsId: 'IndicatorCodeExample',
+              repoUrl: 'https://repo.com/foo',
             },
           ] as SkyManifestParentDefinition[],
           '@skyux/core': [
             {
               name: 'FooComponent',
               docsId: 'FooComponent',
+              repoUrl: 'https://repo.com/foo',
             },
             {
               name: 'FooCodeExample',
@@ -105,26 +108,31 @@ describe('get-documentation-group', () => {
               extraTags: {
                 title: 'This is my title',
               },
+              repoUrl: 'https://repo.com/foo',
             },
             {
               name: 'BarComponent',
               docsId: 'BarComponent',
+              repoUrl: 'https://repo.com/foo',
             },
           ] as SkyManifestParentDefinition[],
           '@skyux/core/testing': [
             {
               name: 'FooHarness',
               docsId: 'FooHarness',
+              repoUrl: 'https://repo.com/foo',
             },
           ] as SkyManifestParentDefinition[],
           '@skyux/indicators': [
             {
               name: 'IndicatorComponent',
               docsId: 'IndicatorComponent',
+              repoUrl: 'https://repo.com/foo',
             },
             {
               name: 'IndicatorCodeExample',
               docsId: 'IndicatorCodeExample',
+              repoUrl: 'https://repo.com/foo',
             },
           ] as SkyManifestParentDefinition[],
         },

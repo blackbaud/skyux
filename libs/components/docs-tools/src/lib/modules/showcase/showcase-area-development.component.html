@@ -57,11 +57,12 @@
   </div>
 
   @if (groupChange()?.publicApi; as definitions) {
-    @for (definition of definitions; track definition.docsId) {
-      <sky-docs-type-definition
-        class="sky-docs-showcase-section sky-margin-stacked-xxl sky-border-bottom-row"
-        [definition]="definition"
-      />
+    @for (
+      definition of definitions;
+      track definition.docsId;
+      let last = $last
+    ) {
+      <sky-docs-type-definition [definition]="definition" [stacked]="!last" />
     }
   }
 </sky-docs-toc-page>

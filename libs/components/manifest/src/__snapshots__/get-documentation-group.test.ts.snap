@@ -17,18 +17,20 @@ Object {
   "packageInfo": Object {
     "packageName": "@skyux/core",
     "registryUrl": "https://www.npmjs.com/package/@skyux/core",
-    "repoUrl": undefined,
+    "repoUrl": "https://repo.com/foo",
   },
   "publicApi": Array [
     Object {
       "docsId": "FooComponent",
       "name": "FooComponent",
       "packageName": "@skyux/core",
+      "repoUrl": "https://repo.com/foo",
     },
     Object {
       "docsId": "IndicatorComponent",
       "name": "IndicatorComponent",
       "packageName": "@skyux/indicators",
+      "repoUrl": "https://repo.com/foo",
     },
   ],
   "testing": Array [
@@ -36,6 +38,7 @@ Object {
       "docsId": "FooHarness",
       "name": "FooHarness",
       "packageName": "@skyux/core/testing",
+      "repoUrl": "https://repo.com/foo",
     },
   ],
 }

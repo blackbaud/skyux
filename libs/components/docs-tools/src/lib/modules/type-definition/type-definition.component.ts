@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   input,
 } from '@angular/core';
@@ -45,6 +46,9 @@ import { PropertyDefinition } from './property-definition';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  host: {
+    '[class.sky-margin-stacked-xxl]': 'stacked()',
+  },
   imports: [
     SkyDocsCategoryTagModule,
     SkyDocsCodeHighlightPipe,
@@ -74,6 +78,8 @@ import { PropertyDefinition } from './property-definition';
 export class SkyDocsTypeDefinitionComponent {
   public readonly definition =
     input.required<SkyManifestDocumentationTypeDefinition>();
+
+  public readonly stacked = input(false, { transform: booleanAttribute });
 
   protected readonly methods = computed<
     SkyManifestClassMethodDefinition[] | undefined

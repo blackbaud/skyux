@@ -56,7 +56,7 @@ export async function getCodeExamples(
             ? true
             : undefined,
         files,
-        importPath: '@skyux/code-examples',
+        importPath: codeExamplesPackageName,
         primaryFile: path.basename(definition.filePath),
         selector,
         title: definition.extraTags?.['title'],
