@@ -50,7 +50,7 @@ export { SkyHelpService } from './lib/modules/help/help.service';
 export { SkyIdModule } from './lib/modules/id/id.module';
 export { SkyIdService } from './lib/modules/id/id.service';
 
-export { λSkyLayoutHostDirective } from './lib/modules/layout-host/layout-host.directive';
+export { SkyLayoutHostDirective } from './lib/modules/layout-host/layout-host.directive';
 export { SkyLayoutHostForChildArgs } from './lib/modules/layout-host/layout-host-for-child-args';
 export { SkyLayoutHostService } from './lib/modules/layout-host/layout-host.service';
 

@@ -21,7 +21,7 @@ const LAYOUT_CLASS_PREFIX = 'sky-layout-host-';
   standalone: true,
   providers: [SkyLayoutHostService],
 })
-export class λSkyLayoutHostDirective<T = 'none' | 'fit'> {
+export class SkyLayoutHostDirective<T = 'none' | 'fit'> {
   readonly #elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly #layoutForChild = toSignal(
     inject(SkyLayoutHostService).hostLayoutForChild,
