@@ -198,6 +198,11 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
     align-items: stretch;
     height: 100%;
   }
+
+  .ag-cell.sky-ag-grid-cell-invalid {
+    border: 1px solid var(--sky-highlight-color-danger);
+    --ag-range-selection-border-color: var(--sky-highlight-color-danger);
+  }
 }
 
 .ag-theme-sky-data-grid-default,
