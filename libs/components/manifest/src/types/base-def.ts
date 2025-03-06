@@ -56,6 +56,7 @@ export interface SkyManifestParentDefinition
   isInternal?: boolean;
   kind: SkyManifestParentDefinitionKind;
   name: string;
+  repoUrl: string;
 }
 
 /**

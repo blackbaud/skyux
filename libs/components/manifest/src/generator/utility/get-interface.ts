@@ -9,6 +9,7 @@ import { formatType } from './format-type';
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
 import { getIndexSignatures } from './get-index-signatures';
+import { getRepoUrl } from './get-repo-url';
 
 function getInterfaceProperties(
   decl: DeclarationReflection,
@@ -62,6 +63,7 @@ export function getInterface(
     isPreview,
   } = getComment(decl);
 
+  const repoUrl = getRepoUrl(decl);
   const indexSignatures = getIndexSignatures(decl);
   const children = getInterfaceProperties(decl);
 
@@ -81,6 +83,7 @@ export function getInterface(
     isPreview,
     kind: 'interface',
     name: decl.name,
+    repoUrl,
   };
 
   return def;

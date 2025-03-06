@@ -30,7 +30,11 @@ export {
 } from './lib/foo.directive';
 export { FooEnum } from './lib/foo.enum';
 export { createFoo } from './lib/foo.function';
-export { FooEmptyInterface, FooInterface } from './lib/foo.interface';
+export {
+  FooEmptyExtendedInterface,
+  FooEmptyInterface,
+  FooInterface,
+} from './lib/foo.interface';
 export { FooModule } from './lib/foo.module';
 export { FooPipe } from './lib/foo.pipe';
 export { FooService } from './lib/foo.service';

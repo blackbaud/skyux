@@ -5,6 +5,7 @@ import type { SkyManifestVariableDefinition } from '../../types/variable-def';
 import { formatType } from './format-type';
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
+import { getRepoUrl } from './get-repo-url';
 
 export function getVariable(
   reflection: DeclarationReflection,
@@ -22,6 +23,8 @@ export function getVariable(
     isPreview,
   } = getComment(reflection);
 
+  const repoUrl = getRepoUrl(reflection);
+
   const def: SkyManifestVariableDefinition = {
     anchorId: getAnchorId(reflection.name, reflection.kind),
     codeExample,
@@ -36,6 +39,7 @@ export function getVariable(
     isPreview,
     kind: 'variable',
     name: reflection.name,
+    repoUrl,
     type: formatType(reflection),
   };
 
