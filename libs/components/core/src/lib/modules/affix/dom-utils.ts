@@ -3,6 +3,10 @@ import { ViewportRuler } from '@angular/cdk/overlay';
 import { SkyAffixOffset } from './affix-offset';
 import { AffixRect } from './affix-rect';
 
+function useViewportForBounds(element: HTMLElement) {
+  return 'BODY' === element.tagName;
+}
+
 /**
  * Returns the offset values of a given element.
  * @param element The HTML element.
@@ -132,7 +136,7 @@ export function isOffsetFullyVisibleWithinParent(
 ): boolean {
   let parentOffset: Required<SkyAffixOffset>;
 
-  if (parent.matches('body')) {
+  if (useViewportForBounds(parent)) {
     const viewportRect = viewportRuler.getViewportRect();
     parentOffset = {
       top: 0,
@@ -160,9 +164,20 @@ export function isOffsetPartiallyVisibleWithinParent(
   offset: Required<SkyAffixOffset>,
   bufferOffset?: SkyAffixOffset,
 ): boolean {
-  const parentOffset = bufferOffset
-    ? getElementOffset(parent, bufferOffset)
-    : getVisibleRectForElement(viewportRuler, parent);
+  let parentOffset: Required<SkyAffixOffset>;
+  if (useViewportForBounds(parent)) {
+    const viewportRect = viewportRuler.getViewportRect();
+    parentOffset = {
+      top: 0,
+      left: 0,
+      right: viewportRect.width,
+      bottom: viewportRect.height,
+    };
+  } else if (bufferOffset) {
+    parentOffset = getElementOffset(parent, bufferOffset);
+  } else {
+    parentOffset = getVisibleRectForElement(viewportRuler, parent);
+  }
 
   return !(
     parentOffset.top >= offset.bottom ||
