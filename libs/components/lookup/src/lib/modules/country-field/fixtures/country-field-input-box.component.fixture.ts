@@ -13,4 +13,8 @@ import { SkyCountryFieldCountry } from '../types/country';
 export class CountryFieldInputBoxTestComponent {
   public hintText: string | undefined;
   public modelValue: SkyCountryFieldCountry | undefined;
+
+  public countryChanged(country: SkyCountryFieldCountry): void {
+    return;
+  }
 }

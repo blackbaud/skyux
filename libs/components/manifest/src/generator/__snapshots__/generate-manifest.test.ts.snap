@@ -15,8 +15,23 @@ exports[`generate-manifest should generate manifest 1`] = `
           \\"title\\": \\"This is a title\\"
         },
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/code-examples/src/lib/types.ts\\",
-        \\"kind\\": \\"class\\",
-        \\"name\\": \\"FooCodeExample1\\"
+        \\"kind\\": \\"component\\",
+        \\"name\\": \\"FooCodeExample1\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/code-examples/src/lib/types.ts#L9\\",
+        \\"selector\\": \\"foo-example-1\\"
+      },
+      {
+        \\"anchorId\\": \\"class_foo-code-example2\\",
+        \\"docsId\\": \\"FooCodeExample2\\",
+        \\"extraTags\\": {
+          \\"title\\": \\"This code example hides its demo.\\",
+          \\"docsDemoHidden\\": \\"\\"
+        },
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/code-examples/src/lib/types.ts\\",
+        \\"kind\\": \\"component\\",
+        \\"name\\": \\"FooCodeExample2\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/code-examples/src/lib/types.ts#L18\\",
+        \\"selector\\": \\"foo-example-2\\"
       }
     ],
     \\"@skyux/foo\\": [
@@ -26,7 +41,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"docsId\\": \\"____\\",
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/anchor-id.ts\\",
         \\"kind\\": \\"class\\",
-        \\"name\\": \\"____\\"
+        \\"name\\": \\"____\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/anchor-id.ts#L4\\"
       },
       {
         \\"anchorId\\": \\"class_foo1\\",
@@ -34,7 +50,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"docsId\\": \\"Foo1\\",
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/anchor-id.ts\\",
         \\"kind\\": \\"class\\",
-        \\"name\\": \\"Foo1\\"
+        \\"name\\": \\"Foo1\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/anchor-id.ts#L14\\"
       },
       {
         \\"anchorId\\": \\"class_foo-with-only-letters\\",
@@ -42,7 +59,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"docsId\\": \\"FooWithOnlyLetters\\",
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/anchor-id.ts\\",
         \\"kind\\": \\"class\\",
-        \\"name\\": \\"FooWithOnlyLetters\\"
+        \\"name\\": \\"FooWithOnlyLetters\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/anchor-id.ts#L9\\"
       },
       {
         \\"anchorId\\": \\"variable_should-have-code-example-default-language-comment\\",
@@ -52,6 +70,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts\\",
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveCodeExampleDefaultLanguageComment\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts#L27\\",
         \\"type\\": \\"true\\"
       },
       {
@@ -62,6 +81,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts\\",
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveCodeExampleMarkupLanguageComment\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts#L35\\",
         \\"type\\": \\"true\\"
       },
       {
@@ -72,6 +92,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts\\",
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveCodeExampleUnknownLanguageComment\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts#L43\\",
         \\"type\\": \\"true\\"
       },
       {
@@ -81,6 +102,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"isDeprecated\\": true,
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveDeprecatedComment\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts#L4\\",
         \\"type\\": \\"true\\"
       },
       {
@@ -91,6 +113,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"isDeprecated\\": true,
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveDeprecatedReasonComment\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts#L9\\",
         \\"type\\": \\"true\\"
       },
       {
@@ -100,6 +123,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"isInternal\\": true,
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveInternalComment\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts#L19\\",
         \\"type\\": \\"true\\"
       },
       {
@@ -109,6 +133,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"isPreview\\": true,
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHavePreviewComment\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts#L14\\",
         \\"type\\": \\"true\\"
       },
       {
@@ -116,7 +141,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"docsId\\": \\"FooBaseClass\\",
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
-        \\"name\\": \\"FooBaseClass\\"
+        \\"name\\": \\"FooBaseClass\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L6\\"
       },
       {
         \\"anchorId\\": \\"class_foo-basic-type-param-class\\",
@@ -129,13 +155,14 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"refOrUndefined\\",
-            \\"type\\": \\"undefined | T\\"
+            \\"type\\": \\"T | undefined\\"
           }
         ],
         \\"docsId\\": \\"FooBasicTypeParamClass\\",
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooBasicTypeParamClass\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L8\\",
         \\"typeParameters\\": \\"<T extends unknown>\\"
       },
       {
@@ -144,13 +171,14 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"ref\\",
-            \\"type\\": \\"undefined | T\\"
+            \\"type\\": \\"T | undefined\\"
           }
         ],
         \\"docsId\\": \\"FooBasicTypeParamDefaultValueClass\\",
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooBasicTypeParamDefaultValueClass\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L13\\",
         \\"typeParameters\\": \\"<T = boolean>\\"
       },
       {
@@ -183,17 +211,17 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"arrayOfFunctionTypesOrUndefined\\",
-            \\"type\\": \\"undefined | ((a: boolean, b?: string) => void)[]\\"
+            \\"type\\": \\"((a: boolean, b?: string) => void)[] | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"arrayOfIntrinsicTypes\\",
-            \\"type\\": \\"undefined | string[]\\"
+            \\"type\\": \\"string[] | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"arrayOfReflectionTypes\\",
-            \\"type\\": \\"undefined | { a: boolean; b: string; }[]\\"
+            \\"type\\": \\"{ a: boolean; b: string; }[] | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
@@ -203,12 +231,12 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"closureTypeOrUndefined\\",
-            \\"type\\": \\"undefined | (() => void)\\"
+            \\"type\\": \\"(() => void) | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"intrinsicType\\",
-            \\"type\\": \\"undefined | string\\"
+            \\"type\\": \\"string | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
@@ -218,22 +246,22 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"literalType\\",
-            \\"type\\": \\"undefined | 0 | 1\\"
+            \\"type\\": \\"0 | 1 | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"mapType\\",
-            \\"type\\": \\"undefined | Map<string, number>\\"
+            \\"type\\": \\"Map<string, number> | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"referenceType\\",
-            \\"type\\": \\"undefined | TClass\\"
+            \\"type\\": \\"TClass | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"reflectionIndexSignatureType\\",
-            \\"type\\": \\"undefined | { [key: string]: boolean; }\\"
+            \\"type\\": \\"{ [key: string]: boolean; } | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
@@ -243,24 +271,20 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"reflectionTypeOrUndefined\\",
-            \\"type\\": \\"undefined | { a: boolean; b?: string; }\\"
+            \\"type\\": \\"{ a: boolean; b?: string; } | undefined\\"
           },
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"unionType\\",
-            \\"type\\": \\"undefined | null | true | \\\\\\"a\\\\\\" | \\\\\\"b\\\\\\"\\"
+            \\"type\\": \\"null | true | \\\\\\"a\\\\\\" | \\\\\\"b\\\\\\" | undefined\\"
           },
           {
-            \\"description\\": \\"Describes a method which returns a MappedType (e.g. \`{ [K in keyof T]: string }\`).\\",
+            \\"description\\": \\"This is a static getter without a setter.\\",
+            \\"isDeprecated\\": true,
+            \\"isStatic\\": true,
             \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"getStrings\\",
-            \\"type\\": \\"Observable<{ [K in string | number | symbol]: string }>\\"
-          },
-          {
-            \\"description\\": \\"Describes a method without any parameters.\\",
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"methodWithoutParameters\\",
-            \\"type\\": \\"void\\"
+            \\"name\\": \\"count\\",
+            \\"type\\": \\"number\\"
           }
         ],
         \\"description\\": \\"This is the foo class.\\",
@@ -268,6 +292,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooClass\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L24\\",
         \\"typeParameters\\": \\"<TClass extends FooBaseClass>\\"
       },
       {
@@ -275,7 +300,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"docsId\\": \\"docs-id-override\\",
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
-        \\"name\\": \\"FooWithDocsIdOverrideClass\\"
+        \\"name\\": \\"FooWithDocsIdOverrideClass\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L125\\"
       },
       {
         \\"anchorId\\": \\"class_foo-with-extra-tags-class\\",
@@ -286,7 +312,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         },
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
-        \\"name\\": \\"FooWithExtraTagsClass\\"
+        \\"name\\": \\"FooWithExtraTagsClass\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L131\\"
       },
       {
         \\"anchorId\\": \\"class_foo-with-static-properties-class\\",
@@ -311,26 +338,14 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"someStaticProperty\\",
             \\"type\\": \\"boolean\\"
-          },
-          {
-            \\"description\\": \\"This describes the abstract method.\\",
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"someAbstractMethod\\",
-            \\"type\\": \\"void\\"
-          },
-          {
-            \\"description\\": \\"This describes the static method.\\",
-            \\"isStatic\\": true,
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"someStaticMethod\\",
-            \\"type\\": \\"boolean\\"
           }
         ],
-        \\"description\\": \\"This describes the foo abstract class.\\",
+        \\"description\\": \\"This describes the foo abstract class.\\\\n\\\\nIt has multiple paragraphs in its description.\\",
         \\"docsId\\": \\"FooWithStaticPropertiesClass\\",
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
-        \\"name\\": \\"FooWithStaticPropertiesClass\\"
+        \\"name\\": \\"FooWithStaticPropertiesClass\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L103\\"
       },
       {
         \\"anchorId\\": \\"class_sky-foo-non-standalone-component\\",
@@ -339,6 +354,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts\\",
         \\"kind\\": \\"component\\",
         \\"name\\": \\"SkyFooNonStandaloneComponent\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L70\\",
         \\"selector\\": \\"sky-foo-non-standalone\\"
       },
       {
@@ -348,6 +364,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts\\",
         \\"kind\\": \\"component\\",
         \\"name\\": \\"SkyFooStandaloneComponent\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L80\\",
         \\"selector\\": \\"sky-foo-standalone\\"
       },
       {
@@ -358,7 +375,7 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"defaultValue\\": \\"'baz'\\",
             \\"kind\\": \\"directive-input\\",
             \\"name\\": \\"bar\\",
-            \\"type\\": \\"undefined | string\\",
+            \\"type\\": \\"string | undefined\\",
             \\"isRequired\\": true
           },
           {
@@ -372,6 +389,13 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"kind\\": \\"directive-input\\",
             \\"name\\": \\"fooRequired\\",
             \\"type\\": \\"InputSignal<string>\\"
+          },
+          {
+            \\"description\\": \\"This describes an input with only a setter.\\",
+            \\"defaultValue\\": \\"false\\",
+            \\"kind\\": \\"directive-input\\",
+            \\"name\\": \\"compact\\",
+            \\"type\\": \\"boolean\\"
           },
           {
             \\"description\\": \\"This describes the onClick output.\\",
@@ -390,6 +414,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts\\",
         \\"kind\\": \\"component\\",
         \\"name\\": \\"FooComponent\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L18\\",
         \\"selector\\": \\"lib-foo\\"
       },
       {
@@ -399,6 +424,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.const-assertion.ts\\",
         \\"kind\\": \\"type-alias\\",
         \\"name\\": \\"FooBreakpoint\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.const-assertion.ts#L10\\",
         \\"type\\": \\"readonly [\\\\\\"xs\\\\\\", \\\\\\"sm\\\\\\", \\\\\\"md\\\\\\", \\\\\\"lg\\\\\\"]\\"
       },
       {
@@ -409,6 +435,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"isInternal\\": true,
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"FOO_BREAKPOINTS\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.const-assertion.ts#L5\\",
         \\"type\\": \\"readonly [\\\\\\"xs\\\\\\", \\\\\\"sm\\\\\\", \\\\\\"md\\\\\\", \\\\\\"lg\\\\\\"]\\"
       },
       {
@@ -418,6 +445,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts\\",
         \\"kind\\": \\"directive\\",
         \\"name\\": \\"FooDirective\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L27\\",
         \\"selector\\": \\"[foo]\\"
       },
       {
@@ -442,12 +470,12 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"description\\": \\"This describes an input with an alias.\\",
             \\"kind\\": \\"directive-input\\",
             \\"name\\": \\"alias1\\",
-            \\"type\\": \\"undefined | TemplateRef<unknown>\\"
+            \\"type\\": \\"TemplateRef<unknown> | undefined\\"
           },
           {
             \\"kind\\": \\"directive-input\\",
             \\"name\\": \\"alias2\\",
-            \\"type\\": \\"undefined | TemplateRef<unknown>\\"
+            \\"type\\": \\"TemplateRef<unknown> | undefined\\"
           },
           {
             \\"description\\": \\"This describes an input with a setter.\\",
@@ -482,6 +510,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts\\",
         \\"kind\\": \\"directive\\",
         \\"name\\": \\"FooWithInputsOutputsDirective\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L33\\",
         \\"selector\\": \\"[foo]\\"
       },
       {
@@ -491,6 +520,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts\\",
         \\"kind\\": \\"directive\\",
         \\"name\\": \\"λ2\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L18\\",
         \\"selector\\": \\"[fooLambda]\\"
       },
       {
@@ -513,7 +543,8 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"type\\": \\"1\\"
           }
         ],
-        \\"name\\": \\"FooEnum\\"
+        \\"name\\": \\"FooEnum\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.enum.ts#L4\\"
       },
       {
         \\"anchorId\\": \\"function_create-foo\\",
@@ -541,15 +572,33 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"type\\": \\"number\\"
           }
         ],
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.function.ts#L10\\",
         \\"type\\": \\"FooClass<T>\\",
         \\"typeParameters\\": \\"<T extends string>\\"
+      },
+      {
+        \\"anchorId\\": \\"interface_foo-empty-extended-interface\\",
+        \\"children\\": [
+          {
+            \\"description\\": \\"This describes the bar string.\\",
+            \\"kind\\": \\"interface-property\\",
+            \\"name\\": \\"bar\\",
+            \\"type\\": \\"string\\"
+          }
+        ],
+        \\"docsId\\": \\"FooEmptyExtendedInterface\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.interface.ts\\",
+        \\"kind\\": \\"interface\\",
+        \\"name\\": \\"FooEmptyExtendedInterface\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.interface.ts#L23\\"
       },
       {
         \\"anchorId\\": \\"interface_foo-empty-interface\\",
         \\"docsId\\": \\"FooEmptyInterface\\",
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.interface.ts\\",
         \\"kind\\": \\"interface\\",
-        \\"name\\": \\"FooEmptyInterface\\"
+        \\"name\\": \\"FooEmptyInterface\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.interface.ts#L20\\"
       },
       {
         \\"anchorId\\": \\"interface_foo-interface\\",
@@ -585,7 +634,8 @@ exports[`generate-manifest should generate manifest 1`] = `
           }
         ],
         \\"kind\\": \\"interface\\",
-        \\"name\\": \\"FooInterface\\"
+        \\"name\\": \\"FooInterface\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.interface.ts#L6\\"
       },
       {
         \\"anchorId\\": \\"class_foo-module\\",
@@ -594,17 +644,13 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"kind\\": \\"class-method\\",
             \\"name\\": \\"forRoot\\",
             \\"type\\": \\"ModuleWithProviders<FooModule>\\"
-          },
-          {
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"forRoot\\",
-            \\"type\\": \\"ModuleWithProviders<FooModule>\\"
           }
         ],
         \\"docsId\\": \\"FooModule\\",
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.module.ts\\",
         \\"kind\\": \\"module\\",
-        \\"name\\": \\"FooModule\\"
+        \\"name\\": \\"FooModule\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.module.ts#L4\\"
       },
       {
         \\"anchorId\\": \\"class_foo-pipe\\",
@@ -616,7 +662,7 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"parameters\\": [
               {
                 \\"name\\": \\"value\\",
-                \\"type\\": \\"undefined | string\\"
+                \\"type\\": \\"string | undefined\\"
               },
               {
                 \\"defaultValue\\": \\"false\\",
@@ -634,12 +680,6 @@ exports[`generate-manifest should generate manifest 1`] = `
               }
             ],
             \\"type\\": \\"string\\"
-          },
-          {
-            \\"description\\": \\"This describes the transform method.\\",
-            \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"transform\\",
-            \\"type\\": \\"string\\"
           }
         ],
         \\"description\\": \\"This describes the Foo pipe.\\",
@@ -647,11 +687,18 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.pipe.ts\\",
         \\"kind\\": \\"pipe\\",
         \\"name\\": \\"FooPipe\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.pipe.ts#L9\\",
         \\"templateBindingName\\": \\"foo\\"
       },
       {
         \\"anchorId\\": \\"class_foo-service\\",
         \\"children\\": [
+          {
+            \\"description\\": \\"This describes a public method that returns a promise.\\",
+            \\"kind\\": \\"class-method\\",
+            \\"name\\": \\"someMethod\\",
+            \\"type\\": \\"Promise<Type<string>>\\"
+          },
           {
             \\"defaultValue\\": \\"''\\",
             \\"kind\\": \\"class-property\\",
@@ -663,7 +710,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"docsId\\": \\"FooService\\",
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.service.ts\\",
         \\"kind\\": \\"service\\",
-        \\"name\\": \\"FooService\\"
+        \\"name\\": \\"FooService\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.service.ts#L7\\"
       },
       {
         \\"anchorId\\": \\"type-alias_foo-alias\\",
@@ -672,6 +720,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.type-alias.ts\\",
         \\"kind\\": \\"type-alias\\",
         \\"name\\": \\"FooAlias\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.type-alias.ts#L6\\",
         \\"type\\": \\"\\\\\\"foo\\\\\\" | true | 0 | undefined | null\\"
       },
       {
@@ -681,6 +730,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.type-alias.ts\\",
         \\"kind\\": \\"type-alias\\",
         \\"name\\": \\"FooReferenceTypeAlias\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.type-alias.ts#L11\\",
         \\"type\\": \\"string | keyof Component\\"
       },
       {
@@ -690,6 +740,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.variable.ts\\",
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"FOO_VARIABLE\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.variable.ts#L6\\",
         \\"type\\": \\"InjectionToken<unknown>\\"
       }
     ],
@@ -700,7 +751,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"docsId\\": \\"SkyFooHarness\\",
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/testing/src/foo-harness.ts\\",
         \\"kind\\": \\"class\\",
-        \\"name\\": \\"SkyFooHarness\\"
+        \\"name\\": \\"SkyFooHarness\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/testing/src/foo-harness.ts#L4\\"
       }
     ]
   }
@@ -711,18 +763,17 @@ exports[`generate-manifest should generate manifest 1`] = `
       "{
   \\"packages\\": {
     \\"@skyux/code-examples\\": {
-      \\"$schema\\": \\"../../../../../../documentation-schema.json\\",
       \\"groups\\": {}
     },
     \\"@skyux/foo\\": {
-      \\"$schema\\": \\"../../../../../../documentation-schema.json\\",
       \\"groups\\": {
         \\"foo\\": {
           \\"docsIds\\": [
             \\"docs-id-override\\",
             \\"FooWithStaticPropertiesClass\\",
             \\"FooClass\\",
-            \\"FooCodeExample1\\"
+            \\"FooCodeExample1\\",
+            \\"FooCodeExample2\\"
           ],
           \\"primaryDocsId\\": \\"FooClass\\"
         }
@@ -736,11 +787,25 @@ exports[`generate-manifest should generate manifest 1`] = `
       "{
   \\"examples\\": {
     \\"FooCodeExample1\\": {
+      \\"componentName\\": \\"FooCodeExample1\\",
       \\"files\\": {
-        \\"types.ts\\": \\"/**\\\\n * @title This is a title\\\\n */\\\\nexport class FooCodeExample1 {}\\\\n\\"
+        \\"types.ts\\": \\"import { Component } from '@angular/core';\\\\n\\\\n/**\\\\n * @title This is a title\\\\n */\\\\n@Component({\\\\n  selector: 'foo-example-1',\\\\n})\\\\nexport class FooCodeExample1 {}\\\\n\\\\n/**\\\\n * @title This code example hides its demo.\\\\n * @docsDemoHidden\\\\n */\\\\n@Component({\\\\n  selector: 'foo-example-2',\\\\n})\\\\nexport class FooCodeExample2 {}\\\\n\\"
       },
+      \\"importPath\\": \\"@skyux/code-examples\\",
       \\"primaryFile\\": \\"types.ts\\",
+      \\"selector\\": \\"foo-example-1\\",
       \\"title\\": \\"This is a title\\"
+    },
+    \\"FooCodeExample2\\": {
+      \\"componentName\\": \\"FooCodeExample2\\",
+      \\"demoHidden\\": true,
+      \\"files\\": {
+        \\"types.ts\\": \\"import { Component } from '@angular/core';\\\\n\\\\n/**\\\\n * @title This is a title\\\\n */\\\\n@Component({\\\\n  selector: 'foo-example-1',\\\\n})\\\\nexport class FooCodeExample1 {}\\\\n\\\\n/**\\\\n * @title This code example hides its demo.\\\\n * @docsDemoHidden\\\\n */\\\\n@Component({\\\\n  selector: 'foo-example-2',\\\\n})\\\\nexport class FooCodeExample2 {}\\\\n\\"
+      },
+      \\"importPath\\": \\"@skyux/code-examples\\",
+      \\"primaryFile\\": \\"types.ts\\",
+      \\"selector\\": \\"foo-example-2\\",
+      \\"title\\": \\"This code example hides its demo.\\"
     }
   }
 }",
@@ -771,5 +836,5 @@ exports[`generate-manifest should throw for invalid documentation.json 1`] = `
  - The @docsId \\"Duplicate1\\" referenced by \\"invalid\\" is not recognized.
  - The @docsId \\"Invalid2\\" referenced by \\"invalid\\" is not recognized.
  - The value for primaryDocsId (\\"ModuleNotListed\\") must be included in the docsIds array for group \\"invalid\\" (current: FooInternalClass, Duplicate1, Duplicate1, Invalid2).
- - The following code example docsIds are not being referenced within a documentation.json file. Either delete the code example, or add its docsId to a documentation.json file: \\"FooCodeExample1\\""
+ - The following code example docsIds are not being referenced within a documentation.json file. Either delete the code example, or add its docsId to a documentation.json file: \\"FooCodeExample1\\", \\"FooCodeExample2\\""
 `;

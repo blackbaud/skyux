@@ -15,6 +15,14 @@ function setup(options: {
   const mkdirMock = jest.fn();
   const writeFileMock = jest.fn();
 
+  jest.mock('node:child_process', () => {
+    return {
+      execSync: jest.fn().mockImplementation(() => {
+        return 'CURRENT_BRANCH';
+      }),
+    };
+  });
+
   jest.mock('node:fs', () => {
     return {
       existsSync: jest.fn().mockImplementation((filePath): boolean => {
@@ -55,7 +63,7 @@ function setup(options: {
               `${projectRoot}/testing/src/public-api.ts`,
             ],
             packageName: `@skyux/${projectName}`,
-            projectName: projectName,
+            projectName,
             projectRoot,
           });
         }
@@ -86,6 +94,7 @@ describe('generate-manifest', () => {
     const { generateManifest } = await import('./generate-manifest');
 
     await generateManifest({
+      codeExamplesPackageName: '@skyux/code-examples',
       outDir: '/dist',
       projectNames,
       projectsRootDirectory,
@@ -106,6 +115,7 @@ describe('generate-manifest', () => {
     const { generateManifest } = await import('./generate-manifest');
 
     await generateManifest({
+      codeExamplesPackageName: '@skyux/code-examples',
       outDir: '/dist',
       projectNames,
       projectsRootDirectory,
@@ -127,6 +137,7 @@ describe('generate-manifest', () => {
 
     await expect(
       generateManifest({
+        codeExamplesPackageName: '@skyux/code-examples',
         outDir: '/dist',
         projectNames,
         projectsRootDirectory,
@@ -150,10 +161,34 @@ describe('generate-manifest', () => {
 
     await expect(
       generateManifest({
+        codeExamplesPackageName: '@skyux/code-examples',
         outDir: '/dist',
         projectNames,
         projectsRootDirectory,
       }),
     ).rejects.toThrowErrorMatchingSnapshot();
+  }, 60000);
+
+  it('should throw when code example does not have a selector', async () => {
+    const projectNames = ['invalid-code-examples'];
+
+    setup({
+      documentationJsonExists: true,
+      outDirExists: true,
+      projectNames,
+    });
+
+    const { generateManifest } = await import('./generate-manifest');
+
+    await expect(
+      generateManifest({
+        codeExamplesPackageName: '@skyux/invalid-code-examples',
+        outDir: '/dist',
+        projectNames,
+        projectsRootDirectory,
+      }),
+    ).rejects
+      .toThrow(`The following errors were encountered when creating the manifest:
+ - The code example 'FooCodeExampleNoSelector' must specify a selector.`);
   }, 60000);
 });

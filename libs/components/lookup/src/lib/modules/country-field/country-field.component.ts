@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   Injector,
   Input,
@@ -123,22 +122,6 @@ export class SkyCountryFieldComponent
   }
 
   /**
-   * Whether to include phone information in the selected country and country dropdown.
-   * @default false
-   * @internal
-   */
-  @Input()
-  public set includePhoneInfo(value: boolean | undefined) {
-    this.#_includePhoneInfo = value ?? false;
-
-    this.#setupCountries();
-  }
-
-  public get includePhoneInfo(): boolean {
-    return this.#_includePhoneInfo;
-  }
-
-  /**
    * The [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country codes for the countries that users can select. By default, all countries are available.
    */
@@ -177,7 +160,7 @@ export class SkyCountryFieldComponent
 
   public set selectedCountry(newCountry: SkyCountryFieldCountry | undefined) {
     if (!this.#countriesAreEqual(this.selectedCountry, newCountry)) {
-      const newCountryIso = newCountry && newCountry.iso2;
+      const newCountryIso = newCountry?.iso2;
       if (newCountryIso) {
         const isoCountry = this.countries.find(
           (country) => country.iso2 === newCountryIso,
@@ -200,26 +183,21 @@ export class SkyCountryFieldComponent
         this.onTouched();
 
         this.selectedCountryChange.emit(newCountry);
-      }
-
-      // Do not mark the field as "dirty"
-      // if the field has been initialized with a value.
-      if (this.#isInitialChange && this.#ngControl && this.#ngControl.control) {
+      } else if (this.#ngControl?.control) {
+        // Do not mark the field as "dirty"
+        // if the field has been initialized with a value.
         this.#ngControl.control.markAsPristine();
       }
 
       this.#isInitialChange = false;
 
       /**
-       * The second portion of this if statement is complex. The control type check ensures that
+       * The if statement is complex. The control type check ensures that
        * we only watch for the initial time through this function on reactive forms. However,
        * template forms will send through `null` and then `undefined` on empty initialization
        * so we have to check for when the non-null pass through happens.
        */
-    } else if (
-      this.#isInitialChange &&
-      (!(this.#ngControl instanceof NgModel) || newCountry !== null)
-    ) {
+    } else if (!(this.#ngControl instanceof NgModel) || newCountry !== null) {
       this.#isInitialChange = false;
     }
   }
@@ -256,8 +234,6 @@ export class SkyCountryFieldComponent
 
   #defaultCountryData: SkyCountryFieldCountry | undefined;
 
-  #elRef: ElementRef;
-
   #injector: Injector;
 
   #internalFormChange = false;
@@ -274,21 +250,17 @@ export class SkyCountryFieldComponent
 
   #_disabled = false;
 
-  #_includePhoneInfo = false;
-
   #_selectedCountry: SkyCountryFieldCountry | undefined;
 
   #_supportedCountryISOs: string[] | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,
-    elRef: ElementRef,
     injector: Injector,
     @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
     @Optional() themeSvc?: SkyThemeService,
   ) {
     this.#changeDetector = changeDetector;
-    this.#elRef = elRef;
     this.#injector = injector;
     this.#themeSvc = themeSvc;
 
@@ -447,20 +419,8 @@ export class SkyCountryFieldComponent
   #setupCountries(): void {
     this.countries = cloneCountryData(intlTelInput.getCountryData());
 
-    // Ignoring coverage here as this will be removed in the next release.
-    // istanbul ignore next
-    if (!this.includePhoneInfo) {
-      if (
-        (
-          this.#elRef.nativeElement.parentElement as HTMLElement
-        )?.classList?.contains('sky-phone-field-country-search')
-      ) {
-        this.includePhoneInfo = true;
-      }
-    }
-
     /* istanbul ignore else */
-    if (!this.includePhoneInfo) {
+    if (!this.context?.inPhoneField) {
       /**
        * The library we get the country data from includes extra phone properties.
        * We want to remove these unless we are in a phone field

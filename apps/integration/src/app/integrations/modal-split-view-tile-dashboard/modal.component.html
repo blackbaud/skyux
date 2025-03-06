@@ -1,12 +1,16 @@
 <form [formGroup]="demoForm">
-  <sky-modal data-sky-id="modal-demo" [isDirty]="demoForm.dirty">
-    <sky-modal-header> Modal title </sky-modal-header>
+  <sky-modal
+    data-sky-id="modal-demo"
+    headingText="Modal title"
+    [isDirty]="demoForm.dirty"
+    [layout]="layout"
+  >
     <sky-modal-content>
       <div class="sky-padding-even-xl">
-        <sky-split-view>
+        <sky-split-view [dock]="layout === 'fit' ? 'fill' : undefined">
           <sky-split-view-drawer [ariaLabel]="'Transaction list'">
             <sky-repeater [activeIndex]="0">
-              @for (item of items; track item; let i = $index) {
+              @for (item of items; track item) {
                 <sky-repeater-item>
                   <sky-repeater-item-content>
                     {{ item.amount }} <br />
@@ -34,7 +38,13 @@
     </sky-modal-content>
     <sky-modal-footer>
       <button class="sky-btn sky-btn-primary" type="submit">Save</button>
-      <button class="sky-btn sky-btn-link" type="button">Cancel</button>
+      <button
+        class="sky-btn sky-btn-link"
+        type="button"
+        (click)="instance.cancel()"
+      >
+        Cancel
+      </button>
     </sky-modal-footer>
   </sky-modal>
 </form>

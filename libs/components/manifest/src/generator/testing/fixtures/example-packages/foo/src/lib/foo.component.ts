@@ -2,7 +2,9 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   Output,
+  booleanAttribute,
   input,
   output,
 } from '@angular/core';
@@ -13,7 +15,16 @@ import {
   standalone: true,
   template: ``,
 })
-export class FooComponent {
+export class FooComponent implements OnDestroy {
+  /**
+   * This describes an input with only a setter.
+   *@default false
+   */
+  @Input({ transform: booleanAttribute })
+  public set compact(value: boolean) {
+    /* */
+  }
+
   /**
    * This describes the foo input.
    */
@@ -42,6 +53,10 @@ export class FooComponent {
    */
   @Output()
   public onTouch = new EventEmitter<void>();
+
+  public ngOnDestroy(): void {
+    /* */
+  }
 }
 
 /**

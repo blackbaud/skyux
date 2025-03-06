@@ -79,6 +79,8 @@
       role="region"
       tabindex="0"
       skyId
+      skyLayoutHost
+      [layout]="layout()"
       [attr.aria-labelledby]="headerId.id"
       [skyScrollShadowEnabled]="scrollShadowEnabled"
       (skyScrollShadow)="scrollShadowChange($event)"

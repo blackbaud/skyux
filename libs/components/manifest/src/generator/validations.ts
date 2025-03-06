@@ -81,11 +81,12 @@ export function validateDocumentationConfig(
 export function validateCodeExamples(
   publicApi: SkyManifestPublicApi,
   documentationConfig: SkyManifestDocumentationConfig,
+  codeExamplesPackageName: string,
 ): string[] {
   const errors: string[] = [];
   const unreferencedIds: string[] = [];
 
-  const codeExampleDocsIds = publicApi.packages['@skyux/code-examples'].map(
+  const codeExampleDocsIds = publicApi.packages[codeExamplesPackageName].map(
     (d) => d.docsId,
   );
 

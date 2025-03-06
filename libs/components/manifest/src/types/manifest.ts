@@ -19,8 +19,35 @@ export type SkyManifestCodeExampleFiles = Record<string, string>;
  * @internal
  */
 export interface SkyManifestCodeExample {
+  /**
+   * The code example's primary component class name.
+   */
+  componentName: string;
+  /**
+   * Whether the code example's interactive demo is hidden on the documentation site.
+   */
+  demoHidden?: boolean;
+  /**
+   * A collection of source files that comprise the code example.
+   */
   files: SkyManifestCodeExampleFiles;
+  /**
+   * The import path of the code example's primary component. This is usually
+   * the NPM package, '@skyux/code-examples'.
+   */
+  importPath: string;
+  /**
+   * The relative file path of the primary component. This file is the one
+   * that's brought into focus first on StackBlitz.
+   */
   primaryFile: string;
+  /**
+   * The selector of the code example's primary component.
+   */
+  selector: string;
+  /**
+   * The title that describes the code example.
+   */
   title?: string;
 }
 
@@ -45,11 +72,21 @@ export interface SkyManifestDocumentationTypeDefinition
 }
 
 /**
+ * @internal
+ */
+export interface SkyManifestDocumentationGroupPackageInfo {
+  packageName: string;
+  registryUrl: string;
+  repoUrl: string;
+}
+
+/**
  * Information about a documentation group.
  * @internal
  */
 export interface SkyManifestDocumentationGroup {
   codeExamples: SkyManifestCodeExample[];
+  packageInfo: SkyManifestDocumentationGroupPackageInfo;
   publicApi: SkyManifestDocumentationTypeDefinition[];
   testing: SkyManifestDocumentationTypeDefinition[];
 }
