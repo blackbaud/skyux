@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyModalError, SkyModalInstance, SkyModalModule } from '@skyux/modals';
+import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 import { ModalTestContext } from './modal-context';
 
@@ -16,6 +18,8 @@ export class ModalBasicComponent {
   public title = 'Hello world';
 
   protected readonly context = inject(ModalTestContext, { optional: true });
+  protected readyFonts = toSignal(inject(FontLoadingService).ready());
+  protected readyIcons = toSignal(inject(FontLoadingService).ready(true));
 
   #instance: SkyModalInstance;
 
