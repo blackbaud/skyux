@@ -16,17 +16,12 @@ export class SkyModalComponentAdapterService {
     const newHeight = window.innerHeight - 40;
 
     boundedHeightEl.style.maxHeight = newHeight.toString() + 'px';
+    boundedHeightEl.style.setProperty(
+      '--sky-modal-content-max-height',
+      boundedHeightEl.style.maxHeight,
+    );
     if (fullPageModalEl) {
       this.#setFullPageHeight(fullPageModalEl);
-    } else {
-      /*
-        IE11 doesn't handle flex and max-height correctly so we have to explicitly add
-        max-height to the content that accounts for standard header and footer height.
-      */
-      const modalContentEl =
-        modalEl.nativeElement.querySelector('.sky-modal-content');
-      const contentHeight = newHeight - 114;
-      modalContentEl.style.maxHeight = contentHeight.toString() + 'px';
     }
   }
 

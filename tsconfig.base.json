@@ -16,7 +16,7 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
-    "lib": ["es2022", "dom"],
+    "lib": ["es2022", "dom", "DOM.Iterable"],
     "useDefineForClassFields": false,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
