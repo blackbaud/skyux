@@ -8,6 +8,7 @@ import type {
 import { formatType } from './format-type';
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
+import { getRepoUrl } from './get-repo-url';
 
 function getEnumMembers(
   reflection: DeclarationReflection,
@@ -58,6 +59,8 @@ export function getEnum(
     isPreview,
   } = getComment(reflection);
 
+  const repoUrl = getRepoUrl(reflection);
+
   const def: SkyManifestEnumerationDefinition = {
     anchorId: getAnchorId(reflection.name, reflection.kind),
     codeExample,
@@ -73,6 +76,7 @@ export function getEnum(
     kind: 'enumeration',
     children: getEnumMembers(reflection),
     name: reflection.name,
+    repoUrl,
   };
 
   return def;

@@ -1,1 +1,1 @@
-export { FooCodeExample1 } from './lib/types';
+export { FooCodeExample1, FooCodeExample2 } from './lib/types';
