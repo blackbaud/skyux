@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { SkyManifestParameterDefinition } from '@skyux/manifest';
 
+/**
+ * @internal
+ */
 @Pipe({
   name: 'skyDocsParameterName',
 })

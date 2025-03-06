@@ -12,6 +12,9 @@ marked.use({
   renderer,
 });
 
+/**
+ * @internal
+ */
 @Pipe({
   name: 'skyDocsMarkdown',
 })

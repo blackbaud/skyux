@@ -1,9 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {
-  SkyManifestChildDefinition,
-  SkyManifestClassPropertyDefinition,
-} from '@skyux/manifest/src';
+  type SkyManifestChildDefinition,
+  type SkyManifestClassPropertyDefinition,
+} from '@skyux/manifest';
 
+/**
+ * @internal
+ */
 @Pipe({
   name: 'skyDocsPropertyDefaultValue',
 })

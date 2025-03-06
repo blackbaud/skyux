@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { SkyManifestParentDefinitionKind } from '@skyux/manifest';
 
+/**
+ * @internal
+ */
 @Pipe({
   name: 'skyTypeDefinitionKindToLabel',
 })

@@ -48,5 +48,7 @@ import { SkyDocsShowcaseHostService } from './showcase-host.service';
 export class SkyDocsShowcaseAreaDevelopmentComponent {
   readonly #hostSvc = inject(SkyDocsShowcaseHostService);
 
-  protected readonly groupChange = toSignal(this.#hostSvc.documentationGroup);
+  protected readonly documentationGroup = toSignal(
+    this.#hostSvc.documentationGroup,
+  );
 }

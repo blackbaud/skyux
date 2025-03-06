@@ -4,6 +4,9 @@ import {
   SkyManifestParentDefinition,
 } from '@skyux/manifest';
 
+/**
+ * @internal
+ */
 @Pipe({
   name: 'skyDocsEnumerationSignature',
 })

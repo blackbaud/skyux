@@ -1,9 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {
-  SkyManifestParentDefinition,
-  SkyManifestTypeAliasDefinition,
-} from '@skyux/manifest/src';
+  type SkyManifestParentDefinition,
+  type SkyManifestTypeAliasDefinition,
+} from '@skyux/manifest';
 
+/**
+ * @internal
+ */
 @Pipe({
   name: 'skyDocsTypeAliasSignature',
 })

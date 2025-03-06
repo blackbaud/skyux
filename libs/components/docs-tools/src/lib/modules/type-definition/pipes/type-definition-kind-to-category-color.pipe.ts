@@ -3,6 +3,9 @@ import { SkyManifestParentDefinitionKind } from '@skyux/manifest';
 
 import { SkyDocsCategoryColor } from '../../category-tag/category-color';
 
+/**
+ * @internal
+ */
 @Pipe({
   name: 'skyDocsDefinitionKindToCategoryColor',
 })
@@ -29,11 +32,6 @@ export class SkyDocsTypeDefinitionKindToCategoryColorPipe
       case 'class':
       case 'function':
         return 'blue';
-
-      case 'interface':
-      case 'enumeration':
-      case 'type-alias':
-        return 'light-blue';
 
       default:
         return 'light-blue';

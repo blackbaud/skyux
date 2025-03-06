@@ -17,6 +17,6 @@ import { SkyDocsTableOfContentsLink } from './table-of-contents-links';
   templateUrl: './table-of-contents.component.html',
 })
 export class SkyDocsTableOfContentsComponent {
-  public headingText = input.required<string>();
-  public links = input.required<SkyDocsTableOfContentsLink[]>();
+  public readonly headingText = input.required<string>();
+  public readonly links = input.required<SkyDocsTableOfContentsLink[]>();
 }
