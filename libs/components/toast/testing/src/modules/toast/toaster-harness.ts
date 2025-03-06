@@ -3,7 +3,7 @@ import { ComponentHarness } from '@angular/cdk/testing';
 import { SkyToastHarness } from './toast-harness';
 
 /**
- * Harness for interacting with the container component that wraps toasts in tests.
+ * Harness for interacting with toasts' host component in tests.
  * Use this harness to query and interact with `SkyToastHarness` for open toast components.
  */
 export class SkyToasterHarness extends ComponentHarness {
