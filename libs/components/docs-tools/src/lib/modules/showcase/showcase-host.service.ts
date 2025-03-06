@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { SkyManifestDocumentationGroup } from '@skyux/manifest/src';
+import { type SkyManifestDocumentationGroup } from '@skyux/manifest';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 

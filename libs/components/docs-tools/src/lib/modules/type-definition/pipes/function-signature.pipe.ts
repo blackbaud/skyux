@@ -6,6 +6,9 @@ import {
 
 import { SkyDocsParameterNamePipe } from './parameter-name.pipe';
 
+/**
+ * @internal
+ */
 @Pipe({
   name: 'skyDocsFunctionSignature',
 })

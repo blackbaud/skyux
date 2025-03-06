@@ -1,5 +1,5 @@
 <sky-docs-toc-page menuHeadingText="Development">
-  @if (groupChange()?.packageInfo; as packageInfo) {
+  @if (documentationGroup()?.packageInfo; as packageInfo) {
     <div
       class="sky-docs-showcase-section sky-margin-stacked-xxl sky-border-bottom-row"
     >
@@ -56,7 +56,7 @@
     <ng-content />
   </div>
 
-  @if (groupChange()?.publicApi; as definitions) {
+  @if (documentationGroup()?.publicApi; as definitions) {
     @for (
       definition of definitions;
       track definition.docsId;
