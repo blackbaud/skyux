@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.44.1](https://github.com/blackbaud/skyux/compare/11.44.0...11.44.1) (2025-03-06)
+
+
+### Bug Fixes
+
+* **components/datetime:** show key date popover ([#3207](https://github.com/blackbaud/skyux/issues/3207)) ([9b0b1f3](https://github.com/blackbaud/skyux/commit/9b0b1f33036de27d9cf8cc06153db48067c7a2ee))
+
 ## [11.44.0](https://github.com/blackbaud/skyux/compare/11.43.1...11.44.0) (2025-03-05)
 
 
