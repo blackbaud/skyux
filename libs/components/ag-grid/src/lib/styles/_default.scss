@@ -13,10 +13,6 @@
     sky-ag-grid-variables.$sky-cell-wrap-text-line-height-default
   );
 
-  .ag-cell.sky-ag-grid-cell-invalid {
-    border: 1px solid var(--sky-highlight-color-danger);
-  }
-
   .ag-row:not(.ag-row-first) {
     border-top: none;
   }
@@ -78,10 +74,6 @@
   .ag-cell {
     border-block-end: none;
     border-block-start: none;
-  }
-
-  .ag-cell.sky-ag-grid-cell-invalid {
-    border: 1px solid var(--sky-highlight-color-danger);
   }
 
   .sky-ag-grid-cell-editable {

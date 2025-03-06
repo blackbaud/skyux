@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
 
 import { AgColumn, CellFocusedEvent } from 'ag-grid-community';
@@ -25,95 +20,70 @@ export class SkyAgGridCellValidatorTooltipComponent {
   public set params(value: SkyCellRendererValidatorParams | undefined) {
     this.cellRendererParams = value;
 
-    /*istanbul ignore next*/
-    this.cellRendererParams?.api?.addEventListener(
+    value?.api?.addEventListener(
       'cellFocused',
       (eventParams: CellFocusedEvent) => {
         // We want to close any popovers that are opened when other cells are focused, but open a popover if the current cell is focused.
         if (
-          (eventParams.column as AgColumn).getColId() !==
-            this.cellRendererParams?.column?.getColId() ||
-          eventParams.rowIndex !== this.cellRendererParams?.node?.rowIndex
+          (eventParams.column as AgColumn).getColId() ===
+            value?.column?.getColId() &&
+          eventParams.rowIndex === value?.node?.rowIndex
         ) {
+          this.showPopover();
+        } else {
           this.hidePopover();
         }
       },
     );
 
-    /*istanbul ignore next*/
-    this.cellRendererParams?.eGridCell?.addEventListener('keyup', (event) => {
-      if (
-        ['ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp'].includes(event.key)
-      ) {
-        this.showPopover();
-      }
-    });
-
-    this.cellRendererParams?.eGridCell?.addEventListener('mouseenter', () => {
-      this.#scheduleDelayedPopover();
-    });
-
-    this.cellRendererParams?.eGridCell?.addEventListener('mouseleave', () => {
+    value?.api?.addEventListener('cellEditingStarted', () => {
       this.hidePopover();
     });
 
-    /*istanbul ignore next*/
-    this.cellRendererParams?.api?.addEventListener('cellEditingStarted', () => {
-      this.hidePopover();
-    });
-
-    if (
-      typeof this.cellRendererParams?.skyComponentProperties
-        ?.validatorMessage === 'function'
-    ) {
-      this.validatorMessage =
-        this.cellRendererParams.skyComponentProperties.validatorMessage(
-          this.cellRendererParams.value,
-          this.cellRendererParams.data,
-          this.cellRendererParams?.node?.rowIndex ?? undefined,
-        );
+    if (typeof value?.skyComponentProperties?.validatorMessage === 'function') {
+      this.validatorMessage = value.skyComponentProperties.validatorMessage(
+        value.value,
+        value.data,
+        value?.node?.rowIndex,
+      );
     } else {
-      this.validatorMessage =
-        this.cellRendererParams?.skyComponentProperties?.validatorMessage;
+      this.validatorMessage = value?.skyComponentProperties?.validatorMessage;
     }
-
-    this.#changeDetector.markForCheck();
   }
 
   public popoverMessageStream = new Subject<SkyPopoverMessage>();
   public validatorMessage: string | undefined;
   public cellRendererParams: SkyCellRendererValidatorParams | undefined;
 
-  #hoverTimeout: number | undefined;
-  #changeDetector: ChangeDetectorRef;
-
-  constructor(changeDetector: ChangeDetectorRef) {
-    this.#changeDetector = changeDetector;
-  }
-
   public hidePopover(): void {
-    this.#cancelDelayedPopover();
     this.popoverMessageStream.next({ type: SkyPopoverMessageType.Close });
   }
 
   public showPopover(): void {
-    this.#cancelDelayedPopover();
-    this.popoverMessageStream.next({ type: SkyPopoverMessageType.Open });
-  }
-
-  #scheduleDelayedPopover(): void {
-    /* istanbul ignore else */
-    if (!this.#hoverTimeout) {
-      this.#hoverTimeout = window.setTimeout(() => {
-        this.showPopover();
-      }, 300);
+    if (this.#shouldShowPopover()) {
+      this.popoverMessageStream.next({ type: SkyPopoverMessageType.Open });
     }
   }
 
-  #cancelDelayedPopover(): void {
-    if (this.#hoverTimeout) {
-      window.clearTimeout(this.#hoverTimeout);
-      this.#hoverTimeout = undefined;
+  #shouldShowPopover(): boolean {
+    if (!this.validatorMessage) {
+      return false;
+    }
+    const editingCells = this.cellRendererParams?.api.getEditingCells() ?? [];
+    if (editingCells.length > 0) {
+      return false;
+    }
+    if (
+      typeof this.cellRendererParams?.skyComponentProperties?.validator ===
+      'function'
+    ) {
+      return !this.cellRendererParams.skyComponentProperties.validator(
+        this.cellRendererParams.value,
+        this.cellRendererParams.data,
+        this.cellRendererParams.node?.rowIndex,
+      );
+    } else {
+      return true;
     }
   }
 }
