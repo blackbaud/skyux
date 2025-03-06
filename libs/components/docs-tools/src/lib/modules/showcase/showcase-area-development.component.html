@@ -8,7 +8,6 @@
         class="sky-margin-stacked-lg"
         headingText="Installation"
       />
-
       <sky-description-list>
         <sky-description-list-content>
           <sky-description-list-term> NPM package </sky-description-list-term>
@@ -49,13 +48,11 @@
       </sky-description-list>
     </div>
   }
-
   <div
     class="sky-docs-showcase-section sky-margin-stacked-xxl sky-border-bottom-row"
   >
     <ng-content />
   </div>
-
   @if (documentationGroup()?.publicApi; as definitions) {
     @for (
       definition of definitions;

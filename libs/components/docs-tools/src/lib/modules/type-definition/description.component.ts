@@ -34,6 +34,6 @@ import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
   `,
 })
 export class SkyDocsTypeDefinitionDescriptionComponent {
-  public readonly description = input.required<string>();
   public readonly definitionName = input.required<string>();
+  public readonly description = input.required<string>();
 }

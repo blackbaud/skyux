@@ -81,34 +81,6 @@ export class SkyDocsTypeDefinitionComponent {
 
   public readonly stacked = input(false, { transform: booleanAttribute });
 
-  protected readonly methods = computed<
-    SkyManifestClassMethodDefinition[] | undefined
-  >(() => {
-    const def = this.definition();
-
-    return def.children?.filter((c) => c.kind === 'class-method') as
-      | SkyManifestClassMethodDefinition[]
-      | undefined;
-  });
-
-  protected readonly properties = computed<PropertyDefinition[] | undefined>(
-    () => {
-      const def = this.definition();
-
-      const ignore: SkyManifestChildDefinitionKind[] = [
-        'class-method',
-        'directive-input',
-        'directive-output',
-      ];
-
-      const properties = def.children?.filter(
-        (c) => !ignore.includes(c.kind),
-      ) as PropertyDefinition[] | undefined;
-
-      return properties && properties.length > 0 ? properties : undefined;
-    },
-  );
-
   protected readonly inputs = computed<
     SkyManifestDirectiveInputDefinition[] | undefined
   >(() => {
@@ -145,6 +117,16 @@ export class SkyDocsTypeDefinitionComponent {
       : undefined;
   });
 
+  protected readonly methods = computed<
+    SkyManifestClassMethodDefinition[] | undefined
+  >(() => {
+    const def = this.definition();
+
+    return def.children?.filter((c) => c.kind === 'class-method') as
+      | SkyManifestClassMethodDefinition[]
+      | undefined;
+  });
+
   protected readonly outputs = computed<
     SkyManifestDirectiveOutputDefinition[] | undefined
   >(() => {
@@ -165,15 +147,33 @@ export class SkyDocsTypeDefinitionComponent {
     return isFunctionDefinition(def) ? def.parameters : undefined;
   });
 
-  protected readonly selector = computed<string | undefined>(() => {
-    const def = this.definition();
-
-    return isDirectiveDefinition(def) ? def.selector : undefined;
-  });
-
   protected readonly pipeName = computed<string | undefined>(() => {
     const def = this.definition();
 
     return isPipeDefinition(def) ? def.templateBindingName : undefined;
+  });
+
+  protected readonly properties = computed<PropertyDefinition[] | undefined>(
+    () => {
+      const def = this.definition();
+
+      const ignore: SkyManifestChildDefinitionKind[] = [
+        'class-method',
+        'directive-input',
+        'directive-output',
+      ];
+
+      const properties = def.children?.filter(
+        (c) => !ignore.includes(c.kind),
+      ) as PropertyDefinition[] | undefined;
+
+      return properties && properties.length > 0 ? properties : undefined;
+    },
+  );
+
+  protected readonly selector = computed<string | undefined>(() => {
+    const def = this.definition();
+
+    return isDirectiveDefinition(def) ? def.selector : undefined;
   });
 }

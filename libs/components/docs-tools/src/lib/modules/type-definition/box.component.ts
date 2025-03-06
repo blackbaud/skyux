@@ -57,9 +57,9 @@ import { SkyDocsCategoryTagModule } from '../category-tag/category-tag.module';
   `,
 })
 export class SkyDocsTypeDefinitionBoxComponent {
-  public headingText = input.required<string>();
+  public readonly headingText = input.required<string>();
 
-  public deprecated = input(false, { transform: booleanAttribute });
-  public required = input(false, { transform: booleanAttribute });
-  public stacked = input(false, { transform: booleanAttribute });
+  public readonly deprecated = input(false, { transform: booleanAttribute });
+  public readonly required = input(false, { transform: booleanAttribute });
+  public readonly stacked = input(false, { transform: booleanAttribute });
 }

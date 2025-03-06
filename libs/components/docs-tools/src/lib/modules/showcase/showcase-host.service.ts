@@ -14,17 +14,17 @@ export class SkyDocsShowcaseHostService implements OnDestroy {
     return this.#documentationGroupObs;
   }
 
-  #documentationGroup = new BehaviorSubject<
+  readonly #documentationGroup = new BehaviorSubject<
     SkyManifestDocumentationGroup | undefined
   >(undefined);
 
-  #documentationGroupObs = this.#documentationGroup.asObservable();
-
-  public updateGroup(group: SkyManifestDocumentationGroup): void {
-    this.#documentationGroup.next(group);
-  }
+  readonly #documentationGroupObs = this.#documentationGroup.asObservable();
 
   public ngOnDestroy(): void {
     this.#documentationGroup.complete();
+  }
+
+  public updateGroup(group: SkyManifestDocumentationGroup): void {
+    this.#documentationGroup.next(group);
   }
 }
