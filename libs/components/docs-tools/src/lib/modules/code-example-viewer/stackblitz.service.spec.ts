@@ -5,8 +5,8 @@ import stackblitz from '@stackblitz/sdk';
 
 import { Observable, of, throwError } from 'rxjs';
 
-import { SkyStackBlitzLaunchConfig } from './stackblitz-launch-config';
-import { SkyStackBlitzService } from './stackblitz.service';
+import { SkyDocsStackBlitzLaunchConfig } from './stackblitz-launch-config';
+import { SkyDocsStackBlitzService } from './stackblitz.service';
 
 describe('stackblitz.service', () => {
   function setupTest(options: {
@@ -14,9 +14,9 @@ describe('stackblitz.service', () => {
     provideHttpClient?: boolean;
     templateFiles?: Record<string, string>;
   }): {
-    defaultConfig: SkyStackBlitzLaunchConfig;
+    defaultConfig: SkyDocsStackBlitzLaunchConfig;
     openProjectSpy: jasmine.Spy;
-    stackblitzSvc: SkyStackBlitzService;
+    stackblitzSvc: SkyDocsStackBlitzService;
   } {
     const providers: unknown[] = [];
 
@@ -55,7 +55,7 @@ describe('stackblitz.service', () => {
       }) as never);
     }
 
-    const defaultConfig: SkyStackBlitzLaunchConfig = {
+    const defaultConfig: SkyDocsStackBlitzLaunchConfig = {
       componentName: 'FooExampleComponent',
       componentSelector: 'foo-example',
       files: {
@@ -69,7 +69,7 @@ describe('stackblitz.service', () => {
 
     const openProjectSpy = spyOn(stackblitz, 'openProject');
 
-    const stackblitzSvc = TestBed.inject(SkyStackBlitzService);
+    const stackblitzSvc = TestBed.inject(SkyDocsStackBlitzService);
 
     return { defaultConfig, openProjectSpy, stackblitzSvc };
   }

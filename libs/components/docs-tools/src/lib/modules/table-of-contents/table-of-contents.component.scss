@@ -1,0 +1,45 @@
+:host {
+  --sky-docs-toc-active-border-size: 4px;
+  display: block;
+}
+
+.sky-docs-toc-heading {
+  padding: 0 0 0 var(--sky-padding-even-md);
+}
+
+a.sky-docs-toc-link {
+  display: flex;
+  align-items: center;
+  gap: var(--sky-margin-inline-xs);
+  // Set a specific height so that links with and without category tags take up
+  // the same amount of vertical space.
+  height: 22px;
+
+  padding: 0 0 0
+    calc(var(--sky-padding-even-md) - var(--sky-docs-toc-active-border-size));
+  border-left: var(--sky-docs-toc-active-border-size) solid transparent;
+
+  &:focus-visible,
+  &.sky-docs-toc-link-active {
+    border-color: var(--sky-text-color-action-primary);
+  }
+
+  &:hover {
+    text-decoration: none;
+    .sky-docs-toc-link-text {
+      text-decoration: underline;
+    }
+  }
+
+  .sky-docs-toc-link-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .sky-docs-toc-link-category {
+    flex-shrink: 1;
+    white-space: nowrap;
+  }
+}

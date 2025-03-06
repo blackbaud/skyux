@@ -1,0 +1,296 @@
+@if (definition(); as def) {
+  <sky-docs-heading-anchor
+    class="sky-margin-stacked-lg"
+    headingLevel="2"
+    [anchorId]="def.anchorId"
+    [categoryColor]="def.kind | skyDocsDefinitionKindToCategoryColor"
+    [categoryTemplate]="categoryTemplate"
+    [headingText]="def.name"
+    [strikethrough]="def.isDeprecated"
+  >
+    <ng-template #categoryTemplate>
+      <span class="sky-screen-reader-only">Type: </span>
+      {{ def.kind | skyTypeDefinitionKindToLabel }}
+    </ng-template>
+    @if (def.isPreview) {
+      <sky-docs-category-tag color="teal"> Preview </sky-docs-category-tag>
+    }
+  </sky-docs-heading-anchor>
+  @if (def.kind === 'module' || def.name.endsWith('Harness')) {
+    <p>
+      <code class="sky-docs-codespan"
+        >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
+          def.packageName
+        }}';</code
+      >
+    </p>
+  }
+  @if (selector(); as selector) {
+    <p>
+      Selector: <code class="sky-docs-codespan">{{ selector }}</code>
+    </p>
+  }
+  @if (pipeName(); as pipeName) {
+    <p>
+      Pipe name: <code class="sky-docs-codespan">{{ pipeName }}</code>
+    </p>
+  }
+  @if (def.deprecationReason) {
+    <sky-docs-deprecation-reason [message]="def.deprecationReason" />
+  }
+  @if (def.description) {
+    <sky-docs-type-definition-description
+      [definitionName]="def.name"
+      [description]="def.description"
+    />
+  }
+  @if (def.codeExample) {
+    <h3>Example</h3>
+    <sky-docs-code-snippet
+      bordered
+      class="sky-margin-stacked-lg"
+      hideToolbar
+      [code]="def.codeExample"
+      [language]="def.codeExampleLanguage ?? 'html'"
+    />
+  }
+  @switch (def.kind) {
+    @case ('function') {
+      <sky-docs-code-snippet
+        bordered
+        class="sky-margin-stacked-lg"
+        hideToolbar
+        language="ts"
+        [code]="
+          def
+            | skyDocsFunctionSignature
+            | skyTypeAnchorLinks: { ignore: [def.name] }
+        "
+      />
+      @let parametersValue = parameters();
+      @if (parametersValue && parametersValue.length > 0) {
+        <h3>Parameters</h3>
+        @for (parameter of parametersValue; track parameter.name) {
+          <h4 class="sky-font-body-default">
+            <code
+              class="sky-docs-codespan"
+              [innerHTML]="
+                parameter
+                  | skyDocsParameterName
+                  | skyDocsEscapeHtml
+                  | skyTypeAnchorLinks
+              "
+            ></code>
+          </h4>
+          @if (parameter.description) {
+            <sky-docs-type-definition-description
+              [definitionName]="parameter.name"
+              [description]="parameter.description"
+            />
+          }
+        }
+      }
+    }
+    @case ('type-alias') {
+      <sky-docs-code-snippet bordered hideToolbar stacked>
+        <code
+          [innerHTML]="
+            def
+              | skyDocsTypeAliasSignature
+              | skyDocsCodeHighlight: 'typescript'
+              | skyTypeAnchorLinks: { ignore: [def.name] }
+          "
+        ></code>
+      </sky-docs-code-snippet>
+    }
+    @default {
+      @if (def.kind === 'interface') {
+        <sky-docs-code-snippet
+          bordered
+          hideToolbar
+          language="ts"
+          stacked
+          [code]="def | skyDocsInterfaceSignature"
+        />
+      }
+      @if (def.kind === 'enumeration') {
+        <sky-docs-code-snippet
+          bordered
+          hideToolbar
+          language="ts"
+          stacked
+          [code]="def | skyDocsEnumerationSignature"
+        />
+      }
+      @if (inputs(); as inputs) {
+        <h3>Inputs</h3>
+        @for (input of inputs; track input.name; let last = $last) {
+          <sky-docs-type-definition-box
+            [stacked]="!last"
+            [deprecated]="input.isDeprecated"
+            [required]="input.isRequired"
+            [headingText]="
+              input
+                | skyDocsPropertyName: def
+                | skyDocsEscapeHtml
+                | skyTypeAnchorLinks: { ignore: [def.name] }
+            "
+          >
+            @if (input.deprecationReason) {
+              <sky-docs-deprecation-reason
+                class="sky-margin-stacked-sm"
+                [message]="input.deprecationReason"
+              />
+            }
+            @if (input.description) {
+              <sky-docs-type-definition-description
+                [definitionName]="input.name"
+                [description]="input.description"
+              />
+            }
+            @let defaultValue = input | skyDocsPropertyDefaultValue;
+            @if (defaultValue) {
+              <p>
+                Default:
+                <code
+                  class="sky-docs-codespan"
+                  [innerHTML]="
+                    defaultValue | skyDocsEscapeHtml | skyTypeAnchorLinks
+                  "
+                ></code>
+              </p>
+            }
+          </sky-docs-type-definition-box>
+        }
+      }
+      @if (outputs(); as outputs) {
+        <h3>Outputs</h3>
+        @for (output of outputs; track output.name; let last = $last) {
+          <sky-docs-type-definition-box
+            [stacked]="!last"
+            [deprecated]="output.isDeprecated"
+            [headingText]="
+              output
+                | skyDocsPropertyName: def
+                | skyDocsEscapeHtml
+                | skyTypeAnchorLinks: { ignore: [def.name] }
+            "
+          >
+            @if (output.deprecationReason) {
+              <sky-docs-deprecation-reason
+                class="sky-margin-stacked-sm"
+                [message]="output.deprecationReason"
+              />
+            }
+            @if (output.description) {
+              <sky-docs-type-definition-description
+                [definitionName]="output.name"
+                [description]="output.description"
+              />
+            }
+          </sky-docs-type-definition-box>
+        }
+      }
+      @if (properties(); as properties) {
+        <h3>Properties</h3>
+        @for (property of properties; track property.name; let last = $last) {
+          <sky-docs-type-definition-box
+            [stacked]="!last"
+            [deprecated]="property.isDeprecated"
+            [headingText]="
+              property
+                | skyDocsPropertyName: def
+                | skyDocsEscapeHtml
+                | skyTypeAnchorLinks: { ignore: [def.name] }
+            "
+          >
+            @if (property.deprecationReason) {
+              <sky-docs-deprecation-reason
+                class="sky-margin-stacked-sm"
+                [message]="property.deprecationReason"
+              />
+            }
+            @if (property.description) {
+              <sky-docs-type-definition-description
+                [definitionName]="property.name"
+                [description]="property.description"
+              />
+            }
+            @let defaultValue = property | skyDocsPropertyDefaultValue;
+            @if (defaultValue) {
+              <p>
+                Default:
+                <code
+                  class="sky-docs-codespan"
+                  [innerHTML]="
+                    defaultValue | skyDocsEscapeHtml | skyTypeAnchorLinks
+                  "
+                ></code>
+              </p>
+            }
+          </sky-docs-type-definition-box>
+        }
+      }
+      @let methodsValue = methods();
+      @if (methodsValue && methodsValue.length > 0) {
+        <h3>Methods</h3>
+        @for (method of methodsValue; track method.name; let last = $last) {
+          <sky-docs-type-definition-box
+            [stacked]="!last"
+            [deprecated]="method.isDeprecated"
+            [headingText]="
+              method
+                | skyDocsMethodName: def
+                | skyDocsEscapeHtml
+                | skyTypeAnchorLinks: { ignore: [def.name] }
+            "
+          >
+            @if (method.deprecationReason) {
+              <sky-docs-deprecation-reason
+                class="sky-margin-stacked-sm"
+                [message]="method.deprecationReason"
+              />
+            }
+            @if (method.description) {
+              <sky-docs-type-definition-description
+                [definitionName]="method.name"
+                [description]="method.description"
+              />
+            }
+            @if (method.parameters) {
+              <h4>Parameters</h4>
+              @for (param of method.parameters; track param.name) {
+                <h5 class="sky-font-body-default">
+                  <code
+                    class="sky-docs-codespan"
+                    [innerHTML]="
+                      param
+                        | skyDocsParameterName
+                        | skyDocsEscapeHtml
+                        | skyTypeAnchorLinks
+                    "
+                  ></code>
+                </h5>
+                @if (param.description) {
+                  <sky-docs-type-definition-description
+                    [definitionName]="param.name"
+                    [description]="param.description"
+                  />
+                }
+              }
+            }
+            <h4>Returns</h4>
+            <p>
+              <code
+                class="sky-docs-codespan"
+                [innerHTML]="
+                  method.type | skyDocsEscapeHtml | skyTypeAnchorLinks
+                "
+              ></code>
+            </p>
+          </sky-docs-type-definition-box>
+        }
+      }
+    }
+  }
+}

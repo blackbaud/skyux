@@ -6,9 +6,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expectAsync } from '@skyux-sdk/testing';
 import { SkyBoxHarness } from '@skyux/layout/testing';
 
-import { SkyCodeExampleViewerComponent } from './code-example-viewer.component';
-import { SkyCodeExampleViewerModule } from './code-example-viewer.module';
-import { SkyStackBlitzService } from './stackblitz.service';
+import { SkyDocsCodeExampleViewerComponent } from './code-example-viewer.component';
+import { SkyDocsCodeExampleViewerModule } from './code-example-viewer.module';
+import { SkyDocsStackBlitzService } from './stackblitz.service';
 
 interface SetupConfig {
   componentName: string;
@@ -30,10 +30,10 @@ describe('code-example-viewer.component', () => {
   let defaults: SetupConfig;
 
   function setupTest(config: SetupConfig): {
-    fixture: ComponentFixture<SkyCodeExampleViewerComponent>;
+    fixture: ComponentFixture<SkyDocsCodeExampleViewerComponent>;
     loader: HarnessLoader;
   } {
-    const fixture = TestBed.createComponent(SkyCodeExampleViewerComponent);
+    const fixture = TestBed.createComponent(SkyDocsCodeExampleViewerComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const componentRef = fixture.componentRef;
@@ -48,15 +48,15 @@ describe('code-example-viewer.component', () => {
   }
 
   function getDemoWrapper(
-    fixture: ComponentFixture<SkyCodeExampleViewerComponent>,
+    fixture: ComponentFixture<SkyDocsCodeExampleViewerComponent>,
   ): HTMLDivElement | null {
     return (fixture.nativeElement as HTMLElement).querySelector<HTMLDivElement>(
-      '.sky-code-example-viewer-demo',
+      '.sky-docs-code-example-viewer-demo',
     );
   }
 
   function toggleCodeVisibility(
-    fixture: ComponentFixture<SkyCodeExampleViewerComponent>,
+    fixture: ComponentFixture<SkyDocsCodeExampleViewerComponent>,
   ): void {
     const toggleCodeButton = (
       fixture.nativeElement as HTMLElement
@@ -69,7 +69,7 @@ describe('code-example-viewer.component', () => {
   }
 
   function expectCodeVisible(
-    fixture: ComponentFixture<SkyCodeExampleViewerComponent>,
+    fixture: ComponentFixture<SkyDocsCodeExampleViewerComponent>,
     visible: boolean,
   ): void {
     const codeWrapper = (
@@ -101,7 +101,7 @@ class FooExampleComponent {}`,
     };
 
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SkyCodeExampleViewerModule],
+      imports: [NoopAnimationsModule, SkyDocsCodeExampleViewerModule],
     });
   });
 
@@ -150,7 +150,10 @@ class FooExampleComponent {}`,
 
     fixture.detectChanges();
 
-    const stackblitzSpy = spyOn(TestBed.inject(SkyStackBlitzService), 'launch');
+    const stackblitzSpy = spyOn(
+      TestBed.inject(SkyDocsStackBlitzService),
+      'launch',
+    );
 
     const stackblitzButton = (
       fixture.nativeElement as HTMLElement

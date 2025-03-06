@@ -1,72 +1,60 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   inject,
   input,
-  viewChild,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SkyIconModule } from '@skyux/icon';
 
-import highlight from 'highlight.js/lib/core';
-import hlJavaScript from 'highlight.js/lib/languages/javascript';
-import hlScss from 'highlight.js/lib/languages/scss';
-import hlTypeScript from 'highlight.js/lib/languages/typescript';
-import hlXml from 'highlight.js/lib/languages/xml';
+import { type SkyDocsCodeHighlightLanguage } from '../code-highlight/code-highlight-language';
+import { SkyDocsCodeHighlightService } from '../code-highlight/code-highlight.service';
 
-import { SkyClipboardService } from '../clipboard/clipboard.service';
-import { SkyDocsToolsResourcesModule } from '../shared/sky-docs-tools-resources.module';
-
-import { type SkyCodeSnippetLanguage } from './code-snippet-language';
+import { SkyDocsCodeSnippetToolbarComponent } from './code-snippet-toolbar.component';
 
 /**
+ * Highlights the provided code.
  * @internal
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [SkyIconModule, SkyDocsToolsResourcesModule],
-  selector: 'sky-code-snippet',
+  host: {
+    '[class.sky-margin-stacked-lg]': 'stacked()',
+    '[class.sky-elevation-0-bordered]': 'bordered()',
+    '[class.sky-rounded-corners]': 'bordered()',
+  },
+  imports: [SkyDocsCodeSnippetToolbarComponent],
+  selector: 'sky-docs-code-snippet[code]',
   styleUrls: [
     './code-snippet.component.scss',
-    './themes/visual-studio-light.scss',
+    './themes/vscode-modern-light.scss',
   ],
-  templateUrl: './code-snippet.component.html',
+  template: `
+    @if (!hideToolbar()) {
+      <sky-docs-code-snippet-toolbar [codeRef]="codeRef" />
+    }
+    <pre #codeRef><code [innerHTML]="highlighted()"></code></pre>
+  `,
 })
-export class SkyCodeSnippetComponent {
-  readonly #clipboardSvc = inject(SkyClipboardService);
+export class SkyDocsCodeSnippetComponent {
+  readonly #highlightSvc = inject(SkyDocsCodeHighlightService);
   readonly #sanitizer = inject(DomSanitizer);
 
   public readonly code = input.required<string>();
-  public readonly language = input.required<SkyCodeSnippetLanguage>();
+  public readonly language = input.required<SkyDocsCodeHighlightLanguage>();
 
-  protected readonly codeRef = viewChild<ElementRef>('codeRef');
+  public readonly bordered = input(false, { transform: booleanAttribute });
+  public readonly hideToolbar = input(false, { transform: booleanAttribute });
+  public readonly stacked = input(false, { transform: booleanAttribute });
 
-  protected formatted = computed(() => {
+  protected highlighted = computed(() => {
     const code = this.code();
     const language = this.language();
+    const highlighted = this.#highlightSvc.highlight(code, language);
 
-    const formatted = highlight.highlight(code, {
-      language,
-    });
-
-    return this.#sanitizer.bypassSecurityTrustHtml(formatted.value);
+    return this.#sanitizer.bypassSecurityTrustHtml(highlighted);
   });
-
-  constructor() {
-    highlight.registerLanguage('html', hlXml);
-    highlight.registerLanguage('js', hlJavaScript);
-    highlight.registerLanguage('scss', hlScss);
-    highlight.registerLanguage('ts', hlTypeScript);
-  }
-
-  protected onClipboardButtonClick(copySuccessMessage: string): void {
-    const el = this.codeRef();
-    if (el) {
-      this.#clipboardSvc.copyTextContent(el, copySuccessMessage);
-    }
-  }
 }

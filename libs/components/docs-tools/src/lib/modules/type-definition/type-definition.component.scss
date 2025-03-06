@@ -1,0 +1,17 @@
+sky-docs-type-definition {
+  display: block;
+
+  sky-docs-type-definition-box {
+    :first-child {
+      margin-top: 0;
+    }
+
+    :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .sky-docs-type-definition-text-strikethrough {
+    text-decoration: line-through;
+  }
+}
