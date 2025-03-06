@@ -118,7 +118,6 @@
       "@skyux/lookup/testing": [
         "libs/components/lookup/testing/src/public-api.ts"
       ],
-      "@skyux/manifest/*": ["dist/libs/components/manifest/*"],
       "@skyux/manifest": ["dist/libs/components/manifest"],
       "@skyux/modals": ["libs/components/modals/src/index.ts"],
       "@skyux/modals/testing": [
