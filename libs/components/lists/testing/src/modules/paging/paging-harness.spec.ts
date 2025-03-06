@@ -74,37 +74,23 @@ describe('Paging test harness', () => {
     );
   });
 
-  it('should get the page controls', async () => {
+  it('should select a specific page', async () => {
+    const { pagingHarness, fixture } = await setupTest();
+
+    await pagingHarness.clickPageButton(3);
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(3);
+  });
+
+  it('should throw an error when trying to select page that is not currently displayed', async () => {
     const { pagingHarness } = await setupTest();
 
-    let pageControls = await pagingHarness.getPageControls();
-
-    expect(pageControls.length).toBe(3);
-
-    await expectAsync(pageControls[0].getText()).toBeResolvedTo('1');
-    await expectAsync(pageControls[0].isDisabled()).toBeResolvedTo(true);
-    await expectAsync(pageControls[1].getText()).toBeResolvedTo('2');
-    await expectAsync(pageControls[1].isDisabled()).toBeResolvedTo(false);
-    await expectAsync(pageControls[2].getText()).toBeResolvedTo('3');
-    await expectAsync(pageControls[2].isDisabled()).toBeResolvedTo(false);
-
-    await pageControls[1].clickButton();
-
-    await expectAsync(pageControls[1].isDisabled()).toBeResolvedTo(true);
-    await expectAsync(pageControls[1].clickButton()).toBeRejectedWithError(
-      'Could not click page button 2 because it is currently the active page.',
+    await expectAsync(pagingHarness.clickPageButton(5)).toBeRejectedWithError(
+      'Could not find page button 5.',
     );
-
-    await pageControls[2].clickButton();
-
-    pageControls = await pagingHarness.getPageControls();
-
-    await expectAsync(pageControls[0].getText()).toBeResolvedTo('2');
-    await expectAsync(pageControls[0].isDisabled()).toBeResolvedTo(false);
-    await expectAsync(pageControls[1].getText()).toBeResolvedTo('3');
-    await expectAsync(pageControls[1].isDisabled()).toBeResolvedTo(true);
-    await expectAsync(pageControls[2].getText()).toBeResolvedTo('4');
-    await expectAsync(pageControls[2].isDisabled()).toBeResolvedTo(false);
   });
 
   it('should get the paging label', async () => {
@@ -124,8 +110,8 @@ describe('Paging test harness', () => {
     await expectAsync(pagingHarness.getCurrentPage()).toBeRejectedWithError(
       'Could not find current page.',
     );
-    await expectAsync(pagingHarness.getPageControls()).toBeRejectedWithError(
-      'Could not find any page controls.',
+    await expectAsync(pagingHarness.clickPageButton(1)).toBeRejectedWithError(
+      'Could not find page button 1.',
     );
     await expectAsync(pagingHarness.clickNextButton()).toBeRejectedWithError(
       'Could not find the next button.',

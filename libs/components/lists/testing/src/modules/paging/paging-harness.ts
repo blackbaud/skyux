@@ -49,6 +49,21 @@ export class SkyPagingHarness extends SkyComponentHarness {
   }
 
   /**
+   * Clicks the page button with the requested number. Returns an error if that page is not displayed.
+   */
+  public async clickPageButton(pageNumber: number): Promise<void> {
+    const button = await this.locatorForOptional(
+      SkyPageControlHarness.with({ pageNumber: pageNumber }),
+    )();
+
+    if (button === null) {
+      throw new Error(`Could not find page button ${pageNumber}.`);
+    }
+
+    await button.clickButton();
+  }
+
+  /**
    * Clicks the previous button.
    */
   public async clickPreviousButton(): Promise<void> {
@@ -80,19 +95,6 @@ export class SkyPagingHarness extends SkyComponentHarness {
     }
 
     return parseInt(await currentPage.text());
-  }
-
-  /**
-   * Gets the page control buttons.
-   */
-  public async getPageControls(): Promise<SkyPageControlHarness[]> {
-    const controls = await this.locatorForAll(SkyPageControlHarness)();
-
-    if (controls.length === 0) {
-      throw new Error('Could not find any page controls.');
-    }
-
-    return controls;
   }
 
   /**

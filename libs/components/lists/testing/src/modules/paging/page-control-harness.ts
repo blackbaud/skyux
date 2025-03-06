@@ -1,7 +1,10 @@
-import { ComponentHarness, TestElement } from '@angular/cdk/testing';
+import { ComponentHarness, HarnessPredicate } from '@angular/cdk/testing';
+
+import { SkyPageControlHarnessFilters } from './page-control-harness-filters';
 
 /**
  * Harness to interact with a page control element in tests.
+ * @internal
  */
 export class SkyPageControlHarness extends ComponentHarness {
   /**
@@ -11,20 +14,26 @@ export class SkyPageControlHarness extends ComponentHarness {
 
   #getButton = this.locatorFor('button.sky-paging-btn');
 
+  public static with(
+    filters: SkyPageControlHarnessFilters,
+  ): HarnessPredicate<SkyPageControlHarness> {
+    return new HarnessPredicate(SkyPageControlHarness, filters).addOption(
+      'pageNumber',
+      filters.pageNumber,
+      (harness, pageNumber) =>
+        harness
+          .getText()
+          .then(
+            (actualPageNumber) => parseInt(actualPageNumber) === pageNumber,
+          ),
+    );
+  }
+
   /**
    * Clicks the page button.
    */
   public async clickButton(): Promise<void> {
-    const button = await this.#getButton();
-
-    if (await this.#buttonIsDisabled(button)) {
-      const label = await button.text();
-      throw new Error(
-        `Could not click page button ${label} because it is currently the active page.`,
-      );
-    }
-
-    await button.click();
+    await (await this.#getButton()).click();
   }
 
   /**
@@ -34,18 +43,5 @@ export class SkyPageControlHarness extends ComponentHarness {
     const button = await this.#getButton();
 
     return await button.text();
-  }
-
-  /**
-   * Whether the page button is disabled.
-   */
-  public async isDisabled(): Promise<boolean> {
-    const button = await this.#getButton();
-    return await this.#buttonIsDisabled(button);
-  }
-
-  async #buttonIsDisabled(button: TestElement): Promise<boolean> {
-    const disabled = await button.getAttribute('disabled');
-    return disabled !== null;
   }
 }

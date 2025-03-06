@@ -47,9 +47,7 @@ describe('Paging demo', () => {
 
     await expectAsync(items[0].getTitleText()).toBeResolvedTo('Abed');
 
-    const controls = await pagingHarness.getPageControls();
-
-    await controls[2].clickButton();
+    await pagingHarness.clickPageButton(3);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -73,6 +71,10 @@ describe('Paging demo', () => {
 
     await expectAsync(pagingHarness.clickNextButton()).toBeRejectedWithError(
       'Could not click the next button because it is disabled.',
+    );
+
+    await expectAsync(pagingHarness.clickPageButton(1)).toBeRejectedWithError(
+      'Could not find page button 1.',
     );
   });
 });

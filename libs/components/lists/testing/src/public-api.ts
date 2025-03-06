@@ -6,7 +6,6 @@ export { SkyPagingFixture } from './legacy/paging/paging-fixture';
 export { SkyPagingFixtureButton } from './legacy/paging/paging-fixture-button';
 export { SkyPagingTestingModule } from './legacy/paging/paging-testing.module';
 
-export { SkyPageControlHarness } from './modules/paging/page-control-harness';
 export { SkyPagingContentHarness } from './modules/paging/paging-content-harness';
 export { SkyPagingHarness } from './modules/paging/paging-harness';
 export { SkyPagingHarnessFilters } from './modules/paging/paging-harness-filters';
