@@ -287,7 +287,7 @@ export class SkyAffixer {
     }
 
     const affixedRect = getOuterRect(this.#affixedElement);
-    const baseRect = this.#baseElement.getBoundingClientRect();
+    const baseRect = getOuterRect(this.#baseElement);
 
     const horizontalAlignment = this.#config.horizontalAlignment;
     const verticalAlignment = this.#config.verticalAlignment;
@@ -334,7 +334,10 @@ export class SkyAffixer {
 
         case 'center':
         default:
-          left = baseRect.left + baseRect.width / 2 - affixedRect.width / 2;
+          left =
+            baseRect.left +
+            (baseRect.right - baseRect.left) / 2 -
+            affixedRect.width / 2;
           break;
 
         case 'right':
@@ -355,7 +358,10 @@ export class SkyAffixer {
 
         case 'middle':
         default:
-          top = baseRect.top + baseRect.height / 2 - affixedRect.height / 2;
+          top =
+            baseRect.top +
+            (baseRect.bottom - baseRect.top) / 2 -
+            affixedRect.height / 2;
           break;
 
         case 'bottom':
