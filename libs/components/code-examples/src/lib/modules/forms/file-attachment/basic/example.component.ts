@@ -28,6 +28,9 @@ function customValidator(
     : null;
 }
 
+/**
+ * @title Basic example
+ */
 @Component({
   selector: 'app-forms-file-attachment-basic-example',
   templateUrl: './example.component.html',

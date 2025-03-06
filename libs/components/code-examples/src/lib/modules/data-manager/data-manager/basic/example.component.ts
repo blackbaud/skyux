@@ -17,6 +17,9 @@ import { Filters } from './filters';
 import { ViewGridComponent } from './view-grid.component';
 import { ViewRepeaterComponent } from './view-repeater.component';
 
+/**
+ * @title Basic example
+ */
 @Component({
   selector: 'app-data-manager-basic-example',
   templateUrl: './example.component.html',

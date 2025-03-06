@@ -9,6 +9,9 @@ import {
 import { SkyIdModule } from '@skyux/core';
 import { SkyAutocompleteModule } from '@skyux/lookup';
 
+/**
+ * @title Basic example
+ */
 @Component({
   selector: 'app-lookup-autocomplete-basic-example',
   templateUrl: './example.component.html',

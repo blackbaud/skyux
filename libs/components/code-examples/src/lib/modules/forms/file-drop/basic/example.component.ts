@@ -27,6 +27,9 @@ function customValidator(
   return null;
 }
 
+/**
+ * @title Basic example
+ */
 @Component({
   selector: 'app-forms-file-drop-basic-example',
   templateUrl: './example.component.html',

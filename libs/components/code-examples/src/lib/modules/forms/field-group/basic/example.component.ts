@@ -8,6 +8,9 @@ import {
 import { SkyFieldGroupModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyFluidGridModule } from '@skyux/layout';
 
+/**
+ * @title Basic example
+ */
 @Component({
   selector: 'app-forms-field-group-basic-example',
   templateUrl: './example.component.html',

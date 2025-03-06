@@ -3,6 +3,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyEmailValidationModule } from '@skyux/validation';
 
+/**
+ * @title Directive
+ */
 @Component({
   selector: 'app-validation-email-validation-directive-example',
   templateUrl: './example.component.html',

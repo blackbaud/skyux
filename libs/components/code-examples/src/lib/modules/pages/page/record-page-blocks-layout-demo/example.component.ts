@@ -3,6 +3,9 @@ import { SkyPageModule } from '@skyux/pages';
 
 import { RecordPageContentComponent } from './record-page-content.component';
 
+/**
+ * @title Boxes in a page component with a blocks layout
+ */
 @Component({
   selector: 'app-pages-page-record-page-blocks-layout-example',
   templateUrl: './example.component.html',

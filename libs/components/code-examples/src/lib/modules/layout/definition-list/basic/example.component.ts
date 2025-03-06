@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyDefinitionListModule } from '@skyux/layout';
 
+/**
+ * @title Basic example
+ */
 @Component({
   selector: 'app-layout-definition-list-basic-example',
   templateUrl: './example.component.html',

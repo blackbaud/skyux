@@ -15,6 +15,9 @@ import { SkyInputBoxModule } from '@skyux/forms';
 
 import { DemoAutonumericOptionsProvider } from './options-provider';
 
+/**
+ * @title Options provider
+ */
 @Component({
   selector: 'app-autonumeric-options-provider-example',
   templateUrl: './example.component.html',

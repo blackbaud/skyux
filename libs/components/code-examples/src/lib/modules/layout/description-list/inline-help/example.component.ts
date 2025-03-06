@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyDescriptionListModule } from '@skyux/layout';
 
+/**
+ * @title Description list with inline help
+ */
 @Component({
   selector: 'app-layout-description-list-inline-help-example',
   templateUrl: './example.component.html',

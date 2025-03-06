@@ -10,6 +10,9 @@ import {
 import { SkyDatepickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
 
+/**
+ * @title Fuzzy datepicker
+ */
 @Component({
   selector: 'app-datetime-datepicker-fuzzy-example',
   templateUrl: './example.component.html',

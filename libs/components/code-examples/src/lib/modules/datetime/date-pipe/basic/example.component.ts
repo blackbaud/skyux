@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyDatePipeModule } from '@skyux/datetime';
 
+/**
+ * @title Basic example
+ */
 @Component({
   selector: 'app-datetime-date-pipe-basic-example',
   templateUrl: './example.component.html',

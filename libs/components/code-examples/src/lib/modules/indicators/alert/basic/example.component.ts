@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SkyAlertModule } from '@skyux/indicators';
 
+/**
+ * @title Basic example
+ */
 @Component({
   selector: 'app-indicators-alert-basic-example',
   templateUrl: './example.component.html',

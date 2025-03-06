@@ -11,7 +11,6 @@ import {
   SkyDateRangeCalculation,
   SkyDateRangeCalculatorId,
   SkyDateRangePickerModule,
-  SkyDatepickerModule,
 } from '@skyux/datetime';
 
 function dateRangeExcludesWeekend(
@@ -33,17 +32,13 @@ function dateRangeExcludesWeekend(
   return null;
 }
 
+/**
+ * @title Basic example
+ */
 @Component({
   selector: 'app-datetime-date-range-picker-basic-example',
   templateUrl: './example.component.html',
-  // NOTE: `SkyDatepickerModule` is imported to address a stackblitz error.
-  // Consumers DO NOT need to import `SkyDatepickerModule` when using `sky-date-ranger-picker`
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    SkyDateRangePickerModule,
-    SkyDatepickerModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, SkyDateRangePickerModule],
 })
 export class DatetimeDateRangePickerBasicExampleComponent {
   protected dateFormat: string | undefined;
