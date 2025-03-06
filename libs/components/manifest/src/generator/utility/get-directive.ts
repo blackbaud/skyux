@@ -11,6 +11,7 @@ import { getAnchorId } from './get-anchor-id';
 import { getProperty } from './get-class';
 import { getComment } from './get-comment';
 import { getDecorator } from './get-decorator';
+import { getRepoUrl } from './get-repo-url';
 import { remapLambdaName } from './remap-lambda-names';
 
 export function isInput(
@@ -129,6 +130,7 @@ export function getDirective(
     isPreview,
   } = getComment(reflection);
 
+  const repoUrl = getRepoUrl(reflection);
   const directiveName = remapLambdaName(reflection);
   const inputs = getInputs(reflection) ?? [];
   const outputs = getOutputs(reflection) ?? [];
@@ -149,6 +151,7 @@ export function getDirective(
     isPreview,
     kind,
     name: directiveName,
+    repoUrl,
     selector: getSelector(reflection),
   };
 

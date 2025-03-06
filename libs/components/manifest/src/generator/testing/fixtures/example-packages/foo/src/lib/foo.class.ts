@@ -23,6 +23,14 @@ type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
  */
 export class FooClass<TClass extends FooBaseClass> {
   /**
+   * This is a static getter without a setter.
+   * @deprecated
+   */
+  public static get count(): number {
+    return 1;
+  }
+
+  /**
    * @param a This describes the param 'a'.
    * @param b This describes the param 'b'.
    */
@@ -89,6 +97,8 @@ export class FooClass<TClass extends FooBaseClass> {
 
 /**
  * This describes the foo abstract class.
+ *
+ * It has multiple paragraphs in its description.
  */
 export abstract class FooWithStaticPropertiesClass {
   /**

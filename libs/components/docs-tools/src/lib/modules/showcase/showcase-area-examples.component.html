@@ -1,0 +1,20 @@
+@if (documentationGroup()?.codeExamples; as codeExamples) {
+  @for (
+    example of codeExamples;
+    track example.componentName;
+    let last = $last
+  ) {
+    <sky-docs-code-example-viewer
+      [componentName]="example.componentName"
+      [componentSelector]="example.selector"
+      [componentType]="
+        example.componentName | skyDocsCodeExampleNameToComponentType
+      "
+      [demoHidden]="!!example.demoHidden"
+      [files]="example.files"
+      [headingText]="example.title || 'Example'"
+      [primaryFile]="example.primaryFile"
+      [stacked]="!last"
+    />
+  }
+}
