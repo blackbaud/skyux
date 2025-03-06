@@ -24,6 +24,7 @@ import { SkyDocsCodeSnippetToolbarComponent } from './code-snippet-toolbar.compo
   host: {
     '[class.sky-margin-stacked-lg]': 'stacked()',
     '[class.sky-elevation-0-bordered]': 'bordered()',
+    '[class.sky-padding-even-xl]': 'bordered()',
     '[class.sky-rounded-corners]': 'bordered()',
   },
   imports: [SkyDocsCodeSnippetToolbarComponent],

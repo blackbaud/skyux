@@ -15,6 +15,11 @@
     "url": "https://github.com/blackbaud/skyux/issues"
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
+  "exports": {
+    "./css/styles.css": {
+      "default": "./css/styles.css"
+    }
+  },
   "peerDependencies": {
     "@angular/common": "^19.0.5",
     "@angular/core": "^19.0.5",
