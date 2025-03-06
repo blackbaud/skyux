@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 
-import { SkyCodeExampleViewerComponent } from './code-example-viewer.component';
+import { SkyDocsCodeExampleViewerComponent } from './code-example-viewer.component';
 
 /**
  * @internal
  */
 @NgModule({
-  imports: [SkyCodeExampleViewerComponent],
-  exports: [SkyCodeExampleViewerComponent],
+  imports: [SkyDocsCodeExampleViewerComponent],
+  exports: [SkyDocsCodeExampleViewerComponent],
 })
-export class SkyCodeExampleViewerModule {}
+export class SkyDocsCodeExampleViewerModule {}

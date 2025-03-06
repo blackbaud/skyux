@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppWindowRef } from '@skyux/core';
 
-import { SkyClipboardService } from './clipboard.service';
+import { SkyDocsClipboardService } from './clipboard.service';
 
 @Component({
   selector: 'app-test',
@@ -17,7 +17,7 @@ class TestComponent {}
 describe('clipboard.service', () => {
   function setupTest(): {
     clipboardSpy: jasmine.Spy<jasmine.Func>;
-    clipboardSvc: SkyClipboardService;
+    clipboardSvc: SkyDocsClipboardService;
     fixture: ComponentFixture<TestComponent>;
   } {
     const clipboardSpy = spyOn(
@@ -25,7 +25,7 @@ describe('clipboard.service', () => {
       'writeText',
     );
 
-    const clipboardSvc = TestBed.inject(SkyClipboardService);
+    const clipboardSvc = TestBed.inject(SkyDocsClipboardService);
     const fixture = TestBed.createComponent(TestComponent);
 
     return { clipboardSpy, clipboardSvc, fixture };
@@ -42,7 +42,7 @@ describe('clipboard.service', () => {
 
     fixture.detectChanges();
 
-    clipboardSvc.copyTextContent(fixture.elementRef, 'Copied');
+    clipboardSvc.copyTextContent(fixture.nativeElement, 'Copied');
 
     expect(clipboardSpy).toHaveBeenCalledWith('<h1>Hello, world!</h1>');
   });
