@@ -2,8 +2,8 @@ import glob from 'fast-glob';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 
-import { SkyManifestDirectiveDefinition } from '../types/directive-def';
-import { SkyManifestDocumentationConfig } from '../types/documentation-config';
+import type { SkyManifestDirectiveDefinition } from '../types/directive-def';
+import type { SkyManifestDocumentationConfig } from '../types/documentation-config';
 import type {
   SkyManifestCodeExampleFiles,
   SkyManifestCodeExamples,

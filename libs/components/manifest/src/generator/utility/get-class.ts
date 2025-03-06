@@ -102,8 +102,8 @@ export function getProperties(
   if (reflection.children) {
     for (const child of reflection.children) {
       if (
-        child.kind === ReflectionKind.Property ||
-        child.kind === ReflectionKind.Accessor
+        child.name !== 'constructor' &&
+        child.kind !== ReflectionKind.Method
       ) {
         const property = getProperty(child);
         properties.push(property);

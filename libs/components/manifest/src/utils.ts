@@ -14,16 +14,6 @@ export function isDirectiveDefinition(
 }
 
 /**
- * Whether the provided definition is a pipe definition.
- * @internal
- */
-export function isPipeDefinition(
-  def: SkyManifestParentDefinition,
-): def is SkyManifestPipeDefinition {
-  return def.kind === 'pipe';
-}
-
-/**
  * Whether the provided definition is a function definition.
  * @internal
  */
@@ -31,4 +21,14 @@ export function isFunctionDefinition(
   def: SkyManifestParentDefinition,
 ): def is SkyManifestFunctionDefinition {
   return def.kind === 'function';
+}
+
+/**
+ * Whether the provided definition is a pipe definition.
+ * @internal
+ */
+export function isPipeDefinition(
+  def: SkyManifestParentDefinition,
+): def is SkyManifestPipeDefinition {
+  return def.kind === 'pipe';
 }

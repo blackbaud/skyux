@@ -6,14 +6,8 @@ import { visitProjectFiles } from '../../../utility/visit-project-files';
 
 export default function () {
   return (tree: Tree): void => {
-    visitProjectFiles(tree, '', (path, entry) => {
+    visitProjectFiles(tree, '', (path) => {
       if (!path.endsWith('.ts')) {
-        return;
-      }
-
-      const content = entry?.content.toString();
-
-      if (!content) {
         return;
       }
 
@@ -26,7 +20,7 @@ export default function () {
         return;
       }
 
-      moveClassToLibrary(tree, path, sourceFile, content, {
+      moveClassToLibrary(tree, path, {
         classNames: ['SkyHelpInlineModule'],
         previousLibrary: '@skyux/indicators',
         newLibrary: '@skyux/help-inline',

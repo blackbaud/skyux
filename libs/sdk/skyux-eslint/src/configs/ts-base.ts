@@ -52,6 +52,9 @@ export default {
 
     // Angular rules
     '@angular-eslint/no-lifecycle-call': 'error',
+    // This is a "fixable" rule, but its fix is destructive, so we'll need to disable it for now.
+    // See: https://github.com/angular-eslint/angular-eslint/issues/2206
+    '@angular-eslint/prefer-standalone': 'off',
 
     // TypeScript rules
     'default-param-last': 'off',

@@ -29,23 +29,23 @@ describe('get-documentation-group', () => {
       codeExamples: {
         examples: {
           FooCodeExample: {
-            componentName: 'FooComponent',
+            componentName: 'FooCodeExample',
             files: {
-              'foo.component.ts': 'TS_CONTENTS',
-              'foo.component.html': 'HTML_CONTENTS',
+              'example.component.ts': 'TS_CONTENTS',
+              'example.component.html': 'HTML_CONTENTS',
             },
-            importPath: '@skyux/foo',
-            primaryFile: 'foo.component.ts',
+            importPath: '@skyux/code-examples',
+            primaryFile: 'example.component.ts',
             selector: 'lib-foo',
           },
           IndicatorCodeExample: {
-            componentName: 'FooIndicatorComponent',
+            componentName: 'IndicatorCodeExample',
             files: {
-              'indicator.component.ts': 'TS_CONTENTS',
-              'indicator.component.html': 'HTML_CONTENTS',
+              'example.component.ts': 'TS_CONTENTS',
+              'example.component.html': 'HTML_CONTENTS',
             },
-            importPath: '@skyux/foo-indicator',
-            primaryFile: 'indicator.component.ts',
+            importPath: '@skyux/code-examples',
+            primaryFile: 'example.component.ts',
             selector: 'lib-indicator',
           },
         },
@@ -100,14 +100,6 @@ describe('get-documentation-group', () => {
             {
               name: 'FooComponent',
               docsId: 'FooComponent',
-              repoUrl: 'https://repo.com/foo',
-            },
-            {
-              name: 'FooCodeExample',
-              docsId: 'FooCodeExample',
-              extraTags: {
-                title: 'This is my title',
-              },
               repoUrl: 'https://repo.com/foo',
             },
             {

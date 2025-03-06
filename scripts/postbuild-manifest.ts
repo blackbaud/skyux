@@ -59,7 +59,7 @@ function createDeprecationsSnapshot(publicApi: SkyManifestPublicApi): string[] {
     }
   }
 
-  return deprecations.sort();
+  return [...new Set(deprecations.sort())];
 }
 
 /**
