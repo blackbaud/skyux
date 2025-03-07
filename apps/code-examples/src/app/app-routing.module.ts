@@ -203,7 +203,13 @@ const routerOptions: ExtraOptions = {
 };
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, routerOptions)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      anchorScrolling: 'enabled',
+      onSameUrlNavigation: 'reload',
+      scrollPositionRestoration: 'enabled',
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -13,6 +13,9 @@ import {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: false,
+  host: {
+    '[style.--playground-controls-height]': 'height + "px"',
+  },
 })
 export class AppComponent {
   public height = 80;

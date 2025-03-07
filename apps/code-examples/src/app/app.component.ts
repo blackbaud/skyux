@@ -1,4 +1,12 @@
-import { Component, NgZone, Renderer2, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  DestroyRef,
+  NgZone,
+  Renderer2,
+  inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import {
   SkyAppViewportService,
@@ -14,9 +22,9 @@ import {
   styleUrls: ['./app.component.scss'],
   standalone: false,
 })
-export class AppComponent {
-  // #injector = inject(Injector);
-  #zone = inject(NgZone);
+export class AppComponent implements AfterViewInit {
+  readonly #destroyRef = inject(DestroyRef);
+  readonly #zone = inject(NgZone);
 
   public height = 80;
 
@@ -83,5 +91,27 @@ export class AppComponent {
 
   public isHome(): boolean {
     return this.router.url === '/';
+  }
+
+  public ngAfterViewInit(): void {
+    this.router.events
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          const fragment = this.router.parseUrl(event.url).fragment;
+
+          if (fragment) {
+            this.#zone.runOutsideAngular(() => {
+              const el = document.getElementById(fragment);
+
+              if (el) {
+                el.scrollIntoView({
+                  behavior: 'smooth',
+                });
+              }
+            });
+          }
+        }
+      });
   }
 }

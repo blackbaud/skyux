@@ -259,4 +259,24 @@ describe('Affixer', () => {
     affixer.reaffix();
     expect(component.affixedElement?.nativeElement.style.top).toEqual('16px');
   });
+
+  it('should use the viewport dimensions', async () => {
+    document.body.style.height = '2px';
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const affixer = new SkyAffixer(
+      component.affixedElement?.nativeElement as HTMLElement,
+      TestBed.inject(RendererFactory2).createRenderer(undefined, null),
+      TestBed.inject(ViewportRuler),
+      TestBed.inject(NgZone),
+      TestBed.inject(DOCUMENT).documentElement,
+    );
+    expect(affixer).toBeTruthy();
+    affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
+      isSticky: true,
+      placement: 'below',
+    });
+    expect(component.affixedElement?.nativeElement.style.top).toEqual('31px');
+    document.body.style.height = 'initial';
+  });
 });
