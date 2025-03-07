@@ -1,9 +1,4 @@
-<div
-  id="controls"
-  [ngStyle]="{
-    'height.px': height
-  }"
->
+<div id="controls">
   <div>
     @if (!isHome()) {
       <button
@@ -19,11 +14,6 @@
   <sky-theme-selector />
 </div>
 
-<div
-  id="content"
-  [ngStyle]="{
-    height: 'calc(100vh - ' + height + 'px)'
-  }"
->
+<div id="content">
   <router-outlet />
 </div>
