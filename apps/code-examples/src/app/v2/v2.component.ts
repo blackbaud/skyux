@@ -16,7 +16,7 @@ import {
   SkyDocsShowcaseModule,
 } from '@skyux/docs-tools';
 import { SkyInputBoxModule } from '@skyux/forms';
-import { getDocumentationConfig } from '@skyux/manifest-dist';
+import { getDocumentationConfig } from '@skyux/manifest';
 import { SkyPageModule } from '@skyux/pages';
 
 const DOCS = getDocumentationConfig();

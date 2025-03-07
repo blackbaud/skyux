@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SkyManifestParentDefinitionKind } from '@skyux/manifest';
+import { type SkyManifestParentDefinitionKind } from '@skyux/manifest';
 
 import { SkyDocsCategoryColor } from '../../category-tag/category-color';
 
