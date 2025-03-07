@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -10,7 +10,6 @@ import {
   SkyDatepickerCalendarChange,
   SkyDatepickerCustomDate,
 } from '@skyux/datetime';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 import { of } from 'rxjs';
 import { delay, distinctUntilChanged } from 'rxjs/operators';
@@ -33,7 +32,6 @@ export class DatepickerComponent implements OnInit {
   public selectedDate: Date | undefined;
   public startingDay: number | undefined;
   public strict = false;
-  public readonly ready$ = inject(FontLoadingService).ready(true);
 
   constructor(formBuilder: FormBuilder) {
     this.reactiveDate = new FormControl<Date>(

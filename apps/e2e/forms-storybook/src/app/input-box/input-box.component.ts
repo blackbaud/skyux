@@ -1,7 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
-import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-input-box',
@@ -16,8 +14,6 @@ export class InputBoxComponent implements OnInit {
   });
 
   public errorField = new UntypedFormControl('', [Validators.required]);
-
-  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   public ngOnInit(): void {
     this.errorField.markAsTouched();

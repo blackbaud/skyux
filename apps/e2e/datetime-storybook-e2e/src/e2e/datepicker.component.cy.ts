@@ -7,13 +7,8 @@ describe('Date picker', () => {
         cy.visit(
           `/iframe.html?globals=theme:${theme}&id=datepickercomponent-datepicker--datepicker`,
         );
-        cy.get('app-datepicker')
-          .should('exist')
-          .should('be.visible')
-          .end()
-          .get('#ready')
-          .should('exist')
-          .end();
+
+        cy.ready('app-datepicker').end();
       });
 
       it('should show day picker', () => {

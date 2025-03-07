@@ -9,7 +9,7 @@ describe('affix', () => {
         cy.visit(
           `/iframe.html?globals=theme:${theme}&id=affixcomponent-affix--affix`,
         );
-        cy.get('#ready').should('exist');
+        cy.ready('app-affix');
 
         cy.window().skyVisualTest(`affix-${theme}--initial`, {
           capture: 'viewport',
@@ -24,7 +24,7 @@ describe('affix', () => {
         cy.visit(
           `/iframe.html?globals=theme:${theme}&id=affixcomponent-affix--affix-overflow`,
         );
-        cy.get('#ready').should('exist');
+        cy.ready('app-affix');
 
         cy.window().scrollTo(880, 0);
         cy.skyVisualTest(`affix-${theme}--overflow`, {

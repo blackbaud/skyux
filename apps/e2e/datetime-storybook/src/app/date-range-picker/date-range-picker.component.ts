@@ -1,10 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   SkyDateRangeCalculation,
   SkyDateRangeCalculatorId,
 } from '@skyux/datetime';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 @Component({
   selector: 'app-date-range-picker',
@@ -75,7 +74,6 @@ export class DateRangePickerComponent {
     rangeInvalid: FormControl<SkyDateRangeCalculation | null>;
     disabled: FormControl<SkyDateRangeCalculation | null>;
   }>;
-  public readonly ready$ = inject(FontLoadingService).ready(true);
 
   constructor(formBuilder: FormBuilder) {
     const value: Partial<SkyDateRangeCalculation> = {

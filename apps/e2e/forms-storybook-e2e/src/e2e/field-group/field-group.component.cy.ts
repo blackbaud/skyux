@@ -10,11 +10,7 @@ describe('field-group', () => {
       );
 
       it('should render the component', () => {
-        cy.get('#ready').should('exist');
-        cy.get('app-field-group')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`field-group-${theme}`);
+        cy.ready('app-field-group').screenshot(`field-group-${theme}`);
         cy.percySnapshot(`field-group-${theme}`, {
           widths: E2eVariations.DISPLAY_WIDTHS,
         });

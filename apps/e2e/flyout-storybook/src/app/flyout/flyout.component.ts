@@ -1,19 +1,10 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnDestroy,
-  inject,
-} from '@angular/core';
+import { AfterViewInit, Component, Input, inject } from '@angular/core';
 import {
   SkyFlyoutAction,
   SkyFlyoutInstance,
   SkyFlyoutPermalink,
   SkyFlyoutService,
 } from '@skyux/flyout';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
-
-import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { FlyoutResponsiveComponent } from './flyout-responsive.component';
 import { FlyoutStandardComponent } from './flyout-standard.component';
@@ -24,7 +15,7 @@ import { FlyoutStandardComponent } from './flyout-standard.component';
   styleUrls: ['./flyout.component.scss'],
   standalone: false,
 })
-export class FlyoutComponent implements AfterViewInit, OnDestroy {
+export class FlyoutComponent implements AfterViewInit {
   public flyout: SkyFlyoutInstance<any> | undefined;
 
   @Input()
@@ -33,23 +24,9 @@ export class FlyoutComponent implements AfterViewInit, OnDestroy {
   @Input()
   public showHeaderButtons = false;
 
-  public readonly ready = new BehaviorSubject(false);
-
-  #fontLoadingService = inject(FontLoadingService);
   #flyoutService = inject(SkyFlyoutService);
-  #subscriptions = new Subscription();
-
-  public ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
-  }
 
   public ngAfterViewInit() {
-    this.#subscriptions.add(
-      this.#fontLoadingService.ready().subscribe(() => {
-        this.ready.next(true);
-      }),
-    );
-
     this.openFlyout();
   }
 

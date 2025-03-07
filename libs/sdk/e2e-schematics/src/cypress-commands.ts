@@ -4,16 +4,25 @@ declare namespace Cypress {
   interface Chainable<Subject> {
     ready(
       appName?: string,
-      additionalRequiredEls?: string[],
+      additionalExistingEls?: string[],
+      additionalVisibleEls?: string[],
     ): Chainable<Subject>;
   }
 }
 
 Cypress.Commands.add(
   'ready',
-  (appName?: string, additionalRequiredEls?: string[]) => {
-    additionalRequiredEls?.forEach((el) => {
+  (
+    appName?: string,
+    additionalExistingEls?: string[],
+    additionalVisibleEls?: string[],
+  ) => {
+    additionalExistingEls?.forEach((el) => {
       cy.get(el).should('exist');
+    });
+
+    additionalVisibleEls?.forEach((el) => {
+      cy.get(el).should('exist').should('be.visible');
     });
 
     if (appName) {
