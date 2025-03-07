@@ -211,20 +211,20 @@ describe('Viewport service', () => {
     item1.appendChild(document.createTextNode('Item 1'));
     container.appendChild(item1);
 
-    const inertOverlay = document.createElement('div');
-    inertOverlay.classList.add('mask-loading');
+    const ignoreOverlay = document.createElement('div');
+    ignoreOverlay.setAttribute('role', 'presentation');
     // eslint-disable-next-line @cspell/spellchecker
-    inertOverlay.style.backgroundColor = 'lightgreen';
-    inertOverlay.style.height = '100px';
-    inertOverlay.style.width = '100px';
-    inertOverlay.style.overflow = 'hidden';
-    inertOverlay.style.position = 'absolute';
-    inertOverlay.style.top = `0`;
-    inertOverlay.style.left = '0';
-    inertOverlay.style.opacity = '0.4';
-    inertOverlay.style.zIndex = '10';
-    inertOverlay.appendChild(document.createTextNode('Mask'));
-    container.appendChild(inertOverlay);
+    ignoreOverlay.style.backgroundColor = 'lightgreen';
+    ignoreOverlay.style.height = '100px';
+    ignoreOverlay.style.width = '100px';
+    ignoreOverlay.style.overflow = 'hidden';
+    ignoreOverlay.style.position = 'absolute';
+    ignoreOverlay.style.top = `0`;
+    ignoreOverlay.style.left = '0';
+    ignoreOverlay.style.opacity = '0.4';
+    ignoreOverlay.style.zIndex = '10';
+    ignoreOverlay.appendChild(document.createTextNode('Loading...'));
+    container.appendChild(ignoreOverlay);
 
     document.body.appendChild(container);
 

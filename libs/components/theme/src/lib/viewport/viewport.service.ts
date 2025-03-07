@@ -1,5 +1,11 @@
 import { DOCUMENT } from '@angular/common';
-import { DestroyRef, Injectable, inject } from '@angular/core';
+import {
+  DestroyRef,
+  Injectable,
+  NgZone,
+  RendererFactory2,
+  inject,
+} from '@angular/core';
 
 import { ReplaySubject } from 'rxjs';
 
@@ -10,14 +16,8 @@ type ReserveItemType = SkyAppViewportReserveArgs & {
   active: boolean;
 };
 
-const masksToIgnore = [
-  // From host.
-  '.mask-loading',
-  '.sky-modal-host-backdrop',
-  '.sky-overlay',
-  '.sky-overlay-backdrop',
-  '.sky-wait-mask',
-];
+const SKY_APP_VIEWPORT_ROOT_ID = 'sky-app-viewport-root';
+const threshold = Array.from({ length: 11 }, (_, i) => i / 10);
 
 /**
  * Provides information about the state of the application's viewport.
@@ -40,20 +40,22 @@ export class SkyAppViewportService {
   readonly #reserveItems = new Map<string, ReserveItemType>();
   readonly #conditionallyReserveItems = new Map<Element, ReserveItemType>();
   readonly #document = inject(DOCUMENT);
-  readonly #intersectionObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const item = this.#conditionallyReserveItems.get(entry.target);
-        if (item) {
-          item.active = entry.isIntersecting;
-        }
-      });
-      this.#updateViewportArea();
-    },
-    {
-      root: this.#document,
-      threshold: Array.from({ length: 11 }, (_, i) => i / 10),
-    },
+  readonly #ngZone = inject(NgZone);
+  readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
+  #viewportRoot: HTMLElement | undefined;
+  readonly #skyViewportIntersectionObserver = this.#ngZone.runOutsideAngular(
+    () =>
+      new IntersectionObserver(
+        () => this.#ngZone.run(() => this.#updateViewportArea()),
+        { root: this.#getViewportRoot(), rootMargin: '-5px', threshold },
+      ),
+  );
+  readonly #windowIntersectionObserver = this.#ngZone.runOutsideAngular(
+    () =>
+      new IntersectionObserver(
+        () => this.#ngZone.run(() => this.#updateViewportArea()),
+        { rootMargin: '5px', threshold },
+      ),
   );
 
   constructor() {
@@ -64,8 +66,10 @@ export class SkyAppViewportService {
     };
     this.#document.addEventListener('scroll', onScroll);
     inject(DestroyRef).onDestroy(() => {
-      this.#intersectionObserver.disconnect();
+      this.#skyViewportIntersectionObserver.disconnect();
+      this.#windowIntersectionObserver.disconnect();
       this.#document.removeEventListener('scroll', onScroll);
+      this.#viewportRoot?.remove();
     });
   }
 
@@ -92,7 +96,8 @@ export class SkyAppViewportService {
   public unreserveSpace(id: string): void {
     const args = this.#reserveItems.get(id);
     if (args?.reserveForElement) {
-      this.#intersectionObserver.unobserve(args.reserveForElement);
+      this.#skyViewportIntersectionObserver.unobserve(args.reserveForElement);
+      this.#windowIntersectionObserver.unobserve(args.reserveForElement);
       this.#conditionallyReserveItems.delete(args.reserveForElement);
     }
     this.#reserveItems.delete(id);
@@ -101,6 +106,7 @@ export class SkyAppViewportService {
 
   #updateViewportArea(): void {
     this.#updateRequest ??= requestAnimationFrame(() => {
+      this.#updateRequest = undefined;
       const reservedSpaces: {
         [key in SkyAppViewportReservedPositionType]: number;
       } = {
@@ -113,13 +119,9 @@ export class SkyAppViewportService {
       for (const {
         position,
         size,
-        active,
         reserveForElement,
       } of this.#reserveItems.values()) {
-        if (
-          active &&
-          (!reserveForElement || this.#isElementVisible(reserveForElement))
-        ) {
+        if (!reserveForElement || this.#isElementVisible(reserveForElement)) {
           reservedSpaces[position] += size;
         }
       }
@@ -132,15 +134,14 @@ export class SkyAppViewportService {
           size + 'px',
         );
       }
-
-      this.#updateRequest = undefined;
     });
   }
 
   #watchVisibility(item: ReserveItemType): void {
     if (item.reserveForElement) {
       this.#conditionallyReserveItems.set(item.reserveForElement, item);
-      this.#intersectionObserver.observe(item.reserveForElement);
+      this.#skyViewportIntersectionObserver.observe(item.reserveForElement);
+      this.#windowIntersectionObserver.observe(item.reserveForElement);
     }
   }
 
@@ -156,11 +157,12 @@ export class SkyAppViewportService {
     ) {
       // Element is not hidden by another element
       const stackElements = this.#document.elementsFromPoint(
-        rect.x + 1,
-        rect.y + 1,
+        rect.x + Math.floor(rect.width / 2),
+        rect.y + Math.floor(rect.height / 2),
       );
-      const ignoreSelectors = masksToIgnore
-        .concat(masksToIgnore.map((mask) => mask + ' *'))
+      const rolesToIgnore = ['presentation', 'progressbar'];
+      const ignoreSelectors = rolesToIgnore
+        .map((r) => `[role="${r}"], [role="${r}"] *`)
         .join(', ');
       for (const stackElement of stackElements) {
         if (element.contains(stackElement)) {
@@ -173,5 +175,23 @@ export class SkyAppViewportService {
       }
     }
     return false;
+  }
+
+  #getViewportRoot(): HTMLElement {
+    this.#viewportRoot ??=
+      this.#document.getElementById(SKY_APP_VIEWPORT_ROOT_ID) ?? undefined;
+    if (this.#viewportRoot?.parentElement !== this.#document.body) {
+      this.#viewportRoot?.remove();
+      this.#viewportRoot = this.#renderer.createElement('div') as HTMLElement;
+      this.#viewportRoot.setAttribute('id', SKY_APP_VIEWPORT_ROOT_ID);
+      this.#viewportRoot.style.position = 'absolute';
+      this.#viewportRoot.style.top = 'var(--sky-viewport-top, 0)';
+      this.#viewportRoot.style.right = 'var(--sky-viewport-right, 0)';
+      this.#viewportRoot.style.bottom = 'var(--sky-viewport-bottom, 0)';
+      this.#viewportRoot.style.left = 'var(--sky-viewport-left, 0)';
+      this.#viewportRoot.style.pointerEvents = 'none';
+      this.#renderer.appendChild(this.#document.body, this.#viewportRoot);
+    }
+    return this.#viewportRoot;
   }
 }
