@@ -1,21 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyBackToTopModule } from '@skyux/layout';
-import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
-
-import { Person } from './person';
+import { SkyRepeaterModule } from '@skyux/lists';
 
 @Component({
   standalone: true,
-  selector: 'app-demo',
-  templateUrl: './demo.component.html',
-  imports: [SkyBackToTopModule, SkyInfiniteScrollModule, SkyRepeaterModule],
+  selector: 'sky-back-to-top-fixture',
+  templateUrl: './back-to-top-harness-test.component.html',
+  imports: [SkyBackToTopModule, SkyRepeaterModule],
 })
-export class DemoComponent implements OnInit {
-  public hasMore = true;
-
-  public personList: Person[] = [];
-
-  public personDataSet = [
+export class BackToTopHarnessTestComponent {
+  public personList = [
     {
       name: 'Barbara Durr',
       address: '7436 Fieldstone Court',
@@ -121,45 +115,4 @@ export class DemoComponent implements OnInit {
       address: '8232 S. Augusta Street',
     },
   ];
-
-  public ngOnInit(): void {
-    void this.#addData(0, 10);
-  }
-
-  public onScrollEnd(): void {
-    void this.#addData(this.personList.length, 10);
-  }
-
-  async #addData(start: number, rowSize: number): Promise<void> {
-    if (this.hasMore) {
-      const result = await this.mockRemote(start, rowSize);
-      this.personList = this.personList.concat(result.data);
-      this.hasMore = result.hasMore;
-    }
-  }
-
-  /**
-   * Simulate a remote request.
-   */
-  private mockRemote(
-    start: number,
-    rowSize: number,
-  ): Promise<{ data: Person[]; hasMore: boolean }> {
-    const data: Person[] = [];
-
-    for (let i = 0; i < rowSize; i++) {
-      if (this.personDataSet[start + i]) {
-        data.push(this.personDataSet[start + i]);
-      }
-    }
-
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          data,
-          hasMore: this.personList.length < this.personDataSet.length,
-        });
-      }, 1000);
-    });
-  }
 }
