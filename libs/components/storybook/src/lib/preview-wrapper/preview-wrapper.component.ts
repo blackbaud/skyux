@@ -71,7 +71,7 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected ready = toSignal(inject(FontLoadingService).ready());
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   #_themeSettings = new SkyThemeSettings(
     SkyTheme.presets.default,

@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { PreviewWrapperModule } from '@skyux/storybook/components';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -80,7 +79,6 @@ export class AgGridWidgetsComponent
 
   readonly #agGridService = inject(SkyAgGridService);
   readonly #changeDetectorRef = inject(ChangeDetectorRef);
-  readonly #fontLoadingService = inject(FontLoadingService);
   readonly #gridsReady = new Map<string, Observable<boolean>>();
   readonly #initialStates: Record<string, GridState> = {
     columnGroups: {
@@ -135,7 +133,6 @@ export class AgGridWidgetsComponent
       'theme',
       this.#themeSvc.settingsChange.pipe(map(() => true)),
     );
-    this.#gridsReady.set('font', this.#fontLoadingService.ready(true));
     this.#ngUnsubscribe.add(
       this.#themeSvc.settingsChange.subscribe((settings) => {
         this.skyTheme = settings.currentSettings;

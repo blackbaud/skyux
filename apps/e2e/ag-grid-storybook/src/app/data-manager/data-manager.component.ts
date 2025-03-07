@@ -118,12 +118,10 @@ export class DataManagerComponent implements AfterViewInit {
   public gridOptions: GridOptions = {};
   public readonly isActive$ = new BehaviorSubject(false);
   public readonly gridSettings: FormGroup<GridSettingsType>;
-  public readonly ready: Observable<boolean>;
+  public readonly ready = new BehaviorSubject(false);
 
   readonly #agGridService = inject(SkyAgGridService);
   readonly #dataManagerService = inject(SkyDataManagerService);
-  readonly #gridReady = new BehaviorSubject(false);
-  readonly #fontLoadingService = inject(FontLoadingService);
 
   constructor(formBuilder: FormBuilder) {
     this.gridSettings = formBuilder.group<GridSettingsType>({
@@ -136,14 +134,6 @@ export class DataManagerComponent implements AfterViewInit {
         this.autoHeightColumns,
       ),
     });
-    this.ready = combineLatest([
-      this.#gridReady,
-      this.#fontLoadingService.ready(true),
-    ]).pipe(
-      filter(([gridReady, fontsLoaded]) => gridReady && fontsLoaded),
-      first(),
-      map(() => true),
-    );
   }
 
   public ngAfterViewInit(): void {
@@ -247,7 +237,7 @@ export class DataManagerComponent implements AfterViewInit {
             .pipe(first())
             .subscribe(() => {
               event.api.setFocusedCell(0, 'name');
-              this.#gridReady.next(true);
+              this.ready.next(true);
             });
         },
       },

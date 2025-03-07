@@ -1,14 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { FontLoadingService } from '@skyux/storybook';
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { delay, filter, first, map } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-colorpicker',
@@ -17,8 +16,6 @@ import { delay, filter, first, map } from 'rxjs/operators';
   standalone: false,
 })
 export class ColorpickerComponent {
-  readonly #fontLoadingService = inject(FontLoadingService);
-
   public colorForm: FormGroup;
 
   public swatches12: string[] = [
@@ -45,8 +42,7 @@ export class ColorpickerComponent {
     '#DA9C9C',
   ];
 
-  #pickerReady = of(true).pipe(delay(1200));
-  public readonly ready: Observable<boolean>;
+  public readonly ready = of(true).pipe(delay(1200));
 
   constructor(formBuilder: FormBuilder) {
     this.colorForm = formBuilder.group({
@@ -65,14 +61,5 @@ export class ColorpickerComponent {
       }),
       colorEight: new FormControl('#00f'),
     });
-
-    this.ready = combineLatest([
-      this.#pickerReady,
-      this.#fontLoadingService.ready(true),
-    ]).pipe(
-      filter(([pickerReady, fontsLoaded]) => pickerReady && fontsLoaded),
-      first(),
-      map(() => true),
-    );
   }
 }

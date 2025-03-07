@@ -29,6 +29,9 @@
       "@skyux-sdk/e2e-schematics/cypress-preset": [
         "libs/sdk/e2e-schematics/src/cypress-preset.ts"
       ],
+      "@skyux-sdk/e2e-schematics/cypress-commands": [
+        "libs/sdk/e2e-schematics/src/cypress-commands.ts"
+      ],
       "@skyux-sdk/eslint-config": ["libs/sdk/eslint-config/src/index.ts"],
       "@skyux-sdk/prettier-schematics": [
         "libs/sdk/prettier-schematics/src/index.ts"

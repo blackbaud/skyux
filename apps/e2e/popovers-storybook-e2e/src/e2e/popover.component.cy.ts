@@ -11,8 +11,7 @@ describe(`popovers-storybook`, () => {
           ),
       );
       it('should render the component', () => {
-        cy.ready('app-popover');
-        cy.get('#popovers-ready').should('exist');
+        cy.ready('app-popover', ['#popovers-ready', '#i-do-not-exist']);
 
         cy.get('.popover-message')
           .should('exist')

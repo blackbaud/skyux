@@ -13,4 +13,6 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 // Import commands.js using ES2015 syntax:
+import '@skyux-sdk/e2e-schematics/cypress-commands';
+
 import './commands';
