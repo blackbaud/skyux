@@ -1,5 +1,19 @@
 # Changelog
 
+## [12.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.7...12.0.0-alpha.8) (2025-03-07)
+
+
+### Features
+
+* **components/docs-tools:** add category-tag, clipboard, code-highlight, heading-anchor, showcase, table of contents, and type definition components (internal use only) ([#3204](https://github.com/blackbaud/skyux/issues/3204)) ([505e8ac](https://github.com/blackbaud/skyux/commit/505e8ac1aa392e04da97fca55e3a48cdbf5ba878))
+* **components/docs-tools:** add global stylesheet; demos in code examples application ([#3211](https://github.com/blackbaud/skyux/issues/3211)) ([aa0318a](https://github.com/blackbaud/skyux/commit/aa0318ad5c552e21779a157cdf9f134dc29a82fd))
+* **components/manifest:** separate class properties and methods; validate docsIds; add package information; fix output for property accessors; add repo URLs to each type ([#3196](https://github.com/blackbaud/skyux/issues/3196)) ([c18e533](https://github.com/blackbaud/skyux/commit/c18e5336c9b8a5739ed937a80b53973169585dbf))
+
+
+### Bug Fixes
+
+* **components/datetime:** show key date popover ([#3207](https://github.com/blackbaud/skyux/issues/3207)) ([#3210](https://github.com/blackbaud/skyux/issues/3210)) ([3b5e8a4](https://github.com/blackbaud/skyux/commit/3b5e8a47592c46103dd5890d924989938ca157e8))
+
 ## [12.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.6...12.0.0-alpha.7) (2025-03-05)
 
 
