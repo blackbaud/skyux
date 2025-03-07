@@ -30,6 +30,9 @@ interface DemoForm {
   comments: FormControl<string>;
 }
 
+/**
+ * @title Page bound split view in a page component with fit layout
+ */
 @Component({
   selector: 'app-split-view-page-bound-example',
   templateUrl: './example.component.html',

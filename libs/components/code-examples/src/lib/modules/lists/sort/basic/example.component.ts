@@ -9,6 +9,7 @@ interface Item {
   assignee: string;
   date: Date;
 }
+
 interface SortOption {
   id: number;
   label: string;
@@ -16,6 +17,9 @@ interface SortOption {
   descending: boolean;
 }
 
+/**
+ * @title Sort with basic setup
+ */
 @Component({
   selector: 'app-lists-sort-basic-example',
   templateUrl: './example.component.html',

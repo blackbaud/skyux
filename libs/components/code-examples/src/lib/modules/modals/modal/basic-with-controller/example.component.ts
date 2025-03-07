@@ -10,6 +10,9 @@ import { MyHelpService } from './help.service';
 import { ModalContext } from './modal-context';
 import { ModalComponent } from './modal.component';
 
+/**
+ * @title Modal with basic setup, tested with controller
+ */
 @Component({
   selector: 'app-modals-modal-basic-with-controller-example',
   standalone: true,

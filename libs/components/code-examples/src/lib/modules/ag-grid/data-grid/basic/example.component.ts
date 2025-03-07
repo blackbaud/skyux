@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-import { SkyDataManagerService } from '@skyux/data-manager';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -16,11 +15,13 @@ import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
+/**
+ * @title Basic setup (without data manager)
+ */
 @Component({
   selector: 'app-ag-grid-data-grid-basic-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [SkyDataManagerService],
   imports: [AgGridModule, SkyAgGridModule],
 })
 export class AgGridDataGridBasicExampleComponent {

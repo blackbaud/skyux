@@ -17,6 +17,9 @@ import { Filters } from './filters';
 import { ViewGridComponent } from './view-grid.component';
 import { ViewRepeaterComponent } from './view-repeater.component';
 
+/**
+ * @title Data manager with basic setup
+ */
 @Component({
   selector: 'app-data-manager-basic-example',
   templateUrl: './example.component.html',

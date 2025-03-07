@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyDescriptionListModule } from '@skyux/layout';
 
+/**
+ * @title Horizontal mode
+ */
 @Component({
   selector: 'app-layout-description-list-horizontal-example',
   templateUrl: './example.component.html',

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyTextExpandModule } from '@skyux/layout';
 
+/**
+ * @title Text expand with inline text
+ */
 @Component({
   selector: 'app-layout-text-expand-inline-example',
   templateUrl: './example.component.html',

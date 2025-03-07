@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyTextExpandModule } from '@skyux/layout';
 
+/**
+ * @title Text expand with new lines
+ */
 @Component({
   selector: 'app-layout-text-expand-newline-example',
   templateUrl: './example.component.html',

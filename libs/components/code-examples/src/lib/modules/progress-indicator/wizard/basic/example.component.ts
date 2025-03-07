@@ -3,6 +3,9 @@ import { SkyModalService } from '@skyux/modals';
 
 import { ModalComponent } from './modal.component';
 
+/**
+ * @title Wizard (progress indicator)
+ */
 @Component({
   standalone: true,
   selector: 'app-progress-indicator-wizard-basic-example',

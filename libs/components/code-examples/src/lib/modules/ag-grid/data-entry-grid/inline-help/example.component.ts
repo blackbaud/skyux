@@ -33,6 +33,9 @@ import { InlineHelpComponent } from './inline-help.component';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
+/**
+ * @title Basic setup with inline help (without data manager)
+ */
 @Component({
   selector: 'app-ag-grid-data-entry-grid-inline-help-example',
   templateUrl: './example.component.html',

@@ -10,6 +10,9 @@ import {
 } from '@angular/forms';
 import { SkyCheckboxModule } from '@skyux/forms';
 
+/**
+ * @title Checkboxes with help key
+ */
 @Component({
   selector: 'app-forms-checkbox-help-key-example',
   templateUrl: './example.component.html',

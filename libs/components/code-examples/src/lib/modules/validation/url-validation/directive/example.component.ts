@@ -6,6 +6,9 @@ import {
   SkyUrlValidationOptions,
 } from '@skyux/validation';
 
+/**
+ * @title URL validation using input directive
+ */
 @Component({
   selector: 'app-validation-url-validation-directive-example',
   templateUrl: './example.component.html',

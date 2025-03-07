@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { SkyKeyInfoLayoutType, SkyKeyInfoModule } from '@skyux/indicators';
 
+/**
+ * @title Key info with basic setup
+ */
 @Component({
   selector: 'app-indicators-key-info-basic-example',
   templateUrl: './example.component.html',

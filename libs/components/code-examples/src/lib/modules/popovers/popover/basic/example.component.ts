@@ -5,6 +5,9 @@ import {
   SkyPopoverPlacement,
 } from '@skyux/popovers';
 
+/**
+ * @title Popover with basic setup
+ */
 @Component({
   selector: 'app-popovers-popover-basic-example',
   templateUrl: './example.component.html',

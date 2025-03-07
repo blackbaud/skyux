@@ -17,6 +17,9 @@ import {
 
 import { Ocean } from './ocean';
 
+/**
+ * @title Autocomplete with custom search
+ */
 @Component({
   selector: 'app-lookup-autocomplete-custom-search-example',
   templateUrl: './example.component.html',

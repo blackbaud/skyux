@@ -4,6 +4,9 @@ import { SkyFileItem } from '@skyux/forms';
 
 import { DemoService } from './example.service';
 
+/**
+ * @title Basic example
+ */
 @Component({
   selector: 'app-avatar-example',
   templateUrl: './example.component.html',

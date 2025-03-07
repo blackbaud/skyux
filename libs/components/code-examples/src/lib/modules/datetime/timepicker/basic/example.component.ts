@@ -30,6 +30,9 @@ function validateTime(
   return minute && minute % 15 !== 0 ? { invalidMinute: true } : null;
 }
 
+/**
+ * @title Timepicker with basic setup
+ */
 @Component({
   selector: 'app-datetime-timepicker-basic-example',
   templateUrl: './example.component.html',

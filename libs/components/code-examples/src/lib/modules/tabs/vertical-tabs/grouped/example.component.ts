@@ -3,6 +3,9 @@ import { SkyVerticalTabsetModule } from '@skyux/tabs';
 
 import { TabGroup } from './group';
 
+/**
+ * @title Vertical tabs with grouped tabs
+ */
 @Component({
   selector: 'app-tabs-vertical-tabs-grouped-example',
   templateUrl: './example.component.html',
