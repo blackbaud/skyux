@@ -15,18 +15,9 @@ import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 import { FirstDataRenderedEvent, GridOptions } from 'ag-grid-community';
-import {
-  BehaviorSubject,
-  Observable,
-  combineLatest,
-  filter,
-  first,
-  map,
-  timer,
-} from 'rxjs';
+import { BehaviorSubject, first, timer } from 'rxjs';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
 

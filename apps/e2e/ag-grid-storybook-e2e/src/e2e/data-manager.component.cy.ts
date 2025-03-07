@@ -33,7 +33,7 @@ describe(`ag-grid-storybook data manager`, () => {
             });
 
             it(`should render ag-grid with data manager, ${label} layout${compact ? ', compact' : ''}`, () => {
-              cy.ready('app-data-manager', ['#ready'], 10000)
+              cy.ready('app-data-manager', ['#ready'])
                 .end()
                 .get('#storybook-root')
                 .should('exist')

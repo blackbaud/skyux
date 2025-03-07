@@ -5,27 +5,26 @@ declare namespace Cypress {
     ready(
       appName?: string,
       additionalRequiredEls?: string[],
-      timeout?: number,
     ): Chainable<Subject>;
   }
 }
 
 Cypress.Commands.add(
   'ready',
-  (appName?: string, additionalRequiredEls?: string[], timeout?: number) => {
+  (appName?: string, additionalRequiredEls?: string[]) => {
     additionalRequiredEls?.forEach((el) => {
-      cy.get(el, { timeout }).should('exist');
+      cy.get(el).should('exist');
     });
 
     if (appName) {
       return cy
-        .get('#assetsLoaded', { timeout })
+        .get('#assetsLoaded')
         .should('exist')
-        .get(appName, { timeout })
+        .get(appName)
         .should('exist')
         .should('be.visible');
     } else {
-      return cy.get('#assetsLoaded', { timeout }).should('exist');
+      return cy.get('#assetsLoaded').should('exist');
     }
   },
 );
