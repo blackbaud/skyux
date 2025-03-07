@@ -19,7 +19,7 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-search-container', false) {
-  --sky-override-input-icon-size: 17.3333px;
+  // --sky-override-input-icon-size: 17.3333px;
   --sky-override-search-applied-background-color: var(
     --sky-color-background-action-secondary-base
   );
@@ -279,10 +279,6 @@ sky-search {
 
       .sky-input-group-icon {
         .sky-icon {
-          font-size: var(
-            --sky-override-input-icon-size,
-            var(--sky-size-icon-s)
-          );
           color: var(--sky-color-icon-default);
         }
       }

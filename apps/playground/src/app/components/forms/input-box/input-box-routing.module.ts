@@ -12,7 +12,7 @@ const routes: ComponentRouteInfo[] = [
     component: InputBoxComponent,
     data: {
       name: 'Input box',
-      icon: 'server',
+      icon: 'form',
       library: 'forms',
     },
   },
@@ -21,7 +21,7 @@ const routes: ComponentRouteInfo[] = [
     component: InputBoxDisabledComponent,
     data: {
       name: 'Input box (disabled)',
-      icon: 'server',
+      icon: 'form',
       library: 'forms',
     },
   },

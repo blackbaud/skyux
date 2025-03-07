@@ -11,6 +11,7 @@ describe('layout-storybook - action button', () => {
         ),
       );
       it('should render the component on desktop', () => {
+        cy.get('#ready').should('exist');
         cy.get('app-action-button')
           .should('exist')
           .should('be.visible')
@@ -23,6 +24,7 @@ describe('layout-storybook - action button', () => {
       it('should render in a medium modal', () => {
         const screenshotName = `${screenshotPrefix}-modal`;
 
+        cy.get('#ready').should('exist');
         cy.get('app-action-button')
           .should('exist')
           .should('be.visible')
@@ -46,6 +48,7 @@ describe('layout-storybook - action button', () => {
       it('should render the component on mobile', () => {
         const screenshotName = `${screenshotPrefix}-mobile`;
 
+        cy.get('#ready').should('exist');
         cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
         cy.get('app-action-button')
           .should('exist')

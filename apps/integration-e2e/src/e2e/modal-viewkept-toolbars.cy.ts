@@ -10,10 +10,7 @@ describe('modal-viewkept-toolbars', () => {
       });
 
       it('verify viewkept toolbar in modal', () => {
-        cy.get('#ready', { timeout: 10000 })
-          .should('exist')
-          .end()
-          .get('#modal-viewkept-toolbars-modal-trigger')
+        cy.get('#modal-viewkept-toolbars-modal-trigger')
           .should('be.visible')
           .should('contain', 'Open modal')
           .click();
@@ -21,14 +18,17 @@ describe('modal-viewkept-toolbars', () => {
           .should('exist')
           .should('be.visible')
           .should('contain', 'Viewkeeper inside a Modal');
+        cy.get('#ready').should('exist');
         cy.get('.sky-lookup-show-more-modal-toolbar')
           .should('exist')
           .should('be.visible');
-        cy.get('.sky-lookup-show-more-modal-toolbar sky-icon[icon="search"]')
+        cy.get(
+          '.sky-lookup-show-more-modal-toolbar sky-icon[iconName="search"]',
+        )
           .should('exist')
           .should('be.visible');
         cy.get(
-          '.sky-lookup-show-more-modal-toolbar sky-icon[icon="search"] > i',
+          '.sky-lookup-show-more-modal-toolbar sky-icon[iconName="search"] > sky-icon-svg',
         )
           .should('exist')
           .should('be.visible')
@@ -46,7 +46,7 @@ describe('modal-viewkept-toolbars', () => {
             el.first() && parseFloat(el.first().css('opacity')) > 0.9,
         );
         cy.get(
-          '.sky-lookup-show-more-modal-toolbar sky-icon[icon="search"] > i',
+          '.sky-lookup-show-more-modal-toolbar sky-icon[iconName="search"] > sky-icon-svg',
         ).should(
           'satisfy',
           (el: JQuery<HTMLElement>) =>
@@ -55,7 +55,7 @@ describe('modal-viewkept-toolbars', () => {
         cy.get('.sky-lookup-show-more-modal-multiselect-toolbar').should(
           'be.visible',
         );
-        cy.get('sky-icon[icon="search"]').should('be.visible');
+        cy.get('sky-icon[iconName="search"]').should('be.visible');
         cy.window().skyVisualTest(`modal-viewkept-toolbars-${theme}`);
       });
     });

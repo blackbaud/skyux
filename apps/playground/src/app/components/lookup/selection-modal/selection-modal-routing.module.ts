@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: SelectionModalComponent,
     data: {
       name: 'Selection modal',
-      icon: 'list-alt',
+      icon: 'text-bullet-list',
       library: 'lookup',
     },
   },

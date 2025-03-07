@@ -65,8 +65,7 @@
               [disabled]="disabled"
               (click)="clearSearchText()"
             >
-              <sky-icon *skyThemeIf="'default'" icon="times" />
-              <sky-icon *skyThemeIf="'modern'" icon="close" size="sm" />
+              <sky-icon iconName="dismiss" />
             </button>
           </span>
           <span
@@ -106,10 +105,10 @@
         >
           <sky-icon
             *skyThemeIf="'default'"
-            icon="chevron-circle-left"
-            size="lg"
+            iconName="chevron-left"
+            iconSize="m"
           />
-          <sky-icon *skyThemeIf="'modern'" icon="double-chevron-left" />
+          <sky-icon *skyThemeIf="'modern'" iconName="chevron-double-left" />
         </button>
       }
     </div>
@@ -117,5 +116,5 @@
 </div>
 
 <ng-template #searchIconTemplate>
-  <sky-icon icon="search" size="lg" />
+  <sky-icon iconName="search" iconSize="m" />
 </ng-template>

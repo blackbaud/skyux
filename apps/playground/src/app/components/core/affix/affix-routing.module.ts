@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: AffixComponent,
     data: {
       name: 'Affix',
-      icon: 'thumb-tack',
+      icon: 'arrow-up',
       library: 'core',
     },
   },

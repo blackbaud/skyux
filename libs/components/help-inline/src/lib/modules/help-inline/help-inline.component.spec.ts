@@ -260,27 +260,6 @@ describe('Help inline component', () => {
       });
     });
 
-    it('should use sky-icon in default theme', () => {
-      fixture.detectChanges();
-
-      expect(fixture.nativeElement.querySelector('sky-icon')).toExist();
-      expect(fixture.nativeElement.querySelector('sky-icon-stack')).toBe(null);
-    });
-
-    it('should use sky-icon-stack in modern', () => {
-      mockThemeSvc.settingsChange.next({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings: mockThemeSvc.settingsChange.value.currentSettings,
-      });
-      fixture.detectChanges();
-
-      expect(fixture.nativeElement.querySelector('sky-icon')).toBeNull();
-      expect(fixture.nativeElement.querySelector('sky-icon-stack')).toExist();
-    });
-
     it('should set aria label with labelText', async () => {
       component.labelText = 'test component';
 

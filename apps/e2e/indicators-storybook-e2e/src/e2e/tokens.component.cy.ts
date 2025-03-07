@@ -9,6 +9,7 @@ describe('indicators-storybook', () => {
         ),
       );
       it('should render the component', () => {
+        cy.get('#ready').should('exist');
         cy.get('app-tokens')
           .should('exist')
           .should('be.visible')

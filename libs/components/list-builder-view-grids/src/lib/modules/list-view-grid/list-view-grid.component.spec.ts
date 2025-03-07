@@ -329,9 +329,9 @@ describe('List View Grid Component', () => {
         tick();
 
         const headerIconEl = nativeElement
-          .querySelectorAll('th i')
+          .querySelectorAll('th sky-icon-svg')
           .item(0) as HTMLElement;
-        expect(headerIconEl).toHaveCssClass('fa-caret-up');
+        expect(headerIconEl.getAttribute('data-sky-icon')).toBe('chevron-up');
       }));
 
       it('should handle async column headings', fakeAsync(() => {

@@ -1,4 +1,6 @@
 import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FontLoadingService } from '@skyux/storybook';
 import { SkyThemeService } from '@skyux/theme';
 
 @Component({
@@ -12,6 +14,8 @@ export class ToolbarComponent {
   public activeViewId = 'table';
 
   #themeSvc = inject(SkyThemeService);
+
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   constructor() {
     this.#themeSvc.settingsChange.subscribe((change) => {

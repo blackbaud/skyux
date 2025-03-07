@@ -1,5 +1,5 @@
 import { moduleMetadata } from '@storybook/angular';
-import type { Meta, StoryFn } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { FileAttachmentComponent } from './file-attachment.component';
 import { FileAttachmentModule } from './file-attachment.module';
@@ -14,23 +14,20 @@ export default {
     }),
   ],
 } as Meta<FileAttachmentComponent>;
-const BaseFileAttachment: StoryFn<FileAttachmentComponent> = (
-  args: FileAttachmentComponent,
-) => ({
-  props: args,
-});
 
-export const FileAttachmentBasic = BaseFileAttachment.bind({});
+type Story = StoryObj<FileAttachmentComponent>;
+
+export const FileAttachmentBasic: Story = {};
 FileAttachmentBasic.args = {
   basic: true,
 };
 
-export const FileAttachmentImageUploaded = BaseFileAttachment.bind({});
+export const FileAttachmentImageUploaded: Story = {};
 FileAttachmentImageUploaded.args = {
   addedFiles: true,
 };
 
-export const FileAttachmentNoPreview = BaseFileAttachment.bind({});
+export const FileAttachmentNoPreview: Story = {};
 FileAttachmentNoPreview.args = {
   noPreview: true,
 };

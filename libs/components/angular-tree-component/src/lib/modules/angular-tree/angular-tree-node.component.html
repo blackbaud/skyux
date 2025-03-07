@@ -53,8 +53,7 @@
             (click)="node.mouseAction('expanderClick', $event)"
           >
             <sky-icon
-              size="sm"
-              [icon]="node.isExpanded ? 'chevron-down' : 'chevron-right'"
+              [iconName]="node.isExpanded ? 'chevron-down' : 'chevron-right'"
             />
           </button>
         }

@@ -26,6 +26,12 @@ describe('modals-storybook', () => {
             .should('be.visible')
             .click();
 
+          cy.get('#readyFonts').should('exist');
+
+          if (theme === 'default' || modalType.includes('help-inline')) {
+            cy.get('#readyIcons').should('exist');
+          }
+
           cy.get('.sky-modal').should('exist').should('be.visible');
           if (modalType === 'full-page') {
             // Full page modals fit the viewport, which conflicts with how Cypress determines element screenshot bounds.

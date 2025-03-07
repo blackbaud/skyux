@@ -15,6 +15,8 @@ describe('toast-storybook', () => {
           .should('be.visible')
           .get('#default-trigger')
           .click();
+
+        cy.get('#ready').should('exist');
         cy.get('.sky-toaster').screenshot(
           `toastcomponent-toast--toast-${theme}`,
         );
@@ -27,11 +29,14 @@ describe('toast-storybook', () => {
       });
 
       it('should render the components when a custom component is used', () => {
+        cy.get('#ready').should('exist');
         cy.get('app-toast')
           .should('exist')
           .should('be.visible')
           .get('#custom-trigger')
           .click();
+
+        cy.get('#ready').should('exist');
         cy.get('.sky-toaster').screenshot(
           `toastcomponent-toast--toast-custom-${theme}`,
         );

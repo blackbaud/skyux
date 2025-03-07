@@ -13,6 +13,7 @@
     "@nx/workspace": "^20.3.0",
     "@percy/sdk-utils": "^1.30.6",
     "@schematics/angular": "^19.0.6",
+    "cypress": "13.17.0",
     "nx": "^20.3.0"
   },
   "dependencies": {

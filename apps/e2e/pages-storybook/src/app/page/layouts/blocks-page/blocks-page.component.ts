@@ -1,10 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyAvatarModule } from '@skyux/avatar';
 import { SkyAlertModule, SkyLabelModule } from '@skyux/indicators';
 import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
 import { SkyPageModule } from '@skyux/pages';
 import { SkyDropdownModule } from '@skyux/popovers';
+import { FontLoadingService } from '@skyux/storybook';
 
 import { LinksComponent } from '../../../shared/links/links.component';
 
@@ -28,4 +35,5 @@ export default class BlocksPageComponent {
   public readonly hideAlert = input<boolean>(false);
   public readonly hideAvatar = input<boolean>(false);
   public readonly showLinks = input<boolean>(false);
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 }

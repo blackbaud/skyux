@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: TextEditorComponent,
     data: {
       name: 'Text editor',
-      icon: 'pencil-square-o',
+      icon: 'notepad-edit',
       library: 'text-editor',
     },
   },

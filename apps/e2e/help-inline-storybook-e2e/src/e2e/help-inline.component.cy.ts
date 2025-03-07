@@ -9,6 +9,7 @@ describe('indicators-storybook', () => {
         ),
       );
       it('should render the component', () => {
+        cy.get('#ready').should('exist');
         cy.get('app-help-inline').should('exist').should('be.visible');
         cy.get('sky-help-inline').first().should('be.visible').click();
         cy.get('app-help-inline').screenshot(

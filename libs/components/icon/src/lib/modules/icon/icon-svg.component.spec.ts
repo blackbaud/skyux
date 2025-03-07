@@ -62,12 +62,20 @@ describe('Icon SVG component', () => {
     validateIconId('#test-16-line');
   }));
 
-  it('should display the resolved icon by ID and size', fakeAsync(() => {
+  it('should display the resolved icon by ID and responsive size', fakeAsync(() => {
     fixture.componentRef.setInput('iconName', 'test');
-    fixture.componentRef.setInput('iconSize', '2x');
+    fixture.componentRef.setInput('relativeSize', '2x');
     detectUrlChanges();
 
     validateIconId('#test-32-line');
+  }));
+
+  it('should display the resolved icon by ID and fixed size', fakeAsync(() => {
+    fixture.componentRef.setInput('iconName', 'test');
+    fixture.componentRef.setInput('iconSize', 'l');
+    detectUrlChanges();
+
+    validateIconId('#test-24-line');
   }));
 
   it('should display the resolved icon by ID and variant', fakeAsync(() => {
@@ -78,9 +86,9 @@ describe('Icon SVG component', () => {
     validateIconId('#test-16-solid');
   }));
 
-  it('should display the resolved icon by ID, size, and variant', fakeAsync(() => {
+  it('should display the resolved icon by ID, responsive size, and variant', fakeAsync(() => {
     fixture.componentRef.setInput('iconName', 'test');
-    fixture.componentRef.setInput('iconSize', '2x');
+    fixture.componentRef.setInput('relativeSize', '2x');
     fixture.componentRef.setInput('iconVariant', 'solid');
     detectUrlChanges();
 

@@ -16,7 +16,7 @@
             type="button"
             class="sky-btn sky-btn-link sky-lookup-show-more-modal-add"
           >
-            <sky-icon icon="add" />
+            <sky-icon iconName="add" />
             Add
           </button>
         </sky-toolbar-view-actions>
@@ -87,3 +87,6 @@
     </sky-summary-action-bar>
   </sky-modal-footer>
 </sky-modal>
+@if (ready()) {
+  <span id="ready"></span>
+}

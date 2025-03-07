@@ -12,7 +12,7 @@ const routes: ComponentRouteInfo[] = [
     component: DatePipeComponent,
     data: {
       name: 'Date pipe (basic)',
-      icon: 'calendar',
+      icon: 'calendar-ltr',
       library: 'datetime',
     },
   },
@@ -21,7 +21,7 @@ const routes: ComponentRouteInfo[] = [
     component: DatePipeProviderComponent,
     data: {
       name: 'Date pipe (locale provider)',
-      icon: 'calendar',
+      icon: 'calendar-ltr',
       library: 'datetime',
     },
   },

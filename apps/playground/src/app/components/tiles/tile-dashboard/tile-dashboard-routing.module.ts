@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: TileDashboardComponent,
     data: {
       name: 'Tile dashboard',
-      icon: 'dashboard',
+      icon: 'data-scatter',
       library: 'tiles',
     },
   },

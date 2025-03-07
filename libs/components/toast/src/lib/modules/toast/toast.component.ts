@@ -15,7 +15,7 @@ import {
 import { skyAnimationEmerge } from '@skyux/animations';
 import { SkyIdModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
-import { SkyIconStackItem } from '@skyux/icon';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -38,7 +38,13 @@ const SKY_TOAST_TYPE_DEFAULT = SkyToastType.Info;
   animations: [skyAnimationEmerge],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, SkyIconModule, SkyIdModule, SkyToastResourcesModule],
+  imports: [
+    CommonModule,
+    SkyIconModule,
+    SkyIdModule,
+    SkyThemeModule,
+    SkyToastResourcesModule,
+  ],
 })
 export class SkyToastComponent implements OnInit, OnDestroy {
   /**
@@ -67,11 +73,11 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     return this.#isOpen;
   }
 
-  public baseIcon: SkyIconStackItem | undefined;
+  public ariaLive = 'polite';
+  public ariaRole: string | undefined;
   public classNames = '';
-  public icon: string | undefined;
+  public iconName: string | undefined;
   public toastTypeOrDefault: SkyToastType = SKY_TOAST_TYPE_DEFAULT;
-  public topIcon: SkyIconStackItem | undefined;
 
   #autoCloseTimeoutId: unknown;
   #isOpen = false;
@@ -147,39 +153,21 @@ export class SkyToastComponent implements OnInit, OnDestroy {
 
   #updateForToastType(): void {
     let icon: string;
-    let baseIcon: string;
-    let topIcon: string;
 
     switch (this.toastTypeOrDefault) {
       case SkyToastType.Danger:
       case SkyToastType.Warning:
-        icon = 'warning';
-        baseIcon = 'triangle-solid';
-        topIcon = 'exclamation';
+        icon = 'sky-warning';
         break;
       case SkyToastType.Info:
-        icon = 'exclamation-circle';
-        baseIcon = 'circle-solid';
-        topIcon = 'help-i';
+        icon = 'sky-info';
         break;
       case SkyToastType.Success:
-        icon = 'check';
-        baseIcon = 'circle-solid';
-        topIcon = 'check';
+        icon = 'sky-success';
         break;
     }
 
-    this.baseIcon = {
-      icon: baseIcon,
-      iconType: 'skyux',
-    };
-
-    this.topIcon = {
-      icon: topIcon,
-      iconType: 'skyux',
-    };
-
-    this.icon = icon;
+    this.iconName = icon;
 
     let typeLabel: string;
     switch (this.toastTypeOrDefault) {

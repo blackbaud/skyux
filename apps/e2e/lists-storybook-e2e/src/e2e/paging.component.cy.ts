@@ -9,6 +9,7 @@ describe('lists-storybook - paging', () => {
         ),
       );
       it('should render the component', () => {
+        cy.get('#ready').should('exist');
         cy.get('app-paging')
           .should('exist')
           .should('be.visible')
