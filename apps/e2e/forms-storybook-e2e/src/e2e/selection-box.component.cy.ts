@@ -11,17 +11,12 @@ describe('forms-storybook', () => {
           ),
       );
       it('should render the component', () => {
-        cy.get('#ready')
-          .should('exist')
-          .end()
-          .get('app-selection-box')
-          .should('exist')
-          .should('be.visible')
-          .then((el) => {
-            el
-              .get(0)
-              .ownerDocument.defaultView?.dispatchEvent(new Event('resize'));
-          });
+        cy.ready('app-selection-box');
+        cy.get('app-selection-box').then((el) => {
+          el
+            .get(0)
+            .ownerDocument.defaultView?.dispatchEvent(new Event('resize'));
+        });
 
         cy.get('app-selection-box label.sky-selection-box')
           .should('exist')

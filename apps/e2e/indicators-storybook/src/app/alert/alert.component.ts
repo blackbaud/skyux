@@ -1,7 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component } from '@angular/core';
 import { SkyIndicatorIconType } from '@skyux/indicators';
-import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-alert',
@@ -17,5 +15,4 @@ export class AlertComponent {
     'danger',
   ];
   public readonly closeable = [true, false];
-  protected ready = toSignal(inject(FontLoadingService).ready(true));
 }

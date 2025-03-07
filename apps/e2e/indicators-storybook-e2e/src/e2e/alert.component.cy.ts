@@ -9,11 +9,9 @@ describe(`indicators-storybook`, () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('#ready').should('exist');
-        cy.get('app-alert')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`alertcomponent-alert--alert-${theme}`);
+        cy.ready('app-alert').screenshot(
+          `alertcomponent-alert--alert-${theme}`,
+        );
         cy.get('app-alert').percySnapshot(
           `alertcomponent-alert--alert-${theme}`,
         );

@@ -1,8 +1,5 @@
-import { AfterViewInit, Component, OnDestroy, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
-
-import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-selection-box',
@@ -10,12 +7,8 @@ import { BehaviorSubject, Subscription } from 'rxjs';
   styleUrls: ['./selection-box.component.scss'],
   standalone: false,
 })
-export class SelectionBoxComponent implements AfterViewInit, OnDestroy {
+export class SelectionBoxComponent {
   public myForm: FormGroup;
-  public readonly ready = new BehaviorSubject(false);
-
-  #fontLoadingService = inject(FontLoadingService);
-  #subscriptions = new Subscription();
 
   constructor(formBuilder: FormBuilder) {
     this.myForm = formBuilder.group({
@@ -24,17 +17,5 @@ export class SelectionBoxComponent implements AfterViewInit, OnDestroy {
       checkbox3: new FormControl({ value: false, disabled: true }),
       myOption: '',
     });
-  }
-
-  public ngAfterViewInit(): void {
-    this.#subscriptions.add(
-      this.#fontLoadingService.ready(true).subscribe(() => {
-        this.ready.next(true);
-      }),
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
   }
 }

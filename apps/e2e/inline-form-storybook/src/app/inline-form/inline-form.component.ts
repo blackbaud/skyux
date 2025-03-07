@@ -1,8 +1,6 @@
-import { Component, Input, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SkyInlineFormConfig } from '@skyux/inline-form';
-import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-inline-form',
@@ -11,8 +9,6 @@ import { FontLoadingService } from '@skyux/storybook';
   standalone: false,
 })
 export class InlineFormComponent {
-  protected ready = toSignal(inject(FontLoadingService).ready(true));
-
   public firstName = 'Jane';
 
   public myForm: FormGroup;

@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -8,7 +7,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { SkyFileAttachmentChange } from '@skyux/forms';
-import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-single-file-attachment',
@@ -27,8 +25,6 @@ export class SingleFileAttachmentComponent {
   public get reactiveFile(): AbstractControl | null {
     return this.fileForm.get('imageAttachment');
   }
-
-  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   constructor(formBuilder: UntypedFormBuilder) {
     this.disabled = new UntypedFormControl({
