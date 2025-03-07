@@ -32,7 +32,7 @@ const people: Person[] = [
 @Injectable({
   providedIn: 'root',
 })
-export class DemoService {
+export class ExampleService {
   public addItem(item: Person): void {
     people.push(item);
   }
