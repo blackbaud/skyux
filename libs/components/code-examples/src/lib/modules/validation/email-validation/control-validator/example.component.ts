@@ -12,7 +12,7 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyValidators } from '@skyux/validation';
 
 /**
- * @title Reactive form control validator
+ * @title Email validation on reactive form controls
  */
 @Component({
   selector: 'app-validation-email-validation-control-validator-example',

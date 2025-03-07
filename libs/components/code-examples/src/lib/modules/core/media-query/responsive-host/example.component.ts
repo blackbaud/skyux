@@ -7,6 +7,9 @@ import { SkyIconModule } from '@skyux/icon';
 import { DemoChildComponent } from './child.component';
 import { DemoContainerComponent } from './container.component';
 
+/**
+ * @title Media query service using a responsive host container
+ */
 @Component({
   imports: [
     CommonModule,

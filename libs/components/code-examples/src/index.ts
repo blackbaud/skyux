@@ -158,8 +158,6 @@ export { TabsWizardBasicExampleComponent } from './lib/modules/tabs/wizard/basic
 export { TextEditorHelpKeyExampleComponent } from './lib/modules/text-editor/help-key/example.component';
 export { TextEditorRichTextDisplayExampleComponent } from './lib/modules/text-editor/rich-text-display/example.component';
 export { TextEditorExampleComponent } from './lib/modules/text-editor/text-editor/example.component';
-export { ThemeBoxBasicExampleComponent } from './lib/modules/theme/box/basic/example.component';
-export { ThemeStatusIndicatorBasicExampleComponent } from './lib/modules/theme/status-indicator/basic/example.component';
 export { TilesBasicExampleComponent } from './lib/modules/tiles/tiles/basic/example.component';
 export { ToastBasicExampleComponent } from './lib/modules/toast/toast/basic/example.component';
 export { ToastCustomComponentExampleComponent } from './lib/modules/toast/toast/custom-component/example.component';

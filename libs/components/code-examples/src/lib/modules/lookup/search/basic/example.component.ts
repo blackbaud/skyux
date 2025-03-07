@@ -5,6 +5,9 @@ import { SkySearchModule } from '@skyux/lookup';
 
 import { Item } from './item';
 
+/**
+ * @title Search with basic setup
+ */
 @Component({
   selector: 'app-lookup-search-basic-example',
   templateUrl: './example.component.html',

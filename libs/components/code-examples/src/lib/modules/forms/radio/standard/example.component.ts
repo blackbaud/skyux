@@ -28,6 +28,9 @@ function validatePaymentMethod(
   return control.value === 'check' ? { processingIssue: true } : null;
 }
 
+/**
+ * @title Radio group with standard setup
+ */
 @Component({
   selector: 'app-forms-radio-standard-example',
   templateUrl: './example.component.html',

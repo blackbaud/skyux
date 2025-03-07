@@ -11,7 +11,7 @@ import { SkyCharacterCounterModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 /**
- * @title Basic example
+ * @title Character count with basic setup
  */
 @Component({
   selector: 'app-forms-character-count-example',

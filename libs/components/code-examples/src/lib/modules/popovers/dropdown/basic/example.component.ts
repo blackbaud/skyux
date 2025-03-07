@@ -7,7 +7,7 @@ interface DropdownItem {
 }
 
 /**
- * @title Basic example
+ * @title Dropdown with basic setup
  */
 @Component({
   selector: 'app-popovers-dropdown-basic-example',

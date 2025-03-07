@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyToolbarModule } from '@skyux/layout';
 
+/**
+ * @title Toolbar with sections
+ */
 @Component({
   selector: 'app-layout-toolbar-sectioned-example',
   templateUrl: './example.component.html',

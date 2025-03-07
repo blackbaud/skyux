@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyToken, SkyTokensModule } from '@skyux/indicators';
 
+/**
+ * @title Tokens with basic setup
+ */
 @Component({
   selector: 'app-indicators-tokens-basic-example',
   templateUrl: './example.component.html',

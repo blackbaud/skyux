@@ -14,6 +14,9 @@ import { AddItemModalComponent } from './add-item-modal.component';
 import { DemoService } from './example.service';
 import { Person } from './person';
 
+/**
+ * @title Selection modal with add item functionality
+ */
 @Component({
   standalone: true,
   selector: 'app-lookup-selection-modal-add-item-example',

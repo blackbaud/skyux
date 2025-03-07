@@ -4,7 +4,7 @@ import { SkyPageModule } from '@skyux/pages';
 import { ListPageContentComponent } from './list-page-content.component';
 
 /**
- * @title Data manager setup in a page component with a list layout
+ * @title List page with list layout using data manager
  */
 @Component({
   selector: 'app-pages-page-list-page-list-layout-example',

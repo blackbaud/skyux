@@ -29,7 +29,7 @@ function customValidator(
 }
 
 /**
- * @title Basic example
+ * @title File attachment with basic setup
  */
 @Component({
   selector: 'app-forms-file-attachment-basic-example',

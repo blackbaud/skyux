@@ -28,7 +28,7 @@ function customValidator(
 }
 
 /**
- * @title Basic example
+ * @title File drop with basic setup
  */
 @Component({
   selector: 'app-forms-file-drop-basic-example',

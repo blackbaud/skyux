@@ -5,7 +5,7 @@ import { SkyCardModule } from '@skyux/layout';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 /**
- * @title Basic example
+ * @title Card with basic setup
  */
 @Component({
   selector: 'app-layout-card-basic-example',

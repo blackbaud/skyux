@@ -33,7 +33,7 @@ function dateRangeExcludesWeekend(
 }
 
 /**
- * @title Basic example
+ * @title Date range picker with basic setup
  */
 @Component({
   selector: 'app-datetime-date-range-picker-basic-example',

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
 
 /**
- * @title Basic example
+ * @title Fluid grid with basic setup
  */
 @Component({
   selector: 'app-layout-fluid-grid-example',

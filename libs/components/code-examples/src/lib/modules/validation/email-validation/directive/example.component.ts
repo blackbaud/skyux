@@ -4,7 +4,7 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyEmailValidationModule } from '@skyux/validation';
 
 /**
- * @title Directive
+ * @title Email validation using input directive
  */
 @Component({
   selector: 'app-validation-email-validation-directive-example',

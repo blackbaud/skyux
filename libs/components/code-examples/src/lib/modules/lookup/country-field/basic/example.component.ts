@@ -23,7 +23,7 @@ function validateCountry(
 }
 
 /**
- * @title Basic example
+ * @title Country field with basic setup
  */
 @Component({
   selector: 'app-lookup-country-field-basic-example',

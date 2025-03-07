@@ -34,7 +34,7 @@ function validateDate(
 }
 
 /**
- * @title Basic example
+ * @title Datepicker with basic setup
  */
 @Component({
   selector: 'app-datetime-datepicker-basic-example',
