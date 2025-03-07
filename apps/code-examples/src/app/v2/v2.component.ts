@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,7 +16,6 @@ import {
   SkyDocsShowcaseModule,
 } from '@skyux/docs-tools';
 import { SkyInputBoxModule } from '@skyux/forms';
-import { SkyIconModule } from '@skyux/icon';
 import { getDocumentationConfig } from '@skyux/manifest-dist';
 import { SkyPageModule } from '@skyux/pages';
 
@@ -26,21 +24,21 @@ const SEPARATOR = ' | ';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'sky-padding-even-xl',
+  },
   imports: [
     FormsModule,
-    JsonPipe,
     ReactiveFormsModule,
     SkyInputBoxModule,
     SkyPageModule,
     SkyDocsShowcaseModule,
-    SkyIconModule,
     SkyDocsHeadingAnchorModule,
   ],
   selector: 'app-code-examples-v2',
   styles: `
     :host {
       display: block;
-      padding: 30px;
     }
   `,
   templateUrl: './v2.component.html',
