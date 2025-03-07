@@ -8,6 +8,18 @@ import { SkyInfiniteScrollHarness } from '@skyux/lists/testing';
 import { DemoComponent } from './demo.component';
 
 describe('Back to top repeater with infinite scroll', () => {
+  function getBackToTopTarget(): HTMLElement | null {
+    return document.querySelector('#target');
+  }
+
+  function isElementInView(element: HTMLElement | null): boolean {
+    if (element) {
+      const elementRect = element.getBoundingClientRect();
+      return elementRect.top >= 0 && elementRect.bottom <= window.innerHeight;
+    }
+    return false;
+  }
+
   it('should set up the component', async () => {
     await TestBed.configureTestingModule({
       imports: [DemoComponent, NoopAnimationsModule],
@@ -15,7 +27,9 @@ describe('Back to top repeater with infinite scroll', () => {
 
     const fixture = TestBed.createComponent(DemoComponent);
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    const target = getBackToTopTarget();
 
+    expect(isElementInView(target)).toBe(true);
     await expectAsync(loader.getHarness(SkyBackToTopHarness)).toBeRejected();
 
     const infiniteScrollHarness = await loader.getHarness(
@@ -32,9 +46,15 @@ describe('Back to top repeater with infinite scroll', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
+    expect(isElementInView(target)).toBe(false);
     const backToTopHarness: SkyBackToTopHarness =
       await loader.getHarness(SkyBackToTopHarness);
 
     await backToTopHarness.clickBackToTop();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(isElementInView(target)).toBe(true);
   });
 });
