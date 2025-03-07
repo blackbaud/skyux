@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { DemoComponent } from './demo.component';
 import { DemoService } from './demo.service';
 
-xdescribe('Selection modal demo', () => {
+describe('Selection modal demo', () => {
   let mockSvc: jasmine.SpyObj<DemoService>;
 
   async function setupTest(): Promise<{
@@ -54,6 +54,7 @@ xdescribe('Selection modal demo', () => {
 
     TestBed.configureTestingModule({
       imports: [DemoComponent, NoopAnimationsModule],
+      providers: [{ provide: DemoService, useValue: mockSvc }],
     });
   });
 

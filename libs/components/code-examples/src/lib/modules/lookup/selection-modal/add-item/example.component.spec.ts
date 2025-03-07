@@ -19,7 +19,6 @@ describe('Selection modal example', () => {
     const fixture = TestBed.createComponent(
       LookupSelectionModalAddItemExampleComponent,
     );
-
     const el = fixture.nativeElement as HTMLElement;
 
     const openBtn = el.querySelector<HTMLButtonElement>(
@@ -30,8 +29,8 @@ describe('Selection modal example', () => {
     fixture.detectChanges();
 
     const rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
-    const harness = await rootLoader.getHarness(SkySelectionModalHarness);
 
+    const harness = await rootLoader.getHarness(SkySelectionModalHarness);
     return { harness, el, fixture };
   }
 
@@ -98,8 +97,6 @@ describe('Selection modal example', () => {
     );
 
     expect(selectedItemEls).toHaveSize(0);
-
-    await harness.saveAndClose();
   });
 
   it('should respect the selection descriptor', async () => {
@@ -111,7 +108,5 @@ describe('Selection modal example', () => {
     await expectAsync(harness.getSaveButtonAriaLabel()).toBeResolvedTo(
       'Select person',
     );
-
-    await harness.saveAndClose();
   });
 });
