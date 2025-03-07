@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyActionButtonModule, SkyActionButtonPermalink } from '@skyux/layout';
 
+/**
+ * @title Action button with permalinks
+ */
 @Component({
   selector: 'app-layout-action-button-permalink-example',
   templateUrl: './example.component.html',

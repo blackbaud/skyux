@@ -10,6 +10,9 @@ import { SkyIdModule } from '@skyux/core';
 import { SkyCharacterCounterModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
+/**
+ * @title Character count with basic setup
+ */
 @Component({
   selector: 'app-forms-character-count-example',
   templateUrl: './example.component.html',

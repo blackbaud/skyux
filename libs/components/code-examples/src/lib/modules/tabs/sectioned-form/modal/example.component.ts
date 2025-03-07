@@ -3,6 +3,9 @@ import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import { ModalComponent } from './modal.component';
 
+/**
+ * @title Sectioned form inside modal
+ */
 @Component({
   standalone: true,
   selector: 'app-tabs-sectioned-form-modal-example',

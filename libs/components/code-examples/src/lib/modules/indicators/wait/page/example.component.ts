@@ -1,6 +1,9 @@
 import { Component, OnDestroy, inject } from '@angular/core';
 import { SkyWaitService } from '@skyux/indicators';
 
+/**
+ * @title Wait applied to a page
+ */
 @Component({
   standalone: true,
   selector: 'app-indicators-wait-page-example',

@@ -4,6 +4,9 @@ import { SkyPageModule } from '@skyux/pages';
 
 import { SplitViewPageContentComponent } from './split-view-page-content.component';
 
+/**
+ * @title Split view page with fit layout
+ */
 @Component({
   selector: 'app-pages-page-split-view-page-fit-layout-example',
   templateUrl: './example.component.html',

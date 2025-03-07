@@ -12,6 +12,9 @@ import {
 } from '@skyux/autonumeric';
 import { SkyInputBoxModule } from '@skyux/forms';
 
+/**
+ * @title International formatting
+ */
 @Component({
   selector: 'app-autonumeric-international-formatting-example',
   templateUrl: './example.component.html',

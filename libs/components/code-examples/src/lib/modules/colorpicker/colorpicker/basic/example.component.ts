@@ -16,6 +16,9 @@ function isColorpickerOutput(value: unknown): value is SkyColorpickerOutput {
   return !!(value && typeof value === 'object' && 'rgba' in value);
 }
 
+/**
+ * @title Basic example
+ */
 @Component({
   selector: 'app-colorpicker-basic-example',
   templateUrl: './example.component.html',

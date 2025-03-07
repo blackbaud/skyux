@@ -11,6 +11,9 @@ import { Subject, shareReplay, switchMap, tap } from 'rxjs';
 
 import { DemoDataService } from './demo-data.service';
 
+/**
+ * @title Paging with content wrapper
+ */
 @Component({
   selector: 'app-lists-paging-with-content-example',
   templateUrl: './example.component.html',

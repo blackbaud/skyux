@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyTextExpandModule } from '@skyux/layout';
 
+/**
+ * @title Text expand with a modal
+ */
 @Component({
   selector: 'app-layout-text-expand-modal-example',
   templateUrl: './example.component.html',

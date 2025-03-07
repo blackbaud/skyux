@@ -11,6 +11,9 @@ import {
   SkyDateRangePickerModule,
 } from '@skyux/datetime';
 
+/**
+ * @title Date range picker with help key
+ */
 @Component({
   selector: 'app-datetime-date-range-picker-help-key-example',
   templateUrl: './example.component.html',

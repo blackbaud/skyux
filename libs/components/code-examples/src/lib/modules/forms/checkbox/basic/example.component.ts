@@ -10,6 +10,9 @@ import {
 } from '@angular/forms';
 import { SkyCheckboxModule } from '@skyux/forms';
 
+/**
+ * @title Standard checkboxes
+ */
 @Component({
   selector: 'app-forms-checkbox-basic-example',
   templateUrl: './example.component.html',

@@ -9,6 +9,9 @@ import {
 } from '@skyux/indicators';
 import { SkyPageSummaryModule } from '@skyux/layout';
 
+/**
+ * @title Page summary with basic setup
+ */
 @Component({
   selector: 'app-layout-page-summary-basic-example',
   templateUrl: './example.component.html',

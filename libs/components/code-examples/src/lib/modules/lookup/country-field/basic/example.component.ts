@@ -22,6 +22,9 @@ function validateCountry(
   return control.value?.name === 'Mexico' ? { invalidCountry: true } : null;
 }
 
+/**
+ * @title Country field with basic setup
+ */
 @Component({
   selector: 'app-lookup-country-field-basic-example',
   templateUrl: './example.component.html',

@@ -18,6 +18,9 @@ import { take } from 'rxjs/operators';
 import { ModalContext } from './modal-context';
 import { ModalComponent } from './modal.component';
 
+/**
+ * @title Waterfall progress indicator
+ */
 @Component({
   selector: 'app-progress-indicator-waterfall-indicator-basic-example',
   templateUrl: './example.component.html',

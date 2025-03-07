@@ -4,6 +4,9 @@ import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 
 import { Person } from './person';
 
+/**
+ * @title Infinite scroll with back to top directive
+ */
 @Component({
   selector: 'app-layout-back-to-top-infinite-scroll-example',
   templateUrl: './example.component.html',

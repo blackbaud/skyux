@@ -12,6 +12,9 @@ import {
 } from '@skyux/autonumeric';
 import { SkyInputBoxModule } from '@skyux/forms';
 
+/**
+ * @title Currency
+ */
 @Component({
   selector: 'app-autonumeric-currency-example',
   templateUrl: './example.component.html',

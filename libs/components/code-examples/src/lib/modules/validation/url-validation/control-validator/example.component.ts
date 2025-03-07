@@ -11,6 +11,9 @@ import {
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyValidators } from '@skyux/validation';
 
+/**
+ * @title URL validation on reactive form controls
+ */
 @Component({
   selector: 'app-validation-url-validation-control-validator-example',
   templateUrl: './example.component.html',
