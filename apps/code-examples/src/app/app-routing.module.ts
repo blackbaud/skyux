@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ExtraOptions, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
@@ -195,12 +195,6 @@ const routes: Routes = [
       import('./features/router.module').then((m) => m.RouterFeatureModule),
   },
 ];
-
-const routerOptions: ExtraOptions = {
-  scrollPositionRestoration: 'enabled',
-  anchorScrolling: 'enabled',
-  onSameUrlNavigation: 'reload',
-};
 
 @NgModule({
   imports: [

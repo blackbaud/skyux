@@ -46,47 +46,6 @@ export class AppComponent implements AfterViewInit {
     );
 
     themeSvc.init(document.body, renderer, themeSettings);
-
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        const fragment = this.router.parseUrl(event.url).fragment;
-
-        if (fragment) {
-          setTimeout(() => {
-            this.#zone.runOutsideAngular(() => {
-              const el = document.getElementById(fragment);
-
-              if (el) {
-                el.scrollIntoView({
-                  behavior: 'smooth',
-                });
-              }
-            });
-          });
-        }
-      }
-    });
-
-    // this.#activatedRoute.fragment
-    //   .pipe(takeUntilDestroyed())
-    //   .subscribe((fragment) => {
-    //     if (fragment) {
-    //       afterNextRender(
-    //         {
-    //           write: () => {
-    //             const el = document.getElementById(fragment);
-
-    //             if (el) {
-    //               el.scrollIntoView({
-    //                 behavior: 'smooth',
-    //               });
-    //             }
-    //           },
-    //         },
-    //         { injector: this.#injector },
-    //       );
-    //     }
-    //   });
   }
 
   public isHome(): boolean {
