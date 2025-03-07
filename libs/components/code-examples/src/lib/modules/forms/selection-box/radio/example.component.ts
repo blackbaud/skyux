@@ -9,6 +9,9 @@ import { SkyIdModule } from '@skyux/core';
 import { SkyRadioModule, SkySelectionBoxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/icon';
 
+/**
+ * @title Selection boxes with radio buttons
+ */
 @Component({
   selector: 'app-forms-selection-box-radio-example',
   templateUrl: './example.component.html',

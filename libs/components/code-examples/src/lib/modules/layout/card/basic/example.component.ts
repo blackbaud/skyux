@@ -4,6 +4,9 @@ import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyCardModule } from '@skyux/layout';
 import { SkyDropdownModule } from '@skyux/popovers';
 
+/**
+ * @title Card with basic setup
+ */
 @Component({
   selector: 'app-layout-card-basic-example',
   templateUrl: './example.component.html',

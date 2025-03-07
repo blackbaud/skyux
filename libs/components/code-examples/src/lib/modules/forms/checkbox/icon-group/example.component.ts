@@ -8,6 +8,9 @@ import {
 } from '@angular/forms';
 import { SkyCheckboxModule } from '@skyux/forms';
 
+/**
+ * @title Icon checkbox group
+ */
 @Component({
   selector: 'app-forms-checkbox-icon-group-example',
   templateUrl: './example.component.html',

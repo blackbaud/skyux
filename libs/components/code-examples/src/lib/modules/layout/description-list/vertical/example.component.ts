@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyDescriptionListModule } from '@skyux/layout';
 
+/**
+ * @title Vertical mode
+ */
 @Component({
   selector: 'app-layout-description-list-vertical-example',
   templateUrl: './example.component.html',

@@ -5,6 +5,9 @@ import { InfiniteScrollDemoItem } from './item';
 
 let nextId = 0;
 
+/**
+ * @title Infinite scroll with repeater
+ */
 @Component({
   selector: 'app-lists-infinite-scroll-repeater-example',
   templateUrl: './example.component.html',

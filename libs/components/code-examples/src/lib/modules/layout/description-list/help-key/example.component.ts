@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyDescriptionListModule } from '@skyux/layout';
 
+/**
+ * @title Description list with help key
+ */
 @Component({
   selector: 'app-layout-description-list-help-key-example',
   templateUrl: './example.component.html',

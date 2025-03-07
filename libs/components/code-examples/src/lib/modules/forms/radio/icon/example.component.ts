@@ -13,6 +13,9 @@ interface Item {
   name: string;
 }
 
+/**
+ * @title Radio group with icons
+ */
 @Component({
   selector: 'app-forms-radio-icon-example',
   templateUrl: './example.component.html',

@@ -9,6 +9,9 @@ import { map } from 'rxjs/operators';
 import { DemoService } from './example.service';
 import { Person } from './person';
 
+/**
+ * @title Selection modal with basic setup
+ */
 @Component({
   standalone: true,
   selector: 'app-lookup-selection-modal-basic-example',

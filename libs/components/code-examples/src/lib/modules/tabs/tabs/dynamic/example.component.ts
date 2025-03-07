@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyTabsModule } from '@skyux/tabs';
 
+/**
+ * @title Tabs bound to an array
+ */
 @Component({
   selector: 'app-tabs-dynamic-example',
   templateUrl: './example.component.html',

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyRichTextDisplayModule } from '@skyux/text-editor';
 
+/**
+ * @title Rich text display with basic setup
+ */
 @Component({
   selector: 'app-text-editor-rich-text-display-example',
   templateUrl: './example.component.html',

@@ -27,6 +27,9 @@ interface Item {
   note: string | undefined;
 }
 
+/**
+ * @title Repeater with inline form
+ */
 @Component({
   selector: 'app-lists-repeater-inline-form-example',
   templateUrl: './example.component.html',

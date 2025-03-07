@@ -27,6 +27,9 @@ import { map } from 'rxjs/operators';
 import { DemoService } from './example.service';
 import { Person } from './person';
 
+/**
+ * @title Lookup with custom search results template
+ */
 @Component({
   selector: 'app-lookup-result-templates-example',
   templateUrl: './example.component.html',

@@ -24,7 +24,8 @@ import { SkyDataViewState } from './models/data-view-state';
 /**
  * The data manager service provides ways for data views, toolbar items, and more to stay up to date
  * with the active view ID, data manager config, registered views and their configs, and data state.
- * There are methods to get current values, update values, and get subscriptions to the changing values.<br/> <br/>
+ * There are methods to get current values, update values, and get subscriptions to the changing values.
+ *
  * Provide this service at the component level for each instance of a data manager. Do not
  * provide it at the module level or in `app-extras`. This allows multiple data
  * managers to be used and self-contained.

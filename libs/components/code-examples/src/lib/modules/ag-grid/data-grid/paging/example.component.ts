@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-import { SkyDataManagerService } from '@skyux/data-manager';
 import { SkyPagingModule } from '@skyux/lists';
 
 import { AgGridModule } from 'ag-grid-angular';
@@ -29,11 +28,13 @@ import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
+/**
+ * @title Basic setup with paging (without data manager)
+ */
 @Component({
   selector: 'app-ag-grid-data-grid-paging-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [SkyDataManagerService],
   imports: [AgGridModule, SkyAgGridModule, SkyPagingModule],
 })
 export class AgGridDataGridPagingExampleComponent implements OnInit, OnDestroy {

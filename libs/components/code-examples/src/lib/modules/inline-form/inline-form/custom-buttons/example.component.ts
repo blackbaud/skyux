@@ -19,6 +19,9 @@ interface DemoForm {
   firstName: FormControl<string>;
 }
 
+/**
+ * @title Inline form with custom buttons
+ */
 @Component({
   selector: 'app-inline-form-custom-buttons-example',
   templateUrl: './example.component.html',

@@ -3,6 +3,9 @@ import { TreeModule } from '@blackbaud/angular-tree-component';
 import { SkyAngularTreeModule } from '@skyux/angular-tree-component';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
+/**
+ * @title Tree view with help key
+ */
 @Component({
   selector: 'app-angular-tree-component-angular-tree-help-key-example',
   templateUrl: './example.component.html',

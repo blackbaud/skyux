@@ -9,6 +9,9 @@ interface InlineRepeaterDemoItem {
   description: string;
 }
 
+/**
+ * @title Inline delete with repeater
+ */
 @Component({
   selector: 'app-layout-inline-delete-repeater-example',
   templateUrl: './example.component.html',

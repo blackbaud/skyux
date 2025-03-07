@@ -12,6 +12,9 @@ interface ToggleSwitchFormType {
   registration: FormControl<boolean | null>;
 }
 
+/**
+ * @title Toggle switch with help key
+ */
 @Component({
   selector: 'app-forms-toggle-switch-help-key-example',
   templateUrl: './example.component.html',

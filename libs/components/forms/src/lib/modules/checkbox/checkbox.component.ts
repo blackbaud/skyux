@@ -201,7 +201,7 @@ export class SkyCheckboxComponent
    * label types. `"info"` creates a blue background, `"success"` creates a green
    * background, `"warning"` creates an orange background, and `"danger"` creates a red background.
    * @default "info"
-   * @deprecated checkboxType is no longer supported
+   * @deprecated The `checkboxType` input is no longer supported.
    */
   @Input()
   public set checkboxType(value: string | undefined) {

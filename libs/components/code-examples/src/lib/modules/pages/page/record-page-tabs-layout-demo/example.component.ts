@@ -5,6 +5,9 @@ import { SkyPageModule } from '@skyux/pages';
 
 import { RecordPageContentComponent } from './record-page-content.component';
 
+/**
+ * @title Record page with tabs layout using data manager
+ */
 @Component({
   selector: 'app-pages-page-record-page-tabs-layout-example',
   templateUrl: './example.component.html',

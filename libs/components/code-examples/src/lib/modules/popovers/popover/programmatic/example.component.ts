@@ -8,6 +8,9 @@ import {
 
 import { Subject } from 'rxjs';
 
+/**
+ * @title Popover with programmatic interactions
+ */
 @Component({
   selector: 'app-popovers-popover-programmatic-example',
   templateUrl: './example.component.html',

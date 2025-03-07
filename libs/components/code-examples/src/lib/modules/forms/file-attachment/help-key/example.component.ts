@@ -28,6 +28,9 @@ function customValidator(
     : null;
 }
 
+/**
+ * @title File attachment with help key
+ */
 @Component({
   selector: 'app-forms-file-attachment-help-key-example',
   templateUrl: './example.component.html',

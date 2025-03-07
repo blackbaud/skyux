@@ -25,6 +25,9 @@ import { AddItemModalComponent } from './add-item-modal.component';
 import { DemoService } from './example.service';
 import { Person } from './person';
 
+/**
+ * @title Lookup with add item button
+ */
 @Component({
   selector: 'app-lookup-add-item-example',
   templateUrl: './example.component.html',

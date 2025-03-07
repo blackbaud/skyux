@@ -12,6 +12,9 @@ import {
 } from '@skyux/autonumeric';
 import { SkyInputBoxModule } from '@skyux/forms';
 
+/**
+ * @title Predefined options
+ */
 @Component({
   selector: 'app-autonumeric-preset-example',
   templateUrl: './example.component.html',

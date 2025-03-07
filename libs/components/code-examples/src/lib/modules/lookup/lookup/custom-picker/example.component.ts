@@ -24,6 +24,9 @@ import { DemoService } from './example.service';
 import { Person } from './person';
 import { PickerModalComponent } from './picker-modal.component';
 
+/**
+ * @title Lookup with a custom picker
+ */
 @Component({
   selector: 'app-lookup-custom-picker-example',
   templateUrl: './example.component.html',

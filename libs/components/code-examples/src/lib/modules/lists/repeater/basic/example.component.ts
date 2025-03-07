@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyDropdownModule } from '@skyux/popovers';
 
+/**
+ * @title Repeater with basic setup
+ */
 @Component({
   selector: 'app-lists-repeater-basic-example',
   templateUrl: './example.component.html',

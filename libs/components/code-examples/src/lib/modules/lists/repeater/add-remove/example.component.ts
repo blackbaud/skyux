@@ -6,6 +6,9 @@ import { Item } from './item';
 
 let nextId = 0;
 
+/**
+ * @title Repeater with drag and drop, removable items
+ */
 @Component({
   selector: 'app-lists-repeater-add-remove-example',
   templateUrl: './example.component.html',

@@ -23,6 +23,9 @@ import { map } from 'rxjs/operators';
 import { DemoService } from './example.service';
 import { Person } from './person';
 
+/**
+ * @title Lookup in multiple select mode
+ */
 @Component({
   selector: 'app-lookup-multi-select-example',
   templateUrl: './example.component.html',

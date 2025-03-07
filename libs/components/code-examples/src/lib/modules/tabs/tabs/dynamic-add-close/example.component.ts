@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyTabsModule } from '@skyux/tabs';
 
+/**
+ * @title Tabs bound to an array, with add and close buttons
+ */
 @Component({
   selector: 'app-tabs-dynamic-add-close-example',
   templateUrl: './example.component.html',

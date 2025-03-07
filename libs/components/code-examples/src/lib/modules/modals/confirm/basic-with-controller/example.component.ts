@@ -1,6 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { SkyConfirmService } from '@skyux/modals';
 
+/**
+ * @title Confirm, tested with controller
+ */
 @Component({
   selector: 'app-modals-confirm-basic-with-controller-example',
   standalone: true,

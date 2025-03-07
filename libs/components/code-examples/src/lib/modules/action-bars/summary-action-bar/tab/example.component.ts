@@ -3,6 +3,10 @@ import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyTabsModule } from '@skyux/tabs';
 
+/**
+ * @title Tab with summary action bar
+ * @docsDemoHidden
+ */
 @Component({
   selector: 'app-action-bars-summary-action-bar-tab-example',
   templateUrl: './example.component.html',

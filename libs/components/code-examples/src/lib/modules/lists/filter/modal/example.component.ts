@@ -13,6 +13,9 @@ import { FilterModalContext } from './filter-modal-context';
 import { FilterModalComponent } from './filter-modal.component';
 import { Fruit } from './fruit';
 
+/**
+ * @title Modal filter
+ */
 @Component({
   selector: 'app-lists-filter-modal-example',
   templateUrl: './example.component.html',

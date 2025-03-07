@@ -12,6 +12,9 @@ interface ToggleSwitchFormType {
   registration: FormControl<boolean | null>;
 }
 
+/**
+ * @title Toggle switch with basic setup
+ */
 @Component({
   selector: 'app-forms-toggle-switch-basic-example',
   templateUrl: './example.component.html',

@@ -13,6 +13,9 @@ interface TokenItem {
   label: string;
 }
 
+/**
+ * Tokens with programmatic interactions
+ */
 @Component({
   selector: 'app-indicators-tokens-custom-example',
   templateUrl: './example.component.html',

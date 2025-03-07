@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 
+/**
+ * @title Inline delete with custom elements
+ */
 @Component({
   selector: 'app-layout-inline-delete-custom-example',
   templateUrl: './example.component.html',

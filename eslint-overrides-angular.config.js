@@ -4,7 +4,7 @@ module.exports = [
   {
     files: ['**/*.ts'],
     rules: {
-      '@angular-eslint/prefer-standalone': 'warn',
+      '@angular-eslint/prefer-standalone': 'off',
     },
   },
   {

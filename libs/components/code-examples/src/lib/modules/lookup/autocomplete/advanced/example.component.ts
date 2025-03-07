@@ -16,6 +16,9 @@ import {
 
 import { Planet } from './planet';
 
+/**
+ * @title Advanced example
+ */
 @Component({
   selector: 'app-lookup-autocomplete-advanced-example',
   templateUrl: './example.component.html',

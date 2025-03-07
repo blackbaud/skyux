@@ -17,6 +17,9 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
+/**
+ * @title Datepicker with custom dates
+ */
 @Component({
   selector: 'app-datetime-datepicker-custom-dates-example',
   templateUrl: './example.component.html',

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyActionButtonModule } from '@skyux/layout';
 
+/**
+ * @title Basic action buttons
+ */
 @Component({
   selector: 'app-layout-action-button-basic-example',
   templateUrl: './example.component.html',

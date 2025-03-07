@@ -10,6 +10,9 @@ import {
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyPhoneFieldModule } from '@skyux/phone-field';
 
+/**
+ * @title Phone field with basic setup
+ */
 @Component({
   selector: 'app-phone-field-basic-example',
   templateUrl: './example.component.html',

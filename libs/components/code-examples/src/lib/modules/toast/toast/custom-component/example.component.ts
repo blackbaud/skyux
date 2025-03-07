@@ -4,6 +4,9 @@ import { SkyToastService, SkyToastType } from '@skyux/toast';
 import { CustomToastContext } from './custom-context';
 import { CustomToastComponent } from './custom-toast.component';
 
+/**
+ * @title Toast with custom content component
+ */
 @Component({
   standalone: true,
   selector: 'app-toast-custom-component-example',

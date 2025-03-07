@@ -17,6 +17,9 @@ function validateText(
   return !control.value?.includes('Blackbaud') ? { companyName: true } : null;
 }
 
+/**
+ * @title Text editor with help key
+ */
 @Component({
   selector: 'app-text-editor-help-key-example',
   templateUrl: './example.component.html',

@@ -25,6 +25,9 @@ interface DemoForm {
   comments: FormControl<string>;
 }
 
+/**
+ * @title Split view with basic setup
+ */
 @Component({
   selector: 'app-split-view-basic-example',
   templateUrl: './example.component.html',

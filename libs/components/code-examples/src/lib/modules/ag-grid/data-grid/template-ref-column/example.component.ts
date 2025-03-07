@@ -18,6 +18,9 @@ import { AG_GRID_DEMO_DATA } from './data';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
+/**
+ * @title Basic setup with template ref column type (without data manager)
+ */
 @Component({
   selector: 'app-ag-grid-data-grid-template-ref-column-example',
   templateUrl: './example.component.html',
