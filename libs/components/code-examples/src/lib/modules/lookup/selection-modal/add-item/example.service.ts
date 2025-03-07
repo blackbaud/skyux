@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
 
 import { Person } from './person';
 import { SearchResults } from './search-results';
@@ -32,7 +31,7 @@ const people: Person[] = [
 @Injectable({
   providedIn: 'root',
 })
-export class DemoService {
+export class ExampleService {
   public addItem(item: Person): void {
     people.push(item);
   }
@@ -51,6 +50,7 @@ export class DemoService {
       hasMore: false,
       people: matchingPeople,
       totalCount: matchingPeople.length,
-    }).pipe(delay(800));
+      // }).pipe(delay(800));
+    });
   }
 }

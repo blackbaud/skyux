@@ -6,10 +6,10 @@ import { SkySelectionModalHarness } from '@skyux/lookup/testing';
 import { of } from 'rxjs';
 
 import { LookupSelectionModalBasicExampleComponent } from './example.component';
-import { DemoService } from './example.service';
+import { ExampleService } from './example.service';
 
 describe('Selection modal example', () => {
-  let mockSvc: jasmine.SpyObj<DemoService>;
+  let mockSvc: jasmine.SpyObj<ExampleService>;
 
   async function setupTest(): Promise<{
     harness: SkySelectionModalHarness;
@@ -19,6 +19,7 @@ describe('Selection modal example', () => {
     const fixture = TestBed.createComponent(
       LookupSelectionModalBasicExampleComponent,
     );
+
     const el = fixture.nativeElement as HTMLElement;
     const openBtn = el.querySelector<HTMLButtonElement>(
       '.selection-modal-example-show-btn',
@@ -28,15 +29,17 @@ describe('Selection modal example', () => {
     fixture.detectChanges();
 
     const rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
-
     const harness = await rootLoader.getHarness(SkySelectionModalHarness);
+
     return { harness, el, fixture };
   }
 
   beforeEach(() => {
     // Create a mock search service. In a real-world application, the search
     // service would make a web request which should be avoided in unit tests.
-    mockSvc = jasmine.createSpyObj<DemoService>('DemoService', ['search']);
+    mockSvc = jasmine.createSpyObj<ExampleService>('ExampleService', [
+      'search',
+    ]);
 
     mockSvc.search.and.callFake((searchText) => {
       return of({
@@ -93,6 +96,8 @@ describe('Selection modal example', () => {
     );
 
     expect(selectedItemEls).toHaveSize(0);
+
+    await harness.saveAndClose();
   });
 
   it('should respect the selection descriptor', async () => {
@@ -104,5 +109,7 @@ describe('Selection modal example', () => {
     await expectAsync(harness.getSaveButtonAriaLabel()).toBeResolvedTo(
       'Select person',
     );
+
+    await harness.saveAndClose();
   });
 });

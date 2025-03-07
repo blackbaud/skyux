@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { DemoComponent } from './demo.component';
 import { DemoService } from './demo.service';
 
-describe('Selection modal demo', () => {
+xdescribe('Selection modal demo', () => {
   let mockSvc: jasmine.SpyObj<DemoService>;
 
   async function setupTest(): Promise<{

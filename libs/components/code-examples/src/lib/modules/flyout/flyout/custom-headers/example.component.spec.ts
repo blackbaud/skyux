@@ -43,19 +43,27 @@ describe('Custom headers flyout example', () => {
     await expectAsync(flyoutHarness.getAriaLabelledBy()).toBeResolvedTo(
       'flyout-title',
     );
+
     await expectAsync(flyoutHarness.getAriaRole()).toBeResolvedTo('dialog');
 
     expect(fixture.componentInstance.recordNumber).toBe(0);
+
     await flyoutHarness.clickNextIteratorButton();
+
     expect(fixture.componentInstance.recordNumber).toBe(1);
+
     await flyoutHarness.clickPreviousIteratorButton();
+
     expect(fixture.componentInstance.recordNumber).toBe(0);
+
     // previous button is disabled
     await expectAsync(
       flyoutHarness.clickPreviousIteratorButton(),
     ).toBeRejectedWithError(
       'Could not click the previous iterator because it is disabled.',
     );
+
+    await flyoutHarness.closeFlyout();
   });
 
   it('should set up the flyout with permalink', async () => {
@@ -64,9 +72,12 @@ describe('Custom headers flyout example', () => {
     await expectAsync(flyoutHarness.getPermalinkButtonLabel()).toBeResolvedTo(
       'Visit blackbaud.com',
     );
+
     await expectAsync(flyoutHarness.getPermalinkButtonRoute()).toBeResolvedTo(
       'http://www.blackbaud.com',
     );
+
+    await flyoutHarness.closeFlyout();
   });
 
   it('should set up the flyout with primary action', async () => {
@@ -77,7 +88,11 @@ describe('Custom headers flyout example', () => {
     ).toBeResolvedTo('Save');
 
     const actionSpy = spyOn(fixture.componentInstance, 'primaryActionCallback');
+
     await flyoutHarness.clickPrimaryActionButton();
+
     expect(actionSpy).toHaveBeenCalledTimes(1);
+
+    await flyoutHarness.closeFlyout();
   });
 });
