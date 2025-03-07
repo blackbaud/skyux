@@ -63,6 +63,7 @@ describe('Selection modal example', () => {
         LookupSelectionModalAddItemExampleComponent,
         NoopAnimationsModule,
       ],
+      providers: [{ provide: ExampleService, useValue: mockSvc }],
     });
   });
 

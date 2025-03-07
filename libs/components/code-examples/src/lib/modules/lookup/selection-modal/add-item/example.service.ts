@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 import { Person } from './person';
 import { SearchResults } from './search-results';
@@ -50,7 +51,6 @@ export class ExampleService {
       hasMore: false,
       people: matchingPeople,
       totalCount: matchingPeople.length,
-      // }).pipe(delay(800));
-    });
+    }).pipe(delay(800));
   }
 }
