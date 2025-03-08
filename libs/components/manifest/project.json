@@ -8,7 +8,6 @@
     "prebuild": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
-      "cache": true,
       "options": {
         "outputPath": "dist/libs/components/manifest",
         "tsConfig": "libs/components/manifest/tsconfig.lib.json",
@@ -23,7 +22,6 @@
     "build": {
       "executor": "nx:run-commands",
       "outputs": ["{options.outputPath}"],
-      "cache": true,
       "options": {
         "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-manifest.ts",
         "outputPath": "dist/libs/components/manifest"

@@ -15,13 +15,7 @@
       "outputs": ["{workspaceRoot}/coverage/libs/sdk/eslint-config"],
       "options": {
         "jestConfig": "libs/sdk/eslint-config/jest.config.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "build",
-          "projects": "manifest"
-        }
-      ]
+      }
     },
     "build": {
       "executor": "@nx/js:tsc",
@@ -32,13 +26,7 @@
         "packageJson": "libs/sdk/eslint-config/package.json",
         "main": "libs/sdk/eslint-config/src/index.ts",
         "assets": ["libs/sdk/eslint-config/*.md"]
-      },
-      "dependsOn": [
-        {
-          "target": "build",
-          "projects": "manifest"
-        }
-      ]
+      }
     },
     "postbuild": {
       "executor": "nx:run-commands",
