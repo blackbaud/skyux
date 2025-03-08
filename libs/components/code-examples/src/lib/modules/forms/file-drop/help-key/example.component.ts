@@ -7,6 +7,9 @@ import {
 } from '@skyux/forms';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
+/**
+ * @title File drop with help key
+ */
 @Component({
   selector: 'app-forms-file-drop-help-key-example',
   templateUrl: './example.component.html',

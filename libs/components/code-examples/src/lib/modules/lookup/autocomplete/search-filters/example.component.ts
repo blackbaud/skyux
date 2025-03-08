@@ -12,6 +12,9 @@ import {
   SkyAutocompleteSearchFunctionFilter,
 } from '@skyux/lookup';
 
+/**
+ * @title Autocomplete with search filters
+ */
 @Component({
   selector: 'app-lookup-autocomplete-search-filters-example',
   templateUrl: './example.component.html',

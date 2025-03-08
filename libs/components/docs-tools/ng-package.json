@@ -6,5 +6,6 @@
     "styleIncludePaths": ["../../.."]
   },
   "inlineStyleLanguage": "scss",
-  "allowedNonPeerDependencies": ["@stackblitz/sdk", "highlight.js", "marked"]
+  "allowedNonPeerDependencies": ["@stackblitz/sdk", "highlight.js", "marked"],
+  "assets": ["css/styles.css"]
 }

@@ -1,6 +1,4 @@
 sky-docs-code-snippet {
-  --sky-docs-code-snippet-scrollbar-height: 8px;
-
   overflow-x: auto;
   display: flex;
   flex-direction: column;
@@ -15,7 +13,7 @@ sky-docs-code-snippet {
 
 sky-docs-code-snippet::-webkit-scrollbar {
   -webkit-appearance: none;
-  height: var(--sky-docs-code-snippet-scrollbar-height);
+  height: 8px;
 }
 
 sky-docs-code-snippet::-webkit-scrollbar-track {
@@ -34,8 +32,4 @@ sky-docs-code-snippet::-webkit-scrollbar-thumb {
     transparent
   );
   border-radius: var(--sky-border-radius-s);
-}
-
-sky-docs-code-snippet.sky-elevation-0-bordered {
-  padding: var(--sky-padding-even-xl);
 }

@@ -1,6 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { SkyErrorModalService } from '@skyux/errors';
 
+/**
+ * @title Show an error inside a modal
+ */
 @Component({
   standalone: true,
   selector: 'app-errors-error-modal-example',

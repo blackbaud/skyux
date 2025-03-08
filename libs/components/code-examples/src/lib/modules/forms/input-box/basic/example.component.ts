@@ -14,6 +14,9 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyFluidGridModule } from '@skyux/layout';
 import { SkyValidators } from '@skyux/validation';
 
+/**
+ * @title Input box
+ */
 @Component({
   selector: 'app-forms-input-box-basic-example',
   templateUrl: './example.component.html',

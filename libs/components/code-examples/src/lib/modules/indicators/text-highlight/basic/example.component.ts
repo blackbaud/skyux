@@ -3,6 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyTextHighlightModule } from '@skyux/indicators';
 
+/**
+ * @title Text highlight with basic setup
+ */
 @Component({
   selector: 'app-indicators-text-highlight-basic-example',
   templateUrl: './example.component.html',

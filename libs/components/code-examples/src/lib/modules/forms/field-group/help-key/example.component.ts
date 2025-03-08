@@ -8,6 +8,9 @@ import {
 import { SkyFieldGroupModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyFluidGridModule } from '@skyux/layout';
 
+/**
+ * @title Field group with help key
+ */
 @Component({
   selector: 'app-forms-field-group-help-key-example',
   templateUrl: './example.component.html',

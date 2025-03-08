@@ -20,6 +20,9 @@ import { FilterModalComponent } from './filter-modal.component';
 import { Filters } from './filters';
 import { ViewGridComponent } from './view-grid.component';
 
+/**
+ * @title Data manager multiselect setup
+ */
 @Component({
   selector: 'app-ag-grid-data-grid-data-manager-multiselect-example',
   templateUrl: './example.component.html',

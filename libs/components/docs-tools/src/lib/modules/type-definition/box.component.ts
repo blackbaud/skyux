@@ -43,7 +43,7 @@ import { SkyDocsCategoryTagModule } from '../category-tag/category-tag.module';
     >
       <h4 class="sky-docs-type-definition-box-heading">
         <code
-          [class.sky-docs-type-definition-text-strikethrough]="deprecated()"
+          [class.sky-docs-text-strikethrough]="deprecated()"
           [innerHTML]="headingText()"
         ></code>
       </h4>

@@ -5,6 +5,9 @@ import { ComponentHarness } from '@angular/cdk/testing';
  * @internal
  */
 export class ItemHarness extends ComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = '.lookup-example-template-item';
 
   #getName = this.locatorFor('.lookup-example-template-name');
