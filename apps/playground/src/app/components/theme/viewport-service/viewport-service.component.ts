@@ -42,7 +42,7 @@ export default class ViewportServiceComponent
             const viewKeep = ['.floating-bar'];
             if (
               entries[0].isIntersecting &&
-              entries[0].intersectionRect.height > 125
+              entries[0].intersectionRect.height > 102
             ) {
               viewKeep.push('.toolbar');
             }
@@ -50,7 +50,7 @@ export default class ViewportServiceComponent
           }),
         {
           root: this.#document.getElementById('content'),
-          threshold: Array.from({ length: 11 }, (_, i) => i / 10),
+          threshold: Array.from({ length: 101 }, (_, i) => i / 100),
         },
       ),
   );

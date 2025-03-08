@@ -28,12 +28,13 @@
 
 .viewport-example {
   display: flex;
-  width: 16vw;
+  width: 20vw;
   height: 50px;
   background-color: oklch(90% 38% 196deg);
   padding-left: 1em;
   align-items: center;
   z-index: 2000;
+  font-size: 0.9em;
 }
 
 .viewport-fixed {
@@ -46,16 +47,7 @@
   position: sticky;
   top: 0;
   float: right;
-  margin-right: 8vw;
-}
-
-.heading-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.toolbar {
-  background-color: var(--sky-color-background-page);
+  margin-right: 5vw;
 }
 
 .region {

@@ -17,7 +17,7 @@ type ReserveItemType = SkyAppViewportReserveArgs & {
 };
 
 const SKY_APP_VIEWPORT_ROOT_ID = 'sky-app-viewport-root';
-const threshold = Array.from({ length: 11 }, (_, i) => i / 10);
+const threshold = Array.from({ length: 101 }, (_, i) => i / 100);
 
 /**
  * Provides information about the state of the application's viewport.
@@ -43,6 +43,7 @@ export class SkyAppViewportService {
   readonly #ngZone = inject(NgZone);
   readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
   #viewportRoot: HTMLElement | undefined;
+  // Observe elements crossing the --sky-viewport boundaries, using 5px margin because elements likely won't cross the actual boundary.
   readonly #skyViewportIntersectionObserver = this.#ngZone.runOutsideAngular(
     () =>
       new IntersectionObserver(
@@ -50,25 +51,19 @@ export class SkyAppViewportService {
         { root: this.#getViewportRoot(), rootMargin: '-5px', threshold },
       ),
   );
+  // Observe elements crossing the browser's viewport boundaries.
   readonly #windowIntersectionObserver = this.#ngZone.runOutsideAngular(
     () =>
       new IntersectionObserver(
         () => this.#ngZone.run(() => this.#updateViewportArea()),
-        { rootMargin: '5px', threshold },
+        { threshold },
       ),
   );
 
   constructor() {
-    const onScroll = (): void => {
-      if (this.#conditionallyReserveItems.size > 0) {
-        this.#updateViewportArea();
-      }
-    };
-    this.#document.addEventListener('scroll', onScroll);
     inject(DestroyRef).onDestroy(() => {
       this.#skyViewportIntersectionObserver.disconnect();
       this.#windowIntersectionObserver.disconnect();
-      this.#document.removeEventListener('scroll', onScroll);
       this.#viewportRoot?.remove();
     });
   }
