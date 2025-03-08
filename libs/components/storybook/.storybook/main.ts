@@ -11,4 +11,4 @@ const config: StorybookConfig = {
   // There needs to be one local story in order for composition to work.
   stories: ['../src/lib/**/*.stories.@(js|ts)'],
 };
-module.exports = config;
+export default config;
