@@ -16,8 +16,6 @@ concurrency:
 env:
   CYPRESS_VERIFY_TIMEOUT: 120000
   GH_PAGES_OWNER: blackbaud
-  NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
-  NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
   PERCY_BROWSER_EXECUTABLE: /usr/bin/chromium
   PERCY_COMMIT: ${{ github.sha }}
   PERCY_SKIP_UPDATE_CHECK: 'true'
@@ -136,13 +134,6 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
-      - name: Retrieve build-storybook-cache
-        uses: actions/cache@v4
-        with:
-          path: .nx/cache
-          key: build-storybook-${{ matrix.project }}-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
-          restore-keys: build-storybook-${{ matrix.project }}-${{ runner.os }}-
-        if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
         run: npx nx run ${{ matrix.project }}:build-storybook:ci --no-parallel
         if: ${{ matrix.project != 'skip' }}
@@ -175,6 +166,8 @@ jobs:
           - integration
           - playground
         # - dep-graph
+    env:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -198,12 +191,6 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
-      - name: Retrieve build-${{ matrix.app }}-cache
-        uses: actions/cache@v4
-        with:
-          path: .nx/cache
-          key: build-${{ matrix.app }}-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
-          restore-keys: build-${{ matrix.app }}-${{ runner.os }}-
       - name: Build ${{ matrix.app }}
         run: |
           npx nx build ${{ matrix.app }} \
