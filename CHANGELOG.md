@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.8...12.0.0-alpha.9) (2025-03-09)
+
+
+### Features
+
+* **components/code-examples:** add titles for all examples ([#3212](https://github.com/blackbaud/skyux/issues/3212)) ([c8f711d](https://github.com/blackbaud/skyux/commit/c8f711d6c253a1f10c9bc4fd3df3814504e773eb))
+
 ## [12.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.7...12.0.0-alpha.8) (2025-03-07)
 
 
