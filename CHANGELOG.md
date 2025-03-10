@@ -1,5 +1,20 @@
 # Changelog
 
+## [12.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.8...12.0.0-alpha.9) (2025-03-10)
+
+
+### Features
+
+* **components/code-examples:** add titles for all examples ([#3212](https://github.com/blackbaud/skyux/issues/3212)) ([c8f711d](https://github.com/blackbaud/skyux/commit/c8f711d6c253a1f10c9bc4fd3df3814504e773eb))
+* **components/lists:** add paging test harnesses ([#3185](https://github.com/blackbaud/skyux/issues/3185)) ([#3218](https://github.com/blackbaud/skyux/issues/3218)) ([8a3744a](https://github.com/blackbaud/skyux/commit/8a3744a6473f9800b783cd7778d019038578ec07))
+* support Angular 19.2 ([#3202](https://github.com/blackbaud/skyux/issues/3202)) ([376b5ee](https://github.com/blackbaud/skyux/commit/376b5ee74d96142a6dab555bddeaddea091a4b99))
+
+
+### Bug Fixes
+
+* **components/code-examples:** provide example service to prevent timeouts ([#3214](https://github.com/blackbaud/skyux/issues/3214)) ([1b0babf](https://github.com/blackbaud/skyux/commit/1b0babf4356a847f516fd4d38fecfb194a6a1131))
+* **components/packages:** fix test timeouts related to SSR ([#3215](https://github.com/blackbaud/skyux/issues/3215)) ([87802f9](https://github.com/blackbaud/skyux/commit/87802f94da90582a6b4bd3b33e26cba273162cb7))
+
 ## [12.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.7...12.0.0-alpha.8) (2025-03-07)
 
 
