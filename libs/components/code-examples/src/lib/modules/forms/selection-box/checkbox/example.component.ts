@@ -11,6 +11,9 @@ import { SkyIdModule } from '@skyux/core';
 import { SkyCheckboxModule, SkySelectionBoxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/icon';
 
+/**
+ * @title Selection boxes with checkboxes
+ */
 @Component({
   selector: 'app-forms-selection-box-checkbox-example',
   templateUrl: './example.component.html',

@@ -19,6 +19,9 @@ interface DemoForm {
   firstName: FormControl<string>;
 }
 
+/**
+ * @title Inline form with basic setup
+ */
 @Component({
   selector: 'app-inline-form-basic-example',
   templateUrl: './example.component.html',

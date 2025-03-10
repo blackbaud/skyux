@@ -2,6 +2,9 @@ import { Component, Input } from '@angular/core';
 import { SkyNumericModule, SkyNumericOptions } from '@skyux/core';
 import { SkyDescriptionListModule } from '@skyux/layout';
 
+/**
+ * @title Numeric pipe with basic setup
+ */
 @Component({
   selector: 'app-core-numeric-basic-example',
   templateUrl: './example.component.html',

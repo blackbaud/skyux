@@ -1,0 +1,13 @@
+sky-docs-type-definition {
+  display: block;
+
+  .sky-docs-type-definition-box-body {
+    :first-child {
+      margin-top: 0;
+    }
+
+    :last-child {
+      margin-bottom: 0;
+    }
+  }
+}

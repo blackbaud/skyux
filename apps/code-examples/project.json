@@ -24,7 +24,8 @@
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
           "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
-          "node_modules/@blackbaud/skyux-design-tokens/scss/blackbaud.css"
+          "libs/components/docs-tools/css/styles.css",
+          "apps/code-examples/src/styles.scss"
         ],
         "scripts": []
       },
@@ -34,7 +35,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "4mb"
+              "maximumError": "9mb"
             },
             {
               "type": "anyComponentStyle",
@@ -59,7 +60,14 @@
           "namedChunks": true
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "target": "build",
+          "projects": "manifest"
+        }
+      ]
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
@@ -71,7 +79,13 @@
           "buildTarget": "code-examples-playground:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "manifest"
+        }
+      ]
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -102,7 +116,7 @@
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
           "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
-          "node_modules/@blackbaud/skyux-design-tokens/scss/blackbaud.css"
+          "apps/code-examples/src/styles.scss"
         ],
         "scripts": [],
         "assets": [],

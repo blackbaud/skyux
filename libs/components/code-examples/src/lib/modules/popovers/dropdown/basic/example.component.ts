@@ -6,6 +6,9 @@ interface DropdownItem {
   disabled: boolean;
 }
 
+/**
+ * @title Dropdown with basic setup
+ */
 @Component({
   selector: 'app-popovers-dropdown-basic-example',
   templateUrl: './example.component.html',

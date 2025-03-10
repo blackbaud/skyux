@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyDescriptionListModule } from '@skyux/layout';
 
+/**
+ * @title Long-description mode
+ */
 @Component({
   selector: 'app-layout-description-list-long-description-example',
   templateUrl: './example.component.html',

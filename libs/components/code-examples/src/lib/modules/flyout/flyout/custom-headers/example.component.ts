@@ -3,6 +3,9 @@ import { SkyFlyoutInstance, SkyFlyoutService } from '@skyux/flyout';
 
 import { FlyoutComponent } from './flyout.component';
 
+/**
+ * @title Flyouts with customized headers
+ */
 @Component({
   standalone: true,
   selector: 'app-flyout-custom-headers-example',

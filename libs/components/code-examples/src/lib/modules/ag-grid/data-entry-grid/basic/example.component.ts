@@ -28,6 +28,9 @@ import { EditModalComponent } from './edit-modal.component';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
+/**
+ * @title Basic setup (without data manager)
+ */
 @Component({
   selector: 'app-ag-grid-data-entry-grid-basic-example',
   templateUrl: './example.component.html',

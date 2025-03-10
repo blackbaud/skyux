@@ -17,6 +17,9 @@ import {
   SkyDateRangeService,
 } from '@skyux/datetime';
 
+/**
+ * @title Date range picker with custom calculator
+ */
 @Component({
   selector: 'app-datetime-date-range-picker-custom-calculator-example',
   templateUrl: './example.component.html',

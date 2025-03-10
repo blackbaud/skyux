@@ -22,6 +22,9 @@
     }
   },
   "targetDefaults": {
+    "prebuild": {
+      "cache": true
+    },
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["buildInputs", "^buildInputs"],

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { SkyTextExpandRepeaterModule } from '@skyux/layout';
 
+/**
+ * @title Text expand repeater with basic setup
+ */
 @Component({
   selector: 'app-layout-text-expand-repeater-example',
   templateUrl: './example.component.html',

@@ -6,6 +6,9 @@ import {
   SkyConfirmType,
 } from '@skyux/modals';
 
+/**
+ * @title Confirm, tested with harness
+ */
 @Component({
   selector: 'app-modals-confirm-basic-with-harness-example',
   standalone: true,

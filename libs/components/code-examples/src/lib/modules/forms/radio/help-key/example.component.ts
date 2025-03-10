@@ -28,6 +28,9 @@ function validatePaymentMethod(
   return control.value === 'check' ? { processingIssue: true } : null;
 }
 
+/**
+ * @title Radio group with help key
+ */
 @Component({
   selector: 'app-forms-radio-help-key-example',
   templateUrl: './example.component.html',

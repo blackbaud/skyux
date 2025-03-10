@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 
+/**
+ * @title Repeater with back to top directive
+ */
 @Component({
   selector: 'app-layout-back-to-top-repeater-example',
   templateUrl: './example.component.html',

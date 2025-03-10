@@ -5,7 +5,7 @@ import stackblitz from '@stackblitz/sdk';
 
 import { firstValueFrom } from 'rxjs';
 
-import type { SkyStackBlitzLaunchConfig } from './stackblitz-launch-config';
+import type { SkyDocsStackBlitzLaunchConfig } from './stackblitz-launch-config';
 
 /**
  * Files to be read from the host SPA's "src/assets/stack-blitz" directory.
@@ -16,11 +16,11 @@ const TEMPLATE_FILES = ['package.json', 'package-lock.json'];
  * @internal
  */
 @Injectable({ providedIn: 'root' })
-export class SkyStackBlitzService {
+export class SkyDocsStackBlitzService {
   readonly #http = inject(HttpClient, { optional: true });
   readonly #assetsSvc = inject(SkyAppAssetsService, { optional: true });
 
-  public async launch(config: SkyStackBlitzLaunchConfig): Promise<void> {
+  public async launch(config: SkyDocsStackBlitzLaunchConfig): Promise<void> {
     const files: Record<string, string> = {};
 
     for (const [file, contents] of Object.entries(config.files)) {

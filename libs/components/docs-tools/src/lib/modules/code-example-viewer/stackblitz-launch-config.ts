@@ -1,7 +1,7 @@
 /**
  * @internal
  */
-export interface SkyStackBlitzLaunchConfig {
+export interface SkyDocsStackBlitzLaunchConfig {
   componentName: string;
   componentSelector: string;
   files: Record<string, string>;

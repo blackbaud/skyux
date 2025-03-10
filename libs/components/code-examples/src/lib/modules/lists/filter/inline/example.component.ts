@@ -16,6 +16,9 @@ interface Fruit {
   color: string;
 }
 
+/**
+ * @title Expandable inline filter
+ */
 @Component({
   selector: 'app-lists-filter-inline-example',
   templateUrl: './example.component.html',

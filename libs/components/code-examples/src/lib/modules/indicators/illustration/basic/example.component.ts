@@ -6,6 +6,9 @@ import {
 
 import { IllustrationDemoResolverService } from './illustration-demo-resolver.service';
 
+/**
+ * @title Spot illustration with basic setup
+ */
 @Component({
   selector: 'app-indicators-illustration-basic-example',
   templateUrl: './example.component.html',

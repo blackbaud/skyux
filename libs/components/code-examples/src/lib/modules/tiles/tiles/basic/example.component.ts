@@ -4,6 +4,9 @@ import { SkyTileDashboardConfig, SkyTilesModule } from '@skyux/tiles';
 import { Tile1Component } from './tile1.component';
 import { Tile2Component } from './tile2.component';
 
+/**
+ * @title Tile dashboard with basic setup
+ */
 @Component({
   selector: 'app-tiles-basic-example',
   templateUrl: './example.component.html',

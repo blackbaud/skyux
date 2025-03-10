@@ -5,6 +5,9 @@ import {
   SkyLabelType,
 } from '@skyux/indicators';
 
+/**
+ * @title Label with basic setup
+ */
 @Component({
   selector: 'app-indicators-label-basic-example',
   templateUrl: './example.component.html',
