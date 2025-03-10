@@ -13,10 +13,9 @@ describe('field heights', () => {
       });
 
       it('should match heights across different field types', () => {
-        cy.get('#ready')
-          .should('exist')
+        cy.ready('app-field-heights', ['#ready'])
           .end()
-          .get('app-field-heights .sky-input-box')
+          .get('.sky-input-box')
           .should('have.length.gte', 2)
           .then((els) => {
             const heights = new Set();

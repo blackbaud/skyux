@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 @Component({
   selector: 'app-modal-lookup',
@@ -34,8 +32,6 @@ export class ModalLookupComponent {
     { id: 21, name: 'Zack' },
   ];
   protected readonly lookupDemoForm: FormGroup;
-
-  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   constructor() {
     const formBuilder = inject(FormBuilder);

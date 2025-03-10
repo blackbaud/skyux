@@ -9,12 +9,7 @@ describe('lists-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('app-filter')
-          .should('exist')
-          .should('be.visible')
-          .end()
-          .get('#ready')
-          .should('exist')
+        cy.ready('app-filter', ['#ready'])
           .end()
           .get('body')
           .screenshot(`filtercomponent-filter--filter-${theme}`);

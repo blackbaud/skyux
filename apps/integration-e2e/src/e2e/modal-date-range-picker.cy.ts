@@ -8,6 +8,8 @@ describe('Modal Date range picker', () => {
         .skyChooseTheme(theme)
         .get('a[href="#/integrations/modal-date-range-picker"]')
         .click();
+
+      cy.ready('app-modal-date-range-picker');
       cy.url()
         .should('include', '#/integrations/modal-date-range-picker')
         .get('app-modal-date-range-picker button:first-of-type')

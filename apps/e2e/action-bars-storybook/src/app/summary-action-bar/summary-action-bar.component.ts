@@ -1,7 +1,5 @@
 import { Component, Input, OnDestroy, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 import { SummaryActionBarModalComponent } from './summary-action-bar-modal.component';
 
@@ -36,9 +34,6 @@ export class SummaryActionBarComponent implements OnDestroy {
     | 'modal-full-page' {
     return this.#_type;
   }
-
-  public readonly readyFonts = toSignal(inject(FontLoadingService).ready());
-  public readonly readyIcons = toSignal(inject(FontLoadingService).ready(true));
 
   #_type: 'tab' | 'page' | 'split-view' | 'modal' | 'modal-full-page' = 'page';
 

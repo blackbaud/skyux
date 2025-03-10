@@ -25,11 +25,8 @@ describe('action-bars-storybook - summary action bar', () => {
                 cy.viewport(width, height).visit(
                   `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
                 );
-                cy.get('#readyFonts').should('exist');
 
-                cy.get('app-summary-action-bar')
-                  .should('exist')
-                  .should('be.visible');
+                cy.ready('app-summary-action-bar');
 
                 if (E2eVariations.MOBILE_WIDTHS.includes(width)) {
                   cy.get('#readyIcons').should('exist');
@@ -71,11 +68,7 @@ describe('action-bars-storybook - summary action bar', () => {
                     `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
                   );
 
-                  cy.get('app-summary-action-bar')
-                    .should('exist')
-                    .should('be.visible');
-
-                  cy.get('#readyIcons').should('exist');
+                  cy.ready('app-summary-action-bar');
 
                   cy.get('.sky-summary-action-bar-details-collapse button')
                     .should('exist')
@@ -108,19 +101,11 @@ describe('action-bars-storybook - summary action bar', () => {
                 });
 
                 it(`should render the component at width ${width} and with and open secondary actions menu (${style})`, () => {
-                  cy.viewport(width, height)
-                    .visit(
-                      `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
-                    )
+                  cy.viewport(width, height).visit(
+                    `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
+                  );
 
-                    .get('app-summary-action-bar')
-                    .should('exist')
-                    .should('be.visible')
-                    .end()
-
-                    .get('#readyIcons')
-                    .should('exist')
-                    .end()
+                  cy.ready('app-summary-action-bar')
 
                     .get('.sky-summary-action-bar')
                     .should('exist')

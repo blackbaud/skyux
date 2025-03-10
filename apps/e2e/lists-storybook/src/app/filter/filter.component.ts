@@ -1,23 +1,14 @@
-import { AfterViewInit, Component, OnDestroy, inject } from '@angular/core';
-import { FontLoadingService } from '@skyux/storybook';
+import { Component } from '@angular/core';
 
-import {
-  BehaviorSubject,
-  Observable,
-  combineLatest,
-  filter,
-  first,
-  map,
-} from 'rxjs';
+import { delay, of } from 'rxjs';
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   standalone: false,
 })
-export class FilterComponent implements AfterViewInit, OnDestroy {
-  public readonly ready: Observable<boolean>;
-  readonly #fontLoadingService = inject(FontLoadingService);
+export class FilterComponent {
+  public readonly ready = of(true).pipe(delay(300));
 
   public filtersActive = false;
 
@@ -70,27 +61,4 @@ export class FilterComponent implements AfterViewInit, OnDestroy {
       dismissible: true,
     },
   ];
-
-  readonly #filterReady = new BehaviorSubject<boolean>(false);
-
-  public ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.#filterReady.next(true);
-    }, 300);
-  }
-
-  public ngOnDestroy(): void {
-    this.#filterReady.complete();
-  }
-
-  constructor() {
-    this.ready = combineLatest([
-      this.#filterReady,
-      this.#fontLoadingService.ready(true),
-    ]).pipe(
-      filter(([filterReady, fontsLoaded]) => filterReady && fontsLoaded),
-      first(),
-      map(() => true),
-    );
-  }
 }

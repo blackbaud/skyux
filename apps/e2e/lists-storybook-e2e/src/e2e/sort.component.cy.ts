@@ -19,11 +19,7 @@ describe('lists-storybook - sort', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('#ready').should('exist');
-        cy.get('app-sort')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`sortcomponent-sort--sort-${theme}`);
+        cy.ready('app-sort').screenshot(`sortcomponent-sort--sort-${theme}`);
         cy.get('app-sort').percySnapshot(`sortcomponent-sort--sort-${theme}`, {
           widths: E2eVariations.DISPLAY_WIDTHS,
         });
@@ -32,10 +28,7 @@ describe('lists-storybook - sort', () => {
       sortVariations.forEach((sort) => {
         const textDescriptor = sort.hasText ? 'with' : 'without';
         it(`should open the sort ${textDescriptor} button text`, () => {
-          cy.get('#ready').should('exist');
-          cy.get('app-sort')
-            .should('exist')
-            .should('be.visible')
+          cy.ready('app-sort')
             .get(`#${sort.id} .sky-dropdown-button`)
             .should('exist')
             .should('be.visible')

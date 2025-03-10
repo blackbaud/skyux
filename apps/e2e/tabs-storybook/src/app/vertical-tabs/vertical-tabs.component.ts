@@ -1,6 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { FontLoadingService } from '@skyux/storybook';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-vertical-tabs',
@@ -8,6 +6,4 @@ import { FontLoadingService } from '@skyux/storybook';
   styleUrls: ['./vertical-tabs.component.scss'],
   standalone: false,
 })
-export class VerticalTabsComponent {
-  protected ready = toSignal(inject(FontLoadingService).ready(true));
-}
+export class VerticalTabsComponent {}

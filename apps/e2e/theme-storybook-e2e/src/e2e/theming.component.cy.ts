@@ -11,9 +11,7 @@ describe('theme-storybook', () => {
         );
       });
       it('should render the component', () => {
-        cy.get('app-theming')
-          .should('exist')
-          .should('be.visible')
+        cy.ready('app-theming')
           .contains(
             `${capitalize(String(theme.split('-').shift()))} Theme Element`,
           )

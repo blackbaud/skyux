@@ -9,8 +9,7 @@ describe(`pages-storybook`, () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('#ready').should('exist');
-        cy.get('app-action-hub').should('exist').should('be.visible');
+        cy.ready('app-action-hub');
         cy.window().screenshot(
           `actionhubcomponent-actionhub--action-hub-${theme}`,
         );

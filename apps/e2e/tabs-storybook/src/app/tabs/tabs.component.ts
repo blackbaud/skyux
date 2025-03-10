@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  inject,
-} from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { FontLoadingService } from '@skyux/storybook';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 interface Tab {
   tabHeading: string;
@@ -38,6 +31,4 @@ export class TabsComponent {
   public onCloseTab(index: number) {
     console.log(`Close tab ${index} click`);
   }
-
-  protected ready = toSignal(inject(FontLoadingService).ready(true));
 }

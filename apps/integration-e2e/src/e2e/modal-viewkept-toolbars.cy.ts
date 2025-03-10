@@ -10,7 +10,8 @@ describe('modal-viewkept-toolbars', () => {
       });
 
       it('verify viewkept toolbar in modal', () => {
-        cy.get('#modal-viewkept-toolbars-modal-trigger')
+        cy.ready('app-modal-viewkept-toolbars')
+          .get('#modal-viewkept-toolbars-modal-trigger')
           .should('be.visible')
           .should('contain', 'Open modal')
           .click();
@@ -18,7 +19,6 @@ describe('modal-viewkept-toolbars', () => {
           .should('exist')
           .should('be.visible')
           .should('contain', 'Viewkeeper inside a Modal');
-        cy.get('#ready').should('exist');
         cy.get('.sky-lookup-show-more-modal-toolbar')
           .should('exist')
           .should('be.visible');

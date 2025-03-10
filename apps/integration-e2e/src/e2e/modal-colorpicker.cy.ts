@@ -9,6 +9,8 @@ describe('Modal Colorpicker', () => {
           .skyChooseTheme(theme)
           .get('a[href="#/integrations/modal-colorpicker"]')
           .click();
+
+        cy.ready('app-modal-colorpicker');
         cy.url()
           .should('include', '#/integrations/modal-colorpicker')
           .get('app-modal-colorpicker button:first-of-type')

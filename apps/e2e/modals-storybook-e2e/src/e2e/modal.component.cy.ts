@@ -20,17 +20,11 @@ describe('modals-storybook', () => {
         'positioned-background',
       ]) {
         it(`should render the ${modalType} modal on desktop`, () => {
-          cy.get('app-modal').should('exist').should('be.visible');
+          cy.ready('app-modal');
           cy.get(`.open-${modalType}-modal-btn`)
             .should('exist')
             .should('be.visible')
             .click();
-
-          cy.get('#readyFonts').should('exist');
-
-          if (theme === 'default' || modalType.includes('help-inline')) {
-            cy.get('#readyIcons').should('exist');
-          }
 
           cy.get('.sky-modal').should('exist').should('be.visible');
           if (modalType === 'full-page') {
@@ -69,7 +63,7 @@ describe('modals-storybook', () => {
 
         it(`should render the ${modalType} modal on mobile`, () => {
           cy.viewport('iphone-x', 'portrait');
-          cy.get('app-modal').should('exist').should('be.visible');
+          cy.ready('app-modal');
           cy.get(`.open-${modalType}-modal-btn`)
             .should('exist')
             .should('be.visible')

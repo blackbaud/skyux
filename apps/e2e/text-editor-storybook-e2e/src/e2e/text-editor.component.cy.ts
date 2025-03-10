@@ -13,13 +13,9 @@ describe('text-editor-storybook', () => {
           );
 
           it('should render', () => {
-            cy.get('#ready').should('exist');
-            cy.get('app-text-editor')
-              .should('exist')
-              .should('be.visible')
-              .screenshot(
-                `texteditorcomponent-texteditor--text-editor-${mode}-${theme}`,
-              );
+            cy.ready('app-text-editor').screenshot(
+              `texteditorcomponent-texteditor--text-editor-${mode}-${theme}`,
+            );
             cy.get('app-text-editor').percySnapshot(
               `texteditorcomponent-texteditor--text-editor-${mode}-${theme}`,
               {
@@ -37,10 +33,7 @@ describe('text-editor-storybook', () => {
           ),
         );
         it('should display entered text', () => {
-          cy.get('#ready').should('exist');
-          cy.get('app-text-editor')
-            .should('exist')
-            .should('be.visible')
+          cy.ready('app-text-editor')
             .get('iframe')
             .then(($iframe) => {
               const $bodyWrapper = $iframe.contents().find('body');
@@ -59,10 +52,7 @@ describe('text-editor-storybook', () => {
         });
 
         it('should display an error state', () => {
-          cy.get('#ready').should('exist');
-          cy.get('app-text-editor')
-            .should('exist')
-            .should('be.visible')
+          cy.ready('app-text-editor')
             .get('iframe')
             .then(($iframe) => {
               const $bodyWrapper = $iframe.contents().find('body');
@@ -81,10 +71,7 @@ describe('text-editor-storybook', () => {
         });
 
         it('should open all the menus', () => {
-          cy.get('#ready').should('exist');
-          cy.get('app-text-editor')
-            .should('exist')
-            .should('be.visible')
+          cy.ready('app-text-editor')
             .get('iframe')
             .then(($iframe) => {
               const $bodyWrapper = $iframe.contents().find('body');
@@ -113,10 +100,7 @@ describe('text-editor-storybook', () => {
         });
 
         it('should open create link dialog', () => {
-          cy.get('#ready').should('exist');
-          cy.get('app-text-editor')
-            .should('exist')
-            .should('be.visible')
+          cy.ready('app-text-editor')
             .get('iframe')
             .then(($iframe) => {
               const $bodyWrapper = $iframe.contents().find('body');

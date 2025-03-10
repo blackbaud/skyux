@@ -1,12 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component } from '@angular/core';
 import {
   SkyActionHubNeedsAttention,
   SkyPageLink,
   SkyPageModalLinksInput,
   SkyRecentLink,
 } from '@skyux/pages';
-import { FontLoadingService } from '@skyux/storybook';
 
 import { SettingsModalComponent } from './settings-modal.component';
 
@@ -203,6 +201,4 @@ export class ActionHubComponent {
   ];
 
   public title = 'Page title';
-
-  protected ready = toSignal(inject(FontLoadingService).ready(true));
 }
