@@ -5,7 +5,7 @@ import { SkyPagingHarness, SkyRepeaterHarness } from '@skyux/lists/testing';
 
 import { ListsPagingWithContentExampleComponent } from './example.component';
 
-describe('Paging demo', () => {
+describe('Paging example', () => {
   async function setupTest(
     options: {
       dataSkyId?: string;
