@@ -11,7 +11,7 @@ describe('affix', () => {
         );
         cy.ready('app-affix');
 
-        cy.window().skyVisualTest(`affix-${theme}--initial`, {
+        cy.skyVisualTest(`affix-${theme}--initial`, {
           capture: 'viewport',
         });
         cy.window().scrollTo(0, 175);

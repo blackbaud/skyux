@@ -28,28 +28,18 @@ describe('action-bars-storybook - summary action bar', () => {
 
                 cy.ready('app-summary-action-bar');
 
-                if (E2eVariations.MOBILE_WIDTHS.includes(width)) {
-                  cy.get('#readyIcons').should('exist');
-                }
-
                 cy.get('.sky-summary-action-bar')
                   .should('exist')
                   .should('be.visible');
 
                 if (style === 'modal') {
-                  cy.get('#readyIcons').should('exist');
-
                   cy.get('sky-modal-content')
                     .should('exist')
                     .should('be.visible')
                     .click();
                 }
 
-                if (style === 'modal-full-page' && theme === 'default') {
-                  cy.get('#readyIcons').should('exist');
-                }
-
-                cy.window().skyVisualTest(
+                cy.skyVisualTest(
                   `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}`,
                   {
                     width: width,
@@ -91,7 +81,7 @@ describe('action-bars-storybook - summary action bar', () => {
                     .should('exist')
                     .should('be.visible');
 
-                  cy.window().skyVisualTest(
+                  cy.skyVisualTest(
                     `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-collapsed-summary`,
                     {
                       width: width,
@@ -123,8 +113,6 @@ describe('action-bars-storybook - summary action bar', () => {
                     .should('exist')
                     .should('be.visible')
                     .end()
-
-                    .window()
                     .skyVisualTest(
                       `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-open-secondary-actions`,
                       {
