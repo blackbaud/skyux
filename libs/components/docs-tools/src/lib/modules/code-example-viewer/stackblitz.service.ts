@@ -253,6 +253,25 @@ module.exports = function (config) {
 }
 `;
 
+    files['src/help.service.ts'] = `import { Injectable } from '@angular/core';
+import {
+  SkyHelpOpenArgs,
+  SkyHelpService,
+  SkyHelpUpdateArgs,
+} from '@skyux/core';
+
+@Injectable()
+export class ExampleHelpService extends SkyHelpService {
+  public override openHelp(args?: SkyHelpOpenArgs): void {
+    console.log(\`Help opened with key '\${args?.helpKey}'.\`);
+  }
+
+  public override updateHelp(args: SkyHelpUpdateArgs): void {
+    /* */
+  }
+}
+`;
+
     files['src/index.html'] = `<!doctype html>
 <html lang="en">
   <head>
@@ -272,25 +291,6 @@ module.exports = function (config) {
     <${config.componentSelector}></${config.componentSelector}>
   </body>
 </html>
-`;
-
-    files['src/help.service.ts'] = `import { Injectable } from '@angular/core';
-import {
-  SkyHelpOpenArgs,
-  SkyHelpService,
-  SkyHelpUpdateArgs,
-} from '@skyux/core';
-
-@Injectable()
-export class ExampleHelpService extends SkyHelpService {
-  public override openHelp(args?: SkyHelpOpenArgs): void {
-    console.log(\`Help opened with key '\${args?.helpKey}'.\`);
-  }
-
-  public override updateHelp(args: SkyHelpUpdateArgs): void {
-    /* */
-  }
-}
 `;
 
     files['src/main.ts'] =
@@ -331,11 +331,6 @@ bootstrapApplication(${config.componentName}, {
 
     files['src/styles.scss'] = `@import url('@skyux/theme/css/sky');
 @import url('@skyux/theme/css/themes/modern/styles');
-
-body {
-  background-color: #fff;
-  margin: 15px;
-}
 `;
 
     files['src/test.ts'] =
