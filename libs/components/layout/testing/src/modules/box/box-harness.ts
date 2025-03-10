@@ -5,6 +5,9 @@ import { SkyBoxHeadingLevel, SkyBoxHeadingStyle } from '@skyux/layout';
 
 import { SkyBoxHarnessFilters } from './box-harness.filters';
 
+/**
+ * Harness for interacting with a box component in tests.
+ */
 export class SkyBoxHarness extends SkyComponentHarness {
   /**
    * @internal
