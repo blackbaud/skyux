@@ -111,15 +111,14 @@ describe('action-bars-storybook - summary action bar', () => {
                     'sky-dropdown-menu sky-summary-action-bar-secondary-action',
                   )
                     .should('exist')
-                    .should('be.visible')
-                    .end()
-                    .skyVisualTest(
-                      `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-open-secondary-actions`,
-                      {
-                        width: width,
-                        capture: 'viewport',
-                      },
-                    );
+                    .should('be.visible');
+                  cy.skyVisualTest(
+                    `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-open-secondary-actions`,
+                    {
+                      width: width,
+                      capture: 'viewport',
+                    },
+                  );
                 });
               }
             });

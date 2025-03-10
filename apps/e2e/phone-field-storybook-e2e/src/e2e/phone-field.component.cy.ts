@@ -11,7 +11,7 @@ describe('phone-field-storybook', () => {
           ),
       );
       it('should render the component', () => {
-        cy.ready('app-phone-field');
+        cy.ready('app-phone-field', ['#ready']);
 
         if (theme === 'default') {
           cy.get('.sky-input-box-input-group-inner')
@@ -51,7 +51,7 @@ describe('phone-field-storybook', () => {
           .should('exist')
           .should('be.visible');
 
-        cy.ready('app-phone-field', ['#ready']).skyVisualTest(
+        cy.skyVisualTest(
           `phonefieldcomponent-phonefield--phone-field-${theme}`,
           {
             capture: 'fullPage',
