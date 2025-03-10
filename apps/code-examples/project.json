@@ -100,7 +100,13 @@
           "{projectRoot}/src/**/*.ts",
           "{projectRoot}/src/**/*.html"
         ]
-      }
+      },
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "manifest"
+        }
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",

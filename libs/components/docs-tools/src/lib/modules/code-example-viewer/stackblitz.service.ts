@@ -253,6 +253,25 @@ module.exports = function (config) {
 }
 `;
 
+    files['src/help.service.ts'] = `import { Injectable } from '@angular/core';
+import {
+  SkyHelpOpenArgs,
+  SkyHelpService,
+  SkyHelpUpdateArgs,
+} from '@skyux/core';
+
+@Injectable()
+export class ExampleHelpService extends SkyHelpService {
+  public override openHelp(args?: SkyHelpOpenArgs): void {
+    console.log(\`Help opened with key '\${args?.helpKey}'.\`);
+  }
+
+  public override updateHelp(args: SkyHelpUpdateArgs): void {
+    /* */
+  }
+}
+`;
+
     files['src/index.html'] = `<!doctype html>
 <html lang="en">
   <head>
@@ -276,27 +295,42 @@ module.exports = function (config) {
 
     files['src/main.ts'] =
       `import { provideHttpClient } from '@angular/common/http';
+import {
+  EnvironmentProviders,
+  makeEnvironmentProviders,
+} from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { SkyHelpService } from '@skyux/core';
 import { provideInitialTheme } from '@skyux/theme';
 import { ${config.componentName} } from '${bootstrapImportPath}';
+
+import { ExampleHelpService } from './help.service';
+
+/**
+ * The help service must be provided for components that set the
+ * \`helpKey\` attribute. For more information, review the global help
+ * documentation.
+ * @see https://developer.blackbaud.com/skyux/learn/develop/global-help
+ */
+function provideExampleHelpService(): EnvironmentProviders {
+  return makeEnvironmentProviders([
+    { provide: SkyHelpService, useClass: ExampleHelpService },
+  ]);
+}
 
 bootstrapApplication(${config.componentName}, {
   providers: [
     provideAnimations(),
     provideInitialTheme('modern'),
-    provideHttpClient()
+    provideHttpClient(),
+    provideExampleHelpService(),
   ],
 }).catch((err) => console.error(err));
 `;
 
     files['src/styles.scss'] = `@import url('@skyux/theme/css/sky');
 @import url('@skyux/theme/css/themes/modern/styles');
-
-body {
-  background-color: #fff;
-  margin: 15px;
-}
 `;
 
     files['src/test.ts'] =
