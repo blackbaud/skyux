@@ -8,6 +8,7 @@ declare namespace Cypress {
     skyVisualTest(
       name: string,
       options?: Record<string, unknown>,
+      selector?: string,
     ): Chainable<void>;
   }
 }
@@ -18,12 +19,33 @@ declare namespace Cypress {
  */
 Cypress.Commands.add(
   'skyVisualTest',
-  (name: string, options?: Record<string, unknown>) => {
+  {
+    prevSubject: ['optional', 'element', 'window'],
+  },
+  (
+    prevSubject: void | Window | Cypress.JQueryWithSelector<HTMLElement>,
+    name: string,
+    options?: Record<string, unknown>,
+    selector?: string,
+  ): void => {
     cy.url().then((url) => {
-      cy.screenshot(name, {
-        ...options,
-        blackout: [`url:${url}`],
-      });
+      const cyPrefix = selector ? cy.get(selector) : cy;
+
+      if (prevSubject) {
+        cyPrefix
+          .wrap(prevSubject)
+          .should('exist')
+          .should('be.visible')
+          .screenshot(name, {
+            ...options,
+            blackout: [`url:${url}`],
+          });
+      } else {
+        cyPrefix.screenshot(name, {
+          ...options,
+          blackout: [`url:${url}`],
+        });
+      }
     });
   },
 );
