@@ -55,6 +55,7 @@ describe('Selection modal demo', () => {
 
     TestBed.configureTestingModule({
       imports: [DemoComponent, NoopAnimationsModule],
+      providers: [{ provide: DemoService, useValue: mockSvc }],
     });
   });
 

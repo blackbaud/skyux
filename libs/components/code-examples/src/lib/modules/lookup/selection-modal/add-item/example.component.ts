@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AddItemModalComponent } from './add-item-modal.component';
-import { DemoService } from './example.service';
+import { ExampleService } from './example.service';
 import { Person } from './person';
 
 /**
@@ -28,7 +28,7 @@ export class LookupSelectionModalAddItemExampleComponent implements OnDestroy {
   #subscriptions = new Subscription();
 
   readonly #modalSvc = inject(SkyModalService);
-  readonly #searchSvc = inject(DemoService);
+  readonly #searchSvc = inject(ExampleService);
   readonly #selectionModalSvc = inject(SkySelectionModalService);
 
   public ngOnDestroy(): void {
