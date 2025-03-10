@@ -11,9 +11,6 @@ export default {
     ],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  moduleNameMapper: {
-    '@skyux/manifest': '<rootDir>/../../components/manifest/src/index.ts',
-  },
   coverageDirectory: '../../../coverage/libs/sdk/skyux-eslint',
   coverageThreshold: {
     global: {
