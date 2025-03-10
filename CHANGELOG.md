@@ -1,5 +1,37 @@
 # Changelog
 
+## [12.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.8...12.0.0-alpha.9) (2025-03-10)
+
+
+### Features
+
+* **components/code-examples:** add titles for all examples ([#3212](https://github.com/blackbaud/skyux/issues/3212)) ([c8f711d](https://github.com/blackbaud/skyux/commit/c8f711d6c253a1f10c9bc4fd3df3814504e773eb))
+* **components/docs-tools:** add `ExampleHelpService` to code examples ([#3217](https://github.com/blackbaud/skyux/issues/3217)) ([29ffc6e](https://github.com/blackbaud/skyux/commit/29ffc6e4ddb3b676e05d59ceeebca545e0d42ad6))
+* **components/lists:** add paging test harnesses ([#3185](https://github.com/blackbaud/skyux/issues/3185)) ([#3218](https://github.com/blackbaud/skyux/issues/3218)) ([8a3744a](https://github.com/blackbaud/skyux/commit/8a3744a6473f9800b783cd7778d019038578ec07))
+* support Angular 19.2 ([#3202](https://github.com/blackbaud/skyux/issues/3202)) ([376b5ee](https://github.com/blackbaud/skyux/commit/376b5ee74d96142a6dab555bddeaddea091a4b99))
+
+
+### Bug Fixes
+
+* adjust `ng2-dragula` override ranges ([#3223](https://github.com/blackbaud/skyux/issues/3223)) ([4114d98](https://github.com/blackbaud/skyux/commit/4114d98cefa3836cf0ebbc75389b80ce8716e783))
+* **components/ag-grid:** validator cell not updating status ([#3222](https://github.com/blackbaud/skyux/issues/3222)) ([#3224](https://github.com/blackbaud/skyux/issues/3224)) ([c6cdfe4](https://github.com/blackbaud/skyux/commit/c6cdfe4b9cf888e2a81c7886303b8f0f8d14b198))
+* **components/code-examples:** provide example service to prevent timeouts ([#3214](https://github.com/blackbaud/skyux/issues/3214)) ([1b0babf](https://github.com/blackbaud/skyux/commit/1b0babf4356a847f516fd4d38fecfb194a6a1131))
+* **components/packages:** fix test timeouts related to SSR ([#3215](https://github.com/blackbaud/skyux/issues/3215)) ([87802f9](https://github.com/blackbaud/skyux/commit/87802f94da90582a6b4bd3b33e26cba273162cb7))
+
+## [11.45.0](https://github.com/blackbaud/skyux/compare/11.44.0...11.45.0) (2025-03-10)
+
+
+### Features
+
+* **components/layout:** add back to top harness ([#3193](https://github.com/blackbaud/skyux/issues/3193)) ([2106c43](https://github.com/blackbaud/skyux/commit/2106c43784bda76a4d5fe4c98d166ddd917a846a))
+* **components/lists:** add paging test harnesses ([#3185](https://github.com/blackbaud/skyux/issues/3185)) ([de7f4ac](https://github.com/blackbaud/skyux/commit/de7f4ac59fa45d75e6e707a33b8dc193e9e35237))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** validator cell not updating status ([#3222](https://github.com/blackbaud/skyux/issues/3222)) ([c062faa](https://github.com/blackbaud/skyux/commit/c062faa1cb225266266c494346a0beffa00cee70))
+* **components/datetime:** show key date popover ([#3207](https://github.com/blackbaud/skyux/issues/3207)) ([9b0b1f3](https://github.com/blackbaud/skyux/commit/9b0b1f33036de27d9cf8cc06153db48067c7a2ee))
+
 ## [12.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.7...12.0.0-alpha.8) (2025-03-07)
 
 

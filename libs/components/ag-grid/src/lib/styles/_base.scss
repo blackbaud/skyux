@@ -104,7 +104,14 @@
     height: 100%;
   }
 
-  .ag-cell.sky-ag-grid-cell-invalid {
+  .ag-cell.sky-ag-grid-cell-invalid:not(
+      .ag-cell-inline-editing,
+      .ag-cell-popup-editing
+    ),
+  .ag-cell.sky-ag-grid-cell-validator:not(.sky-ag-grid-cell-invalid):not(
+      .ag-cell-inline-editing,
+      .ag-cell-popup-editing
+    ):has(.sky-validator-cell) {
     border: 1px solid var(--sky-highlight-color-danger);
     --ag-range-selection-border-color: var(--sky-highlight-color-danger);
   }
