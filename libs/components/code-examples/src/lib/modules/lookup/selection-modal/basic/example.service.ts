@@ -32,7 +32,7 @@ const people: Person[] = [
 @Injectable({
   providedIn: 'root',
 })
-export class DemoService {
+export class ExampleService {
   public search(searchText: string): Observable<SearchResults> {
     // Simulate a network call with latency. A real-world application might
     // use Angular's HttpClient to create an Observable from a call to a

@@ -6,7 +6,7 @@ import {
 
 import { map } from 'rxjs/operators';
 
-import { DemoService } from './example.service';
+import { ExampleService } from './example.service';
 import { Person } from './person';
 
 /**
@@ -20,7 +20,7 @@ import { Person } from './person';
 export class LookupSelectionModalBasicExampleComponent {
   protected selectedPeople: Person[] | undefined;
 
-  readonly #searchSvc = inject(DemoService);
+  readonly #searchSvc = inject(ExampleService);
   readonly #selectionModalSvc = inject(SkySelectionModalService);
 
   protected showSelectionModal(): void {
