@@ -7,12 +7,12 @@ import {
   input,
 } from '@angular/core';
 import {
-  SkyManifestChildDefinitionKind,
-  SkyManifestClassMethodDefinition,
-  SkyManifestDirectiveInputDefinition,
-  SkyManifestDirectiveOutputDefinition,
+  type SkyManifestChildDefinitionKind,
+  type SkyManifestClassMethodDefinition,
+  type SkyManifestDirectiveInputDefinition,
+  type SkyManifestDirectiveOutputDefinition,
   type SkyManifestDocumentationTypeDefinition,
-  SkyManifestParameterDefinition,
+  type SkyManifestParameterDefinition,
   isDirectiveDefinition,
   isFunctionDefinition,
   isPipeDefinition,

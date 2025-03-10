@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {
-  SkyManifestInterfaceDefinition,
-  SkyManifestParentDefinition,
+  type SkyManifestInterfaceDefinition,
+  type SkyManifestParentDefinition,
 } from '@skyux/manifest';
 
 /**

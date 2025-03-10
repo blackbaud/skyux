@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform, inject } from '@angular/core';
 import {
-  SkyManifestDocumentationTypeDefinition,
-  SkyManifestFunctionDefinition,
+  type SkyManifestDocumentationTypeDefinition,
+  type SkyManifestFunctionDefinition,
 } from '@skyux/manifest';
 
 import { SkyDocsParameterNamePipe } from './parameter-name.pipe';

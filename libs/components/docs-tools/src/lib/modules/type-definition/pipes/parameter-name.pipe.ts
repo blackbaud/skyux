@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SkyManifestParameterDefinition } from '@skyux/manifest';
+import { type SkyManifestParameterDefinition } from '@skyux/manifest';
 
 /**
  * @internal
