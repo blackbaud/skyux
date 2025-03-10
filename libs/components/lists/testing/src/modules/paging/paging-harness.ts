@@ -49,7 +49,7 @@ export class SkyPagingHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the page button with the requested number. Returns an error if that page is not displayed.
+   * Clicks the page button with the requested number. Throws an error if that button is not present.
    */
   public async clickPageButton(pageNumber: number): Promise<void> {
     const button = await this.locatorForOptional(
