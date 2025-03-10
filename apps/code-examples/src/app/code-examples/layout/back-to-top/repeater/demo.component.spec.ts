@@ -8,7 +8,7 @@ import { DemoComponent } from './demo.component';
 
 describe('Back to top repeater', () => {
   function getBackToTopTarget(): HTMLElement | null {
-    return document.querySelector('#target');
+    return document.querySelector('.target');
   }
 
   function isElementInView(element: HTMLElement | null): boolean {
