@@ -18,7 +18,7 @@ import {
 } from '@skyux/datetime';
 
 /**
- * @title Custom calculator
+ * @title Date range picker with custom calculator
  */
 @Component({
   selector: 'app-datetime-date-range-picker-custom-calculator-example',
