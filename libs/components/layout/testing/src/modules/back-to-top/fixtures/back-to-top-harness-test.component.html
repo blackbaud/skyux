@@ -1,4 +1,3 @@
-<div class="target"></div>
 <sky-repeater skyBackToTop>
   @for (person of personList; track person) {
     <sky-repeater-item>
@@ -11,4 +10,3 @@
     </sky-repeater-item>
   }
 </sky-repeater>
-<sky-infinite-scroll [enabled]="hasMore" (scrollEnd)="onScrollEnd()" />
