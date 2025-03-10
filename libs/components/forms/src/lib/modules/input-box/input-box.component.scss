@@ -640,8 +640,8 @@ sky-input-box {
       ).sky-input-box-group-form-control-invalid {
       --sky-input-box-input-border-color: var(--sky-color-border-input-focus);
       --sky-input-box-input-border-width: var(--sky-border-width-input-focus);
-      --sky-input-box-box-shadow-with-elevation: inset 0 0 0
-          var(--sky-input-box-input-border-width)
+      --sky-input-box-box-shadow-with-elevation:
+        inset 0 0 0 var(--sky-input-box-input-border-width)
           var(--sky-input-box-input-border-color),
         var(
           --sky-override-input-focus-elevation-shadow,
@@ -707,8 +707,8 @@ sky-input-box {
           --sky-override-background-color-input-box,
           var(--sky-color-background-action-input-focus)
         );
-        --sky-input-box-button-box-shadow-with-elevation: inset 0 0 0
-            var(--sky-input-box-button-border-width)
+        --sky-input-box-button-box-shadow-with-elevation:
+          inset 0 0 0 var(--sky-input-box-button-border-width)
             var(--sky-input-box-button-border-color),
           var(
             --sky-override-input-focus-elevation-shadow,

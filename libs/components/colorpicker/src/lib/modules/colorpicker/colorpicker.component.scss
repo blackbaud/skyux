@@ -61,8 +61,8 @@
   --sky-override-colorpicker-swatch-border: #{1px solid
     $sky-border-color-neutral-light};
   --sky-override-colorpicker-swatch-hover-border: #{$sky-color-white solid 2px};
-  --sky-override-colorpicker-swatch-hover-box-shadow: #{0 0 0 1px
-      $sky-border-color-neutral-medium,
+  --sky-override-colorpicker-swatch-hover-box-shadow:
+    #{0 0 0 1px $sky-border-color-neutral-medium,
     0 0 0 2px $sky-border-color-neutral-light};
   --sky-override-colorpicker-swatch-hover-margin: 4px;
   --sky-override-colorpicker-swatch-margin: 5px;
@@ -704,7 +704,8 @@ sky-colorpicker.sky-form-field-stacked {
         rgba(0, 0, 0, 0.0980392) 0
       ),
     white;
-  background: linear-gradient(
+  background:
+    linear-gradient(
       45deg,
       rgba(0, 0, 0, 0.0980392) 25%,
       transparent 25%,
