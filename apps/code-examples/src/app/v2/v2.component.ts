@@ -54,14 +54,14 @@ export default class CodeExamplesLandingComponent {
     const value = this.#value();
     const parts = value?.split(SEPARATOR);
 
-    return parts?.[1];
+    return parts?.[0];
   });
 
   protected readonly packageName = computed(() => {
     const value = this.#value();
     const parts = value?.split(SEPARATOR);
 
-    return parts?.[0];
+    return parts?.[1];
   });
 
   protected documentationGroups: string[] = [];
@@ -73,7 +73,7 @@ export default class CodeExamplesLandingComponent {
   constructor() {
     for (const [packageName, config] of Object.entries(DOCS.packages)) {
       for (const group of Object.keys(config.groups)) {
-        this.documentationGroups.push(`${packageName}${SEPARATOR}${group}`);
+        this.documentationGroups.push(`${group}${SEPARATOR}${packageName}`);
       }
     }
 

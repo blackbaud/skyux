@@ -296,6 +296,24 @@ module.exports = function (config) {
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
 }
 `,
+          'src/help.service.ts': `import { Injectable } from '@angular/core';
+import {
+  SkyHelpOpenArgs,
+  SkyHelpService,
+  SkyHelpUpdateArgs,
+} from '@skyux/core';
+
+@Injectable()
+export class ExampleHelpService extends SkyHelpService {
+  public override openHelp(args?: SkyHelpOpenArgs): void {
+    console.log(\`Help opened with key '\${args?.helpKey}'.\`);
+  }
+
+  public override updateHelp(args: SkyHelpUpdateArgs): void {
+    /* */
+  }
+}
+`,
           'src/index.html': `<!doctype html>
 <html lang="en">
   <head>
@@ -317,26 +335,41 @@ module.exports = function (config) {
 </html>
 `,
           'src/main.ts': `import { provideHttpClient } from '@angular/common/http';
+import {
+  EnvironmentProviders,
+  makeEnvironmentProviders,
+} from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { SkyHelpService } from '@skyux/core';
 import { provideInitialTheme } from '@skyux/theme';
 import { FooExampleComponent } from './example/example.component';
+
+import { ExampleHelpService } from './help.service';
+
+/**
+ * The help service must be provided for components that set the
+ * \`helpKey\` attribute. For more information, review the global help
+ * documentation.
+ * @see https://developer.blackbaud.com/skyux/learn/develop/global-help
+ */
+function provideExampleHelpService(): EnvironmentProviders {
+  return makeEnvironmentProviders([
+    { provide: SkyHelpService, useClass: ExampleHelpService },
+  ]);
+}
 
 bootstrapApplication(FooExampleComponent, {
   providers: [
     provideAnimations(),
     provideInitialTheme('modern'),
-    provideHttpClient()
+    provideHttpClient(),
+    provideExampleHelpService(),
   ],
 }).catch((err) => console.error(err));
 `,
           'src/styles.scss': `@import url('@skyux/theme/css/sky');
 @import url('@skyux/theme/css/themes/modern/styles');
-
-body {
-  background-color: #fff;
-  margin: 15px;
-}
 `,
           'src/test.ts': `// This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
