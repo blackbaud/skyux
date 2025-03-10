@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { expect } from '@skyux-sdk/testing';
 import { SkyPopoverContentHarness } from '@skyux/popovers/testing';
 
@@ -109,6 +110,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     fixture.componentInstance.parameters = {
       ...fixture.componentInstance.parameters,
       skyComponentProperties: {
+        validator: () => false,
         validatorMessage: 'Test message ABC',
       },
     } as SkyCellRendererValidatorParams;
@@ -118,6 +120,9 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(fixture.componentInstance).toBeTruthy();
+    expect(
+      fixture.debugElement.query(By.css('.sky-validator-cell')),
+    ).toBeTruthy();
 
     component.tooltip()?.showPopover();
     fixture.detectChanges();
@@ -133,6 +138,22 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     ).toBeRejectedWithError(
       /^Failed to find element matching one of the following queries/,
     );
+  });
+
+  it('should hide messages when valid', async () => {
+    fixture.componentInstance.parameters = {
+      ...fixture.componentInstance.parameters,
+      skyComponentProperties: {
+        validator: () => true,
+        validatorMessage: 'Test message ABC',
+      },
+    } as SkyCellRendererValidatorParams;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(fixture.componentInstance).toBeTruthy();
+    expect(
+      fixture.debugElement.query(By.css('.sky-validator-cell')),
+    ).toBeFalsy();
   });
 
   it('should show messages when not valid', async () => {
