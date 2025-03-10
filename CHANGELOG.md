@@ -1,5 +1,19 @@
 # Changelog
 
+## [11.45.0](https://github.com/blackbaud/skyux/compare/11.44.0...11.45.0) (2025-03-10)
+
+
+### Features
+
+* **components/layout:** add back to top harness ([#3193](https://github.com/blackbaud/skyux/issues/3193)) ([2106c43](https://github.com/blackbaud/skyux/commit/2106c43784bda76a4d5fe4c98d166ddd917a846a))
+* **components/lists:** add paging test harnesses ([#3185](https://github.com/blackbaud/skyux/issues/3185)) ([de7f4ac](https://github.com/blackbaud/skyux/commit/de7f4ac59fa45d75e6e707a33b8dc193e9e35237))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** validator cell not updating status ([#3222](https://github.com/blackbaud/skyux/issues/3222)) ([c062faa](https://github.com/blackbaud/skyux/commit/c062faa1cb225266266c494346a0beffa00cee70))
+* **components/datetime:** show key date popover ([#3207](https://github.com/blackbaud/skyux/issues/3207)) ([9b0b1f3](https://github.com/blackbaud/skyux/commit/9b0b1f33036de27d9cf8cc06153db48067c7a2ee))
+
 ## [12.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.7...12.0.0-alpha.8) (2025-03-07)
 
 
