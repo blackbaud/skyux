@@ -17,6 +17,11 @@ jest.mock('@skyux/manifest', () => {
 
   return {
     ...original,
+    isDirectiveDefinition: jest
+      .fn()
+      .mockImplementation(
+        (def) => def.kind === 'component' || def.kind === 'directive',
+      ),
     getPublicApi: (): SkyManifestPublicApi => ({
       packages: {
         '@skyux/no-deprecated': [
