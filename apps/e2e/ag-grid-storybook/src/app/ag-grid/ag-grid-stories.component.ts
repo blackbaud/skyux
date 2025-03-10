@@ -15,7 +15,6 @@ import {
   SkyCellType,
 } from '@skyux/ag-grid';
 import { SkyDockLocation, SkyDockService } from '@skyux/core';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
@@ -77,7 +76,6 @@ export class AgGridStoriesComponent
   readonly #dockService: SkyDockService;
   readonly #doc: Document;
   readonly #ngUnsubscribe: Subscription;
-  readonly #fontLoadingService: FontLoadingService;
 
   constructor(
     agGridService: SkyAgGridService,
@@ -85,7 +83,6 @@ export class AgGridStoriesComponent
     changeDetectorRef: ChangeDetectorRef,
     dockService: SkyDockService,
     @Inject(DOCUMENT) doc: Document,
-    fontLoadingService: FontLoadingService,
   ) {
     this.#agGridService = agGridService;
     this.#themeSvc = themeSvc;
@@ -93,7 +90,6 @@ export class AgGridStoriesComponent
     this.#dockService = dockService;
     this.#doc = doc;
     this.#ngUnsubscribe = new Subscription();
-    this.#fontLoadingService = fontLoadingService;
   }
 
   public ngOnInit(): void {
@@ -108,7 +104,6 @@ export class AgGridStoriesComponent
       'theme',
       this.#themeSvc.settingsChange.pipe(map(() => true)),
     );
-    this.#gridsReady.set('font', this.#fontLoadingService.ready());
     this.#ngUnsubscribe.add(
       this.#themeSvc.settingsChange.subscribe((settings) => {
         this.skyTheme = settings.currentSettings;

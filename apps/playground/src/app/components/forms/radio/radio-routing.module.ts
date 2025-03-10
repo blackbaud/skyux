@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: RadioComponent,
     data: {
       name: 'Radio',
-      icon: 'circle-o',
+      icon: 'circle',
       library: 'forms',
     },
   },

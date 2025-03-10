@@ -9,7 +9,7 @@ const routes: Routes = [
     component: AvatarComponent,
     data: {
       name: 'Avatar',
-      icon: 'user',
+      icon: 'person',
       library: 'avatar',
     },
   },

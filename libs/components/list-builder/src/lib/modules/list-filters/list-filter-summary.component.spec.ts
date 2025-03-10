@@ -87,11 +87,11 @@ describe('List filter summary', () => {
 
       // verify first item with no dismiss
       expect(summaryItems.item(0)).toHaveText('blue');
-      expect(summaryItems.item(0).querySelector('.fa-close')).toBeNull();
+      expect(summaryItems.item(0).querySelector('sky-icon-svg')).toBeNull();
 
       // verify second item with dismiss and label
       expect(summaryItems.item(1)).toHaveText('Berry fruit type');
-      expect(summaryItems.item(1).querySelector('.fa-close')).not.toBeNull();
+      expect(summaryItems.item(1).querySelector('sky-icon-svg')).not.toBeNull();
     });
   }));
 
@@ -141,11 +141,11 @@ describe('List filter summary', () => {
 
       // verify first item with no dismiss
       expect(summaryItems.item(0)).toHaveText('blue');
-      expect(summaryItems.item(0).querySelector('.fa-close')).toBeNull();
+      expect(summaryItems.item(0).querySelector('sky-icon-svg')).toBeNull();
 
       // verify second item with dismiss and label
       expect(summaryItems.item(1)).toHaveText('Berry fruit type');
-      expect(summaryItems.item(1).querySelector('.fa-close')).not.toBeNull();
+      expect(summaryItems.item(1).querySelector('sky-icon-svg')).not.toBeNull();
     });
   }));
 

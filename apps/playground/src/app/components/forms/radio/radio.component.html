@@ -174,3 +174,18 @@
     <sky-radio icon="thumbs-o-down" label="I hate it" value="3" />
   </sky-radio-group>
 </form>
+
+<form novalidate>
+  <h3 id="icon-radio-group-label">Do you like it?</h3>
+
+  <sky-radio-group
+    class="sky-switch-icon-group"
+    name="iconRadioTest"
+    [disabled]="disabled"
+    [(ngModel)]="iconSelectedValue"
+  >
+    <sky-radio iconName="thumb-like" label="I like it" value="1" />
+    <sky-radio disabled iconName="circle-half-fill" label="meh" value="2" />
+    <sky-radio iconName="thumb-dislike" label="I hate it" value="3" />
+  </sky-radio-group>
+</form>

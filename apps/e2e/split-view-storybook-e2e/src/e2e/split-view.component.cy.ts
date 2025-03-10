@@ -14,8 +14,7 @@ describe('split-view-storybook', () => {
               );
             });
             it(`should fill the page when dock is set to fill at width ${width}`, () => {
-              cy.get('#ready')
-                .should('exist')
+              cy.ready('app-split-view')
                 .end()
                 .get('.screenshot-area')
                 .should('exist')

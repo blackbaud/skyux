@@ -9,9 +9,8 @@ describe('indicators-storybook - expansion indicator', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('app-expansion-indicator')
+        cy.ready('app-expansion-indicator')
           .should('exist')
-          .should('be.visible')
           .screenshot(
             `expansionindicatorcomponent-expansionindicator--expansion-indicator-${theme}`,
           );

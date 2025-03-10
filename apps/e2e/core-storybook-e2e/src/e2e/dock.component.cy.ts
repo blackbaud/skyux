@@ -9,7 +9,10 @@ describe('core-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('sky-dock').should('exist').should('be.visible');
+        cy.ready('app-dock')
+          .get('sky-dock')
+          .should('exist')
+          .should('be.visible');
         cy.screenshot(`dockcomponent-dock--dock-${theme}`, {
           capture: 'fullPage',
         });

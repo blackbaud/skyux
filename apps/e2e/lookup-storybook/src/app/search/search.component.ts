@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-search',
@@ -7,6 +6,4 @@ import { FontLoadingService } from '@skyux/storybook/font-loading';
   styleUrls: ['./search.component.scss'],
   standalone: false,
 })
-export class SearchComponent {
-  public readonly ready$ = inject(FontLoadingService).ready();
-}
+export class SearchComponent {}

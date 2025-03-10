@@ -697,7 +697,11 @@ describe('Grid Component', () => {
             fieldSelector: 'column1',
             descending: true,
           });
-          expect(headerEl.querySelector('i')).toHaveCssClass('fa-caret-down');
+          expect(
+            headerEl
+              .querySelector('sky-icon-svg')
+              .getAttribute('data-sky-icon'),
+          ).toBe('chevron-down');
           expect(skyIcon).toHaveCssClass('sky-grid-heading-sort-visible');
 
           SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup', {
@@ -713,7 +717,11 @@ describe('Grid Component', () => {
             fieldSelector: 'column1',
             descending: false,
           });
-          expect(headerEl.querySelector('i')).toHaveCssClass('fa-caret-up');
+          expect(
+            headerEl
+              .querySelector('sky-icon-svg')
+              .getAttribute('data-sky-icon'),
+          ).toBe('chevron-up');
           expect(skyIcon).toHaveCssClass('sky-grid-heading-sort-visible');
         });
 
@@ -731,7 +739,7 @@ describe('Grid Component', () => {
             .querySelectorAll('th')
             .item(1) as HTMLElement;
           expect(component.activeSortSelector).toEqual(undefined);
-          expect(headerEl.querySelector('i')).toBeNull();
+          expect(headerEl.querySelector('sky-icon-svg')).toBeNull();
         });
 
         it('responds to sort selector input change', () => {
@@ -745,7 +753,11 @@ describe('Grid Component', () => {
             .querySelectorAll('th')
             .item(0) as HTMLElement;
 
-          expect(headerEl.querySelector('i')).toHaveCssClass('fa-caret-up');
+          expect(
+            headerEl
+              .querySelector('sky-icon-svg')
+              .getAttribute('data-sky-icon'),
+          ).toBe('chevron-up');
         });
 
         it('should have proper aria-sort labels', async () => {
@@ -798,9 +810,11 @@ describe('Grid Component', () => {
             fieldSelector: 'column1',
             descending: true,
           });
-          expect(headerEl.nativeElement.querySelector('i')).toHaveCssClass(
-            'fa-caret-down',
-          );
+          expect(
+            headerEl.nativeElement
+              .querySelector('sky-icon-svg')
+              .getAttribute('data-sky-icon'),
+          ).toBe('chevron-down');
 
           headerEl.triggerEventHandler('keydown', { key: ' ' });
           fixture.detectChanges();
@@ -809,9 +823,11 @@ describe('Grid Component', () => {
             fieldSelector: 'column1',
             descending: false,
           });
-          expect(headerEl.nativeElement.querySelector('i')).toHaveCssClass(
-            'fa-caret-up',
-          );
+          expect(
+            headerEl.nativeElement
+              .querySelector('sky-icon-svg')
+              .getAttribute('data-sky-icon'),
+          ).toBe('chevron-up');
         });
       });
 

@@ -2,7 +2,6 @@ import {
   Component,
   HostBinding,
   ViewEncapsulation,
-  inject,
   input,
 } from '@angular/core';
 import {
@@ -12,7 +11,6 @@ import {
   SkyAffixPosition,
   SkyAffixVerticalAlignment,
 } from '@skyux/core';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 @Component({
   selector: 'app-affix',
@@ -55,6 +53,4 @@ export class AffixComponent {
     viewport: SkyAffixAutoFitContext.Viewport,
   };
   protected readonly isSticky = true;
-
-  protected readonly ready$ = inject(FontLoadingService).ready();
 }

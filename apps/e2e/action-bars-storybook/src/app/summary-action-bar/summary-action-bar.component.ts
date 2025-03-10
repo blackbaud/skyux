@@ -1,6 +1,5 @@
 import { Component, Input, OnDestroy, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 import { SummaryActionBarModalComponent } from './summary-action-bar-modal.component';
 
@@ -35,8 +34,6 @@ export class SummaryActionBarComponent implements OnDestroy {
     | 'modal-full-page' {
     return this.#_type;
   }
-
-  public readonly ready$ = inject(FontLoadingService).ready();
 
   #_type: 'tab' | 'page' | 'split-view' | 'modal' | 'modal-full-page' = 'page';
 

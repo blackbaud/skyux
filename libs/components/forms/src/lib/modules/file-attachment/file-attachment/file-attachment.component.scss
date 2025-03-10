@@ -40,7 +40,6 @@
   --sky-override-file-attachment-control-label-font-size: 13px;
   --sky-override-file-attachment-delete-height: 40px;
   --sky-override-file-attachment-delete-width: 40px;
-  --sky-override-file-attachment-file-icon-font-size: 30px;
   --sky-override-file-attachment-file-icon-line-height: normal;
   --sky-override-file-attachment-file-icon-margin: #{$sky-theme-modern-space-xs
     $sky-theme-modern-space-sm $sky-theme-modern-space-xs
@@ -224,10 +223,6 @@
   margin: var(
     --sky-override-file-attachment-file-icon-margin,
     0 0 0 var(--sky-gap-icon-m)
-  );
-  font-size: var(
-    --sky-override-file-attachment-file-icon-font-size,
-    var(--sky-size-icon-xl)
   );
   line-height: var(--sky-override-file-attachment-file-icon-line-height, 1);
 }

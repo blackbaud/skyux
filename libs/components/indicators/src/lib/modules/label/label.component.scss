@@ -19,6 +19,18 @@
   );
   --sky-override-label-display: inline;
   --sky-override-label-icon-modern-display: none;
+  --sky-override-label-inner-icon-path-color-danger: var(
+    --sky-background-color-danger
+  );
+  --sky-override-label-inner-icon-path-color-info: var(
+    --sky-background-color-info
+  );
+  --sky-override-label-inner-icon-path-color-success: var(
+    --sky-background-color-success
+  );
+  --sky-override-label-inner-icon-path-color-warning: var(
+    --sky-background-color-warning
+  );
   --sky-override-label-line-height: 2.2;
   --sky-override-label-margin: 0 3px;
   --sky-override-label-padding: 0.3em 0.6em 0.3em 0.6em;
@@ -26,18 +38,14 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-label') {
+  --sky-override-sky-icon-svg-size-s: 21px;
   --sky-override-label-line-height: 1;
   --sky-override-label-margin: 0 3px;
+  --sky-override-label-inner-icon-path-color-info: var(--modern-color-gray-105);
 
   &.sky-label-danger,
   &.sky-label-warning {
     --sky-override-label-padding-left: var(--modern-size-9);
-  }
-
-  &.sky-label-info {
-    --sky-override-label-info-exclamation-path-color: var(
-      --modern-color-gray-105
-    );
   }
 
   &.sky-label-info,
@@ -46,49 +54,28 @@
   }
 }
 
-@include compatMixins.sky-modern-overrides('.sky-label', true, true) {
-  --sky-override-label-icon-default-display: none;
-}
-
 /* Modern theme */
 @include mixins.sky-theme-modern {
-  .sky-label {
-    &.sky-label-warning,
-    &.sky-label-success {
-      --sky-icon-stack-top-icon-color-override: var(--sky-color-icon-default);
-    }
-    &.sky-label-danger {
-      --sky-icon-stack-top-icon-color-override: var(--sky-color-icon-inverse);
-    }
-
-    &.sky-label-info {
-      --sky-icon-stack-top-icon-color-override: var(
-        --sky-override-label-info-exclamation-path-color,
-        var(--sky-color-icon-inverse)
-      );
-    }
-  }
-
-  .sky-label-info .sky-label-icon-theme-modern {
+  .sky-label-info .sky-label-icon {
     color: var(--sky-color-icon-info);
   }
 
-  .sky-label-success .sky-label-icon-theme-modern {
+  .sky-label-success .sky-label-icon {
     color: var(--sky-color-icon-success);
   }
 
-  .sky-label-warning .sky-label-icon-theme-modern {
+  .sky-label-warning .sky-label-icon {
     color: var(--sky-color-icon-warning);
   }
 
-  .sky-label-danger .sky-label-icon-theme-modern {
+  .sky-label-danger .sky-label-icon {
     color: var(--sky-color-icon-danger);
   }
 }
 
 .sky-label {
   color: var(--sky-text-color-default);
-  display: var(--sky-override-label-display, inline-flex);
+  display: var(--sky-override-label-display, inline-block);
   align-items: var(--sky-override-label-align-items, center);
   border-radius: var(
     --sky-override-label-border-radius-pill,
@@ -114,12 +101,20 @@
     --sky-override-label-color-background-container-success,
     var(--sky-color-background-container-success)
   );
+  --sky-icon-svg-path-2-color-input: var(
+    --sky-override-label-inner-icon-path-color-success,
+    var(--sky-color-icon-default)
+  );
 }
 
 .sky-label-info {
   background-color: var(
     --sky-override-label-color-background-container-info,
     var(--sky-color-background-container-info)
+  );
+  --sky-icon-svg-path-2-color-input: var(
+    --sky-override-label-inner-icon-path-color-info,
+    var(--sky-color-icon-inverse)
   );
 }
 
@@ -128,12 +123,20 @@
     --sky-override-label-color-background-container-warning,
     var(--sky-color-background-container-warning)
   );
+  --sky-icon-svg-path-2-color-input: var(
+    --sky-override-label-inner-icon-path-color-warning,
+    var(--sky-color-icon-default)
+  );
 }
 
 .sky-label-danger {
   background-color: var(
     --sky-override-label-color-background-container-danger,
     var(--sky-color-background-container-danger)
+  );
+  --sky-icon-svg-path-2-color-input: var(
+    --sky-override-label-inner-icon-path-color-danger,
+    var(--sky-color-icon-inverse)
   );
 }
 
@@ -143,12 +146,4 @@
     --sky-override-label-text-padding-left,
     var(--sky-space-gap-icon-s)
   );
-}
-
-.sky-label-icon-theme-modern {
-  display: var(--sky-override-label-icon-modern-display, block);
-}
-
-.sky-label-icon-theme-default {
-  display: var(--sky-override-label-icon-default-display, inline);
 }

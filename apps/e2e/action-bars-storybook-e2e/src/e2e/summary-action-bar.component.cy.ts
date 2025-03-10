@@ -25,21 +25,28 @@ describe('action-bars-storybook - summary action bar', () => {
                 cy.viewport(width, height).visit(
                   `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
                 );
-                cy.get('app-summary-action-bar')
-                  .should('exist')
-                  .should('be.visible');
 
-                cy.get('#ready').should('exist');
+                cy.ready('app-summary-action-bar');
+
+                if (E2eVariations.MOBILE_WIDTHS.includes(width)) {
+                  cy.get('#readyIcons').should('exist');
+                }
 
                 cy.get('.sky-summary-action-bar')
                   .should('exist')
                   .should('be.visible');
 
                 if (style === 'modal') {
+                  cy.get('#readyIcons').should('exist');
+
                   cy.get('sky-modal-content')
                     .should('exist')
                     .should('be.visible')
                     .click();
+                }
+
+                if (style === 'modal-full-page' && theme === 'default') {
+                  cy.get('#readyIcons').should('exist');
                 }
 
                 cy.window().skyVisualTest(
@@ -61,11 +68,7 @@ describe('action-bars-storybook - summary action bar', () => {
                     `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
                   );
 
-                  cy.get('app-summary-action-bar')
-                    .should('exist')
-                    .should('be.visible');
-
-                  cy.get('#ready').should('exist');
+                  cy.ready('app-summary-action-bar');
 
                   cy.get('.sky-summary-action-bar-details-collapse button')
                     .should('exist')
@@ -98,19 +101,11 @@ describe('action-bars-storybook - summary action bar', () => {
                 });
 
                 it(`should render the component at width ${width} and with and open secondary actions menu (${style})`, () => {
-                  cy.viewport(width, height)
-                    .visit(
-                      `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
-                    )
+                  cy.viewport(width, height).visit(
+                    `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
+                  );
 
-                    .get('app-summary-action-bar')
-                    .should('exist')
-                    .should('be.visible')
-                    .end()
-
-                    .get('#ready')
-                    .should('exist')
-                    .end()
+                  cy.ready('app-summary-action-bar')
 
                     .get('.sky-summary-action-bar')
                     .should('exist')

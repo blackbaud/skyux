@@ -68,11 +68,12 @@
               }}</span>
               <sky-icon
                 class="sky-grid-heading-sort"
+                variant="solid"
                 [ngClass]="
                   'sky-grid-heading-sort-' +
                   (getCaretVisibility(column.field) | async)
                 "
-                [icon]="getCaretIconNames(column)"
+                [iconName]="getCaretIconNames(column)"
               />
               <sky-help-inline
                 *ngIf="column.inlineHelpPopover"

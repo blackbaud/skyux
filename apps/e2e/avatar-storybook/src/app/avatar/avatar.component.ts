@@ -1,7 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
+import { Component } from '@angular/core';
 
-import { delay } from 'rxjs';
+import { delay, of } from 'rxjs';
 
 @Component({
   selector: 'app-avatar',
@@ -12,7 +11,5 @@ import { delay } from 'rxjs';
 export class AvatarComponent {
   public name = 'Robert C. Hernandez';
 
-  protected readonly ready = inject(FontLoadingService)
-    .ready()
-    .pipe(delay(400));
+  protected readonly ready = of(true).pipe(delay(400));
 }

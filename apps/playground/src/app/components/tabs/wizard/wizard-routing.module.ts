@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: WizardDemoComponent,
     data: {
       name: 'Wizard',
-      icon: 'magic',
+      icon: 'wand',
       library: 'tabs',
     },
   },

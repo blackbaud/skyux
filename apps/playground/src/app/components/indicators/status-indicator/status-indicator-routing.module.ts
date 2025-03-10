@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: StatusIndicatorComponent,
     data: {
       name: 'Status indicator',
-      icon: 'exclamation-triangle',
+      icon: 'sky-warning',
       library: 'indicators',
     },
   },

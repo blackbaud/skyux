@@ -1,10 +1,9 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 @Component({
   selector: 'app-country-field',
@@ -42,8 +41,6 @@ export class CountryFieldComponent {
   public countryControl: UntypedFormControl;
 
   public countryForm: UntypedFormGroup;
-
-  public readonly ready$ = inject(FontLoadingService).ready();
 
   constructor() {
     this.countryControl = new UntypedFormControl();

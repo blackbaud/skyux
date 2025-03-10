@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: TabsComponent,
     data: {
       name: 'Tabs',
-      icon: 'folder-open-o',
+      icon: 'folder-open',
       library: 'tabs',
     },
   },

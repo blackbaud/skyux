@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: ToolbarComponent,
     data: {
       name: 'Toolbar',
-      icon: 'bars',
+      icon: 'navigation',
       library: 'layout',
     },
   },

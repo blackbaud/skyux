@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: DescriptionListComponent,
     data: {
       name: 'Description list',
-      icon: 'list-alt',
+      icon: 'text-bullet-list',
       library: 'layout',
     },
   },

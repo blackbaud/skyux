@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: ActionButtonComponent,
     data: {
       name: 'Action button',
-      icon: 'square-o',
+      icon: 'square',
       library: 'layout',
     },
   },

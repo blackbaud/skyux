@@ -4,6 +4,7 @@
 @include mixins.sky-component('default', '.sky-help-inline') {
   color: $sky-background-color-primary-dark;
   font-size: $sky-font-size-base;
+  line-height: 1;
   background-color: transparent;
   border: none;
   display: inline-block;

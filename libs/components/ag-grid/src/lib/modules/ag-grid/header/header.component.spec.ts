@@ -161,8 +161,8 @@ describe('HeaderComponent', () => {
     expect(
       fixture.debugElement.query(
         By.css('.ag-sort-indicator-container sky-icon'),
-      ).attributes['icon'],
-    ).toBe('caret-up');
+      ).attributes['iconName'],
+    ).toBe('chevron-up');
     expect(
       document.querySelector('.ag-sort-indicator-container'),
     ).not.toBeNull();
@@ -174,8 +174,8 @@ describe('HeaderComponent', () => {
     expect(
       fixture.debugElement.query(
         By.css('.ag-sort-indicator-container sky-icon'),
-      ).attributes['icon'],
-    ).toBe('caret-down');
+      ).attributes['iconName'],
+    ).toBe('chevron-down');
     expect(
       document.querySelector('.ag-sort-indicator-container'),
     ).not.toBeNull();

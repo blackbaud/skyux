@@ -60,7 +60,7 @@ ul {
 
   &-icon {
     grid-area: icon;
-    text-align: right;
+    margin-left: auto;
     color: $sky-theme-modern-font-deemphasized-color;
     .sky-needs-attention-item-icon {
       color: var(

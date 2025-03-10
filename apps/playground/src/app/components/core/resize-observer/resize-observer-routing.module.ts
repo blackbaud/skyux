@@ -13,7 +13,7 @@ const routes: ComponentRouteInfo[] = [
     component: ResizeObserverBasicComponent,
     data: {
       name: 'Resize observer (basic)',
-      icon: 'arrows-h',
+      icon: 'arrow-fit',
       library: 'core',
     },
   },
@@ -22,7 +22,7 @@ const routes: ComponentRouteInfo[] = [
     component: ResizeObserverFlyoutComponent,
     data: {
       name: 'Resize observer (flyout)',
-      icon: 'arrows-h',
+      icon: 'arrow-fit',
       library: 'core',
     },
   },
@@ -31,7 +31,7 @@ const routes: ComponentRouteInfo[] = [
     component: ResizeObserverBaseComponent,
     data: {
       name: 'Resize observer (modal)',
-      icon: 'arrows-h',
+      icon: 'arrow-fit',
       library: 'core',
     },
   },

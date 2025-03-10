@@ -11,7 +11,7 @@ describe('phone-field-storybook', () => {
           ),
       );
       it('should render the component', () => {
-        cy.get('app-phone-field').should('exist').should('be.visible');
+        cy.ready('app-phone-field');
 
         if (theme === 'default') {
           cy.get('.sky-input-box-input-group-inner')
@@ -51,18 +51,13 @@ describe('phone-field-storybook', () => {
           .should('exist')
           .should('be.visible');
 
-        cy.get('#ready').should('exist');
-
-        cy.get('app-phone-field')
-          .should('exist')
-          .should('be.visible')
-          .skyVisualTest(
-            `phonefieldcomponent-phonefield--phone-field-${theme}`,
-            {
-              capture: 'fullPage',
-              overwrite: true,
-            },
-          );
+        cy.ready('app-phone-field', ['#ready']).skyVisualTest(
+          `phonefieldcomponent-phonefield--phone-field-${theme}`,
+          {
+            capture: 'fullPage',
+            overwrite: true,
+          },
+        );
       });
     });
   }, true);
