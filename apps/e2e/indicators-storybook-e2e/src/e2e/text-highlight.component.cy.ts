@@ -9,7 +9,7 @@ describe('indicators-storybook - text-highlight', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-text-highlight').screenshot(
+        cy.skyReady('app-text-highlight').screenshot(
           `texthighlightcomponent-texthighlight--text-highlight-${theme}`,
         );
         cy.get('app-text-highlight').percySnapshot(

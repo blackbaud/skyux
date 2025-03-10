@@ -2,7 +2,7 @@
 declare namespace Cypress {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Chainable<Subject> {
-    ready(
+    skyReady(
       appName?: string,
       additionalExistingEls?: string[],
       additionalVisibleEls?: string[],
@@ -11,7 +11,7 @@ declare namespace Cypress {
 }
 
 Cypress.Commands.add(
-  'ready',
+  'skyReady',
   (
     appName?: string,
     additionalExistingEls?: string[],

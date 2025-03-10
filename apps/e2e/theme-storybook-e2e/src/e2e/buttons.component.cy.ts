@@ -10,7 +10,7 @@ describe('theme-storybook', () => {
         );
       });
       it('should render the component', () => {
-        cy.ready('app-buttons')
+        cy.skyReady('app-buttons')
           .end()
           .document()
           .screenshot(`buttonscomponent-buttons--buttons-${theme}`);

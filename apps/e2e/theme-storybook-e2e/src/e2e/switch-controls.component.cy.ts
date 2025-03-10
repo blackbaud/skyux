@@ -10,7 +10,7 @@ describe('theme-storybook', () => {
         );
       });
       it('should render the component', () => {
-        cy.ready('app-switch-controls')
+        cy.skyReady('app-switch-controls')
           .end()
           .document()
           .screenshot(

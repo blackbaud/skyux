@@ -13,7 +13,7 @@ describe('text-editor-storybook', () => {
           );
 
           it('should render', () => {
-            cy.ready('app-text-editor').screenshot(
+            cy.skyReady('app-text-editor').screenshot(
               `texteditorcomponent-texteditor--text-editor-${mode}-${theme}`,
             );
             cy.get('app-text-editor').percySnapshot(
@@ -33,7 +33,7 @@ describe('text-editor-storybook', () => {
           ),
         );
         it('should display entered text', () => {
-          cy.ready('app-text-editor')
+          cy.skyReady('app-text-editor')
             .get('iframe')
             .then(($iframe) => {
               const $bodyWrapper = $iframe.contents().find('body');
@@ -52,7 +52,7 @@ describe('text-editor-storybook', () => {
         });
 
         it('should display an error state', () => {
-          cy.ready('app-text-editor')
+          cy.skyReady('app-text-editor')
             .get('iframe')
             .then(($iframe) => {
               const $bodyWrapper = $iframe.contents().find('body');
@@ -71,7 +71,7 @@ describe('text-editor-storybook', () => {
         });
 
         it('should open all the menus', () => {
-          cy.ready('app-text-editor')
+          cy.skyReady('app-text-editor')
             .get('iframe')
             .then(($iframe) => {
               const $bodyWrapper = $iframe.contents().find('body');
@@ -100,7 +100,7 @@ describe('text-editor-storybook', () => {
         });
 
         it('should open create link dialog', () => {
-          cy.ready('app-text-editor')
+          cy.skyReady('app-text-editor')
             .get('iframe')
             .then(($iframe) => {
               const $bodyWrapper = $iframe.contents().find('body');

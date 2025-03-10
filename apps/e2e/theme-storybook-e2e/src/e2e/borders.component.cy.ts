@@ -10,7 +10,7 @@ describe('theme-storybook', () => {
         );
       });
       it('should render the component', () => {
-        cy.ready('app-borders')
+        cy.skyReady('app-borders')
           .end()
           .document()
           .screenshot(`borderscomponent-borders--borders-${theme}`);

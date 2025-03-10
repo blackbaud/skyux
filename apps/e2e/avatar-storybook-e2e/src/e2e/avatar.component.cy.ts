@@ -11,7 +11,7 @@ describe('avatar-storybook', () => {
       it('should render the component', () => {
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(3000);
-        cy.ready('app-avatar', ['#ready', '#screenshot-wrapper']);
+        cy.skyReady('app-avatar', ['#ready', '#screenshot-wrapper']);
         cy.get('#screenshot-wrapper').screenshot(
           `avatarcomponent-avatar--avatar-${theme}`,
         );

@@ -33,7 +33,7 @@ describe(`ag-grid-storybook data manager`, () => {
             });
 
             it(`should render ag-grid with data manager, ${label} layout${compact ? ', compact' : ''}`, () => {
-              cy.ready('app-data-manager', ['#ready'])
+              cy.skyReady('app-data-manager', ['#ready'])
                 .end()
                 .get('#storybook-root')
                 .should('exist')
@@ -67,7 +67,7 @@ describe(`ag-grid-storybook data manager`, () => {
             `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-normal${compact ? '-compact' : ''}`,
           );
 
-          cy.ready('app-data-manager', ['#ready', '#storybook-root']).end();
+          cy.skyReady('app-data-manager', ['#ready', '#storybook-root']).end();
 
           // Necessary to wait for the grid to render.
           // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -78,7 +78,7 @@ describe(`ag-grid-storybook data manager`, () => {
             .should('be.visible')
             .click();
 
-          cy.window().skyVisualTest(
+          cy.skyVisualTest(
             /* spell-checker:disable-next-line */
             `datamanagercomponent-datamanager--data-manager-column-picker-${theme}${compact ? '-compact' : ''}`,
             {

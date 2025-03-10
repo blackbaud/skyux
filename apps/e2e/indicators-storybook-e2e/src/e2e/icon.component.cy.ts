@@ -9,7 +9,7 @@ describe('indicators-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-icon').screenshot(`iconcomponent-icon--icon-${theme}`);
+        cy.skyReady('app-icon').screenshot(`iconcomponent-icon--icon-${theme}`);
         cy.get('app-icon').percySnapshot(`iconcomponent-icon--icon-${theme}`, {
           widths: E2eVariations.DISPLAY_WIDTHS,
         });

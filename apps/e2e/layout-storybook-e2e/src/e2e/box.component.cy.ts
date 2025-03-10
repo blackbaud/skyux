@@ -9,7 +9,7 @@ describe('layout-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-box').screenshot(`boxcomponent-box--box-${theme}`);
+        cy.skyReady('app-box').screenshot(`boxcomponent-box--box-${theme}`);
         cy.get('app-box').percySnapshot(`boxcomponent-box--box-${theme}`, {
           widths: E2eVariations.DISPLAY_WIDTHS,
         });

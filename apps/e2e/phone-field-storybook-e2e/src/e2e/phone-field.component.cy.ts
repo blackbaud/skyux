@@ -11,7 +11,7 @@ describe('phone-field-storybook', () => {
           ),
       );
       it('should render the component', () => {
-        cy.ready('app-phone-field', ['#ready']);
+        cy.skyReady('app-phone-field', ['#ready']);
 
         if (theme === 'default') {
           cy.get('.sky-input-box-input-group-inner')

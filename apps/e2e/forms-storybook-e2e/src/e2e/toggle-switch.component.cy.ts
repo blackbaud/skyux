@@ -9,7 +9,7 @@ describe('forms-storybook - toggle switch', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-toggle-switch').screenshot(
+        cy.skyReady('app-toggle-switch').screenshot(
           `toggleswitchcomponent-toggleswitch--toggle-switch-${theme}`,
         );
         cy.get('app-toggle-switch').percySnapshot(

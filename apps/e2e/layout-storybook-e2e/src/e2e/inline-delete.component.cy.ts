@@ -9,7 +9,7 @@ describe('inline delete', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-inline-delete');
+        cy.skyReady('app-inline-delete');
         cy.get('app-inline-delete')
           .end()
           .get('body')

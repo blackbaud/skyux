@@ -10,7 +10,9 @@ describe(`tabs-storybook`, () => {
           ),
         );
         it('should render the component', () => {
-          cy.ready('app-tabs').screenshot(`tabscomponent-tabs--tabs-${theme}`);
+          cy.skyReady('app-tabs').screenshot(
+            `tabscomponent-tabs--tabs-${theme}`,
+          );
           cy.get('app-tabs').percySnapshot(`tabscomponent-tabs--tabs-${theme}`);
         });
       });
@@ -22,7 +24,7 @@ describe(`tabs-storybook`, () => {
           ),
         );
         it('should render the component', () => {
-          cy.ready('app-tabs')
+          cy.skyReady('app-tabs')
             .get('sky-dropdown')
             .should('exist')
             .should('be.visible')

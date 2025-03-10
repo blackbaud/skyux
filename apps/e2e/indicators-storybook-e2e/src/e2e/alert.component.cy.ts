@@ -9,7 +9,7 @@ describe(`indicators-storybook`, () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-alert').screenshot(
+        cy.skyReady('app-alert').screenshot(
           `alertcomponent-alert--alert-${theme}`,
         );
         cy.get('app-alert').percySnapshot(

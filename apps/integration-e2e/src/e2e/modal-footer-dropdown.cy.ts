@@ -15,7 +15,7 @@ describe('modal footer dropdown', () => {
       });
 
       it('should show the modal footer dropdown below the modal footer in a medium modal', () => {
-        cy.ready('app-modal-footer-dropdown');
+        cy.skyReady('app-modal-footer-dropdown');
         cy.get('app-modal-footer-dropdown .space + div button')
           .should('exist')
           .first()

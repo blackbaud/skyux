@@ -14,7 +14,7 @@ describe('lists-storybook - infinite-scroll', () => {
             `/iframe.html?globals=theme:${theme}&id=infinitescrollcomponent-infinitescroll--infinite-scroll-${style}`,
           );
 
-          cy.ready('app-infinite-scroll').screenshot(
+          cy.skyReady('app-infinite-scroll').screenshot(
             `infinitescrollcomponent-infinitescroll--infinite-scroll-${style}-${theme}`,
           );
           cy.get('app-infinite-scroll').percySnapshot(

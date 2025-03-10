@@ -13,7 +13,7 @@ describe('lookup in modal', () => {
       });
 
       it('should affix autocomplete to the bottom of the input when the body has top margin', () => {
-        cy.ready('app-lookup-in-modal')
+        cy.skyReady('app-lookup-in-modal')
           .end()
           .get('textarea[placeholder="Type a person\'s name..."]')
           .should('exist')

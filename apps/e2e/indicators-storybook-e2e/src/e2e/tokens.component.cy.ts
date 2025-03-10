@@ -9,7 +9,7 @@ describe('indicators-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-tokens')
+        cy.skyReady('app-tokens')
           // Capture the focus style of the first token.
           .get(
             'sky-tokens:first-child sky-token:first-child .sky-token-btn-action',

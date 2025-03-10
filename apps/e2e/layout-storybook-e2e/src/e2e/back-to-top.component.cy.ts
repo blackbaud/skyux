@@ -10,7 +10,7 @@ describe('layout-storybook', () => {
         cy.viewport(1300, 200);
       });
       it('should render the component', () => {
-        cy.ready('app-back-to-top');
+        cy.skyReady('app-back-to-top');
 
         cy.scrollTo('bottom');
 

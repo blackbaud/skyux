@@ -15,7 +15,7 @@ describe('layout-storybook - description-list', () => {
             });
 
             it('should render the component', () => {
-              cy.ready('app-description-list').screenshot(
+              cy.skyReady('app-description-list').screenshot(
                 `descriptionlistcomponent-descriptionlist--description-list-${width}-${theme}`,
               );
               cy.percySnapshot(

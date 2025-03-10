@@ -18,7 +18,7 @@ describe('ag-grid-storybook data entry grid', () => {
               /* spell-checker:disable-next-line */
               `/iframe.html?globals=theme:${theme}&id=dataentrygridcomponent-dataentrygrid--data-entry-grid-date-and-lookup${compact ? '-compact' : ''}`,
             );
-            cy.ready('app-data-entry-grid', ['#ready']);
+            cy.skyReady('app-data-entry-grid', ['#ready']);
             cy.get(
               '#checkboxes .ag-viewport > .ag-center-cols-container > .ag-row',
             )
@@ -134,7 +134,7 @@ describe('ag-grid-storybook data entry grid', () => {
               `/iframe.html?globals=theme:${theme}&id=dataentrygridcomponent-dataentrygrid--data-entry-grid-edit-lookup${compact ? '-compact' : ''}`,
             );
             // Briefly wait between arrowing down.
-            cy.ready('app-data-entry-grid', ['#ready']);
+            cy.skyReady('app-data-entry-grid', ['#ready']);
             cy.get(
               '#sideScroll .ag-viewport > .ag-center-cols-container > .ag-row',
             )

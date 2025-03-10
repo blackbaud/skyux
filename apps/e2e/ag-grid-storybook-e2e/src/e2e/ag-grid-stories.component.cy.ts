@@ -12,7 +12,7 @@ describe(`ag-grid-storybook`, () => {
             `/iframe.html?globals=theme:${theme}&id=ag-grid--ag-grid${compact ? '-compact' : ''}`,
           );
 
-          cy.ready('app-ag-grid-stories', ['#ready'])
+          cy.skyReady('app-ag-grid-stories', ['#ready'])
             .end()
 
             // The component has actions in ngAfterViewInit that scroll a grid to show back-to-top as well as activate a

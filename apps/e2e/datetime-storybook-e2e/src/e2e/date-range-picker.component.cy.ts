@@ -7,7 +7,7 @@ describe('Date range picker', () => {
         cy.visit(
           `/iframe.html?globals=theme:${theme}&id=daterangepickercomponent-daterangepicker--date-range-picker`,
         );
-        cy.ready('app-date-range-picker').end();
+        cy.skyReady('app-date-range-picker').end();
       });
 
       it('should render the component', () => {

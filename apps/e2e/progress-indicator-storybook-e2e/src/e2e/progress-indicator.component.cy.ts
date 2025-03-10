@@ -9,7 +9,7 @@ describe('progress-indicator-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-progress-indicator').screenshot(
+        cy.skyReady('app-progress-indicator').screenshot(
           `progressindicatorcomponent-progressindicator--progress-indicator-${theme}`,
         );
         cy.get('app-progress-indicator').percySnapshot(

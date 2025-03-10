@@ -10,7 +10,7 @@ describe('layout-storybook', () => {
       );
 
       it('should constrain the contents of the page with layout fit to the available viewport', () => {
-        cy.ready('app-page')
+        cy.skyReady('app-page')
           .get('.screenshot-area')
           .should('exist')
           .should('be.visible')

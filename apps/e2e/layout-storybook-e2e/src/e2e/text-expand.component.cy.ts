@@ -14,7 +14,7 @@ describe('layout-storybook', () => {
         cy.get('.sky-text-expand-see-more').first().click();
 
         cy.get('.sky-text-expand-see-more').last().click();
-        cy.ready('app-text-expand').screenshot(
+        cy.skyReady('app-text-expand').screenshot(
           `textexpandcomponent-textexpand--text-expand-${theme}`,
         );
         cy.percySnapshot(

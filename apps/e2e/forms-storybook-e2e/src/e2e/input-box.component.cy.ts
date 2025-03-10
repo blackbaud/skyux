@@ -9,7 +9,7 @@ describe('forms-storybook - input box', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-input-box').screenshot(
+        cy.skyReady('app-input-box').screenshot(
           `inputboxcomponent-inputbox--input-box-${theme}`,
         );
         cy.get('app-input-box').percySnapshot(
@@ -21,7 +21,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a standard input box', () => {
-        cy.ready('app-input-box', [], ['#input-box-basic'])
+        cy.skyReady('app-input-box', [], ['#input-box-basic'])
           .get('#input-box-basic input')
           .click();
         cy.get('#input-box-basic').screenshot(
@@ -37,7 +37,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a textarea input box', () => {
-        cy.ready('app-input-box', [], ['#input-box-textarea'])
+        cy.skyReady('app-input-box', [], ['#input-box-textarea'])
           .get('#input-box-textarea textarea')
           .click();
         cy.get('#input-box-textarea').screenshot(
@@ -53,7 +53,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a select input box', () => {
-        cy.ready('app-input-box', [], ['#input-box-select'])
+        cy.skyReady('app-input-box', [], ['#input-box-select'])
           .get('#input-box-select select')
           .select(1);
         cy.get('#input-box-select').screenshot(
@@ -69,7 +69,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a input box with buttons', () => {
-        cy.ready('app-input-box', [], ['#input-box-button-multiple'])
+        cy.skyReady('app-input-box', [], ['#input-box-button-multiple'])
           .get('#input-box-button-multiple input')
           .click();
         cy.get('#input-box-button-multiple').screenshot(
@@ -85,7 +85,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a input box with an error', () => {
-        cy.ready('app-input-box', [], ['#input-box-form-control-error'])
+        cy.skyReady('app-input-box', [], ['#input-box-form-control-error'])
           .get('#input-box-form-control-error input')
           .click();
         cy.get('#input-box-form-control-error').screenshot(
@@ -101,7 +101,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a input box with a left button', () => {
-        cy.ready('app-input-box', [], ['#input-box-button-single-left'])
+        cy.skyReady('app-input-box', [], ['#input-box-button-single-left'])
           .get('#input-box-button-single-left input')
           .click();
         cy.get('#input-box-button-single-left').screenshot(
@@ -117,7 +117,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a input box with an inset button', () => {
-        cy.ready('app-input-box', [], ['#input-box-button-inset'])
+        cy.skyReady('app-input-box', [], ['#input-box-button-inset'])
           .get('#input-box-button-inset input')
           .click();
         cy.get('#input-box-button-inset').screenshot(
@@ -133,7 +133,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a input box with an inset icon', () => {
-        cy.ready('app-input-box', [], ['#input-box-icon-inset'])
+        cy.skyReady('app-input-box', [], ['#input-box-icon-inset'])
           .get('#input-box-icon-inset input')
           .click();
         cy.get('#input-box-icon-inset').screenshot(
@@ -149,7 +149,7 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should properly focus a input box with an inset icon on left', () => {
-        cy.ready('app-input-box', [], ['#input-box-icon-inset-left'])
+        cy.skyReady('app-input-box', [], ['#input-box-icon-inset-left'])
           .get('#input-box-icon-inset-left input')
           .click();
         cy.get('#input-box-icon-inset-left').screenshot(

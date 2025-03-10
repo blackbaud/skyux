@@ -11,7 +11,7 @@ describe('sectioned form', () => {
 
       ['small', 'medium'].forEach((size) => {
         it(`should show in ${size} modal`, () => {
-          cy.ready('app-sectioned-form')
+          cy.skyReady('app-sectioned-form')
             .end()
             .get(`#open-${size}-modal-button`)
             .click();
@@ -36,7 +36,7 @@ describe('sectioned form', () => {
 
       it(`should show in large modal`, () => {
         const size = 'large';
-        cy.ready('app-sectioned-form')
+        cy.skyReady('app-sectioned-form')
           .end()
           .get(`#open-${size}-modal-button`)
           .click();

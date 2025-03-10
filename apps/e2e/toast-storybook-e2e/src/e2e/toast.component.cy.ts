@@ -10,7 +10,7 @@ describe('toast-storybook', () => {
       );
 
       it('should render the components when only a message is used ', () => {
-        cy.ready('app-toast').get('#default-trigger').click();
+        cy.skyReady('app-toast').get('#default-trigger').click();
 
         cy.get('.sky-toaster').screenshot(
           `toastcomponent-toast--toast-${theme}`,
@@ -24,7 +24,7 @@ describe('toast-storybook', () => {
       });
 
       it('should render the components when a custom component is used', () => {
-        cy.ready('app-toast').get('#custom-trigger').click();
+        cy.skyReady('app-toast').get('#custom-trigger').click();
 
         cy.get('.sky-toaster').screenshot(
           `toastcomponent-toast--toast-custom-${theme}`,

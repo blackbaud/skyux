@@ -13,7 +13,7 @@ describe('lookup-storybook', () => {
             );
 
             it('should render the component', () => {
-              cy.ready('app-country-field').screenshot(
+              cy.skyReady('app-country-field').screenshot(
                 `countryfieldcomponent-countryfield--${mode}-country-field-${theme}`,
               );
               cy.get('app-country-field').percySnapshot(
@@ -32,7 +32,7 @@ describe('lookup-storybook', () => {
         ),
       );
       it('should render input box with focus', () => {
-        cy.ready('app-country-field');
+        cy.skyReady('app-country-field');
         cy.get('textarea').should('exist').should('be.visible').click();
 
         cy.get('app-country-field').screenshot(
@@ -46,7 +46,7 @@ describe('lookup-storybook', () => {
         );
       });
       it('should render input dropdown', () => {
-        cy.ready('app-country-field');
+        cy.skyReady('app-country-field');
         cy.get('textarea').should('exist').should('be.visible').type('ba');
 
         cy.get('app-country-field').screenshot(
@@ -60,7 +60,7 @@ describe('lookup-storybook', () => {
         );
       });
       it('should render input dropdown when no results', () => {
-        cy.ready('app-country-field');
+        cy.skyReady('app-country-field');
         cy.get('textarea').should('exist').should('be.visible').type('foo');
 
         cy.get('app-country-field').screenshot(
@@ -74,7 +74,7 @@ describe('lookup-storybook', () => {
         );
       });
       it('should render input box with error', () => {
-        cy.ready('app-country-field');
+        cy.skyReady('app-country-field');
         cy.get('textarea').should('exist').should('be.visible').click();
         cy.get('textarea').focus();
         cy.get('textarea').blur();

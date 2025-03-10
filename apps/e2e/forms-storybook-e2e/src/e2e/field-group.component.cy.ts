@@ -10,7 +10,7 @@ describe('field-group', () => {
       );
 
       it('should render the component', () => {
-        cy.ready('app-field-group').screenshot(`field-group-${theme}`);
+        cy.skyReady('app-field-group').screenshot(`field-group-${theme}`);
         cy.percySnapshot(`field-group-${theme}`, {
           widths: E2eVariations.DISPLAY_WIDTHS,
         });

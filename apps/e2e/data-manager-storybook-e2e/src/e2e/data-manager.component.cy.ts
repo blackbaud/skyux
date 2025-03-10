@@ -11,7 +11,7 @@ describe('data-manager-storybook', () => {
             ),
           );
           it(`should render the component`, () => {
-            cy.ready('app-data-manager').screenshot(
+            cy.skyReady('app-data-manager').screenshot(
               `datamanagercomponent-datamanager--data-manager-${view}-${theme}`,
             );
             cy.get('app-data-manager').percySnapshot(

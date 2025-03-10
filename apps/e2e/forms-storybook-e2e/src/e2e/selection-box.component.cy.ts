@@ -11,7 +11,7 @@ describe('forms-storybook', () => {
           ),
       );
       it('should render the component', () => {
-        cy.ready('app-selection-box');
+        cy.skyReady('app-selection-box');
         cy.get('app-selection-box').then((el) => {
           el
             .get(0)

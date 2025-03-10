@@ -20,7 +20,7 @@ describe('flyout-storybook', () => {
             `/iframe.html?globals=theme:${theme}&id=flyoutcomponent-flyout--flyout-${style}`,
           );
 
-          cy.ready('app-flyout').end();
+          cy.skyReady('app-flyout').end();
           cy.get('.sky-flyout .sky-flyout-content')
             .should('exist')
             .should('be.visible')

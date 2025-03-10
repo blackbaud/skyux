@@ -9,7 +9,7 @@ describe('lists-storybook - paging', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-paging').screenshot(
+        cy.skyReady('app-paging').screenshot(
           `pagingcomponent-paging--paging-${theme}`,
         );
         cy.get('app-paging').percySnapshot(

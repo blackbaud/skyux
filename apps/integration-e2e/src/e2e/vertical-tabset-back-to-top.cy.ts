@@ -13,7 +13,7 @@ describe('vertical-tabset-back-to-top', () => {
             });
 
             it('verify back-to-top button', () => {
-              cy.ready('app-vertical-tabset-back-to-top');
+              cy.skyReady('app-vertical-tabset-back-to-top');
               /* spell-checker:disable */
               if (device === 'iphone-6') {
                 cy.get('.sky-vertical-tabset-content button')
@@ -39,7 +39,7 @@ describe('vertical-tabset-back-to-top', () => {
             });
 
             it('verify back-to-top with summary action', () => {
-              cy.ready('app-vertical-tabset-back-to-top');
+              cy.skyReady('app-vertical-tabset-back-to-top');
 
               /* spell-checker:disable */
               if (device === 'iphone-6') {

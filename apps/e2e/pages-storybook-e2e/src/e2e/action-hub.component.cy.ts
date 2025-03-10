@@ -9,7 +9,7 @@ describe(`pages-storybook`, () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-action-hub');
+        cy.skyReady('app-action-hub');
         cy.window().screenshot(
           `actionhubcomponent-actionhub--action-hub-${theme}`,
         );

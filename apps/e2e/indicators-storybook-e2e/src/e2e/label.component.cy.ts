@@ -9,7 +9,7 @@ describe(`indicators-storybook`, () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-label').screenshot(
+        cy.skyReady('app-label').screenshot(
           `labelcomponent-label--label-${theme}`,
         );
         cy.get('app-label').percySnapshot(

@@ -18,7 +18,7 @@ describe('lookup-storybook', () => {
               .viewport(1300, 900),
           );
           it(`should render the component`, () => {
-            cy.ready('app-lookup').screenshot(
+            cy.skyReady('app-lookup').screenshot(
               `lookupcomponent-lookup--lookup-${mode}-${theme}`,
             );
             cy.get('app-lookup').percySnapshot(
@@ -41,7 +41,7 @@ describe('lookup-storybook', () => {
           );
           describe('with show more enabled', () => {
             it('should render show more dropdown with filtering', () => {
-              cy.ready('app-lookup');
+              cy.skyReady('app-lookup');
 
               cy.get('[ng-reflect-enable-show-more="true"')
                 .first()
@@ -64,7 +64,7 @@ describe('lookup-storybook', () => {
               );
             });
             it('should render show more dropdown without filtering', () => {
-              cy.ready('app-lookup');
+              cy.skyReady('app-lookup');
 
               cy.get('textarea')
                 .eq(4)
@@ -87,7 +87,7 @@ describe('lookup-storybook', () => {
               );
             });
             it('should render show more dropdown with no results', () => {
-              cy.ready('app-lookup');
+              cy.skyReady('app-lookup');
 
               cy.get('[ng-reflect-enable-show-more="true"')
                 .first()
@@ -110,7 +110,7 @@ describe('lookup-storybook', () => {
               );
             });
             it('should render show more dropdown add button', () => {
-              cy.ready('app-lookup');
+              cy.skyReady('app-lookup');
 
               cy.get('textarea')
                 .eq(5)
@@ -134,7 +134,7 @@ describe('lookup-storybook', () => {
             });
             describe('in show more modal', () => {
               it('should open and render modal', () => {
-                cy.ready('app-lookup');
+                cy.skyReady('app-lookup');
 
                 cy.get('textarea')
                   .eq(4)
@@ -160,7 +160,7 @@ describe('lookup-storybook', () => {
                 );
               });
               it('should open and render modal with add more', () => {
-                cy.ready('app-lookup');
+                cy.skyReady('app-lookup');
 
                 cy.get('textarea')
                   .eq(5)
@@ -186,7 +186,7 @@ describe('lookup-storybook', () => {
                 );
               });
               it('should open and render modal with preselected values', () => {
-                cy.ready('app-lookup');
+                cy.skyReady('app-lookup');
 
                 cy.get('textarea')
                   .eq(6)

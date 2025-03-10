@@ -19,7 +19,7 @@ describe('errors-storybook - error', () => {
           cy.visit(
             `/iframe.html?globals=theme:${theme}&id=errorcomponent-error--error-${style}`,
           );
-          cy.ready('app-error').screenshot(
+          cy.skyReady('app-error').screenshot(
             `errorcomponent-error--error--${style}-${theme}`,
           );
           cy.get('app-error').percySnapshot(

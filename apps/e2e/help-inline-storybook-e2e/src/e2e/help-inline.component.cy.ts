@@ -9,7 +9,7 @@ describe('indicators-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-help-inline');
+        cy.skyReady('app-help-inline');
         cy.get('sky-help-inline').first().should('be.visible').click();
         cy.get('app-help-inline').screenshot(
           `helpinlinecomponent-helpinline--help-inline-${theme}`,

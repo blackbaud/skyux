@@ -9,7 +9,7 @@ describe('indicators-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-status-indicator').screenshot(
+        cy.skyReady('app-status-indicator').screenshot(
           `statusindicatorcomponent-statusindicator--status-indicator-${theme}`,
         );
         cy.get('app-status-indicator').percySnapshot(

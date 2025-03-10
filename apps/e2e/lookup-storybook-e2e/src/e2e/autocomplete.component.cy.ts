@@ -11,7 +11,7 @@ describe('lookup-storybook', () => {
       });
 
       it('should render the component', () => {
-        cy.ready('app-autocomplete').screenshot(
+        cy.skyReady('app-autocomplete').screenshot(
           `autocompletecomponent-autocomplete--autocomplete-${theme}`,
         );
         cy.get('app-autocomplete').percySnapshot(
@@ -23,7 +23,7 @@ describe('lookup-storybook', () => {
       });
 
       it('should render the component with the dropdown', () => {
-        cy.ready('app-autocomplete')
+        cy.skyReady('app-autocomplete')
           .get('.sky-form-control')
           .should('exist')
           .should('be.visible')
@@ -44,7 +44,7 @@ describe('lookup-storybook', () => {
       });
 
       it('should render the component with a selected result', () => {
-        cy.ready('app-autocomplete')
+        cy.skyReady('app-autocomplete')
           .get('.sky-form-control')
           .should('exist')
           .should('be.visible')
@@ -64,7 +64,7 @@ describe('lookup-storybook', () => {
       });
 
       it('should render the component with no results', () => {
-        cy.ready('app-autocomplete')
+        cy.skyReady('app-autocomplete')
           .get('.sky-form-control')
           .should('exist')
           .should('be.visible')

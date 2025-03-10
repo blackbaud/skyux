@@ -11,7 +11,7 @@ describe('character-counter', () => {
           ),
       );
       it('should render the component', () => {
-        cy.ready('app-character-counter', ['#ready'])
+        cy.skyReady('app-character-counter', ['#ready'])
           .end()
           .get('#screenshot-character-count-input-box-invalid input')
           .focus();

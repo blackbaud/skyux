@@ -10,7 +10,7 @@ describe('forms-storybook - radio button', () => {
       );
 
       it('should render the radio buttons', () => {
-        cy.ready('app-radio-button');
+        cy.skyReady('app-radio-button');
 
         cy.get('.invalid-radio-button-group sky-radio-label').first().click();
 

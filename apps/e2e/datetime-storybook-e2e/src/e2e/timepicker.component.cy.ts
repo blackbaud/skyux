@@ -11,7 +11,7 @@ describe('datetime-storybook', () => {
             ),
           );
           it('should render the component', () => {
-            cy.ready('app-timepicker');
+            cy.skyReady('app-timepicker');
             cy.get('.sky-input-group-timepicker-btn')
               .last()
               .should('exist')

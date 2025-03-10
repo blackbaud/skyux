@@ -8,7 +8,7 @@ describe('inline-form-storybook', () => {
           `/iframe.html?globals=theme:${theme}&id=inlineformcomponent-inlineform--inline-form-custom-buttons`,
         );
 
-        cy.ready('app-inline-form').screenshot(
+        cy.skyReady('app-inline-form').screenshot(
           `inlineformcomponent-inlineform--inline-form-closed-${theme}`,
         );
         cy.get('app-inline-form').percySnapshot(
@@ -32,7 +32,7 @@ describe('inline-form-storybook', () => {
             ),
           );
           it(`should render the open inline form component`, () => {
-            cy.ready('app-inline-form');
+            cy.skyReady('app-inline-form');
 
             cy.get('button')
               .last()

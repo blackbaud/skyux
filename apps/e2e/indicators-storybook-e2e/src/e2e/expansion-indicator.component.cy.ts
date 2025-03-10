@@ -9,7 +9,7 @@ describe('indicators-storybook - expansion indicator', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-expansion-indicator')
+        cy.skyReady('app-expansion-indicator')
           .should('exist')
           .screenshot(
             `expansionindicatorcomponent-expansionindicator--expansion-indicator-${theme}`,

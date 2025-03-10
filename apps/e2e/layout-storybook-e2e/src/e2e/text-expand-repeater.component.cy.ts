@@ -11,7 +11,7 @@ describe('layout-storybook - text expand repeater', () => {
       it('should render the component', () => {
         cy.get('.sky-text-expand-repeater-see-more').last().click();
 
-        cy.ready('app-text-expand-repeater').screenshot(
+        cy.skyReady('app-text-expand-repeater').screenshot(
           `textexpandrepeatercomponent-textexpandrepeater--text-expand-repeater-${theme}`,
         );
         cy.percySnapshot(

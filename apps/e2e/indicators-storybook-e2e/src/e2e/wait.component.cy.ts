@@ -10,7 +10,9 @@ describe('indicators-storybook', () => {
           ),
         );
         it('should render the component', () => {
-          cy.ready('app-wait').screenshot(`waitcomponent-wait--wait-${theme}`);
+          cy.skyReady('app-wait').screenshot(
+            `waitcomponent-wait--wait-${theme}`,
+          );
           cy.get('app-wait').percySnapshot(
             `waitcomponent-wait--wait-${theme}`,
             {
@@ -27,7 +29,7 @@ describe('indicators-storybook', () => {
           ),
         );
         it('should render the component', () => {
-          cy.ready('app-wait').screenshot(
+          cy.skyReady('app-wait').screenshot(
             `waitcomponent-wait--wait-page-blocking-${theme}`,
           );
           cy.get('app-wait').percySnapshot(

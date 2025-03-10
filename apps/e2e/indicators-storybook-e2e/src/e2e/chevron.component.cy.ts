@@ -9,7 +9,7 @@ describe('indicators-storybook - chevron', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-chevron').screenshot(
+        cy.skyReady('app-chevron').screenshot(
           `chevroncomponent-chevron--chevron-${theme}`,
         );
         cy.get('app-chevron').percySnapshot(

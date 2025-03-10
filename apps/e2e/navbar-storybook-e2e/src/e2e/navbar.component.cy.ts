@@ -11,7 +11,7 @@ describe('navbar-storybook', () => {
           ),
       );
       it('should render the component', () => {
-        cy.ready('app-navbar').get('.sky-dropdown-button').first().click();
+        cy.skyReady('app-navbar').get('.sky-dropdown-button').first().click();
 
         cy.get('body').screenshot(`navbarcomponent-navbar--navbar-${theme}`);
         cy.get('body').percySnapshot(

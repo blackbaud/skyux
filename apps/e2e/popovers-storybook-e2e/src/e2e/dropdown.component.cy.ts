@@ -8,7 +8,7 @@ describe('dropdown-storybook', () => {
           cy.visit(
             `/iframe.html?globals=theme:${theme}&id=dropdowncomponent-dropdown--dropdown-${buttonStyle}-button`,
           );
-          cy.ready('app-dropdown').screenshot(
+          cy.skyReady('app-dropdown').screenshot(
             `dropdowncomponent-dropdown--dropdown-${buttonStyle}-button-${theme}`,
           );
           cy.get('app-dropdown').percySnapshot(
@@ -30,7 +30,7 @@ describe('dropdown-storybook', () => {
 
           ['select', 'context-menu', 'tab', 'custom'].forEach((buttonType) => {
             it(`should open the ${buttonType} style dropdown's menu`, () => {
-              cy.ready('app-dropdown');
+              cy.skyReady('app-dropdown');
               cy.get(
                 buttonType === 'custom'
                   ? '.custom-trigger'

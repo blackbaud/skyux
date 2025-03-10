@@ -13,7 +13,7 @@ describe('field heights', () => {
       });
 
       it('should match heights across different field types', () => {
-        cy.ready('app-field-heights', ['#ready'])
+        cy.skyReady('app-field-heights', ['#ready'])
           .end()
           .get('.sky-input-box')
           .should('have.length.gte', 2)

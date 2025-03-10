@@ -10,7 +10,7 @@ describe('modal-viewkept-toolbars', () => {
       });
 
       it('verify viewkept toolbar in modal', () => {
-        cy.ready('app-modal-viewkept-toolbars')
+        cy.skyReady('app-modal-viewkept-toolbars')
           .get('#modal-viewkept-toolbars-modal-trigger')
           .should('be.visible')
           .should('contain', 'Open modal')

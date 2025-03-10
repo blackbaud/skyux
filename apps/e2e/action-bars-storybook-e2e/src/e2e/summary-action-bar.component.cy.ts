@@ -26,7 +26,7 @@ describe('action-bars-storybook - summary action bar', () => {
                   `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
                 );
 
-                cy.ready('app-summary-action-bar');
+                cy.skyReady('app-summary-action-bar');
 
                 cy.get('.sky-summary-action-bar')
                   .should('exist')
@@ -58,7 +58,7 @@ describe('action-bars-storybook - summary action bar', () => {
                     `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
                   );
 
-                  cy.ready('app-summary-action-bar');
+                  cy.skyReady('app-summary-action-bar');
 
                   cy.get('.sky-summary-action-bar-details-collapse button')
                     .should('exist')
@@ -95,7 +95,7 @@ describe('action-bars-storybook - summary action bar', () => {
                     `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
                   );
 
-                  cy.ready('app-summary-action-bar')
+                  cy.skyReady('app-summary-action-bar')
 
                     .get('.sky-summary-action-bar')
                     .should('exist')

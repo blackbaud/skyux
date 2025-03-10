@@ -11,7 +11,7 @@ describe('forms-storybook', () => {
             ),
           );
           it('should render the component', () => {
-            cy.ready('app-file-attachment').screenshot(
+            cy.skyReady('app-file-attachment').screenshot(
               `fileattachmentcomponent-fileattachment--file-attachment-${mode}-${theme}`,
             );
             cy.get('app-file-attachment').percySnapshot(
@@ -30,7 +30,7 @@ describe('forms-storybook', () => {
           ),
         );
         it(`should render component drag and drop`, () => {
-          cy.ready('app-file-attachment');
+          cy.skyReady('app-file-attachment');
           cy.get('.sky-file-drop-col')
             .first()
             .invoke('addClass', 'sky-file-drop-accept')

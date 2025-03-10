@@ -9,7 +9,7 @@ describe('lists-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-repeater').screenshot(
+        cy.skyReady('app-repeater').screenshot(
           `repeatercomponent-repeater--repeater-${theme}`,
         );
         cy.get('app-repeater').percySnapshot(

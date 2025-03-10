@@ -9,7 +9,7 @@ describe('indicators-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-key-info').screenshot(
+        cy.skyReady('app-key-info').screenshot(
           `keyinfocomponent-keyinfo--key-info-${theme}`,
         );
         cy.get('app-key-info').percySnapshot(

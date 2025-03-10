@@ -9,7 +9,7 @@ describe('core-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-dock')
+        cy.skyReady('app-dock')
           .get('sky-dock')
           .should('exist')
           .should('be.visible');

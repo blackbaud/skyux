@@ -8,7 +8,7 @@ describe('Date picker', () => {
           `/iframe.html?globals=theme:${theme}&id=datepickercomponent-datepicker--datepicker`,
         );
 
-        cy.ready('app-datepicker').end();
+        cy.skyReady('app-datepicker').end();
       });
 
       it('should show day picker', () => {

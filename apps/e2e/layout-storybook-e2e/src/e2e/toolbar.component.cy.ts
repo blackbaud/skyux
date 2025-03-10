@@ -9,7 +9,7 @@ describe('layout-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-toolbar').screenshot(
+        cy.skyReady('app-toolbar').screenshot(
           `toolbarcomponent-toolbar--toolbar-${theme}`,
         );
         cy.get('app-toolbar').percySnapshot(

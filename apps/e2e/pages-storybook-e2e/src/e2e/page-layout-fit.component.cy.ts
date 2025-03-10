@@ -14,7 +14,7 @@ describe(`pages-storybook`, () => {
             cy.visit(`/iframe.html?globals=theme:${theme}&id=${ID}`),
           );
           it('should render the component', () => {
-            cy.ready('app-fit-page sky-page');
+            cy.skyReady('app-fit-page sky-page');
             cy.window().screenshot(`${ID}-${theme}`);
             cy.window().percySnapshot(`${ID}-${theme}`);
           });

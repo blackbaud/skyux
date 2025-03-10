@@ -9,7 +9,7 @@ describe('lists-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.ready('app-filter', ['#ready'])
+        cy.skyReady('app-filter', ['#ready'])
           .end()
           .get('body')
           .screenshot(`filtercomponent-filter--filter-${theme}`);

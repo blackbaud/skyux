@@ -10,7 +10,7 @@ describe('forms-storybook - checkbox', () => {
       );
 
       it('should render the standard components', () => {
-        cy.ready('app-checkbox');
+        cy.skyReady('app-checkbox');
         cy.get('#touched-required-checkbox').click();
         cy.get('#touched-required-checkbox').click();
         cy.get('app-checkbox').should('exist').should('be.visible');
@@ -32,7 +32,7 @@ describe('forms-storybook - checkbox', () => {
       });
 
       it('should render the icon components', () => {
-        cy.ready('app-checkbox')
+        cy.skyReady('app-checkbox')
           .get('#icon-checkboxes')
           .should('exist')
           .should('be.visible')

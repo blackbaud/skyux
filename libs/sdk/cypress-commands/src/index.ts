@@ -1,3 +1,3 @@
+import './lib/choose-theme-command';
 import './lib/ready-command';
-import './lib/sky-choose-theme-command';
-import './lib/sky-visual-test-command';
+import './lib/visual-test-command';
