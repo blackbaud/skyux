@@ -6,10 +6,10 @@ import { SkySelectionModalHarness } from '@skyux/lookup/testing';
 import { of } from 'rxjs';
 
 import { LookupSelectionModalBasicExampleComponent } from './example.component';
-import { DemoService } from './example.service';
+import { ExampleService } from './example.service';
 
 describe('Selection modal example', () => {
-  let mockSvc: jasmine.SpyObj<DemoService>;
+  let mockSvc: jasmine.SpyObj<ExampleService>;
 
   async function setupTest(): Promise<{
     harness: SkySelectionModalHarness;
@@ -36,7 +36,9 @@ describe('Selection modal example', () => {
   beforeEach(() => {
     // Create a mock search service. In a real-world application, the search
     // service would make a web request which should be avoided in unit tests.
-    mockSvc = jasmine.createSpyObj<DemoService>('DemoService', ['search']);
+    mockSvc = jasmine.createSpyObj<ExampleService>('ExampleService', [
+      'search',
+    ]);
 
     mockSvc.search.and.callFake((searchText) => {
       return of({
@@ -59,6 +61,7 @@ describe('Selection modal example', () => {
         LookupSelectionModalBasicExampleComponent,
         NoopAnimationsModule,
       ],
+      providers: [{ provide: ExampleService, useValue: mockSvc }],
     });
   });
 
