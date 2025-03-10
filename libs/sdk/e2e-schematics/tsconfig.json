@@ -9,5 +9,15 @@
       "../../../vendor/types/**/*.d.ts",
       "../../../node_modules/cypress/types"
     ]
-  }
+  },
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
 }
