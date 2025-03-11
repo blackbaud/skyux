@@ -8,6 +8,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppAssetsService } from '@skyux/assets';
 import { SkyI18nModule } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyFluidGridModule } from '@skyux/layout';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -26,6 +27,7 @@ import { SkyThemeSelectorModule } from './shared/theme-selector/theme-selector.m
     ReactiveFormsModule,
     SkyFluidGridModule,
     SkyI18nModule,
+    SkyIconModule,
     SkyThemeSelectorModule,
   ],
   providers: [

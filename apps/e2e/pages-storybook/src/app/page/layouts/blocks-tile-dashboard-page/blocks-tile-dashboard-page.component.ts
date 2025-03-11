@@ -53,7 +53,7 @@ import { PageLayoutTileDashboardComponent } from '../shared/tiles/tile-dashboard
     <sky-page-content>
       <app-page-layout-tile-dashboard />
     </sky-page-content>
-  </sky-page> `,
+  </sky-page>`,
   styles: `
     :host {
       display: block;

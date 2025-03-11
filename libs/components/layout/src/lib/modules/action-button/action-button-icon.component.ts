@@ -2,6 +2,7 @@ import { Component, Input, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule } from '@skyux/theme';
 
 const FONTSIZECLASS_SMALL = '2x';
 const FONTSIZECLASS_LARGE = '3x';
@@ -16,7 +17,7 @@ const FONTSIZECLASS_LARGE = '3x';
     './action-button-icon.modern.component.scss',
   ],
   templateUrl: './action-button-icon.component.html',
-  imports: [SkyIconModule],
+  imports: [SkyIconModule, SkyThemeModule],
 })
 export class SkyActionButtonIconComponent {
   /**

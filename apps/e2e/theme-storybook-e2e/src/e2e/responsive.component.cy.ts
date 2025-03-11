@@ -12,7 +12,8 @@ describe('theme-storybook', () => {
         );
       });
       it('should render the component', () => {
-        cy.get('.media-queries-examples')
+        cy.skyReady('app-responsive')
+          .get('.media-queries-examples')
           .should('exist')
           .should('be.visible')
           .end()

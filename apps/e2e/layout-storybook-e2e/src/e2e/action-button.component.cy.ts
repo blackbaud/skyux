@@ -11,10 +11,7 @@ describe('layout-storybook - action button', () => {
         ),
       );
       it('should render the component on desktop', () => {
-        cy.get('app-action-button')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(screenshotPrefix);
+        cy.skyReady('app-action-button').screenshot(screenshotPrefix);
         cy.get('app-action-button').percySnapshot(screenshotPrefix, {
           widths: E2eVariations.DISPLAY_WIDTHS,
         });
@@ -23,9 +20,7 @@ describe('layout-storybook - action button', () => {
       it('should render in a medium modal', () => {
         const screenshotName = `${screenshotPrefix}-modal`;
 
-        cy.get('app-action-button')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-action-button')
           .get('.action-button-open-modal')
           .should('exist')
           .should('be.visible')
@@ -47,10 +42,7 @@ describe('layout-storybook - action button', () => {
         const screenshotName = `${screenshotPrefix}-mobile`;
 
         cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
-        cy.get('app-action-button')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(screenshotName);
+        cy.skyReady('app-action-button').screenshot(screenshotName);
         cy.get('app-action-button').percySnapshot(screenshotName, {
           widths: E2eVariations.MOBILE_WIDTHS,
         });

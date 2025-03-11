@@ -43,7 +43,7 @@ const routes: ComponentRouteInfo[] = [
     component: InfiniteScrollVisualComponent,
     data: {
       name: 'Infinite scroll',
-      icon: 'refresh',
+      icon: 'arrow-repeat-all',
       library: 'lists',
     },
   },
@@ -52,7 +52,7 @@ const routes: ComponentRouteInfo[] = [
     component: PagingVisualComponent,
     data: {
       name: 'Paging',
-      icon: 'files-o',
+      icon: 'chevron-right',
       library: 'lists',
     },
   },
@@ -79,7 +79,7 @@ const routes: ComponentRouteInfo[] = [
     component: SortVisualComponent,
     data: {
       name: 'Sort',
-      icon: 'sort',
+      icon: 'arrow-sort',
       library: 'lists',
     },
   },

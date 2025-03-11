@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: IconDemoComponent,
     data: {
       name: 'Icon',
-      icon: 'picture-o',
+      icon: 'image',
       library: 'indicators',
     },
   },

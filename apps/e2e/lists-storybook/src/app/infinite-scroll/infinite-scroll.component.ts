@@ -1,7 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, inject } from '@angular/core';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
-
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-infinite-scroll',
@@ -9,25 +6,9 @@ import { BehaviorSubject, Subscription } from 'rxjs';
   styleUrls: ['./infinite-scroll.component.scss'],
   standalone: false,
 })
-export class InfiniteScrollComponent implements AfterViewInit, OnDestroy {
+export class InfiniteScrollComponent {
   public enabled = true;
   public loading = false;
   public items: string[] = ['Rory', 'River', 'Amy', 'Clara'];
-  public readonly ready = new BehaviorSubject(false);
   public scrollableParent = false;
-
-  #fontLoadingService = inject(FontLoadingService);
-  #subscriptions = new Subscription();
-
-  public ngAfterViewInit(): void {
-    this.#subscriptions.add(
-      this.#fontLoadingService.ready().subscribe(() => {
-        this.ready.next(true);
-      }),
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
-  }
 }

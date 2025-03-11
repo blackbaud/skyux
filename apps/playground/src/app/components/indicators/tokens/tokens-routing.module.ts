@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: TokensComponent,
     data: {
       name: 'Tokens',
-      icon: 'th-large',
+      icon: 'tag-multiple',
       library: 'indicators',
     },
   },

@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: BoxComponent,
     data: {
       name: 'Box',
-      icon: 'square-o',
+      icon: 'square',
       library: 'layout',
     },
   },

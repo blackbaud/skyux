@@ -544,33 +544,6 @@ describe('Timepicker', () => {
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
-
-    it('should display the expected clock icon in the time button', fakeAsync(() => {
-      function validateIcon(iconCls: string): void {
-        const iconEl = fixture.nativeElement.querySelector(
-          '.sky-input-group-timepicker-btn .sky-icon',
-        );
-
-        expect(iconEl).toHaveCssClass(iconCls);
-      }
-
-      detectChangesAndTick(fixture);
-
-      validateIcon('fa-clock-o');
-
-      mockThemeSvc.settingsChange.next({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings:
-          mockThemeSvc.settingsChange.getValue().currentSettings,
-      });
-
-      detectChangesAndTick(fixture);
-
-      validateIcon('sky-i-clock');
-    }));
   });
 
   describe('template-driven form', () => {

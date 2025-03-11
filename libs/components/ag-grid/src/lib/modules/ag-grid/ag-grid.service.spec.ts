@@ -206,6 +206,28 @@ describe('SkyAgGridService', () => {
       expect(mergedCellClassRules?.[SkyCellClass.Uneditable]).toBeDefined();
     });
 
+    it('should set icons for modern theme', () => {
+      const options = agGridService.getGridOptions({
+        gridOptions: {},
+      });
+
+      expect(typeof options.icons?.['sortDescending']).toBe('function');
+
+      // Trigger change to modern theme
+      mockThemeSvc.settingsChange.next({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light,
+        ),
+        previousSettings:
+          mockThemeSvc.settingsChange.getValue().currentSettings,
+      });
+
+      expect((options.icons?.['sortDescending'] as () => string)()).toBe(
+        `<svg height="16" width="16"><use xlink:href="#sky-i-chevron-down-16-solid"></use></svg>`,
+      );
+    });
+
     it('should set options for modern theme, dark mode', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
@@ -221,6 +243,21 @@ describe('SkyAgGridService', () => {
       });
 
       expect(options.columnTypes?.[SkyCellType.Date].minWidth).toBe(180);
+    });
+
+    it('should disable checkboxes if row selection is enabled', () => {
+      const editableGridOptions = agGridService.getEditableGridOptions({
+        gridOptions: {
+          rowSelection: {
+            mode: 'singleRow',
+          },
+        },
+      });
+
+      expect(editableGridOptions.rowSelection).toEqual({
+        checkboxes: false,
+        mode: 'singleRow',
+      });
     });
 
     it('should not overwrite default component definitions', () => {
@@ -300,21 +337,6 @@ describe('SkyAgGridService', () => {
       });
 
       expect(editableGridOptions.rowSelection).toBeUndefined();
-    });
-
-    it('should disable checkboxes if row selection is enabled', () => {
-      const editableGridOptions = agGridService.getEditableGridOptions({
-        gridOptions: {
-          rowSelection: {
-            mode: 'singleRow',
-          },
-        },
-      });
-
-      expect(editableGridOptions.rowSelection).toEqual({
-        checkboxes: false,
-        mode: 'singleRow',
-      });
     });
   });
 

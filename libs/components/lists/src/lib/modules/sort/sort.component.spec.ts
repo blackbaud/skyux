@@ -6,16 +6,6 @@ import {
 } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyContentInfoProvider } from '@skyux/core';
-import {
-  SkyTheme,
-  SkyThemeMode,
-  SkyThemeModule,
-  SkyThemeService,
-  SkyThemeSettings,
-  SkyThemeSettingsChange,
-} from '@skyux/theme';
-
-import { BehaviorSubject } from 'rxjs';
 
 import { SortTestComponent } from './fixtures/sort.component.fixture';
 import { SkySortModule } from './sort.module';
@@ -24,31 +14,12 @@ describe('Sort component', () => {
   let fixture: ComponentFixture<SortTestComponent>;
   let component: SortTestComponent;
   let contentInfo: SkyContentInfoProvider;
-  let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
-  };
 
   beforeEach(() => {
-    mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings: undefined,
-      }),
-    };
-
     TestBed.configureTestingModule({
       declarations: [SortTestComponent],
-      imports: [SkySortModule, SkyThemeModule],
-      providers: [
-        {
-          provide: SkyThemeService,
-          useValue: mockThemeSvc,
-        },
-        SkyContentInfoProvider,
-      ],
+      imports: [SkySortModule],
+      providers: [SkyContentInfoProvider],
     });
 
     fixture = TestBed.createComponent(SortTestComponent);
@@ -214,28 +185,5 @@ describe('Sort component', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
-  });
-
-  it('should use modern icon when applicable', async () => {
-    fixture.detectChanges();
-    await fixture.whenStable();
-    const defaultIcon = fixture.nativeElement.querySelector(
-      'sky-dropdown-button sky-icon i',
-    );
-    expect(defaultIcon).toHaveCssClass('fa-sort');
-
-    mockThemeSvc.settingsChange.next({
-      currentSettings: new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
-      ),
-      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings,
-    });
-
-    fixture.detectChanges();
-    const modernIcon = fixture.nativeElement.querySelector(
-      'sky-dropdown-button sky-icon i',
-    );
-    expect(modernIcon).toHaveCssClass('sky-i-sort');
   });
 });

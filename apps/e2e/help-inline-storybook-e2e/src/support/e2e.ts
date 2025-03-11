@@ -14,5 +14,6 @@
 // ***********************************************************
 // Import commands.ts using ES2015 syntax:
 import '@percy/cypress';
+import '@skyux-sdk/cypress-commands';
 
 import './commands';

@@ -18,6 +18,7 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-flyout') {
+  --sky-override-sky-icon-svg-size-s: 21px;
   --sky-override-flyout-header-border-bottom: none;
   --sky-override-flyout-header-button-line-height: calc(20 / 14);
   --sky-override-flyout-header-button-padding: 9px 21px;
@@ -44,8 +45,8 @@
   --sky-override-flyout-header-permalink-box-shadow-active: inset 0 0 0
     var(--sky-border-width-action-active)
     var(--sky-color-border-action-tertiary-active);
-  --sky-override-flyout-header-permalink-box-shadow-focus: inset 0 0 0
-      var(--sky-border-width-action-focus)
+  --sky-override-flyout-header-permalink-box-shadow-focus:
+    inset 0 0 0 var(--sky-border-width-action-focus)
       var(--sky-color-border-action-tertiary-focus),
     var(--sky-elevation-focus);
   --sky-override-flyout-header-permalink-box-shadow-hover: inset 0 0 0
@@ -71,8 +72,8 @@
   --sky-override-flyout-header-primary-action-box-shadow-active: inset 0 0 0
     var(--sky-border-width-action-active)
     var(--sky-color-border-action-secondary-active);
-  --sky-override-flyout-header-primary-action-box-shadow-focus: inset 0 0 0
-      var(--sky-border-width-action-focus)
+  --sky-override-flyout-header-primary-action-box-shadow-focus:
+    inset 0 0 0 var(--sky-border-width-action-focus)
       var(--sky-color-border-action-secondary-focus),
     var(--sky-elevation-focus);
   --sky-override-flyout-header-primary-action-box-shadow-hover: inset 0 0 0

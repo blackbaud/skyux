@@ -41,7 +41,7 @@ export class DataViewRepeaterComponent implements OnInit {
   public viewConfig: SkyDataViewConfig = {
     id: this.viewId,
     name: 'Repeater View',
-    icon: 'list',
+    icon: 'text-bullet-list',
     searchEnabled: true,
     searchHighlightEnabled: true,
     filterButtonEnabled: true,
