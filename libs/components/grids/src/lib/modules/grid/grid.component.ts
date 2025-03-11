@@ -506,10 +506,10 @@ export class SkyGridComponent
 
     this.getSortDirection(column.field).subscribe((sortDir) => {
       if (sortDir === 'asc') {
-        iconNames.push('caret-up');
+        iconNames.push('chevron-up');
       }
       if (sortDir === 'desc') {
-        iconNames.push('caret-down');
+        iconNames.push('chevron-down');
       }
     });
 

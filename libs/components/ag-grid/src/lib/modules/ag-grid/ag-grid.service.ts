@@ -39,6 +39,7 @@ import { SkyAgGridCellRendererTemplateComponent } from './cell-renderers/cell-re
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
 import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
 import { SkyAgGridHeaderComponent } from './header/header.component';
+import { IconMapType, iconMap } from './icons/icon-map';
 import { SkyAgGridLoadingComponent } from './loading/loading.component';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
@@ -561,6 +562,15 @@ export class SkyAgGridService implements OnDestroy {
           return [];
         }
       },
+      icons: {
+        sortDescending: this.#getIconTemplate('sortDescending'),
+        sortAscending: this.#getIconTemplate('sortAscending'),
+        columnMoveMove: this.#getIconTemplate('columnMoveMove'),
+        columnMoveHide: this.#getIconTemplate('columnMoveHide'),
+        columnMoveLeft: this.#getIconTemplate('columnMoveLeft'),
+        columnMoveRight: this.#getIconTemplate('columnMoveRight'),
+        columnMovePin: this.#getIconTemplate('columnMovePin'),
+      },
       loadingOverlayComponent: SkyAgGridLoadingComponent,
       onCellFocused: () => this.#onCellFocused(),
       rowModelType: 'clientSide',
@@ -664,6 +674,13 @@ export class SkyAgGridService implements OnDestroy {
       this.#currentTheme?.spacing?.name,
     );
     return defaultGridOptions;
+  }
+
+  #getIconTemplate(iconKey: keyof IconMapType): () => string {
+    return () => {
+      const iconInfo = iconMap[iconKey];
+      return `<svg height="16" width="16"><use xlink:href="#sky-i-${iconInfo.name}-${iconInfo.size}-solid"></use></svg>`;
+    };
   }
 
   #suppressTab(params: SuppressKeyboardEventParams): boolean {

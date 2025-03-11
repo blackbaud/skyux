@@ -10,15 +10,12 @@ describe('tiles-storybook', () => {
       );
 
       it('should render the component', () => {
-        cy.get('.ready')
-          .should('exist')
-          .end()
-          .get('app-tile-dashboard')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`tile-dashboard-${theme}-desktop`, {
+        cy.skyReady('app-tile-dashboard', ['.ready']).screenshot(
+          `tile-dashboard-${theme}-desktop`,
+          {
             overwrite: true,
-          });
+          },
+        );
         cy.get('app-tile-dashboard').percySnapshot(
           `tile dashboard ${theme} desktop`,
           {
@@ -29,15 +26,12 @@ describe('tiles-storybook', () => {
 
       it('should render the component in mobile', () => {
         cy.viewport('iphone-x', 'portrait');
-        cy.get('.ready')
-          .should('exist')
-          .end()
-          .get('app-tile-dashboard')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`tile-dashboard-${theme}-mobile`, {
+        cy.skyReady('app-tile-dashboard', ['.ready']).screenshot(
+          `tile-dashboard-${theme}-mobile`,
+          {
             overwrite: true,
-          });
+          },
+        );
         cy.get('app-tile-dashboard').percySnapshot(
           `tile dashboard ${theme} mobile`,
           {

@@ -7,7 +7,9 @@ import {
   OnInit,
   Renderer2,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -15,11 +17,13 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
+import { FontLoadingService } from '../font-loading/font-loading.service';
+
 import { PreviewWrapperThemeValue } from './preview-wrapper-theme-value';
 
 @Component({
   selector: 'sky-preview-wrapper',
-  template: '<ng-content />',
+  templateUrl: './preview-wrapper.component.html',
   styleUrls: ['./preview-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -66,6 +70,8 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
       this.#themeService.setTheme(this.#_themeSettings);
     }
   }
+
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   #_themeSettings = new SkyThemeSettings(
     SkyTheme.presets.default,

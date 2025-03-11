@@ -3,17 +3,9 @@
   role="presentation"
   [ngClass]="displayMode | skyProgressIndicatorMarkerClass: status"
 >
-  <div
-    *skyThemeIf="'default'"
-    class="sky-progress-indicator-status-marker-icon"
-  >
+  <div class="sky-progress-indicator-status-marker-icon">
     @if (isComplete) {
-      <sky-icon icon="check" />
-    }
-  </div>
-  <div *skyThemeIf="'modern'" class="sky-progress-indicator-status-marker-icon">
-    @if (isComplete) {
-      <sky-icon icon="check" />
+      <sky-icon iconName="checkmark" />
     }
   </div>
   <div class="sky-progress-indicator-status-marker-line"></div>

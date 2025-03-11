@@ -12,7 +12,7 @@ const routes: ComponentRouteInfo[] = [
     component: ActionHubPlaygroundRecentLinksComponent,
     data: {
       name: 'Action hub (recently accessed)',
-      icon: 'bell-o',
+      icon: 'alert',
       library: 'pages',
     },
   },
@@ -21,7 +21,7 @@ const routes: ComponentRouteInfo[] = [
     component: SettingsComponent,
     data: {
       name: 'Action hub (settings)',
-      icon: 'gear',
+      icon: 'settings',
       library: 'pages',
     },
   },

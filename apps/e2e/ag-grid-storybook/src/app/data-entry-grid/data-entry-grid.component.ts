@@ -8,7 +8,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -85,19 +84,16 @@ export class DataEntryGridComponent
   readonly #themeSvc: SkyThemeService;
   readonly #changeDetectorRef: ChangeDetectorRef;
   readonly #ngUnsubscribe: Subscription;
-  readonly #fontLoadingService: FontLoadingService;
 
   constructor(
     agGridService: SkyAgGridService,
     themeSvc: SkyThemeService,
     changeDetectorRef: ChangeDetectorRef,
-    fontLoadingService: FontLoadingService,
   ) {
     this.#agGridService = agGridService;
     this.#themeSvc = themeSvc;
     this.#changeDetectorRef = changeDetectorRef;
     this.#ngUnsubscribe = new Subscription();
-    this.#fontLoadingService = fontLoadingService;
   }
 
   public ngOnInit(): void {
@@ -117,7 +113,6 @@ export class DataEntryGridComponent
       'theme',
       this.#themeSvc.settingsChange.pipe(map(() => true)),
     );
-    this.#gridsReady.set('font', this.#fontLoadingService.ready());
     this.#ngUnsubscribe.add(
       this.#themeSvc.settingsChange.subscribe((settings) => {
         if (settings.currentSettings.theme.name === 'modern' && this.dataSets) {

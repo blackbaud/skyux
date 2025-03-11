@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyIconModule } from '@skyux/icon';
 import {
   SkyThemeModule,
   SkyThemeService,
@@ -18,7 +19,7 @@ describe('PreviewWrapperComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [PreviewWrapperComponent],
-      imports: [SkyThemeModule],
+      imports: [SkyThemeModule, SkyIconModule],
       providers: [
         SkyThemeService,
         {

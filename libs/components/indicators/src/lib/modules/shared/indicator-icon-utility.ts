@@ -1,46 +1,27 @@
-import { SkyIndicatorIcon } from './indicator-icon';
 import { SkyIndicatorIconType } from './indicator-icon-type';
 
 /**
  * @internal
  */
 export class SkyIndicatorIconUtility {
-  public static getIconsForType(
+  public static getIconNameForType(
     indicatorType: SkyIndicatorIconType,
-  ): SkyIndicatorIcon {
+  ): string {
     let icon: string;
-    let baseIcon: string;
-    let topIcon: string;
 
     switch (indicatorType) {
       case 'danger':
       case 'warning':
-        icon = 'warning';
-        baseIcon = 'triangle-solid';
-        topIcon = 'exclamation';
+        icon = 'sky-warning';
         break;
       case 'info':
-        icon = 'exclamation-circle';
-        baseIcon = 'circle-solid';
-        topIcon = 'help-i';
+        icon = 'sky-info';
         break;
       case 'success':
-        icon = 'check';
-        baseIcon = 'circle-solid';
-        topIcon = 'check';
+        icon = 'sky-success';
         break;
     }
 
-    return {
-      defaultThemeIcon: icon,
-      modernThemeBaseIcon: {
-        icon: baseIcon,
-        iconType: 'skyux',
-      },
-      modernThemeTopIcon: {
-        icon: topIcon,
-        iconType: 'skyux',
-      },
-    };
+    return icon;
   }
 }

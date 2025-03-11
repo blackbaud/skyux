@@ -9,12 +9,8 @@ describe('inline delete', () => {
         ),
       );
       it('should render the component', () => {
+        cy.skyReady('app-inline-delete');
         cy.get('app-inline-delete')
-          .should('exist')
-          .should('be.visible')
-          .end()
-          .get('#ready')
-          .should('exist')
           .end()
           .get('body')
           .screenshot(`inline-delete-${theme}`);

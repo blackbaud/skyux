@@ -12,7 +12,7 @@ const routes: ComponentRouteInfo[] = [
     component: UrlValidationControlValidatorComponent,
     data: {
       name: 'URL (validator)',
-      icon: 'check',
+      icon: 'checkmark',
       library: 'validation',
     },
   },
@@ -21,7 +21,7 @@ const routes: ComponentRouteInfo[] = [
     component: UrlValidationDirectiveComponent,
     data: {
       name: 'URL (directive)',
-      icon: 'check',
+      icon: 'checkmark',
       library: 'validation',
     },
   },

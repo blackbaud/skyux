@@ -1,9 +1,16 @@
 <div aria-hidden="true" class="sky-action-button-icon-container">
   @if (iconName) {
     <sky-icon
+      *skyThemeIf="'default'"
       class="sky-action-button-icon"
+      iconSize="xl"
       [iconName]="iconName"
-      [size]="fontSizeClass()"
+    />
+    <sky-icon
+      *skyThemeIf="'modern'"
+      class="sky-action-button-icon"
+      iconSize="l"
+      [iconName]="iconName"
     />
   } @else if (iconType) {
     <sky-icon

@@ -12,7 +12,7 @@ const routes: ComponentRouteInfo[] = [
     data: {
       name: 'Modal',
       library: 'modal',
-      icon: 'universal-access',
+      icon: 'square',
     },
   },
 ];

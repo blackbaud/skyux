@@ -26,7 +26,7 @@ import { PageLayoutTileDashboardComponent } from '../shared/tiles/tile-dashboard
         </sky-tab>
       </sky-tabset>
     </sky-page-content>
-  </sky-page> `,
+  </sky-page>`,
   styles: `
     :host {
       display: block;

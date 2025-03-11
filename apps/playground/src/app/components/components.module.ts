@@ -94,7 +94,7 @@ export const componentRoutes: Routes = [
     data: {
       name: 'Modal (standalone)',
       library: 'modal',
-      icon: 'universal-access',
+      icon: 'square',
     },
   },
   {

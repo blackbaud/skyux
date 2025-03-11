@@ -19,8 +19,8 @@ describe('flyout-storybook', () => {
           cy.visit(
             `/iframe.html?globals=theme:${theme}&id=flyoutcomponent-flyout--flyout-${style}`,
           );
-          cy.get('#ready').should('exist').end();
 
+          cy.skyReady('app-flyout').end();
           cy.get('.sky-flyout .sky-flyout-content')
             .should('exist')
             .should('be.visible')
@@ -43,7 +43,6 @@ describe('flyout-storybook', () => {
           cy.get('app-flyout').percySnapshot(
             `flyoutcomponent-flyout--flyout-${style}-${theme}`,
             {
-              enableJavaScript: true,
               widths: E2eVariations.DISPLAY_WIDTHS,
             },
           );

@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: RichTextDisplayComponent,
     data: {
       name: 'Rich text display',
-      icon: 'pencil-square-o',
+      icon: 'document-text',
       library: 'text-editor',
     },
   },

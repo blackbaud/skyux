@@ -253,15 +253,20 @@ describe('tree view', () => {
       fixture.detectChanges();
       const toggleChildrenButtons = getToggleChildrenButtons();
 
-      expect(toggleChildrenButtons[0].querySelector('i')).toHaveCssClass(
-        'fa-chevron-down',
-      );
+      console.log(toggleChildrenButtons[0].querySelector('sky-icon'));
+      expect(
+        toggleChildrenButtons[0]
+          .querySelector('sky-icon-svg')
+          ?.getAttribute('data-sky-icon'),
+      ).toBe('chevron-down');
 
       toggleChildrenButtons[0].click();
 
-      expect(toggleChildrenButtons[0].querySelector('i')).toHaveCssClass(
-        'fa-chevron-right',
-      );
+      expect(
+        toggleChildrenButtons[0]
+          .querySelector('sky-icon-svg')
+          ?.getAttribute('data-sky-icon'),
+      ).toBe('chevron-right');
     });
 
     it('should render help inline popover', () => {

@@ -10,9 +10,7 @@ describe('theme-storybook', () => {
         );
       });
       it('should render the component', () => {
-        cy.get('app-validation')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-validation')
           .end()
           .get('#textInputTouched')
           .should('exist')

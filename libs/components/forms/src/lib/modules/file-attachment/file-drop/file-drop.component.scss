@@ -14,7 +14,6 @@
   --sky-override-file-drop-contents-padding: 10px;
   --sky-override-file-drop-drag-border-width: 1px;
   --sky-override-file-drop-hint-text-margin-top: var(--sky-margin-stacked-xs);
-  --sky-override-file-drop-icon-font-size: 40px;
   --sky-override-file-drop-label-color: #{$sky-text-color-default};
   --sky-override-file-drop-label-font-size: 15px;
   --sky-override-file-drop-link-header-margin-bottom: #{$sky-margin-half};
@@ -291,10 +290,6 @@ button.sky-file-drop {
 
 .sky-file-upload-icon {
   display: block;
-  font-size: var(
-    --sky-override-file-drop-icon-font-size,
-    var(--sky-size-icon-xl)
-  );
   max-height: var(--sky-override-file-drop-icon-font-size, auto);
   color: var(
     --sky-override-file-upload-icon-color,

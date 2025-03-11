@@ -30,17 +30,6 @@
     padding-left: var(--sky-space-gap-label-s);
   }
 
-  .sky-checkbox-icon-indeterminate {
-    font-size: var(
-      --sky-override-checkbox-indeterminate-font-size,
-      var(--sky-size-icon-s)
-    );
-  }
-
-  .sky-checkbox-icon-modern-checked {
-    font-size: var(--sky-size-icon-s);
-  }
-
   .sky-switch-control {
     border-radius: var(--sky-border-radius-s);
   }

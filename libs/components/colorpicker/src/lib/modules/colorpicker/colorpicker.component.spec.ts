@@ -614,8 +614,7 @@ describe('Colorpicker Component', () => {
       const icon = getColorpickerIcon();
       expect(icon).toBeNull();
 
-      fixture.componentInstance.pickerButtonIcon = 'text-color';
-      fixture.componentInstance.pickerButtonIconType = 'skyux';
+      fixture.componentInstance.pickerButtonIcon = 'text';
       fixture.detectChanges();
       tick();
 
@@ -1721,8 +1720,7 @@ describe('Colorpicker Component', () => {
 
     it('should update foreground icon color to have proper color contrast', async () => {
       fixture.componentInstance.colorModel = '#ffffff';
-      fixture.componentInstance.pickerButtonIcon = 'text-color';
-      fixture.componentInstance.pickerButtonIconType = 'skyux';
+      fixture.componentInstance.pickerButtonIcon = 'text';
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
@@ -1740,7 +1738,7 @@ describe('Colorpicker Component', () => {
 
     it('should update icon color from black to white when opacity of dark color is lowered', fakeAsync(async () => {
       fixture.componentInstance.colorModel = '#ff0000';
-      fixture.componentInstance.pickerButtonIcon = 'calendar';
+      fixture.componentInstance.pickerButtonIcon = 'calendar-ltr';
 
       fixture.detectChanges();
       tick();
@@ -1774,7 +1772,7 @@ describe('Colorpicker Component', () => {
 
     it('should set icon color to white when alpha is 0', fakeAsync(async () => {
       fixture.componentInstance.colorModel = '#ff0000';
-      fixture.componentInstance.pickerButtonIcon = 'calendar';
+      fixture.componentInstance.pickerButtonIcon = 'calendar-ltr';
 
       fixture.detectChanges();
       tick();

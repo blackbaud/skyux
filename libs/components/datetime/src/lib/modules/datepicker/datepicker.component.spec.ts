@@ -475,46 +475,6 @@ describe('datepicker', () => {
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
-    it('should display the expected calendar icon in the calendar button', fakeAsync(async () => {
-      mockThemeSvc.settingsChange.next({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings:
-          mockThemeSvc.settingsChange.getValue().currentSettings,
-      });
-
-      detectChanges(fixture);
-      tick();
-      await fixture.whenStable();
-
-      const iconDefault = fixture.nativeElement.querySelector(
-        '.sky-input-group-datepicker-btn .sky-icon',
-      );
-
-      expect(iconDefault).toHaveCssClass('fa-calendar');
-
-      mockThemeSvc.settingsChange.next({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings:
-          mockThemeSvc.settingsChange.getValue().currentSettings,
-      });
-
-      detectChanges(fixture);
-      tick();
-      await fixture.whenStable();
-
-      const iconModern = fixture.nativeElement.querySelector(
-        '.sky-input-group-datepicker-btn .sky-icon',
-      );
-
-      expect(iconModern).toHaveCssClass('sky-i-calendar');
-    }));
-
     describe('initialization', () => {
       it('should handle initializing with a Date object', fakeAsync(() => {
         setInputProperty(new Date('5/12/2017'), component, fixture);

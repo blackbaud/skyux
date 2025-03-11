@@ -14,11 +14,9 @@
   --sky-override-help-inline-padding-sides: var(--modern-size-6);
 }
 
-@include compatMixins.sky-modern-v2('.sky-help-inline') {
-  line-height: 1;
-}
-
 @include mixins.sky-component('modern', '.sky-help-inline') {
+  font-size: var(--sky-size-icon-s);
+  line-height: 1;
   border: none;
   outline: none;
   padding: var(--sky-space-inset-pillarbox-1_4-top-xs)
@@ -37,9 +35,6 @@
   );
   color: var(--sky-color-icon-action);
   background-color: var(--sky-color-background-action-tertiary-base);
-  // The font size here is to size the icon stack to the correct size.
-  // This implementation is likely to change in tokenization pass 2.
-  font-size: var(--sky-override-help-inline-font-size, 12.8px);
   display: inline-block;
   box-shadow: inset 0 0 0 var(--sky-border-width-action-base)
     var(--sky-color-border-action-tertiary-base);
@@ -107,10 +102,6 @@
 
 @include mixins.sky-component('modern', '.sky-help-inline-hidden') {
   display: none;
-}
-
-@include mixins.sky-component('modern', 'sky-icon-stack') {
-  display: inline-flex;
 }
 
 ::ng-deep .sky-theme-modern .sky-help-inline-popover-text {
