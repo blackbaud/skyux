@@ -1,6 +1,7 @@
 const overrides = require('./eslint-overrides.config');
 
 module.exports = [
+  ...overrides,
   {
     files: ['**/*.ts'],
     rules: {
@@ -71,5 +72,4 @@ module.exports = [
       '@angular-eslint/template/valid-aria': ['error'],
     },
   },
-  ...overrides,
 ];
