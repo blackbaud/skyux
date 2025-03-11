@@ -8,7 +8,11 @@ import { Injectable } from '@angular/core';
 export class SkyDocsTypeDefinitionAnchorIdsService {
   #anchorIds = new Map<string, string>();
 
-  public updateAnchorIds(anchorIds: { [token: string]: string }): void {
+  /**
+   *
+   * @param anchorIds A collection of anchorIds, keyed by the definition's name.
+   */
+  public updateAnchorIds(anchorIds: Record<string, string>): void {
     this.#anchorIds = new Map(Object.entries(anchorIds));
   }
 
