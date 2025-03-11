@@ -1,26 +1,26 @@
-describe('get-public-api', () => {
-  function setup(options: { publicApi: Record<string, unknown> }): void {
-    jest.mock('../public-api.json', () => options.publicApi);
-  }
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
+const publicApiJson = {
+  packages: {},
+};
+
+vi.mock('../public-api.json', () => ({ default: publicApiJson }));
+
+describe('get-public-api', () => {
   afterEach(() => {
-    jest.resetAllMocks();
-    jest.resetModules();
+    vi.resetAllMocks();
+    vi.resetModules();
   });
 
   it('should return the public API', async () => {
-    const publicApi = {
-      packages: {
-        '@company/components': {},
-      },
+    publicApiJson.packages = {
+      '@company/components': {},
     };
-
-    setup({ publicApi });
 
     const { getPublicApi } = await import('./get-public-api.js');
 
     const result = getPublicApi();
 
-    expect(result).toEqual(publicApi);
+    expect(result).toEqual(publicApiJson);
   });
 });

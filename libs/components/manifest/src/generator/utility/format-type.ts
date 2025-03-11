@@ -94,8 +94,10 @@ export function formatType(
 
       formatted = customFormatted;
     } else {
+      // We can remove the custom formatter once the following issue is addressed:
+      // https://github.com/TypeStrong/typedoc/issues/2892
       console.error(
-        `  [!] Hold up! TypeDoc generated \`${formatted}\` for the ${ReflectionKind[reflection.kind].toLocaleLowerCase()} \`${reflection.name}\` which is the same output as our custom formatter. Consider using TypeDoc's formatter instead of our own.`,
+        `  [x] Hold up! TypeDoc generated \`${formatted}\` for the ${ReflectionKind[reflection.kind].toLocaleLowerCase()} \`${reflection.name}\` which is the same output as our custom formatter. Consider using TypeDoc's formatter instead of our own.`,
       );
     }
   }

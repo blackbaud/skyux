@@ -82,6 +82,10 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["buildInputs", "^buildInputs"]
+    },
+    "@nx/vite:test": {
+      "cache": true,
+      "inputs": ["default", "^default"]
     }
   },
   "namedInputs": {

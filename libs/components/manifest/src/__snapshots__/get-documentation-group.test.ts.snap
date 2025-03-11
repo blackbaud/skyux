@@ -1,4 +1,54 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`get-documentation-group > should return information about a documentation group 1`] = `
+{
+  "codeExamples": [
+    {
+      "componentName": "FooCodeExample",
+      "files": {
+        "example.component.html": "HTML_CONTENTS",
+        "example.component.ts": "TS_CONTENTS",
+      },
+      "importPath": "@skyux/code-examples",
+      "primaryFile": "example.component.ts",
+      "selector": "lib-foo",
+    },
+  ],
+  "packageInfo": {
+    "packageName": "@skyux/core",
+    "registryUrl": "https://www.npmjs.com/package/@skyux/core",
+    "repoUrl": "https://repo.com/foo",
+  },
+  "publicApi": [
+    {
+      "docsId": "FooComponent",
+      "name": "FooComponent",
+      "packageName": "@skyux/core",
+      "repoUrl": "https://repo.com/foo",
+    },
+    {
+      "docsId": "IndicatorComponent",
+      "name": "IndicatorComponent",
+      "packageName": "@skyux/indicators",
+      "repoUrl": "https://repo.com/foo",
+    },
+  ],
+  "testing": [
+    {
+      "docsId": "FooHarness",
+      "name": "FooHarness",
+      "packageName": "@skyux/core/testing",
+      "repoUrl": "https://repo.com/foo",
+    },
+  ],
+}
+`;
+
+exports[`get-documentation-group > should throw if docsId unrecognized 1`] = `[Error: Failed to retrieve type definition with docsId "invalid".]`;
+
+exports[`get-documentation-group > should throw if group name unrecognized 1`] = `[Error: Documentation exists for a package named "@skyux/core", but it does not include a group with the name "invalid".]`;
+
+exports[`get-documentation-group > should throw if package name unrecognized 1`] = `[Error: Documentation could not be found for the package "@skyux/invalid".]`;
 
 exports[`get-documentation-group should return information about a documentation group 1`] = `
 Object {

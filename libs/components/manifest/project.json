@@ -41,10 +41,10 @@
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/components/manifest"],
       "options": {
-        "jestConfig": "libs/components/manifest/jest.config.ts"
+        "config": "libs/components/manifest/vitest.config.ts"
       }
     }
   }

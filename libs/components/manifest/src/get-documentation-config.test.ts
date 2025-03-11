@@ -1,43 +1,42 @@
+import { afterEach, describe, expect, it, vi } from 'vitest';
+
 import type { SkyManifestDocumentationConfig } from './types/documentation-config.js';
 
-describe('get-documentation-config', () => {
-  function setup(options: {
-    documentationConfig: SkyManifestDocumentationConfig;
-  }): void {
-    jest.mock(
-      '../documentation-config.json',
-      () => options.documentationConfig,
-    );
-  }
+const documentationConfigJson: SkyManifestDocumentationConfig = {
+  packages: {},
+};
 
+vi.mock('../documentation-config.json', () => {
+  return { default: documentationConfigJson };
+});
+
+describe('get-documentation-config', () => {
   afterEach(() => {
-    jest.resetAllMocks();
-    jest.resetModules();
+    vi.resetAllMocks();
+    vi.resetModules();
+
+    documentationConfigJson.packages = {};
   });
 
   it('should return documentation config', async () => {
-    const documentationConfig: SkyManifestDocumentationConfig = {
-      packages: {
-        '@skyux/foo': {
-          groups: {
-            group1: {
-              docsIds: ['FooModule'],
-              primaryDocsId: 'FooModule',
-            },
+    documentationConfigJson.packages = {
+      '@skyux/foo': {
+        groups: {
+          group1: {
+            docsIds: ['FooModule'],
+            primaryDocsId: 'FooModule',
           },
         },
-        '@skyux/bar': {
-          groups: {
-            group2: {
-              docsIds: ['BarService'],
-              primaryDocsId: 'BarService',
-            },
+      },
+      '@skyux/bar': {
+        groups: {
+          group2: {
+            docsIds: ['BarService'],
+            primaryDocsId: 'BarService',
           },
         },
       },
     };
-
-    setup({ documentationConfig });
 
     const { getDocumentationConfig } = await import(
       './get-documentation-config.js'
@@ -45,6 +44,6 @@ describe('get-documentation-config', () => {
 
     const result = getDocumentationConfig();
 
-    expect(result).toEqual(documentationConfig);
+    expect(result).toEqual(documentationConfigJson);
   });
 });

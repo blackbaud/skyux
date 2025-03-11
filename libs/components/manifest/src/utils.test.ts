@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import type { SkyManifestParentDefinition } from './types/base-def.js';
 import {
   isDirectiveDefinition,
