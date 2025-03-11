@@ -92,14 +92,13 @@ export class SkyAppViewportService {
 
   #updateViewportArea(): void {
     this.#updateRequest ??= requestAnimationFrame(() => {
-      const reservedSpaces: {
-        [key in SkyAppViewportReservedPositionType]: number;
-      } = {
-        bottom: 0,
-        left: 0,
-        right: 0,
-        top: 0,
-      };
+      const reservedSpaces: Record<SkyAppViewportReservedPositionType, number> =
+        {
+          bottom: 0,
+          left: 0,
+          right: 0,
+          top: 0,
+        };
 
       for (const {
         position,

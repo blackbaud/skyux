@@ -10,11 +10,8 @@ export interface SkyProgressIndicatorMessage {
    * Used in conjunction with SkyProgressIndicatorMessageType.GoTo
    * to travel to a specific step by specifying an index number on the `data.activeIndex` property.
    */
-  data?: {
+  data?: // Allow any other data to be passed.
+  Record<string, unknown> & {
     activeIndex?: number;
-
-    // Allow any other data to be passed.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any;
   };
 }
