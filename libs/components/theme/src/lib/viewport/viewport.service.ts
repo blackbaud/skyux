@@ -1,11 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import {
-  DestroyRef,
-  Injectable,
-  NgZone,
-  RendererFactory2,
-  inject,
-} from '@angular/core';
+import { DestroyRef, Injectable, NgZone, inject } from '@angular/core';
 
 import { ReplaySubject } from 'rxjs';
 
@@ -15,8 +9,6 @@ import { SkyAppViewportReservedPositionType } from './viewport-reserve-position-
 type ReserveItemType = SkyAppViewportReserveArgs & {
   active: boolean;
 };
-
-const threshold = Array.from({ length: 101 }, (_, i) => i / 100);
 
 /**
  * Provides information about the state of the application's viewport.
@@ -40,30 +32,33 @@ export class SkyAppViewportService {
   readonly #conditionallyReserveItems = new Map<Element, ReserveItemType>();
   readonly #document = inject(DOCUMENT);
   readonly #ngZone = inject(NgZone);
-  readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
-  #viewportRoot: HTMLElement | undefined;
-  // Observe elements crossing the --sky-viewport boundaries, using 5px margin because elements likely won't cross the actual boundary.
-  readonly #skyViewportIntersectionObserver = this.#ngZone.runOutsideAngular(
-    () =>
-      new IntersectionObserver(
-        () => this.#ngZone.run(() => this.#updateViewportArea()),
-        { root: this.#getViewportRoot(), rootMargin: '-5px', threshold },
-      ),
-  );
   // Observe elements crossing the browser's viewport boundaries.
   readonly #intersectionObserver = this.#ngZone.runOutsideAngular(
     () =>
       new IntersectionObserver(
         () => this.#ngZone.run(() => this.#updateViewportArea()),
-        { threshold },
+        { threshold: Array.from({ length: 101 }, (_, i) => i / 100) },
       ),
   );
+  #reservedSpaces: {
+    [key in SkyAppViewportReservedPositionType]: number;
+  } = {
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 0,
+  };
 
   constructor() {
+    const onScroll = (): void => {
+      if (this.#conditionallyReserveItems.size > 0) {
+        this.#updateViewportArea();
+      }
+    };
+    this.#document.addEventListener('scroll', onScroll);
     inject(DestroyRef).onDestroy(() => {
       this.#intersectionObserver.disconnect();
-      this.#skyViewportIntersectionObserver.disconnect();
-      this.#viewportRoot?.remove();
+      this.#document.removeEventListener('scroll', onScroll);
     });
   }
 
@@ -74,9 +69,7 @@ export class SkyAppViewportService {
   public reserveSpace(args: SkyAppViewportReserveArgs): void {
     const item = {
       ...args,
-      active:
-        !args.reserveForElement ||
-        this.#isElementVisible(args.reserveForElement),
+      active: this.#isElementVisible({ ...args, active: false }),
     };
     this.#reserveItems.set(args.id, item);
     this.#watchVisibility(item);
@@ -91,7 +84,6 @@ export class SkyAppViewportService {
     const args = this.#reserveItems.get(id);
     if (args?.reserveForElement) {
       this.#intersectionObserver.unobserve(args.reserveForElement);
-      this.#skyViewportIntersectionObserver.unobserve(args.reserveForElement);
       this.#conditionallyReserveItems.delete(args.reserveForElement);
     }
     this.#reserveItems.delete(id);
@@ -110,16 +102,14 @@ export class SkyAppViewportService {
         top: 0,
       };
 
-      for (const {
-        position,
-        size,
-        reserveForElement,
-      } of this.#reserveItems.values()) {
-        if (!reserveForElement || this.#isElementVisible(reserveForElement)) {
-          reservedSpaces[position] += size;
+      for (const args of this.#reserveItems.values()) {
+        args.active = this.#isElementVisible(args);
+        if (args.active) {
+          reservedSpaces[args.position] += args.size;
         }
       }
 
+      this.#reservedSpaces = reservedSpaces;
       const documentElementStyle = this.#document.documentElement.style;
 
       for (const [position, size] of Object.entries(reservedSpaces)) {
@@ -135,52 +125,53 @@ export class SkyAppViewportService {
     if (item.reserveForElement) {
       this.#conditionallyReserveItems.set(item.reserveForElement, item);
       this.#intersectionObserver.observe(item.reserveForElement);
-      this.#skyViewportIntersectionObserver.observe(item.reserveForElement);
     }
   }
 
-  #isElementVisible(element: HTMLElement): boolean {
-    const rect = element.getBoundingClientRect();
+  #isElementVisible(args: ReserveItemType): boolean {
+    if (!args.reserveForElement) {
+      return true;
+    }
+    const rect = args.reserveForElement.getBoundingClientRect();
+    if (!rect || !rect.height || !rect.width) {
+      return false;
+    }
+    const midpoint = {
+      x: rect.x + Math.floor(rect.width / 2),
+      y: rect.y + Math.floor(rect.height / 2),
+    };
     if (
       // Vertically in view
-      rect.y <= window.innerHeight &&
-      rect.y >= 0 &&
+      midpoint.y <= window.innerHeight &&
+      midpoint.y >= 0 &&
       // Horizontally in view
-      rect.x <= window.innerWidth &&
-      rect.x >= 0
+      midpoint.x <= window.innerWidth &&
+      midpoint.x >= 0
     ) {
       // Element is not hidden by another element
-      const stackElements = this.#document.elementsFromPoint(
-        rect.x + Math.floor(rect.width / 2),
-        rect.y + Math.floor(rect.height / 2),
-      );
-      const rolesToIgnore = ['presentation', 'progressbar'];
-      const ignoreSelectors = rolesToIgnore
-        .map((r) => `[role="${r}"], [role="${r}"] *`)
-        .join(', ');
-      for (const stackElement of stackElements) {
-        if (element.contains(stackElement)) {
-          return true;
-        }
-        if (stackElement.matches(ignoreSelectors)) {
-          continue;
-        }
-        return false;
+      if (
+        args.reserveForElement.contains(
+          this.#document.elementFromPoint(midpoint.x, midpoint.y),
+        )
+      ) {
+        return true;
+      }
+
+      // Check if the item's midpoint is visible if its space were not reserved.
+      const threshold = args.active
+        ? this.#reservedSpaces[args.position] - args.size
+        : this.#reservedSpaces[args.position];
+      switch (args.position) {
+        case 'top':
+          return midpoint.y >= threshold;
+        case 'right':
+          return midpoint.x <= window.innerWidth - threshold;
+        case 'bottom':
+          return midpoint.y <= window.innerHeight - threshold;
+        case 'left':
+          return midpoint.x >= threshold;
       }
     }
     return false;
-  }
-
-  #getViewportRoot(): HTMLElement {
-    this.#viewportRoot = this.#renderer.createElement('div') as HTMLElement;
-    this.#viewportRoot.classList.add('sky-app-viewport-root');
-    this.#viewportRoot.style.position = 'absolute';
-    this.#viewportRoot.style.top = 'var(--sky-viewport-top, 0)';
-    this.#viewportRoot.style.right = 'var(--sky-viewport-right, 0)';
-    this.#viewportRoot.style.bottom = 'var(--sky-viewport-bottom, 0)';
-    this.#viewportRoot.style.left = 'var(--sky-viewport-left, 0)';
-    this.#viewportRoot.style.pointerEvents = 'none';
-    this.#renderer.appendChild(this.#document.body, this.#viewportRoot);
-    return this.#viewportRoot;
   }
 }

@@ -188,7 +188,7 @@ describe('Viewport service', () => {
     document.body.removeChild(container);
   }));
 
-  it('should reserve space for elements underneath an overlay', waitForAsync(async () => {
+  it('should reserve space for elements underneath a progressbar element', waitForAsync(async () => {
     const viewportHeight = window.innerHeight;
 
     expect(viewportHeight).toBeGreaterThan(50);
@@ -211,20 +211,20 @@ describe('Viewport service', () => {
     item1.appendChild(document.createTextNode('Item 1'));
     container.appendChild(item1);
 
-    const ignoreOverlay = document.createElement('div');
-    ignoreOverlay.setAttribute('role', 'presentation');
+    const progressbar = document.createElement('div');
+    progressbar.setAttribute('role', 'progressbar');
     // eslint-disable-next-line @cspell/spellchecker
-    ignoreOverlay.style.backgroundColor = 'lightgreen';
-    ignoreOverlay.style.height = '100px';
-    ignoreOverlay.style.width = '100px';
-    ignoreOverlay.style.overflow = 'hidden';
-    ignoreOverlay.style.position = 'absolute';
-    ignoreOverlay.style.top = `0`;
-    ignoreOverlay.style.left = '0';
-    ignoreOverlay.style.opacity = '0.4';
-    ignoreOverlay.style.zIndex = '10';
-    ignoreOverlay.appendChild(document.createTextNode('Loading...'));
-    container.appendChild(ignoreOverlay);
+    progressbar.style.backgroundColor = 'lightgreen';
+    progressbar.style.height = '100px';
+    progressbar.style.width = '100px';
+    progressbar.style.overflow = 'hidden';
+    progressbar.style.position = 'absolute';
+    progressbar.style.top = `0`;
+    progressbar.style.left = '0';
+    progressbar.style.opacity = '0.4';
+    progressbar.style.zIndex = '10';
+    progressbar.appendChild(document.createTextNode('Loading...'));
+    container.appendChild(progressbar);
 
     document.body.appendChild(container);
 
@@ -242,13 +242,14 @@ describe('Viewport service', () => {
     document.body.removeChild(container);
   }));
 
-  it('should not reserve space for elements underneath an intentional overlay', waitForAsync(async () => {
+  it("should reserve space for elements underneath an overlay if it's still in the viewport", waitForAsync(async () => {
     const viewportHeight = window.innerHeight;
 
     expect(viewportHeight).toBeGreaterThan(50);
 
     const container = document.createElement('div');
-    container.style.height = 'calc(100vh - 20px)';
+    container.style.height = '100vh';
+    container.style.width = '100vw';
     container.style.position = 'relative';
     container.style.marginTop = '20px';
     container.appendChild(document.createTextNode('Container'));
@@ -260,37 +261,77 @@ describe('Viewport service', () => {
     item1.style.overflow = 'hidden';
     item1.style.position = 'absolute';
     item1.style.top = '40px';
-    item1.style.left = '0';
+    item1.style.right = '0';
     item1.style.zIndex = '1';
     item1.appendChild(document.createTextNode('Item 1'));
     container.appendChild(item1);
 
-    const inertOverlay = document.createElement('div');
+    const item2 = document.createElement('div');
+    item2.style.backgroundColor = 'oklch(87% 53% 155deg)';
+    item2.style.height = '50px';
+    item2.style.width = '100px';
+    item2.style.overflow = 'hidden';
+    item2.style.position = 'absolute';
+    item2.style.bottom = '20px';
+    item2.style.left = '0';
+    item2.style.zIndex = '1';
+    item2.appendChild(document.createTextNode('Item 2'));
+    container.appendChild(item2);
+
+    const item3 = document.createElement('div');
+    item3.style.backgroundColor = 'oklch(67% 62% 358deg)';
+    item3.style.height = '50px';
+    item3.style.width = '100px';
+    item3.style.overflow = 'hidden';
+    item3.style.position = 'absolute';
+    item3.style.top = '40px';
+    item3.style.left = '10px';
+    item3.style.zIndex = '1';
+    item3.appendChild(document.createTextNode('Item 2'));
+    container.appendChild(item3);
+
+    const overlay = document.createElement('div');
     // eslint-disable-next-line @cspell/spellchecker
-    inertOverlay.style.backgroundColor = 'lightgreen';
-    inertOverlay.style.height = '100px';
-    inertOverlay.style.width = '100px';
-    inertOverlay.style.overflow = 'hidden';
-    inertOverlay.style.position = 'absolute';
-    inertOverlay.style.top = `0`;
-    inertOverlay.style.left = '0';
-    inertOverlay.style.opacity = '0.4';
-    inertOverlay.style.zIndex = '10';
-    inertOverlay.appendChild(document.createTextNode('Mask'));
-    container.appendChild(inertOverlay);
+    overlay.style.backgroundColor = 'lightgreen';
+    overlay.style.height = '100vh';
+    overlay.style.width = '100vw';
+    overlay.style.overflow = 'hidden';
+    overlay.style.position = 'absolute';
+    overlay.style.top = `0`;
+    overlay.style.left = '0';
+    overlay.style.opacity = '0.4';
+    overlay.style.zIndex = '10';
+    overlay.appendChild(document.createTextNode('Mask'));
+    container.appendChild(overlay);
 
     document.body.appendChild(container);
 
     svc.reserveSpace({
       id: 'item1-test',
-      position: 'top',
-      size: 50,
+      position: 'right',
+      size: 100,
       reserveForElement: item1,
+    });
+
+    svc.reserveSpace({
+      id: 'item2-test',
+      position: 'bottom',
+      size: 70,
+      reserveForElement: item2,
+    });
+
+    svc.reserveSpace({
+      id: 'item3-test',
+      position: 'left',
+      size: 110,
+      reserveForElement: item3,
     });
 
     await new Promise((resolve) => setTimeout(resolve, 32));
     await new Promise((resolve) => requestAnimationFrame(resolve));
-    validateViewportSpace('top', 0);
+    validateViewportSpace('right', 100);
+    validateViewportSpace('bottom', 70);
+    validateViewportSpace('left', 110);
 
     document.body.removeChild(container);
   }));
