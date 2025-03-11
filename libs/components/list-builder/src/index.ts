@@ -25,6 +25,7 @@ export { ListPagingSetItemsPerPageAction } from './lib/modules/list/state/paging
 export { ListPagingSetMaxPagesAction } from './lib/modules/list/state/paging/set-max-pages.action';
 export { ListPagingSetPageNumberAction } from './lib/modules/list/state/paging/set-page-number.action';
 
+export { ListSearchFunction } from './lib/modules/list/state/search/search-function';
 export { ListSearchModel } from './lib/modules/list/state/search/search.model';
 export { ListSearchOrchestrator } from './lib/modules/list/state/search/search.orchestrator';
 export { ListSearchSetFieldSelectorsAction } from './lib/modules/list/state/search/set-field-selectors.action';

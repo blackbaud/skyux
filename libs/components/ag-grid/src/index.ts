@@ -7,6 +7,7 @@ export {
   SkyAgGridAutocompleteProperties,
   SkyAutocompleteProperties,
 } from './lib/modules/ag-grid/types/autocomplete-properties';
+export { SkyAgGridAutocompleteSearchFilterFunction } from './lib/modules/ag-grid/types/autocomplete-search-filter-function';
 export { SkyCellClass } from './lib/modules/ag-grid/types/cell-class';
 export { SkyAgGridCellEditorInitialAction } from './lib/modules/ag-grid/types/cell-editor-initial-action';
 export { SkyAgGridCellEditorUtils } from './lib/modules/ag-grid/types/cell-editor-utils';
@@ -26,6 +27,7 @@ export { SkyAgGridNumberProperties } from './lib/modules/ag-grid/types/number-pr
 export { SkyGetGridOptionsArgs } from './lib/modules/ag-grid/types/sky-grid-options';
 export { SkyAgGridTextProperties } from './lib/modules/ag-grid/types/text-properties';
 export { SkyAgGridValidatorProperties } from './lib/modules/ag-grid/types/validator-properties';
+export { SkyAgGridValidatorMessageFunction } from './lib/modules/ag-grid/types/validator-message-function';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

@@ -9,6 +9,7 @@ import { ListFilterModel } from '../../list-filters/filter.model';
 
 import { ListFiltersUpdateAction } from './filters/update.action';
 import { ListStateAction } from './list-state-action.type';
+import { ListSearchFunction } from './search/search-function';
 import { ListSearchModel } from './search/search.model';
 import { ListSearchSetFieldSelectorsAction } from './search/set-field-selectors.action';
 import { ListSearchSetFunctionsAction } from './search/set-functions.action';
@@ -66,9 +67,7 @@ export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
     this.next(new ListToolbarShowMultiselectToolbarAction(show));
   }
 
-  public searchSetFunctions(
-    sortFunctions: ((data: any, searchText: string) => boolean)[],
-  ): void {
+  public searchSetFunctions(sortFunctions: ListSearchFunction[]): void {
     this.next(new ListSearchSetFunctionsAction(sortFunctions));
   }
 

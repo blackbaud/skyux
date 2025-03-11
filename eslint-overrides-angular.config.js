@@ -4,7 +4,27 @@ module.exports = [
   {
     files: ['**/*.ts'],
     rules: {
-      '@angular-eslint/prefer-standalone': 'warn',
+      '@angular-eslint/prefer-standalone': 'off',
+      '@typescript-eslint/consistent-indexed-object-style': ['error', 'record'],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'TSArrayType > TSFunctionType',
+          message:
+            'Arrays of inline function types are difficult to effectively document. ' +
+            "It's preferred to first export the function type as a named type alias, " +
+            'and then apply the imported symbol to an array signature. ' +
+            'For example, `(() => void)[]` would become `MyFunc[]`.',
+        },
+        {
+          selector: 'TSUnionType > TSFunctionType',
+          message:
+            'Inline function types within a union are difficult to effectively document. ' +
+            "It's preferred to first export the function type as a named type alias, " +
+            'and then apply the imported symbol to the union signature. ' +
+            'For example, `(() => void) | boolean | string` would become `MyFunc | boolean | string`.',
+        },
+      ],
     },
   },
   {

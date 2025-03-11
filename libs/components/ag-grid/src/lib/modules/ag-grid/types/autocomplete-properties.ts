@@ -1,6 +1,8 @@
 import { TemplateRef } from '@angular/core';
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 
+import { SkyAgGridAutocompleteSearchFilterFunction } from './autocomplete-search-filter-function';
+
 export interface SkyAgGridAutocompleteProperties {
   data?: unknown[];
   debounceTime?: number;
@@ -10,7 +12,7 @@ export interface SkyAgGridAutocompleteProperties {
     searchText: string,
     data?: unknown[],
   ) => unknown[] | Promise<unknown[]>;
-  searchFilters?: ((searchText: string, item: unknown) => boolean)[];
+  searchFilters?: SkyAgGridAutocompleteSearchFilterFunction[];
   searchResultsLimit?: number;
   searchResultTemplate?: TemplateRef<unknown>;
   searchTextMinimumCharacters?: number;

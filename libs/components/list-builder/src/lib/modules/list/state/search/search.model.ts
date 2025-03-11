@@ -1,3 +1,5 @@
+import { ListSearchFunction } from './search-function';
+
 /**
  * Specifies a function to dynamically manage the data source when users change the text
  * in the list field. The search function must return an array or a promise of an array.
@@ -13,10 +15,9 @@ export class ListSearchModel {
   public searchText = '';
   /**
    * The array of functions that returns a `boolean` value of `true` when
-   * the search is successful. This property accepts a function of type
-   * `(data: any, searchText: string) => boolean>.`
+   * the search is successful.
    */
-  public functions: ((data: any, searchText: string) => boolean)[] = [];
+  public functions: ListSearchFunction[] = [];
   /**
    * The columns to search. The columns correspond to `field` values that
    * you specify with the list component's `data` property.
