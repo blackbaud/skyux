@@ -2,6 +2,8 @@ export { SkyActionButtonFixture } from './legacy/action-button-fixture';
 export { SkyCardFixture } from './legacy/card-fixture';
 export { SkyPageSummaryFixture } from './legacy/page-summary-fixture';
 
+export { SkyBackToTopHarness } from './modules/back-to-top/back-to-top-harness';
+
 export { SkyBoxHarness } from './modules/box/box-harness';
 export { SkyBoxHarnessFilters } from './modules/box/box-harness.filters';
 
