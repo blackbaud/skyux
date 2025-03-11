@@ -7,17 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { generateManifest } from '../libs/components/manifest/src/generator/generate-manifest.js';
-
-interface PublicApi {
-  packages: Record<
-    string,
-    {
-      name: string;
-      children?: { name: string; isDeprecated?: boolean }[];
-      isDeprecated?: boolean;
-    }[]
-  >;
-}
+import { SkyManifestPublicApi } from '../libs/components/manifest/src/index.js';
 
 const argv = minimist(process.argv.slice(2));
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -49,7 +39,7 @@ async function isPrerelease(): Promise<boolean> {
 /**
  * Creates a snapshot of the currently deprecated features of the public API.
  */
-function createDeprecationsSnapshot(publicApi: PublicApi): string[] {
+function createDeprecationsSnapshot(publicApi: SkyManifestPublicApi): string[] {
   const deprecations: string[] = [];
 
   for (const [packageName, definitions] of Object.entries(publicApi.packages)) {
@@ -80,7 +70,7 @@ function createDeprecationsSnapshot(publicApi: PublicApi): string[] {
 async function checkManifest({
   publicApi,
 }: {
-  publicApi: PublicApi;
+  publicApi: SkyManifestPublicApi;
 }): Promise<void> {
   const snapshotDirectory = path.join(__dirname, '__snapshots__');
   const snapshotPath = path.join(snapshotDirectory, 'deprecations.json');

@@ -9,7 +9,6 @@
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "format": ["esm"],
         "outputPath": "dist/libs/components/manifest",
         "tsConfig": "libs/components/manifest/tsconfig.lib.json",
         "packageJson": "libs/components/manifest/package.json",

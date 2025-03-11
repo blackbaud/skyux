@@ -80,14 +80,11 @@ export function formatType(
   let formatted = type.toString();
 
   if (needsCustomFormatting(type)) {
-    // throw new Error(
-    //   `TypeDoc produced \`${formatted}\` for \`${reflection.name}\`. The type '${reflection.name}' is too complicated to be effectively documented. Export any "inline" function or interface types as named symbols, and reference the symbol names, instead.`,
-    // );
-
     const customFormatted = formatTypeCustom(reflection.type);
+
     if (customFormatted !== formatted) {
       console.warn(
-        `  [!] ${type instanceof ReflectionType} TypeDoc generated \`${formatted}\` for the ${ReflectionKind[reflection.kind]} \`${reflection.name}\`, but we want a more expressive type for \`${reflection.name}\`. ` +
+        `  [!] TypeDoc generated \`${formatted}\` for the ${ReflectionKind[reflection.kind].toLocaleLowerCase()} \`${reflection.name}\`, but we want a more expressive type for \`${reflection.name}\`. ` +
           `Created:
         \`\`\`
         ${customFormatted}
@@ -97,8 +94,8 @@ export function formatType(
 
       formatted = customFormatted;
     } else {
-      console.warn(
-        `  [!] ${type instanceof ReflectionType} Hold up! TypeDoc generated \`${formatted}\` for the ${ReflectionKind[reflection.kind]} \`${reflection.name}\` which is the same thing we're generating. Should we not?`,
+      console.error(
+        `  [!] Hold up! TypeDoc generated \`${formatted}\` for the ${ReflectionKind[reflection.kind].toLocaleLowerCase()} \`${reflection.name}\` which is the same output as our custom formatter. Consider using TypeDoc's formatter instead of our own.`,
       );
     }
   }
