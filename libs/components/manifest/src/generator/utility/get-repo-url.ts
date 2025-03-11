@@ -9,7 +9,7 @@ export function getRepoUrl(reflection: DeclarationReflection): string {
   if (!repoUrl) {
     console.warn(
       `  [!] A repo URL could not be determined for type "${reflection.escapedName}". ` +
-        `Using the default ${DEFAULT_REPO_URL}.`,
+        `This warning will likely go away once this type is pushed to a branch on the origin.`,
     );
 
     repoUrl = DEFAULT_REPO_URL;

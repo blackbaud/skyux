@@ -73,11 +73,6 @@ export function formatType(
   }
 
   if (!type) {
-    console.warn(
-      `  [!] The type for the reflection \`${reflection.name}\` is not ` +
-        'defined. Defaulting to `unknown`.',
-    );
-
     return 'unknown';
   }
 
@@ -85,18 +80,26 @@ export function formatType(
   let formatted = type.toString();
 
   if (needsCustomFormatting(type)) {
+    // throw new Error(
+    //   `TypeDoc produced \`${formatted}\` for \`${reflection.name}\`. The type '${reflection.name}' is too complicated to be effectively documented. Export any "inline" function or interface types as named symbols, and reference the symbol names, instead.`,
+    // );
+
     const customFormatted = formatTypeCustom(reflection.type);
     if (customFormatted !== formatted) {
       console.warn(
-        `  [!] TypeDoc produced \`${formatted}\` for \`${reflection.name}\`, but we want a more expressive type for \`${reflection.name}\`. ` +
+        `  [!] ${type instanceof ReflectionType} TypeDoc generated \`${formatted}\` for the ${ReflectionKind[reflection.kind]} \`${reflection.name}\`, but we want a more expressive type for \`${reflection.name}\`. ` +
           `Created:
-    \`\`\`
-    ${customFormatted}
-    \`\`\`
-`,
+        \`\`\`
+        ${customFormatted}
+        \`\`\`
+    `,
       );
 
       formatted = customFormatted;
+    } else {
+      console.warn(
+        `  [!] ${type instanceof ReflectionType} Hold up! TypeDoc generated \`${formatted}\` for the ${ReflectionKind[reflection.kind]} \`${reflection.name}\` which is the same thing we're generating. Should we not?`,
+      );
     }
   }
 
