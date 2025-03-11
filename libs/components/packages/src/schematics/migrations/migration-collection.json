@@ -30,6 +30,11 @@
       "factory": "./update-12/icons-migration/icons-migration.schematic",
       "description": "Update icons import paths to icons library and add new peer."
     },
+    "icons-size": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./update-12/icons-size/icons-size.schematic",
+      "description": "Update icons to include size input."
+    },
     "remove-nx-cache": {
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./update-12/remove-nx-cache/remove-nx-cache.schematic",
