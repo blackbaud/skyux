@@ -10,7 +10,7 @@ describe('tiles-storybook', () => {
       );
 
       it('should render the component', () => {
-        cy.skyReady('app-tile-dashboard', ['.skyReady']).screenshot(
+        cy.skyReady('app-tile-dashboard', ['.ready']).screenshot(
           `tile-dashboard-${theme}-desktop`,
           {
             overwrite: true,
@@ -26,7 +26,7 @@ describe('tiles-storybook', () => {
 
       it('should render the component in mobile', () => {
         cy.viewport('iphone-x', 'portrait');
-        cy.skyReady('app-tile-dashboard', ['.skyReady']).screenshot(
+        cy.skyReady('app-tile-dashboard', ['.ready']).screenshot(
           `tile-dashboard-${theme}-mobile`,
           {
             overwrite: true,
