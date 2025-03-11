@@ -30,6 +30,11 @@
       "factory": "./update-12/icons-migration/icons-migration.schematic",
       "description": "Update icons import paths to icons library and add new peer."
     },
+    "remove-angular-eslint-prefer-standalone-component": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./update-12/remove-angular-eslint-prefer-standalone-component/remove-angular-eslint-prefer-standalone-component.schematic",
+      "description": "Remove inline eslint ignore comments for @angular-eslint/prefer-standalone-component."
+    },
     "icons-size": {
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./update-12/icons-size/icons-size.schematic",
