@@ -15,14 +15,7 @@ export class DemoComponent {
       heading: 'Group 1',
       isOpen: false,
       isDisabled: false,
-      subTabs: [
-        { tabHeading: 'Group 1 — Tab 1', content: 'Group 1 — Tab 1 Content' },
-        {
-          tabHeading: 'Group 1 — Tab 2',
-          content: 'Group 1 — Tab 2 Content',
-          tabHeaderCount: 7,
-        },
-      ],
+      subTabs: [],
     },
     {
       heading: 'Group 2',

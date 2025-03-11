@@ -8,3 +8,5 @@ export { SkyTabButtonHarnessFilters } from './modules/tabs/tab-button-harness-fi
 export { SkyTabContentHarness } from './modules/tabs/tab-content-harness';
 export { SkyVerticalTabsetHarness } from './modules/vertical-tabset/vertical-tabset-harness';
 export { SkyVerticalTabsetHarnessFilters } from './modules/vertical-tabset/vertical-tabset-harness-filters';
+export { SkyVerticalTabsetGroupHarness } from './modules/vertical-tabset/vertical-tabset-group-harness';
+export { SkyVerticalTabsetGroupHarnessFilters } from './modules/vertical-tabset/vertical-tabset-group-harness-filters';
