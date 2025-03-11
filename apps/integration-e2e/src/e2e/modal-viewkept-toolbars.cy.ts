@@ -56,7 +56,7 @@ describe('modal-viewkept-toolbars', () => {
           'be.visible',
         );
         cy.get('sky-icon[iconName="search"]').should('be.visible');
-        cy.window().skyVisualTest(`modal-viewkept-toolbars-${theme}`);
+        cy.skyVisualTest(`modal-viewkept-toolbars-${theme}`);
       });
     });
   });

@@ -46,7 +46,7 @@ describe('modal footer dropdown', () => {
           .should('exist')
           .should('be.visible')
           .should('contain.text', 'Menu');
-        cy.window().skyVisualTest(`modal-footer-dropdown-${theme}--medium`, {
+        cy.skyVisualTest(`modal-footer-dropdown-${theme}--medium`, {
           clip: {
             height: viewportHeight,
             width: E2eVariations.DISPLAY_WIDTHS[0],
@@ -90,7 +90,7 @@ describe('modal footer dropdown', () => {
           .should('exist')
           .should('be.visible')
           .should('contain.text', 'Menu');
-        cy.window().skyVisualTest(`modal-footer-dropdown-${theme}--full-page`, {
+        cy.skyVisualTest(`modal-footer-dropdown-${theme}--full-page`, {
           clip: {
             height: viewportHeight,
             width: E2eVariations.DISPLAY_WIDTHS[0],

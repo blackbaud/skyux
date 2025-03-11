@@ -15,7 +15,7 @@ describe('field heights', () => {
       it('should match heights across different field types', () => {
         cy.skyReady('app-field-heights', ['#ready'])
           .end()
-          .get('.sky-input-box')
+          .get('app-field-heights .sky-input-box')
           .should('have.length.gte', 2)
           .then((els) => {
             const heights = new Set();
@@ -29,7 +29,7 @@ describe('field heights', () => {
             console.log(`Heights: ${Array.from(heights).join(', ')}`);
             expect(heights.size).to.equal(1);
           });
-        cy.window().skyVisualTest(`field-heights-${theme}`);
+        cy.skyVisualTest(`field-heights-${theme}`);
       });
     });
   });

@@ -22,7 +22,7 @@ describe('Modal Date range picker', () => {
       cy.get('.sky-date-range-picker-form-group')
         .should('exist')
         .should('have.length', 3);
-      cy.window().skyVisualTest(`modal-date-range-picker-${theme}`);
+      cy.skyVisualTest(`modal-date-range-picker-${theme}`);
     });
   });
 });

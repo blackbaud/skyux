@@ -73,7 +73,7 @@ describe('vertical-tabset-back-to-top', () => {
               cy.get('sky-back-to-top button')
                 .should('be.visible')
                 .should('contain', 'Back to top');
-              cy.window().skyVisualTest(
+              cy.skyVisualTest(
                 `vertical-tabset-back-to-top-summary-action-${device}-${theme}`,
                 { capture: 'viewport' },
               );
