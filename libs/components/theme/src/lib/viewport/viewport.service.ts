@@ -16,7 +16,6 @@ type ReserveItemType = SkyAppViewportReserveArgs & {
   active: boolean;
 };
 
-const SKY_APP_VIEWPORT_ROOT_ID = 'sky-app-viewport-root';
 const threshold = Array.from({ length: 101 }, (_, i) => i / 100);
 
 /**
@@ -52,7 +51,7 @@ export class SkyAppViewportService {
       ),
   );
   // Observe elements crossing the browser's viewport boundaries.
-  readonly #windowIntersectionObserver = this.#ngZone.runOutsideAngular(
+  readonly #intersectionObserver = this.#ngZone.runOutsideAngular(
     () =>
       new IntersectionObserver(
         () => this.#ngZone.run(() => this.#updateViewportArea()),
@@ -62,8 +61,8 @@ export class SkyAppViewportService {
 
   constructor() {
     inject(DestroyRef).onDestroy(() => {
+      this.#intersectionObserver.disconnect();
       this.#skyViewportIntersectionObserver.disconnect();
-      this.#windowIntersectionObserver.disconnect();
       this.#viewportRoot?.remove();
     });
   }
@@ -91,8 +90,8 @@ export class SkyAppViewportService {
   public unreserveSpace(id: string): void {
     const args = this.#reserveItems.get(id);
     if (args?.reserveForElement) {
+      this.#intersectionObserver.unobserve(args.reserveForElement);
       this.#skyViewportIntersectionObserver.unobserve(args.reserveForElement);
-      this.#windowIntersectionObserver.unobserve(args.reserveForElement);
       this.#conditionallyReserveItems.delete(args.reserveForElement);
     }
     this.#reserveItems.delete(id);
@@ -135,8 +134,8 @@ export class SkyAppViewportService {
   #watchVisibility(item: ReserveItemType): void {
     if (item.reserveForElement) {
       this.#conditionallyReserveItems.set(item.reserveForElement, item);
+      this.#intersectionObserver.observe(item.reserveForElement);
       this.#skyViewportIntersectionObserver.observe(item.reserveForElement);
-      this.#windowIntersectionObserver.observe(item.reserveForElement);
     }
   }
 
@@ -173,20 +172,15 @@ export class SkyAppViewportService {
   }
 
   #getViewportRoot(): HTMLElement {
-    this.#viewportRoot ??=
-      this.#document.getElementById(SKY_APP_VIEWPORT_ROOT_ID) ?? undefined;
-    if (this.#viewportRoot?.parentElement !== this.#document.body) {
-      this.#viewportRoot?.remove();
-      this.#viewportRoot = this.#renderer.createElement('div') as HTMLElement;
-      this.#viewportRoot.setAttribute('id', SKY_APP_VIEWPORT_ROOT_ID);
-      this.#viewportRoot.style.position = 'absolute';
-      this.#viewportRoot.style.top = 'var(--sky-viewport-top, 0)';
-      this.#viewportRoot.style.right = 'var(--sky-viewport-right, 0)';
-      this.#viewportRoot.style.bottom = 'var(--sky-viewport-bottom, 0)';
-      this.#viewportRoot.style.left = 'var(--sky-viewport-left, 0)';
-      this.#viewportRoot.style.pointerEvents = 'none';
-      this.#renderer.appendChild(this.#document.body, this.#viewportRoot);
-    }
+    this.#viewportRoot = this.#renderer.createElement('div') as HTMLElement;
+    this.#viewportRoot.classList.add('sky-app-viewport-root');
+    this.#viewportRoot.style.position = 'absolute';
+    this.#viewportRoot.style.top = 'var(--sky-viewport-top, 0)';
+    this.#viewportRoot.style.right = 'var(--sky-viewport-right, 0)';
+    this.#viewportRoot.style.bottom = 'var(--sky-viewport-bottom, 0)';
+    this.#viewportRoot.style.left = 'var(--sky-viewport-left, 0)';
+    this.#viewportRoot.style.pointerEvents = 'none';
+    this.#renderer.appendChild(this.#document.body, this.#viewportRoot);
     return this.#viewportRoot;
   }
 }
