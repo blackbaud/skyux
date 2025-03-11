@@ -15,6 +15,7 @@
     "url": "https://github.com/blackbaud/skyux/issues"
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
+  "main": "./src/index.js",
   "exports": {
     ".": {
       "types": "./src/index.d.ts",

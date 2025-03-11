@@ -34,23 +34,23 @@ async function getTypeDocProjectReflection(
 
   const app = await Application.bootstrapWithPlugins({
     alwaysCreateEntryPointModule: true,
+    compilerOptions: {
+      skipLibCheck: true,
+      transpileOnly: true,
+      resolveJsonModule: true,
+    },
     entryPoints,
     emit: 'docs',
+    exclude: ['**/(fixtures|node_modules)/**', '**/*+(.fixture|.spec).ts'],
     excludeExternals: true,
     excludeInternal: false, // Include internal declarations for usage metrics.
     excludePrivate: true,
     excludeProtected: true,
     gitRemote: 'origin',
     gitRevision: branch,
-    logLevel: 'Error',
+    logLevel: 'Verbose',
     plugin: [TYPEDOC_PLUGIN_PATH],
     tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
-    compilerOptions: {
-      skipLibCheck: true,
-      transpileOnly: true,
-      resolveJsonModule: true,
-    },
-    exclude: ['**/(fixtures|node_modules)/**', '**/*+(.fixture|.spec).ts'],
   });
 
   const projectRefl = await app.convert();
