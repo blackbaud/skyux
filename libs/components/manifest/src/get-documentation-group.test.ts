@@ -1,9 +1,9 @@
-import { SkyManifestParentDefinition } from './types/base-def';
-import { SkyManifestDocumentationConfig } from './types/documentation-config';
+import { SkyManifestParentDefinition } from './types/base-def.js';
+import { SkyManifestDocumentationConfig } from './types/documentation-config.js';
 import {
   SkyManifestCodeExamples,
   SkyManifestPublicApi,
-} from './types/manifest';
+} from './types/manifest.js';
 
 describe('get-documentation-group', () => {
   function setup(options: {
@@ -131,7 +131,9 @@ describe('get-documentation-group', () => {
       },
     });
 
-    const { getDocumentationGroup } = await import('./get-documentation-group');
+    const { getDocumentationGroup } = await import(
+      './get-documentation-group.js'
+    );
 
     const result = getDocumentationGroup('@skyux/core', 'foo');
 
@@ -151,7 +153,9 @@ describe('get-documentation-group', () => {
       },
     });
 
-    const { getDocumentationGroup } = await import('./get-documentation-group');
+    const { getDocumentationGroup } = await import(
+      './get-documentation-group.js'
+    );
 
     expect(() =>
       getDocumentationGroup('@skyux/invalid', 'foo'),
@@ -175,7 +179,9 @@ describe('get-documentation-group', () => {
       },
     });
 
-    const { getDocumentationGroup } = await import('./get-documentation-group');
+    const { getDocumentationGroup } = await import(
+      './get-documentation-group.js'
+    );
 
     expect(() =>
       getDocumentationGroup('@skyux/core', 'invalid'),
@@ -204,7 +210,9 @@ describe('get-documentation-group', () => {
       },
     });
 
-    const { getDocumentationGroup } = await import('./get-documentation-group');
+    const { getDocumentationGroup } = await import(
+      './get-documentation-group.js'
+    );
 
     expect(() =>
       getDocumentationGroup('@skyux/core', 'foo'),

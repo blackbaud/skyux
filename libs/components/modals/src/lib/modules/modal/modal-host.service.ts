@@ -13,7 +13,6 @@ const openModalCountObs = openModalCount.asObservable();
 
 /**
  * @internal
- * @dynamic
  */
 @Injectable({
   providedIn: 'root',

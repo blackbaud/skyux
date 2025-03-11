@@ -1,4 +1,4 @@
-import type { SkyManifestParentDefinition } from './base-def';
+import type { SkyManifestParentDefinition } from './base-def.js';
 
 /**
  * Information about a variable exported from the public API.

@@ -4,16 +4,16 @@ import type {
   SkyManifestClassDefinition,
   SkyManifestClassMethodDefinition,
   SkyManifestClassPropertyDefinition,
-} from '../../types/class-def';
+} from '../../types/class-def.js';
 
-import { formatType } from './format-type';
-import { formatTypeParameters } from './format-type-custom';
-import { getAnchorId } from './get-anchor-id';
-import { getComment } from './get-comment';
-import { getDefaultValue } from './get-default-value';
-import { getParameters } from './get-parameters';
-import { getRepoUrl } from './get-repo-url';
-import { remapLambdaName } from './remap-lambda-names';
+import { formatTypeParameters } from './format-type-custom.js';
+import { formatType } from './format-type.js';
+import { getAnchorId } from './get-anchor-id.js';
+import { getComment } from './get-comment.js';
+import { getDefaultValue } from './get-default-value.js';
+import { getParameters } from './get-parameters.js';
+import { getRepoUrl } from './get-repo-url.js';
+import { remapLambdaName } from './remap-lambda-names.js';
 
 export function getMethods(
   reflection: DeclarationReflection,

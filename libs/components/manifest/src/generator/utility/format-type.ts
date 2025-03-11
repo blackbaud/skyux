@@ -8,9 +8,9 @@ import {
   UnionType,
 } from 'typedoc';
 
-import { formatTypeCustom } from './format-type-custom';
-import { getNearestProjectReflection } from './reflections';
-import { remapLambdaNames } from './remap-lambda-names';
+import { formatTypeCustom } from './format-type-custom.js';
+import { getNearestProjectReflection } from './reflections.js';
+import { remapLambdaNames } from './remap-lambda-names.js';
 
 /**
  * Whether a type needs custom formatting. TypeDoc returns an expressive string

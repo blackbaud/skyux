@@ -7,9 +7,9 @@ import {
   UnionType,
 } from 'typedoc';
 
-import { formatType } from './format-type';
-import { getIndexSignatures } from './get-index-signatures';
-import { getParameters } from './get-parameters';
+import { formatType } from './format-type.js';
+import { getIndexSignatures } from './get-index-signatures.js';
+import { getParameters } from './get-parameters.js';
 
 /**
  * Formats an "inline" closure type (e.g., `(foo: string) => boolean`).

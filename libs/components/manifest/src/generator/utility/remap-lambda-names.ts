@@ -1,6 +1,6 @@
 import { DeclarationReflection, ProjectReflection } from 'typedoc';
 
-import { findReflectionByName } from './reflections';
+import { findReflectionByName } from './reflections.js';
 
 export function remapLambdaName(reflection: DeclarationReflection): string {
   if (reflection.name.startsWith('λ')) {

@@ -17,7 +17,7 @@ describe('get-public-api', () => {
 
     setup({ publicApi });
 
-    const { getPublicApi } = await import('./get-public-api');
+    const { getPublicApi } = await import('./get-public-api.js');
 
     const result = getPublicApi();
 

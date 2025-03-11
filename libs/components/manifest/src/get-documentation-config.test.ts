@@ -1,4 +1,4 @@
-import type { SkyManifestDocumentationConfig } from './types/documentation-config';
+import type { SkyManifestDocumentationConfig } from './types/documentation-config.js';
 
 describe('get-documentation-config', () => {
   function setup(options: {
@@ -40,7 +40,7 @@ describe('get-documentation-config', () => {
     setup({ documentationConfig });
 
     const { getDocumentationConfig } = await import(
-      './get-documentation-config'
+      './get-documentation-config.js'
     );
 
     const result = getDocumentationConfig();

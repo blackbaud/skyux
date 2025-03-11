@@ -1,8 +1,8 @@
 import type {
   SkyManifestChildDefinition,
   SkyManifestParentDefinition,
-} from './base-def';
-import type { SkyManifestParameterDefinition } from './function-def';
+} from './base-def.js';
+import type { SkyManifestParameterDefinition } from './function-def.js';
 
 /**
  * Information about a class exported from the public API.

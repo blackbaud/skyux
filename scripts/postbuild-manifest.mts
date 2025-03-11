@@ -1,15 +1,26 @@
-import fsExtra from 'fs-extra';
+import fsExtra from 'fs-extra/esm';
 import minimist from 'minimist';
+import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import { generateManifest } from '../libs/components/manifest/src/generator/generate-manifest';
-import { SkyManifestPublicApi } from '../libs/components/manifest/src/index';
+import { generateManifest } from '../libs/components/manifest/src/generator/generate-manifest.js';
 
-import { runCommand } from './utils/spawn';
+interface PublicApi {
+  packages: Record<
+    string,
+    {
+      name: string;
+      children?: { name: string; isDeprecated?: boolean }[];
+      isDeprecated?: boolean;
+    }[]
+  >;
+}
 
 const argv = minimist(process.argv.slice(2));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * Writes the current snapshot of deprecated features to a file.
@@ -38,7 +49,7 @@ async function isPrerelease(): Promise<boolean> {
 /**
  * Creates a snapshot of the currently deprecated features of the public API.
  */
-function createDeprecationsSnapshot(publicApi: SkyManifestPublicApi): string[] {
+function createDeprecationsSnapshot(publicApi: PublicApi): string[] {
   const deprecations: string[] = [];
 
   for (const [packageName, definitions] of Object.entries(publicApi.packages)) {
@@ -69,7 +80,7 @@ function createDeprecationsSnapshot(publicApi: SkyManifestPublicApi): string[] {
 async function checkManifest({
   publicApi,
 }: {
-  publicApi: SkyManifestPublicApi;
+  publicApi: PublicApi;
 }): Promise<void> {
   const snapshotDirectory = path.join(__dirname, '__snapshots__');
   const snapshotPath = path.join(snapshotDirectory, 'deprecations.json');
@@ -117,10 +128,9 @@ void (async (): Promise<void> => {
   let projectNames: string[] = [];
 
   try {
-    const output = await runCommand(
-      'npx',
-      ['nx', 'show', 'projects', '--projects', 'tag:component', '--json'],
-      { stdio: 'pipe' },
+    const output = execSync(
+      'npx nx show projects --projects tag:component --json',
+      { encoding: 'utf-8', stdio: 'pipe' },
     );
 
     if (output) {

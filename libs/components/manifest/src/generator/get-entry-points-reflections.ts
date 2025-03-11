@@ -1,16 +1,20 @@
 import { execSync } from 'node:child_process';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import {
   Application,
   type DeclarationReflection,
+  OptionDefaults,
   type ProjectReflection,
 } from 'typedoc';
 
-import type { DeclarationReflectionWithDecorators } from './types/declaration-reflection-with-decorators';
+import type { DeclarationReflectionWithDecorators } from './types/declaration-reflection-with-decorators.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const TYPEDOC_PLUGIN_PATH = path.join(
   __dirname,
-  './plugins/typedoc-plugin-decorators.mjs',
+  './plugins/typedoc-plugin-decorators.js',
 );
 
 type ProjectReflectionWithChildren = ProjectReflection & {
@@ -34,23 +38,33 @@ async function getTypeDocProjectReflection(
 
   const app = await Application.bootstrapWithPlugins({
     alwaysCreateEntryPointModule: true,
-    entryPoints,
-    emit: 'docs',
-    excludeExternals: true,
-    excludeInternal: false, // Include internal declarations for usage metrics.
-    excludePrivate: true,
-    excludeProtected: true,
-    gitRemote: 'origin',
-    gitRevision: branch,
-    logLevel: 'Error',
-    plugin: [TYPEDOC_PLUGIN_PATH],
-    tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
+    blockTags: [
+      ...OptionDefaults.blockTags,
+      '@docsDemoHidden',
+      '@docsId',
+      '@required',
+      '@title',
+    ],
     compilerOptions: {
       skipLibCheck: true,
       transpileOnly: true,
       resolveJsonModule: true,
     },
+    entryPoints,
+    emit: 'none',
     exclude: ['**/(fixtures|node_modules)/**', '**/*+(.fixture|.spec).ts'],
+    excludeExternals: true,
+    excludeInternal: false, // Include internal declarations for usage metrics.
+    excludePrivate: true,
+    excludeProtected: true,
+    externalPattern: ['**/node_modules/**'],
+    gitRemote: 'origin',
+    gitRevision: branch,
+    lang: 'en',
+    locales: { en: {} },
+    logLevel: 'Warn',
+    plugin: [TYPEDOC_PLUGIN_PATH],
+    tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
   });
 
   const projectRefl = await app.convert();

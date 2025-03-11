@@ -1,7 +1,7 @@
 import type {
   SkyManifestChildDefinition,
   SkyManifestParentDefinition,
-} from './base-def';
+} from './base-def.js';
 
 /**
  * Information about an enumeration exported from the public API.

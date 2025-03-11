@@ -1,4 +1,4 @@
-import { SkyManifestParentDefinition } from './base-def';
+import { SkyManifestParentDefinition } from './base-def.js';
 
 /**
  * Information about the SKY UX public API.

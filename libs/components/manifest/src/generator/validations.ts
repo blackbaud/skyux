@@ -1,8 +1,8 @@
-import type { SkyManifestParentDefinition } from '../types/base-def';
-import { SkyManifestDocumentationConfig } from '../types/documentation-config';
-import type { SkyManifestPublicApi } from '../types/manifest';
+import type { SkyManifestParentDefinition } from '../types/base-def.js';
+import { SkyManifestDocumentationConfig } from '../types/documentation-config.js';
+import type { SkyManifestPublicApi } from '../types/manifest.js';
 
-import { type PackagesMap } from './get-public-api';
+import { type PackagesMap } from './get-public-api.js';
 
 function getDefinitionByDocsId(
   docsId: string,

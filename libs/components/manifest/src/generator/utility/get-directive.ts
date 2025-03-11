@@ -4,15 +4,15 @@ import type {
   SkyManifestDirectiveDefinition,
   SkyManifestDirectiveInputDefinition,
   SkyManifestDirectiveOutputDefinition,
-} from '../../types/directive-def';
-import type { DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators';
+} from '../../types/directive-def.js';
+import type { DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators.js';
 
-import { getAnchorId } from './get-anchor-id';
-import { getProperty } from './get-class';
-import { getComment } from './get-comment';
-import { getDecorator } from './get-decorator';
-import { getRepoUrl } from './get-repo-url';
-import { remapLambdaName } from './remap-lambda-names';
+import { getAnchorId } from './get-anchor-id.js';
+import { getProperty } from './get-class.js';
+import { getComment } from './get-comment.js';
+import { getDecorator } from './get-decorator.js';
+import { getRepoUrl } from './get-repo-url.js';
+import { remapLambdaName } from './remap-lambda-names.js';
 
 export function isInput(
   reflection: DeclarationReflectionWithDecorators,

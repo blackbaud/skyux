@@ -9,7 +9,8 @@
     "**/*.spec.ts",
     "**/*.test.ts",
     "jest.config.ts",
-    "**/fixtures/**"
+    "**/fixtures/**",
+    "**/testing/**"
   ],
   "include": ["**/*.ts"]
 }

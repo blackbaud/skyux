@@ -6,12 +6,12 @@ import {
   TypeOperatorType,
 } from 'typedoc';
 
-import type { SkyManifestTypeAliasDefinition } from '../../types/type-alias-def';
+import type { SkyManifestTypeAliasDefinition } from '../../types/type-alias-def.js';
 
-import { formatType } from './format-type';
-import { getAnchorId } from './get-anchor-id';
-import { getComment } from './get-comment';
-import { getRepoUrl } from './get-repo-url';
+import { formatType } from './format-type.js';
+import { getAnchorId } from './get-anchor-id.js';
+import { getComment } from './get-comment.js';
+import { getRepoUrl } from './get-repo-url.js';
 
 /**
  * Gets the formatted type for a const assertion union.

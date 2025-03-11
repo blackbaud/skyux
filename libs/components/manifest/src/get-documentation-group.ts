@@ -1,14 +1,14 @@
 import codeExamplesJson from '../code-examples.json';
 import documentationConfigJson from '../documentation-config.json';
 
-import { getPublicApi } from './get-public-api';
-import { SkyManifestDocumentationConfig } from './types/documentation-config';
+import { getPublicApi } from './get-public-api.js';
+import { SkyManifestDocumentationConfig } from './types/documentation-config.js';
 import type {
   SkyManifestCodeExamples,
   SkyManifestDocumentationGroup,
   SkyManifestDocumentationGroupPackageInfo,
   SkyManifestDocumentationTypeDefinition,
-} from './types/manifest';
+} from './types/manifest.js';
 
 const PUBLIC_API = getPublicApi();
 const DOCS_CONFIG = documentationConfigJson as SkyManifestDocumentationConfig;

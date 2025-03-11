@@ -5,7 +5,7 @@ import {
   DeclarationReflection,
 } from 'typedoc';
 
-import { SkyManifestCodeExampleLanguage } from '../../types/base-def';
+import { SkyManifestCodeExampleLanguage } from '../../types/base-def.js';
 
 interface SkyManifestComment {
   codeExample?: string;
