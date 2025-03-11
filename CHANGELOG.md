@@ -1,5 +1,19 @@
 # Changelog
 
+## [12.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.9...12.0.0-alpha.10) (2025-03-11)
+
+
+### Features
+
+* **components/icon:** update SVG icon positioning, convert all icons ([#3117](https://github.com/blackbaud/skyux/issues/3117)) ([92a8eb6](https://github.com/blackbaud/skyux/commit/92a8eb624ad6c4786d0088a289dc7fc9b5cde40e))
+* **components/packages:** add schematic to set size input on existing icons ([#3227](https://github.com/blackbaud/skyux/issues/3227)) ([239b1e9](https://github.com/blackbaud/skyux/commit/239b1e9a4c9e434f49a47ef81d85342cc61ae4ac))
+* **components/packages:** remove eslint comments for prefer-standalone-component rule ([#3230](https://github.com/blackbaud/skyux/issues/3230)) ([757c8fe](https://github.com/blackbaud/skyux/commit/757c8fe11a5332642166058bf950d86b3782c185))
+
+
+### Bug Fixes
+
+* **components/code-examples:** remove extra font class from repeater titles in code examples ([#3220](https://github.com/blackbaud/skyux/issues/3220)) ([43b0856](https://github.com/blackbaud/skyux/commit/43b085632ce7340bd2993e562d765d208c4b5296))
+
 ## [12.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.8...12.0.0-alpha.9) (2025-03-10)
 
 
