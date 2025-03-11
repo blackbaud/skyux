@@ -3,7 +3,6 @@ import path from 'node:path';
 import {
   Application,
   type DeclarationReflection,
-  OptionDefaults,
   type ProjectReflection,
 } from 'typedoc';
 
@@ -35,32 +34,23 @@ async function getTypeDocProjectReflection(
 
   const app = await Application.bootstrapWithPlugins({
     alwaysCreateEntryPointModule: true,
-    blockTags: [
-      ...OptionDefaults.blockTags,
-      '@docsDemoHidden',
-      '@docsId',
-      '@required',
-      '@title',
-    ],
-    compilerOptions: {
-      declaration: false,
-      skipLibCheck: true,
-      transpileOnly: true,
-      resolveJsonModule: true,
-    },
     entryPoints,
-    emit: 'none',
-    exclude: ['**/(fixtures|node_modules)/**', '**/*+(.fixture|.spec).ts'],
+    emit: 'docs',
     excludeExternals: true,
     excludeInternal: false, // Include internal declarations for usage metrics.
     excludePrivate: true,
     excludeProtected: true,
-    externalPattern: ['**/node_modules/**'],
     gitRemote: 'origin',
     gitRevision: branch,
-    logLevel: 'Verbose',
+    logLevel: 'Error',
     plugin: [TYPEDOC_PLUGIN_PATH],
     tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
+    compilerOptions: {
+      skipLibCheck: true,
+      transpileOnly: true,
+      resolveJsonModule: true,
+    },
+    exclude: ['**/(fixtures|node_modules)/**', '**/*+(.fixture|.spec).ts'],
   });
 
   const projectRefl = await app.convert();
