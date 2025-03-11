@@ -86,16 +86,18 @@ export function formatType(
 
   if (needsCustomFormatting(type)) {
     const customFormatted = formatTypeCustom(reflection.type);
-    console.warn(
-      `  [!] TypeDoc produced \`${formatted}\` but we want a more expressive type for \`${reflection.name}\`. ` +
-        `Created:
-      \`\`\`
-      ${customFormatted}
-      \`\`\`
+    if (customFormatted !== formatted) {
+      console.warn(
+        `  [!] TypeDoc produced \`${formatted}\` for \`${reflection.name}\`, but we want a more expressive type for \`${reflection.name}\`. ` +
+          `Created:
+    \`\`\`
+    ${customFormatted}
+    \`\`\`
 `,
-    );
+      );
 
-    formatted = customFormatted;
+      formatted = customFormatted;
+    }
   }
 
   // Remap lambda names to their original names.

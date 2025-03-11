@@ -37,17 +37,15 @@ function formatInlineClosureType(reflections: SignatureReflection[]): string {
 function formatInlineInterfaceType(
   reflections: DeclarationReflection[],
 ): string {
-  const props = ['{'];
+  const props = [];
 
   for (const reflection of reflections) {
     props.push(
-      `${reflection.name}${reflection.flags?.isOptional ? '?' : ''}: ${formatTypeCustom(reflection.type)};`,
+      `${reflection.name}${reflection.flags?.isOptional ? '?' : ''}: ${formatTypeCustom(reflection.type)}`,
     );
   }
 
-  props.push('}');
-
-  return props.join(' ');
+  return `{ ${props.join('; ')} }`;
 }
 
 function formatArrayType(type: ArrayType): string {
