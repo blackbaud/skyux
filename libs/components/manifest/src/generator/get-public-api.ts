@@ -97,10 +97,11 @@ function sortArrayByKey<T>(arr: T[], key: keyof T): T[] {
 
     if (typeof aValue === 'string' && typeof bValue === 'string') {
       return aValue.localeCompare(bValue);
+      /* v8 ignore start: else branch safety check */
     }
 
-    /* v8 ignore next: safety check */
     return 0;
+    /* v8 ignore stop */
   });
 }
 

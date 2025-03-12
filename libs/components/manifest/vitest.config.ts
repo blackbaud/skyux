@@ -8,6 +8,7 @@ export default defineConfig({
       all: true,
       enabled: true,
       exclude: [
+        'src/index.ts',
         'src/**/*.test.ts',
         'src/generator/plugins/**/*',
         'src/generator/testing/**/*',
