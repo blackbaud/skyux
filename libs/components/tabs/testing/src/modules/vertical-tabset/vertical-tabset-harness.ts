@@ -37,9 +37,9 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   public async isTabsVisible(): Promise<boolean> {
     const showTabsButton = await this.#showTabsButton();
     if (showTabsButton) {
-      return true;
+      return false;
     }
-    return false;
+    return true;
   }
 
   /**
@@ -99,11 +99,30 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   public async getActiveTabContent(): Promise<
     SkyVerticalTabContentHarness | undefined
   > {
-    // todo: in mobile view, we need to return the content of the active tab.
+    // in mobile view tabs are not rendered.
+    if (!(await this.isTabsVisible())) {
+      const contents = await this.locatorForAll(SkyVerticalTabContentHarness)();
+      for (const content of contents) {
+        if (await content.isVisible()) {
+          return content;
+        }
+      }
+    }
+
     const activeTab = await this.getActiveTab();
     if (activeTab) {
       return await activeTab.getTabContent();
     }
     return undefined;
+  }
+
+  /**
+   * Click the `Tab list` button in mobile view to show hidden tab list.
+   */
+  public async clickShowTabsButton(): Promise<void> {
+    const showTabsButton = await this.#showTabsButton();
+    if (showTabsButton) {
+      await showTabsButton.click();
+    }
   }
 }

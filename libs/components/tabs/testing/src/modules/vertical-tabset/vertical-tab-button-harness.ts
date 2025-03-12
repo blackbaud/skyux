@@ -81,6 +81,13 @@ export class SkyVerticalTabButtonHarness extends SkyComponentHarness {
   }
 
   /**
+   * Clicks the tab button to activate the tab.
+   */
+  public async click(): Promise<void> {
+    return await (await this.#tabButton()).click();
+  }
+
+  /**
    * Gets the id of the content controlled by this tab.
    * @internal
    */
