@@ -125,11 +125,11 @@ export class LayoutBackToTopInfiniteScrollExampleComponent implements OnInit {
   ];
 
   public ngOnInit(): void {
-    void this.#addData(0, 5);
+    void this.#addData(0, 10);
   }
 
   public onScrollEnd(): void {
-    void this.#addData(this.personList.length, 5);
+    void this.#addData(this.personList.length, 10);
   }
 
   async #addData(start: number, rowSize: number): Promise<void> {
