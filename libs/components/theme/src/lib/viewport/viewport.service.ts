@@ -40,9 +40,7 @@ export class SkyAppViewportService {
         { threshold: Array.from({ length: 101 }, (_, i) => i / 100) },
       ),
   );
-  #reservedSpaces: {
-    [key in SkyAppViewportReservedPositionType]: number;
-  } = {
+  #reservedSpaces: Record<SkyAppViewportReservedPositionType, number> = {
     bottom: 0,
     left: 0,
     right: 0,
