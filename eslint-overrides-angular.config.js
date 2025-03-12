@@ -1,10 +1,12 @@
 const overrides = require('./eslint-overrides.config');
 
 module.exports = [
+  ...overrides,
   {
     files: ['**/*.ts'],
     rules: {
-      '@angular-eslint/prefer-standalone': 'warn',
+      '@angular-eslint/prefer-standalone': 'off',
+      '@typescript-eslint/consistent-indexed-object-style': ['error', 'record'],
     },
   },
   {
@@ -51,5 +53,4 @@ module.exports = [
       '@angular-eslint/template/valid-aria': ['error'],
     },
   },
-  ...overrides,
 ];
