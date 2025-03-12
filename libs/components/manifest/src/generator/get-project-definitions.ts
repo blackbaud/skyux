@@ -24,7 +24,6 @@ export function getProjectDefinitions(
     const projectRoot = `${projectsRootDirectory}${projectName}`;
 
     const entryPoints = [`${projectRoot}/src/index.ts`];
-
     const testingEntryPoint = `${projectRoot}/testing/src/public-api.ts`;
 
     if (fs.existsSync(path.normalize(testingEntryPoint))) {

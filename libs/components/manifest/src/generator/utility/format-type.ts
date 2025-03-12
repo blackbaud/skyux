@@ -84,7 +84,7 @@ export function formatType(
 
     if (customFormatted !== formatted) {
       console.warn(
-        `  [!] TypeDoc generated \`${formatted}\` for the ${ReflectionKind[reflection.kind].toLocaleLowerCase()} \`${reflection.name}\`, but we want a more expressive type for \`${reflection.name}\`. ` +
+        `  [!] TypeDoc produced \`${formatted}\` for the ${ReflectionKind[reflection.kind].toLocaleLowerCase()} \`${reflection.name}\`, but we want a more expressive type for \`${reflection.name}\`. ` +
           `Created:
         \`\`\`
         ${customFormatted}

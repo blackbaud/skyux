@@ -7,7 +7,7 @@ export default defineConfig({
     coverage: {
       all: true,
       enabled: true,
-      exclude: ['src/**/*.test.ts'],
+      exclude: ['src/**/*.test.ts', 'src/generator/testing/**/*'],
       include: ['src/**/*.ts'],
       reporter: ['text', 'json', 'html'],
       reportsDirectory: '../../../coverage/libs/components/manifest',
