@@ -30,38 +30,13 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether the tabs are visible.
-   * In mobile view, vertical tabsets collapse to just the content pane
-   * with a button to show the tabs.
+   * Click the `Tab list` button in mobile view to show hidden tab list.
    */
-  public async isTabsVisible(): Promise<boolean> {
+  public async clickShowTabsButton(): Promise<void> {
     const showTabsButton = await this.#showTabsButton();
     if (showTabsButton) {
-      return false;
+      await showTabsButton.click();
     }
-    return true;
-  }
-
-  /**
-   * Gets an array of `SkyVerticalTabButtonHarness` in this tabset.
-   */
-  public async getTabs(): Promise<SkyVerticalTabButtonHarness[] | undefined> {
-    if (await this.isTabsVisible()) {
-      return await this.locatorForAll(SkyVerticalTabButtonHarness)();
-    }
-    return undefined;
-  }
-
-  /**
-   * Gets an array of `SkyVerticalTabsetGroupHarness` in this tabset.
-   */
-  public async getGroups(): Promise<
-    SkyVerticalTabsetGroupHarness[] | undefined
-  > {
-    if (await this.isTabsVisible()) {
-      return await this.locatorForAll(SkyVerticalTabsetGroupHarness)();
-    }
-    return undefined;
   }
 
   /**
@@ -80,17 +55,6 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
       }
     }
     return undefined;
-  }
-
-  /**
-   * Gets a `SkyVerticalTabButtonHarness` with a `tabHeading` matching the input.
-   */
-  public async getTabByHeading(
-    tabHeading: string,
-  ): Promise<SkyVerticalTabButtonHarness | undefined> {
-    return await this.locatorFor(
-      SkyVerticalTabButtonHarness.with({ tabHeading: tabHeading }),
-    )();
   }
 
   /**
@@ -117,12 +81,48 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Click the `Tab list` button in mobile view to show hidden tab list.
+   * Gets an array of `SkyVerticalTabsetGroupHarness` in this tabset.
    */
-  public async clickShowTabsButton(): Promise<void> {
+  public async getGroups(): Promise<
+    SkyVerticalTabsetGroupHarness[] | undefined
+  > {
+    if (await this.isTabsVisible()) {
+      return await this.locatorForAll(SkyVerticalTabsetGroupHarness)();
+    }
+    return undefined;
+  }
+
+  /**
+   * Gets a `SkyVerticalTabButtonHarness` with a `tabHeading` matching the input.
+   */
+  public async getTabByHeading(
+    tabHeading: string,
+  ): Promise<SkyVerticalTabButtonHarness | undefined> {
+    return await this.locatorFor(
+      SkyVerticalTabButtonHarness.with({ tabHeading: tabHeading }),
+    )();
+  }
+
+  /**
+   * Gets an array of `SkyVerticalTabButtonHarness` in this tabset.
+   */
+  public async getTabs(): Promise<SkyVerticalTabButtonHarness[] | undefined> {
+    if (await this.isTabsVisible()) {
+      return await this.locatorForAll(SkyVerticalTabButtonHarness)();
+    }
+    return undefined;
+  }
+
+  /**
+   * Whether the tabs are visible.
+   * In mobile view, vertical tabsets collapse to just the content pane
+   * with a button to show the tabs.
+   */
+  public async isTabsVisible(): Promise<boolean> {
     const showTabsButton = await this.#showTabsButton();
     if (showTabsButton) {
-      await showTabsButton.click();
+      return false;
     }
+    return true;
   }
 }

@@ -33,28 +33,19 @@ export class SkyVerticalTabButtonHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the tab heading text.
+   * Clicks the tab button to activate the tab.
    */
-  public async getTabHeading(): Promise<string> {
-    return (
-      await (await this.locatorFor('.sky-vertical-tab-heading-value')()).text()
-    ).trim();
+  public async click(): Promise<void> {
+    return await (await this.#tabButton()).click();
   }
 
   /**
-   * Whether the tab is active.
+   * Gets the `SkyVerticalTabContentHarness` for this tab.
    */
-  public async isActive(): Promise<boolean> {
-    return await (await this.#tabButton()).hasClass('sky-vertical-tab-active');
-  }
-
-  /**
-   * Whether the tab is disabled.
-   */
-  public async isDisabled(): Promise<boolean> {
-    return await (
-      await this.#tabButton()
-    ).hasClass('sky-vertical-tabset-button-disabled');
+  public async getTabContent(): Promise<SkyVerticalTabContentHarness> {
+    return await this.documentRootLocatorFactory().locatorFor(
+      SkyVerticalTabContentHarness.with({ tabId: await this.getTabId() }),
+    )();
   }
 
   /**
@@ -72,19 +63,12 @@ export class SkyVerticalTabButtonHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the `SkyVerticalTabContentHarness` for this tab.
+   * Gets the tab heading text.
    */
-  public async getTabContent(): Promise<SkyVerticalTabContentHarness> {
-    return await this.documentRootLocatorFactory().locatorFor(
-      SkyVerticalTabContentHarness.with({ tabId: await this.getTabId() }),
-    )();
-  }
-
-  /**
-   * Clicks the tab button to activate the tab.
-   */
-  public async click(): Promise<void> {
-    return await (await this.#tabButton()).click();
+  public async getTabHeading(): Promise<string> {
+    return (
+      await (await this.locatorFor('.sky-vertical-tab-heading-value')()).text()
+    ).trim();
   }
 
   /**
@@ -97,5 +81,21 @@ export class SkyVerticalTabButtonHarness extends SkyComponentHarness {
       /* istanbul ignore next */
       ''
     );
+  }
+
+  /**
+   * Whether the tab is active.
+   */
+  public async isActive(): Promise<boolean> {
+    return await (await this.#tabButton()).hasClass('sky-vertical-tab-active');
+  }
+
+  /**
+   * Whether the tab is disabled.
+   */
+  public async isDisabled(): Promise<boolean> {
+    return await (
+      await this.#tabButton()
+    ).hasClass('sky-vertical-tabset-button-disabled');
   }
 }

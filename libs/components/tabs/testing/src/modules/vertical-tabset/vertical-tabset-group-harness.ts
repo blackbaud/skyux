@@ -38,45 +38,17 @@ export class SkyVerticalTabsetGroupHarness extends SkyComponentHarness {
   }
 
   /**
+   * Clicks the group button to toggle its expanded state.
+   */
+  public async click(): Promise<void> {
+    return await (await this.#button()).click();
+  }
+
+  /**
    * Gets the group heading text.
    */
   public async getGroupHeading(): Promise<string> {
     return (await (await this.#button()).text()).trim();
-  }
-
-  /**
-   * Whether the group is disabled.
-   */
-  public async isDisabled(): Promise<boolean> {
-    return await (
-      await this.#button()
-    ).hasClass('sky-vertical-tabset-button-disabled');
-  }
-
-  /**
-   * Whether a tab under this group is active.
-   */
-  public async isActive(): Promise<boolean> {
-    return await (
-      await this.#header()
-    ).hasClass('sky-vertical-tabset-group-header-active');
-  }
-
-  /**
-   * Whether the group is expanded.
-   * todo ask other engineers if checking for a class or property is better. my vote is property.
-   */
-  public async isOpen(): Promise<boolean> {
-    return (
-      (await (await this.#header()).getAttribute('aria-expanded')) === 'true'
-    );
-  }
-
-  /**
-   * Gets the `SkyVerticalTabButtonHarness` for all tabs under this group.
-   */
-  public async getVerticalTabs(): Promise<SkyVerticalTabButtonHarness[]> {
-    return await this.locatorForAll(SkyVerticalTabButtonHarness)();
   }
 
   /**
@@ -89,9 +61,37 @@ export class SkyVerticalTabsetGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the group button to toggle its expanded state.
+   * Gets the `SkyVerticalTabButtonHarness` for all tabs under this group.
    */
-  public async click(): Promise<void> {
-    return await (await this.#button()).click();
+  public async getVerticalTabs(): Promise<SkyVerticalTabButtonHarness[]> {
+    return await this.locatorForAll(SkyVerticalTabButtonHarness)();
+  }
+
+  /**
+   * Whether a tab under this group is active.
+   */
+  public async isActive(): Promise<boolean> {
+    return await (
+      await this.#header()
+    ).hasClass('sky-vertical-tabset-group-header-active');
+  }
+
+  /**
+   * Whether the group is disabled.
+   */
+  public async isDisabled(): Promise<boolean> {
+    return await (
+      await this.#button()
+    ).hasClass('sky-vertical-tabset-button-disabled');
+  }
+
+  /**
+   * Whether the group is expanded.
+   * todo ask other engineers if checking for a class or property is better. my vote is property.
+   */
+  public async isOpen(): Promise<boolean> {
+    return (
+      (await (await this.#header()).getAttribute('aria-expanded')) === 'true'
+    );
   }
 }
