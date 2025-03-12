@@ -12,6 +12,8 @@ export class SkyVerticalTabsetGroupHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-vertical-tabset-group';
 
+  #button = this.locatorFor('button.sky-vertical-tabset-button');
+
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyVerticalTabsetGroupHarness` that meets certain criteria.
@@ -26,11 +28,16 @@ export class SkyVerticalTabsetGroupHarness extends SkyComponentHarness {
       'groupHeading',
       filters.groupHeading,
       async (harness, heading) => {
-        const groupHeading = await harness.locatorFor(
-          '.sky-vertical-tabset-group-heading',
-        )();
-        return (await groupHeading.text()) === heading;
+        // test if u need the HarnessPredicate.stringMatches function
+        return (await harness.getGroupHeading()) === heading;
       },
     );
+  }
+
+  /**
+   * Gets the group heading text.
+   */
+  public async getGroupHeading(): Promise<string> {
+    return (await (await this.#button()).text()).trim();
   }
 }
