@@ -30,7 +30,7 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Click the `Tab list` button in mobile view to show hidden tab list.
+   * Click the show tabs button in mobile view.
    */
   public async clickShowTabsButton(): Promise<void> {
     const showTabsButton = await this.#showTabsButton();
@@ -78,6 +78,24 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
       return await activeTab.getTabContent();
     }
     return undefined;
+  }
+
+  /**
+   * Gets the aria-label.
+   */
+  public async getAriaLabel(): Promise<string | null> {
+    return await (
+      await this.locatorFor('span.sky-vertical-tabset-tablist')()
+    ).getAttribute('aria-label');
+  }
+
+  /**
+   * Gets the aria-labelledby.
+   */
+  public async getAriaLabelledBy(): Promise<string | null> {
+    return await (
+      await this.locatorFor('span.sky-vertical-tabset-tablist')()
+    ).getAttribute('aria-labelledby');
   }
 
   /**
