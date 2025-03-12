@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.45.1](https://github.com/blackbaud/skyux/compare/11.45.0...11.45.1) (2025-03-12)
+
+
+### Bug Fixes
+
+* **components/theme:** viewport service should work with overlay elements ([#3195](https://github.com/blackbaud/skyux/issues/3195)) ([c025f70](https://github.com/blackbaud/skyux/commit/c025f70f8e9a688b8e91dbf388dc527ea9b60337))
+
 ## [12.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.10...12.0.0-alpha.11) (2025-03-12)
 
 
