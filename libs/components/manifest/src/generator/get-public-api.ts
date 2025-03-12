@@ -80,12 +80,13 @@ function getManifestItem(
       return getVariable(reflection, filePath);
     }
 
-    /* istanbul ignore next: safety check */
+    /* v8 ignore start: safety check */
     default: {
       throw new Error(
         `Unhandled type encountered when processing '${reflection.name}'.`,
       );
     }
+    /* v8 ignore stop */
   }
 }
 
@@ -98,7 +99,7 @@ function sortArrayByKey<T>(arr: T[], key: keyof T): T[] {
       return aValue.localeCompare(bValue);
     }
 
-    /* istanbul ignore next: safety check */
+    /* v8 ignore next: safety check */
     return 0;
   });
 }
@@ -128,10 +129,11 @@ export async function getPublicApi(
           .replace(process.cwd(), '')
           .slice(1);
 
-        /* istanbul ignore if: safety check */
+        /* v8 ignore start: safety check */
         if (!filePath || filePath.endsWith('/index.ts')) {
           continue;
         }
+        /* v8 ignore stop */
 
         items.push(getManifestItem(child, filePath));
       }

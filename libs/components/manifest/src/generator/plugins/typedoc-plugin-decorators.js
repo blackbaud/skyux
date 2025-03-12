@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 /**
  * This plugin is based on a suggestion from a Typedoc maintainer at
  * https://github.com/TypeStrong/typedoc/issues/2346#issuecomment-1656806051.

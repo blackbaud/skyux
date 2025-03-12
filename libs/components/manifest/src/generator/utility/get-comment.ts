@@ -119,10 +119,11 @@ export function getComment(reflection: {
           case '@docsId': {
             const docsIdFromComment = getCommentTagText(tag.content);
 
-            /* istanbul ignore next: safety check */
+            /* v8 ignore start: safety check */
             if (!docsIdFromComment) {
               throw new Error(`A @docsId tag must have a value.`);
             }
+            /* v8 ignore stop */
 
             docsId = docsIdFromComment;
             break;

@@ -30,12 +30,13 @@ export function getIndexSignatures(
 
       const parameters = getParameters(signature);
 
-      /* istanbul ignore if: safety check */
+      /* v8 ignore start: safety check */
       if (!parameters) {
         throw new Error(
           `Index signature ${reflection.name} is missing parameters.`,
         );
       }
+      /* v8 ignore stop */
 
       definitions.push({
         codeExample,

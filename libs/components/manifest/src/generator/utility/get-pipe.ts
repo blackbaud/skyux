@@ -23,10 +23,11 @@ export function getPipe(
     | (SkyManifestClassPropertyDefinition | SkyManifestClassMethodDefinition)[]
     | undefined = reflection.children;
 
-  /* istanbul ignore if: safety check */
+  /* v8 ignore start: safety check */
   if (!children) {
     children = [];
   }
+  /* v8 ignore stop */
 
   const pipe: SkyManifestPipeDefinition = {
     ...reflection,

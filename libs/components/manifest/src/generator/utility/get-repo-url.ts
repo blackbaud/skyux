@@ -5,7 +5,7 @@ const DEFAULT_REPO_URL = 'https://github.com/blackbaud/skyux';
 export function getRepoUrl(reflection: DeclarationReflection): string {
   let repoUrl = reflection.sources?.[0].url;
 
-  /* istanbul ignore if: safety check */
+  /* v8 ignore start: safety check */
   if (!repoUrl) {
     console.warn(
       `  [!] A repo URL could not be determined for type "${reflection.escapedName}". ` +
@@ -14,6 +14,7 @@ export function getRepoUrl(reflection: DeclarationReflection): string {
 
     repoUrl = DEFAULT_REPO_URL;
   }
+  /* v8 ignore stop */
 
   return repoUrl;
 }

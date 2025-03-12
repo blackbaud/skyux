@@ -12,11 +12,12 @@ export function getNearestProjectReflection(
 
   if (reflection) {
     return reflection;
+    /* v8 ignore start: else branch safety check */
   }
 
-  /* istanbul ignore next: safety check */
   throw new Error('Could not find a ProjectReflection!');
 }
+/* v8 ignore stop */
 
 /**
  * Gets a reflection by name from a project reflection.
@@ -33,13 +34,13 @@ export function findReflectionByName(
     for (const child of children) {
       const found = child.getChildByName(name);
 
-      /* istanbul ignore else: safety check */
       if (found) {
         return found;
+        /* v8 ignore start: else branch safety check */
       }
     }
   }
 
-  /* istanbul ignore next: safety check */
   return;
 }
+/* v8 ignore stop */

@@ -77,13 +77,14 @@ function formatReflectionType(type: ReflectionType): string | undefined {
     const defs = getIndexSignatures(typeDecl);
 
     return `{ ${defs?.[0].name}: ${defs?.[0].type}; }`;
+    /* v8 ignore start: else branch safety check */
   }
 
-  /* istanbul ignore next: safety check */
   throw new Error(
     `Unhandled reflection type: ${typeDecl.name} ${typeDecl.toString()}`,
   );
 }
+/* v8 ignore stop */
 
 function formatUnionType(type: UnionType): string {
   return type.types
@@ -123,7 +124,7 @@ export function formatTypeCustom(type: SomeType | undefined): string {
     formatted = type?.toString();
   }
 
-  /* istanbul ignore if: safety check */
+  /* v8 ignore start: safety check */
   if (!formatted) {
     console.error(type);
 
@@ -133,6 +134,7 @@ export function formatTypeCustom(type: SomeType | undefined): string {
         'to accommodate all features of the public API.',
     );
   }
+  /* v8 ignore stop */
 
   return formatted;
 }
