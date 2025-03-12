@@ -1,5 +1,14 @@
+<p>
+  <sky-icon icon="copy-to-clipboard" size="md" /> some text
+  <sky-icon icon="copy-to-clipboard" size="lg" /> some more text
+</p>
+<p>
+  <sky-icon icon="copy-to-clipboard" size="md" /> some text
+  <sky-icon iconName="clipboard-multiple" iconSize="m" /> some more text
+</p>
+
 <div class="sky-margin-stacked-lg">
-  <sky-icon icon="sparkles-2" />
+  <sky-icon icon="sparkles-2" size="md" />
   <sky-icon iconName="sparkles" />
   <sky-icon icon="sparkles-2" size="lg" />
   <sky-icon iconName="sparkles" size="lg" />
@@ -11,6 +20,7 @@
   <sky-icon iconName="sparkles" size="4x" />
   <sky-icon icon="sparkles-2" size="5x " />
   <sky-icon iconName="sparkles" size="5x" />
+  <sky-icon iconName="sky-success" />
 
   <sky-icon iconName="alert" />
   <sky-icon iconName="alert" size="lg" />
@@ -25,16 +35,206 @@
   <sky-icon iconName="attach" size="3x" />
   <sky-icon iconName="attach" size="4x" />
   <sky-icon iconName="attach" size="5x" />
+
   Some text.
 </div>
+<div class="sky-margin-stacked-lg">
+  <sky-icon iconName="sparkles" />
+  <sky-icon iconName="sparkles" iconSize="m" />
+  <sky-icon iconName="sparkles" iconSize="l" />
+  <sky-icon iconName="sparkles" iconSize="xl" />
+</div>
 <div>
+  <sky-icon icon="copy-to-clipboard" size="md" />
+  <sky-icon icon="copy-to-clipboard" size="lg" />
+</div>
+<div>
+  <sky-icon icon="copy-to-clipboard" iconSize="s" />
+  <sky-icon icon="copy-to-clipboard" iconSize="m" />
+</div>
+
+<div>
+  <sky-icon iconName="clipboard-multiple" />
+  <sky-icon iconName="clipboard-multiple" size="lg" />
+</div>
+
+<div>
+  <sky-icon iconName="add" />
+  <sky-icon iconName="add" size="lg" />
+</div>
+
+<div>
+  <sky-icon iconName="edit" />
+  <sky-icon iconName="edit" size="lg" />
+</div>
+
+<div>
+  <sky-icon iconName="sky-info" />
+  <sky-icon iconName="sky-info" size="lg" />
+</div>
+
+<div>
+  <sky-icon icon="copy-to-clipboard" size="lg" />
+  <sky-icon iconName="clipboard-multiple" size="lg" />
+</div>
+
+<p style="line-height: 1">
+  text next to a line height 1 button
+  <button
+    style="line-height: 1; padding: 0px"
+    type="button"
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
+  >
+    <sky-icon iconName="clipboard-multiple" />
+  </button>
+</p>
+
+<p style="line-height: 1">
+  text next to a line height 1 button
+  <button
+    style="line-height: 1; padding: 0px; min-height: 19px; min-width: 20px"
+    type="button"
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
+  >
+    <sky-icon icon="copy-to-clipboard" size="md" />
+  </button>
+</p>
+
+<p>
+  text next to the button
   <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
     <sky-icon iconName="clipboard-multiple" /> Copy
   </button>
+  more text
   <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
-    <sky-icon icon="copy-to-clipboard" /> Copy
+    <sky-icon iconName="edit" /> Copy
   </button>
-  <button type="button" class="sky-btn sky-btn-primary">
-    <sky-icon iconName="alert" /> Alert
+  more text
+  <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
+    <sky-icon iconName="sky-success" /> Copy
   </button>
+  more text
+  <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
+    <sky-icon icon="copy-to-clipboard" size="md" /> Copy
+  </button>
+  ok that is the rest of the text
+</p>
+<p>
+  text next to the button
+  <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
+    <sky-icon iconName="clipboard-multiple" /> Copy
+  </button>
+  more text
+  <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
+    <sky-icon iconName="edit" /> Copy
+  </button>
+  more text
+  <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
+    <sky-icon iconName="sky-success" /> Copy
+  </button>
+  more text
+  <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
+    <sky-icon icon="copy-to-clipboard" size="md" /> Copy
+  </button>
+  ok that is the rest of the text
+</p>
+
+<h2>
+  a button with only an icon in an h2
+  <button
+    type="button"
+    class="sky-btn sky-btn-primary sky-margin-inline-sm"
+    style="line-height: 10"
+  >
+    <sky-icon iconName="sky-success" size="3x" />
+  </button>
+  then a font version
+  <button
+    type="button"
+    class="sky-btn sky-btn-primary sky-margin-inline-sm"
+    style="line-height: 10"
+  >
+    <sky-icon icon="edit" size="3x" />
+  </button>
+  a few more words
+</h2>
+
+<p>
+  Default size icon next to text inside a paragraph
+  <sky-icon iconName="edit" /> some text after
+  <sky-icon iconName="sky-success" variant="solid" />
+  <sky-icon iconName="sky-success" />
+  <sky-icon iconName="sky-info" variant="solid" />
+  <sky-icon iconName="sky-info" />
+  <sky-icon iconName="sky-warning" variant="solid" />
+  <sky-icon iconName="sky-warning" />
+  more text
+</p>
+
+<p>
+  Default size icon next to text inside a paragraph
+  <sky-icon icon="edit" size="md" /> some text after
+</p>
+
+<p style="font-size: 24px">
+  Default size icon next to text inside a paragraph size 24px font
+  <sky-icon iconName="edit" /> some text after
+</p>
+<p style="font-size: 24px">
+  Default size icon next to text inside a paragraph size 24px font
+  <sky-icon icon="edit" size="md" /> some text after
+</p>
+
+<p>
+  3x size icon next to text inside a paragraph
+  <sky-icon iconName="edit" size="3x" /> some text after
+</p>
+<p>
+  3x size icon next to text inside a paragraph
+  <sky-icon icon="edit" size="3x" /> some text after
+</p>
+
+<p style="font-size: 48px">
+  16px size icon next to text inside a paragraph size 48px font
+  <span style="font-size: 16px"><sky-icon iconName="edit" /></span>
+</p>
+<p style="font-size: 48px">
+  16px size icon next to text inside a paragraph size 48px font
+  <span style="font-size: 16px"><sky-icon icon="edit" size="md" /></span>
+</p>
+
+Icon next to text inline <sky-icon iconName="edit" /> Icon next to text inline
+<sky-icon icon="edit" size="md" />
+
+regular text inline lg icon <sky-icon iconName="edit" size="lg" /> regular text
+inline lg icon <sky-icon icon="edit" size="lg" />
+<br />
+
+regular text inline 3x icon <sky-icon iconName="edit" size="3x" /> regular text
+inline 3x icon <sky-icon icon="edit" size="3x" />
+<br />
+
+<div style="font-size: 48px">
+  Really big text next to a small icon in a div<span style="font-size: 16px"
+    ><sky-icon iconName="edit"
+  /></span>
 </div>
+<div style="font-size: 48px">
+  Really big text next to a small icon in a div<span style="font-size: 16px"
+    ><sky-icon icon="edit" size="md"
+  /></span>
+</div>
+
+<p>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque quis
+  facilisis lacus. Praesent non auctor leo. Pellentesque cursus malesuada
+  aliquet. Vestibulum eget tincidunt magna. Ut et aliquam ante. Ut tortor nisl,
+  tristique quis dolor id, sollicitudin tincidunt nisl. Integer ut consectetur
+  nunc. Donec non ante justo. Quisque ante nisi, interdum ut luctus venenatis,
+  mollis sed ligula. <sky-icon iconName="edit" /> Integer eu orci nec magna
+  consectetur imperdiet ut id mauris. Nunc fermentum urna sit amet eros accumsan
+  fermentum sit amet non sapien. Donec interdum egestas libero, lobortis viverra
+  dolor pharetra et. Maecenas pretium ligula sapien. Suspendisse in mi ipsum.
+  Phasellus id libero at sapien bibendum consectetur. Aliquam porta tincidunt
+  egestas.
+</p>

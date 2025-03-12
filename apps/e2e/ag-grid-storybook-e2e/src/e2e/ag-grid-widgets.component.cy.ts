@@ -12,7 +12,7 @@ describe('ag-grid-widgets', () => {
             // eslint-disable-next-line @cspell/spellchecker
             `/iframe.html?globals=theme:${theme}&id=ag-grid-widgetscomponent--ag-grid-widgets${compact ? '-compact' : ''}`,
           );
-          cy.get('#ready').should('exist');
+          cy.skyReady('app-ag-grid-widgets', ['#ready']);
           cy.get('.ag-header-cell[col-id="seasons_played"]')
             .should('exist')
             .first()

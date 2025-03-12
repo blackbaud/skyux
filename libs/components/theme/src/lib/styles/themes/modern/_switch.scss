@@ -227,6 +227,10 @@
         --sky-override-icon-switch-font-size,
         var(--sky-size-icon-m)
       );
+
+      i {
+        justify-content: center;
+      }
     }
 
     &::before {

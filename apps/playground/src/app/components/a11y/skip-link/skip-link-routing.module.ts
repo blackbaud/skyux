@@ -12,7 +12,7 @@ const routes: ComponentRouteInfo[] = [
     data: {
       name: 'Skip link',
       library: 'a11y',
-      icon: 'universal-access',
+      icon: 'accessibility',
     },
   },
 ];

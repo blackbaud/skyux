@@ -17,9 +17,7 @@ describe('angular-tree-component-storybook', () => {
             ),
           );
           it('should render the component', () => {
-            cy.get('app-angular-tree-component')
-              .should('exist')
-              .should('be.visible');
+            cy.skyReady('app-angular-tree-component');
 
             cy.get('tree-node-content')
               .should('exist')

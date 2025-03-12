@@ -42,7 +42,7 @@ export class ColorpickerComponent {
     '#DA9C9C',
   ];
 
-  protected ready$ = of(true).pipe(delay(1200));
+  public readonly ready = of(true).pipe(delay(1200));
 
   constructor(formBuilder: FormBuilder) {
     this.colorForm = formBuilder.group({

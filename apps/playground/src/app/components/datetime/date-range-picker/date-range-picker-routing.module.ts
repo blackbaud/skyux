@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: DateRangePickerComponent,
     data: {
       name: 'Date range picker',
-      icon: 'calendar',
+      icon: 'calendar-ltr',
       library: 'datetime',
     },
   },

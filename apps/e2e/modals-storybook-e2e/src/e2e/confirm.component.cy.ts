@@ -9,9 +9,7 @@ describe(`modals-storybook`, () => {
         ),
       );
       it('should render the OK component', () => {
-        cy.get('app-confirm')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-confirm')
           .get('.open-ok-confirm-btn')
           .should('exist')
           .should('be.visible')
@@ -26,9 +24,7 @@ describe(`modals-storybook`, () => {
       });
 
       it('should render the Custom component', () => {
-        cy.get('app-confirm')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-confirm')
           .get('.open-custom-confirm-btn')
           .should('exist')
           .should('be.visible')

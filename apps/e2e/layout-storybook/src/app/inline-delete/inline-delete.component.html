@@ -2,7 +2,7 @@
   <p>Triggered inline delete:</p>
   <div class="screenshot-inline-delete">
     <button class="sky-btn sky-btn-danger" type="button">
-      <sky-icon icon="trash" />
+      <sky-icon iconName="delete" />
     </button>
     <sky-inline-delete [pending]="false" />
   </div>
@@ -12,9 +12,8 @@
   <p>Triggered inline delete, pending:</p>
   <div class="screenshot-inline-delete">
     <button class="sky-btn sky-btn-danger" type="button">
-      <sky-icon icon="trash" />
+      <sky-icon iconName="delete" />
     </button>
     <sky-inline-delete [pending]="true" />
   </div>
 </div>
-<span *ngIf="ready | async" id="ready"></span>

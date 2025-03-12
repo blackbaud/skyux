@@ -268,7 +268,7 @@ describe('Tile dashboard service', () => {
     const tile: Element = fixture.nativeElement.querySelector(
       'div.sky-test-tile-1',
     );
-    const handle = tile.querySelector('.sky-tile-grab-handle i');
+    const handle = tile.querySelector('.sky-tile-grab-handle sky-icon-svg');
     const setOptionsSpy = spyOn(mockDragulaService, 'createGroup').and.callFake(
       (name: string, options: DragulaOptions) => {
         if (options.moves && handle) {

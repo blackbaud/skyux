@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: ToggleSwitchComponent,
     data: {
       name: 'Toggle switch',
-      icon: 'toggle-on',
+      icon: 'circle-half-fill',
       library: 'forms',
     },
   },

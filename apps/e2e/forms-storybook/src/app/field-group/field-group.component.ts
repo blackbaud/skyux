@@ -21,7 +21,6 @@ import { SkyFieldGroupModule, SkyInputBoxModule } from '@skyux/forms';
 })
 export class FieldGroupComponent {
   public formGroup: FormGroup;
-
   #formBuilder = inject(FormBuilder);
 
   constructor() {

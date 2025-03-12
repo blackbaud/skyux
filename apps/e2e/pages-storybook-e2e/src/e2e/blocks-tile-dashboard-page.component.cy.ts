@@ -15,10 +15,7 @@ describe(`pages-storybook-blocks-tile-dashboard`, () => {
           });
 
           it('should render the component', () => {
-            cy.get(SELECTOR_PAGE)
-              .should('exist')
-              .should('be.visible')
-              .screenshot(`${ID}-${theme}`);
+            cy.skyReady(SELECTOR_PAGE).screenshot(`${ID}-${theme}`);
             cy.get(SELECTOR_PAGE).percySnapshot(`${ID}-${theme}`);
           });
         });

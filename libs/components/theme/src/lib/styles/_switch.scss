@@ -102,6 +102,10 @@
       height: 35px;
       flex: 1 0 35px;
       font-size: 18px;
+
+      i {
+        justify-content: center;
+      }
     }
 
     &::before {

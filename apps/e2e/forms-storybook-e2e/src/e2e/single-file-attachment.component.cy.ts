@@ -9,9 +9,7 @@ describe('forms-storybook - single file attachment', () => {
         ),
       );
       it('should render the single file attachment component', () => {
-        cy.get('app-single-file-attachment')
-          .should('exist')
-          .should('be.visible');
+        cy.skyReady('app-single-file-attachment');
         cy.get('sky-help-inline')
           .eq(1)
           .should('exist')

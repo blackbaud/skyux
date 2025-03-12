@@ -118,14 +118,14 @@ export class SkyFileItemComponent implements DoCheck {
             break;
           case '.XLS':
           case '.XLSX':
-            cls = 'excel';
+            cls = 'xls';
             break;
           case '.TXT':
             cls = 'text';
             break;
           case '.HTM':
           case '.HTML':
-            cls = 'code';
+            cls = 'chevron-double';
             break;
           default:
             break;
@@ -156,7 +156,7 @@ export class SkyFileItemComponent implements DoCheck {
               break;
           }
         }
-        this.icon = 'file-' + (cls ? cls + '-' : '') + 'o';
+        this.icon = 'document' + (cls ? '-' + cls : '');
       }
     } else {
       this.icon = undefined;

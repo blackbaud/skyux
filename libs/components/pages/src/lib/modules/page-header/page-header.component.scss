@@ -3,7 +3,6 @@
 
 @include compatMixins.sky-default-overrides('.sky-page-header') {
   --sky-override-page-header-chevron-color: var(--sky-text-color-default);
-  --sky-override-page-header-chevron-size: 16px;
   --sky-override-page-header-hub-spoke-spacing: #{$sky-space-md};
   --sky-override-page-header-parent-color: #{$sky-text-color-action-primary};
 }
@@ -45,10 +44,6 @@
     color: var(
       --sky-override-page-header-chevron-color,
       var(--sky-color-icon-default)
-    );
-    font-size: var(
-      --sky-override-page-header-chevron-size,
-      var(--sky-size-icon-s)
     );
     margin: 0
       var(

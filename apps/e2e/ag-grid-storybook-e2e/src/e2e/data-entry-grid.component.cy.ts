@@ -18,7 +18,7 @@ describe('ag-grid-storybook data entry grid', () => {
               /* spell-checker:disable-next-line */
               `/iframe.html?globals=theme:${theme}&id=dataentrygridcomponent-dataentrygrid--data-entry-grid-date-and-lookup${compact ? '-compact' : ''}`,
             );
-            cy.get('#ready').should('exist');
+            cy.skyReady('app-data-entry-grid', ['#ready']);
             cy.get(
               '#checkboxes .ag-viewport > .ag-center-cols-container > .ag-row',
             )
@@ -116,7 +116,7 @@ describe('ag-grid-storybook data entry grid', () => {
               .should('be.visible');
 
             // Screenshot the three grids with active editors.
-            cy.window().skyVisualTest(
+            cy.skyVisualTest(
               /* spell-checker:disable-next-line */
               `dataentrygridcomponent-dataentrygrid--date-and-lookup-${theme}${compact ? '-compact' : ''}`,
               {
@@ -134,7 +134,7 @@ describe('ag-grid-storybook data entry grid', () => {
               `/iframe.html?globals=theme:${theme}&id=dataentrygridcomponent-dataentrygrid--data-entry-grid-edit-lookup${compact ? '-compact' : ''}`,
             );
             // Briefly wait between arrowing down.
-            cy.get('#ready').should('exist');
+            cy.skyReady('app-data-entry-grid', ['#ready']);
             cy.get(
               '#sideScroll .ag-viewport > .ag-center-cols-container > .ag-row',
             )
@@ -337,7 +337,7 @@ describe('ag-grid-storybook data entry grid', () => {
               .should('have.length.gt', 2);
 
             // Screenshot the grids with active editors.
-            cy.window().skyVisualTest(
+            cy.skyVisualTest(
               /* spell-checker:disable-next-line */
               `dataentrygridcomponent-dataentrygrid--edit-lookup-${theme}${compact ? '-compact' : ''}`,
               {

@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: WaitComponent,
     data: {
       name: 'Wait',
-      icon: 'spinner',
+      icon: 'spinner-ios',
       library: 'indicators',
     },
   },

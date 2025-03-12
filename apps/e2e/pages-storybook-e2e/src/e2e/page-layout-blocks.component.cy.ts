@@ -30,9 +30,7 @@ describe(`pages-storybook`, () => {
           );
 
           it('should render the component', () => {
-            cy.get('app-blocks-page sky-page')
-              .should('exist')
-              .should('be.visible');
+            cy.skyReady('app-blocks-page sky-page');
             cy.window().screenshot(`${ID}-${theme}`);
             cy.window().percySnapshot(`${ID}-${theme}`);
           });
@@ -40,9 +38,7 @@ describe(`pages-storybook`, () => {
           it('should render the component on mobile', () => {
             cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
 
-            cy.get('app-blocks-page sky-page')
-              .should('exist')
-              .should('be.visible');
+            cy.skyReady('app-blocks-page sky-page');
             cy.window().screenshot(`${ID}-${theme}-mobile`);
             cy.window().percySnapshot(`${ID}-${theme}-mobile`, {
               widths: E2eVariations.MOBILE_WIDTHS,

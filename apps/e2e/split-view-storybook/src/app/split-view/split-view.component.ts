@@ -1,7 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, inject } from '@angular/core';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
-
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-split-view',
@@ -9,21 +6,4 @@ import { BehaviorSubject, Subscription } from 'rxjs';
   styleUrls: ['./split-view.component.scss'],
   standalone: false,
 })
-export class SplitViewDockFillComponent implements AfterViewInit, OnDestroy {
-  public readonly ready = new BehaviorSubject(false);
-
-  #fontLoadingService = inject(FontLoadingService);
-  #subscriptions = new Subscription();
-
-  public ngAfterViewInit(): void {
-    this.#subscriptions.add(
-      this.#fontLoadingService.ready().subscribe(() => {
-        this.ready.next(true);
-      }),
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
-  }
-}
+export class SplitViewDockFillComponent {}
