@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.10...12.0.0-alpha.11) (2025-03-12)
+
+
+### Features
+
+* **components/icon:** pull in updated icon manifest ([#3233](https://github.com/blackbaud/skyux/issues/3233)) ([4aad9ab](https://github.com/blackbaud/skyux/commit/4aad9ab189a5df5b27996ce83de8c1d3662e9753))
+
 ## [12.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.9...12.0.0-alpha.10) (2025-03-11)
 
 
