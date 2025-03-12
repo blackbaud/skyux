@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { DestroyRef, Injectable, inject } from '@angular/core';
+import { DestroyRef, Injectable, NgZone, inject } from '@angular/core';
 
 import { ReplaySubject } from 'rxjs';
 
@@ -31,21 +31,23 @@ export class SkyAppViewportService {
   readonly #reserveItems = new Map<string, ReserveItemType>();
   readonly #conditionallyReserveItems = new Map<Element, ReserveItemType>();
   readonly #document = inject(DOCUMENT);
-  readonly #intersectionObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const item = this.#conditionallyReserveItems.get(entry.target);
-        if (item) {
-          item.active = entry.isIntersecting;
-        }
-      });
-      this.#updateViewportArea();
-    },
-    {
-      root: this.#document,
-      threshold: Array.from({ length: 11 }, (_, i) => i / 10),
-    },
+  readonly #ngZone = inject(NgZone);
+  // Observe elements crossing the browser's viewport boundaries.
+  readonly #intersectionObserver = this.#ngZone.runOutsideAngular(
+    () =>
+      new IntersectionObserver(
+        () => this.#ngZone.run(() => this.#updateViewportArea()),
+        { threshold: Array.from({ length: 101 }, (_, i) => i / 100) },
+      ),
   );
+  #reservedSpaces: {
+    [key in SkyAppViewportReservedPositionType]: number;
+  } = {
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 0,
+  };
 
   constructor() {
     const onScroll = (): void => {
@@ -67,9 +69,7 @@ export class SkyAppViewportService {
   public reserveSpace(args: SkyAppViewportReserveArgs): void {
     const item = {
       ...args,
-      active:
-        !args.reserveForElement ||
-        this.#isElementVisible(args.reserveForElement),
+      active: this.#isElementVisible({ ...args, active: false }),
     };
     this.#reserveItems.set(args.id, item);
     this.#watchVisibility(item);
@@ -92,6 +92,7 @@ export class SkyAppViewportService {
 
   #updateViewportArea(): void {
     this.#updateRequest ??= requestAnimationFrame(() => {
+      this.#updateRequest = undefined;
       const reservedSpaces: Record<SkyAppViewportReservedPositionType, number> =
         {
           bottom: 0,
@@ -100,20 +101,14 @@ export class SkyAppViewportService {
           top: 0,
         };
 
-      for (const {
-        position,
-        size,
-        active,
-        reserveForElement,
-      } of this.#reserveItems.values()) {
-        if (
-          active &&
-          (!reserveForElement || this.#isElementVisible(reserveForElement))
-        ) {
-          reservedSpaces[position] += size;
+      for (const args of this.#reserveItems.values()) {
+        args.active = this.#isElementVisible(args);
+        if (args.active) {
+          reservedSpaces[args.position] += args.size;
         }
       }
 
+      this.#reservedSpaces = reservedSpaces;
       const documentElementStyle = this.#document.documentElement.style;
 
       for (const [position, size] of Object.entries(reservedSpaces)) {
@@ -122,8 +117,6 @@ export class SkyAppViewportService {
           size + 'px',
         );
       }
-
-      this.#updateRequest = undefined;
     });
   }
 
@@ -134,17 +127,50 @@ export class SkyAppViewportService {
     }
   }
 
-  #isElementVisible(element: HTMLElement): boolean {
-    const rect = element.getBoundingClientRect();
-    return (
+  #isElementVisible(args: ReserveItemType): boolean {
+    if (!args.reserveForElement) {
+      return true;
+    }
+    const rect = args.reserveForElement.getBoundingClientRect();
+    if (!rect || !rect.height || !rect.width) {
+      return false;
+    }
+    const midpoint = {
+      x: rect.x + Math.floor(rect.width / 2),
+      y: rect.y + Math.floor(rect.height / 2),
+    };
+    if (
       // Vertically in view
-      rect.y <= window.innerHeight &&
-      rect.y >= 0 &&
+      midpoint.y <= window.innerHeight &&
+      midpoint.y >= 0 &&
       // Horizontally in view
-      rect.x <= window.innerWidth &&
-      rect.x >= 0 &&
+      midpoint.x <= window.innerWidth &&
+      midpoint.x >= 0
+    ) {
       // Element is not hidden by another element
-      element.contains(this.#document.elementFromPoint(rect.x + 1, rect.y + 1))
-    );
+      if (
+        args.reserveForElement.contains(
+          this.#document.elementFromPoint(midpoint.x, midpoint.y),
+        )
+      ) {
+        return true;
+      }
+
+      // Check if the item's midpoint is visible if its space were not reserved.
+      const threshold = args.active
+        ? this.#reservedSpaces[args.position] - args.size
+        : this.#reservedSpaces[args.position];
+      switch (args.position) {
+        case 'top':
+          return midpoint.y >= threshold;
+        case 'right':
+          return midpoint.x <= window.innerWidth - threshold;
+        case 'bottom':
+          return midpoint.y <= window.innerHeight - threshold;
+        case 'left':
+          return midpoint.x >= threshold;
+      }
+    }
+    return false;
   }
 }
