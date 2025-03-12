@@ -10,7 +10,7 @@ export class SkyVerticalTabContentHarness extends SkyQueryableComponentHarness {
   /**
    * @internal
    */
-  public static hostSelector = '.sky-vertical-tabset-content';
+  public static hostSelector = '.sky-vertical-tab-content-pane';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -19,7 +19,12 @@ export class SkyVerticalTabContentHarness extends SkyQueryableComponentHarness {
   public static with(
     filters: SkyVerticalTabContentHarnessFilters,
   ): HarnessPredicate<SkyVerticalTabContentHarness> {
-    return SkyVerticalTabContentHarness.getDataSkyIdPredicate(filters);
+    return SkyVerticalTabContentHarness.getDataSkyIdPredicate(
+      filters,
+    ).addOption('tabId', filters.tabId, async (harness, tabId) => {
+      const harnessId = await harness.getTabId();
+      return await HarnessPredicate.stringMatches(harnessId, tabId);
+    });
   }
 
   /**
@@ -27,9 +32,7 @@ export class SkyVerticalTabContentHarness extends SkyQueryableComponentHarness {
    * @internal
    */
   public async getTabId(): Promise<string | null> {
-    return await (
-      await this.locatorFor('.sky-vertical-tab-content-pane')()
-    ).getAttribute('id');
+    return await (await this.host()).getAttribute('id');
   }
 
   /**

@@ -2,7 +2,7 @@
   <sky-vertical-tab data-sky-id="something" tabHeading="Tab 1">
     Tab 1 content
   </sky-vertical-tab>
-  <sky-vertical-tabset-group [groupHeading]="groups[1].heading">
+  <sky-vertical-tabset-group [groupHeading]="groups[1].heading" [open]="true">
     @for (tab of groups[1].subTabs; track tab) {
       <sky-vertical-tab
         [active]="tab.active"

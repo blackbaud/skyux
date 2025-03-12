@@ -1,6 +1,8 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
+import { SkyVerticalTabButtonHarness } from './vertical-tab-button-harness';
+import { SkyVerticalTabButtonHarnessFilters } from './vertical-tab-button-harness-filters';
 import { SkyVerticalTabsetGroupHarnessFilters } from './vertical-tabset-group-harness-filters';
 
 /**
@@ -13,6 +15,7 @@ export class SkyVerticalTabsetGroupHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-vertical-tabset-group';
 
   #button = this.locatorFor('button.sky-vertical-tabset-button');
+  #header = this.locatorFor('.sky-vertical-tabset-group-header');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -39,5 +42,56 @@ export class SkyVerticalTabsetGroupHarness extends SkyComponentHarness {
    */
   public async getGroupHeading(): Promise<string> {
     return (await (await this.#button()).text()).trim();
+  }
+
+  /**
+   * Whether the group is disabled.
+   */
+  public async isDisabled(): Promise<boolean> {
+    return await (
+      await this.#button()
+    ).hasClass('sky-vertical-tabset-button-disabled');
+  }
+
+  /**
+   * Whether a tab under this group is active.
+   */
+  public async isActive(): Promise<boolean> {
+    return await (
+      await this.#header()
+    ).hasClass('sky-vertical-tabset-group-header-active');
+  }
+
+  /**
+   * Whether the group is expanded.
+   * todo ask other engineers if checking for a class or property is better. my vote is property.
+   */
+  public async isOpen(): Promise<boolean> {
+    return (
+      (await (await this.#header()).getAttribute('aria-expanded')) === 'true'
+    );
+  }
+
+  /**
+   * Gets the `SkyVerticalTabButtonHarness` for all tabs under this group.
+   */
+  public async getVerticalTabs(): Promise<SkyVerticalTabButtonHarness[]> {
+    return await this.locatorForAll(SkyVerticalTabButtonHarness)();
+  }
+
+  /**
+   * Gets the `SkyVerticalTabButtonHarness` for a specific tab under this group based on filters.
+   */
+  public async getVerticalTab(
+    filters: SkyVerticalTabButtonHarnessFilters,
+  ): Promise<SkyVerticalTabButtonHarness> {
+    return await this.locatorFor(SkyVerticalTabButtonHarness.with(filters))();
+  }
+
+  /**
+   * Clicks the group button to toggle its expanded state.
+   */
+  public async click(): Promise<void> {
+    return await (await this.#button()).click();
   }
 }

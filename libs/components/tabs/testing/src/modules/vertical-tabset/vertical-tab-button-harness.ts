@@ -2,6 +2,7 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyVerticalTabButtonHarnessFilters } from './vertical-tab-button-harness-filters';
+import { SkyVerticalTabContentHarness } from './vertical-tab-content-harness';
 
 /**
  * Harness for interacting with a vertical tab in tests.
@@ -11,6 +12,8 @@ export class SkyVerticalTabButtonHarness extends SkyComponentHarness {
    * @internal
    */
   public static hostSelector = 'sky-vertical-tab';
+
+  #tabButton = this.locatorFor('a.sky-vertical-tab');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -23,9 +26,69 @@ export class SkyVerticalTabButtonHarness extends SkyComponentHarness {
       'tabHeading',
       filters.tabHeading,
       async (harness, heading) => {
-        const tabLabel = await harness.locatorFor('.sky-vertical-tab-label')();
-        return (await tabLabel.text()) === heading;
+        const tabHeading = await harness.getTabHeading();
+        return tabHeading === heading;
       },
+    );
+  }
+
+  /**
+   * Gets the tab heading text.
+   */
+  public async getTabHeading(): Promise<string> {
+    return (
+      await (await this.locatorFor('.sky-vertical-tab-heading-value')()).text()
+    ).trim();
+  }
+
+  /**
+   * Whether the tab is active.
+   */
+  public async isActive(): Promise<boolean> {
+    return await (await this.#tabButton()).hasClass('sky-vertical-tab-active');
+  }
+
+  /**
+   * Whether the tab is disabled.
+   */
+  public async isDisabled(): Promise<boolean> {
+    return await (
+      await this.#tabButton()
+    ).hasClass('sky-vertical-tabset-button-disabled');
+  }
+
+  /**
+   * Gets the tab header count.
+   */
+  public async getTabHeaderCount(): Promise<number> {
+    const value = (
+      await (await this.locatorFor('.sky-vertical-tab-count')()).text()
+    ).trim();
+
+    // get value between parentheses
+    const rx = /\(([^)]+)\)/;
+
+    return Number(value.match(rx)?.[0]);
+  }
+
+  /**
+   * Gets the `SkyVerticalTabContentHarness` for this tab.
+   */
+  public async getTabContent(): Promise<SkyVerticalTabContentHarness> {
+    return await this.documentRootLocatorFactory().locatorFor(
+      SkyVerticalTabContentHarness.with({ tabId: await this.getTabId() }),
+    )();
+  }
+
+  /**
+   * Gets the id of the content controlled by this tab.
+   * @internal
+   */
+  public async getTabId(): Promise<string> {
+    return (
+      (await (await this.#tabButton()).getProperty('aria-controls')) ||
+      /* istanbul ignore next */
+      ''
     );
   }
 }
