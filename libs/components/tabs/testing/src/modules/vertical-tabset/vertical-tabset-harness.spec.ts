@@ -12,10 +12,14 @@ import { SkyVerticalTabsetHarness } from './vertical-tabset-harness';
   template: `
     <sky-vertical-tabset
       ariaLabel="Vertical tabset"
-      aria-labelledBy="Tabset label"
+      ariaLabelledBy="Tabset label"
       [showTabsText]="showTabsText"
     >
-      <sky-vertical-tab tabHeading="Tab 1" [active]="true">
+      <sky-vertical-tab
+        tabHeading="Tab 1"
+        [active]="active"
+        [tabHeaderCount]="15"
+      >
         Tab 1 content
       </sky-vertical-tab>
       <sky-vertical-tab
@@ -52,6 +56,7 @@ import { SkyVerticalTabsetHarness } from './vertical-tabset-harness';
   `,
 })
 class TestComponent {
+  public active = true;
   public showTabsText = false;
   public groups: TabGroup[] = [
     {
@@ -115,4 +120,119 @@ fdescribe('Vertical Tabset harness', () => {
       'Vertical tabset 2',
     );
   });
+
+  it('should get the active tab', async () => {
+    const { tabsetHarness } = await setupTest();
+    const activeTab = await tabsetHarness.getActiveTab();
+    await expectAsync(activeTab?.getTabHeading()).toBeResolvedTo('Tab 1');
+  });
+
+  it('should get the active tab from inside a group', async () => {
+    const { tabsetHarness } = await setupTest();
+    const tabInsideGroup = await tabsetHarness.getTabByHeading('Tab 3');
+    await tabInsideGroup.click();
+
+    const activeTab = await tabsetHarness.getActiveTab();
+    await expectAsync(activeTab?.getTabHeading()).toBeResolvedTo('Tab 3');
+  });
+
+  it('should return undefined when no tab is active', async () => {
+    const { tabsetHarness, fixture } = await setupTest();
+    fixture.componentInstance.active = false;
+    fixture.detectChanges();
+
+    await expectAsync(tabsetHarness.getActiveTab()).toBeResolvedTo(undefined);
+  });
+
+  it('should get the active tab content harness', async () => {
+    const { tabsetHarness } = await setupTest();
+    const activeTabContent = await tabsetHarness.getActiveTabContent();
+    await expectAsync(activeTabContent?.isVisible()).toBeResolvedTo(true);
+  });
+
+  it('should return no content when there is no active tab', async () => {
+    const { tabsetHarness, fixture } = await setupTest();
+    fixture.componentInstance.active = false;
+    fixture.detectChanges();
+
+    await expectAsync(tabsetHarness.getActiveTabContent()).toBeResolvedTo(
+      undefined,
+    );
+  });
+
+  it('should get the vertical tabset aria-label', async () => {
+    const { tabsetHarness } = await setupTest();
+    await expectAsync(tabsetHarness.getAriaLabel()).toBeResolvedTo(
+      'Vertical tabset',
+    );
+  });
+
+  it('should get the vertical tabset aria-labelledby', async () => {
+    const { tabsetHarness } = await setupTest();
+    await expectAsync(tabsetHarness.getAriaLabelledBy()).toBeResolvedTo(
+      'Tabset label',
+    );
+  });
+
+  it('should get the vertical tabset group by heading', async () => {
+    const { tabsetHarness } = await setupTest();
+    const disabledGroup =
+      await tabsetHarness.getGroupByHeading('Disabled group');
+    await expectAsync(disabledGroup?.isDisabled()).toBeResolvedTo(true);
+  });
+
+  it('should get the vertical tabset groups', async () => {
+    const { tabsetHarness } = await setupTest();
+    const groups = await tabsetHarness.getGroups();
+    expect(groups.length).toBe(2);
+  });
+
+  it('should get tab harness by heading', async () => {
+    const { tabsetHarness } = await setupTest();
+    const tab = await tabsetHarness.getTabByHeading('Tab 2');
+    await expectAsync(tab.isDisabled()).toBeResolvedTo(true);
+  });
+
+  it('should get all tabs in tabset', async () => {
+    const { tabsetHarness } = await setupTest();
+    const tabs = await tabsetHarness.getTabs();
+    expect(tabs.length).toBe(4);
+  });
+
+  it('should not return show tab text when not in mobile view', async () => {
+    const { tabsetHarness } = await setupTest();
+    await expectAsync(tabsetHarness.getShowTabsText()).toBeResolvedTo(
+      undefined,
+    );
+  });
+
+  it('should get the tab header count', async () => {
+    const { tabsetHarness } = await setupTest();
+
+    const activeTab = await tabsetHarness.getActiveTab();
+
+    await expectAsync(activeTab?.getTabHeaderCount()).toBeResolvedTo(15);
+  });
+
+  // describe('in mobile view', () => {
+  //   async function shrinkScreen(
+  //     fixture: ComponentFixture<TestComponent>,
+  //   ): Promise<void> {
+  //     // todo figure out where xs is set to 50px lol
+  //     fixture.nativeElement.style.width = '50px';
+  //     SkyAppTestUtility.fireDomEvent(window, 'resize');
+  //     fixture.detectChanges();
+  //     await fixture.whenStable();
+  //     await fixture.whenRenderingDone();
+  //   }
+
+  //   fit('should click the show tabs button', async () => {
+  //     const { tabsetHarness, fixture } = await setupTest();
+  //     await shrinkScreen(fixture);
+  //     await expectAsync(tabsetHarness.isTabsVisible()).toBeResolvedTo(false);
+
+  //     await tabsetHarness.clickShowTabsButton();
+  //     await expectAsync(tabsetHarness.isTabsVisible()).toBeResolvedTo(true);
+  //   });
+  // });
 });

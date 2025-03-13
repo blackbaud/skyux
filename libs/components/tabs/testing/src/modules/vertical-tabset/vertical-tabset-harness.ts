@@ -41,7 +41,6 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
 
   /**
    * Gets the `SkyVerticalTabButtonHarness` of the currently active tab.
-   * // todo ask engineers which way we want to go moving forward. throwing an error when consumers try to do something funky. or just don't do anything.
    */
   public async getActiveTab(): Promise<
     SkyVerticalTabButtonHarness | undefined
@@ -99,14 +98,39 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
+   * Get the vertical tabset group by `groupHeading`
+   */
+  public async getGroupByHeading(
+    groupHeading: string,
+  ): Promise<SkyVerticalTabsetGroupHarness | undefined> {
+    return await this.locatorFor(
+      SkyVerticalTabsetGroupHarness.with({ groupHeading: groupHeading }),
+    )();
+  }
+
+  /**
    * Gets an array of `SkyVerticalTabsetGroupHarness` in this tabset.
    */
-  public async getGroups(): Promise<
-    SkyVerticalTabsetGroupHarness[] | undefined
-  > {
-    if (await this.isTabsVisible()) {
-      return await this.locatorForAll(SkyVerticalTabsetGroupHarness)();
+  public async getGroups(): Promise<SkyVerticalTabsetGroupHarness[]> {
+    // open tablist if in mobile view
+    if (!(await this.isTabsVisible())) {
+      await this.clickShowTabsButton();
     }
+
+    return await this.locatorForAll(SkyVerticalTabsetGroupHarness)();
+  }
+
+  /**
+   * Gets the text in the show tabs button in mobile view.
+   */
+  public async getShowTabsText(): Promise<string | undefined> {
+    const showTabsButton = await this.#showTabsButton();
+
+    // check if it is in mobile view
+    if (showTabsButton) {
+      return (await await showTabsButton.text()).trim();
+    }
+
     return undefined;
   }
 
@@ -115,7 +139,7 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
    */
   public async getTabByHeading(
     tabHeading: string,
-  ): Promise<SkyVerticalTabButtonHarness | undefined> {
+  ): Promise<SkyVerticalTabButtonHarness> {
     return await this.locatorFor(
       SkyVerticalTabButtonHarness.with({ tabHeading: tabHeading }),
     )();
@@ -124,11 +148,13 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   /**
    * Gets an array of `SkyVerticalTabButtonHarness` in this tabset.
    */
-  public async getTabs(): Promise<SkyVerticalTabButtonHarness[] | undefined> {
-    if (await this.isTabsVisible()) {
-      return await this.locatorForAll(SkyVerticalTabButtonHarness)();
+  public async getTabs(): Promise<SkyVerticalTabButtonHarness[]> {
+    // open tablist if in mobile view
+    if (!(await this.isTabsVisible())) {
+      await this.clickShowTabsButton();
     }
-    return undefined;
+
+    return await this.locatorForAll(SkyVerticalTabButtonHarness)();
   }
 
   /**
@@ -139,8 +165,10 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   public async isTabsVisible(): Promise<boolean> {
     const showTabsButton = await this.#showTabsButton();
     if (showTabsButton) {
+      console.log('im inside false');
       return false;
     }
+    console.log('im inside true');
     return true;
   }
 }

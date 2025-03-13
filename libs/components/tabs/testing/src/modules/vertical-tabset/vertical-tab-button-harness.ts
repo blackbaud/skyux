@@ -59,7 +59,7 @@ export class SkyVerticalTabButtonHarness extends SkyComponentHarness {
     // get value between parentheses
     const rx = /\(([^)]+)\)/;
 
-    return Number(value.match(rx)?.[0]);
+    return Number(value.match(rx)?.[1]);
   }
 
   /**
@@ -77,7 +77,7 @@ export class SkyVerticalTabButtonHarness extends SkyComponentHarness {
    */
   public async getTabId(): Promise<string> {
     return (
-      (await (await this.#tabButton()).getProperty('aria-controls')) ||
+      (await (await this.#tabButton()).getAttribute('aria-controls')) ||
       /* istanbul ignore next */
       ''
     );
