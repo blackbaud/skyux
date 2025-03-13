@@ -2,6 +2,10 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import { SkyVerticalTabsetModule } from '@skyux/tabs';
 
 import { SkyVerticalTabsetHarness } from './vertical-tabset-harness';
@@ -58,7 +62,7 @@ import { SkyVerticalTabsetHarness } from './vertical-tabset-harness';
 })
 class TestComponent {
   public active = true;
-  public showTabsText = false;
+  public showTabsText: string | undefined;
   public groups: TabGroup[] = [
     {
       heading: 'Group 1',
@@ -102,6 +106,7 @@ fdescribe('Vertical Tabset harness', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [TestComponent, NoopAnimationsModule],
+      providers: [provideSkyMediaQueryTesting()],
     }).compileComponents();
     const fixture = TestBed.createComponent(TestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -253,25 +258,61 @@ fdescribe('Vertical Tabset harness', () => {
     });
   });
 
-  // describe('in mobile view', () => {
-  //   async function shrinkScreen(
-  //     fixture: ComponentFixture<TestComponent>,
-  //   ): Promise<void> {
-  //     // todo figure out where xs is set to 50px lol
-  //     fixture.nativeElement.style.width = '50px';
-  //     SkyAppTestUtility.fireDomEvent(window, 'resize');
-  //     fixture.detectChanges();
-  //     await fixture.whenStable();
-  //     await fixture.whenRenderingDone();
-  //   }
+  describe('in mobile view', () => {
+    let mediaQueryController: SkyMediaQueryTestingController;
 
-  //   fit('should click the show tabs button', async () => {
-  //     const { tabsetHarness, fixture } = await setupTest();
-  //     await shrinkScreen(fixture);
-  //     await expectAsync(tabsetHarness.isTabsVisible()).toBeResolvedTo(false);
+    function shrinkScreen(fixture: ComponentFixture<TestComponent>): void {
+      mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
+      mediaQueryController.setBreakpoint('xs');
+      fixture.detectChanges();
+    }
 
-  //     await tabsetHarness.clickShowTabsButton();
-  //     await expectAsync(tabsetHarness.isTabsVisible()).toBeResolvedTo(true);
-  //   });
-  // });
+    it('should click the show tabs button', async () => {
+      const { tabsetHarness, fixture } = await setupTest();
+      shrinkScreen(fixture);
+      await expectAsync(tabsetHarness.isTabsVisible()).toBeResolvedTo(false);
+
+      await tabsetHarness.clickShowTabsButton();
+      await expectAsync(tabsetHarness.isTabsVisible()).toBeResolvedTo(true);
+    });
+
+    it('should get the active content', async () => {
+      const { tabsetHarness, fixture } = await setupTest();
+      shrinkScreen(fixture);
+
+      const content = await tabsetHarness.getActiveTabContent();
+      await expectAsync(content?.isVisible()).toBeResolvedTo(true);
+    });
+
+    it('should click the show tab button and get groups', async () => {
+      const { tabsetHarness, fixture } = await setupTest();
+      shrinkScreen(fixture);
+      await expectAsync(tabsetHarness.isTabsVisible()).toBeResolvedTo(false);
+
+      const groups = await tabsetHarness.getGroups();
+      await expectAsync(tabsetHarness.isTabsVisible()).toBeResolvedTo(true);
+      expect(groups.length).toBe(2);
+    });
+
+    it('should get the show tabs text', async () => {
+      const { tabsetHarness, fixture } = await setupTest();
+      fixture.componentInstance.showTabsText = 'Test button';
+      fixture.detectChanges();
+      shrinkScreen(fixture);
+
+      await expectAsync(tabsetHarness.getShowTabsText()).toBeResolvedTo(
+        'Test button',
+      );
+    });
+
+    it('should click the show tabs button and get all tabs', async () => {
+      const { tabsetHarness, fixture } = await setupTest();
+      shrinkScreen(fixture);
+      await expectAsync(tabsetHarness.isTabsVisible()).toBeResolvedTo(false);
+
+      const tabs = await tabsetHarness.getTabs();
+      await expectAsync(tabsetHarness.isTabsVisible()).toBeResolvedTo(true);
+      expect(tabs.length).toBe(4);
+    });
+  });
 });

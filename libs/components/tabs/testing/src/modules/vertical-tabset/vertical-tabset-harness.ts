@@ -165,10 +165,8 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   public async isTabsVisible(): Promise<boolean> {
     const showTabsButton = await this.#showTabsButton();
     if (showTabsButton) {
-      console.log('im inside false');
       return false;
     }
-    console.log('im inside true');
     return true;
   }
 }
