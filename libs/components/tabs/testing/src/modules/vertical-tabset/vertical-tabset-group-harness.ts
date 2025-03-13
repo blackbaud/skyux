@@ -91,7 +91,7 @@ export class SkyVerticalTabsetGroupHarness extends SkyComponentHarness {
    */
   public async isOpen(): Promise<boolean> {
     return (
-      (await (await this.#header()).getAttribute('aria-expanded')) === 'true'
+      (await (await this.#button()).getAttribute('aria-expanded')) === 'true'
     );
   }
 }
