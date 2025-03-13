@@ -6,6 +6,7 @@ import { Person } from './person';
 
 /**
  * @title Infinite scroll with back to top directive
+ * @docsDemoHidden
  */
 @Component({
   selector: 'app-layout-back-to-top-infinite-scroll-example',
