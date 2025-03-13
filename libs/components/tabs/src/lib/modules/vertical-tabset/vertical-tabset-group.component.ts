@@ -88,7 +88,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   #groupService = inject(SkyVerticalTabsetGroupService);
 
   #_disabled: boolean | undefined;
-  #_open: boolean | undefined;
+  #_open: boolean | undefined = false;
 
   constructor(
     tabService: SkyVerticalTabsetService,
