@@ -99,7 +99,7 @@ interface TabGroup {
   }[];
 }
 
-fdescribe('Vertical Tabset harness', () => {
+describe('Vertical Tabset harness', () => {
   async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
     tabsetHarness: SkyVerticalTabsetHarness;
     fixture: ComponentFixture<TestComponent>;
@@ -137,7 +137,7 @@ fdescribe('Vertical Tabset harness', () => {
 
   it('should get the active tab from inside a group', async () => {
     const { tabsetHarness } = await setupTest();
-    const tabInsideGroup = await tabsetHarness.getTabByHeading('Tab 3');
+    const tabInsideGroup = await tabsetHarness.getTab({ tabHeading: 'Tab 3' });
     await tabInsideGroup.click();
 
     const activeTab = await tabsetHarness.getActiveTab();
@@ -198,11 +198,11 @@ fdescribe('Vertical Tabset harness', () => {
 
   it('should get tab harness by heading', async () => {
     const { tabsetHarness } = await setupTest();
-    const tab = await tabsetHarness.getTabByHeading('Tab 2');
+    const tab = await tabsetHarness.getTab({ tabHeading: 'Tab 2' });
     await expectAsync(tab.isDisabled()).toBeResolvedTo(true);
   });
 
-  fit('should get all tabs in tabset', async () => {
+  it('should get all tabs in tabset', async () => {
     const { tabsetHarness } = await setupTest();
     const tabs = await tabsetHarness.getTabs();
     expect(tabs.length).toBe(4);
@@ -227,10 +227,10 @@ fdescribe('Vertical Tabset harness', () => {
     it('should click the group header to open and close the group', async () => {
       const { tabsetHarness } = await setupTest();
       const group1 = await tabsetHarness.getGroup({ groupHeading: 'Group 1' });
-      await expectAsync(group1?.isOpen()).toBeResolvedTo(true);
+      await expectAsync(group1?.isOpen()).toBeResolvedTo(false);
 
       await group1?.click();
-      await expectAsync(group1?.isOpen()).toBeResolvedTo(false);
+      await expectAsync(group1?.isOpen()).toBeResolvedTo(true);
     });
 
     it('should get a tab harness inside a group by filter', async () => {

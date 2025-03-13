@@ -37,7 +37,7 @@ describe('Basic vertical tabs demo', () => {
     const activeTabContent = await activeTab?.getTabContent();
     expect(await activeTabContent?.isVisible()).toBeTrue();
 
-    const disabledTab = await harness.getTabByHeading('Tab 3');
+    const disabledTab = await harness.getTab({ tabHeading: 'Tab 3' });
     expect(await disabledTab?.isDisabled()).toBeTrue();
   });
 });

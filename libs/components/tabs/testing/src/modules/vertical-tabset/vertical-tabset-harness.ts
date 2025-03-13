@@ -2,6 +2,7 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyVerticalTabButtonHarness } from './vertical-tab-button-harness';
+import { SkyVerticalTabButtonHarnessFilters } from './vertical-tab-button-harness-filters';
 import { SkyVerticalTabContentHarness } from './vertical-tab-content-harness';
 import { SkyVerticalTabsetGroupHarness } from './vertical-tabset-group-harness';
 import { SkyVerticalTabsetGroupHarnessFilters } from './vertical-tabset-group-harness-filters';
@@ -134,14 +135,12 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a `SkyVerticalTabButtonHarness` with a `tabHeading` matching the input.
+   * Gets a `SkyVerticalTabButtonHarness` that matches the filter.
    */
-  public async getTabByHeading(
-    tabHeading: string,
+  public async getTab(
+    filters: SkyVerticalTabButtonHarnessFilters,
   ): Promise<SkyVerticalTabButtonHarness> {
-    return await this.locatorFor(
-      SkyVerticalTabButtonHarness.with({ tabHeading: tabHeading }),
-    )();
+    return await this.locatorFor(SkyVerticalTabButtonHarness.with(filters))();
   }
 
   /**
