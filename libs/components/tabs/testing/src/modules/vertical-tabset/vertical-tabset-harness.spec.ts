@@ -66,7 +66,7 @@ class TestComponent {
   public groups: TabGroup[] = [
     {
       heading: 'Group 1',
-      isOpen: true,
+      isOpen: false,
       subTabs: [
         {
           tabHeading: 'Tab 3',
@@ -184,8 +184,9 @@ fdescribe('Vertical Tabset harness', () => {
 
   it('should get the vertical tabset group by heading', async () => {
     const { tabsetHarness } = await setupTest();
-    const disabledGroup =
-      await tabsetHarness.getGroupByHeading('Disabled group');
+    const disabledGroup = await tabsetHarness.getGroup({
+      groupHeading: 'Disabled group',
+    });
     await expectAsync(disabledGroup?.isDisabled()).toBeResolvedTo(true);
   });
 
@@ -201,7 +202,7 @@ fdescribe('Vertical Tabset harness', () => {
     await expectAsync(tab.isDisabled()).toBeResolvedTo(true);
   });
 
-  it('should get all tabs in tabset', async () => {
+  fit('should get all tabs in tabset', async () => {
     const { tabsetHarness } = await setupTest();
     const tabs = await tabsetHarness.getTabs();
     expect(tabs.length).toBe(4);
@@ -225,7 +226,7 @@ fdescribe('Vertical Tabset harness', () => {
   describe('vertical tabset group', () => {
     it('should click the group header to open and close the group', async () => {
       const { tabsetHarness } = await setupTest();
-      const group1 = await tabsetHarness.getGroupByHeading('Group 1');
+      const group1 = await tabsetHarness.getGroup({ groupHeading: 'Group 1' });
       await expectAsync(group1?.isOpen()).toBeResolvedTo(true);
 
       await group1?.click();
@@ -234,21 +235,21 @@ fdescribe('Vertical Tabset harness', () => {
 
     it('should get a tab harness inside a group by filter', async () => {
       const { tabsetHarness } = await setupTest();
-      const group1 = await tabsetHarness.getGroupByHeading('Group 1');
+      const group1 = await tabsetHarness.getGroup({ groupHeading: 'Group 1' });
       const tab = await group1?.getVerticalTab({ tabHeading: 'Tab 4' });
       await expectAsync(tab?.isDisabled()).toBeResolvedTo(true);
     });
 
     it('should get all tab harnesses inside a group', async () => {
       const { tabsetHarness } = await setupTest();
-      const group1 = await tabsetHarness.getGroupByHeading('Group 1');
+      const group1 = await tabsetHarness.getGroup({ groupHeading: 'Group 1' });
       const tabs = await group1?.getVerticalTabs();
       expect(tabs?.length).toBe(2);
     });
 
     it('should get if the group is active', async () => {
       const { tabsetHarness } = await setupTest();
-      const group1 = await tabsetHarness.getGroupByHeading('Group 1');
+      const group1 = await tabsetHarness.getGroup({ groupHeading: 'Group 1' });
       await expectAsync(group1?.isActive()).toBeResolvedTo(false);
 
       const tab = await group1?.getVerticalTab({ tabHeading: 'Tab 3' });

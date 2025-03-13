@@ -4,6 +4,7 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyVerticalTabButtonHarness } from './vertical-tab-button-harness';
 import { SkyVerticalTabContentHarness } from './vertical-tab-content-harness';
 import { SkyVerticalTabsetGroupHarness } from './vertical-tabset-group-harness';
+import { SkyVerticalTabsetGroupHarnessFilters } from './vertical-tabset-group-harness-filters';
 import { SkyVerticalTabsetHarnessFilters } from './vertical-tabset-harness-filters';
 
 /**
@@ -98,14 +99,12 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Get the vertical tabset group by `groupHeading`
+   * Get the vertical tabset group by `SkyVerticalTabsetGroupHarnessFilters`
    */
-  public async getGroupByHeading(
-    groupHeading: string,
+  public async getGroup(
+    filters: SkyVerticalTabsetGroupHarnessFilters,
   ): Promise<SkyVerticalTabsetGroupHarness | undefined> {
-    return await this.locatorFor(
-      SkyVerticalTabsetGroupHarness.with({ groupHeading: groupHeading }),
-    )();
+    return await this.locatorFor(SkyVerticalTabsetGroupHarness.with(filters))();
   }
 
   /**
