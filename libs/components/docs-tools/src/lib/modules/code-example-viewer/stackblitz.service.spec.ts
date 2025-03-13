@@ -444,15 +444,12 @@ context.keys().map(context);
   it('should use assets service to resolve hashed template urls', async () => {
     const { defaultConfig, openProjectSpy, stackblitzSvc } = setupTest({
       assetsMap: {
-        'assets/stack-blitz/package.json':
-          'assets/stack-blitz/package-HASH.json',
-        'assets/stack-blitz/package-lock.json':
-          'assets/stack-blitz/package-HASH.json',
+        'stack-blitz/package.json': 'stack-blitz/package-HASH.json',
+        'stack-blitz/package-lock.json': 'stack-blitz/package-HASH.json',
       },
       templateFiles: {
-        'assets/stack-blitz/package-HASH.json': 'PACKAGE_JSON_CONTENTS',
-        'assets/stack-blitz/package-lock-HASH.json':
-          'PACKAGE_LOCK_JSON_CONTENTS',
+        'stack-blitz/package-HASH.json': 'PACKAGE_JSON_CONTENTS',
+        'stack-blitz/package-lock-HASH.json': 'PACKAGE_LOCK_JSON_CONTENTS',
       },
     });
 
