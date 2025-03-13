@@ -5,7 +5,7 @@ import { SkyVerticalTabButtonHarnessFilters } from './vertical-tab-button-harnes
 import { SkyVerticalTabContentHarness } from './vertical-tab-content-harness';
 
 /**
- * Harness for interacting with a vertical tab in tests.
+ * Harness for interacting with a vertical tab button in tests.
  */
 export class SkyVerticalTabButtonHarness extends SkyComponentHarness {
   /**

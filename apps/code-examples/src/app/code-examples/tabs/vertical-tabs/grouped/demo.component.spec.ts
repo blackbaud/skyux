@@ -5,7 +5,7 @@ import { SkyVerticalTabsetHarness } from '@skyux/tabs/testing';
 
 import { DemoComponent } from './demo.component';
 
-describe('Basic vertical tabs demo', () => {
+describe('Group vertical tabs demo', () => {
   async function setupTest(options: { dataSkyId?: string }): Promise<{
     harness: SkyVerticalTabsetHarness;
     fixture: ComponentFixture<DemoComponent>;

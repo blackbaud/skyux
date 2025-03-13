@@ -4,7 +4,7 @@ import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyVerticalTabContentHarnessFilters } from './vertical-tab-content-harness-filters';
 
 /**
- * Harness for interacting with a vertical tab in tests.
+ * Harness for interacting with a vertical tab content in tests.
  */
 export class SkyVerticalTabContentHarness extends SkyQueryableComponentHarness {
   /**

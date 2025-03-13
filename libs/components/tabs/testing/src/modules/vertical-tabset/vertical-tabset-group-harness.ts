@@ -31,7 +31,6 @@ export class SkyVerticalTabsetGroupHarness extends SkyComponentHarness {
       'groupHeading',
       filters.groupHeading,
       async (harness, heading) => {
-        // test if u need the HarnessPredicate.stringMatches function
         return (await harness.getGroupHeading()) === heading;
       },
     );
