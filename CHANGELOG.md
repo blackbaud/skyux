@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.46.0](https://github.com/blackbaud/skyux/compare/11.45.1...11.46.0) (2025-03-13)
+
+
+### Features
+
+* **components/tabs:** add vertical tabs harness ([#3241](https://github.com/blackbaud/skyux/issues/3241)) ([d0d09ad](https://github.com/blackbaud/skyux/commit/d0d09adea1d8bd746ae76c7aca14c8f32b1e402f))
+
 ## [11.45.1](https://github.com/blackbaud/skyux/compare/11.45.0...11.45.1) (2025-03-12)
 
 
