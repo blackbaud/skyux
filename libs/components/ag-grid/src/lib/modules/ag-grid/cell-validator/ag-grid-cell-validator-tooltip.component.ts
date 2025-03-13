@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  signal,
+} from '@angular/core';
 import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
 
 import { AgColumn, CellFocusedEvent } from 'ag-grid-community';
@@ -20,25 +25,29 @@ export class SkyAgGridCellValidatorTooltipComponent {
   public set params(value: SkyCellRendererValidatorParams | undefined) {
     this.cellRendererParams = value;
 
-    value?.api?.addEventListener(
-      'cellFocused',
-      (eventParams: CellFocusedEvent) => {
-        // We want to close any popovers that are opened when other cells are focused, but open a popover if the current cell is focused.
-        if (
-          (eventParams.column as AgColumn).getColId() ===
-            value?.column?.getColId() &&
-          eventParams.rowIndex === value?.node?.rowIndex
-        ) {
-          this.showPopover();
-        } else {
-          this.hidePopover();
-        }
-      },
-    );
+    if (value?.api && !this.#listenersAdded) {
+      this.#listenersAdded = true;
 
-    value?.api?.addEventListener('cellEditingStarted', () => {
-      this.hidePopover();
-    });
+      value.api.addEventListener(
+        'cellFocused',
+        (eventParams: CellFocusedEvent) => {
+          // We want to close any popovers that are opened when other cells are focused, but open a popover if the current cell is focused.
+          if (
+            (eventParams.column as AgColumn).getColId() ===
+              value.column?.getColId() &&
+            eventParams.rowIndex === value.node?.rowIndex
+          ) {
+            this.showPopover();
+          } else {
+            this.hidePopover();
+          }
+        },
+      );
+
+      value.api.addEventListener('cellEditingStarted', () => {
+        this.hidePopover();
+      });
+    }
 
     if (typeof value?.skyComponentProperties?.validatorMessage === 'function') {
       this.validatorMessage = value.skyComponentProperties.validatorMessage(
@@ -49,11 +58,17 @@ export class SkyAgGridCellValidatorTooltipComponent {
     } else {
       this.validatorMessage = value?.skyComponentProperties?.validatorMessage;
     }
+
+    this.showValidatorMessage.set(this.#showValidatorMessage());
   }
 
   public popoverMessageStream = new Subject<SkyPopoverMessage>();
   public validatorMessage: string | undefined;
   public cellRendererParams: SkyCellRendererValidatorParams | undefined;
+
+  protected readonly showValidatorMessage = signal(false);
+
+  #listenersAdded = false;
 
   public hidePopover(): void {
     this.popoverMessageStream.next({ type: SkyPopoverMessageType.Close });
@@ -65,12 +80,8 @@ export class SkyAgGridCellValidatorTooltipComponent {
     }
   }
 
-  #shouldShowPopover(): boolean {
+  #showValidatorMessage(): boolean {
     if (!this.validatorMessage) {
-      return false;
-    }
-    const editingCells = this.cellRendererParams?.api.getEditingCells() ?? [];
-    if (editingCells.length > 0) {
       return false;
     }
     if (
@@ -85,5 +96,13 @@ export class SkyAgGridCellValidatorTooltipComponent {
     } else {
       return true;
     }
+  }
+
+  #shouldShowPopover(): boolean {
+    if (!this.showValidatorMessage()) {
+      return false;
+    }
+    const editingCells = this.cellRendererParams?.api.getEditingCells() ?? [];
+    return editingCells.length === 0;
   }
 }
