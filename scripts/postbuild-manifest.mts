@@ -1,15 +1,16 @@
-import fsExtra from 'fs-extra';
+import fsExtra from 'fs-extra/esm';
 import minimist from 'minimist';
+import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import { generateManifest } from '../libs/components/manifest/src/generator/generate-manifest';
-import { SkyManifestPublicApi } from '../libs/components/manifest/src/index';
-
-import { runCommand } from './utils/spawn';
+import { generateManifest } from '../libs/components/manifest/src/generator/generate-manifest.js';
+import { SkyManifestPublicApi } from '../libs/components/manifest/src/index.js';
 
 const argv = minimist(process.argv.slice(2));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * Writes the current snapshot of deprecated features to a file.
@@ -117,10 +118,9 @@ void (async (): Promise<void> => {
   let projectNames: string[] = [];
 
   try {
-    const output = await runCommand(
-      'npx',
-      ['nx', 'show', 'projects', '--projects', 'tag:component', '--json'],
-      { stdio: 'pipe' },
+    const output = execSync(
+      'npx nx show projects --projects tag:component --json',
+      { encoding: 'utf-8', stdio: 'pipe' },
     );
 
     if (output) {

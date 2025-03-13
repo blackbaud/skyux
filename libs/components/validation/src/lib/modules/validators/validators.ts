@@ -3,9 +3,6 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { SkyUrlValidationOptions } from '../url-validation/url-validation-options';
 import { SkyValidation } from '../validation/validation';
 
-// Need to add the following to classes which contain static methods.
-// See: https://github.com/ng-packagr/ng-packagr/issues/641
-// @dynamic
 export class SkyValidators {
   /**
    * Validates email addresses in reactive forms. Add this validator directly to the form control

@@ -1,6 +1,6 @@
 import publicApiJson from '../public-api.json';
 
-import type { SkyManifestPublicApi } from './types/manifest';
+import type { SkyManifestPublicApi } from './types/manifest.js';
 
 const publicApi = publicApiJson as unknown as SkyManifestPublicApi;
 

@@ -7,9 +7,9 @@ import {
   UnionType,
 } from 'typedoc';
 
-import { formatType } from './format-type';
-import { getIndexSignatures } from './get-index-signatures';
-import { getParameters } from './get-parameters';
+import { formatType } from './format-type.js';
+import { getIndexSignatures } from './get-index-signatures.js';
+import { getParameters } from './get-parameters.js';
 
 /**
  * Formats an "inline" closure type (e.g., `(foo: string) => boolean`).
@@ -37,17 +37,15 @@ function formatInlineClosureType(reflections: SignatureReflection[]): string {
 function formatInlineInterfaceType(
   reflections: DeclarationReflection[],
 ): string {
-  const props = ['{'];
+  const props = [];
 
   for (const reflection of reflections) {
     props.push(
-      `${reflection.name}${reflection.flags?.isOptional ? '?' : ''}: ${formatTypeCustom(reflection.type)};`,
+      `${reflection.name}${reflection.flags?.isOptional ? '?' : ''}: ${formatTypeCustom(reflection.type)}`,
     );
   }
 
-  props.push('}');
-
-  return props.join(' ');
+  return `{ ${props.join('; ')} }`;
 }
 
 function formatArrayType(type: ArrayType): string {
@@ -79,13 +77,14 @@ function formatReflectionType(type: ReflectionType): string | undefined {
     const defs = getIndexSignatures(typeDecl);
 
     return `{ ${defs?.[0].name}: ${defs?.[0].type}; }`;
+    /* v8 ignore start: else branch safety check */
   }
 
-  /* istanbul ignore next: safety check */
   throw new Error(
     `Unhandled reflection type: ${typeDecl.name} ${typeDecl.toString()}`,
   );
 }
+/* v8 ignore stop */
 
 function formatUnionType(type: UnionType): string {
   return type.types
@@ -125,7 +124,7 @@ export function formatTypeCustom(type: SomeType | undefined): string {
     formatted = type?.toString();
   }
 
-  /* istanbul ignore if: safety check */
+  /* v8 ignore start: safety check */
   if (!formatted) {
     console.error(type);
 
@@ -135,6 +134,7 @@ export function formatTypeCustom(type: SomeType | undefined): string {
         'to accommodate all features of the public API.',
     );
   }
+  /* v8 ignore stop */
 
   return formatted;
 }

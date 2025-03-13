@@ -1,20 +1,20 @@
 import { type DeclarationReflection, ReflectionKind } from 'typedoc';
 
-import type { SkyManifestParentDefinition } from '../types/base-def';
-import type { SkyManifestPublicApi } from '../types/manifest';
+import type { SkyManifestParentDefinition } from '../types/base-def.js';
+import type { SkyManifestPublicApi } from '../types/manifest.js';
 
-import { getEntryPointsReflections } from './get-entry-points-reflections';
-import { ProjectDefinition } from './get-project-definitions';
-import { getClass } from './utility/get-class';
-import { getDecorator } from './utility/get-decorator';
-import { getDirective } from './utility/get-directive';
-import { getEnum } from './utility/get-enum';
-import { getFunction } from './utility/get-function';
-import { getInterface } from './utility/get-interface';
-import { getPipe } from './utility/get-pipe';
-import { getTypeAlias } from './utility/get-type-alias';
-import { getVariable } from './utility/get-variable';
-import { validateDocsIds } from './validations';
+import { getEntryPointsReflections } from './get-entry-points-reflections.js';
+import { ProjectDefinition } from './get-project-definitions.js';
+import { getClass } from './utility/get-class.js';
+import { getDecorator } from './utility/get-decorator.js';
+import { getDirective } from './utility/get-directive.js';
+import { getEnum } from './utility/get-enum.js';
+import { getFunction } from './utility/get-function.js';
+import { getInterface } from './utility/get-interface.js';
+import { getPipe } from './utility/get-pipe.js';
+import { getTypeAlias } from './utility/get-type-alias.js';
+import { getVariable } from './utility/get-variable.js';
+import { validateDocsIds } from './validations.js';
 
 export type PackagesMap = Map<string, SkyManifestParentDefinition[]>;
 
@@ -80,12 +80,13 @@ function getManifestItem(
       return getVariable(reflection, filePath);
     }
 
-    /* istanbul ignore next: safety check */
+    /* v8 ignore start: safety check */
     default: {
       throw new Error(
         `Unhandled type encountered when processing '${reflection.name}'.`,
       );
     }
+    /* v8 ignore stop */
   }
 }
 
@@ -96,10 +97,11 @@ function sortArrayByKey<T>(arr: T[], key: keyof T): T[] {
 
     if (typeof aValue === 'string' && typeof bValue === 'string') {
       return aValue.localeCompare(bValue);
+      /* v8 ignore start: else branch safety check */
     }
 
-    /* istanbul ignore next: safety check */
     return 0;
+    /* v8 ignore stop */
   });
 }
 
@@ -128,10 +130,11 @@ export async function getPublicApi(
           .replace(process.cwd(), '')
           .slice(1);
 
-        /* istanbul ignore if: safety check */
+        /* v8 ignore start: safety check */
         if (!filePath || filePath.endsWith('/index.ts')) {
           continue;
         }
+        /* v8 ignore stop */
 
         items.push(getManifestItem(child, filePath));
       }

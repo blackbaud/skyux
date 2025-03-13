@@ -4,13 +4,13 @@ import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 
 import documentationSchema from '../../documentation-schema.json';
-import { SkyManifestDocumentationConfig } from '../types/documentation-config';
-import { SkyManifestPublicApi } from '../types/manifest';
+import { SkyManifestDocumentationConfig } from '../types/documentation-config.js';
+import { SkyManifestPublicApi } from '../types/manifest.js';
 
-import { ProjectDefinition } from './get-project-definitions';
-import { validateDocumentationConfig } from './validations';
+import { ProjectDefinition } from './get-project-definitions.js';
+import { validateDocumentationConfig } from './validations.js';
 
-const ajv = new Ajv();
+const ajv = new Ajv.default();
 const validateJson = ajv.compile(documentationSchema);
 
 export async function getDocumentationConfig(

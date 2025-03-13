@@ -8,9 +8,9 @@ import {
   UnionType,
 } from 'typedoc';
 
-import { formatTypeCustom } from './format-type-custom';
-import { getNearestProjectReflection } from './reflections';
-import { remapLambdaNames } from './remap-lambda-names';
+import { formatTypeCustom } from './format-type-custom.js';
+import { getNearestProjectReflection } from './reflections.js';
+import { remapLambdaNames } from './remap-lambda-names.js';
 
 /**
  * Whether a type needs custom formatting. TypeDoc returns an expressive string
@@ -73,11 +73,6 @@ export function formatType(
   }
 
   if (!type) {
-    console.warn(
-      `  [!] The type for the reflection \`${reflection.name}\` is not ` +
-        'defined. Defaulting to `unknown`.',
-    );
-
     return 'unknown';
   }
 
@@ -86,16 +81,25 @@ export function formatType(
 
   if (needsCustomFormatting(type)) {
     const customFormatted = formatTypeCustom(reflection.type);
-    console.warn(
-      `  [!] TypeDoc produced \`${formatted}\` but we want a more expressive type for \`${reflection.name}\`. ` +
-        `Created:
-      \`\`\`
-      ${customFormatted}
-      \`\`\`
-`,
-    );
 
-    formatted = customFormatted;
+    if (customFormatted !== formatted) {
+      console.warn(
+        `  [!] TypeDoc produced \`${formatted}\` for the ${ReflectionKind[reflection.kind].toLocaleLowerCase()} \`${reflection.name}\`, but we want a more expressive type for \`${reflection.name}\`. ` +
+          `Created:
+        \`\`\`
+        ${customFormatted}
+        \`\`\`
+    `,
+      );
+
+      formatted = customFormatted;
+    } else {
+      // We can remove the custom formatter once the following issue is addressed:
+      // https://github.com/TypeStrong/typedoc/issues/2892
+      console.error(
+        `  [x] Hold up! TypeDoc generated \`${formatted}\` for the ${ReflectionKind[reflection.kind].toLocaleLowerCase()} \`${reflection.name}\` which is the same output as our custom formatter. Consider using TypeDoc's formatter instead of our own.`,
+      );
+    }
   }
 
   // Remap lambda names to their original names.

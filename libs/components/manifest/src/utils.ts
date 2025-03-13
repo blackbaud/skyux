@@ -1,7 +1,7 @@
-import type { SkyManifestParentDefinition } from './types/base-def';
-import type { SkyManifestDirectiveDefinition } from './types/directive-def';
-import type { SkyManifestFunctionDefinition } from './types/function-def';
-import type { SkyManifestPipeDefinition } from './types/pipe-def';
+import type { SkyManifestParentDefinition } from './types/base-def.js';
+import type { SkyManifestDirectiveDefinition } from './types/directive-def.js';
+import type { SkyManifestFunctionDefinition } from './types/function-def.js';
+import type { SkyManifestPipeDefinition } from './types/pipe-def.js';
 
 /**
  * Whether the provided definition is a directive definition.

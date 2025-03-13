@@ -1,9 +1,11 @@
-import type { SkyManifestParentDefinition } from './types/base-def';
+import { describe, expect, it } from 'vitest';
+
+import type { SkyManifestParentDefinition } from './types/base-def.js';
 import {
   isDirectiveDefinition,
   isFunctionDefinition,
   isPipeDefinition,
-} from './utils';
+} from './utils.js';
 
 describe('utils', () => {
   it('should check if definition is a directive', () => {

@@ -2,16 +2,17 @@ import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 
-import type { SkyManifestDocumentationConfig } from '../types/documentation-config';
+import type { SkyManifestDocumentationConfig } from '../types/documentation-config.js';
 import type {
   SkyManifestCodeExamples,
   SkyManifestPublicApi,
-} from '../types/manifest';
+} from '../types/manifest.js';
 
-import { getCodeExamples } from './get-code-examples';
-import { getDocumentationConfig } from './get-documentation-config';
-import { getProjectDefinitions } from './get-project-definitions';
-import { getPublicApi } from './get-public-api';
+import { getCodeExamples } from './get-code-examples.js';
+import { getDocumentationConfig } from './get-documentation-config.js';
+import { getProjectDefinitions } from './get-project-definitions.js';
+import { getPublicApi } from './get-public-api.js';
+import { humanReadableTime } from './utility/human-readable-time.js';
 
 interface SkyManifestOptions {
   codeExamplesPackageName: string;
@@ -70,6 +71,8 @@ async function writeManifestFiles(
 export async function generateManifest(
   options: SkyManifestOptions,
 ): Promise<{ publicApi: SkyManifestPublicApi }> {
+  const startTime = Date.now();
+
   const projects = getProjectDefinitions(
     options.projectsRootDirectory,
     options.projectNames,
@@ -107,6 +110,11 @@ export async function generateManifest(
     documentationConfig,
     codeExamples,
   );
+
+  const elapsedTime = Date.now() - startTime;
+  const elapsedTimeHumanReadable = humanReadableTime(elapsedTime);
+
+  console.log(`Elapsed time: ${elapsedTimeHumanReadable}`);
 
   return { publicApi };
 }

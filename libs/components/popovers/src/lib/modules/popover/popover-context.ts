@@ -1,7 +1,6 @@
 import { TemplateRef } from '@angular/core';
 
 /**
- * @dynamic
  * @internal
  */
 export class SkyPopoverContext {

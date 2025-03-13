@@ -1,7 +1,7 @@
 import type {
   SkyManifestChildDefinition,
   SkyManifestParentDefinition,
-} from './base-def';
+} from './base-def.js';
 
 /**
  * Information about a directive or component exported from the public API.

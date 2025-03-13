@@ -3,12 +3,12 @@ import { type DeclarationReflection } from 'typedoc';
 import type {
   SkyManifestEnumerationDefinition,
   SkyManifestEnumerationMemberDefinition,
-} from '../../types/enumeration-def';
+} from '../../types/enumeration-def.js';
 
-import { formatType } from './format-type';
-import { getAnchorId } from './get-anchor-id';
-import { getComment } from './get-comment';
-import { getRepoUrl } from './get-repo-url';
+import { formatType } from './format-type.js';
+import { getAnchorId } from './get-anchor-id.js';
+import { getComment } from './get-comment.js';
+import { getRepoUrl } from './get-repo-url.js';
 
 function getEnumMembers(
   reflection: DeclarationReflection,

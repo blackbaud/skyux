@@ -8,8 +8,9 @@
   "exclude": [
     "**/*.spec.ts",
     "**/*.test.ts",
-    "jest.config.ts",
-    "**/fixtures/**"
+    "vitest.config.ts",
+    "**/fixtures/**",
+    "**/testing/**"
   ],
   "include": ["**/*.ts"]
 }

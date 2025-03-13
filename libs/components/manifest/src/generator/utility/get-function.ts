@@ -1,13 +1,13 @@
 import { type DeclarationReflection } from 'typedoc';
 
-import type { SkyManifestFunctionDefinition } from '../../types/function-def';
+import type { SkyManifestFunctionDefinition } from '../../types/function-def.js';
 
-import { formatType } from './format-type';
-import { formatTypeParameters } from './format-type-custom';
-import { getAnchorId } from './get-anchor-id';
-import { getComment } from './get-comment';
-import { getParameters } from './get-parameters';
-import { getRepoUrl } from './get-repo-url';
+import { formatTypeParameters } from './format-type-custom.js';
+import { formatType } from './format-type.js';
+import { getAnchorId } from './get-anchor-id.js';
+import { getComment } from './get-comment.js';
+import { getParameters } from './get-parameters.js';
+import { getRepoUrl } from './get-repo-url.js';
 
 export function getFunction(
   reflection: DeclarationReflection,

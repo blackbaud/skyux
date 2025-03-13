@@ -1,4 +1,4 @@
-import type { DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators';
+import type { DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators.js';
 
 export function getDecorator(
   reflection: DeclarationReflectionWithDecorators,
