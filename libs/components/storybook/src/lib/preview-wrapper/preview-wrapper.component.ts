@@ -16,6 +16,7 @@ import {
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
+  SkyThemeSpacing,
 } from '@skyux/theme';
 
 import { FontLoadingService } from '../font-loading/font-loading.service';
@@ -50,6 +51,7 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
       this.themeSettings = new SkyThemeSettings(
         SkyTheme.presets.modern,
         SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.standard,
         new SkyThemeBrand('blackbaud'),
       );
     } else {
