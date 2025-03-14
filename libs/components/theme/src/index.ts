@@ -4,6 +4,7 @@ export { SkyThemeIconManifestService } from './lib/icons/icon-manifest.service';
 export { SkyAppStyleLoader } from './lib/style-loader';
 export { SkyThemeModule } from './lib/theme.module';
 export { SkyTheme } from './lib/theming/theme';
+export { SkyThemeBrand } from './lib/theming/theme-brand';
 export { SkyThemeComponentClassDirective } from './lib/theming/theme-component-class.directive';
 export { SkyThemeMode } from './lib/theming/theme-mode';
 export { SkyThemeSettings } from './lib/theming/theme-settings';

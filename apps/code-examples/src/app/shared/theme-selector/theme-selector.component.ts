@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  Renderer2,
   computed,
   effect,
   inject,
@@ -12,6 +11,7 @@ import { SkyIdModule } from '@skyux/core';
 import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import {
   SkyTheme,
+  SkyThemeBrand,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
@@ -39,7 +39,6 @@ const PREVIOUS_SETTINGS_KEY =
   templateUrl: './theme-selector.component.html',
 })
 export class SkyThemeSelectorComponent implements OnInit {
-  #renderer = inject(Renderer2);
   #themeSvc = inject(SkyThemeService);
 
   #currentTheme = computed(
@@ -69,10 +68,6 @@ export class SkyThemeSelectorComponent implements OnInit {
         this.modernV2Enabled(),
       );
     });
-
-    effect(() => {
-      this.#toggleModernV2Class(this.modernV2Enabled());
-    });
   }
 
   public ngOnInit(): void {
@@ -98,6 +93,9 @@ export class SkyThemeSelectorComponent implements OnInit {
   ): void {
     const themeSpacing = SkyThemeSpacing.presets[themeSpacingName];
     const themeMode = SkyThemeMode.presets[themeModeName];
+    const themeBrand = modernV2Enabled
+      ? new SkyThemeBrand('blackbaud')
+      : undefined;
 
     let theme: SkyTheme;
 
@@ -108,7 +106,7 @@ export class SkyThemeSelectorComponent implements OnInit {
     }
 
     this.#themeSvc.setTheme(
-      new SkyThemeSettings(theme, themeMode, themeSpacing),
+      new SkyThemeSettings(theme, themeMode, themeSpacing, themeBrand),
     );
 
     this.#saveSettings({
@@ -117,13 +115,6 @@ export class SkyThemeSelectorComponent implements OnInit {
       themeSpacing: themeSpacingName,
       modernV2Enabled: modernV2Enabled,
     });
-  }
-
-  #toggleModernV2Class(addClass: boolean): void {
-    this.#renderer[addClass ? 'addClass' : 'removeClass'](
-      document.body,
-      'sky-theme-brand-blackbaud',
-    );
   }
 
   #getLastSettings(): LocalStorageSettings | undefined {

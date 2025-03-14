@@ -2,8 +2,12 @@ import { Injectable, Renderer2 } from '@angular/core';
 
 import { Observable, ReplaySubject } from 'rxjs';
 
+import { SkyTheme } from './theme';
+import { SkyThemeBrand } from './theme-brand';
+import { SkyThemeMode } from './theme-mode';
 import { SkyThemeSettings } from './theme-settings';
 import { SkyThemeSettingsChange } from './theme-settings-change';
+import { SkyThemeSpacing } from './theme-spacing';
 
 /**
  * Provides methods for updating and handling changes to the current theme.
@@ -66,6 +70,7 @@ export class SkyThemeService {
     this.#applyThemeClass(previous, settings, 'theme');
     this.#applyThemeClass(previous, settings, 'mode', 'supportedModes');
     this.#applyThemeClass(previous, settings, 'spacing', 'supportedSpacing');
+    this.#applyThemeClass(previous, settings, 'brand');
 
     this.#settings.next({
       currentSettings: settings,
@@ -78,27 +83,55 @@ export class SkyThemeService {
   #applyThemeClass(
     previous: SkyThemeSettings | undefined,
     current: SkyThemeSettings,
-    prop: 'theme' | 'mode' | 'spacing',
+    prop: 'theme' | 'mode' | 'spacing' | 'brand',
     supportedProp?: 'supportedModes' | 'supportedSpacing',
   ): void {
     const currentSetting = current[prop];
+    const previousClass = previous?.[prop]?.hostClass;
+    const currentClass = currentSetting?.hostClass;
 
-    const previousClass = previous?.[prop].hostClass;
-    const currentClass = currentSetting.hostClass;
+    if (!previousClass || previousClass !== currentClass) {
+      this.#updateHostClass(
+        prop,
+        previousClass,
+        currentClass,
+        currentSetting,
+        current,
+        supportedProp,
+      );
+    }
+  }
 
-    const classChanged = !previous || previousClass !== currentClass;
+  #updateHostClass(
+    prop: 'theme' | 'mode' | 'spacing' | 'brand',
+    previousClass: string | undefined,
+    currentClass: string | undefined,
+    currentSetting:
+      | SkyTheme
+      | SkyThemeMode
+      | SkyThemeSpacing
+      | SkyThemeBrand
+      | undefined,
+    current: SkyThemeSettings,
+    supportedProp?: 'supportedModes' | 'supportedSpacing',
+  ): void {
+    if (previousClass) {
+      this.#removeHostClass(previousClass);
+    }
 
-    if (classChanged) {
-      if (previousClass) {
-        this.#removeHostClass(previousClass);
+    if (prop === 'brand') {
+      if (currentClass && !previousClass) {
+        this.#addHostClass('sky-theme-brand-base');
+      } else if (!currentClass && previousClass) {
+        this.#removeHostClass('sky-theme-brand-base');
       }
+    }
 
-      if (
-        !supportedProp ||
-        current.theme[supportedProp].indexOf(currentSetting) >= 0
-      ) {
-        this.#addHostClass(currentClass);
-      }
+    if (
+      currentClass &&
+      this.#isSupportedProperty(currentSetting, current, supportedProp)
+    ) {
+      this.#addHostClass(currentClass);
     }
   }
 
@@ -108,5 +141,23 @@ export class SkyThemeService {
 
   #removeHostClass(className: string): void {
     this.#renderer!.removeClass(this.#hostEl, className);
+  }
+
+  #isSupportedProperty(
+    currentSetting:
+      | SkyTheme
+      | SkyThemeMode
+      | SkyThemeSpacing
+      | SkyThemeBrand
+      | undefined,
+    current: SkyThemeSettings,
+    supportedProp?: 'supportedModes' | 'supportedSpacing',
+  ): boolean {
+    return (
+      !supportedProp ||
+      ((currentSetting instanceof SkyThemeMode ||
+        currentSetting instanceof SkyThemeSpacing) &&
+        current.theme[supportedProp].includes(currentSetting))
+    );
   }
 }

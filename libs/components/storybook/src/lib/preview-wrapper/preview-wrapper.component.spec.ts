@@ -56,13 +56,10 @@ describe('PreviewWrapperComponent', () => {
         );
         expect(settings.currentSettings.mode.name).toEqual(expectedTheme.mode);
 
-        const modernV2 = fixture.nativeElement.querySelector(
-          '.sky-theme-brand-blackbaud',
-        );
         if (expectModernV2Class) {
-          expect(modernV2).toBeDefined();
+          expect(settings.currentSettings.brand?.name).toEqual('blackbaud');
         } else {
-          expect(modernV2).toBeNull();
+          expect(settings.currentSettings.brand).toBeUndefined();
         }
       },
     );
