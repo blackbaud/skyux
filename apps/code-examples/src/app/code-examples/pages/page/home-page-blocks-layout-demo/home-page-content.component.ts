@@ -1,4 +1,3 @@
-import { NgClass, NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyTileDashboardConfig, SkyTilesModule } from '@skyux/tiles';
 
@@ -8,7 +7,7 @@ import { TileUpdatesComponent } from './tile-updates.component';
 @Component({
   selector: 'app-home-page-content',
   templateUrl: './home-page-content.component.html',
-  imports: [NgClass, NgFor, SkyTilesModule],
+  imports: [SkyTilesModule],
 })
 export class HomePageContentComponent {
   protected dashboardConfig: SkyTileDashboardConfig = {
