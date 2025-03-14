@@ -1,0 +1,66 @@
+:host {
+  display: block;
+}
+
+.dev-bar-stand-in {
+  height: 50px;
+  background-color: oklch(66% 46% 278deg / 60%);
+  padding-left: 1em;
+  display: flex;
+  align-items: center;
+}
+
+.float-left {
+  float: left;
+}
+
+.floating-bar {
+  height: 50px;
+  background-color: oklch(93% 41% 123deg);
+  padding-left: 1em;
+  display: flex;
+  align-items: center;
+}
+
+.hide {
+  display: none;
+}
+
+.viewport-example {
+  display: flex;
+  width: 20vw;
+  height: 50px;
+  background-color: oklch(90% 38% 196deg);
+  padding-left: 1em;
+  align-items: center;
+  z-index: 2000;
+  font-size: 0.9em;
+}
+
+.viewport-fixed {
+  position: fixed;
+  left: 50vw;
+  top: var(--sky-viewport-top);
+}
+
+.viewport-sticky {
+  position: sticky;
+  top: 0;
+  float: right;
+  margin-right: 5vw;
+}
+
+.region {
+  height: 70vh;
+  background-color: rebeccapurple;
+  position: relative;
+}
+
+.region::before {
+  content: 'Region';
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
