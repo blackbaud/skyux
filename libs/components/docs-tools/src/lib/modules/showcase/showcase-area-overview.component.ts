@@ -9,15 +9,13 @@ import { SkyDocsTableOfContentsModule } from '../table-of-contents/table-of-cont
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'sky-padding-even-xl',
-  },
   imports: [SkyDocsTableOfContentsModule],
   providers: [SkyDocsHeadingAnchorService],
   selector: 'sky-docs-showcase-area-overview',
   styles: `
     :host {
       display: block;
+      padding-top: var(--sky-padding-even-xl);
     }
   `,
   template: `

@@ -54,7 +54,12 @@ export class SkyDocsShowcaseComponent {
     const groupName = this.groupName();
     const packageName = this.packageName();
 
-    return getDocumentationGroup(packageName, groupName);
+    try {
+      const group = getDocumentationGroup(packageName, groupName);
+      return group;
+    } catch {
+      return;
+    }
   });
 
   protected readonly developmentContent = contentChild(
@@ -74,11 +79,11 @@ export class SkyDocsShowcaseComponent {
       const docsGroup = this.docsGroup();
       const anchorIds: Record<string, string> = {};
 
-      docsGroup.publicApi.forEach((def) => {
+      docsGroup?.publicApi.forEach((def) => {
         anchorIds[def.name] = def.anchorId;
       });
 
-      docsGroup.testing.forEach((def) => {
+      docsGroup?.testing.forEach((def) => {
         anchorIds[def.name] = def.anchorId;
       });
 

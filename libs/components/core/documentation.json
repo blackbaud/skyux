@@ -32,6 +32,10 @@
         "CoreNumericBasicExampleComponent"
       ],
       "primaryDocsId": "SkyNumericModule"
+    },
+    "window": {
+      "docsIds": ["SkyAppWindowRef"],
+      "primaryDocsId": "SkyAppWindowRef"
     }
   }
 }

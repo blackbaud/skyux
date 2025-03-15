@@ -367,8 +367,8 @@ context.keys().map(context);
   }
 
   async #fetchTemplateFileContents(file: string): Promise<string | undefined> {
-    const filePath = `assets/stack-blitz/${file}`;
-    const url = this.#assetsSvc?.getUrl(filePath) ?? filePath;
+    const filePath = `stack-blitz/${file}`;
+    const url = this.#assetsSvc?.getUrl(filePath) ?? `assets/${filePath}`;
 
     if (!this.#http) {
       return undefined;

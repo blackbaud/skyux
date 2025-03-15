@@ -10,6 +10,13 @@ let nextId = 0;
  */
 @Component({
   selector: 'app-lists-infinite-scroll-repeater-example',
+  styles: `
+    .wrapper {
+      overflow-y: auto;
+      max-height: 500px;
+      position: relative;
+    }
+  `,
   templateUrl: './example.component.html',
   imports: [SkyInfiniteScrollModule, SkyRepeaterModule],
 })
