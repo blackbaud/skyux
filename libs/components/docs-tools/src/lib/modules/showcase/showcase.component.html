@@ -2,30 +2,46 @@
 <sky-tabset permalinkId="docs">
   @if (overviewContent()) {
     <sky-tab tabHeading="Design">
-      <ng-container [ngTemplateOutlet]="overviewContentRef" />
+      @defer (on viewport) {
+        <ng-container [ngTemplateOutlet]="overviewContentRef" />
+      } @placeholder {
+        <p>Loading...</p>
+      }
     </sky-tab>
   }
   @if ((group && group.publicApi.length > 0) || developmentContent()) {
     <sky-tab tabHeading="Development">
-      @if (developmentContent()) {
-        <ng-container [ngTemplateOutlet]="developmentContentRef" />
-      } @else {
-        <sky-docs-showcase-area-development />
+      @defer (on viewport) {
+        @if (developmentContent()) {
+          <ng-container [ngTemplateOutlet]="developmentContentRef" />
+        } @else {
+          <sky-docs-showcase-area-development />
+        }
+      } @placeholder {
+        <p>Loading...</p>
       }
     </sky-tab>
   }
   @if ((group && group.testing.length > 0) || testingContent()) {
     <sky-tab tabHeading="Testing">
-      @if (testingContent()) {
-        <ng-container [ngTemplateOutlet]="testingContentRef" />
-      } @else {
-        <sky-docs-showcase-area-testing />
+      @defer (on viewport) {
+        @if (testingContent()) {
+          <ng-container [ngTemplateOutlet]="testingContentRef" />
+        } @else {
+          <sky-docs-showcase-area-testing />
+        }
+      } @placeholder {
+        <p>Loading...</p>
       }
     </sky-tab>
   }
   @if (group && group.codeExamples.length > 0) {
     <sky-tab tabHeading="Examples">
-      <sky-docs-showcase-area-examples />
+      @defer (on viewport) {
+        <sky-docs-showcase-area-examples />
+      } @placeholder {
+        <p>Loading...</p>
+      }
     </sky-tab>
   }
 </sky-tabset>
