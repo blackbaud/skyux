@@ -6,6 +6,7 @@ import { SplitViewPageContentComponent } from './split-view-page-content.compone
 
 /**
  * @title Split view page with fit layout
+ * @docsDemoHidden
  */
 @Component({
   selector: 'app-pages-page-split-view-page-fit-layout-example',

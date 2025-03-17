@@ -22,6 +22,12 @@ interface SortOption {
  */
 @Component({
   selector: 'app-lists-sort-basic-example',
+  styles: `
+    .item-wrapper {
+      display: flex;
+      justify-content: space-between;
+    }
+  `,
   templateUrl: './example.component.html',
   imports: [CommonModule, SkyRepeaterModule, SkySortModule, SkyToolbarModule],
 })

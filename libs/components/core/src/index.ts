@@ -50,8 +50,8 @@ export { SkyHelpService } from './lib/modules/help/help.service';
 export { SkyIdModule } from './lib/modules/id/id.module';
 export { SkyIdService } from './lib/modules/id/id.service';
 
-export { SkyLayoutHostDirective } from './lib/modules/layout-host/layout-host.directive';
 export { SkyLayoutHostForChildArgs } from './lib/modules/layout-host/layout-host-for-child-args';
+export { SkyLayoutHostDirective } from './lib/modules/layout-host/layout-host.directive';
 export { SkyLayoutHostService } from './lib/modules/layout-host/layout-host.service';
 
 export { SkyLiveAnnouncerService } from './lib/modules/live-announcer/live-announcer.service';
@@ -63,8 +63,10 @@ export { SkyLogService } from './lib/modules/log/log.service';
 export { SkyLogLevel } from './lib/modules/log/types/log-level';
 export { SKY_LOG_LEVEL } from './lib/modules/log/types/log-level-token';
 
-export { SKY_BREAKPOINTS } from './lib/modules/breakpoint-observer/breakpoint';
-export { SkyBreakpoint } from './lib/modules/breakpoint-observer/breakpoint';
+export {
+  SKY_BREAKPOINTS,
+  SkyBreakpoint,
+} from './lib/modules/breakpoint-observer/breakpoint';
 export { SkyBreakpointObserver } from './lib/modules/breakpoint-observer/breakpoint-observer';
 export { SKY_BREAKPOINT_OBSERVER } from './lib/modules/breakpoint-observer/breakpoint-observer.token';
 export { SkyContainerBreakpointObserver } from './lib/modules/breakpoint-observer/container-breakpoint-observer';
@@ -119,6 +121,7 @@ export { SkyTrimModule } from './lib/modules/trim/trim.module';
 
 export { SkyUIConfigService } from './lib/modules/ui-config/ui-config.service';
 
+export { SkyViewkeeper } from './lib/modules/viewkeeper/viewkeeper';
 export { SkyViewkeeperHostOptions } from './lib/modules/viewkeeper/viewkeeper-host-options';
 export { SkyViewkeeperOptions } from './lib/modules/viewkeeper/viewkeeper-options';
 export { SkyViewkeeperModule } from './lib/modules/viewkeeper/viewkeeper.module';
