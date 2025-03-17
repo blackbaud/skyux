@@ -7,6 +7,7 @@ import { RecordPageContentComponent } from './record-page-content.component';
 
 /**
  * @title Record page with tabs layout using data manager
+ * @docsDemoHidden
  */
 @Component({
   selector: 'app-pages-page-record-page-tabs-layout-example',
