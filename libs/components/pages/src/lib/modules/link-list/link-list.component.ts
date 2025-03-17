@@ -1,7 +1,17 @@
-import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, contentChildren, input } from '@angular/core';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import {
+  Component,
+  computed,
+  contentChildren,
+  inject,
+  input,
+} from '@angular/core';
 import { SkyWaitModule } from '@skyux/indicators';
-import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
+import {
+  SkyAppLinkModule,
+  SkyHrefModule,
+  SkyHrefResolverService,
+} from '@skyux/router';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { SkyPageLink } from '../action-hub/types/page-link';
@@ -9,6 +19,7 @@ import { SkyPageLinksInput } from '../action-hub/types/page-links-input';
 import { LinkAsModule } from '../link-as/link-as.module';
 
 import { SkyLinkListItemComponent } from './link-list-item.component';
+import { DisplayPromise } from './types/display-promise';
 
 /**
  * A component that displays a list of links, such as within a `<sky-page-links>` component.
@@ -23,6 +34,7 @@ import { SkyLinkListItemComponent } from './link-list-item.component';
     SkyAppLinkModule,
     SkyHrefModule,
     SkyWaitModule,
+    AsyncPipe,
   ],
   hostDirectives: [SkyThemeComponentClassDirective],
 })
@@ -48,11 +60,24 @@ export class SkyLinkListComponent {
     return Array.isArray(links) && links.length > 0;
   });
 
-  protected readonly linksArray = computed<SkyPageLink[]>(() => {
-    const links = this.links();
-    if (Array.isArray(links)) {
-      return links;
-    }
-    return [];
-  });
+  protected readonly linksArray = computed<(SkyPageLink & DisplayPromise)[]>(
+    () => {
+      const links = this.links();
+      if (Array.isArray(links)) {
+        return links.map((link) => {
+          return {
+            ...link,
+            display: link.permalink.url?.includes('://')
+              ? this.#resolver
+                  .resolveHref({ url: link.permalink.url })
+                  .then((result) => !!result.userHasAccess)
+              : Promise.resolve(true),
+          };
+        });
+      }
+      return [];
+    },
+  );
+
+  readonly #resolver = inject(SkyHrefResolverService);
 }

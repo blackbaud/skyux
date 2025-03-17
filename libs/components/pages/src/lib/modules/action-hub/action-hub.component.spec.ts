@@ -1,5 +1,10 @@
-import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { expect } from '@skyux-sdk/testing';
 import {
   SkyRecentlyAccessedLinkList,
@@ -48,10 +53,8 @@ describe('Action hub component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [
-          SkyActionHubFixtureModule,
-          RouterTestingModule.withRoutes([]),
-        ],
+        imports: [SkyActionHubFixtureModule],
+        providers: [provideRouter([])],
       });
       fixture = TestBed.createComponent(ActionHubSyncFixtureComponent);
     });
@@ -64,7 +67,7 @@ describe('Action hub component', () => {
       expect(h1).toHaveText('Test Hub');
     });
 
-    it('should show related links', () => {
+    it('should show related links', async () => {
       fixture.componentInstance.title = 'Test Hub';
       fixture.componentInstance.relatedLinks = [
         {
@@ -94,6 +97,9 @@ describe('Action hub component', () => {
       ];
 
       fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
       validateLinkList(fixture, 'related', [
         {
@@ -115,7 +121,7 @@ describe('Action hub component', () => {
       ]);
     });
 
-    it('should sort recently accessed links', () => {
+    it('should sort recently accessed links', async () => {
       fixture.componentInstance.title = 'Test Hub';
       fixture.componentInstance.recentLinks = [
         {
@@ -149,6 +155,9 @@ describe('Action hub component', () => {
       ];
 
       fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
       validateLinkList(fixture, 'recent', [
         {
@@ -170,7 +179,7 @@ describe('Action hub component', () => {
       ]);
     });
 
-    it('should handle undefined recently accessed links', () => {
+    it('should handle undefined recently accessed links', async () => {
       fixture.componentInstance.title = 'Test Hub';
       fixture.componentInstance.recentLinks = undefined;
       fixture.detectChanges();
@@ -188,6 +197,9 @@ describe('Action hub component', () => {
       ];
 
       fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
       validateLinkList(fixture, 'recent', [
         {
@@ -216,10 +228,8 @@ describe('Action hub component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [
-          SkyActionHubFixtureModule,
-          RouterTestingModule.withRoutes([]),
-        ],
+        imports: [SkyActionHubFixtureModule],
+        providers: [provideRouter([])],
       });
       fixture = TestBed.createComponent(ActionHubAsyncFixtureComponent);
     });
@@ -240,6 +250,9 @@ describe('Action hub component', () => {
       ]);
       fixture.componentInstance.needsAttention.next([]);
       fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
       expect(fixture.nativeElement.querySelectorAll('.sky-wait').length).toBe(
         0,
       );
@@ -257,6 +270,9 @@ describe('Action hub component', () => {
       fixture.componentInstance.relatedLinks.next([]);
       fixture.componentInstance.recentLinks.next([]);
       fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
       expect(fixture.nativeElement.querySelectorAll('.sky-wait').length).toBe(
         0,
       );
@@ -271,10 +287,8 @@ describe('Action hub component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [
-          SkyActionHubFixtureModule,
-          RouterTestingModule.withRoutes([]),
-        ],
+        imports: [SkyActionHubFixtureModule],
+        providers: [provideRouter([])],
       });
       fixture = TestBed.createComponent(ActionHubInputsFixtureComponent);
     });
@@ -327,6 +341,9 @@ describe('Action hub component', () => {
       fixture.componentInstance.loading = false;
 
       fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
       expect(fixture.nativeElement.querySelectorAll('.sky-wait').length).toBe(
         0,
       );
@@ -345,10 +362,8 @@ describe('Action hub component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [
-          SkyActionHubFixtureModule,
-          RouterTestingModule.withRoutes([]),
-        ],
+        imports: [SkyActionHubFixtureModule],
+        providers: [provideRouter([])],
       });
       fixture = TestBed.createComponent(ActionHubContentFixtureComponent);
     });
@@ -375,11 +390,9 @@ describe('Action hub component', () => {
       };
 
       TestBed.configureTestingModule({
-        imports: [
-          SkyActionHubFixtureModule,
-          RouterTestingModule.withRoutes([]),
-        ],
+        imports: [SkyActionHubFixtureModule],
         providers: [
+          provideRouter([]),
           {
             provide: SkyRecentlyAccessedService,
             useValue: mockRecentlyAccessedSvc,
@@ -390,7 +403,7 @@ describe('Action hub component', () => {
       fixture = TestBed.createComponent(ActionHubRecentSvcFixtureComponent);
     });
 
-    it('should retrieve links from the service when a SkyRecentlyAccessedGetLinksArgs is specified', () => {
+    it('should retrieve links from the service when a SkyRecentlyAccessedGetLinksArgs is specified', async () => {
       mockRecentlyAccessedSvc.getLinks.and.returnValue(
         of<SkyRecentlyAccessedLinkList>({
           links: [
@@ -422,6 +435,9 @@ describe('Action hub component', () => {
       };
 
       fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
       validateLinkList(fixture, 'recent', [
         {
@@ -435,7 +451,7 @@ describe('Action hub component', () => {
       ]);
     });
 
-    it('should cancel retrieval of links from the service when a new SkyRecentlyAccessedGetLinksArgs is specified', () => {
+    it('should cancel retrieval of links from the service when a new SkyRecentlyAccessedGetLinksArgs is specified', async () => {
       const testObs = new AsyncSubject<SkyRecentlyAccessedLinkList>();
 
       mockRecentlyAccessedSvc.getLinks.and.callFake((args) => {
@@ -464,6 +480,9 @@ describe('Action hub component', () => {
       };
 
       fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
       expect(testObs.observers.length).toBe(1);
 
@@ -477,6 +496,9 @@ describe('Action hub component', () => {
       };
 
       fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
       expect(testObs.observers.length).toBe(0);
 
@@ -488,7 +510,7 @@ describe('Action hub component', () => {
       ]);
     });
 
-    it('should cancel retrieval of links from the service when a SkyRecentLink array is specified', () => {
+    it('should cancel retrieval of links from the service when a SkyRecentLink array is specified', async () => {
       const testObs = new AsyncSubject<SkyRecentlyAccessedLinkList>();
 
       mockRecentlyAccessedSvc.getLinks.and.returnValue(testObs);
@@ -503,6 +525,9 @@ describe('Action hub component', () => {
       };
 
       fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
       expect(testObs.observers.length).toBe(1);
 
@@ -517,6 +542,9 @@ describe('Action hub component', () => {
       ] as SkyRecentLink[];
 
       fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
       expect(testObs.observers.length).toBe(0);
 
@@ -541,16 +569,14 @@ describe('Action hub component', () => {
       };
 
       TestBed.configureTestingModule({
-        imports: [
-          SkyActionHubFixtureModule,
-          RouterTestingModule.withRoutes([]),
-        ],
+        imports: [SkyActionHubFixtureModule],
+        providers: [provideRouter([])],
       });
 
       fixture = TestBed.createComponent(ActionHubRecentSvcFixtureComponent);
     });
 
-    it('should display no links when a SkyRecentlyAccessedGetLinksArgs is specified', () => {
+    it('should display no links when a SkyRecentlyAccessedGetLinksArgs is specified', async () => {
       mockRecentlyAccessedSvc.getLinks.and.returnValue(
         of<SkyRecentlyAccessedLinkList>({
           links: [
@@ -582,6 +608,9 @@ describe('Action hub component', () => {
       };
 
       fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
       validateLinkList(fixture, 'recent', []);
     });

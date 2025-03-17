@@ -5,61 +5,67 @@
     </h2>
   </sky-box-header>
   <sky-box-content>
-    @if (!items?.length) {
+    @if (!displayItems().length) {
       {{ 'sky_action_hub_needs_attention_empty' | skyLibResources }}
     } @else {
       <ul class="sky-needs-attention-list">
-        @for (item of items; track item; let isLast = $last) {
-          <li
-            class="sky-needs-attention-item-wrapper sky-font-emphasized"
-            [ngClass]="{
-              'sky-border-bottom-row': !isLast
-            }"
-          >
-            @if (
-              (item | linkAs: 'skyAppLink') && item.permalink?.route;
-              as permalinkRoute
-            ) {
-              <a
-                class="sky-needs-attention-item"
-                [skyAppLink]="permalinkRoute.commands"
-                [queryParams]="permalinkRoute.extras?.queryParams"
-                [queryParamsHandling]="
-                  permalinkRoute.extras?.queryParamsHandling
-                "
-                [fragment]="permalinkRoute.extras?.fragment"
-                [preserveFragment]="permalinkRoute.extras?.preserveFragment"
-                [skipLocationChange]="permalinkRoute.extras?.skipLocationChange"
-                [replaceUrl]="permalinkRoute.extras?.replaceUrl"
-                [state]="permalinkRoute.extras?.state"
-                >{{ item.title }} {{ item.message }}</a
-              >
-            } @else if (item.permalink) {
-              @if (item | linkAs: 'skyHref') {
+        @for (item of displayItems(); track item; let isLast = $last) {
+          @if (item.display | async) {
+            <li
+              class="sky-needs-attention-item-wrapper sky-font-emphasized"
+              [ngClass]="{
+                'sky-border-bottom-row': !isLast
+              }"
+            >
+              @if (
+                (item | linkAs: 'skyAppLink') && item.permalink?.route;
+                as permalinkRoute
+              ) {
                 <a
                   class="sky-needs-attention-item"
-                  [skyHref]="item.permalink.url"
+                  [skyAppLink]="permalinkRoute.commands"
+                  [queryParams]="permalinkRoute.extras?.queryParams"
+                  [queryParamsHandling]="
+                    permalinkRoute.extras?.queryParamsHandling
+                  "
+                  [fragment]="permalinkRoute.extras?.fragment"
+                  [preserveFragment]="permalinkRoute.extras?.preserveFragment"
+                  [skipLocationChange]="
+                    permalinkRoute.extras?.skipLocationChange
+                  "
+                  [replaceUrl]="permalinkRoute.extras?.replaceUrl"
+                  [state]="permalinkRoute.extras?.state"
                   >{{ item.title }} {{ item.message }}</a
                 >
-              } @else if (item | linkAs: 'href') {
-                <a class="sky-needs-attention-item" [href]="item.permalink.url"
-                  >{{ item.title }} {{ item.message }}</a
+              } @else if (item.permalink) {
+                @if (item | linkAs: 'skyHref') {
+                  <a
+                    class="sky-needs-attention-item"
+                    [skyHref]="item.permalink.url"
+                    >{{ item.title }} {{ item.message }}</a
+                  >
+                } @else if (item | linkAs: 'href') {
+                  <a
+                    class="sky-needs-attention-item"
+                    [href]="item.permalink.url"
+                    >{{ item.title }} {{ item.message }}</a
+                  >
+                }
+              } @else if (item | linkAs: 'button') {
+                <button
+                  class="sky-needs-attention-item sky-btn sky-btn-link-inline"
+                  type="button"
+                  (click)="item.click({ item })"
                 >
+                  {{ item.title }} {{ item.message }}
+                </button>
               }
-            } @else if (item | linkAs: 'button') {
-              <button
-                class="sky-needs-attention-item sky-btn sky-btn-link-inline"
-                type="button"
-                (click)="item?.click({ item })"
-              >
-                {{ item.title }} {{ item.message }}
-              </button>
-            }
-            <sky-icon
-              class="sky-needs-attention-item-icon"
-              iconName="chevron-right"
-            />
-          </li>
+              <sky-icon
+                class="sky-needs-attention-item-icon"
+                iconName="chevron-right"
+              />
+            </li>
+          }
         }
       </ul>
     }
