@@ -1,5 +1,20 @@
 # Changelog
 
+## [12.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.11...12.0.0-alpha.12) (2025-03-17)
+
+
+### Features
+
+* **components/icon:** remove inline styles from SVG sprite ([#3243](https://github.com/blackbaud/skyux/issues/3243)) ([ed1aac8](https://github.com/blackbaud/skyux/commit/ed1aac8ce7574dbdc7232381e7fef922fc8a596b))
+* **components/layout:** add back to top harness ([#3193](https://github.com/blackbaud/skyux/issues/3193)) ([#3219](https://github.com/blackbaud/skyux/issues/3219)) ([a111916](https://github.com/blackbaud/skyux/commit/a1119163985463019588b30637eae01a8b35f9b3))
+* **components/tabs:** add vertical tabs harness ([#3241](https://github.com/blackbaud/skyux/issues/3241)) ([#3244](https://github.com/blackbaud/skyux/issues/3244)) ([e0e0f22](https://github.com/blackbaud/skyux/commit/e0e0f2274f9c3ea1716b1922525da29c81d73a4d))
+
+
+### Bug Fixes
+
+* **components/docs-tools:** various adjustments to showcase and code example viewer components ([#3240](https://github.com/blackbaud/skyux/issues/3240)) ([09d67a6](https://github.com/blackbaud/skyux/commit/09d67a633f6837a95637eab782e5a0c8a9f14549))
+* **components/theme:** viewport service should work with overlay elements ([#3195](https://github.com/blackbaud/skyux/issues/3195)) ([#3239](https://github.com/blackbaud/skyux/issues/3239)) ([c3a2729](https://github.com/blackbaud/skyux/commit/c3a2729eafcb5e07d97267f13be1b43069b883b1))
+
 ## [11.45.1](https://github.com/blackbaud/skyux/compare/11.45.0...11.45.1) (2025-03-12)
 
 
