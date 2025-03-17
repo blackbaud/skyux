@@ -4,7 +4,7 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyFilterButtonHarnessFilters } from './filter-button-harness-filters';
 
 /**
- * Harness for interacting with a back to top component in tests.
+ * Harness for interacting with a filter button component in tests.
  */
 export class SkyFilterButtonHarness extends SkyComponentHarness {
   /**
@@ -54,6 +54,24 @@ export class SkyFilterButtonHarness extends SkyComponentHarness {
    */
   public async getAriaLabel(): Promise<string | null> {
     return await (await this.#getFilterButton()).getAttribute('aria-label');
+  }
+
+  /**
+   * Gets the filter button's id.
+   */
+  public async getButtonId(): Promise<string | null> {
+    return await (await this.#getFilterButton()).getAttribute('id');
+  }
+
+  /**
+   * Gets the text that appears on the filter button.
+   */
+  public async getButtonText(): Promise<string> {
+    const text = await (
+      await this.locatorForOptional('.sky-filter-btn-text')()
+    )?.text();
+
+    return text ?? '';
   }
 
   /**

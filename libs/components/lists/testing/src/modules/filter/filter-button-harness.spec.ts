@@ -81,6 +81,28 @@ describe('Filter test harness', () => {
     );
   });
 
+  it('should get the filter button text', async () => {
+    const { filterButtonHarness, fixture } = await setupTest();
+
+    await expectAsync(filterButtonHarness.getButtonText()).toBeResolvedTo(
+      'Filter',
+    );
+
+    fixture.componentInstance.showText = false;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await expectAsync(filterButtonHarness.getButtonText()).toBeResolvedTo('');
+  });
+
+  it('should get the filter button id', async () => {
+    const { filterButtonHarness } = await setupTest();
+
+    await expectAsync(filterButtonHarness.getButtonId()).toBeResolvedTo(
+      'test-id',
+    );
+  });
+
   it('should get the filter inline and filter inline item by data-sky-id', async () => {
     const { filterButtonHarness, fixture, loader } = await setupTest();
 

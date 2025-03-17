@@ -6,7 +6,8 @@
         ariaLabel="aria label"
         [active]="filtersActive"
         [ariaExpanded]="showInlineFilters"
-        [showButtonText]="true"
+        [filterButtonId]="'test-id'"
+        [showButtonText]="showText"
         (filterButtonClick)="filterButtonClicked()"
       />
     </sky-toolbar-item>

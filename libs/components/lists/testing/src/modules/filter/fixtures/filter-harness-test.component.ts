@@ -32,6 +32,7 @@ interface Fruit {
   ],
 })
 export class FilterHarnessTestComponent {
+  public showText = true;
   protected appliedFilters: Filter[] = [];
   protected filteredItems: Fruit[];
   protected filtersActive = false;
