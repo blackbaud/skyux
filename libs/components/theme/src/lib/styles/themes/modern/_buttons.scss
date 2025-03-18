@@ -17,28 +17,28 @@
   --sky-override-button-link-inline-vertical-align: top;
   --sky-override-button-padding: 9px 21px;
 
-  --sky-override-button-primary-disabled-box-shadow: inset 0 0 0
-      var(--sky-border-width-action-focus)
+  --sky-override-button-primary-disabled-box-shadow:
+    inset 0 0 0 var(--sky-border-width-action-focus)
       var(--sky-color-border-action-primary-focus),
     var(--sky-elevation-focus);
-  --sky-override-button-icon-disabled-box-shadow: inset 0 0 0
-      var(--sky-border-width-action-focus)
+  --sky-override-button-icon-disabled-box-shadow:
+    inset 0 0 0 var(--sky-border-width-action-focus)
       var(--sky-color-border-action-secondary-focus),
     var(--sky-elevation-focus);
-  --sky-override-button-danger-disabled-box-shadow: inset 0 0 0
-      var(--sky-border-width-action-focus)
+  --sky-override-button-danger-disabled-box-shadow:
+    inset 0 0 0 var(--sky-border-width-action-focus)
       var(--sky-color-border-action-danger-focus),
     var(--sky-elevation-focus);
-  --sky-override-button-tertiary-disabled-box-shadow: inset 0 0 0
-      var(--sky-border-width-action-focus)
+  --sky-override-button-tertiary-disabled-box-shadow:
+    inset 0 0 0 var(--sky-border-width-action-focus)
       var(--sky-color-border-action-tertiary-focus),
     var(--sky-elevation-focus,);
-  --sky-override-button-link-inline-disabled-box-shadow: 0 0 0
-      var(--sky-border-width-action-focus)
+  --sky-override-button-link-inline-disabled-box-shadow:
+    0 0 0 var(--sky-border-width-action-focus)
       var(--sky-color-border-action-tertiary-focus),
     var(--sky-elevation-focus);
-  --sky-override-button-borderless-inline-disabled-box-shadow: 0 0 0
-      var(--sky-border-width-action-focus)
+  --sky-override-button-borderless-inline-disabled-box-shadow:
+    0 0 0 var(--sky-border-width-action-focus)
       var(--sky-color-border-action-tertiary-focus),
     var(--sky-elevation-focus);
 

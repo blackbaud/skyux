@@ -19,7 +19,7 @@
 
   .sky-docs-toc-menu {
     position: sticky;
-    top: 0;
+    top: var(--sky-viewport-top);
     flex-shrink: 1;
     max-width: 40%;
     min-width: 20%;

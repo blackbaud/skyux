@@ -2,6 +2,17 @@ export { SkyFilterFixtureButton } from './legacy/filter/filter-fixture-button';
 export { SkyFilterFixtureSummary } from './legacy/filter/filter-fixture-summary';
 export { SkyFilterTestingModule } from './legacy/filter/filter-testing.module';
 
+export { SkyFilterButtonHarness } from './modules/filter/filter-button-harness';
+export { SkyFilterButtonHarnessFilters } from './modules/filter/filter-button-harness-filters';
+export { SkyFilterInlineHarness } from './modules/filter/filter-inline-harness';
+export { SkyFilterInlineHarnessFilters } from './modules/filter/filter-inline-harness-filters';
+export { SkyFilterInlineItemHarness } from './modules/filter/filter-inline-item-harness';
+export { SkyFilterInlineItemHarnessFilters } from './modules/filter/filter-inline-item-harness-filters';
+export { SkyFilterSummaryHarness } from './modules/filter/filter-summary-harness';
+export { SkyFilterSummaryHarnessFilters } from './modules/filter/filter-summary-harness-filters';
+export { SkyFilterSummaryItemHarness } from './modules/filter/filter-summary-item-harness';
+export { SkyFilterSummaryItemHarnessFilters } from './modules/filter/filter-summary-item-harness-filters';
+
 export { SkyPagingFixture } from './legacy/paging/paging-fixture';
 export { SkyPagingFixtureButton } from './legacy/paging/paging-fixture-button';
 export { SkyPagingTestingModule } from './legacy/paging/paging-testing.module';

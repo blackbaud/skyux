@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "12.0.0-alpha.10",
+  "version": "12.0.0-alpha.12",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -101,7 +101,7 @@
     "@blackbaud/angular-tree-component": "1.0.0",
     "@blackbaud/skyux-design-tokens": "0.0.45",
     "@nx/angular": "20.5.0",
-    "@skyux/icons": "7.14.1",
+    "@skyux/icons": "7.16.0",
     "@stackblitz/sdk": "1.11.0",
     "@storybook/addon-interactions": "8.6.4",
     "ag-grid-angular": "33.1.1",
@@ -127,7 +127,7 @@
     "rxjs": "7.8.1",
     "storybook": "8.6.4",
     "tslib": "2.8.1",
-    "typedoc": "0.27.9",
+    "typedoc": "0.28.0",
     "validator": "13.12.0",
     "zone.js": "0.15.0"
   },
@@ -165,7 +165,7 @@
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
     "@schematics/angular": "19.2.1",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#10.0.0-alpha.22",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#12.0.0-alpha.0",
     "@storybook/addon-a11y": "8.6.4",
     "@storybook/addon-actions": "8.6.4",
     "@storybook/addon-controls": "8.6.4",

@@ -4,6 +4,7 @@ import { SkyRepeaterModule } from '@skyux/lists';
 
 /**
  * @title Repeater with back to top directive
+ * @docsDemoHidden
  */
 @Component({
   selector: 'app-layout-back-to-top-repeater-example',

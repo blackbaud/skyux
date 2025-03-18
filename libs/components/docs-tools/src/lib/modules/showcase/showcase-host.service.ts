@@ -24,7 +24,7 @@ export class SkyDocsShowcaseHostService implements OnDestroy {
     this.#documentationGroup.complete();
   }
 
-  public updateGroup(group: SkyManifestDocumentationGroup): void {
+  public updateGroup(group: SkyManifestDocumentationGroup | undefined): void {
     this.#documentationGroup.next(group);
   }
 }

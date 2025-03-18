@@ -3,6 +3,7 @@ import { SkyFluidGridModule, SkyPageModule } from '@skyux/layout';
 
 /**
  * @title Page with basic setup
+ * @docsDemoHidden
  */
 @Component({
   selector: 'app-layout-page-layout-fit-example',

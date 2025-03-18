@@ -1,0 +1,56 @@
+@defer (on timer(500ms)) {
+  <div [skyViewkeeper]="viewKeep()">
+    <div
+      #devBar
+      class="dev-bar-stand-in"
+      [ngClass]="{
+        hide: hideEnvBar()
+      }"
+    >
+      Env: Playground (reserved space while visible)
+    </div>
+    <div class="floating-bar">Viewkept floating bar</div>
+
+    <div class="viewport-example viewport-fixed">
+      Position: fixed; top: var(--sky-viewport-top)
+    </div>
+    <span class="viewport-example viewport-sticky"
+      >Position: sticky; top: 0</span
+    >
+    <h1 style="margin-left: var(--sky-margin-inline-xl)">
+      SkyAppViewportService
+    </h1>
+
+    <sky-toolbar class="toolbar">
+      <sky-toolbar-section>
+        <sky-toolbar-item>
+          <span class="sky-margin-inline-xl"> </span>
+          <span class="sky-margin-inline-xl"
+            >Viewkept toolbar while the next region is in view:</span
+          >
+          <button
+            class="sky-btn sky-btn-default sky-margin-inline-xl"
+            type="button"
+            (click)="hideEnvBar.set(!hideEnvBar())"
+          >
+            {{ hideEnvBar() ? 'Show' : 'Hide' }} environment bar
+          </button>
+          <button
+            class="sky-btn sky-btn-default sky-margin-inline-xl"
+            type="button"
+            (click)="startWaiting()"
+          >
+            Wait
+          </button>
+        </sky-toolbar-item>
+      </sky-toolbar-section>
+    </sky-toolbar>
+    <div #toolbarRegion class="region"></div>
+
+    <h1>Scrolling</h1>
+    <div class="region"></div>
+
+    <h1>More...</h1>
+    <div class="region"></div>
+  </div>
+}

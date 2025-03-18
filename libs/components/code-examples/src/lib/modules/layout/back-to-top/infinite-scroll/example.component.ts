@@ -6,6 +6,7 @@ import { Person } from './person';
 
 /**
  * @title Infinite scroll with back to top directive
+ * @docsDemoHidden
  */
 @Component({
   selector: 'app-layout-back-to-top-infinite-scroll-example',
@@ -125,11 +126,11 @@ export class LayoutBackToTopInfiniteScrollExampleComponent implements OnInit {
   ];
 
   public ngOnInit(): void {
-    void this.#addData(0, 5);
+    void this.#addData(0, 10);
   }
 
   public onScrollEnd(): void {
-    void this.#addData(this.personList.length, 5);
+    void this.#addData(this.personList.length, 10);
   }
 
   async #addData(start: number, rowSize: number): Promise<void> {
