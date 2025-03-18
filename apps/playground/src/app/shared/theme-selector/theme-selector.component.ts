@@ -94,7 +94,7 @@ export class SkyThemeSelectorComponent implements OnInit {
     const themeSpacing = SkyThemeSpacing.presets[themeSpacingName];
     const themeMode = SkyThemeMode.presets[themeModeName];
     const themeBrand = modernV2Enabled
-      ? new SkyThemeBrand('blackbaud')
+      ? new SkyThemeBrand('blackbaud', '1.0.0')
       : undefined;
 
     let theme: SkyTheme;

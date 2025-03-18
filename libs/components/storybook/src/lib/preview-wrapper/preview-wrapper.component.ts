@@ -52,7 +52,7 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
         SkyTheme.presets.modern,
         SkyThemeMode.presets.light,
         SkyThemeSpacing.presets.standard,
-        new SkyThemeBrand('blackbaud'),
+        new SkyThemeBrand('blackbaud', '1.0.0'),
       );
     } else {
       this.themeSettings = new SkyThemeSettings(

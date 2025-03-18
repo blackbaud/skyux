@@ -20,8 +20,15 @@ export class SkyThemeBrand {
    */
   constructor(
     public readonly name: string,
+    public readonly version: string,
     hostClass?: string,
   ) {
     this.hostClass = hostClass;
+
+    if (/\d+\.\d+\.\d+(?:-(?:alpha|beta|rc)\.\d)*$/.test(version)) {
+      throw new Error(
+        `Invalid version format "${version}" for theme brand "${name}".`,
+      );
+    }
   }
 }

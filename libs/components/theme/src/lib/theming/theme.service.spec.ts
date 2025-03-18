@@ -246,7 +246,7 @@ describe('Theme service', () => {
       SkyTheme.presets.modern,
       SkyThemeMode.presets.light,
       SkyThemeSpacing.presets.compact,
-      new SkyThemeBrand('blackbaud'),
+      new SkyThemeBrand('blackbaud', '1.0.0'),
     );
 
     themeSvc.init(
