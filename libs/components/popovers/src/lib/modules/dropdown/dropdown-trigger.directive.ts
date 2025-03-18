@@ -1,11 +1,18 @@
-import { Directive, computed, inject } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  OnDestroy,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SkyContentInfoProvider } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { of, switchMap } from 'rxjs';
+import { Subject, of, switchMap } from 'rxjs';
 
-import { SkyDropdownTriggerBaseDirective } from './dropdown-trigger-base.directive';
+import { SkyDropdownButtonType } from './types/dropdown-button-type';
 
 /**
  * @internal
@@ -14,12 +21,42 @@ import { SkyDropdownTriggerBaseDirective } from './dropdown-trigger-base.directi
   selector: '[skyDropdownTrigger]',
   standalone: true,
   host: {
+    '[attr.aria-expanded]': 'isOpen()',
+    '[attr.aria-controls]': 'isOpen() ? menuId() : null',
     '[attr.aria-label]': 'ariaLabel()',
     '[attr.aria-labelledby]': 'ariaLabelledby()',
+    '[attr.aria-haspopup]': 'menuAriaRole()',
+    '[attr.title]': 'title()',
+    '[attr.disabled]': 'disabled() || undefined',
+    '(click)': 'triggerClick.next($event)',
+    '(keydown)': 'triggerKeyDown.next($event)',
+    '(mouseenter)': 'triggerMouseEnter.next($event)',
+    '(mouseleave)': 'triggerMouseLeave.next($event)',
   },
 })
-export class SkyDropdownTriggerDirective extends SkyDropdownTriggerBaseDirective {
+export class SkyDropdownTriggerDirective implements OnDestroy {
   readonly #resourcesSvc = inject(SkyLibResourcesService);
+
+  public readonly nativeElement = inject(ElementRef).nativeElement;
+
+  // Set by the dropdown component.
+  public readonly isOpen = signal<boolean | undefined>(undefined);
+  public readonly menuId = signal<string | null | undefined>(undefined);
+  public readonly menuAriaRole = signal<string | undefined>(undefined);
+  public readonly label = signal<string | undefined>(undefined);
+  public readonly buttonType = signal<SkyDropdownButtonType | undefined>(
+    undefined,
+  );
+  public readonly screenReaderLabelContextMenuId = signal<string | undefined>(
+    undefined,
+  );
+  public readonly title = signal<string | undefined>(undefined);
+  public readonly disabled = signal<boolean | undefined>(undefined);
+
+  public readonly triggerClick = new Subject<MouseEvent>();
+  public readonly triggerKeyDown = new Subject<KeyboardEvent>();
+  public readonly triggerMouseEnter = new Subject<MouseEvent>();
+  public readonly triggerMouseLeave = new Subject<MouseEvent>();
 
   readonly #contentInfo = toSignal(
     inject(SkyContentInfoProvider, {
@@ -73,4 +110,11 @@ export class SkyDropdownTriggerDirective extends SkyDropdownTriggerBaseDirective
           this.#contentInfo()?.descriptor?.value
       : undefined;
   });
+
+  public ngOnDestroy(): void {
+    this.triggerClick.complete();
+    this.triggerKeyDown.complete();
+    this.triggerMouseEnter.complete();
+    this.triggerMouseLeave.complete();
+  }
 }

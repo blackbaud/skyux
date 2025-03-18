@@ -6,6 +6,7 @@ import { HomePageContentComponent } from './home-page-content.component';
 
 /**
  * @title Home page with blocks layout, using tile dashboard and recently accessed links
+ * @docsDemoHidden
  */
 @Component({
   selector: 'app-pages-page-home-page-blocks-layout-example',
