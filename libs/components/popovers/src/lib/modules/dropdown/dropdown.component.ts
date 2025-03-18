@@ -29,7 +29,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { parseAffixHorizontalAlignment } from './dropdown-extensions';
-import { SkyDropdownTriggerBaseDirective } from './dropdown-trigger-base.directive';
 import { SkyDropdownTriggerDirective } from './dropdown-trigger.directive';
 import { SkyDropdownButtonType } from './types/dropdown-button-type';
 import { SkyDropdownHorizontalAlignment } from './types/dropdown-horizontal-alignment';
@@ -232,18 +231,15 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   public menuContainerTemplateRef: TemplateRef<unknown> | undefined;
 
   @ViewChild('triggerButton', {
-    read: SkyDropdownTriggerBaseDirective,
+    read: SkyDropdownTriggerDirective,
   })
-  public set triggerButton(value: SkyDropdownTriggerBaseDirective | undefined) {
+  public set triggerButton(value: SkyDropdownTriggerDirective | undefined) {
     this.#_triggerButton = value;
     this.#addEventListeners();
     this.#updateTrigger();
   }
 
-  public get triggerButton():
-    | SkyDropdownTriggerBaseDirective
-    | SkyDropdownTriggerDirective
-    | undefined {
+  public get triggerButton(): SkyDropdownTriggerDirective | undefined {
     return this.#_customTriggerButton ?? this.#_triggerButton;
   }
 
@@ -275,7 +271,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   #_menuId: string | undefined;
   #_title: string | undefined;
   #_trigger = DEFAULT_TRIGGER_TYPE;
-  #_triggerButton: SkyDropdownTriggerBaseDirective | undefined;
+  #_triggerButton: SkyDropdownTriggerDirective | undefined;
 
   public ngOnInit(): void {
     this.messageStream

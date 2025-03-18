@@ -1,0 +1,67 @@
+<sky-toolbar>
+  <sky-toolbar-section>
+    <sky-toolbar-item>
+      <sky-filter-button
+        ariaControls="inlineFilters"
+        ariaLabel="aria label"
+        [active]="filtersActive"
+        [ariaExpanded]="showInlineFilters"
+        [filterButtonId]="'test-id'"
+        [showButtonText]="showText"
+        (filterButtonClick)="filterButtonClicked()"
+      />
+    </sky-toolbar-item>
+    <sky-toolbar-item>
+      <sky-filter-button data-sky-id="other-button" [disabled]="true" />
+    </sky-toolbar-item>
+  </sky-toolbar-section>
+  @if (appliedFilters && appliedFilters.length > 0) {
+    <sky-toolbar-section>
+      <sky-filter-summary data-sky-id="filter-summary">
+        @for (item of appliedFilters; track item; let i = $index) {
+          <sky-filter-summary-item
+            [attr.data-sky-id]="'summary-item-' + i"
+            (dismiss)="onDismiss(i)"
+          >
+            {{ item.label }}
+          </sky-filter-summary-item>
+        }
+      </sky-filter-summary>
+    </sky-toolbar-section>
+  }
+  <sky-toolbar-section>
+    <sky-filter-summary data-sky-id="other-summary"></sky-filter-summary>
+  </sky-toolbar-section>
+</sky-toolbar>
+
+<div id="inlineFilters" [hidden]="!showInlineFilters">
+  <sky-filter-inline data-sky-id="filter-inline">
+    <sky-filter-inline-item data-sky-id="fruit-filter">
+      <sky-input-box labelText="Fruit type">
+        <select [ngModel]="fruitType" (ngModelChange)="fruitTypeChange($event)">
+          <option value="any">Any fruit</option>
+          <option value="citrus">Citrus</option>
+          <option value="berry">Berry</option>
+        </select>
+      </sky-input-box>
+    </sky-filter-inline-item>
+    <sky-filter-inline-item data-sky-id="hide-orange-filter">
+      <sky-checkbox
+        labelText="Hide orange fruits"
+        [ngModel]="hideOrange"
+        (ngModelChange)="hideOrangeChange($event)"
+      />
+    </sky-filter-inline-item>
+  </sky-filter-inline>
+  <sky-filter-inline data-sky-id="other-filter-inline"></sky-filter-inline>
+</div>
+
+<sky-repeater expandMode="none">
+  @for (item of filteredItems; track item) {
+    <sky-repeater-item>
+      <sky-repeater-item-title>
+        {{ item.name }}
+      </sky-repeater-item-title>
+    </sky-repeater-item>
+  }
+</sky-repeater>

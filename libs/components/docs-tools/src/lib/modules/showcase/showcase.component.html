@@ -1,10 +1,11 @@
+@let group = docsGroup();
 <sky-tabset permalinkId="docs">
   @if (overviewContent()) {
     <sky-tab tabHeading="Design">
       <ng-container [ngTemplateOutlet]="overviewContentRef" />
     </sky-tab>
   }
-  @if (docsGroup().publicApi.length > 0 || developmentContent()) {
+  @if ((group && group.publicApi.length > 0) || developmentContent()) {
     <sky-tab tabHeading="Development">
       @if (developmentContent()) {
         <ng-container [ngTemplateOutlet]="developmentContentRef" />
@@ -13,7 +14,7 @@
       }
     </sky-tab>
   }
-  @if (docsGroup().testing.length > 0 || testingContent()) {
+  @if ((group && group.testing.length > 0) || testingContent()) {
     <sky-tab tabHeading="Testing">
       @if (testingContent()) {
         <ng-container [ngTemplateOutlet]="testingContentRef" />
@@ -22,9 +23,13 @@
       }
     </sky-tab>
   }
-  @if (docsGroup().codeExamples.length > 0) {
+  @if (group && group.codeExamples.length > 0) {
     <sky-tab tabHeading="Examples">
-      <sky-docs-showcase-area-examples />
+      @defer (on viewport) {
+        <sky-docs-showcase-area-examples />
+      } @placeholder {
+        <p>Loading...</p>
+      }
     </sky-tab>
   }
 </sky-tabset>
