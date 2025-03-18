@@ -1,21 +1,20 @@
+/* eslint-disable max-depth */
+/* eslint-disable complexity */
 import { execSync } from 'node:child_process';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import {
   Application,
+  Context,
+  Converter,
   type DeclarationReflection,
-  OptionDefaults,
   type ProjectReflection,
+  ReflectionKind,
+  TypeScript as ts,
 } from 'typedoc';
 
-import type { DeclarationReflectionWithDecorators } from './types/declaration-reflection-with-decorators.js';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-const TYPEDOC_PLUGIN_PATH = path.join(
-  __dirname,
-  './plugins/typedoc-plugin-decorators.js',
-);
+import type {
+  DeclarationReflectionDecorator,
+  DeclarationReflectionWithDecorators,
+} from './types/declaration-reflection-with-decorators.js';
 
 type ProjectReflectionWithChildren = ProjectReflection & {
   children: ParentReflectionWithChildren[];
@@ -30,6 +29,108 @@ interface EntryPointReflection {
   reflection: ParentReflectionWithChildren;
 }
 
+function applyDecoratorMetadata(
+  context: Context,
+  reflection: DeclarationReflection,
+): void {
+  const kind = ReflectionKind[reflection.kind];
+
+  const kindsWithDecorators = [
+    'Accessor',
+    'Class',
+    'Method',
+    'Module',
+    'Class',
+  ];
+
+  if (!kindsWithDecorators.includes(kind)) {
+    return;
+  }
+
+  const symbol = context.getSymbolFromReflection(reflection);
+
+  if (!symbol) {
+    return;
+  }
+
+  const declaration = symbol?.valueDeclaration as undefined | ts.HasModifiers;
+
+  if (!declaration || !declaration.modifiers) {
+    return;
+  }
+
+  const modifiers = declaration.modifiers as any;
+  const decorators: any[] = [];
+
+  for (const modifier of modifiers) {
+    const expression = modifier.expression?.expression;
+
+    if (expression) {
+      const decoratorName = expression.escapedText;
+
+      if (
+        ![
+          'Component',
+          'Directive',
+          'Injectable',
+          'Input',
+          'NgModule',
+          'Output',
+          'Pipe',
+        ].includes(decoratorName)
+      ) {
+        continue;
+      }
+
+      const decorator: DeclarationReflectionDecorator = {
+        name: decoratorName,
+      };
+
+      const args = modifier.expression?.arguments[0];
+
+      if (args) {
+        switch (decorator.name) {
+          case 'Component':
+          case 'Directive':
+            decorator.arguments = {
+              selector:
+                args.symbol.members.get('selector')?.valueDeclaration
+                  .initializer.text ?? '',
+            };
+
+            break;
+
+          case 'Pipe':
+            decorator.arguments = {
+              name: args.symbol.members.get('name').valueDeclaration.initializer
+                .text,
+            };
+            break;
+
+          case 'Input': {
+            const alias =
+              args.text ??
+              args.symbol?.members.get('alias')?.valueDeclaration.initializer
+                .text;
+
+            if (alias) {
+              decorator.arguments = {
+                bindingPropertyName: alias,
+              };
+            }
+
+            break;
+          }
+        }
+      }
+
+      decorators.push(decorator);
+    }
+  }
+
+  (reflection as DeclarationReflectionWithDecorators).decorators = decorators;
+}
+
 async function getTypeDocProjectReflection(
   entryPoints: string[],
   projectRoot: string,
@@ -38,44 +139,34 @@ async function getTypeDocProjectReflection(
 
   const app = await Application.bootstrapWithPlugins({
     alwaysCreateEntryPointModule: true,
-    blockTags: [
-      ...OptionDefaults.blockTags,
-      '@docsDemoHidden',
-      '@docsId',
-      '@required',
-      '@title',
-    ],
+    entryPoints,
+    emit: 'docs',
+    excludeExternals: true,
+    excludeInternal: false, // Include internal declarations for usage metrics.
+    excludePrivate: true,
+    excludeProtected: true,
+    gitRemote: 'origin',
+    gitRevision: branch,
+    logLevel: 'Error',
+    tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
     compilerOptions: {
       skipLibCheck: true,
       transpileOnly: true,
       resolveJsonModule: true,
     },
-    entryPoints,
-    emit: 'none',
     exclude: ['**/(fixtures|node_modules)/**', '**/*+(.fixture|.spec).ts'],
-    excludeExternals: true,
-    excludeInternal: false, // Include internal declarations for usage metrics.
-    excludePrivate: true,
-    excludeProtected: true,
-    externalPattern: ['**/node_modules/**'],
-    gitRemote: 'origin',
-    gitRevision: branch,
-    lang: 'en',
-    locales: { en: {} },
-    logLevel: 'Warn',
-    plugin: [TYPEDOC_PLUGIN_PATH],
-    tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
   });
+
+  app.converter.on(Converter.EVENT_CREATE_DECLARATION, applyDecoratorMetadata);
 
   const projectRefl = await app.convert();
 
-  /* v8 ignore start: safety check */
+  /* istanbul ignore if: safety check */
   if (!projectRefl || !projectRefl.children) {
     throw new Error(
       `Failed to create TypeDoc project reflection for '${projectRoot}'.`,
     );
   }
-  /* v8 ignore stop */
 
   return projectRefl as ProjectReflectionWithChildren;
 }
