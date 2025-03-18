@@ -12,6 +12,7 @@ const pastHours = Array.from(Array(5).keys()).map((i) => {
 
 /**
  * @title Action hub with basic setup
+ * @docsDemoHidden
  */
 @Component({
   selector: 'app-pages-action-hub-example',

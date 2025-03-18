@@ -13,9 +13,6 @@ import { SkyDocsShowcaseHostService } from './showcase-host.service';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'sky-padding-even-xl',
-  },
   imports: [
     SkyDocsCodeExampleNameToComponentTypePipe,
     SkyDocsCodeExampleViewerModule,
@@ -25,6 +22,7 @@ import { SkyDocsShowcaseHostService } from './showcase-host.service';
   styles: `
     :host {
       display: block;
+      padding-top: var(--sky-padding-even-xl);
     }
   `,
   templateUrl: './showcase-area-examples.component.html',

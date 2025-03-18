@@ -10,8 +10,8 @@ Add space above the heading to give room when the window scrolls to the anchor.
 Use a specific selector so it beats out "stacked" classes added to the host.
 */
 :host([id]) {
-  padding-top: 15px;
-  margin-top: -15px;
+  padding-top: var(--sky-margin-stacked-xl);
+  margin-top: -1em;
 }
 
 .sky-docs-heading-anchor-heading {
@@ -31,6 +31,5 @@ Use a specific selector so it beats out "stacked" classes added to the host.
   position: absolute;
   transition: opacity 250ms;
   display: inline-block;
-  left: calc(-1em - 1px);
-  top: -2px;
+  left: -22px;
 }

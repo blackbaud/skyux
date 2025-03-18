@@ -94,6 +94,7 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the id of the content controlled by this tab.
    * @internal
    */
   public async getTabId(): Promise<string> {
