@@ -6,4 +6,5 @@ export type SkyIconSize =
   | 'm'
   | 'l'
   | 'xl'
-  | 'xxl';
+  | 'xxl'
+  | 'xxxl';
