@@ -31,11 +31,11 @@
     "@skyux/icon": "0.0.0-PLACEHOLDER",
     "@skyux/indicators": "0.0.0-PLACEHOLDER",
     "@skyux/layout": "0.0.0-PLACEHOLDER",
-    "@skyux/manifest": "0.0.0-PLACEHOLDER",
     "@skyux/tabs": "0.0.0-PLACEHOLDER",
     "@skyux/toast": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
+    "@skyux/manifest": "0.0.0-PLACEHOLDER",
     "@stackblitz/sdk": "1.11.0",
     "highlight.js": "11.11.1",
     "marked": "15.0.7",
