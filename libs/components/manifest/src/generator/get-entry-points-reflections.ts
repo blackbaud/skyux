@@ -34,7 +34,6 @@ function applyDecoratorMetadata(
   reflection: DeclarationReflection,
 ): void {
   const kind = ReflectionKind[reflection.kind];
-
   const kindsWithDecorators = [
     'Accessor',
     'Class',
@@ -48,25 +47,21 @@ function applyDecoratorMetadata(
   }
 
   const symbol = context.getSymbolFromReflection(reflection);
-
-  if (!symbol) {
-    return;
-  }
-
   const declaration = symbol?.valueDeclaration as undefined | ts.HasModifiers;
 
   if (!declaration || !declaration.modifiers) {
     return;
   }
 
-  const modifiers = declaration.modifiers as any;
-  const decorators: any[] = [];
+  const modifiers = declaration.modifiers as unknown as ts.Decorator[];
+  const decorators: DeclarationReflectionDecorator[] = [];
 
   for (const modifier of modifiers) {
-    const expression = modifier.expression?.expression;
+    const callExpression = modifier.expression as undefined | ts.CallExpression;
+    const identifier = callExpression?.expression as undefined | ts.Identifier;
 
-    if (expression) {
-      const decoratorName = expression.escapedText;
+    if (identifier) {
+      const decoratorName = identifier.escapedText as string;
 
       if (
         ![
@@ -86,7 +81,7 @@ function applyDecoratorMetadata(
         name: decoratorName,
       };
 
-      const args = modifier.expression?.arguments[0];
+      const args = callExpression?.arguments[0] as any;
 
       if (args) {
         switch (decorator.name) {
