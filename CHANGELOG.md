@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.46.1](https://github.com/blackbaud/skyux/compare/11.46.0...11.46.1) (2025-03-19)
+
+
+### Bug Fixes
+
+* **components/theme:** viewport space check ([#3259](https://github.com/blackbaud/skyux/issues/3259)) ([299c731](https://github.com/blackbaud/skyux/commit/299c7311e37c00ce96fdbc276fa50f1d1950e4c0))
+
 ## [11.46.0](https://github.com/blackbaud/skyux/compare/11.45.1...11.46.0) (2025-03-17)
 
 
