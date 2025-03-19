@@ -1,5 +1,18 @@
 # Changelog
 
+## [12.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.13...12.0.0-alpha.14) (2025-03-19)
+
+
+### Features
+
+* **components/theme:** add ability to specify a brand through `SkyThemeService` ([#3248](https://github.com/blackbaud/skyux/issues/3248)) ([41e7d3a](https://github.com/blackbaud/skyux/commit/41e7d3a56f4ecfffef14f4a2be3a12ff94174d80))
+
+
+### Bug Fixes
+
+* **components/packages:** icon size schematic does not add extra property if size already exists and is the first property on the icon ([#3264](https://github.com/blackbaud/skyux/issues/3264)) ([c3e0203](https://github.com/blackbaud/skyux/commit/c3e0203994a822294cf410c0aca38255f65466c6))
+* **components/theme:** viewport space check ([#3259](https://github.com/blackbaud/skyux/issues/3259)) ([#3260](https://github.com/blackbaud/skyux/issues/3260)) ([0906495](https://github.com/blackbaud/skyux/commit/09064950cb1f686aa09c3a363e4f00c69144a67e))
+
 ## [11.46.1](https://github.com/blackbaud/skyux/compare/11.46.0...11.46.1) (2025-03-19)
 
 
