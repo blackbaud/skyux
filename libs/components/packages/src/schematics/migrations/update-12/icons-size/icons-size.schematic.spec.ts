@@ -39,11 +39,16 @@ export class Icon3Component {}`,
 
     tree.create(
       '/icon4.component.html',
-      `<sky-icon icon="plus-circle" size="sm"></sky-icon>`,
+      `<sky-icon size="sm" icon="plus-circle"></sky-icon>`,
     );
 
     tree.create(
       '/icon5.component.html',
+      `<sky-icon variant="line" size="sm" icon="plus-circle"></sky-icon>`,
+    );
+
+    tree.create(
+      '/icon6.component.html',
       `<sky-icon iconName="eye"></sky-icon>`,
     );
 
@@ -97,14 +102,22 @@ export class Icon3Component {}`,
     const { tree } = await setupTest();
 
     expect(tree.readText('/icon4.component.html')).toBe(
-      `<sky-icon icon="plus-circle" size="sm"></sky-icon>`,
+      `<sky-icon size="sm" icon="plus-circle"></sky-icon>`,
+    );
+  });
+
+  it('should handle icon which already sets the size', async () => {
+    const { tree } = await setupTest();
+
+    expect(tree.readText('/icon5.component.html')).toBe(
+      `<sky-icon variant="line" size="sm" icon="plus-circle"></sky-icon>`,
     );
   });
 
   it('should handle iconName missing the size', async () => {
     const { tree } = await setupTest();
 
-    expect(tree.readText('/icon5.component.html')).toBe(
+    expect(tree.readText('/icon6.component.html')).toBe(
       `<sky-icon size="md" iconName="eye"></sky-icon>`,
     );
   });
