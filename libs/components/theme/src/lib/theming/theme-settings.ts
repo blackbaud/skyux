@@ -1,4 +1,5 @@
 import { SkyTheme } from './theme';
+import { SkyThemeBrand } from './theme-brand';
 import { SkyThemeMode } from './theme-mode';
 import { SkyThemeSpacing } from './theme-spacing';
 
@@ -15,5 +16,6 @@ export class SkyThemeSettings {
     public readonly theme: SkyTheme,
     public readonly mode: SkyThemeMode,
     public readonly spacing = SkyThemeSpacing.presets.standard,
+    public readonly brand?: SkyThemeBrand,
   ) {}
 }
