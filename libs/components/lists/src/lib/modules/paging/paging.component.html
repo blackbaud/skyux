@@ -33,7 +33,7 @@
           [disabled]="isPreviousButtonDisabled"
           (click)="previousPage()"
         >
-          <sky-icon iconName="chevron-left" />
+          <sky-icon iconName="sky-back-to" />
         </button>
       </li>
       @for (pageNumber of displayedPages; track pageNumber) {
@@ -63,7 +63,7 @@
           [disabled]="isNextButtonDisabled"
           (click)="nextPage()"
         >
-          <sky-icon iconName="chevron-right" />
+          <sky-icon iconName="sky-navigate-to" />
         </button>
       </li>
     </ul>

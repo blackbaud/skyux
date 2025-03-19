@@ -65,7 +65,7 @@
               [disabled]="disabled"
               (click)="clearSearchText()"
             >
-              <sky-icon iconName="dismiss" />
+              <sky-icon iconName="sky-close" />
             </button>
           </span>
           <span
@@ -103,7 +103,7 @@
           }"
           (click)="toggleSearchInput(false)"
         >
-          <sky-icon *skyThemeIf="'default'" iconName="chevron-left" />
+          <sky-icon *skyThemeIf="'default'" iconName="sky-back-to" />
           <sky-icon *skyThemeIf="'modern'" iconName="chevron-double-left" />
         </button>
       }
