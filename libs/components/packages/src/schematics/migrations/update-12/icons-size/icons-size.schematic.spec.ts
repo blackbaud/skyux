@@ -98,7 +98,7 @@ export class Icon3Component {}`,
     );
   });
 
-  it('should handle icon which already sets the size', async () => {
+  it('should handle icon which already sets the size and is the first property', async () => {
     const { tree } = await setupTest();
 
     expect(tree.readText('/icon4.component.html')).toBe(
@@ -106,7 +106,7 @@ export class Icon3Component {}`,
     );
   });
 
-  it('should handle icon which already sets the size', async () => {
+  it('should handle icon which already sets the size and is not the first property', async () => {
     const { tree } = await setupTest();
 
     expect(tree.readText('/icon5.component.html')).toBe(
