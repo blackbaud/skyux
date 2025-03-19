@@ -24,7 +24,14 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["core", "forms", "indicators", "testing"],
+          "projects": [
+            "core",
+            "forms",
+            "indicators",
+            "layout",
+            "popovers",
+            "testing"
+          ],
           "target": "build"
         }
       ],
