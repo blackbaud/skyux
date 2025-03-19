@@ -147,6 +147,13 @@ export class SkyCountryFieldComponent
   public selectedCountryChange: EventEmitter<SkyCountryFieldCountry> =
     new EventEmitter<SkyCountryFieldCountry>();
 
+  /**
+   * Fires when the country field is blurred.
+   * @internal
+   */
+  @Output()
+  public countryFieldBlurred: EventEmitter<void> = new EventEmitter<void>();
+
   public countries: SkyCountryFieldCountry[] = [];
 
   public countrySearchFormControl: UntypedFormControl;
@@ -333,6 +340,7 @@ export class SkyCountryFieldComponent
    */
   public onAutocompleteBlur(): void {
     this.onTouched();
+    this.countryFieldBlurred.emit();
   }
 
   /**

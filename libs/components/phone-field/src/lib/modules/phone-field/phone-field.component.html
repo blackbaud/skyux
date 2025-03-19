@@ -67,10 +67,12 @@
         [formGroup]="countrySearchForm"
       >
         <sky-country-field
+          style="background-color: hotpink"
           formControlName="countrySearch"
           [defaultCountry]="defaultCountry"
           [supportedCountryISOs]="supportedCountryISOs"
           (selectedCountryChange)="onCountrySelected($event)"
+          (countryFieldBlurred)="toggleCountrySearch(false)"
         />
       </div>
     </span>
