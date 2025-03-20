@@ -3,6 +3,9 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyDropdownItemHarnessFilters } from './dropdown-item-harness.filters';
 
+/**
+ * Harness for interacting with a dropdown item component in tests.
+ */
 export class SkyDropdownItemHarness extends SkyComponentHarness {
   /**
    * @internal
@@ -14,7 +17,7 @@ export class SkyDropdownItemHarness extends SkyComponentHarness {
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyAutocompleteHarness` that meets certain criteria.
+   * `SkyDropdownItemHarness` that meets certain criteria.
    */
   public static with(
     filters: SkyDropdownItemHarnessFilters,
