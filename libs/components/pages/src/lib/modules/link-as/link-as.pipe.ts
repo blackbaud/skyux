@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Route } from '@angular/router';
 
 import { SkyActionHubNeedsAttention } from '../action-hub/types/action-hub-needs-attention';
 import { SkyPageLink } from '../action-hub/types/page-link';
@@ -34,7 +35,7 @@ export class LinkAsPipe implements PipeTransform {
       | SkyPageModalLink
       | undefined,
     linkAs: 'skyAppLink',
-  ): value is SkyActionHubNeedsAttention & { permalink: { route: unknown } };
+  ): value is SkyActionHubNeedsAttention & { permalink: { route: Route } };
 
   public transform(
     value:

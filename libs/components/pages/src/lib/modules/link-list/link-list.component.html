@@ -6,39 +6,35 @@
     <ng-container [ngTemplateOutlet]="headingTemplateRef" />
     <ul class="sky-link-list">
       @for (link of linksArray(); track link) {
-        @if (link.display | async) {
-          <li>
-            @if (link | linkAs: 'skyHref') {
-              <a class="sky-link-list-item" [skyHref]="link.permalink.url">
-                {{ link.label }}
-              </a>
-            } @else if (link | linkAs: 'href') {
-              <a class="sky-link-list-item" [href]="link.permalink.url">
-                {{ link.label }}
-              </a>
-            } @else if (link.permalink.route) {
-              <a
-                class="sky-link-list-item"
-                [skyAppLink]="link.permalink.route.commands"
-                [queryParams]="link.permalink.route.extras?.queryParams"
-                [queryParamsHandling]="
-                  link.permalink.route.extras?.queryParamsHandling
-                "
-                [fragment]="link.permalink.route.extras?.fragment"
-                [preserveFragment]="
-                  link.permalink.route.extras?.preserveFragment
-                "
-                [skipLocationChange]="
-                  link.permalink.route.extras?.skipLocationChange
-                "
-                [replaceUrl]="link.permalink.route.extras?.replaceUrl"
-                [state]="link.permalink.route.extras?.state"
-              >
-                {{ link.label }}
-              </a>
-            }
-          </li>
-        }
+        <li>
+          @if (link | linkAs: 'skyHref') {
+            <a class="sky-link-list-item" [skyHref]="link.permalink.url">
+              {{ link.label }}
+            </a>
+          } @else if (link | linkAs: 'href') {
+            <a class="sky-link-list-item" [href]="link.permalink.url">
+              {{ link.label }}
+            </a>
+          } @else if (link | linkAs: 'skyAppLink') {
+            <a
+              class="sky-link-list-item"
+              [skyAppLink]="link.permalink.route.commands"
+              [queryParams]="link.permalink.route.extras?.queryParams"
+              [queryParamsHandling]="
+                link.permalink.route.extras?.queryParamsHandling
+              "
+              [fragment]="link.permalink.route.extras?.fragment"
+              [preserveFragment]="link.permalink.route.extras?.preserveFragment"
+              [skipLocationChange]="
+                link.permalink.route.extras?.skipLocationChange
+              "
+              [replaceUrl]="link.permalink.route.extras?.replaceUrl"
+              [state]="link.permalink.route.extras?.state"
+            >
+              {{ link.label }}
+            </a>
+          }
+        </li>
       }
       <ng-content select="sky-link-list-item" />
     </ul>

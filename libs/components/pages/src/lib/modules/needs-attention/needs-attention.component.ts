@@ -1,5 +1,6 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, computed, effect, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { SkyLogService, SkyTrimModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyWaitModule } from '@skyux/indicators';
@@ -11,9 +12,10 @@ import {
 } from '@skyux/router';
 import { SkyThemeModule } from '@skyux/theme';
 
+import { forkJoin, from, map, of, startWith, switchMap } from 'rxjs';
+
 import { SkyActionHubNeedsAttention } from '../action-hub/types/action-hub-needs-attention';
 import { LinkAsModule } from '../link-as/link-as.module';
-import { DisplayPromise } from '../link-list/types/display-promise';
 import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
 
 /**
@@ -38,21 +40,27 @@ import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
   ],
 })
 export class SkyNeedsAttentionComponent {
-  public readonly items = input<SkyActionHubNeedsAttention[]>();
+  public readonly items = input<SkyActionHubNeedsAttention[]>([]);
 
-  protected readonly displayItems = computed(
-    (): (SkyActionHubNeedsAttention & DisplayPromise)[] => {
-      return (this.items() ?? []).map((item: SkyActionHubNeedsAttention) => {
-        return {
-          ...item,
-          display: item.permalink?.url?.includes('://')
-            ? this.#resolver
-                .resolveHref({ url: item.permalink.url })
-                .then((result) => !!result.userHasAccess)
-            : Promise.resolve(true),
-        };
-      });
-    },
+  protected readonly displayItems = toObservable<SkyActionHubNeedsAttention[]>(
+    this.items,
+  ).pipe(
+    switchMap((items) => {
+      if (!items?.length) {
+        return of([] as SkyActionHubNeedsAttention[]);
+      }
+      return forkJoin(
+        items.map((item) => {
+          if (item.permalink?.url?.includes('://')) {
+            return from(
+              this.#resolver.resolveHref({ url: item.permalink.url }),
+            ).pipe(map((result) => (result.userHasAccess ? item : undefined)));
+          }
+          return of(item);
+        }),
+      ).pipe(map((items) => items.filter(Boolean)));
+    }),
+    startWith([] as SkyActionHubNeedsAttention[]),
   );
 
   readonly #logService = inject(SkyLogService);

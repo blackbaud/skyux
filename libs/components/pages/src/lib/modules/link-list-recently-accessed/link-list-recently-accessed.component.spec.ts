@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyRecentlyAccessedService } from '@skyux/router';
-import { SkyHrefTestingModule } from '@skyux/router/testing';
 
 import { of } from 'rxjs';
 
@@ -12,10 +11,7 @@ describe('SkyLinkListRecentlyAccessedComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyLinkListRecentlyAccessedComponent,
-        SkyHrefTestingModule.with({ userHasAccess: true }),
-      ],
+      imports: [SkyLinkListRecentlyAccessedComponent],
       providers: [
         {
           provide: SkyRecentlyAccessedService,
@@ -47,7 +43,6 @@ describe('SkyLinkListRecentlyAccessedComponent', () => {
 
   it('should show recent links', async () => {
     fixture.componentRef.setInput('recentLinks', { requestedRoutes: [] });
-    fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
     await fixture.whenStable();

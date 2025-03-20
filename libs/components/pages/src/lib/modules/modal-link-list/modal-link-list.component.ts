@@ -1,4 +1,3 @@
-import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
@@ -7,18 +6,10 @@ import {
   isStandalone,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
-import { SkyWaitModule } from '@skyux/indicators';
 import { SkyModalLegacyService, SkyModalService } from '@skyux/modals';
-import {
-  SkyAppLinkModule,
-  SkyHrefModule,
-  SkyHrefResolverService,
-} from '@skyux/router';
 
 import { SkyPageModalLink } from '../action-hub/types/page-modal-link';
 import { SkyPageModalLinksInput } from '../action-hub/types/page-modal-links-input';
-import { LinkAsModule } from '../link-as/link-as.module';
-import { DisplayPromise } from '../link-list/types/display-promise';
 
 /**
  * A component that displays a list of links such as within a `<sky-page-links>` component.
@@ -27,14 +18,7 @@ import { DisplayPromise } from '../link-list/types/display-promise';
   selector: 'sky-modal-link-list',
   templateUrl: './modal-link-list.component.html',
   styleUrls: ['./modal-link-list.component.scss'],
-  imports: [
-    SkyAppLinkModule,
-    SkyHrefModule,
-    SkyWaitModule,
-    LinkAsModule,
-    AsyncPipe,
-    NgTemplateOutlet,
-  ],
+  standalone: false,
 })
 export class SkyModalLinkListComponent {
   /**
@@ -47,28 +31,17 @@ export class SkyModalLinkListComponent {
    */
   public readonly headingText = input<string>();
 
-  protected readonly linksArray = computed<
-    (SkyPageModalLink & DisplayPromise)[]
-  >(() => {
+  protected readonly linksArray = computed<SkyPageModalLink[]>(() => {
     const links = this.links();
     if (Array.isArray(links)) {
-      return links.map((link) => {
-        return {
-          ...link,
-          display: link.permalink?.url?.includes('://')
-            ? this.#resolver
-                .resolveHref({ url: link.permalink.url })
-                .then((result) => !!result.userHasAccess)
-            : Promise.resolve(true),
-        };
-      });
+      return links;
+    } else {
+      return [];
     }
-    return [];
   });
 
   readonly #logger = inject(SkyLogService, { optional: true });
   readonly #modalSvc = inject(SkyModalService);
-  readonly #resolver = inject(SkyHrefResolverService);
 
   protected openModal(link: SkyPageModalLink): void {
     const modal = link.modal;

@@ -6,6 +6,7 @@ import {
   SkyActionHubNeedsAttention,
   SkyNeedsAttentionModule,
 } from '@skyux/pages';
+import { SkyHrefTestingModule } from '@skyux/router/testing';
 
 import { SkyNeedsAttentionHarness } from './needs-attention-harness';
 import { SkyNeedsAttentionItemHarness } from './needs-attention-item-harness';
@@ -38,7 +39,10 @@ describe('Needs attention harness', () => {
     loader: HarnessLoader;
   }> {
     TestBed.configureTestingModule({
-      imports: [TestComponent],
+      imports: [
+        TestComponent,
+        SkyHrefTestingModule.with({ userHasAccess: true }),
+      ],
     });
 
     const fixture = TestBed.createComponent(TestComponent);
@@ -67,6 +71,7 @@ describe('Needs attention harness', () => {
       dataSkyId: 'needs-attention',
     });
     fixture.detectChanges();
+    await fixture.whenStable();
 
     await expectAsync(harness.getTitle()).toBeResolvedTo('Needs attention');
   });
@@ -74,6 +79,7 @@ describe('Needs attention harness', () => {
   it('should return the empty list text', async () => {
     const { harness, fixture } = await setupTest();
     fixture.detectChanges();
+    await fixture.whenStable();
 
     await expectAsync(harness.hasItems()).toBeResolvedTo(false);
     await expectAsync(harness.getEmptyListText()).toBeResolvedTo(
@@ -87,12 +93,13 @@ describe('Needs attention harness', () => {
         {
           title: 'Item 1',
           permalink: {
-            url: 'https://example.com',
+            url: '#',
           },
         },
       ],
     });
     fixture.detectChanges();
+    await fixture.whenStable();
 
     await expectAsync(harness.hasItems()).toBeResolvedTo(true);
     await expectAsync(harness.getEmptyListText()).toBeResolvedTo(undefined);

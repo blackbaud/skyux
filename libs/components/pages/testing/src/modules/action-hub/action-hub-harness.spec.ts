@@ -11,6 +11,7 @@ import {
   SkyPageModalLinksInput,
   SkyRecentLinksInput,
 } from '@skyux/pages';
+import { SkyHrefTestingModule } from '@skyux/router/testing';
 
 import { SkyNeedsAttentionItemHarness } from '../needs-attention/needs-attention-item-harness';
 
@@ -47,7 +48,10 @@ describe('SkyActionHubHarness', () => {
     loader: HarnessLoader;
   }> {
     TestBed.configureTestingModule({
-      imports: [TestComponent],
+      imports: [
+        TestComponent,
+        SkyHrefTestingModule.with({ userHasAccess: true }),
+      ],
     });
 
     const fixture = TestBed.createComponent(TestComponent);
@@ -89,6 +93,7 @@ describe('SkyActionHubHarness', () => {
       },
     ]);
     fixture.detectChanges();
+    await fixture.whenStable();
 
     await expectAsync(
       harness
@@ -138,6 +143,9 @@ describe('SkyActionHubHarness', () => {
       },
     ]);
     fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await fixture.whenStable();
     fixture.debugElement
       .queryAll(By.css('sky-page-links a'))
       .forEach((element) => {

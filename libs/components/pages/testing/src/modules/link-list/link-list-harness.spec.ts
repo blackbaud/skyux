@@ -3,6 +3,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyLinkListModule, SkyPageLinksInput } from '@skyux/pages';
+import { SkyHrefTestingModule } from '@skyux/router/testing';
 
 import { SkyLinkListHarness } from './link-list-harness';
 import { SkyLinkListItemHarness } from './link-list-item-harness';
@@ -35,7 +36,10 @@ describe('Link list harness', () => {
     loader: HarnessLoader;
   }> {
     TestBed.configureTestingModule({
-      imports: [TestComponent],
+      imports: [
+        TestComponent,
+        SkyHrefTestingModule.with({ userHasAccess: true }),
+      ],
     });
 
     const fixture = TestBed.createComponent(TestComponent);
@@ -106,6 +110,7 @@ describe('Link list harness', () => {
       },
     ]);
     fixture.detectChanges();
+    await fixture.whenStable();
 
     const links = await loader.getAllHarnesses(SkyLinkListItemHarness);
     expect(links).toHaveSize(2);

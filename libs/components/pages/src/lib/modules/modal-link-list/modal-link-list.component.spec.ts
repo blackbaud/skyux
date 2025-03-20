@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 import { SkyModalService } from '@skyux/modals';
-import { SkyHrefTestingModule } from '@skyux/router/testing';
 
 import { SkyModalLinkListComponent } from './modal-link-list.component';
 import { SkyModalLinkListModule } from './modal-link-list.module';
@@ -29,11 +28,7 @@ describe('SkyModalLinkListComponent', () => {
     openModalSpy = jasmine.createSpy();
     TestBed.configureTestingModule({
       declarations: [MockComponent],
-      imports: [
-        SkyModalLinkListModule,
-        MockStandaloneComponent,
-        SkyHrefTestingModule.with({ userHasAccess: true }),
-      ],
+      imports: [SkyModalLinkListModule, MockStandaloneComponent],
       providers: [
         {
           provide: SkyModalService,
@@ -48,24 +43,15 @@ describe('SkyModalLinkListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', async () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
     fixture.componentRef.setInput('links', [
       {
         label: 'Link 1',
         modal: { component: MockStandaloneComponent, config: {} },
       },
-      {
-        label: 'Link 2',
-        permalink: {
-          url: 'http://example.com',
-        },
-      },
     ]);
     fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    await fixture.whenStable();
     const link = Array.from<HTMLButtonElement>(
       fixture.nativeElement.querySelectorAll('button.sky-link-list-item'),
     );
@@ -74,7 +60,7 @@ describe('SkyModalLinkListComponent', () => {
     expect(openModalSpy).toHaveBeenCalledWith(MockStandaloneComponent, {});
   });
 
-  it('should log when modal is not standalone', async () => {
+  it('should log when modal is not standalone', () => {
     const logger = TestBed.inject(SkyLogService);
     spyOn(logger, 'deprecated');
     expect(component).toBeTruthy();
@@ -85,9 +71,6 @@ describe('SkyModalLinkListComponent', () => {
       },
     ]);
     fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    await fixture.whenStable();
     const link = Array.from<HTMLButtonElement>(
       fixture.nativeElement.querySelectorAll('button.sky-link-list-item'),
     );
@@ -97,11 +80,10 @@ describe('SkyModalLinkListComponent', () => {
     expect(openModalSpy).toHaveBeenCalledWith(MockComponent, {});
   });
 
-  it('should handle empty input', async () => {
+  it('should handle empty input', () => {
     expect(component).toBeTruthy();
     fixture.componentRef.setInput('links', undefined);
     fixture.detectChanges();
-    await fixture.whenStable();
     expect(component.links()).toBeUndefined();
     expect(fixture.nativeElement.querySelector('ul.sky-link-list')).toBeFalsy();
   });

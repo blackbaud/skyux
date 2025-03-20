@@ -1,27 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyHrefTestingModule } from '@skyux/router/testing';
 
 import { LinkListFixtureComponent } from './fixtures/link-list-fixture.component';
 import { SkyLinkListComponent } from './link-list.component';
+import { SkyLinkListModule } from './link-list.module';
 
 describe('Link list component', () => {
   let fixture: ComponentFixture<SkyLinkListComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyLinkListComponent,
-        LinkListFixtureComponent,
-        SkyHrefTestingModule.with({ userHasAccess: true }),
-      ],
+      imports: [SkyLinkListModule, LinkListFixtureComponent],
       providers: [provideRouter([])],
     });
     fixture = TestBed.createComponent(SkyLinkListComponent);
   });
 
-  it('should show links', async () => {
+  it('should show links', () => {
     fixture.componentRef.setInput('headingText', 'Full List');
     fixture.componentRef.setInput('links', [
       {
@@ -45,9 +41,6 @@ describe('Link list component', () => {
     ]);
 
     fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    await fixture.whenStable();
     const links = fixture.nativeElement.getElementsByTagName('a');
 
     expect(links.length).toBe(3);
