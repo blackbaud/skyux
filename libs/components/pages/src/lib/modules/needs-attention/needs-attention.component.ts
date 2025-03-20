@@ -52,6 +52,12 @@ export class SkyNeedsAttentionComponent {
       return forkJoin(
         items.map((item) => {
           if (item.permalink?.url?.includes('://')) {
+            if (!this.#resolver) {
+              this.#logService.error(
+                `SkyHrefResolverService is required but was not provided. Unable to resolve ${item.permalink.url}`,
+              );
+              return of(undefined);
+            }
             return from(
               this.#resolver.resolveHref({ url: item.permalink.url }),
             ).pipe(map((result) => (result.userHasAccess ? item : undefined)));
@@ -64,7 +70,7 @@ export class SkyNeedsAttentionComponent {
   );
 
   readonly #logService = inject(SkyLogService);
-  readonly #resolver = inject(SkyHrefResolverService);
+  readonly #resolver = inject(SkyHrefResolverService, { optional: true });
 
   constructor() {
     effect(() => {

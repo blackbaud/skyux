@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 import { SkyHrefModule } from '@skyux/router';
 import { provideHrefTesting } from '@skyux/router/testing';
 
@@ -79,5 +80,36 @@ describe('Needs attention component', () => {
     await expectAsync(
       fixture.nativeElement.querySelector('sky-box-content').textContent.trim(),
     ).toEqualLibResourceText('sky_action_hub_needs_attention_empty');
+  });
+
+  it('should log when resolver is not available', async () => {
+    TestBed.configureTestingModule({
+      imports: [SkyActionHubModule],
+      providers: [provideRouter([])],
+    });
+    const logService = TestBed.inject(SkyLogService);
+    spyOn(logService, 'error');
+    const fixture = TestBed.createComponent(SkyNeedsAttentionComponent);
+    fixture.componentRef.setInput('items', [
+      {
+        title: 'Item 1',
+        message: 'Message details 1',
+        permalink: {
+          url: 'http://example.com',
+        },
+      },
+    ]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(fixture.componentInstance).toBeTruthy();
+    expect(fixture.nativeElement.querySelectorAll('a').length).toBe(0);
+    await expectAsync(
+      fixture.nativeElement.querySelector('sky-box-content').textContent.trim(),
+    ).toEqualLibResourceText('sky_action_hub_needs_attention_empty');
+    expect(logService.error).toHaveBeenCalledWith(
+      `SkyHrefResolverService is required but was not provided. Unable to resolve http://example.com`,
+    );
   });
 });
