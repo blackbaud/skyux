@@ -9,7 +9,7 @@ import { SkyDropdownItemHarnessFilters } from './dropdown-item-harness.filters';
 import { SkyDropdownMenuHarnessFilters } from './dropdown-menu-harness.filters';
 
 /**
- * Harness for interacting with dropdown menu in tests.
+ * Harness for interacting with a dropdown menu component in tests.
  */
 export class SkyDropdownMenuHarness extends SkyQueryableComponentHarness {
   /**
