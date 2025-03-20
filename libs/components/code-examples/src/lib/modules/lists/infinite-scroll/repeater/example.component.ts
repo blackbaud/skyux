@@ -46,7 +46,7 @@ export class ListsInfiniteScrollRepeaterExampleComponent implements OnInit {
   }> {
     const data: InfiniteScrollDemoItem[] = [];
 
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 20; i++) {
       data.push({
         name: `Item #${++nextId}`,
       });
