@@ -52,14 +52,4 @@ export class DemoComponent {
       attachment: this.attachment,
     });
   }
-
-  protected onFileClick($event: SkyFileAttachmentClick): void {
-    // Ensure we are only attempting to navigate to locally updated data for download.
-    if ($event.file.url.startsWith('data:')) {
-      const link = document.createElement('a');
-      link.download = $event.file.file.name;
-      link.href = $event.file.url;
-      link.click();
-    }
-  }
 }
