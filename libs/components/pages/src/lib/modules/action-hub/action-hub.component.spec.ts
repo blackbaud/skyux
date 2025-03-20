@@ -98,8 +98,6 @@ describe('Action hub component', () => {
 
       fixture.detectChanges();
       await fixture.whenStable();
-      fixture.detectChanges();
-      await fixture.whenStable();
 
       validateLinkList(fixture, 'related', [
         {
@@ -156,8 +154,6 @@ describe('Action hub component', () => {
 
       fixture.detectChanges();
       await fixture.whenStable();
-      fixture.detectChanges();
-      await fixture.whenStable();
 
       validateLinkList(fixture, 'recent', [
         {
@@ -196,8 +192,6 @@ describe('Action hub component', () => {
         },
       ];
 
-      fixture.detectChanges();
-      await fixture.whenStable();
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -251,8 +245,6 @@ describe('Action hub component', () => {
       fixture.componentInstance.needsAttention.next([]);
       fixture.detectChanges();
       tick();
-      fixture.detectChanges();
-      tick();
       expect(fixture.nativeElement.querySelectorAll('.sky-wait').length).toBe(
         0,
       );
@@ -269,8 +261,6 @@ describe('Action hub component', () => {
       fixture.componentInstance.needsAttention.next([]);
       fixture.componentInstance.relatedLinks.next([]);
       fixture.componentInstance.recentLinks.next([]);
-      fixture.detectChanges();
-      tick();
       fixture.detectChanges();
       tick();
       expect(fixture.nativeElement.querySelectorAll('.sky-wait').length).toBe(
@@ -340,8 +330,6 @@ describe('Action hub component', () => {
 
       fixture.componentInstance.loading = false;
 
-      fixture.detectChanges();
-      tick();
       fixture.detectChanges();
       tick();
       expect(fixture.nativeElement.querySelectorAll('.sky-wait').length).toBe(
@@ -436,8 +424,6 @@ describe('Action hub component', () => {
 
       fixture.detectChanges();
       await fixture.whenStable();
-      fixture.detectChanges();
-      await fixture.whenStable();
 
       validateLinkList(fixture, 'recent', [
         {
@@ -481,8 +467,6 @@ describe('Action hub component', () => {
 
       fixture.detectChanges();
       await fixture.whenStable();
-      fixture.detectChanges();
-      await fixture.whenStable();
 
       expect(testObs.observers.length).toBe(1);
 
@@ -495,8 +479,6 @@ describe('Action hub component', () => {
         ],
       };
 
-      fixture.detectChanges();
-      await fixture.whenStable();
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -526,8 +508,6 @@ describe('Action hub component', () => {
 
       fixture.detectChanges();
       await fixture.whenStable();
-      fixture.detectChanges();
-      await fixture.whenStable();
 
       expect(testObs.observers.length).toBe(1);
 
@@ -541,8 +521,6 @@ describe('Action hub component', () => {
         },
       ] as SkyRecentLink[];
 
-      fixture.detectChanges();
-      await fixture.whenStable();
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -607,8 +585,6 @@ describe('Action hub component', () => {
         ],
       };
 
-      fixture.detectChanges();
-      await fixture.whenStable();
       fixture.detectChanges();
       await fixture.whenStable();
 

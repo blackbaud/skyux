@@ -73,8 +73,6 @@ describe('Needs attention component', () => {
     ]);
     fixture.detectChanges();
     await fixture.whenStable();
-    fixture.detectChanges();
-    await fixture.whenStable();
     expect(fixture.componentInstance).toBeTruthy();
     expect(fixture.nativeElement.querySelectorAll('a').length).toBe(0);
     await expectAsync(
@@ -99,8 +97,6 @@ describe('Needs attention component', () => {
         },
       },
     ]);
-    fixture.detectChanges();
-    await fixture.whenStable();
     fixture.detectChanges();
     await fixture.whenStable();
     expect(fixture.componentInstance).toBeTruthy();
