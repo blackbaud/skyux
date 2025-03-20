@@ -40,9 +40,7 @@ export class SkyAppViewportService {
         { threshold: Array.from({ length: 101 }, (_, i) => i / 100) },
       ),
   );
-  #reservedSpaces: {
-    [key in SkyAppViewportReservedPositionType]: number;
-  } = {
+  #reservedSpaces: Record<SkyAppViewportReservedPositionType, number> = {
     bottom: 0,
     left: 0,
     right: 0,
@@ -57,6 +55,10 @@ export class SkyAppViewportService {
     };
     this.#document.addEventListener('scroll', onScroll);
     inject(DestroyRef).onDestroy(() => {
+      /* istanbul ignore next */
+      if (this.#updateRequest !== undefined) {
+        cancelAnimationFrame(this.#updateRequest);
+      }
       this.#intersectionObserver.disconnect();
       this.#document.removeEventListener('scroll', onScroll);
     });
@@ -93,17 +95,16 @@ export class SkyAppViewportService {
   #updateViewportArea(): void {
     this.#updateRequest ??= requestAnimationFrame(() => {
       this.#updateRequest = undefined;
-      const reservedSpaces: {
-        [key in SkyAppViewportReservedPositionType]: number;
-      } = {
-        bottom: 0,
-        left: 0,
-        right: 0,
-        top: 0,
-      };
+      const reservedSpaces: Record<SkyAppViewportReservedPositionType, number> =
+        {
+          bottom: 0,
+          left: 0,
+          right: 0,
+          top: 0,
+        };
 
       for (const args of this.#reserveItems.values()) {
-        args.active = this.#isElementVisible(args);
+        args.active = this.#isElementVisible(args, reservedSpaces);
         if (args.active) {
           reservedSpaces[args.position] += args.size;
         }
@@ -128,7 +129,11 @@ export class SkyAppViewportService {
     }
   }
 
-  #isElementVisible(args: ReserveItemType): boolean {
+  #isElementVisible(
+    args: ReserveItemType,
+    reservedSpaces: Record<SkyAppViewportReservedPositionType, number> = this
+      .#reservedSpaces,
+  ): boolean {
     if (!args.reserveForElement) {
       return true;
     }
@@ -157,10 +162,9 @@ export class SkyAppViewportService {
         return true;
       }
 
-      // Check if the item's midpoint is visible if its space were not reserved.
-      const threshold = args.active
-        ? this.#reservedSpaces[args.position] - args.size
-        : this.#reservedSpaces[args.position];
+      // Check if the item's midpoint is visible based on current reserved spaces.
+      // Assumes reserved spaces are intended to be additive and not overlapping.
+      const threshold = reservedSpaces[args.position];
       switch (args.position) {
         case 'top':
           return midpoint.y >= threshold;
