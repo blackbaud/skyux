@@ -6,11 +6,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  SkyFileAttachmentChange,
-  SkyFileAttachmentClick,
-  SkyFileItem,
-} from '@skyux/forms';
+import { SkyFileAttachmentChange, SkyFileItem } from '@skyux/forms';
 
 @Component({
   selector: 'app-single-file-attachment',
