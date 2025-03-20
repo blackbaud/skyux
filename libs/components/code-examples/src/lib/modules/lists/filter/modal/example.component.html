@@ -2,6 +2,7 @@
   <sky-toolbar-section>
     <sky-toolbar-item>
       <sky-filter-button
+        data-sky-id="my-filter-button"
         [showButtonText]="true"
         (filterButtonClick)="onModalFilterButtonClick()"
       />
@@ -9,7 +10,7 @@
   </sky-toolbar-section>
   @if (appliedFilters && appliedFilters.length > 0) {
     <sky-toolbar-section>
-      <sky-filter-summary>
+      <sky-filter-summary data-sky-id="filter-summary">
         @for (item of appliedFilters; track item; let i = $index) {
           <sky-filter-summary-item (dismiss)="onDismiss(i)">
             {{ item.label }}

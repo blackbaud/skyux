@@ -205,11 +205,23 @@ describe('Viewport service', () => {
     item1.style.width = '100px';
     item1.style.overflow = 'hidden';
     item1.style.position = 'absolute';
-    item1.style.top = '40px';
+    item1.style.top = '0px';
     item1.style.left = '0';
     item1.style.zIndex = '1';
     item1.appendChild(document.createTextNode('Item 1'));
     container.appendChild(item1);
+
+    const item2 = document.createElement('div');
+    item2.style.backgroundColor = 'oklch(87% 28% 74deg)';
+    item2.style.height = '60px';
+    item2.style.width = '100px';
+    item2.style.overflow = 'hidden';
+    item2.style.position = 'absolute';
+    item2.style.top = '50px';
+    item2.style.left = '0';
+    item2.style.zIndex = '1';
+    item2.appendChild(document.createTextNode('Item 2'));
+    container.appendChild(item2);
 
     const progressbar = document.createElement('div');
     progressbar.setAttribute('role', 'progressbar');
@@ -235,9 +247,16 @@ describe('Viewport service', () => {
       reserveForElement: item1,
     });
 
+    svc.reserveSpace({
+      id: 'item2-test',
+      position: 'top',
+      size: 60,
+      reserveForElement: item2,
+    });
+
     await new Promise((resolve) => setTimeout(resolve, 32));
     await new Promise((resolve) => requestAnimationFrame(resolve));
-    validateViewportSpace('top', 50);
+    validateViewportSpace('top', 110);
 
     document.body.removeChild(container);
   }));

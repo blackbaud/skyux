@@ -2,6 +2,7 @@
   <sky-toolbar-section>
     <sky-toolbar-item>
       <sky-filter-button
+        data-sky-id="my-filter-button"
         [active]="filtersActive"
         [ariaControls]="inlineFilters.id"
         [ariaExpanded]="showInlineFilters"
@@ -13,8 +14,8 @@
 </sky-toolbar>
 
 <div #inlineFilters skyId [hidden]="!showInlineFilters">
-  <sky-filter-inline>
-    <sky-filter-inline-item>
+  <sky-filter-inline data-sky-id="filter-inline">
+    <sky-filter-inline-item data-sky-id="fruit-filter">
       <sky-input-box labelText="Fruit type">
         <select [ngModel]="fruitType" (ngModelChange)="fruitTypeChange($event)">
           <option value="any">Any fruit</option>
@@ -23,7 +24,7 @@
         </select>
       </sky-input-box>
     </sky-filter-inline-item>
-    <sky-filter-inline-item>
+    <sky-filter-inline-item data-sky-id="hide-orange-filter">
       <sky-checkbox
         labelText="Hide orange fruits"
         [ngModel]="hideOrange"
