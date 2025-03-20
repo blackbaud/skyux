@@ -8,7 +8,6 @@
     labelText="Birth certificate"
     [helpPopoverContent]="helpInlinePopoverRef"
     [maxFileSize]="maxFileSize"
-    (fileClick)="onFileClick($event)"
   >
     @if (attachment.errors?.['invalidStartingLetter']) {
       <sky-form-error
