@@ -1,4 +1,4 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyWaitModule } from '@skyux/indicators';
 import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
@@ -11,11 +11,11 @@ import { SkyModalLinkListComponent } from './modal-link-list.component';
   declarations: [SkyModalLinkListComponent],
   exports: [SkyModalLinkListComponent],
   imports: [
-    LinkAsModule,
-    NgTemplateOutlet,
+    CommonModule,
     SkyAppLinkModule,
     SkyHrefModule,
     SkyWaitModule,
+    LinkAsModule,
   ],
 })
 export class SkyModalLinkListModule {}

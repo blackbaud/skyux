@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
-import { SkyHrefModule } from '@skyux/router';
 import { provideHrefTesting } from '@skyux/router/testing';
 
 import { SkyActionHubModule } from '../action-hub/action-hub.module';
@@ -12,7 +11,7 @@ import { SkyNeedsAttentionComponent } from './needs-attention.component';
 describe('Needs attention component', () => {
   it('should create needs attention component', async () => {
     TestBed.configureTestingModule({
-      imports: [SkyActionHubModule, SkyHrefModule],
+      imports: [SkyActionHubModule],
       providers: [
         provideRouter([]),
         provideHrefTesting({ userHasAccess: true }),

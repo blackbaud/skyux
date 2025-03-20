@@ -1,7 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyActionHubModule } from '@skyux/pages';
-import { provideHrefTesting } from '@skyux/router/testing';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -13,7 +12,6 @@ import { SkyRecentLink } from '../types/recent-link';
   selector: 'sky-action-hub-async-fixture',
   templateUrl: 'action-hub-async-fixture.component.html',
   imports: [SkyActionHubModule, AsyncPipe],
-  providers: [provideHrefTesting({ userHasAccess: true })],
 })
 export class ActionHubAsyncFixtureComponent {
   public title = new BehaviorSubject<string>('Page title');

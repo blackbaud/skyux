@@ -15,7 +15,7 @@
             <a class="sky-link-list-item" [href]="link.permalink.url">
               {{ link.label }}
             </a>
-          } @else if (link | linkAs: 'skyAppLink') {
+          } @else if (link.permalink.route) {
             <a
               class="sky-link-list-item"
               [skyAppLink]="link.permalink.route.commands"

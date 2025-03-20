@@ -8,14 +8,14 @@
       @for (link of linksArray(); track link) {
         <li>
           @if (link | linkAs: 'skyHref') {
-            <a class="sky-link-list-item" [skyHref]="link.permalink.url">
+            <a class="sky-link-list-item" [skyHref]="link.permalink?.url">
               {{ link.label }}
             </a>
           } @else if (link | linkAs: 'href') {
-            <a class="sky-link-list-item" [href]="link.permalink.url">
+            <a class="sky-link-list-item" [href]="link.permalink?.url">
               {{ link.label }}
             </a>
-          } @else if (link | linkAs: 'skyAppLink') {
+          } @else if (link.permalink && link.permalink.route) {
             <a
               class="sky-link-list-item"
               [skyAppLink]="link.permalink.route.commands"
@@ -49,5 +49,7 @@
 }
 
 <ng-template #headingTemplateRef>
-  <h2 class="sky-font-heading-4">{{ headingText() }}</h2>
+  <h2 class="sky-font-heading-4">
+    {{ headingText() }}
+  </h2>
 </ng-template>
