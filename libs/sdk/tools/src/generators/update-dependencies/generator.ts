@@ -5,6 +5,7 @@ import {
   generateFiles,
   getProjects,
   joinPathFragments,
+  normalizePath,
   readJson,
   updateJson,
   updateProjectConfiguration,
@@ -140,6 +141,7 @@ function getImportedProjects(
   const importedProjects: string[] = [];
   const packages = Array.from(packagesToProjects.keys());
   visitNotIgnoredFiles(tree, `${projectConfig.root}/src`, (file) => {
+    file = normalizePath(file);
     if (
       file.endsWith('.ts') &&
       !file.endsWith('.spec.ts') &&
