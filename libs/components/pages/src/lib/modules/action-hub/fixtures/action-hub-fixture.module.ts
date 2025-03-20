@@ -1,9 +1,4 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyKeyInfoModule } from '@skyux/indicators';
-import { SkyHrefTestingModule } from '@skyux/router/testing';
-
-import { SkyActionHubModule } from '../action-hub.module';
 
 import { ActionHubAsyncFixtureComponent } from './action-hub-async-fixture.component';
 import { ActionHubContentFixtureComponent } from './action-hub-content-fixture.component';
@@ -13,12 +8,13 @@ import { ActionHubSyncFixtureComponent } from './action-hub-sync-fixture.compone
 
 @NgModule({
   imports: [
-    CommonModule,
-    SkyActionHubModule,
-    SkyKeyInfoModule,
-    SkyHrefTestingModule.with({ userHasAccess: true }),
+    ActionHubAsyncFixtureComponent,
+    ActionHubContentFixtureComponent,
+    ActionHubInputsFixtureComponent,
+    ActionHubRecentSvcFixtureComponent,
+    ActionHubSyncFixtureComponent,
   ],
-  declarations: [
+  exports: [
     ActionHubAsyncFixtureComponent,
     ActionHubContentFixtureComponent,
     ActionHubInputsFixtureComponent,

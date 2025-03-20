@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyHrefModule } from '@skyux/router';
-import { SkyHrefTestingModule } from '@skyux/router/testing';
+import { provideHrefTesting } from '@skyux/router/testing';
 
 import { SkyActionHubModule } from '../action-hub/action-hub.module';
 
@@ -11,12 +11,11 @@ import { SkyNeedsAttentionComponent } from './needs-attention.component';
 describe('Needs attention component', () => {
   it('should create needs attention component', async () => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyActionHubModule,
-        SkyHrefModule,
-        SkyHrefTestingModule.with({ userHasAccess: true }),
+      imports: [SkyActionHubModule, SkyHrefModule],
+      providers: [
+        provideRouter([]),
+        provideHrefTesting({ userHasAccess: true }),
       ],
-      providers: [provideRouter([])],
     });
     const fixture = TestBed.createComponent(SkyNeedsAttentionComponent);
     fixture.componentRef.setInput('items', [
@@ -38,11 +37,11 @@ describe('Needs attention component', () => {
 
   it('should create empty needs attention component', async () => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyActionHubModule,
-        SkyHrefTestingModule.with({ userHasAccess: true }),
+      imports: [SkyActionHubModule],
+      providers: [
+        provideRouter([]),
+        provideHrefTesting({ userHasAccess: true }),
       ],
-      providers: [provideRouter([])],
     });
     const fixture = TestBed.createComponent(SkyNeedsAttentionComponent);
     fixture.detectChanges();
@@ -55,11 +54,11 @@ describe('Needs attention component', () => {
 
   it('should check access', async () => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyActionHubModule,
-        SkyHrefTestingModule.with({ userHasAccess: false }),
+      imports: [SkyActionHubModule],
+      providers: [
+        provideRouter([]),
+        provideHrefTesting({ userHasAccess: false }),
       ],
-      providers: [provideRouter([])],
     });
     const fixture = TestBed.createComponent(SkyNeedsAttentionComponent);
     fixture.componentRef.setInput('items', [
