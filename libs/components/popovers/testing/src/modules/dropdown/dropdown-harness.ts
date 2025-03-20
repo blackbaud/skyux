@@ -4,6 +4,9 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyDropdownHarnessFilters } from './dropdown-harness.filters';
 import { SkyDropdownMenuHarness } from './dropdown-menu-harness';
 
+/**
+ * Harness for interacting with a dropdown component in tests.
+ */
 export class SkyDropdownHarness extends SkyComponentHarness {
   /**
    * @internal
