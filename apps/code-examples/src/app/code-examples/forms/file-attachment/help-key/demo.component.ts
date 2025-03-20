@@ -9,11 +9,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import {
-  SkyFileAttachmentClick,
-  SkyFileAttachmentModule,
-  SkyFileItem,
-} from '@skyux/forms';
+import { SkyFileAttachmentModule, SkyFileItem } from '@skyux/forms';
 
 /**
  * Demonstrates how to create a custom validator function for your form control.
