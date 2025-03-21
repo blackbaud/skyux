@@ -29,6 +29,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridService } from './ag-grid.service';
+import { SkyAgGridHeaderComponent } from './header/header.component';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 
@@ -324,6 +325,26 @@ describe('SkyAgGridService', () => {
             enableSelectionWithoutKeys: true,
             checkboxes: false,
             headerCheckbox: false,
+          },
+        }),
+      );
+    });
+
+    it('should update enableCellChangeFlash options', () => {
+      expect(
+        agGridService.getGridOptions({
+          gridOptions: { enableCellChangeFlash: true } as any,
+        }),
+      ).toEqual(
+        jasmine.objectContaining({
+          defaultColDef: {
+            cellClassRules: jasmine.any(Object),
+            headerClass: jasmine.any(Function),
+            headerComponent: SkyAgGridHeaderComponent,
+            minWidth: 100,
+            suppressHeaderKeyboardEvent: jasmine.any(Function),
+            suppressKeyboardEvent: jasmine.any(Function),
+            enableCellChangeFlash: true,
           },
         }),
       );

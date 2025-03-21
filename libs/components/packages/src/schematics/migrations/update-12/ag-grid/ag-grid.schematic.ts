@@ -66,7 +66,8 @@ function checkAgGridDependency(tree: Tree, context: SchematicContext): boolean {
 }
 
 /**
- * If available, switch gridOptions.api and gridOptions.columnApi to gridApi.
+ * Anywhere SkyAgGridModule is imported, add `ModuleRegistry.registerModules([AllCommunityModule]);`
+ * to maintain functionality in AG Grid 33.
  */
 function addAgGridModuleRegistry(tree: Tree, path: string): void {
   const content = tree.readText(path);
@@ -106,6 +107,33 @@ function addAgGridModuleRegistry(tree: Tree, path: string): void {
       tree.commitUpdate(recorder);
     }
   }
+}
+
+/**
+ * Update grid API calls to match AG Grid 33 changes.
+ */
+function swapGridApiCalls(tree: Tree, path: string): void {
+  const content = tree.readText(path);
+  const recorder = tree.beginUpdate(path);
+  let instances: RegExpStringIterator<RegExpExecArray>;
+  if (content.includes('this.gridApi')) {
+    instances = content.matchAll(/\bthis\.gridOptions[?]?\.api\b/g);
+    for (const instance of instances) {
+      recorder.remove(instance.index, instance[0].length);
+      recorder.insertRight(instance.index, 'this.gridApi');
+    }
+  }
+  instances = content.matchAll(/(?<=api[?]?)\.getLastDisplayedRow\(\)/gi);
+  for (const instance of instances) {
+    recorder.remove(instance.index, instance[0].length);
+    recorder.insertRight(instance.index, `.getLastDisplayedRowIndex()`);
+  }
+  instances = content.matchAll(/(?<=api[?]?\.setColumn)Visible\(([^,]+),/gi);
+  for (const instance of instances) {
+    recorder.remove(instance.index, instance[0].length);
+    recorder.insertRight(instance.index, `sVisible([${instance[1]}],`);
+  }
+  tree.commitUpdate(recorder);
 }
 
 /**
@@ -154,12 +182,13 @@ async function updateSourceFiles(
       if (content.includes(ANY_MODULE) || content.includes(ENT_MODULE)) {
         warnOnce(
           `\n
-          AG Grid recommends not mixing module and package imports.
+          Beginning with AG Grid 33, ESM modules are now included in their packages.
           https://ag-grid.com/angular-data-grid/modules/\n\n`,
         );
       }
 
       addAgGridModuleRegistry(tree, filePath);
+      swapGridApiCalls(tree, filePath);
     });
   });
 }
