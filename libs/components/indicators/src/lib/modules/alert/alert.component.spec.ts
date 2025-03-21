@@ -119,22 +119,22 @@ describe('Alert component', () => {
     cmp.alertType = 'danger';
     fixture.detectChanges();
 
-    validateIcon(el, 'sky-warning');
+    validateIcon(el, 'warning');
 
     cmp.alertType = 'info';
     fixture.detectChanges();
 
-    validateIcon(el, 'sky-info');
+    validateIcon(el, 'info');
 
     cmp.alertType = 'success';
     fixture.detectChanges();
 
-    validateIcon(el, 'sky-success');
+    validateIcon(el, 'success');
 
     cmp.alertType = 'warning';
     fixture.detectChanges();
 
-    validateIcon(el, 'sky-warning');
+    validateIcon(el, 'warning');
   });
 
   it('should have a role of "alert"', async () => {

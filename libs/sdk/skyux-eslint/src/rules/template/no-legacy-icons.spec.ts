@@ -8,16 +8,16 @@ const ruleTester = createTemplateRuleTester();
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
-    `<sky-icon iconName="sky-add"></sky-icon>`,
+    `<sky-icon iconName="add"></sky-icon>`,
     `<sky-icon [iconName]="boundIcon"></sky-icon>`,
-    `<sky-icon iconName="sky-add" [fixedWidth]="true"></sky-icon>`,
-    `<sky-icon iconName="sky-add" size="2x"></sky-icon>`,
-    `<sky-icon iconName="sky-add" variant="solid"></sky-icon>`,
-    `<sky-icon iconName="sky-add"/>`,
+    `<sky-icon iconName="add" [fixedWidth]="true"></sky-icon>`,
+    `<sky-icon iconName="add" size="2x"></sky-icon>`,
+    `<sky-icon iconName="add" variant="solid"></sky-icon>`,
+    `<sky-icon iconName="add"/>`,
     `<sky-icon [iconName]="boundIcon"/>`,
-    `<sky-icon iconName="sky-add" [fixedWidth]="true"/>`,
-    `<sky-icon iconName="sky-add" size="2x"/>`,
-    `<sky-icon iconName="sky-add" variant="solid"/>`,
+    `<sky-icon iconName="add" [fixedWidth]="true"/>`,
+    `<sky-icon iconName="add" size="2x"/>`,
+    `<sky-icon iconName="add" variant="solid"/>`,
     `<sky-action-button-container>
       <sky-action-button (actionClick)="filterActionClick()">
         <sky-action-button-icon iconName="delete" />
@@ -82,7 +82,7 @@ ruleTester.run(RULE_NAME, rule, {
                 ~~~~~~~~~~~~~~~~~~
       `,
       annotatedOutput: `
-      <sky-icon iconName="sky-add"></sky-icon>
+      <sky-icon iconName="add"></sky-icon>
                 ~~~~~~~~~~~~~~~~~~
       `,
       messageId,

@@ -12,13 +12,13 @@ export class SkyIndicatorIconUtility {
     switch (indicatorType) {
       case 'danger':
       case 'warning':
-        icon = 'sky-warning';
+        icon = 'warning';
         break;
       case 'info':
-        icon = 'sky-info';
+        icon = 'info';
         break;
       case 'success':
-        icon = 'sky-success';
+        icon = 'success';
         break;
     }
 
