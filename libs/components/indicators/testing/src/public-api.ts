@@ -20,6 +20,9 @@ export { SkyLabelHarnessFilters } from './modules/label/label-harness-filters';
 export { SkyStatusIndicatorHarness } from './modules/status-indicator/status-indicator-harness';
 export { SkyStatusIndicatorHarnessFilters } from './modules/status-indicator/status-indicator-harness-filters';
 
+export { SkyTextHighlightHarness } from './modules/text-highlight/text-highlight-harness';
+export { SkyTextHighlightHarnessFilters } from './modules/text-highlight/text-highlight-harness-filters';
+
 export { SkyTokenHarness } from './modules/tokens/token-harness';
 export { SkyTokenHarnessFilters } from './modules/tokens/token-harness-filters';
 export { SkyTokensHarness } from './modules/tokens/tokens-harness';
