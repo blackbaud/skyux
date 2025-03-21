@@ -157,13 +157,13 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     switch (this.toastTypeOrDefault) {
       case SkyToastType.Danger:
       case SkyToastType.Warning:
-        icon = 'sky-warning';
+        icon = 'warning';
         break;
       case SkyToastType.Info:
-        icon = 'sky-info';
+        icon = 'info';
         break;
       case SkyToastType.Success:
-        icon = 'sky-success';
+        icon = 'success';
         break;
     }
 

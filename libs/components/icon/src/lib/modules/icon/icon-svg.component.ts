@@ -27,7 +27,7 @@ const FIXED_SIZES = new Map([
 ]);
 
 function defaultSize(value: SkyIconSize | undefined): SkyIconSize {
-  return value ?? 's';
+  return value ?? 'm';
 }
 
 /**
@@ -47,7 +47,7 @@ export class SkyIconSvgComponent {
   readonly #resolverSvc = inject(SkyIconSvgResolverService);
 
   public readonly iconName = input.required<string>();
-  public readonly iconSize = input<SkyIconSize, SkyIconSize | undefined>('s', {
+  public readonly iconSize = input<SkyIconSize, SkyIconSize | undefined>('m', {
     transform: defaultSize,
   });
   public readonly relativeSize = input<string | undefined>();

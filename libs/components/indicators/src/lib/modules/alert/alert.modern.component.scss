@@ -13,6 +13,7 @@
   --sky-override-alert-padding: 0 var(--modern-size-10);
   --sky-override-alert-text-link-color: #212327cc;
   --sky-override-alert-text-vertical-padding: var(--modern-size-15);
+  --sky-override-sky-icon-svg-size-xxl: 32px;
 }
 
 @include mixins.sky-component('modern', '.sky-alert') {
@@ -55,10 +56,6 @@
     width: var(--sky-override-alert-button-size, auto);
   }
 
-  &:not(.sky-alert-danger) {
-    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-default);
-  }
-
   &.sky-alert-info {
     background-color: var(--sky-color-background-container-info);
     border-color: var(--sky-color-border-info);
@@ -71,11 +68,16 @@
   &.sky-alert-success {
     background-color: var(--sky-color-background-container-success);
     border-color: var(--sky-color-border-success);
+    --sky-icon-svg-path-2-color-input: var(
+      --sky-override-alert-inner-icon-color,
+      var(--sky-color-icon-inverse)
+    );
   }
 
   &.sky-alert-warning {
     background-color: var(--sky-color-background-container-warning);
     border-color: var(--sky-color-border-warning);
+    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-default);
   }
 
   &.sky-alert-danger {

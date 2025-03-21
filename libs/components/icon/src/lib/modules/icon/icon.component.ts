@@ -72,6 +72,7 @@ export class SkyIconComponent {
 
   /**
    * The icon size. Size is independent of font size.
+   * @default "m"
    */
   public readonly iconSize = input<SkyIconSize | undefined>();
 

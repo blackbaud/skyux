@@ -42,6 +42,9 @@
   --sky-override-label-line-height: 1;
   --sky-override-label-margin: 0 3px;
   --sky-override-label-inner-icon-path-color-info: var(--modern-color-gray-105);
+  --sky-override-label-inner-icon-path-color-success: var(
+    --modern-color-gray-105
+  );
 
   &.sky-label-danger,
   &.sky-label-warning {
@@ -103,7 +106,7 @@
   );
   --sky-icon-svg-path-2-color-input: var(
     --sky-override-label-inner-icon-path-color-success,
-    var(--sky-color-icon-default)
+    var(--sky-color-icon-inverse)
   );
 }
 

@@ -390,7 +390,7 @@ describe('Icon component', () => {
       setupIcon('test', undefined, undefined, undefined);
       detectUrlChanges();
 
-      validateIconId('#test-16-line');
+      validateIconId('#test-20-line');
     }));
 
     it('should display the resolved icon by ID and size', fakeAsync(() => {
@@ -411,7 +411,7 @@ describe('Icon component', () => {
       setupIcon('test', undefined, undefined, 'solid');
       detectUrlChanges();
 
-      validateIconId('#test-16-solid');
+      validateIconId('#test-20-solid');
     }));
 
     it('should display the resolved icon by ID, size, and variant', fakeAsync(() => {

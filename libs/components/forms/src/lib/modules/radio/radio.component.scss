@@ -55,8 +55,8 @@
   + .sky-switch-control:not(.sky-switch-control-icon)::after {
   content: '';
   display: inline-block;
-  width: var(--sky-override-radio-icon-size, var(--sky-size-icon-xs));
-  height: var(--sky-override-radio-icon-size, var(--sky-size-icon-xs));
+  width: var(--sky-override-radio-icon-size, var(--sky-size-icon-xxs));
+  height: var(--sky-override-radio-icon-size, var(--sky-size-icon-xxs));
   background: var(
     --sky-override-radio-icon-color-selected,
     var(--sky-color-icon-inverse)

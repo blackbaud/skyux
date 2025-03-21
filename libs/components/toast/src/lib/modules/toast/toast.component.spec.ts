@@ -88,11 +88,11 @@ describe('Toast component', () => {
 
   it('should show the correct icon based on the icon type', () => {
     setupTest();
-    validateIcon(undefined, 'sky-info'); // default
-    validateIcon(SkyToastType.Info, 'sky-info');
-    validateIcon(SkyToastType.Success, 'sky-success');
-    validateIcon(SkyToastType.Warning, 'sky-warning');
-    validateIcon(SkyToastType.Danger, 'sky-warning');
+    validateIcon(undefined, 'info'); // default
+    validateIcon(SkyToastType.Info, 'info');
+    validateIcon(SkyToastType.Success, 'success');
+    validateIcon(SkyToastType.Warning, 'warning');
+    validateIcon(SkyToastType.Danger, 'warning');
   });
 
   it('should close the toast when clicking close button', () => {
