@@ -1,8 +1,8 @@
-import type { SkyManifestParentDefinition } from './base-def';
+import type { SkyManifestParentDefinition } from './base-def.js';
 import type {
   SkyManifestClassMethodDefinition,
   SkyManifestClassPropertyDefinition,
-} from './class-def';
+} from './class-def.js';
 
 /**
  * Information about a pipe exported from the public API.

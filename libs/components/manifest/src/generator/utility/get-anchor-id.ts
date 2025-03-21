@@ -1,6 +1,6 @@
 import { ReflectionKind } from 'typedoc';
 
-import { dasherize } from './strings';
+import { dasherize } from './strings.js';
 
 /**
  * Returns a URL-safe anchor ID based on the reflection name and kind.

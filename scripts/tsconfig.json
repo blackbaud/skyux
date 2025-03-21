@@ -8,5 +8,6 @@
     "outDir": "../dist/scripts",
     "types": ["node"]
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "exclude": ["postbuild-manifest.mts"]
 }

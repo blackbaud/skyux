@@ -2,15 +2,15 @@ import glob from 'fast-glob';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 
-import type { SkyManifestDirectiveDefinition } from '../types/directive-def';
-import type { SkyManifestDocumentationConfig } from '../types/documentation-config';
+import type { SkyManifestDirectiveDefinition } from '../types/directive-def.js';
+import type { SkyManifestDocumentationConfig } from '../types/documentation-config.js';
 import type {
   SkyManifestCodeExampleFiles,
   SkyManifestCodeExamples,
   SkyManifestPublicApi,
-} from '../types/manifest';
+} from '../types/manifest.js';
 
-import { validateCodeExamples } from './validations';
+import { validateCodeExamples } from './validations.js';
 
 export async function getCodeExamples(
   publicApi: SkyManifestPublicApi,

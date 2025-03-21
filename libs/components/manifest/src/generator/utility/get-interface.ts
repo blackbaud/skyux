@@ -3,13 +3,13 @@ import { type DeclarationReflection } from 'typedoc';
 import type {
   SkyManifestInterfaceDefinition,
   SkyManifestInterfacePropertyDefinition,
-} from '../../types/interface-def';
+} from '../../types/interface-def.js';
 
-import { formatType } from './format-type';
-import { getAnchorId } from './get-anchor-id';
-import { getComment } from './get-comment';
-import { getIndexSignatures } from './get-index-signatures';
-import { getRepoUrl } from './get-repo-url';
+import { formatType } from './format-type.js';
+import { getAnchorId } from './get-anchor-id.js';
+import { getComment } from './get-comment.js';
+import { getIndexSignatures } from './get-index-signatures.js';
+import { getRepoUrl } from './get-repo-url.js';
 
 function getInterfaceProperties(
   decl: DeclarationReflection,

@@ -1,12 +1,12 @@
 import {
   SkyManifestClassMethodDefinition,
   SkyManifestClassPropertyDefinition,
-} from '../../types/class-def';
-import type { SkyManifestPipeDefinition } from '../../types/pipe-def';
-import type { DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators';
+} from '../../types/class-def.js';
+import type { SkyManifestPipeDefinition } from '../../types/pipe-def.js';
+import type { DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators.js';
 
-import { getAnchorId } from './get-anchor-id';
-import { getClass } from './get-class';
+import { getAnchorId } from './get-anchor-id.js';
+import { getClass } from './get-class.js';
 
 export function getPipe(
   decl: DeclarationReflectionWithDecorators,
@@ -23,10 +23,11 @@ export function getPipe(
     | (SkyManifestClassPropertyDefinition | SkyManifestClassMethodDefinition)[]
     | undefined = reflection.children;
 
-  /* istanbul ignore if: safety check */
+  /* v8 ignore start: safety check */
   if (!children) {
     children = [];
   }
+  /* v8 ignore stop */
 
   const pipe: SkyManifestPipeDefinition = {
     ...reflection,

@@ -1,10 +1,10 @@
 import { type DeclarationReflection } from 'typedoc';
 
-import type { SkyManifestIndexSignatureDefinition } from '../../types/interface-def';
+import type { SkyManifestIndexSignatureDefinition } from '../../types/interface-def.js';
 
-import { formatType } from './format-type';
-import { getComment } from './get-comment';
-import { getParameters } from './get-parameters';
+import { formatType } from './format-type.js';
+import { getComment } from './get-comment.js';
+import { getParameters } from './get-parameters.js';
 
 export function getIndexSignatures(
   reflection: DeclarationReflection,
@@ -30,12 +30,13 @@ export function getIndexSignatures(
 
       const parameters = getParameters(signature);
 
-      /* istanbul ignore if: safety check */
+      /* v8 ignore start: safety check */
       if (!parameters) {
         throw new Error(
           `Index signature ${reflection.name} is missing parameters.`,
         );
       }
+      /* v8 ignore stop */
 
       definitions.push({
         codeExample,

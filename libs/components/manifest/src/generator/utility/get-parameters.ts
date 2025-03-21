@@ -4,11 +4,11 @@ import {
   SignatureReflection,
 } from 'typedoc';
 
-import type { SkyManifestParameterDefinition } from '../../types/function-def';
+import type { SkyManifestParameterDefinition } from '../../types/function-def.js';
 
-import { formatType } from './format-type';
-import { getComment } from './get-comment';
-import { getDefaultValue } from './get-default-value';
+import { formatType } from './format-type.js';
+import { getComment } from './get-comment.js';
+import { getDefaultValue } from './get-default-value.js';
 
 export function getParameters(
   reflection: DeclarationReflection | SignatureReflection,

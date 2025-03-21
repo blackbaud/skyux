@@ -1,3 +1,6 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 export interface ProjectDefinition {
   entryPoints: string[];
   packageName: string;
@@ -20,11 +23,15 @@ export function getProjectDefinitions(
   for (const projectName of projectNames) {
     const projectRoot = `${projectsRootDirectory}${projectName}`;
 
+    const entryPoints = [`${projectRoot}/src/index.ts`];
+    const testingEntryPoint = `${projectRoot}/testing/src/public-api.ts`;
+
+    if (fs.existsSync(path.normalize(testingEntryPoint))) {
+      entryPoints.push(testingEntryPoint);
+    }
+
     projects.push({
-      entryPoints: [
-        `${projectRoot}/src/index.ts`,
-        `${projectRoot}/testing/src/public-api.ts`,
-      ],
+      entryPoints,
       packageName: `@skyux/${projectName}`,
       projectName,
       projectRoot,
