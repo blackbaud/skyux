@@ -5,7 +5,6 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
  * A wrapper for each link in a link list.
  */
 @Component({
-  standalone: true,
   selector: 'sky-link-list-item',
   template: `<ng-content />`,
   styleUrl: './link-list-item.component.scss',

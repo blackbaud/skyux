@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SkyActionHubModule } from '@skyux/pages';
 
 import { SkyActionHubNeedsAttention } from '../types/action-hub-needs-attention';
 import { SkyPageLink } from '../types/page-link';
@@ -7,7 +8,7 @@ import { SkyRecentLink } from '../types/recent-link';
 @Component({
   selector: 'sky-action-hub-sync-fixture',
   templateUrl: 'action-hub-sync-fixture.component.html',
-  standalone: false,
+  imports: [SkyActionHubModule],
 })
 export class ActionHubSyncFixtureComponent {
   public title = 'Page title';
