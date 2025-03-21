@@ -31,6 +31,11 @@ export { SkySortFixtureMenu } from './legacy/sort/sort-fixture-menu';
 export { SkySortFixtureMenuItem } from './legacy/sort/sort-fixture-menu-item';
 export { SkySortTestingModule } from './legacy/sort/sort-testing.module';
 
+export { SkySortHarness } from './modules/sort/sort-harness';
+export { SkySortHarnessFilters } from './modules/sort/sort-harness-filters';
+export { SkySortItemHarness } from './modules/sort/sort-item-harness';
+export { SkySortItemHarnessFilters } from './modules/sort/sort-item-harness-filters';
+
 export { SkyInfiniteScrollFixture } from './legacy/infinite-scroll/infinite-scroll-fixture';
 export { SkyInfiniteScrollTestingModule } from './legacy/infinite-scroll/infinite-scroll-testing.module';
 
