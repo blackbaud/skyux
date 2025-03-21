@@ -230,9 +230,9 @@ export class SkyAgGridService implements OnDestroy {
       } as RowSelectionOptions;
     }
     if ('enableCellChangeFlash' in providedGridOptions) {
-      providedGridOptions.defaultColDef = {
-        enableCellChangeFlash: !!providedGridOptions.enableCellChangeFlash,
-      };
+      providedGridOptions.defaultColDef ??= {};
+      providedGridOptions.defaultColDef.enableCellChangeFlash ??=
+        !!providedGridOptions.enableCellChangeFlash;
       delete providedGridOptions.enableCellChangeFlash;
     }
 
