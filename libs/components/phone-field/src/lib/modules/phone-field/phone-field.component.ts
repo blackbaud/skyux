@@ -415,6 +415,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   public countrySearchAnimationEnd(e: AnimationEvent): void {
     if (!this.countrySearchShown) {
       this.phoneInputShown = true;
+      // remove the event listeners if they exist
     } else {
       this.#adapterService.focusCountrySearchElement(e.element);
     }
@@ -425,6 +426,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   public phoneInputAnimationEnd(e: AnimationEvent): void {
     if (!this.phoneInputShown) {
       this.countrySearchShown = true;
+      // add event listeners on the two side buttons
     } else {
       if (this.#phoneInputAnimationTriggered) {
         this.#adapterService.focusPhoneInput(e.element);
