@@ -65,7 +65,7 @@ describe('Sort test harness', () => {
     await expectAsync(itemHarness.getText()).toBeResolvedTo(
       'Date created (newest first)',
     );
-    await expectAsync(itemHarness.isSelected()).toBeResolvedTo(true);
+    await expectAsync(itemHarness.isActive()).toBeResolvedTo(true);
     await itemHarness.click();
   });
 

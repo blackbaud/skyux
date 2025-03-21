@@ -48,9 +48,9 @@ export class SkySortItemHarness extends SkyDropdownItemHarness {
   }
 
   /**
-   * Whether the sort item is selected.
+   * Whether the sort item is active.
    */
-  public async isSelected(): Promise<boolean> {
+  public async isActive(): Promise<boolean> {
     return await (
       await this.locatorFor('.sky-sort-item')()
     ).hasClass('sky-sort-item-selected');

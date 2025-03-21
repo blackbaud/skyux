@@ -39,12 +39,12 @@ describe('Sort demo', () => {
 
     const items = await sortHarness.getItems();
 
-    await expectAsync(items[0].isSelected()).toBeResolvedTo(false);
+    await expectAsync(items[0].isActive()).toBeResolvedTo(false);
     await expectAsync(items[1].getText()).toBeResolvedTo('Assigned to (Z - A)');
-    await expectAsync(items[2].isSelected()).toBeResolvedTo(true);
+    await expectAsync(items[2].isActive()).toBeResolvedTo(true);
 
     await items[3].click();
 
-    await expectAsync(items[3].isSelected()).toBeResolvedTo(true);
+    await expectAsync(items[3].isActive()).toBeResolvedTo(true);
   });
 });
