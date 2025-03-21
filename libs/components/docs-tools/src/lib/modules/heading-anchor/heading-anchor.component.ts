@@ -29,9 +29,6 @@ const DEFAULT_HEADING_LEVEL: SkyDocsHeadingAnchorHeadingLevel = 2;
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[attr.id]': 'anchorId()',
-  },
   imports: [
     NgTemplateOutlet,
     RouterLink,

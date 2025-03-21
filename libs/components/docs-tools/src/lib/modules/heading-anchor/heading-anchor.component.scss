@@ -33,3 +33,8 @@ Use a specific selector so it beats out "stacked" classes added to the host.
   display: inline-block;
   left: -22px;
 }
+
+.sky-docs-heading-anchor-position {
+  position: relative;
+  top: calc(-1 * (var(--sky-viewport-top, 0) + var(--sky-margin-stacked-lg)));
+}
