@@ -1,20 +1,13 @@
-/* eslint-disable max-depth */
-/* eslint-disable complexity */
 import { execSync } from 'node:child_process';
 import {
   Application,
-  Context,
   Converter,
   type DeclarationReflection,
   type ProjectReflection,
-  ReflectionKind,
-  TypeScript as ts,
 } from 'typedoc';
 
-import type {
-  DeclarationReflectionDecorator,
-  DeclarationReflectionWithDecorators,
-} from './types/declaration-reflection-with-decorators.js';
+import { applyDecoratorMetadata } from './apply-decorator-metadata.js';
+import type { DeclarationReflectionWithDecorators } from './types/declaration-reflection-with-decorators.js';
 
 type ProjectReflectionWithChildren = ProjectReflection & {
   children: ParentReflectionWithChildren[];
@@ -27,103 +20,6 @@ type ParentReflectionWithChildren = DeclarationReflection & {
 interface EntryPointReflection {
   entryName: string;
   reflection: ParentReflectionWithChildren;
-}
-
-function applyDecoratorMetadata(
-  context: Context,
-  reflection: DeclarationReflection,
-): void {
-  const kind = ReflectionKind[reflection.kind];
-  const kindsWithDecorators = [
-    'Accessor',
-    'Class',
-    'Method',
-    'Module',
-    'Property',
-  ];
-
-  if (!kindsWithDecorators.includes(kind)) {
-    return;
-  }
-
-  const symbol = context.getSymbolFromReflection(reflection);
-  const declaration = symbol?.valueDeclaration as undefined | ts.HasModifiers;
-
-  if (!declaration || !declaration.modifiers) {
-    return;
-  }
-
-  const modifiers = declaration.modifiers as unknown as ts.Decorator[];
-  const decorators: DeclarationReflectionDecorator[] = [];
-
-  for (const modifier of modifiers) {
-    const callExpression = modifier.expression as undefined | ts.CallExpression;
-    const identifier = callExpression?.expression as undefined | ts.Identifier;
-
-    if (identifier) {
-      const decoratorName = identifier.escapedText as string;
-
-      if (
-        ![
-          'Component',
-          'Directive',
-          'Injectable',
-          'Input',
-          'NgModule',
-          'Output',
-          'Pipe',
-        ].includes(decoratorName)
-      ) {
-        continue;
-      }
-
-      const decorator: DeclarationReflectionDecorator = {
-        name: decoratorName,
-      };
-
-      const args = callExpression?.arguments[0] as any;
-
-      if (args) {
-        switch (decorator.name) {
-          case 'Component':
-          case 'Directive':
-            decorator.arguments = {
-              selector:
-                args.symbol.members.get('selector')?.valueDeclaration
-                  .initializer.text ?? '',
-            };
-
-            break;
-
-          case 'Pipe':
-            decorator.arguments = {
-              name: args.symbol.members.get('name').valueDeclaration.initializer
-                .text,
-            };
-            break;
-
-          case 'Input': {
-            const alias =
-              args.text ??
-              args.symbol?.members.get('alias')?.valueDeclaration.initializer
-                .text;
-
-            if (alias) {
-              decorator.arguments = {
-                bindingPropertyName: alias,
-              };
-            }
-
-            break;
-          }
-        }
-      }
-
-      decorators.push(decorator);
-    }
-  }
-
-  (reflection as DeclarationReflectionWithDecorators).decorators = decorators;
 }
 
 async function getTypeDocProjectReflection(
