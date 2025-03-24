@@ -9,6 +9,7 @@
       [supportedCountryISOs]="supportedCountryISOs"
       [(ngModel)]="modelValue"
       (selectedCountryChange)="countryChanged($event)"
+      (countryFieldFocusout)="focusOut($event)"
     />
   </form>
 </div>

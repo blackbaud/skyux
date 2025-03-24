@@ -33,4 +33,8 @@ export class CountryFieldTestComponent {
   public countryChanged(country: SkyCountryFieldCountry): void {
     return;
   }
+
+  public focusOut(e: FocusEvent): void {
+    return;
+  }
 }
