@@ -10,7 +10,10 @@
   --sky-override-expansion-indicator-line-height: normal;
   --sky-override-expansion-indicator-size: 26px;
   --sky-override-expansion-indicator-size-half: 13px;
-  --sky-override-expansion-indicator-color: #{$sky-border-color-neutral-medium};
+  --sky-override-expansion-indicator-color: var(
+    --sky-expansion-indicator-color,
+    #{$sky-border-color-neutral-medium}
+  );
 }
 
 @include compatMixins.sky-modern-overrides('.sky-expansion-indicator') {

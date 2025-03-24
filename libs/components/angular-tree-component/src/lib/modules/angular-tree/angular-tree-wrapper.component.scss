@@ -1,5 +1,10 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-angular-tree-wrapper') {
+  --sky-override-angular-tree-toggle-color: var(--sky-text-color-deemphasized);
+}
 
 .sky-angular-tree-wrapper ::ng-deep {
   .angular-tree-component {
@@ -35,6 +40,10 @@
   // Toggle indicator
   .sky-toggle-children {
     @include mixins.sky-icon-button-borderless();
+    color: var(
+      --sky-override-angular-tree-toggle-color,
+      var(--sky-color-text-deemphasized)
+    );
     min-height: 19px;
     min-width: 20px;
     margin: 0 $sky-margin 0 0;

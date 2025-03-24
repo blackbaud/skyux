@@ -66,6 +66,15 @@
   >
     @if (pickerButtonIcon) {
       <sky-icon
+        *skyThemeIf="'default'"
+        class="sky-colorpicker-button-icon"
+        variant="solid"
+        iconSize="s"
+        [iconName]="pickerButtonIcon"
+        [style.color]="iconColor"
+      />
+      <sky-icon
+        *skyThemeIf="'modern'"
         class="sky-colorpicker-button-icon"
         variant="solid"
         [iconName]="pickerButtonIcon"
@@ -345,7 +354,7 @@
       }"
       (click)="onResetClick()"
     >
-      <sky-icon *skyThemeIf="'default'" iconName="close" />
+      <sky-icon *skyThemeIf="'default'" iconName="close" iconSize="s" />
       <sky-icon *skyThemeIf="'modern'" iconName="delete" />
     </button>
   }
