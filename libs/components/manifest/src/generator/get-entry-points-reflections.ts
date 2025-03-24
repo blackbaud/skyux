@@ -39,7 +39,7 @@ function applyDecoratorMetadata(
     'Class',
     'Method',
     'Module',
-    'Class',
+    'Property',
   ];
 
   if (!kindsWithDecorators.includes(kind)) {
