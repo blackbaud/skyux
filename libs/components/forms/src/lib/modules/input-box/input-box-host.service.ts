@@ -92,7 +92,7 @@ export class SkyInputBoxHostService implements OnDestroy {
   }
 
   /**
-   *
+   * Whether the focused element is inside the input box.
    * @internal
    */
   public focusIsInInput(el: EventTarget | null): boolean {
@@ -103,6 +103,7 @@ export class SkyInputBoxHostService implements OnDestroy {
   }
 
   /**
+   * Returns an html element that is inside the input box.
    * @internal
    */
   public queryHost(query: string): HTMLElement | undefined {

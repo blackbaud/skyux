@@ -397,13 +397,13 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       this.selectedCountry = this.countries.find(
         (countryInfo) => countryInfo.iso2 === newCountry.iso2,
       );
+
+      this.#phoneInputAnimationTriggered = true;
       this.toggleCountrySearch(false);
     }
   }
 
   public toggleCountrySearch(showSearch: boolean): void {
-    this.#phoneInputAnimationTriggered = true;
-
     if (showSearch) {
       this.phoneInputShown = false;
     } else {
@@ -419,7 +419,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
-  public onCountryFieldBlur(e: FocusEvent): void {
+  public onCountryFieldFocusout(e: FocusEvent): void {
     const target = e.relatedTarget;
     if (this.inputBoxHostSvc) {
       if (!this.inputBoxHostSvc.focusIsInInput(target)) {
@@ -438,7 +438,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     } else {
       this.#adapterService.focusCountrySearchElement(e.element);
 
-      // add event listeners on the two side buttons
+      // add event listeners for focusout from the buttons on either side of country search field.
       let countryFlagButton = this.#elementRef.nativeElement.querySelector(
         'button.sky-phone-field-country-select-btn',
       );
@@ -465,10 +465,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
-  private flag = false;
-
   public dismissButtonClicked(): void {
-    this.flag = true;
+    this.#phoneInputAnimationTriggered = true;
     this.toggleCountrySearch(false);
   }
 
@@ -477,16 +475,11 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       this.countrySearchShown = true;
     } else {
       if (this.#phoneInputAnimationTriggered) {
-        // this.#adapterService.focusPhoneInput(e.element);
+        this.#adapterService.focusPhoneInput(e.element);
         this.#phoneInputAnimationTriggered = false;
       }
 
-      if (this.flag) {
-        this.flag = false;
-        this.#adapterService.focusPhoneInput(e.element);
-      }
-
-      // remove the event listeners if they exist
+      // Remove focus out event listeners now that country search is closed.
       if (this.#countryFlagFocusListenerFn) {
         this.#countryFlagFocusListenerFn();
       }

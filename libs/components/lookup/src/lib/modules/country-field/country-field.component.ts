@@ -148,11 +148,11 @@ export class SkyCountryFieldComponent
     new EventEmitter<SkyCountryFieldCountry>();
 
   /**
-   * Fires when the country field is blurred.
+   * Fires when the country field is focused out.
    * @internal
    */
   @Output()
-  public countryFieldBlur: EventEmitter<Event> = new EventEmitter<Event>();
+  public countryFieldFocusout: EventEmitter<Event> = new EventEmitter<Event>();
 
   public countries: SkyCountryFieldCountry[] = [];
 
@@ -361,10 +361,11 @@ export class SkyCountryFieldComponent
   }
 
   /**
+   * Called when the Autocomplete textarea loses focus
    * @internal
    */
   public onAutocompleteFocusout(e: Event): void {
-    this.countryFieldBlur.emit(e);
+    this.countryFieldFocusout.emit(e);
   }
 
   // Angular automatically constructs these methods.
