@@ -66,11 +66,17 @@ function processESLintConfig(
   projectRoot: string,
   updatedESLintConfigs: string[],
 ): void {
+  const eslintConfigPath = normalize(`${projectRoot}/.eslintrc.json`);
   const flatConfigPath = normalize(`${projectRoot}/eslint.config.js`);
-  const legacyConfigPath = normalize(`${projectRoot}/.eslintrc.json`);
-  const hasFlatConfig = tree.exists(flatConfigPath);
 
-  if (hasFlatConfig) {
+  if (tree.exists(eslintConfigPath)) {
+    const eslintConfig = readJsonFile<ESLintConfig>(tree, eslintConfigPath);
+
+    context.logger.info(`Configuring ${eslintConfigPath}...`);
+
+    addPrettierExtendsToConfig(tree, eslintConfigPath, eslintConfig);
+    updatedESLintConfigs.push(eslintConfigPath);
+  } else if (tree.exists(flatConfigPath)) {
     const eslintConfig = tree.readText(flatConfigPath);
     const lastClosingParenthesisRegExp = /\)(?!(?:\n|.)*\))/;
     const parenthesisMatch = lastClosingParenthesisRegExp.exec(eslintConfig);
@@ -93,13 +99,6 @@ function processESLintConfig(
     }
 
     updatedESLintConfigs.push(flatConfigPath);
-  } else if (tree.exists(legacyConfigPath)) {
-    const eslintConfig = readJsonFile<ESLintConfig>(tree, legacyConfigPath);
-
-    context.logger.info(`Configuring ${legacyConfigPath}...`);
-
-    addPrettierExtendsToConfig(tree, legacyConfigPath, eslintConfig);
-    updatedESLintConfigs.push(legacyConfigPath);
   }
 }
 
@@ -108,6 +107,7 @@ export function configureESLint(
 ): Rule {
   return (tree, context) => {
     const updatedESLintConfigs: string[] = [];
+
     context.logger.info('Configuring ESLint Prettier plugin...');
 
     const projects = workspace.projects.values();
