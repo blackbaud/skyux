@@ -1,5 +1,18 @@
 # Changelog
 
+## [11.47.0](https://github.com/blackbaud/skyux/compare/11.46.1...11.47.0) (2025-03-21)
+
+
+### Features
+
+* **components/lists:** add infinite scroll test harness ([#3268](https://github.com/blackbaud/skyux/issues/3268)) ([f581abe](https://github.com/blackbaud/skyux/commit/f581abe6018791c07f8c5c98876e75a5c26e6470))
+* **components/lists:** add sort harnesses ([#3265](https://github.com/blackbaud/skyux/issues/3265)) ([e2ec342](https://github.com/blackbaud/skyux/commit/e2ec342ee04534f7a8334e57b123f0bb8ac6a04b))
+
+
+### Bug Fixes
+
+* **components/forms:** file attachment code examples fix double download ([#3267](https://github.com/blackbaud/skyux/issues/3267)) ([791e6b3](https://github.com/blackbaud/skyux/commit/791e6b36e669c5442dae660861f717e2a5cf94b1))
+
 ## [12.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.13...12.0.0-alpha.14) (2025-03-19)
 
 
