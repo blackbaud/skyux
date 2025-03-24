@@ -44,6 +44,7 @@
 <ng-content />
 
 <ng-template #headingTextRef>
+  <span class="sky-docs-heading-anchor-position" [attr.id]="anchorId()"></span>
   <a
     class="sky-docs-heading-anchor-link"
     queryParamsHandling="merge"

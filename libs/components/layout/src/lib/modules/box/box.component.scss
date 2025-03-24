@@ -6,6 +6,7 @@
   --sky-override-box-header-container-padding: var(--sky-padding-even-xl)
     var(--sky-padding-even-xl) 0 var(--sky-padding-even-xl);
   --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
+  --sky-override-box-background-color-default: #fff;
 }
 
 @include compatMixins.sky-modern-overrides('sky-box', false) {
@@ -17,7 +18,11 @@ sky-box {
 }
 
 .sky-box {
-  background-color: #fff;
+  --sky-background-color-page-default: var(
+    --sky-override-box-background-color-default,
+    var(--sky-color-background-container-base)
+  );
+
   border-radius: var(--sky-box-border-radius);
   overflow: var(--sky-box-overflow);
 

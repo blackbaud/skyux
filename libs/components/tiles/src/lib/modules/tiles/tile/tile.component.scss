@@ -4,6 +4,8 @@
 .sky-tile {
   background-color: #fff;
   margin-bottom: $sky-margin-double;
+
+  --sky-background-color-page-default: #fff;
 }
 
 /* NOTE: This style is here as we only want it when inside a tile dashboard */

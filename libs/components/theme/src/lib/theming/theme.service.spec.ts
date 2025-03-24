@@ -1,14 +1,29 @@
+import { Renderer2 } from '@angular/core';
+
 import { SkyTheme } from './theme';
+import { SkyThemeBrand } from './theme-brand';
 import { SkyThemeMode } from './theme-mode';
 import { SkyThemeSettings } from './theme-settings';
 import { SkyThemeSpacing } from './theme-spacing';
 import { SkyThemeService } from './theme.service';
 
 describe('Theme service', () => {
-  let mockHostEl: any;
-  let mockRenderer: any;
+  let mockHostEl: {
+    foo: string;
+  };
+  let mockRenderer: { addClass: jasmine.Spy; removeClass: jasmine.Spy };
 
   function validateSettingsApplied(
+    current: SkyThemeSettings,
+    previous?: SkyThemeSettings,
+  ): void {
+    validateThemeClass(current);
+    validateModeClass(current);
+    validateSpacingClass(current);
+    validateBrandClass(current, previous);
+  }
+
+  function validateThemeClass(
     current: SkyThemeSettings,
     previous?: SkyThemeSettings,
   ): void {
@@ -17,6 +32,15 @@ describe('Theme service', () => {
       current.theme.hostClass,
     );
 
+    if (previous) {
+      expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+        mockHostEl,
+        previous.theme.hostClass,
+      );
+    }
+  }
+
+  function validateModeClass(current: SkyThemeSettings): void {
     if (current.theme.supportedModes.includes(current.mode)) {
       expect(mockRenderer.addClass).toHaveBeenCalledWith(
         mockHostEl,
@@ -28,7 +52,9 @@ describe('Theme service', () => {
         current.mode.hostClass,
       );
     }
+  }
 
+  function validateSpacingClass(current: SkyThemeSettings): void {
     if (current.theme.supportedSpacing.includes(current.spacing)) {
       expect(mockRenderer.addClass).toHaveBeenCalledWith(
         mockHostEl,
@@ -40,14 +66,44 @@ describe('Theme service', () => {
         current.spacing.hostClass,
       );
     }
+  }
 
-    if (previous) {
-      expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+  function validateBrandClass(
+    current: SkyThemeSettings,
+    previous?: SkyThemeSettings,
+  ): void {
+    if (current.brand?.name) {
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
         mockHostEl,
-        previous.theme.hostClass,
+        current.brand.hostClass,
       );
+
+      if (!previous?.brand?.name) {
+        expect(mockRenderer.addClass).toHaveBeenCalledWith(
+          mockHostEl,
+          `sky-theme-brand-base`,
+        );
+      }
     } else {
-      expect(mockRenderer.removeClass).not.toHaveBeenCalled();
+      expect(mockRenderer.addClass).not.toHaveBeenCalledWith(
+        mockHostEl,
+        current.brand?.hostClass,
+      );
+      expect(mockRenderer.addClass).not.toHaveBeenCalledWith(
+        mockHostEl,
+        `sky-theme-brand-base`,
+      );
+
+      if (previous?.brand?.name) {
+        expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+          mockHostEl,
+          previous.brand.hostClass,
+        );
+        expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+          mockHostEl,
+          'sky-theme-brand-base',
+        );
+      }
     }
   }
 
@@ -70,7 +126,7 @@ describe('Theme service', () => {
       SkyThemeMode.presets.dark,
     );
 
-    themeSvc.init(mockHostEl, mockRenderer, settings);
+    themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
 
     validateSettingsApplied(settings);
 
@@ -88,7 +144,7 @@ describe('Theme service', () => {
       SkyThemeMode.presets.dark,
     );
 
-    themeSvc.init(mockHostEl, mockRenderer, settings);
+    themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
 
     let expectedCurrentSettings = settings;
     let expectedPreviousSettings: SkyThemeSettings | undefined = undefined;
@@ -135,7 +191,7 @@ describe('Theme service', () => {
       SkyThemeMode.presets.dark,
     );
 
-    themeSvc.init(mockHostEl, mockRenderer, settings);
+    themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
 
     validateSettingsApplied(settings);
   });
@@ -148,7 +204,7 @@ describe('Theme service', () => {
       SkyThemeMode.presets.dark,
     );
 
-    themeSvc.init(mockHostEl, mockRenderer, settings);
+    themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
 
     themeSvc.setTheme(settings);
 
@@ -164,7 +220,7 @@ describe('Theme service', () => {
       SkyThemeSpacing.presets.compact,
     );
 
-    themeSvc.init(mockHostEl, mockRenderer, settings);
+    themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
 
     validateSettingsApplied(settings);
   });
@@ -178,9 +234,39 @@ describe('Theme service', () => {
       SkyThemeSpacing.presets.compact,
     );
 
-    themeSvc.init(mockHostEl, mockRenderer, settings);
+    themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
 
     validateSettingsApplied(settings);
+  });
+
+  it('should apply branding', () => {
+    const themeSvc = new SkyThemeService();
+
+    const settingsWithBranding = new SkyThemeSettings(
+      SkyTheme.presets.modern,
+      SkyThemeMode.presets.light,
+      SkyThemeSpacing.presets.compact,
+      new SkyThemeBrand('blackbaud', '1.0.0'),
+    );
+
+    themeSvc.init(
+      mockHostEl,
+      mockRenderer as unknown as Renderer2,
+      settingsWithBranding,
+    );
+
+    validateSettingsApplied(settingsWithBranding);
+    mockRenderer.addClass.calls.reset();
+    mockRenderer.removeClass.calls.reset();
+
+    const settingsWithoutBranding = new SkyThemeSettings(
+      SkyTheme.presets.default,
+      SkyThemeMode.presets.dark,
+    );
+
+    themeSvc.setTheme(settingsWithoutBranding);
+
+    validateSettingsApplied(settingsWithoutBranding, settingsWithBranding);
   });
 
   it('should complete the settings change event when destroyed.', () => {
@@ -191,7 +277,7 @@ describe('Theme service', () => {
       SkyThemeMode.presets.dark,
     );
 
-    themeSvc.init(mockHostEl, mockRenderer, settings);
+    themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
 
     const sub = themeSvc.settingsChange.subscribe();
 

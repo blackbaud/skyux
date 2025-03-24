@@ -25,6 +25,11 @@
       "factory": "./update-12/i18n-resources-module/i18n-resources-module.schematic",
       "description": "Regenerate i18n resources modules for libraries."
     },
+    "icon-name": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./update-12/icon-name/icon-name.schematic",
+      "description": "Update icon `icon` properties to `iconName`."
+    },
     "icons-migration": {
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./update-12/icons-migration/icons-migration.schematic",
