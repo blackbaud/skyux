@@ -1,8 +1,4 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyKeyInfoModule } from '@skyux/indicators';
-
-import { SkyActionHubModule } from '../action-hub.module';
 
 import { ActionHubAsyncFixtureComponent } from './action-hub-async-fixture.component';
 import { ActionHubContentFixtureComponent } from './action-hub-content-fixture.component';
@@ -11,8 +7,14 @@ import { ActionHubRecentSvcFixtureComponent } from './action-hub-recent-svc-fixt
 import { ActionHubSyncFixtureComponent } from './action-hub-sync-fixture.component';
 
 @NgModule({
-  imports: [CommonModule, SkyActionHubModule, SkyKeyInfoModule],
-  declarations: [
+  imports: [
+    ActionHubAsyncFixtureComponent,
+    ActionHubContentFixtureComponent,
+    ActionHubInputsFixtureComponent,
+    ActionHubRecentSvcFixtureComponent,
+    ActionHubSyncFixtureComponent,
+  ],
+  exports: [
     ActionHubAsyncFixtureComponent,
     ActionHubContentFixtureComponent,
     ActionHubInputsFixtureComponent,
