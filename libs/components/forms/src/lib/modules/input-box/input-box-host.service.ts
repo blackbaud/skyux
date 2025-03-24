@@ -106,6 +106,6 @@ export class SkyInputBoxHostService implements OnDestroy {
    * @internal
    */
   public queryHost(query: string): HTMLElement | undefined {
-    return this.#host?.queryEl(query);
+    return this.#host?.queryInternalElement(query);
   }
 }

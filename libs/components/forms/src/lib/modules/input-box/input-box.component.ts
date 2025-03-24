@@ -304,7 +304,7 @@ export class SkyInputBoxComponent
   /**
    * @internal
    */
-  public queryEl(query: string): HTMLElement {
+  public queryInternalElement(query: string): HTMLElement {
     return this.#elementRef.nativeElement.querySelector(query);
   }
 
