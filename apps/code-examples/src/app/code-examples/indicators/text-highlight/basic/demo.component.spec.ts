@@ -1,8 +1,7 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyAppTestUtility } from '@skyux-sdk/testing';
-import { SkyCheckboxHarness } from '@skyux/forms/testing';
+import { SkyCheckboxHarness, SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyTextHighlightHarness } from '@skyux/indicators/testing';
 
 import { DemoComponent } from './demo.component';
@@ -32,13 +31,14 @@ describe('Text highlight demo', () => {
   it('should set up the component', async () => {
     const { textHighlightHarness, fixture, loader } = await setupTest();
 
-    const inputEl = document.querySelector<HTMLInputElement>('input')!;
+    const inputEl = await (
+      await loader.getHarness(SkyInputBoxHarness)
+    ).querySelector('input');
 
     const checkboxHarness = await loader.getHarness(SkyCheckboxHarness);
 
-    inputEl.value = 'text';
-    SkyAppTestUtility.fireDomEvent(inputEl, 'input');
-    SkyAppTestUtility.fireDomEvent(inputEl, 'blur');
+    await inputEl?.sendKeys('text');
+    await inputEl?.blur();
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -49,9 +49,9 @@ describe('Text highlight demo', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    inputEl.value = 'is';
-    SkyAppTestUtility.fireDomEvent(inputEl, 'input');
-    SkyAppTestUtility.fireDomEvent(inputEl, 'blur');
+    await inputEl?.clear();
+    await inputEl?.sendKeys('is');
+    await inputEl?.blur();
     fixture.detectChanges();
     await fixture.whenStable();
 
