@@ -420,8 +420,15 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   }
 
   public onCountryFieldBlur(e: FocusEvent): void {
-    if (!this.#elementRef.nativeElement.contains(e.relatedTarget)) {
-      this.toggleCountrySearch(false);
+    const target = e.relatedTarget;
+    if (this.inputBoxHostSvc) {
+      if (!this.inputBoxHostSvc.focusIsInInput(target)) {
+        this.toggleCountrySearch(false);
+      }
+    } else {
+      if (!this.#elementRef.nativeElement.contains(target)) {
+        this.toggleCountrySearch(false);
+      }
     }
   }
 
@@ -432,13 +439,21 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       this.#adapterService.focusCountrySearchElement(e.element);
 
       // add event listeners on the two side buttons
-      const countryFlagButton = this.#elementRef.nativeElement.querySelector(
+      let countryFlagButton = this.#elementRef.nativeElement.querySelector(
         'button.sky-phone-field-country-select-btn',
       );
-      const dismissCountrySearchButton =
+      let dismissCountrySearchButton =
         this.#elementRef.nativeElement.querySelector(
           'button.sky-phone-field-search-btn-dismiss',
         );
+      if (this.inputBoxHostSvc) {
+        countryFlagButton = this.inputBoxHostSvc.queryHost(
+          'button.sky-phone-field-country-select-btn',
+        );
+        dismissCountrySearchButton = this.inputBoxHostSvc.queryHost(
+          'button.sky-phone-field-search-btn-dismiss',
+        );
+      }
 
       this.#countryFlagFocusListenerFn =
         this.addFocusEventListener(countryFlagButton);
@@ -486,8 +501,14 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   private addFocusEventListener(el: HTMLElement): () => void {
     return this.#renderer.listen(el, 'focusout', (event: FocusEvent) => {
       const target = event.relatedTarget;
-      if (!this.#elementRef.nativeElement.contains(target)) {
-        this.toggleCountrySearch(false);
+      if (this.inputBoxHostSvc) {
+        if (!this.inputBoxHostSvc.focusIsInInput(target)) {
+          this.toggleCountrySearch(false);
+        }
+      } else {
+        if (!this.#elementRef.nativeElement.contains(target)) {
+          this.toggleCountrySearch(false);
+        }
       }
     });
   }

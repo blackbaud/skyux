@@ -291,6 +291,23 @@ export class SkyInputBoxComponent
     }
   }
 
+  /**
+   * @internal
+   */
+  public containsElement(el: EventTarget): boolean {
+    if (el) {
+      return this.#elementRef.nativeElement.contains(el);
+    }
+    return false;
+  }
+
+  /**
+   * @internal
+   */
+  public queryEl(query: string): HTMLElement {
+    return this.#elementRef.nativeElement.querySelector(query);
+  }
+
   public populate(args: SkyInputBoxPopulateArgs): void {
     this.hostInputTemplate = args.inputTemplate;
     this.hostButtonsTemplate = args.buttonsTemplate;

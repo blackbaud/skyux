@@ -90,4 +90,22 @@ export class SkyInputBoxHostService implements OnDestroy {
   public setRequired(required: boolean): void {
     this.#requiredSubject.next(required);
   }
+
+  /**
+   *
+   * @internal
+   */
+  public focusIsInInput(el: EventTarget | null): boolean {
+    if (this.#host && el) {
+      return this.#host.containsElement(el);
+    }
+    return false;
+  }
+
+  /**
+   * @internal
+   */
+  public queryHost(query: string): HTMLElement | undefined {
+    return this.#host?.queryEl(query);
+  }
 }
