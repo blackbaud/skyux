@@ -4,7 +4,7 @@ import { visitProjectFiles } from '../../../utility/visit-project-files';
 import { getWorkspace } from '../../../utility/workspace';
 
 const NO_SIZE_REGEX =
-  /(?<beforeEnd><sky-icon(?![^>]+ size=)(?![^>]+\[size\]=))/g;
+  /(?<beforeEnd><sky-icon(?![^>]* size=)(?![^>]*\[size\]=))/g;
 
 function addSize(html: string): string {
   return html.replaceAll(

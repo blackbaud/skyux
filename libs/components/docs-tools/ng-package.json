@@ -6,6 +6,11 @@
     "styleIncludePaths": ["../../.."]
   },
   "inlineStyleLanguage": "scss",
-  "allowedNonPeerDependencies": ["@stackblitz/sdk", "highlight.js", "marked"],
+  "allowedNonPeerDependencies": [
+    "@skyux/manifest",
+    "@stackblitz/sdk",
+    "highlight.js",
+    "marked"
+  ],
   "assets": ["css/styles.css"]
 }

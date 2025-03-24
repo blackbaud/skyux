@@ -107,39 +107,6 @@
           "projects": "manifest"
         }
       ]
-    },
-    "test": {
-      "executor": "@angular-devkit/build-angular:karma",
-      "options": {
-        "tsConfig": "apps/code-examples/tsconfig.spec.json",
-        "karmaConfig": "apps/code-examples/karma.conf.js",
-        "polyfills": [
-          "zone.js",
-          "zone.js/testing",
-          "libs/components/packages/src/polyfills.js"
-        ],
-        "styles": [
-          "libs/components/theme/src/lib/styles/sky.scss",
-          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
-          "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
-          "apps/code-examples/src/styles.scss"
-        ],
-        "scripts": [],
-        "assets": [],
-        "inlineStyleLanguage": "scss",
-        "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
-        }
-      },
-      "configurations": {
-        "ci": {
-          "browsers": "ChromeHeadlessNoSandbox",
-          "codeCoverage": true,
-          "progress": false,
-          "sourceMap": true,
-          "watch": false
-        }
-      }
     }
   },
   "implicitDependencies": ["eslint-config", "skyux-eslint"],
