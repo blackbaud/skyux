@@ -15,7 +15,7 @@ import {
     SkyHrefResolverMockService,
     {
       provide: SkyHrefResolverService,
-      useClass: SkyHrefResolverMockService,
+      useExisting: SkyHrefResolverMockService,
     },
     {
       provide: MockUserHasAccess,

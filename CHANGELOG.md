@@ -1,5 +1,47 @@
 # Changelog
 
+## [12.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.13...12.0.0-alpha.14) (2025-03-19)
+
+
+### Features
+
+* **components/theme:** add ability to specify a brand through `SkyThemeService` ([#3248](https://github.com/blackbaud/skyux/issues/3248)) ([41e7d3a](https://github.com/blackbaud/skyux/commit/41e7d3a56f4ecfffef14f4a2be3a12ff94174d80))
+
+
+### Bug Fixes
+
+* **components/packages:** icon size schematic does not add extra property if size already exists and is the first property on the icon ([#3264](https://github.com/blackbaud/skyux/issues/3264)) ([c3e0203](https://github.com/blackbaud/skyux/commit/c3e0203994a822294cf410c0aca38255f65466c6))
+* **components/theme:** viewport space check ([#3259](https://github.com/blackbaud/skyux/issues/3259)) ([#3260](https://github.com/blackbaud/skyux/issues/3260)) ([0906495](https://github.com/blackbaud/skyux/commit/09064950cb1f686aa09c3a363e4f00c69144a67e))
+
+## [11.46.1](https://github.com/blackbaud/skyux/compare/11.46.0...11.46.1) (2025-03-19)
+
+
+### Bug Fixes
+
+* **components/theme:** viewport space check ([#3259](https://github.com/blackbaud/skyux/issues/3259)) ([299c731](https://github.com/blackbaud/skyux/commit/299c7311e37c00ce96fdbc276fa50f1d1950e4c0))
+
+
+## [12.0.0-alpha.13](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.12...12.0.0-alpha.13) (2025-03-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove documentation.json files from component releases ([#3253](https://github.com/blackbaud/skyux/issues/3253))
+
+### Features
+
+* **components/ag-grid:** set background color for boxes and tiles ([#3247](https://github.com/blackbaud/skyux/issues/3247)) ([de75b7d](https://github.com/blackbaud/skyux/commit/de75b7dda71fc14e5a81e2cba78c26fed163e9ad))
+* **components/lists:** add filter harnesses ([#3242](https://github.com/blackbaud/skyux/issues/3242)) ([#3251](https://github.com/blackbaud/skyux/issues/3251)) ([22f953f](https://github.com/blackbaud/skyux/commit/22f953fb3919eee0fecee6c430fd55f771b72e05))
+* **components/modals:** confirm discarding changes when canceling modal using  directive ([#3246](https://github.com/blackbaud/skyux/issues/3246)) ([95a2162](https://github.com/blackbaud/skyux/commit/95a216230dc9dd36d191dc50ed045b5296553577))
+* **components/packages:** add schematic to convert existing icons to new `iconName` ([#3256](https://github.com/blackbaud/skyux/issues/3256)) ([b509c7f](https://github.com/blackbaud/skyux/commit/b509c7fa7aa0437a67435b250325ce53bf5e8ea6))
+* remove documentation.json files from component releases ([#3253](https://github.com/blackbaud/skyux/issues/3253)) ([2c38c32](https://github.com/blackbaud/skyux/commit/2c38c324c050255d1cc605f3f72f3c9e29a3d6d7))
+
+
+### Bug Fixes
+
+* **components/docs-tools:** add @skyux/packages/polyfills to StackBlitz launcher ([#3255](https://github.com/blackbaud/skyux/issues/3255)) ([384411a](https://github.com/blackbaud/skyux/commit/384411a1d7d529fdb5ef0e09bf863be2cdb29603))
+* **components/docs-tools:** make `@skyux/manifest` a dependency, not a peer ([#3257](https://github.com/blackbaud/skyux/issues/3257)) ([7b03ac5](https://github.com/blackbaud/skyux/commit/7b03ac589cac6a80b3bbcea4df4c71c78484374a))
+
 ## [11.46.0](https://github.com/blackbaud/skyux/compare/11.45.1...11.46.0) (2025-03-17)
 
 
@@ -7,6 +49,7 @@
 
 * **components/lists:** add filter harnesses ([#3242](https://github.com/blackbaud/skyux/issues/3242)) ([fc2cb47](https://github.com/blackbaud/skyux/commit/fc2cb47518c24961ecb821ae88ee799d9ae25ef9))
 * **components/tabs:** add vertical tabs harness ([#3241](https://github.com/blackbaud/skyux/issues/3241)) ([d0d09ad](https://github.com/blackbaud/skyux/commit/d0d09adea1d8bd746ae76c7aca14c8f32b1e402f))
+
 
 ## [12.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.11...12.0.0-alpha.12) (2025-03-17)
 

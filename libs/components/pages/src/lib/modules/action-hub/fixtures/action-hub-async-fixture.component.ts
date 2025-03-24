@@ -1,4 +1,6 @@
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
+import { SkyActionHubModule } from '@skyux/pages';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -9,7 +11,7 @@ import { SkyRecentLink } from '../types/recent-link';
 @Component({
   selector: 'sky-action-hub-async-fixture',
   templateUrl: 'action-hub-async-fixture.component.html',
-  standalone: false,
+  imports: [SkyActionHubModule, AsyncPipe],
 })
 export class ActionHubAsyncFixtureComponent {
   public title = new BehaviorSubject<string>('Page title');
