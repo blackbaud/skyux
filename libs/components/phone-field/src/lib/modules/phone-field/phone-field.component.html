@@ -94,7 +94,7 @@
             (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
             'modern'
         }"
-        (click)="toggleCountrySearch(false)"
+        (click)="dismissButtonClicked()"
       >
         <sky-icon
           *skyThemeIf="'default'"

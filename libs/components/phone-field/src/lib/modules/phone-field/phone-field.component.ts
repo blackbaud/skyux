@@ -450,13 +450,25 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
+  private flag = false;
+
+  public dismissButtonClicked(): void {
+    this.flag = true;
+    this.toggleCountrySearch(false);
+  }
+
   public phoneInputAnimationEnd(e: AnimationEvent): void {
     if (!this.phoneInputShown) {
       this.countrySearchShown = true;
     } else {
       if (this.#phoneInputAnimationTriggered) {
-        this.#adapterService.focusPhoneInput(e.element);
+        // this.#adapterService.focusPhoneInput(e.element);
         this.#phoneInputAnimationTriggered = false;
+      }
+
+      if (this.flag) {
+        this.flag = false;
+        this.#adapterService.focusPhoneInput(e.element);
       }
 
       // remove the event listeners if they exist
