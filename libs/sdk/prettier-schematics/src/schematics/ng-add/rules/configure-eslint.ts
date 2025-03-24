@@ -63,9 +63,12 @@ function addPrettierExtendsToConfig(
 function processESLintConfig(
   tree: Tree,
   context: SchematicContext,
-  eslintConfigPath: string,
+  projectRoot: string,
   updatedESLintConfigs: string[],
 ): void {
+  const eslintConfigPath = normalize(`${projectRoot}/.eslintrc.json`);
+  const flatConfigPath = normalize(`${projectRoot}/eslint.config.js`);
+
   if (tree.exists(eslintConfigPath)) {
     const eslintConfig = readJsonFile<ESLintConfig>(tree, eslintConfigPath);
 
@@ -73,6 +76,29 @@ function processESLintConfig(
 
     addPrettierExtendsToConfig(tree, eslintConfigPath, eslintConfig);
     updatedESLintConfigs.push(eslintConfigPath);
+  } else if (tree.exists(flatConfigPath)) {
+    const eslintConfig = tree.readText(flatConfigPath);
+    const lastClosingParenthesisRegExp = /\)(?!(?:\n|.)*\))/;
+    const parenthesisMatch = lastClosingParenthesisRegExp.exec(eslintConfig);
+
+    if (parenthesisMatch) {
+      const exportsMatch = /\nmodule\.exports/.exec(eslintConfig);
+
+      if (exportsMatch) {
+        const recorder = tree.beginUpdate(flatConfigPath);
+
+        recorder.insertLeft(
+          exportsMatch.index,
+          'const prettier = require("eslint-config-prettier/flat");\n',
+        );
+
+        recorder.insertRight(parenthesisMatch.index, '  ,prettier\n');
+
+        tree.commitUpdate(recorder);
+      }
+    }
+
+    updatedESLintConfigs.push(flatConfigPath);
   }
 }
 
@@ -80,7 +106,6 @@ export function configureESLint(
   workspace: workspaces.WorkspaceDefinition,
 ): Rule {
   return (tree, context) => {
-    const fileName = '.eslintrc.json';
     const updatedESLintConfigs: string[] = [];
 
     context.logger.info('Configuring ESLint Prettier plugin...');
@@ -89,19 +114,14 @@ export function configureESLint(
     let project: workspaces.ProjectDefinition | undefined;
 
     while ((project = projects.next().value)) {
-      processESLintConfig(
-        tree,
-        context,
-        normalize(`${project.root}/${fileName}`),
-        updatedESLintConfigs,
-      );
+      processESLintConfig(tree, context, project.root, updatedESLintConfigs);
     }
 
-    processESLintConfig(tree, context, fileName, updatedESLintConfigs);
+    processESLintConfig(tree, context, '', updatedESLintConfigs);
 
     if (updatedESLintConfigs.length === 0) {
       throw new SchematicsException(
-        `No ${fileName} file found in workspace. ESLint must be installed and configured before installing Prettier. See https://github.com/angular-eslint/angular-eslint#readme for instructions.`,
+        `No ESLint configuration file found in workspace. ESLint must be installed and configured before installing Prettier. See https://github.com/angular-eslint/angular-eslint#readme for instructions.`,
       );
     }
   };
