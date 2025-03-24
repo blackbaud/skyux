@@ -10,12 +10,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Optional,
   Output,
+  Renderer2,
   SkipSelf,
   TemplateRef,
   ViewChild,
@@ -304,12 +306,17 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     SkyCountryFieldCountry | undefined | null
   >(undefined);
 
+  #countryFlagFocusListenerFn: (() => void) | undefined;
+  #dismissCountrySearchFocusListenerFn: (() => void) | undefined;
+
   #formBuilder: FormBuilder;
   #adapterService: SkyPhoneFieldAdapterService;
   readonly #appFormat = inject(SkyAppFormat);
   #changeDetector: ChangeDetectorRef;
   #ngUnsubscribe = new Subject<void>();
   readonly #resourceSvc = inject(SkyLibResourcesService);
+  readonly #elementRef = inject(ElementRef<HTMLElement>);
+  readonly #renderer = inject(Renderer2);
 
   constructor(
     formBuilder: FormBuilder,
@@ -412,12 +419,32 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
+  public onCountryFieldBlur(e: FocusEvent): void {
+    if (!this.#elementRef.nativeElement.contains(e.relatedTarget)) {
+      this.toggleCountrySearch(false);
+    }
+  }
+
   public countrySearchAnimationEnd(e: AnimationEvent): void {
     if (!this.countrySearchShown) {
       this.phoneInputShown = true;
-      // remove the event listeners if they exist
     } else {
       this.#adapterService.focusCountrySearchElement(e.element);
+
+      // add event listeners on the two side buttons
+      const countryFlagButton = this.#elementRef.nativeElement.querySelector(
+        'button.sky-phone-field-country-select-btn',
+      );
+      const dismissCountrySearchButton =
+        this.#elementRef.nativeElement.querySelector(
+          'button.sky-phone-field-search-btn-dismiss',
+        );
+
+      this.#countryFlagFocusListenerFn =
+        this.addFocusEventListener(countryFlagButton);
+      this.#dismissCountrySearchFocusListenerFn = this.addFocusEventListener(
+        dismissCountrySearchButton,
+      );
     }
 
     this.#changeDetector.markForCheck();
@@ -426,15 +453,31 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   public phoneInputAnimationEnd(e: AnimationEvent): void {
     if (!this.phoneInputShown) {
       this.countrySearchShown = true;
-      // add event listeners on the two side buttons
     } else {
       if (this.#phoneInputAnimationTriggered) {
         this.#adapterService.focusPhoneInput(e.element);
         this.#phoneInputAnimationTriggered = false;
       }
+
+      // remove the event listeners if they exist
+      if (this.#countryFlagFocusListenerFn) {
+        this.#countryFlagFocusListenerFn();
+      }
+      if (this.#dismissCountrySearchFocusListenerFn) {
+        this.#dismissCountrySearchFocusListenerFn();
+      }
     }
 
     this.#changeDetector.markForCheck();
+  }
+
+  private addFocusEventListener(el: HTMLElement): () => void {
+    return this.#renderer.listen(el, 'focusout', (event: FocusEvent) => {
+      const target = event.relatedTarget;
+      if (!this.#elementRef.nativeElement.contains(target)) {
+        this.toggleCountrySearch(false);
+      }
+    });
   }
 
   public setCountryByDialCode(phoneNumberRaw: string | undefined): void {

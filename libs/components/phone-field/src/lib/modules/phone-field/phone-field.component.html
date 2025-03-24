@@ -14,7 +14,7 @@
   >
     <button
       aria-live="polite"
-      class="sky-btn sky-btn-default"
+      class="sky-btn sky-btn-default sky-phone-field-country-select-btn"
       type="button"
       [attr.title]="
         ('skyux_phone_field_country_select_label' | skyLibResources) +
@@ -67,11 +67,11 @@
         [formGroup]="countrySearchForm"
       >
         <sky-country-field
-          style="background-color: hotpink"
           formControlName="countrySearch"
           [defaultCountry]="defaultCountry"
           [supportedCountryISOs]="supportedCountryISOs"
           (selectedCountryChange)="onCountrySelected($event)"
+          (countryFieldBlur)="onCountryFieldBlur($event)"
         />
       </div>
     </span>

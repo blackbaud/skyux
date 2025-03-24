@@ -152,7 +152,7 @@ export class SkyCountryFieldComponent
    * @internal
    */
   @Output()
-  public countryFieldBlurred: EventEmitter<void> = new EventEmitter<void>();
+  public countryFieldBlur: EventEmitter<Event> = new EventEmitter<Event>();
 
   public countries: SkyCountryFieldCountry[] = [];
 
@@ -338,9 +338,8 @@ export class SkyCountryFieldComponent
    * Sets the component's touched value when the autocomplete is blurred
    * @internal
    */
-  public onAutocompleteBlur(): void {
+  public onAutocompleteBlur(e: Event): void {
     this.onTouched();
-    this.countryFieldBlurred.emit();
   }
 
   /**
@@ -359,6 +358,13 @@ export class SkyCountryFieldComponent
     } else {
       this.writeValue(undefined);
     }
+  }
+
+  /**
+   * @internal
+   */
+  public onAutocompleteFocusout(e: Event): void {
+    this.countryFieldBlur.emit(e);
   }
 
   // Angular automatically constructs these methods.
