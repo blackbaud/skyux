@@ -26,9 +26,13 @@ interface LocalStorageSettings {
   themeName: ThemeSelectorValue;
   themeMode: ThemeSelectorModeValue;
   themeSpacing: ThemeSelectorSpacingValue;
-  modernV2Enabled: boolean | undefined;
+  themeBrand?: SkyThemeBrand;
 }
 
+const AVAILABLE_BRANDS = [
+  new SkyThemeBrand('blackbaud', '1.0.0'),
+  new SkyThemeBrand('rainbow', '1.0.1'),
+];
 const PREVIOUS_SETTINGS_KEY =
   'skyux-playground-theme-mode-spacing-selector-settings';
 
@@ -45,11 +49,15 @@ export class SkyThemeSelectorComponent implements OnInit {
     () => SkyTheme.presets[this.themeName() as ThemeSelectorValue],
   );
 
+  protected readonly themeBrand = signal<SkyThemeBrand | undefined>(undefined);
   protected readonly themeName = signal<ThemeSelectorValue>('default');
   protected readonly themeMode = signal<ThemeSelectorModeValue>('light');
   protected readonly themeSpacing =
     signal<ThemeSelectorSpacingValue>('standard');
-  protected readonly modernV2Enabled = signal(false);
+
+  protected readonly brandingValues = computed(() =>
+    this.#currentTheme().name === 'default' ? [] : AVAILABLE_BRANDS,
+  );
 
   protected readonly spacingValues = computed(() =>
     this.#currentTheme().supportedSpacing.map((spacing) => spacing.name),
@@ -65,7 +73,7 @@ export class SkyThemeSelectorComponent implements OnInit {
         this.themeName(),
         this.themeMode(),
         this.themeSpacing(),
-        this.modernV2Enabled(),
+        this.themeBrand(),
       );
     });
   }
@@ -78,7 +86,11 @@ export class SkyThemeSelectorComponent implements OnInit {
         this.themeName.set(previousSettings.themeName);
         this.themeMode.set(previousSettings.themeMode);
         this.themeSpacing.set(previousSettings.themeSpacing);
-        this.modernV2Enabled.set(!!previousSettings.modernV2Enabled);
+        this.themeBrand.set(
+          this.brandingValues().find(
+            (theme) => theme.name === previousSettings.themeBrand?.name,
+          ) ?? undefined,
+        );
       } catch {
         // Bad settings.
       }
@@ -89,13 +101,10 @@ export class SkyThemeSelectorComponent implements OnInit {
     themeName: ThemeSelectorValue,
     themeModeName: ThemeSelectorModeValue,
     themeSpacingName: ThemeSelectorSpacingValue,
-    modernV2Enabled: boolean,
+    themeBrand?: SkyThemeBrand,
   ): void {
     const themeSpacing = SkyThemeSpacing.presets[themeSpacingName];
     const themeMode = SkyThemeMode.presets[themeModeName];
-    const themeBrand = modernV2Enabled
-      ? new SkyThemeBrand('blackbaud', '1.0.0')
-      : undefined;
 
     let theme: SkyTheme;
 
@@ -106,14 +115,19 @@ export class SkyThemeSelectorComponent implements OnInit {
     }
 
     this.#themeSvc.setTheme(
-      new SkyThemeSettings(theme, themeMode, themeSpacing, themeBrand),
+      new SkyThemeSettings(
+        theme,
+        themeMode,
+        themeSpacing,
+        themeName !== 'default' ? themeBrand : undefined,
+      ),
     );
 
     this.#saveSettings({
       themeName: themeName,
       themeMode: themeModeName,
       themeSpacing: themeSpacingName,
-      modernV2Enabled: modernV2Enabled,
+      themeBrand: themeBrand,
     });
   }
 
