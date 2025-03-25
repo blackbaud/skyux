@@ -248,10 +248,7 @@ export class SkyInputBoxComponent
    * @internal
    */
   public containsElement(el: EventTarget): boolean {
-    if (el) {
-      return this.#elementRef.nativeElement.contains(el);
-    }
-    return false;
+    return this.#elementRef.nativeElement.contains(el);
   }
 
   public ngOnInit(): void {
