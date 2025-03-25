@@ -26,11 +26,11 @@
     content: '';
     height: var(
       --sky-override-daypicker-key-date-size,
-      var(--sky-size-icon-xxs)
+      var(--sky-size-icon-xxxs)
     );
     width: var(
       --sky-override-daypicker-key-date-size,
-      var(--sky-size-icon-xxs)
+      var(--sky-size-icon-xxxs)
     );
     background-color: var(
       --sky-override-daypicker-key-date-color,
@@ -39,7 +39,7 @@
     border-radius: 50%;
     left: var(
       --sky-override-daypicker-key-date-left,
-      calc(50% - calc(var(--sky-size-icon-xxs) / 2))
+      calc(50% - calc(var(--sky-size-icon-xxxs) / 2))
     );
     top: var(
       --sky-override-daypicker-key-date-top,
@@ -53,7 +53,7 @@
                   ) /
                   2
               )
-          ) - calc(var(--sky-size-icon-xxs) / 2)
+          ) - calc(var(--sky-size-icon-xxxs) / 2)
       )
     );
   }

@@ -7,10 +7,7 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
  */
 @Component({
   selector: 'sky-expansion-indicator',
-  styleUrls: [
-    './expansion-indicator.default.component.scss',
-    './expansion-indicator.modern.component.scss',
-  ],
+  styleUrls: ['./expansion-indicator.component.scss'],
   templateUrl: './expansion-indicator.component.html',
   hostDirectives: [SkyThemeComponentClassDirective],
   standalone: false,

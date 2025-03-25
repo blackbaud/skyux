@@ -1,5 +1,35 @@
 # Changelog
 
+## [12.0.0-alpha.15](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.14...12.0.0-alpha.15) (2025-03-24)
+
+
+### Features
+
+* **components/ag-grid:** add schematics for changes in AG Grid 33 ([#3279](https://github.com/blackbaud/skyux/issues/3279)) ([28a7ac7](https://github.com/blackbaud/skyux/commit/28a7ac7463950076be3b4be76d8e2117466a1c73))
+* **components/lists:** add infinite scroll test harness ([#3268](https://github.com/blackbaud/skyux/issues/3268)) ([#3272](https://github.com/blackbaud/skyux/issues/3272)) ([a65d9f3](https://github.com/blackbaud/skyux/commit/a65d9f384bea3410fe65e7348d22ab825439b2b9))
+* **components/lists:** add sort harnesses ([#3265](https://github.com/blackbaud/skyux/issues/3265)) ([#3278](https://github.com/blackbaud/skyux/issues/3278)) ([ef4e703](https://github.com/blackbaud/skyux/commit/ef4e7037766baa6fbc2049327d0d484a1195051f))
+* **components/pages:** links filtered with `SkyHrefResolverService` ([#3250](https://github.com/blackbaud/skyux/issues/3250)) ([33aecc3](https://github.com/blackbaud/skyux/commit/33aecc3387ba36f656d9fd4f1a1636503232eb2a))
+* **sdk/prettier-schematics:** add support for ESLint flat config ([#3280](https://github.com/blackbaud/skyux/issues/3280)) ([7901602](https://github.com/blackbaud/skyux/commit/790160225b951835839a8ccb65ffbce694ad04ff))
+
+
+### Bug Fixes
+
+* **components/docs-tools:** adjust heading anchors to fit within viewport ([#3276](https://github.com/blackbaud/skyux/issues/3276)) ([9359910](https://github.com/blackbaud/skyux/commit/935991026533e6c1d38006d36a099cb46d5ae7cc))
+* **components/forms:** file attachment code examples fix double download ([#3267](https://github.com/blackbaud/skyux/issues/3267)) ([#3271](https://github.com/blackbaud/skyux/issues/3271)) ([9575d86](https://github.com/blackbaud/skyux/commit/9575d8634d06cc5c85f5795554c88eab3c827749))
+
+## [11.47.0](https://github.com/blackbaud/skyux/compare/11.46.1...11.47.0) (2025-03-21)
+
+
+### Features
+
+* **components/lists:** add infinite scroll test harness ([#3268](https://github.com/blackbaud/skyux/issues/3268)) ([f581abe](https://github.com/blackbaud/skyux/commit/f581abe6018791c07f8c5c98876e75a5c26e6470))
+* **components/lists:** add sort harnesses ([#3265](https://github.com/blackbaud/skyux/issues/3265)) ([e2ec342](https://github.com/blackbaud/skyux/commit/e2ec342ee04534f7a8334e57b123f0bb8ac6a04b))
+
+
+### Bug Fixes
+
+* **components/forms:** file attachment code examples fix double download ([#3267](https://github.com/blackbaud/skyux/issues/3267)) ([791e6b3](https://github.com/blackbaud/skyux/commit/791e6b36e669c5442dae660861f717e2a5cf94b1))
+
 ## [12.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.13...12.0.0-alpha.14) (2025-03-19)
 
 
