@@ -243,6 +243,17 @@ export class SkyInputBoxComponent
   #previousMaxLengthValidator: ValidatorFn | undefined;
   #ngUnsubscribe = new Subject<void>();
 
+  /**
+   * Whether the input box component contains the focused element.
+   * @internal
+   */
+  public containsElement(el: EventTarget): boolean {
+    if (el) {
+      return this.#elementRef.nativeElement.contains(el);
+    }
+    return false;
+  }
+
   public ngOnInit(): void {
     this.#inputBoxHostSvc.init(this);
 
@@ -291,15 +302,14 @@ export class SkyInputBoxComponent
     }
   }
 
-  /**
-   * Whether the input box contains the focused element.
-   * @internal
-   */
-  public containsElement(el: EventTarget): boolean {
-    if (el) {
-      return this.#elementRef.nativeElement.contains(el);
-    }
-    return false;
+  public populate(args: SkyInputBoxPopulateArgs): void {
+    this.hostInputTemplate = args.inputTemplate;
+    this.hostButtonsTemplate = args.buttonsTemplate;
+    this.hostButtonsLeftTemplate = args.buttonsLeftTemplate;
+    this.hostButtonsInsetTemplate = args.buttonsInsetTemplate;
+    this.hostIconsInsetTemplate = args.iconsInsetTemplate;
+    this.hostIconsInsetLeftTemplate = args.iconsInsetLeftTemplate;
+    this.#changeRef.markForCheck();
   }
 
   /**
@@ -310,16 +320,6 @@ export class SkyInputBoxComponent
    */
   public queryPopulatedElement(query: string): HTMLElement {
     return this.#elementRef.nativeElement.querySelector(query);
-  }
-
-  public populate(args: SkyInputBoxPopulateArgs): void {
-    this.hostInputTemplate = args.inputTemplate;
-    this.hostButtonsTemplate = args.buttonsTemplate;
-    this.hostButtonsLeftTemplate = args.buttonsLeftTemplate;
-    this.hostButtonsInsetTemplate = args.buttonsInsetTemplate;
-    this.hostIconsInsetTemplate = args.iconsInsetTemplate;
-    this.hostIconsInsetLeftTemplate = args.iconsInsetLeftTemplate;
-    this.#changeRef.markForCheck();
   }
 
   public setHintTextHidden(hide: boolean): void {
