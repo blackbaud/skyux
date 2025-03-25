@@ -25,7 +25,8 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
           "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
           "libs/components/docs-tools/css/styles.css",
-          "apps/code-examples/src/styles.scss"
+          "apps/code-examples/src/styles.scss",
+          "node_modules/@blackbaud/skyux-design-tokens/scss/blackbaud.css"
         ],
         "scripts": []
       },
