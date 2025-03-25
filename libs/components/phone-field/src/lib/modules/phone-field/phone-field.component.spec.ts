@@ -1418,6 +1418,38 @@ describe('Phone Field Component', () => {
           expect(isPhoneFieldVisible(fixture)).toBeTrue();
           expect(isCountryFieldVisible(fixture)).toBeFalse();
         }));
+
+        it('should close country selector when dismiss button is clicked and move focus to phone field', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryInput = getCountrySearchToggleButton(fixture);
+          countryInput.click();
+          detectChangesAndTick(fixture);
+
+          const dismissButton = getCountrySearchDismissButton(fixture);
+          dismissButton.click();
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeTrue();
+
+          const phoneFieldInput = getPhoneFieldInput(fixture);
+          expect(document.activeElement === phoneFieldInput).toBeTruthy();
+        }));
+
+        it('should not move focus to phone field when country field is closed due to focus leaving phone field', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          const countryField = getCountrySearchInput(fixture);
+          SkyAppTestUtility.fireDomEvent(countryField, 'focusout');
+          detectChangesAndTick(fixture);
+
+          const phoneInput = getPhoneFieldInput(fixture);
+
+          expect(document.activeElement === phoneInput).toBeFalsy();
+        }));
       });
     });
   });
