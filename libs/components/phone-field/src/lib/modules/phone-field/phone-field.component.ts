@@ -421,7 +421,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   public onCountryFieldFocusout(e: FocusEvent): void {
     const target = e.relatedTarget;
-    if (this.inputBoxHostSvc) {
+    if (this.inputBoxHostSvc && target) {
       if (!this.inputBoxHostSvc.focusIsInInput(target)) {
         this.toggleCountrySearch(false);
       }
@@ -494,7 +494,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   private addFocusEventListener(el: HTMLElement): () => void {
     return this.#renderer.listen(el, 'focusout', (event: FocusEvent) => {
       const target = event.relatedTarget;
-      if (this.inputBoxHostSvc) {
+      if (this.inputBoxHostSvc && target) {
         if (!this.inputBoxHostSvc.focusIsInInput(target)) {
           this.toggleCountrySearch(false);
         }

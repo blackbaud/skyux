@@ -292,6 +292,7 @@ export class SkyInputBoxComponent
   }
 
   /**
+   * Whether the input box contains the focused element.
    * @internal
    */
   public containsElement(el: EventTarget): boolean {
@@ -302,9 +303,12 @@ export class SkyInputBoxComponent
   }
 
   /**
+   * Returns an element inside the input box.
+   * This can be used to query parts of a input box
+   * that was populated through the `SkyInputBoxHostService`
    * @internal
    */
-  public queryInternalElement(query: string): HTMLElement {
+  public queryPopulatedElement(query: string): HTMLElement {
     return this.#elementRef.nativeElement.querySelector(query);
   }
 

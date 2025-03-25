@@ -13,6 +13,8 @@ describe('Input box host service', () => {
     mockInputBox = jasmine.createSpyObj(
       'SkyInputBoxComponent',
       [
+        'containsElement',
+        'queryPopulatedElement',
         'populate',
         'setHostHintText',
         'setHintTextHidden',

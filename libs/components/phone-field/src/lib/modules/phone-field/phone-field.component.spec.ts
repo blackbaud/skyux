@@ -2446,7 +2446,14 @@ describe('Phone Field Component', () => {
           expect(isCountryFieldVisible(fixture)).toBeTrue();
 
           const countryInput = getCountrySearchInput(fixture);
-          SkyAppTestUtility.fireDomEvent(countryInput, 'focusout');
+          countryInput.dispatchEvent(
+            new FocusEvent('focusout', {
+              bubbles: true,
+              cancelable: true,
+              relatedTarget:
+                fixture.nativeElement.querySelector('.focus-out-target'),
+            }),
+          );
           detectChangesAndTick(fixture);
 
           expect(isPhoneFieldVisible(fixture)).toBeTrue();
@@ -2508,7 +2515,15 @@ describe('Phone Field Component', () => {
           countryButton.click();
           detectChangesAndTick(fixture);
 
-          SkyAppTestUtility.fireDomEvent(countryButton, 'focusout');
+          const relatedTarget =
+            fixture.nativeElement.querySelector('.focus-out-target');
+          countryButton.dispatchEvent(
+            new FocusEvent('focusout', {
+              bubbles: true,
+              cancelable: true,
+              relatedTarget,
+            }),
+          );
           detectChangesAndTick(fixture);
 
           expect(isPhoneFieldVisible(fixture)).toBeTrue();
