@@ -81,6 +81,8 @@
 
 .sky-tile-tools-control {
   @include mixins.sky-icon-button-borderless();
+  --sky-expansion-indicator-color: var(--sky-text-color-deemphasized);
+  color: var(--sky-text-color-deemphasized);
   border: 0;
   width: 24px;
   height: 24px;

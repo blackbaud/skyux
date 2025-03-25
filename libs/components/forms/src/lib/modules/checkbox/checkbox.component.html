@@ -43,7 +43,7 @@
     >
       @if (icon || iconName) {
         @if (iconName) {
-          <sky-icon iconSize="m" variant="solid" [iconName]="iconName" />
+          <sky-icon variant="solid" [iconName]="iconName" />
         } @else {
           <sky-icon [fixedWidth]="true" [icon]="icon" />
         }
@@ -58,6 +58,7 @@
           <sky-icon
             class="sky-checkbox-icon-modern-checked"
             iconName="checkmark"
+            iconSize="s"
           />
         }
       }
