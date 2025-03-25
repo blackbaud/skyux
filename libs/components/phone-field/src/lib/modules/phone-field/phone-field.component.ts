@@ -419,14 +419,13 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
-  public onCountryFieldFocusout(e: FocusEvent): void {
-    const target = e.relatedTarget;
-    if (this.inputBoxHostSvc && target) {
-      if (!this.inputBoxHostSvc.focusIsInInput(target)) {
+  public onCountryFieldFocusout({ relatedTarget }: FocusEvent): void {
+    if (this.inputBoxHostSvc && relatedTarget) {
+      if (!this.inputBoxHostSvc.focusIsInInput(relatedTarget)) {
         this.toggleCountrySearch(false);
       }
     } else {
-      if (!this.#elementRef.nativeElement.contains(target)) {
+      if (!this.#elementRef.nativeElement.contains(relatedTarget)) {
         this.toggleCountrySearch(false);
       }
     }

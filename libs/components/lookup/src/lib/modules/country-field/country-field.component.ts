@@ -152,7 +152,8 @@ export class SkyCountryFieldComponent
    * @internal
    */
   @Output()
-  public countryFieldFocusout: EventEmitter<Event> = new EventEmitter<Event>();
+  public countryFieldFocusout: EventEmitter<FocusEvent> =
+    new EventEmitter<FocusEvent>();
 
   public countries: SkyCountryFieldCountry[] = [];
 
@@ -364,7 +365,7 @@ export class SkyCountryFieldComponent
    * Called when the Autocomplete textarea loses focus
    * @internal
    */
-  public onAutocompleteFocusout(e: Event): void {
+  public onAutocompleteFocusout(e: FocusEvent): void {
     this.countryFieldFocusout.emit(e);
   }
 
