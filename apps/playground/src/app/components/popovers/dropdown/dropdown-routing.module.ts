@@ -27,6 +27,11 @@ const routes: ComponentRouteInfo[] = [
           import('./dropdown-example.component').then(
             (m) => m.DropdownExampleComponent,
           ),
+        data: {
+          name: 'Dropdown (iframe)',
+          icon: 'chevron-down',
+          library: 'popovers',
+        },
       },
     ]),
   ],

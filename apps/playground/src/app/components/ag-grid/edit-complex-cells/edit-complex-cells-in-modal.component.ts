@@ -32,6 +32,7 @@ export class EditComplexCellsInModalModalComponent {
 }
 
 @Component({
+  selector: 'app-edit-complex-cells-in-modal-modal-grid',
   template: `
     <app-edit-complex-cells-in-modal-modal>
       <app-edit-complex-cells-visual />
@@ -42,6 +43,7 @@ export class EditComplexCellsInModalModalComponent {
 export class EditComplexCellsInModalModalGridComponent {}
 
 @Component({
+  selector: 'app-edit-complex-cells-in-modal-modal-not-grid',
   template: `
     <app-edit-complex-cells-in-modal-modal>
       <p>Not a grid.</p>
