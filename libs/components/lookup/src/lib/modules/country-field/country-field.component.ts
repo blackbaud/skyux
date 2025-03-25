@@ -338,7 +338,7 @@ export class SkyCountryFieldComponent
    * Sets the component's touched value when the autocomplete is blurred
    * @internal
    */
-  public onAutocompleteBlur(e: Event): void {
+  public onAutocompleteBlur(): void {
     this.onTouched();
   }
 
