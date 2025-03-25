@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.48.0](https://github.com/blackbaud/skyux/compare/11.47.0...11.48.0) (2025-03-25)
+
+
+### Features
+
+* **components/indicators:** add text highlight harness ([#3277](https://github.com/blackbaud/skyux/issues/3277)) ([264d412](https://github.com/blackbaud/skyux/commit/264d412f6e7e53a561981ae9fc9f48ecbb7195f1))
+
 ## [11.47.0](https://github.com/blackbaud/skyux/compare/11.46.1...11.47.0) (2025-03-21)
 
 
