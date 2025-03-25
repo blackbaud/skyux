@@ -23,6 +23,8 @@ export class SkyThemeService {
 
   #current: SkyThemeSettings | undefined;
 
+  #brandLinkElement: HTMLLinkElement | undefined;
+
   #hostEl: any | undefined;
 
   #renderer: Renderer2 | undefined;
@@ -99,6 +101,25 @@ export class SkyThemeService {
         current,
         supportedProp,
       );
+
+      if (prop === 'brand') {
+        this.#updateBrandStylesheet(current.brand, previous?.brand);
+      }
+    }
+  }
+
+  #updateBrandStylesheet(
+    currentBrand: SkyThemeBrand | undefined,
+    previousBrand: SkyThemeBrand | undefined,
+  ): void {
+    if (
+      currentBrand &&
+      currentBrand.name !== 'blackbaud' &&
+      previousBrand !== currentBrand
+    ) {
+      this.#addBrandStylesheet(currentBrand);
+    } else {
+      this.#removeBrandStylesheet();
     }
   }
 
@@ -135,12 +156,50 @@ export class SkyThemeService {
     }
   }
 
+  #addBrandStylesheet(brand: SkyThemeBrand): void {
+    if (brand.name !== 'blackbaud') {
+      const cssPath = `https://sky.blackbaudcdn.net/static/skyux-brand-${brand.name}/${brand.version}/assets/scss/${brand.name}.css`;
+
+      // Create a link element via Angular's renderer to avoid SSR troubles
+      this.#brandLinkElement = this.#getRenderer().createElement(
+        'link',
+      ) as HTMLLinkElement;
+
+      // Add the style to the head section
+      this.#getRenderer().appendChild(this.#hostEl, this.#brandLinkElement);
+
+      // Set type of the link item and path to the css file
+      this.#getRenderer().setProperty(
+        this.#brandLinkElement,
+        'rel',
+        'stylesheet',
+      );
+      this.#getRenderer().setProperty(this.#brandLinkElement, 'href', cssPath);
+    }
+  }
+
+  #removeBrandStylesheet(): void {
+    if (this.#brandLinkElement) {
+      this.#getRenderer().removeChild(this.#hostEl, this.#brandLinkElement);
+      this.#brandLinkElement = undefined;
+    }
+  }
+
   #addHostClass(className: string): void {
-    this.#renderer!.addClass(this.#hostEl, className);
+    this.#getRenderer().addClass(this.#hostEl, className);
   }
 
   #removeHostClass(className: string): void {
-    this.#renderer!.removeClass(this.#hostEl, className);
+    this.#getRenderer().removeClass(this.#hostEl, className);
+  }
+
+  #getRenderer(): Renderer2 {
+    if (!this.#renderer) {
+      throw new Error(
+        'Renderer is not initialized. Have you called the theme service `init` method?',
+      );
+    }
+    return this.#renderer;
   }
 
   #isSupportedProperty(
