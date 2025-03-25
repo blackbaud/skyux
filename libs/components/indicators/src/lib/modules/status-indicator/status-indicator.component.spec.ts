@@ -56,7 +56,7 @@ describe('Status indicator component', () => {
 
     const iconEl = statusIndicatorEl.querySelector('sky-icon-svg');
 
-    expect(iconEl?.getAttribute('data-sky-icon')).toBe(`sky-${expectedIcon}`);
+    expect(iconEl?.getAttribute('data-sky-icon')).toBe(expectedIcon);
   }
 
   function validateDescription(

@@ -51,7 +51,7 @@ describe('Sectioned toolbar example', () => {
     )[0];
 
     const clickSpy = spyOn(fixture.componentInstance, 'onButtonClicked');
-    await toolbarButton?.click();
+    await toolbarButton.click();
     await expandButton.click();
     expect(clickSpy).toHaveBeenCalledTimes(2);
   });

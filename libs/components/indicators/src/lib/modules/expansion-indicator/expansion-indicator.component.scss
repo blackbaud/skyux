@@ -2,6 +2,20 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+@include compatMixins.sky-default-overrides('.sky-expansion-indicator') {
+  --sky-override-expansion-indicator-container-left: 4px;
+  --sky-override-expansion-indicator-container-top: 3.5px;
+  --sky-override-expansion-indicator-leg-left-left: 4px;
+  --sky-override-expansion-indicator-leg-right-left: 10.5px;
+  --sky-override-expansion-indicator-line-height: normal;
+  --sky-override-expansion-indicator-size: 26px;
+  --sky-override-expansion-indicator-size-half: 13px;
+  --sky-override-expansion-indicator-color: var(
+    --sky-expansion-indicator-color,
+    #{$sky-border-color-neutral-medium}
+  );
+}
+
 @include compatMixins.sky-modern-overrides('.sky-expansion-indicator') {
   --sky-override-expansion-indicator-container-left: 4px;
   --sky-override-expansion-indicator-container-top: 3.5px;
@@ -12,11 +26,11 @@
   --sky-override-expansion-indicator-size-half: 13px;
 }
 
-@include mixins.sky-component-host('modern') {
+:host {
   line-height: var(--sky-override-expansion-indicator-line-height, 1);
 }
 
-@include mixins.sky-component('modern', '.sky-expansion-indicator') {
+.sky-expansion-indicator {
   display: inline-block;
   border: none;
   background-color: transparent;
@@ -29,9 +43,13 @@
   width: var(--sky-override-expansion-indicator-size, var(--sky-size-icon-s));
 }
 
-@include mixins.sky-component('modern', '.sky-expansion-indicator-part') {
-  background: var(--sky-color-icon-deemphasized);
+.sky-expansion-indicator-part {
+  background: var(
+    --sky-override-expansion-indicator-color,
+    var(--sky-color-icon-deemphasized)
+  );
   border: none;
+  border-radius: 1px;
   display: inline-block;
   height: 2px;
   position: absolute;
@@ -46,10 +64,7 @@
   width: 11px;
 }
 
-@include mixins.sky-component(
-  'modern',
-  '.sky-expansion-indicator-glyph-container'
-) {
+.sky-expansion-indicator-glyph-container {
   left: var(--sky-override-expansion-indicator-container-left, 0);
   display: inline-block;
   position: absolute;
@@ -57,17 +72,15 @@
   transform: scale(0.68);
 }
 
-@include mixins.sky-component('modern', '.sky-expansion-indicator-left') {
-  border-radius: 1px 0 0 1px;
+.sky-expansion-indicator-left {
   left: var(--sky-override-expansion-indicator-leg-left-left, 2.75px);
 }
 
-@include mixins.sky-component('modern', '.sky-expansion-indicator-right') {
-  border-radius: 0 1px 1px 0;
+.sky-expansion-indicator-right {
   left: var(--sky-override-expansion-indicator-leg-right-left, 9.25px);
 }
 
-@include mixins.sky-component('modern', '.sky-expansion-indicator-up') {
+.sky-expansion-indicator-up {
   .sky-expansion-indicator-left {
     transform: rotate(-45deg);
   }
@@ -77,7 +90,7 @@
   }
 }
 
-@include mixins.sky-component('modern', '.sky-expansion-indicator-down') {
+.sky-expansion-indicator-down {
   .sky-expansion-indicator-left {
     transform: rotate(45deg);
   }
