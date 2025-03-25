@@ -6,6 +6,7 @@
     hintText="Attach a .pdf, .gif, .png, or .jpeg file."
     labelText="Birth certificate"
     [maxFileSize]="maxFileSize"
+    (fileClick)="fileClick($event)"
   >
     @if (attachment.errors?.['invalidStartingLetter']) {
       <sky-form-error
