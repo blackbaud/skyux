@@ -248,7 +248,7 @@ export class SkyInputBoxComponent
    * @internal
    */
   public containsElement(el: EventTarget): boolean {
-    return this.#elementRef.nativeElement.contains(el);
+    return this.#adapterService.containsElement(this.#elementRef, el);
   }
 
   public ngOnInit(): void {
@@ -316,7 +316,7 @@ export class SkyInputBoxComponent
    * @internal
    */
   public queryPopulatedElement(query: string): HTMLElement {
-    return this.#elementRef.nativeElement.querySelector(query);
+    return this.#adapterService.queryElement(this.#elementRef, query);
   }
 
   public setHintTextHidden(hide: boolean): void {
