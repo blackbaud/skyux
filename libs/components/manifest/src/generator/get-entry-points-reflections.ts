@@ -1,17 +1,13 @@
 import { execSync } from 'node:child_process';
-import path from 'node:path';
 import {
   Application,
+  Converter,
   type DeclarationReflection,
   type ProjectReflection,
 } from 'typedoc';
 
+import { applyDecoratorMetadata } from './apply-decorator-metadata';
 import type { DeclarationReflectionWithDecorators } from './types/declaration-reflection-with-decorators';
-
-const TYPEDOC_PLUGIN_PATH = path.join(
-  __dirname,
-  './plugins/typedoc-plugin-decorators.mjs',
-);
 
 type ProjectReflectionWithChildren = ProjectReflection & {
   children: ParentReflectionWithChildren[];
@@ -43,7 +39,6 @@ async function getTypeDocProjectReflection(
     gitRemote: 'origin',
     gitRevision: branch,
     logLevel: 'Error',
-    plugin: [TYPEDOC_PLUGIN_PATH],
     tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
     compilerOptions: {
       skipLibCheck: true,
@@ -52,6 +47,8 @@ async function getTypeDocProjectReflection(
     },
     exclude: ['**/(fixtures|node_modules)/**', '**/*+(.fixture|.spec).ts'],
   });
+
+  app.converter.on(Converter.EVENT_CREATE_DECLARATION, applyDecoratorMetadata);
 
   const projectRefl = await app.convert();
 
