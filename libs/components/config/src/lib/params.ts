@@ -181,7 +181,7 @@ export class SkyAppRuntimeConfigParams {
   /**
    * Adds the current params to the supplied link URL.
    * @param url The url to update.
-   * @param queryParams Optional query parameters to include in the constructed url.
+   * @param options Options used to create link URLs.
    */
   public getLinkUrl(url: string, options?: SkyConfigGetLinkUrlOptions): string {
     return this.#buildUrlWithParams(
