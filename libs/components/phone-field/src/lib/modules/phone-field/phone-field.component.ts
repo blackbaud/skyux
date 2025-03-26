@@ -419,6 +419,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
+  // todo: remove this if no longer needed after a scalable focus monitor service is implemented
   public onCountryFieldFocusout({ relatedTarget }: FocusEvent): void {
     if (this.inputBoxHostSvc && relatedTarget) {
       if (!this.inputBoxHostSvc.focusIsInInput(relatedTarget)) {
@@ -490,6 +491,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
+  // todo: remove this if no longer needed after a scalable focus monitor service is implemented
   private addFocusEventListener(el: HTMLElement): () => void {
     return this.#renderer.listen(el, 'focusout', (event: FocusEvent) => {
       const target = event.relatedTarget;
