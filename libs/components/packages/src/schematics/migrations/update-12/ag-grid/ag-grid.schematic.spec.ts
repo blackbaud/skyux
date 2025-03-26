@@ -199,4 +199,53 @@ describe('ag-grid.schematic', () => {
         export class AppModule {}`,
     );
   });
+
+  it('should update AG Grid API calls', async () => {
+    expect.assertions(1);
+    const { tree } = setupTest({
+      dependencies: {
+        '@skyux/ag-grid': '0.0.0',
+        'ag-grid-community': UPDATE_TO_VERSION,
+        'ag-grid-angular': UPDATE_TO_VERSION,
+      },
+    });
+    tree.create(
+      'src/app/test.component.ts',
+      stripIndent`
+        import { Component } from '@angular/core';
+        import { GridApi, GridOptions } from 'ag-grid-community';
+
+        @Component({ selector: 'app-test', template: '' })
+        export class AppTestComponent implements OnInit {
+          public gridApi: GridApi;
+          public gridOptions: GridOptions;
+
+          public ngOnInit() {
+            if (!this.gridOptions?.api) {
+              console.log(this.gridApi.getLastDisplayedRow());
+              this.gridOptions.api.setColumnVisible('test', false);
+            }
+          }
+        }`,
+    );
+    await runner.runSchematic('ag-grid', {}, tree);
+    expect(tree.readText('src/app/test.component.ts')).toEqual(
+      stripIndent`
+        import { Component } from '@angular/core';
+        import { GridApi, GridOptions } from 'ag-grid-community';
+
+        @Component({ selector: 'app-test', template: '' })
+        export class AppTestComponent implements OnInit {
+          public gridApi: GridApi;
+          public gridOptions: GridOptions;
+
+          public ngOnInit() {
+            if (!this.gridApi) {
+              console.log(this.gridApi.getLastDisplayedRowIndex());
+              this.gridApi.setColumnsVisible(['test'], false);
+            }
+          }
+        }`,
+    );
+  });
 });

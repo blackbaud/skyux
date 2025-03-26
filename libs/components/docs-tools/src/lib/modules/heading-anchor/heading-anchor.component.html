@@ -44,13 +44,14 @@
 <ng-content />
 
 <ng-template #headingTextRef>
+  <span class="sky-docs-heading-anchor-position" [attr.id]="anchorId()"></span>
   <a
     class="sky-docs-heading-anchor-link"
     queryParamsHandling="merge"
     [fragment]="anchorId()"
     [routerLink]="[]"
   >
-    <sky-icon iconName="link" iconSize="m" />
+    <sky-icon iconName="link" />
     <span class="sky-screen-reader-only"
       >Link for section titled {{ headingText() }}</span
     >

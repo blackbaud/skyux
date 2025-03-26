@@ -167,7 +167,7 @@ describe('Label component', () => {
       getLabel(fixture)
         .querySelector('sky-icon-svg')
         ?.getAttribute('data-sky-icon'),
-    ).toBe('sky-warning');
+    ).toBe('warning');
   });
 
   it('should render the correct icon when no `labelType` is given', () => {
@@ -178,7 +178,7 @@ describe('Label component', () => {
       getLabelWithoutLabelType(fixture)
         .querySelector('sky-icon-svg')
         ?.getAttribute('data-sky-icon'),
-    ).toBe('sky-info');
+    ).toBe('info');
   });
 
   describe('a11y', () => {

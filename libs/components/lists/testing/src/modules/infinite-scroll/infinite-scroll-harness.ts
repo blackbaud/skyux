@@ -4,7 +4,6 @@ import { SkyInfiniteScrollHarnessFilters } from './infinite-scroll-harness-filte
 
 /**
  * Harness for interacting with an infinite scroll component in tests.
- * @internal
  */
 export class SkyInfiniteScrollHarness extends SkyComponentHarness {
   /**

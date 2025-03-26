@@ -14,7 +14,6 @@
     --sky-text-color-action-primary-hover
   );
   --sky-override-button-link-inline-font-size: var(--sky-font-size-body-m);
-  --sky-override-button-link-inline-vertical-align: top;
   --sky-override-button-padding: 9px 21px;
 
   --sky-override-button-primary-disabled-box-shadow:
@@ -368,7 +367,6 @@
     padding: var(--sky-space-inset-balanced-none);
     color: var(--sky-color-text-action);
     font-size: var(--sky-override-button-link-inline-font-size, inherit);
-    vertical-align: var(--sky-override-button-link-inline-vertical-align, '');
 
     &:focus-visible:not(:active) {
       background-color: var(--sky-color-background-action-tertiary-focus);
@@ -420,7 +418,6 @@
     color: var(--sky-color-text-deemphasized);
     padding: var(--sky-space-inset-balanced-none);
     font-size: var(--sky-override-button-link-inline-font-size, inherit);
-    vertical-align: var(--sky-override-button-link-inline-vertical-align, '');
 
     &:focus-visible:not(:active) {
       box-shadow:
