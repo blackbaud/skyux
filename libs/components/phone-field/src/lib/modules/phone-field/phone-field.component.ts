@@ -388,7 +388,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   /**
    * Sets the country to validate against based on the county's iso2 code.
-   * @param countryCode The International Organization for Standardization's two-letter code
+   * @param newCountry The International Organization for Standardization's two-letter code
    * for the default country.
    * @internal
    */
