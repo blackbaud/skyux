@@ -494,10 +494,10 @@ describe('Country Field Component', () => {
         expect(changeEventSpy).not.toHaveBeenCalled();
       }));
 
-      it('should emit the focusout event when focus leaves autocomplete text area', fakeAsync(() => {
+      it('should emit the `countryFieldFocusOut` event when focus leaves autocomplete text area', fakeAsync(() => {
         fixture.detectChanges();
 
-        const focusOutSpy = spyOn(component, 'focusOut');
+        const focusOutSpy = spyOn(component, 'focusLeftCountryField');
         const textAreaElement = getInputElement();
         SkyAppTestUtility.fireDomEvent(textAreaElement, 'focusout');
         fixture.detectChanges();

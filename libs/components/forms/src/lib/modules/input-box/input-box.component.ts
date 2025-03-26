@@ -243,14 +243,6 @@ export class SkyInputBoxComponent
   #previousMaxLengthValidator: ValidatorFn | undefined;
   #ngUnsubscribe = new Subject<void>();
 
-  /**
-   * Whether the input box component contains the focused element.
-   * @internal
-   */
-  public containsElement(el: EventTarget): boolean {
-    return this.#adapterService.containsElement(this.#elementRef, el);
-  }
-
   public ngOnInit(): void {
     this.#inputBoxHostSvc.init(this);
 
@@ -277,6 +269,14 @@ export class SkyInputBoxComponent
     this.ariaDescribedBy.complete();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+  }
+
+  /**
+   * Whether the input box component contains the focused element.
+   * @internal
+   */
+  public containsElement(el: EventTarget): boolean {
+    return this.#adapterService.containsElement(this.#elementRef, el);
   }
 
   public formControlFocusIn(): void {

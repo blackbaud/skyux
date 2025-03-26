@@ -151,7 +151,7 @@ export class SkyCountryFieldComponent
    * Fires when the country field is focused out.
    * @internal
    */
-  // todo: remove this if no longer needed after a scalable focus monitor service is implemented
+  // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
   @Output()
   public countryFieldFocusout: EventEmitter<FocusEvent> =
     new EventEmitter<FocusEvent>();

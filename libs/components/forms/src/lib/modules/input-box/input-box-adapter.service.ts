@@ -17,7 +17,7 @@ export class SkyInputBoxAdapterService {
   /**
    * Returns whether the provided input box contains the focus event target.
    */
-  // todo: remove this if no longer needed after a scalable focus monitor service is implemented
+  // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
   public containsElement(inputRef: ElementRef, el: EventTarget): boolean {
     return inputRef.nativeElement.contains(el);
   }
@@ -79,7 +79,7 @@ export class SkyInputBoxAdapterService {
   /**
    * Queries the provided input box with the query string.
    */
-  // todo: remove this if no longer needed after a scalable focus monitor service is implemented
+  // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
   public queryElement(inputRef: ElementRef, query: string): HTMLElement {
     return inputRef.nativeElement.querySelector(query);
   }

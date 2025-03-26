@@ -419,7 +419,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
-  // todo: remove this if no longer needed after a scalable focus monitor service is implemented
+  // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
   public onCountryFieldFocusout({ relatedTarget }: FocusEvent): void {
     if (this.inputBoxHostSvc && relatedTarget) {
       if (!this.inputBoxHostSvc.focusIsInInput(relatedTarget)) {
@@ -438,15 +438,19 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     } else {
       this.#adapterService.focusCountrySearchElement(e.element);
 
+      let countryFlagButton: HTMLElement | undefined;
+      let dismissCountrySearchButton: HTMLElement | undefined;
+
       // add event listeners for focusout from the buttons on either side of country search field.
-      let countryFlagButton = this.#elementRef.nativeElement.querySelector(
-        'button.sky-phone-field-country-select-btn',
-      );
-      let dismissCountrySearchButton =
-        this.#elementRef.nativeElement.querySelector(
-          'button.sky-phone-field-search-btn-dismiss',
+      if (!this.inputBoxHostSvc) {
+        countryFlagButton = this.#elementRef.nativeElement.querySelector(
+          'button.sky-phone-field-country-select-btn',
         );
-      if (this.inputBoxHostSvc) {
+        dismissCountrySearchButton =
+          this.#elementRef.nativeElement.querySelector(
+            'button.sky-phone-field-search-btn-dismiss',
+          );
+      } else {
         countryFlagButton = this.inputBoxHostSvc.queryHost(
           'button.sky-phone-field-country-select-btn',
         );
@@ -455,11 +459,13 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         );
       }
 
-      this.#countryFlagFocusListenerFn =
-        this.addFocusEventListener(countryFlagButton);
-      this.#dismissCountrySearchFocusListenerFn = this.addFocusEventListener(
-        dismissCountrySearchButton,
-      );
+      if (countryFlagButton && dismissCountrySearchButton) {
+        this.#countryFlagFocusListenerFn =
+          this.addFocusEventListener(countryFlagButton);
+        this.#dismissCountrySearchFocusListenerFn = this.addFocusEventListener(
+          dismissCountrySearchButton,
+        );
+      }
     }
 
     this.#changeDetector.markForCheck();
@@ -491,7 +497,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
-  // todo: remove this if no longer needed after a scalable focus monitor service is implemented
+  // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
   private addFocusEventListener(el: HTMLElement): () => void {
     return this.#renderer.listen(el, 'focusout', (event: FocusEvent) => {
       const target = event.relatedTarget;

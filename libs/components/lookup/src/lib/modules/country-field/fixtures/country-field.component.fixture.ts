@@ -34,7 +34,7 @@ export class CountryFieldTestComponent {
     return;
   }
 
-  public focusOut(e: FocusEvent): void {
+  public focusLeftCountryField(e: FocusEvent): void {
     return;
   }
 }
