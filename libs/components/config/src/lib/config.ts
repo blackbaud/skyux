@@ -84,8 +84,8 @@ export interface SkyuxConfigAppBrandDefault {
 }
 
 export interface SkyuxConfigAppTheming {
-  supportedThemes?: SkyuxConfigAppSupportedTheme[];
-  theme?: SkyuxConfigAppSupportedTheme;
+  supportedThemes: SkyuxConfigAppSupportedTheme[];
+  theme: SkyuxConfigAppSupportedTheme;
   brand?: SkyuxConfigAppBrand;
 }
 
