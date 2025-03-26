@@ -6,7 +6,7 @@ export function getThemeStylesheets(): string[] {
 }
 
 export function ensureSkyuxStylesheets(
-  existingStylesheets: string[],
+  existingStylesheets: string[] = [],
 ): string[] {
   return [...new Set(getThemeStylesheets().concat(existingStylesheets))];
 }
