@@ -11,7 +11,17 @@ describe('Theme service', () => {
   let mockHostEl: {
     foo: string;
   };
-  let mockRenderer: { addClass: jasmine.Spy; removeClass: jasmine.Spy };
+  let mockLinkElement: {
+    href: string;
+  };
+  let mockRenderer: {
+    addClass: jasmine.Spy;
+    appendChild: jasmine.Spy;
+    createElement: jasmine.Spy;
+    removeClass: jasmine.Spy;
+    removeChild: jasmine.Spy;
+    setProperty: jasmine.Spy;
+  };
 
   function validateSettingsApplied(
     current: SkyThemeSettings,
@@ -20,7 +30,7 @@ describe('Theme service', () => {
     validateThemeClass(current);
     validateModeClass(current);
     validateSpacingClass(current);
-    validateBrandClass(current, previous);
+    validateBrand(current, previous);
   }
 
   function validateThemeClass(
@@ -68,7 +78,8 @@ describe('Theme service', () => {
     }
   }
 
-  function validateBrandClass(
+  // eslint-disable-next-line complexity
+  function validateBrand(
     current: SkyThemeSettings,
     previous?: SkyThemeSettings,
   ): void {
@@ -83,6 +94,28 @@ describe('Theme service', () => {
           mockHostEl,
           `sky-theme-brand-base`,
         );
+
+        if (current.brand.name !== 'blackbaud') {
+          expect(mockRenderer.createElement).toHaveBeenCalledWith('link');
+          expect(mockRenderer.setProperty).toHaveBeenCalledWith(
+            mockLinkElement,
+            'rel',
+            'stylesheet',
+          );
+          expect(mockRenderer.setProperty).toHaveBeenCalledWith(
+            mockLinkElement,
+            'href',
+            `https://sky.blackbaudcdn.net/static/skyux-brand-${current.brand.name}/${current.brand.version}/assets/scss/${current.brand.name}.css`,
+          );
+          expect(mockRenderer.appendChild).toHaveBeenCalledWith(
+            mockHostEl,
+            mockLinkElement,
+          );
+        } else {
+          expect(mockRenderer.createElement).not.toHaveBeenCalled();
+          expect(mockRenderer.setProperty).not.toHaveBeenCalled();
+          expect(mockRenderer.appendChild).not.toHaveBeenCalled();
+        }
       }
     } else {
       expect(mockRenderer.addClass).not.toHaveBeenCalledWith(
@@ -103,6 +136,14 @@ describe('Theme service', () => {
           mockHostEl,
           'sky-theme-brand-base',
         );
+        if (previous.brand.name !== 'blackbaud') {
+          expect(mockRenderer.removeChild).toHaveBeenCalledWith(
+            mockHostEl,
+            mockLinkElement,
+          );
+        } else {
+          expect(mockRenderer.removeChild).not.toHaveBeenCalled();
+        }
       }
     }
   }
@@ -110,12 +151,21 @@ describe('Theme service', () => {
   beforeEach(() => {
     mockRenderer = jasmine.createSpyObj('mockRenderer', [
       'addClass',
+      'appendChild',
+      'createElement',
       'removeClass',
+      'removeChild',
+      'setProperty',
     ]);
 
     mockHostEl = {
       foo: 'bar',
     };
+    mockLinkElement = {
+      href: 'moo',
+    };
+
+    mockRenderer.createElement.and.returnValue(mockLinkElement);
   });
 
   it('should apply the initial theme', () => {
@@ -134,6 +184,21 @@ describe('Theme service', () => {
       expect(settingsChange.currentSettings).toBe(settings);
       expect(settingsChange.previousSettings).toBeUndefined();
     });
+  });
+
+  it('should error if settings are attempted to be changed prior to initialization', () => {
+    const themeSvc = new SkyThemeService();
+
+    const settings = new SkyThemeSettings(
+      SkyTheme.presets.modern,
+      SkyThemeMode.presets.dark,
+    );
+
+    expect(() => {
+      themeSvc.setTheme(settings);
+    }).toThrowError(
+      'Renderer is not initialized. Have you called the theme service `init` method?',
+    );
   });
 
   it('should fire the settings change event as settings are applied', () => {
@@ -240,6 +305,36 @@ describe('Theme service', () => {
   });
 
   it('should apply branding', () => {
+    const themeSvc = new SkyThemeService();
+
+    const settingsWithBranding = new SkyThemeSettings(
+      SkyTheme.presets.modern,
+      SkyThemeMode.presets.light,
+      SkyThemeSpacing.presets.compact,
+      new SkyThemeBrand('rainbow', '1.0.1'),
+    );
+
+    themeSvc.init(
+      mockHostEl,
+      mockRenderer as unknown as Renderer2,
+      settingsWithBranding,
+    );
+
+    validateSettingsApplied(settingsWithBranding);
+    mockRenderer.addClass.calls.reset();
+    mockRenderer.removeClass.calls.reset();
+
+    const settingsWithoutBranding = new SkyThemeSettings(
+      SkyTheme.presets.default,
+      SkyThemeMode.presets.dark,
+    );
+
+    themeSvc.setTheme(settingsWithoutBranding);
+
+    validateSettingsApplied(settingsWithoutBranding, settingsWithBranding);
+  });
+
+  it('should apply branding (blackbaud brand)', () => {
     const themeSvc = new SkyThemeService();
 
     const settingsWithBranding = new SkyThemeSettings(

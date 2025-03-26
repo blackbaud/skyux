@@ -75,7 +75,7 @@ export class DataViewGridComponent implements OnInit {
   public viewConfig: SkyDataViewConfig = {
     id: this.viewId,
     name: 'Grid View',
-    icon: 'table',
+    iconName: 'table',
     searchEnabled: true,
     searchHighlightEnabled: true,
     multiselectToolbarEnabled: true,

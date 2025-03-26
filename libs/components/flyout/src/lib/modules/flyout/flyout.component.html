@@ -41,7 +41,11 @@
         (keydown)="onHeaderGrabHandleKeyDown($event)"
         (mousedown)="onHeaderGrabHandleMouseDown($event)"
       >
-        <sky-icon *skyThemeIf="'modern'" iconName="re-order-dots-vertical" />
+        <sky-icon
+          *skyThemeIf="'modern'"
+          iconName="re-order-dots-vertical"
+          iconSize="s"
+        />
       </button>
 
       @if (config.showIterator) {
@@ -66,7 +70,7 @@
         }"
         (click)="close()"
       >
-        <sky-icon iconName="dismiss" />
+        <sky-icon iconName="close" />
       </button>
     </div>
   </div>

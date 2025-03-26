@@ -32,6 +32,7 @@ export class ReadonlyGridInModalModalComponent {
 }
 
 @Component({
+  selector: 'app-readonly-grid-in-modal-modal-grid',
   template: `
     <app-readonly-grid-in-modal-modal>
       <app-readonly-grid-visual />
@@ -42,6 +43,7 @@ export class ReadonlyGridInModalModalComponent {
 export class ReadonlyGridInModalModalGridComponent {}
 
 @Component({
+  selector: 'app-readonly-grid-in-modal-modal-not-grid',
   template: `
     <app-readonly-grid-in-modal-modal>
       <p>Not a grid.</p>

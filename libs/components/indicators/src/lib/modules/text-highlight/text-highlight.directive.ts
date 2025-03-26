@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Directive,
   ElementRef,
+  HostBinding,
   Input,
   OnChanges,
   OnDestroy,
@@ -124,6 +125,8 @@ export class SkyTextHighlightDirective
       this.#searchTerms = [value as string];
     }
   }
+
+  @HostBinding('attr.skyHighlight') public readonly highlight = true;
 
   #existingHighlight = false;
 

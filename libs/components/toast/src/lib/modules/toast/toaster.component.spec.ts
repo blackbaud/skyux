@@ -142,7 +142,7 @@ describe('Toaster component', () => {
     validateToastMessage(toasts[0], message);
     expect(toasts.item(0).querySelector('.sky-toast-info')).toExist();
     expect(
-      toasts.item(0).querySelector('sky-icon-svg[data-sky-icon="sky-info"]'),
+      toasts.item(0).querySelector('sky-icon-svg[data-sky-icon="info"]'),
     ).toExist();
   }));
 
@@ -155,7 +155,7 @@ describe('Toaster component', () => {
     validateToastMessage(toasts[0], message);
     expect(toasts.item(0).querySelector('.sky-toast-danger')).toExist();
     expect(
-      toasts.item(0).querySelector('sky-icon-svg[data-sky-icon="sky-warning"]'),
+      toasts.item(0).querySelector('sky-icon-svg[data-sky-icon="warning"]'),
     ).toExist();
   }));
 

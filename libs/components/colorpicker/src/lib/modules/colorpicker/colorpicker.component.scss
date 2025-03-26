@@ -30,7 +30,6 @@
   --sky-override-colorpicker-disabled-cursor: default;
   --sky-override-colorpicker-disabled-opacity: 0.65;
   --sky-override-colorpicker-icon-font-size: 12px;
-  --sky-override-colorpicker-icon-offset: 2px;
 }
 
 @include compatMixins.sky-default-overrides('.sky-colorpicker-container') {
@@ -206,12 +205,6 @@ sky-colorpicker.sky-form-field-stacked {
       inset 0 0 0 var(--sky-color-picker-inner-border-size)
         var(--sky-color-border-action-secondary-disabled)
     );
-  }
-
-  .sky-colorpicker-button-icon {
-    position: relative;
-    // TODO: remove positioning when updating to SVG icons
-    bottom: var(--sky-override-colorpicker-icon-offset, 1px);
   }
 }
 

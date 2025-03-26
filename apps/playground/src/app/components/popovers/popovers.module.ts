@@ -8,11 +8,6 @@ const routes: Routes = [
       import('./dropdown/dropdown.module').then((m) => m.DropdownModule),
   },
   {
-    path: 'dropdown-iframe',
-    loadChildren: () =>
-      import('./dropdown/dropdown.module').then((m) => m.DropdownModule),
-  },
-  {
     path: 'popovers',
     loadChildren: () =>
       import('./popovers/popovers.module').then((m) => m.PopoversModule),
