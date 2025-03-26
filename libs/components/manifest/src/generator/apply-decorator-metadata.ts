@@ -28,11 +28,10 @@ function getInputName(args: CallExpressionArgs): string | undefined {
 }
 
 function getPipeName(args: CallExpressionArgs): string {
-  /* v8 ignore start: pipes will always have a name */
   return (
+    /* istanbul ignore next: pipes will always have a name */
     args.symbol?.members.get('name')?.valueDeclaration.initializer.text ?? ''
   );
-  /* v8 ignore stop */
 }
 
 function getSelector(args: CallExpressionArgs): string {
