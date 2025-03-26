@@ -39,6 +39,7 @@
           [autocompleteAttribute]="autocompleteAttribute"
           [formControl]="countrySearchFormControl"
           (blur)="onAutocompleteBlur()"
+          (focusout)="onAutocompleteFocusout($event)"
         ></textarea>
       </div>
     </sky-autocomplete>

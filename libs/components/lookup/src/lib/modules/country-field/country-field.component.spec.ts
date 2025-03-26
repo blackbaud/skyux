@@ -493,6 +493,17 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
         expect(changeEventSpy).not.toHaveBeenCalled();
       }));
+
+      it('should emit the `countryFieldFocusOut` event when focus leaves autocomplete text area', fakeAsync(() => {
+        fixture.detectChanges();
+
+        const focusOutSpy = spyOn(component, 'focusLeftCountryField');
+        const textAreaElement = getInputElement();
+        SkyAppTestUtility.fireDomEvent(textAreaElement, 'focusout');
+        fixture.detectChanges();
+
+        expect(focusOutSpy).toHaveBeenCalled();
+      }));
     });
 
     describe('validation', () => {
