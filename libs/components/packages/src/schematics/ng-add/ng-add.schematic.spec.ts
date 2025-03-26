@@ -1,4 +1,7 @@
-import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
+import {
+  SchematicTestRunner,
+  UnitTestTree,
+} from '@angular-devkit/schematics/testing';
 
 import path from 'path';
 
@@ -12,7 +15,10 @@ describe('ng-add.schematic', () => {
   const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
   const defaultProjectName = 'my-lib';
 
-  async function setupTest() {
+  async function setupTest(): Promise<{
+    runSchematic: (options?: { project?: string }) => Promise<UnitTestTree>;
+    tree: UnitTestTree;
+  }> {
     const tree = await createTestLibrary(runner, {
       projectName: defaultProjectName,
     });
@@ -68,6 +74,27 @@ describe('ng-add.schematic', () => {
       '@skyux/theme/css/sky.css',
       '@skyux/theme/css/themes/modern/styles.css',
       'projects/my-lib-showcase/src/styles.css',
+    ]);
+  });
+
+  it('should add SKY UX theme stylesheets if styles array missing', async () => {
+    const { runSchematic, tree } = await setupTest();
+
+    // Delete the styles array for the test target.
+    const angularJson = readJson(tree, 'angular.json');
+    const architect = angularJson.projects['my-lib-showcase'].architect;
+    delete architect.test.options.styles;
+    tree.overwrite('angular.json', JSON.stringify(angularJson, undefined, 2));
+
+    const updatedTree = await runSchematic({ project: 'my-lib-showcase' });
+    const updatedAngularJson = readJson(updatedTree, 'angular.json');
+
+    expect(
+      updatedAngularJson.projects['my-lib-showcase'].architect.test.options
+        .styles,
+    ).toEqual([
+      '@skyux/theme/css/sky.css',
+      '@skyux/theme/css/themes/modern/styles.css',
     ]);
   });
 
