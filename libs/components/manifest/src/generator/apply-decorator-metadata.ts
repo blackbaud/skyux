@@ -5,8 +5,10 @@ import {
   TypeScript as ts,
 } from 'typedoc';
 
-import type { DeclarationReflectionDecorator } from './types/declaration-reflection-with-decorators.js';
-import { DeclarationReflectionWithDecorators } from './types/declaration-reflection-with-decorators.js';
+import type {
+  DeclarationReflectionDecorator,
+  DeclarationReflectionWithDecorators,
+} from './types/declaration-reflection-with-decorators.js';
 
 interface CallExpressionArgs {
   text?: string;

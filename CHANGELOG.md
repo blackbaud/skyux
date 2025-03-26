@@ -1,5 +1,39 @@
 # Changelog
 
+## [11.48.0](https://github.com/blackbaud/skyux/compare/11.47.0...11.48.0) (2025-03-25)
+
+
+### Features
+
+* **components/indicators:** add text highlight harness ([#3277](https://github.com/blackbaud/skyux/issues/3277)) ([264d412](https://github.com/blackbaud/skyux/commit/264d412f6e7e53a561981ae9fc9f48ecbb7195f1))
+
+## [12.0.0-beta.0](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.15...12.0.0-beta.0) (2025-03-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/phone-field:** 
+* **components/forms:** revert `fileClick` event to no longer download attached file ([#3284](https://github.com/blackbaud/skyux/issues/3284))
+* **components/core:** update querySelector method signature ([#3282](https://github.com/blackbaud/skyux/issues/3282))
+
+### Features
+
+* **components/config:** add theme brand properties to config theming object ([#3293](https://github.com/blackbaud/skyux/issues/3293)) ([5963a4f](https://github.com/blackbaud/skyux/commit/5963a4f0f5eae46249bc076bb7e13e742fcbe43c))
+* **components/forms:** revert `fileClick` event to no longer download attached file ([#3284](https://github.com/blackbaud/skyux/issues/3284)) ([d412024](https://github.com/blackbaud/skyux/commit/d41202416a8b4d40ba7c0a935e830b4f23ce03f6))
+* **components/help-inline:** use solid icon for help inline ([#3292](https://github.com/blackbaud/skyux/issues/3292)) ([ba46769](https://github.com/blackbaud/skyux/commit/ba46769a895263094405b61acb25fe161ba6492f))
+* **components/icon:** add additional icon sizes, change default size to medium ([#3258](https://github.com/blackbaud/skyux/issues/3258)) ([19418bd](https://github.com/blackbaud/skyux/commit/19418bd08cbc0c60c99a3184e0782ae57899a931))
+* **components/indicators:** add text highlight harness ([#3277](https://github.com/blackbaud/skyux/issues/3277)) ([#3288](https://github.com/blackbaud/skyux/issues/3288)) ([6e5fa8f](https://github.com/blackbaud/skyux/commit/6e5fa8f9c13f71504abf64cff193dd810fb699dc))
+* **components/phone-field:** close country field when focus leaves phone field ([#3281](https://github.com/blackbaud/skyux/issues/3281)) ([adcc32b](https://github.com/blackbaud/skyux/commit/adcc32b6265988d3a6ad9fd7339fffaa29278ccc))
+* **components/theme:** initialize styles from remote source when theme branding is enabled ([#3289](https://github.com/blackbaud/skyux/issues/3289)) ([1dc6a41](https://github.com/blackbaud/skyux/commit/1dc6a415116a155b059ca4dc764d6216a3091c34))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** use correct spacing in ag-grid header buttons ([#3290](https://github.com/blackbaud/skyux/issues/3290)) ([029cb36](https://github.com/blackbaud/skyux/commit/029cb368d65f18dae1ec4b394a3492a04e755b4b))
+* **components/core:** update querySelector method signature ([#3282](https://github.com/blackbaud/skyux/issues/3282)) ([50d196c](https://github.com/blackbaud/skyux/commit/50d196c001e6eb35ea81f4fb1bae6cd8bb4113a7))
+* **components/packages:** add SKY UX stylesheets to new projects when `styles` array missing ([#3291](https://github.com/blackbaud/skyux/issues/3291)) ([2e78ef3](https://github.com/blackbaud/skyux/commit/2e78ef370818e61f3fe5dab6531805c3e13e523e))
+* **components/theme:** baseline align inline link buttons ([#3286](https://github.com/blackbaud/skyux/issues/3286)) ([2977403](https://github.com/blackbaud/skyux/commit/29774037215476a244c67acd1f5ec57aaaa1378d))
+
 ## [12.0.0-alpha.15](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.14...12.0.0-alpha.15) (2025-03-24)
 
 

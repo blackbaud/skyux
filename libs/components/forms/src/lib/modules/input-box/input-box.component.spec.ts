@@ -960,6 +960,46 @@ describe('Input box component', () => {
       await expectAsync(els.inputBoxEl).toBeAccessible();
     });
 
+    it('should get whether the component contains an element', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const elementInside = fixture.nativeElement.querySelector(
+        '.input-inside-host-service',
+      );
+
+      expect(
+        fixture.componentInstance.inputBoxHostServiceComponent?.containsElement(
+          elementInside,
+        ),
+      ).toBeTrue();
+
+      const elementNotInside = fixture.nativeElement.querySelector(
+        '.input-not-wrapped-no-autocomplete',
+      );
+
+      expect(
+        fixture.componentInstance.inputBoxHostServiceComponent?.containsElement(
+          elementNotInside,
+        ),
+      ).toBeFalse();
+    });
+
+    it('should query an element inside the input box component', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const elementInside = fixture.nativeElement.querySelector(
+        '.input-inside-host-service',
+      );
+      const queriedElement =
+        fixture.componentInstance.inputBoxHostServiceComponent?.queryInputBox(
+          '.input-inside-host-service',
+        );
+
+      expect(elementInside === queriedElement).toBeTrue();
+    });
+
     it('should preserve existing aria-describedby attributes when adding hint text', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 

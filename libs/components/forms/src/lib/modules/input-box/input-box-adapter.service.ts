@@ -14,6 +14,14 @@ const ARIA_DESCRIBEDBY_ATTR = 'aria-describedby';
 export class SkyInputBoxAdapterService {
   #renderer = inject(RendererFactory2).createRenderer(undefined, null);
 
+  /**
+   * Returns whether the provided input box contains the focus event target.
+   */
+  // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
+  public containsElement(inputRef: ElementRef, el: EventTarget): boolean {
+    return inputRef.nativeElement.contains(el);
+  }
+
   public focusControl(elRef: ElementRef): void {
     const control = elRef.nativeElement.querySelector('.sky-form-control');
     /* istanbul ignore else */
@@ -66,6 +74,14 @@ export class SkyInputBoxAdapterService {
     if (describedByIds.length !== previousCount) {
       this.#setDescribedByIds(inputEl, describedByIds);
     }
+  }
+
+  /**
+   * Queries the provided input box with the query string.
+   */
+  // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
+  public queryElement(inputRef: ElementRef, query: string): HTMLElement {
+    return inputRef.nativeElement.querySelector(query);
   }
 
   #setDescribedByIds(inputEl: HTMLElement, describedByIds: string[]): void {

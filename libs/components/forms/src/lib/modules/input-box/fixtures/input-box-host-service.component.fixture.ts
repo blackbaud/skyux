@@ -47,4 +47,12 @@ export class InputBoxHostServiceFixtureComponent implements OnInit {
   public setHintTextScreenReaderOnly(hide: boolean): void {
     this.#inputBoxHostSvc.setHintTextScreenReaderOnly(hide);
   }
+
+  public containsElement(el: EventTarget): boolean {
+    return this.#inputBoxHostSvc.focusIsInInput(el);
+  }
+
+  public queryInputBox(query: string): HTMLElement | undefined {
+    return this.#inputBoxHostSvc.queryHost(query);
+  }
 }
