@@ -290,7 +290,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   #defaultCountryData: SkyPhoneFieldCountry | undefined;
 
-  #phoneInputAnimationTriggered = false;
+  #focusPhoneInputAfterAnimation = false;
 
   #phoneNumberFormatHintTextTemplateString = '';
 
@@ -398,7 +398,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         (countryInfo) => countryInfo.iso2 === newCountry.iso2,
       );
 
-      this.#phoneInputAnimationTriggered = true;
+      this.#focusPhoneInputAfterAnimation = true;
       this.toggleCountrySearch(false);
     }
   }
@@ -472,7 +472,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   }
 
   public dismissButtonClicked(): void {
-    this.#phoneInputAnimationTriggered = true;
+    this.#focusPhoneInputAfterAnimation = true;
     this.toggleCountrySearch(false);
   }
 
@@ -480,9 +480,9 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     if (!this.phoneInputShown) {
       this.countrySearchShown = true;
     } else {
-      if (this.#phoneInputAnimationTriggered) {
+      if (this.#focusPhoneInputAfterAnimation) {
         this.#adapterService.focusPhoneInput(e.element);
-        this.#phoneInputAnimationTriggered = false;
+        this.#focusPhoneInputAfterAnimation = false;
       }
 
       // Remove focus out event listeners now that country search is closed.
