@@ -9,7 +9,11 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { SkyFileAttachmentModule, SkyFileItem } from '@skyux/forms';
+import {
+  SkyFileAttachmentClick,
+  SkyFileAttachmentModule,
+  SkyFileItem,
+} from '@skyux/forms';
 
 /**
  * Demonstrates how to create a custom validator function for your form control.
@@ -49,5 +53,15 @@ export class FormsFileAttachmentBasicExampleComponent {
     this.formGroup = inject(FormBuilder).group({
       attachment: this.attachment,
     });
+  }
+
+  protected onFileClick($event: SkyFileAttachmentClick): void {
+    // Ensure we are only attempting to navigate to locally updated data for download.
+    if ($event.file.url.startsWith('data:')) {
+      const link = document.createElement('a');
+      link.download = $event.file.file.name;
+      link.href = $event.file.url;
+      link.click();
+    }
   }
 }
