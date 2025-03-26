@@ -2,9 +2,9 @@ describe('get-project-definitions', () => {
   function setup(options: { testingEntryPointExists: boolean }): void {
     jest.mock('node:fs', () => {
       return {
-        existsSync: jest
-          .fn()
-          .mockImplementation(() => options.testingEntryPointExists),
+        existsSync: jest.fn().mockImplementationOnce(() => {
+          return options.testingEntryPointExists;
+        }),
       };
     });
   }
@@ -17,9 +17,7 @@ describe('get-project-definitions', () => {
   it('should get project definitions', async () => {
     setup({ testingEntryPointExists: true });
 
-    const { getProjectDefinitions } = await import(
-      './get-project-definitions.js'
-    );
+    const { getProjectDefinitions } = await import('./get-project-definitions');
 
     expect(getProjectDefinitions('my/projects/', ['foo', 'bar'])).toEqual([
       {
@@ -43,9 +41,7 @@ describe('get-project-definitions', () => {
   it('should add a trailing slash to project directory if not provided', async () => {
     setup({ testingEntryPointExists: true });
 
-    const { getProjectDefinitions } = await import(
-      './get-project-definitions.js'
-    );
+    const { getProjectDefinitions } = await import('./get-project-definitions');
 
     expect(getProjectDefinitions('my/projects', ['foo'])).toEqual([
       {
@@ -63,9 +59,7 @@ describe('get-project-definitions', () => {
   it('should not include a testing entry point if it does not exist', async () => {
     setup({ testingEntryPointExists: false });
 
-    const { getProjectDefinitions } = await import(
-      './get-project-definitions.js'
-    );
+    const { getProjectDefinitions } = await import('./get-project-definitions');
 
     expect(getProjectDefinitions('my/projects', ['foo'])).toEqual([
       {
