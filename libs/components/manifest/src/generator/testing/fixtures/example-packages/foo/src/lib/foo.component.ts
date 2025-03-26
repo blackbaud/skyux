@@ -1,9 +1,11 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   Output,
+  ViewChild,
   booleanAttribute,
   input,
   output,
@@ -53,6 +55,13 @@ export class FooComponent implements OnDestroy {
    */
   @Output()
   public onTouch = new EventEmitter<void>();
+
+  /**
+   * This describes a public query property.
+   * (The generator should not collect decorator information for this property.)
+   */
+  @ViewChild('foo')
+  public myChild: ElementRef | undefined;
 
   public ngOnDestroy(): void {
     /* */
