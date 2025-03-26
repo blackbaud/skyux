@@ -354,7 +354,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts\\",
         \\"kind\\": \\"component\\",
         \\"name\\": \\"SkyFooNonStandaloneComponent\\",
-        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L70\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L79\\",
         \\"selector\\": \\"sky-foo-non-standalone\\"
       },
       {
@@ -364,7 +364,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts\\",
         \\"kind\\": \\"component\\",
         \\"name\\": \\"SkyFooStandaloneComponent\\",
-        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L80\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L89\\",
         \\"selector\\": \\"sky-foo-standalone\\"
       },
       {
@@ -414,7 +414,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts\\",
         \\"kind\\": \\"component\\",
         \\"name\\": \\"FooComponent\\",
-        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L18\\",
+        \\"repoUrl\\": \\"https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L20\\",
         \\"selector\\": \\"lib-foo\\"
       },
       {

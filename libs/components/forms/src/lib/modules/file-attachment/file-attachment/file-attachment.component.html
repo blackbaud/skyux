@@ -109,12 +109,7 @@
     @if (value || currentThemeName === 'default') {
       <span class="sky-file-attachment-file-link">
         @if (value) {
-          <a
-            [href]="isData ? value.url : undefined"
-            [download]="isData ? value.file.name : undefined"
-            [attr.title]="fileName"
-            (click)="emitClick()"
-          >
+          <a [attr.title]="fileName" (click)="emitClick()">
             {{ truncatedFileName }}
           </a>
         } @else {
