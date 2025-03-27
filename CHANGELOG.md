@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.0.0-beta.1](https://github.com/blackbaud/skyux/compare/12.0.0-beta.0...12.0.0-beta.1) (2025-03-27)
+
+
+### Bug Fixes
+
+* update icon mappings for schematic and lint rule ([#3299](https://github.com/blackbaud/skyux/issues/3299)) ([29fffb8](https://github.com/blackbaud/skyux/commit/29fffb8dd9a349f2a9102ba9a417fa4c83fd8d2a))
+
 ## [11.48.0](https://github.com/blackbaud/skyux/compare/11.47.0...11.48.0) (2025-03-25)
 
 
