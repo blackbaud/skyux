@@ -20,6 +20,7 @@ export class SkyTheme {
       'sky-theme-modern',
       [SkyThemeMode.presets.light, SkyThemeMode.presets.dark],
       [SkyThemeSpacing.presets.standard, SkyThemeSpacing.presets.compact],
+      true,
     ),
   };
 
@@ -36,5 +37,6 @@ export class SkyTheme {
     public readonly hostClass: string,
     public readonly supportedModes: SkyThemeMode[],
     public readonly supportedSpacing = [SkyThemeSpacing.presets.standard],
+    public readonly supportsBranding = false,
   ) {}
 }
