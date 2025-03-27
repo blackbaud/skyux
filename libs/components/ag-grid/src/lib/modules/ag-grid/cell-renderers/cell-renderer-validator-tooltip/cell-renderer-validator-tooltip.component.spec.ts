@@ -50,14 +50,6 @@ describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
         fixture.componentInstance.cellRendererParams,
       ),
     ).toBeFalse();
-
-    const valueFormatter = jasmine.createSpy('valueFormatter');
-
-    fixture.componentInstance.cellRendererParams.colDef = { valueFormatter };
-    fixture.componentInstance.agInit(
-      fixture.componentInstance.cellRendererParams,
-    );
-    expect(valueFormatter).toHaveBeenCalled();
   });
 
   it('should support getString method', async () => {
@@ -66,7 +58,7 @@ describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
     );
     fixture.componentInstance.params = {
       skyComponentProperties: {
-        getString: () => of('Test value ABC'),
+        valueResourceObservable: () => of('Test value ABC'),
         validator: () => false,
         validatorMessage: 'Test message ABC',
       },

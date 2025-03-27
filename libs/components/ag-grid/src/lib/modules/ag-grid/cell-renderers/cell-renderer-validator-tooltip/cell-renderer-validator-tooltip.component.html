@@ -1,7 +1,3 @@
 <sky-ag-grid-cell-validator-tooltip [params]="cellRendererParams">
-  @if (isObservable(value)) {
-    {{ value | async }}
-  } @else {
-    {{ value }}
-  }
+  {{ valueObservable | async }}
 </sky-ag-grid-cell-validator-tooltip>
