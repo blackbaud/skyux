@@ -1,8 +1,10 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
+  inject,
   signal,
 } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
@@ -64,6 +66,7 @@ export class SkyAgGridCellValidatorTooltipComponent {
     }
 
     this.showValidatorMessage.set(this.#showValidatorMessage());
+    this.#changeDetector.markForCheck();
   }
 
   public popoverMessageStream = new Subject<SkyPopoverMessage>();
@@ -72,6 +75,7 @@ export class SkyAgGridCellValidatorTooltipComponent {
 
   protected readonly showValidatorMessage = signal(false);
 
+  readonly #changeDetector = inject(ChangeDetectorRef);
   #listenersAdded = false;
 
   public hidePopover(): void {
