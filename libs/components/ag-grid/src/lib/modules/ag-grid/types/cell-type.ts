@@ -97,7 +97,7 @@ export enum SkyCellType {
   /**
    * **Edit and read-only modes**
    * <br/>
-   * Cells in the column will be passed to a validator function that flags erroneous entries. You can set the validator function and message by passing them to [column definition's `cellRendererParams` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing) as `skyComponentProperties.validator` and `skyComponentProperties.validatorMessage`. SkyCellType.Validator can be combined with other cell types, such as SkyCellType.Autocomplete or SkyCellType.Date, by using the array syntax for the [column definition's `type` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing).
+   * Cells in the column will be passed to a validator function that flags erroneous entries. You can set the validator function and message by passing a `SkyAgGridValidatorProperties` object as `skyComponentProperties` to [column definition's `cellRendererParams` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing), like `skyComponentProperties.validator` and `skyComponentProperties.validatorMessage`. SkyCellType.Validator can be combined with other cell types, such as SkyCellType.Autocomplete or SkyCellType.Date, by using the array syntax for the [column definition's `type` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing).
    */
   Validator = 'skyCellValidator',
 }

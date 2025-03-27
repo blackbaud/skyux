@@ -3,10 +3,12 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnDestroy,
+  inject,
 } from '@angular/core';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
-import { ValueFormatterParams } from 'ag-grid-community';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-validator-params';
 
@@ -19,7 +21,7 @@ import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-valida
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyAgGridCellRendererValidatorTooltipComponent
-  implements ICellRendererAngularComp
+  implements ICellRendererAngularComp, OnDestroy
 {
   @Input()
   public set params(value: SkyCellRendererValidatorParams) {
@@ -29,24 +31,43 @@ export class SkyAgGridCellRendererValidatorTooltipComponent
   public cellRendererParams: SkyCellRendererValidatorParams | undefined;
   public value: unknown;
 
-  #changeDetector: ChangeDetectorRef;
+  protected valueObservable = new BehaviorSubject('');
 
-  constructor(changeDetector: ChangeDetectorRef) {
-    this.#changeDetector = changeDetector;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  #valueSubscription: Subscription | undefined;
+
+  public ngOnDestroy(): void {
+    this.#valueSubscription?.unsubscribe();
+    this.valueObservable.complete();
   }
 
   public agInit(params: SkyCellRendererValidatorParams): void {
     this.cellRendererParams = params;
-    if (typeof params.colDef?.valueFormatter === 'function') {
-      this.value = params.colDef.valueFormatter(params as ValueFormatterParams);
+    this.#valueSubscription?.unsubscribe();
+    this.#valueSubscription = new Subscription();
+    if (
+      typeof params.skyComponentProperties?.valueResourceObservable ===
+      'function'
+    ) {
+      this.#valueSubscription.add(
+        params.skyComponentProperties
+          .valueResourceObservable(
+            params.value,
+            params.data,
+            params.node?.rowIndex,
+          )
+          .subscribe((result) => {
+            this.valueObservable.next(result);
+          }),
+      );
     } else {
-      this.value = params.value;
+      this.valueObservable.next(params.valueFormatted ?? params.value);
     }
     this.#changeDetector.markForCheck();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public refresh(params: unknown): boolean {
+  public refresh(params: SkyCellRendererValidatorParams): boolean {
+    this.agInit(params);
     return false;
   }
 }

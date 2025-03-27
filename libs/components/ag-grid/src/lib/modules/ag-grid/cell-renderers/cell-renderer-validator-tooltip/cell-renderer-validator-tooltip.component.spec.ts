@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
+import { of } from 'rxjs';
+
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-validator-params';
 
@@ -48,13 +50,25 @@ describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
         fixture.componentInstance.cellRendererParams,
       ),
     ).toBeFalse();
+  });
 
-    const valueFormatter = jasmine.createSpy('valueFormatter');
-
-    fixture.componentInstance.cellRendererParams.colDef = { valueFormatter };
-    fixture.componentInstance.agInit(
-      fixture.componentInstance.cellRendererParams,
+  it('should support getString method', async () => {
+    const fixture = TestBed.createComponent(
+      SkyAgGridCellRendererValidatorTooltipComponent,
     );
-    expect(valueFormatter).toHaveBeenCalled();
+    fixture.componentInstance.params = {
+      skyComponentProperties: {
+        valueResourceObservable: () => of('Test value ABC'),
+        validator: () => false,
+        validatorMessage: 'Test message ABC',
+      },
+      value: 'Test value',
+    } as unknown as SkyCellRendererValidatorParams;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(fixture.componentInstance).toBeTruthy();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(fixture.nativeElement.textContent.trim()).toEqual('Test value ABC');
   });
 });
