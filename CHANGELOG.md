@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.0.0-beta.2](https://github.com/blackbaud/skyux/compare/12.0.0-beta.1...12.0.0-beta.2) (2025-03-27)
+
+
+### Features
+
+* **components/theme:** theme service validates if branding is available for the current theme when applying brands ([#3301](https://github.com/blackbaud/skyux/issues/3301)) ([b35604f](https://github.com/blackbaud/skyux/commit/b35604f29b0eafb29e16351b9478a7ddf1b159dc))
+
 ## [12.0.0-beta.1](https://github.com/blackbaud/skyux/compare/12.0.0-beta.0...12.0.0-beta.1) (2025-03-27)
 
 
