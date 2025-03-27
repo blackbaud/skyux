@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.49.0](https://github.com/blackbaud/skyux/compare/11.48.0...11.49.0) (2025-03-27)
+
+
+### Features
+
+* **components/ag-grid:** add `valueResourceObservable` parameter for validator tooltip cell type ([#3298](https://github.com/blackbaud/skyux/issues/3298)) ([4ade97e](https://github.com/blackbaud/skyux/commit/4ade97e0fdc7259fbeb313af662b0cdfd7442bf5))
+
 ## [11.48.0](https://github.com/blackbaud/skyux/compare/11.47.0...11.48.0) (2025-03-25)
 
 
