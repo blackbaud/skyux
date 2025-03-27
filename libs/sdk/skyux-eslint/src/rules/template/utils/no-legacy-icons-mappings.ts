@@ -1,9 +1,5 @@
 import { LegacyIconReplacement } from './types';
 
-
-
-
-
 /**
  * A map of legacy icons to their replacements.
  */
