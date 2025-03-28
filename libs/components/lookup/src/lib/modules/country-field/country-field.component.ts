@@ -147,6 +147,15 @@ export class SkyCountryFieldComponent
   public selectedCountryChange: EventEmitter<SkyCountryFieldCountry> =
     new EventEmitter<SkyCountryFieldCountry>();
 
+  /**
+   * Fires when the country field is focused out.
+   * @internal
+   */
+  // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
+  @Output()
+  public countryFieldFocusout: EventEmitter<FocusEvent> =
+    new EventEmitter<FocusEvent>();
+
   public countries: SkyCountryFieldCountry[] = [];
 
   public countrySearchFormControl: UntypedFormControl;
@@ -351,6 +360,14 @@ export class SkyCountryFieldComponent
     } else {
       this.writeValue(undefined);
     }
+  }
+
+  /**
+   * Called when the Autocomplete textarea loses focus
+   * @internal
+   */
+  public onAutocompleteFocusout(e: FocusEvent): void {
+    this.countryFieldFocusout.emit(e);
   }
 
   // Angular automatically constructs these methods.

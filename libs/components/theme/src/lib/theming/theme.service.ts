@@ -103,6 +103,10 @@ export class SkyThemeService {
       );
 
       if (prop === 'brand') {
+        if (!current.theme.supportsBranding && currentSetting) {
+          throw new Error('Branding is not supported for the given theme.');
+        }
+
         this.#updateBrandStylesheet(current.brand, previous?.brand);
       }
     }

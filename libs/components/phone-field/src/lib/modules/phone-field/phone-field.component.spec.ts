@@ -62,6 +62,18 @@ describe('Phone Field Component', () => {
     );
   }
 
+  function getCountrySearchDismissButton(
+    fixture: ComponentFixture<
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
+    >,
+  ): HTMLInputElement {
+    return fixture.nativeElement.querySelector(
+      'button.sky-phone-field-search-btn-dismiss',
+    );
+  }
+
   function detectChangesAndTick(
     fixture: ComponentFixture<
       | PhoneFieldTestComponent
@@ -73,6 +85,28 @@ describe('Phone Field Component', () => {
     tick();
     fixture.detectChanges();
     tick(500);
+  }
+
+  function isPhoneFieldVisible(
+    fixture: ComponentFixture<
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
+    >,
+  ): boolean {
+    const phoneInput = getPhoneFieldInput(fixture);
+    return phoneInput !== null;
+  }
+
+  function isCountryFieldVisible(
+    fixture: ComponentFixture<
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
+    >,
+  ): boolean {
+    const phoneInput = getCountrySearchInput(fixture);
+    return phoneInput !== null;
   }
 
   function setInput(
@@ -1288,6 +1322,135 @@ describe('Phone Field Component', () => {
           fixture,
         );
       }));
+
+      describe('focus handling', () => {
+        it('should close country field when focus leaves phone field', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeFalse();
+          expect(isCountryFieldVisible(fixture)).toBeTrue();
+
+          const countryInput = getCountrySearchInput(fixture);
+          SkyAppTestUtility.fireDomEvent(countryInput, 'focusout');
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeTrue();
+          expect(isCountryFieldVisible(fixture)).toBeFalse();
+        }));
+
+        it('should not close country field when focus moves to dismiss button', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          const relatedTarget = getCountrySearchDismissButton(
+            fixture,
+          ) as EventTarget;
+          const countryField = getCountrySearchInput(fixture);
+
+          countryField.dispatchEvent(
+            new FocusEvent('focusout', {
+              bubbles: true,
+              cancelable: true,
+              relatedTarget,
+            }),
+          );
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeFalse();
+          expect(isCountryFieldVisible(fixture)).toBeTrue();
+        }));
+
+        it('should not close country field when focus moves to country search toggle button', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          const relatedTarget = countryButton as EventTarget;
+          const countryField = getCountrySearchInput(fixture);
+
+          countryField.dispatchEvent(
+            new FocusEvent('focusout', {
+              bubbles: true,
+              cancelable: true,
+              relatedTarget,
+            }),
+          );
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeFalse();
+          expect(isCountryFieldVisible(fixture)).toBeTrue();
+        }));
+
+        it('should close country field when focus leaves dismiss button', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          const dismissButton = getCountrySearchDismissButton(fixture);
+          SkyAppTestUtility.fireDomEvent(dismissButton, 'focusout');
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeTrue();
+          expect(isCountryFieldVisible(fixture)).toBeFalse();
+        }));
+
+        it('should close country field when focus leaves country search toggle button', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          SkyAppTestUtility.fireDomEvent(countryButton, 'focusout');
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeTrue();
+          expect(isCountryFieldVisible(fixture)).toBeFalse();
+        }));
+
+        it('should close country selector when dismiss button is clicked and move focus to phone field', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryInput = getCountrySearchToggleButton(fixture);
+          countryInput.click();
+          detectChangesAndTick(fixture);
+
+          const dismissButton = getCountrySearchDismissButton(fixture);
+          dismissButton.click();
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeTrue();
+
+          const phoneFieldInput = getPhoneFieldInput(fixture);
+          expect(document.activeElement === phoneFieldInput).toBeTruthy();
+        }));
+
+        it('should not move focus to phone field when country field is closed due to focus leaving phone field', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          const countryField = getCountrySearchInput(fixture);
+          SkyAppTestUtility.fireDomEvent(countryField, 'focusout');
+          detectChangesAndTick(fixture);
+
+          const phoneInput = getPhoneFieldInput(fixture);
+
+          expect(document.activeElement === phoneInput).toBeFalsy();
+        }));
+      });
     });
   });
 
@@ -2269,5 +2432,104 @@ describe('Phone Field Component', () => {
 
       expect(hintTextEl).not.toBeVisible({ checkCssVisibility: true });
     }));
+
+    describe('country selector', () => {
+      describe('focus handling', () => {
+        it('should close country field when focus leaves phone field', fakeAsync(() => {
+          detectChangesAndTick(fixture);
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeFalse();
+          expect(isCountryFieldVisible(fixture)).toBeTrue();
+
+          const countryInput = getCountrySearchInput(fixture);
+          countryInput.dispatchEvent(
+            new FocusEvent('focusout', {
+              bubbles: true,
+              cancelable: true,
+              relatedTarget:
+                fixture.nativeElement.querySelector('.focus-out-target'),
+            }),
+          );
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeTrue();
+          expect(isCountryFieldVisible(fixture)).toBeFalse();
+        }));
+
+        it('should not close country field when focus moves to dismiss button', fakeAsync(() => {
+          detectChangesAndTick(fixture);
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          const relatedTarget = getCountrySearchDismissButton(
+            fixture,
+          ) as EventTarget;
+          const countryField = getCountrySearchInput(fixture);
+
+          countryField.dispatchEvent(
+            new FocusEvent('focusout', {
+              bubbles: true,
+              cancelable: true,
+              relatedTarget,
+            }),
+          );
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeFalse();
+          expect(isCountryFieldVisible(fixture)).toBeTrue();
+        }));
+
+        it('should not close country field when focus moves to country search toggle button', fakeAsync(() => {
+          detectChangesAndTick(fixture);
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          const relatedTarget = countryButton as EventTarget;
+          const countryField = getCountrySearchInput(fixture);
+
+          countryField.dispatchEvent(
+            new FocusEvent('focusout', {
+              bubbles: true,
+              cancelable: true,
+              relatedTarget,
+            }),
+          );
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeFalse();
+          expect(isCountryFieldVisible(fixture)).toBeTrue();
+        }));
+
+        it('should close country field when focus leaves country search toggle button', fakeAsync(() => {
+          detectChangesAndTick(fixture);
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          const relatedTarget =
+            fixture.nativeElement.querySelector('.focus-out-target');
+          countryButton.dispatchEvent(
+            new FocusEvent('focusout', {
+              bubbles: true,
+              cancelable: true,
+              relatedTarget,
+            }),
+          );
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeTrue();
+          expect(isCountryFieldVisible(fixture)).toBeFalse();
+        }));
+      });
+    });
   });
 });
