@@ -5,6 +5,16 @@
   padding: $sky-space-xl 0;
 }
 
+::ng-deep .hover-rows {
+  .sky-repeater-item:not(.sky-repeater-item-selected) {
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--sky-background-color-selected);
+    }
+  }
+}
+
 @include defaultMixins.sky-theme-modern {
   .sky-lookup-show-more-no-results {
     padding: $sky-theme-modern-space-xl 0;
