@@ -38,12 +38,10 @@ export class SkyActionButtonIconComponent {
   @Input()
   public iconName: string | undefined;
 
-  readonly #breakpoint = toSignal(
-    inject(SkyMediaQueryService).breakpointChange,
-  );
+  readonly breakpoint = toSignal(inject(SkyMediaQueryService).breakpointChange);
 
   protected fontSizeClass = computed(() => {
-    return this.#breakpoint() === 'xs'
+    return this.breakpoint() === 'xs'
       ? FONTSIZECLASS_SMALL
       : FONTSIZECLASS_LARGE;
   });
