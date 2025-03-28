@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import design from '@blackbaud/skyux-design-tokens/json/design-tokens.json';
+import { SkyTheme, SkyThemeSettings } from '@skyux/theme';
 
 import FontFaceObserver from 'fontfaceobserver';
 import { Observable, from } from 'rxjs';
@@ -7,7 +8,7 @@ import { map } from 'rxjs/operators';
 
 const SPRITE_ID = 'sky-icon-svg-sprite';
 
-async function waitForSvgSpriteAndTokens(): Promise<void> {
+async function waitForSvgSprite(theme?: SkyThemeSettings): Promise<void> {
   let svgAdded = false;
   return await new Promise<void>((resolve) => {
     if (document.getElementById(SPRITE_ID)) {
@@ -27,9 +28,14 @@ async function waitForSvgSpriteAndTokens(): Promise<void> {
 
         if (
           svgAdded &&
-          getComputedStyle(document.body).getPropertyValue(
-            'modern-font-size-100',
-          )
+          (!(theme?.theme === SkyTheme.presets.modern) ||
+            (getComputedStyle(document.body).getPropertyValue(
+              '--modern-font-size-100',
+            ) &&
+              (!(theme.brand?.name === 'blackbaud') ||
+                getComputedStyle(document.body).getPropertyValue(
+                  '--blackbaud-font-size-100',
+                ))))
         ) {
           observer.disconnect();
           resolve();
@@ -47,7 +53,10 @@ async function waitForSvgSpriteAndTokens(): Promise<void> {
   providedIn: 'root',
 })
 export class FontLoadingService {
-  public ready(waitForSvgIconsAndTokens?: boolean): Observable<boolean> {
+  public ready(
+    waitForSvgIcons?: boolean,
+    themeSettings?: SkyThemeSettings,
+  ): Observable<boolean> {
     const fonts: FontFaceObserver[] = [
       design.text.weight.light,
       design.text.weight.regular,
@@ -76,8 +85,8 @@ export class FontLoadingService {
 
     const fontPromises = fonts.map((font) => font.load());
 
-    if (waitForSvgIconsAndTokens) {
-      fontPromises.push(waitForSvgSpriteAndTokens());
+    if (waitForSvgIcons) {
+      fontPromises.push(waitForSvgSprite(themeSettings));
     }
 
     return from(Promise.all(fontPromises)).pipe(map(() => true));
