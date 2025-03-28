@@ -23,7 +23,7 @@
       "executor": "nx:run-commands",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-manifest.ts",
+        "command": "npx vite-node ./scripts/postbuild-manifest.mts",
         "outputPath": "dist/libs/components/manifest"
       },
       "dependsOn": [

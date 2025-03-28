@@ -1,0 +1,24 @@
+{
+  "name": "manifest-generator",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/components/manifest-generator/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/components/manifest-generator"
+      ],
+      "options": {
+        "config": "libs/components/manifest-generator/vitest.config.ts"
+      }
+    }
+  }
+}

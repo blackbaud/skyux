@@ -1,9 +1,0 @@
-{
-  "$schema": "../../../../../../documentation-schema.json",
-  "groups": {
-    "invalid": {
-      "docsIds": ["FooCodeExampleNoSelector"],
-      "primaryDocsId": "FooCodeExampleNoSelector"
-    }
-  }
-}
