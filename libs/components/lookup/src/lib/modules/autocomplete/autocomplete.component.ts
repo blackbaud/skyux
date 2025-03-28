@@ -860,7 +860,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
       return this.allowAnyValue()
         ? this.#combineSearchTextWithResult(searchAsyncArgs)
-        : searchAsyncArgs.result || of(undefined);
+        : searchAsyncArgs.result?.pipe(take(1)) || of(undefined);
     }
 
     const result = this.searchOrDefault(this.searchText, this.data, {
