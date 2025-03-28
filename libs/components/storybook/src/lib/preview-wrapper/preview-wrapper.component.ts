@@ -19,6 +19,8 @@ import {
   SkyThemeSpacing,
 } from '@skyux/theme';
 
+import { Subject, takeUntil } from 'rxjs';
+
 import { FontLoadingService } from '../font-loading/font-loading.service';
 
 import { PreviewWrapperThemeValue } from './preview-wrapper-theme-value';
@@ -72,8 +74,6 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected ready = toSignal(inject(FontLoadingService).ready(true));
-
   #_themeSettings = new SkyThemeSettings(
     SkyTheme.presets.default,
     SkyThemeMode.presets.light,
@@ -81,8 +81,12 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
   #initialized = false;
 
   #body: HTMLElement;
+  #fontLoadingService = inject(FontLoadingService);
+  #ngUnsubscribe = new Subject();
   #themeService: SkyThemeService;
   #renderer: Renderer2;
+
+  protected ready = toSignal(this.#fontLoadingService.ready(true));
 
   constructor(
     themeService: SkyThemeService,
@@ -97,6 +101,14 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.#themeService.init(this.#body, this.#renderer, this.themeSettings);
     this.#initialized = true;
+
+    this.#themeService.settingsChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((newSettings) => {
+        this.ready = toSignal(
+          this.#fontLoadingService.ready(true, newSettings.currentSettings),
+        );
+      });
   }
 
   public ngOnDestroy(): void {
