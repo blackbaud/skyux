@@ -37,11 +37,10 @@
 
 sky-search {
   // only rendered in default
-  .sky-search-btn-apply {
+  .sky-input-group-btn .sky-btn.sky-search-btn-apply {
     padding-left: 6px;
   }
-
-  .sky-search-btn-clear {
+  .sky-input-group-btn .sky-btn.sky-search-btn-clear {
     padding-right: var(--sky-override-search-clear-padding-right);
   }
 
