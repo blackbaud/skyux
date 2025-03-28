@@ -18,8 +18,7 @@
         "styles": [
           "apps/e2e/forms-storybook/src/styles.scss",
           "libs/components/theme/src/lib/styles/sky.scss",
-          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
-          "node_modules/@blackbaud/skyux-design-tokens/scss/blackbaud.css"
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "scripts": []
       },
@@ -83,8 +82,7 @@
         "compodoc": false,
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
-          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
-          "node_modules/@blackbaud/skyux-design-tokens/scss/blackbaud.css"
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ]
       },
       "configurations": {
@@ -104,8 +102,7 @@
         "compodoc": false,
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
-          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
-          "node_modules/@blackbaud/skyux-design-tokens/scss/blackbaud.css"
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ]
       },
       "configurations": {
