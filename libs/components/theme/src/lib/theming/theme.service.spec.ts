@@ -364,6 +364,25 @@ describe('Theme service', () => {
     validateSettingsApplied(settingsWithoutBranding, settingsWithBranding);
   });
 
+  it('should throw an error if branding is requested for a theme which does not support branding', () => {
+    const themeSvc = new SkyThemeService();
+
+    const settingsWithBranding = new SkyThemeSettings(
+      SkyTheme.presets.default,
+      SkyThemeMode.presets.light,
+      undefined,
+      new SkyThemeBrand('rainbow', '1.0.1'),
+    );
+
+    expect(() => {
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        settingsWithBranding,
+      );
+    }).toThrowError('Branding is not supported for the given theme.');
+  });
+
   it('should complete the settings change event when destroyed.', () => {
     const themeSvc = new SkyThemeService();
 
