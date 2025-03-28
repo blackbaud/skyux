@@ -3,7 +3,7 @@
     <sky-icon
       *skyThemeIf="'default'"
       class="sky-action-button-icon"
-      iconSize="xxxl"
+      [iconSize]="breakpoint() === 'xs' ? 'xl' : 'xxxl'"
       [iconName]="iconName"
     />
     <sky-icon
