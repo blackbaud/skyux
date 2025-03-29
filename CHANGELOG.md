@@ -1,5 +1,19 @@
 # Changelog
 
+## [12.0.0-beta.3](https://github.com/blackbaud/skyux/compare/12.0.0-beta.2...12.0.0-beta.3) (2025-03-29)
+
+
+### Features
+
+* **components/ag-grid:** add `valueResourceObservable` parameter for validator tooltip cell type ([#3298](https://github.com/blackbaud/skyux/issues/3298)) ([#3304](https://github.com/blackbaud/skyux/issues/3304)) ([9290e76](https://github.com/blackbaud/skyux/commit/9290e76e5784acc3aaf472eec2254f13aa01a176))
+
+
+### Bug Fixes
+
+* **components/layout:** use smaller action button icon at xs breakpoint ([#3308](https://github.com/blackbaud/skyux/issues/3308)) ([92a23e8](https://github.com/blackbaud/skyux/commit/92a23e8a3f52a113bbcb7eb87a0af7c74d47c7d3))
+* **components/lookup:** add hover state for selection modal when using single select mode ([#3306](https://github.com/blackbaud/skyux/issues/3306)) ([ded8e47](https://github.com/blackbaud/skyux/commit/ded8e4723f6765f2fcf3b1d520e2679b1a20bb6e))
+* **components/lookup:** use correct spacing in search icons ([#3311](https://github.com/blackbaud/skyux/issues/3311)) ([a8b8285](https://github.com/blackbaud/skyux/commit/a8b8285387719173ee321d75cfa058915429e617))
+
 ## [12.0.0-beta.2](https://github.com/blackbaud/skyux/compare/12.0.0-beta.1...12.0.0-beta.2) (2025-03-27)
 
 
