@@ -1,3 +1,6 @@
+@forward 'node_modules/@blackbaud/skyux-design-tokens/assets/scss/blackbaud';
+@forward 'node_modules/@blackbaud/skyux-design-tokens/assets/scss/modern';
+
 @forward 'custom-properties';
 @forward 'box';
 @forward 'buttons';
@@ -11,6 +14,3 @@
   Order is important here since rules in these files should supersede rules in previous files.
 */
 @forward 'sizing';
-
-@import url('https://sky.blackbaudcdn.net/static/skyux-design-tokens/0.0.49/assets/scss/modern.css');
-@import url('https://sky.blackbaudcdn.net/static/skyux-design-tokens/0.0.49/assets/scss/blackbaud.css');
