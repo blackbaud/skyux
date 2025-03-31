@@ -222,6 +222,8 @@ export class DataManagerComponent implements AfterViewInit {
         },
         suppressColumnVirtualisation: true,
         suppressRowVirtualisation: true,
+        alwaysShowHorizontalScroll: true,
+        alwaysShowVerticalScroll: true,
         onFirstDataRendered: (event: FirstDataRenderedEvent) => {
           // Delay to allow the grid to render before capturing the screenshot.
           timer(1800)
