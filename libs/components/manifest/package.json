@@ -2,6 +2,7 @@
   "name": "@skyux/manifest",
   "version": "0.0.0-PLACEHOLDER",
   "author": "Blackbaud, Inc.",
+  "type": "commonjs",
   "keywords": [
     "blackbaud",
     "skyux"
@@ -27,13 +28,5 @@
     "./public-api.json": {
       "default": "./public-api.json"
     }
-  },
-  "dependencies": {
-    "ajv": "8.17.1",
-    "fast-glob": "3.3.3",
-    "tslib": "^2.8.1"
-  },
-  "optionalDependencies": {
-    "typedoc": "~0.26.11"
   }
 }
