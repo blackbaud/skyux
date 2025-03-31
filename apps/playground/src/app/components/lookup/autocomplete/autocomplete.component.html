@@ -174,4 +174,43 @@
       </table>
     </form>
   </div>
+
+  <h2>Autocomplete (Allow any value)</h2>
+  <div>
+    <form novalidate [formGroup]="reactiveForm">
+      <sky-autocomplete
+        allowAnyValue
+        highlightSearchText="false"
+        (searchAsync)="favoriteColorSearch($event)"
+        (selectionChange)="onSelectionChange($event)"
+      >
+        <sky-input-box labelText="Favorite color (async)">
+          <input
+            formControlName="favoriteColorAsync"
+            skyAutocomplete
+            type="text"
+          />
+        </sky-input-box>
+      </sky-autocomplete>
+
+      <table>
+        <tr>
+          <th>Touched</th>
+          <td>{{ reactiveForm.touched }}</td>
+        </tr>
+        <tr>
+          <th>Pristine</th>
+          <td>{{ reactiveForm.pristine }}</td>
+        </tr>
+        <tr>
+          <th>Valid</th>
+          <td>{{ reactiveForm.valid }}</td>
+        </tr>
+        <tr>
+          <th>Value</th>
+          <td>{{ reactiveForm.value.favoriteColorAsync?.name }}</td>
+        </tr>
+      </table>
+    </form>
+  </div>
 </div>

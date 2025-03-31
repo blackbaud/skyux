@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "Node16",
+    "module": "Node16",
+    "resolveJsonModule": true
+  },
+  "files": ["./postbuild-manifest.mts"]
+}

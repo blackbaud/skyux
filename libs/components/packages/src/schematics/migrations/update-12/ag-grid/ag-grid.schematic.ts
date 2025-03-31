@@ -31,7 +31,7 @@ const AG_GRID_ENT = 'ag-grid-enterprise';
 const AG_GRID_NG = 'ag-grid-angular';
 const AG_GRID_SKY = '@skyux/ag-grid';
 
-const AG_GRID_VERSION = '^33.1.1';
+const AG_GRID_VERSION = '^33.2.1';
 
 /**
  * Check package.json for AG Grid dependencies.
@@ -132,6 +132,20 @@ function swapGridApiCalls(tree: Tree, path: string): void {
   for (const instance of instances) {
     recorder.remove(instance.index, instance[0].length);
     recorder.insertRight(instance.index, `sVisible([${instance[1]}],`);
+  }
+  instances = content.matchAll(/(?<=\bsuppress)Menu(?=:)/gi);
+  for (const instance of instances) {
+    recorder.remove(instance.index, instance[0].length);
+    recorder.insertRight(instance.index, `HeaderMenuButton`);
+  }
+  instances = content.matchAll(
+    /(?<=options = {[^}]+)enableCellChangeFlash(?=:)/gi,
+  );
+  for (const instance of instances) {
+    recorder.insertLeft(
+      instance.index,
+      `// todo: move enableCellChangeFlash to defaultColumnDef (added by SKY UX 12 migration)\n      // `,
+    );
   }
   tree.commitUpdate(recorder);
 }

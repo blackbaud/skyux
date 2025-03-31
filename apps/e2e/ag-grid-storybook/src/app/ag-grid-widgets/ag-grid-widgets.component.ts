@@ -184,6 +184,8 @@ export class AgGridWidgetsComponent
         suppressColumnVirtualisation: true,
         suppressHorizontalScroll: true,
         suppressRowVirtualisation: true,
+        alwaysShowHorizontalScroll: true,
+        alwaysShowVerticalScroll: true,
         onFirstDataRendered: () => {
           (this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>).next(
             true,

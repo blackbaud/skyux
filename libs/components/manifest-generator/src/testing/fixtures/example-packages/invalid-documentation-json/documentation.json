@@ -1,0 +1,14 @@
+{
+  "$schema": "../../../../../documentation-schema.json",
+  "groups": {
+    "valid": {
+      "docsIds": ["FooClass"],
+      "primaryDocsId": "FooClass"
+    },
+    "invalid": {
+      "docsIds": ["FooInternalClass", "Duplicate1", "Duplicate1", "Invalid2"],
+      "primaryDocsId": "ModuleNotListed",
+      "unrecognizedProperty": true
+    }
+  }
+}
