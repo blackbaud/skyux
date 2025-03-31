@@ -17,6 +17,13 @@
 * **components/lookup:** add hover state for selection modal when using single select mode ([#3306](https://github.com/blackbaud/skyux/issues/3306)) ([ded8e47](https://github.com/blackbaud/skyux/commit/ded8e4723f6765f2fcf3b1d520e2679b1a20bb6e))
 * **components/lookup:** use correct spacing in search icons ([#3311](https://github.com/blackbaud/skyux/issues/3311)) ([a8b8285](https://github.com/blackbaud/skyux/commit/a8b8285387719173ee321d75cfa058915429e617))
 
+## [11.49.0](https://github.com/blackbaud/skyux/compare/11.48.0...11.49.0) (2025-03-27)
+
+
+### Features
+
+* **components/ag-grid:** add `valueResourceObservable` parameter for validator tooltip cell type ([#3298](https://github.com/blackbaud/skyux/issues/3298)) ([4ade97e](https://github.com/blackbaud/skyux/commit/4ade97e0fdc7259fbeb313af662b0cdfd7442bf5))
+
 ## [12.0.0-beta.2](https://github.com/blackbaud/skyux/compare/12.0.0-beta.1...12.0.0-beta.2) (2025-03-27)
 
 
