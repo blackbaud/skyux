@@ -178,6 +178,8 @@ export class AgGridStoriesComponent
           suppressColumnVirtualisation: true,
           suppressHorizontalScroll: true,
           suppressRowVirtualisation: true,
+          alwaysShowHorizontalScroll: true,
+          alwaysShowVerticalScroll: true,
           onGridReady: (params) => {
             this.#gridsApi.set(dataSet.id, params.api);
             if (dataSet.id === 'row-delete') {
