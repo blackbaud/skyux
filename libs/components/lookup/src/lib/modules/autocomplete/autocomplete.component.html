@@ -25,14 +25,11 @@
     #resultsRef
     class="sky-autocomplete-results-container"
     [attr.id]="resultsListId"
-    [skyThemeClass]="{
-      'sky-shadow': 'default',
-      'sky-elevation-4': 'modern'
-    }"
+    [skyThemeClass]="{ 'sky-shadow': 'default', 'sky-elevation-4': 'modern' }"
     (mousedown)="$event.preventDefault()"
     (keydown)="handleKeydown($event)"
   >
-    @if (isSearchingAsync) {
+    @if (isSearchingAsync && !allowAnyValue()) {
       <div class="sky-autocomplete-results-waiting">
         <sky-wait [isWaiting]="true" />
       </div>
@@ -68,6 +65,11 @@
                 />
               </div>
             }
+          }
+          @if (isSearchingAsync && allowAnyValue()) {
+            <div class="sky-autocomplete-results-waiting">
+              <sky-wait [isWaiting]="true" />
+            </div>
           }
           @if (searchResults.length === 0) {
             <div class="sky-font-deemphasized sky-autocomplete-no-results">

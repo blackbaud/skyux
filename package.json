@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "12.0.0-beta.2",
+  "version": "12.0.0-beta.3",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -104,8 +104,8 @@
     "@skyux/icons": "7.21.2",
     "@stackblitz/sdk": "1.11.0",
     "@storybook/addon-interactions": "8.6.4",
-    "ag-grid-angular": "33.1.1",
-    "ag-grid-community": "33.1.1",
+    "ag-grid-angular": "33.2.1",
+    "ag-grid-community": "33.2.1",
     "ajv": "8.17.1",
     "autonumeric": "4.10.5",
     "axe-core": "4.10.3",

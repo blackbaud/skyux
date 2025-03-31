@@ -6,7 +6,7 @@ import fs from 'fs-extra';
 import { joinPathFragments } from 'nx/src/utils/path';
 import { workspaceRoot } from 'nx/src/utils/workspace-root';
 
-const UPDATE_TO_VERSION = '33.1.1';
+const UPDATE_TO_VERSION = '33.2.1';
 
 describe('ag-grid.schematic', () => {
   const runner = new SchematicTestRunner(
@@ -219,12 +219,21 @@ describe('ag-grid.schematic', () => {
         export class AppTestComponent implements OnInit {
           public gridApi: GridApi;
           public gridOptions: GridOptions;
+          public editGridOptions: GridOptions;
 
           public ngOnInit() {
             if (!this.gridOptions?.api) {
               console.log(this.gridApi.getLastDisplayedRow());
               this.gridOptions.api.setColumnVisible('test', false);
             }
+            this.editGridOptions = {
+              columnDefs: this.editColumnDefs,
+              suppressMenu: true,
+              enableCellChangeFlash: true,
+              domLayout: 'normal',
+              onGridReady: gridReadyEvent => this.onGridReady(gridReadyEvent)
+            };
+            this.editGridOptions = this.agGridService.getGridOptions({ gridOptions: this.editGridOptions });
           }
         }`,
     );
@@ -238,12 +247,22 @@ describe('ag-grid.schematic', () => {
         export class AppTestComponent implements OnInit {
           public gridApi: GridApi;
           public gridOptions: GridOptions;
+          public editGridOptions: GridOptions;
 
           public ngOnInit() {
             if (!this.gridApi) {
               console.log(this.gridApi.getLastDisplayedRowIndex());
               this.gridApi.setColumnsVisible(['test'], false);
             }
+            this.editGridOptions = {
+              columnDefs: this.editColumnDefs,
+              suppressHeaderMenuButton: true,
+              // todo: move enableCellChangeFlash to defaultColumnDef (added by SKY UX 12 migration)
+              // enableCellChangeFlash: true,
+              domLayout: 'normal',
+              onGridReady: gridReadyEvent => this.onGridReady(gridReadyEvent)
+            };
+            this.editGridOptions = this.agGridService.getGridOptions({ gridOptions: this.editGridOptions });
           }
         }`,
     );
