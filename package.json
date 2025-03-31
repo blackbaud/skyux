@@ -193,11 +193,11 @@
     "@types/marked": "5.0.2",
     "@types/node": "20.14.12",
     "@types/validator": "13.12.2",
-    "@typescript-eslint/eslint-plugin": "8.26.0",
-    "@typescript-eslint/parser": "8.26.0",
-    "@typescript-eslint/rule-tester": "8.26.0",
-    "@typescript-eslint/type-utils": "8.26.0",
-    "@typescript-eslint/utils": "8.26.0",
+    "@typescript-eslint/eslint-plugin": "8.29.0",
+    "@typescript-eslint/parser": "8.29.0",
+    "@typescript-eslint/rule-tester": "8.29.0",
+    "@typescript-eslint/type-utils": "8.29.0",
+    "@typescript-eslint/utils": "8.29.0",
     "angular-eslint": "19.2.1",
     "cross-spawn": "7.0.6",
     "cypress": "13.17.0",
@@ -227,7 +227,7 @@
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
     "typescript": "5.7.3",
-    "typescript-eslint": "8.26.0"
+    "typescript-eslint": "8.29.0"
   },
   "overrides": {
     "ng2-dragula@5.1.0": {

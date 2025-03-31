@@ -4,7 +4,7 @@ import {
   type TmplAstTextAttribute,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
-import { type RuleListener } from '@typescript-eslint/utils/dist/ts-eslint';
+import { type RuleListener } from '@typescript-eslint/utils/ts-eslint';
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
