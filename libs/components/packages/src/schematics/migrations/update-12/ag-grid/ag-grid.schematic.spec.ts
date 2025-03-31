@@ -219,12 +219,21 @@ describe('ag-grid.schematic', () => {
         export class AppTestComponent implements OnInit {
           public gridApi: GridApi;
           public gridOptions: GridOptions;
+          public editGridOptions: GridOptions;
 
           public ngOnInit() {
             if (!this.gridOptions?.api) {
               console.log(this.gridApi.getLastDisplayedRow());
               this.gridOptions.api.setColumnVisible('test', false);
             }
+            this.editGridOptions = {
+              columnDefs: this.editColumnDefs,
+              suppressMenu: true,
+              enableCellChangeFlash: true,
+              domLayout: 'normal',
+              onGridReady: gridReadyEvent => this.onGridReady(gridReadyEvent)
+            };
+            this.editGridOptions = this.agGridService.getGridOptions({ gridOptions: this.editGridOptions });
           }
         }`,
     );
@@ -238,12 +247,22 @@ describe('ag-grid.schematic', () => {
         export class AppTestComponent implements OnInit {
           public gridApi: GridApi;
           public gridOptions: GridOptions;
+          public editGridOptions: GridOptions;
 
           public ngOnInit() {
             if (!this.gridApi) {
               console.log(this.gridApi.getLastDisplayedRowIndex());
               this.gridApi.setColumnsVisible(['test'], false);
             }
+            this.editGridOptions = {
+              columnDefs: this.editColumnDefs,
+              suppressHeaderMenuButton: true,
+              // todo: move enableCellChangeFlash to defaultColumnDef (added by SKY UX 12 migration)
+              // enableCellChangeFlash: true,
+              domLayout: 'normal',
+              onGridReady: gridReadyEvent => this.onGridReady(gridReadyEvent)
+            };
+            this.editGridOptions = this.agGridService.getGridOptions({ gridOptions: this.editGridOptions });
           }
         }`,
     );
