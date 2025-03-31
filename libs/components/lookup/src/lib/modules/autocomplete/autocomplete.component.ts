@@ -313,7 +313,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * Highlights the search text in each search result. Set this to false
    * when your search finds results that are not exact text matches, e.g.
    * returning "Bob" for the term "Robert."
-   * @default false
+   * @default true
    */
   public highlightSearchText = input(true, { transform: booleanAttribute });
 
