@@ -133,6 +133,20 @@ function swapGridApiCalls(tree: Tree, path: string): void {
     recorder.remove(instance.index, instance[0].length);
     recorder.insertRight(instance.index, `sVisible([${instance[1]}],`);
   }
+  instances = content.matchAll(/(?<=\bsuppress)Menu(?=:)/gi);
+  for (const instance of instances) {
+    recorder.remove(instance.index, instance[0].length);
+    recorder.insertRight(instance.index, `HeaderMenuButton`);
+  }
+  instances = content.matchAll(
+    /(?<=options = {[^}]+)enableCellChangeFlash(?=:)/gi,
+  );
+  for (const instance of instances) {
+    recorder.insertLeft(
+      instance.index,
+      `// todo: move enableCellChangeFlash to defaultColumnDef (added by SKY UX 12 migration)\n      // `,
+    );
+  }
   tree.commitUpdate(recorder);
 }
 
