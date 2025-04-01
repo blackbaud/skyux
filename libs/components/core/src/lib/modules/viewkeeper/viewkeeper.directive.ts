@@ -1,10 +1,11 @@
 import {
+  DestroyRef,
   Directive,
   ElementRef,
   Input,
   OnDestroy,
   OnInit,
-  Optional,
+  inject,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -12,6 +13,8 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
 import { SkyScrollableHostService } from '../scrollable-host/scrollable-host.service';
+import { SkyStackingContextStratum } from '../stacking-context/stacking-context-stratum';
+import { SkyStackingContextService } from '../stacking-context/stacking-context.service';
 
 import { SkyViewkeeper } from './viewkeeper';
 import { SkyViewkeeperService } from './viewkeeper.service';
@@ -33,34 +36,22 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
   }
 
   #_skyViewkeeper: string[] | undefined;
-
   #currentViewkeeperEls: HTMLElement[] | undefined;
-
-  #el: ElementRef;
-
-  #mutationObserverSvc: SkyMutationObserverService;
-
   #observer: MutationObserver | undefined;
-
-  #scrollableHostSvc: SkyScrollableHostService | undefined;
-
   #scrollableHostWatchUnsubscribe: Subject<void> | undefined;
-
   #viewkeepers: SkyViewkeeper[] = [];
 
-  #viewkeeperSvc: SkyViewkeeperService;
-
-  constructor(
-    el: ElementRef,
-    mutationObserverSvc: SkyMutationObserverService,
-    viewkeeperSvc: SkyViewkeeperService,
-    @Optional() scrollableHostSvc?: SkyScrollableHostService,
-  ) {
-    this.#el = el;
-    this.#mutationObserverSvc = mutationObserverSvc;
-    this.#viewkeeperSvc = viewkeeperSvc;
-    this.#scrollableHostSvc = scrollableHostSvc;
-  }
+  readonly #el = inject(ElementRef);
+  readonly #mutationObserverSvc = inject(SkyMutationObserverService);
+  readonly #scrollableHostSvc = inject(SkyScrollableHostService, {
+    optional: true,
+  });
+  readonly #stackingService = inject(SkyStackingContextService);
+  readonly #viewkeeperSvc = inject(SkyViewkeeperService);
+  readonly #zIndex = this.#stackingService.getZIndex(
+    inject(SkyStackingContextStratum),
+    inject(DestroyRef),
+  );
 
   public ngOnInit(): void {
     this.#observer = this.#mutationObserverSvc.create(() =>
@@ -166,6 +157,7 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
                   el: viewkeeperEl,
                   setWidth: true,
                   verticalOffsetEl: previousViewkeeperEl,
+                  zIndex: this.#zIndex,
                 }),
               );
 

@@ -8,6 +8,7 @@ import {
   Type,
   ViewChild,
   ViewContainerRef,
+  createEnvironmentInjector,
   inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -16,10 +17,11 @@ import {
   SKY_STACKING_CONTEXT,
   SkyAppWindowRef,
   SkyDynamicComponentService,
+  SkyStackingContextService,
+  SkyStackingContextStratum,
 } from '@skyux/core';
 
-import { BehaviorSubject } from 'rxjs';
-import { takeUntil, takeWhile } from 'rxjs/operators';
+import { of, takeWhile } from 'rxjs';
 
 import { SkyModalsResourcesModule } from '../shared/sky-modals-resources.module';
 
@@ -59,6 +61,7 @@ export class SkyModalHostComponent implements OnDestroy {
   readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #modalHostContext = inject(SkyModalHostContext);
   readonly #router = inject(Router, { optional: true });
+  readonly #stackingContextService = inject(SkyStackingContextService);
   readonly #windowRef = inject(SkyAppWindowRef);
 
   public ngOnDestroy(): void {
@@ -82,7 +85,22 @@ export class SkyModalHostComponent implements OnDestroy {
 
     const params: SkyModalConfigurationInterface = Object.assign({}, config);
 
-    const hostService = new SkyModalHostService();
+    const zIndex = this.#stackingContextService.getZIndex('modal');
+    // Create a new instance of SkyModalHostService.
+    const hostService = createEnvironmentInjector(
+      [
+        SkyModalHostService,
+        {
+          provide: SKY_STACKING_CONTEXT,
+          useValue: {
+            zIndex: of(zIndex),
+          },
+        },
+      ],
+      this.#environmentInjector,
+    ).get(SkyModalHostService, undefined, {
+      self: true,
+    });
     hostService.fullPage = !!params.fullPage;
 
     const adapter = this.#adapter;
@@ -103,10 +121,12 @@ export class SkyModalHostComponent implements OnDestroy {
       {
         provide: SKY_STACKING_CONTEXT,
         useValue: {
-          zIndex: new BehaviorSubject(hostService.getModalZIndex())
-            .asObservable()
-            .pipe(takeUntil(modalInstance.closed)),
+          zIndex: of(zIndex),
         },
+      },
+      {
+        provide: SkyStackingContextStratum,
+        useValue: 'modal',
       },
     );
 
@@ -169,6 +189,7 @@ export class SkyModalHostComponent implements OnDestroy {
         modalOpener.focus();
       }
       modalComponentRef.destroy();
+      this.#stackingContextService.unsetZIndex(zIndex);
     };
 
     hostService.openHelp.subscribe((helpKey) => {

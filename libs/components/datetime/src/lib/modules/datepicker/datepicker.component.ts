@@ -4,10 +4,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   EnvironmentInjector,
   EventEmitter,
-  Inject,
   Input,
   OnDestroy,
   OnInit,
@@ -27,15 +27,22 @@ import {
   SkyCoreAdapterService,
   SkyOverlayInstance,
   SkyOverlayService,
-  SkyStackingContext,
+  SkyStackingContextService,
+  SkyStackingContextStratum,
 } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import {
+  Subject,
+  Subscription,
+  debounceTime,
+  fromEvent,
+  of,
+  takeUntil,
+} from 'rxjs';
 
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
 
@@ -239,7 +246,14 @@ export class SkyDatepickerComponent
   readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #resourceSvc = inject(SkyLibResourcesService);
   #overlayService: SkyOverlayService;
-  readonly #zIndex: Observable<number> | undefined;
+  readonly #zIndex =
+    inject(SKY_STACKING_CONTEXT, { optional: true })?.zIndex ??
+    of(
+      inject(SkyStackingContextService).getZIndex(
+        inject(SkyStackingContextStratum),
+        inject(DestroyRef),
+      ),
+    );
 
   readonly #datepickerHostSvc = inject(SkyDatepickerHostService);
   readonly #elementRef = inject(ElementRef);
@@ -251,9 +265,6 @@ export class SkyDatepickerComponent
     overlayService: SkyOverlayService,
     @Optional() public inputBoxHostService?: SkyInputBoxHostService,
     @Optional() themeSvc?: SkyThemeService,
-    @Optional()
-    @Inject(SKY_STACKING_CONTEXT)
-    stackingContext?: SkyStackingContext,
   ) {
     this.#affixService = affixService;
     this.#changeDetector = changeDetector;
@@ -262,7 +273,6 @@ export class SkyDatepickerComponent
     const uniqueId = nextId++;
     this.calendarId = `sky-datepicker-calendar-${uniqueId}`;
     this.triggerButtonId = `sky-datepicker-button-${uniqueId}`;
-    this.#zIndex = stackingContext?.zIndex;
 
     // Update icons when theme changes.
     themeSvc?.settingsChange
@@ -445,13 +455,11 @@ export class SkyDatepickerComponent
         environmentInjector: this.#environmentInjector,
       });
 
-      if (this.#zIndex) {
-        this.#zIndex
-          .pipe(takeUntil(this.#calendarUnsubscribe))
-          .subscribe((zIndex) => {
-            overlay.componentRef.instance.zIndex = zIndex.toString(10);
-          });
-      }
+      this.#zIndex
+        .pipe(takeUntil(this.#calendarUnsubscribe))
+        .subscribe((zIndex) => {
+          overlay.componentRef.instance.zIndex = zIndex.toString(10);
+        });
 
       overlay.backdropClick
         .pipe(takeUntil(this.#calendarUnsubscribe))
