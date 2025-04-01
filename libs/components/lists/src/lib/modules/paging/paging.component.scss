@@ -34,13 +34,14 @@
   --sky-override-paging-btn-padding-hover: 4px 10px;
   --sky-override-paging-btn-padding-active: 4px 10px;
   --sky-override-paging-btn-padding-focus: 4px 10px;
+  --sky-override-paging-btn-states-box-shadow: none;
   --sky-override-paging-content-wrapper-margin-bottom: var(
     --sky-margin-stacked-lg
   );
   --sky-override-paging-current-background-color: #{$sky-background-color-neutral-light};
   --sky-override-paging-current-border: 1px solid
     #{$sky-border-color-neutral-light};
-  --sky-override-paging-current-padding: 4px 10px;
+  --sky-override-paging-current-box-shadow: none;
   --sky-override-paging-ul-margin: #{$sky-margin-plus-half} 0 0 0;
 }
 
@@ -48,15 +49,8 @@
   --sky-override-paging-btn-font-size: #{$sky-font-size-base};
   --sky-override-paging-btn-font-variant-numeric: normal;
   --sky-override-paging-btn-iterators-padding: 3px 10px;
-  --sky-override-paging-btn-iterators-padding-active: 1px 8px;
-  --sky-override-paging-btn-iterators-padding-focus: 1px 8px;
-  --sky-override-paging-btn-iterators-padding-hover: 2px 9px;
   --sky-override-paging-btn-margin-left: -1px;
   --sky-override-paging-btn-padding: 3px 10px;
-  --sky-override-paging-btn-padding-hover: 2px 9px;
-  --sky-override-paging-btn-padding-active: 1px 8px;
-  --sky-override-paging-btn-padding-focus: 1px 8px;
-  --sky-override-paging-current-padding: 2px 9px;
   --sky-override-paging-ul-margin: #{$sky-margin-plus-half} 0 0 0;
 }
 
@@ -99,8 +93,7 @@
     }
   }
 
-  // NOTE: Many rules such as the border radius and background color rules for this and the iterator buttons can be removed when support for default theme is dropped as many of those styles are specified by the borderless button class.
-  // However, the border on these buttons does not use box shadow and instead uses an actual border - so those rules and the padding specifications are custom.
+  // NOTE: Many rules such as the border radius, background color, and box shadow rules for this and the iterator buttons can be removed when support for default theme is dropped as many of those styles are specified by the borderless button class.
   .sky-paging-btn {
     border: var(--sky-override-paging-btn-border, none);
     border-radius: var(
@@ -144,33 +137,11 @@
       cursor: default;
       color: inherit;
       opacity: 1;
-      border: var(
-        --sky-override-paging-current-border,
-        var(--sky-border-width-selected-s) solid
+      border: var(--sky-override-paging-current-border);
+      box-shadow: var(
+        --sky-override-paging-current-box-shadow,
+        inset 0 0 0 var(--sky-border-width-selected-s)
           var(--sky-color-border-selected)
-      );
-      padding: var(
-        --sky-override-paging-current-padding,
-        calc(
-            var(--sky-space-inset-pillarbox-1_4-top-s) - var(
-                --sky-border-width-selected-s
-              )
-          )
-          calc(
-            var(--sky-space-inset-pillarbox-1_4-right-s) - var(
-                --sky-border-width-selected-s
-              )
-          )
-          calc(
-            var(--sky-space-inset-pillarbox-1_4-bottom-s) - var(
-                --sky-border-width-selected-s
-              )
-          )
-          calc(
-            var(--sky-space-inset-pillarbox-1_4-left-s) - var(
-                --sky-border-width-selected-s
-              )
-          )
       );
     }
 
@@ -179,35 +150,13 @@
         --sky-override-paging-btn-background-color-hover,
         var(--sky-color-background-action-tertiary-hover)
       );
-      border: var(
-        --sky-override-paging-btn-border-hover,
-        var(--sky-border-width-action-hover) solid
+      border: var(--sky-override-paging-btn-border-hover);
+      box-shadow: var(
+        --sky-override-paging-btn-states-box-shadow,
+        inset 0 0 0 var(--sky-border-width-action-hover)
           var(--sky-color-border-action-tertiary-hover)
       );
-      box-shadow: none;
-      padding: var(
-        --sky-override-paging-btn-padding-hover,
-        calc(
-            var(--sky-space-inset-pillarbox-1_4-top-s) - var(
-                --sky-border-width-action-hover
-              )
-          )
-          calc(
-            var(--sky-space-inset-pillarbox-1_4-right-s) - var(
-                --sky-border-width-action-hover
-              )
-          )
-          calc(
-            var(--sky-space-inset-pillarbox-1_4-bottom-s) - var(
-                --sky-border-width-action-hover
-              )
-          )
-          calc(
-            var(--sky-space-inset-pillarbox-1_4-left-s) - var(
-                --sky-border-width-action-hover
-              )
-          )
-      );
+      padding: var(--sky-override-paging-btn-padding-hover);
     }
 
     &:active {
@@ -215,35 +164,13 @@
         --sky-override-paging-btn-background-color-active,
         var(--sky-color-background-action-tertiary-active)
       );
-      border: var(
-        --sky-override-paging-btn-border-active,
-        var(--sky-border-width-action-active) solid
+      border: var(--sky-override-paging-btn-border-active);
+      box-shadow: var(
+        --sky-override-paging-btn-states-box-shadow,
+        inset 0 0 0 var(--sky-border-width-action-active)
           var(--sky-color-border-action-tertiary-active)
       );
-      box-shadow: none;
-      padding: var(
-        --sky-override-paging-btn-padding-active,
-        calc(
-            var(--sky-space-inset-pillarbox-1_4-top-s) - var(
-                --sky-border-width-action-active
-              )
-          )
-          calc(
-            var(--sky-space-inset-pillarbox-1_4-right-s) - var(
-                --sky-border-width-action-active
-              )
-          )
-          calc(
-            var(--sky-space-inset-pillarbox-1_4-bottom-s) - var(
-                --sky-border-width-action-active
-              )
-          )
-          calc(
-            var(--sky-space-inset-pillarbox-1_4-left-s) - var(
-                --sky-border-width-action-active
-              )
-          )
-      );
+      padding: var(--sky-override-paging-btn-padding-active);
     }
 
     &:focus-visible {
@@ -251,42 +178,17 @@
         --sky-override-paging-btn-background-color-focus,
         var(--sky-color-background-action-tertiary-focus)
       );
-      border: var(
-        --sky-override-paging-btn-border-focus,
-        var(--sky-border-width-action-focus) solid
+      border: var(--sky-override-paging-btn-border-focus);
+      box-shadow: var(
+        --sky-override-paging-btn-states-box-shadow,
+        inset 0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-tertiary-focus)
       );
-      padding: var(
-        --sky-override-paging-btn-padding-focus,
-        calc(
-            var(--sky-space-inset-pillarbox-1_4-top-s) - var(
-                --sky-border-width-action-focus
-              )
-          )
-          calc(
-            var(--sky-space-inset-pillarbox-1_4-right-s) - var(
-                --sky-border-width-action-focus
-              )
-          )
-          calc(
-            var(--sky-space-inset-pillarbox-1_4-bottom-s) - var(
-                --sky-border-width-action-focus
-              )
-          )
-          calc(
-            var(--sky-space-inset-pillarbox-1_4-left-s) - var(
-                --sky-border-width-action-focus
-              )
-          )
-      );
+      padding: var(--sky-override-paging-btn-padding-focus);
     }
 
     &:focus-visible:not(:active) {
       outline: var(--sky-override-paging-btn-outline-focus, none);
-      box-shadow: var(
-        --sky-override-paging-btn-box-shadow-focus,
-        var(--sky-elevation-raised-100)
-      );
     }
 
     &:disabled {
@@ -306,36 +208,15 @@
       );
 
       &:hover {
-        padding: var(
-          --sky-override-paging-btn-iterators-padding-hover,
-          calc(
-            var(--sky-space-inset-balanced-xs) - var(
-                --sky-border-width-action-hover
-              )
-          )
-        );
+        padding: var(--sky-override-paging-btn-iterators-padding-hover);
       }
 
       &:active {
-        padding: var(
-          --sky-override-paging-btn-iterators-padding-active,
-          calc(
-            var(--sky-space-inset-balanced-xs) - var(
-                --sky-border-width-action-active
-              )
-          )
-        );
+        padding: var(--sky-override-paging-btn-iterators-padding-active);
       }
 
       &:focus-visible {
-        padding: var(
-          --sky-override-paging-btn-iterators-padding-focus,
-          calc(
-            var(--sky-space-inset-balanced-xs) - var(
-                --sky-border-width-action-focus
-              )
-          )
-        );
+        padding: var(--sky-override-paging-btn-iterators-padding-focus);
       }
     }
   }
