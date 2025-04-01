@@ -3,7 +3,7 @@ import {
   TmplAstTemplate,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
-import { RuleFix } from '@typescript-eslint/utils/dist/ts-eslint';
+import { type RuleFix } from '@typescript-eslint/utils/ts-eslint';
 
 import { getChildrenNodesOf, getNgFor } from '../utils/ast-utils';
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
