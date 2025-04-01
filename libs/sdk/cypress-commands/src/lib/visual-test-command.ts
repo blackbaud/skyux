@@ -19,7 +19,11 @@ declare namespace Cypress {
  */
 Cypress.Commands.add(
   'skyVisualTest',
+  {
+    prevSubject: ['optional', 'element', 'window'],
+  },
   (
+    prevSubject: void | Window | Cypress.JQueryWithSelector<HTMLElement>,
     name: string,
     options?: Record<string, unknown>,
     selector?: string,
@@ -27,10 +31,21 @@ Cypress.Commands.add(
     cy.url().then((url) => {
       const cyPrefix = selector ? cy.get(selector) : cy;
 
-      cyPrefix.screenshot(name, {
-        ...options,
-        blackout: [`url:${url}`],
-      });
+      if (prevSubject && !prevSubject.hasOwnProperty('window')) {
+        cyPrefix
+          .wrap(prevSubject)
+          .should('exist')
+          .should('be.visible')
+          .screenshot(name, {
+            ...options,
+            blackout: [`url:${url}`],
+          });
+      } else {
+        cyPrefix.screenshot(name, {
+          ...options,
+          blackout: [`url:${url}`],
+        });
+      }
     });
   },
 );
