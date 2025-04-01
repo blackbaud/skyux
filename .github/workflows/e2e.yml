@@ -359,12 +359,20 @@ jobs:
               echo "Percy client error. Retrying..."
               set -eo pipefail
               npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-parallel 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
+              FINALIZED=$(grep -cE '^\[percy] Finalized build ' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
+              RESULT=$(grep -cE 'exited with status: 0$' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
+              if [ $RESULT -eq 0 ] || [ $FINALIZED -ne 0 ]; then
+                echo "Unable to finalize Percy build. Exiting with error."
+                exit 1
+              fi
             else
+              echo "Unknown Percy build error. Exiting."
               exit 1
             fi
           fi
           # Extract the Percy build number from the log
           fgrep '[percy] Finalized build' ${{ runner.temp }}/percy-${{ matrix.project }}.log | node -e "const rl=require('readline').createInterface({ input: process.stdin }); rl.on('line', (input) => console.log(input.split('/').pop()))" > ${{ runner.temp }}/percy-build-${{ matrix.project }}.txt
+          exit $RESULT
         env:
           PERCY_TARGET_BRANCH: ${{ needs.install-deps.outputs.base-branch }}
           PERCY_TARGET_COMMIT: ${{ steps.affected.outputs.percy_target_commit }}
