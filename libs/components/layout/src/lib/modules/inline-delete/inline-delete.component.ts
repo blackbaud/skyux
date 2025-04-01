@@ -10,6 +10,7 @@ import {
 import {
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   EventEmitter,
   Input,
@@ -17,8 +18,13 @@ import {
   OnInit,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
-import { SkyCoreAdapterService } from '@skyux/core';
+import {
+  SkyCoreAdapterService,
+  SkyStackingContextService,
+  SkyStackingContextStratum,
+} from '@skyux/core';
 
 import { SkyInlineDeleteAdapterService } from './inline-delete-adapter.service';
 import { SkyInlineDeleteType } from './inline-delete-type';
@@ -114,6 +120,11 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
     static: false,
   })
   public deleteButton: ElementRef | undefined;
+
+  protected zIndex = inject(SkyStackingContextService).getZIndex(
+    inject(SkyStackingContextStratum),
+    inject(DestroyRef),
+  );
 
   #adapterService: SkyInlineDeleteAdapterService;
   #changeDetector: ChangeDetectorRef;

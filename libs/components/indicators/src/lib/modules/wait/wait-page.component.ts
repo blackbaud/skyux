@@ -8,7 +8,6 @@ import { SkyWaitComponent } from './wait.component';
 @Component({
   selector: 'sky-wait-page',
   templateUrl: './wait-page.component.html',
-  styleUrls: ['./wait-page.component.scss'],
   imports: [SkyWaitComponent],
 })
 export class SkyWaitPageComponent {

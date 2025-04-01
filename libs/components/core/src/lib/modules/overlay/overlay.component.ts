@@ -72,8 +72,7 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   public showBackdrop = false;
 
-  readonly #stackingContextService = inject(SkyStackingContextService);
-  public zIndex = this.#stackingContextService
+  public zIndex = inject(SkyStackingContextService)
     .getZIndex(inject(SkyStackingContextStratum), inject(DestroyRef))
     .toString();
 

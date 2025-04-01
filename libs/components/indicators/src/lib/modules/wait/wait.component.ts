@@ -178,7 +178,11 @@ export class SkyWaitComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if ('isWaiting' in changes || 'isFullPage' in changes) {
+    if (
+      'isFullPage' in changes ||
+      'isNonBlocking' in changes ||
+      'isWaiting' in changes
+    ) {
       this.#updateZIndex();
     }
   }
@@ -217,7 +221,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   #updateZIndex(): void {
-    if (this.isWaiting) {
+    if (this.isWaiting && !this.isNonBlocking) {
       if (this.isFullPage) {
         this.#pageWaitZIndex ??=
           this.#stackingContextService.getZIndex('page-wait');
