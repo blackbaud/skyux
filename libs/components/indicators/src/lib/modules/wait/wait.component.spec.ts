@@ -177,6 +177,7 @@ describe('Wait component', () => {
       expect(getWaitMaskZIndex()).toBeFalsy();
 
       fixture.componentInstance.isWaiting = true;
+      fixture.componentInstance.isNonBlocking = false;
       fixture.detectChanges();
       await fixture.whenStable();
       expect(getWaitMaskZIndex()).toBe('120000000');
