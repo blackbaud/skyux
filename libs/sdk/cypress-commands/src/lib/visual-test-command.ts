@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Cypress {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Chainable<Subject> {
     /**
      * Capture a screenshot of the current page for visual regression testing.
@@ -31,7 +30,10 @@ Cypress.Commands.add(
     cy.url().then((url) => {
       const cyPrefix = selector ? cy.get(selector) : cy;
 
-      if (prevSubject && !prevSubject.hasOwnProperty('window')) {
+      if (
+        prevSubject &&
+        !Object.prototype.hasOwnProperty.call(prevSubject, 'window')
+      ) {
         cyPrefix
           .wrap(prevSubject)
           .should('exist')
