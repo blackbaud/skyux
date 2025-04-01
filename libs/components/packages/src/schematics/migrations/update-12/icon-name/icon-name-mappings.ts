@@ -299,7 +299,7 @@ export const IconNameMappings: Record<string, IconReplacement> = {
   university: { newName: 'building-bank' },
   'unlock-alt': { newName: 'lock-open', variant: 'solid' },
   upload: { newName: 'arrow-upload' },
-  usd: { newName: 'currency-dollar-euro' },
+  usd: { newName: 'dollar' },
   user: { newName: 'person' },
   'user-check': { newName: 'person-available' },
   'user-circle': { newName: 'person-circle', variant: 'solid' },
