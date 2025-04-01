@@ -1,3 +1,21 @@
+<table>
+  @for (item of iconMap | keyvalue; track item.key) {
+    <tr>
+      <th>
+        {{ item.key }}
+      </th>
+      <td><sky-icon size="md" [icon]="item.key" /></td>
+      <td>
+        <sky-icon
+          size="md"
+          [iconName]="item.value.newName"
+          [variant]="item.value.variant"
+        />
+      </td>
+    </tr>
+  }
+</table>
+
 <p>
   <sky-icon icon="copy-to-clipboard" size="md" /> some text
   <sky-icon icon="copy-to-clipboard" size="lg" /> some more text
