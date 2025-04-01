@@ -1,5 +1,17 @@
 # Changelog
 
+## [12.0.0-beta.4](https://github.com/blackbaud/skyux/compare/12.0.0-beta.3...12.0.0-beta.4) (2025-04-01)
+
+
+### Features
+
+* **components/theme:** include modern v2 design tokens in generated styles ([#3309](https://github.com/blackbaud/skyux/issues/3309)) ([cf4ccb0](https://github.com/blackbaud/skyux/commit/cf4ccb06e040d6c6ab70bc00d6881e88fa42a5b1))
+
+
+### Bug Fixes
+
+* **sdk/skyux-eslint:** set module resolution to "Node16" to address pathing issues with `@typescript-eslint/utils` ([#3316](https://github.com/blackbaud/skyux/issues/3316)) ([cc6922d](https://github.com/blackbaud/skyux/commit/cc6922ddf051ed47b6fa5d94d9ec21ee4f99bf46))
+
 ## [12.0.0-beta.3](https://github.com/blackbaud/skyux/compare/12.0.0-beta.2...12.0.0-beta.3) (2025-03-31)
 
 
