@@ -15,11 +15,13 @@
     guidelines.
   -->
   <span
-    aria-orientation="vertical"
     class="sky-vertical-tabset-tablist"
     [attr.aria-label]="ariaLabel"
     [attr.aria-labelledby]="ariaLabelledBy"
-    [attr.aria-owns]="(tabIdSvc.ids | async)?.join(' ') || undefined"
+    [attr.aria-orientation]="isMobile ? undefined : 'vertical'"
+    [attr.aria-owns]="
+      isMobile ? undefined : (tabIdSvc.ids | async)?.join(' ') || undefined
+    "
     [attr.role]="isMobile ? undefined : ariaRole"
   ></span>
   @if (maintainTabContent || tabService.tabsVisible()) {
