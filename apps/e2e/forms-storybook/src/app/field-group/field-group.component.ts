@@ -11,7 +11,6 @@ import { SkyFieldGroupModule, SkyInputBoxModule } from '@skyux/forms';
 @Component({
   selector: 'app-field-group',
   templateUrl: './field-group.component.html',
-  standalone: true,
   imports: [
     FormsModule,
     ReactiveFormsModule,

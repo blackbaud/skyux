@@ -54,7 +54,6 @@ export class ReadonlyGridInModalModalGridComponent {}
 export class ReadonlyGridInModalModalNotGridComponent {}
 
 @Component({
-  standalone: true,
   selector: 'app-readonly-grid-in-modal',
   template: '',
 })
