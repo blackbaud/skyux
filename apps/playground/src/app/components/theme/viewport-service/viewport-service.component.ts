@@ -18,7 +18,6 @@ import { SkyAppViewportService } from '@skyux/theme';
 
 @Component({
   selector: 'app-viewport-service',
-  standalone: true,
   imports: [SkyToolbarModule, SkyViewkeeperModule, NgClass],
   templateUrl: './viewport-service.component.html',
   styleUrl: './viewport-service.component.css',

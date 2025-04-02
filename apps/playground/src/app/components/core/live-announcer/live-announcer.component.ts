@@ -6,7 +6,6 @@ import { SkyInputBoxModule } from '@skyux/forms';
 @Component({
   selector: 'app-live-announcer',
   templateUrl: './live-announcer.component.html',
-  standalone: true,
   imports: [FormsModule, SkyInputBoxModule],
 })
 export default class LiveAnnouncerComponent {

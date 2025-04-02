@@ -54,7 +54,6 @@ export class EditComplexCellsInModalModalGridComponent {}
 export class EditComplexCellsInModalModalNotGridComponent {}
 
 @Component({
-  standalone: true,
   selector: 'app-edit-complex-cells-in-modal',
   template: '',
 })

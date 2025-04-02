@@ -27,7 +27,6 @@ interface DemoForm {
 }
 
 @Component({
-  standalone: true,
   selector: 'app-demosplitview',
   templateUrl: './demosplitview.component.html',
   imports: [
