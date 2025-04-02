@@ -11,8 +11,8 @@
     guidelines.
   -->
   <span
-    aria-orientation="vertical"
-    [attr.aria-owns]="ariaOwns"
+    [attr.aria-orientation]="ariaRole ? 'vertical' : undefined"
+    [attr.aria-owns]="ariaRole ? ariaOwns : undefined"
     [attr.role]="ariaRole"
   ></span>
   @if (maintainSectionContent || tabsVisible()) {

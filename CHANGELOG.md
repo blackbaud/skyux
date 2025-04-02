@@ -1,5 +1,27 @@
 # Changelog
 
+## [12.0.0-beta.5](https://github.com/blackbaud/skyux/compare/12.0.0-beta.4...12.0.0-beta.5) (2025-04-02)
+
+
+### Features
+
+* **components/lookup:** add `allowAnyValue` and `highlightSearchText` to SkyAgGridAutocompleteProperties ([a6d387b](https://github.com/blackbaud/skyux/commit/a6d387bfca431cb97ca240b5dcf5c927a07ff8ae))
+
+
+### Bug Fixes
+
+* **components/docs-tools:** set correct path for type definition anchor links ([#3322](https://github.com/blackbaud/skyux/issues/3322)) ([1e53503](https://github.com/blackbaud/skyux/commit/1e535036000aa14bb381fb03f9c50809e1434dcc))
+* **components/packages:** only set `size` on icon component if `iconSize` not set ([#3329](https://github.com/blackbaud/skyux/issues/3329)) ([5a4f805](https://github.com/blackbaud/skyux/commit/5a4f8056a4cf281e6ddc300988dc6bbaee90cb91))
+* **components/tabs:** accessibility tests for sectioned-form in mobile view ([#3326](https://github.com/blackbaud/skyux/issues/3326)) ([#3327](https://github.com/blackbaud/skyux/issues/3327)) ([74ce695](https://github.com/blackbaud/skyux/commit/74ce6950b7d9756bac5d9a39d48756cea3604e62))
+* fix icon mapping for previous `usd` icon ([#3323](https://github.com/blackbaud/skyux/issues/3323)) ([3d7829a](https://github.com/blackbaud/skyux/commit/3d7829a15199df3e63573437b6a74d84f6cad72c))
+
+## [11.49.1](https://github.com/blackbaud/skyux/compare/11.49.0...11.49.1) (2025-04-02)
+
+
+### Bug Fixes
+
+* **components/tabs:** accessibility tests for sectioned-form in mobile view ([#3326](https://github.com/blackbaud/skyux/issues/3326)) ([14e95c6](https://github.com/blackbaud/skyux/commit/14e95c6766d4e5824aadbcb4c69fcc253a52d2b8))
+
 ## [12.0.0-beta.4](https://github.com/blackbaud/skyux/compare/12.0.0-beta.3...12.0.0-beta.4) (2025-04-01)
 
 
