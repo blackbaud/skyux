@@ -939,6 +939,18 @@ describe('Vertical tabset component', () => {
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
+  it('should be accessible in mobile', async () => {
+    const fixture = createTestComponent();
+
+    // Show the tab's panel for the test.
+    fixture.componentInstance.showScrollable = true;
+    mediaQueryController.setBreakpoint('xs');
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
   it('maintainTabContent - tab content remains in same order', fakeAsync(() => {
     mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
@@ -1073,6 +1085,18 @@ describe('Vertical tabset component', () => {
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
+
+  it('should be accessible when content pane is scrollable in mobile', async () => {
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    fixture.componentInstance.showScrollable = true;
+    mediaQueryController.setBreakpoint('xs');
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });
 
 describe('Vertical tabset component - with ngFor', () => {
@@ -1082,10 +1106,13 @@ describe('Vertical tabset component - with ngFor', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyVerticalTabsFixturesModule],
+      providers: [provideSkyMediaQueryTesting()],
     });
     fixture = TestBed.createComponent(VerticalTabsetWithNgForTestComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
   });
 
   it('should dynamically show and hide tabs with structural directives', () => {
@@ -1163,9 +1190,12 @@ describe('Vertical tabset component - no subtabs', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyVerticalTabsFixturesModule],
+      providers: [provideSkyMediaQueryTesting()],
     });
     fixture = TestBed.createComponent(VerticalTabsetEmptyGroupTestComponent);
     fixture.detectChanges();
+
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
   });
 
   it('group without tab should load without failing', () => {
@@ -1180,9 +1210,12 @@ describe('Vertical tabset component - no groups', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyVerticalTabsFixturesModule],
+      providers: [provideSkyMediaQueryTesting()],
     });
     fixture = TestBed.createComponent(VerticalTabsetNoGroupTestComponent);
     fixture.detectChanges();
+
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
   });
 
   it('should load tabs without groups', () => {
@@ -1208,6 +1241,13 @@ describe('Vertical tabset component - no groups', () => {
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
+
+  it('should be accessible in mobile', async () => {
+    mediaQueryController.setBreakpoint('xs');
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });
 
 describe('Vertical tabset no active tabs', () => {
@@ -1216,9 +1256,12 @@ describe('Vertical tabset no active tabs', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyVerticalTabsFixturesModule],
+      providers: [provideSkyMediaQueryTesting()],
     });
     fixture = TestBed.createComponent(VerticalTabsetNoActiveTestComponent);
     fixture.detectChanges();
+
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
   });
 
   it('should not fail when trying to move active content when no tabs are active', () => {
@@ -1227,6 +1270,12 @@ describe('Vertical tabset no active tabs', () => {
   });
 
   it('should be accessible', async () => {
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should be accessible in mobile', async () => {
+    mediaQueryController.setBreakpoint('xs');
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
