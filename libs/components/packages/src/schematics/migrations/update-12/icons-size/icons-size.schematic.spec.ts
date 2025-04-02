@@ -141,7 +141,7 @@ export class Icon3Component {}`,
 <!-- should not change -->
 <sky-icon
   iconName="bar"
-  iconSize="md"
+  iconSize="m"
 />
 `,
     );
