@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import {
   ChangeDetectorRef,
   DestroyRef,
@@ -8,6 +7,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
+import { SkyAppWindowRef } from '@skyux/core';
 
 import { SkyDocsTypeDefinitionAnchorIdsService } from '../type-anchor-ids.service';
 
@@ -26,7 +26,7 @@ export class SkyTypeAnchorLinksPipe implements PipeTransform {
   readonly #anchorSvc = inject(SkyDocsTypeDefinitionAnchorIdsService);
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #destroyRef = inject(DestroyRef);
-  readonly #location = inject(Location);
+  readonly #windowRef = inject(SkyAppWindowRef);
 
   readonly #cache: Record<string, string> = {};
 
@@ -45,7 +45,9 @@ export class SkyTypeAnchorLinksPipe implements PipeTransform {
             this.#activatedRoute.queryParams
               .pipe(takeUntilDestroyed(this.#destroyRef))
               .subscribe(() => {
-                const href = this.#getHref(anchorId);
+                const href =
+                  this.#windowRef.nativeWindow.location.href.split('#')[0] +
+                  `#${anchorId}`;
 
                 this.#cache[value] =
                   `<a class="sky-docs-codespan-anchor" href="${href}">${maybeType}</a>`;
@@ -66,9 +68,5 @@ export class SkyTypeAnchorLinksPipe implements PipeTransform {
     }
 
     return value;
-  }
-
-  #getHref(anchorId: string): string {
-    return `${this.#location.path()}#${anchorId}`;
   }
 }
