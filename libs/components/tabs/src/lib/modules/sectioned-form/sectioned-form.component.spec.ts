@@ -443,6 +443,14 @@ describe('Sectioned form component', () => {
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
+  it('should be accessible in mobile view', async () => {
+    const fixture = createTestComponent();
+    mediaQueryController.setBreakpoint('xs');
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
   it('maintainSectionContent - tab content remains in same order', () => {
     const fixture = createTestComponent();
     fixture.componentInstance.maintainSectionContent = true;
@@ -495,10 +503,15 @@ describe('Sectioned form component', () => {
 });
 
 describe('Sectioned form component - no sections', () => {
+  let mediaQueryController: SkyMediaQueryTestingController;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkySectionedFormFixturesModule],
+      providers: [provideSkyMediaQueryTesting()],
     });
+
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
   });
 
   function createTestComponent() {
@@ -518,13 +531,33 @@ describe('Sectioned form component - no sections', () => {
     expect(allTabs.length).toBe(1);
     expect(allTabs[0].textContent.trim()).toBe('');
   });
+
+  it('should be accessible', async () => {
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should be accessible in mobile view', async () => {
+    const fixture = createTestComponent();
+    mediaQueryController.setBreakpoint('xs');
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });
 
 describe('Sectioned form component - no active sections', () => {
+  let mediaQueryController: SkyMediaQueryTestingController;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkySectionedFormFixturesModule],
+      providers: [provideSkyMediaQueryTesting()],
     });
+
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
   });
 
   function createTestComponent() {
@@ -549,6 +582,14 @@ describe('Sectioned form component - no active sections', () => {
 
   it('should be accessible', async () => {
     const fixture = createTestComponent();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should be accessible in mobile view', async () => {
+    const fixture = createTestComponent();
+    mediaQueryController.setBreakpoint('xs');
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();

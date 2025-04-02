@@ -62,6 +62,21 @@ export class Icon3Component {}`,
       `<sky-icon icon="plus-circle"></sky-icon>`,
     );
 
+    tree.create(
+      '/icon-size-already-set.html',
+      `
+<!-- should change -->
+<sky-icon
+  icon="foo"
+/>
+<!-- should not change -->
+<sky-icon
+  iconName="bar"
+  iconSize="m"
+/>
+`,
+    );
+
     tree.create('/angular.json', JSON.stringify(angularJson));
 
     await runner.runSchematic('icons-size', {}, tree);
@@ -111,6 +126,24 @@ export class Icon3Component {}`,
 
     expect(tree.readText('/icon5.component.html')).toBe(
       `<sky-icon variant="line" size="sm" icon="plus-circle"></sky-icon>`,
+    );
+  });
+
+  it('should not set "size" if "iconSize" already set', async () => {
+    const { tree } = await setupTest();
+
+    expect(tree.readText('/icon-size-already-set.html')).toBe(
+      `
+<!-- should change -->
+<sky-icon size="md"
+  icon="foo"
+/>
+<!-- should not change -->
+<sky-icon
+  iconName="bar"
+  iconSize="m"
+/>
+`,
     );
   });
 

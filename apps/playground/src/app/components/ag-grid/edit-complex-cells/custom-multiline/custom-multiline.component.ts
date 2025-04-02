@@ -9,7 +9,6 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
-  standalone: true,
   selector: 'app-custom-multiline',
   templateUrl: './custom-multiline.component.html',
   encapsulation: ViewEncapsulation.None,
