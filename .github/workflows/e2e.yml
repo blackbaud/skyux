@@ -348,31 +348,44 @@ jobs:
           echo '# PERCY_TARGET_BRANCH' $PERCY_TARGET_BRANCH
           echo '# PERCY_TARGET_COMMIT' $PERCY_TARGET_COMMIT
 
+          check_logs() {
+            echo "\n"$(printf "=%.s" {1..80})"\n"
+            echo -n "Checking for finalized build: "
+            grep -E '^\[percy] Finalized build ' ${{ runner.temp }}/percy-${{ matrix.project }}.log || true
+            FINALIZED=$(grep -cE '^\[percy] Finalized build ' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
+            echo -n "Checking exit code: "
+            grep -E ' exited with status: 0$' ${{ runner.temp }}/percy-${{ matrix.project }}.log || true
+            SUCCESS=$(grep -cE ' exited with status: 0$' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
+            echo "\n"$(printf "=%.s" {1..80})"\n"
+          }
+
           # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
           npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-parallel 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
           RESULT=$?
-          FINALIZED=$(grep -cE '^\[percy] Finalized build ' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
-          if [ $RESULT -ne 0 ] || [ $FINALIZED -eq 0 ]; then
-            echo "Percy failed with exit code $RESULT"
+          check_logs
+          if [ $RESULT -ne 0 ] || [ $SUCCESS -eq 0 ] || [ $FINALIZED -eq 0 ]; then
             RETRY=$(grep -cE '(This is likely a client error|Error: Can only finalize pending builds|Module loop: this module is already being loaded|Failed to connect to the bus: Could not parse server address: Unknown address type)' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
             if [ $RETRY -gt 0 ] || [ $FINALIZED -eq 0 ]; then
-              echo "Percy client error. Retrying..."
+              echo "Retrying..."
+              echo "\n"$(printf "=%.s" {1..80})"\n"
               set -eo pipefail
               npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-parallel 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
-              FINALIZED=$(grep -cE '^\[percy] Finalized build ' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
-              RESULT=$(grep -cE 'exited with status: 0$' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
-              if [ $RESULT -eq 0 ] || [ $FINALIZED -ne 0 ]; then
-                echo "Unable to finalize Percy build. Exiting with error."
+              check_logs
+              if [ $SUCCESS -eq 0 ]; then
+                echo "Test failed."
+                exit 1
+              fi
+              if [ $FINALIZED -eq 0 ]; then
+                echo "Unable to finalize Percy build."
                 exit 1
               fi
             else
-              echo "Unknown Percy build error. Exiting."
+              echo "Exiting."
               exit 1
             fi
           fi
           # Extract the Percy build number from the log
           fgrep '[percy] Finalized build' ${{ runner.temp }}/percy-${{ matrix.project }}.log | node -e "const rl=require('readline').createInterface({ input: process.stdin }); rl.on('line', (input) => console.log(input.split('/').pop()))" > ${{ runner.temp }}/percy-build-${{ matrix.project }}.txt
-          exit $RESULT
         env:
           PERCY_TARGET_BRANCH: ${{ needs.install-deps.outputs.base-branch }}
           PERCY_TARGET_COMMIT: ${{ steps.affected.outputs.percy_target_commit }}
