@@ -95,9 +95,9 @@
     }
   },
   "peerDependencies": {
-    "@angular/cdk": "^19.2.2",
-    "@angular/cli": "^19.2.1",
-    "@angular/core": "^19.2.1"
+    "@angular/cdk": "^19.2.7",
+    "@angular/cli": "^19.2.5",
+    "@angular/core": "^19.2.4"
   },
   "dependencies": {
     "fs-extra": "11.3.0",

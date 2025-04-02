@@ -21,9 +21,9 @@
     }
   },
   "peerDependencies": {
-    "@angular/common": "^19.2.1",
-    "@angular/core": "^19.2.1",
-    "@angular/forms": "^19.2.1",
+    "@angular/common": "^19.2.4",
+    "@angular/core": "^19.2.4",
+    "@angular/forms": "^19.2.4",
     "@skyux/autonumeric": "0.0.0-PLACEHOLDER",
     "@skyux/core": "0.0.0-PLACEHOLDER",
     "@skyux/data-manager": "0.0.0-PLACEHOLDER",
