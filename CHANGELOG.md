@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.49.1](https://github.com/blackbaud/skyux/compare/11.49.0...11.49.1) (2025-04-02)
+
+
+### Bug Fixes
+
+* **components/tabs:** accessibility tests for sectioned-form in mobile view ([#3326](https://github.com/blackbaud/skyux/issues/3326)) ([14e95c6](https://github.com/blackbaud/skyux/commit/14e95c6766d4e5824aadbcb4c69fcc253a52d2b8))
+
 ## [11.49.0](https://github.com/blackbaud/skyux/compare/11.48.0...11.49.0) (2025-03-27)
 
 
