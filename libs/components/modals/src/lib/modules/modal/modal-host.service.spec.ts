@@ -1,6 +1,7 @@
 import {
   DestroyRef,
   EnvironmentInjector,
+  FactoryProvider,
   createEnvironmentInjector,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
@@ -12,18 +13,20 @@ import { of } from 'rxjs';
 import { SkyModalHostService } from './modal-host.service';
 
 describe('Modal host service', () => {
+  function provideTestStackingContext(): FactoryProvider {
+    return {
+      provide: SKY_STACKING_CONTEXT,
+      useFactory: (
+        service: SkyStackingContextService,
+        destroyRef: DestroyRef,
+      ) => ({ zIndex: of(service.getZIndex('modal', destroyRef)) }),
+      deps: [SkyStackingContextService, DestroyRef],
+    };
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: SKY_STACKING_CONTEXT,
-          useFactory: (
-            service: SkyStackingContextService,
-            destroyRef: DestroyRef,
-          ) => ({ zIndex: of(service.getZIndex('modal', destroyRef)) }),
-          deps: [SkyStackingContextService, DestroyRef],
-        },
-      ],
+      providers: [provideTestStackingContext()],
     });
   });
 
@@ -37,17 +40,7 @@ describe('Modal host service', () => {
   it('should increment the modal z-index values when a new instance is created', () => {
     const service1 = TestBed.inject(SkyModalHostService);
     const service2 = createEnvironmentInjector(
-      [
-        SkyModalHostService,
-        {
-          provide: SKY_STACKING_CONTEXT,
-          useFactory: (
-            service: SkyStackingContextService,
-            destroyRef: DestroyRef,
-          ) => ({ zIndex: of(service.getZIndex('modal', destroyRef)) }),
-          deps: [SkyStackingContextService, DestroyRef],
-        },
-      ],
+      [SkyModalHostService, provideTestStackingContext()],
       TestBed.inject(EnvironmentInjector),
     ).get(SkyModalHostService, undefined, {
       self: true,
@@ -64,17 +57,7 @@ describe('Modal host service', () => {
   it('should decrement the backdrop z-index when an instance is destroyed', () => {
     const service1 = TestBed.inject(SkyModalHostService);
     const service2 = createEnvironmentInjector(
-      [
-        SkyModalHostService,
-        {
-          provide: SKY_STACKING_CONTEXT,
-          useFactory: (
-            service: SkyStackingContextService,
-            destroyRef: DestroyRef,
-          ) => ({ zIndex: of(service.getZIndex('modal', destroyRef)) }),
-          deps: [SkyStackingContextService, DestroyRef],
-        },
-      ],
+      [SkyModalHostService, provideTestStackingContext()],
       TestBed.inject(EnvironmentInjector),
     ).get(SkyModalHostService, undefined, {
       self: true,
@@ -96,17 +79,7 @@ describe('Modal host service', () => {
 
     const service1 = TestBed.inject(SkyModalHostService);
     const service2 = createEnvironmentInjector(
-      [
-        SkyModalHostService,
-        {
-          provide: SKY_STACKING_CONTEXT,
-          useFactory: (
-            service: SkyStackingContextService,
-            destroyRef: DestroyRef,
-          ) => ({ zIndex: of(service.getZIndex('modal', destroyRef)) }),
-          deps: [SkyStackingContextService, DestroyRef],
-        },
-      ],
+      [SkyModalHostService, provideTestStackingContext()],
       TestBed.inject(EnvironmentInjector),
     ).get(SkyModalHostService, undefined, {
       self: true,

@@ -153,7 +153,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   })
   public flyoutHeader: ElementRef | undefined;
 
-  readonly #stackingContextService = inject(SkyStackingContextService);
   protected zIndex$ = new BehaviorSubject(
     inject(SkyStackingContextService).getZIndex('flyout', inject(DestroyRef)),
   );
@@ -189,7 +188,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public ngOnDestroy(): void {
-    this.#stackingContextService.unsetZIndex(this.zIndex$.getValue());
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }
