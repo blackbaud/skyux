@@ -4,7 +4,7 @@ import { visitProjectFiles } from '../../../utility/visit-project-files';
 import { getWorkspace } from '../../../utility/workspace';
 
 const NO_SIZE_REGEX =
-  /(?<beforeEnd><sky-icon(?![^>]* size=)(?![^>]*\[size\]=))/g;
+  /(?<beforeEnd><sky-icon(?![^>]* size=)(?![^>]*(?:size|iconSize)=))/g;
 
 function addSize(html: string): string {
   return html.replaceAll(
@@ -31,7 +31,7 @@ async function updateSourceFiles(tree: Tree): Promise<void> {
 }
 
 /**
- * Rename tabIndex inputs on sky-tab to tabIndexValue.
+ * Adds `size` to all icon components.
  */
 export default function (): Rule {
   return async (tree: Tree): Promise<void> => {
