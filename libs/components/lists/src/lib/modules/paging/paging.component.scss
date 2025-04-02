@@ -21,12 +21,14 @@
   --sky-override-paging-btn-box-shadow-focus: none;
   --sky-override-paging-btn-color: inherit;
   --sky-override-paging-btn-color-disabled: #{$sky-text-color-deemphasized};
+  --sky-override-paging-btn-float: left;
   --sky-override-paging-btn-font-size: #{$sky-font-size-base};
   --sky-override-paging-btn-font-variant-numeric: normal;
   --sky-override-paging-btn-iterators-padding: 4px 8.5px;
   --sky-override-paging-btn-iterators-padding-active: 4px 8.5px;
   --sky-override-paging-btn-iterators-padding-focus: 4px 8.5px;
   --sky-override-paging-btn-iterators-padding-hover: 4px 8.5px;
+  --sky-override-paging-btn-line-height: calc(20 / 14);
   --sky-override-paging-btn-margin-left: -1px;
   --sky-override-paging-btn-margin-right: 0;
   --sky-override-paging-btn-outline-focus: auto;
@@ -46,9 +48,11 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-paging') {
+  --sky-override-paging-btn-float: left;
   --sky-override-paging-btn-font-size: #{$sky-font-size-base};
   --sky-override-paging-btn-font-variant-numeric: normal;
   --sky-override-paging-btn-iterators-padding: 3px 10px;
+  --sky-override-paging-btn-line-height: calc(20 / 14);
   --sky-override-paging-btn-margin-left: -1px;
   --sky-override-paging-btn-padding: 3px 10px;
   --sky-override-paging-ul-margin: #{$sky-margin-plus-half} 0 0 0;
@@ -105,6 +109,7 @@
       var(--sky-color-background-action-tertiary-base)
     );
     color: var(--sky-override-paging-btn-color, var(--sky-color-text-default));
+    float: var(--sky-override-paging-btn-float);
     margin-left: var(--sky-override-paging-btn-margin-left);
     margin-right: var(
       --sky-override-paging-btn-margin-right,
@@ -124,6 +129,10 @@
     font-variant-numeric: var(
       --sky-override-paging-btn-font-variant-numeric,
       tabular-nums
+    );
+    line-height: var(
+      --sky-override-paging-btn-line-height,
+      var(--sky-font-line_height-body-m)
     );
     cursor: pointer;
 
