@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.0.0](https://github.com/blackbaud/skyux/compare/12.0.0-beta.5...12.0.0) (2025-04-02)
+
+
+### Features
+
+* release 12.0.0 ([#3333](https://github.com/blackbaud/skyux/issues/3333)) ([80b6475](https://github.com/blackbaud/skyux/commit/80b6475cae9e9291545e769e43e9f05c0a747259))
+
 ## [12.0.0-beta.5](https://github.com/blackbaud/skyux/compare/12.0.0-beta.4...12.0.0-beta.5) (2025-04-02)
 
 
