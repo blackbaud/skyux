@@ -161,6 +161,34 @@ describe('Wait component', () => {
 
       expect(el.querySelector('.sky-wait-mask-loading-blocking')).toBeNull();
     });
+
+    it('should not block a menu overlay', () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+      fixture.componentInstance.isWaiting = true;
+      fixture.componentInstance.showMenuOverlay = true;
+      fixture.detectChanges();
+
+      const el = fixture.nativeElement;
+
+      const mask: HTMLElement | undefined = el.querySelector(
+        '.sky-wait-mask-loading-blocking',
+      );
+      const menu: Element | null = el.querySelector('.menu-overlay');
+      expect(mask).toBeTruthy();
+      expect(menu).toBeTruthy();
+      const boundingBox = mask?.getBoundingClientRect();
+      expect(boundingBox).toBeTruthy();
+      expect(document.elementFromPoint(boundingBox!.x, boundingBox!.y)).toBe(
+        menu,
+      );
+
+      fixture.componentInstance.showMenuOverlay = false;
+      fixture.detectChanges();
+
+      expect(document.elementFromPoint(boundingBox!.x, boundingBox!.y)).toBe(
+        mask as Element,
+      );
+    });
   });
 
   describe('keyboard navigation', () => {
