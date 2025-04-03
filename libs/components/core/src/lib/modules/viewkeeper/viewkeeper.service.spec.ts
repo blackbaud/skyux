@@ -1,3 +1,5 @@
+import { TestBed } from '@angular/core/testing';
+
 import { SkyViewkeeperService } from './viewkeeper.service';
 
 describe('Viewkeeper service', () => {
@@ -5,7 +7,7 @@ describe('Viewkeeper service', () => {
     const testEl = document.createElement('div');
     const testBoundaryEl = document.createElement('div');
 
-    const svc = new SkyViewkeeperService();
+    const svc = TestBed.inject(SkyViewkeeperService);
 
     const viewkeeper = svc.create({
       boundaryEl: testBoundaryEl,

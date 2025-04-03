@@ -1,9 +1,12 @@
+import { Renderer2 } from '@angular/core';
+
 import { SkyViewkeeperBoundaryInfo } from './viewkeeper-boundary-info';
 import { SkyViewkeeperFixedStyles } from './viewkeeper-fixed-styles';
 import { SkyViewkeeperOffset } from './viewkeeper-offset';
 import { SkyViewkeeperOptions } from './viewkeeper-options';
 
 const CLS_VIEWKEEPER_FIXED = 'sky-viewkeeper-fixed';
+const CLS_VIEWKEEPER_BOUNDARY = 'sky-viewkeeper-boundary';
 const EVT_AFTER_VIEWKEEPER_SYNC = 'afterViewkeeperSync';
 
 let styleEl: HTMLStyleElement;
@@ -14,6 +17,11 @@ function ensureStyleEl(): void {
     styleEl = document.createElement('style');
 
     const css = document.createTextNode(`
+*:where(.${CLS_VIEWKEEPER_BOUNDARY}) {
+  position: relative;
+  z-index: 1;
+}
+
 .${CLS_VIEWKEEPER_FIXED} {
   position: fixed !important;
   z-index: 999;
@@ -87,14 +95,6 @@ function setElPosition(
   }
 }
 
-function setBoundaries(boundaryEl: HTMLElement): void {
-  const style = getComputedStyle(boundaryEl);
-  if (style.position === 'static') {
-    boundaryEl.style.position = 'relative';
-    boundaryEl.style.zIndex = '1';
-  }
-}
-
 function getHeightWithMargin(el: HTMLElement): number {
   const computedStyle = getComputedStyle(el);
 
@@ -111,6 +111,11 @@ function createCustomEvent(name: any): CustomEvent<any> {
   evt.initCustomEvent(name, false, false, undefined);
 
   return evt;
+}
+
+interface Renderer {
+  addClass(el: HTMLElement, className: string): void;
+  removeClass(el: HTMLElement, className: string): void;
 }
 
 export class SkyViewkeeper {
@@ -150,6 +155,8 @@ export class SkyViewkeeper {
 
   #spacerResizeObserver: ResizeObserver | undefined;
 
+  readonly #renderer: Renderer | Renderer2;
+
   constructor(options: SkyViewkeeperOptions) {
     options = options || /* istanbul ignore next */ {};
 
@@ -172,6 +179,14 @@ export class SkyViewkeeper {
     this.#scrollableHost = options.scrollableHost;
     this.#verticalOffset = options.verticalOffset || 0;
     this.#verticalOffsetEl = options.verticalOffsetEl;
+    this.#renderer = options.renderer || {
+      addClass(el: HTMLElement, className: string) {
+        el.classList.add(className);
+      },
+      removeClass(el: HTMLElement, className: string) {
+        el.classList.remove(className);
+      },
+    };
 
     // Only set viewport margin if the scrollable host is undefined.
     if (!this.#scrollableHost) {
@@ -194,7 +209,7 @@ export class SkyViewkeeper {
     window.addEventListener('orientationchange', this.#syncElPositionHandler);
 
     ensureStyleEl();
-    setBoundaries(boundaryEl);
+    this.#renderer.addClass(this.#boundaryEl, CLS_VIEWKEEPER_BOUNDARY);
 
     this.syncElPosition(el, boundaryEl);
   }
@@ -247,6 +262,9 @@ export class SkyViewkeeper {
       }
 
       this.#spacerResizeObserver?.disconnect();
+      if (this.#boundaryEl) {
+        this.#renderer.removeClass(this.#boundaryEl, CLS_VIEWKEEPER_BOUNDARY);
+      }
 
       this.#el =
         this.#boundaryEl =
@@ -274,7 +292,7 @@ export class SkyViewkeeper {
       }
     }
 
-    el.classList.remove(CLS_VIEWKEEPER_FIXED);
+    this.#renderer.removeClass(el, CLS_VIEWKEEPER_FIXED);
 
     this.#currentElFixedLeft =
       this.#currentElFixedTop =
@@ -417,7 +435,7 @@ export class SkyViewkeeper {
       this.#spacerResizeObserver.observe(spacerEl);
     }
 
-    el.classList.add(CLS_VIEWKEEPER_FIXED);
+    this.#renderer.addClass(el, CLS_VIEWKEEPER_FIXED);
 
     this.#currentElFixedTop = fixedStyles.elFixedTop;
     this.#currentElFixedLeft = fixedStyles.elFixedLeft;

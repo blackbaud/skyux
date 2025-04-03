@@ -1,3 +1,5 @@
+import { Renderer2 } from '@angular/core';
+
 /**
  * Options for creating a viewkeeper instance.
  */
@@ -49,4 +51,9 @@ export interface SkyViewkeeperOptions {
    * Custom CSS property for reserved space at the top of the viewport.
    */
   viewportMarginProperty?: `--${string}`;
+
+  /**
+   * The renderer to use for DOM manipulation.
+   */
+  renderer?: Renderer2;
 }
