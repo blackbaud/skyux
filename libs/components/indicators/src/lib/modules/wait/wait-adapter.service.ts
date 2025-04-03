@@ -43,12 +43,16 @@ export class SkyWaitAdapterService implements OnDestroy {
       'position',
       'relative',
     );
-    this.#renderer.setStyle(waitEl.nativeElement.parentElement, 'z-index', '1');
+    this.#renderer.setStyle(
+      waitEl.nativeElement.parentElement,
+      'isolation',
+      'isolate',
+    );
   }
 
   public removeWaitBounds(waitEl: ElementRef): void {
     this.#renderer.removeStyle(waitEl.nativeElement.parentElement, 'position');
-    this.#renderer.removeStyle(waitEl.nativeElement.parentElement, 'z-index');
+    this.#renderer.removeStyle(waitEl.nativeElement.parentElement, 'isolation');
   }
 
   public setBusyState(
