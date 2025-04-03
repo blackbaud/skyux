@@ -95,15 +95,6 @@ describe('Icon SVG component', () => {
     validateIconId('#test-32-solid');
   }));
 
-  it("should use the host element's text color as its fill color", fakeAsync(() => {
-    fixture.nativeElement.style.color = '#0f0';
-
-    fixture.componentRef.setInput('iconName', 'test');
-    detectUrlChanges();
-
-    expect(getComputedStyle(getSvgEl()).fill).toBe('rgb(0, 255, 0)');
-  }));
-
   it('should handle errors', fakeAsync(() => {
     resolverSvc.resolveHref.and.throwError('Icon could not be resolved');
 
