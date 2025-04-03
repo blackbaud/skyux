@@ -31,7 +31,10 @@
   width: auto;
   left: 0;
   right: 0;
-  top: 20px;
+  top: var(
+    --sky-override-modal-top-position,
+    var(--sky-space-inset-vertical-fixed-top-l)
+  );
   margin: $sky-margin;
   display: flex;
   flex-direction: column;
