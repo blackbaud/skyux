@@ -42,7 +42,7 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
   #viewConfig: SkyDataViewConfig = {
     id: this.viewId,
     name: 'Repeater View',
-    icon: 'list',
+    iconName: 'text-bullet-list',
     searchEnabled: true,
     sortEnabled: true,
     filterButtonEnabled: true,
