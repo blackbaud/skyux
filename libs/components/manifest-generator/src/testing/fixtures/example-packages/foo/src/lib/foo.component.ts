@@ -38,6 +38,11 @@ export class FooComponent implements OnDestroy {
   public fooRequired = input.required<string>();
 
   /**
+   * This describes an input signal with a boolean transformer.
+   */
+  public fooWithTransformer = input(false, { transform: booleanAttribute });
+
+  /**
    * This describes the bar input.
    * @default 'baz'
    * @required
