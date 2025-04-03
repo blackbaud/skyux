@@ -128,3 +128,11 @@ mark.sky-highlight-mark {
 .sky-field-status-success {
   @include mixins.sky-field-status('success');
 }
+
+.sky-isolate {
+  isolation: isolate;
+}
+
+.sky-relative {
+  position: relative;
+}
