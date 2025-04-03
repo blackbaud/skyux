@@ -354,7 +354,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts",
         "kind": "component",
         "name": "SkyFooNonStandaloneComponent",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L79",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L84",
         "selector": "sky-foo-non-standalone"
       },
       {
@@ -364,7 +364,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts",
         "kind": "component",
         "name": "SkyFooStandaloneComponent",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L89",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L94",
         "selector": "sky-foo-standalone"
       },
       {
@@ -389,6 +389,12 @@ exports[`generate-manifest > should generate manifest 1`] = `
             "kind": "directive-input",
             "name": "fooRequired",
             "type": "InputSignal<string>"
+          },
+          {
+            "description": "This describes an input signal with a boolean transformer.",
+            "kind": "directive-input",
+            "name": "fooWithTransformer",
+            "type": "InputSignalWithTransform<boolean, unknown>"
           },
           {
             "description": "This describes an input with only a setter.",
@@ -697,7 +703,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
             "description": "This describes a public method that returns a promise.",
             "kind": "class-method",
             "name": "someMethod",
-            "type": "Promise<Type<string>>"
+            "type": "Promise<Type$1<string>>"
           },
           {
             "defaultValue": "''",
