@@ -16,8 +16,7 @@ function ensureStyleEl(): void {
 
     const css = document.createTextNode(`
 *:where(.${CLS_VIEWKEEPER_BOUNDARY}) {
-  position: relative;
-  z-index: 1;
+  isolation: isolate;
 }
 
 .${CLS_VIEWKEEPER_FIXED} {
