@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.49.2](https://github.com/blackbaud/skyux/compare/11.49.1...11.49.2) (2025-04-03)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** hide AG Grid row dragging icon ([#3332](https://github.com/blackbaud/skyux/issues/3332)) ([90e04aa](https://github.com/blackbaud/skyux/commit/90e04aa9afca665d30171c225b8084ffe197230f))
+
 ## [11.49.1](https://github.com/blackbaud/skyux/compare/11.49.0...11.49.1) (2025-04-02)
 
 
