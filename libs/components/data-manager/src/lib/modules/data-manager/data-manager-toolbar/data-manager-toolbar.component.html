@@ -4,7 +4,7 @@
       <ng-content select="sky-data-manager-toolbar-primary-item" />
 
       @if (activeView?.filterButtonEnabled) {
-        <sky-toolbar-item>
+        <sky-toolbar-item class="sky-data-manager-filter">
           <sky-filter-button
             [showButtonText]="activeView?.showFilterButtonText"
             (filterButtonClick)="filterButtonClicked()"
@@ -13,7 +13,7 @@
       }
 
       @if (activeView?.sortEnabled) {
-        <sky-toolbar-item>
+        <sky-toolbar-item class="sky-data-manager-sort">
           <sky-sort [showButtonText]="activeView?.showSortButtonText">
             @for (item of dataManagerConfig?.sortOptions; track item) {
               <sky-sort-item
@@ -54,7 +54,7 @@
       <ng-content select="sky-data-manager-toolbar-left-item" />
 
       @if (activeView?.searchEnabled) {
-        <sky-toolbar-item>
+        <sky-toolbar-item class="sky-data-manager-search">
           <sky-search
             [expandMode]="activeView?.searchExpandMode"
             [placeholderText]="activeView?.searchPlaceholderText"
@@ -131,7 +131,7 @@
             {{ 'skyux_data_manager_clear_all_button_title' | skyLibResources }}
           </button>
         </sky-toolbar-item>
-        <sky-toolbar-view-actions>
+        <sky-toolbar-view-actions class="sky-data-manager-only-show-selected">
           <sky-checkbox
             [checked]="onlyShowSelected"
             [label]="

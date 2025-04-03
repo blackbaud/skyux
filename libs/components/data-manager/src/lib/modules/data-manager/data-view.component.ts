@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -42,6 +43,11 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
    */
   @Input()
   public viewId: string | undefined;
+
+  @HostBinding('attr.data-view-id')
+  public get dataViewId(): string | undefined {
+    return this.viewId;
+  }
 
   public get isActive(): boolean {
     return this.#_isActive;

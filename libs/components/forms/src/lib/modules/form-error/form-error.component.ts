@@ -49,7 +49,7 @@ export class SkyFormErrorComponent {
   @Input({ required: true })
   public errorText!: string;
 
-  @HostBinding('attr.errorName') public get hostErrorName(): string {
+  @HostBinding('attr.data-error-name') public get dataErrorName(): string {
     return this.errorName;
   }
 

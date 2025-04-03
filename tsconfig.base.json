@@ -61,6 +61,9 @@
       "@skyux/core": ["libs/components/core/src/index.ts"],
       "@skyux/core/testing": ["libs/components/core/testing/src/public-api.ts"],
       "@skyux/data-manager": ["libs/components/data-manager/src/index.ts"],
+      "@skyux/data-manager/testing": [
+        "libs/components/data-manager/testing/src/public-api.ts"
+      ],
       "@skyux/datetime": ["libs/components/datetime/src/index.ts"],
       "@skyux/datetime/testing": [
         "libs/components/datetime/testing/src/public-api.ts"
