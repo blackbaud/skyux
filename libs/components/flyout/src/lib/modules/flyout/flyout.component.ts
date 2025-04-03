@@ -12,6 +12,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   EnvironmentInjector,
   HostListener,
@@ -28,6 +29,8 @@ import {
   SKY_STACKING_CONTEXT,
   SkyDynamicComponentService,
   SkyResponsiveHostDirective,
+  SkyStackingContextService,
+  SkyStackingContextStratum,
   SkyUIConfigService,
 } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -150,7 +153,9 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   })
   public flyoutHeader: ElementRef | undefined;
 
-  protected zIndex$ = new BehaviorSubject(1001);
+  protected zIndex$ = new BehaviorSubject(
+    inject(SkyStackingContextService).getZIndex('flyout', inject(DestroyRef)),
+  );
 
   #flyoutInstance: SkyFlyoutInstance<any> | undefined;
 
@@ -229,6 +234,10 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
                 .asObservable()
                 .pipe(takeUntil(this.#ngUnsubscribe)),
             },
+          },
+          {
+            provide: SkyStackingContextStratum,
+            useValue: 'flyout',
           },
         ],
       },

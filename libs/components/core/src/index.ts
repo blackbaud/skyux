@@ -111,7 +111,9 @@ export { SkyScrollShadowDirective } from './lib/modules/scroll-shadow/scroll-sha
 
 export { SkyScrollableHostService } from './lib/modules/scrollable-host/scrollable-host.service';
 
+export { SkyStackingContextService } from './lib/modules/stacking-context/stacking-context.service';
 export { SkyStackingContext } from './lib/modules/stacking-context/stacking-context';
+export { SkyStackingContextStratum } from './lib/modules/stacking-context/stacking-context-stratum';
 export { SKY_STACKING_CONTEXT } from './lib/modules/stacking-context/stacking-context-token';
 
 export { SkyAppSetTitleArgs } from './lib/modules/title/set-title-args';

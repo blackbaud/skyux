@@ -16,7 +16,6 @@ function ensureStyleEl(): void {
     const css = document.createTextNode(`
 .${CLS_VIEWKEEPER_FIXED} {
   position: fixed !important;
-  z-index: 999;
   opacity: 0.95;
   overflow: hidden;
 }
@@ -142,11 +141,14 @@ export class SkyViewkeeper {
 
   #spacerResizeObserver: ResizeObserver | undefined;
 
+  #zIndex: number | undefined;
+
   constructor(options: SkyViewkeeperOptions) {
     options = options || /* istanbul ignore next */ {};
 
     this.#el = options.el;
     this.#boundaryEl = options.boundaryEl;
+    this.#zIndex = options.zIndex ?? 999;
 
     if (!this.#el) {
       throw new Error('[SkyViewkeeper] The option `el` is required.');
@@ -266,6 +268,7 @@ export class SkyViewkeeper {
     }
 
     el.classList.remove(CLS_VIEWKEEPER_FIXED);
+    el.style.zIndex = '';
 
     this.#currentElFixedLeft =
       this.#currentElFixedTop =
@@ -409,6 +412,7 @@ export class SkyViewkeeper {
     }
 
     el.classList.add(CLS_VIEWKEEPER_FIXED);
+    el.style.zIndex = String(this.#zIndex);
 
     this.#currentElFixedTop = fixedStyles.elFixedTop;
     this.#currentElFixedLeft = fixedStyles.elFixedLeft;

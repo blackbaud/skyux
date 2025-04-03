@@ -2,6 +2,7 @@
   <button
     class="sky-btn sky-btn-primary sky-skip-link"
     type="button"
+    [style.z-index]="zIndex"
     (click)="skipTo(link)"
   >
     {{ 'skyux_list_skip_to_link' | skyLibResources: link.title }}

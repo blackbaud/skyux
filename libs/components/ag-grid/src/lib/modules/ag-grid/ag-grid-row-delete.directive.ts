@@ -1,6 +1,7 @@
 import {
   AfterContentInit,
   AfterViewInit,
+  DestroyRef,
   Directive,
   ElementRef,
   EnvironmentInjector,
@@ -22,6 +23,8 @@ import {
   SkyDynamicComponentService,
   SkyOverlayService,
   SkyScrollableHostService,
+  SkyStackingContextService,
+  SkyStackingContextStratum,
 } from '@skyux/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -91,7 +94,12 @@ export class SkyAgGridRowDeleteDirective
     equal: (a, b) => a.length === b.length && a.every((v, i) => v === b[i]),
   });
   readonly #clipPath = new BehaviorSubject<string | undefined>(undefined);
-  readonly #zIndex = new BehaviorSubject(998);
+  readonly #zIndex = new BehaviorSubject(
+    inject(SkyStackingContextService).getZIndex(
+      inject(SkyStackingContextStratum),
+      inject(DestroyRef),
+    ),
+  );
   readonly #affixService = inject(SkyAffixService);
   readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
   readonly #elementRef = inject(ElementRef<HTMLElement>);

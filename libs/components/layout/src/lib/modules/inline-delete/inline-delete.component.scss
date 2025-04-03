@@ -21,7 +21,6 @@
     --sky-override-inline-delete-background-color,
     var(--sky-color-background-scrim)
   );
-  z-index: 999;
   border: var(
     --sky-override-inline-delete-border,
     var(--sky-border-width-selected-m) solid var(--sky-color-border-danger)
