@@ -1,4 +1,4 @@
-import { Injectable, Optional, RendererFactory2, inject } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 
 import { SkyViewkeeper } from './viewkeeper';
 import { SkyViewkeeperHostOptions } from './viewkeeper-host-options';
@@ -12,7 +12,6 @@ import { SkyViewkeeperOptions } from './viewkeeper-options';
 })
 export class SkyViewkeeperService {
   #hostOptions: SkyViewkeeperHostOptions | undefined;
-  readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
 
   constructor(@Optional() hostOptions?: SkyViewkeeperHostOptions) {
     this.#hostOptions = hostOptions;
@@ -23,11 +22,7 @@ export class SkyViewkeeperService {
    * @param options Creates a viewkeeper instance, applying host options where applicable.
    */
   public create(options: SkyViewkeeperOptions): SkyViewkeeper {
-    options = Object.assign(
-      { renderer: this.#renderer },
-      this.#hostOptions || {},
-      options,
-    );
+    options = Object.assign({}, this.#hostOptions || {}, options);
 
     return new SkyViewkeeper(options);
   }
