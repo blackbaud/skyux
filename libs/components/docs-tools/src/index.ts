@@ -15,6 +15,7 @@ export { SkyDocsHeadingAnchorHeadingLevel } from './lib/modules/heading-anchor/h
 export { SkyDocsHeadingAnchorHeadingTextFormat } from './lib/modules/heading-anchor/heading-anchor-heading-text-format';
 export { SkyDocsHeadingAnchorModule } from './lib/modules/heading-anchor/heading-anchor.module';
 export { SkyDocsHeadingAnchorService } from './lib/modules/heading-anchor/heading-anchor.service';
+export { SkyDocsMarkdownPipe } from './lib/modules/markdown/markdown.pipe';
 export { SkyDocsCodeExampleComponentTypes } from './lib/modules/showcase/code-example-types/code-example-types-token';
 export { provideSkyDocsCodeExampleTypes } from './lib/modules/showcase/code-example-types/provide-code-example-types';
 export { SkyDocsShowcaseModule } from './lib/modules/showcase/showcase.module';

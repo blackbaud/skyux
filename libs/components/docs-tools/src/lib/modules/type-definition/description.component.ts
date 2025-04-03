@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
+import { SkyDocsMarkdownPipe } from '../markdown/markdown.pipe';
+
 import { SkyDocsEscapeHtmlPipe } from './pipes/escape-html.pipe';
-import { SkyDocsMarkdownPipe } from './pipes/markdown.pipe';
 import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
 
 /**
