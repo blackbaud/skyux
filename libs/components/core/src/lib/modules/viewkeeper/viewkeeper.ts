@@ -87,6 +87,14 @@ function setElPosition(
   }
 }
 
+function setBoundaries(boundaryEl: HTMLElement): void {
+  const style = getComputedStyle(boundaryEl);
+  if (style.position === 'static') {
+    boundaryEl.style.position = 'relative';
+    boundaryEl.style.zIndex = '1';
+  }
+}
+
 function getHeightWithMargin(el: HTMLElement): number {
   const computedStyle = getComputedStyle(el);
 
@@ -186,6 +194,7 @@ export class SkyViewkeeper {
     window.addEventListener('orientationchange', this.#syncElPositionHandler);
 
     ensureStyleEl();
+    setBoundaries(boundaryEl);
 
     this.syncElPosition(el, boundaryEl);
   }
