@@ -78,7 +78,7 @@ describe(`ag-grid-storybook data manager`, () => {
             .should('be.visible')
             .click();
 
-          cy.skyVisualTest(
+          cy.window().skyVisualTest(
             /* spell-checker:disable-next-line */
             `datamanagercomponent-datamanager--data-manager-column-picker-${theme}${compact ? '-compact' : ''}`,
             {
