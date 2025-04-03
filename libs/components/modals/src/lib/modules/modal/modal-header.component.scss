@@ -6,9 +6,3 @@ h2 {
   line-height: 1.2;
   display: inline;
 }
-
-@include mixins.sky-theme-modern-dark {
-  h2 {
-    color: $sky-theme-modern-mode-dark-font-body-default-color;
-  }
-}
