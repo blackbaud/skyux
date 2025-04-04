@@ -2,60 +2,92 @@
   "$schema": "../manifest/documentation-schema.json",
   "groups": {
     "sectioned-form": {
-      "docsIds": [
-        "SkySectionedFormModule",
-        "SkySectionedFormComponent",
-        "SkySectionedFormSectionComponent",
-        "SkySectionedFormService",
-        "SkySectionedFormMessage",
-        "SkySectionedFormMessageType",
-        "TabsSectionedFormModalExampleComponent"
-      ],
-      "primaryDocsId": "SkySectionedFormModule"
+      "development": {
+        "docsIds": [
+          "SkySectionedFormModule",
+          "SkySectionedFormComponent",
+          "SkySectionedFormSectionComponent",
+          "SkySectionedFormService",
+          "SkySectionedFormMessage",
+          "SkySectionedFormMessageType"
+        ],
+        "primaryDocsId": "SkySectionedFormModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": ["TabsSectionedFormModalExampleComponent"]
+      }
     },
     "tabs": {
-      "docsIds": [
-        "SkyTabsModule",
-        "SkyTabsetComponent",
-        "SkyTabComponent",
-        "SkyTabsetNavButtonComponent",
-        "SkyTabIndex",
-        "SkyTabLayoutType",
-        "SkyTabsetButtonsDisplayMode",
-        "SkyTabsetStyle",
-        "SkyTabsetTabIndexesChange",
-        "TabsStaticExampleComponent",
-        "TabsStaticAddCloseExampleComponent",
-        "TabsDynamicExampleComponent",
-        "TabsDynamicAddCloseExampleComponent"
-      ],
-      "primaryDocsId": "SkyTabsModule"
+      "development": {
+        "docsIds": [
+          "SkyTabsModule",
+          "SkyTabsetComponent",
+          "SkyTabComponent",
+          "SkyTabsetNavButtonComponent",
+          "SkyTabIndex",
+          "SkyTabLayoutType",
+          "SkyTabsetButtonsDisplayMode",
+          "SkyTabsetStyle",
+          "SkyTabsetTabIndexesChange"
+        ],
+        "primaryDocsId": "SkyTabsModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "TabsStaticExampleComponent",
+          "TabsStaticAddCloseExampleComponent",
+          "TabsDynamicExampleComponent",
+          "TabsDynamicAddCloseExampleComponent"
+        ]
+      }
     },
     "vertical-tabset": {
-      "docsIds": [
-        "SkyVerticalTabsetModule",
-        "SkyVerticalTabsetComponent",
-        "SkyVerticalTabComponent",
-        "SkyVerticalTabsetGroupComponent",
-        "TabsVerticalTabsBasicExampleComponent",
-        "TabsVerticalTabsGroupedExampleComponent"
-      ],
-      "primaryDocsId": "SkyVerticalTabsetModule"
+      "development": {
+        "docsIds": [
+          "SkyVerticalTabsetModule",
+          "SkyVerticalTabsetComponent",
+          "SkyVerticalTabComponent",
+          "SkyVerticalTabsetGroupComponent"
+        ],
+        "primaryDocsId": "SkyVerticalTabsetModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "TabsVerticalTabsBasicExampleComponent",
+          "TabsVerticalTabsGroupedExampleComponent"
+        ]
+      }
     },
     "wizard": {
-      "docsIds": [
-        "SkyTabsModule",
-        "SkyTabsetComponent",
-        "SkyTabComponent",
-        "SkyTabsetNavButtonComponent",
-        "SkyTabIndex",
-        "SkyTabLayoutType",
-        "SkyTabsetButtonsDisplayMode",
-        "SkyTabsetStyle",
-        "SkyTabsetTabIndexesChange",
-        "TabsWizardBasicExampleComponent"
-      ],
-      "primaryDocsId": "SkyTabsModule"
+      "development": {
+        "docsIds": [
+          "SkyTabsModule",
+          "SkyTabsetComponent",
+          "SkyTabComponent",
+          "SkyTabsetNavButtonComponent",
+          "SkyTabIndex",
+          "SkyTabLayoutType",
+          "SkyTabsetButtonsDisplayMode",
+          "SkyTabsetStyle",
+          "SkyTabsetTabIndexesChange"
+        ],
+        "primaryDocsId": "SkyTabsModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": ["TabsWizardBasicExampleComponent"]
+      }
     }
   }
 }

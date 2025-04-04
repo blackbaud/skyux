@@ -2,21 +2,29 @@
   "$schema": "../manifest/documentation-schema.json",
   "groups": {
     "href": {
-      "docsIds": [
-        "SkyHrefModule",
-        "SkyHrefDirective",
-        "SkyHrefResolverService",
-        "SkyHrefResolver",
-        "SkyHref",
-        "SkyHrefChange",
-        "SkyHrefQueryParams",
-        "SkyHrefResolverArgs",
-        "SkyHrefHarness",
-        "SkyHrefHarnessFilters",
-        "SkyHrefTestingModule",
-        "RouterHrefBasicExampleComponent"
-      ],
-      "primaryDocsId": "SkyHrefModule"
+      "development": {
+        "docsIds": [
+          "SkyHrefModule",
+          "SkyHrefDirective",
+          "SkyHrefResolverService",
+          "SkyHrefResolver",
+          "SkyHref",
+          "SkyHrefChange",
+          "SkyHrefQueryParams",
+          "SkyHrefResolverArgs"
+        ],
+        "primaryDocsId": "SkyHrefModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyHrefHarness",
+          "SkyHrefHarnessFilters",
+          "SkyHrefTestingModule"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["RouterHrefBasicExampleComponent"]
+      }
     }
   }
 }

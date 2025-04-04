@@ -2,28 +2,38 @@
   "$schema": "../manifest/documentation-schema.json",
   "groups": {
     "colorpicker": {
-      "docsIds": [
-        "SkyColorpickerModule",
-        "SkyColorpickerComponent",
-        "SkyFormErrorComponent",
-        "SkyColorpickerInputDirective",
-        "SkyColorpickerCmyk",
-        "SkyColorpickerHsla",
-        "SkyColorpickerHsva",
-        "SkyColorpickerRgba",
-        "SkyColorpickerOutput",
-        "SkyColorpickerResult",
-        "SkyColorpickerMessage",
-        "SkyColorpickerMessageType",
-        "SkyColorpickerHarness",
-        "SkyColorpickerHarnessFilters",
-        "SkyColorpickerDropdownHarness",
-        "SkyColorpickerDropdownHarnessFilters",
-        "ColorpickerBasicExampleComponent",
-        "ColorpickerProgrammaticExampleComponent",
-        "ColorpickerHelpKeyExampleComponent"
-      ],
-      "primaryDocsId": "SkyColorpickerModule"
+      "development": {
+        "docsIds": [
+          "SkyColorpickerModule",
+          "SkyColorpickerComponent",
+          "SkyFormErrorComponent",
+          "SkyColorpickerInputDirective",
+          "SkyColorpickerCmyk",
+          "SkyColorpickerHsla",
+          "SkyColorpickerHsva",
+          "SkyColorpickerRgba",
+          "SkyColorpickerOutput",
+          "SkyColorpickerResult",
+          "SkyColorpickerMessage",
+          "SkyColorpickerMessageType"
+        ],
+        "primaryDocsId": "SkyColorpickerModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyColorpickerHarness",
+          "SkyColorpickerHarnessFilters",
+          "SkyColorpickerDropdownHarness",
+          "SkyColorpickerDropdownHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ColorpickerBasicExampleComponent",
+          "ColorpickerProgrammaticExampleComponent",
+          "ColorpickerHelpKeyExampleComponent"
+        ]
+      }
     }
   }
 }

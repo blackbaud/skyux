@@ -2,25 +2,43 @@
   "$schema": "../manifest/documentation-schema.json",
   "groups": {
     "email-validation": {
-      "docsIds": [
-        "SkyEmailValidationModule",
-        "SkyEmailValidationDirective",
-        "SkyValidators",
-        "ValidationEmailValidationDirectiveExampleComponent",
-        "ValidationEmailValidationControlValidatorExampleComponent"
-      ],
-      "primaryDocsId": "SkyEmailValidationModule"
+      "development": {
+        "docsIds": [
+          "SkyEmailValidationModule",
+          "SkyEmailValidationDirective",
+          "SkyValidators"
+        ],
+        "primaryDocsId": "SkyEmailValidationModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ValidationEmailValidationDirectiveExampleComponent",
+          "ValidationEmailValidationControlValidatorExampleComponent"
+        ]
+      }
     },
     "url-validation": {
-      "docsIds": [
-        "SkyUrlValidationModule",
-        "SkyUrlValidationDirective",
-        "SkyUrlValidationOptions",
-        "SkyValidators",
-        "ValidationUrlValidationDirectiveExampleComponent",
-        "ValidationUrlValidationControlValidatorExampleComponent"
-      ],
-      "primaryDocsId": "SkyUrlValidationModule"
+      "development": {
+        "docsIds": [
+          "SkyUrlValidationModule",
+          "SkyUrlValidationDirective",
+          "SkyUrlValidationOptions",
+          "SkyValidators"
+        ],
+        "primaryDocsId": "SkyUrlValidationModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ValidationUrlValidationDirectiveExampleComponent",
+          "ValidationUrlValidationControlValidatorExampleComponent"
+        ]
+      }
     }
   }
 }

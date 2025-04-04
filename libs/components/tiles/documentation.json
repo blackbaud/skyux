@@ -2,33 +2,41 @@
   "$schema": "../manifest/documentation-schema.json",
   "groups": {
     "tile": {
-      "docsIds": [
-        "SkyTilesModule",
-        "SkyTileComponent",
-        "SkyTileTitleComponent",
-        "SkyTileSummaryComponent",
-        "SkyTileContentComponent",
-        "SkyTileContentSectionComponent",
-        "SkyTileDashboardComponent",
-        "SkyTileDashboardService",
-        "SkyTileDashboardConfig",
-        "SkyTileDashboardConfigLayout",
-        "SkyTileDashboardConfigLayoutColumn",
-        "SkyTileDashboardConfigLayoutTile",
-        "SkyTileDashboardConfigTile",
-        "SkyTileDashboardConfigReorderData",
-        "SkyTileDashboardMessage",
-        "SkyTileDashboardMessageType",
-        "SkyTileHarness",
-        "SkyTileHarnessFilters",
-        "SkyTileContentHarness",
-        "SkyTileContentSectionHarness",
-        "SkyTileContentSectionHarnessFilters",
-        "SkyTileDashboardHarness",
-        "SkyTileDashboardHarnessFilters",
-        "TilesBasicExampleComponent"
-      ],
-      "primaryDocsId": "SkyTilesModule"
+      "development": {
+        "docsIds": [
+          "SkyTilesModule",
+          "SkyTileComponent",
+          "SkyTileTitleComponent",
+          "SkyTileSummaryComponent",
+          "SkyTileContentComponent",
+          "SkyTileContentSectionComponent",
+          "SkyTileDashboardComponent",
+          "SkyTileDashboardService",
+          "SkyTileDashboardConfig",
+          "SkyTileDashboardConfigLayout",
+          "SkyTileDashboardConfigLayoutColumn",
+          "SkyTileDashboardConfigLayoutTile",
+          "SkyTileDashboardConfigTile",
+          "SkyTileDashboardConfigReorderData",
+          "SkyTileDashboardMessage",
+          "SkyTileDashboardMessageType"
+        ],
+        "primaryDocsId": "SkyTilesModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyTileHarness",
+          "SkyTileHarnessFilters",
+          "SkyTileContentHarness",
+          "SkyTileContentSectionHarness",
+          "SkyTileContentSectionHarnessFilters",
+          "SkyTileDashboardHarness",
+          "SkyTileDashboardHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["TilesBasicExampleComponent"]
+      }
     }
   }
 }

@@ -2,17 +2,26 @@
   "$schema": "../manifest/documentation-schema.json",
   "groups": {
     "autonumeric": {
-      "docsIds": [
-        "SkyAutonumericModule",
-        "SkyAutonumericDirective",
-        "SkyAutonumericOptions",
-        "SkyAutonumericOptionsProvider",
-        "AutonumericPresetExampleComponent",
-        "AutonumericCurrencyExampleComponent",
-        "AutonumericInternationalFormattingExampleComponent",
-        "AutonumericOptionsProviderExampleComponent"
-      ],
-      "primaryDocsId": "SkyAutonumericModule"
+      "development": {
+        "docsIds": [
+          "SkyAutonumericModule",
+          "SkyAutonumericDirective",
+          "SkyAutonumericOptions",
+          "SkyAutonumericOptionsProvider"
+        ],
+        "primaryDocsId": "SkyAutonumericModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "AutonumericPresetExampleComponent",
+          "AutonumericCurrencyExampleComponent",
+          "AutonumericInternationalFormattingExampleComponent",
+          "AutonumericOptionsProviderExampleComponent"
+        ]
+      }
     }
   }
 }

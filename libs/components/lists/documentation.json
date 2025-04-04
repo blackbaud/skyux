@@ -2,64 +2,103 @@
   "$schema": "../manifest/documentation-schema.json",
   "groups": {
     "filter": {
-      "docsIds": [
-        "SkyFilterModule",
-        "SkyFilterInlineComponent",
-        "SkyFilterInlineItemComponent",
-        "SkyFilterSummaryComponent",
-        "SkyFilterSummaryItemComponent",
-        "SkyFilterButtonComponent",
-        "ListsFilterInlineExampleComponent",
-        "ListsFilterModalExampleComponent"
-      ],
-      "primaryDocsId": "SkyFilterModule"
+      "development": {
+        "docsIds": [
+          "SkyFilterModule",
+          "SkyFilterInlineComponent",
+          "SkyFilterInlineItemComponent",
+          "SkyFilterSummaryComponent",
+          "SkyFilterSummaryItemComponent",
+          "SkyFilterButtonComponent"
+        ],
+        "primaryDocsId": "SkyFilterModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ListsFilterInlineExampleComponent",
+          "ListsFilterModalExampleComponent"
+        ]
+      }
     },
     "infinite-scroll": {
-      "docsIds": [
-        "SkyInfiniteScrollModule",
-        "SkyInfiniteScrollComponent",
-        "ListsInfiniteScrollRepeaterExampleComponent"
-      ],
-      "primaryDocsId": "SkyInfiniteScrollModule"
+      "development": {
+        "docsIds": ["SkyInfiniteScrollModule", "SkyInfiniteScrollComponent"],
+        "primaryDocsId": "SkyInfiniteScrollModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": ["ListsInfiniteScrollRepeaterExampleComponent"]
+      }
     },
     "paging": {
-      "docsIds": [
-        "SkyPagingModule",
-        "SkyPagingComponent",
-        "SkyPagingContentComponent",
-        "SkyPagingContentChangeArgs",
-        "ListsPagingBasicExampleComponent",
-        "ListsPagingWithContentExampleComponent"
-      ],
-      "primaryDocsId": "SkyPagingModule"
+      "development": {
+        "docsIds": [
+          "SkyPagingModule",
+          "SkyPagingComponent",
+          "SkyPagingContentComponent",
+          "SkyPagingContentChangeArgs"
+        ],
+        "primaryDocsId": "SkyPagingModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ListsPagingBasicExampleComponent",
+          "ListsPagingWithContentExampleComponent"
+        ]
+      }
     },
     "repeater": {
-      "docsIds": [
-        "SkyRepeaterModule",
-        "SkyRepeaterComponent",
-        "SkyRepeaterItemComponent",
-        "SkyRepeaterItemTitleComponent",
-        "SkyRepeaterItemContentComponent",
-        "SkyRepeaterItemContextMenuComponent",
-        "SkyRepeaterExpandModeType",
-        "SkyRepeaterHarness",
-        "SkyRepeaterHarnessFilters",
-        "SkyRepeaterItemHarness",
-        "SkyRepeaterItemHarnessFilters",
-        "ListsRepeaterBasicExampleComponent",
-        "ListsRepeaterAddRemoveExampleComponent",
-        "ListsRepeaterInlineFormExampleComponent"
-      ],
-      "primaryDocsId": "SkyRepeaterModule"
+      "development": {
+        "docsIds": [
+          "SkyRepeaterModule",
+          "SkyRepeaterComponent",
+          "SkyRepeaterItemComponent",
+          "SkyRepeaterItemTitleComponent",
+          "SkyRepeaterItemContentComponent",
+          "SkyRepeaterItemContextMenuComponent",
+          "SkyRepeaterExpandModeType"
+        ],
+        "primaryDocsId": "SkyRepeaterModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyRepeaterHarness",
+          "SkyRepeaterHarnessFilters",
+          "SkyRepeaterItemHarness",
+          "SkyRepeaterItemHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ListsRepeaterBasicExampleComponent",
+          "ListsRepeaterAddRemoveExampleComponent",
+          "ListsRepeaterInlineFormExampleComponent"
+        ]
+      }
     },
     "sort": {
-      "docsIds": [
-        "SkySortModule",
-        "SkySortComponent",
-        "SkySortItemComponent",
-        "ListsSortBasicExampleComponent"
-      ],
-      "primaryDocsId": "SkySortModule"
+      "development": {
+        "docsIds": [
+          "SkySortModule",
+          "SkySortComponent",
+          "SkySortItemComponent"
+        ],
+        "primaryDocsId": "SkySortModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": ["ListsSortBasicExampleComponent"]
+      }
     }
   }
 }

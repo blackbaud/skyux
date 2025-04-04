@@ -2,20 +2,28 @@
   "$schema": "../manifest/documentation-schema.json",
   "groups": {
     "help-inline": {
-      "docsIds": [
-        "SkyHelpInlineModule",
-        "SkyHelpInlineComponent",
-        "SkyHelpService",
-        "SkyHelpGlobalOptions",
-        "SkyHelpOpenArgs",
-        "SkyHelpUpdateArgs",
-        "SkyHelpInlineHarness",
-        "SkyHelpInlineHarnessFilters",
-        "SkyHelpTestingModule",
-        "SkyHelpTestingController",
-        "HelpInlineBasicExampleComponent"
-      ],
-      "primaryDocsId": "SkyHelpInlineModule"
+      "development": {
+        "docsIds": [
+          "SkyHelpInlineModule",
+          "SkyHelpInlineComponent",
+          "SkyHelpService",
+          "SkyHelpGlobalOptions",
+          "SkyHelpOpenArgs",
+          "SkyHelpUpdateArgs"
+        ],
+        "primaryDocsId": "SkyHelpInlineModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyHelpInlineHarness",
+          "SkyHelpInlineHarnessFilters",
+          "SkyHelpTestingModule",
+          "SkyHelpTestingController"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["HelpInlineBasicExampleComponent"]
+      }
     }
   }
 }

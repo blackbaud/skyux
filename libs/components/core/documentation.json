@@ -2,40 +2,68 @@
   "$schema": "../manifest/documentation-schema.json",
   "groups": {
     "id": {
-      "docsIds": [
-        "SkyIdModule",
-        "SkyIdDirective",
-        "SkyIdService",
-        "CoreIdExampleComponent"
-      ],
-      "primaryDocsId": "SkyIdModule"
+      "development": {
+        "docsIds": ["SkyIdModule", "SkyIdDirective", "SkyIdService"],
+        "primaryDocsId": "SkyIdModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": ["CoreIdExampleComponent"]
+      }
     },
     "media-query": {
-      "docsIds": [
-        "SkyMediaQueryService",
-        "SkyMediaBreakpoints",
-        "SkyMediaQueryListener",
-        "SkyBreakpoint",
-        "provideSkyMediaQueryTesting",
-        "SkyMediaQueryTestingController",
-        "CoreMediaQueryBasicExampleComponent",
-        "CoreMediaQueryResponsiveHostExampleComponent"
-      ],
-      "primaryDocsId": "SkyMediaQueryService"
+      "development": {
+        "docsIds": [
+          "SkyMediaQueryService",
+          "SkyMediaBreakpoints",
+          "SkyMediaQueryListener",
+          "SkyBreakpoint"
+        ],
+        "primaryDocsId": "SkyMediaQueryService"
+      },
+      "testing": {
+        "docsIds": [
+          "provideSkyMediaQueryTesting",
+          "SkyMediaQueryTestingController"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "CoreMediaQueryBasicExampleComponent",
+          "CoreMediaQueryResponsiveHostExampleComponent"
+        ]
+      }
     },
     "numeric": {
-      "docsIds": [
-        "SkyNumericModule",
-        "SkyNumericPipe",
-        "SkyNumericService",
-        "SkyNumericOptions",
-        "CoreNumericBasicExampleComponent"
-      ],
-      "primaryDocsId": "SkyNumericModule"
+      "development": {
+        "docsIds": [
+          "SkyNumericModule",
+          "SkyNumericPipe",
+          "SkyNumericService",
+          "SkyNumericOptions"
+        ],
+        "primaryDocsId": "SkyNumericModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": ["CoreNumericBasicExampleComponent"]
+      }
     },
     "window": {
-      "docsIds": ["SkyAppWindowRef"],
-      "primaryDocsId": "SkyAppWindowRef"
+      "development": {
+        "docsIds": ["SkyAppWindowRef"],
+        "primaryDocsId": "SkyAppWindowRef"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": []
+      }
     }
   }
 }

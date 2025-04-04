@@ -2,59 +2,74 @@
   "$schema": "../manifest/documentation-schema.json",
   "groups": {
     "action-hub": {
-      "docsIds": [
-        "SkyActionHubModule",
-        "SkyActionHubComponent",
-        "SkyActionHubContentComponent",
-        "SkyActionHubButtonsComponent",
-        "SkyActionHubNeedsAttentionClickHandlerArgs",
-        "SkyActionHubNeedsAttentionClickHandler",
-        "SkyActionHubNeedsAttentionInput",
-        "SkyActionHubNeedsAttention",
-        "SkyPageLink",
-        "SkyPageLinksInput",
-        "SkyPageModalLink",
-        "SkyPageModalLinksInput",
-        "SkyRecentLink",
-        "SkyRecentLinksInput",
-        "SkyActionHubHarness",
-        "SkyActionHubHarnessFilters",
-        "PagesActionHubExampleComponent"
-      ],
-      "primaryDocsId": "SkyActionHubModule"
+      "development": {
+        "docsIds": [
+          "SkyActionHubModule",
+          "SkyActionHubComponent",
+          "SkyActionHubContentComponent",
+          "SkyActionHubButtonsComponent",
+          "SkyActionHubNeedsAttentionClickHandlerArgs",
+          "SkyActionHubNeedsAttentionClickHandler",
+          "SkyActionHubNeedsAttentionInput",
+          "SkyActionHubNeedsAttention",
+          "SkyPageLink",
+          "SkyPageLinksInput",
+          "SkyPageModalLink",
+          "SkyPageModalLinksInput",
+          "SkyRecentLink",
+          "SkyRecentLinksInput"
+        ],
+        "primaryDocsId": "SkyActionHubModule"
+      },
+      "testing": {
+        "docsIds": ["SkyActionHubHarness", "SkyActionHubHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": ["PagesActionHubExampleComponent"]
+      }
     },
     "page": {
-      "docsIds": [
-        "SkyPageModule",
-        "SkyPageComponent",
-        "SkyPageContentComponent",
-        "SkyPageLinksComponent",
-        "SkyPageLayoutType",
-        "SkyPageHeaderModule",
-        "SkyPageHeaderComponent",
-        "SkyPageHeaderDetailsComponent",
-        "SkyPageHeaderActionsComponent",
-        "SkyPageHeaderAlertsComponent",
-        "SkyPageHeaderAvatarComponent",
-        "SkyLinkListModule",
-        "SkyLinkListComponent",
-        "SkyLinkListItemComponent",
-        "SkyPageHarness",
-        "SkyPageHarnessFilters",
-        "SkyPageHeaderHarness",
-        "SkyPageHeaderHarnessFilters",
-        "SkyLinkListHarness",
-        "SkyLinkListHarnessFilters",
-        "SkyLinkListItemHarness",
-        "SkyLinkListItemHarnessFilters",
-        "PagesPageHomePageBlocksLayoutExampleComponent",
-        "PagesPageListPageListLayoutExampleComponent",
-        "PagesPageListPageTabsLayoutExampleComponent",
-        "PagesPageRecordPageBlocksLayoutExampleComponent",
-        "PagesPageRecordPageTabsLayoutExampleComponent",
-        "PagesPageSplitViewPageFitLayoutExampleComponent"
-      ],
-      "primaryDocsId": "SkyPageModule"
+      "development": {
+        "docsIds": [
+          "SkyPageModule",
+          "SkyPageComponent",
+          "SkyPageContentComponent",
+          "SkyPageLinksComponent",
+          "SkyPageLayoutType",
+          "SkyPageHeaderModule",
+          "SkyPageHeaderComponent",
+          "SkyPageHeaderDetailsComponent",
+          "SkyPageHeaderActionsComponent",
+          "SkyPageHeaderAlertsComponent",
+          "SkyPageHeaderAvatarComponent",
+          "SkyLinkListModule",
+          "SkyLinkListComponent",
+          "SkyLinkListItemComponent"
+        ],
+        "primaryDocsId": "SkyPageModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyPageHarness",
+          "SkyPageHarnessFilters",
+          "SkyPageHeaderHarness",
+          "SkyPageHeaderHarnessFilters",
+          "SkyLinkListHarness",
+          "SkyLinkListHarnessFilters",
+          "SkyLinkListItemHarness",
+          "SkyLinkListItemHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "PagesPageHomePageBlocksLayoutExampleComponent",
+          "PagesPageListPageListLayoutExampleComponent",
+          "PagesPageListPageTabsLayoutExampleComponent",
+          "PagesPageRecordPageBlocksLayoutExampleComponent",
+          "PagesPageRecordPageTabsLayoutExampleComponent",
+          "PagesPageSplitViewPageFitLayoutExampleComponent"
+        ]
+      }
     }
   }
 }

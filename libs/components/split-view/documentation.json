@@ -2,26 +2,36 @@
   "$schema": "../manifest/documentation-schema.json",
   "groups": {
     "split-view": {
-      "docsIds": [
-        "SkySplitViewModule",
-        "SkySplitViewComponent",
-        "SkySplitViewDrawerComponent",
-        "SkySplitViewWorkspaceComponent",
-        "SkySplitViewWorkspaceContentComponent",
-        "SkySplitViewWorkspaceFooterComponent",
-        "SkySplitViewDockType",
-        "SkySplitViewMessage",
-        "SkySplitViewMessageType",
-        "SkySplitViewHarness",
-        "SkySplitViewHarnessFilters",
-        "SkySplitViewDrawerHarness",
-        "SkySplitViewWorkspaceHarness",
-        "SkySplitViewWorkspaceContentHarness",
-        "SkySplitViewWorkspaceFooterHarness",
-        "SplitViewBasicExampleComponent",
-        "SplitViewPageBoundExampleComponent"
-      ],
-      "primaryDocsId": "SkySplitViewModule"
+      "development": {
+        "docsIds": [
+          "SkySplitViewModule",
+          "SkySplitViewComponent",
+          "SkySplitViewDrawerComponent",
+          "SkySplitViewWorkspaceComponent",
+          "SkySplitViewWorkspaceContentComponent",
+          "SkySplitViewWorkspaceFooterComponent",
+          "SkySplitViewDockType",
+          "SkySplitViewMessage",
+          "SkySplitViewMessageType"
+        ],
+        "primaryDocsId": "SkySplitViewModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkySplitViewHarness",
+          "SkySplitViewHarnessFilters",
+          "SkySplitViewDrawerHarness",
+          "SkySplitViewWorkspaceHarness",
+          "SkySplitViewWorkspaceContentHarness",
+          "SkySplitViewWorkspaceFooterHarness"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "SplitViewBasicExampleComponent",
+          "SplitViewPageBoundExampleComponent"
+        ]
+      }
     }
   }
 }
