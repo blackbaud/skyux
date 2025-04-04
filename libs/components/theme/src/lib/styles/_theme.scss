@@ -129,10 +129,7 @@ mark.sky-highlight-mark {
   @include mixins.sky-field-status('success');
 }
 
-.sky-isolate {
+.sky-wait-element-active {
   isolation: isolate;
-}
-
-.sky-relative {
   position: relative;
 }
