@@ -99,7 +99,7 @@ describe('Wait component', () => {
       const el = fixture.nativeElement;
 
       expect(el.querySelector('.sky-wait-test-component')).toHaveCssClass(
-        'sky-relative',
+        'sky-wait-element-active',
       );
       expect(
         el.querySelector('.sky-wait-mask-loading-blocking'),
@@ -109,7 +109,7 @@ describe('Wait component', () => {
       fixture.detectChanges();
 
       expect(el.querySelector('.sky-wait-test-component')).not.toHaveCssClass(
-        'sky-relative',
+        'sky-wait-element-active',
       );
     });
 
@@ -140,7 +140,7 @@ describe('Wait component', () => {
 
       expect(el.querySelector('.sky-wait-mask-loading-fixed')).toBeNull();
       expect(el.querySelector('.sky-wait-test-component')).toHaveCssClass(
-        'sky-relative',
+        'sky-wait-element-active',
       );
     });
 
