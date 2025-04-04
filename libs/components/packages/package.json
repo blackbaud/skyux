@@ -62,7 +62,7 @@
       "@skyux/help-inline": "0.0.0-PLACEHOLDER",
       "@skyux/i18n": "0.0.0-PLACEHOLDER",
       "@skyux/icon": "0.0.0-PLACEHOLDER",
-      "@skyux/icons": "^7.21.2",
+      "@skyux/icons": "^7.22.0",
       "@skyux/indicators": "0.0.0-PLACEHOLDER",
       "@skyux/inline-form": "0.0.0-PLACEHOLDER",
       "@skyux/layout": "0.0.0-PLACEHOLDER",
@@ -91,13 +91,13 @@
       "ag-grid-angular": "^33.2.1",
       "ag-grid-community": "^33.2.1",
       "ag-grid-enterprise": "^32.1.0",
-      "autonumeric": "^4.10.5"
+      "autonumeric": "^4.10.8"
     }
   },
   "peerDependencies": {
-    "@angular/cdk": "^19.2.2",
-    "@angular/cli": "^19.2.1",
-    "@angular/core": "^19.2.1"
+    "@angular/cdk": "^19.2.7",
+    "@angular/cli": "^19.2.5",
+    "@angular/core": "^19.2.4"
   },
   "dependencies": {
     "fs-extra": "11.3.0",
