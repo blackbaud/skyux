@@ -118,6 +118,8 @@ export class SkyViewkeeper {
 
   #spacerResizeObserver: ResizeObserver | undefined;
 
+  #nextUpdate: number | undefined;
+
   constructor(options: SkyViewkeeperOptions) {
     options = options || /* istanbul ignore next */ {};
 
@@ -167,33 +169,37 @@ export class SkyViewkeeper {
   }
 
   public syncElPosition(el: HTMLElement, boundaryEl: HTMLElement): void {
-    const verticalOffset = this.#calculateVerticalOffset();
+    this.#nextUpdate ??= requestAnimationFrame(() => {
+      this.#nextUpdate = undefined;
+      const verticalOffset = this.#calculateVerticalOffset();
 
-    // When the element isn't visible, its size can't be calculated, so don't attempt syncing position in this case.
-    if (el.offsetWidth === 0 && el.offsetHeight === 0) {
-      return;
-    }
-
-    const boundaryInfo = this.#getBoundaryInfo(el, boundaryEl);
-    const fixedStyles = this.#getFixedStyles(boundaryInfo, verticalOffset);
-
-    const doFixEl = this.#shouldFixEl(el, boundaryInfo, verticalOffset);
-
-    if (this.#needsUpdating(doFixEl, fixedStyles)) {
-      if (doFixEl) {
-        this.#fixEl(el, boundaryInfo, fixedStyles);
-      } else {
-        this.#unfixEl(el);
+      // When the element isn't visible, its size can't be calculated, so don't attempt syncing position in this case.
+      if (el.offsetWidth === 0 && el.offsetHeight === 0) {
+        return;
       }
-    }
 
-    const evt = createCustomEvent(EVT_AFTER_VIEWKEEPER_SYNC);
+      const boundaryInfo = this.#getBoundaryInfo(el, boundaryEl);
+      const fixedStyles = this.#getFixedStyles(boundaryInfo, verticalOffset);
 
-    el.dispatchEvent(evt);
+      const doFixEl = this.#shouldFixEl(el, boundaryInfo, verticalOffset);
+
+      if (this.#needsUpdating(doFixEl, fixedStyles)) {
+        if (doFixEl) {
+          this.#fixEl(el, boundaryInfo, fixedStyles);
+        } else {
+          this.#unfixEl(el);
+        }
+      }
+
+      const evt = createCustomEvent(EVT_AFTER_VIEWKEEPER_SYNC);
+
+      el.dispatchEvent(evt);
+    });
   }
 
   public destroy(): void {
     if (!this.#isDestroyed) {
+      cancelAnimationFrame(this.#nextUpdate ?? -1);
       this.#intersectionObserver?.disconnect();
       window.removeEventListener('scroll', this.#syncElPositionHandler, true);
       window.removeEventListener('resize', this.#syncElPositionHandler);
