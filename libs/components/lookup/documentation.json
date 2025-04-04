@@ -99,9 +99,13 @@
           "SkyPopoverHarness",
           "SkyPopoverHarnessFilters",
           "SkyPopoverContentHarness",
+          "SkyPopoverContentHarnessFilters",
           "SkyRepeaterItemHarness",
           "SkyRepeaterItemHarnessFilters",
           "SkyStatusIndicatorHarness",
+          "SkyStatusIndicatorHarnessFilters",
+          "SkyIndicatorDescriptionType",
+          "SkyIndicatorIconType",
           "SkyTokenHarness",
           "SkyTokenHarnessFilters"
         ]

@@ -46,30 +46,35 @@ export function validateDocumentationConfig(
   const errors: string[] = [];
 
   for (const configs of Object.values(config.packages)) {
-    for (const [groupName, config] of Object.entries(configs.groups)) {
-      for (const docsId of config.docsIds) {
-        const definition = getDefinitionByDocsId(docsId, publicApi);
+    for (const [groupName, groupConfig] of Object.entries(configs.groups)) {
+      for (const [areaName, areaConfig] of Object.entries(groupConfig)) {
+        for (const docsId of areaConfig.docsIds) {
+          const definition = getDefinitionByDocsId(docsId, publicApi);
 
-        if (!definition) {
+          if (!definition) {
+            errors.push(
+              `The @docsId "${docsId}" referenced by "${groupName}.${areaName}" is not recognized.`,
+            );
+            continue;
+          }
+
+          if (definition.isInternal) {
+            errors.push(
+              `The @docsId "${docsId}" referenced by "${groupName}.${areaName}" is not included in the public API.`,
+            );
+            continue;
+          }
+        }
+
+        if (
+          areaName === 'development' &&
+          !areaConfig.docsIds.includes(areaConfig.primaryDocsId)
+        ) {
           errors.push(
-            `The @docsId "${docsId}" referenced by "${groupName}" is not recognized.`,
+            `The value for primaryDocsId ("${areaConfig.primaryDocsId}") must be included in the docsIds array for group "${groupName}.${areaName}" (current: ${areaConfig.docsIds.join(', ')}).`,
           );
           continue;
         }
-
-        if (definition.isInternal) {
-          errors.push(
-            `The @docsId "${docsId}" referenced by "${groupName}" is not included in the public API.`,
-          );
-          continue;
-        }
-      }
-
-      if (!config.docsIds.includes(config.primaryDocsId)) {
-        errors.push(
-          `The value for primaryDocsId ("${config.primaryDocsId}") must be included in the docsIds array for group "${groupName}" (current: ${config.docsIds.join(', ')}).`,
-        );
-        continue;
       }
     }
   }
@@ -97,7 +102,7 @@ export function validateCodeExamples(
 
     for (const configs of Object.values(documentationConfig.packages)) {
       for (const group of Object.values(configs.groups)) {
-        if (group.docsIds.includes(docsId)) {
+        if (group.codeExamples.docsIds.includes(docsId)) {
           found = true;
         }
       }

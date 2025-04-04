@@ -55,25 +55,32 @@ describe('get-documentation-group', () => {
           '@skyux/core': {
             groups: {
               foo: {
-                docsIds: [
-                  'FooComponent',
-                  'FooHarness',
-                  'IndicatorComponent',
-                  'FooCodeExample',
-                ],
-                primaryDocsId: 'FooComponent',
+                development: {
+                  docsIds: ['FooComponent', 'IndicatorComponent'],
+                  primaryDocsId: 'FooComponent',
+                },
+                testing: { docsIds: ['FooHarness'] },
+                codeExamples: { docsIds: ['FooCodeExample'] },
               },
               bar: {
-                docsIds: ['BarComponent'],
-                primaryDocsId: 'BarComponent',
+                development: {
+                  docsIds: ['BarComponent'],
+                  primaryDocsId: 'BarComponent',
+                },
+                testing: { docsIds: [] },
+                codeExamples: { docsIds: [] },
               },
             },
           },
           '@skyux/indicators': {
             groups: {
               indicators: {
-                docsIds: ['IndicatorComponent', 'IndicatorCodeExample'],
-                primaryDocsId: 'IndicatorComponent',
+                development: {
+                  docsIds: ['IndicatorComponent'],
+                  primaryDocsId: 'IndicatorComponent',
+                },
+                testing: { docsIds: [] },
+                codeExamples: { docsIds: ['IndicatorCodeExample'] },
               },
             },
           },
@@ -192,8 +199,12 @@ describe('get-documentation-group', () => {
           '@skyux/core': {
             groups: {
               foo: {
-                docsIds: ['invalid'],
-                primaryDocsId: 'invalid',
+                development: {
+                  docsIds: ['invalid'],
+                  primaryDocsId: 'invalid',
+                },
+                testing: { docsIds: [] },
+                codeExamples: { docsIds: [] },
               },
             },
           },
