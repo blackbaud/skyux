@@ -128,3 +128,15 @@ mark.sky-highlight-mark {
 .sky-field-status-success {
   @include mixins.sky-field-status('success');
 }
+
+.sky-viewkeeper-boundary {
+  isolation: isolate;
+}
+
+.sky-viewkeeper-fixed {
+  position: fixed !important;
+  z-index: 999;
+  opacity: var(--sky-viewkeeper-opacity);
+  overflow: hidden;
+  box-shadow: var(--sky-viewkeeper-box-shadow);
+}
