@@ -116,7 +116,7 @@ describe('ag-grid-storybook data entry grid', () => {
               .should('be.visible');
 
             // Screenshot the three grids with active editors.
-            cy.skyVisualTest(
+            cy.window().skyVisualTest(
               /* spell-checker:disable-next-line */
               `dataentrygridcomponent-dataentrygrid--date-and-lookup-${theme}${compact ? '-compact' : ''}`,
               {
@@ -337,7 +337,7 @@ describe('ag-grid-storybook data entry grid', () => {
               .should('have.length.gt', 2);
 
             // Screenshot the grids with active editors.
-            cy.skyVisualTest(
+            cy.window().skyVisualTest(
               /* spell-checker:disable-next-line */
               `dataentrygridcomponent-dataentrygrid--edit-lookup-${theme}${compact ? '-compact' : ''}`,
               {

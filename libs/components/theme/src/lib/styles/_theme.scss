@@ -129,16 +129,14 @@ mark.sky-highlight-mark {
   @include mixins.sky-field-status('success');
 }
 
-#sky-icon-svg-sprite symbol {
-  path {
-    fill: currentColor;
+symbol[id^='sky-i-'] path {
+  fill: currentColor;
 
-    &.sky-i-path-1 {
-      fill: var(--sky-icon-svg-color-input, currentColor);
-    }
+  &.sky-i-path-1 {
+    fill: var(--sky-icon-svg-color-input, currentColor);
+  }
 
-    &.sky-i-path-2 {
-      fill: var(--sky-icon-svg-path-2-color-input, #fff);
-    }
+  &.sky-i-path-2 {
+    fill: var(--sky-icon-svg-path-2-color-input, #fff);
   }
 }

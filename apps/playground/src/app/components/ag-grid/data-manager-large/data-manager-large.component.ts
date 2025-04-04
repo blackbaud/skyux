@@ -199,7 +199,12 @@ export class DataManagerLargeComponent implements OnInit {
             : []),
           ...(this.useColumnGroups
             ? columnDefinitionsGrouped
-            : columnDefinitions),
+            : columnDefinitions.map((col) => {
+                if (col.field === 'object_name') {
+                  col.rowDrag = this.domLayout === 'normal';
+                }
+                return col;
+              })),
         ],
         columnTypes: {
           custom_link: {
@@ -214,6 +219,7 @@ export class DataManagerLargeComponent implements OnInit {
           wrapText: this.wrapText,
           autoHeight: this.autoHeightColumns,
         },
+        rowDragManaged: !this.useColumnGroups && this.domLayout === 'normal',
       },
     });
   }
