@@ -2,8 +2,12 @@
   "$schema": "../../../../../documentation-schema.json",
   "groups": {
     "invalid": {
-      "docsIds": ["FooCodeExampleNoSelector"],
-      "primaryDocsId": "FooCodeExampleNoSelector"
+      "development": {
+        "docsIds": ["FooCodeExampleNoSelector"],
+        "primaryDocsId": "FooCodeExampleNoSelector"
+      },
+      "testing": { "docsIds": [] },
+      "codeExamples": { "docsIds": [] }
     }
   }
 }

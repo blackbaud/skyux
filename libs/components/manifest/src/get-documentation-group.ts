@@ -2,7 +2,10 @@ import codeExamplesJson from '../code-examples.json';
 import documentationConfigJson from '../documentation-config.json';
 
 import { getPublicApi } from './get-public-api';
-import { SkyManifestDocumentationConfig } from './types/documentation-config';
+import {
+  SkyManifestDocumentationConfig,
+  SkyManifestDocumentationGroupConfig,
+} from './types/documentation-config';
 import type {
   SkyManifestCodeExamples,
   SkyManifestDocumentationGroup,
@@ -45,31 +48,20 @@ function getDefinitionByDocsId(
 }
 
 function getPublicApiByDocsIds(
-  docsIds: string[],
-  primaryDocsId: string,
+  config: SkyManifestDocumentationGroupConfig,
 ): SkyManifestDocumentationGroup {
   const documentation: SkyManifestDocumentationGroup = {
-    codeExamples: [],
-    packageInfo: getGroupPackageInfo(primaryDocsId),
-    publicApi: [],
-    testing: [],
+    codeExamples: config.codeExamples.docsIds.map(
+      (docsId) => CODE_EXAMPLES.examples[docsId],
+    ),
+    packageInfo: getGroupPackageInfo(config.development.primaryDocsId),
+    publicApi: config.development.docsIds.map((docsId) =>
+      getDefinitionByDocsId(docsId),
+    ),
+    testing: config.testing.docsIds.map((docsId) =>
+      getDefinitionByDocsId(docsId),
+    ),
   };
-
-  for (const docsId of docsIds) {
-    const definition = getDefinitionByDocsId(docsId);
-
-    if (definition.docsId === docsId) {
-      if (definition.packageName === '@skyux/code-examples') {
-        documentation.codeExamples.push(
-          CODE_EXAMPLES.examples[definition.docsId],
-        );
-      } else if (definition.packageName.endsWith('/testing')) {
-        documentation.testing.push(definition);
-      } else {
-        documentation.publicApi.push(definition);
-      }
-    }
-  }
 
   return documentation;
 }
@@ -100,5 +92,5 @@ export function getDocumentationGroup(
     );
   }
 
-  return getPublicApiByDocsIds(group.docsIds, group.primaryDocsId);
+  return getPublicApiByDocsIds(group);
 }

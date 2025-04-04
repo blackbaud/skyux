@@ -4,13 +4,14 @@ import {
   computed,
   inject,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormControl,
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import {
   SkyDocsHeadingAnchorModule,
   SkyDocsShowcaseModule,
@@ -43,6 +44,9 @@ const SEPARATOR = ' | ';
   templateUrl: './home.component.html',
 })
 export default class HomeComponent {
+  readonly #activatedRoute = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+
   readonly #documentationGroupControl = new FormControl<string>('', {
     nonNullable: true,
   });
@@ -77,5 +81,31 @@ export default class HomeComponent {
     }
 
     this.documentationGroups.sort();
+
+    this.#router.events.pipe(takeUntilDestroyed()).subscribe((evt) => {
+      if (evt instanceof NavigationEnd) {
+        const queryParams = this.#router.parseUrl(evt.url).queryParamMap;
+
+        this.#documentationGroupControl.setValue(
+          queryParams.get('docsGroup') ?? '',
+        );
+      }
+    });
+  }
+
+  protected onGroupChange(evt: Event): void {
+    const docsGroup = (evt.target as HTMLSelectElement)?.value;
+
+    if (docsGroup) {
+      void this.#router.navigate([], {
+        relativeTo: this.#activatedRoute,
+        queryParams: { docsGroup },
+        queryParamsHandling: 'merge',
+      });
+    } else {
+      void this.#router.navigate([], {
+        relativeTo: this.#activatedRoute,
+      });
+    }
   }
 }

@@ -1,8 +1,11 @@
 <sky-page>
   <form [formGroup]="formGroup">
     <sky-input-box labelText="Documentation group" stacked>
-      <select formControlName="documentationGroup">
-        <option value="" selected>Select a documentation group...</option>
+      <select
+        formControlName="documentationGroup"
+        (change)="onGroupChange($event)"
+      >
+        <option value="">Select a documentation group...</option>
         <option value="foo | @skyux/theme">(test for invalid inputs)</option>
         @for (group of documentationGroups; track group) {
           <option [value]="group">
