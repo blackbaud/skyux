@@ -1,0 +1,23 @@
+.menu-button {
+  anchor-name: --menuButton;
+}
+
+.menu {
+  display: none;
+  position-anchor: --menuButton;
+  position: fixed;
+  left: anchor(right);
+  top: anchor(top);
+  margin-left: -5px;
+  z-index: 1000;
+  background-color: oklch(97% 38% 108deg);
+}
+
+.menu-button:hover + .menu,
+.menu:hover {
+  display: block;
+}
+
+.menu-item {
+  padding: 0.4em 1em;
+}

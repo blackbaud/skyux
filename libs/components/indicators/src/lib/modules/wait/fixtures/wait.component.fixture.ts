@@ -18,6 +18,7 @@ export class SkyWaitTestComponent {
 
   public showAnchor0 = true;
   public showAnchor2 = true;
+  public showMenuOverlay = false;
 
   public anchor0Visibility = '';
   public anchor0Display = '';

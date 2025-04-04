@@ -38,15 +38,17 @@ export class SkyWaitAdapterService implements OnDestroy {
   }
 
   public setWaitBounds(waitEl: ElementRef): void {
-    this.#renderer.setStyle(
+    this.#renderer.addClass(
       waitEl.nativeElement.parentElement,
-      'position',
-      'relative',
+      'sky-wait-element-active',
     );
   }
 
   public removeWaitBounds(waitEl: ElementRef): void {
-    this.#renderer.removeStyle(waitEl.nativeElement.parentElement, 'position');
+    this.#renderer.removeClass(
+      waitEl.nativeElement.parentElement,
+      'sky-wait-element-active',
+    );
   }
 
   public setBusyState(
