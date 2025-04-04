@@ -1,5 +1,21 @@
 # Changelog
 
+## [12.1.0](https://github.com/blackbaud/skyux/compare/12.0.0...12.1.0) (2025-04-03)
+
+
+### Features
+
+* **components/lists:** tokenize paging styles ([#3324](https://github.com/blackbaud/skyux/issues/3324)) ([cfb8b93](https://github.com/blackbaud/skyux/commit/cfb8b9330795e70b4dbd8e3fdcf9e1012c0de254))
+* **components/tabs:** tokenize wizard styles ([#3338](https://github.com/blackbaud/skyux/issues/3338)) ([f741c2b](https://github.com/blackbaud/skyux/commit/f741c2b6062bf0ee5b30f9e0a7a69285790cf1c8))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** hide AG Grid row dragging icon ([#3332](https://github.com/blackbaud/skyux/issues/3332)) ([#3341](https://github.com/blackbaud/skyux/issues/3341)) ([7c0846c](https://github.com/blackbaud/skyux/commit/7c0846c9195154299fde60dc6d30c62f1fc1c3f6))
+* **components/icon:** ensure icon colors work in Firefox ([#3348](https://github.com/blackbaud/skyux/issues/3348)) ([a692d12](https://github.com/blackbaud/skyux/commit/a692d129cedf14aa08d99e0c08f7e49362a57c63))
+* **components/packages:** harden migration collection versions ([#3335](https://github.com/blackbaud/skyux/issues/3335)) ([880d791](https://github.com/blackbaud/skyux/commit/880d7918ba5f496c9a925ef77ec20ac02d8d6352))
+* use correct icon and best practices in code examples ([#3345](https://github.com/blackbaud/skyux/issues/3345)) ([659c380](https://github.com/blackbaud/skyux/commit/659c380b9716fd90fd1317307b7a72a0d37d3ea4))
+
 ## [12.0.0](https://github.com/blackbaud/skyux/compare/12.0.0-beta.5...12.0.0) (2025-04-02)
 
 
