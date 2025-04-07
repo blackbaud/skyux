@@ -15,7 +15,6 @@
           "SkyPageLink",
           "SkyPageLinksInput",
           "SkyPageModalLink",
-          "SkyModalConfigurationInterface",
           "SkyPageModalLinksInput",
           "SkyRecentLink",
           "SkyRecentLinksInput",

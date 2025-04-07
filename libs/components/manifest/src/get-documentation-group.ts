@@ -2,6 +2,7 @@ import codeExamplesJson from '../code-examples.json';
 import documentationConfigJson from '../documentation-config.json';
 
 import { getPublicApi } from './get-public-api';
+import { SkyManifestChildDefinition } from './types/base-def';
 import {
   SkyManifestDocumentationConfig,
   SkyManifestDocumentationGroupConfig,
@@ -47,6 +48,20 @@ function getDefinitionByDocsId(
   );
 }
 
+function removeInternalTypes(
+  defs: SkyManifestDocumentationTypeDefinition[],
+): SkyManifestDocumentationTypeDefinition[] {
+  const filtered = defs.filter((def) => !def.isInternal);
+
+  for (const def of filtered) {
+    if (def.children) {
+      def.children = def.children.filter((child) => !child.isInternal);
+    }
+  }
+
+  return filtered;
+}
+
 function getPublicApiByDocsIds(
   config: SkyManifestDocumentationGroupConfig,
 ): SkyManifestDocumentationGroup {
@@ -55,11 +70,11 @@ function getPublicApiByDocsIds(
       (docsId) => CODE_EXAMPLES.examples[docsId],
     ),
     packageInfo: getGroupPackageInfo(config.development.primaryDocsId),
-    publicApi: config.development.docsIds.map((docsId) =>
-      getDefinitionByDocsId(docsId),
+    publicApi: removeInternalTypes(
+      config.development.docsIds.map((docsId) => getDefinitionByDocsId(docsId)),
     ),
-    testing: config.testing.docsIds.map((docsId) =>
-      getDefinitionByDocsId(docsId),
+    testing: removeInternalTypes(
+      config.testing.docsIds.map((docsId) => getDefinitionByDocsId(docsId)),
     ),
   };
 

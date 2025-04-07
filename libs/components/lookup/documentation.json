@@ -73,6 +73,10 @@
           "SkyLookupAddCallbackArgs",
           "SkyLookupAddClickEventArgs",
           "SkyLookupSelectModeType",
+          "SkyLookupShowMoreConfig",
+          "SkyLookupShowMoreCustomPickerContext",
+          "SkyLookupShowMoreCustomPicker",
+          "SkyLookupShowMoreNativePickerConfig",
           "SkyAutocompleteSearchArgs",
           "SkyAutocompleteSearchAsyncArgs",
           "AutocompleteSearchAsyncResultDisplayType",
@@ -80,11 +84,7 @@
           "SkyAutocompleteSearchContext",
           "SkyAutocompleteSearchFunctionFilter",
           "SkyAutocompleteSearchFunctionResponse",
-          "SkyAutocompleteSearchFunction",
-          "SkyLookupShowMoreConfig",
-          "SkyLookupShowMoreCustomPickerContext",
-          "SkyLookupShowMoreCustomPicker",
-          "SkyLookupShowMoreNativePickerConfig"
+          "SkyAutocompleteSearchFunction"
         ],
         "primaryDocsId": "SkyLookupModule"
       },
@@ -99,23 +99,7 @@
           "SkyLookupShowMorePickerHarnessFilters",
           "SkyLookupShowMorePickerSearchResultHarness",
           "SkyLookupShowMorePickerSearchResultHarnessFilters",
-          "SkyAutocompleteInputHarness",
-          "SkyCharacterCounterIndicatorHarness",
-          "SkyCharacterCounterIndicatorHarnessFilters",
-          "SkyInputBoxHarness",
-          "SkyInputBoxHarnessFilters",
-          "SkyPopoverHarness",
-          "SkyPopoverHarnessFilters",
-          "SkyPopoverContentHarness",
-          "SkyPopoverContentHarnessFilters",
-          "SkyRepeaterItemHarness",
-          "SkyRepeaterItemHarnessFilters",
-          "SkyStatusIndicatorHarness",
-          "SkyStatusIndicatorHarnessFilters",
-          "SkyIndicatorDescriptionType",
-          "SkyIndicatorIconType",
-          "SkyTokenHarness",
-          "SkyTokenHarnessFilters"
+          "SkyAutocompleteInputHarness"
         ]
       },
       "codeExamples": {

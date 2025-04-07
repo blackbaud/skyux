@@ -54,7 +54,6 @@
           "SkyDatepickerComponent",
           "SkyDatepickerInputDirective",
           "SkyDatepickerCalendarChange",
-          "SkyCalendarDateRangeChangeEvent",
           "SkyDatepickerConfigService",
           "SkyDatepickerCustomDate",
           "SkyFuzzyDatepickerInputDirective",
