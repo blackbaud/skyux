@@ -5,12 +5,15 @@ import { SkyWaitService } from '@skyux/indicators';
   selector: 'app-wait',
   templateUrl: './wait.component.html',
   standalone: false,
+  styleUrl: './wait.component.css',
 })
 export class WaitComponent {
   public isWaiting: boolean;
   public isFullPageWaiting: boolean;
   public isServiceFullPageWaiting: boolean;
   public isNonBlocking: boolean;
+
+  public oneThroughForty = Array.from({ length: 40 }, (_, i) => i + 1);
 
   #changeDetector: ChangeDetectorRef;
   #waitSvc: SkyWaitService;
