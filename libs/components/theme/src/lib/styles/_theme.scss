@@ -129,6 +129,11 @@ mark.sky-highlight-mark {
   @include mixins.sky-field-status('success');
 }
 
+.sky-wait-element-active {
+  isolation: isolate;
+  position: relative;
+}
+
 .sky-viewkeeper-boundary {
   isolation: isolate;
 }

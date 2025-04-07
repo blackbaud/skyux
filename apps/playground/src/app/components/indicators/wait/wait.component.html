@@ -33,6 +33,15 @@
     {{ isNonBlocking ? 'non-blocking' : 'blocking' }})
   </button>
 
+  <div>
+    <button type="button" class="menu-button">Hover</button>
+    <div class="menu">
+      @for (num of oneThroughForty; track num) {
+        <div class="menu-item">Menu item {{ num }}</div>
+      }
+    </div>
+  </div>
+
   <div class="sky-wait-demo-parent" style="width: 500px; height: 500px">
     <div style="height: 200px; width: 200px">
       Wait <a href="http://example.com">link</a> inside this element with text
