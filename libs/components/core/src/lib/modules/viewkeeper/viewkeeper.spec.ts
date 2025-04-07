@@ -92,7 +92,7 @@ describe('Viewkeeper', () => {
       window.scrollTo(0, 0);
     });
 
-    it('should pin an item to the top of its boundary element when scrolled out of view', async () => {
+    it('should pin an item to the top of its boundary element when scrolled out of view', () => {
       vks.push(
         new SkyViewkeeper({
           el,
@@ -103,16 +103,14 @@ describe('Viewkeeper', () => {
 
       scrollWindowTo(0, 20);
 
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(el, true, 0, 5);
 
       scrollWindowTo(0, 0);
 
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(el, false);
     });
 
-    it('should set the viewkeeper element`s width when configured to do so', async () => {
+    it('should set the viewkeeper element`s width when configured to do so', () => {
       vks.push(
         new SkyViewkeeper({
           el,
@@ -124,7 +122,6 @@ describe('Viewkeeper', () => {
 
       scrollWindowTo(0, 20);
 
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(el, true, 0, 5);
 
       expect(getComputedStyle(el).width).toBe(
@@ -132,7 +129,7 @@ describe('Viewkeeper', () => {
       );
     });
 
-    it('should not pin an item to the top of its boundary element if it is not visible', async () => {
+    it('should not pin an item to the top of its boundary element if it is not visible', () => {
       vks.push(
         new SkyViewkeeper({
           el,
@@ -144,11 +141,10 @@ describe('Viewkeeper', () => {
 
       scrollWindowTo(0, 20);
 
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(el, false);
     });
 
-    it('should pin an item under the specified vertical offset element', async () => {
+    it('should pin an item under the specified vertical offset element', () => {
       const verticalOffsetEl = document.createElement('div');
       verticalOffsetEl.style.height = '50px';
       verticalOffsetEl.style.backgroundColor = 'blue';
@@ -172,18 +168,16 @@ describe('Viewkeeper', () => {
 
       scrollWindowTo(0, 100);
 
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(verticalOffsetEl, true, 0);
       validatePinned(el, true, 50);
 
       scrollWindowTo(0, 0);
 
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(verticalOffsetEl, false);
       validatePinned(el, false);
     });
 
-    it('should destroy the viewkeeper', async () => {
+    it('should destroy the viewkeeper', () => {
       const vk = new SkyViewkeeper({
         el,
         boundaryEl,
@@ -192,7 +186,6 @@ describe('Viewkeeper', () => {
 
       // Scroll the window so that the class list is updated.
       scrollWindowTo(0, 20);
-      await new Promise((resolve) => setTimeout(resolve, 32));
       expect(Array.from(el.classList)).toEqual(['sky-viewkeeper-fixed']);
 
       const removeEventListenerSpy = spyOn(
@@ -228,7 +221,7 @@ describe('Viewkeeper', () => {
       );
     });
 
-    it('should support viewportMarginProperty', async () => {
+    it('should support viewportMarginProperty', () => {
       vks.push(
         new SkyViewkeeper({
           el,
@@ -239,18 +232,15 @@ describe('Viewkeeper', () => {
       );
 
       scrollWindowTo(0, 10);
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(el, false);
       document.documentElement.style.setProperty('--test-viewport-top', '2px');
       scrollWindowTo(40, 100);
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(el, true, 0, 2);
       expect(el.style.marginTop).toBe(
         'calc(0px + var(--test-viewport-top, 0))',
       );
 
       document.documentElement.style.setProperty('--test-viewport-top', '12px');
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(el, true, 0, 12);
 
       document.documentElement.style.removeProperty('--test-viewport-top');
@@ -290,7 +280,7 @@ describe('Viewkeeper', () => {
         observer = observerCallback = undefined;
       });
 
-      it("should update the viewkeeper element's width when the spacer element's width changes", async () => {
+      it("should update the viewkeeper element's width when the spacer element's width changes", () => {
         vks.push(
           new SkyViewkeeper({
             el,
@@ -301,7 +291,6 @@ describe('Viewkeeper', () => {
 
         scrollWindowTo(0, 20);
 
-        await new Promise((resolve) => setTimeout(resolve, 32));
         validatePinned(el, true, 0);
 
         expect(getComputedStyle(el).width).toBe(
@@ -322,11 +311,10 @@ describe('Viewkeeper', () => {
           observerCallback([], observer);
         }
 
-        await new Promise((resolve) => setTimeout(resolve, 32));
         expect(getComputedStyle(el).width).toBe('10px');
       });
 
-      it('should destroy the ResizeObserver when the viewkeeper is destroyed', async () => {
+      it('should destroy the ResizeObserver when the viewkeeper is destroyed', () => {
         const vk = new SkyViewkeeper({
           el,
           boundaryEl,
@@ -339,7 +327,6 @@ describe('Viewkeeper', () => {
 
         scrollWindowTo(0, 20);
 
-        await new Promise((resolve) => setTimeout(resolve, 32));
         validatePinned(el, true, 0);
 
         const disconnectSpy = observer && spyOn(observer, 'disconnect');
@@ -397,7 +384,7 @@ describe('Viewkeeper', () => {
       window.scrollTo(0, 0);
     });
 
-    it('should pin an item to the top of its boundary element when scrolled out of view', async () => {
+    it('should pin an item to the top of its boundary element when scrolled out of view', () => {
       vks.push(
         new SkyViewkeeper({
           el,
@@ -410,7 +397,6 @@ describe('Viewkeeper', () => {
 
       scrollScrollableHost(0, 20);
 
-      await new Promise((resolve) => setTimeout(resolve, 32));
       // NOTE: All margin tops should be 0 as we ignore the viewport margin when working with
       // a scrollable host.
       validatePinned(el, true, 10, 0);
@@ -418,21 +404,18 @@ describe('Viewkeeper', () => {
       // Validate that window scroll moves the pinned viewkeeper once it is pinned
       scrollWindowTo(0, 10);
 
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(el, true, 0, 0);
 
       scrollWindowTo(0, 0);
 
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(el, true, 10, 0);
 
       scrollScrollableHost(0, 0);
 
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(el, false);
     });
 
-    it('should set the viewkeeper element`s width when configured to do so', async () => {
+    it('should set the viewkeeper element`s width when configured to do so', () => {
       vks.push(
         new SkyViewkeeper({
           el,
@@ -445,7 +428,6 @@ describe('Viewkeeper', () => {
 
       scrollScrollableHost(0, 20);
 
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(el, true, 10, 0);
 
       expect(getComputedStyle(el).width).toBe(
@@ -453,7 +435,7 @@ describe('Viewkeeper', () => {
       );
     });
 
-    it('should not pin an item to the top of its boundary element if it is not visible', async () => {
+    it('should not pin an item to the top of its boundary element if it is not visible', () => {
       vks.push(
         new SkyViewkeeper({
           el,
@@ -466,11 +448,10 @@ describe('Viewkeeper', () => {
 
       scrollScrollableHost(0, 20);
 
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(el, false);
     });
 
-    it('should pin an item under the specified vertical offset element', async () => {
+    it('should pin an item under the specified vertical offset element', () => {
       const verticalOffsetEl = document.createElement('div');
       verticalOffsetEl.style.height = '50px';
       verticalOffsetEl.style.backgroundColor = 'blue';
@@ -496,18 +477,16 @@ describe('Viewkeeper', () => {
 
       scrollScrollableHost(0, 100);
 
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(verticalOffsetEl, true, 10);
       validatePinned(el, true, 60);
 
       scrollScrollableHost(0, 0);
 
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(verticalOffsetEl, false);
       validatePinned(el, false);
     });
 
-    it('should destroy the viewkeeper', async () => {
+    it('should destroy the viewkeeper', () => {
       const vk = new SkyViewkeeper({
         el,
         boundaryEl,
@@ -517,7 +496,6 @@ describe('Viewkeeper', () => {
 
       // Scroll the parent so that the class list is updated.
       scrollScrollableHost(0, 100);
-      await new Promise((resolve) => setTimeout(resolve, 32));
       expect(Array.from(el.classList)).toEqual(['sky-viewkeeper-fixed']);
 
       const removeEventListenerSpy = spyOn(
@@ -541,7 +519,7 @@ describe('Viewkeeper', () => {
       expect(removeEventListenerSpy).not.toHaveBeenCalled();
     });
 
-    it('should clip the viewkeeper element when partially out of view', async () => {
+    it('should clip the viewkeeper element when partially out of view', () => {
       scrollableHostEl.appendChild(
         createContentEl('800px', '600px', '#d3d3d3', 'Below'),
       );
@@ -556,12 +534,10 @@ describe('Viewkeeper', () => {
       );
 
       scrollScrollableHost(0, 20);
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(el, true, 10, 0);
       expect(getComputedStyle(el).clipPath).toBe('none');
 
       scrollScrollableHost(50, 890);
-      await new Promise((resolve) => setTimeout(resolve, 32));
       validatePinned(el, true, -300, 0);
       expect(getComputedStyle(el).clipPath).toBe('inset(310px 0px 0px 50px)');
     });

@@ -135,8 +135,12 @@ mark.sky-highlight-mark {
 
 .sky-viewkeeper-fixed {
   position: fixed !important;
-  z-index: 999;
+  z-index: 1000;
   opacity: var(--sky-viewkeeper-opacity);
   overflow: hidden;
-  box-shadow: var(--sky-viewkeeper-box-shadow);
+
+  &:not(.sky-viewkeeper-fixed-not-last) {
+    box-shadow: var(--sky-viewkeeper-box-shadow);
+    z-index: 999;
+  }
 }

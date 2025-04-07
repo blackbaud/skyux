@@ -4,6 +4,7 @@ import { SkyViewkeeperOffset } from './viewkeeper-offset';
 import { SkyViewkeeperOptions } from './viewkeeper-options';
 
 const CLS_VIEWKEEPER_FIXED = 'sky-viewkeeper-fixed';
+const CLS_VIEWKEEPER_FIXED_NOT_LAST = 'sky-viewkeeper-fixed-not-last';
 const CLS_VIEWKEEPER_BOUNDARY = 'sky-viewkeeper-boundary';
 const EVT_AFTER_VIEWKEEPER_SYNC = 'afterViewkeeperSync';
 
@@ -118,8 +119,6 @@ export class SkyViewkeeper {
 
   #spacerResizeObserver: ResizeObserver | undefined;
 
-  #nextUpdate: number | undefined;
-
   constructor(options: SkyViewkeeperOptions) {
     options = options || /* istanbul ignore next */ {};
 
@@ -169,37 +168,35 @@ export class SkyViewkeeper {
   }
 
   public syncElPosition(el: HTMLElement, boundaryEl: HTMLElement): void {
-    this.#nextUpdate ??= requestAnimationFrame(() => {
-      this.#nextUpdate = undefined;
-      const verticalOffset = this.#calculateVerticalOffset();
+    const verticalOffset = this.#calculateVerticalOffset();
 
-      // When the element isn't visible, its size can't be calculated, so don't attempt syncing position in this case.
-      if (el.offsetWidth === 0 && el.offsetHeight === 0) {
-        return;
+    // When the element isn't visible, its size can't be calculated, so don't attempt syncing position in this case.
+    if (el.offsetWidth === 0 && el.offsetHeight === 0) {
+      return;
+    }
+
+    const boundaryInfo = this.#getBoundaryInfo(el, boundaryEl);
+    const fixedStyles = this.#getFixedStyles(boundaryInfo, verticalOffset);
+
+    const doFixEl = this.#shouldFixEl(el, boundaryInfo, verticalOffset);
+
+    if (this.#needsUpdating(doFixEl, fixedStyles)) {
+      if (doFixEl) {
+        this.#fixEl(el, boundaryInfo, fixedStyles);
+        this.#verticalOffsetEl?.classList.add(CLS_VIEWKEEPER_FIXED_NOT_LAST);
+      } else {
+        this.#unfixEl(el);
+        this.#verticalOffsetEl?.classList.remove(CLS_VIEWKEEPER_FIXED_NOT_LAST);
       }
+    }
 
-      const boundaryInfo = this.#getBoundaryInfo(el, boundaryEl);
-      const fixedStyles = this.#getFixedStyles(boundaryInfo, verticalOffset);
+    const evt = createCustomEvent(EVT_AFTER_VIEWKEEPER_SYNC);
 
-      const doFixEl = this.#shouldFixEl(el, boundaryInfo, verticalOffset);
-
-      if (this.#needsUpdating(doFixEl, fixedStyles)) {
-        if (doFixEl) {
-          this.#fixEl(el, boundaryInfo, fixedStyles);
-        } else {
-          this.#unfixEl(el);
-        }
-      }
-
-      const evt = createCustomEvent(EVT_AFTER_VIEWKEEPER_SYNC);
-
-      el.dispatchEvent(evt);
-    });
+    el.dispatchEvent(evt);
   }
 
   public destroy(): void {
     if (!this.#isDestroyed) {
-      cancelAnimationFrame(this.#nextUpdate ?? -1);
       this.#intersectionObserver?.disconnect();
       window.removeEventListener('scroll', this.#syncElPositionHandler, true);
       window.removeEventListener('resize', this.#syncElPositionHandler);
@@ -217,6 +214,7 @@ export class SkyViewkeeper {
           EVT_AFTER_VIEWKEEPER_SYNC,
           this.#syncElPositionHandler,
         );
+        this.#verticalOffsetEl.classList.remove(CLS_VIEWKEEPER_FIXED_NOT_LAST);
       }
 
       this.#spacerResizeObserver?.disconnect();
