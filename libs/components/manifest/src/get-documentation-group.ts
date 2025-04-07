@@ -2,7 +2,6 @@ import codeExamplesJson from '../code-examples.json';
 import documentationConfigJson from '../documentation-config.json';
 
 import { getPublicApi } from './get-public-api';
-import { SkyManifestChildDefinition } from './types/base-def';
 import {
   SkyManifestDocumentationConfig,
   SkyManifestDocumentationGroupConfig,

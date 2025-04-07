@@ -1,5 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { type SkyManifestParentDefinition } from '@skyux/manifest';
+import {
+  SkyManifestClassPropertyDefinition,
+  type SkyManifestParentDefinition,
+} from '@skyux/manifest';
 
 import { PropertyDefinition } from '../property-definition';
 
@@ -24,6 +27,10 @@ export class SkyDocsPropertyNamePipe implements PipeTransform {
       }
 
       default: {
+        if ((property as SkyManifestClassPropertyDefinition).isStatic) {
+          return `static ${property.name}: ${property.type}`;
+        }
+
         return `${property.name}: ${property.type}`;
       }
     }

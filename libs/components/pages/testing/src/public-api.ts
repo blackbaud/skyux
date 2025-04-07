@@ -5,6 +5,7 @@ export { SkyLinkListHarnessFilters } from './modules/link-list/link-list-harness
 export { SkyLinkListItemHarness } from './modules/link-list/link-list-item-harness';
 export { SkyLinkListItemHarnessFilters } from './modules/link-list/link-list-item-harness-filters';
 export { SkyNeedsAttentionHarness } from './modules/needs-attention/needs-attention-harness';
+export { SkyNeedsAttentionHarnessFilters } from './modules/needs-attention/needs-attention-harness-filters';
 export { SkyNeedsAttentionItemHarness } from './modules/needs-attention/needs-attention-item-harness';
 export { SkyNeedsAttentionItemHarnessFilters } from './modules/needs-attention/needs-attention-item-harness-filters';
 export { SkyPageHeaderHarness } from './modules/page-header/page-header-harness';
