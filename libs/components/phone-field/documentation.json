@@ -13,7 +13,11 @@
         "primaryDocsId": "SkyPhoneFieldModule"
       },
       "testing": {
-        "docsIds": ["SkyPhoneFieldHarness", "SkyPhoneFieldHarnessFilters"]
+        "docsIds": [
+          "SkyPhoneFieldHarness",
+          "SkyPhoneFieldHarnessFilters",
+          "SkyPhoneFieldInputHarness"
+        ]
       },
       "codeExamples": {
         "docsIds": ["PhoneFieldBasicExampleComponent"]

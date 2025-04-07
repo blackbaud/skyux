@@ -54,6 +54,8 @@
           "SkyPageHeaderActionsComponent",
           "SkyPageHeaderAlertsComponent",
           "SkyPageHeaderAvatarComponent",
+          "SkyPageLink",
+          "SkyPageLinksInput",
           "SkyLinkListModule",
           "SkyLinkListComponent",
           "SkyLinkListItemComponent"

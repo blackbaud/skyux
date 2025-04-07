@@ -7,7 +7,8 @@
           "SkyIconModule",
           "SkyIconComponent",
           "SkyIconType",
-          "SkyIconVariantType"
+          "SkyIconVariantType",
+          "SkyIconSize"
         ],
         "primaryDocsId": "SkyIconModule"
       },

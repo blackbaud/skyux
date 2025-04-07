@@ -243,7 +243,11 @@
         "primaryDocsId": "SkyTextExpandModule"
       },
       "testing": {
-        "docsIds": ["SkyTextExpandHarness", "SkyTextExpandModalHarness"]
+        "docsIds": [
+          "SkyTextExpandHarness",
+          "SkyTextExpandHarnessFilters",
+          "SkyTextExpandModalHarness"
+        ]
       },
       "codeExamples": {
         "docsIds": [

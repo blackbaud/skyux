@@ -124,6 +124,8 @@
       "development": {
         "docsIds": [
           "SkySelectionModalService",
+          "SkySelectionModalInstance",
+          "SkyLookupSelectModeType",
           "SkySelectionModalAddCallbackArgs",
           "SkySelectionModalAddClickEventArgs",
           "SkySelectionModalCloseArgs",

@@ -9,6 +9,7 @@
           "SkyGridColumnComponent",
           "SkyGridColumnAlignment",
           "SkyGridColumnWidthModelChange",
+          "SkyGridColumnModel",
           "SkyGridSelectedRowsModelChange",
           "SkyGridMessage",
           "SkyGridMessageType"
