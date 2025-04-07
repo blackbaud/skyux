@@ -15,14 +15,27 @@
           "SkyPageLink",
           "SkyPageLinksInput",
           "SkyPageModalLink",
+          "SkyModalConfigurationInterface",
           "SkyPageModalLinksInput",
           "SkyRecentLink",
-          "SkyRecentLinksInput"
+          "SkyRecentLinksInput",
+          "SkyRecentlyAccessedGetLinksArgs"
         ],
         "primaryDocsId": "SkyActionHubModule"
       },
       "testing": {
-        "docsIds": ["SkyActionHubHarness", "SkyActionHubHarnessFilters"]
+        "docsIds": [
+          "SkyActionHubHarness",
+          "SkyActionHubHarnessFilters",
+          "SkyNeedsAttentionHarness",
+          "SkyNeedsAttentionHarnessFilters",
+          "SkyNeedsAttentionItemHarness",
+          "SkyNeedsAttentionItemHarnessFilters",
+          "SkyLinkListHarness",
+          "SkyLinkListHarnessFilters",
+          "SkyLinkListItemHarness",
+          "SkyLinkListItemHarnessFilters"
+        ]
       },
       "codeExamples": {
         "docsIds": ["PagesActionHubExampleComponent"]

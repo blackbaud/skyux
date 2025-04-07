@@ -3,7 +3,12 @@
   "groups": {
     "date-pipe": {
       "development": {
-        "docsIds": ["SkyDatePipeModule", "SkyDatePipe", "SkyFuzzyDatePipe"],
+        "docsIds": [
+          "SkyDatePipeModule",
+          "SkyDatePipe",
+          "SkyFuzzyDatePipe",
+          "SkyFuzzyDate"
+        ],
         "primaryDocsId": "SkyDatePipeModule"
       },
       "testing": {
@@ -49,6 +54,7 @@
           "SkyDatepickerComponent",
           "SkyDatepickerInputDirective",
           "SkyDatepickerCalendarChange",
+          "SkyCalendarDateRangeChangeEvent",
           "SkyDatepickerConfigService",
           "SkyDatepickerCustomDate",
           "SkyFuzzyDatepickerInputDirective",
@@ -60,8 +66,11 @@
         "docsIds": [
           "SkyDatepickerHarness",
           "SkyDatepickerFilters",
+          "SkyDatepickerInputHarness",
+          "SkyFuzzyDatepickerInputHarness",
           "SkyDatepickerCalendarHarness",
-          "SkyDatepickerCalendarHarnessFilters"
+          "SkyDatepickerCalendarHarnessFilters",
+          "SkyInputBoxHarness"
         ]
       },
       "codeExamples": {

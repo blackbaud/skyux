@@ -15,7 +15,9 @@
           "SkyAutocompleteSearchFunctionFilter",
           "SkyAutocompleteSearchFunctionResponse",
           "SkyAutocompleteSearchFunction",
-          "SkyAutocompleteSelectionChange"
+          "SkyAutocompleteSelectionChange",
+          "SkyAutocompleteMessage",
+          "SkyAutocompleteShowMoreArgs"
         ],
         "primaryDocsId": "SkyAutocompleteModule"
       },
@@ -24,7 +26,9 @@
           "SkyAutocompleteHarness",
           "SkyAutocompleteHarnessFilters",
           "SkyAutocompleteSearchResultHarness",
-          "SkyAutocompleteSearchResultHarnessFilters"
+          "SkyAutocompleteSearchResultHarnessFilters",
+          "SkyAutocompleteInputHarness",
+          "SkyAutocompleteInputHarnessFilters"
         ]
       },
       "codeExamples": {
@@ -50,7 +54,11 @@
           "SkyCountryFieldHarness",
           "SkyCountryFieldHarnessFilters",
           "SkyCountryFieldSearchResultHarness",
-          "SkyCountryFieldSearchResultHarnessFilters"
+          "SkyCountryFieldSearchResultHarnessFilters",
+          "SkyAutocompleteInputHarness",
+          "SkyAutocompleteInputHarnessFilters",
+          "SkyInputBoxHarness",
+          "SkyInputBoxHarnessFilters"
         ]
       },
       "codeExamples": {

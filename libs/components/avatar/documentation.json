@@ -7,7 +7,8 @@
           "SkyAvatarModule",
           "SkyAvatarComponent",
           "SkyAvatarSize",
-          "SkyAvatarSrc"
+          "SkyAvatarSrc",
+          "SkyFileItem"
         ],
         "primaryDocsId": "SkyAvatarModule"
       },

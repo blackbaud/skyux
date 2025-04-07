@@ -10,7 +10,9 @@
           "SkyDataManagerToolbarComponent",
           "SkyDataManagerToolbarSectionComponent",
           "SkyDataManagerToolbarPrimaryItemComponent",
+          "SkyDataManagerToolbarLeftItemsComponent",
           "SkyDataManagerToolbarLeftItemComponent",
+          "SkyDataManagerToolbarRightItemsComponent",
           "SkyDataManagerToolbarRightItemComponent",
           "SkyDataViewComponent",
           "SkyDataViewConfig",
@@ -26,7 +28,8 @@
           "SkyDataManagerStateUpdateFilterArgs",
           "SkyDataManagerColumnPickerOption",
           "SkyDataManagerColumnPickerSortStrategy",
-          "SkyDataManagerFilterModalContext"
+          "SkyDataManagerFilterModalContext",
+          "SkyDataManagerSummary"
         ],
         "primaryDocsId": "SkyDataManagerModule"
       },

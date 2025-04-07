@@ -24,7 +24,9 @@
           "SkyColorpickerHarness",
           "SkyColorpickerHarnessFilters",
           "SkyColorpickerDropdownHarness",
-          "SkyColorpickerDropdownHarnessFilters"
+          "SkyColorpickerDropdownHarnessFilters",
+          "SkyIconHarness",
+          "SkyIconHarnessFilters"
         ]
       },
       "codeExamples": {
