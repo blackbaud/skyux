@@ -221,4 +221,60 @@ describe('get-documentation-group', () => {
       getDocumentationGroup('@skyux/core', 'foo'),
     ).toThrowErrorMatchingSnapshot();
   });
+
+  it('should remove internal parents and children', async () => {
+    setup({
+      codeExamples: {
+        examples: {},
+      },
+      documentationConfig: {
+        packages: {
+          '@skyux/core': {
+            groups: {
+              foo: {
+                development: {
+                  docsIds: ['FooComponent', 'InternalComponent'],
+                  primaryDocsId: 'FooComponent',
+                },
+                testing: { docsIds: [] },
+                codeExamples: { docsIds: [] },
+              },
+            },
+          },
+        },
+      },
+      publicApi: {
+        packages: {
+          '@skyux/core': [
+            {
+              name: 'FooComponent',
+              docsId: 'FooComponent',
+              repoUrl: 'https://repo.com/foo',
+              children: [
+                {
+                  name: 'internalProperty',
+                  isInternal: true,
+                },
+                {
+                  name: 'publicProperty',
+                },
+              ],
+            },
+            {
+              name: 'InternalComponent',
+              isInternal: true,
+              docsId: 'InternalComponent',
+              repoUrl: 'https://repo.com/foo',
+            },
+          ] as SkyManifestParentDefinition[],
+        },
+      },
+    });
+
+    const { getDocumentationGroup } = await import('./get-documentation-group');
+
+    const result = getDocumentationGroup('@skyux/core', 'foo');
+
+    expect(result).toMatchSnapshot();
+  });
 });

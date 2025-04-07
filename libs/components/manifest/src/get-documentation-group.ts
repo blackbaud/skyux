@@ -64,17 +64,25 @@ function removeInternalTypes(
 function getPublicApiByDocsIds(
   config: SkyManifestDocumentationGroupConfig,
 ): SkyManifestDocumentationGroup {
+  const codeExamples = config.codeExamples.docsIds.map(
+    (docsId) => CODE_EXAMPLES.examples[docsId],
+  );
+
+  const packageInfo = getGroupPackageInfo(config.development.primaryDocsId);
+
+  const publicApi = removeInternalTypes(
+    config.development.docsIds.map((docsId) => getDefinitionByDocsId(docsId)),
+  );
+
+  const testing = removeInternalTypes(
+    config.testing.docsIds.map((docsId) => getDefinitionByDocsId(docsId)),
+  );
+
   const documentation: SkyManifestDocumentationGroup = {
-    codeExamples: config.codeExamples.docsIds.map(
-      (docsId) => CODE_EXAMPLES.examples[docsId],
-    ),
-    packageInfo: getGroupPackageInfo(config.development.primaryDocsId),
-    publicApi: removeInternalTypes(
-      config.development.docsIds.map((docsId) => getDefinitionByDocsId(docsId)),
-    ),
-    testing: removeInternalTypes(
-      config.testing.docsIds.map((docsId) => getDefinitionByDocsId(docsId)),
-    ),
+    codeExamples,
+    packageInfo,
+    publicApi,
+    testing,
   };
 
   return documentation;
