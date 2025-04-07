@@ -8,8 +8,6 @@ import {
 
 const PUBLIC_API = getPublicApi();
 
-console.log(PUBLIC_API);
-
 function getDefinitionByDocsId(
   docsId: string,
 ): SkyManifestDocumentationTypeDefinition {
