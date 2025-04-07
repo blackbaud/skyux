@@ -16,11 +16,11 @@ export class SkyDataManagerColumnPickerHarness extends ComponentHarness {
   public static hostSelector = '.sky-data-manager-column-picker';
 
   #getCancelButton = this.locatorFor(
-    'button.sky-data-manager-column-picker-close',
+    'button.sky-data-manager-column-picker-cancel-btn',
   );
   #getDataManager = this.locatorFor(SkyDataManagerHarness);
   #getSaveButton = this.locatorFor(
-    'button.sky-data-manager-column-picker-save',
+    'button.sky-data-manager-column-picker-apply-btn',
   );
 
   /**

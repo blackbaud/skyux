@@ -5,5 +5,5 @@ import { SkyRepeaterItemHarnessFilters } from '@skyux/lists/testing';
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-empty-object-type
 export interface SkyDataManagerColumnPickerColumnHarnessFilters
-  // Omitting 'titleText' and 'ancestor' since they are not relevant filters for the picker's search results.
+  // Omitting 'ancestor' since it is not relevant filter for the picker's results.
   extends Omit<SkyRepeaterItemHarnessFilters, 'ancestor'> {}

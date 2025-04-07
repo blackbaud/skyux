@@ -39,27 +39,13 @@ export class SkyDataManagerColumnPickerColumnHarness extends SkyRepeaterItemHarn
   }
 
   /**
-   * Whether the column is selectable.
-   * This is always true for data manager column picker and not documented.
+   * Collapses the search, or does nothing if already collapsed.
+   * The data manager column picker does not use an expandable repeater.
    * @internal
    */
   /* istanbul ignore next */
-  public override async isSelectable(): Promise<boolean> {
-    return await super.isSelectable();
-  }
-
-  /**
-   * Whether the column is selected.
-   */
-  public override async isSelected(): Promise<boolean> {
-    return await super.isSelected();
-  }
-
-  /**
-   * Selects the column.
-   */
-  public override async select(): Promise<void> {
-    await super.select();
+  public override async collapse(): Promise<void> {
+    await super.collapse();
   }
 
   /**
@@ -67,6 +53,16 @@ export class SkyDataManagerColumnPickerColumnHarness extends SkyRepeaterItemHarn
    */
   public override async deselect(): Promise<void> {
     await super.deselect();
+  }
+
+  /**
+   * Expands the search, or does nothing if already expanded.
+   * The data manager column picker does not use an expandable repeater.
+   * @internal
+   */
+  /* istanbul ignore next */
+  public override async expand(): Promise<void> {
+    await super.expand();
   }
 
   /**
@@ -104,26 +100,6 @@ export class SkyDataManagerColumnPickerColumnHarness extends SkyRepeaterItemHarn
   }
 
   /**
-   * Expands the search, or does nothing if already expanded.
-   * The data manager column picker does not use an expandable repeater.
-   * @internal
-   */
-  /* istanbul ignore next */
-  public override async expand(): Promise<void> {
-    await super.expand();
-  }
-
-  /**
-   * Collapses the search, or does nothing if already collapsed.
-   * The data manager column picker does not use an expandable repeater.
-   * @internal
-   */
-  /* istanbul ignore next */
-  public override async collapse(): Promise<void> {
-    await super.collapse();
-  }
-
-  /**
    * Whether the repeater item is reorderable.
    * This is always false for data manager column picker and not documented.
    * @internal
@@ -131,6 +107,30 @@ export class SkyDataManagerColumnPickerColumnHarness extends SkyRepeaterItemHarn
   /* istanbul ignore next */
   public override async isReorderable(): Promise<boolean> {
     return await super.isReorderable();
+  }
+
+  /**
+   * Whether the column is selectable.
+   * This is always true for data manager column picker and not documented.
+   * @internal
+   */
+  /* istanbul ignore next */
+  public override async isSelectable(): Promise<boolean> {
+    return await super.isSelectable();
+  }
+
+  /**
+   * Whether the column is selected.
+   */
+  public override async isSelected(): Promise<boolean> {
+    return await super.isSelected();
+  }
+
+  /**
+   * Selects the column.
+   */
+  public override async select(): Promise<void> {
+    await super.select();
   }
 
   /**
