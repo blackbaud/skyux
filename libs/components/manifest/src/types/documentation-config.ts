@@ -2,9 +2,9 @@
  * @internal
  */
 export interface SkyManifestDocumentationGroupConfig {
+  codeExamples: { docsIds: string[] };
   development: { docsIds: string[]; primaryDocsId: string };
   testing: { docsIds: string[] };
-  codeExamples: { docsIds: string[] };
 }
 
 /**

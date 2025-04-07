@@ -55,6 +55,9 @@ export class SkyTypeAnchorLinksPipe implements PipeTransform {
 
         return this.#cache[anchorId].anchorEl;
       } else if (
+        // Log error if the found type starts with "sky" but its anchorId is
+        // unregistered. This usually means the type was not included in the
+        // `docsIds` array for this documentation group.
         maybeType.toLowerCase().startsWith('sky') &&
         maybeType.length > 3 &&
         maybeType !== 'skyux'

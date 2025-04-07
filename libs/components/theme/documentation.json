@@ -1,4 +1,4 @@
 {
-  "$schema": "../manifest/documentation-schema.json",
+  "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {}
 }
