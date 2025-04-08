@@ -7,9 +7,7 @@ import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { DatetimeTimepickerBasicExampleComponent } from './example.component';
 
 describe('Basic timepicker example', () => {
-  async function setupTest(options: {
-    dataSkyId: string;
-  }): Promise<{
+  async function setupTest(options: { dataSkyId: string }): Promise<{
     inputHarness: SkyInputBoxHarness;
     timepickerHarness: SkyTimepickerHarness;
     fixture: ComponentFixture<DatetimeTimepickerBasicExampleComponent>;

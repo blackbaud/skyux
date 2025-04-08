@@ -55,9 +55,7 @@ class TestComponent {
 //#endregion Test component
 
 describe('Timepicker harness', () => {
-  async function setupTest(options: {
-    dataSkyId: string;
-  }): Promise<{
+  async function setupTest(options: { dataSkyId: string }): Promise<{
     timepickerHarness: SkyTimepickerHarness;
     fixture: ComponentFixture<TestComponent>;
   }> {
