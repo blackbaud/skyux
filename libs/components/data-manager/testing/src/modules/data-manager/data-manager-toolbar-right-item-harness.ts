@@ -4,7 +4,7 @@ import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyDataManagerToolbarRightItemHarnessFilters } from './data-manager-toolbar-right-item-harness-filters';
 
 /**
- * Harness to interact with a toolbar view actions component in tests.
+ * Harness to interact with a data manager toolbar right item component in tests.
  */
 export class SkyDataManagerToolbarRightItemHarness extends SkyQueryableComponentHarness {
   /**

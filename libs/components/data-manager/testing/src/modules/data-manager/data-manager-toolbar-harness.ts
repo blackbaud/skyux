@@ -37,7 +37,7 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the data manager clear all button, if it exists
+   * Clicks the data manager clear all button. Throws an error if the multiselect toolbar is turned off.
    */
   public async clickClearAll(): Promise<void> {
     const button = await this.locatorForOptional(
@@ -52,7 +52,7 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the data manager select all button, if it exists
+   * Clicks the data manager select all button. Throws an error if the multiselect toolbar is turned off.
    */
   public async clickSelectAll(): Promise<void> {
     const button = await this.locatorForOptional(
@@ -180,7 +180,7 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the data manager search.
+   * Gets the data manager search harness.
    */
   public async getSearch(): Promise<SkySearchHarness | null> {
     return await this.locatorForOptional(
@@ -241,7 +241,7 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Opens the data manager column picker and returns the harness
+   * Opens the data manager column picker and returns the harness. Throws an error if the column picker is turned off.
    */
   public async openColumnPicker(): Promise<SkyDataManagerColumnPickerHarness> {
     const button = await this.locatorForOptional('.sky-col-picker-btn')();
