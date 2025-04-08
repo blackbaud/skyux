@@ -1,5 +1,14 @@
 # Changelog
 
+## [11.49.2](https://github.com/blackbaud/skyux/compare/11.49.1...11.49.2) (2025-04-08)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** hide AG Grid row dragging icon ([#3332](https://github.com/blackbaud/skyux/issues/3332)) ([90e04aa](https://github.com/blackbaud/skyux/commit/90e04aa9afca665d30171c225b8084ffe197230f))
+* **components/data-manager:** toolbar should not overlap other elements ([#3340](https://github.com/blackbaud/skyux/issues/3340)) ([11b3126](https://github.com/blackbaud/skyux/commit/11b31264213e54164328f5df2c3a1104a2a42f7c))
+* **components/indicators:** block-level wait should not overlap other elements ([#3339](https://github.com/blackbaud/skyux/issues/3339)) ([8016e7f](https://github.com/blackbaud/skyux/commit/8016e7f441cd58429d4d1ae7b66450d95a9777b0))
+
 ## [12.1.0](https://github.com/blackbaud/skyux/compare/12.0.0...12.1.0) (2025-04-03)
 
 
