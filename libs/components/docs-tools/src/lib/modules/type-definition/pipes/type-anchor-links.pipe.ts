@@ -61,7 +61,9 @@ export class SkyTypeAnchorLinksPipe implements PipeTransform {
         maybeType.startsWith('Sky')
       ) {
         this.#logSvc.error(
-          `The following type is referenced on the page but its docsId is not included in this documentation group. (parsing: "${value}")\n[[ ${maybeType} ]]`,
+          'The following type is referenced on the page but its docsId is not included in this documentation group. ' +
+            `(parsing: "${value}")\n` +
+            `[[ ${maybeType} ]]`,
         );
       }
 
