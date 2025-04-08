@@ -268,7 +268,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
           {
             "kind": "class-property",
             "name": "reflectionIndexSignatureType",
-            "type": "{ [key: string]: boolean; } | undefined"
+            "type": "{ [key: string]: boolean } | undefined"
           },
           {
             "kind": "class-property",
