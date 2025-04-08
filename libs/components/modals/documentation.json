@@ -1,49 +1,69 @@
 {
-  "$schema": "../manifest/documentation-schema.json",
+  "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "confirm": {
-      "docsIds": [
-        "SkyConfirmService",
-        "SkyConfirmConfig",
-        "SkyConfirmInstance",
-        "SkyConfirmType",
-        "SkyConfirmButtonConfig",
-        "SkyConfirmButtonStyleType",
-        "SkyConfirmCloseEventArgs",
-        "SkyConfirmHarness",
-        "SkyConfirmButtonHarness",
-        "SkyConfirmButtonHarnessFilters",
-        "SkyConfirmTestingModule",
-        "SkyConfirmTestingController",
-        "ModalsConfirmBasicWithControllerExampleComponent",
-        "ModalsConfirmBasicWithHarnessExampleComponent"
-      ],
-      "primaryDocsId": "SkyConfirmService"
+      "development": {
+        "docsIds": [
+          "SkyConfirmService",
+          "SkyConfirmConfig",
+          "SkyConfirmInstance",
+          "SkyConfirmType",
+          "SkyConfirmButtonConfig",
+          "SkyConfirmButtonStyleType",
+          "SkyConfirmCloseEventArgs"
+        ],
+        "primaryDocsId": "SkyConfirmService"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyConfirmHarness",
+          "SkyConfirmButtonHarness",
+          "SkyConfirmButtonHarnessFilters",
+          "SkyConfirmTestingModule",
+          "SkyConfirmTestingController"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ModalsConfirmBasicWithControllerExampleComponent",
+          "ModalsConfirmBasicWithHarnessExampleComponent"
+        ]
+      }
     },
     "modal": {
-      "docsIds": [
-        "SkyModalModule",
-        "SkyModalComponent",
-        "SkyModalHeaderComponent",
-        "SkyModalContentComponent",
-        "SkyModalFooterComponent",
-        "SkyModalIsDirtyDirective",
-        "SkyModalService",
-        "SkyModalConfigurationInterface",
-        "SkyModalInstance",
-        "SkyModalCloseArgs",
-        "SkyModalBeforeCloseHandler",
-        "SkyModalError",
-        "SkyModalHarness",
-        "SkyModalHarnessFilters",
-        "SkyModalTestingModule",
-        "SkyModalTestingController",
-        "ModalsModalBasicWithControllerExampleComponent",
-        "ModalsModalBasicWithHarnessExampleComponent",
-        "ModalsModalBasicWithHarnessHelpKeyExampleComponent",
-        "ModalsModalWithErrorExampleComponent"
-      ],
-      "primaryDocsId": "SkyModalModule"
+      "development": {
+        "docsIds": [
+          "SkyModalModule",
+          "SkyModalComponent",
+          "SkyModalHeaderComponent",
+          "SkyModalContentComponent",
+          "SkyModalFooterComponent",
+          "SkyModalIsDirtyDirective",
+          "SkyModalService",
+          "SkyModalConfigurationInterface",
+          "SkyModalInstance",
+          "SkyModalCloseArgs",
+          "SkyModalBeforeCloseHandler",
+          "SkyModalError"
+        ],
+        "primaryDocsId": "SkyModalModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyModalHarness",
+          "SkyModalHarnessFilters",
+          "SkyModalTestingModule",
+          "SkyModalTestingController"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ModalsModalBasicWithControllerExampleComponent",
+          "ModalsModalBasicWithHarnessExampleComponent",
+          "ModalsModalBasicWithHarnessHelpKeyExampleComponent",
+          "ModalsModalWithErrorExampleComponent"
+        ]
+      }
     }
   }
 }

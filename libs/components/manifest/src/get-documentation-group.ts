@@ -2,7 +2,10 @@ import codeExamplesJson from '../code-examples.json';
 import documentationConfigJson from '../documentation-config.json';
 
 import { getPublicApi } from './get-public-api';
-import { SkyManifestDocumentationConfig } from './types/documentation-config';
+import {
+  SkyManifestDocumentationConfig,
+  SkyManifestDocumentationGroupConfig,
+} from './types/documentation-config';
 import type {
   SkyManifestCodeExamples,
   SkyManifestDocumentationGroup,
@@ -44,32 +47,43 @@ function getDefinitionByDocsId(
   );
 }
 
-function getPublicApiByDocsIds(
-  docsIds: string[],
-  primaryDocsId: string,
-): SkyManifestDocumentationGroup {
-  const documentation: SkyManifestDocumentationGroup = {
-    codeExamples: [],
-    packageInfo: getGroupPackageInfo(primaryDocsId),
-    publicApi: [],
-    testing: [],
-  };
+function removeInternalTypes(
+  defs: SkyManifestDocumentationTypeDefinition[],
+): SkyManifestDocumentationTypeDefinition[] {
+  const filtered = defs.filter((def) => !def.isInternal);
 
-  for (const docsId of docsIds) {
-    const definition = getDefinitionByDocsId(docsId);
-
-    if (definition.docsId === docsId) {
-      if (definition.packageName === '@skyux/code-examples') {
-        documentation.codeExamples.push(
-          CODE_EXAMPLES.examples[definition.docsId],
-        );
-      } else if (definition.packageName.endsWith('/testing')) {
-        documentation.testing.push(definition);
-      } else {
-        documentation.publicApi.push(definition);
-      }
+  for (const def of filtered) {
+    if (def.children) {
+      def.children = def.children.filter((child) => !child.isInternal);
     }
   }
+
+  return filtered;
+}
+
+function getPublicApiByDocsIds(
+  config: SkyManifestDocumentationGroupConfig,
+): SkyManifestDocumentationGroup {
+  const codeExamples = config.codeExamples.docsIds.map(
+    (docsId) => CODE_EXAMPLES.examples[docsId],
+  );
+
+  const packageInfo = getGroupPackageInfo(config.development.primaryDocsId);
+
+  const publicApi = removeInternalTypes(
+    config.development.docsIds.map((docsId) => getDefinitionByDocsId(docsId)),
+  );
+
+  const testing = removeInternalTypes(
+    config.testing.docsIds.map((docsId) => getDefinitionByDocsId(docsId)),
+  );
+
+  const documentation: SkyManifestDocumentationGroup = {
+    codeExamples,
+    packageInfo,
+    publicApi,
+    testing,
+  };
 
   return documentation;
 }
@@ -100,5 +114,5 @@ export function getDocumentationGroup(
     );
   }
 
-  return getPublicApiByDocsIds(group.docsIds, group.primaryDocsId);
+  return getPublicApiByDocsIds(group);
 }

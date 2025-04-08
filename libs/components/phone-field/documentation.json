@@ -1,18 +1,27 @@
 {
-  "$schema": "../manifest/documentation-schema.json",
+  "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "phone-field": {
-      "docsIds": [
-        "SkyPhoneFieldModule",
-        "SkyPhoneFieldComponent",
-        "SkyPhoneFieldInputDirective",
-        "SkyPhoneFieldCountry",
-        "SkyPhoneFieldNumberReturnFormat",
-        "SkyPhoneFieldHarness",
-        "SkyPhoneFieldHarnessFilters",
-        "PhoneFieldBasicExampleComponent"
-      ],
-      "primaryDocsId": "SkyPhoneFieldModule"
+      "development": {
+        "docsIds": [
+          "SkyPhoneFieldModule",
+          "SkyPhoneFieldComponent",
+          "SkyPhoneFieldInputDirective",
+          "SkyPhoneFieldCountry",
+          "SkyPhoneFieldNumberReturnFormat"
+        ],
+        "primaryDocsId": "SkyPhoneFieldModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyPhoneFieldHarness",
+          "SkyPhoneFieldHarnessFilters",
+          "SkyPhoneFieldInputHarness"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["PhoneFieldBasicExampleComponent"]
+      }
     }
   }
 }
