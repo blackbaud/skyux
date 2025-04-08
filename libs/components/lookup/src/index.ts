@@ -33,6 +33,7 @@ export { SkySelectionModalService } from './lib/modules/selection-modal/selectio
 export { SkySelectionModalAddCallbackArgs } from './lib/modules/selection-modal/types/selection-modal-add-click-callback-args';
 export { SkySelectionModalAddClickEventArgs } from './lib/modules/selection-modal/types/selection-modal-add-click-event-args';
 export { SkySelectionModalCloseArgs } from './lib/modules/selection-modal/types/selection-modal-close-args';
+export { SkySelectionModalInstance } from './lib/modules/selection-modal/types/selection-modal-instance';
 export { SkySelectionModalOpenArgs } from './lib/modules/selection-modal/types/selection-modal-open-args';
 export { SkySelectionModalResult } from './lib/modules/selection-modal/types/selection-modal-result';
 export { SkySelectionModalSearchArgs } from './lib/modules/selection-modal/types/selection-modal-search-args';
