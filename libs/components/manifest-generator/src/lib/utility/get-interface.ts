@@ -24,6 +24,7 @@ function getInterfaceProperties(
         deprecationReason,
         description,
         isDeprecated,
+        isInternal,
         isPreview,
       } = getComment(child);
 
@@ -35,6 +36,7 @@ function getInterfaceProperties(
         deprecationReason,
         description,
         isDeprecated,
+        isInternal,
         isOptional,
         isPreview,
         kind: 'interface-property',
