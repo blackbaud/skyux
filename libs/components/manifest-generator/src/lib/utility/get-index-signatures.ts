@@ -25,6 +25,7 @@ export function getIndexSignatures(
         deprecationReason,
         description,
         isDeprecated,
+        isInternal,
         isPreview,
       } = getComment(signature);
 
@@ -44,6 +45,7 @@ export function getIndexSignatures(
         deprecationReason,
         description,
         isDeprecated,
+        isInternal,
         isPreview,
         name: `[${param.name}: ${formatType(param)}]`,
         type: formatType(signature),

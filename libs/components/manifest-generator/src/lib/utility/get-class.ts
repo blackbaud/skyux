@@ -43,6 +43,7 @@ export function getMethod(
     deprecationReason,
     description,
     isDeprecated,
+    isInternal,
     isPreview,
   } = getComment(reflection);
 
@@ -52,6 +53,7 @@ export function getMethod(
     deprecationReason,
     description,
     isDeprecated,
+    isInternal,
     isPreview,
     isStatic: reflection.flags.isStatic ? true : undefined,
     kind: 'class-method',
@@ -74,6 +76,7 @@ export function getProperty(
     deprecationReason,
     description,
     isDeprecated,
+    isInternal,
     isPreview,
   } = getComment(reflection);
 
@@ -85,6 +88,7 @@ export function getProperty(
     defaultValue: getDefaultValue(reflection, defaultValue),
     isDeprecated,
     isPreview,
+    isInternal,
     isStatic: reflection.flags.isStatic ? true : undefined,
     kind: 'class-property',
     name: reflection.name,
