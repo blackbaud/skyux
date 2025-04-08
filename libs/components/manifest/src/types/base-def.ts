@@ -39,6 +39,7 @@ export interface SkyManifestJsDocDefinition {
   deprecationReason?: string;
   description?: string;
   isDeprecated?: boolean;
+  isInternal?: boolean;
   isPreview?: boolean;
 }
 
@@ -53,7 +54,6 @@ export interface SkyManifestParentDefinition
   docsId: string;
   extraTags?: Record<string, string>;
   filePath: string;
-  isInternal?: boolean;
   kind: SkyManifestParentDefinitionKind;
   name: string;
   repoUrl: string;
