@@ -710,7 +710,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
             "description": "This describes a public method that returns a promise.",
             "kind": "class-method",
             "name": "someMethod",
-            "type": "Promise<Type$1<string>>"
+            "type": "Promise<Type<string>>"
           },
           {
             "defaultValue": "''",
