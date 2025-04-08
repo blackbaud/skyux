@@ -17,11 +17,17 @@ import { remapLambdaName } from './remap-lambda-names.js';
 
 export function isInput(
   reflection: DeclarationReflectionWithDecorators,
-): reflection is DeclarationReflectionWithDecorators {
+): boolean {
+  return getDecorator(reflection) === 'Input' || isInputSignal(reflection);
+}
+
+function isInputSignal(
+  reflection: DeclarationReflectionWithDecorators,
+): boolean {
   return (
-    getDecorator(reflection) === 'Input' ||
-    (reflection.type instanceof ReferenceType &&
-      reflection.type?.name === 'InputSignal')
+    reflection.type instanceof ReferenceType &&
+    (reflection.type?.name === 'InputSignal' ||
+      reflection.type?.name === 'InputSignalWithTransform')
   );
 }
 

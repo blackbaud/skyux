@@ -234,6 +234,13 @@ exports[`generate-manifest > should generate manifest 1`] = `
             "type": "(() => void) | undefined"
           },
           {
+            "description": "Describes an internal property.",
+            "isInternal": true,
+            "kind": "class-property",
+            "name": "internalProperty",
+            "type": "string | undefined"
+          },
+          {
             "kind": "class-property",
             "name": "intrinsicType",
             "type": "string | undefined"
@@ -261,7 +268,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
           {
             "kind": "class-property",
             "name": "reflectionIndexSignatureType",
-            "type": "{ [key: string]: boolean; } | undefined"
+            "type": "{ [key: string]: boolean } | undefined"
           },
           {
             "kind": "class-property",
@@ -301,7 +308,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts",
         "kind": "class",
         "name": "FooWithDocsIdOverrideClass",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L125"
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L131"
       },
       {
         "anchorId": "class_foo-with-extra-tags-class",
@@ -313,7 +320,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts",
         "kind": "class",
         "name": "FooWithExtraTagsClass",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L131"
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L137"
       },
       {
         "anchorId": "class_foo-with-static-properties-class",
@@ -345,7 +352,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts",
         "kind": "class",
         "name": "FooWithStaticPropertiesClass",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L103"
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L109"
       },
       {
         "anchorId": "class_sky-foo-non-standalone-component",
@@ -354,7 +361,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts",
         "kind": "component",
         "name": "SkyFooNonStandaloneComponent",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L79",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L84",
         "selector": "sky-foo-non-standalone"
       },
       {
@@ -364,7 +371,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts",
         "kind": "component",
         "name": "SkyFooStandaloneComponent",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L89",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L94",
         "selector": "sky-foo-standalone"
       },
       {
@@ -389,6 +396,12 @@ exports[`generate-manifest > should generate manifest 1`] = `
             "kind": "directive-input",
             "name": "fooRequired",
             "type": "InputSignal<string>"
+          },
+          {
+            "description": "This describes an input signal with a boolean transformer.",
+            "kind": "directive-input",
+            "name": "fooWithTransformer",
+            "type": "InputSignalWithTransform<boolean, unknown>"
           },
           {
             "description": "This describes an input with only a setter.",
