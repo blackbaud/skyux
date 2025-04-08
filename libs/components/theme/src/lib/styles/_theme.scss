@@ -133,3 +133,19 @@ mark.sky-highlight-mark {
   isolation: isolate;
   position: relative;
 }
+
+.sky-viewkeeper-boundary {
+  isolation: isolate;
+}
+
+.sky-viewkeeper-fixed {
+  position: fixed !important;
+  z-index: 1000;
+  opacity: var(--sky-viewkeeper-opacity);
+  overflow: hidden;
+
+  &:not(.sky-viewkeeper-fixed-not-last) {
+    box-shadow: var(--sky-viewkeeper-box-shadow);
+    z-index: 999;
+  }
+}
