@@ -2,9 +2,7 @@ import { SkySelectionModalSearchResultHarnessFilters } from '../selection-modal/
 
 /**
  * A set of criteria that can be used to filter a list of `SkyLookupShowMorePickerSearchResultHarness` instances.
- * @internal
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-empty-object-type
 export interface SkyLookupShowMorePickerSearchResultHarnessFilters
-  // Omitting 'titleText' and 'ancestor' since they are not relevant filters for the picker's search results.
   extends SkySelectionModalSearchResultHarnessFilters {}
