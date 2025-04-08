@@ -1,5 +1,27 @@
 # Changelog
 
+## [12.2.0](https://github.com/blackbaud/skyux/compare/12.1.0...12.2.0) (2025-04-08)
+
+
+### Features
+
+* **components/config:** add `containerAliases` to `remoteModules` config ([#3358](https://github.com/blackbaud/skyux/issues/3358)) ([e3369d0](https://github.com/blackbaud/skyux/commit/e3369d01428fe13e5c1e3a22eecd67d812795435))
+* **components/data-manager:** add data manager harnesses ([#3346](https://github.com/blackbaud/skyux/issues/3346)) ([92e7b3c](https://github.com/blackbaud/skyux/commit/92e7b3cac622b7f4c79b59c64205d90ca38b4fff))
+* **components/indicators:** tokenize wait styles ([#3343](https://github.com/blackbaud/skyux/issues/3343)) ([fbd8969](https://github.com/blackbaud/skyux/commit/fbd89693f0391b071bacc515616554e22d9a713c))
+* **components/manifest:** add support for `typedoc@0.28.2` ([#3357](https://github.com/blackbaud/skyux/issues/3357)) ([a5e7f17](https://github.com/blackbaud/skyux/commit/a5e7f17ca0a4f1e2650a330121be55a60b51d3bd))
+
+
+### Bug Fixes
+
+* add missing exports to the public API ([#3356](https://github.com/blackbaud/skyux/issues/3356)) ([a89730c](https://github.com/blackbaud/skyux/commit/a89730ce8377f6800c6bebc56c6f16f51f69f28a))
+* **components/code-examples:** selection modal add item example uses correct button classes and order ([#3351](https://github.com/blackbaud/skyux/issues/3351)) ([d9dd3e6](https://github.com/blackbaud/skyux/commit/d9dd3e66e10cdb785c3b77d7beab3a5fcd78ede4))
+* **components/data-manager:** toolbar should not overlap other elements ([#3340](https://github.com/blackbaud/skyux/issues/3340)) ([#3359](https://github.com/blackbaud/skyux/issues/3359)) ([30616ce](https://github.com/blackbaud/skyux/commit/30616ce10f626c7e49195088ec8f067a09889ecb))
+* **components/docs-tools:** add "static" keyword to static class property definitions ([#3355](https://github.com/blackbaud/skyux/issues/3355)) ([a581b1b](https://github.com/blackbaud/skyux/commit/a581b1bd233c87722584c02f0e1e6ea2bda27168))
+* **components/icon:** apply fill color to all child elements of icon symbol ([#3352](https://github.com/blackbaud/skyux/issues/3352)) ([5e4e71d](https://github.com/blackbaud/skyux/commit/5e4e71d267ceb5aab8cf6f294f686cc807e0cd59))
+* **components/manifest:** add more granular control when adding `[@docs](https://github.com/docs)Ids` to documentation groups ([#3349](https://github.com/blackbaud/skyux/issues/3349)) ([2489b98](https://github.com/blackbaud/skyux/commit/2489b9830d022f6271567c5b292286bc65a15713))
+* **components/manifest:** add support for directive input properties with type `InputSignalWithTransform` ([#3347](https://github.com/blackbaud/skyux/issues/3347)) ([f5b8f7d](https://github.com/blackbaud/skyux/commit/f5b8f7d1844acb5b2d92d9861c7a35cae9feab4d))
+* **components/manifest:** mark properties as internal if JSDoc tag `[@internal](https://github.com/internal)` provided ([#3354](https://github.com/blackbaud/skyux/issues/3354)) ([2662ed2](https://github.com/blackbaud/skyux/commit/2662ed2284ffd01c6697e0c6127ee61ad58e773a))
+
 ## [11.49.2](https://github.com/blackbaud/skyux/compare/11.49.1...11.49.2) (2025-04-08)
 
 
