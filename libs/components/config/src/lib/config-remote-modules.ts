@@ -24,7 +24,7 @@ export interface SkyuxConfigRemoteModules {
     containerVersion: number;
     /**
      * A collection of public modules to expose to consuming SPAs. The module
-     * names must start with "./" and a capital letter.
+     * names must start with a capital letter.
      */
     modules: Record<string, string>;
   };
