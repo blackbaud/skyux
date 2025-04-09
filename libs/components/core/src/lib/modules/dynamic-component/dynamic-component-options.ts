@@ -38,5 +38,5 @@ export interface SkyDynamicComponentOptions {
   /**
    * A class to add to the created component
    */
-  class?: string;
+  className?: string;
 }

@@ -79,9 +79,9 @@ export class SkyDynamicComponentService {
       this.#insertComponentAtLocation(componentRef, options);
     }
 
-    if (options.class) {
+    if (options.className) {
       const el = this.#getRootNode(componentRef);
-      this.#renderer.addClass(el, options.class);
+      this.#renderer.addClass(el, options.className);
     }
 
     return componentRef;

@@ -451,7 +451,7 @@ export class SkyTileDashboardService {
             providers: providers,
             viewContainerRef: column.content,
             environmentInjector: column.injector,
-            class: 'sky-tile-parent',
+            className: 'sky-tile-parent',
           },
         );
 
