@@ -52,6 +52,7 @@ export class SkyDynamicComponentService {
    * Creates an instance of the specified component and adds it to the specified location
    * on the page.
    */
+  // eslint-disable-next-line complexity
   public createComponent<T>(
     componentType: Type<T>,
     options?: SkyDynamicComponentOptions,
@@ -71,6 +72,13 @@ export class SkyDynamicComponentService {
       componentRef = options.viewContainerRef.createComponent(componentType, {
         environmentInjector,
       });
+
+      const el = this.#getRootNode(componentRef);
+
+      this.#renderer.appendChild(
+        options.viewContainerRef.element.nativeElement,
+        el,
+      );
     } else {
       componentRef = createComponent<T>(componentType, {
         environmentInjector,
