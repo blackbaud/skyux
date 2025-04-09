@@ -4,36 +4,38 @@
 
 @include compatMixins.sky-default-overrides('.sky-tile') {
   --sky-override-tile-border-radius: 0;
+  --sky-override-tile-border-radius-xs-first: 0;
+  --sky-override-tile-border-radius-xs-last: 0;
+  --sky-override-tile-content-border-color: #{$sky-border-color-neutral-light};
+  --sky-override-tile-content-border-style: solid solid none;
+  --sky-override-tile-content-border-width: 1px 0;
+  --sky-override-tile-header-border-color: #{$sky-border-color-neutral-medium};
+  --sky-override-tile-header-border-style: solid solid none;
+  --sky-override-tile-header-border-width: 4px 0 0;
+  --sky-override-tile-header-column-tools-align-items: center;
+  --sky-override-tile-header-title-margin: 0;
   --sky-override-tile-header-title-padding: #{$sky-padding
     $sky-tile-header-tool-padding};
   --sky-override-tile-margin-bottom-base: #{$sky-margin-double};
+  --sky-override-tile-margin-bottom-gt-xs: #{$sky-margin-double};
   --sky-override-tile-margin-bottom-xs: 0;
-  --sky-tile-header-title-margin: 0;
+  --sky-override-tile-summary-color: #{$sky-text-color-action-primary};
+  --sky-override-tile-summary-padding-left: #{$sky-tile-header-tool-padding};
+  --sky-override-tile-tools-control-color: var(--sky-text-color-deemphasized);
   --sky-override-tile-tools-control-height: 24px;
   --sky-override-tile-tools-control-margin-right: 9px;
   --sky-override-tile-tools-control-size: 24px;
   --sky-override-tile-tools-control-width: 24px;
-  --sky-override-tile-tools-control-color: var(--sky-text-color-deemphasized);
-  --sky-override-tile-summary-color: #{$sky-text-color-action-primary};
-  --sky-override-tile-summary-padding-left: #{$sky-tile-header-tool-padding};
-  --sky-override-tile-border-radius-xs-first: 0;
-  --sky-override-tile-border-radius-xs-last: 0;
-  --sky-override-tile-header-border-color: #{$sky-border-color-neutral-medium};
-  --sky-override-tile-header-border-style: solid solid none;
-  --sky-override-tile-header-border-width: 4px 0 0;
-  --sky-override-tile-content-border-color: #{$sky-border-color-neutral-light};
-  --sky-override-tile-content-border-style: solid solid none;
-  --sky-override-tile-content-border-width: 1px 0;
-  --sky-override-tile-header-column-tools-align-items: center;
   --sky-override-tile-tools-padding-right: #{$sky-space-lg};
 }
 
 @include compatMixins.sky-modern-overrides('.sky-tile') {
-  --sky-override-tile-tools-control-margin-right: 10px;
-  --sky-override-tile-summary-color: #{$sky-text-color-action-primary};
-  --sky-override-tile-tools-control-size: 26px;
   --sky-override-tile-border-radius-xs-first: 0;
   --sky-override-tile-border-radius-xs-last: 0;
+  --sky-override-tile-margin-bottom-gt-xs: 20px;
+  --sky-override-tile-summary-color: #{$sky-text-color-action-primary};
+  --sky-override-tile-tools-control-margin-right: 10px;
+  --sky-override-tile-tools-control-size: 26px;
 }
 
 .sky-tile {
@@ -63,7 +65,7 @@
   :host-context(.sky-tile-dashboard-layout-multi) {
     .sky-tile {
       margin-bottom: var(
-        --sky-override-tile-margin-bottom-base,
+        --sky-override-tile-margin-bottom-gt-xs,
         var(--sky-space-stacked-xl)
       );
     }
@@ -88,7 +90,10 @@
   display: inline-flex;
   align-items: baseline;
   padding: var(--sky-override-tile-header-title-padding, 0);
-  margin: var(--sky-tile-header-title-margin, 0 var(--sky-space-inline-xl) 0 0);
+  margin: var(
+    --sky-override-tile-header-title-margin,
+    0 var(--sky-space-inline-xl) 0 0
+  );
 }
 
 .sky-tile-summary {

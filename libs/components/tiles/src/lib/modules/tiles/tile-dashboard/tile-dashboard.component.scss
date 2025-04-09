@@ -5,8 +5,8 @@
 @include compatMixins.sky-default-host-overrides() {
   --sky-override-tile-dashboard-background-color: #{$sky-background-color-neutral-light};
   --sky-override-tile-dashboard-column-padding: 0;
-  --sky-override-tile-dashboard-padding-top: #{$sky-padding-double};
   --sky-override-tile-dashboard-multi-column-padding: 0 #{$sky-padding};
+  --sky-override-tile-dashboard-padding-top: #{$sky-padding-double};
 }
 
 :host {
