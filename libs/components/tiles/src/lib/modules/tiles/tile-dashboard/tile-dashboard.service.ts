@@ -318,11 +318,9 @@ export class SkyTileDashboardService {
             // Get the column element
             let columnEl: Element | undefined;
             if (mode === 'single') {
-              columnEl = this.#getColumnContentEl(this.#singleColumn);
+              columnEl = this.#getColumnEl(this.#singleColumn);
             } else {
-              columnEl = this.#getColumnContentEl(
-                this.#columns?.toArray()[colIndex],
-              );
+              columnEl = this.#getColumnEl(this.#columns?.toArray()[colIndex]);
             }
 
             // Move the tile element in the document
@@ -453,6 +451,7 @@ export class SkyTileDashboardService {
             providers: providers,
             viewContainerRef: column.content,
             environmentInjector: column.injector,
+            class: 'sky-tile-parent',
           },
         );
 
@@ -494,7 +493,7 @@ export class SkyTileDashboardService {
     layoutTiles: SkyTileDashboardConfigLayoutTile[] | undefined,
   ): void {
     if (column && layoutTiles) {
-      const columnEl = this.#getColumnContentEl(column);
+      const columnEl = this.#getColumnEl(column);
 
       for (const layoutTile of layoutTiles) {
         const tileComponentInstance = this.getTileComponent(layoutTile.id);
@@ -527,7 +526,7 @@ export class SkyTileDashboardService {
   ): SkyTileDashboardConfigLayoutColumn {
     if (this.#mode() === 'single') {
       return {
-        tiles: this.#getTilesInEl(this.#getColumnContentEl(this.#singleColumn)),
+        tiles: this.#getTilesInEl(this.#getColumnEl(this.#singleColumn)),
       };
     }
 
@@ -548,7 +547,7 @@ export class SkyTileDashboardService {
       for (const column of columns) {
         if (column !== this.#singleColumn) {
           const layoutColumn: SkyTileDashboardConfigLayoutColumn = {
-            tiles: this.#getTilesInEl(this.#getColumnContentEl(column)),
+            tiles: this.#getTilesInEl(this.#getColumnEl(column)),
           };
 
           layoutColumns.push(layoutColumn);
@@ -604,10 +603,10 @@ export class SkyTileDashboardService {
     });
   }
 
-  #getColumnContentEl(
+  #getColumnEl(
     column: SkyTileDashboardColumnComponent | undefined,
   ): Element | undefined {
-    return column?.content?.element.nativeElement;
+    return column?.content?.element.nativeElement.parentNode;
   }
 
   #findTile(

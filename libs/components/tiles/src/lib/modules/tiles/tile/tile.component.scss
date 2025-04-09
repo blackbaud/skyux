@@ -158,8 +158,7 @@
 :host-context(
     .sky-tile-dashboard-xs
       .sky-tile-dashboard-column
-      .sky-tile-dashboard-column-content
-      > *:has(.sky-tile):first-child
+      > *:has(.sky-tile):nth-child(1 of .sky-tile-parent)
   )
   .sky-tile {
   border-radius: var(
@@ -172,8 +171,7 @@
 :host-context(
     .sky-tile-dashboard-xs
       .sky-tile-dashboard-column
-      .sky-tile-dashboard-column-content
-      > *:has(.sky-tile):last-child
+      > *:has(.sky-tile):nth-last-child(1 of .sky-tile-parent)
   )
   .sky-tile {
   border-radius: var(
