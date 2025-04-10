@@ -54,7 +54,7 @@ export class DatetimeDatepickerCustomDatesExampleComponent {
 
   /**
    * Generate fake custom dates based on the date range returned from the event.
-   * This is for examplenstration purposes only.
+   * This is for demonstration purposes only.
    */
   #getCustomDates(
     event: SkyDatepickerCalendarChange,
