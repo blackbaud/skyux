@@ -1,4 +1,4 @@
-<sky-summary-action-bar>
+<sky-summary-action-bar data-sky-id="donation-summary">
   <sky-summary-action-bar-actions>
     <sky-summary-action-bar-primary-action
       (actionClick)="onPrimaryActionClick()"
@@ -7,11 +7,13 @@
     </sky-summary-action-bar-primary-action>
     <sky-summary-action-bar-secondary-actions>
       <sky-summary-action-bar-secondary-action
+        data-sky-id="secondary-action"
         (actionClick)="onSecondaryActionClick()"
       >
         Secondary action
       </sky-summary-action-bar-secondary-action>
       <sky-summary-action-bar-secondary-action
+        data-sky-id="secondary-action-2"
         (actionClick)="onSecondaryAction2Click()"
       >
         Secondary action 2

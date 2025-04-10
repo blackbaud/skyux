@@ -11,11 +11,11 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 export class ModalComponent {
   readonly #modalInstance = inject(SkyModalInstance);
 
-  protected onSecondaryActionClick(): void {
+  public onSecondaryActionClick(): void {
     alert('Secondary action button clicked.');
   }
 
-  protected onSecondaryAction2Click(): void {
+  public onSecondaryAction2Click(): void {
     alert('Secondary action 2 button clicked.');
   }
 
@@ -23,7 +23,7 @@ export class ModalComponent {
     this.#modalInstance.cancel();
   }
 
-  protected save(): void {
+  public save(): void {
     this.#modalInstance.save();
   }
 }

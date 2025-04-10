@@ -12,15 +12,15 @@ import { SkyKeyInfoModule } from '@skyux/indicators';
   imports: [SkyKeyInfoModule, SkySummaryActionBarModule],
 })
 export class ActionBarsSummaryActionBarBasicExampleComponent {
-  protected onPrimaryActionClick(): void {
+  public onPrimaryActionClick(): void {
     alert('Primary action button clicked.');
   }
 
-  protected onSecondaryActionClick(): void {
+  public onSecondaryActionClick(): void {
     alert('Secondary action button clicked.');
   }
 
-  protected onSecondaryAction2Click(): void {
+  public onSecondaryAction2Click(): void {
     alert('Secondary action 2 button clicked.');
   }
 }

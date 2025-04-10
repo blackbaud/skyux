@@ -1,4 +1,8 @@
-<sky-tabset ariaLabel="Tab examplenstration" (newTab)="onNewTabClick()">
+<sky-tabset
+  ariaLabel="Tab demonstration"
+  data-sky-id="tab-demo"
+  (newTab)="onNewTabClick()"
+>
   @for (tab of tabArray; track tab; let i = $index) {
     <sky-tab [tabHeading]="tab.tabHeading" (close)="onCloseClick(i)">
       {{ tab.tabContent }}
