@@ -252,16 +252,14 @@ describe('Scroll shadow directive', () => {
       '--sky-elevation-overflow',
       '0 1px 8px 0 #00ff00',
     );
+    cmp.height = 1000;
+    fixture.detectChanges();
+    await waitForMutationObserver();
     fixture.detectChanges();
 
     const headerEl = getScrollHeader();
     const contentEl = getScrollBody();
     const footerEl = getScrollFooter();
-
-    cmp.height = 800;
-    fixture.detectChanges();
-    await waitForMutationObserver();
-    fixture.detectChanges();
 
     scrollElement(contentEl, 50);
 
@@ -274,16 +272,14 @@ describe('Scroll shadow directive', () => {
       '--sky-elevation-overflow',
       '0 1px 8px 0 hsla(120, 100.00%, 50.00%, 0.50)',
     );
+    cmp.height = 1000;
+    fixture.detectChanges();
+    await waitForMutationObserver();
     fixture.detectChanges();
 
     const headerEl = getScrollHeader();
     const contentEl = getScrollBody();
     const footerEl = getScrollFooter();
-
-    cmp.height = 800;
-    fixture.detectChanges();
-    await waitForMutationObserver();
-    fixture.detectChanges();
 
     scrollElement(contentEl, 50);
 
@@ -296,16 +292,14 @@ describe('Scroll shadow directive', () => {
       '--sky-elevation-overflow',
       '0 1px 8px 0 #000000, 0 3px 9px 0 #00ff00',
     );
+    cmp.height = 1000;
+    fixture.detectChanges();
+    await waitForMutationObserver();
     fixture.detectChanges();
 
     const headerEl = getScrollHeader();
     const contentEl = getScrollBody();
     const footerEl = getScrollFooter();
-
-    cmp.height = 800;
-    fixture.detectChanges();
-    await waitForMutationObserver();
-    fixture.detectChanges();
 
     scrollElement(contentEl, 50);
 
