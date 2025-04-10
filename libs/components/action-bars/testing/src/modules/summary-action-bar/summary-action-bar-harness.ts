@@ -62,13 +62,53 @@ export class SkySummaryActionBarHarness extends SkyComponentHarness {
   ): Promise<SkySummaryActionBarSummaryHarness> {
     const chevronHarness = await this.#chevron();
 
-    // if in mobile and closed, open the summary
-    if (chevronHarness && (await chevronHarness.getDirection()) === 'up') {
-      await chevronHarness.toggle();
+    // if in mobile, make sure summary is expanded
+    if (chevronHarness) {
+      await this.expandSummary();
     }
 
     return await this.locatorFor(
       SkySummaryActionBarSummaryHarness.with(filters || {}),
     )();
+  }
+
+  public async expandSummary(): Promise<void> {
+    const chevronHarness = await this.#chevron();
+
+    if (!chevronHarness) {
+      throw new Error(
+        'Unable to expand summary. Check if summary action bar is in a modal or a smaller viewport.',
+      );
+    }
+
+    if (!(await this.isSummaryVisible())) {
+      await chevronHarness.toggle();
+    }
+  }
+
+  public async collapseSummary(): Promise<void> {
+    const chevronHarness = await this.#chevron();
+
+    if (!chevronHarness) {
+      throw new Error(
+        'Unable to collapse summary. Check if summary action bar is in a modal or a smaller viewport.',
+      );
+    }
+
+    if (await this.isSummaryVisible()) {
+      await chevronHarness.toggle();
+    }
+  }
+
+  public async isSummaryVisible(): Promise<boolean> {
+    const chevronHarness = await this.#chevron();
+
+    if (chevronHarness) {
+      if ((await chevronHarness.getDirection()) === 'up') {
+        return false;
+      }
+    }
+
+    return true;
   }
 }
