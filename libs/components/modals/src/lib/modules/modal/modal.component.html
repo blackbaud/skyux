@@ -75,7 +75,7 @@
     <div
       #modalContentId="skyId"
       #modalContentWrapper
-      class="sky-modal-content sky-padding-even-large"
+      class="sky-modal-content"
       role="region"
       tabindex="0"
       skyId
@@ -83,6 +83,9 @@
       [layout]="layout()"
       [attr.aria-labelledby]="headerId.id"
       [skyScrollShadowEnabled]="scrollShadowEnabled"
+      [skyThemeClass]="{
+        'sky-padding-even-large': 'default'
+      }"
       (skyScrollShadow)="scrollShadowChange($event)"
     >
       <ng-content select="sky-modal-content" />
