@@ -8,6 +8,8 @@ import { SkyHelpTestingModule } from '@skyux/core/testing';
 import { ToggleSwitchHarnessTestComponent } from './fixtures/toggle-switch-harness-test.component';
 import { SkyToggleSwitchHarness } from './toggle-switch-harness';
 
+let index: number;
+
 async function setupTest(
   options: { dataSkyId?: string; useAlternateLabel?: boolean } = {},
 ): Promise<{
@@ -15,6 +17,7 @@ async function setupTest(
   fixture: ComponentFixture<ToggleSwitchHarnessTestComponent>;
   loader: HarnessLoader;
 }> {
+  index = 0;
   await TestBed.configureTestingModule({
     imports: [
       ToggleSwitchHarnessTestComponent,
@@ -24,7 +27,7 @@ async function setupTest(
   }).compileComponents();
 
   spyOn(TestBed.inject(SkyIdService), 'generateId').and.callFake(
-    () => `MOCK_ID`,
+    () => `MOCK_ID_${++index}`,
   );
 
   const fixture = TestBed.createComponent(ToggleSwitchHarnessTestComponent);
@@ -94,7 +97,7 @@ describe('Toggle switch harness', () => {
       'Label text',
     );
     await expectAsync(toggleSwitchHarness.getAriaLabelledby()).toBeResolvedTo(
-      'MOCK_ID',
+      'MOCK_ID_1',
     );
     await expectAsync(toggleSwitchHarness.getLabelText()).toBeResolvedTo(
       'Label text',
