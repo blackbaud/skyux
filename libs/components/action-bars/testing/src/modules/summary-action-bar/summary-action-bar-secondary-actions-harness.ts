@@ -48,7 +48,7 @@ export class SkySummaryActionBarSecondaryActionsHarness extends SkyComponentHarn
       )();
     }
 
-    return this.locatorFor(
+    return await this.locatorFor(
       SkySummaryActionBarSecondaryActionHarness.with({ dataSkyId: dataSkyId }),
     )();
   }
@@ -70,6 +70,8 @@ export class SkySummaryActionBarSecondaryActionsHarness extends SkyComponentHarn
       )();
     }
 
-    return this.locatorForAll(SkySummaryActionBarSecondaryActionHarness)();
+    return await this.locatorForAll(
+      SkySummaryActionBarSecondaryActionHarness,
+    )();
   }
 }

@@ -190,7 +190,7 @@ fdescribe('Summary action harness', () => {
     });
   });
 
-  describe('secondary actions', async () => {
+  describe('secondary actions', () => {
     it('should get the actions', async () => {
       const { summaryActionHarness } = await setupTest();
       const actionsHarness = await summaryActionHarness.getSecondaryActions();
@@ -305,7 +305,7 @@ fdescribe('Summary action harness', () => {
       );
     });
 
-    describe('secondary actions', async () => {
+    describe('secondary actions', () => {
       it('should get actions', async () => {
         const { summaryActionHarness, fixture, mediaQuery } = await setupTest();
         await mobileView(fixture, mediaQuery);
