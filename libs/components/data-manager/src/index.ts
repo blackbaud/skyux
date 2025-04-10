@@ -10,6 +10,7 @@ export { SkyDataManagerSortOption } from './lib/modules/data-manager/models/data
 export { SkyDataManagerState } from './lib/modules/data-manager/models/data-manager-state';
 export { SkyDataManagerStateOptions } from './lib/modules/data-manager/models/data-manager-state-options';
 export { SkyDataManagerStateUpdateFilterArgs } from './lib/modules/data-manager/models/data-manager-state-update-filter-args';
+export { SkyDataManagerSummary } from './lib/modules/data-manager/models/data-manager-summary';
 export { SkyDataViewColumnWidths } from './lib/modules/data-manager/models/data-view-column-widths';
 export { SkyDataViewConfig } from './lib/modules/data-manager/models/data-view-config';
 export { SkyDataViewState } from './lib/modules/data-manager/models/data-view-state';

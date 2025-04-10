@@ -1,18 +1,27 @@
 {
-  "$schema": "../manifest/documentation-schema.json",
+  "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "toast": {
-      "docsIds": [
-        "SkyToastService",
-        "SkyToastConfig",
-        "SkyToastType",
-        "SkyToastInstance",
-        "SkyToastContainerOptions",
-        "SkyToastDisplayDirection",
-        "ToastBasicExampleComponent",
-        "ToastCustomComponentExampleComponent"
-      ],
-      "primaryDocsId": "SkyToastService"
+      "development": {
+        "docsIds": [
+          "SkyToastService",
+          "SkyToastConfig",
+          "SkyToastType",
+          "SkyToastInstance",
+          "SkyToastContainerOptions",
+          "SkyToastDisplayDirection"
+        ],
+        "primaryDocsId": "SkyToastService"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ToastBasicExampleComponent",
+          "ToastCustomComponentExampleComponent"
+        ]
+      }
     }
   }
 }

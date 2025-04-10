@@ -1,15 +1,24 @@
 {
-  "$schema": "../manifest/documentation-schema.json",
+  "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "angular-tree": {
-      "docsIds": [
-        "SkyAngularTreeModule",
-        "SkyAngularTreeWrapperComponent",
-        "SkyAngularTreeNodeComponent",
-        "AngularTreeComponentAngularTreeBasicExampleComponent",
-        "AngularTreeComponentAngularTreeHelpKeyExampleComponent"
-      ],
-      "primaryDocsId": "SkyAngularTreeModule"
+      "development": {
+        "docsIds": [
+          "SkyAngularTreeModule",
+          "SkyAngularTreeWrapperComponent",
+          "SkyAngularTreeNodeComponent"
+        ],
+        "primaryDocsId": "SkyAngularTreeModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "AngularTreeComponentAngularTreeBasicExampleComponent",
+          "AngularTreeComponentAngularTreeHelpKeyExampleComponent"
+        ]
+      }
     }
   }
 }

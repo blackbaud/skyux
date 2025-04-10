@@ -1,21 +1,30 @@
 {
-  "$schema": "../manifest/documentation-schema.json",
+  "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "error": {
-      "docsIds": [
-        "SkyErrorModule",
-        "SkyErrorComponent",
-        "SkyErrorImageComponent",
-        "SkyErrorTitleComponent",
-        "SkyErrorDescriptionComponent",
-        "SkyErrorActionComponent",
-        "SkyErrorType",
-        "SkyErrorModalService",
-        "ErrorModalConfig",
-        "ErrorsErrorEmbeddedExampleComponent",
-        "ErrorsErrorModalExampleComponent"
-      ],
-      "primaryDocsId": "SkyErrorModule"
+      "development": {
+        "docsIds": [
+          "SkyErrorModule",
+          "SkyErrorComponent",
+          "SkyErrorImageComponent",
+          "SkyErrorTitleComponent",
+          "SkyErrorDescriptionComponent",
+          "SkyErrorActionComponent",
+          "SkyErrorType",
+          "SkyErrorModalService",
+          "ErrorModalConfig"
+        ],
+        "primaryDocsId": "SkyErrorModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ErrorsErrorEmbeddedExampleComponent",
+          "ErrorsErrorModalExampleComponent"
+        ]
+      }
     }
   }
 }

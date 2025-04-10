@@ -1,18 +1,26 @@
 {
-  "$schema": "../manifest/documentation-schema.json",
+  "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "icon": {
-      "docsIds": [
-        "SkyIconModule",
-        "SkyIconComponent",
-        "SkyIconType",
-        "SkyIconVariantType",
-        "SkyIconHarness",
-        "SkyIconHarnessFilters",
-        "IconBasicExampleComponent",
-        "IconIconButtonExampleComponent"
-      ],
-      "primaryDocsId": "SkyIconModule"
+      "development": {
+        "docsIds": [
+          "SkyIconModule",
+          "SkyIconComponent",
+          "SkyIconType",
+          "SkyIconVariantType",
+          "SkyIconSize"
+        ],
+        "primaryDocsId": "SkyIconModule"
+      },
+      "testing": {
+        "docsIds": ["SkyIconHarness", "SkyIconHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "IconBasicExampleComponent",
+          "IconIconButtonExampleComponent"
+        ]
+      }
     }
   }
 }

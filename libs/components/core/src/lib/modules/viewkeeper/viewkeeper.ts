@@ -4,34 +4,11 @@ import { SkyViewkeeperOffset } from './viewkeeper-offset';
 import { SkyViewkeeperOptions } from './viewkeeper-options';
 
 const CLS_VIEWKEEPER_FIXED = 'sky-viewkeeper-fixed';
+const CLS_VIEWKEEPER_FIXED_NOT_LAST = 'sky-viewkeeper-fixed-not-last';
+const CLS_VIEWKEEPER_BOUNDARY = 'sky-viewkeeper-boundary';
 const EVT_AFTER_VIEWKEEPER_SYNC = 'afterViewkeeperSync';
 
-let styleEl: HTMLStyleElement;
 let nextIdIndex: number;
-
-function ensureStyleEl(): void {
-  if (!styleEl) {
-    styleEl = document.createElement('style');
-
-    const css = document.createTextNode(`
-.${CLS_VIEWKEEPER_FIXED} {
-  position: fixed !important;
-  z-index: 999;
-  opacity: 0.95;
-  overflow: hidden;
-}
-
-.sky-theme-modern .${CLS_VIEWKEEPER_FIXED} {
-  box-shadow: 0px 1px 8px -1px rgba(0, 0, 0, 0.3);
-  opacity: initial;
-}
-`);
-
-    styleEl.appendChild(css);
-
-    document.head.appendChild(styleEl);
-  }
-}
 
 function nextId(): string {
   nextIdIndex = (nextIdIndex || 0) + 1;
@@ -185,7 +162,7 @@ export class SkyViewkeeper {
     window.addEventListener('resize', this.#syncElPositionHandler);
     window.addEventListener('orientationchange', this.#syncElPositionHandler);
 
-    ensureStyleEl();
+    this.#boundaryEl.classList.add(CLS_VIEWKEEPER_BOUNDARY);
 
     this.syncElPosition(el, boundaryEl);
   }
@@ -206,8 +183,10 @@ export class SkyViewkeeper {
     if (this.#needsUpdating(doFixEl, fixedStyles)) {
       if (doFixEl) {
         this.#fixEl(el, boundaryInfo, fixedStyles);
+        this.#verticalOffsetEl?.classList.add(CLS_VIEWKEEPER_FIXED_NOT_LAST);
       } else {
         this.#unfixEl(el);
+        this.#verticalOffsetEl?.classList.remove(CLS_VIEWKEEPER_FIXED_NOT_LAST);
       }
     }
 
@@ -235,9 +214,11 @@ export class SkyViewkeeper {
           EVT_AFTER_VIEWKEEPER_SYNC,
           this.#syncElPositionHandler,
         );
+        this.#verticalOffsetEl.classList.remove(CLS_VIEWKEEPER_FIXED_NOT_LAST);
       }
 
       this.#spacerResizeObserver?.disconnect();
+      this.#boundaryEl?.classList.remove(CLS_VIEWKEEPER_BOUNDARY);
 
       this.#el =
         this.#boundaryEl =

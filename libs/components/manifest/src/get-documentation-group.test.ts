@@ -55,25 +55,32 @@ describe('get-documentation-group', () => {
           '@skyux/core': {
             groups: {
               foo: {
-                docsIds: [
-                  'FooComponent',
-                  'FooHarness',
-                  'IndicatorComponent',
-                  'FooCodeExample',
-                ],
-                primaryDocsId: 'FooComponent',
+                development: {
+                  docsIds: ['FooComponent', 'IndicatorComponent'],
+                  primaryDocsId: 'FooComponent',
+                },
+                testing: { docsIds: ['FooHarness'] },
+                codeExamples: { docsIds: ['FooCodeExample'] },
               },
               bar: {
-                docsIds: ['BarComponent'],
-                primaryDocsId: 'BarComponent',
+                development: {
+                  docsIds: ['BarComponent'],
+                  primaryDocsId: 'BarComponent',
+                },
+                testing: { docsIds: [] },
+                codeExamples: { docsIds: [] },
               },
             },
           },
           '@skyux/indicators': {
             groups: {
               indicators: {
-                docsIds: ['IndicatorComponent', 'IndicatorCodeExample'],
-                primaryDocsId: 'IndicatorComponent',
+                development: {
+                  docsIds: ['IndicatorComponent'],
+                  primaryDocsId: 'IndicatorComponent',
+                },
+                testing: { docsIds: [] },
+                codeExamples: { docsIds: ['IndicatorCodeExample'] },
               },
             },
           },
@@ -192,8 +199,12 @@ describe('get-documentation-group', () => {
           '@skyux/core': {
             groups: {
               foo: {
-                docsIds: ['invalid'],
-                primaryDocsId: 'invalid',
+                development: {
+                  docsIds: ['invalid'],
+                  primaryDocsId: 'invalid',
+                },
+                testing: { docsIds: [] },
+                codeExamples: { docsIds: [] },
               },
             },
           },
@@ -209,5 +220,61 @@ describe('get-documentation-group', () => {
     expect(() =>
       getDocumentationGroup('@skyux/core', 'foo'),
     ).toThrowErrorMatchingSnapshot();
+  });
+
+  it('should remove internal parents and children', async () => {
+    setup({
+      codeExamples: {
+        examples: {},
+      },
+      documentationConfig: {
+        packages: {
+          '@skyux/core': {
+            groups: {
+              foo: {
+                development: {
+                  docsIds: ['FooComponent', 'InternalComponent'],
+                  primaryDocsId: 'FooComponent',
+                },
+                testing: { docsIds: [] },
+                codeExamples: { docsIds: [] },
+              },
+            },
+          },
+        },
+      },
+      publicApi: {
+        packages: {
+          '@skyux/core': [
+            {
+              name: 'FooComponent',
+              docsId: 'FooComponent',
+              repoUrl: 'https://repo.com/foo',
+              children: [
+                {
+                  name: 'internalProperty',
+                  isInternal: true,
+                },
+                {
+                  name: 'publicProperty',
+                },
+              ],
+            },
+            {
+              name: 'InternalComponent',
+              isInternal: true,
+              docsId: 'InternalComponent',
+              repoUrl: 'https://repo.com/foo',
+            },
+          ] as SkyManifestParentDefinition[],
+        },
+      },
+    });
+
+    const { getDocumentationGroup } = await import('./get-documentation-group');
+
+    const result = getDocumentationGroup('@skyux/core', 'foo');
+
+    expect(result).toMatchSnapshot();
   });
 });

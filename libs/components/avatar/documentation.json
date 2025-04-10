@@ -1,17 +1,22 @@
 {
-  "$schema": "../manifest/documentation-schema.json",
+  "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "avatar": {
-      "docsIds": [
-        "SkyAvatarModule",
-        "SkyAvatarComponent",
-        "SkyAvatarSize",
-        "SkyAvatarSrc",
-        "SkyAvatarHarness",
-        "SkyAvatarHarnessFilters",
-        "AvatarExampleComponent"
-      ],
-      "primaryDocsId": "SkyAvatarModule"
+      "development": {
+        "docsIds": [
+          "SkyAvatarModule",
+          "SkyAvatarComponent",
+          "SkyAvatarSize",
+          "SkyAvatarSrc"
+        ],
+        "primaryDocsId": "SkyAvatarModule"
+      },
+      "testing": {
+        "docsIds": ["SkyAvatarHarness", "SkyAvatarHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": ["AvatarExampleComponent"]
+      }
     }
   }
 }

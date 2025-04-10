@@ -18,7 +18,7 @@ export interface SkyDatepickerCalendarChange {
 
   /**
    * The observable that allows the consumer to push custom dates back to the calendar
-   * when the `SkyCalendarDateRangeChangeEvent` event fires. This is useful
+   * when the `SkyDatepickerCalendarChange` event fires. This is useful
    * for displaying key dates or disabled dates each time the calendar changes. If disabled dates
    * are provided, SKY UX will prevent the user from selecting the date from the calendar.
    * However, consumers will still need to add a custom validator to prevent users from entering

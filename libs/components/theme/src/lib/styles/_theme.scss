@@ -129,16 +129,30 @@ mark.sky-highlight-mark {
   @include mixins.sky-field-status('success');
 }
 
-#sky-icon-svg-sprite symbol {
-  path {
-    fill: currentColor;
+symbol[id^='sky-i-'] * {
+  fill: currentColor;
 
-    &.sky-i-path-1 {
-      fill: var(--sky-icon-svg-color-input, currentColor);
-    }
+  &.sky-i-path-1 {
+    fill: var(--sky-icon-svg-color-input, currentColor);
+  }
 
-    &.sky-i-path-2 {
-      fill: var(--sky-icon-svg-path-2-color-input, #fff);
-    }
+  &.sky-i-path-2 {
+    fill: var(--sky-icon-svg-path-2-color-input, #fff);
+  }
+}
+
+.sky-viewkeeper-boundary {
+  isolation: isolate;
+}
+
+.sky-viewkeeper-fixed {
+  position: fixed !important;
+  z-index: 1000;
+  opacity: var(--sky-viewkeeper-opacity);
+  overflow: hidden;
+
+  &:not(.sky-viewkeeper-fixed-not-last) {
+    box-shadow: var(--sky-viewkeeper-box-shadow);
+    z-index: 999;
   }
 }

@@ -1,5 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`get-documentation-group should remove internal parents and children 1`] = `
+Object {
+  "codeExamples": Array [],
+  "packageInfo": Object {
+    "packageName": "@skyux/core",
+    "registryUrl": "https://www.npmjs.com/package/@skyux/core",
+    "repoUrl": "https://repo.com/foo",
+  },
+  "publicApi": Array [
+    Object {
+      "children": Array [
+        Object {
+          "name": "publicProperty",
+        },
+      ],
+      "docsId": "FooComponent",
+      "name": "FooComponent",
+      "packageName": "@skyux/core",
+      "repoUrl": "https://repo.com/foo",
+    },
+  ],
+  "testing": Array [],
+}
+`;
+
 exports[`get-documentation-group should return information about a documentation group 1`] = `
 Object {
   "codeExamples": Array [

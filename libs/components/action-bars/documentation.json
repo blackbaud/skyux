@@ -1,21 +1,30 @@
 {
-  "$schema": "../manifest/documentation-schema.json",
+  "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "summary-action-bar": {
-      "docsIds": [
-        "SkySummaryActionBarModule",
-        "SkySummaryActionBarComponent",
-        "SkySummaryActionBarActionsComponent",
-        "SkySummaryActionBarPrimaryActionComponent",
-        "SkySummaryActionBarSecondaryActionsComponent",
-        "SkySummaryActionBarSecondaryActionComponent",
-        "SkySummaryActionBarCancelComponent",
-        "SkySummaryActionBarSummaryComponent",
-        "ActionBarsSummaryActionBarBasicExampleComponent",
-        "ActionBarsSummaryActionBarModalExampleComponent",
-        "ActionBarsSummaryActionBarTabExampleComponent"
-      ],
-      "primaryDocsId": "SkySummaryActionBarModule"
+      "development": {
+        "docsIds": [
+          "SkySummaryActionBarModule",
+          "SkySummaryActionBarComponent",
+          "SkySummaryActionBarActionsComponent",
+          "SkySummaryActionBarPrimaryActionComponent",
+          "SkySummaryActionBarSecondaryActionsComponent",
+          "SkySummaryActionBarSecondaryActionComponent",
+          "SkySummaryActionBarCancelComponent",
+          "SkySummaryActionBarSummaryComponent"
+        ],
+        "primaryDocsId": "SkySummaryActionBarModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ActionBarsSummaryActionBarBasicExampleComponent",
+          "ActionBarsSummaryActionBarModalExampleComponent",
+          "ActionBarsSummaryActionBarTabExampleComponent"
+        ]
+      }
     }
   }
 }

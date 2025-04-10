@@ -79,6 +79,12 @@ export class FooClass<TClass extends FooBaseClass> {
   public unionType: 'a' | 'b' | true | null | undefined;
 
   /**
+   * Describes an internal property.
+   * @internal
+   */
+  public internalProperty: string | undefined;
+
+  /**
    * Describes a method which returns a MappedType (e.g. `{ [K in keyof T]: string }`).
    */
   public getStrings<TResource extends ResourceDictionary>(

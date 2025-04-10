@@ -85,7 +85,7 @@ export class ViewGridComponent implements OnInit, OnDestroy {
   #viewConfig: SkyDataViewConfig = {
     id: this.viewId,
     name: 'Grid View',
-    icon: 'table',
+    iconName: 'table',
     searchEnabled: true,
     multiselectToolbarEnabled: true,
     columnPickerEnabled: true,
