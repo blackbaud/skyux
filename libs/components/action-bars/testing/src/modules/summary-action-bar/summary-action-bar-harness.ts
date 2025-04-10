@@ -13,7 +13,7 @@ import { SkySummaryActionBarSummaryHarness } from './summary-action-bar-summary-
 import { SkySummaryActionBarSummaryHarnessFilters } from './summary-action-bar-summary-harness-filters';
 
 /**
- * Harness for interacting with a checkbox group component in tests.
+ * Harness for interacting with a summary action bar component in tests.
  */
 export class SkySummaryActionBarHarness extends SkyComponentHarness {
   /**
@@ -33,22 +33,43 @@ export class SkySummaryActionBarHarness extends SkyComponentHarness {
     return SkySummaryActionBarHarness.getDataSkyIdPredicate(filters);
   }
 
-  public async getPrimaryAction(
-    filters?: SkySummaryActionBarPrimaryActionHarnessFilters,
-  ): Promise<SkySummaryActionBarPrimaryActionHarness> {
-    return await this.locatorFor(
-      SkySummaryActionBarPrimaryActionHarness.with(filters || {}),
-    )();
+  /**
+   * In a smaller viewport, collapses the summary.
+   */
+  public async collapseSummary(): Promise<void> {
+    const chevronHarness = await this.#chevron();
+
+    if (!chevronHarness) {
+      throw new Error(
+        'Unable to collapse summary. Check if summary action bar is in a modal or a smaller viewport.',
+      );
+    }
+
+    if (await this.isSummaryVisible()) {
+      await chevronHarness.toggle();
+    }
   }
 
-  public async getSecondaryActions(
-    filters?: SkySummaryActionBarSecondaryActionsHarnessFilters,
-  ): Promise<SkySummaryActionBarSecondaryActionsHarness> {
-    return await this.locatorFor(
-      SkySummaryActionBarSecondaryActionsHarness.with(filters || {}),
-    )();
+  /**
+   * In a smaller viewport, expands the summary.
+   */
+  public async expandSummary(): Promise<void> {
+    const chevronHarness = await this.#chevron();
+
+    if (!chevronHarness) {
+      throw new Error(
+        'Unable to expand summary. Check if summary action bar is in a modal or a smaller viewport.',
+      );
+    }
+
+    if (!(await this.isSummaryVisible())) {
+      await chevronHarness.toggle();
+    }
   }
 
+  /**
+   * Gets the harness for the cancel action.
+   */
   public async getCancel(
     filters?: SkySummaryActionBarCancelHarnessFilters,
   ): Promise<SkySummaryActionBarCancelHarness> {
@@ -57,6 +78,31 @@ export class SkySummaryActionBarHarness extends SkyComponentHarness {
     )();
   }
 
+  /**
+   * Gets the harness for the primary action.
+   */
+  public async getPrimaryAction(
+    filters?: SkySummaryActionBarPrimaryActionHarnessFilters,
+  ): Promise<SkySummaryActionBarPrimaryActionHarness> {
+    return await this.locatorFor(
+      SkySummaryActionBarPrimaryActionHarness.with(filters || {}),
+    )();
+  }
+
+  /**
+   * Gets the harness for the secondary actions.
+   */
+  public async getSecondaryActions(
+    filters?: SkySummaryActionBarSecondaryActionsHarnessFilters,
+  ): Promise<SkySummaryActionBarSecondaryActionsHarness> {
+    return await this.locatorFor(
+      SkySummaryActionBarSecondaryActionsHarness.with(filters || {}),
+    )();
+  }
+
+  /**
+   * Gets the harness for the summary information.
+   */
   public async getSummary(
     filters?: SkySummaryActionBarSummaryHarnessFilters,
   ): Promise<SkySummaryActionBarSummaryHarness> {
@@ -72,34 +118,9 @@ export class SkySummaryActionBarHarness extends SkyComponentHarness {
     )();
   }
 
-  public async expandSummary(): Promise<void> {
-    const chevronHarness = await this.#chevron();
-
-    if (!chevronHarness) {
-      throw new Error(
-        'Unable to expand summary. Check if summary action bar is in a modal or a smaller viewport.',
-      );
-    }
-
-    if (!(await this.isSummaryVisible())) {
-      await chevronHarness.toggle();
-    }
-  }
-
-  public async collapseSummary(): Promise<void> {
-    const chevronHarness = await this.#chevron();
-
-    if (!chevronHarness) {
-      throw new Error(
-        'Unable to collapse summary. Check if summary action bar is in a modal or a smaller viewport.',
-      );
-    }
-
-    if (await this.isSummaryVisible()) {
-      await chevronHarness.toggle();
-    }
-  }
-
+  /**
+   * Whether the summary information is visible.
+   */
   public async isSummaryVisible(): Promise<boolean> {
     const chevronHarness = await this.#chevron();
 

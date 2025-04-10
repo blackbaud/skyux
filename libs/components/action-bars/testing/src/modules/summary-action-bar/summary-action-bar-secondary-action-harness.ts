@@ -4,7 +4,7 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkySummaryActionBarSecondaryActionHarnessFilters } from './summary-action-bar-secondary-action-harness-filters';
 
 /**
- * Harness for interacting with a checkbox group component in tests.
+ * Harness for interacting with a summary action bar secondary action component in tests.
  */
 export class SkySummaryActionBarSecondaryActionHarness extends SkyComponentHarness {
   /**

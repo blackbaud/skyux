@@ -6,7 +6,8 @@ import { SkySummaryActionBarSecondaryActionHarness } from './summary-action-bar-
 import { SkySummaryActionBarSecondaryActionsHarnessFilters } from './summary-action-bar-secondary-actions-harness-filters';
 
 /**
- * Harness for interacting with a checkbox group component in tests.
+ * Harness for interacting with a summary action bar secondary actions component in tests.
+ * Use this harness to query harnesses for an individual action's SkySummaryActionBarSecondaryActionHarness.
  */
 export class SkySummaryActionBarSecondaryActionsHarness extends SkyComponentHarness {
   /**
@@ -29,23 +30,9 @@ export class SkySummaryActionBarSecondaryActionsHarness extends SkyComponentHarn
     );
   }
 
-  public async getActions(): Promise<
-    SkySummaryActionBarSecondaryActionHarness[]
-  > {
-    const dropdown = await this.#dropdown();
-
-    if (dropdown) {
-      await dropdown.clickDropdownButton();
-      return await this.#documentRootLocator.locatorForAll(
-        SkySummaryActionBarSecondaryActionHarness.with({
-          ancestor: 'sky-dropdown-menu',
-        }),
-      )();
-    }
-
-    return this.locatorForAll(SkySummaryActionBarSecondaryActionHarness)();
-  }
-
+  /**
+   * Gets the harness for an individual action that has the given `data-sky-id`
+   */
   public async getAction(
     dataSkyId: string,
   ): Promise<SkySummaryActionBarSecondaryActionHarness> {
@@ -64,5 +51,25 @@ export class SkySummaryActionBarSecondaryActionsHarness extends SkyComponentHarn
     return this.locatorFor(
       SkySummaryActionBarSecondaryActionHarness.with({ dataSkyId: dataSkyId }),
     )();
+  }
+
+  /**
+   * Gets the harnesses for all secondary action.
+   */
+  public async getActions(): Promise<
+    SkySummaryActionBarSecondaryActionHarness[]
+  > {
+    const dropdown = await this.#dropdown();
+
+    if (dropdown) {
+      await dropdown.clickDropdownButton();
+      return await this.#documentRootLocator.locatorForAll(
+        SkySummaryActionBarSecondaryActionHarness.with({
+          ancestor: 'sky-dropdown-menu',
+        }),
+      )();
+    }
+
+    return this.locatorForAll(SkySummaryActionBarSecondaryActionHarness)();
   }
 }
