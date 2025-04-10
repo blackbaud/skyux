@@ -16,6 +16,7 @@
     $sky-border-color-neutral-light};
   --sky-override-modal-header-padding: #{9px 3px 9px $sky-padding-plus-half};
   --sky-override-modal-help-close-display: inline-block;
+  --sky-override-modal-margin: 20px auto;
   --sky-override-modal-viewkept-toolbar-box-shadow: none;
   --sky-override-modal-viewkept-toolbar-padding-horizontal: 0;
   --sky-override-modal-width-l: 900px;
@@ -23,14 +24,13 @@
   --sky-override-modal-width-s: 300px;
   --sky-override-modal-xs-margin: 30px #{$sky-margin} #{$sky-margin}
     #{$sky-margin};
-  --sky-override-modal-margin: 20px auto;
 }
 
 @include compatMixins.sky-modern-overrides('.sky-modal') {
+  --sky-override-modal-full-page-margin-xs: 30px;
   --sky-override-modal-header-top-bottom-padding: 20px;
   --sky-override-modal-xs-margin: 30px #{$sky-margin} #{$sky-margin}
     #{$sky-margin};
-  --sky-override-modal-full-page-margin-xs: 30px;
 }
 
 :host {
