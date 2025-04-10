@@ -49,7 +49,7 @@ export class DatetimeTimepickerBasicExampleComponent {
 
   protected hintText = 'Choose a time that allows for late arrivals.';
 
-  protected helpPopoverContent =
+  public helpPopoverContent =
     'Allow time to complete all activities that your team signed up for. All activities take about 30 minutes, except the ropes course, which takes 60 minutes.';
 
   constructor() {
@@ -58,8 +58,6 @@ export class DatetimeTimepickerBasicExampleComponent {
       validators: [Validators.required, validateTime],
     });
 
-    this.formGroup = inject(FormBuilder).group<DemoForm>({
-      time: this.time,
-    });
+    this.formGroup = inject(FormBuilder).group<DemoForm>({ time: this.time });
   }
 }
