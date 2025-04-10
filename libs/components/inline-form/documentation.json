@@ -1,19 +1,28 @@
 {
-  "$schema": "../manifest/documentation-schema.json",
+  "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "inline-form": {
-      "docsIds": [
-        "SkyInlineFormModule",
-        "SkyInlineFormComponent",
-        "SkyInlineFormConfig",
-        "SkyInlineFormButtonConfig",
-        "SkyInlineFormButtonLayout",
-        "SkyInlineFormCloseArgs",
-        "InlineFormBasicExampleComponent",
-        "InlineFormCustomButtonsExampleComponent",
-        "InlineFormRepeatersExampleComponent"
-      ],
-      "primaryDocsId": "SkyInlineFormModule"
+      "development": {
+        "docsIds": [
+          "SkyInlineFormModule",
+          "SkyInlineFormComponent",
+          "SkyInlineFormConfig",
+          "SkyInlineFormButtonConfig",
+          "SkyInlineFormButtonLayout",
+          "SkyInlineFormCloseArgs"
+        ],
+        "primaryDocsId": "SkyInlineFormModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "InlineFormBasicExampleComponent",
+          "InlineFormCustomButtonsExampleComponent",
+          "InlineFormRepeatersExampleComponent"
+        ]
+      }
     }
   }
 }

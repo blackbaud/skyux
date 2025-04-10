@@ -1,5 +1,183 @@
 # Changelog
 
+## [12.2.0](https://github.com/blackbaud/skyux/compare/12.1.0...12.2.0) (2025-04-08)
+
+
+### Features
+
+* **components/config:** add `containerAliases` to `remoteModules` config ([#3358](https://github.com/blackbaud/skyux/issues/3358)) ([e3369d0](https://github.com/blackbaud/skyux/commit/e3369d01428fe13e5c1e3a22eecd67d812795435))
+* **components/data-manager:** add data manager harnesses ([#3346](https://github.com/blackbaud/skyux/issues/3346)) ([92e7b3c](https://github.com/blackbaud/skyux/commit/92e7b3cac622b7f4c79b59c64205d90ca38b4fff))
+* **components/indicators:** tokenize wait styles ([#3343](https://github.com/blackbaud/skyux/issues/3343)) ([fbd8969](https://github.com/blackbaud/skyux/commit/fbd89693f0391b071bacc515616554e22d9a713c))
+* **components/manifest:** add support for `typedoc@0.28.2` ([#3357](https://github.com/blackbaud/skyux/issues/3357)) ([a5e7f17](https://github.com/blackbaud/skyux/commit/a5e7f17ca0a4f1e2650a330121be55a60b51d3bd))
+
+
+### Bug Fixes
+
+* add missing exports to the public API ([#3356](https://github.com/blackbaud/skyux/issues/3356)) ([a89730c](https://github.com/blackbaud/skyux/commit/a89730ce8377f6800c6bebc56c6f16f51f69f28a))
+* **components/code-examples:** selection modal add item example uses correct button classes and order ([#3351](https://github.com/blackbaud/skyux/issues/3351)) ([d9dd3e6](https://github.com/blackbaud/skyux/commit/d9dd3e66e10cdb785c3b77d7beab3a5fcd78ede4))
+* **components/data-manager:** toolbar should not overlap other elements ([#3340](https://github.com/blackbaud/skyux/issues/3340)) ([#3359](https://github.com/blackbaud/skyux/issues/3359)) ([30616ce](https://github.com/blackbaud/skyux/commit/30616ce10f626c7e49195088ec8f067a09889ecb))
+* **components/docs-tools:** add "static" keyword to static class property definitions ([#3355](https://github.com/blackbaud/skyux/issues/3355)) ([a581b1b](https://github.com/blackbaud/skyux/commit/a581b1bd233c87722584c02f0e1e6ea2bda27168))
+* **components/icon:** apply fill color to all child elements of icon symbol ([#3352](https://github.com/blackbaud/skyux/issues/3352)) ([5e4e71d](https://github.com/blackbaud/skyux/commit/5e4e71d267ceb5aab8cf6f294f686cc807e0cd59))
+* **components/manifest:** add more granular control when adding `[@docs](https://github.com/docs)Ids` to documentation groups ([#3349](https://github.com/blackbaud/skyux/issues/3349)) ([2489b98](https://github.com/blackbaud/skyux/commit/2489b9830d022f6271567c5b292286bc65a15713))
+* **components/manifest:** add support for directive input properties with type `InputSignalWithTransform` ([#3347](https://github.com/blackbaud/skyux/issues/3347)) ([f5b8f7d](https://github.com/blackbaud/skyux/commit/f5b8f7d1844acb5b2d92d9861c7a35cae9feab4d))
+* **components/manifest:** mark properties as internal if JSDoc tag `[@internal](https://github.com/internal)` provided ([#3354](https://github.com/blackbaud/skyux/issues/3354)) ([2662ed2](https://github.com/blackbaud/skyux/commit/2662ed2284ffd01c6697e0c6127ee61ad58e773a))
+
+## [11.49.2](https://github.com/blackbaud/skyux/compare/11.49.1...11.49.2) (2025-04-08)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** hide AG Grid row dragging icon ([#3332](https://github.com/blackbaud/skyux/issues/3332)) ([90e04aa](https://github.com/blackbaud/skyux/commit/90e04aa9afca665d30171c225b8084ffe197230f))
+* **components/data-manager:** toolbar should not overlap other elements ([#3340](https://github.com/blackbaud/skyux/issues/3340)) ([11b3126](https://github.com/blackbaud/skyux/commit/11b31264213e54164328f5df2c3a1104a2a42f7c))
+* **components/indicators:** block-level wait should not overlap other elements ([#3339](https://github.com/blackbaud/skyux/issues/3339)) ([8016e7f](https://github.com/blackbaud/skyux/commit/8016e7f441cd58429d4d1ae7b66450d95a9777b0))
+
+## [12.1.0](https://github.com/blackbaud/skyux/compare/12.0.0...12.1.0) (2025-04-03)
+
+
+### Features
+
+* **components/lists:** tokenize paging styles ([#3324](https://github.com/blackbaud/skyux/issues/3324)) ([cfb8b93](https://github.com/blackbaud/skyux/commit/cfb8b9330795e70b4dbd8e3fdcf9e1012c0de254))
+* **components/tabs:** tokenize wizard styles ([#3338](https://github.com/blackbaud/skyux/issues/3338)) ([f741c2b](https://github.com/blackbaud/skyux/commit/f741c2b6062bf0ee5b30f9e0a7a69285790cf1c8))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** hide AG Grid row dragging icon ([#3332](https://github.com/blackbaud/skyux/issues/3332)) ([#3341](https://github.com/blackbaud/skyux/issues/3341)) ([7c0846c](https://github.com/blackbaud/skyux/commit/7c0846c9195154299fde60dc6d30c62f1fc1c3f6))
+* **components/icon:** ensure icon colors work in Firefox ([#3348](https://github.com/blackbaud/skyux/issues/3348)) ([a692d12](https://github.com/blackbaud/skyux/commit/a692d129cedf14aa08d99e0c08f7e49362a57c63))
+* **components/packages:** harden migration collection versions ([#3335](https://github.com/blackbaud/skyux/issues/3335)) ([880d791](https://github.com/blackbaud/skyux/commit/880d7918ba5f496c9a925ef77ec20ac02d8d6352))
+* use correct icon and best practices in code examples ([#3345](https://github.com/blackbaud/skyux/issues/3345)) ([659c380](https://github.com/blackbaud/skyux/commit/659c380b9716fd90fd1317307b7a72a0d37d3ea4))
+
+## [12.0.0](https://github.com/blackbaud/skyux/compare/12.0.0-beta.5...12.0.0) (2025-04-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop support for Angular 18 ([#2969](https://github.com/blackbaud/skyux/issues/2969))
+* **components/ag-grid:** drop support for AG Grid 32 ([#3121](https://github.com/blackbaud/skyux/issues/3121))
+* **components/core:** update querySelector method signature ([#3282](https://github.com/blackbaud/skyux/issues/3282))
+* **components/forms:** revert `fileClick` event to no longer download attached file ([#3284](https://github.com/blackbaud/skyux/issues/3284)) The file attachment `fileClick` event will no longer download files for consumer. This change is reverting back to previous interactions where if a consumer does want clicking the name of a file to download it, they will have to hook into the `fileClick` event. Code examples have been reverted to showcase how to accomplish this.
+* **components/forms:** file attachment components now wait for system dialogs to close before handling files so that errors are read to screen readers appropriately ([#3073](https://github.com/blackbaud/skyux/issues/3073))
+* **components/help-inline:** remove TemplateRef return type on getPopoverContent ([#3176](https://github.com/blackbaud/skyux/issues/3176)) The `getPopoverContent()` method on the help inline harness had a return type of `TemplateRef | string | undefined` despite only returning strings if they existed. This has been corrected and reflected in all consuming component harnesses.
+* **components/indicators:** remove forwarded exports from `@skyux/help-inline` and `@skyux/icon` ([#3069](https://github.com/blackbaud/skyux/issues/3069))
+* **components/lookup:** remove flag from country field input ([#3166](https://github.com/blackbaud/skyux/issues/3166)) ([f9a25be](https://github.com/blackbaud/skyux/commit/f9a25bea521495419317e7e9b4f8c61643316bf4)) The flag has been removed from the country field's input box. Due to this change, the component's `hideSelectedCountryFlag` input has been removed along with the test harness' `countryFlagIsVisible` method.
+
+
+### Features
+
+* **components/theme:** include modern v2 design tokens in generated styles ([#3309](https://github.com/blackbaud/skyux/issues/3309)) ([cf4ccb0](https://github.com/blackbaud/skyux/commit/cf4ccb06e040d6c6ab70bc00d6881e88fa42a5b1))
+* **components/ag-grid:** additional schematics for AG Grid 33 ([#3312](https://github.com/blackbaud/skyux/issues/3312)) ([77333dd](https://github.com/blackbaud/skyux/commit/77333dd1d79153960f1ca8bac6f9c585a76cfa91))
+* **components/ag-grid:** update to AG Grid 33.2.1 ([#3313](https://github.com/blackbaud/skyux/issues/3313)) ([7a8b80c](https://github.com/blackbaud/skyux/commit/7a8b80c5c9eab181b12d39b1b6bd9eb674ebfae4))
+* **components/theme:** theme service validates if branding is available for the current theme when applying brands ([#3301](https://github.com/blackbaud/skyux/issues/3301)) ([b35604f](https://github.com/blackbaud/skyux/commit/b35604f29b0eafb29e16351b9478a7ddf1b159dc))
+* **components/config:** add theme brand properties to config theming object ([#3293](https://github.com/blackbaud/skyux/issues/3293)) ([5963a4f](https://github.com/blackbaud/skyux/commit/5963a4f0f5eae46249bc076bb7e13e742fcbe43c))
+* **components/forms:** revert `fileClick` event to no longer download attached file ([#3284](https://github.com/blackbaud/skyux/issues/3284)) ([d412024](https://github.com/blackbaud/skyux/commit/d41202416a8b4d40ba7c0a935e830b4f23ce03f6))
+* **components/help-inline:** use solid icon for help inline ([#3292](https://github.com/blackbaud/skyux/issues/3292)) ([ba46769](https://github.com/blackbaud/skyux/commit/ba46769a895263094405b61acb25fe161ba6492f))
+* **components/icon:** add additional icon sizes, change default size to medium ([#3258](https://github.com/blackbaud/skyux/issues/3258)) ([19418bd](https://github.com/blackbaud/skyux/commit/19418bd08cbc0c60c99a3184e0782ae57899a931))
+* **components/indicators:** add text highlight harness ([#3277](https://github.com/blackbaud/skyux/issues/3277)) ([#3288](https://github.com/blackbaud/skyux/issues/3288)) ([6e5fa8f](https://github.com/blackbaud/skyux/commit/6e5fa8f9c13f71504abf64cff193dd810fb699dc))
+* **components/phone-field:** close country field when focus leaves phone field ([#3281](https://github.com/blackbaud/skyux/issues/3281)) ([adcc32b](https://github.com/blackbaud/skyux/commit/adcc32b6265988d3a6ad9fd7339fffaa29278ccc))
+* **components/theme:** initialize styles from remote source when theme branding is enabled ([#3289](https://github.com/blackbaud/skyux/issues/3289)) ([1dc6a41](https://github.com/blackbaud/skyux/commit/1dc6a415116a155b059ca4dc764d6216a3091c34))
+* **components/ag-grid:** add schematics for changes in AG Grid 33 ([#3279](https://github.com/blackbaud/skyux/issues/3279)) ([28a7ac7](https://github.com/blackbaud/skyux/commit/28a7ac7463950076be3b4be76d8e2117466a1c73))
+* **components/lists:** add infinite scroll test harness ([#3268](https://github.com/blackbaud/skyux/issues/3268)) ([#3272](https://github.com/blackbaud/skyux/issues/3272)) ([a65d9f3](https://github.com/blackbaud/skyux/commit/a65d9f384bea3410fe65e7348d22ab825439b2b9))
+* **components/lists:** add sort harnesses ([#3265](https://github.com/blackbaud/skyux/issues/3265)) ([#3278](https://github.com/blackbaud/skyux/issues/3278)) ([ef4e703](https://github.com/blackbaud/skyux/commit/ef4e7037766baa6fbc2049327d0d484a1195051f))
+* **components/pages:** links filtered with `SkyHrefResolverService` ([#3250](https://github.com/blackbaud/skyux/issues/3250)) ([33aecc3](https://github.com/blackbaud/skyux/commit/33aecc3387ba36f656d9fd4f1a1636503232eb2a))
+* **components/theme:** add ability to specify a brand through `SkyThemeService` ([#3248](https://github.com/blackbaud/skyux/issues/3248)) ([41e7d3a](https://github.com/blackbaud/skyux/commit/41e7d3a56f4ecfffef14f4a2be3a12ff94174d80))
+* **components/ag-grid:** set background color for boxes and tiles ([#3247](https://github.com/blackbaud/skyux/issues/3247)) ([de75b7d](https://github.com/blackbaud/skyux/commit/de75b7dda71fc14e5a81e2cba78c26fed163e9ad))
+* **components/modals:** confirm discarding changes when canceling modal using  directive ([#3246](https://github.com/blackbaud/skyux/issues/3246)) ([95a2162](https://github.com/blackbaud/skyux/commit/95a216230dc9dd36d191dc50ed045b5296553577))
+* **components/packages:** add schematic to convert existing icons to new `iconName` ([#3256](https://github.com/blackbaud/skyux/issues/3256)) ([b509c7f](https://github.com/blackbaud/skyux/commit/b509c7fa7aa0437a67435b250325ce53bf5e8ea6))
+* remove documentation.json files from component releases ([#3253](https://github.com/blackbaud/skyux/issues/3253)) ([2c38c32](https://github.com/blackbaud/skyux/commit/2c38c324c050255d1cc605f3f72f3c9e29a3d6d7))
+* **components/icon:** remove inline styles from SVG sprite ([#3243](https://github.com/blackbaud/skyux/issues/3243)) ([ed1aac8](https://github.com/blackbaud/skyux/commit/ed1aac8ce7574dbdc7232381e7fef922fc8a596b))
+* **components/icon:** pull in updated icon manifest ([#3233](https://github.com/blackbaud/skyux/issues/3233)) ([4aad9ab](https://github.com/blackbaud/skyux/commit/4aad9ab189a5df5b27996ce83de8c1d3662e9753))
+* **components/icon:** update SVG icon positioning, convert all icons ([#3117](https://github.com/blackbaud/skyux/issues/3117)) ([92a8eb6](https://github.com/blackbaud/skyux/commit/92a8eb624ad6c4786d0088a289dc7fc9b5cde40e))
+* **components/packages:** add schematic to set size input on existing icons ([#3227](https://github.com/blackbaud/skyux/issues/3227)) ([239b1e9](https://github.com/blackbaud/skyux/commit/239b1e9a4c9e434f49a47ef81d85342cc61ae4ac))
+* **components/packages:** remove eslint comments for prefer-standalone-component rule ([#3230](https://github.com/blackbaud/skyux/issues/3230)) ([757c8fe](https://github.com/blackbaud/skyux/commit/757c8fe11a5332642166058bf950d86b3782c185))
+* **components/code-examples:** add titles for all examples ([#3212](https://github.com/blackbaud/skyux/issues/3212)) ([c8f711d](https://github.com/blackbaud/skyux/commit/c8f711d6c253a1f10c9bc4fd3df3814504e773eb))
+* **components/docs-tools:** add `ExampleHelpService` to code examples ([#3217](https://github.com/blackbaud/skyux/issues/3217)) ([29ffc6e](https://github.com/blackbaud/skyux/commit/29ffc6e4ddb3b676e05d59ceeebca545e0d42ad6))
+* support Angular 19.2 ([#3202](https://github.com/blackbaud/skyux/issues/3202)) ([376b5ee](https://github.com/blackbaud/skyux/commit/376b5ee74d96142a6dab555bddeaddea091a4b99))
+* **components/docs-tools:** add category-tag, clipboard, code-highlight, heading-anchor, showcase, table of contents, and type definition components (internal use only) ([#3204](https://github.com/blackbaud/skyux/issues/3204)) ([505e8ac](https://github.com/blackbaud/skyux/commit/505e8ac1aa392e04da97fca55e3a48cdbf5ba878))
+* **components/docs-tools:** add global stylesheet; demos in code examples application ([#3211](https://github.com/blackbaud/skyux/issues/3211)) ([aa0318a](https://github.com/blackbaud/skyux/commit/aa0318ad5c552e21779a157cdf9f134dc29a82fd))
+* **components/manifest:** separate class properties and methods; validate docsIds; add package information; fix output for property accessors; add repo URLs to each type ([#3196](https://github.com/blackbaud/skyux/issues/3196)) ([c18e533](https://github.com/blackbaud/skyux/commit/c18e5336c9b8a5739ed937a80b53973169585dbf))
+* **components/ag-grid:** support AG Grid 33.0 ([#3121](https://github.com/blackbaud/skyux/issues/3121))
+* **components/lookup:** country field displays hint text within the dropdown before a search is executed ([#3179](https://github.com/blackbaud/skyux/issues/3179)) ([9283bbf](https://github.com/blackbaud/skyux/commit/9283bbfb57fd187d4d5b1484255db28edff98d1b))
+* **components/modals:** support `fit` layout in modal content ([#3181](https://github.com/blackbaud/skyux/issues/3181)) ([#3199](https://github.com/blackbaud/skyux/issues/3199)) ([8182967](https://github.com/blackbaud/skyux/commit/8182967320306b8bdd7971172d659c5d0b36a30e))
+* **components/avatar:** tokenize avatar styles ([#3164](https://github.com/blackbaud/skyux/issues/3164)) ([b497851](https://github.com/blackbaud/skyux/commit/b49785195772d97e6ccf85180872dc374d5e16af))
+* **components/help-inline:** remove TemplateRef return type on getPopoverContent ([#3176](https://github.com/blackbaud/skyux/issues/3176)) ([9e200ef](https://github.com/blackbaud/skyux/commit/9e200ef7b425433014c1c58be7094f91ed29195f))
+* **components/layout:** tokenize text expand styles ([#3161](https://github.com/blackbaud/skyux/issues/3161)) ([f9362cf](https://github.com/blackbaud/skyux/commit/f9362cfbe3139b8ddc1341cf31d1df8dd4c54680))
+* **components/lookup:** lookup and country field input contents are selected automatically on focus ([#3167](https://github.com/blackbaud/skyux/issues/3167)) ([b7e3b85](https://github.com/blackbaud/skyux/commit/b7e3b85cac028170e18aa2aade8b38f80b8fa3aa))
+* **components/lookup:** remove flag from country field input ([#3166](https://github.com/blackbaud/skyux/issues/3166)) ([f9a25be](https://github.com/blackbaud/skyux/commit/f9a25bea521495419317e7e9b4f8c61643316bf4))
+* **components/errors:** tokenize error styles ([#3123](https://github.com/blackbaud/skyux/issues/3123)) ([42888cf](https://github.com/blackbaud/skyux/commit/42888cfe6775edea1b36797e321edfc251337895))
+* **components/flyout:** tokenize flyout styles ([#3098](https://github.com/blackbaud/skyux/issues/3098)) ([2866813](https://github.com/blackbaud/skyux/commit/2866813ddea6456e561b5ee9c5539d4685c7f840))
+* **components/inline-form:** tokenize inline form styles ([#3116](https://github.com/blackbaud/skyux/issues/3116)) ([ec58102](https://github.com/blackbaud/skyux/commit/ec581023dc089425f344c6916de5fa4688559e6a))
+* **components/layout:** tokenize inline delete styles ([#3111](https://github.com/blackbaud/skyux/issues/3111)) ([7c3407a](https://github.com/blackbaud/skyux/commit/7c3407afdc9285d845427c4853b7468f9e7c328d))
+* **components/pages:** tokenize action hub styles ([#3109](https://github.com/blackbaud/skyux/issues/3109)) ([74b697c](https://github.com/blackbaud/skyux/commit/74b697c5b8942510aee3666ba38fde7323a12e9d))
+* **components/split-view:** tokenize split view styles ([#3119](https://github.com/blackbaud/skyux/issues/3119)) ([14adddd](https://github.com/blackbaud/skyux/commit/14addddc2dc726efe72335448c8b88ca57a738e4))
+* **components/forms:** file attachment components now wait for system dialogs to close before handling files so that errors are read to screen readers appropriately ([#3073](https://github.com/blackbaud/skyux/issues/3073)) ([847c970](https://github.com/blackbaud/skyux/commit/847c970f1a4b796a66f346af478550f8db403991))
+* **components/indicators:** remove forwarded exports from `@skyux/help-inline` and `@skyux/icon` ([#3069](https://github.com/blackbaud/skyux/issues/3069)) ([e2e3883](https://github.com/blackbaud/skyux/commit/e2e3883a07281a689beef3089f482c9693f2014d))
+* **components/layout:** tokenize fluid grid styles ([#3090](https://github.com/blackbaud/skyux/issues/3090)) ([f7cf004](https://github.com/blackbaud/skyux/commit/f7cf004a56b72dbbc8173e8a0bad52e04cff0943))
+* **sdk/skyux-eslint:** add linting rule to detect the use of legacy icons ([#3061](https://github.com/blackbaud/skyux/issues/3061)) ([1abcf12](https://github.com/blackbaud/skyux/commit/1abcf121d473eaa9ff335f41dd84507a72ee4aab))
+* add support for `google-libphonenumber@3.2.40` and `intl-tel-input@25.2.1` ([#3002](https://github.com/blackbaud/skyux/issues/3002)) ([7e5a67e](https://github.com/blackbaud/skyux/commit/7e5a67e2afb7f41b54c292cf84895e16a2547e7d))
+* **components/action-bars:** tokenize summary action bar styles ([#3040](https://github.com/blackbaud/skyux/issues/3040)) ([db667a9](https://github.com/blackbaud/skyux/commit/db667a9dd2d1f0532e9385530f0af920832d4522))
+* **components/layout:** tokenize description list styles ([#3043](https://github.com/blackbaud/skyux/issues/3043)) ([4213dac](https://github.com/blackbaud/skyux/commit/4213dac7a1739878a30e7ae3b4d91732fdbfe452))
+* **components/lists:** tokenize filter styles ([#3019](https://github.com/blackbaud/skyux/issues/3019)) ([25f180e](https://github.com/blackbaud/skyux/commit/25f180ebfd78599d7a5dcc5600069dd39591dc41))
+* **components/pages:** tokenize page, page header, link lists ([#3030](https://github.com/blackbaud/skyux/issues/3030)) ([9de9521](https://github.com/blackbaud/skyux/commit/9de95213ce499091aff37dc1c4916d938ed24fa3))
+* **components/tabs:** tokenize sectioned form styles ([#3033](https://github.com/blackbaud/skyux/issues/3033)) ([650282b](https://github.com/blackbaud/skyux/commit/650282b436e5962c6e82fa30dd5d330d0c82633a))
+* **components/tabs:** tokenize vertical tabset styles ([#3015](https://github.com/blackbaud/skyux/issues/3015)) ([b06bdcb](https://github.com/blackbaud/skyux/commit/b06bdcbe8c6a4afad0202f2bb1ca3a5215466ba4))
+* add support for Angular 19 ([#2969](https://github.com/blackbaud/skyux/issues/2969)) ([91a91d9](https://github.com/blackbaud/skyux/commit/91a91d97b860cf88ee526a1a0a00adc178b6f53a))
+
+
+### Bug Fixes
+
+* **components/docs-tools:** set correct path for type definition anchor links ([#3322](https://github.com/blackbaud/skyux/issues/3322)) ([1e53503](https://github.com/blackbaud/skyux/commit/1e535036000aa14bb381fb03f9c50809e1434dcc))
+* **components/packages:** only set `size` on icon component if `iconSize` not set ([#3329](https://github.com/blackbaud/skyux/issues/3329)) ([5a4f805](https://github.com/blackbaud/skyux/commit/5a4f8056a4cf281e6ddc300988dc6bbaee90cb91))
+* **sdk/skyux-eslint:** set module resolution to "Node16" to address pathing issues with `@typescript-eslint/utils` ([#3316](https://github.com/blackbaud/skyux/issues/3316)) ([cc6922d](https://github.com/blackbaud/skyux/commit/cc6922ddf051ed47b6fa5d94d9ec21ee4f99bf46))
+* **components/layout:** use smaller action button icon at xs breakpoint ([#3308](https://github.com/blackbaud/skyux/issues/3308)) ([92a23e8](https://github.com/blackbaud/skyux/commit/92a23e8a3f52a113bbcb7eb87a0af7c74d47c7d3))
+* **components/lookup:** add hover state for selection modal when using single select mode ([#3306](https://github.com/blackbaud/skyux/issues/3306)) ([ded8e47](https://github.com/blackbaud/skyux/commit/ded8e4723f6765f2fcf3b1d520e2679b1a20bb6e))
+* **components/lookup:** use correct spacing in search icons ([#3311](https://github.com/blackbaud/skyux/issues/3311)) ([a8b8285](https://github.com/blackbaud/skyux/commit/a8b8285387719173ee321d75cfa058915429e617))
+* update icon mappings for schematic and lint rule ([#3299](https://github.com/blackbaud/skyux/issues/3299)) ([29fffb8](https://github.com/blackbaud/skyux/commit/29fffb8dd9a349f2a9102ba9a417fa4c83fd8d2a))
+* **components/ag-grid:** use correct spacing in ag-grid header buttons ([#3290](https://github.com/blackbaud/skyux/issues/3290)) ([029cb36](https://github.com/blackbaud/skyux/commit/029cb368d65f18dae1ec4b394a3492a04e755b4b))
+* **components/core:** update querySelector method signature ([#3282](https://github.com/blackbaud/skyux/issues/3282)) ([50d196c](https://github.com/blackbaud/skyux/commit/50d196c001e6eb35ea81f4fb1bae6cd8bb4113a7))
+* **components/packages:** add SKY UX stylesheets to new projects when `styles` array missing ([#3291](https://github.com/blackbaud/skyux/issues/3291)) ([2e78ef3](https://github.com/blackbaud/skyux/commit/2e78ef370818e61f3fe5dab6531805c3e13e523e))
+* **components/theme:** baseline align inline link buttons ([#3286](https://github.com/blackbaud/skyux/issues/3286)) ([2977403](https://github.com/blackbaud/skyux/commit/29774037215476a244c67acd1f5ec57aaaa1378d))
+* **components/docs-tools:** adjust heading anchors to fit within viewport ([#3276](https://github.com/blackbaud/skyux/issues/3276)) ([9359910](https://github.com/blackbaud/skyux/commit/935991026533e6c1d38006d36a099cb46d5ae7cc))
+* **components/forms:** file attachment code examples fix double download ([#3267](https://github.com/blackbaud/skyux/issues/3267)) ([#3271](https://github.com/blackbaud/skyux/issues/3271)) ([9575d86](https://github.com/blackbaud/skyux/commit/9575d8634d06cc5c85f5795554c88eab3c827749))
+* **components/packages:** icon size schematic does not add extra property if size already exists and is the first property on the icon ([#3264](https://github.com/blackbaud/skyux/issues/3264)) ([c3e0203](https://github.com/blackbaud/skyux/commit/c3e0203994a822294cf410c0aca38255f65466c6))
+* **components/docs-tools:** add @skyux/packages/polyfills to StackBlitz launcher ([#3255](https://github.com/blackbaud/skyux/issues/3255)) ([384411a](https://github.com/blackbaud/skyux/commit/384411a1d7d529fdb5ef0e09bf863be2cdb29603))
+* **components/docs-tools:** make `@skyux/manifest` a dependency, not a peer ([#3257](https://github.com/blackbaud/skyux/issues/3257)) ([7b03ac5](https://github.com/blackbaud/skyux/commit/7b03ac589cac6a80b3bbcea4df4c71c78484374a))
+* **components/docs-tools:** various adjustments to showcase and code example viewer components ([#3240](https://github.com/blackbaud/skyux/issues/3240)) ([09d67a6](https://github.com/blackbaud/skyux/commit/09d67a633f6837a95637eab782e5a0c8a9f14549))
+* **components/code-examples:** remove extra font class from repeater titles in code examples ([#3220](https://github.com/blackbaud/skyux/issues/3220)) ([43b0856](https://github.com/blackbaud/skyux/commit/43b085632ce7340bd2993e562d765d208c4b5296))
+* adjust `ng2-dragula` override ranges ([#3223](https://github.com/blackbaud/skyux/issues/3223)) ([4114d98](https://github.com/blackbaud/skyux/commit/4114d98cefa3836cf0ebbc75389b80ce8716e783))
+* **components/code-examples:** provide example service to prevent timeouts ([#3214](https://github.com/blackbaud/skyux/issues/3214)) ([1b0babf](https://github.com/blackbaud/skyux/commit/1b0babf4356a847f516fd4d38fecfb194a6a1131))
+* **components/packages:** fix test timeouts related to SSR ([#3215](https://github.com/blackbaud/skyux/issues/3215)) ([87802f9](https://github.com/blackbaud/skyux/commit/87802f94da90582a6b4bd3b33e26cba273162cb7))
+* **components/icon:** migrate harness types from @skyux/indicators/testing ([#3197](https://github.com/blackbaud/skyux/issues/3197)) ([3fe7edc](https://github.com/blackbaud/skyux/commit/3fe7edc282a190abc840ba7f1c97096d37c6b01f))
+* **components/core:** remove live announcer message from DOM after a set duration ([#3178](https://github.com/blackbaud/skyux/issues/3178)) ([de695e1](https://github.com/blackbaud/skyux/commit/de695e1be4881b141edd36fb1045fab40a7a3a7d))
+* **components/layout:** exclude controls text content when returning heading text for the box harness ([#3156](https://github.com/blackbaud/skyux/issues/3156)) ([ec018cd](https://github.com/blackbaud/skyux/commit/ec018cd51da808c147d910f9ac359cb06e9f2b17))
+
+
+### Deprecations
+
+* deprecated action button icon `iconType` input and checkbox and radio button `icon` inputs in favor of new `iconName` input which utilizes SVG icons ([#3062](https://github.com/blackbaud/skyux/issues/3062)) ([567f922](https://github.com/blackbaud/skyux/commit/567f922f75a6f7943bc7a0100060f47de0b73ef8))
+* **components/layout:** mark all definition list components as deprecated; use `SkyDescriptionListModule` instead ([#2970](https://github.com/blackbaud/skyux/issues/2970)) ([3ebe2df](https://github.com/blackbaud/skyux/commit/3ebe2dfcd7a4411a4a44ffc6dd72ba14b665e2b0))
+
+## [12.0.0-beta.5](https://github.com/blackbaud/skyux/compare/12.0.0-beta.4...12.0.0-beta.5) (2025-04-02)
+
+
+### Features
+
+* **components/lookup:** add `allowAnyValue` and `highlightSearchText` to SkyAgGridAutocompleteProperties ([a6d387b](https://github.com/blackbaud/skyux/commit/a6d387bfca431cb97ca240b5dcf5c927a07ff8ae))
+
+
+### Bug Fixes
+
+* **components/docs-tools:** set correct path for type definition anchor links ([#3322](https://github.com/blackbaud/skyux/issues/3322)) ([1e53503](https://github.com/blackbaud/skyux/commit/1e535036000aa14bb381fb03f9c50809e1434dcc))
+* **components/packages:** only set `size` on icon component if `iconSize` not set ([#3329](https://github.com/blackbaud/skyux/issues/3329)) ([5a4f805](https://github.com/blackbaud/skyux/commit/5a4f8056a4cf281e6ddc300988dc6bbaee90cb91))
+* **components/tabs:** accessibility tests for sectioned-form in mobile view ([#3326](https://github.com/blackbaud/skyux/issues/3326)) ([#3327](https://github.com/blackbaud/skyux/issues/3327)) ([74ce695](https://github.com/blackbaud/skyux/commit/74ce6950b7d9756bac5d9a39d48756cea3604e62))
+* fix icon mapping for previous `usd` icon ([#3323](https://github.com/blackbaud/skyux/issues/3323)) ([3d7829a](https://github.com/blackbaud/skyux/commit/3d7829a15199df3e63573437b6a74d84f6cad72c))
+
+## [11.49.1](https://github.com/blackbaud/skyux/compare/11.49.0...11.49.1) (2025-04-02)
+
+
+### Bug Fixes
+
+* **components/tabs:** accessibility tests for sectioned-form in mobile view ([#3326](https://github.com/blackbaud/skyux/issues/3326)) ([14e95c6](https://github.com/blackbaud/skyux/commit/14e95c6766d4e5824aadbcb4c69fcc253a52d2b8))
+
 ## [12.0.0-beta.4](https://github.com/blackbaud/skyux/compare/12.0.0-beta.3...12.0.0-beta.4) (2025-04-01)
 
 
@@ -62,7 +240,7 @@
 
 ### ⚠ BREAKING CHANGES
 
-* **components/phone-field:** 
+* **components/phone-field:** close country field when focus leaves phone field ([#3281](https://github.com/blackbaud/skyux/issues/3281)) ([adcc32b](https://github.com/blackbaud/skyux/commit/adcc32b6265988d3a6ad9fd7339fffaa29278ccc))
 * **components/forms:** revert `fileClick` event to no longer download attached file ([#3284](https://github.com/blackbaud/skyux/issues/3284))
 * **components/core:** update querySelector method signature ([#3282](https://github.com/blackbaud/skyux/issues/3282))
 
@@ -317,7 +495,7 @@
 
 ### ⚠ BREAKING CHANGES
 
-* **components/lookup:** 
+* **components/lookup:** remove flag from country field input ([#3166](https://github.com/blackbaud/skyux/issues/3166)) ([f9a25be](https://github.com/blackbaud/skyux/commit/f9a25bea521495419317e7e9b4f8c61643316bf4))
 
 ### Features
 
@@ -394,7 +572,7 @@
 ### Bug Fixes
 
 * **components/datetime:** address flaky display behavior of key date tooltips ([#3128](https://github.com/blackbaud/skyux/issues/3128)) ([#3140](https://github.com/blackbaud/skyux/issues/3140)) ([3ea3a71](https://github.com/blackbaud/skyux/commit/3ea3a71602ae5671ea051c240fa554dabe52e12e))
-* **components/manifest:** replace `[@docs](https://github.com/docs)IncludeIds` with documentation.json files ([#3112](https://github.com/blackbaud/skyux/issues/3112)) ([ec60cba](https://github.com/blackbaud/skyux/commit/ec60cba50c25cd1f03ad05d62f50ecc414c0df92))
+* **components/manifest:** replace `@docsIncludeIds` with documentation.json files ([#3112](https://github.com/blackbaud/skyux/issues/3112)) ([ec60cba](https://github.com/blackbaud/skyux/commit/ec60cba50c25cd1f03ad05d62f50ecc414c0df92))
 * **components/router:** skyHref should shut down when the application is destroyed ([#3134](https://github.com/blackbaud/skyux/issues/3134)) ([#3136](https://github.com/blackbaud/skyux/issues/3136)) ([b5e1689](https://github.com/blackbaud/skyux/commit/b5e1689257ba2bf74197a0ec61c7b0d870a4bd93))
 
 ## [11.41.0](https://github.com/blackbaud/skyux/compare/11.40.0...11.41.0) (2025-02-11)
@@ -441,8 +619,8 @@
 
 ### Features
 
-* add `[@docs](https://github.com/docs)IncludeIds` to action bars, tree, autonumeric, avatar, colorpicker, core, datetime, errors, flyout, and forms packages ([#3074](https://github.com/blackbaud/skyux/issues/3074)) ([b5747b2](https://github.com/blackbaud/skyux/commit/b5747b22ff615d0b172a5fab0f653390d46e7890))
-* add remaining `[@docs](https://github.com/docs)IncludeIds` and validation steps ([#3076](https://github.com/blackbaud/skyux/issues/3076)) ([cb59851](https://github.com/blackbaud/skyux/commit/cb5985149dd13e40bb6bb6c4874a4551c36fb30d))
+* add `@docsIncludeIds` to action bars, tree, autonumeric, avatar, colorpicker, core, datetime, errors, flyout, and forms packages ([#3074](https://github.com/blackbaud/skyux/issues/3074)) ([b5747b2](https://github.com/blackbaud/skyux/commit/b5747b22ff615d0b172a5fab0f653390d46e7890))
+* add remaining `@docsIncludeIds` and validation steps ([#3076](https://github.com/blackbaud/skyux/issues/3076)) ([cb59851](https://github.com/blackbaud/skyux/commit/cb5985149dd13e40bb6bb6c4874a4551c36fb30d))
 * **components/errors:** add error test harness ([#3082](https://github.com/blackbaud/skyux/issues/3082)) ([#3094](https://github.com/blackbaud/skyux/issues/3094)) ([4343e0a](https://github.com/blackbaud/skyux/commit/4343e0ab40e4cf9ddc694bceac49ba8af7dea1ef))
 * **components/forms:** file attachment components now wait for system dialogs to close before handling files so that errors are read to screen readers appropriately ([#3073](https://github.com/blackbaud/skyux/issues/3073)) ([847c970](https://github.com/blackbaud/skyux/commit/847c970f1a4b796a66f346af478550f8db403991))
 * **components/indicators:** remove forwarded exports from `@skyux/help-inline` and `@skyux/icon` ([#3069](https://github.com/blackbaud/skyux/issues/3069)) ([e2e3883](https://github.com/blackbaud/skyux/commit/e2e3883a07281a689beef3089f482c9693f2014d))
@@ -450,7 +628,7 @@
 * **components/tabs:** add harnesses for tab component ([#3064](https://github.com/blackbaud/skyux/issues/3064)) ([#3095](https://github.com/blackbaud/skyux/issues/3095)) ([37d2e90](https://github.com/blackbaud/skyux/commit/37d2e908a7cc24ca7d926f01dfeb88077c24f9b0))
 * **components/tiles:** add test harnesses for tile and tile dashboard ([#3052](https://github.com/blackbaud/skyux/issues/3052)) ([#3066](https://github.com/blackbaud/skyux/issues/3066)) ([2019f56](https://github.com/blackbaud/skyux/commit/2019f56a157f71755e62b19cb1129a404e2d6bf1))
 * create @skyux/code-examples NPM package (internal use only) ([#3091](https://github.com/blackbaud/skyux/issues/3091)) ([c0c9c48](https://github.com/blackbaud/skyux/commit/c0c9c48cd7c5383bba7fbb85dd2d1a48c77bfd9a))
-* implement `[@docs](https://github.com/docs)Id` and `[@docs](https://github.com/docs)IncludeIds` JSDoc tags to capture documentation relationships in the manifest ([#3063](https://github.com/blackbaud/skyux/issues/3063)) ([ba33999](https://github.com/blackbaud/skyux/commit/ba33999f1ed289192bcc9f7b29db94397240c001))
+* implement `@docsId` and `@docsIncludeIds` JSDoc tags to capture documentation relationships in the manifest ([#3063](https://github.com/blackbaud/skyux/issues/3063)) ([ba33999](https://github.com/blackbaud/skyux/commit/ba33999f1ed289192bcc9f7b29db94397240c001))
 * **sdk/skyux-eslint:** add linting rule to detect the use of legacy icons ([#3061](https://github.com/blackbaud/skyux/issues/3061)) ([1abcf12](https://github.com/blackbaud/skyux/commit/1abcf121d473eaa9ff335f41dd84507a72ee4aab))
 
 

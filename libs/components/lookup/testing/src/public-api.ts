@@ -1,5 +1,6 @@
 export { SkyAutocompleteHarness } from './modules/autocomplete/autocomplete-harness';
 export { SkyAutocompleteHarnessFilters } from './modules/autocomplete/autocomplete-harness-filters';
+export { SkyAutocompleteInputHarness } from './modules/autocomplete/autocomplete-input-harness';
 export { SkyAutocompleteSearchResultHarness } from './modules/autocomplete/autocomplete-search-result-harness';
 export { SkyAutocompleteSearchResultHarnessFilters } from './modules/autocomplete/autocomplete-search-result-harness-filters';
 

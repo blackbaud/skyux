@@ -318,3 +318,7 @@ sky-ag-grid-wrapper + sky-infinite-scroll {
     height: 100%;
   }
 }
+
+.ag-dnd-ghost.ag-unselectable {
+  display: none;
+}

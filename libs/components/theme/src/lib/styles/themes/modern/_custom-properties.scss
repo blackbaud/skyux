@@ -47,6 +47,10 @@
   /* switch */
   --sky-switch-size: #{$sky-switch-size-modern};
 
+  /* viewkeeper */
+  --sky-viewkeeper-opacity: 1;
+  --sky-viewkeeper-box-shadow: var(--modern-shadow-size-3);
+
   &.sky-theme-mode-dark {
     /* color */
     --sky-background-color-page-default: #{$sky-theme-modern-mode-dark-background-color-page-default};

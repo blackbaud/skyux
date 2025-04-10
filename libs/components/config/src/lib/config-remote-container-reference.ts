@@ -3,12 +3,12 @@
  */
 export interface SkyuxConfigRemoteContainerReference {
   /**
-   * A collection of paths to the referenced remote modules.
+   * A list of module names referenced by this application.
    */
   modules: string[];
 
   /**
-   * The version of the referenced SPA's remote container.
+   * The version of the referenced SPA's remote entry.
    */
   containerVersion: number;
 }

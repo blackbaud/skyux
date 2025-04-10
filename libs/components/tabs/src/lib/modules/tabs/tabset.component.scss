@@ -98,11 +98,13 @@ sky-tabset {
   }
 
   .sky-tabset-style-wizard {
+    // The bottom margin is not a typo. To create “balanced” inset space around the wizard tab contents,
+    // the space underneath the tabset should be equal to space on the sides of the tab contents already
     --sky-tabset-margin: var(
       --sky-override-tabset-wizard-modal-margin,
       calc(var(--sky-space-inset-floated-top-m) * -1)
         calc(var(--sky-space-inset-floated-right-m) * -1)
-        var(--sky-space-inset-floated-bottom-m)
+        var(--sky-space-inset-floated-left-m)
         calc(var(--sky-space-inset-floated-left-m) * -1)
     );
 

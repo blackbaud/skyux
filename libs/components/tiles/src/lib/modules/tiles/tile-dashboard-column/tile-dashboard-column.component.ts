@@ -4,6 +4,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { DragulaModule } from 'ng2-dragula';
 
@@ -19,6 +20,7 @@ let columnIdIndex = 0;
   styleUrls: ['./tile-dashboard-column.component.scss'],
   templateUrl: './tile-dashboard-column.component.html',
   imports: [DragulaModule],
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyTileDashboardColumnComponent {
   public bagId: string;

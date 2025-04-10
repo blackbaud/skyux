@@ -173,7 +173,7 @@ export class SkyColorpickerComponent
 
   /**
    * The observable to send commands to the colorpicker. The commands should
-   * respect the `SkyColorPickerMessage` type.
+   * respect the `SkyColorpickerMessage` type.
    */
   @Input()
   public messageStream = new Subject<SkyColorpickerMessage>();
