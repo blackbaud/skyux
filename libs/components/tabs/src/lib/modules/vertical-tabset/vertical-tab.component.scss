@@ -32,10 +32,13 @@
   --sky-override-vertical-tab-padding-left-active: #{$sky-padding};
   --sky-override-vertical-tab-padding-left-selected: 6px;
   --sky-override-vertical-tab-padding-left-hover: #{$sky-padding};
-  --sky-override-vertical-tab-right-arrow-color: #{$sky-text-color-icon-borderless};
-  --sky-override-vertical-tab-right-arrow-color-active: #{$sky-text-color-icon-borderless};
-  --sky-override-vertical-tab-right-arrow-color-hover: #979ba2;
-  --sky-override-vertical-tab-right-arrow-color-selected: #{$sky-text-color-icon-borderless};
+  --sky-override-vertical-tab-right-arrow-color: #{$sky-text-color-deemphasized};
+  --sky-override-vertical-tab-right-arrow-color-active: #{$sky-text-color-deemphasized};
+  --sky-override-vertical-tab-right-arrow-color-hover: color.adjust(
+    #{$sky-text-color-deemphasized},
+    $lightness: -20%
+  );
+  --sky-override-vertical-tab-right-arrow-color-selected: #{$sky-text-color-deemphasized};
   --sky-override-vertical-tab-right-arrow-padding: 3px #{$sky-padding} 0 0;
 }
 
