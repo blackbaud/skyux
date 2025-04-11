@@ -12,7 +12,7 @@
   --sky-override-expansion-indicator-size-half: 13px;
   --sky-override-expansion-indicator-color: var(
     --sky-expansion-indicator-color,
-    #{$sky-border-color-neutral-medium}
+    #{$sky-text-color-deemphasized}
   );
 }
 
