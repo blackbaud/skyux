@@ -1,5 +1,6 @@
 @use '../variables' as vars;
 @use 'variables' as compatVars;
+@use 'sass:color';
 
 @mixin sky-deemphasized {
   font-family: compatVars.$sky-font-family;
