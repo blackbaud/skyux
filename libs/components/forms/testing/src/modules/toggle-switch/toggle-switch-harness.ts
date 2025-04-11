@@ -98,7 +98,7 @@ export class SkyToggleSwitchHarness extends SkyComponentHarness {
         '`labelHidden` is only supported when setting the toggle switch label via the `labelText` input.',
       );
     } else {
-      return !!(await labelText?.hasClass('sky-screen-reader-only'));
+      return !(await labelText?.text());
     }
   }
 
@@ -107,13 +107,12 @@ export class SkyToggleSwitchHarness extends SkyComponentHarness {
    * the text will still be returned.
    */
   public async getLabelText(): Promise<string | undefined> {
-    const labelText = await this.#getLabelText();
+    const labelText = await (await this.#getLabelText())?.text();
+    const ariaLabel = await this.getAriaLabel();
 
-    if (labelText) {
-      return await labelText.text();
-    } else {
-      return await (await this.#getLabel())?.getText();
-    }
+    return (
+      labelText || ariaLabel || (await (await this.#getLabel())?.getText())
+    );
   }
 
   /**

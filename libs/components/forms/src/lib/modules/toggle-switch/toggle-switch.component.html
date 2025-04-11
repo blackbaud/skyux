@@ -42,11 +42,9 @@
         [attr.id]="labelId"
       >
         @if (labelText) {
-          <span
-            class="sky-toggle-switch-label-text"
-            [class.sky-screen-reader-only]="labelHidden"
-            >{{ labelText }}</span
-          >
+          @if (!labelHidden) {
+            <span class="sky-toggle-switch-label-text">{{ labelText }}</span>
+          }
         } @else {
           <ng-content select="sky-toggle-switch-label" />
         }
