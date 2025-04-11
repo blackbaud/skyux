@@ -134,11 +134,11 @@
 }
 
 @mixin sky-icon-button-borderless {
-  color: var(--sky-text-color-deemphasized);
+  color: vars.$sky-text-color-deemphasized;
   cursor: pointer;
 
   &:hover {
-    color: color.adjust(var(--sky-text-color-deemphasized), $lightness: -20%);
+    color: color.adjust(vars.$sky-text-color-deemphasized, $lightness: -20%);
     transition: color compatVars.$sky-transition-time-short;
   }
 }
