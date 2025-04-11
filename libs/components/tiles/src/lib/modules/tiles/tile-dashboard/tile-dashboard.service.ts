@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
-  SkyDynamicComponentLocation,
   SkyDynamicComponentService,
   SkyMediaQueryService,
   SkyUIConfigService,
@@ -449,10 +448,10 @@ export class SkyTileDashboardService {
         const componentRef = this.#dynamicComponentService.createComponent(
           componentType,
           {
-            location: SkyDynamicComponentLocation.ElementBottom,
             providers: providers,
             viewContainerRef: column.content,
             environmentInjector: column.injector,
+            className: 'sky-tile-parent',
           },
         );
 

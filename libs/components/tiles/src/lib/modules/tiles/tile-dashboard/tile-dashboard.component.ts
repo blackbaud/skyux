@@ -15,6 +15,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -38,6 +39,7 @@ import { SkyTileDashboardService } from './tile-dashboard.service';
     '[class]': 'layoutClassName()',
   },
   standalone: false,
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   readonly #breakpoint = toSignal(
