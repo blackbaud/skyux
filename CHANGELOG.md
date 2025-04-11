@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.3.0](https://github.com/blackbaud/skyux/compare/12.2.0...12.3.0) (2025-04-11)
+
+
+### Features
+
+* **components/tiles:** tokenize tile styles ([#3362](https://github.com/blackbaud/skyux/issues/3362)) ([28f2f63](https://github.com/blackbaud/skyux/commit/28f2f63eb48e75a18e748b4d9789447999fcd8ba))
+
 ## [12.2.0](https://github.com/blackbaud/skyux/compare/12.1.0...12.2.0) (2025-04-08)
 
 
