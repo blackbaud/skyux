@@ -123,7 +123,7 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
 
     if (label) {
       throw new Error(
-        '`labelIsHidden` is only supported when setting the checkbox label via the `labelText` input.',
+        '`labelHidden` is only supported when setting the checkbox label via the `labelText` input.',
       );
     } else {
       return !(await labelTextLabel?.getText());

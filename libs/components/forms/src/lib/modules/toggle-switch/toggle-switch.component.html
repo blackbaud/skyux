@@ -43,7 +43,7 @@
       >
         @if (labelText) {
           @if (!labelHidden) {
-            <ng-container>{{ labelText }}</ng-container>
+            <span class="sky-toggle-switch-label-text">{{ labelText }}</span>
           }
         } @else {
           <ng-content select="sky-toggle-switch-label" />
