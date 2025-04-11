@@ -17,14 +17,14 @@ export class SkyTimepickerSelectorHarness extends ComponentHarness {
       selector: '.sky-timepicker-column-hours',
     }),
   );
-  #getMinutes = this.locatorFor(
-    SkyTimepickerSelectorColumnHarness.with({
-      selector: '.sky-timepicker-column-minutes',
-    }),
-  );
   #getMeridies = this.locatorForOptional(
     SkyTimepickerSelectorColumnHarness.with({
       selector: '.sky-timepicker-column-meridies',
+    }),
+  );
+  #getMinutes = this.locatorFor(
+    SkyTimepickerSelectorColumnHarness.with({
+      selector: '.sky-timepicker-column-minutes',
     }),
   );
 
@@ -49,17 +49,6 @@ export class SkyTimepickerSelectorHarness extends ComponentHarness {
   }
 
   /**
-   * Clicks the specified minute button, or throws an error if it does not exist.
-   */
-  public async clickMinute(value: string): Promise<void> {
-    try {
-      await (await this.#getMinutes()).clickButton(value);
-    } catch {
-      throw new Error(`Unable to find minute button with label "${value}".`);
-    }
-  }
-
-  /**
    * Clicks the specified meridie button, or throws an error if it does not exist.
    */
   public async clickMeridie(value: string): Promise<void> {
@@ -71,6 +60,17 @@ export class SkyTimepickerSelectorHarness extends ComponentHarness {
       await meridies.clickButton(value);
     } catch {
       throw new Error(`Unable to find meridie button with label "${value}".`);
+    }
+  }
+
+  /**
+   * Clicks the specified minute button, or throws an error if it does not exist.
+   */
+  public async clickMinute(value: string): Promise<void> {
+    try {
+      await (await this.#getMinutes()).clickButton(value);
+    } catch {
+      throw new Error(`Unable to find minute button with label "${value}".`);
     }
   }
 

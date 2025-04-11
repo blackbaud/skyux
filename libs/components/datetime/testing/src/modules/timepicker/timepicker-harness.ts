@@ -45,17 +45,13 @@ export class SkyTimepickerHarness extends SkyComponentHarness {
    * the timepicker. Throws an error if the selector is not open.
    */
   public async getTimepickerSelector(): Promise<SkyTimepickerSelectorHarness> {
-    const calendarId = await this.#getAriaControls();
-
-    if (!calendarId) {
+    const selector = await this.#getSelector();
+    if (!selector) {
       throw new Error(
         'Unable to get timepicker selector because selector is closed.',
       );
     }
-
-    return await this.#documentRootLocator.locatorFor(
-      SkyTimepickerSelectorHarness.with({ selector: `#${calendarId}` }),
-    )();
+    return selector;
   }
 
   /**
@@ -66,19 +62,37 @@ export class SkyTimepickerHarness extends SkyComponentHarness {
   }
 
   /**
+   * Whether the timepicker is disabled
+   */
+  public async isDisabled(): Promise<boolean> {
+    const disabled = await (
+      await this.#getSelectorButton()
+    ).getAttribute('disabled');
+    return disabled !== null;
+  }
+
+  /**
    * Whether the timepicker calendar picker is open.
    */
   public async isTimepickerOpen(): Promise<boolean> {
-    return (
-      (await (
-        await this.#getSelectorButton()
-      ).getAttribute('aria-expanded')) === 'true'
-    );
+    return !!(await this.#getSelector());
   }
 
   async #getAriaControls(): Promise<string | null> {
     return await (
       await this.#getSelectorButton()
     ).getAttribute('aria-controls');
+  }
+
+  async #getSelector(): Promise<SkyTimepickerSelectorHarness | null> {
+    const selectorId = await this.#getAriaControls();
+
+    if (selectorId) {
+      return await this.#documentRootLocator.locatorFor(
+        SkyTimepickerSelectorHarness.with({ selector: `#${selectorId}` }),
+      )();
+    }
+
+    return null;
   }
 }

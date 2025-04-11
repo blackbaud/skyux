@@ -12,7 +12,7 @@ export class SkyTimepickerSelectorColumnHarness extends ComponentHarness {
   /**
    * @internal
    */
-  public static hostSelector = 'section';
+  public static hostSelector = 'section.sky-timepicker-column';
 
   #getButtons = this.locatorForAll('li > button');
   #getSelected = this.locatorForOptional('.sky-btn-active');
