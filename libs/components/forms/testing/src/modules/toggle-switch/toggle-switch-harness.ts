@@ -43,7 +43,7 @@ export class SkyToggleSwitchHarness extends SkyComponentHarness {
   }
 
   /**
-   * Puts the toggle switch in a checked state by toggling it if it is currently unchecked, or doing nothing if it is already checked.
+   * Puts the toggle switch in a checked state.
    */
   public async check(): Promise<void> {
     if (!(await this.isChecked())) {
@@ -56,20 +56,6 @@ export class SkyToggleSwitchHarness extends SkyComponentHarness {
    */
   public async focus(): Promise<void> {
     await (await this.#getButton()).focus();
-  }
-
-  /**
-   * Gets the toggle switch's aria-label.
-   */
-  public async getAriaLabel(): Promise<string | null> {
-    return await (await this.#getButton()).getAttribute('aria-label');
-  }
-
-  /**
-   * Gets the toggle switch's aria-labelledby.
-   */
-  public async getAriaLabelledby(): Promise<string | null> {
-    return await (await this.#getButton()).getAttribute('aria-labelledby');
   }
 
   /**
@@ -108,7 +94,7 @@ export class SkyToggleSwitchHarness extends SkyComponentHarness {
    */
   public async getLabelText(): Promise<string | undefined> {
     const labelText = await (await this.#getLabelText())?.text();
-    const ariaLabel = await this.getAriaLabel();
+    const ariaLabel = await this.#getAriaLabel();
 
     return (
       labelText || ariaLabel || (await (await this.#getLabel())?.getText())
@@ -140,12 +126,16 @@ export class SkyToggleSwitchHarness extends SkyComponentHarness {
   }
 
   /**
-   * Puts the toggle switch in an unchecked state by toggling it if it is currently checked, or doing nothing if it is already unchecked.
+   * Puts the toggle switch in an unchecked state.
    */
   public async uncheck(): Promise<void> {
     if (await this.isChecked()) {
       await this.#toggle();
     }
+  }
+
+  async #getAriaLabel(): Promise<string | null> {
+    return await (await this.#getButton()).getAttribute('aria-label');
   }
 
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {

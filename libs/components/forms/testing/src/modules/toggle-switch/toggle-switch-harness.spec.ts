@@ -88,30 +88,6 @@ describe('Toggle switch harness', () => {
     await expectAsync(toggleSwitchHarness.isFocused()).toBeResolvedTo(false);
   });
 
-  it('should get ARIA attributes', async () => {
-    const { toggleSwitchHarness, fixture } = await setupTest({
-      dataSkyId: 'toggle-switch',
-    });
-
-    await expectAsync(toggleSwitchHarness.getAriaLabel()).toBeResolvedTo(
-      'Label text',
-    );
-    await expectAsync(toggleSwitchHarness.getAriaLabelledby()).toBeResolvedTo(
-      'MOCK_ID_1',
-    );
-    await expectAsync(toggleSwitchHarness.getLabelText()).toBeResolvedTo(
-      'Label text',
-    );
-
-    fixture.componentRef.setInput('useAlternateLabel', 'true');
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    await expectAsync(toggleSwitchHarness.getLabelText()).toBeResolvedTo(
-      'Alternate label',
-    );
-  });
-
   it('should handle a missing label when getting the label text', async () => {
     const { toggleSwitchHarness, fixture } = await setupTest({
       dataSkyId: 'toggle-switch',
@@ -132,6 +108,17 @@ describe('Toggle switch harness', () => {
 
     await expectAsync(toggleSwitchHarness.getLabelText()).toBeResolvedTo(
       'Label text',
+    );
+  });
+
+  it('should get the label text when using the label element', async () => {
+    const { toggleSwitchHarness } = await setupTest({
+      dataSkyId: 'toggle-switch',
+      useAlternateLabel: true,
+    });
+
+    await expectAsync(toggleSwitchHarness.getLabelText()).toBeResolvedTo(
+      'Alternate label',
     );
   });
 
