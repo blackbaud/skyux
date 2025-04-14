@@ -593,7 +593,7 @@ describe('Timepicker', () => {
       expect(component.selectedTime?.local).toEqual('2:55 AM');
     }));
 
-    it('should highlight the minute that is the passed multiple of five in the picker', fakeAsync(() => {
+    it('should highlight the minute that is the passed multiple of five in the 12 hour picker', fakeAsync(() => {
       detectChangesAndTick(fixture);
       setInput('2:33 AM', fixture);
       openTimepicker(fixture);
@@ -604,6 +604,20 @@ describe('Timepicker', () => {
       );
 
       expect(highlightedMinute).toHaveText('30');
+    }));
+
+    it('should highlight the minute that is the passed multiple of fifteen in the 24 hour picker ', fakeAsync(() => {
+      component.timeFormat = 'HH';
+      detectChangesAndTick(fixture);
+      setInput('02:23', fixture);
+      openTimepicker(fixture);
+
+      const timepicker = getTimepicker();
+      const highlightedMinute = timepicker.querySelector(
+        'button[name="minute"].sky-btn-active',
+      );
+
+      expect(highlightedMinute).toHaveText('15');
     }));
 
     it('should handle undefined date', fakeAsync(() => {
