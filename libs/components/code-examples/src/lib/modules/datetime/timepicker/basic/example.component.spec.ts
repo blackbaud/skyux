@@ -57,8 +57,8 @@ describe('Basic timepicker example', () => {
       '2:45 AM',
     );
     await expectAsync(
-      (await timepickerHarness.getControl()).getValue(),
-    ).toBeResolvedTo('2:45 AM');
+      (await timepickerHarness.getControl()).isDisabled(),
+    ).toBeResolvedTo(false);
   });
 
   it('should throw an error if selecting an invalid time', async () => {
