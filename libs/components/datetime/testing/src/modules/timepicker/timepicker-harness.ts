@@ -62,16 +62,6 @@ export class SkyTimepickerHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether the timepicker is disabled
-   */
-  public async isDisabled(): Promise<boolean> {
-    const disabled = await (
-      await this.#getSelectorButton()
-    ).getAttribute('disabled');
-    return disabled !== null;
-  }
-
-  /**
    * Whether the timepicker calendar picker is open.
    */
   public async isTimepickerOpen(): Promise<boolean> {
