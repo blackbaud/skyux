@@ -14,7 +14,11 @@
         "primaryDocsId": "SkyToastService"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkyToasterHarness",
+          "SkyToastHarness",
+          "SkyToastHarnessFilters"
+        ]
       },
       "codeExamples": {
         "docsIds": [

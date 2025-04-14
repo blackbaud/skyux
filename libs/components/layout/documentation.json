@@ -16,7 +16,12 @@
         "primaryDocsId": "SkyActionButtonModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkyActionButtonContainerHarness",
+          "SkyActionButtonContainerHarnessFilters",
+          "SkyActionButtonHarness",
+          "SkyActionButtonHarnessFilters"
+        ]
       },
       "codeExamples": {
         "docsIds": [
@@ -37,7 +42,7 @@
         "primaryDocsId": "SkyBackToTopModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": ["SkyBackToTopHarness"]
       },
       "codeExamples": {
         "docsIds": [
@@ -119,7 +124,11 @@
         "primaryDocsId": "SkyDescriptionListModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkyDescriptionListHarness",
+          "SkyDescriptionListHarnessFilters",
+          "SkyDescriptionListContentHarness"
+        ]
       },
       "codeExamples": {
         "docsIds": [
@@ -144,12 +153,12 @@
       },
       "testing": {
         "docsIds": [
-          "SkyColumnHarness",
-          "SkyColumnHarnessFilters",
           "SkyFluidGridHarness",
           "SkyFluidGridHarnessFilters",
           "SkyRowHarness",
-          "SkyRowHarnessFilters"
+          "SkyRowHarnessFilters",
+          "SkyColumnHarness",
+          "SkyColumnHarnessFilters"
         ]
       },
       "codeExamples": {

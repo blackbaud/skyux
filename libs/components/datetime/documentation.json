@@ -92,7 +92,11 @@
         "primaryDocsId": "SkyTimepickerModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkyTimepickerHarness",
+          "SkyTimepickerFilters",
+          "SkyTimepickerSelectorHarness"
+        ]
       },
       "codeExamples": {
         "docsIds": ["DatetimeTimepickerBasicExampleComponent"]

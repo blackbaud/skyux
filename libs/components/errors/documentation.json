@@ -17,7 +17,12 @@
         "primaryDocsId": "SkyErrorModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkyErrorHarness",
+          "SkyErrorHarnessFilters",
+          "SkyErrorActionHarness",
+          "SkyErrorImageHarness"
+        ]
       },
       "codeExamples": {
         "docsIds": [
