@@ -52,7 +52,7 @@
   >
     <div class="sky-timepicker-content">
       <section
-        class="sky-timepicker-column"
+        class="sky-timepicker-column sky-timepicker-column-hours"
         [ngClass]="{ 'sky-timepicker-24hour': is8601 }"
       >
         <ol>
@@ -70,7 +70,7 @@
           }
         </ol>
       </section>
-      <section class="sky-timepicker-column">
+      <section class="sky-timepicker-column sky-timepicker-column-minutes">
         <ol>
           @for (minute of minutes; track minute) {
             <li>
@@ -89,7 +89,7 @@
         </ol>
       </section>
       @if (!is8601) {
-        <section class="sky-timepicker-column">
+        <section class="sky-timepicker-column sky-timepicker-column-meridies">
           <ol>
             <li>
               <button
