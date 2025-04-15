@@ -32,7 +32,25 @@
         "primaryDocsId": "SkyDataManagerModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkyDataManagerHarness",
+          "SkyDataManagerHarnessFilters",
+          "SkyDataManagerToolbarHarness",
+          "SkyDataManagerToolbarHarnessFilters",
+          "SkyDataManagerToolbarSectionHarness",
+          "SkyDataManagerToolbarSectionHarnessFilters",
+          "SkyDataManagerToolbarPrimaryItemHarness",
+          "SkyDataManagerToolbarPrimaryItemHarnessFilters",
+          "SkyDataManagerToolbarLeftItemHarness",
+          "SkyDataManagerToolbarLeftItemHarnessFilters",
+          "SkyDataManagerToolbarRightItemHarness",
+          "SkyDataManagerToolbarRightItemHarnessFilters",
+          "SkyDataManagerViewHarness",
+          "SkyDataManagerViewHarnessFilters",
+          "SkyDataManagerColumnPickerHarness",
+          "SkyDataManagerColumnPickerColumnHarness",
+          "SkyDataManagerColumnPickerColumnHarnessFilters"
+        ]
       },
       "codeExamples": {
         "docsIds": [
