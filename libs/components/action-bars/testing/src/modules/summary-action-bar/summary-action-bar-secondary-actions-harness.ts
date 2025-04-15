@@ -3,6 +3,7 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyDropdownHarness } from '@skyux/popovers/testing';
 
 import { SkySummaryActionBarSecondaryActionHarness } from './summary-action-bar-secondary-action-harness';
+import { SkySummaryActionBarSecondaryActionHarnessFilters } from './summary-action-bar-secondary-action-harness-filters';
 import { SkySummaryActionBarSecondaryActionsHarnessFilters } from './summary-action-bar-secondary-actions-harness-filters';
 
 /**
@@ -31,43 +32,57 @@ export class SkySummaryActionBarSecondaryActionsHarness extends SkyComponentHarn
   }
 
   /**
-   * Gets the harness for an individual action that has the given `data-sky-id`
+   * Gets the harness for an individual action that matches the given filters.
    */
   public async getAction(
-    dataSkyId: string,
+    filters: SkySummaryActionBarSecondaryActionHarnessFilters,
   ): Promise<SkySummaryActionBarSecondaryActionHarness> {
     const dropdown = await this.#dropdown();
 
     if (dropdown) {
+      filters['ancestor'] = 'sky-dropdown-menu';
       await dropdown.clickDropdownButton();
       return await this.#documentRootLocator.locatorFor(
-        SkySummaryActionBarSecondaryActionHarness.with({
-          dataSkyId: dataSkyId,
-          ancestor: 'sky-dropdown-menu',
-        }),
+        SkySummaryActionBarSecondaryActionHarness.with(filters),
       )();
     }
 
     return await this.locatorFor(
-      SkySummaryActionBarSecondaryActionHarness.with({ dataSkyId: dataSkyId }),
+      SkySummaryActionBarSecondaryActionHarness.with(filters),
     )();
   }
 
   /**
    * Gets the harnesses for all secondary action.
    */
-  public async getActions(): Promise<
-    SkySummaryActionBarSecondaryActionHarness[]
-  > {
+  public async getActions(
+    filters?: SkySummaryActionBarSecondaryActionHarnessFilters,
+  ): Promise<SkySummaryActionBarSecondaryActionHarness[]> {
     const dropdown = await this.#dropdown();
-
     if (dropdown) {
       await dropdown.clickDropdownButton();
-      return await this.#documentRootLocator.locatorForAll(
-        SkySummaryActionBarSecondaryActionHarness.with({
-          ancestor: 'sky-dropdown-menu',
-        }),
-      )();
+      if (filters) {
+        filters['ancestor'] = 'sky-dropdown-menu';
+        const actions = await this.#documentRootLocator.locatorForAll(
+          SkySummaryActionBarSecondaryActionHarness.with(filters),
+        )();
+
+        if (actions.length === 0) {
+          filters['ancestor'] = undefined;
+          throw new Error(
+            `Unable to find summary action secondary action(s) with filter(s): ${JSON.stringify(
+              filters,
+            )}.`,
+          );
+        }
+        return actions;
+      } else {
+        return await this.#documentRootLocator.locatorForAll(
+          SkySummaryActionBarSecondaryActionHarness.with({
+            ancestor: 'sky-dropdown-menu',
+          }),
+        )();
+      }
     }
 
     return await this.locatorForAll(

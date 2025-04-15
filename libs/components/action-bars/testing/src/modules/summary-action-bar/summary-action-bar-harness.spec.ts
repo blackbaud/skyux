@@ -73,7 +73,7 @@ class TestComponent {
   public cancel(): void {}
 }
 
-fdescribe('Summary action harness', () => {
+describe('Summary action harness', () => {
   async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
     summaryActionHarness: SkySummaryActionBarHarness;
     fixture: ComponentFixture<TestComponent>;
@@ -202,7 +202,7 @@ fdescribe('Summary action harness', () => {
       const { summaryActionHarness } = await setupTest();
       const actionsHarness = await summaryActionHarness.getSecondaryActions();
       await expectAsync(
-        actionsHarness.getAction('secondary-action-2'),
+        actionsHarness.getAction({ dataSkyId: 'secondary-action-2' }),
       ).toBeResolved();
     });
   });
@@ -211,7 +211,9 @@ fdescribe('Summary action harness', () => {
     it('should click the action', async () => {
       const { summaryActionHarness, fixture } = await setupTest();
       const actionsHarness = await summaryActionHarness.getSecondaryActions();
-      const action = await actionsHarness.getAction('secondary-action-2');
+      const action = await actionsHarness.getAction({
+        dataSkyId: 'secondary-action-2',
+      });
       const spy = spyOn(fixture.componentInstance, 'onSecondaryAction2Click');
       await action.click();
       expect(spy).toHaveBeenCalled();
@@ -220,7 +222,9 @@ fdescribe('Summary action harness', () => {
     it('should get the text', async () => {
       const { summaryActionHarness } = await setupTest();
       const actionsHarness = await summaryActionHarness.getSecondaryActions();
-      const action = await actionsHarness.getAction('secondary-action-2');
+      const action = await actionsHarness.getAction({
+        dataSkyId: 'secondary-action-2',
+      });
 
       await expectAsync(action.getText()).toBeResolvedTo('Secondary action 2');
     });
@@ -228,7 +232,9 @@ fdescribe('Summary action harness', () => {
     it("should get whether it's disabled", async () => {
       const { summaryActionHarness, fixture } = await setupTest();
       const actionsHarness = await summaryActionHarness.getSecondaryActions();
-      const action = await actionsHarness.getAction('secondary-action-2');
+      const action = await actionsHarness.getAction({
+        dataSkyId: 'secondary-action-2',
+      });
       await expectAsync(action.isDisabled()).toBeResolvedTo(false);
 
       fixture.componentInstance.disabled = true;
@@ -315,13 +321,37 @@ fdescribe('Summary action harness', () => {
         expect(actions.length).toBe(2);
       });
 
+      it('should get actions from filters', async () => {
+        const { summaryActionHarness, fixture, mediaQuery } = await setupTest();
+        await mobileView(fixture, mediaQuery);
+
+        const actionsHarness = await summaryActionHarness.getSecondaryActions();
+        const actions = await actionsHarness.getActions({
+          dataSkyId: 'secondary-action-2',
+        });
+        expect(actions.length).toBe(1);
+      });
+
+      it('should throw an error if no actions found with filter', async () => {
+        const { summaryActionHarness, fixture, mediaQuery } = await setupTest();
+        await mobileView(fixture, mediaQuery);
+        const actionsHarness = await summaryActionHarness.getSecondaryActions();
+        await expectAsync(
+          actionsHarness.getActions({
+            dataSkyId: 'secondary-actions',
+          }),
+        ).toBeRejectedWithError(
+          'Unable to find summary action secondary action(s) with filter(s): {"dataSkyId":"secondary-actions"}.',
+        );
+      });
+
       it("should get an action from it's data-sky-id", async () => {
         const { summaryActionHarness, fixture, mediaQuery } = await setupTest();
         await mobileView(fixture, mediaQuery);
 
         const actionsHarness = await summaryActionHarness.getSecondaryActions();
         await expectAsync(
-          actionsHarness.getAction('secondary-action-2'),
+          actionsHarness.getAction({ dataSkyId: 'secondary-action-2' }),
         ).toBeResolved();
       });
     });
