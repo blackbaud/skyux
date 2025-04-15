@@ -55,8 +55,9 @@ describe('Modal summary action bar example', () => {
     await actions[1].click();
     expect(spy2).toHaveBeenCalled();
 
-    const secondaryAction =
-      await secondaryActions.getAction('secondary-action');
+    const secondaryAction = await secondaryActions.getAction({
+      dataSkyId: 'secondary-action',
+    });
     await secondaryAction.click();
     expect(spy1).toHaveBeenCalled();
   });
