@@ -5,7 +5,7 @@ import { SkyTabsetHarness } from '@skyux/tabs/testing';
 
 import { TabsDynamicExampleComponent } from './example.component';
 
-describe('Static tabs demo with add and close', () => {
+describe('Dynamic tabs demo with add and close', () => {
   async function setupTest(options: { dataSkyId?: string }): Promise<{
     harness: SkyTabsetHarness;
     fixture: ComponentFixture<TabsDynamicExampleComponent>;
