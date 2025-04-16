@@ -48,7 +48,7 @@ export class ModalsModalBasicWithControllerExampleComponent
           useValue: { value1: 'Hello!' },
         },
         // NOTE: The help service is normally provided at the application root, but
-        // it is added here purely for examplenstration purposes.
+        // it is added here purely for demonstration purposes.
         // See: https://developer.blackbaud.com/skyux/learn/develop/global-help
         {
           provide: SkyHelpService,

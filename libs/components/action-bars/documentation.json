@@ -16,7 +16,20 @@
         "primaryDocsId": "SkySummaryActionBarModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkySummaryActionBarHarness",
+          "SkySummaryActionBarHarnessFilters",
+          "SkySummaryActionBarPrimaryActionHarness",
+          "SkySummaryActionBarPrimaryActionHarnessFilters",
+          "SkySummaryActionBarSecondaryActionsHarness",
+          "SkySummaryActionBarSecondaryActionsHarnessFilters",
+          "SkySummaryActionBarSecondaryActionHarness",
+          "SkySummaryActionBarSecondaryActionHarnessFilters",
+          "SkySummaryActionBarSummaryHarness",
+          "SkySummaryActionBarSummaryHarnessFilters",
+          "SkySummaryActionBarCancelHarness",
+          "SkySummaryActionBarCancelHarnessFilters"
+        ]
       },
       "codeExamples": {
         "docsIds": [
