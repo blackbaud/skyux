@@ -1,9 +1,11 @@
 <a
   #tabButton
   class="sky-vertical-tab sky-vertical-tabset-button"
-  [attr.aria-controls]="isMobile ? null : ariaControls || tabContentPane.id"
-  [attr.aria-disabled]="disabled || undefined"
-  [attr.aria-selected]="active"
+  [attr.aria-controls]="
+    isMobile ? undefined : ariaControls || tabContentPane.id
+  "
+  [attr.aria-disabled]="isMobile ? undefined : disabled || undefined"
+  [attr.aria-selected]="isMobile ? undefined : active"
   [attr.id]="tabId"
   [attr.role]="isMobile ? undefined : ariaRole"
   [ngClass]="{

@@ -1,5 +1,20 @@
 # Changelog
 
+## [12.3.0](https://github.com/blackbaud/skyux/compare/12.2.0...12.3.0) (2025-04-14)
+
+
+### Features
+
+* **components/datetime:** add timepicker harnesses ([#3361](https://github.com/blackbaud/skyux/issues/3361)) ([048d916](https://github.com/blackbaud/skyux/commit/048d916176d900a99cd396605a99746bf44387fd))
+* **components/forms:** add toggle switch harness ([#3366](https://github.com/blackbaud/skyux/issues/3366)) ([dad30a7](https://github.com/blackbaud/skyux/commit/dad30a75ad3584644fc8d6e29c77985583982609))
+* **components/tiles:** tokenize tile styles ([#3362](https://github.com/blackbaud/skyux/issues/3362)) ([28f2f63](https://github.com/blackbaud/skyux/commit/28f2f63eb48e75a18e748b4d9789447999fcd8ba))
+
+
+### Bug Fixes
+
+* **components/tabs:** adjust aria roles in mobile ([#3369](https://github.com/blackbaud/skyux/issues/3369)) ([2548d21](https://github.com/blackbaud/skyux/commit/2548d217fdbfc0831d909225a29c0f14eee44c8c))
+* **components/theme:** darken borderless icon button color in default theme to handle new svg icons ([#3368](https://github.com/blackbaud/skyux/issues/3368)) ([7ad680f](https://github.com/blackbaud/skyux/commit/7ad680fbb3ca160b1ec2c1f16c337752528f3bc5))
+
 ## [12.2.0](https://github.com/blackbaud/skyux/compare/12.1.0...12.2.0) (2025-04-08)
 
 

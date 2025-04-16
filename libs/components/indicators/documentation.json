@@ -102,7 +102,7 @@
         "primaryDocsId": "SkyTextHighlightModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": ["SkyTextHighlightHarness", "SkyTextHighlightHarnessFilters"]
       },
       "codeExamples": {
         "docsIds": ["IndicatorsTextHighlightBasicExampleComponent"]
