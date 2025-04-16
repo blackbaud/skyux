@@ -1,18 +1,20 @@
 <sky-modal headingText="Modal with summary action bar">
   <sky-modal-content> Hello world! </sky-modal-content>
   <sky-modal-footer>
-    <sky-summary-action-bar>
+    <sky-summary-action-bar data-sky-id="donation-summary">
       <sky-summary-action-bar-actions>
         <sky-summary-action-bar-primary-action (actionClick)="save()">
           Primary action
         </sky-summary-action-bar-primary-action>
         <sky-summary-action-bar-secondary-actions>
           <sky-summary-action-bar-secondary-action
+            data-sky-id="secondary-action"
             (actionClick)="onSecondaryActionClick()"
           >
             Secondary action
           </sky-summary-action-bar-secondary-action>
           <sky-summary-action-bar-secondary-action
+            data-sky-id="secondary-action-2"
             (actionClick)="onSecondaryAction2Click()"
           >
             Secondary action 2
