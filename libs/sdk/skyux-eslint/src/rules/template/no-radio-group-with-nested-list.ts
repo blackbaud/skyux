@@ -2,7 +2,10 @@ import {
   TmplAstElement,
   TmplAstTemplate,
 } from '@angular-eslint/bundled-angular-compiler';
-import { getTemplateParserServices } from '@angular-eslint/utils';
+import {
+  ensureTemplateParser,
+  getTemplateParserServices,
+} from '@angular-eslint/utils';
 import { type RuleFix } from '@typescript-eslint/utils/ts-eslint';
 
 import { getChildrenNodesOf, getNgFor } from '../utils/ast-utils';
@@ -74,10 +77,12 @@ function unwrap(el: TmplAstElement | TmplAstTemplate): RuleFix[] {
 
 export const rule = createESLintTemplateRule({
   create(context) {
+    ensureTemplateParser(context);
+
     const parserServices = getTemplateParserServices(context);
 
     return {
-      [`Element$1[name=sky-radio-group] :matches(Element$1)[name=/^(ol|ul)$/]`](
+      [`Element[name=sky-radio-group] :matches(Element)[name=/^(ol|ul)$/]`](
         listEl: TmplAstElement,
       ): void {
         context.report({
