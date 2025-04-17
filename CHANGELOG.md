@@ -1,5 +1,21 @@
 # Changelog
 
+## [12.4.0](https://github.com/blackbaud/skyux/compare/12.3.0...12.4.0) (2025-04-17)
+
+
+### Features
+
+* **components/action-bars:** add summary action bar harness ([#3367](https://github.com/blackbaud/skyux/issues/3367)) ([0c7f1a2](https://github.com/blackbaud/skyux/commit/0c7f1a299cbd41777c5201d5c74ab28c2ed7edec))
+
+
+### Bug Fixes
+
+* add missing harness classes to documentation schema ([#3370](https://github.com/blackbaud/skyux/issues/3370)) ([f1f2ebe](https://github.com/blackbaud/skyux/commit/f1f2ebe22d2ae38dcd2bba42cf3f4683ce40a8e0))
+* **components/config:** brand config object takes in name and version directly ([#3376](https://github.com/blackbaud/skyux/issues/3376)) ([c6ddfd3](https://github.com/blackbaud/skyux/commit/c6ddfd3c4618e26b97dc74f1d627694785a39ac6))
+* **components/datetime:** enable resetting fuzzy datepickers initialized with `undefined` after a value change ([#3373](https://github.com/blackbaud/skyux/issues/3373)) ([e1bb418](https://github.com/blackbaud/skyux/commit/e1bb41867a51ae98bba28b1287e968d4de0d43ba))
+* correct errors in test file manifests ([#3374](https://github.com/blackbaud/skyux/issues/3374)) ([99faaf4](https://github.com/blackbaud/skyux/commit/99faaf41ab818eaa13e1cf1787a02bc17d4a5f4d))
+* **sdk/skyux-eslint:** export plugins to public API ([#3375](https://github.com/blackbaud/skyux/issues/3375)) ([33f88bd](https://github.com/blackbaud/skyux/commit/33f88bd94d54bcd69bc4911b9c59e5f674188c9a))
+
 ## [12.3.0](https://github.com/blackbaud/skyux/compare/12.2.0...12.3.0) (2025-04-14)
 
 
