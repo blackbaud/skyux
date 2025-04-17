@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { SkyTextEditorModule } from '@skyux/text-editor';
 
 import { FONT_LIST_DEFAULTS } from '../defaults/font-list-defaults';
 import { FONT_SIZE_LIST_DEFAULTS } from '../defaults/font-size-list-defaults';
+import { SkyTextEditorModule } from '../text-editor.module';
 import { SkyTextEditorFont } from '../types/font-state';
 import { SkyTextEditorLinkWindowOptionsType } from '../types/link-window-options-type';
 import { SkyTextEditorMenuType } from '../types/menu-type';
