@@ -1,5 +1,8 @@
 import { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
-import { getTemplateParserServices } from '@angular-eslint/utils';
+import {
+  ensureTemplateParser,
+  getTemplateParserServices,
+} from '@angular-eslint/utils';
 
 import { getChildNodeOf, getTextContent } from '../utils/ast-utils';
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
@@ -55,10 +58,12 @@ const SELECTORS_WITH_LABEL_COMPONENTS = COMPONENTS_WITH_LABEL_TEXT.map(
 
 export const rule = createESLintTemplateRule({
   create(context) {
+    ensureTemplateParser(context);
+
     const parserServices = getTemplateParserServices(context);
 
     return {
-      [`Element$1[name=/^(${SELECTORS_WITH_LABEL_COMPONENTS})$/]`](
+      [`Element[name=/^(${SELECTORS_WITH_LABEL_COMPONENTS})$/]`](
         el: TmplAstElement,
       ): void {
         const config = COMPONENTS_WITH_LABEL_TEXT.find(

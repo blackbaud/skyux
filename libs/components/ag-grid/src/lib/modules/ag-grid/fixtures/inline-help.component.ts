@@ -5,7 +5,7 @@ import { SkyAgGridHeaderInfo } from '../types/header-info';
 @Component({
   selector: 'app-first-inline-help',
   template: `
-    <span class="sky-control-help" title="{{ displayName }} help">ℹ︎</span>
+    <span title="{{ displayName }} help" class="sky-control-help">ℹ︎</span>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -20,7 +20,7 @@ export class FirstInlineHelpComponent {
 @Component({
   selector: 'app-second-inline-help',
   template: `
-    <span class="sky-control-help" title="{{ displayName }} help replaced"
+    <span title="{{ displayName }} help replaced" class="sky-control-help"
       >ℹ︎</span
     >
   `,
