@@ -13,6 +13,9 @@ const buttonTypeNext = 'next';
 const buttonTypePrevious = 'previous';
 const buttonTypeFinish = 'finish';
 
+/**
+ * Creates a button to navigate between tabs in a tabset when `tabStyle` is `"wizard"`.
+ */
 @Component({
   selector: 'sky-tabset-nav-button',
   templateUrl: './tabset-nav-button.component.html',

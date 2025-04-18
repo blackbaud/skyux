@@ -3,3 +3,5 @@ export { SkyErrorFixture } from './legacy/error-fixture';
 export { SkyErrorHarness } from './modules/error/error-harness';
 export { SkyErrorHarnessFilters } from './modules/error/error-harness-filters';
 export { SkyErrorModalHarness } from './modules/error/error-modal-harness';
+export { SkyErrorActionHarness } from './modules/error/error-action-harness';
+export { SkyErrorImageHarness } from './modules/error/error-image-harness';
