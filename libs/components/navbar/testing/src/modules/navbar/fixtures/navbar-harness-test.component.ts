@@ -3,16 +3,13 @@ import { RouterModule } from '@angular/router';
 import { SkyNavbarModule } from '@skyux/navbar';
 import { SkyDropdownModule } from '@skyux/popovers';
 
-/**
- * @title Navbar with basic setup
- */
 @Component({
-  selector: 'app-navbar-example',
-  templateUrl: './example.component.html',
+  selector: 'sky-navbar-fixture',
+  templateUrl: './navbar-harness-test.component.html',
   imports: [RouterModule, SkyDropdownModule, SkyNavbarModule],
 })
-export class NavbarExampleComponent {
-  public onItemClick(buttonText: string): void {
+export class NavbarHarnessTestComponent {
+  protected onDropdownItemClick(buttonText: string): void {
     alert(buttonText + ' button clicked!');
   }
 }
