@@ -1,10 +1,10 @@
 import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { SkyActionHubModule } from '@skyux/pages';
 
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyLink } from '../../link-list/types/link';
+import { SkyActionHubModule } from '../action-hub.module';
 import { SkyActionHubNeedsAttention } from '../types/action-hub-needs-attention';
 import { SkyRecentLink } from '../types/recent-link';
 

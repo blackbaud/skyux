@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { SkyTextEditorStyleState } from '@skyux/text-editor';
 
 import { STYLE_STATE_DEFAULTS } from '../defaults/style-state-defaults';
+import { SkyTextEditorStyleState } from '../types/style-state';
 
 import { SkyTextEditorAdapterService } from './text-editor-adapter.service';
 import { SkyTextEditorSelectionService } from './text-editor-selection.service';
