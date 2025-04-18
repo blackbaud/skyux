@@ -1,5 +1,14 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-modal-host-backdrop') {
+  --sky-override-modal-host-backdrop-color: rgba(0, 0, 0, 0.5);
+}
+
 .sky-modal-host-backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(
+    --sky-override-modal-host-backdrop-color,
+    var(--sky-color-background-scrim)
+  );
   position: fixed;
   top: 0;
   left: 0;
