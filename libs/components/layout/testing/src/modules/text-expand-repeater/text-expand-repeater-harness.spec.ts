@@ -67,7 +67,9 @@ describe('Text expand repeater test harness', () => {
     fixture.componentRef.setInput('maxItems', 5);
     await expectAsync(
       textExpandRepeaterHarness.clickExpandCollapseButton(),
-    ).toBeRejectedWithError('Could not find button element.');
+    ).toBeRejectedWithError(
+      'Could not find button element. The repeater does not contain enough elements to be expandable.',
+    );
   });
 
   it('should get the list style', async () => {

@@ -37,7 +37,9 @@ export class SkyTextExpandRepeaterHarness extends SkyComponentHarness {
     const button = await this.#getExpandCollapseButton();
 
     if (button === null) {
-      throw Error('Could not find button element.');
+      throw Error(
+        'Could not find button element. The repeater does not contain enough elements to be expandable.',
+      );
     }
 
     await button.click();
