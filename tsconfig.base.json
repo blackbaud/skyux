@@ -129,6 +129,9 @@
         "libs/components/modals/testing/src/public-api.ts"
       ],
       "@skyux/navbar": ["libs/components/navbar/src/index.ts"],
+      "@skyux/navbar/testing": [
+        "libs/components/navbar/testing/src/public-api.ts"
+      ],
       "@skyux/packages": ["libs/components/packages/src/index.ts"],
       "@skyux/pages": ["libs/components/pages/src/index.ts"],
       "@skyux/pages/testing": [
