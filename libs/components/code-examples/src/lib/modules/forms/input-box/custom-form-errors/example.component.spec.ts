@@ -4,7 +4,7 @@ import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
 import { FormsInputBoxWithCustomFormErrorsExampleComponent } from './example.component';
 
-describe('Basic input box example', () => {
+describe('Input box with custom form errors example', () => {
   async function setupTest(options: { dataSkyId: string }): Promise<{
     fixture: ComponentFixture<FormsInputBoxWithCustomFormErrorsExampleComponent>;
     inputBoxHarness: SkyInputBoxHarness;
