@@ -1,5 +1,18 @@
 # Changelog
 
+## [12.5.0](https://github.com/blackbaud/skyux/compare/12.4.0...12.5.0) (2025-04-18)
+
+
+### Features
+
+* **components/forms:** add method to `SkyFormErrorHarness` to get error text ([#2992](https://github.com/blackbaud/skyux/issues/2992)) ([#2994](https://github.com/blackbaud/skyux/issues/2994)) ([#3380](https://github.com/blackbaud/skyux/issues/3380)) ([ee9d8f5](https://github.com/blackbaud/skyux/commit/ee9d8f50fb80fbb5d2bb119eb7e920204426c7e5))
+
+
+### Bug Fixes
+
+* **components/code-examples:** improve input box code examples ([#3378](https://github.com/blackbaud/skyux/issues/3378)) ([f5bf3c6](https://github.com/blackbaud/skyux/commit/f5bf3c6239ef5e9a5ad45906f1059e5b265f2c78))
+* **sdk/skyux-eslint:** add support for `@angular/compiler@19.2.7` and rename AST nodes for rules ([#3377](https://github.com/blackbaud/skyux/issues/3377)) ([f076876](https://github.com/blackbaud/skyux/commit/f076876e1a26643563d0f856d54b01e02076419d))
+
 ## [12.4.0](https://github.com/blackbaud/skyux/compare/12.3.0...12.4.0) (2025-04-17)
 
 
