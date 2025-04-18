@@ -22,6 +22,10 @@ export { SkyTextExpandHarness } from './modules/text-expand/text-expand-harness'
 export { SkyTextExpandHarnessFilters } from './modules/text-expand/text-expand-harness-filters';
 export { SkyTextExpandModalHarness } from './modules/text-expand/text-expand-modal-harness';
 
+export { SkyTextExpandRepeaterHarness } from './modules/text-expand-repeater/text-expand-repeater-harness';
+export { SkyTextExpandRepeaterHarnessFilters } from './modules/text-expand-repeater/text-expand-repeater-harness-filters';
+export { SkyTextExpandRepeaterItemHarness } from './modules/text-expand-repeater/text-expand-repeater-item-harness';
+
 export { SkyToolbarItemHarness } from './modules/toolbar/toolbar-item-harness';
 export { SkyToolbarItemHarnessFilters } from './modules/toolbar/toolbar-item-harness-filters';
 export { SkyToolbarHarness } from './modules/toolbar/toolbar-harness';
