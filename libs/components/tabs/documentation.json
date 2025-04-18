@@ -42,8 +42,7 @@
           "SkyTabsetHarnessFilters",
           "SkyTabButtonHarness",
           "SkyTabButtonHarnessFilters",
-          "SkyTabContentHarness",
-          "SkyTabContentHarnessFilters"
+          "SkyTabContentHarness"
         ]
       },
       "codeExamples": {

@@ -45,8 +45,8 @@
           "SkyDataManagerToolbarLeftItemHarnessFilters",
           "SkyDataManagerToolbarRightItemHarness",
           "SkyDataManagerToolbarRightItemHarnessFilters",
-          "SkyDataManagerViewHarness",
-          "SkyDataManagerViewHarnessFilters",
+          "SkyDataViewHarness",
+          "SkyDataViewHarnessFilters",
           "SkyDataManagerColumnPickerHarness",
           "SkyDataManagerColumnPickerColumnHarness",
           "SkyDataManagerColumnPickerColumnHarnessFilters"

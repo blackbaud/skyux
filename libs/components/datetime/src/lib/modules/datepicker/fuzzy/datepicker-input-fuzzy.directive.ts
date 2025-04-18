@@ -578,9 +578,9 @@ export class SkyFuzzyDatepickerInputDirective
 
   /* istanbul ignore next */
   #fuzzyDatesEqual(dateA?: SkyFuzzyDate, dateB?: SkyFuzzyDate): boolean {
-    return (
-      dateA !== undefined &&
-      dateB !== undefined &&
+    return !!(
+      dateA &&
+      dateB &&
       ((!dateA.day && !dateB.day) || dateA.day === dateB.day) &&
       ((!dateA.month && !dateB.month) || dateA.month === dateB.month) &&
       ((!dateA.year && !dateB.year) || dateA.year === dateB.year)
