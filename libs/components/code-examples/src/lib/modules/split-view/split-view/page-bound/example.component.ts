@@ -32,6 +32,7 @@ interface DemoForm {
 
 /**
  * @title Page bound split view in a page component with fit layout
+ * @docsDemoHidden
  */
 @Component({
   selector: 'app-split-view-page-bound-example',
