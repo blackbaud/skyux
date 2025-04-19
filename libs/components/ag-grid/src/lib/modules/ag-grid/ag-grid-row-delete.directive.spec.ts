@@ -3,6 +3,7 @@ import {
   TestBed,
   fakeAsync,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { SKY_STACKING_CONTEXT, SkyScrollableHostService } from '@skyux/core';
 
@@ -578,4 +579,40 @@ describe('SkyAgGridRowDeleteDirective', () => {
     expect(inlineDelete2.offsetLeft).toEqual(Math.round(row2Rect.left));
     expect(inlineDelete2.offsetTop).toEqual(Math.round(row2Rect.top));
   }));
+
+  it('should work in async test', waitForAsync(async () => {
+    await setupTest({
+      hideFirstColumn: true,
+    });
+    fixture.detectChanges();
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    await fixture.whenStable();
+
+    fixture.componentInstance.rowDeleteIds = ['0', '1'];
+
+    fixture.detectChanges();
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    await fixture.whenStable();
+
+    const row1Rect = fixture.nativeElement
+      .querySelector('[row-id="0"] div')
+      .getBoundingClientRect();
+    const row2Rect = fixture.nativeElement
+      .querySelector('[row-id="1"] div')
+      .getBoundingClientRect();
+    const inlineDelete1 = document.querySelector(
+      '#row-delete-ref-0',
+    ) as HTMLElement;
+    const inlineDelete2 = document.querySelector(
+      '#row-delete-ref-1',
+    ) as HTMLElement;
+    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
+    expect(inlineDelete1.offsetLeft).toEqual(Math.round(row1Rect.left));
+    expect(inlineDelete1.offsetTop).toEqual(Math.round(row1Rect.top));
+    expect(inlineDelete2.offsetLeft).toEqual(Math.round(row2Rect.left));
+    expect(inlineDelete2.offsetTop).toEqual(Math.round(row2Rect.top));
+  }), 15e3);
 });
