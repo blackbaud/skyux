@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.6.0](https://github.com/blackbaud/skyux/compare/12.5.0...12.6.0) (2025-04-19)
+
+
+### Features
+
+* **components/layout:** add text expand repeater harness ([#3372](https://github.com/blackbaud/skyux/issues/3372)) ([b98eff4](https://github.com/blackbaud/skyux/commit/b98eff407b55de0dc9a9a538bda463c968c613c0))
+
 ## [12.5.0](https://github.com/blackbaud/skyux/compare/12.4.0...12.5.0) (2025-04-18)
 
 
