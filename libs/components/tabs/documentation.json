@@ -102,12 +102,14 @@
       },
       "testing": {
         "docsIds": [
-          "SkyWizardTabsetHarness",
-          "SkyWizardTabsetHarnessFilters",
-          "SkyWizardTabButtonHarness",
-          "SkyWizardTabButtonHarnessFilters",
-          "SkyWizardTabContentHarness",
-          "SkyWizardTabContentHarnessFilters"
+          "SkyTabsetHarness",
+          "SkyTabsetHarnessFilters",
+          "SkyTabButtonHarness",
+          "SkyTabButtonHarnessFilters",
+          "SkyTabContentHarness",
+          "SkyTabContentHarnessFilters",
+          "SkyTabsetNavButtonHarness",
+          "SkyTabsetNavButtonHarnessFilters"
         ]
       },
       "codeExamples": {

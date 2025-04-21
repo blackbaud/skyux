@@ -2,12 +2,12 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyTabsetNavButtonType } from '@skyux/tabs';
 
-import { SkyWizardTabsetNavButtonHarnessFilters } from './wizard-tabset-nav-button-harness-filters';
+import { SkyTabsetNavButtonHarnessFilters } from './tabset-nav-button-harness-filters';
 
 /**
  * Harness to interact with tab content nav buttons in wizard components in tests.
  */
-export class SkyWizardTabsetNavButtonHarness extends SkyComponentHarness {
+export class SkyTabsetNavButtonHarness extends SkyComponentHarness {
   /**
    * @internal
    */
@@ -20,9 +20,9 @@ export class SkyWizardTabsetNavButtonHarness extends SkyComponentHarness {
    * `SkyWizardTabsetNavButtonHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyWizardTabsetNavButtonHarnessFilters,
-  ): HarnessPredicate<SkyWizardTabsetNavButtonHarness> {
-    return SkyWizardTabsetNavButtonHarness.getDataSkyIdPredicate(filters);
+    filters: SkyTabsetNavButtonHarnessFilters,
+  ): HarnessPredicate<SkyTabsetNavButtonHarness> {
+    return SkyTabsetNavButtonHarness.getDataSkyIdPredicate(filters);
   }
 
   /**
