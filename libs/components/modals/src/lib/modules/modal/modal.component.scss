@@ -29,6 +29,8 @@
 @include compatMixins.sky-modern-overrides('.sky-modal') {
   --sky-override-modal-full-page-margin-xs: 30px;
   --sky-override-modal-header-top-bottom-padding: 20px;
+  --sky-override-modal-viewkept-toolbar-box-shadow: 0px 4px 8px -4px
+    rgba(0, 0, 0, 0.3);
   --sky-override-modal-xs-margin: 30px #{$sky-margin} #{$sky-margin}
     #{$sky-margin};
 }
@@ -273,7 +275,7 @@
   .sky-modal-content ::ng-deep sky-modal-content > .sky-viewkeeper-fixed {
     box-shadow: var(
       --sky-override-modal-viewkept-toolbar-box-shadow,
-      0px 4px 8px -4px rgba(0, 0, 0, 0.3)
+      var(--sky-elevation-overflow)
     );
 
     > sky-toolbar .sky-toolbar-container {
