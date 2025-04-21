@@ -17,12 +17,29 @@ export class SkyTabsetNavButtonHarness extends SkyComponentHarness {
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyWizardTabsetNavButtonHarness` that meets certain criteria.
+   * `SkyTabsetNavButtonHarness` that meets certain criteria.
    */
   public static with(
     filters: SkyTabsetNavButtonHarnessFilters,
   ): HarnessPredicate<SkyTabsetNavButtonHarness> {
-    return SkyTabsetNavButtonHarness.getDataSkyIdPredicate(filters);
+    return SkyTabsetNavButtonHarness.getDataSkyIdPredicate(filters).addOption(
+      'buttonType',
+      filters.buttonType,
+      async (harness, buttonType) => {
+        const harnessButtonType = await harness.getButtonType();
+        return await HarnessPredicate.stringMatches(
+          harnessButtonType,
+          buttonType,
+        );
+      },
+    );
+  }
+
+  /**
+   * Clicks the button.
+   */
+  public async click(): Promise<void> {
+    return await (await this.#button()).click();
   }
 
   /**

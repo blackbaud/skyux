@@ -1,7 +1,12 @@
 import { SkyHarnessFilters } from '@skyux/core/testing';
+import { SkyTabsetNavButtonType } from '@skyux/tabs';
 
 /**
  * A set of criteria that can be used to filter a list of `SkyTabsetNavButtonHarness` instances.
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-empty-object-type
-export interface SkyTabsetNavButtonHarnessFilters extends SkyHarnessFilters {}
+export interface SkyTabsetNavButtonHarnessFilters extends SkyHarnessFilters {
+  /**
+   * Finds the tabset nav button whose buttontype matches the given value.
+   */
+  buttonType?: SkyTabsetNavButtonType;
+}
