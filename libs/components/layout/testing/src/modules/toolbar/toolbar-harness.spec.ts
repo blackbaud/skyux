@@ -201,7 +201,7 @@ describe('Text expand test harness', () => {
     expect(items.length).toBe(1);
   });
 
-  it('should throw an error if no toolbar items are found', async () => {
+  it('should throw an error if no toolbar section items are found', async () => {
     const { toolbarHarness } = await setupTest({
       dataSkyId: 'empty-toolbar-section',
     });
@@ -215,7 +215,7 @@ describe('Text expand test harness', () => {
     );
   });
 
-  it('should throw an error if no toolbar items are found matching criteria', async () => {
+  it('should throw an error if no toolbar section items are found matching criteria', async () => {
     const { toolbarHarness } = await setupTest({
       dataSkyId: 'empty-toolbar-section',
     });
@@ -231,7 +231,7 @@ describe('Text expand test harness', () => {
     );
   });
 
-  it('should get the toolbar view actions', async () => {
+  it('should get the toolbar section view actions', async () => {
     const { toolbarHarness } = await setupTest({
       dataSkyId: 'sectioned-toolbar',
     });
@@ -243,7 +243,7 @@ describe('Text expand test harness', () => {
     await expectAsync(sectionHarness.getViewActions()).toBeResolved();
   });
 
-  it('should throw an error if no toolbar view actions are found', async () => {
+  it('should throw an error if no toolbar section view actions are found', async () => {
     const { toolbarHarness } = await setupTest({
       dataSkyId: 'empty-toolbar-section',
     });
