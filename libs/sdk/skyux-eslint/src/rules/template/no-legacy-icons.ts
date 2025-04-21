@@ -2,7 +2,10 @@ import {
   TmplAstElement,
   TmplAstTextAttribute,
 } from '@angular-eslint/bundled-angular-compiler';
-import { getTemplateParserServices } from '@angular-eslint/utils';
+import {
+  ensureTemplateParser,
+  getTemplateParserServices,
+} from '@angular-eslint/utils';
 import { type RuleFix } from '@typescript-eslint/utils/ts-eslint';
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
@@ -69,10 +72,12 @@ function swapIcons(
 
 export const rule = createESLintTemplateRule({
   create(context) {
+    ensureTemplateParser(context);
+
     const parserServices = getTemplateParserServices(context);
 
     return {
-      [`Element$1[name=/^(${SELECTORS_WITH_ICON_COMPONENTS})$/]`](
+      [`Element[name=/^(${SELECTORS_WITH_ICON_COMPONENTS})$/]`](
         el: TmplAstElement,
       ): void {
         const componentInfo = COMPONENTS_WITH_ICON.find(

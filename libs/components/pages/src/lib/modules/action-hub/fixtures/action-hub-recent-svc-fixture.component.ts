@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { SkyActionHubModule } from '@skyux/pages';
 
+import { SkyActionHubModule } from '../action-hub.module';
 import { SkyRecentLinksInput } from '../types/recent-links-input';
 
 @Component({
