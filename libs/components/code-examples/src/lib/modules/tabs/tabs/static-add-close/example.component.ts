@@ -12,7 +12,7 @@ import { SkyTabsModule } from '@skyux/tabs';
 export class TabsStaticAddCloseExampleComponent {
   protected showTab3 = true;
 
-  protected onNewTabClick(): void {
+  public onNewTabClick(): void {
     alert('Add tab clicked!');
   }
 }

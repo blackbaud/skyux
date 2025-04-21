@@ -14,7 +14,18 @@
         "primaryDocsId": "SkyFilterModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkyFilterButtonHarness",
+          "SkyFilterButtonHarnessFilters",
+          "SkyFilterInlineHarness",
+          "SkyFilterInlineHarnessFilters",
+          "SkyFilterInlineItemHarness",
+          "SkyFilterInlineItemHarnessFilters",
+          "SkyFilterSummaryHarness",
+          "SkyFilterSummaryHarnessFilters",
+          "SkyFilterSummaryItemHarness",
+          "SkyFilterSummaryItemHarnessFilters"
+        ]
       },
       "codeExamples": {
         "docsIds": [
@@ -29,7 +40,10 @@
         "primaryDocsId": "SkyInfiniteScrollModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkyInfiniteScrollHarness",
+          "SkyInfiniteScrollHarnessFilters"
+        ]
       },
       "codeExamples": {
         "docsIds": ["ListsInfiniteScrollRepeaterExampleComponent"]
@@ -46,7 +60,11 @@
         "primaryDocsId": "SkyPagingModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkyPagingHarness",
+          "SkyPagingHarnessFilters",
+          "SkyPagingContentHarness"
+        ]
       },
       "codeExamples": {
         "docsIds": [
@@ -94,7 +112,12 @@
         "primaryDocsId": "SkySortModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkySortHarness",
+          "SkySortHarnessFilters",
+          "SkySortItemHarness",
+          "SkySortItemHarnessFilters"
+        ]
       },
       "codeExamples": {
         "docsIds": ["ListsSortBasicExampleComponent"]

@@ -27,6 +27,7 @@ interface DemoForm {
 
 /**
  * @title Split view with basic setup
+ * @docsDemoHidden
  */
 @Component({
   selector: 'app-split-view-basic-example',

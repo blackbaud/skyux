@@ -34,6 +34,7 @@ describe('Dynamic component service', () => {
     providers?: StaticProvider[],
     injector = TestBed.inject(EnvironmentInjector),
     viewRef?: ViewContainerRef,
+    className?: string,
   ): ComponentRef<DynamicComponentTestComponent> {
     const svc: SkyDynamicComponentService = TestBed.inject(
       SkyDynamicComponentService,
@@ -46,6 +47,7 @@ describe('Dynamic component service', () => {
         providers,
         environmentInjector: injector,
         viewContainerRef: viewRef,
+        className: className,
       });
 
     cmpRef.changeDetectorRef.detectChanges();
@@ -115,6 +117,22 @@ describe('Dynamic component service', () => {
 
     expect(document.body.lastChild).toBe(el);
     expect(el.querySelector('.component-test')).toHaveText('Hello world');
+  });
+
+  it('should add a component to the page', () => {
+    createTestComponent(
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      'my-class',
+    );
+
+    const el = getComponentEl(0);
+
+    expect(document.body.lastChild).toBe(el);
+    expect(el).toHaveClass('my-class');
   });
 
   it('should allow components to be created at the top of the page', () => {

@@ -130,13 +130,13 @@ describe('Radio harness', () => {
     await expectAsync(radioHarness.getLabelHidden()).toBeResolvedTo(true);
   });
 
-  it('should throw an error when getting `labelIsHidden` for a radio using `sky-radio-label`', async () => {
+  it('should throw an error when getting `labelHidden` for a radio using `sky-radio-label`', async () => {
     const { radioHarness } = await setupTest({
       dataSkyId: 'my-check-radio',
     });
 
     await expectAsync(radioHarness.getLabelHidden()).toBeRejectedWithError(
-      '`labelIsHidden` is only supported when setting the radio label via the `labelText` input.',
+      '`labelHidden` is only supported when setting the radio label via the `labelText` input.',
     );
   });
 

@@ -37,7 +37,13 @@
         "primaryDocsId": "SkyTabsModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkyTabsetHarness",
+          "SkyTabsetHarnessFilters",
+          "SkyTabButtonHarness",
+          "SkyTabButtonHarnessFilters",
+          "SkyTabContentHarness"
+        ]
       },
       "codeExamples": {
         "docsIds": [
@@ -59,7 +65,16 @@
         "primaryDocsId": "SkyVerticalTabsetModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkyVerticalTabsetHarness",
+          "SkyVerticalTabsetHarnessFilters",
+          "SkyVerticalTabsetGroupHarness",
+          "SkyVerticalTabsetGroupHarnessFilters",
+          "SkyVerticalTabButtonHarness",
+          "SkyVerticalTabButtonHarnessFilters",
+          "SkyVerticalTabContentHarness",
+          "SkyVerticalTabContentHarnessFilters"
+        ]
       },
       "codeExamples": {
         "docsIds": [

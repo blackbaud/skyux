@@ -305,6 +305,7 @@
     );
     height: var(--sky-override-borderless-icon-size, '');
     width: var(--sky-override-borderless-icon-size, '');
+    line-height: 1;
   }
 
   .sky-btn-link,

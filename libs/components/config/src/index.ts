@@ -16,7 +16,6 @@ export {
   SkyuxConfigAnyAllSet,
   SkyuxConfigApp,
   SkyuxConfigAppBrand,
-  SkyuxConfigAppBrandDefault,
   SkyuxConfigAppSupportedTheme,
   SkyuxConfigAppTheming,
   SkyuxConfigAuthSettings,

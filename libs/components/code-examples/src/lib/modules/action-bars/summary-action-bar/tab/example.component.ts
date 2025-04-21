@@ -13,15 +13,15 @@ import { SkyTabsModule } from '@skyux/tabs';
   imports: [SkyKeyInfoModule, SkySummaryActionBarModule, SkyTabsModule],
 })
 export class ActionBarsSummaryActionBarTabExampleComponent {
-  protected onPrimaryActionClick(): void {
+  public onPrimaryActionClick(): void {
     alert('Primary action button clicked.');
   }
 
-  protected onSecondaryActionClick(): void {
+  public onSecondaryActionClick(): void {
     alert('Secondary action button clicked.');
   }
 
-  protected onSecondaryAction2Click(): void {
+  public onSecondaryAction2Click(): void {
     alert('Secondary action 2 button clicked.');
   }
 }

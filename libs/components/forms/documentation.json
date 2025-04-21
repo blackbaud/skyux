@@ -145,6 +145,7 @@
       "codeExamples": {
         "docsIds": [
           "FormsInputBoxBasicExampleComponent",
+          "FormsInputBoxWithCustomFormErrorsExampleComponent",
           "LookupCountryFieldBasicExampleComponent",
           "DatetimeDatepickerBasicExampleComponent",
           "LookupSingleSelectExampleComponent",
@@ -216,7 +217,7 @@
         "primaryDocsId": "SkyToggleSwitchModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": ["SkyToggleSwitchHarness", "SkyToggleSwitchHarnessFilters"]
       },
       "codeExamples": {
         "docsIds": [

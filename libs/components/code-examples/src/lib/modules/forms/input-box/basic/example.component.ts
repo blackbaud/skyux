@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   ValidationErrors,
@@ -13,6 +13,14 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyFluidGridModule } from '@skyux/layout';
 import { SkyValidators } from '@skyux/validation';
+
+function validateColor(control: AbstractControl): ValidationErrors | null {
+  if (control.value === 'invalid') {
+    return { invalid: true };
+  }
+
+  return null;
+}
 
 /**
  * @title Input box
@@ -30,35 +38,16 @@ import { SkyValidators } from '@skyux/validation';
   ],
 })
 export class FormsInputBoxBasicExampleComponent {
-  protected favoriteColor: FormControl<string | null>;
+  protected favoriteColor = new FormControl('none', {
+    validators: [validateColor],
+  });
 
-  protected formGroup: FormGroup<{
-    firstName: FormControl<string | null>;
-    lastName: FormControl<string | null>;
-    bio: FormControl<string | null>;
-    email: FormControl<string | null>;
-    dob: FormControl<string | null>;
-    favoriteColor: FormControl<string | null>;
-  }>;
-
-  constructor() {
-    this.favoriteColor = new FormControl('none', [
-      (control): ValidationErrors | null => {
-        if (control.value === 'invalid') {
-          return { invalid: true };
-        }
-
-        return null;
-      },
-    ]);
-
-    this.formGroup = inject(FormBuilder).group({
-      firstName: new FormControl(''),
-      lastName: new FormControl('', Validators.required),
-      bio: new FormControl(''),
-      email: new FormControl('', [Validators.required, SkyValidators.email]),
-      dob: new FormControl('', Validators.required),
-      favoriteColor: this.favoriteColor,
-    });
-  }
+  protected formGroup = inject(FormBuilder).group({
+    firstName: new FormControl(''),
+    lastName: new FormControl('', Validators.required),
+    bio: new FormControl(''),
+    email: new FormControl('', [Validators.required, SkyValidators.email]),
+    dob: new FormControl('', Validators.required),
+    favoriteColor: this.favoriteColor,
+  });
 }
