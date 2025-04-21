@@ -31,7 +31,10 @@ import {
 } from 'rxjs';
 
 import { SkyAgGridRowDeleteComponent } from './ag-grid-row-delete.component';
-import { SkyAgGridRowDeleteService } from './ag-grid-row-delete.service';
+import {
+  SKY_AG_GRID_ROW_DELETE_SERVICE,
+  SkyAgGridRowDeleteService,
+} from './ag-grid-row-delete.service';
 import { SkyAgGridRowDeleteCancelArgs } from './types/ag-grid-row-delete-cancel-args';
 import { SkyAgGridRowDeleteConfirmArgs } from './types/ag-grid-row-delete-confirm-args';
 
@@ -157,7 +160,7 @@ export class SkyAgGridRowDeleteDirective
 
     overlay.attachComponent(SkyAgGridRowDeleteComponent, [
       {
-        provide: SkyAgGridRowDeleteService,
+        provide: SKY_AG_GRID_ROW_DELETE_SERVICE,
         useValue: this.#rowDeleteSvc,
       },
     ]);

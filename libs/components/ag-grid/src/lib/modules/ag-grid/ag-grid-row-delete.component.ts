@@ -20,7 +20,7 @@ import {
   takeUntil,
 } from 'rxjs';
 
-import { SkyAgGridRowDeleteService } from './ag-grid-row-delete.service';
+import { SKY_AG_GRID_ROW_DELETE_SERVICE } from './ag-grid-row-delete.service';
 
 /**
  * Component for rendering the inline delete template in the overlay.
@@ -36,7 +36,7 @@ import { SkyAgGridRowDeleteService } from './ag-grid-row-delete.service';
   },
 })
 export class SkyAgGridRowDeleteComponent {
-  public readonly service = inject(SkyAgGridRowDeleteService);
+  public readonly service = inject(SKY_AG_GRID_ROW_DELETE_SERVICE);
 
   protected tableWidthStyle = computed(() => {
     const tableWidth = this.tableWidth();
