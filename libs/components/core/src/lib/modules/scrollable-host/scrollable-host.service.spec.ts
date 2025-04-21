@@ -2,7 +2,7 @@ import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { delay, take, takeUntil } from 'rxjs/operators';
 
 import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
@@ -577,6 +577,33 @@ describe('Scrollable host service', () => {
       .subscribe((clipPath) => {
         expect(clipPath).toBe(
           `inset(0px ${viewport.width - 100}px ${viewport.height - 100}px 0px)`,
+        );
+        done();
+      });
+  });
+
+  it('should support additional containers for determining clip path', (done) => {
+    const windowRef = TestBed.inject(SkyAppWindowRef);
+    const scrollableHostSvc = new SkyScrollableHostService(
+      TestBed.inject(SkyMutationObserverService),
+      windowRef,
+      TestBed.inject(SkyResizeObserverService),
+    );
+
+    cmp.isParentPositioned = true;
+    cmp.positionedParentWidth = '100px';
+    fixture.detectChanges();
+    const additionalHost =
+      fixture.nativeElement.querySelector('.additional-host');
+    const additionalHosts = of([new ElementRef(additionalHost)]);
+
+    const viewport = windowRef.nativeWindow.visualViewport;
+    scrollableHostSvc
+      .watchScrollableHostClipPathChanges(cmp.target, additionalHosts)
+      .pipe(take(1))
+      .subscribe((clipPath) => {
+        expect(clipPath).toBe(
+          `inset(10px ${viewport.width - 90}px ${viewport.height - 100}px 12px)`,
         );
         done();
       });
