@@ -68,6 +68,9 @@ export class SkyTabsetHarness extends SkyComponentHarness {
    * Clicks the open tab button if visible.
    */
   public async clickOpenTabButton(): Promise<void> {
+    if (await this.isInWizardMode()) {
+      throw new Error('Cannot use open tab button in a wizard tabset.');
+    }
     const openTabButton = await this.locatorForOptional(
       'button.sky-tabset-btn-open',
     )();
