@@ -6,6 +6,7 @@ import {
   Subscriber,
   Subscription,
   animationFrameScheduler,
+  combineLatestWith,
   concat,
   fromEvent,
   of,
@@ -16,7 +17,10 @@ import { SkyMutationObserverService } from '../mutation/mutation-observer-servic
 import { SkyResizeObserverService } from '../resize-observer/resize-observer.service';
 import { SkyAppWindowRef } from '../window/window-ref';
 
-function notifySubscribers(subscribers: Subscriber<unknown>[], item?: unknown) {
+function notifySubscribers(
+  subscribers: Subscriber<unknown>[],
+  item?: unknown,
+): void {
   for (const subscriber of subscribers) {
     subscriber.next(item);
   }
@@ -206,34 +210,56 @@ export class SkyScrollableHostService {
 
   public watchScrollableHostClipPathChanges(
     elementRef: ElementRef,
+    additionalContainers: Observable<ElementRef[]> = of([]),
   ): Observable<string> {
     if (!this.#resizeObserverSvc) {
       return of('none');
     }
 
     return this.watchScrollableHost(elementRef).pipe(
-      switchMap((scrollableHost) => {
+      combineLatestWith(additionalContainers),
+      switchMap(([scrollableHost, additionalHosts]) => {
+        const resizeObserverSvc = this.#resizeObserverSvc;
         if (
-          !this.#resizeObserverSvc ||
-          !scrollableHost ||
-          scrollableHost === this.#windowRef.nativeWindow
+          !resizeObserverSvc ||
+          ((!scrollableHost ||
+            scrollableHost === this.#windowRef.nativeWindow) &&
+            additionalHosts.length === 0)
         ) {
           return of('none');
         }
 
-        return concat([
+        const inputs = [
           of(undefined),
-          this.#resizeObserverSvc.observe({ nativeElement: scrollableHost }),
-        ]).pipe(
+          ...additionalHosts.map((container) =>
+            resizeObserverSvc.observe(container),
+          ),
+        ];
+        if (scrollableHost && scrollableHost !== this.#windowRef.nativeWindow) {
+          inputs.push(
+            resizeObserverSvc.observe({ nativeElement: scrollableHost }),
+          );
+        }
+        return concat(inputs).pipe(
           debounceTime(0, animationFrameScheduler),
           map(() => {
             const viewportSize = this.#getViewportSize();
-            const { top, left, width, height } = (
+            let { top, left, right, bottom } = (
               scrollableHost as HTMLElement
             ).getBoundingClientRect();
-            const right = Math.max(viewportSize.width - left - width, 0);
-            const bottom = Math.max(viewportSize.height - top - height, 0);
-            return `inset(${top}px ${right}px ${bottom}px ${left}px)`;
+            for (const container of additionalHosts) {
+              if (container.nativeElement?.parentNode) {
+                const containerRect =
+                  container.nativeElement.getBoundingClientRect();
+                top = Math.max(top, containerRect.top);
+                left = Math.max(left, containerRect.left);
+                right = Math.min(right, containerRect.right);
+                bottom = Math.min(bottom, containerRect.bottom);
+              }
+            }
+            top = Math.max(0, top);
+            left = Math.max(0, left);
+            return `inset(${top}px ${viewportSize.width - right}px ${viewportSize.height - bottom}px ${left}px)`;
           }),
         );
       }),
@@ -274,7 +300,9 @@ export class SkyScrollableHostService {
     return parent;
   }
 
-  #observeDocumentHiddenElementChanges(mutationObserver: MutationObserver) {
+  #observeDocumentHiddenElementChanges(
+    mutationObserver: MutationObserver,
+  ): void {
     mutationObserver.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class', 'style', 'hidden'],
@@ -286,7 +314,7 @@ export class SkyScrollableHostService {
   #observeForScrollableHostChanges(
     element: HTMLElement | Window | undefined,
     mutationObserver: MutationObserver,
-  ) {
+  ): void {
     mutationObserver.disconnect();
 
     const target =
