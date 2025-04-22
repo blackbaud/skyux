@@ -1,5 +1,22 @@
 # Changelog
 
+## [12.6.0](https://github.com/blackbaud/skyux/compare/12.5.0...12.6.0) (2025-04-22)
+
+
+### Features
+
+* **components/layout:** add text expand repeater harness ([#3372](https://github.com/blackbaud/skyux/issues/3372)) ([b98eff4](https://github.com/blackbaud/skyux/commit/b98eff407b55de0dc9a9a538bda463c968c613c0))
+* **components/layout:** tokenize back to top styles ([#3385](https://github.com/blackbaud/skyux/issues/3385)) ([654ab74](https://github.com/blackbaud/skyux/commit/654ab743f5832d7a5f788bd0ad738403c472b03f))
+* **components/modals:** tokenize modal styles ([#3363](https://github.com/blackbaud/skyux/issues/3363)) ([37c9d85](https://github.com/blackbaud/skyux/commit/37c9d851ce078eb4fe44687eca193ad04a0052ea))
+* **components/navbar:** add navbar test harness ([#3382](https://github.com/blackbaud/skyux/issues/3382)) ([f565a33](https://github.com/blackbaud/skyux/commit/f565a33be190cc08c8c0bd76f98e1af1ed88e2aa))
+* **components/theme:** add block button styles ([#3384](https://github.com/blackbaud/skyux/issues/3384)) ([f792e4b](https://github.com/blackbaud/skyux/commit/f792e4b3c85c3d3125048b7f276684552b16db52))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** row delete directive should not block async tests ([#3383](https://github.com/blackbaud/skyux/issues/3383)) ([52cfd99](https://github.com/blackbaud/skyux/commit/52cfd9952fed3c9d386dde5a98b528563213ff6e))
+* **sdk/skyux-eslint:** ignore `sky-page` for `no-deprecated-directives` rule ([#3386](https://github.com/blackbaud/skyux/issues/3386)) ([965c379](https://github.com/blackbaud/skyux/commit/965c379be131bec0d01d4204a2f839ae69811a18))
+
 ## [12.5.0](https://github.com/blackbaud/skyux/compare/12.4.0...12.5.0) (2025-04-18)
 
 
