@@ -1,5 +1,34 @@
 # Changelog
 
+## [12.5.0](https://github.com/blackbaud/skyux/compare/12.4.0...12.5.0) (2025-04-18)
+
+
+### Features
+
+* **components/forms:** add method to `SkyFormErrorHarness` to get error text ([#2992](https://github.com/blackbaud/skyux/issues/2992)) ([#2994](https://github.com/blackbaud/skyux/issues/2994)) ([#3380](https://github.com/blackbaud/skyux/issues/3380)) ([ee9d8f5](https://github.com/blackbaud/skyux/commit/ee9d8f50fb80fbb5d2bb119eb7e920204426c7e5))
+
+
+### Bug Fixes
+
+* **components/code-examples:** improve input box code examples ([#3378](https://github.com/blackbaud/skyux/issues/3378)) ([f5bf3c6](https://github.com/blackbaud/skyux/commit/f5bf3c6239ef5e9a5ad45906f1059e5b265f2c78))
+* **sdk/skyux-eslint:** add support for `@angular/compiler@19.2.7` and rename AST nodes for rules ([#3377](https://github.com/blackbaud/skyux/issues/3377)) ([f076876](https://github.com/blackbaud/skyux/commit/f076876e1a26643563d0f856d54b01e02076419d))
+
+## [12.4.0](https://github.com/blackbaud/skyux/compare/12.3.0...12.4.0) (2025-04-17)
+
+
+### Features
+
+* **components/action-bars:** add summary action bar harness ([#3367](https://github.com/blackbaud/skyux/issues/3367)) ([0c7f1a2](https://github.com/blackbaud/skyux/commit/0c7f1a299cbd41777c5201d5c74ab28c2ed7edec))
+
+
+### Bug Fixes
+
+* add missing harness classes to documentation schema ([#3370](https://github.com/blackbaud/skyux/issues/3370)) ([f1f2ebe](https://github.com/blackbaud/skyux/commit/f1f2ebe22d2ae38dcd2bba42cf3f4683ce40a8e0))
+* **components/config:** brand config object takes in name and version directly ([#3376](https://github.com/blackbaud/skyux/issues/3376)) ([c6ddfd3](https://github.com/blackbaud/skyux/commit/c6ddfd3c4618e26b97dc74f1d627694785a39ac6))
+* **components/datetime:** enable resetting fuzzy datepickers initialized with `undefined` after a value change ([#3373](https://github.com/blackbaud/skyux/issues/3373)) ([e1bb418](https://github.com/blackbaud/skyux/commit/e1bb41867a51ae98bba28b1287e968d4de0d43ba))
+* correct errors in test file manifests ([#3374](https://github.com/blackbaud/skyux/issues/3374)) ([99faaf4](https://github.com/blackbaud/skyux/commit/99faaf41ab818eaa13e1cf1787a02bc17d4a5f4d))
+* **sdk/skyux-eslint:** export plugins to public API ([#3375](https://github.com/blackbaud/skyux/issues/3375)) ([33f88bd](https://github.com/blackbaud/skyux/commit/33f88bd94d54bcd69bc4911b9c59e5f674188c9a))
+
 ## [12.3.0](https://github.com/blackbaud/skyux/compare/12.2.0...12.3.0) (2025-04-14)
 
 

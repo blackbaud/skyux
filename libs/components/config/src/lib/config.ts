@@ -75,10 +75,6 @@ export interface SkyuxConfigA11y {
 export type SkyuxConfigAppSupportedTheme = 'default' | 'modern';
 
 export interface SkyuxConfigAppBrand {
-  default?: SkyuxConfigAppBrandDefault;
-}
-
-export interface SkyuxConfigAppBrandDefault {
   name: string;
   version: string;
 }

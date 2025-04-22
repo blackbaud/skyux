@@ -145,6 +145,7 @@
       "codeExamples": {
         "docsIds": [
           "FormsInputBoxBasicExampleComponent",
+          "FormsInputBoxWithCustomFormErrorsExampleComponent",
           "LookupCountryFieldBasicExampleComponent",
           "DatetimeDatepickerBasicExampleComponent",
           "LookupSingleSelectExampleComponent",

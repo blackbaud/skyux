@@ -240,7 +240,11 @@
         "primaryDocsId": "SkyTextExpandRepeaterModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkyTextExpandRepeaterHarness",
+          "SkyTextExpandRepeaterHarnessFilters",
+          "SkyTextExpandRepeaterItemHarness"
+        ]
       },
       "codeExamples": {
         "docsIds": ["LayoutTextExpandRepeaterExampleComponent"]

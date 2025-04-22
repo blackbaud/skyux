@@ -1328,6 +1328,24 @@ describe('fuzzy datepicker input', () => {
 
         flush();
       }));
+
+      it('should reset the value when initialized with undefined', () => {
+        // Initial value is undefined.
+        component.initialValue = undefined;
+        fixture.detectChanges();
+        expect(getInputElementValue(fixture)).toBe('');
+
+        // Set to date value.
+        component.dateControl.setValue(new Date('05/12/2017'));
+        fixture.detectChanges();
+        expect(getInputElementValue(fixture)).toBe('05/12/2017');
+
+        // Reset the value and confirm undefined.
+        component.dateControl.reset();
+        fixture.detectChanges();
+        expect(getInputElementValue(fixture)).toBe('');
+        expect(component.dateControl.value).toEqual(null);
+      });
     });
 
     describe('input change', () => {

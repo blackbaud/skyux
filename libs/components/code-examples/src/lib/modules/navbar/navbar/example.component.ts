@@ -12,7 +12,7 @@ import { SkyDropdownModule } from '@skyux/popovers';
   imports: [RouterModule, SkyDropdownModule, SkyNavbarModule],
 })
 export class NavbarExampleComponent {
-  protected onDropdownItemClick(buttonText: string): void {
+  public onItemClick(buttonText: string): void {
     alert(buttonText + ' button clicked!');
   }
 }
