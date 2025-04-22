@@ -128,7 +128,7 @@ export class SkyAgGridRowDeleteDirective
         this.agGridBodyViewport.next([
           new ElementRef(
             this.#elementRef.nativeElement.querySelector(
-              'div.ag-body-viewport',
+              'div.ag-root-wrapper',
             ) as HTMLDivElement,
           ),
         ]);
