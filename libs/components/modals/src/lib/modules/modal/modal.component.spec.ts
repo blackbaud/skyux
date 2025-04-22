@@ -208,6 +208,11 @@ describe('Modal component', () => {
       providers: [provideSkyMediaQueryTesting()],
     });
 
+    document.body.style.setProperty(
+      '--sky-elevation-overflow',
+      '0 1px 8px 0 rgba(0, 0, 0, 0.3)',
+    );
+
     // Confirm all modals are closed before another test is executed.
     expect(SkyModalHostService.openModalCount).toBe(0);
   });

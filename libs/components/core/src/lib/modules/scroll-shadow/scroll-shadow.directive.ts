@@ -16,6 +16,12 @@ import { SkyMutationObserverService } from '../mutation/mutation-observer-servic
 
 import { SkyScrollShadowEventArgs } from './scroll-shadow-event-args';
 
+interface BoxShadowInfo {
+  colorParts: string;
+  lengths: string;
+  opacity: number;
+}
+
 /**
  * Raises an event when the box shadow for a component's header or footer should be adjusted
  * based on the scroll position of the host element.
@@ -50,6 +56,7 @@ export class SkyScrollShadowDirective implements OnDestroy {
   public skyScrollShadow = new EventEmitter<SkyScrollShadowEventArgs>();
 
   #currentShadow: SkyScrollShadowEventArgs | undefined;
+  #boxShadows: BoxShadowInfo[] | 'none' | undefined;
 
   #mutationObserver: MutationObserver | undefined;
 
@@ -124,12 +131,97 @@ export class SkyScrollShadowDirective implements OnDestroy {
     }
   }
 
-  #buildShadowStyle(pixelsFromEnd: number): string {
-    // Progressively darken the shadow until the user scrolls 30 pixels from the top or bottom
-    // of the scrollable element, with a max opacity of 0.3.
-    const opacity = Math.min(pixelsFromEnd / 30, 1) * 0.3;
+  #splitBoxShadowDetails(boxShadow: string): BoxShadowInfo | undefined {
+    const colorRegex =
+      /rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([\d.]+))?\s*\)/;
+    const match = boxShadow.match(colorRegex);
 
-    return opacity > 0 ? `0px 1px 8px 0px rgba(0, 0, 0, ${opacity})` : 'none';
+    if (match) {
+      const colorParts = `${match[1]}, ${match[2]}, ${match[3]}`; // Extract RGB values as a comma-separated string
+      const opacity = match[4] ? parseFloat(match[4]) : 1; // Use the captured opacity or default to 1
+      const lengths = boxShadow.replace(match[0], '').trim(); // Remove the color from the rest
+
+      return { colorParts, opacity, lengths };
+    }
+
+    /* istanbul ignore next */
+    return;
+  }
+
+  #formatBoxShadows(boxShadowString: string): BoxShadowInfo[] {
+    const boxShadows: BoxShadowInfo[] = [];
+    let currentShadow = '';
+    let openParentheses = 0;
+
+    for (const char of boxShadowString) {
+      if (char === ',' && openParentheses === 0) {
+        const details = this.#splitBoxShadowDetails(currentShadow.trim());
+        if (details) {
+          boxShadows.push(details);
+        }
+
+        currentShadow = '';
+      } else {
+        currentShadow += char;
+        if (char === '(') {
+          openParentheses++;
+        } else if (char === ')') {
+          openParentheses--;
+        }
+      }
+    }
+
+    if (currentShadow.trim()) {
+      const details = this.#splitBoxShadowDetails(currentShadow.trim());
+      if (details) {
+        boxShadows.push(details);
+      }
+    }
+
+    return boxShadows;
+  }
+
+  #getBoxShadowInfo(): BoxShadowInfo[] {
+    const elStyles = window.getComputedStyle(this.#elRef.nativeElement);
+    const boxShadowStyle = elStyles.getPropertyValue(
+      '--sky-elevation-overflow',
+    );
+
+    // Creating a temporary element and setting box shadow converts the color in the box shadows to rgba or rgb
+    const tempEl = document.createElement('div');
+    tempEl.style.setProperty('box-shadow', boxShadowStyle);
+
+    const convertedBoxShadows = tempEl.style.getPropertyValue('box-shadow');
+    const boxShadows = this.#formatBoxShadows(convertedBoxShadows);
+
+    return boxShadows;
+  }
+
+  #buildShadowStyle(pixelsFromEnd: number): string {
+    if (!this.#boxShadows) {
+      const boxShadowInfo = this.#getBoxShadowInfo();
+      if (boxShadowInfo.length > 0) {
+        this.#boxShadows = boxShadowInfo;
+      } else {
+        this.#boxShadows = 'none';
+      }
+    }
+
+    const boxShadowStyles: string[] = [];
+
+    if (this.#boxShadows === 'none' || pixelsFromEnd === 0) {
+      return 'none';
+    } else {
+      for (const shadow of this.#boxShadows) {
+        const { colorParts, lengths, opacity } = shadow;
+        // Progressively darken the shadow until the user scrolls 30 pixels from the top or bottom
+        // of the scrollable element, with a max opacity of 0.3.
+        const adjustedOpacity = Math.min(pixelsFromEnd / 30, 1) * opacity;
+        const adjustedShadow = `${lengths} rgba(${colorParts}, ${adjustedOpacity})`;
+        boxShadowStyles.push(adjustedShadow);
+      }
+      return boxShadowStyles.join(', ');
+    }
   }
 
   #emitShadow(shadow: SkyScrollShadowEventArgs): void {
