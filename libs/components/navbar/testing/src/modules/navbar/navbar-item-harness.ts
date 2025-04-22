@@ -24,6 +24,9 @@ export class SkyNavbarItemHarness extends SkyQueryableComponentHarness {
     return SkyNavbarItemHarness.getDataSkyIdPredicate(filters);
   }
 
+  /**
+   * Whether the navbar item is active.
+   */
   public async isActive(): Promise<boolean> {
     return await (await this.#getItem()).hasClass('sky-navbar-item-active');
   }

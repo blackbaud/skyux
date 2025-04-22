@@ -5,7 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarHarnessTestComponent } from './fixtures/navbar-harness-test.component';
 import { SkyNavbarHarness } from './navbar-harness';
 
-describe('Text expand test harness', () => {
+describe('Navbar test harness', () => {
   async function setupTest(
     options: {
       dataSkyId?: string;
