@@ -26,10 +26,10 @@ export { SkyTextExpandRepeaterHarness } from './modules/text-expand-repeater/tex
 export { SkyTextExpandRepeaterHarnessFilters } from './modules/text-expand-repeater/text-expand-repeater-harness-filters';
 export { SkyTextExpandRepeaterItemHarness } from './modules/text-expand-repeater/text-expand-repeater-item-harness';
 
-export { SkyToolbarItemHarness } from './modules/toolbar/toolbar-item-harness';
-export { SkyToolbarItemHarnessFilters } from './modules/toolbar/toolbar-item-harness-filters';
 export { SkyToolbarHarness } from './modules/toolbar/toolbar-harness';
 export { SkyToolbarHarnessFilters } from './modules/toolbar/toolbar-harness-filters';
+export { SkyToolbarItemHarness } from './modules/toolbar/toolbar-item-harness';
+export { SkyToolbarItemHarnessFilters } from './modules/toolbar/toolbar-item-harness-filters';
 export { SkyToolbarSectionHarness } from './modules/toolbar/toolbar-section-harness';
 export { SkyToolbarSectionHarnessFilters } from './modules/toolbar/toolbar-section-harness-filters';
 export { SkyToolbarViewActionsHarness } from './modules/toolbar/toolbar-view-actions-harness';
