@@ -30,9 +30,6 @@ export class WizardDemoModalComponent implements OnInit {
   public step2Disabled = true;
   public step3Disabled = true;
   public saveDisabled = true;
-  public isStep2Disabled = true;
-  public isStep3Disabled = true;
-  public isSaveDisabled = true;
 
   #formBuilder: UntypedFormBuilder;
 
