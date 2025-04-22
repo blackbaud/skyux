@@ -30,11 +30,11 @@ import {
   takeUntil,
 } from 'rxjs';
 
-import { SkyAgGridRowDeleteComponent } from './ag-grid-row-delete.component';
 import {
-  SKY_AG_GRID_ROW_DELETE_SERVICE,
-  SkyAgGridRowDeleteService,
-} from './ag-grid-row-delete.service';
+  SKY_AG_GRID_ROW_DELETE_CONTEXT,
+  SkyAgGridRowDeleteContext,
+} from './ag-grid-row-delete-context';
+import { SkyAgGridRowDeleteComponent } from './ag-grid-row-delete.component';
 import { SkyAgGridRowDeleteCancelArgs } from './types/ag-grid-row-delete-cancel-args';
 import { SkyAgGridRowDeleteConfirmArgs } from './types/ag-grid-row-delete-confirm-args';
 
@@ -79,7 +79,7 @@ export class SkyAgGridRowDeleteDirective
   readonly #elementRef = inject(ElementRef<HTMLElement>);
   readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #overlayService = inject(SkyOverlayService);
-  readonly #rowDeleteSvc: SkyAgGridRowDeleteService;
+  readonly #rowDeleteSvc: SkyAgGridRowDeleteContext;
   readonly #scrollableHostService = inject(SkyScrollableHostService);
   readonly #stackingContext = inject(SKY_STACKING_CONTEXT, { optional: true });
 
@@ -92,7 +92,7 @@ export class SkyAgGridRowDeleteDirective
         });
     }
 
-    this.#rowDeleteSvc = new SkyAgGridRowDeleteService(
+    this.#rowDeleteSvc = new SkyAgGridRowDeleteContext(
       this.#rowDeleteIdsInternal.asReadonly(),
       toSignal(this.agGridBodyViewport),
       signal<GridApi | undefined>(undefined),
@@ -160,7 +160,7 @@ export class SkyAgGridRowDeleteDirective
 
     overlay.attachComponent(SkyAgGridRowDeleteComponent, [
       {
-        provide: SKY_AG_GRID_ROW_DELETE_SERVICE,
+        provide: SKY_AG_GRID_ROW_DELETE_CONTEXT,
         useValue: this.#rowDeleteSvc,
       },
     ]);
