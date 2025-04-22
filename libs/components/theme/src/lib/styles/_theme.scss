@@ -129,7 +129,7 @@ mark.sky-highlight-mark {
   @include mixins.sky-field-status('success');
 }
 
-symbol[id^='sky-i-'] * {
+symbol[id^='sky-i-']:not(.sky-i-branded) * {
   fill: currentColor;
 
   &.sky-i-path-1 {
