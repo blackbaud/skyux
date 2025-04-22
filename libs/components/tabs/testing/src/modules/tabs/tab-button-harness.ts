@@ -46,7 +46,7 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
    * Clicks the remove tab button if it is visible.
    */
   public async clickRemoveButton(): Promise<void> {
-    if (await this.isInWizard()) {
+    if (await this.isInWizardTabset()) {
       throw new Error('Cannot use remove tab button in a wizard tabset.');
     }
     const button = await this.locatorForOptional('.sky-btn-tab-close')();
@@ -60,7 +60,7 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
    * Gets the permalink that the page routes to when the tab is clicked.
    */
   public async getPermalink(): Promise<string | null> {
-    if (await this.isInWizard()) {
+    if (await this.isInWizardTabset()) {
       throw new Error(
         'Cannot get permalink for tab button in a wizard tabset.',
       );
@@ -104,7 +104,7 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
   /**
    * Whether the tab button is in a Wizard tabset.
    */
-  public async isInWizard(): Promise<boolean> {
+  public async isInWizardTabset(): Promise<boolean> {
     return (
       (await (await this.#getTabButton()).getAttribute('aria-labelledby')) ===
       null
