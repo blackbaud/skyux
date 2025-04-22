@@ -6,7 +6,7 @@ import { SkyTabsetNavButtonType } from '@skyux/tabs';
  */
 export interface SkyTabsetNavButtonHarnessFilters extends SkyHarnessFilters {
   /**
-   * Finds the tabset nav button whose buttontype matches the given value.
+   * Finds the tabset nav button whose `buttonType` matches the given value.
    */
   buttonType?: SkyTabsetNavButtonType;
 }

@@ -5,7 +5,7 @@ import { SkyTabsetNavButtonType } from '@skyux/tabs';
 import { SkyTabsetNavButtonHarnessFilters } from './tabset-nav-button-harness-filters';
 
 /**
- * Harness to interact with tab content nav buttons in wizard components in tests.
+ * Harness to interact with tabset nav buttons in wizard style tabset tests.
  */
 export class SkyTabsetNavButtonHarness extends SkyComponentHarness {
   /**

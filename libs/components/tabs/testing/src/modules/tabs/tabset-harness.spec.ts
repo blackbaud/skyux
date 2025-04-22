@@ -248,7 +248,7 @@ describe('Tab harness', () => {
 
   it('should get if the tabstyle is wizard', async () => {
     const { tabsetHarness } = await setupTest();
-    await expectAsync(tabsetHarness.isInWizardMode()).toBeResolvedTo(false);
+    await expectAsync(tabsetHarness.isWizardTabset()).toBeResolvedTo(false);
   });
 
   describe('tab button harness', () => {
@@ -391,7 +391,7 @@ describe('Wizard tab harness', () => {
 
   it('should get if the tabset is a wizard tabset', async () => {
     const { wizardHarness } = await setupTest();
-    await expectAsync(wizardHarness.isInWizardMode()).toBeResolvedTo(true);
+    await expectAsync(wizardHarness.isWizardTabset()).toBeResolvedTo(true);
   });
 
   it('should throw an error if attempting to click new tab in wizard mode', async () => {
