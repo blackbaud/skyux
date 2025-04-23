@@ -1,5 +1,19 @@
 # Changelog
 
+## [12.7.0](https://github.com/blackbaud/skyux/compare/12.6.0...12.7.0) (2025-04-23)
+
+
+### Features
+
+* **components/lookup:** tokenize selection modal styles ([#3392](https://github.com/blackbaud/skyux/issues/3392)) ([79a3ea4](https://github.com/blackbaud/skyux/commit/79a3ea48871a96d97201f4bb862185c455d264bf))
+* **components/modals:** tokenize confirm modal styles ([#3387](https://github.com/blackbaud/skyux/issues/3387)) ([8eeefb7](https://github.com/blackbaud/skyux/commit/8eeefb718ef6ce29651f1999933450e902c60a09))
+* **components/tabs:** add wizard test harness ([#3388](https://github.com/blackbaud/skyux/issues/3388)) ([9248226](https://github.com/blackbaud/skyux/commit/92482261534c62aafbe8d821cad6f29c9c765c47))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** row delete overlay should not require overflow style rule ([#3391](https://github.com/blackbaud/skyux/issues/3391)) ([7da3361](https://github.com/blackbaud/skyux/commit/7da3361d0059479bc381fede9fccc25c6519a938))
+
 ## [12.6.0](https://github.com/blackbaud/skyux/compare/12.5.0...12.6.0) (2025-04-22)
 
 
