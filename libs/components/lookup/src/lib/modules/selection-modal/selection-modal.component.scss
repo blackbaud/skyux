@@ -1,8 +1,27 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-lookup-show-more-modal') {
+  --sky-override-selection-modal-no-results-padding: 20px 0;
+  --sky-override-selection-modal-row-hover-color: var(
+    --sky-background-color-selected
+  );
+}
+
+@include compatMixins.sky-modern-overrides('.sky-lookup-show-more-modal') {
+  --sky-override-selection-modal-row-hover-color: var(
+    --sky-background-color-selected
+  );
+}
 
 .sky-lookup-show-more-no-results {
-  padding: $sky-space-xl 0;
+  padding: var(
+    --sky-override-selection-modal-no-results-padding,
+    var(--sky-space-inset-vertical-top-xl)
+      var(--sky-space-inset-vertical-right-xl)
+      var(--sky-space-inset-vertical-bottom-xl)
+      var(--sky-space-inset-vertical-left-xl)
+  );
 }
 
 ::ng-deep .hover-rows {
@@ -10,13 +29,10 @@
     cursor: pointer;
 
     &:hover {
-      background-color: var(--sky-background-color-selected);
+      background-color: var(
+        --sky-override-selection-modal-row-hover-color,
+        var(--sky-color-background-selected-soft)
+      );
     }
-  }
-}
-
-@include defaultMixins.sky-theme-modern {
-  .sky-lookup-show-more-no-results {
-    padding: $sky-theme-modern-space-xl 0;
   }
 }
