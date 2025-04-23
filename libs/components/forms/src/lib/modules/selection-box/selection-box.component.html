@@ -11,8 +11,8 @@
   <div
     #icon
     class="sky-selection-box-icon"
-    [ngStyle]="{
-      display: !icon.innerHTML.trim() ? 'none' : ''
+    [ngClass]="{
+      'sky-selection-box-icon-hidden': !icon.innerHTML.trim()
     }"
   >
     <ng-content select="sky-icon" />

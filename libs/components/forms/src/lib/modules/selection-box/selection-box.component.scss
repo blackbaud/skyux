@@ -194,6 +194,10 @@
     .sky-icon {
       font-size: 24px !important;
     }
+
+    &.sky-selection-box-icon-hidden {
+      display: none;
+    }
   }
 
   .sky-selection-box-content {

@@ -154,6 +154,23 @@
           var(--sky-font-line_height-display-2)
         );
       }
+
+      .sky-selection-box-icon-hidden
+        + .sky-selection-box-content
+        .sky-selection-box-header {
+        font-size: var(
+          --sky-override-selection-box-header-heading-3-font-size,
+          var(--sky-font-size-display-2)
+        );
+        font-weight: var(
+          --sky-override-selection-box-header-heading-3-font-weight,
+          var(--sky-font-weight-display-2)
+        );
+        line-height: var(
+          --sky-override-selection-box-header-heading-3-line-height,
+          var(--sky-font-line_height-display-2)
+        );
+      }
     }
   }
 
@@ -176,6 +193,23 @@
         );
         line-height: var(
           --sky-override-selection-box-header-heading-2-line-height,
+          var(--sky-font-line_height-display-2)
+        );
+      }
+
+      .sky-selection-box-icon-hidden
+        + .sky-selection-box-content
+        .sky-selection-box-header {
+        font-size: var(
+          --sky-override-selection-box-header-heading-3-font-size,
+          var(--sky-font-size-display-2)
+        );
+        font-weight: var(
+          --sky-override-selection-box-header-heading-3-font-weight,
+          var(--sky-font-weight-display-2)
+        );
+        line-height: var(
+          --sky-override-selection-box-header-heading-3-line-height,
           var(--sky-font-line_height-display-2)
         );
       }
