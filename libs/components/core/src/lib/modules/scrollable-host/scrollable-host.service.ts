@@ -26,6 +26,8 @@ function notifySubscribers(
   }
 }
 
+type HostRect = Pick<DOMRect, 'top' | 'left' | 'right' | 'bottom'>;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -235,18 +237,26 @@ export class SkyScrollableHostService {
             resizeObserverSvc.observe(container),
           ),
         ];
+        let getHostRect: () => HostRect;
         if (scrollableHost && scrollableHost !== this.#windowRef.nativeWindow) {
           inputs.push(
             resizeObserverSvc.observe({ nativeElement: scrollableHost }),
           );
+          getHostRect = (): HostRect =>
+            (scrollableHost as HTMLElement).getBoundingClientRect();
+        } else {
+          getHostRect = (): HostRect => ({
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+          });
         }
         return concat(inputs).pipe(
           debounceTime(0, animationFrameScheduler),
           map(() => {
             const viewportSize = this.#getViewportSize();
-            let { top, left, right, bottom } = (
-              scrollableHost as HTMLElement
-            ).getBoundingClientRect();
+            let { top, left, right, bottom } = getHostRect();
             for (const container of additionalHosts) {
               if (container.nativeElement?.parentNode) {
                 const containerRect =
