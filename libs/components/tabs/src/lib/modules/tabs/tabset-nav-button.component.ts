@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, HostBinding, Input, OnDestroy } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
 import { Subject, Subscription } from 'rxjs';
@@ -75,6 +75,11 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
     } else {
       this.type = 'button';
     }
+  }
+
+  @HostBinding('attr.data-button-type')
+  public get buttonTypeData(): SkyTabsetNavButtonType | undefined {
+    return this.buttonType;
   }
 
   /**

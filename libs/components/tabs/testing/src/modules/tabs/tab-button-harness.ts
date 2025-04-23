@@ -105,10 +105,7 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
    * Whether the tab button is in a Wizard tabset.
    */
   public async isInWizardTabset(): Promise<boolean> {
-    return (
-      (await (await this.#getTabButton()).getAttribute('aria-labelledby')) ===
-      null
-    );
+    return await (await this.#getTabButton()).hasClass('sky-btn-tab-wizard');
   }
 
   /**

@@ -175,7 +175,9 @@ export class SkyTabsetHarness extends SkyComponentHarness {
    * Whether the tabset is a Wizard component.
    */
   public async isWizardTabset(): Promise<boolean> {
-    return (await (await this.host()).getAttribute('tabstyle')) === 'wizard';
+    return (
+      (await (await this.host()).getAttribute('data-tab-style')) === 'wizard'
+    );
   }
 
   async #getDropdownMenu(): Promise<SkyDropdownMenuHarness> {

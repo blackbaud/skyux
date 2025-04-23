@@ -55,7 +55,7 @@ export class SkyTabsetNavButtonHarness extends SkyComponentHarness {
   public async getButtonType(): Promise<SkyTabsetNavButtonType | null> {
     return (await (
       await this.host()
-    ).getAttribute('buttontype')) as SkyTabsetNavButtonType;
+    ).getAttribute('data-button-type')) as SkyTabsetNavButtonType;
   }
 
   /**

@@ -133,6 +133,10 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
     return this.#_tabStyle;
   }
 
+  @HostBinding('attr.data-tab-style') public get dataTabStyle(): string {
+    return this.tabStyle;
+  }
+
   /**
    * Fires when the active tab changes. This event emits the index of the active tab.
    */
