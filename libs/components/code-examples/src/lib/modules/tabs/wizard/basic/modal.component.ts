@@ -27,7 +27,7 @@ import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
 })
 export class ModalComponent implements OnInit {
   protected activeIndex: SkyTabIndex = 0;
-  protected formGroup: FormGroup;
+  public formGroup: FormGroup;
   protected isSaveDisabled = true;
   protected isStep2Disabled = true;
   protected isStep3Disabled = true;
