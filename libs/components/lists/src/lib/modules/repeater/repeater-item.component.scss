@@ -1,5 +1,18 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-repeater-item') {
+  --sky-override-repeater-item-selected-color: var(
+    --sky-background-color-selected
+  );
+}
+
+@include compatMixins.sky-modern-overrides('.sky-repeater-item', false) {
+  --sky-override-repeater-item-selected-color: var(
+    --sky-background-color-selected
+  );
+}
 
 sky-repeater-item {
   .sky-repeater-item {
@@ -92,7 +105,10 @@ sky-repeater-item {
   }
 
   .sky-repeater-item-selected {
-    background-color: $sky-background-color-selected;
+    background-color: var(
+      --sky-override-repeater-item-selected-color,
+      var(--sky-color-background-selected-soft)
+    );
     transition: background-color 150ms;
   }
 
