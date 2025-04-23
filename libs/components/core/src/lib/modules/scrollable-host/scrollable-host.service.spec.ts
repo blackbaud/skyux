@@ -609,6 +609,34 @@ describe('Scrollable host service', () => {
       });
   });
 
+  it('should support additional containers when scrollable host is the viewport', (done) => {
+    const windowRef = TestBed.inject(SkyAppWindowRef);
+    const scrollableHostSvc = new SkyScrollableHostService(
+      TestBed.inject(SkyMutationObserverService),
+      windowRef,
+      TestBed.inject(SkyResizeObserverService),
+    );
+
+    fixture.detectChanges();
+    const additionalHost =
+      fixture.nativeElement.querySelector('.additional-host');
+    const additionalHosts = of([new ElementRef(additionalHost)]);
+
+    const viewport = windowRef.nativeWindow.visualViewport;
+    scrollableHostSvc
+      .watchScrollableHostClipPathChanges(
+        { nativeElement: document.body },
+        additionalHosts,
+      )
+      .pipe(take(1))
+      .subscribe((clipPath) => {
+        expect(clipPath).toBe(
+          `inset(10px ${viewport.width - 90}px ${viewport.height - 130}px 12px)`,
+        );
+        done();
+      });
+  });
+
   it('should return a clip-path of none when the scrollable host is the window', (done) => {
     fixture.detectChanges();
     cmp
