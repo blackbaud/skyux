@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
-import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import {
@@ -32,7 +31,7 @@ import {
   styleUrls: ['./cell-renderer-row-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [SkyThemeComponentClassDirective, SkyCheckboxModule, AsyncPipe],
+  imports: [SkyCheckboxModule, AsyncPipe],
 })
 export class SkyAgGridCellRendererRowSelectorComponent
   implements ICellRendererAngularComp, OnDestroy

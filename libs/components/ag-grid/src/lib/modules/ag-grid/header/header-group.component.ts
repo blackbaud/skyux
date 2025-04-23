@@ -24,7 +24,8 @@ import {
   BehaviorSubject,
   Observable,
   Subscription,
-  fromEventPattern,
+  fromEvent,
+  takeUntil,
 } from 'rxjs';
 
 import { SkyAgGridHeaderGroupInfo } from '../types/header-group-info';
@@ -88,19 +89,16 @@ export class SkyAgGridHeaderGroupComponent
     this.#isExpandableSubject.next(this.#columnGroup.isExpandable());
     if (this.#isExpandableSubject.getValue()) {
       this.#subscriptions.add(
-        fromEventPattern<ColumnGroupOpenedEvent>(
-          (handler) =>
-            params.api.addEventListener('columnGroupOpened', handler),
-          (handler) =>
-            params.api.removeEventListener('columnGroupOpened', handler),
-        ).subscribe((event) => {
-          if (
-            this.#columnGroup &&
-            event.columnGroups.includes(this.#columnGroup)
-          ) {
-            this.#isExpandedSubject.next(this.#columnGroup.isExpanded());
-          }
-        }),
+        fromEvent<ColumnGroupOpenedEvent>(params.api, 'columnGroupOpened')
+          .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
+          .subscribe((event) => {
+            if (
+              this.#columnGroup &&
+              event.columnGroups.includes(this.#columnGroup)
+            ) {
+              this.#isExpandedSubject.next(this.#columnGroup.isExpanded());
+            }
+          }),
       );
     }
     this.#updateInlineHelp();

@@ -242,3 +242,25 @@ a.sky-btn {
   border: none;
   padding: 0;
 }
+
+.sky-btn-block {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  text-overflow: ellipsis;
+  width: 100%;
+
+  &:has(.sky-btn-block-logo) {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .sky-btn-block-logo {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    // Center the icon vertically.
+    transform: translate(0, -50%);
+  }
+}

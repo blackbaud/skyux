@@ -6,6 +6,8 @@ import {
   SkyAgGridService,
   SkyCellType,
 } from '@skyux/ag-grid';
+import { SkyBackToTopModule } from '@skyux/layout';
+import { SkyInfiniteScrollModule } from '@skyux/lists';
 import { SkyThemeService } from '@skyux/theme';
 
 import { AgGridModule } from 'ag-grid-angular';
@@ -31,7 +33,13 @@ let nextId = 0;
   selector: 'app-readonly-grid-visual',
   templateUrl: './readonly-grid.component.html',
   styleUrls: ['./readonly-grid.component.scss'],
-  imports: [AgGridModule, CommonModule, SkyAgGridModule],
+  imports: [
+    AgGridModule,
+    CommonModule,
+    SkyAgGridModule,
+    SkyBackToTopModule,
+    SkyInfiniteScrollModule,
+  ],
 })
 export class ReadonlyGridComponent implements OnInit {
   public gridApi: GridApi;
