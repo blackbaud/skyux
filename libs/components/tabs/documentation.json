@@ -100,7 +100,16 @@
         "primaryDocsId": "SkyTabsModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkyTabsetHarness",
+          "SkyTabsetHarnessFilters",
+          "SkyTabButtonHarness",
+          "SkyTabButtonHarnessFilters",
+          "SkyTabContentHarness",
+          "SkyTabContentHarnessFilters",
+          "SkyTabsetNavButtonHarness",
+          "SkyTabsetNavButtonHarnessFilters"
+        ]
       },
       "codeExamples": {
         "docsIds": ["TabsWizardBasicExampleComponent"]
