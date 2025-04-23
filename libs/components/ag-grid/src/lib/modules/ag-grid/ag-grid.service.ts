@@ -1,4 +1,10 @@
-import { Injectable, OnDestroy, Optional, inject, CSP_NONCE } from '@angular/core';
+import {
+  CSP_NONCE,
+  Injectable,
+  OnDestroy,
+  Optional,
+  inject,
+} from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import { SkyDateService } from '@skyux/datetime';
 import { SkyLibResourcesService } from '@skyux/i18n';
