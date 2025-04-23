@@ -50,6 +50,10 @@ export class SkyTabsetHarness extends SkyComponentHarness {
    * Clicks the new tab button if visible.
    */
   public async clickNewTabButton(): Promise<void> {
+    if (await this.isWizardTabset()) {
+      throw new Error('Cannot use new tab button in a wizard tabset.');
+    }
+
     const newTabButton = await this.locatorForOptional(
       'button.sky-tabset-btn-new',
     )();
@@ -65,6 +69,10 @@ export class SkyTabsetHarness extends SkyComponentHarness {
    * Clicks the open tab button if visible.
    */
   public async clickOpenTabButton(): Promise<void> {
+    if (await this.isWizardTabset()) {
+      throw new Error('Cannot use open tab button in a wizard tabset.');
+    }
+
     const openTabButton = await this.locatorForOptional(
       'button.sky-tabset-btn-open',
     )();
@@ -161,6 +169,15 @@ export class SkyTabsetHarness extends SkyComponentHarness {
     const tabButton = await this.getTabButtonHarness(tabHeading);
     const id = await tabButton.getTabId();
     return await this.locatorFor(SkyTabContentHarness.with({ tabId: id }))();
+  }
+
+  /**
+   * Whether the tabset is a Wizard component.
+   */
+  public async isWizardTabset(): Promise<boolean> {
+    return (
+      (await (await this.host()).getAttribute('data-tab-style')) === 'wizard'
+    );
   }
 
   async #getDropdownMenu(): Promise<SkyDropdownMenuHarness> {
