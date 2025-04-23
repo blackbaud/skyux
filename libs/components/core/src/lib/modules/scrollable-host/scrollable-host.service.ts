@@ -248,8 +248,8 @@ export class SkyScrollableHostService {
           getHostRect = (): HostRect => ({
             top: 0,
             left: 0,
-            right: 0,
-            bottom: 0,
+            right: this.#windowRef.nativeWindow.innerWidth,
+            bottom: this.#windowRef.nativeWindow.innerHeight,
           });
         }
         return concat(inputs).pipe(
@@ -258,7 +258,7 @@ export class SkyScrollableHostService {
             const viewportSize = this.#getViewportSize();
             let { top, left, right, bottom } = getHostRect();
             for (const container of additionalHosts) {
-              if (container.nativeElement?.parentNode) {
+              if (container.nativeElement?.offsetParent) {
                 const containerRect =
                   container.nativeElement.getBoundingClientRect();
                 top = Math.max(top, containerRect.top);

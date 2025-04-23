@@ -631,7 +631,7 @@ describe('Scrollable host service', () => {
       .pipe(take(1))
       .subscribe((clipPath) => {
         expect(clipPath).toBe(
-          `inset(10px ${viewport.width}px ${viewport.height}px 12px)`,
+          `inset(10px ${viewport.width - 90}px ${viewport.height - 130}px 12px)`,
         );
         done();
       });
