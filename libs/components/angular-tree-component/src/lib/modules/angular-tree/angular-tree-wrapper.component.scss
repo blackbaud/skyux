@@ -4,55 +4,57 @@
 
 @include compatMixins.sky-default-overrides('.sky-angular-tree-wrapper') {
   --sky-override-angular-tree-context-menu-margin: 0 #{$sky-margin} 0 0;
-  --sky-override-angular-tree-toggle-color: var(--sky-text-color-deemphasized);
-  --sky-override-node-wrapper-border-left: #{$sky-nav-selected-border-width}
-    solid transparent;
-  --sky-override-node-wrapper-padding: 4px #{$sky-margin-half};
-  --sky-override-node-wrapper-border-radius: 0;
-  --sky-override-tree-children-padding: 30px;
-  --sky-override-node-drop-slot: 2px;
-  --sky-override-toggle-children-placeholder-height: 19px;
-  --sky-override-toggle-children-placeholder-width: 20px;
-  --sky-override-toggle-children-placeholder-margin: 0 #{$sky-margin} 0 0;
-  --sky-override-toggle-children-margin: 0 #{$sky-margin} 0 0;
-  --sky-override-angular-tree-node-padding-left-base: 0;
-  --sky-override-toggle-children-padding: 0;
-  --sky-override-toggle-children-height: 20px;
-  --sky-override-toggle-children-width: 20px;
-  --sky-override-switch-control-margin: 0 8px 0 0;
-  --sky-override-node-selected-background-color: #{$sky-background-color-selected};
-  --sky-override-node-active-border-left: #{$sky-nav-selected-border-width}
+  --sky-override-angular-tree-node-border-left-active: #{$sky-nav-selected-border-width}
     solid #{$sky-highlight-color-info};
-  --sky-override-node-selected-border-left: #{$sky-nav-selected-border-width}
+  --sky-override-angular-tree-node-border-left-selected: #{$sky-nav-selected-border-width}
     solid transparent;
-  --sky-override-node-wrapper-standard-box-shadow-focus: none;
-  --sky-override-node-wrapper-standard-box-shadow-hover: none;
-  --sky-override-node-wrapper-standard-outline-focus: auto;
-  --sky-override-node-wrapper-background-color-active: transparent;
+  --sky-override-angular-tree-node-drop-slot: 2px;
+  --sky-override-angular-tree-node-padding-left-base: 0;
+  --sky-override-angular-tree-node-selected-background-color: #{$sky-background-color-selected};
+  --sky-override-angular-tree-node-wrapper-background-color-active: transparent;
+  --sky-override-angular-tree-node-wrapper-border-left: #{$sky-nav-selected-border-width}
+    solid transparent;
+  --sky-override-angular-tree-node-wrapper-border-radius: 0;
+  --sky-override-angular-tree-node-wrapper-padding: 4px #{$sky-margin-half};
+  --sky-override-tree-children-padding: 30px;
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-focus: none;
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-hover: none;
+  --sky-override-angular-tree-node-wrapper-standard-outline-focus: auto;
+  --sky-override-angular-tree-switch-control-margin: 0 8px 0 0;
+  --sky-override-angular-tree-toggle-children-height: 20px;
+  --sky-override-angular-tree-toggle-children-margin: 0 #{$sky-margin} 0 0;
+  --sky-override-angular-tree-toggle-children-padding: 0;
+  --sky-override-angular-tree-toggle-children-placeholder-height: 19px;
+  --sky-override-angular-tree-toggle-children-placeholder-margin: 0
+    #{$sky-margin} 0 0;
+  --sky-override-angular-tree-toggle-children-placeholder-width: 20px;
+  --sky-override-angular-tree-toggle-children-width: 20px;
+  --sky-override-angular-tree-toggle-color: var(--sky-text-color-deemphasized);
 }
 
 @include compatMixins.sky-modern-overrides('.sky-angular-tree-wrapper') {
   --sky-override-angular-tree-context-menu-margin: 0 var(--modern-space-s) 0 0;
-  --sky-override-node-wrapper-padding: 4px #{$sky-margin-half};
-  --sky-override-node-drop-slot: 2px;
-  --sky-override-toggle-children-placeholder-height: 19px;
-  --sky-override-toggle-children-placeholder-width: 20px;
-  --sky-override-node-wrapper-border-left: #{$sky-nav-selected-border-width}
-    solid transparent;
-  --sky-override-angular-tree-node-padding-left-base: 0;
-  --sky-override-toggle-children-padding: 0;
-  --sky-override-toggle-children-height: 20px;
-  --sky-override-toggle-children-width: 20px;
-  --sky-override-switch-control-margin: 0 8px 0 0;
-  --sky-override-node-selected-background-color: #{$sky-background-color-selected};
-  --sky-override-node-active-border-left: #{$sky-nav-selected-border-width}
+  --sky-override-angular-tree-node-border-left-active: #{$sky-nav-selected-border-width}
     solid #{$sky-highlight-color-info};
-  --sky-override-node-selected-border-left: #{$sky-nav-selected-border-width}
+  --sky-override-angular-tree-node-border-left-selected: #{$sky-nav-selected-border-width}
     solid transparent;
-  --sky-override-node-wrapper-standard-box-shadow-focus: none;
-  --sky-override-node-wrapper-standard-box-shadow-hover: none;
-  --sky-override-node-wrapper-standard-outline-focus: auto;
-  --sky-override-node-wrapper-background-color-active: transparent;
+  --sky-override-angular-tree-node-drop-slot: 2px;
+  --sky-override-angular-tree-node-padding-left-base: 0;
+  --sky-override-angular-tree-node-selected-background-color: #{$sky-background-color-selected};
+  --sky-override-angular-tree-node-wrapper-background-color-active: transparent;
+  --sky-override-angular-tree-node-wrapper-border-left: #{$sky-nav-selected-border-width}
+    solid transparent;
+  --sky-override-angular-tree-node-wrapper-padding: 4px #{$sky-margin-half};
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-focus: none;
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-hover: none;
+  --sky-override-angular-tree-node-wrapper-standard-outline-focus: auto;
+  --sky-override-angular-tree-toggle-children-padding: 0;
+  --sky-override-angular-tree-toggle-children-placeholder-height: 19px;
+  --sky-override-angular-tree-toggle-children-placeholder-width: 20px;
+  --sky-override-angular-tree-toggle-children-height: 20px;
+  --sky-override-angular-tree-toggle-children-margin: 0 #{$sky-margin} 0 0;
+  --sky-override-angular-tree-toggle-children-width: 20px;
+  --sky-override-angular-tree-switch-control-margin: 0 8px 0 0;
 }
 
 .sky-angular-tree-wrapper ::ng-deep {
@@ -71,7 +73,7 @@
     display: flex;
     align-items: center;
     padding: var(
-      --sky-override-node-wrapper-padding,
+      --sky-override-angular-tree-node-wrapper-padding,
       var(--sky-space-inset-balanced-xs)
     ); // Allows 2px of space for drop-slot, but total 10px between each node.
     padding-left: max(
@@ -82,22 +84,25 @@
       )
     );
     border-left: var(
-      --sky-override-node-wrapper-border-left,
+      --sky-override-angular-tree-node-wrapper-border-left,
       var(--sky-border-width-selected-m) solid transparent
     ); // Whitespace for active style.
     border-radius: var(
-      --sky-override-node-wrapper-border-radius,
+      --sky-override-angular-tree-node-wrapper-border-radius,
       var(--sky-border-radius-xs) var(--sky-border-radius-0)
         var(--sky-border-radius-0) var(--sky-border-radius-xs)
     );
 
     &:focus-visible {
       box-shadow: var(
-        --sky-override-node-wrapper-standard-box-shadow-focus,
+        --sky-override-angular-tree-node-wrapper-standard-box-shadow-focus,
         inset 0 0 0 var(--sky-border-width-selected-m)
           var(--sky-color-border-selected)
       );
-      outline: var(--sky-override-node-wrapper-standard-outline-focus, none);
+      outline: var(
+        --sky-override-angular-tree-node-wrapper-standard-outline-focus,
+        none
+      );
     }
   }
 
@@ -123,13 +128,13 @@
       var(--sky-color-text-deemphasized)
     );
     margin: var(
-      --sky-override-toggle-children-margin,
+      --sky-override-angular-tree-toggle-children-margin,
       0 var(--sky-space-gap-action_group-s) 0 0
     );
-    height: var(--sky-override-toggle-children-height, '');
-    width: var(--sky-override-toggle-children-width, '');
+    height: var(--sky-override-angular-tree-toggle-children-height, '');
+    width: var(--sky-override-angular-tree-toggle-children-width, '');
     padding: var(
-      --sky-override-toggle-children-padding,
+      --sky-override-angular-tree-toggle-children-padding,
       var(--sky-space-inset-balanced-xs)
     );
     line-height: 1;
@@ -138,19 +143,19 @@
   .toggle-children-placeholder {
     display: inline-block;
     height: var(
-      --sky-override-toggle-children-placeholder-height,
+      --sky-override-angular-tree-toggle-children-placeholder-height,
       calc(
         var(--sky-size-icon-s) + calc(var(--sky-space-inset-balanced-xs) * 2)
       )
     );
     width: var(
-      --sky-override-toggle-children-placeholder-width,
+      --sky-override-angular-tree-toggle-children-placeholder-width,
       calc(
         var(--sky-size-icon-s) + calc(var(--sky-space-inset-balanced-xs) * 2)
       )
     );
     margin: var(
-      --sky-override-toggle-children-placeholder-margin,
+      --sky-override-angular-tree-toggle-children-placeholder-margin,
       0 var(--sky-space-inline-s) 0 0
     );
   }
@@ -158,13 +163,13 @@
   // Selected states
   .sky-angular-tree-node-selected {
     background: var(
-      --sky-override-node-selected-background-color,
+      --sky-override-angular-tree-node-selected-background-color,
       var(--sky-color-background-selected-soft)
     );
 
     &:not(.sky-angular-tree-node-has-checkbox) {
       border-left: var(
-        --sky-override-node-selected-border-left,
+        --sky-override-angular-tree-node-border-left-selected,
         var(--sky-border-width-selected-m) solid
           var(--sky-color-border-selected)
       );
@@ -174,11 +179,11 @@
   // Active states
   .sky-angular-tree-node-active {
     background: var(
-      --sky-override-node-selected-background-color,
+      --sky-override-angular-tree-node-selected-background-color,
       var(--sky-color-background-selected-soft)
     );
     border-left: var(
-      --sky-override-node-active-border-left,
+      --sky-override-angular-tree-node-border-left-active,
       var(--sky-border-width-selected-m) solid var(--sky-color-border-selected)
     );
   }
@@ -190,7 +195,7 @@
 
   .sky-switch-control {
     margin: var(
-      --sky-override-switch-control-margin,
+      --sky-override-angular-tree-switch-control-margin,
       0 var(--sky-space-gap-action_group-s) 0 0
     );
   }
@@ -206,7 +211,10 @@
   // Drag & Drop
   .node-drop-slot {
     display: block;
-    height: var(--sky-override-node-drop-slot, var(--sky-space-stacked-0));
+    height: var(
+      --sky-override-angular-tree-node-drop-slot,
+      var(--sky-space-stacked-0)
+    );
   }
   .node-drop-slot.is-dragging-over {
     height: 20px;
@@ -227,7 +235,7 @@
   .node-wrapper {
     &:hover {
       box-shadow: var(
-        --sky-override-node-wrapper-standard-box-shadow-hover,
+        --sky-override-angular-tree-node-wrapper-standard-box-shadow-hover,
         inset 0 0 0 var(--sky-border-width-selected-s)
           var(--sky-color-border-selected)
       );
@@ -236,16 +244,19 @@
     &:active,
     &:focus-visible {
       box-shadow: var(
-        --sky-override-node-wrapper-standard-box-shadow-focus,
+        --sky-override-angular-tree-node-wrapper-standard-box-shadow-focus,
         inset 0 0 0 var(--sky-border-width-selected-m)
           var(--sky-color-border-selected)
       );
-      outline: var(--sky-override-node-wrapper-standard-outline-focus, none);
+      outline: var(
+        --sky-override-angular-tree-node-wrapper-standard-outline-focus,
+        none
+      );
     }
 
     &:active {
       background: var(
-        --sky-override-node-wrapper-background-color-active,
+        --sky-override-angular-tree-node-wrapper-background-color-active,
         var(--sky-color-background-selected-soft)
       );
     }
