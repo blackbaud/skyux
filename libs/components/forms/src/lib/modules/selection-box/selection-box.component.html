@@ -6,39 +6,23 @@
     'sky-selection-box-selected': checked,
     'sky-selection-box-disabled': disabled
   }"
-  [skyThemeClass]="{
-    'sky-shadow': 'default',
-    'sky-box sky-elevation-1': 'modern'
-  }"
   (keydown)="onKeydown($event)"
 >
   <div
     #icon
     class="sky-selection-box-icon"
-    [ngStyle]="{
-      display: !icon.innerHTML.trim() ? 'none' : ''
+    [ngClass]="{
+      'sky-selection-box-icon-hidden': !icon.innerHTML.trim()
     }"
   >
     <ng-content select="sky-icon" />
   </div>
 
   <div class="sky-selection-box-content">
-    <div
-      class="sky-selection-box-header"
-      [ngClass]="{
-        'sky-font-heading-2': icon.innerHTML.trim(),
-        'sky-font-heading-3': !icon.innerHTML.trim()
-      }"
-    >
+    <div class="sky-selection-box-header sky-font-display-2">
       <ng-content select="sky-selection-box-header" />
     </div>
-    <div
-      class="sky-selection-box-description"
-      [skyThemeClass]="{
-        'sky-font-deemphasized': 'modern',
-        'sky-deemphasized': 'default'
-      }"
-    >
+    <div class="sky-selection-box-description sky-font-deemphasized">
       <ng-content select="sky-selection-box-description" />
     </div>
   </div>
