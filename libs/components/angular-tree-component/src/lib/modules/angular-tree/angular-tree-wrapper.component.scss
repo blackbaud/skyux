@@ -8,7 +8,6 @@
     solid #{$sky-highlight-color-info};
   --sky-override-angular-tree-node-border-left-selected: #{$sky-nav-selected-border-width}
     solid transparent;
-  --sky-override-angular-tree-node-drop-slot: 2px;
   --sky-override-angular-tree-node-padding-left-base: 0;
   --sky-override-angular-tree-node-selected-background-color: #{$sky-background-color-selected};
   --sky-override-angular-tree-node-wrapper-background-color-active: transparent;
@@ -38,7 +37,6 @@
     solid #{$sky-highlight-color-info};
   --sky-override-angular-tree-node-border-left-selected: #{$sky-nav-selected-border-width}
     solid transparent;
-  --sky-override-angular-tree-node-drop-slot: 2px;
   --sky-override-angular-tree-node-padding-left-base: 0;
   --sky-override-angular-tree-node-selected-background-color: #{$sky-background-color-selected};
   --sky-override-angular-tree-node-wrapper-background-color-active: transparent;
@@ -74,8 +72,9 @@
     align-items: center;
     padding: var(
       --sky-override-angular-tree-node-wrapper-padding,
-      var(--sky-space-inset-balanced-xs)
-    ); // Allows 2px of space for drop-slot, but total 10px between each node.
+      calc(var(--sky-space-inset-balanced-xs) - 1px)
+        var(--sky-space-inset-balanced-xs)
+    ); // Allows 2px of space for drop-slot, but total between each node based on the token.
     padding-left: max(
       var(--sky-angular-tree-node-padding),
       var(
@@ -86,7 +85,7 @@
     border-left: var(
       --sky-override-angular-tree-node-wrapper-border-left,
       var(--sky-border-width-selected-m) solid transparent
-    ); // Whitespace for active style.
+    ); // Whitespace for active/selected style.
     border-radius: var(
       --sky-override-angular-tree-node-wrapper-border-radius,
       var(--sky-border-radius-xs) var(--sky-border-radius-0)
@@ -211,10 +210,7 @@
   // Drag & Drop
   .node-drop-slot {
     display: block;
-    height: var(
-      --sky-override-angular-tree-node-drop-slot,
-      var(--sky-space-stacked-0)
-    );
+    height: 2px;
   }
   .node-drop-slot.is-dragging-over {
     height: 20px;
