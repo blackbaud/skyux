@@ -60,6 +60,29 @@ function addPrettierExtendsToConfig(
   writeJsonFile(tree, eslintConfigPath, eslintConfig);
 }
 
+function modifyFlatConfigFile(tree: Tree, filePath: string): void {
+  const eslintConfig = tree.readText(filePath);
+  const lastClosingParenthesisRegExp = /\)(?!(?:\n|.)*\))/;
+  const parenthesisMatch = lastClosingParenthesisRegExp.exec(eslintConfig);
+
+  if (parenthesisMatch) {
+    const exportsMatch = /\nmodule\.exports/.exec(eslintConfig);
+
+    if (exportsMatch) {
+      const recorder = tree.beginUpdate(filePath);
+
+      recorder.insertLeft(
+        exportsMatch.index,
+        'const prettier = require("eslint-config-prettier/flat");\n',
+      );
+
+      recorder.insertRight(parenthesisMatch.index, '  ,prettier\n');
+
+      tree.commitUpdate(recorder);
+    }
+  }
+}
+
 function processESLintConfig(
   tree: Tree,
   context: SchematicContext,
@@ -67,7 +90,6 @@ function processESLintConfig(
   updatedESLintConfigs: string[],
 ): void {
   const eslintConfigPath = normalize(`${projectRoot}/.eslintrc.json`);
-  const flatConfigPath = normalize(`${projectRoot}/eslint.config.js`);
 
   if (tree.exists(eslintConfigPath)) {
     const eslintConfig = readJsonFile<ESLintConfig>(tree, eslintConfigPath);
@@ -76,29 +98,6 @@ function processESLintConfig(
 
     addPrettierExtendsToConfig(tree, eslintConfigPath, eslintConfig);
     updatedESLintConfigs.push(eslintConfigPath);
-  } else if (tree.exists(flatConfigPath)) {
-    const eslintConfig = tree.readText(flatConfigPath);
-    const lastClosingParenthesisRegExp = /\)(?!(?:\n|.)*\))/;
-    const parenthesisMatch = lastClosingParenthesisRegExp.exec(eslintConfig);
-
-    if (parenthesisMatch) {
-      const exportsMatch = /\nmodule\.exports/.exec(eslintConfig);
-
-      if (exportsMatch) {
-        const recorder = tree.beginUpdate(flatConfigPath);
-
-        recorder.insertLeft(
-          exportsMatch.index,
-          'const prettier = require("eslint-config-prettier/flat");\n',
-        );
-
-        recorder.insertRight(parenthesisMatch.index, '  ,prettier\n');
-
-        tree.commitUpdate(recorder);
-      }
-    }
-
-    updatedESLintConfigs.push(flatConfigPath);
   }
 }
 
@@ -110,14 +109,21 @@ export function configureESLint(
 
     context.logger.info('Configuring ESLint Prettier plugin...');
 
-    const projects = workspace.projects.values();
-    let project: workspaces.ProjectDefinition | undefined;
+    const flatConfigFile = '/eslint.config.js';
 
-    while ((project = projects.next().value)) {
-      processESLintConfig(tree, context, project.root, updatedESLintConfigs);
+    if (tree.exists(flatConfigFile)) {
+      modifyFlatConfigFile(tree, flatConfigFile);
+      updatedESLintConfigs.push(flatConfigFile);
+    } else {
+      const projects = workspace.projects.values();
+      let project: workspaces.ProjectDefinition | undefined;
+
+      while ((project = projects.next().value)) {
+        processESLintConfig(tree, context, project.root, updatedESLintConfigs);
+      }
+
+      processESLintConfig(tree, context, '', updatedESLintConfigs);
     }
-
-    processESLintConfig(tree, context, '', updatedESLintConfigs);
 
     if (updatedESLintConfigs.length === 0) {
       throw new SchematicsException(
