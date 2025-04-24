@@ -92,6 +92,7 @@ jobs:
             components/validation
             sdk/e2e-schematics
             sdk/eslint-config
+            sdk/eslint-schematics
             sdk/prettier-schematics
             sdk/skyux-eslint
             sdk/testing
