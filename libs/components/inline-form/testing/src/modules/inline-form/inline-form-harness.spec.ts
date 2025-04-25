@@ -175,4 +175,116 @@ describe('Inline form harness', () => {
       'Inline form is not expanded. Cannot retrieve template when not visible.',
     );
   });
+
+  describe('button harness', () => {
+    it('should filter the buttons by text', async () => {
+      const { inlineFormHarness, fixture } = await setupTest();
+
+      fixture.componentInstance.onOpen();
+      fixture.detectChanges();
+
+      const button = await inlineFormHarness.getButton({
+        text: 'Cancel',
+      });
+
+      expect(await button?.getText()).toBe('Cancel');
+    });
+
+    it('should filter the buttons by style type', async () => {
+      const { inlineFormHarness, fixture } = await setupTest();
+
+      fixture.componentInstance.onOpen();
+      fixture.detectChanges();
+
+      const button = await inlineFormHarness.getButton({
+        styleType: 'link',
+      });
+
+      expect(await button?.getText()).toBe('Cancel');
+    });
+
+    it('should click the button', async () => {
+      const { inlineFormHarness, fixture } = await setupTest();
+
+      fixture.componentInstance.onOpen();
+      fixture.detectChanges();
+
+      await expectAsync(inlineFormHarness.isFormExpanded()).toBeResolvedTo(
+        true,
+      );
+
+      const button = await inlineFormHarness.getButton({
+        text: 'Cancel',
+      });
+
+      await button?.click();
+
+      await expectAsync(inlineFormHarness.isFormExpanded()).toBeResolvedTo(
+        false,
+      );
+    });
+
+    it('should get the button style type', async () => {
+      const { inlineFormHarness, fixture } = await setupTest();
+
+      fixture.componentInstance.config = {
+        buttonLayout: SkyInlineFormButtonLayout.Custom,
+        buttons: [
+          {
+            text: 'Save',
+            styleType: 'primary',
+            action: 'save',
+          },
+          {
+            text: 'Cancel',
+            styleType: 'link',
+            action: 'cancel',
+          },
+          {
+            text: 'Delete',
+            styleType: 'default',
+            action: 'delete',
+          },
+        ],
+      };
+      fixture.detectChanges();
+      fixture.componentInstance.onOpen();
+      fixture.detectChanges();
+
+      const buttons = await inlineFormHarness.getButtons();
+
+      await expectAsync(buttons[0].getStyleType()).toBeResolvedTo('primary');
+      await expectAsync(buttons[1].getStyleType()).toBeResolvedTo('link');
+      await expectAsync(buttons[2].getStyleType()).toBeResolvedTo('default');
+    });
+
+    it('should get whether the button is disabled', async () => {
+      const { inlineFormHarness, fixture } = await setupTest();
+
+      fixture.componentInstance.config = {
+        buttonLayout: SkyInlineFormButtonLayout.Custom,
+        buttons: [
+          {
+            text: 'Save',
+            styleType: 'primary',
+            action: 'save',
+            disabled: true,
+          },
+          {
+            text: 'Cancel',
+            styleType: 'link',
+            action: 'cancel',
+          },
+        ],
+      };
+      fixture.detectChanges();
+      fixture.componentInstance.onOpen();
+      fixture.detectChanges();
+
+      const buttons = await inlineFormHarness.getButtons();
+
+      await expectAsync(buttons[0].isDisabled()).toBeResolvedTo(true);
+      await expectAsync(buttons[1].isDisabled()).toBeResolvedTo(false);
+    });
+  });
 });
