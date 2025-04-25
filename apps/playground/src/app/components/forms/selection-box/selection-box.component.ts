@@ -37,6 +37,7 @@ export class SelectionBoxComponent {
     name: string;
     value: string;
     selected?: boolean;
+    disabled?: boolean;
   }[] = [
     {
       name: 'Save time and effort',
@@ -58,6 +59,7 @@ export class SelectionBoxComponent {
       description:
         'Connect to supporters on a personal level and maintain accurate data.',
       value: 'relationships',
+      disabled: true,
     },
   ];
 
@@ -71,14 +73,18 @@ export class SelectionBoxComponent {
 
     this.formGroup = this.#formBuilder.group({
       checkboxes: checkboxArray,
-      radio: this.selectionBoxes[2]['value'],
+      radio: this.selectionBoxes[1]['value'],
     });
   }
 
   #buildCheckboxes(): FormArray {
-    const checkboxArray = this.selectionBoxes.map((checkbox) =>
-      this.#formBuilder.control(checkbox.selected),
-    );
+    const checkboxArray = this.selectionBoxes.map((checkbox) => {
+      const control = this.#formBuilder.control(checkbox.selected);
+      if (checkbox.disabled) {
+        control.disable();
+      }
+      return control;
+    });
 
     return this.#formBuilder.array(checkboxArray);
   }

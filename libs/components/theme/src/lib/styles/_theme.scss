@@ -156,3 +156,8 @@ symbol[id^='sky-i-']:not(.sky-i-branded) * {
     z-index: 999;
   }
 }
+
+.sky-wait-element-active {
+  isolation: isolate;
+  position: relative;
+}

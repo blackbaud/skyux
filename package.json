@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "12.6.0",
+  "version": "12.8.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -99,7 +99,7 @@
     "@angular/platform-browser-dynamic": "19.2.7",
     "@angular/router": "19.2.7",
     "@blackbaud/angular-tree-component": "1.0.0",
-    "@blackbaud/skyux-design-tokens": "0.0.51",
+    "@blackbaud/skyux-design-tokens": "0.0.53",
     "@nx/angular": "20.5.0",
     "@skyux/icons": "7.21.2",
     "@stackblitz/sdk": "1.11.0",
@@ -125,6 +125,7 @@
     "ng2-dragula": "5.1.0",
     "normalize-scss": "8.0.0",
     "rxjs": "7.8.1",
+    "semver": "7.7.1",
     "storybook": "8.6.4",
     "tslib": "2.8.1",
     "typedoc": "0.28.2",

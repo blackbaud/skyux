@@ -1,5 +1,33 @@
 # Changelog
 
+## [12.8.0](https://github.com/blackbaud/skyux/compare/12.7.0...12.8.0) (2025-04-24)
+
+
+### Features
+
+* **components/forms:** tokenize selection box styles ([#3389](https://github.com/blackbaud/skyux/issues/3389)) ([2c95fbd](https://github.com/blackbaud/skyux/commit/2c95fbde3ac49cf96150500a19ce90617b50b5ff))
+* **sdk/skyux-eslint:** create `@skyux-sdk/eslint-schematics` library ([#3395](https://github.com/blackbaud/skyux/issues/3395)) ([2bd9023](https://github.com/blackbaud/skyux/commit/2bd902336efddde2ae826d2f634ca77158fa4cfc))
+
+
+### Bug Fixes
+
+* **components/indicators:** block-level wait should not overlap other elements ([#3339](https://github.com/blackbaud/skyux/issues/3339)) ([#3397](https://github.com/blackbaud/skyux/issues/3397)) ([4d172c8](https://github.com/blackbaud/skyux/commit/4d172c880441fdb97a19cd1017cb204488234989))
+* **sdk/prettier-schematics:** add support for workspaces with library projects using ESLint flat config ([#3398](https://github.com/blackbaud/skyux/issues/3398)) ([9a8f375](https://github.com/blackbaud/skyux/commit/9a8f375eb4afc52c4106e2ddfd2701eb93b76549))
+
+## [12.7.0](https://github.com/blackbaud/skyux/compare/12.6.0...12.7.0) (2025-04-23)
+
+
+### Features
+
+* **components/lookup:** tokenize selection modal styles ([#3392](https://github.com/blackbaud/skyux/issues/3392)) ([79a3ea4](https://github.com/blackbaud/skyux/commit/79a3ea48871a96d97201f4bb862185c455d264bf))
+* **components/modals:** tokenize confirm modal styles ([#3387](https://github.com/blackbaud/skyux/issues/3387)) ([8eeefb7](https://github.com/blackbaud/skyux/commit/8eeefb718ef6ce29651f1999933450e902c60a09))
+* **components/tabs:** add wizard test harness ([#3388](https://github.com/blackbaud/skyux/issues/3388)) ([9248226](https://github.com/blackbaud/skyux/commit/92482261534c62aafbe8d821cad6f29c9c765c47))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** row delete overlay should not require overflow style rule ([#3391](https://github.com/blackbaud/skyux/issues/3391)) ([7da3361](https://github.com/blackbaud/skyux/commit/7da3361d0059479bc381fede9fccc25c6519a938))
+
 ## [12.6.0](https://github.com/blackbaud/skyux/compare/12.5.0...12.6.0) (2025-04-22)
 
 

@@ -1,4 +1,19 @@
-@if (showAnchor0) {
+@if (showMenuOverlay) {
+<div
+  class="menu-overlay"
+  style="
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: oklch(44% 40% 303deg / 30%);
+    z-index: 1000;
+  "
+>
+  Menu overlay
+</div>
+} @if (showAnchor0) {
 <button
   class="sky-btn sky-btn-secondary"
   href="/"
