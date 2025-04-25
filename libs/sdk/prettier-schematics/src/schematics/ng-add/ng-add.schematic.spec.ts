@@ -8,8 +8,6 @@ import path from 'path';
 
 import { createTestApp, createTestLibrary } from '../testing/scaffold';
 
-import { SkyPrettierAddOptions } from './schema';
-
 const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
 const eslintConfigPath = '.eslintrc.json';
 
@@ -21,7 +19,7 @@ describe('ng-add.schematic', () => {
     projectType: 'application' | 'library';
   }): Promise<{
     runner: SchematicTestRunner;
-    runSchematic: (options?: SkyPrettierAddOptions) => Promise<UnitTestTree>;
+    runSchematic: () => Promise<UnitTestTree>;
     tree: UnitTestTree;
   }> {
     const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
@@ -43,8 +41,7 @@ describe('ng-add.schematic', () => {
 
     return {
       runner,
-      runSchematic: (options?: SkyPrettierAddOptions) =>
-        runner.runSchematic('ng-add', options, tree),
+      runSchematic: () => runner.runSchematic('ng-add', options, tree),
       tree,
     };
   }
@@ -510,24 +507,6 @@ module.exports = tseslint.config(
   ,prettier
 );
 `);
-  });
-
-  it('should setup prettier import sorting', async () => {
-    const { runSchematic } = await setup({
-      setupAngularEslint: true,
-      projectType: 'application',
-    });
-
-    const updatedTree = await runSchematic({ importSorting: true });
-
-    expect(JSON.parse(updatedTree.readText('.prettierrc.json'))).toEqual({
-      singleQuote: true,
-      importOrder: ['^@(.*)$', '^\\w(.*)$', '^(../)(.*)$', '^(./)(.*)$'],
-      importOrderSeparation: true,
-      importOrderSortSpecifiers: true,
-      importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
-      plugins: ['@trivago/prettier-plugin-sort-imports'],
-    });
   });
 
   it('should handle ESM config files', async () => {

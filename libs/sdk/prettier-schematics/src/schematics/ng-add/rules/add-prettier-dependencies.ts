@@ -4,13 +4,9 @@ import {
   addPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 
-export function addPrettierDependencies(args: {
-  importSorting: boolean;
-}): Rule {
+export function addPrettierDependencies(): Rule {
   return (tree, context) => {
     context.logger.info('Adding Prettier dependencies...');
-
-    const { importSorting } = args;
 
     addPackageJsonDependency(tree, {
       name: 'prettier',
@@ -25,14 +21,5 @@ export function addPrettierDependencies(args: {
       version: '^10.1.2',
       overwrite: true,
     });
-
-    if (importSorting) {
-      addPackageJsonDependency(tree, {
-        name: '@trivago/prettier-plugin-sort-imports',
-        type: NodeDependencyType.Dev,
-        version: '^5.2.2',
-        overwrite: true,
-      });
-    }
   };
 }

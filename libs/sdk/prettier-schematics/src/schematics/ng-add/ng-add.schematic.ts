@@ -10,22 +10,16 @@ import { configureESLint } from './rules/configure-eslint';
 import { configureVSCode } from './rules/configure-vscode';
 import { writePrettierConfig } from './rules/write-prettier-config';
 import { writePrettierIgnore } from './rules/write-prettier-ignore';
-import { SkyPrettierAddOptions } from './schema';
 
-export default function ngAdd(options: SkyPrettierAddOptions): Rule {
+export default function ngAdd(): Rule {
   return async (tree) => {
     const { workspace } = await getWorkspace(tree);
     const { eslintConfigFile, isEsm, isFlatConfig } = getEslintConfigFile(tree);
-    const importSorting = !!options.importSorting;
 
     return chain([
       configureESLint({ eslintConfigFile, isEsm, isFlatConfig, workspace }),
-      addPrettierDependencies({
-        importSorting,
-      }),
-      writePrettierConfig({
-        importSorting,
-      }),
+      addPrettierDependencies(),
+      writePrettierConfig(),
       writePrettierIgnore(),
       configureVSCode(),
       addFormatNpmScript(),

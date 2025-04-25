@@ -2,10 +2,8 @@ import { Rule } from '@angular-devkit/schematics';
 
 import { writeJsonFile } from '../../utility/tree';
 
-export function writePrettierConfig(args: { importSorting: boolean }): Rule {
+export function writePrettierConfig(): Rule {
   return (tree, context) => {
-    const { importSorting } = args;
-
     const configPaths = ['.prettierrc.json', '.prettierrc'];
 
     for (const filePath of configPaths) {
@@ -24,16 +22,6 @@ export function writePrettierConfig(args: { importSorting: boolean }): Rule {
     const prettierConfig = {
       singleQuote: true,
     };
-
-    if (importSorting) {
-      Object.assign(prettierConfig, {
-        importOrder: ['^@(.*)$', '^\\w(.*)$', '^(../)(.*)$', '^(./)(.*)$'],
-        importOrderSeparation: true,
-        importOrderSortSpecifiers: true,
-        importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
-        plugins: ['@trivago/prettier-plugin-sort-imports'],
-      });
-    }
 
     writeJsonFile(tree, filePath, prettierConfig);
   };
