@@ -48,6 +48,11 @@ describe(`ag-grid-storybook data manager`, () => {
                   .should('have.descendants', '.sky-switch-control');
               }
 
+              // Verify that the first cell is focused.
+              cy.get('div[row-index="0"] div[col-id="name"] a').should(
+                'be.focused',
+              );
+
               cy.get('#storybook-root').skyVisualTest(
                 /* spell-checker:disable-next-line */
                 `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}${compact ? '-compact' : ''}`,
