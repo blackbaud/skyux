@@ -186,7 +186,7 @@
   // Active states
   .sky-angular-tree-node-active {
     background: var(
-      --sky-override-angular-tree-node-selected-background-color,
+      --sky-override-angular-tree-node-active-background-color,
       var(--sky-color-background-selected-soft)
     );
     border-left: var(
