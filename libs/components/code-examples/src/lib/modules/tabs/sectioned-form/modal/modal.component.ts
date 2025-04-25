@@ -45,7 +45,7 @@ export class ModalComponent {
     this.#changeDetector.markForCheck();
   }
 
-  protected onTabsVisibleChanged(visible: boolean) {
+  protected onTabsVisibleChanged(visible: boolean): void {
     this.tabsHidden = !visible;
   }
 
