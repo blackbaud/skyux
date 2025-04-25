@@ -41,7 +41,14 @@ describe('ng-add.schematic', () => {
 
     return {
       runner,
-      runSchematic: () => runner.runSchematic('ng-add', options, tree),
+      runSchematic: () =>
+        runner.runSchematic(
+          'ng-add',
+          {
+            project: defaultProjectName,
+          },
+          tree,
+        ),
       tree,
     };
   }
