@@ -22,7 +22,9 @@
       max(
           var(--sky-size-icon-xxxl),
           calc(
-            var(--sky-font-line_height-body-m) +
+            calc(
+                var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
+              ) +
               calc(var(--sky-space-inset-pillarbox-1_2-top-m) * 2)
           )
         ) +
