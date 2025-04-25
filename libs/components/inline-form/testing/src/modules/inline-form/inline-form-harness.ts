@@ -26,15 +26,6 @@ export class SkyInlineFormHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Whether the inline form is shown.
-   */
-  public async isFormExpanded(): Promise<boolean> {
-    return (
-      (await (await this.host()).getAttribute('data-show-form')) === 'true'
-    );
-  }
-
-  /**
    * Gets an inline form button that matches the given filters.
    */
   public async getButton(
@@ -84,5 +75,14 @@ export class SkyInlineFormHarness extends SkyQueryableComponentHarness {
     }
 
     return await this.locatorFor(SkyInlineFormTemplateHarness)();
+  }
+
+  /**
+   * Whether the inline form is shown.
+   */
+  public async isFormExpanded(): Promise<boolean> {
+    return (
+      (await (await this.host()).getAttribute('data-show-form')) === 'true'
+    );
   }
 }

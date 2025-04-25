@@ -1,7 +1,7 @@
 import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 
 /**
- * Harness to interact with inline form components in tests.
+ * Harness to interact with inline form template components in tests.
  */
 export class SkyInlineFormTemplateHarness extends SkyQueryableComponentHarness {
   /**
