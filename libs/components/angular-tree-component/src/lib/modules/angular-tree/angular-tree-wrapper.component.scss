@@ -4,10 +4,14 @@
 
 @include compatMixins.sky-default-overrides('.sky-angular-tree-wrapper') {
   --sky-override-angular-tree-context-menu-margin: 0 #{$sky-margin} 0 0;
+  --sky-override-angular-tree-node-active-background-color: #{$sky-background-color-neutral-light};
   --sky-override-angular-tree-node-border-left-active: #{$sky-nav-selected-border-width}
     solid #{$sky-highlight-color-info};
   --sky-override-angular-tree-node-border-left-selected: #{$sky-nav-selected-border-width}
     solid transparent;
+  --sky-override-angular-tree-node-drop-slot-dragging-background-color: #{$sky-background-color-neutral-light};
+  --sky-override-angular-tree-node-drop-slot-dragging-border: 1px solid
+    #{$sky-border-color-neutral-light};
   --sky-override-angular-tree-node-padding-left-base: 0;
   --sky-override-angular-tree-node-selected-background-color: #{$sky-background-color-selected};
   --sky-override-angular-tree-node-wrapper-background-color-active: transparent;
@@ -33,10 +37,14 @@
 
 @include compatMixins.sky-modern-overrides('.sky-angular-tree-wrapper') {
   --sky-override-angular-tree-context-menu-margin: 0 var(--modern-space-s) 0 0;
+  --sky-override-angular-tree-node-active-background-color: #{$sky-background-color-neutral-light};
   --sky-override-angular-tree-node-border-left-active: #{$sky-nav-selected-border-width}
     solid #{$sky-highlight-color-info};
   --sky-override-angular-tree-node-border-left-selected: #{$sky-nav-selected-border-width}
     solid transparent;
+  --sky-override-angular-tree-node-drop-slot-dragging-background-color: #{$sky-background-color-neutral-light};
+  --sky-override-angular-tree-node-drop-slot-dragging-border: 1px solid
+    #{$sky-border-color-neutral-light};
   --sky-override-angular-tree-node-padding-left-base: 0;
   --sky-override-angular-tree-node-selected-background-color: #{$sky-background-color-selected};
   --sky-override-angular-tree-node-wrapper-background-color-active: transparent;
@@ -214,8 +222,15 @@
   }
   .node-drop-slot.is-dragging-over {
     height: 20px;
-    background: $sky-background-color-neutral-light;
-    border: 1px solid $sky-border-color-neutral-light;
+    background: var(
+      --sky-override-angular-tree-node-drop-slot-dragging-background-color,
+      var(--sky-color-background-action-soft)
+    );
+    border: var(
+      --sky-override-angular-tree-node-drop-slot-dragging-border,
+      var(--sky-border-width-container-base) solid
+        var(--sky-color-border-container-base)
+    );
   }
 }
 
