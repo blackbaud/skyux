@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { SkyInlineFormModule } from '@skyux/inline-form';
+import {
+  SkyInlineFormButtonLayout,
+  SkyInlineFormConfig,
+  SkyInlineFormModule,
+} from '@skyux/inline-form';
 
 @Component({
   imports: [SkyInlineFormModule],
@@ -16,5 +20,14 @@ import { SkyInlineFormModule } from '@skyux/inline-form';
   `,
 })
 class TestComponent {
-  public config: SkyInlineFormConfig = {};
+  public config: SkyInlineFormConfig = {
+    buttonLayout: SkyInlineFormButtonLayout.DoneCancel,
+  };
+  public showForm = false;
+  public onClose(): void {
+    this.showForm = false;
+  }
+  public onOpen(): void {
+    this.showForm = true;
+  }
 }

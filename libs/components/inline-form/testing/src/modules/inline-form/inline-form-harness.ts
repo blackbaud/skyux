@@ -21,4 +21,13 @@ export class SkyInlineFormHarness extends SkyQueryableComponentHarness {
   ): HarnessPredicate<SkyInlineFormHarness> {
     return SkyInlineFormHarness.getDataSkyIdPredicate(filters);
   }
+
+  /**
+   * Whether the inline form is shown.
+   */
+  public async isFormExpanded(): Promise<boolean> {
+    return (
+      (await (await this.host()).getAttribute('data-show-form')) === 'true'
+    );
+  }
 }
