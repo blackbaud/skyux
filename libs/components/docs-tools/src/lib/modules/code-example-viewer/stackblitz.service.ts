@@ -81,7 +81,12 @@ export class SkyDocsStackBlitzService {
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "@skyux/theme/css/sky.css",
+              "@skyux/theme/css/themes/modern/styles.css",
+              "@skyux/ag-grid/css/sky-ag-grid.css",
+              "src/styles.scss"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": ["node_modules/"]
             },
@@ -154,7 +159,12 @@ export class SkyDocsStackBlitzService {
             "stylePreprocessorOptions": {
               "includePaths": ["node_modules/"]
             },
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "@skyux/theme/css/sky.css",
+              "@skyux/theme/css/themes/modern/styles.css",
+              "@skyux/ag-grid/css/sky-ag-grid.css",
+              "src/styles.scss"
+            ],
             "scripts": []
           }
         }
@@ -333,9 +343,7 @@ bootstrapApplication(${config.componentName}, {
 }).catch((err) => console.error(err));
 `;
 
-    files['src/styles.scss'] = `@import url('@skyux/theme/css/sky');
-@import url('@skyux/theme/css/themes/modern/styles');
-`;
+    files['src/styles.scss'] = '';
 
     files['src/test.ts'] =
       `// This file is required by karma.conf.js and loads recursively all the .spec and framework files
