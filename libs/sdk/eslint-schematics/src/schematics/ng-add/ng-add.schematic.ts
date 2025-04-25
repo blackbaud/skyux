@@ -58,15 +58,18 @@ export default function ngAdd(): Rule {
     const configFile = getRootEslintConfigFilePath(tree);
 
     const contents = tree.readText(configFile);
+    const importStatement = 'const skyux = require("skyux-eslint");\n';
+
+    if (contents.includes(importStatement)) {
+      return;
+    }
+
     const recorder = tree.beginUpdate(configFile);
 
     const exportsMatch = MODULE_EXPORTS_REGEXP.exec(contents);
 
     if (exportsMatch) {
-      recorder.insertLeft(
-        exportsMatch.index,
-        'const skyux = require("skyux-eslint");\n',
-      );
+      recorder.insertLeft(exportsMatch.index, importStatement);
     }
 
     const statements = [
