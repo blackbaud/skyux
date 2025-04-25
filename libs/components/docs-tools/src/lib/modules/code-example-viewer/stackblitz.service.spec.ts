@@ -130,7 +130,12 @@ describe('stackblitz.service', () => {
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "@skyux/theme/css/sky.css",
+              "@skyux/theme/css/themes/modern/styles.css",
+              "@skyux/ag-grid/css/sky-ag-grid.css",
+              "src/styles.scss"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": ["node_modules/"]
             },
@@ -203,7 +208,12 @@ describe('stackblitz.service', () => {
             "stylePreprocessorOptions": {
               "includePaths": ["node_modules/"]
             },
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "@skyux/theme/css/sky.css",
+              "@skyux/theme/css/themes/modern/styles.css",
+              "@skyux/ag-grid/css/sky-ag-grid.css",
+              "src/styles.scss"
+            ],
             "scripts": []
           }
         }
@@ -372,9 +382,7 @@ bootstrapApplication(FooExampleComponent, {
   ],
 }).catch((err) => console.error(err));
 `,
-          'src/styles.scss': `@import url('@skyux/theme/css/sky');
-@import url('@skyux/theme/css/themes/modern/styles');
-`,
+          'src/styles.scss': '',
           'src/test.ts': `// This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
 import 'zone.js/testing';
