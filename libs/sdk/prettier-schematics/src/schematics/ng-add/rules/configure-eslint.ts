@@ -60,23 +60,52 @@ function addPrettierExtendsToConfig(
   writeJsonFile(tree, eslintConfigPath, eslintConfig);
 }
 
-function modifyFlatConfigFile(tree: Tree, filePath: string): void {
-  const eslintConfig = tree.readText(filePath);
+function needsComma(contents: string): boolean {
+  const len = contents.length;
+
+  for (let i = len; i > -1; i--) {
+    // Starting at the end of the string, find the first non-whitespace character
+    // and check if it's a comma. If it is, we don't need to insert one.
+    const maybeComma = contents.at(i);
+    if (maybeComma !== undefined && maybeComma.match(/[^\s]/)) {
+      return maybeComma !== ',';
+    }
+  }
+
+  /* istanbul ignore next: safety check */
+  return true;
+}
+
+function modifyFlatConfigFile(args: {
+  eslintConfigFile: string;
+  isEsm: boolean;
+  tree: Tree;
+}): void {
+  const { tree, eslintConfigFile, isEsm } = args;
+  const eslintConfig = tree.readText(eslintConfigFile);
   const lastClosingParenthesisRegExp = /\)(?!(?:\n|.)*\))/;
   const parenthesisMatch = lastClosingParenthesisRegExp.exec(eslintConfig);
+  const exportsRegexp = isEsm ? /\nexport default / : /\nmodule\.exports/;
 
   if (parenthesisMatch) {
-    const exportsMatch = /\nmodule\.exports/.exec(eslintConfig);
+    const exportsMatch = exportsRegexp.exec(eslintConfig);
 
     if (exportsMatch) {
-      const recorder = tree.beginUpdate(filePath);
+      const recorder = tree.beginUpdate(eslintConfigFile);
+      const importStatement = isEsm
+        ? 'import prettier from "eslint-config-prettier";\n'
+        : 'const prettier = require("eslint-config-prettier/flat");\n';
 
-      recorder.insertLeft(
-        exportsMatch.index,
-        'const prettier = require("eslint-config-prettier/flat");\n',
+      if (eslintConfig.includes(importStatement)) {
+        return;
+      }
+
+      recorder.insertLeft(exportsMatch.index, importStatement);
+
+      recorder.insertRight(
+        parenthesisMatch.index,
+        `  ${needsComma(eslintConfig.substring(0, parenthesisMatch.index)) ? ',' : ''}prettier\n`,
       );
-
-      recorder.insertRight(parenthesisMatch.index, '  ,prettier\n');
 
       tree.commitUpdate(recorder);
     }
@@ -101,19 +130,21 @@ function processESLintConfig(
   }
 }
 
-export function configureESLint(
-  workspace: workspaces.WorkspaceDefinition,
-): Rule {
+export function configureESLint(args: {
+  eslintConfigFile?: string;
+  isFlatConfig: boolean;
+  isEsm: boolean;
+  workspace: workspaces.WorkspaceDefinition;
+}): Rule {
   return (tree, context) => {
+    const { eslintConfigFile, isFlatConfig, isEsm, workspace } = args;
     const updatedESLintConfigs: string[] = [];
 
     context.logger.info('Configuring ESLint Prettier plugin...');
 
-    const flatConfigFile = '/eslint.config.js';
-
-    if (tree.exists(flatConfigFile)) {
-      modifyFlatConfigFile(tree, flatConfigFile);
-      updatedESLintConfigs.push(flatConfigFile);
+    if (eslintConfigFile && isFlatConfig) {
+      modifyFlatConfigFile({ tree, eslintConfigFile, isEsm });
+      updatedESLintConfigs.push(eslintConfigFile);
     } else {
       const projects = workspace.projects.values();
       let project: workspaces.ProjectDefinition | undefined;
