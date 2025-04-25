@@ -5,7 +5,7 @@ import { SkyInlineFormHarness } from '@skyux/inline-form/testing';
 
 import { InlineFormBasicExampleComponent } from './example.component';
 
-fdescribe('Inline form basic demo', () => {
+describe('Inline form basic demo', () => {
   async function setupTest(options: { dataSkyId?: string }): Promise<{
     harness: SkyInlineFormHarness;
     fixture: ComponentFixture<InlineFormBasicExampleComponent>;
