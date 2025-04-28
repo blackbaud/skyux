@@ -1,6 +1,11 @@
 <sky-modal [headingText]="'Sectioned form — Index: ' + activeIndexDisplay">
   <sky-modal-content>
-    <sky-sectioned-form (indexChanged)="onIndexChanged($event)">
+    <sky-sectioned-form
+      data-sky-id="modal-sectioned-form"
+      [messageStream]="sectionedFormController"
+      (indexChanged)="onIndexChanged($event)"
+      (tabsVisibleChanged)="onTabsVisibleChanged($event)"
+    >
       <sky-sectioned-form-section heading="Basic information">
         <app-information-form />
       </sky-sectioned-form-section>
@@ -17,7 +22,7 @@
     </sky-sectioned-form>
   </sky-modal-content>
   <sky-modal-footer>
-    @if (tabsHidden()) {
+    @if (tabsHidden) {
       <button
         class="sky-btn sky-btn-default"
         type="button"

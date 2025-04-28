@@ -2,12 +2,12 @@
   <sky-fluid-grid gutterSize="small" [disableMargin]="true">
     <sky-row>
       <sky-column [screenXSmall]="6">
-        <sky-input-box labelText="Name" stacked="true">
+        <sky-input-box data-sky-id="name-field" labelText="Name" stacked="true">
           <input formControlName="name" type="text" />
         </sky-input-box>
       </sky-column>
       <sky-column [screenXSmall]="6">
-        <sky-input-box labelText="ID" stacked="true">
+        <sky-input-box data-sky-id="id-field" labelText="ID" stacked="true">
           <input formControlName="id" type="text" />
           <span class="sky-error-indicator">
             @if (formGroup.get('id')?.invalid) {
