@@ -1,0 +1,19 @@
+<sky-sectioned-form
+  data-sky-id="sectioned-form"
+  [messageStream]="controller"
+  (indexChanged)="onIndexChanged($event)"
+>
+  <sky-sectioned-form-section heading="Basic information">
+    Basic info section
+  </sky-sectioned-form-section>
+  <sky-sectioned-form-section
+    heading="Addresses"
+    [itemCount]="2"
+    [active]="activeTab()"
+  >
+    Addresses section
+  </sky-sectioned-form-section>
+  <sky-sectioned-form-section heading="Phone numbers" [itemCount]="3">
+    Phone numbers section
+  </sky-sectioned-form-section>
+</sky-sectioned-form>
