@@ -48,8 +48,8 @@ describe('Inline form custom button demo', () => {
       await harness.getTemplate()
     ).querySelector('input');
 
-    inputHarness.sendKeys('t');
-    inputHarness.blur();
+    await inputHarness.sendKeys('t');
+    await inputHarness.blur();
     fixture.detectChanges();
 
     await buttons[0].click();
