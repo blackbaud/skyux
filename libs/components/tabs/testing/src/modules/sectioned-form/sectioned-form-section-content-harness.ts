@@ -5,7 +5,7 @@ import { SkyVerticalTabContentHarness } from '../vertical-tabset/vertical-tab-co
 import { SkySectionedFormSectionContentHarnessFilters } from './sectioned-form-section-content-harness-filters';
 
 /**
- * Harness for interacting with a vertical tab content in tests.
+ * Harness for interacting with a sectioned form content in tests.
  */
 export class SkySectionedFormSectionContentHarness extends SkyVerticalTabContentHarness {
   /**
@@ -15,21 +15,10 @@ export class SkySectionedFormSectionContentHarness extends SkyVerticalTabContent
   public static override with(
     filters: SkySectionedFormSectionContentHarnessFilters,
   ): HarnessPredicate<SkySectionedFormSectionContentHarness> {
-    return SkySectionedFormSectionContentHarness.getDataSkyIdPredicate(
+    return super.with(
       filters,
-    ).addOption('tabId', filters.tabId, async (harness, tabId) => {
-      const harnessId = await harness.getTabId();
-      return await HarnessPredicate.stringMatches(harnessId, tabId);
-    });
+    ) as HarnessPredicate<SkySectionedFormSectionContentHarness>;
   }
-
-  /**
-   * Gets the tab content's id.
-   * @internal
-   */
-  // public async getTabId(): Promise<string | null> {
-  //   return await super.getTabId();
-  // }
 
   /**
    * Whether the section content is visible.

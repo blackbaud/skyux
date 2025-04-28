@@ -6,7 +6,7 @@ import { SkySectionedFormHarness } from '@skyux/tabs/testing';
 
 import { TabsSectionedFormModalExampleComponent } from './example.component';
 
-describe('Sectioned form harness', () => {
+describe('Sectioned form in a modal example', () => {
   async function setupTest(): Promise<{
     sectionedFormHarness: SkySectionedFormHarness;
     fixture: ComponentFixture<TabsSectionedFormModalExampleComponent>;

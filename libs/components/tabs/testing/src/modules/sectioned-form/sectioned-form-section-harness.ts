@@ -90,13 +90,6 @@ export class SkySectionedFormSectionHarness extends SkyVerticalTabButtonHarness 
   }
 
   /**
-   *
-   */
-  // public override async getTabId(): Promise<string> {
-  //   return await super.getTabId();
-  // }
-
-  /**
    * Whether the section is active.
    */
   public override async isActive(): Promise<boolean> {
