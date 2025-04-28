@@ -38,6 +38,7 @@
       "@skyux/packages": "0.0.0-PLACEHOLDER",
       "@blackbaud/angular-tree-component": "^1.0.0",
       "@skyux-sdk/eslint-config": "0.0.0-PLACEHOLDER",
+      "@skyux-sdk/eslint-schematics": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/prettier-schematics": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
       "@skyux/a11y": "0.0.0-PLACEHOLDER",

@@ -38,7 +38,7 @@ export class SkyPageSummaryComponent {
       moreInfoUrl:
         'https://developer.blackbaud.com/skyux/design/guidelines/page-layouts',
       replacementRecommendation:
-        'For page templates and techniques to summarize page content, see the page design guidelines.',
+        "We recommend using the page component's `sky-page-header` component instead. And for page templates and techniques to summarize page content, see the page design guidelines.",
     });
 
     effect(() => {

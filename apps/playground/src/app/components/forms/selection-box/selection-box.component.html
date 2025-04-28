@@ -34,6 +34,7 @@
           </sky-selection-box-description>
           <sky-radio
             #radio
+            [disabled]="item['disabled']"
             [labelledBy]="radioHeaderId.id"
             [value]="item['value']"
           />

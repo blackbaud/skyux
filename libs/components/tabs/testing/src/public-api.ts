@@ -6,6 +6,9 @@ export { SkyTabsetHarnessFilters } from './modules/tabs/tabset-harness-filters';
 export { SkyTabButtonHarness } from './modules/tabs/tab-button-harness';
 export { SkyTabButtonHarnessFilters } from './modules/tabs/tab-button-harness-filters';
 export { SkyTabContentHarness } from './modules/tabs/tab-content-harness';
+export { SkyTabContentHarnessFilters } from './modules/tabs/tab-content-harness-filters';
+export { SkyTabsetNavButtonHarness } from './modules/tabs/tabset-nav-button-harness';
+export { SkyTabsetNavButtonHarnessFilters } from './modules/tabs/tabset-nav-button-harness-filters';
 
 export { SkyVerticalTabButtonHarness } from './modules/vertical-tabset/vertical-tab-button-harness';
 export { SkyVerticalTabButtonHarnessFilters } from './modules/vertical-tabset/vertical-tab-button-harness-filters';
