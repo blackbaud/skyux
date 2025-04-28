@@ -47,11 +47,11 @@ export class SkyIllustrationHarness extends SkyComponentHarness {
 
     let foundSize;
 
-    ['sm', 'md', 'lg', 'xl'].forEach(async (size) => {
+    for (const size of ['sm', 'md', 'lg', 'xl']) {
       if (await img.hasClass(`sky-illustration-img-${size}`)) {
-        foundSize = size;
+        foundSize = size as SkyIllustrationSize;
       }
-    });
+    }
 
     if (foundSize) {
       return foundSize;

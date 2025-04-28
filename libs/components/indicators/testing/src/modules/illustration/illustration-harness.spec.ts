@@ -93,7 +93,7 @@ describe('Illustration harness', () => {
       classList.add('sky-illustration-img-fake');
 
       await expectAsync(harness.getSize()).toBeRejectedWithError(
-        'The image height and width do not match.',
+        'Size was not set.',
       );
     }));
 
