@@ -101,6 +101,7 @@ function modifyFlatConfigFile(args: {
       }
 
       recorder.insertLeft(exportsMatch.index, importStatement);
+
       recorder.insertRight(
         parenthesisMatch.index,
         `  ${needsComma(eslintConfig.substring(0, parenthesisMatch.index)) ? ',' : ''}prettier\n`,

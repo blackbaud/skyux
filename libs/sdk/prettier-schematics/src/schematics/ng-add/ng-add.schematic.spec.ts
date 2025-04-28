@@ -513,21 +513,32 @@ module.exports = tseslint.config(
   });
 
   it('should setup prettier import sorting', async () => {
-    const { runSchematic } = await setup({
+    const { runSchematic, tree } = await setup({
       setupAngularEslint: true,
       projectType: 'application',
     });
 
-    const updatedTree = await runSchematic({ importSorting: true });
+    await runSchematic({ importSorting: true });
 
-    expect(JSON.parse(updatedTree.readText('.prettierrc.json'))).toEqual({
+    const expectedConfig = {
       singleQuote: true,
       importOrder: ['^@(.*)$', '^\\w(.*)$', '^(../)(.*)$', '^(./)(.*)$'],
       importOrderSeparation: true,
       importOrderSortSpecifiers: true,
       importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
       plugins: ['@trivago/prettier-plugin-sort-imports'],
-    });
+    };
+
+    expect(JSON.parse(tree.readText('/.prettierrc.json'))).toEqual(
+      expectedConfig,
+    );
+
+    // Run it again to make sure it's idempotent.
+    await runSchematic({ importSorting: true });
+
+    expect(JSON.parse(tree.readText('/.prettierrc.json'))).toEqual(
+      expectedConfig,
+    );
   });
 
   it('should handle ESM config files', async () => {
