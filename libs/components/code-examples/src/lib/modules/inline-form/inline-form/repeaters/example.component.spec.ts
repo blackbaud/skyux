@@ -6,7 +6,7 @@ import { SkyRepeaterHarness } from '@skyux/lists/testing';
 
 import { InlineFormRepeatersExampleComponent } from './example.component';
 
-fdescribe('Inline form with repeater demo', () => {
+describe('Inline form with repeater demo', () => {
   async function setupTest(options: { itemId: number }): Promise<{
     repeaterHarness: SkyRepeaterHarness;
     inlineFormHarness: SkyInlineFormHarness;
