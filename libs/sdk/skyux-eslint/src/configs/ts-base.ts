@@ -52,6 +52,12 @@ export default {
 
     // Angular rules
     '@angular-eslint/no-lifecycle-call': 'error',
+    /**
+     * Disable the `@angular-eslint/prefer-standalone` ESLint rule to address an
+     * issue with its "fix" implementation.
+     * @see https://github.com/angular-eslint/angular-eslint/issues/2206
+     */
+    '@angular-eslint/prefer-standalone': 'off',
 
     // TypeScript rules
     'default-param-last': 'off',
