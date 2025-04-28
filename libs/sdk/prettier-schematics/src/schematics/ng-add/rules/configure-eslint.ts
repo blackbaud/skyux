@@ -66,8 +66,9 @@ function needsComma(contents: string): boolean {
   for (let i = len; i > -1; i--) {
     // Starting at the end of the string, find the first non-whitespace character
     // and check if it's a comma. If it is, we don't need to insert one.
-    if (contents.at(i)?.match(/[^\s]/)) {
-      return contents.at(i) !== ',';
+    const maybeComma = contents.at(i);
+    if (maybeComma !== undefined && maybeComma.match(/[^\s]/)) {
+      return maybeComma !== ',';
     }
   }
 

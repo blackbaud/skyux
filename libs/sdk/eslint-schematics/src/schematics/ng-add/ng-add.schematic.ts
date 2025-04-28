@@ -5,9 +5,27 @@ import { getPackageJsonDependency } from '@schematics/angular/utility/dependenci
 import semver from 'semver';
 
 const ESLINT_CONFIG_EXTENDS_REGEXP = /(?<=extends:\s*\[)[^\]]*(?=])/g;
-const MODULE_EXPORTS_REGEXP = /\nmodule\.exports/;
 
-function getRootEslintConfigFilePath(tree: Tree): string {
+function needsComma(contents: string): boolean {
+  const len = contents.length;
+
+  for (let i = len; i > -1; i--) {
+    // Starting at the end of the string, find the first non-whitespace character
+    // and check if it's a comma. If it is, we don't need to insert one.
+    const maybeComma = contents.at(i);
+    if (maybeComma !== undefined && maybeComma.match(/[^\s]/)) {
+      return maybeComma !== ',';
+    }
+  }
+
+  /* istanbul ignore next: safety check */
+  return true;
+}
+
+function getRootEslintConfigFilePath(tree: Tree): {
+  configFile: string;
+  isEsm: boolean;
+} {
   if (!getPackageJsonDependency(tree, 'angular-eslint')) {
     throw new Error(
       "The package 'angular-eslint' is not installed. " +
@@ -24,10 +42,10 @@ function getRootEslintConfigFilePath(tree: Tree): string {
     throw new Error("The 'skyux-eslint' package requires eslint version 9.");
   }
 
-  let foundFile: string | undefined;
+  let configFile: string | undefined;
 
   tree.getDir('/').visit((filePath) => {
-    if (foundFile) {
+    if (configFile) {
       return;
     }
 
@@ -39,15 +57,17 @@ function getRootEslintConfigFilePath(tree: Tree): string {
     }
 
     if (filePath.match(/^\/eslint\.config\.(js|mjs|cjs)$/)) {
-      foundFile = filePath;
+      configFile = filePath;
     }
   });
 
-  if (!foundFile) {
+  if (!configFile) {
     throw new Error('A compatible ESLint config file could not be found.');
   }
 
-  return foundFile;
+  const isEsm = tree.readText(configFile).includes('export default ');
+
+  return { configFile, isEsm };
 }
 
 /**
@@ -55,18 +75,24 @@ function getRootEslintConfigFilePath(tree: Tree): string {
  */
 export default function ngAdd(): Rule {
   return (tree) => {
-    const configFile = getRootEslintConfigFilePath(tree);
+    const { configFile, isEsm } = getRootEslintConfigFilePath(tree);
 
     const contents = tree.readText(configFile);
+    const importStatement = isEsm
+      ? 'import skyux from "skyux-eslint";\n'
+      : 'const skyux = require("skyux-eslint");\n';
+
+    if (contents.includes(importStatement)) {
+      return;
+    }
+
     const recorder = tree.beginUpdate(configFile);
 
-    const exportsMatch = MODULE_EXPORTS_REGEXP.exec(contents);
+    const exportsRegexp = isEsm ? /\nexport default / : /\nmodule\.exports/;
+    const exportsMatch = exportsRegexp.exec(contents);
 
     if (exportsMatch) {
-      recorder.insertLeft(
-        exportsMatch.index,
-        'const skyux = require("skyux-eslint");\n',
-      );
+      recorder.insertLeft(exportsMatch.index, importStatement);
     }
 
     const statements = [
@@ -77,7 +103,7 @@ export default function ngAdd(): Rule {
     contents.match(ESLINT_CONFIG_EXTENDS_REGEXP)?.forEach((element) => {
       recorder.insertRight(
         contents.indexOf(element) + element.length,
-        `${' '.repeat(2)}...${statements.pop()},\n${' '.repeat(4)}`,
+        `${needsComma(element) ? ',' : ''}${' '.repeat(2)}...${statements.pop()},\n${' '.repeat(4)}`,
       );
     });
 
