@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect, model } from '@angular/core';
 import { SkyTileDashboardConfig } from '@skyux/tiles';
 
 import { GreetingService } from './greeting/greeting.service';
@@ -12,11 +12,7 @@ import { Tile3Component } from './tile3.component';
   standalone: false,
 })
 export class TileDashboardComponent {
-  constructor(public readonly greeting: GreetingService) {
-    console.log(this.greeting.sayHello());
-  }
-
-  protected dashboardConfig: SkyTileDashboardConfig = {
+  protected dashboardConfig = model<SkyTileDashboardConfig>({
     tiles: [
       {
         id: 'tile1',
@@ -71,5 +67,13 @@ export class TileDashboardComponent {
         },
       ],
     },
-  };
+  });
+
+  constructor(public readonly greeting: GreetingService) {
+    console.log(this.greeting.sayHello());
+    effect(() => {
+      const config = this.dashboardConfig();
+      console.log('Config changed:', config);
+    });
+  }
 }
