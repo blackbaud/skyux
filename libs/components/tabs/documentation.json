@@ -14,7 +14,14 @@
         "primaryDocsId": "SkySectionedFormModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkySectionedFormHarness",
+          "SkySectionedFormHarnessFilters",
+          "SkySectionedFormSectionHarness",
+          "SkySectionedFormSectionHarnessFilters",
+          "SkySectionedFormSectionContentHarness",
+          "SkySectionedFormSectionContentHarnessFilters"
+        ]
       },
       "codeExamples": {
         "docsIds": ["TabsSectionedFormModalExampleComponent"]

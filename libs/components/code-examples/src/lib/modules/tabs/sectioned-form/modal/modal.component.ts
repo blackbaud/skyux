@@ -2,12 +2,17 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ViewChild,
   inject,
 } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
-import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
+import {
+  SkySectionedFormMessage,
+  SkySectionedFormMessageType,
+  SkySectionedFormModule,
+} from '@skyux/tabs';
+
+import { Subject } from 'rxjs';
 
 import { AddressFormComponent } from './address-form.component';
 import { InformationFormComponent } from './information-form.component';
@@ -27,11 +32,10 @@ import { PhoneFormComponent } from './phone-form.component';
   ],
 })
 export class ModalComponent {
-  @ViewChild(SkySectionedFormComponent)
-  protected sectionedFormComponent: SkySectionedFormComponent | undefined;
-
   protected activeIndexDisplay: number | undefined;
   protected activeTab = true;
+  protected sectionedFormController = new Subject<SkySectionedFormMessage>();
+  protected tabsHidden = false;
 
   protected readonly modalInstance = inject(SkyModalInstance);
   readonly #changeDetector = inject(ChangeDetectorRef);
@@ -41,11 +45,13 @@ export class ModalComponent {
     this.#changeDetector.markForCheck();
   }
 
-  protected tabsHidden(): boolean {
-    return !this.sectionedFormComponent?.tabsVisible();
+  protected onTabsVisibleChanged(visible: boolean): void {
+    this.tabsHidden = !visible;
   }
 
   protected showTabs(): void {
-    this.sectionedFormComponent?.showTabs();
+    this.sectionedFormController.next({
+      type: SkySectionedFormMessageType.ShowTabs,
+    });
   }
 }

@@ -15,7 +15,7 @@ import { ModalComponent } from './modal.component';
 export class TabsSectionedFormModalExampleComponent {
   readonly #modalSvc = inject(SkyModalService);
 
-  protected openModal(): void {
+  public openModal(): void {
     const modalInstance = this.#modalSvc.open(ModalComponent, {
       size: 'large',
     });
