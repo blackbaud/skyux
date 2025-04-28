@@ -412,4 +412,110 @@ module.exports = tseslint.config(
 
     expect(tree.readText('/eslint.config.js')).toEqual(expectedContents);
   });
+
+  it('should handle ESM config files', async () => {
+    const { runSchematic, tree } = await setup({
+      angularEslintInstalled: true,
+      projectType: 'application',
+    });
+
+    tree.delete('/eslint.config.js');
+    tree.create(
+      '/eslint.config.mjs',
+      `// @ts-check
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import angular from 'angular-eslint';
+
+export default tseslint.config(
+  {
+    files: ['**/*.ts'],
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.recommended,
+      ...tseslint.configs.stylistic,
+      ...angular.configs.tsRecommended,
+    ],
+    processor: angular.processInlineTemplates,
+    rules: {
+      '@angular-eslint/directive-selector': [
+        'error',
+        {
+          type: 'attribute',
+          prefix: 'app',
+          style: 'camelCase',
+        },
+      ],
+      '@angular-eslint/component-selector': [
+        'error',
+        {
+          type: 'element',
+          prefix: 'app',
+          style: 'kebab-case',
+        },
+      ],
+    },
+  },
+  {
+    files: ['**/*.html'],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility
+    ],
+    rules: {},
+  }
+);
+`,
+    );
+
+    const updatedTree = await runSchematic();
+
+    expect(updatedTree.readText('eslint.config.mjs')).toEqual(`// @ts-check
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import angular from 'angular-eslint';
+import skyux from "skyux-eslint";
+
+export default tseslint.config(
+  {
+    files: ['**/*.ts'],
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.recommended,
+      ...tseslint.configs.stylistic,
+      ...angular.configs.tsRecommended,
+      ...skyux.configs.tsRecommended,
+    ],
+    processor: angular.processInlineTemplates,
+    rules: {
+      '@angular-eslint/directive-selector': [
+        'error',
+        {
+          type: 'attribute',
+          prefix: 'app',
+          style: 'camelCase',
+        },
+      ],
+      '@angular-eslint/component-selector': [
+        'error',
+        {
+          type: 'element',
+          prefix: 'app',
+          style: 'kebab-case',
+        },
+      ],
+    },
+  },
+  {
+    files: ['**/*.html'],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility
+    ,  ...skyux.configs.templateRecommended,
+    ],
+    rules: {},
+  }
+);
+`);
+  });
 });

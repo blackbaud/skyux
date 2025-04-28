@@ -8,6 +8,8 @@ import path from 'path';
 
 import { createTestApp, createTestLibrary } from '../testing/scaffold';
 
+import { SkyPrettierAddOptions } from './schema';
+
 const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
 const eslintConfigPath = '.eslintrc.json';
 
@@ -19,7 +21,7 @@ describe('ng-add.schematic', () => {
     projectType: 'application' | 'library';
   }): Promise<{
     runner: SchematicTestRunner;
-    runSchematic: () => Promise<UnitTestTree>;
+    runSchematic: (options?: SkyPrettierAddOptions) => Promise<UnitTestTree>;
     tree: UnitTestTree;
   }> {
     const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
@@ -35,18 +37,14 @@ describe('ng-add.schematic', () => {
             projectName: defaultProjectName,
           });
 
-    tree.create(eslintConfigPath, '{}');
+    if (!options?.setupAngularEslint) {
+      tree.create(eslintConfigPath, '{}');
+    }
 
     return {
       runner,
-      runSchematic: () =>
-        runner.runSchematic(
-          'ng-add',
-          {
-            project: defaultProjectName,
-          },
-          tree,
-        ),
+      runSchematic: (options?: SkyPrettierAddOptions) =>
+        runner.runSchematic('ng-add', options, tree),
       tree,
     };
   }
@@ -55,7 +53,7 @@ describe('ng-add.schematic', () => {
     tree: UnitTestTree,
     path: string,
     expectedContents: unknown,
-  ) {
+  ): void {
     const contents = commentJson.parse(tree.readContent(path));
     expect(contents).toEqual(expectedContents);
   }
@@ -89,8 +87,8 @@ describe('ng-add.schematic', () => {
       'package.json',
       expect.objectContaining({
         devDependencies: expect.objectContaining({
-          prettier: '3.2.5',
-          'eslint-config-prettier': '9.1.0',
+          prettier: '^3.5.3',
+          'eslint-config-prettier': '^10.1.2',
         }),
       }),
     );
@@ -420,12 +418,10 @@ test.ts`);
   });
 
   it('should work with ESLint flat config files (app)', async () => {
-    const { runSchematic, tree } = await setup({
+    const { runSchematic } = await setup({
       setupAngularEslint: true,
       projectType: 'application',
     });
-
-    tree.delete(eslintConfigPath);
 
     const updatedTree = await runSchematic();
 
@@ -478,12 +474,10 @@ module.exports = tseslint.config(
   });
 
   it('should work with ESLint flat config files (library)', async () => {
-    const { runSchematic, tree } = await setup({
+    const { runSchematic } = await setup({
       setupAngularEslint: true,
       projectType: 'library',
     });
-
-    tree.delete(eslintConfigPath);
 
     const updatedTree = await runSchematic();
 
@@ -516,5 +510,202 @@ module.exports = tseslint.config(
   ,prettier
 );
 `);
+  });
+
+  it('should setup prettier import sorting', async () => {
+    const { runSchematic, tree } = await setup({
+      setupAngularEslint: true,
+      projectType: 'application',
+    });
+
+    await runSchematic({ importSorting: true });
+
+    const expectedConfig = {
+      singleQuote: true,
+      importOrder: ['^@(.*)$', '^\\w(.*)$', '^(../)(.*)$', '^(./)(.*)$'],
+      importOrderSeparation: true,
+      importOrderSortSpecifiers: true,
+      importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
+      plugins: ['@trivago/prettier-plugin-sort-imports'],
+    };
+
+    expect(JSON.parse(tree.readText('/.prettierrc.json'))).toEqual(
+      expectedConfig,
+    );
+
+    // Run it again to make sure it's idempotent.
+    await runSchematic({ importSorting: true });
+
+    expect(JSON.parse(tree.readText('/.prettierrc.json'))).toEqual(
+      expectedConfig,
+    );
+  });
+
+  it('should handle ESM config files', async () => {
+    const { runSchematic, tree } = await setup({
+      setupAngularEslint: true,
+      projectType: 'application',
+    });
+
+    tree.delete('/eslint.config.js');
+    tree.create(
+      '/eslint.config.mjs',
+      `// @ts-check
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import angular from 'angular-eslint';
+
+export default tseslint.config(
+  {
+    files: ['**/*.ts'],
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.recommended,
+      ...tseslint.configs.stylistic,
+      ...angular.configs.tsRecommended,
+    ],
+    processor: angular.processInlineTemplates,
+    rules: {
+      '@angular-eslint/directive-selector': [
+        'error',
+        {
+          type: 'attribute',
+          prefix: 'app',
+          style: 'camelCase',
+        },
+      ],
+      '@angular-eslint/component-selector': [
+        'error',
+        {
+          type: 'element',
+          prefix: 'app',
+          style: 'kebab-case',
+        },
+      ],
+    },
+  },
+  {
+    files: ['**/*.html'],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility,
+    ],
+    rules: {},
+  },
+);
+`,
+    );
+
+    const updatedTree = await runSchematic();
+
+    expect(updatedTree.readText('eslint.config.mjs')).toEqual(`// @ts-check
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import angular from 'angular-eslint';
+import prettier from "eslint-config-prettier";
+
+export default tseslint.config(
+  {
+    files: ['**/*.ts'],
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.recommended,
+      ...tseslint.configs.stylistic,
+      ...angular.configs.tsRecommended,
+    ],
+    processor: angular.processInlineTemplates,
+    rules: {
+      '@angular-eslint/directive-selector': [
+        'error',
+        {
+          type: 'attribute',
+          prefix: 'app',
+          style: 'camelCase',
+        },
+      ],
+      '@angular-eslint/component-selector': [
+        'error',
+        {
+          type: 'element',
+          prefix: 'app',
+          style: 'kebab-case',
+        },
+      ],
+    },
+  },
+  {
+    files: ['**/*.html'],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility,
+    ],
+    rules: {},
+  },
+  prettier
+);
+`);
+  });
+
+  it('should be idempotent', async () => {
+    const { runSchematic } = await setup({
+      setupAngularEslint: true,
+      projectType: 'application',
+    });
+
+    const expectedConfig = `// @ts-check
+const eslint = require("@eslint/js");
+const tseslint = require("typescript-eslint");
+const angular = require("angular-eslint");
+const prettier = require("eslint-config-prettier/flat");
+
+module.exports = tseslint.config(
+  {
+    files: ["**/*.ts"],
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.recommended,
+      ...tseslint.configs.stylistic,
+      ...angular.configs.tsRecommended,
+    ],
+    processor: angular.processInlineTemplates,
+    rules: {
+      "@angular-eslint/directive-selector": [
+        "error",
+        {
+          type: "attribute",
+          prefix: "app",
+          style: "camelCase",
+        },
+      ],
+      "@angular-eslint/component-selector": [
+        "error",
+        {
+          type: "element",
+          prefix: "app",
+          style: "kebab-case",
+        },
+      ],
+    },
+  },
+  {
+    files: ["**/*.html"],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility,
+    ],
+    rules: {},
+  }
+  ,prettier
+);
+`;
+
+    let updatedTree = await runSchematic();
+
+    expect(updatedTree.readText('/eslint.config.js')).toEqual(expectedConfig);
+
+    // Run the schematic again, to confirm change wasn't made twice.
+    updatedTree = await runSchematic();
+
+    expect(updatedTree.readText('/eslint.config.js')).toEqual(expectedConfig);
   });
 });

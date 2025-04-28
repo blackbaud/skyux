@@ -7,6 +7,7 @@ const config: StorybookConfig = {
   ...rootMain,
 
   stories: ['../src/app/**/*.stories.@(js|ts)'],
+  staticDirs: ['../assets'],
 };
 
 export default config;
