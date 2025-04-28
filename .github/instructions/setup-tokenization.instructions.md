@@ -5,4 +5,4 @@ Delete modern theme dark mode styles:
 
 Add mixins:
 
-- Run #file:./scss-override-mixins.prompt.md
+- Run #file:./scss-override-mixins.instructions.md
