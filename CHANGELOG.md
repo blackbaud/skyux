@@ -1,5 +1,23 @@
 # Changelog
 
+## [12.9.0](https://github.com/blackbaud/skyux/compare/12.8.0...12.9.0) (2025-04-28)
+
+
+### Features
+
+* **components/angular-tree-component:** tokenize tree view styles ([#3399](https://github.com/blackbaud/skyux/issues/3399)) ([6825d89](https://github.com/blackbaud/skyux/commit/6825d89dd3f202f9c7a5da2542f3ac6f89dddfce))
+* **sdk/prettier-schematics:** add ability to sort import statements ([#3411](https://github.com/blackbaud/skyux/issues/3411)) ([65f2a98](https://github.com/blackbaud/skyux/commit/65f2a982a494713d2d210c79d7f265356abea617))
+
+
+### Bug Fixes
+
+* **components/code-examples:** add `@skyux/ag-grid` styles to code examples ([#3406](https://github.com/blackbaud/skyux/issues/3406)) ([6e7e575](https://github.com/blackbaud/skyux/commit/6e7e5752c88de6be4795565b5a1f4e56a04d0676))
+* **components/layout:** update deprecation guidance for page summary component ([#3400](https://github.com/blackbaud/skyux/issues/3400)) ([5cabaa9](https://github.com/blackbaud/skyux/commit/5cabaa96dea0c1d54d69ec2fde96effa1e106f4a))
+* **sdk/eslint-schematics:** add support for ESM config files ([#3405](https://github.com/blackbaud/skyux/issues/3405)) ([8ffb498](https://github.com/blackbaud/skyux/commit/8ffb498cc5d982afdecc0d01ad2584bfd41b1a90))
+* **sdk/eslint-schematics:** make `ng-add` schematic idempotent ([#3402](https://github.com/blackbaud/skyux/issues/3402)) ([7c51235](https://github.com/blackbaud/skyux/commit/7c5123536d3df0474c4208fae40473e289f35f99))
+* **sdk/prettier-schematics:** add support for `eslint-config-prettier@^10.1.2` and ESM config files ([#3404](https://github.com/blackbaud/skyux/issues/3404)) ([71a38f3](https://github.com/blackbaud/skyux/commit/71a38f37e90e1748cfafc6c1aac5a22086fcdf2a))
+* **sdk/skyux-eslint:** disable `@angular-eslint/prefer-standalone` ESLint rule ([#3412](https://github.com/blackbaud/skyux/issues/3412)) ([03cb15d](https://github.com/blackbaud/skyux/commit/03cb15db33b4090c258a89dc94ba0cba59111a79))
+
 ## [12.8.0](https://github.com/blackbaud/skyux/compare/12.7.0...12.8.0) (2025-04-24)
 
 
