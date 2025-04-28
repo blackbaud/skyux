@@ -11,7 +11,12 @@
         "primaryDocsId": "SkyNavbarModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkyNavbarHarness",
+          "SkyNavbarHarnessFilters",
+          "SkyNavbarItemHarness",
+          "SkyNavbarItemHarnessFilters"
+        ]
       },
       "codeExamples": {
         "docsIds": ["NavbarExampleComponent"]
