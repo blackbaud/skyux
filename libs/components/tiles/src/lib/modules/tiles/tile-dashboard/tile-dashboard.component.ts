@@ -126,6 +126,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   #ngUnsubscribe = new Subject<void>();
   #resourcesService: SkyLibResourcesService | undefined;
   #viewReady = false;
+  #viewReadyTimer: ReturnType<typeof setTimeout> | undefined;
   #_config: SkyTileDashboardConfig | undefined;
 
   constructor(
@@ -191,8 +192,9 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   #checkReady(): void {
-    if (this.#viewReady && this.config) {
-      setTimeout(() => {
+    if (this.#viewReady && this.config && !this.#viewReadyTimer) {
+      this.#viewReadyTimer = setTimeout(() => {
+        this.#viewReadyTimer = undefined;
         if (this.config && this.columns && this.singleColumn) {
           this.#dashboardService.init(
             this.config,
