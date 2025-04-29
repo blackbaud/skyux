@@ -56,8 +56,20 @@
       .ag-header-cell-resize::after {
         mask-size: 1px 2px;
         -webkit-mask-size: 1px 2px;
-        mask-image: url('data:image/gif;base64,R0lGODlhAQACAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAIAAAICDAoAOw==');
-        -webkit-mask-image: url('data:image/gif;base64,R0lGODlhAQACAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAIAAAICDAoAOw==');
+        mask-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(0, 0, 0, 1) 50%,
+          rgba(0, 0, 0, 0) 51%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        -webkit-mask-image: -webkit-linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(0, 0, 0, 1) 50%,
+          rgba(0, 0, 0, 0) 51%,
+          rgba(0, 0, 0, 0) 100%
+        );
         mask-repeat: repeat;
         -webkit-mask-repeat: repeat;
         mask-position: top;

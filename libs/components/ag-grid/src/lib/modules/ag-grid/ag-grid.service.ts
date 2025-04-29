@@ -575,15 +575,12 @@ export class SkyAgGridService implements OnDestroy {
           return [];
         }
       },
-      icons: {
-        sortDescending: this.#getIconTemplate('sortDescending'),
-        sortAscending: this.#getIconTemplate('sortAscending'),
-        columnMoveMove: this.#getIconTemplate('columnMoveMove'),
-        columnMoveHide: this.#getIconTemplate('columnMoveHide'),
-        columnMoveLeft: this.#getIconTemplate('columnMoveLeft'),
-        columnMoveRight: this.#getIconTemplate('columnMoveRight'),
-        columnMovePin: this.#getIconTemplate('columnMovePin'),
-      },
+      icons: Object.fromEntries(
+        Object.keys(iconMap).map((iconKey) => [
+          iconKey,
+          this.#getIconTemplate(iconKey as keyof IconMapType),
+        ]),
+      ),
       loadingOverlayComponent: SkyAgGridLoadingComponent,
       onCellFocused: () => this.#onCellFocused(),
       rowModelType: 'clientSide',

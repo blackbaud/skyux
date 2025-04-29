@@ -4,7 +4,6 @@ import {
   Theme,
   colorSchemeDark,
   colorSchemeLight,
-  iconSetQuartz,
   themeQuartz,
 } from 'ag-grid-community';
 
@@ -103,8 +102,8 @@ const modernThemeDarkBase = {
 };
 
 const SkyAgGridDataGridDefault = themeQuartz
+  .withoutPart('iconSet')
   .withPart(colorSchemeLight)
-  .withPart(iconSetQuartz)
   .withParams(defaultThemeBase);
 
 const SkyAgGridDataEntryGridDefault = SkyAgGridDataGridDefault.withParams(
@@ -119,16 +118,16 @@ const SkyAgGridDataEntryGridDefault = SkyAgGridDataGridDefault.withParams(
 });
 
 const SkyAgGridDataGridModernLight = themeQuartz
+  .withoutPart('iconSet')
   .withPart(colorSchemeLight)
-  .withPart(iconSetQuartz)
   .withParams(modernThemeBase);
 
 const SkyAgGridDataGridModernLightCompact =
   SkyAgGridDataGridModernLight.withParams(modernCompactThemeBase);
 
 const SkyAgGridDataGridModernDark = themeQuartz
+  .withoutPart('iconSet')
   .withPart(colorSchemeDark)
-  .withPart(iconSetQuartz)
   .withParams(modernThemeDarkBase);
 
 const SkyAgGridDataGridModernDarkCompact =
