@@ -167,6 +167,7 @@
 * **components/help-inline:** remove TemplateRef return type on getPopoverContent ([#3176](https://github.com/blackbaud/skyux/issues/3176)) The `getPopoverContent()` method on the help inline harness had a return type of `TemplateRef | string | undefined` despite only returning strings if they existed. This has been corrected and reflected in all consuming component harnesses.
 * **components/indicators:** remove forwarded exports from `@skyux/help-inline` and `@skyux/icon` ([#3069](https://github.com/blackbaud/skyux/issues/3069))
 * **components/lookup:** remove flag from country field input ([#3166](https://github.com/blackbaud/skyux/issues/3166)) ([f9a25be](https://github.com/blackbaud/skyux/commit/f9a25bea521495419317e7e9b4f8c61643316bf4)) The flag has been removed from the country field's input box. Due to this change, the component's `hideSelectedCountryFlag` input has been removed along with the test harness' `countryFlagIsVisible` method.
+* **components/modals:** confirm discarding changes when canceling modal using  directive ([#3246](https://github.com/blackbaud/skyux/issues/3246)) ([95a2162](https://github.com/blackbaud/skyux/commit/95a216230dc9dd36d191dc50ed045b5296553577))
 
 
 ### Features
