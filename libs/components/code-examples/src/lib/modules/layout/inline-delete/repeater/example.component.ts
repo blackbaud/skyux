@@ -36,10 +36,10 @@ export class LayoutInlineDeleteRepeaterExampleComponent {
     },
   ];
 
-  protected repeaterDemoItems = this.originalRepeaterDemoItems;
+  public repeaterDemoItems = this.originalRepeaterDemoItems;
   protected repeaterDemoShownInlineDeletes: string[] = [];
 
-  protected showInlineDelete(title: string): void {
+  public showInlineDelete(title: string): void {
     this.repeaterDemoShownInlineDeletes.push(title);
   }
 
