@@ -20,7 +20,7 @@
             @for (editItem of editItems; track editItem) {
               <sky-dropdown-item>
                 @if (!editItem.isDivider) {
-                  <button type="button" (click)="editItem?.function()">
+                  <button type="button" (click)="editItem?.function?.()">
                     {{ editItem.label }}
                     @if (editItem.keyShortcut) {
                       <div
@@ -61,7 +61,7 @@
             @for (formatItem of formatItems; track formatItem) {
               <sky-dropdown-item>
                 @if (!formatItem.isDivider) {
-                  <button type="button" (click)="formatItem?.function()">
+                  <button type="button" (click)="formatItem?.function?.()">
                     {{ formatItem.label }}
                     @if (formatItem.keyShortcut) {
                       <div
@@ -100,7 +100,7 @@
               }}
             </sky-dropdown-button>
             <sky-dropdown-menu>
-              @for (mergeField of mergeFields; track mergeField) {
+              @for (mergeField of mergeFields; track mergeField.name) {
                 <sky-dropdown-item>
                   <button type="button" (click)="insertMergeField(mergeField)">
                     {{ mergeField.name }}

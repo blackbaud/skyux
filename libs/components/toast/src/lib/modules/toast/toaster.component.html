@@ -7,7 +7,7 @@
   (mouseenter)="onMouseEnter()"
   (mouseleave)="onMouseLeave()"
 >
-  @for (toast of toastsForDisplay; track toast) {
+  @for (toast of toastsForDisplay; track toast.toastId) {
     <sky-toast
       [autoClose]="toast.config?.autoClose"
       [toastType]="toast.config?.type"

@@ -8,7 +8,7 @@
 
       <sky-data-view [viewId]="viewConfig.id">
         <sky-repeater expandMode="none">
-          @for (column of displayedColumnData; track column) {
+          @for (column of displayedColumnData; track column.id) {
             <sky-repeater-item
               [selectable]="true"
               [(isSelected)]="column.isSelected"
