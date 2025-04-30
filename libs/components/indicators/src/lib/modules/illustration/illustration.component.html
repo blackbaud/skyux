@@ -1,12 +1,10 @@
 <img
   alt=""
-  class="sky-illustration-img"
   loading="lazy"
   [attr.data-sky-illustration-name]="name()"
-  [height]="pixelSize()"
+  [class]="'sky-illustration-img sky-illustration-img-' + size()"
   [ngClass]="{
     'sky-illustration-img-loaded': !!url()
   }"
   [src]="url()"
-  [width]="pixelSize()"
 />

@@ -112,6 +112,7 @@ export { ListsRepeaterBasicExampleComponent } from './lib/modules/lists/repeater
 export { ListsRepeaterInlineFormExampleComponent } from './lib/modules/lists/repeater/inline-form/example.component';
 export { ListsSortBasicExampleComponent } from './lib/modules/lists/sort/basic/example.component';
 export { LookupAutocompleteAdvancedExampleComponent } from './lib/modules/lookup/autocomplete/advanced/example.component';
+export { LookupAutocompleteAnyValueExampleComponent } from './lib/modules/lookup/autocomplete/any-value/example.component';
 export { LookupAutocompleteBasicExampleComponent } from './lib/modules/lookup/autocomplete/basic/example.component';
 export { LookupAutocompleteCustomSearchExampleComponent } from './lib/modules/lookup/autocomplete/custom-search/example.component';
 export { LookupAutocompleteSearchFiltersExampleComponent } from './lib/modules/lookup/autocomplete/search-filters/example.component';
