@@ -1,7 +1,7 @@
 <form novalidate [formGroup]="formGroup">
   <sky-input-box labelText="Favorite color" stacked>
     <sky-autocomplete data-sky-id="favorite-color" [data]="colors">
-      <input type="text" skyAutocomplete />
+      <input formControlName="favoriteColor" type="text" skyAutocomplete />
     </sky-autocomplete>
   </sky-input-box>
   <p class="sky-font-emphasized">Form model:</p>
