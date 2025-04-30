@@ -3,7 +3,7 @@
     @if (errorsSvc.formErrors | async; as formErrors) {
       @if (formErrors.length > 0) {
         <div class="sky-modal-footer-errors sky-margin-stacked-lg" tabindex="0">
-          @for (formError of formErrors; track formError) {
+          @for (formError of formErrors; track formError.message) {
             <sky-status-indicator
               descriptionType="error"
               indicatorType="danger"
