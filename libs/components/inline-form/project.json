@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/components/inline-form/src",
   "prefix": "sky",
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
@@ -19,7 +20,21 @@
           "tsConfig": "libs/components/inline-form/tsconfig.lib.json"
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "projects": ["core"],
+          "target": "build"
+        }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/inline-form/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/inline-form/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/inline-form/testing/src/**/fixtures/**/*"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -61,6 +76,5 @@
         ]
       }
     }
-  },
-  "tags": ["component", "npm"]
+  }
 }

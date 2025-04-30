@@ -35,7 +35,7 @@ interface DemoForm {
 })
 export class InlineFormBasicExampleComponent {
   protected firstName = 'Jane';
-  protected formGroup: FormGroup<DemoForm>;
+  public formGroup: FormGroup<DemoForm>;
 
   protected inlineFormConfig: SkyInlineFormConfig = {
     buttonLayout: SkyInlineFormButtonLayout.SaveCancel,
