@@ -97,6 +97,9 @@
         "libs/components/indicators/testing/src/public-api.ts"
       ],
       "@skyux/inline-form": ["libs/components/inline-form/src/index.ts"],
+      "@skyux/inline-form/testing": [
+        "libs/components/inline-form/testing/src/public-api.ts"
+      ],
       "@skyux/layout": ["libs/components/layout/src/index.ts"],
       "@skyux/layout/testing": [
         "libs/components/layout/testing/src/public-api.ts"

@@ -19,7 +19,7 @@
             {{ styleStateFontName }}
           </sky-dropdown-button>
           <sky-dropdown-menu>
-            @for (fontModel of fontList; track fontModel) {
+            @for (fontModel of fontList; track fontModel.name) {
               <sky-dropdown-item>
                 <button
                   type="button"
