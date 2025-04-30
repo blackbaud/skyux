@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -80,6 +81,11 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
 
   public get showForm(): boolean | undefined {
     return this.#_showForm;
+  }
+
+  @HostBinding('attr.data-show-form')
+  public get showFormData(): boolean | undefined {
+    return this.showForm;
   }
 
   /**

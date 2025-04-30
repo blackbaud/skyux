@@ -14,7 +14,13 @@
         "primaryDocsId": "SkyInlineFormModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkyInlineFormHarness",
+          "SkyInlineFormHarnessFilters",
+          "SkyInlineFormButtonHarness",
+          "SkyInlineFormButtonHarnessFilters",
+          "SkyInlineFormTemplateHarness"
+        ]
       },
       "codeExamples": {
         "docsIds": [
