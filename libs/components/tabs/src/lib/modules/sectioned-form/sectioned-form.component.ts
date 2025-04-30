@@ -176,6 +176,7 @@ export class SkySectionedFormComponent
   /**
    * @deprecated Use the `tabsVisibleChanged` output to listen for tab visibility changes.
    */
+  /* istanbul ignore next */
   public tabsVisible(): boolean {
     this.#logger.deprecated('SectionedFormComponent.tabsVisible()', {
       deprecationMajorVersion: 8,
