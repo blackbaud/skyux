@@ -10,7 +10,11 @@
       {{ 'sky_action_hub_needs_attention_empty' | skyLibResources }}
     } @else {
       <ul class="sky-needs-attention-list">
-        @for (item of itemsToDisplay; track item.title; let isLast = $last) {
+        @for (
+          item of itemsToDisplay;
+          track displayItemsTrackByFn(item);
+          let isLast = $last
+        ) {
           <li
             class="sky-needs-attention-item-wrapper sky-font-emphasized"
             [ngClass]="{

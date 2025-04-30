@@ -68,6 +68,9 @@ export class SkyNeedsAttentionComponent {
     }),
     startWith([] as SkyActionHubNeedsAttention[]),
   );
+  protected readonly displayItemsTrackByFn = (
+    item: SkyActionHubNeedsAttention | undefined,
+  ): string => item?.title ?? Math.round(Math.random() * 1e8).toString(36);
 
   readonly #logService = inject(SkyLogService);
   readonly #resolver = inject(SkyHrefResolverService, { optional: true });
