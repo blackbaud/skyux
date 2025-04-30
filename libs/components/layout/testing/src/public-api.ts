@@ -38,3 +38,6 @@ export { SkyActionButtonContainerHarnessFilters } from './modules/action-button/
 export { SkyActionButtonContainerHarness } from './modules/action-button/action-button-container-harness';
 export { SkyActionButtonHarnessFilters } from './modules/action-button/action-button-harness.filters';
 export { SkyActionButtonHarness } from './modules/action-button/action-button-harness';
+
+export { SkyInlineDeleteHarness } from './modules/inline-delete/inline-delete-harness';
+export { SkyInlineDeleteHarnessFilters } from './modules/inline-delete/inline-delete-harness.filters';
