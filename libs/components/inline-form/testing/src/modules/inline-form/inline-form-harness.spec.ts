@@ -62,7 +62,7 @@ describe('Inline form harness', () => {
     };
   }
 
-  it("should get the inline form from it's data-sky-id", async () => {
+  it('should get the inline form from its data-sky-id', async () => {
     const { inlineFormHarness } = await setupTest({
       dataSkyId: 'inline-form-test',
     });
