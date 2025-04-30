@@ -13,7 +13,7 @@
         </sky-box-controls>
         <sky-box-content>
           <sky-description-list mode="vertical">
-            @for (recordDetail of recordDetails; track recordDetail) {
+            @for (recordDetail of recordDetails; track recordDetail.detail) {
               <sky-description-list-content>
                 <sky-description-list-term>
                   {{ recordDetail.detail }}
@@ -33,7 +33,11 @@
           <div class="box-2-content">
             <div class="box-2-actuals">
               <h3 class="sky-font-heading-4">Actuals</h3>
-              @for (actual of actualPayments; track actual; let i = $index) {
+              @for (
+                actual of actualPayments;
+                track actual.category;
+                let i = $index
+              ) {
                 <sky-key-info
                   [ngClass]="{
                     'sky-margin-stacked-lg': i < actualPayments.length - 1
@@ -75,7 +79,7 @@
       <sky-box headingText="Recent activity">
         <sky-box-content>
           <sky-repeater>
-            @for (activity of recentActivity; track activity) {
+            @for (activity of recentActivity; track activity.activity) {
               <sky-repeater-item>
                 <sky-repeater-item-content>
                   <div class="sky-margin-stacked-xs">

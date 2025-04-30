@@ -1,7 +1,7 @@
 <sky-split-view dock="fill" [messageStream]="splitViewStream">
   <sky-split-view-drawer [ariaLabel]="'Transaction list'" [width]="listWidth">
     <sky-repeater [activeIndex]="activeIndex">
-      @for (item of items; track item; let i = $index) {
+      @for (item of items; track item.id; let i = $index) {
         <sky-repeater-item
           (click)="onItemClick(i)"
           (keyup.enter)="onItemClick(i)"
