@@ -9,7 +9,10 @@
   sky-datepicker {
     input.sky-form-control {
       box-shadow: none;
-      border-width: 1px;
+      border-width: var(
+        --sky-border-width-input-base,
+        1px
+      ); // 1px fallback for default theme
       border-style: solid;
       border-color: transparent defaultVars.$sky-border-color-neutral-medium
         transparent transparent;
@@ -30,11 +33,11 @@
     sky-datepicker {
       input.sky-form-control {
         border-radius: 0;
-        border: 1px solid
-          defaultVars.$sky-theme-modern-border-color-primary-dark;
+        border: var(--sky-border-width-input-base) solid
+          var(--sky-color-border-input-focus);
 
         &:focus {
-          border-width: 2px !important;
+          border-width: var(--sky-border-width-input-focus) !important;
         }
       }
     }

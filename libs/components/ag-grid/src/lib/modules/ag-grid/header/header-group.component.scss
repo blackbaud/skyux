@@ -14,7 +14,7 @@
 
 button {
   cursor: pointer;
-  margin-left: var(--sky-margin-inline-sm);
+  margin-left: var(--sky-space-gap-text_action-xs, --sky-margin-inline-sm);
   flex-grow: 0;
   flex-shrink: 1;
 }

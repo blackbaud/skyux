@@ -10,7 +10,8 @@ import {
 
 const defaultsForAllThemes = {
   backgroundColor: 'var(--sky-background-color-page-default)',
-  borderColor: 'var(--sky-border-color-neutral-medium)',
+  borderColor:
+    'var(--sky-color-border-separator-row, var(--sky-border-color-neutral-medium))',
   borderRadius: 'var(--sky-border-radius-s, 3px)',
   cardShadow: 'none',
   cellEditingBorder: 'none',
@@ -24,42 +25,44 @@ const defaultsForAllThemes = {
     'var(--sky-override-switch-checked-color, var(--sky-color-icon-inverse, transparent))',
   checkboxUncheckedBackgroundColor: 'transparent',
   checkboxUncheckedBorderColor: `var(
-    --sky-border-color-neutral-medium-dark,
+    --sky-color-border-switch-base,
     var(--sky-border-color-neutral-medium)
   )`,
   checkboxCheckedShapeImage: {
     svg: `<svg width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m8.5 16.586-3.793-3.793a1 1 0 0 0-1.414 1.414l4.5 4.5a1 1 0 0 0 1.414 0l11-11a1 1 0 0 0-1.414-1.414L8.5 16.586Z" fill="#212121"/></svg>`,
   },
   // eslint-disable-next-line @cspell/spellchecker
-  fontFamily: ['BLKB Sans', 'Helvetica Neue', 'Arial', 'sans-serif'],
-  foregroundColor: 'var(--sky-text-color-default)',
+  fontFamily: 'var(--sky-font-family-primary)',
+  foregroundColor: 'var(--sky-color-text-default)',
   headerBackgroundColor: 'var(--sky-background-color-page-default)',
   headerColumnBorder: {
-    style: 'solid' as const,
-    width: 1,
+    style: 'var(--sky-border-style-divider)' as const,
+    width: 'var(--sky-border-width-divider)',
     color: { ref: 'borderColor' },
   },
   headerColumnBorderHeight: '100%',
-  headerColumnResizeHandleColor: 'var(--sky-border-color-neutral-medium)',
+  headerColumnResizeHandleColor:
+    'var(--sky-color-border-switch-base, var(--sky-border-color-neutral-medium))',
   headerColumnResizeHandleHeight: '100%',
-  headerColumnResizeHandleWidth: 1,
+  headerColumnResizeHandleWidth: 'var(--sky-border-width-divider, 1)',
   headerFontFamily: { ref: 'fontFamily' },
   iconSize: 12,
   inputDisabledBackgroundColor: 'transparent',
   inputFocusBorder: 'transparent',
   inputFocusShadow: 'none',
-  invalidColor: 'var(--sky-background-color-danger-dark)',
+  invalidColor: 'var(--sky-color-background-action-danger-base)',
   listItemHeight: { ref: 'rowHeight' },
   oddRowBackgroundColor: 'var(--sky-background-color-page-default)',
   pickerListBackgroundColor: { ref: 'backgroundColor' },
   popupShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)',
-  rowBorderColor: 'var(--sky-border-color-neutral-medium)',
+  rowBorderColor: 'var(--sky-color-border-separator-row)', // doesn't seem to affect anything,
   rowHoverColor: 'transparent',
-  secondaryForegroundColor: 'var(--sky-text-color-deemphasized)',
-  selectedRowBackgroundColor: 'var(--sky-background-color-selected)',
-  spacing: 4,
-  textColor: 'var(--sky-text-color-default)',
-  tooltipBackgroundColor: 'var(--sky-background-color-neutral-light)',
+  secondaryForegroundColor: 'var(--sky-color-text-deemphasized)',
+  selectedRowBackgroundColor:
+    'var(--sky-color-background-selected-soft, var(--sky-background-color-selected))',
+  spacing: 4, // doesn't seem to affect anything,
+  textColor: 'var(--sky-color-text-default)',
+  tooltipBackgroundColor: 'var(--sky-color-background-container-base)',
   wrapperBorderRadius: 0,
 };
 const defaultsForDataEntryGrid = {
@@ -78,17 +81,26 @@ const defaultThemeBase = {
 };
 const modernThemeBase = {
   ...defaultsForAllThemes,
-  fontSize: 16,
+  cellHorizontalPadding: 'var(--sky-space-inset-letterbox-2_3-left-m)', // TODO - needs an override to modern 12px
+  fontSize: 'var(--sky-font-size-body-m)',
   headerColumnBorder: {
-    style: 'solid' as const,
-    width: 1,
+    style: 'var(--sky-border-style-divider)' as const,
+    width: 'var(--sky-border-width-divider)',
     color: 'transparent',
   },
   headerColumnResizeHandleColor: { ref: 'headerBackgroundColor' },
   headerColumnSeparatorColor: { ref: 'headerBackgroundColor' },
-  headerHeight: 60,
-  inputFocusBorderColor: '#1870B8', // SkyModernDesignTokens['border-color']['primary-dark'],
-  rowHeight: 60,
+  headerForegroundColor: 'var(--sky-color-icon-deemphasized)',
+  headerHeight:
+    'calc(calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) + calc(var(--sky-space-inset-letterbox-2_3-top-m) + var(--sky-space-inset-letterbox-2_3-bottom-m)))', // needs a modern override of 60
+  headerRowBorder: {
+    style: 'var(--sky-border-style-separator-row)' as const,
+    width: 'var(--sky-border-width-separator-row)',
+    color: 'var(--sky-color-border-separator-row)',
+  },
+  inputFocusBorderColor: 'var(--sky-color-border-input-focus)',
+  rowHeight:
+    'calc(calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) + calc(var(--sky-space-inset-letterbox-2_3-top-m) + var(--sky-space-inset-letterbox-2_3-bottom-m)))', // needs a modern override of 60
   rangeSelectionBorderColor: { ref: 'inputFocusBorderColor' },
 };
 const modernCompactThemeBase = {
@@ -110,10 +122,10 @@ const SkyAgGridDataGridDefault = themeQuartz
 const SkyAgGridDataEntryGridDefault = SkyAgGridDataGridDefault.withParams(
   defaultsForDataEntryGrid,
 ).withParams({
-  cellHorizontalPadding: '11px',
+  cellHorizontalPadding: '11px', // Doesn't seem to affect anything
   columnBorder: {
-    style: 'solid' as const,
-    width: 1,
+    style: 'var(--sky-border-style-divider, solid)' as const,
+    width: 'var(--sky-border-width-divider, 1px)',
     color: { ref: 'borderColor' },
   },
 });

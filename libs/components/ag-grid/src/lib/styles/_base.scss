@@ -58,7 +58,7 @@
     --ag-icon-size: var(--sky-size-switch, var(--sky-switch-size));
     --ag-focus-shadow: none;
     --ag-checkbox-unchecked-border-color: var(
-      --sky-border-color-neutral-medium-dark,
+      --sky-color-border-switch-base,
       var(--sky-border-color-neutral-medium)
     );
   }
@@ -71,14 +71,14 @@
     .ag-radio-button-input-wrapper {
       --ag-checkbox-checked-shape-color: var(--ag-text-color);
       --ag-checkbox-checked-background-color: var(
-        --sky-background-color-disabled
+        --sky-color-background-input-disabled
       );
       --ag-checkbox-checked-border-color: var(
         --sky-border-color-neutral-medium-dark,
         var(--sky-border-color-neutral-medium)
       );
       --ag-checkbox-unchecked-background-color: var(
-        --sky-background-color-disabled
+        --sky-color-background-input-disabled
       );
       --ag-checkbox-unchecked-border-color: var(
         --sky-border-color-neutral-medium-dark,
@@ -112,8 +112,12 @@
       .ag-cell-inline-editing,
       .ag-cell-popup-editing
     ):has(.sky-validator-cell) {
-    border: 1px solid var(--sky-highlight-color-danger);
-    --ag-range-selection-border-color: var(--sky-highlight-color-danger);
+    border: 1px solid
+      var(--sky-color-border-input-error, var(--sky-highlight-color-danger));
+    --ag-range-selection-border-color: var(
+      --sky-color-border-input-error,
+      var(--sky-highlight-color-danger)
+    );
   }
 }
 
@@ -172,7 +176,10 @@
 
   .ag-cell.ag-cell-focus {
     z-index: 1;
-    --ag-cell-horizontal-padding: 11px;
+    --ag-cell-horizontal-padding: var(
+      --sky-space-inset-letterbox-2_3-left-m,
+      11px
+    ); // TODO - needs modern override of 11px
 
     &.ag-cell-inline-editing {
       border-left-width: 0;
@@ -273,11 +280,11 @@ ag-grid-angular {
 }
 
 sky-ag-grid-wrapper ag-grid-angular.sky-ag-grid-editable {
-  border-top: sky-ag-grid-variables.$sky-standard-border;
+  border-top: sky-ag-grid-variables.$sky-standard-border; //TODO - remove top border in v2
 }
 
 sky-ag-grid-wrapper .sky-ag-grid-text-selection .ag-root-wrapper {
-  cursor: text;
+  cursor: auto;
 }
 
 .sky-theme-default .sky-ag-grid-row-delete .sky-btn {

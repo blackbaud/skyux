@@ -1,4 +1,7 @@
 input {
   border: none;
-  padding-left: 11px;
+  padding-left: var(
+    --sky-space-inset-letterbox-2_3-left-m,
+    11px
+  ); // TODO - modern needs override of 11px
 }

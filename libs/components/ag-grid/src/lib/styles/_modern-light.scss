@@ -26,12 +26,11 @@
     border-top: none;
   }
 
-  .ag-header,
   .ag-row {
-    border-bottom-style: dotted;
+    border-bottom-style: var(--sky-border-style-separator-row);
 
     + .ag-row-last {
-      border-bottom-style: dotted;
+      border-bottom-style: var(--sky-border-style-separator-row);
     }
   }
 }
@@ -57,11 +56,15 @@
         cursor: pointer;
         border: 1px solid transparent;
 
-        &:focus-visible,
-        &:hover,
+        &:focus-visible {
+        }
+        &:hover {
+          background-color: var(--sky-color-border-action-tertiary-base);
+          border-color: var(--sky-color-border-action-tertiary-hover);
+        }
         &.ag-active-item {
-          background-color: transparent;
-          border-color: variables.$sky-theme-modern-border-color-primary-dark;
+          background-color: var(--sky-color-border-action-tertiary-base);
+          border-color: var(--sky-color-border-action-tertiary-active);
         }
       }
     }
@@ -72,7 +75,7 @@
   }
 
   .ag-cell:hover {
-    border: 1px solid variables.$sky-theme-modern-border-color-primary-dark;
+    border: 1px solid var(--sky-color-border-action-input-hover);
   }
 
   .sky-ag-grid-cell-editable {
@@ -85,7 +88,7 @@
   }
 
   .sky-ag-grid-cell-uneditable:not(.sky-ag-grid-cell-row-selector) {
-    background-color: var(--sky-background-color-disabled);
+    background-color: var(--sky-color-background-input-disabled);
   }
 
   .ag-row:not(.ag-row-first) {
@@ -100,8 +103,8 @@
     .ag-cell.ag-cell-focus {
       .ag-select {
         .ag-picker-field-display {
-          margin-top: 6px;
-          margin-left: 9px;
+          margin-top: 5px;
+          margin-left: 8px;
         }
       }
     }

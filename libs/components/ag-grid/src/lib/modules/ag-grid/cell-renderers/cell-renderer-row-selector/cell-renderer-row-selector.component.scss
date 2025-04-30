@@ -1,3 +1,8 @@
+.ag-theme-sky-data-grid-default {
+  .sky-ag-grid-cell-row-selector .sky-switch-control {
+    top: -6px;
+  }
+}
 .sky-ag-grid-cell-row-selector .sky-switch-control {
-  top: -6px;
+  top: calc(calc(var(--sky-space-inset-letterbox-2_3-top-m) / 3) * -1);
 }
