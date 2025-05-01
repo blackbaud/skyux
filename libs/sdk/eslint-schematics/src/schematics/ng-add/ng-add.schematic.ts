@@ -4,6 +4,8 @@ import { getPackageJsonDependency } from '@schematics/angular/utility/dependenci
 
 import semver from 'semver';
 
+import { JsonFile } from '../utility/json-file';
+
 const ESLINT_CONFIG_EXTENDS_REGEXP = /(?<=extends:\s*\[)[^\]]*(?=])/g;
 
 function needsComma(contents: string): boolean {
@@ -108,5 +110,9 @@ export default function ngAdd(): Rule {
     });
 
     tree.commitUpdate(recorder);
+
+    // Strict null checks are needed for the '@typescript/eslint:prefer-nullish-coalescing' rule.
+    const tsconfig = new JsonFile(tree, '/tsconfig.json');
+    tsconfig.modify(['compilerOptions', 'strictNullChecks'], true);
   };
 }

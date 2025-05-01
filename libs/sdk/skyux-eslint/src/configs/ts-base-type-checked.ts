@@ -24,5 +24,8 @@ export default {
         considerDefaultExhaustiveForUnions: true,
       },
     ],
+    // Using Angular validators (e.g. `Validators.required`) throws this error.
+    // See: https://stackoverflow.com/a/68652060/6178885
+    '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
   },
 } satisfies TSESLint.FlatConfig.Config;

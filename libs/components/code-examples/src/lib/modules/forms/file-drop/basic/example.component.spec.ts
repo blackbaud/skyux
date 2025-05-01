@@ -3,6 +3,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyFileItem, SkyFileLink } from '@skyux/forms';
 import {
   SkyFileDropHarness,
   SkyFileItemHarness,
@@ -14,7 +15,7 @@ import { FormsFileDropBasicExampleComponent } from './example.component';
 describe('Basic file drop example', () => {
   async function setupTest(options: { dataSkyId: string }): Promise<{
     harness: SkyFileDropHarness;
-    formControl: FormControl;
+    formControl: FormControl<(SkyFileItem | SkyFileLink)[] | null | undefined>;
     loader: HarnessLoader;
   }> {
     TestBed.configureTestingModule({

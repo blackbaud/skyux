@@ -57,7 +57,7 @@ export class LookupMultiSelectExampleComponent implements OnInit {
       validators: [
         (control: AbstractControl<Person[] | null>): ValidationErrors => {
           if (
-            control.value?.some((person: Person) => !person.name.match(/e/i))
+            control.value?.some((person) => /e/i.exec(person.name) === null)
           ) {
             return { letterE: true };
           }

@@ -10,11 +10,7 @@ import { SkyDescriptionListHarness } from '@skyux/layout/testing';
 import { LayoutDescriptionListHelpKeyExampleComponent } from './example.component';
 
 describe('Help key description list', () => {
-  async function setupTest(
-    options: {
-      dataSkyId?: string;
-    } = {},
-  ): Promise<{
+  async function setupTest(): Promise<{
     descriptionListHarness: SkyDescriptionListHarness;
     fixture: ComponentFixture<LayoutDescriptionListHelpKeyExampleComponent>;
     helpController: SkyHelpTestingController;

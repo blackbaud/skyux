@@ -1,12 +1,25 @@
-const tsEslint = require('typescript-eslint');
-const config = require('../../../eslint-libs.config');
+// @ts-check
+const eslint = require('@eslint/js');
+const tseslint = require('typescript-eslint');
+const angular = require('angular-eslint');
 const skyux = require('../../sdk/skyux-eslint/dev-transpiler.cjs');
+const prettier = require('eslint-config-prettier');
 
-module.exports = tsEslint.config(
-  ...config,
+/**
+ * This configuration does not import the repo's shared configs so that we can
+ * mimic what a consumer's project would use.
+ */
+module.exports = tseslint.config(
   {
     files: ['**/*.ts'],
-    extends: [...skyux.configs.tsAll],
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.recommendedTypeChecked,
+      ...tseslint.configs.stylisticTypeChecked,
+      ...angular.configs.tsRecommended,
+      ...skyux.configs.tsAll,
+    ],
+    processor: angular.processInlineTemplates,
     rules: {
       '@angular-eslint/directive-selector': [
         'error',
@@ -24,7 +37,6 @@ module.exports = tsEslint.config(
           style: 'kebab-case',
         },
       ],
-      '@nx/enforce-module-boundaries': 'warn',
       '@typescript-eslint/no-deprecated': 'warn',
       'no-alert': 'warn',
       'no-console': 'warn',
@@ -32,10 +44,14 @@ module.exports = tsEslint.config(
   },
   {
     files: ['**/*.html'],
-    extends: [...skyux.configs.templateAll],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility,
+      ...skyux.configs.templateAll,
+    ],
     rules: {
       'skyux-eslint-template/no-deprecated-directives': 'warn',
-      'skyux-eslint-template/no-legacy-icons': 'warn',
     },
   },
+  prettier,
 );

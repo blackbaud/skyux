@@ -7,7 +7,7 @@ export default [
   tsBaseConfig,
   tsBaseConfigTypeChecked,
   {
-    name: 'skyux-eslint/ts-all',
+    name: 'skyux-eslint/ts-recommended',
     rules: {
       'skyux-eslint/no-lambda-imports': 'error',
     },
