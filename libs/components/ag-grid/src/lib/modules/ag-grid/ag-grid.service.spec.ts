@@ -11,6 +11,7 @@ import {
 } from '@skyux/theme';
 
 import {
+  AgColumn,
   BeanCollection,
   CellClassParams,
   CellFocusedEvent,
@@ -666,10 +667,68 @@ describe('SkyAgGridService', () => {
       spyOn(agGridAdapterService, 'getFocusedElement');
       spyOn(agGridAdapterService, 'focusOnFocusableChildren');
 
-      onCellFocusedFunction({} as CellFocusedEvent);
+      onCellFocusedFunction({
+        api: {
+          getDisplayedRowAtIndex: () => ({ rowIndex: 0 }) as RowNode,
+        } as unknown as GridApi,
+        column: {
+          isRowDrag: () => false,
+          isDndSource: () => false,
+        } as unknown as AgColumn,
+        rowIndex: 0,
+      } as unknown as CellFocusedEvent);
 
       expect(agGridAdapterService.getFocusedElement).toHaveBeenCalled();
       expect(agGridAdapterService.focusOnFocusableChildren).toHaveBeenCalled();
+    });
+
+    it('should not focus if there is no matching row', () => {
+      spyOn(agGridAdapterService, 'getFocusedElement');
+      spyOn(agGridAdapterService, 'focusOnFocusableChildren');
+
+      onCellFocusedFunction({} as CellFocusedEvent);
+
+      expect(agGridAdapterService.getFocusedElement).not.toHaveBeenCalled();
+      expect(
+        agGridAdapterService.focusOnFocusableChildren,
+      ).not.toHaveBeenCalled();
+
+      onCellFocusedFunction({
+        api: {
+          getDisplayedRowAtIndex: () => undefined,
+        } as unknown as GridApi,
+        column: {
+          isRowDrag: () => false,
+          isDndSource: () => true,
+        } as unknown as AgColumn,
+        rowIndex: 0,
+      } as unknown as CellFocusedEvent);
+
+      expect(agGridAdapterService.getFocusedElement).not.toHaveBeenCalled();
+      expect(
+        agGridAdapterService.focusOnFocusableChildren,
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should not focus if the column is a drag handle', () => {
+      spyOn(agGridAdapterService, 'getFocusedElement');
+      spyOn(agGridAdapterService, 'focusOnFocusableChildren');
+
+      onCellFocusedFunction({
+        api: {
+          getDisplayedRowAtIndex: () => ({ rowIndex: 0 }) as RowNode,
+        } as unknown as GridApi,
+        column: {
+          isRowDrag: () => false,
+          isDndSource: () => true,
+        } as unknown as AgColumn,
+        rowIndex: 0,
+      } as unknown as CellFocusedEvent);
+
+      expect(agGridAdapterService.getFocusedElement).not.toHaveBeenCalled();
+      expect(
+        agGridAdapterService.focusOnFocusableChildren,
+      ).not.toHaveBeenCalled();
     });
   });
 
