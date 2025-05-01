@@ -6,6 +6,7 @@ import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
   CellClassParams,
+  CellFocusedEvent,
   CellRendererSelectorFunc,
   CellRendererSelectorResult,
   ColDef,
@@ -19,7 +20,6 @@ import {
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import type { CellFocusedEvent } from 'ag-grid-community/dist/types/src/events';
 import { Subject, takeUntil } from 'rxjs';
 
 import { getSkyAgGridTheme } from '../../styles/ag-grid-theme';
@@ -674,9 +674,7 @@ export class SkyAgGridService implements OnDestroy {
       return;
     }
 
-    const isDrag =
-      event.column.isRowDrag(rowNode) || event.column.isDndSource(rowNode);
-    if (isDrag) {
+    if (event.column.isRowDrag(rowNode) || event.column.isDndSource(rowNode)) {
       return;
     }
 
