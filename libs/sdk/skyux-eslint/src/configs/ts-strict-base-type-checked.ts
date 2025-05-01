@@ -7,7 +7,7 @@ export default {
       tsconfigRootDir: '.',
     },
   },
-  name: 'skyux-eslint/ts-base-type-checked',
+  name: 'skyux-eslint/ts-strict-base-type-checked',
   rules: {
     // Cherry-picked rules from typescript-eslint's "strict-type-checked" ruleset.
     // We can't pull in the entire ruleset because it's not considered SemVer safe.

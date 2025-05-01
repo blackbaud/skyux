@@ -1,10 +1,13 @@
-import { Rule, Tree } from '@angular-devkit/schematics';
+import { Rule, Tree, chain } from '@angular-devkit/schematics';
 import { VERSION } from '@angular/cli';
+import * as prompt from '@inquirer/prompts';
 import { getPackageJsonDependency } from '@schematics/angular/utility/dependencies';
 
 import semver from 'semver';
 
 import { JsonFile } from '../utility/json-file';
+
+import { SkyuxEslintAddOptions } from './schema';
 
 const ESLINT_CONFIG_EXTENDS_REGEXP = /(?<=extends:\s*\[)[^\]]*(?=])/g;
 
@@ -72,11 +75,69 @@ function getRootEslintConfigFilePath(tree: Tree): {
   return { configFile, isEsm };
 }
 
-/**
- * Adds `skyux-eslint` to an existing `angular-eslint` config file.
- */
-export default function ngAdd(): Rule {
+function modifyTypeScriptEslintRulesets(options: SkyuxEslintAddOptions): Rule {
   return (tree) => {
+    if (options.ruleset === 'strict-type-checked') {
+      const contents = tree.readText('/eslint.config.js');
+
+      // A new Angular CLI project installs "recommended" and "stylistic"
+      // typescript-eslint configurations, but we want consumers to use the
+      // type-checked rules.
+      const modified = contents
+        .replaceAll(
+          'tseslint.configs.recommended,',
+          'tseslint.configs.recommendedTypeChecked,',
+        )
+        .replaceAll(
+          'tseslint.configs.stylistic,',
+          'tseslint.configs.stylisticTypeChecked,',
+        );
+
+      if (contents !== modified) {
+        tree.overwrite('/eslint.config.js', modified);
+      }
+    }
+  };
+}
+
+function modifyTsConfig(options: SkyuxEslintAddOptions): Rule {
+  return (tree) => {
+    if (options.ruleset === 'strict-type-checked') {
+      const tsconfig = new JsonFile(tree, '/tsconfig.json');
+
+      // Strict null checks are needed for the '@typescript/eslint:prefer-nullish-coalescing' rule.
+      tsconfig.modify(['compilerOptions', 'strictNullChecks'], true);
+    }
+  };
+}
+
+async function promptMissingOptions(
+  options: SkyuxEslintAddOptions,
+): Promise<Required<SkyuxEslintAddOptions>> {
+  const settings: Required<SkyuxEslintAddOptions> = {
+    ruleset: options.ruleset ?? 'recommended',
+  };
+
+  if (options.ruleset === undefined) {
+    settings.ruleset = await prompt.select({
+      message:
+        'Which ruleset would you like to install? Choose "recommended" to ' +
+        'install recommended SKY UX rules. Choose "strict-type-checked" to ' +
+        'install the recommended rules, and additional best-practice rules.',
+      choices: ['recommended', 'strict-type-checked'],
+    });
+  }
+
+  return settings;
+}
+
+/**
+ * Adds `skyux-eslint` to an existing ESLint config file.
+ */
+export default function ngAdd(options: SkyuxEslintAddOptions): Rule {
+  return async (tree) => {
+    const settings = await promptMissingOptions(options);
+
     const { configFile, isEsm } = getRootEslintConfigFilePath(tree);
 
     const contents = tree.readText(configFile);
@@ -97,10 +158,13 @@ export default function ngAdd(): Rule {
       recorder.insertLeft(exportsMatch.index, importStatement);
     }
 
-    const statements = [
-      'skyux.configs.templateRecommended',
-      'skyux.configs.tsRecommended',
-    ];
+    const statements =
+      settings.ruleset === 'recommended'
+        ? ['skyux.configs.templateRecommended', 'skyux.configs.tsRecommended']
+        : [
+            'skyux.configs.templateRecommended',
+            'skyux.configs.tsStrictTypeChecked',
+          ];
 
     contents.match(ESLINT_CONFIG_EXTENDS_REGEXP)?.forEach((element) => {
       recorder.insertRight(
@@ -111,8 +175,9 @@ export default function ngAdd(): Rule {
 
     tree.commitUpdate(recorder);
 
-    // Strict null checks are needed for the '@typescript/eslint:prefer-nullish-coalescing' rule.
-    const tsconfig = new JsonFile(tree, '/tsconfig.json');
-    tsconfig.modify(['compilerOptions', 'strictNullChecks'], true);
+    return chain([
+      modifyTsConfig(settings),
+      modifyTypeScriptEslintRulesets(settings),
+    ]);
   };
 }

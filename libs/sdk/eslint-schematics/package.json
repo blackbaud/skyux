@@ -31,6 +31,7 @@
     "@angular/cli": "^19.2.8"
   },
   "dependencies": {
+    "@inquirer/prompts": "7.3.2",
     "jsonc-parser": "3.3.1",
     "semver": "7.7.1",
     "tslib": "^2.8.1"
