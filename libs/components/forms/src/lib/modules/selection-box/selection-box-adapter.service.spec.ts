@@ -36,7 +36,7 @@ class SkySelectionBoxAdapterTestComponent {
   public parentRef!: ElementRef;
 }
 
-describe('Action button adapter service', () => {
+describe('Selection box adapter service', () => {
   let fixture: ComponentFixture<SkySelectionBoxAdapterTestComponent>;
   let inputRef: ElementRef;
   let outSideRef: ElementRef;
