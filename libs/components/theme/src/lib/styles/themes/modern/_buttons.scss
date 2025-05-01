@@ -41,6 +41,10 @@
       var(--sky-color-border-action-tertiary-focus),
     var(--sky-elevation-focus);
 
+  // Ensures the height of a modern block button is 47px.
+  // Adam made me do it.
+  --sky-override-button-block-line-height: 1.6115;
+
   &:not(.sky-btn-link-inline):not(.sky-btn-borderless-inline) {
     --sky-override-button-line-height: calc(20 / 14);
   }
@@ -456,7 +460,10 @@
 
   .sky-btn-block {
     font-size: var(--sky-font-size-body-l);
-    line-height: var(--sky-font-line_height-body-l);
+    line-height: var(
+      --sky-override-button-block-line-height,
+      var(--sky-font-line_height-body-l)
+    );
 
     &:has(.sky-btn-block-logo) {
       // Reserve space for a medium-size icon on the left. The icon will be
