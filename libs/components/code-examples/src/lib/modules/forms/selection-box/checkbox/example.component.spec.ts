@@ -8,16 +8,14 @@ import { FormsSelectionBoxCheckboxExampleComponent } from './example.component';
 
 let index: number;
 
-async function setupTest(
-  options: { dataSkyId?: string; useAlternateLabel?: boolean } = {},
-): Promise<{
+async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
   selectionBoxGridHarness: SkySelectionBoxGridHarness;
 }> {
-  index = 0;
   await TestBed.configureTestingModule({
     imports: [FormsSelectionBoxCheckboxExampleComponent, NoopAnimationsModule],
   }).compileComponents();
 
+  index = 0;
   spyOn(TestBed.inject(SkyIdService), 'generateId').and.callFake(
     () => `MOCK_ID_${++index}`,
   );
@@ -25,10 +23,6 @@ async function setupTest(
   const fixture = TestBed.createComponent(
     FormsSelectionBoxCheckboxExampleComponent,
   );
-  if (options.useAlternateLabel) {
-    fixture.componentRef.setInput('useAlternateLabel', 'true');
-    fixture.detectChanges();
-  }
   const loader = TestbedHarnessEnvironment.loader(fixture);
 
   const selectionBoxGridHarness: SkySelectionBoxGridHarness = options.dataSkyId

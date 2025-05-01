@@ -34,7 +34,7 @@ export class SkySelectionBoxGridHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all selection boxes.
+   * Gets an array of selection boxes.
    */
   public async getSelectionBoxes(
     filters?: SkySelectionBoxHarnessFilters,

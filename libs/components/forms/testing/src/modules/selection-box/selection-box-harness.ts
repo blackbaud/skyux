@@ -29,7 +29,7 @@ export class SkySelectionBoxHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the harness for the selection box form control.
+   * Gets the checkbox or radio harness for the selection box form control.
    */
   public async getControl(): Promise<SkyCheckboxHarness | SkyRadioHarness> {
     return await this.locatorFor(SkyCheckboxHarness, SkyRadioHarness)();

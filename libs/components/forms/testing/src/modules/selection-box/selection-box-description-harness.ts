@@ -11,7 +11,7 @@ export class SkySelectionBoxDescriptionHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-selection-box-description';
 
   /**
-   * Gets the header text.
+   * Gets the description text.
    */
   public async getText(): Promise<string> {
     return (await (await this.host()).text()).trim();

@@ -8,12 +8,9 @@ import { FormsSelectionBoxRadioExampleComponent } from './example.component';
 
 let index: number;
 
-async function setupTest(
-  options: { dataSkyId?: string; useAlternateLabel?: boolean } = {},
-): Promise<{
+async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
   selectionBoxGridHarness: SkySelectionBoxGridHarness;
 }> {
-  index = 0;
   await TestBed.configureTestingModule({
     imports: [FormsSelectionBoxRadioExampleComponent, NoopAnimationsModule],
   }).compileComponents();
@@ -22,13 +19,10 @@ async function setupTest(
     () => `MOCK_ID_${++index}`,
   );
 
+  index = 0;
   const fixture = TestBed.createComponent(
     FormsSelectionBoxRadioExampleComponent,
   );
-  if (options.useAlternateLabel) {
-    fixture.componentRef.setInput('useAlternateLabel', 'true');
-    fixture.detectChanges();
-  }
   const loader = TestbedHarnessEnvironment.loader(fixture);
 
   const selectionBoxGridHarness: SkySelectionBoxGridHarness = options.dataSkyId
