@@ -29,8 +29,8 @@
     "dev:pristine": "skyux-dev pristine-commit"
   },
   "engines": {
-    "node": "^20.11.1",
-    "npm": "^10.2.4"
+    "node": "^20.11.1 || ^22.15.0",
+    "npm": "^10.2.4 || ^11.3.0"
   },
   "config": {
     "commitizen": {
