@@ -1,13 +1,13 @@
 import type { TSESLint } from '@typescript-eslint/utils';
 
 import tsBaseConfig from './ts-base';
-import tsStrictBase from './ts-strict-base';
-import tsStrictBaseTypeChecked from './ts-strict-base-type-checked';
+import tsStrictBaseConfig from './ts-strict-base';
+import tsStrictBaseTypeCheckedConfig from './ts-strict-base-type-checked';
 
 export default [
   tsBaseConfig,
-  tsStrictBase,
-  tsStrictBaseTypeChecked,
+  tsStrictBaseConfig,
+  tsStrictBaseTypeCheckedConfig,
   {
     name: 'skyux-eslint/ts-strict-type-checked',
     rules: {
