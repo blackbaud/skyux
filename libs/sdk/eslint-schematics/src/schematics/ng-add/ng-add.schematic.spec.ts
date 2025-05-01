@@ -7,6 +7,7 @@ import {
 import path from 'node:path';
 
 import { createTestApp, createTestLibrary } from '../testing/scaffold.js';
+import { JsonFile } from '../utility/json-file';
 
 const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
 
@@ -517,5 +518,23 @@ export default tseslint.config(
   }
 );
 `);
+  });
+
+  it('should modify tsconfig.json', async () => {
+    const { runSchematic, tree } = await setup({
+      angularEslintInstalled: true,
+    });
+
+    let tsconfig = new JsonFile(tree, '/tsconfig.json');
+
+    expect(
+      tsconfig.get(['compilerOptions', 'strictNullChecks']),
+    ).toBeUndefined();
+
+    const updatedTree = await runSchematic();
+
+    tsconfig = new JsonFile(updatedTree, '/tsconfig.json');
+
+    expect(tsconfig.get(['compilerOptions', 'strictNullChecks'])).toEqual(true);
   });
 });
