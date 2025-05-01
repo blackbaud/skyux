@@ -197,7 +197,12 @@
         "primaryDocsId": "SkySelectionBoxModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": [
+          "SkySelectionBoxHarness",
+          "SkySelectionBoxHarnessFilters",
+          "SkySelectionBoxGridHarness",
+          "SkySelectionBoxGridHarnessFilters"
+        ]
       },
       "codeExamples": {
         "docsIds": [

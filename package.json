@@ -29,8 +29,8 @@
     "dev:pristine": "skyux-dev pristine-commit"
   },
   "engines": {
-    "node": "^20.11.1",
-    "npm": "^10.2.4"
+    "node": "^20.11.1 || ^22.15.0",
+    "npm": "^10.2.4 || ^11.3.0"
   },
   "config": {
     "commitizen": {
@@ -102,7 +102,7 @@
     "@blackbaud/skyux-design-tokens": "0.0.53",
     "@inquirer/prompts": "7.3.2",
     "@nx/angular": "20.5.0",
-    "@skyux/icons": "7.21.2",
+    "@skyux/icons": "7.23.1",
     "@stackblitz/sdk": "1.11.0",
     "@storybook/addon-interactions": "8.6.4",
     "ag-grid-angular": "33.2.1",
