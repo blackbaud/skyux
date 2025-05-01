@@ -19,13 +19,13 @@
           </sky-column>
         </sky-row>
         <sky-row>
-          <sky-column [screenXSmall]="5">
-            <sky-input-box labelText="City">
+          <sky-column [screenSmall]="5">
+            <sky-input-box labelText="City" stacked="true">
               <input formControlName="city" spellcheck="false" type="text" />
             </sky-input-box>
           </sky-column>
-          <sky-column [screenXSmall]="5">
-            <sky-input-box labelText="State">
+          <sky-column [screenSmall]="5" [screenXSmall]="8">
+            <sky-input-box labelText="State" stacked="true">
               <select formControlName="state">
                 <option [attr.value]="undefined"></option>
                 @for (state of states; track state) {
@@ -36,7 +36,7 @@
               </select>
             </sky-input-box>
           </sky-column>
-          <sky-column [screenXSmall]="2">
+          <sky-column [screenSmall]="2" [screenXSmall]="4">
             <sky-input-box labelText="Zip code">
               <input formControlName="zipCode" maxlength="5" type="text" />
             </sky-input-box>

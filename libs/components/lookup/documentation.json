@@ -33,7 +33,8 @@
           "LookupAutocompleteBasicExampleComponent",
           "LookupAutocompleteAdvancedExampleComponent",
           "LookupAutocompleteCustomSearchExampleComponent",
-          "LookupAutocompleteSearchFiltersExampleComponent"
+          "LookupAutocompleteSearchFiltersExampleComponent",
+          "LookupAutocompleteAnyValueExampleComponent"
         ]
       }
     },

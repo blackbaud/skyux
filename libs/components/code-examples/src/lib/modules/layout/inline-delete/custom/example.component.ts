@@ -12,7 +12,7 @@ import { SkyInlineDeleteModule } from '@skyux/layout';
   imports: [SkyIconModule, SkyInlineDeleteModule],
 })
 export class LayoutInlineDeleteCustomExampleComponent {
-  protected deleting = false;
+  public deleting = false;
   protected pending = false;
 
   protected deleteItem(): void {

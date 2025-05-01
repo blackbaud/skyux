@@ -11,6 +11,7 @@
   </div>
   @if (deleting) {
     <sky-inline-delete
+      data-sky-id="inline-delete-custom"
       [pending]="pending"
       (cancelTriggered)="onCancelTriggered()"
       (deleteTriggered)="onDeleteTriggered()"

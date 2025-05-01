@@ -23,7 +23,7 @@ export class SkyDocsPropertyNamePipe implements PipeTransform {
       }
 
       case 'interface-property': {
-        return `${property.name}?: ${property.type}`;
+        return `${property.name}${property.isOptional ? '?' : ''}: ${property.type}`;
       }
 
       default: {

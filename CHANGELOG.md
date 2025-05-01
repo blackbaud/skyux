@@ -1,5 +1,26 @@
 # Changelog
 
+## [12.10.0](https://github.com/blackbaud/skyux/compare/12.9.0...12.10.0) (2025-05-01)
+
+
+### Features
+
+* **components/indicators:** tokenize illustration component ([#3419](https://github.com/blackbaud/skyux/issues/3419)) ([9de0793](https://github.com/blackbaud/skyux/commit/9de07931498227048b85a9976b0abceecf8df5a4))
+* **components/inline-form:** add inline form harnesses ([#3410](https://github.com/blackbaud/skyux/issues/3410)) ([dbff49b](https://github.com/blackbaud/skyux/commit/dbff49b724d18fda37fa645370371901a0baf209))
+* **components/layout:** add inline delete harness ([#3420](https://github.com/blackbaud/skyux/issues/3420)) ([b93fb77](https://github.com/blackbaud/skyux/commit/b93fb7737e680a7af13881f99ef075e24245aef8))
+* **components/layout:** tokenize action button styles ([#3415](https://github.com/blackbaud/skyux/issues/3415)) ([3877988](https://github.com/blackbaud/skyux/commit/3877988133dc4a66bcdd55b0646945e6f3039ad7))
+* **components/lists:** tokenize infinite scroll styles ([#3407](https://github.com/blackbaud/skyux/issues/3407)) ([aa904cb](https://github.com/blackbaud/skyux/commit/aa904cbd62650aac8d0702b49a301a898c432996))
+* **components/lookup:** added input box support and code examples to autocomplete ([#3422](https://github.com/blackbaud/skyux/issues/3422)) ([c5c4fa2](https://github.com/blackbaud/skyux/commit/c5c4fa20f9dbc19d2030558544690d7374471e57))
+* **components/tabs:** add sectioned form harnesses ([#3403](https://github.com/blackbaud/skyux/issues/3403)) ([3eacb6d](https://github.com/blackbaud/skyux/commit/3eacb6d7d5fe89a520e6b2d0edf105c71488c6e3))
+
+
+### Bug Fixes
+
+* address `track by identity` console warnings ([#3423](https://github.com/blackbaud/skyux/issues/3423)) ([502aade](https://github.com/blackbaud/skyux/commit/502aade1aa17406284f6452ad8c9491f4506d428))
+* **components/ag-grid:** do not use text cursor for the entire grid ([#3418](https://github.com/blackbaud/skyux/issues/3418)) ([aa5d4d3](https://github.com/blackbaud/skyux/commit/aa5d4d34fb8209bd18e8c76c643655500d080aaf))
+* **components/docs-tools:** show `?` indicator only for optional interface properties ([#3424](https://github.com/blackbaud/skyux/issues/3424)) ([c52e9cd](https://github.com/blackbaud/skyux/commit/c52e9cd3376c1a83ea3cefd9214e37edeeaeb101))
+* **components/tiles:** validate tile config when loading dashboard ([#3414](https://github.com/blackbaud/skyux/issues/3414)) ([986879c](https://github.com/blackbaud/skyux/commit/986879c9de448e9e884cc2bc93ce37e131ad036f))
+
 ## [12.9.0](https://github.com/blackbaud/skyux/compare/12.8.0...12.9.0) (2025-04-28)
 
 
@@ -167,6 +188,7 @@
 * **components/help-inline:** remove TemplateRef return type on getPopoverContent ([#3176](https://github.com/blackbaud/skyux/issues/3176)) The `getPopoverContent()` method on the help inline harness had a return type of `TemplateRef | string | undefined` despite only returning strings if they existed. This has been corrected and reflected in all consuming component harnesses.
 * **components/indicators:** remove forwarded exports from `@skyux/help-inline` and `@skyux/icon` ([#3069](https://github.com/blackbaud/skyux/issues/3069))
 * **components/lookup:** remove flag from country field input ([#3166](https://github.com/blackbaud/skyux/issues/3166)) ([f9a25be](https://github.com/blackbaud/skyux/commit/f9a25bea521495419317e7e9b4f8c61643316bf4)) The flag has been removed from the country field's input box. Due to this change, the component's `hideSelectedCountryFlag` input has been removed along with the test harness' `countryFlagIsVisible` method.
+* **components/modals:** confirm discarding changes when canceling modal using  directive ([#3246](https://github.com/blackbaud/skyux/issues/3246)) ([95a2162](https://github.com/blackbaud/skyux/commit/95a216230dc9dd36d191dc50ed045b5296553577))
 
 
 ### Features

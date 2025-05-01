@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
+import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyAutocompleteModule } from '@skyux/lookup';
 
 /**
@@ -21,6 +22,7 @@ import { SkyAutocompleteModule } from '@skyux/lookup';
     ReactiveFormsModule,
     SkyAutocompleteModule,
     SkyIdModule,
+    SkyInputBoxModule,
   ],
 })
 export class LookupAutocompleteBasicExampleComponent {

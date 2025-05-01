@@ -12,7 +12,7 @@
           <ng-container [ngTemplateOutlet]="template" />
         </div>
         <div class="sky-inline-form-footer">
-          @for (button of buttons; track button) {
+          @for (button of buttons; track button.text) {
             <button
               class="sky-btn {{ 'sky-btn-' + button.styleType }}"
               type="button"
