@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.11.1](https://github.com/blackbaud/skyux/compare/12.11.0...12.11.1) (2025-05-02)
+
+
+### Bug Fixes
+
+* **components/tiles:** validate tile config when loading dashboard from ui-config ([#3432](https://github.com/blackbaud/skyux/issues/3432)) ([e80adac](https://github.com/blackbaud/skyux/commit/e80adacf8c05126a782d5c4ee56297565a640286))
+
 ## [12.11.0](https://github.com/blackbaud/skyux/compare/12.10.0...12.11.0) (2025-05-02)
 
 
