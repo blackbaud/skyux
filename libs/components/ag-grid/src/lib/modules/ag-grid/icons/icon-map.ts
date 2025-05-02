@@ -159,7 +159,7 @@ export const iconMap: Record<
 
   // context menu chart item
   chart: {
-    name: 'data-pie',
+    name: 'data-bar-vertical-ascending',
     size: 16,
   },
 
@@ -184,7 +184,7 @@ export const iconMap: Record<
 
   // "go to first" button in pagination controls
   first: {
-    name: 'chevron-double-left',
+    name: 'arrow-previous',
     size: 16,
   },
 
@@ -202,7 +202,7 @@ export const iconMap: Record<
 
   // "go to last" button in pagination controls
   last: {
-    name: 'chevron-double-right',
+    name: 'arrow-next',
     size: 16,
   },
 
@@ -228,20 +228,20 @@ export const iconMap: Record<
 
   // button to launch legacy column menu
   menu: {
-    name: 'navigation',
-    size: 16,
+    name: 'more-actions',
+    size: 24,
   },
 
   // button to launch new enterprise column menu
   menuAlt: {
-    name: 'navigation',
-    size: 16,
+    name: 'more-actions',
+    size: 24,
   },
 
   // menu tab icon in legacy tabbed enterprise column menu
   legacyMenu: {
-    name: 'navigation',
-    size: 16,
+    name: 'more-actions',
+    size: 24,
   },
 
   // open filter button - header, floating filter, menu
@@ -270,13 +270,13 @@ export const iconMap: Record<
 
   // columns in menu (column chooser / columns tab)
   columns: {
-    name: 'table-freeze-column',
+    name: 'layout-column-three',
     size: 16,
   },
 
   // column tool panel tab
   columnsToolPanel: {
-    name: 'table-freeze-column',
+    name: 'layout-column-three',
     size: 16,
   },
 
@@ -307,13 +307,13 @@ export const iconMap: Record<
 
   // "Group by {column-name}" item in column header menu
   menuAddRowGroup: {
-    name: 'group',
+    name: 'arrow-collapse-all',
     size: 16,
   },
 
   // "Un-Group by {column-name}" item in column header menu
   menuRemoveRowGroup: {
-    name: 'group',
+    name: 'arrow-collapse-all',
     size: 16,
   },
 
@@ -331,20 +331,20 @@ export const iconMap: Record<
 
   // context menu paste item
   clipboardPaste: {
-    name: 'clipboard-checkmark',
+    name: 'clipboard-arrow-right',
     size: 16,
   },
 
   // identifies the pivot drop zone
   pivotPanel: {
-    name: 'table-freeze-column',
+    name: 'pivot',
     size: 16,
   },
 
   // "Row groups" drop zone in column tool panel
   rowGroupPanel: {
     name: 'group',
-    size: 16,
+    size: 20,
   },
 
   // columns tool panel Values drop zone
@@ -361,13 +361,13 @@ export const iconMap: Record<
 
   // drag handle used to pick up draggable rows
   rowDrag: {
-    name: 're-order-dots-vertical',
+    name: 'arrow-bidirectional-up-down',
     size: 16,
   },
 
   // context menu export item
   save: {
-    name: 'save',
+    name: 'arrow-download',
     size: 16,
   },
 
@@ -416,7 +416,7 @@ export const iconMap: Record<
   // separator between column 'pills' when you add multiple
   // columns to the header drop zone
   panelDelimiter: {
-    name: 'arrow-right',
+    name: 'chevron-right',
     size: 16,
   },
 
@@ -448,7 +448,7 @@ export const iconMap: Record<
   // Builder button in Advanced Filter
   advancedFilterBuilder: {
     name: 'group',
-    size: 16,
+    size: 20,
   },
 
   // drag handle used to pick up Advanced Filter Builder rows
@@ -477,13 +477,13 @@ export const iconMap: Record<
 
   // shown on Advanced Filter Builder rows to add new rows
   advancedFilterBuilderAdd: {
-    name: 'add',
+    name: 'add-circle',
     size: 24,
   },
 
   // shown on Advanced Filter Builder rows to remove row
   advancedFilterBuilderRemove: {
-    name: 'subtract',
+    name: 'subtract-circle',
     size: 16,
   },
 
@@ -495,13 +495,13 @@ export const iconMap: Record<
 
   // icon to open charts menu
   chartsMenu: {
-    name: 'navigation',
-    size: 16,
+    name: 'more-actions',
+    size: 24,
   },
 
   // Edit Chart menu item shown in Integrated Charts menu
   chartsMenuEdit: {
-    name: 'data-pie',
+    name: 'data-bar-vertical-ascending',
     size: 16,
   },
 
@@ -537,7 +537,7 @@ export const iconMap: Record<
 
   // download chart
   chartsDownload: {
-    name: 'save',
+    name: 'arrow-download',
     size: 16,
   },
 };
