@@ -1,5 +1,21 @@
 # Changelog
 
+## [12.11.0](https://github.com/blackbaud/skyux/compare/12.10.0...12.11.0) (2025-05-02)
+
+
+### Features
+
+* **components/forms:** add selection box harnesses ([#3421](https://github.com/blackbaud/skyux/issues/3421)) ([6f51d5e](https://github.com/blackbaud/skyux/commit/6f51d5ebeea810e1518e75cd78277cf38518cfd7))
+* **sdk/skyux-eslint:** create `strict-type-checked` ruleset ([#3426](https://github.com/blackbaud/skyux/issues/3426)) ([ffd16bf](https://github.com/blackbaud/skyux/commit/ffd16bfd7c0e63aa37188d96e954db7f83bfd768))
+* update `@skyux/icons` to 7.23.1 ([#3427](https://github.com/blackbaud/skyux/issues/3427)) ([a51a1f2](https://github.com/blackbaud/skyux/commit/a51a1f2656b723be1d842d5024679c91448a93b2))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** cell focus handling should not affect row dragging ([#3431](https://github.com/blackbaud/skyux/issues/3431)) ([6b95bfc](https://github.com/blackbaud/skyux/commit/6b95bfc0b10d68aeac8f65ff018ae12cf44f1f2b))
+* **components/ag-grid:** include `styleNonce` option when using CSP headers ([#3393](https://github.com/blackbaud/skyux/issues/3393)) ([3e8fab1](https://github.com/blackbaud/skyux/commit/3e8fab1e2bfd944b4105c25f4cdc508b0ed5d37e))
+* **components/theme:** correct block button line height in modern theme ([#3430](https://github.com/blackbaud/skyux/issues/3430)) ([68f3ae8](https://github.com/blackbaud/skyux/commit/68f3ae885d0f9be57c2812705a56d0df2320f845))
+
 ## [12.10.0](https://github.com/blackbaud/skyux/compare/12.9.0...12.10.0) (2025-05-01)
 
 
