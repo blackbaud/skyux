@@ -115,7 +115,7 @@ describe('File drop harness', () => {
     return { harness, fixture, loader };
   }
 
-  fit('should drop a single file', async () => {
+  it('should drop a single file', async () => {
     const { fixture, harness } = await setupTest();
 
     const testFile = new File([], 'test.png');
