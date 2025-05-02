@@ -1017,6 +1017,57 @@ describe('Tile dashboard service', () => {
     await configChange;
   }));
 
+  it('should handle add a new tile missing from layout but included in `oldTileIds`', waitForAsync(async () => {
+    let done: () => void;
+    const configChange = new Promise<void>((resolve) => {
+      done = (): void => resolve();
+    });
+    dashboardService.configChange.subscribe(
+      (config: SkyTileDashboardConfig) => {
+        expect(config.layout).toEqual({
+          multiColumn: [
+            {
+              tiles: [
+                {
+                  id: 'tile-1',
+                  isCollapsed: false,
+                },
+              ],
+            },
+            {
+              tiles: [
+                {
+                  id: 'tile-2',
+                  isCollapsed: false,
+                },
+              ],
+            },
+          ],
+          singleColumn: {
+            tiles: [
+              {
+                id: 'tile-1',
+                isCollapsed: false,
+              },
+              {
+                id: 'tile-2',
+                isCollapsed: false,
+              },
+            ],
+          },
+        });
+        done();
+      },
+    );
+    dashboardService.init(
+      dashboardConfig,
+      undefined,
+      undefined,
+      'missingLayout',
+    );
+    await configChange;
+  }));
+
   it('should handle removed tile in default', () => {
     const newTileConfig = {
       tiles: [
