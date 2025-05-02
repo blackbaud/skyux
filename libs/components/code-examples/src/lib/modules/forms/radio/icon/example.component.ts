@@ -26,8 +26,8 @@ export class FormsRadioIconExampleComponent {
 
   protected views: Item[] = [
     { icon: 'table', label: 'Table', name: 'table' },
-    { icon: 'list', label: 'List', name: 'list' },
-    { icon: 'map-marker', label: 'Map', name: 'map' },
+    { icon: 'text-number-list-ltr', label: 'List', name: 'list' },
+    { icon: 'location', label: 'Map', name: 'map' },
   ];
 
   constructor() {

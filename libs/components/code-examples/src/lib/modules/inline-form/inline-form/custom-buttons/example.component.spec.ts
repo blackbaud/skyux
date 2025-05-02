@@ -37,9 +37,9 @@ describe('Inline form custom button demo', () => {
 
     // You can query inline form buttons when the form is open.
     const buttons = await harness.getButtons();
-    expect(
-      fixture.componentInstance.formGroup.controls['firstName'].value,
-    ).toBe('Jane');
+    expect(fixture.componentInstance.formGroup.controls.firstName.value).toBe(
+      'Jane',
+    );
     await expectAsync(buttons[0].getText()).toBeResolvedTo('Save');
     await expectAsync(buttons[1].getStyleType()).toBeResolvedTo('default');
 
@@ -57,8 +57,8 @@ describe('Inline form custom button demo', () => {
 
     await editButton.click();
     fixture.detectChanges();
-    expect(
-      fixture.componentInstance.formGroup.controls['firstName'].value,
-    ).toBe('Janet');
+    expect(fixture.componentInstance.formGroup.controls.firstName.value).toBe(
+      'Janet',
+    );
   });
 });

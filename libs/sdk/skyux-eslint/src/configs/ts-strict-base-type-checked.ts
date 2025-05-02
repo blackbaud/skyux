@@ -7,7 +7,7 @@ export default {
       tsconfigRootDir: '.',
     },
   },
-  name: 'skyux-eslint/ts-base-type-checked',
+  name: 'skyux-eslint/ts-strict-base-type-checked',
   rules: {
     // Cherry-picked rules from typescript-eslint's "strict-type-checked" ruleset.
     // We can't pull in the entire ruleset because it's not considered SemVer safe.
@@ -24,5 +24,8 @@ export default {
         considerDefaultExhaustiveForUnions: true,
       },
     ],
+    // Using Angular validators (e.g. `Validators.required`) throws this error.
+    // See: https://stackoverflow.com/a/68652060/6178885
+    '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
   },
 } satisfies TSESLint.FlatConfig.Config;

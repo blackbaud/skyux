@@ -14,7 +14,7 @@ import {
 } from '@skyux/datetime';
 
 function dateRangeExcludesWeekend(
-  control: AbstractControl,
+  control: AbstractControl<SkyDateRangeCalculation>,
 ): ValidationErrors | null {
   const startDate = control.value.startDate;
   const endDate = control.value.endDate;
