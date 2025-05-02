@@ -7,11 +7,7 @@ import { SkyDescriptionListHarness } from '@skyux/layout/testing';
 import { LayoutDescriptionListLongDescriptionExampleComponent } from './example.component';
 
 describe('Long description list', () => {
-  async function setupTest(
-    options: {
-      dataSkyId?: string;
-    } = {},
-  ): Promise<{
+  async function setupTest(): Promise<{
     descriptionListHarness: SkyDescriptionListHarness;
     fixture: ComponentFixture<LayoutDescriptionListLongDescriptionExampleComponent>;
   }> {

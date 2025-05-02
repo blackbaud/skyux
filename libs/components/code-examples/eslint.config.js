@@ -1,4 +1,6 @@
+const eslint = require('@eslint/js');
 const tsEslint = require('typescript-eslint');
+const angular = require('angular-eslint');
 const config = require('../../../eslint-libs.config');
 const skyux = require('../../sdk/skyux-eslint/dev-transpiler.cjs');
 
@@ -6,7 +8,14 @@ module.exports = tsEslint.config(
   ...config,
   {
     files: ['**/*.ts'],
-    extends: [...skyux.configs.tsAll],
+    extends: [
+      eslint.configs.recommended,
+      ...tsEslint.configs.recommendedTypeChecked,
+      ...tsEslint.configs.stylisticTypeChecked,
+      ...angular.configs.tsRecommended,
+      ...skyux.configs.tsStrictTypeChecked,
+    ],
+    processor: angular.processInlineTemplates,
     rules: {
       '@angular-eslint/directive-selector': [
         'error',
@@ -32,10 +41,13 @@ module.exports = tsEslint.config(
   },
   {
     files: ['**/*.html'],
-    extends: [...skyux.configs.templateAll],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility,
+      ...skyux.configs.templateAll,
+    ],
     rules: {
       'skyux-eslint-template/no-deprecated-directives': 'warn',
-      'skyux-eslint-template/no-legacy-icons': 'warn',
     },
   },
 );

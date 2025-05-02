@@ -91,8 +91,9 @@ describe('Autocomplete with any value example', () => {
     await searchResults[0].select();
 
     expect(
-      (fixture.nativeElement.querySelector('.selected-color') as HTMLElement)
-        .innerText,
+      (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>(
+        '.selected-color',
+      )?.innerText,
     ).toBe('Turquoise');
   });
 });
