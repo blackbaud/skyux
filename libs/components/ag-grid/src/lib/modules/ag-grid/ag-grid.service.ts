@@ -11,7 +11,9 @@ import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
+  AgColumn,
   CellClassParams,
+  CellFocusedEvent,
   CellRendererSelectorFunc,
   CellRendererSelectorResult,
   ColDef,
@@ -20,6 +22,7 @@ import {
   HeaderClassParams,
   ICellRendererParams,
   RowClassParams,
+  RowNode,
   RowSelectionOptions,
   SuppressHeaderKeyboardEventParams,
   SuppressKeyboardEventParams,
@@ -582,7 +585,7 @@ export class SkyAgGridService implements OnDestroy {
         ]),
       ),
       loadingOverlayComponent: SkyAgGridLoadingComponent,
-      onCellFocused: () => this.#onCellFocused(),
+      onCellFocused: (event: CellFocusedEvent) => this.#onCellFocused(event),
       rowModelType: 'clientSide',
       rowSelection: {
         mode: 'multiRow',
@@ -667,10 +670,27 @@ export class SkyAgGridService implements OnDestroy {
     return defaultSkyGridOptions;
   }
 
-  #onCellFocused(): void {
-    const currentElement = this.#agGridAdapterService.getFocusedElement();
+  #onCellFocused(event: CellFocusedEvent): void {
+    const shouldFocus = this.#shouldFocusChildren(event);
+    if (shouldFocus) {
+      const currentElement = this.#agGridAdapterService.getFocusedElement();
+      this.#agGridAdapterService.focusOnFocusableChildren(currentElement);
+    }
+  }
 
-    this.#agGridAdapterService.focusOnFocusableChildren(currentElement);
+  #shouldFocusChildren(event: CellFocusedEvent): boolean {
+    let shouldFocus = true;
+    // The API says the column can be string or null, but should be an object.
+    shouldFocus &&= typeof event.column === 'object';
+    // Row index can be number or null.
+    const rowNode =
+      Number.isInteger(event.rowIndex) &&
+      event.api.getDisplayedRowAtIndex(event.rowIndex as number);
+    shouldFocus &&= !!rowNode;
+    // Do not change focus if the cell is a row drag or dnd source.
+    shouldFocus &&= !(event.column as AgColumn).isRowDrag(rowNode as RowNode);
+    shouldFocus &&= !(event.column as AgColumn).isDndSource(rowNode as RowNode);
+    return shouldFocus;
   }
 
   #getDefaultEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions & {
