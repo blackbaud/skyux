@@ -26,6 +26,10 @@ describe('Needs attention component', () => {
           url: 'http://example.com',
         },
       },
+      {
+        title: undefined,
+        click: (): void => undefined,
+      },
     ]);
     fixture.detectChanges();
     await fixture.whenStable();

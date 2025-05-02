@@ -183,7 +183,7 @@
         "primaryDocsId": "SkyInlineDeleteModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": ["SkyInlineDeleteHarness", "SkyInlineDeleteHarnessFilters"]
       },
       "codeExamples": {
         "docsIds": [
