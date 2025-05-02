@@ -115,6 +115,11 @@
     border: 1px solid var(--sky-highlight-color-danger);
     --ag-range-selection-border-color: var(--sky-highlight-color-danger);
   }
+
+  button.ag-button:has(> svg) {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .ag-theme-sky-data-grid-default,

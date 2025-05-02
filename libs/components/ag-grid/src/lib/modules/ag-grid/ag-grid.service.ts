@@ -1,4 +1,10 @@
-import { Injectable, OnDestroy, Optional, inject } from '@angular/core';
+import {
+  CSP_NONCE,
+  Injectable,
+  OnDestroy,
+  Optional,
+  inject,
+} from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import { SkyDateService } from '@skyux/datetime';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -147,6 +153,7 @@ export class SkyAgGridService implements OnDestroy {
   #resources: SkyLibResourcesService | undefined;
   #dateService = inject(SkyDateService);
   #logService = inject(SkyLogService);
+  readonly #cspNonce = inject(CSP_NONCE, { optional: true });
 
   constructor(
     agGridAdapterService: SkyAgGridAdapterService,
@@ -571,15 +578,12 @@ export class SkyAgGridService implements OnDestroy {
           return [];
         }
       },
-      icons: {
-        sortDescending: this.#getIconTemplate('sortDescending'),
-        sortAscending: this.#getIconTemplate('sortAscending'),
-        columnMoveMove: this.#getIconTemplate('columnMoveMove'),
-        columnMoveHide: this.#getIconTemplate('columnMoveHide'),
-        columnMoveLeft: this.#getIconTemplate('columnMoveLeft'),
-        columnMoveRight: this.#getIconTemplate('columnMoveRight'),
-        columnMovePin: this.#getIconTemplate('columnMovePin'),
-      },
+      icons: Object.fromEntries(
+        Object.keys(iconMap).map((iconKey) => [
+          iconKey,
+          this.#getIconTemplate(iconKey as keyof IconMapType),
+        ]),
+      ),
       loadingOverlayComponent: SkyAgGridLoadingComponent,
       onCellFocused: (event: CellFocusedEvent) => this.#onCellFocused(event),
       rowModelType: 'clientSide',
@@ -591,6 +595,7 @@ export class SkyAgGridService implements OnDestroy {
         headerCheckbox: false,
       },
       singleClickEdit: true,
+      styleNonce: this.#cspNonce ?? undefined,
       suppressDragLeaveHidesColumns: true,
       theme: getSkyAgGridTheme(
         'data-grid',

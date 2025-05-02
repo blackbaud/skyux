@@ -12,12 +12,13 @@ import {
   OnDestroy,
   OnInit,
   booleanAttribute,
-  computed,
+  effect,
   inject,
   input,
   numberAttribute,
+  viewChild,
 } from '@angular/core';
-import { SkyMutationObserverService } from '@skyux/core';
+import { SkyIdModule, SkyMutationObserverService } from '@skyux/core';
 import { SkyViewkeeperModule } from '@skyux/core';
 import {
   SkyThemeService,
@@ -57,7 +58,7 @@ let idIndex = 0;
   selector: 'sky-ag-grid-wrapper',
   templateUrl: './ag-grid-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AsyncPipe, NgClass, SkyViewkeeperModule],
+  imports: [AsyncPipe, NgClass, SkyIdModule, SkyViewkeeperModule],
 })
 export class SkyAgGridWrapperComponent
   implements AfterContentInit, AfterViewInit, OnDestroy, OnInit
@@ -119,9 +120,8 @@ export class SkyAgGridWrapperComponent
     return false;
   }
 
-  protected readonly minHeightStyle = computed(() => {
-    return `--sky-ag-grid-min-height: ${this.minHeight()}px;`;
-  });
+  protected readonly skyAgGridDiv =
+    viewChild<ElementRef<HTMLElement>>('skyAgGridDiv');
 
   #_viewkeeperClasses: string[] = [];
   readonly #ngUnsubscribe = new Subject<void>();
@@ -149,6 +149,15 @@ export class SkyAgGridWrapperComponent
     this.beforeAnchorId = 'sky-ag-grid-nav-anchor-before-' + idIndex;
     this.gridId = 'sky-ag-grid-' + idIndex;
     this.wrapperClasses$ = this.#wrapperClasses.asObservable();
+
+    effect(() => {
+      const minHeight = this.minHeight();
+      const skyAgGridDiv = this.skyAgGridDiv()?.nativeElement;
+      skyAgGridDiv?.style.setProperty(
+        '--sky-ag-grid-min-height',
+        `${minHeight}px`,
+      );
+    });
   }
 
   public ngAfterContentInit(): void {

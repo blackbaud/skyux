@@ -6,6 +6,7 @@
 >
 </span>
 <div
+  #skyAgGridDiv
   class="sky-ag-grid"
   tabindex="0"
   [class.sky-ag-grid-top-scrollbar]="
@@ -15,7 +16,6 @@
   [ngClass]="wrapperClasses$ | async"
   [id]="gridId"
   [skyViewkeeper]="viewkeeperClasses"
-  [style]="minHeightStyle()"
   (keydown)="onGridKeydown($event)"
   (keyup.escape)="onKeyUpEscape($event)"
 >

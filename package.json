@@ -102,7 +102,7 @@
     "@blackbaud/skyux-design-tokens": "0.0.53",
     "@inquirer/prompts": "7.3.2",
     "@nx/angular": "20.5.0",
-    "@skyux/icons": "7.23.1",
+    "@skyux/icons": "7.24.0",
     "@stackblitz/sdk": "1.11.0",
     "@storybook/addon-interactions": "8.6.4",
     "ag-grid-angular": "33.2.1",
