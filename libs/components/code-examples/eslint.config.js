@@ -1,21 +1,17 @@
-// @ts-check
 const eslint = require('@eslint/js');
-const tseslint = require('typescript-eslint');
+const tsEslint = require('typescript-eslint');
 const angular = require('angular-eslint');
+const config = require('../../../eslint-libs.config');
 const skyux = require('../../sdk/skyux-eslint/dev-transpiler.cjs');
-const prettier = require('eslint-config-prettier');
 
-/**
- * This configuration does not import the repo's shared configs so that we can
- * mimic what a consumer's project would use.
- */
-module.exports = tseslint.config(
+module.exports = tsEslint.config(
+  ...config,
   {
     files: ['**/*.ts'],
     extends: [
       eslint.configs.recommended,
-      ...tseslint.configs.recommendedTypeChecked,
-      ...tseslint.configs.stylisticTypeChecked,
+      ...tsEslint.configs.recommendedTypeChecked,
+      ...tsEslint.configs.stylisticTypeChecked,
       ...angular.configs.tsRecommended,
       ...skyux.configs.tsStrictTypeChecked,
     ],
@@ -37,6 +33,7 @@ module.exports = tseslint.config(
           style: 'kebab-case',
         },
       ],
+      '@nx/enforce-module-boundaries': 'warn',
       '@typescript-eslint/no-deprecated': 'warn',
       'no-alert': 'warn',
       'no-console': 'warn',
@@ -53,5 +50,4 @@ module.exports = tseslint.config(
       'skyux-eslint-template/no-deprecated-directives': 'warn',
     },
   },
-  prettier,
 );
