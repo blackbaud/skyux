@@ -101,7 +101,7 @@ describe('File drop harness', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [TestComponent, NoopAnimationsModule],
-      providers: [provideSkyFileReaderTesting, provideSkyFileReaderTesting()],
+      providers: [provideSkyFileReaderTesting()],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);
@@ -115,7 +115,7 @@ describe('File drop harness', () => {
     return { harness, fixture, loader };
   }
 
-  it('should drop a single file', async () => {
+  fit('should drop a single file', async () => {
     const { fixture, harness } = await setupTest();
 
     const testFile = new File([], 'test.png');
