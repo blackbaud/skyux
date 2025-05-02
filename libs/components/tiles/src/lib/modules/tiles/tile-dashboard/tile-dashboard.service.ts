@@ -713,7 +713,18 @@ export class SkyTileDashboardService {
 
     // Append new tiles to the end of the layouts
     if (multiColumn) {
-      newTiles.forEach((elem) => {
+      const multiColumnTileIds = multiColumn.flatMap((column) =>
+        column.tiles.map((tile) => tile.id),
+      );
+      const newMultiColumnTiles = [
+        ...new Set([
+          ...newTiles,
+          ...config.tiles.filter(
+            (tile) => !multiColumnTileIds.includes(tile.id),
+          ),
+        ]),
+      ] as SkyTileDashboardConfigTile[];
+      newMultiColumnTiles.forEach((elem) => {
         const smallest = Math.min(
           ...multiColumn.map((col) => col.tiles.length),
         );
@@ -728,7 +739,16 @@ export class SkyTileDashboardService {
     }
 
     if (singleColumn) {
-      newTiles.forEach((elem) => {
+      const singleColumnTileIds = singleColumn.tiles.map((tile) => tile.id);
+      const newSingleColumnTiles = [
+        ...new Set([
+          ...newTiles,
+          ...config.tiles.filter(
+            (tile) => !singleColumnTileIds.includes(tile.id),
+          ),
+        ]),
+      ] as SkyTileDashboardConfigTile[];
+      newSingleColumnTiles.forEach((elem) => {
         singleColumn.tiles.push({ id: elem.id, isCollapsed: false });
       });
     }
