@@ -5,6 +5,7 @@ import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
+  AgColumn,
   CellClassParams,
   CellFocusedEvent,
   CellRendererSelectorFunc,
@@ -15,6 +16,7 @@ import {
   HeaderClassParams,
   ICellRendererParams,
   RowClassParams,
+  RowNode,
   RowSelectionOptions,
   SuppressHeaderKeyboardEventParams,
   SuppressKeyboardEventParams,
@@ -664,23 +666,26 @@ export class SkyAgGridService implements OnDestroy {
   }
 
   #onCellFocused(event: CellFocusedEvent): void {
-    if (!event.column || typeof event.column !== 'object') {
-      return;
+    const shouldFocus = this.#shouldFocusChildren(event);
+    if (shouldFocus) {
+      const currentElement = this.#agGridAdapterService.getFocusedElement();
+      this.#agGridAdapterService.focusOnFocusableChildren(currentElement);
     }
+  }
+
+  #shouldFocusChildren(event: CellFocusedEvent): boolean {
+    let shouldFocus = true;
+    // The API says the column can be string or null, but should be an object.
+    shouldFocus &&= typeof event.column === 'object';
+    // Row index can be number or null.
     const rowNode =
       Number.isInteger(event.rowIndex) &&
       event.api.getDisplayedRowAtIndex(event.rowIndex as number);
-    if (!rowNode) {
-      return;
-    }
-
-    if (event.column.isRowDrag(rowNode) || event.column.isDndSource(rowNode)) {
-      return;
-    }
-
-    const currentElement = this.#agGridAdapterService.getFocusedElement();
-
-    this.#agGridAdapterService.focusOnFocusableChildren(currentElement);
+    shouldFocus &&= !!rowNode;
+    // Do not change focus if the cell is a row drag or dnd source.
+    shouldFocus &&= !(event.column as AgColumn).isRowDrag(rowNode as RowNode);
+    shouldFocus &&= !(event.column as AgColumn).isDndSource(rowNode as RowNode);
+    return shouldFocus;
   }
 
   #getDefaultEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions & {
