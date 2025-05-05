@@ -5,12 +5,8 @@
 .ag-theme-sky-data-entry-grid-default,
 .ag-theme-sky-data-grid-modern-light,
 .ag-theme-sky-data-entry-grid-modern-light,
-.ag-theme-sky-data-grid-modern-dark,
-.ag-theme-sky-data-entry-grid-modern-dark,
 .ag-theme-sky-data-grid-modern-light-compact,
-.ag-theme-sky-data-entry-grid-modern-light-compact,
-.ag-theme-sky-data-grid-modern-dark-compact,
-.ag-theme-sky-data-entry-grid-modern-dark-compact {
+.ag-theme-sky-data-entry-grid-modern-light-compact {
   @include ag-grid-extra.ag-grid-extra();
 
   .ag-header-cell {
@@ -124,9 +120,7 @@
 
 .ag-theme-sky-data-grid-default,
 .ag-theme-sky-data-grid-modern-light,
-.ag-theme-sky-data-grid-modern-dark,
-.ag-theme-sky-data-grid-modern-light-compact,
-.ag-theme-sky-data-grid-modern-dark-compact {
+.ag-theme-sky-data-grid-modern-light-compact {
   &:not(:has(:focus-visible)) {
     --ag-input-focus-border-color: transparent;
     --ag-range-selection-border-color: transparent;
@@ -138,9 +132,7 @@
 }
 
 .ag-theme-sky-data-grid-modern-light,
-.ag-theme-sky-data-grid-modern-dark,
-.ag-theme-sky-data-grid-modern-light-compact,
-.ag-theme-sky-data-grid-modern-dark-compact {
+.ag-theme-sky-data-grid-modern-light-compact {
   --ag-background-color: var(--sky-background-color-page-default);
   --ag-header-background-color: var(--sky-background-color-page-default);
   --ag-header-column-resize-handle-color: var(
@@ -150,16 +142,9 @@
   --ag-odd-row-background-color: var(--sky-background-color-page-default);
 }
 
-.ag-theme-sky-data-grid-modern-dark,
-.ag-theme-sky-data-grid-modern-dark-compact {
-  --ag-selected-row-background-color: var(--sky-background-color-page-default);
-}
-
 .ag-theme-sky-data-entry-grid-default,
 .ag-theme-sky-data-entry-grid-modern-light,
-.ag-theme-sky-data-entry-grid-modern-dark,
-.ag-theme-sky-data-entry-grid-modern-light-compact,
-.ag-theme-sky-data-entry-grid-modern-dark-compact {
+.ag-theme-sky-data-entry-grid-modern-light-compact {
   .ag-center-cols-viewport {
     border-bottom: var(--ag-row-border);
   }

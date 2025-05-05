@@ -1,11 +1,6 @@
 import { SkyThemeSettings } from '@skyux/theme';
 
-import {
-  Theme,
-  colorSchemeDark,
-  colorSchemeLight,
-  themeQuartz,
-} from 'ag-grid-community';
+import { Theme, colorSchemeLight, themeQuartz } from 'ag-grid-community';
 
 const defaultsForAllThemes = {
   backgroundColor: 'var(--sky-background-color-page-default)',
@@ -94,12 +89,6 @@ const modernCompactThemeBase = {
   headerHeight: 32,
   rowHeight: 32,
 };
-const modernThemeDarkBase = {
-  ...defaultsForAllThemes,
-  fontSize: 16,
-  headerHeight: 60,
-  rowHeight: 60,
-};
 
 const SkyAgGridDataGridDefault = themeQuartz
   .withoutPart('iconSet')
@@ -125,14 +114,6 @@ const SkyAgGridDataGridModernLight = themeQuartz
 const SkyAgGridDataGridModernLightCompact =
   SkyAgGridDataGridModernLight.withParams(modernCompactThemeBase);
 
-const SkyAgGridDataGridModernDark = themeQuartz
-  .withoutPart('iconSet')
-  .withPart(colorSchemeDark)
-  .withParams(modernThemeDarkBase);
-
-const SkyAgGridDataGridModernDarkCompact =
-  SkyAgGridDataGridModernDark.withParams(modernCompactThemeBase);
-
 const SkyAgGridDataEntryGridModernLight =
   SkyAgGridDataGridModernLight.withParams(defaultsForDataEntryGrid).withParams({
     backgroundColor: '#ffffff',
@@ -140,13 +121,6 @@ const SkyAgGridDataEntryGridModernLight =
 
 const SkyAgGridDataEntryGridModernLightCompact =
   SkyAgGridDataGridModernLightCompact.withParams(defaultsForDataEntryGrid);
-
-const SkyAgGridDataEntryGridModernDark = SkyAgGridDataGridModernDark.withParams(
-  defaultsForDataEntryGrid,
-);
-
-const SkyAgGridDataEntryGridModernDarkCompact =
-  SkyAgGridDataGridModernDarkCompact.withParams(defaultsForDataEntryGrid);
 
 export function getSkyAgGridTheme(
   grid: 'data-entry-grid' | 'data-grid',
@@ -156,36 +130,20 @@ export function getSkyAgGridTheme(
 ): Theme {
   if (grid === 'data-grid') {
     if (theme === 'modern') {
-      if (mode === 'dark') {
-        if (spacing === 'compact') {
-          return SkyAgGridDataGridModernDarkCompact;
-        } else {
-          return SkyAgGridDataGridModernDark;
-        }
+      if (spacing === 'compact') {
+        return SkyAgGridDataGridModernLightCompact;
       } else {
-        if (spacing === 'compact') {
-          return SkyAgGridDataGridModernLightCompact;
-        } else {
-          return SkyAgGridDataGridModernLight;
-        }
+        return SkyAgGridDataGridModernLight;
       }
     } else {
       return SkyAgGridDataGridDefault;
     }
   } else {
     if (theme === 'modern') {
-      if (mode === 'dark') {
-        if (spacing === 'compact') {
-          return SkyAgGridDataEntryGridModernDarkCompact;
-        } else {
-          return SkyAgGridDataEntryGridModernDark;
-        }
+      if (spacing === 'compact') {
+        return SkyAgGridDataEntryGridModernLightCompact;
       } else {
-        if (spacing === 'compact') {
-          return SkyAgGridDataEntryGridModernLightCompact;
-        } else {
-          return SkyAgGridDataEntryGridModernLight;
-        }
+        return SkyAgGridDataEntryGridModernLight;
       }
     } else {
       return SkyAgGridDataEntryGridDefault;
@@ -194,7 +152,7 @@ export function getSkyAgGridTheme(
 }
 
 type SkyAgGridThemeType =
-  `ag-theme-sky-${'data-entry-grid' | 'data-grid'}-${'default' | 'modern-light' | 'modern-dark' | 'modern-light-compact' | 'modern-dark-compact'}`;
+  `ag-theme-sky-${'data-entry-grid' | 'data-grid'}-${'default' | 'modern-light' | 'modern-light-compact'}`;
 
 export function agGridThemeIsCompact(
   themeSettings: SkyThemeSettings | undefined,

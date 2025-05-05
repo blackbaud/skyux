@@ -1,9 +1,7 @@
 @use 'libs/components/theme/src/lib/styles/variables' as variables;
 
 .ag-theme-sky-data-grid-modern-light,
-.ag-theme-sky-data-grid-modern-dark,
-.ag-theme-sky-data-grid-modern-light-compact,
-.ag-theme-sky-data-grid-modern-dark-compact {
+.ag-theme-sky-data-grid-modern-light-compact {
   ag-grid-angular {
     --initial-column-resize-handle-height: calc(var(--ag-spacing) * 4);
     --initial-column-resize-handle-top: calc(
@@ -14,9 +12,7 @@
 }
 
 .ag-theme-sky-data-entry-grid-modern-light,
-.ag-theme-sky-data-entry-grid-modern-dark,
-.ag-theme-sky-data-entry-grid-modern-light-compact,
-.ag-theme-sky-data-entry-grid-modern-dark-compact {
+.ag-theme-sky-data-entry-grid-modern-light-compact {
   ag-grid-angular {
     --initial-column-resize-handle-height: 100%;
     --initial-column-resize-handle-top: 0;
@@ -24,13 +20,9 @@
 }
 
 .ag-theme-sky-data-grid-modern-light,
-.ag-theme-sky-data-grid-modern-dark,
 .ag-theme-sky-data-entry-grid-modern-light,
-.ag-theme-sky-data-entry-grid-modern-dark,
 .ag-theme-sky-data-grid-modern-light-compact,
-.ag-theme-sky-data-grid-modern-dark-compact,
-.ag-theme-sky-data-entry-grid-modern-light-compact,
-.ag-theme-sky-data-entry-grid-modern-dark-compact {
+.ag-theme-sky-data-entry-grid-modern-light-compact {
   .ag-header .ag-header-cell .ag-header-cell-label-sortable {
     color: var(--sky-text-color-default);
   }

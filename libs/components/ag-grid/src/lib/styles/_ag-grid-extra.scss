@@ -103,21 +103,3 @@
     }
   }
 }
-
-@mixin ag-grid-extra-dark() {
-  .ag-root-wrapper .ag-root {
-    .ag-floating-filter,
-    .ag-mini-filter,
-    .ag-filter-filter {
-      .ag-wrapper.ag-input-wrapper::before {
-        opacity: 66%;
-        filter: invert(100%);
-      }
-    }
-
-    .ag-text-field-input::placeholder {
-      color: var(--ag-data-color);
-      opacity: 0.8;
-    }
-  }
-}
