@@ -1,3 +1,4 @@
+import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyTokenHarness } from './token-harness';
@@ -17,7 +18,9 @@ export class SkyTokensHarness extends SkyComponentHarness {
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyTokensHarness` that meets certain criteria.
    */
-  public static with(filters: SkyTokensHarnessFilters) {
+  public static with(
+    filters: SkyTokensHarnessFilters,
+  ): HarnessPredicate<SkyTokensHarness> {
     return SkyTokensHarness.getDataSkyIdPredicate(filters);
   }
 
