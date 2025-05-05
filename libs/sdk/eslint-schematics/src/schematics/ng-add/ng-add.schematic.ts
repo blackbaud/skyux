@@ -106,7 +106,10 @@ function modifyTsConfig(options: SkyuxEslintAddOptions): Rule {
       const tsconfig = new JsonFile(tree, '/tsconfig.json');
 
       // Strict null checks are needed for the '@typescript/eslint:prefer-nullish-coalescing' rule.
-      tsconfig.modify(['compilerOptions', 'strictNullChecks'], true);
+      // The `strict` option also sets `strictNullChecks` so we can abort if it's set to true.
+      if (tsconfig.get(['compilerOptions', 'strict']) !== true) {
+        tsconfig.modify(['compilerOptions', 'strictNullChecks'], true);
+      }
     }
   };
 }

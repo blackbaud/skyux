@@ -626,12 +626,13 @@ module.exports = tseslint.config(
 `);
     });
 
-    it('should modify tsconfig.json', async () => {
+    it('should modify tsconfig.json if not "strict"', async () => {
       const { runSchematic, tree } = await setup({
         angularEslintInstalled: true,
       });
 
       let tsconfig = new JsonFile(tree, '/tsconfig.json');
+      tsconfig.remove(['compilerOptions', 'strict']);
 
       expect(
         tsconfig.get(['compilerOptions', 'strictNullChecks']),
@@ -646,6 +647,25 @@ module.exports = tseslint.config(
       expect(tsconfig.get(['compilerOptions', 'strictNullChecks'])).toEqual(
         true,
       );
+    });
+
+    it('should not modify tsconfig.json if "strict"', async () => {
+      const { runSchematic, tree } = await setup({
+        angularEslintInstalled: true,
+      });
+
+      let tsconfig = new JsonFile(tree, '/tsconfig.json');
+      tsconfig.modify(['compilerOptions', 'strict'], true);
+
+      const updatedTree = await runSchematic({
+        ruleset: 'strict-type-checked',
+      });
+
+      tsconfig = new JsonFile(updatedTree, '/tsconfig.json');
+
+      expect(
+        tsconfig.get(['compilerOptions', 'strictNullChecks']),
+      ).toBeUndefined();
     });
   });
 });
