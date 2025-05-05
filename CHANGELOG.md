@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.11.2](https://github.com/blackbaud/skyux/compare/12.11.1...12.11.2) (2025-05-05)
+
+
+### Bug Fixes
+
+* **sdk/eslint-schematics:** only set `strictNullChecks` if `strict` unset ([#3435](https://github.com/blackbaud/skyux/issues/3435)) ([7147c89](https://github.com/blackbaud/skyux/commit/7147c8920d1e91860ceaa656f54826b49a26f521))
+
 ## [12.11.1](https://github.com/blackbaud/skyux/compare/12.11.0...12.11.1) (2025-05-02)
 
 
