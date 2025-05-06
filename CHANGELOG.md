@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.11.3](https://github.com/blackbaud/skyux/compare/12.11.2...12.11.3) (2025-05-06)
+
+
+### Bug Fixes
+
+* add explicit harness predicate return type ([#3437](https://github.com/blackbaud/skyux/issues/3437)) ([38cf583](https://github.com/blackbaud/skyux/commit/38cf5837161942a5d9e04fe561c49223749a0362))
+
 ## [12.11.2](https://github.com/blackbaud/skyux/compare/12.11.1...12.11.2) (2025-05-05)
 
 
