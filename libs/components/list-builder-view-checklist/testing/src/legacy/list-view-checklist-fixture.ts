@@ -48,7 +48,7 @@ export class SkyListViewChecklistFixture {
    * Selects the item at the specified index.
    * @param index The item's index.
    */
-  public selectItem(index: number) {
+  public selectItem(index: number): void {
     const selectEl = this.getSelectEl(index);
 
     if (!this.isChecked(selectEl)) {
@@ -60,7 +60,7 @@ export class SkyListViewChecklistFixture {
    * Deselects the item at the specified index.
    * @param index The item's index.
    */
-  public deselectItem(index: number) {
+  public deselectItem(index: number): void {
     const selectEl = this.getSelectEl(index);
 
     if (selectEl.nativeElement.tagName === 'BUTTON') {

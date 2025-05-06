@@ -22,7 +22,7 @@ export class SkyListFilterInlineModel {
     }
   }
 
-  public changed(value: any) {
+  public changed(value: any): void {
     this.value = value;
     this.onChange.emit(value);
   }

@@ -36,7 +36,7 @@ export function getData(item: any, selector: string): any {
  * @internal
  * @deprecated
  */
-export function compare(value1: any, value2: any) {
+export function compare(value1: any, value2: any): -1 | 0 | 1 {
   if (value1 === null) {
     return 1;
   } else if (value2 === null) {

@@ -53,7 +53,7 @@ export class ListSearchOrchestrator extends ListStateOrchestrator<ListSearchMode
   private setOptions(
     state: ListSearchModel,
     action: ListSearchSetOptionsAction,
-  ) {
+  ): ListSearchModel {
     let result = state;
 
     /* istanbul ignore else */

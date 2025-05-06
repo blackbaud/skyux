@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<ProgressIndicatorComponent>;
 export const ProgressIndicator = {
-  render: (args: ProgressIndicatorComponent) => ({
+  render: (args: ProgressIndicatorComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

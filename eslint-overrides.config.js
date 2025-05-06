@@ -14,7 +14,7 @@ module.exports = [
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-non-null-assertion': 'warn',
       '@typescript-eslint/no-unused-vars': 'warn',
-      '@typescript-eslint/explicit-function-return-type': 'warn',
+      '@typescript-eslint/explicit-function-return-type': 'error',
       '@typescript-eslint/explicit-member-accessibility': [
         'error',
         { overrides: { constructors: 'no-public' } },
@@ -29,6 +29,12 @@ module.exports = [
       eqeqeq: ['error', 'always'],
       'max-depth': ['error', { max: 5 }],
       'no-restricted-syntax': ['error', 'ExportAllDeclaration'],
+    },
+  },
+  {
+    files: ['**/*.spec.ts', '**/fixtures/**/*.ts'],
+    rules: {
+      '@typescript-eslint/explicit-function-return-type': 'warn',
     },
   },
 ];

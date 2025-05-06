@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<SectionedFormComponent>;
 export const SectionedForm = {
-  render: (args: SectionedFormComponent) => ({
+  render: (args: SectionedFormComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

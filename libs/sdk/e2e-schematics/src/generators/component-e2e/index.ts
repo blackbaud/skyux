@@ -53,7 +53,7 @@ function normalizeOptions(options: Partial<Schema>): NormalizedSchema {
 /**
  * Drop the BASE_PATH from the project name and re-sort the projects.
  */
-function simplifyWorkspaceName(tree: Tree, projectName: string) {
+function simplifyWorkspaceName(tree: Tree, projectName: string): void {
   const projects = getProjects(tree);
   projects.forEach((projectConfig) => {
     let projectConfigJson = JSON.stringify(projectConfig).replace(
@@ -78,7 +78,7 @@ function simplifyWorkspaceName(tree: Tree, projectName: string) {
 /**
  * Add the packages polyfills to the build and test targets.
  */
-function addPackagesPolyfills(tree: Tree, projectName: string) {
+function addPackagesPolyfills(tree: Tree, projectName: string): void {
   const polyfillsBuilders = [
     '@angular-devkit/build-angular:application',
     '@angular-devkit/build-angular:browser',
@@ -116,7 +116,10 @@ function addPackagesPolyfills(tree: Tree, projectName: string) {
  * - Applies configuration to the projects.
  * - Generates stories and tests if there are demonstration components in the -storybook project.
  */
-export default async function (tree: Tree, schema: Partial<Schema>) {
+export default async function (
+  tree: Tree,
+  schema: Partial<Schema>,
+): Promise<void> {
   const initialNxJson = tree.read('nx.json', 'utf-8');
   const initialPackageJson = tree.read('package.json', 'utf-8');
   const options = normalizeOptions(schema);

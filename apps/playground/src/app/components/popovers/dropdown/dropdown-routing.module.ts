@@ -23,7 +23,7 @@ const routes: ComponentRouteInfo[] = [
       ...routes,
       {
         path: 'iframe',
-        loadComponent: () =>
+        loadComponent: (): Promise<any> =>
           import('./dropdown-example.component').then(
             (m) => m.DropdownExampleComponent,
           ),

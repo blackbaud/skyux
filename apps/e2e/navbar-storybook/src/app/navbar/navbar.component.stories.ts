@@ -14,8 +14,6 @@ export default {
   ],
 } as Meta<NavbarComponent>;
 export const Navbar = {
-  render: (args: NavbarComponent) => ({
-    props: args,
-  }),
+  render: (args: NavbarComponent): { props: unknown } => ({ props: args }),
   args: {},
 };

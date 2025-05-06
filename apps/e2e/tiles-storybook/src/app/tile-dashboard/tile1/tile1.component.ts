@@ -18,7 +18,7 @@ export class Tile1Component {
     this.tileParameters = tileParameters as TileParametersType;
   }
 
-  public tileSettingsClick() {
+  public tileSettingsClick(): void {
     console.log('Tile settings clicked!');
   }
 }

@@ -617,11 +617,11 @@ export class SkyColorpickerComponent
     this.isOpen = true;
   }
 
-  #sendMessage(type: SkyColorpickerMessageType) {
+  #sendMessage(type: SkyColorpickerMessageType): void {
     this.messageStream.next({ type });
   }
 
-  #handleIncomingMessages(message: SkyColorpickerMessage) {
+  #handleIncomingMessages(message: SkyColorpickerMessage): void {
     switch (message.type) {
       case SkyColorpickerMessageType.Open:
         if (!this.isOpen) {

@@ -9,9 +9,9 @@ import { SkyTabsModule } from '@skyux/tabs';
   imports: [SkyModalModule, SkyTabsModule],
 })
 export class ModalWithTabsComponent {
-  public newTabClick() {}
+  public newTabClick(): void {}
 
-  public openTabClick() {}
+  public openTabClick(): void {}
 
-  public closeTab() {}
+  public closeTab(): void {}
 }

@@ -31,7 +31,7 @@ const defaultCallback: ResizeObserverCallback = (
  */
 export const mockResizeObserverHandle = {
   callback: defaultCallback,
-  emit: (entries: ResizeObserverEntry[], observer?: ResizeObserver) => {
+  emit: (entries: ResizeObserverEntry[], observer?: ResizeObserver): void => {
     mockResizeObserverHandle.callback(entries, observer!);
   },
 };
@@ -39,7 +39,7 @@ export const mockResizeObserverHandle = {
 /**
  * @internal
  */
-export function mockResizeObserver() {
+export function mockResizeObserver(): void {
   (window as any).requestAnimationFrame = (callback: () => void): number => {
     callback();
     return 0;
@@ -50,10 +50,10 @@ export function mockResizeObserver() {
       mockResizeObserverHandle.callback = callback;
     }
 
-    public disconnect() {}
+    public disconnect(): void {}
 
-    public observe(target: Element, options?: ResizeObserverOptions) {}
+    public observe(target: Element, options?: ResizeObserverOptions): void {}
 
-    public unobserve(element: HTMLElement) {}
+    public unobserve(element: HTMLElement): void {}
   };
 }

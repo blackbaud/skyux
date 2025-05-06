@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 export class KeyInfoComponent {
   public showHelp = false;
 
-  public onHelpClick() {
+  public onHelpClick(): void {
     alert(`Help is available for this component.`);
   }
 }

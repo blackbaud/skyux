@@ -36,7 +36,7 @@ export class SkyListSecondaryActionsComponent implements AfterViewInit {
 
   constructor(private dispatcher: ListStateDispatcher) {}
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     const secondaryActionItem = new ListToolbarItemModel({
       id: 'secondary-actions',
       template: this.secondaryActionsTemplate,

@@ -72,7 +72,7 @@ export class SkySectionedFormSectionComponent implements OnInit, OnDestroy {
     this.#changeRef = changeRef;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.#changeRef.detectChanges();
 
     this.#tabsetService.switchingMobile.subscribe((mobile: boolean) => {
@@ -92,7 +92,7 @@ export class SkySectionedFormSectionComponent implements OnInit, OnDestroy {
       );
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }

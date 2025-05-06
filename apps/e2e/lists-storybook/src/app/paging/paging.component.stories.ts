@@ -14,8 +14,6 @@ export default {
   ],
 } as Meta<PagingComponent>;
 export const Paging = {
-  render: (args: PagingComponent) => ({
-    props: args,
-  }),
+  render: (args: PagingComponent): { props: unknown } => ({ props: args }),
   args: {},
 };

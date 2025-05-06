@@ -49,7 +49,7 @@ export class SortVisualComponent {
 
   public sortedItem: any;
 
-  public sortItems(item: any) {
+  public sortItems(item: any): void {
     this.sortedItem = item;
   }
 }
