@@ -14,8 +14,6 @@ export default {
   ],
 } as Meta<PhoneFieldComponent>;
 export const PhoneField = {
-  render: (args: PhoneFieldComponent) => ({
-    props: args,
-  }),
+  render: (args: PhoneFieldComponent): { props: unknown } => ({ props: args }),
   args: {},
 };

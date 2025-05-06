@@ -335,7 +335,7 @@ export class SkyDatepickerInputDirective
   }
 
   @HostListener('change', ['$event'])
-  public onInputChange(event: any) {
+  public onInputChange(event: any): void {
     const value = event.target.value;
 
     if (this.skyDatepickerNoValidate) {
@@ -582,9 +582,9 @@ export class SkyDatepickerInputDirective
   }
 
   // istanbul ignore next
-  #onChange = (_: any) => {};
+  #onChange = (_: any): void => {};
   // istanbul ignore next
-  #onValidatorChange = () => {};
+  #onValidatorChange = (): void => {};
 
   /**
    * Update the value of the form control and input element

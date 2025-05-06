@@ -11,15 +11,15 @@ export class SkySearchAdapterService {
     this.#renderer = renderer;
   }
 
-  public selectInput(searchEl: ElementRef) {
+  public selectInput(searchEl: ElementRef): void {
     this.#getInputEl(searchEl).select();
   }
 
-  public focusInput(searchEl: ElementRef) {
+  public focusInput(searchEl: ElementRef): void {
     this.#getInputEl(searchEl).focus();
   }
 
-  public startInputAnimation(searchEl: ElementRef) {
+  public startInputAnimation(searchEl: ElementRef): void {
     const buttonWidth = this.#getSearchOpenButtonEl(searchEl).clientWidth;
     const offsetWidth = this.#getSearchContainerEl(searchEl).offsetLeft;
     const minWidth = buttonWidth + offsetWidth;
@@ -34,7 +34,7 @@ export class SkySearchAdapterService {
     );
   }
 
-  public endInputAnimation(searchEl: ElementRef) {
+  public endInputAnimation(searchEl: ElementRef): void {
     this.#renderer.setStyle(
       this.#getInputContainerEl(searchEl),
       'min-width',
@@ -42,19 +42,19 @@ export class SkySearchAdapterService {
     );
   }
 
-  #getInputContainerEl(searchEl: ElementRef) {
+  #getInputContainerEl(searchEl: ElementRef): HTMLElement {
     return searchEl.nativeElement.querySelector('.sky-search-input-container');
   }
 
-  #getSearchOpenButtonEl(searchEl: ElementRef) {
+  #getSearchOpenButtonEl(searchEl: ElementRef): HTMLElement {
     return searchEl.nativeElement.querySelector('.sky-search-btn-open');
   }
 
-  #getSearchContainerEl(searchEl: ElementRef) {
+  #getSearchContainerEl(searchEl: ElementRef): HTMLElement {
     return searchEl.nativeElement.querySelector('.sky-search-container');
   }
 
-  #getInputEl(searchEl: ElementRef) {
+  #getInputEl(searchEl: ElementRef): HTMLInputElement {
     return searchEl.nativeElement.querySelector('input');
   }
 }

@@ -34,7 +34,7 @@ export function getUsages(
 ): ImportUsage[] {
   const usages: ImportUsage[] = [];
 
-  const visitNode = (node: ts.Node) => {
+  const visitNode = (node: ts.Node): void => {
     // Skip this node and all of its children; imports are a special case.
     if (ts.isImportSpecifier(node)) {
       return;

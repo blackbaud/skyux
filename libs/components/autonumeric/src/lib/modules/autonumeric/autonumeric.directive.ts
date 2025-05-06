@@ -245,8 +245,8 @@ export class SkyAutonumericDirective
 
   // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-empty-function , @typescript-eslint/no-unused-vars
-  #onChange = (_: number | undefined) => {};
+  #onChange = (_: number | undefined): void => {};
   // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  #onTouched = () => {};
+  #onTouched = (): void => {};
 }

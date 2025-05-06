@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<AvatarComponent>;
 export const Avatar = {
-  render: (args: AvatarComponent) => ({
+  render: (args: AvatarComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

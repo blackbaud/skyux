@@ -32,7 +32,7 @@ export class EditStopWhenLosesFocusComponent implements OnInit {
   public columnDefs: ColDef[];
 
   @HostListener('window:resize')
-  public onWindowResize() {
+  public onWindowResize(): void {
     this.sizeGrid();
   }
 
@@ -84,7 +84,7 @@ export class EditStopWhenLosesFocusComponent implements OnInit {
         field: 'value1',
         headerName: 'Update 1',
         editable: this.editMode,
-        onCellValueChanged: (changeEvent: CellValueChangedEvent) =>
+        onCellValueChanged: (changeEvent: CellValueChangedEvent): void =>
           this.onUpdateCellValueChanged(changeEvent),
         type: SkyCellType.Number,
       },
@@ -93,7 +93,7 @@ export class EditStopWhenLosesFocusComponent implements OnInit {
         field: 'value2',
         headerName: 'Update 2',
         editable: this.editMode,
-        onCellValueChanged: (changeEvent: CellValueChangedEvent) =>
+        onCellValueChanged: (changeEvent: CellValueChangedEvent): void =>
           this.onUpdateCellValueChanged(changeEvent),
         type: SkyCellType.Number,
       },
@@ -102,7 +102,7 @@ export class EditStopWhenLosesFocusComponent implements OnInit {
         field: 'value3',
         headerName: 'Update 3',
         editable: this.editMode,
-        onCellValueChanged: (changeEvent: CellValueChangedEvent) =>
+        onCellValueChanged: (changeEvent: CellValueChangedEvent): void =>
           this.onUpdateCellValueChanged(changeEvent),
         type: SkyCellType.Number,
       },

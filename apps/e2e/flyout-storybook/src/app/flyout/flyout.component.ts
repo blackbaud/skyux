@@ -26,7 +26,7 @@ export class FlyoutComponent implements AfterViewInit {
 
   #flyoutService = inject(SkyFlyoutService);
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.openFlyout();
   }
 
@@ -36,7 +36,7 @@ export class FlyoutComponent implements AfterViewInit {
 
     if (this.showHeaderButtons) {
       primaryAction = {
-        callback: () => {
+        callback: (): void => {
           return;
         },
         label: 'Primary action',

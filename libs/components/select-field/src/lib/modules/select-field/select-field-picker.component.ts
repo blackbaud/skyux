@@ -113,7 +113,7 @@ export class SkySelectFieldPickerComponent
     private windowRef: SkyAppWindowRef,
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.data = this.context.data;
     this.headingText = this.context.headingText;
     this.selectMode = this.context.selectMode;
@@ -130,7 +130,7 @@ export class SkySelectFieldPickerComponent
       });
   }
 
-  public ngAfterContentInit() {
+  public ngAfterContentInit(): void {
     this.windowRef.nativeWindow.setTimeout(() => {
       this.elementRef.nativeElement.querySelector('.sky-search-input').focus();
     });
@@ -146,7 +146,7 @@ export class SkySelectFieldPickerComponent
     this.addNewRecordButtonClick.next();
   }
 
-  public save() {
+  public save(): void {
     this.latestData.subscribe((items: SkySelectField[]) => {
       const results = items.filter((item: SkySelectField) => {
         return this.selectedIds.indexOf(item.id) > -1;
@@ -155,23 +155,23 @@ export class SkySelectFieldPickerComponent
     });
   }
 
-  public close() {
+  public close(): void {
     this.instance.close();
   }
 
-  public filterByCategory(model: ListItemModel, category: string) {
+  public filterByCategory(model: ListItemModel, category: string): boolean {
     return (
       category === this.defaultCategory || model.data.category === category
     );
   }
 
-  public onCategoryChange(change: SkyListFilterInlineModel, filter: any) {
+  public onCategoryChange(change: SkyListFilterInlineModel, filter: any): void {
     // Reset the selected values when the category changes.
     this.listViewChecklist.clearSelections();
     filter.changed(change);
   }
 
-  public onSelectedIdsChange(selectedMap: Map<string, boolean>) {
+  public onSelectedIdsChange(selectedMap: Map<string, boolean>): void {
     this.latestData.subscribe((items: SkySelectField[]) => {
       this.selectedIds = items
         .filter((item) => selectedMap.get(item.id))
@@ -179,7 +179,7 @@ export class SkySelectFieldPickerComponent
     });
   }
 
-  private assignCategories() {
+  private assignCategories(): void {
     this.latestData.subscribe((items: SkySelectField[]) => {
       const allCategories = items.map((item) => item.category);
       // Remove duplicate category names:

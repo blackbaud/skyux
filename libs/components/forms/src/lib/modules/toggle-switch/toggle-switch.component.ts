@@ -222,7 +222,7 @@ export class SkyToggleSwitchComponent
     return null;
   }
 
-  public registerOnChange(fn: (value: any) => void) {
+  public registerOnChange(fn: (value: any) => void): void {
     this.#onChange = fn;
   }
 

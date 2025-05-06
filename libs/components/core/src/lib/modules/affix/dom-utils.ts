@@ -3,7 +3,7 @@ import { ViewportRuler } from '@angular/cdk/overlay';
 import { SkyAffixOffset } from './affix-offset';
 import { AffixRect } from './affix-rect';
 
-function useViewportForBounds(element: HTMLElement) {
+function useViewportForBounds(element: HTMLElement): boolean {
   return 'BODY' === element.tagName;
 }
 

@@ -25,7 +25,7 @@ export class HomeFiltersModalDemoComponent {
     }
   }
 
-  public applyFilters() {
+  public applyFilters(): void {
     const result: SkyDataManagerFilterData = {};
 
     result.filtersApplied =
@@ -37,11 +37,11 @@ export class HomeFiltersModalDemoComponent {
     this.instance.save(result);
   }
 
-  public clearAllFilters() {
+  public clearAllFilters(): void {
     this.libraries.forEach((lib) => (lib.isSelected = false));
   }
 
-  public cancel() {
+  public cancel(): void {
     this.instance.cancel();
   }
 }

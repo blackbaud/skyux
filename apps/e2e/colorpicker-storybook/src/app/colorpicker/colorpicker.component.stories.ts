@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<ColorpickerComponent>;
 export const Colorpicker = {
-  render: (args: ColorpickerComponent) => ({
+  render: (args: ColorpickerComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

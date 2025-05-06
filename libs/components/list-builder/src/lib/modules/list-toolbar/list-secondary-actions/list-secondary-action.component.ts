@@ -25,7 +25,7 @@ export class SkyListSecondaryActionComponent implements AfterContentInit {
 
   constructor(private actionService: SkyListSecondaryActionsService) {}
 
-  public ngAfterContentInit() {
+  public ngAfterContentInit(): void {
     this.actionService.addSecondaryAction({
       template: this.templateRef,
     });

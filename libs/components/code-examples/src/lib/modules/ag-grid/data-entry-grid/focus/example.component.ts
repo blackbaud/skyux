@@ -64,8 +64,9 @@ export class AgGridDataEntryGridFocusExampleComponent {
           headerName: 'End date',
           type: SkyCellType.Date,
           editable: true,
-          valueFormatter: (params: ValueFormatterParams<AgGridDemoRow, Date>) =>
-            this.#endDateFormatter(params),
+          valueFormatter: (
+            params: ValueFormatterParams<AgGridDemoRow, Date>,
+          ): string => this.#endDateFormatter(params),
         },
         {
           field: 'department',

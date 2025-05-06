@@ -99,7 +99,7 @@ export class SkyResizeObserverService implements OnDestroy {
         new Observable<ResizeObserverEntry[]>((observer) => {
           const subscription = this.#resizeSubject.subscribe(observer);
           this.#resizeObserver?.observe(element.nativeElement);
-          return () => {
+          return (): void => {
             this.#resizeObserver?.unobserve(element.nativeElement);
             subscription.unsubscribe();
             this.#tracking.delete(element.nativeElement);

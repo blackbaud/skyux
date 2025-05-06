@@ -151,7 +151,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
     const inputModal = this.#modalService.open(SkyTextEditorUrlModalComponent, [
       {
         provide: SkyUrlModalContext,
-        useFactory: () => {
+        useFactory: (): SkyUrlModalContext => {
           const context = new SkyUrlModalContext();
           context.urlResult = currentLink;
           context.linkWindowOptions = this.linkWindowOptions;

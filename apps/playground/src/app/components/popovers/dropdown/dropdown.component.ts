@@ -35,7 +35,7 @@ import { DropdownExampleComponent } from './dropdown-example.component';
   ],
   imports: [SkyCheckboxModule, FormsModule, DropdownExampleComponent],
 })
-export class DropdownComponent {
+export default class DropdownComponent {
   protected disabledState = model(true);
   protected moveToBottom = model(false);
 }

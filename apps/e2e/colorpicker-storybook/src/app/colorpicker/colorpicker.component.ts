@@ -3,6 +3,7 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 
@@ -54,7 +55,7 @@ export class ColorpickerComponent {
       colorSix: new FormControl('#00f'),
       colorSeven: new FormControl('#00f', {
         validators: [
-          () => {
+          (): ValidationErrors | null => {
             return { intentionalError: true };
           },
         ],

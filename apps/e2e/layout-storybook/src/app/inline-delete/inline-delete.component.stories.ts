@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<InlineDeleteComponent>;
 export const InlineDelete = {
-  render: (args: InlineDeleteComponent) => ({
+  render: (args: InlineDeleteComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},
