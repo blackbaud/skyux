@@ -13,9 +13,7 @@ const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
 describe('ng-add', () => {
   async function setup(options: {
     angularEslintInstalled: boolean;
-    eslintVersion?: string;
     projectType?: 'library' | 'application';
-    rulesetPromptResult?: 'recommended' | 'strict-type-checked';
   }): Promise<{
     runSchematic: () => Promise<UnitTestTree>;
     tree: UnitTestTree;
@@ -42,6 +40,32 @@ describe('ng-add', () => {
   afterEach(() => {
     jest.resetAllMocks();
     jest.resetModules();
+  });
+
+  it('should throw if angular-eslint not installed', async () => {
+    const { runSchematic } = await setup({
+      angularEslintInstalled: false,
+    });
+
+    await expect(() => runSchematic()).rejects.toThrow(
+      "The package 'angular-eslint' is not installed. " +
+        `Run 'ng add angular-eslint@19' and try this command again.\n` +
+        'See: https://github.com/angular-eslint/angular-eslint#quick-start',
+    );
+  });
+
+  it('should install dependencies', async () => {
+    const { runSchematic } = await setup({
+      angularEslintInstalled: true,
+    });
+
+    const tree = await runSchematic();
+
+    const packageJson = JSON.parse(tree.readText('/package.json'));
+
+    expect(packageJson.devDependencies['skyux-eslint']).toEqual(
+      '^0.0.0-PLACEHOLDER',
+    );
   });
 
   it('should modify tsconfig.json', async () => {
