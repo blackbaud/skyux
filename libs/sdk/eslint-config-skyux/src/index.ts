@@ -1,4 +1,3 @@
-// @ts-check
 import eslint from '@eslint/js';
 
 import angular from 'angular-eslint';

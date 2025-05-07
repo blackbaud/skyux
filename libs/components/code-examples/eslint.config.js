@@ -20,6 +20,7 @@ module.exports = tsEslint.config(
       // Stylistic rules are not included in our "recommended" config, but we
       // include them to enforce code style in the examples.
       ...tsEslint.configs.stylisticTypeChecked,
+      // We want to run all custom rules for our examples, not just the recommended ones.
       ...skyuxPlugin.configs.tsAll,
     ],
     rules: {
@@ -35,6 +36,7 @@ module.exports = tsEslint.config(
       // Template accessibility rules are not included in our "recommended" config,
       // but we include them in the code examples so we can catch any issues.
       ...angular.configs.templateAccessibility,
+      // We want to run all custom rules for our examples, not just the recommended ones.
       ...skyuxPlugin.configs.templateAll,
     ],
     rules: {
