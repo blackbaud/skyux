@@ -19,8 +19,12 @@ import { SkyToasterHarness } from './toaster-harness';
 class TestComponent {
   public toastSvc = inject(SkyToastService);
 
-  public openToast(message: string, type: SkyToastType): void {
-    this.toastSvc.openMessage(message, { type: type });
+  public openToast(
+    message: string,
+    type: SkyToastType,
+    autoclose?: boolean,
+  ): void {
+    this.toastSvc.openMessage(message, { type: type, autoClose: autoclose });
   }
 }
 
@@ -37,7 +41,7 @@ class CustomComponent {
 }
 
 describe('Toast harness', () => {
-  async function setupTest(): Promise<{
+  async function setupTest(autoclose?: boolean): Promise<{
     harness: SkyToasterHarness;
     fixture: ComponentFixture<TestComponent>;
   }> {
@@ -48,7 +52,11 @@ describe('Toast harness', () => {
     const fixture = TestBed.createComponent(TestComponent);
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 
-    fixture.componentInstance.openToast('toast message', SkyToastType.Info);
+    fixture.componentInstance.openToast(
+      'toast message',
+      SkyToastType.Info,
+      autoclose,
+    );
 
     const harness: SkyToasterHarness =
       await loader.getHarness(SkyToasterHarness);
@@ -62,6 +70,11 @@ describe('Toast harness', () => {
     const toasts = await harness.getToasts();
 
     expect(toasts.length).toBe(1);
+  });
+
+  it('should get the harness when toast is set to autoclose', async () => {
+    const { harness } = await setupTest(true);
+    await expectAsync(harness.getToasts()).toBeResolved();
   });
 
   it('should get toast by message', async () => {
