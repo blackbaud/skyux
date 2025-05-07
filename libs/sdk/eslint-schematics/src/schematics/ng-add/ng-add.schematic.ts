@@ -164,10 +164,7 @@ export default function ngAdd(options: SkyuxEslintAddOptions): Rule {
     const statements =
       settings.ruleset === 'recommended'
         ? ['skyux.configs.templateRecommended', 'skyux.configs.tsRecommended']
-        : [
-            'skyux.configs.templateRecommended',
-            'skyux.configs.tsStrictTypeChecked',
-          ];
+        : ['skyux.configs.templateRecommended', 'skyux.configs.tsRecommended'];
 
     contents.match(ESLINT_CONFIG_EXTENDS_REGEXP)?.forEach((element) => {
       recorder.insertRight(

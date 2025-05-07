@@ -591,7 +591,7 @@ module.exports = tseslint.config(
       ...tseslint.configs.recommendedTypeChecked,
       ...tseslint.configs.stylisticTypeChecked,
       ...angular.configs.tsRecommended,
-      ...skyux.configs.tsStrictTypeChecked,
+      ...skyux.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
     rules: {

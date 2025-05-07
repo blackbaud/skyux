@@ -13,7 +13,7 @@ module.exports = tsEslint.config(
       ...tsEslint.configs.recommendedTypeChecked,
       ...tsEslint.configs.stylisticTypeChecked,
       ...angular.configs.tsRecommended,
-      ...skyux.configs.tsStrictTypeChecked,
+      ...skyux.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
     rules: {
