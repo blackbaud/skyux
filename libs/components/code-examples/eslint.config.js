@@ -1,38 +1,21 @@
-const eslint = require('@eslint/js');
-const tsEslint = require('typescript-eslint');
 const angular = require('angular-eslint');
+const tsEslint = require('typescript-eslint');
 const config = require('../../../eslint-libs.config');
-const skyux = require('../../sdk/skyux-eslint/dev-transpiler.cjs');
+const skyuxPlugin = require('../../sdk/skyux-eslint/dev-transpiler.cjs');
+const skyuxConfig = require('../../sdk/eslint-config-skyux/dev-transpiler.cjs');
 
 module.exports = tsEslint.config(
   ...config,
+  ...skyuxConfig,
   {
     files: ['**/*.ts'],
     extends: [
-      eslint.configs.recommended,
-      ...tsEslint.configs.recommendedTypeChecked,
+      // Stylistic rules are not included in our "recommended" config, but we
+      // include them to enforce code style.
       ...tsEslint.configs.stylisticTypeChecked,
-      ...angular.configs.tsRecommended,
-      ...skyux.configs.tsRecommended,
+      ...skyuxPlugin.configs.tsAll,
     ],
-    processor: angular.processInlineTemplates,
     rules: {
-      '@angular-eslint/directive-selector': [
-        'error',
-        {
-          type: 'attribute',
-          prefix: 'app',
-          style: 'camelCase',
-        },
-      ],
-      '@angular-eslint/component-selector': [
-        'error',
-        {
-          type: 'element',
-          prefix: 'app',
-          style: 'kebab-case',
-        },
-      ],
       '@nx/enforce-module-boundaries': 'warn',
       '@typescript-eslint/no-deprecated': 'warn',
       'no-alert': 'warn',
@@ -42,9 +25,10 @@ module.exports = tsEslint.config(
   {
     files: ['**/*.html'],
     extends: [
-      ...angular.configs.templateRecommended,
+      // Template accessibility rules are not included in our "recommended" config,
+      // but we include them in the code examples so we can catch any issues.
       ...angular.configs.templateAccessibility,
-      ...skyux.configs.templateAll,
+      ...skyuxPlugin.configs.templateAll,
     ],
     rules: {
       'skyux-eslint-template/no-deprecated-directives': 'warn',

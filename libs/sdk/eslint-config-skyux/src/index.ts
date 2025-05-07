@@ -5,7 +5,7 @@ import angular from 'angular-eslint';
 import skyux from 'skyux-eslint';
 import tseslint from 'typescript-eslint';
 
-module.exports = tseslint.config(
+export default tseslint.config(
   {
     files: ['**/*.ts'],
     extends: [
@@ -133,6 +133,7 @@ module.exports = tseslint.config(
           allowNamedExports: false,
         },
       ],
+      '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
       // Cherry-picked rules from typescript-eslint's "strict" ruleset.
       // We can't pull in the entire ruleset because it's not considered SemVer safe.
       '@typescript-eslint/no-non-null-asserted-nullish-coalescing': 'error',
