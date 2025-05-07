@@ -20,4 +20,4 @@ require('tsconfig-paths').register({
 
 const skyuxEslint = require('./src/index.ts');
 
-module.exports = skyuxEslint.default;
+module.exports = skyuxEslint;

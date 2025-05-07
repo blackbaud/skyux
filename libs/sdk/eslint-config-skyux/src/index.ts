@@ -4,7 +4,7 @@ import angular from 'angular-eslint';
 import skyux from 'skyux-eslint';
 import tseslint from 'typescript-eslint';
 
-export default tseslint.config(
+const config = tseslint.config(
   {
     files: ['**/*.ts'],
     extends: [
@@ -140,3 +140,6 @@ export default tseslint.config(
     },
   },
 );
+
+// CommonJS
+export = config;
