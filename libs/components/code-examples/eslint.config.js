@@ -18,7 +18,7 @@ module.exports = tsEslint.config(
     files: ['**/*.ts'],
     extends: [
       // Stylistic rules are not included in our "recommended" config, but we
-      // include them to enforce code style.
+      // include them to enforce code style in the examples.
       ...tsEslint.configs.stylisticTypeChecked,
       ...skyuxPlugin.configs.tsAll,
     ],
