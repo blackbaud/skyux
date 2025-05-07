@@ -14,8 +14,6 @@ export default {
   ],
 } as Meta<BackToTopComponent>;
 export const BackToTop = {
-  render: (args: BackToTopComponent) => ({
-    props: args,
-  }),
+  render: (args: BackToTopComponent): { props: unknown } => ({ props: args }),
   args: {},
 };

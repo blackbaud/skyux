@@ -8,7 +8,7 @@ import {
 export async function configureTestCiGenerator(
   tree: Tree,
   options: { skipFormat: boolean },
-) {
+): Promise<void> {
   const projects = getProjects(tree);
   projects.forEach((project, projectName) => {
     if (project.targets?.['test']) {

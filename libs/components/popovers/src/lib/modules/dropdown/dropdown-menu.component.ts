@@ -245,7 +245,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
     }
   }
 
-  public focusNextItem() {
+  public focusNextItem(): void {
     if (!this.#hasFocusableItems()) {
       return;
     }
@@ -266,7 +266,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
     this.#changeDetector.markForCheck();
   }
 
-  #resetItemsActiveState() {
+  #resetItemsActiveState(): void {
     this.menuItems.forEach((item: SkyDropdownItemComponent) => {
       item.resetState();
     });

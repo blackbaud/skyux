@@ -14,8 +14,6 @@ export default {
   ],
 } as Meta<FilterComponent>;
 export const Filter = {
-  render: (args: FilterComponent) => ({
-    props: args,
-  }),
+  render: (args: FilterComponent): { props: unknown } => ({ props: args }),
   args: {},
 };

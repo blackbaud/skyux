@@ -89,7 +89,7 @@ export class SettingsComponent {
       },
       {
         title: 'Click to open a modal',
-        click: () => {
+        click: (): void => {
           this.modalService.open(SettingsModalComponent, {
             providers: [
               { provide: 'modalTitle', useValue: 'Click event modal' },
@@ -99,7 +99,7 @@ export class SettingsComponent {
       },
       {
         title: 'Click to show alert',
-        click: () => {
+        click: (): void => {
           alert('Click event alert');
         },
       },
@@ -109,7 +109,7 @@ export class SettingsComponent {
     this.needsAttention = this.#needsAttention;
   }
 
-  public toggleLoading() {
+  public toggleLoading(): void {
     if (this.needsAttention === 'loading') {
       this.relatedLinks = this.#relatedLinks;
       this.settingsLinks = this.#settingsLinks;

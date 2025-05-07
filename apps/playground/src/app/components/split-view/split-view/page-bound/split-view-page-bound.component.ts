@@ -74,7 +74,7 @@ export class SplitViewPageBoundComponent {
     }
   }
 
-  public submitForm() {
+  public submitForm(): void {
     if (this.hasUnsavedWork) {
       this.confirmService
         .open({

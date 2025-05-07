@@ -25,7 +25,12 @@ export class CharacterCounterComponent implements AfterViewInit, OnDestroy {
       id: string,
       reactiveValue: string,
       templateValue: string,
-    ) => {
+    ): {
+      id: string;
+      formGroup: FormGroup;
+      control: FormControl;
+      model: string;
+    } => {
       const formGroup = this.#formBuilder.group({
         firstName: [reactiveValue],
       });

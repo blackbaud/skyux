@@ -86,7 +86,7 @@ export class SkyListPagingComponent
     });
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.currentPageNumber = this.state.pipe(
       observableMap((s) => s.paging.pageNumber),
     );
@@ -137,7 +137,7 @@ export class SkyListPagingComponent
     );
   }
 
-  public pageChange(currentPage: number) {
+  public pageChange(currentPage: number): void {
     // Paging must be updated after list data has been updated.
     // Adding a setTimeout will pull it out of the stream.
     setTimeout(() => {

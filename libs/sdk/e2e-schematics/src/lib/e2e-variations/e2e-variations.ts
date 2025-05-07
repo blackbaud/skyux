@@ -12,7 +12,7 @@ export const E2eVariations = {
   forEachTheme: (
     callback: (theme: E2EVariationName) => void,
     includeModernV2 = false,
-  ) => {
+  ): void => {
     callback('default');
     callback('modern-light');
 

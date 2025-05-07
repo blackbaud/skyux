@@ -72,17 +72,19 @@ export class SkyAgGridEditModalComponent implements OnInit {
         headerName: 'Department',
         type: SkyCellType.Autocomplete,
         editable: true,
-        cellEditorParams: (params: ICellEditorParams) => {
+        cellEditorParams: (params: ICellEditorParams): any => {
           return {
             skyComponentProperties: {
               data: DEPARTMENTS,
-              selectionChange: (change: SkyAutocompleteSelectionChange) => {
+              selectionChange: (
+                change: SkyAutocompleteSelectionChange,
+              ): void => {
                 this.departmentSelectionChange(change, params.node);
               },
             },
           };
         },
-        onCellValueChanged: (changeEvent: CellValueChangedEvent) => {
+        onCellValueChanged: (changeEvent: CellValueChangedEvent): void => {
           if (changeEvent.newValue !== changeEvent.oldValue) {
             this.clearJobTitle(changeEvent.node);
           }
@@ -121,7 +123,7 @@ export class SkyAgGridEditModalComponent implements OnInit {
         type: [SkyCellType.Date, SkyCellType.Validator],
         cellRendererParams: {
           skyComponentProperties: {
-            validator: (value: Date) =>
+            validator: (value: Date): boolean =>
               !!value && value > new Date(1985, 9, 26),
             validatorMessage: 'Please enter a future date',
           },
@@ -132,7 +134,7 @@ export class SkyAgGridEditModalComponent implements OnInit {
 
     this.gridOptions = {
       columnDefs: this.columnDefs,
-      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+      onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
     };
     this.gridOptions = this.agGridService.getEditableGridOptions({
       gridOptions: this.gridOptions,

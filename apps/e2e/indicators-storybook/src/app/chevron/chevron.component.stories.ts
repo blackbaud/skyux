@@ -14,8 +14,6 @@ export default {
   ],
 } as Meta<ChevronComponent>;
 export const Chevron = {
-  render: (args: ChevronComponent) => ({
-    props: args,
-  }),
+  render: (args: ChevronComponent): { props: unknown } => ({ props: args }),
   args: {},
 };

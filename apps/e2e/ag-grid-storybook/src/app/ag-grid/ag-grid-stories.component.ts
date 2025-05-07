@@ -19,6 +19,7 @@ import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
   ColDef,
+  ColGroupDef,
   GridApi,
   GridOptions,
   RowSelectedEvent,
@@ -114,7 +115,7 @@ export class AgGridStoriesComponent
       this.gridOptions[dataSet.id] = this.#agGridService.getGridOptions({
         gridOptions: {
           columnDefs: [
-            ...(() =>
+            ...((): (ColDef | ColGroupDef)[] =>
               dataSet.id === 'row-delete'
                 ? [
                     {
@@ -150,7 +151,7 @@ export class AgGridStoriesComponent
                   dataSet.id === 'validation'
                     ? {
                         skyComponentProperties: {
-                          validator: (value: unknown) =>
+                          validator: (value: unknown): boolean =>
                             !!value &&
                             typeof value === 'number' &&
                             value < 18 &&
@@ -260,7 +261,7 @@ export class AgGridStoriesComponent
     this.#ngUnsubscribe.unsubscribe();
   }
 
-  public deleteConfirm($event: SkyAgGridRowDeleteConfirmArgs) {
+  public deleteConfirm($event: SkyAgGridRowDeleteConfirmArgs): void {
     console.log(`Delete ${$event.id}`);
   }
 }

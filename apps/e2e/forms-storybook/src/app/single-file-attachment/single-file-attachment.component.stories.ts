@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<SingleFileAttachmentComponent>;
 export const SingleFileAttachment = {
-  render: (args: SingleFileAttachmentComponent) => ({
+  render: (args: SingleFileAttachmentComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

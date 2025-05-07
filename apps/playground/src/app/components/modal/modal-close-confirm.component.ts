@@ -30,7 +30,7 @@ export class ModalCloseConfirmComponent {
     );
   }
 
-  public onClose(closeHandler: SkyModalBeforeCloseHandler) {
+  public onClose(closeHandler: SkyModalBeforeCloseHandler): void {
     if (this.hasUnsavedWork) {
       this.confirmService
         .open({

@@ -82,7 +82,10 @@ function normalizeOptions(
   };
 }
 
-export default async function (tree: Tree, options: ComponentGeneratorSchema) {
+export default async function (
+  tree: Tree,
+  options: ComponentGeneratorSchema,
+): Promise<void> {
   const normalizedOptions = normalizeOptions(tree, options);
   const baseName = basename(normalizedOptions.name);
   const componentPath = joinPathFragments(

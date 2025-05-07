@@ -101,7 +101,7 @@ export class ReadonlyGridComponent implements OnInit {
   ];
 
   @HostListener('window:resize')
-  public onWindowResize() {
+  public onWindowResize(): void {
     if (this.gridApi) {
       this.gridApi.sizeColumnsToFit();
     }
@@ -198,7 +198,7 @@ export class ReadonlyGridComponent implements OnInit {
   private getGridOptions(): void {
     this.gridOptions = {
       columnDefs: this.columnDefs,
-      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+      onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
       context: {
         rowDeleteIds: this.gridData
           .filter((row) => row.selected)

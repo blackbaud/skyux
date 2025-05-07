@@ -30,7 +30,7 @@ import {
   ModuleRegistry,
   RowSelectedEvent,
 } from 'ag-grid-community';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { delay, skip } from 'rxjs/operators';
 
 import { ActionComponent } from './action/action.component';
@@ -78,7 +78,7 @@ export class EditComplexCellsComponent implements OnInit {
   private deletedRowIds: string[] = [];
 
   @HostListener('window:resize')
-  public onWindowResize() {
+  public onWindowResize(): void {
     this.sizeGrid();
   }
 
@@ -107,7 +107,7 @@ export class EditComplexCellsComponent implements OnInit {
         colId: 'selected',
         type: SkyCellType.RowSelector,
         cellRendererParams: {
-          label: (data: any) => of(`Select ${data.name}`),
+          label: (data: any): Observable<string> => of(`Select ${data.name}`),
         },
       },
       {
@@ -166,7 +166,8 @@ export class EditComplexCellsComponent implements OnInit {
         },
         cellRendererParams: {
           skyComponentProperties: {
-            validator: (value: EditableGridOption) => !!value?.validOption,
+            validator: (value: EditableGridOption): boolean =>
+              !!value?.validOption,
             validatorMessage: 'Please choose an odd number option',
           },
         },
@@ -197,7 +198,7 @@ export class EditComplexCellsComponent implements OnInit {
         type: [SkyCellType.Date, SkyCellType.Validator],
         cellRendererParams: {
           skyComponentProperties: {
-            validator: (value: Date) =>
+            validator: (value: Date): boolean =>
               !!value && value > new Date(1985, 9, 26),
             validatorMessage: 'Please enter a future date',
           },

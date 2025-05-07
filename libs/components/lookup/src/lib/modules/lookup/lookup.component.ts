@@ -499,7 +499,7 @@ export class SkyLookupComponent
     this.#setValue(value ? value.slice() : [], { emitEvent: false });
   }
 
-  public registerOnChange(fn: (value: any[]) => void) {
+  public registerOnChange(fn: (value: any[]) => void): void {
     this.#notifyChange = fn;
   }
 
