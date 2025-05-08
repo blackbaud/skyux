@@ -54,6 +54,7 @@
   );
   --sky-override-repeater-item-single-select-border-left-color: transparent;
   --sky-override-repeater-item-single-select-border-left-width: 0;
+  --sky-override-repeater-item-single-select-inline-delete-margin-left: 0;
   --sky-override-repeater-item-single-select-padding-left: #{$sky-padding};
   --sky-override-repeater-item-split-view-active-background-color-active: #{$sky-background-color-neutral-light};
   --sky-override-repeater-item-split-view-background-color-active: transparent;
@@ -117,6 +118,7 @@
   );
   --sky-override-repeater-item-single-select-border-left-color: transparent;
   --sky-override-repeater-item-single-select-border-left-width: 0;
+  --sky-override-repeater-item-single-select-inline-delete-margin-left: 0;
   --sky-override-repeater-item-single-select-padding-left: #{$sky-padding};
   --sky-override-repeater-item-split-view-padding-left: var(
     --sky-padding-even-md
@@ -258,7 +260,7 @@ sky-repeater-item {
 
       .sky-inline-delete {
         margin-left: var(
-          --sky-override-repeater-item-active-inline-delete-margin-left,
+          --sky-override-repeater-item-single-select-inline-delete-margin-left,
           calc(
             calc(
                 var(--sky-space-inset-letterbox-2_3-left-m) - var(
