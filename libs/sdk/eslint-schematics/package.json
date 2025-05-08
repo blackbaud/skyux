@@ -24,16 +24,19 @@
     "packageGroupName": "@skyux-sdk/eslint-schematics",
     "migrations": "./migrations.json",
     "packageGroup": {
-      "skyux-eslint": "0.0.0-PLACEHOLDER"
+      "@eslint/js": "^9.26.0",
+      "@skyux-sdk/eslint-schematics": "0.0.0-PLACEHOLDER",
+      "eslint-config-skyux": "0.0.0-PLACEHOLDER",
+      "eslint": "^9.24.0",
+      "skyux-eslint": "0.0.0-PLACEHOLDER",
+      "typescript-eslint": "^8.32.0"
     }
   },
   "peerDependencies": {
     "@angular/cli": "^19.2.8"
   },
   "dependencies": {
-    "@inquirer/prompts": "7.3.2",
     "jsonc-parser": "3.3.1",
-    "semver": "7.7.1",
     "tslib": "^2.8.1"
   }
 }

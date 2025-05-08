@@ -7,7 +7,3 @@ Includes all possible rules from `skyux-eslint`. Use this ruleset with caution s
 ## `tsRecommended` and `templateRecommended`
 
 Includes a recommended set of rules from `skyux-eslint`. We will not add/remove/change rules in this ruleset outside of a new major version release of SKY UX.
-
-## `tsStrictTypeChecked`
-
-Includes recommended `skyux-eslint` rules and additional best-practice rules. Changes to this ruleset occur only in new major SKY UX versions.
