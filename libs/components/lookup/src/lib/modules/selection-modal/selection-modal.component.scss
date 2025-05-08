@@ -2,18 +2,7 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-lookup-show-more-modal') {
-  --sky-override-selection-modal-hover-box-shadow: none;
   --sky-override-selection-modal-no-results-padding: 20px 0;
-  --sky-override-selection-modal-row-hover-color: var(
-    --sky-background-color-selected
-  );
-}
-
-@include compatMixins.sky-modern-overrides('.sky-lookup-show-more-modal') {
-  --sky-override-selection-modal-hover-box-shadow: none;
-  --sky-override-selection-modal-row-hover-color: var(
-    --sky-background-color-selected
-  );
 }
 
 .sky-lookup-show-more-no-results {
@@ -24,19 +13,4 @@
       var(--sky-space-inset-vertical-bottom-xl)
       var(--sky-space-inset-vertical-left-xl)
   );
-}
-
-::ng-deep .hover-rows {
-  .sky-repeater-item:not(.sky-repeater-item-selected) {
-    cursor: pointer;
-
-    &:hover {
-      background-color: var(--sky-override-selection-modal-row-hover-color);
-      box-shadow: var(
-        --sky-override-selection-modal-hover-box-shadow,
-        inset 0 0 0 var(--sky-border-width-input-hover)
-          var(--sky-color-border-input-hover)
-      );
-    }
-  }
 }

@@ -14,7 +14,7 @@ import {
   SkyInlineFormCloseArgs,
   SkyInlineFormConfig,
 } from '@skyux/inline-form';
-import { SkyFluidGridModule } from '@skyux/layout';
+import { SkyFluidGridModule, SkyInlineDeleteModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyDropdownModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
@@ -228,6 +228,7 @@ export class RepeaterVisualComponent {
     SkyDropdownModule,
     SkyFluidGridModule,
     SkyIconModule,
+    SkyInlineDeleteModule,
     SkyInputBoxModule,
     SkyRepeaterModule,
     SkyThemeModule,

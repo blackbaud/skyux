@@ -1,0 +1,27 @@
+<sky-navbar data-sky-id="basic-navbar">
+  <sky-navbar-item data-sky-id="navbar-item-1">
+    <a
+      routerLink="/"
+      routerLinkActive="sky-navbar-item-active"
+      (click)="onItemClick('Selected item')"
+    >
+      Selected item
+    </a>
+  </sky-navbar-item>
+  <sky-navbar-item data-sky-id="navbar-item-2">
+    <sky-dropdown>
+      <sky-dropdown-button> Show dropdown </sky-dropdown-button>
+      <sky-dropdown-menu>
+        <sky-dropdown-item>
+          <a routerLink="/" (click)="onItemClick('Item 1')"> Item 1 </a>
+        </sky-dropdown-item>
+        <sky-dropdown-item>
+          <a routerLink="/" (click)="onItemClick('Item 2')"> Item 2 </a>
+        </sky-dropdown-item>
+        <sky-dropdown-item>
+          <a routerLink="/" (click)="onItemClick('Item 3')"> Item 3 </a>
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown>
+  </sky-navbar-item>
+</sky-navbar>
