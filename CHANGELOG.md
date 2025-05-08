@@ -1,5 +1,18 @@
 # Changelog
 
+## [12.12.0](https://github.com/blackbaud/skyux/compare/12.11.3...12.12.0) (2025-05-08)
+
+
+### Features
+
+* **components/lists:** tokenize repeater styles ([#3441](https://github.com/blackbaud/skyux/issues/3441)) ([7a202ae](https://github.com/blackbaud/skyux/commit/7a202ae927fffeadb0642ab46f3fc146859cb23b))
+* create `eslint-config-skyux` library to replace `skyux-eslint` "strict" config ([#3440](https://github.com/blackbaud/skyux/issues/3440)) ([15f3ab1](https://github.com/blackbaud/skyux/commit/15f3ab149b7044ba7d2bc56bb6f0124f39b27de5))
+
+
+### Bug Fixes
+
+* **components/toast:** harness works with autoclose toasts ([#3442](https://github.com/blackbaud/skyux/issues/3442)) ([3da5454](https://github.com/blackbaud/skyux/commit/3da54543de94f2d9885fe2b92adcb71ac1d490f3))
+
 ## [12.11.3](https://github.com/blackbaud/skyux/compare/12.11.2...12.11.3) (2025-05-06)
 
 
