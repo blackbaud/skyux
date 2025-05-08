@@ -98,6 +98,11 @@ export const componentRoutes: Routes = [
     },
   },
   {
+    path: 'navbar',
+    loadChildren: () =>
+      import('./navbar/navbar.module').then((m) => m.NavbarModule),
+  },
+  {
     path: 'pages',
     loadChildren: () =>
       import('./pages/pages.module').then((m) => m.PagesModule),
