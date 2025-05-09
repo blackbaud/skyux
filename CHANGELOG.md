@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.12.1](https://github.com/blackbaud/skyux/compare/12.12.0...12.12.1) (2025-05-09)
+
+
+### Bug Fixes
+
+* **sdk/eslint-schematics:** do not modify tsconfig.json when adding `eslint-config-skyux` to a project ([#3445](https://github.com/blackbaud/skyux/issues/3445)) ([f7198a7](https://github.com/blackbaud/skyux/commit/f7198a7c06751d4d7727b10d79fd6c996ad3b07d))
+
 ## [12.12.0](https://github.com/blackbaud/skyux/compare/12.11.3...12.12.0) (2025-05-08)
 
 
