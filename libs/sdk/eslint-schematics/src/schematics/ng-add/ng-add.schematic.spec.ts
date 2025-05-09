@@ -6,7 +6,6 @@ import {
 import path from 'node:path';
 
 import { createTestApp, createTestLibrary } from '../testing/scaffold.js';
-import { JsonFile } from '../utility/json-file';
 
 const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
 
@@ -66,41 +65,5 @@ describe('ng-add', () => {
     expect(packageJson.devDependencies['skyux-eslint']).toEqual(
       '^0.0.0-PLACEHOLDER',
     );
-  });
-
-  it('should modify tsconfig.json', async () => {
-    const { runSchematic, tree } = await setup({
-      angularEslintInstalled: true,
-    });
-
-    let tsconfig = new JsonFile(tree, '/tsconfig.json');
-    tsconfig.remove(['compilerOptions', 'strict']);
-
-    expect(
-      tsconfig.get(['compilerOptions', 'strictNullChecks']),
-    ).toBeUndefined();
-
-    const updatedTree = await runSchematic();
-
-    tsconfig = new JsonFile(updatedTree, '/tsconfig.json');
-
-    expect(tsconfig.get(['compilerOptions', 'strictNullChecks'])).toEqual(true);
-  });
-
-  it('should not modify tsconfig.json if "strict"', async () => {
-    const { runSchematic, tree } = await setup({
-      angularEslintInstalled: true,
-    });
-
-    let tsconfig = new JsonFile(tree, '/tsconfig.json');
-    tsconfig.modify(['compilerOptions', 'strict'], true);
-
-    const updatedTree = await runSchematic();
-
-    tsconfig = new JsonFile(updatedTree, '/tsconfig.json');
-
-    expect(
-      tsconfig.get(['compilerOptions', 'strictNullChecks']),
-    ).toBeUndefined();
   });
 });

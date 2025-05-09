@@ -37,7 +37,7 @@ const config = tseslint.config(
     files: ['**/*.html'],
     extends: [
       ...angular.configs.templateRecommended,
-      ...skyux.configs.templateAll,
+      ...skyux.configs.templateRecommended,
     ],
   },
 
