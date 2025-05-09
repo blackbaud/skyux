@@ -1,7 +1,31 @@
 @use 'scss/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-navbar') {
+  --sky-override-navbar-background-color: #{$sky-nav-background-color};
+  --sky-override-navbar-border-bottom: none;
+  --sky-override-navbar-height: auto;
+}
+
+@include compatMixins.sky-modern-overrides('.sky-navbar') {
+  --sky-override-navbar-background-color: #{$sky-nav-background-color};
+  --sky-override-navbar-border-bottom: none;
+  --sky-override-navbar-height: auto;
+}
 
 .sky-navbar {
-  background-color: $sky-nav-background-color;
+  background-color: var(
+    --sky-override-navbar-background-color,
+    var(--sky-color-background-container-base)
+  );
+  border-bottom: var(
+    --sky-override-navbar-border-bottom,
+    var(--sky-border-width-divider) solid var(--sky-color-border-divider)
+  );
+  height: var(
+    --sky-override-navbar-height,
+    calc(50px - var(--sky-border-width-divider))
+  );
   display: flex;
   align-items: flex-start;
   flex-direction: row;
