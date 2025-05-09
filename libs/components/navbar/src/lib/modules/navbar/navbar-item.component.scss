@@ -36,7 +36,7 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-navbar-item') {
-  --sky-override-navbar-item-a-border-radius: 6px;
+  --sky-override-navbar-item-a-border-radius: 0;
   --sky-override-navbar-item-a-box-shadow-active: none;
   --sky-override-navbar-item-a-box-shadow-focus: none;
   --sky-override-navbar-item-a-box-shadow-hover: none;
