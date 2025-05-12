@@ -317,6 +317,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { SkyHelpService } from '@skyux/core';
 import { provideInitialTheme } from '@skyux/theme';
+import { provideRouter } from '@angular/router';
 import { ${config.componentName} } from '${bootstrapImportPath}';
 
 import { ExampleHelpService } from './help.service';
@@ -339,6 +340,7 @@ bootstrapApplication(${config.componentName}, {
     provideInitialTheme('modern'),
     provideHttpClient(),
     provideExampleHelpService(),
+    provideRouter([]),
   ],
 }).catch((err) => console.error(err));
 `;
