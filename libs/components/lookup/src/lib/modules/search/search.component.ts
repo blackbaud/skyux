@@ -333,6 +333,10 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
       ) {
         this.mobileSearchShown = false;
       }
+
+      if (!this.searchButtonShown) {
+        this.#searchAdapter.focusInput(this.#elRef);
+      }
     }
   }
 
