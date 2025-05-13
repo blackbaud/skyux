@@ -21,7 +21,7 @@ import {
   SkyMediaQueryService,
   SkyMutationObserverService,
 } from '@skyux/core';
-import { SkyChevronModule } from '@skyux/indicators';
+import { SkyChevronModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject, fromEvent } from 'rxjs';
@@ -50,6 +50,7 @@ let nextId = 0;
     SkyActionBarsResourcesModule,
     SkyChevronModule,
     SkyThemeModule,
+    SkyStatusIndicatorModule,
   ],
   providers: [SkySummaryActionBarAdapterService],
   selector: 'sky-summary-action-bar',
