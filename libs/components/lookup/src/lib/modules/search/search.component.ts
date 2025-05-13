@@ -300,8 +300,8 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   public toggleSearchInput(showInput: boolean): void {
-    this.#manualFocus = true;
     if (this.#searchShouldCollapse()) {
+      this.#manualFocus = true;
       if (showInput) {
         this.inputAnimate = INPUT_SHOWN_STATE;
       } else {
