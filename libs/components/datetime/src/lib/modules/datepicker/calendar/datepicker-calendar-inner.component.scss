@@ -58,6 +58,9 @@
   --sky-override-datepicker-button-border-color-transparent: var(
     --modern-color-transparent
   );
+  --sky-override-datepicker-button-box-shadow-focus-elevation: var(
+    --sky-elevation-focus
+  );
   --sky-override-datepicker-calendar-top-padding: 0;
   --sky-override-datepicker-day-btn-font-size: 12px;
   --sky-override-datepicker-horizontal-padding: 10px;
@@ -190,11 +193,13 @@
     }
 
     &:focus-visible:not(:active) {
+      // NOTE: The '0 0' as the fallback to the focus elevation is needed to get css to properly recognize a box shadow as a no-op here in the comma list.
+      // If we did not have the override then the whole shadow could be removed.
       box-shadow: var(
         --sky-override-button-box-shadow,
         inset 0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-tertiary-focus),
-        var(--sky-elevation-focus)
+        var(--sky-override-datepicker-button-box-shadow-focus-elevation, 0 0)
       );
     }
 
