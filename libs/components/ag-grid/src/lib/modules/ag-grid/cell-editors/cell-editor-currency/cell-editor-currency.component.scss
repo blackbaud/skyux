@@ -1,17 +1,21 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('input') {
-  --sky-override-ag-grid-currency-editor-left-padding: 11px;
+  --sky-override-ag-grid-currency-editor-left-padding: 9px;
 }
 
 @include compatMixins.sky-modern-overrides('input') {
-  --sky-override-ag-grid-currency-editor-left-padding: 11px;
+  --sky-override-ag-grid-currency-editor-left-padding: 10px;
 }
 
 input {
   border: none;
   padding-left: var(
     --sky-override-ag-grid-currency-editor-left-padding,
-    var(--sky-space-inset-letterbox-2_3-left-m)
+    calc(
+      var(--sky-space-inset-letterbox-2_3-left-m) - var(
+          --sky-border-width-input-focus
+        )
+    )
   );
 }

@@ -192,17 +192,8 @@
       var(--sky-color-border-input-hover);
   }
 
-  .sky-ag-grid-cell-editable {
-    .ag-select {
-      .ag-picker-field-display {
-        margin-top: 2px;
-        margin-left: 8px;
-      }
-    }
-  }
-
   .sky-ag-grid-cell-uneditable:not(.sky-ag-grid-cell-row-selector) {
-    background-color: var(--sky-background-color-disabled);
+    background-color: var(--sky-color-background-input-disabled);
   }
 
   .ag-row:not(.ag-row-first) {
@@ -216,9 +207,15 @@
 
     .ag-cell.ag-cell-focus {
       .ag-select {
-        .ag-picker-field-display {
-          margin-top: 6px;
-          margin-left: 9px;
+        .ag-picker-field-wrapper {
+          padding-left: var(
+            --sky-override-ag-grid-cell-focus-horizontal-padding,
+            calc(
+              var(--sky-space-inset-letterbox-2_3-left-m) - var(
+                  --sky-border-width-input-focus
+                )
+            )
+          );
         }
       }
     }
