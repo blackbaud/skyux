@@ -22,6 +22,9 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-dropdown-item', false) {
+  --sky-override-dropdown-item-box-shadow-focus-elevation: var(
+    --sky-elevation-focus
+  );
   --sky-override-dropdown-item-disabled-box-shadow: none;
   --sky-override-dropdown-item-disabled-color-background: transparent;
   --sky-override-dropdown-item-disabled-font-size: 15px;
@@ -113,11 +116,13 @@
         --sky-override-dropdown-item-focus-visible-background,
         var(--sky-color-background-action-tertiary-focus)
       );
+      // NOTE: The '0 0' as the fallback to the focus elevation is needed to get css to properly recognize a box shadow as a no-op here in the comma list.
+      // If we did not have the override then the whole shadow could be removed.
       box-shadow: var(
         --sky-override-dropdown-item-box-shadow,
         inset 0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-tertiary-focus),
-        var(--sky-elevation-focus)
+        var(--sky-override-dropdown-item-box-shadow-focus-elevation, 0 0)
       );
     }
 
