@@ -640,13 +640,13 @@ sky-input-box {
       ).sky-input-box-group-form-control-invalid {
       --sky-input-box-input-border-color: var(--sky-color-border-input-focus);
       --sky-input-box-input-border-width: var(--sky-border-width-input-focus);
+      // NOTE: The '0 0' as the fallback to the focus elevation is needed to get css to properly recognize a box shadow as a no-op here in the comma list.
+      // If we did not have the override then the whole shadow could be removed.
+      // The use of this variable could be removed when v1 modern support is dropped as v2 modern does not use elevation for focus.
       --sky-input-box-box-shadow-with-elevation:
         inset 0 0 0 var(--sky-input-box-input-border-width)
           var(--sky-input-box-input-border-color),
-        var(
-          --sky-override-input-focus-elevation-shadow,
-          var(--sky-elevation-focus)
-        );
+        var(--sky-override-input-focus-elevation-shadow, 0 0);
 
       z-index: 1;
       .sky-form-group {
@@ -707,13 +707,12 @@ sky-input-box {
           --sky-override-background-color-input-box,
           var(--sky-color-background-action-input-focus)
         );
+        // NOTE: The '0 0' as the fallback to the focus elevation is needed to get css to properly recognize a box shadow as a no-op here in the comma list.
+        // If we did not have the override then the whole shadow could be removed.
         --sky-input-box-button-box-shadow-with-elevation:
           inset 0 0 0 var(--sky-input-box-button-border-width)
             var(--sky-input-box-button-border-color),
-          var(
-            --sky-override-input-focus-elevation-shadow,
-            var(--sky-elevation-focus)
-          );
+          var(--sky-override-input-focus-elevation-shadow, 0 0);
 
         color: var(--sky-color-text-default);
         outline: none;
