@@ -28,7 +28,7 @@ export function provideInitialTheme(
         doc: Document,
         rendererFactory: RendererFactory2,
       ) => {
-        return () => {
+        return (): void => {
           themeService.init(
             doc.body,
             rendererFactory.createRenderer(null, null),

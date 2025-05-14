@@ -387,11 +387,11 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * @internal
    * Whether to disable the control. Implemented as a part of ControlValueAccessor.
    */
-  public setDisabledState(isDisabled: boolean) {
+  public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
-  public setGroupDisabledState(isDisabled: boolean) {
+  public setGroupDisabledState(isDisabled: boolean): void {
     this.radioGroupDisabled = isDisabled;
     this.#changeDetector.markForCheck();
   }

@@ -91,6 +91,7 @@ jobs:
             components/toast
             components/validation
             sdk/e2e-schematics
+            sdk/eslint-config-skyux
             sdk/eslint-config
             sdk/eslint-schematics
             sdk/prettier-schematics

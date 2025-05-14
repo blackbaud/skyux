@@ -26,17 +26,17 @@ export class SummaryActionBarComponent implements OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  public printHello() {
+  public printHello(): void {
     console.log('hello');
   }
 
-  public openModal() {
+  public openModal(): void {
     this.modalService.open(SummaryActionBarModalComponent, {
       size: 'large',
     });
   }
 
-  public openFullScreenModal() {
+  public openFullScreenModal(): void {
     this.modalService.open(SummaryActionBarModalComponent, {
       fullPage: true,
     });

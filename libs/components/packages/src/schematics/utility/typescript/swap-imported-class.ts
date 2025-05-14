@@ -61,7 +61,7 @@ export function swapImportedClass(
         (reference) => reference.getStart() > endOfImports,
       );
       const referencesFiltered = referencesInCode.filter(
-        filter ?? (() => true),
+        filter ?? ((): boolean => true),
       );
       referencesFiltered.forEach((reference) => {
         swapReference(recorder, reference, newClassName);

@@ -6,6 +6,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  NgZone,
   OnDestroy,
   OnInit,
   Output,
@@ -85,6 +86,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #toasterService = inject(SkyToasterService, { optional: true });
+  readonly #ngZone = inject(NgZone);
 
   public ngOnInit(): void {
     this.#isOpen = true;
@@ -139,9 +141,11 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     ) {
       this.stopAutoCloseTimer();
 
-      this.#autoCloseTimeoutId = setTimeout(() => {
-        this.close();
-      }, AUTO_CLOSE_MILLISECONDS);
+      this.#ngZone.runOutsideAngular(() => {
+        this.#autoCloseTimeoutId = setTimeout(() => {
+          this.close();
+        }, AUTO_CLOSE_MILLISECONDS);
+      });
     }
   }
 

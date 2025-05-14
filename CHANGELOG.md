@@ -1,5 +1,39 @@
 # Changelog
 
+## [12.12.1](https://github.com/blackbaud/skyux/compare/12.12.0...12.12.1) (2025-05-09)
+
+
+### Bug Fixes
+
+* **sdk/eslint-schematics:** do not modify tsconfig.json when adding `eslint-config-skyux` to a project ([#3445](https://github.com/blackbaud/skyux/issues/3445)) ([f7198a7](https://github.com/blackbaud/skyux/commit/f7198a7c06751d4d7727b10d79fd6c996ad3b07d))
+
+## [12.12.0](https://github.com/blackbaud/skyux/compare/12.11.3...12.12.0) (2025-05-08)
+
+
+### Features
+
+* **components/lists:** tokenize repeater styles ([#3441](https://github.com/blackbaud/skyux/issues/3441)) ([7a202ae](https://github.com/blackbaud/skyux/commit/7a202ae927fffeadb0642ab46f3fc146859cb23b))
+* create `eslint-config-skyux` library to replace `skyux-eslint` "strict" config ([#3440](https://github.com/blackbaud/skyux/issues/3440)) ([15f3ab1](https://github.com/blackbaud/skyux/commit/15f3ab149b7044ba7d2bc56bb6f0124f39b27de5))
+
+
+### Bug Fixes
+
+* **components/toast:** harness works with autoclose toasts ([#3442](https://github.com/blackbaud/skyux/issues/3442)) ([3da5454](https://github.com/blackbaud/skyux/commit/3da54543de94f2d9885fe2b92adcb71ac1d490f3))
+
+## [12.11.3](https://github.com/blackbaud/skyux/compare/12.11.2...12.11.3) (2025-05-06)
+
+
+### Bug Fixes
+
+* add explicit harness predicate return type ([#3437](https://github.com/blackbaud/skyux/issues/3437)) ([38cf583](https://github.com/blackbaud/skyux/commit/38cf5837161942a5d9e04fe561c49223749a0362))
+
+## [12.11.2](https://github.com/blackbaud/skyux/compare/12.11.1...12.11.2) (2025-05-05)
+
+
+### Bug Fixes
+
+* **sdk/eslint-schematics:** only set `strictNullChecks` if `strict` unset ([#3435](https://github.com/blackbaud/skyux/issues/3435)) ([7147c89](https://github.com/blackbaud/skyux/commit/7147c8920d1e91860ceaa656f54826b49a26f521))
+
 ## [12.11.1](https://github.com/blackbaud/skyux/compare/12.11.0...12.11.1) (2025-05-02)
 
 

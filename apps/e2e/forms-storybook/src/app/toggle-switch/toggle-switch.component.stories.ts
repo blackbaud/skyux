@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<ToggleSwitchComponent>;
 export const ToggleSwitch = {
-  render: (args: ToggleSwitchComponent) => ({
+  render: (args: ToggleSwitchComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

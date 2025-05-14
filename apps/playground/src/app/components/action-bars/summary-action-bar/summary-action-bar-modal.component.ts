@@ -12,7 +12,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 export class SummaryActionBarModalComponent {
   constructor(public instance: SkyModalInstance) {}
 
-  public printHello() {
+  public printHello(): void {
     console.log('hello');
   }
 }

@@ -20,15 +20,15 @@ export class TabsComponent {
   @Input()
   public tabs: Tab[] | undefined = [];
 
-  public onNewTabClick() {
+  public onNewTabClick(): void {
     console.log('Add new tab click');
   }
 
-  public onOpenTabClick() {
+  public onOpenTabClick(): void {
     console.log('Open tab click');
   }
 
-  public onCloseTab(index: number) {
+  public onCloseTab(index: number): void {
     console.log(`Close tab ${index} click`);
   }
 }

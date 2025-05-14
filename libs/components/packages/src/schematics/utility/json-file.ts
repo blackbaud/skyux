@@ -67,7 +67,7 @@ export class JsonFile {
     let getInsertionIndex: InsertionIndex | undefined;
     if (insertInOrder === undefined) {
       const property = jsonPath.slice(-1)[0];
-      getInsertionIndex = (properties) =>
+      getInsertionIndex = (properties): number =>
         [...properties, property].sort().findIndex((p) => p === property);
     } else if (insertInOrder !== false) {
       getInsertionIndex = insertInOrder;

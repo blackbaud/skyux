@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<DescriptionListComponent>;
 export const DescriptionList = {
-  render: (args: DescriptionListComponent) => ({
+  render: (args: DescriptionListComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

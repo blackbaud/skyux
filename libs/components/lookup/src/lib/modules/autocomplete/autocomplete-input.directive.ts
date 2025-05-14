@@ -310,7 +310,7 @@ export class SkyAutocompleteInputDirective
   public onTouched(): void {}
   // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public onValidatorChange = () => {};
+  public onValidatorChange = (): void => {};
 
   #setAttributes(elementRef: ElementRef): void {
     const element = elementRef.nativeElement;

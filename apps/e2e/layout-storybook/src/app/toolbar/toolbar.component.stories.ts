@@ -14,8 +14,6 @@ export default {
   ],
 } as Meta<ToolbarComponent>;
 export const Toolbar = {
-  render: (args: ToolbarComponent) => ({
-    props: args,
-  }),
+  render: (args: ToolbarComponent): { props: unknown } => ({ props: args }),
   args: {},
 };

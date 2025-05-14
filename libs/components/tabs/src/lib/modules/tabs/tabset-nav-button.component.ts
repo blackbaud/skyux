@@ -129,7 +129,7 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
     this.#ngUnsubscribe.complete();
   }
 
-  public buttonClick() {
+  public buttonClick(): void {
     /* istanbul ignore else */
     if (this.tabToSelect && !this.tabToSelect.disabled && this.tabset) {
       this.tabset.active = this.tabToSelect.tabIndexValue;

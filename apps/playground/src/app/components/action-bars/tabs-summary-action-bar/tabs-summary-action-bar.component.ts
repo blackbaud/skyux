@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class TabsSummaryActionBarComponent {
-  public printHello() {
+  public printHello(): void {
     console.log('hello');
   }
 }

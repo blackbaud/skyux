@@ -18,7 +18,7 @@ export class SkyColumnSelectorComponent {
     this.newSelectedColumnIds = context.selectedColumnIds;
   }
 
-  public selectedColumnsChange(selectedMap: Map<string, boolean>) {
+  public selectedColumnsChange(selectedMap: Map<string, boolean>): void {
     this.newSelectedColumnIds = [];
     selectedMap.forEach((value, key) => {
       if (value) {
@@ -27,11 +27,11 @@ export class SkyColumnSelectorComponent {
     });
   }
 
-  public cancelChanges() {
+  public cancelChanges(): void {
     this.instance.cancel();
   }
 
-  public applyChanges() {
+  public applyChanges(): void {
     this.instance.save(this.newSelectedColumnIds);
   }
 }

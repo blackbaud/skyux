@@ -76,13 +76,13 @@ export class DatepickerComponent implements OnInit {
     this.disabled = !this.disabled;
   }
 
-  public setReactiveDate(emitEvent = true) {
+  public setReactiveDate(emitEvent = true): void {
     this.reactiveDate.setValue(new Date('12/12/2012'), {
       emitEvent: emitEvent,
     });
   }
 
-  public setReactiveString(emitEvent = true) {
+  public setReactiveString(emitEvent = true): void {
     this.reactiveDate.setValue('12/12/2012', { emitEvent: emitEvent });
   }
 

@@ -43,7 +43,7 @@ export class ActionHubPlaygroundRecentLinksComponent {
     },
   ];
 
-  public switchRecentLinks(appName?: string, links?: SkyRecentLink[]) {
+  public switchRecentLinks(appName?: string, links?: SkyRecentLink[]): void {
     if (appName) {
       this.recentLinks = {
         requestedRoutes: [

@@ -68,11 +68,11 @@ export class VerticalTabsetComponent {
     this.tabs.splice(index, 1);
   }
 
-  public openVerticalTabsetModal() {
+  public openVerticalTabsetModal(): void {
     this.#modalService.open(VerticalTabsetModalComponent, { size: 'large' });
   }
 
-  public openVerticalTabsetModalWithColumns() {
+  public openVerticalTabsetModalWithColumns(): void {
     this.#modalService.open(VerticalTabsetModalWithColumnsComponent, {
       size: 'large',
     });
