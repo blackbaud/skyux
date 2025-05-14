@@ -198,7 +198,7 @@ sky-text-editor.sky-form-field-stacked {
         --sky-override-text-editor-box-shadow-focused,
         inset 0 0 0 var(--sky-border-width-input-focus)
           var(--sky-color-border-input-focus),
-        var(--sky-override-text-editor-focus-shadow, var(--sky-elevation-focus))
+        var(--sky-override-text-editor-focus-shadow, 0 0)
       );
       border: var(--sky-override-text-editor-border-focused, none);
       outline: none;
