@@ -337,10 +337,12 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
         this.mobileSearchShown = false;
       }
 
-      if (this.#manualFocus && !this.searchButtonShown) {
-        this.#searchAdapter.focusInput(this.#elRef);
-        this.#manualFocus = false;
-      }
+      setTimeout(() => {
+        if (this.#manualFocus && !this.searchButtonShown) {
+          this.#searchAdapter.focusInput(this.#elRef);
+          this.#manualFocus = false;
+        }
+      });
     }
   }
 
@@ -348,6 +350,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     this.#searchUpdated.complete();
     this.#searchUpdatedSub?.unsubscribe();
   }
+
   #searchBindingChanged(changes: SimpleChanges): boolean {
     return (
       changes['searchText'] &&
