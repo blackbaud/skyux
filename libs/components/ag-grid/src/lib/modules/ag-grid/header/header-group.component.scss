@@ -1,3 +1,13 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('button') {
+  --sky-override-ag-grid-header-button-margin-left: var(--sky-margin-inline-sm);
+}
+
+@include compatMixins.sky-modern-overrides('button') {
+  --sky-override-ag-grid-header-button-margin-left: var(--sky-margin-inline-sm);
+}
+
 :host {
   display: flex;
   max-width: 100%;
@@ -14,7 +24,10 @@
 
 button {
   cursor: pointer;
-  margin-left: var(--sky-margin-inline-sm);
+  margin-left: var(
+    --sky-override-ag-grid-header-button-margin-left,
+    var(--sky-space-gap-text_action-xs)
+  );
   flex-grow: 0;
   flex-shrink: 1;
 }

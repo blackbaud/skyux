@@ -59,6 +59,7 @@ let idIndex = 0;
   templateUrl: './ag-grid-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AsyncPipe, NgClass, SkyIdModule, SkyViewkeeperModule],
+  styleUrl: '../../styles/ag-grid.component.scss',
 })
 export class SkyAgGridWrapperComponent
   implements AfterContentInit, AfterViewInit, OnDestroy, OnInit
@@ -371,9 +372,6 @@ export class SkyAgGridWrapperComponent
   ): void {
     const skyAgGridTheme = getSkyAgGridTheme(
       hasEditableClass ? 'data-entry-grid' : 'data-grid',
-      themeSettings?.theme?.name,
-      themeSettings?.mode?.name,
-      isCompact ? 'compact' : themeSettings?.spacing?.name,
     );
     this.agGrid?.api.setGridOption('theme', skyAgGridTheme);
     const skyAgGridThemeClassName = getSkyAgGridThemeClassName(
