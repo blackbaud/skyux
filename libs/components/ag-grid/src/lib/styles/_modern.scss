@@ -5,7 +5,6 @@
 .ag-theme-sky-data-entry-grid-modern-light,
 .ag-theme-sky-data-grid-modern-light-compact,
 .ag-theme-sky-data-entry-grid-modern-light-compact {
-
   .ag-cell.ag-cell-wrap-text span.ag-cell-value {
     line-height: var(--sky-font-line_height-body-m);
     padding-top: var(
@@ -20,7 +19,7 @@
   }
 
   .ag-header .ag-header-cell .ag-header-cell-label-sortable {
-    color: var(--sky-text-color-default);
+    color: var(--sky-color-text-default);
   }
 
   .ag-header-cell,
@@ -63,7 +62,7 @@
   .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing,
   .ag-header-cell.sky-ag-grid-header-resizable > .ag-header-cell-resize:hover {
     --ag-header-column-resize-handle-color: var(
-      --sky-text-color-action-primary
+      --sky-color-border-switch-hover
     );
     --ag-header-column-resize-handle-height: 100%;
     --ag-header-column-resize-handle-width: 3px;
@@ -86,8 +85,7 @@
   }
 
   .ag-tooltip {
-    box-shadow: variables.$sky-theme-modern-elevation-4-shadow-size
-      variables.$sky-theme-modern-elevation-4-shadow-color;
+    box-shadow: var(--sky-elevation-overlay-100);
   }
 
   @for $i from 1 through 100 {
@@ -100,7 +98,7 @@
       ) {
       .ag-header-cell.ag-floating-filter:nth-child(#{$i}),
       .ag-cell:nth-child(#{$i}) {
-        border-right: 1px solid var(--sky-text-color-action-primary);
+        border-right: 1px solid var(--sky-color-border-switch-hover);
         padding-right: calc(var(--ag-spacing) * 3 - 1px);
       }
     }
@@ -113,7 +111,7 @@
       ) {
       .ag-header-cell.ag-floating-filter:nth-child(#{$i}),
       .ag-cell:nth-child(#{$i}) {
-        border-right: 3px solid var(--sky-text-color-action-primary);
+        border-right: 3px solid var(--sky-color-border-switch-hover);
         padding-right: calc(var(--ag-spacing) * 3 - 3px);
       }
     }
@@ -122,7 +120,11 @@
 
 .ag-theme-sky-data-grid-modern-light,
 .ag-theme-sky-data-grid-modern-light-compact {
-  border-top: 2px solid transparent;
+  border-top: var(
+      --sky-override-ag-grid-emphasized-border-width,
+      var(--sky-border-width-emphasized)
+    )
+    solid transparent;
 
   .ag-row-hover::before {
     background-color: transparent;
@@ -165,12 +167,11 @@
     }
 
     .ag-select-list {
-      box-shadow: variables.$sky-theme-modern-elevation-4-shadow-size
-        variables.$sky-theme-modern-elevation-4-shadow-color;
+      box-shadow: var(--sky-elevation-overlay-100);
 
       .ag-select-list-item {
         cursor: pointer;
-        border: 1px solid transparent;
+        border: var(--sky-border-width-input-base) solid transparent;
 
         &:focus-visible,
         &:hover,
@@ -195,7 +196,7 @@
     .ag-select {
       .ag-picker-field-display {
         margin-top: 2px;
-        margin-left: 9px;
+        margin-left: 8px;
       }
     }
   }
