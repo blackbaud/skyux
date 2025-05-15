@@ -88,7 +88,8 @@
   }
 
   // modern data grid and data entry grid overrides for compact mode
-  &.ag-theme-sky-data-grid-modern-light-compact {
+  &.ag-theme-sky-data-grid-modern-light-compact,
+  &.ag-theme-sky-data-entry-grid-modern-light-compact {
     --sky-override-ag-grid-row-height: 32px;
     --sky-override-ag-grid-header-height: 32px;
     --sky-override-ag-grid-cell-padding-vertical: 2px;
