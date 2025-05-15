@@ -15,6 +15,7 @@ import { SkyDocsTypeDefinitionAnchorIdsService } from '../type-definition/type-a
 
 import { SkyDocsShowcaseAreaDevelopmentComponent } from './showcase-area-development.component';
 import { SkyDocsShowcaseAreaExamplesComponent } from './showcase-area-examples.component';
+import { SkyDocsShowcaseAreaHighlightComponent } from './showcase-area-highlight.component';
 import { SkyDocsShowcaseAreaOverviewComponent } from './showcase-area-overview.component';
 import { SkyDocsShowcaseAreaTestingComponent } from './showcase-area-testing.component';
 import { SkyDocsShowcaseHostService } from './showcase-host.service';
@@ -64,6 +65,10 @@ export class SkyDocsShowcaseComponent {
 
   protected readonly developmentContent = contentChild(
     SkyDocsShowcaseAreaDevelopmentComponent,
+  );
+
+  protected readonly highlightContent = contentChild(
+    SkyDocsShowcaseAreaHighlightComponent,
   );
 
   protected readonly overviewContent = contentChild(

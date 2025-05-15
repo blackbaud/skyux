@@ -31,6 +31,7 @@ export { SkyDocsCodeSnippetWrapperComponent as λ7 } from './lib/modules/code-sn
 export { SkyDocsCodeSnippetComponent as λ1 } from './lib/modules/code-snippet/code-snippet.component';
 export { SkyDocsHeadingAnchorComponent as λ5 } from './lib/modules/heading-anchor/heading-anchor.component';
 export { SkyDocsShowcaseAreaDevelopmentComponent as λ9 } from './lib/modules/showcase/showcase-area-development.component';
+export { SkyDocsShowcaseAreaHighlightComponent as λ13 } from './lib/modules/showcase/showcase-area-highlight.component';
 export { SkyDocsShowcaseAreaOverviewComponent as λ10 } from './lib/modules/showcase/showcase-area-overview.component';
 export { SkyDocsShowcaseAreaTestingComponent as λ11 } from './lib/modules/showcase/showcase-area-testing.component';
 export { SkyDocsShowcaseComponent as λ12 } from './lib/modules/showcase/showcase.component';
