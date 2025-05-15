@@ -194,6 +194,8 @@ sky-text-editor.sky-form-field-stacked {
 
   &.sky-text-editor-wrapper-focused {
     .sky-text-editor-wrapper {
+      // NOTE: The '0 0' as the fallback to the focus elevation is needed to get css to properly recognize a box shadow as a no-op here in the comma list.
+      // If we did not have the override then the whole shadow could be removed.
       box-shadow: var(
         --sky-override-text-editor-box-shadow-focused,
         inset 0 0 0 var(--sky-border-width-input-focus)
