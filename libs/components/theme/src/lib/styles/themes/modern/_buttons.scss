@@ -4,6 +4,9 @@
 
 @include compatMixins.sky-modern-overrides('.sky-btn', false) {
   --sky-override-borderless-icon-size: 26px;
+  --sky-override-button-default-box-shadow-focus-elevation: var(
+    --sky-elevation-focus
+  );
   --sky-override-button-icon-borderless-padding: 1px;
   --sky-override-button-icon-padding: 9px 15px;
   --sky-override-button-link-inline-border-radius: 0;
@@ -16,6 +19,9 @@
   --sky-override-button-link-inline-font-size: var(--sky-font-size-body-m);
   --sky-override-button-padding: 9px 21px;
 
+  --sky-override-button-primary-box-shadow-focus-elevation: var(
+    --sky-elevation-focus
+  );
   --sky-override-button-primary-disabled-box-shadow:
     inset 0 0 0 var(--sky-border-width-action-focus)
       var(--sky-color-border-action-primary-focus),
@@ -24,18 +30,30 @@
     inset 0 0 0 var(--sky-border-width-action-focus)
       var(--sky-color-border-action-secondary-focus),
     var(--sky-elevation-focus);
+  --sky-override-button-danger-box-shadow-focus-elevation: var(
+    --sky-elevation-focus
+  );
   --sky-override-button-danger-disabled-box-shadow:
     inset 0 0 0 var(--sky-border-width-action-focus)
       var(--sky-color-border-action-danger-focus),
     var(--sky-elevation-focus);
+  --sky-override-button-tertiary-box-shadow-focus-elevation: var(
+    --sky-elevation-focus
+  );
   --sky-override-button-tertiary-disabled-box-shadow:
     inset 0 0 0 var(--sky-border-width-action-focus)
       var(--sky-color-border-action-tertiary-focus),
     var(--sky-elevation-focus,);
+  --sky-override-button-link-inline-box-shadow-focus-elevation: var(
+    --sky-elevation-focus
+  );
   --sky-override-button-link-inline-disabled-box-shadow:
     0 0 0 var(--sky-border-width-action-focus)
       var(--sky-color-border-action-tertiary-focus),
     var(--sky-elevation-focus);
+  --sky-override-button-borderless-inline-box-shadow-focus-elevation: var(
+    --sky-elevation-focus
+  );
   --sky-override-button-borderless-inline-disabled-box-shadow:
     0 0 0 var(--sky-border-width-action-focus)
       var(--sky-color-border-action-tertiary-focus),
@@ -56,13 +74,19 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-btn-tab', false) {
-  --sky-override-tab-selected-background-color: var(--modern-color-transparent);
+  --sky-override-tab-box-shadow-focus-elevation: var(--sky-elevation-focus)
+    --sky-override-tab-selected-background-color: var(
+      --modern-color-transparent
+    );
   --sky-override-tab-selected-border-bottom-size: var(--modern-size-3);
   --sky-override-tab-hover-border-bottom-color: var(--modern-color-blue-50);
   --sky-override-tab-disabled-background-color: var(--modern-color-transparent);
   --sky-override-tab-disabled-font-size: 15px;
   --sky-override-tab-button-radius: 0;
   --sky-override-tab-line-height: 1.8;
+  --sky-override-tab-item-box-shadow-focus-elevation: var(
+    --sky-elevation-focus
+  );
   --sky-override-selected-dropdown-item-border-width: var(--modern-size-3);
   --sky-override-selected-dropdown-background-color: var(
     --modern-color-transparent
@@ -163,10 +187,12 @@
 
     &:focus-visible:not(:active) {
       background-color: var(--sky-color-background-action-secondary-focus);
+      // NOTE: The '0 0' as the fallback to the focus elevation is needed to get css to properly recognize a box shadow as a no-op here in the comma list.
+      // If we did not have the override then the whole shadow could be removed.
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-secondary-focus),
-        var(--sky-elevation-focus);
+        var(--sky-override-button-default-box-shadow-focus-elevation, 0 0);
     }
 
     &.sky-btn-disabled,
@@ -213,10 +239,12 @@
 
     &:focus-visible:not(:active) {
       background-color: var(--sky-color-background-action-primary-focus);
+      // NOTE: The '0 0' as the fallback to the focus elevation is needed to get css to properly recognize a box shadow as a no-op here in the comma list.
+      // If we did not have the override then the whole shadow could be removed.
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-primary-focus),
-        var(--sky-elevation-focus);
+        var(--sky-override-button-primary-box-shadow-focus-elevation, 0 0);
     }
 
     &.sky-btn-disabled,
@@ -263,10 +291,12 @@
 
     &:focus-visible:not(:active) {
       background-color: var(--sky-color-background-action-danger-focus);
+      // NOTE: The '0 0' as the fallback to the focus elevation is needed to get css to properly recognize a box shadow as a no-op here in the comma list.
+      // If we did not have the override then the whole shadow could be removed.
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-danger-focus),
-        var(--sky-elevation-focus);
+        var(--sky-override-button-danger-box-shadow-focus-elevation, 0 0);
     }
 
     &.sky-btn-disabled,
@@ -333,10 +363,12 @@
 
     &:focus-visible:not(:active) {
       background-color: var(--sky-color-background-action-tertiary-focus);
+      // NOTE: The '0 0' as the fallback to the focus elevation is needed to get css to properly recognize a box shadow as a no-op here in the comma list.
+      // If we did not have the override then the whole shadow could be removed.
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-tertiary-focus),
-        var(--sky-elevation-focus);
+        var(--sky-override-button-tertiary-box-shadow-focus-elevation, 0 0);
     }
 
     &.sky-btn-disabled,
@@ -374,10 +406,12 @@
 
     &:focus-visible:not(:active) {
       background-color: var(--sky-color-background-action-tertiary-focus);
+      // NOTE: The '0 0' as the fallback to the focus elevation is needed to get css to properly recognize a box shadow as a no-op here in the comma list.
+      // If we did not have the override then the whole shadow could be removed.
       box-shadow:
         0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-tertiary-focus),
-        var(--sky-elevation-focus);
+        var(--sky-override-button-link-inline-box-shadow-focus-elevation, 0 0);
     }
 
     &:active {
@@ -424,10 +458,15 @@
     font-size: var(--sky-override-button-link-inline-font-size, inherit);
 
     &:focus-visible:not(:active) {
+      // NOTE: The '0 0' as the fallback to the focus elevation is needed to get css to properly recognize a box shadow as a no-op here in the comma list.
+      // If we did not have the override then the whole shadow could be removed.
       box-shadow:
         0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-tertiary-focus),
-        var(--sky-elevation-focus);
+        var(
+          --sky-override-button-borderless-inline-box-shadow-focus-elevation,
+          0 0
+        );
     }
 
     &.sky-btn-disabled,
@@ -536,7 +575,7 @@
       outline: solid var(--sky-border-width-selected-m)
         var(--sky-color-border-selected);
       outline-offset: calc(var(--sky-border-width-selected-m) * -1);
-      box-shadow: var(--sky-elevation-focus);
+      box-shadow: var(--sky-override-tab-box-shadow-focus-elevation, none);
     }
 
     &:active {
@@ -639,7 +678,10 @@
 
       &:focus-visible:not(:active) {
         background-color: transparent;
-        box-shadow: var(--sky-elevation-focus);
+        box-shadow: var(
+          --sky-override-tab-item-box-shadow-focus-elevation,
+          none
+        );
         outline: solid var(--sky-border-width-action-active)
           var(--sky-color-border-action-secondary-focus);
         outline-offset: calc(var(--sky-border-width-action-active) * -1);
