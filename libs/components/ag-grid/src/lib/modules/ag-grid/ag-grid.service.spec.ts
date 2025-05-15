@@ -230,6 +230,23 @@ describe('SkyAgGridService', () => {
       );
     });
 
+    it('should set options for modern theme', () => {
+      mockThemeSvc.settingsChange.next({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light,
+        ),
+        previousSettings:
+          mockThemeSvc.settingsChange.getValue().currentSettings,
+      });
+
+      const options = agGridService.getEditableGridOptions({
+        gridOptions: {},
+      });
+
+      expect(options.columnTypes?.[SkyCellType.Date].minWidth).toBe(180);
+    });
+
     it('should disable checkboxes if row selection is enabled', () => {
       const editableGridOptions = agGridService.getEditableGridOptions({
         gridOptions: {
