@@ -230,11 +230,11 @@ describe('SkyAgGridService', () => {
       );
     });
 
-    it('should set options for modern theme, dark mode', () => {
+    it('should set options for modern theme', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
-          SkyThemeMode.presets.dark,
+          SkyThemeMode.presets.light,
         ),
         previousSettings:
           mockThemeSvc.settingsChange.getValue().currentSettings,

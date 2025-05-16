@@ -597,12 +597,7 @@ export class SkyAgGridService implements OnDestroy {
       singleClickEdit: true,
       styleNonce: this.#cspNonce ?? undefined,
       suppressDragLeaveHidesColumns: true,
-      theme: getSkyAgGridTheme(
-        'data-grid',
-        this.#currentTheme?.theme?.name,
-        this.#currentTheme?.mode?.name,
-        this.#currentTheme?.spacing?.name,
-      ),
+      theme: getSkyAgGridTheme('data-grid'),
     };
 
     const columnTypes = defaultSkyGridOptions.columnTypes as Record<
@@ -698,12 +693,7 @@ export class SkyAgGridService implements OnDestroy {
   } {
     const defaultGridOptions = this.#getDefaultGridOptions(args);
     defaultGridOptions.rowSelection = undefined;
-    defaultGridOptions.theme = getSkyAgGridTheme(
-      'data-entry-grid',
-      this.#currentTheme?.theme?.name,
-      this.#currentTheme?.mode?.name,
-      this.#currentTheme?.spacing?.name,
-    );
+    defaultGridOptions.theme = getSkyAgGridTheme('data-entry-grid');
     return defaultGridOptions;
   }
 
