@@ -20,6 +20,7 @@
   --sky-override-colorpicker-button-border-radius: 0;
   --sky-override-colorpicker-button-border-radius: 0;
   --sky-override-colorpicker-button-box-shadow: none;
+  --sky-override-colorpicker-button-box-shadow-focus: none;
   --sky-override-colorpicker-button-error-border: 1px solid
     var(--sky-highlight-color-danger);
   --sky-override-colorpicker-button-error-box-shadow: #{0 0 8px
@@ -83,6 +84,17 @@
   false
 ) {
   --sky-override-colorpicker-button-border-color: var(--modern-color-gray-15);
+  --sky-override-colorpicker-button-box-shadow-focus:
+    inset 0 0 0 var(--sky-border-width-input-focus)
+      var(--sky-color-border-input-focus),
+    inset 0 0 0 var(--sky-colorpicker-border-padding-size)
+      var(--sky-color-background-container-base),
+    inset 0 0 0 var(--sky-color-picker-inner-border-size)
+      var(
+        --sky-override-colorpicker-button-border-color,
+        var(--sky-color-border-input-base)
+      ),
+    var(--sky-elevation-focus);
   --sky-override-colorpicker-button-size: 40px;
   --sky-override-colorpicker-reset-button-size: 40px;
 }
@@ -183,7 +195,7 @@ sky-colorpicker.sky-form-field-stacked {
 
   &:focus-visible:not(:active) {
     box-shadow: var(
-      --sky-override-colorpicker-button-box-shadow,
+      --sky-override-colorpicker-button-box-shadow-focus,
       inset 0 0 0 var(--sky-border-width-input-focus)
         var(--sky-color-border-input-focus),
       inset 0 0 0 var(--sky-colorpicker-border-padding-size)
@@ -192,8 +204,7 @@ sky-colorpicker.sky-form-field-stacked {
         var(
           --sky-override-colorpicker-button-border-color,
           var(--sky-color-border-input-base)
-        ),
-      var(--sky-elevation-focus)
+        )
     );
     outline: var(--sky-override-colorpicker-button-focus-outline);
   }

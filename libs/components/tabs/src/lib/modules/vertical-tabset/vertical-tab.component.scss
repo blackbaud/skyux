@@ -12,7 +12,6 @@
   --sky-override-vertical-tab-border-left-hover: none;
   --sky-override-vertical-tab-border-left-selected: #{$sky-nav-selected-border-width}
     solid #{$sky-highlight-color-info};
-  --sky-override-vertical-tab-box-shadow-focus: none;
   --sky-override-vertical-tab-count-margin-left: #{$sky-margin-half};
   --sky-override-vertical-tab-display-align-items: normal;
   --sky-override-vertical-tab-font-color: #{$sky-text-color-default};
@@ -49,6 +48,7 @@
     var(--modern-color-blue-50);
   --sky-override-vertical-tab-border-left-hover: var(--modern-size-1) solid
     var(--modern-color-blue-50);
+  --sky-override-vertical-tab-box-shadow-focus: var(--sky-elevation-focus);
   --sky-override-vertical-tab-content-pane-margin-bottom: 0;
   --sky-override-vertical-tab-display-align-items: normal;
   --sky-override-vertical-tab-gap: var(--modern-size-15);
@@ -172,10 +172,7 @@
       --sky-override-vertical-tab-outline-focus-offset,
       calc(var(--sky-border-width-selected-m) * -1)
     );
-    box-shadow: var(
-      --sky-override-vertical-tab-box-shadow-focus,
-      var(--sky-elevation-focus)
-    );
+    box-shadow: var(--sky-override-vertical-tab-box-shadow-focus, none);
 
     &.sky-vertical-tab-active {
       background-color: var(

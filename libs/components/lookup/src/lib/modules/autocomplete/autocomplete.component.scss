@@ -39,6 +39,10 @@
     --sky-override-autocomplete-dropdown-hint-text-padding: 7px 13px;
     --sky-override-autocomplete-no-results-font-size: 15px;
     --sky-override-autocomplete-no-results-padding: #{$sky-padding-squish-default};
+    --sky-override-autocomplete-result-focus-box-shadow:
+      inset 0 0 0 var(--sky-border-width-action-focus)
+        var(--sky-color-border-action-tertiary-focus),
+      var(--sky-elevation-focus);
     --sky-override-autocomplete-result-margin-bottom: 0;
     --sky-override-autocomplete-result-padding: #{$sky-theme-modern-space-sm 0
       $sky-theme-modern-space-sm $sky-theme-modern-space-md};
@@ -198,7 +202,6 @@
   box-shadow: var(
     --sky-override-autocomplete-result-focus-box-shadow,
     inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus)
+      var(--sky-color-border-action-tertiary-focus)
   );
 }

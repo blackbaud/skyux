@@ -67,10 +67,18 @@
 @include compatMixins.sky-modern-overrides('.sky-token') {
   --sky-override-token-button-padding: var(--modern-size-1) var(--modern-size-5);
   --sky-override-token-close-button-opacity: 0.9;
+  --sky-override-token-close-focus-box-shadow:
+    inset 0 0 0 var(--sky-border-width-action-focus)
+      var(--sky-color-border-action-tertiary-focus),
+    var(--sky-elevation-focus);
   --sky-override-token-close-hover-box-shadow: inset 0 0 0 1px transparent;
   --sky-override-token-close-line-height: calc(20 / 14);
   --sky-override-token-close-padding: 0;
   --sky-override-token-close-size: var(--modern-size-20);
+  --sky-override-token-focused-box-shadow:
+    inset 0 0 0 var(--sky-border-width-action-focus)
+      var(--sky-color-border-action-tertiary-focus),
+    var(--sky-elevation-focus);
   --sky-override-token-font-size: var(--modern-font-size-150);
   --sky-override-token-padding: 0;
 }
@@ -106,8 +114,7 @@
     box-shadow: var(
       --sky-override-token-focused-box-shadow,
       inset 0 0 0 var(--sky-border-width-action-focus)
-        var(--sky-color-border-action-tertiary-focus),
-      var(--sky-elevation-focus)
+        var(--sky-color-border-action-tertiary-focus)
     );
     cursor: pointer;
   }
@@ -222,8 +229,7 @@
       box-shadow: var(
         --sky-override-token-close-focus-box-shadow,
         inset 0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus),
-        var(--sky-elevation-focus)
+          var(--sky-color-border-action-tertiary-focus)
       );
     }
   }

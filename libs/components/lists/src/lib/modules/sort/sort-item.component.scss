@@ -6,6 +6,7 @@
   --sky-override-sort-item-border-left-selected: none;
   --sky-override-sort-item-border-radius: 0px;
   --sky-override-sort-item-box-shadow: none;
+  --sky-override-sort-item-box-shadow-focus: none;
   --sky-override-sort-item-color-background: transparent;
   --sky-override-sort-item-color-selected: #{$sky-background-color-selected};
   --sky-override-sort-item-color-selected: inherit;
@@ -20,8 +21,12 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-sort-item', false) {
-  --sky-override-sort-item-width-border-selected: var(--modern-size-3);
+  --sky-override-sort-item-box-shadow-focus:
+    inset 0 0 0 var(--sky-border-width-action-focus)
+      var(--sky-color-border-action-tertiary-focus),
+    var(--sky-elevation-focus);
   --sky-override-sort-item-color-selected: transparent;
+  --sky-override-sort-item-width-border-selected: var(--modern-size-3);
 }
 
 .sky-sort-item {
@@ -95,10 +100,9 @@
         var(--sky-color-background-action-tertiary-focus)
       );
       box-shadow: var(
-        --sky-override-sort-item-box-shadow,
+        --sky-override-sort-item-box-shadow-focus,
         inset 0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus),
-        var(--sky-elevation-focus)
+          var(--sky-color-border-action-tertiary-focus)
       );
     }
 

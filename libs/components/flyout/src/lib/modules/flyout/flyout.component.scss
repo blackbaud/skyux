@@ -289,8 +289,7 @@
       box-shadow: var(
         --sky-override-flyout-header-permalink-box-shadow-focus,
         0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus),
-        var(--sky-elevation-focus)
+          var(--sky-color-border-action-tertiary-focus)
       );
     }
   }
@@ -342,8 +341,7 @@
       box-shadow: var(
         --sky-override-flyout-header-primary-action-box-shadow-focus,
         0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus),
-        var(--sky-elevation-focus)
+          var(--sky-color-border-action-tertiary-focus)
       );
     }
   }

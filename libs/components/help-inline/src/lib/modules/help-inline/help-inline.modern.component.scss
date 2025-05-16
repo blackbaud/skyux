@@ -6,6 +6,10 @@
 
 @include compatMixins.sky-modern-overrides('.sky-help-inline') {
   --sky-override-help-inline-border-radius: var(--modern-size-3);
+  --sky-override-help-inline-box-shadow-focus:
+    inset 0 0 0 var(--sky-border-width-action-focus)
+      var(--sky-color-border-action-tertiary-focus),
+    var(--sky-elevation-focus);
   --sky-override-help-inline-color-hover: #{darken(
       $sky-background-color-primary-dark,
       10%
@@ -70,10 +74,11 @@
 
   &:focus-visible:not(:active) {
     background-color: var(--sky-color-background-action-tertiary-focus);
-    box-shadow:
+    box-shadow: var(
+      --sky-override-help-inline-box-shadow-focus,
       inset 0 0 0 var(--sky-border-width-action-focus)
-        var(--sky-color-border-action-tertiary-focus),
-      var(--sky-elevation-focus);
+        var(--sky-color-border-action-tertiary-focus)
+    );
   }
 
   &.sky-btn-disabled,

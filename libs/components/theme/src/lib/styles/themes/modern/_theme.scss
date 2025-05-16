@@ -3,6 +3,10 @@
 
 @include compatMixins.sky-modern-overrides($encapsulate: false) {
   --sky-override-a-border-radius: 0;
+  --sky-override-a-box-shadow-focus:
+    0 0 0 var(--sky-border-width-action-focus)
+      var(--sky-color-border-action-tertiary-focus),
+    var(--sky-elevation-focus);
   --sky-override-a-color-hover-active: var(
     --sky-text-color-action-primary-hover
   );
@@ -46,10 +50,11 @@
 
     &:focus-visible:not(:active) {
       outline: none;
-      box-shadow:
+      box-shadow: var(
+        --sky-override-a-box-shadow-focus,
         0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus),
-        var(--sky-elevation-focus);
+          var(--sky-color-border-action-tertiary-focus)
+      );
     }
   }
 
