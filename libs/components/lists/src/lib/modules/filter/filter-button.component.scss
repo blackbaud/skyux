@@ -3,9 +3,10 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-modern-overrides('.sky-filter-btn') {
-  --sky-override-filter-btn-active-box-shadow-focus-elevation: var(
-    --sky-elevation-focus
-  );
+  --sky-override-filter-btn-active-box-shadow-focus:
+    inset 0 0 0 var(--sky-border-width-action-focus)
+      var(--sky-color-border-selected),
+    var(--sky-elevation-focus);
 }
 
 .sky-filter-btn-active,
@@ -58,12 +59,11 @@
       outline: none;
 
       &:not(:active) {
-        // NOTE: The '0 0' as the fallback to the focus elevation is needed to get css to properly recognize a box shadow as a no-op here in the comma list.
-        // If we did not have the override then the whole shadow could be removed.
-        box-shadow:
+        box-shadow: var(
+          --sky-override-filter-btn-active-box-shadow-focus-elevation,
           inset 0 0 0 var(--sky-border-width-action-focus)
-            var(--sky-color-border-selected),
-          var(--sky-override-filter-btn-active-box-shadow-focus-elevation, 0 0);
+            var(--sky-color-border-selected)
+        );
       }
     }
 

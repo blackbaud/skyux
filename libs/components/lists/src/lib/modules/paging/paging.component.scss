@@ -48,9 +48,10 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-paging') {
-  --sky-override-paging-btn-box-shadow-focus-elevation: var(
-    --sky-elevation-focus
-  );
+  --sky-override-paging-btn-box-shadow-focus:
+    inset 0 0 0 var(--sky-border-width-action-focus)
+      var(--sky-color-border-action-tertiary-focus),
+    var(--sky-elevation-focus);
   --sky-override-paging-btn-float: left;
   --sky-override-paging-btn-font-size: #{$sky-font-size-base};
   --sky-override-paging-btn-font-variant-numeric: normal;
@@ -189,13 +190,10 @@
         var(--sky-color-background-action-tertiary-focus)
       );
       border: var(--sky-override-paging-btn-border-focus);
-      // NOTE: The '0 0' as the fallback to the focus elevation is needed to get css to properly recognize a box shadow as a no-op here in the comma list.
-      // If we did not have the override then the whole shadow could be removed.
       box-shadow: var(
-        --sky-override-paging-btn-states-box-shadow,
+        --sky-override-paging-btn-box-shadow-focus,
         inset 0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus),
-        var(--sky-override-paging-btn-box-shadow-focus-elevation, 0 0)
+          var(--sky-color-border-action-tertiary-focus)
       );
       outline: var(--sky-override-paging-btn-outline-focus, none);
     }

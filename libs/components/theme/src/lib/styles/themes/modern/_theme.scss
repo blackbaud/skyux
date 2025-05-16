@@ -3,7 +3,10 @@
 
 @include compatMixins.sky-modern-overrides($encapsulate: false) {
   --sky-override-a-border-radius: 0;
-  --sky-override-a-box-shadow-focus-elevation: var(--sky-elevation-focus);
+  --sky-override-a-box-shadow-focus:
+    0 0 0 var(--sky-border-width-action-focus)
+      var(--sky-color-border-action-tertiary-focus),
+    var(--sky-elevation-focus);
   --sky-override-a-color-hover-active: var(
     --sky-text-color-action-primary-hover
   );
@@ -47,12 +50,11 @@
 
     &:focus-visible:not(:active) {
       outline: none;
-      // NOTE: The '0 0' as the fallback to the focus elevation is needed to get css to properly recognize a box shadow as a no-op here in the comma list.
-      // If we did not have the override then the whole shadow could be removed.
-      box-shadow:
+      box-shadow: var(
+        --sky-override-a-box-shadow-focus,
         0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus),
-        var(--sky-override-a-box-shadow-focus-elevation, 0 0);
+          var(--sky-color-border-action-tertiary-focus)
+      );
     }
   }
 
