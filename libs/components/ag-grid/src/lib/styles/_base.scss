@@ -64,7 +64,10 @@
 
     .ag-checkbox-input-wrapper,
     .ag-radio-button-input-wrapper {
-      --ag-checkbox-checked-shape-color: var(--ag-text-color);
+      --ag-checkbox-checked-shape-color: var(
+        --sky-override-ag-grid-checkbox-disabled-color,
+        var(--sky-color-text-deemphasized)
+      );
       --ag-checkbox-checked-background-color: var(
         --sky-override-ag-grid-checkbox-checked-background-color,
         var(--sky-color-background-input-disabled)
@@ -180,7 +183,12 @@
           var(--ag-cell-horizontal-padding) - 1px +
             var(--ag-row-group-indent-size) * var(--ag-indentation-level)
         );
-        padding-right: calc(var(--ag-cell-horizontal-padding) - 1px);
+        padding-right: calc(
+          var(--ag-cell-horizontal-padding) - var(
+              --sky-override-ag-grid-border-width,
+              var(--sky-border-width-separator-row)
+            )
+        );
       }
     }
 

@@ -10,6 +10,10 @@
 }
 
 .sky-theme-modern {
+  .sky-form-control {
+    font-size: var(--sky-font-size-body-m);
+  }
+
   .sky-error-label {
     margin-top: var(
       --sky-override-error-label-margin-top,
