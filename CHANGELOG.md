@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.13.1](https://github.com/blackbaud/skyux/compare/12.13.0...12.13.1) (2025-05-17)
+
+
+### Bug Fixes
+
+* **components/colorpicker:** checkered background properly displays on non-transparent parent backgrounds ([#3456](https://github.com/blackbaud/skyux/issues/3456)) ([c84abcb](https://github.com/blackbaud/skyux/commit/c84abcbe3193e6eb0523b4d0e08b508cafc437cb))
+
 ## [12.13.0](https://github.com/blackbaud/skyux/compare/12.12.1...12.13.0) (2025-05-15)
 
 
