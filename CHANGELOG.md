@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.13.2](https://github.com/blackbaud/skyux/compare/12.13.1...12.13.2) (2025-05-19)
+
+
+### Bug Fixes
+
+* **sdk/skyux-eslint:** apply `no-sky-selectors` rule to plugin ([#3460](https://github.com/blackbaud/skyux/issues/3460)) ([cd5184a](https://github.com/blackbaud/skyux/commit/cd5184ad78de320b908b833805684f72dce3cee3))
+
 ## [12.13.1](https://github.com/blackbaud/skyux/compare/12.13.0...12.13.1) (2025-05-19)
 
 
