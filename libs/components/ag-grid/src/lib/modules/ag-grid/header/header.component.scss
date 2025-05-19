@@ -57,7 +57,10 @@ button.ag-header-cell-label {
 
 .ag-cell-label-container {
   padding: 0;
-  gap: var(--sky-margin-inline-xs); // ask john about this
+  gap: var(
+    --sky-override-ag-grid-header-icon-spacing,
+    var(--sky-space-gap-text_action-xs)
+  );
 }
 
 .ag-header-cell-label {

@@ -59,7 +59,6 @@ let idIndex = 0;
   templateUrl: './ag-grid-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AsyncPipe, NgClass, SkyIdModule, SkyViewkeeperModule],
-  styleUrl: '../../styles/ag-grid.component.scss',
 })
 export class SkyAgGridWrapperComponent
   implements AfterContentInit, AfterViewInit, OnDestroy, OnInit
