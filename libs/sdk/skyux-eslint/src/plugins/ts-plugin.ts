@@ -4,6 +4,10 @@ import {
   rule as noLambdaImports,
   RULE_NAME as noLambdaImportsRuleName,
 } from '../rules/no-lambda-imports';
+import {
+  rule as noSkySelectors,
+  RULE_NAME as noSkySelectorsRuleName,
+} from '../rules/no-sky-selectors';
 
 const tsPlugin: TSESLint.FlatConfig.Plugin = {
   meta: {
@@ -11,6 +15,7 @@ const tsPlugin: TSESLint.FlatConfig.Plugin = {
   },
   rules: {
     [noLambdaImportsRuleName]: noLambdaImports,
+    [noSkySelectorsRuleName]: noSkySelectors,
   },
 };
 
