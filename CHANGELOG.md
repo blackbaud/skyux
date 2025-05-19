@@ -1,5 +1,20 @@
 # Changelog
 
+## [12.13.2](https://github.com/blackbaud/skyux/compare/12.13.1...12.13.2) (2025-05-19)
+
+
+### Bug Fixes
+
+* **sdk/skyux-eslint:** apply `no-sky-selectors` rule to plugin ([#3460](https://github.com/blackbaud/skyux/issues/3460)) ([cd5184a](https://github.com/blackbaud/skyux/commit/cd5184ad78de320b908b833805684f72dce3cee3))
+
+## [12.13.1](https://github.com/blackbaud/skyux/compare/12.13.0...12.13.1) (2025-05-19)
+
+
+### Bug Fixes
+
+* **components/colorpicker:** checkered background properly displays on non-transparent parent backgrounds ([#3456](https://github.com/blackbaud/skyux/issues/3456)) ([c84abcb](https://github.com/blackbaud/skyux/commit/c84abcbe3193e6eb0523b4d0e08b508cafc437cb))
+* **sdk/skyux-eslint:** add `no-sky-selectors` rule ([#3458](https://github.com/blackbaud/skyux/issues/3458)) ([15e009b](https://github.com/blackbaud/skyux/commit/15e009b9ce50d2148ab61c161904921b14019a0e))
+
 ## [12.13.0](https://github.com/blackbaud/skyux/compare/12.12.1...12.13.0) (2025-05-15)
 
 
