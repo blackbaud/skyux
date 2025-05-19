@@ -8,6 +8,7 @@ import {
   ContentChild,
   DestroyRef,
   ElementRef,
+  Input,
   OnDestroy,
   ViewChild,
   computed,
@@ -29,6 +30,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SkyActionBarsResourcesModule } from '../shared/sky-action-bars-resources.module';
 
+import { SkySummaryActionBarError } from './errors/summary-action-bar-error';
 import { SkySummaryActionBarAdapterService } from './summary-action-bar-adapter.service';
 import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-bar-summary.component';
 import { SkySummaryActionBarType } from './types/summary-action-bar-type';
@@ -70,6 +72,16 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   public slideDirection = signal<string>('down');
 
   public summaryId = `sky-summary-action-bar-summary-${++nextId}`;
+  #_formErrors: SkySummaryActionBarError[] | undefined;
+
+  @Input()
+  public set formErrors(errors: SkySummaryActionBarError[] | undefined) {
+    this.#_formErrors = errors;
+  }
+
+  public get formErrors(): SkySummaryActionBarError[] | undefined {
+    return this.#_formErrors;
+  }
 
   @ContentChild(SkySummaryActionBarSummaryComponent, { read: ElementRef })
   public set summaryElement(element: ElementRef | undefined) {

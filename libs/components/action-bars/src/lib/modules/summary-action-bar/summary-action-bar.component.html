@@ -8,11 +8,18 @@
 >
   <div class="sky-summary-action-bar-actions">
     <div aria-live="polite">
-      <div class="sky-margin-stacked-lg">
-        <sky-status-indicator descriptionType="error" indicatorType="danger">
-          Hello this is Sandhya's error
-        </sky-status-indicator>
-      </div>
+      @if (formErrors?.length > 0) {
+        <div class="sky-margin-stacked-lg">
+          @for (formError of formErrors; track formError.message) {
+            <sky-status-indicator
+              descriptionType="error"
+              indicatorType="danger"
+            >
+              {{ formError.message }}
+            </sky-status-indicator>
+          }
+        </div>
+      }
     </div>
     <ng-content select="sky-summary-action-bar-actions" />
   </div>

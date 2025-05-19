@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
+import { SkySummaryActionBarError } from '@skyux/action-bars';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
@@ -14,5 +15,22 @@ export class SummaryActionBarModalComponent {
 
   public printHello(): void {
     console.log('hello');
+  }
+
+  public error: SkySummaryActionBarError[] = [
+    {
+      message: 'Error number 1',
+    },
+  ];
+
+  public moreErrors(): void {
+    this.error = [
+      {
+        message: 'Error number 2',
+      },
+      {
+        message: 'More!',
+      },
+    ];
   }
 }
