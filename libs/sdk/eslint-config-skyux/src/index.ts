@@ -14,24 +14,6 @@ const config = tseslint.config(
       ...skyux.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
-    rules: {
-      '@angular-eslint/directive-selector': [
-        'error',
-        {
-          type: 'attribute',
-          prefix: 'app',
-          style: 'camelCase',
-        },
-      ],
-      '@angular-eslint/component-selector': [
-        'error',
-        {
-          type: 'element',
-          prefix: 'app',
-          style: 'kebab-case',
-        },
-      ],
-    },
   },
   {
     files: ['**/*.html'],
@@ -113,6 +95,8 @@ const config = tseslint.config(
   {
     files: ['**/*.ts'],
     rules: {
+      // Floating rules that don't belong in a typescript-eslint ruleset.
+      // ================================================================
       'default-param-last': 'off',
       '@typescript-eslint/default-param-last': 'error',
       '@typescript-eslint/explicit-member-accessibility': [
@@ -132,11 +116,51 @@ const config = tseslint.config(
           allowNamedExports: false,
         },
       ],
+      '@typescript-eslint/switch-exhaustiveness-check': [
+        'error',
+        {
+          considerDefaultExhaustiveForUnions: true,
+        },
+      ],
+
+      // Overrides from typescript-eslint's "recommendedTypeChecked" ruleset.
+      // ====================================================================
       '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
+
       // Cherry-picked rules from typescript-eslint's "strict" ruleset.
-      // We can't pull in the entire ruleset because it's not considered SemVer safe.
+      // We can't pull in the entire ruleset because it's not considered
+      // SemVer safe.
+      // ==============================================================-
       '@typescript-eslint/no-non-null-asserted-nullish-coalescing': 'error',
       '@typescript-eslint/prefer-literal-enum-member': 'error',
+
+      // Cherry-picked rules from typescript-eslint's "strictTypeChecked"
+      // ruleset.
+      // ================================================================
+      '@typescript-eslint/no-confusing-void-expression': 'error',
+      '@typescript-eslint/no-deprecated': 'error',
+      '@typescript-eslint/no-mixed-enums': 'error',
+      '@typescript-eslint/prefer-reduce-type-parameter': 'error',
+      '@typescript-eslint/prefer-return-this-type': 'error',
+
+      // Cherry-picked rules from typescript-eslint's "stylistic" ruleset.
+      // ================================================================-
+      '@typescript-eslint/array-type': 'error',
+      '@typescript-eslint/consistent-generic-constructors': 'error',
+      '@typescript-eslint/no-confusing-non-null-assertion': 'error',
+      '@typescript-eslint/prefer-for-of': 'error',
+      '@typescript-eslint/prefer-function-type': 'error',
+
+      // Cherry-picked rules from typescript-eslint's "stylisticTypeChecked"
+      // ruleset.
+      // ==================================================================-
+      'dot-notation': 'off',
+      '@typescript-eslint/dot-notation': 'error',
+      '@typescript-eslint/non-nullable-type-assertion-style': 'error',
+      '@typescript-eslint/prefer-includes': 'error',
+      '@typescript-eslint/prefer-nullish-coalescing': 'error',
+      '@typescript-eslint/prefer-optional-chain': 'error',
+      '@typescript-eslint/prefer-string-starts-ends-with': 'error',
     },
   },
 );

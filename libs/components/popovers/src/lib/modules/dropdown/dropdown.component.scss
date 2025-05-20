@@ -31,6 +31,9 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-dropdown-button-type-tab') {
+  --sky-override-dropdown-button-type-tab-box-shadow-focus: var(
+    --sky-elevation-focus
+  );
   --sky-override-tab-button-radius: 0;
   --sky-override-tab-line-height: 1.8;
   --sky-override-tab-selected-background-color: var(--modern-color-transparent);
@@ -153,7 +156,10 @@
       outline: solid var(--sky-border-width-selected-m)
         var(--sky-color-border-selected);
       outline-offset: calc(var(--sky-border-width-selected-m) * -1);
-      box-shadow: var(--sky-elevation-focus);
+      box-shadow: var(
+        --sky-override-dropdown-button-type-tab-box-shadow-focus,
+        none
+      );
     }
   }
 

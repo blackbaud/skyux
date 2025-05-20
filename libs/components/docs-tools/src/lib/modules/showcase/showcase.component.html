@@ -1,5 +1,10 @@
 @let group = docsGroup();
 <sky-tabset permalinkId="docs">
+  @if (highlightContent()) {
+    <sky-tab [tabHeading]="highlightContent()?.headingText()">
+      <ng-container [ngTemplateOutlet]="highlightContentRef" />
+    </sky-tab>
+  }
   @if (overviewContent()) {
     <sky-tab tabHeading="Design">
       <ng-container [ngTemplateOutlet]="overviewContentRef" />
@@ -33,6 +38,9 @@
     </sky-tab>
   }
 </sky-tabset>
+<ng-template #highlightContentRef>
+  <ng-content select="sky-docs-showcase-area-highlight" />
+</ng-template>
 <ng-template #overviewContentRef>
   <ng-content select="sky-docs-showcase-area-overview" />
 </ng-template>

@@ -1,5 +1,36 @@
 # Changelog
 
+## [12.13.2](https://github.com/blackbaud/skyux/compare/12.13.1...12.13.2) (2025-05-19)
+
+
+### Bug Fixes
+
+* **sdk/skyux-eslint:** apply `no-sky-selectors` rule to plugin ([#3460](https://github.com/blackbaud/skyux/issues/3460)) ([cd5184a](https://github.com/blackbaud/skyux/commit/cd5184ad78de320b908b833805684f72dce3cee3))
+
+## [12.13.1](https://github.com/blackbaud/skyux/compare/12.13.0...12.13.1) (2025-05-19)
+
+
+### Bug Fixes
+
+* **components/colorpicker:** checkered background properly displays on non-transparent parent backgrounds ([#3456](https://github.com/blackbaud/skyux/issues/3456)) ([c84abcb](https://github.com/blackbaud/skyux/commit/c84abcbe3193e6eb0523b4d0e08b508cafc437cb))
+* **sdk/skyux-eslint:** add `no-sky-selectors` rule ([#3458](https://github.com/blackbaud/skyux/issues/3458)) ([15e009b](https://github.com/blackbaud/skyux/commit/15e009b9ce50d2148ab61c161904921b14019a0e))
+
+## [12.13.0](https://github.com/blackbaud/skyux/compare/12.12.1...12.13.0) (2025-05-15)
+
+
+### Features
+
+* **components/docs-tools:** add showcase highlight component ([#3454](https://github.com/blackbaud/skyux/issues/3454)) ([ed1a5f6](https://github.com/blackbaud/skyux/commit/ed1a5f6e079c4edaae09f522779d4b81044c9f7c))
+* **components/navbar:** tokenize navbar styles ([#3447](https://github.com/blackbaud/skyux/issues/3447)) ([01ffd32](https://github.com/blackbaud/skyux/commit/01ffd326ad448c6260e55c9d136f64e3c29f6b45))
+* **components/progress-indicator:** tokenize passive and waterfall progress indicator styles ([#3451](https://github.com/blackbaud/skyux/issues/3451)) ([57e06be](https://github.com/blackbaud/skyux/commit/57e06bea6846c986cc96d3533dbfe43a9a0eb2a7))
+
+
+### Bug Fixes
+
+* **components/docs-tools:** add `provideRouter` in `main.ts` ([#3449](https://github.com/blackbaud/skyux/issues/3449)) ([31d2a2c](https://github.com/blackbaud/skyux/commit/31d2a2c991030f19de3e4da3c1ad98be062a6a7e))
+* **components/lookup:** search component automatically focuses on expanding in mobile view ([#3450](https://github.com/blackbaud/skyux/issues/3450)) ([f67be52](https://github.com/blackbaud/skyux/commit/f67be529824f818ecabab43f96d9b5a98da98921))
+* **sdk/eslint-config-skyux:** add missing rules from legacy "recommended" config ([#3455](https://github.com/blackbaud/skyux/issues/3455)) ([ae3b837](https://github.com/blackbaud/skyux/commit/ae3b837f6c57b3c0776aa89ac08e5687d2061bb7))
+
 ## [12.12.1](https://github.com/blackbaud/skyux/compare/12.12.0...12.12.1) (2025-05-09)
 
 

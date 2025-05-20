@@ -102,7 +102,7 @@ describe('Search component', () => {
     };
     inputEvent.initEvent('input', params.bubbles, params.cancelable);
 
-    const inputEl = element.query(By.css('input'));
+    const inputEl = getInput();
     inputEl.nativeElement.value = text;
 
     inputEl.nativeElement.dispatchEvent(inputEvent);
@@ -110,7 +110,7 @@ describe('Search component', () => {
   }
 
   function triggerInputEnter(): void {
-    const inputEl = element.query(By.css('input'));
+    const inputEl = getInput();
     inputEl.triggerEventHandler('keyup', { which: 13, code: 'Enter' });
     fixture.detectChanges();
   }
@@ -220,7 +220,7 @@ describe('Search component', () => {
 
     it('should apply search text on enter press', () => {
       setInput('my search text');
-      const inputEl = element.query(By.css('input'));
+      const inputEl = getInput();
 
       inputEl.triggerEventHandler('keyup', { which: 23 });
       fixture.detectChanges();
@@ -259,17 +259,13 @@ describe('Search component', () => {
     it('should set default placeholder text when none is specified', () => {
       fixture.detectChanges();
 
-      expect(element.query(By.css('input')).attributes['placeholder']).toBe(
-        'Find in this list',
-      );
+      expect(getInput().attributes['placeholder']).toBe('Find in this list');
     });
 
     it('should override default placeholder text when placeholder text is provided', () => {
       component.placeholderText = 'hey ya';
       fixture.detectChanges();
-      expect(element.query(By.css('input')).attributes['placeholder']).toBe(
-        'hey ya',
-      );
+      expect(getInput().attributes['placeholder']).toBe('hey ya');
     });
 
     it('should show the clear button when search is applied', () => {
@@ -431,6 +427,16 @@ describe('Search component', () => {
       expect(component.lastSearchTextChanged).toBe('debounce this please 3');
     }));
 
+    it('should set focus when opening the search input', async () => {
+      await triggerXsBreakpoint();
+      fixture.detectChanges();
+      await triggerOpenButton();
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const inputEl = getInput();
+      expect(document.activeElement).toBe(inputEl.nativeElement);
+    });
+
     describe('animations', () => {
       describe('should animate the mobile search input open', () => {
         it('when the open button is pressed', async () => {
@@ -463,9 +469,7 @@ describe('Search component', () => {
           fixture.detectChanges();
           await fixture.whenStable();
           verifySearchOpenMobile();
-          expect(element.query(By.css('input')).properties['value']).toBe(
-            'my search text',
-          );
+          expect(getInput().properties['value']).toBe('my search text');
         });
       });
 

@@ -15,8 +15,7 @@
             class="sky-progress-indicator-item-heading"
             role="heading"
             [ngClass]="{
-              'sky-deemphasized': statusName === 'pending',
-              'sky-margin-inline-xs': !!helpPopoverContent
+              'sky-font-deemphasized': statusName === 'pending'
             }"
             [skyThemeClass]="{
               'sky-font-display-3': 'modern'
@@ -30,12 +29,14 @@
             }
           </span>
           @if (helpKey || helpPopoverContent) {
-            <sky-help-inline
-              [helpKey]="helpKey"
-              [labelText]="title"
-              [popoverTitle]="helpPopoverTitle"
-              [popoverContent]="helpPopoverContent"
-            />
+            <span class="sky-control-help-container">
+              <sky-help-inline
+                [helpKey]="helpKey"
+                [labelText]="title"
+                [popoverTitle]="helpPopoverTitle"
+                [popoverContent]="helpPopoverContent"
+              />
+            </span>
           }
         </div>
       }

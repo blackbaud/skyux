@@ -40,11 +40,7 @@
           role="listbox"
           [attr.aria-labelledby]="ariaLabelledBy"
         >
-          @for (
-            result of searchResults;
-            track result.elementId;
-            let i = $index
-          ) {
+          @for (result of searchResults; track result.data; let i = $index) {
             @if (
               (!searchResultsLimit || i < searchResultsLimit) &&
               !(enableShowMore && i >= 5)
