@@ -30,6 +30,7 @@ function getResourceValue(
 
 /**
  * Handles retrieval of string resources for remote modules.
+ * @experimental
  */
 @Injectable()
 export class SkyRemoteModulesResourcesService {

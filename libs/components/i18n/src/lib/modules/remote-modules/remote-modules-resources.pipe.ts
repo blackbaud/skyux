@@ -10,7 +10,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyRemoteModulesResourcesService } from './remote-modules-resources.service';
 
 /**
- *
+ * Displays resource strings within Angular component templates.
+ * @experimental
  */
 @Pipe({
   name: 'skyRemoteModulesResources',
