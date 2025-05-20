@@ -82,8 +82,6 @@ export function getTextContent(el: TmplAstElement): string {
       text += child.value.trim();
     } else if (child instanceof TmplAstBoundText) {
       text += child.sourceSpan.toString().trim();
-    } else if (child instanceof TmplAstElement) {
-      text += getTextContent(child);
     }
   });
 
