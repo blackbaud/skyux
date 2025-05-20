@@ -1,5 +1,5 @@
 import {
-  type TmplAstElement,
+  TmplAstElement,
   type TmplAstTextAttribute,
 } from '@angular-eslint/bundled-angular-compiler';
 import {
@@ -103,7 +103,7 @@ function removeFormControlClass(
         ]),
       );
     } else {
-      const index = classnames.indexOf('sky-form-control');
+      const index = classnames.indexOf(FORM_CONTROL_CLASS);
       const classLength = FORM_CONTROL_CLASS.length;
 
       /* istanbul ignore else: safety check */
@@ -112,7 +112,7 @@ function removeFormControlClass(
         let classEnd = classStart + classLength;
 
         // Account for multiple classes in the "class" attribute, and remove extra
-        // space characters.
+        // whitespace.
         if (classnames.at(index - 1) === ' ') {
           classStart--;
         } else if (classnames.at(index + classLength) === ' ') {
@@ -125,41 +125,6 @@ function removeFormControlClass(
   }
 
   return fixes;
-}
-
-/**
- * Removes the "skyId" directive from <sky-input-box /> input elements to
- * satisfy the input box's input directive selector.
- * See: https://github.com/blackbaud/skyux/blob/040e461a50cb3d08ff8f7332dba350b7e97c5fd8/libs/components/forms/src/lib/modules/input-box/input-box-control.directive.ts#L11
- */
-function removeSkyIdAttributes(
-  fixer: RuleFixer,
-  inputEl: TmplAstElement,
-): RuleFix[] {
-  const fixers: RuleFix[] = [];
-  const skyIdAttr = getAttributeByName(inputEl, 'skyId');
-
-  if (skyIdAttr) {
-    fixers.push(
-      fixer.removeRange([
-        skyIdAttr.sourceSpan.start.offset,
-        skyIdAttr.sourceSpan.end.offset,
-      ]),
-    );
-
-    for (const ref of inputEl.references) {
-      if (ref.value === 'skyId') {
-        fixers.push(
-          fixer.removeRange([
-            ref.sourceSpan.start.offset,
-            ref.sourceSpan.end.offset,
-          ]),
-        );
-      }
-    }
-  }
-
-  return fixers;
 }
 
 export const rule = createESLintTemplateRule({
@@ -191,6 +156,21 @@ export const rule = createESLintTemplateRule({
         const inputEl = getChildNodeOf(el, ['input', 'select', 'textarea']);
 
         if (labelEl) {
+          // Abort if the `skyId` directive is used on a child input element of
+          // the `<sky-input-box />` component since its inclusion usually means
+          // that the user wishes to use "hard mode".
+          if (
+            el.name === 'sky-input-box' &&
+            inputEl &&
+            getAttributeByName(inputEl, 'skyId')
+          ) {
+            return;
+          }
+
+          const hasElementChildren = labelEl.children.some(
+            (child) => child instanceof TmplAstElement,
+          );
+
           context.report({
             loc: parserServices.convertNodeSourceSpanToLoc(el.sourceSpan),
             messageId,
@@ -199,34 +179,36 @@ export const rule = createESLintTemplateRule({
               labelInputName,
               labelSelector,
             },
-            fix: (fixer) => {
-              const textContent = getTextContent(labelEl);
-              const textReplacement = ` ${labelInputName}="${textContent}"`;
-              const range = [
-                el.startSourceSpan.end.offset - 1,
-                el.startSourceSpan.end.offset,
-              ] as const;
+            // Don't fix if the label includes child elements.
+            fix: hasElementChildren
+              ? undefined
+              : (fixer): RuleFix[] => {
+                  const textContent = getTextContent(labelEl);
+                  const textReplacement = ` ${labelInputName}="${textContent}"`;
+                  const range = [
+                    el.startSourceSpan.end.offset - 1,
+                    el.startSourceSpan.end.offset,
+                  ] as const;
 
-              const fixers = [
-                fixer.removeRange([
-                  labelEl.sourceSpan.start.offset,
-                  labelEl.sourceSpan.end.offset,
-                ]),
-              ];
+                  const fixers = [
+                    fixer.removeRange([
+                      labelEl.sourceSpan.start.offset,
+                      labelEl.sourceSpan.end.offset,
+                    ]),
+                  ];
 
-              if (!hasLabelText) {
-                fixers.push(
-                  fixer.insertTextBeforeRange(range, textReplacement),
-                );
-              }
+                  if (!hasLabelText) {
+                    fixers.push(
+                      fixer.insertTextBeforeRange(range, textReplacement),
+                    );
+                  }
 
-              if (el.name === 'sky-input-box' && inputEl) {
-                fixers.push(...removeFormControlClass(fixer, inputEl));
-                fixers.push(...removeSkyIdAttributes(fixer, inputEl));
-              }
+                  if (el.name === 'sky-input-box' && inputEl) {
+                    fixers.push(...removeFormControlClass(fixer, inputEl));
+                  }
 
-              return fixers;
-            },
+                  return fixers;
+                },
           });
         }
       },
