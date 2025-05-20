@@ -18,3 +18,7 @@ export { SkyAppResourceNameProvider } from './lib/modules/i18n/resource-name-pro
 export { SkyAppResources } from './lib/modules/i18n/resources';
 export { SkyAppResourcesPipe } from './lib/modules/i18n/resources.pipe';
 export { SkyAppResourcesService } from './lib/modules/i18n/resources.service';
+export { provideSkyRemoteModulesResources } from './lib/modules/remote-modules/provide-remote-modules-resources';
+export type { SkyRemoteModulesResources } from './lib/modules/remote-modules/remote-modules-resources';
+export { SkyRemoteModulesResourcesPipe } from './lib/modules/remote-modules/remote-modules-resources.pipe';
+export { SkyRemoteModulesResourcesService } from './lib/modules/remote-modules/remote-modules-resources.service';
