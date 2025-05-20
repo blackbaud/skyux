@@ -11,12 +11,19 @@
       @if (formErrors?.length > 0) {
         <div class="sky-summary-action-bar-errors sky-margin-stacked-lg">
           @for (formError of formErrors; track formError.message) {
-            <sky-status-indicator
-              descriptionType="error"
-              indicatorType="danger"
+            <div
+              [ngClass]="{
+                'sky-margin-stacked-sm':
+                  formErrors.indexOf(formError) < formErrors.length - 1
+              }"
             >
-              {{ formError.message }}
-            </sky-status-indicator>
+              <sky-status-indicator
+                descriptionType="error"
+                indicatorType="danger"
+              >
+                {{ formError.message }}
+              </sky-status-indicator>
+            </div>
           }
         </div>
       }

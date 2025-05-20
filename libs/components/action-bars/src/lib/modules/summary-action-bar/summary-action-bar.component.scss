@@ -122,6 +122,11 @@
   );
 }
 
+.sky-summary-action-bar-errors {
+  max-height: 100px;
+  overflow-y: auto;
+}
+
 .sky-summary-action-bar-details-expand,
 .sky-summary-action-bar-details-collapse {
   display: none;

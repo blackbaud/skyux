@@ -46,11 +46,15 @@ SummaryActionBarSingleError.args = {
   errors: [{ message: 'This is an error inside a SAB.' }],
 };
 
-export const SummaryActionBarMultipleErrors: Story = {};
-SummaryActionBarMultipleErrors.args = {
+export const SummaryActionBarOverflowErrors: Story = {};
+SummaryActionBarOverflowErrors.args = {
   errors: [
     { message: 'This is an error inside a SAB.' },
     { message: 'A different error.' },
+    { message: 'A different error.' },
+    { message: 'A different error.' },
+    { message: 'A different error.' },
+    { message: 'Overflow error.' },
   ],
 };
 
