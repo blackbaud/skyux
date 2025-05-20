@@ -44,6 +44,10 @@
 @include compatMixins.sky-modern-overrides('.sky-text-editor', false) {
   --sky-override-text-editor-background-color: var(--modern-color-white);
   --sky-override-text-editor-border-color: #{$sky-theme-modern-border-color-neutral-medium};
+  --sky-override-text-editor-box-shadow-focused:
+    inset 0 0 0 var(--sky-border-width-input-focus)
+      var(--sky-color-border-input-focus),
+    var(--sky-elevation-focus);
   --sky-override-text-editor-focus-shadow: #{$sky-theme-modern-elevation-1-shadow-size
     $sky-theme-modern-elevation-1-shadow-color};
   --sky-override-text-editor-label-padding: 10px 10px 0 10px;
@@ -197,8 +201,7 @@ sky-text-editor.sky-form-field-stacked {
       box-shadow: var(
         --sky-override-text-editor-box-shadow-focused,
         inset 0 0 0 var(--sky-border-width-input-focus)
-          var(--sky-color-border-input-focus),
-        var(--sky-override-text-editor-focus-shadow, var(--sky-elevation-focus))
+          var(--sky-color-border-input-focus)
       );
       border: var(--sky-override-text-editor-border-focused, none);
       outline: none;
