@@ -6,6 +6,7 @@
         "docsIds": [
           "SkySummaryActionBarModule",
           "SkySummaryActionBarComponent",
+          "SkySummaryActionBarError",
           "SkySummaryActionBarActionsComponent",
           "SkySummaryActionBarPrimaryActionComponent",
           "SkySummaryActionBarSecondaryActionsComponent",
