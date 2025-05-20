@@ -11,16 +11,16 @@ import {
  */
 export function getChildNodeOf(
   el: TmplAstElement,
-  childNodeName: string,
+  childNodeNames: string[],
 ): TmplAstElement | undefined {
   return el.children.find((child) => {
     if (child instanceof TmplAstElement) {
-      if (child.name === childNodeName) {
+      if (childNodeNames.includes(child.name)) {
         return true;
       }
 
       /* istanbul ignore next: safety check */
-      return getChildNodeOf(child, childNodeName);
+      return getChildNodeOf(child, childNodeNames);
     }
 
     return false;

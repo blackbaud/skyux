@@ -1,8 +1,15 @@
-import { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
+import {
+  type TmplAstElement,
+  type TmplAstTextAttribute,
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   ensureTemplateParser,
   getTemplateParserServices,
 } from '@angular-eslint/utils';
+import {
+  type RuleFix,
+  type RuleFixer,
+} from '@typescript-eslint/utils/ts-eslint';
 
 import { getChildNodeOf, getTextContent } from '../utils/ast-utils';
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
@@ -56,6 +63,105 @@ const SELECTORS_WITH_LABEL_COMPONENTS = COMPONENTS_WITH_LABEL_TEXT.map(
   (c) => c.selector,
 ).join('|');
 
+const FORM_CONTROL_CLASS = 'sky-form-control';
+
+function getAttributeByName(
+  el: TmplAstElement,
+  attrName: string,
+): TmplAstTextAttribute | undefined {
+  for (const attribute of el.attributes) {
+    if (attribute.name === attrName) {
+      return attribute;
+    }
+  }
+
+  return;
+}
+
+/**
+ * Removes the "sky-form-control" CSS class from <sky-input-box /> input elements
+ * to satisfy the input box's input directive selector.
+ * See: https://github.com/blackbaud/skyux/blob/040e461a50cb3d08ff8f7332dba350b7e97c5fd8/libs/components/forms/src/lib/modules/input-box/input-box-control.directive.ts#L11
+ */
+function removeFormControlClass(
+  fixer: RuleFixer,
+  inputEl: TmplAstElement,
+): RuleFix[] {
+  const fixes: RuleFix[] = [];
+
+  const classAttr = getAttributeByName(inputEl, 'class');
+
+  if (classAttr?.value.includes(FORM_CONTROL_CLASS)) {
+    const classnames = classAttr.value;
+
+    // Remove "class" attribute if it only contains the form control class.
+    if (classnames === FORM_CONTROL_CLASS) {
+      fixes.push(
+        fixer.removeRange([
+          classAttr.sourceSpan.start.offset,
+          classAttr.sourceSpan.end.offset,
+        ]),
+      );
+    } else {
+      const index = classnames.indexOf('sky-form-control');
+      const classLength = FORM_CONTROL_CLASS.length;
+
+      /* istanbul ignore else: safety check */
+      if (classAttr.valueSpan) {
+        let classStart = classAttr.valueSpan.start.offset + index;
+        let classEnd = classStart + classLength;
+
+        // Account for multiple classes in the "class" attribute, and remove extra
+        // space characters.
+        if (classnames.at(index - 1) === ' ') {
+          classStart--;
+        } else if (classnames.at(index + classLength) === ' ') {
+          classEnd++;
+        }
+
+        fixes.push(fixer.removeRange([classStart, classEnd]));
+      }
+    }
+  }
+
+  return fixes;
+}
+
+/**
+ * Removes the "skyId" directive from <sky-input-box /> input elements to
+ * satisfy the input box's input directive selector.
+ * See: https://github.com/blackbaud/skyux/blob/040e461a50cb3d08ff8f7332dba350b7e97c5fd8/libs/components/forms/src/lib/modules/input-box/input-box-control.directive.ts#L11
+ */
+function removeSkyIdAttributes(
+  fixer: RuleFixer,
+  inputEl: TmplAstElement,
+): RuleFix[] {
+  const fixers: RuleFix[] = [];
+  const skyIdAttr = getAttributeByName(inputEl, 'skyId');
+
+  if (skyIdAttr) {
+    fixers.push(
+      fixer.removeRange([
+        skyIdAttr.sourceSpan.start.offset,
+        skyIdAttr.sourceSpan.end.offset,
+      ]),
+    );
+
+    for (const ref of inputEl.references) {
+      if (ref.value === 'skyId') {
+        fixers.push(
+          fixer.removeRange([
+            ref.sourceSpan.start.offset,
+            ref.sourceSpan.end.offset,
+          ]),
+        );
+      }
+    }
+  }
+
+  return fixers;
+}
+
 export const rule = createESLintTemplateRule({
   create(context) {
     ensureTemplateParser(context);
@@ -81,7 +187,8 @@ export const rule = createESLintTemplateRule({
           el.inputs.some((i) => i.name === labelInputName) ||
           el.attributes.some((i) => i.name === labelInputName);
 
-        const labelEl = getChildNodeOf(el, labelSelector);
+        const labelEl = getChildNodeOf(el, [labelSelector]);
+        const inputEl = getChildNodeOf(el, ['input', 'select', 'textarea']);
 
         if (labelEl) {
           context.report({
@@ -111,6 +218,11 @@ export const rule = createESLintTemplateRule({
                 fixers.push(
                   fixer.insertTextBeforeRange(range, textReplacement),
                 );
+              }
+
+              if (el.name === 'sky-input-box' && inputEl) {
+                fixers.push(...removeFormControlClass(fixer, inputEl));
+                fixers.push(...removeSkyIdAttributes(fixer, inputEl));
               }
 
               return fixers;
