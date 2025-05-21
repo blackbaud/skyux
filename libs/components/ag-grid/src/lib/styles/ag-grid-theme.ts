@@ -44,7 +44,7 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
     'var(--sky-override-ag-grid-border-width, var(--sky-border-width-divider)) var(--sky-override-ag-grid-border-style, var(--sky-border-style-divider)) var(--sky-override-ag-grid-border-color, transparent)',
   headerColumnBorderHeight: '100%',
   headerColumnResizeHandleColor:
-    'var(--sky-override-ag-grid-header-resize-color, var(--sky-color-border-switch-base))',
+    'var(--sky-override-ag-grid-column-divider-color, var(--sky-color-border-column_divider))',
   headerColumnResizeHandleHeight:
     'var(--sky-override-ag-grid-header-resize-height, calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)))',
   headerColumnResizeHandleWidth:
@@ -93,7 +93,7 @@ const defaultsForDataEntryGrid = {
   rowBorder:
     'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-separator-row)) solid var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
   headerRowBorder:
-    'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-separator-row)) solid var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
+    'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-emphasized)) solid var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
 };
 
 const SkyAgGridDataGrid = themeQuartz

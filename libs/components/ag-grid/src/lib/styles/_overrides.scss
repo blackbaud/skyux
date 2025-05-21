@@ -41,7 +41,7 @@
   --sky-override-ag-grid-header-divider-width: 1px;
   --sky-override-ag-grid-header-height: 37px;
   --sky-override-ag-grid-header-icon-spacing: var(--sky-margin-inline-sm);
-  --sky-override-ag-grid-header-resize-color: var(
+  --sky-override-ag-grid-column-divider-color: var(
     --sky-border-color-neutral-medium
   );
   --sky-override-ag-grid-header-resize-height: 100%;
@@ -74,15 +74,20 @@
   --sky-override-ag-grid-cell-focus-horizontal-padding: 10px;
   --sky-override-ag-grid-cell-horizontal-padding: 12px;
   --sky-override-ag-grid-cell-padding-vertical: 16px;
-  --sky-override-ag-grid-emphasized-border-width: 2px;
+  --sky-override-ag-grid-column-divider-color: var(
+    --sky-border-color-neutral-medium-dark
+  );
   --sky-override-ag-grid-header-height: 60px;
   --sky-override-ag-grid-header-icon-spacing: 10px;
   --sky-override-ag-grid-header-resize-height: 16px;
   --sky-override-ag-grid-popup-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  --sky-override-ag-grid-resize-handle-color: #1870b8;
   --sky-override-ag-grid-row-height: 60px;
   --sky-override-ag-grid-row-selected-color: var(
     --sky-background-color-selected
   );
+  --sky-override-ag-grid-top-border: 2px solid transparent;
+  --sky-override-ag-grid-top-border-width-editable: 2px;
 
   // modern data entry grid overrides that apply to standard and compact modes
   &.ag-theme-sky-data-entry-grid-modern-light,
