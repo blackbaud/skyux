@@ -47,7 +47,7 @@ function getResources(
     const localeId = getLocaleIdFromFileName(file);
     const importName = `${localeId.toLocaleLowerCase().replace('-', '_')}_resources`;
 
-    resourcesImports += `import ${importName} from './assets/locales/${file}';`;
+    resourcesImports += `import ${importName} from '../assets/locales/${file}';`;
     resources += `\n  '${localeId}': ${importName},`;
   }
 
