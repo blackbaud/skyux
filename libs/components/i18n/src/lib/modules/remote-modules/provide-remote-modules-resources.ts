@@ -26,14 +26,7 @@ import { SkyRemoteModulesResourcesService } from './remote-modules-resources.ser
 export function provideSkyRemoteModulesResources(
   resources: Record<string, SkyRemoteModulesResources>,
 ): Provider[] {
-  return [
-    {
-      provide: SkyRemoteModulesResourcesService,
-      useFactory(): SkyRemoteModulesResourcesService {
-        SkyRemoteModulesResourcesService.addResources(resources);
+  SkyRemoteModulesResourcesService.addResources(resources);
 
-        return new SkyRemoteModulesResourcesService();
-      },
-    },
-  ];
+  return [SkyRemoteModulesResourcesService];
 }
