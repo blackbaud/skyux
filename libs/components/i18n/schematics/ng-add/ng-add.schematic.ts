@@ -5,7 +5,7 @@ import {
   addPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 
-import { SkyuxVersions } from '../shared/skyux-versions';
+import { getSkyuxVersion } from '../utility/get-skyux-version';
 import { readRequiredFile } from '../utility/tree';
 
 function addPackageJsonScript(): Rule {
@@ -28,7 +28,7 @@ export default function ngAdd(): Rule {
     addPackageJsonDependency(tree, {
       type: NodeDependencyType.Default,
       name: '@skyux/assets',
-      version: SkyuxVersions.Assets,
+      version: getSkyuxVersion(),
       overwrite: true,
     });
 

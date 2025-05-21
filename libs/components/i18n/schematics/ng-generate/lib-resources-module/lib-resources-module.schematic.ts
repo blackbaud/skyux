@@ -14,25 +14,13 @@ import {
 
 import path from 'path';
 
-import { SkyuxVersions } from '../../shared/skyux-versions';
+import { getLocaleIdFromFileName } from '../../utility/get-locale-id-from-file-name';
+import { getSkyuxVersion } from '../../utility/get-skyux-version';
 import { readRequiredFile } from '../../utility/tree';
 import { getProject, getWorkspace } from '../../utility/workspace';
 
 import { Schema } from './schema';
 import { TemplateContext } from './template-context';
-
-/**
- * Standardize keys to be uppercase, due to some language limitations
- * with lowercase characters.
- * See: https://stackoverflow.com/questions/234591/upper-vs-lower-case
- */
-function parseLocaleIdFromFileName(fileName: string): string {
-  return fileName
-    .split('.json')[0]
-    .split('resources_')[1]
-    .toLocaleUpperCase()
-    .replace('_', '-');
-}
 
 function getResources(tree: Tree, project: ProjectDefinition): string {
   let resourcesVar = 'const RESOURCES: Record<string, SkyLibResources> = {';
@@ -41,7 +29,7 @@ function getResources(tree: Tree, project: ProjectDefinition): string {
   const localesDir = tree.getDir(localesPath);
 
   localesDir.subfiles.forEach((file) => {
-    const localeId = parseLocaleIdFromFileName(file);
+    const localeId = getLocaleIdFromFileName(file);
     const contents = JSON.parse(
       readRequiredFile(tree, `${localesPath}/${file}`),
     );
@@ -70,7 +58,7 @@ function addI18nPeerDependency(project: ProjectDefinition): Rule {
     packageJson.peerDependencies = packageJson.peerDependencies || {};
 
     if (!packageJson.peerDependencies['@skyux/i18n']) {
-      packageJson.peerDependencies['@skyux/i18n'] = SkyuxVersions.I18n;
+      packageJson.peerDependencies['@skyux/i18n'] = `^${getSkyuxVersion()}`;
       tree.overwrite(
         packageJsonPath,
         JSON.stringify(packageJson, undefined, 2),

@@ -9,6 +9,11 @@
       "description": "Generate library resources module",
       "factory": "./ng-generate/lib-resources-module/lib-resources-module.schematic",
       "schema": "./ng-generate/lib-resources-module/schema.json"
+    },
+    "remote-modules-resources-module": {
+      "description": "Generate resources module to be consumed by remote modules.",
+      "factory": "./ng-generate/remote-modules-resources-module/remote-modules-resources-module.schematic",
+      "schema": "./ng-generate/remote-modules-resources-module/schema.json"
     }
   }
 }

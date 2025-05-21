@@ -23,7 +23,7 @@ describe('lib-resources-module.schematic', () => {
 
   beforeEach(async () => {
     tree = await createTestLibrary(runner, {
-      name: defaultProjectName,
+      projectName: defaultProjectName,
     });
 
     // Create a default resources file.
@@ -176,7 +176,9 @@ export class FoobarResourcesModule {}
       readRequiredFile(updatedTree, packageJsonPath),
     );
 
-    expect(packageJsonContents.peerDependencies['@skyux/i18n']).toEqual('^7');
+    expect(packageJsonContents.peerDependencies['@skyux/i18n']).toEqual(
+      '^0.0.0-PLACEHOLDER',
+    );
   });
 
   it('should not add `@skyux/i18n` as a peer dependency if already exists', async () => {
@@ -203,7 +205,7 @@ export class FoobarResourcesModule {}
 
   it('should abort for application projects', async () => {
     const app = await createTestApp(runner, {
-      defaultProjectName: 'foo-app',
+      projectName: 'foo-app',
     });
 
     await runner.runSchematic(

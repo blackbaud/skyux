@@ -19,7 +19,7 @@ describe('ng-add.schematic', () => {
     runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
 
     tree = await createTestLibrary(runner, {
-      name: defaultProjectName,
+      projectName: defaultProjectName,
     });
   });
 
@@ -47,7 +47,7 @@ describe('ng-add.schematic', () => {
     const packageJson = readPackageJson(updatedTree);
     expect(packageJson.dependencies).toEqual(
       jasmine.objectContaining({
-        '@skyux/assets': '^7',
+        '@skyux/assets': '0.0.0-PLACEHOLDER',
       }),
     );
   });
