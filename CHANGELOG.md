@@ -1,5 +1,25 @@
 # Changelog
 
+## [12.14.0](https://github.com/blackbaud/skyux/compare/12.13.2...12.14.0) (2025-05-21)
+
+
+### Features
+
+* **components/theme:** update `@skyux/icons` to 8.0.0 ([#3465](https://github.com/blackbaud/skyux/issues/3465)) ([73128fd](https://github.com/blackbaud/skyux/commit/73128fd1ac4f959629340fb06c30a3706b7307a9))
+
+
+### Bug Fixes
+
+* **components/lookup:** adjust item tracking in template ([#3464](https://github.com/blackbaud/skyux/issues/3464)) ([3d5e85a](https://github.com/blackbaud/skyux/commit/3d5e85a442bdd3ae397f443804651acd1686c4d5))
+* remove focus elevation from modern v2 styles ([#3453](https://github.com/blackbaud/skyux/issues/3453)) ([08085ca](https://github.com/blackbaud/skyux/commit/08085cae2a116eed9863f8276064fd1469ba1932))
+
+## [12.13.2](https://github.com/blackbaud/skyux/compare/12.13.1...12.13.2) (2025-05-19)
+
+
+### Bug Fixes
+
+* **sdk/skyux-eslint:** apply `no-sky-selectors` rule to plugin ([#3460](https://github.com/blackbaud/skyux/issues/3460)) ([cd5184a](https://github.com/blackbaud/skyux/commit/cd5184ad78de320b908b833805684f72dce3cee3))
+
 ## [12.13.1](https://github.com/blackbaud/skyux/compare/12.13.0...12.13.1) (2025-05-19)
 
 
