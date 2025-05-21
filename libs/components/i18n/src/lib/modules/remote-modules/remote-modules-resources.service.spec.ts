@@ -8,13 +8,10 @@ import { SkyAppLocaleProvider } from '../i18n/locale-provider';
 import { SkyRemoteModulesResourcesService } from './remote-modules-resources.service';
 
 describe('remote-modules-resources.service', () => {
-  // let localeProviderSubject: ReplaySubject<SkyAppLocaleInfo>;
-
   function setupTest(options: { localeInfo: SkyAppLocaleInfo }): {
     svc: SkyRemoteModulesResourcesService;
   } {
     const { localeInfo } = options;
-    // localeProviderSubject = new ReplaySubject(1);
 
     TestBed.configureTestingModule({
       providers: [

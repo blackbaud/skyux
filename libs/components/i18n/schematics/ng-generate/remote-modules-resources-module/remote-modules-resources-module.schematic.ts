@@ -40,6 +40,7 @@ function getResources(
 
   let resources =
     'const RESOURCES: Record<string, SkyRemoteModulesResources> = {';
+
   let resourcesImports = '';
 
   for (const file of files) {
