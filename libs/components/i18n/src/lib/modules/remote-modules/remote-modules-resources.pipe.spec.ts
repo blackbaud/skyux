@@ -84,4 +84,10 @@ describe('remote-modules-resources.pipe', () => {
 
     expect(svcSpy).toHaveBeenCalledTimes(3);
   });
+
+  it('should return an empty string for unsupported types', () => {
+    const pipe = TestBed.inject(SkyRemoteModulesResourcesPipe);
+
+    expect(pipe.transform(123)).toEqual('');
+  });
 });

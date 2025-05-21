@@ -52,6 +52,10 @@ export class SkyRemoteModulesResourcesService {
     }
   }
 
+  public static clearResources(): void {
+    SkyRemoteModulesResourcesService.resources = {};
+  }
+
   public getString(
     resourceName: string,
     ...args: unknown[]
@@ -63,9 +67,9 @@ export class SkyRemoteModulesResourcesService {
       of(resourceName);
 
     return forkJoin([localeInfoObs, mappedNameObs]).pipe(
-      map(([localeInfo, mappedName]) =>
-        this.#getStringForLocale(localeInfo, mappedName, ...args),
-      ),
+      map(([localeInfo, mappedName]) => {
+        return this.#getStringForLocale(localeInfo, mappedName, ...args);
+      }),
     );
   }
 
