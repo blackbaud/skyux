@@ -65,6 +65,7 @@ describe('remote-modules-resources-module.schematic', () => {
 import { NgModule } from '@angular/core';
 import {
   type SkyRemoteModulesResources,
+  SkyRemoteModulesResourcesPipe,
   provideSkyRemoteModulesResources,
 } from '@skyux/i18n';
 
@@ -78,6 +79,8 @@ const RESOURCES: Record<string, SkyRemoteModulesResources> = {
  * Import into a remote module or component that references resource strings.
  */
 @NgModule({
+  imports: [SkyRemoteModulesResourcesPipe],
+  exports: [SkyRemoteModulesResourcesPipe],
   providers: [provideSkyRemoteModulesResources(RESOURCES)],
 })
 export class RemoteModulesResourcesModule {}
