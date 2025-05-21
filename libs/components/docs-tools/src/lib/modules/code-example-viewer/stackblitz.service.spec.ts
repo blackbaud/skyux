@@ -341,7 +341,7 @@ export class ExampleHelpService extends SkyHelpService {
       https://github.com/stackblitz/core/issues/133
     -->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://sky.blackbaudcdn.net/static/skyux-icons/7.10.0/assets/css/skyux-icons.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://sky.blackbaudcdn.net/static/skyux-icons/8.0.0/assets/css/skyux-icons.min.css" crossorigin="anonymous">
   </head>
   <body>
     <foo-example></foo-example>
