@@ -28,6 +28,7 @@ module.exports = tsEslint.config(
       '@typescript-eslint/no-deprecated': 'warn',
       'no-alert': 'warn',
       'no-console': 'warn',
+      'skyux-eslint/no-sky-selectors': 'off',
     },
   },
   {
