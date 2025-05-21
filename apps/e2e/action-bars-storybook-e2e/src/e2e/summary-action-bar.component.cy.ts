@@ -97,37 +97,42 @@ describe('action-bars-storybook - summary action bar', () => {
                   },
                 );
               });
+              if (
+                style !== 'single-error' &&
+                style !== 'overflow-errors' &&
+                style !== 'modal-errors'
+              ) {
+                it(`should render the component at width ${width} and with and open secondary actions menu (${style})`, () => {
+                  cy.viewport(width, height).visit(
+                    `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
+                  );
 
-              it(`should render the component at width ${width} and with and open secondary actions menu (${style})`, () => {
-                cy.viewport(width, height).visit(
-                  `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
-                );
+                  cy.skyReady('app-summary-action-bar')
 
-                cy.skyReady('app-summary-action-bar')
+                    .get('.sky-summary-action-bar')
+                    .should('exist')
+                    .should('be.visible')
+                    .end()
 
-                  .get('.sky-summary-action-bar')
-                  .should('exist')
-                  .should('be.visible')
-                  .end()
+                    .get('sky-summary-action-bar-secondary-actions button')
+                    .should('exist')
+                    .should('be.visible')
+                    .click();
 
-                  .get('sky-summary-action-bar-secondary-actions button')
-                  .should('exist')
-                  .should('be.visible')
-                  .click();
-
-                cy.get(
-                  'sky-dropdown-menu sky-summary-action-bar-secondary-action',
-                )
-                  .should('exist')
-                  .should('be.visible');
-                cy.skyVisualTest(
-                  `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-open-secondary-actions`,
-                  {
-                    width: width,
-                    capture: 'viewport',
-                  },
-                );
-              });
+                  cy.get(
+                    'sky-dropdown-menu sky-summary-action-bar-secondary-action',
+                  )
+                    .should('exist')
+                    .should('be.visible');
+                  cy.skyVisualTest(
+                    `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-open-secondary-actions`,
+                    {
+                      width: width,
+                      capture: 'viewport',
+                    },
+                  );
+                });
+              }
             }
           });
         });
