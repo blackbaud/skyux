@@ -69,10 +69,10 @@ import {
   provideSkyRemoteModulesResources,
 } from '@skyux/i18n';
 
-import en_us_resources from '../assets/locales/resources_en_US.json';
+import EN_US_resources from '../assets/locales/resources_en_US.json';
 
 const RESOURCES: Record<string, SkyRemoteModulesResources> = {
-  'EN-US': en_us_resources,
+  'EN-US': EN_US_resources,
 };
 
 /**
