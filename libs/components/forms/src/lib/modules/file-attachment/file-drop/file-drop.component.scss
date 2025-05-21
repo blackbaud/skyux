@@ -34,7 +34,6 @@
     solid 1px;
   --sky-override-file-drop-upload-contents-focus-border: #{$sky-border-color-neutral-medium}
     solid 1px;
-  --sky-override-file-drop-upload-contents-focus-box-shadow: none;
   --sky-override-file-drop-upload-contents-hover-border: #{$sky-border-color-neutral-medium}
     solid 1px;
   --sky-override-file-upload-icon-color: #{$sky-text-color-deemphasized};
@@ -81,9 +80,6 @@
       --modern-color-gray-20
     )
     solid var(--modern-size-1);
-  --sky-override-file-drop-upload-contents-focus-box-shadow: var(
-    --modern-shadow-size-0
-  );
   --sky-override-file-drop-upload-contents-hover-border: var(
       --modern-color-gray-20
     )
@@ -219,10 +215,6 @@ button.sky-file-drop {
         --sky-override-file-drop-upload-contents-focus-border,
         var(--sky-border-width-input-focus) solid
           var(--sky-color-border-input-focus)
-      );
-      box-shadow: var(
-        --sky-override-file-drop-upload-contents-focus-box-shadow,
-        var(--sky-elevation-focus)
       );
     }
   }
