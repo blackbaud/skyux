@@ -24,11 +24,26 @@ module.exports = tsEslint.config(
       ...skyuxPlugin.configs.tsAll,
     ],
     rules: {
+      '@angular-eslint/directive-selector': [
+        'error',
+        {
+          type: 'attribute',
+          prefix: 'app',
+          style: 'camelCase',
+        },
+      ],
+      '@angular-eslint/component-selector': [
+        'error',
+        {
+          type: 'element',
+          prefix: 'app',
+          style: 'kebab-case',
+        },
+      ],
       '@nx/enforce-module-boundaries': 'warn',
       '@typescript-eslint/no-deprecated': 'warn',
       'no-alert': 'warn',
       'no-console': 'warn',
-      'skyux-eslint/no-sky-selectors': 'off',
     },
   },
   {
