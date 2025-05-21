@@ -14,7 +14,6 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
     'var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
   borderRadius:
     'var(--sky-override-ag-grid-border-radius, var(--sky-border-radius-s))',
-  // TO DO: come back to this
   cardShadow: 'none',
   cellHorizontalPadding:
     'var(--sky-override-ag-grid-cell-horizontal-padding, var(--sky-space-inset-letterbox-2_3-left-m))',
@@ -86,7 +85,6 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
 };
 
 const defaultsForDataEntryGrid = {
-  // TO DO: tokens for solid
   columnBorder:
     'var(--sky-override-ag-grid-column-border, var(--sky-border-width-separator-row) solid var(--sky-color-border-separator-row))',
   popupShadow: 'none',
