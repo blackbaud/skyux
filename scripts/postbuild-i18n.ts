@@ -6,31 +6,13 @@ import { runCommand } from './utils/spawn';
 const CWD = process.cwd();
 const LIB_PATH = path.resolve(CWD, 'libs/components/i18n');
 
-async function buildSchematics() {
+async function buildSchematics(): Promise<void> {
   console.log('Building @skyux/i18n schematics...');
 
   await runCommand(path.resolve(CWD, 'node_modules/.bin/tsc'), [
     '--project',
     'libs/components/i18n/tsconfig.schematics.json',
   ]);
-
-  // Copy collection.json.
-  fs.copySync(
-    path.join(LIB_PATH, 'schematics/collection.json'),
-    path.join(CWD, 'dist/libs/components/i18n/schematics/collection.json'),
-  );
-
-  // Copy schemas.
-  fs.copySync(
-    path.join(
-      LIB_PATH,
-      'schematics/ng-generate/lib-resources-module/schema.json',
-    ),
-    path.join(
-      CWD,
-      'dist/libs/components/i18n/schematics/ng-generate/lib-resources-module/schema.json',
-    ),
-  );
 
   // Copy template files.
   fs.copySync(
@@ -40,11 +22,21 @@ async function buildSchematics() {
       'dist/libs/components/i18n/schematics/ng-generate/lib-resources-module/files',
     ),
   );
+  fs.copySync(
+    path.join(
+      LIB_PATH,
+      'schematics/ng-generate/remote-modules-resources-module/files',
+    ),
+    path.join(
+      CWD,
+      'dist/libs/components/i18n/schematics/ng-generate/remote-modules-resources-module/files',
+    ),
+  );
 
   console.log('Done.');
 }
 
-async function postbuildI18n() {
+async function postbuildI18n(): Promise<void> {
   try {
     await buildSchematics();
   } catch (err) {
@@ -53,4 +45,4 @@ async function postbuildI18n() {
   }
 }
 
-postbuildI18n();
+void postbuildI18n();

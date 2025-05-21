@@ -24,7 +24,10 @@ interface TemplateConfig {
 }
 
 function getRemoteModulesRoot(project: ProjectDefinition): string {
-  return join(normalize(project.root), 'remote-modules');
+  return join(
+    normalize(project.sourceRoot ?? `${project.root}/src`),
+    'remote-modules',
+  );
 }
 
 function getResources(
@@ -41,9 +44,9 @@ function getResources(
 
   for (const file of files) {
     const localeId = getLocaleIdFromFileName(file);
-    const importName = `${localeId.replace('-', '_')}_resources`;
+    const importName = `${localeId.toLocaleLowerCase().replace('-', '_')}_resources`;
 
-    resourcesImports += `import ${importName} from './assets/locales/';`;
+    resourcesImports += `import ${importName} from './assets/locales/${file}';`;
     resources += `\n  '${localeId}': ${importName},`;
   }
 
