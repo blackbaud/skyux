@@ -1,3 +1,4 @@
+import { SchematicsException } from '@angular-devkit/schematics';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -81,5 +82,62 @@ const RESOURCES: Record<string, SkyRemoteModulesResources> = {
 })
 export class RemoteModulesResourcesModule {}
 `);
+  });
+
+  it('should throw if project name not provided', async () => {
+    const { runSchematic } = await setup({ projectType: 'application' });
+
+    await expectAsync(
+      runSchematic({
+        project: undefined,
+      }),
+    ).toBeRejectedWith(new SchematicsException('A project name is required.'));
+  });
+
+  it('should throw for library projects', async () => {
+    const { runSchematic } = await setup({ projectType: 'library' });
+
+    await expectAsync(
+      runSchematic({
+        project: 'foo',
+      }),
+    ).toBeRejectedWith(
+      new SchematicsException(
+        'The project "foo" is not of type "application". Aborting.',
+      ),
+    );
+  });
+
+  it('should generate resources module', async () => {
+    const { runSchematic, tree } = await setup({ projectType: 'application' });
+
+    const defaultResourcesPath =
+      '/src/remote-modules/assets/locales/resources_en_US.json';
+
+    tree.create(defaultResourcesPath, '{ foo: true; }');
+
+    const updatedTree = await runSchematic({
+      project: 'foo',
+    });
+
+    expect(updatedTree.readText(defaultResourcesPath)).toEqual(
+      '{ foo: true; }',
+    );
+  });
+
+  it('should use "src" if sourceRoot undefined', async () => {
+    const { runSchematic, tree } = await setup({ projectType: 'application' });
+
+    const angularJson = JSON.parse(tree.readText('/angular.json'));
+    delete angularJson.projects['foo'].sourceRoot;
+    tree.overwrite('/angular.json', JSON.stringify(angularJson));
+
+    const updatedTree = await runSchematic({
+      project: 'foo',
+    });
+
+    expect(
+      updatedTree.exists('/src/remote-modules/shared/resources.module.ts'),
+    ).toEqual(true);
   });
 });

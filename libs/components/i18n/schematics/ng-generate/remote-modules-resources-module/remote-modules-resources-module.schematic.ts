@@ -90,7 +90,7 @@ export default function generateRemoteModulesResourcesModule(
 ): Rule {
   return async (tree) => {
     if (!options.project) {
-      throw new Error('A project name is required.');
+      throw new SchematicsException('A project name is required.');
     }
 
     const { workspace } = await getWorkspace(tree);
