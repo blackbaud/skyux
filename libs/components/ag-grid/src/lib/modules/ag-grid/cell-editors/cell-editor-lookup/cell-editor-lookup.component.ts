@@ -61,6 +61,7 @@ export class SkyAgGridCellEditorLookupComponent
   protected labelText: string | undefined = undefined;
 
   #lookupOpen = false;
+  #selectionModalOpen = false;
   #params: SkyCellEditorLookupParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
   #changeDetector = inject(ChangeDetectorRef);
@@ -187,6 +188,11 @@ export class SkyAgGridCellEditorLookupComponent
     this.#stopEditingOnBlur();
   }
 
+  public onSelectionModalOpenChange(isOpen: boolean): void {
+    this.#selectionModalOpen = isOpen;
+    this.#stopEditingOnBlur();
+  }
+
   #updateComponentProperties(
     params: SkyCellEditorLookupParams,
   ): SkyAgGridLookupProperties {
@@ -197,6 +203,7 @@ export class SkyAgGridCellEditorLookupComponent
   #stopEditingOnBlur(): void {
     if (
       !this.#lookupOpen &&
+      !this.#selectionModalOpen &&
       this.#params?.api.getGridOption('stopEditingWhenCellsLoseFocus') &&
       !this.#elementRef.nativeElement.matches(':focus-within')
     ) {
