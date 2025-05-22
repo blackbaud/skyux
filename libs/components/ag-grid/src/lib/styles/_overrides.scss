@@ -89,7 +89,7 @@
   --sky-override-ag-grid-top-border: 2px solid transparent;
   --sky-override-ag-grid-top-border-width-editable: 2px;
 
-  // modern data entry grid overrides that apply to standard and compact modes
+  // modern data entry grid overrides that apply to standard mode only
   &.ag-theme-sky-data-entry-grid-modern-light {
     --sky-override-ag-grid-background-color: #ffffff;
     --sky-override-ag-grid-header-resize-height: 100%;
