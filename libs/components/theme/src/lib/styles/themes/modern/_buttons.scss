@@ -80,10 +80,8 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-btn-tab', false) {
-  --sky-override-tab-box-shadow-focus-elevation: var(--sky-elevation-focus)
-    --sky-override-tab-selected-background-color: var(
-      --modern-color-transparent
-    );
+  --sky-override-tab-box-shadow-focus-elevation: var(--sky-elevation-focus);
+  --sky-override-tab-selected-background-color: var(--modern-color-transparent);
   --sky-override-tab-selected-border-bottom-size: var(--modern-size-3);
   --sky-override-tab-hover-border-bottom-color: var(--modern-color-blue-50);
   --sky-override-tab-disabled-background-color: var(--modern-color-transparent);
