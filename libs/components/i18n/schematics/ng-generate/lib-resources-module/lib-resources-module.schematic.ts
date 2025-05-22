@@ -48,7 +48,6 @@ function getResources(tree: Tree, project: ProjectDefinition): string {
   let resourcesVar = 'const RESOURCES: Record<string, SkyLibResources> = {';
 
   const sourceRoot = getLibrarySourceRoot(tree, project);
-
   const localesPath = normalize(`${sourceRoot}/assets/locales`);
   const localesDir = tree.getDir(localesPath);
 
@@ -94,7 +93,6 @@ function addI18nPeerDependency(project: ProjectDefinition): Rule {
 function ensureDefaultResourcesFileExists(project: ProjectDefinition): Rule {
   return (tree) => {
     const sourceRoot = getLibrarySourceRoot(tree, project);
-
     const defaultResourcePath = normalize(
       `${sourceRoot}/assets/locales/resources_en_US.json`,
     );
