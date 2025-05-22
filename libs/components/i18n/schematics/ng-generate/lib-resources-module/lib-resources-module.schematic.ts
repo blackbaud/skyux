@@ -1,4 +1,4 @@
-import { normalize, strings } from '@angular-devkit/core';
+import { Path, dirname, normalize, strings } from '@angular-devkit/core';
 import { ProjectDefinition } from '@angular-devkit/core/src/workspace';
 import {
   MergeStrategy,
@@ -34,10 +34,22 @@ function parseLocaleIdFromFileName(fileName: string): string {
     .replace('_', '-');
 }
 
+function getLibrarySourceRoot(tree: Tree, project: ProjectDefinition): Path {
+  const ngPackageJson = JSON.parse(
+    readRequiredFile(tree, normalize(`${project.root}/ng-package.json`)),
+  );
+
+  const entryPath = normalize(`${project.root}/${ngPackageJson.lib.entryFile}`);
+
+  return dirname(entryPath);
+}
+
 function getResources(tree: Tree, project: ProjectDefinition): string {
   let resourcesVar = 'const RESOURCES: Record<string, SkyLibResources> = {';
 
-  const localesPath = normalize(`${project.sourceRoot}/assets/locales`);
+  const sourceRoot = getLibrarySourceRoot(tree, project);
+
+  const localesPath = normalize(`${sourceRoot}/assets/locales`);
   const localesDir = tree.getDir(localesPath);
 
   localesDir.subfiles.forEach((file) => {
@@ -81,8 +93,10 @@ function addI18nPeerDependency(project: ProjectDefinition): Rule {
 
 function ensureDefaultResourcesFileExists(project: ProjectDefinition): Rule {
   return (tree) => {
+    const sourceRoot = getLibrarySourceRoot(tree, project);
+
     const defaultResourcePath = normalize(
-      `${project.sourceRoot}/assets/locales/resources_en_US.json`,
+      `${sourceRoot}/assets/locales/resources_en_US.json`,
     );
 
     if (tree.exists(defaultResourcePath)) {
@@ -115,8 +129,9 @@ function generateTemplateFiles(
   return (tree) => {
     const modulePath = options.name || '';
 
+    const sourceRoot = getLibrarySourceRoot(tree, project);
     const parsedPath = path.parse(options.name || '');
-    const movePath = normalize(project.sourceRoot + '/' + parsedPath.dir);
+    const movePath = normalize(`${sourceRoot}/${parsedPath.dir}`);
 
     const resources = getResources(tree, project);
 
