@@ -82,6 +82,9 @@ describe('Icon resolver service', () => {
               usage: [],
             },
           ],
+          additionalFluentIcons: [
+            'fluent-icon-1, fluent-icon-2, fluent-icon-3',
+          ],
           name: 'test',
         };
       },
