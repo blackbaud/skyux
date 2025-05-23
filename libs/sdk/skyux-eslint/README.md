@@ -1,21 +1,21 @@
-# skyux-eslint (Developer Preview)
+# skyux-eslint
 
-This library was generated with [Nx](https://nx.dev).
+## Install
 
-## Running unit tests
+```
+ng add skyux-eslint
+```
 
-Run `nx test skyux-eslint` to execute the unit tests via [Jest](https://jestjs.io).
-
-## Implement in eslint.config.js
+## Implement in eslint.config.mjs
 
 ```
 // @ts-check
-const eslint = require('@eslint/js');
-const angular = require('angular-eslint');
-const skyux = require('skyux-eslint');
-const tseslint = require('typescript-eslint');
+import eslint from '@eslint/js';
+import angular from 'angular-eslint';
+import skyux from 'skyux-eslint';
+import tseslint from 'typescript-eslint';
 
-module.exports = tseslint.config(
+export default tseslint.config(
   {
     files: ['**/*.ts'],
     extends: [

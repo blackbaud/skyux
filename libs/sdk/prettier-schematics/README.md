@@ -1,7 +1,4 @@
-# prettier-schematics
+# @skyux-sdk/prettier-schematics
 
-This library was generated with [Nx](https://nx.dev).
-
-## Running unit tests
-
-Run `nx test prettier-schematics` to execute the unit tests via [Jest](https://jestjs.io).
+> [! WARNING]
+> This package is deprecated. See the [`prettier`](https://prettier.io/docs/) and [`eslint-config-prettier`](https://github.com/prettier/eslint-config-prettier) documentation for installation instructions.
