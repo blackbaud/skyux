@@ -233,6 +233,12 @@ export class SkyLookupComponent
   @Output()
   public openChange = new EventEmitter<boolean>();
 
+  /**
+   * @internal
+   */
+  @Output()
+  public selectionModalOpenChange = new EventEmitter<boolean>();
+
   public get tokens(): SkyToken[] | undefined {
     return this.#_tokens;
   }
@@ -623,6 +629,7 @@ export class SkyLookupComponent
       });
     } else {
       const initialValue = this.#getValue();
+      this.selectionModalOpenChange.emit(true);
 
       if (this.#hasSearchAsync()) {
         this.#openSelectionModal =
@@ -636,6 +643,7 @@ export class SkyLookupComponent
               ? closeArgs.selectedItems
               : initialValue,
           );
+          this.selectionModalOpenChange.emit(false);
         });
       } else {
         this.#openNativePicker =
@@ -667,6 +675,7 @@ export class SkyLookupComponent
           }
 
           this.#processPickerResult(selectedItems);
+          this.selectionModalOpenChange.emit(false);
         });
 
         this.#changeDetector.markForCheck();

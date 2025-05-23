@@ -1,5 +1,22 @@
 # Changelog
 
+## [12.14.2](https://github.com/blackbaud/skyux/compare/12.14.1...12.14.2) (2025-05-23)
+
+
+### Bug Fixes
+
+* **components/i18n:** generate assets for library resources in the same directory as the entry point ([#3468](https://github.com/blackbaud/skyux/issues/3468)) ([3935e99](https://github.com/blackbaud/skyux/commit/3935e99a9855918e98e6df89ade85d7e855a6491))
+* **sdk/eslint-schematics:** remove ESLint dependencies from `ng-update` package group ([#3474](https://github.com/blackbaud/skyux/issues/3474)) ([db6b212](https://github.com/blackbaud/skyux/commit/db6b212a51bb2c205ef721221117f6c2821b2976))
+
+## [12.14.1](https://github.com/blackbaud/skyux/compare/12.14.0...12.14.1) (2025-05-22)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** lookup cell editor search button should open selection modal ([#3470](https://github.com/blackbaud/skyux/issues/3470)) ([82efc32](https://github.com/blackbaud/skyux/commit/82efc32d9d6f4a26c69c8839dad502fd9b41282a))
+* **components/theme:** fix improper custom property definition for tab background color ([#3471](https://github.com/blackbaud/skyux/issues/3471)) ([afea37b](https://github.com/blackbaud/skyux/commit/afea37bae00566a0c7f82f9605bdf29a5bb57ffb))
+* **sdk/skyux-eslint:** remove `.sky-form-control` classname from inputs when fixing `prefer-label-text` rule ([#3463](https://github.com/blackbaud/skyux/issues/3463)) ([960b41e](https://github.com/blackbaud/skyux/commit/960b41e1a59a6519c5074414ea97484294170741))
+
 ## [12.14.0](https://github.com/blackbaud/skyux/compare/12.13.2...12.14.0) (2025-05-21)
 
 
