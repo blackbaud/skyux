@@ -11,7 +11,8 @@
           "SkySummaryActionBarSecondaryActionsComponent",
           "SkySummaryActionBarSecondaryActionComponent",
           "SkySummaryActionBarCancelComponent",
-          "SkySummaryActionBarSummaryComponent"
+          "SkySummaryActionBarSummaryComponent",
+          "SkySummaryActionBarError"
         ],
         "primaryDocsId": "SkySummaryActionBarModule"
       },

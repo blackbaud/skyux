@@ -40,3 +40,29 @@ export const SummaryActionBarModalFullPage: Story = {};
 SummaryActionBarModalFullPage.args = {
   type: 'modal-full-page',
 };
+
+export const SummaryActionBarSingleError: Story = {};
+SummaryActionBarSingleError.args = {
+  errors: [{ message: 'This is an error inside a SAB.' }],
+};
+
+export const SummaryActionBarOverflowErrors: Story = {};
+SummaryActionBarOverflowErrors.args = {
+  errors: [
+    { message: 'This is an error inside a SAB.' },
+    { message: 'A different error.' },
+    { message: 'A different error.' },
+    { message: 'A different error.' },
+    { message: 'A different error.' },
+    { message: 'Overflow error.' },
+  ],
+};
+
+export const SummaryActionBarModalErrors: Story = {};
+SummaryActionBarModalErrors.args = {
+  errors: [
+    { message: 'This is an error inside a SAB.' },
+    { message: 'A different error.' },
+  ],
+  type: 'modal',
+};

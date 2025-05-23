@@ -14,7 +14,10 @@
     pulvinar leo est sit amet eros.
   </sky-modal-content>
   <sky-modal-footer>
-    <sky-summary-action-bar id="summary-action-bar">
+    <sky-summary-action-bar
+      id="summary-action-bar"
+      [formErrors]="context?.errors"
+    >
       <sky-summary-action-bar-actions>
         <sky-summary-action-bar-primary-action>
           Primary

@@ -31,7 +31,7 @@
   Toggle summary
 </button>
 @if (!hideMainActionBar) {
-<sky-summary-action-bar id="summary-action-bar">
+<sky-summary-action-bar id="summary-action-bar" [formErrors]="formErrors">
   <sky-summary-action-bar-actions>
     <sky-summary-action-bar-primary-action
       [disabled]="disableButtons"
