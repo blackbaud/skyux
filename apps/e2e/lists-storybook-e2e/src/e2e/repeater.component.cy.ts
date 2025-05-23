@@ -20,5 +20,5 @@ describe('lists-storybook', () => {
         );
       });
     });
-  }, true);
+  });
 });

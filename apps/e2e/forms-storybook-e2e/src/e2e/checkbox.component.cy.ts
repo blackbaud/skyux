@@ -46,5 +46,5 @@ describe('forms-storybook - checkbox', () => {
         );
       });
     });
-  }, true);
+  });
 });

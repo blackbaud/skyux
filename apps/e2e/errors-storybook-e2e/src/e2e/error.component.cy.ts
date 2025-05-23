@@ -31,5 +31,5 @@ describe('errors-storybook - error', () => {
         });
       });
     });
-  }, true);
+  });
 });

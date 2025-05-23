@@ -16,5 +16,5 @@ describe('illustration', () => {
         });
       });
     });
-  }, true);
+  });
 });
