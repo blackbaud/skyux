@@ -323,6 +323,33 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         expect(cellEditorParams.api?.stopEditing).toHaveBeenCalledTimes(1);
       }));
 
+      it('should respond to selection modal', fakeAsync(() => {
+        (elementRef.nativeElement.matches as jasmine.Spy).and.returnValue(
+          false,
+        );
+        component.agInit({
+          ...(cellEditorParams as ICellEditorParams),
+        });
+
+        component.onSelectionModalOpenChange(false);
+        tick();
+        expect(cellEditorParams.api?.stopEditing).toHaveBeenCalledTimes(1);
+
+        (cellEditorParams.api?.stopEditing as jasmine.Spy).calls.reset();
+        component.onBlur({} as FocusEvent);
+        tick();
+        expect(cellEditorParams.api?.getGridOption).toHaveBeenCalledTimes(2);
+        expect(
+          (cellEditorParams.api?.getGridOption as jasmine.Spy).calls
+            .all()
+            .map((call) => call.args[0]),
+        ).toEqual([
+          'stopEditingWhenCellsLoseFocus',
+          'stopEditingWhenCellsLoseFocus',
+        ]);
+        expect(cellEditorParams.api?.stopEditing).toHaveBeenCalledTimes(1);
+      }));
+
       it('should respond to refocus', fakeAsync(() => {
         component.agInit(cellEditorParams as ICellEditorParams);
         fixture.detectChanges();
