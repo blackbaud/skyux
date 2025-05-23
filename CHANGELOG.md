@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.14.2](https://github.com/blackbaud/skyux/compare/12.14.1...12.14.2) (2025-05-23)
+
+
+### Bug Fixes
+
+* **components/i18n:** generate assets for library resources in the same directory as the entry point ([#3468](https://github.com/blackbaud/skyux/issues/3468)) ([3935e99](https://github.com/blackbaud/skyux/commit/3935e99a9855918e98e6df89ade85d7e855a6491))
+* **sdk/eslint-schematics:** remove ESLint dependencies from `ng-update` package group ([#3474](https://github.com/blackbaud/skyux/issues/3474)) ([db6b212](https://github.com/blackbaud/skyux/commit/db6b212a51bb2c205ef721221117f6c2821b2976))
+
 ## [12.14.1](https://github.com/blackbaud/skyux/compare/12.14.0...12.14.1) (2025-05-22)
 
 
