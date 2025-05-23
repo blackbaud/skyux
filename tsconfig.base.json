@@ -25,6 +25,7 @@
     "typeRoots": ["./node_modules/@types", "./vendor/types/**/*.d.ts"],
     "paths": {
       "*": ["./vendor/types/*"],
+      "@blackbaud/skyux": ["libs/components/skyux/src/index.ts"],
       "@skyux-sdk/cypress-commands": ["libs/sdk/cypress-commands/src/index.ts"],
       "@skyux-sdk/e2e-schematics": ["libs/sdk/e2e-schematics/src/index.ts"],
       "@skyux-sdk/e2e-schematics/cypress-preset": [

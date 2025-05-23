@@ -1,0 +1,35 @@
+{
+  "name": "@blackbaud/skyux",
+  "version": "0.0.0-PLACEHOLDER",
+  "author": "Blackbaud, Inc.",
+  "description": "",
+  "keywords": [
+    "blackbaud",
+    "skyux"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux#readme",
+  "schematics": "@skyux/packages/collection.json",
+  "ng-add": {
+    "save": "dependencies"
+  },
+  "ng-update": {
+    "packageGroupName": "@blackbaud/skyux",
+    "migrations": "@skyux/packages/migrations.json",
+    "packageGroup": {
+      "@skyux/packages": "0.0.0-PLACEHOLDER"
+    }
+  },
+  "dependencies": {
+    "@skyux/indicators": "0.0.0-PLACEHOLDER",
+    "@skyux/packages": "0.0.0-PLACEHOLDER",
+    "tslib": "^2.8.1"
+  }
+}
