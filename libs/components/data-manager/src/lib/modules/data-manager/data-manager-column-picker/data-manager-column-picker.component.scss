@@ -1,9 +1,26 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-data-manager-column-picker') {
+  --sky-override-data-manager-column-picker-item-margin: #{$sky-margin-inline-compact};
+  --sky-override-data-manager-column-picker-footer-margin: #{$sky-margin-stacked-default};
+}
+
+@include compatMixins.sky-modern-overrides('.sky-data-manager-column-picker') {
+  --sky-override-data-manager-column-picker-item-margin: #{$sky-margin-inline-compact};
+  --sky-override-data-manager-column-picker-footer-margin: #{$sky-margin-stacked-default};
+}
 
 .sky-data-manager-column-picker-content sky-repeater-item-content {
-  margin-top: $sky-margin-inline-compact;
+  margin-top: var(
+    --sky-override-data-manager-column-picker-item-margin,
+    var(--sky-space-stacked-s)
+  );
 }
 
 .sky-data-manager-column-picker-footer-stacked-indicator {
-  margin: 0 $sky-margin-inline-compact $sky-margin-stacked-default 0;
+  margin-bottom: var(
+    --sky-override-data-manager-column-picker-footer-margin,
+    var(--sky-space-gap-stacked_supplemental-xl)
+  );
 }

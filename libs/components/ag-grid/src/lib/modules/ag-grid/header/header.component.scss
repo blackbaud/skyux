@@ -31,11 +31,17 @@
   .ag-header-menu-icon,
   .ag-header-icon {
     line-height: 0;
-    margin-left: var(--sky-margin-inline-sm);
+    margin-left: var(
+      --sky-override-ag-grid-header-icon-spacing,
+      var(--sky-space-gap-text_action-xs)
+    );
   }
 
   .sky-btn.sky-btn-icon-borderless {
-    margin-left: var(--sky-margin-inline-sm);
+    margin-left: var(
+      --sky-override-ag-grid-header-icon-spacing,
+      var(--sky-space-gap-text_action-xs)
+    );
 
     .ag-header-label-icon,
     .ag-header-menu-icon,
@@ -51,7 +57,10 @@ button.ag-header-cell-label {
 
 .ag-cell-label-container {
   padding: 0;
-  gap: var(--sky-margin-inline-xs);
+  gap: var(
+    --sky-override-ag-grid-header-icon-spacing,
+    var(--sky-space-gap-text_action-xs)
+  );
 }
 
 .ag-header-cell-label {
@@ -71,7 +80,10 @@ button.ag-header-cell-label {
     }
 
     .ag-sort-indicator-container {
-      color: var(--ag-header-foreground-color);
+      color: var(
+        --sky-override-ag-grid-sort-color,
+        var(--sky-color-text-deemphasized)
+      );
       width: initial;
       height: initial;
 

@@ -184,19 +184,6 @@ describe('SkyAgGridWrapperComponent', () => {
 
     mockThemeSvc.settingsChange.next({
       currentSettings: new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.dark,
-        SkyThemeSpacing.presets.compact,
-      ),
-      previousSettings: undefined,
-    });
-    gridWrapperFixture.detectChanges();
-    expect(
-      gridWrapperNativeElement.querySelector('.sky-ag-grid'),
-    ).toHaveCssClass('ag-theme-sky-data-grid-modern-dark-compact');
-
-    mockThemeSvc.settingsChange.next({
-      currentSettings: new SkyThemeSettings(
         SkyTheme.presets.default,
         SkyThemeMode.presets.light,
       ),
