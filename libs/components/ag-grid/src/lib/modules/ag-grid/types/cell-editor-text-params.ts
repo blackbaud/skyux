@@ -1,6 +1,6 @@
-import { ICellEditorParams } from 'ag-grid-community';
+import type { ICellEditorParams } from 'ag-grid-community';
 
-import { SkyAgGridTextProperties } from './text-properties';
+import type { SkyAgGridTextProperties } from './text-properties';
 
 /**
  * @internal

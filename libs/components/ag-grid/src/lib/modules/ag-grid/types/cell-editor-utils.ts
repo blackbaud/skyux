@@ -1,4 +1,5 @@
-import { ICellEditorParams, KeyCode } from 'ag-grid-community';
+import type { ICellEditorParams } from 'ag-grid-community';
+import { KeyCode } from 'ag-grid-community';
 
 import { SkyAgGridCellEditorInitialAction } from './cell-editor-initial-action';
 

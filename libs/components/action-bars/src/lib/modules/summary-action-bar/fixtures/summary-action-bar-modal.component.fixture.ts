@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
+import type { SkyModalInstance } from '@skyux/modals';
 
 import { SkySummaryActionBarComponent } from '../summary-action-bar.component';
 

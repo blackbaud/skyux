@@ -1,16 +1,11 @@
-import {
-  CSP_NONCE,
-  Injectable,
-  OnDestroy,
-  Optional,
-  inject,
-} from '@angular/core';
+import type { OnDestroy } from '@angular/core';
+import { CSP_NONCE, Injectable, Optional, inject } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import { SkyDateService } from '@skyux/datetime';
-import { SkyLibResourcesService } from '@skyux/i18n';
-import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
+import type { SkyLibResourcesService } from '@skyux/i18n';
+import type { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
-import {
+import type {
   AgColumn,
   CellClassParams,
   CellFocusedEvent,
@@ -32,7 +27,7 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { getSkyAgGridTheme } from '../../styles/ag-grid-theme';
 
-import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
+import type { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { applySkyLookupPropertiesDefaults } from './apply-lookup-properties-defaults';
 import { SkyAgGridCellEditorAutocompleteComponent } from './cell-editors/cell-editor-autocomplete/cell-editor-autocomplete.component';
 import { SkyAgGridCellEditorCurrencyComponent } from './cell-editors/cell-editor-currency/cell-editor-currency.component';
@@ -48,13 +43,14 @@ import { SkyAgGridCellRendererTemplateComponent } from './cell-renderers/cell-re
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
 import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
 import { SkyAgGridHeaderComponent } from './header/header.component';
-import { IconMapType, iconMap } from './icons/icon-map';
+import type { IconMapType } from './icons/icon-map';
+import { iconMap } from './icons/icon-map';
 import { SkyAgGridLoadingComponent } from './loading/loading.component';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 import { SkyHeaderClass } from './types/header-class';
-import { LastFocusedCell } from './types/last-focused.cell';
-import { SkyGetGridOptionsArgs } from './types/sky-grid-options';
+import type { LastFocusedCell } from './types/last-focused.cell';
+import type { SkyGetGridOptionsArgs } from './types/sky-grid-options';
 
 function autocompleteComparator(
   value1: { name: string },

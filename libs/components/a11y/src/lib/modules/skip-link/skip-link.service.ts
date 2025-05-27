@@ -1,11 +1,10 @@
-import { ComponentRef, Injectable } from '@angular/core';
-import {
-  SkyDynamicComponentLocation,
-  SkyDynamicComponentService,
-} from '@skyux/core';
+import type { ComponentRef } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { SkyDynamicComponentService } from '@skyux/core';
+import { SkyDynamicComponentLocation } from '@skyux/core';
 
-import { SkySkipLink } from './skip-link';
-import { SkySkipLinkArgs } from './skip-link-args';
+import type { SkySkipLink } from './skip-link';
+import type { SkySkipLinkArgs } from './skip-link-args';
 import { SkySkipLinkHostComponent } from './skip-link-host.component';
 
 /**

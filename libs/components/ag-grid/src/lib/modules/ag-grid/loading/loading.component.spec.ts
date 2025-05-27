@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { ILoadingOverlayParams } from 'ag-grid-community';
+import type { ILoadingOverlayParams } from 'ag-grid-community';
 
 import {
   Loading,

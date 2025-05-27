@@ -1,5 +1,6 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
-import { SkyModalInstance, SkyModalService } from '@skyux/modals';
+import type { OnDestroy } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 import { SkySummaryActionBarSecondaryActionsComponent } from '../actions/summary-action-bar-secondary-actions.component';
 import { SkySummaryActionBarComponent } from '../summary-action-bar.component';

@@ -1,16 +1,16 @@
 import { AsyncPipe } from '@angular/common';
+import type { OnDestroy } from '@angular/core';
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { ICellRendererAngularComp } from 'ag-grid-angular';
-import {
+import type { ICellRendererAngularComp } from 'ag-grid-angular';
+import type {
   ICellRendererParams,
   IRowNode,
   RowNodeSelectedEvent,

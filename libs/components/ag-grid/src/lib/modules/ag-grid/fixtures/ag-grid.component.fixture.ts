@@ -1,20 +1,15 @@
+import type { OnInit } from '@angular/core';
 import {
   Component,
   InjectionToken,
-  OnInit,
   ViewChild,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import {
-  AllCommunityModule,
-  ColDef,
-  DomLayoutType,
-  GridOptions,
-  ModuleRegistry,
-} from 'ag-grid-community';
+import type { ColDef, DomLayoutType, GridOptions } from 'ag-grid-community';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
 import { SkyAgGridWrapperComponent } from '../ag-grid-wrapper.component';
 import { SkyAgGridService } from '../ag-grid.service';

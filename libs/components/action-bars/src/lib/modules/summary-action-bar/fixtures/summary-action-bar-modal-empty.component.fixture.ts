@@ -1,5 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
-import { SkyModalInstance, SkyModalService } from '@skyux/modals';
+import type { OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
+import type { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 import { SkySummaryActionBarModalTestComponent } from './summary-action-bar-modal.component.fixture';
 

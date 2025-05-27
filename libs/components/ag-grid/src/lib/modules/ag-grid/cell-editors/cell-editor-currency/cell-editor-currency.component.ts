@@ -16,12 +16,12 @@ import {
 import { SkyAutonumericModule } from '@skyux/autonumeric';
 import { SkyI18nModule } from '@skyux/i18n';
 
-import { ICellEditorAngularComp } from 'ag-grid-angular';
+import type { ICellEditorAngularComp } from 'ag-grid-angular';
 
-import { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
+import type { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
 import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
 import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
-import { SkyAgGridCurrencyProperties } from '../../types/currency-properties';
+import type { SkyAgGridCurrencyProperties } from '../../types/currency-properties';
 
 /**
  * @internal

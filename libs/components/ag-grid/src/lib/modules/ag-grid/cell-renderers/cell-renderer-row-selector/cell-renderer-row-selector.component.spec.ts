@@ -1,17 +1,19 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyCheckboxHarness } from '@skyux/forms/testing';
 
-import {
+import type {
   BeanCollection,
   ColDef,
   ICellRendererParams,
   RowClickedEvent,
-  RowNode,
 } from 'ag-grid-community';
-import { AgRowNodeEventListener } from 'ag-grid-community/dist/types/src/interfaces/iRowNode';
-import { Observable, of } from 'rxjs';
+import { RowNode } from 'ag-grid-community';
+import type { AgRowNodeEventListener } from 'ag-grid-community/dist/types/src/interfaces/iRowNode';
+import type { Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';

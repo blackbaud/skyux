@@ -1,10 +1,6 @@
-import {
-  ElementRef,
-  Injectable,
-  Renderer2,
-  RendererFactory2,
-} from '@angular/core';
-import { SkyAppWindowRef } from '@skyux/core';
+import type { ElementRef, Renderer2, RendererFactory2 } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { SkyAppWindowRef } from '@skyux/core';
 
 import { SkySummaryActionBarType } from './types/summary-action-bar-type';
 

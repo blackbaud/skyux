@@ -13,11 +13,11 @@ import {
 } from '@angular/forms';
 import { SkyI18nModule } from '@skyux/i18n';
 
-import { ICellEditorAngularComp } from 'ag-grid-angular';
-import { ICellEditorParams } from 'ag-grid-community';
+import type { ICellEditorAngularComp } from 'ag-grid-angular';
+import type { ICellEditorParams } from 'ag-grid-community';
 
 import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
-import { SkyCellEditorNumberParams } from '../../types/cell-editor-number-params';
+import type { SkyCellEditorNumberParams } from '../../types/cell-editor-number-params';
 import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
 
 /**

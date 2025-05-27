@@ -10,11 +10,8 @@ import {
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
-import {
-  SkyDropdownMessage,
-  SkyDropdownMessageType,
-  SkyDropdownModule,
-} from '@skyux/popovers';
+import type { SkyDropdownMessage } from '@skyux/popovers';
+import { SkyDropdownMessageType, SkyDropdownModule } from '@skyux/popovers';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { Subject } from 'rxjs';

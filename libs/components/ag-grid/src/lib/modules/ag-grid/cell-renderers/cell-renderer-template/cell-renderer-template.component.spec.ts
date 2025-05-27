@@ -1,5 +1,6 @@
-import { TemplateRef } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { TemplateRef } from '@angular/core';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { SkyAgGridCellRendererTemplateComponent } from './cell-renderer-template.component';
 

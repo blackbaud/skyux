@@ -6,11 +6,8 @@
  * To update this file, simply rerun the command.
  */
 import { NgModule } from '@angular/core';
-import {
-  SkyI18nModule,
-  SkyLibResources,
-  SkyLibResourcesService,
-} from '@skyux/i18n';
+import type { SkyLibResources } from '@skyux/i18n';
+import { SkyI18nModule, SkyLibResourcesService } from '@skyux/i18n';
 
 const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': { skyux_list_skip_to_link: { message: 'Skip to {0}' } },

@@ -1,10 +1,11 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, TemplateRef } from '@angular/core';
+import type { TemplateRef } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { ICellRendererAngularComp } from 'ag-grid-angular';
-import { ICellRendererParams } from 'ag-grid-community';
+import type { ICellRendererAngularComp } from 'ag-grid-angular';
+import type { ICellRendererParams } from 'ag-grid-community';
 
-import { CellRendererTemplateContext } from './cell-renderer-template-context.type';
+import type { CellRendererTemplateContext } from './cell-renderer-template-context.type';
 
 type CellState =
   | {

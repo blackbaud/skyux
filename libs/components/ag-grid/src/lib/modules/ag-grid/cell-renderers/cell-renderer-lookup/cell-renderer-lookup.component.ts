@@ -1,13 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-} from '@angular/core';
+import type { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyI18nModule } from '@skyux/i18n';
 
-import { ICellRendererAngularComp } from 'ag-grid-angular';
+import type { ICellRendererAngularComp } from 'ag-grid-angular';
 
-import { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-params';
+import type { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-params';
 
 /**
  * @internal

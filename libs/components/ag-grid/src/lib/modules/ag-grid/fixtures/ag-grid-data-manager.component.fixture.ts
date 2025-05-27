@@ -1,24 +1,20 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { SkyResponsiveHostDirective } from '@skyux/core';
-import {
-  SkyDataManagerModule,
+import type {
   SkyDataManagerService,
-  SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
+import { SkyDataManagerModule, SkyDataManagerState } from '@skyux/data-manager';
 import { SkyTextHighlightModule } from '@skyux/indicators';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import {
-  AllCommunityModule,
-  ColDef,
-  GridOptions,
-  ModuleRegistry,
-} from 'ag-grid-community';
+import type { ColDef, GridOptions } from 'ag-grid-community';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
 import { SkyAgGridDataManagerAdapterDirective } from '../ag-grid-data-manager-adapter.directive';
 import { SkyAgGridWrapperComponent } from '../ag-grid-wrapper.component';
-import { SkyAgGridService } from '../ag-grid.service';
+import type { SkyAgGridService } from '../ag-grid.service';
 import { SkyCellType } from '../types/cell-type';
 
 import { SKY_AG_GRID_DATA } from './ag-grid-data.fixture';

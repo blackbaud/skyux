@@ -1,4 +1,5 @@
-import { Component, ElementRef, computed, inject, signal } from '@angular/core';
+import type { ElementRef } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import {
   takeUntilDestroyed,
   toObservable,
@@ -7,7 +8,7 @@ import {
 import { SkyAffixModule, SkyResizeObserverService } from '@skyux/core';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 
-import { GridApi } from 'ag-grid-community';
+import type { GridApi } from 'ag-grid-community';
 import {
   filter,
   fromEvent,

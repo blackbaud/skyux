@@ -1,10 +1,8 @@
+import type { AfterContentInit, AfterViewInit, OnDestroy } from '@angular/core';
 import {
-  AfterContentInit,
-  AfterViewInit,
   Directive,
   ElementRef,
   EnvironmentInjector,
-  OnDestroy,
   contentChild,
   inject,
   linkedSignal,
@@ -20,7 +18,7 @@ import {
 } from '@skyux/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { GridApi } from 'ag-grid-community';
+import type { GridApi } from 'ag-grid-community';
 import {
   BehaviorSubject,
   Subject,
@@ -35,8 +33,8 @@ import {
   SkyAgGridRowDeleteContext,
 } from './ag-grid-row-delete-context';
 import { SkyAgGridRowDeleteComponent } from './ag-grid-row-delete.component';
-import { SkyAgGridRowDeleteCancelArgs } from './types/ag-grid-row-delete-cancel-args';
-import { SkyAgGridRowDeleteConfirmArgs } from './types/ag-grid-row-delete-confirm-args';
+import type { SkyAgGridRowDeleteCancelArgs } from './types/ag-grid-row-delete-cancel-args';
+import type { SkyAgGridRowDeleteConfirmArgs } from './types/ag-grid-row-delete-confirm-args';
 
 @Directive({
   selector: '[skyAgGridRowDelete]',

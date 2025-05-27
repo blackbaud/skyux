@@ -1,4 +1,4 @@
-import { GridOptions } from 'ag-grid-community';
+import type { GridOptions } from 'ag-grid-community';
 
 export interface SkyGetGridOptionsArgs {
   /**

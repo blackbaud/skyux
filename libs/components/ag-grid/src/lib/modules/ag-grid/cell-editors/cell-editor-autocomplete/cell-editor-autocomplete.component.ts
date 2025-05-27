@@ -15,10 +15,10 @@ import {
 import { SkyI18nModule } from '@skyux/i18n';
 import { SkyAutocompleteModule } from '@skyux/lookup';
 
-import { ICellEditorAngularComp } from 'ag-grid-angular';
+import type { ICellEditorAngularComp } from 'ag-grid-angular';
 
-import { SkyAgGridAutocompleteProperties } from '../../types/autocomplete-properties';
-import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
+import type { SkyAgGridAutocompleteProperties } from '../../types/autocomplete-properties';
+import type { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
 import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
 import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
 

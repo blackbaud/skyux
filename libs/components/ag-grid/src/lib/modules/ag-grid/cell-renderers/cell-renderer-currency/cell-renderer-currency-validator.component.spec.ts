@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
-import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
+import type { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
 
 import { SkyAgGridCellRendererCurrencyValidatorComponent } from './cell-renderer-currency-validator.component';
 

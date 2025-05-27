@@ -1,11 +1,7 @@
-import {
-  ElementRef,
-  InjectionToken,
-  Signal,
-  WritableSignal,
-} from '@angular/core';
+import type { ElementRef, Signal, WritableSignal } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
-import { GridApi } from 'ag-grid-community';
+import type { GridApi } from 'ag-grid-community';
 import { Subject, Subscription } from 'rxjs';
 
 /**

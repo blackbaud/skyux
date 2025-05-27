@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
-import { AgColumn, GridApi } from 'ag-grid-community';
+import type { AgColumn, GridApi } from 'ag-grid-community';
 
-import { SkyAgGridHeaderParams } from '../types/header-params';
+import type { SkyAgGridHeaderParams } from '../types/header-params';
 
 import { SkyAgGridHeaderComponent } from './header.component';
 

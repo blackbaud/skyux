@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { SkyNumericOptions } from '@skyux/core';
+import type { SkyNumericOptions } from '@skyux/core';
 import { SkyNumericModule } from '@skyux/core';
 
-import { ICellRendererAngularComp } from 'ag-grid-angular';
+import type { ICellRendererAngularComp } from 'ag-grid-angular';
 
-import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
-import { SkyAgGridValidatorProperties } from '../../types/validator-properties';
+import type { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
+import type { SkyAgGridValidatorProperties } from '../../types/validator-properties';
 
 /**
  * @internal

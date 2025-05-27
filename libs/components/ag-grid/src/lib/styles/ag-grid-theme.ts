@@ -1,7 +1,7 @@
-import { SkyThemeSettings } from '@skyux/theme';
+import type { SkyThemeSettings } from '@skyux/theme';
 
+import type { Theme } from 'ag-grid-community';
 import {
-  Theme,
   colorSchemeDark,
   colorSchemeLight,
   themeQuartz,

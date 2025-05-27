@@ -1,16 +1,19 @@
-import {
+import type {
   AfterContentInit,
   ChangeDetectorRef,
+  OnDestroy,
+} from '@angular/core';
+import {
   Directive,
   Input,
-  OnDestroy,
   contentChildren,
   effect,
   inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { SkyBreakpoint, SkyMediaQueryService } from '@skyux/core';
-import {
+import type { SkyBreakpoint } from '@skyux/core';
+import { SkyMediaQueryService } from '@skyux/core';
+import type {
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewColumnWidths,
@@ -18,7 +21,7 @@ import {
 } from '@skyux/data-manager';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import {
+import type {
   ColumnMovedEvent,
   ColumnResizedEvent,
   ColumnState,
@@ -27,7 +30,8 @@ import {
   IColumnLimit,
   RowSelectedEvent,
 } from 'ag-grid-community';
-import { Subject, Subscription } from 'rxjs';
+import type { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';

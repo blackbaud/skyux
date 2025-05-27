@@ -1,4 +1,4 @@
-import { SkyAgGridLookupProperties } from './types/lookup-properties';
+import type { SkyAgGridLookupProperties } from './types/lookup-properties';
 
 /**
  * @internal

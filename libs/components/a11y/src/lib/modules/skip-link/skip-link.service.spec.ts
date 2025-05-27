@@ -2,8 +2,8 @@ import { ApplicationRef, ElementRef } from '@angular/core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
-import { SkySkipLink } from './skip-link';
-import { SkySkipLinkArgs } from './skip-link-args';
+import type { SkySkipLink } from './skip-link';
+import type { SkySkipLinkArgs } from './skip-link-args';
 import { SkySkipLinkService } from './skip-link.service';
 
 describe('Skip link service', () => {

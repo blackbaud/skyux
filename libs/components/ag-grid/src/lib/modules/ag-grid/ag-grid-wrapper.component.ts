@@ -1,7 +1,11 @@
 import { AsyncPipe, DOCUMENT, NgClass } from '@angular/common';
-import {
+import type {
   AfterContentInit,
   AfterViewInit,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -9,8 +13,6 @@ import {
   ElementRef,
   HostBinding,
   Input,
-  OnDestroy,
-  OnInit,
   booleanAttribute,
   effect,
   inject,
@@ -20,21 +22,18 @@ import {
 } from '@angular/core';
 import { SkyIdModule, SkyMutationObserverService } from '@skyux/core';
 import { SkyViewkeeperModule } from '@skyux/core';
-import {
-  SkyThemeService,
-  SkyThemeSettings,
-  SkyThemeSettingsChange,
-} from '@skyux/theme';
+import type { SkyThemeSettings, SkyThemeSettingsChange } from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import {
+import type {
   CellEditingStartedEvent,
   CellFocusedEvent,
   HeaderFocusedEvent,
 } from 'ag-grid-community';
+import type { Observable } from 'rxjs';
 import {
   BehaviorSubject,
-  Observable,
   ReplaySubject,
   Subject,
   combineLatest,

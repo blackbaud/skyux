@@ -2,15 +2,15 @@ import { TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 import { SkyDateService } from '@skyux/datetime';
+import type { SkyThemeSettingsChange } from '@skyux/theme';
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
+import type {
   AgColumn,
   BeanCollection,
   CellClassParams,
@@ -20,12 +20,12 @@ import {
   GridOptions,
   ICellRendererParams,
   RowClassParams,
-  RowNode,
   SuppressHeaderKeyboardEventParams,
   SuppressKeyboardEventParams,
   ValueFormatterFunc,
   ValueFormatterParams,
 } from 'ag-grid-community';
+import { RowNode } from 'ag-grid-community';
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';

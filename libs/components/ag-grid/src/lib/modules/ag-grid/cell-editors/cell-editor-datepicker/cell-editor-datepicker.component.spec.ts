@@ -1,34 +1,28 @@
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyDatepickerFixture } from '@skyux/datetime/testing';
+import type { SkyThemeSettingsChange } from '@skyux/theme';
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
-  AgColumn,
+import type {
   BeanCollection,
   GridApi,
   ICellEditorParams,
-  KeyCode,
-  RowNode,
 } from 'ag-grid-community';
+import { AgColumn, KeyCode, RowNode } from 'ag-grid-community';
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 import { SkyCellClass } from '../../types/cell-class';
-import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
+import type { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
 import { SkyAgGridCellEditorDatepickerComponent } from '../cell-editor-datepicker/cell-editor-datepicker.component';
 
 describe('SkyCellEditorDatepickerComponent', () => {

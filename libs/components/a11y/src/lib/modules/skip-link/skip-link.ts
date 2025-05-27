@@ -1,4 +1,4 @@
-import { ElementRef } from '@angular/core';
+import type { ElementRef } from '@angular/core';
 
 /**
  * A "skip link" that allows a user to skip parts of the page and go directly to the main content.

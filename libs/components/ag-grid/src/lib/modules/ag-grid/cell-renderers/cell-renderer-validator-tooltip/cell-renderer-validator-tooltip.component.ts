@@ -1,18 +1,18 @@
 import { AsyncPipe } from '@angular/common';
+import type { OnDestroy } from '@angular/core';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
-  OnDestroy,
   inject,
 } from '@angular/core';
 
-import { ICellRendererAngularComp } from 'ag-grid-angular';
+import type { ICellRendererAngularComp } from 'ag-grid-angular';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { SkyAgGridCellValidatorTooltipComponent } from '../../cell-validator/ag-grid-cell-validator-tooltip.component';
-import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-validator-params';
+import type { SkyCellRendererValidatorParams } from '../../types/cell-renderer-validator-params';
 
 /**
  * @internal

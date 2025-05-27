@@ -17,14 +17,14 @@ import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyLookupModule } from '@skyux/lookup';
 
-import { ICellEditorAngularComp } from 'ag-grid-angular';
-import { ColumnResizedEvent } from 'ag-grid-community';
+import type { ICellEditorAngularComp } from 'ag-grid-angular';
+import type { ColumnResizedEvent } from 'ag-grid-community';
 
 import { applySkyLookupPropertiesDefaults } from '../../apply-lookup-properties-defaults';
 import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
-import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
+import type { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
 import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
-import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
+import type { SkyAgGridLookupProperties } from '../../types/lookup-properties';
 
 /**
  * @internal

@@ -1,5 +1,5 @@
-import { TemplateRef } from '@angular/core';
-import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
+import type { TemplateRef } from '@angular/core';
+import type { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 
 export interface SkyAgGridAutocompleteProperties {
   allowAnyValue?: boolean;

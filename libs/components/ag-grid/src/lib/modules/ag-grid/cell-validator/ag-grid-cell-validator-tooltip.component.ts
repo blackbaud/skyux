@@ -8,13 +8,14 @@ import {
   signal,
 } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
-import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
+import type { SkyPopoverMessage } from '@skyux/popovers';
+import { SkyPopoverMessageType } from '@skyux/popovers';
 import { SkyPopoverModule } from '@skyux/popovers';
 
-import { AgColumn, CellFocusedEvent } from 'ag-grid-community';
+import type { AgColumn, CellFocusedEvent } from 'ag-grid-community';
 import { Subject } from 'rxjs';
 
-import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator-params';
+import type { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator-params';
 
 /**
  * @internal

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyWaitModule } from '@skyux/indicators';
 
-import { ILoadingOverlayAngularComp } from 'ag-grid-angular';
-import { ILoadingOverlayParams } from 'ag-grid-community';
+import type { ILoadingOverlayAngularComp } from 'ag-grid-angular';
+import type { ILoadingOverlayParams } from 'ag-grid-community';
 
 @Component({
   selector: 'sky-ag-grid-loading',

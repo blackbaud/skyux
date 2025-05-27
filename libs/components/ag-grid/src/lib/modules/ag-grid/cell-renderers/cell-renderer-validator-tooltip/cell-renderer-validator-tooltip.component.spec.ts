@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
-import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-validator-params';
+import type { SkyCellRendererValidatorParams } from '../../types/cell-renderer-validator-params';
 
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderer-validator-tooltip.component';
 

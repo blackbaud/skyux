@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { SkyAppWindowRef } from '@skyux/core';
+import type { SkyAppWindowRef } from '@skyux/core';
 
-import { SkySkipLink } from './skip-link';
+import type { SkySkipLink } from './skip-link';
 
 @Injectable()
 export class SkySkipLinkAdapterService {

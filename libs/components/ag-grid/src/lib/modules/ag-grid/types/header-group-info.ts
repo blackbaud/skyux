@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ColumnGroup } from 'ag-grid-community';
+import type { ColumnGroup } from 'ag-grid-community';
 
 /**
  * To display a help button beside the column group header, create a component containing

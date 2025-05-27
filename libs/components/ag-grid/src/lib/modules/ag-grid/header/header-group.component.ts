@@ -1,12 +1,11 @@
 import { AsyncPipe } from '@angular/common';
+import type { AfterViewInit, OnDestroy } from '@angular/core';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EnvironmentInjector,
-  OnDestroy,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -18,18 +17,16 @@ import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
-import { IHeaderGroupAngularComp } from 'ag-grid-angular';
-import { ColumnGroupOpenedEvent, ProvidedColumnGroup } from 'ag-grid-community';
-import {
-  BehaviorSubject,
-  Observable,
-  Subscription,
-  fromEvent,
-  takeUntil,
-} from 'rxjs';
+import type { IHeaderGroupAngularComp } from 'ag-grid-angular';
+import type {
+  ColumnGroupOpenedEvent,
+  ProvidedColumnGroup,
+} from 'ag-grid-community';
+import type { Observable } from 'rxjs';
+import { BehaviorSubject, Subscription, fromEvent, takeUntil } from 'rxjs';
 
 import { SkyAgGridHeaderGroupInfo } from '../types/header-group-info';
-import { SkyAgGridHeaderGroupParams } from '../types/header-group-params';
+import type { SkyAgGridHeaderGroupParams } from '../types/header-group-params';
 
 /**
  * @internal

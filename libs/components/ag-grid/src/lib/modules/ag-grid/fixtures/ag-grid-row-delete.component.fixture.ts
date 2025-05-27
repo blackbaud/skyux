@@ -1,21 +1,21 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import {
-  AllCommunityModule,
+import type {
   ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
-  ModuleRegistry,
 } from 'ag-grid-community';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import { firstValueFrom, fromEvent } from 'rxjs';
 
 import { SkyAgGridRowDeleteDirective } from '../ag-grid-row-delete.directive';
 import { SkyAgGridWrapperComponent } from '../ag-grid-wrapper.component';
-import { SkyAgGridService } from '../ag-grid.service';
-import { SkyAgGridRowDeleteCancelArgs } from '../types/ag-grid-row-delete-cancel-args';
-import { SkyAgGridRowDeleteConfirmArgs } from '../types/ag-grid-row-delete-confirm-args';
+import type { SkyAgGridService } from '../ag-grid.service';
+import type { SkyAgGridRowDeleteCancelArgs } from '../types/ag-grid-row-delete-cancel-args';
+import type { SkyAgGridRowDeleteConfirmArgs } from '../types/ag-grid-row-delete-confirm-args';
 import { SkyCellType } from '../types/cell-type';
 
 import {

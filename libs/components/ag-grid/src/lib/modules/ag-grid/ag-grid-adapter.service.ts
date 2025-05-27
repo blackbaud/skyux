@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SkyCoreAdapterService } from '@skyux/core';
+import type { SkyCoreAdapterService } from '@skyux/core';
 
 /**
  * @internal

@@ -1,17 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import type { SkyThemeSettingsChange } from '@skyux/theme';
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange,
   SkyThemeSpacing,
 } from '@skyux/theme';
 
-import { AgGridAngular } from 'ag-grid-angular';
-import {
-  AgColumn,
+import type { AgGridAngular } from 'ag-grid-angular';
+import type {
   CellEditingStartedEvent,
   CellEditingStoppedEvent,
   CellFocusedEvent,
@@ -23,6 +23,7 @@ import {
   HeaderFocusedEvent,
   RowDataUpdatedEvent,
 } from 'ag-grid-community';
+import { AgColumn } from 'ag-grid-community';
 import { BehaviorSubject, EMPTY, Subject, firstValueFrom } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';

@@ -1,22 +1,16 @@
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import {
-  AgColumn,
+import type {
   BeanCollection,
   GridApi,
   ICellEditorParams,
-  KeyCode,
-  RowNode,
 } from 'ag-grid-community';
+import { AgColumn, KeyCode, RowNode } from 'ag-grid-community';
 
 import { SkyAgGridModule } from '../../ag-grid.module';
-import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
+import type { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
 import { SkyAgGridCellEditorAutocompleteComponent } from '../cell-editor-autocomplete/cell-editor-autocomplete.component';
 
 describe('SkyCellEditorAutocompleteComponent', () => {

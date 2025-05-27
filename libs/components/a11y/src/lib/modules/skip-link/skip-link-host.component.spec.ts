@@ -1,9 +1,10 @@
-import { DebugElement, ElementRef } from '@angular/core';
+import type { DebugElement } from '@angular/core';
+import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import { SkySkipLink } from './skip-link';
+import type { SkySkipLink } from './skip-link';
 import { SkySkipLinkHostComponent } from './skip-link-host.component';
 
 describe('Skip link host component', () => {

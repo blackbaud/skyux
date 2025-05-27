@@ -1,8 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { RowNode } from 'ag-grid-community';
+import type { RowNode } from 'ag-grid-community';
 
-import { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-params';
+import type { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-params';
 
 import { SkyAgGridCellRendererLookupComponent } from './cell-renderer-lookup.component';
 

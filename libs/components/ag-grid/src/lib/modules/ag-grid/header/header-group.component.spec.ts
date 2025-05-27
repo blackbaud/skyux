@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
-import {
+import type {
   ColGroupDef,
   ColumnGroup,
   ProvidedColumnGroup,
 } from 'ag-grid-community';
 
-import { SkyAgGridHeaderGroupParams } from '../types/header-group-params';
+import type { SkyAgGridHeaderGroupParams } from '../types/header-group-params';
 
 import { SkyAgGridHeaderGroupComponent } from './header-group.component';
 

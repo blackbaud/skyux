@@ -1,10 +1,6 @@
-import { DebugElement } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import type { DebugElement } from '@angular/core';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
@@ -16,7 +12,7 @@ import { SkySummaryActionBarSplitViewTestComponent } from './fixtures/summary-ac
 import { SkySummaryActionBarTabsTestComponent } from './fixtures/summary-action-bar-tabs.component.fixture';
 import { SkySummaryActionBarTestComponent } from './fixtures/summary-action-bar.component.fixture';
 import { SkySummaryActionBarFixtureModule } from './fixtures/summary-action-bar.module.fixture';
-import { SkySummaryActionBarComponent } from './summary-action-bar.component';
+import type { SkySummaryActionBarComponent } from './summary-action-bar.component';
 
 describe('Summary Action Bar component', () => {
   function clickCollapseButton(debugElement: DebugElement): void {

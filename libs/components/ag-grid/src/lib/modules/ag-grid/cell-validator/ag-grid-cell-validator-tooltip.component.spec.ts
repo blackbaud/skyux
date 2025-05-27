@@ -1,14 +1,15 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect } from '@skyux-sdk/testing';
 import { SkyPopoverContentHarness } from '@skyux/popovers/testing';
 
-import { CellFocusedEvent } from 'ag-grid-community';
+import type { CellFocusedEvent } from 'ag-grid-community';
 
 import { SkyAgGridCellValidatorTooltipFixtureComponent } from '../fixtures/ag-grid-cell-validator-tooltip.component.fixture';
 import { SkyAgGridFixtureModule } from '../fixtures/ag-grid.module.fixture';
-import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator-params';
+import type { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator-params';
 
 describe('SkyAgGridCellValidatorTooltipComponent', () => {
   let fixture: ComponentFixture<SkyAgGridCellValidatorTooltipFixtureComponent>;

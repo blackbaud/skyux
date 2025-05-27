@@ -1,6 +1,6 @@
-import { ICellEditorParams } from 'ag-grid-community';
+import type { ICellEditorParams } from 'ag-grid-community';
 
-import {
+import type {
   SkyAgGridAutocompleteProperties,
   SkyAutocompleteProperties,
 } from './autocomplete-properties';

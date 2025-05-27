@@ -7,7 +7,7 @@ import {
 
 import { SkyA11yResourcesModule } from '../shared/sky-a11y-resources.module';
 
-import { SkySkipLink } from './skip-link';
+import type { SkySkipLink } from './skip-link';
 import { SkySkipLinkAdapterService } from './skip-link-adapter.service';
 
 @Component({

@@ -1,13 +1,11 @@
 import { AsyncPipe } from '@angular/common';
+import type { AfterViewInit, ComponentRef, OnDestroy } from '@angular/core';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ComponentRef,
   ElementRef,
   EnvironmentInjector,
-  OnDestroy,
   ViewChild,
   computed,
   inject,
@@ -21,12 +19,12 @@ import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
-import { IHeaderAngularComp } from 'ag-grid-angular';
-import { ColumnMovedEvent } from 'ag-grid-community';
+import type { IHeaderAngularComp } from 'ag-grid-angular';
+import type { ColumnMovedEvent } from 'ag-grid-community';
 import { BehaviorSubject, Subscription, fromEvent, takeUntil } from 'rxjs';
 
 import { SkyAgGridHeaderInfo } from '../types/header-info';
-import { SkyAgGridHeaderParams } from '../types/header-params';
+import type { SkyAgGridHeaderParams } from '../types/header-params';
 
 /**
  * @internal

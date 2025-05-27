@@ -1,24 +1,18 @@
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import {
-  AgColumn,
+import type {
   BeanCollection,
   GridApi,
   ICellEditorParams,
-  KeyCode,
-  RowNode,
 } from 'ag-grid-community';
+import { AgColumn, KeyCode, RowNode } from 'ag-grid-community';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 import { SkyCellClass } from '../../types/cell-class';
-import { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
+import type { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
 
 import { SkyAgGridCellEditorCurrencyComponent } from './cell-editor-currency.component';
 

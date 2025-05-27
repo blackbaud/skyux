@@ -1,4 +1,4 @@
-import { ICellEditorParams } from 'ag-grid-community';
+import type { ICellEditorParams } from 'ag-grid-community';
 
 import type { SkyAgGridCurrencyProperties } from './currency-properties';
 

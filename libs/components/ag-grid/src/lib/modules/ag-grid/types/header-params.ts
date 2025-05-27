@@ -1,6 +1,6 @@
-import { Type } from '@angular/core';
+import type { Type } from '@angular/core';
 
-import { IHeaderParams } from 'ag-grid-community';
+import type { IHeaderParams } from 'ag-grid-community';
 
 /**
  * Interface to use for the

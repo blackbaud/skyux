@@ -1,14 +1,13 @@
-import { AnimationEvent } from '@angular/animations';
+import type { AnimationEvent } from '@angular/animations';
 import { CommonModule } from '@angular/common';
+import type { AfterViewInit, OnDestroy } from '@angular/core';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChild,
   DestroyRef,
   ElementRef,
-  OnDestroy,
   ViewChild,
   computed,
   inject,

@@ -1,5 +1,5 @@
-import { TemplateRef } from '@angular/core';
-import {
+import type { TemplateRef } from '@angular/core';
+import type {
   SkyAutocompleteSearchAsyncArgs,
   SkyAutocompleteSearchFunction,
   SkyAutocompleteSearchFunctionFilter,

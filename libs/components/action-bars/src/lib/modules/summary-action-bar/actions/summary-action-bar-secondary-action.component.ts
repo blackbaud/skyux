@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
+import type { ChangeDetectorRef } from '@angular/core';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,

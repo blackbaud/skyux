@@ -1,14 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-} from '@angular/core';
+import type { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { ICellRendererAngularComp } from 'ag-grid-angular';
+import type { ICellRendererAngularComp } from 'ag-grid-angular';
 
 import { SkyAgGridCellValidatorTooltipComponent } from '../../cell-validator/ag-grid-cell-validator-tooltip.component';
-import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
+import type { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
 
 import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderer-currency.component';
 

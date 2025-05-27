@@ -1,24 +1,20 @@
 import { ElementRef } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { SkyLookupSelectModeType } from '@skyux/lookup';
+import type { SkyLookupSelectModeType } from '@skyux/lookup';
 
-import {
+import type {
   AgColumn,
   GridApi,
   GridOptions,
   ICellEditorParams,
-  KeyCode,
 } from 'ag-grid-community';
+import { KeyCode } from 'ag-grid-community';
 import { of } from 'rxjs';
 
-import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
+import type { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
 
 import { SkyAgGridCellEditorLookupComponent } from './cell-editor-lookup.component';
 
