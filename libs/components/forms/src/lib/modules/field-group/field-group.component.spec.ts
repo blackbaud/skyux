@@ -57,13 +57,13 @@ describe('Field group component', function () {
 
     const group = getFieldGroup(fixture);
 
-    expect(group).toHaveClass('sky-margin-stacked-xl');
+    expect(group).toHaveClass('sky-field-group-stacked');
   });
 
   it('should not have the lg margin class if stacked is false', () => {
     const group = getFieldGroup(fixture);
 
-    expect(group).not.toHaveClass('sky-margin-stacked-xl');
+    expect(group).not.toHaveClass('sky-field-group-stacked');
   });
 
   it('should render the correct heading level and styles', () => {
