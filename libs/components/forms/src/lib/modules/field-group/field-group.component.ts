@@ -52,7 +52,7 @@ export class SkyFieldGroupComponent {
    * vertical spacing is automatically added to the field group.
    */
   @Input({ transform: booleanAttribute })
-  @HostBinding('class.sky-margin-stacked-xl')
+  @HostBinding('class.sky-field-group-stacked')
   public stacked = false;
 
   /**
