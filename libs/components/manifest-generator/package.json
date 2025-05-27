@@ -20,5 +20,6 @@
     "fast-glob": "3.3.3",
     "tslib": "^2.3.0",
     "typedoc": "0.28.2"
-  }
+  },
+  "sideEffects": false
 }
