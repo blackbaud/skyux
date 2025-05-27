@@ -4,7 +4,7 @@
   --sky-override-ag-grid-row-selector-margin-top: 6px;
 }
 
-sky-checkbox {
+sky-checkbox.sky-ag-grid-row-selector {
   display: block !important;
   margin-top: var(
     --sky-override-ag-grid-row-selector-margin-top,
