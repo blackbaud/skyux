@@ -1,7 +1,7 @@
+import type { TmplAstNode } from '@angular-eslint/bundled-angular-compiler';
 import {
   TmplAstBoundText,
   TmplAstElement,
-  TmplAstNode,
   TmplAstTemplate,
   TmplAstText,
 } from '@angular-eslint/bundled-angular-compiler';
