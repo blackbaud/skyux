@@ -28,5 +28,6 @@
     "./public-api.json": {
       "default": "./public-api.json"
     }
-  }
+  },
+  "sideEffects": false
 }
