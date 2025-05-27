@@ -31,7 +31,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['**/*.ts],
+    files: ['**/*.ts'],
     rules: {
       '@angular-eslint/directive-selector': [
         'error',
