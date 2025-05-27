@@ -6,10 +6,7 @@ import {
   ensureTemplateParser,
   getTemplateParserServices,
 } from '@angular-eslint/utils';
-import {
-  type RuleFix,
-  type RuleFixer,
-} from '@typescript-eslint/utils/ts-eslint';
+import type { RuleFix, RuleFixer } from '@typescript-eslint/utils/ts-eslint';
 
 import { getChildNodeOf, getTextContent } from '../utils/ast-utils';
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';

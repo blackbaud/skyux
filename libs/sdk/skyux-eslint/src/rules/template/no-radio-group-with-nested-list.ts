@@ -1,12 +1,10 @@
-import {
-  TmplAstElement,
-  TmplAstTemplate,
-} from '@angular-eslint/bundled-angular-compiler';
+import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
+import { TmplAstTemplate } from '@angular-eslint/bundled-angular-compiler';
 import {
   ensureTemplateParser,
   getTemplateParserServices,
 } from '@angular-eslint/utils';
-import { type RuleFix } from '@typescript-eslint/utils/ts-eslint';
+import type { RuleFix } from '@typescript-eslint/utils/ts-eslint';
 
 import { getChildrenNodesOf, getNgFor } from '../utils/ast-utils';
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';

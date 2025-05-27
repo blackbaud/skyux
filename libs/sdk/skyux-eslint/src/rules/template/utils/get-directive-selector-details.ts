@@ -1,4 +1,4 @@
-import { DeprecatedDirective } from './types';
+import type { DeprecatedDirective } from './types';
 
 interface DirectiveSelectorDetail {
   elementName?: string;
