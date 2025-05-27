@@ -1,4 +1,4 @@
-import { LegacyIconReplacement } from './types';
+import type { LegacyIconReplacement } from './types';
 
 /**
  * A map of legacy icons to their replacements.
