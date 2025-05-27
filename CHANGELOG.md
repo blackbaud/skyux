@@ -1,5 +1,14 @@
 # Changelog
 
+## [12.14.3](https://github.com/blackbaud/skyux/compare/12.14.2...12.14.3) (2025-05-27)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** lookup cell editor search button should open selection modal for async lookup ([#3480](https://github.com/blackbaud/skyux/issues/3480)) ([8aa50f3](https://github.com/blackbaud/skyux/commit/8aa50f3222a09f202fc5a7451eec04afe4fa16ad))
+* **sdk/skyux-eslint:** remove unused peer dependencies ([#3479](https://github.com/blackbaud/skyux/issues/3479)) ([a53f00d](https://github.com/blackbaud/skyux/commit/a53f00d3beda597ae3c8bb26e3f557b8d8b7c06f))
+* set `sideEffects` to `false` in libraries package.json ([#3475](https://github.com/blackbaud/skyux/issues/3475)) ([4f3f4cc](https://github.com/blackbaud/skyux/commit/4f3f4cc8cb5b360f9f4eb698bffed60c858ebefb))
+
 ## [12.14.2](https://github.com/blackbaud/skyux/compare/12.14.1...12.14.2) (2025-05-23)
 
 
