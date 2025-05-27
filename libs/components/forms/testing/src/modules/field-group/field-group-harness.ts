@@ -63,7 +63,7 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
   public async getStacked(): Promise<boolean> {
     const host = await this.host();
 
-    return await host.hasClass('sky-margin-stacked-xl');
+    return await host.hasClass('sky-field-group-stacked');
   }
 
   /**
