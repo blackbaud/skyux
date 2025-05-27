@@ -36,6 +36,8 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
   },
   fontFamily:
     'var(--sky-override-ag-grid-font-family, var(--sky-font-family-primary))',
+  fontSize:
+    'var(--sky-override-ag-grid-font-size, var(--sky-font-size-body-m))',
   foregroundColor:
     'var(--sky-override-ag-grid-foreground-color, var(--sky-color-text-default))',
   headerBackgroundColor: 'var(--sky-background-color-page-default)',
@@ -49,6 +51,10 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
   headerColumnResizeHandleWidth:
     'var(--sky-override-ag-grid-header-divider-width, var(--sky-border-width-divider))',
   headerFontFamily: { ref: 'fontFamily' },
+  headerHeight:
+    'var(--sky-override-ag-grid-header-height, calc(calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) + calc(var(--sky-space-inset-letterbox-2_3-top-m) + var(--sky-space-inset-letterbox-2_3-bottom-m))))',
+  headerRowBorder:
+    'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-separator-row)) var(--sky-override-ag-grid-header-row-border-style, var(--sky-border-style-separator-row)) var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
   iconSize: 12,
   inputDisabledBackgroundColor: 'transparent',
   inputFocusBorder: 'transparent',
@@ -60,28 +66,22 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
   pickerListBackgroundColor: { ref: 'backgroundColor' },
   popupShadow:
     'var(--sky-override-ag-grid-popup-shadow, var(--sky-elevation-overlay-300))',
-  headerHeight:
-    'var(--sky-override-ag-grid-header-height, calc(calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) + calc(var(--sky-space-inset-letterbox-2_3-top-m) + var(--sky-space-inset-letterbox-2_3-bottom-m))))',
+  rangeSelectionBorderColor:
+    'var(--sky-override-ag-grid-range-selection-border-color, var(--sky-color-border-input-focus))',
+  rowBorder:
+    'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-separator-row)) var(--sky-override-ag-grid-row-border-style, var(--sky-border-style-separator-row)) var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
   rowHeight:
     'var(--sky-override-ag-grid-row-height, calc(calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) + calc(var(--sky-space-inset-letterbox-2_3-top-m) + var(--sky-space-inset-letterbox-2_3-bottom-m))))',
   rowHoverColor: 'transparent',
   selectedRowBackgroundColor:
     'var(--sky-override-ag-grid-row-selected-color, var(--sky-color-background-selected-soft))',
-  // the only thing I can find this impacting is the resize handle (gets this value x 4), but leaving it in bc it could impact other things
+  // TODO: investigate removing this in 13. Does not appear to be impacting anything, but it could be used by features we have not tested so major version removal is safest.
   spacing: 4,
   textColor:
     'var(--sky-override-ag-grid-text-color, var(--sky-color-text-default))',
   tooltipBackgroundColor:
     'var(--sky-override-ag-grid-tooltip-background-color, var(--sky-color-background-container-base))',
   wrapperBorderRadius: 0,
-  fontSize:
-    'var(--sky-override-ag-grid-font-size, var(--sky-font-size-body-m))',
-  rangeSelectionBorderColor:
-    'var(--sky-override-ag-grid-range-selection-border-color, var(--sky-color-border-input-focus))',
-  rowBorder:
-    'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-separator-row)) var(--sky-override-ag-grid-row-border-style, var(--sky-border-style-separator-row)) var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
-  headerRowBorder:
-    'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-separator-row)) var(--sky-override-ag-grid-header-row-border-style, var(--sky-border-style-separator-row)) var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
 };
 
 const defaultsForDataEntryGrid = {

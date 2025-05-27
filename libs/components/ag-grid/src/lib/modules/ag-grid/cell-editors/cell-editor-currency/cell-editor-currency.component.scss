@@ -8,8 +8,16 @@
   --sky-override-ag-grid-currency-editor-left-padding: 10px;
 }
 
+:host {
+  height: 100%;
+  width: 100%;
+}
+
 input {
+  background-color: transparent;
   border: none;
+  height: 100%;
+  width: 100%;
   padding-left: var(
     --sky-override-ag-grid-currency-editor-left-padding,
     calc(

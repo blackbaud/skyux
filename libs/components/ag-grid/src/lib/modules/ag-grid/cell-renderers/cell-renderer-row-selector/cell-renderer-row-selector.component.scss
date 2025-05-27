@@ -1,16 +1,13 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-ag-grid-cell-row-selector') {
-  --sky-override-ag-grid-row-selector-top: -6px;
+  --sky-override-ag-grid-row-selector-margin-top: 6px;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-ag-grid-cell-row-selector') {
-  --sky-override-ag-grid-row-selector-top: -6px;
-}
-
-.sky-ag-grid-cell-row-selector .sky-switch-control {
-  top: var(
-    --sky-override-ag-grid-row-selector-top,
-    calc(calc(var(--sky-space-inset-letterbox-2_3-top-m) / 3) * -1)
+sky-checkbox {
+  display: block !important;
+  margin-top: var(
+    --sky-override-ag-grid-row-selector-margin-top,
+    var(--sky-space-inset-letterbox-2_3-top-m)
   );
 }

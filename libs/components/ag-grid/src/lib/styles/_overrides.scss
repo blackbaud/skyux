@@ -100,6 +100,7 @@
   &.ag-theme-sky-data-entry-grid-modern-light-compact {
     --sky-override-ag-grid-cell-padding-vertical: 2px;
     --sky-override-ag-grid-header-height: 32px;
+    --sky-override-ag-grid-header-resize-height: 100%;
     --sky-override-ag-grid-row-height: 32px;
   }
 }

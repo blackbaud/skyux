@@ -138,6 +138,7 @@ export class SkyAgGridCellEditorDatepickerComponent
     this.columnWidthWithoutBorders = this.columnWidth - 2;
     this.rowHeightWithoutBorders = (this.#params.node.rowHeight as number) - 3;
     this.rowNumber = this.#params.rowIndex + 1;
+
     this.#themeSvc?.settingsChange.subscribe((themeSettings) => {
       if (themeSettings.currentSettings.theme.name === 'modern') {
         this.columnWidthWithoutBorders = this.columnWidth;

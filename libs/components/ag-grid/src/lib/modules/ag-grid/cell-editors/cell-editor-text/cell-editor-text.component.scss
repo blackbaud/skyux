@@ -15,7 +15,10 @@
 }
 
 input {
+  background-color: transparent;
   border: none;
+  height: 100%;
+  width: 100%;
   padding-left: var(
     --sky-override-ag-grid-text-editor-left-padding,
     calc(

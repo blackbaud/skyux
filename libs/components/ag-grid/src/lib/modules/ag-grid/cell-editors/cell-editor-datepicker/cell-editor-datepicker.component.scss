@@ -19,6 +19,7 @@
 
   sky-datepicker {
     input.sky-form-control {
+      background-color: var(--ag-background-color);
       box-shadow: none;
       border-width: var(
         --sky-override-ag-grid-datepicker-editor-border-width,
@@ -34,7 +35,7 @@
         border-width: var(
           --sky-override-ag-grid-datepicker-editor-border-width,
           var(--sky-border-width-input-focus)
-        ) !important;
+        );
       }
     }
 
