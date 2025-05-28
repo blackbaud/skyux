@@ -57,6 +57,7 @@
   --sky-override-ag-grid-row-selected-color: var(
     --sky-background-color-selected
   );
+  --sky-override-ag-grid-row-selector-margin-top: 6px;
   --sky-override-ag-grid-sort-color: var(--sky-text-color-deemphasized);
   --sky-override-ag-grid-switch-size: var(--sky-switch-size);
   --sky-override-ag-grid-text-color: var(--sky-text-color-default);
@@ -86,14 +87,12 @@
   --sky-override-ag-grid-row-selected-color: var(
     --sky-background-color-selected
   );
-  --sky-override-ag-grid-row-selector-margin-top: 6px;
   --sky-override-ag-grid-top-border: 2px solid transparent;
   --sky-override-ag-grid-top-border-width-editable: 2px;
 
   // modern data entry grid overrides that apply to standard mode only
   &.ag-theme-sky-data-entry-grid-modern-light {
     --sky-override-ag-grid-background-color: #ffffff;
-    --sky-override-ag-grid-header-resize-height: 100%;
   }
 
   // modern data grid and data entry grid overrides for compact mode
@@ -101,9 +100,14 @@
   &.ag-theme-sky-data-entry-grid-modern-light-compact {
     --sky-override-ag-grid-cell-padding-vertical: 2px;
     --sky-override-ag-grid-header-height: 32px;
-    --sky-override-ag-grid-header-resize-height: 100%;
     --sky-override-ag-grid-row-height: 32px;
-    --sky-override-ag-grid-row-selector-margin-top: 3px;
+    --sky-override-ag-grid-row-selector-margin-top: 2px;
+  }
+
+  // modern data entry grid overrides that apply to standard and compact mode
+  &.ag-theme-sky-data-entry-grid-modern-light,
+  &.ag-theme-sky-data-entry-grid-modern-light-compact {
+    --sky-override-ag-grid-header-resize-height: 100%;
   }
 }
 
