@@ -150,10 +150,17 @@ symbol[id^='sky-i-']:not(.sky-i-branded) * {
   z-index: 1000;
   opacity: var(--sky-viewkeeper-opacity);
   overflow: hidden;
+}
 
-  &:not(.sky-viewkeeper-fixed-not-last) {
+.sky-viewkeeper-shadow {
+  position: fixed;
+  min-height: 1px;
+  z-index: 998;
+  user-select: none;
+  pointer-events: none;
+
+  &.sky-viewkeeper-shadow--active {
     box-shadow: var(--sky-viewkeeper-box-shadow);
-    z-index: 999;
   }
 }
 

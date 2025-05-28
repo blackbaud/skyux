@@ -1,16 +1,21 @@
 <div [ngClass]="{ 'scrollable-host': scrollableHost }">
-  <div class="boundary-el" [skyViewkeeper]="['.el1', '.el2', '.el3', '.el4']">
+  <div
+    class="boundary-el"
+    skyViewkeeperOmitShadow=".emtpy-space"
+    [skyViewkeeper]="['.el1', '.el2', '.el3', '.el4']"
+  >
     @if (showEl1) {
-      <div class="el1"></div>
+      <div class="el1 sky-viewkeeper-fixed"><br /></div>
     }
     @if (showEl2) {
-      <div class="el2"></div>
+      <div class="el2"><br /></div>
     }
     @if (showEl3) {
-      <div class="el3"></div>
+      <div class="el3"><br /></div>
     }
     @if (showEl4) {
-      <div class="el4"></div>
+      <div class="el4"><br /></div>
     }
+    <div class="emtpy-space" style="height: 200vh"><br /></div>
   </div>
 </div>

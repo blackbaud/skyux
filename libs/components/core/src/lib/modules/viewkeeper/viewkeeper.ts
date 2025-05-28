@@ -171,7 +171,7 @@ export class SkyViewkeeper {
     const verticalOffset = this.#calculateVerticalOffset();
 
     // When the element isn't visible, its size can't be calculated, so don't attempt syncing position in this case.
-    if (el.offsetWidth === 0 && el.offsetHeight === 0) {
+    if (this.#isDestroyed || (el.offsetWidth === 0 && el.offsetHeight === 0)) {
       return;
     }
 
@@ -209,13 +209,11 @@ export class SkyViewkeeper {
         this.#unfixEl(this.#el);
       }
 
-      if (this.#verticalOffsetEl) {
-        this.#verticalOffsetEl.removeEventListener(
-          EVT_AFTER_VIEWKEEPER_SYNC,
-          this.#syncElPositionHandler,
-        );
-        this.#verticalOffsetEl.classList.remove(CLS_VIEWKEEPER_FIXED_NOT_LAST);
-      }
+      this.#verticalOffsetEl?.removeEventListener(
+        EVT_AFTER_VIEWKEEPER_SYNC,
+        this.#syncElPositionHandler,
+      );
+      this.#verticalOffsetEl?.classList.remove(CLS_VIEWKEEPER_FIXED_NOT_LAST);
 
       this.#spacerResizeObserver?.disconnect();
       this.#boundaryEl?.classList.remove(CLS_VIEWKEEPER_BOUNDARY);
@@ -223,6 +221,7 @@ export class SkyViewkeeper {
       this.#el =
         this.#boundaryEl =
         this.#verticalOffsetEl =
+        this.#intersectionObserver =
         this.#spacerResizeObserver =
           undefined;
 
