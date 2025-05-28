@@ -1,9 +1,3 @@
-@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
-
-@include compatMixins.sky-default-overrides('.sky-ag-grid-cell-row-selector') {
-  --sky-override-ag-grid-row-selector-margin-top: 6px;
-}
-
 sky-checkbox.sky-ag-grid-row-selector {
   display: block !important;
   margin-top: var(

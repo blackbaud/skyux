@@ -86,6 +86,7 @@
   --sky-override-ag-grid-row-selected-color: var(
     --sky-background-color-selected
   );
+  --sky-override-ag-grid-row-selector-margin-top: 6px;
   --sky-override-ag-grid-top-border: 2px solid transparent;
   --sky-override-ag-grid-top-border-width-editable: 2px;
 
@@ -102,6 +103,7 @@
     --sky-override-ag-grid-header-height: 32px;
     --sky-override-ag-grid-header-resize-height: 100%;
     --sky-override-ag-grid-row-height: 32px;
+    --sky-override-ag-grid-row-selector-margin-top: 3px;
   }
 }
 
@@ -112,5 +114,6 @@
     --sky-override-ag-grid-cell-padding-vertical: 4px;
     --sky-override-ag-grid-header-height: 28px;
     --sky-override-ag-grid-row-height: 28px;
+    --sky-override-ag-grid-row-selector-margin-top: 4px;
   }
 }
