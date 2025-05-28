@@ -44,6 +44,9 @@
 
 @include compatMixins.sky-modern-overrides('.sky-toggle-switch') {
   --sky-override-toggle-switch-background-color: var(--modern-color-white);
+  --sky-override-toggle-switch-border-color-selected: var(
+    --sky-color-border-selected
+  );
   --sky-override-toggle-switch-box-shadow-focus: var(--sky-elevation-focus);
   --sky-override-toggle-switch-indicator-box-shadow: 0px 1px 2px 0px
     rgba(0, 0, 0, 0.5);
@@ -73,7 +76,7 @@
       border: var(
         --sky-override-toggle-switch-border,
         var(--sky-border-width-input-base) solid
-          var(--sky-color-border-input-base)
+          var(--sky-color-border-switch-base)
       );
       background-color: var(
         --sky-override-toggle-switch-background-color,
@@ -125,7 +128,7 @@
       );
       border-color: var(
         --sky-override-toggle-switch-border-color-focus,
-        var(--sky-color-border-input-focus)
+        var(--sky-color-border-switch-focus)
       );
       padding: var(
         --sky-override-toggle-switch-padding-focus,
@@ -149,7 +152,7 @@
       );
       border-color: var(
         --sky-override-toggle-switch-border-color-active,
-        var(--sky-color-border-input-active)
+        var(--sky-color-border-switch-active)
       );
       padding: var(
         --sky-override-toggle-switch-padding-active,
@@ -171,7 +174,7 @@
         );
         border-color: var(
           --sky-override-toggle-switch-border-color-hover,
-          var(--sky-color-border-input-hover)
+          var(--sky-color-border-switch-hover)
         );
         padding: var(
           --sky-override-toggle-switch-padding-hover,
@@ -200,7 +203,7 @@
         );
         border-color: var(
           --sky-override-toggle-switch-border-color-selected,
-          var(--sky-color-border-selected)
+          var(--sky-color-border-switch-selected-base)
         );
         padding: var(
           --sky-override-toggle-switch-padding-selected,
@@ -209,6 +212,35 @@
                 --sky-border-width-input-base
               )
           )
+        );
+      }
+
+      &:focus-visible .sky-toggle-switch-switch {
+        border-color: var(
+          --sky-override-toggle-switch-border-color-focus,
+          var(--sky-color-border-switch-selected-focus)
+        );
+      }
+
+      &:active .sky-toggle-switch-switch {
+        border-color: var(
+          --sky-override-toggle-switch-border-color-active,
+          var(--sky-color-border-switch-selected-active)
+        );
+      }
+
+      &:hover:not(:focus-visible, .sky-toggle-switch-disabled)
+        .sky-toggle-switch-switch {
+        border-color: var(
+          --sky-override-toggle-switch-border-color-hover,
+          var(--sky-color-border-switch-selected-hover)
+        );
+      }
+
+      &.sky-toggle-switch-disabled .sky-toggle-switch-switch {
+        border-color: var(
+          --sky-override-toggle-switch-border-color-disabled,
+          var(--sky-color-border-switch-selected-disabled)
         );
       }
 
@@ -227,7 +259,7 @@
         );
         border-color: var(
           --sky-override-toggle-switch-border-color-disabled,
-          var(--sky-color-border-input-disabled)
+          var(--sky-color-border-switch-disabled)
         );
         border-width: var(
           --sky-override-toggle-switch-border-width-disabled,
