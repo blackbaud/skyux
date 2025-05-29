@@ -95,5 +95,5 @@ describe(`ag-grid-storybook data manager`, () => {
         });
       });
     });
-  });
+  }, true);
 });
