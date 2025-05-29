@@ -23,12 +23,13 @@
 }
 
 .sky-status-indicator-icon {
-  // font-size: 1.25em;
-
   flex-shrink: 1;
   padding-right: var(
-    --sky-override-status-indicator-icon-padding-right,
-    var(--sky-space-gap-icon-s)
+    --sky-staus-indicator-padding-right,
+    var(
+      --sky-override-status-indicator-icon-padding-right,
+      var(--sky-space-gap-icon-s)
+    )
   );
 }
 

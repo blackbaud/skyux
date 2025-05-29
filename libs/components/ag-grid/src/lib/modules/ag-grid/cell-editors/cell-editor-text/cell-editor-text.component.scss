@@ -1,3 +1,13 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('input') {
+  --sky-override-ag-grid-text-editor-left-padding: 9px;
+}
+
+@include compatMixins.sky-modern-overrides('input') {
+  --sky-override-ag-grid-text-editor-left-padding: 10px;
+}
+
 :host {
   height: 100%;
   width: 100%;
@@ -5,6 +15,16 @@
 }
 
 input {
+  background-color: transparent;
   border: none;
-  padding-left: 11px;
+  height: 100%;
+  width: 100%;
+  padding-left: var(
+    --sky-override-ag-grid-text-editor-left-padding,
+    calc(
+      var(--sky-space-inset-letterbox-2_3-left-m) - var(
+          --sky-border-width-input-focus
+        )
+    )
+  );
 }
