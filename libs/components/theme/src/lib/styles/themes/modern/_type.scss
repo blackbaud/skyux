@@ -26,15 +26,15 @@
   .sky-font-data-label {
     color: var(--sky-color-text-deemphasized);
     font-family: var(--sky-font-family-primary);
-    font-size: var(--sky-font-size-data_label);
-    font-weight: var(--sky-font-weight-data_label);
+    font-size: var(--sky-font-size-body-m);
+    font-weight: var(--sky-font-weight-body-m);
   }
 
   .sky-font-field-label {
     color: var(--sky-color-text-deemphasized);
     font-family: var(--sky-font-family-primary);
-    font-size: var(--sky-font-size-data_label);
-    font-weight: var(--sky-font-weight-data_label);
+    font-size: var(--sky-font-size-body-m);
+    font-weight: var(--sky-font-weight-body-m);
   }
 
   .sky-font-deemphasized {
@@ -114,11 +114,11 @@
   }
 
   .sky-font-data-label {
-    line-height: var(--sky-font-line_height-data_label);
+    line-height: var(--sky-font-line_height-body-m);
   }
 
   .sky-font-field-label {
-    line-height: var(--sky-font-line_height-data_label);
+    line-height: var(--sky-font-line_height-body-m);
   }
 
   .sky-font-display-1 {
