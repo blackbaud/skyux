@@ -61,5 +61,5 @@ describe(`ag-grid-storybook`, () => {
         });
       });
     });
-  }, true);
+  });
 });
