@@ -215,7 +215,7 @@
         );
       }
 
-      &:focus-visible .sky-toggle-switch-switch {
+      &:focus-visible:not(:active) .sky-toggle-switch-switch {
         border-color: var(
           --sky-override-toggle-switch-border-color-focus,
           var(--sky-color-border-switch-selected-focus)
