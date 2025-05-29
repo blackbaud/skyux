@@ -372,6 +372,7 @@
 }
 
 .sky-flyout-content {
+  clip-path: inset(0);
   overflow-y: auto;
   // This margin-top rule can be removed when all that is left is modern v2;
   margin-top: var(--sky-override-flyout-header-height, 0);
