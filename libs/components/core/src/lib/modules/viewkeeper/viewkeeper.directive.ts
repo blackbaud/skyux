@@ -217,29 +217,22 @@ export class SkyViewkeeperDirective
             (num, rect) => Math.min(num, rect.left),
             Number.POSITIVE_INFINITY,
           );
-          this.#renderer.setStyle(this.#shadowElement, 'left', `${left}px`);
           const right = boundingRectangles.reduce(
             (num, rect) => Math.max(num, rect.right),
             Number.NEGATIVE_INFINITY,
-          );
-          this.#renderer.setStyle(
-            this.#shadowElement,
-            'right',
-            `${window.innerWidth - right}px`,
           );
           const top = boundingRectangles.reduce(
             (num, rect) => Math.min(num, rect.top),
             Number.POSITIVE_INFINITY,
           );
-          this.#renderer.setStyle(this.#shadowElement, 'top', `${top}px`);
           const bottom = boundingRectangles.reduce(
             (num, rect) => Math.max(num, rect.bottom),
             Number.NEGATIVE_INFINITY,
           );
           this.#renderer.setStyle(
             this.#shadowElement,
-            'bottom',
-            `${window.innerHeight - bottom}px`,
+            'inset',
+            `${top}px ${window.innerWidth - right}px ${window.innerHeight - bottom}px ${left}px`,
           );
         });
 

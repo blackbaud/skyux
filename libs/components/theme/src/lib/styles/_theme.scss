@@ -142,6 +142,7 @@ symbol[id^='sky-i-']:not(.sky-i-branded) * {
 }
 
 .sky-viewkeeper-boundary {
+  clip-path: inset(0);
   isolation: isolate;
 }
 
