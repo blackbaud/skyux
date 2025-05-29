@@ -47,13 +47,11 @@ export class SkyAgGridCellEditorCurrencyComponent
     isCancellable: false,
   };
   public columnHeader: string | undefined;
-  public columnWidth: number | undefined;
   public currency = new UntypedFormControl();
   public editorForm = new UntypedFormGroup({
     currency: this.currency,
   });
   public params: SkyCellEditorCurrencyParams | undefined;
-  public rowHeightWithoutBorders: number | undefined;
   public rowNumber: number | undefined;
 
   @ViewChild('skyCellEditorCurrency', { read: ElementRef })
@@ -83,11 +81,6 @@ export class SkyAgGridCellEditorCurrencyComponent
       'header',
     );
     this.rowNumber = this.params.rowIndex + 1;
-    this.columnWidth = this.params.column.getActualWidth();
-    this.rowHeightWithoutBorders = SkyAgGridCellEditorUtils.subtractOrZero(
-      this.params.node?.rowHeight,
-      4,
-    );
     this.skyComponentProperties = {
       ...(this.params.skyComponentProperties || {
         decimalPlaces: 2,

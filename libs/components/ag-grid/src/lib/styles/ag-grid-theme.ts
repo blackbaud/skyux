@@ -2,20 +2,25 @@ import { SkyThemeSettings } from '@skyux/theme';
 
 import {
   Theme,
-  colorSchemeDark,
+  ThemeDefaultParams,
   colorSchemeLight,
   themeQuartz,
 } from 'ag-grid-community';
 
-const defaultsForAllThemes = {
-  backgroundColor: 'var(--sky-background-color-page-default)',
-  borderColor: 'var(--sky-border-color-neutral-medium)',
-  borderRadius: 'var(--sky-border-radius-s, 3px)',
+const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
+  backgroundColor:
+    'var(--sky-override-ag-grid-background-color, var(--sky-background-color-page-default))',
+  borderColor:
+    'var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
+  borderRadius:
+    'var(--sky-override-ag-grid-border-radius, var(--sky-border-radius-s))',
   cardShadow: 'none',
-  cellEditingBorder: 'none',
-  cellHorizontalPadding: 12,
+  cellHorizontalPadding:
+    'var(--sky-override-ag-grid-cell-horizontal-padding, var(--sky-space-inset-letterbox-2_3-left-m))',
+  cellEditingBorder:
+    'var(--sky-override-ag-grid-cell-focus-border-width, var(--sky-border-width-input-focus)) solid var(--sky-override-ag-grid-cell-focus-border-color, var(--sky-color-border-input-focus))',
   checkboxCheckedBackgroundColor:
-    'var(--sky-color-background-selected-heavy, var(--sky-background-color-input-selected, transparent))',
+    'var(--sky-override-ag-grid-checkbox-selected-background-color, var(--sky-color-background-selected-heavy))',
   checkboxCheckedBorderColor: { ref: 'checkboxCheckedShapeColor' },
   checkboxCheckedShapeColor:
     'var(--sky-override-switch-checked-color, var(--sky-color-icon-inverse, var(--sky-text-color-default)))',
@@ -23,178 +28,93 @@ const defaultsForAllThemes = {
     'var(--sky-override-switch-checked-color, var(--sky-color-icon-inverse, transparent))',
   checkboxUncheckedBackgroundColor: 'transparent',
   checkboxUncheckedBorderColor: `var(
-    --sky-border-color-neutral-medium-dark,
-    var(--sky-border-color-neutral-medium)
+    --sky-override-ag-grid-checkbox-unchecked-border-color,
+    var(--sky-color-border-input-base)
   )`,
   checkboxCheckedShapeImage: {
-    svg: `<svg width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m8.5 16.586-3.793-3.793a1 1 0 0 0-1.414 1.414l4.5 4.5a1 1 0 0 0 1.414 0l11-11a1 1 0 0 0-1.414-1.414L8.5 16.586Z" fill="#212121"/></svg>`,
+    svg: `<svg width="16" height="16" fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M13.9884 3.54756C13.6244 3.16685 13.0164 3.1491 12.6302 3.50792L5.62682 10.0157L3.64517 8.03282C3.27275 7.66016 2.66443 7.65572 2.28646 8.0229C1.90848 8.39007 1.90397 8.98983 2.2764 9.36248L4.85162 11.9393C5.25487 12.3428 5.91121 12.3548 6.32932 11.9663L13.9482 4.88659C14.3343 4.52777 14.3523 3.92827 13.9884 3.54756Z" fill="#212121"/></svg>`,
   },
-  // eslint-disable-next-line @cspell/spellchecker
-  fontFamily: ['BLKB Sans', 'Helvetica Neue', 'Arial', 'sans-serif'],
-  foregroundColor: 'var(--sky-text-color-default)',
+  fontFamily:
+    'var(--sky-override-ag-grid-font-family, var(--sky-font-family-primary))',
+  fontSize:
+    'var(--sky-override-ag-grid-font-size, var(--sky-font-size-body-m))',
+  foregroundColor:
+    'var(--sky-override-ag-grid-foreground-color, var(--sky-color-text-default))',
   headerBackgroundColor: 'var(--sky-background-color-page-default)',
-  headerColumnBorder: {
-    style: 'solid' as const,
-    width: 1,
-    color: { ref: 'borderColor' },
-  },
+  headerColumnBorder:
+    'var(--sky-override-ag-grid-border-width, var(--sky-border-width-divider)) var(--sky-override-ag-grid-border-style, var(--sky-border-style-divider)) var(--sky-override-ag-grid-border-color, transparent)',
   headerColumnBorderHeight: '100%',
-  headerColumnResizeHandleColor: 'var(--sky-border-color-neutral-medium)',
-  headerColumnResizeHandleHeight: '100%',
-  headerColumnResizeHandleWidth: 1,
+  headerColumnResizeHandleColor:
+    'var(--sky-override-ag-grid-column-divider-color, var(--sky-color-border-column_divider))',
+  headerColumnResizeHandleHeight:
+    'var(--sky-override-ag-grid-header-resize-height, calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)))',
+  headerColumnResizeHandleWidth:
+    'var(--sky-override-ag-grid-header-divider-width, var(--sky-border-width-divider))',
   headerFontFamily: { ref: 'fontFamily' },
+  headerHeight:
+    'var(--sky-override-ag-grid-header-height, calc(calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) + calc(var(--sky-space-inset-letterbox-2_3-top-m) + var(--sky-space-inset-letterbox-2_3-bottom-m))))',
+  headerRowBorder:
+    'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-separator-row)) var(--sky-override-ag-grid-header-row-border-style, var(--sky-border-style-separator-row)) var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
   iconSize: 12,
   inputDisabledBackgroundColor: 'transparent',
   inputFocusBorder: 'transparent',
   inputFocusShadow: 'none',
-  invalidColor: 'var(--sky-background-color-danger-dark)',
+  invalidColor:
+    'var(--sky-override-ag-grid-invalid-color, var(--sky-color-background-action-danger-base))',
   listItemHeight: { ref: 'rowHeight' },
   oddRowBackgroundColor: 'var(--sky-background-color-page-default)',
   pickerListBackgroundColor: { ref: 'backgroundColor' },
-  popupShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)',
-  rowBorderColor: 'var(--sky-border-color-neutral-medium)',
+  popupShadow:
+    'var(--sky-override-ag-grid-popup-shadow, var(--sky-elevation-overlay-300))',
+  rangeSelectionBorderColor:
+    'var(--sky-override-ag-grid-range-selection-border-color, var(--sky-color-border-input-focus))',
+  rowBorder:
+    'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-separator-row)) var(--sky-override-ag-grid-row-border-style, var(--sky-border-style-separator-row)) var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
+  rowHeight:
+    'var(--sky-override-ag-grid-row-height, calc(calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) + calc(var(--sky-space-inset-letterbox-2_3-top-m) + var(--sky-space-inset-letterbox-2_3-bottom-m))))',
   rowHoverColor: 'transparent',
-  secondaryForegroundColor: 'var(--sky-text-color-deemphasized)',
-  selectedRowBackgroundColor: 'var(--sky-background-color-selected)',
+  selectedRowBackgroundColor:
+    'var(--sky-override-ag-grid-row-selected-color, var(--sky-color-background-selected-soft))',
+  // TODO: investigate removing this in 13. Does not appear to be impacting anything, but it could be used by features we have not tested so major version removal is safest.
   spacing: 4,
-  textColor: 'var(--sky-text-color-default)',
-  tooltipBackgroundColor: 'var(--sky-background-color-neutral-light)',
+  textColor:
+    'var(--sky-override-ag-grid-text-color, var(--sky-color-text-default))',
+  tooltipBackgroundColor:
+    'var(--sky-override-ag-grid-tooltip-background-color, var(--sky-color-background-container-base))',
   wrapperBorderRadius: 0,
 };
+
 const defaultsForDataEntryGrid = {
-  backgroundColor: 'var(--sky-background-color-page-default)',
-  columnBorder: true,
+  columnBorder:
+    'var(--sky-override-ag-grid-column-border, var(--sky-border-width-separator-row) solid var(--sky-color-border-separator-row))',
   popupShadow: 'none',
-};
-const defaultThemeBase = {
-  ...defaultsForAllThemes,
-  backgroundColor: '#fbfbfb', //SkyDefaultDesignTokens.color.gray['01'],
-  fontSize: 15,
-  headerHeight: 37,
-  inputFocusBorderColor: 'var(--sky-highlight-color-info)',
-  rowHeight: 38,
-  rangeSelectionBorderColor: 'var(--sky-highlight-color-info)',
-};
-const modernThemeBase = {
-  ...defaultsForAllThemes,
-  fontSize: 16,
-  headerColumnBorder: {
-    style: 'solid' as const,
-    width: 1,
-    color: 'transparent',
-  },
-  headerColumnResizeHandleColor: { ref: 'headerBackgroundColor' },
-  headerColumnSeparatorColor: { ref: 'headerBackgroundColor' },
-  headerHeight: 60,
-  inputFocusBorderColor: '#1870B8', // SkyModernDesignTokens['border-color']['primary-dark'],
-  rowHeight: 60,
-  rangeSelectionBorderColor: { ref: 'inputFocusBorderColor' },
-};
-const modernCompactThemeBase = {
-  headerHeight: 32,
-  rowHeight: 32,
-};
-const modernThemeDarkBase = {
-  ...defaultsForAllThemes,
-  fontSize: 16,
-  headerHeight: 60,
-  rowHeight: 60,
+  rowBorder:
+    'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-separator-row)) solid var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
+  headerRowBorder:
+    'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-emphasized)) solid var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
 };
 
-const SkyAgGridDataGridDefault = themeQuartz
+const SkyAgGridDataGrid = themeQuartz
   .withoutPart('iconSet')
   .withPart(colorSchemeLight)
-  .withParams(defaultThemeBase);
+  .withParams(defaultsForAllThemes);
 
-const SkyAgGridDataEntryGridDefault = SkyAgGridDataGridDefault.withParams(
-  defaultsForDataEntryGrid,
-).withParams({
-  cellHorizontalPadding: '11px',
-  columnBorder: {
-    style: 'solid' as const,
-    width: 1,
-    color: { ref: 'borderColor' },
-  },
-});
-
-const SkyAgGridDataGridModernLight = themeQuartz
-  .withoutPart('iconSet')
-  .withPart(colorSchemeLight)
-  .withParams(modernThemeBase);
-
-const SkyAgGridDataGridModernLightCompact =
-  SkyAgGridDataGridModernLight.withParams(modernCompactThemeBase);
-
-const SkyAgGridDataGridModernDark = themeQuartz
-  .withoutPart('iconSet')
-  .withPart(colorSchemeDark)
-  .withParams(modernThemeDarkBase);
-
-const SkyAgGridDataGridModernDarkCompact =
-  SkyAgGridDataGridModernDark.withParams(modernCompactThemeBase);
-
-const SkyAgGridDataEntryGridModernLight =
-  SkyAgGridDataGridModernLight.withParams(defaultsForDataEntryGrid).withParams({
-    backgroundColor: '#ffffff',
-  });
-
-const SkyAgGridDataEntryGridModernLightCompact =
-  SkyAgGridDataGridModernLightCompact.withParams(defaultsForDataEntryGrid);
-
-const SkyAgGridDataEntryGridModernDark = SkyAgGridDataGridModernDark.withParams(
+const SkyAgGridDataEntryGrid = SkyAgGridDataGrid.withParams(
   defaultsForDataEntryGrid,
 );
 
-const SkyAgGridDataEntryGridModernDarkCompact =
-  SkyAgGridDataGridModernDarkCompact.withParams(defaultsForDataEntryGrid);
-
 export function getSkyAgGridTheme(
   grid: 'data-entry-grid' | 'data-grid',
-  theme: string | undefined,
-  mode: string | undefined,
-  spacing: string | undefined,
 ): Theme {
   if (grid === 'data-grid') {
-    if (theme === 'modern') {
-      if (mode === 'dark') {
-        if (spacing === 'compact') {
-          return SkyAgGridDataGridModernDarkCompact;
-        } else {
-          return SkyAgGridDataGridModernDark;
-        }
-      } else {
-        if (spacing === 'compact') {
-          return SkyAgGridDataGridModernLightCompact;
-        } else {
-          return SkyAgGridDataGridModernLight;
-        }
-      }
-    } else {
-      return SkyAgGridDataGridDefault;
-    }
+    return SkyAgGridDataGrid;
   } else {
-    if (theme === 'modern') {
-      if (mode === 'dark') {
-        if (spacing === 'compact') {
-          return SkyAgGridDataEntryGridModernDarkCompact;
-        } else {
-          return SkyAgGridDataEntryGridModernDark;
-        }
-      } else {
-        if (spacing === 'compact') {
-          return SkyAgGridDataEntryGridModernLightCompact;
-        } else {
-          return SkyAgGridDataEntryGridModernLight;
-        }
-      }
-    } else {
-      return SkyAgGridDataEntryGridDefault;
-    }
+    return SkyAgGridDataEntryGrid;
   }
 }
 
 type SkyAgGridThemeType =
-  `ag-theme-sky-${'data-entry-grid' | 'data-grid'}-${'default' | 'modern-light' | 'modern-dark' | 'modern-light-compact' | 'modern-dark-compact'}`;
+  `ag-theme-sky-${'data-entry-grid' | 'data-grid'}-${'default' | 'modern-light' | 'modern-light-compact'}`;
 
 export function agGridThemeIsCompact(
   themeSettings: SkyThemeSettings | undefined,

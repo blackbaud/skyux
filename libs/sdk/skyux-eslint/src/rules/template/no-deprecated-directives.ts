@@ -1,19 +1,19 @@
-import {
-  type TmplAstBoundAttribute,
-  type TmplAstElement,
-  type TmplAstTextAttribute,
+import type {
+  TmplAstBoundAttribute,
+  TmplAstElement,
+  TmplAstTextAttribute,
 } from '@angular-eslint/bundled-angular-compiler';
 import {
   ensureTemplateParser,
   getTemplateParserServices,
 } from '@angular-eslint/utils';
-import { type RuleListener } from '@typescript-eslint/utils/ts-eslint';
+import type { RuleListener } from '@typescript-eslint/utils/ts-eslint';
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
 import { getDeprecatedTemplateFeatures } from './utils/get-deprecated-template-features';
 import { getDirectiveSelectorDetails } from './utils/get-directive-selector-details';
-import { DeprecatedDirective } from './utils/types';
+import type { DeprecatedDirective } from './utils/types';
 
 const DEPRECATIONS = getDeprecatedTemplateFeatures();
 

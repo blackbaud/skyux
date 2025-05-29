@@ -1,42 +1,46 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as defaultVars;
 
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides(
+  '.sky-ag-grid-cell-editor-datepicker'
+) {
+  --sky-override-ag-grid-datepicker-editor-border-width: 1px;
+  --sky-override-ag-grid-datepicker-editor-border-color: #{transparent
+    defaultVars.$sky-border-color-neutral-medium transparent transparent};
+  --sky-override-ag-grid-datepicker-editor-position: relative;
+  --sky-override-ag-grid-datepicker-editor-top-left: 1px;
+}
+
 .sky-ag-grid-cell-editor-datepicker {
-  position: relative;
-  top: 1px;
-  left: 1px;
+  position: var(--sky-override-ag-grid-datepicker-editor-position, static);
+  top: var(--sky-override-ag-grid-datepicker-editor-top-left, initial);
+  left: var(--sky-override-ag-grid-datepicker-editor-top-left, initial);
 
   sky-datepicker {
     input.sky-form-control {
+      background-color: var(--ag-background-color);
       box-shadow: none;
-      border-width: 1px;
+      border-width: var(
+        --sky-override-ag-grid-datepicker-editor-border-width,
+        var(--sky-border-width-input-base)
+      );
       border-style: solid;
-      border-color: transparent defaultVars.$sky-border-color-neutral-medium
-        transparent transparent;
+      border-color: var(
+        --sky-override-ag-grid-datepicker-editor-border-color,
+        var(--sky-color-border-input-focus)
+      );
+
+      &:focus {
+        border-width: var(
+          --sky-override-ag-grid-datepicker-editor-border-width,
+          var(--sky-border-width-input-focus)
+        );
+      }
     }
 
     .sky-input-group-datepicker-btn {
       border-radius: 0;
-    }
-  }
-}
-
-@include defaultMixins.sky-theme-modern {
-  .sky-ag-grid-cell-editor-datepicker {
-    position: static;
-    top: initial;
-    left: initial;
-
-    sky-datepicker {
-      input.sky-form-control {
-        border-radius: 0;
-        border: 1px solid
-          defaultVars.$sky-theme-modern-border-color-primary-dark;
-
-        &:focus {
-          border-width: 2px !important;
-        }
-      }
     }
   }
 }

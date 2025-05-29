@@ -1,9 +1,9 @@
-import { TmplAstTextAttribute } from '@angular-eslint/bundled-angular-compiler';
+import type { TmplAstTextAttribute } from '@angular-eslint/bundled-angular-compiler';
 import {
   ensureTemplateParser,
   getTemplateParserServices,
 } from '@angular-eslint/utils';
-import { type RuleFix } from '@typescript-eslint/utils/ts-eslint';
+import type { RuleFix } from '@typescript-eslint/utils/ts-eslint';
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 

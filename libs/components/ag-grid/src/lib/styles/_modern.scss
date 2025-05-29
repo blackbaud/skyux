@@ -1,38 +1,25 @@
 @use 'libs/components/theme/src/lib/styles/variables' as variables;
+@use './variables' as sky-ag-grid-variables;
 
 .ag-theme-sky-data-grid-modern-light,
-.ag-theme-sky-data-grid-modern-dark,
+.ag-theme-sky-data-entry-grid-modern-light,
 .ag-theme-sky-data-grid-modern-light-compact,
-.ag-theme-sky-data-grid-modern-dark-compact {
-  ag-grid-angular {
-    --initial-column-resize-handle-height: calc(var(--ag-spacing) * 4);
-    --initial-column-resize-handle-top: calc(
-      (var(--ag-header-height) - var(--initial-column-resize-handle-height)) *
-        0.5
+.ag-theme-sky-data-entry-grid-modern-light-compact {
+  .ag-cell.ag-cell-wrap-text span.ag-cell-value {
+    line-height: var(--sky-font-line_height-body-m);
+    padding-top: var(
+      --sky-override-ag-grid-cell-padding-vertical,
+      var(--sky-space-inset-letterbox-2_3-top-m)
     );
+    padding-bottom: var(
+      --sky-override-ag-grid-cell-padding-vertical,
+      var(--sky-space-inset-letterbox-2_3-bottom-m)
+    );
+    min-height: calc(var(--ag-row-height) - 2px);
   }
-}
 
-.ag-theme-sky-data-entry-grid-modern-light,
-.ag-theme-sky-data-entry-grid-modern-dark,
-.ag-theme-sky-data-entry-grid-modern-light-compact,
-.ag-theme-sky-data-entry-grid-modern-dark-compact {
-  ag-grid-angular {
-    --initial-column-resize-handle-height: 100%;
-    --initial-column-resize-handle-top: 0;
-  }
-}
-
-.ag-theme-sky-data-grid-modern-light,
-.ag-theme-sky-data-grid-modern-dark,
-.ag-theme-sky-data-entry-grid-modern-light,
-.ag-theme-sky-data-entry-grid-modern-dark,
-.ag-theme-sky-data-grid-modern-light-compact,
-.ag-theme-sky-data-grid-modern-dark-compact,
-.ag-theme-sky-data-entry-grid-modern-light-compact,
-.ag-theme-sky-data-entry-grid-modern-dark-compact {
   .ag-header .ag-header-cell .ag-header-cell-label-sortable {
-    color: var(--sky-text-color-default);
+    color: var(--sky-color-text-heading);
   }
 
   .ag-header-cell,
@@ -41,19 +28,19 @@
 
     &.ag-floating-filter {
       border-right: var(--ag-column-border);
-      padding-right: calc(var(--ag-spacing) * 3 - 1px);
+      padding-right: calc(
+        var(--ag-cell-horizontal-padding) - var(
+            --sky-override-ag-grid-border-width,
+            var(--sky-border-width-separator-row)
+          )
+      );
     }
     &:not(
         .ag-column-resizing,
         .sky-ag-grid-header-resizable:has(> .ag-header-cell-resize:hover)
       ) {
-      --ag-header-column-resize-handle-color: var(
-        --sky-border-color-neutral-medium-dark
-      );
-      --ag-header-column-resize-handle-height: var(
-        --initial-column-resize-handle-height
-      );
       .ag-header-cell-resize::after {
+        // these styles make the resize handle a dotted line since it is not technically a border
         mask-size: 1px 2px;
         -webkit-mask-size: 1px 2px;
         mask-image: linear-gradient(
@@ -74,15 +61,14 @@
         -webkit-mask-repeat: repeat;
         mask-position: top;
         -webkit-mask-position: top;
-        height: var(--initial-column-resize-handle-height);
-        top: var(--initial-column-resize-handle-top);
       }
     }
   }
   .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing,
   .ag-header-cell.sky-ag-grid-header-resizable > .ag-header-cell-resize:hover {
     --ag-header-column-resize-handle-color: var(
-      --sky-text-color-action-primary
+      --sky-override-ag-grid-resize-handle-color,
+      var(--sky-color-border-column_divider)
     );
     --ag-header-column-resize-handle-height: 100%;
     --ag-header-column-resize-handle-width: 3px;
@@ -105,8 +91,7 @@
   }
 
   .ag-tooltip {
-    box-shadow: variables.$sky-theme-modern-elevation-4-shadow-size
-      variables.$sky-theme-modern-elevation-4-shadow-color;
+    box-shadow: var(--sky-elevation-overlay-100);
   }
 
   @for $i from 1 through 100 {
@@ -119,8 +104,18 @@
       ) {
       .ag-header-cell.ag-floating-filter:nth-child(#{$i}),
       .ag-cell:nth-child(#{$i}) {
-        border-right: 1px solid var(--sky-text-color-action-primary);
-        padding-right: calc(var(--ag-spacing) * 3 - 1px);
+        border-right: 1px
+          solid
+          var(
+            --sky-override-ag-grid-resize-handle-color,
+            var(--sky-color-border-column_divider)
+          );
+        padding-right: calc(
+          var(--ag-cell-horizontal-padding) - var(
+              --sky-override-ag-grid-border-width,
+              var(--sky-border-width-separator-row)
+            )
+        );
       }
     }
 
@@ -132,8 +127,110 @@
       ) {
       .ag-header-cell.ag-floating-filter:nth-child(#{$i}),
       .ag-cell:nth-child(#{$i}) {
-        border-right: 3px solid var(--sky-text-color-action-primary);
-        padding-right: calc(var(--ag-spacing) * 3 - 3px);
+        border-right: 3px
+          solid
+          var(
+            --sky-override-ag-grid-resize-handle-color,
+            var(--sky-color-border-column_divider)
+          );
+        padding-right: calc(var(--ag-cell-horizontal-padding) - 3px);
+      }
+    }
+  }
+}
+
+.ag-theme-sky-data-grid-modern-light,
+.ag-theme-sky-data-grid-modern-light-compact {
+  border-top: var(--sky-override-ag-grid-top-border, none);
+
+  .ag-row-hover::before {
+    background-color: transparent;
+  }
+
+  .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
+    align-items: flex-start;
+  }
+
+  .ag-root-wrapper {
+    border: none;
+  }
+
+  .ag-cell {
+    border-block-end: none;
+    border-block-start: none;
+  }
+
+  .ag-row:not(.ag-row-first) {
+    border-top: none;
+  }
+}
+
+.ag-theme-sky-data-entry-grid-modern-light,
+.ag-theme-sky-data-entry-grid-modern-light-compact {
+  .sky-ag-grid-editable {
+    border-top-width: var(--sky-override-ag-grid-top-border-width-editable, 0);
+  }
+
+  .ag-popup {
+    .ag-popup-editor {
+      background-color: transparent;
+
+      sky-input-box {
+        --sky-background-color-input-box-group: var(--ag-background-color);
+      }
+    }
+
+    .ag-select-list {
+      box-shadow: var(--sky-elevation-overlay-100);
+
+      .ag-select-list-item {
+        cursor: pointer;
+        border: var(--sky-border-width-input-base) solid transparent;
+
+        &:focus-visible,
+        &:hover,
+        &.ag-active-item {
+          background-color: transparent;
+          border-color: var(--sky-color-border-input-hover);
+        }
+      }
+    }
+  }
+
+  .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
+    align-items: flex-start;
+  }
+
+  .ag-cell:hover {
+    border: var(--sky-border-width-input-hover) solid
+      var(--sky-color-border-input-hover);
+  }
+
+  .sky-ag-grid-cell-uneditable:not(.sky-ag-grid-cell-row-selector) {
+    background-color: var(--sky-color-background-input-disabled);
+  }
+
+  .ag-row:not(.ag-row-first) {
+    border-top: none;
+  }
+
+  .ag-row {
+    &.ag-row-focus {
+      z-index: 1;
+    }
+
+    .ag-cell.ag-cell-focus {
+      .ag-select {
+        .ag-picker-field-wrapper {
+          padding-left: var(
+            --sky-override-ag-grid-cell-focus-horizontal-padding,
+            calc(
+              var(--sky-space-inset-letterbox-2_3-left-m) - var(
+                  --sky-border-width-input-focus
+                )
+            )
+          );
+        }
       }
     }
   }
