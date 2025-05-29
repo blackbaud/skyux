@@ -89,7 +89,9 @@ export class SkyViewkeeperDirective
     this.#scrollableHostWatchUnsubscribe?.next();
     this.#scrollableHostWatchUnsubscribe?.complete();
     this.#destroyViewkeepers();
-    this.#renderer.removeChild(this.#el.nativeElement, this.#shadowElement);
+    if (this.#shadowElement) {
+      this.#renderer.removeChild(this.#el.nativeElement, this.#shadowElement);
+    }
   }
 
   public ngAfterViewInit(): void {
