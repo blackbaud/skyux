@@ -33,10 +33,10 @@ sky-box {
     align-items: baseline;
     padding: var(
       --sky-override-box-header-container-padding,
-      var(--sky-comp-box-heading-space-inset-top)
-        var(--sky-comp-box-heading-space-inset-right)
-        var(--sky-comp-box-heading-space-inset-bottom)
-        var(--sky-comp-box-heading-space-inset-left)
+      var(--sky-comp-box-header-space-inset-top)
+        var(--sky-comp-box-header-space-inset-right)
+        var(--sky-comp-box-header-space-inset-bottom)
+        var(--sky-comp-box-header-space-inset-left)
     );
 
     &:empty {
