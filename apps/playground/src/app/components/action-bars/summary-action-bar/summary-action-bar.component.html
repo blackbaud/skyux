@@ -83,24 +83,7 @@
     </p>
   }
 
-  <sky-summary-action-bar id="summary-action-bar">
-    <sky-summary-action-bar-actions>
-      <sky-summary-action-bar-primary-action (actionClick)="printHello()">
-        Primary action
-      </sky-summary-action-bar-primary-action>
-      <sky-summary-action-bar-secondary-actions>
-        Foo
-        <sky-summary-action-bar-secondary-action (actionClick)="printHello()">
-          Secondary action
-        </sky-summary-action-bar-secondary-action>
-        <sky-summary-action-bar-secondary-action (actionClick)="printHello()">
-          Secondary action 2
-        </sky-summary-action-bar-secondary-action>
-      </sky-summary-action-bar-secondary-actions>
-      <sky-summary-action-bar-cancel (actionClick)="printHello()">
-        Cancel
-      </sky-summary-action-bar-cancel>
-    </sky-summary-action-bar-actions>
+  <sky-summary-action-bar id="summary-action-bar" [formErrors]="error">
     @if (showSummary) {
       <sky-summary-action-bar-summary>
         <sky-key-info [layout]="layout">

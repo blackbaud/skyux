@@ -17,13 +17,7 @@ export class SABModalContext {
 })
 export class SummaryActionBarComponent implements OnDestroy {
   @Input()
-  public set errors(errorsValue: SkySummaryActionBarError[]) {
-    this.#_errors = errorsValue;
-  }
-
-  public get errors(): SkySummaryActionBarError[] | undefined {
-    return this.#_errors;
-  }
+  public errors: SkySummaryActionBarError[] | undefined;
 
   @Input()
   public set type(
@@ -59,7 +53,6 @@ export class SummaryActionBarComponent implements OnDestroy {
   }
 
   #_type: 'tab' | 'page' | 'split-view' | 'modal' | 'modal-full-page' = 'page';
-  #_errors: SkySummaryActionBarError[] | undefined;
 
   #modalInstance: SkyModalInstance | undefined;
   #modalSvc = inject(SkyModalService);

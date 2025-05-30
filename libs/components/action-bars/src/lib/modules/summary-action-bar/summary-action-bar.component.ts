@@ -68,21 +68,13 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   readonly #observerService = inject(SkyMutationObserverService);
   readonly #windowRef = inject(SkyAppWindowRef);
 
-  #_formErrors: SkySummaryActionBarError[] | undefined;
-
   public isSummaryCollapsed = signal<boolean>(false);
   public slideDirection = signal<string>('down');
 
   public summaryId = `sky-summary-action-bar-summary-${++nextId}`;
 
   @Input()
-  public set formErrors(errors: SkySummaryActionBarError[] | undefined) {
-    this.#_formErrors = errors;
-  }
-
-  public get formErrors(): SkySummaryActionBarError[] | undefined {
-    return this.#_formErrors;
-  }
+  public formErrors: SkySummaryActionBarError[] | undefined;
 
   @ContentChild(SkySummaryActionBarSummaryComponent, { read: ElementRef })
   public set summaryElement(element: ElementRef | undefined) {

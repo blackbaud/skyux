@@ -3,22 +3,6 @@
   <sky-modal-content> Content A </sky-modal-content>
   <sky-modal-footer>
     <sky-summary-action-bar [formErrors]="error">
-      <sky-summary-action-bar-actions>
-        <sky-summary-action-bar-primary-action (actionClick)="instance.save()">
-          Save
-        </sky-summary-action-bar-primary-action>
-        <sky-summary-action-bar-secondary-actions>
-          <sky-summary-action-bar-secondary-action (actionClick)="printHello()">
-            Secondary action
-          </sky-summary-action-bar-secondary-action>
-          <sky-summary-action-bar-secondary-action (actionClick)="moreErrors()">
-            Secondary action 2
-          </sky-summary-action-bar-secondary-action>
-        </sky-summary-action-bar-secondary-actions>
-        <sky-summary-action-bar-cancel (actionClick)="instance.cancel()">
-          Cancel
-        </sky-summary-action-bar-cancel>
-      </sky-summary-action-bar-actions>
       <sky-summary-action-bar-summary>
         <div>
           <sky-key-info>

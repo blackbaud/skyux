@@ -1,5 +1,5 @@
 /**
- * Interface to use to display errors in SummaryActionBarComponents.
+ * Contains an object with properties for displaying form-level errors in a summary action bar.
  */
 export interface SkySummaryActionBarError {
   /**
