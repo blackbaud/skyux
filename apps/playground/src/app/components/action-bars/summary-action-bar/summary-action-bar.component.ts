@@ -1,4 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
+import { SkySummaryActionBarError } from '@skyux/action-bars';
 import { SkyKeyInfoLayoutType } from '@skyux/indicators';
 import { SkyModalService } from '@skyux/modals';
 
@@ -18,6 +19,11 @@ export class SummaryActionBarComponent implements OnDestroy {
   public showSummary = true;
 
   private ngUnsubscribe = new Subject<void>();
+  public error: SkySummaryActionBarError[] = [
+    {
+      message: 'Error number 1',
+    },
+  ];
 
   constructor(private modalService: SkyModalService) {}
 

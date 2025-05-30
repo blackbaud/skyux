@@ -8,6 +8,7 @@ import {
   ContentChild,
   DestroyRef,
   ElementRef,
+  Input,
   OnDestroy,
   ViewChild,
   computed,
@@ -21,7 +22,7 @@ import {
   SkyMediaQueryService,
   SkyMutationObserverService,
 } from '@skyux/core';
-import { SkyChevronModule } from '@skyux/indicators';
+import { SkyChevronModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject, fromEvent } from 'rxjs';
@@ -29,6 +30,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SkyActionBarsResourcesModule } from '../shared/sky-action-bars-resources.module';
 
+import { SkySummaryActionBarError } from './errors/summary-action-bar-error';
 import { SkySummaryActionBarAdapterService } from './summary-action-bar-adapter.service';
 import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-bar-summary.component';
 import { SkySummaryActionBarType } from './types/summary-action-bar-type';
@@ -50,6 +52,7 @@ let nextId = 0;
     SkyActionBarsResourcesModule,
     SkyChevronModule,
     SkyThemeModule,
+    SkyStatusIndicatorModule,
   ],
   providers: [SkySummaryActionBarAdapterService],
   selector: 'sky-summary-action-bar',
@@ -69,6 +72,9 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   public slideDirection = signal<string>('down');
 
   public summaryId = `sky-summary-action-bar-summary-${++nextId}`;
+
+  @Input()
+  public formErrors: SkySummaryActionBarError[] | undefined;
 
   @ContentChild(SkySummaryActionBarSummaryComponent, { read: ElementRef })
   public set summaryElement(element: ElementRef | undefined) {

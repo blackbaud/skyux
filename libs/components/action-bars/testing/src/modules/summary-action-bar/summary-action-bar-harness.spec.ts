@@ -2,7 +2,10 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SkySummaryActionBarModule } from '@skyux/action-bars';
+import {
+  SkySummaryActionBarError,
+  SkySummaryActionBarModule,
+} from '@skyux/action-bars';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -15,7 +18,7 @@ import { SkySummaryActionBarHarness } from './summary-action-bar-harness';
   standalone: true,
   imports: [SkySummaryActionBarModule, SkyKeyInfoModule],
   template: `
-    <sky-summary-action-bar data-sky-id="action-bar">
+    <sky-summary-action-bar [formErrors]="errors" data-sky-id="action-bar">
       <sky-summary-action-bar-actions>
         <sky-summary-action-bar-primary-action
           data-sky-id="primary-action"
@@ -71,6 +74,7 @@ class TestComponent {
   public onSecondaryActionClick(): void {}
   public onSecondaryAction2Click(): void {}
   public cancel(): void {}
+  public errors: SkySummaryActionBarError[] | undefined;
 }
 
 describe('Summary action harness', () => {
@@ -125,7 +129,7 @@ describe('Summary action harness', () => {
     ).toBeResolved();
   });
 
-  it('should the cancel button', async () => {
+  it('should get the cancel button', async () => {
     const { summaryActionHarness } = await setupTest();
 
     await expectAsync(summaryActionHarness.getCancel()).toBeResolved();
@@ -134,6 +138,41 @@ describe('Summary action harness', () => {
         dataSkyId: 'cancel',
       }),
     ).toBeResolved();
+  });
+
+  it('should get all the error messages', async () => {
+    const { summaryActionHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.errors = [
+      {
+        message: 'Test error',
+      },
+      {
+        message: 'Test error 2',
+      },
+    ];
+    fixture.detectChanges();
+
+    await expectAsync(summaryActionHarness.getErrors()).toBeResolvedTo(
+      fixture.componentInstance.errors,
+    );
+  });
+
+  it('should get whether an error has fired', async () => {
+    const { summaryActionHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.errors = [
+      {
+        message: 'Test error',
+      },
+      {
+        message: 'Test error 2',
+      },
+    ];
+    fixture.detectChanges();
+    await expectAsync(
+      summaryActionHarness.hasError({ message: 'Test error' }),
+    ).toBeResolvedTo(true);
   });
 
   describe('cancel button', () => {
