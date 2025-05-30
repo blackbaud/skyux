@@ -216,5 +216,5 @@ describe('lookup-storybook', () => {
         });
       });
     });
-  }, true);
+  });
 });

@@ -38,5 +38,5 @@ describe(`modals-storybook`, () => {
         );
       });
     });
-  }, true);
+  });
 });

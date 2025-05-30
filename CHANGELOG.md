@@ -1,5 +1,20 @@
 # Changelog
 
+## [12.15.0](https://github.com/blackbaud/skyux/compare/12.14.3...12.15.0) (2025-05-30)
+
+
+### Features
+
+* **components/ag-grid:** tokenize data grid styles ([#3452](https://github.com/blackbaud/skyux/issues/3452)) ([11603d6](https://github.com/blackbaud/skyux/commit/11603d696041b4664fcb657e0fab3be0af7035b7))
+
+
+### Bug Fixes
+
+* **components/forms:** field group component stacked input uses correct class ([#3482](https://github.com/blackbaud/skyux/issues/3482)) ([5d34dcb](https://github.com/blackbaud/skyux/commit/5d34dcb3d5ab680e279b9858e1e53e20afd1afd7))
+* **components/forms:** update switch border color styles ([#3484](https://github.com/blackbaud/skyux/issues/3484)) ([bbeda94](https://github.com/blackbaud/skyux/commit/bbeda94bbd68bd5ef352f6537b6f88ed50ff4d93))
+* **components/packages:** add `"sideEffects": true` to support `@skyux/packages/polyfills` ([#3488](https://github.com/blackbaud/skyux/issues/3488)) ([5afbf9a](https://github.com/blackbaud/skyux/commit/5afbf9afda542d6dc5cc4d72d8e8ba521ac52d16))
+* **components/theme:** remove data label font tokens ([#3486](https://github.com/blackbaud/skyux/issues/3486)) ([a380d22](https://github.com/blackbaud/skyux/commit/a380d226c8836202b913b6b1d727bb4350f12f20))
+
 ## [12.14.3](https://github.com/blackbaud/skyux/compare/12.14.2...12.14.3) (2025-05-27)
 
 

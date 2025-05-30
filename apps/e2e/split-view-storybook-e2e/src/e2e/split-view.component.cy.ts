@@ -33,5 +33,5 @@ describe('split-view-storybook', () => {
         },
       );
     });
-  }, true);
+  });
 });

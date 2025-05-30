@@ -21,5 +21,5 @@ describe(`pages-storybook-tabs-tile-dashboard`, () => {
         });
       });
     });
-  }, true);
+  });
 });

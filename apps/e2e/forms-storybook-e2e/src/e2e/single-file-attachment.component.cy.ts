@@ -26,5 +26,5 @@ describe('forms-storybook - single file attachment', () => {
         );
       });
     });
-  }, true);
+  });
 });
