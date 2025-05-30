@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   HostBinding,
@@ -6,15 +7,31 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyUIConfigService } from '@skyux/core';
 import {
   SkyDataManagerConfig,
+  SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
+import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyDropdownModule } from '@skyux/popovers';
 
-import { GridOptions } from 'ag-grid-community';
+import { AgGridModule } from 'ag-grid-angular';
+import {
+  AllCommunityModule,
+  GridOptions,
+  ModuleRegistry,
+} from 'ag-grid-community';
 import { BehaviorSubject } from 'rxjs';
 
 import { CustomLinkComponent } from './custom-link/custom-link.component';
@@ -23,6 +40,7 @@ import {
   columnDefinitionsGrouped,
   data,
 } from './data-set-large';
+import { LocalStorageConfigService } from './local-storage-config.service';
 
 interface GridSettingsType {
   enableTopScroll: FormControl<boolean>;
@@ -34,12 +52,32 @@ interface GridSettingsType {
   showSelect: FormControl<boolean>;
 }
 
+ModuleRegistry.registerModules([AllCommunityModule]);
+
 @Component({
   selector: 'app-data-manager-large',
   templateUrl: './data-manager-large.component.html',
   styleUrls: ['./data-manager-large.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: false,
+  imports: [
+    AgGridModule,
+    CommonModule,
+    SkyDataManagerModule,
+    SkyDropdownModule,
+    SkyAgGridModule,
+    SkyCheckboxModule,
+    SkyIconModule,
+    SkyRadioModule,
+    ReactiveFormsModule,
+    SkyHelpInlineModule,
+  ],
+  providers: [
+    SkyDataManagerService,
+    {
+      provide: SkyUIConfigService,
+      useClass: LocalStorageConfigService,
+    },
+  ],
 })
 export class DataManagerLargeComponent implements OnInit {
   @HostBinding('class.use-normal-dom-layout')

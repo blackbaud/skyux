@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyAgGridHeaderInfo } from '@skyux/ag-grid';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 @Component({
   selector: 'app-inline-help',
@@ -12,7 +13,7 @@ import { SkyAgGridHeaderInfo } from '@skyux/ag-grid';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [SkyHelpInlineModule],
 })
 export class InlineHelpComponent {
   constructor(public info: SkyAgGridHeaderInfo) {}
