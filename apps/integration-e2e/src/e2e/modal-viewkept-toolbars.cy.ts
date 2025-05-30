@@ -59,5 +59,5 @@ describe('modal-viewkept-toolbars', () => {
         cy.skyVisualTest(`modal-viewkept-toolbars-${theme}`);
       });
     });
-  });
+  }, false);
 });

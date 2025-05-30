@@ -101,5 +101,5 @@ describe('modal footer dropdown', () => {
         });
       });
     });
-  });
+  }, false);
 });
