@@ -164,5 +164,5 @@ describe('forms-storybook - input box', () => {
         );
       });
     });
-  }, true);
+  });
 });

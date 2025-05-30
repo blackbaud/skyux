@@ -49,5 +49,5 @@ describe('forms-storybook', () => {
         },
       );
     });
-  }, true);
+  });
 });

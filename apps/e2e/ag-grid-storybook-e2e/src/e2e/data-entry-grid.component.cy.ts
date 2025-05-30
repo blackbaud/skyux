@@ -351,5 +351,5 @@ describe('ag-grid-storybook data entry grid', () => {
         });
       },
     );
-  }, true);
+  });
 });

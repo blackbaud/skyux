@@ -40,5 +40,5 @@ describe('tiles-storybook', () => {
         );
       });
     });
-  }, true);
+  });
 });

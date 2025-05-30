@@ -83,5 +83,5 @@ describe('colorpicker-storybook', () => {
         });
       });
     });
-  }, true);
+  });
 });
