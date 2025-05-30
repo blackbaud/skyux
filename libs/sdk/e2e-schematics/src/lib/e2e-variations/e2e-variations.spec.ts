@@ -7,7 +7,7 @@ describe('e2e variations', function () {
     expect(callback).toHaveBeenCalledTimes(3);
     callback.mockReset();
 
-    E2eVariations.forEachTheme(callback, true);
+    E2eVariations.forEachTheme(callback, false);
     expect(callback).toHaveBeenCalledTimes(2);
     callback.mockReset();
 
