@@ -110,5 +110,5 @@ describe('Modal Colorpicker', () => {
           .click({ waitForAnimations: true });
       });
     });
-  });
+  }, false);
 });

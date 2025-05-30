@@ -6,6 +6,11 @@ describe('e2e variations', function () {
     E2eVariations.forEachTheme(callback);
     expect(callback).toHaveBeenCalledTimes(3);
     callback.mockReset();
+
+    E2eVariations.forEachTheme(callback, false);
+    expect(callback).toHaveBeenCalledTimes(2);
+    callback.mockReset();
+
     expect(E2eVariations.DISPLAY_WIDTHS).toEqual([1280]);
     expect(E2eVariations.RESPONSIVE_WIDTHS).toEqual([375, 800, 1000, 1280]);
     expect(E2eVariations.MOBILE_WIDTHS).toEqual([375]);
