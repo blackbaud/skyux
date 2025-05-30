@@ -47,7 +47,7 @@ sky-toolbar + :host {
   &.sky-viewkeeper-fixed {
     background-color: var(
       --sky-override-toolbar-background-color,
-      var(--sky-color-background-page)
+      var(--sky-background-color-page-default, var(--sky-color-background-page))
     );
   }
 }
@@ -67,7 +67,7 @@ sky-toolbar + :host {
   .sky-toolbar-container {
     background-color: var(
       --sky-override-toolbar-background-color,
-      var(--sky-color-background-page)
+      var(--sky-background-color-page-default, var(--sky-color-background-page))
     );
   }
 }

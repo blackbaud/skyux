@@ -1,0 +1,31 @@
+<sky-modal>
+  <sky-modal-header>
+    <h2 class="sky-modal-title">Modal</h2>
+  </sky-modal-header>
+  <sky-modal-content>
+    <ng-content />
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      type="button"
+      class="sky-btn sky-btn-default"
+      (click)="modal.close()"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="sky-btn sky-btn-default"
+      (click)="openNotGridModal()"
+    >
+      Open non-grid modal
+    </button>
+    <button
+      type="button"
+      class="sky-btn sky-btn-primary"
+      (click)="openGridModal()"
+    >
+      Open grid modal
+    </button>
+  </sky-modal-footer>
+</sky-modal>

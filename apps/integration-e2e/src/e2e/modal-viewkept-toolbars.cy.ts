@@ -36,9 +36,9 @@ describe('modal-viewkept-toolbars', () => {
         cy.get('.sky-lookup-show-more-modal-multiselect-toolbar')
           .should('exist')
           .should('be.visible');
-        cy.get('sky-modal-content > p:nth-child(2)').should('be.visible');
+        cy.get('sky-modal-content > p:first-of-type').should('be.visible');
         cy.get('.sky-modal-content').should('be.visible').scrollTo('bottom');
-        cy.get('sky-modal-content > p:nth-child(2)').should('not.be.visible');
+        cy.get('sky-modal-content > p:first-of-type').should('not.be.visible');
         cy.get('.sky-lookup-show-more-modal-toolbar').should('be.visible');
         cy.get('sky-modal-content > .sky-viewkeeper-fixed').should(
           'satisfy',
