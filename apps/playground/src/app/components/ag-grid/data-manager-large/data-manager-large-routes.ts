@@ -1,13 +1,12 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-
 import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
 
+import { DataManagerLargeInModalComponent } from './data-manager-large-in-modal.component';
 import { DataManagerLargeComponent } from './data-manager-large.component';
 
 const routes: ComponentRouteInfo[] = [
   {
     path: '',
+    pathMatch: 'full',
     component: DataManagerLargeComponent,
     data: {
       name: 'AG Grid (data manager large)',
@@ -15,12 +14,15 @@ const routes: ComponentRouteInfo[] = [
       icon: 'table',
     },
   },
+  {
+    path: 'in-modal',
+    component: DataManagerLargeInModalComponent,
+    data: {
+      name: 'AG Grid (data manager large, in modal)',
+      library: 'ag-grid',
+      icon: 'table',
+    },
+  },
 ];
 
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class DataManagerLargeRoutingModule {
-  public static routes = routes;
-}
+export default routes;

@@ -1,5 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
 
@@ -16,13 +22,13 @@ describe('Viewkeeper directive', () => {
 
   function getBoundaryEl(
     fixture: ComponentFixture<ViewkeeperTestComponent>,
-  ): void {
+  ): HTMLElement {
     return fixture.debugElement.query(By.css('.boundary-el')).nativeElement;
   }
 
   function getScrollableHostEl(
     fixture: ComponentFixture<ViewkeeperTestComponent>,
-  ): void {
+  ): HTMLElement | undefined {
     return fixture.debugElement.query(By.css('.scrollable-host'))
       ?.nativeElement;
   }
@@ -131,6 +137,37 @@ describe('Viewkeeper directive', () => {
   afterEach(() => {
     mutationCallbacks = [];
   });
+
+  it('should maintain a shadow element', fakeAsync(() => {
+    const fixture = TestBed.createComponent(ViewkeeperTestComponent);
+    fixture.componentInstance.scrollableHost = true;
+    fixture.detectChanges();
+    triggerMutationChange();
+    validateViewkeepersCreated(fixture);
+
+    expect(
+      fixture.nativeElement.querySelectorAll('.sky-viewkeeper-shadow'),
+    ).toHaveSize(1);
+    expect(fixture.nativeElement.querySelectorAll('.el1')).toHaveSize(1);
+    expect(fixture.nativeElement.querySelectorAll('.el2')).toHaveSize(1);
+
+    const shadowEl = fixture.nativeElement.querySelector(
+      '.sky-viewkeeper-shadow',
+    );
+    expect(shadowEl).toBeTruthy();
+    const el1 = fixture.nativeElement.querySelector('.el1');
+    SkyAppTestUtility.fireDomEvent(el1, 'afterViewkeeperSync');
+    tick(16);
+    expect(shadowEl.classList).toContain('sky-viewkeeper-shadow--active');
+
+    fixture.componentInstance.showEl1 = false;
+    fixture.detectChanges();
+    triggerMutationChange();
+    const el2 = fixture.nativeElement.querySelector('.el2');
+    SkyAppTestUtility.fireDomEvent(el2, 'afterViewkeeperSync');
+    tick(16);
+    expect(shadowEl.classList).not.toContain('sky-viewkeeper-shadow--active');
+  }));
 
   it('should create viewkeeper objects for each matching element', () => {
     const fixture = TestBed.createComponent(ViewkeeperTestComponent);
