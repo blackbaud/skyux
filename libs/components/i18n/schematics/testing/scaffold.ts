@@ -10,18 +10,28 @@ import { VERSION } from '@angular/cli';
 export async function createTestApp(
   runner: SchematicTestRunner,
   appOptions: {
-    defaultProjectName: string;
+    setupEslint?: boolean;
+    projectName: string;
   },
 ): Promise<UnitTestTree> {
-  return await runner.runExternalSchematic('@schematics/angular', 'ng-new', {
-    directory: '/',
+  const tree = await runner.runExternalSchematic(
+    '@schematics/angular',
+    'ng-new',
+    {
+      directory: '/',
+      name: appOptions.projectName,
+      routing: true,
+      strict: true,
+      style: 'scss',
+      version: VERSION.major,
+    },
+  );
 
-    name: appOptions.defaultProjectName,
-    routing: true,
-    strict: true,
-    style: 'scss',
-    version: VERSION.major,
-  });
+  if (appOptions.setupEslint) {
+    await runner.runExternalSchematic('angular-eslint', 'ng-add', {}, tree);
+  }
+
+  return tree;
 }
 
 /**
@@ -30,29 +40,64 @@ export async function createTestApp(
 export async function createTestLibrary(
   runner: SchematicTestRunner,
   libOptions: {
-    name: string;
+    setupEslint?: boolean;
+    projectName: string;
   },
 ): Promise<UnitTestTree> {
-  const workspaceTree = await runner.runExternalSchematic(
+  const tree = await runner.runExternalSchematic(
     '@schematics/angular',
     'ng-new',
     {
       directory: '/',
-      name: `${libOptions.name}-workspace`,
+      name: `${libOptions.projectName}-workspace`,
       createApplication: false,
       strict: true,
       version: VERSION.major,
     },
   );
 
+  if (libOptions.setupEslint) {
+    await runner.runExternalSchematic('angular-eslint', 'ng-add', {}, tree);
+  }
+
   await runner.runExternalSchematic(
     '@schematics/angular',
     'library',
     {
-      name: libOptions.name,
+      name: libOptions.projectName,
     },
-    workspaceTree,
+    tree,
   );
 
-  return workspaceTree;
+  // Create a "showcase" application for library projects.
+  await runner.runExternalSchematic(
+    '@schematics/angular',
+    'application',
+    {
+      name: `${libOptions.projectName}-showcase`,
+    },
+    tree,
+  );
+
+  if (libOptions.setupEslint) {
+    await runner.runExternalSchematic(
+      'angular-eslint',
+      'add-eslint-to-project',
+      {
+        project: libOptions.projectName,
+      },
+      tree,
+    );
+
+    await runner.runExternalSchematic(
+      'angular-eslint',
+      'add-eslint-to-project',
+      {
+        project: `${libOptions.projectName}-showcase`,
+      },
+      tree,
+    );
+  }
+
+  return tree;
 }
