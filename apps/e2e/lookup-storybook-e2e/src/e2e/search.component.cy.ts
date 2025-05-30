@@ -50,5 +50,5 @@ describe('lookup-storybook', () => {
         );
       });
     });
-  }, true);
+  });
 });

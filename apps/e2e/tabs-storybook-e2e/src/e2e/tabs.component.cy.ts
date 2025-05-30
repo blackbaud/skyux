@@ -35,5 +35,5 @@ describe(`tabs-storybook`, () => {
         });
       });
     });
-  }, true);
+  });
 });

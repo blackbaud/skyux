@@ -20,5 +20,5 @@ describe('indicators-storybook - chevron', () => {
         );
       });
     });
-  }, true);
+  });
 });

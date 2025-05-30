@@ -20,5 +20,5 @@ describe('progress-indicator-storybook', () => {
         );
       });
     });
-  }, true);
+  });
 });
