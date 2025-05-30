@@ -26,7 +26,7 @@
                 var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
               ) +
               calc(
-                var(--sky-comp-button-space-inset-top)
+                var(--sky-comp-button-space-inset-top) +
                   var(--sky-comp-button-space-inset-bottom)
               )
           )

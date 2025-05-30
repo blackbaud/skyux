@@ -235,10 +235,7 @@
       // These padding, line-height, and vertical align rules can be removed when all that is left is modern v2;
       padding: var(
         --sky-override-flyout-header-button-padding,
-        var(--sky-comp-button-space-inset-top)
-          var(--sky-comp-button-space-inset-right)
-          var(--sky-comp-button-space-inset-bottom)
-          var(--sky-comp-button-space-inset-left)
+        var(--sky-space-inset-balanced-none)
       );
       line-height: var(--sky-override-flyout-header-button-line-height, normal);
       vertical-align: var(
