@@ -15,7 +15,9 @@
   --sky-override-file-attachment-invalid-box-shadow: 0 0 8px
     rgba(239, 64, 68, 0.6);
   --sky-override-file-attachment-invalid-label-color: #{$sky-text-color-default};
-  --sky-override-file-attachment-preview-img-border: none;
+  --sky-override-file-attachment-preview-img-border-width: 0;
+  --sky-override-file-attachment-preview-img-border-style: none;
+  --sky-override-file-attachment-preview-img-border-color: transparent;
   --sky-override-file-attachment-preview-img-box-shadow: 0 0 5px #666;
   --sky-override-file-attachment-preview-img-margin: 10px;
   --sky-override-file-attachment-preview-img-width: auto;
@@ -52,10 +54,10 @@
   --sky-override-file-attachment-invalid-box-shadow: 0 0 8px
     rgba(239, 64, 68, 0.6);
   --sky-override-file-attachment-invalid-label-color: #{$sky-theme-modern-font-deemphasized-color};
-  --sky-override-file-attachment-preview-img-border: var(
-      --sky-border-width-separator-dark
-    )
-    solid var(--sky-color-border-separator-dark);
+  --sky-override-file-attachment-preview-img-border-style: solid;
+  --sky-override-file-attachment-preview-img-border-color: var(
+    --modern-color-gray-20
+  );
   --sky-override-file-attachment-preview-img-box-shadow: none;
   --sky-override-file-attachment-preview-img-margin: 0
     #{$sky-theme-modern-space-sm} 0 0;
@@ -196,7 +198,18 @@
     --sky-override-file-attachment-preview-img-box-shadow,
     var(--sky-elevation-raised-100)
   );
-  border: var(--sky-override-file-attachment-preview-img-border, none);
+  border-width: var(
+    --sky-override-file-attachment-preview-img-border-width,
+    var(--sky-border-width-container-base)
+  );
+  border-style: var(
+    --sky-override-file-attachment-preview-img-border-style,
+    none
+  );
+  border-color: var(
+    --sky-override-file-attachment-preview-img-border-color,
+    var(--sky-color-border-container-base)
+  );
   margin: var(--sky-override-file-attachment-preview-img-margin, 0);
 }
 

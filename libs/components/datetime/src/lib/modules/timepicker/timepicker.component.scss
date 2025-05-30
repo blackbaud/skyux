@@ -46,7 +46,7 @@
     --modern-color-blue-50
   );
   --sky-override-timepicker-column-border: #{1px solid
-    $sky-border-color-neutral-light};
+    var(--modern-color-gray-10)};
   --sky-override-timepicker-content-space: var(--modern-space-s)
     var(--modern-space-s) 0 var(--modern-space-s);
   --sky-override-timepicker-font-size: #{$sky-theme-modern-font-body-default-size};
@@ -82,8 +82,8 @@
 .sky-timepicker-column ol {
   border: var(
     --sky-override-timepicker-column-border,
-    var(--sky-border-width-separator-light) solid
-      var(--sky-color-border-separator-light)
+    var(--sky-border-width-container-base) solid
+      var(--sky-color-border-container-base)
   );
   column-gap: 1px;
   columns: 2;
