@@ -26,5 +26,5 @@ describe('lists-storybook - infinite-scroll', () => {
         });
       });
     });
-  }, true);
+  });
 });

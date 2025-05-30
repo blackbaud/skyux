@@ -24,5 +24,5 @@ describe('data-manager-storybook', () => {
         });
       });
     });
-  }, true);
+  });
 });

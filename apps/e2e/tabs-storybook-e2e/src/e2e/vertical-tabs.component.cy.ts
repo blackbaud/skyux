@@ -80,5 +80,5 @@ describe('tabs-storybook - vertical tabs', () => {
         );
       });
     });
-  }, true);
+  });
 });

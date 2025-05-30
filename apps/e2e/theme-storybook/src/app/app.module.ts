@@ -32,11 +32,6 @@ const routes: Route[] = [
     loadChildren: () =>
       import('./theming/theming.module').then((m) => m.ThemingModule),
   },
-  {
-    path: 'validation',
-    loadChildren: () =>
-      import('./validation/validation.module').then((m) => m.ValidationModule),
-  },
 ];
 if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
   routes.push({ path: '', redirectTo: `${routes[0].path}`, pathMatch: 'full' });

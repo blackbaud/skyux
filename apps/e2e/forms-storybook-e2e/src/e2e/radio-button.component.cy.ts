@@ -26,5 +26,5 @@ describe('forms-storybook - radio button', () => {
         );
       });
     });
-  }, true);
+  });
 });

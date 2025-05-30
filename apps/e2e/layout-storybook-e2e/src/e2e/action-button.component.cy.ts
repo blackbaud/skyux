@@ -48,5 +48,5 @@ describe('layout-storybook - action button', () => {
         });
       });
     });
-  }, true);
+  });
 });

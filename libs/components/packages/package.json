@@ -106,6 +106,6 @@
     "jsonc-parser": "3.3.1",
     "tslib": "^2.8.1"
   },
-  "sideEffects": false,
+  "sideEffects": true,
   "main": "./src/index.js"
 }

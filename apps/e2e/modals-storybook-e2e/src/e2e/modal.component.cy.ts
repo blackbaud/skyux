@@ -90,5 +90,5 @@ describe('modals-storybook', () => {
         });
       }
     });
-  }, true);
+  });
 });

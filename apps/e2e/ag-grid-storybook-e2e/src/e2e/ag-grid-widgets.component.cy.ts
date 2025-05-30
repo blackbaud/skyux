@@ -31,5 +31,5 @@ describe('ag-grid-widgets', () => {
         });
       });
     });
-  }, true);
+  });
 });
