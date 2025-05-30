@@ -58,5 +58,5 @@ describe('dropdown-storybook', () => {
         });
       });
     });
-  }, true);
+  });
 });

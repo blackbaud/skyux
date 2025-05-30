@@ -26,5 +26,5 @@ describe('indicators-storybook', () => {
         );
       });
     });
-  }, true);
+  });
 });

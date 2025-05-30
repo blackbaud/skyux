@@ -22,5 +22,5 @@ describe('navbar-storybook', () => {
         );
       });
     });
-  }, true);
+  });
 });

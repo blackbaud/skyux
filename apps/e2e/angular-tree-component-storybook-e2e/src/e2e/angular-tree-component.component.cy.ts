@@ -45,5 +45,5 @@ describe('angular-tree-component-storybook', () => {
         });
       });
     });
-  }, true);
+  });
 });

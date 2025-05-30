@@ -26,5 +26,5 @@ describe('character-counter', () => {
         });
       });
     });
-  }, true);
+  });
 });

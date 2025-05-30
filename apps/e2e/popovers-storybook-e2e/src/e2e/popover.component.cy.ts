@@ -58,5 +58,5 @@ describe(`popovers-storybook`, () => {
         cy.window().screenshot(`popovercomponent-popover--popover-${theme}`);
       });
     });
-  }, true);
+  });
 });
