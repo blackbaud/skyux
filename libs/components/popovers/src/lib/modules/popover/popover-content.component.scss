@@ -26,7 +26,10 @@ $popover-max-width: 276px;
     --sky-override-popover-max-width,
     calc(
       min(var(--sky-size-max_width-overlay_message)) +
-        calc(var(--sky-space-inset-balanced-l) * 2)
+        calc(
+          var(--sky-comp-popover-content-space-inset-left) +
+            var(--sky-comp-popover-content-space-inset-right)
+        )
     )
   );
 
@@ -70,7 +73,7 @@ $popover-max-width: 276px;
     // this can be removed entirely when we drop modern and default; the l spacing is set by the padding even class
     padding-top: var(
       --sky-override-popover-with-header-top-padding,
-      var(--sky-space-inset-balanced-l)
+      var(--sky-comp-popover-content-space-inset-top)
     );
   }
 }
@@ -197,10 +200,10 @@ $popover-max-width: 276px;
   .sky-popover-header {
     padding: var(
       --sky-override-popover-heading-padding,
-      var(--sky-space-inset-bottomless-top-l)
-        var(--sky-space-inset-bottomless-right-l)
-        var(--sky-space-inset-bottomless-bottom-l)
-        var(--sky-space-inset-bottomless-left-l)
+      var(--sky-comp-popover-header-space-inset-top)
+        var(--sky-comp-popover-header-space-inset-right)
+        var(--sky-comp-popover-header-space-inset-bottom)
+        var(--sky-comp-popover-header-space-inset-left)
     );
     margin-bottom: var(--sky-override-popover-header-bottom-margin, 0);
   }

@@ -121,10 +121,10 @@
     );
     padding: var(
       --sky-override-paging-btn-padding,
-      var(--sky-space-inset-pillarbox-1_4-top-s)
-        var(--sky-space-inset-pillarbox-1_4-right-s)
-        var(--sky-space-inset-pillarbox-1_4-bottom-s)
-        var(--sky-space-inset-pillarbox-1_4-left-s)
+      var(--sky-comp-paging_button-space-inset-top)
+        var(--sky-comp-paging_button-space-inset-right)
+        var(--sky-comp-paging_button-space-inset-bottom)
+        var(--sky-comp-paging_button-space-inset-left)
     );
     font-size: var(
       --sky-override-paging-btn-font-size,
@@ -211,7 +211,10 @@
     &.sky-paging-btn-next {
       padding: var(
         --sky-override-paging-btn-iterators-padding,
-        var(--sky-space-inset-balanced-xs)
+        var(--sky-comp-button-borderless-space-inset-top)
+          var(--sky-comp-button-borderless-space-inset-right)
+          var(--sky-comp-button-borderless-space-inset-bottom)
+          var(--sky-comp-button-borderless-space-inset-left)
       );
     }
   }

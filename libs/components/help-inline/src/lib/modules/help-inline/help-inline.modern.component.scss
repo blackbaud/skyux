@@ -23,15 +23,15 @@
   line-height: 1;
   border: none;
   outline: none;
-  padding: var(--sky-space-inset-pillarbox-1_4-top-xs)
+  padding: var(--sky-comp-help_inline-space-inset-top)
     var(
       --sky-override-help-inline-padding-sides,
-      var(--sky-space-inset-pillarbox-1_4-right-xs)
+      var(--sky-comp-help_inline-space-inset-right)
     )
-    var(--sky-space-inset-pillarbox-1_4-bottom-xs)
+    var(--sky-comp-help_inline-space-inset-bottom)
     var(
       --sky-override-help-inline-padding-sides,
-      var(--sky-space-inset-pillarbox-1_4-left-xs)
+      var(--sky-comp-help_inline-space-inset-left)
     );
   border-radius: var(
     --sky-override-help-inline-border-radius,

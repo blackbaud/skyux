@@ -103,6 +103,7 @@
   '.sky-colorpicker-container',
   false
 ) {
+  --sky-override-colorpicker-box-padding: 15px 30px;
   --sky-override-colorpicker-footer-padding: 10px 10px 15px;
   --sky-override-colorpicker-rgba-padding: 0 10px 10px;
   --sky-override-colorpicker-selected-color-size: 46px;
@@ -144,14 +145,20 @@ sky-colorpicker.sky-form-field-stacked {
     --sky-override-colorpicker-button-size,
     calc(
       calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
-        calc(var(--sky-space-inset-balanced-s) * 2)
+        calc(
+          var(--sky-comp-button-icon-space-inset-top) +
+            var(--sky-comp-button-icon-space-inset-bottom)
+        )
     )
   );
   width: var(
     --sky-override-colorpicker-button-size,
     calc(
       calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
-        calc(var(--sky-space-inset-balanced-s) * 2)
+        calc(
+          var(--sky-comp-button-icon-space-inset-left) +
+            var(--sky-comp-button-icon-space-inset-right)
+        )
     )
   );
   border: none;
@@ -341,10 +348,10 @@ sky-colorpicker.sky-form-field-stacked {
   border-top: var(--sky-override-colorpicker-footer-border-top, none);
   padding: var(
     --sky-override-colorpicker-footer-padding,
-    var(--sky-space-inset-pillarbox-2_3-top-m)
-      var(--sky-space-inset-pillarbox-2_3-right-m)
-      var(--sky-space-inset-pillarbox-2_3-bottom-m)
-      var(--sky-space-inset-pillarbox-2_3-left-m)
+    var(--sky-comp-colorpicker-content-space-inset-top)
+      var(--sky-comp-colorpicker-content-space-inset-right)
+      var(--sky-comp-colorpicker-content-space-inset-bottom)
+      var(--sky-comp-colorpicker-content-space-inset-left)
   );
 
   .sky-btn-colorpicker-apply {
@@ -368,7 +375,8 @@ sky-colorpicker.sky-form-field-stacked {
     --sky-override-colorpicker-width,
     calc(
       var(--sky-size-width-viewport-smallest) - calc(
-          var(--sky-space-inset-balanced-m) * 2
+          var(--sky-comp-button-icon-space-inset-left) +
+            var(--sky-comp-button-icon-space-inset-right)
         )
     )
   );
@@ -410,10 +418,10 @@ sky-colorpicker.sky-form-field-stacked {
   .sky-colorpicker-preset-color-area {
     padding: var(
       --sky-override-colorpicker-swatch-area-padding,
-      var(--sky-space-inset-pillarbox-2_3-top-m)
-        var(--sky-space-inset-pillarbox-2_3-right-m)
-        var(--sky-space-inset-pillarbox-2_3-bottom-m)
-        var(--sky-space-inset-pillarbox-2_3-left-m)
+      var(--sky-comp-colorpicker-content-space-inset-top)
+        var(--sky-comp-colorpicker-content-space-inset-right)
+        var(--sky-comp-colorpicker-content-space-inset-bottom)
+        var(--sky-comp-colorpicker-content-space-inset-left)
     );
     display: flex;
     flex-direction: row;
@@ -426,11 +434,12 @@ sky-colorpicker.sky-form-field-stacked {
           calc(
               calc(
                   var(--sky-size-width-viewport-smallest) - calc(
-                      var(--sky-space-inset-balanced-m) * 2
+                      var(--sky-comp-button-icon-space-inset-left) +
+                        var(--sky-comp-button-icon-space-inset-right)
                     )
                 ) - calc(
-                  var(--sky-space-inset-pillarbox-2_3-left-m) +
-                    var(--sky-space-inset-pillarbox-2_3-right-m)
+                  var(--sky-comp-colorpicker-content-space-inset-left) +
+                    var(--sky-comp-colorpicker-content-space-inset-right)
                 ) - calc(var(--sky-space-gap-form-m) * 4)
             ) /
             5
@@ -442,11 +451,12 @@ sky-colorpicker.sky-form-field-stacked {
           calc(
               calc(
                   var(--sky-size-width-viewport-smallest) - calc(
-                      var(--sky-space-inset-balanced-m) * 2
+                      var(--sky-comp-button-icon-space-inset-left) +
+                        var(--sky-comp-button-icon-space-inset-right)
                     )
                 ) - calc(
-                  var(--sky-space-inset-pillarbox-2_3-left-m) +
-                    var(--sky-space-inset-pillarbox-2_3-right-m)
+                  var(--sky-comp-colorpicker-content-space-inset-left) +
+                    var(--sky-comp-colorpicker-content-space-inset-right)
                 ) - calc(var(--sky-space-gap-form-m) * 4)
             ) /
             5
@@ -488,11 +498,12 @@ sky-colorpicker.sky-form-field-stacked {
           calc(
               calc(
                   var(--sky-size-width-viewport-smallest) - calc(
-                      var(--sky-space-inset-balanced-m) * 2
+                      var(--sky-comp-button-icon-space-inset-left) +
+                        var(--sky-comp-button-icon-space-inset-right)
                     )
                 ) - calc(
-                  var(--sky-space-inset-pillarbox-2_3-left-m) +
-                    var(--sky-space-inset-pillarbox-2_3-right-m)
+                  var(--sky-comp-colorpicker-content-space-inset-left) +
+                    var(--sky-comp-colorpicker-content-space-inset-right)
                 ) - calc(var(--sky-space-gap-form-m) * 4)
             ) /
             5
@@ -504,11 +515,12 @@ sky-colorpicker.sky-form-field-stacked {
           calc(
               calc(
                   var(--sky-size-width-viewport-smallest) - calc(
-                      var(--sky-space-inset-balanced-m) * 2
+                      var(--sky-comp-button-icon-space-inset-left) +
+                        var(--sky-comp-button-icon-space-inset-right)
                     )
                 ) - calc(
-                  var(--sky-space-inset-pillarbox-2_3-left-m) +
-                    var(--sky-space-inset-pillarbox-2_3-right-m)
+                  var(--sky-comp-colorpicker-content-space-inset-left) +
+                    var(--sky-comp-colorpicker-content-space-inset-right)
                 ) - calc(var(--sky-space-gap-form-m) * 4)
             ) /
             5
@@ -551,10 +563,10 @@ sky-colorpicker.sky-form-field-stacked {
     display: flex;
     padding: var(
       --sky-override-colorpicker-box-padding,
-      var(--sky-space-inset-pillarbox-1_2-top-l)
-        var(--sky-space-inset-pillarbox-1_2-right-l)
-        var(--sky-space-inset-pillarbox-1_2-bottom-l)
-        var(--sky-space-inset-pillarbox-1_2-left-l)
+      var(--sky-comp-colorpicker-content-space-inset-top)
+        var(--sky-comp-colorpicker-content-space-inset-right)
+        var(--sky-comp-colorpicker-content-space-inset-bottom)
+        var(--sky-comp-colorpicker-content-space-inset-left)
     );
     .left {
       position: relative;
@@ -627,10 +639,10 @@ sky-colorpicker.sky-form-field-stacked {
     font-size: var(--sky-override-colorpicker-rgba-font-size);
     padding: var(
       --sky-override-colorpicker-rgba-padding,
-      var(--sky-space-inset-pillarbox-2_3-top-m)
-        var(--sky-space-inset-pillarbox-2_3-right-m)
-        var(--sky-space-inset-pillarbox-2_3-bottom-m)
-        var(--sky-space-inset-pillarbox-2_3-left-m)
+      var(--sky-comp-colorpicker-content-space-inset-top)
+        var(--sky-comp-colorpicker-content-space-inset-right)
+        var(--sky-comp-colorpicker-content-space-inset-bottom)
+        var(--sky-comp-colorpicker-content-space-inset-left)
     );
     display: flex;
     input {
@@ -671,14 +683,20 @@ sky-colorpicker.sky-form-field-stacked {
     --sky-override-colorpicker-button-size,
     calc(
       calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
-        calc(var(--sky-space-inset-balanced-s) * 2)
+        calc(
+          var(--sky-comp-button-icon-space-inset-left) +
+            var(--sky-comp-button-icon-space-inset-right)
+        )
     )
   );
   width: var(
     --sky-override-colorpicker-button-size,
     calc(
       calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
-        calc(var(--sky-space-inset-balanced-s) * 2)
+        calc(
+          var(--sky-comp-button-icon-space-inset-left) +
+            var(--sky-comp-button-icon-space-inset-right)
+        )
     )
   );
   background:

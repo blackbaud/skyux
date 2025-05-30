@@ -112,7 +112,7 @@
               ) /
               2
           )
-          var(--sky-space-inset-letterbox-2_3-left-m)
+          var(--sky-comp-navbar_item-space-inset-left)
           calc(
             calc(
                 50px - calc(
@@ -122,7 +122,7 @@
               ) /
               2
           )
-          var(--sky-space-inset-letterbox-2_3-right-m)
+          var(--sky-comp-navbar_item-space-inset-right)
       );
       text-decoration: none;
       width: 100%;
@@ -225,7 +225,7 @@
     padding-left: var(
       --sky-override-navbar-item-active-padding-sides,
       calc(
-        var(--sky-space-inset-letterbox-2_3-left-m) - var(
+        var(--sky-comp-navbar_item-space-inset-left) - var(
             --sky-border-width-selected-s
           )
       )
@@ -233,7 +233,7 @@
     padding-right: var(
       --sky-override-navbar-item-active-padding-sides,
       calc(
-        var(--sky-space-inset-letterbox-2_3-right-m) - var(
+        var(--sky-comp-navbar_item-space-inset-right) - var(
             --sky-border-width-selected-s
           )
       )

@@ -109,35 +109,35 @@
     display: flex;
     padding: var(
         --sky-override-datepicker-vertical-padding,
-        var(--sky-space-inset-bottomless-top-m)
+        var(--sky-comp-datepicker-header-space-inset-top)
       )
       var(
         --sky-override-datepicker-horizontal-padding,
-        var(--sky-space-inset-bottomless-right-m)
+        var(--sky-comp-datepicker-header-space-inset-right)
       )
       0
       var(
         --sky-override-datepicker-horizontal-padding,
-        var(--sky-space-inset-bottomless-left-m)
+        var(--sky-comp-datepicker-header-space-inset-left)
       );
   }
 
   .sky-datepicker-calendar-table-container {
     padding: var(
         --sky-override-datepicker-calendar-top-padding,
-        var(--sky-space-inset-balanced-m)
+        var(--sky-comp-datepicker-calendar-space-inset-top)
       )
       var(
         --sky-override-datepicker-horizontal-padding,
-        var(--sky-space-inset-balanced-m)
+        var(--sky-comp-datepicker-calendar-space-inset-right)
       )
       var(
         --sky-override-datepicker-vertical-padding,
-        var(--sky-space-inset-balanced-m)
+        var(--sky-comp-datepicker-calendar-space-inset-bottom)
       )
       var(
         --sky-override-datepicker-horizontal-padding,
-        var(--sky-space-inset-balanced-m)
+        var(--sky-comp-datepicker-calendar-space-inset-left)
       );
 
     &:focus-visible {
@@ -223,7 +223,10 @@
     &.sky-datepicker-btn-previous {
       padding: var(
         --sky-override-datepicker-nav-button-padding,
-        var(--sky-space-inset-balanced-xs)
+        var(--sky-comp-button-borderless-space-inset-top)
+          var(--sky-comp-button-borderless-space-inset-right)
+          var(--sky-comp-button-borderless-space-inset-bottom)
+          var(--sky-comp-button-borderless-space-inset-left)
       );
     }
 
@@ -248,10 +251,8 @@
       );
       padding: var(
         --sky-override-datepicker-nav-button-padding,
-        var(--sky-space-inset-pillarbox-1_4-top-s)
-          var(--sky-space-inset-pillarbox-1_4-right-s)
-          var(--sky-space-inset-pillarbox-1_4-bottom-s)
-          var(--sky-space-inset-pillarbox-1_4-left-s)
+        var(--sky-comp-button-borderless-space-inset-top) auto
+          var(--sky-comp-button-borderless-space-inset-bottom)
       );
     }
   }
@@ -373,7 +374,11 @@ sky-monthpicker {
   .sky-btn.sky-btn-default {
     padding: var(
       --sky-override-datepicker-month-year-button-padding,
-      var(--sky-space-inset-pillarbox-1_2-top-s)
+      var(--sky-comp-button-borderless-space-inset-top)
+        var(--sky-comp-button-borderless-space-inset-right)
+        var(--sky-comp-button-borderless-space-inset-bottom)
+        var(--sky-comp-button-borderless-space-inset-left)
+        var(--sky-space-inset-pillarbox-1_2-top-s)
         var(--sky-space-inset-pillarbox-1_2-right-s)
         var(--sky-space-inset-pillarbox-1_2-bottom-s)
         var(--sky-space-inset-pillarbox-1_2-left-s)

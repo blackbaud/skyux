@@ -17,7 +17,13 @@
 }
 
 @include mixins.sky-component('modern', '.sky-alert') {
-  padding: var(--sky-override-alert-padding, var(--sky-space-inset-balanced-s));
+  padding: var(
+    --sky-override-alert-padding,
+    var(--sky-comp-alert-space-inset-top)
+      var(--sky-comp-alert-space-inset-right)
+      var(--sky-comp-alert-space-inset-bottom)
+      var(--sky-comp-alert-space-inset-left)
+  );
   border-left: solid var(--sky-border-width-accent);
   color: var(--sky-color-text-default);
   display: flex;
@@ -25,15 +31,9 @@
   align-items: center;
 
   .sky-alert-content {
-    padding: var(
-        --sky-override-alert-text-vertical-padding,
-        var(--sky-space-inset-balanced-none)
-      )
+    padding: var(--sky-override-alert-text-vertical-padding, 0)
       var(--sky-space-gap-text_action-m)
-      var(
-        --sky-override-alert-text-vertical-padding,
-        var(--sky-space-inset-balanced-none)
-      )
+      var(--sky-override-alert-text-vertical-padding, 0)
       var(--sky-space-gap-icon-l);
     width: 100%;
 
@@ -90,7 +90,10 @@
     line-height: 1;
     padding: var(
       --sky-override-alert-button-padding,
-      var(--sky-space-inset-balanced-xs)
+      var(--sky-comp-button-borderless-space-inset-top)
+        var(--sky-comp-button-borderless-space-inset-right)
+        var(--sky-comp-button-borderless-space-inset-bottom)
+        var(--sky-comp-button-borderless-space-inset-left)
     );
     color: var(--sky-color-icon-default);
     border-style: solid;
