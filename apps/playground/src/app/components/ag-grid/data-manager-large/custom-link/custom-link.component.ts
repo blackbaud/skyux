@@ -28,7 +28,6 @@ import { ICellRendererComp, ICellRendererParams } from 'ag-grid-community';
       }
     `,
   ],
-  standalone: false,
 })
 export class CustomLinkComponent implements ICellRendererComp {
   public link: string;
