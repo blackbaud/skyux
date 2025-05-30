@@ -1,5 +1,59 @@
 # Changelog
 
+## [12.15.0](https://github.com/blackbaud/skyux/compare/12.14.3...12.15.0) (2025-05-30)
+
+
+### Features
+
+* **components/ag-grid:** tokenize data grid styles ([#3452](https://github.com/blackbaud/skyux/issues/3452)) ([11603d6](https://github.com/blackbaud/skyux/commit/11603d696041b4664fcb657e0fab3be0af7035b7))
+
+
+### Bug Fixes
+
+* **components/forms:** field group component stacked input uses correct class ([#3482](https://github.com/blackbaud/skyux/issues/3482)) ([5d34dcb](https://github.com/blackbaud/skyux/commit/5d34dcb3d5ab680e279b9858e1e53e20afd1afd7))
+* **components/forms:** update switch border color styles ([#3484](https://github.com/blackbaud/skyux/issues/3484)) ([bbeda94](https://github.com/blackbaud/skyux/commit/bbeda94bbd68bd5ef352f6537b6f88ed50ff4d93))
+* **components/packages:** add `"sideEffects": true` to support `@skyux/packages/polyfills` ([#3488](https://github.com/blackbaud/skyux/issues/3488)) ([5afbf9a](https://github.com/blackbaud/skyux/commit/5afbf9afda542d6dc5cc4d72d8e8ba521ac52d16))
+* **components/theme:** remove data label font tokens ([#3486](https://github.com/blackbaud/skyux/issues/3486)) ([a380d22](https://github.com/blackbaud/skyux/commit/a380d226c8836202b913b6b1d727bb4350f12f20))
+
+## [12.14.3](https://github.com/blackbaud/skyux/compare/12.14.2...12.14.3) (2025-05-27)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** lookup cell editor search button should open selection modal for async lookup ([#3480](https://github.com/blackbaud/skyux/issues/3480)) ([8aa50f3](https://github.com/blackbaud/skyux/commit/8aa50f3222a09f202fc5a7451eec04afe4fa16ad))
+* **sdk/skyux-eslint:** remove unused peer dependencies ([#3479](https://github.com/blackbaud/skyux/issues/3479)) ([a53f00d](https://github.com/blackbaud/skyux/commit/a53f00d3beda597ae3c8bb26e3f557b8d8b7c06f))
+* set `sideEffects` to `false` in libraries package.json ([#3475](https://github.com/blackbaud/skyux/issues/3475)) ([4f3f4cc](https://github.com/blackbaud/skyux/commit/4f3f4cc8cb5b360f9f4eb698bffed60c858ebefb))
+
+## [12.14.2](https://github.com/blackbaud/skyux/compare/12.14.1...12.14.2) (2025-05-23)
+
+
+### Bug Fixes
+
+* **components/i18n:** generate assets for library resources in the same directory as the entry point ([#3468](https://github.com/blackbaud/skyux/issues/3468)) ([3935e99](https://github.com/blackbaud/skyux/commit/3935e99a9855918e98e6df89ade85d7e855a6491))
+* **sdk/eslint-schematics:** remove ESLint dependencies from `ng-update` package group ([#3474](https://github.com/blackbaud/skyux/issues/3474)) ([db6b212](https://github.com/blackbaud/skyux/commit/db6b212a51bb2c205ef721221117f6c2821b2976))
+
+## [12.14.1](https://github.com/blackbaud/skyux/compare/12.14.0...12.14.1) (2025-05-22)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** lookup cell editor search button should open selection modal ([#3470](https://github.com/blackbaud/skyux/issues/3470)) ([82efc32](https://github.com/blackbaud/skyux/commit/82efc32d9d6f4a26c69c8839dad502fd9b41282a))
+* **components/theme:** fix improper custom property definition for tab background color ([#3471](https://github.com/blackbaud/skyux/issues/3471)) ([afea37b](https://github.com/blackbaud/skyux/commit/afea37bae00566a0c7f82f9605bdf29a5bb57ffb))
+* **sdk/skyux-eslint:** remove `.sky-form-control` classname from inputs when fixing `prefer-label-text` rule ([#3463](https://github.com/blackbaud/skyux/issues/3463)) ([960b41e](https://github.com/blackbaud/skyux/commit/960b41e1a59a6519c5074414ea97484294170741))
+
+## [12.14.0](https://github.com/blackbaud/skyux/compare/12.13.2...12.14.0) (2025-05-21)
+
+
+### Features
+
+* **components/theme:** update `@skyux/icons` to 8.0.0 ([#3465](https://github.com/blackbaud/skyux/issues/3465)) ([73128fd](https://github.com/blackbaud/skyux/commit/73128fd1ac4f959629340fb06c30a3706b7307a9))
+
+
+### Bug Fixes
+
+* **components/lookup:** adjust item tracking in template ([#3464](https://github.com/blackbaud/skyux/issues/3464)) ([3d5e85a](https://github.com/blackbaud/skyux/commit/3d5e85a442bdd3ae397f443804651acd1686c4d5))
+* remove focus elevation from modern v2 styles ([#3453](https://github.com/blackbaud/skyux/issues/3453)) ([08085ca](https://github.com/blackbaud/skyux/commit/08085cae2a116eed9863f8276064fd1469ba1932))
+
 ## [12.13.2](https://github.com/blackbaud/skyux/compare/12.13.1...12.13.2) (2025-05-19)
 
 

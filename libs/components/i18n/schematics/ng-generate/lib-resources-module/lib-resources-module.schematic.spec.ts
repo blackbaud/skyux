@@ -230,4 +230,18 @@ export class FoobarResourcesModule {}
       runSchematic({ project: undefined }),
     ).toBeRejectedWithError(`A project name is required.`);
   });
+
+  it('should generate assets in the same directory as the entry point', async () => {
+    tree.delete(defaultResourcesJsonPath);
+
+    // Remove "src" from the sourceRoot property to confirm assets are still
+    // placed in the correct directory.
+    const angularJson = JSON.parse(tree.readText('/angular.json'));
+    angularJson.projects[defaultProjectName].sourceRoot = '';
+    tree.overwrite('/angular.json', JSON.stringify(angularJson));
+
+    const updatedTree = await runSchematic();
+
+    expect(updatedTree.exists(defaultResourcesJsonPath)).toEqual(true);
+  });
 });

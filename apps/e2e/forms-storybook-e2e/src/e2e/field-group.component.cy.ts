@@ -16,5 +16,5 @@ describe('field-group', () => {
         });
       });
     });
-  }, true);
+  });
 });

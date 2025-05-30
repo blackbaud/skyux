@@ -1,19 +1,26 @@
-# eslint-config-skyux (Developer Preview)
+# eslint-config-skyux
 
-This library was generated with [Nx](https://nx.dev).
+## Prerequisites
 
-## Running unit tests
+- An Angular project using version 19 or higher
+- The [`angular-eslint`](https://github.com/angular-eslint/angular-eslint/tree/main) package must be set up before installing `eslint-config-skyux`
 
-Run `nx test eslint-config-skyux` to execute the unit tests via [Jest](https://jestjs.io).
+## Install
 
-## Implement in eslint.config.js
+After setting up `angular-eslint`, run:
+
+```
+ng add eslint-config-skyux
+```
+
+## Implement in eslint.config.mjs
 
 ```
 // @ts-check
-const skyux = require('eslint-config-skyux');
-const tseslint = require('typescript-eslint');
+import skyux from 'eslint-config-skyux';
+import tseslint from 'typescript-eslint';
 
-module.exports = tseslint.config(
+export default tseslint.config(
   ...skyux,
   {
     languageOptions: {
@@ -24,7 +31,7 @@ module.exports = tseslint.config(
     },
   },
   {
-    files: ['**/*.ts],
+    files: ['**/*.ts'],
     rules: {
       '@angular-eslint/directive-selector': [
         'error',

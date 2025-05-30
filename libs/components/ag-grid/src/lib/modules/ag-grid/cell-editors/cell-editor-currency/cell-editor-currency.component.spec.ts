@@ -92,8 +92,6 @@ describe('SkyCellEditorCurrencyComponent', () => {
     });
 
     it('initializes the SkyAgGridCellEditorCurrencyComponent properties', fakeAsync(() => {
-      expect(currencyEditorComponent.columnWidth).toBeUndefined();
-
       cellEditorParams.node = new RowNode({} as BeanCollection);
       cellEditorParams.node.rowHeight = 100;
 
@@ -103,9 +101,6 @@ describe('SkyCellEditorCurrencyComponent', () => {
         ...cellEditorParams,
         value: null,
       } as ICellEditorParams);
-
-      expect(currencyEditorComponent.columnWidth).toEqual(columnWidth);
-      expect(currencyEditorComponent.rowHeightWithoutBorders).toEqual(96);
 
       currencyEditorComponent.onPressEscape();
       expect(api.stopEditing).toHaveBeenCalled();

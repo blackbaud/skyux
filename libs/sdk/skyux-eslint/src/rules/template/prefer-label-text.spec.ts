@@ -12,6 +12,11 @@ ruleTester.run(RULE_NAME, rule, {
     `<sky-checkbox labelText="foo">`,
     `<sky-checkbox [labelText]="foo">`,
     `<sky-checkbox labelText="{{ foo }}">`,
+    `
+    <sky-input-box>
+      <label [for]="myInput.id">My label</label>
+      <input #myInput="skyId" skyId class="sky-form-control" type="text" />
+    </sky-input-box>`,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
@@ -91,6 +96,98 @@ ruleTester.run(RULE_NAME, rule, {
       },
     }),
     convertAnnotatedSourceToFailureCase({
+      description: 'should remove `sky-form-control` class from inputs',
+      annotatedSource: `
+        <sky-input-box>
+        ~~~~~~~~~~~~~~~~
+          <label>My label</label>
+          ~~~~~~~~~~~~~~~~~~~~~~~
+          <input class="sky-form-control" type="text" />
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </sky-input-box>
+        ~~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+        <sky-input-box labelText="My label">
+        ~
+          ~
+          ~
+          <input  type="text" />
+          ~
+        </sky-input-box>
+        ~
+      `,
+
+      messageId,
+      data: {
+        selector: 'sky-input-box',
+        labelInputName: 'labelText',
+        labelSelector: 'label',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should remove `sky-form-control` class from inputs with multiple classes',
+      annotatedSource: `
+        <sky-input-box>
+        ~~~~~~~~~~~~~~~~
+          <label>My label</label>
+          ~~~~~~~~~~~~~~~~~~~~~~~
+          <textarea class="my-input sky-form-control foobar"></textarea>
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </sky-input-box>
+        ~~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+        <sky-input-box labelText="My label">
+        ~
+          ~
+          ~
+          <textarea class="my-input foobar"></textarea>
+          ~
+        </sky-input-box>
+        ~
+      `,
+
+      messageId,
+      data: {
+        selector: 'sky-input-box',
+        labelInputName: 'labelText',
+        labelSelector: 'label',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should remove `sky-form-control` class from inputs if first in list of classes',
+      annotatedSource: `
+        <sky-input-box>
+        ~~~~~~~~~~~~~~~~
+          <label>My label</label>
+          ~~~~~~~~~~~~~~~~~~~~~~~
+          <select class="sky-form-control foo"></select>
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </sky-input-box>
+        ~~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+        <sky-input-box labelText="My label">
+        ~
+          ~
+          ~
+          <select class="foo"></select>
+          ~
+        </sky-input-box>
+        ~
+      `,
+
+      messageId,
+      data: {
+        selector: 'sky-input-box',
+        labelInputName: 'labelText',
+        labelSelector: 'label',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
       description:
         'should fail if labelText not set and has child elements within label',
       annotatedSource: `
@@ -101,14 +198,6 @@ ruleTester.run(RULE_NAME, rule, {
             <h2 class="sky-heading-1">Foo</h2>
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           </sky-checkbox-label>
-          ~~~~~~~~~~~~~~~~~~~~~
-        </sky-checkbox>
-        ~~~~~~~~~~~~~~~
-      `,
-      annotatedOutput: `
-        <sky-checkbox labelText="Foo">
-        ~~~~~~~~~~~~~~
-          ~~~~~~~~~~~~~~~~~~~~
           ~~~~~~~~~~~~~~~~~~~~~
         </sky-checkbox>
         ~~~~~~~~~~~~~~~

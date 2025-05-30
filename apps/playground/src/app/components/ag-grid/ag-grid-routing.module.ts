@@ -42,6 +42,10 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'lookup-focus',
+    loadChildren: () => import('./lookup-focus/lookup-focus-routes'),
+  },
+  {
     path: 'readonly-grid',
     loadChildren: () =>
       import('./readonly-grid/readonly-grid.module').then(
