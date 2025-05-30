@@ -82,5 +82,5 @@ describe('vertical-tabset-back-to-top', () => {
         },
       );
     });
-  });
+  }, false);
 });
