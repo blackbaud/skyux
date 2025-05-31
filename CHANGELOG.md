@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.15.1](https://github.com/blackbaud/skyux/compare/12.15.0...12.15.1) (2025-05-31)
+
+
+### Bug Fixes
+
+* contiguous viewkeeper elements should have one combined shadow ([#3485](https://github.com/blackbaud/skyux/issues/3485)) ([ee61d7c](https://github.com/blackbaud/skyux/commit/ee61d7cc93b7e779dae72155db634735a6b5267c))
+
 ## [12.15.0](https://github.com/blackbaud/skyux/compare/12.14.3...12.15.0) (2025-05-30)
 
 
