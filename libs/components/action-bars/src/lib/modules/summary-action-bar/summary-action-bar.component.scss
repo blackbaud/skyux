@@ -97,6 +97,11 @@
   z-index: 999;
 }
 
+.sky-summary-action-bar-form-error-stacked:not(:last-of-type) {
+  margin-top: 0;
+  margin-bottom: var(--sky-space-stacked-s);
+}
+
 .sky-summary-action-bar-summary {
   margin: var(--sky-override-summary-action-bar-summary-margin);
   border-left: var(--sky-override-summary-action-bar-summary-border-left, none);
