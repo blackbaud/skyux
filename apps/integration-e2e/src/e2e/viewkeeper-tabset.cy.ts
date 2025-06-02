@@ -18,5 +18,5 @@ describe('viewkeeper-tabset', () => {
           .should('have.class', 'sky-viewkeeper-fixed');
       });
     });
-  });
+  }, false);
 });

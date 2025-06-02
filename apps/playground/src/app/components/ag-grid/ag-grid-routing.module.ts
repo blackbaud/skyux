@@ -9,9 +9,7 @@ const routes: Routes = [
   {
     path: 'data-manager-large',
     loadChildren: () =>
-      import('./data-manager-large/data-manager-large.module').then(
-        (m) => m.DataManagerLargeModule,
-      ),
+      import('./data-manager-large/data-manager-large-routes'),
   },
   {
     path: 'edit-complex-cells',
