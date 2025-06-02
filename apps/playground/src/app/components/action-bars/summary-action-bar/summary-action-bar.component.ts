@@ -23,6 +23,9 @@ export class SummaryActionBarComponent implements OnDestroy {
     {
       message: 'Error number 1',
     },
+    {
+      message: 'Error number 2',
+    },
   ];
 
   constructor(private modalService: SkyModalService) {}
