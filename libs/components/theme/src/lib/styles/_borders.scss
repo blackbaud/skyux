@@ -12,8 +12,7 @@
   border-bottom: var(
     --sky-override-border-dark,
     var(--sky-border-style-separator-dark)
-      var(--sky-border-width-separator-dark)
-      var(--sky-color-border-separator-dark)
+      var(--sky-border-width-separator-dark) var(--sky-color-border-divider)
   );
 }
 
@@ -38,8 +37,7 @@
   border: var(
     --sky-override-border-dark,
     var(--sky-border-style-separator-dark)
-      var(--sky-border-width-separator-dark)
-      var(--sky-color-border-separator-dark)
+      var(--sky-border-width-separator-dark) var(--sky-color-border-divider)
   );
 }
 

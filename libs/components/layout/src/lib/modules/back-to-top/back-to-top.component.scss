@@ -18,9 +18,9 @@
   );
   padding: var(
     --sky-override-back-to-top-padding,
-    var(--sky-space-inset-pillarbox-1_3-top-m)
-      var(--sky-space-inset-pillarbox-1_3-right-m)
-      var(--sky-space-inset-pillarbox-1_3-bottom-m)
-      var(--sky-space-inset-pillarbox-1_3-left-m)
+    var(--sky-comp-back_to_top-space-inset-top)
+      var(--sky-comp-back_to_top-space-inset-right)
+      var(--sky-comp-back_to_top-space-inset-bottom)
+      var(--sky-comp-back_to_top-space-inset-left)
   );
 }

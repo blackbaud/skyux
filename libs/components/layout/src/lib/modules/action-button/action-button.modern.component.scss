@@ -7,7 +7,10 @@
   max-width: 446px;
   display: flex;
   flex-flow: row nowrap;
-  padding: var(--sky-space-inset-balanced-xl);
+  padding: var(--sky-comp-action_button-space-inset-top)
+    var(--sky-comp-action_button-space-inset-right)
+    var(--sky-comp-action_button-space-inset-bottom)
+    var(--sky-comp-action_button-space-inset-left);
   text-align: left;
   border: none;
   margin: 0;

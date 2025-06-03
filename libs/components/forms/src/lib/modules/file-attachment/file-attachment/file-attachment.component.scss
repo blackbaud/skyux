@@ -53,9 +53,9 @@
     rgba(239, 64, 68, 0.6);
   --sky-override-file-attachment-invalid-label-color: #{$sky-theme-modern-font-deemphasized-color};
   --sky-override-file-attachment-preview-img-border: var(
-      --sky-border-width-separator-dark
+      --sky-border-width-container-base
     )
-    solid var(--sky-color-border-separator-dark);
+    solid var(--modern-color-gray-20);
   --sky-override-file-attachment-preview-img-box-shadow: none;
   --sky-override-file-attachment-preview-img-margin: 0
     #{$sky-theme-modern-space-sm} 0 0;
