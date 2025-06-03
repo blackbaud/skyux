@@ -6,6 +6,8 @@ import {
   OnInit,
   ViewEncapsulation,
   inject,
+  model,
+  viewChild,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -13,7 +15,12 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  SkyAgGridModule,
+  SkyAgGridRowDeleteConfirmArgs,
+  SkyAgGridService,
+  SkyCellType,
+} from '@skyux/ag-grid';
 import { SkyUIConfigService } from '@skyux/core';
 import {
   SkyDataManagerConfig,
@@ -26,7 +33,7 @@ import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyDropdownModule } from '@skyux/popovers';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   GridOptions,
@@ -40,6 +47,7 @@ import {
   columnDefinitionsGrouped,
   data,
 } from './data-set-large';
+import { DeleteButtonComponent } from './delete-button/delete-button.component';
 import { LocalStorageConfigService } from './local-storage-config.service';
 
 interface GridSettingsType {
@@ -50,6 +58,7 @@ interface GridSettingsType {
   wrapText: FormControl<boolean>;
   autoHeightColumns: FormControl<boolean>;
   showSelect: FormControl<boolean>;
+  showDelete: FormControl<boolean>;
 }
 
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -106,6 +115,9 @@ export class DataManagerLargeComponent implements OnInit {
   public showSelect = true;
 
   @Input()
+  public showDelete = false;
+
+  @Input()
   public wrapText = false;
 
   @Input()
@@ -142,11 +154,17 @@ export class DataManagerLargeComponent implements OnInit {
   public readonly viewId = 'gridView';
 
   public dataState: SkyDataManagerState | undefined;
-  public items = data;
+  public items = data.map((item) => ({
+    id: item.object_id,
+    ...item,
+  }));
   public readonly settingsKey = 'large-test';
   public gridOptions: GridOptions = {};
   public readonly isActive$ = new BehaviorSubject(true);
   public readonly gridSettings: FormGroup<GridSettingsType>;
+
+  protected readonly agGrid = viewChild(AgGridAngular);
+  protected readonly rowDeleteIds = model<string[]>([]);
 
   readonly #agGridService = inject(SkyAgGridService);
   readonly #dataManagerService = inject(SkyDataManagerService);
@@ -156,6 +174,7 @@ export class DataManagerLargeComponent implements OnInit {
       enableTopScroll: formBuilder.nonNullable.control(this.enableTopScroll),
       useColumnGroups: formBuilder.nonNullable.control(this.useColumnGroups),
       showSelect: formBuilder.nonNullable.control(this.showSelect),
+      showDelete: formBuilder.nonNullable.control(this.showDelete),
       domLayout: formBuilder.nonNullable.control(this.domLayout),
       compact: formBuilder.nonNullable.control(this.compact),
       wrapText: formBuilder.nonNullable.control(this.wrapText),
@@ -173,6 +192,7 @@ export class DataManagerLargeComponent implements OnInit {
       wrapText: this.wrapText,
       compact: this.compact,
       showSelect: this.showSelect,
+      showDelete: this.showDelete,
       useColumnGroups: this.useColumnGroups,
     });
     this.#applyGridOptions();
@@ -212,6 +232,7 @@ export class DataManagerLargeComponent implements OnInit {
       this.isActive$.next(false);
       this.enableTopScroll = !!value.enableTopScroll;
       this.showSelect = !!value.showSelect;
+      this.showDelete = !!value.showDelete;
       this.useColumnGroups = !!value.useColumnGroups;
       this.domLayout = value.domLayout ?? 'autoHeight';
       this.compact = !!value.compact;
@@ -222,6 +243,17 @@ export class DataManagerLargeComponent implements OnInit {
     });
   }
 
+  public markForDelete(rowId: string): void {
+    this.rowDeleteIds.update((rowIds) => {
+      return [...new Set([...rowIds, rowId])];
+    });
+  }
+
+  protected deleteConfirm($event: SkyAgGridRowDeleteConfirmArgs): void {
+    this.items = this.items.filter((item) => item.id !== $event.id);
+    this.agGrid().api.setGridOption('rowData', this.items);
+  }
+
   #applyGridOptions(): void {
     this.gridOptions = this.#agGridService.getGridOptions({
       gridOptions: {
@@ -230,8 +262,23 @@ export class DataManagerLargeComponent implements OnInit {
             ? [
                 {
                   field: 'select',
-                  headerName: '',
+                  headerName: 'Select',
+                  headerComponentParams: {
+                    headerHidden: true,
+                  },
                   type: SkyCellType.RowSelector,
+                },
+              ]
+            : []),
+          ...(this.showDelete
+            ? [
+                {
+                  field: 'delete',
+                  headerName: 'Delete',
+                  headerComponentParams: {
+                    headerHidden: true,
+                  },
+                  cellRenderer: DeleteButtonComponent,
                 },
               ]
             : []),

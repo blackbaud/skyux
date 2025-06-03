@@ -38,6 +38,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   public allColumnWidth = 0;
   public hideFirstColumn = false;
+  public domLayout: GridOptions['domLayout'] | undefined = undefined;
 
   public columnDefs: () => ColDef[] = () => [
     {
@@ -101,6 +102,7 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
     this.gridOptions = this.#gridService.getEditableGridOptions({
       gridOptions: {
         columnDefs: this.columnDefs(),
+        domLayout: this.domLayout,
         onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
       },
     });
