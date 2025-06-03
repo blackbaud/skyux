@@ -1,6 +1,10 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
+import { SkySummaryActionBarError } from '@skyux/action-bars';
 import { SkyComponentHarness } from '@skyux/core/testing';
-import { SkyChevronHarness } from '@skyux/indicators/testing';
+import {
+  SkyChevronHarness,
+  SkyStatusIndicatorHarness,
+} from '@skyux/indicators/testing';
 
 import { SkySummaryActionBarCancelHarness } from './summary-action-bar-cancel-harness';
 import { SkySummaryActionBarCancelHarnessFilters } from './summary-action-bar-cancel-harness-filters';
@@ -22,6 +26,11 @@ export class SkySummaryActionBarHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-summary-action-bar';
 
   #chevron = this.locatorForOptional(SkyChevronHarness);
+  #errors = this.locatorForAll(
+    new HarnessPredicate(SkyStatusIndicatorHarness, {
+      ancestor: '.sky-summary-action-bar-errors',
+    }),
+  );
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -76,6 +85,29 @@ export class SkySummaryActionBarHarness extends SkyComponentHarness {
     return await this.locatorFor(
       SkySummaryActionBarCancelHarness.with(filters || {}),
     )();
+  }
+
+  /**
+   * Gets the active errors.
+   */
+  public async getErrors(): Promise<SkySummaryActionBarError[]> {
+    const statusIndicatorErrors = await this.#errors();
+    const errors: SkySummaryActionBarError[] = [];
+    for (const error of statusIndicatorErrors) {
+      const message = await error.getText();
+      errors.push({ message: message });
+    }
+    return errors;
+  }
+
+  /**
+   * Whether the error has fired.
+   */
+  public async hasError(error: SkySummaryActionBarError): Promise<boolean> {
+    const errors = await this.getErrors();
+    return errors.some((err) => {
+      return err.message === error.message;
+    });
   }
 
   /**

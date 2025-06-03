@@ -1,7 +1,13 @@
-import { Component, Input, OnDestroy, inject } from '@angular/core';
+import { Component, Injectable, Input, OnDestroy, inject } from '@angular/core';
+import { SkySummaryActionBarError } from '@skyux/action-bars';
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 import { SummaryActionBarModalComponent } from './summary-action-bar-modal.component';
+
+@Injectable()
+export class SABModalContext {
+  public errors: SkySummaryActionBarError[] | undefined;
+}
 
 @Component({
   selector: 'app-summary-action-bar',
@@ -10,6 +16,9 @@ import { SummaryActionBarModalComponent } from './summary-action-bar-modal.compo
   standalone: false,
 })
 export class SummaryActionBarComponent implements OnDestroy {
+  @Input()
+  public errors: SkySummaryActionBarError[] | undefined;
+
   @Input()
   public set type(
     value: 'tab' | 'page' | 'split-view' | 'modal' | 'modal-full-page',
@@ -21,6 +30,14 @@ export class SummaryActionBarComponent implements OnDestroy {
         SummaryActionBarModalComponent,
         {
           fullPage: value.endsWith('full-page'),
+          providers: [
+            {
+              provide: SABModalContext,
+              useValue: {
+                errors: this.errors,
+              },
+            },
+          ],
         },
       );
     }
