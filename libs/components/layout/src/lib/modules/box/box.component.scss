@@ -33,10 +33,10 @@ sky-box {
     align-items: baseline;
     padding: var(
       --sky-override-box-header-container-padding,
-      var(--sky-space-inset-bottomless-top-xl)
-        var(--sky-space-inset-bottomless-right-xl)
-        var(--sky-space-inset-bottomless-bottom-xl)
-        var(--sky-space-inset-bottomless-left-xl)
+      var(--sky-comp-box-header-space-inset-top)
+        var(--sky-comp-box-header-space-inset-right)
+        var(--sky-comp-box-header-space-inset-bottom)
+        var(--sky-comp-box-header-space-inset-left)
     );
 
     &:empty {
@@ -73,7 +73,10 @@ sky-box {
     .sky-box-content {
       padding: var(
         --sky-override-box-content-padding,
-        var(--sky-space-inset-balanced-xl)
+        var(--sky-comp-box-content-space-inset-top)
+          var(--sky-comp-box-content-space-inset-right)
+          var(--sky-comp-box-content-space-inset-bottom)
+          var(--sky-comp-box-content-space-inset-left)
       );
     }
   }

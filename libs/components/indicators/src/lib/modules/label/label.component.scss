@@ -89,12 +89,12 @@
   white-space: nowrap;
   padding: var(
     --sky-override-label-padding,
-    var(--sky-space-inset-pillarbox-1_4-top-s)
-      var(--sky-space-inset-pillarbox-1_4-right-s)
-      var(--sky-space-inset-pillarbox-1_4-bottom-s)
+    var(--sky-comp-label-space-inset-top)
+      var(--sky-comp-label-space-inset-right)
+      var(--sky-comp-label-space-inset-bottom)
       var(
         --sky-override-label-padding-left,
-        var(--sky-space-inset-pillarbox-1_4-left-s)
+        var(--sky-comp-label-space-inset-left)
       )
   );
 }

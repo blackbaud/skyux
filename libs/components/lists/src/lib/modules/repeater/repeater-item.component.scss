@@ -150,10 +150,10 @@ sky-repeater-item {
     );
     padding: var(
       --sky-override-repeater-item-padding,
-      var(--sky-space-inset-letterbox-2_3-top-m)
-        var(--sky-space-inset-letterbox-2_3-right-m)
-        var(--sky-space-inset-letterbox-2_3-bottom-m)
-        var(--sky-space-inset-letterbox-2_3-left-m)
+      var(--sky-comp-repeater_item-space-inset-top)
+        var(--sky-comp-repeater_item-space-inset-right)
+        var(--sky-comp-repeater_item-space-inset-bottom)
+        var(--sky-comp-repeater_item-space-inset-left)
     );
     position: relative;
     transition: box-shadow $sky-transition-time-short;
@@ -198,7 +198,7 @@ sky-repeater-item {
       padding-left: var(
         --sky-override-repeater-item-active-padding-left,
         calc(
-          var(--sky-space-inset-letterbox-2_3-left-m) - var(
+          var(--sky-comp-repeater_item-space-inset-left) - var(
               --sky-border-width-selected-m
             )
         )
@@ -218,7 +218,7 @@ sky-repeater-item {
           --sky-override-repeater-item-active-inline-delete-margin-left,
           calc(
             calc(
-                var(--sky-space-inset-letterbox-2_3-left-m) - var(
+                var(--sky-comp-repeater_item-space-inset-left) - var(
                     --sky-border-width-selected-m
                   )
               ) *
@@ -243,7 +243,7 @@ sky-repeater-item {
       padding-left: var(
         --sky-override-repeater-item-single-select-padding-left,
         calc(
-          var(--sky-space-inset-letterbox-2_3-left-m) - var(
+          var(--sky-comp-repeater_item-space-inset-left) - var(
               --sky-border-width-selected-m
             )
         )
@@ -263,7 +263,7 @@ sky-repeater-item {
           --sky-override-repeater-item-single-select-inline-delete-margin-left,
           calc(
             calc(
-                var(--sky-space-inset-letterbox-2_3-left-m) - var(
+                var(--sky-comp-repeater_item-space-inset-left) - var(
                     --sky-border-width-selected-m
                   )
               ) *
@@ -286,7 +286,7 @@ sky-repeater-item {
       .sky-repeater-item-left {
         padding-top: var(
           --sky-override-repeater-item-left-no-header-padding-top,
-          var(--sky-space-inset-letterbox-2_3-top-m)
+          var(--sky-comp-repeater_item-space-inset-top)
         );
       }
     }
@@ -297,7 +297,7 @@ sky-repeater-item {
     sky-repeater-item-content {
     margin-top: var(
       --sky-override-repeater-item-content-no-header-margin-top,
-      var(--sky-space-inset-letterbox-2_3-top-m)
+      var(--sky-comp-repeater_item-space-inset-top)
     );
   }
 
@@ -343,7 +343,11 @@ sky-repeater-item {
       max(
         var(--sky-size-switch),
         calc(
-          calc(var(--sky-space-inset-balanced-xs) * 2) + var(--sky-size-icon-m)
+          calc(
+              var(--sky-comp-button-borderless-space-inset-bottom) +
+                var(--sky-comp-button-borderless-space-inset-top)
+            ) +
+            var(--sky-size-icon-m)
         )
       )
     );
@@ -357,7 +361,11 @@ sky-repeater-item {
       max(
         var(--sky-size-switch),
         calc(
-          calc(var(--sky-space-inset-balanced-xs) * 2) + var(--sky-size-icon-m)
+          calc(
+              var(--sky-comp-button-borderless-space-inset-bottom) +
+                var(--sky-comp-button-borderless-space-inset-top)
+            ) +
+            var(--sky-size-icon-m)
         )
       )
     );
@@ -367,8 +375,8 @@ sky-repeater-item {
     height: var(
       --sky-override-repeater-item-top-button-placeholder-height,
       calc(
-        var(--sky-space-inset-pillarbox-1_2-top-m) +
-          var(--sky-space-inset-pillarbox-1_2-bottom-m) +
+        var(--sky-comp-button-space-inset-bottom) +
+          var(--sky-comp-button-space-inset-top) +
           calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m))
       )
     );
@@ -461,7 +469,10 @@ sky-repeater-item {
       padding-right: var(
         --sky-override-repeater-item-content-collapsible-padding-right,
         calc(
-          calc(var(--sky-space-inset-balanced-xs) * 2) +
+          calc(
+              var(--sky-comp-button-borderless-space-inset-bottom) +
+                var(--sky-comp-button-borderless-space-inset-top)
+            ) +
             var(--sky-size-icon-s) + var(--sky-space-gap-text_action-s)
         )
       );
@@ -490,7 +501,10 @@ sky-repeater-item {
       height: var(--sky-override-repeater-item-grab-handle-size, '');
       padding: var(
         --sky-override-repeater-item-grab-handle-padding,
-        var(--sky-space-inset-balanced-xs)
+        var(--sky-comp-button-borderless-space-inset-top)
+          var(--sky-comp-button-borderless-space-inset-right)
+          var(--sky-comp-button-borderless-space-inset-bottom)
+          var(--sky-comp-button-borderless-space-inset-left)
       );
       width: var(--sky-override-repeater-item-grab-handle-size, '');
 
@@ -606,14 +620,14 @@ sky-repeater-item {
   sky-repeater-item .sky-repeater-item {
     padding-left: var(
       --sky-override-repeater-item-split-view-padding-left,
-      var(--sky-space-inset-letterbox-2_3-left-m)
+      var(--sky-comp-repeater_item-space-inset-left)
     );
 
     &.sky-repeater-item-active {
       padding-left: var(
         --sky-override-repeater-item-split-view-padding-left-active,
         calc(
-          var(--sky-space-inset-letterbox-2_3-left-m) - var(
+          var(--sky-comp-repeater_item-space-inset-left) - var(
               --sky-border-width-selected-m
             )
         )
