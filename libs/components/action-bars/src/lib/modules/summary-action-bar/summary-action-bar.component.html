@@ -10,7 +10,9 @@
     <div aria-live="polite">
       @if (formErrors) {
         @if (formErrors.length > 0) {
-          <div class="sky-summary-action-bar-errors sky-margin-stacked-lg">
+          <div
+            class="sky-summary-action-bar-errors sky-margin-stacked-lg sky-errors-overflow"
+          >
             @for (formError of formErrors; track formError.message) {
               <div class="sky-summary-action-bar-form-error-stacked">
                 <sky-status-indicator

@@ -36,7 +36,10 @@
   // Padding rule can be removed when default is removed as it will come from the `sky-padding-even-md` class
   padding: var(
     --sky-override-inline-form-padding,
-    var(--sky-space-inset-balanced-m)
+    var(--sky-comp-inline_form-space-inset-top)
+      var(--sky-comp-inline_form-space-inset-right)
+      var(--sky-comp-inline_form-space-inset-bottom)
+      var(--sky-comp-inline_form-space-inset-left)
   );
   width: 100%;
 

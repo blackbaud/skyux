@@ -1,5 +1,19 @@
 # Changelog
 
+## [12.16.0](https://github.com/blackbaud/skyux/compare/12.15.0...12.16.0) (2025-06-04)
+
+
+### Features
+
+* **components/action-bars:** add support for `formError` input in summary action bar ([#3466](https://github.com/blackbaud/skyux/issues/3466)) ([f0750a2](https://github.com/blackbaud/skyux/commit/f0750a233845e95f321d940b4fd977d9d08b2134))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** row delete overlay should not be clipped ([#3493](https://github.com/blackbaud/skyux/issues/3493)) ([9b020f8](https://github.com/blackbaud/skyux/commit/9b020f822814c87bcdc0505b29cec63fa42df4a9))
+* contiguous viewkeeper elements should have one combined shadow ([#3485](https://github.com/blackbaud/skyux/issues/3485)) ([ee61d7c](https://github.com/blackbaud/skyux/commit/ee61d7cc93b7e779dae72155db634735a6b5267c))
+* remove separator dark border styles ([#3492](https://github.com/blackbaud/skyux/issues/3492)) ([6fb7bfb](https://github.com/blackbaud/skyux/commit/6fb7bfbb592981d8628f447c3e44556445b08b28))
+
 ## [12.15.0](https://github.com/blackbaud/skyux/compare/12.14.3...12.15.0) (2025-05-30)
 
 

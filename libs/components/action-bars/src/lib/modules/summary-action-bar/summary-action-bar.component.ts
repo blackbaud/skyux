@@ -33,6 +33,7 @@ import { SkyActionBarsResourcesModule } from '../shared/sky-action-bars-resource
 import { SkySummaryActionBarError } from './errors/summary-action-bar-error';
 import { SkySummaryActionBarAdapterService } from './summary-action-bar-adapter.service';
 import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-bar-summary.component';
+import { SkySummaryActionBarError } from './types/summary-action-bar-error';
 import { SkySummaryActionBarType } from './types/summary-action-bar-type';
 
 /**

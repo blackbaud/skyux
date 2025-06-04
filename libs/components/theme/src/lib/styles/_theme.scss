@@ -169,3 +169,8 @@ symbol[id^='sky-i-']:not(.sky-i-branded) * {
   isolation: isolate;
   position: relative;
 }
+
+.sky-errors-overflow {
+  overflow-y: auto;
+  max-height: 100px;
+}
