@@ -43,7 +43,9 @@ export class SkyIconHarness extends SkyComponentHarness {
         return iconClass.replace('fa-', '');
       } else if (/^sky-icon-svg-relative-(?=2xs|lg|[2-5]+x)/.test(iconClass)) {
         return iconClass.replace('sky-icon-svg-relative-', '');
-      } else if (/^sky-icon-svg-(?=xxxs|xxs|xs|s|m|l|xl|xxl)/.test(iconClass)) {
+      } else if (
+        /^sky-icon-svg-(?=xxxs|xxs|xs|s|m|l|xl|xxl|xxxl)/.test(iconClass)
+      ) {
         return iconClass.replace('sky-icon-svg-', '');
       }
     }
