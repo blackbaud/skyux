@@ -27,28 +27,25 @@ interface donationSummary {
 })
 export class ActionBarsSummaryActionBarErrorExampleComponent {
   public formErrors: SkySummaryActionBarError[] = [];
-  public exampleForm: FormGroup;
-  public donationSummary: FormControl<donationSummary[] | null>;
+  public donationSummary = new FormControl<donationSummary[] | null>([
+    {
+      value: 250,
+      label: 'Given this month',
+    },
+    {
+      value: 1000,
+      label: 'Given this year',
+    },
+    {
+      value: 1300,
+      label: 'Given all time',
+    },
+  ]);
+  public exampleForm = inject(FormBuilder).group({
+    donationSummary: this.donationSummary,
+  });
 
   constructor() {
-    this.donationSummary = new FormControl<donationSummary[] | null>([
-      {
-        value: 250,
-        label: 'Given this month',
-      },
-      {
-        value: 1000,
-        label: 'Given this year',
-      },
-      {
-        value: 1300,
-        label: 'Given all time',
-      },
-    ]);
-    this.exampleForm = inject(FormBuilder).group({
-      donationSummary: this.donationSummary,
-    });
-
     this.donationSummary.statusChanges.subscribe(() => {
       if (this.donationSummary.errors) {
         const errors = this.donationSummary.errors;
@@ -66,13 +63,13 @@ export class ActionBarsSummaryActionBarErrorExampleComponent {
     alert('The primary action button was clicked.');
   }
 
-  public singleError(): void {
+  protected singleError(): void {
     this.donationSummary.setErrors({
       singleError: 'There is an error.',
     });
   }
 
-  public multipleErrors(): void {
+  protected multipleErrors(): void {
     this.donationSummary.setErrors({
       firstError: 'There is an error.',
       secondError: 'There is another error.',
