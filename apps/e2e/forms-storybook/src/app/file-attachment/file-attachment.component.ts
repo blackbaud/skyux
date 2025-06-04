@@ -70,6 +70,18 @@ export class FileAttachmentComponent {
               size: 100,
             },
           },
+          {
+            file: {
+              name: 'myDoc.doc',
+              size: 100,
+            },
+          },
+          {
+            file: {
+              name: 'myPowerpoint.ppt',
+              size: 100,
+            },
+          },
         ],
         rejectedFiles: {},
       } as SkyFileDropChange;

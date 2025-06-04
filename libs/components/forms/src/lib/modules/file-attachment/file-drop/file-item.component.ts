@@ -110,11 +110,11 @@ export class SkyFileItemComponent implements DoCheck {
             break;
           case '.PPT':
           case '.PPTX':
-            cls = 'powerpoint';
+            cls = 'ppt';
             break;
           case '.DOC':
           case '.DOCX':
-            cls = 'word';
+            cls = 'doc';
             break;
           case '.XLS':
           case '.XLSX':
