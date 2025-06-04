@@ -46,22 +46,30 @@ fdescribe('Error summary action bar example', () => {
   });
 
   it('should add an error on clicking secondary action button to add single error', async () => {
-    const { harness, fixture } = await setupTest();
+    const { harness } = await setupTest();
 
     const secondaryActions = await harness.getSecondaryActions();
     const singleErrorAction = await secondaryActions.getAction({
       dataSkyId: 'single-error-action',
     });
 
-    const spy = spyOn(fixture.componentInstance, 'singleError');
-
     await singleErrorAction.click();
-    expect(spy).toHaveBeenCalled();
-    fixture.detectChanges();
 
     await expectAsync(
-      harness.hasError({ message: 'This is an error.' }),
+      harness.hasError({ message: 'There is an error.' }),
     ).toBeResolvedTo(true);
+  });
+
+  it('should add errors on clicking secondary action button to add multiple errors', async () => {
+    const { harness } = await setupTest();
+
+    const secondaryActions = await harness.getSecondaryActions();
+    const singleErrorAction = await secondaryActions.getActions();
+
+    await singleErrorAction[1].click();
+
+    const errors = await harness.getErrors();
+    expect(errors.length).toBe(2);
   });
 
   it('should set up the summary', async () => {

@@ -56,7 +56,6 @@ export class ActionBarsSummaryActionBarErrorExampleComponent {
         this.formErrors = [];
         Object.keys(errors).forEach((error) => {
           this.formErrors.push({ message: errors[error] });
-          console.log(this.formErrors);
         });
       }
     });
