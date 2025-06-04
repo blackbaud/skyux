@@ -37,6 +37,13 @@
           labelText="Compact layout"
           labelHidden
         />
+        <sky-checkbox
+          formControlName="showDelete"
+          iconName="delete"
+          title="Delete button"
+          labelText="Delete button"
+          labelHidden
+        />
         <sky-radio-group
           labelText="DOM layout"
           labelHidden
@@ -76,7 +83,12 @@
   </sky-data-manager-toolbar>
   <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewId">
     @if (isActive$ | async) {
-      <sky-ag-grid-wrapper [compact]="compact">
+      <sky-ag-grid-wrapper
+        skyAgGridRowDelete
+        [compact]="compact"
+        [(rowDeleteIds)]="rowDeleteIds"
+        (rowDeleteConfirm)="deleteConfirm($event)"
+      >
         <ag-grid-angular [gridOptions]="gridOptions" [rowData]="items" />
       </sky-ag-grid-wrapper>
     }

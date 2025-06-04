@@ -20,13 +20,19 @@ import {
 } from '@skyux/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { GridApi } from 'ag-grid-community';
+import { GridApi, GridOptions } from 'ag-grid-community';
 import {
   BehaviorSubject,
   Subject,
   distinctUntilChanged,
   filter,
+  fromEvent,
+  map,
+  merge,
+  of,
+  startWith,
   switchMap,
+  take,
   takeUntil,
 } from 'rxjs';
 
@@ -60,10 +66,13 @@ export class SkyAgGridRowDeleteDirective
   public rowDeleteConfirm = output<SkyAgGridRowDeleteConfirmArgs>();
 
   protected readonly agGrid = contentChild(AgGridAngular);
-  protected readonly agGridBodyViewport = new BehaviorSubject<
+
+  readonly #agGridBodyViewport = new BehaviorSubject<
     ElementRef<HTMLDivElement>[]
   >([]);
-
+  readonly #agGridBodyClipElements = new BehaviorSubject<
+    ElementRef<HTMLDivElement>[]
+  >([]);
   readonly #ngUnsubscribe = new Subject<void>();
   readonly #rowDeleteIdsInternal = linkedSignal<unknown[], string[]>({
     source: this.rowDeleteIds,
@@ -94,7 +103,7 @@ export class SkyAgGridRowDeleteDirective
 
     this.#rowDeleteSvc = new SkyAgGridRowDeleteContext(
       this.#rowDeleteIdsInternal.asReadonly(),
-      toSignal(this.agGridBodyViewport),
+      toSignal(this.#agGridBodyViewport),
       signal<GridApi | undefined>(undefined),
     );
 
@@ -118,21 +127,58 @@ export class SkyAgGridRowDeleteDirective
       });
 
     const agGrid = toObservable(this.agGrid);
+    const agGridReady = agGrid.pipe(
+      filter((agGrid) => !!agGrid),
+      switchMap((agGrid: AgGridAngular) => agGrid.gridReady),
+      take(1),
+      takeUntil(this.#ngUnsubscribe),
+    );
+    agGridReady.subscribe((ready) => {
+      this.#agGridBodyViewport.next([
+        new ElementRef(
+          this.#elementRef.nativeElement.querySelector(
+            'div.ag-root-wrapper',
+          ) as HTMLDivElement,
+        ),
+      ]);
+      this.#rowDeleteSvc.gridApi.set(ready.api);
+    });
     agGrid
       .pipe(
-        filter((agGrid) => !!agGrid),
-        switchMap((agGrid: AgGridAngular) => agGrid.gridReady),
-        takeUntil(this.#ngUnsubscribe),
-      )
-      .subscribe(() => {
-        this.agGridBodyViewport.next([
-          new ElementRef(
-            this.#elementRef.nativeElement.querySelector(
-              'div.ag-root-wrapper',
-            ) as HTMLDivElement,
+        filter((grid) => !!grid),
+        switchMap((grid) =>
+          merge(
+            grid.firstDataRendered.asObservable(),
+            grid.rowDataUpdated.asObservable(),
+            agGridReady.pipe(
+              switchMap(() => fromEvent(grid.api, 'gridOptionsChanged')),
+            ),
+          ).pipe(
+            takeUntil(this.#ngUnsubscribe),
+            takeUntil(
+              agGridReady.pipe(
+                switchMap(() =>
+                  fromEvent(grid.api, 'gridPreDestroyed').pipe(take(1)),
+                ),
+              ),
+            ),
+            startWith(grid.api?.getGridOption('domLayout')),
+            map(() => grid.api?.getGridOption('domLayout')),
+            switchMap((domLayout: GridOptions['domLayout']) => {
+              if (domLayout === 'normal') {
+                return this.#agGridBodyViewport.asObservable();
+              }
+              return of([]);
+            }),
           ),
-        ]);
-        this.#rowDeleteSvc.gridApi.set(this.agGrid()?.api);
+        ),
+      )
+      .subscribe((agGridBodyClipElements) => {
+        // When using AG Grid's `domLayout: 'autoHeight'` option,
+        // the grid's body viewport is clipped by the scrollable host.
+        // But when using `domLayout: 'normal'`, the grid's body viewport
+        // should be used as the scrollable host for the row delete overlay.
+        this.#agGridBodyClipElements.next(agGridBodyClipElements);
       });
 
     agGrid
@@ -188,7 +234,7 @@ export class SkyAgGridRowDeleteDirective
     this.#scrollableHostService
       .watchScrollableHostClipPathChanges(
         this.#elementRef,
-        this.agGridBodyViewport.asObservable(),
+        this.#agGridBodyClipElements.asObservable(),
       )
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((clipPath) => {
