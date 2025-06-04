@@ -28,11 +28,10 @@ interface donationSummary {
 export class ActionBarsSummaryActionBarErrorExampleComponent {
   public formErrors: SkySummaryActionBarError[] = [];
   public exampleForm: FormGroup;
-  public donationSummary: FormControl<donationSummary[]>;
+  public donationSummary: FormControl<donationSummary[] | null>;
 
   constructor() {
-    this.donationSummary = new FormControl();
-    this.donationSummary.setValue([
+    this.donationSummary = new FormControl<donationSummary[] | null>([
       {
         value: 250,
         label: 'Given this month',
@@ -55,7 +54,9 @@ export class ActionBarsSummaryActionBarErrorExampleComponent {
         const errors = this.donationSummary.errors;
         this.formErrors = [];
         Object.keys(errors).forEach((error) => {
-          this.formErrors.push({ message: errors[error] });
+          this.formErrors.push({
+            message: errors[error] as string,
+          });
         });
       }
     });
