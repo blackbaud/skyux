@@ -21,7 +21,7 @@ export class SkyBoxHeaderComponent {
     inject(SkyLogService).deprecated('SkyBoxHeaderComponent', {
       deprecationMajorVersion: 10,
       replacementRecommendation:
-        'To add a header to box, use the `headerText` input on the box component instead.',
+        'To add a header to box, use the `headingText` input on the box component instead.',
     });
   }
 }
