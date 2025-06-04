@@ -1,4 +1,5 @@
 export { ActionBarsSummaryActionBarBasicExampleComponent } from './lib/modules/action-bars/summary-action-bar/basic/example.component';
+export { ActionBarsSummaryActionBarErrorExampleComponent } from './lib/modules/action-bars/summary-action-bar/error/example.component';
 export { ActionBarsSummaryActionBarModalExampleComponent } from './lib/modules/action-bars/summary-action-bar/modal/example.component';
 export { ActionBarsSummaryActionBarTabExampleComponent } from './lib/modules/action-bars/summary-action-bar/tab/example.component';
 export { AgGridDataEntryGridBasicExampleComponent } from './lib/modules/ag-grid/data-entry-grid/basic/example.component';

@@ -1,9 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   SkySummaryActionBarError,
   SkySummaryActionBarModule,
 } from '@skyux/action-bars';
 import { SkyKeyInfoModule } from '@skyux/indicators';
+
+interface donationSummary {
+  value: number;
+  label: string;
+}
 
 /**
  * @title Summary action bar with errors
@@ -12,18 +23,59 @@ import { SkyKeyInfoModule } from '@skyux/indicators';
 @Component({
   selector: 'app-action-bars-summary-action-bar-error-example',
   templateUrl: './example.component.html',
-  imports: [SkyKeyInfoModule, SkySummaryActionBarModule],
+  imports: [SkyKeyInfoModule, SkySummaryActionBarModule, ReactiveFormsModule],
 })
 export class ActionBarsSummaryActionBarErrorExampleComponent {
-  public error: SkySummaryActionBarError[] | undefined;
+  public formErrors: SkySummaryActionBarError[] = [];
+  public exampleForm: FormGroup;
+  public donationSummary: FormControl<donationSummary[]>;
 
-  public onPrimaryActionClick(): void {
-    alert('Primary action button clicked.');
+  constructor() {
+    this.donationSummary = new FormControl();
+    this.donationSummary.setValue([
+      {
+        value: 250,
+        label: 'Given this month',
+      },
+      {
+        value: 1000,
+        label: 'Given this year',
+      },
+      {
+        value: 1300,
+        label: 'Given all time',
+      },
+    ]);
+    this.exampleForm = inject(FormBuilder).group({
+      donationSummary: this.donationSummary,
+    });
+
+    this.donationSummary.statusChanges.subscribe(() => {
+      if (this.donationSummary.errors) {
+        const errors = this.donationSummary.errors;
+        this.formErrors = [];
+        Object.keys(errors).forEach((error) => {
+          this.formErrors.push({ message: errors[error] });
+          console.log(this.formErrors);
+        });
+      }
+    });
   }
 
-  public onSecondaryActionClick(): void {}
+  public onPrimaryActionClick(): void {
+    alert('The primary action button was clicked.');
+  }
 
-  public onSecondaryAction2Click(): void {
-    alert('Secondary action 2 button clicked.');
+  public singleError(): void {
+    this.donationSummary.setErrors({
+      singleError: 'There is an error.',
+    });
+  }
+
+  public multipleErrors(): void {
+    this.donationSummary.setErrors({
+      firstError: 'There is an error.',
+      secondError: 'There is another error.',
+    });
   }
 }

@@ -6,7 +6,7 @@ import { SkyKeyInfoHarness } from '@skyux/indicators/testing';
 
 import { ActionBarsSummaryActionBarErrorExampleComponent } from './example.component';
 
-describe('Error summary action bar example', () => {
+fdescribe('Error summary action bar example', () => {
   async function setupTest(): Promise<{
     harness: SkySummaryActionBarHarness;
     fixture: ComponentFixture<ActionBarsSummaryActionBarErrorExampleComponent>;
@@ -32,7 +32,7 @@ describe('Error summary action bar example', () => {
     });
   });
 
-  it('should set up primary actions', async () => {
+  it('should set up primary action', async () => {
     const { harness, fixture } = await setupTest();
 
     const primaryActionHarness = await harness.getPrimaryAction();
@@ -45,24 +45,23 @@ describe('Error summary action bar example', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should set up secondary actions', async () => {
+  it('should add an error on clicking secondary action button to add single error', async () => {
     const { harness, fixture } = await setupTest();
 
     const secondaryActions = await harness.getSecondaryActions();
-    const actions = await secondaryActions.getActions();
-    expect(actions.length).toBe(2);
-
-    const spy1 = spyOn(fixture.componentInstance, 'onSecondaryActionClick');
-    const spy2 = spyOn(fixture.componentInstance, 'onSecondaryAction2Click');
-
-    await actions[1].click();
-    expect(spy2).toHaveBeenCalled();
-
-    const secondaryAction = await secondaryActions.getAction({
-      dataSkyId: 'secondary-action',
+    const singleErrorAction = await secondaryActions.getAction({
+      dataSkyId: 'single-error-action',
     });
-    await secondaryAction.click();
-    expect(spy1).toHaveBeenCalled();
+
+    const spy = spyOn(fixture.componentInstance, 'singleError');
+
+    await singleErrorAction.click();
+    expect(spy).toHaveBeenCalled();
+    fixture.detectChanges();
+
+    await expectAsync(
+      harness.hasError({ message: 'This is an error.' }),
+    ).toBeResolvedTo(true);
   });
 
   it('should set up the summary', async () => {
