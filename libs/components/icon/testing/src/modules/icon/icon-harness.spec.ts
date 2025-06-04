@@ -157,7 +157,7 @@ async function validateSvgVariant(
 const iconTypes = ['fa', 'skyux'];
 const variants = ['line', 'solid'];
 const relativeSizes = ['lg', '2x', '3x', '4x', '5x'];
-const sizes = ['xxxs', 'xxs', 'xs', 's', 'm', 'l', 'xl', 'xxl'];
+const sizes = ['xxxs', 'xxs', 'xs', 's', 'm', 'l', 'xl', 'xxl', 'xxxl'];
 
 describe('Icon harness', () => {
   let mockThemeSvc: {
