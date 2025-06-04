@@ -6,7 +6,7 @@ import { SkyKeyInfoHarness } from '@skyux/indicators/testing';
 
 import { ActionBarsSummaryActionBarErrorExampleComponent } from './example.component';
 
-fdescribe('Error summary action bar example', () => {
+describe('Error summary action bar example', () => {
   async function setupTest(): Promise<{
     harness: SkySummaryActionBarHarness;
     fixture: ComponentFixture<ActionBarsSummaryActionBarErrorExampleComponent>;
