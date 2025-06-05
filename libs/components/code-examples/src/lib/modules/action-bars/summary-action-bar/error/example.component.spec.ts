@@ -56,7 +56,7 @@ describe('Error summary action bar example', () => {
     await singleErrorAction.click();
 
     await expectAsync(
-      harness.hasError({ message: 'There is an error.' }),
+      harness.hasError({ message: 'Monthly donation is missing.' }),
     ).toBeResolvedTo(true);
   });
 

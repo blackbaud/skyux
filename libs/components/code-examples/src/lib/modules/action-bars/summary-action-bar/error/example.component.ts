@@ -1,10 +1,6 @@
-import { Component, inject } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { Component, computed, inject } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   SkySummaryActionBarError,
   SkySummaryActionBarModule,
@@ -26,7 +22,6 @@ interface donationSummary {
   imports: [SkyKeyInfoModule, SkySummaryActionBarModule, ReactiveFormsModule],
 })
 export class ActionBarsSummaryActionBarErrorExampleComponent {
-  public formErrors: SkySummaryActionBarError[] = [];
   public donationSummary = new FormControl<donationSummary[] | null>([
     {
       value: 250,
@@ -45,34 +40,69 @@ export class ActionBarsSummaryActionBarErrorExampleComponent {
     donationSummary: this.donationSummary,
   });
 
-  constructor() {
-    this.donationSummary.statusChanges.subscribe(() => {
-      if (this.donationSummary.errors) {
-        const errors = this.donationSummary.errors;
-        this.formErrors = [];
-        Object.keys(errors).forEach((error) => {
-          this.formErrors.push({
-            message: errors[error] as string,
-          });
+  public valueChanged = toSignal(
+    this.donationSummary.valueChanges.pipe(takeUntilDestroyed()),
+  );
+
+  public formErrors = computed(() => {
+    console.log('Value changed:', this.valueChanged());
+    const errorMessages: SkySummaryActionBarError[] = [];
+    if (this.donationSummary.errors) {
+      const errors = this.donationSummary.errors;
+      Object.keys(errors).forEach((error) => {
+        errorMessages.push({
+          message: errors[error] as string,
         });
-      }
-    });
-  }
+      });
+    }
+    return errorMessages;
+  });
 
   public onPrimaryActionClick(): void {
-    alert('The primary action button was clicked.');
+    this.donationSummary.setValue([
+      {
+        value: 250,
+        label: 'Given this month',
+      },
+      {
+        value: 1000,
+        label: 'Given this year',
+      },
+      {
+        value: 1300,
+        label: 'Given all time',
+      },
+    ]);
+
+    this.donationSummary.setErrors([]);
   }
 
   protected singleError(): void {
+    this.donationSummary.setValue([
+      {
+        value: 1000,
+        label: 'Given this year',
+      },
+      {
+        value: 1300,
+        label: 'Given all time',
+      },
+    ]);
     this.donationSummary.setErrors({
-      singleError: 'There is an error.',
+      singleError: 'Monthly donation is missing.',
     });
   }
 
   protected multipleErrors(): void {
+    this.donationSummary.setValue([
+      {
+        value: 1300,
+        label: 'Given all time',
+      },
+    ]);
     this.donationSummary.setErrors({
-      firstError: 'There is an error.',
-      secondError: 'There is another error.',
+      firstError: 'Monthly donation is missing.',
+      secondError: 'Yearly donation is missing.',
     });
   }
 }
