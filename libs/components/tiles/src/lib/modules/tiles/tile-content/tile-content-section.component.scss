@@ -22,10 +22,10 @@
   );
   padding: var(
     --sky-override-tile-content-section-padding,
-    var(--sky-space-inset-vertical-top-m)
-      var(--sky-space-inset-vertical-right-m)
-      var(--sky-space-inset-vertical-bottom-m)
-      var(--sky-space-inset-vertical-left-m)
+    var(--sky-comp-tile-section-space-inset-top)
+      var(--sky-comp-tile-section-space-inset-right)
+      var(--sky-comp-tile-section-space-inset-bottom)
+      var(--sky-comp-tile-section-space-inset-left)
   );
 }
 

@@ -46,7 +46,10 @@
     );
     padding: var(
       --sky-override-vertical-tabset-group-button-padding,
-      var(--sky-space-inset-balanced-s)
+      var(--sky-comp-tab-vertical-group-button-space-inset-top)
+        var(--sky-comp-tab-vertical-group-button-space-inset-right)
+        var(--sky-comp-tab-vertical-group-button-space-inset-bottom)
+        var(--sky-comp-tab-vertical-group-button-space-inset-left)
     );
     cursor: pointer;
     display: flex;

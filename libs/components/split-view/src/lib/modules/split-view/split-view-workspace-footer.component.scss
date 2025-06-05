@@ -22,7 +22,10 @@
 .sky-split-view-workspace-footer {
   padding: var(
     --sky-override-split-view-workspace-footer-padding,
-    var(--sky-space-inset-balanced-s)
+    var(--sky-comp-split_view-footer-space-inset-top)
+      var(--sky-comp-split_view-footer-space-inset-right)
+      var(--sky-comp-split_view-footer-space-inset-bottom)
+      var(--sky-comp-split_view-footer-space-inset-left)
   );
   // Remove this rule and use the `sky-elevation-3` class directly when only v2 modern is supported
   box-shadow: var(

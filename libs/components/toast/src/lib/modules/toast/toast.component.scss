@@ -62,11 +62,14 @@ sky-toast {
   .sky-toast {
     padding: var(
       --sky-override-toast-padding,
-      var(--sky-space-inset-balanced-m)
+      var(--sky-comp-toast-space-inset-top)
+        var(--sky-comp-toast-space-inset-right)
+        var(--sky-comp-toast-space-inset-bottom)
+        var(--sky-comp-toast-space-inset-left)
     );
     margin-bottom: var(
       --sky-override-toast-margin-bottom,
-      var(--sky-space-inset-balanced-xl)
+      var(--sky-comp-toaster-space-inset-bottom)
     );
     border-left-style: solid;
     border-left-width: var(
@@ -115,12 +118,15 @@ sky-toast {
       );
       margin: var(
         --sky-override-toast-close-button-margin,
-        calc(calc(var(--sky-space-inset-balanced-xl) * 0.5) * -1)
-          calc(calc(var(--sky-space-inset-balanced-xl) * 0.5) * -1) 0 0
+        calc(calc(var(--sky-comp-toaster-space-inset-top) * 0.5) * -1)
+          calc(calc(var(--sky-comp-toaster-space-inset-right) * 0.5) * -1) 0 0
       );
       padding: var(
         --sky-override-toast-close-button-padding,
-        var(--sky-space-inset-balanced-xs)
+        var(--sky-comp-button-borderless-space-inset-top)
+          var(--sky-comp-button-borderless-space-inset-right)
+          var(--sky-comp-button-borderless-space-inset-bottom)
+          var(--sky-comp-button-borderless-space-inset-left)
       );
 
       &:hover {

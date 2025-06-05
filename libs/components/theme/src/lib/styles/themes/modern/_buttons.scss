@@ -117,10 +117,10 @@
   .sky-btn-borderless {
     padding: var(
       --sky-override-button-padding,
-      var(--sky-space-inset-pillarbox-1_2-top-m)
-        var(--sky-space-inset-pillarbox-1_2-right-m)
-        var(--sky-space-inset-pillarbox-1_2-bottom-m)
-        var(--sky-space-inset-pillarbox-1_2-left-m)
+      var(--sky-comp-button-space-inset-top)
+        var(--sky-comp-button-space-inset-right)
+        var(--sky-comp-button-space-inset-bottom)
+        var(--sky-comp-button-space-inset-left)
     );
   }
 
@@ -165,7 +165,10 @@
   .sky-btn-icon {
     padding: var(
       --sky-override-button-icon-padding,
-      var(--sky-space-inset-balanced-s)
+      var(--sky-comp-button-icon-space-inset-top)
+        var(--sky-comp-button-icon-space-inset-right)
+        var(--sky-comp-button-icon-space-inset-bottom)
+        var(--sky-comp-button-icon-space-inset-left)
     );
   }
 
@@ -335,7 +338,10 @@
   .sky-btn-icon-borderless {
     padding: var(
       --sky-override-button-icon-borderless-padding,
-      var(--sky-space-inset-balanced-xs)
+      var(--sky-comp-button-borderless-space-inset-top)
+        var(--sky-comp-button-borderless-space-inset-right)
+        var(--sky-comp-button-borderless-space-inset-bottom)
+        var(--sky-comp-button-borderless-space-inset-left)
     );
     height: var(--sky-override-borderless-icon-size, '');
     width: var(--sky-override-borderless-icon-size, '');
@@ -497,13 +503,20 @@
       --sky-override-button-block-line-height,
       var(--sky-font-line_height-body-l)
     );
+    padding: var(--sky-comp-button-block-space-top)
+      var(--sky-comp-button-block-space-right)
+      var(--sky-comp-button-block-space-bottom)
+      var(--sky-comp-button-block-space-left);
 
     &:has(.sky-btn-block-logo) {
       // Reserve space for a medium-size icon on the left. The icon will be
       // positioned on top of this space.
       --sky-btn-block-logo-padding-sides: calc(
         var(--sky-size-icon-m) +
-          calc(var(--sky-space-inset-pillarbox-1_2-left-m) * 2)
+          calc(
+            var(--sky-comp-button-block-space-inset-left) +
+              var(--sky-comp-button-block-space-inset-right)
+          )
       );
 
       // Set both the left and right padding for symmetry.
@@ -512,7 +525,7 @@
     }
 
     .sky-btn-block-logo {
-      left: var(--sky-space-inset-pillarbox-1_2-left-m);
+      left: var(--sky-comp-button-block-space-inset-left);
     }
   }
 
@@ -535,10 +548,10 @@
       --sky-override-tab-line-height,
       var(--sky-font-line_height-body-m)
     );
-    padding: var(--sky-space-inset-pillarbox-2_3-top-m)
-      var(--sky-space-inset-pillarbox-2_3-right-m)
-      var(--sky-space-inset-pillarbox-2_3-bottom-m)
-      var(--sky-space-inset-pillarbox-2_3-left-m);
+    padding: var(--sky-comp-tab-horizontal-space-inset-top)
+      var(--sky-comp-tab-horizontal-space-inset-right)
+      var(--sky-comp-tab-horizontal-space-inset-bottom)
+      var(--sky-comp-tab-horizontal-space-inset-left);
     transition: box-shadow $sky-transition-time-short;
 
     &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(
@@ -553,7 +566,7 @@
         );
       color: var(--sky-color-text-default);
       padding-bottom: calc(
-        var(--sky-space-inset-pillarbox-2_3-bottom-m) - var(
+        var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
             --sky-border-width-selected-s
           )
       );
@@ -583,7 +596,7 @@
           var(--sky-color-border-selected)
         );
       padding-bottom: calc(
-        var(--sky-space-inset-pillarbox-2_3-bottom-m) - var(
+        var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
             --sky-override-tab-selected-border-bottom-size,
             var(--sky-border-width-selected-s)
           )
@@ -624,7 +637,7 @@
         )
         var(--sky-border-style-accent) var(--sky-color-border-selected);
       padding-bottom: calc(
-        var(--sky-space-inset-pillarbox-2_3-bottom-m) - var(
+        var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
             --sky-override-tab-selected-border-bottom-size,
             var(--sky-border-width-selected-l)
           )
@@ -660,6 +673,10 @@
   .sky-tab-dropdown-menu-item {
     .sky-btn-tab {
       border-radius: var(--sky-border-radius-s);
+      padding: var(--sky-comp-tab-horizontal-space-inset-top)
+        var(--sky-comp-tab-horizontal-space-inset-right)
+        var(--sky-comp-tab-horizontal-space-inset-bottom)
+        var(--sky-comp-tab-horizontal-space-inset-left);
       &:hover:not(.sky-btn-tab-disabled) {
         border-bottom: none;
         outline: solid var(--sky-border-width-action-hover)
@@ -695,13 +712,15 @@
             var(--sky-border-width-selected-l)
           )
           var(--sky-border-style-accent) var(--sky-color-border-selected);
-        padding-bottom: var(--sky-space-inset-pillarbox-2_3-bottom-m);
-        padding-left: calc(
-          var(--sky-space-inset-pillarbox-2_3-left-m) - var(
-              --sky-override-selected-dropdown-item-border-width,
-              var(--sky-border-width-selected-l)
-            )
-        );
+        padding: var(--sky-comp-tab-horizontal-space-inset-top)
+          var(--sky-comp-tab-horizontal-space-inset-right)
+          var(--sky-comp-tab-horizontal-space-inset-bottom)
+          calc(
+            var(--sky-comp-tab-horizontal-space-inset-left) - var(
+                --sky-override-selected-dropdown-item-border-width,
+                var(--sky-border-width-selected-l)
+              )
+          );
       }
     }
   }

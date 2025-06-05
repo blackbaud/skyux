@@ -74,7 +74,10 @@
   margin-bottom: var(--sky-override-file-item-margin-bottom, 0);
   padding: var(
     --sky-override-file-item-padding,
-    var(--sky-space-inset-balanced-s)
+    var(--sky-comp-file_drop-content-space-inset-top)
+      var(--sky-comp-file_drop-content-space-inset-right)
+      var(--sky-comp-file_drop-content-space-inset-bottom)
+      var(--sky-comp-file_drop-content-space-inset-left)
   );
 }
 

@@ -22,7 +22,7 @@
   position: fixed;
   padding: var(
     --sky-override-toaster-padding,
-    var(--sky-space-inset-balanced-xl) var(--sky-space-inset-balanced-xl) 0
+    var(--sky-comp-toaster-space-inset-top) var(--sky-comp-toaster-space-inset-right) 0
   );
 }
 
@@ -34,7 +34,7 @@
         var(--sky-size-width-viewport-smallest),
         calc(
           min(var(--sky-size-max_width-overlay_message)) +
-            calc(var(--sky-space-inset-balanced-xl) * 2)
+            calc(var(--sky-comp-toaster-space-inset-left) + var(--sky-comp-toaster-space-inset-right))
         )
       )
     );
@@ -48,7 +48,7 @@
           var(--sky-size-width-viewport-smallest),
           calc(
             min(var(--sky-size-max_width-overlay_message)) +
-              calc(var(--sky-space-inset-balanced-xl) * 2)
+              calc(var(--sky-comp-toaster-space-inset-left) + var(--sky-comp-toaster-space-inset-right))
           )
         )
       );

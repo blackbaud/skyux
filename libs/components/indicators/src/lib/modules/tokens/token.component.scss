@@ -97,10 +97,10 @@
   );
   padding: var(
     --sky-override-token-padding,
-    var(--sky-space-inset-pillarbox-1_4-top-xs)
-      var(--sky-space-inset-pillarbox-1_4-right-xs)
-      var(--sky-space-inset-pillarbox-1_4-bottom-xs)
-      var(--sky-space-inset-pillarbox-1_4-left-xs)
+    var(--sky-comp-token-space-inset-top, var(--sky-comp-token-space-inset-top))
+      var(--sky-comp-token-space-inset-right, var(--sky-comp-token-space-inset-right))
+      var(--sky-comp-token-space-inset-bottom, var(--sky-comp-token-space-inset-bottom))
+      var(--sky-comp-token-space-inset-left, var(--sky-comp-token-space-inset-left))
   );
   align-items: var(--sky-override-token-align-items, center);
   display: var(--sky-override-token-display, inline-flex);
@@ -187,7 +187,10 @@
   opacity: var(--sky-override-token-close-button-opacity, 1);
   padding: var(
     --sky-override-token-close-padding,
-    var(--sky-space-inset-balanced-xxs)
+    var(--sky-comp-token-close-space-inset-top)
+      var(--sky-comp-token-close-space-inset-right)
+      var(--sky-comp-token-close-space-inset-bottom)
+      var(--sky-comp-token-close-space-inset-left)
   );
   border-radius: var(
     --sky-override-token-close-border-radius,
