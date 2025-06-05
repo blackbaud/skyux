@@ -97,10 +97,10 @@
   );
   padding: var(
     --sky-override-token-padding,
-    var(--sky-comp-token-space-inset-top, var(--sky-comp-token-space-inset-top))
-      var(--sky-comp-token-space-inset-right, var(--sky-comp-token-space-inset-right))
-      var(--sky-comp-token-space-inset-bottom, var(--sky-comp-token-space-inset-bottom))
-      var(--sky-comp-token-space-inset-left, var(--sky-comp-token-space-inset-left))
+    var(--sky-comp-token-space-inset-top)
+      var(--sky-comp-token-space-inset-right)
+      var(--sky-comp-token-space-inset-bottom)
+      var(--sky-comp-token-space-inset-left)
   );
   align-items: var(--sky-override-token-align-items, center);
   display: var(--sky-override-token-display, inline-flex);
