@@ -16,13 +16,14 @@
 
   --sky-border-color-neutral-medium: #{$sky-border-color-neutral-medium};
 
-  --sky-category-color-light-blue: #{$sky-category-color-light-blue};
-  --sky-category-color-teal: #{$sky-category-color-teal};
-  --sky-category-color-purple: #{$sky-category-color-purple};
-  --sky-category-color-orange: #{$sky-category-color-orange};
-  --sky-category-color-blue: #{$sky-category-color-blue};
-  --sky-category-color-yellow: #{$sky-category-color-yellow};
-  --sky-category-color-red: #{$sky-category-color-red};
+  --sky-category-color-light-blue: var(--sky-color-category-green);
+  --sky-category-color-green: var(--sky-color-category-green);
+  --sky-category-color-teal: var(--sky-color-category-teal);
+  --sky-category-color-purple: var(--sky-color-category-purple);
+  --sky-category-color-orange: var(--sky-color-category-orange);
+  --sky-category-color-blue: var(--sky-color-category-blue);
+  --sky-category-color-yellow: var(--sky-color-category-yellow);
+  --sky-category-color-red: var(--sky-color-category-red);
 
   --sky-highlight-color-info: #{$sky-highlight-color-info};
   --sky-highlight-color-success: #{$sky-highlight-color-success};
