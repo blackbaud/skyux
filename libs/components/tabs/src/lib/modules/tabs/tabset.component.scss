@@ -7,6 +7,7 @@
   --sky-override-tabset-button-color: #{$sky-text-color-action-primary};
   --sky-override-tabset-button-group-padding-left: #{$sky-padding};
   --sky-override-tabset-button-margin-right: 5px;
+  --sky-override-tabset-icon-button-padding: 6px 12px;
   --sky-override-tabset-modal-margin: #{0 (-$sky-space-lg) $sky-space-xl};
   --sky-override-tabset-modal-padding-left: #{$sky-space-lg};
   --sky-override-tabset-modal-padding-none: 0;
@@ -17,13 +18,8 @@
   --sky-override-tabset-wizard-modal-margin: #{0 0 $sky-space-xl};
 }
 
-@include compatMixins.sky-modern-v2('sky-tabset', false) {
-  // The tabset buttons will be addressed in phase 2;
-  // this explicit height setting allows the rest of the v2 tab styling to appear correctly for now
-  .sky-tabset-btn-new,
-  .sky-tabset-btn-open {
-    height: 36px;
-  }
+@include compatMixins.sky-modern-overrides('sky-tabset', false) {
+  --sky-override-tabset-icon-button-padding: 9px 15px;
 }
 
 sky-tabset {
@@ -131,6 +127,13 @@ sky-tabset {
     margin-right: var(
       --sky-override-tabset-button-margin-right,
       var(--sky-space-gap-action_group-m)
+    );
+    padding: var(
+      --sky-override-tabset-icon-button-padding,
+      var(--sky-comp-tabset-button-space-inset-top)
+        var(--sky-comp-tabset-button-space-inset-right)
+        var(--sky-comp-tabset-button-space-inset-bottom)
+        var(--sky-comp-tabset-button-space-inset-left)
     );
   }
 }
