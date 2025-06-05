@@ -224,7 +224,10 @@
           calc(
               var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
             ) +
-            calc(var(--sky-comp-button-icon-space-inset-left) + var(--sky-comp-button-icon-space-inset-right))
+            calc(
+              var(--sky-comp-button-icon-space-inset-left) +
+                var(--sky-comp-button-icon-space-inset-right)
+            )
         )
       );
       height: var(
@@ -233,7 +236,10 @@
           calc(
               var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
             ) +
-            calc(var(--sky-comp-button-icon-space-inset-top) + var(--sky-comp-button-icon-space-inset-bottom))
+            calc(
+              var(--sky-comp-button-icon-space-inset-top) +
+                var(--sky-comp-button-icon-space-inset-bottom)
+            )
         )
       );
       flex: 1 0
@@ -243,7 +249,10 @@
             calc(
                 var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
               ) +
-              calc(var(--sky-comp-button-icon-space-inset-left) + var(--sky-comp-button-icon-space-inset-right))
+              calc(
+                var(--sky-comp-button-icon-space-inset-left) +
+                  var(--sky-comp-button-icon-space-inset-right)
+              )
           )
         );
       font-size: var(
@@ -337,7 +346,10 @@
           calc(
               var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
             ) +
-            calc(var(--sky-comp-button-icon-space-inset-left) + var(--sky-comp-button-icon-space-inset-right))
+            calc(
+              var(--sky-comp-button-icon-space-inset-left) +
+                var(--sky-comp-button-icon-space-inset-right)
+            )
         )
       );
       height: var(
@@ -346,7 +358,10 @@
           calc(
               var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
             ) +
-            calc(var(--sky-comp-button-icon-space-inset-top) + var(--sky-comp-button-icon-space-inset-bottom))
+            calc(
+              var(--sky-comp-button-icon-space-inset-top) +
+                var(--sky-comp-button-icon-space-inset-bottom)
+            )
         )
       );
       font-size: var(

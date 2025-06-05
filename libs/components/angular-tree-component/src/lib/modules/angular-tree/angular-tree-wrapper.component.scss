@@ -155,13 +155,21 @@
     height: var(
       --sky-override-angular-tree-toggle-children-placeholder-height,
       calc(
-        var(--sky-size-icon-s) + calc(var(--sky-comp-button-borderless-space-inset-top) + var(--sky-comp-button-borderless-space-inset-bottom))
+        var(--sky-size-icon-s) +
+          calc(
+            var(--sky-comp-button-borderless-space-inset-top) +
+              var(--sky-comp-button-borderless-space-inset-bottom)
+          )
       )
     );
     width: var(
       --sky-override-angular-tree-toggle-children-placeholder-width,
       calc(
-        var(--sky-size-icon-s) + calc(var(--sky-comp-button-borderless-space-inset-left) + var(--sky-comp-button-borderless-space-inset-right))
+        var(--sky-size-icon-s) +
+          calc(
+            var(--sky-comp-button-borderless-space-inset-left) +
+              var(--sky-comp-button-borderless-space-inset-right)
+          )
       )
     );
     margin: var(
