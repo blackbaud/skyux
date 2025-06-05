@@ -28,9 +28,6 @@ jobs:
         id: setup-node
         with:
           node-version-file: '.nvmrc'
-      # Rebase must happen before installing dependencies.
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
       - name: Cache node modules
         id: cache
         uses: actions/cache@v4
@@ -87,9 +84,6 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - uses: nrwl/nx-set-shas@v4
-      # Rebase must happen before installing dependencies.
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
       - name: Run build, lint, test, and posttest for npm packages
         run: |
           npx nx affected --target build postbuild lint test posttest --configuration ci --parallel 1 --exclude '*,!tag:npm'
@@ -149,9 +143,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-      # Rebase must happen before installing dependencies.
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
       - name: Retrieve node_modules cache
         uses: actions/cache/restore@v4
         with:
@@ -188,9 +179,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-      # Rebase must happen before installing dependencies.
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v4
       - name: Retrieve node_modules cache
