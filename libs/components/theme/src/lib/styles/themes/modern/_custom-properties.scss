@@ -10,6 +10,14 @@
   --sky-border-color-neutral-medium: #{$sky-theme-modern-border-color-neutral-medium};
   --sky-border-color-neutral-medium-dark: #{$sky-theme-modern-border-color-neutral-medium-dark};
 
+  --sky-category-color-light-blue: var(--sky-color-category-green);
+  --sky-category-color-teal: var(--sky-color-category-teal);
+  --sky-category-color-purple: var(--sky-color-category-purple);
+  --sky-category-color-orange: var(--sky-color-category-orange);
+  --sky-category-color-blue: var(--sky-color-category-blue);
+  --sky-category-color-yellow: var(--sky-color-category-yellow);
+  --sky-category-color-red: var(--sky-color-category-red);
+
   --sky-highlight-color-info: #{$sky-highlight-color-info};
   --sky-highlight-color-success: #{$sky-highlight-color-success};
   --sky-highlight-color-warning: #{$sky-highlight-color-warning};
