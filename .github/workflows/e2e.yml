@@ -49,8 +49,6 @@ jobs:
         id: setup-node
         with:
           node-version-file: '.nvmrc'
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v4
@@ -122,9 +120,6 @@ jobs:
         with:
           node-version-file: '.nvmrc'
         if: ${{ matrix.project != 'skip' }}
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
-        if: ${{ matrix.project != 'skip' }}
       - name: Retrieve dependencies cache
         uses: actions/cache/restore@v4
         with:
@@ -179,9 +174,6 @@ jobs:
         with:
           node-version-file: '.nvmrc'
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
-        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
       - name: Retrieve dependencies cache
         uses: actions/cache/restore@v4
         with:
@@ -231,8 +223,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
         uses: actions/cache/restore@v4
         with:
@@ -307,9 +297,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-        if: ${{ matrix.project != 'skip' }}
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
         if: ${{ matrix.project != 'skip' }}
       - name: Retrieve dependencies cache
         uses: actions/cache/restore@v4
@@ -455,8 +442,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
         uses: actions/cache/restore@v4
         with:
