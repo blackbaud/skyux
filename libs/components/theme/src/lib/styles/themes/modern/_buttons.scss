@@ -503,10 +503,13 @@
       --sky-override-button-block-line-height,
       var(--sky-font-line_height-body-l)
     );
-    padding: var(--sky-comp-button-block-space-inset-top)
-      var(--sky-comp-button-block-space-inset-right)
-      var(--sky-comp-button-block-space-inset-bottom)
-      var(--sky-comp-button-block-space-inset-left);
+    padding: var(
+      --sky-override-button-padding,
+      var(--sky-comp-button-block-space-inset-top)
+        var(--sky-comp-button-block-space-inset-right)
+        var(--sky-comp-button-block-space-inset-bottom)
+        var(--sky-comp-button-block-space-inset-left)
+    );
 
     &:has(.sky-btn-block-logo) {
       // Reserve space for a medium-size icon on the left. The icon will be

@@ -92,12 +92,12 @@
       100% - calc(
           var(
               --sky-override-modal-full-page-margin-xs,
-              var(--sky-comp-modal-fullscreen-space-offset-top)
-                var(--sky-comp-modal-fullscreen-space-offset-right)
-                var(--sky-comp-modal-fullscreen-space-offset-bottom)
-                var(--sky-comp-modal-fullscreen-space-offset-left)
-            ) *
-            2
+              var(--sky-comp-modal-fullscreen-space-offset-right)
+            ) +
+            var(
+              --sky-override-modal-full-page-margin-xs,
+              var(--sky-comp-modal-fullscreen-space-offset-left)
+            )
         )
     )
   );
@@ -150,8 +150,14 @@
       --sky-override-modal-full-page-width,
       calc(
         100% - calc(
-            var(--sky-comp-modal-fullscreen-space-offset-left) +
-              var(--sky-comp-modal-fullscreen-space-offset-right)
+            var(
+                --sky-override-modal-full-page-margin,
+                var(--sky-comp-modal-fullscreen-space-offset-left)
+              ) +
+              var(
+                --sky-override-modal-full-page-margin,
+                var(--sky-comp-modal-fullscreen-space-offset-right)
+              )
           )
       )
     );
