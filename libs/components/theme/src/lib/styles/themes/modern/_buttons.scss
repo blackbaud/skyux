@@ -603,6 +603,10 @@
       );
     }
 
+    .sky-btn-tab-close {
+      margin-left: var(--sky-space-gap-text_action-xs);
+    }
+
     &.sky-btn-tab-disabled {
       background-color: var(
         --sky-override-tab-disabled-background-color,
@@ -661,7 +665,6 @@
       background-color: transparent;
       border: none;
       cursor: pointer;
-      margin-left: var(--sky-space-gap-text_action-xs);
     }
   }
 
