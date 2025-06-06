@@ -4,9 +4,11 @@
 @include compatMixins.sky-default-overrides('sky-tab-button') {
   --sky-override-closeable-tab-padding-right: 43px;
   --sky-override-tab-close-active-hover-color: #fff;
+  --sky-override-tab-close-box-shadow-states: none;
   --sky-override-tab-close-color: #{$sky-text-color-deemphasized};
   --sky-override-tab-close-hover-color: #{$sky-text-color-default};
   --sky-override-tab-close-padding: 1px 6px;
+  --sky-override-tab-close-position: absolute;
   --sky-override-tab-close-position-right: 10px;
   --sky-override-tab-close-position-top: 10px;
   --sky-override-tab-margin-right: #{$sky-margin-inline-compact};
@@ -14,7 +16,9 @@
 
 @include compatMixins.sky-modern-overrides('sky-tab-button', false) {
   --sky-override-closeable-tab-padding-right: 44px;
+  --sky-override-tab-close-box-shadow-states: none;
   --sky-override-tab-close-padding: var(--modern-size-1) var(--modern-size-6);
+  --sky-override-tab-close-position: absolute;
   --sky-override-tab-close-position-right: var(--modern-size-10);
   --sky-override-tab-close-position-top: var(--modern-size-12);
 }
@@ -28,15 +32,9 @@
   );
 
   .sky-btn-tab-close {
-    position: absolute;
-    top: var(
-      --sky-override-tab-close-position-top,
-      var(--sky-space-gap-icon-m)
-    );
-    right: var(
-      --sky-override-tab-close-position-right,
-      var(--sky-space-gap-icon-m)
-    );
+    position: var(--sky-override-tab-close-position, static);
+    top: var(--sky-override-tab-close-position-top, none);
+    right: var(--sky-override-tab-close-position-right, none);
     color: var(
       --sky-override-tab-close-color,
       var(--sky-color-icon-deemphasized)
@@ -44,15 +42,40 @@
     // padding default should change to be the same on all sides when we do the icon work
     padding: var(
       --sky-override-tab-close-padding,
-      0 var(--sky-space-inset-balanced-xs)
+      var(--sky-comp-button-borderless-space-inset-top)
+        var(--sky-comp-button-borderless-space-inset-right)
+        var(--sky-comp-button-borderless-space-inset-bottom)
+        var(--sky-comp-button-borderless-space-inset-left)
     );
 
+    // when v1 modern is dropped, investigate adding icon borderless button classes to close element
     &:hover {
       color: var(
         --sky-override-tab-close-hover-color,
         var(--sky-color-icon-default)
       );
       transition: color $sky-transition-time-short;
+      box-shadow: var(
+        --sky-override-tab-close-box-shadow-states,
+        inset 0 0 0 var(--sky-border-width-action-hover)
+          var(--sky-color-border-action-tertiary-hover)
+      );
+    }
+
+    &:active {
+      box-shadow: var(
+        --sky-override-tab-close-box-shadow-states,
+        inset 0 0 0 var(--sky-border-width-action-active)
+          var(--sky-color-border-action-tertiary-active)
+      );
+    }
+
+    &:focus-visible:not(:active) {
+      box-shadow: var(
+        --sky-override-tab-close-box-shadow-states,
+        inset 0 0 0 var(--sky-border-width-action-focus)
+          var(--sky-color-border-action-tertiary-focus)
+      );
     }
   }
 
@@ -69,15 +92,11 @@
     cursor: not-allowed;
   }
 
+  // this can be removed when v2 is the only BB style
   .sky-tab-btn-closeable {
     padding-right: var(
       --sky-override-closeable-tab-padding-right,
-      calc(
-        var(--sky-space-inset-pillarbox-2_3-right-m) +
-          var(--sky-space-gap-text_action-xs) +
-          var(--sky-space-inset-balanced-xs) +
-          var(--sky-space-inset-balanced-xs) + var(--sky-font-size-body-m)
-      )
+      var(--sky-comp-tab-horizontal-space-inset-right)
     );
   }
 }

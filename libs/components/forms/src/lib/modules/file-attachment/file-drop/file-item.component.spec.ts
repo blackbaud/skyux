@@ -104,9 +104,9 @@ describe('File item component', () => {
     ) {
       expectedClassExtension = 'archive';
     } else if (extension === 'ppt' || extension === 'pptx') {
-      expectedClassExtension = 'powerpoint';
+      expectedClassExtension = 'ppt';
     } else if (extension === 'doc' || extension === 'docx') {
-      expectedClassExtension = 'word';
+      expectedClassExtension = 'doc';
     } else if (extension === 'xls' || extension === 'xlsx') {
       expectedClassExtension = 'xls';
     } else if (extension === 'txt') {
