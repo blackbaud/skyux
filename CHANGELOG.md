@@ -1,5 +1,20 @@
 # Changelog
 
+## [12.17.0](https://github.com/blackbaud/skyux/compare/12.16.0...12.17.0) (2025-06-06)
+
+
+### Features
+
+* **components/tabs:** update tab button element styles to component specific tokens ([#3500](https://github.com/blackbaud/skyux/issues/3500)) ([6e9d822](https://github.com/blackbaud/skyux/commit/6e9d8223dc558d539ee4e9b74212eb6846fa21a3))
+
+
+### Bug Fixes
+
+* **components/core:** remove redundant viewkeeper clip-path rule ([#3502](https://github.com/blackbaud/skyux/issues/3502)) ([a29a7ed](https://github.com/blackbaud/skyux/commit/a29a7ed59aa6544e81d0f41604471e71185e2c01))
+* **components/forms:** use correct icon for powerpoint and doc file previews ([#3498](https://github.com/blackbaud/skyux/issues/3498)) ([7c18bad](https://github.com/blackbaud/skyux/commit/7c18bad271c39b730b3b38a23bc4c99162169ea6))
+* **components/icon:** support xxxl icon size in icon harness ([#3499](https://github.com/blackbaud/skyux/issues/3499)) ([02209ed](https://github.com/blackbaud/skyux/commit/02209ed1896d474b5b8e76671111cebbc9b1e7b5))
+* **components/layout:** console log recommended property in box-header ([#3496](https://github.com/blackbaud/skyux/issues/3496)) ([7073446](https://github.com/blackbaud/skyux/commit/7073446790436cc7e43de4e28776fb4f6192881f))
+
 ## [12.16.0](https://github.com/blackbaud/skyux/compare/12.15.0...12.16.0) (2025-06-04)
 
 
