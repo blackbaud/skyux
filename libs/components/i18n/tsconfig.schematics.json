@@ -12,6 +12,7 @@
     "noImplicitThis": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
+    "resolveJsonModule": true,
     "rootDir": "schematics",
     "outDir": "../../../dist/libs/components/i18n/schematics",
     "skipDefaultLibCheck": true,
@@ -21,6 +22,6 @@
     "target": "ES2022",
     "types": ["jasmine", "node"]
   },
-  "include": ["schematics/**/*"],
-  "exclude": ["schematics/*/files/**/*"]
+  "include": ["schematics/**/*.ts", "schematics/**/*.json"],
+  "exclude": ["schematics/**/*.spec.ts", "schematics/testing/**"]
 }
