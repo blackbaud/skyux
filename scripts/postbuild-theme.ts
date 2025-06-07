@@ -1,16 +1,17 @@
 import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import sass from 'sass';
 
 const STYLES_ROOT = path.resolve(
   __dirname,
   '../libs/components/theme/src/lib/styles',
 );
+
 const DEST_ROOT = path.resolve(__dirname, '../dist/libs/components/theme');
 
 const skyScssPath = path.join(STYLES_ROOT, 'sky.scss');
 
-function addPackageExport(filePath: string) {
+function addPackageExport(filePath: string): void {
   const rootRelativePath = filePath.replace(DEST_ROOT, '.').replace(/\\/g, '/');
   const filePathNoExtension = rootRelativePath.substring(
     0,
@@ -31,7 +32,7 @@ function addPackageExport(filePath: string) {
   fs.writeJsonSync(packageJsonPath, packageJson, { spaces: 2 });
 }
 
-function validateSkyuxIconVersionMatch() {
+function validateSkyuxIconVersionMatch(): void {
   console.log('Validating SKY UX icon font version...');
 
   const scssContents = fs.readFileSync(skyScssPath, 'utf8').toString();
@@ -72,22 +73,26 @@ function validateSkyuxIconVersionMatch() {
   console.log('Done.');
 }
 
-function renderScss(scssFilePath: string, cssDestPath: string) {
-  const result = sass.renderSync({
-    file: scssFilePath,
-    quietDeps: true,
+async function renderScss(
+  scssFilePath: string,
+  cssDestPath: string,
+): Promise<void> {
+  const result = await sass.compileAsync(scssFilePath, {
+    loadPaths: ['./'],
   });
+
   fs.ensureFileSync(cssDestPath);
   fs.writeFileSync(cssDestPath, result.css);
+
   addPackageExport(cssDestPath);
 }
 
-function compileScss() {
+async function compileScss(): Promise<void> {
   console.log('Preparing SCSS and CSS files...');
 
-  renderScss(skyScssPath, path.join(DEST_ROOT, 'css/sky.css'));
+  await renderScss(skyScssPath, path.join(DEST_ROOT, 'css/sky.css'));
 
-  renderScss(
+  await renderScss(
     path.join(STYLES_ROOT, 'themes/modern/styles.scss'),
     path.join(DEST_ROOT, 'css/themes/modern/styles.css'),
   );
@@ -95,12 +100,12 @@ function compileScss() {
   console.log('Done.');
 }
 
-function copyScss(sourcePath: string, destPath: string) {
+function copyScss(sourcePath: string, destPath: string): void {
   fs.copySync(sourcePath, destPath);
   addPackageExport(destPath);
 }
 
-function copyPublicScssFiles() {
+function copyPublicScssFiles(): void {
   console.log('Copying public SCSS files...');
 
   copyScss(
@@ -116,7 +121,7 @@ function copyPublicScssFiles() {
   console.log('Done.');
 }
 
-function copyCompatScssFiles() {
+function copyCompatScssFiles(): void {
   console.log('Copying compatibility SCSS files...');
 
   copyScss(
@@ -142,11 +147,11 @@ function copyCompatScssFiles() {
   console.log('Done.');
 }
 
-function postBuildTheme() {
+async function postBuildTheme(): Promise<void> {
   console.log('Running @skyux/theme postbuild step...');
   try {
     validateSkyuxIconVersionMatch();
-    compileScss();
+    await compileScss();
     copyPublicScssFiles();
     copyCompatScssFiles();
 
@@ -157,4 +162,4 @@ function postBuildTheme() {
   }
 }
 
-postBuildTheme();
+void postBuildTheme();
