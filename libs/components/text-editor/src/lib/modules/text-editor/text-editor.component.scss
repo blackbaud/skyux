@@ -95,9 +95,9 @@ sky-text-editor.sky-form-field-stacked {
     display: var(--sky-override-text-editor-label-display, inline-block);
     padding: var(
       --sky-override-text-editor-label-padding,
-      var(--sky-space-inset-input_label-top-m)
-        var(--sky-space-inset-input-right-m) 0
-        var(--sky-space-inset-input-left-m)
+      var(--sky-comp-input-label-space-inset-top)
+        var(--sky-comp-input-value-space-inset-right) 0
+        var(--sky-comp-input-value-space-inset-left)
     );
     width: 100%;
     color: var(
@@ -136,7 +136,10 @@ sky-text-editor.sky-form-field-stacked {
     height: 300px;
     padding: var(
       --sky-override-text-editor-wrapper-padding,
-      var(--sky-space-inset-balanced-m)
+      var(--sky-comp-text_editor-space-inset-top)
+        var(--sky-comp-text_editor-space-inset-right)
+        var(--sky-comp-text_editor-space-inset-bottom)
+        var(--sky-comp-text_editor-space-inset-left)
     );
     font-size: 1.2rem;
     border-bottom-left-radius: var(
@@ -236,10 +239,10 @@ sky-text-editor.sky-form-field-stacked {
     .sky-toolbar-section {
       padding: var(
         --sky-override-text-editor-toolbar-section-padding,
-        var(--sky-space-inset-vertical-top-s)
-          var(--sky-space-inset-input-right-m)
-          var(--sky-space-inset-vertical-bottom-s)
-          var(--sky-space-inset-input-left-m)
+        var(--sky-comp-toolbar-space-inset-top)
+          var(--sky-comp-input-value-space-inset-right)
+          var(--sky-comp-toolbar-space-inset-bottom)
+          var(--sky-comp-input-value-space-inset-left)
       ) !important;
       border-top: var(
         --sky-override-text-editor-toolbar-border,
@@ -250,7 +253,7 @@ sky-text-editor.sky-form-field-stacked {
     sky-toolbar-section:not(:last-of-type) .sky-toolbar-section {
       padding-bottom: var(
         --sky-override-text-editor-top-toolbar-bottom-padding,
-        var(--sky-space-inset-vertical-bottom-s)
+        var(--sky-comp-toolbar-space-inset-bottom)
       ) !important;
       border-top: none !important;
     }

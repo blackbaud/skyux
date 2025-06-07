@@ -67,7 +67,10 @@
 
     padding: var(
       --sky-override-selection-box-padding,
-      var(--sky-space-inset-balanced-xl)
+      var(--sky-comp-selection_box-expanded-space-inset-top)
+        var(--sky-comp-selection_box-expanded-space-inset-right)
+        var(--sky-comp-selection_box-expanded-space-inset-bottom)
+        var(--sky-comp-selection_box-expanded-space-inset-left)
     );
 
     &:hover {

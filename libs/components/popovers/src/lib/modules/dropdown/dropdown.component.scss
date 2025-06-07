@@ -78,15 +78,15 @@
     );
     padding: var(
       --sky-override-tab-padding,
-      var(--sky-space-inset-pillarbox-2_3-top-m)
-        var(--sky-space-inset-pillarbox-2_3-right-m)
+      var(--sky-comp-button-space-inset-top)
+        var(--sky-comp-button-space-inset-right)
         calc(
-          var(--sky-space-inset-pillarbox-2_3-bottom-m) - var(
+          var(--sky-comp-button-space-inset-bottom) - var(
               --sky-override-tab-selected-border-bottom-size,
               var(--sky-border-width-selected-l)
             )
         )
-        var(--sky-space-inset-pillarbox-2_3-left-m)
+        var(--sky-comp-button-space-inset-left)
     );
     max-width: 100%;
     text-align: left;
@@ -100,7 +100,10 @@
   );
   padding: var(
     --sky-override-context-menu-padding,
-    var(--sky-space-inset-balanced-xs)
+    var(--sky-comp-button-borderless-space-inset-top)
+      var(--sky-comp-button-borderless-space-inset-right)
+      var(--sky-comp-button-borderless-space-inset-bottom)
+      var(--sky-comp-button-borderless-space-inset-left)
   );
   font-size: var(
     --sky-override-context-menu-font-size,

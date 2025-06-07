@@ -20,10 +20,10 @@ sky-toolbar + :host {
   background-color: var(--sky-override-toolbar-background-color);
   padding: var(
     --sky-override-toolbar-container-padding,
-    var(--sky-space-inset-vertical-top-s)
-      var(--sky-space-inset-vertical-right-s)
-      var(--sky-space-inset-vertical-bottom-s)
-      var(--sky-space-inset-vertical-left-s)
+    var(--sky-comp-toolbar-space-inset-top)
+      var(--sky-comp-toolbar-space-inset-right)
+      var(--sky-comp-toolbar-space-inset-bottom)
+      var(--sky-comp-toolbar-space-inset-left)
   );
   border-top: var(--sky-override-toolbar-border-top-bottom, none);
   border-bottom: var(--sky-override-toolbar-border-top-bottom, none);

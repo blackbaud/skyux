@@ -29,10 +29,10 @@
     overflow-y: visible;
     padding: var(
       --sky-override-sectioned-form-content-padding,
-      var(--sky-space-inset-floated-top-m)
-        var(--sky-space-inset-floated-right-m)
-        var(--sky-space-inset-floated-bottom-m)
-        var(--sky-space-inset-floated-left-m)
+      var(--sky-comp-modal-content-space-inset-top)
+        var(--sky-comp-modal-content-space-inset-right)
+        var(--sky-comp-modal-content-space-inset-bottom)
+        var(--sky-comp-modal-content-space-inset-left)
     );
   }
 
@@ -41,8 +41,8 @@
     overflow-y: visible;
     padding: var(
       --sky-override-sectioned-form-tabs-padding,
-      var(--sky-space-inset-vertical-top-m) 0
-        var(--sky-space-inset-vertical-bottom-m)
+      var(--sky-comp-tab-vertical-group-space-inset-top) 0
+        var(--sky-comp-tab-vertical-group-space-inset-bottom)
     );
   }
 
@@ -89,10 +89,10 @@
   form :host .sky-sectioned-form {
     margin: var(
       --sky-override-sectioned-form-modal-margin-adjustment,
-      calc(var(--sky-space-inset-floated-top-m) * -1)
-        calc(var(--sky-space-inset-floated-right-m) * -1)
-        calc(var(--sky-space-inset-floated-bottom-m) * -1)
-        calc(var(--sky-space-inset-floated-left-m) * -1)
+      calc(var(--sky-comp-modal-content-space-inset-top) * -1)
+        calc(var(--sky-comp-modal-content-space-inset-right) * -1)
+        calc(var(--sky-comp-modal-content-space-inset-bottom) * -1)
+        calc(var(--sky-comp-modal-content-space-inset-left) * -1)
     );
   }
 }

@@ -20,6 +20,8 @@
 
 @include compatMixins.sky-modern-overrides('sky-tabset', false) {
   --sky-override-tabset-icon-button-padding: 9px 15px;
+  --sky-override-tabset-padding: 0 0 0
+    var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
 }
 
 sky-tabset {
@@ -53,7 +55,10 @@ sky-tabset {
   padding: var(
     --sky-override-tabset-padding,
     0 0 0
-      var(--sky-layout-host-tab-content-spacing, var(--sky-space-inset-tabs-m))
+      var(
+        --sky-layout-host-tab-content-spacing,
+        var(--sky-comp-tabset-tabs-space-inset-left)
+      )
   );
   white-space: nowrap;
 
@@ -77,19 +82,19 @@ sky-tabset {
   .sky-tabset-style-tabs {
     --sky-tabset-margin: var(
       --sky-override-tabset-modal-margin,
-      calc(var(--sky-space-inset-floated-top-m) * -1)
-        calc(var(--sky-space-inset-floated-right-m) * -1)
-        var(--sky-space-inset-floated-bottom-m)
-        calc(var(--sky-space-inset-floated-left-m) * -1)
+      calc(var(--sky-comp-modal-content-space-inset-top) * -1)
+        calc(var(--sky-comp-modal-content-space-inset-right) * -1)
+        var(--sky-comp-modal-content-space-inset-bottom)
+        calc(var(--sky-comp-modal-content-space-inset-left) * -1)
     );
 
     padding-left: var(
       --sky-override-tabset-modal-padding-left,
-      var(--sky-space-inset-floated-left-m)
+      var(--sky-comp-modal-content-space-inset-left)
     );
     padding-right: var(
       --sky-override-tabset-modal-padding-none,
-      var(--sky-space-inset-floated-right-m)
+      var(--sky-comp-modal-content-space-inset-right)
     );
   }
 
@@ -98,19 +103,19 @@ sky-tabset {
     // the space underneath the tabset should be equal to space on the sides of the tab contents already
     --sky-tabset-margin: var(
       --sky-override-tabset-wizard-modal-margin,
-      calc(var(--sky-space-inset-floated-top-m) * -1)
-        calc(var(--sky-space-inset-floated-right-m) * -1)
-        var(--sky-space-inset-floated-left-m)
-        calc(var(--sky-space-inset-floated-left-m) * -1)
+      calc(var(--sky-comp-wizard-tabset-space-inset-top) * -1)
+        calc(var(--sky-comp-wizard-tabset-space-inset-right) * -1)
+        var(--sky-comp-wizard-tabset-space-inset-left)
+        calc(var(--sky-comp-wizard-tabset-space-inset-left) * -1)
     );
 
     padding-left: var(
       --sky-override-tabset-modal-padding-none,
-      var(--sky-space-inset-floated-left-m)
+      var(--sky-comp-wizard-tabset-tabs-space-inset-left)
     );
     padding-right: var(
       --sky-override-tabset-modal-padding-none,
-      var(--sky-space-inset-floated-right-m)
+      var(--sky-comp-wizard-tabset-tabs-space-inset-right)
     );
   }
 }
