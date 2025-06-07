@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.18.0](https://github.com/blackbaud/skyux/compare/12.17.0...12.18.0) (2025-06-07)
+
+
+### Features
+
+* **components/theme:** update category color tokens ([#3503](https://github.com/blackbaud/skyux/issues/3503)) ([89626aa](https://github.com/blackbaud/skyux/commit/89626aa7c4bbe4f6cf8dbd61902cea16c49200f5))
+
 ## [12.17.0](https://github.com/blackbaud/skyux/compare/12.16.0...12.17.0) (2025-06-06)
 
 
