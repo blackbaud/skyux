@@ -35,6 +35,7 @@
       "codeExamples": {
         "docsIds": [
           "ActionBarsSummaryActionBarBasicExampleComponent",
+          "ActionBarsSummaryActionBarErrorExampleComponent",
           "ActionBarsSummaryActionBarModalExampleComponent",
           "ActionBarsSummaryActionBarTabExampleComponent"
         ]
