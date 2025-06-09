@@ -78,15 +78,15 @@
     );
     padding: var(
       --sky-override-tab-padding,
-      var(--sky-comp-button-space-inset-top)
-        var(--sky-comp-button-space-inset-right)
+      var(--sky-comp-tab-horizontal-space-inset-top)
+        var(--sky-comp-tab-horizontal-space-inset-right)
         calc(
-          var(--sky-comp-button-space-inset-bottom) - var(
+          var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
               --sky-override-tab-selected-border-bottom-size,
               var(--sky-border-width-selected-l)
             )
         )
-        var(--sky-comp-button-space-inset-left)
+        var(--sky-comp-tab-horizontal-space-inset-left)
     );
     max-width: 100%;
     text-align: left;
