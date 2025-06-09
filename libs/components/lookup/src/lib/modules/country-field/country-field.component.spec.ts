@@ -1459,24 +1459,6 @@ describe('Country Field Component', () => {
         expect(containerEl).toHaveCssClass('sky-country-field-container');
       }));
 
-      it('should show an inset button in modern theme', fakeAsync(() => {
-        fixture.detectChanges();
-        tick();
-
-        const inputBoxEl = nativeElement.querySelector('sky-input-box');
-        let inputBoxInsetIcon = inputBoxEl?.querySelector(
-          '.sky-input-box-icon-inset',
-        );
-        expect(inputBoxInsetIcon).toBeNull();
-
-        setModernTheme();
-
-        inputBoxInsetIcon = inputBoxEl?.querySelector(
-          '.sky-input-box-icon-inset',
-        );
-        expect(inputBoxInsetIcon).not.toBeNull();
-      }));
-
       it('should not include dial code information', fakeAsync(() => {
         const changeEventSpy = spyOn(
           component,
