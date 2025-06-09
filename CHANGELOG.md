@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.18.0](https://github.com/blackbaud/skyux/compare/12.17.0...12.18.0) (2025-06-09)
+
+
+### Features
+
+* **components/action-bars:** add summary action bar code example with error ([#3495](https://github.com/blackbaud/skyux/issues/3495)) ([546160d](https://github.com/blackbaud/skyux/commit/546160d07e5fb0c81d62a7aeaac673eaa998475c))
+* **components/theme:** update category color tokens ([#3503](https://github.com/blackbaud/skyux/issues/3503)) ([89626aa](https://github.com/blackbaud/skyux/commit/89626aa7c4bbe4f6cf8dbd61902cea16c49200f5))
+
 ## [12.17.0](https://github.com/blackbaud/skyux/compare/12.16.0...12.17.0) (2025-06-06)
 
 
