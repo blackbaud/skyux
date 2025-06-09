@@ -6,15 +6,6 @@ import {
 } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import {
-  SkyTheme,
-  SkyThemeMode,
-  SkyThemeService,
-  SkyThemeSettings,
-  SkyThemeSettingsChange,
-} from '@skyux/theme';
-
-import { BehaviorSubject } from 'rxjs';
 
 import { SkyCountryFieldModule } from './country-field.module';
 import { CountryFieldInputBoxTestComponent } from './fixtures/country-field-input-box.component.fixture';
@@ -25,19 +16,6 @@ import { SKY_COUNTRY_FIELD_CONTEXT } from './types/country-field-context-token';
 
 /* spell-checker:ignore Austr, Κύπρος */
 describe('Country Field Component', () => {
-  let mockThemeSvc: Partial<SkyThemeService>;
-
-  beforeEach(() => {
-    mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings: undefined,
-      }),
-    };
-  });
   //#region helpers
 
   function blurInput(
@@ -141,12 +119,6 @@ describe('Country Field Component', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [CountryFieldTestComponent],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-        ],
         imports: [FormsModule, SkyCountryFieldModule],
       });
 
@@ -639,12 +611,6 @@ describe('Country Field Component', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [CountryFieldReactiveTestComponent],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-        ],
         imports: [ReactiveFormsModule, SkyCountryFieldModule],
       });
 
@@ -1202,12 +1168,6 @@ describe('Country Field Component', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [CountryFieldNoFormTestComponent],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-        ],
         imports: [SkyCountryFieldModule],
       });
 
@@ -1411,34 +1371,12 @@ describe('Country Field Component', () => {
         },
       },
     };
-
-    //#region helpers
-    function setModernTheme(): void {
-      const modernTheme = new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
-      );
-      (
-        mockThemeSvc.settingsChange as BehaviorSubject<SkyThemeSettingsChange>
-      ).next({
-        currentSettings: modernTheme,
-        previousSettings: undefined,
-      });
-      fixture.detectChanges();
-      tick();
-    }
     //#endregion
 
     describe('without country context', () => {
       beforeEach(() => {
         TestBed.configureTestingModule({
           imports: [CountryFieldInputBoxTestComponent],
-          providers: [
-            {
-              provide: SkyThemeService,
-              useValue: mockThemeSvc,
-            },
-          ],
         });
 
         fixture = TestBed.createComponent(CountryFieldInputBoxTestComponent);
@@ -1457,24 +1395,6 @@ describe('Country Field Component', () => {
         const containerEl = inputGroupEl?.children.item(1);
 
         expect(containerEl).toHaveCssClass('sky-country-field-container');
-      }));
-
-      it('should show an inset button in modern theme', fakeAsync(() => {
-        fixture.detectChanges();
-        tick();
-
-        const inputBoxEl = nativeElement.querySelector('sky-input-box');
-        let inputBoxInsetIcon = inputBoxEl?.querySelector(
-          '.sky-input-box-icon-inset',
-        );
-        expect(inputBoxInsetIcon).toBeNull();
-
-        setModernTheme();
-
-        inputBoxInsetIcon = inputBoxEl?.querySelector(
-          '.sky-input-box-icon-inset',
-        );
-        expect(inputBoxInsetIcon).not.toBeNull();
       }));
 
       it('should not include dial code information', fakeAsync(() => {
@@ -1527,10 +1447,6 @@ describe('Country Field Component', () => {
         TestBed.configureTestingModule({
           imports: [CountryFieldInputBoxTestComponent],
           providers: [
-            {
-              provide: SkyThemeService,
-              useValue: mockThemeSvc,
-            },
             {
               provide: SKY_COUNTRY_FIELD_CONTEXT,
               useValue: { inPhoneField: true },
@@ -1598,10 +1514,6 @@ describe('Country Field Component', () => {
         TestBed.configureTestingModule({
           imports: [CountryFieldInputBoxTestComponent],
           providers: [
-            {
-              provide: SkyThemeService,
-              useValue: mockThemeSvc,
-            },
             {
               provide: SKY_COUNTRY_FIELD_CONTEXT,
               useValue: { inPhoneField: false },
