@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   SkySummaryActionBarError,
@@ -55,11 +55,10 @@ export class ActionBarsSummaryActionBarErrorExampleComponent {
             : undefined,
         );
       }),
-      takeUntilDestroyed(),
     ),
   );
 
-  public onPrimaryActionClick(): void {
+  protected onPrimaryActionClick(): void {
     alert('Primary action button clicked.');
   }
 

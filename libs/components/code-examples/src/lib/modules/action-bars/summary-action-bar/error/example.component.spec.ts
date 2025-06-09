@@ -32,19 +32,6 @@ describe('Error summary action bar example', () => {
     });
   });
 
-  it('should set up primary action', async () => {
-    const { harness, fixture } = await setupTest();
-
-    const primaryActionHarness = await harness.getPrimaryAction();
-    await expectAsync(primaryActionHarness.getText()).toBeResolvedTo(
-      'Primary action',
-    );
-
-    const spy = spyOn(fixture.componentInstance, 'onPrimaryActionClick');
-    await primaryActionHarness.click();
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('should add an error on clicking secondary action button to add single error', async () => {
     const { harness } = await setupTest();
 
