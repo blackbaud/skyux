@@ -49,7 +49,9 @@ export class ActionBarsSummaryActionBarErrorExampleComponent {
 
         return of(
           errors
-            ? Object.values(errors).map((message) => ({ message }))
+            ? Object.values(errors).map((error) => ({
+                message: error as string,
+              }))
             : undefined,
         );
       }),
