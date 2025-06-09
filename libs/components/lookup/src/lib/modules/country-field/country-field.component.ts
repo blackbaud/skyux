@@ -233,12 +233,6 @@ export class SkyCountryFieldComponent
   })
   public inputTemplateRef: TemplateRef<unknown> | undefined;
 
-  @ViewChild('searchIconTemplateRef', {
-    read: TemplateRef,
-    static: true,
-  })
-  public searchIconTemplateRef: TemplateRef<unknown> | undefined;
-
   #changeDetector: ChangeDetectorRef;
 
   #defaultCountryData: SkyCountryFieldCountry | undefined;
@@ -313,6 +307,7 @@ export class SkyCountryFieldComponent
           this.selectedCountry = newValue;
         }
       });
+    this.#changeDetector.markForCheck();
   }
 
   public ngAfterViewInit(): void {
@@ -508,10 +503,6 @@ export class SkyCountryFieldComponent
 
       this.inputBoxHostSvc.populate({
         inputTemplate: this.inputTemplateRef,
-        iconsInsetTemplate:
-          this.currentTheme === 'modern'
-            ? this.searchIconTemplateRef
-            : undefined,
       });
     }
   }
