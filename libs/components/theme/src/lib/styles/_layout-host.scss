@@ -354,10 +354,7 @@
       );
       --sky-layout-host-tab-content-spacing: var(
         --sky-override-page-content-tabs-spacing-sm,
-        var(--sky-comp-page-tabset-tabs-space-inset-top)
-          var(--sky-comp-page-tabset-tabs-space-inset-right)
-          var(--sky-comp-page-tabset-tabs-space-inset-bottom)
-          var(--sky-comp-page-tabset-tabs-space-inset-left)
+        var(--sky-comp-page-tabset-tabs-space-inset-left)
       );
     }
   }
