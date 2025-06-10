@@ -388,6 +388,10 @@ export class SkyCountryFieldComponent
     this.#changeDetector.markForCheck();
   }
 
+  protected onFocus($event: FocusEvent): void {
+    ($event.target as HTMLTextAreaElement).select();
+  }
+
   #countriesAreEqual(
     country1: SkyCountryFieldCountry | undefined,
     country2: SkyCountryFieldCountry | undefined,
