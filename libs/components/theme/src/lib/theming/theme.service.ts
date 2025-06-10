@@ -9,6 +9,14 @@ import { SkyThemeSettings } from './theme-settings';
 import { SkyThemeSettingsChange } from './theme-settings-change';
 import { SkyThemeSpacing } from './theme-spacing';
 
+function assertCurrentSettings(
+  currentSettings: SkyThemeSettings | undefined,
+): asserts currentSettings is SkyThemeSettings {
+  if (!currentSettings) {
+    throw new Error('Theme service is not initialized. Call init() first.');
+  }
+}
+
 /**
  * Provides methods for updating and handling changes to the current theme.
  */
@@ -63,10 +71,77 @@ export class SkyThemeService {
   }
 
   /**
+   * Updates the current theme mode.
+   * @param mode The new theme mode to apply.
+   */
+  public setThemeMode(mode: SkyThemeMode): void {
+    const current = this.#current;
+
+    assertCurrentSettings(current);
+
+    this.setTheme(
+      new SkyThemeSettings(current.theme, mode, current.spacing, current.brand),
+    );
+  }
+
+  /**
+   * Updates the current theme spacing.
+   * @param spacing The new theme spacing to apply.
+   */
+  public setThemeSpacing(spacing: SkyThemeSpacing): void {
+    const current = this.#current;
+
+    assertCurrentSettings(current);
+
+    this.setTheme(
+      new SkyThemeSettings(current.theme, current.mode, spacing, current.brand),
+    );
+  }
+
+  /**
+   * Updates the current theme brand.
+   * @param brand The new theme brand to apply.
+   */
+  public setThemeBrand(brand: SkyThemeBrand): void {
+    const current = this.#current;
+
+    assertCurrentSettings(current);
+
+    this.setTheme(
+      new SkyThemeSettings(current.theme, current.mode, current.spacing, brand),
+    );
+  }
+
+  /**
    * Updates the current theme settings.
    * @param settings The new theme settings to apply.
    */
-  public setTheme(settings: SkyThemeSettings): void {
+  public setTheme(settings: SkyThemeSettings): void;
+
+  /**
+   * Updates the current theme.
+   * @param theme The new theme to apply.
+   */
+  public setTheme(theme: SkyTheme): void;
+
+  public setTheme(settingsOrTheme: SkyThemeSettings | SkyTheme): void {
+    let settings: SkyThemeSettings;
+
+    if (settingsOrTheme instanceof SkyThemeSettings) {
+      settings = settingsOrTheme;
+    } else {
+      const current = this.#current;
+
+      assertCurrentSettings(current);
+
+      settings = new SkyThemeSettings(
+        settingsOrTheme,
+        current.mode,
+        current.spacing,
+        settingsOrTheme.supportsBranding ? current.brand : undefined,
+      );
+    }
+
     const previous = this.#current;
 
     this.#applyThemeClass(previous, settings, 'theme');
