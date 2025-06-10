@@ -75,13 +75,7 @@ export class SkyThemeService {
    * @param mode The new theme mode to apply.
    */
   public setThemeMode(mode: SkyThemeMode): void {
-    const current = this.#current;
-
-    assertCurrentSettings(current);
-
-    this.setTheme(
-      new SkyThemeSettings(current.theme, mode, current.spacing, current.brand),
-    );
+    this.#updateThemeProperty('mode', mode);
   }
 
   /**
@@ -89,13 +83,7 @@ export class SkyThemeService {
    * @param spacing The new theme spacing to apply.
    */
   public setThemeSpacing(spacing: SkyThemeSpacing): void {
-    const current = this.#current;
-
-    assertCurrentSettings(current);
-
-    this.setTheme(
-      new SkyThemeSettings(current.theme, current.mode, spacing, current.brand),
-    );
+    this.#updateThemeProperty('spacing', spacing);
   }
 
   /**
@@ -103,13 +91,7 @@ export class SkyThemeService {
    * @param brand The new theme brand to apply.
    */
   public setThemeBrand(brand: SkyThemeBrand): void {
-    const current = this.#current;
-
-    assertCurrentSettings(current);
-
-    this.setTheme(
-      new SkyThemeSettings(current.theme, current.mode, current.spacing, brand),
-    );
+    this.#updateThemeProperty('brand', brand);
   }
 
   /**
@@ -155,6 +137,32 @@ export class SkyThemeService {
     });
 
     this.#current = settings;
+  }
+
+  #updateThemeProperty(
+    property: 'mode' | 'spacing' | 'brand',
+    value: SkyThemeMode | SkyThemeSpacing | SkyThemeBrand,
+  ): void {
+    const current = this.#current;
+
+    assertCurrentSettings(current);
+
+    const updatedSettings = {
+      theme: current.theme,
+      mode: current.mode,
+      spacing: current.spacing,
+      brand: current.brand,
+      [property]: value,
+    };
+
+    this.setTheme(
+      new SkyThemeSettings(
+        updatedSettings.theme,
+        updatedSettings.mode,
+        updatedSettings.spacing,
+        updatedSettings.brand,
+      ),
+    );
   }
 
   #applyThemeClass(
