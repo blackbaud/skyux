@@ -461,6 +461,22 @@ jobs:
           path: ${{ runner.temp }}/percy-builds
           pattern: percy-build-*
           merge-multiple: true
+      - name: Show Percy Build Numbers
+        id: percy-build-count
+        run: |
+          echo 'Percy build numbers:'
+          BUILD_COUNT=$(ls -1 ${{ runner.temp }}/percy-builds/* | wc -l)
+          echo "percy-build-count=$BUILD_COUNT" >> $GITHUB_OUTPUT
+          if [ $BUILD_COUNT -eq 0 ]; then
+            echo 'No Percy builds found.';
+          else
+            ls -l ${{ runner.temp }}/percy-builds/*
+            echo ''
+            for f in ${{ runner.temp }}/percy-builds/*; do
+              echo "$f: "
+              cat $f
+            done
+          fi
       - uses: actions/github-script@v7
         name: Verify E2E Visual Review
         id: verify-e2e
