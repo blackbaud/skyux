@@ -148,6 +148,12 @@ describe('Theme service', () => {
     }
   }
 
+  function validateInitError(fn: () => unknown): void {
+    expect(fn).toThrowError(
+      'Theme service is not initialized. Call init() first.',
+    );
+  }
+
   beforeEach(() => {
     mockRenderer = jasmine.createSpyObj('mockRenderer', [
       'addClass',
@@ -168,237 +174,582 @@ describe('Theme service', () => {
     mockRenderer.createElement.and.returnValue(mockLinkElement);
   });
 
-  it('should apply the initial theme', () => {
-    const themeSvc = new SkyThemeService();
+  describe('init()', () => {
+    it('should not apply an unsupported mode', () => {
+      const themeSvc = new SkyThemeService();
 
-    const settings = new SkyThemeSettings(
-      SkyTheme.presets.modern,
-      SkyThemeMode.presets.dark,
-    );
-
-    themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
-
-    validateSettingsApplied(settings);
-
-    themeSvc.settingsChange.subscribe((settingsChange) => {
-      expect(settingsChange.currentSettings).toBe(settings);
-      expect(settingsChange.previousSettings).toBeUndefined();
-    });
-  });
-
-  it('should error if settings are attempted to be changed prior to initialization', () => {
-    const themeSvc = new SkyThemeService();
-
-    const settings = new SkyThemeSettings(
-      SkyTheme.presets.modern,
-      SkyThemeMode.presets.dark,
-    );
-
-    expect(() => {
-      themeSvc.setTheme(settings);
-    }).toThrowError(
-      'Renderer is not initialized. Have you called the theme service `init` method?',
-    );
-  });
-
-  it('should fire the settings change event as settings are applied', () => {
-    const themeSvc = new SkyThemeService();
-
-    let settings = new SkyThemeSettings(
-      SkyTheme.presets.modern,
-      SkyThemeMode.presets.dark,
-    );
-
-    themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
-
-    let expectedCurrentSettings = settings;
-    let expectedPreviousSettings: SkyThemeSettings | undefined = undefined;
-
-    themeSvc.settingsChange.subscribe((settingsChange) => {
-      expect(settingsChange.currentSettings).toBe(expectedCurrentSettings);
-      expect(settingsChange.previousSettings).toBe(expectedPreviousSettings);
-
-      validateSettingsApplied(
-        settingsChange.currentSettings,
-        settingsChange.previousSettings,
+      const settings = new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.dark,
       );
+
+      themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
+
+      validateSettingsApplied(settings);
     });
 
-    let newSettings = new SkyThemeSettings(
-      SkyTheme.presets.default,
-      SkyThemeMode.presets.light,
-    );
+    it('should apply supported spacing', () => {
+      const themeSvc = new SkyThemeService();
 
-    expectedCurrentSettings = newSettings;
-    expectedPreviousSettings = settings;
+      const settings = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.compact,
+      );
 
-    themeSvc.setTheme(newSettings);
+      themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
 
-    settings = newSettings;
+      validateSettingsApplied(settings);
+    });
 
-    newSettings = new SkyThemeSettings(
-      SkyTheme.presets.modern,
-      SkyThemeMode.presets.light,
-      SkyThemeSpacing.presets.compact,
-    );
+    it('should apply the initial theme', () => {
+      const themeSvc = new SkyThemeService();
 
-    expectedCurrentSettings = newSettings;
-    expectedPreviousSettings = settings;
+      const settings = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.dark,
+      );
 
-    themeSvc.setTheme(newSettings);
+      themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
+
+      validateSettingsApplied(settings);
+
+      themeSvc.settingsChange.subscribe((settingsChange) => {
+        expect(settingsChange.currentSettings).toBe(settings);
+        expect(settingsChange.previousSettings).toBeUndefined();
+      });
+    });
+
+    it('should not apply unsupported spacing', () => {
+      const themeSvc = new SkyThemeService();
+
+      const settings = new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.compact,
+      );
+
+      themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
+
+      validateSettingsApplied(settings);
+    });
+
+    it('should throw an error if branding is requested for a theme which does not support branding', () => {
+      const themeSvc = new SkyThemeService();
+
+      const settingsWithBranding = new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light,
+        undefined,
+        new SkyThemeBrand('rainbow', '1.0.1'),
+      );
+
+      expect(() => {
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          settingsWithBranding,
+        );
+      }).toThrowError('Branding is not supported for the given theme.');
+    });
   });
 
-  it('should not apply an unsupported mode', () => {
-    const themeSvc = new SkyThemeService();
+  describe('setTheme()', () => {
+    describe('with SkyThemeSettings parameter', () => {
+      it('should error if settings are attempted to be changed prior to initialization', () => {
+        const themeSvc = new SkyThemeService();
 
-    const settings = new SkyThemeSettings(
-      SkyTheme.presets.default,
-      SkyThemeMode.presets.dark,
-    );
+        const settings = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.dark,
+        );
 
-    themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
+        expect(() => {
+          themeSvc.setTheme(settings);
+        }).toThrowError(
+          'Renderer is not initialized. Have you called the theme service `init` method?',
+        );
+      });
 
-    validateSettingsApplied(settings);
+      it('should fire the settings change event as settings are applied', () => {
+        const themeSvc = new SkyThemeService();
+
+        let settings = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.dark,
+        );
+
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          settings,
+        );
+
+        let expectedCurrentSettings = settings;
+        let expectedPreviousSettings: SkyThemeSettings | undefined = undefined;
+
+        themeSvc.settingsChange.subscribe((settingsChange) => {
+          expect(settingsChange.currentSettings).toBe(expectedCurrentSettings);
+          expect(settingsChange.previousSettings).toBe(
+            expectedPreviousSettings,
+          );
+
+          validateSettingsApplied(
+            settingsChange.currentSettings,
+            settingsChange.previousSettings,
+          );
+        });
+
+        let newSettings = new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light,
+        );
+
+        expectedCurrentSettings = newSettings;
+        expectedPreviousSettings = settings;
+
+        themeSvc.setTheme(newSettings);
+
+        settings = newSettings;
+
+        newSettings = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.compact,
+        );
+
+        expectedCurrentSettings = newSettings;
+        expectedPreviousSettings = settings;
+
+        themeSvc.setTheme(newSettings);
+      });
+
+      it('should not remove the host class if the theme settings have not changed', () => {
+        const themeSvc = new SkyThemeService();
+
+        const settings = new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.dark,
+        );
+
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          settings,
+        );
+
+        themeSvc.setTheme(settings);
+
+        expect(mockRenderer.removeClass).not.toHaveBeenCalled();
+      });
+
+      it('should apply branding', () => {
+        const themeSvc = new SkyThemeService();
+
+        const settingsWithBranding = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.compact,
+          new SkyThemeBrand('rainbow', '1.0.1'),
+        );
+
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          settingsWithBranding,
+        );
+
+        validateSettingsApplied(settingsWithBranding);
+        mockRenderer.addClass.calls.reset();
+        mockRenderer.removeClass.calls.reset();
+
+        const settingsWithoutBranding = new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.dark,
+        );
+
+        themeSvc.setTheme(settingsWithoutBranding);
+
+        validateSettingsApplied(settingsWithoutBranding, settingsWithBranding);
+      });
+
+      it('should apply branding (blackbaud brand)', () => {
+        const themeSvc = new SkyThemeService();
+
+        const settingsWithBranding = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.compact,
+          new SkyThemeBrand('blackbaud', '1.0.0'),
+        );
+
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          settingsWithBranding,
+        );
+
+        validateSettingsApplied(settingsWithBranding);
+        mockRenderer.addClass.calls.reset();
+        mockRenderer.removeClass.calls.reset();
+
+        const settingsWithoutBranding = new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.dark,
+        );
+
+        themeSvc.setTheme(settingsWithoutBranding);
+
+        validateSettingsApplied(settingsWithoutBranding, settingsWithBranding);
+      });
+    });
+
+    describe('with SkyTheme parameter', () => {
+      it('should update only the theme while preserving other settings', () => {
+        const themeSvc = new SkyThemeService();
+
+        const initialSettings = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.standard,
+          new SkyThemeBrand('blackbaud', '1.0.0'),
+        );
+
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          initialSettings,
+        );
+
+        mockRenderer.addClass.calls.reset();
+        mockRenderer.removeClass.calls.reset();
+
+        let capturedSettings: SkyThemeSettings | undefined;
+        themeSvc.settingsChange.subscribe((settingsChange) => {
+          capturedSettings = settingsChange.currentSettings;
+        });
+
+        const newTheme = SkyTheme.presets.default;
+        themeSvc.setTheme(newTheme);
+
+        expect(capturedSettings).toEqual(
+          jasmine.objectContaining({
+            ...initialSettings,
+            brand: undefined,
+            theme: newTheme,
+          }),
+        );
+
+        expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+          mockHostEl,
+          SkyTheme.presets.modern.hostClass,
+        );
+        expect(mockRenderer.addClass).toHaveBeenCalledWith(
+          mockHostEl,
+          newTheme.hostClass,
+        );
+      });
+
+      it('should throw error if called before initialization', () => {
+        validateInitError(() =>
+          new SkyThemeService().setTheme(SkyTheme.presets.modern),
+        );
+      });
+
+      it('should remove brand when switching to a theme that does not support branding', () => {
+        const themeSvc = new SkyThemeService();
+
+        const initialSettings = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.compact,
+          new SkyThemeBrand('rainbow', '1.0.1'),
+        );
+
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          initialSettings,
+        );
+
+        mockRenderer.addClass.calls.reset();
+        mockRenderer.removeClass.calls.reset();
+        mockRenderer.removeChild.calls.reset();
+
+        let capturedSettings: SkyThemeSettings | undefined;
+        themeSvc.settingsChange.subscribe((settingsChange) => {
+          capturedSettings = settingsChange.currentSettings;
+        });
+
+        const newTheme = SkyTheme.presets.default; // This theme doesn't support branding
+        themeSvc.setTheme(newTheme);
+
+        expect(capturedSettings).toEqual(
+          jasmine.objectContaining({
+            ...initialSettings,
+            brand: undefined,
+            theme: newTheme,
+          }),
+        );
+
+        expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+          mockHostEl,
+          initialSettings.brand?.hostClass,
+        );
+        expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+          mockHostEl,
+          'sky-theme-brand-base',
+        );
+        expect(mockRenderer.removeChild).toHaveBeenCalledWith(
+          mockHostEl,
+          mockLinkElement,
+        );
+      });
+
+      it('should maintain brand when switching to a theme that supports branding', () => {
+        const themeSvc = new SkyThemeService();
+
+        const initialSettings = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.compact,
+          new SkyThemeBrand('rainbow', '1.0.1'),
+        );
+
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          initialSettings,
+        );
+
+        let capturedSettings: SkyThemeSettings | undefined;
+        themeSvc.settingsChange.subscribe((settingsChange) => {
+          capturedSettings = settingsChange.currentSettings;
+        });
+
+        const newTheme = new SkyTheme(
+          'branding-test',
+          'sky-theme-branding-test',
+          [SkyThemeMode.presets.light],
+          [SkyThemeSpacing.presets.standard],
+          true,
+        );
+
+        themeSvc.setTheme(newTheme);
+
+        expect(capturedSettings).toEqual(
+          jasmine.objectContaining({
+            ...initialSettings,
+            theme: newTheme,
+          }),
+        );
+      });
+    });
   });
 
-  it('should not remove the host class if the theme settings have not changed', () => {
-    const themeSvc = new SkyThemeService();
+  describe('destroy()', () => {
+    it('should complete the settings change event when destroyed.', () => {
+      const themeSvc = new SkyThemeService();
 
-    const settings = new SkyThemeSettings(
-      SkyTheme.presets.default,
-      SkyThemeMode.presets.dark,
-    );
+      const settings = new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.dark,
+      );
 
-    themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
+      themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
 
-    themeSvc.setTheme(settings);
+      const sub = themeSvc.settingsChange.subscribe();
 
-    expect(mockRenderer.removeClass).not.toHaveBeenCalled();
+      expect(sub.closed).toBe(false);
+
+      themeSvc.destroy();
+
+      expect(sub.closed).toBe(true);
+    });
   });
 
-  it('should apply supported spacing', () => {
-    const themeSvc = new SkyThemeService();
+  describe('setThemeMode()', () => {
+    it('should update only the theme mode while preserving other settings', () => {
+      const themeSvc = new SkyThemeService();
 
-    const settings = new SkyThemeSettings(
-      SkyTheme.presets.modern,
-      SkyThemeMode.presets.light,
-      SkyThemeSpacing.presets.compact,
-    );
+      const initialSettings = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.compact,
+        new SkyThemeBrand('rainbow', '1.0.1'),
+      );
 
-    themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
-
-    validateSettingsApplied(settings);
-  });
-
-  it('should not apply unsupported spacing', () => {
-    const themeSvc = new SkyThemeService();
-
-    const settings = new SkyThemeSettings(
-      SkyTheme.presets.default,
-      SkyThemeMode.presets.light,
-      SkyThemeSpacing.presets.compact,
-    );
-
-    themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
-
-    validateSettingsApplied(settings);
-  });
-
-  it('should apply branding', () => {
-    const themeSvc = new SkyThemeService();
-
-    const settingsWithBranding = new SkyThemeSettings(
-      SkyTheme.presets.modern,
-      SkyThemeMode.presets.light,
-      SkyThemeSpacing.presets.compact,
-      new SkyThemeBrand('rainbow', '1.0.1'),
-    );
-
-    themeSvc.init(
-      mockHostEl,
-      mockRenderer as unknown as Renderer2,
-      settingsWithBranding,
-    );
-
-    validateSettingsApplied(settingsWithBranding);
-    mockRenderer.addClass.calls.reset();
-    mockRenderer.removeClass.calls.reset();
-
-    const settingsWithoutBranding = new SkyThemeSettings(
-      SkyTheme.presets.default,
-      SkyThemeMode.presets.dark,
-    );
-
-    themeSvc.setTheme(settingsWithoutBranding);
-
-    validateSettingsApplied(settingsWithoutBranding, settingsWithBranding);
-  });
-
-  it('should apply branding (blackbaud brand)', () => {
-    const themeSvc = new SkyThemeService();
-
-    const settingsWithBranding = new SkyThemeSettings(
-      SkyTheme.presets.modern,
-      SkyThemeMode.presets.light,
-      SkyThemeSpacing.presets.compact,
-      new SkyThemeBrand('blackbaud', '1.0.0'),
-    );
-
-    themeSvc.init(
-      mockHostEl,
-      mockRenderer as unknown as Renderer2,
-      settingsWithBranding,
-    );
-
-    validateSettingsApplied(settingsWithBranding);
-    mockRenderer.addClass.calls.reset();
-    mockRenderer.removeClass.calls.reset();
-
-    const settingsWithoutBranding = new SkyThemeSettings(
-      SkyTheme.presets.default,
-      SkyThemeMode.presets.dark,
-    );
-
-    themeSvc.setTheme(settingsWithoutBranding);
-
-    validateSettingsApplied(settingsWithoutBranding, settingsWithBranding);
-  });
-
-  it('should throw an error if branding is requested for a theme which does not support branding', () => {
-    const themeSvc = new SkyThemeService();
-
-    const settingsWithBranding = new SkyThemeSettings(
-      SkyTheme.presets.default,
-      SkyThemeMode.presets.light,
-      undefined,
-      new SkyThemeBrand('rainbow', '1.0.1'),
-    );
-
-    expect(() => {
       themeSvc.init(
         mockHostEl,
         mockRenderer as unknown as Renderer2,
-        settingsWithBranding,
+        initialSettings,
       );
-    }).toThrowError('Branding is not supported for the given theme.');
+
+      mockRenderer.addClass.calls.reset();
+      mockRenderer.removeClass.calls.reset();
+
+      let capturedSettings: SkyThemeSettings | undefined;
+      themeSvc.settingsChange.subscribe((settingsChange) => {
+        capturedSettings = settingsChange.currentSettings;
+      });
+
+      const newMode = SkyThemeMode.presets.dark;
+      themeSvc.setThemeMode(newMode);
+
+      expect(capturedSettings).toEqual(
+        jasmine.objectContaining({
+          ...initialSettings,
+          mode: newMode,
+        }),
+      );
+
+      expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+        mockHostEl,
+        SkyThemeMode.presets.light.hostClass,
+      );
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        newMode.hostClass,
+      );
+    });
+
+    it('should throw error if called before initialization', () => {
+      validateInitError(() =>
+        new SkyThemeService().setThemeMode(SkyThemeMode.presets.dark),
+      );
+    });
+
+    it('should throw error when mode is not supported by current theme', () => {
+      const themeSvc = new SkyThemeService();
+
+      const settings = new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light,
+      );
+
+      themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
+
+      expect(() => {
+        themeSvc.setThemeMode(SkyThemeMode.presets.dark);
+      }).toThrowError('The current theme does not support the specified mode.');
+    });
   });
 
-  it('should complete the settings change event when destroyed.', () => {
-    const themeSvc = new SkyThemeService();
+  describe('setThemeSpacing()', () => {
+    it('should update only the theme spacing while preserving other settings', () => {
+      const themeSvc = new SkyThemeService();
 
-    const settings = new SkyThemeSettings(
-      SkyTheme.presets.default,
-      SkyThemeMode.presets.dark,
-    );
+      const initialSettings = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.standard,
+        new SkyThemeBrand('rainbow', '1.0.1'),
+      );
 
-    themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        initialSettings,
+      );
 
-    const sub = themeSvc.settingsChange.subscribe();
+      mockRenderer.addClass.calls.reset();
+      mockRenderer.removeClass.calls.reset();
 
-    expect(sub.closed).toBe(false);
+      const newSpacing = SkyThemeSpacing.presets.compact;
+      themeSvc.setThemeSpacing(newSpacing);
 
-    themeSvc.destroy();
+      expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+        mockHostEl,
+        SkyThemeSpacing.presets.standard.hostClass,
+      );
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        newSpacing.hostClass,
+      );
+    });
 
-    expect(sub.closed).toBe(true);
+    it('should throw error if called before initialization', () => {
+      validateInitError(() =>
+        new SkyThemeService().setThemeSpacing(SkyThemeSpacing.presets.compact),
+      );
+    });
+
+    it('should throw error when spacing is not supported by current theme', () => {
+      const themeSvc = new SkyThemeService();
+
+      const settings = new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light,
+      );
+
+      themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
+
+      expect(() => {
+        themeSvc.setThemeSpacing(SkyThemeSpacing.presets.compact);
+      }).toThrowError(
+        'The current theme does not support the specified spacing.',
+      );
+    });
+  });
+
+  describe('setThemeBrand()', () => {
+    it('should update only the theme brand while preserving other settings', () => {
+      const themeSvc = new SkyThemeService();
+
+      const initialSettings = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.compact,
+      );
+
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        initialSettings,
+      );
+
+      mockRenderer.addClass.calls.reset();
+      mockRenderer.removeClass.calls.reset();
+      mockRenderer.createElement.calls.reset();
+
+      const newBrand = new SkyThemeBrand('rainbow', '1.0.1');
+      themeSvc.setThemeBrand(newBrand);
+
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        'sky-theme-brand-base',
+      );
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        newBrand.hostClass,
+      );
+    });
+
+    it('should throw error if called before initialization', () => {
+      validateInitError(() =>
+        new SkyThemeService().setThemeBrand(
+          new SkyThemeBrand('rainbow', '1.0.1'),
+        ),
+      );
+    });
+
+    it('should throw error if branding is not supported by the current theme', () => {
+      const themeSvc = new SkyThemeService();
+
+      const initialSettings = new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light,
+      );
+
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        initialSettings,
+      );
+
+      expect(() => {
+        themeSvc.setThemeBrand(new SkyThemeBrand('rainbow', '1.0.1'));
+      }).toThrowError('Branding is not supported for the given theme.');
+    });
   });
 });
