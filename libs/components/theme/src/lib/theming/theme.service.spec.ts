@@ -618,6 +618,21 @@ describe('Theme service', () => {
         new SkyThemeService().setThemeMode(SkyThemeMode.presets.dark),
       );
     });
+
+    it('should throw error when mode is not supported by current theme', () => {
+      const themeSvc = new SkyThemeService();
+
+      const settings = new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light,
+      );
+
+      themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
+
+      expect(() => {
+        themeSvc.setThemeMode(SkyThemeMode.presets.dark);
+      }).toThrowError('The current theme does not support the specified mode.');
+    });
   });
 
   describe('setThemeSpacing()', () => {
@@ -656,6 +671,23 @@ describe('Theme service', () => {
     it('should throw error if called before initialization', () => {
       validateInitError(() =>
         new SkyThemeService().setThemeSpacing(SkyThemeSpacing.presets.compact),
+      );
+    });
+
+    it('should throw error when spacing is not supported by current theme', () => {
+      const themeSvc = new SkyThemeService();
+
+      const settings = new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light,
+      );
+
+      themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
+
+      expect(() => {
+        themeSvc.setThemeSpacing(SkyThemeSpacing.presets.compact);
+      }).toThrowError(
+        'The current theme does not support the specified spacing.',
       );
     });
   });

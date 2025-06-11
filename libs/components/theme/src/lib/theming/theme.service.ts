@@ -147,6 +147,27 @@ export class SkyThemeService {
 
     assertCurrentSettings(current);
 
+    const currentTheme = current.theme;
+
+    let supportedValues: SkyThemeMode[] | SkyThemeSpacing[] | undefined =
+      undefined;
+
+    switch (property) {
+      case 'mode':
+        supportedValues = currentTheme.supportedModes;
+        break;
+      case 'spacing':
+        supportedValues = currentTheme.supportedSpacing;
+        break;
+      default:
+    }
+
+    if (supportedValues && !supportedValues.includes(value)) {
+      throw new Error(
+        `The current theme does not support the specified ${property}.`,
+      );
+    }
+
     const updatedSettings = {
       theme: current.theme,
       mode: current.mode,
