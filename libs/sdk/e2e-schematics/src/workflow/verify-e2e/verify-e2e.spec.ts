@@ -93,7 +93,7 @@ describe('verify-e2e', () => {
 
   it('should handle skipped job', async () => {
     const { verifyE2e, core, listJobsForWorkflowRun } = await setupTest();
-    listJobsForWorkflowRun.mockResolvedValue([
+    listJobsForWorkflowRun.mockResolvedValueOnce(undefined).mockResolvedValue([
       {
         name: 'End to end tests (project1)',
         steps: [
@@ -133,7 +133,7 @@ describe('verify-e2e', () => {
       },
     ]);
     await verifyE2e(
-      ['project1', 'project2'],
+      ['project1', 'project3', 'project2'],
       '/tmp/path',
       core,
       {
@@ -144,7 +144,7 @@ describe('verify-e2e', () => {
       exit,
     );
     expect(core.setFailed).toHaveBeenCalledWith(
-      `E2E Visual Review not complete. Missing results for: project2`,
+      `E2E Visual Review not complete. Missing results for:\n - project2\n - project3`,
     );
     expect(exit).toHaveBeenCalledWith(1);
   });

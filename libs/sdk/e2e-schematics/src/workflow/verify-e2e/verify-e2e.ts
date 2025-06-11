@@ -64,13 +64,19 @@ export async function verifyE2e(
     // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
 
     core.info('Fetching workflow jobs...');
-    const jobs = await githubApi.listJobsForWorkflowRun();
+    let jobs = await githubApi.listJobsForWorkflowRun();
+    if (!jobs || jobs.length === 0) {
+      // Retry.
+      jobs = await new Promise((resolve) => setTimeout(resolve, 20)).then(() =>
+        githubApi.listJobsForWorkflowRun(),
+      );
+    }
     // This job always runs, so check if any previous jobs failed and fail this job before doing any more work.
-    if (!allWorkflowJobsPassed(jobs)) {
+    if (!jobs || jobs.length === 0 || !allWorkflowJobsPassed(jobs)) {
       core.setFailed('E2E workflow failed.');
       return exit(1);
     }
-    const e2eSteps = await listPercyWorkflowSteps(jobs);
+    const e2eSteps = listPercyWorkflowSteps(jobs);
     const e2eStepsThatWereRun = e2eSteps.filter((step) => !step.skipped);
     const percyProjects = e2eStepsThatWereRun.map((step) => step.project);
     const skippedPercyProjects = e2eSteps
@@ -114,7 +120,7 @@ export async function verifyE2e(
       }
       if (
         !allowMissingScreenshots &&
-        projectStatus.removedSnapshots.length > 0
+        projectStatus?.removedSnapshots?.length > 0
       ) {
         missingScreenshots.push({
           project: e2eStep.project,
@@ -123,31 +129,31 @@ export async function verifyE2e(
       }
       switch (true) {
         case !allowMissingScreenshots &&
-          projectStatus.removedSnapshots.length > 0:
+          projectStatus?.removedSnapshots?.length > 0:
           icon = '❌';
           summary = `missing screenshots: ${projectStatus.removedSnapshots.join(
             ', ',
           )}`;
           break;
-        case projectStatus.state === 'finished' && projectStatus.approved:
+        case projectStatus?.state === 'finished' && projectStatus?.approved:
           icon = '✅';
           summary = 'approved';
           break;
-        case projectStatus.state === 'finished' && !projectStatus.approved:
+        case projectStatus?.state === 'finished' && !projectStatus?.approved:
           icon = '⚠️';
           summary = 'needs approval';
           break;
-        case projectStatus.state === 'waiting' ||
-          projectStatus.state === 'pending' ||
-          projectStatus.state === 'processing':
+        case ['waiting', 'pending', 'processing'].includes(
+          projectStatus?.state ?? '',
+        ):
           icon = '⏳';
           summary = 'in progress';
           break;
-        case projectStatus.state === 'failed':
+        case projectStatus?.state === 'failed':
           icon = '❌';
           summary = 'failed';
           break;
-        case typeof projectStatus.state === 'undefined':
+        case typeof projectStatus?.state === 'undefined':
           icon = '🚫';
           summary = 'no Percy build found';
           break;
@@ -193,9 +199,10 @@ export async function verifyE2e(
       }
     } else {
       // We don't have a check from Percy for all E2E projects.
+      missingProjects.sort((a, b) => a.localeCompare(b));
       core.setFailed(
-        `E2E Visual Review not complete. Missing results for: ${missingProjects.join(
-          ', ',
+        `E2E Visual Review not complete. Missing results for:\n - ${missingProjects.join(
+          `\n - `,
         )}`,
       );
       return exit(1);
