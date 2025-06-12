@@ -12,9 +12,9 @@ import { SkyFlyoutMessageType } from './types/flyout-message-type';
  */
 export class SkyFlyoutInstance<T> {
   /**
-   * An event that the modal instance emits when it is about to close.
+   * An event that the flyout instance emits when it is about to close.
    * If a subscription exists for this event,
-   * the modal does not close until the subscriber calls the handler's `closeModal` method.
+   * the flyout does not close until the subscriber calls the handler's `closeModal` method.
    */
   public get beforeClose(): Observable<SkyFlyoutBeforeCloseHandler> {
     return this.#_beforeClose;
