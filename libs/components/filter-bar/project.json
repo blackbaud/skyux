@@ -4,9 +4,11 @@
   "projectType": "library",
   "sourceRoot": "libs/components/filter-bar/src",
   "prefix": "sky",
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/libs/components/filter-bar"],
       "options": {
         "project": "libs/components/filter-bar/ng-package.json"
       },
@@ -18,15 +20,59 @@
           "tsConfig": "libs/components/filter-bar/tsconfig.lib.json"
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "projects": ["core", "forms", "lists", "lookup"],
+          "target": "build"
+        }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/filter-bar/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/filter-bar/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/filter-bar/testing/src/**/fixtures/**/*"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
         "tsConfig": "libs/components/filter-bar/tsconfig.spec.json",
+        "karmaConfig": "libs/components/filter-bar/karma.conf.js",
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ],
+        "codeCoverage": true,
+        "codeCoverageExclude": ["**/fixtures/**"],
         "polyfills": [
           "zone.js",
-          "zone.js/testing"
+          "zone.js/testing",
+          "libs/components/packages/src/polyfills.js"
+        ],
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "codeCoverage": true,
+          "progress": false,
+          "sourceMap": true,
+          "watch": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "{projectRoot}/src/**/*.ts",
+          "{projectRoot}/src/**/*.html"
         ]
       }
     }
