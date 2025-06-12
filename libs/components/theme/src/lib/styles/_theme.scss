@@ -9,7 +9,7 @@ body,
 form,
 html {
   font-size: $sky-font-size-base;
-  font-family: var(--sky-font-family-primary, $sky-font-family);
+  font-family: $sky-font-family;
 }
 
 body {
