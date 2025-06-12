@@ -1,5 +1,18 @@
 # Changelog
 
+## [12.19.0](https://github.com/blackbaud/skyux/compare/12.18.0...12.19.0) (2025-06-12)
+
+
+### Features
+
+* **components/theme:** added separate methods for setting theme options ([#3510](https://github.com/blackbaud/skyux/issues/3510)) ([bac7b66](https://github.com/blackbaud/skyux/commit/bac7b66fd1dbdd0f2f64bed92fc9eac4990dd241))
+
+
+### Bug Fixes
+
+* **components/lookup:** country field input contents are selected automatically on focus ([#3511](https://github.com/blackbaud/skyux/issues/3511)) ([7a43b79](https://github.com/blackbaud/skyux/commit/7a43b797eeb98afd68ded11ee2bcb423829d5260))
+* **components/lookup:** stop magnifying glass from showing in country field when focused ([#3507](https://github.com/blackbaud/skyux/issues/3507)) ([17e8ab6](https://github.com/blackbaud/skyux/commit/17e8ab6497bd844eb1967f39b0c4ab1fbd6c6dbc))
+
 ## [12.18.0](https://github.com/blackbaud/skyux/compare/12.17.0...12.18.0) (2025-06-09)
 
 
