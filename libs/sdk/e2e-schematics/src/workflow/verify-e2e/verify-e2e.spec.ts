@@ -115,12 +115,12 @@ describe('verify-e2e', () => {
       fetch,
     );
     expect(core.setFailed).not.toHaveBeenCalled();
-    expect(core.info).toHaveBeenCalledWith('⏭️ project1');
     expect(core.info).toHaveBeenCalledWith('E2E Visual Review passed!');
   });
 
   it('should handle missing job', async () => {
-    const { verifyE2e, core, listJobsForWorkflowRun, exit } = await setupTest();
+    const { verifyE2e, core, fs, listJobsForWorkflowRun, exit } =
+      await setupTest();
     listJobsForWorkflowRun.mockResolvedValue([
       {
         name: 'End to end tests (project1)',
@@ -132,6 +132,9 @@ describe('verify-e2e', () => {
         ],
       },
     ]);
+    fs.existsSync.mockImplementation((path: string) => {
+      return path === '/tmp/path/percy-build-project1.txt';
+    });
     await verifyE2e(
       ['project1', 'project3', 'project2'],
       '/tmp/path',
@@ -143,8 +146,14 @@ describe('verify-e2e', () => {
       fetch,
       exit,
     );
+    expect(core.warning).toHaveBeenCalledWith(
+      `🚫 project2 (missing percy build ID file)`,
+    );
+    expect(core.warning).toHaveBeenCalledWith(
+      `🚫 project3 (missing percy build ID file)`,
+    );
     expect(core.setFailed).toHaveBeenCalledWith(
-      `E2E Visual Review not complete. Missing results for:\n - project2\n - project3`,
+      `E2E Visual Review not complete.`,
     );
     expect(exit).toHaveBeenCalledWith(1);
   });
@@ -177,8 +186,8 @@ describe('verify-e2e', () => {
         project,
         state: undefined,
         approved: false,
-        removedSnapshots: [],
-      }),
+        removedSnapshots: undefined,
+      } as unknown as BuildSummary),
     );
     await verifyE2e(
       ['project1', 'project2'],
