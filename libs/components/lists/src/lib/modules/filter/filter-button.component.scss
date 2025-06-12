@@ -33,10 +33,10 @@
     color: var(--sky-color-text-action);
     padding: var(
       --sky-override-button-padding,
-      var(--sky-space-inset-pillarbox-1_2-top-m)
-        var(--sky-space-inset-pillarbox-1_2-right-m)
-        var(--sky-space-inset-pillarbox-1_2-bottom-m)
-        var(--sky-space-inset-pillarbox-1_2-left-m)
+      var(--sky-comp-button-space-inset-top)
+        var(--sky-comp-button-space-inset-right)
+        var(--sky-comp-button-space-inset-bottom)
+        var(--sky-comp-button-space-inset-left)
     );
 
     sky-icon {

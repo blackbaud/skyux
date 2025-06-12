@@ -64,7 +64,10 @@
 .sky-vertical-tabset-content {
   margin: var(
     --sky-override-vertical-tabset-content-margin-xs,
-    var(--sky-space-inset-balanced-m)
+    var(--sky-comp-tab-vertical-group-space-inset-top)
+      var(--sky-comp-tab-vertical-group-space-inset-right)
+      var(--sky-comp-tab-vertical-group-space-inset-bottom)
+      var(--sky-comp-tab-vertical-group-space-inset-left)
   );
   flex-basis: 75%;
   overflow-y: auto;
@@ -83,20 +86,20 @@
   overflow-y: auto;
   padding: var(
     --sky-override-vertical-tabset-group-container-padding,
-    var(--sky-space-inset-vertical-top-m) 0
-      var(--sky-space-inset-vertical-bottom-m)
+    var(--sky-comp-tab-vertical-group-space-inset-top) 0
+      var(--sky-comp-tab-vertical-group-space-inset-bottom)
   );
 }
 
 :host-context(sky-modal-content) > :host .sky-vertical-tabset {
   margin: var(
     --sky-override-vertical-tabset-modal-margin-adjustment,
-    calc(var(--sky-space-inset-floated-top-m) * -1)
-      calc(var(--sky-space-inset-floated-right-m) * -1)
-      calc(var(--sky-space-inset-floated-bottom-m) * -1)
+    calc(var(--sky-comp-modal-content-space-inset-top) * -1)
+      calc(var(--sky-comp-modal-content-space-inset-right) * -1)
+      calc(var(--sky-comp-modal-content-space-inset-bottom) * -1)
       calc(
         calc(
-            var(--sky-space-inset-pillarbox-2_3-left-m) +
+            var(--sky-comp-tab-vertical-space-inset-left) +
               var(--sky-space-inline-s)
           ) *
           -1
@@ -106,7 +109,7 @@
   &:has(sky-vertical-tabset-group) {
     margin-left: var(
       --sky-override-vertical-tabset-modal-margin-adjustment-with-group,
-      calc(var(--sky-space-inset-balanced-s) * -1)
+      calc(var(--sky-comp-tab-vertical-group-button-space-inset-left) * -1)
     );
   }
 }
@@ -115,10 +118,10 @@
   .sky-vertical-tabset-content {
     margin: var(
       --sky-override-vertical-tabset-content-margin-sm-lg,
-      var(--sky-space-inset-pillarbox-2_3-top-m)
-        var(--sky-space-inset-pillarbox-2_3-right-m)
-        var(--sky-space-inset-pillarbox-2_3-bottom-m)
-        var(--sky-space-inset-pillarbox-2_3-left-m)
+      var(--sky-comp-tab-vertical-space-inset-top)
+        var(--sky-comp-tab-vertical-space-inset-right)
+        var(--sky-comp-tab-vertical-space-inset-bottom)
+        var(--sky-comp-tab-vertical-space-inset-left)
     );
   }
 }

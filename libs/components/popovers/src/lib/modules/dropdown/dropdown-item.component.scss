@@ -80,10 +80,10 @@
     display: block;
     padding: var(
       --sky-override-dropdown-item-padding,
-      var(--sky-space-inset-pillarbox-1_2-top-m)
-        var(--sky-space-inset-pillarbox-1_2-left-m)
-        var(--sky-space-inset-pillarbox-1_2-bottom-m)
-        var(--sky-space-inset-pillarbox-1_2-right-m)
+      var(--sky-comp-dropdown-option-space-inset-top)
+        var(--sky-comp-dropdown-option-space-inset-left)
+        var(--sky-comp-dropdown-option-space-inset-bottom)
+        var(--sky-comp-dropdown-option-space-inset-right)
     );
     text-align: left;
     width: 100%;

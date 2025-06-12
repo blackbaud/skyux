@@ -17,7 +17,7 @@
   .sky-error-label {
     margin-top: var(
       --sky-override-error-label-margin-top,
-      var(--sky-space-inset-input_label-top-m)
+      var(--sky-comp-input-label-space-inset-top)
     );
     color: var(--sky-text-color-default);
   }
