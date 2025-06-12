@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Injectable, OnDestroy, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Observable, Subject, SubscriptionLike } from 'rxjs';
 
@@ -48,7 +48,7 @@ export class SkyTabsetPermalinkService implements OnDestroy {
    * Sets the value of a URL query param.
    */
   public setParam(name: string, value: string | null, initial?: boolean): void {
-    const params: Record<string, string | undefined> = this.#getParams();
+    const params: Params = this.#getParams();
     params[name] = value ?? undefined;
 
     // Uses merge so other query params are not lost. Deleted query params
