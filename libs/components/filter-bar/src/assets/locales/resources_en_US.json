@@ -1,0 +1,62 @@
+{
+  "skyux_data_manager_column_picker_title": {
+    "_description": "Text for the title of the data manager column picker",
+    "message": "Choose columns to show in the list"
+  },
+  "skyux_data_manager_apply_changes_button_title": {
+    "_description": "Text for the apply changes button in the data manager column picker",
+    "message": "Apply changes"
+  },
+  "skyux_data_manager_cancel_button_title": {
+    "_description": "Text for the clear button in the data manager column picker",
+    "message": "Cancel"
+  },
+  "skyux_data_manager_select_all_button_aria_label": {
+    "_description": "Aria-label text for the select all button in the data manager multiselect toolbar",
+    "message": "Select all {0}"
+  },
+  "skyux_data_manager_select_all_button_title": {
+    "_description": "Text for the select all button in the data manager multiselect toolbar",
+    "message": "Select all"
+  },
+  "skyux_data_manager_clear_all_button_aria_label": {
+    "_description": "Aria-label text for the clear all button in the data manager multiselect toolbar",
+    "message": "Clear all selected {0}"
+  },
+  "skyux_data_manager_clear_all_button_title": {
+    "_description": "Text for the clear all button in the data manager multiselect toolbar",
+    "message": "Clear all"
+  },
+  "skyux_data_manager_show_selected_option_aria_label": {
+    "_description": "Aria-label text for the show selected checkbox in the data manager multiselect toolbar",
+    "message": "Show only selected {0}"
+  },
+  "skyux_data_manager_show_selected_option_title": {
+    "_description": "Text for the show selected checkbox in the data manager multiselect toolbar",
+    "message": "Show only selected items"
+  },
+  "skyux_data_manager_columns_button_aria_label": {
+    "_description": "Aria-label text for the column picker button's aria label in the data manager toolbar",
+    "message": "Choose columns for {0}"
+  },
+  "skyux_data_manager_columns_button_title": {
+    "_description": "Text for the column picker button in the data manager toolbar",
+    "message": "Columns"
+  },
+  "skyux_data_manager_select_column_status_indicator_title": {
+    "_description": "Text for the status indicator in the data manager column picker",
+    "message": "Select at least one column."
+  },
+  "skyux_data_manager_status_update_with_selections": {
+    "_description": "Text for the status update about displayed items when all items are displayed",
+    "message": "{0} of {1} items meet criteria and {2} selected."
+  },
+  "skyux_data_manager_status_update_without_selections": {
+    "_description": "Text for the status update about displayed items when all items are displayed",
+    "message": "{0} of {1} items meet criteria."
+  },
+  "skyux_data_manager_status_update_only_selected": {
+    "_description": "Text for the status update about displayed items when only selected items are displayed",
+    "message": "{0} of {1} items meet criteria and {2} selected. Only selected items are displayed."
+  }
+}

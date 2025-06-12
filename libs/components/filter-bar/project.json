@@ -1,0 +1,34 @@
+{
+  "name": "filter-bar",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/components/filter-bar/src",
+  "prefix": "sky",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "libs/components/filter-bar/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/components/filter-bar/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/components/filter-bar/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "tsConfig": "libs/components/filter-bar/tsconfig.spec.json",
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ]
+      }
+    }
+  }
+}
