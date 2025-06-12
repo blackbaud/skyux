@@ -1,5 +1,6 @@
 import { ViewportRuler } from '@angular/cdk/overlay';
 import { Location } from '@angular/common';
+import { provideLocationMocks } from '@angular/common/testing';
 import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
@@ -8,7 +9,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, provideRouter } from '@angular/router';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLayoutHostService } from '@skyux/core';
 import {
@@ -37,11 +38,11 @@ import { SkyTabsetComponent } from './tabset.component';
 import { SkyTabsetService } from './tabset.service';
 
 // #region helpers
-function getTabs(fixture: ComponentFixture<any>): NodeListOf<HTMLElement> {
+function getTabs(fixture: ComponentFixture<unknown>): NodeListOf<HTMLElement> {
   return fixture.nativeElement.querySelectorAll('.sky-tab');
 }
 
-function getTabset(fixture: ComponentFixture<any>): HTMLElement {
+function getTabset(fixture: ComponentFixture<unknown>): HTMLElement {
   return fixture.nativeElement.querySelector('.sky-tabset');
 }
 // #endregion
@@ -65,9 +66,13 @@ describe('Tabset component', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        SkyTabsFixturesModule,
-        RouterTestingModule.withRoutes([
+      imports: [SkyTabsFixturesModule],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc,
+        },
+        provideRouter([
           {
             path: 'example-path',
             children: [
@@ -87,12 +92,7 @@ describe('Tabset component', () => {
             component: TabsetOtherPageComponent,
           },
         ]),
-      ],
-      providers: [
-        {
-          provide: SkyThemeService,
-          useValue: mockThemeSvc,
-        },
+        provideLocationMocks(),
       ],
     });
 
@@ -109,7 +109,7 @@ describe('Tabset component', () => {
     el: Element,
     tabIndex: number,
     content?: string,
-  ) {
+  ): void {
     let selectedCls: string;
     let buttonEls: NodeListOf<Element>;
     const inDropDownMode = el.querySelector('.sky-tabset-mode-dropdown');
@@ -159,7 +159,7 @@ describe('Tabset component', () => {
     }
   }
 
-  function validateElFocused(el: Element) {
+  function validateElFocused(el: Element): void {
     expect(el.contains(document.activeElement)).toBeTrue();
   }
 
@@ -548,8 +548,7 @@ describe('Tabset component', () => {
     const cmp: TabsetTestComponent = fixture.componentInstance;
     const el = fixture.nativeElement;
 
-    const count: number | undefined = undefined;
-    cmp.tab3HeaderCount = count;
+    cmp.tab3HeaderCount = undefined;
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -590,7 +589,7 @@ describe('Tabset component', () => {
   it('should collapse into a dropdown when the width of the tabs is greater than its container', fakeAsync(() => {
     const fixture = TestBed.createComponent(TabsetTestComponent);
 
-    function fireResizeEvent() {
+    function fireResizeEvent(): void {
       SkyAppTestUtility.fireDomEvent(window, 'resize');
       viewportRulerChange.next(new Event('resize'));
       fixture.detectChanges();
@@ -1827,12 +1826,6 @@ describe('Tabset component', () => {
 
       const buttonElement =
         fixture.nativeElement.querySelectorAll('.sky-btn-tab')[1];
-      // Prevent the anchor's href attribute from being visited,
-      // otherwise it will trigger a page reload.
-      // See: https://github.com/dfederm/karma-jasmine-html-reporter/issues/26#issuecomment-608582845
-      buttonElement.onclick = function () {
-        return false;
-      };
       SkyAppTestUtility.fireDomEvent(buttonElement, 'click');
 
       fixture.detectChanges();
@@ -1889,12 +1882,14 @@ describe('Tabset component', () => {
     }));
 
     it('should not affect existing query params', fakeAsync(() => {
-      fixture.componentInstance.activeIndex = 0;
+      fixture.componentInstance.activeIndex = 1;
       fixture.componentInstance.permalinkId = 'foobar';
-      spyOn(location, 'path').and.returnValue(
-        '?foobar-active-tab=design-guidelines&bar=baz',
-      );
-
+      void TestBed.inject(Router).navigate([], {
+        queryParams: {
+          'foobar-active-tab': 'design-guidelines',
+          bar: 'baz',
+        },
+      });
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1905,21 +1900,15 @@ describe('Tabset component', () => {
 
       const buttonElement =
         fixture.nativeElement.querySelectorAll('.sky-btn-tab')[1];
-      // Prevent the anchor's href attribute from being visited,
-      // otherwise it will trigger a page reload.
-      // See: https://github.com/dfederm/karma-jasmine-html-reporter/issues/26#issuecomment-608582845
-      buttonElement.onclick = function () {
-        return false;
-      };
+      SkyAppTestUtility.fireDomEvent(buttonElement, 'focus');
       SkyAppTestUtility.fireDomEvent(buttonElement, 'click');
 
       fixture.detectChanges();
       tick();
 
-      expect(location.path()).toBe(
-        '?foobar-active-tab=design-guidelines&bar=baz',
-        'Existing query params should be unaffected.',
-      );
+      expect(location.path())
+        .withContext('Existing query params should be unaffected.')
+        .toBe('/?foobar-active-tab=design-guidelines&bar=baz');
     }));
 
     it('should activate tabs when popstate changes', fakeAsync(() => {
