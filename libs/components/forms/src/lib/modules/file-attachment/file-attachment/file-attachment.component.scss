@@ -9,6 +9,8 @@
   --sky-override-file-attachment-control-label-color: #{$sky-text-color-default};
   --sky-override-file-attachment-control-label-font-size: 15px;
   --sky-override-file-attachment-delete-margin-left: 0;
+  --sky-override-file-attachment-drag-border: none;
+  --sky-override-file-attachment-drag-border-style: dashed;
   --sky-override-file-attachment-file-link-padding: 0 5px;
   --sky-override-file-attachment-invalid-border: 1px solid
     #{$sky-highlight-color-danger};
@@ -32,6 +34,8 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-file-attachment-wrapper') {
+  --sky-override-file-attachment-accept-border: none;
+  --sky-override-file-attachment-accept-border-color: #{$sky-highlight-color-success};
   --sky-override-file-attachment-accept-border-radius: 5px;
   --sky-override-file-attachment-accept-border-width: 1px;
   --sky-override-file-attachment-btn-non-stacked-margin: 0
@@ -40,6 +44,8 @@
   --sky-override-file-attachment-control-label-font-size: 13px;
   --sky-override-file-attachment-delete-height: 40px;
   --sky-override-file-attachment-delete-width: 40px;
+  --sky-override-file-attachment-drag-border: none;
+  --sky-override-file-attachment-drag-border-style: dashed;
   --sky-override-file-attachment-file-icon-line-height: normal;
   --sky-override-file-attachment-file-icon-margin: #{$sky-theme-modern-space-xs
     $sky-theme-modern-space-sm $sky-theme-modern-space-xs
@@ -59,6 +65,7 @@
   --sky-override-file-attachment-preview-img-box-shadow: none;
   --sky-override-file-attachment-preview-img-margin: 0
     #{$sky-theme-modern-space-sm} 0 0;
+  --sky-override-file-attachment-reject-border-color: #{$sky-highlight-color-danger};
   --sky-override-file-attachment-reject-border-radius: 5px;
   --sky-override-file-attachment-reject-border-width: 1px;
   --sky-override-file-attachment-upload-with-icon-align-items: flex-start;
@@ -111,36 +118,32 @@
   }
 }
 
+// Other than the styles in the nested `button` selector, these styles can be removed after the full move to Gemini
 .sky-file-attachment-accept {
-  border-color: var(
-    --sky-override-file-attachment-accept-border-color,
-    var(--sky-color-border-success)
-  );
-  border-style: dashed;
-  border-width: var(
-    --sky-override-file-attachment-accept-border-width,
-    var(--sky-border-width-input-hover)
-  );
-  border-radius: var(
-    --sky-override-file-attachment-accept-border-radius,
-    var(--sky-border-radius-s)
-  );
+  border-color: var(--sky-override-file-attachment-accept-border-color, none);
+  border-style: var(--sky-override-file-attachment-drag-border-style, none);
+  border-width: var(--sky-override-file-attachment-accept-border-width, none);
+  border-radius: var(--sky-override-file-attachment-accept-border-radius, none);
+  button {
+    border: var(
+      --sky-override-file-attachment-drag-border,
+      var(--sky-border-width-input-base) solid var(--sky-color-border-success)
+    );
+  }
 }
 
+// Other than the styles in the nested `button` selector, these styles can be removed after the full move to Gemini
 .sky-file-attachment-reject {
-  border-color: var(
-    --sky-override-file-attachment-reject-border-color,
-    var(--sky-color-border-danger)
-  );
-  border-style: dashed;
-  border-width: var(
-    --sky-override-file-attachment-reject-border-width,
-    var(--sky-border-width-input-hover)
-  );
-  border-radius: var(
-    --sky-override-file-attachment-reject-border-radius,
-    var(--sky-border-radius-s)
-  );
+  border-color: var(--sky-override-file-attachment-reject-border-color, none);
+  border-style: var(--sky-override-file-attachment-drag-border-style, none);
+  border-width: var(--sky-override-file-attachment-reject-border-width, none);
+  border-radius: var(--sky-override-file-attachment-reject-border-radius, none);
+  button {
+    border: var(
+      --sky-override-file-attachment-drag-border,
+      var(--sky-border-width-input-error) solid var(--sky-color-border-danger)
+    );
+  }
 }
 
 .sky-file-attachment-btn,
@@ -175,7 +178,7 @@
 }
 
 .sky-file-attachment-delete {
-  width: var(--sky-override-file-attachment-delete-width, auto);
+  width: var(--sky-override-file-attachment-delete-width, --modern-size-40);
   height: var(--sky-override-file-attachment-delete-height, auto);
   margin-left: var(
     --sky-override-file-attachment-delete-margin-left,

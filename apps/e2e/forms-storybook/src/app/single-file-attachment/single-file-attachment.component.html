@@ -69,6 +69,19 @@
     labelText="Single file attachment with help inline popover"
     hintText="Hint text"
     helpPopoverContent="Popover content"
+    stacked="true"
     (fileChange)="reactiveFileUpdated($event)"
   />
 </form>
+
+<sky-file-attachment
+  formControlName="attachment"
+  labelText="Single file attachment drag over accept state"
+  stacked="true"
+/>
+
+<sky-file-attachment
+  formControlName="attachment"
+  labelText="Single file attachment drag over reject state"
+  stacked="true"
+/>
