@@ -1,7 +1,18 @@
 <div class="sky-toolbar-filter">
   <sky-toolbar>
     <sky-toolbar-item>
-      <span class="sky-font-data-label">Filters</span>
+      <span class="sky-font-data-label">{{
+        'skyux_filter_bar_filter_label' | skyLibResources
+      }}</span>
+      @if (filterAsyncSearchFn()) {
+        <button
+          type="button"
+          class="sky-btn sky-btn-default sky-btn-icon"
+          (click)="openFilters()"
+        >
+          <sky-icon iconName="filter" />
+        </button>
+      }
     </sky-toolbar-item>
   </sky-toolbar>
 </div>
