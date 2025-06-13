@@ -4,7 +4,6 @@
 
 @include compatMixins.sky-default-overrides('.sky-file-drop-wrapper') {
   --sky-override-file-drop-accept-border-color: #{$sky-highlight-color-success};
-  --sky-file-drop-drag-contents-border-style: dashed;
   --sky-override-file-drop-col-padding: 0 #{$sky-margin-half};
   --sky-override-file-drop-col-responsive-margin-bottom: #{$sky-margin};
   --sky-override-file-drop-col-responsive-margin-right: 0;
@@ -14,6 +13,7 @@
   --sky-override-file-drop-contents-border-width: 1px;
   --sky-override-file-drop-contents-padding: 10px;
   --sky-override-file-drop-drag-border-width: 1px;
+  --sky-override-file-drop-drag-contents-border-style: dashed;
   --sky-override-file-drop-hint-text-margin-top: var(--sky-margin-stacked-xs);
   --sky-override-file-drop-label-color: #{$sky-text-color-default};
   --sky-override-file-drop-label-font-size: 15px;
@@ -43,7 +43,6 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-file-drop-wrapper') {
-  --sky-file-drop-drag-contents-border-style: dashed;
   --sky-override-file-drop-col-padding: 0 var(--modern-space-xs);
   --sky-override-file-drop-col-responsive-margin-right: 0;
   --sky-override-file-drop-contents-border-color: var(--modern-color-gray-20);
@@ -54,6 +53,7 @@
   --sky-override-file-drop-drag-border-width: var(
     --sky-border-width-input-hover
   );
+  --sky-override-file-drop-drag-contents-border-style: dashed;
   --sky-override-file-drop-icon-font-size: var(--modern-size-40);
   --sky-override-file-drop-label-font-size: 13px;
   --sky-override-file-drop-link-input-background-color: var(
@@ -249,7 +249,10 @@ button.sky-file-drop {
 .sky-file-drop-accept,
 .sky-file-drop-reject {
   .sky-file-drop-contents {
-    border-style: var(--sky-file-drop-drag-contents-border-style, solid);
+    border-style: var(
+      --sky-override-file-drop-drag-contents-border-style,
+      solid
+    );
     border-width: var(
       --sky-override-file-drop-drag-border-width,
       var(--sky-border-width-input-hover)
