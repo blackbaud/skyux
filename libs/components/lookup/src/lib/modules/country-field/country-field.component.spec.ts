@@ -102,6 +102,11 @@ describe('Country Field Component', () => {
     );
   }
 
+  function triggerInputFocus(): void {
+    const inputElement = getInputElement();
+    SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+  }
+
   function validateSelectedCountry(
     nativeElement: HTMLElement,
     value: string,
@@ -475,6 +480,20 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
 
         expect(focusOutSpy).toHaveBeenCalled();
+      }));
+
+      it('should select the value on focus', fakeAsync(() => {
+        component.modelValue = {
+          name: 'Australia',
+          iso2: 'au',
+        };
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        validateSelectedCountry(nativeElement, 'Australia');
+
+        triggerInputFocus();
+        expect(window.getSelection().toString()).toBe('Australia');
       }));
     });
 
@@ -1032,6 +1051,20 @@ describe('Country Field Component', () => {
           name: 'Australia',
           iso2: 'au',
         });
+      }));
+
+      it('should select the value on focus', fakeAsync(() => {
+        component.initialValue = {
+          name: 'Australia',
+          iso2: 'au',
+        };
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        validateSelectedCountry(nativeElement, 'Australia');
+
+        triggerInputFocus();
+        expect(window.getSelection().toString()).toBe('Australia');
       }));
     });
 

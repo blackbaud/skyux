@@ -39,6 +39,7 @@
           [autocompleteAttribute]="autocompleteAttribute"
           [formControl]="countrySearchFormControl"
           (blur)="onAutocompleteBlur()"
+          (focus)="onFocus($event)"
           (focusout)="onAutocompleteFocusout($event)"
         ></textarea>
       </div>
