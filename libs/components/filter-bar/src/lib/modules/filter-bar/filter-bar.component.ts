@@ -59,7 +59,7 @@ export class SkyFilterBarComponent {
         value: this.filters(),
         searchAsync: searchFn,
       };
-      const modalInstance = this.#modalSvc.open(filterArgs);
+      /* const modalInstance = */ this.#modalSvc.open(filterArgs);
 
       // modalInstance.closed.subscribe((closeArgs) => {
       //   if (closeArgs.reason === 'save') {
