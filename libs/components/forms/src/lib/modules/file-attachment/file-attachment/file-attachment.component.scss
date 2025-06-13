@@ -117,6 +117,7 @@
   }
 }
 
+// Other than the styles in the nested `button` selector, these styles can be removed after the full move to Gemini
 .sky-file-attachment-accept {
   border-color: var(--sky-override-file-attachment-accept-border-color, none);
   border-style: var(--sky-override-file-attachment-drag-border-style, none);
@@ -130,6 +131,7 @@
   }
 }
 
+// Other than the styles in the nested `button` selector, these styles can be removed after the full move to Gemini
 .sky-file-attachment-reject {
   border-color: var(--sky-override-file-attachment-reject-border-color, none);
   border-style: var(--sky-override-file-attachment-drag-border-style, none);
