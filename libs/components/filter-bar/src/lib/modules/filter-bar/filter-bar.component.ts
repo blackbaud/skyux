@@ -10,13 +10,15 @@ import {
 
 import { Observable, take } from 'rxjs';
 
+import { SkyFilterBarResourcesModule } from '../shared/sky-filter-bar-resources.module';
+
 @Component({
-  selector: 'sky-toolbar-filter',
-  imports: [CommonModule, SkyToolbarModule],
-  templateUrl: './toolbar-filter.component.html',
-  styleUrl: './toolbar-filter.component.scss',
+  selector: 'sky-filter-bar',
+  imports: [CommonModule, SkyFilterBarResourcesModule, SkyToolbarModule],
+  templateUrl: './filter-bar.component.html',
+  styleUrl: './filter-bar.component.scss',
 })
-export class SkyToolbarFilterComponent {
+export class SkyFilterBarComponent {
   public filters = input<any[] | undefined>();
   public filterAsyncSearchFn =
     input<Observable<SkySelectionModalSearchResult>>();

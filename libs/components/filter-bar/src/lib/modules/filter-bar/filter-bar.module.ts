@@ -6,17 +6,17 @@ import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyFilterBarResourcesModule } from '../shared/sky-filter-bar-resources.module';
 
-import { SkyToolbarFilterComponent } from './toolbar-filter.component';
+import { SkyFilterBarComponent } from './filter-bar.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    SkyIconModule,
+    SkyFilterBarComponent,
     SkyFilterBarResourcesModule,
+    SkyIconModule,
     SkyTokensModule,
-    SkyToolbarFilterComponent,
     SkyThemeModule,
   ],
-  exports: [SkyToolbarFilterComponent],
+  exports: [SkyFilterBarComponent],
 })
-export class SkyToolbarFilterModule {}
+export class SkyFilterBarModule {}
