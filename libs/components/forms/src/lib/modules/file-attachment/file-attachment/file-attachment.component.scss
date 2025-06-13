@@ -6,6 +6,8 @@
   --sky-override-file-attachment-accept-border-color: #{$sky-highlight-color-success};
   --sky-override-file-attachment-accept-border-radius: 5px;
   --sky-override-file-attachment-accept-border-width: 1px;
+  --sky-override-file-attachment-accept-reject-border: none;
+  --sky-override-file-attachment-accept-reject-border-style: dashed;
   --sky-override-file-attachment-control-label-color: #{$sky-text-color-default};
   --sky-override-file-attachment-control-label-font-size: 15px;
   --sky-override-file-attachment-delete-margin-left: 0;
@@ -32,8 +34,11 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-file-attachment-wrapper') {
+  --sky-override-file-attachment-accept-border: none;
+  --sky-override-file-attachment-accept-border-color: #{$sky-highlight-color-success};
   --sky-override-file-attachment-accept-border-radius: 5px;
   --sky-override-file-attachment-accept-border-width: 1px;
+  --sky-override-file-attachment-accept-reject-border-style: dashed;
   --sky-override-file-attachment-btn-non-stacked-margin: 0
     #{$sky-theme-modern-space-sm} 0 0;
   --sky-override-file-attachment-control-label-color: #{$sky-theme-modern-font-deemphasized-color};
@@ -59,6 +64,7 @@
   --sky-override-file-attachment-preview-img-box-shadow: none;
   --sky-override-file-attachment-preview-img-margin: 0
     #{$sky-theme-modern-space-sm} 0 0;
+  --sky-override-file-attachment-reject-border-color: #{$sky-highlight-color-danger};
   --sky-override-file-attachment-reject-border-radius: 5px;
   --sky-override-file-attachment-reject-border-width: 1px;
   --sky-override-file-attachment-upload-with-icon-align-items: flex-start;
@@ -112,35 +118,35 @@
 }
 
 .sky-file-attachment-accept {
-  border-color: var(
-    --sky-override-file-attachment-accept-border-color,
-    var(--sky-color-border-success)
+  border-color: var(--sky-override-file-attachment-accept-border-color, none);
+  border-style: var(
+    --sky-override-file-attachment-accept-reject-border-style,
+    none
   );
-  border-style: dashed;
-  border-width: var(
-    --sky-override-file-attachment-accept-border-width,
-    var(--sky-border-width-input-hover)
-  );
-  border-radius: var(
-    --sky-override-file-attachment-accept-border-radius,
-    var(--sky-border-radius-s)
-  );
+  border-width: var(--sky-override-file-attachment-accept-border-width, none);
+  border-radius: var(--sky-override-file-attachment-accept-border-radius, none);
+  button {
+    border: var(
+      --sky-override-file-attachment-accept-reject-border,
+      var(--sky-border-width-input-base) solid var(--sky-color-border-success)
+    );
+  }
 }
 
 .sky-file-attachment-reject {
-  border-color: var(
-    --sky-override-file-attachment-reject-border-color,
-    var(--sky-color-border-danger)
+  border-color: var(--sky-override-file-attachment-reject-border-color, none);
+  border-style: var(
+    --sky-override-file-attachment-accept-reject-border-style,
+    none
   );
-  border-style: dashed;
-  border-width: var(
-    --sky-override-file-attachment-reject-border-width,
-    var(--sky-border-width-input-hover)
-  );
-  border-radius: var(
-    --sky-override-file-attachment-reject-border-radius,
-    var(--sky-border-radius-s)
-  );
+  border-width: var(--sky-override-file-attachment-reject-border-width, none);
+  border-radius: var(--sky-override-file-attachment-reject-border-radius, none);
+  button {
+    border: var(
+      --sky-override-file-attachment-accept-reject-border,
+      var(--sky-border-width-input-error) solid var(--sky-color-border-danger)
+    );
+  }
 }
 
 .sky-file-attachment-btn,
@@ -175,7 +181,7 @@
 }
 
 .sky-file-attachment-delete {
-  width: var(--sky-override-file-attachment-delete-width, auto);
+  width: var(--sky-override-file-attachment-delete-width, --modern-size-40);
   height: var(--sky-override-file-attachment-delete-height, auto);
   margin-left: var(
     --sky-override-file-attachment-delete-margin-left,

@@ -8,7 +8,7 @@ export const routes: Routes = [
     path: '',
     component: FileAttachmentComponent,
     data: {
-      name: 'File Attachment',
+      name: 'File Drop',
       icon: 'arrow-upload',
       library: 'forms',
     },
