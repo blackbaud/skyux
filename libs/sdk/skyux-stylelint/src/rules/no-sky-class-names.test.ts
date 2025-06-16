@@ -35,7 +35,7 @@ describe(ruleName, () => {
         description: 'classes ending with "sky" are allowed',
       },
       {
-        code: '.skycomponent { color: red; }',
+        code: '.sky_component { color: red; }',
         description: 'classes with "sky" not followed by dash are allowed',
       },
       {
