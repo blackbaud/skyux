@@ -34,6 +34,7 @@
 .sky-theme-modern form {
   font-size: var(--sky-font-size-body-m);
   font-weight: var(--sky-override-form-font-weight, initial);
+  font-family: var(--sky-font-family-primary);
 
   transition:
     background-color $sky-transition-time-short,

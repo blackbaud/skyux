@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.19.1](https://github.com/blackbaud/skyux/compare/12.19.0...12.19.1) (2025-06-13)
+
+
+### Bug Fixes
+
+* **components/tabs:** permalink handling should not override other query parameters ([#3514](https://github.com/blackbaud/skyux/issues/3514)) ([051f544](https://github.com/blackbaud/skyux/commit/051f544f2cca03b500f1adb415737dfeaf684bed))
+
 ## [12.19.0](https://github.com/blackbaud/skyux/compare/12.18.0...12.19.0) (2025-06-12)
 
 
