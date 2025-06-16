@@ -33,10 +33,10 @@ type SelectionModalSearchAsyncFn = (
   styleUrl: './filter-bar.component.scss',
 })
 export class SkyFilterBarComponent {
-  public filters = input<any[] | undefined>();
+  public filters = input<unknown[] | undefined>();
   public filterAsyncSearchFn = input<SelectionModalSearchAsyncFn>();
 
-  protected displayedFilters: any[] | undefined;
+  protected displayedFilters: unknown[] | undefined;
   readonly #modalSvc = inject(SkySelectionModalService);
   readonly #resourceSvc = inject(SkyLibResourcesService);
 
@@ -79,7 +79,7 @@ export class SkyFilterBarComponent {
     }
   }
 
-  #updateDisplayedFilters(items: any[] | undefined): void {
+  #updateDisplayedFilters(items: unknown[] | undefined): void {
     this.displayedFilters = items;
   }
 }
