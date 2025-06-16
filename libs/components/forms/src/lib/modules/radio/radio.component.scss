@@ -17,7 +17,7 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-radio-outer-wrapper') {
-  --sky-override-radio-icon-color-selected: var(--sky-color-icon-action);
+  --sky-override-radio-icon-color-selected: var(--sky-color-icon-selected);
   --sky-override-radio-label-margin-right: var(--sky-margin-inline-xs);
 }
 
