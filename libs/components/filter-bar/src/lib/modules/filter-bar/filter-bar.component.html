@@ -1,18 +1,30 @@
-<div class="sky-toolbar-filter">
-  <sky-toolbar>
+<div class="sky-filter-bar">
+  <sky-toolbar class="sky-filter-bar-toolbar">
     <sky-toolbar-item>
       <span class="sky-font-data-label">{{
         'skyux_filter_bar_filter_label' | skyLibResources
       }}</span>
-      @if (filterAsyncSearchFn()) {
+    </sky-toolbar-item>
+    @if (filterAsyncSearchFn()) {
+      <sky-toolbar-item>
         <button
           type="button"
-          class="sky-btn sky-btn-default sky-btn-icon"
+          class="sky-btn sky-filter-bar-btn sky-btn-default sky-btn-icon"
           (click)="openFilters()"
         >
           <sky-icon iconName="filter" />
         </button>
-      }
-    </sky-toolbar-item>
+      </sky-toolbar-item>
+    }
+    @for (filter of displayedFilters; track filter.id) {
+      <sky-toolbar-item>
+        <button
+          type="button"
+          class="sky-btn sky-filter-bar-btn sky-btn-default"
+        >
+          {{ filter.name }}
+        </button>
+      </sky-toolbar-item>
+    }
   </sky-toolbar>
 </div>

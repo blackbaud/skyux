@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyToolbarModule } from '@skyux/layout';
@@ -18,6 +18,9 @@ type SelectionModalSearchAsyncFn = (
   args: SkySelectionModalSearchArgs,
 ) => Observable<SkySelectionModalSearchResult> | undefined;
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-filter-bar',
   imports: [
@@ -33,6 +36,7 @@ export class SkyFilterBarComponent {
   public filters = input<any[] | undefined>();
   public filterAsyncSearchFn = input<SelectionModalSearchAsyncFn>();
 
+  protected displayedFilters: any[] | undefined;
   readonly #modalSvc = inject(SkySelectionModalService);
   readonly #resourceSvc = inject(SkyLibResourcesService);
 
@@ -40,11 +44,17 @@ export class SkyFilterBarComponent {
 
   constructor() {
     this.#resourceSvc
-      .getString('filter-picker-descriptor')
+      .getString('skyux_filter_bar_filter_picker_descriptor')
       .pipe(take(1))
       .subscribe((resource) => {
         this.#filterPickerDescriptor = resource;
       });
+
+    effect(() => {
+      const newFilters = this.filters();
+
+      this.#updateDisplayedFilters(newFilters);
+    });
   }
 
   protected openFilters(): void {
@@ -56,15 +66,20 @@ export class SkyFilterBarComponent {
         descriptorProperty: 'name',
         idProperty: 'id',
         selectMode: 'multiple',
-        value: this.filters(),
+        value: this.displayedFilters,
         searchAsync: searchFn,
       };
-      /* const modalInstance = */ this.#modalSvc.open(filterArgs);
+      const modalInstance = this.#modalSvc.open(filterArgs);
 
-      // modalInstance.closed.subscribe((closeArgs) => {
-      //   if (closeArgs.reason === 'save') {
-      //   }
-      // });
+      modalInstance.closed.subscribe((closeArgs) => {
+        if (closeArgs.reason === 'save') {
+          this.#updateDisplayedFilters(closeArgs.selectedItems);
+        }
+      });
     }
+  }
+
+  #updateDisplayedFilters(items: any[] | undefined): void {
+    this.displayedFilters = items;
   }
 }

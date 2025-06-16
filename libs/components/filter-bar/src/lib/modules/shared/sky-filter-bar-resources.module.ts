@@ -15,7 +15,7 @@ import {
 const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     skyux_filter_bar_filter_label: { message: 'Filters' },
-    skyux_filter_bar_filter_descriptor: { message: 'filters' },
+    skyux_filter_bar_filter_picker_descriptor: { message: 'filters' },
   },
 };
 

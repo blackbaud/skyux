@@ -3,7 +3,7 @@
     "_description": "Text for the title ",
     "message": "Filters"
   },
-  "skyux_filter_bar_filter_descriptor": {
+  "skyux_filter_bar_filter_picker_descriptor": {
     "_description": "Text for selection modal item descriptors",
     "message": "filters"
   }
