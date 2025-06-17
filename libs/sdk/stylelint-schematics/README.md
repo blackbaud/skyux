@@ -1,1 +1,1 @@
-# @skyux-sdk/eslint-schematics
+# @skyux-sdk/stylelint-schematics (Experimental)
