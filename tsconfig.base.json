@@ -186,7 +186,8 @@
         "libs/components/toast/testing/src/public-api.ts"
       ],
       "@skyux/validation": ["libs/components/validation/src/index.ts"],
-      "skyux-eslint": ["libs/sdk/skyux-eslint/src/index.ts"]
+      "skyux-eslint": ["libs/sdk/skyux-eslint/src/index.ts"],
+      "skyux-stylelint": ["libs/sdk/skyux-stylelint/src/index.ts"]
     }
   },
   "angularCompilerOptions": {
