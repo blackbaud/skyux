@@ -40,7 +40,7 @@ export class SkyFilterBarComponent {
   readonly #modalSvc = inject(SkySelectionModalService);
   readonly #resourceSvc = inject(SkyLibResourcesService);
 
-  #filterPickerDescriptor!: string;
+  #filterPickerDescriptor = 'filters';
 
   constructor() {
     this.#resourceSvc

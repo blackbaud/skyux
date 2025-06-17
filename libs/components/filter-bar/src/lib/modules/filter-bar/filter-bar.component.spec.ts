@@ -1,11 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
-// import {
-//   SkyModalTestingController,
-//   SkyModalTestingModule,
-// } from '@skyux/modals/testing';
-
 import { SkyFilterBarTestComponent } from './fixtures/filter-bar.component.fixture';
 
 describe('Filter bar component', () => {
