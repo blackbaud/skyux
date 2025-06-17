@@ -9,7 +9,7 @@
 .sky-split-view-workspace {
   background: var(
     --sky-override-split-view-workspace-background-color,
-    var(--sky-color-background-container -base)
+    var(--sky-color-background-container-base)
   );
   height: 100%;
   display: flex;
