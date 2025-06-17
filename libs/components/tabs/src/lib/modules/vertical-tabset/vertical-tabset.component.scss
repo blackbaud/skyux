@@ -64,10 +64,10 @@
 .sky-vertical-tabset-content {
   margin: var(
     --sky-override-vertical-tabset-content-margin-xs,
-    var(--sky-comp-tab-vertical-group-space-inset-top)
-      var(--sky-comp-tab-vertical-group-space-inset-right)
-      var(--sky-comp-tab-vertical-group-space-inset-bottom)
-      var(--sky-comp-tab-vertical-group-space-inset-left)
+    var(--sky-comp-tab-vertical-content-space-inset-top)
+      var(--sky-comp-tab-vertical-content-space-inset-right)
+      var(--sky-comp-tab-vertical-content-space-inset-bottom)
+      var(--sky-comp-tab-vertical-content-space-inset-left)
   );
   flex-basis: 75%;
   overflow-y: auto;

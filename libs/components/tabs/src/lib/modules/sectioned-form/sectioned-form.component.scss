@@ -56,7 +56,10 @@
   .sky-sectioned-form-tabs-only {
     padding: var(
       --sky-override-sectioned-form-tabs-only-padding,
-      var(--sky-space-inset-balanced-m)
+      var(--sky-comp-modal-content-space-inset-top)
+        var(--sky-comp-modal-content-space-inset-right)
+        var(--sky-comp-modal-content-space-inset-bottom)
+        var(--sky-comp-modal-content-space-inset-left)
     );
   }
 }
