@@ -1,0 +1,135 @@
+{
+  "name": "filter-bar-storybook",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/e2e/filter-bar-storybook/src",
+  "tags": ["component-e2e"],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/e2e/filter-bar-storybook",
+        "index": "apps/e2e/filter-bar-storybook/src/index.html",
+        "main": "apps/e2e/filter-bar-storybook/src/main.ts",
+        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
+        "tsConfig": "apps/e2e/filter-bar-storybook/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "styles": [
+          "apps/e2e/filter-bar-storybook/src/styles.scss",
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "filter-bar-storybook:build:production"
+        },
+        "development": {
+          "buildTarget": "filter-bar-storybook:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "filter-bar-storybook:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "filter-bar-storybook:build",
+        "port": 4200,
+        "spa": true
+      }
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "apps/e2e/filter-bar-storybook/.storybook",
+        "browserTarget": "filter-bar-storybook:build",
+        "compodoc": false,
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true,
+          "ci": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/filter-bar-storybook",
+        "configDir": "apps/e2e/filter-bar-storybook/.storybook",
+        "browserTarget": "filter-bar-storybook:build",
+        "compodoc": false,
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "dependsOn": ["build-storybook"],
+      "options": {
+        "buildTarget": "filter-bar-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/filter-bar-storybook",
+        "spa": true
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "filter-bar-storybook:build-storybook:ci"
+        }
+      }
+    }
+  }
+}
