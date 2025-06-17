@@ -11,8 +11,8 @@ export interface SkyConfirmButtonConfig {
   /**
    * The style to apply to the button. The valid options are `primary` for
    * the button that triggers the recommended or most-common action, `default` for
-   * buttons that trigger less-common actions, and `link` for a button that
-   * closes the dialog.
+   * buttons that trigger less-common actions, `link` for a button that closes
+   * the dialog, and `danger` for a primary action that deletes existing data.
    */
   styleType?: 'primary' | 'default' | 'link' | string;
   /**
