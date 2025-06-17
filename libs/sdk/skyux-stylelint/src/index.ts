@@ -1,3 +1,3 @@
-import noSkyClassNames from './rules/no-sky-class-names.js';
+import noSkySelectors from './rules/no-sky-selectors.js';
 
-export default [noSkyClassNames];
+export default [noSkySelectors];

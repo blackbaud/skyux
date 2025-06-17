@@ -3,14 +3,15 @@ import stylelint, { Rule, RuleBase } from 'stylelint';
 import { getRuleMeta } from '../utility/meta.js';
 import { withNamespace } from '../utility/namespace.js';
 
-const ruleId = 'no-sky-class-names';
+const ruleId = 'no-sky-selectors';
 export const ruleName = withNamespace(ruleId);
 
 const messages = stylelint.utils.ruleMessages(ruleName, {
-  rejected: () => 'Do not reference .sky- classes in stylesheets',
+  rejected: () =>
+    'Do not reference SKY UX classes, IDs, or components in stylesheets',
 });
 
-const base: RuleBase = (options) => {
+const ruleBase: RuleBase = (options) => {
   return (root, result) => {
     const validOptions = stylelint.utils.validateOptions(result, ruleName, {
       actual: options,
@@ -24,21 +25,21 @@ const base: RuleBase = (options) => {
     root.walkRules((ruleNode) => {
       const { selector } = ruleNode;
 
-      if (!selector.includes('.sky-')) {
-        return;
+      // Disallow classes, IDs, or components starting with sky-, skyux-, or skypages-
+      if (/(^|[.#\s])sky(pages|ux)?-/g.exec(selector)) {
+        stylelint.utils.report({
+          result,
+          ruleName,
+          message: messages.rejected(),
+          node: ruleNode,
+        });
       }
-
-      stylelint.utils.report({
-        result,
-        ruleName,
-        message: messages.rejected(),
-        node: ruleNode,
-      });
     });
   };
 };
 
-const rule = base as Rule;
+const rule = ruleBase as Rule;
+
 rule.messages = messages;
 rule.meta = getRuleMeta({ ruleId });
 rule.ruleName = ruleName;

@@ -4,6 +4,7 @@
   "author": "Blackbaud, Inc.",
   "description": "Stylelint plugin for SKY UX projects",
   "type": "module",
+  "main": "./src/index.js",
   "keywords": [
     "blackbaud",
     "skyux"
