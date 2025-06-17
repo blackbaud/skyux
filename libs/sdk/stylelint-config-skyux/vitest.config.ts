@@ -4,6 +4,7 @@ export default defineConfig({
   cacheDir: '../../../node_modules/.vite',
   test: {
     reporters: ['default'],
+    passWithNoTests: true,
     coverage: {
       all: true,
       enabled: true,

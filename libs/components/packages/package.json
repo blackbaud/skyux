@@ -40,6 +40,7 @@
       "@skyux-sdk/eslint-config": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/eslint-schematics": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/prettier-schematics": "0.0.0-PLACEHOLDER",
+      "@skyux-sdk/stylelint-schematics": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
       "@skyux/a11y": "0.0.0-PLACEHOLDER",
       "@skyux/action-bars": "0.0.0-PLACEHOLDER",
@@ -94,7 +95,8 @@
       "ag-grid-enterprise": "^32.1.0",
       "autonumeric": "^4.10.5",
       "eslint-config-skyux": "0.0.0-PLACEHOLDER",
-      "skyux-stylelint": "0.0.0-PLACEHOLDER"
+      "skyux-stylelint": "0.0.0-PLACEHOLDER",
+      "stylelint-config-skyux": "0.0.0-PLACEHOLDER"
     }
   },
   "peerDependencies": {
