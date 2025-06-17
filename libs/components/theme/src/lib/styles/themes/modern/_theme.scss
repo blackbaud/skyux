@@ -16,7 +16,7 @@
 
 @include compatMixins.sky-modern-v2-html {
   font-size: initial;
-  line-height: calc(20 / 14);
+  line-height: var(--sky-font-line_height-body-m);
 }
 
 .sky-theme-modern {
