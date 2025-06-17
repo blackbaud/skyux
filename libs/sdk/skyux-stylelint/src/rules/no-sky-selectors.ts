@@ -26,7 +26,7 @@ const ruleBase: RuleBase = (options) => {
       const { selector } = ruleNode;
 
       // Disallow classes, IDs, or components starting with sky-, skyux-, or skypages-
-      if (/(^|[.#\s])sky(pages|ux)?-/g.exec(selector)) {
+      if (/(^|[.#\s])sky(pages|ux)?-/.test(selector)) {
         stylelint.utils.report({
           result,
           ruleName,
