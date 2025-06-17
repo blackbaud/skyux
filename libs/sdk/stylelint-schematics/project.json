@@ -1,0 +1,38 @@
+{
+  "name": "stylelint-schematics",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/sdk/stylelint-schematics/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nx/stylelint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/sdk/stylelint-schematics"],
+      "options": {
+        "jestConfig": "libs/sdk/stylelint-schematics/jest.config.ts"
+      }
+    },
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/sdk/stylelint-schematics",
+        "tsConfig": "libs/sdk/stylelint-schematics/tsconfig.lib.json",
+        "packageJson": "libs/sdk/stylelint-schematics/package.json",
+        "main": "libs/sdk/stylelint-schematics/src/index.ts",
+        "assets": [
+          "libs/sdk/stylelint-schematics/*.md",
+          "libs/sdk/stylelint-schematics/src/schematics/ng-add/schema.json",
+          "libs/sdk/stylelint-schematics/collection.json",
+          "libs/sdk/stylelint-schematics/migrations.json"
+        ]
+      }
+    }
+  },
+  "tags": ["sdk", "npm"]
+}

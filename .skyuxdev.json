@@ -1,4 +1,11 @@
 {
+  "$schema": "./node_modules/@skyux/dev-infra-private/skyuxdev-schema.json",
   "baseBranch": "main",
-  "packageNameUsedToDetermineDistTags": "@skyux/packages"
+  "packageNameUsedToDetermineDistTags": "@skyux/packages",
+  "implicitPeerDependencies": {
+    "stylelint-config-skyux": [
+      "skyux-stylelint",
+      "stylelint-config-recommended-scss"
+    ]
+  }
 }

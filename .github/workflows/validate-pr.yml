@@ -96,4 +96,7 @@ jobs:
             sdk/eslint-schematics
             sdk/prettier-schematics
             sdk/skyux-eslint
+            sdk/skyux-stylelint
+            sdk/stylelint-config-skyux
+            sdk/stylelint-schematics
             sdk/testing
