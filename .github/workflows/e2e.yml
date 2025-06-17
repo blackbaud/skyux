@@ -49,8 +49,6 @@ jobs:
         id: setup-node
         with:
           node-version-file: '.nvmrc'
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v4
@@ -122,9 +120,6 @@ jobs:
         with:
           node-version-file: '.nvmrc'
         if: ${{ matrix.project != 'skip' }}
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
-        if: ${{ matrix.project != 'skip' }}
       - name: Retrieve dependencies cache
         uses: actions/cache/restore@v4
         with:
@@ -179,9 +174,6 @@ jobs:
         with:
           node-version-file: '.nvmrc'
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
-        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
       - name: Retrieve dependencies cache
         uses: actions/cache/restore@v4
         with:
@@ -231,8 +223,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
         uses: actions/cache/restore@v4
         with:
@@ -307,9 +297,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-        if: ${{ matrix.project != 'skip' }}
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
         if: ${{ matrix.project != 'skip' }}
       - name: Retrieve dependencies cache
         uses: actions/cache/restore@v4
@@ -455,8 +442,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
         uses: actions/cache/restore@v4
         with:
@@ -476,6 +461,22 @@ jobs:
           path: ${{ runner.temp }}/percy-builds
           pattern: percy-build-*
           merge-multiple: true
+      - name: Show Percy Build Numbers
+        id: percy-build-count
+        run: |
+          echo 'Percy build numbers:'
+          BUILD_COUNT=$(ls -1 ${{ runner.temp }}/percy-builds/* | wc -l)
+          echo "percy-build-count=$BUILD_COUNT" >> $GITHUB_OUTPUT
+          if [ $BUILD_COUNT -eq 0 ]; then
+            echo 'No Percy builds found.';
+          else
+            ls -l ${{ runner.temp }}/percy-builds/*
+            echo ''
+            for f in ${{ runner.temp }}/percy-builds/*; do
+              echo "$f: "
+              cat $f
+            done
+          fi
       - uses: actions/github-script@v7
         name: Verify E2E Visual Review
         id: verify-e2e
@@ -520,7 +521,7 @@ jobs:
             }
 
       - name: Notify Slack (failure)
-        if: ${{ failure() && !steps.verify-e2e.outputs.missingScreenshots }}
+        if: ${{ failure() && steps.verify-e2e.outputs.shouldAlertSlack != 'false' }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

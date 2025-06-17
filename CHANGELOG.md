@@ -1,5 +1,48 @@
 # Changelog
 
+## [12.19.1](https://github.com/blackbaud/skyux/compare/12.19.0...12.19.1) (2025-06-13)
+
+
+### Bug Fixes
+
+* **components/tabs:** permalink handling should not override other query parameters ([#3514](https://github.com/blackbaud/skyux/issues/3514)) ([051f544](https://github.com/blackbaud/skyux/commit/051f544f2cca03b500f1adb415737dfeaf684bed))
+
+## [12.19.0](https://github.com/blackbaud/skyux/compare/12.18.0...12.19.0) (2025-06-12)
+
+
+### Features
+
+* **components/theme:** added separate methods for setting theme options ([#3510](https://github.com/blackbaud/skyux/issues/3510)) ([bac7b66](https://github.com/blackbaud/skyux/commit/bac7b66fd1dbdd0f2f64bed92fc9eac4990dd241))
+
+
+### Bug Fixes
+
+* **components/lookup:** country field input contents are selected automatically on focus ([#3511](https://github.com/blackbaud/skyux/issues/3511)) ([7a43b79](https://github.com/blackbaud/skyux/commit/7a43b797eeb98afd68ded11ee2bcb423829d5260))
+* **components/lookup:** stop magnifying glass from showing in country field when focused ([#3507](https://github.com/blackbaud/skyux/issues/3507)) ([17e8ab6](https://github.com/blackbaud/skyux/commit/17e8ab6497bd844eb1967f39b0c4ab1fbd6c6dbc))
+
+## [12.18.0](https://github.com/blackbaud/skyux/compare/12.17.0...12.18.0) (2025-06-09)
+
+
+### Features
+
+* **components/action-bars:** add summary action bar code example with error ([#3495](https://github.com/blackbaud/skyux/issues/3495)) ([546160d](https://github.com/blackbaud/skyux/commit/546160d07e5fb0c81d62a7aeaac673eaa998475c))
+* **components/theme:** update category color tokens ([#3503](https://github.com/blackbaud/skyux/issues/3503)) ([89626aa](https://github.com/blackbaud/skyux/commit/89626aa7c4bbe4f6cf8dbd61902cea16c49200f5))
+
+## [12.17.0](https://github.com/blackbaud/skyux/compare/12.16.0...12.17.0) (2025-06-06)
+
+
+### Features
+
+* **components/tabs:** update tab button element styles to component specific tokens ([#3500](https://github.com/blackbaud/skyux/issues/3500)) ([6e9d822](https://github.com/blackbaud/skyux/commit/6e9d8223dc558d539ee4e9b74212eb6846fa21a3))
+
+
+### Bug Fixes
+
+* **components/core:** remove redundant viewkeeper clip-path rule ([#3502](https://github.com/blackbaud/skyux/issues/3502)) ([a29a7ed](https://github.com/blackbaud/skyux/commit/a29a7ed59aa6544e81d0f41604471e71185e2c01))
+* **components/forms:** use correct icon for powerpoint and doc file previews ([#3498](https://github.com/blackbaud/skyux/issues/3498)) ([7c18bad](https://github.com/blackbaud/skyux/commit/7c18bad271c39b730b3b38a23bc4c99162169ea6))
+* **components/icon:** support xxxl icon size in icon harness ([#3499](https://github.com/blackbaud/skyux/issues/3499)) ([02209ed](https://github.com/blackbaud/skyux/commit/02209ed1896d474b5b8e76671111cebbc9b1e7b5))
+* **components/layout:** console log recommended property in box-header ([#3496](https://github.com/blackbaud/skyux/issues/3496)) ([7073446](https://github.com/blackbaud/skyux/commit/7073446790436cc7e43de4e28776fb4f6192881f))
+
 ## [12.16.0](https://github.com/blackbaud/skyux/compare/12.15.0...12.16.0) (2025-06-04)
 
 

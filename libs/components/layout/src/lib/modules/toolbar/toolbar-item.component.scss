@@ -24,7 +24,10 @@
     padding-left: var(--sky-comp-button-toolbar-space-inset-left);
     padding-right: var(--sky-comp-button-toolbar-space-inset-right);
 
-    &.sky-btn-default:not(:disabled):not(.sky-search-btn) {
+    &.sky-btn-default:not(:disabled):not(
+        .sky-search-btn,
+        .sky-search-btn-open
+      ) {
       background-color: var(--sky-color-background-action-tertiary-base);
       border: none;
       color: var(

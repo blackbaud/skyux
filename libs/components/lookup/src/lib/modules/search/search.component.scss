@@ -26,7 +26,7 @@
   --sky-override-search-applied-color: #{$sky-highlight-color-success};
   --sky-override-search-applied-mobile-button-horizontal-padding: 15px;
   --sky-override-search-applied-mobile-button-vertical-padding: 9px;
-  --sky-override-search-appied-border-width: 2px;
+  --sky-override-search-applied-border-width: 2px;
   --sky-override-search-background-color: var(--modern-color-transparent);
   --sky-override-search-button-height-width: 40px;
   --sky-override-search-mobile-button-horizontal-padding: 15px;
@@ -104,29 +104,7 @@ sky-search {
   }
 
   .sky-search-btn-open-applied {
-    &.sky-search-btn-open,
-    &.sky-search-btn-open:hover {
-      background-color: var(
-        --sky-override-search-applied-background-color,
-        var(--sky-color-background-selected-soft)
-      );
-      border: var(--sky-override-search-applied-border, none);
-      box-shadow: var(
-        --sky-override-search-applied-box-shadow,
-        inset 0 0 0
-          var(
-            --sky-override-search-appied-border-width,
-            var(--sky-border-width-selected-s)
-          )
-          var(
-            --sky-override-search-applied-color,
-            var(--sky-color-border-selected)
-          )
-      );
-      color: var(
-        --sky-override-search-applied-color,
-        var(--sky-color-icon-action)
-      );
+    &.sky-search-btn-open {
       padding-top: var(
         --sky-override-search-applied-mobile-button-vertical-padding,
         var(--sky-comp-button-space-inset-top)
@@ -142,6 +120,30 @@ sky-search {
       padding-right: var(
         --sky-override-search-applied-mobile-button-horizontal-padding,
         var(--sky-comp-button-space-inset-right)
+      );
+    }
+    &.sky-search-btn-open,
+    .sky-btn.sky-search-btn-open:hover {
+      background-color: var(
+        --sky-override-search-applied-background-color,
+        var(--sky-color-background-selected-soft)
+      );
+      border: var(--sky-override-search-applied-border, none);
+      box-shadow: var(
+        --sky-override-search-applied-box-shadow,
+        inset 0 0 0
+          var(
+            --sky-override-search-applied-border-width,
+            var(--sky-border-width-selected-s)
+          )
+          var(
+            --sky-override-search-applied-color,
+            var(--sky-color-border-selected)
+          )
+      );
+      color: var(
+        --sky-override-search-applied-color,
+        var(--sky-color-icon-action)
       );
     }
   }
@@ -332,7 +334,7 @@ sky-search {
     .sky-input-group-icon .sky-icon {
       color: var(
         --sky-override-search-toolbar-icon-color,
-        var(--sky-color-icon-action)
+        var(--sky-color-icon-selected)
       );
     }
 
@@ -342,7 +344,7 @@ sky-search {
       input::placeholder {
       color: var(
         --sky-override-search-toolbar-item-text-color,
-        var(--sky-color-text-action)
+        var(--sky-color-text-selected)
       );
     }
   }

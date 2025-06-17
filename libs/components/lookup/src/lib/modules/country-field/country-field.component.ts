@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -28,7 +27,6 @@ import {
   Validator,
 } from '@angular/forms';
 import { SkyInputBoxHostService } from '@skyux/forms';
-import { SkyThemeService } from '@skyux/theme';
 
 import intlTelInput from 'intl-tel-input';
 import { Observable, Subject } from 'rxjs';
@@ -62,7 +60,7 @@ let uniqueId = 0;
   standalone: false,
 })
 export class SkyCountryFieldComponent
-  implements AfterViewInit, ControlValueAccessor, OnDestroy, OnInit, Validator
+  implements ControlValueAccessor, OnDestroy, OnInit, Validator
 {
   /**
    * The value for the HTML `autocomplete` attribute on the form input.
@@ -222,8 +220,6 @@ export class SkyCountryFieldComponent
     },
   );
 
-  public currentTheme = 'default';
-
   public inputId: string;
   protected ariaDescribedBy: Observable<string | undefined> | undefined;
 
@@ -232,12 +228,6 @@ export class SkyCountryFieldComponent
     static: true,
   })
   public inputTemplateRef: TemplateRef<unknown> | undefined;
-
-  @ViewChild('searchIconTemplateRef', {
-    read: TemplateRef,
-    static: true,
-  })
-  public searchIconTemplateRef: TemplateRef<unknown> | undefined;
 
   #changeDetector: ChangeDetectorRef;
 
@@ -253,8 +243,6 @@ export class SkyCountryFieldComponent
 
   #ngUnsubscribe = new Subject<void>();
 
-  #themeSvc: SkyThemeService | undefined;
-
   #_defaultCountry: string | undefined;
 
   #_disabled = false;
@@ -267,11 +255,9 @@ export class SkyCountryFieldComponent
     changeDetector: ChangeDetectorRef,
     injector: Injector,
     @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
-    @Optional() themeSvc?: SkyThemeService,
   ) {
     this.#changeDetector = changeDetector;
     this.#injector = injector;
-    this.#themeSvc = themeSvc;
 
     this.inputId = `sky-country-field-input-${uniqueId++}`;
 
@@ -313,17 +299,7 @@ export class SkyCountryFieldComponent
           this.selectedCountry = newValue;
         }
       });
-  }
-
-  public ngAfterViewInit(): void {
-    /* istanbul ignore else */
-    if (this.#themeSvc) {
-      this.#themeSvc.settingsChange.subscribe((change) => {
-        this.currentTheme = change.currentSettings.theme.name;
-        this.#updateInputBox();
-        this.#changeDetector.markForCheck();
-      });
-    }
+    this.#changeDetector.markForCheck();
   }
 
   /**
@@ -410,6 +386,10 @@ export class SkyCountryFieldComponent
   public writeValue(value: SkyCountryFieldCountry | undefined): void {
     this.selectedCountry = value;
     this.#changeDetector.markForCheck();
+  }
+
+  protected onFocus($event: FocusEvent): void {
+    ($event.target as HTMLTextAreaElement).select();
   }
 
   #countriesAreEqual(
@@ -508,10 +488,6 @@ export class SkyCountryFieldComponent
 
       this.inputBoxHostSvc.populate({
         inputTemplate: this.inputTemplateRef,
-        iconsInsetTemplate:
-          this.currentTheme === 'modern'
-            ? this.searchIconTemplateRef
-            : undefined,
       });
     }
   }
