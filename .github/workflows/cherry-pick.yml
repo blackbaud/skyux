@@ -20,23 +20,13 @@ jobs:
           ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-
       - uses: actions/setup-node@v4
         id: setup-node
         with:
+          cache: 'npm'
           node-version-file: '.nvmrc'
-
-      - name: Cache node modules
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-
       - name: npm install
-        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
-
       - name: Cherry pick
         id: cherry-pick
         run: |
