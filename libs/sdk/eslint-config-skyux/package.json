@@ -21,7 +21,7 @@
     "save": "devDependencies"
   },
   "ng-update": {
-    "packageGroupName": "skyux-eslint",
+    "packageGroupName": "eslint-config-skyux",
     "migrations": "@skyux-sdk/eslint-schematics/migrations.json",
     "packageGroup": {
       "@skyux-sdk/eslint-schematics": "0.0.0-PLACEHOLDER"

@@ -1,5 +1,20 @@
 # Changelog
 
+## [12.20.0](https://github.com/blackbaud/skyux/compare/12.19.1...12.20.0) (2025-06-18)
+
+
+### Features
+
+* add experimental `skyux-stylelint` package ([#3521](https://github.com/blackbaud/skyux/issues/3521)) ([9b60413](https://github.com/blackbaud/skyux/commit/9b60413bc323164472f5171c809f4c997ae66f4f))
+* create experimental `stylelint-config-skyux` package and relevant schematics ([#3525](https://github.com/blackbaud/skyux/issues/3525)) ([fb4f9cd](https://github.com/blackbaud/skyux/commit/fb4f9cdbce014ef6d51b012e0afdc170d828fe47))
+* updated selected item styles for checkbox, radio, filter, search ([#3509](https://github.com/blackbaud/skyux/issues/3509)) ([792a7b1](https://github.com/blackbaud/skyux/commit/792a7b1d8c210bdeb81dd4a3aef90d3167de5efd))
+
+
+### Bug Fixes
+
+* **components/modals:** tweak styleType description ([#3523](https://github.com/blackbaud/skyux/issues/3523)) ([fc16d25](https://github.com/blackbaud/skyux/commit/fc16d25a5906e518219494ed930aa46c087e4eef))
+* **components/theme:** tokenize font-family for all of BB theme ([#3512](https://github.com/blackbaud/skyux/issues/3512)) ([a0b2cc2](https://github.com/blackbaud/skyux/commit/a0b2cc21d69f0847e101c2f456aa792cb8331024))
+
 ## [12.19.1](https://github.com/blackbaud/skyux/compare/12.19.0...12.19.1) (2025-06-13)
 
 
