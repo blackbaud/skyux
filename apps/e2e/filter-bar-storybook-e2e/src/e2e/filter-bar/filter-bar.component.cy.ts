@@ -10,6 +10,7 @@ describe('filter-bar', () => {
       );
 
       it('should render the component', () => {
+        cy.skyReady('app-filter-bar');
         cy.get('app-filter-bar')
           .should('exist')
           .should('be.visible')
