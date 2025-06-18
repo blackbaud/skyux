@@ -187,7 +187,8 @@
       ],
       "@skyux/validation": ["libs/components/validation/src/index.ts"],
       "skyux-eslint": ["libs/sdk/skyux-eslint/src/index.ts"],
-      "skyux-stylelint": ["libs/sdk/skyux-stylelint/src/index.ts"]
+      "skyux-stylelint": ["libs/sdk/skyux-stylelint/src/index.ts"],
+      "stylelint-config-skyux": ["libs/sdk/stylelint-config-skyux/src/index.ts"]
     }
   },
   "angularCompilerOptions": {
