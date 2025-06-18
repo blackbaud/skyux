@@ -48,18 +48,12 @@ jobs:
       - uses: actions/setup-node@v4
         id: setup-node
         with:
+          cache: 'npm'
           node-version-file: '.nvmrc'
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
-        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
+        env:
+          CYPRESS_INSTALL_BINARY: 0
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         id: set-shas
         uses: ./.github/actions/nx-set-shas
@@ -93,9 +87,7 @@ jobs:
       - name: Build e2e-schematics
         # Used by .github/actions/e2e-affected/action.yml
         if: steps.cache-e2e-schematics.outputs.cache-hit != 'true'
-        shell: bash
-        run: |
-          npx nx build e2e-schematics --no-parallel
+        run: 'npx nx build e2e-schematics --no-parallel'
 
   build-storybook:
     name: Build Project Storybook
@@ -118,17 +110,14 @@ jobs:
         if: ${{ matrix.project != 'skip' }}
       - uses: actions/setup-node@v4
         with:
+          cache: 'npm'
           node-version-file: '.nvmrc'
         if: ${{ matrix.project != 'skip' }}
-      - name: Retrieve dependencies cache
-        uses: actions/cache/restore@v4
-        with:
-          fail-on-cache-miss: true
-          path: |
-            node_modules
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+      - name: npm install
         if: ${{ matrix.project != 'skip' }}
+        run: npm ci
+        env:
+          CYPRESS_INSTALL_BINARY: 0
       - name: Build ${{ matrix.project }}
         run: npx nx run ${{ matrix.project }}:build-storybook:ci --no-parallel
         if: ${{ matrix.project != 'skip' }}
@@ -172,17 +161,14 @@ jobs:
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
       - uses: actions/setup-node@v4
         with:
+          cache: 'npm'
           node-version-file: '.nvmrc'
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
-      - name: Retrieve dependencies cache
-        uses: actions/cache/restore@v4
-        with:
-          fail-on-cache-miss: true
-          path: |
-            node_modules
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
+      - name: npm install
+        if: ${{ matrix.project != 'skip' }}
+        run: npm ci
+        env:
+          CYPRESS_INSTALL_BINARY: 0
       - name: Build ${{ matrix.app }}
         run: |
           npx nx build ${{ matrix.app }} \
@@ -222,15 +208,13 @@ jobs:
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
       - uses: actions/setup-node@v4
         with:
+          cache: 'npm'
           node-version-file: '.nvmrc'
-      - name: Retrieve dependencies cache
-        uses: actions/cache/restore@v4
-        with:
-          fail-on-cache-miss: true
-          path: |
-            node_modules
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+      - name: npm install
+        if: ${{ matrix.project != 'skip' }}
+        run: npm ci
+        env:
+          CYPRESS_INSTALL_BINARY: 0
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -296,22 +280,24 @@ jobs:
         if: ${{ matrix.project != 'skip' }}
       - uses: actions/setup-node@v4
         with:
+          cache: 'npm'
           node-version-file: '.nvmrc'
         if: ${{ matrix.project != 'skip' }}
-      - name: Retrieve dependencies cache
-        uses: actions/cache/restore@v4
-        with:
-          fail-on-cache-miss: true
-          path: |
-            node_modules
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+      - name: npm install
         if: ${{ matrix.project != 'skip' }}
+        run: |
+          npm ci
+          npx cypress install
       - name: Cache e2e-schematics
         uses: actions/cache/restore@v4
+        id: cache-e2e-schematics
         with:
           path: ./dist/libs/sdk/e2e-schematics
           key: e2e-schematics-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
+      - name: Build e2e-schematics
+        # Used by .github/actions/e2e-affected/action.yml
+        if: steps.cache-e2e-schematics.outputs.cache-hit != 'true'
+        run: 'npx nx build e2e-schematics --no-parallel'
       - name: Check if ${{ matrix.project }} is affected
         if: ${{ matrix.project != 'skip' }}
         uses: ./.github/actions/e2e-affected
@@ -441,20 +427,22 @@ jobs:
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
       - uses: actions/setup-node@v4
         with:
+          cache: 'npm'
           node-version-file: '.nvmrc'
-      - name: Retrieve dependencies cache
-        uses: actions/cache/restore@v4
-        with:
-          fail-on-cache-miss: true
-          path: |
-            node_modules
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+      - name: npm install
+        run: npm ci
+        env:
+          CYPRESS_INSTALL_BINARY: 0
       - name: Cache e2e-schematics
         uses: actions/cache/restore@v4
+        id: cache-e2e-schematics
         with:
           path: ./dist/libs/sdk/e2e-schematics
           key: e2e-schematics-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
+      - name: Build e2e-schematics
+        # Used by .github/actions/e2e-affected/action.yml
+        if: steps.cache-e2e-schematics.outputs.cache-hit != 'true'
+        run: 'npx nx build e2e-schematics --no-parallel'
       - name: Download Percy Build Numbers
         uses: actions/download-artifact@v4
         with:
