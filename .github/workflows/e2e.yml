@@ -165,7 +165,7 @@ jobs:
           node-version-file: '.nvmrc'
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
       - name: npm install
-        if: ${{ matrix.project != 'skip' }}
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
         run: npm ci
         env:
           CYPRESS_INSTALL_BINARY: 0
