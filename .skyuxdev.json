@@ -1,4 +1,10 @@
 {
   "baseBranch": "main",
+  "implicitPeerDependencies": {
+    "stylelint-config-skyux": [
+      "skyux-stylelint",
+      "stylelint-config-recommended-scss"
+    ]
+  },
   "packageNameUsedToDetermineDistTags": "@skyux/packages"
 }
