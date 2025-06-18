@@ -16,6 +16,7 @@
   --sky-override-sectioned-form-content-padding: var(--sky-padding-even-md)
     var(--sky-padding-even-xl);
   --sky-override-sectioned-form-tabs-padding: 0;
+  --sky-override-sectioned-form-tabs-only-padding: var(--sky-padding-even-md);
 }
 
 @include mixins.sky-host-responsive-container-xs-min() {
