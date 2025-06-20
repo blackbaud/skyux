@@ -26,7 +26,8 @@
 
     &.sky-btn-default:not(:disabled):not(
         .sky-search-btn,
-        .sky-search-btn-open
+        .sky-search-btn-open,
+        .sky-filter-bar-btn
       ) {
       background-color: var(--sky-color-background-action-tertiary-base);
       border: none;

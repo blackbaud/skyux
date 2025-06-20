@@ -1,0 +1,32 @@
+{
+  "name": "filter-bar-storybook-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/e2e/filter-bar-storybook-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["filter-bar-storybook"],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/e2e/filter-bar-storybook-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "filter-bar-storybook:storybook",
+        "baseUrl": "http://localhost:4400"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "filter-bar-storybook:serve:production"
+        },
+        "ci": {
+          "baseUrl": "http://localhost:4200",
+          "browser": "chrome",
+          "devServerTarget": "filter-bar-storybook:static-storybook:ci"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
