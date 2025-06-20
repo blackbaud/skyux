@@ -18,6 +18,9 @@
     "url": "https://github.com/blackbaud/skyux/issues"
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
+  "ng-add": {
+    "save": "devDependencies"
+  },
   "dependencies": {
     "tslib": "^2.8.1"
   },
