@@ -5,7 +5,7 @@
   "sourceRoot": "libs/components/theme/src",
   "prefix": "sky",
   "targets": {
-    "build": {
+    "prebuild": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/theme"],
       "options": {
@@ -20,6 +20,19 @@
         }
       },
       "defaultConfiguration": "production"
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-theme.ts"
+      },
+      "dependsOn": [
+        "^build",
+        {
+          "target": "prebuild",
+          "projects": "self"
+        }
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -59,12 +72,6 @@
           "{projectRoot}/src/**/*.ts",
           "{projectRoot}/src/**/*.html"
         ]
-      }
-    },
-    "postbuild": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-theme.ts"
       }
     }
   },
