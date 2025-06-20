@@ -41,14 +41,14 @@
     color $sky-transition-time-short;
 }
 
-.sky-theme-modern {
-  body {
-    line-height: var(
-      --sky-override-body-line-height,
-      var(--sky-font-line_height-body-m)
-    );
-  }
+body.sky-theme-modern {
+  line-height: var(
+    --sky-override-body-line-height,
+    var(--sky-font-line_height-body-m)
+  );
+}
 
+.sky-theme-modern {
   a {
     color: var(--sky-color-text-action);
     border-radius: var(
