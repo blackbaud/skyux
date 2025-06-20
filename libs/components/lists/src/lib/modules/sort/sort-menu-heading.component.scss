@@ -16,10 +16,10 @@
   color: var(--sky-override-sort-heading-color, var(--sky-color-text-default));
   padding: var(
     --sky-override-sort-heading-padding,
-    var(--sky-space-inset-pillarbox-1_2-top-m)
-      var(--sky-space-inset-pillarbox-1_2-left-m)
-      var(--sky-space-inset-pillarbox-1_2-bottom-m)
-      var(--sky-space-inset-pillarbox-1_2-right-m)
+    var(--sky-comp-dropdown-option-space-inset-top)
+      var(--sky-comp-dropdown-option-space-inset-right)
+      var(--sky-comp-dropdown-option-space-inset-bottom)
+      var(--sky-comp-dropdown-option-space-inset-left)
   );
   margin: var(--sky-override-sort-heading-margin, 0);
   width: 100%;

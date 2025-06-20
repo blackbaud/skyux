@@ -94,10 +94,10 @@
   );
   padding: var(
     --sky-override-vertical-tab-padding,
-    var(--sky-space-inset-pillarbox-2_3-top-m)
-      var(--sky-space-inset-pillarbox-2_3-right-m)
-      var(--sky-space-inset-pillarbox-2_3-bottom-m)
-      var(--sky-space-inset-pillarbox-2_3-left-m)
+    var(--sky-comp-tab-vertical-space-inset-top)
+      var(--sky-comp-tab-vertical-space-inset-right)
+      var(--sky-comp-tab-vertical-space-inset-bottom)
+      var(--sky-comp-tab-vertical-space-inset-left)
   );
   margin: var(
     --sky-override-vertical-tab-margin,
@@ -145,7 +145,7 @@
     padding-left: var(
       --sky-override-vertical-tab-padding-left-active,
       calc(
-        var(--sky-space-inset-pillarbox-2_3-left-m) - var(
+        var(--sky-comp-tab-vertical-space-inset-left) - var(
             --sky-border-width-selected-l
           )
       )
@@ -197,7 +197,7 @@
     padding-left: var(
       --sky-override-vertical-tab-padding-left-hover,
       calc(
-        var(--sky-space-inset-pillarbox-2_3-left-m) - var(
+        var(--sky-comp-tab-vertical-space-inset-left) - var(
             --sky-border-width-selected-s
           )
       )
@@ -221,7 +221,7 @@
   padding-left: var(
     --sky-override-vertical-tab-padding-left-selected,
     calc(
-      var(--sky-space-inset-pillarbox-2_3-left-m) - var(
+      var(--sky-comp-tab-vertical-space-inset-left) - var(
           --sky-border-width-selected-l
         )
     )

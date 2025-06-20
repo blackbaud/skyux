@@ -11,10 +11,10 @@
   flex-wrap: nowrap;
   padding: var(
     --sky-override-toolbar-container-padding,
-    var(--sky-space-inset-vertical-top-s)
-      var(--sky-space-inset-vertical-right-s)
-      var(--sky-space-inset-vertical-bottom-s)
-      var(--sky-space-inset-vertical-left-s)
+    var(--sky-comp-toolbar-space-inset-top)
+      var(--sky-comp-toolbar-space-inset-right)
+      var(--sky-comp-toolbar-space-inset-bottom)
+      var(--sky-comp-toolbar-space-inset-left)
   );
   min-height: $sky-toolbar-min-height;
   align-items: center;

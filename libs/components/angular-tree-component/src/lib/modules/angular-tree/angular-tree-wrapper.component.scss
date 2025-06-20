@@ -80,14 +80,14 @@
     align-items: center;
     padding: var(
       --sky-override-angular-tree-node-wrapper-padding,
-      calc(var(--sky-space-inset-balanced-xs) - 1px)
-        var(--sky-space-inset-balanced-xs)
+      calc(var(--sky-comp-tree-node-space-inset-top) - 1px)
+        var(--sky-comp-tree-node-space-inset-right)
     ); // Allows 2px of space for drop-slot, but total between each node based on the token.
     padding-left: max(
       var(--sky-angular-tree-node-padding),
       var(
         --sky-override-angular-tree-node-padding-left-base,
-        var(--sky-space-inset-balanced-xs)
+        var(--sky-comp-tree-node-space-inset-left)
       )
     );
     border-left: var(
@@ -123,7 +123,7 @@
   .tree-children {
     padding-left: var(
       --sky-override-tree-children-padding,
-      var(--sky-space-inset-horizontal-left-xl)
+      var(--sky-comp-tree-child-space-inset-left)
     );
     overflow: hidden;
   }
@@ -142,7 +142,10 @@
     width: var(--sky-override-angular-tree-toggle-children-width, '');
     padding: var(
       --sky-override-angular-tree-toggle-children-padding,
-      var(--sky-space-inset-balanced-xs)
+      var(--sky-comp-button-borderless-space-inset-top)
+        var(--sky-comp-button-borderless-space-inset-right)
+        var(--sky-comp-button-borderless-space-inset-bottom)
+        var(--sky-comp-button-borderless-space-inset-left)
     );
     line-height: 1;
   }
@@ -152,13 +155,21 @@
     height: var(
       --sky-override-angular-tree-toggle-children-placeholder-height,
       calc(
-        var(--sky-size-icon-s) + calc(var(--sky-space-inset-balanced-xs) * 2)
+        var(--sky-size-icon-s) +
+          calc(
+            var(--sky-comp-button-borderless-space-inset-top) +
+              var(--sky-comp-button-borderless-space-inset-bottom)
+          )
       )
     );
     width: var(
       --sky-override-angular-tree-toggle-children-placeholder-width,
       calc(
-        var(--sky-size-icon-s) + calc(var(--sky-space-inset-balanced-xs) * 2)
+        var(--sky-size-icon-s) +
+          calc(
+            var(--sky-comp-button-borderless-space-inset-left) +
+              var(--sky-comp-button-borderless-space-inset-right)
+          )
       )
     );
     margin: var(
