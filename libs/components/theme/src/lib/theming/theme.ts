@@ -1,9 +1,5 @@
 import { SkyThemeMode } from './theme-mode';
-import {
-  SkyThemeData,
-  SkyThemeModeData,
-  SkyThemeSpacingData,
-} from './theme-serialization-types';
+import { SkyThemeData } from './theme-serialization-types';
 import { SkyThemeSpacing } from './theme-spacing';
 
 /**
