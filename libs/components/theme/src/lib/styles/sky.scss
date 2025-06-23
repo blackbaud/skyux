@@ -1,7 +1,7 @@
 // This file is compiled down to CSS and included in the @skyux/theme NPM package to provide
 // global styles for our consumers.
 
-@forward 'node_modules/normalize-scss/sass/normalize/import-now';
+@forward 'normalize-scss/sass/normalize/import-now';
 
 @forward 'normalize-compat';
 @forward 'custom-properties';
