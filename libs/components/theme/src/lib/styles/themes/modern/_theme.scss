@@ -12,11 +12,11 @@
   );
   --sky-override-form-font-weight: var(--sky-font-weight-body-m);
   --sky-override-p-line-height: var(--sky-font-line_height-body-m);
+  --sky-override-body-line-height: normal;
 }
 
 @include compatMixins.sky-modern-v2-html {
   font-size: initial;
-  line-height: calc(20 / 14);
 }
 
 .sky-theme-modern {
@@ -39,6 +39,13 @@
   transition:
     background-color $sky-transition-time-short,
     color $sky-transition-time-short;
+}
+
+body.sky-theme-modern {
+  line-height: var(
+    --sky-override-body-line-height,
+    var(--sky-font-line_height-body-m)
+  );
 }
 
 .sky-theme-modern {
@@ -99,7 +106,10 @@
   }
 
   p {
-    line-height: var(--sky-override-p-line-height);
+    line-height: var(
+      --sky-override-p-line-height,
+      var(--sky-font-line_height-body-m)
+    );
   }
 
   mark.sky-highlight-mark {
