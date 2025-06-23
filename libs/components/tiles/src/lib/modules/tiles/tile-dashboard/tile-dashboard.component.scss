@@ -17,7 +17,10 @@
   display: block;
   padding: var(
     --sky-override-tile-dashboard-column-padding,
-    var(--sky-space-inset-horizontal-0)
+    var(--sky-comp-tile-dashboard-column-space-inset-top)
+      var(--sky-comp-tile-dashboard-column-space-inset-right)
+      var(--sky-comp-tile-dashboard-column-space-inset-bottom)
+      var(--sky-comp-tile-dashboard-column-space-inset-left)
   );
 
   .sky-tile-dashboard-layout-multi {
@@ -33,7 +36,7 @@
 :host-context(.sky-tile-dashboard-gt-xs) {
   padding-top: var(
     --sky-override-tile-dashboard-padding-top,
-    var(--sky-space-inset-horizontal-top-s)
+    var(--sky-comp-tile-dashboard-space-inset-top)
   ) !important;
 }
 
@@ -41,10 +44,10 @@
   display: flex;
   padding: var(
     --sky-override-tile-dashboard-multi-column-padding,
-    var(--sky-space-inset-horizontal-top-s)
-      var(--sky-space-inset-horizontal-right-s)
-      var(--sky-space-inset-horizontal-bottom-s)
-      var(--sky-space-inset-horizontal-left-s)
+    var(--sky-comp-tile-dashboard-space-inset-top)
+      var(--sky-comp-tile-dashboard-space-inset-right)
+      var(--sky-comp-tile-dashboard-space-inset-bottom)
+      var(--sky-comp-tile-dashboard-space-inset-left)
   );
 
   .sky-tile-dashboard-layout-multi {

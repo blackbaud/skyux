@@ -19,6 +19,7 @@
   --sky-override-tile-margin-bottom-base: #{$sky-margin-double};
   --sky-override-tile-margin-bottom-gt-xs: #{$sky-margin-double};
   --sky-override-tile-margin-bottom-xs: 0;
+  --sky-override-tile-padding: 0;
   --sky-override-tile-summary-color: #{$sky-text-color-action-primary};
   --sky-override-tile-summary-padding-left: #{$sky-tile-header-tool-padding};
   --sky-override-tile-tools-control-color: var(--sky-text-color-deemphasized);
@@ -43,6 +44,12 @@
   margin-bottom: var(
     --sky-override-tile-margin-bottom-base,
     var(--sky-space-stacked-xl)
+  );
+  padding: var(
+    --sky-override-tile-padding,
+    var(--sky-comp-tile-space-inset-top) var(--sky-comp-tile-space-inset-right)
+      var(--sky-comp-tile-space-inset-bottom)
+      var(--sky-comp-tile-space-inset-left)
   );
 
   --sky-background-color-page-default: #fff;

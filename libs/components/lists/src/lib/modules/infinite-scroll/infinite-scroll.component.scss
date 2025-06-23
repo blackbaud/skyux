@@ -31,7 +31,10 @@
               )
           )
         ) +
-        calc(var(--sky-space-inset-vertical-top-s) * 2)
+        calc(
+          var(--sky-space-inset-vertical-top-s) +
+            var(--sky-space-inset-vertical-bottom-s)
+        )
     )
   ); // Min height is the max of the height of a wait or the height of a default button
 }
