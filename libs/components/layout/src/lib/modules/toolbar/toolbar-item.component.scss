@@ -21,8 +21,8 @@
 
 @include mixins.sky-theme-modern {
   ::ng-deep .sky-btn {
-    padding-left: var(--sky-space-inset-balanced-s);
-    padding-right: var(--sky-space-inset-balanced-s);
+    padding-left: var(--sky-comp-button-toolbar-space-inset-left);
+    padding-right: var(--sky-comp-button-toolbar-space-inset-right);
 
     &.sky-btn-default:not(:disabled):not(
         .sky-search-btn,
