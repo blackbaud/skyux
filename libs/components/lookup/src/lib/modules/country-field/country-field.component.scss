@@ -1,7 +1,7 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
-@import 'node_modules/intl-tel-input/build/css/intlTelInput.css';
+@import 'intl-tel-input/build/css/intlTelInput.css';
 
 @include compatMixins.sky-default-overrides('.sky-country-field-container') {
   --sky-override-country-field-disabled-flag-filter: none;
