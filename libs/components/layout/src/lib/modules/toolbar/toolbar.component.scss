@@ -18,6 +18,7 @@ sky-toolbar + :host {
 .sky-toolbar-container {
   min-height: $sky-toolbar-min-height;
   background-color: var(--sky-override-toolbar-background-color);
+  // This padding override is used by the SkyFilterBar component in modern theme.
   padding: var(
     --sky-override-toolbar-container-padding,
     var(--sky-comp-toolbar-space-inset-top)
