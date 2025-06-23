@@ -1,5 +1,18 @@
 # Changelog
 
+## [12.21.0](https://github.com/blackbaud/skyux/compare/12.20.0...12.21.0) (2025-06-23)
+
+
+### Features
+
+* **components/icon:** update icons package ([#3522](https://github.com/blackbaud/skyux/issues/3522)) ([4769a83](https://github.com/blackbaud/skyux/commit/4769a839367cfb926d4d59a1bf2d6e6556690689))
+
+
+### Bug Fixes
+
+* **components/split-view:** correct workspace background token in modern v2 ([#3526](https://github.com/blackbaud/skyux/issues/3526)) ([5e04d46](https://github.com/blackbaud/skyux/commit/5e04d46f4afa78161fe723ba4f2351c3e1cc4cec))
+* **components/theme:** missing line height token in modern v2 ([#3524](https://github.com/blackbaud/skyux/issues/3524)) ([211a8dc](https://github.com/blackbaud/skyux/commit/211a8dc333cb1ca8d8f163dc46592eb3399e9de0))
+
 ## [12.20.0](https://github.com/blackbaud/skyux/compare/12.19.1...12.20.0) (2025-06-18)
 
 
