@@ -499,9 +499,7 @@ jobs:
                 e2eProjects,
                 '${{ runner.temp }}/percy-builds',
                 core,
-                {
-                  listJobsForWorkflowRun: listJobsForWorkflowRun
-                },
+                { listJobsForWorkflowRun },
                 ${{ github.event_name == 'push' || contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }},
                 (url) => fetch(url, options),
                 (number) => process.exit(number)

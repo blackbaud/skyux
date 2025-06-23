@@ -64,11 +64,11 @@ export async function verifyE2e(
     // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
 
     core.info('Fetching workflow jobs...');
-    let jobs = await githubApi.listJobsForWorkflowRun();
+    let jobs = await githubApi.listJobsForWorkflowRun().catch(() => []);
     if (!jobs || jobs.length === 0) {
       // Retry.
-      jobs = await new Promise((resolve) => setTimeout(resolve, 20)).then(() =>
-        githubApi.listJobsForWorkflowRun(),
+      jobs = await new Promise((resolve) => setTimeout(resolve, 20)).then(
+        async () => await githubApi.listJobsForWorkflowRun().catch(() => []),
       );
     }
     // This job always runs, so check if any previous jobs failed and fail this job before doing any more work.
@@ -120,7 +120,7 @@ export async function verifyE2e(
         buildId,
         core,
         fetchClient,
-      );
+      ).catch(() => ({}));
       if (projectStatus?.state !== 'finished' || !projectStatus?.approved) {
         reviewComplete = false;
       }
