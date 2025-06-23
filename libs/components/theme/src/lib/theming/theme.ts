@@ -63,13 +63,7 @@ export class SkyTheme {
       };
     }
 
-    const result: {
-      name: string;
-      hostClass?: string;
-      supportedModes: SkyThemeModeData[];
-      supportedSpacing?: SkyThemeSpacingData[];
-      supportsBranding?: boolean;
-    } = {
+    const result: SkyThemeData = {
       name: this.name,
       hostClass: this.hostClass,
       supportedModes: this.supportedModes.map((mode) => mode.serialize()),
