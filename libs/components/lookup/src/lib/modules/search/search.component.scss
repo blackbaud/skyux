@@ -87,19 +87,19 @@ sky-search {
   .sky-btn.sky-search-btn-open {
     padding-top: var(
       --sky-override-search-mobile-button-vertical-padding,
-      var(--sky-space-inset-pillarbox-1_2-top-m)
+      var(--sky-comp-button-space-inset-top)
     );
     padding-bottom: var(
       --sky-override-search-mobile-button-vertical-padding,
-      var(--sky-space-inset-pillarbox-1_2-bottom-m)
+      var(--sky-comp-button-space-inset-bottom)
     );
     padding-left: var(
       --sky-override-search-mobile-button-horizontal-padding,
-      var(--sky-space-inset-pillarbox-1_2-left-m)
+      var(--sky-comp-button-space-inset-left)
     );
     padding-right: var(
       --sky-override-search-mobile-button-horizontal-padding,
-      var(--sky-space-inset-pillarbox-1_2-right-m)
+      var(--sky-comp-button-space-inset-right)
     );
   }
 
@@ -107,19 +107,19 @@ sky-search {
     &.sky-search-btn-open {
       padding-top: var(
         --sky-override-search-applied-mobile-button-vertical-padding,
-        var(--sky-space-inset-pillarbox-1_2-top-m)
+        var(--sky-comp-button-space-inset-top)
       );
       padding-bottom: var(
         --sky-override-search-applied-mobile-button-vertical-padding,
-        var(--sky-space-inset-pillarbox-1_2-bottom-m)
+        var(--sky-comp-button-space-inset-bottom)
       );
       padding-left: var(
         --sky-override-search-applied-mobile-button-horizontal-padding,
-        var(--sky-space-inset-pillarbox-1_2-left-m)
+        var(--sky-comp-button-space-inset-left)
       );
       padding-right: var(
         --sky-override-search-applied-mobile-button-horizontal-padding,
-        var(--sky-space-inset-pillarbox-1_2-right-m)
+        var(--sky-comp-button-space-inset-right)
       );
     }
     &.sky-search-btn-open,
@@ -179,7 +179,10 @@ sky-search {
     right: 0;
     padding: var(
       --sky-override-search-container-padding,
-      var(--sky-space-inset-balanced-xs)
+      var(--sky-comp-search-space-offset-top)
+        var(--sky-comp-search-space-offset-right)
+        var(--sky-comp-search-space-offset-bottom)
+        var(--sky-comp-search-space-offset-left)
     );
   }
 }
@@ -205,7 +208,10 @@ sky-search {
               var(--sky-font-line_height-input-val) *
                 var(--sky-font-size-input-val)
             ) +
-            calc(var(--sky-space-inset-balanced-s) * 2)
+            calc(
+              var(--sky-comp-search-space-inset-top) +
+                var(--sky-comp-search-space-inset-bottom)
+            )
         )
       );
       width: var(
@@ -215,7 +221,10 @@ sky-search {
               var(--sky-font-line_height-input-val) *
                 var(--sky-font-size-input-val)
             ) +
-            calc(var(--sky-space-inset-balanced-s) * 2)
+            calc(
+              var(--sky-comp-search-space-inset-left) +
+                var(--sky-comp-search-space-inset-right)
+            )
         )
       );
 
@@ -234,7 +243,10 @@ sky-search {
               var(--sky-font-line_height-input-val) *
                 var(--sky-font-size-input-val)
             ) +
-            calc(var(--sky-space-inset-balanced-s) * 2)
+            calc(
+              var(--sky-comp-button-space-inset-top) +
+                var(--sky-comp-button-space-inset-bottom)
+            )
         )
       );
       width: var(
@@ -244,7 +256,10 @@ sky-search {
               var(--sky-font-line_height-input-val) *
                 var(--sky-font-size-input-val)
             ) +
-            calc(var(--sky-space-inset-balanced-s) * 2)
+            calc(
+              var(--sky-comp-button-space-inset-left) +
+                var(--sky-comp-button-space-inset-right)
+            )
         )
       );
       padding: 0;
@@ -288,9 +303,9 @@ sky-search {
         .sky-input-box-form-group-inner {
           input {
             width: auto;
-            padding: var(--sky-space-inset-balanced-s)
-              var(--sky-space-inset-balanced-s)
-              var(--sky-space-inset-balanced-s) 0;
+            padding: var(--sky-comp-search-space-inset-top)
+              var(--sky-comp-search-space-inset-right)
+              var(--sky-comp-search-space-inset-bottom) 0;
             margin: 0;
 
             &::placeholder {

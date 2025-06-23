@@ -22,10 +22,10 @@ sky-modal-footer {
   border-top: var(--sky-override-modal-footer-border-top, none);
   padding: var(
     --sky-override-modal-footer-padding,
-    var(--sky-space-inset-pillarbox-2_3-top-l)
-      var(--sky-space-inset-pillarbox-2_3-right-l)
-      var(--sky-space-inset-pillarbox-2_3-bottom-l)
-      var(--sky-space-inset-pillarbox-2_3-left-l)
+    var(--sky-comp-modal-footer-space-inset-top)
+      var(--sky-comp-modal-footer-space-inset-right)
+      var(--sky-comp-modal-footer-space-inset-bottom)
+      var(--sky-comp-modal-footer-space-inset-left)
   );
 
   .sky-btn + .sky-btn {
