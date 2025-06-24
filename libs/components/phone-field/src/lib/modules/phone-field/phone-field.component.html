@@ -80,25 +80,29 @@
 
 <ng-template #buttonsInsetTemplateRef>
   @if (countrySearchShown) {
-    <button
-      class="sky-input-group-btn sky-input-box-btn-inset sky-search-item-dismiss sky-btn sky-phone-field-search-btn-dismiss"
-      type="button"
-      [attr.title]="
-        'skyux_phone_field_country_search_dismiss' | skyLibResources
-      "
-      [ngClass]="{
-        'sky-btn-default':
-          (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
-          'modern'
-      }"
-      (click)="dismissButtonClicked()"
+    <div
+      class="sky-input-group-btn sky-input-box-btn-inset sky-search-item-dismiss"
     >
-      <sky-icon *skyThemeIf="'default'" iconName="chevron-double-left" />
-      <sky-icon
-        *skyThemeIf="'modern'"
-        iconName="chevron-double-left"
-        iconSize="l"
-      />
-    </button>
+      <button
+        class="sky-btn sky-phone-field-search-btn-dismiss"
+        type="button"
+        [attr.title]="
+          'skyux_phone_field_country_search_dismiss' | skyLibResources
+        "
+        [ngClass]="{
+          'sky-btn-default':
+            (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
+            'modern'
+        }"
+        (click)="dismissButtonClicked()"
+      >
+        <sky-icon *skyThemeIf="'default'" iconName="chevron-double-left" />
+        <sky-icon
+          *skyThemeIf="'modern'"
+          iconName="chevron-double-left"
+          iconSize="l"
+        />
+      </button>
+    </div>
   }
 </ng-template>
