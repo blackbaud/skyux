@@ -218,14 +218,15 @@ describe('percy-api', () => {
       }
       return Promise.reject(new Error('Unexpected URL'));
     });
-    await expect(() =>
+    await expect(
       getPercyTargetCommit(
         'test-storybook-e2e',
         ['commitSha'],
         logger,
         fetchClient,
       ),
-    ).rejects.toThrow(
+    ).resolves.toEqual('');
+    expect(logger.error).toHaveBeenCalledWith(
       'Error checking Percy: Error: Error fetching Percy project ID',
     );
   });
@@ -334,7 +335,8 @@ describe('percy-api', () => {
         logger,
         fetchClient,
       ),
-    ).rejects.toThrow(
+    ).resolves.toEqual('');
+    expect(logger.error).toHaveBeenCalledWith(
       'Error checking Percy: Percy project ID response for test-storybook-e2e: {}',
     );
     expect(logger.error).toHaveBeenCalledWith(
@@ -416,7 +418,15 @@ describe('percy-api', () => {
     });
     await expect(
       checkPercyBuild('test-storybook-e2e', 'buildId', logger, fetchClient),
-    ).rejects.toThrow('Error checking Percy build: Error: Nope.');
+    ).resolves.toEqual({
+      project: 'test-storybook-e2e',
+      approved: false,
+      removedSnapshots: [],
+      state: undefined,
+    });
+    expect(logger.error).toHaveBeenCalledWith(
+      expect.stringMatching(/^Error checking Percy build/),
+    );
   });
 
   it('should handle rejection', async () => {
@@ -426,8 +436,14 @@ describe('percy-api', () => {
       .mockImplementation(() => Promise.reject('Nope.'));
     await expect(
       checkPercyBuild('test-storybook-e2e', 'buildId', logger, fetchClient),
-    ).rejects.toThrow(
-      'Error checking Percy build: Error: Error fetching Percy build buildId',
+    ).resolves.toEqual({
+      project: 'test-storybook-e2e',
+      approved: false,
+      removedSnapshots: [],
+      state: undefined,
+    });
+    expect(logger.error).toHaveBeenCalledWith(
+      expect.stringMatching(/^Error checking Percy build/),
     );
   });
 
@@ -440,8 +456,14 @@ describe('percy-api', () => {
       );
     await expect(
       checkPercyBuild('test-storybook-e2e', 'buildId', logger, fetchClient),
-    ).rejects.toThrow(
-      'Error checking Percy build: Error: Error fetching Percy build buildId',
+    ).resolves.toEqual({
+      project: 'test-storybook-e2e',
+      approved: false,
+      removedSnapshots: [],
+      state: undefined,
+    });
+    expect(logger.error).toHaveBeenCalledWith(
+      expect.stringMatching(/^Error checking Percy build/),
     );
   });
 });

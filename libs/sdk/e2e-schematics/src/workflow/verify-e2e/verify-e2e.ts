@@ -1,5 +1,4 @@
 import { existsSync, readFileSync } from 'fs';
-import { join } from 'path';
 
 import { BuildSummary, Fetch, checkPercyBuild } from '../percy-api/percy-api';
 
@@ -49,7 +48,7 @@ export type Logger = Pick<
  */
 export async function verifyE2e(
   e2eProjects: string[],
-  buildIdFilesPath: string,
+  buildIdFiles: string[],
   core: Core,
   githubApi: {
     listJobsForWorkflowRun: () => Promise<WorkflowJob[]>;
@@ -64,11 +63,11 @@ export async function verifyE2e(
     // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
 
     core.info('Fetching workflow jobs...');
-    let jobs = await githubApi.listJobsForWorkflowRun().catch(() => []);
+    let jobs = await githubApi.listJobsForWorkflowRun();
     if (!jobs || jobs.length === 0) {
       // Retry.
       jobs = await new Promise((resolve) => setTimeout(resolve, 20)).then(
-        async () => await githubApi.listJobsForWorkflowRun().catch(() => []),
+        async () => await githubApi.listJobsForWorkflowRun(),
       );
     }
     // This job always runs, so check if any previous jobs failed and fail this job before doing any more work.
@@ -83,7 +82,11 @@ export async function verifyE2e(
 
     // Some e2e projects may not have re-run in this workflow run, but we still want to verify them.
     const e2eProjectsThatWereNotSkipped = e2eProjects.filter(
-      (project) => !skippedPercyProjects.includes(project),
+      (project) =>
+        !skippedPercyProjects.includes(project) ||
+        buildIdFiles.some((file) =>
+          file.endsWith(`/percy-build-${project}.txt`),
+        ),
     );
 
     // Log the status of each E2E Visual Review.
@@ -97,11 +100,10 @@ export async function verifyE2e(
     for (const e2eProject of e2eProjectsThatWereNotSkipped) {
       let icon: string;
       let summary: string;
-      const buildIdFile = join(
-        buildIdFilesPath,
-        `percy-build-${e2eProject}.txt`,
+      const buildIdFile = buildIdFiles.find((file) =>
+        file.endsWith(`/percy-build-${e2eProject}.txt`),
       );
-      if (!existsSync(buildIdFile)) {
+      if (!buildIdFile || !existsSync(buildIdFile)) {
         reviewComplete = false;
         alertWorthy = true;
         core.warning(`🚫 ${e2eProject} (missing percy build ID file)`);
@@ -120,7 +122,7 @@ export async function verifyE2e(
         buildId,
         core,
         fetchClient,
-      ).catch(() => ({}));
+      );
       if (projectStatus?.state !== 'finished' || !projectStatus?.approved) {
         reviewComplete = false;
       }

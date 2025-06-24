@@ -88,7 +88,7 @@ export async function checkPercyBuild(
   logger: Logger,
   /* istanbul ignore next */
   fetchClient: Fetch = fetch,
-): Promise<BuildSummary> {
+): Promise<Partial<BuildSummary>> {
   const fetchJson = getFetchJson(fetchClient);
 
   try {
@@ -110,21 +110,16 @@ export async function checkPercyBuild(
       };
     } else {
       logger.warning(`No Percy build found for ${project} build ${buildId}`);
-
-      return {
-        project,
-        state: undefined,
-        approved: false,
-        removedSnapshots: [],
-      };
     }
   } catch (error) {
     logger.error(`Error checking Percy build\n\n${(error as Error).stack}`);
-
-    throw new Error(`Error checking Percy build: ${error}`, {
-      cause: error,
-    });
   }
+  return {
+    project,
+    state: undefined,
+    approved: false,
+    removedSnapshots: [],
+  };
 }
 
 /**
@@ -170,9 +165,8 @@ export async function getLastGoodPercyBuild(
           .pop() as string)
       : '';
   } catch (error) {
-    throw new Error(`Error checking Percy: ${error}`, {
-      cause: error,
-    });
+    logger.error(`Error checking Percy: ${error}`);
+    return '';
   }
 }
 
@@ -216,9 +210,8 @@ export async function getPercyTargetCommit(
     }
     return '';
   } catch (error) {
-    throw new Error(`Error checking Percy: ${error}`, {
-      cause: error,
-    });
+    logger.error(`Error checking Percy: ${error}`);
+    return '';
   }
 }
 
