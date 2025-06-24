@@ -10,6 +10,16 @@ describe('forms-storybook - single file attachment', () => {
       );
       it('should render the single file attachment component', () => {
         cy.skyReady('app-single-file-attachment');
+        cy.get('.sky-file-attachment-target')
+          .eq(-2)
+          .should('exist')
+          .should('be.visible')
+          .invoke('addClass', 'sky-file-attachment-accept');
+        cy.get('.sky-file-attachment-target')
+          .last()
+          .should('exist')
+          .should('be.visible')
+          .invoke('addClass', 'sky-file-attachment-reject');
         cy.get('sky-help-inline')
           .eq(1)
           .should('exist')
