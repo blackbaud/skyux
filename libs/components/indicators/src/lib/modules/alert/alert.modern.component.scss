@@ -13,7 +13,6 @@
   --sky-override-alert-padding: 0 var(--modern-size-10);
   --sky-override-alert-text-link-color: #212327cc;
   --sky-override-alert-text-vertical-padding: var(--modern-size-15);
-  --sky-override-sky-icon-svg-size-xxl: 32px;
 }
 
 @include mixins.sky-component('modern', '.sky-alert') {
