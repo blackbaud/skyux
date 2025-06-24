@@ -1,0 +1,24 @@
+<div class="sky-filter-bar-item">
+  <button
+    class="sky-btn sky-filter-bar-btn sky-btn-default"
+    type="button"
+    (click)="openFilterModal()"
+  >
+    <span class="sky-filter-bar-filter-item-title"
+      ><span [class.sky-font-deemphasized]="hasFilter()">{{
+        filterName()
+      }}</span>
+      @if (hasFilter()) {
+        <span>:</span>
+      }
+    </span>
+    @if (hasFilter()) {
+      <span class="sky-filter-bar-filter-item-value">{{
+        filterValue()!.displayValue
+      }}</span>
+    }
+    <span class="sky-filter-bar-filter-item-caret">
+      <sky-icon iconName="chevron-down" />
+    </span>
+  </button>
+</div>

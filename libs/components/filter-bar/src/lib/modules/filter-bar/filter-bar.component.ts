@@ -14,6 +14,7 @@ import { Observable, take } from 'rxjs';
 
 import { SkyFilterBarResourcesModule } from '../shared/sky-filter-bar-resources.module';
 
+import { SkyFilterBarItemComponent } from './filter-bar-item.component';
 import { SkyFilterBarFilter } from './models/filter-bar-filter';
 
 type SelectionModalSearchAsyncFn = (
@@ -27,6 +28,7 @@ type SelectionModalSearchAsyncFn = (
   selector: 'sky-filter-bar',
   imports: [
     CommonModule,
+    SkyFilterBarItemComponent,
     SkyFilterBarResourcesModule,
     SkyIconModule,
     SkyToolbarModule,
