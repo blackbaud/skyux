@@ -178,19 +178,19 @@ describe('Input box host service', () => {
 
   it('should emit inputFocusin observable when triggerFocusin is called', async () => {
     hostService.init(mockInputBox);
-    
+
     const focusinPromise = firstValueFrom(hostService.inputFocusin);
     hostService.triggerFocusin();
-    
+
     await expectAsync(focusinPromise).toBeResolved();
   });
 
   it('should emit inputFocusout observable when triggerFocusout is called', async () => {
     hostService.init(mockInputBox);
-    
+
     const focusoutPromise = firstValueFrom(hostService.inputFocusout);
     hostService.triggerFocusout();
-    
+
     await expectAsync(focusoutPromise).toBeResolved();
   });
 });
