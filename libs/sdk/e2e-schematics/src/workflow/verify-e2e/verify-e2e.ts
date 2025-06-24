@@ -81,7 +81,7 @@ export async function verifyE2e(
       .map((step) => step.project);
 
     // Some e2e projects may not have re-run in this workflow run, but we still want to verify them.
-    const e2eProjectsThatWereNotSkipped = e2eProjects.filter(
+    const e2eProjectsToCheck = e2eProjects.filter(
       (project) =>
         !skippedPercyProjects.includes(project) ||
         buildIdFiles.some((file) =>
@@ -97,33 +97,40 @@ export async function verifyE2e(
       project: string;
       removedSnapshots: string[];
     }[] = [];
-    for (const e2eProject of e2eProjectsThatWereNotSkipped) {
+    for (const e2eProject of e2eProjects) {
       let icon: string;
       let summary: string;
-      const buildIdFile = buildIdFiles.find((file) =>
-        file.endsWith(`/percy-build-${e2eProject}.txt`),
-      );
-      if (!buildIdFile || !existsSync(buildIdFile)) {
-        reviewComplete = false;
-        alertWorthy = true;
-        core.warning(`🚫 ${e2eProject} (missing percy build ID file)`);
-        continue;
-      }
-      const buildId = readFileSync(buildIdFile, 'utf-8').trim();
-      if (!buildId) {
-        reviewComplete = false;
-        alertWorthy = true;
-        core.warning(`🚫 ${e2eProject} (empty percy build ID file)`);
-        continue;
-      }
+      const checkThis = e2eProjectsToCheck.includes(e2eProject);
+      let projectStatus: Partial<BuildSummary> = {};
+      if (checkThis) {
+        const buildIdFile = buildIdFiles.find((file) =>
+          file.endsWith(`/percy-build-${e2eProject}.txt`),
+        );
+        if (!buildIdFile || !existsSync(buildIdFile)) {
+          reviewComplete = false;
+          alertWorthy = true;
+          core.warning(`🚫 ${e2eProject} (missing percy build ID file)`);
+          continue;
+        }
+        const buildId = readFileSync(buildIdFile, 'utf-8').trim();
+        if (!buildId) {
+          reviewComplete = false;
+          alertWorthy = true;
+          core.warning(`🚫 ${e2eProject} (empty percy build ID file)`);
+          continue;
+        }
 
-      const projectStatus: Partial<BuildSummary> = await checkPercyBuild(
-        `skyux-${e2eProject}`,
-        buildId,
-        core,
-        fetchClient,
-      );
-      if (projectStatus?.state !== 'finished' || !projectStatus?.approved) {
+        projectStatus = await checkPercyBuild(
+          `skyux-${e2eProject}`,
+          buildId,
+          core,
+          fetchClient,
+        );
+      }
+      if (
+        checkThis &&
+        (projectStatus?.state !== 'finished' || !projectStatus?.approved)
+      ) {
         reviewComplete = false;
       }
       const removedSnapshots = projectStatus?.removedSnapshots ?? [];
@@ -134,6 +141,10 @@ export async function verifyE2e(
         });
       }
       switch (true) {
+        case !checkThis:
+          icon = '🙈';
+          summary = 'percy build not needed';
+          break;
         case !allowMissingScreenshots && removedSnapshots.length > 0:
           icon = '❌';
           summary = `missing screenshots: ${removedSnapshots.join(', ')}`;

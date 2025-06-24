@@ -79,6 +79,12 @@ runs:
             process.exit(0);
           }
 
+          if (lastGoodCommit === '${{ inputs.head }}') {
+            core.info(`The build for ${lastGoodCommit.substring(0, 7)} already passed.`);
+            core.setOutput('affected', 'false');
+            process.exit(0);
+          }
+
           const affectedProjects = await exec.getExecOutput('npx', [
             'nx',
             'show',
