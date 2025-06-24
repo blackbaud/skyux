@@ -13,15 +13,8 @@ import {
   SkyHelpTestingModule,
 } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
-import {
-  SkyTheme,
-  SkyThemeMode,
-  SkyThemeService,
-  SkyThemeSettings,
-  SkyThemeSettingsChange,
-} from '@skyux/theme';
 
-import { BehaviorSubject } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 import { InputBoxFixtureComponent } from './fixtures/input-box.component.fixture';
 import { InputBoxFixturesModule } from './fixtures/input-box.module.fixture';
@@ -56,9 +49,7 @@ interface InputBoxElements {
 }
 
 describe('Input box component', () => {
-  let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
-  };
+  let fixture: ComponentFixture<InputBoxFixtureComponent>;
 
   function a11yTests(): void {
     for (const inputType of ['input', 'textarea', 'select']) {
@@ -253,14 +244,14 @@ describe('Input box component', () => {
   }
 
   function getInputBoxEl(
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<InputBoxFixtureComponent>,
     parentCls: string,
   ): HTMLDivElement | null {
     return fixture.nativeElement.querySelector(`.${parentCls} sky-input-box`);
   }
 
   function getControlEl(
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<InputBoxFixtureComponent>,
     parentCls: string,
   ): HTMLInputElement | null {
     return fixture.nativeElement.querySelector(
@@ -269,7 +260,7 @@ describe('Input box component', () => {
   }
 
   function getInsetIconWrapperEl(
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<InputBoxFixtureComponent>,
     parentCls: string,
   ): HTMLInputElement | null {
     return fixture.nativeElement.querySelector(
@@ -281,7 +272,6 @@ describe('Input box component', () => {
     selector: string,
     options: InputBoxA11yTestingOptions = {},
   ): Promise<void> {
-    const fixture = TestBed.createComponent(InputBoxFixtureComponent);
     const cmp = fixture.componentInstance;
 
     cmp.basicDisabled = options.disabled;
@@ -474,30 +464,14 @@ describe('Input box component', () => {
     }
 
     beforeEach(() => {
-      mockThemeSvc = {
-        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light,
-          ),
-          previousSettings: undefined,
-        }),
-      };
-
       TestBed.configureTestingModule({
         imports: [InputBoxFixturesModule, SkyHelpTestingModule],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-        ],
       });
+
+      fixture = TestBed.createComponent(InputBoxFixtureComponent);
     });
 
     it('should render the label and input elements in the expected locations', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-basic');
@@ -524,8 +498,6 @@ describe('Input box component', () => {
     });
 
     it('should render the input group button elements in the expected locations', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-multiple-buttons');
@@ -542,8 +514,6 @@ describe('Input box component', () => {
     });
 
     it('should render the character count element in the expected locations', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-character-count');
@@ -567,8 +537,6 @@ describe('Input box component', () => {
     });
 
     it('should render the error label in the expected location', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-box-form-control-error');
@@ -579,8 +547,6 @@ describe('Input box component', () => {
     });
 
     it('should render the error status indicator in the expected location', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.componentInstance.errorField.markAsTouched();
       fixture.componentInstance.errorField.updateValueAndValidity();
 
@@ -597,7 +563,6 @@ describe('Input box component', () => {
     });
 
     it('should allow a child to place template items inside the input box programmatically', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-host-service');
@@ -622,8 +587,6 @@ describe('Input box component', () => {
     });
 
     it('should add a disabled CSS class when disabled', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-basic');
@@ -638,8 +601,6 @@ describe('Input box component', () => {
     });
 
     it('should add a disabled CSS class when the form control is disabled', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(
@@ -657,7 +618,6 @@ describe('Input box component', () => {
     });
 
     it('should display labelText as label', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-easy-mode');
@@ -668,7 +628,6 @@ describe('Input box component', () => {
     });
 
     it('should add stacked CSS class', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-easy-mode');
@@ -689,7 +648,6 @@ describe('Input box component', () => {
     });
 
     it('should add help inline for template', async () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       fixture.componentInstance.easyModeHelpPopoverContent =
@@ -700,7 +658,6 @@ describe('Input box component', () => {
     });
 
     it('should not render help inline button if labelText undefined', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       fixture.componentRef.setInput('labelText', undefined);
@@ -715,7 +672,6 @@ describe('Input box component', () => {
     });
 
     it('should render help inline with help key', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       fixture.componentInstance.easyModeHelpPopoverContent = undefined;
@@ -729,7 +685,6 @@ describe('Input box component', () => {
     });
 
     it('should set global help config with help key', async () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       const helpController = TestBed.inject(SkyHelpTestingController);
 
       fixture.detectChanges();
@@ -752,8 +707,6 @@ describe('Input box component', () => {
     });
 
     it('should add character count', async () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       // Render the the component and apply the field's ngModel value.
       fixture.detectChanges();
       await fixture.whenStable();
@@ -816,7 +769,6 @@ describe('Input box component', () => {
     });
 
     it('should remove character count when character limit is set to undefined', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       let els = getDefaultEls(fixture, 'input-easy-mode');
@@ -832,7 +784,6 @@ describe('Input box component', () => {
     });
 
     it('should set required if set by the child via host service', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       const hostServiceInputBox = fixture.debugElement
         .query(By.css('.easy-input-host-service sky-input-box'))
         .injector.get(SkyInputBoxHostService);
@@ -854,7 +805,6 @@ describe('Input box component', () => {
     });
 
     it('should add hint text', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       let els = getDefaultEls(fixture, 'input-easy-mode');
@@ -884,7 +834,6 @@ describe('Input box component', () => {
     });
 
     it('should allow a child to add hint text programmatically', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-host-service');
@@ -893,7 +842,6 @@ describe('Input box component', () => {
     });
 
     it('should allow both child and consumer specified hint text', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.componentInstance.easyModeHintText = 'Consumer hint text.';
       fixture.detectChanges();
 
@@ -905,7 +853,6 @@ describe('Input box component', () => {
     });
 
     it('should hide hint text when `setHintTextHidden` is called with `true`', async () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
       fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextHidden(
         true,
@@ -919,7 +866,6 @@ describe('Input box component', () => {
     });
 
     it('should show hint text when `setHintTextHidden` is called with `false`', async () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
       fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextHidden(
         false,
@@ -933,7 +879,6 @@ describe('Input box component', () => {
     });
 
     it('should hide hint text when `setHintTextScreenReaderOnly` is called with `true`', async () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
       fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextScreenReaderOnly(
         true,
@@ -947,7 +892,6 @@ describe('Input box component', () => {
     });
 
     it('should show hint text when `setHintTextScreenReaderOnly` is called with `false`', async () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
       fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextScreenReaderOnly(
         false,
@@ -961,7 +905,6 @@ describe('Input box component', () => {
     });
 
     it('should get whether the component contains an element', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       const elementInside = fixture.nativeElement.querySelector(
@@ -986,7 +929,6 @@ describe('Input box component', () => {
     });
 
     it('should query an element inside the input box component', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       const elementInside = fixture.nativeElement.querySelector(
@@ -1001,8 +943,6 @@ describe('Input box component', () => {
     });
 
     it('should preserve existing aria-describedby attributes when adding hint text', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.componentInstance.easyModeHintText = 'Some hint text.';
       fixture.componentInstance.easyModeAriaDescribedBy =
         'existing-aria-describedby';
@@ -1023,7 +963,6 @@ describe('Input box component', () => {
     });
 
     it('should not set the input ID if it is already set', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-existing-id');
@@ -1032,7 +971,6 @@ describe('Input box component', () => {
     });
 
     it('should set autocomplete to off if not specified', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-easy-mode-no-autocomplete');
@@ -1043,7 +981,6 @@ describe('Input box component', () => {
     });
 
     it('should set autocomplete to off if specified as undefined', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-easy-mode');
@@ -1054,7 +991,6 @@ describe('Input box component', () => {
     });
 
     it('should not overwrite autocomplete if specified', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.componentInstance.autocomplete = 'fname';
       fixture.detectChanges();
 
@@ -1066,7 +1002,6 @@ describe('Input box component', () => {
     });
 
     it('should not set autocomplete to off if not specified if not wrapped in an input box', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-not-wrapped-no-autocomplete');
@@ -1077,7 +1012,6 @@ describe('Input box component', () => {
     });
 
     it('should not set autocomplete to off if specified as undefined if not wrapped in an input box', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-not-wrapped');
@@ -1088,7 +1022,6 @@ describe('Input box component', () => {
     });
 
     it('should not overwrite autocomplete if specified if not wrapped in an input box', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.componentInstance.autocomplete = 'fname';
       fixture.detectChanges();
 
@@ -1179,41 +1112,24 @@ describe('Input box component', () => {
       };
     }
 
-    beforeEach(() => {
-      mockThemeSvc = {
-        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light,
-          ),
-          previousSettings: undefined,
-        }),
-      };
-
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [InputBoxFixturesModule],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-        ],
       });
 
-      // Trigger the modern theme.
-      mockThemeSvc.settingsChange.next({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings:
-          mockThemeSvc.settingsChange.getValue().currentSettings,
-      });
+      fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.componentInstance.useModernTheme();
+      fixture.detectChanges();
+      await fixture.whenStable();
+    });
+
+    afterAll(async () => {
+      fixture.componentInstance.useDefaultTheme();
+      fixture.detectChanges();
+      await fixture.whenStable();
     });
 
     it('should render the label and input elements in the expected locations', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const els = getModernEls(fixture, 'input-basic');
@@ -1227,8 +1143,6 @@ describe('Input box component', () => {
     });
 
     it('should render the inline help in the expected location', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const els = getModernEls(fixture, 'input-inline-help');
@@ -1238,8 +1152,6 @@ describe('Input box component', () => {
     });
 
     it('should render the character count element in the expected locations', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const modernEls = getModernEls(fixture, 'input-character-count');
@@ -1251,8 +1163,6 @@ describe('Input box component', () => {
     });
 
     it('should render the input group button elements in the expected locations', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const els = getModernEls(fixture, 'input-multiple-buttons');
@@ -1266,8 +1176,6 @@ describe('Input box component', () => {
     });
 
     it('should render the inset button element in the expected location', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const els = getModernEls(fixture, 'input-button-inset');
@@ -1278,8 +1186,6 @@ describe('Input box component', () => {
     });
 
     it('should render the inset icon element in the expected location', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const els = getModernEls(fixture, 'input-icon-inset');
@@ -1290,8 +1196,6 @@ describe('Input box component', () => {
     });
 
     it('should render the left inset icon element in the expected location', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const els = getModernEls(fixture, 'input-icon-inset-left');
@@ -1302,8 +1206,6 @@ describe('Input box component', () => {
     });
 
     it('should render the error label in the expected location', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-box-form-control-error');
@@ -1314,8 +1216,6 @@ describe('Input box component', () => {
     });
 
     it('should render the error status indicator in the expected location', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(
@@ -1329,7 +1229,6 @@ describe('Input box component', () => {
     });
 
     it('should focus on the control when clicking on an inset icon', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       const spy = spyOn(
         SkyInputBoxAdapterService.prototype,
         'focusControl',
@@ -1348,7 +1247,6 @@ describe('Input box component', () => {
     });
 
     it('should not call adapter method when clicking on a disabled inset icon', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.componentInstance.insetIconDisabled = true;
       const spy = spyOn(
         SkyInputBoxAdapterService.prototype,
@@ -1366,8 +1264,6 @@ describe('Input box component', () => {
     });
 
     it('should render the left input group button element in the expected locations', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-single-button-left');
@@ -1383,8 +1279,6 @@ describe('Input box component', () => {
     });
 
     it('should add a CSS class to the form control wrapper on focus in', fakeAsync(() => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-basic');
@@ -1412,8 +1306,6 @@ describe('Input box component', () => {
     }));
 
     it('should not add a CSS class to the form control wrapper when focusing on inline help', fakeAsync(() => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-inline-help');
@@ -1436,9 +1328,63 @@ describe('Input box component', () => {
       expect(inputBoxFormControlEl).not.toHaveCssClass(focusCls);
     }));
 
-    it('should add a disabled CSS class when disabled', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+    it('should add a CSS class to the form control wrapper when focusing on an inset button', fakeAsync(() => {
+      fixture.detectChanges();
 
+      const inputBoxEl = getInputBoxEl(fixture, 'input-button-inset');
+      const inputBoxFormControlEl = inputBoxEl?.querySelector(
+        '.sky-input-box-group-form-control',
+      );
+      const els = getModernEls(fixture, 'input-button-inset');
+
+      const focusCls = 'sky-input-box-group-form-control-focus';
+
+      expect(inputBoxFormControlEl).not.toHaveCssClass(focusCls);
+
+      els.insetBtnEl?.focus();
+      SkyAppTestUtility.fireDomEvent(inputBoxFormControlEl, 'focusin');
+
+      tick();
+      fixture.detectChanges();
+
+      expect(inputBoxFormControlEl).toHaveCssClass(focusCls);
+
+      // Focus out to verify class is removed
+      SkyAppTestUtility.fireDomEvent(inputBoxFormControlEl, 'focusout');
+
+      tick();
+      fixture.detectChanges();
+
+      expect(inputBoxFormControlEl).not.toHaveCssClass(focusCls);
+    }));
+
+    it('should not add a CSS class to the form control wrapper when focusing on a non-inset button', fakeAsync(() => {
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-multiple-buttons');
+      const inputBoxFormControlEl = inputBoxEl?.querySelector(
+        '.sky-input-box-group-form-control',
+      );
+      const els = getModernEls(fixture, 'input-multiple-buttons');
+
+      const focusCls = 'sky-input-box-group-form-control-focus';
+
+      expect(inputBoxFormControlEl).not.toHaveCssClass(focusCls);
+
+      // Focus the first non-inset button
+      const firstButton = els.inputGroupBtnEls[0]?.children.item(
+        0,
+      ) as HTMLElement;
+      firstButton?.focus();
+      SkyAppTestUtility.fireDomEvent(firstButton, 'focusin');
+
+      tick();
+      fixture.detectChanges();
+
+      expect(inputBoxFormControlEl).not.toHaveCssClass(focusCls);
+    }));
+
+    it('should add a disabled CSS class when disabled', () => {
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-basic');
@@ -1453,8 +1399,6 @@ describe('Input box component', () => {
     });
 
     it('should add an invalid CSS class when marked invalid with hasErrors property', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-box-has-errors');
@@ -1468,8 +1412,6 @@ describe('Input box component', () => {
     });
 
     it('should add an invalid CSS class when ngModel is invalid', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-box-ngmodel-error');
@@ -1482,8 +1424,6 @@ describe('Input box component', () => {
     });
 
     it('should add an invalid CSS class when form control is invalid', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-box-form-control-error');
@@ -1496,8 +1436,6 @@ describe('Input box component', () => {
     });
 
     it('should add an invalid CSS class when form control by name is invalid', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(
@@ -1513,7 +1451,6 @@ describe('Input box component', () => {
     });
 
     it('should display form control validation errors when labelText is specified', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(
@@ -1532,7 +1469,6 @@ describe('Input box component', () => {
     });
 
     it('should add required attributes to label and input when required', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(
@@ -1554,6 +1490,215 @@ describe('Input box component', () => {
       expect(inputBoxEl.querySelector('label')).not.toHaveCssClass(
         'sky-control-label-required',
       );
+    });
+
+    describe('focus observables', () => {
+      it('should emit inputFocusin observable when input box gains focus', async () => {
+        fixture.detectChanges();
+
+        const hostServiceInputBox = fixture.debugElement
+          .query(By.css('.input-host-service sky-input-box'))
+          .injector.get(SkyInputBoxHostService);
+
+        const inputInsideHostServiceEl = fixture.nativeElement.querySelector(
+          '.input-inside-host-service',
+        );
+
+        // Set up promise to listen for the observable
+        const focusinPromise = firstValueFrom(hostServiceInputBox.inputFocusin);
+
+        // Trigger focus in event
+        SkyAppTestUtility.fireDomEvent(inputInsideHostServiceEl, 'focusin');
+
+        await fixture.whenStable();
+        fixture.detectChanges();
+
+        // Verify the observable emitted
+        await expectAsync(focusinPromise).toBeResolved();
+      });
+
+      it('should emit inputFocusout observable when input box loses focus', async () => {
+        fixture.detectChanges();
+
+        const hostServiceInputBox = fixture.debugElement
+          .query(By.css('.input-host-service sky-input-box'))
+          .injector.get(SkyInputBoxHostService);
+
+        const inputInsideHostServiceEl = fixture.nativeElement.querySelector(
+          '.input-inside-host-service',
+        );
+
+        // First trigger focusin to establish focus state
+        SkyAppTestUtility.fireDomEvent(inputInsideHostServiceEl, 'focusin');
+        await fixture.whenStable();
+        fixture.detectChanges();
+
+        // Set up promise to listen for the focusout observable
+        const focusoutPromise = firstValueFrom(
+          hostServiceInputBox.inputFocusout,
+        );
+
+        // Trigger focus out event
+        SkyAppTestUtility.fireDomEvent(inputInsideHostServiceEl, 'focusout');
+
+        await fixture.whenStable();
+        fixture.detectChanges();
+
+        // Verify the observable emitted
+        await expectAsync(focusoutPromise).toBeResolved();
+      });
+
+      it('should not emit inputFocusout observable when input box is focused and then an inset icon is clicked', async () => {
+        fixture.detectChanges();
+
+        const hostServiceInputBox = fixture.debugElement
+          .query(By.css('.input-host-service sky-input-box'))
+          .injector.get(SkyInputBoxHostService);
+
+        const inputInsideHostServiceEl = fixture.nativeElement.querySelector(
+          '.input-inside-host-service',
+        );
+
+        // First trigger focusin to establish focus state
+        SkyAppTestUtility.fireDomEvent(inputInsideHostServiceEl, 'focusin');
+        await fixture.whenStable();
+        fixture.detectChanges();
+
+        let focusoutEmitted = false;
+        hostServiceInputBox.inputFocusout.subscribe(() => {
+          focusoutEmitted = true;
+        });
+
+        // Click an inset icon (this should not emit focusout since focus remains within the input box)
+        const insetIconWrapperEl = fixture.nativeElement.querySelector(
+          '.input-host-service .sky-input-box-icon-inset-wrapper',
+        );
+        insetIconWrapperEl?.click();
+        SkyAppTestUtility.fireDomEvent(insetIconWrapperEl, 'focusin');
+        SkyAppTestUtility.fireDomEvent(inputInsideHostServiceEl, 'focusout', {
+          customEventInit: { relatedTarget: insetIconWrapperEl },
+        });
+
+        await fixture.whenStable();
+        fixture.detectChanges();
+
+        // Verify the focusout observable was NOT emitted
+        expect(focusoutEmitted).toBeFalse();
+      });
+
+      xit('should not emit inputFocusout observable when input box is focused and then an inset button is clicked', fakeAsync(() => {
+        fixture.detectChanges();
+
+        const hostServiceInputBox = fixture.debugElement
+          .query(By.css('.input-host-service sky-input-box'))
+          .injector.get(SkyInputBoxHostService);
+
+        const inputInsideHostServiceEl = fixture.nativeElement.querySelector(
+          '.input-inside-host-service',
+        );
+
+        // First trigger focusin to establish focus state
+        SkyAppTestUtility.fireDomEvent(inputInsideHostServiceEl, 'focusin');
+        tick();
+        fixture.detectChanges();
+
+        let focusoutEmitted = false;
+        hostServiceInputBox.inputFocusout.subscribe(() => {
+          focusoutEmitted = true;
+        });
+
+        // Click an inset button (this should not emit focusout since focus remains within the input box)
+        const els = getModernEls(fixture, 'input-button-inset');
+
+        const insetButtonEl: HTMLElement | undefined =
+          els.insetBtnEl?.children.item(0) as HTMLElement | undefined;
+        insetButtonEl?.click();
+        SkyAppTestUtility.fireDomEvent(insetButtonEl, 'focusin');
+        SkyAppTestUtility.fireDomEvent(inputInsideHostServiceEl, 'focusout', {
+          customEventInit: { relatedTarget: insetButtonEl },
+        });
+
+        tick();
+        fixture.detectChanges();
+
+        // Verify the focusout observable was NOT emitted
+        expect(focusoutEmitted).toBeFalse();
+      }));
+
+      xit('should not emit inputFocusout observable when input box is focused and then the label is clicked', fakeAsync(() => {
+        fixture.detectChanges();
+
+        const hostServiceInputBox = fixture.debugElement
+          .query(By.css('.input-host-service sky-input-box'))
+          .injector.get(SkyInputBoxHostService);
+
+        const inputInsideHostServiceEl = fixture.nativeElement.querySelector(
+          '.input-inside-host-service',
+        );
+
+        // First trigger focusin to establish focus state
+        SkyAppTestUtility.fireDomEvent(inputInsideHostServiceEl, 'focusin');
+        tick();
+        fixture.detectChanges();
+
+        let focusoutEmitted = false;
+        hostServiceInputBox.inputFocusout.subscribe(() => {
+          focusoutEmitted = true;
+        });
+
+        // Click the label (this should not emit focusout since label clicks should maintain focus within the input box)
+        const els = getModernEls(fixture, 'input-host-service');
+        els.labelEl?.click();
+        SkyAppTestUtility.fireDomEvent(els.labelEl, 'focusin');
+        SkyAppTestUtility.fireDomEvent(inputInsideHostServiceEl, 'focusout', {
+          customEventInit: { relatedTarget: els.labelEl },
+        });
+
+        tick();
+        fixture.detectChanges();
+
+        // Verify the focusout observable was NOT emitted
+        expect(focusoutEmitted).toBeFalse();
+      }));
+
+      it('should emit inputFocusout observable when input box is focused and then a non-inset button is clicked', async () => {
+        fixture.detectChanges();
+
+        const hostServiceInputBox = fixture.debugElement
+          .query(By.css('.input-host-service sky-input-box'))
+          .injector.get(SkyInputBoxHostService);
+
+        const inputInsideHostServiceEl = fixture.nativeElement.querySelector(
+          '.input-inside-host-service',
+        );
+
+        // First trigger focusin to establish focus state
+        SkyAppTestUtility.fireDomEvent(inputInsideHostServiceEl, 'focusin');
+        await fixture.whenStable();
+        fixture.detectChanges();
+
+        // Set up promise to listen for the focusout observable
+        const focusoutPromise = firstValueFrom(
+          hostServiceInputBox.inputFocusout,
+        );
+
+        // Click a non-inset button (this should emit focusout since focus moves outside the input box)
+        const els = getModernEls(fixture, 'input-host-service');
+        const nonInsetButtonEl = els.inputGroupBtnEls[0]?.children.item(
+          0,
+        ) as HTMLElement;
+        nonInsetButtonEl?.click();
+        SkyAppTestUtility.fireDomEvent(nonInsetButtonEl, 'focusin');
+        SkyAppTestUtility.fireDomEvent(inputInsideHostServiceEl, 'focusout', {
+          customEventInit: { relatedTarget: nonInsetButtonEl },
+        });
+
+        await fixture.whenStable();
+        fixture.detectChanges();
+
+        // Verify the focusout observable was emitted
+        await expectAsync(focusoutPromise).toBeResolved();
+      });
     });
 
     describe('a11y', () => {

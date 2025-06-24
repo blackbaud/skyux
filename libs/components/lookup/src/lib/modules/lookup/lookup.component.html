@@ -70,7 +70,6 @@
                 [autocompleteAttribute]="autocompleteAttribute"
                 [disabled]="disabled"
                 (blur)="onAutocompleteBlur()"
-                (focus)="onFocus($event)"
                 (keydown)="inputKeydown($event)"
                 (keyup)="inputKeyup($event)"
               ></textarea>
@@ -93,7 +92,6 @@
                 [autocompleteAttribute]="autocompleteAttribute"
                 [disabled]="disabled"
                 (blur)="onAutocompleteBlur()"
-                (focus)="onFocus($event)"
               ></textarea>
               @if (!inputBoxHostSvc && !enableShowMore) {
                 <ng-container *ngTemplateOutlet="searchIconTemplateRef" />

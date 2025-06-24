@@ -354,7 +354,7 @@ describe('Lookup component', function () {
       inputElement = getInputElement(fixture.componentInstance.lookupComponent);
     }
     inputElement.focus();
-    SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+    SkyAppTestUtility.fireDomEvent(inputElement, 'focusin', { bubbles: true });
     inputElement.value = searchText;
     SkyAppTestUtility.fireDomEvent(inputElement, 'input');
     tick();
@@ -481,7 +481,8 @@ describe('Lookup component', function () {
     } else {
       inputElement = getInputElement(fixture.componentInstance.lookupComponent);
     }
-    SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+    inputElement.focus();
+    SkyAppTestUtility.fireDomEvent(inputElement, 'focusin', { bubbles: true });
   }
 
   function triggerKeyPress(
@@ -7558,7 +7559,9 @@ describe('Lookup component', function () {
 
       const inputElement = getInputElement(lookupComponent);
       inputElement.focus();
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin', {
+        bubbles: true,
+      });
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
@@ -7567,7 +7570,10 @@ describe('Lookup component', function () {
       expect(lookupComponent.isInputFocused).toEqual(true);
 
       getTestButton().focus();
-      SkyAppTestUtility.fireDomEvent(document, 'focusin');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusout', {
+        bubbles: true,
+      });
+      SkyAppTestUtility.fireDomEvent(document, 'focusin', { bubbles: true });
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();

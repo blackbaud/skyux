@@ -4,6 +4,7 @@
 
 <ng-template #inputTemplateRef>
   <span
+    #countryFieldWrapper
     class="sky-country-field-container"
     [ngClass]="{
       'sky-country-field-disabled': disabled
@@ -39,7 +40,6 @@
           [autocompleteAttribute]="autocompleteAttribute"
           [formControl]="countrySearchFormControl"
           (blur)="onAutocompleteBlur()"
-          (focus)="onFocus($event)"
           (focusout)="onAutocompleteFocusout($event)"
         ></textarea>
       </div>

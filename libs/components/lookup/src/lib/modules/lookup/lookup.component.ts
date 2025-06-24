@@ -691,10 +691,6 @@ export class SkyLookupComponent
     }
   }
 
-  protected onFocus($event: FocusEvent): void {
-    ($event.target as HTMLTextAreaElement).select();
-  }
-
   #createSelectionModalInstance(
     initialSearch: string,
   ): SkySelectionModalInstance {
@@ -856,12 +852,31 @@ export class SkyLookupComponent
         this.#changeDetector.markForCheck();
       });
 
-    observableFromEvent<KeyboardEvent>(documentObj, 'focusin')
+    (
+      this.inputBoxHostSvc?.inputFocusin ??
+      observableFromEvent(documentObj, 'focusin')
+    )
       .pipe(takeUntil(this.#idle))
       .subscribe(() => {
         hostElement = !this.inputBoxHostSvc
           ? this.#elementRef.nativeElement
           : this.lookupWrapperRef?.nativeElement;
+        this.isInputFocused = hostElement.contains(document.activeElement);
+
+        if (
+          this.isInputFocused &&
+          !document.activeElement?.classList.contains('sky-token-btn')
+        ) {
+          hostElement.querySelector('.sky-lookup-input').select();
+        }
+
+        this.#changeDetector.markForCheck();
+      });
+
+    this.inputBoxHostSvc?.inputFocusout
+      ?.pipe(takeUntil(this.#idle))
+      .subscribe(() => {
+        hostElement = this.lookupWrapperRef?.nativeElement;
         this.isInputFocused = hostElement.contains(document.activeElement);
 
         this.#changeDetector.markForCheck();

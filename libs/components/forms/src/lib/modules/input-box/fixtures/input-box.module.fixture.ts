@@ -5,6 +5,7 @@ import { SkyIdModule } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyCharacterCounterModule } from '../../character-counter/character-counter.module';
 import { SkyInputBoxModule } from '../input-box.module';
@@ -23,6 +24,7 @@ import { InputBoxFixtureComponent } from './input-box.component.fixture';
     SkyIdModule,
     SkyInputBoxModule,
     SkyStatusIndicatorModule,
+    SkyThemeModule,
   ],
   exports: [InputBoxFixtureComponent, InputBoxHostServiceFixtureComponent],
   declarations: [InputBoxFixtureComponent, InputBoxHostServiceFixtureComponent],

@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
 import { SkyInputBoxComponent } from './input-box.component';
@@ -12,7 +12,11 @@ import { SkyInputBoxComponent } from './input-box.component';
 export class SkyInputBoxHostService implements OnDestroy {
   #host: SkyInputBoxComponent | undefined;
   #requiredSubject = new BehaviorSubject<boolean>(false);
+  #focusinSubject = new Subject<void>();
+  #focusoutSubject = new Subject<void>();
 
+  public inputFocusout = this.#focusoutSubject.asObservable();
+  public inputFocusin = this.#focusinSubject.asObservable();
   public required = this.#requiredSubject.asObservable();
 
   public get controlId(): string {
@@ -89,6 +93,20 @@ export class SkyInputBoxHostService implements OnDestroy {
    */
   public setRequired(required: boolean): void {
     this.#requiredSubject.next(required);
+  }
+
+  /**
+   * @internal
+   */
+  public triggerFocusin(): void {
+    this.#focusinSubject.next();
+  }
+
+  /**
+   * @internal
+   */
+  public triggerFocusout(): void {
+    this.#focusoutSubject.next();
   }
 
   /**

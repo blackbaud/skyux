@@ -248,8 +248,10 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         expect(lookup).toBeTruthy();
         SkyAppTestUtility.fireDomEvent(
           lookup.querySelector('.sky-lookup-input'),
-          'focus',
+          'focusin',
         );
+        fixture.detectChanges();
+        await fixture.whenStable();
         const addButton = fixture.nativeElement.ownerDocument.querySelector(
           '.sky-overlay.ag-custom-component-popup button.sky-autocomplete-action-add',
         );
@@ -274,8 +276,10 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         expect(lookup).toBeTruthy();
         SkyAppTestUtility.fireDomEvent(
           lookup.querySelector('.sky-lookup-input'),
-          'focus',
+          'focusin',
         );
+        fixture.detectChanges();
+        await fixture.whenStable();
         const addButton = fixture.nativeElement.ownerDocument.querySelector(
           '.sky-overlay.ag-custom-component-popup button.sky-autocomplete-action-add',
         );
@@ -452,7 +456,8 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         tick();
 
         expect(input.value).toBe(selection[0].name);
-        expect(selectSpy).toHaveBeenCalledTimes(1);
+        // Called once by lookup itself and then the editor again to clear the selection
+        expect(selectSpy).toHaveBeenCalledTimes(2);
         expect(window.getSelection()?.toString()).toBe('');
       }));
 
@@ -471,7 +476,8 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         tick();
 
         expect(input.value).toBe(selection[0].name);
-        expect(selectSpy).toHaveBeenCalledTimes(1);
+        // Called once by lookup itself and then the editor again to reset the selection
+        expect(selectSpy).toHaveBeenCalledTimes(2);
         expect(window.getSelection()?.toString()).toBe(selection[0].name);
       }));
 
@@ -491,7 +497,8 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         fixture.detectChanges();
 
         expect(input.value).toBe('a');
-        expect(selectSpy).toHaveBeenCalledTimes(1);
+        // Called once by lookup itself and then the editor again to reset the selection
+        expect(selectSpy).toHaveBeenCalledTimes(2);
         expect(window.getSelection()?.toString()).toBe('');
       }));
     });

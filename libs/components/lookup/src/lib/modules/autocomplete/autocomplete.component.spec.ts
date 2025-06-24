@@ -98,7 +98,7 @@ describe('Autocomplete component', () => {
     inputElement.value = newValue;
 
     inputElement.focus();
-    SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+    SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
     SkyAppTestUtility.fireDomEvent(inputElement, 'input');
     fixture.detectChanges();
     tick();
@@ -445,7 +445,7 @@ describe('Autocomplete component', () => {
 
       const inputElement = getInputElement();
 
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -464,7 +464,7 @@ describe('Autocomplete component', () => {
 
       const inputElement = getInputElement();
 
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -494,7 +494,7 @@ describe('Autocomplete component', () => {
 
       const inputElement = getInputElement();
 
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -779,7 +779,7 @@ describe('Autocomplete component', () => {
       const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
 
       inputElement.value = 'r';
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       SkyAppTestUtility.fireDomEvent(inputElement, 'input');
 
       // The search method should not execute at this time.
@@ -1008,7 +1008,7 @@ describe('Autocomplete component', () => {
 
       const inputElement: HTMLInputElement = getInputElement();
 
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1023,12 +1023,12 @@ describe('Autocomplete component', () => {
 
       const inputElement: HTMLInputElement = getInputElement();
 
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
 
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1046,7 +1046,7 @@ describe('Autocomplete component', () => {
 
       const inputElement: HTMLInputElement = getInputElement();
 
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1061,7 +1061,7 @@ describe('Autocomplete component', () => {
 
       const inputElement: HTMLInputElement = getInputElement();
 
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1124,7 +1124,7 @@ describe('Autocomplete component', () => {
 
       const inputElement: HTMLInputElement = getInputElement();
 
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1139,7 +1139,7 @@ describe('Autocomplete component', () => {
 
       const inputElement: HTMLInputElement = getInputElement();
 
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1236,7 +1236,7 @@ describe('Autocomplete component', () => {
       await expectAsync(document.body).toBeAccessible(axeConfig);
       fixture.detectChanges();
       inputElement.focus();
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       inputElement.value = 'r';
       SkyAppTestUtility.fireDomEvent(inputElement, 'input');
       fixture.detectChanges();
@@ -1255,7 +1255,7 @@ describe('Autocomplete component', () => {
       const inputElement: HTMLInputElement = getInputElement();
 
       await fixture.whenStable();
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       fixture.detectChanges();
       await fixture.whenStable();
       expect(getSearchResultsContainer()).toBeTruthy();
@@ -2440,7 +2440,7 @@ describe('Autocomplete component', () => {
 
       const inputElement = getInputElement();
 
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -2455,7 +2455,7 @@ describe('Autocomplete component', () => {
 
       const inputElement = getInputElement();
 
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -2508,7 +2508,7 @@ describe('Autocomplete component', () => {
 
       const inputElement = getInputElement();
 
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -2523,7 +2523,7 @@ describe('Autocomplete component', () => {
 
       const inputElement = getInputElement();
 
-      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();

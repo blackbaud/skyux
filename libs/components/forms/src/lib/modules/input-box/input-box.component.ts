@@ -275,22 +275,29 @@ export class SkyInputBoxComponent
    * Whether the input box component contains the focused element.
    * @internal
    */
-  public containsElement(el: EventTarget): boolean {
-    return this.#adapterService.containsElement(this.#elementRef, el);
+  public containsElement(el: EventTarget | null): boolean {
+    return !!el && this.#adapterService.containsElement(this.#elementRef, el);
   }
 
-  public formControlFocusIn(): void {
+  public formControlFocusIn(event?: FocusEvent): void {
     const inlineHelpEl = this.#adapterService.getInlineHelpElement(
       this.#elementRef,
     );
-    if (!this.#adapterService.isFocusInElement(inlineHelpEl)) {
+
+    if (
+      !this.formControlHasFocus &&
+      !this.#adapterService.isFocusInElement(inlineHelpEl) &&
+      !this.#isFocusEventRelatedTargetWithinInputBoxFormControl(event)
+    ) {
       this.#updateHasFocus(true);
     }
   }
 
-  public formControlFocusOut(): void {
-    this.characterCountScreenReader = this.controlDir?.value?.length || 0;
-    this.#updateHasFocus(false);
+  public formControlFocusOut(event?: FocusEvent): void {
+    if (!this.#isFocusEventRelatedTargetWithinInputBoxFormControl(event)) {
+      this.characterCountScreenReader = this.controlDir?.value?.length || 0;
+      this.#updateHasFocus(false);
+    }
   }
 
   public onInsetIconClick(): void {
@@ -338,11 +345,44 @@ export class SkyInputBoxComponent
     return !!this.controlDir?.control?.hasValidator(Validators.required);
   }
 
+  #isFocusEventRelatedTargetWithinInputBoxFormControl(
+    event?: FocusEvent,
+  ): boolean {
+    const relatedTarget = event?.relatedTarget;
+
+    const element = relatedTarget as HTMLElement;
+    const isInputGroupBtn = element?.offsetParent?.classList.contains(
+      'sky-input-group-btn',
+    );
+    const isInsetBtn = element?.offsetParent?.classList.contains(
+      'sky-input-box-btn-inset',
+    );
+
+    // Consider the target within the form control unless it has sky-input-group-btn but not sky-input-box-btn-inset
+    if (
+      !relatedTarget ||
+      !this.#adapterService.containsElement(this.#elementRef, relatedTarget) ||
+      (isInputGroupBtn && !isInsetBtn)
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
   #updateHasFocus(hasFocus: boolean): void {
     // Some components manipulate the focus of elements inside an input box programmatically,
     // which can cause an `ExpressionChangedAfterItHasBeenCheckedError` if focus was set after
     // initial change detection. Using `setTimeout()` here fixes it.
     setTimeout(() => {
+      if (this.formControlHasFocus !== hasFocus) {
+        if (hasFocus) {
+          this.#inputBoxHostSvc.triggerFocusin();
+        } else {
+          this.#inputBoxHostSvc.triggerFocusout();
+        }
+      }
+
       this.formControlHasFocus = hasFocus;
       this.#changeRef.markForCheck();
     });

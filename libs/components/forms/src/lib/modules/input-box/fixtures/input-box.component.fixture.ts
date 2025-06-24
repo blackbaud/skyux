@@ -5,6 +5,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { SkyTheme, SkyThemeMode, SkyThemeSettings } from '@skyux/theme';
 
 import { InputBoxHostServiceFixtureComponent } from './input-box-host-service.component.fixture';
 
@@ -73,6 +74,8 @@ export class InputBoxFixtureComponent {
 
   public easyModeAriaDescribedBy: string | undefined;
 
+  public skyThemeSettings: SkyThemeSettings;
+
   @ViewChild('errorNgModel')
   public errorNgModel!: NgModel;
 
@@ -94,9 +97,28 @@ export class InputBoxFixtureComponent {
     this.errorForm = new UntypedFormGroup({
       errorFormField: new UntypedFormControl('', [Validators.required]),
     });
+
+    this.skyThemeSettings = new SkyThemeSettings(
+      SkyTheme.presets.default,
+      SkyThemeMode.presets.light,
+    );
   }
 
   public removeErrorFormRequiredValidator(): void {
     this.errorField.removeValidators(Validators.required);
+  }
+
+  public useDefaultTheme(): void {
+    this.skyThemeSettings = new SkyThemeSettings(
+      SkyTheme.presets.default,
+      SkyThemeMode.presets.light,
+    );
+  }
+
+  public useModernTheme(): void {
+    this.skyThemeSettings = new SkyThemeSettings(
+      SkyTheme.presets.modern,
+      SkyThemeMode.presets.light,
+    );
   }
 }
