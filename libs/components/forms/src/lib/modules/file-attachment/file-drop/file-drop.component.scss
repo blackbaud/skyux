@@ -13,6 +13,7 @@
   --sky-override-file-drop-contents-border-width: 1px;
   --sky-override-file-drop-contents-padding: 10px;
   --sky-override-file-drop-drag-border-width: 1px;
+  --sky-override-file-drop-drag-contents-border-style: dashed;
   --sky-override-file-drop-hint-text-margin-top: var(--sky-margin-stacked-xs);
   --sky-override-file-drop-label-color: #{$sky-text-color-default};
   --sky-override-file-drop-label-font-size: 15px;
@@ -38,6 +39,7 @@
     solid 1px;
   --sky-override-file-upload-icon-color: #{$sky-text-color-deemphasized};
   --sky-override-file-drop-upload-icon-margin-top: #{$sky-margin};
+  --sky-override-file-upload-icon-close-color: none;
 }
 
 @include compatMixins.sky-modern-overrides('.sky-file-drop-wrapper') {
@@ -48,6 +50,10 @@
     --modern-border-radius-0
   );
   --sky-override-file-drop-contents-padding: var(--modern-size-10);
+  --sky-override-file-drop-drag-border-width: var(
+    --sky-border-width-input-hover
+  );
+  --sky-override-file-drop-drag-contents-border-style: dashed;
   --sky-override-file-drop-icon-font-size: var(--modern-size-40);
   --sky-override-file-drop-label-font-size: 13px;
   --sky-override-file-drop-link-input-background-color: var(
@@ -85,6 +91,7 @@
     )
     solid var(--modern-size-1);
   --sky-override-file-drop-upload-icon-margin-top: var(--modern-size-10);
+  --sky-override-file-upload-icon-color: var(--sky-color-icon-deemphasized);
 }
 
 :host.sky-form-field-stacked {
@@ -242,7 +249,10 @@ button.sky-file-drop {
 .sky-file-drop-accept,
 .sky-file-drop-reject {
   .sky-file-drop-contents {
-    border-style: dashed;
+    border-style: var(
+      --sky-override-file-drop-drag-contents-border-style,
+      solid
+    );
     border-width: var(
       --sky-override-file-drop-drag-border-width,
       var(--sky-border-width-input-hover)
@@ -272,6 +282,10 @@ button.sky-file-drop {
       --sky-override-file-drop-reject-border-color,
       var(--sky-color-border-danger)
     );
+    border-width: var(
+      --sky-override-file-drop-drag-border-width,
+      var(--sky-border-width-input-error)
+    );
   }
   .sky-file-drop-contents-reject {
     display: block;
@@ -293,6 +307,20 @@ button.sky-file-drop {
   margin-top: var(
     --sky-override-file-drop-upload-icon-margin-top,
     var(--sky-space-gap-stacked_supplemental-l)
+  );
+}
+
+.sky-file-upload-icon-close {
+  color: var(
+    --sky-override-file-upload-icon-color,
+    var(--sky-color-icon-danger)
+  );
+}
+
+.sky-file-upload-icon-target {
+  color: var(
+    --sky-override-file-upload-icon-color,
+    var(--sky-color-icon-success)
   );
 }
 
