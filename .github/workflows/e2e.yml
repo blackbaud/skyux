@@ -83,7 +83,7 @@ jobs:
         id: cache-e2e-schematics
         with:
           path: ./dist/libs/sdk/e2e-schematics
-          key: e2e-schematics-${{ runner.os }}-${{ hashFiles('/package-lock.json','/libs/sdk/e2e-schematics/src/workflow/**/*.ts','!/libs/sdk/e2e-schematics/src/workflow/**/*.spec.ts') }}
+          key: e2e-schematics-${{ runner.os }}-${{ hashFiles('package-lock.json','libs/sdk/e2e-schematics/src/workflow/**/*.ts') }}
       - name: Build e2e-schematics
         # Used by .github/actions/e2e-affected/action.yml
         if: steps.cache-e2e-schematics.outputs.cache-hit != 'true'
@@ -293,7 +293,7 @@ jobs:
         id: cache-e2e-schematics
         with:
           path: ./dist/libs/sdk/e2e-schematics
-          key: e2e-schematics-${{ runner.os }}-${{ hashFiles('/package-lock.json','/libs/sdk/e2e-schematics/src/workflow/**/*.ts','!/libs/sdk/e2e-schematics/src/workflow/**/*.spec.ts') }}
+          key: e2e-schematics-${{ runner.os }}-${{ hashFiles('package-lock.json','libs/sdk/e2e-schematics/src/workflow/**/*.ts') }}
       - name: Build e2e-schematics
         # Used by .github/actions/e2e-affected/action.yml
         if: steps.cache-e2e-schematics.outputs.cache-hit != 'true'
@@ -438,7 +438,7 @@ jobs:
         id: cache-e2e-schematics
         with:
           path: ./dist/libs/sdk/e2e-schematics
-          key: e2e-schematics-${{ runner.os }}-${{ hashFiles('/package-lock.json','/libs/sdk/e2e-schematics/src/workflow/**/*.ts','!/libs/sdk/e2e-schematics/src/workflow/**/*.spec.ts') }}
+          key: e2e-schematics-${{ runner.os }}-${{ hashFiles('package-lock.json','libs/sdk/e2e-schematics/src/workflow/**/*.ts') }}
       - name: Build e2e-schematics
         # Used by .github/actions/e2e-affected/action.yml
         if: steps.cache-e2e-schematics.outputs.cache-hit != 'true'
