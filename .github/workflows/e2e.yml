@@ -149,7 +149,6 @@ jobs:
           - code-examples-playground
           - integration
           - playground
-        # - dep-graph
     env:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
@@ -289,6 +288,7 @@ jobs:
           npm ci
           npx cypress install
       - name: Cache e2e-schematics
+        if: ${{ matrix.project != 'skip' }}
         uses: actions/cache/restore@v4
         id: cache-e2e-schematics
         with:
@@ -296,7 +296,7 @@ jobs:
           key: e2e-schematics-${{ runner.os }}-${{ hashFiles('package-lock.json','libs/sdk/e2e-schematics/src/workflow/**/*.ts') }}
       - name: Build e2e-schematics
         # Used by .github/actions/e2e-affected/action.yml
-        if: steps.cache-e2e-schematics.outputs.cache-hit != 'true'
+        if: ${{ matrix.project != 'skip' && steps.cache-e2e-schematics.outputs.cache-hit != 'true' }}
         run: 'npx nx build e2e-schematics --no-parallel'
       - name: Check if ${{ matrix.project }} is affected
         if: ${{ matrix.project != 'skip' }}
@@ -371,13 +371,14 @@ jobs:
         if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
       - name: Upload logs
         uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
+        if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' && !cancelled() }}
         with:
           name: percy-log-${{ matrix.project }}.log
           path: ${{ runner.temp }}/percy-log-${{ matrix.project }}.log
           retention-days: 4
       - name: Upload build number
         uses: actions/upload-artifact@v4
+        if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
         with:
           name: percy-build-${{ matrix.project }}.txt
           path: ${{ runner.temp }}/percy-build-${{ matrix.project }}.txt
@@ -523,7 +524,7 @@ jobs:
           SLACK_MESSAGE: 'E2E job failed on `${{ github.head_ref || github.ref_name }}` branch, details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           SLACK_ICON_EMOJI: ':github:'
           SLACK_USERNAME: GitHub
-          #cor-skyux-notifications
+          # #cor-skyux-notifications
           SLACK_CHANNEL: C01GY7ZP4HM
           SLACK_FOOTER: 'Blackbaud Sky Build User'
       - name: Notify Slack (missing screenshots)
@@ -535,6 +536,6 @@ jobs:
           SLACK_MESSAGE: 'E2E missing screenshots on `${{ github.head_ref || github.ref_name }}` branch, details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} 🧐 ${{ steps.verify-e2e.outputs.missingScreenshots }}'
           SLACK_ICON_EMOJI: ':github:'
           SLACK_USERNAME: GitHub
-          #cor-skyux-notifications
+          # #cor-skyux-notifications
           SLACK_CHANNEL: C01GY7ZP4HM
           SLACK_FOOTER: 'Blackbaud Sky Build User'
