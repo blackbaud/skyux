@@ -307,7 +307,7 @@ jobs:
           base: ${{ needs.install-deps.outputs.base }}
           head: ${{ needs.install-deps.outputs.head }}
           project: ${{ matrix.project }}
-          percy-token: ${{ secrets.PERCY_API }}
+          percy-token: ${{ secrets[matrix.token] }}
           allow-deleted-screenshots: ${{ contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }}
       - name: Verify Cypress
         run: npx cypress verify

@@ -32,6 +32,15 @@ runs:
       uses: actions/github-script@v7
       with:
         script: |
+          if ('${{ inputs.percy-token }}'.trim() === '') {
+            core.warning(`
+              The secret PERCY_TOKEN_${'${{ inputs.project }}'.toUpperCase()} is not set. Unabled to check for previous run.
+
+              Generate a project token at https://percy.io/82a32315/web/skyux-${{ inputs.project }}/settings and add it to https://github.com/${{ github.repository }}/settings/secrets/actions\n`);
+            core.setOutput('affected', 'true');
+            process.exit(0);
+          }
+
           const options = {
             method: 'GET',
             headers: {
