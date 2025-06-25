@@ -83,7 +83,7 @@ jobs:
         id: cache-e2e-schematics
         with:
           path: ./dist/libs/sdk/e2e-schematics
-          key: e2e-schematics-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
+          key: e2e-schematics-${{ runner.os }}-${{ hashFiles('package-lock.json','libs/sdk/e2e-schematics/src/workflow/**/*.ts') }}
       - name: Build e2e-schematics
         # Used by .github/actions/e2e-affected/action.yml
         if: steps.cache-e2e-schematics.outputs.cache-hit != 'true'
@@ -149,7 +149,6 @@ jobs:
           - code-examples-playground
           - integration
           - playground
-        # - dep-graph
     env:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
@@ -289,14 +288,15 @@ jobs:
           npm ci
           npx cypress install
       - name: Cache e2e-schematics
+        if: ${{ matrix.project != 'skip' }}
         uses: actions/cache/restore@v4
         id: cache-e2e-schematics
         with:
           path: ./dist/libs/sdk/e2e-schematics
-          key: e2e-schematics-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
+          key: e2e-schematics-${{ runner.os }}-${{ hashFiles('package-lock.json','libs/sdk/e2e-schematics/src/workflow/**/*.ts') }}
       - name: Build e2e-schematics
         # Used by .github/actions/e2e-affected/action.yml
-        if: steps.cache-e2e-schematics.outputs.cache-hit != 'true'
+        if: ${{ matrix.project != 'skip' && steps.cache-e2e-schematics.outputs.cache-hit != 'true' }}
         run: 'npx nx build e2e-schematics --no-parallel'
       - name: Check if ${{ matrix.project }} is affected
         if: ${{ matrix.project != 'skip' }}
@@ -307,7 +307,7 @@ jobs:
           base: ${{ needs.install-deps.outputs.base }}
           head: ${{ needs.install-deps.outputs.head }}
           project: ${{ matrix.project }}
-          percy-token: ${{ secrets.PERCY_API }}
+          percy-token: ${{ secrets[matrix.token] }}
           allow-deleted-screenshots: ${{ contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }}
       - name: Verify Cypress
         run: npx cypress verify
@@ -319,7 +319,6 @@ jobs:
           set +o pipefail
 
           echo '# PERCY_TARGET_BRANCH' $PERCY_TARGET_BRANCH
-          echo '# PERCY_TARGET_COMMIT' $PERCY_TARGET_COMMIT
 
           separator() {
             echo ''; echo $(printf "=%.s" {1..80}); echo '';
@@ -365,7 +364,6 @@ jobs:
           fgrep '[percy] Finalized build' ${{ runner.temp }}/percy-${{ matrix.project }}.log | node -e "const rl=require('readline').createInterface({ input: process.stdin }); rl.on('line', (input) => console.log(input.split('/').pop()))" > ${{ runner.temp }}/percy-build-${{ matrix.project }}.txt
         env:
           PERCY_TARGET_BRANCH: ${{ needs.install-deps.outputs.base-branch }}
-          PERCY_TARGET_COMMIT: ${{ steps.affected.outputs.percy_target_commit }}
           PERCY_BRANCH: ${{ github.head_ref || github.ref_name || github.event.ref }}
           PERCY_COMMIT: ${{ needs.install-deps.outputs.head }}
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
@@ -373,13 +371,14 @@ jobs:
         if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
       - name: Upload logs
         uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
+        if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' && !cancelled() }}
         with:
           name: percy-log-${{ matrix.project }}.log
           path: ${{ runner.temp }}/percy-log-${{ matrix.project }}.log
           retention-days: 4
       - name: Upload build number
         uses: actions/upload-artifact@v4
+        if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
         with:
           name: percy-build-${{ matrix.project }}.txt
           path: ${{ runner.temp }}/percy-build-${{ matrix.project }}.txt
@@ -438,7 +437,7 @@ jobs:
         id: cache-e2e-schematics
         with:
           path: ./dist/libs/sdk/e2e-schematics
-          key: e2e-schematics-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
+          key: e2e-schematics-${{ runner.os }}-${{ hashFiles('package-lock.json','libs/sdk/e2e-schematics/src/workflow/**/*.ts') }}
       - name: Build e2e-schematics
         # Used by .github/actions/e2e-affected/action.yml
         if: steps.cache-e2e-schematics.outputs.cache-hit != 'true'
@@ -486,22 +485,30 @@ jobs:
                 }
               };
 
-              const listJobsForWorkflowRun = () => github.paginate('GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                run_id: context.runId,
-                headers: {
-                  'X-GitHub-Api-Version': '2022-11-28'
+              const listJobsForWorkflowRun = async () => {
+                try {
+                  return await github.paginate('GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    run_id: context.runId,
+                    headers: {
+                      'X-GitHub-Api-Version': '2022-11-28'
+                    }
+                  });
+                } catch (e) {
+                  core.warn(`Error getting workflow jobs for this run: ${e}`);
+                  return [];
                 }
-              });
+              }
+
+              const globPattern = await glob.create('${{ runner.temp }}/percy-builds/percy-build-*.txt');
+              const buildIdFiles = await globPattern.glob()
 
               await verifyE2e(
                 e2eProjects,
-                '${{ runner.temp }}/percy-builds',
+                buildIdFiles,
                 core,
-                {
-                  listJobsForWorkflowRun: listJobsForWorkflowRun
-                },
+                { listJobsForWorkflowRun },
                 ${{ github.event_name == 'push' || contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }},
                 (url) => fetch(url, options),
                 (number) => process.exit(number)
@@ -509,7 +516,7 @@ jobs:
             }
 
       - name: Notify Slack (failure)
-        if: ${{ failure() && steps.verify-e2e.outputs.shouldAlertSlack != 'false' }}
+        if: ${{ failure() && steps.verify-e2e.outputs.shouldAlertSlack != 'false' && !steps.verify-e2e.outputs.missingScreenshots }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -517,7 +524,7 @@ jobs:
           SLACK_MESSAGE: 'E2E job failed on `${{ github.head_ref || github.ref_name }}` branch, details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           SLACK_ICON_EMOJI: ':github:'
           SLACK_USERNAME: GitHub
-          #cor-skyux-notifications
+          # #cor-skyux-notifications
           SLACK_CHANNEL: C01GY7ZP4HM
           SLACK_FOOTER: 'Blackbaud Sky Build User'
       - name: Notify Slack (missing screenshots)
@@ -529,6 +536,6 @@ jobs:
           SLACK_MESSAGE: 'E2E missing screenshots on `${{ github.head_ref || github.ref_name }}` branch, details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} 🧐 ${{ steps.verify-e2e.outputs.missingScreenshots }}'
           SLACK_ICON_EMOJI: ':github:'
           SLACK_USERNAME: GitHub
-          #cor-skyux-notifications
+          # #cor-skyux-notifications
           SLACK_CHANNEL: C01GY7ZP4HM
           SLACK_FOOTER: 'Blackbaud Sky Build User'
