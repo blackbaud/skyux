@@ -1,5 +1,19 @@
 # Changelog
 
+## [12.22.0](https://github.com/blackbaud/skyux/compare/12.21.0...12.22.0) (2025-06-25)
+
+
+### Features
+
+* **components/forms:** file attachment and file drop `dragover` accept and reject states tokenization update ([#3517](https://github.com/blackbaud/skyux/issues/3517)) ([38c913c](https://github.com/blackbaud/skyux/commit/38c913cc5827f453aaa96a1df2fca5fb05e6689d))
+* **components/theme:** add serialization methods to theme ([#3536](https://github.com/blackbaud/skyux/issues/3536)) ([128f0c4](https://github.com/blackbaud/skyux/commit/128f0c4c6c2acc12ee630531347724bbffb14506))
+* update v2 design tokens ([#3537](https://github.com/blackbaud/skyux/issues/3537)) ([d907d69](https://github.com/blackbaud/skyux/commit/d907d69fd416d5ab25a3b61fd5f907a0724b2009))
+
+
+### Bug Fixes
+
+* remove node_modules prefix from SCSS imports ([#3532](https://github.com/blackbaud/skyux/issues/3532)) ([2ea5c23](https://github.com/blackbaud/skyux/commit/2ea5c232df730c6b656fc6ea144bb30e56167547))
+
 ## [12.21.0](https://github.com/blackbaud/skyux/compare/12.20.0...12.21.0) (2025-06-23)
 
 
