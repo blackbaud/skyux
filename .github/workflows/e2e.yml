@@ -516,7 +516,7 @@ jobs:
             }
 
       - name: Notify Slack (failure)
-        if: ${{ failure() && steps.verify-e2e.outputs.shouldAlertSlack != 'false' }}
+        if: ${{ failure() && steps.verify-e2e.outputs.shouldAlertSlack != 'false' && !steps.verify-e2e.outputs.missingScreenshots }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

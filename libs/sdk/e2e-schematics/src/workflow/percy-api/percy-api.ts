@@ -122,6 +122,24 @@ export async function checkPercyBuild(
   };
 }
 
+function buildIsApproved(previousBuild: Build | undefined): boolean {
+  if (previousBuild?.id) {
+    return (
+      previousBuild.attributes.state === 'finished' &&
+      previousBuild.attributes['review-state'] === 'approved' &&
+      ![
+        'changes_requested_snapshot',
+        'changes_requested_snapshot_previously',
+        'failed_snapshots',
+        'missing_snapshots',
+        'unreviewed_snapshots',
+        'user_rejected',
+      ].includes(previousBuild.attributes['review-state-reason'])
+    );
+  }
+  return false;
+}
+
 /**
  * Called from .github/actions/e2e-affected/action.yml
  */
@@ -139,30 +157,29 @@ export async function getLastGoodPercyBuild(
   const fetchJson = getFetchJson(fetchClient);
   try {
     const projectId = await getProjectId(project, logger, fetchJson);
-    const builds = await getBuilds(projectId, shaArray, [], 1, fetchJson);
-    const lastApprovedBuild = builds.find(
-      (build) =>
-        build?.attributes.state === 'finished' &&
-        build.attributes['review-state'] === 'approved',
+    const [previousBuild] = await getBuilds(
+      projectId,
+      shaArray,
+      [],
+      1,
+      fetchJson,
     );
-    if (
-      lastApprovedBuild?.attributes['commit-html-url'] &&
-      lastApprovedBuild?.id
-    ) {
+    if (buildIsApproved(previousBuild)) {
+      logger.info(`Found ${previousBuild.attributes['web-url']}`);
       if (!allowDeletedScreenshots) {
         const removedSnapshots = await getRemovedSnapshots(
-          lastApprovedBuild.id,
+          previousBuild.id,
           fetchJson,
         );
         if (removedSnapshots.length > 0) {
           // Force the build to re-run.
           logger.warning(
-            `Percy build ${lastApprovedBuild?.id} has removed screenshots. Re-running.`,
+            `Percy build ${previousBuild?.id} has removed screenshots. Re-running.`,
           );
           return '';
         }
       }
-      return lastApprovedBuild.attributes['commit-html-url']
+      return previousBuild.attributes['commit-html-url']
         .split('/')
         .pop() as string;
     }

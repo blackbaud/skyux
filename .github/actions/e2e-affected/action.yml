@@ -46,9 +46,7 @@ runs:
             workflow_id: 'e2e.yml',
             branch: '${{ inputs.branch }}',
             status: 'completed',
-          }).then(({data}) => {
-            return data.workflow_runs.map(run => run.head_sha);
-          });
+          }).then(({data}) => data.workflow_runs.map(run => run.head_sha).filter(Boolean));
 
           const { getLastGoodPercyBuild } = require('./dist/libs/sdk/e2e-schematics/src/workflow');
           const lastGoodCommit = await getLastGoodPercyBuild(
