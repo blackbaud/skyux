@@ -319,7 +319,6 @@ jobs:
           set +o pipefail
 
           echo '# PERCY_TARGET_BRANCH' $PERCY_TARGET_BRANCH
-          echo '# PERCY_TARGET_COMMIT' $PERCY_TARGET_COMMIT
 
           separator() {
             echo ''; echo $(printf "=%.s" {1..80}); echo '';
@@ -365,7 +364,6 @@ jobs:
           fgrep '[percy] Finalized build' ${{ runner.temp }}/percy-${{ matrix.project }}.log | node -e "const rl=require('readline').createInterface({ input: process.stdin }); rl.on('line', (input) => console.log(input.split('/').pop()))" > ${{ runner.temp }}/percy-build-${{ matrix.project }}.txt
         env:
           PERCY_TARGET_BRANCH: ${{ needs.install-deps.outputs.base-branch }}
-          # PERCY_TARGET_COMMIT: ${{ steps.affected.outputs.percy_target_commit }}
           PERCY_BRANCH: ${{ github.head_ref || github.ref_name || github.event.ref }}
           PERCY_COMMIT: ${{ needs.install-deps.outputs.head }}
           PERCY_TOKEN: ${{ secrets[matrix.token] }}

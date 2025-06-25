@@ -344,6 +344,65 @@ describe('percy-api', () => {
     );
   });
 
+  it('should handle invalid response', async () => {
+    const logger = createLogger();
+    const fetchClient = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        json: () =>
+          Promise.resolve({
+            data: [
+              {
+                id: 'buildId',
+                type: 'builds',
+                attributes: {
+                  'review-state': 'approved',
+                  state: 'finished',
+                  'commit-html-url': undefined,
+                },
+              },
+            ],
+          }),
+      }),
+    );
+    await expect(
+      getLastGoodPercyBuild(
+        'test-storybook-e2e',
+        ['commitSha'],
+        true,
+        logger,
+        fetchClient,
+      ),
+    ).resolves.toEqual('');
+    expect(logger.error).toHaveBeenCalledWith(
+      `Error checking Percy: Percy project ID response for test-storybook-e2e: ${JSON.stringify(
+        [
+          {
+            id: 'buildId',
+            type: 'builds',
+            attributes: {
+              'review-state': 'approved',
+              state: 'finished',
+              'commit-html-url': undefined,
+            },
+          },
+        ],
+      )}`,
+    );
+    expect(logger.error).toHaveBeenCalledWith(
+      `Percy project ID response for test-storybook-e2e: ${JSON.stringify([
+        {
+          id: 'buildId',
+          type: 'builds',
+          attributes: {
+            'review-state': 'approved',
+            state: 'finished',
+            'commit-html-url': undefined,
+          },
+        },
+      ])}`,
+    );
+  });
+
   it('should handle no matching build', async () => {
     const logger = createLogger();
     const fetchClient = jest.fn().mockImplementation((url: string) => {

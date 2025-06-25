@@ -139,31 +139,37 @@ export async function getLastGoodPercyBuild(
   const fetchJson = getFetchJson(fetchClient);
   try {
     const projectId = await getProjectId(project, logger, fetchJson);
-    const builds = await getBuilds(
-      projectId,
-      shaArray,
-      ['finished'],
-      100,
-      fetchJson,
-    );
+    const builds = await getBuilds(projectId, shaArray, [], 1, fetchJson);
     const lastApprovedBuild = builds.find(
-      (build) => build.attributes['review-state'] === 'approved',
+      (build) =>
+        build?.attributes.state === 'finished' &&
+        build.attributes['review-state'] === 'approved',
     );
-    if (!allowDeletedScreenshots && lastApprovedBuild?.id) {
-      const removedSnapshots = await getRemovedSnapshots(
-        lastApprovedBuild.id,
-        fetchJson,
-      );
-      if (removedSnapshots.length > 0) {
-        // Force the build to re-run.
-        return '';
+    if (
+      lastApprovedBuild?.attributes['commit-html-url'] &&
+      lastApprovedBuild?.id
+    ) {
+      if (!allowDeletedScreenshots) {
+        const removedSnapshots = await getRemovedSnapshots(
+          lastApprovedBuild.id,
+          fetchJson,
+        );
+        if (removedSnapshots.length > 0) {
+          // Force the build to re-run.
+          logger.warning(
+            `Percy build ${lastApprovedBuild?.id} has removed screenshots. Re-running.`,
+          );
+          return '';
+        }
       }
+      return lastApprovedBuild.attributes['commit-html-url']
+        .split('/')
+        .pop() as string;
     }
-    return lastApprovedBuild
-      ? (lastApprovedBuild.attributes['commit-html-url']
-          .split('/')
-          .pop() as string)
-      : '';
+    logger.warning(
+      `The last build was not finished and/or approved. Re-running.`,
+    );
+    return '';
   } catch (error) {
     logger.error(`Error checking Percy: ${error}`);
     return '';
