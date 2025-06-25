@@ -88,15 +88,14 @@ export class SkyAgGridCellValidatorTooltipComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     const params = this.cellRendererParams;
-    if (params?.api) {
+    if (params?.api && (!params.api.isDestroyed || !params.api.isDestroyed())) {
       params.api.removeEventListener('cellFocused', this.#cellFocusHandler);
       params.api.removeEventListener('cellEditingStarted', this.#blurHandler);
     }
-    const el = params?.eGridCell;
-    if (el) {
-      el.removeEventListener('keyup', this.#keyupHandler);
-      el.removeEventListener('mouseenter', this.#focusHandler);
-      el.removeEventListener('mouseleave', this.#blurHandler);
+    if (params?.eGridCell) {
+      params.eGridCell.removeEventListener('keyup', this.#keyupHandler);
+      params.eGridCell.removeEventListener('mouseenter', this.#focusHandler);
+      params.eGridCell.removeEventListener('mouseleave', this.#blurHandler);
     }
   }
 
