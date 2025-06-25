@@ -66,9 +66,8 @@ export async function verifyE2e(
     let jobs = await githubApi.listJobsForWorkflowRun();
     if (!jobs || jobs.length === 0) {
       // Retry.
-      jobs = await new Promise((resolve) => setTimeout(resolve, 20)).then(
-        async () => await githubApi.listJobsForWorkflowRun(),
-      );
+      await new Promise((resolve) => setTimeout(resolve, 20));
+      jobs = await githubApi.listJobsForWorkflowRun();
     }
     // This job always runs, so check if any previous jobs failed and fail this job before doing any more work.
     if (!jobs || jobs.length === 0 || !allWorkflowJobsPassed(jobs)) {
