@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnDestroy,
   inject,
   signal,
 } from '@angular/core';
@@ -26,7 +27,7 @@ import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet, SkyPopoverModule, SkyStatusIndicatorModule],
 })
-export class SkyAgGridCellValidatorTooltipComponent {
+export class SkyAgGridCellValidatorTooltipComponent implements OnDestroy {
   @Input()
   public set params(value: SkyCellRendererValidatorParams | undefined) {
     this.cellRendererParams = value;
@@ -53,6 +54,9 @@ export class SkyAgGridCellValidatorTooltipComponent {
       value.api.addEventListener('cellEditingStarted', () => {
         this.hidePopover();
       });
+      value.eGridCell?.addEventListener('keyup', this.#keyupHandler);
+      value.eGridCell?.addEventListener('mouseenter', this.#focusHandler);
+      value.eGridCell?.addEventListener('mouseleave', this.#blurHandler);
     }
 
     if (typeof value?.skyComponentProperties?.validatorMessage === 'function') {
@@ -77,6 +81,23 @@ export class SkyAgGridCellValidatorTooltipComponent {
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   #listenersAdded = false;
+
+  readonly #keyupHandler = (event: KeyboardEvent): void => {
+    if (
+      ['ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp'].includes(event.key)
+    ) {
+      this.showPopover();
+    }
+  };
+  readonly #focusHandler = (): void => this.showPopover();
+  readonly #blurHandler = (): void => this.hidePopover();
+
+  public ngOnDestroy(): void {
+    const el = this.cellRendererParams?.eGridCell;
+    el?.removeEventListener('keyup', this.#keyupHandler);
+    el?.removeEventListener('mouseenter', this.#focusHandler);
+    el?.removeEventListener('mouseleave', this.#blurHandler);
+  }
 
   public hidePopover(): void {
     this.popoverMessageStream.next({ type: SkyPopoverMessageType.Close });

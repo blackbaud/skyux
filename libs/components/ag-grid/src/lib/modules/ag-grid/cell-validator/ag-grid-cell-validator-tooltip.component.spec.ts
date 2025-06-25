@@ -31,6 +31,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
       column: {
         getColId: () => 'test',
       },
+      eGridCell: fixture.nativeElement,
       formatValue: jasmine.createSpy('formatValue'),
       getValue: jasmine.createSpy('getValue'),
       refreshCell: jasmine.createSpy('refreshCell'),
@@ -77,6 +78,36 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(await popoverHarness.getBodyText()).toEqual('Test message XYZ');
+  });
+
+  it('should toggle popover with mouse events', async () => {
+    fixture.componentInstance.parameters = {
+      ...fixture.componentInstance.parameters,
+      skyComponentProperties: {
+        validatorMessage: 'Test message ABC',
+      },
+    } as SkyCellRendererValidatorParams;
+    fixture.detectChanges();
+    expect(fixture.componentInstance).toBeTruthy();
+
+    fixture.nativeElement.dispatchEvent(new Event('mouseenter'));
+    fixture.nativeElement.dispatchEvent(
+      new KeyboardEvent('keyup', { key: 'ArrowUp' }),
+    );
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    const popoverHarness = await loader.getHarness(
+      SkyPopoverContentHarness.with({
+        dataSkyId: 'validatorPopover',
+      }),
+    );
+    expect(await popoverHarness.getBodyText()).toEqual('Test message ABC');
+
+    fixture.nativeElement.dispatchEvent(new Event('mouseleave'));
+    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   it('should hide empty messages', async () => {
