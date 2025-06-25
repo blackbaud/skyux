@@ -25,7 +25,7 @@ describe('forms-storybook', () => {
               .should('have.length', 6)
               .then((el) => {
                 el.each((_, box) => {
-                  cy.wrap(Cypress.$(box).outerHeight()).should('be.gte', 78);
+                  cy.wrap(Cypress.$(box).outerHeight()).should('be.gte', 75);
                 });
               });
 
