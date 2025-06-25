@@ -1,10 +1,12 @@
+import { SkyThemeBrandData } from './theme-serialization-types';
+
 /**
  * @internal
  * Defines properties of SKY UX theme branding.
  */
 export class SkyThemeBrand {
   public get hostClass(): string {
-    return this.#hostClass || `sky-theme-brand-${this.name}`;
+    return this.#hostClass || this.#buildDefaultHostClassName();
   }
 
   private set hostClass(value: string | undefined) {
@@ -30,5 +32,37 @@ export class SkyThemeBrand {
         `Invalid version format "${version}" for theme brand "${name}".`,
       );
     }
+  }
+
+  /**
+   * @internal
+   * Serializes the theme brand to a JSON-compatible object.
+   */
+  public serialize(): SkyThemeBrandData {
+    const result: SkyThemeBrandData = {
+      name: this.name,
+      version: this.version,
+    };
+
+    // Only include hostClass if it's different from the default
+    const defaultHostClass = this.#buildDefaultHostClassName();
+
+    if (this.hostClass !== defaultHostClass) {
+      result.hostClass = this.hostClass;
+    }
+
+    return result;
+  }
+
+  /**
+   * @internal
+   * Deserializes a JSON object to a SkyThemeBrand instance.
+   */
+  public static deserialize(data: SkyThemeBrandData): SkyThemeBrand {
+    return new SkyThemeBrand(data.name, data.version, data.hostClass);
+  }
+
+  #buildDefaultHostClassName(): string {
+    return `sky-theme-brand-${this.name}`;
   }
 }

@@ -30,11 +30,12 @@ describe('Theme brand', () => {
 
   it('should set the version correctly when a version with an appropriate suffix is given', () => {
     const suffixes = ['alpha.1', 'beta.1', 'rc.1'];
-    suffixes.forEach((suffix) => {
+
+    for (const suffix of suffixes) {
       const version = `1.0.0-${suffix}`;
       const brand = new SkyThemeBrand('custom-brand', version);
       expect(brand.version).toBe(version);
-    });
+    }
   });
 
   it('should throw an error for an invalid version', () => {
@@ -67,5 +68,53 @@ describe('Theme brand', () => {
     }).toThrowError(
       'Invalid version format "1.0.0-invalid.0" for theme brand "custom-brand".',
     );
+  });
+
+  describe('serialization', () => {
+    it('should serialize brand with default hostClass correctly', () => {
+      const brand = new SkyThemeBrand('rainbow', '1.0.0');
+      const serialized = brand.serialize();
+
+      // hostClass should be omitted since it matches the default hostClass.
+      expect(serialized).toEqual({
+        name: 'rainbow',
+        version: '1.0.0',
+      });
+    });
+
+    it('should serialize brand with custom hostClass correctly', () => {
+      const brand = new SkyThemeBrand('custom', '2.0.0', 'custom-host-class');
+      const serialized = brand.serialize();
+
+      // hostClass should be included since it doesn't match the default hostClass.
+      expect(serialized).toEqual({
+        name: 'custom',
+        version: '2.0.0',
+        hostClass: 'custom-host-class',
+      });
+    });
+
+    it('should deserialize brand correctly', () => {
+      const brand = SkyThemeBrand.deserialize({
+        name: 'rainbow',
+        version: '1.0.0',
+      });
+
+      expect(brand.name).toBe('rainbow');
+      expect(brand.version).toBe('1.0.0');
+      expect(brand.hostClass).toBe('sky-theme-brand-rainbow');
+    });
+
+    it('should deserialize brand with custom hostClass correctly', () => {
+      const brand = SkyThemeBrand.deserialize({
+        name: 'custom',
+        version: '2.0.0',
+        hostClass: 'custom-host-class',
+      });
+
+      expect(brand.name).toBe('custom');
+      expect(brand.version).toBe('2.0.0');
+      expect(brand.hostClass).toBe('custom-host-class');
+    });
   });
 });
