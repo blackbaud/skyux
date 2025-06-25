@@ -47,6 +47,11 @@ export const componentRoutes: Routes = [
       import('./datetime/datetime.module').then((m) => m.DatetimeModule),
   },
   {
+    path: 'filter-bar',
+    loadChildren: () =>
+      import('./filter-bar/filter-bar.module').then((m) => m.FilterBarModule),
+  },
+  {
     path: 'flyout',
     loadChildren: () =>
       import('./flyout/flyout.module').then((m) => m.FlyoutModule),

@@ -57,6 +57,7 @@ jobs:
             components/datetime
             components/docs-tools
             components/errors
+            components/filter-bar
             components/flyout
             components/forms
             components/grids
