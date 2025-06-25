@@ -4,6 +4,8 @@ import { SkySelectionModalSearchArgs } from '@skyux/lookup';
 
 import { of } from 'rxjs';
 
+import { TestModalComponent } from './test-modal.component';
+
 @Component({
   selector: 'app-filter-bar',
   styleUrls: ['./filter-bar.component.scss'],
@@ -22,20 +24,64 @@ export class FilterBarComponent {
   }
 
   #_filters: SkyFilterBarFilter[] | undefined = [
-    { name: 'filter 1', id: 1 },
-    { name: 'filter 2', id: 2 },
-    { name: 'filter 3', id: 3 },
+    {
+      name: 'filter 1',
+      id: 1,
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 2',
+      id: 2,
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 3',
+      id: 3,
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
   ];
 
-  #filters = [
-    { name: 'filter 1', id: 1 },
-    { name: 'filter 2', id: 2 },
-    { name: 'filter 3', id: 3 },
-    { name: 'filter 4', id: 4 },
-    { name: 'filter 5', id: 5 },
-    { name: 'filter 6', id: 6 },
-    { name: 'filter 7', id: 7 },
-    { name: 'filter 8', id: 8 },
+  #filters: SkyFilterBarFilter[] = [
+    {
+      name: 'filter 1',
+      id: 1,
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 2',
+      id: 2,
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 3',
+      id: 3,
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 4',
+      id: 4,
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 5',
+      id: 5,
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 6',
+      id: 6,
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 7',
+      id: 7,
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 8',
+      id: 8,
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
   ];
 
   public resetFilters(): void {

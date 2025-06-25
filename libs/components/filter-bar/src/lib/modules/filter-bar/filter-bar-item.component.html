@@ -1,7 +1,9 @@
 <div class="sky-filter-bar-item">
   <button
+    aria-haspopup="dialog"
     class="sky-btn sky-filter-bar-btn sky-btn-default"
     type="button"
+    [attr.aria-pressed]="hasFilter()"
     (click)="openFilterModal()"
   >
     <span class="sky-filter-bar-filter-item-title"

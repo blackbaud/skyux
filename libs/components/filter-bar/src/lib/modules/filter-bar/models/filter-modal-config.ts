@@ -1,9 +1,7 @@
-import { Component, Type } from '@angular/core';
-
 import { SkyFilterBarFilterValue } from './filter-bar-filter-value';
 
 export interface SkyFilterBarFilterModalConfig {
-  modalComponent: Type<Component>;
+  modalComponent: unknown;
 
   modalSize?: 'small' | 'medium' | 'large' | 'full';
 

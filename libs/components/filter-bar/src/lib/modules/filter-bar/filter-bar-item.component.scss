@@ -1,3 +1,19 @@
 .sky-filter-bar-btn {
-  gap: var(--sky-space-gap-action_group-m);
+  display: flex;
+  max-width: 300px;
+}
+
+.sky-filter-bar-filter-item-title,
+.sky-filter-bar-filter-item-value {
+  margin-right: var(--sky-space-gap-action_group-m);
+}
+
+.sky-filter-bar-filter-item-value {
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sky-filter-bar-filter-item-caret {
+  flex-grow: 1;
 }
