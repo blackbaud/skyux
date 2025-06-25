@@ -34,26 +34,8 @@ export class SkyAgGridCellValidatorTooltipComponent implements OnDestroy {
 
     if (value?.api && !this.#listenersAdded) {
       this.#listenersAdded = true;
-
-      value.api.addEventListener(
-        'cellFocused',
-        (eventParams: CellFocusedEvent) => {
-          // We want to close any popovers that are opened when other cells are focused, but open a popover if the current cell is focused.
-          if (
-            (eventParams.column as AgColumn).getColId() ===
-              value.column?.getColId() &&
-            eventParams.rowIndex === value.node?.rowIndex
-          ) {
-            this.showPopover();
-          } else {
-            this.hidePopover();
-          }
-        },
-      );
-
-      value.api.addEventListener('cellEditingStarted', () => {
-        this.hidePopover();
-      });
+      value.api.addEventListener('cellFocused', this.#cellFocusHandler);
+      value.api.addEventListener('cellEditingStarted', this.#blurHandler);
       value.eGridCell?.addEventListener('keyup', this.#keyupHandler);
       value.eGridCell?.addEventListener('mouseenter', this.#focusHandler);
       value.eGridCell?.addEventListener('mouseleave', this.#blurHandler);
@@ -90,13 +72,32 @@ export class SkyAgGridCellValidatorTooltipComponent implements OnDestroy {
     }
   };
   readonly #focusHandler = (): void => this.showPopover();
+  readonly #cellFocusHandler = (eventParams: CellFocusedEvent): void => {
+    // We want to close any popovers that are opened when other cells are focused, but open a popover if the current cell is focused.
+    if (
+      (eventParams.column as AgColumn).getColId() ===
+        this.cellRendererParams?.column?.getColId() &&
+      eventParams.rowIndex === this.cellRendererParams?.node?.rowIndex
+    ) {
+      this.showPopover();
+    } else {
+      this.hidePopover();
+    }
+  };
   readonly #blurHandler = (): void => this.hidePopover();
 
   public ngOnDestroy(): void {
-    const el = this.cellRendererParams?.eGridCell;
-    el?.removeEventListener('keyup', this.#keyupHandler);
-    el?.removeEventListener('mouseenter', this.#focusHandler);
-    el?.removeEventListener('mouseleave', this.#blurHandler);
+    const params = this.cellRendererParams;
+    if (params?.api) {
+      params.api.removeEventListener('cellFocused', this.#cellFocusHandler);
+      params.api.removeEventListener('cellEditingStarted', this.#blurHandler);
+    }
+    const el = params?.eGridCell;
+    if (el) {
+      el.removeEventListener('keyup', this.#keyupHandler);
+      el.removeEventListener('mouseenter', this.#focusHandler);
+      el.removeEventListener('mouseleave', this.#blurHandler);
+    }
   }
 
   public hidePopover(): void {

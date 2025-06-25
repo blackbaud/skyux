@@ -27,6 +27,10 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
       api: {
         addEventListener: jasmine.createSpy('addEventListener'),
         getEditingCells: jasmine.createSpy('getEditingCells'),
+        isDestroyed: jasmine
+          .createSpy('getEditingCells')
+          .and.returnValue(false),
+        removeEventListener: jasmine.createSpy('removeEventListener'),
       },
       column: {
         getColId: () => 'test',
@@ -259,5 +263,14 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
       }),
     );
     expect(await popoverHarness.getBodyText()).toEqual('Test message ABC');
+
+    eventListener({
+      column: {
+        getColId: () => 'other',
+      },
+      rowIndex: 0,
+    } as unknown as CellFocusedEvent);
+    fixture.detectChanges();
+    await fixture.whenStable();
   });
 });
