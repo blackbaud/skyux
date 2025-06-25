@@ -88,7 +88,7 @@ export async function checkPercyBuild(
   logger: Logger,
   /* istanbul ignore next */
   fetchClient: Fetch = fetch,
-): Promise<BuildSummary> {
+): Promise<Partial<BuildSummary>> {
   const fetchJson = getFetchJson(fetchClient);
 
   try {
@@ -110,21 +110,34 @@ export async function checkPercyBuild(
       };
     } else {
       logger.warning(`No Percy build found for ${project} build ${buildId}`);
-
-      return {
-        project,
-        state: undefined,
-        approved: false,
-        removedSnapshots: [],
-      };
     }
   } catch (error) {
     logger.error(`Error checking Percy build\n\n${(error as Error).stack}`);
-
-    throw new Error(`Error checking Percy build: ${error}`, {
-      cause: error,
-    });
   }
+  return {
+    project,
+    state: undefined,
+    approved: false,
+    removedSnapshots: [],
+  };
+}
+
+function buildIsApproved(previousBuild: Build | undefined): boolean {
+  if (previousBuild?.id) {
+    return (
+      previousBuild.attributes.state === 'finished' &&
+      previousBuild.attributes['review-state'] === 'approved' &&
+      ![
+        'changes_requested_snapshot',
+        'changes_requested_snapshot_previously',
+        'failed_snapshots',
+        'missing_snapshots',
+        'unreviewed_snapshots',
+        'user_rejected',
+      ].includes(previousBuild.attributes['review-state-reason'])
+    );
+  }
+  return false;
 }
 
 /**
@@ -144,35 +157,39 @@ export async function getLastGoodPercyBuild(
   const fetchJson = getFetchJson(fetchClient);
   try {
     const projectId = await getProjectId(project, logger, fetchJson);
-    const builds = await getBuilds(
+    const [previousBuild] = await getBuilds(
       projectId,
       shaArray,
-      ['finished'],
-      100,
+      [],
+      1,
       fetchJson,
     );
-    const lastApprovedBuild = builds.find(
-      (build) => build.attributes['review-state'] === 'approved',
-    );
-    if (!allowDeletedScreenshots && lastApprovedBuild?.id) {
-      const removedSnapshots = await getRemovedSnapshots(
-        lastApprovedBuild.id,
-        fetchJson,
-      );
-      if (removedSnapshots.length > 0) {
-        // Force the build to re-run.
-        return '';
+    if (buildIsApproved(previousBuild)) {
+      logger.info(`Found ${previousBuild.attributes['web-url']}`);
+      if (!allowDeletedScreenshots) {
+        const removedSnapshots = await getRemovedSnapshots(
+          previousBuild.id,
+          fetchJson,
+        );
+        if (removedSnapshots.length > 0) {
+          // Force the build to re-run.
+          logger.warning(
+            `Percy build ${previousBuild?.id} has removed screenshots. Re-running.`,
+          );
+          return '';
+        }
       }
+      return previousBuild.attributes['commit-html-url']
+        .split('/')
+        .pop() as string;
     }
-    return lastApprovedBuild
-      ? (lastApprovedBuild.attributes['commit-html-url']
-          .split('/')
-          .pop() as string)
-      : '';
+    logger.warning(
+      `The last build was not finished and/or approved. Re-running.`,
+    );
+    return '';
   } catch (error) {
-    throw new Error(`Error checking Percy: ${error}`, {
-      cause: error,
-    });
+    logger.error(`Error checking Percy: ${error}`);
+    return '';
   }
 }
 
@@ -216,9 +233,8 @@ export async function getPercyTargetCommit(
     }
     return '';
   } catch (error) {
-    throw new Error(`Error checking Percy: ${error}`, {
-      cause: error,
-    });
+    logger.error(`Error checking Percy: ${error}`);
+    return '';
   }
 }
 
