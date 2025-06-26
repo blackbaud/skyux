@@ -11,6 +11,8 @@ export class TestModalComponent {
   #context = inject(SkyFilterBarFilterModalContext);
   readonly #modalInstance = inject(SkyModalInstance);
 
+  protected filterName = this.#context.filterName;
+
   public save(): void {
     if (this.#context.filterValue) {
       this.#context.filterValue = undefined;

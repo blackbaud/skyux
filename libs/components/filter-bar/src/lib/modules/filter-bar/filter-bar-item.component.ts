@@ -28,6 +28,7 @@ export class SkyFilterBarItemComponent {
 
     if (config) {
       const context = new SkyFilterBarFilterModalContext(
+        this.filterName(),
         this.filterValue(),
         config.additionalContext,
       );
