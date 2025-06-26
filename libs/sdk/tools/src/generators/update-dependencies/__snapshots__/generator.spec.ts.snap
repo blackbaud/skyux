@@ -8,11 +8,11 @@ Object {
   "projectType": "library",
   "release": Object {
     "version": Object {
-      "generatorOptions": Object {
-        "currentVersionResolver": "git-tag",
-        "fallbackCurrentVersionResolver": "disk",
-        "packageRoot": "dist/{projectRoot}",
-      },
+      "currentVersionResolver": "git-tag",
+      "fallbackCurrentVersionResolver": "disk",
+      "manifestRootsToUpdate": Array [
+        "dist/{projectRoot}",
+      ],
     },
   },
   "root": "lib/test",

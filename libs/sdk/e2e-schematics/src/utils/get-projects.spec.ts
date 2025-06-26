@@ -15,6 +15,7 @@ import { createTestApplication, createTestLibrary } from './testing';
 describe('some-or-all-projects', () => {
   it('should get someOrAllE2eProjects', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree.write('.gitignore', '#');
     for (let i = 1; i <= 3; i++) {
       await createTestApplication(tree, {
         name: `cypress${i}`,
@@ -22,6 +23,7 @@ describe('some-or-all-projects', () => {
       await configurationGenerator(tree, {
         project: `cypress${i}`,
         baseUrl: 'https://example.com',
+        skipFormat: true,
       });
     }
     // Without specifying name.
