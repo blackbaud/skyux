@@ -6,7 +6,7 @@ import commentJson from 'comment-json';
  * Returns the contents of a required file or throws an error if it doesn't exist.
  */
 export function readRequiredFile(tree: Tree, filePath: string): string {
-  const data = tree.readText(filePath);
+  const data = tree.exists(filePath) && tree.readText(filePath);
   /* istanbul ignore next */
   if (!data) {
     throw new Error(
