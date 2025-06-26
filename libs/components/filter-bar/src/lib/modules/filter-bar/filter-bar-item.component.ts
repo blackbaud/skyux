@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, input, model } from '@angular/core';
+import { Component, inject, input, model } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
+import { SkyFilterBarFilterModalConfig } from './models/filter-bar-filter-modal-config';
+import { SkyFilterBarFilterModalContext } from './models/filter-bar-filter-modal-context';
 import { SkyFilterBarFilterValue } from './models/filter-bar-filter-value';
-import {
-  SkyFilterBarFilterModalConfig,
-  SkyFilterBarFilterModalContext,
-} from './models/filter-modal-config';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-filter-bar-item',
   imports: [CommonModule, SkyIconModule],
@@ -20,13 +21,9 @@ export class SkyFilterBarItemComponent {
   public filterValue = model<SkyFilterBarFilterValue>();
   public filterModalConfig = input<SkyFilterBarFilterModalConfig>();
 
-  protected readonly hasFilter = computed(() => {
-    return !!this.filterValue();
-  });
-
   #modalSvc = inject(SkyModalService);
 
-  protected openFilterModal(): void {
+  public openFilterModal(): void {
     const config = this.filterModalConfig();
 
     if (config) {

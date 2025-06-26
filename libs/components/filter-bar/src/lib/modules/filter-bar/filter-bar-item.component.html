@@ -1,22 +1,22 @@
+@let value = filterValue();
 <div class="sky-filter-bar-item">
   <button
     aria-haspopup="dialog"
     class="sky-btn sky-filter-bar-btn sky-btn-default"
     type="button"
-    [attr.aria-pressed]="hasFilter()"
+    [attr.aria-pressed]="!!value"
+    [class.sky-filter-bar-btn-selected]="!!value"
     (click)="openFilterModal()"
   >
     <span class="sky-filter-bar-filter-item-title"
-      ><span [class.sky-font-deemphasized]="hasFilter()">{{
-        filterName()
-      }}</span>
-      @if (hasFilter()) {
+      ><span>{{ filterName() }}</span>
+      @if (value) {
         <span>:</span>
       }
     </span>
-    @if (hasFilter()) {
+    @if (value) {
       <span class="sky-filter-bar-filter-item-value">{{
-        filterValue()!.displayValue
+        value.displayValue ?? value.value
       }}</span>
     }
     <span class="sky-filter-bar-filter-item-caret">

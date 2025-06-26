@@ -15,7 +15,7 @@ import { Observable, take } from 'rxjs';
 import { SkyFilterBarResourcesModule } from '../shared/sky-filter-bar-resources.module';
 
 import { SkyFilterBarItemComponent } from './filter-bar-item.component';
-import { SkyFilterBarFilter } from './models/filter-bar-filter';
+import { SkyFilterBarFilterItem } from './models/filter-bar-filter-item';
 
 type SelectionModalSearchAsyncFn = (
   args: SkySelectionModalSearchArgs,
@@ -37,7 +37,7 @@ type SelectionModalSearchAsyncFn = (
   styleUrl: './filter-bar.component.scss',
 })
 export class SkyFilterBarComponent {
-  public filters = model<SkyFilterBarFilter[] | undefined>();
+  public filters = model<SkyFilterBarFilterItem[] | undefined>();
   public filterAsyncSearchFn = input<SelectionModalSearchAsyncFn>();
 
   readonly #modalSvc = inject(SkySelectionModalService);
@@ -71,7 +71,7 @@ export class SkyFilterBarComponent {
       modalInstance.closed.subscribe((closeArgs) => {
         if (closeArgs.reason === 'save') {
           this.filters.set(
-            closeArgs.selectedItems as SkyFilterBarFilter[] | undefined,
+            closeArgs.selectedItems as SkyFilterBarFilterItem[] | undefined,
           );
         }
       });

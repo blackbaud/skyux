@@ -1,13 +1,5 @@
 import { SkyFilterBarFilterValue } from './filter-bar-filter-value';
 
-export interface SkyFilterBarFilterModalConfig {
-  modalComponent: unknown;
-
-  modalSize?: 'small' | 'medium' | 'large' | 'full';
-
-  additionalContext?: Record<string, unknown>;
-}
-
 export class SkyFilterBarFilterModalContext {
   public filterValue?: SkyFilterBarFilterValue;
 

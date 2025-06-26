@@ -1,7 +1,7 @@
+import { SkyFilterBarFilterModalConfig } from './filter-bar-filter-modal-config';
 import { SkyFilterBarFilterValue } from './filter-bar-filter-value';
-import { SkyFilterBarFilterModalConfig } from './filter-modal-config';
 
-export interface SkyFilterBarFilter {
+export interface SkyFilterBarFilterItem {
   id: string | number;
   name: string;
   filterValue?: SkyFilterBarFilterValue;
