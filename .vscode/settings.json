@@ -7,6 +7,5 @@
   "cSpell.enabled": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "karmaTestExplorer.enableExtension": false,
-  "eslint.codeActionsOnSave.rules": ["!@angular-eslint/prefer-standalone", "*"],
-  "nxConsole.generateAiAgentRules": true
+  "eslint.codeActionsOnSave.rules": ["!@angular-eslint/prefer-standalone", "*"]
 }
