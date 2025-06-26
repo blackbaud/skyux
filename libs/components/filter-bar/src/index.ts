@@ -1,6 +1,6 @@
 export { SkyFilterBarModule } from './lib/modules/filter-bar/filter-bar.module';
 
-export { SkyFilterBarFilterItem as SkyFilterBarFilter } from './lib/modules/filter-bar/models/filter-bar-filter-item';
+export { SkyFilterBarFilterItem } from './lib/modules/filter-bar/models/filter-bar-filter-item';
 export { SkyFilterBarFilterModalConfig } from './lib/modules/filter-bar/models/filter-bar-filter-modal-config';
 export { SkyFilterBarFilterModalContext } from './lib/modules/filter-bar/models/filter-bar-filter-modal-context';
 export { SkyFilterBarFilterValue } from './lib/modules/filter-bar/models/filter-bar-filter-value';

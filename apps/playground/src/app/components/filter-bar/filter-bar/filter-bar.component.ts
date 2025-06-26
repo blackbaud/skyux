@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SkyFilterBarFilter } from '@skyux/filter-bar';
+import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
 import { SkySelectionModalSearchArgs } from '@skyux/lookup';
 
 import { of } from 'rxjs';
@@ -13,17 +13,17 @@ import { TestModalComponent } from './test-modal.component';
   standalone: false,
 })
 export class FilterBarComponent {
-  public get filters(): SkyFilterBarFilter[] | undefined {
+  public get filters(): SkyFilterBarFilterItem[] | undefined {
     return this.#_filters;
   }
 
-  public set filters(value: SkyFilterBarFilter[] | undefined) {
+  public set filters(value: SkyFilterBarFilterItem[] | undefined) {
     this.#_filters = value;
 
     console.log(value);
   }
 
-  #_filters: SkyFilterBarFilter[] | undefined = [
+  #_filters: SkyFilterBarFilterItem[] | undefined = [
     {
       name: 'filter 1',
       id: 1,
@@ -41,7 +41,7 @@ export class FilterBarComponent {
     },
   ];
 
-  #filters: SkyFilterBarFilter[] = [
+  #filters: SkyFilterBarFilterItem[] = [
     {
       name: 'filter 1',
       id: 1,
