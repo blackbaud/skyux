@@ -50,6 +50,7 @@
     var(--sky-elevation-focus);
   --sky-override-text-editor-focus-shadow: #{$sky-theme-modern-elevation-1-shadow-size
     $sky-theme-modern-elevation-1-shadow-color};
+  --sky-override-text-editor-label-color: var(--sky-text-color-deemphasized);
   --sky-override-text-editor-label-padding: 10px 10px 0 10px;
   --sky-override-text-editor-toolbar-section-padding: #{$sky-theme-modern-space-sm};
   --sky-override-text-editor-top-toolbar-bottom-padding: 0;
@@ -102,7 +103,7 @@ sky-text-editor.sky-form-field-stacked {
     width: 100%;
     color: var(
       --sky-override-text-editor-label-color,
-      var(--sky-color-text-deemphasized)
+      var(--sky-color-text-default)
     );
 
     label {

@@ -26,6 +26,7 @@
     inset 0 0 0 var(--sky-border-width-input-focus)
       var(--sky-color-border-action-input-focus),
     var(--modern-shadow-size-1);
+  --sky-override-input-box-form-group-color: #{$sky-text-color-deemphasized};
   --sky-override-input-margin-top: -23px;
   --sky-override-input-padding-top: 26px;
   --sky-override-label-padding-bottom: 1px;
@@ -343,7 +344,10 @@ sky-input-box {
     }
 
     .sky-form-group {
-      color: var(--sky-color-text-deemphasized);
+      color: var(
+        --sky-override-input-box-form-group-color,
+        var(--sky-color-text-default)
+      );
       flex-wrap: nowrap;
       margin-bottom: 0;
       padding: 0;

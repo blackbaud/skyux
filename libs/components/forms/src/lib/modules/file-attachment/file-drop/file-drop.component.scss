@@ -55,6 +55,7 @@
   );
   --sky-override-file-drop-drag-contents-border-style: dashed;
   --sky-override-file-drop-icon-font-size: var(--modern-size-40);
+  --sky-override-file-drop-label-color: #{$sky-text-color-deemphasized};
   --sky-override-file-drop-label-font-size: 13px;
   --sky-override-file-drop-link-input-background-color: var(
     --modern-color-white
@@ -403,7 +404,7 @@ button.sky-file-drop {
 .sky-control-label {
   color: var(
     --sky-override-file-drop-label-color,
-    var(--sky-color-text-deemphasized)
+    var(--sky-color-text-default)
   );
   font-size: var(
     --sky-override-file-drop-label-font-size,
