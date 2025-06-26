@@ -1,10 +1,6 @@
 @use '../../variables' as *;
 @use '../../compat-tokens-mixins' as compatMixins;
 
-@include compatMixins.sky-modern-overrides($encapsulate: false) {
-  --sky-override-font-data-label-color: var(--sky-text-color-deemphasized);
-}
-
 .sky-theme-modern {
   .sky-font-body-default {
     color: var(--sky-color-text-default);
@@ -35,10 +31,7 @@
   }
 
   .sky-font-field-label {
-    color: var(
-      --sky-override-font-data-label-color,
-      var(--sky-color-text-default)
-    );
+    color: var(--sky-color-text-deemphasized);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-body-m);
     font-weight: var(--sky-font-weight-body-m);
