@@ -20,6 +20,8 @@
   --sky-override-text-editor-box-shadow: none;
   --sky-override-text-editor-disabled-cursor: default;
   --sky-override-text-editor-label-color: var(--sky-text-color-default);
+  --sky-override-text-editor-label-color-focused: var(--sky-text-color-default);
+  --sky-override-text-editor-label-color-invalid: var(--sky-text-color-default);
   --sky-override-text-editor-label-display: flex;
   --sky-override-text-editor-label-font-size: 15px;
   --sky-override-text-editor-label-font-weight: 400;
@@ -194,7 +196,7 @@ sky-text-editor.sky-form-field-stacked {
 
     .sky-text-editor-label-wrapper {
       color: var(
-        --sky-override-text-editor-label-color,
+        --sky-override-text-editor-label-color-invalid,
         var(--sky-color-text-danger)
       );
     }
@@ -213,7 +215,7 @@ sky-text-editor.sky-form-field-stacked {
 
     .sky-text-editor-label-wrapper {
       color: var(
-        --sky-override-text-editor-label-color,
+        --sky-override-text-editor-label-color-focused,
         var(--sky-color-text-action)
       );
     }
