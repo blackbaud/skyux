@@ -1,3 +1,5 @@
+import { SkyThemeSpacingData } from './theme-serialization-types';
+
 /**
  * Defines properties of SKY UX theme spacing.
  */
@@ -20,4 +22,52 @@ export class SkyThemeSpacing {
     public readonly name: string,
     public readonly hostClass: string,
   ) {}
+
+  /**
+   * @internal
+   * Serializes the theme spacing to a JSON-compatible object.
+   */
+  public serialize(): SkyThemeSpacingData {
+    // Check if this instance is a preset
+    const presetEntry = Object.entries(SkyThemeSpacing.presets).find(
+      ([, preset]) => preset === this,
+    );
+
+    if (presetEntry) {
+      return {
+        name: this.name,
+        isPreset: true,
+      };
+    }
+
+    return {
+      name: this.name,
+      hostClass: this.hostClass,
+    };
+  }
+
+  /**
+   * @internal
+   * Deserializes a JSON object to a SkyThemeSpacing instance.
+   */
+  public static deserialize(data: SkyThemeSpacingData): SkyThemeSpacing {
+    if (data.isPreset) {
+      const preset =
+        SkyThemeSpacing.presets[
+          data.name as keyof typeof SkyThemeSpacing.presets
+        ];
+
+      if (preset) {
+        return preset;
+      }
+
+      throw new Error(`Unknown theme spacing preset: ${data.name}`);
+    }
+
+    if (!data.hostClass) {
+      throw new Error('hostClass is required for non-preset theme spacing');
+    }
+
+    return new SkyThemeSpacing(data.name, data.hostClass);
+  }
 }
