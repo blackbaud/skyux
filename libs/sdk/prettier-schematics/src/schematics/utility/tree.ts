@@ -1,4 +1,3 @@
-import { virtualFs } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
 
 import commentJson from 'comment-json';
@@ -7,7 +6,7 @@ import commentJson from 'comment-json';
  * Returns the contents of a required file or throws an error if it doesn't exist.
  */
 export function readRequiredFile(tree: Tree, filePath: string): string {
-  const data = tree.read(filePath);
+  const data = tree.readText(filePath);
   /* istanbul ignore next */
   if (!data) {
     throw new Error(
@@ -15,7 +14,7 @@ export function readRequiredFile(tree: Tree, filePath: string): string {
     );
   }
 
-  return virtualFs.fileBufferToString(data);
+  return data;
 }
 
 export function readJsonFile<T>(tree: Tree, path: string): T {

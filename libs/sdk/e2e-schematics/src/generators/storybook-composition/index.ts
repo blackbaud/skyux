@@ -1,6 +1,5 @@
 import {
   Tree,
-  formatFiles,
   generateFiles,
   getProjects,
   joinPathFragments,
@@ -9,6 +8,8 @@ import {
 } from '@nx/devkit';
 
 import { relative } from 'path';
+
+import { formatFiles } from '../../utils/format-files';
 
 import { Schema } from './schema';
 
@@ -72,5 +73,5 @@ export default async function generateStorybookComposition(
     },
   );
 
-  await formatFiles(tree);
+  await formatFiles(tree, { skipFormat: schema.skipFormat });
 }

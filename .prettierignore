@@ -21,3 +21,5 @@ CHANGELOG.md
 /.nx/workspace-data
 
 *.template
+
+.angular
