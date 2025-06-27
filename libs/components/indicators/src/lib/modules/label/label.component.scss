@@ -60,19 +60,31 @@
 /* Modern theme */
 @include mixins.sky-theme-modern {
   .sky-label-info .sky-label-icon {
-    color: var(--sky-color-icon-info);
+    color: var(
+      --sky-color-icon-info,
+      var(--sky-color-background-icon_matte-action-heavy)
+    );
   }
 
   .sky-label-success .sky-label-icon {
-    color: var(--sky-color-icon-success);
+    color: var(
+      --sky-color-icon-success,
+      var(--sky-color-background-icon_matte-success)
+    );
   }
 
   .sky-label-warning .sky-label-icon {
-    color: var(--sky-color-icon-warning);
+    color: var(
+      --sky-color-icon-warning,
+      var(--sky-color-background-icon_matte-warning)
+    );
   }
 
   .sky-label-danger .sky-label-icon {
-    color: var(--sky-color-icon-danger);
+    color: var(
+      --sky-color-icon-danger,
+      var(--sky-color-background-icon_matte-danger)
+    );
   }
 }
 
