@@ -1,0 +1,10 @@
+@if (multiSelect()) {
+  <sky-checkbox
+    labelHidden
+    data-sky-id="header-row-selector"
+    [checked]="checked()"
+    [labelText]="label()"
+    [indeterminate]="indeterminate()"
+    (change)="toggleCheckbox($event)"
+  />
+}
