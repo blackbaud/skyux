@@ -16,16 +16,14 @@
         </button>
       </sky-toolbar-item>
     }
-    <!-- FUTURE: Implement displayed filters
     @for (filter of filters(); track filter.id) {
       <sky-toolbar-item>
-        <button
-          type="button"
-          class="sky-btn sky-filter-bar-btn sky-btn-default"
-        >
-          {{ filter.name }}
-        </button>
+        <sky-filter-bar-item
+          [filterName]="filter.name"
+          [filterValue]="filter.filterValue"
+          [filterModalConfig]="filter.filterModalConfig"
+        />
       </sky-toolbar-item>
-    } -->
+    }
   </sky-toolbar>
 </div>
