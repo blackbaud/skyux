@@ -2,7 +2,6 @@
   "name": "@skyux/manifest",
   "version": "0.0.0-PLACEHOLDER",
   "author": "Blackbaud, Inc.",
-  "type": "commonjs",
   "keywords": [
     "blackbaud",
     "skyux"
@@ -16,7 +15,6 @@
     "url": "https://github.com/blackbaud/skyux/issues"
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
-  "main": "./src/index.js",
   "exports": {
     ".": {
       "types": "./src/index.d.ts",
@@ -29,5 +27,7 @@
       "default": "./public-api.json"
     }
   },
+  "type": "commonjs",
+  "main": "./src/index.js",
   "sideEffects": false
 }
