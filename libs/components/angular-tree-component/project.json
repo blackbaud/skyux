@@ -58,8 +58,8 @@
       "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "{projectRoot}/src/**/*.ts",
-          "{projectRoot}/src/**/*.html"
+          "libs/components/angular-tree-component/src/**/*.ts",
+          "libs/components/angular-tree-component/src/**/*.html"
         ]
       }
     }

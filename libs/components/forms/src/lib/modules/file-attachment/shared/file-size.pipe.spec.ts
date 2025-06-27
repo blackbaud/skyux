@@ -20,7 +20,7 @@ describe('File size pipe', () => {
       imports: [SkyFileSizePipe],
     });
 
-    fileSizePipe = new SkyFileSizePipe(TestBed.get(SkyLibResourcesService));
+    fileSizePipe = new SkyFileSizePipe(TestBed.inject(SkyLibResourcesService));
   });
 
   it('should format bytes', function () {

@@ -37,7 +37,7 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["{projectRoot}/**/*.ts"]
+        "lintFilePatterns": ["libs/components/manifest/**/*.ts"]
       }
     },
     "test": {

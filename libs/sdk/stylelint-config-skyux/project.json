@@ -19,7 +19,7 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["{projectRoot}/**/*.ts"]
+        "lintFilePatterns": ["libs/sdk/stylelint-config-skyux/**/*.ts"]
       }
     },
     "test": {

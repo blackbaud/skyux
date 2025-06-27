@@ -56,8 +56,8 @@
       "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "{projectRoot}/src/**/*.ts",
-          "{projectRoot}/src/**/*.html"
+          "libs/components/grids/src/**/*.ts",
+          "libs/components/grids/src/**/*.html"
         ]
       }
     }

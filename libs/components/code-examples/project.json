@@ -56,8 +56,8 @@
       "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "{projectRoot}/src/**/*.ts",
-          "{projectRoot}/src/**/*.html"
+          "libs/components/code-examples/src/**/*.ts",
+          "libs/components/code-examples/src/**/*.html"
         ]
       },
       "dependsOn": [

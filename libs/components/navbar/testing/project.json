@@ -40,7 +40,7 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["{projectRoot}/src/**/*.ts"]
+        "lintFilePatterns": ["libs/components/navbar/testing/src/**/*.ts"]
       }
     }
   }

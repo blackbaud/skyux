@@ -51,7 +51,7 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
+        "lintFilePatterns": ["libs/components/storybook/**/*.ts", "libs/components/storybook/**/*.html"]
       }
     },
     "storybook": {

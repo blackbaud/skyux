@@ -71,8 +71,8 @@
       "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "{projectRoot}/src/**/*.ts",
-          "{projectRoot}/src/**/*.html"
+          "libs/components/router/src/**/*.ts",
+          "libs/components/router/src/**/*.html"
         ]
       }
     }

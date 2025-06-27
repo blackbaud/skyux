@@ -8,7 +8,7 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/icon"],
       "options": {
         "project": "libs/components/icon/ng-package.json"
       },
@@ -71,8 +71,8 @@
       "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "{projectRoot}/src/**/*.ts",
-          "{projectRoot}/src/**/*.html"
+          "libs/components/icon/src/**/*.ts",
+          "libs/components/icon/src/**/*.html"
         ]
       }
     }

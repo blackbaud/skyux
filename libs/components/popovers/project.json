@@ -71,8 +71,8 @@
       "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "{projectRoot}/src/**/*.ts",
-          "{projectRoot}/src/**/*.html"
+          "libs/components/popovers/src/**/*.ts",
+          "libs/components/popovers/src/**/*.html"
         ]
       }
     }

@@ -8,15 +8,15 @@
       "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "{projectRoot}/**/*.ts",
-          "{projectRoot}/generators.json",
-          "{projectRoot}/package.json"
+          "libs/sdk/tools/**/*.ts",
+          "libs/sdk/tools/generators.json",
+          "libs/sdk/tools/package.json"
         ]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": ["{workspaceRoot}/coverage/libs/sdk/tools"],
       "options": {
         "jestConfig": "libs/sdk/tools/jest.config.ts"
       }
