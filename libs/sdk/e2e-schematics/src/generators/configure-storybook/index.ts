@@ -2,7 +2,6 @@ import {
   ProjectConfiguration,
   TargetConfiguration,
   Tree,
-  formatFiles,
   generateFiles,
   joinPathFragments,
   offsetFromRoot,
@@ -14,6 +13,7 @@ import { TsConfig } from '@nx/storybook/src/utils/utilities';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 
+import { formatFiles } from '../../utils/format-files';
 import { getStorybookProjects } from '../../utils/get-projects';
 
 import { Schema } from './schema';
@@ -47,27 +47,21 @@ export default async function (tree: Tree, schema: Schema): Promise<void> {
         [
           '@angular-devkit/build-angular:application',
           '@angular-devkit/build-angular:browser',
+          '@angular/build:application',
           '@storybook/angular:build-storybook',
           '@storybook/angular:start-storybook',
         ].includes(targetConfig.executor)
       ) {
         // Add stylesheets to project.
-        if (!targetConfig.options) {
-          targetConfig.options = {
-            styles: [],
-          };
-        }
+        targetConfig.options ??= {};
+        targetConfig.options.styles ??= [];
         [
           'libs/components/theme/src/lib/styles/sky.scss',
           'libs/components/theme/src/lib/styles/themes/modern/styles.scss',
         ].forEach((stylesheet) => {
-          if (!targetConfig.options.styles?.includes(stylesheet)) {
+          if (!targetConfig.options.styles.includes(stylesheet)) {
             hasChanged = true;
-            if (targetConfig.options.styles) {
-              targetConfig.options.styles.push(stylesheet);
-            } else {
-              targetConfig.options.styles = [stylesheet];
-            }
+            targetConfig.options.styles.push(stylesheet);
           }
         });
         if (
@@ -232,5 +226,5 @@ export default async function (tree: Tree, schema: Schema): Promise<void> {
     }
   });
 
-  await formatFiles(tree);
+  await formatFiles(tree, { skipFormat: schema.skipFormat });
 }

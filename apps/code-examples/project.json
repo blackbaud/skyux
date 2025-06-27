@@ -4,6 +4,8 @@
   "projectType": "application",
   "sourceRoot": "apps/code-examples/src",
   "prefix": "app",
+  "tags": [],
+  "implicitDependencies": ["eslint-config", "skyux-eslint"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -85,7 +87,8 @@
           "target": "build",
           "projects": "manifest"
         }
-      ]
+      ],
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -108,7 +111,5 @@
         }
       ]
     }
-  },
-  "implicitDependencies": ["eslint-config", "skyux-eslint"],
-  "tags": []
+  }
 }

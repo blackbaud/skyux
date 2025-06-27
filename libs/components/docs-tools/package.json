@@ -21,10 +21,10 @@
     }
   },
   "peerDependencies": {
-    "@angular/common": "^19.2.7",
-    "@angular/core": "^19.2.7",
-    "@angular/platform-browser": "^19.2.7",
-    "@angular/router": "^19.2.7",
+    "@angular/common": "^19.2.14",
+    "@angular/core": "^19.2.14",
+    "@angular/platform-browser": "^19.2.14",
+    "@angular/router": "^19.2.14",
     "@skyux/assets": "0.0.0-PLACEHOLDER",
     "@skyux/core": "0.0.0-PLACEHOLDER",
     "@skyux/i18n": "0.0.0-PLACEHOLDER",

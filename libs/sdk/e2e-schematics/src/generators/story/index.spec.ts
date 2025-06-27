@@ -25,6 +25,7 @@ describe('story generator', () => {
 
   beforeEach(async () => {
     appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    appTree.write('.gitignore', '');
     const nxJson: NxJsonConfiguration = readNxJson(appTree) || {};
     nxJson.workspaceLayout = {
       appsDir: 'apps',

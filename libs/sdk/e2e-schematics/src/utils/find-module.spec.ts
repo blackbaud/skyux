@@ -23,6 +23,7 @@ import { createTestApplication } from './testing';
 describe('find-module', () => {
   it('should find module', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree.write('.gitignore', '#');
     await createTestApplication(tree, {
       name: 'test',
     });
@@ -57,6 +58,7 @@ describe('find-module', () => {
 
   it('should find standalone component', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree.write('.gitignore', '#');
     await createTestApplication(tree, { name: 'test' });
     expect(readProjectConfiguration(tree, 'test').sourceRoot).toBe(
       'apps/test/src',
@@ -87,6 +89,7 @@ describe('find-module', () => {
 
   it('should find module, skip non-declaring reference', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree.write('.gitignore', '#');
     await createTestApplication(tree, {
       name: 'test',
     });
@@ -116,6 +119,7 @@ describe('find-module', () => {
 
   it('should find routing module', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree.write('.gitignore', '#');
     await createTestApplication(tree, {
       name: 'test',
     });
@@ -148,6 +152,7 @@ describe('find-module', () => {
 
   it('should isRoutingModule', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree.write('.gitignore', '#');
     await createTestApplication(tree, {
       name: 'test',
     });

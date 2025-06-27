@@ -10,8 +10,7 @@ describe('update-json', () => {
       value.test = 'updated';
       return value;
     });
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const data = JSON.parse(tree.read('file.json')!.toString());
+    const data = JSON.parse(tree.read('file.json', 'utf-8') ?? 'null');
     expect(data.test).toEqual('updated');
   });
 });

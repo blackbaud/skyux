@@ -1,7 +1,8 @@
 import type { Tree } from '@nx/devkit';
-import { formatFiles, generateFiles, joinPathFragments } from '@nx/devkit';
+import { generateFiles, joinPathFragments } from '@nx/devkit';
 import { insertStatement } from '@nx/workspace/src/generators/utils/insert-statement';
 
+import { formatFiles } from '../../utils/format-files';
 import { getE2eProjects } from '../../utils/get-projects';
 
 import { Schema } from './schema';
@@ -24,16 +25,15 @@ export default async function configurePercy(
     );
     const filePath = joinPathFragments(project.root, 'src/support/e2e.ts');
     const importPercyCypress = `import` + ` '@percy/cypress';`;
-    if (!tree.isFile(filePath)) {
+    if (!tree.exists(filePath)) {
       tree.write(filePath, importPercyCypress);
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const content = tree.read(filePath)!.toString();
+      const content = tree.read(filePath, 'utf-8') as string;
       if (!content.includes(importPercyCypress)) {
         insertStatement(tree, filePath, importPercyCypress);
       }
     }
   });
 
-  await formatFiles(tree);
+  await formatFiles(tree, { skipFormat: schema.skipFormat });
 }

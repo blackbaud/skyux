@@ -47,6 +47,7 @@ import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderers/cell
 import { SkyAgGridCellRendererTemplateComponent } from './cell-renderers/cell-renderer-template/cell-renderer-template.component';
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
 import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
+import { SkyAgGridHeaderRowSelectorComponent } from './header/header-row-selector/header-row-selector.component';
 import { SkyAgGridHeaderComponent } from './header/header.component';
 import { IconMapType, iconMap } from './icons/icon-map';
 import { SkyAgGridLoadingComponent } from './loading/loading.component';
@@ -482,9 +483,7 @@ export class SkyAgGridService implements OnDestroy {
             [SkyCellClass.Uneditable]: cellClassRuleTrueExpression,
           },
           cellRenderer: SkyAgGridCellRendererRowSelectorComponent,
-          headerComponentParams: {
-            headerHidden: true,
-          },
+          headerComponent: SkyAgGridHeaderRowSelectorComponent,
           headerName: 'Row selection',
           minWidth: 55,
           maxWidth: 55,

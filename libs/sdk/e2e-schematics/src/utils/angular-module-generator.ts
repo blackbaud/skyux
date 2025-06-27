@@ -22,6 +22,7 @@ export async function angularComponentGenerator(
     tree,
     {
       style: 'scss',
+      type: 'component',
       ...schema,
     },
   );

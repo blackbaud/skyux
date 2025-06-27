@@ -7,7 +7,6 @@ import {
 import {
   ProjectConfiguration,
   Tree,
-  formatFiles,
   generateFiles,
   getProjects,
   joinPathFragments,
@@ -20,6 +19,7 @@ import { Linter } from '@nx/eslint';
 import { configurationGenerator as storybookConfigurationGenerator } from '@nx/storybook';
 import { moveGenerator } from '@nx/workspace';
 
+import { formatFiles } from '../../utils/format-files';
 import configurePercy from '../configure-percy';
 import configureStorybook from '../configure-storybook';
 
@@ -181,7 +181,7 @@ export default async function (
       directory: `apps/${BASE_PATH}/${options.storybookAppName}`,
       skipPackageJson: true,
       skipTests: !options.includeTests,
-      standaloneConfig: true,
+      skipFormat: true,
       standalone: false,
       bundler: 'webpack',
       unitTestRunner: UnitTestRunner.None,
@@ -247,11 +247,18 @@ export default async function (
       interactionTests: false,
       linter: Linter.EsLint,
       configureStaticServe: true,
+      skipFormat: true,
     });
   }
   if (!moveProject) {
-    await configureStorybook(tree, { name: options.storybookAppName });
-    await configurePercy(tree, { name: `${options.storybookAppName}-e2e` });
+    await configureStorybook(tree, {
+      name: options.storybookAppName,
+      skipFormat: true,
+    });
+    await configurePercy(tree, {
+      name: `${options.storybookAppName}-e2e`,
+      skipFormat: true,
+    });
   }
 
   // Clean up duplicate entries in nx.json
@@ -283,5 +290,5 @@ export default async function (
   tree.write('nx.json', `${initialNxJson}`);
   tree.write('package.json', `${initialPackageJson}`);
 
-  await formatFiles(tree);
+  await formatFiles(tree, { skipFormat: schema.skipFormat });
 }

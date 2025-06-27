@@ -3,13 +3,13 @@ import type { AngularProjectConfiguration } from '@nx/angular/src/utils/types';
 import {
   ProjectConfiguration,
   Tree,
-  formatFiles,
   generateFiles,
   getProjects,
   joinPathFragments,
   normalizePath,
 } from '@nx/devkit';
 
+import { formatFiles } from '../../utils/format-files';
 import {
   getProjectTypeBase,
   getStorybookProject,
@@ -133,5 +133,5 @@ export default async function (
     },
   );
 
-  await formatFiles(tree);
+  await formatFiles(tree, { skipFormat: options.skipFormat });
 }

@@ -36,9 +36,9 @@
       );
     }
     &:not(
-        .ag-column-resizing,
-        .sky-ag-grid-header-resizable:has(> .ag-header-cell-resize:hover)
-      ) {
+      .ag-column-resizing,
+      .sky-ag-grid-header-resizable:has(> .ag-header-cell-resize:hover)
+    ) {
       .ag-header-cell-resize::after {
         // these styles make the resize handle a dotted line since it is not technically a border
         mask-size: 1px 2px;
@@ -97,11 +97,11 @@
   @for $i from 1 through 100 {
     // Hover, not while resizing
     .ag-root:has(
-        .ag-header-cell.sky-ag-grid-header-resizable:not(
-            .ag-column-resizing
-          ):nth-child(#{$i})
-          > .ag-header-cell-resize:hover
-      ) {
+      .ag-header-cell.sky-ag-grid-header-resizable:not(
+          .ag-column-resizing
+        ):nth-child(#{$i})
+        > .ag-header-cell-resize:hover
+    ) {
       .ag-header-cell.ag-floating-filter:nth-child(#{$i}),
       .ag-cell:nth-child(#{$i}) {
         border-right: 1px
@@ -121,10 +121,10 @@
 
     // While resizing
     .ag-root:has(
-        .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing:nth-child(
-            #{$i}
-          )
-      ) {
+      .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing:nth-child(
+          #{$i}
+        )
+    ) {
       .ag-header-cell.ag-floating-filter:nth-child(#{$i}),
       .ag-cell:nth-child(#{$i}) {
         border-right: 3px

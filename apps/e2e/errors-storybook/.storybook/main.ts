@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from 'storybook/internal/types';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { rootMain } from '../../../../.storybook/main';

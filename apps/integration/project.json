@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/integration/src",
   "prefix": "app",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -70,7 +71,8 @@
           "buildTarget": "integration:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -120,6 +122,5 @@
         }
       }
     }
-  },
-  "tags": []
+  }
 }

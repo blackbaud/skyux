@@ -13,4 +13,9 @@ export interface Schema {
    * The name of the project to generate the library resources module.
    */
   project?: string;
+
+  /**
+   * Skip formatting the code after generation.
+   */
+  skipFormat?: boolean;
 }

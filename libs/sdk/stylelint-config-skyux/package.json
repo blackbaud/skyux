@@ -3,8 +3,6 @@
   "version": "0.0.0-PLACEHOLDER",
   "author": "Blackbaud, Inc.",
   "description": "Recommended Stylelint configuration for SKY UX projects",
-  "type": "module",
-  "main": "./src/index.js",
   "keywords": [
     "blackbaud",
     "skyux"
@@ -29,12 +27,14 @@
       "@skyux-sdk/stylelint-schematics": "0.0.0-PLACEHOLDER"
     }
   },
+  "peerDependencies": {
+    "skyux-stylelint": "0.0.0-PLACEHOLDER",
+    "stylelint-config-recommended-scss": "^15.0.1"
+  },
   "dependencies": {
     "@skyux-sdk/stylelint-schematics": "0.0.0-PLACEHOLDER",
     "tslib": "^2.8.1"
   },
-  "peerDependencies": {
-    "skyux-stylelint": "0.0.0-PLACEHOLDER",
-    "stylelint-config-recommended-scss": "^15.0.1"
-  }
+  "type": "module",
+  "main": "./src/index.js"
 }

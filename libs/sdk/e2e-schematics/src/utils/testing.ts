@@ -5,7 +5,6 @@ import {
   libraryGenerator,
 } from '@nx/angular/generators';
 import { Tree } from '@nx/devkit';
-import { Linter } from '@nx/eslint';
 
 export async function createTestApplication(
   tree: Tree,
@@ -18,10 +17,11 @@ export async function createTestApplication(
     e2eTestRunner: options.e2eTestRunner
       ? E2eTestRunner.Cypress
       : E2eTestRunner.None,
-    linter: Linter.None,
+    linter: 'none',
     unitTestRunner: options.unitTestRunner
       ? UnitTestRunner.Jest
       : UnitTestRunner.None,
+    skipFormat: true,
   });
 }
 
@@ -33,7 +33,8 @@ export async function createTestLibrary(
     name: options.name,
     skipPackageJson: true,
     directory: `libs/${options.name}`,
-    linter: Linter.None,
+    linter: 'none',
     unitTestRunner: UnitTestRunner.None,
+    skipFormat: true,
   });
 }
