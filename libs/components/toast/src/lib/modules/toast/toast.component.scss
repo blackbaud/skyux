@@ -4,6 +4,7 @@
 @include compatMixins.sky-default-overrides('.sky-toast') {
   --sky-override-toast-align-items: center;
   --sky-override-toast-border-left-width: 30px;
+  --sky-override-toast-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
   --sky-override-toast-close-button-border: none;
   --sky-override-toast-close-button-border-radius: #{$sky-border-radius};
   --sky-override-toast-close-button-box-sizing: border-box;
@@ -32,6 +33,7 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-toast', false) {
+  --sky-override-toast-box-shadow: var(--sky-elevation-overlay-400);
   --sky-override-toast-close-button-box-sizing: border-box;
   --sky-override-toast-close-button-margin: -10px -10px 0 0;
   --sky-override-toast-close-button-padding: 1px;
@@ -79,6 +81,11 @@ sky-toast {
     display: flex;
     flex-direction: row;
     align-items: var(--sky-override-toast-align-items, flex-start);
+    // This box shadow rule and both overrides can be removed when v1 modern support is dropped. The class on the element will handle the styles correctly then.
+    box-shadow: var(
+      --sky-override-toast-box-shadow,
+      var(--sky-elevation-overlay-300)
+    );
 
     .sky-toast-btn-close {
       background-color: var(
@@ -118,8 +125,8 @@ sky-toast {
       );
       margin: var(
         --sky-override-toast-close-button-margin,
-        calc(calc(var(--sky-comp-toaster-space-inset-top) * 0.5) * -1)
-          calc(calc(var(--sky-comp-toaster-space-inset-right) * 0.5) * -1) 0 0
+        calc(calc(var(--sky-comp-toast-space-inset-top) * 0.5) * -1)
+          calc(calc(var(--sky-comp-toast-space-inset-right) * 0.5) * -1) 0 0
       );
       padding: var(
         --sky-override-toast-close-button-padding,
