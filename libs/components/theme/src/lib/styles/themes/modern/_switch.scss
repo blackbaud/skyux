@@ -79,10 +79,12 @@
         }
 
         &.sky-switch-control-icon {
+          background-color: var(--sky-color-background-selected-soft);
           color: var(
             --sky-override-switch-icon-checked-color-no-group,
-            var(--sky-color-icon-inverse)
+            var(--sky-color-icon-selected)
           );
+          border-color: var(--sky-color-border-selected);
         }
 
         background-color: var(--sky-color-background-selected-heavy);
@@ -302,7 +304,7 @@
       border-width: var(--sky-border-width-selected-s);
       color: var(
         --sky-override-switch-checked-color,
-        var(--sky-color-icon-inverse)
+        var(--sky-color-icon-action)
       );
     }
 
