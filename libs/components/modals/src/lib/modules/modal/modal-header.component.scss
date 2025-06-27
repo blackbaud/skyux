@@ -3,14 +3,31 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-modal-heading') {
+  --sky-override-modal-h2-font-size: 16px;
+  --sky-override-modal-h2-font-weight: 600;
   --sky-override-modal-h2-line-height: 1.2;
 }
 
 @include compatMixins.sky-modern-overrides('.sky-modal-heading') {
+  --sky-override-modal-h2-font-size: var(--sky-font-size-display-3);
+  --sky-override-modal-h2-font-weight: var(--sky-font-weight-display-3);
   --sky-override-modal-h2-line-height: 1.2;
 }
 
-h2 {
-  line-height: var(--sky-override-modal-h2-line-height, inherit);
+h2.sky-modal-heading {
   display: inline;
+
+  // These font rules can be removed when default and modern v1 support is removed as the heading 2 styles are applied to the h2 tag.
+  line-height: var(
+    --sky-override-modal-h2-line-height,
+    var(--sky-font-line_height-heading-2)
+  );
+  font-size: var(
+    --sky-override-modal-h2-font-size,
+    var(--sky-font-size-heading-2)
+  );
+  font-weight: var(
+    --sky-override-modal-h2-font-weight,
+    var(--sky-font-weight-heading-2)
+  );
 }
