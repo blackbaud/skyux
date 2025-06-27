@@ -95,10 +95,10 @@
         );
 
         &:is(
-            .sky-switch-control-success,
-            .sky-switch-control-warning,
-            .sky-switch-control-danger
-          ) {
+          .sky-switch-control-success,
+          .sky-switch-control-warning,
+          .sky-switch-control-danger
+        ) {
           color: var(--sky-color-icon-default);
         }
 
