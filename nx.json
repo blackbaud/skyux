@@ -3,6 +3,9 @@
   "cli": {
     "packageManager": "npm"
   },
+  "tui": {
+    "enabled": false
+  },
   "defaultProject": "playground",
   "generators": {
     "@nx/angular:application": {

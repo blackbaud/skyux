@@ -1,3 +1,4 @@
+import { TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyPageThemeAdapterService } from './page-theme-adapter.service';
@@ -10,7 +11,7 @@ describe('Page theme service', () => {
   }
 
   beforeEach(() => {
-    pageThemeSvc = new SkyPageThemeAdapterService(document);
+    pageThemeSvc = TestBed.inject(SkyPageThemeAdapterService);
   });
 
   afterEach(() => {
