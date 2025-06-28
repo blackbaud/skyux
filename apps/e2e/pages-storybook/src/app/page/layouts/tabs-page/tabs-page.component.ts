@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { SkyPageModule } from '@skyux/pages';
 import { SkyTabsModule } from '@skyux/tabs';
@@ -7,7 +6,7 @@ import { LinksComponent } from '../../../shared/links/links.component';
 
 @Component({
   selector: 'app-tabs-page',
-  imports: [CommonModule, SkyPageModule, SkyTabsModule, LinksComponent],
+  imports: [SkyPageModule, SkyTabsModule, LinksComponent],
   templateUrl: './tabs-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

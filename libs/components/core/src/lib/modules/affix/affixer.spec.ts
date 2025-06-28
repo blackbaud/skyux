@@ -1,7 +1,8 @@
 import { ViewportRuler } from '@angular/cdk/overlay';
-import { DOCUMENT, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   Component,
+  DOCUMENT,
   ElementRef,
   NgZone,
   RendererFactory2,

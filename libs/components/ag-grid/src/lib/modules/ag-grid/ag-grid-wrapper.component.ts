@@ -1,4 +1,4 @@
-import { AsyncPipe, DOCUMENT, NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -6,6 +6,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
+  DOCUMENT,
   ElementRef,
   HostBinding,
   Input,

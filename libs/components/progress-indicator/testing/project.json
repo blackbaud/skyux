@@ -40,7 +40,9 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["libs/components/progress-indicator/testing/src/**/*.ts"]
+        "lintFilePatterns": [
+          "libs/components/progress-indicator/testing/src/**/*.ts"
+        ]
       }
     }
   }

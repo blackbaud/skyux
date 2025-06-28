@@ -1,8 +1,8 @@
-import { DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  DOCUMENT,
   Inject,
   Input,
   OnDestroy,

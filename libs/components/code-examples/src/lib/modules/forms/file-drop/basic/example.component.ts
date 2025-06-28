@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
@@ -36,7 +35,6 @@ function customValidator(
   imports: [
     SkyFileDropModule,
     SkyStatusIndicatorModule,
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
   ],

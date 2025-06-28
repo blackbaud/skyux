@@ -11,49 +11,52 @@
           (selectedIdsChange)="onSelectedIdsChange($event)"
         >
           <sky-list-toolbar [inMemorySearchEnabled]="inMemorySearchEnabled">
-            <sky-list-toolbar-search-actions *ngIf="showAddNewRecordButton">
-              <button
-                class="sky-btn sky-btn-default sky-select-field-picker-btn-new"
-                type="button"
-                [attr.title]="
-                  'skyux_select_field_add_new_record_button' | skyLibResources
-                "
-                (click)="onAddNewRecordButtonClick()"
-              >
-                <sky-icon iconName="add" />
-                <span class="sky-select-field-picker-btn-new-text">{{
-                  'skyux_select_field_add_new_record_button' | skyLibResources
-                }}</span>
-              </button>
-            </sky-list-toolbar-search-actions>
-            <sky-list-filter-inline *ngIf="categories && categories.length">
-              <sky-list-filter-inline-item
-                name="category"
-                [defaultValue]="defaultCategory"
-                [filter]="filterByCategory"
-                [value]="defaultCategory"
-              >
-                <ng-template let-filter="filter">
-                  <select
-                    [ngModel]="filter.value"
-                    (ngModelChange)="onCategoryChange($event, filter)"
-                  >
-                    <option [value]="defaultCategory">
-                      {{
-                        'skyux_select_field_picker_show_all_category'
-                          | skyLibResources
-                      }}
-                    </option>
-                    <option
-                      *ngFor="let category of categories"
-                      [value]="category"
+            @if (showAddNewRecordButton) {
+              <sky-list-toolbar-search-actions>
+                <button
+                  class="sky-btn sky-btn-default sky-select-field-picker-btn-new"
+                  type="button"
+                  [attr.title]="
+                    'skyux_select_field_add_new_record_button' | skyLibResources
+                  "
+                  (click)="onAddNewRecordButtonClick()"
+                >
+                  <sky-icon iconName="add" />
+                  <span class="sky-select-field-picker-btn-new-text">{{
+                    'skyux_select_field_add_new_record_button' | skyLibResources
+                  }}</span>
+                </button>
+              </sky-list-toolbar-search-actions>
+            }
+            @if (categories && categories.length) {
+              <sky-list-filter-inline>
+                <sky-list-filter-inline-item
+                  name="category"
+                  [defaultValue]="defaultCategory"
+                  [filter]="filterByCategory"
+                  [value]="defaultCategory"
+                >
+                  <ng-template let-filter="filter">
+                    <select
+                      [ngModel]="filter.value"
+                      (ngModelChange)="onCategoryChange($event, filter)"
                     >
-                      {{ category }}
-                    </option>
-                  </select>
-                </ng-template>
-              </sky-list-filter-inline-item>
-            </sky-list-filter-inline>
+                      <option [value]="defaultCategory">
+                        {{
+                          'skyux_select_field_picker_show_all_category'
+                            | skyLibResources
+                        }}
+                      </option>
+                      @for (category of categories; track category) {
+                        <option [value]="category">
+                          {{ category }}
+                        </option>
+                      }
+                    </select>
+                  </ng-template>
+                </sky-list-filter-inline-item>
+              </sky-list-filter-inline>
+            }
           </sky-list-toolbar>
           <sky-list-view-checklist [selectMode]="selectMode" />
           <sky-list-paging pageSize="6" />

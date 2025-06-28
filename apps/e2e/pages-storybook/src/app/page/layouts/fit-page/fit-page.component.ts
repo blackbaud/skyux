@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -37,7 +36,6 @@ interface WorkspaceItem {
 @Component({
   selector: 'app-fit-page',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     SkyAlertModule,
     SkyAvatarModule,

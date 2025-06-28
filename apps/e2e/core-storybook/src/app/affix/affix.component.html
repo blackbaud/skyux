@@ -2,44 +2,55 @@
   <div class="blank-space">(blank space)</div>
 }
 <div class="sky-padding-even-lg">
-  <div *ngFor="let context of contexts">
-    <h1>context: {{ context }}</h1>
-    <div class="affixed-examples affixed-examples__{{ context }}">
-      <ng-container *ngFor="let position of positions">
-        <ng-container *ngFor="let placement of placements">
-          <ng-container *ngFor="let verticalAlignment of verticalAlignments">
-            <div
-              *ngFor="let horizontalAlignment of horizontalAlignments"
-              class="
+  @for (context of contexts; track context) {
+    <div>
+      <h1>context: {{ context }}</h1>
+      <div class="affixed-examples affixed-examples__{{ context }}">
+        @for (position of positions; track position) {
+          @for (placement of placements; track placement) {
+            @for (
+              verticalAlignment of verticalAlignments;
+              track verticalAlignment
+            ) {
+              @for (
+                horizontalAlignment of horizontalAlignments;
+                track horizontalAlignment
+              ) {
+                <div
+                  class="
               affixed-container
               affixed-container__vertical-alignment-{{ verticalAlignment }}
               affixed-container__horizontal-alignment-{{ horizontalAlignment }}
               affixed-container__placement-{{ placement }}
               affixed-container__position-{{ position }}
             "
-            >
-              <div #base class="affix-base-element">
-                base element, {{ placement }} placement, {{ position }} position
-              </div>
-              <div
-                *ngIf="base"
-                class="affixed-element"
-                [skyAffixTo]="base"
-                [affixPlacement]="placement"
-                [affixHorizontalAlignment]="horizontalAlignment"
-                [affixVerticalAlignment]="verticalAlignment"
-                [affixPosition]="position"
-                [affixIsSticky]="isSticky"
-                [affixAutoFitContext]="autoFitContext.viewport"
-                [affixEnableAutoFit]="true"
-              >
-                {{ verticalAlignment }} {{ horizontalAlignment }} affixed
-                element
-              </div>
-            </div>
-          </ng-container>
-        </ng-container>
-      </ng-container>
+                >
+                  <div #base class="affix-base-element">
+                    base element, {{ placement }} placement,
+                    {{ position }} position
+                  </div>
+                  @if (base) {
+                    <div
+                      class="affixed-element"
+                      [skyAffixTo]="base"
+                      [affixPlacement]="placement"
+                      [affixHorizontalAlignment]="horizontalAlignment"
+                      [affixVerticalAlignment]="verticalAlignment"
+                      [affixPosition]="position"
+                      [affixIsSticky]="isSticky"
+                      [affixAutoFitContext]="autoFitContext.viewport"
+                      [affixEnableAutoFit]="true"
+                    >
+                      {{ verticalAlignment }} {{ horizontalAlignment }} affixed
+                      element
+                    </div>
+                  }
+                </div>
+              }
+            }
+          }
+        }
+      </div>
     </div>
-  </div>
+  }
 </div>

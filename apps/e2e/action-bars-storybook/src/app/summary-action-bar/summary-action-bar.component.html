@@ -30,32 +30,34 @@
     </sky-summary-action-bar-summary>
   </sky-summary-action-bar>
 </ng-template>
-<sky-split-view
-  *ngIf="type === 'split-view'"
-  dock="fill"
-  backButtonText="Responsive button text"
->
-  <sky-split-view-drawer>Drawer</sky-split-view-drawer>
-  <sky-split-view-workspace>
-    <sky-split-view-workspace-content>Content</sky-split-view-workspace-content>
-    <sky-split-view-workspace-footer #workspaceRef="skyResponsiveHost">
+@if (type === 'split-view') {
+  <sky-split-view dock="fill" backButtonText="Responsive button text">
+    <sky-split-view-drawer>Drawer</sky-split-view-drawer>
+    <sky-split-view-workspace>
+      <sky-split-view-workspace-content
+        >Content</sky-split-view-workspace-content
+      >
+      <sky-split-view-workspace-footer #workspaceRef="skyResponsiveHost">
+        <ng-container
+          [ngTemplateOutlet]="actionBar"
+          [ngTemplateOutletInjector]="workspaceRef.injector"
+        />
+      </sky-split-view-workspace-footer>
+    </sky-split-view-workspace>
+  </sky-split-view>
+}
+@if (type === 'tab') {
+  <sky-tabset>
+    <sky-tab #tabRef="skyResponsiveHost" tabHeading="Tab 1">
+      Content for Tab 1
       <ng-container
         [ngTemplateOutlet]="actionBar"
-        [ngTemplateOutletInjector]="workspaceRef.injector"
+        [ngTemplateOutletInjector]="tabRef.injector"
       />
-    </sky-split-view-workspace-footer>
-  </sky-split-view-workspace>
-</sky-split-view>
-<sky-tabset *ngIf="type === 'tab'">
-  <sky-tab #tabRef="skyResponsiveHost" tabHeading="Tab 1">
-    Content for Tab 1
-    <ng-container
-      [ngTemplateOutlet]="actionBar"
-      [ngTemplateOutletInjector]="tabRef.injector"
-    />
-  </sky-tab>
-  <sky-tab tabHeading="Tab 2"> Content for Tab 2 </sky-tab>
-</sky-tabset>
-<ng-container *ngIf="type === 'page'">
+    </sky-tab>
+    <sky-tab tabHeading="Tab 2"> Content for Tab 2 </sky-tab>
+  </sky-tabset>
+}
+@if (type === 'page') {
   <ng-container *ngTemplateOutlet="actionBar" />
-</ng-container>
+}

@@ -16,9 +16,9 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular/common": "^19.2.7",
-    "@angular/core": "^19.2.7",
-    "@angular/forms": "^19.2.7",
+    "@angular/common": "^20.0.5",
+    "@angular/core": "^20.0.5",
+    "@angular/forms": "^20.0.5",
     "autonumeric": "^4.10.5"
   },
   "dependencies": {

@@ -8,7 +8,7 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/libs/components/filter-bar"],
+      "outputs": ["./dist/libs/components/filter-bar"],
       "options": {
         "project": "libs/components/filter-bar/ng-package.json"
       },
@@ -31,9 +31,9 @@
       "inputs": [
         "buildInputs",
         "^buildInputs",
-        "{workspaceRoot}/libs/components/filter-bar/testing/src/**/*",
-        "!{workspaceRoot}/libs/components/filter-bar/testing/src/**/*.spec.ts",
-        "!{workspaceRoot}/libs/components/filter-bar/testing/src/**/fixtures/**/*"
+        "./libs/components/filter-bar/testing/src/**/*",
+        "!./libs/components/filter-bar/testing/src/**/*.spec.ts",
+        "!./libs/components/filter-bar/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {
@@ -54,7 +54,7 @@
         ],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
+          "includePaths": ["."]
         }
       },
       "configurations": {

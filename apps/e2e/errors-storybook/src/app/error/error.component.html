@@ -1,31 +1,39 @@
 <ng-template #error>
   <sky-error [errorType]="errorType" [showImage]="showImage">
-    <sky-error-image *ngIf="customImage">
-      <img src="/old_broken_bird.jpg" />
-    </sky-error-image>
-    <sky-error-title
-      *ngIf="customTitleAndDescription"
-      [replaceDefaultTitle]="replaceDefaultTitleAndDescription"
-    >
-      A bad thing happened.</sky-error-title
-    >
-    <sky-error-description
-      *ngIf="customTitleAndDescription"
-      [replaceDefaultDescription]="replaceDefaultTitleAndDescription"
-    >
-      A bad thing happened.</sky-error-description
-    >
-    <sky-error-action *ngIf="customAction">
-      <button class="sky-btn sky-btn-link" type="button">Try again</button>
-    </sky-error-action>
+    @if (customImage) {
+      <sky-error-image>
+        <img alt="" src="/old_broken_bird.jpg" />
+      </sky-error-image>
+    }
+    @if (customTitleAndDescription) {
+      <sky-error-title
+        [replaceDefaultTitle]="replaceDefaultTitleAndDescription"
+      >
+        A bad thing happened.</sky-error-title
+      >
+    }
+    @if (customTitleAndDescription) {
+      <sky-error-description
+        [replaceDefaultDescription]="replaceDefaultTitleAndDescription"
+      >
+        A bad thing happened.</sky-error-description
+      >
+    }
+    @if (customAction) {
+      <sky-error-action>
+        <button class="sky-btn sky-btn-link" type="button">Try again</button>
+      </sky-error-action>
+    }
   </sky-error>
 </ng-template>
 
-<div *ngIf="pageError" id="page-container">
-  <ng-container *ngTemplateOutlet="error" />
-</div>
+@if (pageError) {
+  <div id="page-container">
+    <ng-container *ngTemplateOutlet="error" />
+  </div>
+}
 
-<ng-container *ngIf="!pageError">
+@if (!pageError) {
   <sky-box class="sky-padding-even-md">
     <sky-box-header>
       <h2 class="sky-font-heading-2">Giving</h2>
@@ -34,4 +42,4 @@
       <ng-container *ngTemplateOutlet="error" />
     </sky-box-content>
   </sky-box>
-</ng-container>
+}

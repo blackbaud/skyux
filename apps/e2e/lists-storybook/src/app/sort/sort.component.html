@@ -1,23 +1,21 @@
 <div class="sky-padding-even-large">
   <div class="sky-margin-stacked-xl" id="sort-no-btn-text">
     <sky-sort [showButtonText]="false">
-      <sky-sort-item
-        *ngFor="let item of sortOptions"
-        [active]="initialState === item.id"
-      >
-        {{ item.label }}
-      </sky-sort-item>
+      @for (item of sortOptions; track item) {
+        <sky-sort-item [active]="initialState === item.id">
+          {{ item.label }}
+        </sky-sort-item>
+      }
     </sky-sort>
   </div>
 
   <div id="sort-with-btn-text">
     <sky-sort [showButtonText]="true">
-      <sky-sort-item
-        *ngFor="let item of sortOptions"
-        [active]="initialState === item.id"
-      >
-        {{ item.label }}
-      </sky-sort-item>
+      @for (item of sortOptions; track item) {
+        <sky-sort-item [active]="initialState === item.id">
+          {{ item.label }}
+        </sky-sort-item>
+      }
     </sky-sort>
   </div>
 </div>

@@ -6,13 +6,14 @@
   [title]="title"
 >
   <sky-action-hub-buttons>
-    <a
-      *ngFor="let button of buttons"
-      class="sky-btn sky-btn-default sky-margin-inline-sm"
-      [href]="button.permalink.url"
-    >
-      {{ button.label }}
-    </a>
+    @for (button of buttons; track button) {
+      <a
+        class="sky-btn sky-btn-default sky-margin-inline-sm"
+        [href]="button.permalink.url"
+      >
+        {{ button.label }}
+      </a>
+    }
   </sky-action-hub-buttons>
 
   <sky-action-hub-content>

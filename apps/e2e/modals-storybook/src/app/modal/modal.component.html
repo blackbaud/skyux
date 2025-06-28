@@ -65,4 +65,6 @@
   Open help inline modal (heading text)
 </button>
 
-<div *ngIf="showPositionedEl" class="modal-screenshot-positioned"></div>
+@if (showPositionedEl) {
+  <div class="modal-screenshot-positioned"></div>
+}

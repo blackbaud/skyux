@@ -144,11 +144,12 @@
         labelText="Text"
         hintText="Hint text"
       />
-      <sky-form-error
-        *ngIf="standardCheckboxGroupFormGroup1.errors?.['emailOnly']"
-        errorName="emailOnly"
-        errorText="Email cannot be the only contact method."
-      />
+      @if (standardCheckboxGroupFormGroup1.errors?.['emailOnly']) {
+        <sky-form-error
+          errorName="emailOnly"
+          errorText="Email cannot be the only contact method."
+        />
+      }
     </sky-checkbox-group>
     <sky-checkbox-group
       headingLevel="3"

@@ -1,5 +1,5 @@
-<ng-container *ngFor="let type of types">
+@for (type of types; track type) {
   <div class="sky-margin-stacked-lg">
     <sky-label [labelType]="type"> {{ type }} label </sky-label>
   </div>
-</ng-container>
+}

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { SkyAvatarModule } from '@skyux/avatar';
 import { SkyAlertModule, SkyLabelModule } from '@skyux/indicators';
@@ -11,7 +10,6 @@ import { LinksComponent } from '../../../shared/links/links.component';
 @Component({
   selector: 'app-blocks-page',
   imports: [
-    CommonModule,
     SkyAlertModule,
     SkyAvatarModule,
     SkyBoxModule,
