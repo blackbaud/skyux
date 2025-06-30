@@ -55,8 +55,8 @@
     "@skyux/tiles": "0.0.0-PLACEHOLDER",
     "@skyux/toast": "0.0.0-PLACEHOLDER",
     "@skyux/validation": "0.0.0-PLACEHOLDER",
-    "ag-grid-angular": "^33.2.1",
-    "ag-grid-community": "^33.2.1"
+    "ag-grid-angular": "^33.3.2",
+    "ag-grid-community": "^33.3.2"
   },
   "dependencies": {
     "tslib": "^2.8.1"
