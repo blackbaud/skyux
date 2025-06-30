@@ -11,25 +11,10 @@
       "factory": "./src/schematics/ng-generate/add-ag-grid-styles/add-ag-grid-styles.schematic",
       "schema": "./src/schematics/ng-generate/add-ag-grid-styles/schema.json"
     },
-    "ag-grid-migrate": {
-      "description": "Run AG Grid code modifications.",
-      "factory": "./src/schematics/ag-grid-migrate/ag-grid-migrate.schematic",
-      "schema": "./src/schematics/ag-grid-migrate/schema.json"
-    },
     "polyfills": {
       "description": "Add @skyux/packages/polyfills to project config.",
       "factory": "./src/schematics/ng-generate/polyfills/polyfills.schematic",
       "schema": "./src/schematics/ng-generate/polyfills/schema.json"
-    },
-    "remove-compat-stylesheets": {
-      "description": "Remove SKY UX compatibility stylesheets.",
-      "factory": "./src/schematics/ng-generate/remove-compat-stylesheets/remove-compat-stylesheets.schematic",
-      "schema": "./src/schematics/ng-generate/remove-compat-stylesheets/schema.json"
-    },
-    "remove-nx-cache": {
-      "description": "Remove the Nx cache directory from git.",
-      "factory": "./src/schematics/ng-generate/remove-nx-cache/remove-nx-cache.schematic",
-      "schema": "./src/schematics/ng-generate/remove-nx-cache/schema.json"
     }
   }
 }

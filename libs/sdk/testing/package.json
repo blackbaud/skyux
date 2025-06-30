@@ -15,6 +15,13 @@
     "url": "https://github.com/blackbaud/skyux/issues"
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
+  "ng-update": {
+    "packageGroupName": "@skyux-sdk/testing",
+    "packageGroup": {
+      "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
+      "axe-core": "~4.10.3"
+    }
+  },
   "peerDependencies": {
     "@angular/common": "^20.0.5",
     "@angular/core": "^20.0.5",

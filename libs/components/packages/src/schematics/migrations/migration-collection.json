@@ -5,59 +5,14 @@
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
     },
-    "ag-grid": {
-      "version": "12.0.0",
-      "factory": "./update-12/ag-grid/ag-grid.schematic",
-      "description": "Changes to support AG Grid 33."
-    },
-    "axe-core": {
-      "version": "12.0.0",
-      "factory": "./update-12/axe-core/axe-core.schematic",
-      "description": "Update axe-core if @skyux-sdk/testing installed."
-    },
-    "help-inline-import-path": {
-      "version": "12.0.0",
-      "factory": "./update-12/help-inline-import-path/help-inline-import-path.schematic",
-      "description": "Update help inline import paths to help inline library."
-    },
     "i18n-resources-module": {
-      "version": "12.0.0",
-      "factory": "./update-12/i18n-resources-module/i18n-resources-module.schematic",
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./update-13/i18n-resources-module/i18n-resources-module.schematic",
       "description": "Regenerate i18n resources modules for libraries."
     },
-    "icon-name": {
-      "version": "12.0.0",
-      "factory": "./update-12/icon-name/icon-name.schematic",
-      "description": "Update icon `icon` properties to `iconName`."
-    },
-    "icons-migration": {
-      "version": "12.0.0",
-      "factory": "./update-12/icons-migration/icons-migration.schematic",
-      "description": "Update icons import paths to icons library and add new peer."
-    },
-    "icons-size": {
-      "version": "12.0.0",
-      "factory": "./update-12/icons-size/icons-size.schematic",
-      "description": "Update icons to include size input."
-    },
-    "remove-angular-eslint-prefer-standalone-component": {
-      "version": "12.0.0",
-      "factory": "./update-12/remove-angular-eslint-prefer-standalone-component/remove-angular-eslint-prefer-standalone-component.schematic",
-      "description": "Remove inline eslint ignore comments for @angular-eslint/prefer-standalone-component."
-    },
-    "remove-nx-cache": {
-      "version": "12.0.0",
-      "factory": "./update-12/remove-nx-cache/remove-nx-cache.schematic",
-      "description": "Remove `.nx/cache` from git and add `.gitignore` entry."
-    },
-    "remove-old-compat-stylesheets": {
-      "version": "12.0.0",
-      "factory": "./update-12/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",
-      "description": "Remove backward compatible stylesheets for older versions of SKY UX."
-    },
     "workspace-check": {
-      "version": "12.0.0",
-      "factory": "./update-12/workspace-check/workspace-check.schematic",
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./update-13/workspace-check/workspace-check.schematic",
       "description": "Log warnings if the workspace is not configured correctly."
     }
   }
