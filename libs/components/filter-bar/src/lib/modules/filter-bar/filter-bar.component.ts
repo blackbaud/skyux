@@ -93,9 +93,11 @@ export class SkyFilterBarComponent {
     const filters = [...this.filters()!];
     if (filters.length) {
       const index = filters?.indexOf(filter);
-      filters[index].filterValue = value;
 
-      this.filters.set(filters);
+      if (index > -1) {
+        filters[index].filterValue = value;
+        this.filters.set(filters);
+      }
     }
   }
 
