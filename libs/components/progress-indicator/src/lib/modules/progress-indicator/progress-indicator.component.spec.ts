@@ -838,17 +838,19 @@ describe('Progress indicator component', () => {
       componentInstance.defaultNavButtonProgressIndicatorRef = undefined;
 
       detectChanges();
+
       expect(() => {
         tick(100);
-      }).toThrowError();
-      /**
-       * Note: I'm not sure why this second expectation is needed but without it the test yells
-       * that a timer is still in the queue even though debugging only shows the timeout hitting
-       * once and in manual testing the error is only thrown once
-       */
-      expect(() => {
-        tick(100);
-      }).toThrowError();
+      })
+        .toThrowError(`The \`<sky-progress-indicator-nav-button>\` component requires a reference to the \`<sky-progress-indicator>\` component it controls. For example:
+<sky-progress-indicator
+  #myProgressIndicator
+>
+</sky-progress-indicator>
+<sky-progress-indicator-nav-button
+  [progressIndicator]="myProgressIndicator"
+>
+</sky-progress-indicator-nav-button>`);
     }));
   });
 
