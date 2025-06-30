@@ -26,17 +26,17 @@ export class FilterBarComponent {
   #_filters: SkyFilterBarFilterItem[] | undefined = [
     {
       name: 'filter 1',
-      id: 1,
+      id: '1',
       filterModalConfig: { modalComponent: TestModalComponent },
     },
     {
       name: 'filter 2',
-      id: 2,
+      id: '2',
       filterModalConfig: { modalComponent: TestModalComponent },
     },
     {
       name: 'filter 3',
-      id: 3,
+      id: '3',
       filterModalConfig: { modalComponent: TestModalComponent },
     },
   ];
@@ -44,51 +44,51 @@ export class FilterBarComponent {
   #filters: SkyFilterBarFilterItem[] = [
     {
       name: 'filter 1',
-      id: 1,
+      id: '1',
       filterModalConfig: { modalComponent: TestModalComponent },
     },
     {
       name: 'filter 2',
-      id: 2,
+      id: '2',
       filterModalConfig: { modalComponent: TestModalComponent },
     },
     {
       name: 'filter 3',
-      id: 3,
+      id: '3',
       filterModalConfig: { modalComponent: TestModalComponent },
     },
     {
       name: 'filter 4',
-      id: 4,
+      id: '4',
       filterModalConfig: { modalComponent: TestModalComponent },
     },
     {
       name: 'filter 5',
-      id: 5,
+      id: '5',
       filterModalConfig: { modalComponent: TestModalComponent },
     },
     {
       name: 'filter 6',
-      id: 6,
+      id: '6',
       filterModalConfig: { modalComponent: TestModalComponent },
     },
     {
       name: 'filter 7',
-      id: 7,
+      id: '7',
       filterModalConfig: { modalComponent: TestModalComponent },
     },
     {
       name: 'filter 8',
-      id: 8,
+      id: '8',
       filterModalConfig: { modalComponent: TestModalComponent },
     },
   ];
 
   public resetFilters(): void {
     this.filters = [
-      { name: 'filter 1', id: 1 },
-      { name: 'filter 2', id: 2 },
-      { name: 'filter 3', id: 3 },
+      { name: 'filter 1', id: '1' },
+      { name: 'filter 2', id: '2' },
+      { name: 'filter 3', id: '3' },
     ];
   }
 
