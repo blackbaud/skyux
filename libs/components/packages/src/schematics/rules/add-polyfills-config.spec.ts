@@ -53,7 +53,9 @@ describe('addPolyfillsConfig', () => {
     });
 
     const rule = addPolyfillsConfig(projectName, ['build', 'test']);
-    const updatedTree = await lastValueFrom(runner.callRule(rule, tree)) as UnitTestTree;
+    const updatedTree = (await lastValueFrom(
+      runner.callRule(rule, tree),
+    )) as UnitTestTree;
 
     const angularJson = readJson(updatedTree, 'angular.json');
     const architect = angularJson.projects[projectName].architect;
@@ -73,7 +75,9 @@ describe('addPolyfillsConfig', () => {
     });
 
     const rule = addPolyfillsConfig(projectName, ['build', 'test']);
-    const updatedTree = await lastValueFrom(runner.callRule(rule, tree)) as UnitTestTree;
+    const updatedTree = (await lastValueFrom(
+      runner.callRule(rule, tree),
+    )) as UnitTestTree;
 
     const angularJson = readJson(updatedTree, 'angular.json');
     const architect = angularJson.projects[projectName].architect;
@@ -93,7 +97,9 @@ describe('addPolyfillsConfig', () => {
     });
 
     const rule = addPolyfillsConfig(projectName, ['build', 'test']);
-    const updatedTree = await lastValueFrom(runner.callRule(rule, tree)) as UnitTestTree;
+    const updatedTree = (await lastValueFrom(
+      runner.callRule(rule, tree),
+    )) as UnitTestTree;
 
     const angularJson = readJson(updatedTree, 'angular.json');
     const architect = angularJson.projects[projectName].architect;
@@ -113,15 +119,25 @@ describe('addPolyfillsConfig', () => {
     });
 
     const rule = addPolyfillsConfig(projectName, ['build', 'test']);
-    const updatedTree = await lastValueFrom(runner.callRule(rule, tree)) as UnitTestTree;
+    const updatedTree = (await lastValueFrom(
+      runner.callRule(rule, tree),
+    )) as UnitTestTree;
 
     const angularJson = readJson(updatedTree, 'angular.json');
     const architect = angularJson.projects[projectName].architect;
     const polyfill = '@skyux/packages/polyfills';
 
     // Should preserve existing array polyfills and add the new one
-    expect(architect.build.options.polyfills).toEqual(['zone.js', 'core-js', polyfill]);
-    expect(architect.test.options.polyfills).toEqual(['zone.js', 'core-js', polyfill]);
+    expect(architect.build.options.polyfills).toEqual([
+      'zone.js',
+      'core-js',
+      polyfill,
+    ]);
+    expect(architect.test.options.polyfills).toEqual([
+      'zone.js',
+      'core-js',
+      polyfill,
+    ]);
   });
 
   it('should not add duplicate polyfills', async () => {
@@ -133,13 +149,19 @@ describe('addPolyfillsConfig', () => {
     });
 
     const rule = addPolyfillsConfig(projectName, ['build', 'test']);
-    const updatedTree = await lastValueFrom(runner.callRule(rule, tree)) as UnitTestTree;
+    const updatedTree = (await lastValueFrom(
+      runner.callRule(rule, tree),
+    )) as UnitTestTree;
 
     const angularJson = readJson(updatedTree, 'angular.json');
     const architect = angularJson.projects[projectName].architect;
 
     // Should not duplicate the polyfill
-    expect(architect.build.options.polyfills).toEqual(['@skyux/packages/polyfills']);
-    expect(architect.test.options.polyfills).toEqual(['@skyux/packages/polyfills']);
+    expect(architect.build.options.polyfills).toEqual([
+      '@skyux/packages/polyfills',
+    ]);
+    expect(architect.test.options.polyfills).toEqual([
+      '@skyux/packages/polyfills',
+    ]);
   });
 });
