@@ -32,11 +32,6 @@
       "factory": "./src/generators/pr-comment/generator",
       "schema": "./src/generators/pr-comment/schema.json",
       "description": "pr-comment generator"
-    },
-    "switch-to-variations": {
-      "factory": "./src/generators/switch-to-variations/generator",
-      "schema": "./src/generators/switch-to-variations/schema.json",
-      "description": "switch-to-variations generator"
     }
   }
 }

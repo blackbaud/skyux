@@ -27,17 +27,18 @@ describe('configure-percy', () => {
     await configurationGenerator(tree, {
       project: 'cypress',
       baseUrl: 'https://example.com',
+      linter: 'none',
+      bundler: 'none',
+      skipFormat: true,
     });
     expect(tree.exists('apps/cypress/src/support/e2e.ts')).toBeTruthy();
-    expect(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      tree.read('apps/cypress/src/support/e2e.ts')!.toString(),
-    ).not.toContain('percy');
+    expect(tree.read('apps/cypress/src/support/e2e.ts', 'utf-8')).not.toContain(
+      'percy',
+    );
     await configurePercy(tree, { name: 'cypress' });
-    expect(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      tree.read('apps/cypress/src/support/e2e.ts')!.toString(),
-    ).toContain('percy');
+    expect(tree.read('apps/cypress/src/support/e2e.ts', 'utf-8')).toContain(
+      'percy',
+    );
   });
 
   it('should generate cypress.config.ts', async () => {
@@ -45,6 +46,10 @@ describe('configure-percy', () => {
     await configurationGenerator(tree, {
       project: `cypress`,
       baseUrl: 'https://example.com',
+      linter: 'none',
+      bundler: 'none',
+      directory: '',
+      skipFormat: true,
     });
     await configurePercy(tree, { name: 'cypress' });
     expect(tree.exists('apps/cypress/cypress.config.ts')).toBeTruthy();
@@ -58,6 +63,10 @@ describe('configure-percy', () => {
     await configurationGenerator(tree, {
       project: `cypress`,
       baseUrl: 'https://example.com',
+      linter: 'none',
+      bundler: 'none',
+      directory: '',
+      skipFormat: true,
     });
     tree.delete(`apps/cypress/src/support/e2e.ts`);
     await configurePercy(tree, { name: 'cypress' });

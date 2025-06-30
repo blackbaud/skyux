@@ -49,7 +49,7 @@ describe('component-e2e', () => {
       );
       return nxJson;
     });
-    await componentE2eGenerator(tree, { name: 'test' });
+    await componentE2eGenerator(tree, { name: 'test', skipFormat: true });
     const config: Record<string, ProjectConfiguration> = {};
     for (const projectName of ['test-storybook', 'test-storybook-e2e']) {
       config[projectName] = readProjectConfiguration(tree, projectName);
@@ -88,16 +88,17 @@ describe('component-e2e', () => {
       tree.exists(`${config['test-storybook-e2e'].sourceRoot}/support/e2e.ts`),
     ).toBeTruthy();
     expect(
-      tree
-        .read(`${config['test-storybook-e2e'].sourceRoot}/support/e2e.ts`)
-        ?.toString(),
+      tree.read(
+        `${config['test-storybook-e2e'].sourceRoot}/support/e2e.ts`,
+        'utf-8',
+      ),
     ).toContain('percy');
   });
 
   it('should error without a name', async () => {
     const { tree } = setupTest();
     try {
-      await componentE2eGenerator(tree, { name: '' });
+      await componentE2eGenerator(tree, { name: '', skipFormat: true });
       fail();
     } catch (e) {
       expect((e as Error).message).toEqual(
@@ -110,7 +111,11 @@ describe('component-e2e', () => {
     const { tree } = setupTest();
     await createTestLibrary(tree, { name: 'storybook' });
     await createTestLibrary(tree, { name: 'test-component' });
-    await componentE2eGenerator(tree, { name: 'test', tags: 'one, two' });
+    await componentE2eGenerator(tree, {
+      name: 'test',
+      tags: 'one, two',
+      skipFormat: true,
+    });
     const config = readProjectConfiguration(tree, 'test-storybook');
     expect(config.tags).toContain('one');
   });
@@ -120,9 +125,13 @@ describe('component-e2e', () => {
     const { tree } = setupTest();
     await createTestLibrary(tree, { name: 'storybook' });
     await createTestLibrary(tree, { name: 'test-component' });
-    await componentE2eGenerator(tree, { name: 'test' });
-    await componentE2eGenerator(tree, { name: 'test' });
-    await componentE2eGenerator(tree, { name: 'test', ansiColor: false });
+    await componentE2eGenerator(tree, { name: 'test', skipFormat: true });
+    await componentE2eGenerator(tree, { name: 'test', skipFormat: true });
+    await componentE2eGenerator(tree, {
+      name: 'test',
+      ansiColor: false,
+      skipFormat: true,
+    });
     expect(spy).toHaveBeenCalledWith(
       `The project "test-storybook" already exists.`,
     );
@@ -140,7 +149,10 @@ describe('component-e2e', () => {
       e2eTestRunner: true,
       unitTestRunner: true,
     });
-    await componentE2eGenerator(tree, { name: 'test-component' });
+    await componentE2eGenerator(tree, {
+      name: 'test-component',
+      skipFormat: true,
+    });
     const config = readProjectConfiguration(tree, 'test-component-storybook');
     expect(config.root).toEqual('apps/e2e/test-component-storybook');
   });
@@ -163,7 +175,10 @@ describe('component-e2e', () => {
       }),
     );
     await createTestLibrary(tree, { name: 'storybook' });
-    await componentE2eGenerator(tree, { name: 'test-component' });
+    await componentE2eGenerator(tree, {
+      name: 'test-component',
+      skipFormat: true,
+    });
     const packageJson = readJson(tree, 'package.json');
     expect(packageJson.devDependencies['@storybook/angular']).toEqual(
       sbVersion,

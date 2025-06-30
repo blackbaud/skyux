@@ -76,6 +76,7 @@
   '.sky-color-picker-label-wrapper',
   false
 ) {
+  --sky-override-colorpicker-label-color: var(--sky-text-color-deemphasized);
   --sky-override-colorpicker-label-font-size: 16px;
 }
 
@@ -788,7 +789,7 @@ sky-colorpicker.sky-form-field-stacked {
   .sky-control-label {
     color: var(
       --sky-override-colorpicker-label-color,
-      var(--sky-color-text-deemphasized)
+      var(--sky-color-text-default)
     );
     margin-bottom: var(
       --sky-override-colorpicker-label-space,
