@@ -5,7 +5,6 @@ import {
   ElementRef,
   Input,
   OnInit,
-  Optional,
   TemplateRef,
   ViewChild,
   inject,
@@ -157,20 +156,12 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
   #_nodeName = '';
 
-  #adapterService: SkyAngularTreeAdapterService;
-  #changeDetectorRef: ChangeDetectorRef;
-  #contentInfoProvider = inject(SkyContentInfoProvider);
-  #skyAngularTreeWrapper: SkyAngularTreeWrapperComponent | undefined;
-
-  constructor(
-    changeDetectorRef: ChangeDetectorRef,
-    adapterService: SkyAngularTreeAdapterService,
-    @Optional() skyAngularTreeWrapper?: SkyAngularTreeWrapperComponent,
-  ) {
-    this.#changeDetectorRef = changeDetectorRef;
-    this.#adapterService = adapterService;
-    this.#skyAngularTreeWrapper = skyAngularTreeWrapper;
-  }
+  readonly #adapterService = inject(SkyAngularTreeAdapterService);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #contentInfoProvider = inject(SkyContentInfoProvider);
+  readonly #skyAngularTreeWrapper = inject(SkyAngularTreeWrapperComponent, {
+    optional: true,
+  });
 
   public ngOnInit(): void {
     if (!this.#skyAngularTreeWrapper) {

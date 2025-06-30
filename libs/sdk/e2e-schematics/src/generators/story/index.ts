@@ -1,5 +1,4 @@
 import { strings } from '@angular-devkit/core';
-import type { AngularProjectConfiguration } from '@nx/angular/src/utils/types';
 import {
   ProjectConfiguration,
   Tree,
@@ -17,6 +16,10 @@ import {
 import { basename, capitalizeWords } from '../../utils/utils';
 
 import { ComponentGeneratorSchema } from './schema';
+
+type AngularProjectConfiguration = ProjectConfiguration & {
+  prefix?: string;
+};
 
 interface NormalizedSchema extends ComponentGeneratorSchema {
   projectName: string;

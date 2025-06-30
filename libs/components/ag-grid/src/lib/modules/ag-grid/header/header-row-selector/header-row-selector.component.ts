@@ -13,10 +13,10 @@ import { SkyCheckboxChange, SkyCheckboxModule } from '@skyux/forms';
 import { IHeaderAngularComp } from 'ag-grid-angular';
 import {
   GridApi,
+  IHeaderParams,
   RowDataUpdatedEvent,
   SelectionChangedEvent,
 } from 'ag-grid-community';
-import { IHeaderParams } from 'ag-grid-community/dist/types/src/interfaces/iHeader';
 import { asyncScheduler, fromEvent, observeOn } from 'rxjs';
 
 @Component({

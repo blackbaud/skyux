@@ -40,10 +40,10 @@
       "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "libs/sdk/e2e-schematics/**/*.ts",
-          "libs/sdk/e2e-schematics/generators.json",
-          "libs/sdk/e2e-schematics/executors.json",
-          "libs/sdk/e2e-schematics/package.json"
+          "{projectRoot}/**/*.ts",
+          "{projectRoot}/generators.json",
+          "{projectRoot}/executors.json",
+          "{projectRoot}/package.json"
         ]
       }
     },

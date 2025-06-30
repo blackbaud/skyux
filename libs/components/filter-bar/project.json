@@ -8,7 +8,7 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["./dist/libs/components/filter-bar"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/filter-bar"],
       "options": {
         "project": "libs/components/filter-bar/ng-package.json"
       },
@@ -31,9 +31,9 @@
       "inputs": [
         "buildInputs",
         "^buildInputs",
-        "./libs/components/filter-bar/testing/src/**/*",
-        "!./libs/components/filter-bar/testing/src/**/*.spec.ts",
-        "!./libs/components/filter-bar/testing/src/**/fixtures/**/*"
+        "{workspaceRoot}/libs/components/filter-bar/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/filter-bar/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/filter-bar/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {
@@ -54,7 +54,7 @@
         ],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": ["."]
+          "includePaths": ["{workspaceRoot}"]
         }
       },
       "configurations": {
@@ -71,8 +71,8 @@
       "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "libs/components/filter-bar/src/**/*.ts",
-          "libs/components/filter-bar/src/**/*.html"
+          "{projectRoot}/src/**/*.ts",
+          "{projectRoot}/src/**/*.html"
         ]
       }
     }
