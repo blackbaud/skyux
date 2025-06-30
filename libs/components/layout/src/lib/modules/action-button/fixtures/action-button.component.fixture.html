@@ -34,7 +34,7 @@
     <sky-action-button-details> Open a route link </sky-action-button-details>
   </sky-action-button>
 
-  <sky-action-button [permalink]="bbNavLink1">
+  <sky-action-button data-sky-id="bb-nav-link-visible" [permalink]="bbNavLink1">
     @if (useIconName) {
     <sky-action-button-icon iconName="link" />
     } @else {
@@ -44,7 +44,7 @@
     <sky-action-button-details> Open a 1bb-nav link </sky-action-button-details>
   </sky-action-button>
 
-  <sky-action-button [permalink]="bbNavLink2">
+  <sky-action-button data-sky-id="bb-nav-link-hidden" [permalink]="bbNavLink2">
     @if (useIconName) {
     <sky-action-button-icon iconName="eye-off" />
     } @else {

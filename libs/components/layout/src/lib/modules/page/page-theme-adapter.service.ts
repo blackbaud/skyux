@@ -1,4 +1,4 @@
-import { DOCUMENT, Injectable, inject } from '@angular/core';
+import { DOCUMENT, Inject, Injectable } from '@angular/core';
 
 /**
  * @internal
@@ -7,7 +7,11 @@ import { DOCUMENT, Injectable, inject } from '@angular/core';
 export class SkyPageThemeAdapterService {
   #styleEl: HTMLStyleElement | undefined;
 
-  readonly #document = inject(DOCUMENT);
+  #document: Document;
+
+  constructor(@Inject(DOCUMENT) document: Document) {
+    this.#document = document;
+  }
 
   /**
    * We can't use ViewEncapsulation.None for this behavior because Angular does
