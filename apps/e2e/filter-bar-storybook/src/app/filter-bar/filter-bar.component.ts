@@ -18,11 +18,11 @@ import { Observable } from 'rxjs';
 export class FilterBarComponent {
   protected filters: SkyFilterBarFilterItem[] = [
     {
-      id: 1,
+      id: '1',
       name: 'Filter 1',
       filterValue: { value: 'Yes' },
     },
-    { id: 2, name: 'Filter 2' },
+    { id: '2', name: 'Filter 2' },
   ];
 
   protected searchFn: (

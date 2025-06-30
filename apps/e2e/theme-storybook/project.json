@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/e2e/theme-storybook/src",
   "prefix": "app",
+  "tags": ["component-e2e"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -65,7 +66,8 @@
           "buildTarget": "theme-storybook:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -129,6 +131,5 @@
         }
       }
     }
-  },
-  "tags": ["component-e2e"]
+  }
 }
