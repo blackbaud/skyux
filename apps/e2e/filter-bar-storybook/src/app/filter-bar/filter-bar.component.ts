@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { SkyFilterBarModule } from '@skyux/filter-bar';
+import { SkyFilterBarFilterItem, SkyFilterBarModule } from '@skyux/filter-bar';
 import {
   SkySelectionModalSearchArgs,
   SkySelectionModalSearchResult,
@@ -16,6 +16,15 @@ import { Observable } from 'rxjs';
   styleUrls: ['./filter-bar.component.scss'],
 })
 export class FilterBarComponent {
+  protected filters: SkyFilterBarFilterItem[] = [
+    {
+      id: '1',
+      name: 'Filter 1',
+      filterValue: { value: 'Yes' },
+    },
+    { id: '2', name: 'Filter 2' },
+  ];
+
   protected searchFn: (
     args: SkySelectionModalSearchArgs,
   ) => Observable<SkySelectionModalSearchResult> | undefined = () => undefined;

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { SkyFilterBarFilter } from '@skyux/filter-bar';
+import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
 import { SkySelectionModalSearchArgs } from '@skyux/lookup';
 
 import { of } from 'rxjs';
+
+import { TestModalComponent } from './test-modal.component';
 
 @Component({
   selector: 'app-filter-bar',
@@ -11,38 +13,82 @@ import { of } from 'rxjs';
   standalone: false,
 })
 export class FilterBarComponent {
-  public get filters(): SkyFilterBarFilter[] | undefined {
+  public get filters(): SkyFilterBarFilterItem[] | undefined {
     return this.#_filters;
   }
 
-  public set filters(value: SkyFilterBarFilter[] | undefined) {
+  public set filters(value: SkyFilterBarFilterItem[] | undefined) {
     this.#_filters = value;
 
     console.log(value);
   }
 
-  #_filters: SkyFilterBarFilter[] | undefined = [
-    { name: 'filter 1', id: 1 },
-    { name: 'filter 2', id: 2 },
-    { name: 'filter 3', id: 3 },
+  #_filters: SkyFilterBarFilterItem[] | undefined = [
+    {
+      name: 'filter 1',
+      id: '1',
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 2',
+      id: '2',
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 3',
+      id: '3',
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
   ];
 
-  #filters = [
-    { name: 'filter 1', id: 1 },
-    { name: 'filter 2', id: 2 },
-    { name: 'filter 3', id: 3 },
-    { name: 'filter 4', id: 4 },
-    { name: 'filter 5', id: 5 },
-    { name: 'filter 6', id: 6 },
-    { name: 'filter 7', id: 7 },
-    { name: 'filter 8', id: 8 },
+  #filters: SkyFilterBarFilterItem[] = [
+    {
+      name: 'filter 1',
+      id: '1',
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 2',
+      id: '2',
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 3',
+      id: '3',
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 4',
+      id: '4',
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 5',
+      id: '5',
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 6',
+      id: '6',
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 7',
+      id: '7',
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
+    {
+      name: 'filter 8',
+      id: '8',
+      filterModalConfig: { modalComponent: TestModalComponent },
+    },
   ];
 
   public resetFilters(): void {
     this.filters = [
-      { name: 'filter 1', id: 1 },
-      { name: 'filter 2', id: 2 },
-      { name: 'filter 3', id: 3 },
+      { name: 'filter 1', id: '1' },
+      { name: 'filter 2', id: '2' },
+      { name: 'filter 3', id: '3' },
     ];
   }
 
