@@ -156,11 +156,10 @@ describe('Date picker', () => {
 
         cy.get('#sky-datepicker-button-2').click();
 
-        cy.get('body > sky-overlay sky-wait[ng-reflect-is-waiting="false"]', {
+        cy.get('body > sky-overlay sky-wait .sky-wait-mask-loading-blocking', {
           timeout: 10000,
         })
-          .should('exist')
-          .should('not.be.visible')
+          .should('not.exist')
           .end()
           .get('#screenshot-datepicker-input-box')
           .skyVisualTest(`datepicker-input-custom-dates-${theme}`, {
