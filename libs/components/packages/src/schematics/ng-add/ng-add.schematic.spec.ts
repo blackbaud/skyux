@@ -117,6 +117,29 @@ describe('ng-add.schematic', () => {
     ]);
   });
 
+  it('should add @skyux/packages/polyfills if polyfills exist as a string', async () => {
+    const { runSchematic, tree } = await setupTest();
+    let angularJson = readJson(tree, 'angular.json');
+    let architect = angularJson.projects['my-lib-showcase'].architect;
+    architect.build.options.polyfills = 'testPolyfill.js';
+    architect.test.options.polyfills = 'testPolyfill.js';
+    tree.overwrite('angular.json', JSON.stringify(angularJson, undefined, 2));
+
+    const updatedTree = await runSchematic({ project: 'my-lib-showcase' });
+    angularJson = readJson(updatedTree, 'angular.json');
+    architect = angularJson.projects['my-lib-showcase'].architect;
+
+    expect(architect.build.options.polyfills).toEqual([
+      'testPolyfill.js',
+      '@skyux/packages/polyfills',
+    ]);
+
+    expect(architect.test.options.polyfills).toEqual([
+      'testPolyfill.js',
+      '@skyux/packages/polyfills',
+    ]);
+  });
+
   it('should modify tsconfig.json', async () => {
     const { runSchematic } = await setupTest();
 
