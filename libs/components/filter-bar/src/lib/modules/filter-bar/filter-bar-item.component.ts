@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, model } from '@angular/core';
+import { Component, inject, input, model, output } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
@@ -20,6 +20,8 @@ export class SkyFilterBarItemComponent {
   public filterName = input.required<string>();
   public filterValue = model<SkyFilterBarFilterValue>();
   public filterModalConfig = input<SkyFilterBarFilterModalConfig>();
+
+  public filterUpdated = output<SkyFilterBarFilterValue | undefined>();
 
   #modalSvc = inject(SkyModalService);
 
@@ -52,6 +54,7 @@ export class SkyFilterBarItemComponent {
       instance.closed.subscribe((args) => {
         if (args.reason === 'save') {
           this.filterValue.set(args.data);
+          this.filterUpdated.emit(args.data);
         }
       });
     }
