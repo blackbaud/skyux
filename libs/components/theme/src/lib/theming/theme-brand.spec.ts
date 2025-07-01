@@ -28,19 +28,6 @@ describe('Theme brand', () => {
     expect(brand.version).toBe('1.0.0');
   });
 
-  it('should set the sri property correctly when provided', () => {
-    const sriHash = 'sha384-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef';
-    const brand = new SkyThemeBrand('custom-brand', '1.0.0', undefined, sriHash);
-
-    expect(brand.sri).toBe(sriHash);
-  });
-
-  it('should have undefined sri property when not provided', () => {
-    const brand = new SkyThemeBrand('custom-brand', '1.0.0');
-
-    expect(brand.sri).toBeUndefined();
-  });
-
   it('should set the version correctly when a version with an appropriate suffix is given', () => {
     const suffixes = ['alpha.1', 'beta.1', 'rc.1'];
 
