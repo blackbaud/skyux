@@ -21,6 +21,7 @@ describe('Theme service', () => {
     removeClass: jasmine.Spy;
     removeChild: jasmine.Spy;
     setProperty: jasmine.Spy;
+    setAttribute: jasmine.Spy;
   };
 
   function validateSettingsApplied(
@@ -162,6 +163,7 @@ describe('Theme service', () => {
       'removeClass',
       'removeChild',
       'setProperty',
+      'setAttribute',
     ]);
 
     mockHostEl = {
@@ -403,11 +405,10 @@ describe('Theme service', () => {
         validateSettingsApplied(settingsWithoutBranding, settingsWithBranding);
       });
 
-      it('should apply branding with SRI hash', () => {
+      function testBrandingWithSri(sriHash?: string): void {
         const themeSvc = new SkyThemeService();
-        const sriHash = 'sha384-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef';
-
-        const settingsWithBrandingSri = new SkyThemeSettings(
+        
+        const settingsWithBranding = new SkyThemeSettings(
           SkyTheme.presets.modern,
           SkyThemeMode.presets.light,
           SkyThemeSpacing.presets.compact,
@@ -417,55 +418,46 @@ describe('Theme service', () => {
         themeSvc.init(
           mockHostEl,
           mockRenderer as unknown as Renderer2,
-          settingsWithBrandingSri,
+          settingsWithBranding,
         );
 
         // Validate basic branding is applied
-        validateSettingsApplied(settingsWithBrandingSri);
+        validateSettingsApplied(settingsWithBranding);
 
-        // Validate SRI-specific attributes are set
-        expect(mockRenderer.setProperty).toHaveBeenCalledWith(
-          mockLinkElement,
-          'integrity',
-          sriHash,
-        );
-        expect(mockRenderer.setProperty).toHaveBeenCalledWith(
-          mockLinkElement,
-          'crossorigin',
-          'anonymous',
-        );
+        if (sriHash) {
+          // Validate SRI-specific attributes are set
+          expect(mockRenderer.setAttribute).toHaveBeenCalledWith(
+            mockLinkElement,
+            'integrity',
+            sriHash,
+          );
+          expect(mockRenderer.setAttribute).toHaveBeenCalledWith(
+            mockLinkElement,
+            'crossorigin',
+            'anonymous',
+          );
+        } else {
+          // Validate SRI-specific attributes are NOT set
+          expect(mockRenderer.setAttribute).not.toHaveBeenCalledWith(
+            mockLinkElement,
+            'integrity',
+            jasmine.any(String),
+          );
+          expect(mockRenderer.setAttribute).not.toHaveBeenCalledWith(
+            mockLinkElement,
+            'crossorigin',
+            'anonymous',
+          );
+        }
+      }
+
+      it('should apply branding with SRI hash', () => {
+        const sriHash = 'sha384-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef';
+        testBrandingWithSri(sriHash);
       });
 
       it('should apply branding without SRI attributes when no SRI hash is provided', () => {
-        const themeSvc = new SkyThemeService();
-
-        const settingsWithBrandingNoSri = new SkyThemeSettings(
-          SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
-          SkyThemeSpacing.presets.compact,
-          new SkyThemeBrand('rainbow', '1.0.1'),
-        );
-
-        themeSvc.init(
-          mockHostEl,
-          mockRenderer as unknown as Renderer2,
-          settingsWithBrandingNoSri,
-        );
-
-        // Validate basic branding is applied
-        validateSettingsApplied(settingsWithBrandingNoSri);
-
-        // Validate SRI-specific attributes are NOT set
-        expect(mockRenderer.setProperty).not.toHaveBeenCalledWith(
-          mockLinkElement,
-          'integrity',
-          jasmine.any(String),
-        );
-        expect(mockRenderer.setProperty).not.toHaveBeenCalledWith(
-          mockLinkElement,
-          'crossorigin',
-          'anonymous',
-        );
+        testBrandingWithSri();
       });
     });
 
@@ -837,6 +829,7 @@ describe('Theme service', () => {
       mockRenderer.removeClass.calls.reset();
       mockRenderer.createElement.calls.reset();
       mockRenderer.setProperty.calls.reset();
+      mockRenderer.setAttribute.calls.reset();
 
       const newBrandWithSri = new SkyThemeBrand('rainbow', '1.0.1', undefined, sriHash);
       themeSvc.setThemeBrand(newBrandWithSri);
@@ -851,12 +844,12 @@ describe('Theme service', () => {
       );
 
       // Validate SRI-specific attributes are set
-      expect(mockRenderer.setProperty).toHaveBeenCalledWith(
+      expect(mockRenderer.setAttribute).toHaveBeenCalledWith(
         mockLinkElement,
         'integrity',
         sriHash,
       );
-      expect(mockRenderer.setProperty).toHaveBeenCalledWith(
+      expect(mockRenderer.setAttribute).toHaveBeenCalledWith(
         mockLinkElement,
         'crossorigin',
         'anonymous',

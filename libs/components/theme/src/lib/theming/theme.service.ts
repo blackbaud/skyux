@@ -276,22 +276,21 @@ export class SkyThemeService {
       // Add the style to the head section
       this.#getRenderer().appendChild(this.#hostEl, this.#brandLinkElement);
 
+      // Cache renderer to avoid repeated calls
+      const renderer = this.#getRenderer();
+
       // Set type of the link item and path to the css file
-      this.#getRenderer().setProperty(
-        this.#brandLinkElement,
-        'rel',
-        'stylesheet',
-      );
-      this.#getRenderer().setProperty(this.#brandLinkElement, 'href', cssPath);
+      renderer.setAttribute(this.#brandLinkElement, 'rel', 'stylesheet');
+      renderer.setAttribute(this.#brandLinkElement, 'href', cssPath);
 
       // Set integrity and crossorigin attributes if SRI hash is provided
-      if (brand.sri) {
-        this.#getRenderer().setProperty(
+      if (brand.sriHash) {
+        renderer.setAttribute(
           this.#brandLinkElement,
           'integrity',
-          brand.sri,
+          brand.sriHash,
         );
-        this.#getRenderer().setProperty(
+        renderer.setAttribute(
           this.#brandLinkElement,
           'crossorigin',
           'anonymous',
