@@ -1,5 +1,24 @@
 # Changelog
 
+## [12.23.0](https://github.com/blackbaud/skyux/compare/12.22.0...12.23.0) (2025-06-30)
+
+
+### Features
+
+* **components/ag-grid:** use header checkbox for row selector column with multi select enabled ([#3550](https://github.com/blackbaud/skyux/issues/3550)) ([9e982a9](https://github.com/blackbaud/skyux/commit/9e982a9aa8c74e160580ff4fd1db68dd424b5962))
+* update tokens ([#3557](https://github.com/blackbaud/skyux/issues/3557)) ([326f4f5](https://github.com/blackbaud/skyux/commit/326f4f548c8833cdb52af4809c71483ed847d66a))
+* update tokens package ([#3544](https://github.com/blackbaud/skyux/issues/3544)) ([0cc3cce](https://github.com/blackbaud/skyux/commit/0cc3cce62bb3601be7be1d1b2776a76cb8b490c7))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** add validator event handlers to the grid cell element ([#3541](https://github.com/blackbaud/skyux/issues/3541)) ([b19dc76](https://github.com/blackbaud/skyux/commit/b19dc7668665d81bc023b927dfc8812e6fb08ace))
+* **components/indicators:** update `iconsize` to `xl` for alerts ([#3528](https://github.com/blackbaud/skyux/issues/3528)) ([9123196](https://github.com/blackbaud/skyux/commit/912319641979594f1a6005e6d626177d309ff0f4))
+* **components/theme:** update selected style for icon radio and checkboxes ([#3551](https://github.com/blackbaud/skyux/issues/3551)) ([a0d56c5](https://github.com/blackbaud/skyux/commit/a0d56c509bdb7bd99a214ef6399d125dfa3c5fc5))
+* **components/tiles:** use token for tile background color ([#3548](https://github.com/blackbaud/skyux/issues/3548)) ([a54e375](https://github.com/blackbaud/skyux/commit/a54e375ef1159f38f01c40905774be03582689a4))
+* dropdown menus and autocomplete result containers use medium border radius in v2 modern ([#3543](https://github.com/blackbaud/skyux/issues/3543)) ([62407e7](https://github.com/blackbaud/skyux/commit/62407e7115464719dbc1ce073fa2167cfcef8016))
+* update input labels to use default color instead of deemphasized color ([#3546](https://github.com/blackbaud/skyux/issues/3546)) ([32d9291](https://github.com/blackbaud/skyux/commit/32d9291d632e7adff278b8a07627b7c2ebc7fa65))
+
 ## [12.22.0](https://github.com/blackbaud/skyux/compare/12.21.0...12.22.0) (2025-06-25)
 
 
