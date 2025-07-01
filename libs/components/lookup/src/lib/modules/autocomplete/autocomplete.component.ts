@@ -304,7 +304,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   public searchAsyncDisabled: boolean | undefined = false;
 
   /**
-   * Allows the user to specify arbitrary values not in the search results.
+   * When using `searchAsync`, allows the user to specify arbitrary
+   * values not in the search results. This onl works in combination
+   * with `searchAsync`.
    * @default false
    */
   public allowAnyValue = input(false, { transform: booleanAttribute });
