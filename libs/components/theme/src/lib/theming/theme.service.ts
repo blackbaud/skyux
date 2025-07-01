@@ -283,6 +283,20 @@ export class SkyThemeService {
         'stylesheet',
       );
       this.#getRenderer().setProperty(this.#brandLinkElement, 'href', cssPath);
+
+      // Set integrity and crossorigin attributes if SRI hash is provided
+      if (brand.sri) {
+        this.#getRenderer().setProperty(
+          this.#brandLinkElement,
+          'integrity',
+          brand.sri,
+        );
+        this.#getRenderer().setProperty(
+          this.#brandLinkElement,
+          'crossorigin',
+          'anonymous',
+        );
+      }
     }
   }
 

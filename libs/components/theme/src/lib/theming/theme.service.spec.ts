@@ -402,6 +402,71 @@ describe('Theme service', () => {
 
         validateSettingsApplied(settingsWithoutBranding, settingsWithBranding);
       });
+
+      it('should apply branding with SRI hash', () => {
+        const themeSvc = new SkyThemeService();
+        const sriHash = 'sha384-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef';
+
+        const settingsWithBrandingSri = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.compact,
+          new SkyThemeBrand('rainbow', '1.0.1', undefined, sriHash),
+        );
+
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          settingsWithBrandingSri,
+        );
+
+        // Validate basic branding is applied
+        validateSettingsApplied(settingsWithBrandingSri);
+
+        // Validate SRI-specific attributes are set
+        expect(mockRenderer.setProperty).toHaveBeenCalledWith(
+          mockLinkElement,
+          'integrity',
+          sriHash,
+        );
+        expect(mockRenderer.setProperty).toHaveBeenCalledWith(
+          mockLinkElement,
+          'crossorigin',
+          'anonymous',
+        );
+      });
+
+      it('should apply branding without SRI attributes when no SRI hash is provided', () => {
+        const themeSvc = new SkyThemeService();
+
+        const settingsWithBrandingNoSri = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.compact,
+          new SkyThemeBrand('rainbow', '1.0.1'),
+        );
+
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          settingsWithBrandingNoSri,
+        );
+
+        // Validate basic branding is applied
+        validateSettingsApplied(settingsWithBrandingNoSri);
+
+        // Validate SRI-specific attributes are NOT set
+        expect(mockRenderer.setProperty).not.toHaveBeenCalledWith(
+          mockLinkElement,
+          'integrity',
+          jasmine.any(String),
+        );
+        expect(mockRenderer.setProperty).not.toHaveBeenCalledWith(
+          mockLinkElement,
+          'crossorigin',
+          'anonymous',
+        );
+      });
     });
 
     describe('with SkyTheme parameter', () => {
@@ -750,6 +815,52 @@ describe('Theme service', () => {
       expect(() => {
         themeSvc.setThemeBrand(new SkyThemeBrand('rainbow', '1.0.1'));
       }).toThrowError('Branding is not supported for the given theme.');
+    });
+
+    it('should apply brand with SRI hash using setThemeBrand', () => {
+      const themeSvc = new SkyThemeService();
+      const sriHash = 'sha384-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef';
+
+      const initialSettings = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.compact,
+      );
+
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        initialSettings,
+      );
+
+      mockRenderer.addClass.calls.reset();
+      mockRenderer.removeClass.calls.reset();
+      mockRenderer.createElement.calls.reset();
+      mockRenderer.setProperty.calls.reset();
+
+      const newBrandWithSri = new SkyThemeBrand('rainbow', '1.0.1', undefined, sriHash);
+      themeSvc.setThemeBrand(newBrandWithSri);
+
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        'sky-theme-brand-base',
+      );
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        newBrandWithSri.hostClass,
+      );
+
+      // Validate SRI-specific attributes are set
+      expect(mockRenderer.setProperty).toHaveBeenCalledWith(
+        mockLinkElement,
+        'integrity',
+        sriHash,
+      );
+      expect(mockRenderer.setProperty).toHaveBeenCalledWith(
+        mockLinkElement,
+        'crossorigin',
+        'anonymous',
+      );
     });
   });
 });

@@ -28,6 +28,19 @@ describe('Theme brand', () => {
     expect(brand.version).toBe('1.0.0');
   });
 
+  it('should set the sri property correctly when provided', () => {
+    const sriHash = 'sha384-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef';
+    const brand = new SkyThemeBrand('custom-brand', '1.0.0', undefined, sriHash);
+
+    expect(brand.sri).toBe(sriHash);
+  });
+
+  it('should have undefined sri property when not provided', () => {
+    const brand = new SkyThemeBrand('custom-brand', '1.0.0');
+
+    expect(brand.sri).toBeUndefined();
+  });
+
   it('should set the version correctly when a version with an appropriate suffix is given', () => {
     const suffixes = ['alpha.1', 'beta.1', 'rc.1'];
 
@@ -94,6 +107,31 @@ describe('Theme brand', () => {
       });
     });
 
+    it('should serialize brand with sri correctly', () => {
+      const sriHash = 'sha384-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef';
+      const brand = new SkyThemeBrand('rainbow', '1.0.0', undefined, sriHash);
+      const serialized = brand.serialize();
+
+      expect(serialized).toEqual({
+        name: 'rainbow',
+        version: '1.0.0',
+        sri: sriHash,
+      });
+    });
+
+    it('should serialize brand with both custom hostClass and sri correctly', () => {
+      const sriHash = 'sha384-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef';
+      const brand = new SkyThemeBrand('custom', '2.0.0', 'custom-host-class', sriHash);
+      const serialized = brand.serialize();
+
+      expect(serialized).toEqual({
+        name: 'custom',
+        version: '2.0.0',
+        hostClass: 'custom-host-class',
+        sri: sriHash,
+      });
+    });
+
     it('should deserialize brand correctly', () => {
       const brand = SkyThemeBrand.deserialize({
         name: 'rainbow',
@@ -115,6 +153,36 @@ describe('Theme brand', () => {
       expect(brand.name).toBe('custom');
       expect(brand.version).toBe('2.0.0');
       expect(brand.hostClass).toBe('custom-host-class');
+      expect(brand.sri).toBeUndefined();
+    });
+
+    it('should deserialize brand with sri correctly', () => {
+      const sriHash = 'sha384-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef';
+      const brand = SkyThemeBrand.deserialize({
+        name: 'rainbow',
+        version: '1.0.0',
+        sri: sriHash,
+      });
+
+      expect(brand.name).toBe('rainbow');
+      expect(brand.version).toBe('1.0.0');
+      expect(brand.hostClass).toBe('sky-theme-brand-rainbow');
+      expect(brand.sri).toBe(sriHash);
+    });
+
+    it('should deserialize brand with both custom hostClass and sri correctly', () => {
+      const sriHash = 'sha384-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef';
+      const brand = SkyThemeBrand.deserialize({
+        name: 'custom',
+        version: '2.0.0',
+        hostClass: 'custom-host-class',
+        sri: sriHash,
+      });
+
+      expect(brand.name).toBe('custom');
+      expect(brand.version).toBe('2.0.0');
+      expect(brand.hostClass).toBe('custom-host-class');
+      expect(brand.sri).toBe(sriHash);
     });
   });
 });
