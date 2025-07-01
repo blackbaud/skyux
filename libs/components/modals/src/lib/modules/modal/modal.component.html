@@ -24,14 +24,7 @@
         'box-shadow': scrollShadow?.topShadow
       }"
     >
-      <div
-        #headerId="skyId"
-        class="sky-modal-header-content"
-        skyId
-        [ngClass]="{
-          'sky-font-heading-2': size === 'full-page'
-        }"
-      >
+      <div #headerId="skyId" class="sky-modal-header-content" skyId>
         @if (headingText) {
           <sky-modal-header>
             {{ headingText }}
