@@ -192,5 +192,5 @@
       "!{projectRoot}/tsconfig.storybook.json"
     ]
   },
-  "defaultBase": "main"
+  "defaultBase": "12.x.x"
 }
