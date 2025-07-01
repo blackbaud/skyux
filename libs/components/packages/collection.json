@@ -15,6 +15,11 @@
       "description": "Add @skyux/packages/polyfills to project config.",
       "factory": "./src/schematics/ng-generate/polyfills/polyfills.schematic",
       "schema": "./src/schematics/ng-generate/polyfills/schema.json"
+    },
+    "remove-compat-stylesheets": {
+      "description": "Remove SKY UX compatibility stylesheets.",
+      "factory": "./src/schematics/ng-generate/remove-compat-stylesheets/remove-compat-stylesheets.schematic",
+      "schema": "./src/schematics/ng-generate/remove-compat-stylesheets/schema.json"
     }
   }
 }
