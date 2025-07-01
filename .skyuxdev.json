@@ -1,5 +1,5 @@
 {
-  "baseBranch": "main",
+  "baseBranch": "12.x.x",
   "implicitPeerDependencies": {
     "stylelint-config-skyux": [
       "skyux-stylelint",

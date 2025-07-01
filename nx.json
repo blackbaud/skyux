@@ -3,6 +3,9 @@
   "cli": {
     "packageManager": "npm"
   },
+  "tui": {
+    "enabled": false
+  },
   "defaultProject": "playground",
   "generators": {
     "@nx/angular:application": {
@@ -137,5 +140,5 @@
       "!{projectRoot}/tsconfig.storybook.json"
     ]
   },
-  "defaultBase": "main"
+  "defaultBase": "12.x.x"
 }
