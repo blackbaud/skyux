@@ -10,6 +10,8 @@ import {
   SkySelectionModalService,
 } from '@skyux/lookup';
 
+// import { SkyConfirmService } from '@skyux/modals';
+
 import { Observable, take } from 'rxjs';
 
 import { SkyFilterBarResourcesModule } from '../shared/sky-filter-bar-resources.module';
@@ -47,6 +49,7 @@ export class SkyFilterBarComponent {
     return filters?.some((filter) => !!filter.filterValue);
   });
 
+  // readonly #confirmSvc = inject(SkyConfirmService);
   readonly #modalSvc = inject(SkySelectionModalService);
   readonly #resourceSvc = inject(SkyLibResourcesService);
 
@@ -95,17 +98,18 @@ export class SkyFilterBarComponent {
       const index = filters?.indexOf(filter);
 
       if (index > -1) {
-        filters[index].filterValue = value;
+        filters[index] = Object.assign({}, filters[index], {
+          filterValue: value,
+        });
         this.filters.set(filters);
       }
     }
   }
 
   protected clearFilters(): void {
-    const filters = this.filters()?.map((filter) => {
-      filter.filterValue = undefined;
-      return filter;
-    });
+    const filters = this.filters()?.map((filter) =>
+      Object.assign({}, filter, { filterValue: undefined }),
+    );
 
     if (filters) {
       this.filters.set(filters);
