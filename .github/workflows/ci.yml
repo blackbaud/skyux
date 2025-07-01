@@ -6,7 +6,7 @@ on:
   pull_request:
   push:
     branches:
-      - main
+      - 12.x.x
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
