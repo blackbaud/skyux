@@ -115,7 +115,7 @@ describe('Filter bar component', () => {
     filterItem.componentInstance.filterUpdated.emit(newFilterValue);
 
     // Verify the filter value was updated
-    expect(filters[0].filterValue).toEqual(newFilterValue);
+    expect(component.filters()[0].filterValue).toEqual(newFilterValue);
   });
 
   it('should remove filter when filterUpdated event emits undefined', () => {
@@ -138,7 +138,7 @@ describe('Filter bar component', () => {
     filterItem.componentInstance.filterUpdated.emit(undefined);
 
     // Verify the filter value was cleared
-    expect(filters[0].filterValue).toBeUndefined();
+    expect(component.filters()[0].filterValue).toBeUndefined();
   });
 
   it('should hide clear filters button when no filters have values', () => {
@@ -195,7 +195,7 @@ describe('Filter bar component', () => {
     const clearButton = getClearFiltersButton();
     clearButton?.click();
 
-    expect(filters[0].filterValue).toBeUndefined();
-    expect(filters[1].filterValue).toBeUndefined();
+    expect(component.filters()[0].filterValue).toBeUndefined();
+    expect(component.filters()[1].filterValue).toBeUndefined();
   });
 });
