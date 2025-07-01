@@ -20,7 +20,7 @@ export class SkyThemeBrand {
    * @param version The version of the theme brand.
    * @param hostClass The class on the host element which child components should reference when
    * adjusting for a specified theme brand. This defaults to `sky-theme-brand-<name>`
-   * @param sriHash Optional subresource integrity hash for the theme stylesheet. cspell:disable-line
+   * @param sriHash Optional subresource integrity hash for the theme stylesheet.
    */
   constructor(
     public readonly name: string,
