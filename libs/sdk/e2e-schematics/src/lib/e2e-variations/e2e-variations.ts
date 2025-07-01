@@ -1,6 +1,4 @@
-export type E2EVariationName =
-  | 'default'
-  | 'modern-v2-light';
+export type E2EVariationName = 'default' | 'modern-v2-light';
 
 export const E2eVariations = {
   DISPLAY_WIDTHS: [1280],
