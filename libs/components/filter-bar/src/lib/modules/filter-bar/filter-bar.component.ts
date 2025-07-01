@@ -323,4 +323,31 @@ export class SkyFilterBarComponent {
       );
     }
   }
+
+  protected updateFilters(
+    value: SkyFilterBarFilterValue | undefined,
+    filter: SkyFilterBarFilterItem,
+  ): void {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const filters = [...this.filters()!];
+    if (filters.length) {
+      const index = filters?.indexOf(filter);
+
+      if (index > -1) {
+        filters[index].filterValue = value;
+        this.filters.set(filters);
+      }
+    }
+  }
+
+  protected clearFilters(): void {
+    const filters = this.filters()?.map((filter) => {
+      filter.filterValue = undefined;
+      return filter;
+    });
+
+    if (filters) {
+      this.filters.set(filters);
+    }
+  }
 }

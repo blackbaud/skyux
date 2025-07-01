@@ -1,4 +1,6 @@
+import { ComponentRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import {
   SkySelectionModalInstance,
@@ -14,6 +16,7 @@ import { SkyModalCloseArgs } from '@skyux/modals';
 
 import { Subject, of } from 'rxjs';
 
+import { SkyFilterBarItemComponent } from './filter-bar-item.component';
 import { SkyFilterBarTestComponent } from './fixtures/filter-bar.component.fixture';
 import { SkyFilterBarFilterItem } from './models/filter-bar-filter-item';
 import { SkyFilterItemModalInstance } from './models/filter-item-modal-instance';
@@ -40,9 +43,14 @@ describe('Filter bar component', () => {
     return nameElement?.textContent?.trim() || '';
   }
 
+  function getClearFiltersButton(): HTMLButtonElement | null {
+    return fixture.nativeElement.querySelector('.sky-btn-link');
+  }
+
   //#endregion
 
   let component: SkyFilterBarTestComponent;
+  let componentRef: ComponentRef<SkyFilterBarTestComponent>;
   let fixture: ComponentFixture<SkyFilterBarTestComponent>;
   let confirmServiceSpy: jasmine.SpyObj<SkyConfirmService>;
   let selectionModalServiceSpy: jasmine.SpyObj<SkySelectionModalService>;
@@ -845,5 +853,135 @@ describe('Filter bar component', () => {
       const secondButton = updatedFilterItems[1].querySelector('button');
       expect(secondButton?.getAttribute('aria-pressed')).toBe('true');
     });
+  });
+
+  it('should pass correct inputs to filter bar item components', () => {
+    const filters = [
+      {
+        id: 'filter1',
+        name: 'Test Filter 1',
+        filterValue: { value: 'value1' },
+        filterModalConfig: { modalComponent: class {}, modalSize: 'medium' },
+      },
+    ];
+    componentRef.setInput('filters', filters);
+    fixture.detectChanges();
+
+    const filterItem = fixture.debugElement.query(
+      By.directive(SkyFilterBarItemComponent),
+    );
+
+    expect(filterItem.componentInstance.filterName()).toBe('Test Filter 1');
+    expect(filterItem.componentInstance.filterValue()).toEqual({
+      value: 'value1',
+    });
+    expect(filterItem.componentInstance.filterModalConfig()).toEqual(
+      filters[0].filterModalConfig,
+    );
+  });
+
+  it('should update filter value when filterUpdated event is emitted from filter item', () => {
+    const filters = [
+      {
+        id: 'filter1',
+        name: 'Test Filter',
+        filterValue: { value: 'initial' },
+        filterModalConfig: { modalComponent: class {} },
+      },
+    ];
+    componentRef.setInput('filters', filters);
+    fixture.detectChanges();
+
+    const newFilterValue = { value: 'updated' };
+    const filterItem = fixture.debugElement.query(
+      By.directive(SkyFilterBarItemComponent),
+    );
+
+    // Emit the filterUpdated event
+    filterItem.componentInstance.filterUpdated.emit(newFilterValue);
+
+    // Verify the filter value was updated
+    expect(filters[0].filterValue).toEqual(newFilterValue);
+  });
+
+  it('should remove filter when filterUpdated event emits undefined', () => {
+    const filters = [
+      {
+        id: 'filter1',
+        name: 'Test Filter',
+        filterValue: { value: 'initial' },
+        filterModalConfig: { modalComponent: class {} },
+      },
+    ];
+    componentRef.setInput('filters', filters);
+    fixture.detectChanges();
+
+    const filterItem = fixture.debugElement.query(
+      By.directive(SkyFilterBarItemComponent),
+    );
+
+    // Emit undefined to clear the filter
+    filterItem.componentInstance.filterUpdated.emit(undefined);
+
+    // Verify the filter value was cleared
+    expect(filters[0].filterValue).toBeUndefined();
+  });
+
+  it('should hide clear filters button when no filters have values', () => {
+    const filters = [
+      {
+        id: 'filter1',
+        name: 'Test Filter',
+        filterValue: undefined,
+        filterModalConfig: { modalComponent: class {} },
+      },
+    ];
+    componentRef.setInput('filters', filters);
+    fixture.detectChanges();
+
+    const clearButton = getClearFiltersButton();
+    expect(clearButton).toBeFalsy();
+  });
+
+  it('should show clear filters button when at least one filter has a value', () => {
+    const filters = [
+      {
+        id: 'filter1',
+        name: 'Test Filter',
+        filterValue: { value: 'test' },
+        filterModalConfig: { modalComponent: class {} },
+      },
+    ];
+    componentRef.setInput('filters', filters);
+    fixture.detectChanges();
+
+    const clearButton = getClearFiltersButton();
+    expect(clearButton).toBeTruthy();
+    expect(clearButton?.textContent?.trim()).toContain('Clear all values');
+  });
+
+  it('should clear all filter values when clear filters button is clicked', () => {
+    const filters = [
+      {
+        id: 'filter1',
+        name: 'Test Filter 1',
+        filterValue: { value: 'value1' },
+        filterModalConfig: { modalComponent: class {} },
+      },
+      {
+        id: 'filter2',
+        name: 'Test Filter 2',
+        filterValue: { value: 'value2' },
+        filterModalConfig: { modalComponent: class {} },
+      },
+    ];
+    componentRef.setInput('filters', filters);
+    fixture.detectChanges();
+
+    const clearButton = getClearFiltersButton();
+    clearButton?.click();
+
+    expect(filters[0].filterValue).toBeUndefined();
+    expect(filters[1].filterValue).toBeUndefined();
   });
 });

@@ -1,6 +1,6 @@
 import { Component, model } from '@angular/core';
 
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { SkyFilterBarModule } from '../filter-bar.module';
 import { SkyFilterBarFilterItem } from '../models/filter-bar-filter-item';
