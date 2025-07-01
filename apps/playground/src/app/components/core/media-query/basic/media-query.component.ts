@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
@@ -28,8 +28,8 @@ export class BreakpointReaderComponent {
 
 @Component({
   imports: [
+    AsyncPipe,
     BreakpointReaderComponent,
-    CommonModule,
     SkyResponsiveHostDirective,
     SkyFluidGridModule,
     WithBreakpointDirectiveComponent,

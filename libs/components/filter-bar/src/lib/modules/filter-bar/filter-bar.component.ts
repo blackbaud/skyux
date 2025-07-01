@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject, input, model } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
@@ -27,7 +26,6 @@ type SelectionModalSearchAsyncFn = (
 @Component({
   selector: 'sky-filter-bar',
   imports: [
-    CommonModule,
     SkyFilterBarItemComponent,
     SkyFilterBarResourcesModule,
     SkyIconModule,

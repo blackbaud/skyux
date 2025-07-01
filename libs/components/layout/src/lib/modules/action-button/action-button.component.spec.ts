@@ -201,15 +201,18 @@ describe('Action button component', () => {
 
   it('should hide button with inaccessible skyHref link', async () => {
     fixture.detectChanges();
+
     await fixture.whenStable();
+
     expect(
       fixture.nativeElement
-        .querySelector('[ng-reflect-sky-href="1bb-nav://yep/"]')
+        .querySelector('[data-sky-id="bb-nav-link-visible"] a')
         .matches('[hidden]'),
     ).toBeFalse();
+
     expect(
       fixture.nativeElement
-        .querySelector('[ng-reflect-sky-href="1bb-nav://nope/"]')
+        .querySelector('[data-sky-id="bb-nav-link-hidden"] a')
         .matches('[hidden]'),
     ).toBeTrue();
   });

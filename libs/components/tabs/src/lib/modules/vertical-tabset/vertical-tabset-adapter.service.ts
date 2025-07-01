@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { ElementRef, Injectable, inject } from '@angular/core';
+import { DOCUMENT, ElementRef, Injectable, inject } from '@angular/core';
 
 const VERTICAL_TABSET_BUTTON_SELECTOR = '.sky-vertical-tabset-button';
 const VERTICAL_TABSET_BUTTON_DISABLED_SELECTOR = `${VERTICAL_TABSET_BUTTON_SELECTOR}-disabled`;

@@ -4,6 +4,7 @@ import { updateWorkspace } from '../utility/workspace';
 
 // List of builders that support allowedCommonJsDependencies.
 const allowedCommonJsDependenciesBuilders = [
+  '@angular/build:application',
   '@angular-devkit/build-angular:application',
   '@angular-devkit/build-angular:browser',
   '@blackbaud-internal/skyux-angular-builders:browser',

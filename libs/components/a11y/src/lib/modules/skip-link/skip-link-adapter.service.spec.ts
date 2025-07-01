@@ -39,7 +39,7 @@ describe('Skip link adapter service', () => {
       ],
     });
 
-    service = TestBed.get(SkySkipLinkAdapterService);
+    service = TestBed.inject(SkySkipLinkAdapterService);
 
     testEl = document.createElement('div');
     testEl.style.height = window.outerHeight + 1000 + 'px';

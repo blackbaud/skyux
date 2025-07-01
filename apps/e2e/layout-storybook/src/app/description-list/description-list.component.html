@@ -1,17 +1,16 @@
 <h3>Vertical mode</h3>
 <div class="sky-padding-even-md" id="screenshot-description-list-vertical-mode">
   <sky-description-list mode="vertical">
-    <sky-description-list-content
-      *ngFor="let item of personalInfo"
-      [helpPopoverContent]="item.helpContent"
-    >
-      <sky-description-list-term>
-        {{ item.label }}
-      </sky-description-list-term>
-      <sky-description-list-description>
-        {{ item.value }}
-      </sky-description-list-description>
-    </sky-description-list-content>
+    @for (item of personalInfo; track item) {
+      <sky-description-list-content [helpPopoverContent]="item.helpContent">
+        <sky-description-list-term>
+          {{ item.label }}
+        </sky-description-list-term>
+        <sky-description-list-description>
+          {{ item.value }}
+        </sky-description-list-description>
+      </sky-description-list-content>
+    }
   </sky-description-list>
 </div>
 
@@ -21,17 +20,16 @@
   id="screenshot-description-list-horizontal-mode"
 >
   <sky-description-list mode="horizontal">
-    <sky-description-list-content
-      *ngFor="let item of personalInfo"
-      [helpPopoverContent]="item.helpContent"
-    >
-      <sky-description-list-term>
-        {{ item.label }}
-      </sky-description-list-term>
-      <sky-description-list-description>
-        {{ item.value }}
-      </sky-description-list-description>
-    </sky-description-list-content>
+    @for (item of personalInfo; track item) {
+      <sky-description-list-content [helpPopoverContent]="item.helpContent">
+        <sky-description-list-term>
+          {{ item.label }}
+        </sky-description-list-term>
+        <sky-description-list-description>
+          {{ item.value }}
+        </sky-description-list-description>
+      </sky-description-list-content>
+    }
   </sky-description-list>
 </div>
 
@@ -41,17 +39,16 @@
   id="screenshot-description-list-horizontal-mode-fixed"
 >
   <sky-description-list listItemWidth="50px" mode="horizontal">
-    <sky-description-list-content
-      *ngFor="let item of personalInfo"
-      [helpPopoverContent]="item.helpContent"
-    >
-      <sky-description-list-term>
-        {{ item.label }}
-      </sky-description-list-term>
-      <sky-description-list-description>
-        {{ item.value }}
-      </sky-description-list-description>
-    </sky-description-list-content>
+    @for (item of personalInfo; track item) {
+      <sky-description-list-content [helpPopoverContent]="item.helpContent">
+        <sky-description-list-term>
+          {{ item.label }}
+        </sky-description-list-term>
+        <sky-description-list-description>
+          {{ item.value }}
+        </sky-description-list-description>
+      </sky-description-list-content>
+    }
   </sky-description-list>
 </div>
 
@@ -64,13 +61,15 @@
     mode="longDescription"
     defaultDescription="No company info found."
   >
-    <sky-description-list-content *ngFor="let item of orgInfo">
-      <sky-description-list-term>
-        {{ item.label }}
-      </sky-description-list-term>
-      <sky-description-list-description>
-        {{ item.value }}
-      </sky-description-list-description>
-    </sky-description-list-content>
+    @for (item of orgInfo; track item) {
+      <sky-description-list-content>
+        <sky-description-list-term>
+          {{ item.label }}
+        </sky-description-list-term>
+        <sky-description-list-description>
+          {{ item.value }}
+        </sky-description-list-description>
+      </sky-description-list-content>
+    }
   </sky-description-list>
 </div>

@@ -23,16 +23,20 @@
   </div>
 </div>
 <div class="icon-sheet">
-  <div *ngFor="let icon of icons" class="icon-sheet--icon sky-padding-even-md">
-    <sky-icon size="lg" [icon]="icon.name" />
-    <span>{{ icon.name }}</span>
-  </div>
+  @for (icon of icons; track icon) {
+    <div class="icon-sheet--icon sky-padding-even-md">
+      <sky-icon size="lg" [icon]="icon.name" />
+      <span>{{ icon.name }}</span>
+    </div>
+  }
 </div>
 <div class="icon-sheet">
-  <div *ngFor="let fa of faIcons" class="icon-sheet--icon sky-padding-even-md">
-    <sky-icon size="lg" [icon]="fa" />
-    <span>{{ fa }}</span>
-  </div>
+  @for (fa of faIcons; track fa) {
+    <div class="icon-sheet--icon sky-padding-even-md">
+      <sky-icon size="lg" [icon]="fa" />
+      <span>{{ fa }}</span>
+    </div>
+  }
 </div>
 <div class="sky-padding-even-md icon-svg-compare">
   <div class="sky-margin-stacked-lg">

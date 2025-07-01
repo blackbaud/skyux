@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
@@ -41,7 +40,7 @@ export class λChildTestComponent {
   host: {
     '[class]': '"breakpoint-" + breakpoint()',
   },
-  imports: [λChildTestComponent, λWrapperTestComponent, CommonModule],
+  imports: [λChildTestComponent, λWrapperTestComponent],
   template: `
     <sky-foo-wrapper>
       <!-- Children will use the element injector of the wrapper -->

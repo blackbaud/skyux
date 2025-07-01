@@ -63,12 +63,11 @@
 
   <div class="app-screenshot" id="screenshot-filter-summary">
     <sky-filter-summary>
-      <sky-filter-summary-item
-        *ngFor="let item of appliedFilters; let i = index"
-        [dismissible]="item.dismissible"
-      >
-        {{ item.label }}
-      </sky-filter-summary-item>
+      @for (item of appliedFilters; track item; let i = $index) {
+        <sky-filter-summary-item [dismissible]="item.dismissible">
+          {{ item.label }}
+        </sky-filter-summary-item>
+      }
     </sky-filter-summary>
   </div>
 
@@ -76,11 +75,11 @@
 
   <div class="app-screenshot" id="screenshot-filter-summary-overflow">
     <sky-filter-summary>
-      <sky-filter-summary-item
-        *ngFor="let item of lotsOfFilters; let i = index"
-      >
-        {{ item.label }}
-      </sky-filter-summary-item>
+      @for (item of lotsOfFilters; track item; let i = $index) {
+        <sky-filter-summary-item>
+          {{ item.label }}
+        </sky-filter-summary-item>
+      }
     </sky-filter-summary>
   </div>
 
@@ -109,4 +108,6 @@
     </sky-filter-inline>
   </div>
 </div>
-<span *ngIf="ready | async" id="ready"></span>
+@if (ready | async) {
+  <span id="ready"></span>
+}

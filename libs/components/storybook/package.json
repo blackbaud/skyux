@@ -2,10 +2,10 @@
   "name": "@skyux/storybook",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/cdk": "^19.2.19",
-    "@angular/common": "^19.2.14",
-    "@angular/core": "^19.2.14",
-    "@angular/platform-browser": "^19.2.14",
+    "@angular/cdk": "^20.0.4",
+    "@angular/common": "^20.0.5",
+    "@angular/core": "^20.0.5",
+    "@angular/platform-browser": "^20.0.5",
     "@skyux/theme": "0.0.0-PLACEHOLDER",
     "@storybook/angular": "^9.0.13"
   },

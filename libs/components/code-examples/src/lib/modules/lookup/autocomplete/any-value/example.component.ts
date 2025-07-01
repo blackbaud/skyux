@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -24,7 +23,6 @@ import { LookupAutocompleteAnyValueExampleService } from './example.service';
   selector: 'app-lookup-autocomplete-basic-example',
   templateUrl: './example.component.html',
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyAutocompleteModule,

@@ -3,13 +3,36 @@ import { Rule } from '@angular-devkit/schematics';
 import { updateWorkspace } from '../utility/workspace';
 
 // List of approved builders the polyfill can be added to.
-const polyfillsBuilders = [
+const APPROVED_BUILDERS = [
+  '@angular/build:application',
+  '@angular/build:karma',
   '@angular-devkit/build-angular:application',
   '@angular-devkit/build-angular:browser',
   '@angular-devkit/build-angular:karma',
   '@blackbaud-internal/skyux-angular-builders:browser',
   '@blackbaud-internal/skyux-angular-builders:karma',
 ];
+
+const SKYUX_POLYFILLS = '@skyux/packages/polyfills';
+
+/**
+ * Normalizes polyfills configuration to always be an array.
+ */
+function normalizePolyfills(polyfills: unknown): string[] {
+  if (!polyfills) {
+    return [];
+  }
+
+  if (typeof polyfills === 'string') {
+    return [polyfills];
+  }
+
+  if (Array.isArray(polyfills)) {
+    return polyfills;
+  }
+
+  return [];
+}
 
 /**
  * Adds '@skyux/packages/polyfills' to the given targets' configuration.
@@ -32,33 +55,26 @@ export function addPolyfillsConfig(
 
         /* istanbul ignore next */
         if (!target) {
-          return;
+          continue;
         }
 
-        // Abort if builder is not approved.
-        if (!polyfillsBuilders.includes(target.builder)) {
+        if (!APPROVED_BUILDERS.includes(target.builder)) {
           context.logger.warn(
-            `Could not add polyfills to the '${projectName}' project's '${targetName}' target because it does not use an approved builder. (wanted one of ${polyfillsBuilders.join(
-              ' | ',
-            )})`,
+            `Could not add polyfills to '${projectName}:${targetName}' - unsupported builder '${target.builder}'. Supported builders: ${APPROVED_BUILDERS.join(', ')}`,
           );
           continue;
         }
 
-        if (!target.options?.['polyfills']) {
-          target.options = {
-            ...(target.options || {}),
-            polyfills: [],
-          };
-        } else if (typeof target.options['polyfills'] === 'string') {
-          target.options['polyfills'] = [target.options['polyfills']];
+        const polyfills = normalizePolyfills(target.options?.['polyfills']);
+
+        if (!polyfills.includes(SKYUX_POLYFILLS)) {
+          polyfills.push(SKYUX_POLYFILLS);
         }
-        if (
-          Array.isArray(target.options['polyfills']) &&
-          !target.options['polyfills'].includes('@skyux/packages/polyfills')
-        ) {
-          target.options['polyfills'].push('@skyux/packages/polyfills');
-        }
+
+        target.options = {
+          ...(target.options || {}),
+          polyfills,
+        };
       }
     });
 }

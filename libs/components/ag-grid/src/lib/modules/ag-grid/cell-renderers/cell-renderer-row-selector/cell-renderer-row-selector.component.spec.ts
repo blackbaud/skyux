@@ -10,7 +10,6 @@ import {
   RowClickedEvent,
   RowNode,
 } from 'ag-grid-community';
-import { AgRowNodeEventListener } from 'ag-grid-community/dist/types/src/interfaces/iRowNode';
 import { Observable, of } from 'rxjs';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
@@ -218,7 +217,7 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
       spyOn(rowNode, 'setSelected');
       spyOn(rowNode, 'isSelected').and.returnValues(...isSelectedValues);
       spyOn(rowNode, 'addEventListener').and.callFake(
-        (event: any, listener: AgRowNodeEventListener<any>): void => {
+        (event: any, listener: any): void => {
           // set event listener
           rowClickListener = listener;
         },

@@ -1,7 +1,9 @@
 <sky-list-toolbar>
   <sky-list-secondary-actions>
-    <sky-list-secondary-action *ngIf="showOption">
+    @if (showOption) {
+    <sky-list-secondary-action>
       <button type="button">Option</button>
     </sky-list-secondary-action>
+    }
   </sky-list-secondary-actions>
 </sky-list-toolbar>

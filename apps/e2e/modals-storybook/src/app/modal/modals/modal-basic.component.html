@@ -5,7 +5,9 @@
 >
   <sky-modal-header>
     {{ title }}
-    <sky-help-inline *ngIf="showHelp" class="sky-control-help" />
+    @if (showHelp) {
+      <sky-help-inline class="sky-control-help" />
+    }
   </sky-modal-header>
   <sky-modal-content />
   <sky-modal-footer>

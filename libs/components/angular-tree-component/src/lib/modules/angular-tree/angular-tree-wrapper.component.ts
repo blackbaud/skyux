@@ -12,7 +12,6 @@ import {
   TreeModel,
   TreeNode,
 } from '@blackbaud/angular-tree-component';
-import { IDTypeDictionary } from '@blackbaud/angular-tree-component/lib/defs/api';
 
 /**
  * Wraps the Angular `tree-root` component as part of the `SkyAngularTreeModule` that provides
@@ -63,7 +62,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   @Input()
   public showToolbar: boolean | undefined = false;
 
-  public selectableNodeIds: IDTypeDictionary = {};
+  public selectableNodeIds: Record<string, unknown> = {};
 
   @ContentChild(TreeComponent)
   public treeComponent: TreeComponent | undefined;

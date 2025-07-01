@@ -2,31 +2,33 @@
   <sky-modal-header>{{ title }}</sky-modal-header>
   <sky-modal-content>
     <form [formGroup]="form" (submit)="modal.save()">
-      <ng-container *ngFor="let field of fields" class="row">
-        @switch (title) {
-          @case ('Color') {
-            <div class="sky-form-group">
-              <label class="sky-control-label" [for]="input.id">{{
-                field
-              }}</label>
-              <sky-colorpicker #colorPicker>
-                <input
-                  #input="skyId"
-                  skyId
-                  type="text"
-                  [formControlName]="field"
-                  [skyColorpickerInput]="colorPicker"
-                />
-              </sky-colorpicker>
-            </div>
+      @for (field of fields; track field) {
+        <ng-container class="row">
+          @switch (title) {
+            @case ('Color') {
+              <div class="sky-form-group">
+                <label class="sky-control-label" [for]="input.id">{{
+                  field
+                }}</label>
+                <sky-colorpicker #colorPicker>
+                  <input
+                    #input="skyId"
+                    skyId
+                    type="text"
+                    [formControlName]="field"
+                    [skyColorpickerInput]="colorPicker"
+                  />
+                </sky-colorpicker>
+              </div>
+            }
+            @default {
+              <sky-input-box [labelText]="field">
+                <input type="text" [formControlName]="field" />
+              </sky-input-box>
+            }
           }
-          @default {
-            <sky-input-box [labelText]="field">
-              <input type="text" [formControlName]="field" />
-            </sky-input-box>
-          }
-        }
-      </ng-container>
+        </ng-container>
+      }
     </form>
   </sky-modal-content>
   <sky-modal-footer>

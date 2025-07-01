@@ -1,7 +1,9 @@
 <div class="wait-container">
-  <sky-wait *ngIf="showFullPageWait" [isWaiting]="true" [isFullPage]="true" />
-  <ng-container *ngIf="!showFullPageWait">
+  @if (showFullPageWait) {
+    <sky-wait [isWaiting]="true" [isFullPage]="true" />
+  }
+  @if (!showFullPageWait) {
     <sky-wait [isWaiting]="true" />
     <sky-wait [isWaiting]="true" [isNonBlocking]="true" />
-  </ng-container>
+  }
 </div>

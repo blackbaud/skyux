@@ -43,8 +43,7 @@ describe('lookup-storybook', () => {
             it('should render show more dropdown with filtering', () => {
               cy.skyReady('app-lookup');
 
-              cy.get('[ng-reflect-enable-show-more="true"')
-                .first()
+              cy.get('[data-sky-id="lookup-show-more-1"]')
                 .should('exist')
                 .should('be.visible')
                 .type('b');
@@ -89,8 +88,7 @@ describe('lookup-storybook', () => {
             it('should render show more dropdown with no results', () => {
               cy.skyReady('app-lookup');
 
-              cy.get('[ng-reflect-enable-show-more="true"')
-                .first()
+              cy.get('[data-sky-id="lookup-show-more-1"]')
                 .should('exist')
                 .should('be.visible')
                 .type('foo');

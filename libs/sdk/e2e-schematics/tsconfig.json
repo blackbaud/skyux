@@ -3,6 +3,7 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "module": "commonjs",
+    "moduleResolution": "node",
     "types": ["cypress", "node"],
     "typeRoots": [
       "../../../node_modules/@types",

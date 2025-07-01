@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,6 +6,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { SkyAppWindowRef, SkyCoreAdapterService } from '@skyux/core';
 
@@ -24,7 +24,7 @@ let skySplitViewNextId = 0;
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, SkySplitViewResourcesModule],
+  imports: [SkySplitViewResourcesModule],
   selector: 'sky-split-view-drawer',
   styleUrl: './split-view-drawer.component.scss',
   templateUrl: './split-view-drawer.component.html',
@@ -85,24 +85,15 @@ export class SkySplitViewDrawerComponent implements OnInit, OnDestroy {
   #isDragging = false;
   #ngUnsubscribe = new Subject<void>();
   #xCoord = 0;
-  #changeDetectorRef: ChangeDetectorRef;
-  #coreAdapterService: SkyCoreAdapterService;
-  #splitViewSvc: SkySplitViewService;
-  #windowRef: SkyAppWindowRef;
+
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #coreAdapterService = inject(SkyCoreAdapterService);
+  readonly #splitViewSvc = inject(SkySplitViewService);
+  readonly #windowRef = inject(SkyAppWindowRef);
 
   #_width: number | undefined;
 
-  constructor(
-    changeDetectorRef: ChangeDetectorRef,
-    coreAdapterService: SkyCoreAdapterService,
-    splitViewSvc: SkySplitViewService,
-    windowRef: SkyAppWindowRef,
-  ) {
-    this.#changeDetectorRef = changeDetectorRef;
-    this.#coreAdapterService = coreAdapterService;
-    this.#splitViewSvc = splitViewSvc;
-    this.#windowRef = windowRef;
-
+  constructor() {
     this.splitViewDrawerId = `sky-split-view-drawer-${++skySplitViewNextId}`;
   }
 

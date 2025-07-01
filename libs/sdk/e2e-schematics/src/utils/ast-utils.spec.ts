@@ -357,6 +357,28 @@ describe('ast-utils', () => {
     expect(componentClass).toBeFalsy();
   });
 
+  it('should findComponentClass, no Component import', async () => {
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree.write('.gitignore', '#');
+    await createTestApplication(tree, { name: 'test' });
+    await componentGenerator(tree, {
+      name: 'test',
+      path: 'apps/test/src/app/test/test',
+      type: 'component',
+    });
+    tree.write(
+      'apps/test/src/app/test/test.component.ts',
+      `
+      import { Injectable } from '@angular/core';
+      export class TestComponent {}
+    `,
+    );
+    const componentClass = findComponentClass(
+      readSourceFile(tree, 'apps/test/src/app/test/test.component.ts'),
+    );
+    expect(componentClass).toBeFalsy();
+  });
+
   it('should getInsertImportTransformer', () => {
     const tree = createTree();
     const fileName1 = 'script1.ts';

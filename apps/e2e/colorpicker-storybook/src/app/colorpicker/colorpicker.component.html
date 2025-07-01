@@ -123,4 +123,6 @@
     </div>
   </form>
 </div>
-<span *ngIf="ready | async" id="ready"></span>
+@if (ready | async) {
+  <span id="ready"></span>
+}

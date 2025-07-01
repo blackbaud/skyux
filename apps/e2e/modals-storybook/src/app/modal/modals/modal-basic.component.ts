@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyModalError, SkyModalInstance, SkyModalModule } from '@skyux/modals';
@@ -8,7 +7,7 @@ import { ModalTestContext } from './modal-context';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal-basic.component.html',
-  imports: [CommonModule, SkyHelpInlineModule, SkyModalModule],
+  imports: [SkyHelpInlineModule, SkyModalModule],
 })
 export class ModalBasicComponent {
   public showHelp = false;
@@ -17,11 +16,7 @@ export class ModalBasicComponent {
 
   protected readonly context = inject(ModalTestContext, { optional: true });
 
-  #instance: SkyModalInstance;
-
-  constructor(instance: SkyModalInstance) {
-    this.#instance = instance;
-  }
+  readonly #instance = inject(SkyModalInstance);
 
   public closeModal(): void {
     this.#instance.close();

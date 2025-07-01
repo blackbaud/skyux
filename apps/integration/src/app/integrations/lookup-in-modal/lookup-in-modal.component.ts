@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DOCUMENT, OnDestroy, OnInit, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { ModalLookupComponent } from './modal-lookup.component';

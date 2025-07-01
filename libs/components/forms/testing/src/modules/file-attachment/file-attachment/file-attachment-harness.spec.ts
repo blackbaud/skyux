@@ -1,5 +1,4 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -26,12 +25,7 @@ import { SkyFileAttachmentHarness } from './file-attachment-harness';
 
 //#region Test component
 @Component({
-  imports: [
-    SkyFileAttachmentModule,
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule,
-  ],
+  imports: [SkyFileAttachmentModule, FormsModule, ReactiveFormsModule],
   template: `
     <sky-file-attachment
       acceptedTypesErrorMessage="Attach a valid file."
