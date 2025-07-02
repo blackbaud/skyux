@@ -1,4 +1,5 @@
-import { Component, input } from '@angular/core';
+import { Component, input, model } from '@angular/core';
+
 import {
   SkySelectionModalSearchArgs,
   SkySelectionModalSearchResult,
@@ -15,7 +16,7 @@ import { SkyFilterBarFilterItem } from '../models/filter-bar-filter-item';
   templateUrl: './filter-bar.component.fixture.html',
 })
 export class SkyFilterBarTestComponent {
-  public filters = input<SkyFilterBarFilterItem[]>([
+  public filters = model<SkyFilterBarFilterItem[]>([
     { name: 'filter 1', id: '1' },
     { name: 'filter 2', id: '2' },
     { name: 'filter 3', id: '3' },

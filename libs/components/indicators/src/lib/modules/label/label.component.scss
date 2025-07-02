@@ -18,6 +18,7 @@
     --sky-background-color-warning
   );
   --sky-override-label-display: inline;
+  --sky-override-label-icon-info-color: var(--sky-color-icon-info);
   --sky-override-label-icon-modern-display: none;
   --sky-override-label-inner-icon-path-color-danger: var(
     --sky-background-color-danger
@@ -39,6 +40,7 @@
 
 @include compatMixins.sky-modern-overrides('.sky-label') {
   --sky-override-sky-icon-svg-size-s: 21px;
+  --sky-override-label-icon-info-color: var(--sky-color-icon-info);
   --sky-override-label-line-height: 1;
   --sky-override-label-margin: 0 3px;
   --sky-override-label-inner-icon-path-color-info: var(--modern-color-gray-105);
@@ -60,19 +62,22 @@
 /* Modern theme */
 @include mixins.sky-theme-modern {
   .sky-label-info .sky-label-icon {
-    color: var(--sky-color-icon-info);
+    color: var(
+      --sky-override-label-icon-info-color,
+      var(--sky-color-background-icon_matte-action-heavy)
+    );
   }
 
   .sky-label-success .sky-label-icon {
-    color: var(--sky-color-icon-success);
+    color: var(--sky-color-background-icon_matte-success);
   }
 
   .sky-label-warning .sky-label-icon {
-    color: var(--sky-color-icon-warning);
+    color: var(--sky-color-background-icon_matte-warning);
   }
 
   .sky-label-danger .sky-label-icon {
-    color: var(--sky-color-icon-danger);
+    color: var(--sky-color-background-icon_matte-danger);
   }
 }
 

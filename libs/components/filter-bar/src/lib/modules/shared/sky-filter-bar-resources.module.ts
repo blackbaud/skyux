@@ -14,6 +14,18 @@ import {
 
 const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
+    skyux_filter_bar_clear_filters_confirm_apply_label: {
+      message: 'Clear values',
+    },
+    skyux_filter_bar_clear_filters_confirm_body: {
+      message:
+        'This will not remove any filters, but any values you have set will be removed.',
+    },
+    skyux_filter_bar_clear_filters_confirm_cancel_label: { message: 'Cancel' },
+    skyux_filter_bar_clear_filters_confirm_title: {
+      message:
+        'Are you sure you want to reset all filters to their original values?',
+    },
     skyux_filter_bar_clear_filters_label: { message: 'Clear all values' },
     skyux_filter_bar_filter_label: { message: 'Filters' },
     skyux_filter_bar_filter_picker_descriptor: { message: 'filters' },
