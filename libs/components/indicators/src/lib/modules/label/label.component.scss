@@ -33,14 +33,15 @@
     --sky-background-color-warning
   );
   --sky-override-label-line-height: 2.2;
-  --sky-override-label-margin: 0 3px;
-  --sky-override-label-padding: 0.3em 0.6em 0.3em 0.6em;
-  --sky-override-label-text-padding-left: var(--sky-padding-half);
+  --sky-override-label-link-hover-color: var(--sky-text-color-default);
   --sky-override-label-link-text-decoration: underline;
-  --sky-override-label-link-text-link-color: change-color(
+  --sky-override-label-link-text-color: change-color(
     $sky-text-color-default,
     $alpha: 0.8
   );
+  --sky-override-label-margin: 0 3px;
+  --sky-override-label-padding: 0.3em 0.6em 0.3em 0.6em;
+  --sky-override-label-text-padding-left: var(--sky-padding-half);
 }
 
 @include compatMixins.sky-modern-overrides('.sky-label') {
@@ -52,6 +53,8 @@
   --sky-override-label-inner-icon-path-color-success: var(
     --modern-color-gray-105
   );
+  --sky-override-label-link-hover-color: var(--sky-text-color-default);
+  --sky-override-label-link-text-color: #212327cc;
 
   &.sky-label-danger,
   &.sky-label-warning {
@@ -62,7 +65,6 @@
   &.sky-label-success {
     --sky-override-label-padding-left: var(--modern-size-6);
   }
-  --sky-override-label-link-text-link-color: #212327cc;
 }
 
 /* Modern theme */
@@ -111,16 +113,20 @@
 
   ::ng-deep a {
     color: var(
-      --sky-override-label-link-text-link-color,
+      --sky-override-label-link-text-color,
       var(--sky-color-text-action_contrast)
     );
     text-decoration: var(
       --sky-override-label-link-text-decoration,
-      --sky-font-text_decoration-visible_link
+      var(--sky-font-text_decoration-visible_link)
     );
 
+    // In modern v2 all states of a link will display as "blue", so remove this hover state
     &:hover {
-      color: var(--sky-color-text-default);
+      color: var(
+        --sky-override-label-link-hover-color,
+        var(--sky-color-text-action_contrast)
+      );
     }
   }
 }
