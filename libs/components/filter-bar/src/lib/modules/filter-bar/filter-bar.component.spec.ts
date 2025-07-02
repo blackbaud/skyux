@@ -901,7 +901,7 @@ describe('Filter bar component', () => {
     filterItem.componentInstance.filterUpdated.emit(newFilterValue);
 
     // Verify the filter value was updated
-    expect(filters[0].filterValue).toEqual(newFilterValue);
+    expect(component.filters()[0].filterValue).toEqual(newFilterValue);
   });
 
   it('should remove filter when filterUpdated event emits undefined', () => {
@@ -924,7 +924,7 @@ describe('Filter bar component', () => {
     filterItem.componentInstance.filterUpdated.emit(undefined);
 
     // Verify the filter value was cleared
-    expect(filters[0].filterValue).toBeUndefined();
+    expect(component.filters()[0].filterValue).toBeUndefined();
   });
 
   it('should hide clear filters button when no filters have values', () => {
@@ -960,7 +960,7 @@ describe('Filter bar component', () => {
     expect(clearButton?.textContent?.trim()).toContain('Clear all values');
   });
 
-  it('should clear all filter values when clear filters button is clicked', () => {
+  it('should clear all filter values when clear filters button is clicked and confirmed', () => {
     const filters = [
       {
         id: 'filter1',
@@ -975,13 +975,48 @@ describe('Filter bar component', () => {
         filterModalConfig: { modalComponent: class {} },
       },
     ];
+    const closed$ = of({ action: 'save' });
+    confirmServiceSpy.open.and.returnValue({
+      closed: closed$,
+    } as SkyConfirmInstance);
+
     componentRef.setInput('filters', filters);
     fixture.detectChanges();
 
     const clearButton = getClearFiltersButton();
     clearButton?.click();
 
-    expect(filters[0].filterValue).toBeUndefined();
-    expect(filters[1].filterValue).toBeUndefined();
+    expect(component.filters()[0].filterValue).toBeUndefined();
+    expect(component.filters()[1].filterValue).toBeUndefined();
+  });
+
+  it('should not clear all filter values when clear filters button is clicked and cancelled', () => {
+    const filters = [
+      {
+        id: 'filter1',
+        name: 'Test Filter 1',
+        filterValue: { value: 'value1' },
+        filterModalConfig: { modalComponent: class {} },
+      },
+      {
+        id: 'filter2',
+        name: 'Test Filter 2',
+        filterValue: { value: 'value2' },
+        filterModalConfig: { modalComponent: class {} },
+      },
+    ];
+    const closed$ = of({ action: 'cancel' });
+    confirmServiceSpy.open.and.returnValue({
+      closed: closed$,
+    } as SkyConfirmInstance);
+
+    componentRef.setInput('filters', filters);
+    fixture.detectChanges();
+
+    const clearButton = getClearFiltersButton();
+    clearButton?.click();
+
+    expect(component.filters()[0].filterValue).not.toBeUndefined();
+    expect(component.filters()[1].filterValue).not.toBeUndefined();
   });
 });

@@ -334,20 +334,51 @@ export class SkyFilterBarComponent {
       const index = filters?.indexOf(filter);
 
       if (index > -1) {
-        filters[index].filterValue = value;
+        filters[index] = Object.assign({}, filters[index], {
+          filterValue: value,
+        });
         this.filters.set(filters);
       }
     }
   }
 
   protected clearFilters(): void {
-    const filters = this.filters()?.map((filter) => {
-      filter.filterValue = undefined;
-      return filter;
-    });
+    const strings = this.#strings();
 
-    if (filters) {
-      this.filters.set(filters);
+    /* istanbul ignore if: safety check */
+    if (!strings) {
+      return;
     }
+
+    const config: SkyConfirmConfig = {
+      message: strings.title,
+      body: strings.body,
+      type: SkyConfirmType.Custom,
+      buttons: [
+        {
+          action: 'save',
+          text: strings.save,
+          styleType: 'primary',
+        },
+        {
+          action: 'cancel',
+          text: strings.cancel,
+          styleType: 'link',
+        },
+      ],
+    };
+    const instance = this.#confirmSvc.open(config);
+
+    instance.closed.subscribe((result) => {
+      if (result.action === 'save') {
+        const filters = this.filters()?.map((filter) =>
+          Object.assign({}, filter, { filterValue: undefined }),
+        );
+
+        if (filters) {
+          this.filters.set(filters);
+        }
+      }
+    });
   }
 }
