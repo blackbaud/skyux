@@ -2,6 +2,9 @@ import { ComponentRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { SkyConfirmInstance, SkyConfirmService } from '@skyux/modals';
+
+import { of } from 'rxjs';
 
 import { SkyFilterBarItemComponent } from './filter-bar-item.component';
 import { SkyFilterBarTestComponent } from './fixtures/filter-bar.component.fixture';
@@ -28,11 +31,17 @@ describe('Filter bar component', () => {
   let component: SkyFilterBarTestComponent;
   let componentRef: ComponentRef<SkyFilterBarTestComponent>;
   let fixture: ComponentFixture<SkyFilterBarTestComponent>;
+  let confirmServiceSpy: jasmine.SpyObj<SkyConfirmService>;
 
   beforeEach(async () => {
+    confirmServiceSpy = jasmine.createSpyObj('SkyConfirmService', ['open']);
+
     await TestBed.configureTestingModule({
       imports: [SkyFilterBarTestComponent /* , SkyModalTestingModule */],
-      providers: [provideNoopAnimations()],
+      providers: [
+        provideNoopAnimations(),
+        { provide: SkyConfirmService, useValue: confirmServiceSpy },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SkyFilterBarTestComponent);
@@ -174,7 +183,7 @@ describe('Filter bar component', () => {
     expect(clearButton?.textContent?.trim()).toContain('Clear all values');
   });
 
-  it('should clear all filter values when clear filters button is clicked', () => {
+  it('should clear all filter values when clear filters button is clicked and confirmed', () => {
     const filters = [
       {
         id: 'filter1',
@@ -189,6 +198,11 @@ describe('Filter bar component', () => {
         filterModalConfig: { modalComponent: class {} },
       },
     ];
+    const closed$ = of({ action: 'save' });
+    confirmServiceSpy.open.and.returnValue({
+      closed: closed$,
+    } as SkyConfirmInstance);
+
     componentRef.setInput('filters', filters);
     fixture.detectChanges();
 
@@ -197,5 +211,35 @@ describe('Filter bar component', () => {
 
     expect(component.filters()[0].filterValue).toBeUndefined();
     expect(component.filters()[1].filterValue).toBeUndefined();
+  });
+
+  it('should not clear all filter values when clear filters button is clicked and cancelled', () => {
+    const filters = [
+      {
+        id: 'filter1',
+        name: 'Test Filter 1',
+        filterValue: { value: 'value1' },
+        filterModalConfig: { modalComponent: class {} },
+      },
+      {
+        id: 'filter2',
+        name: 'Test Filter 2',
+        filterValue: { value: 'value2' },
+        filterModalConfig: { modalComponent: class {} },
+      },
+    ];
+    const closed$ = of({ action: 'cancel' });
+    confirmServiceSpy.open.and.returnValue({
+      closed: closed$,
+    } as SkyConfirmInstance);
+
+    componentRef.setInput('filters', filters);
+    fixture.detectChanges();
+
+    const clearButton = getClearFiltersButton();
+    clearButton?.click();
+
+    expect(component.filters()[0].filterValue).not.toBeUndefined();
+    expect(component.filters()[1].filterValue).not.toBeUndefined();
   });
 });

@@ -9,8 +9,11 @@ import {
   SkySelectionModalSearchResult,
   SkySelectionModalService,
 } from '@skyux/lookup';
-
-// import { SkyConfirmService } from '@skyux/modals';
+import {
+  SkyConfirmConfig,
+  SkyConfirmService,
+  SkyConfirmType,
+} from '@skyux/modals';
 
 import { Observable, take } from 'rxjs';
 
@@ -49,18 +52,32 @@ export class SkyFilterBarComponent {
     return filters?.some((filter) => !!filter.filterValue);
   });
 
-  // readonly #confirmSvc = inject(SkyConfirmService);
+  readonly #confirmSvc = inject(SkyConfirmService);
   readonly #modalSvc = inject(SkySelectionModalService);
   readonly #resourceSvc = inject(SkyLibResourcesService);
 
   #filterPickerDescriptor = 'filters';
+  #clearFiltersConfirmTitle = 'Title';
+  #clearFiltersConfirmBody = 'Body';
+  #clearFiltersConfirmApply = 'Clear values';
+  #clearFiltersConfirmCancel = 'Cancel';
 
   constructor() {
     this.#resourceSvc
-      .getString('skyux_filter_bar_filter_picker_descriptor')
+      .getStrings({
+        descriptor: 'skyux_filter_bar_filter_picker_descriptor',
+        title: 'skyux_filter_bar_clear_filters_confirm_title',
+        body: 'skyux_filter_bar_clear_filters_confirm_body',
+        save: 'skyux_filter_bar_clear_filters_confirm_apply_label',
+        cancel: 'skyux_filter_bar_clear_filters_confirm_cancel_label',
+      })
       .pipe(take(1))
-      .subscribe((resource) => {
-        this.#filterPickerDescriptor = resource;
+      .subscribe(({ descriptor, title, body, save, cancel }) => {
+        this.#filterPickerDescriptor = descriptor;
+        this.#clearFiltersConfirmTitle = title;
+        this.#clearFiltersConfirmBody = body;
+        this.#clearFiltersConfirmApply = save;
+        this.#clearFiltersConfirmCancel = cancel;
       });
   }
 
@@ -107,12 +124,35 @@ export class SkyFilterBarComponent {
   }
 
   protected clearFilters(): void {
-    const filters = this.filters()?.map((filter) =>
-      Object.assign({}, filter, { filterValue: undefined }),
-    );
+    const config: SkyConfirmConfig = {
+      message: this.#clearFiltersConfirmTitle,
+      body: this.#clearFiltersConfirmBody,
+      type: SkyConfirmType.Custom,
+      buttons: [
+        {
+          action: 'save',
+          text: this.#clearFiltersConfirmApply,
+          styleType: 'primary',
+        },
+        {
+          action: 'cancel',
+          text: this.#clearFiltersConfirmCancel,
+          styleType: 'link',
+        },
+      ],
+    };
+    const instance = this.#confirmSvc.open(config);
 
-    if (filters) {
-      this.filters.set(filters);
-    }
+    instance.closed.subscribe((result) => {
+      if (result.action === 'save') {
+        const filters = this.filters()?.map((filter) =>
+          Object.assign({}, filter, { filterValue: undefined }),
+        );
+
+        if (filters) {
+          this.filters.set(filters);
+        }
+      }
+    });
   }
 }
