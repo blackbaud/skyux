@@ -36,6 +36,11 @@
   --sky-override-label-margin: 0 3px;
   --sky-override-label-padding: 0.3em 0.6em 0.3em 0.6em;
   --sky-override-label-text-padding-left: var(--sky-padding-half);
+  --sky-override-label-link-text-decoration: underline;
+  --sky-override-label-link-text-link-color: change-color(
+    $sky-text-color-default,
+    $alpha: 0.8
+  );
 }
 
 @include compatMixins.sky-modern-overrides('.sky-label') {
@@ -57,6 +62,7 @@
   &.sky-label-success {
     --sky-override-label-padding-left: var(--modern-size-6);
   }
+  --sky-override-label-link-text-link-color: #212327cc;
 }
 
 /* Modern theme */
@@ -102,6 +108,21 @@
         var(--sky-comp-label-space-inset-left)
       )
   );
+
+  ::ng-deep a {
+    color: var(
+      --sky-override-label-link-text-link-color,
+      var(--sky-color-text-action_contrast)
+    );
+    text-decoration: var(
+      --sky-override-label-link-text-decoration,
+      --sky-font-text_decoration-visible_link
+    );
+
+    &:hover {
+      color: var(--sky-color-text-default);
+    }
+  }
 }
 
 .sky-label-success {
