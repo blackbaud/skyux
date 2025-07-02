@@ -1,5 +1,20 @@
 # Changelog
 
+## [12.24.0](https://github.com/blackbaud/skyux/compare/12.23.0...12.24.0) (2025-07-02)
+
+
+### Features
+
+* replace container tokens ([#3577](https://github.com/blackbaud/skyux/issues/3577)) ([bdae434](https://github.com/blackbaud/skyux/commit/bdae434c7cd08dc8d07ffacfb970f5a18b77f068))
+* update composite icons to use the new matte variables ([#3555](https://github.com/blackbaud/skyux/issues/3555)) ([d38771a](https://github.com/blackbaud/skyux/commit/d38771ab0d74b53b02dcb015a8d8b764d3d63baf))
+
+
+### Bug Fixes
+
+* **components/lookup:** autocomplete results have a border radius in v2 modern ([#3559](https://github.com/blackbaud/skyux/issues/3559)) ([d4660ea](https://github.com/blackbaud/skyux/commit/d4660ea7c4cb945514de6a209be0f029e7242323))
+* **components/modals:** update modal headers in v2 modern to use standard h2 font styles ([#3554](https://github.com/blackbaud/skyux/issues/3554)) ([444b4b9](https://github.com/blackbaud/skyux/commit/444b4b96ce14556d9f472b138f5f7a4e106927f2))
+* **components/toast:** update toast box shadow and close button position in modern v2 ([#3553](https://github.com/blackbaud/skyux/issues/3553)) ([aa571a6](https://github.com/blackbaud/skyux/commit/aa571a641f2f084f94eeb1bf8acdd3e45ded9581))
+
 ## [12.23.0](https://github.com/blackbaud/skyux/compare/12.22.0...12.23.0) (2025-06-30)
 
 
