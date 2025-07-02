@@ -4,6 +4,7 @@
 
 @include compatMixins.sky-default-host-overrides() {
   --sky-override-tile-dashboard-column-padding-gt-sm: 0 #{$sky-padding};
+  --sky-override-tile-dashboard-column-padding-xs: 0;
 }
 
 :host {
@@ -16,16 +17,22 @@
 }
 
 @include mixins.sky-host-responsive-container-xs-min() {
-  padding: 0;
+  padding: var(
+    --sky-override-tile-dashboard-column-padding-xs,
+    var(--sky-comp-tile-dashboard-column-space-inset-xs-top)
+      var(--sky-comp-tile-dashboard-column-space-inset-xs-right)
+      var(--sky-comp-tile-dashboard-column-space-inset-xs-bottom)
+      var(--sky-comp-tile-dashboard-column-space-inset-xs-left)
+  );
 }
 
 @include mixins.sky-host-responsive-container-sm-min() {
   padding: var(
     --sky-override-tile-dashboard-column-padding-gt-sm,
-    var(--sky-space-inset-horizontal-top-m)
-      var(--sky-space-inset-horizontal-right-m)
-      var(--sky-space-inset-horizontal-bottom-m)
-      var(--sky-space-inset-horizontal-left-m)
+    var(--sky-comp-tile-dashboard-column-space-inset-sm-top)
+      var(--sky-comp-tile-dashboard-column-space-inset-sm-right)
+      var(--sky-comp-tile-dashboard-column-space-inset-sm-bottom)
+      var(--sky-comp-tile-dashboard-column-space-inset-sm-left)
   );
 }
 
