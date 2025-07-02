@@ -28,6 +28,19 @@ describe('Theme brand', () => {
     expect(brand.version).toBe('1.0.0');
   });
 
+  it('should set the SRI hash correctly when provided', () => {
+    const sriHash = 'sha384-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef';
+    const brand = new SkyThemeBrand('custom-brand', '1.0.0', undefined, sriHash);
+
+    expect(brand.sriHash).toBe(sriHash);
+  });
+
+  it('should have undefined SRI hash when not provided', () => {
+    const brand = new SkyThemeBrand('custom-brand', '1.0.0');
+
+    expect(brand.sriHash).toBeUndefined();
+  });
+
   it('should set the version correctly when a version with an appropriate suffix is given', () => {
     const suffixes = ['alpha.1', 'beta.1', 'rc.1'];
 
@@ -119,6 +132,17 @@ describe('Theme brand', () => {
       });
     });
 
+    it('should serialize brand with empty SRI hash correctly (excluding it from output)', () => {
+      const brand = new SkyThemeBrand('rainbow', '1.0.0', undefined, '');
+      const serialized = brand.serialize();
+
+      // Empty string should be treated as falsy and not included
+      expect(serialized).toEqual({
+        name: 'rainbow',
+        version: '1.0.0',
+      });
+    });
+
     it('should deserialize brand correctly', () => {
       const brand = SkyThemeBrand.deserialize({
         name: 'rainbow',
@@ -170,6 +194,19 @@ describe('Theme brand', () => {
       expect(brand.version).toBe('2.0.0');
       expect(brand.hostClass).toBe('custom-host-class');
       expect(brand.sriHash).toBe(sriHash);
+    });
+
+    it('should deserialize brand with empty SRI hash correctly', () => {
+      const brand = SkyThemeBrand.deserialize({
+        name: 'rainbow',
+        version: '1.0.0',
+        sriHash: '',
+      });
+
+      expect(brand.name).toBe('rainbow');
+      expect(brand.version).toBe('1.0.0');
+      expect(brand.hostClass).toBe('sky-theme-brand-rainbow');
+      expect(brand.sriHash).toBe('');
     });
   });
 });

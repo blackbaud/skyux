@@ -459,6 +459,10 @@ describe('Theme service', () => {
       it('should apply branding without SRI attributes when no SRI hash is provided', () => {
         testBrandingWithSri();
       });
+
+      it('should apply branding without SRI attributes when empty SRI hash is provided', () => {
+        testBrandingWithSri('');
+      });
     });
 
     describe('with SkyTheme parameter', () => {
