@@ -40,7 +40,7 @@
     ::ng-deep a {
       color: var(
         --sky-override-alert-text-link-color,
-        var(--sky-color-text-default)
+        var(--sky-color-text-action_contrast)
       );
       text-decoration: var(--sky-font-text_decoration-visible_link);
 

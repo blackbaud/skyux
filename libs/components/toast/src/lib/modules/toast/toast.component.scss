@@ -168,7 +168,7 @@ sky-toast {
     .sky-btn-link-inline {
       color: var(
         --sky-override-toast-content-link-color,
-        var(--sky-color-text-default)
+        var(--sky-color-text-action_contrast)
       );
       text-decoration: var(
         --sky-override-toast-content-link-decoration,
