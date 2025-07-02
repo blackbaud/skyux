@@ -12,6 +12,7 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-status-indicator') {
+  --sky-override-status-indicator-icon-color-info: var(--sky-color-icon-info);
   --sky-override-status-indicator-info-success-exclamation-path-color: var(
     --modern-color-gray-105
   );
@@ -36,28 +37,28 @@
 .sky-status-indicator-icon-info {
   color: var(
     --sky-override-status-indicator-icon-color-info,
-    var(--sky-color-icon-info)
+    var(--sky-color-background-icon_matte-action-heavy)
   );
 }
 
 .sky-status-indicator-icon-success {
   color: var(
     --sky-override-status-indicator-icon-color-success,
-    var(--sky-color-icon-success)
+    var(--sky-color-background-icon_matte-success)
   );
 }
 
 .sky-status-indicator-icon-warning {
   color: var(
     --sky-override-status-indicator-icon-color-warning,
-    var(--sky-color-icon-warning)
+    var(--sky-color-background-icon_matte-warning)
   );
 }
 
 .sky-status-indicator-icon-danger {
   color: var(
     --sky-override-status-indicator-icon-color-danger,
-    var(--sky-color-icon-danger)
+    var(--sky-color-background-icon_matte-danger)
   );
 }
 
