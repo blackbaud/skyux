@@ -1,4 +1,5 @@
 import { Component, computed, inject, input, model } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyToolbarModule } from '@skyux/layout';
@@ -8,8 +9,13 @@ import {
   SkySelectionModalSearchResult,
   SkySelectionModalService,
 } from '@skyux/lookup';
+import {
+  SkyConfirmConfig,
+  SkyConfirmService,
+  SkyConfirmType,
+} from '@skyux/modals';
 
-import { Observable, take } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { SkyFilterBarResourcesModule } from '../shared/sky-filter-bar-resources.module';
 
@@ -45,26 +51,31 @@ export class SkyFilterBarComponent {
     return filters?.some((filter) => !!filter.filterValue);
   });
 
+  readonly #confirmSvc = inject(SkyConfirmService);
   readonly #modalSvc = inject(SkySelectionModalService);
   readonly #resourceSvc = inject(SkyLibResourcesService);
-
-  #filterPickerDescriptor = 'filters';
-
-  constructor() {
-    this.#resourceSvc
-      .getString('skyux_filter_bar_filter_picker_descriptor')
-      .pipe(take(1))
-      .subscribe((resource) => {
-        this.#filterPickerDescriptor = resource;
-      });
-  }
+  readonly #strings = toSignal(
+    this.#resourceSvc.getStrings({
+      descriptor: 'skyux_filter_bar_filter_picker_descriptor',
+      title: 'skyux_filter_bar_clear_filters_confirm_title',
+      body: 'skyux_filter_bar_clear_filters_confirm_body',
+      save: 'skyux_filter_bar_clear_filters_confirm_apply_label',
+      cancel: 'skyux_filter_bar_clear_filters_confirm_cancel_label',
+    }),
+  );
 
   protected openFilters(): void {
     const searchFn = this.filterAsyncSearchFn();
+    const strings = this.#strings();
+
+    /* istanbul ignore if: safety check */
+    if (!strings) {
+      return;
+    }
 
     if (searchFn) {
       const filterArgs: SkySelectionModalOpenArgs = {
-        selectionDescriptor: this.#filterPickerDescriptor,
+        selectionDescriptor: strings.descriptor,
         descriptorProperty: 'name',
         idProperty: 'id',
         selectMode: 'multiple',
@@ -93,20 +104,51 @@ export class SkyFilterBarComponent {
       const index = filters?.indexOf(filter);
 
       if (index > -1) {
-        filters[index].filterValue = value;
+        filters[index] = Object.assign({}, filters[index], {
+          filterValue: value,
+        });
         this.filters.set(filters);
       }
     }
   }
 
   protected clearFilters(): void {
-    const filters = this.filters()?.map((filter) => {
-      filter.filterValue = undefined;
-      return filter;
-    });
+    const strings = this.#strings();
 
-    if (filters) {
-      this.filters.set(filters);
+    /* istanbul ignore if: safety check */
+    if (!strings) {
+      return;
     }
+
+    const config: SkyConfirmConfig = {
+      message: strings.title,
+      body: strings.body,
+      type: SkyConfirmType.Custom,
+      buttons: [
+        {
+          action: 'save',
+          text: strings.save,
+          styleType: 'primary',
+        },
+        {
+          action: 'cancel',
+          text: strings.cancel,
+          styleType: 'link',
+        },
+      ],
+    };
+    const instance = this.#confirmSvc.open(config);
+
+    instance.closed.subscribe((result) => {
+      if (result.action === 'save') {
+        const filters = this.filters()?.map((filter) =>
+          Object.assign({}, filter, { filterValue: undefined }),
+        );
+
+        if (filters) {
+          this.filters.set(filters);
+        }
+      }
+    });
   }
 }
