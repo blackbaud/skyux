@@ -67,7 +67,12 @@ export class SkyThemeBrand {
    * Deserializes a JSON object to a SkyThemeBrand instance.
    */
   public static deserialize(data: SkyThemeBrandData): SkyThemeBrand {
-    return new SkyThemeBrand(data.name, data.version, data.hostClass, data.sriHash);
+    return new SkyThemeBrand(
+      data.name,
+      data.version,
+      data.hostClass,
+      data.sriHash,
+    );
   }
 
   #buildDefaultHostClassName(): string {

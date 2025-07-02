@@ -20,7 +20,6 @@ describe('Theme service', () => {
     createElement: jasmine.Spy;
     removeClass: jasmine.Spy;
     removeChild: jasmine.Spy;
-    setProperty: jasmine.Spy;
     setAttribute: jasmine.Spy;
   };
 
@@ -98,12 +97,12 @@ describe('Theme service', () => {
 
         if (current.brand.name !== 'blackbaud') {
           expect(mockRenderer.createElement).toHaveBeenCalledWith('link');
-          expect(mockRenderer.setProperty).toHaveBeenCalledWith(
+          expect(mockRenderer.setAttribute).toHaveBeenCalledWith(
             mockLinkElement,
             'rel',
             'stylesheet',
           );
-          expect(mockRenderer.setProperty).toHaveBeenCalledWith(
+          expect(mockRenderer.setAttribute).toHaveBeenCalledWith(
             mockLinkElement,
             'href',
             `https://sky.blackbaudcdn.net/static/skyux-brand-${current.brand.name}/${current.brand.version}/assets/scss/${current.brand.name}.css`,
@@ -114,7 +113,7 @@ describe('Theme service', () => {
           );
         } else {
           expect(mockRenderer.createElement).not.toHaveBeenCalled();
-          expect(mockRenderer.setProperty).not.toHaveBeenCalled();
+          expect(mockRenderer.setAttribute).not.toHaveBeenCalled();
           expect(mockRenderer.appendChild).not.toHaveBeenCalled();
         }
       }
@@ -162,7 +161,6 @@ describe('Theme service', () => {
       'createElement',
       'removeClass',
       'removeChild',
-      'setProperty',
       'setAttribute',
     ]);
 
@@ -260,7 +258,7 @@ describe('Theme service', () => {
     describe('with SkyThemeSettings parameter', () => {
       function testBrandingWithSri(sriHash?: string): void {
         const themeSvc = new SkyThemeService();
-        
+
         const settingsWithBranding = new SkyThemeSettings(
           SkyTheme.presets.modern,
           SkyThemeMode.presets.light,
@@ -452,7 +450,8 @@ describe('Theme service', () => {
       });
 
       it('should apply branding with SRI hash', () => {
-        const sriHash = 'sha384-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef';
+        const sriHash =
+          'sha384-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef';
         testBrandingWithSri(sriHash);
       });
 
@@ -815,7 +814,8 @@ describe('Theme service', () => {
 
     it('should apply brand with SRI hash using setThemeBrand', () => {
       const themeSvc = new SkyThemeService();
-      const sriHash = 'sha384-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef';
+      const sriHash =
+        'sha384-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef';
 
       const initialSettings = new SkyThemeSettings(
         SkyTheme.presets.modern,
@@ -832,10 +832,14 @@ describe('Theme service', () => {
       mockRenderer.addClass.calls.reset();
       mockRenderer.removeClass.calls.reset();
       mockRenderer.createElement.calls.reset();
-      mockRenderer.setProperty.calls.reset();
       mockRenderer.setAttribute.calls.reset();
 
-      const newBrandWithSri = new SkyThemeBrand('rainbow', '1.0.1', undefined, sriHash);
+      const newBrandWithSri = new SkyThemeBrand(
+        'rainbow',
+        '1.0.1',
+        undefined,
+        sriHash,
+      );
       themeSvc.setThemeBrand(newBrandWithSri);
 
       expect(mockRenderer.addClass).toHaveBeenCalledWith(

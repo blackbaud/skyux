@@ -33,7 +33,7 @@ export class SkyThemeService {
 
   #brandLinkElement: HTMLLinkElement | undefined;
 
-  #hostEl: any | undefined;
+  #hostEl: unknown | undefined;
 
   #renderer: Renderer2 | undefined;
 
@@ -53,7 +53,11 @@ export class SkyThemeService {
    * @param renderer A Renderer2 instance for updating the host element with theme changes.
    * @param theme The initial theme.
    */
-  public init(hostEl: any, renderer: Renderer2, theme: SkyThemeSettings): void {
+  public init(
+    hostEl: unknown,
+    renderer: Renderer2,
+    theme: SkyThemeSettings,
+  ): void {
     this.#hostEl = hostEl;
     this.#renderer = renderer;
 
@@ -267,23 +271,16 @@ export class SkyThemeService {
   #addBrandStylesheet(brand: SkyThemeBrand): void {
     if (brand.name !== 'blackbaud') {
       const cssPath = `https://sky.blackbaudcdn.net/static/skyux-brand-${brand.name}/${brand.version}/assets/scss/${brand.name}.css`;
+      const renderer = this.#getRenderer();
 
-      // Create a link element via Angular's renderer to avoid SSR troubles
-      this.#brandLinkElement = this.#getRenderer().createElement(
+      this.#brandLinkElement = renderer.createElement(
         'link',
       ) as HTMLLinkElement;
 
-      // Add the style to the head section
-      this.#getRenderer().appendChild(this.#hostEl, this.#brandLinkElement);
-
-      // Cache renderer to avoid repeated calls
-      const renderer = this.#getRenderer();
-
-      // Set type of the link item and path to the css file
+      renderer.appendChild(this.#hostEl, this.#brandLinkElement);
       renderer.setAttribute(this.#brandLinkElement, 'rel', 'stylesheet');
       renderer.setAttribute(this.#brandLinkElement, 'href', cssPath);
 
-      // Set integrity and crossorigin attributes if SRI hash is provided
       if (brand.sriHash) {
         renderer.setAttribute(
           this.#brandLinkElement,
