@@ -266,7 +266,8 @@ export class SkyThemeService {
 
   #addBrandStylesheet(brand: SkyThemeBrand): void {
     if (brand.name !== 'blackbaud') {
-      const cssPath = `https://sky.blackbaudcdn.net/static/skyux-brand-${brand.name}/${brand.version}/assets/scss/${brand.name}.css`;
+      // Use styleUrl if provided, otherwise build the default URL
+      const cssPath = brand.styleUrl || `https://sky.blackbaudcdn.net/static/skyux-brand-${brand.name}/${brand.version}/assets/scss/${brand.name}.css`;
 
       // Create a link element via Angular's renderer to avoid SSR troubles
       this.#brandLinkElement = this.#getRenderer().createElement(
@@ -283,6 +284,20 @@ export class SkyThemeService {
         'stylesheet',
       );
       this.#getRenderer().setProperty(this.#brandLinkElement, 'href', cssPath);
+
+      // Set integrity and crossorigin attributes if sriHash is provided
+      if (brand.sriHash) {
+        this.#getRenderer().setProperty(
+          this.#brandLinkElement,
+          'integrity',
+          brand.sriHash,
+        );
+        this.#getRenderer().setProperty(
+          this.#brandLinkElement,
+          'crossorigin',
+          'anonymous',
+        );
+      }
     }
   }
 
