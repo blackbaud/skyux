@@ -1,8 +1,4 @@
-export type E2EVariationName =
-  | 'default'
-  | 'modern-light'
-  | 'modern-dark'
-  | 'modern-v2-light';
+export type E2EVariationName = 'default' | 'modern-v2-light';
 
 export const E2eVariations = {
   DISPLAY_WIDTHS: [1280],
@@ -14,7 +10,6 @@ export const E2eVariations = {
     includeModernV2 = true,
   ): void => {
     callback('default');
-    callback('modern-light');
 
     if (includeModernV2) {
       callback('modern-v2-light');
