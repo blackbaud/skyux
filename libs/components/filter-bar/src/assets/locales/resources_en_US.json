@@ -1,4 +1,20 @@
 {
+  "skyux_filter_bar_clear_filters_confirm_apply_label": {
+    "_description": "Label text for clear filters confirmation dialog save button",
+    "message": "Clear values"
+  },
+  "skyux_filter_bar_clear_filters_confirm_body": {
+    "_description": "Body text for clear filters confirmation dialog",
+    "message": "This will not remove any filters, but any values you have set will be removed."
+  },
+  "skyux_filter_bar_clear_filters_confirm_cancel_label": {
+    "_description": "Label text for clear filters confirmation dialog cancel button",
+    "message": "Cancel"
+  },
+  "skyux_filter_bar_clear_filters_confirm_title": {
+    "_description": "Title text for clear filters confirmation dialog",
+    "message": "Are you sure you want to reset all filters to their original values?"
+  },
   "skyux_filter_bar_clear_filters_label": {
     "_description": "Text for the clear filters button label",
     "message": "Clear all values"
