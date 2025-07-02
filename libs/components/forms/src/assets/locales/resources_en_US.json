@@ -9,7 +9,7 @@
   },
   "skyux_form_error_character_count": {
     "_description": "Error message for a field with a value that exceeds the character count limit",
-    "message": "Limit {0} to {1} character(s)."
+    "message": "Limit {0} to {1} characters."
   },
   "skyux_form_error_date": {
     "_description": "Error message for a field with an invalid date value",
@@ -25,7 +25,7 @@
   },
   "skyux_form_error_fuzzy_date_future_disabled": {
     "_description": "Error message for a field with a in invalid fuzzy date in the future",
-    "message": "Future dates are disabled, select or enter a date in the past."
+    "message": "Future dates are disabled. Select or enter a date in the past."
   },
   "skyux_form_error_fuzzy_date_invalid": {
     "_description": "Error message for a field with an invalid fuzzy date",
@@ -49,11 +49,11 @@
   },
   "skyux_form_error_maxlength": {
     "_description": "Error message for a field with a value that is too long",
-    "message": "Limit {0} to {1} character(s)."
+    "message": "Limit {0} to {1} characters."
   },
   "skyux_form_error_minlength": {
     "_description": "Error message for a field with a value that is not long enough",
-    "message": "{0} must be at least {1} character(s)."
+    "message": "{0} must be at least {1} characters."
   },
   "skyux_form_error_phone": {
     "_description": "Error message for a field with an invalid phone number",
