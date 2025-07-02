@@ -19,7 +19,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'You are over the character limit.',
     },
     skyux_form_error_character_count: {
-      message: 'Limit {0} to {1} character(s).',
+      message: 'Limit {0} to {1} characters.',
     },
     skyux_form_error_date: { message: 'Select or enter a valid date.' },
     skyux_form_error_date_max: {
@@ -29,7 +29,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Select or enter a date on or after {0}.',
     },
     skyux_form_error_fuzzy_date_future_disabled: {
-      message: 'Future dates are disabled, select or enter a date in the past.',
+      message: 'Future dates are disabled. Select or enter a date in the past.',
     },
     skyux_form_error_fuzzy_date_invalid: {
       message: 'Select or enter a valid date.',
@@ -44,9 +44,9 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_form_error_email: {
       message: 'Enter an email address with a valid format.',
     },
-    skyux_form_error_maxlength: { message: 'Limit {0} to {1} character(s).' },
+    skyux_form_error_maxlength: { message: 'Limit {0} to {1} characters.' },
     skyux_form_error_minlength: {
-      message: '{0} must be at least {1} character(s).',
+      message: '{0} must be at least {1} characters.',
     },
     skyux_form_error_phone: {
       message:
