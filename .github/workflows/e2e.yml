@@ -7,10 +7,11 @@ on:
   push:
     branches:
       - main
+      - '[0-9]+.x.x'
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name || github.event.ref }}
+  group: ${{ github.workflow }}-${{ github.event_name == 'push' && github.run_number || github.head_ref || github.ref_name || github.event.ref }}
   cancel-in-progress: true
 
 env:
@@ -264,7 +265,7 @@ jobs:
     # Baseline branches should complete the E2E jobs so Percy does not get stuck https://www.browserstack.com/question/61332
     concurrency:
       group: ${{ github.workflow }}-e2e--${{ matrix.project }}-${{ github.head_ref || format('{0}-{1}', github.run_id, github.run_attempt) }}
-      cancel-in-progress: true
+      cancel-in-progress: ${{ github.event_name != 'push' }}
     needs: install-deps
     strategy:
       fail-fast: false
