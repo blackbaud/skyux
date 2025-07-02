@@ -105,12 +105,26 @@ describe('Theme service', () => {
           expect(mockRenderer.setProperty).toHaveBeenCalledWith(
             mockLinkElement,
             'href',
-            `https://sky.blackbaudcdn.net/static/skyux-brand-${current.brand.name}/${current.brand.version}/assets/scss/${current.brand.name}.css`,
+            current.brand.styleUrl || `https://sky.blackbaudcdn.net/static/skyux-brand-${current.brand.name}/${current.brand.version}/assets/scss/${current.brand.name}.css`,
           );
           expect(mockRenderer.appendChild).toHaveBeenCalledWith(
             mockHostEl,
             mockLinkElement,
           );
+
+          // Check for integrity and crossorigin attributes when sriHash is provided
+          if (current.brand.sriHash) {
+            expect(mockRenderer.setProperty).toHaveBeenCalledWith(
+              mockLinkElement,
+              'integrity',
+              current.brand.sriHash,
+            );
+            expect(mockRenderer.setProperty).toHaveBeenCalledWith(
+              mockLinkElement,
+              'crossorigin',
+              'anonymous',
+            );
+          }
         } else {
           expect(mockRenderer.createElement).not.toHaveBeenCalled();
           expect(mockRenderer.setProperty).not.toHaveBeenCalled();
@@ -401,6 +415,67 @@ describe('Theme service', () => {
         themeSvc.setTheme(settingsWithoutBranding);
 
         validateSettingsApplied(settingsWithoutBranding, settingsWithBranding);
+      });
+
+      it('should apply branding with custom styleUrl', () => {
+        const themeSvc = new SkyThemeService();
+
+        const customStyleUrl = 'https://example.com/custom-brand.css';
+        const settingsWithCustomStyleUrl = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.compact,
+          new SkyThemeBrand('custom-brand', '1.0.0', undefined, customStyleUrl),
+        );
+
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          settingsWithCustomStyleUrl,
+        );
+
+        validateSettingsApplied(settingsWithCustomStyleUrl);
+      });
+
+      it('should apply branding with sriHash and crossorigin attributes', () => {
+        const themeSvc = new SkyThemeService();
+
+        const sriHash = 'sha384-abc123def456';
+        const settingsWithSriHash = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.compact,
+          new SkyThemeBrand('custom-brand', '1.0.0', undefined, undefined, sriHash),
+        );
+
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          settingsWithSriHash,
+        );
+
+        validateSettingsApplied(settingsWithSriHash);
+      });
+
+      it('should apply branding with custom styleUrl and sriHash', () => {
+        const themeSvc = new SkyThemeService();
+
+        const customStyleUrl = 'https://example.com/custom-brand.css';
+        const sriHash = 'sha384-abc123def456';
+        const settingsWithBoth = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.compact,
+          new SkyThemeBrand('custom-brand', '1.0.0', undefined, customStyleUrl, sriHash),
+        );
+
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          settingsWithBoth,
+        );
+
+        validateSettingsApplied(settingsWithBoth);
       });
     });
 
