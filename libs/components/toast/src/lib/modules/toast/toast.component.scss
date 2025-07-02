@@ -23,7 +23,10 @@
   --sky-override-toast-color-border-info: #{$sky-highlight-color-info};
   --sky-override-toast-color-border-success: #{$sky-highlight-color-success};
   --sky-override-toast-color-border-warning: #{$sky-highlight-color-warning};
-  --sky-override-toast-color-icon: #{$sky-color-white};
+  --sky-override-toast-color-icon-danger: #{$sky-color-white};
+  --sky-override-toast-color-icon-info: #{$sky-color-white};
+  --sky-override-toast-color-icon-success: #{$sky-color-white};
+  --sky-override-toast-color-icon-warning: #{$sky-color-white};
   --sky-override-toast-content-link-color: #212327cc;
   --sky-override-toast-content-link-decoration: underline;
   --sky-override-toast-content-padding: #{$sky-padding} 0;
@@ -39,6 +42,7 @@
   --sky-override-toast-close-button-padding: 1px;
   --sky-override-toast-close-button-size: 26px;
   --sky-override-toast-content-link-color: #212327cc;
+  --sky-override-toast-color-icon-info: var(--sky-color-icon-info);
   --sky-override-toast-icon-top-padding: calc(var(--modern-size-5) * -1);
   --sky-override-toast-info-success-exclamation-path-color: var(
     --modern-color-gray-105
@@ -188,7 +192,10 @@ sky-toast {
           --sky-override-toast-color-border-info,
           var(--sky-color-border-info)
         ),
-        var(--sky-override-toast-color-icon, var(--sky-color-icon-info)),
+        var(
+          --sky-override-toast-color-icon-info,
+          var(--sky-color-background-icon_matte-action-heavy)
+        ),
         var(
           --sky-override-toast-info-success-exclamation-path-color,
           var(--sky-color-icon-inverse)
@@ -206,7 +213,10 @@ sky-toast {
           --sky-override-toast-color-border-success,
           var(--sky-color-border-success)
         ),
-        var(--sky-override-toast-color-icon, var(--sky-color-icon-success)),
+        var(
+          --sky-override-toast-color-icon-success,
+          var(--sky-color-background-icon_matte-success)
+        ),
         var(
           --sky-override-toast-color-border-success,
           var(
@@ -227,7 +237,10 @@ sky-toast {
           --sky-override-toast-color-border-warning,
           var(--sky-color-border-warning)
         ),
-        var(--sky-override-toast-color-icon, var(--sky-color-icon-warning)),
+        var(
+          --sky-override-toast-color-icon-warning,
+          var(--sky-color-background-icon_matte-warning)
+        ),
         var(
           --sky-override-toast-color-border-warning,
           var(--sky-color-icon-default)
@@ -245,7 +258,10 @@ sky-toast {
           --sky-override-toast-color-border-danger,
           var(--sky-color-border-danger)
         ),
-        var(--sky-override-toast-color-icon, var(--sky-color-icon-danger)),
+        var(
+          --sky-override-toast-color-icon-danger,
+          var(--sky-color-background-icon_matte-danger)
+        ),
         var(
           --sky-override-toast-color-border-danger,
           var(--sky-color-icon-inverse)
