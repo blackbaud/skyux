@@ -30,7 +30,7 @@
     "@angular-eslint/bundled-angular-compiler": "^20.1.1",
     "@angular-eslint/eslint-plugin-template": "^20.1.1",
     "@angular-eslint/utils": "^20.1.1",
-    "@typescript-eslint/utils": "^8.35.0"
+    "@typescript-eslint/utils": "^8.35.1"
   },
   "dependencies": {
     "@skyux-sdk/eslint-schematics": "0.0.0-PLACEHOLDER",
