@@ -167,34 +167,4 @@ describe('Tile test harness', () => {
 
     expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
   });
-
-  it('should get help popover content', async () => {
-    const helpContent = 'test help content';
-    const { tileHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.helpContent = helpContent;
-    await tileHarness.clickHelpInline();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    await expectAsync(tileHarness.getHelpPopoverContent()).toBeResolvedTo(
-      helpContent,
-    );
-  });
-
-  it('should get help popover title', async () => {
-    const helpTitle = 'test title';
-    const helpContent = 'test content';
-    const { tileHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.helpContent = helpContent;
-    fixture.componentInstance.helpTitle = helpTitle;
-    await tileHarness.clickHelpInline();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    await expectAsync(tileHarness.getHelpPopoverTitle()).toBeResolvedTo(
-      helpTitle,
-    );
-  });
 });

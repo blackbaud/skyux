@@ -1,17 +1,17 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyComponentHarness } from '@skyux/core/testing';
 import {
   SkyFieldGroupHeadingLevel,
   SkyFieldGroupHeadingStyle,
 } from '@skyux/forms';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
+import { SkyHelpInlinePopoverHarness } from '@skyux/help-inline/testing';
 
 import { SkyFieldGroupHarnessFilters } from './field-group-harness-filters';
 
 /**
  * Harness for interacting with a field group component in tests.
  */
-export class SkyFieldGroupHarness extends SkyComponentHarness {
+export class SkyFieldGroupHarness extends SkyHelpInlinePopoverHarness {
   /**
    * @internal
    */
@@ -89,20 +89,6 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
    */
   public async clickHelpInline(): Promise<void> {
     await (await this.#getHelpInline()).click();
-  }
-
-  /**
-   * Gets the help popover content.
-   */
-  public async getHelpPopoverContent(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverContent();
-  }
-
-  /**
-   * Gets the help popover title.
-   */
-  public async getHelpPopoverTitle(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverTitle();
   }
 
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {

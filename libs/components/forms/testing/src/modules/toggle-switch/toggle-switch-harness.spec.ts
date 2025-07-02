@@ -205,10 +205,6 @@ describe('Toggle switch harness', () => {
     await toggleSwitchHarness.clickHelpInline();
     fixture.detectChanges();
     await fixture.whenStable();
-
-    await expectAsync(
-      toggleSwitchHarness.getHelpPopoverContent(),
-    ).toBeResolved();
   });
 
   it('should open help widget when clicked', async () => {
@@ -226,35 +222,5 @@ describe('Toggle switch harness', () => {
     await fixture.whenStable();
 
     expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
-  });
-
-  it('should get help popover content', async () => {
-    const { toggleSwitchHarness, fixture } = await setupTest({
-      dataSkyId: 'toggle-switch',
-    });
-
-    await toggleSwitchHarness.clickHelpInline();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    await expectAsync(
-      toggleSwitchHarness.getHelpPopoverContent(),
-    ).toBeResolvedTo('popover content');
-  });
-
-  it('should get help popover title', async () => {
-    const { toggleSwitchHarness, fixture } = await setupTest({
-      dataSkyId: 'toggle-switch',
-    });
-
-    fixture.componentRef.setInput('helpPopoverTitle', 'popover title');
-
-    await toggleSwitchHarness.clickHelpInline();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    await expectAsync(toggleSwitchHarness.getHelpPopoverTitle()).toBeResolvedTo(
-      'popover title',
-    );
   });
 });

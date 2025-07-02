@@ -163,26 +163,4 @@ describe('Field group harness', () => {
 
     expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
   });
-
-  it('should get help popover content', async () => {
-    const { fieldGroupHarness, fixture } = await setupTest();
-    await fieldGroupHarness.clickHelpInline();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    await expectAsync(fieldGroupHarness.getHelpPopoverContent()).toBeResolvedTo(
-      'Popover content',
-    );
-  });
-
-  it('should get help popover title', async () => {
-    const { fieldGroupHarness, fixture } = await setupTest();
-    await fieldGroupHarness.clickHelpInline();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    await expectAsync(fieldGroupHarness.getHelpPopoverTitle()).toBeResolvedTo(
-      'Popover title',
-    );
-  });
 });

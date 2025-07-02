@@ -1,6 +1,6 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
+import { SkyHelpInlinePopoverHarness } from '@skyux/help-inline/testing';
 import type {
   SkyIndicatorDescriptionType,
   SkyIndicatorIconType,
@@ -11,7 +11,7 @@ import { SkyStatusIndicatorHarnessFilters } from './status-indicator-harness-fil
 /**
  * Harness for interacting with a status indicator component in tests.
  */
-export class SkyStatusIndicatorHarness extends SkyComponentHarness {
+export class SkyStatusIndicatorHarness extends SkyHelpInlinePopoverHarness {
   /**
    * @internal
    */
@@ -29,6 +29,13 @@ export class SkyStatusIndicatorHarness extends SkyComponentHarness {
     filters: SkyStatusIndicatorHarnessFilters,
   ): HarnessPredicate<SkyStatusIndicatorHarness> {
     return SkyStatusIndicatorHarness.getDataSkyIdPredicate(filters);
+  }
+
+  /**
+   * Clicks the help inline button.
+   */
+  public async clickHelpInline(): Promise<void> {
+    return await (await this.#getHelpInline()).click();
   }
 
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {
@@ -128,26 +135,5 @@ export class SkyStatusIndicatorHarness extends SkyComponentHarness {
     }
 
     return '';
-  }
-
-  /**
-   * Clicks the help inline button.
-   */
-  public async clickHelpInline(): Promise<void> {
-    return await (await this.#getHelpInline()).click();
-  }
-
-  /**
-   * Gets the help inline popover content.
-   */
-  public async getHelpPopoverContent(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverContent();
-  }
-
-  /**
-   * Gets the help inline popover title.
-   */
-  public async getHelpPopoverTitle(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverTitle();
   }
 }

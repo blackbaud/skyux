@@ -1,5 +1,5 @@
-import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
+import { SkyHelpInlinePopoverHarness } from '@skyux/help-inline/testing';
 
 import { SkyDescriptionListDescriptionHarness } from './description-list-description-harness';
 import { SkyDescriptionListTermHarness } from './description-list-term-harness';
@@ -7,7 +7,7 @@ import { SkyDescriptionListTermHarness } from './description-list-term-harness';
 /**
  * Harness for interacting with a description list content component in tests.
  */
-export class SkyDescriptionListContentHarness extends SkyComponentHarness {
+export class SkyDescriptionListContentHarness extends SkyHelpInlinePopoverHarness {
   /**
    * @internal
    */
@@ -36,20 +36,6 @@ export class SkyDescriptionListContentHarness extends SkyComponentHarness {
     }
 
     return await description.getText();
-  }
-
-  /**
-   * Gets the help popover content.
-   */
-  public async getHelpPopoverContent(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverContent();
-  }
-
-  /**
-   * Gets the help popover title.
-   */
-  public async getHelpPopoverTitle(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverTitle();
   }
 
   /**

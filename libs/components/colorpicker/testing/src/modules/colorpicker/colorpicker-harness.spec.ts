@@ -177,39 +177,6 @@ describe('Colorpicker harness', () => {
     ).toBeResolved();
   });
 
-  it('should get help popover content', async () => {
-    const { colorpickerHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.labelText = 'colorpicker';
-    fixture.componentInstance.helpPopoverContent = 'This is a colorpicker';
-    fixture.detectChanges();
-
-    await colorpickerHarness.clickHelpInline();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    await expectAsync(
-      colorpickerHarness.getHelpPopoverContent(),
-    ).toBeResolvedTo('This is a colorpicker');
-  });
-
-  it('should get help popover title', async () => {
-    const { colorpickerHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.labelText = 'colorpicker';
-    fixture.componentInstance.helpPopoverContent = 'This is a colorpicker';
-    fixture.componentInstance.helpPopoverTitle = 'What is this?';
-    fixture.detectChanges();
-
-    await colorpickerHarness.clickHelpInline();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    await expectAsync(colorpickerHarness.getHelpPopoverTitle()).toBeResolvedTo(
-      'What is this?',
-    );
-  });
-
   it('should get colorpicker hint text', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 

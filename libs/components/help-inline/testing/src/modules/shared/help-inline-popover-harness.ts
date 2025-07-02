@@ -1,11 +1,11 @@
-import { ComponentHarness } from '@angular/cdk/testing';
+import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyHelpInlineHarness } from '../help-inline/help-inline-harness';
 
 /**
  * Shared harness for interacting with help inline popover functionality in tests.
  */
-export class SkyHelpInlinePopoverHarness extends ComponentHarness {
+export class SkyHelpInlinePopoverHarness extends SkyComponentHarness {
   /**
    * Gets the help inline popover content.
    */

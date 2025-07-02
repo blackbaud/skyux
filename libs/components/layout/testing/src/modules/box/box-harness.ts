@@ -1,6 +1,6 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
+import { SkyHelpInlinePopoverHarness } from '@skyux/help-inline/testing';
 import { SkyBoxHeadingLevel, SkyBoxHeadingStyle } from '@skyux/layout';
 
 import { SkyBoxHarnessFilters } from './box-harness.filters';
@@ -8,7 +8,7 @@ import { SkyBoxHarnessFilters } from './box-harness.filters';
 /**
  * Harness for interacting with a box component in tests.
  */
-export class SkyBoxHarness extends SkyComponentHarness {
+export class SkyBoxHarness extends SkyHelpInlinePopoverHarness {
   /**
    * @internal
    */
@@ -37,20 +37,6 @@ export class SkyBoxHarness extends SkyComponentHarness {
    */
   public async clickHelpInline(): Promise<void> {
     return await (await this.#getHelpInline()).click();
-  }
-
-  /**
-   * Gets the help popover content.
-   */
-  public async getHelpPopoverContent(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverContent();
-  }
-
-  /**
-   * Gets the help popover title.
-   */
-  public async getHelpPopoverTitle(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverTitle();
   }
 
   /**

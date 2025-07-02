@@ -1,6 +1,6 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
+import { SkyHelpInlinePopoverHarness } from '@skyux/help-inline/testing';
 
 import { SkyToggleSwitchHarnessFilters } from './toggle-switch-harness-filters';
 import { SkyToggleSwitchLabelHarness } from './toggle-switch-label-harness';
@@ -8,7 +8,7 @@ import { SkyToggleSwitchLabelHarness } from './toggle-switch-label-harness';
 /**
  * Harness for interacting with a toggle switch component in tests.
  */
-export class SkyToggleSwitchHarness extends SkyComponentHarness {
+export class SkyToggleSwitchHarness extends SkyHelpInlinePopoverHarness {
   /**
    * @internal
    */
@@ -56,20 +56,6 @@ export class SkyToggleSwitchHarness extends SkyComponentHarness {
    */
   public async focus(): Promise<void> {
     await (await this.#getButton()).focus();
-  }
-
-  /**
-   * Gets the help popover content.
-   */
-  public async getHelpPopoverContent(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverContent();
-  }
-
-  /**
-   * Gets the help popover title.
-   */
-  public async getHelpPopoverTitle(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverTitle();
   }
 
   /**

@@ -1,7 +1,7 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyFormErrorsHarness } from '@skyux/forms/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
+import { SkyHelpInlinePopoverHarness } from '@skyux/help-inline/testing';
 import { SkyIconHarness } from '@skyux/icon/testing';
 
 import { SkyColorpickerDropdownHarness } from './colorpicker-dropdown-harness';
@@ -10,7 +10,7 @@ import { SkyColorpickerHarnessFilters } from './colorpicker-harness.filters';
 /**
  * Harness for interacting with colorpicker components in tests.
  */
-export class SkyColorpickerHarness extends SkyComponentHarness {
+export class SkyColorpickerHarness extends SkyHelpInlinePopoverHarness {
   /**
    * @internal
    */
@@ -108,20 +108,6 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
    */
   public async getColorpickerIcon(): Promise<SkyIconHarness> {
     return await this.locatorFor(SkyIconHarness)();
-  }
-
-  /**
-   * Gets the help inline popover content.
-   */
-  public async getHelpPopoverContent(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverContent();
-  }
-
-  /**
-   * Gets the help inline popover title.
-   */
-  public async getHelpPopoverTitle(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverTitle();
   }
 
   /**

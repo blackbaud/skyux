@@ -171,39 +171,6 @@ describe('Box test harness', () => {
     expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
   });
 
-  it('should get help popover content', async () => {
-    const { boxHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.headingText = 'heading';
-    fixture.componentInstance.helpPopoverContent = 'popover content';
-    fixture.detectChanges();
-
-    await boxHarness.clickHelpInline();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    await expectAsync(boxHarness.getHelpPopoverContent()).toBeResolvedTo(
-      'popover content',
-    );
-  });
-
-  it('should get help popover title', async () => {
-    const { boxHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.headingText = 'heading';
-    fixture.componentInstance.helpPopoverContent = 'popover content';
-    fixture.componentInstance.helpPopoverTitle = 'popover title';
-    fixture.detectChanges();
-
-    await boxHarness.clickHelpInline();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    await expectAsync(boxHarness.getHelpPopoverTitle()).toBeResolvedTo(
-      'popover title',
-    );
-  });
-
   it('should get the aria-label', async () => {
     const { boxHarness, fixture } = await setupTest();
 

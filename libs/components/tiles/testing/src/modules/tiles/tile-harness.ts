@@ -1,6 +1,6 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
+import { SkyHelpInlinePopoverHarness } from '@skyux/help-inline/testing';
 import { SkyChevronHarness } from '@skyux/indicators/testing';
 
 import { SkyTileContentHarness } from './tile-content-harness';
@@ -9,7 +9,7 @@ import { SkyTileHarnessFilters } from './tile-harness-filters';
 /**
  * Harness to interact with a tile component in tests.
  */
-export class SkyTileHarness extends SkyComponentHarness {
+export class SkyTileHarness extends SkyHelpInlinePopoverHarness {
   /**
    * @internal
    */
@@ -76,20 +76,6 @@ export class SkyTileHarness extends SkyComponentHarness {
     if ((await chevron.getDirection()) === 'down') {
       await chevron.toggle();
     }
-  }
-
-  /**
-   * Gets the help popover content.
-   */
-  public async getHelpPopoverContent(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverContent();
-  }
-
-  /**
-   * Gets the help popover title.
-   */
-  public async getHelpPopoverTitle(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverTitle();
   }
 
   /**

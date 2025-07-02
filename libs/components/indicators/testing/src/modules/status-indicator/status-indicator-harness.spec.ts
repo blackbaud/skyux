@@ -195,22 +195,4 @@ describe('Status indicator harness', () => {
 
     await expectAsync(harness.getHelpPopoverContent()).toBeResolved();
   });
-
-  it('should get help popover title and content', async () => {
-    const { harness, fixture } = await setupTest();
-
-    fixture.componentInstance.helpPopoverContent = 'This is a status';
-    fixture.componentInstance.helpPopoverTitle = 'What is this?';
-    fixture.detectChanges();
-
-    await harness.clickHelpInline();
-
-    await expectAsync(harness.getHelpPopoverTitle()).toBeResolvedTo(
-      'What is this?',
-    );
-
-    await expectAsync(harness.getHelpPopoverContent()).toBeResolvedTo(
-      'This is a status',
-    );
-  });
 });
