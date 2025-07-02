@@ -17,10 +17,10 @@
   display: block;
   padding: var(
     --sky-override-tile-dashboard-column-padding,
-    var(--sky-comp-tile-dashboard-column-space-inset-top)
-      var(--sky-comp-tile-dashboard-column-space-inset-right)
-      var(--sky-comp-tile-dashboard-column-space-inset-bottom)
-      var(--sky-comp-tile-dashboard-column-space-inset-left)
+    var(--sky-comp-tile-dashboard-space-inset-xs-top)
+      var(--sky-comp-tile-dashboard-space-inset-xs-right)
+      var(--sky-comp-tile-dashboard-space-inset-xs-bottom)
+      var(--sky-comp-tile-dashboard-space-inset-xs-left)
   );
 
   .sky-tile-dashboard-layout-multi {
@@ -36,7 +36,7 @@
 :host-context(.sky-tile-dashboard-gt-xs) {
   padding-top: var(
     --sky-override-tile-dashboard-padding-top,
-    var(--sky-comp-tile-dashboard-space-inset-top)
+    var(--sky-comp-tile-dashboard-space-inset-xs-top)
   ) !important;
 }
 
@@ -44,10 +44,10 @@
   display: flex;
   padding: var(
     --sky-override-tile-dashboard-multi-column-padding,
-    var(--sky-comp-tile-dashboard-space-inset-top)
-      var(--sky-comp-tile-dashboard-space-inset-right)
-      var(--sky-comp-tile-dashboard-space-inset-bottom)
-      var(--sky-comp-tile-dashboard-space-inset-left)
+    var(--sky-comp-tile-dashboard-space-inset-sm-top)
+      var(--sky-comp-tile-dashboard-space-inset-sm-right)
+      var(--sky-comp-tile-dashboard-space-inset-sm-bottom)
+      var(--sky-comp-tile-dashboard-space-inset-sm-left)
   );
 
   .sky-tile-dashboard-layout-multi {
