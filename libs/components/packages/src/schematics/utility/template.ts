@@ -11,6 +11,7 @@ export type SwapTagCallback<T extends string> = (
   position: 'open' | 'close',
   tag: T,
   node: ElementWithLocation,
+  content: string,
 ) => string;
 
 function isElement(node: unknown): node is ElementWithLocation {
@@ -57,11 +58,12 @@ export function parseTemplate(template: string): ParentNode {
 }
 
 export function swapTags<T extends string>(
+  content: string,
   recorder: UpdateRecorder,
   offset: number,
   oldTags: T[],
   callback: SwapTagCallback<T>,
-  ...node: (Element | ParentNode)[]
+  ...node: (ElementWithLocation | ParentNode)[]
 ): void {
   const nodeQueue = [...node];
   while (nodeQueue.length) {
@@ -85,7 +87,7 @@ export function swapTags<T extends string>(
         );
         recorder.insertLeft(
           offset + currentNode.sourceCodeLocation.startTag.startOffset,
-          callback('open', tagName, currentNode as ElementWithLocation),
+          callback('open', tagName, currentNode, content),
         );
         recorder.remove(
           offset + currentNode.sourceCodeLocation.endTag.startOffset,
@@ -94,7 +96,7 @@ export function swapTags<T extends string>(
         );
         recorder.insertLeft(
           offset + currentNode.sourceCodeLocation.endTag.startOffset,
-          callback('close', tagName, currentNode as ElementWithLocation),
+          callback('close', tagName, currentNode, content),
         );
       }
     }

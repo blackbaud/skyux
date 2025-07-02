@@ -27,6 +27,7 @@ describe('template', () => {
     };
     const offset = 0;
     swapTags(
+      template,
       recorder,
       offset,
       ['h1', 'span'],

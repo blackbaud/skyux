@@ -1,4 +1,9 @@
-import { Rule, Tree, UpdateRecorder } from '@angular-devkit/schematics';
+import {
+  Rule,
+  SchematicContext,
+  Tree,
+  UpdateRecorder,
+} from '@angular-devkit/schematics';
 import { isImported, parse5, parseSourceFile } from '@angular/cdk/schematics';
 import { getEOL } from '@schematics/angular/utility/eol';
 
@@ -45,43 +50,63 @@ function moveHeading(
   }
 }
 
+const regexpEscape = (str: string): string =>
+  str.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+
 const tags = {
   'sky-definition-list': 'sky-description-list',
   'sky-definition-list-content': 'sky-description-list-content',
   'sky-definition-list-label': 'sky-description-list-term',
   'sky-definition-list-value': 'sky-description-list-description',
 } as const;
-const definitionListTagSwap: SwapTagCallback<keyof typeof tags> = (
-  position,
-  oldTag,
-  node,
-) => {
-  if (position === 'open') {
-    if (oldTag === 'sky-definition-list') {
-      const defaultValueAttr = node.attrs.find(
-        // eslint-disable-next-line @cspell/spellchecker
-        (attr) => attr.name === 'defaultvalue',
-      )?.value;
-      const defaultValueBound = node.attrs.find(
-        // eslint-disable-next-line @cspell/spellchecker
-        (attr) => attr.name === '[defaultvalue]',
-      )?.value;
-      let value = `<${tags[oldTag]} mode="longDescription"`;
-      if (defaultValueAttr) {
-        value += ` defaultDescription="${defaultValueAttr}"`;
-      } else if (defaultValueBound) {
-        value += ` [defaultDescription]="${defaultValueBound}"`;
+function definitionListTagSwap(
+  context: SchematicContext,
+): SwapTagCallback<keyof typeof tags> {
+  return (position, oldTag, node, content) => {
+    if (position === 'open') {
+      const attributesString = content.substring(
+        node.sourceCodeLocation.startOffset + oldTag.length + 1,
+        node.sourceCodeLocation.startTag.endOffset,
+      );
+      if (oldTag === 'sky-definition-list') {
+        let value = `<${tags[oldTag]} mode="longDescription"`;
+        // Copy over any other attributes that are not in the new tag.
+        for (const attr of node.attrs) {
+          // eslint-disable-next-line @cspell/spellchecker
+          if (['labelwidth', '[labelwidth]'].includes(attr.name)) {
+            context.logger.warn(
+              `The "labelWidth" attribute is not supported on the <${tags[oldTag]}> component. Please review the code to ensure it still works as expected.`,
+            );
+          } else if (attr.name === 'defaultValue'.toLowerCase()) {
+            value += ` defaultDescription="${attr.value}"`;
+          } else if (attr.name === '[defaultValue]'.toLowerCase()) {
+            value += ` [defaultDescription]="${attr.value}"`;
+          } else if (
+            !['defaultvalue', '[defaultvalue]', 'mode'].includes(attr.name)
+          ) {
+            const attributeText = new RegExp(
+              `(?<=\\s)${regexpEscape(attr.name)}(="[^"]*")?`,
+              'di',
+            )
+              .exec(attributesString)
+              ?.shift();
+            if (attributeText) {
+              value += ` ${attributeText}`;
+            }
+          }
+        }
+        value += '>';
+        return value;
       }
-      value += '>';
-      return value;
+      return `<${tags[oldTag]}${attributesString}`;
     }
-    return `<${tags[oldTag]}>`;
-  }
-  return `</${tags[oldTag]}>`;
-};
+    return `</${tags[oldTag]}>`;
+  };
+}
 
 function convertTemplate(
   recorder: UpdateRecorder,
+  context: SchematicContext,
   content: string,
   offset = 0,
 ): void {
@@ -91,25 +116,34 @@ function convertTemplate(
   for (const definitionList of definitionLists) {
     moveHeading(definitionList, recorder, offset, eol);
     swapTags(
+      content,
       recorder,
       offset,
       Object.keys(tags) as (keyof typeof tags)[],
-      definitionListTagSwap,
+      definitionListTagSwap(context),
       definitionList,
     );
   }
 }
 
-function convertHtmlFile(tree: Tree, filePath: string): void {
+function convertHtmlFile(
+  tree: Tree,
+  filePath: string,
+  context: SchematicContext,
+): void {
   const content = tree.readText(filePath);
   if (content.includes('<sky-definition-list')) {
     const recorder = tree.beginUpdate(filePath);
-    convertTemplate(recorder, content);
+    convertTemplate(recorder, context, content);
     tree.commitUpdate(recorder);
   }
 }
 
-function convertTypescriptFile(tree: Tree, filePath: string): void {
+function convertTypescriptFile(
+  tree: Tree,
+  filePath: string,
+  context: SchematicContext,
+): void {
   const source = parseSourceFile(tree, filePath);
   const templates = getInlineTemplates(source);
   const recorder = tree.beginUpdate(filePath);
@@ -118,6 +152,7 @@ function convertTypescriptFile(tree: Tree, filePath: string): void {
     for (const template of templates) {
       convertTemplate(
         recorder,
+        context,
         content.slice(template.start, template.end),
         template.start,
       );
@@ -139,12 +174,12 @@ function convertTypescriptFile(tree: Tree, filePath: string): void {
 export function convertDefinitionListToDescriptionList(
   projectPath: string,
 ): Rule {
-  return (tree) => {
+  return (tree, context) => {
     visitProjectFiles(tree, projectPath, (filePath) => {
       if (filePath.endsWith('.html')) {
-        convertHtmlFile(tree, filePath);
+        convertHtmlFile(tree, filePath, context);
       } else if (filePath.endsWith('.ts')) {
-        convertTypescriptFile(tree, filePath);
+        convertTypescriptFile(tree, filePath, context);
       }
     });
   };
