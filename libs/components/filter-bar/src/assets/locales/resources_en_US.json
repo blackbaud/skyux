@@ -8,7 +8,7 @@
     "message": "This will not remove any filters, but any values you have set will be removed."
   },
   "skyux_filter_bar_clear_filters_confirm_cancel_label": {
-    "_description": "Label text for clear filters confirmation dialog save button",
+    "_description": "Label text for clear filters confirmation dialog cancel button",
     "message": "Cancel"
   },
   "skyux_filter_bar_clear_filters_confirm_title": {
