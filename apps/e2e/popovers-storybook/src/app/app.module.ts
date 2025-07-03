@@ -9,8 +9,7 @@ import { AppComponent } from './app.component';
 const routes: Route[] = [
   {
     path: 'popover',
-    loadChildren: () =>
-      import('./popover/popover.module').then((m) => m.PopoverModule),
+    loadComponent: () => import('./popover/popover.component'),
   },
   {
     path: 'dropdown',

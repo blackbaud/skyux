@@ -3,39 +3,52 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
+  signal,
 } from '@angular/core';
 import {
   SkyPopoverMessage,
   SkyPopoverMessageType,
+  SkyPopoverModule,
   SkyPopoverPlacement,
   SkyPopoverType,
 } from '@skyux/popovers';
 
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-popover',
-  templateUrl: './popover.component.html',
-  styleUrls: ['./popover.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  encapsulation: ViewEncapsulation.None,
+  imports: [SkyPopoverModule],
+  selector: 'app-popover',
+  styleUrl: './popover.component.scss',
+  templateUrl: './popover.component.html',
 })
-export class PopoverComponent implements AfterViewInit {
-  public readonly ready = new BehaviorSubject(false);
-  public readonly placements: SkyPopoverPlacement[] = [
+export default class PopoverComponent implements AfterViewInit {
+  protected readonly ready = signal(false);
+
+  protected readonly placements: SkyPopoverPlacement[] = [
     'above',
     'below',
     'right',
     'left',
   ];
-  public readonly titles: (string | undefined)[] = [undefined, 'Did you know?'];
-  public readonly popoverTypes: (SkyPopoverType | undefined)[] = [
+
+  protected readonly titles: (string | undefined)[] = [
+    undefined,
+    'Did you know?',
+  ];
+
+  protected readonly popoverTypes: (SkyPopoverType | undefined)[] = [
     undefined,
     'danger',
   ];
 
-  public staticPopoverMessageStream = new Subject<SkyPopoverMessage>();
+  protected staticPopoverMessageStream = new Subject<SkyPopoverMessage>();
+
+  readonly #popoversCount =
+    this.placements.length * this.titles.length * this.popoverTypes.length;
+
+  #popoversOpenCount = 0;
 
   public ngAfterViewInit(): void {
     this.staticPopoverMessageStream.next({
@@ -45,9 +58,15 @@ export class PopoverComponent implements AfterViewInit {
     this.staticPopoverMessageStream.next({
       type: SkyPopoverMessageType.Reposition,
     });
+  }
 
-    setTimeout(() => {
-      this.ready.next(true);
-    }, 100);
+  protected onPopoverOpened(): void {
+    this.#popoversOpenCount++;
+
+    if (this.#popoversOpenCount === this.#popoversCount) {
+      setTimeout(() => {
+        this.ready.set(true);
+      });
+    }
   }
 }
