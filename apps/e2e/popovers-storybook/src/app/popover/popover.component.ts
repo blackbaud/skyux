@@ -55,10 +55,6 @@ export default class PopoverComponent implements AfterViewInit {
     this.staticPopoverMessageStream.next({
       type: SkyPopoverMessageType.Open,
     });
-
-    this.staticPopoverMessageStream.next({
-      type: SkyPopoverMessageType.Reposition,
-    });
   }
 
   protected onPopoverOpened(): void {
