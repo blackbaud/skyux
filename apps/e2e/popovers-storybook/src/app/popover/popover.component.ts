@@ -63,7 +63,7 @@ export default class PopoverComponent implements AfterViewInit {
     if (this.#popoversOpenCount === this.#popoversCount) {
       setTimeout(() => {
         this.ready.set(true);
-      });
+      }, 500);
     }
   }
 }
