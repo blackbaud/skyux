@@ -1,0 +1,15 @@
+<div class="sky-filter-bar-summary">
+  @for (summaryItem of summaryItems(); track summaryItem.label) {
+    <sky-key-info
+      layout="horizontal"
+      [helpKey]="summaryItem.helpKey"
+      [helpPopoverContent]="summaryItem.helpPopoverContent"
+      [helpPopoverTitle]="summaryItem.helpPopoverTitle"
+    >
+      <sky-key-info-value class="sky-font-display-4">
+        {{ summaryItem.value | skyNumeric: summaryItem.valueFormat }}
+      </sky-key-info-value>
+      <sky-key-info-label>{{ summaryItem.label }}</sky-key-info-label>
+    </sky-key-info>
+  }
+</div>
