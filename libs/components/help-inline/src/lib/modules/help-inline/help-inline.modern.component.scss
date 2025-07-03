@@ -15,6 +15,7 @@
       10%
     )};
   --sky-override-help-inline-font-size: #{$sky-font-size-base};
+  --sky-override-help-inline-icon-color: var(--sky-color-icon-action);
   --sky-override-help-inline-padding-sides: var(--modern-size-6);
 }
 
@@ -37,7 +38,10 @@
     --sky-override-help-inline-border-radius,
     var(--sky-border-radius-s)
   );
-  color: var(--sky-color-icon-action);
+  color: var(
+    --sky-override-help-inline-icon-color,
+    var(--sky-color-background-icon_matte-action-heavy)
+  );
   background-color: var(--sky-color-background-action-tertiary-base);
   display: inline-block;
   box-shadow: inset 0 0 0 var(--sky-border-width-action-base)

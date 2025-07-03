@@ -16,16 +16,26 @@
         </button>
       </sky-toolbar-item>
     }
-    <!-- FUTURE: Implement displayed filters
     @for (filter of filters(); track filter.id) {
+      <sky-toolbar-item>
+        <sky-filter-bar-item
+          [filterName]="filter.name"
+          [filterModalConfig]="filter.filterModalConfig"
+          [filterValue]="filter.filterValue"
+          (filterUpdated)="updateFilters($event, filter)"
+        />
+      </sky-toolbar-item>
+    }
+    @if (hasFilters()) {
       <sky-toolbar-item>
         <button
           type="button"
-          class="sky-btn sky-filter-bar-btn sky-btn-default"
+          class="sky-btn sky-filter-bar-btn sky-btn-link"
+          (click)="clearFilters()"
         >
-          {{ filter.name }}
+          {{ 'skyux_filter_bar_clear_filters_label' | skyLibResources }}
         </button>
       </sky-toolbar-item>
-    } -->
+    }
   </sky-toolbar>
 </div>
