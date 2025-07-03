@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -18,7 +19,7 @@ import { Subject } from 'rxjs';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [SkyPopoverModule],
+  imports: [NgClass, SkyPopoverModule],
   selector: 'app-popover',
   styleUrl: './popover.component.scss',
   templateUrl: './popover.component.html',
