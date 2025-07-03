@@ -1,4 +1,6 @@
-<sky-filter-bar [filterAsyncSearchFn]="searchFn" [(filters)]="filters" />
+<sky-filter-bar [filterAsyncSearchFn]="searchFn" [(filters)]="filters">
+  <sky-filter-bar-summary [summaryItems]="items" />
+</sky-filter-bar>
 <div>Filters:</div>
 <div>{{ filters }}</div>
 
