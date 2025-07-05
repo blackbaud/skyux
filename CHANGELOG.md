@@ -1,5 +1,21 @@
 # Changelog
 
+## [13.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.0...13.0.0-alpha.1) (2025-07-05)
+
+
+### Features
+
+* update composite icons to use the new matte variables ([#3555](https://github.com/blackbaud/skyux/issues/3555)) ([#3576](https://github.com/blackbaud/skyux/issues/3576)) ([9a87ceb](https://github.com/blackbaud/skyux/commit/9a87ceb097d540d9cf4bfddeb3057e6318dc453b))
+
+
+### Bug Fixes
+
+* **components/lookup:** autocomplete results have a border radius in v2 modern ([#3559](https://github.com/blackbaud/skyux/issues/3559)) ([#3567](https://github.com/blackbaud/skyux/issues/3567)) ([18e30f3](https://github.com/blackbaud/skyux/commit/18e30f3fd205a418d8631c105df30ff2a01225bc))
+* **components/modals:** update modal headers in v2 modern to use standard h2 font styles ([#3554](https://github.com/blackbaud/skyux/issues/3554)) ([#3574](https://github.com/blackbaud/skyux/issues/3574)) ([cb01513](https://github.com/blackbaud/skyux/commit/cb015138a3f98b6a6e51c511e91a51d03ab14e31))
+* **components/toast:** update toast box shadow and close button position in modern v2 ([#3553](https://github.com/blackbaud/skyux/issues/3553)) ([#3564](https://github.com/blackbaud/skyux/issues/3564)) ([4dd811a](https://github.com/blackbaud/skyux/commit/4dd811a59591df73c906a1f80a1c035a966b0481))
+* update `google-libphonenumber` and `intl-tel-input` and fix Syrian and Kyrgyzstan flags for country and phone field components ([#3581](https://github.com/blackbaud/skyux/issues/3581)) ([6b6eb45](https://github.com/blackbaud/skyux/commit/6b6eb45c0f9ccb3aec60917b9460dd1a0f1a407e))
+* update all linting dependencies ([#3585](https://github.com/blackbaud/skyux/issues/3585)) ([d7e4963](https://github.com/blackbaud/skyux/commit/d7e4963f4bc961731f8ba7a538bbb1bcf3577f1b))
+
 ## [13.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/12.23.0...13.0.0-alpha.0) (2025-07-01)
 
 
