@@ -138,7 +138,7 @@ describe('Theme brand', () => {
       expect(serialized).toEqual({
         name: 'custom',
         version: '2.0.0',
-        styleUrl: styleUrl,
+        styleUrl,
       });
     });
 
@@ -150,7 +150,7 @@ describe('Theme brand', () => {
       expect(serialized).toEqual({
         name: 'custom',
         version: '2.0.0',
-        sriHash: sriHash,
+        sriHash,
       });
     });
 
@@ -164,8 +164,8 @@ describe('Theme brand', () => {
         name: 'custom',
         version: '2.0.0',
         hostClass: 'custom-host-class',
-        styleUrl: styleUrl,
-        sriHash: sriHash,
+        styleUrl,
+        sriHash,
       });
     });
 
@@ -197,7 +197,7 @@ describe('Theme brand', () => {
       const brand = SkyThemeBrand.deserialize({
         name: 'custom',
         version: '2.0.0',
-        styleUrl: styleUrl,
+        styleUrl,
       });
 
       expect(brand.name).toBe('custom');
@@ -211,7 +211,7 @@ describe('Theme brand', () => {
       const brand = SkyThemeBrand.deserialize({
         name: 'custom',
         version: '2.0.0',
-        sriHash: sriHash,
+        sriHash,
       });
 
       expect(brand.name).toBe('custom');
@@ -227,8 +227,8 @@ describe('Theme brand', () => {
         name: 'custom',
         version: '2.0.0',
         hostClass: 'custom-host-class',
-        styleUrl: styleUrl,
-        sriHash: sriHash,
+        styleUrl,
+        sriHash,
       });
 
       expect(brand.name).toBe('custom');
