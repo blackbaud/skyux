@@ -220,10 +220,13 @@ sky-input-box .sky-lookup {
       .sky-tokens {
         margin-top: 0;
         margin-bottom: 0;
-        padding-left: var(
-          --sky-override-lookup-tokens-padding-left,
-          var(--sky-comp-input-value-space-inset-left)
-        );
+
+        :has(sky-token) {
+          padding-left: var(
+            --sky-override-lookup-tokens-padding-left,
+            var(--sky-comp-input-value-space-inset-left)
+          );
+        }
         align-items: var(
           --sky-override-lookup-input-box-tokens-align-items,
           flex-start
