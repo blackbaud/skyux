@@ -1,5 +1,14 @@
 <sky-filter-bar [filterAsyncSearchFn]="searchFn" [filters]="filters">
-  <sky-filter-bar-summary [summaryItems]="summaryItems" />
+  <sky-filter-bar-summary>
+    @for (summaryItem of summaryItems; track summaryItem.label) {
+      <sky-filter-bar-summary-item
+        [helpPopoverContent]="summaryItem.helpPopoverContent"
+        [label]="summaryItem.label"
+        [value]="summaryItem.value"
+        [valueFormat]="summaryItem.valueFormat"
+      />
+    }
+  </sky-filter-bar-summary>
 </sky-filter-bar>
 <div class="spacer"></div>
 <sky-filter-bar [filters]="filters" />

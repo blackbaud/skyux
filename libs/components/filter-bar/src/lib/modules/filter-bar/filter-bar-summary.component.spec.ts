@@ -1,157 +1,201 @@
-import { ComponentRef } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import { SkyFilterBarSummaryItemComponent } from './filter-bar-summary-item.component';
 import { SkyFilterBarSummaryComponent } from './filter-bar-summary.component';
-import { SkyFilterBarSummaryItem } from './models/filter-bar-summary-item';
 
-describe('SkyFilterBarSummaryComponent', () => {
-  let component: SkyFilterBarSummaryComponent;
-  let componentRef: ComponentRef<SkyFilterBarSummaryComponent>;
-  let fixture: ComponentFixture<SkyFilterBarSummaryComponent>;
+// #region test fixtures
+@Component({
+  template: `
+    <sky-filter-bar-summary>
+      <sky-filter-bar-summary-item label="Total Items" [value]="100" />
+      <sky-filter-bar-summary-item label="Active Items" [value]="25" />
+    </sky-filter-bar-summary>
+  `,
+  imports: [SkyFilterBarSummaryComponent, SkyFilterBarSummaryItemComponent],
+})
+class TestSummaryComponent {}
 
-  beforeEach(async () => {
+@Component({
+  template: `
+    <sky-filter-bar-summary>
+      <sky-filter-bar-summary-item
+        label="Large Number"
+        [value]="1234567"
+        [valueFormat]="{ truncate: false }"
+      />
+    </sky-filter-bar-summary>
+  `,
+  imports: [SkyFilterBarSummaryComponent, SkyFilterBarSummaryItemComponent],
+})
+class TestLargeNumberComponent {}
+
+@Component({
+  template: `
+    <sky-filter-bar-summary>
+      <sky-filter-bar-summary-item label="Zero Items" [value]="0" />
+    </sky-filter-bar-summary>
+  `,
+  imports: [SkyFilterBarSummaryComponent, SkyFilterBarSummaryItemComponent],
+})
+class TestZeroValueComponent {}
+
+@Component({
+  template: `
+    <sky-filter-bar-summary>
+      <sky-filter-bar-summary-item label="First" [value]="1" />
+      <sky-filter-bar-summary-item label="Second" [value]="10" />
+      <sky-filter-bar-summary-item label="Third" [value]="100" />
+      <sky-filter-bar-summary-item label="Fourth" [value]="1000" />
+    </sky-filter-bar-summary>
+  `,
+  imports: [SkyFilterBarSummaryComponent, SkyFilterBarSummaryItemComponent],
+})
+class TestMultipleItemsComponent {}
+
+@Component({
+  template: ` <sky-filter-bar-summary /> `,
+  imports: [SkyFilterBarSummaryComponent],
+})
+class TestEmptyComponent {}
+
+// #endregion
+
+describe('Filter bar summary component', () => {
+  it('should create', async () => {
     await TestBed.configureTestingModule({
-      imports: [SkyFilterBarSummaryComponent],
+      imports: [TestSummaryComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SkyFilterBarSummaryComponent);
-    component = fixture.componentInstance;
-    componentRef = fixture.componentRef;
-  });
-
-  it('should create', () => {
-    componentRef.setInput('summaryItems', []);
+    const fixture = TestBed.createComponent(TestSummaryComponent);
     fixture.detectChanges();
 
-    expect(component).toBeTruthy();
+    expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it('should render summary items', () => {
-    const summaryItems: SkyFilterBarSummaryItem[] = [
-      { label: 'Total Items', value: 100 },
-      { label: 'Active Items', value: 25 },
-    ];
+  it('should render summary items', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestSummaryComponent],
+    }).compileComponents();
 
-    componentRef.setInput('summaryItems', summaryItems);
+    const fixture = TestBed.createComponent(TestSummaryComponent);
     fixture.detectChanges();
 
-    const keyInfoElements = fixture.debugElement.queryAll(
-      By.css('sky-key-info'),
+    const summaryItems = fixture.debugElement.queryAll(
+      By.directive(SkyFilterBarSummaryItemComponent),
     );
-    expect(keyInfoElements.length).toBe(2);
+    expect(summaryItems.length).toBe(2);
   });
 
-  it('should display correct labels and values', () => {
-    const summaryItems: SkyFilterBarSummaryItem[] = [
-      { label: 'Total Items', value: 100 },
-      { label: 'Active Items', value: 25 },
-    ];
+  it('should display correct labels and values', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestSummaryComponent],
+    }).compileComponents();
 
-    componentRef.setInput('summaryItems', summaryItems);
+    const fixture = TestBed.createComponent(TestSummaryComponent);
     fixture.detectChanges();
 
-    const keyInfoElements = fixture.debugElement.queryAll(
-      By.css('sky-key-info'),
+    const labels = fixture.debugElement.queryAll(By.css('.sky-key-info-label'));
+    const values = fixture.debugElement.queryAll(By.css('.sky-key-info-value'));
+
+    expect(labels[0].nativeElement.textContent.trim()).toBe('Total Items');
+    expect(values[0].nativeElement.textContent.trim()).toBe('100');
+
+    expect(labels[1].nativeElement.textContent.trim()).toBe('Active Items');
+    expect(values[1].nativeElement.textContent.trim()).toBe('25');
+  });
+
+  it('should handle empty summary', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestEmptyComponent],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(TestEmptyComponent);
+    fixture.detectChanges();
+
+    const summaryItems = fixture.debugElement.queryAll(
+      By.directive(SkyFilterBarSummaryItemComponent),
     );
-
-    // Check first item
-    const firstLabel = keyInfoElements[0].query(By.css('.sky-key-info-label'));
-    const firstValue = keyInfoElements[0].query(By.css('.sky-key-info-value'));
-    expect(firstLabel.nativeElement.textContent.trim()).toBe('Total Items');
-    expect(firstValue.nativeElement.textContent.trim()).toBe('100');
-
-    // Check second item
-    const secondLabel = keyInfoElements[1].query(By.css('.sky-key-info-label'));
-    const secondValue = keyInfoElements[1].query(By.css('.sky-key-info-value'));
-    expect(secondLabel.nativeElement.textContent.trim()).toBe('Active Items');
-    expect(secondValue.nativeElement.textContent.trim()).toBe('25');
+    expect(summaryItems.length).toBe(0);
   });
 
-  it('should handle empty summary items array', () => {
-    componentRef.setInput('summaryItems', []);
+  it('should handle large numbers', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestLargeNumberComponent],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(TestLargeNumberComponent);
     fixture.detectChanges();
 
-    const keyInfoElements = fixture.debugElement.queryAll(
-      By.css('sky-key-info'),
-    );
-    expect(keyInfoElements.length).toBe(0);
-  });
-
-  it('should handle large numbers', () => {
-    const summaryItems: SkyFilterBarSummaryItem[] = [
-      {
-        label: 'Large Number',
-        value: 1234567,
-        valueFormat: { truncate: false },
-      },
-    ];
-
-    componentRef.setInput('summaryItems', summaryItems);
-    fixture.detectChanges();
-
-    const keyInfoElement = fixture.debugElement.query(By.css('sky-key-info'));
-    const label = keyInfoElement.query(By.css('.sky-key-info-label'));
-    const value = keyInfoElement.query(By.css('.sky-key-info-value'));
+    const label = fixture.debugElement.query(By.css('.sky-key-info-label'));
+    const value = fixture.debugElement.query(By.css('.sky-key-info-value'));
 
     expect(label.nativeElement.textContent.trim()).toBe('Large Number');
     expect(value.nativeElement.textContent.trim()).toBe('1,234,567');
   });
 
-  it('should handle zero values', () => {
-    const summaryItems: SkyFilterBarSummaryItem[] = [
-      { label: 'Zero Items', value: 0 },
-    ];
+  it('should handle zero values', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestZeroValueComponent],
+    }).compileComponents();
 
-    componentRef.setInput('summaryItems', summaryItems);
+    const fixture = TestBed.createComponent(TestZeroValueComponent);
     fixture.detectChanges();
 
-    const keyInfoElement = fixture.debugElement.query(By.css('sky-key-info'));
-    const label = keyInfoElement.query(By.css('.sky-key-info-label'));
-    const value = keyInfoElement.query(By.css('.sky-key-info-value'));
+    const label = fixture.debugElement.query(By.css('.sky-key-info-label'));
+    const value = fixture.debugElement.query(By.css('.sky-key-info-value'));
 
     expect(label.nativeElement.textContent.trim()).toBe('Zero Items');
     expect(value.nativeElement.textContent.trim()).toBe('0');
   });
 
-  it('should render multiple summary items with different values', () => {
-    const summaryItems: SkyFilterBarSummaryItem[] = [
-      { label: 'First', value: 1 },
-      { label: 'Second', value: 10 },
-      { label: 'Third', value: 100 },
-      { label: 'Fourth', value: 1000 },
-    ];
+  it('should render multiple summary items with different values', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestMultipleItemsComponent],
+    }).compileComponents();
 
-    componentRef.setInput('summaryItems', summaryItems);
+    const fixture = TestBed.createComponent(TestMultipleItemsComponent);
     fixture.detectChanges();
 
-    const keyInfoElements = fixture.debugElement.queryAll(
-      By.css('sky-key-info'),
+    const summaryItems = fixture.debugElement.queryAll(
+      By.directive(SkyFilterBarSummaryItemComponent),
     );
-    expect(keyInfoElements.length).toBe(4);
+    expect(summaryItems.length).toBe(4);
 
-    // Verify first item
-    const firstLabel = keyInfoElements[0].query(By.css('.sky-key-info-label'));
-    const firstValue = keyInfoElements[0].query(By.css('.sky-key-info-value'));
-    expect(firstLabel.nativeElement.textContent.trim()).toBe('First');
-    expect(firstValue.nativeElement.textContent.trim()).toBe('1');
+    const labels = fixture.debugElement.queryAll(By.css('.sky-key-info-label'));
+    const values = fixture.debugElement.queryAll(By.css('.sky-key-info-value'));
 
-    // Verify second item
-    const secondLabel = keyInfoElements[1].query(By.css('.sky-key-info-label'));
-    const secondValue = keyInfoElements[1].query(By.css('.sky-key-info-value'));
-    expect(secondLabel.nativeElement.textContent.trim()).toBe('Second');
-    expect(secondValue.nativeElement.textContent.trim()).toBe('10');
+    // Verify each item
+    expect(labels[0].nativeElement.textContent.trim()).toBe('First');
+    expect(values[0].nativeElement.textContent.trim()).toBe('1');
 
-    // Verify third item
-    const thirdLabel = keyInfoElements[2].query(By.css('.sky-key-info-label'));
-    const thirdValue = keyInfoElements[2].query(By.css('.sky-key-info-value'));
-    expect(thirdLabel.nativeElement.textContent.trim()).toBe('Third');
-    expect(thirdValue.nativeElement.textContent.trim()).toBe('100');
+    expect(labels[1].nativeElement.textContent.trim()).toBe('Second');
+    expect(values[1].nativeElement.textContent.trim()).toBe('10');
 
-    // Verify fourth item
-    const fourthLabel = keyInfoElements[3].query(By.css('.sky-key-info-label'));
-    const fourthValue = keyInfoElements[3].query(By.css('.sky-key-info-value'));
-    expect(fourthLabel.nativeElement.textContent.trim()).toBe('Fourth');
-    expect(fourthValue.nativeElement.textContent.trim()).toBe('1K');
+    expect(labels[2].nativeElement.textContent.trim()).toBe('Third');
+    expect(values[2].nativeElement.textContent.trim()).toBe('100');
+
+    expect(labels[3].nativeElement.textContent.trim()).toBe('Fourth');
+    expect(values[3].nativeElement.textContent.trim()).toBe('1K');
+  });
+
+  it('should apply correct CSS classes', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestSummaryComponent],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(TestSummaryComponent);
+    fixture.detectChanges();
+
+    const summaryContainer = fixture.debugElement.query(
+      By.css('.sky-filter-bar-summary'),
+    );
+    expect(summaryContainer).toBeTruthy();
+
+    const summaryItemContainers = fixture.debugElement.queryAll(
+      By.css('.sky-filter-bar-summary-item'),
+    );
+    expect(summaryItemContainers.length).toBe(2);
   });
 });

@@ -1,10 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import {
-  SkyFilterBarFilterItem,
-  SkyFilterBarModule,
-  SkyFilterBarSummaryItem,
-} from '@skyux/filter-bar';
+import { SkyFilterBarFilterItem, SkyFilterBarModule } from '@skyux/filter-bar';
 import {
   SkySelectionModalSearchArgs,
   SkySelectionModalSearchResult,
@@ -29,7 +25,7 @@ export class FilterBarComponent {
     { id: '2', name: 'Filter 2' },
   ];
 
-  protected summaryItems: SkyFilterBarSummaryItem[] = [
+  protected summaryItems = [
     { value: 1, label: 'Summary 1', helpPopoverContent: 'test' },
     { value: 2, label: 'Summary 2', valueFormat: { format: 'currency' } },
   ];

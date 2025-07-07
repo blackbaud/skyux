@@ -7,14 +7,11 @@
 }
 
 .sky-filter-bar-summary {
+  display: flex;
   padding: var(
     --sky-override-filter-bar-summary-padding,
     var(--sky-margin-inline-sm)
   );
   background-color: var(--sky-override-filter-bar-summary-background-color);
   border-bottom: var(--sky-override-filter-bar-summary-border-bottom, none);
-
-  sky-key-info {
-    margin-right: var(--sky-margin-inline-lg);
-  }
 }

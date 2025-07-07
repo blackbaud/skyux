@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  SkyFilterBarFilterItem,
-  SkyFilterBarSummaryItem,
-} from '@skyux/filter-bar';
+import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
 import { SkySelectionModalSearchArgs } from '@skyux/lookup';
 
 import { of } from 'rxjs';
@@ -39,7 +36,7 @@ export class FilterBarComponent {
     console.log(value);
   }
 
-  public items: SkyFilterBarSummaryItem[] = [
+  public summaryItems = [
     {
       value: 10000000,
       label: 'Raised',
