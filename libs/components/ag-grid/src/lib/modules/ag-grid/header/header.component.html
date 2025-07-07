@@ -45,7 +45,7 @@
           >
             @if (sortDirection === 'desc') {
               <span class="ag-header-icon ag-header-label-icon">
-                <sky-icon iconName="chevron-down" />
+                <sky-icon iconName="chevron-down" iconSize="s" />
                 <span class="sky-screen-reader-only">{{
                   'sky_ag_grid_column_header_sort_button_aria_label_currently_desc'
                     | skyLibResources: displayName() ?? accessibleHeaderText()
@@ -54,7 +54,7 @@
             }
             @if (sortDirection === 'asc') {
               <span class="ag-header-icon ag-header-label-icon">
-                <sky-icon iconName="chevron-up" />
+                <sky-icon iconName="chevron-up" iconSize="s" />
                 <span class="sky-screen-reader-only">{{
                   'sky_ag_grid_column_header_sort_button_aria_label_currently_asc'
                     | skyLibResources: displayName() ?? accessibleHeaderText()
