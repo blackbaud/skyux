@@ -3,12 +3,19 @@
 .sky-theme-modern {
   /* color */
   --sky-background-color-page-default: var(--sky-color-background-page);
-  --sky-background-color-neutral-light: #{$sky-theme-modern-background-color-page-default};
-  --sky-background-color-primary-dark: #{$sky-theme-modern-background-color-primary-dark};
-  --sky-background-color-disabled: #{$sky-theme-modern-background-color-disabled};
+  --sky-background-color-container-default: var(
+    --sky-color-background-container-base
+  );
+  --sky-background-color-neutral-light: var(--sky-color-background-page);
+  --sky-background-color-primary-dark: var(
+    --sky-color-background-action-primary-base
+  );
+  --sky-background-color-disabled: var(
+    --sky-color-background-action-primary-disabled
+  );
 
-  --sky-border-color-neutral-medium: #{$sky-theme-modern-border-color-neutral-medium};
-  --sky-border-color-neutral-medium-dark: #{$sky-theme-modern-border-color-neutral-medium-dark};
+  --sky-border-color-neutral-medium: var(--sky-color-border-container-base);
+  --sky-border-color-neutral-medium-dark: var(--sky-color-border-switch-base);
 
   --sky-category-color-light-blue: var(--sky-color-category-green);
   --sky-category-color-teal: var(--sky-color-category-teal);
@@ -18,15 +25,16 @@
   --sky-category-color-yellow: var(--sky-color-category-yellow);
   --sky-category-color-red: var(--sky-color-category-red);
 
-  --sky-highlight-color-info: #{$sky-highlight-color-info};
-  --sky-highlight-color-success: #{$sky-highlight-color-success};
-  --sky-highlight-color-warning: #{$sky-highlight-color-warning};
-  --sky-highlight-color-danger: #{$sky-highlight-color-danger};
+  --sky-highlight-color-info: var(--sky-color-border-info);
+  --sky-highlight-color-success: var(--sky-color-border-success);
+  --sky-highlight-color-warning: var(--sky-color-border-warning);
+  --sky-highlight-color-danger: var(--sky-color-border-danger);
 
-  --sky-text-color-deemphasized: #{$sky-theme-modern-font-deemphasized-color};
-  --sky-text-color-action-primary: #{$sky-theme-modern-text-color-action-primary};
+  --sky-text-color-default: var(--sky-color-text-default);
+  --sky-text-color-deemphasized: var(--sky-color-text-deemphasized);
+  --sky-text-color-action-primary: var(--sky-color-text-action);
   --sky-text-color-action-primary-hover: #{darken(
-      $sky-theme-modern-text-color-action-primary,
+      var(--sky-color-text-action),
       10%
     )};
 
@@ -49,8 +57,12 @@
   --sky-padding-half: #{$sky-padding-half};
 
   /* component colors */
-  --sky-background-color-input-selected: #{$sky-color-blue-05};
-  --sky-background-color-item-selected: #{$sky-color-blue-05};
+  --sky-background-color-input-selected: var(
+    --sky-color-background-selected-soft
+  );
+  --sky-background-color-item-selected: var(
+    --sky-color-background-selected-soft
+  );
 
   /* switch */
   --sky-switch-size: #{$sky-switch-size-modern};
