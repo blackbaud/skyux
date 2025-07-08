@@ -1,11 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { Component, TemplateRef, computed, input } from '@angular/core';
 import { SkyNumericModule, SkyNumericOptions } from '@skyux/core';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
 @Component({
   selector: 'sky-filter-bar-summary-item',
-  imports: [CommonModule, SkyKeyInfoModule, SkyNumericModule],
+  imports: [SkyKeyInfoModule, SkyNumericModule],
   templateUrl: './filter-bar-summary-item.component.html',
   styleUrl: './filter-bar-summary-item.component.scss',
 })

@@ -1,6 +1,7 @@
 import { ComponentRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { expect } from '@skyux-sdk/testing';
 
 import { SkyFilterBarSummaryItemComponent } from './filter-bar-summary-item.component';
 
@@ -73,22 +74,29 @@ describe('Filter bar summary item component', () => {
     expect(keyInfo.attributes['layout']).toBe('horizontal');
   });
 
-  it('should pass help properties to sky-key-info', () => {
+  it('should pass help key to sky-key-info', () => {
     componentRef.setInput('value', 100);
     componentRef.setInput('label', 'Test Label');
     componentRef.setInput('helpKey', 'test-help-key');
+    fixture.detectChanges();
+
+    const keyInfoHelpKeyButton = fixture.debugElement.query(
+      By.css('sky-help-inline-help-key-button'),
+    );
+    expect(keyInfoHelpKeyButton).toExist();
+  });
+
+  it('should pass help popover properties to sky-key-info', () => {
+    componentRef.setInput('value', 100);
+    componentRef.setInput('label', 'Test Label');
     componentRef.setInput('helpPopoverContent', 'Help content');
     componentRef.setInput('helpPopoverTitle', 'Help title');
     fixture.detectChanges();
 
-    const keyInfo = fixture.debugElement.query(By.css('sky-key-info'));
-    expect(keyInfo.attributes['ng-reflect-help-key']).toBe('test-help-key');
-    expect(keyInfo.attributes['ng-reflect-help-popover-content']).toBe(
-      'Help content',
+    const keyInfoHelpPopoverButton = fixture.debugElement.query(
+      By.css('sky-help-inline-popover-button'),
     );
-    expect(keyInfo.attributes['ng-reflect-help-popover-title']).toBe(
-      'Help title',
-    );
+    expect(keyInfoHelpPopoverButton).toExist();
   });
 
   it('should apply display-4 font class to value', () => {

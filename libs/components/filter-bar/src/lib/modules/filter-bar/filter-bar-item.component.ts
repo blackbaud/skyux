@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject, input, model, output } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
@@ -12,7 +11,7 @@ import { SkyFilterBarFilterValue } from './models/filter-bar-filter-value';
  */
 @Component({
   selector: 'sky-filter-bar-item',
-  imports: [CommonModule, SkyIconModule],
+  imports: [SkyIconModule],
   templateUrl: './filter-bar-item.component.html',
   styleUrl: './filter-bar-item.component.scss',
 })
