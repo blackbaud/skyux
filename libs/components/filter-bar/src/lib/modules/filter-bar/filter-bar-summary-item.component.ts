@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, TemplateRef, input } from '@angular/core';
+import { Component, TemplateRef, computed, input } from '@angular/core';
 import { SkyNumericModule, SkyNumericOptions } from '@skyux/core';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
@@ -16,4 +16,13 @@ export class SkyFilterBarSummaryItemComponent {
   public helpKey = input<string>();
   public helpPopoverContent = input<string | TemplateRef<unknown>>();
   public helpPopoverTitle = input<string>();
+
+  protected numericValue = computed((): number | undefined => {
+    const value = this.value();
+
+    if (typeof value === 'number') {
+      return value;
+    }
+    return undefined;
+  });
 }

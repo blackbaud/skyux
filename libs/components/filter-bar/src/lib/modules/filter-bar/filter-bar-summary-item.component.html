@@ -1,4 +1,3 @@
-@let val = value();
 <div class="sky-filter-bar-summary-item">
   <sky-key-info
     layout="horizontal"
@@ -7,10 +6,10 @@
     [helpPopoverTitle]="helpPopoverTitle()"
   >
     <sky-key-info-value class="sky-font-display-4">
-      @if (typeof val === 'number') {
-        {{ val | skyNumeric: valueFormat() }}
+      @if (numericValue()) {
+        {{ numericValue() | skyNumeric: valueFormat() }}
       } @else {
-        {{ val }}
+        {{ value() }}
       }
     </sky-key-info-value>
     <sky-key-info-label>{{ label() }}</sky-key-info-label>
