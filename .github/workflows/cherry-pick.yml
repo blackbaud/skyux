@@ -62,10 +62,8 @@ jobs:
           jq -r '.migrations | map(select(.name != "inject-flags")) | map(select(.name != "test-bed-get")) | {"migrations": .}' migrations.json >  migrations.json.tmp \
             && mv migrations.json.tmp migrations.json
 
-          # Run the migrations and fix any linting and formatting issues.
-          npx nx migrate --run-migrations --if-exists \
-            && npx nx affected -t lint --fix \
-            && npx nx format:write
+          # Run the migrations and fix any formatting issues.
+          npx nx migrate --run-migrations --if-exists && npx nx format:write
 
           if [ $? -ne 0 ]; then
             echo "CHERRY_PICK_RESULT=failed" >> $GITHUB_ENV
