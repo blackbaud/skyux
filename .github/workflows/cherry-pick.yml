@@ -51,6 +51,34 @@ jobs:
             exit 0
           fi
 
+          # Capture @angular/core migrations.
+          FROM_VERSION=$(git cat-file --textconv origin/${{ env.FROM_BRANCH }}:package.json | jq -r '.dependencies["@angular/core"]')
+          TO_VERSION=$(jq -r '.dependencies["@angular/core"]' package.json)
+          npx nx migrate @angular/core \
+            --from="@angular/core@${FROM_VERSION}" \
+            --to="@angular/core@${TO_VERSION}"
+
+          # Remove migrations that are not needed for cherry-picks. They take too long to run and should not apply.
+          jq -r '.migrations | map(select(.name != "inject-flags")) | map(select(.name != "test-bed-get")) | {"migrations": .}' migrations.json >  migrations.json.tmp \
+            && mv migrations.json.tmp migrations.json
+
+          # Run the migrations and fix any linting and formatting issues.
+          npx nx migrate --run-migrations --if-exists \
+            && npx nx affected -t lint --fix \
+            && npx nx format:write
+
+          if [ $? -ne 0 ]; then
+            echo "CHERRY_PICK_RESULT=failed" >> $GITHUB_ENV
+            exit 0
+          fi
+
+          rm -f ./migrations.json
+          git add -A
+          git status
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit --amend --no-edit
+          fi
+
           # Get the name of the cherry-pick branch.
           CHERRY_PICK_BRANCH=$(git branch --show-current)
           # Add the cherry-pick branch to the environment.
