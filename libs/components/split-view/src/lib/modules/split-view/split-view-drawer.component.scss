@@ -12,6 +12,7 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-split-view-drawer') {
+  --sky-override-split-view-drawer-background-color: transparent;
   --sky-override-split-view-resize-handle-box-shadow-focus: var(
     --sky-elevation-focus
   );
@@ -20,7 +21,7 @@
 .sky-split-view-drawer {
   background: var(
     --sky-override-split-view-drawer-background-color,
-    transparent
+    var(--sky-color-background-container-base)
   );
   overflow: auto;
   height: 100%;

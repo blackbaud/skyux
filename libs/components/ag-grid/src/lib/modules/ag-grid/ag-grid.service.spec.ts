@@ -226,7 +226,7 @@ describe('SkyAgGridService', () => {
       });
 
       expect((options.icons?.['sortDescending'] as () => string)()).toBe(
-        `<svg height="16" width="16"><use xlink:href="#sky-i-chevron-down-24-solid"></use></svg>`,
+        `<svg height="16" width="16"><use xlink:href="#sky-i-chevron-down-16-solid"></use></svg>`,
       );
     });
 
