@@ -5,6 +5,8 @@
 @include compatMixins.sky-default-overrides('.sky-input-box') {
   --sky-override-button-width: 33px;
   --sky-override-input-box-error-margin-top: 5px;
+  --sky-override-input-box-form-errors-margin-left: 0;
+  --sky-override-input-box-hint-margin-left: 0;
   --sky-override-input-box-hint-margin-top: var(--sky-margin-stacked-xs);
   --sky-override-input-box-select-border-radius: 0;
 }
@@ -20,6 +22,7 @@
   );
   --sky-override-input-box-character-count-padding: 3px 0 0;
   --sky-override-input-box-color-border-base: var(--modern-color-gray-15);
+  --sky-override-input-box-form-errors-margin-left: 0;
   --sky-override-input-box-no-label-space-top: var(--modern-space-s);
   --sky-override-input-box-select-space: 10px;
   --sky-override-input-box-shadow-focus:
@@ -27,6 +30,7 @@
       var(--sky-color-border-action-input-focus),
     var(--modern-shadow-size-1);
   --sky-override-input-box-form-group-color: var(--sky-text-color-deemphasized);
+  --sky-override-input-box-hint-margin-left: 0;
   --sky-override-input-margin-top: -23px;
   --sky-override-input-padding-top: 26px;
   --sky-override-label-padding-bottom: 1px;
@@ -74,6 +78,16 @@ sky-input-box {
       --sky-override-input-box-error-margin-top,
       var(--sky-space-gap-stacked_supplemental-s)
     );
+  }
+
+  sky-form-error,
+  .sky-error-label,
+  .sky-error-indicator {
+    margin-left: var(
+      --sky-override-input-box-form-errors-margin-left,
+      var(--sky-comp-input-label-space-inset-left)
+    );
+    display: block;
   }
 
   // default and modern; display properties and background color
@@ -186,6 +200,10 @@ sky-input-box {
   // default and modern
   .sky-input-box-hint-text {
     flex-basis: 100%;
+    margin-left: var(
+      --sky-override-input-box-hint-margin-left,
+      var(--sky-comp-input-label-space-inset-left)
+    );
     margin-top: var(
       --sky-override-input-box-hint-margin-top,
       var(--sky-space-gap-stacked_supplemental-s)
