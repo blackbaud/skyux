@@ -18,28 +18,35 @@ export class FilterBarComponent {
   }
 
   public set filters(value: SkyFilterBarFilterItem[] | undefined) {
+    value.toString = (): string => {
+      return (
+        '[' +
+        this.filters
+          .map(
+            (filter) =>
+              `{ ${filter.name}${filter.filterValue ? ': ' + (filter.filterValue.displayValue ?? filter.filterValue.value) : ''} }`,
+          )
+          .join(', ') +
+        ' ]'
+      );
+    };
+
     this.#_filters = value;
 
     console.log(value);
   }
 
-  #_filters: SkyFilterBarFilterItem[] | undefined = [
+  public summaryItems = [
     {
-      name: 'filter 1',
-      id: '1',
-      filterModalConfig: { modalComponent: TestModalComponent },
+      value: 10000000,
+      label: 'Raised',
+      valueFormat: { format: 'currency', truncate: true },
+      helpPopoverContent: 'test content',
     },
-    {
-      name: 'filter 2',
-      id: '2',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 3',
-      id: '3',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
+    { value: 10, label: 'Elements', helpPopoverContent: 'test content2' },
   ];
+
+  #_filters: SkyFilterBarFilterItem[] | undefined;
 
   #filters: SkyFilterBarFilterItem[] = [
     {
@@ -84,11 +91,27 @@ export class FilterBarComponent {
     },
   ];
 
+  constructor() {
+    this.resetFilters();
+  }
+
   public resetFilters(): void {
     this.filters = [
-      { name: 'filter 1', id: '1' },
-      { name: 'filter 2', id: '2' },
-      { name: 'filter 3', id: '3' },
+      {
+        name: 'filter 1',
+        id: '1',
+        filterModalConfig: { modalComponent: TestModalComponent },
+      },
+      {
+        name: 'filter 2',
+        id: '2',
+        filterModalConfig: { modalComponent: TestModalComponent },
+      },
+      {
+        name: 'filter 3',
+        id: '3',
+        filterModalConfig: { modalComponent: TestModalComponent },
+      },
     ];
   }
 
