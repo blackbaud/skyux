@@ -107,7 +107,7 @@
     border: none;
     border-radius: var(--sky-border-radius-s);
     font-size: var(--sky-font-size-body-m);
-    transition: box-shadow 0ms;
+    transition: box-shadow $sky-transition-time-short;
 
     line-height: var(
       --sky-override-button-line-height,
@@ -201,6 +201,7 @@
         inset 0 0 0 var(--sky-border-width-action-active)
           var(--sky-color-border-action-secondary-active),
         var(--sky-elevation-action-secondary-active);
+      transition: box-shadow 0ms;
     }
 
     &:focus-visible:not(:active) {
