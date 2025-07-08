@@ -9,3 +9,5 @@ export { SkyFilterBarFilterValue } from './lib/modules/filter-bar/models/filter-
 // Obscure names are used to indicate types are not part of public API.
 export { SkyFilterBarComponent as λ1 } from './lib/modules/filter-bar/filter-bar.component';
 export { SkyFilterBarItemComponent as λ2 } from './lib/modules/filter-bar/filter-bar-item.component';
+export { SkyFilterBarSummaryComponent as λ3 } from './lib/modules/filter-bar/filter-bar-summary.component';
+export { SkyFilterBarSummaryItemComponent as λ4 } from './lib/modules/filter-bar/filter-bar-summary-item.component';
