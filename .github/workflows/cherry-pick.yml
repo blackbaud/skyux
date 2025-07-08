@@ -73,6 +73,8 @@ jobs:
           fi
 
           rm -f ./migrations.json
+          # Any changes to package.json and package-lock.json should not be committed.
+          git restore package.json package-lock.json
           git add -A
           git status
           if [ -n "$(git status --porcelain)" ]; then
