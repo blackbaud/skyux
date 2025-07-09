@@ -49,6 +49,7 @@
             type="button"
             class="sky-btn"
             [ngClass]="'sky-btn-' + button.styleType"
+            [attr.autofocus]="button.autofocus ? 'autofocus' : null"
             (click)="close(button)"
           >
             {{ button.text }}
