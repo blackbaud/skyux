@@ -320,6 +320,7 @@ jobs:
           set +o pipefail
 
           echo '# PERCY_TARGET_BRANCH' $PERCY_TARGET_BRANCH
+          echo '# PERCY_TARGET_COMMIT' $PERCY_TARGET_COMMIT
 
           separator() {
             echo ''; echo $(printf "=%.s" {1..80}); echo '';
@@ -362,9 +363,10 @@ jobs:
             fi
           fi
           # Extract the Percy build number from the log
-          fgrep '[percy] Finalized build' ${{ runner.temp }}/percy-${{ matrix.project }}.log | node -e "const rl=require('readline').createInterface({ input: process.stdin }); rl.on('line', (input) => console.log(input.split('/').pop()))" > ${{ runner.temp }}/percy-build-${{ matrix.project }}.txt
+          node -e "const wf = require('./dist/libs/sdk/e2e-schematics/src/workflow/index.js'); console.log(wf.readPercyBuildNumberFromLogFile('${{ runner.temp }}/percy-${{ matrix.project }}.log') ?? '');" > ${{ runner.temp }}/percy-build-${{ matrix.project }}.txt
         env:
           PERCY_TARGET_BRANCH: ${{ needs.install-deps.outputs.base-branch }}
+          PERCY_TARGET_COMMIT: ${{ steps.affected.outputs.percy_target_commit }}
           PERCY_BRANCH: ${{ github.head_ref || github.ref_name || github.event.ref }}
           PERCY_COMMIT: ${{ needs.install-deps.outputs.head }}
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
@@ -379,7 +381,7 @@ jobs:
           retention-days: 4
       - name: Upload build number
         uses: actions/upload-artifact@v4
-        if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
+        if: ${{ matrix.project != 'skip' }}
         with:
           name: percy-build-${{ matrix.project }}.txt
           path: ${{ runner.temp }}/percy-build-${{ matrix.project }}.txt
@@ -446,6 +448,7 @@ jobs:
       - name: Download Percy Build Numbers
         uses: actions/download-artifact@v4
         with:
+          github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           path: ${{ runner.temp }}/percy-builds
           pattern: percy-build-*
           merge-multiple: true
@@ -488,17 +491,32 @@ jobs:
 
               const listJobsForWorkflowRun = async () => {
                 try {
-                  return await github.paginate('GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
+                  return await Promise.all(
+                    Array.from(Array(context.runAttempt).keys(),i=>++i).reverse().map((attempt) =>
+                      github.paginate('GET /repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt}/jobs', {
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        run_id: context.runId,
+                        attempt,
+                        headers: { 'X-GitHub-Api-Version': '2022-11-28' }
+                      })
+                    )
+                  );
+                } catch (e) {
+                  core.warning(`Error getting workflow jobs for this run: ${e}`);
+                  return [];
+                }
+              }
+              const downloadJobLogs = async (job_id) => {
+                try {
+                  return await github.rest.actions.downloadJobLogsForWorkflowRun({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
-                    run_id: context.runId,
-                    headers: {
-                      'X-GitHub-Api-Version': '2022-11-28'
-                    }
+                    job_id,
                   });
                 } catch (e) {
-                  core.warn(`Error getting workflow jobs for this run: ${e}`);
-                  return [];
+                  core.warning(`Error getting logs for job ${job_id}: ${e}`);
+                  return '';
                 }
               }
 
@@ -509,7 +527,7 @@ jobs:
                 e2eProjects,
                 buildIdFiles,
                 core,
-                { listJobsForWorkflowRun },
+                { listJobsForWorkflowRun, downloadJobLogs },
                 ${{ github.event_name == 'push' || contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }},
                 (url) => fetch(url, options),
                 (number) => process.exit(number)
