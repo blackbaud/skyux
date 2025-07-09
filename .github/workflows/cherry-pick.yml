@@ -62,10 +62,8 @@ jobs:
           jq -r '.migrations | map(select(.name != "inject-flags")) | map(select(.name != "test-bed-get")) | {"migrations": .}' migrations.json >  migrations.json.tmp \
             && mv migrations.json.tmp migrations.json
 
-          # Run the migrations and fix any linting and formatting issues.
-          npx nx migrate --run-migrations --if-exists \
-            && npx nx affected -t lint --fix \
-            && npx nx format:write
+          # Run the migrations and fix any formatting issues.
+          npx nx migrate --run-migrations --if-exists && npx nx format:write
 
           if [ $? -ne 0 ]; then
             echo "CHERRY_PICK_RESULT=failed" >> $GITHUB_ENV
@@ -73,6 +71,8 @@ jobs:
           fi
 
           rm -f ./migrations.json
+          # Any changes to package.json and package-lock.json should not be committed.
+          git restore package.json package-lock.json
           git add -A
           git status
           if [ -n "$(git status --porcelain)" ]; then
@@ -119,18 +119,18 @@ jobs:
               console.log(`Created PR #${result.data.number}: ${result.data.html_url}`);
               core.exportVariable('PR_URL', result.data.html_url);
               core.exportVariable('CHERRY_PICK_RESULT', 'success');
-              const riskLabels = pr.labels.map(label => label.name).filter(label => label.startsWith('risk level'));
+              const labels = pr.labels.map(label => label.name).filter(label => label.startsWith('risk level') || label === 'skip e2e');
               const assignees = pr.user.login && pr.user.type === 'User' && pr.user.login !== 'blackbaud-sky-build-user' ? [pr.user.login] : [];
-              if (riskLabels.length === 0 && pr.labels.find(label => label.name.startsWith('autorelease'))) {
+              if (labels.length === 0 && pr.labels.find(label => label.name.startsWith('autorelease'))) {
                 // Changelog PR, so add minimal risk level labels.
-                riskLabels.push('risk level (author): 1');
+                labels.push('risk level (author): 1');
               }
               return github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: result.data.number,
                 assignees: assignees,
-                labels: riskLabels
+                labels: labels
               });
             }).catch(error => {
               console.log(error);
