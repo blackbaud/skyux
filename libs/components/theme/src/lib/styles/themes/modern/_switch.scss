@@ -339,6 +339,12 @@
     }
 
     &:not(:disabled) {
+      &:not(:checked):not(:hover):not(:active):not(:focus-visible) {
+        + .sky-switch-control.sky-switch-control-icon {
+          box-shadow: none;
+        }
+      }
+
       &:hover + .sky-switch-control {
         border-width: var(--sky-border-width-action-hover);
         border-color: var(--sky-color-border-action-tertiary-hover);
