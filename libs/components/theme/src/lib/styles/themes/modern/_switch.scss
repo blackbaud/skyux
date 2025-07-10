@@ -24,6 +24,8 @@
     )};
   --sky-override-switch-border-color: var(--modern-color-blue-74);
   --sky-override-switch-border-color-checked: var(--sky-color-border-selected);
+  --sky-override-switch-box-shadow: none;
+  --sky-override-switch-box-shadow-disabled: none;
   --sky-override-switch-box-shadow-focus-elevation: var(--sky-elevation-focus);
   --sky-override-switch-checked-color: var(--sky-color-icon-selected);
   --sky-override-switch-icon-checked-color-no-group: var(
@@ -145,10 +147,21 @@
       background-color: var(--sky-color-background-input-disabled);
       border-width: var(--sky-border-width-input-disabled);
       border-color: var(--sky-color-border-switch-disabled);
+      box-shadow: var(
+        --sky-override-switch-box-shadow-disabled,
+        var(--sky-elevation-input-disabled)
+      );
       color: var(--sky-color-text-deemphasized);
     }
 
     &:not(:disabled) {
+      + .sky-switch-control {
+        box-shadow: var(
+          --sky-override-switch-box-shadow,
+          var(--sky-elevation-input-base)
+        );
+      }
+
       &:hover + .sky-switch-control {
         border-width: var(--sky-border-width-input-hover);
         border-color: var(--sky-color-border-switch-hover);
@@ -165,7 +178,10 @@
       }
 
       &:focus-visible:not(:active) + .sky-switch-control {
-        box-shadow: var(--sky-override-switch-box-shadow-focus-elevation, none);
+        box-shadow: var(
+          --sky-override-switch-box-shadow-focus-elevation,
+          var(--sky-elevation-input-base)
+        );
         outline: none;
       }
 
@@ -323,6 +339,12 @@
     }
 
     &:not(:disabled) {
+      &:not(:checked):not(:hover):not(:active):not(:focus-visible) {
+        + .sky-switch-control.sky-switch-control-icon {
+          box-shadow: none;
+        }
+      }
+
       &:hover + .sky-switch-control {
         border-width: var(--sky-border-width-action-hover);
         border-color: var(--sky-color-border-action-tertiary-hover);

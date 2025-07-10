@@ -2,9 +2,14 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-field-group') {
+  --sky-override-field-group-align-items: normal;
   --sky-override-field-group-content-space: #{$sky-space-sm};
   --sky-override-field-group-content-with-hint-text-space: #{$sky-space-md};
   --sky-override-field-group-hint-text-space: #{$sky-space-xs};
+}
+
+@include compatMixins.sky-modern-overrides('.sky-field-group') {
+  --sky-override-field-group-align-items: normal;
 }
 
 :host {
@@ -13,6 +18,7 @@
 
 legend {
   display: flex;
+  align-items: var(--sky-override-field-group-align-items, baseline);
 
   h3,
   h4 {

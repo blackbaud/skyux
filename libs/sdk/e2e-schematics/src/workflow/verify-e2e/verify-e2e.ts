@@ -1,9 +1,12 @@
 import { existsSync, readFileSync } from 'fs';
 
 import { BuildSummary, Fetch, checkPercyBuild } from '../percy-api/percy-api';
+import { readPercyBuildNumberFromLogString } from '../percy-api/read-build-number-from-logs';
 
 interface WorkflowJob {
+  id: string;
   name: string;
+  conclusion: string;
   steps: WorkflowJobStep[];
 }
 interface WorkflowJobStep {
@@ -51,7 +54,8 @@ export async function verifyE2e(
   buildIdFiles: string[],
   core: Core,
   githubApi: {
-    listJobsForWorkflowRun: () => Promise<WorkflowJob[]>;
+    listJobsForWorkflowRun: () => Promise<WorkflowJob[][]>;
+    downloadJobLogs: (job_id: string) => Promise<string>;
   },
   allowMissingScreenshots: boolean,
   /* istanbul ignore next */
@@ -63,18 +67,13 @@ export async function verifyE2e(
     // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
 
     core.info('Fetching workflow jobs...');
-    let jobs = await githubApi.listJobsForWorkflowRun();
-    if (!jobs || jobs.length === 0) {
-      // Retry.
-      await new Promise((resolve) => setTimeout(resolve, 20));
-      jobs = await githubApi.listJobsForWorkflowRun();
-    }
+    const jobs = await listJobsForWorkflowRun(githubApi);
     // This job always runs, so check if any previous jobs failed and fail this job before doing any more work.
-    if (!jobs || jobs.length === 0 || !allWorkflowJobsPassed(jobs)) {
+    if (!jobs || jobs.length === 0 || !allWorkflowJobsPassed(jobs[0])) {
       core.setFailed('E2E workflow failed.');
       return exit(1);
     }
-    const e2eSteps = listPercyWorkflowSteps(jobs);
+    const e2eSteps = listPercyWorkflowSteps(jobs[0]);
     const skippedPercyProjects = e2eSteps
       .filter((step) => step.skipped)
       .map((step) => step.project);
@@ -105,17 +104,20 @@ export async function verifyE2e(
         const buildIdFile = buildIdFiles.find((file) =>
           file.endsWith(`/percy-build-${e2eProject}.txt`),
         );
+        let buildId: string | undefined;
         if (!buildIdFile || !existsSync(buildIdFile)) {
-          reviewComplete = false;
-          alertWorthy = true;
-          core.warning(`🚫 ${e2eProject} (missing percy build ID file)`);
-          continue;
+          buildId = await readBuildIdFromLogs(
+            e2eProject,
+            jobs,
+            githubApi.downloadJobLogs,
+          );
+        } else {
+          buildId = readFileSync(buildIdFile, 'utf-8').trim();
         }
-        const buildId = readFileSync(buildIdFile, 'utf-8').trim();
         if (!buildId) {
           reviewComplete = false;
           alertWorthy = true;
-          core.warning(`🚫 ${e2eProject} (empty percy build ID file)`);
+          core.warning(`🚫 ${e2eProject} (unable to retrieve percy build ID)`);
           continue;
         }
 
@@ -253,5 +255,44 @@ export async function verifyE2e(
         skipped: step.conclusion === 'skipped',
         succeeded: step.conclusion === 'success',
       }));
+  }
+
+  async function readBuildIdFromLogs(
+    e2eProject: string,
+    jobs: WorkflowJob[][],
+    downloadJobLogs: (job_id: string) => Promise<string>,
+  ): Promise<string | undefined> {
+    const jobsForThisProject = jobs
+      .flatMap((run) =>
+        run.find((job) =>
+          job.name.startsWith(`End to end tests (${e2eProject},`),
+        ),
+      )
+      .filter(Boolean) as WorkflowJob[];
+    for (const jobForThisProject of jobsForThisProject) {
+      const step = jobForThisProject.steps.find((step) =>
+        step.name.startsWith('Percy'),
+      );
+      if (step && step.conclusion === 'success') {
+        const log = await downloadJobLogs(jobForThisProject.id);
+        const buildId = readPercyBuildNumberFromLogString(log);
+        if (buildId) {
+          return buildId;
+        }
+      }
+    }
+    return undefined;
+  }
+
+  async function listJobsForWorkflowRun(githubApi: {
+    listJobsForWorkflowRun: () => Promise<WorkflowJob[][]>;
+  }): Promise<WorkflowJob[][]> {
+    let jobs = await githubApi.listJobsForWorkflowRun();
+    if (!jobs || jobs.length === 0 || jobs[0].length === 0) {
+      // Retry.
+      await new Promise((resolve) => setTimeout(resolve, 20));
+      jobs = await githubApi.listJobsForWorkflowRun();
+    }
+    return jobs;
   }
 }

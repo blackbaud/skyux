@@ -150,9 +150,9 @@ export async function getLastGoodPercyBuild(
   logger: Logger,
   /* istanbul ignore next */
   fetchClient: Fetch = fetch,
-): Promise<string> {
+): Promise<{ lastGoodCommit: string; buildId: number }> {
   if (shaArray.length === 0) {
-    return '';
+    return { lastGoodCommit: '', buildId: 0 };
   }
   const fetchJson = getFetchJson(fetchClient);
   try {
@@ -176,21 +176,24 @@ export async function getLastGoodPercyBuild(
           logger.warning(
             `Percy build ${previousBuild?.id} has removed screenshots. Re-running.`,
           );
-          return '';
+          return { lastGoodCommit: '', buildId: 0 };
         }
       }
-      return previousBuild.attributes['commit-html-url']
+      const lastGoodCommit = previousBuild.attributes['commit-html-url']
         .split('/')
         .pop() as string;
+      const buildId = Number(
+        previousBuild.attributes['web-url'].split('/').pop(),
+      );
+      return { lastGoodCommit, buildId };
     }
     logger.warning(
       `The last build was not finished and/or approved. Re-running.`,
     );
-    return '';
   } catch (error) {
     logger.error(`Error checking Percy: ${error}`);
-    return '';
   }
+  return { lastGoodCommit: '', buildId: 0 };
 }
 
 /**
