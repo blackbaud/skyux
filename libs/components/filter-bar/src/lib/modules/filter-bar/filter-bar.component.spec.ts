@@ -1,4 +1,3 @@
-// import { ComponentRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
@@ -39,7 +38,6 @@ describe('Filter bar component', () => {
   //#endregion
 
   let component: SkyFilterBarTestComponent;
-  // let componentRef: ComponentRef<SkyFilterBarTestComponent>;
   let fixture: ComponentFixture<SkyFilterBarTestComponent>;
   let confirmServiceSpy: jasmine.SpyObj<SkyConfirmService>;
 
