@@ -24,12 +24,14 @@ describe('swap-imported-class', () => {
       true,
     );
 
-    swapImportedClass(tree, path, sourceFile, [
+    const recorder = tree.beginUpdate(path);
+    swapImportedClass(recorder, path, sourceFile, [
       {
         classNames: { D: 'E' },
         moduleName: 'other-module',
       },
     ]);
+    tree.commitUpdate(recorder);
 
     expect(tree.readText(path)).toBe(content);
   });
@@ -48,15 +50,17 @@ describe('swap-imported-class', () => {
       true,
     );
 
-    swapImportedClass(tree, path, sourceFile, [
+    const recorder = tree.beginUpdate(path);
+    swapImportedClass(recorder, path, sourceFile, [
       {
         classNames: { B: 'D' },
         moduleName: 'module',
       },
     ]);
+    tree.commitUpdate(recorder);
 
     expect(tree.readText(path)).toBe(`
-    import { A,  C, D } from 'module';
+    import { A, D, C } from 'module';
 
     A(D) && C;`);
   });
@@ -75,12 +79,14 @@ describe('swap-imported-class', () => {
       true,
     );
 
-    swapImportedClass(tree, path, sourceFile, [
+    const recorder = tree.beginUpdate(path);
+    swapImportedClass(recorder, path, sourceFile, [
       {
         classNames: { B: 'C' },
         moduleName: 'module',
       },
     ]);
+    tree.commitUpdate(recorder);
 
     expect(tree.readText(path)).toBe(`
     import { A,  C } from 'module';
