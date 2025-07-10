@@ -16,7 +16,7 @@
         </button>
       </sky-toolbar-item>
     }
-    @for (filter of filters(); track filter.id) {
+    @for (filter of computedFilters(); track filter.id) {
       <sky-toolbar-item>
         <sky-filter-bar-item
           [filterName]="filter.name"
