@@ -91,7 +91,10 @@ describe('percy-api', () => {
       logger,
       fetchClient,
     );
-    expect(result).toEqual('');
+    expect(result).toEqual({
+      buildId: 0,
+      lastGoodCommit: '',
+    });
   });
 
   it('should get last good build', async () => {
@@ -114,6 +117,7 @@ describe('percy-api', () => {
                     'review-state': 'approved',
                     state: 'finished',
                     'commit-html-url': 'https://.../commitSha',
+                    'web-url': 'https://.../321',
                   },
                 },
               ],
@@ -129,7 +133,7 @@ describe('percy-api', () => {
       logger,
       fetchClient,
     );
-    expect(result).toEqual('commitSha');
+    expect(result).toEqual({ lastGoodCommit: 'commitSha', buildId: 321 });
   });
 
   it('should get target commit', async () => {
@@ -289,7 +293,10 @@ describe('percy-api', () => {
       logger,
       fetchClient,
     );
-    expect(result).toEqual('');
+    expect(result).toEqual({
+      buildId: 0,
+      lastGoodCommit: '',
+    });
   });
 
   it('should handle no good builds', async () => {
@@ -317,7 +324,10 @@ describe('percy-api', () => {
       logger,
       fetchClient,
     );
-    expect(result).toEqual('');
+    expect(result).toEqual({
+      buildId: 0,
+      lastGoodCommit: '',
+    });
   });
 
   it('should handle incomplete response', async () => {
@@ -335,7 +345,10 @@ describe('percy-api', () => {
         logger,
         fetchClient,
       ),
-    ).resolves.toEqual('');
+    ).resolves.toEqual({
+      buildId: 0,
+      lastGoodCommit: '',
+    });
     expect(logger.error).toHaveBeenCalledWith(
       'Error checking Percy: Percy project ID response for test-storybook-e2e: {}',
     );
@@ -372,7 +385,10 @@ describe('percy-api', () => {
         logger,
         fetchClient,
       ),
-    ).resolves.toEqual('');
+    ).resolves.toEqual({
+      buildId: 0,
+      lastGoodCommit: '',
+    });
     expect(logger.error).toHaveBeenCalledWith(
       `Error checking Percy: Percy project ID response for test-storybook-e2e: ${JSON.stringify(
         [
