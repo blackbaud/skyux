@@ -16,6 +16,11 @@
       "factory": "./src/schematics/ag-grid-migrate/ag-grid-migrate.schematic",
       "schema": "./src/schematics/ag-grid-migrate/schema.json"
     },
+    "convert-definition-list-to-description-list": {
+      "description": "Convert <sky-definition-list> components to <sky-description-list> components.",
+      "factory": "./src/schematics/ng-generate/convert-definition-list-to-description-list/convert-definition-list-to-description-list.schematic",
+      "schema": "./src/schematics/ng-generate/convert-definition-list-to-description-list/schema.json"
+    },
     "polyfills": {
       "description": "Add @skyux/packages/polyfills to project config.",
       "factory": "./src/schematics/ng-generate/polyfills/polyfills.schematic",
