@@ -277,7 +277,7 @@ sky-input-box {
     .sky-input-group-btn {
       .sky-btn {
         border-radius: 0;
-        color: var(--sky-color-text-deemphasized);
+        color: var(--sky-color-icon-input-action);
         margin: 0;
         padding: 0;
         position: relative;
@@ -313,7 +313,7 @@ sky-input-box {
 
     .sky-input-group-icon {
       .sky-icon {
-        color: var(--sky-color-text-deemphasized);
+        color: var(--sky-color-icon-input-action);
         // we need to leave this for input boxes that may still be using font-based icons
         font-size: 24px;
       }
