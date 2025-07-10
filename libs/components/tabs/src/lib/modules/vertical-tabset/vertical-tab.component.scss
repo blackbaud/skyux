@@ -222,13 +222,13 @@
     --sky-override-vertical-tab-padding-left-selected,
     calc(
       var(--sky-comp-tab-vertical-space-inset-left) - var(
-          --sky-border-width-selected-l
+          --sky-border-width-selected-m
         )
     )
   );
   border-left: var(
     --sky-override-vertical-tab-border-left-selected,
-    var(--sky-border-width-selected-l) solid var(--sky-color-border-selected)
+    var(--sky-border-width-selected-m) solid var(--sky-color-border-selected)
   );
 
   .sky-vertical-tab-right-arrow {
