@@ -555,10 +555,7 @@ sky-input-box {
 
       select.sky-form-control {
         background-position-x: calc(
-          100% - var(
-              --sky-override-input-box-select-space,
-              var(--sky-comp-input-value-space-inset-left)
-            )
+          100% - var(--sky-override-input-box-select-space, 0%)
         );
         /*
           Clicking on the label of a select element doesn't expand the select element;
