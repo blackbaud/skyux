@@ -9,6 +9,8 @@ import { SkyThemeSettings } from './theme-settings';
 import { SkyThemeSettingsChange } from './theme-settings-change';
 import { SkyThemeSpacing } from './theme-spacing';
 
+const BRAND_BLACKBAUD = 'blackbaud';
+
 function assertCurrentSettings(
   currentSettings: SkyThemeSettings | undefined,
 ): asserts currentSettings is SkyThemeSettings {
@@ -262,14 +264,12 @@ export class SkyThemeService {
     currentBrand: SkyThemeBrand | undefined,
     previousBrand: SkyThemeBrand | undefined,
   ): void {
-    if (
-      currentBrand &&
-      currentBrand.name !== 'blackbaud' &&
-      previousBrand !== currentBrand
-    ) {
-      this.#addBrandStylesheet(currentBrand);
-    } else {
+    if (previousBrand && previousBrand.name !== BRAND_BLACKBAUD) {
       this.#removeBrandStylesheet();
+    }
+
+    if (currentBrand && currentBrand.name !== BRAND_BLACKBAUD) {
+      this.#addBrandStylesheet(currentBrand);
     }
   }
 
@@ -307,7 +307,7 @@ export class SkyThemeService {
   }
 
   #addBrandStylesheet(brand: SkyThemeBrand): void {
-    if (brand.name !== 'blackbaud') {
+    if (brand.name !== BRAND_BLACKBAUD) {
       // Use styleUrl if provided, otherwise build the default URL
       const styleUrl =
         brand.styleUrl ||

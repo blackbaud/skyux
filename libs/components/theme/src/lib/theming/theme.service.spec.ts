@@ -1033,5 +1033,189 @@ describe('Theme service', () => {
         settingsWithRegisteredBrand,
       );
     });
+
+    it('should remove old stylesheet when switching from one brand to another brand', () => {
+      const themeSvc = new SkyThemeService();
+
+      const brand1 = new SkyThemeBrand('brand1', '1.0.0');
+      const brand2 = new SkyThemeBrand('brand2', '1.0.0');
+
+      const initialSettingsWithBrand1 = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.compact,
+        brand1,
+      );
+
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        initialSettingsWithBrand1,
+      );
+
+      // Reset calls to focus on the brand switching
+      mockRenderer.removeChild.calls.reset();
+      mockRenderer.createElement.calls.reset();
+      mockRenderer.appendChild.calls.reset();
+
+      // Switch to brand2
+      themeSvc.setThemeBrand(brand2);
+
+      // Verify that the old stylesheet was removed first
+      expect(mockRenderer.removeChild).toHaveBeenCalledWith(
+        mockHostEl,
+        mockLinkElement,
+      );
+
+      // Verify that a new stylesheet was created and added
+      expect(mockRenderer.createElement).toHaveBeenCalledWith('link');
+      expect(mockRenderer.appendChild).toHaveBeenCalledWith(
+        mockHostEl,
+        mockLinkElement,
+      );
+    });
+
+    it('should remove old stylesheet when switching from brand to blackbaud brand', () => {
+      const themeSvc = new SkyThemeService();
+
+      const customBrand = new SkyThemeBrand('custom', '1.0.0');
+      const blackbaudBrand = new SkyThemeBrand('blackbaud', '1.0.0');
+
+      const initialSettingsWithCustomBrand = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.compact,
+        customBrand,
+      );
+
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        initialSettingsWithCustomBrand,
+      );
+
+      // Reset calls to focus on the brand switching
+      mockRenderer.removeChild.calls.reset();
+      mockRenderer.createElement.calls.reset();
+      mockRenderer.appendChild.calls.reset();
+
+      // Switch to blackbaud brand
+      themeSvc.setThemeBrand(blackbaudBrand);
+
+      // Verify that the old stylesheet was removed
+      expect(mockRenderer.removeChild).toHaveBeenCalledWith(
+        mockHostEl,
+        mockLinkElement,
+      );
+
+      // Verify that no new stylesheet was created (blackbaud doesn't need one)
+      expect(mockRenderer.createElement).not.toHaveBeenCalled();
+      expect(mockRenderer.appendChild).not.toHaveBeenCalled();
+    });
+
+    it('should remove old stylesheet when switching from blackbaud to custom brand', () => {
+      const themeSvc = new SkyThemeService();
+
+      const blackbaudBrand = new SkyThemeBrand('blackbaud', '1.0.0');
+      const customBrand = new SkyThemeBrand('custom', '1.0.0');
+
+      const initialSettingsWithBlackbaud = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.compact,
+        blackbaudBrand,
+      );
+
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        initialSettingsWithBlackbaud,
+      );
+
+      // Blackbaud brand shouldn't create a stylesheet initially
+      expect(mockRenderer.createElement).not.toHaveBeenCalled();
+
+      // Reset calls to focus on the brand switching
+      mockRenderer.removeChild.calls.reset();
+      mockRenderer.createElement.calls.reset();
+      mockRenderer.appendChild.calls.reset();
+
+      // Switch to custom brand
+      themeSvc.setThemeBrand(customBrand);
+
+      // Verify that no old stylesheet was removed (blackbaud doesn't have one)
+      expect(mockRenderer.removeChild).not.toHaveBeenCalled();
+
+      // Verify that a new stylesheet was created and added
+      expect(mockRenderer.createElement).toHaveBeenCalledWith('link');
+      expect(mockRenderer.appendChild).toHaveBeenCalledWith(
+        mockHostEl,
+        mockLinkElement,
+      );
+    });
+
+    it('should properly handle switching between brands with custom styleUrls', () => {
+      const themeSvc = new SkyThemeService();
+
+      const brand1 = new SkyThemeBrand(
+        'brand1',
+        '1.0.0',
+        undefined,
+        'https://example.com/brand1.css',
+      );
+      const brand2 = new SkyThemeBrand(
+        'brand2',
+        '1.0.0',
+        undefined,
+        'https://example.com/brand2.css',
+      );
+
+      const initialSettingsWithBrand1 = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.compact,
+        brand1,
+      );
+
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        initialSettingsWithBrand1,
+      );
+
+      // Verify brand1 stylesheet was set
+      expect(mockRenderer.setAttribute).toHaveBeenCalledWith(
+        mockLinkElement,
+        'href',
+        'https://example.com/brand1.css',
+      );
+
+      // Reset calls to focus on the brand switching
+      mockRenderer.removeChild.calls.reset();
+      mockRenderer.createElement.calls.reset();
+      mockRenderer.appendChild.calls.reset();
+      mockRenderer.setAttribute.calls.reset();
+
+      // Switch to brand2
+      themeSvc.setThemeBrand(brand2);
+
+      // Verify that the old stylesheet was removed first
+      expect(mockRenderer.removeChild).toHaveBeenCalledWith(
+        mockHostEl,
+        mockLinkElement,
+      );
+
+      // Verify that a new stylesheet was created and added with the correct URL
+      expect(mockRenderer.createElement).toHaveBeenCalledWith('link');
+      expect(mockRenderer.appendChild).toHaveBeenCalledWith(
+        mockHostEl,
+        mockLinkElement,
+      );
+      expect(mockRenderer.setAttribute).toHaveBeenCalledWith(
+        mockLinkElement,
+        'href',
+        'https://example.com/brand2.css',
+      );
+    });
   });
 });
