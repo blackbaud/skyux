@@ -56,10 +56,10 @@
   top: 0;
   margin: var(
     --sky-override-modal-xs-margin,
-    var(--sky-comp-modal-space-offset-top)
-      var(--sky-comp-modal-space-offset-right)
-      var(--sky-comp-modal-space-offset-bottom)
-      var(--sky-comp-modal-space-offset-left)
+    var(--sky-comp-modal-space-offset-xs-top)
+      var(--sky-comp-modal-space-offset-xs-right)
+      var(--sky-comp-modal-space-offset-xs-bottom)
+      var(--sky-comp-modal-space-offset-xs-left)
   );
   display: flex;
   flex-direction: column;
@@ -92,21 +92,21 @@
       100% - calc(
           var(
               --sky-override-modal-full-page-margin-xs,
-              var(--sky-comp-modal-fullscreen-space-offset-right)
+              var(--sky-comp-modal-fullscreen-space-offset-xs-right)
             ) +
             var(
               --sky-override-modal-full-page-margin-xs,
-              var(--sky-comp-modal-fullscreen-space-offset-left)
+              var(--sky-comp-modal-fullscreen-space-offset-xs-left)
             )
         )
     )
   );
   margin: var(
     --sky-override-modal-full-page-margin-xs,
-    var(--sky-comp-modal-fullscreen-space-offset-top)
-      var(--sky-comp-modal-fullscreen-space-offset-right)
-      var(--sky-comp-modal-fullscreen-space-offset-bottom)
-      var(--sky-comp-modal-fullscreen-space-offset-left)
+    var(--sky-comp-modal-fullscreen-space-offset-xs-top)
+      var(--sky-comp-modal-fullscreen-space-offset-xs-right)
+      var(--sky-comp-modal-fullscreen-space-offset-xs-bottom)
+      var(--sky-comp-modal-fullscreen-space-offset-xs-left)
   );
 }
 
@@ -114,8 +114,8 @@
   .sky-modal:not(.sky-modal-full-page) {
     margin: var(
       --sky-override-modal-margin,
-      var(--sky-comp-modal-space-offset-top) auto
-        var(--sky-comp-modal-space-offset-bottom)
+      var(--sky-comp-modal-space-offset-sm-top) auto
+        var(--sky-comp-modal-space-offset-sm-bottom)
     );
   }
 
@@ -152,11 +152,11 @@
         100% - calc(
             var(
                 --sky-override-modal-full-page-margin,
-                var(--sky-comp-modal-fullscreen-space-offset-left)
+                var(--sky-comp-modal-fullscreen-space-offset-sm-left)
               ) +
               var(
                 --sky-override-modal-full-page-margin,
-                var(--sky-comp-modal-fullscreen-space-offset-right)
+                var(--sky-comp-modal-fullscreen-space-offset-sm-right)
               )
           )
       )
@@ -164,10 +164,10 @@
 
     margin: var(
       --sky-override-modal-full-page-margin,
-      var(--sky-comp-modal-fullscreen-space-offset-top)
-        var(--sky-comp-modal-fullscreen-space-offset-right)
-        var(--sky-comp-modal-fullscreen-space-offset-bottom)
-        var(--sky-comp-modal-fullscreen-space-offset-left)
+      var(--sky-comp-modal-fullscreen-space-offset-sm-top)
+        var(--sky-comp-modal-fullscreen-space-offset-sm-right)
+        var(--sky-comp-modal-fullscreen-space-offset-sm-bottom)
+        var(--sky-comp-modal-fullscreen-space-offset-sm-left)
     );
   }
 }

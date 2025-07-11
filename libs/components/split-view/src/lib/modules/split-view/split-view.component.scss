@@ -7,6 +7,13 @@
     #{$sky-border-color-neutral-medium};
   --sky-override-split-view-border-left: 1px solid
     #{$sky-border-color-neutral-medium};
+  --sky-override-split-view-border-right: 1px solid
+    #{$sky-border-color-neutral-medium};
+}
+
+@include compatMixins.sky-modern-overrides('.sky-split-view') {
+  --sky-override-split-view-border-right: var(--sky-border-width-divider) solid
+    var(--sky-color-border-divider);
 }
 
 :host {
@@ -55,5 +62,6 @@
 @include mixins.sky-host-responsive-container-sm-min() {
   .sky-split-view {
     border-left: var(--sky-override-split-view-border-left, none);
+    border-right: var(--sky-override-split-view-border-right, none);
   }
 }

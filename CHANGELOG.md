@@ -1,5 +1,41 @@
 # Changelog
 
+## [12.25.0](https://github.com/blackbaud/skyux/compare/12.24.0...12.25.0) (2025-07-10)
+
+
+### Features
+
+* **components/packages:** create schematic to convert definition list to description list ([#3570](https://github.com/blackbaud/skyux/issues/3570)) ([#3620](https://github.com/blackbaud/skyux/issues/3620)) ([82b0a83](https://github.com/blackbaud/skyux/commit/82b0a83694653f3888c135231e4e6e4b27d4659a))
+
+
+### Bug Fixes
+
+* **components/theme:** add box shadow to switch states ([#3613](https://github.com/blackbaud/skyux/issues/3613)) ([99d0f6a](https://github.com/blackbaud/skyux/commit/99d0f6a324c6980daf3d9b38a4cf3cf73819e7a8))
+* selected horizontal and vertical tabs use medium border in v2 modern ([#3617](https://github.com/blackbaud/skyux/issues/3617)) ([9af48bf](https://github.com/blackbaud/skyux/commit/9af48bfc6205f77c3edc44ab3b61d8e07122d957))
+
+## [12.24.0](https://github.com/blackbaud/skyux/compare/12.23.0...12.24.0) (2025-07-10)
+
+
+### Features
+
+* button and dropdown elevations ([#3610](https://github.com/blackbaud/skyux/issues/3610)) ([230b473](https://github.com/blackbaud/skyux/commit/230b4738e551b816a0346a9246d89af64c4243ad))
+* replace container tokens ([#3577](https://github.com/blackbaud/skyux/issues/3577)) ([bdae434](https://github.com/blackbaud/skyux/commit/bdae434c7cd08dc8d07ffacfb970f5a18b77f068))
+* update composite icons to use the new matte variables ([#3555](https://github.com/blackbaud/skyux/issues/3555)) ([d38771a](https://github.com/blackbaud/skyux/commit/d38771ab0d74b53b02dcb015a8d8b764d3d63baf))
+* use reference tokens for public API ([#3601](https://github.com/blackbaud/skyux/issues/3601)) ([9e5ee2e](https://github.com/blackbaud/skyux/commit/9e5ee2ea6144bd6cd23d5313f075cf0171628139))
+
+
+### Bug Fixes
+
+* **components/forms:** help inline is aligned with field group text in v2 modern ([#3608](https://github.com/blackbaud/skyux/issues/3608)) ([ed0755d](https://github.com/blackbaud/skyux/commit/ed0755d52ce4d186cbfd6cc3fd695c7044107c42))
+* **components/forms:** input box hint text and errors have left margin in v2 modern ([#3593](https://github.com/blackbaud/skyux/issues/3593)) ([ff41aff](https://github.com/blackbaud/skyux/commit/ff41aff056bb031db3f4845e79de0fe0e9545f1a))
+* **components/lists:** repeater title and checkbox are aligned in v2 when the item is selectable ([#3603](https://github.com/blackbaud/skyux/issues/3603)) ([3a9787b](https://github.com/blackbaud/skyux/commit/3a9787bf65fc1054edbac45deef035df430c3692))
+* **components/lookup:** autocomplete results have a border radius in v2 modern ([#3559](https://github.com/blackbaud/skyux/issues/3559)) ([d4660ea](https://github.com/blackbaud/skyux/commit/d4660ea7c4cb945514de6a209be0f029e7242323))
+* **components/lookup:** multi-select lookup does not have extra left value space in v2 modern when no tokens are present ([#3594](https://github.com/blackbaud/skyux/issues/3594)) ([9c63dc7](https://github.com/blackbaud/skyux/commit/9c63dc768333075931171616802628dacfeb8ffc))
+* **components/modals:** fix punctuation in error messages ([#3589](https://github.com/blackbaud/skyux/issues/3589)) ([824ce9a](https://github.com/blackbaud/skyux/commit/824ce9a7fcf841421d0c473d736a360b49714ffb))
+* **components/modals:** update modal headers in v2 modern to use standard h2 font styles ([#3554](https://github.com/blackbaud/skyux/issues/3554)) ([444b4b9](https://github.com/blackbaud/skyux/commit/444b4b96ce14556d9f472b138f5f7a4e106927f2))
+* **components/split-view:** add background color to split view drawer and remove right border in v2 modern ([#3598](https://github.com/blackbaud/skyux/issues/3598)) ([a7213b1](https://github.com/blackbaud/skyux/commit/a7213b14d896c63d67544eec422c55d571ed60f9))
+* **components/toast:** update toast box shadow and close button position in modern v2 ([#3553](https://github.com/blackbaud/skyux/issues/3553)) ([aa571a6](https://github.com/blackbaud/skyux/commit/aa571a641f2f084f94eeb1bf8acdd3e45ded9581))
+
 ## [13.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/12.23.0...13.0.0-alpha.0) (2025-07-01)
 
 
