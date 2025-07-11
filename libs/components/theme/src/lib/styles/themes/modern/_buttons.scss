@@ -686,13 +686,13 @@
     &:not(:active) {
       border-bottom: var(
           --sky-override-tab-selected-border-bottom-size,
-          var(--sky-border-width-selected-l)
+          var(--sky-border-width-selected-m)
         )
         var(--sky-border-style-accent) var(--sky-color-border-selected);
       padding-bottom: calc(
         var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
             --sky-override-tab-selected-border-bottom-size,
-            var(--sky-border-width-selected-l)
+            var(--sky-border-width-selected-m)
           )
       );
     }
