@@ -102,7 +102,7 @@
     "@blackbaud/skyux-design-tokens": "2.0.0-alpha.1",
     "@eslint/js": "9.24.0",
     "@nx/angular": "21.2.1",
-    "@skyux/icons": "8.2.0",
+    "@skyux/icons": "9.0.0",
     "@stackblitz/sdk": "1.11.0",
     "ag-grid-angular": "33.3.2",
     "ag-grid-community": "33.3.2",
