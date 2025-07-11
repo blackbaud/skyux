@@ -145,7 +145,8 @@
     );
     border-left: var(
       --sky-override-vertical-tab-border-left-active,
-      var(--sky-border-width-selected-l) solid var(--sky-color-border-selected)
+      var(--sky-border-width-selected-l) solid
+        var(--sky-color-border-nav-active)
     );
     color: var(
       --sky-override-vertical-tab-active-font-color,
@@ -175,7 +176,7 @@
     );
     outline: var(
       --sky-override-vertical-tab-outline-focus,
-      var(--sky-border-width-selected-m) solid var(--sky-color-border-selected)
+      var(--sky-border-width-selected-m) solid var(--sky-color-border-nav-focus)
     );
     outline-offset: var(
       --sky-override-vertical-tab-outline-focus-offset,
@@ -213,7 +214,7 @@
     );
     border-left: var(
       --sky-override-vertical-tab-border-left-hover,
-      var(--sky-border-width-selected-s) solid var(--sky-color-border-selected)
+      var(--sky-border-width-selected-s) solid var(--sky-color-border-nav-hover)
     );
   }
 }
