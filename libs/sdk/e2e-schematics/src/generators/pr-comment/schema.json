@@ -6,7 +6,7 @@
   "type": "object",
   "properties": {
     "pr": {
-      "type": "number",
+      "type": "string",
       "description": "PR Number",
       "$default": {
         "$source": "argv",
@@ -24,6 +24,11 @@
       "type": "string",
       "description": "Comma separated list of apps to include in the comment",
       "alias": "a"
+    },
+    "repository": {
+      "type": "string",
+      "description": "What repository is this PR for?",
+      "$default": "blackbaud/skyux"
     }
   },
   "required": ["pr", "storybooks"]

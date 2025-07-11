@@ -1,0 +1,16 @@
+name: icons-pr-preview
+description: 'Update icons to use SVG from a PR branch'
+inputs:
+  icon_preview_pr:
+    description: 'skyux-icons PR number to preview'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Swap resolver URL
+      shell: bash
+      run: |
+        echo "Replacing resolver URL to use skyux-icons PR #${{ inputs.icon_preview_pr }}"
+        sed -i '' \
+          -Ee 's~https://sky.blackbaudcdn.net/static/skyux-icons/[0-9]+/assets/svg/skyux-icons.svg~https://blackbaud.github.io/skyux-icons/pr-${{ inputs.icon_preview_pr }}/assets/svg/skyux-icons.svg~' \
+          libs/components/icon/src/lib/modules/icon/icon-svg-resolver.service.ts

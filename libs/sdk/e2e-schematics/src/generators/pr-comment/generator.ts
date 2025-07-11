@@ -3,10 +3,10 @@ import { Tree, generateFiles, joinPathFragments } from '@nx/devkit';
 import { PrCommentGeneratorOptions, PrCommentGeneratorSchema } from './schema';
 
 function normalizeOptions(
-  tree: Tree,
   options: PrCommentGeneratorSchema,
 ): PrCommentGeneratorOptions {
   const pr = options.pr;
+  const repository = options.repository || 'blackbaud/skyux';
   const storybooks = options.storybooks
     .split(',')
     .map((s) => s.trim())
@@ -15,13 +15,16 @@ function normalizeOptions(
     .split(',')
     .map((s) => s.trim())
     .filter((s) => s.length > 0);
-  if (!pr || isNaN(parseInt(`${pr}`, 10))) {
+  const prNumber = parseInt(`${String(pr).replace(/^\w+-/, '')}`, 10);
+  if (!pr || isNaN(prNumber)) {
     throw new Error('Invalid PR number');
   }
   return {
     pr,
+    prNumber,
     storybooks,
     apps,
+    repository,
   };
 }
 
@@ -29,7 +32,7 @@ export default async function prComment(
   tree: Tree,
   options: PrCommentGeneratorSchema,
 ): Promise<void> {
-  const normalizedOptions = normalizeOptions(tree, options);
+  const normalizedOptions = normalizeOptions(options);
   generateFiles(
     tree,
     joinPathFragments(__dirname, 'files/comment'),

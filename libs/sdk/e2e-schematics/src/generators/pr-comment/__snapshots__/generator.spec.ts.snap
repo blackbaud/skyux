@@ -1,5 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`pr-comment generator should generate files for another repository: dist/README.md 1`] = `
+"# Sky UX Pull Request Preview
+
+Preview build for [PR #456](https://github.com/blackbaud/skyux-icons/pull/456)
+
+[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/icons-456/storybook/)
+
+Component Storybooks:
+
+- [storybook-1](https://blackbaud.github.io/skyux-pr-preview/icons-456/storybooks/storybook-1/)
+- [storybook-2](https://blackbaud.github.io/skyux-pr-preview/icons-456/storybooks/storybook-2/)
+"
+`;
+
+exports[`pr-comment generator should generate files for another repository: dist/pr_comment.md 1`] = `
+"[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/icons-456/storybook/)
+
+Component Storybooks:
+
+- [storybook-1](https://blackbaud.github.io/skyux-pr-preview/icons-456/storybooks/storybook-1/)
+- [storybook-2](https://blackbaud.github.io/skyux-pr-preview/icons-456/storybooks/storybook-2/)
+"
+`;
+
 exports[`pr-comment generator should generate files with apps: dist/README.md 1`] = `
 "# Sky UX Pull Request Preview
 

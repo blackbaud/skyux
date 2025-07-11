@@ -1,6 +1,6 @@
 # Sky UX Pull Request Preview
 
-Preview build for [PR #<%=pr%>](https://github.com/blackbaud/skyux/pull/<%=pr%>)
+Preview build for [PR #<%=prNumber%>](https://github.com/<%=repository%>/pull/<%=prNumber%>)
 
 [Storybook preview](https://blackbaud.github.io/skyux-pr-preview/<%=pr%>/storybook/)
 
