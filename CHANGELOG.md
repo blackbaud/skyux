@@ -1,5 +1,18 @@
 # Changelog
 
+## [12.25.0](https://github.com/blackbaud/skyux/compare/12.24.0...12.25.0) (2025-07-10)
+
+
+### Features
+
+* **components/packages:** create schematic to convert definition list to description list ([#3570](https://github.com/blackbaud/skyux/issues/3570)) ([#3620](https://github.com/blackbaud/skyux/issues/3620)) ([82b0a83](https://github.com/blackbaud/skyux/commit/82b0a83694653f3888c135231e4e6e4b27d4659a))
+
+
+### Bug Fixes
+
+* **components/theme:** add box shadow to switch states ([#3613](https://github.com/blackbaud/skyux/issues/3613)) ([99d0f6a](https://github.com/blackbaud/skyux/commit/99d0f6a324c6980daf3d9b38a4cf3cf73819e7a8))
+* selected horizontal and vertical tabs use medium border in v2 modern ([#3617](https://github.com/blackbaud/skyux/issues/3617)) ([9af48bf](https://github.com/blackbaud/skyux/commit/9af48bfc6205f77c3edc44ab3b61d8e07122d957))
+
 ## [12.24.0](https://github.com/blackbaud/skyux/compare/12.23.0...12.24.0) (2025-07-10)
 
 
