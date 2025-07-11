@@ -30,14 +30,25 @@ describe('Theme brand', () => {
 
   it('should set styleUrl correctly when provided', () => {
     const styleUrl = 'https://example.com/styles.css';
-    const brand = new SkyThemeBrand('custom-brand', '1.0.0', undefined, styleUrl);
+    const brand = new SkyThemeBrand(
+      'custom-brand',
+      '1.0.0',
+      undefined,
+      styleUrl,
+    );
 
     expect(brand.styleUrl).toBe(styleUrl);
   });
 
   it('should set sriHash correctly when provided', () => {
     const sriHash = 'sha384-abc123def456';
-    const brand = new SkyThemeBrand('custom-brand', '1.0.0', undefined, undefined, sriHash);
+    const brand = new SkyThemeBrand(
+      'custom-brand',
+      '1.0.0',
+      undefined,
+      undefined,
+      sriHash,
+    );
 
     expect(brand.sriHash).toBe(sriHash);
   });
@@ -45,7 +56,13 @@ describe('Theme brand', () => {
   it('should set both styleUrl and sriHash when provided', () => {
     const styleUrl = 'https://example.com/styles.css';
     const sriHash = 'sha384-abc123def456';
-    const brand = new SkyThemeBrand('custom-brand', '1.0.0', undefined, styleUrl, sriHash);
+    const brand = new SkyThemeBrand(
+      'custom-brand',
+      '1.0.0',
+      undefined,
+      styleUrl,
+      sriHash,
+    );
 
     expect(brand.styleUrl).toBe(styleUrl);
     expect(brand.sriHash).toBe(sriHash);
@@ -55,7 +72,13 @@ describe('Theme brand', () => {
     const styleUrl = 'https://example.com/styles.css';
     const sriHash = 'sha384-abc123def456';
     const hostClass = 'custom-host-class';
-    const brand = new SkyThemeBrand('custom-brand', '1.0.0', hostClass, styleUrl, sriHash);
+    const brand = new SkyThemeBrand(
+      'custom-brand',
+      '1.0.0',
+      hostClass,
+      styleUrl,
+      sriHash,
+    );
 
     expect(brand.name).toBe('custom-brand');
     expect(brand.version).toBe('1.0.0');
@@ -144,7 +167,13 @@ describe('Theme brand', () => {
 
     it('should serialize brand with sriHash correctly', () => {
       const sriHash = 'sha384-abc123def456';
-      const brand = new SkyThemeBrand('custom', '2.0.0', undefined, undefined, sriHash);
+      const brand = new SkyThemeBrand(
+        'custom',
+        '2.0.0',
+        undefined,
+        undefined,
+        sriHash,
+      );
       const serialized = brand.serialize();
 
       expect(serialized).toEqual({
@@ -157,7 +186,13 @@ describe('Theme brand', () => {
     it('should serialize brand with all properties correctly', () => {
       const styleUrl = 'https://example.com/styles.css';
       const sriHash = 'sha384-abc123def456';
-      const brand = new SkyThemeBrand('custom', '2.0.0', 'custom-host-class', styleUrl, sriHash);
+      const brand = new SkyThemeBrand(
+        'custom',
+        '2.0.0',
+        'custom-host-class',
+        styleUrl,
+        sriHash,
+      );
       const serialized = brand.serialize();
 
       expect(serialized).toEqual({
