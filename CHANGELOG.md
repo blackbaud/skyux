@@ -1,5 +1,20 @@
 # Changelog
 
+## [12.26.0](https://github.com/blackbaud/skyux/compare/12.25.0...12.26.0) (2025-07-12)
+
+
+### Features
+
+* add input and input button elevations ([#3631](https://github.com/blackbaud/skyux/issues/3631)) ([330ed93](https://github.com/blackbaud/skyux/commit/330ed935b65a2e7be3c536acb717b84cac7f0fb6))
+* **components/icon:** upgrade icons library to version 9 ([#3635](https://github.com/blackbaud/skyux/issues/3635)) ([29f69b1](https://github.com/blackbaud/skyux/commit/29f69b1b4cd710108a1b070db13e94459fe9e73c))
+
+
+### Bug Fixes
+
+* **components/forms:** select inputs use updated icon in v2 modern ([#3626](https://github.com/blackbaud/skyux/issues/3626)) ([a00e523](https://github.com/blackbaud/skyux/commit/a00e52345c3d3b5087dcb9291a30b827a9d08bd4))
+* **components/tabs:** tabs use new tab color tokens ([#3636](https://github.com/blackbaud/skyux/issues/3636)) ([8d88a08](https://github.com/blackbaud/skyux/commit/8d88a087c38805e3fa76028507e3bce4120800e4))
+* **components/tabs:** vertical tabs use nav border color tokens ([#3623](https://github.com/blackbaud/skyux/issues/3623)) ([8e87704](https://github.com/blackbaud/skyux/commit/8e87704bf63fef2bddfa9d4f90f3ca5ae56935d0))
+
 ## [12.25.0](https://github.com/blackbaud/skyux/compare/12.24.0...12.25.0) (2025-07-10)
 
 
