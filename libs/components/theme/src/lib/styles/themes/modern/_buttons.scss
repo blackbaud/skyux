@@ -83,6 +83,26 @@
 
 @include compatMixins.sky-modern-overrides('.sky-btn-tab', false) {
   --sky-override-tab-box-shadow-focus-elevation: var(--sky-elevation-focus);
+  --sky-override-tab-selected-active-background-color: var(
+    --sky-color-background-tab-active
+  );
+  --sky-override-tab-selected-active-border-bottom: var(
+      --sky-border-width-selected-s
+    )
+    var(--sky-border-style-accent)
+    var(
+      --sky-override-tab-hover-border-bottom-color,
+      var(--sky-color-border-tab-active)
+    );
+  --sky-override-tab-selected-active-padding-bottom: calc(
+    var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
+        --sky-border-width-selected-s
+      )
+  );
+  --sky-override-tab-selected-focus-color: var(--sky-color-text-default);
+  --sky-override-tab-selected-focus-background-color: var(
+    --sky-color-background-tab-focus
+  );
   --sky-override-tab-selected-background-color: var(--modern-color-transparent);
   --sky-override-tab-selected-border-bottom-size: var(--modern-size-3);
   --sky-override-tab-hover-border-bottom-color: var(--modern-color-blue-50);
@@ -579,7 +599,7 @@
   }
 
   .sky-btn-tab {
-    background-color: var(--sky-color-background-nav-base);
+    background-color: var(--sky-color-background-tab-base);
     border: none;
     border-radius: 0;
     border-top-left-radius: var(
@@ -606,12 +626,12 @@
     &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(
         .sky-dropdown-button-type-tab
       ):not(:focus-visible) {
-      background-color: var(--sky-color-background-nav-hover);
+      background-color: var(--sky-color-background-tab-hover);
       border-bottom: var(--sky-border-width-selected-s)
         var(--sky-border-style-accent)
         var(
           --sky-override-tab-hover-border-bottom-color,
-          var(--sky-color-border-selected)
+          var(--sky-color-border-tab-hover)
         );
       color: var(--sky-color-text-default);
       padding-bottom: calc(
@@ -622,34 +642,66 @@
     }
 
     &:focus-visible {
-      background-color: var(--sky-color-background-nav-focus);
+      background-color: var(--sky-color-background-tab-focus);
       color: var(--sky-color-text-default);
       outline: none;
+
+      &.sky-btn-tab-selected {
+        background-color: var(
+          --sky-override-tab-selected-focus-background-color,
+          var(--sky-color-background-selected-soft)
+        );
+      }
     }
 
     &:focus-visible:not(:active) {
       color: var(--sky-color-text-default);
       outline: solid var(--sky-border-width-selected-m)
-        var(--sky-color-border-selected);
+        var(--sky-color-border-tab-focus);
       outline-offset: calc(var(--sky-border-width-selected-m) * -1);
       box-shadow: var(--sky-override-tab-box-shadow-focus-elevation, none);
     }
 
-    &:active {
+    &:active,
+    &:active:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(
+        :focus-visible
+      ) {
       color: var(--sky-color-text-default);
-      background-color: var(--sky-color-background-nav-active);
+      background-color: var(--sky-color-background-tab-active);
       border-bottom: var(--sky-border-width-selected-s)
         var(--sky-border-style-accent)
         var(
           --sky-override-tab-hover-border-bottom-color,
-          var(--sky-color-border-selected)
+          var(--sky-color-border-tab-active)
         );
       padding-bottom: calc(
         var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
-            --sky-override-tab-selected-border-bottom-size,
-            var(--sky-border-width-selected-s)
+            --sky-border-width-selected-s
           )
       );
+
+      &.sky-btn-tab-selected {
+        background-color: var(
+          --sky-override-tab-selected-active-background-color,
+          var(--sky-color-background-selected-soft)
+        );
+        border-bottom: var(
+          --sky-override-tab-selected-active-border-bottom,
+          var(
+              --sky-override-tab-selected-border-bottom-size,
+              var(--sky-border-width-selected-m)
+            )
+            var(--sky-border-style-accent) var(--sky-color-border-selected)
+        );
+        padding-bottom: var(
+          --sky-override-tab-selected-active-padding-bottom,
+          calc(
+            var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
+                --sky-border-width-selected-m
+              )
+          )
+        );
+      }
     }
 
     .sky-btn-tab-close {
@@ -659,7 +711,7 @@
     &.sky-btn-tab-disabled {
       background-color: var(
         --sky-override-tab-disabled-background-color,
-        var(--sky-color-background-nav-disabled)
+        var(--sky-color-background-tab-disabled)
       );
       color: var(--sky-color-text-deemphasized);
       font-style: var(--sky-font-style-deemphasized-style);
