@@ -33,7 +33,7 @@
 }
 
 @include mixins.sky-component('modern', '.sky-checkbox-hint-text') {
-  margin-top: var(--sky-space-gap-stacked_supplemental-s);
+  margin-top: var(--sky-space-gap-stacked_supplemental-xs);
 }
 
 @include mixins.sky-component('modern', '.sky-checkbox-form-margin') {
