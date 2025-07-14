@@ -14,6 +14,7 @@
   --sky-override-alert-padding: 0 var(--modern-size-10);
   --sky-override-alert-text-link-color: #212327cc;
   --sky-override-alert-text-vertical-padding: var(--modern-size-15);
+  --sky-override-alert-text-link-hover-color: var(--sky-color-text-default);
 }
 
 @include mixins.sky-component('modern', '.sky-alert') {
@@ -40,12 +41,15 @@
     ::ng-deep a {
       color: var(
         --sky-override-alert-text-link-color,
-        var(--sky-color-text-default)
+        var(--sky-color-text-action_contrast)
       );
       text-decoration: var(--sky-font-text_decoration-visible_link);
 
       &:hover {
-        color: var(--sky-color-text-default);
+        color: var(
+          --sky-override-alert-text-link-hover-color,
+          var(--sky-color-text-action_contrast)
+        );
       }
     }
   }
