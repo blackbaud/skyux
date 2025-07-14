@@ -94,11 +94,7 @@
   }
 
   li {
-    display: inline;
-
-    &:has(.sky-paging-btn:disabled) {
-      cursor: not-allowed;
-    }
+    display: inline-block;
   }
 
   // NOTE: Many rules such as the border radius, background color, and box shadow rules for this and the iterator buttons can be removed when support for default theme is dropped as many of those styles are specified by the borderless button class.
@@ -138,7 +134,9 @@
       --sky-override-paging-btn-line-height,
       var(--sky-font-line_height-body-m)
     );
-    cursor: pointer;
+    &:not(:disabled) {
+      cursor: pointer;
+    }
 
     &.sky-paging-current,
     &.sky-paging-current:disabled,
@@ -147,7 +145,6 @@
         --sky-override-paging-current-background-color,
         var(--sky-color-background-selected-soft)
       );
-      cursor: default;
       color: inherit;
       opacity: 1;
       border: var(--sky-override-paging-current-border);
