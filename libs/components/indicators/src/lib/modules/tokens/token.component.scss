@@ -131,7 +131,7 @@
     --sky-override-token-disabled-background-color,
     var(--sky-color-background-action-tertiary-disabled)
   );
-  cursor: default;
+  cursor: not-allowed;
   user-select: none;
 
   .sky-btn[disabled] {
