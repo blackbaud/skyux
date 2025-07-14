@@ -44,6 +44,10 @@
 @include compatMixins.sky-modern-overrides('.sky-vertical-tab') {
   --sky-override-vertical-tab-background-color-disabled: transparent;
   --sky-override-vertical-tab-background-color-selected: transparent;
+  --sky-override-vertical-tab-border-left-selected: var(
+      --sky-border-width-selected-l
+    )
+    solid var(--sky-color-border-selected);
   --sky-override-vertical-tab-border-left-active: var(--modern-size-4) solid
     var(--modern-color-blue-50);
   --sky-override-vertical-tab-border-left-hover: var(--modern-size-1) solid
@@ -62,6 +66,11 @@
     var(--modern-size-15) var(--modern-size-10);
   --sky-override-vertical-tab-padding: var(--modern-size-10)
     var(--modern-size-10) var(--modern-size-10) var(--modern-size-15);
+  --sky-override-vertical-tab-padding-left-selected: calc(
+    var(--sky-comp-tab-vertical-space-inset-left) - var(
+        --sky-border-width-selected-l
+      )
+  );
   --sky-override-vertical-tab-right-arrow-color: var(--modern-color-gray-20);
   --sky-override-vertical-tab-right-arrow-color-active: var(
     --modern-color-gray-20
@@ -136,7 +145,8 @@
     );
     border-left: var(
       --sky-override-vertical-tab-border-left-active,
-      var(--sky-border-width-selected-l) solid var(--sky-color-border-selected)
+      var(--sky-border-width-selected-l) solid
+        var(--sky-color-border-nav-active)
     );
     color: var(
       --sky-override-vertical-tab-active-font-color,
@@ -166,7 +176,7 @@
     );
     outline: var(
       --sky-override-vertical-tab-outline-focus,
-      var(--sky-border-width-selected-m) solid var(--sky-color-border-selected)
+      var(--sky-border-width-selected-m) solid var(--sky-color-border-nav-focus)
     );
     outline-offset: var(
       --sky-override-vertical-tab-outline-focus-offset,
@@ -204,7 +214,7 @@
     );
     border-left: var(
       --sky-override-vertical-tab-border-left-hover,
-      var(--sky-border-width-selected-s) solid var(--sky-color-border-selected)
+      var(--sky-border-width-selected-s) solid var(--sky-color-border-nav-hover)
     );
   }
 }
@@ -222,13 +232,13 @@
     --sky-override-vertical-tab-padding-left-selected,
     calc(
       var(--sky-comp-tab-vertical-space-inset-left) - var(
-          --sky-border-width-selected-l
+          --sky-border-width-selected-m
         )
     )
   );
   border-left: var(
     --sky-override-vertical-tab-border-left-selected,
-    var(--sky-border-width-selected-l) solid var(--sky-color-border-selected)
+    var(--sky-border-width-selected-m) solid var(--sky-color-border-selected)
   );
 
   .sky-vertical-tab-right-arrow {

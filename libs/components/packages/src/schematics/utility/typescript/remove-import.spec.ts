@@ -20,10 +20,12 @@ describe('remove-import', () => {
       ts.ScriptTarget.Latest,
       true,
     );
-    removeImport(tree, path, sourceFile, {
+    const recorder = tree.beginUpdate(path);
+    removeImport(recorder, sourceFile, {
       classNames: ['B'],
       moduleName: 'module',
     });
+    tree.commitUpdate(recorder);
     expect(tree.readText(path)).toBe(`import { A,  C } from 'module';`);
   });
 
@@ -37,10 +39,12 @@ describe('remove-import', () => {
       ts.ScriptTarget.Latest,
       true,
     );
-    removeImport(tree, path, sourceFile, {
+    const recorder = tree.beginUpdate(path);
+    removeImport(recorder, sourceFile, {
       classNames: ['A', 'B', 'C'],
       moduleName: 'module',
     });
+    tree.commitUpdate(recorder);
     expect(tree.readText(path)).toBe('');
   });
 });

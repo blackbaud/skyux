@@ -3,6 +3,7 @@
 
 @include compatMixins.sky-modern-overrides('select', false) {
   --sky-override-select-icon-size: var(--modern-size-15) var(--modern-size-30);
+  --sky-override-select-icon-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1IDEwIiB3aWR0aD0iNSIgaGVpZ2h0PSIxMCI+Cgk8c3R5bGU+CgkJdHNwYW4geyB3aGl0ZS1zcGFjZTpwcmUgfQoJCS5zaHAwIHsgZmlsbDogIzQ0NDQ0NCB9IAoJPC9zdHlsZT4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0xLjQxIDQuNjdMMi40OCAzLjE4TDMuNTQgNC42N0wxLjQxIDQuNjdMMS40MSA0LjY3WiIgLz4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0zLjU0IDUuMzNMMi40OCA2LjgyTDEuNDEgNS4zM0wzLjU0IDUuMzNMMy41NCA1LjMzWiIgLz4KPC9zdmc+);
 }
 
 @include compatMixins.sky-modern-overrides('.sky-error-label', false) {
@@ -38,11 +39,14 @@
 
   select {
     background: var(--sky-color-background-input-base)
-      url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1IDEwIiB3aWR0aD0iNSIgaGVpZ2h0PSIxMCI+Cgk8c3R5bGU+CgkJdHNwYW4geyB3aGl0ZS1zcGFjZTpwcmUgfQoJCS5zaHAwIHsgZmlsbDogIzQ0NDQ0NCB9IAoJPC9zdHlsZT4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0xLjQxIDQuNjdMMi40OCAzLjE4TDMuNTQgNC42N0wxLjQxIDQuNjdMMS40MSA0LjY3WiIgLz4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0zLjU0IDUuMzNMMi40OCA2LjgyTDEuNDEgNS4zM0wzLjU0IDUuMzNMMy41NCA1LjMzWiIgLz4KPC9zdmc+)
+      var(
+        --sky-override-select-icon-image,
+        url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCjxwYXRoIGQ9Ik0xMC41MzAzIDIuNzE5NjdDMTAuMjM3NCAyLjQyNjc4IDkuNzYyNTYgMi40MjY3OCA5LjQ2OTY3IDIuNzE5NjdMNS4yMTk2NyA2Ljk2OTY3QzQuOTI2NzggNy4yNjI1NiA0LjkyNjc4IDcuNzM3NDQgNS4yMTk2NyA4LjAzMDMzQzUuNTEyNTYgOC4zMjMyMiA1Ljk4NzQ0IDguMzIzMjIgNi4yODAzMyA4LjAzMDMzTDEwIDQuMzEwNjZMMTMuNzE5NyA4LjAzMDMzQzE0LjAxMjYgOC4zMjMyMiAxNC40ODc0IDguMzIzMjIgMTQuNzgwMyA4LjAzMDMzQzE1LjA3MzIgNy43Mzc0NCAxNS4wNzMyIDcuMjYyNTYgMTQuNzgwMyA2Ljk2OTY3TDEwLjUzMDMgMi43MTk2N1pNMTQuNzgwMyAxMy4wMzAzTDEwLjUzMDMgMTcuMjgwM0MxMC4yMzc0IDE3LjU3MzIgOS43NjI1NiAxNy41NzMyIDkuNDY5NjcgMTcuMjgwM0w1LjIxOTY3IDEzLjAzMDNDNC45MjY3OCAxMi43Mzc0IDQuOTI2NzggMTIuMjYyNiA1LjIxOTY3IDExLjk2OTdDNS41MTI1NiAxMS42NzY4IDUuOTg3NDQgMTEuNjc2OCA2LjI4MDMzIDExLjk2OTdMMTAgMTUuNjg5M0wxMy43MTk3IDExLjk2OTdDMTQuMDEyNiAxMS42NzY4IDE0LjQ4NzQgMTEuNjc2OCAxNC43ODAzIDExLjk2OTdDMTUuMDczMiAxMi4yNjI2IDE1LjA3MzIgMTIuNzM3NCAxNC43ODAzIDEzLjAzMDNaIiBmaWxsPSIjMmI2YmQ1Ii8+DQo8L3N2Zz4NCg==)
+      )
       no-repeat right 50%;
     background-size: var(
       --sky-override-select-icon-size,
-      var(--sky-size-icon-s) var(--sky-size-icon-xl)
+      var(--sky-input-box-button-width) var(--sky-size-icon-m)
     );
   }
 }
