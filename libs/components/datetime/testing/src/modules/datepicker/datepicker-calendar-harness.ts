@@ -65,7 +65,7 @@ export class SkyDatepickerCalendarHarness extends SkyComponentHarness {
   public async clickTitleButton(): Promise<void> {
     const button = await this.#getTitleButton();
 
-    if ((await button.getAttribute('disabled')) === 'true') {
+    if ((await button.getAttribute('disabled')) !== null) {
       throw new Error('Title button is disabled.');
     }
 
