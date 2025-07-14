@@ -362,8 +362,6 @@ describe('Inline form component', () => {
 
     expect(button1.disabled).toEqual(false);
     expect(button2.disabled).toEqual(false);
-    expect(button1).not.toHaveCssClass('sky-btn-disabled');
-    expect(button2).not.toHaveCssClass('sky-btn-disabled');
 
     component.config = {
       buttonLayout: SkyInlineFormButtonLayout.Custom,
@@ -387,8 +385,6 @@ describe('Inline form component', () => {
 
     expect(button1.disabled).toEqual(true);
     expect(button2.disabled).toEqual(false);
-    expect(button1).toHaveCssClass('sky-btn-disabled');
-    expect(button2).not.toHaveCssClass('sky-btn-disabled');
   }));
 
   it('should pass accessibility', async () => {

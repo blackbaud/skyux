@@ -22,7 +22,7 @@
         class="sky-btn sky-btn-default"
         id="btn-disable-lookup"
         type="button"
-        [ngClass]="{ 'sky-btn-disabled': disabled }"
+        [disabled]="disabled"
         (click)="disableLookup()"
       >
         Disable lookup
@@ -78,7 +78,7 @@
       class="sky-btn sky-btn-default"
       id="btn-toggle-select-mode"
       type="button"
-      [ngClass]="{ 'sky-btn-disabled': disabled }"
+      [disabled]="disabled"
       (click)="toggleSelectMode()"
     >
       Toggle select mode
@@ -87,7 +87,7 @@
       class="sky-btn sky-btn-default"
       id="btn-reset-value"
       type="button"
-      [ngClass]="{ 'sky-btn-disabled': disabled }"
+      [disabled]="disabled"
       (click)="onResetValueClick()"
     >
       Reset value

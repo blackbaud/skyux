@@ -955,7 +955,7 @@ describe('datepicker', () => {
         clickTrigger(fixture);
 
         const dateButtonEl = getCalendarDayButton(30, fixture);
-        expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
+        expect(dateButtonEl?.disabled).toBeTrue();
       }));
 
       it('should pass min date to calendar', fakeAsync(() => {
@@ -966,7 +966,7 @@ describe('datepicker', () => {
         clickTrigger(fixture);
 
         const dateButtonEl = getCalendarDayButton(1, fixture);
-        expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
+        expect(dateButtonEl?.disabled).toBeTrue();
       }));
 
       it('should pass starting day to calendar', fakeAsync(() => {
@@ -1738,7 +1738,7 @@ describe('datepicker', () => {
         clickTrigger(fixture);
 
         const dateButtonEl = getCalendarDayButton(30, fixture);
-        expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
+        expect(dateButtonEl?.disabled).toBeTrue();
       }));
 
       it('should pass min date to calendar', fakeAsync(() => {
@@ -1750,7 +1750,7 @@ describe('datepicker', () => {
         clickTrigger(fixture);
 
         const dateButtonEl = getCalendarDayButton(1, fixture);
-        expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
+        expect(dateButtonEl?.disabled).toBeTrue();
       }));
 
       it('should pass starting day to calendar', fakeAsync(() => {

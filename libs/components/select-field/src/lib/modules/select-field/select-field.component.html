@@ -46,7 +46,7 @@
         singleSelectOpenButtonTitle ||
         ('skyux_select_field_single_select_open_button_title' | skyLibResources)
       "
-      [ngClass]="{ 'sky-btn-disabled': disabled }"
+      [disabled]="disabled"
       (click)="openPicker()"
       (keydown.enter)="
         openPicker(); $event.preventDefault(); $event.stopPropagation()

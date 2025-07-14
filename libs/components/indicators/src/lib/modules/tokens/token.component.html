@@ -1,8 +1,8 @@
 <div
   class="sky-token sky-btn sky-btn-default"
+  [attr.disabled]="disabled ? 'true' : null"
   [attr.role]="role"
   [ngClass]="{
-    'sky-btn-disabled': disabled,
     'sky-token-disabled': disabled,
     'sky-token-dismissible': dismissible,
     'sky-token-active': tokenActive && !closeActive,
@@ -24,9 +24,6 @@
       skyId
       [attr.tabindex]="tabIndex"
       [disabled]="disabled"
-      [ngClass]="{
-        'sky-btn-disabled': disabled
-      }"
     >
       <ng-content />
     </button>
@@ -51,7 +48,6 @@
         "
         [disabled]="disabled"
         [ngClass]="{
-          'sky-btn-disabled': disabled,
           'sky-token-btn-close-active': closeActive
         }"
         (click)="dismissToken($event)"

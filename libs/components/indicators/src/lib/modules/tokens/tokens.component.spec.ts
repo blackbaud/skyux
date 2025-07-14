@@ -459,7 +459,7 @@ describe('Tokens component', () => {
       expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('Red removed');
     });
 
-    it('should add a sky-btn-disabled class if disabled', async () => {
+    it('should add a disabled attribute if disabled', async () => {
       component.disabled = true;
       fixture.detectChanges();
       component.publishTokens();
@@ -476,9 +476,7 @@ describe('Tokens component', () => {
       fixture.detectChanges();
 
       tokenElements = getTokenElements();
-      expect(
-        tokenElements.item(0).querySelector('.sky-btn-disabled'),
-      ).not.toBeNull();
+      expect(tokenElements.item(0).querySelector('[disabled]')).not.toBeNull();
       expect(component.tokensComponent?.tokens.length).toEqual(3);
 
       await expectAsync(fixture.nativeElement).toBeAccessible();

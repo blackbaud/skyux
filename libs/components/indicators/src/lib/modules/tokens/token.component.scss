@@ -126,7 +126,7 @@
   padding: var(--sky-override-token-button-padding, 0);
 }
 
-.sky-btn-disabled {
+.sky-token[disabled] {
   background-color: var(
     --sky-override-token-disabled-background-color,
     var(--sky-color-background-action-tertiary-disabled)
@@ -134,7 +134,7 @@
   cursor: default;
   user-select: none;
 
-  .sky-btn-disabled {
+  .sky-btn[disabled] {
     opacity: 1;
   }
 
