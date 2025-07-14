@@ -42,11 +42,11 @@
       [attr.tabindex]="disabled ? false : 0"
       [attr.aria-label]="ariaLabel"
       [attr.aria-labelledby]="ariaLabelledBy"
+      [attr.disabled]="disabled"
       [attr.title]="
         singleSelectOpenButtonTitle ||
         ('skyux_select_field_single_select_open_button_title' | skyLibResources)
       "
-      [disabled]="disabled"
       (click)="openPicker()"
       (keydown.enter)="
         openPicker(); $event.preventDefault(); $event.stopPropagation()
