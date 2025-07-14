@@ -29,6 +29,7 @@
   --sky-override-search-applied-border-width: 2px;
   --sky-override-search-background-color: var(--modern-color-transparent);
   --sky-override-search-button-height-width: 40px;
+  --sky-override-search-placeholder-color: var(--sky-color-text-default);
   --sky-override-search-mobile-button-horizontal-padding: 15px;
   --sky-override-search-mobile-button-vertical-padding: 9px;
   --sky-override-search-toolbar-icon-color: var(--sky-color-icon-default);
@@ -310,7 +311,10 @@ sky-search {
 
             &::placeholder {
               font-style: var(--sky-font-style-body-s);
-              color: var(--sky-color-text-default);
+              color: var(
+                --sky-override-search-placeholder-color,
+                var(--sky-color-text-deemphasized)
+              );
               font-weight: var(--bb-font-weight-regular);
             }
 
