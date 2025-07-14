@@ -202,7 +202,7 @@
       );
     }
 
-    &.sky-btn.sky-datepicker-btn-date.sky-btn-disabled {
+    &.sky-btn.sky-datepicker-btn-date:disabled {
       background-color: var(
         --sky-override-datepicker-button-background-color-disabled,
         var(--sky-color-background-action-tertiary-disabled)

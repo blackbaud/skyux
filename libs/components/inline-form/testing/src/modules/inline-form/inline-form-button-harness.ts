@@ -64,6 +64,6 @@ export class SkyInlineFormButtonHarness extends ComponentHarness {
    * Whether the button is disabled.
    */
   public async isDisabled(): Promise<boolean> {
-    return await (await this.host()).hasClass('sky-btn-disabled');
+    return (await (await this.host()).getAttribute('disabled')) === 'true';
   }
 }

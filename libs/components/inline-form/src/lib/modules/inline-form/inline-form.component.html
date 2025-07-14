@@ -17,7 +17,6 @@
               class="sky-btn {{ 'sky-btn-' + button.styleType }}"
               type="button"
               [disabled]="button.disabled ? true : null"
-              [ngClass]="{ 'sky-btn-disabled': button.disabled }"
               (click)="closeInlineForm(button)"
             >
               {{ button.text }}

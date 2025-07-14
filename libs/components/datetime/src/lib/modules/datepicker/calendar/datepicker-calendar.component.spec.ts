@@ -113,7 +113,7 @@ describe('datepicker calendar', () => {
       .querySelectorAll('tbody tr td .sky-btn-default')
       .item(index) as HTMLButtonElement;
 
-    expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
+    expect(dateButtonEl.disabled).toBeTrue();
 
     dateButtonEl.click();
     fixture.detectChanges();

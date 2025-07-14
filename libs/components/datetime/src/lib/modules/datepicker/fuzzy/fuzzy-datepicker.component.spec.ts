@@ -996,7 +996,7 @@ describe('fuzzy datepicker input', () => {
         clickDatepickerButton(fixture);
 
         let dateButtonEl = getCalendarDayButton(25, fixture);
-        expect(dateButtonEl).not.toHaveCssClass('sky-btn-disabled');
+        expect(dateButtonEl?.disabled).toBeFalse();
 
         clickDatepickerButton(fixture);
         detectChanges(fixture);
@@ -1007,7 +1007,7 @@ describe('fuzzy datepicker input', () => {
         clickDatepickerButton(fixture);
 
         dateButtonEl = getCalendarDayButton(25, fixture);
-        expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
+        expect(dateButtonEl?.disabled).toBeTrue();
 
         jasmine.clock().uninstall();
         flush();
@@ -1114,7 +1114,7 @@ describe('fuzzy datepicker input', () => {
         clickDatepickerButton(fixture);
 
         const dateButtonEl = getCalendarDayButton(27, fixture);
-        expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
+        expect(dateButtonEl?.disabled).toBeTrue();
 
         flush();
       }));
@@ -1127,7 +1127,7 @@ describe('fuzzy datepicker input', () => {
         clickDatepickerButton(fixture);
 
         const dateButtonEl = getCalendarDayButton(3, fixture);
-        expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
+        expect(dateButtonEl?.disabled).toBeTrue();
 
         flush();
       }));
@@ -1140,7 +1140,7 @@ describe('fuzzy datepicker input', () => {
         clickDatepickerButton(fixture);
 
         const dateButtonEl = getCalendarDayButton(30, fixture);
-        expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
+        expect(dateButtonEl?.disabled).toBeTrue();
 
         flush();
       }));
@@ -1153,7 +1153,7 @@ describe('fuzzy datepicker input', () => {
         clickDatepickerButton(fixture);
 
         const dateButtonEl = getCalendarDayButton(1, fixture);
-        expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
+        expect(dateButtonEl?.disabled).toBeTrue();
 
         flush();
       }));
@@ -1880,7 +1880,7 @@ describe('fuzzy datepicker input', () => {
         clickDatepickerButton(fixture);
 
         const dateButtonEl = getCalendarDayButton(27, fixture);
-        expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
+        expect(dateButtonEl?.disabled).toBeTrue();
 
         flush();
       }));
@@ -1894,7 +1894,7 @@ describe('fuzzy datepicker input', () => {
         clickDatepickerButton(fixture);
 
         const dateButtonEl = getCalendarDayButton(1, fixture);
-        expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
+        expect(dateButtonEl?.disabled).toBeTrue();
 
         flush();
       }));
@@ -1908,7 +1908,7 @@ describe('fuzzy datepicker input', () => {
         clickDatepickerButton(fixture);
 
         const dateButtonEl = getCalendarDayButton(30, fixture);
-        expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
+        expect(dateButtonEl?.disabled).toBeTrue();
 
         flush();
       }));
@@ -1922,7 +1922,7 @@ describe('fuzzy datepicker input', () => {
         clickDatepickerButton(fixture);
 
         const dateButtonEl = getCalendarDayButton(1, fixture);
-        expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
+        expect(dateButtonEl?.disabled).toBeTrue();
 
         flush();
       }));

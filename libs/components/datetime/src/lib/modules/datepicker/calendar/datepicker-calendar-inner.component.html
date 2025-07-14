@@ -18,9 +18,6 @@
           class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-calendar-title"
           [id]="datepickerId + '-title'"
           [disabled]="datepickerMode === maxMode"
-          [ngClass]="{
-            'sky-btn-disabled': datepickerMode === maxMode
-          }"
           (click)="toggleModeCalendar($event)"
           >{{ title }}</button
         >
