@@ -1,5 +1,24 @@
 # Changelog
 
+## [12.26.0](https://github.com/blackbaud/skyux/compare/12.25.0...12.26.0) (2025-07-15)
+
+
+### Features
+
+* add input and input button elevations ([#3631](https://github.com/blackbaud/skyux/issues/3631)) ([330ed93](https://github.com/blackbaud/skyux/commit/330ed935b65a2e7be3c536acb717b84cac7f0fb6))
+* **components/icon:** upgrade icons library to version 9 ([#3635](https://github.com/blackbaud/skyux/issues/3635)) ([29f69b1](https://github.com/blackbaud/skyux/commit/29f69b1b4cd710108a1b070db13e94459fe9e73c))
+* **components/theme:** add brand registry with URL and SRI hash ([#3633](https://github.com/blackbaud/skyux/issues/3633)) ([58fcbc7](https://github.com/blackbaud/skyux/commit/58fcbc7754e24c77e0bcab3f5d9e18713f84003d))
+* update link highlight token ([#3584](https://github.com/blackbaud/skyux/issues/3584)) ([e407636](https://github.com/blackbaud/skyux/commit/e407636085444041df809277bf51254181c0175c))
+
+
+### Bug Fixes
+
+* **components/flyout:** flyout header resize button uses `ew-resize` cursor ([#3644](https://github.com/blackbaud/skyux/issues/3644)) ([3bf51a3](https://github.com/blackbaud/skyux/commit/3bf51a36088611c8ff39c3bce4cba0e9f33e93ea))
+* **components/forms:** select inputs use updated icon in v2 modern ([#3626](https://github.com/blackbaud/skyux/issues/3626)) ([a00e523](https://github.com/blackbaud/skyux/commit/a00e52345c3d3b5087dcb9291a30b827a9d08bd4))
+* **components/forms:** standalone checkboxes and radios use less hint text space in v2 modern ([#3645](https://github.com/blackbaud/skyux/issues/3645)) ([59aece2](https://github.com/blackbaud/skyux/commit/59aece2f0a38875a235bc5617867811ec60fa3f0))
+* **components/tabs:** tabs use new tab color tokens ([#3636](https://github.com/blackbaud/skyux/issues/3636)) ([8d88a08](https://github.com/blackbaud/skyux/commit/8d88a087c38805e3fa76028507e3bce4120800e4))
+* **components/tabs:** vertical tabs use nav border color tokens ([#3623](https://github.com/blackbaud/skyux/issues/3623)) ([8e87704](https://github.com/blackbaud/skyux/commit/8e87704bf63fef2bddfa9d4f90f3ca5ae56935d0))
+
 ## [12.25.0](https://github.com/blackbaud/skyux/compare/12.24.0...12.25.0) (2025-07-10)
 
 
