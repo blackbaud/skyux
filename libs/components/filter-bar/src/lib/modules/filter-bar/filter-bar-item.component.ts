@@ -8,6 +8,7 @@ import { SkyFilterBarFilterModalContext } from './models/filter-bar-filter-modal
 import { SkyFilterBarFilterValue } from './models/filter-bar-filter-value';
 
 /**
+ * The component that governs the filters displayed on the filter bar.
  * @internal
  */
 @Component({
