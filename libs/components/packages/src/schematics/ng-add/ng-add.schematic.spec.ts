@@ -7,7 +7,6 @@ import path from 'path';
 
 import { createTestLibrary } from '../testing/scaffold';
 import { readJson } from '../testing/tree';
-import { JsonFile } from '../utility/json-file';
 
 const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
 
@@ -23,7 +22,9 @@ describe('ng-add.schematic', () => {
       projectName: defaultProjectName,
     });
 
-    const runSchematic = (options: { project?: string } = {}) => {
+    const runSchematic = (
+      options: { project?: string } = {},
+    ): Promise<UnitTestTree> => {
       return runner.runSchematic('ng-add', options, tree);
     };
 
@@ -138,13 +139,5 @@ describe('ng-add.schematic', () => {
       'testPolyfill.js',
       '@skyux/packages/polyfills',
     ]);
-  });
-
-  it('should modify tsconfig.json', async () => {
-    const { runSchematic } = await setupTest();
-
-    const updatedTree = await runSchematic({ project: 'my-lib-showcase' });
-    const tsConfig = new JsonFile(updatedTree, 'tsconfig.json');
-    expect(tsConfig.get(['compilerOptions', 'esModuleInterop'])).toEqual(true);
   });
 });

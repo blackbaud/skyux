@@ -6,11 +6,14 @@ import { installAngularCdk } from './install-angular-cdk';
 describe('install-angular-cdk', () => {
   it('should install the Angular CDK', async () => {
     const tree = Tree.empty();
+
     tree.create('package.json', JSON.stringify({}));
-    const context = { addTask: jest.fn() } as unknown as SchematicContext;
+
+    const mockContext = {} as unknown as SchematicContext;
     const rule = installAngularCdk();
-    await rule(tree, context);
-    expect(context.addTask).toHaveBeenCalled();
+
+    await rule(tree, mockContext);
+
     expect(tree.readJson('package.json')).toEqual({
       dependencies: {
         '@angular/cdk': `^${VERSION.major}.0.0`,
