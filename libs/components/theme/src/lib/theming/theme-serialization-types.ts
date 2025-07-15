@@ -27,6 +27,8 @@ export interface SkyThemeBrandData {
   name: string;
   version: string;
   hostClass?: string;
+  styleUrl?: string;
+  sriHash?: string;
 }
 
 /**
