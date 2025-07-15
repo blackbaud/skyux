@@ -12,6 +12,10 @@ describe('Date picker', () => {
       });
 
       it('should show day picker', () => {
+        cy.get('.sky-datepicker-calendar-table-container').blur({
+          force: true,
+        });
+
         cy.get('#screenshot-datepicker-calendar').skyVisualTest(
           `datepicker-day-picker-${theme}`,
           {
@@ -25,6 +29,10 @@ describe('Date picker', () => {
         cy.get(
           '#screenshot-datepicker-calendar .sky-datepicker-calendar-title',
         ).click();
+
+        cy.get(
+          '#screenshot-datepicker-calendar .sky-datepicker-calendar-title',
+        ).blur();
 
         cy.get('#screenshot-datepicker-calendar .sky-datepicker-calendar-title')
           .invoke('text')
