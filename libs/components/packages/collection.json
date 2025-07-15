@@ -21,11 +21,6 @@
       "factory": "./src/schematics/ng-generate/convert-definition-list-to-description-list/convert-definition-list-to-description-list.schematic",
       "schema": "./src/schematics/ng-generate/convert-definition-list-to-description-list/schema.json"
     },
-    "polyfills": {
-      "description": "Add @skyux/packages/polyfills to project config.",
-      "factory": "./src/schematics/ng-generate/polyfills/polyfills.schematic",
-      "schema": "./src/schematics/ng-generate/polyfills/schema.json"
-    },
     "remove-compat-stylesheets": {
       "description": "Remove SKY UX compatibility stylesheets.",
       "factory": "./src/schematics/ng-generate/remove-compat-stylesheets/remove-compat-stylesheets.schematic",

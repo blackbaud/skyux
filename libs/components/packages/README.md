@@ -1,10 +1,10 @@
 # @skyux/packages
 
-This package includes Angular CLI schematics to setup SKY UX for an existing project.
+This package provides Angular CLI schematics to set up SKY UX in an existing project.
 
-## Install
+## Installation
 
-Run the following command to install necessary SKY UX packages. If your Angular CLI workspace only has one project, this command will also configure the project with our polyfills and stylesheets.
+Run the following command to install the required SKY UX packages. For workspaces with a single project, this command will automatically configure polyfills and stylesheets.
 
 ```
 ng add @skyux/packages
@@ -12,7 +12,7 @@ ng add @skyux/packages
 
 ### Configure SKY UX for a specific project
 
-If your Angular CLI workspace includes more than one project, you'll need to run the following command for each project that wishes to use SKY UX.
+For Angular CLI workspaces with multiple projects, run the following command for each project that will use SKY UX:
 
 ```
 ng generate @skyux/packages:add-skyux-to-project --project my-app
