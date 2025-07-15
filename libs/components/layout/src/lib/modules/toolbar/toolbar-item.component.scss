@@ -25,6 +25,13 @@
       &:not(:hover):not(:active):not(:focus) {
         box-shadow: inset 0 0 0 var(--sky-border-width-action-base) transparent;
       }
+
+      sky-icon {
+        color: var(
+          --sky-override-toolbar-item-text-color,
+          var(--sky-color-icon-action)
+        );
+      }
     }
   }
 }
@@ -41,18 +48,5 @@
   ::ng-deep .sky-btn {
     padding-left: var(--sky-comp-button-toolbar-space-inset-left);
     padding-right: var(--sky-comp-button-toolbar-space-inset-right);
-
-    &.sky-btn-default:not(:disabled):not(
-        .sky-search-btn,
-        .sky-search-btn-open,
-        .sky-filter-bar-btn
-      ) {
-      sky-icon {
-        color: var(
-          --sky-override-toolbar-item-text-color,
-          var(--sky-color-icon-action)
-        );
-      }
-    }
   }
 }
