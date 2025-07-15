@@ -19,6 +19,10 @@ const routes: Routes = [
     loadChildren: () => import('./box/box.module').then((m) => m.BoxModule),
   },
   {
+    path: 'card',
+    loadChildren: () => import('./card/card.module').then((m) => m.CardModule),
+  },
+  {
     path: 'description-list',
     loadChildren: () =>
       import('./description-list/description-list.module').then(
