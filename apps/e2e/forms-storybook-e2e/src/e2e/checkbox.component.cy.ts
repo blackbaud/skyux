@@ -13,6 +13,7 @@ describe('forms-storybook - checkbox', () => {
         cy.skyReady('app-checkbox');
         cy.get('#touched-required-checkbox .sky-switch').click();
         cy.get('#touched-required-checkbox .sky-switch').click();
+        cy.get('#touched-required-checkbox input').blur();
         cy.get(
           '#touched-required-checkbox sky-form-error .sky-status-indicator-message',
         )
@@ -20,6 +21,7 @@ describe('forms-storybook - checkbox', () => {
           .should('be.visible');
         cy.get('#touched-easy-mode-checkbox .sky-switch').click();
         cy.get('#touched-easy-mode-checkbox .sky-switch').click();
+        cy.get('#touched-easy-mode-checkbox input').blur();
         cy.get(
           '#touched-easy-mode-checkbox sky-form-error .sky-status-indicator-message',
         )
