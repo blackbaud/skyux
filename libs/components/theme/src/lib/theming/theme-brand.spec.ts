@@ -28,6 +28,65 @@ describe('Theme brand', () => {
     expect(brand.version).toBe('1.0.0');
   });
 
+  it('should set styleUrl correctly when provided', () => {
+    const styleUrl = 'https://example.com/styles.css';
+    const brand = new SkyThemeBrand(
+      'custom-brand',
+      '1.0.0',
+      undefined,
+      styleUrl,
+    );
+
+    expect(brand.styleUrl).toBe(styleUrl);
+  });
+
+  it('should set sriHash correctly when provided', () => {
+    const sriHash = 'sha384-abc123def456';
+    const brand = new SkyThemeBrand(
+      'custom-brand',
+      '1.0.0',
+      undefined,
+      undefined,
+      sriHash,
+    );
+
+    expect(brand.sriHash).toBe(sriHash);
+  });
+
+  it('should set both styleUrl and sriHash when provided', () => {
+    const styleUrl = 'https://example.com/styles.css';
+    const sriHash = 'sha384-abc123def456';
+    const brand = new SkyThemeBrand(
+      'custom-brand',
+      '1.0.0',
+      undefined,
+      styleUrl,
+      sriHash,
+    );
+
+    expect(brand.styleUrl).toBe(styleUrl);
+    expect(brand.sriHash).toBe(sriHash);
+  });
+
+  it('should set all parameters correctly when provided', () => {
+    const styleUrl = 'https://example.com/styles.css';
+    const sriHash = 'sha384-abc123def456';
+    const hostClass = 'custom-host-class';
+    const brand = new SkyThemeBrand(
+      'custom-brand',
+      '1.0.0',
+      hostClass,
+      styleUrl,
+      sriHash,
+    );
+
+    expect(brand.name).toBe('custom-brand');
+    expect(brand.version).toBe('1.0.0');
+    expect(brand.hostClass).toBe(hostClass);
+    expect(brand.styleUrl).toBe(styleUrl);
+    expect(brand.sriHash).toBe(sriHash);
+  });
+
   it('should set the version correctly when a version with an appropriate suffix is given', () => {
     const suffixes = ['alpha.1', 'beta.1', 'rc.1'];
 
@@ -94,6 +153,57 @@ describe('Theme brand', () => {
       });
     });
 
+    it('should serialize brand with styleUrl correctly', () => {
+      const styleUrl = 'https://example.com/styles.css';
+      const brand = new SkyThemeBrand('custom', '2.0.0', undefined, styleUrl);
+      const serialized = brand.serialize();
+
+      expect(serialized).toEqual({
+        name: 'custom',
+        version: '2.0.0',
+        styleUrl,
+      });
+    });
+
+    it('should serialize brand with sriHash correctly', () => {
+      const sriHash = 'sha384-abc123def456';
+      const brand = new SkyThemeBrand(
+        'custom',
+        '2.0.0',
+        undefined,
+        undefined,
+        sriHash,
+      );
+      const serialized = brand.serialize();
+
+      expect(serialized).toEqual({
+        name: 'custom',
+        version: '2.0.0',
+        sriHash,
+      });
+    });
+
+    it('should serialize brand with all properties correctly', () => {
+      const styleUrl = 'https://example.com/styles.css';
+      const sriHash = 'sha384-abc123def456';
+      const brand = new SkyThemeBrand(
+        'custom',
+        '2.0.0',
+        'custom-host-class',
+        styleUrl,
+        sriHash,
+      );
+      const serialized = brand.serialize();
+
+      expect(serialized).toEqual({
+        name: 'custom',
+        version: '2.0.0',
+        hostClass: 'custom-host-class',
+        styleUrl,
+        sriHash,
+      });
+    });
+
     it('should deserialize brand correctly', () => {
       const brand = SkyThemeBrand.deserialize({
         name: 'rainbow',
@@ -115,6 +225,52 @@ describe('Theme brand', () => {
       expect(brand.name).toBe('custom');
       expect(brand.version).toBe('2.0.0');
       expect(brand.hostClass).toBe('custom-host-class');
+    });
+
+    it('should deserialize brand with styleUrl correctly', () => {
+      const styleUrl = 'https://example.com/styles.css';
+      const brand = SkyThemeBrand.deserialize({
+        name: 'custom',
+        version: '2.0.0',
+        styleUrl,
+      });
+
+      expect(brand.name).toBe('custom');
+      expect(brand.version).toBe('2.0.0');
+      expect(brand.hostClass).toBe('sky-theme-brand-custom');
+      expect(brand.styleUrl).toBe(styleUrl);
+    });
+
+    it('should deserialize brand with sriHash correctly', () => {
+      const sriHash = 'sha384-abc123def456';
+      const brand = SkyThemeBrand.deserialize({
+        name: 'custom',
+        version: '2.0.0',
+        sriHash,
+      });
+
+      expect(brand.name).toBe('custom');
+      expect(brand.version).toBe('2.0.0');
+      expect(brand.hostClass).toBe('sky-theme-brand-custom');
+      expect(brand.sriHash).toBe(sriHash);
+    });
+
+    it('should deserialize brand with all properties correctly', () => {
+      const styleUrl = 'https://example.com/styles.css';
+      const sriHash = 'sha384-abc123def456';
+      const brand = SkyThemeBrand.deserialize({
+        name: 'custom',
+        version: '2.0.0',
+        hostClass: 'custom-host-class',
+        styleUrl,
+        sriHash,
+      });
+
+      expect(brand.name).toBe('custom');
+      expect(brand.version).toBe('2.0.0');
+      expect(brand.hostClass).toBe('custom-host-class');
+      expect(brand.styleUrl).toBe(styleUrl);
+      expect(brand.sriHash).toBe(sriHash);
     });
   });
 });
