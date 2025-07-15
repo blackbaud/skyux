@@ -1,0 +1,26 @@
+<div class="sky-padding-even-large">
+  @for (card of cardOptions; track card) {
+    <sky-card
+      [selectable]="card.selectable"
+      [size]="card.size"
+      [selected]="card.selected"
+    >
+      @if (card.title) {
+        <sky-card-title> {{ card.title }}</sky-card-title>
+      }
+      @if (card.showContent) {
+        <sky-card-content>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quis
+          velit semper, consectetur diam eget, laoreet lacus. Maecenas in
+          ullamcorper risus. Quisque sodales, sapien id malesuada ultrices,
+          neque ligula facilisis ligula.
+        </sky-card-content>
+      }
+      @if (card.showActions) {
+        <sky-card-actions>
+          <button class="sky-btn sky-btn-default" type="button">Action</button>
+        </sky-card-actions>
+      }
+    </sky-card>
+  }
+</div>
