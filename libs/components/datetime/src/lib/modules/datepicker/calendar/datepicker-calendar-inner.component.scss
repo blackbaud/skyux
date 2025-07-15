@@ -374,10 +374,10 @@ sky-monthpicker {
   .sky-btn.sky-btn-default {
     padding: var(
       --sky-override-datepicker-month-year-button-padding,
-      var(--sky-comp-button-borderless-space-inset-top)
-        var(--sky-comp-button-borderless-space-inset-right)
-        var(--sky-comp-button-borderless-space-inset-bottom)
-        var(--sky-comp-button-borderless-space-inset-left)
+      var(--sky-comp-datepicker-m_y_button-space-inset-top)
+        var(--sky-comp-datepicker-m_y_button-space-inset-right)
+        var(--sky-comp-datepicker-m_y_button-space-inset-bottom)
+        var(--sky-comp-datepicker-m_y_button-space-inset-left)
     );
   }
 }
