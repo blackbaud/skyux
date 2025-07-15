@@ -29,10 +29,9 @@
   --sky-override-search-applied-border-width: 2px;
   --sky-override-search-background-color: var(--modern-color-transparent);
   --sky-override-search-button-height-width: 40px;
+  --sky-override-search-placeholder-color: var(--sky-color-text-default);
   --sky-override-search-mobile-button-horizontal-padding: 15px;
   --sky-override-search-mobile-button-vertical-padding: 9px;
-  --sky-override-search-toolbar-icon-color: var(--sky-color-icon-default);
-  --sky-override-search-toolbar-item-text-color: var(--sky-color-text-default);
 }
 
 sky-search {
@@ -310,7 +309,10 @@ sky-search {
 
             &::placeholder {
               font-style: var(--sky-font-style-body-s);
-              color: var(--sky-color-text-default);
+              color: var(
+                --sky-override-search-placeholder-color,
+                var(--sky-color-text-deemphasized)
+              );
               font-weight: var(--bb-font-weight-regular);
             }
 
@@ -330,22 +332,5 @@ sky-search {
     sky-input-box {
     --sky-background-color-input-box-group: transparent;
     --sky-background-color-input-box-group-focused: transparent;
-
-    .sky-input-group-icon .sky-icon {
-      color: var(
-        --sky-override-search-toolbar-icon-color,
-        var(--sky-color-icon-selected)
-      );
-    }
-
-    .sky-input-box-group
-      .sky-form-group
-      .sky-input-box-form-group-inner
-      input::placeholder {
-      color: var(
-        --sky-override-search-toolbar-item-text-color,
-        var(--sky-color-text-selected)
-      );
-    }
   }
 }
