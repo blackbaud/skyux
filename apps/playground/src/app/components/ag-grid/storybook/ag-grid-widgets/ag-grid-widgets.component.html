@@ -1,0 +1,34 @@
+<h1>AG Grid Widgets</h1>
+
+<ng-template #gridTemplate>
+  <div id="examples">
+    @for (dataSet of dataSets; track dataSet) {
+      <sky-ag-grid-wrapper
+        [attr.id]="dataSet.id"
+        [ngStyle]="{ gridArea: dataSet.id }"
+        [compact]="compact"
+      >
+        <ag-grid-angular
+          class="sky-ag-grid-editable"
+          [gridOptions]="gridOptions[dataSet.id]"
+        />
+      </sky-ag-grid-wrapper>
+    }
+  </div>
+</ng-template>
+
+@if (isActive$ | async) {
+  <ng-container *ngTemplateOutlet="gridTemplate" />
+} @else {
+  @if (skyTheme) {
+    <div [skyTheme]="skyTheme">
+      <ng-container *ngTemplateOutlet="gridTemplate" />
+    </div>
+  }
+}
+
+<br />
+
+@if (ready | async) {
+  <span id="ready"></span>
+}

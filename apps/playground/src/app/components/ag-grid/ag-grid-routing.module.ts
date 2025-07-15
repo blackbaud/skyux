@@ -50,6 +50,11 @@ const routes: Routes = [
         (m) => m.ReadonlyGridModule,
       ),
   },
+  {
+    path: 'ag-grid',
+    loadChildren: () =>
+      import('./storybook/ag-grid-widgets/ag-grid-widgets-routes'),
+  },
 ];
 
 @NgModule({
