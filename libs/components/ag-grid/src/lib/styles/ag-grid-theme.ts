@@ -26,10 +26,11 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
     'var(--sky-override-switch-checked-color, var(--sky-color-icon-inverse, var(--sky-text-color-default)))',
   checkboxIndeterminateBackgroundColor:
     'var(--sky-override-switch-checked-color, var(--sky-color-icon-inverse, transparent))',
-  checkboxUncheckedBackgroundColor: 'transparent',
+  checkboxUncheckedBackgroundColor:
+    'var(--sky-override-ag-grid-checkbox-unchecked-background-color, var(--sky-color-background-input-base))',
   checkboxUncheckedBorderColor: `var(
     --sky-override-ag-grid-checkbox-unchecked-border-color,
-    var(--sky-color-border-input-base)
+    var(--sky-color-border-switch-base)
   )`,
   checkboxCheckedShapeImage: {
     svg: `<svg width="16" height="16" fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M13.9884 3.54756C13.6244 3.16685 13.0164 3.1491 12.6302 3.50792L5.62682 10.0157L3.64517 8.03282C3.27275 7.66016 2.66443 7.65572 2.28646 8.0229C1.90848 8.39007 1.90397 8.98983 2.2764 9.36248L4.85162 11.9393C5.25487 12.3428 5.91121 12.3548 6.32932 11.9663L13.9482 4.88659C14.3343 4.52777 14.3523 3.92827 13.9884 3.54756Z" fill="#212121"/></svg>`,
