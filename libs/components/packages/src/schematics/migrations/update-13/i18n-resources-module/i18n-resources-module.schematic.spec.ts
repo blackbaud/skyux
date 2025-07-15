@@ -16,7 +16,7 @@ jest.mock('@angular-devkit/schematics', () => {
 describe('i18n-resources-module.schematic', () => {
   const runner = new SchematicTestRunner(
     'migrations',
-    resolve(__dirname, '../../migration-collection.json'),
+    resolve(__dirname, '../../../../../migrations.json'),
   );
 
   async function setupTest(options?: {

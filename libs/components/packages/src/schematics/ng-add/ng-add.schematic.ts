@@ -1,38 +1,44 @@
-import { Rule, chain } from '@angular-devkit/schematics';
+import { Rule, chain, schematic } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { VERSION as ANGULAR_VERSION } from '@angular/cli';
 import {
   NodeDependencyType,
   addPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
+import { getWorkspace } from '@schematics/angular/utility/workspace';
 
-import { VERSION } from '../../version';
-import { addCommonJsConfig } from '../rules/add-commonjs-config';
-import { addPolyfillsConfig } from '../rules/add-polyfills-config';
-import { applySkyuxStylesheetsToWorkspace } from '../rules/apply-skyux-stylesheets-to-workspace';
-import { installAngularCdk } from '../rules/install-angular-cdk';
+import { VERSION as SKYUX_VERSION } from '../../version';
 import { workspaceCheck } from '../rules/workspace-check/workspace-check';
-import { getRequiredProject } from '../utility/workspace';
 
-import { Schema } from './schema';
-
-export default function ngAdd(options: Schema): Rule {
-  return async (tree, context) => {
-    const { projectName } = await getRequiredProject(tree, options.project);
-
+export default function ngAdd(): Rule {
+  return (_, context) => {
     context.addTask(new NodePackageInstallTask());
 
-    return chain([
+    const rules = [
       workspaceCheck(),
-      installEssentialSkyUxPackages(),
-      installAngularCdk(),
-      addCommonJsConfig(projectName),
-      addPolyfillsConfig(projectName, ['build', 'test']),
-      applySkyuxStylesheetsToWorkspace(projectName),
-    ]);
+      addDependencies(),
+      configureWorkspaceIfSingleProject(),
+    ];
+
+    return chain(rules);
   };
 }
 
-function installEssentialSkyUxPackages(): Rule {
+function configureWorkspaceIfSingleProject(): Rule {
+  return async (tree) => {
+    const workspace = await getWorkspace(tree);
+
+    if (workspace.projects.size === 1) {
+      const project = workspace.projects.keys().next().value;
+
+      return schematic('add-skyux-to-project', { project });
+    }
+
+    return tree;
+  };
+}
+
+function addDependencies(): Rule {
   return (tree) => {
     const packageNames = [
       '@skyux/assets',
@@ -45,9 +51,16 @@ function installEssentialSkyUxPackages(): Rule {
       addPackageJsonDependency(tree, {
         type: NodeDependencyType.Default,
         name: packageName,
-        version: `^${VERSION.full}`,
+        version: `^${SKYUX_VERSION.full}`,
         overwrite: true,
       });
     }
+
+    addPackageJsonDependency(tree, {
+      type: NodeDependencyType.Default,
+      name: '@angular/cdk',
+      version: `^${ANGULAR_VERSION.major}.0.0`,
+      overwrite: true,
+    });
   };
 }

@@ -5,139 +5,59 @@ import {
 
 import path from 'path';
 
-import { createTestLibrary } from '../testing/scaffold';
-import { readJson } from '../testing/tree';
+import { createTestApp, createTestLibrary } from '../testing/scaffold';
 
-const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
+const SCHEMATIC_NAME = 'ng-add';
+
+const runner = new SchematicTestRunner(
+  'migrations',
+  path.join(__dirname, '../../../collection.json'),
+);
+
+async function setup(options: {
+  projectType: 'application' | 'library';
+}): Promise<{
+  runSchematic: () => Promise<UnitTestTree>;
+  tree: UnitTestTree;
+}> {
+  const tree =
+    options.projectType === 'application'
+      ? await createTestApp(runner, {
+          projectName: 'my-project',
+        })
+      : await createTestLibrary(runner, { projectName: 'my-project' });
+
+  return {
+    runSchematic: (): Promise<UnitTestTree> =>
+      runner.runSchematic(SCHEMATIC_NAME, {}, tree),
+    tree,
+  };
+}
 
 describe('ng-add.schematic', () => {
-  const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
-  const defaultProjectName = 'my-lib';
+  it('should install dependencies', async () => {
+    const { runSchematic, tree } = await setup({ projectType: 'application' });
 
-  async function setupTest(): Promise<{
-    runSchematic: (options?: { project?: string }) => Promise<UnitTestTree>;
-    tree: UnitTestTree;
-  }> {
-    const tree = await createTestLibrary(runner, {
-      projectName: defaultProjectName,
-    });
+    tree.overwrite('/package.json', '{}');
 
-    const runSchematic = (
-      options: { project?: string } = {},
-    ): Promise<UnitTestTree> => {
-      return runner.runSchematic('ng-add', options, tree);
-    };
+    const updatedTree = await runSchematic();
 
-    return {
-      runSchematic,
-      tree,
-    };
-  }
-
-  it('should install @angular/cdk', async () => {
-    const { runSchematic } = await setupTest();
-
-    const updatedTree = await runSchematic({ project: defaultProjectName });
-    const packageJson = readJson(updatedTree, 'package.json');
-
-    expect(packageJson.dependencies['@angular/cdk']).toBeDefined();
+    expect(updatedTree.readText('/package.json')).toMatchSnapshot();
   });
 
-  it('should install essential SKY UX packages', async () => {
-    const { runSchematic } = await setupTest();
+  it('should update workspace config if a workspace only has one project', async () => {
+    const { runSchematic } = await setup({ projectType: 'application' });
 
-    const updatedTree = await runSchematic({ project: defaultProjectName });
-    const packageJson = readJson(updatedTree, 'package.json');
+    const updatedTree = await runSchematic();
 
-    const packageNames = [
-      '@skyux/assets',
-      '@skyux/core',
-      '@skyux/i18n',
-      '@skyux/theme',
-    ];
-
-    for (const packageName of packageNames) {
-      expect(packageJson.dependencies[packageName]).toEqual(
-        '^0.0.0-PLACEHOLDER',
-      );
-    }
+    expect(updatedTree.readText('/angular.json')).toMatchSnapshot();
   });
 
-  it('should add SKY UX theme stylesheets', async () => {
-    const { runSchematic } = await setupTest();
+  it('should not update workspace config if a workspace has multiple projects', async () => {
+    const { runSchematic } = await setup({ projectType: 'library' });
 
-    const updatedTree = await runSchematic({ project: 'my-lib-showcase' });
-    const angularJson = readJson(updatedTree, 'angular.json');
+    const updatedTree = await runSchematic();
 
-    expect(
-      angularJson.projects['my-lib-showcase'].architect.build.options.styles,
-    ).toEqual([
-      '@skyux/theme/css/sky.css',
-      '@skyux/theme/css/themes/modern/styles.css',
-      'projects/my-lib-showcase/src/styles.css',
-    ]);
-  });
-
-  it('should add SKY UX theme stylesheets if styles array missing', async () => {
-    const { runSchematic, tree } = await setupTest();
-
-    // Delete the styles array for the test target.
-    const angularJson = readJson(tree, 'angular.json');
-    const architect = angularJson.projects['my-lib-showcase'].architect;
-    delete architect.test.options.styles;
-    tree.overwrite('angular.json', JSON.stringify(angularJson, undefined, 2));
-
-    const updatedTree = await runSchematic({ project: 'my-lib-showcase' });
-    const updatedAngularJson = readJson(updatedTree, 'angular.json');
-
-    expect(
-      updatedAngularJson.projects['my-lib-showcase'].architect.test.options
-        .styles,
-    ).toEqual([
-      '@skyux/theme/css/sky.css',
-      '@skyux/theme/css/themes/modern/styles.css',
-    ]);
-  });
-
-  it('should add @skyux/packages/polyfills', async () => {
-    const { runSchematic } = await setupTest();
-
-    const updatedTree = await runSchematic({ project: 'my-lib-showcase' });
-    const angularJson = readJson(updatedTree, 'angular.json');
-    const architect = angularJson.projects['my-lib-showcase'].architect;
-
-    expect(architect.build.options.polyfills).toEqual([
-      'zone.js',
-      '@skyux/packages/polyfills',
-    ]);
-
-    expect(architect.test.options.polyfills).toEqual([
-      'zone.js',
-      'zone.js/testing',
-      '@skyux/packages/polyfills',
-    ]);
-  });
-
-  it('should add @skyux/packages/polyfills if polyfills exist as a string', async () => {
-    const { runSchematic, tree } = await setupTest();
-    let angularJson = readJson(tree, 'angular.json');
-    let architect = angularJson.projects['my-lib-showcase'].architect;
-    architect.build.options.polyfills = 'testPolyfill.js';
-    architect.test.options.polyfills = 'testPolyfill.js';
-    tree.overwrite('angular.json', JSON.stringify(angularJson, undefined, 2));
-
-    const updatedTree = await runSchematic({ project: 'my-lib-showcase' });
-    angularJson = readJson(updatedTree, 'angular.json');
-    architect = angularJson.projects['my-lib-showcase'].architect;
-
-    expect(architect.build.options.polyfills).toEqual([
-      'testPolyfill.js',
-      '@skyux/packages/polyfills',
-    ]);
-
-    expect(architect.test.options.polyfills).toEqual([
-      'testPolyfill.js',
-      '@skyux/packages/polyfills',
-    ]);
+    expect(updatedTree.readText('/angular.json')).toMatchSnapshot();
   });
 });

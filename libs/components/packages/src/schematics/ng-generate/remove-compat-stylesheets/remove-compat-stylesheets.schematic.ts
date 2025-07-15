@@ -1,6 +1,5 @@
 import { Rule } from '@angular-devkit/schematics';
-
-import { updateWorkspace } from '../../utility/workspace';
+import { updateWorkspace } from '@schematics/angular/utility';
 
 import { Schema } from './schema';
 

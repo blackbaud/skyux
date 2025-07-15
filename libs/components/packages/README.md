@@ -1,7 +1,19 @@
-# packages
+# @skyux/packages
 
-This library was generated with [Nx](https://nx.dev).
+This package includes Angular CLI schematics to setup SKY UX for an existing project.
 
-## Running unit tests
+## Install
 
-Run `nx test packages` to execute the unit tests via [Jest](https://jestjs.io).
+Run the following command to install necessary SKY UX packages. If your Angular CLI workspace only has one project, this command will also configure the project with our polyfills and stylesheets.
+
+```
+ng add @skyux/packages
+```
+
+### Configure SKY UX for a specific project
+
+If your Angular CLI workspace includes more than one project, you'll need to run the following command for each project that wishes to use SKY UX.
+
+```
+ng generate @skyux/packages:add-skyux-to-project --project my-app
+```

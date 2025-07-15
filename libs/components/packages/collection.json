@@ -6,6 +6,11 @@
       "factory": "./src/schematics/ng-add/ng-add.schematic",
       "schema": "./src/schematics/ng-add/schema.json"
     },
+    "add-skyux-to-project": {
+      "description": "Adds SKY UX polyfills and styles to a specific project",
+      "factory": "./src/schematics/ng-generate/add-skyux-to-project/add-skyux-to-project.schematic",
+      "schema": "./src/schematics/ng-generate/add-skyux-to-project/schema.json"
+    },
     "add-ag-grid-styles": {
       "description": "Add @skyux/ag-grid styles to project config.",
       "factory": "./src/schematics/ng-generate/add-ag-grid-styles/add-ag-grid-styles.schematic",
