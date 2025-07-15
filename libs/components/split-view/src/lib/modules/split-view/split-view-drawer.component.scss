@@ -9,6 +9,7 @@
   --sky-override-split-view-resize-handle-border-focus: none;
   --sky-override-split-view-resize-handle-outline-focus: auto;
   --sky-override-split-view-resize-handle-width: 14px;
+  --sky-override-split-view-padding: none;
 }
 
 @include compatMixins.sky-modern-overrides('.sky-split-view-drawer') {
@@ -16,6 +17,7 @@
   --sky-override-split-view-resize-handle-box-shadow-focus: var(
     --sky-elevation-focus
   );
+  --sky-override-split-view-padding: none;
 }
 
 .sky-split-view-drawer {
@@ -26,6 +28,14 @@
   overflow: auto;
   height: 100%;
   width: 100%;
+
+  padding: var(
+    --sky-override-split-view-padding,
+    var(--sky-comp-split_view-drawer-space-inset-sm-top)
+      var(--sky-comp-split_view-drawer-space-inset-sm-right)
+      var(--sky-comp-split_view-drawer-space-inset-sm-bottom)
+      var(--sky-comp-split_view-drawer-space-inset-sm-left)
+  );
 }
 
 @include mixins.sky-host-responsive-container-sm-min() {
