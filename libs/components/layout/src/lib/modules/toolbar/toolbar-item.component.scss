@@ -9,7 +9,6 @@
 
 @include compatMixins.sky-modern-overrides('.sky-toolbar-item') {
   --sky-override-toolbar-item-text-color: var(--sky-color-text-default);
-
   ::ng-deep .sky-btn {
     &.sky-btn-default:not(:disabled):not(
         .sky-search-btn,
@@ -28,20 +27,26 @@
       }
     }
   }
+}
 
-  .sky-toolbar-item {
-    margin-right: var(
-      --sky-override-toolbar-item-spacing-right,
-      var(--sky-space-gap-action_group-m)
-    );
-    margin-bottom: var(--sky-override-toolbar-item-spacing-bottom);
-  }
+.sky-toolbar-item {
+  margin-right: var(
+    --sky-override-toolbar-item-spacing-right,
+    var(--sky-space-gap-action_group-m)
+  );
+  margin-bottom: var(--sky-override-toolbar-item-spacing-bottom);
+}
 
-  @include mixins.sky-theme-modern {
-    ::ng-deep .sky-btn {
-      padding-left: var(--sky-comp-button-toolbar-space-inset-left);
-      padding-right: var(--sky-comp-button-toolbar-space-inset-right);
+@include mixins.sky-theme-modern {
+  ::ng-deep .sky-btn {
+    padding-left: var(--sky-comp-button-toolbar-space-inset-left);
+    padding-right: var(--sky-comp-button-toolbar-space-inset-right);
 
+    &.sky-btn-default:not(:disabled):not(
+        .sky-search-btn,
+        .sky-search-btn-open,
+        .sky-filter-bar-btn
+      ) {
       sky-icon {
         color: var(
           --sky-override-toolbar-item-text-color,
