@@ -117,6 +117,7 @@ export class SkyFilterBarComponent {
   public openFilters(): void {
     const searchFn = this.filterAsyncSearchFn();
     const strings = this.#strings();
+    const existingFilters = this.computedFilters();
 
     /* istanbul ignore if: safety check */
     if (!strings) {
@@ -129,16 +130,41 @@ export class SkyFilterBarComponent {
         descriptorProperty: 'name',
         idProperty: 'id',
         selectMode: 'multiple',
-        value: this.computedFilters(),
+        value: existingFilters,
         searchAsync: searchFn,
       };
       const modalInstance = this.#modalSvc.open(filterArgs);
 
       modalInstance.closed.subscribe((closeArgs) => {
         if (closeArgs.reason === 'save') {
-          this.#updateFilters(
-            closeArgs.selectedItems as SkyFilterBarFilterItem[] | undefined,
-          );
+          const selectedFilters = closeArgs.selectedItems as
+            | SkyFilterBarFilterItem[]
+            | undefined;
+          const newFilters: SkyFilterBarFilterItem[] = [];
+          if (existingFilters) {
+            for (const existingFilter of existingFilters) {
+              if (
+                selectedFilters?.find(
+                  (selectedFilter) => selectedFilter.id === existingFilter.id,
+                )
+              ) {
+                newFilters.push(existingFilter);
+              }
+            }
+          }
+          if (selectedFilters) {
+            for (const selectedFilter of selectedFilters) {
+              if (
+                !newFilters.find(
+                  (newFilter) => newFilter.id === selectedFilter.id,
+                )
+              ) {
+                newFilters.push(selectedFilter);
+              }
+            }
+          }
+
+          this.#updateFilters(newFilters.length ? newFilters : undefined);
         }
       });
     }
