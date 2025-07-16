@@ -9,6 +9,8 @@ import { SkyThemeSettings } from './theme-settings';
 import { SkyThemeSettingsChange } from './theme-settings-change';
 import { SkyThemeSpacing } from './theme-spacing';
 
+const BRAND_BLACKBAUD = 'blackbaud';
+
 function assertCurrentSettings(
   currentSettings: SkyThemeSettings | undefined,
 ): asserts currentSettings is SkyThemeSettings {
@@ -39,6 +41,8 @@ export class SkyThemeService {
 
   #settings: ReplaySubject<SkyThemeSettingsChange>;
 
+  #registeredBrands = new Map<string, SkyThemeBrand>();
+
   #_settingsObs: Observable<SkyThemeSettingsChange>;
 
   constructor() {
@@ -52,10 +56,23 @@ export class SkyThemeService {
    * @param hostEl The host element under which themed components are rendered.
    * @param renderer A Renderer2 instance for updating the host element with theme changes.
    * @param theme The initial theme.
+   * @param registeredBrands An initial set of brands to register. Additional brands can
+   * be registered later via the registerBrand() method.
    */
-  public init(hostEl: any, renderer: Renderer2, theme: SkyThemeSettings): void {
+  public init(
+    hostEl: any,
+    renderer: Renderer2,
+    theme: SkyThemeSettings,
+    registeredBrands?: SkyThemeBrand[],
+  ): void {
     this.#hostEl = hostEl;
     this.#renderer = renderer;
+
+    if (registeredBrands) {
+      for (const brand of registeredBrands) {
+        this.#registeredBrands.set(brand.name, brand);
+      }
+    }
 
     this.setTheme(theme);
   }
@@ -110,7 +127,7 @@ export class SkyThemeService {
     let settings: SkyThemeSettings;
 
     if (settingsOrTheme instanceof SkyThemeSettings) {
-      settings = settingsOrTheme;
+      settings = this.#applyRegisteredBrand(settingsOrTheme);
     } else {
       const current = this.#current;
 
@@ -137,6 +154,33 @@ export class SkyThemeService {
     });
 
     this.#current = settings;
+  }
+
+  public registerBrand(brand: SkyThemeBrand): void {
+    this.#registeredBrands.set(brand.name, brand);
+  }
+
+  public unregisterBrand(name: string): void {
+    this.#registeredBrands.delete(name);
+  }
+
+  #applyRegisteredBrand(settings: SkyThemeSettings): SkyThemeSettings {
+    const brandName = settings.brand?.name;
+
+    if (brandName) {
+      const registeredBrand = this.#registeredBrands.get(brandName);
+
+      if (registeredBrand) {
+        settings = new SkyThemeSettings(
+          settings.theme,
+          settings.mode,
+          settings.spacing,
+          registeredBrand,
+        );
+      }
+    }
+
+    return settings;
   }
 
   #updateThemeProperty(
@@ -220,14 +264,12 @@ export class SkyThemeService {
     currentBrand: SkyThemeBrand | undefined,
     previousBrand: SkyThemeBrand | undefined,
   ): void {
-    if (
-      currentBrand &&
-      currentBrand.name !== 'blackbaud' &&
-      previousBrand !== currentBrand
-    ) {
-      this.#addBrandStylesheet(currentBrand);
-    } else {
+    if (previousBrand && previousBrand.name !== BRAND_BLACKBAUD) {
       this.#removeBrandStylesheet();
+    }
+
+    if (currentBrand && currentBrand.name !== BRAND_BLACKBAUD) {
+      this.#addBrandStylesheet(currentBrand);
     }
   }
 
@@ -265,24 +307,36 @@ export class SkyThemeService {
   }
 
   #addBrandStylesheet(brand: SkyThemeBrand): void {
-    if (brand.name !== 'blackbaud') {
-      const cssPath = `https://sky.blackbaudcdn.net/static/skyux-brand-${brand.name}/${brand.version}/assets/scss/${brand.name}.css`;
+    if (brand.name !== BRAND_BLACKBAUD) {
+      // Use styleUrl if provided, otherwise build the default URL
+      const styleUrl =
+        brand.styleUrl ||
+        `https://sky.blackbaudcdn.net/static/skyux-brand-${brand.name}/${brand.version}/assets/scss/${brand.name}.css`;
 
-      // Create a link element via Angular's renderer to avoid SSR troubles
-      this.#brandLinkElement = this.#getRenderer().createElement(
+      const renderer = this.#getRenderer();
+
+      this.#brandLinkElement = renderer.createElement(
         'link',
       ) as HTMLLinkElement;
 
-      // Add the style to the head section
-      this.#getRenderer().appendChild(this.#hostEl, this.#brandLinkElement);
+      renderer.appendChild(this.#hostEl, this.#brandLinkElement);
 
-      // Set type of the link item and path to the css file
-      this.#getRenderer().setProperty(
-        this.#brandLinkElement,
-        'rel',
-        'stylesheet',
-      );
-      this.#getRenderer().setProperty(this.#brandLinkElement, 'href', cssPath);
+      renderer.setAttribute(this.#brandLinkElement, 'rel', 'stylesheet');
+      renderer.setAttribute(this.#brandLinkElement, 'href', styleUrl);
+
+      if (brand.sriHash) {
+        renderer.setAttribute(
+          this.#brandLinkElement,
+          'integrity',
+          brand.sriHash,
+        );
+
+        renderer.setAttribute(
+          this.#brandLinkElement,
+          'crossorigin',
+          'anonymous',
+        );
+      }
     }
   }
 

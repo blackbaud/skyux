@@ -43,6 +43,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'text-highlight',
+    loadChildren: () =>
+      import('./text-highlight/text-highlight.module').then(
+        (m) => m.TextHighlightModule,
+      ),
+  },
+  {
     path: 'tokens',
     loadChildren: () =>
       import('./tokens/tokens.module').then((m) => m.TokensModule),

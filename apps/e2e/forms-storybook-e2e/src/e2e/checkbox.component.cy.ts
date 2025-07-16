@@ -11,12 +11,22 @@ describe('forms-storybook - checkbox', () => {
 
       it('should render the standard components', () => {
         cy.skyReady('app-checkbox');
-        cy.get('#touched-required-checkbox').click();
-        cy.get('#touched-required-checkbox').click();
-        cy.get('app-checkbox').should('exist').should('be.visible');
-        cy.get('#touched-easy-mode-checkbox').click();
-        cy.get('#touched-easy-mode-checkbox').click();
+        cy.get('#touched-required-checkbox .sky-switch').click();
+        cy.get('#touched-required-checkbox .sky-switch').click();
+        cy.get('#touched-required-checkbox input').blur();
+        cy.get(
+          '#touched-required-checkbox sky-form-error .sky-status-indicator-message',
+        )
+          .should('exist')
+          .should('be.visible');
+        cy.get('#touched-easy-mode-checkbox .sky-switch').click();
+        cy.get('#touched-easy-mode-checkbox .sky-switch').click();
         cy.get('#touched-easy-mode-checkbox input').blur();
+        cy.get(
+          '#touched-easy-mode-checkbox sky-form-error .sky-status-indicator-message',
+        )
+          .should('exist')
+          .should('be.visible');
         cy.get('app-checkbox')
           .get('#standard-checkboxes')
           .should('exist')

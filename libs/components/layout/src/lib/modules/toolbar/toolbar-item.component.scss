@@ -9,21 +9,7 @@
 
 @include compatMixins.sky-modern-overrides('.sky-toolbar-item') {
   --sky-override-toolbar-item-text-color: var(--sky-color-text-default);
-}
-
-.sky-toolbar-item {
-  margin-right: var(
-    --sky-override-toolbar-item-spacing-right,
-    var(--sky-space-gap-action_group-m)
-  );
-  margin-bottom: var(--sky-override-toolbar-item-spacing-bottom);
-}
-
-@include mixins.sky-theme-modern {
   ::ng-deep .sky-btn {
-    padding-left: var(--sky-comp-button-toolbar-space-inset-left);
-    padding-right: var(--sky-comp-button-toolbar-space-inset-right);
-
     &.sky-btn-default:not(:disabled):not(
         .sky-search-btn,
         .sky-search-btn-open,
@@ -47,5 +33,36 @@
         );
       }
     }
+  }
+}
+
+.sky-toolbar-item {
+  margin-right: var(
+    --sky-override-toolbar-item-spacing-right,
+    var(--sky-space-gap-action_group-m)
+  );
+  margin-bottom: var(--sky-override-toolbar-item-spacing-bottom);
+
+  --sky-comp-override-toolbar-button-elevation-base: var(
+    --sky-elevation-action-toolbar-base
+  );
+  --sky-comp-override-toolbar-button-elevation-hover: var(
+    --sky-elevation-action-toolbar-hover
+  );
+  --sky-comp-override-toolbar-button-elevation-focus: var(
+    --sky-elevation-action-toolbar-focus
+  );
+  --sky-comp-override-toolbar-button-elevation-active: var(
+    --sky-elevation-action-toolbar-active
+  );
+  --sky-comp-override-toolbar-button-elevation-disabled: var(
+    --sky-elevation-action-toolbar-disabled
+  );
+}
+
+@include mixins.sky-theme-modern {
+  ::ng-deep .sky-btn {
+    padding-left: var(--sky-comp-button-toolbar-space-inset-left);
+    padding-right: var(--sky-comp-button-toolbar-space-inset-right);
   }
 }
