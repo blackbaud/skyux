@@ -72,18 +72,20 @@ describe('Filter bar component', () => {
 
     const dataStateSubject = new BehaviorSubject<Partial<SkyDataManagerState>>({
       filterData: {
-        filters: [
-          {
-            id: 'dm-filter1',
-            name: 'Data Manager Filter 1',
-            filterValue: { value: 'dm-value1' },
-          },
-          {
-            id: 'dm-filter2',
-            name: 'Data Manager Filter 2',
-            filterValue: undefined,
-          },
-        ],
+        filters: {
+          filterItems: [
+            {
+              id: 'dm-filter1',
+              name: 'Data Manager Filter 1',
+              filterValue: { value: 'dm-value1' },
+            },
+            {
+              id: 'dm-filter2',
+              name: 'Data Manager Filter 2',
+              filterValue: undefined,
+            },
+          ],
+        },
         filtersApplied: true,
       },
     });
@@ -299,12 +301,14 @@ describe('Filter bar component', () => {
       expect(dataManagerServiceSpy.updateDataState).toHaveBeenCalledWith(
         jasmine.objectContaining({
           filterData: jasmine.objectContaining({
-            filters: jasmine.arrayContaining([
-              jasmine.objectContaining({
-                id: 'dm-filter1',
-                filterValue: newFilterValue,
-              }),
-            ]),
+            filters: jasmine.objectContaining({
+              filterItems: jasmine.arrayContaining([
+                jasmine.objectContaining({
+                  id: 'dm-filter1',
+                  filterValue: newFilterValue,
+                }),
+              ]),
+            }),
             filtersApplied: true,
           }),
         }),
@@ -315,13 +319,15 @@ describe('Filter bar component', () => {
     it('should sync data manager changes to component model', () => {
       const newDataState = {
         filterData: {
-          filters: [
-            {
-              id: 'synced-filter',
-              name: 'Synced Filter',
-              filterValue: { value: 'synced value' },
-            },
-          ],
+          filters: {
+            filterItems: [
+              {
+                id: 'synced-filter',
+                name: 'Synced Filter',
+                filterValue: { value: 'synced value' },
+              },
+            ],
+          },
           filtersApplied: true,
         },
       };
@@ -329,7 +335,9 @@ describe('Filter bar component', () => {
       dataStateSubject.next(newDataState);
       fixture.detectChanges();
 
-      expect(component.filters()).toEqual(newDataState.filterData.filters);
+      expect(component.filters()).toEqual(
+        newDataState.filterData.filters.filterItems,
+      );
     });
 
     it('should clear filters through data manager', () => {
