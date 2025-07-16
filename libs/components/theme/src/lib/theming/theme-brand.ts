@@ -32,7 +32,7 @@ export class SkyThemeBrand {
   ) {
     this.hostClass = hostClass;
 
-    if (!/\d+\.\d+\.\d+(?:-(?:alpha|beta|rc)\.\d)*$/.test(version)) {
+    if (!/^(\d+|\d+\.\d+\.\d+)(?:-(?:alpha|beta|rc)\.\d+)*$/.test(version)) {
       throw new Error(
         `Invalid version format "${version}" for theme brand "${name}".`,
       );

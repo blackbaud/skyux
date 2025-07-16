@@ -105,12 +105,9 @@ describe('Theme brand', () => {
     );
   });
 
-  it('should throw an error for a version with only a major version', () => {
-    expect(() => {
-      new SkyThemeBrand('custom-brand', '1');
-    }).toThrowError(
-      'Invalid version format "1" for theme brand "custom-brand".',
-    );
+  it('should set the version correctly when only a major version is given', () => {
+    const brand = new SkyThemeBrand('custom-brand', '1');
+    expect(brand.version).toBe('1');
   });
 
   it('should throw an error for a version with only a major and minor version', () => {
