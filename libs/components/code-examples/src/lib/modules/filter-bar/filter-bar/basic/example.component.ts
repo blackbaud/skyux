@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
+import { SkyFilterBarFilterItem, SkyFilterBarModule } from '@skyux/filter-bar';
 import {
   SkySelectionModalSearchArgs,
   SkySelectionModalSearchResult,
@@ -7,49 +7,13 @@ import {
 
 import { Observable, of } from 'rxjs';
 
-import { TestModalComponent } from './test-modal.component';
-
 @Component({
-  selector: 'app-filter-bar',
-  styleUrls: ['./filter-bar.component.scss'],
-  templateUrl: './filter-bar.component.html',
-  standalone: false,
+  selector: 'app-filter-bar-basic-example',
+  imports: [SkyFilterBarModule],
+  templateUrl: './example.component.html',
 })
-export class FilterBarComponent {
-  public get filters(): SkyFilterBarFilterItem[] | undefined {
-    return this.#_filters;
-  }
-
-  public set filters(value: SkyFilterBarFilterItem[] | undefined) {
-    value.toString = (): string => {
-      return (
-        '[' +
-        this.filters
-          .map(
-            (filter) =>
-              `{ ${filter.name}${filter.filterValue ? ': ' + (filter.filterValue.displayValue ?? filter.filterValue.value) : ''} }`,
-          )
-          .join(', ') +
-        ' ]'
-      );
-    };
-
-    this.#_filters = value;
-
-    console.log(value);
-  }
-
-  public summaryItems = [
-    {
-      value: 10000000,
-      label: 'Raised',
-      valueFormat: { format: 'currency', truncate: true },
-      helpPopoverContent: 'test content',
-    },
-    { value: 10, label: 'Elements', helpPopoverContent: 'test content2' },
-  ];
-
-  #_filters: SkyFilterBarFilterItem[] | undefined;
+export class FilterBarBasicExampleComponent {
+  public filters: SkyFilterBarFilterItem[] | undefined;
 
   #filters: SkyFilterBarFilterItem[] = [
     {
