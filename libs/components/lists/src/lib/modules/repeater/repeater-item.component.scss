@@ -409,8 +409,7 @@ sky-repeater-item {
     );
   }
 
-  .sky-repeater-item-selectable,
-  .sky-repeater-item-collapsible {
+  .sky-repeater-item-selectable {
     &:hover {
       box-shadow: var(
         --sky-override-repeater-item-selectable-box-shadow-hover,
