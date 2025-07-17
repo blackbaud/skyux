@@ -16,4 +16,8 @@ export class Tile2Component {
   protected onHelpClick($event: MouseEvent): void {
     $event.stopPropagation();
   }
+
+  protected settingsClick(): void {
+    alert('Settings clicked!');
+  }
 }
