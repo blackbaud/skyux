@@ -48,7 +48,9 @@
   --sky-override-ag-grid-header-resize-height: 100%;
   --sky-override-ag-grid-header-row-border-style: solid;
   --sky-override-ag-grid-invalid-color: var(--sky-background-color-danger-dark);
-  --sky-override-ag-grid-odd-row-background-color: #fbfbfb;
+  --sky-override-ag-grid-odd-row-background-color: var(
+    --sky-background-color-page-default
+  );
   --sky-override-ag-grid-popup-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
   --sky-override-ag-grid-range-selection-border-color: var(
     --sky-highlight-color-info
