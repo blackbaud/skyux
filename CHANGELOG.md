@@ -1,5 +1,20 @@
 # Changelog
 
+## [13.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.1...13.0.0-alpha.2) (2025-07-17)
+
+
+### Features
+
+* **components/ag-grid:** update unchecked checkbox cell renderer color tokens ([#3667](https://github.com/blackbaud/skyux/issues/3667)) ([#3678](https://github.com/blackbaud/skyux/issues/3678)) ([230cbf8](https://github.com/blackbaud/skyux/commit/230cbf82e84cd5350ac680ee2a1bfe90fd7ae0c4))
+* **components/theme:** pull in latest design tokens, allow major version only for brand version ([#3670](https://github.com/blackbaud/skyux/issues/3670)) ([#3674](https://github.com/blackbaud/skyux/issues/3674)) ([e46ca06](https://github.com/blackbaud/skyux/commit/e46ca06692bc9606978d030e66e187e447460f73))
+
+
+### Bug Fixes
+
+* ag-grid and repeater rows use row background base color token in v2 modern ([#3684](https://github.com/blackbaud/skyux/issues/3684)) ([#3686](https://github.com/blackbaud/skyux/issues/3686)) ([cb6b184](https://github.com/blackbaud/skyux/commit/cb6b1848c7b54e264c1aaf4d2e65a2764c3a9909))
+* **components/packages:** update migrations path in package.json ([#3689](https://github.com/blackbaud/skyux/issues/3689)) ([f4bd962](https://github.com/blackbaud/skyux/commit/f4bd96271d66ba904e6aa6b39a351d32b3879747))
+* **components/tiles:** tile tools items are center aligned ([#3677](https://github.com/blackbaud/skyux/issues/3677)) ([#3680](https://github.com/blackbaud/skyux/issues/3680)) ([89f0bf0](https://github.com/blackbaud/skyux/commit/89f0bf066099a9f406e89167d215481efe6d3bed))
+
 ## [12.28.0](https://github.com/blackbaud/skyux/compare/12.27.0...12.28.0) (2025-07-17)
 
 
