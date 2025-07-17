@@ -33,7 +33,7 @@
     "save": "dependencies"
   },
   "ng-update": {
-    "migrations": "./src/schematics/migrations/migration-collection.json",
+    "migrations": "./migrations.json",
     "packageGroup": {
       "@skyux/packages": "0.0.0-PLACEHOLDER",
       "@blackbaud/angular-tree-component": "^1.0.0",
