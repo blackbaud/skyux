@@ -9,7 +9,7 @@
       <sky-toolbar-item>
         <button
           type="button"
-          class="sky-btn sky-filter-bar-btn sky-btn-default sky-btn-icon"
+          class="sky-filter-bar-filter-picker sky-btn sky-filter-bar-btn sky-btn-default sky-btn-icon"
           (click)="openFilters()"
         >
           <sky-icon iconName="filter" />
@@ -19,6 +19,7 @@
     @for (filter of filters(); track filter.id) {
       <sky-toolbar-item>
         <sky-filter-bar-item
+          [filterId]="filter.id"
           [filterName]="filter.name"
           [filterModalConfig]="filter.filterModalConfig"
           [filterValue]="filter.filterValue"
@@ -30,7 +31,7 @@
       <sky-toolbar-item>
         <button
           type="button"
-          class="sky-btn sky-filter-bar-btn sky-btn-link"
+          class="sky-filter-bar-clear-filters sky-btn sky-filter-bar-btn sky-btn-link"
           (click)="clearFilters()"
         >
           {{ 'skyux_filter_bar_clear_filters_label' | skyLibResources }}
