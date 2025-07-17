@@ -9,7 +9,7 @@ import {
 
 const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
   backgroundColor:
-    'var(--sky-override-ag-grid-background-color, var(--sky-background-color-page-default))',
+    'var(--sky-override-ag-grid-background-color, var(--sky-color-background-row-base))',
   borderColor:
     'var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
   borderRadius:
@@ -63,7 +63,8 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
   invalidColor:
     'var(--sky-override-ag-grid-invalid-color, var(--sky-color-background-action-danger-base))',
   listItemHeight: { ref: 'rowHeight' },
-  oddRowBackgroundColor: 'var(--sky-background-color-page-default)',
+  oddRowBackgroundColor:
+    'var(--sky-override-ag-grid-odd-row-background-color, var(--sky-color-background-row-base))',
   pickerListBackgroundColor: { ref: 'backgroundColor' },
   popupShadow:
     'var(--sky-override-ag-grid-popup-shadow, var(--sky-elevation-overlay-300))',
