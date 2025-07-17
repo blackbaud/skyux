@@ -1,5 +1,19 @@
 # Changelog
 
+## [12.28.0](https://github.com/blackbaud/skyux/compare/12.27.0...12.28.0) (2025-07-17)
+
+
+### Features
+
+* **components/ag-grid:** update unchecked checkbox cell renderer color tokens ([#3667](https://github.com/blackbaud/skyux/issues/3667)) ([913617e](https://github.com/blackbaud/skyux/commit/913617e05efcb7902bce4a1474672bb44a570cfd))
+
+
+### Bug Fixes
+
+* **components/lists:** remove hover and active state from `collapsible` items ([#3668](https://github.com/blackbaud/skyux/issues/3668)) ([b08d820](https://github.com/blackbaud/skyux/commit/b08d8205d868d2f56b73ed7245ba50aa0b8fd31e))
+* **components/tiles:** tile tools items are center aligned ([#3677](https://github.com/blackbaud/skyux/issues/3677)) ([9aaec76](https://github.com/blackbaud/skyux/commit/9aaec763afa989a98d3ebc8e61d4f4798251b992))
+* update border colors and remove list and fit layout horizontal space in v2 modern ([#3672](https://github.com/blackbaud/skyux/issues/3672)) ([bd591ce](https://github.com/blackbaud/skyux/commit/bd591ce411d4776aefa784996d555437412d30ae))
+
 ## [12.27.0](https://github.com/blackbaud/skyux/compare/12.26.0...12.27.0) (2025-07-16)
 
 
