@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, model, output } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
+import {
+  SkySelectionModalOpenArgs,
+  SkySelectionModalService,
+} from '@skyux/lookup';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { SkyFilterBarFilterModalConfig } from './models/filter-bar-filter-modal-config';
@@ -22,19 +28,55 @@ export class SkyFilterBarItemComponent {
   public filterName = input.required<string>();
   public filterValue = model<SkyFilterBarFilterValue>();
   public filterModalConfig = input<SkyFilterBarFilterModalConfig>();
+  public filterSelectionModalConfig = input<SkySelectionModalOpenArgs>();
 
   public filterUpdated = output<SkyFilterBarFilterValue | undefined>();
 
-  #modalSvc = inject(SkyModalService);
+  readonly #modalSvc = inject(SkyModalService);
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
+  readonly #selectionModalSvc = inject(SkySelectionModalService);
+
+  #multipleSelectionLabel = toSignal(
+    this.#resourcesSvc.getString('skyux_filter_item_n_selected'),
+  );
 
   public openFilterModal(): void {
-    const config = this.filterModalConfig();
+    const filterModalConfig = this.filterModalConfig();
+    const selectionModalConfig = this.filterSelectionModalConfig();
 
-    if (config) {
+    if (selectionModalConfig) {
+      selectionModalConfig.value = this.filterValue()?.value as
+        | unknown[]
+        | undefined;
+      const instance = this.#selectionModalSvc.open(selectionModalConfig);
+
+      instance.closed.subscribe((closeArgs) => {
+        if (closeArgs.reason === 'save') {
+          let result: SkyFilterBarFilterValue | undefined;
+          if (closeArgs.selectedItems?.length) {
+            result = {
+              value: closeArgs.selectedItems,
+            };
+            if (closeArgs.selectedItems.length > 1) {
+              result.displayValue = String(
+                this.#multipleSelectionLabel,
+              ).replace('{0}', `${closeArgs.selectedItems.length}`);
+            } else {
+              result.displayValue = (closeArgs.selectedItems[0] as never)[
+                selectionModalConfig.descriptorProperty
+              ];
+            }
+          }
+
+          this.filterValue.set(result);
+          this.filterUpdated.emit(result);
+        }
+      });
+    } else if (filterModalConfig) {
       const context = new SkyFilterBarFilterModalContext(
         this.filterName(),
         this.filterValue(),
-        config.additionalContext,
+        filterModalConfig.additionalContext,
       );
 
       const modalConfig: SkyModalConfigurationInterface = {
@@ -45,13 +87,16 @@ export class SkyFilterBarItemComponent {
           },
         ],
       };
-      if (config.modalSize === 'full') {
+      if (filterModalConfig.modalSize === 'full') {
         modalConfig.fullPage = true;
       } else {
-        modalConfig.size = config.modalSize;
+        modalConfig.size = filterModalConfig.modalSize;
       }
 
-      const instance = this.#modalSvc.open(config.modalComponent, modalConfig);
+      const instance = this.#modalSvc.open(
+        filterModalConfig.modalComponent,
+        modalConfig,
+      );
 
       instance.closed.subscribe((args) => {
         if (args.reason === 'save') {

@@ -7,6 +7,11 @@ import {
 
 import { Observable, of } from 'rxjs';
 
+import { FILTER_SEARCH_RESULTS } from './filter-search-results';
+
+/**
+ * @title Filter bar basic example
+ */
 @Component({
   selector: 'app-filter-bar-basic-example',
   imports: [SkyFilterBarModule],
@@ -17,67 +22,112 @@ export class FilterBarBasicExampleComponent {
 
   #filters: SkyFilterBarFilterItem[] = [
     {
-      name: 'filter 1',
-      id: '1',
-      filterModalConfig: { modalComponent: TestModalComponent },
+      name: 'Community connection',
+      id: 'community-connection',
+      filterSelectionModalConfig: {
+        title: 'Select community connection',
+        descriptorProperty: 'description',
+        idProperty: 'value',
+        searchAsync: this.#getFilterSearchFn('community-connection'),
+        selectMode: 'multiple',
+        selectionDescriptor: 'community connections',
+      },
     },
     {
-      name: 'filter 2',
-      id: '2',
-      filterModalConfig: { modalComponent: TestModalComponent },
+      name: 'Current grade',
+      id: 'current-grade',
+      filterSelectionModalConfig: {
+        title: 'Select current grade',
+        descriptorProperty: 'description',
+        idProperty: 'value',
+        searchAsync: this.#getFilterSearchFn('current-grade'),
+        selectMode: 'multiple',
+        selectionDescriptor: 'current grade',
+      },
     },
     {
-      name: 'filter 3',
-      id: '3',
-      filterModalConfig: { modalComponent: TestModalComponent },
+      name: 'Entering grade',
+      id: 'entering-grade',
+      filterSelectionModalConfig: {
+        title: 'Select entering grade',
+        descriptorProperty: 'description',
+        idProperty: 'value',
+        searchAsync: this.#getFilterSearchFn('entering-grade'),
+        selectMode: 'multiple',
+        selectionDescriptor: 'entering grade',
+      },
     },
     {
-      name: 'filter 4',
-      id: '4',
-      filterModalConfig: { modalComponent: TestModalComponent },
+      name: 'Role',
+      id: 'role',
+      filterSelectionModalConfig: {
+        title: 'Select role',
+        descriptorProperty: 'description',
+        idProperty: 'value',
+        searchAsync: this.#getFilterSearchFn('role'),
+        selectMode: 'multiple',
+        selectionDescriptor: 'role',
+      },
     },
     {
-      name: 'filter 5',
-      id: '5',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 6',
-      id: '6',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 7',
-      id: '7',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 8',
-      id: '8',
-      filterModalConfig: { modalComponent: TestModalComponent },
+      name: 'Staff assigned',
+      id: 'staff-assigned',
+      filterSelectionModalConfig: {
+        title: 'Select staff assigned',
+        descriptorProperty: 'description',
+        idProperty: 'value',
+        searchAsync: this.#getFilterSearchFn('staff-assigned'),
+        selectMode: 'multiple',
+        selectionDescriptor: 'staff assigned',
+      },
     },
   ];
 
   constructor() {
-    this.resetFilters();
+    this.setInitialFilters();
   }
 
-  public resetFilters(): void {
+  public setInitialFilters(): void {
     this.filters = [
       {
-        name: 'filter 1',
-        id: '1',
-        filterModalConfig: { modalComponent: TestModalComponent },
+        name: 'Staff assigned',
+        id: 'staff-assigned',
+        filterSelectionModalConfig: {
+          title: 'Select staff assigned',
+          descriptorProperty: 'description',
+          idProperty: 'value',
+          searchAsync: this.#getFilterSearchFn('staff-assigned'),
+          selectMode: 'multiple',
+          selectionDescriptor: 'staff assigned',
+        },
       },
       {
-        name: 'filter 2',
-        id: '2',
-        filterModalConfig: { modalComponent: TestModalComponent },
+        name: 'Entering grade',
+        id: 'entering-grade',
+        filterValue: {
+          value: [{ value: 'grade-2', description: '2nd grade' }],
+          displayValue: '2nd grade',
+        },
+        filterSelectionModalConfig: {
+          title: 'Select entering grade',
+          descriptorProperty: 'description',
+          idProperty: 'value',
+          searchAsync: this.#getFilterSearchFn('entering-grade'),
+          selectMode: 'multiple',
+          selectionDescriptor: 'entering grade',
+        },
       },
       {
-        name: 'filter 3',
-        id: '3',
-        filterModalConfig: { modalComponent: TestModalComponent },
+        name: 'Current grade',
+        id: 'current-grade',
+        filterSelectionModalConfig: {
+          title: 'Select current grade',
+          descriptorProperty: 'description',
+          idProperty: 'value',
+          searchAsync: this.#getFilterSearchFn('current-grade'),
+          selectMode: 'multiple',
+          selectionDescriptor: 'current grade',
+        },
       },
     ];
   }
@@ -93,4 +143,21 @@ export class FilterBarBasicExampleComponent {
     }
     return of({ items: retVal, totalCount: retVal.length });
   };
+
+  #getFilterSearchFn(
+    filterId: string,
+  ): (
+    args: SkySelectionModalSearchArgs,
+  ) => Observable<SkySelectionModalSearchResult> {
+    const searchResults = FILTER_SEARCH_RESULTS[filterId];
+    return (args: SkySelectionModalSearchArgs) => {
+      let results = searchResults;
+      if (args.searchText) {
+        results = searchResults.filter((searchResult) =>
+          searchResult.description.includes(args.searchText),
+        );
+      }
+      return of({ items: results, totalCount: searchResults.length });
+    };
+  }
 }
