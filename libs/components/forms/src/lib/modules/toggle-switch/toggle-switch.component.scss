@@ -29,6 +29,10 @@
   --sky-override-toggle-switch-indicator-left: 22px;
   --sky-override-toggle-switch-indicator-margin-left: -22px;
   --sky-override-toggle-switch-indicator-width: 22px;
+
+  --sky-override-toggle-switch-label-color-disabled: var(
+    --sky-text-color-default
+  );
   --sky-override-toggle-switch-label-gap: #{$sky-margin};
   --sky-override-toggle-switch-line-height: calc(20 / 14);
   --sky-override-toggle-switch-padding: 1px;
@@ -50,6 +54,9 @@
   --sky-override-toggle-switch-box-shadow-focus: var(--sky-elevation-focus);
   --sky-override-toggle-switch-indicator-box-shadow: 0px 1px 2px 0px
     rgba(0, 0, 0, 0.5);
+  --sky-override-toggle-switch-label-color-disabled: var(
+    --sky-color-text-default
+  );
   --sky-override-toggle-switch-line-height: calc(20 / 14);
   --sky-override-toggle-switch-width: var(--modern-size-48);
 }
@@ -274,6 +281,13 @@
           )
         );
         cursor: var(--sky-override-toggle-switch-pointer-disabled, not-allowed);
+      }
+
+      + span .sky-toggle-switch-label {
+        color: var(
+          --sky-override-toggle-switch-label-color-disabled,
+          var(--sky-color-text-deemphasized)
+        );
       }
 
       .sky-toggle-switch-indicator {
