@@ -18,4 +18,8 @@ export class Tile1Component {
   public get greeting(): string {
     return this.#greetingSvc.sayHello();
   }
+
+  protected settingsClick(): void {
+    alert('Settings clicked!');
+  }
 }
