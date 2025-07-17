@@ -25,13 +25,17 @@ export default function ngAdd(): Rule {
 }
 
 function configureWorkspaceIfSingleProject(): Rule {
-  return async (tree) => {
+  return async (tree, context) => {
     const workspace = await getWorkspace(tree);
 
     if (workspace.projects.size === 1) {
       const project = workspace.projects.keys().next().value;
 
       return schematic('add-skyux-to-project', { project });
+    } else {
+      context.logger.info(
+        'Multiple projects detected in workspace. To configure SKY UX for a specific project, run: ng generate @skyux/packages:add-skyux-to-project --project <project-name>',
+      );
     }
 
     return tree;
