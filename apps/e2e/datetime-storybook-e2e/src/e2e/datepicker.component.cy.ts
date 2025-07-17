@@ -12,7 +12,11 @@ describe('Date picker', () => {
       });
 
       it('should show day picker', () => {
-        cy.get('#screenshot-datepicker').skyVisualTest(
+        cy.get('.sky-datepicker-calendar-table-container').blur({
+          force: true,
+        });
+
+        cy.get('#screenshot-datepicker-calendar').skyVisualTest(
           `datepicker-day-picker-${theme}`,
           {
             overwrite: true,
@@ -26,11 +30,15 @@ describe('Date picker', () => {
           '#screenshot-datepicker-calendar .sky-datepicker-calendar-title',
         ).click();
 
+        cy.get(
+          '#screenshot-datepicker-calendar .sky-datepicker-calendar-title',
+        ).blur();
+
         cy.get('#screenshot-datepicker-calendar .sky-datepicker-calendar-title')
           .invoke('text')
           .should('match', /^\d{4}$/);
 
-        cy.get('#screenshot-datepicker').skyVisualTest(
+        cy.get('#screenshot-datepicker-calendar').skyVisualTest(
           `datepicker-month-picker-${theme}`,
           {
             overwrite: true,
@@ -56,7 +64,7 @@ describe('Date picker', () => {
           .invoke('text')
           .should('match', /^\d{4} - \d{4}$/);
 
-        cy.get('#screenshot-datepicker').skyVisualTest(
+        cy.get('#screenshot-datepicker-calendar').skyVisualTest(
           `datepicker-year-picker-${theme}`,
           {
             overwrite: true,

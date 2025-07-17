@@ -137,6 +137,7 @@
 }
 
 .sky-tile-tools {
+  align-items: center;
   display: flex;
   padding: 0 var(--sky-override-tile-tools-padding-right, 0) 0 0;
 }

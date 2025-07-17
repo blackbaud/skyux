@@ -1,5 +1,36 @@
 # Changelog
 
+## [12.28.0](https://github.com/blackbaud/skyux/compare/12.27.0...12.28.0) (2025-07-17)
+
+
+### Features
+
+* **components/ag-grid:** update unchecked checkbox cell renderer color tokens ([#3667](https://github.com/blackbaud/skyux/issues/3667)) ([913617e](https://github.com/blackbaud/skyux/commit/913617e05efcb7902bce4a1474672bb44a570cfd))
+
+
+### Bug Fixes
+
+* **components/lists:** remove hover and active state from `collapsible` items ([#3668](https://github.com/blackbaud/skyux/issues/3668)) ([b08d820](https://github.com/blackbaud/skyux/commit/b08d8205d868d2f56b73ed7245ba50aa0b8fd31e))
+* **components/tiles:** tile tools items are center aligned ([#3677](https://github.com/blackbaud/skyux/issues/3677)) ([9aaec76](https://github.com/blackbaud/skyux/commit/9aaec763afa989a98d3ebc8e61d4f4798251b992))
+* update border colors and remove list and fit layout horizontal space in v2 modern ([#3672](https://github.com/blackbaud/skyux/issues/3672)) ([bd591ce](https://github.com/blackbaud/skyux/commit/bd591ce411d4776aefa784996d555437412d30ae))
+
+## [12.27.0](https://github.com/blackbaud/skyux/compare/12.26.0...12.27.0) (2025-07-16)
+
+
+### Features
+
+* **components/layout:** remove secondary button overrides in modern v2 toolbar ([#3643](https://github.com/blackbaud/skyux/issues/3643)) ([0af4d54](https://github.com/blackbaud/skyux/commit/0af4d544c2400cae9e5d433c6bc1d548f61c55b8))
+* **components/theme:** pull in latest design tokens, allow major version only for brand version ([#3670](https://github.com/blackbaud/skyux/issues/3670)) ([7e417a9](https://github.com/blackbaud/skyux/commit/7e417a918f080b5ea8546c83a93250fdc9911291))
+
+
+### Bug Fixes
+
+* buttons in toolbars use specific elevation tokens in v2 modern ([#3664](https://github.com/blackbaud/skyux/issues/3664)) ([275bc24](https://github.com/blackbaud/skyux/commit/275bc24ce9884249709a2a9925d878b6520fe606))
+* checkboxes, radios, and toggle switches use deemphasized label color when the switch is disabled in v2 modern ([#3665](https://github.com/blackbaud/skyux/issues/3665)) ([4b37171](https://github.com/blackbaud/skyux/commit/4b3717112d004bf304f7659ec2093bf2209ce115))
+* **components/datetime:** month and year buttons in datepicker calendar use specific component tokens for padding ([#3661](https://github.com/blackbaud/skyux/issues/3661)) ([c20e2ae](https://github.com/blackbaud/skyux/commit/c20e2ae7b3818671f63b8972f330a2d49a4293d0))
+* **components/lists:** selected sort item uses medium border width in v2 modern ([#3656](https://github.com/blackbaud/skyux/issues/3656)) ([a29abad](https://github.com/blackbaud/skyux/commit/a29abad8cf01f71025980fd37e84567b3b76c94e))
+* **components/lookup:** search component uses deemphasized placeholder color in v2 modern ([#3646](https://github.com/blackbaud/skyux/issues/3646)) ([689f082](https://github.com/blackbaud/skyux/commit/689f0825b1c2a38ae75c8236078d3f10d78baf8b))
+
 ## [12.26.0](https://github.com/blackbaud/skyux/compare/12.25.0...12.26.0) (2025-07-15)
 
 
