@@ -31,6 +31,7 @@
   --sky-override-switch-icon-checked-color-no-group: var(
     --sky-color-text-default
   );
+  --sky-override-switch-label-color-disabled: var(--sky-color-text-default);
   --sky-switch-label-margin-right: #{$sky-margin};
 }
 
@@ -45,6 +46,13 @@
 
   &.sky-switch-disabled {
     cursor: not-allowed;
+
+    .sky-switch-label {
+      color: var(
+        --sky-override-switch-label-color-disabled,
+        var(--sky-color-text-deemphasized)
+      );
+    }
   }
 
   &.sky-control-label-required {
