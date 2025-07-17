@@ -16,7 +16,7 @@ jest.mock('../../../../version', () => ({
 describe('Migrations > Remove old compat stylesheets', () => {
   const runner = new SchematicTestRunner(
     'migrations',
-    path.join(__dirname, '../../migration-collection.json'),
+    path.join(__dirname, '../../../../../migrations.json'),
   );
 
   async function setup(): Promise<{
