@@ -17,6 +17,7 @@ import { SkyFilterBarFilterValue } from './models/filter-bar-filter-value';
   styleUrl: './filter-bar-item.component.scss',
 })
 export class SkyFilterBarItemComponent {
+  public filterId = input.required<string>();
   public filterName = input.required<string>();
   public filterValue = model<SkyFilterBarFilterValue>();
   public filterModalConfig = input<SkyFilterBarFilterModalConfig>();
