@@ -2,7 +2,7 @@
   "schematics": {
     "noop": {
       "version": "0.0.0-PLACEHOLDER",
-      "factory": "./noop/noop.schematic",
+      "factory": "./src/schematics/migrations/noop/noop.schematic",
       "description": "Update all SKY UX component packages"
     },
     "i18n-resources-module": {
