@@ -58,9 +58,10 @@ export class SkyFilterBarItemComponent {
               value: closeArgs.selectedItems,
             };
             if (closeArgs.selectedItems.length > 1) {
-              result.displayValue = String(
-                this.#multipleSelectionLabel,
-              ).replace('{0}', `${closeArgs.selectedItems.length}`);
+              result.displayValue = this.#multipleSelectionLabel()?.replace(
+                '{0}',
+                `${closeArgs.selectedItems.length}`,
+              );
             } else {
               result.displayValue = (closeArgs.selectedItems[0] as never)[
                 selectionModalConfig.descriptorProperty
