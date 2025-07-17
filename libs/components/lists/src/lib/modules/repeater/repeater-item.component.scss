@@ -9,6 +9,7 @@
   --sky-override-repeater-item-active-border-left-width: #{$sky-nav-selected-border-width};
   --sky-override-repeater-item-active-inline-delete-margin-left: -4px;
   --sky-override-repeater-item-active-padding-left: 6px;
+  --sky-override-repeater-item-background-color: transparent;
   --sky-override-repeater-item-border-bottom: 1px dotted
     #{$sky-border-color-neutral-medium};
   --sky-override-repeater-item-border-radius: 0;
@@ -75,6 +76,7 @@
   --sky-override-repeater-item-active-border-left-width: #{$sky-nav-selected-border-width};
   --sky-override-repeater-item-active-inline-delete-margin-left: -4px;
   --sky-override-repeater-item-active-padding-left: 6px;
+  --sky-override-repeater-item-background-color: transparent;
   --sky-override-repeater-item-border-radius: 0;
   --sky-override-repeater-item-box-shadow-focus-visible: #{$sky-theme-modern-elevation-3-shadow-size}
     #{$sky-theme-modern-elevation-3-shadow-color};
@@ -139,6 +141,10 @@
 sky-repeater-item {
   .sky-repeater-item {
     display: flex;
+    background-color: var(
+      --sky-override-repeater-item-background-color,
+      var(--sky-color-background-row-base)
+    );
     border-bottom: var(
       --sky-override-repeater-item-border-bottom,
       var(--sky-border-width-separator-row)
