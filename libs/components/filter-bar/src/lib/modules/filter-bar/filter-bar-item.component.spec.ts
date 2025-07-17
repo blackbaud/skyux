@@ -25,6 +25,7 @@ describe('Filter bar item component', () => {
     fixture = TestBed.createComponent(SkyFilterBarItemComponent);
     component = fixture.componentInstance;
     componentRef = fixture.componentRef;
+    componentRef.setInput('filterId', 'test id');
     componentRef.setInput('filterName', 'test filter');
     fixture.detectChanges();
   });
