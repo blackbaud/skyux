@@ -1,8 +1,14 @@
+import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
+
 export interface SkyDataManagerFilterData {
   /**
    * Whether any filters are applied.
    */
   filtersApplied?: boolean;
+  /**
+   * The
+   */
+  filterBarItems?: SkyFilterBarFilterItem[];
   /**
    * The filter data used in the data manager. You may use any filter model that works for
    * your data set and models. See the demo for an example.

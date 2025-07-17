@@ -64,7 +64,7 @@ export class SkyFilterBarComponent {
 
       // Prefer data manager filters if available, otherwise use model filters
       if (dataState?.filterData) {
-        return dataState.filterData.filters.filterItems;
+        return dataState.filterData.filterBarItems;
       }
 
       return modelFilters;
@@ -100,10 +100,10 @@ export class SkyFilterBarComponent {
     // This ensures the consumer stays in sync when data manager updates
     effect(() => {
       const dataState = this.#dataState();
-      if (dataState?.filterData?.filters?.filterItems) {
+      if (dataState?.filterData?.filterBarItems) {
         // Only update model if it's different to avoid infinite loops
         const currentModel = this.filters();
-        const dataManagerFilters = dataState.filterData.filters.filterItems;
+        const dataManagerFilters = dataState.filterData.filterBarItems;
 
         if (
           JSON.stringify(currentModel) !== JSON.stringify(dataManagerFilters)
@@ -234,10 +234,7 @@ export class SkyFilterBarComponent {
       dataState.filterData.filtersApplied = !!filters?.some(
         (filter) => !!filter.filterValue,
       );
-      dataState.filterData.filters = Object.assign(
-        dataState.filterData.filters,
-        { filterItems: filters },
-      );
+      dataState.filterData.filterBarItems = filters;
 
       this.#dataManagerSvc?.updateDataState(dataState, this.#sourceId);
     } else {
