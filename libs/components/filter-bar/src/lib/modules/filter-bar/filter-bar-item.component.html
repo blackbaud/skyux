@@ -5,11 +5,12 @@
     class="sky-btn sky-filter-bar-btn sky-btn-default"
     type="button"
     [attr.aria-pressed]="!!value"
+    [attr.data-filter-id]="filterId()"
     [class.sky-filter-bar-btn-selected]="!!value"
     (click)="openFilterModal()"
   >
     <span class="sky-filter-bar-filter-item-title"
-      ><span>{{ filterName() }}</span>
+      ><span class="sky-filter-bar-filter-item-name">{{ filterName() }}</span>
       @if (value) {
         <span>:</span>
       }
