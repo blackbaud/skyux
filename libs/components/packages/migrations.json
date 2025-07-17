@@ -7,17 +7,17 @@
     },
     "i18n-resources-module": {
       "version": "0.0.0-PLACEHOLDER",
-      "factory": "./update-13/i18n-resources-module/i18n-resources-module.schematic",
+      "factory": "./src/schematics/migrations/update-13/i18n-resources-module/i18n-resources-module.schematic",
       "description": "Regenerate i18n resources modules for libraries."
     },
     "remove-old-compat-stylesheets": {
       "version": "0.0.0-PLACEHOLDER",
-      "factory": "./update-13/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",
+      "factory": "./src/schematics/migrations/update-13/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",
       "description": "Remove backward compatible stylesheets for older versions of SKY UX."
     },
     "workspace-check": {
       "version": "0.0.0-PLACEHOLDER",
-      "factory": "./update-13/workspace-check/workspace-check.schematic",
+      "factory": "./src/schematics/migrations/update-13/workspace-check/workspace-check.schematic",
       "description": "Log warnings if the workspace is not configured correctly."
     }
   }
