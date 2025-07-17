@@ -18,13 +18,11 @@ export class FilterBarHarnessTestComponent {
       id: 'filter1',
       name: 'Test filter 1',
       filterValue: { value: 'value1' },
-      filterModalConfig: { modalComponent: class {} },
     },
     {
       id: 'filter2',
       name: 'Test filter 2',
       filterValue: undefined,
-      filterModalConfig: { modalComponent: class {} },
     },
   ]);
 
