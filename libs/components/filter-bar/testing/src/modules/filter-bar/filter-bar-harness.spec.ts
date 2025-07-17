@@ -75,7 +75,9 @@ describe('Filter bar test harness', () => {
 
     await expectAsync(
       filterBarHarness.clickClearFilters(),
-    ).toBeRejectedWithError('Clear filters button not found');
+    ).toBeRejectedWithError(
+      'Unable to find clear filters button because no filters are set',
+    );
   });
 
   it('should get a filter bar item by criteria', async () => {

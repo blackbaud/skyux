@@ -40,7 +40,9 @@ export class SkyFilterBarHarness extends SkyComponentHarness {
   public async clickClearFilters(): Promise<void> {
     const button = await this.#getClearFiltersButton();
     if (!button) {
-      throw new Error('Clear filters button not found');
+      throw new Error(
+        'Unable to find clear filters button because no filters are set',
+      );
     }
     await button.click();
   }
@@ -90,7 +92,7 @@ export class SkyFilterBarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the filter picker button.
+   * Clicks the filter picker button and returns a harness for the selection modal that it opened.
    */
   public async openFilterPicker(): Promise<SkySelectionModalHarness> {
     const button = await this.#getFilterPickerButton();
