@@ -29,7 +29,7 @@ type SelectionModalSearchAsyncFn = (
 ) => Observable<SkySelectionModalSearchResult> | undefined;
 
 /**
- * @internal
+ * The top-level filter bar component.
  */
 @Component({
   selector: 'sky-filter-bar',
@@ -44,7 +44,14 @@ type SelectionModalSearchAsyncFn = (
   styleUrl: './filter-bar.component.scss',
 })
 export class SkyFilterBarComponent {
+  /**
+   * The filters to be displayed on the filter bar. Filters defined in a provided `SkyDataManagerService` will supersede this input.
+   */
   public filters = model<SkyFilterBarFilterItem[] | undefined>();
+
+  /**
+   * An asynchronous search function will enable a selection modal so the user can add or remove filters.
+   */
   public filterAsyncSearchFn = input<SelectionModalSearchAsyncFn>();
 
   protected hasFilters = computed(() => {
