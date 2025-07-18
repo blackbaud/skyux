@@ -35,6 +35,7 @@
     --sky-elevation-focus
   );
   --sky-override-tab-button-radius: 0;
+  --sky-override-tab-dropdown-color: var(--sky-color-text-default);
   --sky-override-tab-line-height: 1.8;
   --sky-override-tab-selected-background-color: var(--modern-color-transparent);
   --sky-override-tab-selected-border-bottom-size: var(--modern-size-3);
@@ -44,7 +45,7 @@
   .sky-dropdown-button-type-tab {
     background-color: var(
       --sky-override-tab-selected-background-color,
-      var(--sky-color-background-selected-soft)
+      var(--sky-color-background-tab-selected)
     );
     border: none;
     box-shadow: none;
@@ -55,7 +56,7 @@
       var(--sky-override-tab-button-radius, var(--sky-border-radius-s)) 0 0;
     color: var(
       --sky-override-tab-dropdown-color,
-      var(--sky-color-text-default)
+      var(--sky-color-text-selected)
     );
     border-bottom: var(
       --sky-override-tab-border-bottom,
