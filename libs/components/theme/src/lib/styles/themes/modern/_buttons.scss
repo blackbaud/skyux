@@ -79,18 +79,6 @@
     --sky-override-button-line-height: normal;
     --sky-override-button-opacity-disabled: 0.65;
   }
-  --sky-override-button-link-inline-hover-background-color: var(
-    --sky-color-background-action-tertiary-hover
-  );
-  --sky-override-button-link-inline-background-color: var(
-    --sky-color-background-action-tertiary-base
-  );
-  --sky-override-button-link-online-focus-background-color: var(
-    --sky-color-background-action-tertiary-focus
-  );
-  --sky-override-button-link-inline-active-background-color: var(
-    --sky-color-background-action-tertiary-active
-  );
 }
 
 @include compatMixins.sky-modern-overrides('.sky-btn-tab', false) {
@@ -552,10 +540,7 @@
   }
 
   .sky-btn-link-inline {
-    background-color: var(
-      --sky-override-button-link-inline-background-color,
-      transparent
-    );
+    background-color: transparent;
     border-radius: var(
       --sky-override-button-link-inline-border-radius,
       var(--sky-border-radius-s)
@@ -565,10 +550,7 @@
     font-size: var(--sky-override-button-link-inline-font-size, inherit);
 
     &:focus-visible:not(:active) {
-      background-color: var(
-        --sky-override-button-link-online-focus-background-color,
-        transparent
-      );
+      background-color: transparent;
       box-shadow: var(
         --sky-override-button-link-inline-box-shadow-focus,
         0 0 0 var(--sky-border-width-action-focus)
@@ -577,23 +559,17 @@
     }
 
     &:active {
-      background-color: var(
-        --sky-override-button-link-inline-active-background-color,
-        transparent
-      );
+      background-color: transparent;
     }
 
     &:hover {
-      background-color: var(
-        --sky-override-button-link-inline-background-color,
-        transparent
-      );
+      background-color: transparent;
     }
 
     &:hover,
     &:active {
       color: var(
-        --sky-override-button-link-inline-hover-background-color,
+        --sky-override-button-link-inline-color-hover-active,
         var(--sky-color-text-action)
       );
       text-decoration: underline;
