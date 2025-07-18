@@ -1,12 +1,15 @@
 # Changelog
 
 ## [13.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.2...13.0.0-alpha.3) (2025-07-18)
+## [12.28.1](https://github.com/blackbaud/skyux/compare/12.28.0...12.28.1) (2025-07-17)
 
 
 ### Bug Fixes
 
 * **components/packages:** fix "noop" migration path ([#3691](https://github.com/blackbaud/skyux/issues/3691)) ([3b0ae2a](https://github.com/blackbaud/skyux/commit/3b0ae2a898ca9ab9a15740d0cbf0c05acf76753c))
 * selected tabs use new text and background color tokens, disabled toggle switches use updated tokens, and typography tokens are updated in v2 modern ([#3688](https://github.com/blackbaud/skyux/issues/3688)) ([#3690](https://github.com/blackbaud/skyux/issues/3690)) ([bf04262](https://github.com/blackbaud/skyux/commit/bf042629cdcbd0617c60e7a168cc44d797fd3f82))
+* ag-grid and repeater rows use row background base color token in v2 modern ([#3684](https://github.com/blackbaud/skyux/issues/3684)) ([7145763](https://github.com/blackbaud/skyux/commit/7145763934a48c6eafe563faaba795e040de01df))
+* selected tabs use new text and background color tokens, disabled  toggle switches use updated tokens, and typography tokens are updated in v2 modern ([#3688](https://github.com/blackbaud/skyux/issues/3688)) ([b6c6d42](https://github.com/blackbaud/skyux/commit/b6c6d427586f41f67cc4c1cad278afd6054e4d14))
 
 ## [13.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.1...13.0.0-alpha.2) (2025-07-17)
 
