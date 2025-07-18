@@ -1,5 +1,13 @@
 # Changelog
 
+## [13.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.2...13.0.0-alpha.3) (2025-07-18)
+
+
+### Bug Fixes
+
+* **components/packages:** fix "noop" migration path ([#3691](https://github.com/blackbaud/skyux/issues/3691)) ([3b0ae2a](https://github.com/blackbaud/skyux/commit/3b0ae2a898ca9ab9a15740d0cbf0c05acf76753c))
+* selected tabs use new text and background color tokens, disabled toggle switches use updated tokens, and typography tokens are updated in v2 modern ([#3688](https://github.com/blackbaud/skyux/issues/3688)) ([#3690](https://github.com/blackbaud/skyux/issues/3690)) ([bf04262](https://github.com/blackbaud/skyux/commit/bf042629cdcbd0617c60e7a168cc44d797fd3f82))
+
 ## [12.28.1](https://github.com/blackbaud/skyux/compare/12.28.0...12.28.1) (2025-07-17)
 
 
