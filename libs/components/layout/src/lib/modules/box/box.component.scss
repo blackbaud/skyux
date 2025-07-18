@@ -22,6 +22,7 @@ sky-box {
     --sky-override-box-background-color-default,
     var(--sky-color-background-container-base)
   );
+  --sky-comp-override-list-header-background-color: initial;
 
   border-radius: var(--sky-box-border-radius);
   overflow: var(--sky-box-overflow);

@@ -99,6 +99,8 @@
     --sky-override-flyout-background,
     var(--sky-color-background-container-base)
   );
+  --sky-comp-override-list-header-background-color: initial;
+
   border-left: var(--sky-override-flyout-border-left);
 
   &:focus {

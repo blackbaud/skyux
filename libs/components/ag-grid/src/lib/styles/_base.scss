@@ -144,7 +144,10 @@
 
 .ag-theme-sky-data-grid-modern-light,
 .ag-theme-sky-data-grid-modern-light-compact {
-  --ag-header-background-color: var(--sky-background-color-page-default);
+  --ag-header-background-color: var(
+    --sky-comp-override-list-header-background-color,
+    var(--sky-background-color-page-default)
+  );
   --ag-header-column-separator-color: var(--sky-background-color-page-default);
 }
 

@@ -1,18 +1,27 @@
-<sky-filter-bar [filterAsyncSearchFn]="searchFn" [(filters)]="filters">
-  <sky-filter-bar-summary>
-    @for (summaryItem of summaryItems; track summaryItem.label) {
-      <sky-filter-bar-summary-item
-        [helpPopoverContent]="summaryItem.helpPopoverContent"
-        [label]="summaryItem.label"
-        [value]="summaryItem.value"
-        [valueFormat]="summaryItem.valueFormat"
-      />
-    }
-  </sky-filter-bar-summary>
-</sky-filter-bar>
-<div>Filters:</div>
-<div>{{ filters }}</div>
+<sky-page layout="list">
+  <sky-page-header pageTitle="Filter bar" />
+  <sky-page-content>
+    <sky-filter-bar [filterAsyncSearchFn]="searchFn" [(filters)]="filters">
+      <sky-filter-bar-summary>
+        @for (summaryItem of summaryItems; track summaryItem.label) {
+          <sky-filter-bar-summary-item
+            [helpPopoverContent]="summaryItem.helpPopoverContent"
+            [label]="summaryItem.label"
+            [value]="summaryItem.value"
+            [valueFormat]="summaryItem.valueFormat"
+          />
+        }
+      </sky-filter-bar-summary>
+    </sky-filter-bar>
+    <div>Filters:</div>
+    <div>{{ filters }}</div>
 
-<button type="button" class="sky-btn sky-btn-default" (click)="resetFilters()">
-  Reset filters
-</button>
+    <button
+      type="button"
+      class="sky-btn sky-btn-default"
+      (click)="resetFilters()"
+    >
+      Reset filters
+    </button>
+  </sky-page-content>
+</sky-page>

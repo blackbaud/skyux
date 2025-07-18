@@ -21,6 +21,7 @@
 }
 
 .sky-split-view {
+  --sky-comp-override-list-header-background-color: initial;
   // Set position:relative to give resize handle's absolute positioning a new origin.
   position: relative;
   display: flex;

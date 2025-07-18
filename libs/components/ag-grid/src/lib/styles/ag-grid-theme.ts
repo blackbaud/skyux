@@ -41,7 +41,8 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
     'var(--sky-override-ag-grid-font-size, var(--sky-font-size-body-m))',
   foregroundColor:
     'var(--sky-override-ag-grid-foreground-color, var(--sky-color-text-default))',
-  headerBackgroundColor: 'var(--sky-background-color-page-default)',
+  headerBackgroundColor:
+    'var(--sky-comp-override-list-header-background-color, var(--sky-background-color-page-default))',
   headerColumnBorder:
     'var(--sky-override-ag-grid-border-width, var(--sky-border-width-divider)) var(--sky-override-ag-grid-border-style, var(--sky-border-style-divider)) var(--sky-override-ag-grid-border-color, transparent)',
   headerColumnBorderHeight: '100%',

@@ -41,6 +41,7 @@
 }
 
 .sky-tile {
+  --sky-comp-override-list-header-background-color: initial;
   background-color: var(
     --sky-override-tile-background-color,
     var(--sky-color-background-container-base)
