@@ -24,6 +24,7 @@ import { SkyPageLayoutType } from './types/page-layout-type';
 @Component({
   selector: 'sky-page',
   template: `<ng-content />`,
+  styleUrls: ['./page.component.scss'],
   providers: [
     SkyPageThemeAdapterService,
     provideSkyBreakpointObserver(SkyContainerBreakpointObserver),
