@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.28.1](https://github.com/blackbaud/skyux/compare/12.28.0...12.28.1) (2025-07-17)
+
+
+### Bug Fixes
+
+* ag-grid and repeater rows use row background base color token in v2 modern ([#3684](https://github.com/blackbaud/skyux/issues/3684)) ([7145763](https://github.com/blackbaud/skyux/commit/7145763934a48c6eafe563faaba795e040de01df))
+* selected tabs use new text and background color tokens, disabled  toggle switches use updated tokens, and typography tokens are updated in v2 modern ([#3688](https://github.com/blackbaud/skyux/issues/3688)) ([b6c6d42](https://github.com/blackbaud/skyux/commit/b6c6d427586f41f67cc4c1cad278afd6054e4d14))
+
 ## [12.28.0](https://github.com/blackbaud/skyux/compare/12.27.0...12.28.0) (2025-07-17)
 
 
