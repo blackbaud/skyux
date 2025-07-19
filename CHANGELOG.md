@@ -1,5 +1,12 @@
 # Changelog
 
+## [13.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.3...13.0.0-alpha.4) (2025-07-19)
+
+
+### Bug Fixes
+
+* **components/forms:** toggle has a base background color in v2 modern ([#3694](https://github.com/blackbaud/skyux/issues/3694)) ([#3697](https://github.com/blackbaud/skyux/issues/3697)) ([1eb5c84](https://github.com/blackbaud/skyux/commit/1eb5c8493bc2751d3abf9b4b70f0436ac0cb4a2b))
+
 ## [13.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.2...13.0.0-alpha.3) (2025-07-18)
 
 
