@@ -255,7 +255,7 @@
     );
     background-color: var(
       --sky-override-flyout-header-permalink-background-color,
-      var(--sky-color-background-action-tertiary-base)
+      transparent
     );
     border-radius: var(--sky-border-radius-s);
     box-shadow: var(--sky-override-flyout-header-permalink-box-shadow, none);
@@ -263,7 +263,7 @@
     &:hover {
       background-color: var(
         --sky-override-flyout-header-permalink-background-color-hover,
-        var(--sky-color-background-action-tertiary-hover)
+        transparent
       );
       box-shadow: var(
         --sky-override-flyout-header-permalink-box-shadow-hover,
@@ -275,7 +275,7 @@
     &.sky-btn-active {
       background-color: var(
         --sky-override-flyout-header-permalink-background-color-active,
-        var(--sky-color-background-action-tertiary-active)
+        transparent
       );
       box-shadow: var(
         --sky-override-flyout-header-permalink-box-shadow-active,
@@ -286,7 +286,7 @@
     &:focus-visible:not(:active) {
       background-color: var(
         --sky-override-flyout-header-permalink-background-color-focus,
-        var(--sky-color-background-action-tertiary-focus)
+        transparent
       );
       box-shadow: var(
         --sky-override-flyout-header-permalink-box-shadow-focus,
