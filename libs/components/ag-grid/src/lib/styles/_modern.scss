@@ -9,11 +9,11 @@
     line-height: var(--sky-font-line_height-body-m);
     padding-top: var(
       --sky-override-ag-grid-cell-padding-vertical,
-      var(--sky-space-inset-letterbox-2_3-top-m)
+      var(--sky-comp-grid-cell-space-inset-top)
     );
     padding-bottom: var(
       --sky-override-ag-grid-cell-padding-vertical,
-      var(--sky-space-inset-letterbox-2_3-bottom-m)
+      var(--sky-comp-grid-cell-space-inset-bottom)
     );
     min-height: calc(var(--ag-row-height) - 2px);
   }
@@ -225,7 +225,7 @@
           padding-left: var(
             --sky-override-ag-grid-cell-focus-horizontal-padding,
             calc(
-              var(--sky-space-inset-letterbox-2_3-left-m) - var(
+              var(--sky-comp-grid-cell-space-inset-left) - var(
                   --sky-border-width-input-focus
                 )
             )
