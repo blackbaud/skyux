@@ -116,7 +116,7 @@ sky-text-editor.sky-form-field-stacked {
       font-style: var(--sky-font-style-input-label);
       font-weight: var(
         --sky-override-text-editor-label-font-weight,
-        var(--sky-font-weight-input-label)
+        var(--sky-font-style-input-label)
       );
       letter-spacing: var(--sky-font-letter_spacing-input-label);
       line-height: var(
