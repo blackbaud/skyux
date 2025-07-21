@@ -1,5 +1,18 @@
 # Changelog
 
+## [12.29.0](https://github.com/blackbaud/skyux/compare/12.28.1...12.29.0) (2025-07-18)
+
+
+### Features
+
+* pull in latest design tokens ([#3700](https://github.com/blackbaud/skyux/issues/3700)) ([b2b11fa](https://github.com/blackbaud/skyux/commit/b2b11faa30213e8812c974cae1347b71f107cef1))
+* remove `background-color` from inline buttons for all states ([#3696](https://github.com/blackbaud/skyux/issues/3696)) ([419af6b](https://github.com/blackbaud/skyux/commit/419af6bd97a3b46e3eb991b1f8b413033925c550))
+
+
+### Bug Fixes
+
+* **components/forms:** toggle has a base background color in v2 modern ([#3694](https://github.com/blackbaud/skyux/issues/3694)) ([48ad13d](https://github.com/blackbaud/skyux/commit/48ad13d00e78c9d91df3c3f5a393b9137aede808))
+
 ## [13.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.2...13.0.0-alpha.3) (2025-07-18)
 
 
