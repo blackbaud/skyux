@@ -101,7 +101,7 @@
     --sky-override-label-line-height,
     var(--sky-font-line_height-body-m)
   );
-  margin: var(--sky-override-label-margin, unset);
+  margin: var(--sky-override-label-margin, 0);
   white-space: nowrap;
   padding: var(
     --sky-override-label-padding,
