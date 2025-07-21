@@ -6,35 +6,35 @@
     color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-body-m);
-    font-weight: var(--sky-font-weight-body-m);
+    font-weight: var(--sky-font-style-body-m);
   }
 
   .sky-font-body-sm {
     color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-body-s);
-    font-weight: var(--sky-font-weight-body-s);
+    font-weight: var(--sky-font-style-body-s);
   }
 
   .sky-font-body-lg {
     color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-body-l);
-    font-weight: var(--sky-font-weight-body-l);
+    font-weight: var(--sky-font-style-body-l);
   }
 
   .sky-font-data-label {
     color: var(--sky-color-text-deemphasized);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-body-m);
-    font-weight: var(--sky-font-weight-body-m);
+    font-weight: var(--sky-font-style-body-m);
   }
 
   .sky-font-field-label {
     color: var(--sky-color-text-deemphasized);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-body-m);
-    font-weight: var(--sky-font-weight-body-m);
+    font-weight: var(--sky-font-style-body-m);
   }
 
   .sky-font-deemphasized {
@@ -48,7 +48,7 @@
   .sky-font-emphasized {
     font-family: var(--sky-font-family-primary);
     font-size: inherit;
-    font-weight: var(--sky-font-weight-emphasized);
+    font-weight: var(--sky-font-style-emphasized);
   }
 
   .sky-font-hint-text-s {
@@ -56,7 +56,7 @@
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-hint-s);
     font-style: var(--sky-font-style-hint-s-style);
-    font-weight: var(--sky-font-weight-hint-s);
+    font-weight: var(--sky-font-style-hint-s);
     letter-spacing: var(--sky-font-letter_spacing-hint-s);
     line-height: var(--sky-font-line_height-hint-s);
   }
@@ -66,7 +66,7 @@
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-hint-m);
     font-style: var(--sky-font-style-hint-m-style);
-    font-weight: var(--sky-font-weight-hint-m);
+    font-weight: var(--sky-font-style-hint-m);
     line-height: var(--sky-font-line_height-hint-m);
   }
 
@@ -74,14 +74,14 @@
     color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-1);
-    font-weight: var(--sky-font-weight-display-1);
+    font-weight: var(--sky-font-style-display-1);
   }
 
   .sky-font-display-2 {
     color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-2);
-    font-weight: var(--sky-font-weight-display-2);
+    font-weight: var(--sky-font-style-display-2);
   }
 
   .sky-font-display-3,
@@ -89,14 +89,14 @@
     color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-3);
-    font-weight: var(--sky-font-weight-display-3);
+    font-weight: var(--sky-font-style-display-3);
   }
 
   .sky-font-display-4 {
     color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-4);
-    font-weight: var(--sky-font-weight-display-4);
+    font-weight: var(--sky-font-style-display-4);
   }
 }
 

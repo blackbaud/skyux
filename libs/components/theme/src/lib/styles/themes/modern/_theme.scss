@@ -10,7 +10,7 @@
   --sky-override-a-color-hover-active: var(
     --sky-text-color-action-primary-hover
   );
-  --sky-override-form-font-weight: var(--sky-font-weight-body-m);
+  --sky-override-form-font-weight: var(--sky-font-style-body-m);
   --sky-override-p-line-height: var(--sky-font-line_height-body-m);
   --sky-override-body-line-height: normal;
 }
@@ -21,7 +21,7 @@
 
 .sky-theme-modern {
   font-size: var(--sky-font-size-body-m);
-  font-weight: var(--sky-font-weight-body-m);
+  font-weight: var(--sky-font-style-body-m);
   font-family: var(--sky-font-family-primary);
   color: var(--sky-color-text-default);
   background-color: var(--sky-color-background-page);
@@ -71,7 +71,7 @@ body.sky-theme-modern {
     color: var(--sky-color-text-heading);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-heading-1);
-    font-weight: var(--sky-font-weight-heading-1);
+    font-weight: var(--sky-font-style-heading-1);
   }
 
   h2,
@@ -79,21 +79,21 @@ body.sky-theme-modern {
     color: var(--sky-color-text-heading);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-heading-2);
-    font-weight: var(--sky-font-weight-heading-2);
+    font-weight: var(--sky-font-style-heading-2);
   }
 
   h3,
   .sky-font-heading-3 {
     color: var(--sky-color-text-heading);
     font-size: var(--sky-font-size-heading-3);
-    font-weight: var(--sky-font-weight-heading-3);
+    font-weight: var(--sky-font-style-heading-3);
   }
 
   h4,
   .sky-font-heading-4 {
     color: var(--sky-color-text-heading);
     font-size: var(--sky-font-size-heading-4);
-    font-weight: var(--sky-font-weight-heading-4);
+    font-weight: var(--sky-font-style-heading-4);
     text-transform: none;
   }
 
@@ -101,7 +101,7 @@ body.sky-theme-modern {
   .sky-font-heading-5 {
     color: var(--sky-color-text-heading);
     font-size: var(--sky-font-size-heading-5);
-    font-weight: var(--sky-font-weight-heading-5);
+    font-weight: var(--sky-font-style-heading-5);
     text-transform: none;
   }
 
