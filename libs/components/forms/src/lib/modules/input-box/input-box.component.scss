@@ -403,7 +403,7 @@ sky-input-box {
             var(--sky-comp-input-label-space-inset-bottom)
           );
           font-style: var(--sky-font-style-input-label);
-          font-weight: var(--sky-font-weight-input-label);
+          font-weight: var(--sky-font-style-input-label);
 
           &:has(+ sky-character-counter-indicator) {
             margin-right: var(--sky-comp-input-label-space-inset-right);
