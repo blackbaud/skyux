@@ -44,6 +44,7 @@
 }
 
 .sky-modal {
+  --sky-comp-override-list-header-background-color: initial;
   border: var(
     --sky-override-modal-border,
     var(--sky-border-width-container-base) solid
