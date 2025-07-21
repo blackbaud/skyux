@@ -7,7 +7,7 @@
   </sky-page-header>
   <sky-page-content>
     <sky-tabset>
-      <sky-tab tabHeading="Tab 1" layout="fit">
+      <sky-tab tabHeading="Tab 1" [layout]="showLinks() ? 'none' : 'fit'">
         <sky-toolbar>
           <sky-toolbar-item>
             <button type="button" class="sky-btn sky-btn-primary">
