@@ -12,6 +12,9 @@
     --sky-override-filter-bar-summary-padding,
     var(--sky-margin-inline-sm)
   );
-  background-color: var(--sky-override-filter-bar-summary-background-color);
+  background-color: var(
+    --sky-override-filter-bar-summary-background-color,
+    var(--sky-comp-override-list-header-background-color)
+  );
   border-bottom: var(--sky-override-filter-bar-summary-border-bottom, none);
 }
