@@ -173,7 +173,7 @@
     z-index: 1;
     --ag-cell-horizontal-padding: var(
       --sky-override-ag-grid-cell-focus-horizontal-padding,
-      var(--sky-space-inset-letterbox-2_3-left-m)
+      var(--sky-comp-grid-cell-space-inset-left)
     );
 
     &.ag-cell-inline-editing {
