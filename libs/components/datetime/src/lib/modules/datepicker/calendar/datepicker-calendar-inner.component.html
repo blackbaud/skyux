@@ -4,8 +4,12 @@
       <span class="sky-datepicker-header-left">
         <button
           type="button"
-          class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-previous"
+          class="sky-btn sky-datepicker-btn-previous"
           [attr.aria-label]="previousLabel"
+          [skyThemeClass]="{
+            'sky-btn-default sky-btn-sm': 'default',
+            'sky-btn-icon-borderless': 'modern'
+          }"
           (click)="moveCalendar($event, -1)"
         >
           <sky-icon class="sky-datepicker-chevron" iconName="chevron-left" />
@@ -15,11 +19,15 @@
         <!-- display: inline -->
         <button
           type="button"
-          class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-calendar-title"
+          class="sky-btn sky-datepicker-calendar-title"
           [id]="datepickerId + '-title'"
           [disabled]="datepickerMode === maxMode"
           [ngClass]="{
             'sky-btn-disabled': datepickerMode === maxMode
+          }"
+          [skyThemeClass]="{
+            'sky-btn-default sky-btn-sm': 'default',
+            'sky-btn-link': 'modern'
           }"
           (click)="toggleModeCalendar($event)"
           >{{ title }}</button
@@ -28,8 +36,12 @@
       <span class="sky-datepicker-header-right">
         <button
           type="button"
-          class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-next"
+          class="sky-btn sky-datepicker-btn-next"
           [attr.aria-label]="nextLabel"
+          [skyThemeClass]="{
+            'sky-btn-default sky-btn-sm': 'default',
+            'sky-btn-icon-borderless': 'modern'
+          }"
           (click)="moveCalendar($event, 1)"
         >
           <sky-icon class="sky-datepicker-chevron" iconName="chevron-right" />
