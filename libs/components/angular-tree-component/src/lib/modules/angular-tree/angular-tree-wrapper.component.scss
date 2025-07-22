@@ -14,14 +14,20 @@
     #{$sky-border-color-neutral-light};
   --sky-override-angular-tree-node-padding-left-base: 0;
   --sky-override-angular-tree-node-selected-background-color: #{$sky-background-color-selected};
+  --sky-override-angular-tree-node-wrapper-background-color: transparent;
   --sky-override-angular-tree-node-wrapper-background-color-active: transparent;
+  --sky-override-angular-tree-node-wrapper-background-color-focus: transparent;
+  --sky-override-angular-tree-node-wrapper-background-color-hover: transparent;
   --sky-override-angular-tree-node-wrapper-border-left: #{$sky-nav-selected-border-width}
     solid transparent;
   --sky-override-angular-tree-node-wrapper-border-radius: 0;
   --sky-override-angular-tree-node-wrapper-padding: 4px #{$sky-margin-half};
   --sky-override-tree-children-padding: 30px;
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-active: none;
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-base: none;
   --sky-override-angular-tree-node-wrapper-standard-box-shadow-focus: none;
   --sky-override-angular-tree-node-wrapper-standard-box-shadow-hover: none;
+  --sky-override-angular-tree-node-wrapper-standard-outline-active: auto;
   --sky-override-angular-tree-node-wrapper-standard-outline-focus: auto;
   --sky-override-angular-tree-switch-control-margin: 0 8px 0 0;
   --sky-override-angular-tree-toggle-children-height: 20px;
@@ -33,6 +39,7 @@
   --sky-override-angular-tree-toggle-children-placeholder-width: 20px;
   --sky-override-angular-tree-toggle-children-width: 20px;
   --sky-override-angular-tree-toggle-color: var(--sky-text-color-deemphasized);
+  --sky-override-angular-tree-wrapper-background-color: transparent;
 }
 
 @include compatMixins.sky-modern-overrides('.sky-angular-tree-wrapper') {
@@ -47,12 +54,18 @@
     #{$sky-border-color-neutral-light};
   --sky-override-angular-tree-node-padding-left-base: 0;
   --sky-override-angular-tree-node-selected-background-color: #{$sky-background-color-selected};
+  --sky-override-angular-tree-node-wrapper-background-color: transparent;
   --sky-override-angular-tree-node-wrapper-background-color-active: transparent;
+  --sky-override-angular-tree-node-wrapper-background-color-focus: transparent;
+  --sky-override-angular-tree-node-wrapper-background-color-hover: transparent;
   --sky-override-angular-tree-node-wrapper-border-left: #{$sky-nav-selected-border-width}
     solid transparent;
   --sky-override-angular-tree-node-wrapper-padding: 4px #{$sky-margin-half};
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-active: none;
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-base: none;
   --sky-override-angular-tree-node-wrapper-standard-box-shadow-focus: none;
   --sky-override-angular-tree-node-wrapper-standard-box-shadow-hover: none;
+  --sky-override-angular-tree-node-wrapper-standard-outline-active: auto;
   --sky-override-angular-tree-node-wrapper-standard-outline-focus: auto;
   --sky-override-angular-tree-toggle-children-padding: 0;
   --sky-override-angular-tree-toggle-children-placeholder-height: 19px;
@@ -61,6 +74,14 @@
   --sky-override-angular-tree-toggle-children-margin: 0 #{$sky-margin} 0 0;
   --sky-override-angular-tree-toggle-children-width: 20px;
   --sky-override-angular-tree-switch-control-margin: 0 8px 0 0;
+  --sky-override-angular-tree-wrapper-background-color: transparent;
+}
+
+.sky-angular-tree-wrapper {
+  background-color: var(
+    --sky-override-angular-tree-wrapper-background-color,
+    var(--sky-color-background-container-base)
+  );
 }
 
 .sky-angular-tree-wrapper ::ng-deep {
@@ -78,6 +99,10 @@
   .node-wrapper {
     display: flex;
     align-items: center;
+    background-color: var(
+      --sky-override-angular-tree-node-wrapper-background-color,
+      var(--sky-color-background-nav-base)
+    );
     padding: var(
       --sky-override-angular-tree-node-wrapper-padding,
       calc(var(--sky-comp-tree-node-space-inset-top) - 1px)
@@ -99,12 +124,21 @@
       var(--sky-border-radius-xs) var(--sky-border-radius-0)
         var(--sky-border-radius-0) var(--sky-border-radius-xs)
     );
+    box-shadow: var(
+      --sky-override-angular-tree-node-wrapper-standard-box-shadow-base,
+      inset 0 0 0 var(--sky-border-width-action-base)
+        var(--sky-color-border-nav-base)
+    );
 
     &:focus-visible {
+      background-color: var(
+        --sky-override-angular-tree-node-wrapper-background-color-focus,
+        var(--sky-color-background-nav-focus)
+      );
       box-shadow: var(
         --sky-override-angular-tree-node-wrapper-standard-box-shadow-focus,
-        inset 0 0 0 var(--sky-border-width-selected-m)
-          var(--sky-color-border-selected)
+        inset 0 0 0 var(--sky-border-width-action-focus)
+          var(--sky-color-border-nav-focus)
       );
       outline: var(
         --sky-override-angular-tree-node-wrapper-standard-outline-focus,
@@ -256,30 +290,30 @@
 .sky-angular-tree-wrapper:not(.sky-angular-tree-read-only) ::ng-deep {
   .node-wrapper {
     &:hover {
+      background-color: var(
+        --sky-override-angular-tree-node-wrapper-background-color-hover,
+        var(--sky-color-background-nav-hover)
+      );
       box-shadow: var(
         --sky-override-angular-tree-node-wrapper-standard-box-shadow-hover,
-        inset 0 0 0 var(--sky-border-width-selected-s)
-          var(--sky-color-border-selected)
-      );
-    }
-
-    &:active,
-    &:focus-visible {
-      box-shadow: var(
-        --sky-override-angular-tree-node-wrapper-standard-box-shadow-focus,
-        inset 0 0 0 var(--sky-border-width-selected-m)
-          var(--sky-color-border-selected)
-      );
-      outline: var(
-        --sky-override-angular-tree-node-wrapper-standard-outline-focus,
-        none
+        inset 0 0 0 var(--sky-border-width-action-hover)
+          var(--sky-color-border-nav-hover)
       );
     }
 
     &:active {
       background: var(
         --sky-override-angular-tree-node-wrapper-background-color-active,
-        var(--sky-color-background-selected-soft)
+        var(--sky-color-background-nav-active)
+      );
+      box-shadow: var(
+        --sky-override-angular-tree-node-wrapper-standard-box-shadow-active,
+        inset 0 0 0 var(--sky-border-width-action-active)
+          var(--sky-color-border-nav-active)
+      );
+      outline: var(
+        --sky-override-angular-tree-node-wrapper-standard-outline-active,
+        none
       );
     }
   }
