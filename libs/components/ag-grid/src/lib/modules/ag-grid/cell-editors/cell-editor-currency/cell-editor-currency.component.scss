@@ -21,7 +21,7 @@ input {
   padding-left: var(
     --sky-override-ag-grid-currency-editor-left-padding,
     calc(
-      var(--sky-space-inset-letterbox-2_3-left-m) - var(
+      var(--sky-comp-grid-cell-space-inset-left) - var(
           --sky-border-width-input-focus
         )
     )
