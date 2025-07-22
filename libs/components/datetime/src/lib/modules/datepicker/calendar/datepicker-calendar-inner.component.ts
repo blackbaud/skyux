@@ -14,6 +14,7 @@ import {
 import { SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject, takeUntil } from 'rxjs';
 
@@ -32,7 +33,7 @@ let nextDatepickerId = 0;
  */
 @Component({
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, SkyIconModule],
+  imports: [CommonModule, SkyIconModule, SkyThemeModule],
   selector: 'sky-datepicker-inner',
   templateUrl: './datepicker-calendar-inner.component.html',
   styleUrl: './datepicker-calendar-inner.component.scss',
