@@ -1,0 +1,8 @@
+:host {
+  &.sky-layout-host-list,
+  &.sky-layout-host-fit {
+    --sky-comp-override-list-header-background-color: var(
+      --sky-color-background-container-dimmed
+    );
+  }
+}

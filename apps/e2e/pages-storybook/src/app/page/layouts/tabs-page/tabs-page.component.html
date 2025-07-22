@@ -7,7 +7,16 @@
   </sky-page-header>
   <sky-page-content>
     <sky-tabset>
-      <sky-tab tabHeading="Tab 1">Tab 1 Content</sky-tab>
+      <sky-tab tabHeading="Tab 1" [layout]="showLinks() ? 'none' : 'fit'">
+        <sky-toolbar>
+          <sky-toolbar-item>
+            <button type="button" class="sky-btn sky-btn-primary">
+              Toolbar button
+            </button>
+          </sky-toolbar-item>
+        </sky-toolbar>
+        <p>Tab 1 Content</p></sky-tab
+      >
       <sky-tab tabHeading="Tab 2">Tab 2 Content</sky-tab>
       <sky-tab tabHeading="Tab 3">Tab 3 Content</sky-tab>
       <sky-tab tabHeading="Tab 4">Tab 4 Content</sky-tab>

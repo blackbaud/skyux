@@ -12,6 +12,13 @@
         position: relative;
       }
     }
+
+    &-fit,
+    &-list {
+      --sky-comp-override-list-header-background-color: var(
+        --sky-color-background-container-dimmed
+      );
+    }
   }
 }
 
