@@ -2,6 +2,6 @@ sky-checkbox.sky-ag-grid-row-selector {
   display: block !important;
   margin-top: var(
     --sky-override-ag-grid-row-selector-margin-top,
-    var(--sky-space-inset-letterbox-2_3-top-m)
+    var(--sky-comp-grid-cell-space-inset-top)
   );
 }
