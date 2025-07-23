@@ -897,7 +897,7 @@
         border-radius: 0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0;
         border-left: var(
             --sky-override-selected-dropdown-item-border-width,
-            var(--sky-border-width-selected-l)
+            var(--sky-border-width-selected-m)
           )
           var(--sky-border-style-accent) var(--sky-color-border-selected);
         padding: var(--sky-comp-tab-horizontal-space-inset-top)
@@ -906,7 +906,7 @@
           calc(
             var(--sky-comp-tab-horizontal-space-inset-left) - var(
                 --sky-override-selected-dropdown-item-border-width,
-                var(--sky-border-width-selected-l)
+                var(--sky-border-width-selected-m)
               )
           );
       }
