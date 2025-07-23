@@ -2,6 +2,7 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('sky-tabset') {
+  --sky-override-tabset-align-items: center;
   --sky-override-tabset-border-bottom: #{2px solid
     $sky-background-color-primary-dark};
   --sky-override-tabset-button-color: #{$sky-text-color-action-primary};
@@ -19,6 +20,7 @@
 }
 
 @include compatMixins.sky-modern-overrides('sky-tabset', false) {
+  --sky-override-tabset-align-items: center;
   --sky-override-tabset-icon-button-padding: 9px 15px;
   --sky-override-tabset-padding: 0 0 0
     var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
@@ -43,7 +45,7 @@ sky-tabset {
 .sky-tabset {
   --sky-tabset-margin: 0;
 
-  align-items: center;
+  align-items: var(--sky-override-tabset-align-items, baseline);
   border-bottom: var(
     --sky-override-tabset-border-bottom,
     var(--sky-border-width-divider) var(--sky-border-style-divider)
