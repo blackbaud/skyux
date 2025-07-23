@@ -11,6 +11,7 @@
   --sky-override-sort-item-color-selected: #{$sky-background-color-selected};
   --sky-override-sort-item-color-selected: inherit;
   --sky-override-sort-item-color-text: #{$sky-text-color-default};
+  --sky-override-sort-item-selected-color-text: #{$sky-text-color-default};
   --sky-override-sort-item-focus-visible-background: #{$sky-background-color-neutral-light};
   --sky-override-sort-item-font-weight-selected: 600;
   --sky-override-sort-item-hover-background: #{$sky-background-color-neutral-light};
@@ -26,6 +27,7 @@
       var(--sky-color-border-action-tertiary-focus),
     var(--sky-elevation-focus);
   --sky-override-sort-item-color-selected: transparent;
+  --sky-override-sort-item-selected-color-text: var(--sky-color-text-default);
   --sky-override-sort-item-width-border-selected: var(--modern-size-3);
 }
 
@@ -67,7 +69,9 @@
         var(--sky-comp-dropdown-option-space-inset-bottom)
         var(--sky-comp-dropdown-option-space-inset-left)
     );
+  }
 
+  &:not(.sky-sort-item-selected) button {
     &:hover {
       text-decoration: none;
       background-color: var(
@@ -92,7 +96,9 @@
           var(--sky-color-border-action-tertiary-active)
       );
     }
+  }
 
+  & button {
     &:focus-visible:not(:active),
     &:focus-within:not(:active) {
       background-color: var(
@@ -180,8 +186,8 @@
       var(--sky-font-style-body-m)
     );
     color: var(
-      --sky-override-sort-item-color-text,
-      var(--sky-color-text-default)
+      --sky-override-sort-item-selected-color-text,
+      var(--sky-color-text-selected)
     );
   }
 }
