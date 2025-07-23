@@ -5,8 +5,11 @@
   --sky-override-closeable-tab-padding-right: 43px;
   --sky-override-tab-close-active-hover-color: #fff;
   --sky-override-tab-close-box-shadow-states: none;
+  --sky-override-tab-close-border-radius: none;
   --sky-override-tab-close-color: #{$sky-text-color-deemphasized};
   --sky-override-tab-close-hover-color: #{$sky-text-color-default};
+  --sky-override-tab-close-outline: auto;
+  --sky-override-tab-close-outline-color: black;
   --sky-override-tab-close-padding: 1px 6px;
   --sky-override-tab-close-position: absolute;
   --sky-override-tab-close-position-right: 10px;
@@ -17,6 +20,9 @@
 @include compatMixins.sky-modern-overrides('sky-tab-button', false) {
   --sky-override-closeable-tab-padding-right: 44px;
   --sky-override-tab-close-box-shadow-states: none;
+  --sky-override-tab-close-border-radius: none;
+  --sky-override-tab-close-outline: auto;
+  --sky-override-tab-close-outline-color: black;
   --sky-override-tab-close-padding: var(--modern-size-1) var(--modern-size-6);
   --sky-override-tab-close-position: absolute;
   --sky-override-tab-close-position-right: var(--modern-size-10);
@@ -32,6 +38,10 @@
   );
 
   .sky-btn-tab-close {
+    border-radius: var(
+      --sky-override-tab-close-border-radius,
+      var(--sky-border-radius-s)
+    );
     position: var(--sky-override-tab-close-position, static);
     top: var(--sky-override-tab-close-position-top, none);
     right: var(--sky-override-tab-close-position-right, none);
@@ -60,6 +70,12 @@
         inset 0 0 0 var(--sky-border-width-action-hover)
           var(--sky-color-border-action-tertiary-hover)
       );
+    }
+
+    &:active,
+    &:focus-visible {
+      outline: var(--sky-override-tab-close-outline, none);
+      outline-color: var(--sky-override-tab-close-outline-color);
     }
 
     &:active {
