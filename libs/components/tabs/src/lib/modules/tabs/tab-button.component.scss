@@ -15,6 +15,7 @@
   --sky-override-tab-btn-wizard-disabled-background-color: var(
     --sky-background-color-neutral-light
   );
+  --sky-override-tab-btn-wizard-disabled-border-color: #{$sky-border-color-neutral-light};
 }
 
 @include compatMixins.sky-modern-overrides('sky-tab-button', false) {
@@ -27,6 +28,7 @@
   --sky-override-tab-btn-wizard-disabled-background-color: var(
     --modern-color-transparent
   );
+  --sky-override-tab-btn-wizard-disabled-border-color: none;
 }
 
 .sky-btn-tab-wrapper {
@@ -110,6 +112,10 @@
     background-color: var(
       --sky-override-tab-btn-wizard-disabled-background-color,
       var(--sky-color-background-tab-wizard-disabled)
+    );
+    border-color: var(
+      --sky-override-tab-btn-wizard-disabled-border-color,
+      var(--sky-color-border-tab-wizard-disabled)
     );
   }
 }
