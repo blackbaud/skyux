@@ -76,6 +76,7 @@ sky-text-editor.sky-form-field-stacked {
         var(--sky-color-border-input-base)
       )
   );
+  background-color: var(--sky-color-background-input-base);
 
   &.sky-text-editor-disabled {
     background-color: var(--sky-color-background-input-disabled);
@@ -91,10 +92,7 @@ sky-text-editor.sky-form-field-stacked {
   }
 
   .sky-text-editor-label-wrapper:not(:empty) {
-    background-color: var(
-      --sky-override-text-editor-label-background-color,
-      var(--sky-color-background-input-base)
-    );
+    background-color: var(--sky-override-text-editor-label-background-color);
     display: var(--sky-override-text-editor-label-display, inline-block);
     padding: var(
       --sky-override-text-editor-label-padding,
@@ -131,10 +129,7 @@ sky-text-editor.sky-form-field-stacked {
   .sky-text-editor-wrapper {
     display: flex;
     flex-wrap: wrap;
-    background-color: var(
-      --sky-override-text-editor-background-color,
-      var(--sky-color-background-input-base)
-    );
+    background-color: var(--sky-override-text-editor-background-color);
     width: 100%;
     height: 300px;
     padding: var(
@@ -234,8 +229,7 @@ sky-text-editor.sky-form-field-stacked {
   .sky-text-editor-toolbar {
     .sky-toolbar-container {
       background-color: var(
-        --sky-override-text-editor-toolbar-background-color,
-        var(--sky-color-background-input-base)
+        --sky-override-text-editor-toolbar-background-color
       ) !important;
     }
 
