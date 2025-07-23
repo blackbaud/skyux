@@ -15,6 +15,10 @@
   --sky-override-tab-close-position-right: 10px;
   --sky-override-tab-close-position-top: 10px;
   --sky-override-tab-margin-right: #{$sky-margin-inline-compact};
+  --sky-override-tab-btn-wizard-disabled-background-color: var(
+    --sky-background-color-neutral-light
+  );
+  --sky-override-tab-btn-wizard-disabled-border-color: #{$sky-border-color-neutral-light};
 }
 
 @include compatMixins.sky-modern-overrides('sky-tab-button', false) {
@@ -27,6 +31,10 @@
   --sky-override-tab-close-position: absolute;
   --sky-override-tab-close-position-right: var(--modern-size-10);
   --sky-override-tab-close-position-top: var(--modern-size-12);
+  --sky-override-tab-btn-wizard-disabled-background-color: var(
+    --modern-color-transparent
+  );
+  --sky-override-tab-btn-wizard-disabled-border-color: none;
 }
 
 .sky-btn-tab-wrapper {
@@ -113,6 +121,17 @@
     padding-right: var(
       --sky-override-closeable-tab-padding-right,
       var(--sky-comp-tab-horizontal-space-inset-right)
+    );
+  }
+
+  a.sky-btn-tab-wizard.sky-btn-tab-disabled {
+    background-color: var(
+      --sky-override-tab-btn-wizard-disabled-background-color,
+      var(--sky-color-background-tab-wizard-disabled)
+    );
+    border-color: var(
+      --sky-override-tab-btn-wizard-disabled-border-color,
+      var(--sky-color-border-tab-wizard-disabled)
     );
   }
 }
