@@ -56,6 +56,8 @@
   --sky-override-text-editor-label-padding: 10px 10px 0 10px;
   --sky-override-text-editor-toolbar-section-padding: #{$sky-theme-modern-space-sm};
   --sky-override-text-editor-top-toolbar-bottom-padding: 0;
+  --sky-override-text-editor-toolbar-item-spacing: 0
+    var(--sky-space-gap-action_group-xl) 0 0;
 }
 
 sky-text-editor.sky-form-field-stacked {
