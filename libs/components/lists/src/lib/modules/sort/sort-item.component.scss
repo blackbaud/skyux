@@ -7,6 +7,8 @@
   --sky-override-sort-item-border-radius: 0px;
   --sky-override-sort-item-box-shadow: none;
   --sky-override-sort-item-box-shadow-focus: none;
+  --sky-override-sort-item-box-shadow-selected-active: none;
+  --sky-override-sort-item-box-shadow-selected-hover: none;
   --sky-override-sort-item-color-background: transparent;
   --sky-override-sort-item-color-selected: #{$sky-background-color-selected};
   --sky-override-sort-item-color-selected: inherit;
@@ -15,6 +17,8 @@
   --sky-override-sort-item-focus-visible-background: #{$sky-background-color-neutral-light};
   --sky-override-sort-item-font-weight-selected: 600;
   --sky-override-sort-item-hover-background: #{$sky-background-color-neutral-light};
+  --sky-override-sort-item-hover-active-background: transparent;
+  --sky-override-sort-item-hover-selected-background: #{$sky-background-color-neutral-light};
   --sky-override-sort-item-margin: 4px;
   --sky-override-sort-item-padding: 3px #{$sky-padding-double};
   --sky-override-sort-item-padding-left-selected: #{$sky-padding-double};
@@ -26,7 +30,19 @@
     inset 0 0 0 var(--sky-border-width-action-focus)
       var(--sky-color-border-action-tertiary-focus),
     var(--sky-elevation-focus);
+  --sky-override-sort-item-box-shadow-selected-active: inset 0 0 0
+    var(--sky-border-width-action-active)
+    var(--sky-color-border-action-tertiary-active);
+  --sky-override-sort-item-box-shadow-selected-hover: inset 0 0 0
+    var(--sky-border-width-action-hover)
+    var(--sky-color-border-action-tertiary-hover);
   --sky-override-sort-item-color-selected: transparent;
+  --sky-override-sort-item-hover-active-background: var(
+    --sky-color-background-action-tertiary-active
+  );
+  --sky-override-sort-item-hover-selected-background: var(
+    --sky-color-background-action-tertiary-hover
+  );
   --sky-override-sort-item-selected-color-text: var(--sky-color-text-default);
   --sky-override-sort-item-width-border-selected: var(--modern-size-3);
 }
@@ -69,9 +85,7 @@
         var(--sky-comp-dropdown-option-space-inset-bottom)
         var(--sky-comp-dropdown-option-space-inset-left)
     );
-  }
 
-  &:not(.sky-sort-item-selected) button {
     &:hover {
       text-decoration: none;
       background-color: var(
@@ -96,9 +110,7 @@
           var(--sky-color-border-action-tertiary-active)
       );
     }
-  }
 
-  & button {
     &:focus-visible:not(:active),
     &:focus-within:not(:active) {
       background-color: var(
@@ -189,5 +201,25 @@
       --sky-override-sort-item-selected-color-text,
       var(--sky-color-text-selected)
     );
+
+    &:hover {
+      text-decoration: none;
+      background-color: var(
+        --sky-override-sort-item-hover-selected-background,
+        var(--sky-color-background-selected-soft)
+      );
+      box-shadow: var(--sky-override-sort-item-box-shadow-selected-hover, none);
+    }
+
+    &:active {
+      background-color: var(
+        --sky-override-sort-item-hover-active-background,
+        var(--sky-color-background-selected-soft)
+      );
+      box-shadow: var(
+        --sky-override-sort-item-box-shadow-selected-active,
+        none
+      );
+    }
   }
 }
