@@ -199,11 +199,6 @@
     &-list,
     &-tabs {
       &:has(> sky-page-content):has(> sky-page-links) {
-        --sky-layout-host-links-spacing: var(
-          --sky-override-page-content-with-links-spacing-sm,
-          var(--sky-space-inline-xl)
-        );
-
         > sky-page-header,
         .sky-page-header,
         .sky-page-header-info,
@@ -308,6 +303,16 @@
           var(--sky-comp-page-content-blocks-space-inset-sm-bottom)
           var(--sky-comp-page-content-blocks-space-inset-sm-left)
       );
+
+      &:has(> sky-page-content):has(> sky-page-links) {
+        --sky-layout-host-links-spacing: var(
+          --sky-override-page-content-with-links-spacing-sm,
+          var(--sky-comp-page-links-blocks-space-inset-sm-top)
+            var(--sky-comp-page-links-blocks-space-inset-sm-right)
+            var(--sky-comp-page-links-blocks-space-inset-sm-bottom)
+            var(--sky-comp-page-links-blocks-space-inset-sm-left)
+        );
+      }
     }
 
     &-fit {
@@ -342,6 +347,16 @@
           var(--sky-comp-page-content-list-space-inset-sm-bottom)
           var(--sky-comp-page-content-list-space-inset-sm-left)
       );
+
+      &:has(> sky-page-content):has(> sky-page-links) {
+        --sky-layout-host-links-spacing: var(
+          --sky-override-page-content-with-links-spacing-sm,
+          var(--sky-comp-page-links-list-space-inset-sm-top)
+            var(--sky-comp-page-links-list-space-inset-sm-right)
+            var(--sky-comp-page-links-list-space-inset-sm-bottom)
+            var(--sky-comp-page-links-list-space-inset-sm-left)
+        );
+      }
     }
 
     &-tabs {
@@ -356,6 +371,16 @@
         --sky-override-page-content-tabs-spacing-sm,
         var(--sky-comp-page-tabset-tabs-space-inset-sm-left)
       );
+
+      &:has(> sky-page-content):has(> sky-page-links) {
+        --sky-layout-host-links-spacing: var(
+          --sky-override-page-content-with-links-spacing-sm,
+          var(--sky-comp-page-links-tabs-space-inset-sm-top)
+            var(--sky-comp-page-links-tabs-space-inset-sm-right)
+            var(--sky-comp-page-links-tabs-space-inset-sm-bottom)
+            var(--sky-comp-page-links-tabs-space-inset-sm-left)
+        );
+      }
     }
   }
 }
