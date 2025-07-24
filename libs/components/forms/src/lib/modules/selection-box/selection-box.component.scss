@@ -39,6 +39,10 @@
   --sky-override-selection-box-box-shadow-hover:
     var(--sky-elevation-raised-100),
     inset 0 0 0 1px #{$sky-theme-modern-background-color-primary-dark};
+  // While the base selected state doesn't need this. Specifying this override so it can be used for interactive states.
+  --sky-override-selection-box-background-selected: var(
+    --sky-color-background-selected-soft
+  );
   --sky-override-selection-box-box-shadow-selected:
     inset 0 0 0 2px #1870b8, 0px 1px 8px 0px rgba(0, 0, 0, 0.3),
     inset 6px 0 0 0 #{$sky-background-color-primary-dark};
@@ -92,9 +96,66 @@
             var(--sky-color-border-action-secondary-hover)
         );
       }
+
+      // Section needed to maintain default and modern v1
+      &.sky-selection-box-selected:not(:has(sky-radio)) {
+        background: var(
+          --sky-override-selection-box-background-selected,
+          var(--sky-color-background-action-secondary-hover)
+        );
+        box-shadow: var(
+          --sky-override-selection-box-box-shadow-selected,
+          inset 0 0 0 var(--sky-border-width-action-hover)
+            var(--sky-color-border-action-secondary-hover)
+        );
+      }
     }
 
-    &:focus-visible {
+    &:active {
+      background: var(
+        --sky-override-selection-box-background-active,
+        var(--sky-color-background-action-secondary-active)
+      );
+      // NOTE: The fallback here is the `sky-btn-default` hover box shadow. Remove rule all together when only modern v2 is supported.
+      box-shadow: var(
+        --sky-override-selection-box-box-shadow-active,
+        inset 0 0 0 var(--sky-border-width-action-active)
+          var(--sky-color-border-action-secondary-active)
+      );
+
+      .sky-switch-control {
+        border: var(
+          --sky-override-selection-box-switch-border-active,
+          solid var(--sky-border-width-action-active)
+            var(--sky-color-border-action-secondary-active)
+        );
+      }
+
+      // Section needed to maintain default and modern v1
+      &.sky-selection-box-selected:not(:has(sky-radio)) {
+        background: var(
+          --sky-override-selection-box-background-selected,
+          var(--sky-color-background-action-secondary-active)
+        );
+        box-shadow: var(
+          --sky-override-selection-box-box-shadow-selected,
+          inset 0 0 0 var(--sky-border-width-action-active)
+            var(--sky-color-border-action-secondary-active)
+        );
+      }
+    }
+
+    &:focus-visible:not(:active) {
+      background: var(
+        --sky-override-selection-box-background-focus,
+        var(--sky-color-background-action-secondary-focus)
+      );
+      // NOTE: The fallback here is the `sky-btn-default` hover box shadow. Remove rule all together when only modern v2 is supported.
+      box-shadow: var(
+        --sky-override-selection-box-box-shadow-active,
+        inset 0 0 0 var(--sky-border-width-action-focus)
+          var(--sky-color-border-action-secondary-focus)
+      );
       .sky-switch-control {
         .sky-switch-input:not(:disabled):checked + .sky-switch-control {
           border: none;
@@ -115,11 +176,24 @@
             var(--sky-color-border-action-secondary-focus)
         );
       }
+
+      // Section needed to maintain default and modern v1
+      &.sky-selection-box-selected:not(:has(sky-radio)) {
+        background: var(
+          --sky-override-selection-box-background-selected,
+          var(--sky-color-background-action-secondary-focus)
+        );
+        box-shadow: var(
+          --sky-override-selection-box-box-shadow-selected,
+          inset 0 0 0 var(--sky-border-width-action-focus)
+            var(--sky-color-border-action-secondary-focus)
+        );
+      }
     }
 
-    &.sky-selection-box-selected,
-    &:hover.sky-selection-box-selected,
-    &:focus.sky-selection-box-selected {
+    // We want this base selected style to always be applied when a radio button is being used.
+    &.sky-selection-box-selected:not(:active):not(:hover):not(:focus-visible),
+    &.sky-selection-box-selected:has(sky-radio) {
       background: var(
         --sky-override-selection-box-background-selected,
         var(--sky-color-background-selected-soft)
