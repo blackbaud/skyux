@@ -1,5 +1,18 @@
 # Changelog
 
+## [12.31.0](https://github.com/blackbaud/skyux/compare/12.30.0...12.31.0) (2025-07-24)
+
+
+### Features
+
+* add container background color to default theme ([#3732](https://github.com/blackbaud/skyux/issues/3732)) ([068a39e](https://github.com/blackbaud/skyux/commit/068a39e438feed44ac723683d899371ae8fb2db9))
+* **components/lists:** remove hover state from selected sort item ([#3730](https://github.com/blackbaud/skyux/issues/3730)) ([3bf120f](https://github.com/blackbaud/skyux/commit/3bf120fd0946e467bae1096d4092cbf313a46022))
+
+
+### Bug Fixes
+
+* **components/theme:** icon switch components are sized based on the icon size in v2 modern ([#3723](https://github.com/blackbaud/skyux/issues/3723)) ([f582eb4](https://github.com/blackbaud/skyux/commit/f582eb46dfd13482b5948fae7e755e5dd132e059))
+
 ## [12.30.0](https://github.com/blackbaud/skyux/compare/12.29.0...12.30.0) (2025-07-24)
 
 
