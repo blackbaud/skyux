@@ -1,5 +1,10 @@
 import { ComponentRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  SkySelectionModalInstance,
+  SkySelectionModalOpenArgs,
+  SkySelectionModalService,
+} from '@skyux/lookup';
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 import { of } from 'rxjs';
@@ -13,13 +18,24 @@ describe('Filter bar item component', () => {
   let componentRef: ComponentRef<SkyFilterBarItemComponent>;
   let fixture: ComponentFixture<SkyFilterBarItemComponent>;
   let modalServiceSpy: jasmine.SpyObj<SkyModalService>;
+  let selectionModalServiceSpy: jasmine.SpyObj<SkySelectionModalService>;
 
   beforeEach(async () => {
     modalServiceSpy = jasmine.createSpyObj('SkyModalService', ['open']);
+    selectionModalServiceSpy = jasmine.createSpyObj(
+      'SkySelectionModalService',
+      ['open'],
+    );
 
     await TestBed.configureTestingModule({
       imports: [SkyFilterBarItemComponent],
-      providers: [{ provide: SkyModalService, useValue: modalServiceSpy }],
+      providers: [
+        { provide: SkyModalService, useValue: modalServiceSpy },
+        {
+          provide: SkySelectionModalService,
+          useValue: selectionModalServiceSpy,
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SkyFilterBarItemComponent);
@@ -32,6 +48,62 @@ describe('Filter bar item component', () => {
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should open a selection modal and set 1 selected filter value', () => {
+    const config: SkySelectionModalOpenArgs = {
+      descriptorProperty: 'test',
+      idProperty: 'value',
+      searchAsync: () => of({ totalCount: 0, items: [] }),
+      selectMode: 'multiple',
+    };
+    const closed$ = of({
+      reason: 'save',
+      selectedItems: [{ value: 1, test: 'new value' }],
+    });
+    selectionModalServiceSpy.open.and.returnValue({
+      closed: closed$,
+    } as unknown as SkySelectionModalInstance);
+
+    componentRef.setInput('filterSelectionModalConfig', config);
+    component.openFilterModal();
+
+    expect(selectionModalServiceSpy.open).toHaveBeenCalled();
+    expect(component.filterValue()).toEqual({
+      value: [{ value: 1, test: 'new value' }],
+      displayValue: 'new value',
+    });
+  });
+
+  it('should open a selection modal and set multiple selected filter values', () => {
+    const config: SkySelectionModalOpenArgs = {
+      descriptorProperty: 'test',
+      idProperty: 'value',
+      searchAsync: () => of({ totalCount: 0, items: [] }),
+      selectMode: 'multiple',
+    };
+    const closed$ = of({
+      reason: 'save',
+      selectedItems: [
+        { value: 1, test: 'new value 1' },
+        { value: 2, test: 'new value 2' },
+      ],
+    });
+    selectionModalServiceSpy.open.and.returnValue({
+      closed: closed$,
+    } as unknown as SkySelectionModalInstance);
+
+    componentRef.setInput('filterSelectionModalConfig', config);
+    component.openFilterModal();
+
+    expect(selectionModalServiceSpy.open).toHaveBeenCalled();
+    expect(component.filterValue()).toEqual({
+      value: [
+        { value: 1, test: 'new value 1' },
+        { value: 2, test: 'new value 2' },
+      ],
+      displayValue: '2 selected',
+    });
   });
 
   it('should open modal and set filter value on save', () => {
