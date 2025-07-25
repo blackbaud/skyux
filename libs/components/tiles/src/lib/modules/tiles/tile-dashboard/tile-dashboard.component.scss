@@ -22,6 +22,8 @@
       var(--sky-comp-tile-dashboard-space-inset-xs-bottom)
       var(--sky-comp-tile-dashboard-space-inset-xs-left)
   );
+  // The negative margins here ensure that it appears that the dashboard has no bottom, left, and right padding - but the box shadows of the tiles still come through.
+  margin-bottom: calc(var(--sky-space-stacked-xl) * -1);
 
   .sky-tile-dashboard-layout-multi {
     display: none;
@@ -40,6 +42,21 @@
   ) !important;
 }
 
+@include mixins.sky-host-responsive-container-xs-min() {
+  // The negative margins here ensure that it appears that the dashboard has no bottom, left, and right padding - but the box shadows of the tiles still come through.
+  margin-left: calc(
+    var(--sky-comp-tile-dashboard-column-space-inset-sm-left) * -1
+  );
+  margin-right: calc(
+    var(--sky-comp-tile-dashboard-column-space-inset-sm-right) * -1
+  );
+}
+
+@include mixins.sky-host-responsive-container-sm-min() {
+  margin-left: 0;
+  margin-right: 0;
+}
+
 :host-context(.sky-tile-dashboard-multi-column) {
   display: flex;
   padding: var(
@@ -49,6 +66,7 @@
       var(--sky-comp-tile-dashboard-space-inset-sm-bottom)
       var(--sky-comp-tile-dashboard-space-inset-sm-left)
   );
+  margin-bottom: 0;
 
   .sky-tile-dashboard-layout-multi {
     display: block;
@@ -67,4 +85,11 @@
 
 :host-context(.sky-theme-modern .sky-layout-host-blocks) {
   padding: 0;
+  // The negative margins here ensure that it appears that the dashboard has no left and right padding - but the box shadows of the tiles still come through.
+  margin-left: calc(
+    var(--sky-comp-tile-dashboard-column-space-inset-sm-left) * -1
+  );
+  margin-right: calc(
+    var(--sky-comp-tile-dashboard-column-space-inset-sm-right) * -1
+  );
 }
