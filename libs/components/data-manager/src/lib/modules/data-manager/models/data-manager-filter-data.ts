@@ -4,6 +4,10 @@ export interface SkyDataManagerFilterData {
    */
   filtersApplied?: boolean;
   /**
+   * A collection of individual filter elements used by the SkyFilterBarComponent.
+   */
+  filterBarItems?: unknown[];
+  /**
    * The filter data used in the data manager. You may use any filter model that works for
    * your data set and models. See the demo for an example.
    */
