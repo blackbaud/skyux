@@ -46,6 +46,13 @@
       var(--sky-comp-tile-dashboard-column-space-inset-sm-bottom)
       var(--sky-comp-tile-dashboard-column-space-inset-sm-left)
   );
+
+  &.sky-tile-dashboard-layout-single {
+    padding-bottom: calc(
+      var(--sky-space-stacked-xl) +
+        var(--sky-comp-tile-dashboard-column-space-inset-sm-bottom)
+    );
+  }
 }
 
 .sky-tile-dashboard-column {
