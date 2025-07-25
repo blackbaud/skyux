@@ -40,6 +40,17 @@
   ) !important;
 }
 
+:host-context(.sky-theme-modern .sky-tile-dashboard-xs) {
+  // The negative margins here ensure that it appears that the dashboard has no bottom, left, and right padding - but the box shadows of the tiles still come through.
+  margin-bottom: calc(var(--sky-space-stacked-xl) * -1);
+  margin-left: calc(
+    var(--sky-comp-tile-dashboard-column-space-inset-sm-left) * -1
+  );
+  margin-right: calc(
+    var(--sky-comp-tile-dashboard-column-space-inset-sm-right) * -1
+  );
+}
+
 :host-context(.sky-tile-dashboard-multi-column) {
   display: flex;
   padding: var(
@@ -67,4 +78,11 @@
 
 :host-context(.sky-theme-modern .sky-layout-host-blocks) {
   padding: 0;
+  // The negative margins here ensure that it appears that the dashboard has no left and right padding - but the box shadows of the tiles still come through.
+  margin-left: calc(
+    var(--sky-comp-tile-dashboard-column-space-inset-sm-left) * -1
+  );
+  margin-right: calc(
+    var(--sky-comp-tile-dashboard-column-space-inset-sm-right) * -1
+  );
 }
