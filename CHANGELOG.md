@@ -1,5 +1,34 @@
 # Changelog
 
+## [13.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.3...13.0.0-alpha.4) (2025-07-26)
+
+
+### Features
+
+* certain items have a dimmed background color when used within a fit or list page or tab layout ([#3701](https://github.com/blackbaud/skyux/issues/3701)) ([#3711](https://github.com/blackbaud/skyux/issues/3711)) ([562b1c9](https://github.com/blackbaud/skyux/commit/562b1c97b2f8f4603c578e1a60ee2694135855fe))
+* **components/ag-grid:** use component tokens for cell spacing ([#3713](https://github.com/blackbaud/skyux/issues/3713)) ([#3719](https://github.com/blackbaud/skyux/issues/3719)) ([d6c0ac5](https://github.com/blackbaud/skyux/commit/d6c0ac58c0a53f251c44d4f7dca8338b4fae3cee))
+* **components/indicators:** use correct label line height ([#3710](https://github.com/blackbaud/skyux/issues/3710)) ([#3712](https://github.com/blackbaud/skyux/issues/3712)) ([f5bea20](https://github.com/blackbaud/skyux/commit/f5bea2034863df1a680402a1637d55237d01de6d))
+* **components/layout:** tokenize card styles ([#3703](https://github.com/blackbaud/skyux/issues/3703)) ([#3706](https://github.com/blackbaud/skyux/issues/3706)) ([3a4e4ee](https://github.com/blackbaud/skyux/commit/3a4e4ee0c6585449b205da5e39c12ae0885e4809))
+* **components/lists:** remove hover state from selected sort item ([#3730](https://github.com/blackbaud/skyux/issues/3730)) ([#3743](https://github.com/blackbaud/skyux/issues/3743)) ([6b8614f](https://github.com/blackbaud/skyux/commit/6b8614ffa562bd2b5bb8d214a756531bfa4cf088))
+* **components/lookup:** lookup no longer displays a search icon when `showMore` is not enabled ([#3714](https://github.com/blackbaud/skyux/issues/3714)) ([20ea8df](https://github.com/blackbaud/skyux/commit/20ea8df174a05c091957522989a2787ed8beb999))
+* **components/tabs:** add token for disabled tabs in wizard ([#3725](https://github.com/blackbaud/skyux/issues/3725)) ([#3731](https://github.com/blackbaud/skyux/issues/3731)) ([b037a0a](https://github.com/blackbaud/skyux/commit/b037a0a8a4190935c7234ef35257b16724e1b731))
+* **components/tabs:** tab dropdowns have interactive state styles in v2 modern ([#3721](https://github.com/blackbaud/skyux/issues/3721)) ([#3735](https://github.com/blackbaud/skyux/issues/3735)) ([e388c86](https://github.com/blackbaud/skyux/commit/e388c8639eee50cd12b990b7d56a77e2d422680d))
+* remove `background-color` from inline buttons for all states ([#3696](https://github.com/blackbaud/skyux/issues/3696)) ([#3702](https://github.com/blackbaud/skyux/issues/3702)) ([8978a78](https://github.com/blackbaud/skyux/commit/8978a78173de31dbbe192c1133ec5375f890a9cf))
+* replace `font-weight` tokens with `font-style` ([#3687](https://github.com/blackbaud/skyux/issues/3687)) ([#3708](https://github.com/blackbaud/skyux/issues/3708)) ([586d325](https://github.com/blackbaud/skyux/commit/586d325631ed0b9d71b3f8603b9fb777f84b712e))
+
+
+### Bug Fixes
+
+* **components/angular-tree-component:** tree view uses nav color tokens in v2 modern ([#3716](https://github.com/blackbaud/skyux/issues/3716)) ([#3722](https://github.com/blackbaud/skyux/issues/3722)) ([a38fd80](https://github.com/blackbaud/skyux/commit/a38fd80714fe0843c2fddda882362578cd9d8791))
+* **components/datetime:** datepicker callendar header uses standard button styles in v2 modern ([#3707](https://github.com/blackbaud/skyux/issues/3707)) ([#3715](https://github.com/blackbaud/skyux/issues/3715)) ([7abaa78](https://github.com/blackbaud/skyux/commit/7abaa7893036a8bac2d815ce246953f805fb155f))
+* **components/forms:** toggle has a base background color in v2 modern ([#3694](https://github.com/blackbaud/skyux/issues/3694)) ([#3697](https://github.com/blackbaud/skyux/issues/3697)) ([1eb5c84](https://github.com/blackbaud/skyux/commit/1eb5c8493bc2751d3abf9b4b70f0436ac0cb4a2b))
+* **components/forms:** toggle switch uses active border width token in v2 modern ([#3717](https://github.com/blackbaud/skyux/issues/3717)) ([#3720](https://github.com/blackbaud/skyux/issues/3720)) ([7ace669](https://github.com/blackbaud/skyux/commit/7ace66943cf9fa9ae2b747df6324d912a5a2e823))
+* **components/tabs:** dropdown tab menu uses medium left selected border in v2 modern ([#3726](https://github.com/blackbaud/skyux/issues/3726)) ([#3733](https://github.com/blackbaud/skyux/issues/3733)) ([ee75987](https://github.com/blackbaud/skyux/commit/ee759873acb6c09bb66fe1946a047e3f2f965b8d))
+* **components/tabs:** selected vertical tabs do not show the hover and active interactive state in v2 modern ([#3728](https://github.com/blackbaud/skyux/issues/3728)) ([#3734](https://github.com/blackbaud/skyux/issues/3734)) ([b0deedf](https://github.com/blackbaud/skyux/commit/b0deedf04f13f1e1808d19d73766e27b087128f3))
+* **components/tabs:** tab close buttons have border radius and no browser outline in v2 modern ([#3724](https://github.com/blackbaud/skyux/issues/3724)) ([#3727](https://github.com/blackbaud/skyux/issues/3727)) ([40705c8](https://github.com/blackbaud/skyux/commit/40705c8ffff8c3dfa1a21bbd463f2870a64331b5))
+* **components/text-editor:** remove `background-color` to show border and change spacing token from `xl` to `m` ([#3729](https://github.com/blackbaud/skyux/issues/3729)) ([#3737](https://github.com/blackbaud/skyux/issues/3737)) ([e0877e4](https://github.com/blackbaud/skyux/commit/e0877e441b47455f97c3943b7d2fd75d86bdadad))
+* **components/theme:** icon switch components are sized based on the icon size in v2 modern ([#3723](https://github.com/blackbaud/skyux/issues/3723)) ([#3741](https://github.com/blackbaud/skyux/issues/3741)) ([44cb275](https://github.com/blackbaud/skyux/commit/44cb275d99936f754f51726bdf9935755cdf3b9e))
+
 ## [12.30.0](https://github.com/blackbaud/skyux/compare/12.29.0...12.30.0) (2025-07-24)
 
 
