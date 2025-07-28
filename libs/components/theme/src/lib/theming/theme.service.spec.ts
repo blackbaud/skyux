@@ -1217,5 +1217,182 @@ describe('Theme service', () => {
         'https://example.com/brand2.css',
       );
     });
+
+    it('should clear brand when setThemeBrand is called with undefined', () => {
+      const themeSvc = new SkyThemeService();
+
+      const brand = new SkyThemeBrand('rainbow', '1.0.1');
+
+      const initialSettingsWithBrand = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.compact,
+        brand,
+      );
+
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        initialSettingsWithBrand,
+      );
+
+      // Verify brand was applied initially
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        'sky-theme-brand-base',
+      );
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        brand.hostClass,
+      );
+
+      // Reset calls to focus on clearing the brand
+      mockRenderer.removeClass.calls.reset();
+      mockRenderer.removeChild.calls.reset();
+
+      let capturedSettings: SkyThemeSettings | undefined;
+      themeSvc.settingsChange.subscribe((settingsChange) => {
+        capturedSettings = settingsChange.currentSettings;
+      });
+
+      // Clear the brand by setting it to undefined
+      themeSvc.setThemeBrand(undefined);
+
+      // Verify that the brand was cleared
+      expect(capturedSettings?.brand).toBeUndefined();
+
+      // Verify that brand classes were removed
+      expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+        mockHostEl,
+        brand.hostClass,
+      );
+      expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+        mockHostEl,
+        'sky-theme-brand-base',
+      );
+
+      // Verify that the brand stylesheet was removed
+      expect(mockRenderer.removeChild).toHaveBeenCalledWith(
+        mockHostEl,
+        mockLinkElement,
+      );
+    });
+
+    it('should clear blackbaud brand when setThemeBrand is called with undefined', () => {
+      const themeSvc = new SkyThemeService();
+
+      const blackbaudBrand = new SkyThemeBrand('blackbaud', '1.0.0');
+
+      const initialSettingsWithBrand = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.compact,
+        blackbaudBrand,
+      );
+
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        initialSettingsWithBrand,
+      );
+
+      // Verify brand was applied initially
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        'sky-theme-brand-base',
+      );
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        blackbaudBrand.hostClass,
+      );
+
+      // Blackbaud brand shouldn't create a stylesheet
+      expect(mockRenderer.createElement).not.toHaveBeenCalled();
+
+      // Reset calls to focus on clearing the brand
+      mockRenderer.removeClass.calls.reset();
+      mockRenderer.removeChild.calls.reset();
+
+      let capturedSettings: SkyThemeSettings | undefined;
+      themeSvc.settingsChange.subscribe((settingsChange) => {
+        capturedSettings = settingsChange.currentSettings;
+      });
+
+      // Clear the brand by setting it to undefined
+      themeSvc.setThemeBrand(undefined);
+
+      // Verify that the brand was cleared
+      expect(capturedSettings?.brand).toBeUndefined();
+
+      // Verify that brand classes were removed
+      expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+        mockHostEl,
+        blackbaudBrand.hostClass,
+      );
+      expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+        mockHostEl,
+        'sky-theme-brand-base',
+      );
+
+      // Verify that no stylesheet was removed (blackbaud doesn't have one)
+      expect(mockRenderer.removeChild).not.toHaveBeenCalled();
+    });
+
+    it('should allow setting a brand after clearing it with undefined', () => {
+      const themeSvc = new SkyThemeService();
+
+      const brand1 = new SkyThemeBrand('brand1', '1.0.0');
+      const brand2 = new SkyThemeBrand('brand2', '1.0.0');
+
+      const initialSettingsWithBrand = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.compact,
+        brand1,
+      );
+
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        initialSettingsWithBrand,
+      );
+
+      // Clear the brand
+      themeSvc.setThemeBrand(undefined);
+
+      // Reset calls to focus on setting the new brand
+      mockRenderer.addClass.calls.reset();
+      mockRenderer.removeClass.calls.reset();
+      mockRenderer.createElement.calls.reset();
+      mockRenderer.appendChild.calls.reset();
+
+      let capturedSettings: SkyThemeSettings | undefined;
+      themeSvc.settingsChange.subscribe((settingsChange) => {
+        capturedSettings = settingsChange.currentSettings;
+      });
+
+      // Set a new brand
+      themeSvc.setThemeBrand(brand2);
+
+      // Verify that the new brand was applied
+      expect(capturedSettings?.brand).toBe(brand2);
+
+      // Verify that brand classes were added
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        'sky-theme-brand-base',
+      );
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        brand2.hostClass,
+      );
+
+      // Verify that a new stylesheet was created
+      expect(mockRenderer.createElement).toHaveBeenCalledWith('link');
+      expect(mockRenderer.appendChild).toHaveBeenCalledWith(
+        mockHostEl,
+        mockLinkElement,
+      );
+    });
   });
 });
