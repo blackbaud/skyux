@@ -105,9 +105,9 @@ export class SkyThemeService {
 
   /**
    * Updates the current theme brand.
-   * @param brand The new theme brand to apply.
+   * @param brand The new theme brand to apply, or undefined to clear the current brand.
    */
-  public setThemeBrand(brand: SkyThemeBrand): void {
+  public setThemeBrand(brand: SkyThemeBrand | undefined): void {
     this.#updateThemeProperty('brand', brand);
   }
 
@@ -185,7 +185,7 @@ export class SkyThemeService {
 
   #updateThemeProperty(
     property: 'mode' | 'spacing' | 'brand',
-    value: SkyThemeMode | SkyThemeSpacing | SkyThemeBrand,
+    value: SkyThemeMode | SkyThemeSpacing | SkyThemeBrand | undefined,
   ): void {
     const current = this.#current;
 
@@ -206,7 +206,7 @@ export class SkyThemeService {
       default:
     }
 
-    if (supportedValues && !supportedValues.includes(value)) {
+    if (supportedValues && value && !supportedValues.includes(value as any)) {
       throw new Error(
         `The current theme does not support the specified ${property}.`,
       );
