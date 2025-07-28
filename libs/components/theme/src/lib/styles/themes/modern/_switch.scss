@@ -252,9 +252,7 @@
       width: var(
         --sky-override-icon-switch-size,
         calc(
-          calc(
-              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-            ) +
+          var(--sky-size-icon-m) +
             calc(
               var(--sky-comp-button-icon-space-inset-left) +
                 var(--sky-comp-button-icon-space-inset-right)
@@ -264,9 +262,7 @@
       height: var(
         --sky-override-icon-switch-size,
         calc(
-          calc(
-              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-            ) +
+          var(--sky-size-icon-m) +
             calc(
               var(--sky-comp-button-icon-space-inset-top) +
                 var(--sky-comp-button-icon-space-inset-bottom)
@@ -277,9 +273,7 @@
         var(
           --sky-override-icon-switch-size,
           calc(
-            calc(
-                var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-              ) +
+            var(--sky-size-icon-m) +
               calc(
                 var(--sky-comp-button-icon-space-inset-left) +
                   var(--sky-comp-button-icon-space-inset-right)
@@ -322,7 +316,7 @@
 
   .sky-switch-control {
     background-color: var(--sky-color-background-action-tertiary-base);
-    border-width: var(--sky-width-action-base);
+    border-width: var(--sky-border-width-action-base);
     border-color: var(--sky-color-border-action-tertiary-base);
   }
 
@@ -380,9 +374,7 @@
       width: var(
         --sky-override-icon-switch-size-group,
         calc(
-          calc(
-              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-            ) +
+          var(--sky-size-icon-m) +
             calc(
               var(--sky-comp-button-icon-space-inset-left) +
                 var(--sky-comp-button-icon-space-inset-right)
@@ -392,9 +384,7 @@
       height: var(
         --sky-override-icon-switch-size-group,
         calc(
-          calc(
-              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-            ) +
+          var(--sky-size-icon-m) +
             calc(
               var(--sky-comp-button-icon-space-inset-top) +
                 var(--sky-comp-button-icon-space-inset-bottom)
