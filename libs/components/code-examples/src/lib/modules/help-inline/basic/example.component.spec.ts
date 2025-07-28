@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { HelpInlineBasicExampleComponent } from './example.component';
@@ -23,6 +24,7 @@ describe('Basic help inline', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HelpInlineBasicExampleComponent],
+      providers: [provideNoopAnimations()],
     });
   });
 
@@ -31,6 +33,8 @@ describe('Basic help inline', () => {
     fixture.detectChanges();
 
     await helpInlineHarness.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     await expectAsync(helpInlineHarness.getPopoverContent()).toBeResolvedTo(
       'The estimated income expected for the current year.',

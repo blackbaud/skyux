@@ -4,7 +4,7 @@ import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { HelpInlineActionClickExampleComponent } from './example.component';
 
-describe('Basic help inline', () => {
+describe('Action click help inline', () => {
   async function setupTest(): Promise<{
     helpInlineHarness: SkyHelpInlineHarness;
     fixture: ComponentFixture<HelpInlineActionClickExampleComponent>;
