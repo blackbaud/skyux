@@ -2,14 +2,16 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
-import { HelpInlineBasicExampleComponent } from './example.component';
+import { HelpInlineActionClickExampleComponent } from './example.component';
 
 describe('Basic help inline', () => {
   async function setupTest(): Promise<{
     helpInlineHarness: SkyHelpInlineHarness;
-    fixture: ComponentFixture<HelpInlineBasicExampleComponent>;
+    fixture: ComponentFixture<HelpInlineActionClickExampleComponent>;
   }> {
-    const fixture = TestBed.createComponent(HelpInlineBasicExampleComponent);
+    const fixture = TestBed.createComponent(
+      HelpInlineActionClickExampleComponent,
+    );
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const helpInlineHarness = await loader.getHarness(
       SkyHelpInlineHarness.with({
@@ -22,22 +24,16 @@ describe('Basic help inline', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HelpInlineBasicExampleComponent],
+      imports: [HelpInlineActionClickExampleComponent],
     });
   });
 
-  it('should launch a popover', async () => {
+  it('should click the help inline button', async () => {
     const { helpInlineHarness, fixture } = await setupTest();
     fixture.detectChanges();
 
+    const clickSpy = spyOn(fixture.componentInstance, 'onActionClick');
     await helpInlineHarness.click();
-
-    await expectAsync(helpInlineHarness.getPopoverContent()).toBeResolvedTo(
-      'The estimated income expected for the current year.',
-    );
-
-    await expectAsync(helpInlineHarness.getPopoverTitle()).toBeResolvedTo(
-      'Projected revenue',
-    );
+    expect(clickSpy).toHaveBeenCalled();
   });
 });
