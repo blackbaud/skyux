@@ -140,7 +140,7 @@
         );
       }
 
-      &:hover:not(.sky-btn-active) {
+      &:hover:not(.sky-btn-active):not(:active) {
         border-radius: var(
           --sky-override-timepicker-button-hover-active-focus-border-radius,
           var(--sky-border-radius-s)
