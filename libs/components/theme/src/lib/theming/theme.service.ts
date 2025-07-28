@@ -206,7 +206,7 @@ export class SkyThemeService {
       default:
     }
 
-    if (supportedValues && value && !supportedValues.includes(value as any)) {
+    if (supportedValues && value && !supportedValues.includes(value)) {
       throw new Error(
         `The current theme does not support the specified ${property}.`,
       );
