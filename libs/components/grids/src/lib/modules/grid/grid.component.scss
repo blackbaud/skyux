@@ -1,7 +1,30 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-$sky-grid-resize-handle-width: 5px;
+@include compatMixins.sky-default-overrides('.sky-grid') {
+  --sky-override-grid-font-size: 15px;
+  --sky-override-grid-row-color-odd: #{$sky-color-gray-01};
+  --sky-override-grid-row-color-even: #{$sky-color-white};
+  --sky-override-grid-row-border: 1px dotted #{$sky-border-color-neutral-medium};
+  --sky-override-grid-header-background: #{$sky-color-white};
+  --sky-override-grid-row-selected-border: 1px solid
+    #{$sky-text-color-action-primary};
+  --sky-override-grid-row-selected-box-shadow: 0px 0px 0px 3px inset
+    #{$sky-text-color-action-primary};
+  --sky-override-grid-heading-border: 1px solid
+    #{$sky-border-color-neutral-medium};
+  --sky-override-grid-resize-handle-width: 5px;
+  --sky-override-grid-resize-handle-color: #{$sky-highlight-color-info};
+  --sky-override-grid-resize-opacity: 0.6;
+  --sky-override-grid-row-selected-background: #{$sky-background-color-selected};
+  --sky-override-grid-row-selected-background-hover: #{darken(
+      $sky-background-color-selected,
+      3%
+    )};
+  --sky-override-grid-heading-drag-color: #{$sky-background-color-neutral-light};
+  --sky-override-grid-row-selected-border: 1px solid #dadbf6;
+}
 
 .sky-grid {
   position: relative;
@@ -17,7 +40,7 @@ $sky-grid-resize-handle-width: 5px;
   table-layout: fixed;
   border-collapse: collapse;
   margin: 0;
-  font-size: $sky-font-size-base;
+  font-size: var(--sky-override-grid-font-size, var(--sky-font-size-body-m));
   min-width: 100%;
 
   &.sky-grid-fit {
@@ -27,19 +50,37 @@ $sky-grid-resize-handle-width: 5px;
 }
 
 .sky-grid-tbody {
-  background-color: $sky-color-white;
+  background-color: var(
+    --sky-override-grid-row-color-even,
+    var(--sky-color-background-row-base)
+  );
 }
 
 .sky-grid-row {
-  @include mixins.sky-border(row, bottom);
+  border-bottom: var(
+    --sky-override-grid-row-border,
+    var(--sky-border-width-separator-row) var(--sky-border-style-separator-row)
+      var(--sky-color-border-separator-row)
+  );
 
   &:nth-child(odd) {
-    background-color: $sky-color-gray-01;
+    background-color: var(
+      --sky-override-grid-row-color-odd,
+      var(--sky-color-background-row-base)
+    );
   }
 
   &.sky-grid-row-highlight {
-    border-top: 1px solid $sky-text-color-action-primary; // overrides normal row border
-    box-shadow: 0px 0px 0px 3px inset $sky-text-color-action-primary;
+    border-top: var(
+      --sky-override-grid-row-selected-border,
+      var(--sky-border-width-separator-row) solid
+        var(--sky-color-border-selected)
+    );
+    box-shadow: var(
+      --sky-override-grid-row-selected-box-shadow,
+      0 0 0 var(--sky-border-width-selected-m) inset
+        var(--sky-color-border-selected)
+    );
   }
 
   .sky-grid-cell {
@@ -50,12 +91,22 @@ $sky-grid-resize-handle-width: 5px;
 
 .sky-grid-heading {
   position: relative;
-  @include mixins.sky-border(dark, top, bottom, left, right);
+  border: var(
+    --sky-override-grid-heading-border,
+    var(--sky-border-width-separator-row) var(--sky-border-style-separator-row)
+      var(--sky-color-border-separator-row)
+  );
   border-right-width: 0px;
   padding: 0;
 
   cursor: pointer;
-  background-color: $sky-color-white;
+  background-color: var(
+    --sky-override-grid-header-background,
+    var(
+      --sky-comp-override-list-header-background-color,
+      var(--sky-background-color-page-default)
+    )
+  );
 
   overflow: visible;
   background-clip: padding-box; // IE/Edge fix.
@@ -65,7 +116,13 @@ $sky-grid-resize-handle-width: 5px;
   }
 
   &.sky-grid-header-dragging {
-    background-color: $sky-background-color-neutral-light;
+    background-color: var(
+      --sky-override-grid-heading-drag-color,
+      var(
+        --sky-comp-override-list-header-background-color,
+        var(--sky-background-color-page-default)
+      )
+    );
   }
 
   &.sky-grid-column-alignment-left,
@@ -121,7 +178,7 @@ $sky-grid-resize-handle-width: 5px;
     -webkit-appearance: none;
     -moz-appearance: none;
     height: 100%;
-    width: $sky-grid-resize-handle-width;
+    width: var(--sky-override-grid-resize-handle-width, 3px);
     position: absolute;
     display: block;
     top: 0;
@@ -166,7 +223,10 @@ $sky-grid-resize-handle-width: 5px;
     }
 
     &:focus {
-      background-color: $sky-highlight-color-info;
+      background-color: var(
+        --sky-override-grid-resize-handle-color,
+        var(--sky-color-border-column_divider)
+      );
     }
   }
 }
@@ -210,22 +270,57 @@ th.sky-grid-multiselect-cell {
 }
 
 .sky-grid-multiselect-row:hover {
-  background-color: darken($sky-background-color-selected, 3%);
+  background-color: var(
+    --sky-override-grid-row-selected-background-hover,
+    var(--sky-color-background-row-base)
+  );
 
   // Override zebra striping.
   &:nth-child(odd) {
-    background: darken($sky-background-color-selected, 3%);
+    background: var(
+      --sky-override-grid-row-selected-background-hover,
+      var(--sky-color-background-row-base)
+    );
   }
 }
 
 .sky-grid-multiselect-selected-row {
-  background: $sky-background-color-selected;
-  border-top: 1px solid #dadbf6;
-  border-bottom: 1px solid #dadbf6;
+  background: var(
+    --sky-override-grid-row-selected-background,
+    var(--sky-color-background-selected-soft)
+  );
+  border-top: var(
+    --sky-override-grid-row-selected-border,
+    var(--sky-border-width-separator-row) var(--sky-border-style-separator-row)
+      var(--sky-color-border-separator-row)
+  );
+  border-bottom: var(
+    --sky-override-grid-row-selected-border,
+    var(--sky-border-width-separator-row) var(--sky-border-style-separator-row)
+      var(--sky-color-border-separator-row)
+  );
 
   // Override zebra striping.
   &:nth-child(odd) {
-    background: $sky-background-color-selected;
+    background: var(
+      --sky-override-grid-row-selected-background,
+      var(--sky-color-background-selected-soft)
+    );
+  }
+}
+
+.sky-grid-multiselect-selected-row:hover {
+  background: var(
+    --sky-override-grid-row-selected-background-hover,
+    var(--sky-color-background-selected-soft)
+  );
+
+  // Override zebra striping.
+  &:nth-child(odd) {
+    background: var(
+      --sky-override-grid-row-selected-background-hover,
+      var(--sky-color-background-selected-soft)
+    );
   }
 }
 
@@ -261,7 +356,10 @@ th.sky-grid-multiselect-cell {
   cursor: col-resize;
 
   &:hover::after {
-    background-color: $sky-highlight-color-info;
+    background-color: var(
+      --sky-override-grid-resize-handle-color,
+      var(--sky-color-border-column_divider)
+    );
   }
 
   &:after {
@@ -269,9 +367,16 @@ th.sky-grid-multiselect-cell {
     right: 0;
     top: 0;
     bottom: 0;
-    width: $sky-grid-resize-handle-width;
+    width: var(--sky-override-grid-resize-handle-width, 3px);
     height: 100%;
     content: '';
+    background-color: var(
+      --sky-override-grid-header-background,
+      var(
+        --sky-comp-override-list-header-background-color,
+        var(--sky-background-color-page-default)
+      )
+    );
   }
 }
 
@@ -281,9 +386,12 @@ th.sky-grid-multiselect-cell {
   left: 0;
   z-index: 99;
   height: 100%;
-  width: $sky-grid-resize-handle-width;
-  background: $sky-highlight-color-info;
-  opacity: 0.6;
+  width: var(--sky-override-grid-resize-handle-width, 3px);
+  background: var(
+    --sky-override-grid-resize-handle-color,
+    var(--sky-color-border-column_divider)
+  );
+  opacity: var(--sky-override-grid-resize-opacity, 1);
 }
 
 tr {
