@@ -12,6 +12,10 @@ import {
   InfiniteScrollVisualComponentModule,
 } from './infinite-scroll/infinite-scroll-visual.component';
 import {
+  ListViewGridComponent,
+  ListViewGridComponentModule,
+} from './list-view-grid/list-view-grid.component';
+import {
   PagingVisualComponent,
   PagingVisualComponentModule,
 } from './paging/paging-visual.component';
@@ -44,6 +48,15 @@ const routes: ComponentRouteInfo[] = [
     data: {
       name: 'Infinite scroll',
       icon: 'arrow-repeat-all',
+      library: 'lists',
+    },
+  },
+  {
+    path: 'list-view-grid',
+    component: ListViewGridComponent,
+    data: {
+      name: 'List view grid',
+      icon: 'table',
       library: 'lists',
     },
   },
@@ -95,6 +108,7 @@ export class ListsFeatureRoutingModule {}
   imports: [
     FilterVisualComponentModule,
     InfiniteScrollVisualComponentModule,
+    ListViewGridComponentModule,
     PagingVisualComponentModule,
     RepeaterVisualComponentModule,
     NestedRepeaterComponentModule,
