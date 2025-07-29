@@ -23,7 +23,7 @@
   --sky-override-tabset-align-items: center;
   --sky-override-tabset-icon-button-padding: 9px 15px;
   --sky-override-tabset-padding: 0 0 0
-    var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
+    var(--sky-override-page-content-tabs-spacing-sm, #{$sky-padding-plus-half});
 }
 
 sky-tabset {
