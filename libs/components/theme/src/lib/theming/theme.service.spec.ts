@@ -794,6 +794,78 @@ describe('Theme service', () => {
   });
 
   describe('setThemeBrand()', () => {
+    function testClearBrand(
+      brandName: string,
+      shouldRemoveStylesheet: boolean,
+    ): void {
+      const themeSvc = new SkyThemeService();
+
+      const brand = new SkyThemeBrand(brandName, '1.0.0');
+
+      const initialSettingsWithBrand = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.compact,
+        brand,
+      );
+
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        initialSettingsWithBrand,
+      );
+
+      // Verify brand was applied initially
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        'sky-theme-brand-base',
+      );
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        brand.hostClass,
+      );
+
+      if (!shouldRemoveStylesheet) {
+        // Blackbaud brand shouldn't create a stylesheet
+        expect(mockRenderer.createElement).not.toHaveBeenCalled();
+      }
+
+      // Reset calls to focus on clearing the brand
+      mockRenderer.removeClass.calls.reset();
+      mockRenderer.removeChild.calls.reset();
+
+      let capturedSettings: SkyThemeSettings | undefined;
+      themeSvc.settingsChange.subscribe((settingsChange) => {
+        capturedSettings = settingsChange.currentSettings;
+      });
+
+      // Clear the brand by setting it to undefined
+      themeSvc.setThemeBrand(undefined);
+
+      // Verify that the brand was cleared
+      expect(capturedSettings?.brand).toBeUndefined();
+
+      // Verify that brand classes were removed
+      expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+        mockHostEl,
+        brand.hostClass,
+      );
+      expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+        mockHostEl,
+        'sky-theme-brand-base',
+      );
+
+      // Verify stylesheet removal behavior based on brand type
+      if (shouldRemoveStylesheet) {
+        expect(mockRenderer.removeChild).toHaveBeenCalledWith(
+          mockHostEl,
+          mockLinkElement,
+        );
+      } else {
+        expect(mockRenderer.removeChild).not.toHaveBeenCalled();
+      }
+    }
+
     it('should update only the theme brand while preserving other settings', () => {
       const themeSvc = new SkyThemeService();
 
@@ -1218,124 +1290,12 @@ describe('Theme service', () => {
       );
     });
 
-    it('should clear brand when setThemeBrand is called with undefined', () => {
-      const themeSvc = new SkyThemeService();
-
-      const brand = new SkyThemeBrand('rainbow', '1.0.1');
-
-      const initialSettingsWithBrand = new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
-        SkyThemeSpacing.presets.compact,
-        brand,
-      );
-
-      themeSvc.init(
-        mockHostEl,
-        mockRenderer as unknown as Renderer2,
-        initialSettingsWithBrand,
-      );
-
-      // Verify brand was applied initially
-      expect(mockRenderer.addClass).toHaveBeenCalledWith(
-        mockHostEl,
-        'sky-theme-brand-base',
-      );
-      expect(mockRenderer.addClass).toHaveBeenCalledWith(
-        mockHostEl,
-        brand.hostClass,
-      );
-
-      // Reset calls to focus on clearing the brand
-      mockRenderer.removeClass.calls.reset();
-      mockRenderer.removeChild.calls.reset();
-
-      let capturedSettings: SkyThemeSettings | undefined;
-      themeSvc.settingsChange.subscribe((settingsChange) => {
-        capturedSettings = settingsChange.currentSettings;
-      });
-
-      // Clear the brand by setting it to undefined
-      themeSvc.setThemeBrand(undefined);
-
-      // Verify that the brand was cleared
-      expect(capturedSettings?.brand).toBeUndefined();
-
-      // Verify that brand classes were removed
-      expect(mockRenderer.removeClass).toHaveBeenCalledWith(
-        mockHostEl,
-        brand.hostClass,
-      );
-      expect(mockRenderer.removeClass).toHaveBeenCalledWith(
-        mockHostEl,
-        'sky-theme-brand-base',
-      );
-
-      // Verify that the brand stylesheet was removed
-      expect(mockRenderer.removeChild).toHaveBeenCalledWith(
-        mockHostEl,
-        mockLinkElement,
-      );
+    it('should clear custom brand when setThemeBrand() is called with undefined', () => {
+      testClearBrand('rainbow', true);
     });
 
-    it('should clear blackbaud brand when setThemeBrand is called with undefined', () => {
-      const themeSvc = new SkyThemeService();
-
-      const blackbaudBrand = new SkyThemeBrand('blackbaud', '1.0.0');
-
-      const initialSettingsWithBrand = new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
-        SkyThemeSpacing.presets.compact,
-        blackbaudBrand,
-      );
-
-      themeSvc.init(
-        mockHostEl,
-        mockRenderer as unknown as Renderer2,
-        initialSettingsWithBrand,
-      );
-
-      // Verify brand was applied initially
-      expect(mockRenderer.addClass).toHaveBeenCalledWith(
-        mockHostEl,
-        'sky-theme-brand-base',
-      );
-      expect(mockRenderer.addClass).toHaveBeenCalledWith(
-        mockHostEl,
-        blackbaudBrand.hostClass,
-      );
-
-      // Blackbaud brand shouldn't create a stylesheet
-      expect(mockRenderer.createElement).not.toHaveBeenCalled();
-
-      // Reset calls to focus on clearing the brand
-      mockRenderer.removeClass.calls.reset();
-      mockRenderer.removeChild.calls.reset();
-
-      let capturedSettings: SkyThemeSettings | undefined;
-      themeSvc.settingsChange.subscribe((settingsChange) => {
-        capturedSettings = settingsChange.currentSettings;
-      });
-
-      // Clear the brand by setting it to undefined
-      themeSvc.setThemeBrand(undefined);
-
-      // Verify that the brand was cleared
-      expect(capturedSettings?.brand).toBeUndefined();
-
-      // Verify that brand classes were removed
-      expect(mockRenderer.removeClass).toHaveBeenCalledWith(
-        mockHostEl,
-        blackbaudBrand.hostClass,
-      );
-      expect(mockRenderer.removeClass).toHaveBeenCalledWith(
-        mockHostEl,
-        'sky-theme-brand-base',
-      );
-
-      // Verify that no stylesheet was removed (blackbaud doesn't have one)
-      expect(mockRenderer.removeChild).not.toHaveBeenCalled();
+    it('should clear blackbaud brand when setThemeBrand() is called with undefined', () => {
+      testClearBrand('blackbaud', false);
     });
 
     it('should allow setting a brand after clearing it with undefined', () => {
