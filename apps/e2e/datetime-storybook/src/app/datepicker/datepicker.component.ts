@@ -34,8 +34,11 @@ export class DatepickerComponent implements OnInit {
   public strict = false;
 
   constructor(formBuilder: FormBuilder) {
+    // Set a fixed date for visual tests to prevent daily changes
+    this.selectedDate = new Date(1955, 10, 5); // November 5, 1955
+
     this.reactiveDate = new FormControl<Date>(
-      new Date(1955, 10, 5),
+      new Date(1955, 10, 5), // November 5, 1955 - same fixed date for consistency
       Validators.required,
     );
     this.reactiveForm = formBuilder.group({

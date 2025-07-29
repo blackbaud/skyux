@@ -104,6 +104,9 @@ describe('Date picker', () => {
             return cy.wrap($body.get(0));
           });
 
+        // Check that the calendar table container has focus
+        cy.get('.sky-datepicker-calendar-table-container').should('be.focused');
+
         cy.get('#screenshot-datepicker').skyVisualTest(
           `datepicker-input-open-${theme}`,
           {
@@ -168,12 +171,18 @@ describe('Date picker', () => {
           timeout: 10000,
         })
           .should('not.exist')
-          .end()
-          .get('#screenshot-datepicker-input-box')
-          .skyVisualTest(`datepicker-input-custom-dates-${theme}`, {
+          .end();
+
+        // Check that the calendar table container has focus
+        cy.get('.sky-datepicker-calendar-table-container').should('be.focused');
+
+        cy.get('#screenshot-datepicker-input-box').skyVisualTest(
+          `datepicker-input-custom-dates-${theme}`,
+          {
             overwrite: true,
             disableTimersAndAnimations: true,
-          });
+          },
+        );
       });
     });
   });
