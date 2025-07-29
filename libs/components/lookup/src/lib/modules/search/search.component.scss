@@ -28,10 +28,49 @@
   --sky-override-search-applied-mobile-button-vertical-padding: 9px;
   --sky-override-search-applied-border-width: 2px;
   --sky-override-search-background-color: var(--modern-color-transparent);
+  --sky-override-search-background-color-disabled: var(
+    --sky-color-background-input-disabled
+  );
   --sky-override-search-button-height-width: 40px;
+  --sky-override-search-container-border-color-active: var(
+    --sky-color-border-input-active
+  );
+  --sky-override-search-container-border-color-disabled: none;
+  --sky-override-search-container-border-color-focus: var(
+    --sky-color-border-input-focus
+  );
+  --sky-override-search-container-border-color-hover: var(
+    --sky-color-border-input-hover
+  );
+  --sky-override-search-container-box-shadow: none;
+  --sky-override-search-container-box-shadow-searched: inset 0 -1px 0 0
+    var(--sky-color-border-selected);
+  --sky-override-search-container-text-color-searched: var(
+    --sky-color-text-default
+  );
   --sky-override-search-placeholder-color: var(--sky-color-text-default);
   --sky-override-search-mobile-button-horizontal-padding: 15px;
   --sky-override-search-mobile-button-vertical-padding: 9px;
+
+  .sky-search-input-container {
+    &.sky-search-input-container-has-value {
+      .sky-input-box-group-form-control:not(
+          .sky-input-box-group-form-control-focus,
+          :hover
+        )
+        .sky-form-group {
+        border: none;
+        border-radius: var(--sky-border-radius-0);
+      }
+    }
+  }
+}
+
+@include compatMixins.sky-modern-overrides('.sky-toolbar-item', false) {
+  sky-search .sky-search-container .sky-search-input-container sky-input-box {
+    --sky-comp-override-input-box-group-background-color: transparent;
+    --sky-comp-override-input-box-group-background-color-focused: transparent;
+  }
 }
 
 sky-search {
@@ -189,13 +228,25 @@ sky-search {
 .sky-theme-modern {
   sky-search {
     sky-input-box {
-      --sky-background-color-input-box-group: var(
+      --sky-comp-override-input-box-group-background-color: var(
         --sky-override-search-background-color,
         var(--sky-color-background-action-secondary-base)
       );
-      --sky-background-color-input-box-group-focused: var(
+      --sky-comp-override-input-box-group-background-color-active: var(
         --sky-override-search-background-color,
-        var(--sky-color-background-action-secondary-base)
+        var(--sky-color-background-action-secondary-active)
+      );
+      --sky-comp-override-input-box-group-background-color-disabled: var(
+        --sky-override-search-background-color-disabled,
+        var(--sky-color-background-action-secondary-disabled)
+      );
+      --sky-comp-override-input-box-group-background-color-focused: var(
+        --sky-override-search-background-color,
+        var(--sky-color-background-action-secondary-focus)
+      );
+      --sky-comp-override-input-box-group-background-color-hover: var(
+        --sky-override-search-background-color,
+        var(--sky-color-background-action-secondary-hover)
       );
     }
 
@@ -265,24 +316,92 @@ sky-search {
     }
 
     .sky-search-container .sky-search-input-container {
-      .sky-input-box-group
-        .sky-input-box-group-form-control:not(
-          .sky-input-box-group-form-control-focus,
-          :hover
-        )
-        .sky-form-group {
-        box-shadow: none;
+      .sky-input-box-disabled {
+        .sky-input-box-group .sky-input-box-group-form-control .sky-form-group {
+          --sky-comp-override-input-box-input-border-color: var(
+            --sky-override-search-container-border-color-disabled,
+            var(--sky-color-border-action-secondary-disabled)
+          );
+        }
       }
 
-      &.sky-search-input-container-has-value {
-        .sky-input-box-group-form-control:not(
+      .sky-input-box:not(.sky-input-box-disabled) {
+        .sky-input-box-group
+          .sky-input-box-group-form-control:not(
             .sky-input-box-group-form-control-focus,
             :hover
           )
           .sky-form-group {
-          border: none;
-          border-radius: var(--sky-border-radius-0);
-          box-shadow: inset 0 -1px 0 0 var(--sky-color-border-selected);
+          --sky-comp-override-input-box-input-border-color: var(
+            --sky-override-search-container-box-shadow,
+            var(--sky-color-border-action-secondary-base)
+          );
+          --sky-comp-override-input-box-input-elevation-shadow: var(
+            --sky-elevation-action-toolbar-base
+          );
+        }
+
+        .sky-input-box-group-form-control:hover:not(
+            .sky-input-box-group-form-control-focus,
+            :has(:active)
+          )
+          .sky-form-group {
+          --sky-comp-override-input-box-input-border-color: var(
+            --sky-override-search-container-border-color-hover,
+            var(--sky-color-border-action-secondary-hover)
+          );
+          --sky-comp-override-input-box-input-elevation-shadow: var(
+            --sky-elevation-action-toolbar-hover
+          );
+        }
+
+        .sky-input-box-group-form-control.sky-input-box-group-form-control-focus:not(
+            :has(:active)
+          )
+          .sky-form-group {
+          --sky-comp-override-input-box-input-border-color: var(
+            --sky-override-search-container-border-color-focus,
+            var(--sky-color-border-action-secondary-focus)
+          );
+          --sky-comp-override-input-box-input-elevation-shadow: var(
+            --sky-elevation-action-toolbar-focus
+          );
+        }
+
+        .sky-input-box-group-form-control:has(:active) .sky-form-group {
+          --sky-comp-override-input-box-input-border-color: var(
+            --sky-override-search-container-border-color-active,
+            var(--sky-color-border-action-secondary-active)
+          );
+          --sky-comp-override-input-box-input-elevation-shadow: var(
+            --sky-elevation-action-toolbar-active
+          );
+        }
+      }
+
+      &.sky-search-input-container-has-value {
+        .sky-input-box-group-form-control {
+          &:not(.sky-input-box-group-form-control-focus, :hover)
+            .sky-form-group {
+            // NOTE: Have to do full box shadow override instead of variable due to only the bottom having the box shadow
+            box-shadow: var(
+              --sky-override-search-container-box-shadow-searched,
+              inset 0 0 0 var(--sky-border-width-input-base)
+                var(--sky-color-border-selected),
+              var(--sky-elevation-action-toolbar-base)
+            );
+            --sky-comp-override-input-box-group-background-color: var(
+              --sky-override-search-background-color,
+              var(--sky-color-background-selected-soft)
+            );
+          }
+
+          &:not(:focus-within:not(:active)) .sky-form-group input {
+            color: var(
+              --sky-override-search-container-text-color-searched,
+              var(--sky-color-text-selected)
+            );
+          }
         }
       }
 
@@ -323,14 +442,5 @@ sky-search {
         }
       }
     }
-  }
-
-  .sky-toolbar-item
-    sky-search
-    .sky-search-container
-    .sky-search-input-container
-    sky-input-box {
-    --sky-background-color-input-box-group: transparent;
-    --sky-background-color-input-box-group-focused: transparent;
   }
 }
