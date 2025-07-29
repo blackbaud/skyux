@@ -168,14 +168,13 @@
 
   &-tabs {
     --sky-layout-host-content-spacing: 0;
-    --sky-layout-host-tab-content-spacing: 0 0 0
-      var(
-        --sky-override-tabset-padding-xs-breakpoint,
-        var(--sky-comp-layout-tabset-tabs-space-inset-xs-top)
-          var(--sky-comp-layout-tabset-tabs-space-inset-xs-right)
-          var(--sky-comp-layout-tabset-tabs-space-inset-xs-bottom)
-          var(--sky-comp-layout-tabset-tabs-space-inset-xs-left)
-      );
+    --sky-layout-host-tab-content-spacing: var(
+      --sky-override-tabset-padding-xs-breakpoint,
+      var(--sky-comp-layout-tabset-tabs-space-inset-xs-top)
+        var(--sky-comp-layout-tabset-tabs-space-inset-xs-right)
+        var(--sky-comp-layout-tabset-tabs-space-inset-xs-bottom)
+        var(--sky-comp-layout-tabset-tabs-space-inset-xs-left)
+    );
     --sky-layout-host-links-spacing: var(
       --sky-override-page-content-with-links-spacing-xs,
       var(--sky-comp-layout-links-tabs-space-inset-xs-top)
@@ -371,14 +370,13 @@
           var(--sky-comp-layout-header-tabs-space-inset-sm-bottom)
           var(--sky-comp-layout-header-tabs-space-inset-sm-left)
       );
-      --sky-layout-host-tab-content-spacing: 0 0 0
-        var(
-          --sky-override-page-content-tabs-spacing-sm,
-          var(--sky-comp-layout-tabset-tabs-space-inset-sm-top)
-            var(--sky-comp-layout-tabset-tabs-space-inset-sm-right)
-            var(--sky-comp-layout-tabset-tabs-space-inset-sm-bottom)
-            var(--sky-comp-layout-tabset-tabs-space-inset-sm-left)
-        );
+      --sky-layout-host-tab-content-spacing: var(
+        --sky-override-page-content-tabs-spacing-sm,
+        var(--sky-comp-layout-tabset-tabs-space-inset-sm-top)
+          var(--sky-comp-layout-tabset-tabs-space-inset-sm-right)
+          var(--sky-comp-layout-tabset-tabs-space-inset-sm-bottom)
+          var(--sky-comp-layout-tabset-tabs-space-inset-sm-left)
+      );
 
       &:has(> sky-page-content):has(> sky-page-links) {
         --sky-layout-host-links-spacing: var(
