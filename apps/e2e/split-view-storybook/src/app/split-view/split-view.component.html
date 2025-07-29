@@ -17,43 +17,31 @@
   <sky-split-view-workspace ariaLabel="Transaction form">
     <sky-split-view-workspace-content class="sky-padding-even-xl">
       <form>
-        <sky-definition-list labelWidth="150px">
-          <sky-definition-list-content>
-            <sky-definition-list-label>
+        <sky-description-list class="sky-margin-stacked-xl">
+          <sky-description-list-content>
+            <sky-description-list-term>
               Receipt amount
-            </sky-definition-list-label>
-            <sky-definition-list-value>
+            </sky-description-list-term>
+            <sky-description-list-description>
               {{ activeRecord.amount }}
-            </sky-definition-list-value>
-          </sky-definition-list-content>
-          <sky-definition-list-content>
-            <sky-definition-list-label> Date </sky-definition-list-label>
-            <sky-definition-list-value>
+            </sky-description-list-description>
+          </sky-description-list-content>
+          <sky-description-list-content>
+            <sky-description-list-term> Date </sky-description-list-term>
+            <sky-description-list-description>
               {{ activeRecord.date }}
-            </sky-definition-list-value>
-          </sky-definition-list-content>
-          <sky-definition-list-content>
-            <sky-definition-list-label> Vendor </sky-definition-list-label>
-            <sky-definition-list-value>
+            </sky-description-list-description>
+          </sky-description-list-content>
+          <sky-description-list-content>
+            <sky-description-list-term> Vendor </sky-description-list-term>
+            <sky-description-list-description>
               {{ activeRecord.vendor }}
-            </sky-definition-list-value>
-          </sky-definition-list-content>
-          <sky-definition-list-content>
-            <sky-definition-list-label>
-              Receipt image
-            </sky-definition-list-label>
-            <sky-definition-list-value>
-              {{ activeRecord.receiptImage }}
-            </sky-definition-list-value>
-          </sky-definition-list-content>
-        </sky-definition-list>
+            </sky-description-list-description>
+          </sky-description-list-content>
+        </sky-description-list>
         <div class="sky-form-group">
-          <sky-input-box stacked="true">
-            <label class="sky-control-label" [for]="amountInput.id">
-              Approved amount
-            </label>
+          <sky-input-box labelText="Approved amount" stacked="true">
             <input
-              #amountInput
               class="sky-form-control"
               formControlName="approvedAmount"
               name="approvedAmount"
@@ -64,12 +52,8 @@
         </div>
 
         <div class="sky-form-group">
-          <sky-input-box>
-            <label class="sky-control-label" [for]="commentsInput.id">
-              Comments
-            </label>
+          <sky-input-box labelText="Comments">
             <textarea
-              #commentsInput
               class="sky-form-control"
               formControlName="comments"
               name="comments"

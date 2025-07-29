@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SkySummaryActionBarModule } from '@skyux/action-bars';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyDescriptionListModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkySplitViewModule } from '@skyux/split-view';
 
@@ -14,6 +17,9 @@ const routes: Routes = [{ path: '', component: SplitViewComponent }];
     SkySplitViewModule,
     CommonModule,
     SkyRepeaterModule,
+    SkyDescriptionListModule,
+    SkyInputBoxModule,
+    SkySummaryActionBarModule,
   ],
   exports: [SplitViewComponent],
 })
