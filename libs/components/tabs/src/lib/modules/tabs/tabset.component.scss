@@ -13,8 +13,10 @@
   --sky-override-tabset-modal-padding-left: #{$sky-space-lg};
   --sky-override-tabset-modal-padding-none: 0;
   --sky-override-tabset-overflow: hidden;
-  --sky-override-tabset-padding: 0 0 0
-    var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
+  --sky-override-tabset-padding: var(
+    --sky-layout-host-tab-content-spacing,
+    #{$sky-padding-plus-half}
+  );
   --sky-override-tabset-wizard-border-bottom: none;
   --sky-override-tabset-wizard-modal-margin: #{0 0 $sky-space-xl};
 }
@@ -22,8 +24,10 @@
 @include compatMixins.sky-modern-overrides('sky-tabset', false) {
   --sky-override-tabset-align-items: center;
   --sky-override-tabset-icon-button-padding: 9px 15px;
-  --sky-override-tabset-padding: 0 0 0
-    var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
+  --sky-override-tabset-padding: var(
+    --sky-layout-host-tab-content-spacing,
+    #{$sky-padding-plus-half}
+  );
 }
 
 sky-tabset {
