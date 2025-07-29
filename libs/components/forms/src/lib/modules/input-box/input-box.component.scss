@@ -643,7 +643,9 @@ sky-input-box {
       var(--sky-color-border-input-base)
     );
     --sky-input-box-input-border-width: var(--sky-border-width-input-base);
-    --sky-comp-override-input-box-input-elevation-shadow: var(--sky-elevation-input-base);
+    --sky-comp-override-input-box-input-elevation-shadow: var(
+      --sky-elevation-input-base
+    );
     --sky-input-box-button-border-color: var(
       --sky-override-input-box-color-border-base,
       var(--sky-color-border-action-input-base)
@@ -672,7 +674,9 @@ sky-input-box {
     // input border states
     .sky-input-box-group-form-control {
       &:hover {
-        --sky-comp-override-input-box-input-border-color: var(--sky-color-border-input-hover);
+        --sky-comp-override-input-box-input-border-color: var(
+          --sky-color-border-input-hover
+        );
         --sky-input-box-input-border-width: var(--sky-border-width-input-hover);
 
         z-index: 1;
@@ -697,7 +701,9 @@ sky-input-box {
     .sky-input-box-group-form-control-focus:not(
         :active
       ).sky-input-box-group-form-control-invalid {
-      --sky-comp-override-input-box-input-border-color: var(--sky-color-border-input-focus);
+      --sky-comp-override-input-box-input-border-color: var(
+        --sky-color-border-input-focus
+      );
       --sky-input-box-input-border-width: var(--sky-border-width-input-focus);
       --sky-input-box-box-shadow-with-elevation: var(
         --sky-override-input-box-shadow-focus,
@@ -713,7 +719,9 @@ sky-input-box {
     }
 
     .sky-input-box-group-form-control-invalid {
-      --sky-comp-override-input-box-input-border-color: var(--sky-color-border-input-error);
+      --sky-comp-override-input-box-input-border-color: var(
+        --sky-color-border-input-error
+      );
       --sky-input-box-input-border-width: var(--sky-border-width-input-error);
 
       .sky-form-group {
