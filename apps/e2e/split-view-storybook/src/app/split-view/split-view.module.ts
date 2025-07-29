@@ -3,12 +3,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SkySplitViewModule } from '@skyux/split-view';
 
-import { SplitViewDockFillComponent } from './split-view.component';
+import { SplitViewComponent } from './split-view.component';
 
-const routes: Routes = [{ path: '', component: SplitViewDockFillComponent }];
+const routes: Routes = [{ path: '', component: SplitViewComponent }];
 @NgModule({
-  declarations: [SplitViewDockFillComponent],
+  declarations: [SplitViewComponent],
   imports: [RouterModule.forChild(routes), SkySplitViewModule, CommonModule],
-  exports: [SplitViewDockFillComponent],
+  exports: [SplitViewComponent],
 })
 export class SplitViewModule {}
