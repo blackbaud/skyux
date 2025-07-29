@@ -4,26 +4,32 @@
 
 @include compatMixins.sky-default-overrides('.sky-grid') {
   --sky-override-grid-font-size: 15px;
-  --sky-override-grid-row-color-odd: #{$sky-color-gray-01};
-  --sky-override-grid-row-color-even: #{$sky-color-white};
-  --sky-override-grid-row-border: 1px dotted #{$sky-border-color-neutral-medium};
   --sky-override-grid-header-background: #{$sky-color-white};
-  --sky-override-grid-row-selected-border: 1px solid
-    #{$sky-text-color-action-primary};
-  --sky-override-grid-row-selected-box-shadow: 0px 0px 0px 3px inset
-    #{$sky-text-color-action-primary};
   --sky-override-grid-heading-border: 1px solid
     #{$sky-border-color-neutral-medium};
-  --sky-override-grid-resize-handle-width: 5px;
+  --sky-override-grid-heading-color: var(--sky-text-color-deemphasized);
+  --sky-override-grid-heading-drag-color: #{$sky-background-color-neutral-light};
+  --sky-override-grid-heading-font-size: #{$sky-font-size-base};
+  --sky-override-grid-heading-font-weight: 400;
+  --sky-override-grid-heading-font: #{$sky-font-family};
+  --sky-override-grid-heading-sort-space: 5px;
+  --sky-override-grid-multiselect-display: block;
   --sky-override-grid-resize-handle-color: #{$sky-highlight-color-info};
+  --sky-override-grid-resize-handle-width: 5px;
   --sky-override-grid-resize-opacity: 0.6;
-  --sky-override-grid-row-selected-background: #{$sky-background-color-selected};
+  --sky-override-grid-row-border: 1px dotted #{$sky-border-color-neutral-medium};
+  --sky-override-grid-row-color-even: #{$sky-color-white};
+  --sky-override-grid-row-color-odd: #{$sky-color-gray-01};
   --sky-override-grid-row-selected-background-hover: #{darken(
       $sky-background-color-selected,
       3%
     )};
-  --sky-override-grid-heading-drag-color: #{$sky-background-color-neutral-light};
+  --sky-override-grid-row-selected-background: #{$sky-background-color-selected};
+  --sky-override-grid-row-selected-border: 1px solid
+    #{$sky-text-color-action-primary};
   --sky-override-grid-row-selected-border: 1px solid #dadbf6;
+  --sky-override-grid-row-selected-box-shadow: 0px 0px 0px 3px inset
+    #{$sky-text-color-action-primary};
 }
 
 .sky-grid {
@@ -91,12 +97,30 @@
 
 .sky-grid-heading {
   position: relative;
-  border: var(
+  border-top: var(--sky-override-grid-heading-border, none);
+  border-bottom: var(
+    --sky-override-grid-heading-border,
+    var(--sky-border-width-emphasized) var(--sky-border-style-separator-row)
+      var(--sky-color-border-separator-row)
+  );
+  border-left: var(
     --sky-override-grid-heading-border,
     var(--sky-border-width-separator-row) var(--sky-border-style-separator-row)
       var(--sky-color-border-separator-row)
   );
-  border-right-width: 0px;
+  color: var(--sky-override-grid-heading-color, var(--sky-color-text-heading));
+  font-family: var(
+    --sky-override-grid-heading-font,
+    var(--sky-font-family-primary)
+  );
+  font-weight: var(
+    --sky-override-grid-heading-font-weight,
+    var(--sky-font-style-heading-4)
+  );
+  font-size: var(
+    --sky-override-grid-heading-font-size,
+    var(--sky-font-size-heading-4)
+  );
   padding: 0;
 
   cursor: pointer;
@@ -249,6 +273,11 @@
   ::ng-deep.sky-switch-control {
     margin: 0 auto;
   }
+
+  div {
+    display: var(--sky-override-grid-multiselect-display, flex);
+    justify-content: space-around;
+  }
 }
 
 th.sky-grid-multiselect-cell {
@@ -339,7 +368,10 @@ th.sky-grid-multiselect-cell {
 
   &.sky-grid-heading-sort-visible {
     visibility: visible;
-    padding-left: 5px;
+    padding-left: var(
+      --sky-override-grid-heading-sort-space,
+      var(--sky-space-gap-text_action-xs)
+    );
   }
 }
 
