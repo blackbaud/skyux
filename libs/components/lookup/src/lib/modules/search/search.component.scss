@@ -68,8 +68,8 @@
 
 @include compatMixins.sky-modern-overrides('.sky-toolbar-item', false) {
   sky-search .sky-search-container .sky-search-input-container sky-input-box {
-    --sky-background-color-input-box-group: transparent;
-    --sky-background-color-input-box-group-focused: transparent;
+    --sky-comp-override-input-box-group-background-color: transparent;
+    --sky-comp-override-input-box-group-background-color-focused: transparent;
   }
 }
 
@@ -228,23 +228,23 @@ sky-search {
 .sky-theme-modern {
   sky-search {
     sky-input-box {
-      --sky-background-color-input-box-group: var(
+      --sky-comp-override-input-box-group-background-color: var(
         --sky-override-search-background-color,
         var(--sky-color-background-action-secondary-base)
       );
-      --sky-background-color-input-box-group-active: var(
+      --sky-comp-override-input-box-group-background-color-active: var(
         --sky-override-search-background-color,
         var(--sky-color-background-action-secondary-active)
       );
-      --sky-background-color-input-box-group-disabled: var(
+      --sky-comp-override-input-box-group-background-color-disabled: var(
         --sky-override-search-background-color-disabled,
         var(--sky-color-background-action-secondary-disabled)
       );
-      --sky-background-color-input-box-group-focused: var(
+      --sky-comp-override-input-box-group-background-color-focused: var(
         --sky-override-search-background-color,
         var(--sky-color-background-action-secondary-focus)
       );
-      --sky-background-color-input-box-group-hover: var(
+      --sky-comp-override-input-box-group-background-color-hover: var(
         --sky-override-search-background-color,
         var(--sky-color-background-action-secondary-hover)
       );
@@ -318,7 +318,7 @@ sky-search {
     .sky-search-container .sky-search-input-container {
       .sky-input-box-disabled {
         .sky-input-box-group .sky-input-box-group-form-control .sky-form-group {
-          --sky-input-box-input-border-color: var(
+          --sky-comp-override-input-box-input-border-color: var(
             --sky-override-search-container-border-color-disabled,
             var(--sky-color-border-action-secondary-disabled)
           );
@@ -332,11 +332,11 @@ sky-search {
             :hover
           )
           .sky-form-group {
-          --sky-input-box-input-border-color: var(
+          --sky-comp-override-input-box-input-border-color: var(
             --sky-override-search-container-box-shadow,
             var(--sky-color-border-action-secondary-base)
           );
-          --sky-input-box-input-elevation-shadow: var(
+          --sky-comp-override-input-box-input-elevation-shadow: var(
             --sky-elevation-action-toolbar-base
           );
         }
@@ -346,11 +346,11 @@ sky-search {
             :has(:active)
           )
           .sky-form-group {
-          --sky-input-box-input-border-color: var(
+          --sky-comp-override-input-box-input-border-color: var(
             --sky-override-search-container-border-color-hover,
             var(--sky-color-border-action-secondary-hover)
           );
-          --sky-input-box-input-elevation-shadow: var(
+          --sky-comp-override-input-box-input-elevation-shadow: var(
             --sky-elevation-action-toolbar-hover
           );
         }
@@ -359,21 +359,21 @@ sky-search {
             :has(:active)
           )
           .sky-form-group {
-          --sky-input-box-input-border-color: var(
+          --sky-comp-override-input-box-input-border-color: var(
             --sky-override-search-container-border-color-focus,
             var(--sky-color-border-action-secondary-focus)
           );
-          --sky-input-box-input-elevation-shadow: var(
+          --sky-comp-override-input-box-input-elevation-shadow: var(
             --sky-elevation-action-toolbar-focus
           );
         }
 
         .sky-input-box-group-form-control:has(:active) .sky-form-group {
-          --sky-input-box-input-border-color: var(
+          --sky-comp-override-input-box-input-border-color: var(
             --sky-override-search-container-border-color-active,
             var(--sky-color-border-action-secondary-active)
           );
-          --sky-input-box-input-elevation-shadow: var(
+          --sky-comp-override-input-box-input-elevation-shadow: var(
             --sky-elevation-action-toolbar-active
           );
         }
@@ -389,6 +389,10 @@ sky-search {
               inset 0 0 0 var(--sky-border-width-input-base)
                 var(--sky-color-border-selected),
               var(--sky-elevation-action-toolbar-base)
+            );
+            --sky-comp-override-input-box-group-background-color: var(
+              --sky-override-search-background-color,
+              var(--sky-color-background-selected-soft)
             );
           }
 
