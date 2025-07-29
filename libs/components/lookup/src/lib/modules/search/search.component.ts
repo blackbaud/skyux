@@ -144,7 +144,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   /**
-   * Whether to disable the filter button.
+   * Whether to disable the search.
    * @default false
    */
   @Input()
