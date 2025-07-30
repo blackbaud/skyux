@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
-import { SkySelectionModalSearchArgs } from '@skyux/lookup';
+import {
+  SkySelectionModalSearchArgs,
+  SkySelectionModalSearchResult,
+} from '@skyux/lookup';
 
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { TestModalComponent } from './test-modal.component';
 
@@ -115,8 +118,9 @@ export class FilterBarComponent {
     ];
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  public searchFn = (args: SkySelectionModalSearchArgs) => {
+  public searchFn = (
+    args: SkySelectionModalSearchArgs,
+  ): Observable<SkySelectionModalSearchResult> => {
     let retVal = this.#filters;
     if (args?.searchText) {
       retVal = this.#filters.filter((filter) =>
