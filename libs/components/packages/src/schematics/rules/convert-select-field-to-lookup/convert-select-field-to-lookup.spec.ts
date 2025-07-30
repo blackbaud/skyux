@@ -54,7 +54,8 @@ describe('Convert select field to lookup', () => {
         [selectMode]="selectMode"
         [placeholderText]="singleSelectPlaceholderText"
         [(ngModel)]="formData.modelValue"
-        (ngModelChange)="onModelChange($event)" />
+        (ngModelChange)="onModelChange($event)"
+        idProperty="id" />
     `;
     await firstValueFrom(
       runner.callRule(
@@ -82,7 +83,6 @@ describe('Convert select field to lookup', () => {
         ariaLabelledBy="{{ ariaLabelledBy }}"
         [customPicker]="customPicker"
         [data]="data"
-        descriptorKey="{{ descriptorKey }}"
         [disabled]="disabled"
         [inMemorySearchEnabled]="inMemorySearchEnabled"
         [multipleSelectOpenButtonText]="multipleSelectOpenButtonText"
@@ -105,12 +105,13 @@ describe('Convert select field to lookup', () => {
         ariaLabelledBy="{{ ariaLabelledBy }}"
         [showMoreConfig]="{ nativePickerConfig: { title: ( pickerHeading ) }, customPicker: customPicker }"
         [data]="data | async"
-        descriptorProperty="{{ descriptorKey }}"
         [disabled]="disabled"
         [selectMode]="selectMode"
         placeholderText="{{ singleSelectPlaceholderText }}"
         [(ngModel)]="formData.modelValue"
-        (ngModelChange)="onModelChange($event)" />
+        (ngModelChange)="onModelChange($event)"
+        descriptorProperty="label"
+        idProperty="id" />
     `;
     await firstValueFrom(
       runner.callRule(
@@ -207,7 +208,8 @@ describe('Convert select field to lookup', () => {
             [showAddButton]="true"
             [(ngModel)]="formData.modelValue"
             (ngModelChange)="onModelChange($event)"
-            (addClick)="onAddNewRecordButtonClick()"></sky-lookup>
+            (addClick)="onAddNewRecordButtonClick()"
+            idProperty="id"></sky-lookup>
         ${backtick},
         imports: [SkyLookupModule],
       })
