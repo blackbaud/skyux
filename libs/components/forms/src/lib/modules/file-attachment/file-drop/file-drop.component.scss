@@ -329,11 +329,11 @@ button.sky-file-drop {
   cursor: default;
 
   sky-input-box {
-    --sky-background-color-input-box-group: var(
+    --sky-comp-override-input-box-group-background-color: var(
       --sky-override-file-drop-link-input-background-color,
       var(--bb-color-white)
     );
-    --sky-background-color-input-box-group-focused: var(
+    --sky-comp-override-input-box-group-background-color-focused: var(
       --sky-override-file-drop-link-input-background-color,
       var(--bb-color-white)
     );
