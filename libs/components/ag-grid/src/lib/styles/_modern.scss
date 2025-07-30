@@ -176,7 +176,9 @@
       background-color: transparent;
 
       sky-input-box {
-        --sky-background-color-input-box-group: var(--ag-background-color);
+        --sky-comp-override-input-box-group-background-color: var(
+          --ag-background-color
+        );
       }
     }
 
