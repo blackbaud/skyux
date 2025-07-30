@@ -4,8 +4,15 @@ import {
   Tree,
   UpdateRecorder,
 } from '@angular-devkit/schematics';
-import { isImported, parse5, parseSourceFile } from '@angular/cdk/schematics';
+import {
+  getDecoratorMetadata,
+  isImported,
+  parse5,
+  parseSourceFile,
+} from '@angular/cdk/schematics';
+import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { getEOL } from '@schematics/angular/utility/eol';
+import { applyChangesToFile } from '@schematics/angular/utility/standalone/util';
 
 import {
   ElementWithLocation,
@@ -14,11 +21,81 @@ import {
   parseTemplate,
   swapTags,
 } from '../../utility/template';
-import { getInlineTemplates } from '../../utility/typescript/ng-ast';
+import {
+  findDeclaringModule,
+  isStandaloneComponent,
+} from '../../utility/typescript/find-module';
+import {
+  addSymbolToClassMetadata,
+  getInlineTemplates,
+} from '../../utility/typescript/ng-ast';
 import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../utility/visit-project-files';
 
 import { ConvertSelectFieldToLookupOptions } from './options';
+
+const attrSwap: Record<string, string> = {
+  /* eslint-disable-next-line @cspell/spellchecker */
+  descriptorkey: 'descriptorProperty',
+  /* eslint-disable-next-line @cspell/spellchecker */
+  singleselectplaceholdertext: 'placeholderText',
+  /* eslint-disable-next-line @cspell/spellchecker */
+  showaddnewrecordbutton: 'showAddButton',
+  /* eslint-disable-next-line @cspell/spellchecker */
+  addnewrecordbuttonclick: 'addClick',
+};
+const unsupportedAttributes = [
+  'inMemorySearchEnabled',
+  'multipleSelectOpenButtonText',
+  'singleSelectClearButtonTitle',
+  'singleSelectOpenButtonTitle',
+];
+const unsupportedEvents = ['blur', 'searchApplied'];
+
+interface FollowupTasks {
+  importAsyncPipe: boolean;
+  addCommentsToFunctions: Record<string, string>;
+  addCommentsToProperties: Record<string, string>;
+}
+
+function addAsyncPipeToModule(
+  tree: Tree,
+  filePath: string,
+  context: SchematicContext,
+  options: ConvertSelectFieldToLookupOptions,
+): void {
+  const module = findDeclaringModule(tree, options.projectPath, filePath);
+  if (module) {
+    const moduleSource = parseSourceFile(tree, module.filepath);
+    if (
+      !isImported(moduleSource, 'AsyncPipe', '@angular/common') &&
+      !isImported(moduleSource, 'CommonModule', '@angular/common')
+    ) {
+      applyChangesToFile(
+        tree,
+        module.filepath,
+        addSymbolToClassMetadata(
+          moduleSource,
+          'NgModule',
+          module.filepath,
+          'imports',
+          'AsyncPipe',
+          '@angular/common',
+        ),
+      );
+    }
+  } else {
+    bestEffortMessage(
+      `Could not find the declaring module for the component in ${filePath} to add the AsyncPipe import.`,
+      context,
+      options,
+    );
+  }
+}
+
+function attrNameIsOneOf(attrName: string, checkAttrName: string[]): boolean {
+  return checkAttrName.map((name) => name.toLowerCase()).includes(attrName);
+}
 
 function bestEffortMessage(
   msg: string,
@@ -36,19 +113,85 @@ function bestEffortMessage(
   }
 }
 
-function defineAttribute(
-  before: string,
-  attr: parse5.Token.Attribute,
-  newAttrName: string,
+function buildOpeningTag(
+  node: ElementWithLocation,
+  content: string,
+  context: SchematicContext,
+  options: ConvertSelectFieldToLookupOptions,
+  followupTasks: FollowupTasks,
 ): string {
-  // Normalize the attribute name to remove any brackets or parentheses.
-  let attrName = newAttrName.replace(/^[[(]|[\])]$/g, '');
-  if (attr.name.startsWith('[') && attr.name.endsWith(']')) {
-    attrName = `[${attrName}]`;
-  } else if (attr.name.startsWith('(') && attr.name.endsWith(')')) {
-    attrName = `(${attrName})`;
+  const eol = getEOL(content);
+  let previousAttrLine = node.sourceCodeLocation.startLine;
+  let value = `<sky-lookup`;
+  const { customPicker, pickerHeading, eitherShowMoreConfig } =
+    findShowMoreConfigAttributes(node);
+  let before = '';
+  for (const attr of node.attrs) {
+    before = getIndentation(previousAttrLine, node, attr, eol);
+    const attrName = normalizeAttrName(attr);
+    if (attrNameIsOneOf(attrName, unsupportedAttributes)) {
+      bestEffortMessage(
+        `The "${attrName}" attribute is not supported on the <sky-lookup> component.`,
+        context,
+        options,
+      );
+    } else {
+      if (attrNameIsOneOf(attrName, unsupportedEvents)) {
+        bestEffortMessage(
+          `The "${attrName}" event is not supported on the <sky-lookup> component.`,
+          context,
+          options,
+        );
+      } else if (attr.name === '[data]') {
+        bestEffortMessage(
+          `The "${attrName}" attribute on <sky-lookup> uses an array rather than an observable, and adding the "async" pipe is required to migrate the existing code.`,
+          context,
+          options,
+        );
+        value += `${before}[data]="${attr.value} | async"`;
+        followupTasks.importAsyncPipe = true;
+      } else if (attrNameIsOneOf(attrName, Object.keys(attrSwap))) {
+        const newAttrName = attrSwap[attrName];
+        value += defineAttribute(before, attr, newAttrName);
+      } else if (eitherShowMoreConfig === attr) {
+        value += buildShowMoreConfig(
+          before,
+          pickerHeading,
+          customPicker,
+          context,
+          options,
+        );
+      } else if (
+        attrName &&
+        !attrNameIsOneOf(attrName, ['pickerHeading', 'customPicker'])
+      ) {
+        value += before;
+        value += content.substring(
+          node.sourceCodeLocation.attrs[attr.name].startOffset,
+          node.sourceCodeLocation.attrs[attr.name].endOffset,
+        );
+      }
+    }
+    previousAttrLine = node.sourceCodeLocation.attrs[attr.name].startLine;
   }
-  return `${before}${attrName}="${attr.value}"`;
+
+  // If there was no "descriptorKey" attribute, we need to add a descriptorProperty="label" attribute.
+  if (
+    !node.attrs.some(
+      (attr) => normalizeAttrName(attr) === 'descriptorKey'.toLowerCase(),
+    )
+  ) {
+    value += `${before}descriptorProperty="label"`;
+  }
+  // Set the idProperty to "id" -- select-field did not have an input to override this.
+  value += `${before}idProperty="id"`;
+
+  if (!node.sourceCodeLocation.endTag) {
+    value += ' />';
+  } else {
+    value += '>';
+  }
+  return value;
 }
 
 function buildShowMoreConfig(
@@ -90,8 +233,19 @@ function buildShowMoreConfig(
   return showMoreConfig;
 }
 
-function attrNameIsOneOf(attrName: string, checkAttrName: string[]): boolean {
-  return checkAttrName.map((name) => name.toLowerCase()).includes(attrName);
+function defineAttribute(
+  before: string,
+  attr: parse5.Token.Attribute,
+  newAttrName: string,
+): string {
+  // Normalize the attribute name to remove any brackets or parentheses.
+  let attrName = String(newAttrName).replace(/^[[(]|[\])]$/g, '');
+  if (attr.name.startsWith('[') && attr.name.endsWith(']')) {
+    attrName = `[${attrName}]`;
+  } else if (attr.name.startsWith('(') && attr.name.endsWith(')')) {
+    attrName = `(${attrName})`;
+  }
+  return `${before}${attrName}="${attr.value}"`;
 }
 
 function findShowMoreConfigAttributes(node: ElementWithLocation): {
@@ -128,98 +282,14 @@ function normalizeAttrName(attr: parse5.Token.Attribute): string {
   return attr.name.replace('attr.', '').replace(/^[[(]|[\])]$/g, '');
 }
 
-function buildOpeningTag(
-  node: ElementWithLocation,
-  content: string,
-  context: SchematicContext,
-  options: ConvertSelectFieldToLookupOptions,
-): string {
-  const eol = getEOL(content);
-  let previousAttrLine = node.sourceCodeLocation.startLine;
-  let value = `<sky-lookup`;
-  const { customPicker, pickerHeading, eitherShowMoreConfig } =
-    findShowMoreConfigAttributes(node);
-  let before = '';
-  for (const attr of node.attrs) {
-    before = getIndentation(previousAttrLine, node, attr, eol);
-    const attrName = normalizeAttrName(attr);
-    if (
-      attrNameIsOneOf(attrName, [
-        'inMemorySearchEnabled',
-        'multipleSelectOpenButtonText',
-        'singleSelectClearButtonTitle',
-        'singleSelectOpenButtonTitle',
-      ])
-    ) {
-      bestEffortMessage(
-        `The "${attrName}" attribute is not supported on the <sky-lookup> component.`,
-        context,
-        options,
-      );
-    } else if (attrNameIsOneOf(attrName, ['blur', 'searchApplied'])) {
-      bestEffortMessage(
-        `The "${attrName}" event is not supported on the <sky-lookup> component.`,
-        context,
-        options,
-      );
-    } else if (attr.name === '[data]') {
-      value += `${before}[data]="${attr.value} | async"`;
-      // todo: import async pipe if not already imported
-    } else if (attrNameIsOneOf(attrName, ['descriptorKey'])) {
-      value += defineAttribute(before, attr, 'descriptorProperty');
-    } else if (attrNameIsOneOf(attrName, ['singleSelectPlaceholderText'])) {
-      value += defineAttribute(before, attr, 'placeholderText');
-    } else if (attrNameIsOneOf(attrName, ['showAddNewRecordButton'])) {
-      value += defineAttribute(before, attr, 'showAddButton');
-    } else if (attrNameIsOneOf(attrName, ['addNewRecordButtonClick'])) {
-      value += defineAttribute(before, attr, 'addClick');
-    } else if (eitherShowMoreConfig === attr) {
-      value += buildShowMoreConfig(
-        before,
-        pickerHeading,
-        customPicker,
-        context,
-        options,
-      );
-    } else if (
-      attrName &&
-      !attrNameIsOneOf(attrName, ['pickerHeading', 'customPicker'])
-    ) {
-      value += before;
-      value += content.substring(
-        node.sourceCodeLocation.attrs[attr.name].startOffset,
-        node.sourceCodeLocation.attrs[attr.name].endOffset,
-      );
-    }
-    previousAttrLine = node.sourceCodeLocation.attrs[attr.name].startLine;
-  }
-
-  // If there was no "descriptorKey" attribute, we need to add a descriptorProperty="label" attribute.
-  if (
-    !node.attrs.some(
-      (attr) => normalizeAttrName(attr) === 'descriptorKey'.toLowerCase(),
-    )
-  ) {
-    value += `${before}descriptorProperty="label"`;
-  }
-  // Set the idProperty to "id" -- select-field did not have an input to override this.
-  value += `${before}idProperty="id"`;
-
-  if (!node.sourceCodeLocation.endTag) {
-    value += ' />';
-  } else {
-    value += '>';
-  }
-  return value;
-}
-
 function selectFieldTagSwap(
   context: SchematicContext,
   options: ConvertSelectFieldToLookupOptions,
+  followupTasks: FollowupTasks,
 ): SwapTagCallback<'sky-select-field'> {
   return (position, _oldTag, node, content) => {
     if (position === 'open') {
-      return buildOpeningTag(node, content, context, options);
+      return buildOpeningTag(node, content, context, options, followupTasks);
     } else {
       return `</sky-lookup>`;
     }
@@ -232,19 +302,25 @@ function convertTemplate(
   context: SchematicContext,
   options: ConvertSelectFieldToLookupOptions,
   offset = 0,
-): void {
+): FollowupTasks {
   const fragment = parseTemplate(content);
   const selectFields = getElementsByTagName('sky-select-field', fragment);
+  const followupTasks: FollowupTasks = {
+    importAsyncPipe: false,
+    addCommentsToFunctions: {},
+    addCommentsToProperties: {},
+  };
   for (const selectField of selectFields) {
     swapTags(
       content,
       recorder,
       offset,
       ['sky-select-field'],
-      selectFieldTagSwap(context, options),
+      selectFieldTagSwap(context, options, followupTasks),
       selectField,
     );
   }
+  return followupTasks;
 }
 
 function convertHtmlFile(
@@ -256,8 +332,47 @@ function convertHtmlFile(
   const content = tree.readText(filePath);
   if (content.includes('<sky-select-field')) {
     const recorder = tree.beginUpdate(filePath);
-    convertTemplate(recorder, content, context, options);
+    const followupTasks = convertTemplate(recorder, content, context, options);
     tree.commitUpdate(recorder);
+
+    if (followupTasks.importAsyncPipe) {
+      const componentFilePath = filePath.replace(/\.html$/, '.ts');
+      if (!tree.exists(componentFilePath)) {
+        bestEffortMessage(
+          `Could not find the component file for ${filePath} to add the AsyncPipe import.`,
+          context,
+          options,
+        );
+        return;
+      }
+      const source = parseSourceFile(tree, componentFilePath);
+      const metadata = getDecoratorMetadata(
+        source,
+        'Component',
+        '@angular/core',
+      )[0] as ts.ObjectLiteralExpression;
+      if (isStandaloneComponent(metadata)) {
+        if (
+          !isImported(source, 'AsyncPipe', '@angular/common') &&
+          !isImported(source, 'CommonModule', '@angular/common')
+        ) {
+          applyChangesToFile(
+            tree,
+            componentFilePath,
+            addSymbolToClassMetadata(
+              source,
+              'Component',
+              filePath,
+              'imports',
+              'AsyncPipe',
+              '@angular/common',
+            ),
+          );
+        }
+      } else {
+        addAsyncPipeToModule(tree, componentFilePath, context, options);
+      }
+    }
   }
 }
 
@@ -271,29 +386,60 @@ function convertTypescriptFile(
   const templates = getInlineTemplates(source);
   const recorder = tree.beginUpdate(filePath);
   if (templates.length > 0) {
+    const followupTasks: FollowupTasks[] = [];
     const content = tree.readText(filePath);
     for (const template of templates) {
       const templateContent = content.slice(template.start, template.end);
       if (templateContent.includes('<sky-select-field')) {
-        convertTemplate(
-          recorder,
-          templateContent,
-          context,
-          options,
-          template.start,
+        followupTasks.push(
+          convertTemplate(
+            recorder,
+            templateContent,
+            context,
+            options,
+            template.start,
+          ),
         );
       }
     }
+    if (isImported(source, 'SkySelectFieldModule', '@skyux/select-field')) {
+      swapImportedClass(recorder, filePath, source, [
+        {
+          classNames: { SkySelectFieldModule: 'SkyLookupModule' },
+          moduleName: { old: '@skyux/select-field', new: '@skyux/lookup' },
+        },
+      ]);
+    }
+    tree.commitUpdate(recorder);
+
+    if (
+      followupTasks.some((tasks) => tasks.importAsyncPipe) &&
+      !isImported(source, 'AsyncPipe', '@angular/common') &&
+      !isImported(source, 'CommonModule', '@angular/common')
+    ) {
+      const metadata = getDecoratorMetadata(
+        source,
+        'Component',
+        '@angular/core',
+      )[0] as ts.ObjectLiteralExpression;
+      if (isStandaloneComponent(metadata)) {
+        applyChangesToFile(
+          tree,
+          filePath,
+          addSymbolToClassMetadata(
+            parseSourceFile(tree, filePath),
+            'Component',
+            filePath,
+            'imports',
+            'AsyncPipe',
+            '@angular/common',
+          ),
+        );
+      } else {
+        addAsyncPipeToModule(tree, filePath, context, options);
+      }
+    }
   }
-  if (isImported(source, 'SkySelectFieldModule', '@skyux/select-field')) {
-    swapImportedClass(recorder, filePath, source, [
-      {
-        classNames: { SkySelectFieldModule: 'SkyLookupModule' },
-        moduleName: { old: '@skyux/select-field', new: '@skyux/lookup' },
-      },
-    ]);
-  }
-  tree.commitUpdate(recorder);
 }
 
 export function convertSelectFieldToLookup(
