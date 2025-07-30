@@ -28,12 +28,45 @@
   width: 100%;
 }
 
+@include mixins.sky-host-responsive-container-xs-min() {
+  .sky-split-view-drawer {
+    &:has(sky-repeater) {
+      padding-top: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-xs-top
+      );
+      padding-right: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-xs-right
+      );
+      padding-bottom: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-xs-bottom
+      );
+      padding-left: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-xs-left
+      );
+    }
+  }
+}
+
 @include mixins.sky-host-responsive-container-sm-min() {
   .sky-split-view-drawer {
     border-right: var(
       --sky-override-split-view-drawer-border-right,
       var(--sky-border-width-divider) solid var(--sky-color-border-divider)
     );
+    &:has(sky-repeater) {
+      padding-top: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-sm-top
+      );
+      padding-right: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-sm-right
+      );
+      padding-bottom: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-sm-bottom
+      );
+      padding-left: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-sm-left
+      );
+    }
   }
 }
 
