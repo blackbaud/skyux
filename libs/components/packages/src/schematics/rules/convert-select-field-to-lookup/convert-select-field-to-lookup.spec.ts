@@ -1,4 +1,6 @@
+import { logging } from '@angular-devkit/core';
 import { stripIndents } from '@angular-devkit/core/src/utils/literals';
+import { SchematicContext } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { parseSourceFile } from '@angular/cdk/schematics';
 import { applyChangesToFile } from '@schematics/angular/utility/standalone/util';
@@ -81,6 +83,18 @@ describe('Convert select field to lookup', () => {
         'imports',
         'NgModel',
         '@angular/forms',
+      ),
+    );
+    applyChangesToFile(
+      tree,
+      'src/app/test.module.ts',
+      addSymbolToClassMetadata(
+        parseSourceFile(tree, 'src/app/test.module.ts'),
+        'NgModule',
+        'src/app/test.module.ts',
+        'imports',
+        'SkySelectFieldModule',
+        '@skyux/select-field',
       ),
     );
     tree.overwrite('src/app/test.component.html', input);
@@ -190,7 +204,13 @@ describe('Convert select field to lookup', () => {
     const tree = await createTestApp(runner, {
       projectName: 'test-app',
     });
-    tree.create('src/app/test.component.html', '<sky-select-field');
+    await angularComponentGenerator(runner, tree, {
+      name: 'test',
+      project: 'test-app',
+      standalone: true,
+      flat: true,
+    });
+    tree.overwrite('src/app/test.component.html', '<sky-select-field');
     await firstValueFrom(
       runner.callRule(
         convertSelectFieldToLookup('', {
@@ -331,6 +351,7 @@ describe('Convert select field to lookup', () => {
       'src/app/test.module.ts',
       stripIndents`
       import { NgModule } from '@angular/core';
+      import { SkySelectFieldModule } from '@skyux/select-field';
       import { TestComponent } from './test.component';
 
       @NgModule({
@@ -389,10 +410,16 @@ describe('Convert select field to lookup', () => {
     const tree = await createTestApp(runner, {
       projectName: 'test-app',
     });
+    await angularComponentGenerator(runner, tree, {
+      name: 'test',
+      project: 'test-app',
+      standalone: true,
+      flat: true,
+    });
     const input = stripIndents`
       <sky-select-field [pickerHeading]="pickerHeading" (blur)="onBlur()" />
     `;
-    tree.create('src/app/test.component.html', input);
+    tree.overwrite('src/app/test.component.html', input);
     await expect(() =>
       firstValueFrom(
         runner.callRule(
@@ -410,6 +437,87 @@ describe('Convert select field to lookup', () => {
     // The input should not be modified.
     expect(stripIndents`${tree.readText('src/app/test.component.html')}`).toBe(
       input,
+    );
+  });
+
+  it('should throw an error if it cannot find a module', async () => {
+    const tree = await createTestApp(runner, {
+      projectName: 'test-app',
+    });
+    const backtick = '`';
+    const input = stripIndents`
+      import { Component } from '@angular/core';
+
+      @Component({
+        selector: 'app-test',
+        standalone: false,
+        template: ${backtick}
+          <sky-select-field
+            name="modelValue"
+            ariaLabel="ariaLabel"
+            ariaLabelledBy="ariaLabelledBy"
+            [data]="data"
+            [descriptorKey]="descriptorKey"
+            [disabled]="disabled"
+            [inMemorySearchEnabled]="inMemorySearchEnabled"
+            [multipleSelectOpenButtonText]="multipleSelectOpenButtonText"
+            [selectMode]="selectMode"
+            [singleSelectClearButtonTitle]="singleSelectClearButtonTitle"
+            [singleSelectOpenButtonTitle]="singleSelectOpenButtonTitle"
+            singleSelectPlaceholderText="Placeholder Text"
+            pickerHeading="Picker Heading"
+            [showAddNewRecordButton]="true"
+            [(ngModel)]="formData.modelValue"
+            (blur)="onBlur)"
+            (ngModelChange)="onModelChange($event)"
+            (addNewRecordButtonClick)="onAddNewRecordButtonClick()"
+            (searchApplied)="onSearchApplied($event)"
+          ></sky-select-field>
+        ${backtick},
+      })
+      export class TestComponent {}
+    `;
+    tree.create('src/app/test.component.ts', input);
+    const output = stripIndents`
+      import { Component } from '@angular/core';
+
+      @Component({
+        selector: 'app-test',
+        standalone: false,
+        template: ${backtick}
+          <sky-lookup
+            name="modelValue"
+            ariaLabel="ariaLabel"
+            ariaLabelledBy="ariaLabelledBy"
+            [data]="data | async"
+            [descriptorProperty]="descriptorKey"
+            [disabled]="disabled"
+            [selectMode]="selectMode"
+            placeholderText="Placeholder Text"
+            [showMoreConfig]="{ nativePickerConfig: { title: 'Picker Heading' } }"
+            [showAddButton]="true"
+            [(ngModel)]="formData.modelValue"
+            (ngModelChange)="onModelChange($event)"
+            (addClick)="onAddNewRecordButtonClick()"
+            idProperty="id"></sky-lookup>
+        ${backtick},
+      })
+      export class TestComponent {}
+    `;
+    const context: Pick<SchematicContext, 'logger'> = {
+      logger: new logging.NullLogger(),
+    };
+    const warn = jest.spyOn(context.logger, 'warn');
+    convertSelectFieldToLookup('', {
+      bestEffortMode: true,
+      insertTodos: true,
+      projectPath: '',
+    })(tree, context as SchematicContext);
+    expect(stripIndents`${tree.readText('src/app/test.component.ts')}`).toBe(
+      output,
+    );
+    expect(warn).toHaveBeenCalledWith(
+      'Could not find the declaring module for the component in /src/app/test.component.ts. Please review the code to ensure it still works as expected.',
     );
   });
 });

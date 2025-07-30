@@ -6,6 +6,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   getDecoratorMetadata,
+  getMetadataField,
   isImported,
   parse5,
   parseSourceFile,
@@ -13,6 +14,8 @@ import {
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { getEOL } from '@schematics/angular/utility/eol';
 import { applyChangesToFile } from '@schematics/angular/utility/standalone/util';
+
+import { dirname, join, normalize } from 'node:path';
 
 import {
   ElementWithLocation,
@@ -54,20 +57,38 @@ const unsupportedEvents = ['blur', 'searchApplied'];
 
 interface FollowupTasks {
   importAsyncPipe: boolean;
+  swapModuleImports: boolean;
   addCommentsToFunctions: Record<string, string>;
   addCommentsToProperties: Record<string, string>;
 }
 
-function addAsyncPipeToModule(
+function applyFollowupTasksToModule(
   tree: Tree,
   filePath: string,
+  followupTasks: FollowupTasks,
   context: SchematicContext,
   options: ConvertSelectFieldToLookupOptions,
 ): void {
   const module = findDeclaringModule(tree, options.projectPath, filePath);
   if (module) {
-    const moduleSource = parseSourceFile(tree, module.filepath);
+    let moduleSource = parseSourceFile(tree, module.filepath);
+
     if (
+      isImported(moduleSource, 'SkySelectFieldModule', '@skyux/select-field')
+    ) {
+      const recorder = tree.beginUpdate(module.filepath);
+      swapImportedClass(recorder, filePath, moduleSource, [
+        {
+          classNames: { SkySelectFieldModule: 'SkyLookupModule' },
+          moduleName: { old: '@skyux/select-field', new: '@skyux/lookup' },
+        },
+      ]);
+      tree.commitUpdate(recorder);
+      moduleSource = parseSourceFile(tree, module.filepath);
+    }
+
+    if (
+      followupTasks.importAsyncPipe &&
       !isImported(moduleSource, 'AsyncPipe', '@angular/common') &&
       !isImported(moduleSource, 'CommonModule', '@angular/common')
     ) {
@@ -86,7 +107,7 @@ function addAsyncPipeToModule(
     }
   } else {
     bestEffortMessage(
-      `Could not find the declaring module for the component in ${filePath} to add the AsyncPipe import.`,
+      `Could not find the declaring module for the component in ${filePath}.`,
       context,
       options,
     );
@@ -307,10 +328,12 @@ function convertTemplate(
   const selectFields = getElementsByTagName('sky-select-field', fragment);
   const followupTasks: FollowupTasks = {
     importAsyncPipe: false,
+    swapModuleImports: false,
     addCommentsToFunctions: {},
     addCommentsToProperties: {},
   };
   for (const selectField of selectFields) {
+    followupTasks.swapModuleImports = true;
     swapTags(
       content,
       recorder,
@@ -328,52 +351,15 @@ function convertHtmlFile(
   filePath: string,
   context: SchematicContext,
   options: ConvertSelectFieldToLookupOptions,
-): void {
+): FollowupTasks | undefined {
   const content = tree.readText(filePath);
   if (content.includes('<sky-select-field')) {
     const recorder = tree.beginUpdate(filePath);
     const followupTasks = convertTemplate(recorder, content, context, options);
     tree.commitUpdate(recorder);
-
-    if (followupTasks.importAsyncPipe) {
-      const componentFilePath = filePath.replace(/\.html$/, '.ts');
-      if (!tree.exists(componentFilePath)) {
-        bestEffortMessage(
-          `Could not find the component file for ${filePath} to add the AsyncPipe import.`,
-          context,
-          options,
-        );
-        return;
-      }
-      const source = parseSourceFile(tree, componentFilePath);
-      const metadata = getDecoratorMetadata(
-        source,
-        'Component',
-        '@angular/core',
-      )[0] as ts.ObjectLiteralExpression;
-      if (isStandaloneComponent(metadata)) {
-        if (
-          !isImported(source, 'AsyncPipe', '@angular/common') &&
-          !isImported(source, 'CommonModule', '@angular/common')
-        ) {
-          applyChangesToFile(
-            tree,
-            componentFilePath,
-            addSymbolToClassMetadata(
-              source,
-              'Component',
-              filePath,
-              'imports',
-              'AsyncPipe',
-              '@angular/common',
-            ),
-          );
-        }
-      } else {
-        addAsyncPipeToModule(tree, componentFilePath, context, options);
-      }
-    }
+    return followupTasks;
   }
+  return undefined;
 }
 
 function convertTypescriptFile(
@@ -383,60 +369,92 @@ function convertTypescriptFile(
   options: ConvertSelectFieldToLookupOptions,
 ): void {
   const source = parseSourceFile(tree, filePath);
-  const templates = getInlineTemplates(source);
-  const recorder = tree.beginUpdate(filePath);
-  if (templates.length > 0) {
-    const followupTasks: FollowupTasks[] = [];
-    const content = tree.readText(filePath);
-    for (const template of templates) {
-      const templateContent = content.slice(template.start, template.end);
-      if (templateContent.includes('<sky-select-field')) {
-        followupTasks.push(
-          convertTemplate(
+  let followupTasks: FollowupTasks | undefined = undefined;
+  if (isImported(source, 'Component', '@angular/core')) {
+    const metadata = getDecoratorMetadata(
+      source,
+      'Component',
+      '@angular/core',
+    )[0] as ts.ObjectLiteralExpression;
+    const templateUrl = getMetadataField(metadata, 'templateUrl')[0] as
+      | ts.PropertyAssignment
+      | undefined;
+    if (templateUrl && ts.isStringLiteralLike(templateUrl.initializer)) {
+      const htmlFilePath = normalize(
+        join(dirname(filePath), templateUrl.initializer.text),
+      );
+      followupTasks = convertHtmlFile(tree, htmlFilePath, context, options);
+    } else {
+      const template = getInlineTemplates(source)[0];
+      if (template) {
+        const content = tree.readText(filePath);
+        const templateContent = content.slice(template.start, template.end);
+        if (templateContent.includes('<sky-select-field')) {
+          const recorder = tree.beginUpdate(filePath);
+          followupTasks = convertTemplate(
             recorder,
             templateContent,
             context,
             options,
             template.start,
-          ),
-        );
+          );
+          tree.commitUpdate(recorder);
+        }
       }
     }
-    if (isImported(source, 'SkySelectFieldModule', '@skyux/select-field')) {
-      swapImportedClass(recorder, filePath, source, [
-        {
-          classNames: { SkySelectFieldModule: 'SkyLookupModule' },
-          moduleName: { old: '@skyux/select-field', new: '@skyux/lookup' },
-        },
-      ]);
-    }
-    tree.commitUpdate(recorder);
 
-    if (
-      followupTasks.some((tasks) => tasks.importAsyncPipe) &&
-      !isImported(source, 'AsyncPipe', '@angular/common') &&
-      !isImported(source, 'CommonModule', '@angular/common')
-    ) {
+    if (followupTasks?.swapModuleImports) {
       const metadata = getDecoratorMetadata(
         source,
         'Component',
         '@angular/core',
       )[0] as ts.ObjectLiteralExpression;
       if (isStandaloneComponent(metadata)) {
-        applyChangesToFile(
+        if (isImported(source, 'SkySelectFieldModule', '@skyux/select-field')) {
+          const recorder = tree.beginUpdate(filePath);
+          swapImportedClass(
+            recorder,
+            filePath,
+            parseSourceFile(tree, filePath),
+            [
+              {
+                classNames: { SkySelectFieldModule: 'SkyLookupModule' },
+                moduleName: {
+                  old: '@skyux/select-field',
+                  new: '@skyux/lookup',
+                },
+              },
+            ],
+          );
+          tree.commitUpdate(recorder);
+        }
+
+        if (
+          followupTasks?.importAsyncPipe &&
+          !isImported(source, 'AsyncPipe', '@angular/common') &&
+          !isImported(source, 'CommonModule', '@angular/common')
+        ) {
+          applyChangesToFile(
+            tree,
+            filePath,
+            addSymbolToClassMetadata(
+              parseSourceFile(tree, filePath),
+              'Component',
+              filePath,
+              'imports',
+              'AsyncPipe',
+              '@angular/common',
+            ),
+          );
+        }
+      } else {
+        applyFollowupTasksToModule(
           tree,
           filePath,
-          addSymbolToClassMetadata(
-            parseSourceFile(tree, filePath),
-            'Component',
-            filePath,
-            'imports',
-            'AsyncPipe',
-            '@angular/common',
-          ),
+          followupTasks,
+          context,
+          options,
         );
-      } else {
-        addAsyncPipeToModule(tree, filePath, context, options);
       }
     }
   }
@@ -448,9 +466,7 @@ export function convertSelectFieldToLookup(
 ): Rule {
   return (tree, context) => {
     visitProjectFiles(tree, projectPath, (filePath) => {
-      if (filePath.endsWith('.html')) {
-        convertHtmlFile(tree, filePath, context, options);
-      } else if (filePath.endsWith('.ts')) {
+      if (filePath.endsWith('.ts')) {
         convertTypescriptFile(tree, filePath, context, options);
       }
     });

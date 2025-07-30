@@ -2,12 +2,14 @@
 
 exports[`Convert select field to lookup should convert inline template with module 1`] = `
 "import { NgModule } from '@angular/core';
+
 import { TestComponent } from './test.component';
+import { SkyLookupModule } from '@skyux/lookup';
 import { AsyncPipe } from '@angular/common';
 
 @NgModule({
 declarations: [TestComponent],
-imports: [SkySelectFieldModule, NgModel, AsyncPipe],
+imports: [SkyLookupModule, NgModel, AsyncPipe],
 exports: [TestComponent],
 })
 export class TestModule {}"
@@ -33,6 +35,8 @@ import { CommonModule, NgIf } from '@angular/common';
 import { TestComponent } from './test.component';
 import { NgModel } from '@angular/forms';
 
+import { SkyLookupModule } from '@skyux/lookup';
+
 
 
 @NgModule({
@@ -42,7 +46,8 @@ TestComponent
 imports: [
 CommonModule,
 NgIf,
-NgModel
+NgModel,
+SkyLookupModule
 ]
 })
 export class TestModule { }"
