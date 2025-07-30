@@ -22,8 +22,10 @@
 @include compatMixins.sky-modern-overrides('sky-tabset', false) {
   --sky-override-tabset-align-items: center;
   --sky-override-tabset-icon-button-padding: 9px 15px;
-  --sky-override-tabset-padding: 0 0 0
-    var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
+  --sky-override-tabset-padding: var(
+    --sky-layout-host-tab-content-spacing,
+    0 0 0 #{$sky-padding-plus-half}
+  );
 }
 
 sky-tabset {
@@ -56,11 +58,13 @@ sky-tabset {
   margin: var(--sky-tabset-margin);
   padding: var(
     --sky-override-tabset-padding,
-    0 0 0
-      var(
-        --sky-layout-host-tab-content-spacing,
+    var(
+      --sky-layout-host-tab-content-spacing,
+      var(--sky-comp-tabset-tabs-space-inset-top)
+        var(--sky-comp-tabset-tabs-space-inset-right)
+        var(--sky-comp-tabset-tabs-space-inset-bottom)
         var(--sky-comp-tabset-tabs-space-inset-left)
-      )
+    )
   );
   white-space: nowrap;
 
