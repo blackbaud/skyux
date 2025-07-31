@@ -24,7 +24,7 @@ export class FilterBarComponent {
         this.filters
           .map(
             (filter) =>
-              `{ ${filter.name}${filter.filterValue ? ': ' + (filter.filterValue.displayValue ?? filter.filterValue.value) : ''} }`,
+              `{ ${filter.id}${filter.filterValue ? ': ' + (filter.filterValue.displayValue ?? filter.filterValue.value) : ''} }`,
           )
           .join(', ') +
         ' ]'
@@ -46,49 +46,12 @@ export class FilterBarComponent {
     { value: 10, label: 'Elements', helpPopoverContent: 'test content2' },
   ];
 
-  #_filters: SkyFilterBarFilterItem[] | undefined;
+  public filterModalConfig: { modalComponent: TestModalComponent };
 
-  #filters: SkyFilterBarFilterItem[] = [
-    {
-      name: 'filter 1',
-      id: '1',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 2',
-      id: '2',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 3',
-      id: '3',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 4',
-      id: '4',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 5',
-      id: '5',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 6',
-      id: '6',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 7',
-      id: '7',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 8',
-      id: '8',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
+  #_filters: SkyFilterBarFilterItem[] | undefined = [
+    { id: '1' },
+    { id: '2' },
+    { id: '3' },
   ];
 
   constructor() {
@@ -96,33 +59,6 @@ export class FilterBarComponent {
   }
 
   public resetFilters(): void {
-    this.filters = [
-      {
-        name: 'filter 1',
-        id: '1',
-        filterModalConfig: { modalComponent: TestModalComponent },
-      },
-      {
-        name: 'filter 2',
-        id: '2',
-        filterModalConfig: { modalComponent: TestModalComponent },
-      },
-      {
-        name: 'filter 3',
-        id: '3',
-        filterModalConfig: { modalComponent: TestModalComponent },
-      },
-    ];
+    this.filters = [{ id: '1' }, { id: '2' }, { id: '3' }];
   }
-
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  public searchFn = (args: SkySelectionModalSearchArgs) => {
-    let retVal = this.#filters;
-    if (args?.searchText) {
-      retVal = this.#filters.filter((filter) =>
-        filter.name.includes(args.searchText),
-      );
-    }
-    return of({ items: retVal, totalCount: retVal.length });
-  };
 }

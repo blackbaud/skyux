@@ -1,7 +1,48 @@
 <sky-page layout="list">
   <sky-page-header pageTitle="Filter bar" />
   <sky-page-content>
-    <sky-filter-bar [filterAsyncSearchFn]="searchFn" [(filters)]="filters" />
+    <sky-filter-bar [enableSelectionModal]="true" [(filters)]="filters">
+      <sky-filter-bar-item
+        filterId="1"
+        filterName="filter 1"
+        [filterModalConfig]="filterModalConfig"
+      />
+      <sky-filter-bar-item
+        filterId="2"
+        filterName="filter 2"
+        [filterModalConfig]="filterModalConfig"
+      />
+      <sky-filter-bar-item
+        filterId="3"
+        filterName="filter 3"
+        [filterModalConfig]="filterModalConfig"
+      />
+      <sky-filter-bar-item
+        filterId="4"
+        filterName="filter 4"
+        [filterModalConfig]="filterModalConfig"
+      />
+      <sky-filter-bar-item
+        filterId="5"
+        filterName="filter 5"
+        [filterModalConfig]="filterModalConfig"
+      />
+      <sky-filter-bar-item
+        filterId="6"
+        filterName="filter 6"
+        [filterModalConfig]="filterModalConfig"
+      />
+      <sky-filter-bar-item
+        filterId="7"
+        filterName="filter 7"
+        [filterModalConfig]="filterModalConfig"
+      />
+      <sky-filter-bar-item
+        filterId="8"
+        filterName="filter 8"
+        [filterModalConfig]="filterModalConfig"
+      />
+    </sky-filter-bar>
     <div>Filters:</div>
     <div>{{ filters }}</div>
 
