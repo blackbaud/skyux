@@ -1,5 +1,10 @@
 export interface ConvertSelectFieldToLookupOptions {
   /**
+   * The name of the project where the rule should be applied.
+   */
+  project: string;
+
+  /**
    * The path to the files where the rule should be applied.
    */
   projectPath: string;

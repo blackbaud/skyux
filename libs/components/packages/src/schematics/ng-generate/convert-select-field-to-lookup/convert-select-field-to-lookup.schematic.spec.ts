@@ -4,7 +4,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 
-import { createTestApp } from '../../testing/scaffold';
+import { createTestApp, createTestLibrary } from '../../testing/scaffold';
 
 describe('ng-generate/convert-select-field-to-lookup.schematic', () => {
   const collectionPath = join(
@@ -13,17 +13,18 @@ describe('ng-generate/convert-select-field-to-lookup.schematic', () => {
   );
   const runner = new SchematicTestRunner('generate', collectionPath);
 
-  async function setupTest(): Promise<{
-    runSchematic: () => Promise<UnitTestTree>;
+  async function setupTest(appOrLib: 'app' | 'lib' = 'app'): Promise<{
+    runSchematic: (options: object) => Promise<UnitTestTree>;
     tree: UnitTestTree;
   }> {
-    const tree = await createTestApp(runner, { projectName: 'test-app' });
-    const runSchematic = (): Promise<UnitTestTree> => {
+    const tree =
+      appOrLib === 'app'
+        ? await createTestApp(runner, { projectName: 'test-app' })
+        : await createTestLibrary(runner, { projectName: 'test-lib' });
+    const runSchematic = (options: object): Promise<UnitTestTree> => {
       return runner.runSchematic(
         'convert-select-field-to-lookup',
-        {
-          project: 'test-app',
-        },
+        options,
         tree,
       );
     };
@@ -32,6 +33,15 @@ describe('ng-generate/convert-select-field-to-lookup.schematic', () => {
 
   it('should run the schematic without errors', async () => {
     const { runSchematic } = await setupTest();
-    await expect(runSchematic()).resolves.not.toThrow();
+    await expect(runSchematic({})).resolves.not.toThrow();
+  });
+
+  it('should error without a clear project', async () => {
+    const { runSchematic } = await setupTest('lib');
+    await expect(runSchematic({})).rejects.toThrow(
+      new Error(
+        'Project name is required. Provide a valid project name using the `--project` option.',
+      ),
+    );
   });
 });

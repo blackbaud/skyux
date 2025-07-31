@@ -6,7 +6,7 @@ import {
 } from '../../testing/angular-module-generator';
 import { createTestApp } from '../../testing/scaffold';
 
-import { findDeclaringModule } from './find-module';
+import { findDeclaringModule, isStandaloneComponent } from './find-module';
 
 describe('find-module', () => {
   const runner = new SchematicTestRunner(
@@ -63,6 +63,8 @@ describe('find-module', () => {
     );
     expect(module?.filepath).toBe('./src/app/test/test.component.ts');
     expect(module?.module.className).toBe('TestComponent');
+    expect(module?.module.metadata).toBeTruthy();
+    expect(isStandaloneComponent(module?.module.metadata as any)).toBe(true);
   });
 
   it('should find module, skip non-declaring reference', async () => {

@@ -147,11 +147,13 @@ describe('Convert select field to lookup', () => {
         [placeholderText]="singleSelectPlaceholderText"
         [(ngModel)]="formData.modelValue"
         (ngModelChange)="onModelChange($event)"
+        enableShowMore
         idProperty="id" />
     `;
     await firstValueFrom(
       runner.callRule(
-        convertSelectFieldToLookup('', {
+        convertSelectFieldToLookup({
+          project: 'test-app',
           bestEffortMode: true,
           insertTodos: true,
           projectPath: '',
@@ -215,11 +217,13 @@ describe('Convert select field to lookup', () => {
         [(ngModel)]="formData.modelValue"
         (ngModelChange)="onModelChange($event)"
         descriptorProperty="label"
+        enableShowMore
         idProperty="id" />
     `;
     await firstValueFrom(
       runner.callRule(
-        convertSelectFieldToLookup('', {
+        convertSelectFieldToLookup({
+          project: 'test-app',
           bestEffortMode: true,
           insertTodos: true,
           projectPath: '',
@@ -248,7 +252,8 @@ describe('Convert select field to lookup', () => {
     tree.overwrite('src/app/test.component.html', '<sky-select-field');
     await firstValueFrom(
       runner.callRule(
-        convertSelectFieldToLookup('', {
+        convertSelectFieldToLookup({
+          project: 'test-app',
           bestEffortMode: true,
           insertTodos: true,
           projectPath: '',
@@ -323,6 +328,7 @@ describe('Convert select field to lookup', () => {
             [(ngModel)]="formData.modelValue"
             (ngModelChange)="onModelChange($event)"
             (addClick)="onAddNewRecordButtonClick()"
+            enableShowMore
             idProperty="id"></sky-lookup>
         ${backtick},
         imports: [SkyLookupModule, AsyncPipe],
@@ -331,7 +337,8 @@ describe('Convert select field to lookup', () => {
     `;
     await firstValueFrom(
       runner.callRule(
-        convertSelectFieldToLookup('', {
+        convertSelectFieldToLookup({
+          project: 'test-app',
           bestEffortMode: true,
           insertTodos: true,
           projectPath: '',
@@ -418,6 +425,7 @@ describe('Convert select field to lookup', () => {
             [(ngModel)]="formData.modelValue"
             (ngModelChange)="onModelChange($event)"
             (addClick)="onAddNewRecordButtonClick()"
+            enableShowMore
             idProperty="id"></sky-lookup>
         ${backtick},
       })
@@ -425,7 +433,8 @@ describe('Convert select field to lookup', () => {
     `;
     await firstValueFrom(
       runner.callRule(
-        convertSelectFieldToLookup('', {
+        convertSelectFieldToLookup({
+          project: 'test-app',
           bestEffortMode: true,
           insertTodos: true,
           projectPath: '',
@@ -458,7 +467,8 @@ describe('Convert select field to lookup', () => {
     await expect(() =>
       firstValueFrom(
         runner.callRule(
-          convertSelectFieldToLookup('', {
+          convertSelectFieldToLookup({
+            project: 'test-app',
             bestEffortMode: false,
             insertTodos: true,
             projectPath: '',
@@ -534,6 +544,7 @@ describe('Convert select field to lookup', () => {
             [(ngModel)]="formData.modelValue"
             (ngModelChange)="onModelChange($event)"
             (addClick)="onAddNewRecordButtonClick()"
+            enableShowMore
             idProperty="id"></sky-lookup>
         ${backtick},
       })
@@ -543,7 +554,8 @@ describe('Convert select field to lookup', () => {
       logger: new logging.NullLogger(),
     };
     const warn = jest.spyOn(context.logger, 'warn');
-    await convertSelectFieldToLookup('', {
+    await convertSelectFieldToLookup({
+      project: 'test-app',
       bestEffortMode: true,
       insertTodos: true,
       projectPath: '',

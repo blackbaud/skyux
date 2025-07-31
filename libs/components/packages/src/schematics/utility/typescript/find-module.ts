@@ -16,11 +16,11 @@ function findModuleInPath(
   filter: (sourceFile: ts.SourceFile) => boolean,
 ): {
   filepath: string;
-  module: { className: string; metadata: ts.ObjectLiteralElement[] };
+  module: { className: string; metadata: ts.ObjectLiteralElement };
 } | null {
   let found: {
     filepath: string;
-    module: { className: string; metadata: ts.ObjectLiteralElement[] };
+    module: { className: string; metadata: ts.ObjectLiteralElement };
   } | null = null;
   visitProjectFiles(tree, path, (filePath) => {
     if (found) {
@@ -36,9 +36,9 @@ function findModuleInPath(
           sourceFile,
           'NgModule',
           '@angular/core',
-        ) as ts.ObjectLiteralElement[];
+        )[0] as ts.ObjectLiteralElement;
         const className =
-          findClassDeclarationParent(metadata[0])?.name?.text || '';
+          findClassDeclarationParent(metadata)?.name?.text || '';
         found = {
           filepath: buildRelativePath('/', `/${filePath}`),
           module: {
@@ -81,24 +81,28 @@ export function findDeclaringModule(
   componentPath: string,
 ): {
   filepath: string;
-  module: { className: string; metadata: ts.ObjectLiteralElement[] };
+  module: { className: string; metadata: ts.ObjectLiteralElement };
 } | null {
   const source = parseSourceFile(tree, componentPath);
   const metadata = getDecoratorMetadata(
     source,
     'Component',
     '@angular/core',
-  )[0];
+  )[0] as ts.ObjectLiteralElement | undefined;
   const componentClass = findClassDeclarationParent(metadata);
 
   const componentClassName = componentClass?.name?.text;
-  if (componentClassName && ts.isObjectLiteralExpression(metadata)) {
+  if (
+    componentClassName &&
+    metadata &&
+    ts.isObjectLiteralExpression(metadata)
+  ) {
     if (isStandaloneComponent(metadata)) {
       return {
         filepath: buildRelativePath('/', `/${componentPath}`),
         module: {
           className: componentClass.name.text,
-          metadata: [],
+          metadata: metadata,
         },
       };
     }

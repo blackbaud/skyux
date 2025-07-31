@@ -13,6 +13,7 @@ import {
   parseSourceFile,
 } from '@angular/cdk/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
+import { ProjectDefinition } from '@schematics/angular/utility';
 import { Change, InsertChange } from '@schematics/angular/utility/change';
 import { getEOL } from '@schematics/angular/utility/eol';
 import { applyChangesToFile } from '@schematics/angular/utility/standalone/util';
@@ -36,6 +37,7 @@ import {
 } from '../../utility/typescript/ng-ast';
 import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../utility/visit-project-files';
+import { getRequiredProject } from '../../utility/workspace';
 
 import { ConvertSelectFieldToLookupOptions } from './options';
 
@@ -161,9 +163,17 @@ function applyFollowupTasksToModule(
   followupTasks: FollowupTasks,
   context: SchematicContext,
   options: ConvertSelectFieldToLookupOptions,
+  project: ProjectDefinition,
 ): void {
-  const module = findDeclaringModule(tree, options.projectPath, filePath);
+  /* istanbul ignore next */
+  const projectPath = project.sourceRoot ?? project.root;
+  const module = findDeclaringModule(tree, projectPath, filePath);
   if (module) {
+    contextLogOnce(
+      'info',
+      `Found the declaring module for the component in ${module.filepath}.`,
+      context,
+    );
     let moduleSource = parseSourceFile(tree, module.filepath);
 
     if (
@@ -217,8 +227,10 @@ function bestEffortMessage(
   options: ConvertSelectFieldToLookupOptions,
 ): void {
   if (options.bestEffortMode) {
-    context.logger.warn(
+    contextLogOnce(
+      'warn',
       `${msg} Please review the code to ensure it still works as expected.`,
+      context,
     );
   } else {
     throw new Error(
@@ -244,10 +256,10 @@ function buildOpeningTag(
     before = getIndentation(previousAttrLine, node, attr, eol);
     const attrName = normalizeAttrName(attr);
     if (attrNameIsOneOf(attrName, unsupportedAttributes)) {
-      bestEffortMessage(
-        `The "${attrName}" attribute is not supported on the <sky-lookup> component.`,
+      contextLogOnce(
+        'warn',
+        `The "${attrName}" attribute is not supported on the <sky-lookup> component and will be removed.`,
         context,
-        options,
       );
     } else {
       if (attrNameIsOneOf(attrName, unsupportedEvents)) {
@@ -300,6 +312,8 @@ function buildOpeningTag(
   ) {
     value += `${before}descriptorProperty="label"`;
   }
+  // Enable the "showMore" feature by default.
+  value += `${before}enableShowMore`;
   // Set the idProperty to "id" -- select-field did not have an input to override this.
   value += `${before}idProperty="id"`;
 
@@ -354,6 +368,18 @@ function buildShowMoreConfig(
   }
   showMoreConfig += ` }"`;
   return showMoreConfig;
+}
+
+const loggedMessages: Set<string> = new Set();
+function contextLogOnce(
+  level: 'info' | 'warn',
+  message: string,
+  context: SchematicContext,
+): void {
+  if (!loggedMessages.has(message)) {
+    context.logger[level](message);
+    loggedMessages.add(message);
+  }
 }
 
 function defineAttribute(
@@ -488,6 +514,7 @@ function convertTypescriptFile(
   filePath: string,
   context: SchematicContext,
   options: ConvertSelectFieldToLookupOptions,
+  project: ProjectDefinition,
 ): void {
   const source = parseSourceFile(tree, filePath);
   const eol = getEOL(tree.readText(filePath));
@@ -540,6 +567,7 @@ function convertTypescriptFile(
           followupTasks,
           context,
           options,
+          project,
         );
       }
     }
@@ -547,13 +575,13 @@ function convertTypescriptFile(
 }
 
 export function convertSelectFieldToLookup(
-  projectPath: string,
   options: ConvertSelectFieldToLookupOptions,
 ): Rule {
-  return (tree, context) => {
-    visitProjectFiles(tree, projectPath, (filePath) => {
+  return async (tree, context) => {
+    const { project } = await getRequiredProject(tree, options.project);
+    visitProjectFiles(tree, options.projectPath, (filePath) => {
       if (filePath.endsWith('.ts')) {
-        convertTypescriptFile(tree, filePath, context, options);
+        convertTypescriptFile(tree, filePath, context, options, project);
       }
     });
   };
