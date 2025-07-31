@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
-import { SkySelectionModalSearchArgs } from '@skyux/lookup';
-
-import { of } from 'rxjs';
 
 import { TestModalComponent } from './test-modal.component';
 
