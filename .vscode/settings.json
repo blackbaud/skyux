@@ -7,5 +7,10 @@
   "cSpell.enabled": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "karmaTestExplorer.enableExtension": false,
-  "eslint.codeActionsOnSave.rules": ["!@angular-eslint/prefer-standalone", "*"]
+  "eslint.codeActionsOnSave.rules": ["!@angular-eslint/prefer-standalone", "*"],
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "file": ".github/instructions/commit-message.instructions.md"
+    }
+  ]
 }

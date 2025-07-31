@@ -48,14 +48,11 @@ describe(`popovers-storybook`, () => {
           'The content of a popover can be text, HTML, or Angular components.',
         );
 
-        cy.window().percySnapshot(
-          `popovercomponent-popover--popover-${theme}`,
-          {
-            minHeight: 1600,
-            widths: [1280],
-          },
-        );
-        cy.window().screenshot(`popovercomponent-popover--popover-${theme}`);
+        cy.skyVisualTest(`popovercomponent-popover--popover-${theme}`, {
+          capture: 'fullPage',
+          overwrite: true,
+          disableTimersAndAnimations: true,
+        });
       });
     });
   });
