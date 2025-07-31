@@ -4,10 +4,6 @@
   --sky-override-ag-grid-header-button-margin-left: var(--sky-margin-inline-sm);
 }
 
-@include compatMixins.sky-modern-overrides('button') {
-  --sky-override-ag-grid-header-button-margin-left: var(--sky-margin-inline-sm);
-}
-
 :host {
   display: flex;
   max-width: 100%;

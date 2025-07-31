@@ -75,57 +75,11 @@
   }
 }
 
-@include compatMixins.sky-modern-overrides('.sky-ag-grid', false) {
-  --sky-override-ag-grid-background-color: var(
-    --sky-background-color-page-default
-  );
-  --sky-override-ag-grid-cell-focus-horizontal-padding: 10px;
-  --sky-override-ag-grid-cell-horizontal-padding: 12px;
-  --sky-override-ag-grid-cell-padding-vertical: 16px;
-  --sky-override-ag-grid-column-divider-color: var(
-    --sky-border-color-neutral-medium-dark
-  );
-  --sky-override-ag-grid-header-height: 60px;
-  --sky-override-ag-grid-header-icon-spacing: 10px;
-  --sky-override-ag-grid-header-resize-height: 16px;
-  --sky-override-ag-grid-odd-row-background-color: var(
-    --sky-background-color-page-default
-  );
-  --sky-override-ag-grid-popup-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-  --sky-override-ag-grid-resize-handle-color: #1870b8;
-  --sky-override-ag-grid-row-height: 60px;
-  --sky-override-ag-grid-row-selected-color: var(
-    --sky-background-color-selected
-  );
-  --sky-override-ag-grid-top-border: 2px solid transparent;
-  --sky-override-ag-grid-top-border-width-editable: 2px;
-
-  // modern data entry grid overrides that apply to standard mode only
-  &.ag-theme-sky-data-entry-grid-modern-light {
-    --sky-override-ag-grid-background-color: #ffffff;
-  }
-
-  // modern data grid and data entry grid overrides for compact mode
-  &.ag-theme-sky-data-grid-modern-light-compact,
-  &.ag-theme-sky-data-entry-grid-modern-light-compact {
-    --sky-override-ag-grid-cell-padding-vertical: 2px;
-    --sky-override-ag-grid-header-height: 32px;
-    --sky-override-ag-grid-row-height: 32px;
-    --sky-override-ag-grid-row-selector-margin-top: 2px;
-  }
-
-  // modern data entry grid overrides that apply to standard and compact mode
-  &.ag-theme-sky-data-entry-grid-modern-light,
-  &.ag-theme-sky-data-entry-grid-modern-light-compact {
-    --sky-override-ag-grid-header-resize-height: 100%;
-  }
-}
-
 // TODO: remove these when we have token support for compact mode
 .sky-theme-modern.sky-theme-brand-base {
   .ag-theme-sky-data-grid-modern-light-compact,
   .ag-theme-sky-data-entry-grid-modern-light-compact {
-    --sky-override-ag-grid-cell-padding-vertical: 4px;
+    --sky-comp-override-ag-grid-cell-padding-vertical-compact: 4px;
     --sky-override-ag-grid-header-height: 28px;
     --sky-override-ag-grid-row-height: 28px;
     --sky-override-ag-grid-row-selector-margin-top: 4px;
