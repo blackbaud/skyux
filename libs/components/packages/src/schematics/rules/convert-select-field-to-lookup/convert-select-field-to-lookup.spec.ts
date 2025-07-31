@@ -98,6 +98,41 @@ describe('Convert select field to lookup', () => {
       ),
     );
     tree.overwrite('src/app/test.component.html', input);
+    tree.overwrite(
+      'src/app/test.component.ts',
+      stripIndents`
+      import { Component } from '@angular/core';
+
+      @Component({
+        selector: 'app-test',
+        standalone: false,
+        templateUrl: './test.component.html',
+        styleUrl: './test.component.scss'
+      })
+      export class TestComponent {
+        public formData = {
+          modelValue: null,
+        };
+        public ariaLabel = 'Aria Label';
+        public ariaLabelledBy = 'Aria Labelled By';
+        public customPicker = false;
+        public data = [];
+        public descriptorKey = 'label';
+        public disabled = false;
+        public inMemorySearchEnabled = true;
+        public multipleSelectOpenButtonText = 'Open Multiple Select';
+        public selectMode = 'single';
+        public singleSelectClearButtonTitle = 'Clear Selection';
+        public singleSelectOpenButtonTitle = 'Open Single Select';
+        public singleSelectPlaceholderText = 'Select an option';
+        public pickerHeading = 'Picker Heading';
+
+        onBlur() {}
+        onModelChange(value: any) {}
+        onSearchApplied(value: any) {}
+      }
+    `,
+    );
     const output = stripIndents`
       <sky-lookup
         *ngIf="true"
@@ -508,7 +543,7 @@ describe('Convert select field to lookup', () => {
       logger: new logging.NullLogger(),
     };
     const warn = jest.spyOn(context.logger, 'warn');
-    convertSelectFieldToLookup('', {
+    await convertSelectFieldToLookup('', {
       bestEffortMode: true,
       insertTodos: true,
       projectPath: '',

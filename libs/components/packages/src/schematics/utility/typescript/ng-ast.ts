@@ -65,11 +65,11 @@ export function addSymbolToClassMetadata(
   // Get all the children property assignment of object literals.
   const matchingProperties = getMetadataField(node, metadataField);
 
-  if (matchingProperties.length == 0) {
+  if (!matchingProperties.length) {
     // We haven't found the field in the metadata declaration. Insert a new field.
     let position: number;
     let toInsert: string;
-    if (node.properties.length == 0) {
+    if (!node.properties.length) {
       position = node.getEnd() - 1;
       toInsert = `\n  ${metadataField}: [\n${tags.indentBy(4)`${symbolName}`}\n  ]\n`;
     } else {

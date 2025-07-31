@@ -5,6 +5,7 @@ import {
   UpdateRecorder,
 } from '@angular-devkit/schematics';
 import {
+  findNodes,
   getDecoratorMetadata,
   getMetadataField,
   isImported,
@@ -12,6 +13,7 @@ import {
   parseSourceFile,
 } from '@angular/cdk/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
+import { Change, InsertChange } from '@schematics/angular/utility/change';
 import { getEOL } from '@schematics/angular/utility/eol';
 import { applyChangesToFile } from '@schematics/angular/utility/standalone/util';
 
@@ -60,6 +62,97 @@ interface FollowupTasks {
   swapModuleImports: boolean;
   addCommentsToFunctions: Record<string, string>;
   addCommentsToProperties: Record<string, string>;
+}
+
+function addFollowupComments(
+  filePath: string,
+  sourceFile: ts.SourceFile,
+  followupTasks: FollowupTasks,
+  eol: string,
+): Change[] {
+  const changes: Change[] = [];
+  const addComments = ([functionName, comment]: [string, string]) => {
+    const functionNodes = findNodes(
+      sourceFile,
+      (node): node is ts.Identifier =>
+        ts.isIdentifier(node) && node.text === functionName,
+    );
+    if (functionNodes.length === 1) {
+      const line = sourceFile.getLineAndCharacterOfPosition(
+        functionNodes[0].getStart(),
+      ).line;
+      const lineStart = sourceFile.getPositionOfLineAndCharacter(line, 0);
+      const lineText = String(sourceFile.text.split('\n')[line]);
+      const indentation = lineText.match(/^\s*/)?.[0] || '';
+      changes.push(
+        new InsertChange(
+          filePath,
+          lineStart,
+          `${indentation}// todo: ${comment}${eol}`,
+        ),
+      );
+    }
+  };
+  Object.entries(followupTasks.addCommentsToFunctions).forEach(addComments);
+  Object.entries(followupTasks.addCommentsToProperties).forEach(addComments);
+  return changes;
+}
+
+function applyFollowupTasksToComponent(
+  source: ts.SourceFile,
+  tree: Tree,
+  filePath: string,
+  followupTasks: FollowupTasks,
+  isStandalone: boolean,
+  eol: string,
+): void {
+  if (
+    isStandalone &&
+    isImported(source, 'SkySelectFieldModule', '@skyux/select-field')
+  ) {
+    const recorder = tree.beginUpdate(filePath);
+    swapImportedClass(recorder, filePath, parseSourceFile(tree, filePath), [
+      {
+        classNames: { SkySelectFieldModule: 'SkyLookupModule' },
+        moduleName: {
+          old: '@skyux/select-field',
+          new: '@skyux/lookup',
+        },
+      },
+    ]);
+    tree.commitUpdate(recorder);
+  }
+
+  if (
+    isStandalone &&
+    followupTasks?.importAsyncPipe &&
+    !isImported(source, 'AsyncPipe', '@angular/common') &&
+    !isImported(source, 'CommonModule', '@angular/common')
+  ) {
+    applyChangesToFile(
+      tree,
+      filePath,
+      addSymbolToClassMetadata(
+        parseSourceFile(tree, filePath),
+        'Component',
+        filePath,
+        'imports',
+        'AsyncPipe',
+        '@angular/common',
+      ),
+    );
+  }
+
+  applyChangesToFile(
+    tree,
+    filePath,
+    addFollowupComments(
+      filePath,
+      parseSourceFile(tree, filePath),
+      followupTasks,
+      eol,
+    ),
+  );
 }
 
 function applyFollowupTasksToModule(
@@ -158,10 +251,12 @@ function buildOpeningTag(
       );
     } else {
       if (attrNameIsOneOf(attrName, unsupportedEvents)) {
-        bestEffortMessage(
-          `The "${attrName}" event is not supported on the <sky-lookup> component.`,
+        handleUnsupportedAttribute(
+          attrName,
           context,
           options,
+          attr,
+          followupTasks,
         );
       } else if (attr.name === '[data]') {
         bestEffortMessage(
@@ -181,6 +276,7 @@ function buildOpeningTag(
           customPicker,
           context,
           options,
+          followupTasks,
         );
       } else if (
         attrName &&
@@ -221,6 +317,7 @@ function buildShowMoreConfig(
   customPicker: parse5.Token.Attribute | undefined,
   context: SchematicContext,
   options: ConvertSelectFieldToLookupOptions,
+  followupTasks: FollowupTasks,
 ): string {
   let showMoreConfig = `${before}[showMoreConfig]="{ `;
   if (pickerHeading) {
@@ -249,6 +346,11 @@ function buildShowMoreConfig(
     );
     const customPickerValue = customPicker.value.trim();
     showMoreConfig += `customPicker: ${customPickerValue}`;
+    if (options.insertTodos && customPickerValue.match(/^[a-zA-Z_]+$/)) {
+      const customPickerName = customPicker.value.trim();
+      followupTasks.addCommentsToProperties[customPickerName] =
+        `update this to use SkyLookupShowMoreCustomPicker; more info at https://developer.blackbaud.com/skyux/components/lookup?docs-active-tab=development#interface_sky-lookup-show-more-custom-picker`;
+    }
   }
   showMoreConfig += ` }"`;
   return showMoreConfig;
@@ -297,6 +399,25 @@ function getIndentation(
   return previousAttrLine < node.sourceCodeLocation.attrs[attr.name].startLine
     ? `${eol}${' '.repeat(node.sourceCodeLocation.attrs[attr.name].startCol)}`
     : ' ';
+}
+
+function handleUnsupportedAttribute(
+  attrName: string,
+  context: SchematicContext,
+  options: ConvertSelectFieldToLookupOptions,
+  attr: parse5.Token.Attribute,
+  followupTasks: FollowupTasks,
+): void {
+  bestEffortMessage(
+    `The "${attrName}" event is not supported on the <sky-lookup> component.`,
+    context,
+    options,
+  );
+  if (options.insertTodos && attr.value.trim().match(/^[a-zA-Z_]+\(/)) {
+    const functionName = attr.value.trim().replace(/\(.*$/, '');
+    followupTasks.addCommentsToFunctions[functionName] =
+      `check whether this is still needed; previously used for the ${attrName} event on <sky-select-field>`;
+  }
 }
 
 function normalizeAttrName(attr: parse5.Token.Attribute): string {
@@ -369,6 +490,7 @@ function convertTypescriptFile(
   options: ConvertSelectFieldToLookupOptions,
 ): void {
   const source = parseSourceFile(tree, filePath);
+  const eol = getEOL(tree.readText(filePath));
   let followupTasks: FollowupTasks | undefined = undefined;
   if (isImported(source, 'Component', '@angular/core')) {
     const metadata = getDecoratorMetadata(
@@ -389,65 +511,29 @@ function convertTypescriptFile(
       if (template) {
         const content = tree.readText(filePath);
         const templateContent = content.slice(template.start, template.end);
-        if (templateContent.includes('<sky-select-field')) {
-          const recorder = tree.beginUpdate(filePath);
-          followupTasks = convertTemplate(
-            recorder,
-            templateContent,
-            context,
-            options,
-            template.start,
-          );
-          tree.commitUpdate(recorder);
-        }
+        const recorder = tree.beginUpdate(filePath);
+        followupTasks = convertTemplate(
+          recorder,
+          templateContent,
+          context,
+          options,
+          template.start,
+        );
+        tree.commitUpdate(recorder);
       }
     }
 
     if (followupTasks?.swapModuleImports) {
-      const metadata = getDecoratorMetadata(
+      const isStandalone = isStandaloneComponent(metadata);
+      applyFollowupTasksToComponent(
         source,
-        'Component',
-        '@angular/core',
-      )[0] as ts.ObjectLiteralExpression;
-      if (isStandaloneComponent(metadata)) {
-        if (isImported(source, 'SkySelectFieldModule', '@skyux/select-field')) {
-          const recorder = tree.beginUpdate(filePath);
-          swapImportedClass(
-            recorder,
-            filePath,
-            parseSourceFile(tree, filePath),
-            [
-              {
-                classNames: { SkySelectFieldModule: 'SkyLookupModule' },
-                moduleName: {
-                  old: '@skyux/select-field',
-                  new: '@skyux/lookup',
-                },
-              },
-            ],
-          );
-          tree.commitUpdate(recorder);
-        }
-
-        if (
-          followupTasks?.importAsyncPipe &&
-          !isImported(source, 'AsyncPipe', '@angular/common') &&
-          !isImported(source, 'CommonModule', '@angular/common')
-        ) {
-          applyChangesToFile(
-            tree,
-            filePath,
-            addSymbolToClassMetadata(
-              parseSourceFile(tree, filePath),
-              'Component',
-              filePath,
-              'imports',
-              'AsyncPipe',
-              '@angular/common',
-            ),
-          );
-        }
-      } else {
+        tree,
+        filePath,
+        followupTasks,
+        isStandalone,
+        eol,
+      );
+      if (!isStandalone) {
         applyFollowupTasksToModule(
           tree,
           filePath,
