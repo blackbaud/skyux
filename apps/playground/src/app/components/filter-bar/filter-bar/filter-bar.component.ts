@@ -43,7 +43,7 @@ export class FilterBarComponent {
     { value: 10, label: 'Elements', helpPopoverContent: 'test content2' },
   ];
 
-  public filterModalConfig: { modalComponent: TestModalComponent };
+  public filterModalConfig = { modalComponent: TestModalComponent };
 
   #_filters: SkyFilterBarFilterItem[] | undefined = [
     { id: '1' },
