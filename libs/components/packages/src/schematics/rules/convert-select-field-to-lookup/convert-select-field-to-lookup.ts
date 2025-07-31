@@ -71,7 +71,7 @@ function addFollowupComments(
   eol: string,
 ): Change[] {
   const changes: Change[] = [];
-  const addComments = ([functionName, comment]: [string, string]) => {
+  const addComments = ([functionName, comment]: [string, string]): void => {
     const functionNodes = findNodes(
       sourceFile,
       (node): node is ts.Identifier =>
