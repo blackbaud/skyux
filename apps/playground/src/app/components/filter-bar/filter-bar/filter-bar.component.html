@@ -1,18 +1,7 @@
 <sky-page layout="list">
   <sky-page-header pageTitle="Filter bar" />
   <sky-page-content>
-    <sky-filter-bar [filterAsyncSearchFn]="searchFn" [(filters)]="filters">
-      <sky-filter-bar-summary>
-        @for (summaryItem of summaryItems; track summaryItem.label) {
-          <sky-filter-bar-summary-item
-            [helpPopoverContent]="summaryItem.helpPopoverContent"
-            [label]="summaryItem.label"
-            [value]="summaryItem.value"
-            [valueFormat]="summaryItem.valueFormat"
-          />
-        }
-      </sky-filter-bar-summary>
-    </sky-filter-bar>
+    <sky-filter-bar [filterAsyncSearchFn]="searchFn" [(filters)]="filters" />
     <div>Filters:</div>
     <div>{{ filters }}</div>
 
