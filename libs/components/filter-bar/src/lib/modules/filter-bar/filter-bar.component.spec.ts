@@ -1,12 +1,17 @@
-import { ComponentRef } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import {
+  SkySelectionModalInstance,
+  SkySelectionModalService,
+} from '@skyux/lookup';
 import { SkyConfirmInstance, SkyConfirmService } from '@skyux/modals';
 
 import { of } from 'rxjs';
 
-import { SkyFilterBarItemComponent } from './filter-bar-item.component';
+import { SkyFilterBarButtonComponent } from './filter-bar-button.component';
+import { SkyFilterBarComponent } from './filter-bar.component';
 import { SkyFilterBarTestComponent } from './fixtures/filter-bar.component.fixture';
 
 describe('Filter bar component', () => {
@@ -18,228 +23,243 @@ describe('Filter bar component', () => {
     );
   }
 
-  function getModalSaveButton(): HTMLButtonElement | null {
-    return document.querySelector('.sky-lookup-show-more-modal-save');
-  }
-
   function getClearFiltersButton(): HTMLButtonElement | null {
     return fixture.nativeElement.querySelector('.sky-btn-link');
+  }
+
+  function getFilterBarComponent(): SkyFilterBarComponent {
+    return fixture.debugElement.query(By.directive(SkyFilterBarComponent))
+      .componentInstance;
+  }
+
+  function getFilterItems(): DebugElement[] {
+    return fixture.debugElement.queryAll(
+      By.directive(SkyFilterBarButtonComponent),
+    );
   }
 
   //#endregion
 
   let component: SkyFilterBarTestComponent;
-  let componentRef: ComponentRef<SkyFilterBarTestComponent>;
   let fixture: ComponentFixture<SkyFilterBarTestComponent>;
   let confirmServiceSpy: jasmine.SpyObj<SkyConfirmService>;
+  let selectionModalServiceSpy: jasmine.SpyObj<SkySelectionModalService>;
 
-  beforeEach(async () => {
+  // Common setup for all tests
+  async function setupTestBed(): Promise<void> {
     confirmServiceSpy = jasmine.createSpyObj('SkyConfirmService', ['open']);
+    selectionModalServiceSpy = jasmine.createSpyObj(
+      'SkySelectionModalService',
+      ['open'],
+    );
 
     await TestBed.configureTestingModule({
-      imports: [SkyFilterBarTestComponent /* , SkyModalTestingModule */],
+      imports: [SkyFilterBarTestComponent],
       providers: [
         provideNoopAnimations(),
         { provide: SkyConfirmService, useValue: confirmServiceSpy },
+        {
+          provide: SkySelectionModalService,
+          useValue: selectionModalServiceSpy,
+        },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SkyFilterBarTestComponent);
     component = fixture.componentInstance;
-    componentRef = fixture.componentRef;
     fixture.detectChanges();
-  });
+  }
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should open the selection modal when selected', () => {
-    const filterPickerButton = getFilterPickerButton();
-
-    expect(filterPickerButton).toBeTruthy();
-
-    filterPickerButton?.click();
-
-    fixture.detectChanges();
-
-    const closeButton = getModalSaveButton();
-
-    closeButton?.click();
-  });
-
-  it('should not have a selection modal button if no search function is specified', () => {
-    component.searchFn = undefined;
-
-    fixture.detectChanges();
-
-    const filterPickerButton = getFilterPickerButton();
-
-    expect(filterPickerButton).toBeNull();
-  });
-
-  it('should pass correct inputs to filter bar item components', () => {
-    const filters = [
-      {
-        id: 'filter1',
-        name: 'Test Filter 1',
-        filterValue: { value: 'value1' },
-        filterModalConfig: { modalComponent: class {}, modalSize: 'medium' },
-      },
-    ];
-    componentRef.setInput('filters', filters);
-    fixture.detectChanges();
-
-    const filterItem = fixture.debugElement.query(
-      By.directive(SkyFilterBarItemComponent),
-    );
-
-    expect(filterItem.componentInstance.filterName()).toBe('Test Filter 1');
-    expect(filterItem.componentInstance.filterValue()).toEqual({
-      value: 'value1',
+  describe('basic functionality', () => {
+    beforeEach(async () => {
+      await setupTestBed();
     });
-    expect(filterItem.componentInstance.filterModalConfig()).toEqual(
-      filters[0].filterModalConfig,
-    );
+
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should display filter items from the model', () => {
+      const filterItems = getFilterItems();
+
+      expect(filterItems.length).toBe(3);
+      expect(filterItems[0].componentInstance.filterName()).toBe('filter 1');
+      expect(filterItems[1].componentInstance.filterName()).toBe('filter 2');
+      expect(filterItems[2].componentInstance.filterName()).toBe('filter 3');
+    });
+
+    it('should show/hide filter picker button based on input', () => {
+      expect(getFilterPickerButton()).toBeTruthy();
+
+      component.enableSelectionModal.set(false);
+      fixture.detectChanges();
+
+      expect(getFilterPickerButton()).toBeFalsy();
+    });
+
+    it('should handle selection modal workflow', () => {
+      const closed$ = of({
+        reason: 'save',
+        selectedItems: [
+          { id: '2', name: 'filter2' },
+          { id: '5', name: 'filter5' },
+        ],
+      });
+      selectionModalServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as SkySelectionModalInstance);
+
+      getFilterPickerButton()?.click();
+
+      expect(selectionModalServiceSpy.open).toHaveBeenCalled();
+    });
+
+    it('should handle no filters selected', () => {
+      const closed$ = of({
+        reason: 'save',
+        selectedItems: [],
+      });
+      selectionModalServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as unknown as SkySelectionModalInstance);
+
+      getFilterPickerButton()?.click();
+
+      expect(selectionModalServiceSpy.open).toHaveBeenCalled();
+      fixture.detectChanges();
+
+      const filterItems = getFilterItems();
+      expect(filterItems.length).toBe(0);
+    });
+
+    it('should open selection modal when filter picker button is clicked', () => {
+      spyOn(getFilterBarComponent(), 'openFilters');
+
+      getFilterPickerButton()?.click();
+
+      expect(getFilterBarComponent().openFilters).toHaveBeenCalled();
+    });
   });
 
-  it('should update filter value when filterUpdated event is emitted from filter item', () => {
-    const filters = [
-      {
-        id: 'filter1',
-        name: 'Test Filter',
-        filterValue: { value: 'initial' },
-        filterModalConfig: { modalComponent: class {} },
-      },
-    ];
-    componentRef.setInput('filters', filters);
-    fixture.detectChanges();
+  describe('filter management', () => {
+    beforeEach(async () => {
+      await setupTestBed();
+    });
 
-    const newFilterValue = { value: 'updated' };
-    const filterItem = fixture.debugElement.query(
-      By.directive(SkyFilterBarItemComponent),
-    );
+    it('should update individual filter values', () => {
+      const filterBarComponent = getFilterBarComponent();
+      const filters = component.filters();
+      const newFilterValue = { value: 'updated value' };
 
-    // Emit the filterUpdated event
-    filterItem.componentInstance.filterUpdated.emit(newFilterValue);
+      filterBarComponent.updateFilters(newFilterValue, filters[0].id);
 
-    // Verify the filter value was updated
-    expect(component.filters()[0].filterValue).toEqual(newFilterValue);
+      expect(component.filters()[0].filterValue).toEqual(newFilterValue);
+    });
+
+    it('should clear individual filter values', () => {
+      // Set initial filter value
+      const filters = component.filters();
+      filters[0].filterValue = { value: 'initial' };
+      component.filters.set([...filters]);
+      fixture.detectChanges();
+
+      const filterBarComponent = getFilterBarComponent();
+      filterBarComponent.updateFilters(undefined, filters[0].id);
+
+      expect(component.filters()[0].filterValue).toBeUndefined();
+    });
+
+    it('should emit filterUpdated event when filter item is updated', () => {
+      const filterItem = getFilterItems()[0];
+      const newFilterValue = { value: 'emitted value' };
+
+      filterItem.componentInstance.filterUpdated.emit(newFilterValue);
+
+      expect(component.filters()[0].filterValue).toEqual(newFilterValue);
+    });
+
+    it('should show/hide clear filters button based on active filters', () => {
+      // Initially no active filters
+      expect(getClearFiltersButton()).toBeFalsy();
+
+      // Add filter value
+      const filters = component.filters();
+      filters[0].filterValue = { value: 'test' };
+      component.filters.set([...filters]);
+      fixture.detectChanges();
+
+      expect(getClearFiltersButton()).toBeTruthy();
+    });
+
+    it('should clear all filters when confirmed', () => {
+      // Set initial filter values
+      const filters = component.filters();
+      filters[0].filterValue = { value: 'value1' };
+      filters[1].filterValue = { value: 'value2' };
+      component.filters.set([...filters]);
+      fixture.detectChanges();
+
+      const closed$ = of({ action: 'save' });
+      confirmServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as SkyConfirmInstance);
+
+      getFilterBarComponent().clearFilters();
+
+      expect(component.filters()[0].filterValue).toBeUndefined();
+      expect(component.filters()[1].filterValue).toBeUndefined();
+    });
+
+    it('should not clear filters when cancelled', () => {
+      const filters = component.filters();
+      filters[0].filterValue = { value: 'value1' };
+      component.filters.set([...filters]);
+      fixture.detectChanges();
+
+      const closed$ = of({ action: 'cancel' });
+      confirmServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as SkyConfirmInstance);
+
+      getFilterBarComponent().clearFilters();
+
+      expect(component.filters()[0].filterValue).toEqual({ value: 'value1' });
+    });
   });
 
-  it('should remove filter when filterUpdated event emits undefined', () => {
-    const filters = [
-      {
-        id: 'filter1',
-        name: 'Test Filter',
-        filterValue: { value: 'initial' },
-        filterModalConfig: { modalComponent: class {} },
-      },
-    ];
-    componentRef.setInput('filters', filters);
-    fixture.detectChanges();
+  describe('integration workflow', () => {
+    beforeEach(async () => {
+      await setupTestBed();
+    });
 
-    const filterItem = fixture.debugElement.query(
-      By.directive(SkyFilterBarItemComponent),
-    );
+    it('should handle complete user workflow: add, update, clear', () => {
+      const filterBarComponent = getFilterBarComponent();
 
-    // Emit undefined to clear the filter
-    filterItem.componentInstance.filterUpdated.emit(undefined);
+      // 1. Add filter value
+      const filters = component.filters();
+      filters[0].filterValue = { value: 'test value' };
+      component.filters.set([...filters]);
+      fixture.detectChanges();
 
-    // Verify the filter value was cleared
-    expect(component.filters()[0].filterValue).toBeUndefined();
-  });
+      expect(getClearFiltersButton()).toBeTruthy();
 
-  it('should hide clear filters button when no filters have values', () => {
-    const filters = [
-      {
-        id: 'filter1',
-        name: 'Test Filter',
-        filterValue: undefined,
-        filterModalConfig: { modalComponent: class {} },
-      },
-    ];
-    componentRef.setInput('filters', filters);
-    fixture.detectChanges();
+      // 2. Update filter value
+      const newValue = { value: 'updated value' };
+      filterBarComponent.updateFilters(newValue, filters[0].id);
 
-    const clearButton = getClearFiltersButton();
-    expect(clearButton).toBeFalsy();
-  });
+      expect(component.filters()[0].filterValue).toEqual(newValue);
 
-  it('should show clear filters button when at least one filter has a value', () => {
-    const filters = [
-      {
-        id: 'filter1',
-        name: 'Test Filter',
-        filterValue: { value: 'test' },
-        filterModalConfig: { modalComponent: class {} },
-      },
-    ];
-    componentRef.setInput('filters', filters);
-    fixture.detectChanges();
+      // 3. Clear all filters
+      const closed$ = of({ action: 'save' });
+      confirmServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as SkyConfirmInstance);
 
-    const clearButton = getClearFiltersButton();
-    expect(clearButton).toBeTruthy();
-    expect(clearButton?.textContent?.trim()).toContain('Clear all values');
-  });
+      filterBarComponent.clearFilters();
 
-  it('should clear all filter values when clear filters button is clicked and confirmed', () => {
-    const filters = [
-      {
-        id: 'filter1',
-        name: 'Test Filter 1',
-        filterValue: { value: 'value1' },
-        filterModalConfig: { modalComponent: class {} },
-      },
-      {
-        id: 'filter2',
-        name: 'Test Filter 2',
-        filterValue: { value: 'value2' },
-        filterModalConfig: { modalComponent: class {} },
-      },
-    ];
-    const closed$ = of({ action: 'save' });
-    confirmServiceSpy.open.and.returnValue({
-      closed: closed$,
-    } as SkyConfirmInstance);
-
-    componentRef.setInput('filters', filters);
-    fixture.detectChanges();
-
-    const clearButton = getClearFiltersButton();
-    clearButton?.click();
-
-    expect(component.filters()[0].filterValue).toBeUndefined();
-    expect(component.filters()[1].filterValue).toBeUndefined();
-  });
-
-  it('should not clear all filter values when clear filters button is clicked and cancelled', () => {
-    const filters = [
-      {
-        id: 'filter1',
-        name: 'Test Filter 1',
-        filterValue: { value: 'value1' },
-        filterModalConfig: { modalComponent: class {} },
-      },
-      {
-        id: 'filter2',
-        name: 'Test Filter 2',
-        filterValue: { value: 'value2' },
-        filterModalConfig: { modalComponent: class {} },
-      },
-    ];
-    const closed$ = of({ action: 'cancel' });
-    confirmServiceSpy.open.and.returnValue({
-      closed: closed$,
-    } as SkyConfirmInstance);
-
-    componentRef.setInput('filters', filters);
-    fixture.detectChanges();
-
-    const clearButton = getClearFiltersButton();
-    clearButton?.click();
-
-    expect(component.filters()[0].filterValue).not.toBeUndefined();
-    expect(component.filters()[1].filterValue).not.toBeUndefined();
+      expect(component.filters()[0].filterValue).toBeUndefined();
+      fixture.detectChanges();
+      expect(getClearFiltersButton()).toBeFalsy();
+    });
   });
 });
