@@ -135,6 +135,9 @@
 }
 
 .sky-file-attachment-delete {
+  // Width and height rules can be removed when default theme support is removed. Here for backwards compatibility.
+  width: auto;
+  height: auto;
   margin-left: var(
     --sky-override-file-attachment-delete-margin-left,
     var(--sky-space-gap-text_action-s)
