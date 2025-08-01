@@ -26,5 +26,9 @@
   "skyux_filter_bar_filter_picker_descriptor": {
     "_description": "Text for selection modal item descriptors",
     "message": "filters"
+  },
+  "skyux_filter_item_n_selected": {
+    "_description": "Caption for multiple selected items in a filter bar item",
+    "message": "{0} selected"
   }
 }

@@ -5,7 +5,7 @@
         'skyux_filter_bar_filter_label' | skyLibResources
       }}</span>
     </sky-toolbar-item>
-    @if (filterAsyncSearchFn()) {
+    @if (enableSelectionModal()) {
       <sky-toolbar-item>
         <button
           type="button"
@@ -16,14 +16,15 @@
         </button>
       </sky-toolbar-item>
     }
-    @for (filter of filters(); track filter.id) {
+    @for (filter of visibleFilters(); track filter.id) {
       <sky-toolbar-item>
-        <sky-filter-bar-item
+        <sky-filter-bar-button
           [filterId]="filter.id"
           [filterName]="filter.name"
           [filterModalConfig]="filter.filterModalConfig"
+          [filterSelectionModalConfig]="filter.filterSelectionModalConfig"
           [filterValue]="filter.filterValue"
-          (filterUpdated)="updateFilters($event, filter)"
+          (filterUpdated)="updateFilters($event, filter.id)"
         />
       </sky-toolbar-item>
     }
