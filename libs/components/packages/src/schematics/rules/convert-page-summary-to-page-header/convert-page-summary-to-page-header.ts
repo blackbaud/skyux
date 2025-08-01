@@ -40,7 +40,8 @@ function getTitle(pageSummary: ElementWithLocation): string {
 }
 
 /**
- * Page heading uses `pageTitle` attribute for its title.
+ * Moves detail elements (subtitle, status, content, key info) from the
+ * <sky-page-summary> element to a <sky-page-header-details> element.
  */
 function moveDetails(
   pageSummary: ElementWithLocation,
@@ -100,8 +101,9 @@ function moveDetails(
 }
 
 /**
- * Description list does not use a heading element.
- * Create a new `<h3>` element with the heading text.
+ * Removes title and detail elements from the page summary, including
+ * <sky-page-summary-title>, <sky-page-summary-subtitle>, <sky-page-summary-status>,
+ * <sky-page-summary-content>, and <sky-page-summary-key-info>.
  */
 function removeTitleAndDetailElements(
   pageSummary: ElementWithLocation,

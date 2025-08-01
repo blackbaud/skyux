@@ -88,7 +88,7 @@ export function swapImportedClass(
               /* istanbul ignore if */
               if (referencesInImport.length !== 1) {
                 throw new Error(
-                  `Expected exactly one import for ${oldClassName} from ${moduleName}, found ${referencesInImport.length}.`,
+                  `Expected exactly one import for ${oldClassName} from ${oldModuleName}, found ${referencesInImport.length}.`,
                 );
               }
               swapReference(recorder, referencesInImport[0], newClassName);
