@@ -4,10 +4,6 @@
   --sky-override-ag-grid-text-editor-left-padding: 9px;
 }
 
-@include compatMixins.sky-modern-overrides('input') {
-  --sky-override-ag-grid-text-editor-left-padding: 10px;
-}
-
 :host {
   height: 100%;
   width: 100%;
