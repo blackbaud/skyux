@@ -11,13 +11,6 @@
   --sky-override-status-indicator-modern-default-display: none;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-status-indicator') {
-  --sky-override-status-indicator-icon-color-info: var(--sky-color-icon-info);
-  --sky-override-status-indicator-info-success-exclamation-path-color: var(
-    --modern-color-gray-105
-  );
-}
-
 .sky-status-indicator {
   align-items: baseline;
   display: flex;
@@ -72,16 +65,10 @@
   }
 
   &.sky-status-indicator-icon-info {
-    --sky-icon-svg-path-2-color-input: var(
-      --sky-override-status-indicator-info-success-exclamation-path-color,
-      var(--sky-color-icon-inverse)
-    );
+    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-inverse);
   }
 
   &.sky-status-indicator-icon-success {
-    --sky-icon-svg-path-2-color-input: var(
-      --sky-override-status-indicator-info-success-exclamation-path-color,
-      var(--sky-color-icon-inverse)
-    );
+    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-inverse);
   }
 }

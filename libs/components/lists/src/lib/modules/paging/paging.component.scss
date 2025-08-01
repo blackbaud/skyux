@@ -47,21 +47,6 @@
   --sky-override-paging-ul-margin: #{$sky-margin-plus-half} 0 0 0;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-paging') {
-  --sky-override-paging-btn-box-shadow-focus:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-paging-btn-float: left;
-  --sky-override-paging-btn-font-size: #{$sky-font-size-base};
-  --sky-override-paging-btn-font-variant-numeric: normal;
-  --sky-override-paging-btn-iterators-padding: 3px 10px;
-  --sky-override-paging-btn-line-height: calc(20 / 14);
-  --sky-override-paging-btn-margin-left: -1px;
-  --sky-override-paging-btn-padding: 3px 10px;
-  --sky-override-paging-ul-margin: #{$sky-margin-plus-half} 0 0 0;
-}
-
 :host {
   display: block;
 }

@@ -21,8 +21,8 @@
   --sky-override-token-close-border-radius: 3px;
   --sky-override-token-close-button-opacity: 0.9;
   --sky-override-token-close-display: inline-block;
-  --sky-override-token-close-focus-background-color: transparent
-    --sky-override-token-close-focus-box-shadow: none;
+  --sky-override-token-close-focus-background-color: transparent;
+  --sky-override-token-close-focus-box-shadow: none;
   --sky-override-token-close-focus-outline: auto;
   --sky-override-token-close-hover-background-color: transparent;
   --sky-override-token-close-hover-box-shadow: none;
@@ -30,7 +30,6 @@
   --sky-override-token-close-line-height: calc(20 / 14);
   --sky-override-token-close-margin-left: -2px;
   --sky-override-token-close-padding: 2px 8px;
-  --sky-override-token-close-size: '';
   --sky-override-token-color-background-container-danger: var(
     --sky-background-color-danger
   );
@@ -61,25 +60,6 @@
   --sky-override-token-hover-border: 1px solid
     #{darken($sky-highlight-color-info, 10%)};
   --sky-override-token-hover-box-shadow: none;
-  --sky-override-token-padding: 0;
-}
-
-@include compatMixins.sky-modern-overrides('.sky-token') {
-  --sky-override-token-button-padding: var(--modern-size-1) var(--modern-size-5);
-  --sky-override-token-close-button-opacity: 0.9;
-  --sky-override-token-close-focus-box-shadow:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-token-close-hover-box-shadow: inset 0 0 0 1px transparent;
-  --sky-override-token-close-line-height: calc(20 / 14);
-  --sky-override-token-close-padding: 0;
-  --sky-override-token-close-size: var(--modern-size-20);
-  --sky-override-token-focused-box-shadow:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-token-font-size: var(--modern-font-size-150);
   --sky-override-token-padding: 0;
 }
 
@@ -198,8 +178,6 @@
   );
   align-items: var(--sky-override-token-close-align-items, center);
   display: var(--sky-override-token-close-display, flex);
-  height: var(--sky-override-token-close-size, '');
-  width: var(--sky-override-token-close-size, '');
   line-height: var(--sky-override-token-close-line-height, 1);
 
   &:hover,

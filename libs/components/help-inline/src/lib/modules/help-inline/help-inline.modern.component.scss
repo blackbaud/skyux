@@ -1,47 +1,17 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
-@use 'libs/components/theme/src/lib/styles/_public-api/themes/modern/_compat/mixins'
-  as modernMixins;
-
-@include compatMixins.sky-modern-overrides('.sky-help-inline') {
-  --sky-override-help-inline-border-radius: var(--modern-size-3);
-  --sky-override-help-inline-box-shadow-focus:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-help-inline-color-hover: #{darken(
-      $sky-background-color-primary-dark,
-      10%
-    )};
-  --sky-override-help-inline-font-size: #{$sky-font-size-base};
-  --sky-override-help-inline-icon-color: var(--sky-color-icon-action);
-  --sky-override-help-inline-padding-sides: var(--modern-size-6);
-}
-
 @include mixins.sky-component('modern', '.sky-help-inline') {
   font-size: var(--sky-size-icon-s);
   line-height: 1;
   border: none;
   outline: none;
   padding: var(--sky-comp-help_inline-space-inset-top)
-    var(
-      --sky-override-help-inline-padding-sides,
-      var(--sky-comp-help_inline-space-inset-right)
-    )
+    var(--sky-comp-help_inline-space-inset-right)
     var(--sky-comp-help_inline-space-inset-bottom)
-    var(
-      --sky-override-help-inline-padding-sides,
-      var(--sky-comp-help_inline-space-inset-left)
-    );
-  border-radius: var(
-    --sky-override-help-inline-border-radius,
-    var(--sky-border-radius-s)
-  );
-  color: var(
-    --sky-override-help-inline-icon-color,
-    var(--sky-color-background-icon_matte-action-heavy)
-  );
+    var(--sky-comp-help_inline-space-inset-left);
+  border-radius: var(--sky-border-radius-s);
+  color: var(--sky-color-background-icon_matte-action-heavy);
   background-color: var(--sky-color-background-action-tertiary-base);
   display: inline-block;
   box-shadow: inset 0 0 0 var(--sky-border-width-action-base)
@@ -61,10 +31,7 @@
     background-color: var(--sky-color-background-action-tertiary-hover);
     box-shadow: inset 0 0 0 var(--sky-border-width-action-hover)
       var(--sky-color-border-action-tertiary-hover);
-    color: var(
-      --sky-override-help-inline-color-hover,
-      var(--sky-color-icon-action)
-    );
+    color: var(--sky-color-icon-action);
     transition: color $sky-transition-time-short;
     cursor: pointer;
   }
@@ -78,11 +45,8 @@
 
   &:focus-visible:not(:active) {
     background-color: var(--sky-color-background-action-tertiary-focus);
-    box-shadow: var(
-      --sky-override-help-inline-box-shadow-focus,
-      inset 0 0 0 var(--sky-border-width-action-focus)
-        var(--sky-color-border-action-tertiary-focus)
-    );
+    box-shadow: inset 0 0 0 var(--sky-border-width-action-focus)
+        var(--sky-color-border-action-tertiary-focus);
   }
 
   &.sky-btn-disabled,

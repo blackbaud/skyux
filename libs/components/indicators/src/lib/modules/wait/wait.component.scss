@@ -12,15 +12,7 @@
   --sky-override-wait-double-bounce-background-color: #{$sky-highlight-color-success};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-wait-container') {
-  --sky-override-wait-height: 50px;
-  --sky-override-wait-width: 50px;
-  --sky-override-wait-margin-top: -25px;
-  --sky-override-wait-margin-left: -25px;
-  --sky-override-wait-double-bounce-background-color: var(
-    --modern-color-green-50
-  );
-}
+
 
 .sky-wait-mask-loading-blocking {
   margin: auto;
