@@ -1,6 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyHelpInlineHarness } from '@skyux/indicators/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { HelpInlineBasicExampleComponent } from './example.component';
 
@@ -23,15 +24,24 @@ describe('Basic help inline', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HelpInlineBasicExampleComponent],
+      providers: [provideNoopAnimations()],
     });
   });
 
-  it('should click the help inline button', async () => {
+  it('should launch a popover', async () => {
     const { helpInlineHarness, fixture } = await setupTest();
     fixture.detectChanges();
 
-    const clickSpy = spyOn(fixture.componentInstance, 'onActionClick');
     await helpInlineHarness.click();
-    expect(clickSpy).toHaveBeenCalled();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await expectAsync(helpInlineHarness.getPopoverContent()).toBeResolvedTo(
+      'The estimated income expected for the current year.',
+    );
+
+    await expectAsync(helpInlineHarness.getPopoverTitle()).toBeResolvedTo(
+      'Projected revenue',
+    );
   });
 });
