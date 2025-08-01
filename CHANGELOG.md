@@ -1,5 +1,19 @@
 # Changelog
 
+## [12.32.0](https://github.com/blackbaud/skyux/compare/12.31.0...12.32.0) (2025-08-01)
+
+
+### Features
+
+* **components/forms:** checkbox uses a component token to set its border radius in modern theme ([#3763](https://github.com/blackbaud/skyux/issues/3763)) ([cf17f83](https://github.com/blackbaud/skyux/commit/cf17f838a6809ffe55ae6154f0515138308612bc))
+* **components/split-view:** add responsive padding around repeater in split view drawer ([#3747](https://github.com/blackbaud/skyux/issues/3747)) ([5dae5b1](https://github.com/blackbaud/skyux/commit/5dae5b130243093234509068fbe35c6dec8901b2))
+* **components/theme:** update tokens from `page` to `layout`  ([#3761](https://github.com/blackbaud/skyux/issues/3761)) ([f1a7050](https://github.com/blackbaud/skyux/commit/f1a7050aed5ac401495ae5bc8d10886690f43519))
+
+
+### Bug Fixes
+
+* **components/lookup:** search uses secondary border and background color tokens in v2 modern ([#3759](https://github.com/blackbaud/skyux/issues/3759)) ([3f498b0](https://github.com/blackbaud/skyux/commit/3f498b0d15593f2537c0e6b560267644cafe77e5))
+
 ## [12.31.0](https://github.com/blackbaud/skyux/compare/12.30.0...12.31.0) (2025-07-29)
 
 
