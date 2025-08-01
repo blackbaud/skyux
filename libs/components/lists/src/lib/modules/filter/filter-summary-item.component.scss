@@ -4,14 +4,8 @@
   --sky-override-filter-summary-item-margin-right: 5px;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-filter-summary-item') {
-  --sky-override-filter-summary-item-padding: 0 0
-    var(--sky-space-gap-action_group-s) 0;
-}
-
 .sky-filter-summary-item {
   display: inline-block;
-  padding: var(--sky-override-filter-summary-item-padding);
 }
 
 :host:not(:last-child) {

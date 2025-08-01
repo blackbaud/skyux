@@ -7,11 +7,6 @@
   --sky-override-sort-heading-padding: 3px #{$sky-padding-double};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-sort-menu-heading') {
-  --sky-override-sort-heading-padding: #{$sky-theme-modern-space-sm
-    $sky-theme-modern-space-lg};
-}
-
 .sky-sort-menu-heading {
   color: var(--sky-override-sort-heading-color, var(--sky-color-text-default));
   padding: var(

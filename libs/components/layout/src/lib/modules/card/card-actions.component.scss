@@ -1,15 +1,7 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
-
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-host-overrides() {
-  --sky-override-card-actions-border-top: 1px solid
-    #{$sky-border-color-neutral-light};
-  --sky-override-card-actions-padding: #{$sky-padding-3_4 0};
-}
-
-@include compatMixins.sky-modern-overrides(':host') {
   --sky-override-card-actions-border-top: 1px solid
     #{$sky-border-color-neutral-light};
   --sky-override-card-actions-padding: #{$sky-padding-3_4 0};

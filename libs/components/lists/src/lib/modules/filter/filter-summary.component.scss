@@ -9,12 +9,6 @@
   --sky-override-filter-summary-row-gap: 0;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-filter-summary') {
-  --sky-override-filter-summary-background-color: #{$sky-color-white};
-  --sky-override-filter-summary-font-weight: 600;
-  --sky-override-filter-summary-row-gap: 0;
-}
-
 .sky-filter-summary-header {
   margin: var(
     --sky-override-filter-summary-header-margin,

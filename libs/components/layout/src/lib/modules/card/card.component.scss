@@ -23,27 +23,6 @@
   --sky-override-card-small-width: 225px;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-card') {
-  --sky-override-card-background-color-selected: #{$sky-background-color-selected};
-  --sky-override-card-background-color: #fff;
-  --sky-override-card-border-radius: 0;
-  --sky-override-card-border: 1px solid #{$sky-border-color-neutral-medium};
-  --sky-override-card-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
-  --sky-override-card-checkbox-margin-right: 5px;
-  --sky-override-card-content-padding: #{$sky-padding};
-  --sky-override-card-header-checkbox-padding-right: #{$sky-padding};
-  --sky-override-card-header-font-size: var(--sky-font-size-heading-1);
-  --sky-override-card-header-font-weight: var(--sky-font-style-heading-1);
-  --sky-override-card-header-line-height: #{$sky-line-height-base};
-  --sky-override-card-header-padding: #{$sky-padding 0 0 0};
-  --sky-override-card-header-text-padding: #{0 $sky-padding};
-  --sky-override-card-large-height: 350px;
-  --sky-override-card-large-width: 350px;
-  --sky-override-card-margin: #{0 $sky-margin $sky-margin 0};
-  --sky-override-card-small-height: 250px;
-  --sky-override-card-small-width: 225px;
-}
-
 .sky-card {
   --sky-comp-override-switch-label-margin-right: var(
     --sky-override-card-checkbox-margin-right,

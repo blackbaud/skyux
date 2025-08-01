@@ -4,10 +4,6 @@
   --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
 }
 
-@include compatMixins.sky-modern-overrides('sky-box', false) {
-  --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
-}
-
 sky-box-header {
   flex: 1 0;
 

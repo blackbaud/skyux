@@ -9,10 +9,6 @@
   --sky-override-box-background-color-default: #fff;
 }
 
-@include compatMixins.sky-modern-overrides('sky-box', false) {
-  --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
-}
-
 sky-box {
   display: block;
 }

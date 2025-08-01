@@ -12,11 +12,6 @@
   --sky-override-inline-form-footer-margin-top: #{$sky-margin-stacked-separate};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-inline-form') {
-  --sky-override-inline-form-box-shadow: var(--sky-elevation-overflow);
-  --sky-override-inline-form-border: none;
-}
-
 .sky-inline-form {
   // The background rule can be removed when default theme support is dropped as it comes from the `sky-box` class.
   background: var(
