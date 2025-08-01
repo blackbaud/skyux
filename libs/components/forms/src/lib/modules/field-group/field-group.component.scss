@@ -8,10 +8,6 @@
   --sky-override-field-group-hint-text-space: #{$sky-space-xs};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-field-group') {
-  --sky-override-field-group-align-items: normal;
-}
-
 :host {
   display: block;
 }

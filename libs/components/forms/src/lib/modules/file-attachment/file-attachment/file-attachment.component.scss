@@ -34,49 +34,6 @@
   }
 }
 
-@include compatMixins.sky-modern-overrides('.sky-file-attachment-wrapper') {
-  --sky-override-file-attachment-accept-border: none;
-  --sky-override-file-attachment-accept-border-color: #{$sky-highlight-color-success};
-  --sky-override-file-attachment-accept-border-radius: 5px;
-  --sky-override-file-attachment-accept-border-width: 1px;
-  --sky-override-file-attachment-btn-non-stacked-margin: 0
-    #{$sky-theme-modern-space-sm} 0 0;
-  --sky-override-file-attachment-control-label-color: #{$sky-theme-modern-font-deemphasized-color};
-  --sky-override-file-attachment-control-label-font-size: 13px;
-  --sky-override-file-attachment-delete-height: 40px;
-  --sky-override-file-attachment-delete-width: 40px;
-  --sky-override-file-attachment-drag-border-style: dashed;
-  --sky-override-file-attachment-drag-box-shadow: none;
-  --sky-override-file-attachment-file-icon-line-height: normal;
-  --sky-override-file-attachment-file-icon-margin: #{$sky-theme-modern-space-xs
-    $sky-theme-modern-space-sm $sky-theme-modern-space-xs
-    $sky-theme-modern-space-xs};
-  --sky-override-file-attachment-file-link-margin: #{$sky-theme-modern-space-sm}
-    0 0 0;
-  --sky-override-file-attachment-file-link-padding: 0;
-  --sky-override-file-attachment-invalid-border: 1px solid
-    #{$sky-highlight-color-danger};
-  --sky-override-file-attachment-invalid-box-shadow: 0 0 8px
-    rgba(239, 64, 68, 0.6);
-  --sky-override-file-attachment-invalid-label-color: #{$sky-theme-modern-font-deemphasized-color};
-  --sky-override-file-attachment-preview-img-border: var(
-      --sky-border-width-container-base
-    )
-    solid var(--modern-color-gray-20);
-  --sky-override-file-attachment-preview-img-box-shadow: none;
-  --sky-override-file-attachment-preview-img-margin: 0
-    #{$sky-theme-modern-space-sm} 0 0;
-  --sky-override-file-attachment-reject-border-color: #{$sky-highlight-color-danger};
-  --sky-override-file-attachment-reject-border-radius: 5px;
-  --sky-override-file-attachment-reject-border-width: 1px;
-  --sky-override-file-attachment-upload-border: 1px solid transparent;
-  --sky-override-file-attachment-upload-with-icon-align-items: flex-start;
-
-  .sky-file-attachment-delete {
-    padding: 0;
-  }
-}
-
 @include compatMixins.sky-default-host-overrides() {
   --sky-override-file-attachment-hint-text-margin-top: var(
     --sky-margin-stacked-xs
@@ -90,7 +47,7 @@
 :host:not(.sky-form-field-stacked) {
   .sky-file-attachment-wrapper {
     .sky-file-attachment-btn {
-      margin: var(--sky-override-file-attachment-btn-non-stacked-margin, 0);
+      margin: 0;
     }
   }
 }
@@ -112,10 +69,7 @@
   border: var(--sky-override-file-attachment-upload-border, none);
 
   &:has(.sky-file-attachment-icon) {
-    align-items: var(
-      --sky-override-file-attachment-upload-with-icon-align-items,
-      center
-    );
+    align-items: center;
   }
 }
 
@@ -177,12 +131,13 @@
     --sky-override-file-attachment-file-link-padding,
     0 0 0 var(--sky-space-gap-icon-m)
   );
-  margin: var(--sky-override-file-attachment-file-link-margin, 0);
+  margin: 0;
 }
 
 .sky-file-attachment-delete {
-  width: var(--sky-override-file-attachment-delete-width, auto);
-  height: var(--sky-override-file-attachment-delete-height, auto);
+  // Width and height rules can be removed when default theme support is removed. Here for backwards compatibility.
+  width: auto;
+  height: auto;
   margin-left: var(
     --sky-override-file-attachment-delete-margin-left,
     var(--sky-space-gap-text_action-s)
@@ -226,9 +181,6 @@
 
 .sky-file-attachment-icon {
   color: var(--sky-color-icon-deemphasized);
-  margin: var(
-    --sky-override-file-attachment-file-icon-margin,
-    0 0 0 var(--sky-gap-icon-m)
-  );
-  line-height: var(--sky-override-file-attachment-file-icon-line-height, 1);
+  margin: 0 0 0 var(--sky-gap-icon-m);
+  line-height: 1;
 }

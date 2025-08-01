@@ -22,22 +22,6 @@
   --sky-override-file-item-title-bottom-margin: #{$sky-margin};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-file-item') {
-  --sky-override-file-item-background-color: #{$sky-background-color-neutral-light};
-  --sky-override-file-item-border: var(--modern-size-1) solid
-    #{$sky-border-color-neutral-light};
-  --sky-override-file-item-border-radius: var(--modern-border-radius-0);
-  --sky-override-file-item-gap: #{$sky-margin};
-  --sky-override-file-item-margin-bottom: #{$sky-margin};
-  --sky-override-file-item-name-line-height: normal;
-  --sky-override-file-item-name-font-weight: bolder;
-  --sky-override-file-item-preview-img-box-shadow: 0 0 5px #666;
-  --sky-override-file-item-preview-other-font-size: 100px;
-  --sky-override-file-item-size-line-height: normal;
-  --sky-override-file-item-size-font-size: var(--sky-font-size-body-m);
-  --sky-override-file-item-size-font-weight: var(--sky-font-style-body-m);
-}
-
 :host:not(:last-of-type) {
   .sky-file-item {
     margin-bottom: var(

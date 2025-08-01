@@ -5,10 +5,6 @@
   --sky-override-character-count-font-size: 15px;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-character-count-label') {
-  --sky-override-character-count-font-size: 15px;
-}
-
 :host {
   // Force the icon and counter text to not wrap with a long form label
   flex-shrink: 0.0001;

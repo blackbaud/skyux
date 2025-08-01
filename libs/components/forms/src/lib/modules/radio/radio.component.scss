@@ -31,29 +31,6 @@
     calc(var(--sky-switch-size) + var(--sky-switch-margin));
 }
 
-@include compatMixins.sky-modern-overrides('.sky-radio-outer-wrapper') {
-  --sky-override-radio-border-color-checked-active: var(
-    --sky-color-border-switch-selected-active
-  );
-  --sky-override-radio-border-color-checked-hover: var(
-    --sky-color-border-switch-selected-hover
-  );
-  --sky-override-radio-border-width-checked-active: var(
-    --sky-border-width-input-active
-  );
-  --sky-override-radio-border-width-checked-hover: var(
-    --sky-border-width-input-hover
-  );
-  --sky-override-radio-border-color-icon-checked-active: var(
-    --sky-color-border-switch-selected-active
-  );
-  --sky-override-radio-border-color-icon-checked-hover: var(
-    --sky-color-border-switch-selected-hover
-  );
-  --sky-override-radio-icon-color-selected: var(--sky-color-icon-selected);
-  --sky-override-radio-label-margin-right: var(--sky-margin-inline-xs);
-}
-
 :host:has(.sky-switch-control-icon) {
   display: inline-block;
 }

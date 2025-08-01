@@ -34,26 +34,6 @@
   );
 }
 
-@include compatMixins.sky-modern-overrides('.sky-selection-box', false) {
-  --sky-override-selection-box-box-shadow: var(--sky-elevation-raised-100);
-  --sky-override-selection-box-box-shadow-hover:
-    var(--sky-elevation-raised-100),
-    inset 0 0 0 1px #{$sky-theme-modern-background-color-primary-dark};
-  // While the base selected state doesn't need this. Specifying this override so it can be used for interactive states.
-  --sky-override-selection-box-background-selected: var(
-    --sky-color-background-selected-soft
-  );
-  --sky-override-selection-box-box-shadow-selected:
-    inset 0 0 0 2px #1870b8, 0px 1px 8px 0px rgba(0, 0, 0, 0.3),
-    inset 6px 0 0 0 #{$sky-background-color-primary-dark};
-  --sky-override-selection-box-control-padding-top: 5px;
-  --sky-override-selection-box-description-margin-top: 3px;
-  --sky-override-selection-box-header-padding-top: 3px;
-  --sky-override-selection-box-header-color-disabled: var(
-    --sky-color-text-default
-  );
-}
-
 .sky-selection-box {
   display: flex;
   flex-flow: row nowrap;
