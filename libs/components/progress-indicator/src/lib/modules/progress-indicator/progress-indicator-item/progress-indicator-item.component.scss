@@ -12,14 +12,6 @@
   --sky-override-progress-indicator-item-margin: 0 0 -1px;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-progress-indicator-item') {
-  --sky-override-progress-indicator-item-body-margin-bottom: 0;
-  --sky-override-progress-indicator-item-body-min-height: #{$sky-margin-double};
-  --sky-override-progress-indicator-item-body-padding-bottom: #{$sky-theme-modern-margin-stacked-xl};
-  --sky-override-progress-indicator-item-body-padding-top: #{$sky-theme-modern-margin-stacked-lg};
-  --sky-override-progress-indicator-item-heading-wrapper-margin-top: 0;
-}
-
 .sky-progress-indicator-item {
   display: flex;
   margin: var(--sky-override-progress-indicator-item-margin, 0);
