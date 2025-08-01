@@ -72,10 +72,7 @@ export function swapTags<T extends string>(
       const tagName = currentNode.tagName.toLowerCase() as T;
       if (oldTags.includes(tagName)) {
         /* istanbul ignore if */
-        if (
-          !currentNode.sourceCodeLocation?.startTag ||
-          !currentNode.sourceCodeLocation?.endTag
-        ) {
+        if (typeof currentNode.sourceCodeLocation?.startTag !== 'object') {
           // Skip if source code location is not available
           continue;
         }
@@ -89,15 +86,17 @@ export function swapTags<T extends string>(
           offset + currentNode.sourceCodeLocation.startTag.startOffset,
           callback('open', tagName, currentNode, content),
         );
-        recorder.remove(
-          offset + currentNode.sourceCodeLocation.endTag.startOffset,
-          currentNode.sourceCodeLocation.endTag.endOffset -
-            currentNode.sourceCodeLocation.endTag.startOffset,
-        );
-        recorder.insertLeft(
-          offset + currentNode.sourceCodeLocation.endTag.startOffset,
-          callback('close', tagName, currentNode, content),
-        );
+        if (currentNode.sourceCodeLocation.endTag) {
+          recorder.remove(
+            offset + currentNode.sourceCodeLocation.endTag.startOffset,
+            currentNode.sourceCodeLocation.endTag.endOffset -
+              currentNode.sourceCodeLocation.endTag.startOffset,
+          );
+          recorder.insertLeft(
+            offset + currentNode.sourceCodeLocation.endTag.startOffset,
+            callback('close', tagName, currentNode, content),
+          );
+        }
       }
     }
     if (isParentNode(currentNode)) {
