@@ -13,12 +13,6 @@ $popover-max-width: 276px;
   --sky-override-popover-with-header-top-padding: 2px;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-popover-container') {
-  --sky-override-popover-accent-border-width: var(--modern-size-6);
-  --sky-override-popover-header-bottom-margin: var(--modern-space-lg);
-  --sky-override-popover-with-header-top-padding: 2px;
-}
-
 .sky-popover-container {
   position: fixed;
   min-width: $popover-max-width;
@@ -205,7 +199,6 @@ $popover-max-width: 276px;
         var(--sky-comp-popover-header-space-inset-bottom)
         var(--sky-comp-popover-header-space-inset-left)
     );
-    margin-bottom: var(--sky-override-popover-header-bottom-margin, 0);
   }
 
   .sky-popover-arrow {
@@ -222,10 +215,7 @@ $popover-max-width: 276px;
     padding-bottom: $popover-border-size;
 
     .sky-popover {
-      border-bottom: var(
-          --sky-override-popover-accent-border-width,
-          var(--sky-border-width-accent)
-        )
+      border-bottom: var(--sky-border-width-accent)
         var(--sky-border-style-accent) var(--sky-color-border-info);
     }
 
@@ -244,11 +234,8 @@ $popover-max-width: 276px;
     padding-top: $popover-border-size;
 
     .sky-popover {
-      border-top: var(
-          --sky-override-popover-accent-border-width,
-          var(--sky-border-width-accent)
-        )
-        var(--sky-border-style-accent) var(--sky-color-border-info);
+      border-top: var(--sky-border-width-accent) var(--sky-border-style-accent)
+        var(--sky-color-border-info);
     }
 
     .sky-popover-arrow {
@@ -266,11 +253,8 @@ $popover-max-width: 276px;
     padding-left: $popover-border-size;
 
     .sky-popover {
-      border-left: var(
-          --sky-override-popover-accent-border-width,
-          var(--sky-border-width-accent)
-        )
-        var(--sky-border-style-accent) var(--sky-color-border-info);
+      border-left: var(--sky-border-width-accent) var(--sky-border-style-accent)
+        var(--sky-color-border-info);
     }
 
     .sky-popover-arrow {
@@ -288,10 +272,7 @@ $popover-max-width: 276px;
     padding-right: $popover-border-size;
 
     .sky-popover {
-      border-right: var(
-          --sky-override-popover-accent-border-width,
-          var(--sky-border-width-accent)
-        )
+      border-right: var(--sky-border-width-accent)
         var(--sky-border-style-accent) var(--sky-color-border-info);
     }
 

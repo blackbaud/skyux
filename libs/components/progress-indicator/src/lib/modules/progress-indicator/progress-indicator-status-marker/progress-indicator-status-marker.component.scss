@@ -29,33 +29,6 @@
   --sky-override-progress-indicator-status-marker-status-active-icon-border-color: transparent;
 }
 
-@include compatMixins.sky-modern-overrides(
-  '.sky-progress-indicator-status-marker'
-) {
-  --sky-override-progress-indicator-mode-vertical-width: auto;
-  --sky-override-progress-indicator-status-marker-before-display: block;
-  --sky-override-progress-indicator-status-marker-horizontal-icon-top: 1px;
-  --sky-override-progress-indicator-status-marker-horizontal-padding-left: 5px;
-  --sky-override-progress-indicator-status-marker-icon-active-color: #5a9936;
-  --sky-override-progress-indicator-status-marker-icon-border-color: var(
-    --sky-border-color-neutral-medium-dark
-  );
-  --sky-override-progress-indicator-status-marker-icon-border-radius: 17px;
-  --sky-override-progress-indicator-status-marker-icon-margin-left: -1px;
-  --sky-override-progress-indicator-status-marker-icon-margin-top: 1px;
-  --sky-override-progress-indicator-status-marker-icon-pending-color: #5a9936;
-  --sky-override-progress-indicator-status-marker-icon-size: 17px;
-  --sky-override-progress-indicator-status-marker-icon-success-color: #5a9936;
-  --sky-override-progress-indicator-status-marker-line-color: var(
-    --sky-border-color-neutral-medium-dark
-  );
-  --sky-override-progress-indicator-status-marker-line-complete-color: #5a9936;
-  --sky-override-progress-indicator-status-marker-line-width: 1px;
-  --sky-override-progress-indicator-status-marker-margin-right: #{$sky-theme-modern-margin-inline-lg};
-  --sky-override-progress-indicator-status-marker-mode-vertical-top: 3px;
-  --sky-override-progress-indicator-status-marker-status-active-icon-border-color: transparent;
-}
-
 .sky-progress-indicator-status-marker {
   display: flex;
   height: 100%;
@@ -68,10 +41,7 @@
     );
 
     position: relative;
-    top: var(
-      --sky-override-progress-indicator-status-marker-mode-vertical-top,
-      0
-    );
+    top: 0;
     width: var(
       --sky-override-progress-indicator-mode-vertical-width,
       max(var(--sky-size-progress_step), var(--sky-size-icon-m))
@@ -127,10 +97,7 @@
         --sky-override-progress-indicator-status-marker-horizontal-icon-height,
         17px
       );
-      top: var(
-        --sky-override-progress-indicator-status-marker-horizontal-icon-top,
-        0
-      );
+      top: 0;
       width: var(
         --sky-override-progress-indicator-status-marker-horizontal-icon-height,
         17px

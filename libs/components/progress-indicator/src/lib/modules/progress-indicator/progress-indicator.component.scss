@@ -12,12 +12,6 @@
   --sky-override-progress-indicator-nav-and-reset-text-align: start;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-progress-indicator') {
-  --sky-override-progress-indicator-nav-and-reset-margin: #{$sky-theme-modern-margin-stacked-xxl}
-    0 0;
-  --sky-override-progress-indicator-mode-vertical-margin-left: -30px;
-}
-
 .sky-progress-indicator {
   ::ng-deep {
     sky-progress-indicator-item:last-of-type {

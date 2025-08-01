@@ -18,61 +18,6 @@
   --sky-override-search-mobile-font-size: #{$sky-font-size-base};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-search-container', false) {
-  // --sky-override-input-icon-size: 17.3333px;
-  --sky-override-search-applied-background-color: var(
-    --sky-color-background-action-secondary-base
-  );
-  --sky-override-search-applied-color: #{$sky-highlight-color-success};
-  --sky-override-search-applied-mobile-button-horizontal-padding: 15px;
-  --sky-override-search-applied-mobile-button-vertical-padding: 9px;
-  --sky-override-search-applied-border-width: 2px;
-  --sky-override-search-background-color: var(--modern-color-transparent);
-  --sky-override-search-background-color-disabled: var(
-    --sky-color-background-input-disabled
-  );
-  --sky-override-search-button-height-width: 40px;
-  --sky-override-search-container-border-color-active: var(
-    --sky-color-border-input-active
-  );
-  --sky-override-search-container-border-color-disabled: none;
-  --sky-override-search-container-border-color-focus: var(
-    --sky-color-border-input-focus
-  );
-  --sky-override-search-container-border-color-hover: var(
-    --sky-color-border-input-hover
-  );
-  --sky-override-search-container-box-shadow: none;
-  --sky-override-search-container-box-shadow-searched: inset 0 -1px 0 0
-    var(--sky-color-border-selected);
-  --sky-override-search-container-text-color-searched: var(
-    --sky-color-text-default
-  );
-  --sky-override-search-placeholder-color: var(--sky-color-text-default);
-  --sky-override-search-mobile-button-horizontal-padding: 15px;
-  --sky-override-search-mobile-button-vertical-padding: 9px;
-
-  .sky-search-input-container {
-    &.sky-search-input-container-has-value {
-      .sky-input-box-group-form-control:not(
-          .sky-input-box-group-form-control-focus,
-          :hover
-        )
-        .sky-form-group {
-        border: none;
-        border-radius: var(--sky-border-radius-0);
-      }
-    }
-  }
-}
-
-@include compatMixins.sky-modern-overrides('.sky-toolbar-item', false) {
-  sky-search .sky-search-container .sky-search-input-container sky-input-box {
-    --sky-comp-override-input-box-group-background-color: transparent;
-    --sky-comp-override-input-box-group-background-color-focused: transparent;
-  }
-}
-
 sky-search {
   // only rendered in default
   .sky-input-group-btn .sky-btn.sky-search-btn-apply {
@@ -169,11 +114,7 @@ sky-search {
       border: var(--sky-override-search-applied-border, none);
       box-shadow: var(
         --sky-override-search-applied-box-shadow,
-        inset 0 0 0
-          var(
-            --sky-override-search-applied-border-width,
-            var(--sky-border-width-selected-s)
-          )
+        inset 0 0 0 var(--sky-border-width-selected-s)
           var(
             --sky-override-search-applied-color,
             var(--sky-color-border-selected)
@@ -229,53 +170,42 @@ sky-search {
   sky-search {
     sky-input-box {
       --sky-comp-override-input-box-group-background-color: var(
-        --sky-override-search-background-color,
-        var(--sky-color-background-action-secondary-base)
+        --sky-color-background-action-secondary-base
       );
       --sky-comp-override-input-box-group-background-color-active: var(
-        --sky-override-search-background-color,
-        var(--sky-color-background-action-secondary-active)
+        --sky-color-background-action-secondary-active
       );
       --sky-comp-override-input-box-group-background-color-disabled: var(
-        --sky-override-search-background-color-disabled,
-        var(--sky-color-background-action-secondary-disabled)
+        --sky-color-background-action-secondary-disabled
       );
       --sky-comp-override-input-box-group-background-color-focused: var(
-        --sky-override-search-background-color,
-        var(--sky-color-background-action-secondary-focus)
+        --sky-color-background-action-secondary-focus
       );
       --sky-comp-override-input-box-group-background-color-hover: var(
-        --sky-override-search-background-color,
-        var(--sky-color-background-action-secondary-hover)
+        --sky-color-background-action-secondary-hover
       );
     }
 
     .sky-input-box .sky-input-group-btn .sky-btn.sky-search-btn {
-      height: var(
-        --sky-override-search-button-height-width,
+      height: calc(
         calc(
+            var(--sky-font-line_height-input-val) *
+              var(--sky-font-size-input-val)
+          ) +
           calc(
-              var(--sky-font-line_height-input-val) *
-                var(--sky-font-size-input-val)
-            ) +
-            calc(
-              var(--sky-comp-search-space-inset-top) +
-                var(--sky-comp-search-space-inset-bottom)
-            )
-        )
+            var(--sky-comp-search-space-inset-top) +
+              var(--sky-comp-search-space-inset-bottom)
+          )
       );
-      width: var(
-        --sky-override-search-button-height-width,
+      width: calc(
         calc(
+            var(--sky-font-line_height-input-val) *
+              var(--sky-font-size-input-val)
+          ) +
           calc(
-              var(--sky-font-line_height-input-val) *
-                var(--sky-font-size-input-val)
-            ) +
-            calc(
-              var(--sky-comp-search-space-inset-left) +
-                var(--sky-comp-search-space-inset-right)
-            )
-        )
+            var(--sky-comp-search-space-inset-left) +
+              var(--sky-comp-search-space-inset-right)
+          )
       );
 
       .sky-icon.sky-i-close {
@@ -286,31 +216,25 @@ sky-search {
 
     .sky-search-btn-dismiss {
       color: var(--sky-color-icon-default);
-      height: var(
-        --sky-override-search-button-height-width,
+      height: calc(
         calc(
+            var(--sky-font-line_height-input-val) *
+              var(--sky-font-size-input-val)
+          ) +
           calc(
-              var(--sky-font-line_height-input-val) *
-                var(--sky-font-size-input-val)
-            ) +
-            calc(
-              var(--sky-comp-button-space-inset-top) +
-                var(--sky-comp-button-space-inset-bottom)
-            )
-        )
+            var(--sky-comp-button-space-inset-top) +
+              var(--sky-comp-button-space-inset-bottom)
+          )
       );
-      width: var(
-        --sky-override-search-button-height-width,
+      width: calc(
         calc(
+            var(--sky-font-line_height-input-val) *
+              var(--sky-font-size-input-val)
+          ) +
           calc(
-              var(--sky-font-line_height-input-val) *
-                var(--sky-font-size-input-val)
-            ) +
-            calc(
-              var(--sky-comp-button-space-inset-left) +
-                var(--sky-comp-button-space-inset-right)
-            )
-        )
+            var(--sky-comp-button-space-inset-left) +
+              var(--sky-comp-button-space-inset-right)
+          )
       );
       padding: 0;
     }
@@ -319,8 +243,7 @@ sky-search {
       .sky-input-box-disabled {
         .sky-input-box-group .sky-input-box-group-form-control .sky-form-group {
           --sky-comp-override-input-box-input-border-color: var(
-            --sky-override-search-container-border-color-disabled,
-            var(--sky-color-border-action-secondary-disabled)
+            --sky-color-border-action-secondary-disabled
           );
         }
       }
@@ -333,8 +256,7 @@ sky-search {
           )
           .sky-form-group {
           --sky-comp-override-input-box-input-border-color: var(
-            --sky-override-search-container-box-shadow,
-            var(--sky-color-border-action-secondary-base)
+            --sky-color-border-action-secondary-base
           );
           --sky-comp-override-input-box-input-elevation-shadow: var(
             --sky-elevation-action-toolbar-base
@@ -347,8 +269,7 @@ sky-search {
           )
           .sky-form-group {
           --sky-comp-override-input-box-input-border-color: var(
-            --sky-override-search-container-border-color-hover,
-            var(--sky-color-border-action-secondary-hover)
+            --sky-color-border-action-secondary-hover
           );
           --sky-comp-override-input-box-input-elevation-shadow: var(
             --sky-elevation-action-toolbar-hover
@@ -360,8 +281,7 @@ sky-search {
           )
           .sky-form-group {
           --sky-comp-override-input-box-input-border-color: var(
-            --sky-override-search-container-border-color-focus,
-            var(--sky-color-border-action-secondary-focus)
+            --sky-color-border-action-secondary-focus
           );
           --sky-comp-override-input-box-input-elevation-shadow: var(
             --sky-elevation-action-toolbar-focus
@@ -370,8 +290,7 @@ sky-search {
 
         .sky-input-box-group-form-control:has(:active) .sky-form-group {
           --sky-comp-override-input-box-input-border-color: var(
-            --sky-override-search-container-border-color-active,
-            var(--sky-color-border-action-secondary-active)
+            --sky-color-border-action-secondary-active
           );
           --sky-comp-override-input-box-input-elevation-shadow: var(
             --sky-elevation-action-toolbar-active
@@ -384,23 +303,17 @@ sky-search {
           &:not(.sky-input-box-group-form-control-focus, :hover)
             .sky-form-group {
             // NOTE: Have to do full box shadow override instead of variable due to only the bottom having the box shadow
-            box-shadow: var(
-              --sky-override-search-container-box-shadow-searched,
+            box-shadow:
               inset 0 0 0 var(--sky-border-width-input-base)
                 var(--sky-color-border-selected),
-              var(--sky-elevation-action-toolbar-base)
-            );
+              var(--sky-elevation-action-toolbar-base);
             --sky-comp-override-input-box-group-background-color: var(
-              --sky-override-search-background-color,
-              var(--sky-color-background-selected-soft)
+              --sky-color-background-selected-soft
             );
           }
 
           &:not(:focus-within:not(:active)) .sky-form-group input {
-            color: var(
-              --sky-override-search-container-text-color-searched,
-              var(--sky-color-text-selected)
-            );
+            color: var(--sky-color-text-selected);
           }
         }
       }
@@ -428,10 +341,7 @@ sky-search {
 
             &::placeholder {
               font-style: var(--sky-font-style-body-s);
-              color: var(
-                --sky-override-search-placeholder-color,
-                var(--sky-color-text-deemphasized)
-              );
+              color: var(--sky-color-text-deemphasized);
               font-weight: var(--bb-font-weight-regular);
             }
 

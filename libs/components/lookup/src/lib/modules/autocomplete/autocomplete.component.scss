@@ -27,34 +27,6 @@
   --sky-override-autocomplete-results-padding: 4px;
 }
 
-::ng-deep {
-  @include compatMixins.sky-modern-overrides(
-    '.sky-autocomplete-results-container',
-    false
-  ) {
-    --sky-override-autocomplete-actions-no-results-line-height: normal;
-    --sky-override-autocomplete-actions-no-results-padding: 7px 13px;
-    --sky-override-autocomplete-actions-top-border: 1px solid
-      #{$sky-border-color-neutral-medium};
-    --sky-override-autocomplete-dropdown-hint-text-line-height: normal;
-    --sky-override-autocomplete-dropdown-hint-text-padding: 7px 13px;
-    --sky-override-autocomplete-no-results-font-size: 15px;
-    --sky-override-autocomplete-no-results-padding: #{$sky-padding-squish-default};
-    --sky-override-autocomplete-result-border-radius: 0;
-    --sky-override-autocomplete-result-focus-box-shadow:
-      inset 0 0 0 var(--sky-border-width-action-focus)
-        var(--sky-color-border-action-tertiary-focus),
-      var(--sky-elevation-focus);
-    --sky-override-autocomplete-result-margin-bottom: 0;
-    --sky-override-autocomplete-result-padding: #{$sky-theme-modern-space-sm 0
-      $sky-theme-modern-space-sm $sky-theme-modern-space-md};
-    --sky-override-autocomplete-results-no-results-padding: var(
-        --sky-comp-dropdown-menu-space-inset-top
-      )
-      0 var(--sky-comp-dropdown-menu-space-inset-bottom);
-  }
-}
-
 :host-context(sky-input-box) {
   :host {
     width: 100%;

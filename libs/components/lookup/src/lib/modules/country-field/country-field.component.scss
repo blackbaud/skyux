@@ -27,31 +27,6 @@
   --sky-override-country-field-transform: scaleX(1.25) translateX(2px);
 }
 
-@include compatMixins.sky-modern-overrides(
-  '.sky-country-field-container',
-  false
-) {
-  --sky-override-country-field-flag-bottom: 0;
-  --sky-override-country-field-input-box-flag-height: 40px;
-  --sky-override-country-field-input-box-flag-left: 15px;
-  --sky-override-country-field-input-box-form-control-padding-left: 45px;
-  --sky-override-country-field-max-height: 13px;
-  --sky-override-country-field-max-width: 25px;
-  --sky-override-country-field-transform: scaleX(1.25) translateX(2px);
-}
-
-@include compatMixins.sky-modern-overrides(
-  '.sky-autocomplete-result:has(.sky-country-field-search-result-flag)',
-  false
-) {
-  --sky-override-country-field-max-height: 13px;
-  --sky-override-country-field-max-width: 25px;
-  --sky-override-country-field-phone-info-font-size: 15px;
-  --sky-override-country-field-search-result-dial-code-padding-left: 0;
-  --sky-override-country-field-search-result-info-padding-left: 29px;
-  --sky-override-country-field-transform: scaleX(1.25) translateX(2px);
-}
-
 .sky-country-field-country-btn + .sky-form-control {
   border-left: none;
 }

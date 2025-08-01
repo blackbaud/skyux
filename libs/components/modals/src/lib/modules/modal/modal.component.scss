@@ -26,16 +26,6 @@
     #{$sky-margin};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-modal') {
-  --sky-override-modal-full-page-margin-xs: 30px;
-  --sky-override-modal-full-page-margin: 30px;
-  --sky-override-modal-header-top-bottom-padding: 20px;
-  --sky-override-modal-viewkept-toolbar-box-shadow: 0px 4px 8px -4px
-    rgba(0, 0, 0, 0.3);
-  --sky-override-modal-xs-margin: 30px #{$sky-margin} #{$sky-margin}
-    #{$sky-margin};
-}
-
 :host {
   --sky-viewport-top: 0;
   --sky-viewport-bottom: 0;
@@ -223,15 +213,9 @@
 .sky-modal-header {
   padding: var(
     --sky-override-modal-header-padding,
-    var(
-        --sky-override-modal-header-top-bottom-padding,
-        var(--sky-comp-modal-header-space-inset-top)
-      )
+    var(--sky-comp-modal-header-space-inset-top)
       var(--sky-comp-modal-header-space-inset-right)
-      var(
-        --sky-override-modal-header-top-bottom-padding,
-        var(--sky-comp-modal-header-space-inset-bottom)
-      )
+      var(--sky-comp-modal-header-space-inset-bottom)
       var(--sky-comp-modal-header-space-inset-left)
   );
   background-color: var(
