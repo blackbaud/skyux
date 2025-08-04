@@ -269,7 +269,7 @@
       color: var(--sky-color-text-default);
 
       .sky-toggle-switch-switch {
-        background-color: var(
+        background: var(
           --sky-override-toggle-switch-background-color-disabled,
           var(--sky-color-background-selected-switch-disabled)
         );
