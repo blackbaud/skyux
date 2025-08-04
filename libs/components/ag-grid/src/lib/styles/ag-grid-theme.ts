@@ -19,8 +19,6 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
     'var(--sky-override-ag-grid-cell-horizontal-padding, var(--sky-comp-grid-cell-space-inset-left))',
   cellEditingBorder:
     'var(--sky-override-ag-grid-cell-focus-border-width, var(--sky-border-width-input-focus)) solid var(--sky-override-ag-grid-cell-focus-border-color, var(--sky-color-border-input-focus))',
-  checkboxCheckedBackgroundColor:
-    'var(--sky-override-ag-grid-checkbox-selected-background-color, var(--sky-color-background-selected-heavy))',
   checkboxCheckedBorderColor: { ref: 'checkboxCheckedShapeColor' },
   checkboxCheckedShapeColor:
     'var(--sky-override-switch-checked-color, var(--sky-color-icon-inverse, var(--sky-text-color-default)))',
