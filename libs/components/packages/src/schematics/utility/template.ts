@@ -104,3 +104,23 @@ export function swapTags<T extends string>(
     }
   }
 }
+
+/**
+ * Extracts the text content from a selector within element and returns it as a string.
+ * If the element wraps anything more than a simple text node, an error is thrown.
+ */
+export function getText(
+  text: parse5.DefaultTreeAdapterTypes.ChildNode[],
+): string {
+  if (text.length === 1 && text[0].nodeName === '#text') {
+    return (text[0] as parse5.DefaultTreeAdapterTypes.TextNode).value.trim();
+  } else if (!text) {
+    return '';
+  } else {
+    // If the result contains something other than a single text node,
+    // throw an error to indicate that the title cannot be converted.
+    throw new Error(
+      `The element contains additional markup that cannot be processed.`,
+    );
+  }
+}

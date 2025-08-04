@@ -239,6 +239,195 @@ describe('Convert select field to lookup', () => {
     ).toMatchSnapshot();
   });
 
+  it('should convert select field to use input box with label text', async () => {
+    const tree = await createTestApp(runner, {
+      projectName: 'test-app',
+    });
+    await angularComponentGenerator(runner, tree, {
+      name: 'test',
+      project: 'test-app',
+      standalone: true,
+      flat: true,
+    });
+    const input = stripIndents`
+      <div>
+      <label for="modelValue">Model Value</label>
+      <sky-select-field
+        name="modelValue"
+        ariaLabel="{{ ariaLabel }}"
+        ariaLabelledBy="{{ ariaLabelledBy }}"
+        [customPicker]="customPicker"
+        [data]="data"
+        [disabled]="disabled"
+        [inMemorySearchEnabled]="inMemorySearchEnabled"
+        [multipleSelectOpenButtonText]="multipleSelectOpenButtonText"
+        [selectMode]="selectMode"
+        [singleSelectClearButtonTitle]="singleSelectClearButtonTitle"
+        [singleSelectOpenButtonTitle]="singleSelectOpenButtonTitle"
+        singleSelectPlaceholderText="{{ singleSelectPlaceholderText }}"
+        pickerHeading="{{ pickerHeading }}"
+        [(ngModel)]="formData.modelValue"
+        (blur)="onBlur()"
+        (ngModelChange)="onModelChange($event)"
+        (searchApplied)="onSearchApplied($event)"
+      />
+      </div>
+    `;
+    tree.overwrite('src/app/test.component.html', input);
+    const output = stripIndents`
+      <sky-input-box labelText="Model Value">
+      <sky-lookup
+        name="modelValue"
+        ariaLabel="{{ ariaLabel }}"
+        ariaLabelledBy="{{ ariaLabelledBy }}"
+        [showMoreConfig]="{ nativePickerConfig: { title: ( pickerHeading ) }, customPicker: customPicker }"
+        [data]="data | async"
+        [disabled]="disabled"
+        [selectMode]="selectMode"
+        placeholderText="{{ singleSelectPlaceholderText }}"
+        [(ngModel)]="formData.modelValue"
+        (ngModelChange)="onModelChange($event)"
+        descriptorProperty="label"
+        enableShowMore
+        idProperty="id" />
+      </sky-input-box>
+    `;
+    await firstValueFrom(
+      runner.callRule(
+        convertSelectFieldToLookup({
+          project: 'test-app',
+          bestEffortMode: true,
+          insertTodos: true,
+          projectPath: '',
+        }),
+        tree,
+      ),
+    );
+    expect(stripIndents`${tree.readText('src/app/test.component.html')}`).toBe(
+      output,
+    );
+    expect(
+      stripIndents`${tree.readText('src/app/test.component.ts')}`,
+    ).toMatchSnapshot();
+  });
+
+  it('should convert select field to use input box with label text, leaving the parent', async () => {
+    const tree = await createTestApp(runner, {
+      projectName: 'test-app',
+    });
+    await angularModuleGenerator(runner, tree, {
+      name: 'test',
+      project: 'test-app',
+      flat: true,
+    });
+    await angularComponentGenerator(runner, tree, {
+      name: 'test',
+      project: 'test-app',
+      standalone: false,
+      module: 'test',
+      flat: true,
+    });
+    const input = stripIndents`
+      <app-cmp>
+      <label for="modelValue">
+        {{ 'resource' | skyAppResources }}
+      </label>
+      <sky-select-field
+        name="modelValue"
+        ariaLabel="{{ ariaLabel }}"
+        ariaLabelledBy="{{ ariaLabelledBy }}"
+        [customPicker]="customPicker"
+        [data]="data"
+        [disabled]="disabled"
+        [inMemorySearchEnabled]="inMemorySearchEnabled"
+        [multipleSelectOpenButtonText]="multipleSelectOpenButtonText"
+        [selectMode]="selectMode"
+        [singleSelectClearButtonTitle]="singleSelectClearButtonTitle"
+        [singleSelectOpenButtonTitle]="singleSelectOpenButtonTitle"
+        singleSelectPlaceholderText="{{ singleSelectPlaceholderText }}"
+        pickerHeading="{{ pickerHeading }}"
+        [(ngModel)]="formData.modelValue"
+        (blur)="onBlur()"
+        (ngModelChange)="onModelChange($event)"
+        (searchApplied)="onSearchApplied($event)"
+      />
+      </app-cmp>
+    `;
+    applyChangesToFile(
+      tree,
+      'src/app/test.module.ts',
+      addSymbolToClassMetadata(
+        parseSourceFile(tree, 'src/app/test.module.ts'),
+        'NgModule',
+        'src/app/test.module.ts',
+        'imports',
+        'NgIf',
+        '@angular/common',
+      ),
+    );
+    applyChangesToFile(
+      tree,
+      'src/app/test.module.ts',
+      addSymbolToClassMetadata(
+        parseSourceFile(tree, 'src/app/test.module.ts'),
+        'NgModule',
+        'src/app/test.module.ts',
+        'imports',
+        'NgModel',
+        '@angular/forms',
+      ),
+    );
+    applyChangesToFile(
+      tree,
+      'src/app/test.module.ts',
+      addSymbolToClassMetadata(
+        parseSourceFile(tree, 'src/app/test.module.ts'),
+        'NgModule',
+        'src/app/test.module.ts',
+        'imports',
+        'SkySelectFieldModule',
+        '@skyux/select-field',
+      ),
+    );
+    tree.overwrite('src/app/test.component.html', input);
+    const output = stripIndents`
+      <app-cmp>
+      <sky-input-box labelText="{{ 'resource' | skyAppResources }}">
+      <sky-lookup
+        name="modelValue"
+        ariaLabel="{{ ariaLabel }}"
+        ariaLabelledBy="{{ ariaLabelledBy }}"
+        [showMoreConfig]="{ nativePickerConfig: { title: ( pickerHeading ) }, customPicker: customPicker }"
+        [data]="data | async"
+        [disabled]="disabled"
+        [selectMode]="selectMode"
+        placeholderText="{{ singleSelectPlaceholderText }}"
+        [(ngModel)]="formData.modelValue"
+        (ngModelChange)="onModelChange($event)"
+        descriptorProperty="label"
+        enableShowMore
+        idProperty="id" />
+      </sky-input-box></app-cmp>
+    `;
+    await firstValueFrom(
+      runner.callRule(
+        convertSelectFieldToLookup({
+          project: 'test-app',
+          bestEffortMode: true,
+          insertTodos: true,
+          projectPath: '',
+        }),
+        tree,
+      ),
+    );
+    expect(stripIndents`${tree.readText('src/app/test.component.html')}`).toBe(
+      output,
+    );
+    expect(
+      stripIndents`${tree.readText('src/app/test.module.ts')}`,
+    ).toMatchSnapshot();
+  });
+
   it('should do nothing', async () => {
     const tree = await createTestApp(runner, {
       projectName: 'test-app',

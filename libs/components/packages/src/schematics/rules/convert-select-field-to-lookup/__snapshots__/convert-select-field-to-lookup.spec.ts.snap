@@ -91,3 +91,48 @@ export class TestComponent {
 
 }"
 `;
+
+exports[`Convert select field to lookup should convert select field to use input box with label text 1`] = `
+"import { Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { SkyInputBoxModule } from '@skyux/forms';
+
+@Component({
+selector: 'app-test',
+imports: [
+AsyncPipe,
+SkyInputBoxModule
+],
+templateUrl: './test.component.html',
+styleUrl: './test.component.scss'
+})
+export class TestComponent {
+
+}"
+`;
+
+exports[`Convert select field to lookup should convert select field to use input box with label text, leaving the parent 1`] = `
+"import { NgModule } from '@angular/core';
+import { CommonModule, NgIf } from '@angular/common';
+import { TestComponent } from './test.component';
+import { NgModel } from '@angular/forms';
+
+import { SkyLookupModule } from '@skyux/lookup';
+import { SkyInputBoxModule } from '@skyux/forms';
+
+
+
+@NgModule({
+declarations: [
+TestComponent
+],
+imports: [
+CommonModule,
+NgIf,
+NgModel,
+SkyLookupModule,
+SkyInputBoxModule
+]
+})
+export class TestModule { }"
+`;

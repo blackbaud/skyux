@@ -24,6 +24,7 @@ import {
   ElementWithLocation,
   SwapTagCallback,
   getElementsByTagName,
+  getText,
   parseTemplate,
   swapTags,
 } from '../../utility/template';
@@ -61,6 +62,7 @@ const unsupportedEvents = ['blur', 'searchApplied'];
 
 interface FollowupTasks {
   importAsyncPipe: boolean;
+  importInputBox: boolean;
   swapModuleImports: boolean;
   addCommentsToFunctions: Record<string, string>;
   addCommentsToProperties: Record<string, string>;
@@ -145,6 +147,25 @@ function applyFollowupTasksToComponent(
     );
   }
 
+  if (
+    isStandalone &&
+    followupTasks?.importInputBox &&
+    !isImported(source, 'SkyInputBoxModule', '@skyux/forms')
+  ) {
+    applyChangesToFile(
+      tree,
+      filePath,
+      addSymbolToClassMetadata(
+        parseSourceFile(tree, filePath),
+        'Component',
+        filePath,
+        'imports',
+        'SkyInputBoxModule',
+        '@skyux/forms',
+      ),
+    );
+  }
+
   applyChangesToFile(
     tree,
     filePath,
@@ -205,6 +226,25 @@ function applyFollowupTasksToModule(
           'imports',
           'AsyncPipe',
           '@angular/common',
+        ),
+      );
+      moduleSource = parseSourceFile(tree, module.filepath);
+    }
+
+    if (
+      followupTasks?.importInputBox &&
+      !isImported(moduleSource, 'SkyInputBoxModule', '@skyux/forms')
+    ) {
+      applyChangesToFile(
+        tree,
+        module.filepath,
+        addSymbolToClassMetadata(
+          moduleSource,
+          'NgModule',
+          module.filepath,
+          'imports',
+          'SkyInputBoxModule',
+          '@skyux/forms',
         ),
       );
     }
@@ -475,12 +515,64 @@ function convertTemplate(
   const selectFields = getElementsByTagName('sky-select-field', fragment);
   const followupTasks: FollowupTasks = {
     importAsyncPipe: false,
+    importInputBox: false,
     swapModuleImports: false,
     addCommentsToFunctions: {},
     addCommentsToProperties: {},
   };
   for (const selectField of selectFields) {
     followupTasks.swapModuleImports = true;
+    const siblingElements = selectField.parentNode?.childNodes.filter(
+      (el) => 'tagName' in el,
+    );
+    if (
+      siblingElements?.length === 2 &&
+      siblingElements[0].tagName === 'label' &&
+      siblingElements[1] === selectField
+    ) {
+      followupTasks.importInputBox = true;
+      const labelNode = siblingElements[0] as ElementWithLocation;
+      const labelText = getText(labelNode.childNodes);
+      const replaceParent =
+        !!selectField.parentNode &&
+        'tagName' in selectField.parentNode &&
+        ['sky-input-box', 'p', 'div'].includes(selectField.parentNode.tagName);
+      if (replaceParent) {
+        const parentNode = selectField.parentNode as ElementWithLocation;
+        recorder.remove(
+          parentNode.sourceCodeLocation.startTag.startOffset + offset,
+          labelNode.sourceCodeLocation.endTag.endOffset -
+            parentNode.sourceCodeLocation.startTag.startOffset,
+        );
+        recorder.remove(
+          parentNode.sourceCodeLocation.endTag.startOffset + offset,
+          parentNode.sourceCodeLocation.endTag.endOffset -
+            parentNode.sourceCodeLocation.endTag.startOffset,
+        );
+        recorder.insertRight(
+          parentNode.sourceCodeLocation.startTag.startOffset + offset,
+          `<sky-input-box labelText="${labelText}">`,
+        );
+        recorder.insertRight(
+          parentNode.sourceCodeLocation.endTag.endOffset + offset,
+          '</sky-input-box>',
+        );
+      } else {
+        recorder.remove(
+          labelNode.sourceCodeLocation.startTag.startOffset + offset,
+          labelNode.sourceCodeLocation.endTag.endOffset -
+            labelNode.sourceCodeLocation.startTag.startOffset,
+        );
+        recorder.insertRight(
+          labelNode.sourceCodeLocation.startOffset + offset,
+          `<sky-input-box labelText="${labelText}">`,
+        );
+        recorder.insertRight(
+          selectField.sourceCodeLocation.endOffset + offset,
+          '</sky-input-box>',
+        );
+      }
+    }
     swapTags(
       content,
       recorder,
