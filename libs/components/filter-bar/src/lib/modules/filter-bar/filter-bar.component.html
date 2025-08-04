@@ -1,43 +1,41 @@
-<div class="sky-filter-bar">
-  <sky-toolbar class="sky-filter-bar-toolbar">
+<sky-toolbar class="sky-filter-bar-toolbar">
+  <sky-toolbar-item>
+    <span class="sky-font-data-label">{{
+      'skyux_filter_bar_filter_label' | skyLibResources
+    }}</span>
+  </sky-toolbar-item>
+  @if (showFilterSelector()) {
     <sky-toolbar-item>
-      <span class="sky-font-data-label">{{
-        'skyux_filter_bar_filter_label' | skyLibResources
-      }}</span>
+      <button
+        type="button"
+        class="sky-filter-bar-filter-picker sky-btn sky-filter-bar-btn sky-btn-default sky-btn-icon"
+        (click)="openFilters()"
+      >
+        <sky-icon iconName="filter" />
+      </button>
     </sky-toolbar-item>
-    @if (enableSelectionModal()) {
-      <sky-toolbar-item>
-        <button
-          type="button"
-          class="sky-filter-bar-filter-picker sky-btn sky-filter-bar-btn sky-btn-default sky-btn-icon"
-          (click)="openFilters()"
-        >
-          <sky-icon iconName="filter" />
-        </button>
-      </sky-toolbar-item>
-    }
-    @for (filter of visibleFilters(); track filter.id) {
-      <sky-toolbar-item>
-        <sky-filter-bar-button
-          [filterId]="filter.id"
-          [filterName]="filter.name"
-          [filterModalConfig]="filter.filterModalConfig"
-          [filterSelectionModalConfig]="filter.filterSelectionModalConfig"
-          [filterValue]="filter.filterValue"
-          (filterUpdated)="updateFilters($event, filter.id)"
-        />
-      </sky-toolbar-item>
-    }
-    @if (hasFilters()) {
-      <sky-toolbar-item>
-        <button
-          type="button"
-          class="sky-filter-bar-clear-filters sky-btn sky-filter-bar-btn sky-btn-link"
-          (click)="clearFilters()"
-        >
-          {{ 'skyux_filter_bar_clear_filters_label' | skyLibResources }}
-        </button>
-      </sky-toolbar-item>
-    }
-  </sky-toolbar>
-</div>
+  }
+  @for (filter of visibleFilters(); track filter.id) {
+    <sky-toolbar-item>
+      <sky-filter-bar-button
+        [filterId]="filter.id"
+        [filterName]="filter.name"
+        [filterModalConfig]="filter.filterModalConfig"
+        [filterSelectionModalConfig]="filter.filterSelectionModalConfig"
+        [filterValue]="filter.filterValue"
+        (filterUpdated)="updateFilters($event, filter.id)"
+      />
+    </sky-toolbar-item>
+  }
+  @if (hasFilters()) {
+    <sky-toolbar-item>
+      <button
+        type="button"
+        class="sky-filter-bar-clear-filters sky-btn sky-filter-bar-btn sky-btn-link"
+        (click)="clearFilters()"
+      >
+        {{ 'skyux_filter_bar_clear_filters_label' | skyLibResources }}
+      </button>
+    </sky-toolbar-item>
+  }
+</sky-toolbar>

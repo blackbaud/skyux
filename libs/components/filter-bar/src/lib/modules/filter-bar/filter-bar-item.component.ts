@@ -21,7 +21,7 @@ export class SkyFilterBarItemComponent {
   /**
    * The name of the filter displayed in the text label.
    */
-  public filterName = input.required<string>();
+  public labelText = input.required<string>();
 
   /**
    * The configuration options for showing a custom filter modal.

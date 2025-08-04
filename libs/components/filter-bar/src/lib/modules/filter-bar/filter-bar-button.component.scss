@@ -10,6 +10,10 @@
     var(--sky-border-width-action-base) var(--sky-color-border-selected);
 }
 
+:host {
+  display: block;
+}
+
 .sky-filter-bar-btn {
   display: flex;
   max-width: 300px;

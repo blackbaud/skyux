@@ -91,7 +91,7 @@ describe('Filter bar component', () => {
     it('should show/hide filter picker button based on input', () => {
       expect(getFilterPickerButton()).toBeTruthy();
 
-      component.enableSelectionModal.set(false);
+      component.showFilterSelector.set(false);
       fixture.detectChanges();
 
       expect(getFilterPickerButton()).toBeFalsy();

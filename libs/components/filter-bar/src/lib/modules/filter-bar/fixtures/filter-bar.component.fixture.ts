@@ -15,5 +15,5 @@ export class SkyFilterBarTestComponent {
     { id: '3' },
   ]);
 
-  public enableSelectionModal = model<boolean>(true);
+  public showFilterSelector = model<boolean>(true);
 }

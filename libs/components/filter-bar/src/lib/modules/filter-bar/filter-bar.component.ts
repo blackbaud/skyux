@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  booleanAttribute,
   computed,
   contentChildren,
   inject,
@@ -57,7 +58,7 @@ export class SkyFilterBarComponent {
   /**
    * Whether to include a button to launch a selection modal that adds and removes filters.
    */
-  public enableSelectionModal = input<boolean>(false);
+  public showFilterSelector = input(false, { transform: booleanAttribute });
 
   protected filterItems = contentChildren(SkyFilterBarItemComponent);
 
@@ -74,7 +75,7 @@ export class SkyFilterBarComponent {
       if (config) {
         items.push({
           id: filter.id,
-          name: config.filterName(),
+          name: config.labelText(),
           filterValue: filter.filterValue,
           filterModalConfig: config.filterModalConfig(),
           filterSelectionModalConfig: config.filterSelectionModalConfig(),
@@ -222,11 +223,13 @@ export class SkyFilterBarComponent {
   ): Observable<SkySelectionModalSearchResult> | undefined => {
     const items = this.filterItems().map((item) => ({
       id: item.filterId(),
-      name: item.filterName(),
+      name: item.labelText(),
     }));
     const results = args.searchText
       ? items.filter((item) =>
-          item.name.toUpperCase().includes(args.searchText.toUpperCase()),
+          item.name
+            .toLocaleUpperCase()
+            .includes(args.searchText.toLocaleUpperCase()),
         )
       : items;
     return of({
