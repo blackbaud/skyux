@@ -1,6 +1,11 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
-import { SkyHelpInlinePopoverHarness } from '@skyux/help-inline/testing';
+import { SkyComponentHarness } from '@skyux/core/testing';
+import {
+  HelpPopoverHarnessMethods,
+  clickHelpInline,
+  getHelpPopoverContent,
+  getHelpPopoverTitle,
+} from '@skyux/help-inline/testing';
 import { SkyBoxHeadingLevel, SkyBoxHeadingStyle } from '@skyux/layout';
 
 import { SkyBoxHarnessFilters } from './box-harness.filters';
@@ -8,7 +13,10 @@ import { SkyBoxHarnessFilters } from './box-harness.filters';
 /**
  * Harness for interacting with a box component in tests.
  */
-export class SkyBoxHarness extends SkyHelpInlinePopoverHarness {
+export class SkyBoxHarness
+  extends SkyComponentHarness
+  implements HelpPopoverHarnessMethods
+{
   /**
    * @internal
    */
@@ -36,7 +44,25 @@ export class SkyBoxHarness extends SkyHelpInlinePopoverHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    return await (await this.#getHelpInline()).click();
+    return await clickHelpInline(this, { ancestor: '.sky-box-header-content' });
+  }
+
+  /**
+   * Gets the help popover content.
+   */
+  public async getHelpPopoverContent(): Promise<string | undefined> {
+    return await getHelpPopoverContent(this, {
+      ancestor: '.sky-box-header-content',
+    });
+  }
+
+  /**
+   * Gets the help popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await getHelpPopoverTitle(this, {
+      ancestor: '.sky-box-header-content',
+    });
   }
 
   /**
@@ -100,19 +126,5 @@ export class SkyBoxHarness extends SkyHelpInlinePopoverHarness {
    */
   public async getAriaRole(): Promise<string | null> {
     return await (await this.#getBox()).getAttribute('role');
-  }
-
-  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
-    const harness = await this.locatorForOptional(
-      SkyHelpInlineHarness.with({
-        ancestor: '.sky-box-header-content',
-      }),
-    )();
-
-    if (harness) {
-      return harness;
-    }
-
-    throw Error('No help inline found.');
   }
 }

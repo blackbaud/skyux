@@ -1,6 +1,11 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
-import { SkyHelpInlinePopoverHarness } from '@skyux/help-inline/testing';
+import { SkyComponentHarness } from '@skyux/core/testing';
+import {
+  HelpPopoverHarnessMethods,
+  clickHelpInline,
+  getHelpPopoverContent,
+  getHelpPopoverTitle,
+} from '@skyux/help-inline/testing';
 
 import { SkyToggleSwitchHarnessFilters } from './toggle-switch-harness-filters';
 import { SkyToggleSwitchLabelHarness } from './toggle-switch-label-harness';
@@ -8,7 +13,10 @@ import { SkyToggleSwitchLabelHarness } from './toggle-switch-label-harness';
 /**
  * Harness for interacting with a toggle switch component in tests.
  */
-export class SkyToggleSwitchHarness extends SkyHelpInlinePopoverHarness {
+export class SkyToggleSwitchHarness
+  extends SkyComponentHarness
+  implements HelpPopoverHarnessMethods
+{
   /**
    * @internal
    */
@@ -39,7 +47,21 @@ export class SkyToggleSwitchHarness extends SkyHelpInlinePopoverHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    await (await this.#getHelpInline()).click();
+    return await clickHelpInline(this);
+  }
+
+  /**
+   * Gets the help popover content.
+   */
+  public async getHelpPopoverContent(): Promise<string | undefined> {
+    return await getHelpPopoverContent(this);
+  }
+
+  /**
+   * Gets the help popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await getHelpPopoverTitle(this);
   }
 
   /**
@@ -122,16 +144,6 @@ export class SkyToggleSwitchHarness extends SkyHelpInlinePopoverHarness {
 
   async #getAriaLabel(): Promise<string | null> {
     return await (await this.#getButton()).getAttribute('aria-label');
-  }
-
-  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
-    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
-
-    if (harness) {
-      return harness;
-    }
-
-    throw Error('No help inline found.');
   }
 
   async #toggle(): Promise<void> {

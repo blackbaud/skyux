@@ -1,5 +1,10 @@
-import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
-import { SkyHelpInlinePopoverHarness } from '@skyux/help-inline/testing';
+import { SkyComponentHarness } from '@skyux/core/testing';
+import {
+  HelpPopoverHarnessMethods,
+  clickHelpInline,
+  getHelpPopoverContent,
+  getHelpPopoverTitle,
+} from '@skyux/help-inline/testing';
 
 import { SkyDescriptionListDescriptionHarness } from './description-list-description-harness';
 import { SkyDescriptionListTermHarness } from './description-list-term-harness';
@@ -7,7 +12,10 @@ import { SkyDescriptionListTermHarness } from './description-list-term-harness';
 /**
  * Harness for interacting with a description list content component in tests.
  */
-export class SkyDescriptionListContentHarness extends SkyHelpInlinePopoverHarness {
+export class SkyDescriptionListContentHarness
+  extends SkyComponentHarness
+  implements HelpPopoverHarnessMethods
+{
   /**
    * @internal
    */
@@ -22,7 +30,21 @@ export class SkyDescriptionListContentHarness extends SkyHelpInlinePopoverHarnes
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    await (await this.#getHelpInline()).click();
+    return await clickHelpInline(this);
+  }
+
+  /**
+   * Gets the help popover content.
+   */
+  public async getHelpPopoverContent(): Promise<string | undefined> {
+    return await getHelpPopoverContent(this);
+  }
+
+  /**
+   * Gets the help popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await getHelpPopoverTitle(this);
   }
 
   /**
@@ -49,15 +71,5 @@ export class SkyDescriptionListContentHarness extends SkyHelpInlinePopoverHarnes
     }
 
     return await term.getText();
-  }
-
-  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
-    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
-
-    if (harness) {
-      return harness;
-    }
-
-    throw Error('No help inline found.');
   }
 }
