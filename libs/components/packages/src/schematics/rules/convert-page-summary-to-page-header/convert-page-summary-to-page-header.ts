@@ -15,12 +15,12 @@ import { swapImportedClass } from '../../utility/typescript/swap-imported-class'
 import { visitProjectFiles } from '../../utility/visit-project-files';
 
 /**
- * Page heading uses `pageTitle` attribute for its title. Extracts the title
- * from the `<sky-page-summary-title>` element and returns it as a string.
- * If the title element contains additional markup, an error is thrown.
- * The title should be a simple text node.
+ * The page header component uses a `pageTitle` attribute for its title.
+ * Extracts the title from the `<sky-page-summary-title>` element and returns it
+ * as a string.
+ * If the title is anything more than a simple text node, an error is thrown.
  */
-function getTitle(pageSummary: ElementWithLocation): string {
+function getPageTitle(pageSummary: ElementWithLocation): string {
   const heading = getElementsByTagName(
     'sky-page-summary-title',
     pageSummary,
@@ -33,15 +33,15 @@ function getTitle(pageSummary: ElementWithLocation): string {
     return (
       heading.childNodes[0] as parse5.DefaultTreeAdapterTypes.TextNode
     ).value.trim();
-  }
-  if (heading) {
+  } else if (!heading) {
+    return '';
+  } else {
     // If the heading contains something other than a single text node,
     // throw an error to indicate that the title cannot be converted.
     throw new Error(
       `The '<sky-page-summary-title>' element contains additional markup that is not supported as a 'pageTitle' for the <sky-page-header> component.`,
     );
   }
-  return '';
 }
 
 /**
@@ -150,7 +150,7 @@ function pageSummaryTagSwap(): SwapTagCallback<keyof typeof tags> {
   return (position, oldTag, node, content) => {
     if (position === 'open') {
       if (oldTag === Object.keys(tags)[0]) {
-        return `<${tags[oldTag]} pageTitle="${getTitle(node)}">`;
+        return `<${tags[oldTag]} pageTitle="${getPageTitle(node)}">`;
       }
       return `<${tags[oldTag]}>`;
     }
