@@ -36,6 +36,24 @@ function swapReference(
   recorder.insertRight(start, newClassName);
 }
 
+function shiftLineBreakForInsertedImport(
+  change: InsertChange,
+  eol: string,
+): void {
+  if (change.toAdd.startsWith(`;${eol}import `)) {
+    // If the import is added after a semicolon, we need to remove the semicolon.
+    change.toAdd = change.toAdd.substring(`;${eol}`.length) + `;${eol}`;
+    change.pos += `;${eol}`.length;
+  }
+}
+
+function getModuleName(
+  moduleName: string | { old: string; new: string },
+  field: 'old' | 'new',
+): string {
+  return typeof moduleName === 'object' ? moduleName[field] : moduleName;
+}
+
 export function swapImportedClass(
   recorder: UpdateRecorder,
   filePath: string,
@@ -61,10 +79,8 @@ export function swapImportedClass(
 
   const removeImports: Record<string, string[]> = {};
   applicableOptions.forEach(({ classNames, moduleName, filter }) => {
-    const oldModuleName =
-      typeof moduleName === 'object' ? moduleName.old : moduleName;
-    const newModuleName =
-      typeof moduleName === 'object' ? moduleName.new : moduleName;
+    const oldModuleName = getModuleName(moduleName, 'old');
+    const newModuleName = getModuleName(moduleName, 'new');
     Object.entries(classNames).forEach(([oldClassName, newClassName]) => {
       const referencesInCode = findReferences(sourceFile, oldClassName).filter(
         (reference) => reference.getStart() > endOfImports,
@@ -99,12 +115,7 @@ export function swapImportedClass(
                 newClassName,
                 newModuleName,
               ) as InsertChange;
-              if (change.toAdd.startsWith(`;${eol}import `)) {
-                // If the import is added after a semicolon, we need to remove the semicolon.
-                change.toAdd =
-                  change.toAdd.substring(`;${eol}`.length) + `;${eol}`;
-                change.pos += `;${eol}`.length;
-              }
+              shiftLineBreakForInsertedImport(change, eol);
               applyToUpdateRecorder(recorder, [change]);
               removeImports[oldModuleName] ??= [];
               removeImports[oldModuleName].push(oldClassName);

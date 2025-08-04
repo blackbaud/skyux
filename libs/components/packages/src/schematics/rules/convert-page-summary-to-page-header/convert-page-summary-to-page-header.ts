@@ -15,7 +15,10 @@ import { swapImportedClass } from '../../utility/typescript/swap-imported-class'
 import { visitProjectFiles } from '../../utility/visit-project-files';
 
 /**
- * Page heading uses `pageTitle` attribute for its title.
+ * Page heading uses `pageTitle` attribute for its title. Extracts the title
+ * from the `<sky-page-summary-title>` element and returns it as a string.
+ * If the title element contains additional markup, an error is thrown.
+ * The title should be a simple text node.
  */
 function getTitle(pageSummary: ElementWithLocation): string {
   const heading = getElementsByTagName(
@@ -144,7 +147,7 @@ const tags = {
 function pageSummaryTagSwap(): SwapTagCallback<keyof typeof tags> {
   return (position, oldTag, node, content) => {
     if (position === 'open') {
-      if (oldTag === 'sky-page-summary') {
+      if (oldTag === Object.keys(tags)[0]) {
         return `<${tags[oldTag]} pageTitle="${getTitle(node)}">`;
       }
       return `<${tags[oldTag]}>`;
