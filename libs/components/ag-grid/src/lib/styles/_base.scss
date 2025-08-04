@@ -56,6 +56,13 @@
       var(--sky-size-switch)
     );
     --ag-focus-shadow: none;
+
+    .ag-checked {
+      background: var(
+        --sky-override-ag-grid-checkbox-checked-background-color,
+        var(--sky-color-background-selected-switch-base)
+      );
+    }
   }
 
   .ag-disabled {
@@ -68,21 +75,17 @@
         --sky-override-ag-grid-checkbox-disabled-color,
         var(--sky-color-text-deemphasized)
       );
-      --ag-checkbox-checked-background-color: var(
-        --sky-override-ag-grid-checkbox-checked-background-color,
-        var(--sky-color-background-input-disabled)
-      );
       --ag-checkbox-checked-border-color: var(
         --sky-override-ag-grid-checkbox-checked-border-color,
         var(--sky-color-border-input-disabled)
       );
-      --ag-checkbox-unchecked-background-color: var(
-        --sky-override-ag-grid-checkbox-checked-background-color,
-        var(--sky-color-background-input-disabled)
-      );
       --ag-checkbox-unchecked-border-color: var(
         --sky-override-ag-grid-checkbox-checked-border-color,
         var(--sky-color-border-input-disabled)
+      );
+      background: var(
+        --sky-override-ag-grid-checkbox-disabled-background-color,
+        var(--sky-color-background-selected-switch-disabled)
       );
     }
   }
