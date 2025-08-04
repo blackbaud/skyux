@@ -205,9 +205,9 @@
 
     &.sky-toggle-switch-checked {
       .sky-toggle-switch-switch {
-        background-color: var(
+        background: var(
           --sky-override-toggle-switch-background-color-selected,
-          var(--sky-color-background-selected-heavy)
+          var(--sky-color-background-selected-switch-base)
         );
       }
 
@@ -271,7 +271,7 @@
       .sky-toggle-switch-switch {
         background-color: var(
           --sky-override-toggle-switch-background-color-disabled,
-          var(--sky-color-background-input-disabled)
+          var(--sky-color-background-selected-switch-disabled)
         );
         border-color: var(
           --sky-override-toggle-switch-border-color-disabled,
