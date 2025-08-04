@@ -257,7 +257,7 @@ describe('Convert Page Summary to Page Header', () => {
     await expect(
       firstValueFrom(runner.callRule(convertPageSummaryToPageHeader(''), tree)),
     ).rejects.toThrowError(
-      "Error converting '/src/app/test.component.html': The '<sky-page-summary-title>' element contains additional markup that is not supported as 'pageTitle' <sky-page-header> component.",
+      "Error converting '/src/app/test.component.html': The '<sky-page-summary-title>' element contains additional markup that is not supported as a 'pageTitle' for the <sky-page-header> component.",
     );
   });
 });

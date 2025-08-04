@@ -35,8 +35,10 @@ function getTitle(pageSummary: ElementWithLocation): string {
     ).value.trim();
   }
   if (heading) {
+    // If the heading contains something other than a single text node,
+    // throw an error to indicate that the title cannot be converted.
     throw new Error(
-      `The '<sky-page-summary-title>' element contains additional markup that is not supported as 'pageTitle' <sky-page-header> component.`,
+      `The '<sky-page-summary-title>' element contains additional markup that is not supported as a 'pageTitle' for the <sky-page-header> component.`,
     );
   }
   return '';
