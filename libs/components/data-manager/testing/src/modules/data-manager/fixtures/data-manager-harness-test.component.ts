@@ -76,7 +76,7 @@ export class DataManagerHarnessTestComponent implements OnInit {
     this.#dataManagerSvc.initDataView({
       id: this.viewId1,
       name: 'View 1',
-      icon: 'table',
+      iconName: 'table',
       searchEnabled: true,
       multiselectToolbarEnabled: true,
       columnPickerEnabled: true,
@@ -104,7 +104,7 @@ export class DataManagerHarnessTestComponent implements OnInit {
     this.#dataManagerSvc.initDataView({
       id: this.viewId2,
       name: 'View 2',
-      icon: 'list',
+      iconName: 'list',
     });
   }
 }

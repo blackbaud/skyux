@@ -29,7 +29,7 @@ export class DataViewRepeaterFixtureComponent implements OnInit {
   public viewConfig: SkyDataViewConfig = {
     id: this.viewId,
     name: 'Repeater View',
-    icon: 'list',
+    iconName: 'list',
     searchEnabled: true,
     filterButtonEnabled: true,
     multiselectToolbarEnabled: true,
