@@ -21,6 +21,11 @@
       "factory": "./src/schematics/ng-generate/convert-definition-list-to-description-list/convert-definition-list-to-description-list.schematic",
       "schema": "./src/schematics/ng-generate/convert-definition-list-to-description-list/schema.json"
     },
+    "convert-page-summary-to-page-header": {
+      "description": "Convert <sky-page-summary> components to <sky-page-header> components.",
+      "factory": "./src/schematics/ng-generate/convert-page-summary-to-page-header/convert-page-summary-to-page-header.schematic",
+      "schema": "./src/schematics/ng-generate/convert-page-summary-to-page-header/schema.json"
+    },
     "remove-compat-stylesheets": {
       "description": "Remove SKY UX compatibility stylesheets.",
       "factory": "./src/schematics/ng-generate/remove-compat-stylesheets/remove-compat-stylesheets.schematic",
