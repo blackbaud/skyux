@@ -36,6 +36,9 @@
   --sky-override-label-padding-bottom: 1px;
   --sky-override-textarea-border-top: 29px;
   --sky-override-textarea-margin-top: -26px;
+  --sky-override-input-box-group-disabled-btn-color: var(
+    --sky-color-icon-input-action
+  );
 }
 
 @include compatMixins.sky-modern-overrides('sky-input-box', false) {
@@ -822,6 +825,10 @@ sky-input-box {
 
     .sky-input-group-btn .sky-btn {
       border: none;
+      color: var(
+        --sky-override-input-box-group-disabled-btn-color,
+        var(--sky-color-icon-deemphasized)
+      );
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-disabled)
           var(
