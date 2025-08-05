@@ -858,5 +858,12 @@ sky-input-box {
         --sky-comp-override-input-box-group-background-color-disabled
       );
     }
+
+    .sky-input-group-icon {
+      color: var(
+        --sky-override-input-box-form-group-color,
+        var(--sky-color-icon-deemphasized)
+      );
+    }
   }
 }
