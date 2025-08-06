@@ -13,14 +13,6 @@
   }
 }
 
-@include compatMixins.sky-modern-overrides('.sky-radio-group') {
-  .sky-radio-group-legend {
-    .sky-radio-group-heading-text {
-      line-height: 1.1;
-    }
-  }
-}
-
 :host {
   &.sky-field-group-stacked,
   &.sky-form-field-stacked {

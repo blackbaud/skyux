@@ -6,11 +6,6 @@
   --sky-override-flyout-iterators-display: block;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-flyout-iterators') {
-  --sky-override-flyout-iterator-margin-right: var(--sky-space-inline-s);
-  --sky-override-sky-icon-svg-size-s: 21px !important;
-}
-
 .sky-btn {
   margin-right: var(
     --sky-override-flyout-iterator-margin-right,
