@@ -23,19 +23,6 @@
   --sky-override-selection-box-header-heading-3-line-height: calc(20 / 14);
 }
 
-@include compatMixins.sky-modern-overrides('.sky-selection-box-grid', false) {
-  --sky-override-selection-box-header-heading-2-font-size: #{$sky-theme-modern-font-heading-2-size};
-  --sky-override-selection-box-header-heading-2-font-weight: #{$sky-theme-modern-font-heading-2-weight};
-  --sky-override-selection-box-header-heading-2-line-height: calc(20 / 14);
-  --sky-override-selection-box-header-heading-3-font-size: #{$sky-theme-modern-font-heading-3-size};
-  --sky-override-selection-box-header-heading-3-font-size-no-icon: #{$sky-theme-modern-font-heading-3-size};
-  --sky-override-selection-box-header-heading-3-font-size-no-icon-sm: #{$sky-theme-modern-font-heading-3-size};
-  --sky-override-selection-box-header-heading-3-font-weight: #{$sky-theme-modern-font-heading-3-weight};
-  --sky-override-selection-box-header-heading-3-font-weight-no-icon: #{$sky-theme-modern-font-heading-3-weight};
-  --sky-override-selection-box-header-heading-3-font-weight-no-icon-sm: #{$sky-theme-modern-font-heading-3-weight};
-  --sky-override-selection-box-header-heading-3-line-height: calc(20 / 14);
-}
-
 // Host element must be a block to allow FF to make proper getBoundingClientRect() calculations.
 :host {
   display: block;

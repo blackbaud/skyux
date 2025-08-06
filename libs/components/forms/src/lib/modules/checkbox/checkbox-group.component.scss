@@ -13,14 +13,6 @@
   }
 }
 
-@include compatMixins.sky-modern-overrides('.sky-checkbox-group') {
-  .sky-checkbox-group-legend {
-    .sky-checkbox-group-heading-text {
-      line-height: 1.1;
-    }
-  }
-}
-
 :host {
   display: block;
 }
