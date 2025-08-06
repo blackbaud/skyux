@@ -13,14 +13,14 @@ import { SkyActionButtonHarness } from './action-button-harness';
       data-sky-id="action-button"
       (actionClick)="filterActionClick()"
     >
-      <sky-action-button-icon iconType="filter" />
+      <sky-action-button-icon iconName="filter" />
       <sky-action-button-header> Build a new list </sky-action-button-header>
       <sky-action-button-details>
         Start from scratch and fine-tune with filters.
       </sky-action-button-details>
     </sky-action-button>
     <sky-action-button data-sky-id="other-button" [permalink]="url">
-      <sky-action-button-icon iconType="folder-open-o" />
+      <sky-action-button-icon iconName="folder-open" />
       <sky-action-button-header> Open a list </sky-action-button-header>
       <sky-action-button-details>
         Start from scratch and fine-tune with filters.
@@ -66,7 +66,7 @@ describe('Action button harness', () => {
       dataSkyId: 'other-button',
     });
 
-    await expectAsync(harness.getIconType()).toBeResolvedTo('folder-open-o');
+    await expectAsync(harness.getIconType()).toBeResolvedTo('folder-open');
   });
 
   it('should click the action button', async () => {

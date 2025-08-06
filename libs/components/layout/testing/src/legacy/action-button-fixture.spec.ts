@@ -12,7 +12,7 @@ import { SkyActionButtonFixture } from './action-button-fixture';
       (actionClick)="filterActionClick()"
       data-sky-id="filter-button"
     >
-      <sky-action-button-icon [iconType]="iconType"></sky-action-button-icon>
+      <sky-action-button-icon [iconName]="iconName"></sky-action-button-icon>
       <sky-action-button-header> Build a new list </sky-action-button-header>
       <sky-action-button-details>
         Start from scratch and fine-tune with filters
@@ -22,7 +22,7 @@ import { SkyActionButtonFixture } from './action-button-fixture';
   standalone: false,
 })
 class TestComponent {
-  public iconType = 'filter';
+  public iconName = 'filter';
 
   public filterActionClick() {}
 }
