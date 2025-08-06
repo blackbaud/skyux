@@ -45,24 +45,26 @@
     }
   </select>
 </sky-input-box>
-<sky-input-box
-  class="sky-margin-inline-lg theme-selector-input"
-  labelText="Brand"
->
-  <select
-    #inputBoxSelectBranding="skyId"
-    skyId
-    class="sky-theme-selector sky-form-control"
-    [disabled]="brandingValues().length === 0"
-    [(ngModel)]="themeBrand"
+@if (brandingValues().length > 0) {
+  <sky-input-box
+    class="sky-margin-inline-lg theme-selector-input"
+    labelText="Brand"
   >
-    @for (brandingValue of brandingValues(); track brandingValue) {
-      <option [ngValue]="brandingValue">
-        {{
-          brandingValue.name.charAt(0).toUpperCase() +
-            brandingValue.name.substring(1)
-        }}
-      </option>
-    }
-  </select>
-</sky-input-box>
+    <select
+      #inputBoxSelectBranding="skyId"
+      skyId
+      class="sky-theme-selector sky-form-control"
+      [disabled]="brandingValues().length === 0"
+      [(ngModel)]="themeBrand"
+    >
+      @for (brandingValue of brandingValues(); track brandingValue) {
+        <option [ngValue]="brandingValue">
+          {{
+            brandingValue.name.charAt(0).toUpperCase() +
+              brandingValue.name.substring(1)
+          }}
+        </option>
+      }
+    </select>
+  </sky-input-box>
+}
