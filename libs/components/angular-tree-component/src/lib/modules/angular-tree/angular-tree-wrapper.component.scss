@@ -42,41 +42,6 @@
   --sky-override-angular-tree-wrapper-background-color: transparent;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-angular-tree-wrapper') {
-  --sky-override-angular-tree-context-menu-margin: 0 var(--modern-space-s) 0 0;
-  --sky-override-angular-tree-node-active-background-color: #{$sky-background-color-neutral-light};
-  --sky-override-angular-tree-node-border-left-active: #{$sky-nav-selected-border-width}
-    solid #{$sky-highlight-color-info};
-  --sky-override-angular-tree-node-border-left-selected: #{$sky-nav-selected-border-width}
-    solid transparent;
-  --sky-override-angular-tree-node-drop-slot-dragging-background-color: #{$sky-background-color-neutral-light};
-  --sky-override-angular-tree-node-drop-slot-dragging-border: 1px solid
-    #{$sky-border-color-neutral-light};
-  --sky-override-angular-tree-node-padding-left-base: 0;
-  --sky-override-angular-tree-node-selected-background-color: #{$sky-background-color-selected};
-  --sky-override-angular-tree-node-wrapper-background-color: transparent;
-  --sky-override-angular-tree-node-wrapper-background-color-active: transparent;
-  --sky-override-angular-tree-node-wrapper-background-color-focus: transparent;
-  --sky-override-angular-tree-node-wrapper-background-color-hover: transparent;
-  --sky-override-angular-tree-node-wrapper-border-left: #{$sky-nav-selected-border-width}
-    solid transparent;
-  --sky-override-angular-tree-node-wrapper-padding: 4px #{$sky-margin-half};
-  --sky-override-angular-tree-node-wrapper-standard-box-shadow-active: none;
-  --sky-override-angular-tree-node-wrapper-standard-box-shadow-base: none;
-  --sky-override-angular-tree-node-wrapper-standard-box-shadow-focus: none;
-  --sky-override-angular-tree-node-wrapper-standard-box-shadow-hover: none;
-  --sky-override-angular-tree-node-wrapper-standard-outline-active: auto;
-  --sky-override-angular-tree-node-wrapper-standard-outline-focus: auto;
-  --sky-override-angular-tree-toggle-children-padding: 0;
-  --sky-override-angular-tree-toggle-children-placeholder-height: 19px;
-  --sky-override-angular-tree-toggle-children-placeholder-width: 20px;
-  --sky-override-angular-tree-toggle-children-height: 20px;
-  --sky-override-angular-tree-toggle-children-margin: 0 #{$sky-margin} 0 0;
-  --sky-override-angular-tree-toggle-children-width: 20px;
-  --sky-override-angular-tree-switch-control-margin: 0 8px 0 0;
-  --sky-override-angular-tree-wrapper-background-color: transparent;
-}
-
 .sky-angular-tree-wrapper {
   background-color: var(
     --sky-override-angular-tree-wrapper-background-color,
