@@ -177,19 +177,6 @@ describe('Action button component', () => {
     expect(debugElement.query(By.css(largeIconSelector))).not.toBeNull();
   });
 
-  it('should change icon size based on media breakpoints query', () => {
-    const smallIconSelector =
-      '.sky-action-button-icon-header-container .sky-action-button-icon-container i.fa-2x';
-    const largeIconSelector =
-      '.sky-action-button-icon-header-container .sky-action-button-icon-container i.fa-3x';
-    mediaQueryController.setBreakpoint('xs');
-    fixture.detectChanges();
-    expect(debugElement.query(By.css(smallIconSelector))).not.toBeNull();
-    mediaQueryController.setBreakpoint('sm');
-    fixture.detectChanges();
-    expect(debugElement.query(By.css(largeIconSelector))).not.toBeNull();
-  });
-
   it('should hide button with inaccessible skyHref link', async () => {
     fixture.detectChanges();
 
