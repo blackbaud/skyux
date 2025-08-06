@@ -2,7 +2,6 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-sort-item') {
-  --sky-override-sort-item-active-class-background: #{$sky-background-color-neutral-light};
   --sky-override-sort-item-border-left-selected: none;
   --sky-override-sort-item-border-radius: 0px;
   --sky-override-sort-item-box-shadow: none;
