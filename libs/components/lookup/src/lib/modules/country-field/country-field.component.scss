@@ -4,13 +4,7 @@
 @import 'intl-tel-input/build/css/intlTelInput.css';
 
 @include compatMixins.sky-default-overrides('.sky-country-field-container') {
-  --sky-override-country-field-disabled-flag-filter: none;
-  --sky-override-country-field-disabled-flag-opacity: 0.65;
   --sky-override-country-field-disabled-input-background-color: #{$sky-background-color-disabled};
-  --sky-override-country-field-flag-bottom: 0;
-  --sky-override-country-field-input-box-flag-height: 35px;
-  --sky-override-country-field-input-box-flag-left: 13px;
-  --sky-override-country-field-input-box-form-control-padding-left: 40px;
   --sky-override-country-field-max-height: 13px;
   --sky-override-country-field-max-width: 25px;
   --sky-override-country-field-transform: scaleX(1.25) translateX(2px);

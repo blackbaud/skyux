@@ -181,11 +181,6 @@ sky-input-box .sky-lookup {
 
 @include defaultMixins.sky-theme-modern {
   sky-input-box .sky-lookup {
-    &.sky-lookup-disabled {
-      .sky-lookup-search {
-      }
-    }
-
     sky-tokens.sky-lookup-tokens {
       // Input box adds a negative margin-top to elements with the
       // `sky-form-control` class in modern theme which causes that
