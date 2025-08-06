@@ -23,24 +23,6 @@
   --sky-override-lookup-tokens-row-gap: 0;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-lookup', false) {
-  --sky-override-lookup-input-box-search-disabled-background-color: transparent;
-  --sky-override-lookup-input-box-search-padding: 0 0 0 15px;
-  --sky-override-lookup-input-box-single-control-padding-left: 0;
-  --sky-override-lookup-input-box-tokens-align-items: baseline;
-  --sky-override-lookup-input-box-tokens-content-padding-left: 10px;
-  --sky-override-lookup-search-background-color: #{$sky-color-white};
-  --sky-override-lookup-search-border: 1px solid
-    #{$sky-border-color-neutral-medium};
-  --sky-override-lookup-search-disabled-background-color: #{$sky-background-color-disabled};
-  --sky-override-lookup-search-line-height: #{$sky-line-height-base}em;
-  --sky-override-lookup-single-control-padding-left: 7px;
-  --sky-override-lookup-textarea-padding-left: 0;
-  --sky-override-lookup-token-margin-top: 0;
-  --sky-override-lookup-tokens-padding-left: 0;
-  --sky-override-lookup-tokens-row-gap: 0;
-}
-
 .sky-lookup {
   .sky-lookup-input.sky-form-control {
     resize: none;
@@ -199,15 +181,6 @@ sky-input-box .sky-lookup {
 
 @include defaultMixins.sky-theme-modern {
   sky-input-box .sky-lookup {
-    &.sky-lookup-disabled {
-      .sky-lookup-search {
-        background-color: var(
-          --sky-override-lookup-input-box-search-disabled-background-color,
-          inherit
-        );
-      }
-    }
-
     sky-tokens.sky-lookup-tokens {
       // Input box adds a negative margin-top to elements with the
       // `sky-form-control` class in modern theme which causes that
@@ -282,13 +255,6 @@ sky-input-box .sky-lookup {
         var(--sky-comp-input-value-space-inset-left)
       );
       resize: none;
-    }
-
-    .sky-lookup-single-control {
-      padding-left: var(
-        --sky-override-lookup-input-box-single-control-padding-left,
-        inherit
-      );
     }
   }
 }

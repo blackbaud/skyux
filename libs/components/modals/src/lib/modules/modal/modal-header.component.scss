@@ -8,12 +8,6 @@
   --sky-override-modal-h2-line-height: 1.2;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-modal-heading') {
-  --sky-override-modal-h2-font-size: var(--sky-font-size-display-3);
-  --sky-override-modal-h2-font-weight: var(--sky-font-style-display-3);
-  --sky-override-modal-h2-line-height: 1.2;
-}
-
 h2.sky-modal-heading {
   display: inline;
 
