@@ -28,7 +28,7 @@ export class DataViewCardFixtureComponent implements OnInit {
   public viewConfig: SkyDataViewConfig = {
     id: this.viewId,
     name: 'Cards View',
-    icon: 'th-large',
+    iconName: 'table',
     sortEnabled: true,
     searchEnabled: true,
     filterButtonEnabled: true,
