@@ -98,9 +98,6 @@
   }
 
   .ag-wrapper.ag-input-wrapper.ag-checkbox-input-wrapper:not(.ag-disabled) {
-    --ag-checkbox-checked-background-color: var(
-      --sky-background-color-input-selected
-    );
     --ag-checkbox-checked-border-color: var(--sky-highlight-color-info);
   }
 
@@ -110,12 +107,8 @@
   }
 
   .ag-wrapper.ag-input-wrapper.ag-checkbox-input-wrapper.ag-disabled {
-    --ag-checkbox-checked-border-color: var(
-      --ag-checkbox-checked-background-color
-    );
-    --ag-checkbox-unchecked-border-color: var(
-      --ag-checkbox-unchecked-background-color
-    );
+    --ag-checkbox-checked-border-color: var(--sky-background-color-disabled);
+    --ag-checkbox-unchecked-border-color: var(--sky-background-color-disabled);
   }
 }
 
