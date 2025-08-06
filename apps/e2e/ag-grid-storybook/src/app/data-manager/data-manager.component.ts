@@ -152,7 +152,7 @@ export class DataManagerComponent implements AfterViewInit {
     this.#dataManagerService.initDataView({
       id: this.viewId,
       name: 'Grid View',
-      icon: 'table',
+      iconName: 'table',
       searchEnabled: false,
       sortEnabled: true,
       multiselectToolbarEnabled: true,

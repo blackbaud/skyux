@@ -58,7 +58,7 @@ export class DataManagerComponent implements OnInit {
     this.#dataManagerService.initDataView({
       id: 'view-1',
       name: 'View 1',
-      icon: 'list-ul',
+      iconName: 'list',
       searchEnabled: true,
       sortEnabled: true,
       multiselectToolbarEnabled: true,
@@ -70,7 +70,7 @@ export class DataManagerComponent implements OnInit {
     this.#dataManagerService.initDataView({
       id: 'view-2',
       name: 'View 2',
-      icon: 'table',
+      iconName: 'table',
       searchEnabled: true,
       sortEnabled: true,
       multiselectToolbarEnabled: true,

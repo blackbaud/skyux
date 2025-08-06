@@ -73,23 +73,13 @@
             [(ngModel)]="activeView.id"
           >
             @for (view of views; track view.id) {
-              @if (view.iconName) {
-                <sky-radio
-                  [attr.aria-label]="view.name"
-                  [iconName]="view.iconName"
-                  [value]="view.id"
-                  [label]="view.name"
-                  (change)="onViewChange(view.id)"
-                />
-              } @else {
-                <sky-radio
-                  [attr.aria-label]="view.name"
-                  [icon]="view.icon"
-                  [value]="view.id"
-                  [label]="view.name"
-                  (change)="onViewChange(view.id)"
-                />
-              }
+              <sky-radio
+                [attr.aria-label]="view.name"
+                [iconName]="view.iconName"
+                [value]="view.id"
+                [label]="view.name"
+                (change)="onViewChange(view.id)"
+              />
             }
           </sky-radio-group>
         }
