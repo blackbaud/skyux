@@ -1,11 +1,19 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-ag-grid') {
+  --sky-override-ag-grid-background-color: #fbfbfb;
   --sky-override-ag-grid-border-color: var(--sky-border-color-neutral-medium);
+  --sky-override-ag-grid-border-radius: 3px;
+  --sky-override-ag-grid-border-style: solid;
   --sky-override-ag-grid-border-width: 1px;
   --sky-override-ag-grid-cell-error-border: 1px solid
     var(--sky-highlight-color-danger);
+  --sky-override-ag-grid-cell-focus-border-color: var(
+    --sky-highlight-color-info
+  );
+  --sky-override-ag-grid-cell-focus-border-width: 2px;
   --sky-override-ag-grid-cell-focus-horizontal-padding: 9px;
+  --sky-override-ag-grid-cell-horizontal-padding: 12px;
   --sky-override-ag-grid-cell-range-error-border-color: var(
     --sky-highlight-color-danger
   );
@@ -21,10 +29,50 @@
   --sky-override-ag-grid-checkbox-disabled-color: var(
     --sky-text-color-deemphasized
   );
+  --sky-override-ag-grid-checkbox-unchecked-background-color: transparent;
+  --sky-override-ag-grid-checkbox-unchecked-border-color: var(
+    --sky-border-color-neutral-medium
+  );
+  --sky-override-ag-grid-column-border: 1px solid
+    var(--sky-border-color-neutral-medium);
+  --sky-override-ag-grid-font-family:
+    'BLKB Sans', 'Helvetica Neue', 'Arial', 'sans-serif';
+  --sky-override-ag-grid-font-size: 15px;
+  --sky-override-ag-grid-foreground-color: var(--sky-text-color-default);
+  --sky-override-ag-grid-header-divider-width: 1px;
+  --sky-override-ag-grid-header-height: 37px;
   --sky-override-ag-grid-header-icon-spacing: var(--sky-margin-inline-sm);
+  --sky-override-ag-grid-column-divider-color: var(
+    --sky-border-color-neutral-medium
+  );
+  --sky-override-ag-grid-header-resize-height: 100%;
+  --sky-override-ag-grid-header-row-border-style: solid;
+  --sky-override-ag-grid-invalid-color: var(--sky-background-color-danger-dark);
+  --sky-override-ag-grid-odd-row-background-color: var(
+    --sky-background-color-page-default
+  );
+  --sky-override-ag-grid-popup-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  --sky-override-ag-grid-range-selection-border-color: var(
+    --sky-highlight-color-info
+  );
+  --sky-override-ag-grid-row-border-style: dotted;
+  --sky-override-ag-grid-row-border-width: 1px;
+  --sky-override-ag-grid-row-height: 38px;
+  --sky-override-ag-grid-row-selected-color: var(
+    --sky-background-color-selected
+  );
   --sky-override-ag-grid-row-selector-margin-top: 6px;
   --sky-override-ag-grid-sort-color: var(--sky-text-color-deemphasized);
   --sky-override-ag-grid-switch-size: var(--sky-switch-size);
+  --sky-override-ag-grid-text-color: var(--sky-text-color-default);
+  --sky-override-ag-grid-tooltip-background-color: var(
+    --sky-background-color-neutral-light
+  );
+
+  &.ag-theme-sky-data-entry-grid-default {
+    --sky-override-ag-grid-background-color: #ffffff;
+    --sky-override-ag-grid-cell-horizontal-padding: 11px;
+  }
 }
 
 // TODO: remove these when we have token support for compact mode
@@ -32,6 +80,8 @@
   .ag-theme-sky-data-grid-modern-light-compact,
   .ag-theme-sky-data-entry-grid-modern-light-compact {
     --sky-comp-override-ag-grid-cell-padding-vertical-compact: 4px;
+    --sky-override-ag-grid-header-height: 28px;
+    --sky-override-ag-grid-row-height: 28px;
     --sky-override-ag-grid-row-selector-margin-top: 4px;
   }
 }
