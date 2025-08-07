@@ -19,21 +19,66 @@ export class SwitchControlsComponent {
 
   public checkboxIconGroupOptions = [
     { label: 'Bold', checked: true, iconName: 'text-bold', disabled: false },
-    { label: 'Italicized', checked: false, iconName: 'text-italic', disabled: false },
-    { label: 'Underlined', checked: false, iconName: 'text-underline', disabled: false },
-    { label: 'Indent', iconName: 'text-indent-increase', checked: false, disabled: true },
-    { label: 'Outdent', iconName: 'text-indent-decrease', checked: true, disabled: true },
+    {
+      label: 'Italicized',
+      checked: false,
+      iconName: 'text-italic',
+      disabled: false,
+    },
+    {
+      label: 'Underlined',
+      checked: false,
+      iconName: 'text-underline',
+      disabled: false,
+    },
+    {
+      label: 'Indent',
+      iconName: 'text-indent-increase',
+      checked: false,
+      disabled: true,
+    },
+    {
+      label: 'Outdent',
+      iconName: 'text-indent-decrease',
+      checked: true,
+      disabled: true,
+    },
   ];
 
   public radioGroupIconOptions = [
-    { name: 'Left align', value: '1', iconName: 'text-align-left', disabled: false },
-    { name: 'Center align', value: '2', iconName: 'text-align-center', disabled: false },
-    { name: 'Right align', value: '3', iconName: 'text-align-right', disabled: false },
+    {
+      name: 'Left align',
+      value: '1',
+      iconName: 'text-align-left',
+      disabled: false,
+    },
+    {
+      name: 'Center align',
+      value: '2',
+      iconName: 'text-align-center',
+      disabled: false,
+    },
+    {
+      name: 'Right align',
+      value: '3',
+      iconName: 'text-align-right',
+      disabled: false,
+    },
   ];
 
   public radioGroupIconDisabledOptions = [
-    { name: 'Indent', value: '1', iconName: 'text-indent-increase', disabled: true },
-    { name: 'Outdent', value: '2', iconName: 'text-indent-decrease', disabled: true },
+    {
+      name: 'Indent',
+      value: '1',
+      iconName: 'text-indent-increase',
+      disabled: true,
+    },
+    {
+      name: 'Outdent',
+      value: '2',
+      iconName: 'text-indent-decrease',
+      disabled: true,
+    },
   ];
 
   public radioOptions = [
