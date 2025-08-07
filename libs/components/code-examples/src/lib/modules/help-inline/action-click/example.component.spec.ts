@@ -19,7 +19,7 @@ describe('Help inline with action click', () => {
       }),
     );
 
-    return { helpInlineHarness, fixture };
+    return { fixture, helpInlineHarness };
   }
 
   beforeEach(() => {
@@ -29,7 +29,7 @@ describe('Help inline with action click', () => {
   });
 
   it('should click the help inline button', async () => {
-    const { helpInlineHarness, fixture } = await setupTest();
+    const { fixture, helpInlineHarness } = await setupTest();
     fixture.detectChanges();
 
     const clickSpy = spyOn(fixture.componentInstance, 'onActionClick');

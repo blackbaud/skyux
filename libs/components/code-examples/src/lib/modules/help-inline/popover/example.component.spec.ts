@@ -18,7 +18,7 @@ describe('Help inline with popover', () => {
       }),
     );
 
-    return { helpInlineHarness, fixture };
+    return { fixture, helpInlineHarness };
   }
 
   beforeEach(() => {
@@ -29,7 +29,8 @@ describe('Help inline with popover', () => {
   });
 
   it('should launch a popover', async () => {
-    const { helpInlineHarness, fixture } = await setupTest();
+    const { fixture, helpInlineHarness } = await setupTest();
+
     fixture.detectChanges();
 
     await helpInlineHarness.click();

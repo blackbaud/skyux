@@ -11,9 +11,9 @@ import { HelpInlineHelpKeyExampleComponent } from './example.component';
 
 describe('Help inline with help key', () => {
   async function setupTest(): Promise<{
-    helpInlineHarness: SkyHelpInlineHarness;
     fixture: ComponentFixture<HelpInlineHelpKeyExampleComponent>;
     helpController: SkyHelpTestingController;
+    helpInlineHarness: SkyHelpInlineHarness;
   }> {
     const fixture = TestBed.createComponent(HelpInlineHelpKeyExampleComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -25,7 +25,7 @@ describe('Help inline with help key', () => {
 
     const helpController = TestBed.inject(SkyHelpTestingController);
 
-    return { helpInlineHarness, fixture, helpController };
+    return { fixture, helpController, helpInlineHarness };
   }
 
   beforeEach(() => {
@@ -36,7 +36,7 @@ describe('Help inline with help key', () => {
   });
 
   it('should have a help key', async () => {
-    const { fixture, helpInlineHarness, helpController } = await setupTest();
+    const { fixture, helpController, helpInlineHarness } = await setupTest();
 
     fixture.detectChanges();
 
