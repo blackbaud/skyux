@@ -1,3 +1,9 @@
-<sky-filter-bar [filterAsyncSearchFn]="searchFn" [filters]="filters" />
+<sky-filter-bar [enableSelectionModal]="true" [filters]="filters">
+  <sky-filter-bar-item filterId="1" filterName="Filter 1" />
+  <sky-filter-bar-item filterId="2" filterName="Filter 2" />
+</sky-filter-bar>
 <div class="spacer"></div>
-<sky-filter-bar [filters]="filters" />
+<sky-filter-bar [filters]="filters">
+  <sky-filter-bar-item filterId="1" filterName="Filter 1" />
+  <sky-filter-bar-item filterId="2" filterName="Filter 2" />
+</sky-filter-bar>

@@ -1,28 +1,44 @@
 import { ComponentRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  SkySelectionModalInstance,
+  SkySelectionModalOpenArgs,
+  SkySelectionModalService,
+} from '@skyux/lookup';
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 import { of } from 'rxjs';
 
-import { SkyFilterBarItemComponent } from './filter-bar-item.component';
+import { SkyFilterBarButtonComponent } from './filter-bar-button.component';
 import { SkyFilterBarFilterModalConfig } from './models/filter-bar-filter-modal-config';
 import { SkyFilterBarFilterValue } from './models/filter-bar-filter-value';
 
-describe('Filter bar item component', () => {
-  let component: SkyFilterBarItemComponent;
-  let componentRef: ComponentRef<SkyFilterBarItemComponent>;
-  let fixture: ComponentFixture<SkyFilterBarItemComponent>;
+describe('Filter bar button component', () => {
+  let component: SkyFilterBarButtonComponent;
+  let componentRef: ComponentRef<SkyFilterBarButtonComponent>;
+  let fixture: ComponentFixture<SkyFilterBarButtonComponent>;
   let modalServiceSpy: jasmine.SpyObj<SkyModalService>;
+  let selectionModalServiceSpy: jasmine.SpyObj<SkySelectionModalService>;
 
   beforeEach(async () => {
     modalServiceSpy = jasmine.createSpyObj('SkyModalService', ['open']);
+    selectionModalServiceSpy = jasmine.createSpyObj(
+      'SkySelectionModalService',
+      ['open'],
+    );
 
     await TestBed.configureTestingModule({
-      imports: [SkyFilterBarItemComponent],
-      providers: [{ provide: SkyModalService, useValue: modalServiceSpy }],
+      imports: [SkyFilterBarButtonComponent],
+      providers: [
+        { provide: SkyModalService, useValue: modalServiceSpy },
+        {
+          provide: SkySelectionModalService,
+          useValue: selectionModalServiceSpy,
+        },
+      ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SkyFilterBarItemComponent);
+    fixture = TestBed.createComponent(SkyFilterBarButtonComponent);
     component = fixture.componentInstance;
     componentRef = fixture.componentRef;
     componentRef.setInput('filterId', 'test id');
@@ -32,6 +48,62 @@ describe('Filter bar item component', () => {
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should open a selection modal and set 1 selected filter value', () => {
+    const config: SkySelectionModalOpenArgs = {
+      descriptorProperty: 'test',
+      idProperty: 'value',
+      searchAsync: () => of({ totalCount: 0, items: [] }),
+      selectMode: 'multiple',
+    };
+    const closed$ = of({
+      reason: 'save',
+      selectedItems: [{ value: 1, test: 'new value' }],
+    });
+    selectionModalServiceSpy.open.and.returnValue({
+      closed: closed$,
+    } as unknown as SkySelectionModalInstance);
+
+    componentRef.setInput('filterSelectionModalConfig', config);
+    component.openFilterModal();
+
+    expect(selectionModalServiceSpy.open).toHaveBeenCalled();
+    expect(component.filterValue()).toEqual({
+      value: [{ value: 1, test: 'new value' }],
+      displayValue: 'new value',
+    });
+  });
+
+  it('should open a selection modal and set multiple selected filter values', () => {
+    const config: SkySelectionModalOpenArgs = {
+      descriptorProperty: 'test',
+      idProperty: 'value',
+      searchAsync: () => of({ totalCount: 0, items: [] }),
+      selectMode: 'multiple',
+    };
+    const closed$ = of({
+      reason: 'save',
+      selectedItems: [
+        { value: 1, test: 'new value 1' },
+        { value: 2, test: 'new value 2' },
+      ],
+    });
+    selectionModalServiceSpy.open.and.returnValue({
+      closed: closed$,
+    } as unknown as SkySelectionModalInstance);
+
+    componentRef.setInput('filterSelectionModalConfig', config);
+    component.openFilterModal();
+
+    expect(selectionModalServiceSpy.open).toHaveBeenCalled();
+    expect(component.filterValue()).toEqual({
+      value: [
+        { value: 1, test: 'new value 1' },
+        { value: 2, test: 'new value 2' },
+      ],
+      displayValue: '2 selected',
+    });
   });
 
   it('should open modal and set filter value on save', () => {

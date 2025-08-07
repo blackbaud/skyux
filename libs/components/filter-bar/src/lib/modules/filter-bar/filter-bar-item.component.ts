@@ -1,63 +1,35 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, model, output } from '@angular/core';
-import { SkyIconModule } from '@skyux/icon';
-import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
+import { Component, input } from '@angular/core';
+import { SkySelectionModalOpenArgs } from '@skyux/lookup';
 
 import { SkyFilterBarFilterModalConfig } from './models/filter-bar-filter-modal-config';
-import { SkyFilterBarFilterModalContext } from './models/filter-bar-filter-modal-context';
-import { SkyFilterBarFilterValue } from './models/filter-bar-filter-value';
 
 /**
- * @internal
+ * A component used to define a filter bar item configuration.
  */
 @Component({
   selector: 'sky-filter-bar-item',
-  imports: [CommonModule, SkyIconModule],
-  templateUrl: './filter-bar-item.component.html',
-  styleUrl: './filter-bar-item.component.scss',
+  imports: [CommonModule],
+  template: '',
 })
 export class SkyFilterBarItemComponent {
+  /**
+   * A unique identifier for the filter.
+   */
   public filterId = input.required<string>();
+
+  /**
+   * The name of the filter displayed in the text label.
+   */
   public filterName = input.required<string>();
-  public filterValue = model<SkyFilterBarFilterValue>();
+
+  /**
+   * The configuration options for showing a custom filter modal.
+   */
   public filterModalConfig = input<SkyFilterBarFilterModalConfig>();
 
-  public filterUpdated = output<SkyFilterBarFilterValue | undefined>();
-
-  #modalSvc = inject(SkyModalService);
-
-  public openFilterModal(): void {
-    const config = this.filterModalConfig();
-
-    if (config) {
-      const context = new SkyFilterBarFilterModalContext(
-        this.filterName(),
-        this.filterValue(),
-        config.additionalContext,
-      );
-
-      const modalConfig: SkyModalConfigurationInterface = {
-        providers: [
-          {
-            provide: SkyFilterBarFilterModalContext,
-            useValue: context,
-          },
-        ],
-      };
-      if (config.modalSize === 'full') {
-        modalConfig.fullPage = true;
-      } else {
-        modalConfig.size = config.modalSize;
-      }
-
-      const instance = this.#modalSvc.open(config.modalComponent, modalConfig);
-
-      instance.closed.subscribe((args) => {
-        if (args.reason === 'save') {
-          this.filterValue.set(args.data);
-          this.filterUpdated.emit(args.data);
-        }
-      });
-    }
-  }
+  /**
+   * The configuration options for showing a `SkySelectionModal`.
+   */
+  public filterSelectionModalConfig = input<SkySelectionModalOpenArgs>();
 }
