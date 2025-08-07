@@ -1,20 +1,6 @@
 @use '../../variables' as *;
 @use '../../compat-tokens-mixins' as compatMixins;
 
-@include compatMixins.sky-modern-overrides($encapsulate: false) {
-  --sky-override-a-border-radius: 0;
-  --sky-override-a-box-shadow-focus:
-    0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-a-color-hover-active: var(
-    --sky-text-color-action-primary-hover
-  );
-  --sky-override-form-font-weight: var(--sky-font-style-body-m);
-  --sky-override-p-line-height: var(--sky-font-line_height-body-m);
-  --sky-override-body-line-height: normal;
-}
-
 @include compatMixins.sky-modern-v2-html {
   font-size: initial;
 }
@@ -33,7 +19,6 @@
 
 .sky-theme-modern form {
   font-size: var(--sky-font-size-body-m);
-  font-weight: var(--sky-override-form-font-weight, initial);
   font-family: var(--sky-font-family-primary);
 
   transition:
@@ -42,27 +27,18 @@
 }
 
 body.sky-theme-modern {
-  line-height: var(
-    --sky-override-body-line-height,
-    var(--sky-font-line_height-body-m)
-  );
+  line-height: var(--sky-font-line_height-body-m);
 }
 
 .sky-theme-modern {
   a {
     color: var(--sky-color-text-action);
-    border-radius: var(
-      --sky-override-a-border-radius,
-      var(--sky-border-radius-s)
-    );
+    border-radius: var(--sky-border-radius-s);
 
     &:focus-visible:not(:active) {
       outline: none;
-      box-shadow: var(
-        --sky-override-a-box-shadow-focus,
-        0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus)
-      );
+      box-shadow: 0 0 0 var(--sky-border-width-action-focus)
+        var(--sky-color-border-action-tertiary-focus);
     }
   }
 
@@ -106,10 +82,7 @@ body.sky-theme-modern {
   }
 
   p {
-    line-height: var(
-      --sky-override-p-line-height,
-      var(--sky-font-line_height-body-m)
-    );
+    line-height: var(--sky-font-line_height-body-m);
   }
 
   mark.sky-highlight-mark {

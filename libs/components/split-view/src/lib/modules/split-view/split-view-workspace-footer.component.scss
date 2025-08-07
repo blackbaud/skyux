@@ -9,11 +9,6 @@
     #{$sky-color-gray-20};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-split-view-workspace-footer') {
-  --sky-override-split-view-workspace-footer-box-shadow: 0 -3px 3px 0
-    #{$sky-color-gray-20};
-}
-
 :host {
   display: block;
   flex-shrink: 0;

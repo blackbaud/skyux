@@ -36,21 +36,6 @@
   --sky-override-toast-padding: 0 #{$sky-padding};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-toast', false) {
-  --sky-override-toast-box-shadow: var(--sky-elevation-overlay-400);
-  --sky-override-toast-close-button-box-sizing: border-box;
-  --sky-override-toast-close-button-margin: -10px -10px 0 0;
-  --sky-override-toast-close-button-padding: 1px;
-  --sky-override-toast-close-button-size: 26px;
-  --sky-override-toast-content-link-color: #212327cc;
-  --sky-override-toast-color-icon-info: var(--sky-color-icon-info);
-  --sky-override-toast-icon-top-padding: calc(var(--modern-size-5) * -1);
-  --sky-override-toast-info-success-exclamation-path-color: var(
-    --modern-color-gray-105
-  );
-  --sky-override-toast-text-link-color: var(--sky-color-text-default);
-}
-
 @mixin sky-toast-variant(
   $background-color,
   $border-color,
@@ -178,10 +163,7 @@ sky-toast {
       );
 
       &:hover {
-        color: var(
-          --sky-override-toast-text-link-color,
-          var(--sky-color-text-action_contrast)
-        );
+        color: var(--sky-color-text-action_contrast);
       }
     }
   }
@@ -306,11 +288,7 @@ sky-toast {
     }
 
     .sky-toast-icon {
-      margin: var(
-          --sky-override-toast-icon-top-padding,
-          calc(calc(var(--sky-font-line_height-body-m) * 0.25) * -1)
-        )
-        0 0;
+      margin: calc(calc(var(--sky-font-line_height-body-m) * 0.25) * -1) 0 0;
     }
   }
 }

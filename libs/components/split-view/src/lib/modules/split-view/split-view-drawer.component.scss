@@ -11,13 +11,6 @@
   --sky-override-split-view-resize-handle-width: 14px;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-split-view-drawer') {
-  --sky-override-split-view-drawer-background-color: transparent;
-  --sky-override-split-view-resize-handle-box-shadow-focus: var(
-    --sky-elevation-focus
-  );
-}
-
 .sky-split-view-drawer {
   background: var(
     --sky-override-split-view-drawer-background-color,
@@ -95,10 +88,7 @@
       solid var(--sky-border-width-action-focus)
         var(--sky-color-border-action-tertiary-focus)
     );
-    box-shadow: var(
-      --sky-override-split-view-resize-handle-box-shadow-focus,
-      none
-    );
+    box-shadow: none;
     outline: var(--sky-override-split-view-resize-handle-outline-focus, none);
   }
 
