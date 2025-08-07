@@ -1,5 +1,22 @@
 # Changelog
 
+## [12.32.0](https://github.com/blackbaud/skyux/compare/12.31.0...12.32.0) (2025-08-06)
+
+
+### Features
+
+* **components/forms:** checkbox uses a component token to set its border radius in modern theme ([#3763](https://github.com/blackbaud/skyux/issues/3763)) ([cf17f83](https://github.com/blackbaud/skyux/commit/cf17f838a6809ffe55ae6154f0515138308612bc))
+* **components/forms:** disabled state icon colors in modern v2 ([#3791](https://github.com/blackbaud/skyux/issues/3791)) ([697c087](https://github.com/blackbaud/skyux/commit/697c087889d47a3988bd2da2f748ea73199770b1))
+* **components/packages:** create schematic to convert page-summary to page-header ([#3784](https://github.com/blackbaud/skyux/issues/3784)) ([4546353](https://github.com/blackbaud/skyux/commit/45463533860c10829ac5f84ea1e7e33fba9f886f))
+* **components/split-view:** add responsive padding around repeater in split view drawer ([#3747](https://github.com/blackbaud/skyux/issues/3747)) ([5dae5b1](https://github.com/blackbaud/skyux/commit/5dae5b130243093234509068fbe35c6dec8901b2))
+* **components/theme:** update tokens from `page` to `layout`  ([#3761](https://github.com/blackbaud/skyux/issues/3761)) ([f1a7050](https://github.com/blackbaud/skyux/commit/f1a7050aed5ac401495ae5bc8d10886690f43519))
+* use gradient background for selected switches in modern v2 ([#3788](https://github.com/blackbaud/skyux/issues/3788)) ([e0ac350](https://github.com/blackbaud/skyux/commit/e0ac3500cd7b643c9116fbaeaa679bc4ff39eeec))
+
+
+### Bug Fixes
+
+* **components/lookup:** search uses secondary border and background color tokens in v2 modern ([#3759](https://github.com/blackbaud/skyux/issues/3759)) ([3f498b0](https://github.com/blackbaud/skyux/commit/3f498b0d15593f2537c0e6b560267644cafe77e5))
+
 ## [12.31.0](https://github.com/blackbaud/skyux/compare/12.30.0...12.31.0) (2025-07-29)
 
 
