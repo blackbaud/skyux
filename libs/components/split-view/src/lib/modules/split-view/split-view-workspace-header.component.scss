@@ -9,10 +9,6 @@
   --sky-override-split-view-header-padding: #{$sky-padding-half} 0;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-split-view-workspace-header') {
-  --sky-override-split-view-header-padding: #{$sky-padding-half} 0;
-}
-
 .sky-split-view-workspace-header {
   display: flex;
   align-items: flex-start;

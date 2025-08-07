@@ -2,124 +2,6 @@
 @use '../../variables' as *;
 @use '../../compat-tokens-mixins' as compatMixins;
 
-@include compatMixins.sky-modern-overrides('.sky-btn', false) {
-  --sky-override-borderless-icon-size: 26px;
-  --sky-override-button-box-shadow-hover-transition: box-shadow
-    #{$sky-transition-time-short};
-  --sky-override-button-default-box-shadow-focus:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-secondary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-icon-borderless-padding: 1px;
-  --sky-override-button-icon-padding: 9px 15px;
-  --sky-override-button-link-inline-border-radius: 0;
-  --sky-override-button-link-inline-color-disabled: var(
-    --sky-color-text-action
-  );
-  --sky-override-button-link-inline-color-hover-active: var(
-    --sky-text-color-action-primary-hover
-  );
-  --sky-override-button-link-inline-font-size: var(--sky-font-size-body-m);
-  --sky-override-button-padding: 9px 21px;
-
-  --sky-override-button-primary-box-shadow-focus:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-primary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-primary-disabled-box-shadow:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-primary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-icon-disabled-box-shadow:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-secondary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-danger-box-shadow-focus:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-danger-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-danger-disabled-box-shadow:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-danger-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-tertiary-box-shadow-focus:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-tertiary-disabled-box-shadow:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus,);
-  --sky-override-button-link-inline-box-shadow-focus:
-    0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-link-inline-disabled-box-shadow:
-    0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-borderless-inline-box-shadow-focus:
-    0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-borderless-inline-disabled-box-shadow:
-    0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus);
-
-  // Ensures the height of a modern block button is 47px.
-  --sky-override-button-block-line-height: 1.6115;
-
-  &:not(.sky-btn-link-inline):not(.sky-btn-borderless-inline) {
-    --sky-override-button-line-height: calc(20 / 14);
-  }
-
-  &.sky-btn-link-inline,
-  &.sky-btn-borderless-inline {
-    --sky-override-button-line-height: normal;
-    --sky-override-button-opacity-disabled: 0.65;
-  }
-}
-
-@include compatMixins.sky-modern-overrides('.sky-btn-tab', false) {
-  --sky-override-tab-box-shadow-focus-elevation: var(--sky-elevation-focus);
-  --sky-override-tab-selected-active-background-color: var(
-    --sky-color-background-tab-active
-  );
-  --sky-override-tab-selected-active-border-bottom: var(
-      --sky-border-width-selected-s
-    )
-    var(--sky-border-style-accent)
-    var(
-      --sky-override-tab-hover-border-bottom-color,
-      var(--sky-color-border-tab-active)
-    );
-  --sky-override-tab-selected-active-padding-bottom: calc(
-    var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
-        --sky-border-width-selected-s
-      )
-  );
-  --sky-override-tab-selected-color: var(--sky-color-text-default);
-  --sky-override-tab-selected-focus-color: var(--sky-color-text-default);
-  --sky-override-tab-selected-focus-background-color: var(
-    --sky-color-background-tab-focus
-  );
-  --sky-override-tab-selected-background-color: var(--modern-color-transparent);
-  --sky-override-tab-selected-border-bottom-size: var(--modern-size-3);
-  --sky-override-tab-hover-border-bottom-color: var(--modern-color-blue-50);
-  --sky-override-tab-disabled-background-color: var(--modern-color-transparent);
-  --sky-override-tab-disabled-font-size: 15px;
-  --sky-override-tab-button-radius: 0;
-  --sky-override-tab-line-height: 1.8;
-  --sky-override-tab-item-box-shadow-focus-elevation: var(
-    --sky-elevation-focus
-  );
-  --sky-override-selected-dropdown-item-border-width: var(--modern-size-3);
-  --sky-override-selected-dropdown-background-color: var(
-    --modern-color-transparent
-  );
-}
-
 .sky-theme-modern {
   .sky-btn {
     border: none;
@@ -127,10 +9,7 @@
     font-size: var(--sky-font-size-body-m);
     transition: box-shadow $sky-transition-time-short;
 
-    line-height: var(
-      --sky-override-button-line-height,
-      var(--sky-font-line_height-body-m)
-    );
+    line-height: var(--sky-font-line_height-body-m);
   }
 
   .sky-btn-default,
@@ -138,13 +17,10 @@
   .sky-btn-danger,
   .sky-btn-link,
   .sky-btn-borderless {
-    padding: var(
-      --sky-override-button-padding,
-      var(--sky-comp-button-space-inset-top)
-        var(--sky-comp-button-space-inset-right)
-        var(--sky-comp-button-space-inset-bottom)
-        var(--sky-comp-button-space-inset-left)
-    );
+    padding: var(--sky-comp-button-space-inset-top)
+      var(--sky-comp-button-space-inset-right)
+      var(--sky-comp-button-space-inset-bottom)
+      var(--sky-comp-button-space-inset-left);
   }
 
   .sky-btn-default,
@@ -172,27 +48,21 @@
       &:active,
       &.sky-btn-active {
         border: none;
-        opacity: var(--sky-override-button-opacity-disabled, 1);
+        opacity: 1;
         color: var(--sky-color-text-deemphasized);
 
         &.sky-btn-link-inline {
-          color: var(
-            --sky-override-button-link-inline-color-disabled,
-            var(--sky-color-text-default)
-          );
+          color: var(--sky-color-text-default);
         }
       }
     }
   }
 
   .sky-btn-icon {
-    padding: var(
-      --sky-override-button-icon-padding,
-      var(--sky-comp-button-icon-space-inset-top)
-        var(--sky-comp-button-icon-space-inset-right)
-        var(--sky-comp-button-icon-space-inset-bottom)
-        var(--sky-comp-button-icon-space-inset-left)
-    );
+    padding: var(--sky-comp-button-icon-space-inset-top)
+      var(--sky-comp-button-icon-space-inset-right)
+      var(--sky-comp-button-icon-space-inset-bottom)
+      var(--sky-comp-button-icon-space-inset-left);
   }
 
   .sky-btn-default,
@@ -228,20 +98,18 @@
           --sky-comp-override-toolbar-button-elevation-active,
           var(--sky-elevation-action-secondary-active)
         );
-      transition: var(--sky-override-button-box-shadow-hover-transition, none);
+      transition: none;
     }
 
     &:focus-visible:not(:active) {
       background-color: var(--sky-color-background-action-secondary-focus);
-      box-shadow: var(
-        --sky-override-button-default-box-shadow-focus,
+      box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-secondary-focus),
         var(
           --sky-comp-override-toolbar-button-elevation-focus,
           var(--sky-elevation-action-secondary-focus)
-        )
-      );
+        );
     }
 
     &.sky-btn-disabled,
@@ -262,15 +130,13 @@
         background-color: var(--sky-color-background-action-secondary-disabled);
 
         &:is(:focus-visible, .sky-btn-focus) {
-          box-shadow: var(
-            --sky-override-button-icon-disabled-box-shadow,
+          box-shadow:
             inset 0 0 0 var(--sky-border-width-action-disabled)
               var(--sky-color-border-action-secondary-disabled),
             var(
               --sky-comp-override-toolbar-button-elevation-disabled,
               var(--sky-elevation-action-secondary-disabled)
-            )
-          );
+            );
         }
       }
     }
@@ -308,20 +174,18 @@
           --sky-comp-override-toolbar-button-elevation-active,
           var(--sky-elevation-action-primary-active)
         );
-      transition: var(--sky-override-button-box-shadow-hover-transition, none);
+      transition: none;
     }
 
     &:focus-visible:not(:active) {
       background-color: var(--sky-color-background-action-primary-focus);
-      box-shadow: var(
-        --sky-override-button-primary-box-shadow-focus,
+      box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-primary-focus),
         var(
           --sky-comp-override-toolbar-button-elevation-focus,
           var(--sky-elevation-action-primary-focus)
-        )
-      );
+        );
     }
 
     &.sky-btn-disabled,
@@ -342,15 +206,13 @@
         background-color: var(--sky-color-background-action-primary-disabled);
 
         &:is(:focus-visible, .sky-btn-focus) {
-          box-shadow: var(
-            --sky-override-button-primary-disabled-box-shadow,
+          box-shadow:
             inset 0 0 0 var(--sky-border-width-action-disabled)
               var(--sky-color-border-action-primary-disabled),
             var(
               --sky-comp-override-toolbar-button-elevation-disabled,
               var(--sky-elevation-action-primary-disabled)
-            )
-          );
+            );
         }
       }
     }
@@ -388,20 +250,18 @@
           --sky-comp-override-toolbar-button-elevation-active,
           var(--sky-elevation-action-danger-active)
         );
-      transition: var(--sky-override-button-box-shadow-hover-transition, none);
+      transition: none;
     }
 
     &:focus-visible:not(:active) {
       background-color: var(--sky-color-background-action-danger-focus);
-      box-shadow: var(
-        --sky-override-button-danger-box-shadow-focus,
+      box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-danger-focus),
         var(
           --sky-comp-override-toolbar-button-elevation-focus,
           var(--sky-elevation-action-danger-focus)
-        )
-      );
+        );
     }
 
     &.sky-btn-disabled,
@@ -422,15 +282,13 @@
         background-color: var(--sky-color-background-action-danger-disabled);
 
         &:is(:focus-visible, .sky-btn-focus) {
-          box-shadow: var(
-            --sky-override-button-danger-disabled-box-shadow,
+          box-shadow:
             inset 0 0 0 var(--sky-border-width-action-disabled)
               var(--sky-color-border-action-danger-disabled),
             var(
               --sky-comp-override-toolbar-button-elevation-disabled,
               var(--sky-elevation-action-danger-disabled)
-            )
-          );
+            );
         }
       }
     }
@@ -446,15 +304,12 @@
   }
 
   .sky-btn-icon-borderless {
-    padding: var(
-      --sky-override-button-icon-borderless-padding,
-      var(--sky-comp-button-borderless-space-inset-top)
-        var(--sky-comp-button-borderless-space-inset-right)
-        var(--sky-comp-button-borderless-space-inset-bottom)
-        var(--sky-comp-button-borderless-space-inset-left)
-    );
-    height: var(--sky-override-borderless-icon-size, '');
-    width: var(--sky-override-borderless-icon-size, '');
+    padding: var(--sky-comp-button-borderless-space-inset-top)
+      var(--sky-comp-button-borderless-space-inset-right)
+      var(--sky-comp-button-borderless-space-inset-bottom)
+      var(--sky-comp-button-borderless-space-inset-left);
+    height: auto;
+    width: auto;
     line-height: 1;
   }
 
@@ -491,20 +346,18 @@
           --sky-comp-override-toolbar-button-elevation-active,
           var(--sky-elevation-action-tertiary-active)
         );
-      transition: var(--sky-override-button-box-shadow-hover-transition, none);
+      transition: none;
     }
 
     &:focus-visible:not(:active) {
       background-color: var(--sky-color-background-action-tertiary-focus);
-      box-shadow: var(
-        --sky-override-button-tertiary-box-shadow-focus,
+      box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-tertiary-focus),
         var(
           --sky-comp-override-toolbar-button-elevation-focus,
           var(--sky-elevation-action-tertiary-focus)
-        )
-      );
+        );
     }
 
     &.sky-btn-disabled,
@@ -525,15 +378,13 @@
         background-color: var(--sky-color-background-action-tertiary-disabled);
 
         &:is(:focus-visible, .sky-btn-focus) {
-          box-shadow: var(
-            --sky-override-button-tertiary-disabled-box-shadow,
+          box-shadow:
             inset 0 0 0 var(--sky-border-width-action-disabled)
               var(--sky-color-border-action-tertiary-disabled),
             var(
               --sky-comp-override-toolbar-button-elevation-disabled,
               var(--sky-elevation-action-tertiary-disabled)
-            )
-          );
+            );
         }
       }
     }
@@ -541,21 +392,14 @@
 
   .sky-btn-link-inline {
     background-color: transparent;
-    border-radius: var(
-      --sky-override-button-link-inline-border-radius,
-      var(--sky-border-radius-s)
-    );
+    border-radius: var(--sky-border-radius-s);
     padding: var(--sky-space-inset-balanced-none);
     color: var(--sky-color-text-action);
-    font-size: var(--sky-override-button-link-inline-font-size, inherit);
 
     &:focus-visible:not(:active) {
       background-color: transparent;
-      box-shadow: var(
-        --sky-override-button-link-inline-box-shadow-focus,
-        0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus)
-      );
+      box-shadow: 0 0 0 var(--sky-border-width-action-focus)
+        var(--sky-color-border-action-tertiary-focus);
     }
 
     &:active {
@@ -568,10 +412,7 @@
 
     &:hover,
     &:active {
-      color: var(
-        --sky-override-button-link-inline-color-hover-active,
-        var(--sky-color-text-action)
-      );
+      color: var(--sky-color-text-action);
       text-decoration: underline;
     }
 
@@ -587,10 +428,8 @@
           var(--sky-color-border-action-tertiary-disabled);
 
         &:is(:focus-visible, .sky-btn-focus) {
-          box-shadow: var(
-            --sky-override-button-link-inline-disabled-box-shadow,
-            inset 0 0 0 0 var(--sky-color-border-action-tertiary-disabled)
-          );
+          box-shadow: inset 0 0 0 0
+            var(--sky-color-border-action-tertiary-disabled);
         }
       }
     }
@@ -599,14 +438,10 @@
   .sky-btn-borderless-inline {
     color: var(--sky-color-text-deemphasized);
     padding: var(--sky-space-inset-balanced-none);
-    font-size: var(--sky-override-button-link-inline-font-size, inherit);
 
     &:focus-visible:not(:active) {
-      box-shadow: var(
-        --sky-override-button-borderless-inline-box-shadow-focus,
-        0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus)
-      );
+      box-shadow: 0 0 0 var(--sky-border-width-action-focus)
+        var(--sky-color-border-action-tertiary-focus);
     }
 
     &.sky-btn-disabled,
@@ -621,10 +456,8 @@
           var(--sky-color-border-action-tertiary-disabled);
 
         &:is(:focus-visible, .sky-btn-focus) {
-          box-shadow: var(
-            --sky-override-button-borderless-inline-disabled-box-shadow,
-            inset 0 0 0 0 var(--sky-color-border-action-tertiary-disabled)
-          );
+          box-shadow: inset 0 0 0 0
+            var(--sky-color-border-action-tertiary-disabled);
         }
       }
     }
@@ -638,17 +471,11 @@
 
   .sky-btn-block {
     font-size: var(--sky-font-size-body-l);
-    line-height: var(
-      --sky-override-button-block-line-height,
-      var(--sky-font-line_height-body-l)
-    );
-    padding: var(
-      --sky-override-button-padding,
-      var(--sky-comp-button-block-space-inset-top)
-        var(--sky-comp-button-block-space-inset-right)
-        var(--sky-comp-button-block-space-inset-bottom)
-        var(--sky-comp-button-block-space-inset-left)
-    );
+    line-height: var(--sky-font-line_height-body-l);
+    padding: var(--sky-comp-button-block-space-inset-top)
+      var(--sky-comp-button-block-space-inset-right)
+      var(--sky-comp-button-block-space-inset-bottom)
+      var(--sky-comp-button-block-space-inset-left);
 
     &:has(.sky-btn-block-logo) {
       // Reserve space for a medium-size icon on the left. The icon will be
@@ -675,21 +502,12 @@
     background-color: var(--sky-color-background-tab-base);
     border: none;
     border-radius: 0;
-    border-top-left-radius: var(
-      --sky-override-tab-button-radius,
-      var(--sky-border-radius-s)
-    );
-    border-top-right-radius: var(
-      --sky-override-tab-button-radius,
-      var(--sky-border-radius-s)
-    );
+    border-top-left-radius: var(--sky-border-radius-s);
+    border-top-right-radius: var(--sky-border-radius-s);
     color: var(--sky-color-text-deemphasized);
     font-size: var(--sky-font-size-body-m);
     font-weight: var(--sky-font-style-body-m);
-    line-height: var(
-      --sky-override-tab-line-height,
-      var(--sky-font-line_height-body-m)
-    );
+    line-height: var(--sky-font-line_height-body-m);
     padding: var(--sky-comp-tab-horizontal-space-inset-top)
       var(--sky-comp-tab-horizontal-space-inset-right)
       var(--sky-comp-tab-horizontal-space-inset-bottom)
@@ -701,11 +519,7 @@
       ):not(:focus-visible) {
       background-color: var(--sky-color-background-tab-hover);
       border-bottom: var(--sky-border-width-selected-s)
-        var(--sky-border-style-accent)
-        var(
-          --sky-override-tab-hover-border-bottom-color,
-          var(--sky-color-border-tab-hover)
-        );
+        var(--sky-border-style-accent) var(--sky-color-border-tab-hover);
       color: var(--sky-color-text-default);
       padding-bottom: calc(
         var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
@@ -723,10 +537,7 @@
       }
 
       &.sky-btn-tab-selected {
-        background-color: var(
-          --sky-override-tab-selected-focus-background-color,
-          var(--sky-color-background-selected-soft)
-        );
+        background-color: var(--sky-color-background-selected-soft);
       }
     }
 
@@ -737,7 +548,7 @@
       outline: solid var(--sky-border-width-selected-m)
         var(--sky-color-border-tab-focus);
       outline-offset: calc(var(--sky-border-width-selected-m) * -1);
-      box-shadow: var(--sky-override-tab-box-shadow-focus-elevation, none);
+      box-shadow: none;
     }
 
     &:active,
@@ -747,11 +558,7 @@
       color: var(--sky-color-text-default);
       background-color: var(--sky-color-background-tab-active);
       border-bottom: var(--sky-border-width-selected-s)
-        var(--sky-border-style-accent)
-        var(
-          --sky-override-tab-hover-border-bottom-color,
-          var(--sky-color-border-tab-active)
-        );
+        var(--sky-border-style-accent) var(--sky-color-border-tab-active);
       padding-bottom: calc(
         var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
             --sky-border-width-selected-s
@@ -759,25 +566,13 @@
       );
 
       &.sky-btn-tab-selected {
-        background-color: var(
-          --sky-override-tab-selected-active-background-color,
-          var(--sky-color-background-selected-soft)
-        );
-        border-bottom: var(
-          --sky-override-tab-selected-active-border-bottom,
-          var(
-              --sky-override-tab-selected-border-bottom-size,
-              var(--sky-border-width-selected-m)
+        background-color: var(--sky-color-background-selected-soft);
+        border-bottom: var(--sky-border-width-selected-m)
+          var(--sky-border-style-accent) var(--sky-color-border-selected);
+        padding-bottom: calc(
+          var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
+              --sky-border-width-selected-m
             )
-            var(--sky-border-style-accent) var(--sky-color-border-selected)
-        );
-        padding-bottom: var(
-          --sky-override-tab-selected-active-padding-bottom,
-          calc(
-            var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
-                --sky-border-width-selected-m
-              )
-          )
         );
       }
     }
@@ -787,17 +582,11 @@
     }
 
     &.sky-btn-tab-disabled {
-      background-color: var(
-        --sky-override-tab-disabled-background-color,
-        var(--sky-color-background-tab-disabled)
-      );
+      background-color: var(--sky-color-background-tab-disabled);
       color: var(--sky-color-text-deemphasized);
       font-style: var(--sky-font-style-deemphasized-style);
       font-weight: var(--sky-font-style-deemphasized-weight);
-      font-size: var(
-        --sky-override-tab-disabled-font-size,
-        var(--sky-font-size-body-m)
-      );
+      font-size: var(--sky-font-size-body-m);
 
       .sky-btn-tab-close {
         font-size: var(--sky-font-size-body-m);
@@ -806,39 +595,23 @@
   }
 
   .sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
-    background-color: var(
-      --sky-override-tab-selected-background-color,
-      var(--sky-color-background-tab-selected)
-    );
-    color: var(
-      --sky-override-tab-selected-color,
-      var(--sky-color-text-selected)
-    );
+    background-color: var(--sky-color-background-tab-selected);
+    color: var(--sky-color-text-selected);
     box-shadow: none;
 
     &:not(:active) {
-      border-bottom: var(
-          --sky-override-tab-selected-border-bottom-size,
-          var(--sky-border-width-selected-m)
-        )
+      border-bottom: var(--sky-border-width-selected-m)
         var(--sky-border-style-accent) var(--sky-color-border-selected);
       padding-bottom: calc(
         var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
-            --sky-override-tab-selected-border-bottom-size,
-            var(--sky-border-width-selected-m)
+            --sky-border-width-selected-m
           )
       );
     }
 
     &:hover:not(.sky-btn-tab-disabled) {
-      background-color: var(
-        --sky-override-tab-selected-background-color,
-        var(--sky-color-background-tab-selected)
-      );
-      color: var(
-        --sky-override-tab-selected-color,
-        var(--sky-color-text-selected)
-      );
+      background-color: var(--sky-color-background-tab-selected);
+      color: var(--sky-color-text-selected);
     }
 
     .sky-btn-tab-close,
@@ -878,35 +651,25 @@
 
       &:focus-visible:not(:active) {
         background-color: transparent;
-        box-shadow: var(
-          --sky-override-tab-item-box-shadow-focus-elevation,
-          none
-        );
+        box-shadow: none;
         outline: solid var(--sky-border-width-action-active)
           var(--sky-color-border-action-secondary-focus);
         outline-offset: calc(var(--sky-border-width-action-active) * -1);
       }
 
       &.sky-btn-tab-selected {
-        background-color: var(
-          --sky-override-selected-dropdown-background-color,
-          var(--sky-color-background-selected-soft)
-        );
+        background-color: var(--sky-color-background-selected-soft);
         color: var(--sky-color-text-default);
         border-bottom: none;
         border-radius: 0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0;
-        border-left: var(
-            --sky-override-selected-dropdown-item-border-width,
-            var(--sky-border-width-selected-m)
-          )
+        border-left: var(--sky-border-width-selected-m)
           var(--sky-border-style-accent) var(--sky-color-border-selected);
         padding: var(--sky-comp-tab-horizontal-space-inset-top)
           var(--sky-comp-tab-horizontal-space-inset-right)
           var(--sky-comp-tab-horizontal-space-inset-bottom)
           calc(
             var(--sky-comp-tab-horizontal-space-inset-left) - var(
-                --sky-override-selected-dropdown-item-border-width,
-                var(--sky-border-width-selected-m)
+                --sky-border-width-selected-m
               )
           );
       }

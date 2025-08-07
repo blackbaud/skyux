@@ -7,11 +7,6 @@
   --sky-override-toaster-padding: 0 #{$sky-margin-double $sky-margin-double} 0;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-toaster', false) {
-  --sky-override-toaster-width: var(--modern-size-400);
-  --sky-override-toaster-width-xs: var(--modern-size-320);
-}
-
 .sky-toaster {
   bottom: 0;
   right: 0;
@@ -30,9 +25,21 @@
 
 .sky-theme-modern {
   .sky-toaster {
-    width: var(
-      --sky-override-toaster-width-xs,
-      max(
+    width: max(
+      var(--sky-size-width-viewport-smallest),
+      calc(
+        min(var(--sky-size-max_width-overlay_message)) +
+          calc(
+            var(--sky-comp-toaster-space-inset-left) +
+              var(--sky-comp-toaster-space-inset-right)
+          )
+      )
+    );
+  }
+
+  @include mixins.sky-host-responsive-container-sm-min(false) {
+    .sky-toaster {
+      width: max(
         var(--sky-size-width-viewport-smallest),
         calc(
           min(var(--sky-size-max_width-overlay_message)) +
@@ -40,24 +47,6 @@
               var(--sky-comp-toaster-space-inset-left) +
                 var(--sky-comp-toaster-space-inset-right)
             )
-        )
-      )
-    );
-  }
-
-  @include mixins.sky-host-responsive-container-sm-min(false) {
-    .sky-toaster {
-      width: var(
-        --sky-override-toaster-width,
-        max(
-          var(--sky-size-width-viewport-smallest),
-          calc(
-            min(var(--sky-size-max_width-overlay_message)) +
-              calc(
-                var(--sky-comp-toaster-space-inset-left) +
-                  var(--sky-comp-toaster-space-inset-right)
-              )
-          )
         )
       );
     }

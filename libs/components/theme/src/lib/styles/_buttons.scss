@@ -143,7 +143,8 @@ a.sky-btn {
   }
 }
 
-.sky-btn-tab-close {
+// Not `not` here ensures this does not affect modern theme
+.sky-btn-tab-close:not(.sky-btn-icon-borderless) {
   background-color: transparent;
   border: none;
   color: var(--sky-text-color-deemphasized);
@@ -172,7 +173,7 @@ a.sky-btn {
     color: var(--sky-text-color-on-dark);
   }
 
-  .sky-btn-tab-close,
+  .sky-btn-tab-close:not(.sky-btn-icon-borderless),
   .sky-tab-header-count {
     color: #fff;
   }

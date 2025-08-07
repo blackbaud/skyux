@@ -31,15 +31,6 @@
   --sky-override-tile-tools-padding-right: #{$sky-space-lg};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-tile') {
-  --sky-override-tile-border-radius-xs-first: 0;
-  --sky-override-tile-border-radius-xs-last: 0;
-  --sky-override-tile-margin-bottom-base: 20px;
-  --sky-override-tile-summary-color: #{$sky-text-color-action-primary};
-  --sky-override-tile-tools-control-margin-right: 10px;
-  --sky-override-tile-tools-control-size: 26px;
-}
-
 .sky-tile {
   --sky-comp-override-list-header-background-color: initial;
   background-color: var(
