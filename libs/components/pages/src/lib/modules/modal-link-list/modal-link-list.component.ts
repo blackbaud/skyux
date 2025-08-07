@@ -18,6 +18,7 @@ import { SkyPageModalLinksInput } from '../action-hub/types/page-modal-links-inp
   selector: 'sky-modal-link-list',
   templateUrl: './modal-link-list.component.html',
   styleUrls: ['./modal-link-list.component.scss'],
+  standalone: false,
 })
 export class SkyModalLinkListComponent {
   /**

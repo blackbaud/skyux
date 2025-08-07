@@ -28,7 +28,7 @@ export class SkyGridAdapterService {
     dragulaGroupName: string,
     dragulaService: DragulaService,
     dropCallback: (newColumnIds: string[]) => void,
-  ) {
+  ): void {
     dragulaService
       .drag(dragulaGroupName)
       .subscribe((args) => args.el.classList.add(GRID_HEADER_DRAGGING_CLASS));

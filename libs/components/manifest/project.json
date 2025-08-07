@@ -5,7 +5,7 @@
   "projectType": "library",
   "tags": ["npm"],
   "targets": {
-    "build": {
+    "prebuild": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
@@ -19,16 +19,20 @@
         ]
       }
     },
-    "postbuild": {
+    "build": {
       "executor": "nx:run-commands",
+      "outputs": ["{options.outputPath}"],
       "options": {
-        "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-manifest.ts"
+        "command": "npx vite-node ./scripts/postbuild-manifest.mts",
+        "outputPath": "dist/libs/components/manifest"
       },
-      "configurations": {
-        "ci": {
-          "command": "echo '🏃‍➡️ Skipping postbuild script for CI.'"
+      "dependsOn": [
+        "^build",
+        {
+          "target": "prebuild",
+          "projects": "self"
         }
-      }
+      ]
     },
     "lint": {
       "executor": "@nx/eslint:lint",

@@ -2,11 +2,13 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('sky-tabset') {
+  --sky-override-tabset-align-items: center;
   --sky-override-tabset-border-bottom: #{2px solid
     $sky-background-color-primary-dark};
   --sky-override-tabset-button-color: #{$sky-text-color-action-primary};
   --sky-override-tabset-button-group-padding-left: #{$sky-padding};
   --sky-override-tabset-button-margin-right: 5px;
+  --sky-override-tabset-icon-button-padding: 6px 12px;
   --sky-override-tabset-modal-margin: #{0 (-$sky-space-lg) $sky-space-xl};
   --sky-override-tabset-modal-padding-left: #{$sky-space-lg};
   --sky-override-tabset-modal-padding-none: 0;
@@ -17,13 +19,13 @@
   --sky-override-tabset-wizard-modal-margin: #{0 0 $sky-space-xl};
 }
 
-@include compatMixins.sky-modern-v2('sky-tabset', false) {
-  // The tabset buttons will be addressed in phase 2;
-  // this explicit height setting allows the rest of the v2 tab styling to appear correctly for now
-  .sky-tabset-btn-new,
-  .sky-tabset-btn-open {
-    height: 36px;
-  }
+@include compatMixins.sky-modern-overrides('sky-tabset', false) {
+  --sky-override-tabset-align-items: center;
+  --sky-override-tabset-icon-button-padding: 9px 15px;
+  --sky-override-tabset-padding: var(
+    --sky-layout-host-tab-content-spacing,
+    0 0 0 #{$sky-padding-plus-half}
+  );
 }
 
 sky-tabset {
@@ -45,7 +47,7 @@ sky-tabset {
 .sky-tabset {
   --sky-tabset-margin: 0;
 
-  align-items: center;
+  align-items: var(--sky-override-tabset-align-items, baseline);
   border-bottom: var(
     --sky-override-tabset-border-bottom,
     var(--sky-border-width-divider) var(--sky-border-style-divider)
@@ -56,8 +58,13 @@ sky-tabset {
   margin: var(--sky-tabset-margin);
   padding: var(
     --sky-override-tabset-padding,
-    0 0 0
-      var(--sky-layout-host-tab-content-spacing, var(--sky-space-inset-tabs-m))
+    var(
+      --sky-layout-host-tab-content-spacing,
+      var(--sky-comp-tabset-tabs-space-inset-top)
+        var(--sky-comp-tabset-tabs-space-inset-right)
+        var(--sky-comp-tabset-tabs-space-inset-bottom)
+        var(--sky-comp-tabset-tabs-space-inset-left)
+    )
   );
   white-space: nowrap;
 
@@ -81,38 +88,40 @@ sky-tabset {
   .sky-tabset-style-tabs {
     --sky-tabset-margin: var(
       --sky-override-tabset-modal-margin,
-      calc(var(--sky-space-inset-floated-top-m) * -1)
-        calc(var(--sky-space-inset-floated-right-m) * -1)
-        var(--sky-space-inset-floated-bottom-m)
-        calc(var(--sky-space-inset-floated-left-m) * -1)
+      calc(var(--sky-comp-modal-content-space-inset-top) * -1)
+        calc(var(--sky-comp-modal-content-space-inset-right) * -1)
+        var(--sky-comp-modal-content-space-inset-bottom)
+        calc(var(--sky-comp-modal-content-space-inset-left) * -1)
     );
 
     padding-left: var(
       --sky-override-tabset-modal-padding-left,
-      var(--sky-space-inset-floated-left-m)
+      var(--sky-comp-modal-content-space-inset-left)
     );
     padding-right: var(
       --sky-override-tabset-modal-padding-none,
-      var(--sky-space-inset-floated-right-m)
+      var(--sky-comp-modal-content-space-inset-right)
     );
   }
 
   .sky-tabset-style-wizard {
+    // The bottom margin is not a typo. To create “balanced” inset space around the wizard tab contents,
+    // the space underneath the tabset should be equal to space on the sides of the tab contents already
     --sky-tabset-margin: var(
       --sky-override-tabset-wizard-modal-margin,
-      calc(var(--sky-space-inset-floated-top-m) * -1)
-        calc(var(--sky-space-inset-floated-right-m) * -1)
-        var(--sky-space-inset-floated-bottom-m)
-        calc(var(--sky-space-inset-floated-left-m) * -1)
+      calc(var(--sky-comp-wizard-tabset-space-inset-top) * -1)
+        calc(var(--sky-comp-wizard-tabset-space-inset-right) * -1)
+        var(--sky-comp-wizard-tabset-space-inset-left)
+        calc(var(--sky-comp-wizard-tabset-space-inset-left) * -1)
     );
 
     padding-left: var(
       --sky-override-tabset-modal-padding-none,
-      var(--sky-space-inset-floated-left-m)
+      var(--sky-comp-wizard-tabset-tabs-space-inset-left)
     );
     padding-right: var(
       --sky-override-tabset-modal-padding-none,
-      var(--sky-space-inset-floated-right-m)
+      var(--sky-comp-wizard-tabset-tabs-space-inset-right)
     );
   }
 }
@@ -129,6 +138,13 @@ sky-tabset {
     margin-right: var(
       --sky-override-tabset-button-margin-right,
       var(--sky-space-gap-action_group-m)
+    );
+    padding: var(
+      --sky-override-tabset-icon-button-padding,
+      var(--sky-comp-tabset-button-space-inset-top)
+        var(--sky-comp-tabset-button-space-inset-right)
+        var(--sky-comp-tabset-button-space-inset-bottom)
+        var(--sky-comp-tabset-button-space-inset-left)
     );
   }
 }

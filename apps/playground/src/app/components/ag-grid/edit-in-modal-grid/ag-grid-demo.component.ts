@@ -22,6 +22,7 @@ import { SkyAgGridEditModalComponent } from './ag-grid-edit-modal.component';
 @Component({
   selector: 'app-ag-grid-demo',
   templateUrl: './ag-grid-demo.component.html',
+  standalone: false,
 })
 export class SkyAgGridDemoComponent implements OnInit {
   public gridData = AG_GRID_DEMO_DATA;

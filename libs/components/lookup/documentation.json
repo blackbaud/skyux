@@ -1,0 +1,155 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "autocomplete": {
+      "development": {
+        "docsIds": [
+          "SkyAutocompleteModule",
+          "SkyAutocompleteComponent",
+          "SkyAutocompleteInputDirective",
+          "SkyAutocompleteSearchArgs",
+          "SkyAutocompleteSearchAsyncArgs",
+          "AutocompleteSearchAsyncResultDisplayType",
+          "SkyAutocompleteSearchAsyncResult",
+          "SkyAutocompleteSearchContext",
+          "SkyAutocompleteSearchFunctionFilter",
+          "SkyAutocompleteSearchFunctionResponse",
+          "SkyAutocompleteSearchFunction",
+          "SkyAutocompleteSelectionChange"
+        ],
+        "primaryDocsId": "SkyAutocompleteModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyAutocompleteHarness",
+          "SkyAutocompleteHarnessFilters",
+          "SkyAutocompleteSearchResultHarness",
+          "SkyAutocompleteSearchResultHarnessFilters",
+          "SkyAutocompleteInputHarness"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "LookupAutocompleteBasicExampleComponent",
+          "LookupAutocompleteAdvancedExampleComponent",
+          "LookupAutocompleteCustomSearchExampleComponent",
+          "LookupAutocompleteSearchFiltersExampleComponent",
+          "LookupAutocompleteAnyValueExampleComponent"
+        ]
+      }
+    },
+    "country-field": {
+      "development": {
+        "docsIds": [
+          "SkyCountryFieldModule",
+          "SkyCountryFieldComponent",
+          "SkyCountryFieldCountry"
+        ],
+        "primaryDocsId": "SkyCountryFieldModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyCountryFieldHarness",
+          "SkyCountryFieldHarnessFilters",
+          "SkyCountryFieldSearchResultHarness",
+          "SkyCountryFieldSearchResultHarnessFilters",
+          "SkyAutocompleteInputHarness",
+          "SkyInputBoxHarness",
+          "SkyInputBoxHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["LookupCountryFieldBasicExampleComponent"]
+      }
+    },
+    "lookup": {
+      "development": {
+        "docsIds": [
+          "SkyLookupModule",
+          "SkyLookupComponent",
+          "SkyLookupAddCallbackArgs",
+          "SkyLookupAddClickEventArgs",
+          "SkyLookupSelectModeType",
+          "SkyLookupShowMoreConfig",
+          "SkyLookupShowMoreCustomPickerContext",
+          "SkyLookupShowMoreCustomPicker",
+          "SkyLookupShowMoreNativePickerConfig",
+          "SkyAutocompleteSearchArgs",
+          "SkyAutocompleteSearchAsyncArgs",
+          "AutocompleteSearchAsyncResultDisplayType",
+          "SkyAutocompleteSearchAsyncResult",
+          "SkyAutocompleteSearchContext",
+          "SkyAutocompleteSearchFunctionFilter",
+          "SkyAutocompleteSearchFunctionResponse",
+          "SkyAutocompleteSearchFunction"
+        ],
+        "primaryDocsId": "SkyLookupModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyLookupHarness",
+          "SkyLookupHarnessFilters",
+          "SkyLookupSearchResultHarness",
+          "SkyLookupSearchResultHarnessFilters",
+          "SkyLookupSelectionHarness",
+          "SkyLookupShowMorePickerHarness",
+          "SkyLookupShowMorePickerHarnessFilters",
+          "SkyLookupShowMorePickerSearchResultHarness",
+          "SkyLookupShowMorePickerSearchResultHarnessFilters",
+          "SkyAutocompleteInputHarness"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "LookupSingleSelectExampleComponent",
+          "LookupMultiSelectExampleComponent",
+          "LookupResultTemplatesExampleComponent",
+          "LookupCustomPickerExampleComponent",
+          "LookupAddItemExampleComponent"
+        ]
+      }
+    },
+    "search": {
+      "development": {
+        "docsIds": ["SkySearchModule", "SkySearchComponent"],
+        "primaryDocsId": "SkySearchModule"
+      },
+      "testing": {
+        "docsIds": ["SkySearchHarness", "SkySearchHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": ["LookupSearchBasicExampleComponent"]
+      }
+    },
+    "selection-modal": {
+      "development": {
+        "docsIds": [
+          "SkySelectionModalService",
+          "SkySelectionModalInstance",
+          "SkyLookupSelectModeType",
+          "SkySelectionModalAddCallbackArgs",
+          "SkySelectionModalAddClickEventArgs",
+          "SkySelectionModalCloseArgs",
+          "SkySelectionModalOpenArgs",
+          "SkySelectionModalResult",
+          "SkySelectionModalSearchArgs",
+          "SkySelectionModalSearchResult"
+        ],
+        "primaryDocsId": "SkySelectionModalService"
+      },
+      "testing": {
+        "docsIds": [
+          "SkySelectionModalHarness",
+          "SkySelectionModalSearchResultHarness",
+          "SkySelectionModalSearchResultHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "LookupSelectionModalBasicExampleComponent",
+          "LookupSelectionModalAddItemExampleComponent"
+        ]
+      }
+    }
+  }
+}

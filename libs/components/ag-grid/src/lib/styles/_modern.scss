@@ -1,31 +1,62 @@
 @use 'libs/components/theme/src/lib/styles/variables' as variables;
+@use './variables' as sky-ag-grid-variables;
 
 .ag-theme-sky-data-grid-modern-light,
-.ag-theme-sky-data-grid-modern-dark,
 .ag-theme-sky-data-entry-grid-modern-light,
-.ag-theme-sky-data-entry-grid-modern-dark,
 .ag-theme-sky-data-grid-modern-light-compact,
-.ag-theme-sky-data-grid-modern-dark-compact,
-.ag-theme-sky-data-entry-grid-modern-light-compact,
-.ag-theme-sky-data-entry-grid-modern-dark-compact {
-  .ag-header .ag-header-cell .ag-header-cell-label-sortable {
-    color: var(--sky-text-color-default);
+.ag-theme-sky-data-entry-grid-modern-light-compact {
+  .ag-cell.ag-cell-wrap-text span.ag-cell-value {
+    line-height: var(--sky-font-line_height-body-m);
+    padding-top: var(
+      --sky-override-ag-grid-cell-padding-vertical,
+      var(--sky-comp-grid-cell-space-inset-top)
+    );
+    padding-bottom: var(
+      --sky-override-ag-grid-cell-padding-vertical,
+      var(--sky-comp-grid-cell-space-inset-bottom)
+    );
+    min-height: calc(var(--ag-row-height) - 2px);
   }
 
-  .ag-header-cell {
-    &:not(
-        .sky-ag-grid-header-resizable.ag-column-resizing,
-        .sky-ag-grid-header-resizable:has(> .ag-header-cell-resize:hover)
-      ) {
-      --ag-header-column-resize-handle-color: var(
-        --sky-border-color-neutral-medium-dark
+  .ag-header .ag-header-cell .ag-header-cell-label-sortable {
+    color: var(--sky-color-text-heading);
+  }
+
+  .ag-header-cell,
+  .ag-header-group-cell {
+    overflow: visible;
+
+    &.ag-floating-filter {
+      border-right: var(--ag-column-border);
+      padding-right: calc(
+        var(--ag-cell-horizontal-padding) - var(
+            --sky-override-ag-grid-border-width,
+            var(--sky-border-width-separator-row)
+          )
       );
-      --ag-header-column-resize-handle-height: 15px;
+    }
+    &:not(
+      .ag-column-resizing,
+      .sky-ag-grid-header-resizable:has(> .ag-header-cell-resize:hover)
+    ) {
       .ag-header-cell-resize::after {
+        // these styles make the resize handle a dotted line since it is not technically a border
         mask-size: 1px 2px;
         -webkit-mask-size: 1px 2px;
-        mask-image: url('data:image/gif;base64,R0lGODlhAQACAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAIAAAICDAoAOw==');
-        -webkit-mask-image: url('data:image/gif;base64,R0lGODlhAQACAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAIAAAICDAoAOw==');
+        mask-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(0, 0, 0, 1) 50%,
+          rgba(0, 0, 0, 0) 51%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        -webkit-mask-image: -webkit-linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(0, 0, 0, 1) 50%,
+          rgba(0, 0, 0, 0) 51%,
+          rgba(0, 0, 0, 0) 100%
+        );
         mask-repeat: repeat;
         -webkit-mask-repeat: repeat;
         mask-position: top;
@@ -33,11 +64,11 @@
       }
     }
   }
-
   .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing,
   .ag-header-cell.sky-ag-grid-header-resizable > .ag-header-cell-resize:hover {
     --ag-header-column-resize-handle-color: var(
-      --sky-text-color-action-primary
+      --sky-override-ag-grid-resize-handle-color,
+      var(--sky-color-border-column_divider)
     );
     --ag-header-column-resize-handle-height: 100%;
     --ag-header-column-resize-handle-width: 3px;
@@ -60,145 +91,149 @@
   }
 
   .ag-tooltip {
-    box-shadow: variables.$sky-theme-modern-elevation-4-shadow-size
-      variables.$sky-theme-modern-elevation-4-shadow-color;
+    box-shadow: var(--sky-elevation-overlay-100);
   }
 
   @for $i from 1 through 100 {
+    // Hover, not while resizing
     .ag-root:has(
-        .ag-header-cell.sky-ag-grid-header-resizable:not(
-            .ag-column-resizing
-          ):nth-child(#{$i})
-          > .ag-header-cell-resize:hover
-      ) {
-      .ag-header-cell.ag-floating-filter:nth-child(#{$i})::before {
-        top: 0;
-        --ag-header-column-separator-color: var(
-          --sky-text-color-action-primary
-        );
-        --ag-header-column-separator-height: 100%;
-        --ag-header-column-separator-width: 1px;
-      }
+      .ag-header-cell.sky-ag-grid-header-resizable:not(
+          .ag-column-resizing
+        ):nth-child(#{$i})
+        > .ag-header-cell-resize:hover
+    ) {
+      .ag-header-cell.ag-floating-filter:nth-child(#{$i}),
       .ag-cell:nth-child(#{$i}) {
-        --ag-cell-horizontal-border: 1px
+        border-right: 1px
           solid
-          var(--sky-text-color-action-primary);
+          var(
+            --sky-override-ag-grid-resize-handle-color,
+            var(--sky-color-border-column_divider)
+          );
+        padding-right: calc(
+          var(--ag-cell-horizontal-padding) - var(
+              --sky-override-ag-grid-border-width,
+              var(--sky-border-width-separator-row)
+            )
+        );
       }
     }
 
+    // While resizing
     .ag-root:has(
-        .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing:nth-child(
-            #{$i}
-          )
-      ) {
-      .ag-header-cell.ag-floating-filter:nth-child(#{$i})::before {
-        top: 0;
-        --ag-header-column-separator-color: var(
-          --sky-text-color-action-primary
-        );
-        --ag-header-column-separator-height: 100%;
-        --ag-header-column-separator-width: 3px;
-      }
+      .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing:nth-child(
+          #{$i}
+        )
+    ) {
+      .ag-header-cell.ag-floating-filter:nth-child(#{$i}),
       .ag-cell:nth-child(#{$i}) {
-        --ag-cell-horizontal-border: 3px
+        border-right: 3px
           solid
-          var(--sky-text-color-action-primary);
-        border-right-width: 3px;
+          var(
+            --sky-override-ag-grid-resize-handle-color,
+            var(--sky-color-border-column_divider)
+          );
+        padding-right: calc(var(--ag-cell-horizontal-padding) - 3px);
+      }
+    }
+  }
+}
+
+.ag-theme-sky-data-grid-modern-light,
+.ag-theme-sky-data-grid-modern-light-compact {
+  border-top: var(--sky-override-ag-grid-top-border, none);
+
+  .ag-row-hover::before {
+    background-color: transparent;
+  }
+
+  .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
+    align-items: flex-start;
+  }
+
+  .ag-root-wrapper {
+    border: none;
+  }
+
+  .ag-cell {
+    border-block-end: none;
+    border-block-start: none;
+  }
+
+  .ag-row:not(.ag-row-first) {
+    border-top: none;
+  }
+}
+
+.ag-theme-sky-data-entry-grid-modern-light,
+.ag-theme-sky-data-entry-grid-modern-light-compact {
+  .sky-ag-grid-editable {
+    border-top-width: var(--sky-override-ag-grid-top-border-width-editable, 0);
+  }
+
+  .ag-popup {
+    .ag-popup-editor {
+      background-color: transparent;
+
+      sky-input-box {
+        --sky-comp-override-input-box-group-background-color: var(
+          --ag-background-color
+        );
+      }
+    }
+
+    .ag-select-list {
+      box-shadow: var(--sky-elevation-overlay-100);
+
+      .ag-select-list-item {
+        cursor: pointer;
+        border: var(--sky-border-width-input-base) solid transparent;
+
+        &:focus-visible,
+        &:hover,
+        &.ag-active-item {
+          background-color: transparent;
+          border-color: var(--sky-color-border-input-hover);
+        }
       }
     }
   }
 
-  input.ag-checkbox-input[type='checkbox'] {
-    color: var(--sky-text-color-action-primary);
-    border: 1px solid var(--sky-border-color-neutral-medium-dark);
-    border-radius: variables.$sky-theme-modern-box-border-radius-default;
+  .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
+    align-items: flex-start;
+  }
 
-    &:disabled {
-      color: var(--sky-text-color-default);
+  .ag-cell:hover {
+    border: var(--sky-border-width-input-hover) solid
+      var(--sky-color-border-input-hover);
+  }
+
+  .sky-ag-grid-cell-uneditable:not(.sky-ag-grid-cell-row-selector) {
+    background-color: var(--sky-color-background-input-disabled);
+  }
+
+  .ag-row:not(.ag-row-first) {
+    border-top: none;
+  }
+
+  .ag-row {
+    &.ag-row-focus {
+      z-index: 1;
     }
 
-    &:checked:not(:disabled) {
-      background-color: var(--sky-background-color-input-selected);
-      border-color: var(--sky-text-color-action-primary);
-    }
-
-    &:focus:not(:disabled) {
-      border-color: var(--sky-text-color-action-primary);
-      border-width: 2px;
-      box-shadow: variables.$sky-theme-modern-elevation-3-shadow-size
-        variables.$sky-theme-modern-elevation-3-shadow-color;
-    }
-
-    &:focus:not(:disabled):before {
-      margin: 1px;
-    }
-
-    &:checked:before {
-      margin: 2px;
-      width: 1em;
-      height: 1em;
-      clip-path: polygon(
-        42.065% 88.662%,
-        42.065% 88.662%,
-        93.002% 33.64%,
-        93.617% 33.094%,
-        94.286% 32.67%,
-        94.996% 32.37%,
-        95.733% 32.193%,
-        96.483% 32.138%,
-        97.232% 32.207%,
-        97.966% 32.397%,
-        98.672% 32.71%,
-        99.335% 33.146%,
-        99.941% 33.704%,
-        99.941% 33.704%,
-        100.457% 34.359%,
-        100.86% 35.075%,
-        101.15% 35.837%,
-        101.327% 36.63%,
-        101.39% 37.439%,
-        101.339% 38.249%,
-        101.175% 39.046%,
-        100.897% 39.812%,
-        100.506% 40.535%,
-        100% 41.198%,
-        100% 41.198%,
-        45.563% 100%,
-        44.951% 100.563%,
-        44.28% 101.001%,
-        43.566% 101.313%,
-        42.822% 101.501%,
-        42.065% 101.564%,
-        41.307% 101.501%,
-        40.564% 101.313%,
-        39.849% 101.001%,
-        39.179% 100.563%,
-        38.566% 100%,
-        38.566% 100%,
-        16.296% 75.945%,
-        15.791% 75.281%,
-        15.399% 74.559%,
-        15.121% 73.792%,
-        14.957% 72.996%,
-        14.906% 72.186%,
-        14.969% 71.376%,
-        15.146% 70.583%,
-        15.436% 69.821%,
-        15.839% 69.105%,
-        16.356% 68.45%,
-        16.356% 68.45%,
-        16.962% 67.892%,
-        17.625% 67.457%,
-        18.33% 67.144%,
-        19.064% 66.953%,
-        19.814% 66.885%,
-        20.564% 66.939%,
-        21.301% 67.117%,
-        22.011% 67.417%,
-        22.68% 67.84%,
-        23.294% 68.386%,
-        23.294% 68.386%
-      );
+    .ag-cell.ag-cell-focus {
+      .ag-select {
+        .ag-picker-field-wrapper {
+          padding-left: var(
+            --sky-override-ag-grid-cell-focus-horizontal-padding,
+            calc(
+              var(--sky-comp-grid-cell-space-inset-left) - var(
+                  --sky-border-width-input-focus
+                )
+            )
+          );
+        }
+      }
     }
   }
 }

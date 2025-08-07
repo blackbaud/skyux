@@ -27,6 +27,7 @@
           "projects": [
             "core",
             "help-inline",
+            "icon",
             "indicators",
             "popovers",
             "testing"

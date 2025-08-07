@@ -13,6 +13,7 @@ describe('vertical-tabset-back-to-top', () => {
             });
 
             it('verify back-to-top button', () => {
+              cy.skyReady('app-vertical-tabset-back-to-top');
               /* spell-checker:disable */
               if (device === 'iphone-6') {
                 cy.get('.sky-vertical-tabset-content button')
@@ -38,6 +39,8 @@ describe('vertical-tabset-back-to-top', () => {
             });
 
             it('verify back-to-top with summary action', () => {
+              cy.skyReady('app-vertical-tabset-back-to-top');
+
               /* spell-checker:disable */
               if (device === 'iphone-6') {
                 cy.get('.sky-vertical-tabset-content button')
@@ -70,7 +73,7 @@ describe('vertical-tabset-back-to-top', () => {
               cy.get('sky-back-to-top button')
                 .should('be.visible')
                 .should('contain', 'Back to top');
-              cy.window().skyVisualTest(
+              cy.skyVisualTest(
                 `vertical-tabset-back-to-top-summary-action-${device}-${theme}`,
                 { capture: 'viewport' },
               );
@@ -79,5 +82,5 @@ describe('vertical-tabset-back-to-top', () => {
         },
       );
     });
-  });
+  }, false);
 });

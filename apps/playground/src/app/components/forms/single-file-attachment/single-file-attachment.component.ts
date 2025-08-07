@@ -6,11 +6,16 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { SkyFileAttachmentChange, SkyFileItem } from '@skyux/forms';
+import {
+  SkyFileAttachmentChange,
+  SkyFileAttachmentClick,
+  SkyFileItem,
+} from '@skyux/forms';
 
 @Component({
   selector: 'app-single-file-attachment',
   templateUrl: './single-file-attachment.component.html',
+  standalone: false,
 })
 export class SingleFileAttachmentComponent implements OnInit {
   public attachment: UntypedFormControl;
@@ -30,6 +35,13 @@ export class SingleFileAttachmentComponent implements OnInit {
   protected hintText = 'Please upload a file.';
 
   constructor(private formBuilder: UntypedFormBuilder) {}
+
+  public fileClick($event: SkyFileAttachmentClick): void {
+    const link = document.createElement('a');
+    link.download = $event.file.file.name;
+    link.href = $event.file.url;
+    link.click();
+  }
 
   public ngOnInit(): void {
     this.attachment = new UntypedFormControl(undefined, Validators.required);

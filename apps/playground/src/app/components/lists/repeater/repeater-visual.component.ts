@@ -14,7 +14,7 @@ import {
   SkyInlineFormCloseArgs,
   SkyInlineFormConfig,
 } from '@skyux/inline-form';
-import { SkyFluidGridModule } from '@skyux/layout';
+import { SkyFluidGridModule, SkyInlineDeleteModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyDropdownModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
@@ -25,6 +25,7 @@ let nextItemId = 0;
   selector: 'app-repeater-visual',
   templateUrl: './repeater-visual.component.html',
   styleUrls: ['./repeater-visual.component.scss'],
+  standalone: false,
 })
 export class RepeaterVisualComponent {
   public activeIndex = 0;
@@ -227,6 +228,7 @@ export class RepeaterVisualComponent {
     SkyDropdownModule,
     SkyFluidGridModule,
     SkyIconModule,
+    SkyInlineDeleteModule,
     SkyInputBoxModule,
     SkyRepeaterModule,
     SkyThemeModule,

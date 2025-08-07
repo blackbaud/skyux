@@ -11,7 +11,7 @@ describe('phone-field-storybook', () => {
           ),
       );
       it('should render the component', () => {
-        cy.get('app-phone-field').should('exist').should('be.visible');
+        cy.skyReady('app-phone-field', ['#ready']);
 
         if (theme === 'default') {
           cy.get('.sky-input-box-input-group-inner')
@@ -31,7 +31,7 @@ describe('phone-field-storybook', () => {
           .eq(4)
           .should('exist')
           .should('be.visible')
-          .click();
+          .type('Ar');
 
         cy.get(
           '.phone-field-demo:nth-child(5) button[title="Dismiss country search"]',
@@ -39,31 +39,14 @@ describe('phone-field-storybook', () => {
           .should('exist')
           .should('be.visible');
 
-        cy.get('.sky-phone-field-country-btn')
-          .eq(5)
-          .should('exist')
-          .should('be.visible')
-          .type('Ar');
-
-        cy.get(
-          '.phone-field-demo:nth-child(6) button[title="Dismiss country search"]',
-        )
-          .should('exist')
-          .should('be.visible');
-
-        cy.get('#ready').should('exist');
-
-        cy.get('app-phone-field')
-          .should('exist')
-          .should('be.visible')
-          .skyVisualTest(
-            `phonefieldcomponent-phonefield--phone-field-${theme}`,
-            {
-              capture: 'fullPage',
-              overwrite: true,
-            },
-          );
+        cy.skyVisualTest(
+          `phonefieldcomponent-phonefield--phone-field-${theme}`,
+          {
+            capture: 'fullPage',
+            overwrite: true,
+          },
+        );
       });
     });
-  }, true);
+  });
 });

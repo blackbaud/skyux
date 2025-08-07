@@ -15,6 +15,7 @@ describe('modal footer dropdown', () => {
       });
 
       it('should show the modal footer dropdown below the modal footer in a medium modal', () => {
+        cy.skyReady('app-modal-footer-dropdown');
         cy.get('app-modal-footer-dropdown .space + div button')
           .should('exist')
           .first()
@@ -45,7 +46,7 @@ describe('modal footer dropdown', () => {
           .should('exist')
           .should('be.visible')
           .should('contain.text', 'Menu');
-        cy.window().skyVisualTest(`modal-footer-dropdown-${theme}--medium`, {
+        cy.skyVisualTest(`modal-footer-dropdown-${theme}--medium`, {
           clip: {
             height: viewportHeight,
             width: E2eVariations.DISPLAY_WIDTHS[0],
@@ -89,7 +90,7 @@ describe('modal footer dropdown', () => {
           .should('exist')
           .should('be.visible')
           .should('contain.text', 'Menu');
-        cy.window().skyVisualTest(`modal-footer-dropdown-${theme}--full-page`, {
+        cy.skyVisualTest(`modal-footer-dropdown-${theme}--full-page`, {
           clip: {
             height: viewportHeight,
             width: E2eVariations.DISPLAY_WIDTHS[0],
@@ -100,5 +101,5 @@ describe('modal footer dropdown', () => {
         });
       });
     });
-  });
+  }, false);
 });

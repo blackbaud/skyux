@@ -60,12 +60,66 @@ function addPrettierExtendsToConfig(
   writeJsonFile(tree, eslintConfigPath, eslintConfig);
 }
 
+function needsComma(contents: string): boolean {
+  const len = contents.length;
+
+  for (let i = len; i > -1; i--) {
+    // Starting at the end of the string, find the first non-whitespace character
+    // and check if it's a comma. If it is, we don't need to insert one.
+    const maybeComma = contents.at(i);
+    if (maybeComma !== undefined && maybeComma.match(/[^\s]/)) {
+      return maybeComma !== ',';
+    }
+  }
+
+  /* istanbul ignore next: safety check */
+  return true;
+}
+
+function modifyFlatConfigFile(args: {
+  eslintConfigFile: string;
+  isEsm: boolean;
+  tree: Tree;
+}): void {
+  const { tree, eslintConfigFile, isEsm } = args;
+  const eslintConfig = tree.readText(eslintConfigFile);
+  const lastClosingParenthesisRegExp = /\)(?!(?:\n|.)*\))/;
+  const parenthesisMatch = lastClosingParenthesisRegExp.exec(eslintConfig);
+  const exportsRegexp = isEsm ? /\nexport default / : /\nmodule\.exports/;
+
+  if (parenthesisMatch) {
+    const exportsMatch = exportsRegexp.exec(eslintConfig);
+
+    if (exportsMatch) {
+      const recorder = tree.beginUpdate(eslintConfigFile);
+      const importStatement = isEsm
+        ? 'import prettier from "eslint-config-prettier";\n'
+        : 'const prettier = require("eslint-config-prettier/flat");\n';
+
+      if (eslintConfig.includes(importStatement)) {
+        return;
+      }
+
+      recorder.insertLeft(exportsMatch.index, importStatement);
+
+      recorder.insertRight(
+        parenthesisMatch.index,
+        `  ${needsComma(eslintConfig.substring(0, parenthesisMatch.index)) ? ',' : ''}prettier\n`,
+      );
+
+      tree.commitUpdate(recorder);
+    }
+  }
+}
+
 function processESLintConfig(
   tree: Tree,
   context: SchematicContext,
-  eslintConfigPath: string,
+  projectRoot: string,
   updatedESLintConfigs: string[],
 ): void {
+  const eslintConfigPath = normalize(`${projectRoot}/.eslintrc.json`);
+
   if (tree.exists(eslintConfigPath)) {
     const eslintConfig = readJsonFile<ESLintConfig>(tree, eslintConfigPath);
 
@@ -76,32 +130,35 @@ function processESLintConfig(
   }
 }
 
-export function configureESLint(
-  workspace: workspaces.WorkspaceDefinition,
-): Rule {
+export function configureESLint(args: {
+  eslintConfigFile?: string;
+  isFlatConfig: boolean;
+  isEsm: boolean;
+  workspace: workspaces.WorkspaceDefinition;
+}): Rule {
   return (tree, context) => {
-    const fileName = '.eslintrc.json';
+    const { eslintConfigFile, isFlatConfig, isEsm, workspace } = args;
     const updatedESLintConfigs: string[] = [];
 
     context.logger.info('Configuring ESLint Prettier plugin...');
 
-    const projects = workspace.projects.values();
-    let project: workspaces.ProjectDefinition;
+    if (eslintConfigFile && isFlatConfig) {
+      modifyFlatConfigFile({ tree, eslintConfigFile, isEsm });
+      updatedESLintConfigs.push(eslintConfigFile);
+    } else {
+      const projects = workspace.projects.values();
+      let project: workspaces.ProjectDefinition | undefined;
 
-    while ((project = projects.next().value)) {
-      processESLintConfig(
-        tree,
-        context,
-        normalize(`${project.root}/${fileName}`),
-        updatedESLintConfigs,
-      );
+      while ((project = projects.next().value)) {
+        processESLintConfig(tree, context, project.root, updatedESLintConfigs);
+      }
+
+      processESLintConfig(tree, context, '', updatedESLintConfigs);
     }
-
-    processESLintConfig(tree, context, fileName, updatedESLintConfigs);
 
     if (updatedESLintConfigs.length === 0) {
       throw new SchematicsException(
-        `No ${fileName} file found in workspace. ESLint must be installed and configured before installing Prettier. See https://github.com/angular-eslint/angular-eslint#readme for instructions.`,
+        `No ESLint configuration file found in workspace. ESLint must be installed and configured before installing Prettier. See https://github.com/angular-eslint/angular-eslint#readme for instructions.`,
       );
     }
   };

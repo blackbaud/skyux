@@ -1,0 +1,8 @@
+@if (ready()) {
+  <span id="assetsLoaded"></span>
+}
+
+<!-- load an icon so that there is an icon on every storybook page. This allows us to ensure icons are loaded before taking screenshots. Display is set to none. -->
+<sky-icon class="icon-loader" iconName="star" />
+
+<ng-content />

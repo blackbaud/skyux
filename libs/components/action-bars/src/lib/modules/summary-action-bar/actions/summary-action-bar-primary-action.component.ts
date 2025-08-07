@@ -5,6 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
  * Displays a primary button.
@@ -15,6 +16,7 @@ import {
   standalone: true,
   styleUrls: ['./summary-action-bar-primary-action.component.scss'],
   templateUrl: './summary-action-bar-primary-action.component.html',
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkySummaryActionBarPrimaryActionComponent {
   /**

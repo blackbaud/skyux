@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'sky-sort-fixture-test-cmp',
   templateUrl: './sort-fixture.component.fixture.html',
+  standalone: false,
 })
 export class SortFixtureTestComponent implements OnInit {
   public static dataSkyId = 'test-sort-fixture';

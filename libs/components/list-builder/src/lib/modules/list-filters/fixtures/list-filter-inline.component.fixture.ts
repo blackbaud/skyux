@@ -4,6 +4,7 @@ import { ListItemModel } from '@skyux/list-builder-common';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-filter-inline.component.fixture.html',
+  standalone: false,
 })
 export class ListFilterInlineTestComponent {
   public hideOrangeName = 'hideOrange';

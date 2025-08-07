@@ -7,7 +7,6 @@ import { SkyToolbarModule } from '@skyux/layout';
  * wrapped in its own `sky-data-manager-toolbar-left-item`. The items render in the order they are in in the template.
  */
 @Component({
-  standalone: true,
   selector: 'sky-data-manager-toolbar-left-item',
   templateUrl: './data-manager-toolbar-left-item.component.html',
   imports: [SkyToolbarModule],

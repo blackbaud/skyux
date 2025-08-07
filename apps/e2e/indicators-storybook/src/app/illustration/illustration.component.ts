@@ -9,7 +9,6 @@ import { IllustrationResolverService } from './illustration-resolver.service';
 
 @Component({
   selector: 'app-illustration',
-  standalone: true,
   imports: [SkyIllustrationModule, SkyPageModule],
   providers: [
     {

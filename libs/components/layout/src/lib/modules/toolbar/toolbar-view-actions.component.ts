@@ -9,5 +9,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './toolbar-view-actions.component.html',
   styleUrls: ['./toolbar-view-actions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyToolbarViewActionsComponent {}

@@ -18,6 +18,7 @@ import { SkyDateService } from './date.service';
 @Pipe({
   name: 'skyDate',
   pure: false,
+  standalone: false,
 })
 export class SkyDatePipe implements OnDestroy, PipeTransform {
   #dateSvc = inject(SkyDateService);

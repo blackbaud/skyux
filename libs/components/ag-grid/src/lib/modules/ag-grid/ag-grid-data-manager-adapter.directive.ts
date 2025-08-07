@@ -39,9 +39,7 @@ function toColumnWidthName(breakpoint: SkyBreakpoint): 'xs' | 'sm' {
 /**
  * @internal
  */
-@Directive({
-  selector: '[skyAgGridDataManagerAdapter]',
-})
+@Directive({ selector: '[skyAgGridDataManagerAdapter]' })
 export class SkyAgGridDataManagerAdapterDirective
   implements AfterContentInit, OnDestroy
 {
@@ -176,8 +174,10 @@ export class SkyAgGridDataManagerAdapterDirective
     if (agGrid) {
       agGrid.gridReady.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
         if (this.#viewConfig && this.viewId) {
-          this.#viewConfig.onSelectAllClick = () => agGrid.api.selectAll();
-          this.#viewConfig.onClearAllClick = () => agGrid.api.deselectAll();
+          this.#viewConfig.onSelectAllClick = (): void =>
+            agGrid.api.selectAll();
+          this.#viewConfig.onClearAllClick = (): void =>
+            agGrid.api.deselectAll();
           this.#dataManagerSvc.updateViewConfig(this.#viewConfig);
           this.#dataStateSub = this.#dataManagerSvc
             .getDataStateUpdates(this.#viewConfig.id)

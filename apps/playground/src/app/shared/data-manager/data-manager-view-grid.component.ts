@@ -25,6 +25,7 @@ import {
   selector: 'app-data-manager-view-grid',
   templateUrl: './data-manager-view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DataManagerViewGridComponent implements OnInit {
   @Input()

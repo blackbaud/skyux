@@ -14,8 +14,6 @@ export default {
   ],
 } as Meta<SortComponent>;
 export const Sort = {
-  render: (args: SortComponent) => ({
-    props: args,
-  }),
+  render: (args: SortComponent): { props: unknown } => ({ props: args }),
   args: {},
 };

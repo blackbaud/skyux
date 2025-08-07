@@ -20,7 +20,7 @@ describe('modals-storybook', () => {
         'positioned-background',
       ]) {
         it(`should render the ${modalType} modal on desktop`, () => {
-          cy.get('app-modal').should('exist').should('be.visible');
+          cy.skyReady('app-modal');
           cy.get(`.open-${modalType}-modal-btn`)
             .should('exist')
             .should('be.visible')
@@ -63,7 +63,7 @@ describe('modals-storybook', () => {
 
         it(`should render the ${modalType} modal on mobile`, () => {
           cy.viewport('iphone-x', 'portrait');
-          cy.get('app-modal').should('exist').should('be.visible');
+          cy.skyReady('app-modal');
           cy.get(`.open-${modalType}-modal-btn`)
             .should('exist')
             .should('be.visible')

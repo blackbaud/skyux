@@ -9,12 +9,9 @@ describe('forms-storybook - toggle switch', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('app-toggle-switch')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(
-            `toggleswitchcomponent-toggleswitch--toggle-switch-${theme}`,
-          );
+        cy.skyReady('app-toggle-switch').screenshot(
+          `toggleswitchcomponent-toggleswitch--toggle-switch-${theme}`,
+        );
         cy.get('app-toggle-switch').percySnapshot(
           `toggleswitchcomponent-toggleswitch--toggle-switch-${theme}`,
           {
@@ -23,5 +20,5 @@ describe('forms-storybook - toggle switch', () => {
         );
       });
     });
-  }, true);
+  });
 });

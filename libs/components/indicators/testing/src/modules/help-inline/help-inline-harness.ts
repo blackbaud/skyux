@@ -5,8 +5,9 @@ import { SkyHelpInlineHarnessFilters } from './help-inline-harness-filters';
 
 /**
  * Harness for interacting with a help inline component in tests.
+ * @docsId SkyHelpInlineHarnessLegacy
+ * @deprecated Use the `SkyHelpInlineHarness` from `@skyux/help-inline/testing` instead.
  */
-
 export class SkyHelpInlineHarness extends SkyComponentHarness {
   /**
    * @internal

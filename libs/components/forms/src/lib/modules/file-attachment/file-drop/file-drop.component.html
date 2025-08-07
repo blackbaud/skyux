@@ -91,7 +91,11 @@
                   | skyLibResources
               }}
             </div>
-            <sky-icon icon="cloud-upload" class="sky-file-upload-icon" />
+            <sky-icon
+              class="sky-file-upload-icon"
+              iconName="arrow-upload"
+              iconSize="xl"
+            />
           </div>
 
           <!-- This will appear when file is dragged over and is valid -->
@@ -107,7 +111,11 @@
                   | skyLibResources
               }}
             </div>
-            <sky-icon icon="bullseye" class="sky-file-upload-icon" />
+            <sky-icon
+              class="sky-file-upload-icon sky-file-upload-icon-target"
+              iconName="target"
+              iconSize="xl"
+            />
           </div>
 
           <!-- This will appear when file is dragged over and is invalid -->
@@ -123,7 +131,11 @@
                   | skyLibResources
               }}
             </div>
-            <sky-icon icon="times-circle" class="sky-file-upload-icon" />
+            <sky-icon
+              class="sky-file-upload-icon sky-file-upload-icon-close"
+              iconName="prohibited"
+              iconSize="xl"
+            />
           </div>
         </div>
       }
@@ -203,7 +215,7 @@
   [errors]="ngControl?.errors"
 >
   <ng-content select="sky-form-error" />
-  @for (rejectedFile of rejectedFiles; track rejectedFile) {
+  @for (rejectedFile of rejectedFiles; track rejectedFile.url) {
     <div>
       @if (rejectedFile.errorType === 'fileType') {
         <sky-form-error

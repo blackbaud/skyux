@@ -7,7 +7,6 @@ import {
 import {
   ProjectConfiguration,
   Tree,
-  formatFiles,
   generateFiles,
   getProjects,
   joinPathFragments,
@@ -20,6 +19,7 @@ import { Linter } from '@nx/eslint';
 import { configurationGenerator as storybookConfigurationGenerator } from '@nx/storybook';
 import { moveGenerator } from '@nx/workspace';
 
+import { formatFiles } from '../../utils/format-files';
 import configurePercy from '../configure-percy';
 import configureStorybook from '../configure-storybook';
 
@@ -53,7 +53,7 @@ function normalizeOptions(options: Partial<Schema>): NormalizedSchema {
 /**
  * Drop the BASE_PATH from the project name and re-sort the projects.
  */
-function simplifyWorkspaceName(tree: Tree, projectName: string) {
+function simplifyWorkspaceName(tree: Tree, projectName: string): void {
   const projects = getProjects(tree);
   projects.forEach((projectConfig) => {
     let projectConfigJson = JSON.stringify(projectConfig).replace(
@@ -78,7 +78,7 @@ function simplifyWorkspaceName(tree: Tree, projectName: string) {
 /**
  * Add the packages polyfills to the build and test targets.
  */
-function addPackagesPolyfills(tree: Tree, projectName: string) {
+function addPackagesPolyfills(tree: Tree, projectName: string): void {
   const polyfillsBuilders = [
     '@angular-devkit/build-angular:application',
     '@angular-devkit/build-angular:browser',
@@ -116,7 +116,10 @@ function addPackagesPolyfills(tree: Tree, projectName: string) {
  * - Applies configuration to the projects.
  * - Generates stories and tests if there are demonstration components in the -storybook project.
  */
-export default async function (tree: Tree, schema: Partial<Schema>) {
+export default async function (
+  tree: Tree,
+  schema: Partial<Schema>,
+): Promise<void> {
   const initialNxJson = tree.read('nx.json', 'utf-8');
   const initialPackageJson = tree.read('package.json', 'utf-8');
   const options = normalizeOptions(schema);
@@ -178,7 +181,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       directory: `apps/${BASE_PATH}/${options.storybookAppName}`,
       skipPackageJson: true,
       skipTests: !options.includeTests,
-      standaloneConfig: true,
+      skipFormat: true,
       standalone: false,
       bundler: 'webpack',
       unitTestRunner: UnitTestRunner.None,
@@ -244,11 +247,18 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       interactionTests: false,
       linter: Linter.EsLint,
       configureStaticServe: true,
+      skipFormat: true,
     });
   }
   if (!moveProject) {
-    await configureStorybook(tree, { name: options.storybookAppName });
-    await configurePercy(tree, { name: `${options.storybookAppName}-e2e` });
+    await configureStorybook(tree, {
+      name: options.storybookAppName,
+      skipFormat: true,
+    });
+    await configurePercy(tree, {
+      name: `${options.storybookAppName}-e2e`,
+      skipFormat: true,
+    });
   }
 
   // Clean up duplicate entries in nx.json
@@ -280,5 +290,5 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
   tree.write('nx.json', `${initialNxJson}`);
   tree.write('package.json', `${initialPackageJson}`);
 
-  await formatFiles(tree);
+  await formatFiles(tree, { skipFormat: schema.skipFormat });
 }

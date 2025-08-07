@@ -12,6 +12,7 @@ import { SkyErrorService } from './error.service';
   styleUrls: ['./error.component.scss'],
   templateUrl: './error.component.html',
   providers: [SkyErrorService],
+  standalone: false,
 })
 export class SkyErrorComponent implements OnInit {
   /**
@@ -55,13 +56,13 @@ export class SkyErrorComponent implements OnInit {
     this.#resourcesSvc = resourcesSvc;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     if (this.errorType) {
       this.setErrorTypeFields();
     }
   }
 
-  public setErrorTypeFields() {
+  public setErrorTypeFields(): void {
     switch (this.errorType?.toLowerCase()) {
       case 'broken':
         this.defaultTitle = this.#getString('skyux_errors_broken_title');

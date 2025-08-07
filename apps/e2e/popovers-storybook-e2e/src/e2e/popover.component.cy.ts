@@ -11,7 +11,7 @@ describe(`popovers-storybook`, () => {
           ),
       );
       it('should render the component', () => {
-        cy.get('#popovers-ready').should('exist');
+        cy.skyReady('app-popover', ['#popovers-ready']);
 
         cy.get('.popover-message')
           .should('exist')
@@ -48,15 +48,12 @@ describe(`popovers-storybook`, () => {
           'The content of a popover can be text, HTML, or Angular components.',
         );
 
-        cy.window().percySnapshot(
-          `popovercomponent-popover--popover-${theme}`,
-          {
-            minHeight: 1600,
-            widths: [1280],
-          },
-        );
-        cy.window().screenshot(`popovercomponent-popover--popover-${theme}`);
+        cy.skyVisualTest(`popovercomponent-popover--popover-${theme}`, {
+          capture: 'fullPage',
+          overwrite: true,
+          disableTimersAndAnimations: true,
+        });
       });
     });
-  }, true);
+  });
 });

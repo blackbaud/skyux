@@ -20,6 +20,8 @@
   --sky-override-text-editor-box-shadow: none;
   --sky-override-text-editor-disabled-cursor: default;
   --sky-override-text-editor-label-color: var(--sky-text-color-default);
+  --sky-override-text-editor-label-color-focused: var(--sky-text-color-default);
+  --sky-override-text-editor-label-color-invalid: var(--sky-text-color-default);
   --sky-override-text-editor-label-display: flex;
   --sky-override-text-editor-label-font-size: 15px;
   --sky-override-text-editor-label-font-weight: 400;
@@ -44,11 +46,18 @@
 @include compatMixins.sky-modern-overrides('.sky-text-editor', false) {
   --sky-override-text-editor-background-color: var(--modern-color-white);
   --sky-override-text-editor-border-color: #{$sky-theme-modern-border-color-neutral-medium};
+  --sky-override-text-editor-box-shadow-focused:
+    inset 0 0 0 var(--sky-border-width-input-focus)
+      var(--sky-color-border-input-focus),
+    var(--sky-elevation-focus);
   --sky-override-text-editor-focus-shadow: #{$sky-theme-modern-elevation-1-shadow-size
     $sky-theme-modern-elevation-1-shadow-color};
+  --sky-override-text-editor-label-color: var(--sky-text-color-deemphasized);
   --sky-override-text-editor-label-padding: 10px 10px 0 10px;
   --sky-override-text-editor-toolbar-section-padding: #{$sky-theme-modern-space-sm};
   --sky-override-text-editor-top-toolbar-bottom-padding: 0;
+  --sky-override-text-editor-toolbar-item-spacing: 0
+    var(--sky-space-gap-action_group-xl) 0 0;
 }
 
 sky-text-editor.sky-form-field-stacked {
@@ -69,6 +78,7 @@ sky-text-editor.sky-form-field-stacked {
         var(--sky-color-border-input-base)
       )
   );
+  background-color: var(--sky-color-background-input-base);
 
   &.sky-text-editor-disabled {
     background-color: var(--sky-color-background-input-disabled);
@@ -84,21 +94,18 @@ sky-text-editor.sky-form-field-stacked {
   }
 
   .sky-text-editor-label-wrapper:not(:empty) {
-    background-color: var(
-      --sky-override-text-editor-label-background-color,
-      var(--sky-color-background-input-base)
-    );
+    background-color: var(--sky-override-text-editor-label-background-color);
     display: var(--sky-override-text-editor-label-display, inline-block);
     padding: var(
       --sky-override-text-editor-label-padding,
-      var(--sky-space-inset-input_label-top-m)
-        var(--sky-space-inset-input-right-m) 0
-        var(--sky-space-inset-input-left-m)
+      var(--sky-comp-input-label-space-inset-top)
+        var(--sky-comp-input-value-space-inset-right) 0
+        var(--sky-comp-input-value-space-inset-left)
     );
     width: 100%;
     color: var(
       --sky-override-text-editor-label-color,
-      var(--sky-color-text-deemphasized)
+      var(--sky-color-text-default)
     );
 
     label {
@@ -109,7 +116,7 @@ sky-text-editor.sky-form-field-stacked {
       font-style: var(--sky-font-style-input-label);
       font-weight: var(
         --sky-override-text-editor-label-font-weight,
-        var(--sky-font-weight-input-label)
+        var(--sky-font-style-input-label)
       );
       letter-spacing: var(--sky-font-letter_spacing-input-label);
       line-height: var(
@@ -124,15 +131,15 @@ sky-text-editor.sky-form-field-stacked {
   .sky-text-editor-wrapper {
     display: flex;
     flex-wrap: wrap;
-    background-color: var(
-      --sky-override-text-editor-background-color,
-      var(--sky-color-background-input-base)
-    );
+    background-color: var(--sky-override-text-editor-background-color);
     width: 100%;
     height: 300px;
     padding: var(
       --sky-override-text-editor-wrapper-padding,
-      var(--sky-space-inset-balanced-m)
+      var(--sky-comp-text_editor-space-inset-top)
+        var(--sky-comp-text_editor-space-inset-right)
+        var(--sky-comp-text_editor-space-inset-bottom)
+        var(--sky-comp-text_editor-space-inset-left)
     );
     font-size: 1.2rem;
     border-bottom-left-radius: var(
@@ -186,7 +193,7 @@ sky-text-editor.sky-form-field-stacked {
 
     .sky-text-editor-label-wrapper {
       color: var(
-        --sky-override-text-editor-label-color,
+        --sky-override-text-editor-label-color-invalid,
         var(--sky-color-text-danger)
       );
     }
@@ -197,8 +204,7 @@ sky-text-editor.sky-form-field-stacked {
       box-shadow: var(
         --sky-override-text-editor-box-shadow-focused,
         inset 0 0 0 var(--sky-border-width-input-focus)
-          var(--sky-color-border-input-focus),
-        var(--sky-override-text-editor-focus-shadow, var(--sky-elevation-focus))
+          var(--sky-color-border-input-focus)
       );
       border: var(--sky-override-text-editor-border-focused, none);
       outline: none;
@@ -206,7 +212,7 @@ sky-text-editor.sky-form-field-stacked {
 
     .sky-text-editor-label-wrapper {
       color: var(
-        --sky-override-text-editor-label-color,
+        --sky-override-text-editor-label-color-focused,
         var(--sky-color-text-action)
       );
     }
@@ -225,18 +231,17 @@ sky-text-editor.sky-form-field-stacked {
   .sky-text-editor-toolbar {
     .sky-toolbar-container {
       background-color: var(
-        --sky-override-text-editor-toolbar-background-color,
-        var(--sky-color-background-input-base)
+        --sky-override-text-editor-toolbar-background-color
       ) !important;
     }
 
     .sky-toolbar-section {
       padding: var(
         --sky-override-text-editor-toolbar-section-padding,
-        var(--sky-space-inset-vertical-top-s)
-          var(--sky-space-inset-input-right-m)
-          var(--sky-space-inset-vertical-bottom-s)
-          var(--sky-space-inset-input-left-m)
+        var(--sky-comp-toolbar-space-inset-top)
+          var(--sky-comp-input-value-space-inset-right)
+          var(--sky-comp-toolbar-space-inset-bottom)
+          var(--sky-comp-input-value-space-inset-left)
       ) !important;
       border-top: var(
         --sky-override-text-editor-toolbar-border,
@@ -247,7 +252,7 @@ sky-text-editor.sky-form-field-stacked {
     sky-toolbar-section:not(:last-of-type) .sky-toolbar-section {
       padding-bottom: var(
         --sky-override-text-editor-top-toolbar-bottom-padding,
-        var(--sky-space-inset-vertical-bottom-s)
+        var(--sky-comp-toolbar-space-inset-bottom)
       ) !important;
       border-top: none !important;
     }
@@ -260,7 +265,7 @@ sky-text-editor.sky-form-field-stacked {
     .sky-toolbar-item {
       margin: var(
         --sky-override-text-editor-toolbar-item-spacing,
-        0 var(--sky-space-gap-action_group-xl) 0 0
+        0 var(--sky-space-gap-action_group-m) 0 0
       ) !important;
     }
 

@@ -1,5 +1,26 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
-@use 'scss/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-wait-container') {
+  --sky-override-wait-mask-color: rgba(255, 255, 255, 0.7);
+  --sky-override-wait-height: 50px;
+  --sky-override-wait-width: 50px;
+  --sky-override-wait-margin-top: -25px;
+  --sky-override-wait-margin-left: -25px;
+  --sky-override-wait-double-bounce-border-radius: 50%;
+  --sky-override-wait-double-bounce-opacity: 0.6;
+  --sky-override-wait-double-bounce-background-color: #{$sky-highlight-color-success};
+}
+
+@include compatMixins.sky-modern-overrides('.sky-wait-container') {
+  --sky-override-wait-height: 50px;
+  --sky-override-wait-width: 50px;
+  --sky-override-wait-margin-top: -25px;
+  --sky-override-wait-margin-left: -25px;
+  --sky-override-wait-double-bounce-background-color: var(
+    --modern-color-green-50
+  );
+}
 
 .sky-wait-mask-loading-blocking {
   margin: auto;
@@ -8,7 +29,10 @@
   right: 0;
   left: 0;
   bottom: 0;
-  background-color: $sky-wait-mask-color;
+  background-color: var(
+    --sky-override-wait-mask-color,
+    var(--sky-color-background-blocking)
+  );
   z-index: $sky-component-wait-z-index;
 }
 
@@ -17,10 +41,16 @@
 }
 
 .sky-wait {
-  width: 50px;
-  height: 50px;
-  margin-top: -25px;
-  margin-left: -25px;
+  width: var(--sky-override-wait-width, var(--sky-size-icon-xxxl));
+  height: var(--sky-override-wait-height, var(--sky-size-icon-xxxl));
+  margin-top: var(
+    --sky-override-wait-margin-top,
+    calc(calc(var(--sky-size-icon-xxxl) / 2) * -1)
+  );
+  margin-left: var(
+    --sky-override-wait-margin-left,
+    calc(calc(var(--sky-size-icon-xxxl) / 2) * -1)
+  );
   position: absolute;
   top: 50%;
   left: 50%;
@@ -43,9 +73,18 @@
 .sky-wait-double-bounce2 {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  background-color: $sky-wait-color;
-  opacity: 0.6;
+  border-radius: var(
+    --sky-override-wait-double-bounce-border-radius,
+    var(--sky-border-radius-round)
+  );
+  background-color: var(
+    --sky-override-wait-double-bounce-background-color,
+    var(--sky-color-icon-info)
+  );
+  opacity: var(
+    --sky-override-wait-double-bounce-opacity,
+    var(--sky-opacity-wait)
+  );
   position: absolute;
   top: 0;
   left: 0;

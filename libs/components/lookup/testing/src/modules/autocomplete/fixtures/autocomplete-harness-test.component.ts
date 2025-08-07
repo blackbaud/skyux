@@ -13,6 +13,7 @@ interface Color {
 @Component({
   selector: 'sky-test-autocomplete-1',
   templateUrl: './autocomplete-harness-test.component.html',
+  standalone: false,
 })
 export class AutocompleteHarnessTestComponent {
   public ariaLabelledby: string | undefined;

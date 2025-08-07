@@ -3,7 +3,7 @@
     <sky-toolbar-item>
       <button class="sky-btn sky-btn-primary" type="button">
         <!-- The margin style here is to properly space the icon and button text in modern theme. This is not possible in the toolbar item with pure css today because you can't distinguish pure text nodes in css. -->
-        <sky-icon icon="plus-circle" class="sky-margin-inline-compact" />
+        <sky-icon class="sky-margin-inline-compact" iconName="add" />
         Button 0
       </button>
     </sky-toolbar-item>
@@ -11,13 +11,15 @@
       <button class="sky-btn sky-btn-default" type="button">Button 1</button>
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button class="sky-btn sky-btn-default" type="button">Button 2</button>
+      <button class="sky-btn sky-btn-link" type="button">Link</button>
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button class="sky-btn sky-btn-default" type="button">Button 3</button>
+      <button class="sky-btn sky-btn-default" type="button">
+        Secondary/Default
+      </button>
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button class="sky-btn sky-btn-default" type="button">Button 4</button>
+      <button class="sky-btn sky-btn-primary" type="button">Primary</button>
     </sky-toolbar-item>
     <sky-toolbar-item>
       <button class="sky-btn sky-btn-primary" type="button" disabled>
@@ -34,23 +36,23 @@
     </sky-toolbar-item>
     <sky-toolbar-view-actions>
       <sky-radio-group class="sky-switch-icon-group" [(ngModel)]="activeViewId">
-        <sky-radio icon="table" label="Table" value="table" />
-        <sky-radio icon="list" label="List" value="list" />
-        <sky-radio icon="map-marker" label="Map" value="map" />
+        <sky-radio iconName="table" label="Table" value="table" />
+        <sky-radio iconName="text-bullet-list" label="List" value="list" />
+        <sky-radio iconName="location" label="Map" value="map" />
       </sky-radio-group>
       <button
         class="sky-btn sky-btn-default sky-btn-icon"
         title="Sort descending"
         type="button"
       >
-        <sky-icon icon="angle-double-down" />
+        <sky-icon iconName="chevron-double-down" />
       </button>
       <button
         class="sky-btn sky-btn-default sky-btn-icon"
         title="Sort ascending"
         type="button"
       >
-        <sky-icon icon="angle-double-up" />
+        <sky-icon iconName="chevron-double-up" />
       </button>
     </sky-toolbar-view-actions>
   </sky-toolbar>
@@ -89,14 +91,14 @@
           title="Sort descending"
           type="button"
         >
-          <sky-icon icon="angle-double-down" />
+          <sky-icon iconName="chevron-double-down" />
         </button>
         <button
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Sort ascending"
           type="button"
         >
-          <sky-icon icon="angle-double-up" />
+          <sky-icon iconName="chevron-double-up" />
         </button>
       </sky-toolbar-view-actions>
     </sky-toolbar-section>
@@ -138,7 +140,7 @@
     <sky-toolbar-item>
       <button class="sky-btn sky-btn-primary" type="button">
         <!-- The margin style here is to property space the icon and button text in modern theme. This is not possible in the toolbar item with pure css today because you can't distinguish pure text nodes in css. -->
-        <sky-icon icon="plus-circle" class="sky-margin-inline-compact" />
+        <sky-icon class="sky-margin-inline-compact" iconName="add" />
         Button 0
       </button>
     </sky-toolbar-item>
@@ -172,14 +174,14 @@
         title="Sort descending"
         type="button"
       >
-        <sky-icon icon="angle-double-down" />
+        <sky-icon iconName="chevron-double-down" />
       </button>
       <button
         class="sky-btn sky-btn-default sky-btn-icon"
         title="Sort ascending"
         type="button"
       >
-        <sky-icon icon="angle-double-up" />
+        <sky-icon iconName="chevron-double-up" />
       </button>
     </sky-toolbar-view-actions>
   </sky-toolbar>

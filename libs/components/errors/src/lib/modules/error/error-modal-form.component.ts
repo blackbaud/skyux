@@ -8,7 +8,6 @@ import { ErrorModalConfig } from './error-modal-config';
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-error-modal-form',
   templateUrl: './error-modal-form.component.html',
   styleUrls: ['./error-modal-form.component.scss'],

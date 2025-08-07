@@ -9,6 +9,7 @@ import { SkyToastType } from '../types/toast-type';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './toast.component.fixture.html',
+  standalone: false,
 })
 export class SkyToastTestComponent {
   public autoClose = false;

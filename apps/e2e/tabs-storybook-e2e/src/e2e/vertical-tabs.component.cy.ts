@@ -9,12 +9,9 @@ describe('tabs-storybook - vertical tabs', () => {
         ),
       );
       it('should render the vertical tabs on a large screen', () => {
-        cy.get('app-vertical-tabs')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(
-            `verticaltabscomponent-verticaltabs--vertical-tabs-${theme}`,
-          );
+        cy.skyReady('app-vertical-tabs').screenshot(
+          `verticaltabscomponent-verticaltabs--vertical-tabs-${theme}`,
+        );
         cy.get('app-vertical-tabs').percySnapshot(
           `verticaltabscomponent-verticaltabs--vertical-tabs-${theme}`,
           {
@@ -25,9 +22,7 @@ describe('tabs-storybook - vertical tabs', () => {
 
       it('should render the vertical tabs content section on a mobile screen', () => {
         cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
-        cy.get('app-vertical-tabs')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-vertical-tabs')
           .get('#vertical-tabs-with-groups .sky-vertical-tabset-show-tabs-btn')
           .should('exist')
           .should('be.visible')
@@ -51,9 +46,7 @@ describe('tabs-storybook - vertical tabs', () => {
 
       it('should render the vertical tabs tablist section on a mobile screen', () => {
         cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
-        cy.get('app-vertical-tabs')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-vertical-tabs')
           .get('#vertical-tabs-with-groups .sky-vertical-tabset-show-tabs-btn')
           .should('exist')
           .should('be.visible')

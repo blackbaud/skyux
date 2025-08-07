@@ -10,6 +10,7 @@ import { ActionButtonModalComponent } from './action-button-modal.component';
 @Component({
   selector: 'app-action-button',
   templateUrl: './action-button.component.html',
+  standalone: false,
 })
 export class ActionButtonComponent {
   #modalSvc = inject(SkyModalService);
@@ -18,19 +19,19 @@ export class ActionButtonComponent {
 
   public actionButtons = [
     {
-      iconType: 'square-o',
+      iconName: 'square',
       header: 'Action button',
       details:
         'The action button module creates a large button with an icon, heading, and details.',
     },
     {
-      iconType: 'bell',
+      iconName: 'alert',
       header: 'Alert',
       details:
         'The alert component highlights critical information that users must see.',
     },
     {
-      iconType: 'search',
+      iconName: 'search',
       header: 'Autocomplete',
       details:
         'The autocomplete component creates a text input that filters data based on user entries.',
@@ -44,37 +45,37 @@ export class ActionButtonComponent {
       },
     },
     {
-      iconType: 'calculator',
+      iconName: 'calculator',
       header: 'Autonumeric',
       details:
         'The autonumeric module formats currency and other numbers that users enter in form inputs.',
     },
     {
-      iconType: 'user',
+      iconName: 'person',
       header: 'Avatar',
       details:
         'The avatar component displays an image to identify a record and allows users to change the image.',
     },
     {
-      iconType: 'arrow-up',
+      iconName: 'arrow-up',
       header: 'Back to top',
       details:
         'The back to top directive creates a button for users to easily access the top of long lists.',
     },
     {
-      iconType: 'square-o',
+      iconName: 'square',
       header: 'Button',
       details:
         'The button classes create buttons to trigger actions from within an interface.',
     },
     {
-      iconType: 'arrow-up',
+      iconName: 'arrow-up',
       header: 'Height',
       details:
         "If you're looking at me in modern theme, this action button should set the height for the rest of the buttons because it has the most content. I made sure the text is extra long so its obvious!",
     },
     {
-      iconType: 'eye-slash',
+      iconName: 'eye-off',
       header: 'Not visible',
       details: 'This link should not be visible.',
       permalink: {

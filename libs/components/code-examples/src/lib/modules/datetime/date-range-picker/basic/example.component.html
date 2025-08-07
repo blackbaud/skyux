@@ -1,0 +1,24 @@
+<div class="sky-padding-even-lg">
+  <form [formGroup]="formGroup">
+    <sky-date-range-picker
+      data-sky-id="last-donation"
+      formControlName="lastDonation"
+      [dateFormat]="dateFormat"
+      [helpPopoverContent]="inlineHelpPopover"
+      [hintText]="hintText"
+      [labelText]="labelText"
+    >
+      @if (lastDonation.errors?.['dateWeekend']) {
+        <sky-form-error
+          errorName="dateWeekend"
+          errorText="Do not pick a weekend."
+        />
+      }
+    </sky-date-range-picker>
+  </form>
+</div>
+
+<ng-template #inlineHelpPopover>
+  By default, donations include one-time gifts, pledges, and matching gifts. To
+  customize, see <a>Giving settings</a>.
+</ng-template>

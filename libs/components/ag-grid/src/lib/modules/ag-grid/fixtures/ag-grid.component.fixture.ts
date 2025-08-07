@@ -8,7 +8,13 @@ import {
 } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, DomLayoutType, GridOptions } from 'ag-grid-community';
+import {
+  AllCommunityModule,
+  ColDef,
+  DomLayoutType,
+  GridOptions,
+  ModuleRegistry,
+} from 'ag-grid-community';
 
 import { SkyAgGridWrapperComponent } from '../ag-grid-wrapper.component';
 import { SkyAgGridService } from '../ag-grid.service';
@@ -34,10 +40,13 @@ export const Loading = new InjectionToken<boolean>('Loading', {
   factory: (): boolean => false,
 });
 
+ModuleRegistry.registerModules([AllCommunityModule]);
+
 @Component({
   selector: 'sky-ag-grid-component-fixture',
   templateUrl: './ag-grid.component.fixture.html',
   encapsulation: ViewEncapsulation.None,
+  imports: [SkyAgGridWrapperComponent, AgGridAngular],
 })
 export class SkyAgGridFixtureComponent implements OnInit {
   @ViewChild('agGrid', { static: true })

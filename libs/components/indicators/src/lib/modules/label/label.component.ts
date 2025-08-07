@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
-import { SkyIconStackItem } from '@skyux/icon';
 
 import { Subscription } from 'rxjs/internal/Subscription';
 
@@ -24,6 +23,7 @@ const LABEL_TYPE_DEFAULT: SkyLabelType = 'info';
   selector: 'sky-label',
   templateUrl: './label.component.html',
   styleUrls: ['./label.component.scss'],
+  standalone: false,
 })
 export class SkyLabelComponent implements AfterViewChecked, OnDestroy, OnInit {
   /**
@@ -65,15 +65,11 @@ export class SkyLabelComponent implements AfterViewChecked, OnDestroy, OnInit {
     return this.#_customDescription;
   }
 
-  public baseIcon: SkyIconStackItem | undefined;
-
   public descriptionComputed: string | undefined;
 
-  public icon: string | undefined;
+  public iconName: string | undefined;
 
   public labelTypeOrDefault = LABEL_TYPE_DEFAULT;
-
-  public topIcon: SkyIconStackItem | undefined;
 
   #_descriptionType: SkyIndicatorDescriptionType | undefined;
   #_customDescription: string | undefined;
@@ -106,13 +102,9 @@ export class SkyLabelComponent implements AfterViewChecked, OnDestroy, OnInit {
   }
 
   #updateIcon(): void {
-    const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
+    this.iconName = SkyIndicatorIconUtility.getIconNameForType(
       this.labelTypeOrDefault,
     );
-
-    this.icon = indicatorIcon.defaultThemeIcon;
-    this.baseIcon = indicatorIcon.modernThemeBaseIcon;
-    this.topIcon = indicatorIcon.modernThemeTopIcon;
   }
 
   #updateDescriptionComputed(): void {

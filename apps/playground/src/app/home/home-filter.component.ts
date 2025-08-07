@@ -7,7 +7,6 @@ import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-home-filter',
   templateUrl: './home-filter.component.html',
   imports: [SkyModalModule, SkyRepeaterModule],
@@ -26,7 +25,7 @@ export class HomeFiltersModalDemoComponent {
     }
   }
 
-  public applyFilters() {
+  public applyFilters(): void {
     const result: SkyDataManagerFilterData = {};
 
     result.filtersApplied =
@@ -38,11 +37,11 @@ export class HomeFiltersModalDemoComponent {
     this.instance.save(result);
   }
 
-  public clearAllFilters() {
+  public clearAllFilters(): void {
     this.libraries.forEach((lib) => (lib.isSelected = false));
   }
 
-  public cancel() {
+  public cancel(): void {
     this.instance.cancel();
   }
 }

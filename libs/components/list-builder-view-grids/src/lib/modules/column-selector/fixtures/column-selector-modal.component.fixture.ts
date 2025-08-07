@@ -11,6 +11,7 @@ import { SkyColumnSelectorComponent } from '../column-selector-modal.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './column-selector-modal.component.fixture.html',
+  standalone: false,
 })
 export class ColumnSelectorTestComponent implements OnDestroy {
   public columns = [

@@ -24,7 +24,7 @@ const routes: Routes = [
       ),
     data: {
       name: 'Text editor looped',
-      icon: 'pencil-square-o',
+      icon: 'notepad-edit',
       library: 'text-editor',
     },
   },

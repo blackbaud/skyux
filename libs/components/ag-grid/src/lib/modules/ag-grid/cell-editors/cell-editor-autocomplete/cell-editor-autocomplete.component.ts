@@ -6,7 +6,14 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { SkyI18nModule } from '@skyux/i18n';
+import { SkyAutocompleteModule } from '@skyux/lookup';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
@@ -23,6 +30,12 @@ import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
   templateUrl: './cell-editor-autocomplete.component.html',
   styleUrls: ['./cell-editor-autocomplete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SkyAutocompleteModule,
+    SkyI18nModule,
+  ],
 })
 export class SkyAgGridCellEditorAutocompleteComponent
   implements ICellEditorAngularComp

@@ -33,7 +33,6 @@ const EDIT_MENU_ACTION = 'skyux_text_editor_edit_menu_action_';
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-text-editor-menubar',
   templateUrl: './text-editor-menubar.component.html',
   styleUrls: ['./text-editor-menubar.component.scss'],
@@ -122,40 +121,40 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
       .subscribe((resources) => {
         this.formatItems = [
           {
-            function: () => this.execCommand('bold'),
+            function: (): void => this.execCommand('bold'),
             label: resources.bold,
             keyShortcut: resources.boldShort,
           },
           {
-            function: () => this.execCommand('italic'),
+            function: (): void => this.execCommand('italic'),
             label: resources.italic,
             keyShortcut: resources.italicShort,
           },
           {
-            function: () => this.execCommand('underline'),
+            function: (): void => this.execCommand('underline'),
             label: resources.underline,
             keyShortcut: resources.underlineShort,
           },
           {
-            function: () => this.execCommand('strikethrough'),
+            function: (): void => this.execCommand('strikethrough'),
             label: resources.strikethrough,
           },
           {
             isDivider: true,
           },
           {
-            function: () => this.#clearFormat(),
+            function: (): void => this.#clearFormat(),
             label: resources.clearFormatting,
           },
         ];
         this.editItems = [
           {
-            function: () => this.execCommand('undo'),
+            function: (): void => this.execCommand('undo'),
             label: resources.undo,
             keyShortcut: resources.undoShort,
           },
           {
-            function: () => this.execCommand('redo'),
+            function: (): void => this.execCommand('redo'),
             label: resources.redo,
             keyShortcut: resources.redoShort,
           },
@@ -163,17 +162,17 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
             isDivider: true,
           },
           {
-            function: () => this.execCommand('cut'),
+            function: (): void => this.execCommand('cut'),
             label: resources.cut,
             keyShortcut: resources.cutShort,
           },
           {
-            function: () => this.execCommand('copy'),
+            function: (): void => this.execCommand('copy'),
             label: resources.copy,
             keyShortcut: resources.copyShort,
           },
           {
-            function: () => this.execCommand('paste'),
+            function: (): void => this.execCommand('paste'),
             label: resources.paste,
             keyShortcut: resources.pasteShort,
           },
@@ -181,7 +180,7 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
             isDivider: true,
           },
           {
-            function: () => this.execCommand('selectAll'),
+            function: (): void => this.execCommand('selectAll'),
             label: resources.selectAll,
             keyShortcut: resources.selectAllShort,
           },

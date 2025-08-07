@@ -1,15 +1,18 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-.sky-progress-indicator-title {
-  line-height: 1.1;
-  margin: 0 0 $sky-margin-triple;
-  text-align: center;
+@include compatMixins.sky-default-overrides('.sky-progress-indicator-title') {
+  --sky-override-progress-indicator-title-line-height: 1.1;
+  --sky-override-progress-indicator-title-margin-bottom: #{$sky-margin-triple};
 }
 
-@include mixins.sky-theme-modern {
-  .sky-progress-indicator-title {
-    line-height: inherit;
-    margin: 0 0 $sky-theme-modern-margin-stacked-xxl;
-  }
+.sky-progress-indicator-title {
+  line-height: var(--sky-override-progress-indicator-title-line-height);
+  margin: 0 0
+    var(
+      --sky-override-progress-indicator-title-margin-bottom,
+      var(--sky-space-stacked-xxl)
+    );
+  text-align: center;
 }

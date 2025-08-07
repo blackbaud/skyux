@@ -16,7 +16,7 @@ import { ActionButtonComponent } from './action-button.component';
     {
       provide: SkyHrefResolverService,
       useValue: {
-        resolveHref: (args: SkyHrefResolverArgs) =>
+        resolveHref: (args: SkyHrefResolverArgs): Promise<SkyHref> =>
           Promise.resolve<SkyHref>({
             url: args.url,
             userHasAccess: !args.url.startsWith('1bb-nav://nope/'),

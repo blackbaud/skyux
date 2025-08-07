@@ -5,8 +5,7 @@
       helpKey="help-key.html"
       hintText="Hint text content."
       labelText="Favorite color"
-      pickerButtonIcon="calendar"
-      pickerButtonIconType="skyux"
+      pickerButtonIcon="calendar-ltr"
       stacked="true"
       (selectedColorChanged)="onSelectedColorChanged($event)"
     >
@@ -17,7 +16,7 @@
         [skyColorpickerInput]="colorPicker"
       />
 
-      @if ("favoriteColor.errors?.['opaque']") {
+      @if (favoriteColor.errors?.['opaque']) {
         <sky-form-error
           errorName="opaque"
           errorText="Color must have at least 80% opacity."

@@ -8,6 +8,7 @@ interface Item {
 @Component({
   selector: 'test-repeater-harness',
   templateUrl: './repeater-harness-test.component.html',
+  standalone: false,
 })
 export class RepeaterHarnessTestComponent {
   public items: Item[] = [

@@ -1,138 +1,306 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-selection-box') {
+  --sky-override-selection-box-background-hover: #ffffff;
+  --sky-override-selection-box-background-selected: #{$sky-background-color-selected};
+  --sky-override-selection-box-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  --sky-override-selection-box-box-shadow-hover:
+    0px 0px 5px 0 rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px #{$sky-highlight-color-info};
+  --sky-override-selection-box-box-shadow-selected: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  --sky-override-selection-box-content-margin-right: #{$sky-space-md};
+  --sky-override-selection-box-control-padding-top: 5px;
+  --sky-override-selection-box-description-margin-top: 0;
+  --sky-override-selection-box-header-padding-top: 3px;
+  --sky-override-selection-box-icon-background: transparent;
+  --sky-override-selection-box-icon-border-radius: 0;
+  --sky-override-selection-box-icon-color: #{$sky-text-color-action-primary};
+  --sky-override-selection-box-icon-margin: #{$sky-space-md};
+  --sky-override-selection-box-icon-size: 42px;
+  --sky-override-selection-box-padding: #{$sky-padding-even-large};
+  --sky-override-selection-box-switch-border-hover: solid 1px
+    #{$sky-highlight-color-info};
+  --sky-override-selection-box-switch-control-outline-hover: auto;
+  --sky-override-selection-box-switch-control-box-shadow-focus: none;
+  --sky-override-selection-box-switch-control-border-focus: 1px solid
+    #{$sky-background-color-disabled};
+  --sky-override-selection-box-background-color-disabled: #{$sky-background-color-neutral-light};
+  --sky-override-selection-box-icon-color-disabled: #{$sky-text-color-deemphasized};
+  --sky-override-selection-box-icon-background-color-disabled: transparent;
+  --sky-override-selection-box-header-color-disabled: var(
+    --sky-text-color-default
+  );
+}
+
+@include compatMixins.sky-modern-overrides('.sky-selection-box', false) {
+  --sky-override-selection-box-box-shadow: var(--sky-elevation-raised-100);
+  --sky-override-selection-box-box-shadow-hover:
+    var(--sky-elevation-raised-100),
+    inset 0 0 0 1px #{$sky-theme-modern-background-color-primary-dark};
+  // While the base selected state doesn't need this. Specifying this override so it can be used for interactive states.
+  --sky-override-selection-box-background-selected: var(
+    --sky-color-background-selected-soft
+  );
+  --sky-override-selection-box-box-shadow-selected:
+    inset 0 0 0 2px #1870b8, 0px 1px 8px 0px rgba(0, 0, 0, 0.3),
+    inset 6px 0 0 0 #{$sky-background-color-primary-dark};
+  --sky-override-selection-box-control-padding-top: 5px;
+  --sky-override-selection-box-description-margin-top: 3px;
+  --sky-override-selection-box-header-padding-top: 3px;
+  --sky-override-selection-box-header-color-disabled: var(
+    --sky-color-text-default
+  );
+}
 
 .sky-selection-box {
   display: flex;
   flex-flow: row nowrap;
-  padding: $sky-padding-even-large;
   text-align: left;
 
-  &:hover {
-    background: #ffffff;
-    box-shadow:
-      0px 0px 5px 0 rgba(0, 0, 0, 0.3),
-      inset 0 0 0 1px $sky-highlight-color-info;
-
-    .sky-switch-control {
-      border: solid 1px $sky-highlight-color-info;
+  &.sky-btn-default {
+    // NOTE: The fallback here is the `sky-btn-default` box shadow. Remove rule all together when only modern v2 is supported.
+    &:not(.sky-selection-box-disabled) {
+      box-shadow: var(
+        --sky-override-selection-box-box-shadow,
+        inset 0 0 0 var(--sky-border-width-action-base)
+          var(--sky-color-border-action-secondary-base)
+      );
     }
-  }
 
-  &:focus {
-    .sky-switch-control {
-      //default
-      outline: thin dotted;
+    padding: var(
+      --sky-override-selection-box-padding,
+      var(--sky-comp-selection_box-expanded-space-inset-top)
+        var(--sky-comp-selection_box-expanded-space-inset-right)
+        var(--sky-comp-selection_box-expanded-space-inset-bottom)
+        var(--sky-comp-selection_box-expanded-space-inset-left)
+    );
 
-      //webkit
-      outline: -webkit-focus-ring-color auto 5px;
+    &:hover {
+      background: var(
+        --sky-override-selection-box-background-hover,
+        var(--sky-color-background-action-secondary-hover)
+      );
+      // NOTE: The fallback here is the `sky-btn-default` hover box shadow. Remove rule all together when only modern v2 is supported.
+      box-shadow: var(
+        --sky-override-selection-box-box-shadow-hover,
+        inset 0 0 0 var(--sky-border-width-action-hover)
+          var(--sky-color-border-action-secondary-hover)
+      );
+
+      .sky-switch-control {
+        border: var(
+          --sky-override-selection-box-switch-border-hover,
+          solid var(--sky-border-width-action-hover)
+            var(--sky-color-border-action-secondary-hover)
+        );
+      }
+
+      // Section needed to maintain default and modern v1
+      &.sky-selection-box-selected:not(:has(sky-radio)) {
+        background: var(
+          --sky-override-selection-box-background-selected,
+          var(--sky-color-background-action-secondary-hover)
+        );
+        box-shadow: var(
+          --sky-override-selection-box-box-shadow-selected,
+          inset 0 0 0 var(--sky-border-width-action-hover)
+            var(--sky-color-border-action-secondary-hover)
+        );
+      }
     }
-  }
 
-  &.sky-selection-box-selected {
-    background: $sky-background-color-selected;
+    &:active {
+      background: var(
+        --sky-override-selection-box-background-active,
+        var(--sky-color-background-action-secondary-active)
+      );
+      // NOTE: The fallback here is the `sky-btn-default` hover box shadow. Remove rule all together when only modern v2 is supported.
+      box-shadow: var(
+        --sky-override-selection-box-box-shadow-active,
+        inset 0 0 0 var(--sky-border-width-action-active)
+          var(--sky-color-border-action-secondary-active)
+      );
+
+      .sky-switch-control {
+        border: var(
+          --sky-override-selection-box-switch-border-active,
+          solid var(--sky-border-width-action-active)
+            var(--sky-color-border-action-secondary-active)
+        );
+      }
+
+      // Section needed to maintain default and modern v1
+      &.sky-selection-box-selected:not(:has(sky-radio)) {
+        background: var(
+          --sky-override-selection-box-background-selected,
+          var(--sky-color-background-action-secondary-active)
+        );
+        box-shadow: var(
+          --sky-override-selection-box-box-shadow-selected,
+          inset 0 0 0 var(--sky-border-width-action-active)
+            var(--sky-color-border-action-secondary-active)
+        );
+      }
+    }
+
+    &:focus-visible:not(:active) {
+      background: var(
+        --sky-override-selection-box-background-focus,
+        var(--sky-color-background-action-secondary-focus)
+      );
+      // NOTE: The fallback here is the `sky-btn-default` hover box shadow. Remove rule all together when only modern v2 is supported.
+      box-shadow: var(
+        --sky-override-selection-box-box-shadow-active,
+        inset 0 0 0 var(--sky-border-width-action-focus)
+          var(--sky-color-border-action-secondary-focus)
+      );
+      .sky-switch-control {
+        .sky-switch-input:not(:disabled):checked + .sky-switch-control {
+          border: none;
+        }
+
+        outline: var(
+          --sky-override-selection-box-switch-control-outline-hover,
+          none
+        );
+
+        border: var(
+          --sky-override-selection-box-switch-control-border-focus,
+          none
+        );
+        box-shadow: var(
+          --sky-override-selection-box-switch-control-box-shadow-focus,
+          inset 0 0 0 var(--sky-border-width-action-focus)
+            var(--sky-color-border-action-secondary-focus)
+        );
+      }
+
+      // Section needed to maintain default and modern v1
+      &.sky-selection-box-selected:not(:has(sky-radio)) {
+        background: var(
+          --sky-override-selection-box-background-selected,
+          var(--sky-color-background-action-secondary-focus)
+        );
+        box-shadow: var(
+          --sky-override-selection-box-box-shadow-selected,
+          inset 0 0 0 var(--sky-border-width-action-focus)
+            var(--sky-color-border-action-secondary-focus)
+        );
+      }
+    }
+
+    // We want this base selected style to always be applied when a radio button is being used.
+    &.sky-selection-box-selected:not(:active):not(:hover):not(:focus-visible),
+    &.sky-selection-box-selected:has(sky-radio) {
+      background: var(
+        --sky-override-selection-box-background-selected,
+        var(--sky-color-background-selected-soft)
+      );
+      box-shadow: var(
+        --sky-override-selection-box-box-shadow-selected,
+        inset 0 0 0 var(--sky-border-width-action-base)
+          var(--sky-color-border-action-secondary-base)
+      );
+    }
   }
 
   &.sky-selection-box-disabled {
-    background: $sky-background-color-neutral-light;
+    // NOTE: Needed for default compatibility. Remove when support for default is removed as disabled color will come from `sky-btn-default`.
+    background: var(
+      --sky-override-selection-box-background-color-disabled,
+      var(--sky-color-background-action-secondary-disabled)
+    );
+
+    .sky-selection-box-header {
+      color: var(
+        --sky-override-selection-box-header-color-disabled,
+        var(--sky-color-text-deemphasized)
+      );
+    }
 
     .sky-selection-box-icon {
-      color: $sky-text-color-deemphasized;
+      color: var(
+        --sky-override-selection-box-icon-color-disabled,
+        var(--sky-color-icon-deemphasized)
+      );
+      background: var(
+        --sky-override-selection-box-icon-background-color-disabled,
+        var(--sky-color-background-action-secondary-disabled)
+      );
     }
   }
 
   .sky-selection-box-icon {
-    color: $sky-text-color-action-primary;
-    margin: 0 $sky-space-md 0 0;
-    width: 42px;
-    height: 42px;
+    background: var(
+      --sky-override-selection-box-icon-background,
+      var(--sky-color-background-icon_matte-action-soft)
+    );
+    color: var(
+      --sky-override-selection-box-icon-color,
+      var(--sky-color-icon-action)
+    );
+    margin: 0
+      var(--sky-override-selection-box-icon-margin, var(--sky-space-inline-m)) 0
+      0;
+    width: var(
+      --sky-override-selection-box-icon-size,
+      calc(
+        var(--sky-size-icon-l) +
+          calc(var(--sky-space-inset-thumbnail_matte-xl) * 2)
+      )
+    );
+    height: var(
+      --sky-override-selection-box-icon-size,
+      calc(
+        var(--sky-size-icon-l) +
+          calc(var(--sky-space-inset-thumbnail_matte-xl) * 2)
+      )
+    );
+    border-radius: var(
+      --sky-override-selection-box-icon-border-radius,
+      var(--sky-border-radius-round)
+    );
     display: flex;
     align-items: center;
     justify-content: center;
     flex: 0 0 auto;
 
+    // we need to leave this until font based icons are removed
     .sky-icon {
       font-size: 24px !important;
+    }
+
+    &.sky-selection-box-icon-hidden {
+      display: none;
     }
   }
 
   .sky-selection-box-content {
     flex: 1 1 auto;
-    margin: 0 $sky-space-md 0 0;
+    margin: 0
+      var(
+        --sky-override-selection-box-content-margin-right,
+        var(--sky-space-inline-xl)
+      )
+      0 0;
     white-space: initial;
   }
 
   .sky-selection-box-header {
-    padding-top: 3px;
+    padding-top: var(--sky-override-selection-box-header-padding-top, 0);
   }
 
   .sky-selection-box-control {
     flex: 0 0 auto;
-    padding-top: 5px;
+    padding-top: var(--sky-override-selection-box-control-padding-top, 0);
   }
-}
 
-@include mixins.sky-theme-modern {
-  .sky-selection-box {
-    padding: $sky-theme-modern-padding-even-xl;
-
-    &:hover {
-      box-shadow:
-        $sky-theme-modern-elevation-1-shadow-size
-          $sky-theme-modern-elevation-1-shadow-color,
-        inset 0 0 0 1px $sky-theme-modern-background-color-primary-dark;
-
-      .sky-switch-control {
-        border: solid 1px $sky-theme-modern-background-color-primary-dark;
-      }
-    }
-
-    &:focus {
-      .sky-switch-input:not(:disabled):checked + .sky-switch-control {
-        border: none;
-      }
-
-      .sky-switch-control {
-        outline: none;
-        border: none;
-        box-shadow: inset 0 0 0 2px $sky-theme-modern-color-blue-74;
-      }
-    }
-
-    &.sky-selection-box-selected,
-    &:focus.sky-selection-box-selected {
-      background: var(--sky-background-color-item-selected);
-      box-shadow:
-        inset 0 0 0 2px #1870b8,
-        0px 1px 8px 0px rgba(0, 0, 0, 0.3),
-        inset 6px 0 0 0 $sky-background-color-primary-dark;
-    }
-
-    &.sky-selection-box-disabled {
-      .sky-selection-box-icon {
-        background: #d2d2d2;
-        color: $sky-text-color-deemphasized;
-      }
-    }
-
-    .sky-selection-box-icon {
-      color: $sky-text-color-action-primary;
-      background: $sky-color-blue-05;
-      margin: 0 $sky-theme-modern-space-md 0 0;
-      border-radius: 50%;
-      width: 42px;
-      height: 42px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex: 0 0 auto;
-    }
-
-    .sky-selection-box-content {
-      margin: 0 $sky-theme-modern-space-xl 0 0;
-    }
-
-    .sky-selection-box-description {
-      margin: 3px 0 0 0;
-    }
+  .sky-selection-box-description {
+    margin-top: var(
+      --sky-override-selection-box-description-margin-top,
+      var(--sky-space-stacked-xs)
+    );
   }
 }

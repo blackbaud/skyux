@@ -7,6 +7,7 @@ import { SkyVerticalTabsetComponent } from '../vertical-tabset.component';
   selector: 'sky-test-cmp',
   templateUrl: './vertical-tabset.component.fixture.html',
   styleUrls: ['./vertical-tabset.component.fixture.scss'],
+  standalone: false,
 })
 export class VerticalTabsetTestComponent {
   public active: boolean | undefined = true;

@@ -18,6 +18,7 @@ import { ListItemModel, getData } from '@skyux/list-builder-common';
   template: '<ng-template #cell />',
   styleUrls: ['./grid-cell.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyGridCellComponent implements OnInit {
   @Input()
@@ -38,15 +39,15 @@ export class SkyGridCellComponent implements OnInit {
   })
   private container: ViewContainerRef;
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.container.createEmbeddedView(this.template, this);
   }
 
-  public get row() {
+  public get row(): any {
     return this.item.data;
   }
 
-  public get value() {
+  public get value(): any {
     if (this.item.data && (this.fieldSelector || this.columnId)) {
       return getData(this.item.data, this.fieldSelector || this.columnId);
     }

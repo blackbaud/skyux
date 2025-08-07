@@ -11,6 +11,7 @@ import {
   selector: 'app-radio-button',
   templateUrl: './radio-button.component.html',
   styleUrls: ['./radio-button.component.scss'],
+  standalone: false,
 })
 export class RadioButtonComponent {
   public radioForm: FormGroup;
@@ -24,9 +25,27 @@ export class RadioButtonComponent {
   ];
 
   public radioIconOptions = [
-    { icon: 'table', label: 'Table', name: 'table', disabled: false },
-    { icon: 'list-ul', label: 'List', name: 'list', disabled: true },
-    { icon: 'map-marker', label: 'Map', name: 'map', disabled: false },
+    {
+      icon: 'table',
+      iconName: 'table',
+      label: 'Table',
+      name: 'table',
+      disabled: false,
+    },
+    {
+      icon: 'list-ul',
+      iconName: 'text-bullet-list-ltr',
+      label: 'List',
+      name: 'list',
+      disabled: true,
+    },
+    {
+      icon: 'map-marker',
+      iconName: 'location',
+      label: 'Map',
+      name: 'map',
+      disabled: false,
+    },
   ];
 
   constructor(formBuilder: FormBuilder) {

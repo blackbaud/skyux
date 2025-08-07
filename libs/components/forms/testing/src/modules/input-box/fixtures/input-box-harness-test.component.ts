@@ -8,6 +8,7 @@ import {
 @Component({
   selector: 'test-input-box-harness',
   templateUrl: './input-box-harness-test.component.html',
+  standalone: false,
 })
 export class InputBoxHarnessTestComponent {
   public myForm: UntypedFormGroup;

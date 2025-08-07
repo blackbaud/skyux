@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   selector: 'app-switch-controls',
   templateUrl: './switch-controls.component.html',
   styleUrls: ['./switch-controls.component.scss'],
+  standalone: false,
 })
 export class SwitchControlsComponent {
   public myForm: FormGroup;

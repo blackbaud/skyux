@@ -1,0 +1,69 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "confirm": {
+      "development": {
+        "docsIds": [
+          "SkyConfirmService",
+          "SkyConfirmConfig",
+          "SkyConfirmInstance",
+          "SkyConfirmType",
+          "SkyConfirmButtonConfig",
+          "SkyConfirmButtonStyleType",
+          "SkyConfirmCloseEventArgs"
+        ],
+        "primaryDocsId": "SkyConfirmService"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyConfirmHarness",
+          "SkyConfirmButtonHarness",
+          "SkyConfirmButtonHarnessFilters",
+          "SkyConfirmTestingModule",
+          "SkyConfirmTestingController"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ModalsConfirmBasicWithControllerExampleComponent",
+          "ModalsConfirmBasicWithHarnessExampleComponent"
+        ]
+      }
+    },
+    "modal": {
+      "development": {
+        "docsIds": [
+          "SkyModalModule",
+          "SkyModalComponent",
+          "SkyModalHeaderComponent",
+          "SkyModalContentComponent",
+          "SkyModalFooterComponent",
+          "SkyModalIsDirtyDirective",
+          "SkyModalService",
+          "SkyModalConfigurationInterface",
+          "SkyModalInstance",
+          "SkyModalCloseArgs",
+          "SkyModalBeforeCloseHandler",
+          "SkyModalError"
+        ],
+        "primaryDocsId": "SkyModalModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyModalHarness",
+          "SkyModalHarnessFilters",
+          "SkyModalTestingModule",
+          "SkyModalTestingController"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ModalsModalBasicWithControllerExampleComponent",
+          "ModalsModalBasicWithHarnessExampleComponent",
+          "ModalsModalBasicWithHarnessHelpKeyExampleComponent",
+          "ModalsModalWithErrorExampleComponent"
+        ]
+      }
+    }
+  }
+}

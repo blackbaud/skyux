@@ -50,6 +50,7 @@ const SKY_TOGGLE_SWITCH_VALIDATOR = {
     SKY_TOGGLE_SWITCH_VALIDATOR,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyToggleSwitchComponent
   implements AfterContentInit, OnDestroy, ControlValueAccessor, Validator
@@ -221,7 +222,7 @@ export class SkyToggleSwitchComponent
     return null;
   }
 
-  public registerOnChange(fn: (value: any) => void) {
+  public registerOnChange(fn: (value: any) => void): void {
     this.#onChange = fn;
   }
 

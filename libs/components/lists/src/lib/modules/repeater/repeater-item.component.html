@@ -9,6 +9,7 @@
   [ngClass]="{
     'sky-repeater-item-active': isActive,
     'sky-repeater-item-collapsible': isCollapsible,
+    'sky-repeater-item-selectable': selectable,
     'sky-repeater-item-selected': isSelected
   }"
   (click)="onRepeaterItemClick($event)"
@@ -53,7 +54,7 @@
       >
       <button
         #grabHandle
-        class="sky-btn sky-tile-tools-control sky-repeater-item-grab-handle"
+        class="sky-btn sky-btn-icon-borderless sky-tile-tools-control sky-repeater-item-grab-handle"
         type="button"
         [attr.aria-describedby]="contentId + '-reorder-instructions'"
         [attr.aria-label]="
@@ -64,8 +65,10 @@
         (blur)="onReorderHandleBlur($event)"
         (keydown)="onReorderHandleKeyDown($event)"
       >
-        <sky-icon icon="arrows-v" />
+        <sky-icon iconName="arrow-bidirectional-up-down" />
       </button>
+      <!-- Used to ensure that the right side is the same height as the left by placeholding the size of the back to top button.-->
+      <div class="sky-repeater-item-top-button-placeholder"></div>
     }
     @if (selectable) {
       <sky-checkbox
@@ -119,7 +122,7 @@
           "
           (click)="moveToTop($event)"
         >
-          <sky-icon icon="arrow-up" />
+          <sky-icon iconName="arrow-up" />
           {{ 'skyux_repeater_item_reorder_top' | skyLibResources }}
         </button>
       }

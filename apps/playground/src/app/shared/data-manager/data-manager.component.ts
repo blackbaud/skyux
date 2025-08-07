@@ -20,6 +20,7 @@ import { DataManagerFiltersModalComponent } from './data-manager-filter-modal.co
   templateUrl: './data-manager.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
+  standalone: false,
 })
 export class DataManagerComponent implements OnInit {
   public items = AG_GRID_DEMO_DATA;

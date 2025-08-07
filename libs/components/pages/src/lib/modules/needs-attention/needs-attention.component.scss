@@ -1,9 +1,16 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-needs-attention-list') {
+  --sky-override-needs-attention-item-icon-color: #{$sky-theme-modern-font-deemphasized-color};
+  --sky-override-needs-attention-item-wrapper-padding: var(
+    --sky-margin-stacked-lg
+  );
+}
 
 :host {
   display: block;
-  margin-bottom: var(--sky-margin-stacked-xl);
 }
 
 h2 {
@@ -27,11 +34,17 @@ ul {
   grid-template-areas: 'action icon';
 
   &:not(:first-child) {
-    padding-top: var(--sky-margin-stacked-lg);
+    padding-top: var(
+      --sky-override-needs-attention-item-wrapper-padding,
+      var(--sky-space-stacked-l)
+    );
   }
 
   &:not(:last-child) {
-    padding-bottom: var(--sky-margin-stacked-lg);
+    padding-bottom: var(
+      --sky-override-needs-attention-item-wrapper-padding,
+      var(--sky-space-stacked-l)
+    );
   }
 }
 
@@ -47,8 +60,14 @@ ul {
 
   &-icon {
     grid-area: icon;
-    text-align: right;
+    margin-left: auto;
     color: $sky-theme-modern-font-deemphasized-color;
+    .sky-needs-attention-item-icon {
+      color: var(
+        --sky-override-needs-attention-item-icon-color,
+        var(--sky-color-icon-deemphasized)
+      );
+    }
   }
 
   &:focus-visible {
@@ -72,8 +91,4 @@ ul {
   right: 0;
   bottom: 0;
   cursor: pointer;
-}
-
-button.sky-needs-attention-item.sky-border-bottom-row {
-  @include mixins.sky-border(row, bottom);
 }

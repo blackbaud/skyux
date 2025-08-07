@@ -27,7 +27,6 @@ interface DemoForm {
 }
 
 @Component({
-  standalone: true,
   selector: 'sky-split-view-harness-test',
   templateUrl: './split-view-harness-test.component.html',
   imports: [

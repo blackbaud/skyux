@@ -30,9 +30,10 @@
       class="sky-vertical-tabset-group-container"
       [@tabGroupEnter]="tabService.animationTabsVisibleState"
       [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
+      [tabIndex]="tablistHasFocus ? -1 : 0"
       (@tabGroupEnter.done)="tabsetFocus()"
-      (keydown.arrowdown)="tabGroupsArrowDown(); $event.preventDefault()"
-      (keydown.arrowup)="tabGroupsArrowUp(); $event.preventDefault()"
+      (keydown.arrowDown)="tabGroupsArrowDown(); $event.preventDefault()"
+      (keydown.arrowUp)="tabGroupsArrowUp(); $event.preventDefault()"
       (focusin)="trapFocusInTablist()"
       (focusout)="resetTabIndex()"
     >
@@ -56,7 +57,7 @@
           type="button"
           (click)="tabService.showTabs()"
         >
-          <sky-icon icon="chevron-left" />
+          <sky-icon iconName="chevron-left" />
           {{ showTabsText }}
         </button>
       }

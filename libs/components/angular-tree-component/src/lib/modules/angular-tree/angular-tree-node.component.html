@@ -24,8 +24,9 @@
       [attr.data-node-id]="node.id"
       [attr.tabindex]="tabIndex"
       [class.sky-angular-tree-node-active]="showActiveClass()"
+      [class.sky-angular-tree-node-has-checkbox]="showCheckbox()"
       [class.sky-angular-tree-node-selected]="showSelectedClass()"
-      [style.padding-left]="node.getNodePadding()"
+      [style.--sky-angular-tree-node-padding]="node.getNodePadding()"
       [treeAllowDrop]="node.allowDrop"
       [treeDrag]="node"
       [treeDragEnabled]="node.allowDrag()"
@@ -44,7 +45,7 @@
       <div class="sky-toggle-children-wrapper">
         @if (node.hasChildren) {
           <button
-            class="sky-btn sky-btn-link sky-toggle-children"
+            class="sky-btn sky-btn-icon-borderless sky-toggle-children"
             tabindex="-1"
             type="button"
             [attr.aria-label]="nodeName"
@@ -53,8 +54,7 @@
             (click)="node.mouseAction('expanderClick', $event)"
           >
             <sky-icon
-              size="sm"
-              [icon]="node.isExpanded ? 'chevron-down' : 'chevron-right'"
+              [iconName]="node.isExpanded ? 'chevron-down' : 'chevron-right'"
             />
           </button>
         }

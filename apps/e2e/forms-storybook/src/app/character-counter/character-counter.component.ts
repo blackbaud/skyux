@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-character-counter',
   templateUrl: './character-counter.component.html',
+  standalone: false,
 })
 export class CharacterCounterComponent implements AfterViewInit, OnDestroy {
   public maxCharacterCount = 10;
@@ -24,7 +25,12 @@ export class CharacterCounterComponent implements AfterViewInit, OnDestroy {
       id: string,
       reactiveValue: string,
       templateValue: string,
-    ) => {
+    ): {
+      id: string;
+      formGroup: FormGroup;
+      control: FormControl;
+      model: string;
+    } => {
       const formGroup = this.#formBuilder.group({
         firstName: [reactiveValue],
       });

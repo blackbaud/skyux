@@ -5,6 +5,7 @@ import { SkyProgressIndicatorNavButtonType } from '../types/progress-indicator-n
 
 @Pipe({
   name: 'skyProgressIndicatorNavButtonDisabled',
+  standalone: false,
 })
 export class SkyProgressIndicatorNavButtonDisabledPipe
   implements PipeTransform

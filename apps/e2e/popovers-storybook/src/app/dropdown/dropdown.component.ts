@@ -1,11 +1,10 @@
-import { Component, Input, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-dropdown',
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss'],
+  standalone: false,
 })
 export class DropdownComponent {
   @Input()
@@ -16,6 +15,4 @@ export class DropdownComponent {
 
   @Input()
   public disabledFlag = false;
-
-  protected ready = toSignal(inject(FontLoadingService).ready(true));
 }

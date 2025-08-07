@@ -57,6 +57,7 @@ import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
   // Note that change detection is not set to OnPush; default change detection allows the
   // invalid CSS class to be added when the content control's invalid/dirty state changes.
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyInputBoxComponent
   implements OnInit, AfterContentChecked, OnDestroy
@@ -270,6 +271,14 @@ export class SkyInputBoxComponent
     this.#ngUnsubscribe.complete();
   }
 
+  /**
+   * Whether the input box component contains the focused element.
+   * @internal
+   */
+  public containsElement(el: EventTarget): boolean {
+    return this.#adapterService.containsElement(this.#elementRef, el);
+  }
+
   public formControlFocusIn(): void {
     const inlineHelpEl = this.#adapterService.getInlineHelpElement(
       this.#elementRef,
@@ -298,6 +307,16 @@ export class SkyInputBoxComponent
     this.hostIconsInsetTemplate = args.iconsInsetTemplate;
     this.hostIconsInsetLeftTemplate = args.iconsInsetLeftTemplate;
     this.#changeRef.markForCheck();
+  }
+
+  /**
+   * Returns an element inside the input box.
+   * This can be used to query parts of a input box
+   * that was populated through the `SkyInputBoxHostService`
+   * @internal
+   */
+  public queryPopulatedElement(query: string): HTMLElement {
+    return this.#adapterService.queryElement(this.#elementRef, query);
   }
 
   public setHintTextHidden(hide: boolean): void {

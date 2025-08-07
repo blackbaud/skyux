@@ -7,7 +7,6 @@ import { SplitViewContentComponent } from '../shared/split-view-content/split-vi
 import { PageLayoutTileDashboardComponent } from '../shared/tiles/tile-dashboard.component';
 
 @Component({
-  standalone: true,
   imports: [
     DataManagerVisualComponent,
     PageLayoutTileDashboardComponent,

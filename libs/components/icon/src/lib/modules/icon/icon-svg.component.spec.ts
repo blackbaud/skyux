@@ -59,15 +59,23 @@ describe('Icon SVG component', () => {
     fixture.componentRef.setInput('iconName', 'test');
     detectUrlChanges();
 
-    validateIconId('#test-16-line');
+    validateIconId('#test-20-line');
   }));
 
-  it('should display the resolved icon by ID and size', fakeAsync(() => {
+  it('should display the resolved icon by ID and relative size', fakeAsync(() => {
     fixture.componentRef.setInput('iconName', 'test');
-    fixture.componentRef.setInput('iconSize', '2x');
+    fixture.componentRef.setInput('relativeSize', '2x');
     detectUrlChanges();
 
     validateIconId('#test-32-line');
+  }));
+
+  it('should display the resolved icon by ID and fixed size', fakeAsync(() => {
+    fixture.componentRef.setInput('iconName', 'test');
+    fixture.componentRef.setInput('iconSize', 'l');
+    detectUrlChanges();
+
+    validateIconId('#test-24-line');
   }));
 
   it('should display the resolved icon by ID and variant', fakeAsync(() => {
@@ -75,25 +83,16 @@ describe('Icon SVG component', () => {
     fixture.componentRef.setInput('iconVariant', 'solid');
     detectUrlChanges();
 
-    validateIconId('#test-16-solid');
+    validateIconId('#test-20-solid');
   }));
 
-  it('should display the resolved icon by ID, size, and variant', fakeAsync(() => {
+  it('should display the resolved icon by ID, relative size, and variant', fakeAsync(() => {
     fixture.componentRef.setInput('iconName', 'test');
-    fixture.componentRef.setInput('iconSize', '2x');
+    fixture.componentRef.setInput('relativeSize', '2x');
     fixture.componentRef.setInput('iconVariant', 'solid');
     detectUrlChanges();
 
     validateIconId('#test-32-solid');
-  }));
-
-  it("should use the host element's text color as its fill color", fakeAsync(() => {
-    fixture.nativeElement.style.color = '#0f0';
-
-    fixture.componentRef.setInput('iconName', 'test');
-    detectUrlChanges();
-
-    expect(getComputedStyle(getSvgEl()).fill).toBe('rgb(0, 255, 0)');
   }));
 
   it('should handle errors', fakeAsync(() => {

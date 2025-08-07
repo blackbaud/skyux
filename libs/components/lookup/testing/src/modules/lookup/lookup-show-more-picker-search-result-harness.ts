@@ -2,6 +2,5 @@ import { SkySelectionModalSearchResultHarness } from '../selection-modal/selecti
 
 /**
  * Harness for interacting with a lookup's "Show more" picker search results in tests.
- * @internal
  */
 export class SkyLookupShowMorePickerSearchResultHarness extends SkySelectionModalSearchResultHarness {}

@@ -5,6 +5,7 @@ import { SkySummaryActionBarFixtureAction } from '../summary-action-bar-fixture-
 @Component({
   selector: 'sky-summary-action-bar-test',
   templateUrl: './summary-action-bar-fixture-test.component.html',
+  standalone: false,
 })
 export class SummaryActionBarTestComponent {
   public static dataSkyId = 'test-summary-action-bar';

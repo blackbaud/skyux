@@ -129,9 +129,16 @@ mark.sky-highlight-mark {
   @include mixins.sky-field-status('success');
 }
 
-.sky-wait-element-active {
-  isolation: isolate;
-  position: relative;
+symbol[id^='sky-i-']:not(.sky-i-branded) * {
+  fill: currentColor;
+
+  &.sky-i-path-1 {
+    fill: var(--sky-icon-svg-color-input, currentColor);
+  }
+
+  &.sky-i-path-2 {
+    fill: var(--sky-icon-svg-path-2-color-input, #fff);
+  }
 }
 
 .sky-viewkeeper-boundary {
@@ -143,9 +150,26 @@ mark.sky-highlight-mark {
   z-index: 1000;
   opacity: var(--sky-viewkeeper-opacity);
   overflow: hidden;
+}
 
-  &:not(.sky-viewkeeper-fixed-not-last) {
+.sky-viewkeeper-shadow {
+  position: fixed;
+  min-height: 1px;
+  z-index: 998;
+  user-select: none;
+  pointer-events: none;
+
+  &.sky-viewkeeper-shadow--active {
     box-shadow: var(--sky-viewkeeper-box-shadow);
-    z-index: 999;
   }
+}
+
+.sky-wait-element-active {
+  isolation: isolate;
+  position: relative;
+}
+
+.sky-errors-overflow {
+  overflow-y: auto;
+  max-height: 100px;
 }

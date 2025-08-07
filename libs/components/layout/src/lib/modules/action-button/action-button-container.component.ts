@@ -37,6 +37,7 @@ import { SkyActionButtonContainerAlignItemsType } from './types/action-button-co
   providers: [SkyActionButtonAdapterService],
   encapsulation: ViewEncapsulation.None,
   hostDirectives: [SkyThemeComponentClassDirective],
+  standalone: false,
 })
 export class SkyActionButtonContainerComponent
   implements AfterViewInit, OnDestroy, OnInit

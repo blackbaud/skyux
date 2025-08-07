@@ -138,7 +138,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   /**
    * Gets the text displayed when no search results are found.
    */
-  public async getNoResultsFoundText(): Promise<string | undefined> {
+  public async getNoResultsFoundText(): Promise<string> {
     const overlay = await this.#getOverlay();
 
     if (!overlay) {
@@ -151,7 +151,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
       const noResultFoundText = await overlay.querySelector(
         '.sky-autocomplete-no-results',
       );
-      return (await noResultFoundText?.text())?.trim();
+      return (await noResultFoundText.text()).trim();
     } catch {
       throw new Error(
         'Cannot find "no results found" text because there are search results.',

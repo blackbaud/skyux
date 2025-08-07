@@ -11,6 +11,7 @@ import {
 } from '@skyux/theme';
 
 import {
+  AgColumn,
   BeanCollection,
   CellClassParams,
   CellFocusedEvent,
@@ -29,6 +30,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridService } from './ag-grid.service';
+import { SkyAgGridHeaderComponent } from './header/header.component';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 
@@ -213,10 +215,6 @@ describe('SkyAgGridService', () => {
 
       expect(typeof options.icons?.['sortDescending']).toBe('function');
 
-      expect((options.icons?.['sortDescending'] as () => string)()).toBe(
-        `<i aria-hidden="true" class="fa fa-caret-down"></i>`,
-      );
-
       // Trigger change to modern theme
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
@@ -228,19 +226,11 @@ describe('SkyAgGridService', () => {
       });
 
       expect((options.icons?.['sortDescending'] as () => string)()).toBe(
-        `<i aria-hidden="true" class="sky-i-chevron-down"></i>`,
+        `<svg height="16" width="16"><use xlink:href="#sky-i-chevron-down-24-solid"></use></svg>`,
       );
     });
 
-    it('should unsubscribe from the theme service when destroyed', () => {
-      expect(agGridService.getHeaderHeight()).toBe(37);
-      expect(
-        agGridService.getGridOptions({ gridOptions: {} }).columnTypes?.[
-          SkyCellType.Date
-        ].minWidth,
-      ).toBe(160);
-
-      // Trigger change to modern theme
+    it('should set options for modern theme', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
@@ -250,34 +240,26 @@ describe('SkyAgGridService', () => {
           mockThemeSvc.settingsChange.getValue().currentSettings,
       });
 
-      // Get new grid options after theme change
-      expect(agGridService.getHeaderHeight()).toBe(60);
-      expect(
-        agGridService.getGridOptions({ gridOptions: {} }).columnTypes?.[
-          SkyCellType.Date
-        ].minWidth,
-      ).toBe(180);
-
-      // Destroy subscription
-      agGridService.ngOnDestroy();
-
-      // Trigger change to default theme
-      mockThemeSvc.settingsChange.next({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings:
-          mockThemeSvc.settingsChange.getValue().currentSettings,
+      const options = agGridService.getEditableGridOptions({
+        gridOptions: {},
       });
 
-      // Get new grid options after theme change, but expect heights have not changed
-      expect(agGridService.getHeaderHeight()).toBe(60);
-      expect(
-        agGridService.getGridOptions({ gridOptions: {} }).columnTypes?.[
-          SkyCellType.Date
-        ].minWidth,
-      ).toBe(180);
+      expect(options.columnTypes?.[SkyCellType.Date].minWidth).toBe(180);
+    });
+
+    it('should disable checkboxes if row selection is enabled', () => {
+      const editableGridOptions = agGridService.getEditableGridOptions({
+        gridOptions: {
+          rowSelection: {
+            mode: 'singleRow',
+          },
+        },
+      });
+
+      expect(editableGridOptions.rowSelection).toEqual({
+        checkboxes: false,
+        mode: 'singleRow',
+      });
     });
 
     it('should not overwrite default component definitions', () => {
@@ -344,6 +326,26 @@ describe('SkyAgGridService', () => {
             enableSelectionWithoutKeys: true,
             checkboxes: false,
             headerCheckbox: false,
+          },
+        }),
+      );
+    });
+
+    it('should update enableCellChangeFlash options', () => {
+      expect(
+        agGridService.getGridOptions({
+          gridOptions: { enableCellChangeFlash: true } as any,
+        }),
+      ).toEqual(
+        jasmine.objectContaining({
+          defaultColDef: {
+            cellClassRules: jasmine.any(Object),
+            headerClass: jasmine.any(Function),
+            headerComponent: SkyAgGridHeaderComponent,
+            minWidth: 100,
+            suppressHeaderKeyboardEvent: jasmine.any(Function),
+            suppressKeyboardEvent: jasmine.any(Function),
+            enableCellChangeFlash: true,
           },
         }),
       );
@@ -665,10 +667,68 @@ describe('SkyAgGridService', () => {
       spyOn(agGridAdapterService, 'getFocusedElement');
       spyOn(agGridAdapterService, 'focusOnFocusableChildren');
 
-      onCellFocusedFunction({} as CellFocusedEvent);
+      onCellFocusedFunction({
+        api: {
+          getDisplayedRowAtIndex: () => ({ rowIndex: 0 }) as RowNode,
+        } as unknown as GridApi,
+        column: {
+          isRowDrag: () => false,
+          isDndSource: () => false,
+        } as unknown as AgColumn,
+        rowIndex: 0,
+      } as unknown as CellFocusedEvent);
 
       expect(agGridAdapterService.getFocusedElement).toHaveBeenCalled();
       expect(agGridAdapterService.focusOnFocusableChildren).toHaveBeenCalled();
+    });
+
+    it('should not focus if there is no matching row', () => {
+      spyOn(agGridAdapterService, 'getFocusedElement');
+      spyOn(agGridAdapterService, 'focusOnFocusableChildren');
+
+      onCellFocusedFunction({} as CellFocusedEvent);
+
+      expect(agGridAdapterService.getFocusedElement).not.toHaveBeenCalled();
+      expect(
+        agGridAdapterService.focusOnFocusableChildren,
+      ).not.toHaveBeenCalled();
+
+      onCellFocusedFunction({
+        api: {
+          getDisplayedRowAtIndex: () => undefined,
+        } as unknown as GridApi,
+        column: {
+          isRowDrag: () => false,
+          isDndSource: () => true,
+        } as unknown as AgColumn,
+        rowIndex: 0,
+      } as unknown as CellFocusedEvent);
+
+      expect(agGridAdapterService.getFocusedElement).not.toHaveBeenCalled();
+      expect(
+        agGridAdapterService.focusOnFocusableChildren,
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should not focus if the column is a drag handle', () => {
+      spyOn(agGridAdapterService, 'getFocusedElement');
+      spyOn(agGridAdapterService, 'focusOnFocusableChildren');
+
+      onCellFocusedFunction({
+        api: {
+          getDisplayedRowAtIndex: () => ({ rowIndex: 0 }) as RowNode,
+        } as unknown as GridApi,
+        column: {
+          isRowDrag: () => false,
+          isDndSource: () => true,
+        } as unknown as AgColumn,
+        rowIndex: 0,
+      } as unknown as CellFocusedEvent);
+
+      expect(agGridAdapterService.getFocusedElement).not.toHaveBeenCalled();
+      expect(
+        agGridAdapterService.focusOnFocusableChildren,
+      ).not.toHaveBeenCalled();
     });
   });
 

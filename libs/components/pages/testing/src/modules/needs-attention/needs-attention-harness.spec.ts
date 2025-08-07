@@ -21,7 +21,7 @@ import { SkyNeedsAttentionItemHarness } from './needs-attention-item-harness';
   imports: [SkyNeedsAttentionModule],
 })
 class TestComponent {
-  public readonly items = input<SkyActionHubNeedsAttention[]>();
+  public readonly items = input<SkyActionHubNeedsAttention[]>([]);
 }
 
 //#endregion Test component
@@ -87,12 +87,13 @@ describe('Needs attention harness', () => {
         {
           title: 'Item 1',
           permalink: {
-            url: 'https://example.com',
+            url: '#',
           },
         },
       ],
     });
     fixture.detectChanges();
+    await fixture.whenStable();
 
     await expectAsync(harness.hasItems()).toBeResolvedTo(true);
     await expectAsync(harness.getEmptyListText()).toBeResolvedTo(undefined);

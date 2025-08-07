@@ -5,6 +5,7 @@ import { SkySearchComponent } from '../search.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './search.component.fixture.html',
+  standalone: false,
 })
 export class SearchTestComponent {
   @ViewChild(SkySearchComponent, {

@@ -10,7 +10,6 @@ import { SkyModalErrorsService } from './modal-errors.service';
  */
 @Component({
   hostDirectives: [SkyResponsiveHostDirective],
-  standalone: true,
   selector: 'sky-modal-footer',
   templateUrl: './modal-footer.component.html',
   styleUrls: ['./modal-footer.component.scss'],

@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  Renderer2,
   computed,
   effect,
   inject,
@@ -12,6 +11,7 @@ import { SkyIdModule } from '@skyux/core';
 import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import {
   SkyTheme,
+  SkyThemeBrand,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
@@ -26,32 +26,38 @@ interface LocalStorageSettings {
   themeName: ThemeSelectorValue;
   themeMode: ThemeSelectorModeValue;
   themeSpacing: ThemeSelectorSpacingValue;
-  modernV2Enabled: boolean | undefined;
+  themeBrand?: SkyThemeBrand;
 }
 
+const AVAILABLE_BRANDS = [
+  new SkyThemeBrand('blackbaud', '1.0.0'),
+  new SkyThemeBrand('rainbow', '1.0.1'),
+];
 const PREVIOUS_SETTINGS_KEY =
   'skyux-playground-theme-mode-spacing-selector-settings';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'sky-theme-selector',
-  standalone: true,
   imports: [FormsModule, SkyCheckboxModule, SkyIdModule, SkyInputBoxModule],
   templateUrl: './theme-selector.component.html',
 })
 export class SkyThemeSelectorComponent implements OnInit {
-  #renderer = inject(Renderer2);
   #themeSvc = inject(SkyThemeService);
 
   #currentTheme = computed(
     () => SkyTheme.presets[this.themeName() as ThemeSelectorValue],
   );
 
+  protected readonly themeBrand = signal<SkyThemeBrand | undefined>(undefined);
   protected readonly themeName = signal<ThemeSelectorValue>('default');
   protected readonly themeMode = signal<ThemeSelectorModeValue>('light');
   protected readonly themeSpacing =
     signal<ThemeSelectorSpacingValue>('standard');
-  protected readonly modernV2Enabled = signal(false);
+
+  protected readonly brandingValues = computed(() =>
+    this.#currentTheme().name === 'default' ? [] : AVAILABLE_BRANDS,
+  );
 
   protected readonly spacingValues = computed(() =>
     this.#currentTheme().supportedSpacing.map((spacing) => spacing.name),
@@ -67,12 +73,8 @@ export class SkyThemeSelectorComponent implements OnInit {
         this.themeName(),
         this.themeMode(),
         this.themeSpacing(),
-        this.modernV2Enabled(),
+        this.themeBrand(),
       );
-    });
-
-    effect(() => {
-      this.#toggleModernV2Class(this.modernV2Enabled());
     });
   }
 
@@ -84,7 +86,11 @@ export class SkyThemeSelectorComponent implements OnInit {
         this.themeName.set(previousSettings.themeName);
         this.themeMode.set(previousSettings.themeMode);
         this.themeSpacing.set(previousSettings.themeSpacing);
-        this.modernV2Enabled.set(previousSettings.modernV2Enabled);
+        this.themeBrand.set(
+          this.brandingValues().find(
+            (theme) => theme.name === previousSettings.themeBrand?.name,
+          ) ?? undefined,
+        );
       } catch {
         // Bad settings.
       }
@@ -95,7 +101,7 @@ export class SkyThemeSelectorComponent implements OnInit {
     themeName: ThemeSelectorValue,
     themeModeName: ThemeSelectorModeValue,
     themeSpacingName: ThemeSelectorSpacingValue,
-    modernV2Enabled: boolean,
+    themeBrand?: SkyThemeBrand,
   ): void {
     const themeSpacing = SkyThemeSpacing.presets[themeSpacingName];
     const themeMode = SkyThemeMode.presets[themeModeName];
@@ -109,27 +115,25 @@ export class SkyThemeSelectorComponent implements OnInit {
     }
 
     this.#themeSvc.setTheme(
-      new SkyThemeSettings(theme, themeMode, themeSpacing),
+      new SkyThemeSettings(
+        theme,
+        themeMode,
+        themeSpacing,
+        themeName !== 'default' ? themeBrand : undefined,
+      ),
     );
 
     this.#saveSettings({
       themeName: themeName,
       themeMode: themeModeName,
       themeSpacing: themeSpacingName,
-      modernV2Enabled: modernV2Enabled,
+      themeBrand: themeBrand,
     });
-  }
-
-  #toggleModernV2Class(addClass: boolean): void {
-    this.#renderer[addClass ? 'addClass' : 'removeClass'](
-      document.body,
-      'sky-theme-brand-blackbaud',
-    );
   }
 
   #getLastSettings(): LocalStorageSettings | undefined {
     try {
-      return JSON.parse(localStorage.getItem(PREVIOUS_SETTINGS_KEY));
+      return JSON.parse(localStorage.getItem(PREVIOUS_SETTINGS_KEY) ?? '');
     } catch {
       // Local storage is disabled or settings are invalid.
       return undefined;

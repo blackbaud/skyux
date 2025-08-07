@@ -7,7 +7,6 @@ import { SkyPageModule } from '@skyux/pages';
 import { PageLayoutTileDashboardComponent } from '../shared/tiles/tile-dashboard.component';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     PageLayoutTileDashboardComponent,
@@ -54,7 +53,7 @@ import { PageLayoutTileDashboardComponent } from '../shared/tiles/tile-dashboard
     <sky-page-content>
       <app-page-layout-tile-dashboard />
     </sky-page-content>
-  </sky-page> `,
+  </sky-page>`,
   styles: `
     :host {
       display: block;

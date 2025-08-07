@@ -8,6 +8,7 @@ import { SkyErrorService } from './error.service';
 @Component({
   selector: 'sky-error-title',
   template: '<ng-content />',
+  standalone: false,
 })
 export class SkyErrorTitleComponent {
   /**

@@ -20,6 +20,7 @@ import { ListToolbarItemModel } from '../list/state/toolbar/toolbar-item.model';
 @Component({
   selector: 'sky-list-filter-button',
   templateUrl: './list-filter-button.component.html',
+  standalone: false,
 })
 export class SkyListFilterButtonComponent implements AfterViewInit {
   @ViewChild('filterButton', {
@@ -32,7 +33,7 @@ export class SkyListFilterButtonComponent implements AfterViewInit {
 
   constructor(private dispatcher: ListStateDispatcher) {}
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.dispatcher.toolbarAddItems([
       new ListToolbarItemModel({
         template: this.filterButtonTemplate,

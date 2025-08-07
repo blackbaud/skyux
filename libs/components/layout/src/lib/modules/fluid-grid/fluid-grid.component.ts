@@ -10,6 +10,7 @@ import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type'
   selector: 'sky-fluid-grid',
   templateUrl: './fluid-grid.component.html',
   styleUrls: ['./fluid-grid.component.scss'],
+  standalone: false,
 })
 export class SkyFluidGridComponent {
   /**

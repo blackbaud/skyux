@@ -5,7 +5,7 @@
       aria-hidden="true"
       (click)="onMenuClick($event)"
     >
-      <sky-icon icon="ellipsis" />
+      <sky-icon iconName="more-actions" />
     </span>
   }
   <div class="ag-header-cell-label" role="presentation">
@@ -33,7 +33,7 @@
         <span
           aria-hidden="true"
           class="ag-header-icon ag-header-label-icon ag-filter-icon"
-          ><sky-icon icon="filter"
+          ><sky-icon iconName="filter"
         /></span>
       }
       @if (params()?.enableSorting) {
@@ -45,8 +45,7 @@
           >
             @if (sortDirection === 'desc') {
               <span class="ag-header-icon ag-header-label-icon">
-                <sky-icon *skyThemeIf="'default'" icon="caret-down" />
-                <sky-icon *skyThemeIf="'modern'" icon="chevron-down" />
+                <sky-icon iconName="chevron-down" />
                 <span class="sky-screen-reader-only">{{
                   'sky_ag_grid_column_header_sort_button_aria_label_currently_desc'
                     | skyLibResources: displayName() ?? accessibleHeaderText()
@@ -55,8 +54,7 @@
             }
             @if (sortDirection === 'asc') {
               <span class="ag-header-icon ag-header-label-icon">
-                <sky-icon *skyThemeIf="'default'" icon="caret-up" />
-                <sky-icon *skyThemeIf="'modern'" icon="chevron-up" />
+                <sky-icon iconName="chevron-up" />
                 <span class="sky-screen-reader-only">{{
                   'sky_ag_grid_column_header_sort_button_aria_label_currently_asc'
                     | skyLibResources: displayName() ?? accessibleHeaderText()

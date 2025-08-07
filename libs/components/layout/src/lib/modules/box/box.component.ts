@@ -38,6 +38,7 @@ function numberAttribute2(value: unknown): number {
       },
     },
   ],
+  standalone: false,
 })
 export class SkyBoxComponent {
   /**

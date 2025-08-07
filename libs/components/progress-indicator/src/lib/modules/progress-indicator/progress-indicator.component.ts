@@ -29,6 +29,7 @@ import { SkyProgressIndicatorDisplayMode } from './types/progress-indicator-mode
   templateUrl: './progress-indicator.component.html',
   styleUrls: ['./progress-indicator.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyProgressIndicatorComponent
   implements OnInit, AfterContentInit, OnDestroy

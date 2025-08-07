@@ -7,7 +7,6 @@ import { SkyFileItem } from '@skyux/forms';
 import { SkyAvatarHarness } from './avatar-harness';
 
 @Component({
-  standalone: true,
   imports: [SkyAvatarModule],
   template: `<sky-avatar
     data-sky-id="test-avatar"

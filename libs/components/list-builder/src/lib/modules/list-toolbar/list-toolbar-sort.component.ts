@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'sky-list-toolbar-sort',
   template: '',
+  standalone: false,
 })
 export class SkyListToolbarSortComponent {
   /**

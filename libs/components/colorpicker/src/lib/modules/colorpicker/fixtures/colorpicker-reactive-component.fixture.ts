@@ -16,6 +16,7 @@ import { SkyColorpickerMessageType } from '../types/colorpicker-message-type';
 @Component({
   selector: 'sky-colorpicker-fixture',
   templateUrl: './colorpicker-reactive-component.fixture.html',
+  standalone: false,
 })
 export class ColorpickerReactiveTestComponent {
   public selectedHexType = 'hex6';

@@ -7,6 +7,7 @@ import { ICellRendererParams } from 'ag-grid-community';
   selector: 'app-data-manager-context-menu',
   templateUrl: './data-manager-context-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DataManagerMenuComponent implements ICellRendererAngularComp {
   private name = '';

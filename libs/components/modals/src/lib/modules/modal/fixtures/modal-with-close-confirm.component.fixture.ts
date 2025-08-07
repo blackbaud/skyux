@@ -6,6 +6,7 @@ import { SkyModalInstance } from '../modal-instance';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './modal-with-close-confirm.component.fixture.html',
+  standalone: false,
 })
 export class ModalWithCloseConfirmTestComponent {
   public unsavedWork = true;

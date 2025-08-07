@@ -1,8 +1,7 @@
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   inject,
   input,
 } from '@angular/core';
@@ -14,20 +13,12 @@ import { catchError, from, of, switchMap } from 'rxjs';
 import { SkyIllustrationResolverService } from './illustration-resolver.service';
 import { SkyIllustrationSize } from './illustration-size';
 
-const pixelSizes: Record<SkyIllustrationSize, number> = {
-  sm: 48,
-  md: 64,
-  lg: 80,
-  xl: 96,
-};
-
 /**
  * Displays a spot illustration at the specified size.
  */
 @Component({
   selector: 'sky-illustration',
-  standalone: true,
-  imports: [CommonModule, NgOptimizedImage],
+  imports: [CommonModule],
   templateUrl: './illustration.component.html',
   styleUrls: [
     './illustration.default.component.scss',
@@ -61,6 +52,4 @@ export class SkyIllustrationComponent {
       catchError(() => of('')),
     ),
   );
-
-  protected readonly pixelSize = computed(() => pixelSizes[this.size()]);
 }

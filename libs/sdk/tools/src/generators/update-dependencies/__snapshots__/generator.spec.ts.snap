@@ -6,6 +6,15 @@ Object {
   "name": "test",
   "prefix": "lib",
   "projectType": "library",
+  "release": Object {
+    "version": Object {
+      "currentVersionResolver": "git-tag",
+      "fallbackCurrentVersionResolver": "disk",
+      "manifestRootsToUpdate": Array [
+        "dist/{projectRoot}",
+      ],
+    },
+  },
   "root": "lib/test",
   "sourceRoot": "lib/test/src",
   "tags": Array [],
@@ -47,6 +56,11 @@ Object {
     },
     "lint": Object {
       "executor": "@nx/eslint:lint",
+    },
+    "nx-release-publish": Object {
+      "options": Object {
+        "packageRoot": "dist/{projectRoot}",
+      },
     },
     "test": Object {
       "executor": "@nx/jest:jest",

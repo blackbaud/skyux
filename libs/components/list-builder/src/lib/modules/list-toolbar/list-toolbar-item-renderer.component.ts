@@ -13,6 +13,7 @@ import {
 @Component({
   selector: 'sky-list-toolbar-item-renderer',
   template: '<ng-template #container />',
+  standalone: false,
 })
 export class SkyListToolbarItemRendererComponent implements OnInit {
   @Input()
@@ -24,7 +25,7 @@ export class SkyListToolbarItemRendererComponent implements OnInit {
   })
   private container: ViewContainerRef;
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     if (this.template !== undefined) {
       this.container.createEmbeddedView(this.template, this);
     }

@@ -6,4 +6,5 @@ export interface ComponentGeneratorSchema {
   generateCypressSpecs: boolean;
   includeTests: boolean;
   standalone?: never;
+  skipFormat?: boolean;
 }

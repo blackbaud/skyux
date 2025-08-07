@@ -14,7 +14,7 @@ import {
   SkyPopoverModule,
 } from '@skyux/popovers';
 
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
 import { SkyDatepickerCalendarService } from './datepicker-calendar.service';
@@ -28,7 +28,6 @@ import { SkyDayPickerContext } from './daypicker-context';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, SkyDayPickerButtonComponent, SkyPopoverModule],
   selector: 'sky-daypicker-cell',
-  standalone: true,
   templateUrl: './daypicker-cell.component.html',
 })
 export class SkyDayPickerCellComponent {
@@ -68,7 +67,7 @@ export class SkyDayPickerCellComponent {
     );
   });
 
-  protected popoverController = new Subject<SkyPopoverMessage>();
+  protected popoverController = new BehaviorSubject<SkyPopoverMessage>({});
 
   constructor() {
     // show the tooltip if this is the active date and is not the

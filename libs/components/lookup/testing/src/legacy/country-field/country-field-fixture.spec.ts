@@ -22,15 +22,14 @@ const DATA_SKY_ID = 'test-country-field';
       formControlName="countryControl"
       [autocompleteAttribute]="autocompleteAttribute"
       [disabled]="disabled"
-      [hideSelectedCountryFlag]="hideSelectedCountryFlag"
       (selectedCountryChange)="selectedCountryChange($event)"
     />
   `,
+  standalone: false,
 })
 class CountryFieldTestComponent {
   public autocompleteAttribute: string | undefined;
   public disabled: boolean | undefined;
-  public hideSelectedCountryFlag: boolean | undefined;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   public selectedCountryChange(query: string): void {}
@@ -112,26 +111,6 @@ describe('Country field fixture', () => {
     // verify selection state
     expect(selectedCountryChangeSpy).toHaveBeenCalledTimes(0);
     expect(countryFieldFixture.searchText).toBe(invalidCountryName);
-  });
-
-  it('should show country flag by default', async () => {
-    // make a selection so the flag appears
-    await countryFieldFixture.searchAndSelectFirstResult(COUNTRY.name);
-
-    // verify country flag state
-    expect(countryFieldFixture.countryFlagIsVisible).toBe(true);
-  });
-
-  it('should hide country flag when requested', async () => {
-    // modify to non-default values
-    testComponent.hideSelectedCountryFlag = true;
-    fixture.detectChanges();
-
-    // make a selection
-    await countryFieldFixture.searchAndSelectFirstResult(COUNTRY.name);
-
-    // verify country flag state
-    expect(countryFieldFixture.countryFlagIsVisible).toBe(false);
   });
 
   it('should be able to clear when there is no selection', async () => {

@@ -4,19 +4,14 @@ describe('lookup-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
-        cy
-          .visit(
-            `/iframe.html?globals=theme:${theme}&id=searchcomponent-search--search`,
-          )
-          .get('#ready')
-          .should('exist')
-          .end(),
+        cy.visit(
+          `/iframe.html?globals=theme:${theme}&id=searchcomponent-search--search`,
+        ),
       );
       it('should render the component', () => {
-        cy.get('app-search')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`searchcomponent-search--search-${theme}`);
+        cy.skyReady('app-search').screenshot(
+          `searchcomponent-search--search-${theme}`,
+        );
         cy.get('app-search').percySnapshot(
           `searchcomponent-search--search-${theme}`,
           {
@@ -27,10 +22,9 @@ describe('lookup-storybook', () => {
 
       it('should render the component collapsed on mobile', () => {
         cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
-        cy.get('app-search')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`searchcomponent-search--search-${theme}-mobile`);
+        cy.skyReady('app-search').screenshot(
+          `searchcomponent-search--search-${theme}-mobile`,
+        );
         cy.get('app-search').percySnapshot(
           `searchcomponent-search--search-${theme}-mobile`,
           {
@@ -41,9 +35,7 @@ describe('lookup-storybook', () => {
 
       it('should render the component collapsed on mobile', () => {
         cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
-        cy.get('app-search')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-search')
           .get('#filled-search .sky-search-btn-open')
           .click();
         cy.get('#empty-search .sky-search-btn-open').click();
@@ -58,5 +50,5 @@ describe('lookup-storybook', () => {
         );
       });
     });
-  }, true);
+  });
 });

@@ -17,16 +17,16 @@ export class StateNode<T> extends BehaviorSubject<T> {
     super(initialState);
   }
 
-  public register(stateKey: string, orchestrator: any) {
+  public register(stateKey: string, orchestrator: any): StateNode<T> {
     this.stateMap[stateKey] = orchestrator;
     return this;
   }
 
-  public reset() {
+  public reset(): void {
     this.next(this.initialState);
   }
 
-  public begin() {
+  public begin(): void {
     const stateKeys: string[] = Object.keys(this.stateMap);
     const init: Record<string, any> = this.initialState;
 

@@ -7,7 +7,6 @@ import { BlocksTileDashboardPageTile3Component } from './tile3.component';
 
 @Component({
   selector: 'app-page-layout-tile-dashboard',
-  standalone: true,
   imports: [SkyTilesModule],
   template: `<sky-tile-dashboard [(config)]="dashboardConfig" />`,
 })

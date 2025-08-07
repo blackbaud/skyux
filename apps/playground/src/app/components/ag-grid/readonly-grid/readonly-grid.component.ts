@@ -6,14 +6,18 @@ import {
   SkyAgGridService,
   SkyCellType,
 } from '@skyux/ag-grid';
+import { SkyBackToTopModule } from '@skyux/layout';
+import { SkyInfiniteScrollModule } from '@skyux/lists';
 import { SkyThemeService } from '@skyux/theme';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  AllCommunityModule,
   GridApi,
   GridOptions,
   GridReadyEvent,
   ICellRendererParams,
+  ModuleRegistry,
   RowSelectedEvent,
 } from 'ag-grid-community';
 import { Observable, Subject } from 'rxjs';
@@ -21,14 +25,21 @@ import { Observable, Subject } from 'rxjs';
 import { ReadonlyGridContextMenuComponent } from './readonly-grid-context-menu.component';
 import { READONLY_GRID_DATA, RowStatusNames } from './readonly-grid-data';
 
+ModuleRegistry.registerModules([AllCommunityModule]);
+
 let nextId = 0;
 
 @Component({
-  standalone: true,
   selector: 'app-readonly-grid-visual',
   templateUrl: './readonly-grid.component.html',
   styleUrls: ['./readonly-grid.component.scss'],
-  imports: [AgGridModule, CommonModule, SkyAgGridModule],
+  imports: [
+    AgGridModule,
+    CommonModule,
+    SkyAgGridModule,
+    SkyBackToTopModule,
+    SkyInfiniteScrollModule,
+  ],
 })
 export class ReadonlyGridComponent implements OnInit {
   public gridApi: GridApi;
@@ -90,7 +101,7 @@ export class ReadonlyGridComponent implements OnInit {
   ];
 
   @HostListener('window:resize')
-  public onWindowResize() {
+  public onWindowResize(): void {
     if (this.gridApi) {
       this.gridApi.sizeColumnsToFit();
     }
@@ -110,6 +121,7 @@ export class ReadonlyGridComponent implements OnInit {
       this.gridData = this.gridData.filter(
         (data) => data.id !== confirmArgs.id,
       );
+      this.gridApi.setGridOption('rowData', this.gridData);
     }, 3000);
   }
 
@@ -141,7 +153,6 @@ export class ReadonlyGridComponent implements OnInit {
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
-    this.gridApi.resetRowHeights();
     this.gridApi.addEventListener('rowSelected', (event: RowSelectedEvent) => {
       const row = event.node;
       if (row.isSelected()) {
@@ -187,7 +198,7 @@ export class ReadonlyGridComponent implements OnInit {
   private getGridOptions(): void {
     this.gridOptions = {
       columnDefs: this.columnDefs,
-      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+      onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
       context: {
         rowDeleteIds: this.gridData
           .filter((row) => row.selected)

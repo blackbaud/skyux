@@ -13,12 +13,9 @@ describe('layout-storybook - fluid-grid', () => {
           });
 
           it(`should render the component at width ${width}`, () => {
-            cy.get('app-fluid-grid')
-              .should('exist')
-              .should('be.visible')
-              .screenshot(
-                `fluidgridcomponent-fluidgrid--fluid-grid-${theme}-${width}`,
-              );
+            cy.skyReady('app-fluid-grid').screenshot(
+              `fluidgridcomponent-fluidgrid--fluid-grid-${theme}-${width}`,
+            );
             cy.percySnapshot(
               `fluidgridcomponent-fluidgrid--fluid-grid-${theme}-${width}`,
               {

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './grid-dynamic.component.fixture.html',
+  standalone: false,
 })
 export class GridDynamicTestComponent {
   public data: any[];

@@ -8,14 +8,15 @@ import {
   selector: 'app-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss'],
+  standalone: false,
 })
 export class PageComponent implements OnInit, OnDestroy {
-  public spaces = {
+  public spaces: Record<SkyAppViewportReservedPositionType, number> = {
     left: 10,
     top: 40,
     right: 80,
     bottom: 120,
-  } as { [key in SkyAppViewportReservedPositionType]: number };
+  };
 
   #viewportSvc: SkyAppViewportService;
 

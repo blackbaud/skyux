@@ -23,7 +23,7 @@ describe('CellRendererLookupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SkyAgGridCellRendererLookupComponent],
+      imports: [SkyAgGridCellRendererLookupComponent],
     }).compileComponents();
   });
 

@@ -15,6 +15,7 @@ import { Subject } from 'rxjs';
   selector: 'app-split-view-page-bound',
   templateUrl: './split-view-page-bound.component.html',
   styleUrls: ['./split-view-page-bound.component.scss'],
+  standalone: false,
 })
 export class SplitViewPageBoundComponent {
   public set activeIndex(value: number) {
@@ -73,7 +74,7 @@ export class SplitViewPageBoundComponent {
     }
   }
 
-  public submitForm() {
+  public submitForm(): void {
     if (this.hasUnsavedWork) {
       this.confirmService
         .open({

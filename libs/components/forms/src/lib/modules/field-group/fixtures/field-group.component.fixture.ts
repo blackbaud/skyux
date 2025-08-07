@@ -13,7 +13,6 @@ import { SkyFieldGroupHeadingStyle } from '../field-group-heading-style';
 import { SkyFieldGroupModule } from '../field-group.module';
 
 @Component({
-  standalone: true,
   selector: 'sky-field-group-fixture',
   templateUrl: './field-group.component.fixture.html',
   imports: [

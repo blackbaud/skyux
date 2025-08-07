@@ -9,7 +9,7 @@ const routes: Routes = [
     component: CheckboxComponent,
     data: {
       name: 'Checkbox',
-      icon: 'check-square-o',
+      icon: 'checkmark-square',
       library: 'forms',
     },
   },

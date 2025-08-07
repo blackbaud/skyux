@@ -1,8 +1,20 @@
 <sky-modal>
   <sky-modal-header> Summary Action Bar In Modal </sky-modal-header>
-  <sky-modal-content> Content A </sky-modal-content>
+  <sky-modal-content>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac tempor
+    erat. Duis facilisis, massa vestibulum consequat semper, urna lacus
+    sollicitudin neque, eget pulvinar mauris nulla ac sem. Maecenas at aliquam
+    nisl. Suspendisse elementum mollis est, eu tincidunt dolor pulvinar ut.
+    Proin nec viverra eros. Nam consectetur lectus ut pulvinar mattis. Mauris
+    vitae porta mauris. Integer bibendum at lorem non blandit. Integer ac leo
+    elit. Nullam accumsan tortor vitae malesuada tristique. Integer non viverra
+    urna, sed mattis dui. Suspendisse aliquet enim scelerisque justo auctor
+    tempor. Sed at risus rutrum, efficitur sem eu, efficitur ex. Curabitur
+    commodo, elit et varius imperdiet, lorem risus dignissim lorem, euismod
+    pulvinar leo est sit amet eros.
+  </sky-modal-content>
   <sky-modal-footer>
-    <sky-summary-action-bar>
+    <sky-summary-action-bar [formErrors]="error">
       <sky-summary-action-bar-actions>
         <sky-summary-action-bar-primary-action (actionClick)="instance.save()">
           Save
@@ -11,8 +23,8 @@
           <sky-summary-action-bar-secondary-action (actionClick)="printHello()">
             Secondary action
           </sky-summary-action-bar-secondary-action>
-          <sky-summary-action-bar-secondary-action (actionClick)="printHello()">
-            Secondary action 2
+          <sky-summary-action-bar-secondary-action (actionClick)="moreErrors()">
+            Add errors
           </sky-summary-action-bar-secondary-action>
         </sky-summary-action-bar-secondary-actions>
         <sky-summary-action-bar-cancel (actionClick)="instance.cancel()">

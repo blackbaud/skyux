@@ -14,7 +14,6 @@ import {
 } from '@skyux/forms';
 
 @Component({
-  standalone: true,
   selector: 'sky-field-group-fixture',
   templateUrl: './field-group.component.fixture.html',
   imports: [

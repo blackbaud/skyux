@@ -4,6 +4,7 @@ import { SkyRadioComponent } from '../radio.component';
 
 @Component({
   templateUrl: './radio.component.fixture.html',
+  standalone: false,
 })
 export class SkyRadioTestComponent {
   public selectedValue = '1';

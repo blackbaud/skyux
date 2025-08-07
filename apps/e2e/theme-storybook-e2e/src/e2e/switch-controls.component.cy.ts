@@ -10,9 +10,7 @@ describe('theme-storybook', () => {
         );
       });
       it('should render the component', () => {
-        cy.get('app-switch-controls')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-switch-controls')
           .end()
           .document()
           .screenshot(
@@ -26,5 +24,5 @@ describe('theme-storybook', () => {
         );
       });
     });
-  }, true);
+  });
 });

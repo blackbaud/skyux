@@ -1,5 +1,4 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
-@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 // Host element must be a block to allow FF to make proper getBoundingClientRect() calculations.
 @include mixins.sky-component-host('modern') {
@@ -45,10 +44,11 @@
     display: flex;
     flex-flow: row wrap;
     padding: 0;
-    margin: 0 0 -20px -20px;
-
+    margin: 0 0 calc(var(--sky-space-gap-action_group-xl) * -1)
+      calc(var(--sky-space-gap-action_group-xl) * -1);
     sky-action-button {
-      margin: 0 0 20px 20px;
+      margin: 0 0 var(--sky-space-gap-action_group-xl)
+        var(--sky-space-gap-action_group-xl);
       flex: 0 1 446px;
     }
   }

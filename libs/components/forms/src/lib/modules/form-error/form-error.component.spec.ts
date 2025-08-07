@@ -7,7 +7,6 @@ import { SKY_FORM_ERRORS_ENABLED } from './form-errors-enabled-token';
 import { SkyFormErrorsModule } from './form-errors.module';
 
 @Component({
-  standalone: true,
   imports: [SkyFormErrorsModule, SkyFormErrorModule],
   providers: [{ provide: SKY_FORM_ERRORS_ENABLED, useValue: true }],
   template: `
@@ -17,7 +16,6 @@ import { SkyFormErrorsModule } from './form-errors.module';
 class FormErrorWithTokenComponent {}
 
 @Component({
-  standalone: true,
   imports: [SkyFormErrorsModule, SkyFormErrorModule],
   template: `
     <sky-form-error errorName="required" errorText="This field is required" />

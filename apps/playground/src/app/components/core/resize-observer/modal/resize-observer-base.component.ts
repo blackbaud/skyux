@@ -6,6 +6,7 @@ import { ResizeObserverModalComponent } from './resize-observer-modal.component'
 @Component({
   selector: 'app-resize-observer-base',
   templateUrl: './resize-observer-base.component.html',
+  standalone: false,
 })
 export class ResizeObserverBaseComponent {
   constructor(private modalService: SkyModalService) {}

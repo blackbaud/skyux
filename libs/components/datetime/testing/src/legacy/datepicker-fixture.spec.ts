@@ -15,6 +15,7 @@ import { SkyDatepickerFixture } from './datepicker-fixture';
       <input skyDatepickerInput [(ngModel)]="selectedDate" />
     </sky-datepicker>
   `,
+  standalone: false,
 })
 class TestComponent {
   public date = '01/01/2019';

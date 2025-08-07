@@ -35,3 +35,11 @@ export { SkyRadioGroupHarnessFilters } from './modules/radio/radio-group-harness
 export { SkyRadioHarness } from './modules/radio/radio-harness';
 export { SkyRadioHarnessFilters } from './modules/radio/radio-harness-filters';
 export { SkyRadioLabelHarness } from './modules/radio/radio-label-harness';
+
+export { SkySelectionBoxGridHarness } from './modules/selection-box/selection-box-grid-harness';
+export { SkySelectionBoxGridHarnessFilters } from './modules/selection-box/selection-box-grid-harness-filters';
+export { SkySelectionBoxHarness } from './modules/selection-box/selection-box-harness';
+export { SkySelectionBoxHarnessFilters } from './modules/selection-box/selection-box-harness-filters';
+
+export { SkyToggleSwitchHarness } from './modules/toggle-switch/toggle-switch-harness';
+export { SkyToggleSwitchHarnessFilters } from './modules/toggle-switch/toggle-switch-harness-filters';

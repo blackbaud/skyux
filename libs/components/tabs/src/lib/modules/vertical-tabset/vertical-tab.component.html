@@ -1,16 +1,17 @@
 <a
   #tabButton
   class="sky-vertical-tab sky-vertical-tabset-button"
-  [attr.aria-controls]="isMobile ? null : ariaControls || tabContentPane.id"
-  [attr.aria-disabled]="disabled || undefined"
-  [attr.aria-selected]="active"
+  [attr.aria-controls]="
+    isMobile ? undefined : ariaControls || tabContentPane.id
+  "
+  [attr.aria-disabled]="isMobile ? undefined : disabled || undefined"
+  [attr.aria-selected]="isMobile ? undefined : active"
   [attr.id]="tabId"
   [attr.role]="isMobile ? undefined : ariaRole"
   [ngClass]="{
     'sky-vertical-tab-active': active,
     'sky-vertical-tabset-button-disabled': disabled,
-    'sky-font-deemphasized': disabled,
-    'sky-deemphasized': disabled
+    'sky-font-deemphasized': disabled
   }"
   [tabIndex]="-1"
   (click)="activateTab()"
@@ -19,7 +20,10 @@
   (keyup.space)="tabButtonActivate($event)"
 >
   <div class="sky-vertical-tab-display">
-    <div class="sky-vertical-tab-heading">
+    <div
+      class="sky-vertical-tab-heading"
+      [ngClass]="{ 'sky-control-label-required': requiredIndicator }"
+    >
       <span class="sky-vertical-tab-heading-value">{{ tabHeading }}</span>
       @if (tabHeaderCount || tabHeaderCount === 0) {
         <span class="sky-vertical-tab-count"> ({{ tabHeaderCount }}) </span>
@@ -33,7 +37,7 @@
       />
     }
     @if (isMobile && showTabRightArrow) {
-      <sky-icon class="sky-vertical-tab-right-arrow" icon="chevron-right" />
+      <sky-icon class="sky-vertical-tab-right-arrow" iconName="chevron-right" />
     }
   </div>
 </a>

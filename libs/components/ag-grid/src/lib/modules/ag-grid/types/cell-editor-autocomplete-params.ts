@@ -5,9 +5,6 @@ import {
   SkyAutocompleteProperties,
 } from './autocomplete-properties';
 
-/**
- * @internal
- */
 export interface SkyCellEditorAutocompleteParams extends ICellEditorParams {
   skyComponentProperties?:
     | SkyAutocompleteProperties

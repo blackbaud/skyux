@@ -9,6 +9,7 @@ import { SkyListComponent } from '../list.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list.component.fixture.html',
+  standalone: false,
 })
 export class ListTestComponent {
   @ViewChild(SkyListComponent, {

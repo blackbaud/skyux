@@ -6,6 +6,7 @@ import { SkyAutocompleteComponent } from '../autocomplete.component';
 @Component({
   selector: 'sky-autocomplete-reactive-fixture',
   templateUrl: './autocomplete-reactive.component.fixture.html',
+  standalone: false,
 })
 export class SkyAutocompleteReactiveFixtureComponent implements OnInit {
   public reactiveForm: UntypedFormGroup | undefined;

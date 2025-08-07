@@ -6,6 +6,7 @@
   --sky-override-box-header-container-padding: var(--sky-padding-even-xl)
     var(--sky-padding-even-xl) 0 var(--sky-padding-even-xl);
   --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
+  --sky-override-box-background-color-default: #fff;
 }
 
 @include compatMixins.sky-modern-overrides('sky-box', false) {
@@ -17,7 +18,12 @@ sky-box {
 }
 
 .sky-box {
-  background-color: #fff;
+  --sky-background-color-page-default: var(
+    --sky-override-box-background-color-default,
+    var(--sky-color-background-container-base)
+  );
+  --sky-comp-override-list-header-background-color: initial;
+
   border-radius: var(--sky-box-border-radius);
   overflow: var(--sky-box-overflow);
 
@@ -28,10 +34,10 @@ sky-box {
     align-items: baseline;
     padding: var(
       --sky-override-box-header-container-padding,
-      var(--sky-space-inset-bottomless-top-xl)
-        var(--sky-space-inset-bottomless-right-xl)
-        var(--sky-space-inset-bottomless-bottom-xl)
-        var(--sky-space-inset-bottomless-left-xl)
+      var(--sky-comp-box-header-space-inset-top)
+        var(--sky-comp-box-header-space-inset-right)
+        var(--sky-comp-box-header-space-inset-bottom)
+        var(--sky-comp-box-header-space-inset-left)
     );
 
     &:empty {
@@ -68,7 +74,10 @@ sky-box {
     .sky-box-content {
       padding: var(
         --sky-override-box-content-padding,
-        var(--sky-space-inset-balanced-xl)
+        var(--sky-comp-box-content-space-inset-top)
+          var(--sky-comp-box-content-space-inset-right)
+          var(--sky-comp-box-content-space-inset-bottom)
+          var(--sky-comp-box-content-space-inset-left)
       );
     }
   }

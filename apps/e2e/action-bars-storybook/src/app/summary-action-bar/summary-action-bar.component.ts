@@ -1,15 +1,24 @@
-import { Component, Input, OnDestroy, inject } from '@angular/core';
+import { Component, Injectable, Input, OnDestroy, inject } from '@angular/core';
+import { SkySummaryActionBarError } from '@skyux/action-bars';
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 import { SummaryActionBarModalComponent } from './summary-action-bar-modal.component';
+
+@Injectable()
+export class SABModalContext {
+  public errors: SkySummaryActionBarError[] | undefined;
+}
 
 @Component({
   selector: 'app-summary-action-bar',
   templateUrl: './summary-action-bar.component.html',
   styleUrls: ['./summary-action-bar.component.scss'],
+  standalone: false,
 })
 export class SummaryActionBarComponent implements OnDestroy {
+  @Input()
+  public errors: SkySummaryActionBarError[] | undefined;
+
   @Input()
   public set type(
     value: 'tab' | 'page' | 'split-view' | 'modal' | 'modal-full-page',
@@ -21,6 +30,14 @@ export class SummaryActionBarComponent implements OnDestroy {
         SummaryActionBarModalComponent,
         {
           fullPage: value.endsWith('full-page'),
+          providers: [
+            {
+              provide: SABModalContext,
+              useValue: {
+                errors: this.errors,
+              },
+            },
+          ],
         },
       );
     }
@@ -34,8 +51,6 @@ export class SummaryActionBarComponent implements OnDestroy {
     | 'modal-full-page' {
     return this.#_type;
   }
-
-  public readonly ready$ = inject(FontLoadingService).ready();
 
   #_type: 'tab' | 'page' | 'split-view' | 'modal' | 'modal-full-page' = 'page';
 

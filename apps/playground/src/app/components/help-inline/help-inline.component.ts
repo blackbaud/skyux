@@ -39,6 +39,7 @@ class DemoHelpService extends SkyHelpService {
       useClass: DemoHelpService,
     },
   ],
+  standalone: false,
 })
 export class HelpInlineComponent {
   public popoverOpen = false;

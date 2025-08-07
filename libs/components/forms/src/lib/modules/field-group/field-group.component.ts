@@ -25,7 +25,6 @@ function numberAttribute3(value: unknown): number {
   selector: 'sky-field-group',
   templateUrl: './field-group.component.html',
   styleUrl: './field-group.component.scss',
-  standalone: true,
   imports: [CommonModule, SkyHelpInlineModule, SkyIdModule, SkyThemeModule],
 })
 export class SkyFieldGroupComponent {
@@ -53,7 +52,7 @@ export class SkyFieldGroupComponent {
    * vertical spacing is automatically added to the field group.
    */
   @Input({ transform: booleanAttribute })
-  @HostBinding('class.sky-margin-stacked-xl')
+  @HostBinding('class.sky-field-group-stacked')
   public stacked = false;
 
   /**

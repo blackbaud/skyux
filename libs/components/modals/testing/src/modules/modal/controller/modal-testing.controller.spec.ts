@@ -22,7 +22,6 @@ class ModalTestContext {
 
 @Component({
   imports: [SkyModalModule],
-  standalone: true,
   template: `<form [formGroup]="demoForm" (submit)="saveForm()">
     <sky-modal [formErrors]="errors" [isDirty]="demoForm.dirty">
       <sky-modal-header> Modal title </sky-modal-header>

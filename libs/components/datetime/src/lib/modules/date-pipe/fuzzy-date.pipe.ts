@@ -15,6 +15,7 @@ import { SkyFuzzyDateService } from '../datepicker/fuzzy/fuzzy-date.service';
 @Pipe({
   name: 'skyFuzzyDate',
   pure: false,
+  standalone: false,
 })
 export class SkyFuzzyDatePipe implements PipeTransform {
   #fuzzyDateService: SkyFuzzyDateService;

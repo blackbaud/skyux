@@ -60,7 +60,6 @@ let nextId = 0;
   ],
   providers: [SkyDatepickerHostService],
   selector: 'sky-datepicker',
-  standalone: true,
   styleUrl: './datepicker.component.scss',
   templateUrl: './datepicker.component.html',
 })

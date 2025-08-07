@@ -1,12 +1,61 @@
+@use 'sass:list';
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-$avatar-size-large: $sky-avatar-height;
-$avatar-size-medium: 65px;
-$avatar-size-small: 32px;
+@include compatMixins.sky-default-overrides('.sky-avatar') {
+  $avatar-border-width: 2px;
+  $avatar-size-large: 100px;
+  $avatar-size-medium: 65px;
+  $avatar-size-small: 32px;
 
-$modern-avatar-padding-large: 5px;
-$modern-avatar-padding-medium: 3px;
-$modern-avatar-padding-small: 2px;
+  --sky-override-avatar-initials-border-radius: initial;
+  --sky-override-avatar-initials-font-size: #{$avatar-size-large * 0.5};
+  --sky-override-avatar-initials-font-size-md: #{$avatar-size-medium * 0.5};
+  --sky-override-avatar-initials-font-size-sm: #{$avatar-size-small * 0.5};
+  --sky-override-avatar-initials-height: #{$avatar-size-large};
+  --sky-override-avatar-initials-height-md: #{$avatar-size-medium};
+  --sky-override-avatar-initials-height-sm: #{$avatar-size-small};
+  --sky-override-avatar-initials-width: #{$avatar-size-large};
+  --sky-override-avatar-initials-width-md: #{$avatar-size-medium};
+  --sky-override-avatar-initials-width-sm: #{$avatar-size-small};
+  --sky-override-avatar-wrapper-background-color: transparent;
+  --sky-override-avatar-wrapper-border: solid #{$avatar-border-width}
+    transparent;
+  --sky-override-avatar-wrapper-border-radius: 50%;
+  --sky-override-avatar-wrapper-drop-accept-border-color: #{$sky-highlight-color-success};
+  --sky-override-avatar-wrapper-drop-border-width: #{$avatar-border-width};
+  --sky-override-avatar-wrapper-drop-border-active: solid
+    #{$avatar-border-width} transparent;
+  --sky-override-avatar-wrapper-drop-border-hover: solid #{$avatar-border-width}
+    transparent;
+  --sky-override-avatar-wrapper-drop-box-shadow-focus: 0 0 5px 0
+    rgba(0, 0, 0, 0.3);
+  --sky-override-avatar-wrapper-drop-reject-border-color: #{$sky-highlight-color-danger};
+  --sky-override-avatar-wrapper-height: #{$avatar-size-large +
+    ($avatar-border-width * 2)};
+  --sky-override-avatar-wrapper-height-md: #{$avatar-size-medium +
+    ($avatar-border-width * 2)};
+  --sky-override-avatar-wrapper-height-sm: #{$avatar-size-small +
+    ($avatar-border-width * 2)};
+  --sky-override-avatar-wrapper-left: -#{$avatar-border-width};
+  --sky-override-avatar-wrapper-padding: 0;
+  --sky-override-avatar-wrapper-padding-md: 0;
+  --sky-override-avatar-wrapper-padding-sm: 0;
+  --sky-override-avatar-wrapper-top: -#{$avatar-border-width};
+  --sky-override-avatar-wrapper-width: #{$avatar-size-large +
+    ($avatar-border-width * 2)};
+  --sky-override-avatar-wrapper-width-md: #{$avatar-size-medium +
+    ($avatar-border-width * 2)};
+  --sky-override-avatar-wrapper-width-sm: #{$avatar-size-small +
+    ($avatar-border-width * 2)};
+}
+
+@include compatMixins.sky-modern-overrides('.sky-avatar', false) {
+  --sky-override-avatar-wrapper-drop-border-width: 2px;
+  --sky-override-avatar-wrapper-drop-box-shadow-focus: var(
+    --sky-elevation-focus
+  );
+}
 
 // begin avatar colors
 $sky-avatar-colors: (
@@ -19,29 +68,58 @@ $sky-avatar-colors: (
   var(--sky-category-color-red)
 );
 
-@for $i from 1 through length($sky-avatar-colors) {
+@for $i from 1 through list.length($sky-avatar-colors) {
   .sky-avatar-colors-#{$i} {
-    background-color: nth($sky-avatar-colors, $i);
+    background-color: list.nth($sky-avatar-colors, $i);
   }
 }
 
 .sky-avatar-wrapper {
-  height: $sky-avatar-height + ($sky-avatar-border-width * 2);
-  width: $sky-avatar-width + ($sky-avatar-border-width * 2);
-  border: solid $sky-avatar-border-width transparent;
-  border-radius: 50%;
+  height: var(--sky-override-avatar-wrapper-height, var(--sky-size-avatar-l));
+  width: var(--sky-override-avatar-wrapper-width, var(--sky-size-avatar-l));
+  background-color: var(
+    --sky-override-avatar-wrapper-background-color,
+    var(--sky-color-background-thumbnail_matte)
+  );
+  padding: var(
+    --sky-override-avatar-wrapper-padding,
+    var(--sky-space-inset-thumbnail_matte-l)
+  );
+  border: var(--sky-override-avatar-wrapper-border, none);
+  border-radius: var(
+    --sky-override-avatar-wrapper-border-radius,
+    var(--sky-border-radius-round)
+  );
   overflow: hidden;
   position: relative;
-  top: -$sky-avatar-border-width;
-  left: -$sky-avatar-border-width;
+  top: var(--sky-override-avatar-wrapper-top, 0);
+  left: var(--sky-override-avatar-wrapper-left, 0);
 }
 
 .sky-avatar-image,
 .sky-avatar-initials {
-  height: $sky-avatar-height;
-  width: $sky-avatar-width;
+  height: var(
+    --sky-override-avatar-initials-height,
+    calc(
+      var(--sky-size-avatar-l) - calc(
+          var(--sky-space-inset-thumbnail_matte-l) * 2
+        )
+    )
+  );
+  width: var(
+    --sky-override-avatar-initials-width,
+    calc(
+      var(--sky-size-avatar-l) - calc(
+          var(--sky-space-inset-thumbnail_matte-l) * 2
+        )
+    )
+  );
   background-position: 50%;
   background-size: cover;
+  border-radius: var(
+    --sky-override-avatar-initials-border-radius,
+    var(--sky-border-radius-round)
+  );
 
   /* this removes the "ghost margin" from the bottom of the canvas element that would otherwise be imposed by line height rules for inline elements */
   display: flex;
@@ -49,8 +127,9 @@ $sky-avatar-colors: (
   justify-content: center;
 }
 
+// This rule only affects default theme. Remove when default theme support is removed.
 .sky-avatar-initials {
-  font-size: $sky-avatar-height * 0.5;
+  font-size: var(--sky-override-avatar-initials-font-size, initial);
 }
 
 .sky-avatar-initials-inner {
@@ -63,32 +142,76 @@ $sky-avatar-colors: (
 }
 
 .sky-avatar-wrapper-size-medium {
-  height: $avatar-size-medium + ($sky-avatar-border-width * 2);
-  width: $avatar-size-medium + ($sky-avatar-border-width * 2);
+  height: var(
+    --sky-override-avatar-wrapper-height-md,
+    var(--sky-size-avatar-m)
+  );
+  width: var(--sky-override-avatar-wrapper-width-md, var(--sky-size-avatar-m));
+  padding: var(
+    --sky-override-avatar-wrapper-padding-md,
+    var(--sky-space-inset-thumbnail_matte-m)
+  );
 
   .sky-avatar-image,
   .sky-avatar-initials {
-    height: $avatar-size-medium;
-    width: $avatar-size-medium;
+    height: var(
+      --sky-override-avatar-initials-height-md,
+      calc(
+        var(--sky-size-avatar-m) - calc(
+            var(--sky-space-inset-thumbnail_matte-m) * 2
+          )
+      )
+    );
+    width: var(
+      --sky-override-avatar-initials-width-md,
+      calc(
+        var(--sky-size-avatar-m) - calc(
+            var(--sky-space-inset-thumbnail_matte-m) * 2
+          )
+      )
+    );
   }
 
+  // This rule only affects default theme. Remove when default theme support is removed.
   .sky-avatar-initials {
-    font-size: $avatar-size-medium * 0.5;
+    font-size: var(--sky-override-avatar-initials-font-size-md, initial);
   }
 }
 
 .sky-avatar-wrapper-size-small {
-  height: $avatar-size-small + ($sky-avatar-border-width * 2);
-  width: $avatar-size-small + ($sky-avatar-border-width * 2);
+  height: var(
+    --sky-override-avatar-wrapper-height-sm,
+    var(--sky-size-avatar-s)
+  );
+  width: var(--sky-override-avatar-wrapper-width-sm, var(--sky-size-avatar-s));
+  padding: var(
+    --sky-override-avatar-wrapper-padding-sm,
+    var(--sky-space-inset-thumbnail_matte-s)
+  );
 
   .sky-avatar-image,
   .sky-avatar-initials {
-    height: $avatar-size-small;
-    width: $avatar-size-small;
+    height: var(
+      --sky-override-avatar-initials-height-sm,
+      calc(
+        var(--sky-size-avatar-s) - calc(
+            var(--sky-space-inset-thumbnail_matte-s) * 2
+          )
+      )
+    );
+    width: var(
+      --sky-override-avatar-initials-width-sm,
+      calc(
+        var(--sky-size-avatar-s) - calc(
+            var(--sky-space-inset-thumbnail_matte-s) * 2
+          )
+      )
+    );
   }
 
+  // This rule only affects default theme. Remove when default theme support is removed.
   .sky-avatar-initials {
-    font-size: $avatar-size-small * 0.5;
+    font-size: var(--sky-override-avatar-initials-font-size-sm, initial);
   }
 }
 
@@ -98,121 +221,150 @@ $sky-avatar-colors: (
   }
 }
 
+.sky-file-drop-accept,
+.sky-file-drop-reject {
+  .sky-avatar-wrapper {
+    border-style: dashed;
+  }
+}
+
 .sky-file-drop-accept {
   .sky-avatar-wrapper {
-    border-color: $sky-highlight-color-success;
-    border-style: dashed;
+    border-color: var(
+      --sky-override-avatar-wrapper-drop-accept-border-color,
+      var(--sky-color-border-success)
+    );
   }
 }
 
 .sky-file-drop-reject {
   .sky-avatar-wrapper {
-    border-color: $sky-highlight-color-danger;
-    border-style: dashed;
+    border-color: var(
+      --sky-override-avatar-wrapper-drop-reject-border-color,
+      var(--sky-color-border-danger)
+    );
   }
 }
 
-.sky-theme-modern {
+.sky-file-drop-accept,
+.sky-file-drop-reject {
   .sky-avatar-wrapper {
-    height: $avatar-size-large;
-    width: $avatar-size-large;
-    background-color: #fff;
-    border-width: 0;
-    padding: $modern-avatar-padding-large;
-    top: 0;
-    left: 0;
-  }
-
-  .sky-avatar-image,
-  .sky-avatar-initials {
-    border-radius: 50%;
-    height: $avatar-size-large - ($modern-avatar-padding-large * 2);
-    width: $avatar-size-large - ($modern-avatar-padding-large * 2);
-  }
-
-  .sky-file-drop-accept,
-  .sky-file-drop-reject {
-    .sky-avatar-wrapper {
-      border-width: $sky-avatar-border-width;
-      padding: $modern-avatar-padding-large - $sky-avatar-border-width;
-    }
-
-    .sky-avatar-wrapper-size-medium {
-      padding: $modern-avatar-padding-medium - $sky-avatar-border-width;
-    }
-
-    .sky-avatar-wrapper-size-small {
-      padding: $modern-avatar-padding-small - $sky-avatar-border-width;
-    }
+    border-width: var(
+      --sky-override-avatar-wrapper-drop-border-width,
+      var(--sky-border-width-input-hover)
+    );
+    padding: calc(
+      var(
+          --sky-override-avatar-wrapper-padding,
+          var(--sky-space-inset-thumbnail_matte-l)
+        ) - var(
+          --sky-override-avatar-wrapper-drop-border-width,
+          var(--sky-border-width-input-hover)
+        )
+    );
   }
 
   .sky-avatar-wrapper-size-medium {
-    padding: $modern-avatar-padding-medium;
-    height: $avatar-size-medium;
-    width: $avatar-size-medium;
-
-    .sky-avatar-image,
-    .sky-avatar-initials {
-      height: $avatar-size-medium - ($modern-avatar-padding-medium * 2);
-      width: $avatar-size-medium - ($modern-avatar-padding-medium * 2);
-    }
+    padding: calc(
+      var(
+          --sky-override-avatar-wrapper-padding-md,
+          var(--sky-space-inset-thumbnail_matte-m)
+        ) - var(
+          --sky-override-avatar-wrapper-drop-border-width,
+          var(--sky-border-width-input-hover)
+        )
+    );
   }
 
   .sky-avatar-wrapper-size-small {
-    padding: $modern-avatar-padding-small;
-    height: $avatar-size-small;
-    width: $avatar-size-small;
-
-    .sky-avatar-image,
-    .sky-avatar-initials {
-      height: $avatar-size-small - ($modern-avatar-padding-small * 2);
-      width: $avatar-size-small - ($modern-avatar-padding-small * 2);
-    }
+    padding: calc(
+      var(
+          --sky-override-avatar-wrapper-padding-sm,
+          var(--sky-space-inset-thumbnail_matte-s)
+        ) - var(
+          --sky-override-avatar-wrapper-drop-border-width,
+          var(--sky-border-width-input-hover)
+        )
+    );
   }
+}
 
-  sky-file-drop {
-    &:hover {
-      .sky-avatar-wrapper {
-        border: solid 1px $sky-theme-modern-background-color-primary-dark;
-        padding: $modern-avatar-padding-large - 1;
-
-        &.sky-avatar-wrapper-size-medium {
-          padding: $modern-avatar-padding-medium - 1;
-        }
-
-        &.sky-avatar-wrapper-size-small {
-          padding: $modern-avatar-padding-small - 1;
-        }
-      }
-    }
-
-    &:active,
-    &:focus-within {
-      .sky-avatar-wrapper {
-        border: solid 2px $sky-theme-modern-background-color-primary-dark;
-        padding: $modern-avatar-padding-large - 2;
-
-        &.sky-avatar-wrapper-size-medium {
-          padding: $modern-avatar-padding-medium - 2;
-        }
-
-        &.sky-avatar-wrapper-size-small {
-          padding: $modern-avatar-padding-small - 2;
-        }
-      }
-    }
-
-    &:focus-within:not(:active) {
-      .sky-avatar-wrapper {
-        box-shadow: $sky-theme-modern-elevation-3-shadow-size
-          $sky-theme-modern-elevation-3-shadow-color;
-      }
-    }
-  }
-
-  &.sky-theme-mode-dark {
+sky-file-drop {
+  &:hover {
     .sky-avatar-wrapper {
-      background-color: transparent;
+      border: var(
+        --sky-override-avatar-wrapper-drop-border-hover,
+        var(--sky-border-width-input-hover) solid
+          var(--sky-color-border-input-hover)
+      );
+      padding: calc(
+        var(
+            --sky-override-avatar-wrapper-padding,
+            var(--sky-space-inset-thumbnail_matte-l)
+          ) - var(--sky-border-width-input-hover)
+      );
+
+      &.sky-avatar-wrapper-size-medium {
+        padding: calc(
+          var(
+              --sky-override-avatar-wrapper-padding-md,
+              var(--sky-space-inset-thumbnail_matte-m)
+            ) - var(--sky-border-width-input-hover)
+        );
+      }
+
+      &.sky-avatar-wrapper-size-small {
+        padding: calc(
+          var(
+              --sky-override-avatar-wrapper-padding-sm,
+              var(--sky-space-inset-thumbnail_matte-s)
+            ) - var(--sky-border-width-input-hover)
+        );
+      }
+    }
+  }
+
+  &:active,
+  &:focus-within {
+    .sky-avatar-wrapper {
+      border: var(
+        --sky-override-avatar-wrapper-drop-border-active,
+        var(--sky-border-width-input-active) solid
+          var(--sky-color-border-input-active)
+      );
+      padding: calc(
+        var(
+            --sky-override-avatar-wrapper-padding,
+            var(--sky-space-inset-thumbnail_matte-l)
+          ) - var(--sky-border-width-input-active)
+      );
+
+      &.sky-avatar-wrapper-size-medium {
+        padding: calc(
+          var(
+              --sky-override-avatar-wrapper-padding-md,
+              var(--sky-space-inset-thumbnail_matte-m)
+            ) - var(--sky-border-width-input-active)
+        );
+      }
+
+      &.sky-avatar-wrapper-size-small {
+        padding: calc(
+          var(
+              --sky-override-avatar-wrapper-padding-sm,
+              var(--sky-space-inset-thumbnail_matte-s)
+            ) - var(--sky-border-width-input-active)
+        );
+      }
+    }
+  }
+
+  &:focus-within:not(:active) {
+    .sky-avatar-wrapper {
+      box-shadow: var(
+        --sky-override-avatar-wrapper-drop-box-shadow-focus,
+        none
+      );
     }
   }
 }

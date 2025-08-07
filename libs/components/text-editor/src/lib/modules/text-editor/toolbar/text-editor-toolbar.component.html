@@ -19,7 +19,7 @@
             {{ styleStateFontName }}
           </sky-dropdown-button>
           <sky-dropdown-menu>
-            @for (fontModel of fontList; track fontModel) {
+            @for (fontModel of fontList; track fontModel.name) {
               <sky-dropdown-item>
                 <button
                   type="button"
@@ -63,7 +63,7 @@
       @case ('font-style') {
         <div class="sky-switch-icon-group sky-text-editor-font-style-picker">
           <sky-checkbox
-            icon="bold"
+            iconName="text-bold"
             label="Bold"
             title="Bold"
             [disabled]="disabled"
@@ -73,7 +73,7 @@
             "
           />
           <sky-checkbox
-            icon="italic"
+            iconName="text-italic"
             label="Italicized"
             title="Italicized"
             [disabled]="disabled"
@@ -83,7 +83,7 @@
             "
           />
           <sky-checkbox
-            icon="underline"
+            iconName="text-underline"
             label="Underline"
             title="Underline"
             [disabled]="disabled"
@@ -101,8 +101,7 @@
               #colorPicker
               class="sky-text-editor-font-color-picker"
               label="Font color"
-              pickerButtonIcon="highlighter"
-              pickerButtonIconType="skyux"
+              pickerButtonIcon="color-line"
               [messageStream]="colorpickerStream"
               [showResetButton]="false"
               (selectedColorChanged)="onColorpickerColorChanged($event)"
@@ -123,7 +122,6 @@
               class="sky-text-editor-background-color-picker"
               label="Background color"
               pickerButtonIcon="text-color"
-              pickerButtonIconType="skyux"
               [messageStream]="backColorpickerStream"
               [showResetButton]="false"
               (selectedColorChanged)="onColorpickerColorChanged($event, true)"
@@ -150,7 +148,7 @@
             [disabled]="disabled"
             (click)="execCommand('insertUnorderedList')"
           >
-            <sky-icon icon="bullet-list" />
+            <sky-icon iconName="text-bullet-list" />
           </button>
           <button
             aria-label="Numbered list"
@@ -160,7 +158,7 @@
             [disabled]="disabled"
             (click)="execCommand('insertOrderedList')"
           >
-            <sky-icon icon="number-list" />
+            <sky-icon iconName="text-number-list-ltr" />
           </button>
         </div>
       }
@@ -174,7 +172,7 @@
             [disabled]="disabled"
             (click)="execCommand('justifyLeft')"
           >
-            <sky-icon icon="align-left-text" />
+            <sky-icon iconName="text-align-left" />
           </button>
           <button
             aria-label="Align center"
@@ -184,7 +182,7 @@
             [disabled]="disabled"
             (click)="execCommand('justifyCenter')"
           >
-            <sky-icon icon="center-text" />
+            <sky-icon iconName="text-align-center" />
           </button>
           <button
             aria-label="Align right"
@@ -194,7 +192,7 @@
             [disabled]="disabled"
             (click)="execCommand('justifyRight')"
           >
-            <sky-icon icon="align-right-text" />
+            <sky-icon iconName="text-align-right" />
           </button>
         </div>
       }
@@ -208,7 +206,7 @@
             [disabled]="disabled"
             (click)="execCommand('outdent')"
           >
-            <sky-icon icon="outdent" />
+            <sky-icon iconName="text-indent-decrease" />
           </button>
           <button
             aria-label="Indent"
@@ -218,7 +216,7 @@
             [disabled]="disabled"
             (click)="execCommand('indent')"
           >
-            <sky-icon icon="indent" />
+            <sky-icon iconName="text-indent-increase" />
           </button>
         </div>
       }
@@ -232,7 +230,7 @@
             [disabled]="disabled"
             (click)="execCommand('undo')"
           >
-            <sky-icon icon="undo" />
+            <sky-icon iconName="arrow-undo" />
           </button>
           <button
             aria-label="Redo"
@@ -242,7 +240,7 @@
             [disabled]="disabled"
             (click)="execCommand('redo')"
           >
-            <sky-icon icon="redo" />
+            <sky-icon iconName="arrow-redo" />
           </button>
         </div>
       }
@@ -259,7 +257,7 @@
             }"
             (click)="link()"
           >
-            <sky-icon icon="link" />
+            <sky-icon iconName="link" />
           </button>
           <button
             aria-label="Unlink"
@@ -269,7 +267,7 @@
             [disabled]="!styleState.linkState || disabled"
             (click)="unlink()"
           >
-            <sky-icon icon="unlink" />
+            <sky-icon iconName="link-dismiss" />
           </button>
         </div>
       }

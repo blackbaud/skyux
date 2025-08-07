@@ -939,11 +939,36 @@ describe('Vertical tabset component', () => {
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
+  it('should be accessible without active tab', async () => {
+    const fixture = createTestComponent();
+
+    // Show the tab's panel for the test.
+    fixture.componentInstance.showScrollable = true;
+    fixture.componentInstance.active = false;
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
   it('should be accessible in mobile', async () => {
     const fixture = createTestComponent();
 
     // Show the tab's panel for the test.
     fixture.componentInstance.showScrollable = true;
+    mediaQueryController.setBreakpoint('xs');
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should be accessible in mobile without active tab', async () => {
+    const fixture = createTestComponent();
+
+    // Show the tab's panel for the test.
+    fixture.componentInstance.showScrollable = true;
+    fixture.componentInstance.active = false;
     mediaQueryController.setBreakpoint('xs');
 
     fixture.detectChanges();

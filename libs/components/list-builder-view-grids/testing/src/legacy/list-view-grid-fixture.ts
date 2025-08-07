@@ -93,7 +93,7 @@ export class SkyListViewGridFixture {
     return this.debugEl.queryAll(By.css('th.sky-grid-heading > div'));
   }
 
-  private getCellEls(rowEl: DebugElement) {
+  private getCellEls(rowEl: DebugElement): DebugElement[] {
     return rowEl.queryAll(By.css('.sky-grid-cell sky-grid-cell'));
   }
 }

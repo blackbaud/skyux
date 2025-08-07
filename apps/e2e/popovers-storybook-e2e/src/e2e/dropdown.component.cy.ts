@@ -1,6 +1,6 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
-describe('popovers-storybook', () => {
+describe('dropdown-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       ['default', 'primary', 'link', 'disabled'].forEach((buttonStyle) => {
@@ -8,13 +8,9 @@ describe('popovers-storybook', () => {
           cy.visit(
             `/iframe.html?globals=theme:${theme}&id=dropdowncomponent-dropdown--dropdown-${buttonStyle}-button`,
           );
-          cy.get('#ready').should('exist');
-          cy.get('app-dropdown')
-            .should('exist')
-            .should('be.visible')
-            .screenshot(
-              `dropdowncomponent-dropdown--dropdown-${buttonStyle}-button-${theme}`,
-            );
+          cy.skyReady('app-dropdown').screenshot(
+            `dropdowncomponent-dropdown--dropdown-${buttonStyle}-button-${theme}`,
+          );
           cy.get('app-dropdown').percySnapshot(
             `dropdowncomponent-dropdown--dropdown-${buttonStyle}-button-${theme}`,
             {
@@ -34,8 +30,7 @@ describe('popovers-storybook', () => {
 
           ['select', 'context-menu', 'tab', 'custom'].forEach((buttonType) => {
             it(`should open the ${buttonType} style dropdown's menu`, () => {
-              cy.get('#ready').should('exist');
-              cy.get('app-dropdown').should('exist').should('be.visible');
+              cy.skyReady('app-dropdown');
               cy.get(
                 buttonType === 'custom'
                   ? '.custom-trigger'
@@ -63,5 +58,5 @@ describe('popovers-storybook', () => {
         });
       });
     });
-  }, true);
+  });
 });

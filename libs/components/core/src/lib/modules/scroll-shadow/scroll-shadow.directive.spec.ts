@@ -39,6 +39,24 @@ describe('Scroll shadow directive', () => {
 
   function validateShadow(
     el: HTMLElement | null,
+    expectedShadow?: string,
+  ): void {
+    if (!el) {
+      fail('Element not provided');
+      return;
+    }
+
+    const boxShadowStyle = getComputedStyle(el).boxShadow;
+
+    if (expectedShadow) {
+      expect(boxShadowStyle).toBe(expectedShadow);
+    } else {
+      expect(boxShadowStyle).toBe('none');
+    }
+  }
+
+  function validateShadowAlpha(
+    el: HTMLElement | null,
     expectedAlpha?: number,
   ): void {
     if (!el) {
@@ -77,6 +95,11 @@ describe('Scroll shadow directive', () => {
 
     fixture = TestBed.createComponent(ScrollShadowFixtureComponent);
     cmp = fixture.componentInstance;
+
+    fixture.nativeElement.style.setProperty(
+      '--sky-elevation-overflow',
+      '0 1px 8px 0 rgba(0, 0, 0, 0.3)',
+    );
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -88,8 +111,8 @@ describe('Scroll shadow directive', () => {
     await waitForMutationObserver();
     fixture.detectChanges();
 
-    validateShadow(getScrollFooter());
-    validateShadow(getScrollHeader());
+    validateShadowAlpha(getScrollFooter());
+    validateShadowAlpha(getScrollHeader());
   });
 
   it('should not show a shadow when the body is scrollable when disabled', async () => {
@@ -99,16 +122,16 @@ describe('Scroll shadow directive', () => {
     await waitForMutationObserver();
     fixture.detectChanges();
 
-    validateShadow(getScrollFooter());
-    validateShadow(getScrollHeader());
+    validateShadowAlpha(getScrollFooter());
+    validateShadowAlpha(getScrollHeader());
   });
 
   it('should not show a shadow when the body is not scrollable', async () => {
     await waitForMutationObserver();
     fixture.detectChanges();
 
-    validateShadow(getScrollFooter());
-    validateShadow(getScrollHeader());
+    validateShadowAlpha(getScrollFooter());
+    validateShadowAlpha(getScrollHeader());
   });
 
   it('should progressively show a drop shadow as the modal content scrolls', async () => {
@@ -127,31 +150,31 @@ describe('Scroll shadow directive', () => {
     fixture.detectChanges();
 
     scrollElement(contentEl, 0);
-    validateShadow(headerEl);
-    validateShadow(footerEl, 0.3);
+    validateShadowAlpha(headerEl);
+    validateShadowAlpha(footerEl, 0.3);
 
     scrollElement(contentEl, 15);
-    validateShadow(headerEl, 0.15);
-    validateShadow(footerEl, 0.3);
+    validateShadowAlpha(headerEl, 0.15);
+    validateShadowAlpha(footerEl, 0.3);
 
     scrollElement(contentEl, 30);
-    validateShadow(headerEl, 0.3);
-    validateShadow(footerEl, 0.3);
+    validateShadowAlpha(headerEl, 0.3);
+    validateShadowAlpha(footerEl, 0.3);
 
     scrollElement(contentEl, 31);
-    validateShadow(headerEl, 0.3);
-    validateShadow(footerEl, 0.3);
+    validateShadowAlpha(headerEl, 0.3);
+    validateShadowAlpha(footerEl, 0.3);
 
     scrollElement(
       contentEl,
       contentEl.scrollHeight - 15 - contentEl.clientHeight,
     );
-    validateShadow(headerEl, 0.3);
-    validateShadow(footerEl, 0.15);
+    validateShadowAlpha(headerEl, 0.3);
+    validateShadowAlpha(footerEl, 0.15);
 
     scrollElement(contentEl, contentEl.scrollHeight - contentEl.clientHeight);
-    validateShadow(headerEl, 0.3);
-    validateShadow(footerEl);
+    validateShadowAlpha(headerEl, 0.3);
+    validateShadowAlpha(footerEl);
   });
 
   it('should update the shadow on window resize', async () => {
@@ -169,14 +192,124 @@ describe('Scroll shadow directive', () => {
     await waitForMutationObserver();
     fixture.detectChanges();
 
-    validateShadow(headerEl);
-    validateShadow(footerEl, 0.3);
+    validateShadowAlpha(headerEl);
+    validateShadowAlpha(footerEl, 0.3);
 
     spyOnProperty(Element.prototype, 'scrollTop').and.returnValue(15);
     SkyAppTestUtility.fireDomEvent(window, 'resize');
     fixture.detectChanges();
 
-    validateShadow(headerEl, 0.15);
-    validateShadow(footerEl, 0.3);
+    validateShadowAlpha(headerEl, 0.15);
+    validateShadowAlpha(footerEl, 0.3);
+  });
+
+  it('should use no shadow if a bad value is provided', async () => {
+    fixture.nativeElement.style.setProperty(
+      '--sky-elevation-overflow',
+      'gobbledygook',
+    );
+    fixture.detectChanges();
+
+    const headerEl = getScrollHeader();
+    const contentEl = getScrollBody();
+    const footerEl = getScrollFooter();
+
+    cmp.height = 800;
+    fixture.detectChanges();
+    await waitForMutationObserver();
+    fixture.detectChanges();
+
+    scrollElement(contentEl, 400);
+
+    validateShadow(headerEl);
+    validateShadow(footerEl);
+  });
+
+  it('should use no shadow if no value is provided', async () => {
+    fixture.nativeElement.style.setProperty(
+      '--sky-elevation-overflow',
+      undefined,
+    );
+    fixture.detectChanges();
+
+    const headerEl = getScrollHeader();
+    const contentEl = getScrollBody();
+    const footerEl = getScrollFooter();
+
+    cmp.height = 800;
+    fixture.detectChanges();
+    await waitForMutationObserver();
+    fixture.detectChanges();
+
+    scrollElement(contentEl, 50);
+
+    validateShadow(headerEl);
+    validateShadow(footerEl);
+  });
+
+  it('should show the correct shadow when solid colors are specified', async () => {
+    fixture.nativeElement.style.setProperty(
+      '--sky-elevation-overflow',
+      '0 1px 8px 0 #00ff00',
+    );
+    cmp.height = 1000;
+    fixture.detectChanges();
+    await waitForMutationObserver();
+    fixture.detectChanges();
+
+    const headerEl = getScrollHeader();
+    const contentEl = getScrollBody();
+    const footerEl = getScrollFooter();
+
+    scrollElement(contentEl, 50);
+
+    validateShadow(headerEl, 'rgb(0, 255, 0) 0px 1px 8px 0px');
+    validateShadow(footerEl, 'rgb(0, 255, 0) 0px 1px 8px 0px');
+  });
+
+  it('should show the correct shadow when hsla colors are specified', async () => {
+    fixture.nativeElement.style.setProperty(
+      '--sky-elevation-overflow',
+      '0 1px 8px 0 hsla(120, 100.00%, 50.00%, 0.50)',
+    );
+    cmp.height = 1000;
+    fixture.detectChanges();
+    await waitForMutationObserver();
+    fixture.detectChanges();
+
+    const headerEl = getScrollHeader();
+    const contentEl = getScrollBody();
+    const footerEl = getScrollFooter();
+
+    scrollElement(contentEl, 50);
+
+    validateShadow(headerEl, 'rgba(0, 255, 0, 0.5) 0px 1px 8px 0px');
+    validateShadow(footerEl, 'rgba(0, 255, 0, 0.5) 0px 1px 8px 0px');
+  });
+
+  it('should show the correct shadow when multiple shadows are specified', async () => {
+    fixture.nativeElement.style.setProperty(
+      '--sky-elevation-overflow',
+      '0 1px 8px 0 #000000, 0 3px 9px 0 #00ff00',
+    );
+    cmp.height = 1000;
+    fixture.detectChanges();
+    await waitForMutationObserver();
+    fixture.detectChanges();
+
+    const headerEl = getScrollHeader();
+    const contentEl = getScrollBody();
+    const footerEl = getScrollFooter();
+
+    scrollElement(contentEl, 50);
+
+    validateShadow(
+      headerEl,
+      'rgb(0, 0, 0) 0px 1px 8px 0px, rgb(0, 255, 0) 0px 3px 9px 0px',
+    );
+    validateShadow(
+      footerEl,
+      'rgb(0, 0, 0) 0px 1px 8px 0px, rgb(0, 255, 0) 0px 3px 9px 0px',
+    );
   });
 });

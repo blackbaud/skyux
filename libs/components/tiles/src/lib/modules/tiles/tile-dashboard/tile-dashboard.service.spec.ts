@@ -4,6 +4,7 @@ import {
   TestBed,
   fakeAsync,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -268,7 +269,7 @@ describe('Tile dashboard service', () => {
     const tile: Element = fixture.nativeElement.querySelector(
       'div.sky-test-tile-1',
     );
-    const handle = tile.querySelector('.sky-tile-grab-handle i');
+    const handle = tile.querySelector('.sky-tile-grab-handle sky-icon-svg');
     const setOptionsSpy = spyOn(mockDragulaService, 'createGroup').and.callFake(
       (name: string, options: DragulaOptions) => {
         if (options.moves && handle) {
@@ -306,7 +307,7 @@ describe('Tile dashboard service', () => {
     const columnEls = fixture.nativeElement.querySelectorAll(
       '.sky-tile-dashboard-column',
     );
-    if (keyName === 'Right' || keyName === 'ArrowRight') {
+    if (keyName === 'ArrowRight') {
       expect(columnEls[0].querySelector('div.sky-test-tile-1')).toBeFalsy();
       expect(columnEls[1].querySelector('div.sky-test-tile-1')).toBeTruthy();
       expect(
@@ -321,30 +322,57 @@ describe('Tile dashboard service', () => {
     }
   }
 
-  it('should allow tiles to be moved between columns with the keyboard', fakeAsync(() => {
+  it('should allow tiles to be moved between columns with the arrow keys', fakeAsync(() => {
     const fixture = createDashboardTestComponent();
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
 
     // Check navigating to the right column
-    testIntercolumnNavigation(fixture, 'Right');
+    testIntercolumnNavigation(fixture, 'ArrowRight');
 
     // Boundary check navigating right, should not move
-    testIntercolumnNavigation(fixture, 'Right');
+    testIntercolumnNavigation(fixture, 'ArrowRight');
 
     // Check navigating to the left column
-    testIntercolumnNavigation(fixture, 'Left');
+    testIntercolumnNavigation(fixture, 'ArrowLeft');
 
     // Boundary check navigating left, should not move
-    testIntercolumnNavigation(fixture, 'Left');
+    testIntercolumnNavigation(fixture, 'ArrowLeft');
   }));
 
-  it('should allow tiles to be moved between columns with the arrowkey keys', fakeAsync(() => {
+  it('should allow tiles to be moved between columns with the arrow keys, with settings key', fakeAsync(() => {
+    const fixture = createDashboardTestComponent();
+    fixture.componentInstance.settingsKey = 'defaultSettings';
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    // Check navigating to the right column
+    testIntercolumnNavigation(fixture, 'ArrowRight');
+
+    // Boundary check navigating right, should not move
+    testIntercolumnNavigation(fixture, 'ArrowRight');
+
+    // Check navigating to the left column
+    testIntercolumnNavigation(fixture, 'ArrowLeft');
+
+    // Boundary check navigating left, should not move
+    testIntercolumnNavigation(fixture, 'ArrowLeft');
+  }));
+
+  it('should allow tiles to be moved between columns with the arrow keys, using tile.id as the fallback a11y label', fakeAsync(() => {
     const fixture = createDashboardTestComponent();
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
+
+    const tile1TestComponent = fixture.debugElement.query(
+      By.directive(Tile1TestComponent),
+    );
+    expect(tile1TestComponent).toBeTruthy();
+    // Set the title to an empty string to test fallback to tile.id
+    tile1TestComponent.componentInstance.title = '';
 
     // Check navigating to the right column
     testIntercolumnNavigation(fixture, 'ArrowRight');
@@ -431,22 +459,22 @@ describe('Tile dashboard service', () => {
     fixture.detectChanges();
 
     // Standard check moving down
-    testColumnNavigation(fixture, 'Down', 1);
+    testColumnNavigation(fixture, 'ArrowDown', 1);
 
     // Edge check moving down
-    testColumnNavigation(fixture, 'Down', 2);
+    testColumnNavigation(fixture, 'ArrowDown', 2);
 
     // Boundary check moving down, should not move
-    testColumnNavigation(fixture, 'Down', 2);
+    testColumnNavigation(fixture, 'ArrowDown', 2);
 
     // Standard check moving up
-    testColumnNavigation(fixture, 'Up', 1);
+    testColumnNavigation(fixture, 'ArrowUp', 1);
 
     // Edge check moving up
-    testColumnNavigation(fixture, 'Up', 0);
+    testColumnNavigation(fixture, 'ArrowUp', 0);
 
     // Boundary check moving up, should not move
-    testColumnNavigation(fixture, 'Up', 0);
+    testColumnNavigation(fixture, 'ArrowUp', 0);
   }));
 
   it('should allow tiles to be moved within a column using arrowkey keys', fakeAsync(() => {
@@ -481,9 +509,9 @@ describe('Tile dashboard service', () => {
     tick();
     fixture.detectChanges();
 
-    testColumnNavigation(fixture, 'Down', 2, true);
+    testColumnNavigation(fixture, 'ArrowDown', 2, true);
 
-    testColumnNavigation(fixture, 'Up', 1, true);
+    testColumnNavigation(fixture, 'ArrowUp', 1, true);
 
     testColumnNavigation(fixture, 'ArrowDown', 2, true);
 
@@ -877,6 +905,168 @@ describe('Tile dashboard service', () => {
     );
     dashboardService.init(newTileConfig, undefined, undefined, 'mySettingsKey');
   });
+
+  it('should handle add a new tile missing from layout', waitForAsync(async () => {
+    let done: () => void;
+    const configChange = new Promise<void>((resolve) => {
+      done = (): void => resolve();
+    });
+    const newTileConfig = {
+      tiles: [
+        {
+          id: 'tile-1',
+          componentType: Tile1TestComponent,
+        },
+        {
+          id: 'tile-2',
+          componentType: Tile2TestComponent,
+        },
+        {
+          id: 'tile-3',
+          componentType: Tile2TestComponent,
+        },
+        {
+          id: 'tile-4',
+          componentType: Tile1TestComponent,
+        },
+      ],
+      layout: {
+        multiColumn: [
+          {
+            tiles: [
+              {
+                id: 'tile-1',
+                isCollapsed: false,
+              },
+            ],
+          },
+          {
+            tiles: [],
+          },
+        ],
+        singleColumn: {
+          tiles: [
+            {
+              id: 'tile-1',
+              isCollapsed: true,
+            },
+            {
+              id: 'tile-2',
+              isCollapsed: true,
+            },
+          ],
+        },
+      },
+    };
+
+    dashboardService.configChange.subscribe(
+      (config: SkyTileDashboardConfig) => {
+        const expectedLayout = {
+          singleColumn: {
+            tiles: [
+              {
+                id: 'tile-1',
+                isCollapsed: true,
+              },
+              {
+                id: 'tile-2',
+                isCollapsed: true,
+              },
+              {
+                id: 'tile-3',
+                isCollapsed: false,
+              },
+              {
+                id: 'tile-4',
+                isCollapsed: false,
+              },
+            ],
+          },
+          multiColumn: [
+            {
+              tiles: [
+                {
+                  id: 'tile-1',
+                  isCollapsed: false,
+                },
+                {
+                  id: 'tile-3',
+                  isCollapsed: false,
+                },
+              ],
+            },
+            {
+              tiles: [
+                {
+                  id: 'tile-2',
+                  isCollapsed: false,
+                },
+                {
+                  id: 'tile-4',
+                  isCollapsed: false,
+                },
+              ],
+            },
+          ],
+        };
+        expect(config.layout).toEqual(expectedLayout);
+        done();
+      },
+    );
+    dashboardService.init(newTileConfig);
+    await configChange;
+  }));
+
+  it('should handle add a new tile missing from layout but included in `oldTileIds`', waitForAsync(async () => {
+    let done: () => void;
+    const configChange = new Promise<void>((resolve) => {
+      done = (): void => resolve();
+    });
+    dashboardService.configChange.subscribe(
+      (config: SkyTileDashboardConfig) => {
+        expect(config.layout).toEqual({
+          multiColumn: [
+            {
+              tiles: [
+                {
+                  id: 'tile-1',
+                  isCollapsed: false,
+                },
+              ],
+            },
+            {
+              tiles: [
+                {
+                  id: 'tile-2',
+                  isCollapsed: false,
+                },
+              ],
+            },
+          ],
+          singleColumn: {
+            tiles: [
+              {
+                id: 'tile-1',
+                isCollapsed: false,
+              },
+              {
+                id: 'tile-2',
+                isCollapsed: false,
+              },
+            ],
+          },
+        });
+        done();
+      },
+    );
+    dashboardService.init(
+      dashboardConfig,
+      undefined,
+      undefined,
+      'missingLayout',
+    );
+    await configChange;
+  }));
 
   it('should handle removed tile in default', () => {
     const newTileConfig = {

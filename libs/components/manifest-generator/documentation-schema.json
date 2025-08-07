@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "JSON schema for @skyux/manifest documentation.json files",
+  "type": "object",
+  "properties": {
+    "groups": {
+      "description": "A collection of documentation groups for this project.",
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {
+          "type": "object",
+          "properties": {
+            "development": {
+              "type": "object",
+              "properties": {
+                "docsIds": {
+                  "description": "A list of unique IDs for types associated with the \"Development\" area of this documentation group. The docs ID defaults to the type's name, but it can be overwritten with the @docsId JSDoc tag.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "primaryDocsId": {
+                  "description": "The primary type for this documentation group. This is usually a component module, but it can also be a service when a module isn't required to implement it (e.g. SkyFlyoutService).",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "nullable": false,
+              "required": ["docsIds", "primaryDocsId"]
+            },
+            "testing": {
+              "type": "object",
+              "properties": {
+                "docsIds": {
+                  "description": "A list of unique IDs for types associated with the \"Testing\" area of this documentation group. The docs ID defaults to the type's name, but it can be overwritten with the @docsId JSDoc tag.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "uniqueItems": true
+                }
+              },
+              "additionalProperties": false,
+              "nullable": false,
+              "required": ["docsIds"]
+            },
+            "codeExamples": {
+              "type": "object",
+              "properties": {
+                "docsIds": {
+                  "description": "A list of unique IDs for types associated with the \"Examples\" area of this documentation group. The docs ID defaults to the type's name, but it can be overwritten with the @docsId JSDoc tag.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "uniqueItems": true
+                }
+              },
+              "additionalProperties": false,
+              "nullable": false,
+              "required": ["docsIds"]
+            }
+          },
+          "additionalProperties": false,
+          "nullable": false,
+          "required": ["development", "testing", "codeExamples"]
+        }
+      }
+    }
+  },
+  "required": ["groups"]
+}

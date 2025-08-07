@@ -10,6 +10,7 @@ import { DockItemFixtureComponent } from './dock-item.component.fixture';
 @Component({
   selector: 'sky-dock-test',
   template: '<div id="innerDiv"></div>',
+  standalone: false,
 })
 export class DockFixtureComponent {
   public set itemConfigs(value: (SkyDockInsertComponentConfig | undefined)[]) {

@@ -3,7 +3,6 @@ import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyTilesModule } from '@skyux/tiles';
 
 @Component({
-  standalone: true,
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'div.page-blocks-tile2',
   imports: [SkyHelpInlineModule, SkyTilesModule],

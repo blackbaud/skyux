@@ -16,6 +16,7 @@ import { ListItemModel } from '@skyux/list-builder-common';
 @Component({
   selector: 'sky-list-filter-inline-item',
   template: '<ng-content />',
+  standalone: false,
 })
 export class SkyListFilterInlineItemComponent implements OnInit {
   /**
@@ -63,7 +64,7 @@ export class SkyListFilterInlineItemComponent implements OnInit {
   @ContentChildren(TemplateRef)
   private templates: QueryList<TemplateRef<unknown>>;
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     if (this.name === undefined || this.name.length === 0) {
       throw new Error('Inline filter requires a name.');
     }

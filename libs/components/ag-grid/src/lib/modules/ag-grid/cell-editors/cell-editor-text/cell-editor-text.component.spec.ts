@@ -102,7 +102,6 @@ describe('SkyCellEditorTextComponent', () => {
 
     it('initializes the SkyCellEditorTextComponent properties', () => {
       expect(textEditorComponent.editorForm.get('text')?.value).toBeNull();
-      expect(textEditorComponent.columnWidth).toBeUndefined();
 
       textEditorComponent.agInit(cellEditorParams as ICellEditorParams);
 

@@ -1,11 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { SkyPhoneFieldInputDirective } from '../phone-field-input.directive';
 import { SkyPhoneFieldComponent } from '../phone-field.component';
+import { SkyPhoneFieldModule } from '../phone-field.module';
 import { SkyPhoneFieldCountry } from '../types/country';
 import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
 
 @Component({
+  imports: [FormsModule, SkyPhoneFieldModule],
   selector: 'sky-test-cmp',
   templateUrl: './phone-field.component.fixture.html',
 })

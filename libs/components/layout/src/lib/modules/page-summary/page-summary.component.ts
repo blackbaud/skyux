@@ -20,6 +20,7 @@ import { SkyPageSummaryKeyInfoComponent } from './page-summary-key-info.componen
   templateUrl: './page-summary.component.html',
   styleUrls: ['./page-summary.component.scss'],
   providers: [SkyPageSummaryAdapterService],
+  standalone: false,
 })
 export class SkyPageSummaryComponent {
   protected keyInfoComponents = contentChildren(SkyPageSummaryKeyInfoComponent);
@@ -37,7 +38,7 @@ export class SkyPageSummaryComponent {
       moreInfoUrl:
         'https://developer.blackbaud.com/skyux/design/guidelines/page-layouts',
       replacementRecommendation:
-        'For page templates and techniques to summarize page content, see the page design guidelines.',
+        "We recommend using the page component's `sky-page-header` component instead. And for page templates and techniques to summarize page content, see the page design guidelines.",
     });
 
     effect(() => {

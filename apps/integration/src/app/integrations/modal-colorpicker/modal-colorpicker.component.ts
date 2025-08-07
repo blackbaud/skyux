@@ -7,7 +7,6 @@ import { ModalColorpickerModalComponent } from './modal-colorpicker-modal.compon
   selector: 'app-modal-colorpicker',
   templateUrl: './modal-colorpicker.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
 })
 export class ModalColorpickerComponent {
   public isWaiting = false;

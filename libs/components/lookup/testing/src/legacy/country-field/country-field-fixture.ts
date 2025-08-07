@@ -19,16 +19,6 @@ export class SkyCountryFieldFixture {
   }
 
   /**
-   * A flag indicating if the country flag is currently visible.
-   * The flag will be visible only if a selection has been made
-   * and if the hideSelectedCountryFlag option is false.
-   */
-  public get countryFlagIsVisible(): boolean {
-    const flag = this.#getCountryFlag();
-    return flag !== null;
-  }
-
-  /**
    * A flag indicating whether or not the input has been disabled.
    */
   public get disabled(): boolean {
@@ -100,11 +90,6 @@ export class SkyCountryFieldFixture {
   }
 
   //#region helpers
-
-  #getCountryFlag(): DebugElement {
-    return this.#debugEl.query(By.css('.sky-country-field-flag'));
-  }
-
   #getAutocompleteElement(): HTMLElement {
     return document.querySelector('.sky-autocomplete-results') as HTMLElement;
   }

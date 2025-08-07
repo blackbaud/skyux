@@ -35,33 +35,60 @@ import { SkyCheckboxModule } from './checkbox.module';
 /** Simple component for testing a single checkbox. */
 @Component({
   template: ` <div>
-    <sky-checkbox
-      [checkboxType]="checkboxType"
-      [checked]="isChecked"
-      [disabled]="isDisabled"
-      [icon]="icon"
-      [id]="id"
-      [helpKey]="helpKey"
-      [helpPopoverContent]="helpPopoverContent"
-      [helpPopoverTitle]="helpPopoverTitle"
-      [hintText]="hintText"
-      [labelText]="labelText"
-      [stacked]="stacked"
-      [(indeterminate)]="indeterminate"
-      (change)="checkboxChange($event)"
-    >
-      <sky-checkbox-label>
-        Simple checkbox
-        @if (showInlineHelp) {
-          <span>Help inline</span>
-        }
-      </sky-checkbox-label>
-    </sky-checkbox>
+    @if (iconName) {
+      <sky-checkbox
+        [checkboxType]="checkboxType"
+        [checked]="isChecked"
+        [disabled]="isDisabled"
+        [iconName]="iconName"
+        [id]="id"
+        [helpKey]="helpKey"
+        [helpPopoverContent]="helpPopoverContent"
+        [helpPopoverTitle]="helpPopoverTitle"
+        [hintText]="hintText"
+        [labelText]="labelText"
+        [stacked]="stacked"
+        [(indeterminate)]="indeterminate"
+        (change)="checkboxChange($event)"
+      >
+        <sky-checkbox-label>
+          Simple checkbox
+          @if (showInlineHelp) {
+            <span>Help inline</span>
+          }
+        </sky-checkbox-label>
+      </sky-checkbox>
+    } @else {
+      <sky-checkbox
+        [checkboxType]="checkboxType"
+        [checked]="isChecked"
+        [disabled]="isDisabled"
+        [icon]="icon"
+        [id]="id"
+        [helpKey]="helpKey"
+        [helpPopoverContent]="helpPopoverContent"
+        [helpPopoverTitle]="helpPopoverTitle"
+        [hintText]="hintText"
+        [labelText]="labelText"
+        [stacked]="stacked"
+        [(indeterminate)]="indeterminate"
+        (change)="checkboxChange($event)"
+      >
+        <sky-checkbox-label>
+          Simple checkbox
+          @if (showInlineHelp) {
+            <span>Help inline</span>
+          }
+        </sky-checkbox-label>
+      </sky-checkbox>
+    }
   </div>`,
+  standalone: false,
 })
 class SingleCheckboxComponent implements AfterViewInit {
   public checkboxType: string | undefined;
-  public icon = 'bold';
+  public icon = 'plus';
+  public iconName: string | undefined;
   public id: string | undefined = 'simple-check';
   public indeterminate = false;
   public isChecked: boolean | undefined = false;
@@ -101,6 +128,7 @@ class SingleCheckboxComponent implements AfterViewInit {
       </form>
     </div>
   `,
+  standalone: false,
 })
 class CheckboxWithFormDirectivesComponent {
   public isGood = false;
@@ -128,6 +156,7 @@ class CheckboxWithFormDirectivesComponent {
       </form>
     </div>
   `,
+  standalone: false,
 })
 class CheckboxWithRequiredInputComponent {
   public required = true;
@@ -152,6 +181,7 @@ class CheckboxWithRequiredInputComponent {
       </form>
     </div>
   `,
+  standalone: false,
 })
 class CheckboxWithRequiredAttributeComponent {
   public showInlineHelp = false;
@@ -176,6 +206,7 @@ class CheckboxWithRequiredAttributeComponent {
       </form>
     </div>
   `,
+  standalone: false,
 })
 class CheckboxWithReactiveFormComponent {
   public checkbox1: UntypedFormControl = new UntypedFormControl(false);
@@ -203,6 +234,7 @@ class CheckboxWithReactiveFormComponent {
       </form>
     </div>
   `,
+  standalone: false,
 })
 class CheckboxWithReactiveFormRequiredInputComponent {
   public checkbox1: UntypedFormControl = new UntypedFormControl(false);
@@ -222,6 +254,7 @@ class CheckboxWithReactiveFormRequiredInputComponent {
       </form>
     </div>
   `,
+  standalone: false,
 })
 class CheckboxWithReactiveFormRequiredValidatorComponent {
   public checkbox1: UntypedFormControl = new UntypedFormControl(
@@ -239,6 +272,7 @@ class CheckboxWithReactiveFormRequiredValidatorComponent {
     </sky-checkbox>
     <sky-checkbox>Option 2</sky-checkbox>
   `,
+  standalone: false,
 })
 class MultipleCheckboxesComponent {}
 
@@ -248,6 +282,7 @@ class MultipleCheckboxesComponent {}
     [tabindex]="customTabIndex"
     [disabled]="isDisabled"
   />`,
+  standalone: false,
 })
 class CheckboxWithTabIndexComponent {
   public customTabIndex = 7;
@@ -257,18 +292,21 @@ class CheckboxWithTabIndexComponent {
 /** Simple test component with an aria-label set. */
 @Component({
   template: `<sky-checkbox label="Super effective" />`,
+  standalone: false,
 })
 class CheckboxWithAriaLabelComponent {}
 
 /** Simple test component with an aria-label set. */
 @Component({
   template: `<sky-checkbox labelledBy="some-id" />`,
+  standalone: false,
 })
 class CheckboxWithAriaLabelledbyComponent {}
 
 /** Simple test component with name attribute */
 @Component({
   template: `<sky-checkbox [name]="name" />`,
+  standalone: false,
 })
 class CheckboxWithNameAttributeComponent {
   public name: string | undefined = 'test-name';
@@ -277,6 +315,7 @@ class CheckboxWithNameAttributeComponent {
 /** Simple test component with change event */
 @Component({
   template: `<sky-checkbox id="test-id" (change)="lastEvent = $event" />`,
+  standalone: false,
 })
 class CheckboxWithChangeEventComponent {
   public lastEvent: SkyCheckboxChange | undefined;
@@ -288,6 +327,7 @@ class CheckboxWithChangeEventComponent {
     <sky-checkbox id="simple-check" [(ngModel)]="isChecked" />
   </div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 class CheckboxWithOnPushChangeDetectionComponent {
   public isChecked = false;
@@ -348,6 +388,7 @@ describe('Checkbox component', () => {
     beforeEach(async () => {
       fixture = TestBed.createComponent(SingleCheckboxComponent);
 
+      fixture.detectChanges();
       await fixture.whenStable();
       checkboxDebugElement = fixture.debugElement.query(
         By.directive(SkyCheckboxComponent),
@@ -446,6 +487,23 @@ describe('Checkbox component', () => {
     it('should handle the indeterminate state being set', () => {
       testComponent.indeterminate = true;
       fixture.detectChanges();
+
+      expect(inputElement?.indeterminate).toBeTrue();
+    });
+
+    it('should handle the indeterminate state being set on initialization', async () => {
+      fixture = TestBed.createComponent(SingleCheckboxComponent);
+      testComponent = fixture.componentInstance;
+      testComponent.indeterminate = true;
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      checkboxDebugElement = fixture.debugElement.query(
+        By.directive(SkyCheckboxComponent),
+      );
+      checkboxNativeElement = checkboxDebugElement.nativeElement;
+      fixture.detectChanges();
+      inputElement = checkboxNativeElement?.querySelector('input');
 
       expect(inputElement?.indeterminate).toBeTrue();
     });
@@ -707,6 +765,7 @@ describe('Checkbox component', () => {
 
     it('should not assign aria-labelledby if no labeledBy is provided', async () => {
       fixture = TestBed.createComponent(SingleCheckboxComponent);
+      fixture.detectChanges();
 
       checkboxDebugElement = fixture.debugElement.query(
         By.directive(SkyCheckboxComponent),
@@ -1352,13 +1411,33 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
 
       let checkboxIcon = debugElement.query(By.css('i')).nativeElement;
-      expect(checkboxIcon).toHaveCssClass('fa-bold');
+      expect(checkboxIcon).toHaveCssClass('fa-plus');
 
       fixture.componentInstance.icon = 'umbrella';
       fixture.detectChanges();
 
       checkboxIcon = debugElement.query(By.css('i')).nativeElement;
       expect(checkboxIcon).toHaveCssClass('fa-umbrella');
+    });
+
+    it('should set icon based on input - iconName', () => {
+      fixture.componentInstance.iconName = 'add';
+      fixture.detectChanges();
+
+      let checkboxIcon: HTMLElement = debugElement.query(
+        By.css('svg'),
+      ).nativeElement;
+      expect(checkboxIcon.attributes.getNamedItem('data-sky-icon')?.value).toBe(
+        'add',
+      );
+
+      fixture.componentInstance.iconName = 'book';
+      fixture.detectChanges();
+
+      checkboxIcon = debugElement.query(By.css('svg')).nativeElement;
+      expect(checkboxIcon.attributes.getNamedItem('data-sky-icon')?.value).toBe(
+        'book',
+      );
     });
 
     it('should set the switch control class based on the checkbox type input', () => {
@@ -1418,6 +1497,13 @@ describe('Checkbox component', () => {
     });
 
     it('should pass accessibility', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should pass accessibility - iconName', async () => {
+      fixture.componentInstance.iconName = 'add';
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();

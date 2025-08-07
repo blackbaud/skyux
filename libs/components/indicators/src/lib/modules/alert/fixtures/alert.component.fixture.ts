@@ -6,6 +6,7 @@ import { SkyIndicatorIconType } from '../../shared/indicator-icon-type';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './alert.component.fixture.html',
+  standalone: false,
 })
 export class AlertTestComponent {
   public closeable: boolean | undefined = false;

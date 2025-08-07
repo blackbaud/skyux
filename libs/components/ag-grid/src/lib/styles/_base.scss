@@ -1,156 +1,13 @@
-@use 'sass:map';
-@use 'node_modules/ag-grid-community/styles' as ag;
-@use 'libs/components/theme/src/lib/styles/variables' as variables;
 @use './ag-grid-extra' as ag-grid-extra;
 @use './variables' as sky-ag-grid-variables;
-
-$defaultsForAllThemes: (
-  card-shadow: none,
-  checkbox-background-color: transparent,
-  grid-size: 4px,
-  header-column-resize-handle-color: var(--sky-border-color-neutral-medium),
-  header-column-resize-handle-display: block,
-  header-column-resize-handle-height: 100%,
-  header-column-separator-color: var(--sky-border-color-neutral-medium),
-  header-column-separator-display: block,
-  header-column-separator-height: 100%,
-  icon-size: 12px,
-  input-disabled-background-color: transparent,
-  input-focus-border-color: transparent,
-  input-focus-box-shadow: none,
-  invalid-color: variables.$sky-background-color-danger-dark,
-  popup-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3),
-  selected-row-background-color: var(--sky-background-color-selected),
-  tooltip-background-color: var(--sky-background-color-neutral-light),
-);
-
-$defaultsForDataEntryGrid: (
-  cell-horizontal-border: 1px solid var(--ag-border-color),
-  odd-row-background-color: var(--sky-background-color-page-default),
-  popup-shadow: none,
-);
-
-$defaultThemeBase: map.merge(
-  $defaultsForAllThemes,
-  (
-    icon-font-family: 'agGridAlpine',
-    background-color: variables.$sky-color-gray-01,
-    border-color: variables.$sky-border-color-neutral-medium,
-    cell-horizontal-padding: 12px,
-    font-family: variables.$sky-font-family,
-    font-size: 15px,
-    foreground-color: variables.$sky-text-color-default,
-    header-background-color: variables.$sky-background-color-page-default,
-    header-height: 37px,
-    input-focus-border-color: variables.$sky-highlight-color-info,
-    row-border-color: variables.$sky-border-color-neutral-medium,
-    row-height: 38px,
-    odd-row-background-color: variables.$sky-background-color-page-default,
-    range-selection-border-color: variables.$sky-highlight-color-info,
-    secondary-foreground-color: variables.$sky-text-color-deemphasized,
-  )
-);
-
-$modernLightThemeBase: map.merge(
-  $defaultsForAllThemes,
-  (
-    icon-font-family: 'agGridBalham',
-    border-color: variables.$sky-theme-modern-border-color-neutral-medium,
-    cell-horizontal-padding: 12px,
-    font-family: variables.$sky-font-family,
-    font-size: 16px,
-    foreground-color: variables.$sky-text-color-default,
-    header-background-color:
-      variables.$sky-theme-modern-background-color-page-default,
-    header-height: 60px,
-    input-focus-border-color:
-      variables.$sky-theme-modern-border-color-primary-dark,
-    row-border-color: variables.$sky-theme-modern-border-color-neutral-medium,
-    row-height: 60px,
-    range-selection-border-color:
-      variables.$sky-theme-modern-border-color-primary-dark,
-    secondary-foreground-color:
-      variables.$sky-theme-modern-font-deemphasized-color,
-  )
-);
-
-$modernDarkThemeBase: map.merge(
-  $defaultsForAllThemes,
-  (
-    icon-font-family: 'agGridBalham',
-    extend-theme: 'alpine-dark',
-    cell-horizontal-padding: 12px,
-    font-family: variables.$sky-font-family,
-    font-size: 16px,
-    header-height: 60px,
-    row-height: 60px,
-  )
-);
-
-$modernThemeCompact: (
-  font-size: 16px,
-  header-height: 32px,
-  row-height: 32px,
-);
-$modernLightThemeCompact: map.merge($modernLightThemeBase, $modernThemeCompact);
-$modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
-
-@include ag.grid-styles(
-  (
-    suppress-native-widget-styling: true,
-    themes: (
-      sky-data-grid-default: map.merge($defaultThemeBase, ()),
-      sky-data-entry-grid-default: map.merge(
-          $defaultThemeBase,
-          map.merge(
-            $defaultsForDataEntryGrid,
-            (
-              cell-horizontal-padding: 11px,
-              cell-horizontal-border: 1px solid
-                var(--sky-border-color-neutral-medium),
-            )
-          )
-        ),
-      sky-data-grid-modern-light: map.merge($modernLightThemeBase, ()),
-      sky-data-grid-modern-light-compact: map.merge(
-          $modernLightThemeCompact,
-          ()
-        ),
-      sky-data-entry-grid-modern-light: map.merge(
-          $modernLightThemeBase,
-          map.merge($defaultsForDataEntryGrid, ())
-        ),
-      sky-data-entry-grid-modern-light-compact: map.merge(
-          $modernLightThemeCompact,
-          map.merge($defaultsForDataEntryGrid, ())
-        ),
-      sky-data-grid-modern-dark: map.merge($modernDarkThemeBase, ()),
-      sky-data-grid-modern-dark-compact: map.merge($modernDarkThemeCompact, ()),
-      sky-data-entry-grid-modern-dark: map.merge(
-          $modernDarkThemeBase,
-          map.merge($defaultsForDataEntryGrid, ())
-        ),
-      sky-data-entry-grid-modern-dark-compact: map.merge(
-          $modernDarkThemeCompact,
-          map.merge($defaultsForDataEntryGrid, ())
-        ),
-    ),
-  )
-);
 
 .ag-theme-sky-data-grid-default,
 .ag-theme-sky-data-entry-grid-default,
 .ag-theme-sky-data-grid-modern-light,
 .ag-theme-sky-data-entry-grid-modern-light,
-.ag-theme-sky-data-grid-modern-dark,
-.ag-theme-sky-data-entry-grid-modern-dark,
 .ag-theme-sky-data-grid-modern-light-compact,
-.ag-theme-sky-data-entry-grid-modern-light-compact,
-.ag-theme-sky-data-grid-modern-dark-compact,
-.ag-theme-sky-data-entry-grid-modern-dark-compact {
+.ag-theme-sky-data-entry-grid-modern-light-compact {
   @include ag-grid-extra.ag-grid-extra();
-
-  --ag-list-item-height: var(--ag-row-height);
 
   .ag-header-cell {
     cursor: initial;
@@ -193,6 +50,57 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
     right: -4px;
   }
 
+  .ag-checkbox {
+    --ag-icon-size: var(
+      --sky-override-ag-grid-switch-size,
+      var(--sky-size-switch)
+    );
+    --ag-focus-shadow: none;
+
+    .ag-checked {
+      background: var(
+        --sky-override-ag-grid-checkbox-checked-background-color,
+        var(--sky-color-background-selected-switch-base)
+      );
+    }
+  }
+
+  .ag-disabled {
+    filter: initial;
+    opacity: initial;
+
+    .ag-checkbox-input-wrapper,
+    .ag-radio-button-input-wrapper {
+      --ag-checkbox-checked-shape-color: var(
+        --sky-override-ag-grid-checkbox-disabled-color,
+        var(--sky-color-text-deemphasized)
+      );
+      --ag-checkbox-checked-border-color: var(
+        --sky-override-ag-grid-checkbox-checked-border-color,
+        var(--sky-color-border-input-disabled)
+      );
+      --ag-checkbox-unchecked-border-color: var(
+        --sky-override-ag-grid-checkbox-checked-border-color,
+        var(--sky-color-border-input-disabled)
+      );
+      background: var(
+        --sky-override-ag-grid-checkbox-disabled-background-color,
+        var(--sky-color-background-selected-switch-disabled)
+      );
+    }
+  }
+
+  .ag-picker-field-wrapper {
+    border-radius: 0;
+
+    &.ag-picker-has-focus,
+    &:focus-within {
+      background-color: transparent;
+      border: none;
+      outline-color: transparent;
+    }
+  }
+
   // Stretch the cell wrapper to the full height of the row so validator popovers are triggered on the entire cell.
   .ag-row > .ag-cell.sky-ag-grid-cell-validator > .ag-cell-wrapper {
     align-items: stretch;
@@ -207,16 +115,26 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
       .ag-cell-inline-editing,
       .ag-cell-popup-editing
     ):has(.sky-validator-cell) {
-    border: 1px solid var(--sky-highlight-color-danger);
-    --ag-range-selection-border-color: var(--sky-highlight-color-danger);
+    border: var(
+      --sky-override-ag-grid-cell-error-border,
+      var(--sky-border-width-input-base) solid
+        var(--sky-color-border-input-error)
+    );
+    --ag-range-selection-border-color: var(
+      --sky-override-ag-grid-cell-range-error-border-color,
+      var(--sky-color-border-input-error)
+    );
+  }
+
+  button.ag-button:has(> svg) {
+    display: flex;
+    align-items: center;
   }
 }
 
 .ag-theme-sky-data-grid-default,
 .ag-theme-sky-data-grid-modern-light,
-.ag-theme-sky-data-grid-modern-dark,
-.ag-theme-sky-data-grid-modern-light-compact,
-.ag-theme-sky-data-grid-modern-dark-compact {
+.ag-theme-sky-data-grid-modern-light-compact {
   &:not(:has(:focus-visible)) {
     --ag-input-focus-border-color: transparent;
     --ag-range-selection-border-color: transparent;
@@ -225,71 +143,71 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
   .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
     padding-top: var(--ag-row-height);
   }
-
-  /* Remove border added by https://github.com/ag-grid/ag-grid/blob/latest/community-modules/styles/src/internal/base/parts/_grid-borders.scss#L80 */
-  .ag-ltr,
-  .ag-rtl {
-    .ag-cell-focus:not(.ag-cell-range-selected):focus-within,
-    .ag-context-menu-open .ag-cell-focus:not(.ag-cell-range-selected),
-    .ag-full-width-row.ag-row-focus:focus .ag-cell-wrapper.ag-row-group,
-    .ag-cell-range-single-cell,
-    .ag-cell-range-single-cell.ag-cell-range-handle {
-      border-top-width: 0;
-    }
-  }
 }
 
 .ag-theme-sky-data-grid-modern-light,
-.ag-theme-sky-data-grid-modern-dark,
-.ag-theme-sky-data-grid-modern-light-compact,
-.ag-theme-sky-data-grid-modern-dark-compact {
-  --ag-background-color: var(--sky-background-color-page-default);
-  --ag-header-background-color: var(--sky-background-color-page-default);
-  --ag-header-column-resize-handle-color: var(
-    --sky-background-color-page-default
+.ag-theme-sky-data-grid-modern-light-compact {
+  --ag-header-background-color: var(
+    --sky-comp-override-list-header-background-color,
+    var(--sky-background-color-page-default)
   );
   --ag-header-column-separator-color: var(--sky-background-color-page-default);
-  --ag-odd-row-background-color: var(--sky-background-color-page-default);
-}
-
-.ag-theme-sky-data-grid-modern-dark,
-.ag-theme-sky-data-grid-modern-dark-compact {
-  --ag-selected-row-background-color: var(--sky-background-color-page-default);
 }
 
 .ag-theme-sky-data-entry-grid-default,
 .ag-theme-sky-data-entry-grid-modern-light,
-.ag-theme-sky-data-entry-grid-modern-dark,
-.ag-theme-sky-data-entry-grid-modern-light-compact,
-.ag-theme-sky-data-entry-grid-modern-dark-compact {
-  &.sky-ag-grid-cell-editing-skyCellLookup {
-    .ag-row .ag-cell.ag-cell-focus,
-    .ag-popup .ag-popup-editor {
-      outline: none;
-    }
+.ag-theme-sky-data-entry-grid-modern-light-compact {
+  .ag-center-cols-viewport {
+    border-bottom: var(--ag-row-border);
+  }
+
+  .ag-row .ag-cell.ag-cell-focus,
+  .ag-popup .ag-popup-editor,
+  .ag-wrapper.ag-picker-field-wrapper {
+    box-shadow: none;
+    outline: none;
+  }
+
+  .ag-cell.ag-cell-inline-editing {
+    --ag-border-radius: 0;
   }
 
   .ag-cell.ag-cell-focus {
     z-index: 1;
+    --ag-cell-horizontal-padding: var(
+      --sky-override-ag-grid-cell-focus-horizontal-padding,
+      var(--sky-comp-grid-cell-space-inset-left)
+    );
 
     &.ag-cell-inline-editing {
       border-left-width: 0;
       border-right-width: 0;
+      --ag-border-radius: 0;
 
       &.sky-ag-grid-cell-template {
         padding-left: calc(
           var(--ag-cell-horizontal-padding) - 1px +
             var(--ag-row-group-indent-size) * var(--ag-indentation-level)
         );
-        padding-right: calc(var(--ag-cell-horizontal-padding) - 1px);
+        padding-right: calc(
+          var(--ag-cell-horizontal-padding) - var(
+              --sky-override-ag-grid-border-width,
+              var(--sky-border-width-separator-row)
+            )
+        );
       }
     }
 
+    &.ag-cell-focus:not(.ag-cell-range-selected):focus-within,
     &.ag-cell-inline-editing,
-    &.ag-cell-popup-editing {
-      outline-offset: -2px;
-      outline: var(--ag-range-selection-border-color) solid 2px;
+    &.ag-cell-popup-editing:not(
+        :is(.sky-ag-grid-cell-editing-skyCellLookup *)
+      ) {
       box-shadow: none;
+
+      input:focus-visible {
+        outline: none;
+      }
     }
 
     &.ag-cell-popup-editing.sky-ag-grid-cell-lookup {
@@ -298,7 +216,7 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
   }
 
   .ag-popup {
-    .ag-popup-editor {
+    .ag-popup-editor:not(:is(.sky-ag-grid-cell-editing-skyCellLookup *)) {
       border: none;
       box-shadow: none;
       outline-offset: -2px;
@@ -327,11 +245,6 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
 ag-grid-angular {
   .ag-root-wrapper {
     border: none;
-  }
-
-  input:focus {
-    border: none;
-    outline: none;
   }
 
   input::-ms-clear {
@@ -368,11 +281,19 @@ ag-grid-angular {
 }
 
 sky-ag-grid-wrapper ag-grid-angular.sky-ag-grid-editable {
-  border-top: sky-ag-grid-variables.$sky-standard-border;
+  border-top: var(
+      --sky-override-ag-grid-border-width,
+      var(--sky-border-width-separator-row)
+    )
+    solid
+    var(
+      --sky-override-ag-grid-border-color,
+      var(--sky-color-border-separator-row)
+    );
 }
 
 sky-ag-grid-wrapper .sky-ag-grid-text-selection .ag-root-wrapper {
-  cursor: text;
+  cursor: initial;
 }
 
 .sky-theme-default .sky-ag-grid-row-delete .sky-btn {

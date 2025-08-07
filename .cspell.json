@@ -1,15 +1,21 @@
 {
   "import": "@skyux/dev-infra-private/.cspell-shared.json",
   "words": [
+    "buttontype",
+    "checkmark",
     "cyclomatic",
     "fetchpriority",
+    "gantt",
     "interactable",
     "ngsrc",
     "novalidate",
     "pillarbox",
+    "subresource",
     "tabindex",
+    "tabstyle",
     "Tmpl",
     "TSES",
+    "unreviewed",
     "xlink"
   ]
 }

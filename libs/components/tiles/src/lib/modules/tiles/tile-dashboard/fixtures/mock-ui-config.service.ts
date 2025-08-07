@@ -16,7 +16,18 @@ export class MockSkyUIConfigService extends SkyUIConfigService {
       case 'badData':
         return observableOf({ invalidProperty: 'invalidData' });
       case 'error':
-        return observableThrowError({ message: 'Test error' });
+        return observableThrowError(() => ({ message: 'Test error' }));
+      case 'missingLayout':
+        return observableOf({
+          layout: {
+            singleColumn: { tiles: [] },
+            multiColumn: [{ tiles: [] }, { tiles: [] }],
+          },
+          persisted: true,
+          tileIds: [
+            ...(defaultConfig?.tiles.map((tile: any) => tile.id) ?? []),
+          ],
+        });
       default: {
         return observableOf({
           layout: {
@@ -61,7 +72,7 @@ export class MockSkyUIConfigService extends SkyUIConfigService {
   public override setConfig(key: string, value: any): Observable<any> {
     switch (key) {
       case 'badData':
-        return observableThrowError({ message: 'Test error' });
+        return observableThrowError(() => ({ message: 'Test error' }));
       default:
         return observableOf({});
     }

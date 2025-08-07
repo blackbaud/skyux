@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: IllustrationComponent,
     data: {
       name: 'Illustration',
-      icon: 'picture-o',
+      icon: 'image',
       library: 'indicators',
     },
   },

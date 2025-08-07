@@ -11,7 +11,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkyTabsModule } from '@skyux/tabs';
 
 @Component({
-  standalone: true,
   selector: 'app-wizard-dropdown-demo-modal',
   templateUrl: './wizard-dropdown-demo-modal.component.html',
   imports: [

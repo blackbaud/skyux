@@ -90,4 +90,30 @@ export class SkyInputBoxHostService implements OnDestroy {
   public setRequired(required: boolean): void {
     this.#requiredSubject.next(required);
   }
+
+  /**
+   * Whether the focused element is inside the input box.
+   * @internal
+   */
+  public focusIsInInput(el: EventTarget): boolean {
+    if (!this.#host) {
+      throw new Error(
+        'Cannot get whether the focus is in the input box because `SkyInputBoxHostService` has not yet been initialized.',
+      );
+    }
+    return this.#host.containsElement(el);
+  }
+
+  /**
+   * Returns an html element that is inside the input box.
+   * @internal
+   */
+  public queryHost(query: string): HTMLElement | undefined {
+    if (!this.#host) {
+      throw new Error(
+        'Cannot query input box host because `SkyInputBoxHostService` has not yet been initialized.',
+      );
+    }
+    return this.#host.queryPopulatedElement(query);
+  }
 }

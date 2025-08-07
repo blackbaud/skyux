@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
  * on mobile devices.
  */
 @Component({
-  standalone: true,
   selector: 'sky-page-links',
   template: '<ng-content />',
   styles: `

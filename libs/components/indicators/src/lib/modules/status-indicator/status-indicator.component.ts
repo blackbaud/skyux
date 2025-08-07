@@ -8,7 +8,6 @@ import {
   inject,
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
-import { SkyIconStackItem } from '@skyux/icon';
 
 import { SkyIndicatorDescriptionType } from '../shared/indicator-description-type';
 import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
@@ -26,6 +25,7 @@ const INDICATOR_TYPE_DEFAULT: SkyIndicatorIconType = 'warning';
   templateUrl: './status-indicator.component.html',
   styleUrls: ['./status-indicator.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyStatusIndicatorComponent implements OnInit {
   /**
@@ -93,13 +93,9 @@ export class SkyStatusIndicatorComponent implements OnInit {
 
   public descriptionComputed: string | undefined;
 
-  public baseIcon: SkyIconStackItem | undefined;
-
-  public icon: string | undefined;
+  public iconName: string | undefined;
 
   public indicatorTypeOrDefault: SkyIndicatorIconType = INDICATOR_TYPE_DEFAULT;
-
-  public topIcon: SkyIconStackItem | undefined;
 
   #changeDetector = inject(ChangeDetectorRef);
   #resourcesSvc = inject(SkyLibResourcesService);
@@ -112,13 +108,9 @@ export class SkyStatusIndicatorComponent implements OnInit {
   }
 
   #updateIcon(): void {
-    const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
+    this.iconName = SkyIndicatorIconUtility.getIconNameForType(
       this.indicatorTypeOrDefault,
     );
-
-    this.icon = indicatorIcon.defaultThemeIcon;
-    this.baseIcon = indicatorIcon.modernThemeBaseIcon;
-    this.topIcon = indicatorIcon.modernThemeTopIcon;
   }
 
   #updateDescriptionComputed(): void {

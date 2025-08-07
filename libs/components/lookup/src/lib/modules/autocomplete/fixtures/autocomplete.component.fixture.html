@@ -11,7 +11,9 @@
     [data]="data"
     [debounceTime]="debounceTime"
     [descriptorProperty]="descriptorProperty"
+    [dropdownHintText]="dropdownHintText"
     [enableShowMore]="enableShowMore"
+    [highlightSearchText]="highlightSearchText"
     [messageStream]="messageStream"
     [propertiesToSearch]="propertiesToSearch"
     [search]="search"
@@ -40,16 +42,20 @@
 </form>
 
 <form #asyncForm="ngForm" novalidate>
+  {{ highlightSearchText }}
   <label for="my-async-autocomplete-input" id="my-async-autocomplete-label">
     Favorite color (async)
   </label>
   <sky-autocomplete
     #asyncAutocomplete
+    [allowAnyValue]="allowAnyValue"
     [ariaLabelledBy]="'my-async-autocomplete-label'"
     [data]="data"
     [debounceTime]="debounceTime"
     [descriptorProperty]="descriptorProperty"
+    [dropdownHintText]="dropdownHintText"
     [enableShowMore]="enableShowMore"
+    [highlightSearchText]="highlightSearchText"
     [messageStream]="messageStream"
     [propertiesToSearch]="propertiesToSearch"
     [searchFilters]="searchFilters"

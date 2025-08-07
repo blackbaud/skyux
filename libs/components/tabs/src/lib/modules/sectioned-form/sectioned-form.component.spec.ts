@@ -170,7 +170,11 @@ describe('Sectioned form component', () => {
     expect(tabs.length).toBe(2);
 
     const activeTab = tabs[1];
-    expect(activeTab.classList.contains('sky-tab-field-required')).toBe(false);
+    expect(
+      activeTab
+        .querySelector('.sky-vertical-tab-heading')
+        .classList.contains('sky-control-label-required'),
+    ).toBe(false);
 
     // mark required
     const checkbox = el.querySelector('#requiredTestCheckbox input');
@@ -180,7 +184,11 @@ describe('Sectioned form component', () => {
     // check section is required
     tabs = el.querySelectorAll('sky-vertical-tab');
     const requiredTab = tabs[0];
-    expect(requiredTab.classList.contains('sky-tab-field-required')).toBe(true);
+    expect(
+      requiredTab
+        .querySelector('.sky-vertical-tab-heading')
+        .classList.contains('sky-control-label-required'),
+    ).toBe(true);
   });
 
   it('section should respect required field change after switching tabs', () => {
@@ -200,7 +208,11 @@ describe('Sectioned form component', () => {
     expect(tabs.length).toBe(2);
 
     const activeTab = tabs[0];
-    expect(activeTab.classList.contains('sky-tab-field-required')).toBe(false);
+    expect(
+      activeTab
+        .querySelector('.sky-vertical-tab-heading')
+        .classList.contains('sky-control-label-required'),
+    ).toBe(false);
 
     // mark required
     const checkbox = el.querySelector('#requiredTestCheckbox input');
@@ -210,7 +222,11 @@ describe('Sectioned form component', () => {
     // check section is required
     tabs = el.querySelectorAll('sky-vertical-tab');
     const requiredTab = tabs[0];
-    expect(requiredTab.classList.contains('sky-tab-field-required')).toBe(true);
+    expect(
+      requiredTab
+        .querySelector('.sky-vertical-tab-heading')
+        .classList.contains('sky-control-label-required'),
+    ).toBe(true);
   });
 
   it('should fire the active index changed event when tab changed', () => {

@@ -88,7 +88,6 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   ],
   hostDirectives: [SkyThemeComponentClassDirective],
   selector: 'sky-file-attachment',
-  standalone: true,
   styleUrl: './file-attachment.component.scss',
   templateUrl: './file-attachment.component.html',
 })
@@ -215,7 +214,8 @@ export class SkyFileAttachmentComponent
   public fileChange = new EventEmitter<SkyFileAttachmentChange>();
 
   /**
-   * Fires when users select the file name link.
+   * Fires when users select the file name link. Make sure to bind the event.
+   * If you do not, the file name link will be a dead link.
    */
   @Output()
   public fileClick = new EventEmitter<SkyFileAttachmentClick>();
@@ -244,10 +244,8 @@ export class SkyFileAttachmentComponent
 
     if (isNewValue) {
       if (value) {
-        this.isData = value.url?.startsWith('data:');
         this.isImage = this.#fileItemService.isImage(value);
       } else {
-        this.isData = false;
         this.isImage = false;
       }
       this.#setFileName(value);
@@ -279,8 +277,6 @@ export class SkyFileAttachmentComponent
     | undefined;
 
   public isImage = false;
-
-  protected isData = false;
 
   protected get isRequired(): boolean {
     return (
@@ -400,9 +396,12 @@ export class SkyFileAttachmentComponent
   }
 
   public fileChangeEvent(fileChangeEvent: Event): void {
-    this.#handleFiles(
-      (fileChangeEvent.target as HTMLInputElement | undefined)?.files,
-    );
+    /** Set a timeout here to allow the browser to regain context from the system dialog. Without this, error messages do not read out correctly to screen readers. */
+    setTimeout(() => {
+      this.#handleFiles(
+        (fileChangeEvent.target as HTMLInputElement | undefined)?.files,
+      );
+    }, 500);
   }
 
   public fileDragEnter(dragEnterEvent: DragEvent): void {

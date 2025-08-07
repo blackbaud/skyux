@@ -4,6 +4,7 @@ import { SkySortModule } from '@skyux/lists';
 @Component({
   selector: 'app-sort-visual',
   templateUrl: './sort-visual.component.html',
+  standalone: false,
 })
 export class SortVisualComponent {
   public initialState = 3;
@@ -48,7 +49,7 @@ export class SortVisualComponent {
 
   public sortedItem: any;
 
-  public sortItems(item: any) {
+  public sortItems(item: any): void {
     this.sortedItem = item;
   }
 }

@@ -13,8 +13,7 @@ describe('lookup in modal', () => {
       });
 
       it('should affix autocomplete to the bottom of the input when the body has top margin', () => {
-        cy.get('#ready')
-          .should('exist')
+        cy.skyReady('')
           .end()
           .get('textarea[placeholder="Type a person\'s name..."]')
           .should('exist')
@@ -40,10 +39,10 @@ describe('lookup in modal', () => {
                 expect(top).to.be.lte(inputBottom + 6);
               });
           });
-        cy.window().skyVisualTest(`lookup-in-modal-${theme}`, {
+        cy.skyVisualTest(`lookup-in-modal-${theme}`, {
           disableTimersAndAnimations: true,
         });
       });
     });
-  });
+  }, false);
 });

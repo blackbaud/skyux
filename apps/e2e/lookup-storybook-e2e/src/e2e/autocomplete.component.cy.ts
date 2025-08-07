@@ -7,16 +7,13 @@ describe('lookup-storybook', () => {
         cy.visit(
           `/iframe.html?globals=theme:${theme}&id=autocompletecomponent-autocomplete--autocomplete`,
         );
-        cy.viewport(1300, 900).get('#ready').should('exist').end();
+        cy.viewport(1300, 900);
       });
 
       it('should render the component', () => {
-        cy.get('app-autocomplete')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(
-            `autocompletecomponent-autocomplete--autocomplete-${theme}`,
-          );
+        cy.skyReady('app-autocomplete').screenshot(
+          `autocompletecomponent-autocomplete--autocomplete-${theme}`,
+        );
         cy.get('app-autocomplete').percySnapshot(
           `autocompletecomponent-autocomplete--autocomplete-${theme}`,
           {
@@ -26,9 +23,7 @@ describe('lookup-storybook', () => {
       });
 
       it('should render the component with the dropdown', () => {
-        cy.get('app-autocomplete')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-autocomplete')
           .get('.sky-form-control')
           .should('exist')
           .should('be.visible')
@@ -49,9 +44,7 @@ describe('lookup-storybook', () => {
       });
 
       it('should render the component with a selected result', () => {
-        cy.get('app-autocomplete')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-autocomplete')
           .get('.sky-form-control')
           .should('exist')
           .should('be.visible')
@@ -71,9 +64,7 @@ describe('lookup-storybook', () => {
       });
 
       it('should render the component with no results', () => {
-        cy.get('app-autocomplete')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-autocomplete')
           .get('.sky-form-control')
           .should('exist')
           .should('be.visible')
@@ -93,5 +84,5 @@ describe('lookup-storybook', () => {
         );
       });
     });
-  }, true);
+  });
 });

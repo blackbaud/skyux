@@ -1,9 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import {
-  APP_INITIALIZER,
   EnvironmentProviders,
   RendererFactory2,
+  inject,
   makeEnvironmentProviders,
+  provideAppInitializer,
 } from '@angular/core';
 
 import { SkyTheme } from '../theming/theme';
@@ -21,15 +22,13 @@ export function provideInitialTheme(
 ): EnvironmentProviders {
   return makeEnvironmentProviders([
     SkyThemeService,
-    {
-      provide: APP_INITIALIZER,
-      multi: true,
-      useFactory: (
+    provideAppInitializer(() => {
+      const initializerFn = ((
         themeService: SkyThemeService,
         doc: Document,
         rendererFactory: RendererFactory2,
       ) => {
-        return () => {
+        return (): void => {
           themeService.init(
             doc.body,
             rendererFactory.createRenderer(null, null),
@@ -40,8 +39,8 @@ export function provideInitialTheme(
             ),
           );
         };
-      },
-      deps: [SkyThemeService, DOCUMENT, RendererFactory2],
-    },
+      })(inject(SkyThemeService), inject(DOCUMENT), inject(RendererFactory2));
+      return initializerFn();
+    }),
   ]);
 }

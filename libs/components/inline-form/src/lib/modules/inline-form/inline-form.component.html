@@ -5,15 +5,17 @@
     </div>
   } @else if (template) {
     <div class="sky-slide-dissolve-last">
-      <div class="sky-inline-form sky-shadow sky-box sky-elevation-3">
+      <div
+        class="sky-inline-form sky-shadow sky-box sky-elevation-1-bordered sky-padding-even-md"
+      >
         <div class="sky-inline-form-content">
           <ng-container [ngTemplateOutlet]="template" />
         </div>
         <div class="sky-inline-form-footer">
-          @for (button of buttons; track button) {
+          @for (button of buttons; track button.text) {
             <button
-              type="button"
               class="sky-btn {{ 'sky-btn-' + button.styleType }}"
+              type="button"
               [disabled]="button.disabled ? true : null"
               [ngClass]="{ 'sky-btn-disabled': button.disabled }"
               (click)="closeInlineForm(button)"

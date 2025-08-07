@@ -27,7 +27,7 @@ describe('colorpicker-storybook', () => {
           ),
       );
       it('should render the components', () => {
-        cy.get('#ready').should('exist');
+        cy.skyReady('app-colorpicker', ['#ready']);
         cy.get('#colorpicker-error .sky-colorpicker-button')
           .should('exist')
           .should('be.visible')
@@ -50,7 +50,7 @@ describe('colorpicker-storybook', () => {
 
       colorpickerVariations.forEach((colorpicker) => {
         it(`should open the ${colorpicker.description}`, () => {
-          cy.get('#ready').should('exist');
+          cy.skyReady('app-colorpicker', ['#ready']);
           cy.get('app-colorpicker').should('exist').should('be.visible');
 
           cy.get(`#${colorpicker.id} .sky-colorpicker-button`)
@@ -83,5 +83,5 @@ describe('colorpicker-storybook', () => {
         });
       });
     });
-  }, true);
+  });
 });

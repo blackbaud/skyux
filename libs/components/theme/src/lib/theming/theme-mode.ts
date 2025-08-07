@@ -1,3 +1,5 @@
+import { SkyThemeModeData } from './theme-serialization-types';
+
 /**
  * Defines properties of a SKY UX theme mode.
  */
@@ -20,4 +22,50 @@ export class SkyThemeMode {
     public readonly name: string,
     public readonly hostClass: string,
   ) {}
+
+  /**
+   * @internal
+   * Serializes the theme mode to a JSON-compatible object.
+   */
+  public serialize(): SkyThemeModeData {
+    // Check if this instance is a preset
+    const presetEntry = Object.entries(SkyThemeMode.presets).find(
+      ([, preset]) => preset === this,
+    );
+
+    if (presetEntry) {
+      return {
+        name: this.name,
+        isPreset: true,
+      };
+    }
+
+    return {
+      name: this.name,
+      hostClass: this.hostClass,
+    };
+  }
+
+  /**
+   * @internal
+   * Deserializes a JSON object to a SkyThemeMode instance.
+   */
+  public static deserialize(data: SkyThemeModeData): SkyThemeMode {
+    if (data.isPreset) {
+      const preset =
+        SkyThemeMode.presets[data.name as keyof typeof SkyThemeMode.presets];
+
+      if (preset) {
+        return preset;
+      }
+
+      throw new Error(`Unknown theme mode preset: ${data.name}`);
+    }
+
+    if (!data.hostClass) {
+      throw new Error('hostClass is required for non-preset theme modes');
+    }
+
+    return new SkyThemeMode(data.name, data.hostClass);
+  }
 }

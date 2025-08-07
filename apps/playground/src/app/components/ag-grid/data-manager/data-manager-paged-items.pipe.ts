@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'dataManagerPagedItems',
-  standalone: true,
 })
 export class DataManagerPagedItemsPipe implements PipeTransform {
   public transform(

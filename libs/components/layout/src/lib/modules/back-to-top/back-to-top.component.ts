@@ -10,6 +10,7 @@ import { Observable, Subject } from 'rxjs';
   templateUrl: './back-to-top.component.html',
   styleUrls: ['./back-to-top.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyBackToTopComponent {
   public get scrollToTopClick(): Observable<void> {

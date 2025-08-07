@@ -26,6 +26,7 @@ import { SkyTimepickerFixture } from './timepicker-fixture';
       </sky-timepicker>
     </div>
   `,
+  standalone: false,
 })
 class TestComponent {
   public disabled = false;

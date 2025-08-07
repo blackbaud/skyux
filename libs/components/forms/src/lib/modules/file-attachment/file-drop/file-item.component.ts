@@ -24,7 +24,6 @@ import { SkyFileLink } from './file-link';
 @Component({
   imports: [SkyFileSizePipe, SkyFormsResourcesModule, SkyIconModule],
   selector: 'sky-file-item',
-  standalone: true,
   styleUrl: './file-item.component.scss',
   templateUrl: './file-item.component.html',
 })
@@ -111,22 +110,22 @@ export class SkyFileItemComponent implements DoCheck {
             break;
           case '.PPT':
           case '.PPTX':
-            cls = 'powerpoint';
+            cls = 'ppt';
             break;
           case '.DOC':
           case '.DOCX':
-            cls = 'word';
+            cls = 'doc';
             break;
           case '.XLS':
           case '.XLSX':
-            cls = 'excel';
+            cls = 'xls';
             break;
           case '.TXT':
             cls = 'text';
             break;
           case '.HTM':
           case '.HTML':
-            cls = 'code';
+            cls = 'chevron-double';
             break;
           default:
             break;
@@ -157,7 +156,7 @@ export class SkyFileItemComponent implements DoCheck {
               break;
           }
         }
-        this.icon = 'file-' + (cls ? cls + '-' : '') + 'o';
+        this.icon = 'document' + (cls ? '-' + cls : '');
       }
     } else {
       this.icon = undefined;

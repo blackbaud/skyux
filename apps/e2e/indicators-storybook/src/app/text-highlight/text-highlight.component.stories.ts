@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<TextHighlightComponent>;
 export const TextHighlight = {
-  render: (args: TextHighlightComponent) => ({
+  render: (args: TextHighlightComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

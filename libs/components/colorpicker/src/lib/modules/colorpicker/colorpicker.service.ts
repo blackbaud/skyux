@@ -109,7 +109,7 @@ export class SkyColorpickerService {
     }[] = [
       {
         re: /(rgb)a?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*%?,\s*(\d{1,3})\s*%?(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
-        parse: (execResult) => {
+        parse: (execResult): SkyColorpickerRgba => {
           const rgba: SkyColorpickerRgba = {
             red: parseInt(execResult[2], 0) / 255,
             green: parseInt(execResult[3], 0) / 255,
@@ -121,7 +121,7 @@ export class SkyColorpickerService {
       },
       {
         re: /(hsl)a?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
-        parse: (execResult) => {
+        parse: (execResult): SkyColorpickerHsla => {
           const hsla: SkyColorpickerHsla = {
             hue: parseInt(execResult[2], 0) / 360,
             saturation: parseInt(execResult[3], 0) / 100,

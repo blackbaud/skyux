@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { SkyDropdownModule } from '@skyux/popovers';
-import { SkyThemeModule } from '@skyux/theme';
+import { SkyThemeComponentClassDirective, SkyThemeModule } from '@skyux/theme';
 
 /**
  * Specifies secondary actions.
@@ -17,9 +17,9 @@ import { SkyThemeModule } from '@skyux/theme';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, SkyDropdownModule, SkyThemeModule],
   selector: 'sky-summary-action-bar-secondary-action',
-  standalone: true,
   styleUrls: ['./summary-action-bar-secondary-action.component.scss'],
   templateUrl: './summary-action-bar-secondary-action.component.html',
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkySummaryActionBarSecondaryActionComponent {
   /**

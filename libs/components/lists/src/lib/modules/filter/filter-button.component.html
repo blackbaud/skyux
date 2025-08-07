@@ -18,8 +18,7 @@
   }"
   (click)="filterButtonOnClick()"
 >
-  <sky-icon *skyThemeIf="'default'" icon="filter" size="lg" />
-  <sky-icon *skyThemeIf="'modern'" icon="filter" />
+  <sky-icon iconName="filter" />
   @if (showButtonText) {
     <span class="sky-filter-btn-text">
       {{ 'skyux_filter_button_title' | skyLibResources }}

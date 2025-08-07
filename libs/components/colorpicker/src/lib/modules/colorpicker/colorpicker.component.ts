@@ -37,7 +37,6 @@ import {
   SKY_FORM_ERRORS_ENABLED,
   SkyRequiredStateDirective,
 } from '@skyux/forms';
-import { SkyIconType } from '@skyux/icon';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Subject, fromEvent } from 'rxjs';
@@ -72,6 +71,7 @@ let componentIdIndex = 0;
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyColorpickerComponent
   implements OnInit, OnDestroy, AfterContentChecked
@@ -82,14 +82,6 @@ export class SkyColorpickerComponent
    */
   @Input()
   public pickerButtonIcon: string | undefined;
-
-  /**
-   * The type of icon to display. Specifying `fa` will display a Font Awesome icon, while specifying `skyux` will display an icon from the custom SKY UX icon font. Note that the custom SKY UX icon font is currently in beta.
-   * @internal
-   * @deprecated
-   */
-  @Input()
-  public pickerButtonIconType: SkyIconType = 'fa';
 
   /**
    * The ARIA label for the colorpicker. This sets the colorpicker's `aria-label` attribute
@@ -181,7 +173,7 @@ export class SkyColorpickerComponent
 
   /**
    * The observable to send commands to the colorpicker. The commands should
-   * respect the `SkyColorPickerMessage` type.
+   * respect the `SkyColorpickerMessage` type.
    */
   @Input()
   public messageStream = new Subject<SkyColorpickerMessage>();
@@ -625,11 +617,11 @@ export class SkyColorpickerComponent
     this.isOpen = true;
   }
 
-  #sendMessage(type: SkyColorpickerMessageType) {
+  #sendMessage(type: SkyColorpickerMessageType): void {
     this.messageStream.next({ type });
   }
 
-  #handleIncomingMessages(message: SkyColorpickerMessage) {
+  #handleIncomingMessages(message: SkyColorpickerMessage): void {
     switch (message.type) {
       case SkyColorpickerMessageType.Open:
         if (!this.isOpen) {

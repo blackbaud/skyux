@@ -1,6 +1,15 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
-@use 'scss/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+$sky-fluid-grid-columns: 12 !default;
+
+@include compatMixins.sky-default-overrides('.sky-column') {
+  --sky-override-fluid-grid-gutter-size-small: #{$sky-padding-half};
+  --sky-override-fluid-grid-gutter-size-medium: #{$sky-padding};
+  --sky-override-fluid-grid-gutter-size-large: #{$sky-padding-plus-half};
+  --sky-override-fluid-grid-top-bottom: 0;
+}
 
 @mixin create_columns($screen-size: sm) {
   @for $i from 1 through $sky-fluid-grid-columns {
@@ -10,41 +19,64 @@
   }
 }
 
-@mixin create_column_gutters($gutter-size) {
-  .sky-fluid-grid-gutter-size-#{$gutter-size} sky-column.sky-column {
-    padding-right: map-get($gutter-sizes, $gutter-size);
-    padding-left: map-get($gutter-sizes, $gutter-size);
-  }
-}
-
-@mixin create_column_gutters_modern($gutter-size) {
-  .sky-theme-modern
-    .sky-fluid-grid-gutter-size-#{$gutter-size}
-    sky-column.sky-column {
-    padding-right: map-get($gutter-sizes-modern, $gutter-size);
-    padding-left: map-get($gutter-sizes-modern, $gutter-size);
-  }
-}
-
 sky-column.sky-column {
-  padding-right: map-get($gutter-sizes, large);
-  padding-left: map-get($gutter-sizes, large);
+  padding: var(
+      --sky-override-fluid-grid-top-bottom,
+      var(--sky-space-inset-horizontal-top-xl)
+    )
+    var(
+      --sky-override-fluid-grid-gutter-size-large,
+      var(--sky-space-inset-horizontal-right-xl)
+    )
+    var(
+      --sky-override-fluid-grid-top-bottom,
+      var(--sky-space-inset-horizontal-bottom-xl)
+    )
+    var(
+      --sky-override-fluid-grid-gutter-size-large,
+      var(--sky-space-inset-horizontal-left-xl)
+    );
   width: 100%;
   min-height: 1px;
 }
 
-.sky-theme-modern {
-  sky-column.sky-column {
-    padding-right: map-get($gutter-sizes-modern, large);
-    padding-left: map-get($gutter-sizes-modern, large);
-  }
+.sky-fluid-grid-gutter-size-small sky-column.sky-column {
+  padding: var(
+      --sky-override-fluid-grid-top-bottom,
+      var(--sky-space-inset-horizontal-top-s)
+    )
+    var(
+      --sky-override-fluid-grid-gutter-size-small,
+      var(--sky-space-inset-horizontal-right-s)
+    )
+    var(
+      --sky-override-fluid-grid-top-bottom,
+      var(--sky-space-inset-horizontal-bottom-s)
+    )
+    var(
+      --sky-override-fluid-grid-gutter-size-small,
+      var(--sky-space-inset-horizontal-left-s)
+    );
 }
 
-@include create_column_gutters(small);
-@include create_column_gutters(medium);
-
-@include create_column_gutters_modern(small);
-@include create_column_gutters_modern(medium);
+.sky-fluid-grid-gutter-size-medium sky-column.sky-column {
+  padding: var(
+      --sky-override-fluid-grid-top-bottom,
+      var(--sky-space-inset-horizontal-top-m)
+    )
+    var(
+      --sky-override-fluid-grid-gutter-size-medium,
+      var(--sky-space-inset-horizontal-right-m)
+    )
+    var(
+      --sky-override-fluid-grid-top-bottom,
+      var(--sky-space-inset-horizontal-bottom-m)
+    )
+    var(
+      --sky-override-fluid-grid-gutter-size-medium,
+      var(--sky-space-inset-horizontal-left-m)
+    );
+}
 
 @include mixins.sky-host-responsive-container-xs-min(false) {
   @include create_columns(xs);

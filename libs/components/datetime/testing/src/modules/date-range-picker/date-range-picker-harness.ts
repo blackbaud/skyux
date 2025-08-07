@@ -98,7 +98,7 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
   public async getSelectedCalculator(): Promise<SkyDateRangeCalculatorId> {
     const calculatorIdHarness = await this.#getCalculatorIdInputBoxHarness();
     const selectEl = await calculatorIdHarness.querySelector('select');
-    const value = await selectEl?.getProperty('value');
+    const value = await selectEl.getProperty('value');
 
     /* istanbul ignore next: safety check */
     if (value === undefined || value === '') {
@@ -137,7 +137,7 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
 
   /**
    * Whether a custom error has fired.
-   * @params errorName `errorName` property of the custom `sky-form-error`.
+   * @param errorName `errorName` property of the custom `sky-form-error`.
    */
   public async hasError(errorName: string): Promise<boolean> {
     return await (

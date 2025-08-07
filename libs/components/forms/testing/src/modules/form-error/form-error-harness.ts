@@ -28,7 +28,7 @@ export class SkyFormErrorHarness extends SkyComponentHarness {
    * Gets the error name.
    */
   public async getErrorName(): Promise<string | null> {
-    return await (await this.host()).getAttribute('errorName');
+    return await (await this.host()).getAttribute('data-error-name');
   }
 
   /**

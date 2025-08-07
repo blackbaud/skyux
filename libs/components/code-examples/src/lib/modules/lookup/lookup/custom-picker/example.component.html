@@ -1,0 +1,30 @@
+<form
+  class="sky-padding-even-md"
+  novalidate
+  [formGroup]="favoritesForm"
+  (ngSubmit)="onSubmit()"
+>
+  <sky-input-box
+    data-sky-id="favorite-names-field"
+    helpPopoverContent="A name can be selected from the list or added as a new name."
+    hintText="Choose a name from the list or add a new name."
+    labelText="Favorite names"
+    stacked
+  >
+    <sky-lookup
+      formControlName="favoriteNames"
+      [enableShowMore]="true"
+      [showAddButton]="true"
+      [showMoreConfig]="showMoreConfig"
+      (searchAsync)="searchAsync($event)"
+      (addClick)="addClick($event)"
+    />
+  </sky-input-box>
+  <div
+    class="sky-border-dark sky-rounded-corners sky-padding-even-md sky-margin-stacked-lg"
+  >
+    <strong>Form model:</strong>
+    <pre>{{ favoritesForm.value | json }}</pre>
+  </div>
+  <button class="sky-btn sky-btn-default" type="submit">Submit</button>
+</form>

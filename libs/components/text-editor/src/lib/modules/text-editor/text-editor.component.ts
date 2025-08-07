@@ -55,7 +55,6 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
  * The text editor component lets users format and manipulate text.
  */
 @Component({
-  standalone: true,
   selector: 'sky-text-editor',
   templateUrl: './text-editor.component.html',
   styleUrls: ['./text-editor.component.scss'],

@@ -9,7 +9,7 @@ import { SkyAvatarSrc } from './avatar-src';
 export class SkyAvatarAdapterService {
   #blobUrl: string | undefined;
 
-  public updateImage(elementRef: ElementRef, src: SkyAvatarSrc) {
+  public updateImage(elementRef: ElementRef, src: SkyAvatarSrc): void {
     this.#revokeBlobUrl();
 
     const el = elementRef.nativeElement;
@@ -32,11 +32,11 @@ export class SkyAvatarAdapterService {
     }
   }
 
-  public destroy() {
+  public destroy(): void {
     this.#revokeBlobUrl();
   }
 
-  #createBlobUrl(src: Blob | File) {
+  #createBlobUrl(src: Blob | File): string {
     const url = URL.createObjectURL(src);
 
     // Keep the last blob URL around so we can revoke it later.
@@ -45,7 +45,7 @@ export class SkyAvatarAdapterService {
     return url;
   }
 
-  #revokeBlobUrl() {
+  #revokeBlobUrl(): void {
     if (this.#blobUrl) {
       URL.revokeObjectURL(this.#blobUrl);
       this.#blobUrl = undefined;

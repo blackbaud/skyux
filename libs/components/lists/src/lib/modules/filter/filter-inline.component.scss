@@ -1,7 +1,24 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-filter-inline') {
+  --sky-override-filter-inline-background-color: #{$sky-background-color-neutral-light};
+  --sky-override-filter-inline-padding: #{$sky-padding-even-default};
+}
+
+@include compatMixins.sky-modern-overrides('.sky-filter-inline') {
+  --sky-override-filter-inline-background-color: #{$sky-background-color-neutral-light};
+}
 
 .sky-filter-inline {
-  background-color: $sky-background-color-neutral-light;
+  background-color: var(--sky-override-filter-inline-background-color);
+  padding: var(
+    --sky-override-filter-inline-padding,
+    var(--sky-comp-filter_bar-space-inset-top)
+      var(--sky-comp-filter_bar-space-inset-right)
+      var(--sky-comp-filter_bar-space-inset-bottom)
+      var(--sky-comp-filter_bar-space-inset-left)
+  );
   display: flex;
   align-items: center;
 }

@@ -1,0 +1,63 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "dropdown": {
+      "development": {
+        "docsIds": [
+          "SkyDropdownModule",
+          "SkyDropdownComponent",
+          "SkyDropdownButtonComponent",
+          "SkyDropdownMenuComponent",
+          "SkyDropdownItemComponent",
+          "SkyDropdownButtonType",
+          "SkyDropdownHorizontalAlignment",
+          "SkyDropdownTriggerType"
+        ],
+        "primaryDocsId": "SkyDropdownModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyDropdownHarness",
+          "SkyDropdownHarnessFilters",
+          "SkyDropdownItemHarness",
+          "SkyDropdownItemHarnessFilters",
+          "SkyDropdownMenuHarness",
+          "SkyDropdownMenuHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["PopoversDropdownBasicExampleComponent"]
+      }
+    },
+    "popover": {
+      "development": {
+        "docsIds": [
+          "SkyPopoverModule",
+          "SkyPopoverComponent",
+          "SkyPopoverDirective",
+          "SkyPopoverAlignment",
+          "SkyPopoverPlacement",
+          "SkyPopoverTrigger",
+          "SkyPopoverType",
+          "SkyPopoverMessage",
+          "SkyPopoverMessageType"
+        ],
+        "primaryDocsId": "SkyPopoverModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyPopoverHarness",
+          "SkyPopoverHarnessFilters",
+          "SkyPopoverContentHarness",
+          "SkyPopoverContentHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "PopoversPopoverBasicExampleComponent",
+          "PopoversPopoverProgrammaticExampleComponent"
+        ]
+      }
+    }
+  }
+}

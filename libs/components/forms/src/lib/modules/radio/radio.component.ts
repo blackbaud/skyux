@@ -44,6 +44,7 @@ const SKY_RADIO_CONTROL_VALUE_ACCESSOR: Provider = {
   providers: [SKY_RADIO_CONTROL_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [SkyThemeComponentClassDirective],
+  standalone: false,
 })
 export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   /**
@@ -249,9 +250,18 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * The icon to display in place of the radio button. To group radio buttons like in
    * the demo above, place the `sky-switch-icon-group` class on the direct parent element of the
    * radio buttons.
+   * @deprecated Use `iconName` instead.
    */
   @Input()
   public icon: string | undefined;
+
+  /**
+   * The SVG icon to display in place of the radio button. To group radio buttons like in
+   * the demo above, place the `sky-switch-icon-group` class on the direct parent element of the
+   * radio buttons.
+   */
+  @Input()
+  public iconName: string | undefined;
 
   /**
    * The background color type after users select an icon radio button.
@@ -377,11 +387,11 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * @internal
    * Whether to disable the control. Implemented as a part of ControlValueAccessor.
    */
-  public setDisabledState(isDisabled: boolean) {
+  public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
-  public setGroupDisabledState(isDisabled: boolean) {
+  public setGroupDisabledState(isDisabled: boolean): void {
     this.radioGroupDisabled = isDisabled;
     this.#changeDetector.markForCheck();
   }

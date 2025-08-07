@@ -18,7 +18,6 @@ import { SkyIdModule, SkyLogService, SkyTrimModule } from '@skyux/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyIdModule, SkyTrimModule],
   selector: 'sky-file-attachment-label',
-  standalone: true,
   styleUrl: 'file-attachment-label.component.scss',
   templateUrl: './file-attachment-label.component.html',
 })

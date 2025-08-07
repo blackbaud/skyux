@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/playground/src",
   "prefix": "app",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -31,8 +32,7 @@
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
           "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
-          "apps/playground/src/styles.scss",
-          "node_modules/@blackbaud/skyux-design-tokens/scss/blackbaud.css"
+          "apps/playground/src/styles.scss"
         ],
         "scripts": [],
         "stylePreprocessorOptions": {
@@ -83,7 +83,8 @@
           "buildTarget": "playground:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -100,6 +101,5 @@
         ]
       }
     }
-  },
-  "tags": []
+  }
 }

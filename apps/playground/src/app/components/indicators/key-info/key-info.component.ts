@@ -4,11 +4,12 @@ import { Component } from '@angular/core';
   selector: 'app-key-info',
   templateUrl: './key-info.component.html',
   styleUrls: ['./key-info.component.scss'],
+  standalone: false,
 })
 export class KeyInfoComponent {
   public showHelp = false;
 
-  public onHelpClick() {
+  public onHelpClick(): void {
     alert(`Help is available for this component.`);
   }
 }

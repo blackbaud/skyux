@@ -9,14 +9,9 @@ describe('avatar-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('#screenshot-wrapper')
-          .should('exist')
-          .should('be.visible')
-          .end();
-
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(3000);
-        cy.get('#ready').should('exist');
+        cy.skyReady('app-avatar', ['#ready', '#screenshot-wrapper']);
         cy.get('#screenshot-wrapper').screenshot(
           `avatarcomponent-avatar--avatar-${theme}`,
         );

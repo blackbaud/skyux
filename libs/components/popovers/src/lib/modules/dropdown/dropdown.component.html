@@ -3,28 +3,8 @@
     <button
       #triggerButton
       class="sky-btn sky-dropdown-button"
-      skyDropdownTriggerBase
+      skyDropdownTrigger
       type="button"
-      [attr.aria-label]="
-        label ||
-        (buttonType === 'context-menu'
-          ? (contentInfoObs | async)?.descriptor
-            ? (contentInfoObs | async)?.descriptor?.type === 'text'
-              ? ('skyux_dropdown_context_menu_with_content_descriptor_default_label'
-                | skyLibResources: (contentInfoObs | async)?.descriptor?.value)
-              : undefined
-            : ('skyux_dropdown_context_menu_default_label' | skyLibResources)
-          : undefined)
-      "
-      [attr.aria-labelledby]="
-        !label &&
-        buttonType === 'context-menu' &&
-        (contentInfoObs | async)?.descriptor?.type === 'elementId'
-          ? screenReaderLabelContextMenuId +
-            ' ' +
-            (contentInfoObs | async)?.descriptor?.value
-          : undefined
-      "
       [ngClass]="[
         'sky-dropdown-button-type-' + buttonType,
         'sky-btn-' + buttonStyle
@@ -32,7 +12,8 @@
     >
       @switch (buttonType) {
         @case ('context-menu') {
-          <sky-icon icon="ellipsis" />
+          <sky-icon *skyThemeIf="'modern'" iconName="more-actions" />
+          <sky-icon *skyThemeIf="'default'" iconName="more-actions" />
         }
         @default {
           <div class="sky-dropdown-button-container">
@@ -41,14 +22,9 @@
             </div>
             <div class="sky-dropdown-button-icon-container">
               <sky-icon
-                *skyThemeIf="'default'"
                 class="sky-dropdown-caret"
-                icon="caret-down"
-              />
-              <sky-icon
-                *skyThemeIf="'modern'"
-                class="sky-dropdown-caret"
-                icon="chevron-down"
+                iconName="chevron-down"
+                iconSize="s"
               />
             </div>
           </div>

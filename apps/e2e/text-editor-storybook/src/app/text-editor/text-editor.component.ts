@@ -16,6 +16,7 @@ import {
   selector: 'app-text-editor',
   templateUrl: './text-editor.component.html',
   styleUrls: ['./text-editor.component.scss'],
+  standalone: false,
 })
 export class TextEditorComponent {
   @Input()

@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   imports: [SkyModalModule],
   template: `<sky-modal [isDirty]="true">
     <sky-modal-header>Modal test</sky-modal-header>

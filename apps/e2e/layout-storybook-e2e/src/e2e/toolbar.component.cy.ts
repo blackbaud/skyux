@@ -9,10 +9,9 @@ describe('layout-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('app-toolbar')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`toolbarcomponent-toolbar--toolbar-${theme}`);
+        cy.skyReady('app-toolbar').screenshot(
+          `toolbarcomponent-toolbar--toolbar-${theme}`,
+        );
         cy.get('app-toolbar').percySnapshot(
           `toolbarcomponent-toolbar--toolbar-${theme}`,
           {
@@ -21,5 +20,5 @@ describe('layout-storybook', () => {
         );
       });
     });
-  }, true);
+  });
 });

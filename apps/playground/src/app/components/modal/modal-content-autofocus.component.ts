@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-test-cmp-modal-autofocus',
   templateUrl: './modal-content-autofocus.component.html',
   imports: [SkyModalModule],

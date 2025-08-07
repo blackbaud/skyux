@@ -1,0 +1,25 @@
+<form novalidate [formGroup]="formGroup">
+  <p>
+    The following field has a preselected value and utilizes a custom search
+    function, as well as a custom template for the search results.
+  </p>
+  <div class="sky-margin-stacked-lg">
+    <sky-input-box labelText="Largest ocean" stacked>
+      <sky-autocomplete
+        descriptorProperty="title"
+        [data]="oceans"
+        [search]="getOceanSearchFunction()"
+        [searchResultTemplate]="oceanSearchResultTemplate"
+      >
+        <input formControlName="largestOcean" type="text" skyAutocomplete />
+      </sky-autocomplete>
+    </sky-input-box>
+  </div>
+  <p class="sky-font-emphasized">Form model:</p>
+  <pre>{{ formGroup.value | json }}</pre>
+</form>
+
+<ng-template #oceanSearchResultTemplate let-item="item">
+  <sky-icon iconName="arrow-right" />
+  {{ item.title }} &bull; ID {{ item.id }}
+</ng-template>

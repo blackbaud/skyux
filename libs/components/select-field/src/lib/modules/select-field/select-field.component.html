@@ -16,7 +16,7 @@
       [disabled]="disabled"
       (click)="openPicker()"
     >
-      <sky-icon icon="plus-circle" />
+      <sky-icon iconName="add" />
       {{
         multipleSelectOpenButtonText ||
           ('skyux_select_field_multiple_select_open_button' | skyLibResources)
@@ -76,7 +76,7 @@
             clearSelection(); $event.preventDefault(); $event.stopPropagation()
           "
         >
-          <sky-icon icon="times" />
+          <sky-icon iconName="close" />
         </button>
       </div>
       <div class="sky-input-group-btn">
@@ -90,7 +90,7 @@
           [disabled]="disabled"
           (click)="openPicker(); $event.stopPropagation()"
         >
-          <sky-icon icon="sort" />
+          <sky-icon iconName="arrow-bidirectional-up-down" />
         </button>
       </div>
     </div>

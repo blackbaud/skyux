@@ -8,7 +8,6 @@ import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-demo-filter-modal-form',
   templateUrl: './data-filter-modal.component.html',
   imports: [FormsModule, SkyCheckboxModule, SkyInputBoxModule, SkyModalModule],

@@ -1,8 +1,10 @@
 <div class="sky-ag-grid-cell-editor-autocomplete" [formGroup]="editorForm">
   <sky-autocomplete
+    [allowAnyValue]="skyComponentProperties.allowAnyValue"
     [data]="skyComponentProperties.data"
     [debounceTime]="skyComponentProperties.debounceTime"
     [descriptorProperty]="skyComponentProperties.descriptorProperty"
+    [highlightSearchText]="skyComponentProperties.highlightSearchText ?? true"
     [propertiesToSearch]="skyComponentProperties.propertiesToSearch"
     [search]="skyComponentProperties.search"
     [searchFilters]="skyComponentProperties.searchFilters"

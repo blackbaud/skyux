@@ -12,7 +12,6 @@ import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-data-manager-filter-modal',
   templateUrl: './data-manager-filter-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,7 +35,7 @@ export class DataManagerFiltersModalComponent {
     this.changeDetector.markForCheck();
   }
 
-  public applyFilters() {
+  public applyFilters(): void {
     const result: SkyDataManagerFilterData = {};
 
     result.filtersApplied = this.jobTitle !== 'any' || this.hideSales;
@@ -49,13 +48,13 @@ export class DataManagerFiltersModalComponent {
     this.instance.save(result);
   }
 
-  public clearAllFilters() {
+  public clearAllFilters(): void {
     this.hideSales = false;
     this.jobTitle = 'any';
     this.changeDetector.markForCheck();
   }
 
-  public cancel() {
+  public cancel(): void {
     this.instance.cancel();
   }
 }

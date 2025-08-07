@@ -27,7 +27,6 @@ import { SkyHelpInlinePopoverButtonComponent } from './button-popover.component'
  */
 @Component({
   selector: 'sky-help-inline',
-  standalone: true,
   templateUrl: './help-inline.component.html',
   styleUrls: [
     './help-inline.default.component.scss',

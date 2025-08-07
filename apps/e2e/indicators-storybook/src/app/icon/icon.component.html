@@ -1,5 +1,5 @@
 <div class="icon-sheet">
-  <sky-icon icon="calendar" />
+  <sky-icon icon="calendar" size="md" />
   <sky-icon icon="calendar" size="lg" />
   <sky-icon icon="calendar" size="2x" />
   <sky-icon icon="calendar" variant="line" size="3x" />
@@ -11,18 +11,15 @@
     [fixedWidth]="true"
   />
 
-  <div>
-    <sky-icon icon="bars" size="5x" />
-  </div>
-  <div>
-    <sky-icon icon="chevron-down" size="5x" />
-  </div>
-
-  <div>
-    <sky-icon icon="bars" size="5x" [fixedWidth]="true" />
-  </div>
-  <div>
-    <sky-icon icon="chevron-down" size="5x" [fixedWidth]="true" />
+  <div class="icon-sheet">
+    <sky-icon iconName="calendar-ltr" iconSize="xxxs" />
+    <sky-icon iconName="calendar-ltr" iconSize="xxs" />
+    <sky-icon iconName="calendar-ltr" iconSize="xs" />
+    <sky-icon iconName="calendar-ltr" iconSize="s" />
+    <sky-icon iconName="calendar-ltr" />
+    <sky-icon iconName="calendar-ltr" iconSize="l" />
+    <sky-icon iconName="calendar-ltr" iconSize="xl" />
+    <sky-icon iconName="calendar-ltr" iconSize="xxl" />
   </div>
 </div>
 <div class="icon-sheet">
@@ -39,7 +36,7 @@
 </div>
 <div class="sky-padding-even-md icon-svg-compare">
   <div class="sky-margin-stacked-lg">
-    <sky-icon icon="sparkles-2" />
+    <sky-icon icon="sparkles-2" size="md" />
     <sky-icon iconName="sparkles" />
     <sky-icon icon="sparkles-2" size="lg" />
     <sky-icon iconName="sparkles" size="lg" />
@@ -72,59 +69,10 @@
       <sky-icon iconName="clipboard-multiple" /> Copy
     </button>
     <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
-      <sky-icon icon="copy-to-clipboard" /> Copy
+      <sky-icon icon="copy-to-clipboard" size="md" /> Copy
     </button>
     <button type="button" class="sky-btn sky-btn-primary">
       <sky-icon iconName="alert" /> Alert
     </button>
   </div>
 </div>
-<div class="sky-padding-even-md icon-stack-size-compare">
-  <sky-icon-stack
-    size="xs"
-    [baseIcon]="{ icon: 'circle-solid', iconType: 'skyux' }"
-    [topIcon]="{ icon: 'eye', iconType: 'skyux' }"
-  />
-  <sky-icon-stack
-    [baseIcon]="{ icon: 'circle-solid', iconType: 'skyux' }"
-    [topIcon]="{ icon: 'eye', iconType: 'skyux' }"
-  />
-  <sky-icon-stack
-    size="lg"
-    [baseIcon]="{ icon: 'circle-solid', iconType: 'skyux' }"
-    [topIcon]="{ icon: 'eye', iconType: 'skyux' }"
-  />
-  <sky-icon-stack
-    size="2x"
-    [baseIcon]="{ icon: 'circle-solid', iconType: 'skyux' }"
-    [topIcon]="{ icon: 'eye', iconType: 'skyux' }"
-  />
-  <sky-icon-stack
-    size="3x"
-    [baseIcon]="{ icon: 'circle-solid', iconType: 'skyux' }"
-    [topIcon]="{ icon: 'eye', iconType: 'skyux' }"
-  />
-  <sky-icon-stack
-    size="4x"
-    [baseIcon]="{ icon: 'circle-solid', iconType: 'skyux' }"
-    [topIcon]="{ icon: 'eye', iconType: 'skyux' }"
-  />
-  <sky-icon-stack
-    size="5x"
-    [baseIcon]="{ icon: 'circle-solid', iconType: 'skyux' }"
-    [topIcon]="{ icon: 'eye', iconType: 'skyux' }"
-  />
-</div>
-<div class="sky-padding-even-md icon-stack-alert-overrides">
-  <sky-icon-stack
-    size="1x"
-    [baseIcon]="{ icon: 'circle-solid', iconType: 'skyux' }"
-    [topIcon]="{ icon: 'check', iconType: 'skyux' }"
-  />
-  <sky-icon-stack
-    size="1x"
-    [baseIcon]="{ icon: 'triangle-solid', iconType: 'skyux' }"
-    [topIcon]="{ icon: 'exclamation', iconType: 'skyux' }"
-  />
-</div>
-<span *ngIf="ready | async" id="ready"></span>

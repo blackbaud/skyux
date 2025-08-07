@@ -86,14 +86,7 @@ export class SkyRadioHarness extends SkyComponentHarness {
    * Gets the help popover content.
    */
   public async getHelpPopoverContent(): Promise<string | undefined> {
-    const content = await (await this.#getHelpInline()).getPopoverContent();
-
-    /* istanbul ignore if */
-    if (typeof content === 'object') {
-      throw Error('Unexpected template ref');
-    }
-
-    return content;
+    return await (await this.#getHelpInline()).getPopoverContent();
   }
 
   /**
@@ -121,7 +114,7 @@ export class SkyRadioHarness extends SkyComponentHarness {
 
     if (label) {
       throw new Error(
-        '`labelIsHidden` is only supported when setting the radio label via the `labelText` input.',
+        '`labelHidden` is only supported when setting the radio label via the `labelText` input.',
       );
     } else {
       return !!(await labelText?.hasClass('sky-screen-reader-only'));

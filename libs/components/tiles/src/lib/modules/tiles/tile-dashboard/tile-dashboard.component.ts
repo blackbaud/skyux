@@ -15,6 +15,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -37,6 +38,8 @@ import { SkyTileDashboardService } from './tile-dashboard.service';
   host: {
     '[class]': 'layoutClassName()',
   },
+  standalone: false,
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   readonly #breakpoint = toSignal(
@@ -123,6 +126,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   #ngUnsubscribe = new Subject<void>();
   #resourcesService: SkyLibResourcesService | undefined;
   #viewReady = false;
+  #viewReadyTimer: ReturnType<typeof setTimeout> | undefined;
   #_config: SkyTileDashboardConfig | undefined;
 
   constructor(
@@ -188,8 +192,9 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   #checkReady(): void {
-    if (this.#viewReady && this.config) {
-      setTimeout(() => {
+    if (this.#viewReady && this.config && !this.#viewReadyTimer) {
+      this.#viewReadyTimer = setTimeout(() => {
+        this.#viewReadyTimer = undefined;
         if (this.config && this.columns && this.singleColumn) {
           this.#dashboardService.init(
             this.config,

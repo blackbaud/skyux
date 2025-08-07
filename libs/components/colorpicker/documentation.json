@@ -1,0 +1,41 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "colorpicker": {
+      "development": {
+        "docsIds": [
+          "SkyColorpickerModule",
+          "SkyColorpickerComponent",
+          "SkyFormErrorComponent",
+          "SkyColorpickerInputDirective",
+          "SkyColorpickerCmyk",
+          "SkyColorpickerHsla",
+          "SkyColorpickerHsva",
+          "SkyColorpickerRgba",
+          "SkyColorpickerOutput",
+          "SkyColorpickerResult",
+          "SkyColorpickerMessage",
+          "SkyColorpickerMessageType"
+        ],
+        "primaryDocsId": "SkyColorpickerModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyColorpickerHarness",
+          "SkyColorpickerHarnessFilters",
+          "SkyColorpickerDropdownHarness",
+          "SkyColorpickerDropdownHarnessFilters",
+          "SkyIconHarness",
+          "SkyIconHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ColorpickerBasicExampleComponent",
+          "ColorpickerProgrammaticExampleComponent",
+          "ColorpickerHelpKeyExampleComponent"
+        ]
+      }
+    }
+  }
+}

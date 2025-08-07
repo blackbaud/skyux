@@ -10,6 +10,7 @@ import { SkyToasterService } from '../toaster.service';
   selector: 'sky-test-cmp',
   templateUrl: './toast-with-toaster-service.component.fixture.html',
   providers: [SkyToasterService],
+  standalone: false,
 })
 export class SkyToastWithToasterServiceTestComponent {
   public autoClose = false;

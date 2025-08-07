@@ -44,6 +44,7 @@ const SKY_AUTONUMERIC_VALIDATOR = {
 @Directive({
   selector: 'input[skyAutonumeric]',
   providers: [SKY_AUTONUMERIC_VALUE_ACCESSOR, SKY_AUTONUMERIC_VALIDATOR],
+  standalone: false,
 })
 export class SkyAutonumericDirective
   implements OnInit, OnDestroy, ControlValueAccessor, Validator
@@ -244,8 +245,8 @@ export class SkyAutonumericDirective
 
   // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-empty-function , @typescript-eslint/no-unused-vars
-  #onChange = (_: number | undefined) => {};
+  #onChange = (_: number | undefined): void => {};
   // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  #onTouched = () => {};
+  #onTouched = (): void => {};
 }

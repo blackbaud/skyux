@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Directive,
   ElementRef,
+  HostBinding,
   HostListener,
   Input,
   OnChanges,
@@ -42,6 +43,7 @@ const SKY_TIMEPICKER_VALIDATOR = {
 @Directive({
   selector: '[skyTimepickerInput]',
   providers: [SKY_TIMEPICKER_VALUE_ACCESSOR, SKY_TIMEPICKER_VALIDATOR],
+  standalone: false,
 })
 export class SkyTimepickerInputDirective
   implements
@@ -56,6 +58,7 @@ export class SkyTimepickerInputDirective
   #_timeFormat: SkyTimepickerTimeFormatType = 'hh';
 
   // TODO: In a future breaking change - grab the parent component through dependency injection and remove this setter.
+  // Also remove the HostBinding that references it.
   /**
    * Creates the timepicker input field and picker. Place this attribute on an `input` element,
    * and wrap the input in a `sky-timepicker` component.
@@ -70,6 +73,11 @@ export class SkyTimepickerInputDirective
   public set skyTimepickerInput(value: SkyTimepickerComponent | undefined) {
     this.#_skyTimepickerInput = value;
     this.#updateTimepickerInput();
+  }
+
+  @HostBinding('attr.skyTimepickerInput')
+  public get hostTimepickerInput(): SkyTimepickerComponent | undefined {
+    return this.skyTimepickerInput;
   }
 
   // TODO: In a future breaking change - make this more specific than "string"
@@ -145,7 +153,7 @@ export class SkyTimepickerInputDirective
     this.#changeDetector = changeDetector;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.#renderer.addClass(this.#elRef.nativeElement, 'sky-form-control');
     this.pickerChangedSubscription =
       this.skyTimepickerInput?.selectedTimeChanged.subscribe(
@@ -160,21 +168,19 @@ export class SkyTimepickerInputDirective
     // Watch for the control to be added and initialize the value immediately.
     /* istanbul ignore else */
     if (this.#control && this.#control.parent) {
-      this.#control.setValue(this.#modelValue, {
-        emitEvent: false,
-      });
+      this.#control.setValue(this.#modelValue, { emitEvent: false });
       this.#changeDetector.markForCheck();
     }
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     /* istanbul ignore else */
     if (this.pickerChangedSubscription) {
       this.pickerChangedSubscription.unsubscribe();
     }
   }
 
-  public ngOnChanges() {
+  public ngOnChanges(): void {
     if (this.skyTimepickerInput) {
       this.skyTimepickerInput.setFormat(this.timeFormat);
       this.skyTimepickerInput.returnFormat = this.returnFormat;
@@ -182,13 +188,13 @@ export class SkyTimepickerInputDirective
   }
 
   @HostListener('change', ['$event'])
-  public onChange(event: any) {
+  public onChange(event: any): void {
     this.writeValue(event.target.value);
   }
 
   /* istanbul ignore next */
   @HostListener('blur')
-  public onBlur() {
+  public onBlur(): void {
     this.#_onTouched();
   }
 
@@ -202,11 +208,11 @@ export class SkyTimepickerInputDirective
     this.#_validatorChange = fn;
   }
 
-  public setDisabledState(isDisabled: boolean) {
+  public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
-  public writeValue(value: any) {
+  public writeValue(value: any): void {
     this.#modelValue = this.#formatter(value);
   }
 
@@ -222,11 +228,7 @@ export class SkyTimepickerInputDirective
 
     /* istanbul ignore next */
     if (value.local === 'Invalid date') {
-      return {
-        skyTime: {
-          invalid: control.value,
-        },
-      };
+      return { skyTime: { invalid: control.value } };
     }
 
     return null;
@@ -249,7 +251,8 @@ export class SkyTimepickerInputDirective
     );
   }
 
-  #formatter(time: any) {
+  // TODO: This method technically returns `SkyTimepickerTimeOutput | string | undefined`. However, the value it is set to is set to `SkyTimepickerTimeOutput | undefined`. We need to clean this up.
+  #formatter(time: any): any {
     if (time && typeof time !== 'string' && 'local' in time) {
       return time;
     }

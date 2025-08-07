@@ -16,6 +16,7 @@ import {
   templateUrl: './column.component.html',
   styleUrls: ['./column.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyColumnComponent implements OnInit, OnChanges {
   /**
@@ -62,7 +63,7 @@ export class SkyColumnComponent implements OnInit, OnChanges {
 
   #_screenXSmall = 12;
 
-  public ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges): void {
     /* istanbul ignore else */
     if (
       changes['screenXSmall'] ||

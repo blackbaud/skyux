@@ -7,13 +7,9 @@ describe('Date range picker', () => {
         cy.visit(
           `/iframe.html?globals=theme:${theme}&id=daterangepickercomponent-daterangepicker--date-range-picker`,
         );
-        cy.get('app-date-range-picker')
-          .should('exist')
-          .should('be.visible')
-          .get('#ready')
-          .should('exist')
-          .end();
+        cy.skyReady('app-date-range-picker').end();
       });
+
       it('should render the component', () => {
         cy.get('#form-group-rangeInvalid input').first().click();
         cy.get('#form-group-rangeInvalid input').first().clear();
@@ -64,5 +60,5 @@ describe('Date range picker', () => {
         );
       });
     });
-  }, true);
+  });
 });

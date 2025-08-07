@@ -21,7 +21,6 @@ import { ModalTiledDemoComponent } from './modal-tiled-demo.component';
 import { ModalWithTabsComponent } from './modal-with-tabs.component';
 
 @Component({
-  standalone: true,
   selector: 'app-modal-visual',
   templateUrl: './modal-visual.component.html',
   styleUrls: ['./modal-visual.component.scss'],

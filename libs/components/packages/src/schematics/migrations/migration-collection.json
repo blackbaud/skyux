@@ -5,65 +5,60 @@
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
     },
-    "workspace-check": {
-      "version": "0.0.0-PLACEHOLDER",
-      "factory": "./update-11/workspace-check/workspace-check.schematic",
-      "description": "Log warnings if the workspace is not configured correctly."
-    },
     "ag-grid": {
-      "version": "11.0.0",
-      "factory": "./update-11/ag-grid/ag-grid.schematic",
-      "description": "Apply code changes for AG Grid 32."
+      "version": "12.0.0",
+      "factory": "./update-12/ag-grid/ag-grid.schematic",
+      "description": "Changes to support AG Grid 33."
     },
     "axe-core": {
-      "version": "11.0.0",
-      "factory": "./update-11/axe-core/axe-core.schematic",
+      "version": "12.0.0",
+      "factory": "./update-12/axe-core/axe-core.schematic",
       "description": "Update axe-core if @skyux-sdk/testing installed."
     },
-    "forms": {
-      "version": "11.0.0",
-      "factory": "./update-11/forms/forms.schematic",
-      "description": "Apply code changes for @skyux/forms."
-    },
     "help-inline-import-path": {
-      "version": "11.0.0",
-      "factory": "./update-11/help-inline-import-path/help-inline-import-path.schematic",
+      "version": "12.0.0",
+      "factory": "./update-12/help-inline-import-path/help-inline-import-path.schematic",
       "description": "Update help inline import paths to help inline library."
     },
     "i18n-resources-module": {
-      "version": "11.0.0",
-      "factory": "./update-11/i18n-resources-module/i18n-resources-module.schematic",
+      "version": "12.0.0",
+      "factory": "./update-12/i18n-resources-module/i18n-resources-module.schematic",
       "description": "Regenerate i18n resources modules for libraries."
     },
+    "icon-name": {
+      "version": "12.0.0",
+      "factory": "./update-12/icon-name/icon-name.schematic",
+      "description": "Update icon `icon` properties to `iconName`."
+    },
     "icons-migration": {
-      "version": "11.0.0",
-      "factory": "./update-11/icons-migration/icons-migration.schematic",
+      "version": "12.0.0",
+      "factory": "./update-12/icons-migration/icons-migration.schematic",
       "description": "Update icons import paths to icons library and add new peer."
     },
-    "ng-wait-for-async-test": {
-      "version": "11.0.0",
-      "factory": "./update-11/ng-wait-for-async-test/ng-wait-for-async-test.schematic",
-      "description": "Replace 'async()' with 'waitForAsync()' in tests."
+    "icons-size": {
+      "version": "12.0.0",
+      "factory": "./update-12/icons-size/icons-size.schematic",
+      "description": "Update icons to include size input."
+    },
+    "remove-angular-eslint-prefer-standalone-component": {
+      "version": "12.0.0",
+      "factory": "./update-12/remove-angular-eslint-prefer-standalone-component/remove-angular-eslint-prefer-standalone-component.schematic",
+      "description": "Remove inline eslint ignore comments for @angular-eslint/prefer-standalone-component."
     },
     "remove-nx-cache": {
-      "version": "11.0.0",
-      "factory": "./update-11/remove-nx-cache/remove-nx-cache.schematic",
+      "version": "12.0.0",
+      "factory": "./update-12/remove-nx-cache/remove-nx-cache.schematic",
       "description": "Remove `.nx/cache` from git and add `.gitignore` entry."
     },
     "remove-old-compat-stylesheets": {
-      "version": "11.0.0",
-      "factory": "./update-11/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",
+      "version": "12.0.0",
+      "factory": "./update-12/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",
       "description": "Remove backward compatible stylesheets for older versions of SKY UX."
     },
-    "remove-deprecation-eslint-plugin": {
-      "version": "11.2.0",
-      "factory": "./update-11/remove-deprecation-eslint-plugin/remove-deprecation-eslint-plugin.schematic",
-      "description": "Remove ESLint deprecation plugin which is not compatible with ESLint 9."
-    },
-    "vscode-eslint-setting": {
-      "version": "11.11.1",
-      "factory": "./update-11/vscode-eslint-setting/vscode-eslint-setting.schematic",
-      "description": "Update the VSCode workspace's settings so that the ESLint plugin works with ESLint 9 and a legacy config"
+    "workspace-check": {
+      "version": "12.0.0",
+      "factory": "./update-12/workspace-check/workspace-check.schematic",
+      "description": "Log warnings if the workspace is not configured correctly."
     }
   }
 }

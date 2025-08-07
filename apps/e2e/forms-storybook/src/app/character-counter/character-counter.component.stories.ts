@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<CharacterCounterComponent>;
 export const CharacterCounter = {
-  render: (args: CharacterCounterComponent) => ({
+  render: (args: CharacterCounterComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

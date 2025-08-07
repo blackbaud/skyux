@@ -10,10 +10,9 @@ describe('indicators-storybook', () => {
           ),
         );
         it('should render the component', () => {
-          cy.get('app-wait')
-            .should('exist')
-            .should('be.visible')
-            .screenshot(`waitcomponent-wait--wait-${theme}`);
+          cy.skyReady('app-wait').screenshot(
+            `waitcomponent-wait--wait-${theme}`,
+          );
           cy.get('app-wait').percySnapshot(
             `waitcomponent-wait--wait-${theme}`,
             {
@@ -30,10 +29,9 @@ describe('indicators-storybook', () => {
           ),
         );
         it('should render the component', () => {
-          cy.get('app-wait')
-            .should('exist')
-            .should('be.visible')
-            .screenshot(`waitcomponent-wait--wait-page-blocking-${theme}`);
+          cy.skyReady('app-wait').screenshot(
+            `waitcomponent-wait--wait-page-blocking-${theme}`,
+          );
           cy.get('app-wait').percySnapshot(
             `waitcomponent-wait--wait-page-blocking-${theme}`,
             {

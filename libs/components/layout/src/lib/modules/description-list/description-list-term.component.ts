@@ -11,6 +11,7 @@ import { SkyDescriptionListContentComponent } from './description-list-content.c
   selector: 'sky-description-list-term',
   templateUrl: './description-list-term.component.html',
   styleUrl: './description-list-term.component.scss',
+  standalone: false,
 })
 export class SkyDescriptionListTermComponent {
   @ViewChild('termTemplateRef', {

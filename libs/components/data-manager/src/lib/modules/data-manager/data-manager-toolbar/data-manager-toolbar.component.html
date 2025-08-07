@@ -4,7 +4,7 @@
       <ng-content select="sky-data-manager-toolbar-primary-item" />
 
       @if (activeView?.filterButtonEnabled) {
-        <sky-toolbar-item>
+        <sky-toolbar-item class="sky-data-manager-filter">
           <sky-filter-button
             [showButtonText]="activeView?.showFilterButtonText"
             (filterButtonClick)="filterButtonClicked()"
@@ -13,11 +13,11 @@
       }
 
       @if (activeView?.sortEnabled) {
-        <sky-toolbar-item>
+        <sky-toolbar-item class="sky-data-manager-sort">
           <sky-sort [showButtonText]="activeView?.showSortButtonText">
-            @for (item of dataManagerConfig?.sortOptions; track item) {
+            @for (item of dataManagerConfig?.sortOptions; track item.id) {
               <sky-sort-item
-                [active]="!!(dataState?.activeSortOption?.id === item.id)"
+                [active]="dataState?.activeSortOption?.id === item.id"
                 (itemSelect)="sortSelected(item)"
               >
                 {{ item.label }}
@@ -43,7 +43,7 @@
             "
             (click)="openColumnPicker()"
           >
-            <sky-icon icon="columns" />
+            <sky-icon iconName="layout-column-three" />
             <span class="sky-column-selector-action-btn-text">
               {{ 'skyux_data_manager_columns_button_title' | skyLibResources }}
             </span>
@@ -54,7 +54,7 @@
       <ng-content select="sky-data-manager-toolbar-left-item" />
 
       @if (activeView?.searchEnabled) {
-        <sky-toolbar-item>
+        <sky-toolbar-item class="sky-data-manager-search">
           <sky-search
             [expandMode]="activeView?.searchExpandMode"
             [placeholderText]="activeView?.searchPlaceholderText"
@@ -73,13 +73,23 @@
             [(ngModel)]="activeView.id"
           >
             @for (view of views; track view.id) {
-              <sky-radio
-                [attr.aria-label]="view.name"
-                [icon]="view.icon"
-                [value]="view.id"
-                [label]="view.name"
-                (change)="onViewChange(view.id)"
-              />
+              @if (view.iconName) {
+                <sky-radio
+                  [attr.aria-label]="view.name"
+                  [iconName]="view.iconName"
+                  [value]="view.id"
+                  [label]="view.name"
+                  (change)="onViewChange(view.id)"
+                />
+              } @else {
+                <sky-radio
+                  [attr.aria-label]="view.name"
+                  [icon]="view.icon"
+                  [value]="view.id"
+                  [label]="view.name"
+                  (change)="onViewChange(view.id)"
+                />
+              }
             }
           </sky-radio-group>
         }
@@ -121,7 +131,7 @@
             {{ 'skyux_data_manager_clear_all_button_title' | skyLibResources }}
           </button>
         </sky-toolbar-item>
-        <sky-toolbar-view-actions>
+        <sky-toolbar-view-actions class="sky-data-manager-only-show-selected">
           <sky-checkbox
             [checked]="onlyShowSelected"
             [label]="

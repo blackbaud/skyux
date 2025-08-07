@@ -27,10 +27,7 @@
       "default": "./public-api.json"
     }
   },
-  "dependencies": {
-    "tslib": "^2.6.3"
-  },
-  "optionalDependencies": {
-    "typedoc": "~0.26.11"
-  }
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "sideEffects": false
 }

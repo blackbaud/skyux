@@ -14,8 +14,11 @@
     'sky-alert-closeable': closeable
   }"
 >
-  <div aria-hidden="true" class="sky-alert-icon-theme-modern">
-    <sky-icon-stack [baseIcon]="alertBaseIcon" [topIcon]="alertTopIcon" />
+  <div *skyThemeIf="'modern'" aria-hidden="true" class="sky-alert-icon">
+    <sky-icon iconSize="xl" variant="solid" [iconName]="iconName" />
+  </div>
+  <div *skyThemeIf="'default'" aria-hidden="true" class="sky-alert-icon">
+    <sky-icon variant="solid" [iconName]="iconName" />
   </div>
   @if (descriptionComputed) {
     <span class="sky-screen-reader-only">
@@ -33,7 +36,7 @@
     (click)="close()"
   >
     <span aria-hidden="true">
-      <sky-icon icon="close" />
+      <sky-icon iconName="close" />
     </span>
   </button>
 </div>

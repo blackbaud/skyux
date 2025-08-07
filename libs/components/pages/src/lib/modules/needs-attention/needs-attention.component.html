@@ -5,11 +5,16 @@
     </h2>
   </sky-box-header>
   <sky-box-content>
-    @if (!items?.length) {
+    @let itemsToDisplay = displayItems | async;
+    @if (!itemsToDisplay?.length) {
       {{ 'sky_action_hub_needs_attention_empty' | skyLibResources }}
     } @else {
       <ul class="sky-needs-attention-list">
-        @for (item of items; track item; let isLast = $last) {
+        @for (
+          item of itemsToDisplay;
+          track displayItemsTrackByFn(item);
+          let isLast = $last
+        ) {
           <li
             class="sky-needs-attention-item-wrapper sky-font-emphasized"
             [ngClass]="{
@@ -34,36 +39,27 @@
                 [state]="permalinkRoute.extras?.state"
                 >{{ item.title }} {{ item.message }}</a
               >
-            } @else if (item.permalink) {
-              @if (item | linkAs: 'skyHref') {
-                <a
-                  class="sky-needs-attention-item"
-                  [skyHref]="item.permalink.url"
-                  >{{ item.title }} {{ item.message }}</a
-                >
-              } @else if (item | linkAs: 'href') {
-                <a class="sky-needs-attention-item" [href]="item.permalink.url"
-                  >{{ item.title }} {{ item.message }}</a
-                >
-              }
+            } @else if (item | linkAs: 'skyHref') {
+              <a class="sky-needs-attention-item" [skyHref]="item.permalink.url"
+                >{{ item.title }} {{ item.message }}</a
+              >
+            } @else if (item | linkAs: 'href') {
+              <a class="sky-needs-attention-item" [href]="item.permalink.url"
+                >{{ item.title }} {{ item.message }}</a
+              >
             } @else if (item | linkAs: 'button') {
               <button
                 class="sky-needs-attention-item sky-btn sky-btn-link-inline"
                 type="button"
-                (click)="item?.click({ item })"
+                (click)="item.click({ item })"
               >
                 {{ item.title }} {{ item.message }}
               </button>
             }
             <sky-icon
-              *skyThemeIf="'default'"
               class="sky-needs-attention-item-icon"
-              icon="caret-right"
-            />
-            <sky-icon
-              *skyThemeIf="'modern'"
-              class="sky-needs-attention-item-icon"
-              icon="chevron-right"
+              iconName="chevron-right"
+              iconSize="s"
             />
           </li>
         }

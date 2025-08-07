@@ -6,6 +6,7 @@ import { OverlayContentsTestComponent } from './overlay-contents.component';
 @Component({
   selector: 'test-overlay-harness',
   templateUrl: './overlay-harness-test.component.html',
+  standalone: false,
 })
 export class OverlayHarnessTestComponent {
   #overlayService: SkyOverlayService;

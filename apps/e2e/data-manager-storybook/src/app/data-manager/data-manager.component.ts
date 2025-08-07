@@ -1,34 +1,21 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
-
-import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-data-manager',
   templateUrl: './data-manager.component.html',
   styleUrls: ['./data-manager.component.scss'],
   providers: [SkyDataManagerService],
+  standalone: false,
 })
-export class DataManagerComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DataManagerComponent implements OnInit {
   @Input()
   public activeView = 'view-1';
 
-  public readonly ready = new BehaviorSubject(false);
-
   #dataManagerService = inject(SkyDataManagerService);
-  #fontLoadingService = inject(FontLoadingService);
-  #subscriptions = new Subscription();
 
   public ngOnInit(): void {
     this.#dataManagerService.initDataManager({
@@ -91,17 +78,5 @@ export class DataManagerComponent implements OnInit, AfterViewInit, OnDestroy {
       filterButtonEnabled: true,
       showFilterButtonText: false,
     });
-  }
-
-  public ngAfterViewInit(): void {
-    this.#subscriptions.add(
-      this.#fontLoadingService.ready().subscribe(() => {
-        this.ready.next(true);
-      }),
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
   }
 }

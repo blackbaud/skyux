@@ -10,10 +10,16 @@ export class SkyModalComponentAdapterService {
     const fullPageModalEl = modalEl.nativeElement.querySelector(
       '.sky-modal-full-page',
     );
+    const modalStyle = getComputedStyle(boundedHeightEl);
+
+    const marginTopBottom =
+      parseInt(modalStyle.marginTop, 10) +
+      parseInt(modalStyle.marginBottom, 10);
+
     /*
       Set modal height equal to max height of window (accounting for padding above and below modal)
     */
-    const newHeight = window.innerHeight - 40;
+    const newHeight = window.innerHeight - marginTopBottom;
 
     boundedHeightEl.style.maxHeight = newHeight.toString() + 'px';
     boundedHeightEl.style.setProperty(

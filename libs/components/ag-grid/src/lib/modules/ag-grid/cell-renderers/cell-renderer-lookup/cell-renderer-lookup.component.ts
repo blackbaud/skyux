@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
+import { SkyI18nModule } from '@skyux/i18n';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
@@ -16,6 +17,7 @@ import { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-pa
   templateUrl: './cell-renderer-lookup.component.html',
   styleUrls: ['./cell-renderer-lookup.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyI18nModule],
 })
 export class SkyAgGridCellRendererLookupComponent
   implements ICellRendererAngularComp

@@ -14,12 +14,13 @@
   --sky-override-colorpicker-hint-text-space: var(--sky-margin-stacked-xs);
 }
 
-@include compatMixins.sky-default-overrides('.sky-input-group') {
+@include compatMixins.sky-default-overrides('.sky-colorpicker-input-group') {
   /* spell-checker:disable-next-line */
   --sky-override-colorpicker-button-background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%3Cdefs%3E%3Cpath%20id%3D%22a%22%20d%3D%22M0%200h30v30H0V0zm14.5%204H4v22h14v-8h8V4H14.5z%22%2F%3E%3C%2Fdefs%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cuse%20fill%3D%22%23FFF%22%20xlink%3Ahref%3D%22%23a%22%2F%3E%3Cpath%20stroke%3D%22%23CCC%22%20d%3D%22M.5.5v29h29V.5H.5zm18%2018v8h-15v-23h23v15h-8z%22%2F%3E%3Cpath%20fill%3D%22%23292A2B%22%20d%3D%22M23.5%2025L21%2022h5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E');
   --sky-override-colorpicker-button-border-radius: 0;
   --sky-override-colorpicker-button-border-radius: 0;
   --sky-override-colorpicker-button-box-shadow: none;
+  --sky-override-colorpicker-button-box-shadow-focus: none;
   --sky-override-colorpicker-button-error-border: 1px solid
     var(--sky-highlight-color-danger);
   --sky-override-colorpicker-button-error-box-shadow: #{0 0 8px
@@ -30,7 +31,6 @@
   --sky-override-colorpicker-disabled-cursor: default;
   --sky-override-colorpicker-disabled-opacity: 0.65;
   --sky-override-colorpicker-icon-font-size: 12px;
-  --sky-override-colorpicker-icon-offset: 2px;
 }
 
 @include compatMixins.sky-default-overrides('.sky-colorpicker-container') {
@@ -61,8 +61,8 @@
   --sky-override-colorpicker-swatch-border: #{1px solid
     $sky-border-color-neutral-light};
   --sky-override-colorpicker-swatch-hover-border: #{$sky-color-white solid 2px};
-  --sky-override-colorpicker-swatch-hover-box-shadow: #{0 0 0 1px
-      $sky-border-color-neutral-medium,
+  --sky-override-colorpicker-swatch-hover-box-shadow:
+    #{0 0 0 1px $sky-border-color-neutral-medium,
     0 0 0 2px $sky-border-color-neutral-light};
   --sky-override-colorpicker-swatch-hover-margin: 4px;
   --sky-override-colorpicker-swatch-margin: 5px;
@@ -76,21 +76,35 @@
   '.sky-color-picker-label-wrapper',
   false
 ) {
+  --sky-override-colorpicker-label-color: var(--sky-text-color-deemphasized);
   --sky-override-colorpicker-label-font-size: 16px;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-input-group', false) {
+@include compatMixins.sky-modern-overrides(
+  '.sky-colorpicker-input-group',
+  false
+) {
   --sky-override-colorpicker-button-border-color: var(--modern-color-gray-15);
+  --sky-override-colorpicker-button-box-shadow-focus:
+    inset 0 0 0 var(--sky-border-width-input-focus)
+      var(--sky-color-border-input-focus),
+    inset 0 0 0 var(--sky-colorpicker-border-padding-size)
+      var(--sky-color-background-container-base),
+    inset 0 0 0 var(--sky-color-picker-inner-border-size)
+      var(
+        --sky-override-colorpicker-button-border-color,
+        var(--sky-color-border-input-base)
+      ),
+    var(--sky-elevation-focus);
   --sky-override-colorpicker-button-size: 40px;
-  --sky-override-colorpicker-icon-font-size: 16px;
   --sky-override-colorpicker-reset-button-size: 40px;
-  --sky-override-colorpicker-reset-font-size: 1.33em;
 }
 
 @include compatMixins.sky-modern-overrides(
   '.sky-colorpicker-container',
   false
 ) {
+  --sky-override-colorpicker-box-padding: 15px 30px;
   --sky-override-colorpicker-footer-padding: 10px 10px 15px;
   --sky-override-colorpicker-rgba-padding: 0 10px 10px;
   --sky-override-colorpicker-selected-color-size: 46px;
@@ -132,14 +146,20 @@ sky-colorpicker.sky-form-field-stacked {
     --sky-override-colorpicker-button-size,
     calc(
       calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
-        calc(var(--sky-space-inset-balanced-s) * 2)
+        calc(
+          var(--sky-comp-button-icon-space-inset-top) +
+            var(--sky-comp-button-icon-space-inset-bottom)
+        )
     )
   );
   width: var(
     --sky-override-colorpicker-button-size,
     calc(
       calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
-        calc(var(--sky-space-inset-balanced-s) * 2)
+        calc(
+          var(--sky-comp-button-icon-space-inset-left) +
+            var(--sky-comp-button-icon-space-inset-right)
+        )
     )
   );
   border: none;
@@ -164,6 +184,7 @@ sky-colorpicker.sky-form-field-stacked {
   );
   cursor: pointer;
   position: relative;
+  z-index: 1;
 
   &:hover {
     box-shadow: var(
@@ -182,7 +203,7 @@ sky-colorpicker.sky-form-field-stacked {
 
   &:focus-visible:not(:active) {
     box-shadow: var(
-      --sky-override-colorpicker-button-box-shadow,
+      --sky-override-colorpicker-button-box-shadow-focus,
       inset 0 0 0 var(--sky-border-width-input-focus)
         var(--sky-color-border-input-focus),
       inset 0 0 0 var(--sky-colorpicker-border-padding-size)
@@ -191,8 +212,7 @@ sky-colorpicker.sky-form-field-stacked {
         var(
           --sky-override-colorpicker-button-border-color,
           var(--sky-color-border-input-base)
-        ),
-      var(--sky-elevation-focus)
+        )
     );
     outline: var(--sky-override-colorpicker-button-focus-outline);
   }
@@ -207,16 +227,6 @@ sky-colorpicker.sky-form-field-stacked {
         var(--sky-color-background-input-disabled),
       inset 0 0 0 var(--sky-color-picker-inner-border-size)
         var(--sky-color-border-action-secondary-disabled)
-    );
-  }
-
-  .sky-colorpicker-button-icon {
-    position: relative;
-    // TODO: remove positioning when updating to SVG icons
-    bottom: var(--sky-override-colorpicker-icon-offset, 1px);
-    font-size: var(
-      --sky-override-colorpicker-icon-font-size,
-      var(--sky-size-icon-m)
     );
   }
 }
@@ -289,18 +299,17 @@ sky-colorpicker.sky-form-field-stacked {
   }
 }
 
+// Creates a stacking context to allow for proper stacking of the checkerd background when a transparent color is used.
+.sky-colorpicker-input-group {
+  position: relative;
+  z-index: 0;
+}
+
 // only applies to modern theme
-.sky-input-group .sky-colorpicker-reset-button-modern {
+.sky-colorpicker-input-group .sky-colorpicker-reset-button-modern {
   width: var(--sky-override-colorpicker-reset-button-size);
   height: var(--sky-override-colorpicker-reset-button-size);
   margin-left: var(--sky-space-gap-action_group-m);
-
-  i {
-    font-size: var(
-      --sky-override-colorpicker-reset-font-size,
-      var(--sky-size-icon-s)
-    );
-  }
 
   &.sky-colorpicker-reset-button-disabled {
     background-color: var(--sky-color-background-action-tertiary-disabled);
@@ -308,7 +317,7 @@ sky-colorpicker.sky-form-field-stacked {
 }
 
 // only applies to modern theme. Default theme chevron is part of the background image
-.sky-input-group .sky-colorpicker-button-modern-chevron {
+.sky-colorpicker-input-group .sky-colorpicker-button-modern-chevron {
   position: absolute;
   background-color: var(--sky-color-background-container-base);
   border-top-left-radius: calc(
@@ -330,12 +339,7 @@ sky-colorpicker.sky-form-field-stacked {
   bottom: var(--sky-colorpicker-border-padding-size);
   color: var(--sky-color-icon-default);
   right: var(--sky-colorpicker-border-padding-size);
-  font-size: var(--sky-size-icon-xs);
 
-  i {
-    height: var(--sky-size-icon-xs);
-    width: var(--sky-size-icon-xs);
-  }
   &.sky-colorpicker-button-modern-chevron-disabled {
     color: var(--sky-color-text-deemphasized);
   }
@@ -345,10 +349,10 @@ sky-colorpicker.sky-form-field-stacked {
   border-top: var(--sky-override-colorpicker-footer-border-top, none);
   padding: var(
     --sky-override-colorpicker-footer-padding,
-    var(--sky-space-inset-pillarbox-2_3-top-m)
-      var(--sky-space-inset-pillarbox-2_3-right-m)
-      var(--sky-space-inset-pillarbox-2_3-bottom-m)
-      var(--sky-space-inset-pillarbox-2_3-left-m)
+    var(--sky-comp-colorpicker-content-space-inset-top)
+      var(--sky-comp-colorpicker-content-space-inset-right)
+      var(--sky-comp-colorpicker-content-space-inset-bottom)
+      var(--sky-comp-colorpicker-content-space-inset-left)
   );
 
   .sky-btn-colorpicker-apply {
@@ -372,7 +376,8 @@ sky-colorpicker.sky-form-field-stacked {
     --sky-override-colorpicker-width,
     calc(
       var(--sky-size-width-viewport-smallest) - calc(
-          var(--sky-space-inset-balanced-m) * 2
+          var(--sky-comp-button-icon-space-inset-left) +
+            var(--sky-comp-button-icon-space-inset-right)
         )
     )
   );
@@ -414,10 +419,10 @@ sky-colorpicker.sky-form-field-stacked {
   .sky-colorpicker-preset-color-area {
     padding: var(
       --sky-override-colorpicker-swatch-area-padding,
-      var(--sky-space-inset-pillarbox-2_3-top-m)
-        var(--sky-space-inset-pillarbox-2_3-right-m)
-        var(--sky-space-inset-pillarbox-2_3-bottom-m)
-        var(--sky-space-inset-pillarbox-2_3-left-m)
+      var(--sky-comp-colorpicker-content-space-inset-top)
+        var(--sky-comp-colorpicker-content-space-inset-right)
+        var(--sky-comp-colorpicker-content-space-inset-bottom)
+        var(--sky-comp-colorpicker-content-space-inset-left)
     );
     display: flex;
     flex-direction: row;
@@ -430,11 +435,12 @@ sky-colorpicker.sky-form-field-stacked {
           calc(
               calc(
                   var(--sky-size-width-viewport-smallest) - calc(
-                      var(--sky-space-inset-balanced-m) * 2
+                      var(--sky-comp-button-icon-space-inset-left) +
+                        var(--sky-comp-button-icon-space-inset-right)
                     )
                 ) - calc(
-                  var(--sky-space-inset-pillarbox-2_3-left-m) +
-                    var(--sky-space-inset-pillarbox-2_3-right-m)
+                  var(--sky-comp-colorpicker-content-space-inset-left) +
+                    var(--sky-comp-colorpicker-content-space-inset-right)
                 ) - calc(var(--sky-space-gap-form-m) * 4)
             ) /
             5
@@ -446,11 +452,12 @@ sky-colorpicker.sky-form-field-stacked {
           calc(
               calc(
                   var(--sky-size-width-viewport-smallest) - calc(
-                      var(--sky-space-inset-balanced-m) * 2
+                      var(--sky-comp-button-icon-space-inset-left) +
+                        var(--sky-comp-button-icon-space-inset-right)
                     )
                 ) - calc(
-                  var(--sky-space-inset-pillarbox-2_3-left-m) +
-                    var(--sky-space-inset-pillarbox-2_3-right-m)
+                  var(--sky-comp-colorpicker-content-space-inset-left) +
+                    var(--sky-comp-colorpicker-content-space-inset-right)
                 ) - calc(var(--sky-space-gap-form-m) * 4)
             ) /
             5
@@ -492,11 +499,12 @@ sky-colorpicker.sky-form-field-stacked {
           calc(
               calc(
                   var(--sky-size-width-viewport-smallest) - calc(
-                      var(--sky-space-inset-balanced-m) * 2
+                      var(--sky-comp-button-icon-space-inset-left) +
+                        var(--sky-comp-button-icon-space-inset-right)
                     )
                 ) - calc(
-                  var(--sky-space-inset-pillarbox-2_3-left-m) +
-                    var(--sky-space-inset-pillarbox-2_3-right-m)
+                  var(--sky-comp-colorpicker-content-space-inset-left) +
+                    var(--sky-comp-colorpicker-content-space-inset-right)
                 ) - calc(var(--sky-space-gap-form-m) * 4)
             ) /
             5
@@ -508,11 +516,12 @@ sky-colorpicker.sky-form-field-stacked {
           calc(
               calc(
                   var(--sky-size-width-viewport-smallest) - calc(
-                      var(--sky-space-inset-balanced-m) * 2
+                      var(--sky-comp-button-icon-space-inset-left) +
+                        var(--sky-comp-button-icon-space-inset-right)
                     )
                 ) - calc(
-                  var(--sky-space-inset-pillarbox-2_3-left-m) +
-                    var(--sky-space-inset-pillarbox-2_3-right-m)
+                  var(--sky-comp-colorpicker-content-space-inset-left) +
+                    var(--sky-comp-colorpicker-content-space-inset-right)
                 ) - calc(var(--sky-space-gap-form-m) * 4)
             ) /
             5
@@ -555,10 +564,10 @@ sky-colorpicker.sky-form-field-stacked {
     display: flex;
     padding: var(
       --sky-override-colorpicker-box-padding,
-      var(--sky-space-inset-pillarbox-1_2-top-l)
-        var(--sky-space-inset-pillarbox-1_2-right-l)
-        var(--sky-space-inset-pillarbox-1_2-bottom-l)
-        var(--sky-space-inset-pillarbox-1_2-left-l)
+      var(--sky-comp-colorpicker-content-space-inset-top)
+        var(--sky-comp-colorpicker-content-space-inset-right)
+        var(--sky-comp-colorpicker-content-space-inset-bottom)
+        var(--sky-comp-colorpicker-content-space-inset-left)
     );
     .left {
       position: relative;
@@ -631,10 +640,10 @@ sky-colorpicker.sky-form-field-stacked {
     font-size: var(--sky-override-colorpicker-rgba-font-size);
     padding: var(
       --sky-override-colorpicker-rgba-padding,
-      var(--sky-space-inset-pillarbox-2_3-top-m)
-        var(--sky-space-inset-pillarbox-2_3-right-m)
-        var(--sky-space-inset-pillarbox-2_3-bottom-m)
-        var(--sky-space-inset-pillarbox-2_3-left-m)
+      var(--sky-comp-colorpicker-content-space-inset-top)
+        var(--sky-comp-colorpicker-content-space-inset-right)
+        var(--sky-comp-colorpicker-content-space-inset-bottom)
+        var(--sky-comp-colorpicker-content-space-inset-left)
     );
     display: flex;
     input {
@@ -671,19 +680,24 @@ sky-colorpicker.sky-form-field-stacked {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: -1;
   height: var(
     --sky-override-colorpicker-button-size,
     calc(
       calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
-        calc(var(--sky-space-inset-balanced-s) * 2)
+        calc(
+          var(--sky-comp-button-icon-space-inset-left) +
+            var(--sky-comp-button-icon-space-inset-right)
+        )
     )
   );
   width: var(
     --sky-override-colorpicker-button-size,
     calc(
       calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
-        calc(var(--sky-space-inset-balanced-s) * 2)
+        calc(
+          var(--sky-comp-button-icon-space-inset-left) +
+            var(--sky-comp-button-icon-space-inset-right)
+        )
     )
   );
   background:
@@ -722,7 +736,8 @@ sky-colorpicker.sky-form-field-stacked {
         rgba(0, 0, 0, 0.0980392) 0
       ),
     white;
-  background: linear-gradient(
+  background:
+    linear-gradient(
       45deg,
       rgba(0, 0, 0, 0.0980392) 25%,
       transparent 25%,
@@ -774,7 +789,7 @@ sky-colorpicker.sky-form-field-stacked {
   .sky-control-label {
     color: var(
       --sky-override-colorpicker-label-color,
-      var(--sky-color-text-deemphasized)
+      var(--sky-color-text-default)
     );
     margin-bottom: var(
       --sky-override-colorpicker-label-space,
@@ -787,7 +802,7 @@ sky-colorpicker.sky-form-field-stacked {
     font-style: var(--sky-font-style-input-label);
     font-weight: var(
       --sky-override-colorpicker-label-font-weight,
-      var(--sky-font-weight-input-label)
+      var(--sky-font-style-input-label)
     );
     letter-spacing: var(--sky-font-letter_spacing-input-label);
     line-height: var(

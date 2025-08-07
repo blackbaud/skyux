@@ -10,6 +10,7 @@ let nextTabId = 4;
   selector: 'app-vertical-tabset',
   templateUrl: './vertical-tabset.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VerticalTabsetComponent {
   public active = true;
@@ -67,11 +68,11 @@ export class VerticalTabsetComponent {
     this.tabs.splice(index, 1);
   }
 
-  public openVerticalTabsetModal() {
+  public openVerticalTabsetModal(): void {
     this.#modalService.open(VerticalTabsetModalComponent, { size: 'large' });
   }
 
-  public openVerticalTabsetModalWithColumns() {
+  public openVerticalTabsetModalWithColumns(): void {
     this.#modalService.open(VerticalTabsetModalWithColumnsComponent, {
       size: 'large',
     });

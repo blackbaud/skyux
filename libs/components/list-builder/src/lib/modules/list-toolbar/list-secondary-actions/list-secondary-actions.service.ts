@@ -14,14 +14,14 @@ export class SkyListSecondaryActionsService implements OnDestroy {
   public actionsStream = new BehaviorSubject<SkyListSecondaryAction[]>([]);
   private actions: SkyListSecondaryAction[] = [];
 
-  public addSecondaryAction(action: SkyListSecondaryAction) {
+  public addSecondaryAction(action: SkyListSecondaryAction): void {
     this.secondaryActionsCount++;
     this.secondaryActionsSubject.next(this.secondaryActionsCount);
     this.actions.push(action);
     this.actionsStream.next(this.actions);
   }
 
-  public removeSecondaryAction(action: any) {
+  public removeSecondaryAction(action: any): void {
     this.secondaryActionsCount--;
     this.secondaryActionsSubject.next(this.secondaryActionsCount);
     this.actions = this.actions.filter(
@@ -30,7 +30,7 @@ export class SkyListSecondaryActionsService implements OnDestroy {
     this.actionsStream.next(this.actions);
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.secondaryActionsSubject.complete();
     this.actionsStream.complete();
   }

@@ -9,7 +9,6 @@ import { SkyLinkListItemHarness } from './link-list-item-harness';
 
 //#region Test component
 @Component({
-  standalone: true,
   selector: 'sky-link-list-test',
   template: ` <sky-link-list
     data-sky-id="test-list"

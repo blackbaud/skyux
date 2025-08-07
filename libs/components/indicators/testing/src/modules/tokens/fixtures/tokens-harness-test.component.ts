@@ -4,6 +4,7 @@ import { SkyToken, SkyTokenSelectedEventArgs } from '@skyux/indicators';
 @Component({
   selector: 'test-tokens-harness',
   templateUrl: './tokens-harness-test.component.html',
+  standalone: false,
 })
 export class TokensHarnessTestComponent {
   public colors: SkyToken[] = [

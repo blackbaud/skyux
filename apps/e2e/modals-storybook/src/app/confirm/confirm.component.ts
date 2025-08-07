@@ -5,6 +5,7 @@ import { SkyConfirmService, SkyConfirmType } from '@skyux/modals';
   selector: 'app-confirm',
   templateUrl: './confirm.component.html',
   styleUrls: ['./confirm.component.scss'],
+  standalone: false,
 })
 export class ConfirmComponent {
   #confirmService: SkyConfirmService;

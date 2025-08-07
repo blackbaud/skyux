@@ -1,16 +1,17 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-split-view-workspace') {
+  --sky-override-split-view-workspace-background-color: #{#ffffff};
+}
 
 .sky-split-view-workspace {
-  background: #ffffff;
+  background: var(
+    --sky-override-split-view-workspace-background-color,
+    var(--sky-color-background-container-base)
+  );
   height: 100%;
   display: flex;
   flex-direction: column;
-}
-
-@include mixins.sky-theme-modern-dark {
-  .sky-split-view-workspace {
-    background-color: $sky-theme-modern-mode-dark-background-color-page-default;
-    border-color: $sky-theme-modern-mode-dark-elevation-0-bordered-border;
-  }
 }

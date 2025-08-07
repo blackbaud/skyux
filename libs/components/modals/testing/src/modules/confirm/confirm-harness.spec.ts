@@ -28,6 +28,7 @@ const DEFAULT_CONFIRM_CONFIG: SkyConfirmConfig = {
       Open confirm
     </button>
   `,
+  standalone: false,
 })
 class TestComponent {
   constructor(confirmService: SkyConfirmService) {

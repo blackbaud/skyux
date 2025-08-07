@@ -34,6 +34,7 @@ import { SkyDropdownHarness } from './dropdown-harness';
       <sky-dropdown-menu [ariaRole]="'otherDropdownMenu'"></sky-dropdown-menu>
     </sky-dropdown>
   `,
+  standalone: false,
 })
 class TestDropdownComponent {
   public buttonStyle: string | undefined;

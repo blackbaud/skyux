@@ -4,7 +4,7 @@
     'sky-tile-collapsed': isCollapsed
   }"
   [skyThemeClass]="{
-    'sky-box sky-elevation-1-bordered sky-padding-even-xl': 'modern'
+    'sky-box sky-elevation-1-bordered': 'modern'
   }"
 >
   <header class="sky-tile-header">
@@ -12,12 +12,14 @@
       <div #titleContainer class="sky-tile-header-title">
         <ng-content select="sky-tile-title" />
         @if (tileName && (helpKey || helpPopoverContent)) {
-          <sky-help-inline
-            [helpKey]="helpKey"
-            [labelText]="tileName"
-            [popoverContent]="helpPopoverContent"
-            [popoverTitle]="helpPopoverTitle"
-          />
+          <span class="sky-control-help-container">
+            <sky-help-inline
+              [helpKey]="helpKey"
+              [labelText]="tileName"
+              [popoverContent]="helpPopoverContent"
+              [popoverTitle]="helpPopoverTitle"
+            />
+          </span>
         }
       </div>
       <div class="sky-tile-summary sky-font-display-3">
@@ -29,23 +31,21 @@
         <ng-container *skyThemeIf="'default'">
           @if (hasHelp) {
             <button
-              class="sky-btn sky-tile-tools-control sky-tile-help"
+              class="sky-btn sky-btn-icon-borderless sky-tile-tools-control sky-tile-help"
               type="button"
               [attr.aria-label]="
                 tileName
                   ? ('skyux_tile_help' | skyLibResources: tileName)
                   : ('skyux_tile_help_default' | skyLibResources)
               "
-              [skyThemeClass]="{
-                'sky-btn-icon-borderless': 'modern'
-              }"
               (click)="helpButtonClicked()"
             >
-              <sky-icon icon="question-circle" />
+              <sky-icon iconName="question-circle" />
             </button>
           }
         </ng-container>
         <sky-chevron
+          class="sky-tile-tools-control"
           [ariaControls]="tileContent.id"
           [ariaLabel]="
             tileName
@@ -53,34 +53,26 @@
               : ('skyux_tile_expand_default' | skyLibResources)
           "
           [direction]="isCollapsed ? 'down' : 'up'"
-          [skyThemeClass]="{
-            'sky-tile-tools-control': 'default',
-            'sky-margin-inline-default': 'modern'
-          }"
           (directionChange)="chevronDirectionChange($event)"
         />
         @if (hasSettings) {
           <button
-            class="sky-btn sky-tile-settings"
+            class="sky-btn sky-tile-settings sky-btn-icon-borderless sky-tile-tools-control"
             type="button"
             [attr.aria-label]="
               tileName
                 ? ('skyux_tile_settings' | skyLibResources: tileName)
                 : ('skyux_tile_settings_default' | skyLibResources)
             "
-            [skyThemeClass]="{
-              'sky-tile-tools-control': 'default',
-              'sky-btn-icon-borderless sky-margin-inline-default': 'modern'
-            }"
             (click)="settingsButtonClicked()"
           >
-            <sky-icon icon="cog" />
+            <sky-icon iconName="settings" />
           </button>
         }
         @if (isInDashboardColumn) {
           <button
             #grabHandle
-            class="sky-btn sky-tile-grab-handle"
+            class="sky-btn sky-btn-icon-borderless sky-tile-tools-control sky-tile-grab-handle"
             type="button"
             [attr.aria-label]="
               tileName
@@ -88,14 +80,10 @@
                 : ('skyux_tile_move_default' | skyLibResources)
             "
             [attr.aria-describedby]="ariaDescribedBy"
-            [skyThemeClass]="{
-              'sky-tile-tools-control': 'default',
-              'sky-btn-icon-borderless': 'modern'
-            }"
             (click)="$event.stopPropagation()"
             (keydown)="moveTile($event)"
           >
-            <sky-icon icon="tile-drag" />
+            <sky-icon iconName="re-order-dots-vertical" iconSize="s" />
           </button>
         }
       </div>

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-description-list',
   templateUrl: './description-list.component.html',
+  standalone: false,
 })
 export class DescriptionListComponent {
   public items: { term: string; description: string; showHelp?: boolean }[] = [

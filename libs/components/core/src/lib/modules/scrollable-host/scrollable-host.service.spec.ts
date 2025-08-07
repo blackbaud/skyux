@@ -2,7 +2,7 @@ import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import { Subject } from 'rxjs';
+import { Subject, firstValueFrom, of } from 'rxjs';
 import { delay, take, takeUntil } from 'rxjs/operators';
 
 import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
@@ -560,11 +560,7 @@ describe('Scrollable host service', () => {
 
   it('should notify a subscriber when the scrollable parent clip path changes', (done) => {
     const windowRef = TestBed.inject(SkyAppWindowRef);
-    const scrollableHostSvc = new SkyScrollableHostService(
-      TestBed.inject(SkyMutationObserverService),
-      windowRef,
-      TestBed.inject(SkyResizeObserverService),
-    );
+    const scrollableHostSvc = TestBed.inject(SkyScrollableHostService);
 
     cmp.isParentPositioned = true;
     cmp.positionedParentWidth = '100px';
@@ -582,6 +578,53 @@ describe('Scrollable host service', () => {
       });
   });
 
+  it('should support additional containers for determining clip path', (done) => {
+    const windowRef = TestBed.inject(SkyAppWindowRef);
+    const scrollableHostSvc = TestBed.inject(SkyScrollableHostService);
+
+    cmp.isParentPositioned = true;
+    cmp.positionedParentWidth = '100px';
+    fixture.detectChanges();
+    const additionalHost =
+      fixture.nativeElement.querySelector('.additional-host');
+    const additionalHosts = of([new ElementRef(additionalHost)]);
+
+    const viewport = windowRef.nativeWindow.visualViewport;
+    scrollableHostSvc
+      .watchScrollableHostClipPathChanges(cmp.target, additionalHosts)
+      .pipe(take(1))
+      .subscribe((clipPath) => {
+        expect(clipPath).toBe(
+          `inset(10px ${viewport.width - 90}px ${viewport.height - 100}px 12px)`,
+        );
+        done();
+      });
+  });
+
+  it('should support additional containers when scrollable host is the viewport', (done) => {
+    const windowRef = TestBed.inject(SkyAppWindowRef);
+    const scrollableHostSvc = TestBed.inject(SkyScrollableHostService);
+
+    fixture.detectChanges();
+    const additionalHost =
+      fixture.nativeElement.querySelector('.additional-host');
+    const additionalHosts = of([new ElementRef(additionalHost)]);
+
+    const viewport = windowRef.nativeWindow.visualViewport;
+    scrollableHostSvc
+      .watchScrollableHostClipPathChanges(
+        { nativeElement: document.body },
+        additionalHosts,
+      )
+      .pipe(take(1))
+      .subscribe((clipPath) => {
+        expect(clipPath).toBe(
+          `inset(10px ${viewport.width - 90}px ${viewport.height - 130}px 12px)`,
+        );
+        done();
+      });
+  });
+
   it('should return a clip-path of none when the scrollable host is the window', (done) => {
     fixture.detectChanges();
     cmp
@@ -594,15 +637,13 @@ describe('Scrollable host service', () => {
   });
 
   it('should not error without resize observer', async () => {
-    const scrollableHostSvc = new SkyScrollableHostService(
-      {} as SkyMutationObserverService,
-      {} as SkyAppWindowRef,
-      undefined,
-    );
+    TestBed.resetTestingModule();
+    TestBed.overrideProvider(SkyResizeObserverService, { useValue: null });
+    const scrollableHostSvc = TestBed.inject(SkyScrollableHostService);
     await expectAsync(
-      scrollableHostSvc
-        .watchScrollableHostClipPathChanges({} as ElementRef)
-        .toPromise(),
+      firstValueFrom(
+        scrollableHostSvc.watchScrollableHostClipPathChanges({} as ElementRef),
+      ),
     ).toBeResolvedTo('none');
   });
 });

@@ -4,6 +4,7 @@
 @include compatMixins.sky-default-overrides('.sky-toast') {
   --sky-override-toast-align-items: center;
   --sky-override-toast-border-left-width: 30px;
+  --sky-override-toast-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
   --sky-override-toast-close-button-border: none;
   --sky-override-toast-close-button-border-radius: #{$sky-border-radius};
   --sky-override-toast-close-button-box-sizing: border-box;
@@ -22,23 +23,32 @@
   --sky-override-toast-color-border-info: #{$sky-highlight-color-info};
   --sky-override-toast-color-border-success: #{$sky-highlight-color-success};
   --sky-override-toast-color-border-warning: #{$sky-highlight-color-warning};
+  --sky-override-toast-color-icon-danger: #{$sky-color-white};
+  --sky-override-toast-color-icon-info: #{$sky-color-white};
+  --sky-override-toast-color-icon-success: #{$sky-color-white};
+  --sky-override-toast-color-icon-warning: #{$sky-color-white};
   --sky-override-toast-content-link-color: #212327cc;
   --sky-override-toast-content-link-decoration: underline;
   --sky-override-toast-content-padding: #{$sky-padding} 0;
+  --sky-override-toast-info-success-exclamation-path-color: #{$sky-highlight-color-info};
+  --sky-override-toast-link-text-hover-color: #{$sky-text-color-default};
   --sky-override-toast-margin-bottom: #{$sky-margin-double};
   --sky-override-toast-padding: 0 #{$sky-padding};
 }
 
 @include compatMixins.sky-modern-overrides('.sky-toast', false) {
+  --sky-override-toast-box-shadow: var(--sky-elevation-overlay-400);
   --sky-override-toast-close-button-box-sizing: border-box;
   --sky-override-toast-close-button-margin: -10px -10px 0 0;
   --sky-override-toast-close-button-padding: 1px;
   --sky-override-toast-close-button-size: 26px;
   --sky-override-toast-content-link-color: #212327cc;
+  --sky-override-toast-color-icon-info: var(--sky-color-icon-info);
   --sky-override-toast-icon-top-padding: calc(var(--modern-size-5) * -1);
-  --sky-override-toast-info-exclamation-path-color: var(
+  --sky-override-toast-info-success-exclamation-path-color: var(
     --modern-color-gray-105
   );
+  --sky-override-toast-text-link-color: var(--sky-color-text-default);
 }
 
 @mixin sky-toast-variant(
@@ -50,9 +60,9 @@
   background-color: $background-color;
   border-color: $border-color;
 
-  .sky-toast-icon-theme-modern {
+  .sky-toast-icon {
     color: $modernIconColor;
-    --sky-icon-stack-top-icon-color-override: #{$modernIconTextColor};
+    --sky-icon-svg-path-2-color-input: #{$modernIconTextColor};
   }
 }
 
@@ -60,11 +70,14 @@ sky-toast {
   .sky-toast {
     padding: var(
       --sky-override-toast-padding,
-      var(--sky-space-inset-balanced-m)
+      var(--sky-comp-toast-space-inset-top)
+        var(--sky-comp-toast-space-inset-right)
+        var(--sky-comp-toast-space-inset-bottom)
+        var(--sky-comp-toast-space-inset-left)
     );
     margin-bottom: var(
       --sky-override-toast-margin-bottom,
-      var(--sky-space-inset-balanced-xl)
+      var(--sky-comp-toaster-space-inset-bottom)
     );
     border-left-style: solid;
     border-left-width: var(
@@ -74,6 +87,14 @@ sky-toast {
     display: flex;
     flex-direction: row;
     align-items: var(--sky-override-toast-align-items, flex-start);
+
+    // This box shadow rule and both overrides can be removed when v1 modern support is dropped. The class on the element will handle the styles correctly then.
+    &.sky-elevation-16 {
+      box-shadow: var(
+        --sky-override-toast-box-shadow,
+        var(--sky-elevation-overlay-300)
+      );
+    }
 
     .sky-toast-btn-close {
       background-color: var(
@@ -113,12 +134,15 @@ sky-toast {
       );
       margin: var(
         --sky-override-toast-close-button-margin,
-        calc(calc(var(--sky-space-inset-balanced-xl) * 0.5) * -1)
-          calc(calc(var(--sky-space-inset-balanced-xl) * 0.5) * -1) 0 0
+        calc(calc(var(--sky-comp-toast-space-inset-top) * 0.5) * -1)
+          calc(calc(var(--sky-comp-toast-space-inset-right) * 0.5) * -1) 0 0
       );
       padding: var(
         --sky-override-toast-close-button-padding,
-        var(--sky-space-inset-balanced-xs)
+        var(--sky-comp-button-borderless-space-inset-top)
+          var(--sky-comp-button-borderless-space-inset-right)
+          var(--sky-comp-button-borderless-space-inset-bottom)
+          var(--sky-comp-button-borderless-space-inset-left)
       );
 
       &:hover {
@@ -146,7 +170,7 @@ sky-toast {
     .sky-btn-link-inline {
       color: var(
         --sky-override-toast-content-link-color,
-        var(--sky-color-text-default)
+        var(--sky-color-text-action_contrast)
       );
       text-decoration: var(
         --sky-override-toast-content-link-decoration,
@@ -154,7 +178,10 @@ sky-toast {
       );
 
       &:hover {
-        color: var(--sky-color-text-default);
+        color: var(
+          --sky-override-toast-text-link-color,
+          var(--sky-color-text-action_contrast)
+        );
       }
     }
   }
@@ -170,9 +197,12 @@ sky-toast {
           --sky-override-toast-color-border-info,
           var(--sky-color-border-info)
         ),
-        var(--sky-color-icon-info),
         var(
-          --sky-override-toast-info-exclamation-path-color,
+          --sky-override-toast-color-icon-info,
+          var(--sky-color-background-icon_matte-action-heavy)
+        ),
+        var(
+          --sky-override-toast-info-success-exclamation-path-color,
           var(--sky-color-icon-inverse)
         )
       );
@@ -188,8 +218,17 @@ sky-toast {
           --sky-override-toast-color-border-success,
           var(--sky-color-border-success)
         ),
-        var(--sky-color-icon-success),
-        var(--sky-color-icon-default)
+        var(
+          --sky-override-toast-color-icon-success,
+          var(--sky-color-background-icon_matte-success)
+        ),
+        var(
+          --sky-override-toast-color-border-success,
+          var(
+            --sky-override-toast-info-success-exclamation-path-color,
+            var(--sky-color-icon-inverse)
+          )
+        )
       );
     }
 
@@ -203,8 +242,14 @@ sky-toast {
           --sky-override-toast-color-border-warning,
           var(--sky-color-border-warning)
         ),
-        var(--sky-color-icon-warning),
-        var(--sky-color-icon-default)
+        var(
+          --sky-override-toast-color-icon-warning,
+          var(--sky-color-background-icon_matte-warning)
+        ),
+        var(
+          --sky-override-toast-color-border-warning,
+          var(--sky-color-icon-default)
+        )
       );
     }
 
@@ -218,20 +263,22 @@ sky-toast {
           --sky-override-toast-color-border-danger,
           var(--sky-color-border-danger)
         ),
-        var(--sky-color-icon-danger),
-        var(--sky-color-icon-inverse)
+        var(
+          --sky-override-toast-color-icon-danger,
+          var(--sky-color-background-icon_matte-danger)
+        ),
+        var(
+          --sky-override-toast-color-border-danger,
+          var(--sky-color-icon-inverse)
+        )
       );
     }
   }
 
-  .sky-toast-icon-theme-default {
+  .sky-toast-icon {
     color: $sky-color-white;
-    margin-left: -31px;
-    margin-right: 20px;
-  }
-
-  .sky-toast-icon-theme-modern {
-    display: none;
+    margin-left: -35px;
+    margin-right: 19px;
   }
 }
 
@@ -258,12 +305,7 @@ sky-toast {
       }
     }
 
-    .sky-toast-icon-theme-default {
-      display: none;
-    }
-
-    .sky-toast-icon-theme-modern {
-      display: block;
+    .sky-toast-icon {
       margin: var(
           --sky-override-toast-icon-top-padding,
           calc(calc(var(--sky-font-line_height-body-m) * 0.25) * -1)

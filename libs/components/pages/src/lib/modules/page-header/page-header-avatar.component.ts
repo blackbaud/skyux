@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyDefaultInputProvider, SkyMediaQueryService } from '@skyux/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
  * Displays an avatar within the page header to the left of the page title.
@@ -12,6 +13,8 @@ import { SkyDefaultInputProvider, SkyMediaQueryService } from '@skyux/core';
   templateUrl: './page-header-avatar.component.html',
   styleUrls: ['./page-header-avatar.component.scss'],
   providers: [SkyDefaultInputProvider],
+  standalone: false,
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyPageHeaderAvatarComponent {
   constructor() {

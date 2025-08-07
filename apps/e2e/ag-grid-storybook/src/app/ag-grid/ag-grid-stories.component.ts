@@ -15,11 +15,11 @@ import {
   SkyCellType,
 } from '@skyux/ag-grid';
 import { SkyDockLocation, SkyDockService } from '@skyux/core';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
   ColDef,
+  ColGroupDef,
   GridApi,
   GridOptions,
   RowSelectedEvent,
@@ -41,6 +41,7 @@ interface DataSet {
   templateUrl: './ag-grid-stories.component.html',
   styleUrls: ['./ag-grid-stories.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class AgGridStoriesComponent
   implements OnInit, AfterViewInit, OnDestroy
@@ -76,7 +77,6 @@ export class AgGridStoriesComponent
   readonly #dockService: SkyDockService;
   readonly #doc: Document;
   readonly #ngUnsubscribe: Subscription;
-  readonly #fontLoadingService: FontLoadingService;
 
   constructor(
     agGridService: SkyAgGridService,
@@ -84,7 +84,6 @@ export class AgGridStoriesComponent
     changeDetectorRef: ChangeDetectorRef,
     dockService: SkyDockService,
     @Inject(DOCUMENT) doc: Document,
-    fontLoadingService: FontLoadingService,
   ) {
     this.#agGridService = agGridService;
     this.#themeSvc = themeSvc;
@@ -92,7 +91,6 @@ export class AgGridStoriesComponent
     this.#dockService = dockService;
     this.#doc = doc;
     this.#ngUnsubscribe = new Subscription();
-    this.#fontLoadingService = fontLoadingService;
   }
 
   public ngOnInit(): void {
@@ -107,7 +105,6 @@ export class AgGridStoriesComponent
       'theme',
       this.#themeSvc.settingsChange.pipe(map(() => true)),
     );
-    this.#gridsReady.set('font', this.#fontLoadingService.ready());
     this.#ngUnsubscribe.add(
       this.#themeSvc.settingsChange.subscribe((settings) => {
         this.skyTheme = settings.currentSettings;
@@ -118,7 +115,7 @@ export class AgGridStoriesComponent
       this.gridOptions[dataSet.id] = this.#agGridService.getGridOptions({
         gridOptions: {
           columnDefs: [
-            ...(() =>
+            ...((): (ColDef | ColGroupDef)[] =>
               dataSet.id === 'row-delete'
                 ? [
                     {
@@ -154,7 +151,7 @@ export class AgGridStoriesComponent
                   dataSet.id === 'validation'
                     ? {
                         skyComponentProperties: {
-                          validator: (value: unknown) =>
+                          validator: (value: unknown): boolean =>
                             !!value &&
                             typeof value === 'number' &&
                             value < 18 &&
@@ -182,6 +179,8 @@ export class AgGridStoriesComponent
           suppressColumnVirtualisation: true,
           suppressHorizontalScroll: true,
           suppressRowVirtualisation: true,
+          alwaysShowHorizontalScroll: true,
+          alwaysShowVerticalScroll: true,
           onGridReady: (params) => {
             this.#gridsApi.set(dataSet.id, params.api);
             if (dataSet.id === 'row-delete') {
@@ -262,7 +261,7 @@ export class AgGridStoriesComponent
     this.#ngUnsubscribe.unsubscribe();
   }
 
-  public deleteConfirm($event: SkyAgGridRowDeleteConfirmArgs) {
+  public deleteConfirm($event: SkyAgGridRowDeleteConfirmArgs): void {
     console.log(`Delete ${$event.id}`);
   }
 }

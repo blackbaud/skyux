@@ -26,7 +26,6 @@ import { SkyFileAttachmentHarness } from './file-attachment-harness';
 
 //#region Test component
 @Component({
-  standalone: true,
   imports: [
     SkyFileAttachmentModule,
     FormsModule,

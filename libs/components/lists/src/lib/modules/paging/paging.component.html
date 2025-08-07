@@ -26,21 +26,20 @@
     <ul>
       <li>
         <button
-          class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-previous sky-box"
+          class="sky-btn sky-btn-borderless sky-paging-btn sky-paging-btn-previous sky-box"
           sky-cmp-id="previous"
           type="button"
           [attr.aria-label]="'skyux_paging_previous' | skyLibResources"
           [disabled]="isPreviousButtonDisabled"
           (click)="previousPage()"
         >
-          <sky-icon *skyThemeIf="'default'" icon="caret-left" />
-          <sky-icon *skyThemeIf="'modern'" icon="chevron-left" />
+          <sky-icon iconName="chevron-left" />
         </button>
       </li>
       @for (pageNumber of displayedPages; track pageNumber) {
         <li class="sky-list-paging-link">
           <button
-            class="sky-btn sky-btn-default sky-paging-btn sky-box"
+            class="sky-btn sky-btn-borderless sky-paging-btn sky-box"
             type="button"
             [attr.aria-current]="currentPage === pageNumber ? 'page' : null"
             [attr.sky-cmp-id]="pageNumber"
@@ -57,15 +56,14 @@
       }
       <li>
         <button
-          class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-next sky-box"
+          class="sky-btn sky-btn-borderless sky-paging-btn sky-paging-btn-next sky-box"
           sky-cmp-id="next"
           type="button"
           [attr.aria-label]="'skyux_paging_next' | skyLibResources"
           [disabled]="isNextButtonDisabled"
           (click)="nextPage()"
         >
-          <sky-icon *skyThemeIf="'default'" icon="caret-right" />
-          <sky-icon *skyThemeIf="'modern'" icon="chevron-right" />
+          <sky-icon iconName="chevron-right" />
         </button>
       </li>
     </ul>

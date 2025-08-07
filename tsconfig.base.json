@@ -25,11 +25,15 @@
     "typeRoots": ["./node_modules/@types", "./vendor/types/**/*.d.ts"],
     "paths": {
       "*": ["./vendor/types/*"],
+      "@skyux-sdk/cypress-commands": ["libs/sdk/cypress-commands/src/index.ts"],
       "@skyux-sdk/e2e-schematics": ["libs/sdk/e2e-schematics/src/index.ts"],
       "@skyux-sdk/e2e-schematics/cypress-preset": [
         "libs/sdk/e2e-schematics/src/cypress-preset.ts"
       ],
       "@skyux-sdk/eslint-config": ["libs/sdk/eslint-config/src/index.ts"],
+      "@skyux-sdk/eslint-schematics": [
+        "libs/sdk/eslint-schematics/src/index.ts"
+      ],
       "@skyux-sdk/prettier-schematics": [
         "libs/sdk/prettier-schematics/src/index.ts"
       ],
@@ -51,6 +55,7 @@
       "@skyux/avatar/testing": [
         "libs/components/avatar/testing/src/public-api.ts"
       ],
+      "@skyux/code-examples": ["libs/components/code-examples/src/index.ts"],
       "@skyux/colorpicker": ["libs/components/colorpicker/src/index.ts"],
       "@skyux/colorpicker/testing": [
         "libs/components/colorpicker/testing/src/public-api.ts"
@@ -59,13 +64,21 @@
       "@skyux/core": ["libs/components/core/src/index.ts"],
       "@skyux/core/testing": ["libs/components/core/testing/src/public-api.ts"],
       "@skyux/data-manager": ["libs/components/data-manager/src/index.ts"],
+      "@skyux/data-manager/testing": [
+        "libs/components/data-manager/testing/src/public-api.ts"
+      ],
       "@skyux/datetime": ["libs/components/datetime/src/index.ts"],
       "@skyux/datetime/testing": [
         "libs/components/datetime/testing/src/public-api.ts"
       ],
+      "@skyux/docs-tools": ["libs/components/docs-tools/src/index.ts"],
       "@skyux/errors": ["libs/components/errors/src/index.ts"],
       "@skyux/errors/testing": [
         "libs/components/errors/testing/src/public-api.ts"
+      ],
+      "@skyux/filter-bar": ["libs/components/filter-bar/src/index.ts"],
+      "@skyux/filter-bar-testing": [
+        "libs/components/filter-bar/testing/src/public-api.ts"
       ],
       "@skyux/flyout": ["libs/components/flyout/src/index.ts"],
       "@skyux/flyout/testing": [
@@ -88,6 +101,9 @@
         "libs/components/indicators/testing/src/public-api.ts"
       ],
       "@skyux/inline-form": ["libs/components/inline-form/src/index.ts"],
+      "@skyux/inline-form/testing": [
+        "libs/components/inline-form/testing/src/public-api.ts"
+      ],
       "@skyux/layout": ["libs/components/layout/src/index.ts"],
       "@skyux/layout/testing": [
         "libs/components/layout/testing/src/public-api.ts"
@@ -116,15 +132,16 @@
       "@skyux/lookup/testing": [
         "libs/components/lookup/testing/src/public-api.ts"
       ],
-      "@skyux/manifest": ["libs/components/manifest/src/index.ts"],
-      "@skyux/manifest/public-api.json": [
-        "libs/components/manifest/public-api.json"
-      ],
+      "@skyux/manifest": ["dist/libs/components/manifest"],
+      "@skyux/manifest-local": ["libs/components/manifest/src/index.ts"],
       "@skyux/modals": ["libs/components/modals/src/index.ts"],
       "@skyux/modals/testing": [
         "libs/components/modals/testing/src/public-api.ts"
       ],
       "@skyux/navbar": ["libs/components/navbar/src/index.ts"],
+      "@skyux/navbar/testing": [
+        "libs/components/navbar/testing/src/public-api.ts"
+      ],
       "@skyux/packages": ["libs/components/packages/src/index.ts"],
       "@skyux/pages": ["libs/components/pages/src/index.ts"],
       "@skyux/pages/testing": [
@@ -173,7 +190,9 @@
         "libs/components/toast/testing/src/public-api.ts"
       ],
       "@skyux/validation": ["libs/components/validation/src/index.ts"],
-      "skyux-eslint": ["libs/sdk/skyux-eslint/src/index.ts"]
+      "skyux-eslint": ["libs/sdk/skyux-eslint/src/index.ts"],
+      "skyux-stylelint": ["libs/sdk/skyux-stylelint/src/index.ts"],
+      "stylelint-config-skyux": ["libs/sdk/stylelint-config-skyux/src/index.ts"]
     }
   },
   "angularCompilerOptions": {

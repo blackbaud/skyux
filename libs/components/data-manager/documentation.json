@@ -1,0 +1,63 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "data-manager": {
+      "development": {
+        "docsIds": [
+          "SkyDataManagerModule",
+          "SkyDataManagerComponent",
+          "SkyDataManagerService",
+          "SkyDataManagerToolbarComponent",
+          "SkyDataManagerToolbarSectionComponent",
+          "SkyDataManagerToolbarPrimaryItemComponent",
+          "SkyDataManagerToolbarLeftItemComponent",
+          "SkyDataManagerToolbarRightItemComponent",
+          "SkyDataViewComponent",
+          "SkyDataViewConfig",
+          "SkyDataViewColumnWidths",
+          "SkyDataViewState",
+          "SkyDataViewStateOptions",
+          "SkyDataManagerConfig",
+          "SkyDataManagerFilterData",
+          "SkyDataManagerInitArgs",
+          "SkyDataManagerSortOption",
+          "SkyDataManagerState",
+          "SkyDataManagerStateOptions",
+          "SkyDataManagerStateUpdateFilterArgs",
+          "SkyDataManagerColumnPickerOption",
+          "SkyDataManagerColumnPickerSortStrategy",
+          "SkyDataManagerFilterModalContext",
+          "SkyDataManagerSummary"
+        ],
+        "primaryDocsId": "SkyDataManagerModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyDataManagerHarness",
+          "SkyDataManagerHarnessFilters",
+          "SkyDataManagerToolbarHarness",
+          "SkyDataManagerToolbarHarnessFilters",
+          "SkyDataManagerToolbarSectionHarness",
+          "SkyDataManagerToolbarSectionHarnessFilters",
+          "SkyDataManagerToolbarPrimaryItemHarness",
+          "SkyDataManagerToolbarPrimaryItemHarnessFilters",
+          "SkyDataManagerToolbarLeftItemHarness",
+          "SkyDataManagerToolbarLeftItemHarnessFilters",
+          "SkyDataManagerToolbarRightItemHarness",
+          "SkyDataManagerToolbarRightItemHarnessFilters",
+          "SkyDataViewHarness",
+          "SkyDataViewHarnessFilters",
+          "SkyDataManagerColumnPickerHarness",
+          "SkyDataManagerColumnPickerColumnHarness",
+          "SkyDataManagerColumnPickerColumnHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "DataManagerBasicExampleComponent",
+          "PagesPageListPageListLayoutExampleComponent"
+        ]
+      }
+    }
+  }
+}

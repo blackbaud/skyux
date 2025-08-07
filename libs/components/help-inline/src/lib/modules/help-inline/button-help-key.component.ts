@@ -15,7 +15,6 @@ import { SKY_HELP_GLOBAL_OPTIONS, SkyHelpService } from '@skyux/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   selector: 'sky-help-inline-help-key-button',
-  standalone: true,
   styleUrls: [
     './help-inline.default.component.scss',
     './help-inline.modern.component.scss',

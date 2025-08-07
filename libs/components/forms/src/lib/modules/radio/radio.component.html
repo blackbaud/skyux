@@ -21,16 +21,21 @@
     <span
       class="sky-switch-control"
       [ngClass]="{
-        'sky-switch-control-icon': icon,
-        'sky-rounded-corners': icon,
-        'sky-rounded-circle': !icon,
-        'sky-switch-control-info': icon && radioType === 'info',
-        'sky-switch-control-success': icon && radioType === 'success',
-        'sky-switch-control-warning': icon && radioType === 'warning',
-        'sky-switch-control-danger': icon && radioType === 'danger'
+        'sky-switch-control-icon': icon || iconName,
+        'sky-rounded-corners': icon || iconName,
+        'sky-rounded-circle': !(icon || iconName),
+        'sky-switch-control-info': (icon || iconName) && radioType === 'info',
+        'sky-switch-control-success':
+          (icon || iconName) && radioType === 'success',
+        'sky-switch-control-warning':
+          (icon || iconName) && radioType === 'warning',
+        'sky-switch-control-danger':
+          (icon || iconName) && radioType === 'danger'
       }"
     >
-      @if (icon) {
+      @if (iconName) {
+        <sky-icon [iconName]="iconName" />
+      } @else if (icon) {
         <sky-icon [fixedWidth]="true" [icon]="icon" />
       }
     </span>

@@ -19,6 +19,7 @@ import { SkyActionButtonFixture } from './action-button-fixture';
       </sky-action-button-details>
     </sky-action-button>
   `,
+  standalone: false,
 })
 class TestComponent {
   public iconType = 'filter';

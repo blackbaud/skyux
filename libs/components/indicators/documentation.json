@@ -1,0 +1,155 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "alert": {
+      "development": {
+        "docsIds": [
+          "SkyAlertModule",
+          "SkyAlertComponent",
+          "SkyIndicatorIconType",
+          "SkyIndicatorDescriptionType"
+        ],
+        "primaryDocsId": "SkyAlertModule"
+      },
+      "testing": {
+        "docsIds": ["SkyAlertHarness", "SkyAlertHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": ["IndicatorsAlertBasicExampleComponent"]
+      }
+    },
+    "key-info": {
+      "development": {
+        "docsIds": [
+          "SkyKeyInfoModule",
+          "SkyKeyInfoComponent",
+          "SkyKeyInfoLabelComponent",
+          "SkyKeyInfoValueComponent",
+          "SkyKeyInfoLayoutType"
+        ],
+        "primaryDocsId": "SkyKeyInfoModule"
+      },
+      "testing": {
+        "docsIds": ["SkyKeyInfoHarness", "SkyKeyInfoHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "IndicatorsKeyInfoBasicExampleComponent",
+          "IndicatorsKeyInfoHelpKeyExampleComponent"
+        ]
+      }
+    },
+    "label": {
+      "development": {
+        "docsIds": [
+          "SkyLabelModule",
+          "SkyLabelComponent",
+          "SkyLabelType",
+          "SkyIndicatorDescriptionType"
+        ],
+        "primaryDocsId": "SkyLabelModule"
+      },
+      "testing": {
+        "docsIds": ["SkyLabelHarness", "SkyLabelHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": ["IndicatorsLabelBasicExampleComponent"]
+      }
+    },
+    "illustration": {
+      "development": {
+        "docsIds": [
+          "SkyIllustrationModule",
+          "SkyIllustrationComponent",
+          "SkyIllustrationSize",
+          "SkyIllustrationResolverService"
+        ],
+        "primaryDocsId": "SkyIllustrationModule"
+      },
+      "testing": {
+        "docsIds": ["SkyIllustrationHarness", "SkyIllustrationHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": ["IndicatorsIllustrationBasicExampleComponent"]
+      }
+    },
+    "status-indicator": {
+      "development": {
+        "docsIds": [
+          "SkyStatusIndicatorModule",
+          "SkyStatusIndicatorComponent",
+          "SkyIndicatorDescriptionType",
+          "SkyIndicatorIconType"
+        ],
+        "primaryDocsId": "SkyStatusIndicatorModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyStatusIndicatorHarness",
+          "SkyStatusIndicatorHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "IndicatorsStatusIndicatorBasicExampleComponent",
+          "IndicatorsStatusIndicatorHelpKeyExampleComponent"
+        ]
+      }
+    },
+    "text-highlight": {
+      "development": {
+        "docsIds": ["SkyTextHighlightModule", "SkyTextHighlightDirective"],
+        "primaryDocsId": "SkyTextHighlightModule"
+      },
+      "testing": {
+        "docsIds": ["SkyTextHighlightHarness", "SkyTextHighlightHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": ["IndicatorsTextHighlightBasicExampleComponent"]
+      }
+    },
+    "tokens": {
+      "development": {
+        "docsIds": [
+          "SkyTokensModule",
+          "SkyTokensComponent",
+          "SkyTokenComponent",
+          "SkyToken",
+          "SkyTokenSelectedEventArgs",
+          "SkyTokensMessage",
+          "SkyTokensMessageType"
+        ],
+        "primaryDocsId": "SkyTokensModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyTokensHarness",
+          "SkyTokensHarnessFilters",
+          "SkyTokenHarness",
+          "SkyTokenHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "IndicatorsTokensBasicExampleComponent",
+          "IndicatorsTokensCustomExampleComponent"
+        ]
+      }
+    },
+    "wait": {
+      "development": {
+        "docsIds": ["SkyWaitModule", "SkyWaitComponent", "SkyWaitService"],
+        "primaryDocsId": "SkyWaitModule"
+      },
+      "testing": {
+        "docsIds": ["SkyWaitHarness", "SkyWaitHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "IndicatorsWaitElementExampleComponent",
+          "IndicatorsWaitPageExampleComponent"
+        ]
+      }
+    }
+  }
+}

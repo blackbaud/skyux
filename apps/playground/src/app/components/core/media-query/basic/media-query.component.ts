@@ -7,7 +7,6 @@ import { SkyFluidGridModule } from '@skyux/layout';
 @Component({
   hostDirectives: [SkyResponsiveHostDirective],
   selector: 'app-with-breakpoint-directive',
-  standalone: true,
   styles: `
     :host {
       display: block;
@@ -19,7 +18,6 @@ export class WithBreakpointDirectiveComponent {}
 
 @Component({
   selector: 'app-breakpoint-reader',
-  standalone: true,
   template: `{{ breakpoint() }}<ng-content select="app-breakpoint-reader" />`,
 })
 export class BreakpointReaderComponent {
@@ -36,7 +34,6 @@ export class BreakpointReaderComponent {
     SkyFluidGridModule,
     WithBreakpointDirectiveComponent,
   ],
-  standalone: true,
   template: `
     <p>Root breakpoint: {{ rootBreakpoint() }}</p>
     <sky-fluid-grid>

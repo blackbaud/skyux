@@ -7,7 +7,6 @@ import { SkyCharacterCounterModule } from '@skyux/forms';
 import { SkyCharacterCounterIndicatorHarness } from './character-counter-indicator-harness';
 
 @Component({
-  standalone: true,
   imports: [SkyCharacterCounterModule],
   template: `
     <sky-character-counter-indicator

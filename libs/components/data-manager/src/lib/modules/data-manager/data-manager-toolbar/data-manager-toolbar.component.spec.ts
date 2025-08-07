@@ -58,6 +58,7 @@ class MockModalComponent {}
 
 @Component({
   template: '',
+  standalone: false,
 })
 class MockModalLegacyComponent {}
 

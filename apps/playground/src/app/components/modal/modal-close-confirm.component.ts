@@ -10,7 +10,6 @@ import {
 } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-test-cmp-modal-close-confirm',
   templateUrl: './modal-close-confirm.component.html',
   imports: [FormsModule, SkyModalModule],
@@ -31,7 +30,7 @@ export class ModalCloseConfirmComponent {
     );
   }
 
-  public onClose(closeHandler: SkyModalBeforeCloseHandler) {
+  public onClose(closeHandler: SkyModalBeforeCloseHandler): void {
     if (this.hasUnsavedWork) {
       this.confirmService
         .open({

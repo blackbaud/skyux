@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyPageLinksComponent } from './page-links.component';
 
 @Component({
-  standalone: true,
   selector: 'sky-page-links-test',
   imports: [SkyPageLinksComponent],
   template: `<sky-page-links>Links.</sky-page-links>`,

@@ -10,6 +10,7 @@
     [validateFn]="validateFile"
     [stacked]="true"
     (fileChange)="reactiveFileUpdated($event)"
+    (fileClick)="fileClick($event)"
   >
     <sky-file-attachment-label>
       Birth certificate

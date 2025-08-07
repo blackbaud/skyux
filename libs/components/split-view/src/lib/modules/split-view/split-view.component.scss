@@ -1,15 +1,34 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-split-view') {
+  --sky-override-split-view-border: 1px solid
+    #{$sky-border-color-neutral-medium};
+  --sky-override-split-view-border-left: 1px solid
+    #{$sky-border-color-neutral-medium};
+  --sky-override-split-view-border-right: 1px solid
+    #{$sky-border-color-neutral-medium};
+}
+
+@include compatMixins.sky-modern-overrides('.sky-split-view') {
+  --sky-override-split-view-border-right: var(--sky-border-width-divider) solid
+    var(--sky-color-border-divider);
+}
 
 :host {
   display: block;
 }
 
 .sky-split-view {
+  --sky-comp-override-list-header-background-color: initial;
   // Set position:relative to give resize handle's absolute positioning a new origin.
   position: relative;
   display: flex;
-  border: 1px solid $sky-border-color-neutral-medium;
+  border: var(
+    --sky-override-split-view-border,
+    var(--sky-border-width-divider) solid var(--sky-color-border-divider)
+  );
   background: transparent;
   margin: var(--sky-layout-host-content-spacing, 0);
   max-height: 100%;
@@ -42,9 +61,8 @@
 }
 
 @include mixins.sky-host-responsive-container-sm-min() {
-  @include mixins.sky-theme-modern {
-    .sky-split-view {
-      border-left: none;
-    }
+  .sky-split-view {
+    border-left: var(--sky-override-split-view-border-left, none);
+    border-right: var(--sky-override-split-view-border-right, none);
   }
 }

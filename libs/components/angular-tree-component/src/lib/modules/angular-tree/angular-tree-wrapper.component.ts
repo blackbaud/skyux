@@ -25,6 +25,7 @@ import { IDTypeDictionary } from '@blackbaud/angular-tree-component/lib/defs/api
   templateUrl: './angular-tree-wrapper.component.html',
   styleUrls: ['./angular-tree-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   /**
@@ -112,7 +113,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     if (!this.selectSingle && this.treeComponent) {
       // Get a list of all node ids that are selectable.
       this.selectableNodeIds = {};
-      const getSelectableNodeIds = (node: TreeNode) => {
+      const getSelectableNodeIds = (node: TreeNode): void => {
         const selectable =
           node.isSelectable() &&
           !(node.hasChildren && this.selectLeafNodesOnly);
@@ -187,26 +188,30 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
 
     if (defaultActionMapping?.mouse) {
       // Override default click/enter/space action to check for unsupported options (leaf node, single-select).
-      defaultActionMapping.mouse.click = (tree, node, event) =>
+      defaultActionMapping.mouse.click = (tree, node, event): void =>
         this.#nodeDefaultAction(tree, node, event);
     }
 
     if (defaultActionMapping?.keys) {
-      defaultActionMapping.keys[KEYS.SPACE] = (tree, node, event) =>
+      defaultActionMapping.keys[KEYS.SPACE] = (tree, node, event): void =>
         this.#onKeyDownAction(tree, node, event);
-      defaultActionMapping.keys[KEYS.ENTER] = (tree, node, event) =>
+      defaultActionMapping.keys[KEYS.ENTER] = (tree, node, event): void =>
         this.#onKeyDownAction(tree, node, event);
 
       // Disable left/right arrow keys to support navigating through interactive elements with keyboard.
       // See onArrowLeft() / onArrowRight() methods inside the angular-tree-node.component.ts.
       /* istanbul ignore next */
-      defaultActionMapping.keys[KEYS.RIGHT] = (tree, node, $event) => undefined;
+      defaultActionMapping.keys[KEYS.RIGHT] = (tree, node, $event): void =>
+        undefined;
       /* istanbul ignore next */
-      defaultActionMapping.keys[KEYS.LEFT] = (tree, node, $event) => undefined;
+      defaultActionMapping.keys[KEYS.LEFT] = (tree, node, $event): void =>
+        undefined;
       /* istanbul ignore next */
-      defaultActionMapping.keys[KEYS.DOWN] = (tree, node, $event) => undefined;
+      defaultActionMapping.keys[KEYS.DOWN] = (tree, node, $event): void =>
+        undefined;
       /* istanbul ignore next */
-      defaultActionMapping.keys[KEYS.UP] = (tree, node, $event) => undefined;
+      defaultActionMapping.keys[KEYS.UP] = (tree, node, $event): void =>
+        undefined;
     }
   }
 

@@ -35,6 +35,23 @@
       </div>
     </sky-radio-group>
     <sky-radio-group
+      formControlName="radioIconOption"
+      headingLevel="3"
+      headingStyle="4"
+      headingText="Radio icon options"
+      stacked="true"
+    >
+      <div class="sky-switch-icon-group">
+        <sky-radio
+          *ngFor="let option of radioIconOptions"
+          [iconName]="option.iconName"
+          [label]="option.label"
+          [value]="option.name"
+          [disabled]="option.disabled"
+        />
+      </div>
+    </sky-radio-group>
+    <sky-radio-group
       formControlName="disabledRadioButtonOption"
       headingLevel="4"
       headingStyle="5"
@@ -61,6 +78,22 @@
         <sky-radio
           *ngFor="let option of radioIconOptions"
           [icon]="option.icon"
+          [label]="option.label"
+          [value]="option.name"
+          [disabled]="option.disabled"
+        />
+      </div>
+    </sky-radio-group>
+    <sky-radio-group
+      formControlName="disabledIconButtonOption"
+      headingLevel="5"
+      headingText="All disabled radio icon options"
+      stacked="true"
+    >
+      <div class="sky-switch-icon-group">
+        <sky-radio
+          *ngFor="let option of radioIconOptions"
+          [iconName]="option.iconName"
           [label]="option.label"
           [value]="option.name"
           [disabled]="option.disabled"
@@ -117,6 +150,24 @@
         <sky-radio
           *ngFor="let option of radioIconOptions"
           [icon]="option.icon"
+          [label]="option.label"
+          [value]="option.name"
+          [disabled]="option.disabled"
+        />
+      </div>
+    </sky-radio-group>
+    <sky-radio-group
+      formControlName="noDefaultRadioIconOption"
+      [required]="true"
+      [stacked]="true"
+    >
+      <label class="sky-control-label sky-control-label-required">
+        All unselected radio icon options
+      </label>
+      <div class="sky-switch-icon-group">
+        <sky-radio
+          *ngFor="let option of radioIconOptions"
+          [iconName]="option.iconName"
           [label]="option.label"
           [value]="option.name"
           [disabled]="option.disabled"

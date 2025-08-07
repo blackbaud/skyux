@@ -35,7 +35,6 @@ import { SkyTileTitleComponent } from './tile-title.component';
  * Provides a common look-and-feel for tab content.
  */
 @Component({
-  standalone: true,
   selector: 'sky-tile',
   styleUrls: ['./tile.component.scss'],
   templateUrl: './tile.component.html',
@@ -256,27 +255,22 @@ export class SkyTileComponent implements OnChanges, OnDestroy {
     this.isCollapsed = direction === 'down';
   }
 
-  public moveTile(event: KeyboardEvent): void {
-    /* istanbul ignore else */
-    if (this.#dashboardService) {
-      const direction = event.key.toLowerCase().replace('arrow', '');
-      /* istanbul ignore else */
-      if (
-        direction === 'up' ||
-        direction === 'down' ||
-        direction === 'left' ||
-        direction === 'right'
-      ) {
-        this.#dashboardService.moveTileOnKeyDown(
-          this,
-          direction,
-          this.title
-            ? this.title.nativeElement.innerText
-            : /* istanbul ignore next */
-              undefined,
-        );
-        this.#focusHandle();
-      }
+  protected moveTile(event: KeyboardEvent): void {
+    if (
+      ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key) &&
+      this.#dashboardService
+    ) {
+      const direction = event.key.toLowerCase().replace('arrow', '') as
+        | 'up'
+        | 'down'
+        | 'left'
+        | 'right';
+      this.#dashboardService.moveTileOnKeyDown(
+        this,
+        direction,
+        this.title?.nativeElement.innerText,
+      );
+      this.#focusHandle();
     }
   }
 

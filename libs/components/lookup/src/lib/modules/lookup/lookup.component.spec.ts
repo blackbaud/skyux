@@ -1027,6 +1027,17 @@ describe('Lookup component', function () {
         expect(lookupComponent.value).toEqual([bestFriend]);
       }));
 
+      it('should select the value on focus', fakeAsync(() => {
+        component.friends = [{ name: 'Rachel' }];
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        expect(lookupComponent.value).toEqual([{ name: 'Rachel' }]);
+
+        triggerInputFocus(fixture);
+        expect(window.getSelection().toString()).toBe('Rachel');
+      }));
+
       it('should select a new value when none is selected', fakeAsync(function () {
         const bestFriend = { name: 'Rachel' };
         component.friends = [bestFriend];
@@ -4489,6 +4500,17 @@ describe('Lookup component', function () {
           tick();
           fixture.detectChanges();
           expect(lookupComponent.value).toEqual([bestFriend]);
+        }));
+
+        it('should select the value on focus', fakeAsync(() => {
+          component.selectedFriends = [{ name: 'Rachel' }];
+          fixture.detectChanges();
+          tick();
+          fixture.detectChanges();
+          expect(lookupComponent.value).toEqual([{ name: 'Rachel' }]);
+
+          triggerInputFocus(fixture);
+          expect(window.getSelection().toString()).toBe('Rachel');
         }));
 
         it('should select a new value when none is selected', fakeAsync(function () {

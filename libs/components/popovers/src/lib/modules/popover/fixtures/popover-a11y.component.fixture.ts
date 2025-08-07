@@ -8,7 +8,6 @@ import { SkyPopoverModule } from '../popover.module';
 @Component({
   imports: [SkyPopoverModule],
   selector: 'sky-popover-test',
-  standalone: true,
   template: `
     <button data-sky-id="triggerEl" type="button" [skyPopover]="popover1">
       What's this?

@@ -46,6 +46,7 @@ import {
       ]),
     ]),
   ],
+  standalone: false,
 })
 export class SkyVerticalTabsetComponent
   implements OnInit, AfterViewChecked, OnDestroy

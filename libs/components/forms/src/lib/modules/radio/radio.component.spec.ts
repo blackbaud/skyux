@@ -427,13 +427,31 @@ describe('Radio component', function () {
       fixture.detectChanges();
 
       let radioIcon = debugElement.query(By.css('i')).nativeElement;
-      expect(radioIcon).toHaveCssClass('fa-bold');
+      expect(radioIcon).toHaveCssClass('fa-plus');
 
       fixture.componentInstance.icon = 'umbrella';
       fixture.detectChanges();
 
       radioIcon = debugElement.query(By.css('i')).nativeElement;
       expect(radioIcon).toHaveCssClass('fa-umbrella');
+    });
+
+    it('should set icon based on input - iconName', () => {
+      fixture.componentInstance.iconName = 'add';
+      fixture.detectChanges();
+
+      let radioIcon = debugElement.query(By.css('svg')).nativeElement;
+      expect(radioIcon.attributes.getNamedItem('data-sky-icon')?.value).toBe(
+        'add',
+      );
+
+      fixture.componentInstance.iconName = 'book';
+      fixture.detectChanges();
+
+      radioIcon = debugElement.query(By.css('svg')).nativeElement;
+      expect(radioIcon.attributes.getNamedItem('data-sky-icon')?.value).toBe(
+        'book',
+      );
     });
 
     it('should set span class based on radio type input', () => {

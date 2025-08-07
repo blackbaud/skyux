@@ -16,14 +16,6 @@
   .ag-row:not(.ag-row-first) {
     border-top: none;
   }
-
-  .ag-row {
-    border-bottom-style: dotted;
-
-    + .ag-row-last {
-      border-bottom-style: dotted;
-    }
-  }
 }
 
 .ag-theme-sky-data-entry-grid-default {
@@ -58,10 +50,6 @@
     }
   }
 
-  .ag-picker-field-wrapper {
-    border-radius: 0;
-  }
-
   .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
     align-items: flex-start;
   }
@@ -77,8 +65,6 @@
   }
 
   .sky-ag-grid-cell-editable {
-    background-color: var(--sky-background-color-page-default);
-
     .ag-select {
       .ag-picker-field-display {
         margin-top: 2px;
@@ -96,8 +82,6 @@
   }
 
   .ag-row {
-    border-bottom-style: solid;
-
     &.ag-row-focus {
       z-index: 1;
     }
@@ -105,85 +89,43 @@
     .ag-cell.ag-cell-focus {
       z-index: 1;
       outline-offset: -2px;
-      outline: var(--ag-range-selection-border-color) solid 2px;
+      outline: var(
+          --sky-color-border-input-focus,
+          var(--ag-range-selection-border-color)
+        )
+        solid var(--sky-border-width-input-focus, 2px);
     }
+  }
+
+  .ag-wrapper.ag-input-wrapper.ag-checkbox-input-wrapper:not(.ag-disabled) {
+    --ag-checkbox-checked-border-color: var(--sky-highlight-color-info);
+  }
+
+  .ag-cell-focus
+    .ag-wrapper.ag-input-wrapper.ag-checkbox-input-wrapper:not(.ag-disabled) {
+    --ag-checkbox-checked-border-color: var(--ag-text-color);
+  }
+
+  .ag-wrapper.ag-input-wrapper.ag-checkbox-input-wrapper.ag-disabled {
+    --ag-checkbox-checked-border-color: var(--sky-background-color-disabled);
+    --ag-checkbox-unchecked-border-color: var(--sky-background-color-disabled);
   }
 }
 
 .ag-theme-sky-data-grid-default,
 .ag-theme-sky-data-entry-grid-default {
-  .ag-header .ag-header-cell .ag-header-cell-label-sortable {
+  .ag-header .ag-header-cell,
+  .ag-header .ag-header-group-cell {
+    --ag-header-text-color: var(--sky-text-color-deemphasized);
+    --ag-text-color: var(--sky-text-color-deemphasized);
     color: var(--sky-text-color-deemphasized);
 
-    &:hover {
-      color: var(--sky-text-color-default);
-    }
-  }
+    .ag-header-cell-label-sortable {
+      color: var(--sky-text-color-deemphasized);
 
-  input.ag-checkbox-input[type='checkbox'] {
-    border: 1px solid variables.$sky-background-color-disabled;
-    border-radius: variables.$sky-border-radius;
-    color: var(--sky-text-color-default);
-
-    &:disabled {
-      border-color: var(--sky-background-color-disabled);
-      border-width: 2px;
-    }
-
-    &:checked:not(:disabled) {
-      background-color: var(--sky-background-color-input-selected);
-      border-color: var(--sky-highlight-color-info);
-      border-width: 2px;
-    }
-
-    &:focus:not(:disabled) {
-      border-color: var(--sky-text-color-default);
-      border-width: 2px;
-    }
-
-    &:checked:before {
-      width: 1em;
-      height: 1em;
-      clip-path: polygon(
-        49.372% 71.425%,
-        32.182% 52.751%,
-        32.182% 52.751%,
-        31.26% 52.724%,
-        29.741% 53.568%,
-        27.799% 55.088%,
-        25.607% 57.088%,
-        23.34% 59.373%,
-        21.171% 61.747%,
-        19.275% 64.015%,
-        17.824% 65.982%,
-        16.993% 67.452%,
-        16.956% 68.229%,
-        46.535% 100%,
-        46.535% 100%,
-        47.14% 100.571%,
-        47.802% 101.016%,
-        48.507% 101.333%,
-        49.24% 101.523%,
-        49.988% 101.587%,
-        50.736% 101.523%,
-        51.469% 101.333%,
-        52.174% 101.016%,
-        52.836% 100.571%,
-        53.44% 100%,
-        100% 49.061%,
-        100% 49.061%,
-        99.916% 48.228%,
-        99.021% 46.804%,
-        97.5% 44.958%,
-        95.536% 42.861%,
-        93.314% 40.682%,
-        91.017% 38.59%,
-        88.83% 36.755%,
-        86.935% 35.345%,
-        85.519% 34.532%,
-        84.763% 34.484%,
-        49.372% 71.425%
-      );
+      &:hover {
+        color: var(--sky-text-color-default);
+      }
     }
   }
 }

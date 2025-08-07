@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyIconModule } from '@skyux/icon';
 import {
   SkyThemeModule,
   SkyThemeService,
@@ -18,7 +19,7 @@ describe('PreviewWrapperComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [PreviewWrapperComponent],
-      imports: [SkyThemeModule],
+      imports: [SkyThemeModule, SkyIconModule],
       providers: [
         SkyThemeService,
         {
@@ -43,9 +44,14 @@ describe('PreviewWrapperComponent', () => {
 
   it('should set the theme', () => {
     const themeService = TestBed.inject(SkyThemeService);
-    let expectedTheme = {
+    let expectedTheme: {
+      theme: string;
+      mode: string;
+      brand?: string;
+    } = {
       theme: 'default',
       mode: 'light',
+      brand: undefined,
     };
     let expectModernV2Class = false;
     const subscription = themeService.settingsChange.subscribe(
@@ -55,13 +61,12 @@ describe('PreviewWrapperComponent', () => {
         );
         expect(settings.currentSettings.mode.name).toEqual(expectedTheme.mode);
 
-        const modernV2 = fixture.nativeElement.querySelector(
-          '.sky-theme-brand-blackbaud',
-        );
         if (expectModernV2Class) {
-          expect(modernV2).toBeDefined();
+          expect(settings.currentSettings.brand?.name).toEqual(
+            expectedTheme.brand,
+          );
         } else {
-          expect(modernV2).toBeNull();
+          expect(settings.currentSettings.brand).toBeUndefined();
         }
       },
     );
@@ -74,8 +79,10 @@ describe('PreviewWrapperComponent', () => {
     expectedTheme = {
       theme: 'modern',
       mode: 'dark',
+      brand: 'blackbaud',
     };
-    component.theme = 'modern-dark';
+    expectModernV2Class = true;
+    component.theme = 'modern-v2-dark';
 
     expectedTheme = {
       theme: 'default',
@@ -86,6 +93,7 @@ describe('PreviewWrapperComponent', () => {
     expectedTheme = {
       theme: 'modern',
       mode: 'light',
+      brand: 'blackbaud',
     };
     expectModernV2Class = true;
     component.theme = 'modern-v2-light';

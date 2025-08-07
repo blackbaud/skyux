@@ -21,6 +21,7 @@ interface Person {
   selector: 'app-field-heights',
   templateUrl: './field-heights.component.html',
   styleUrls: ['./field-heights.component.scss'],
+  standalone: false,
 })
 export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
   public readonly favoritesForm: FormGroup;

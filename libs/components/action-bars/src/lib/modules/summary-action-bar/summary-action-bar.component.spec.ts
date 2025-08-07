@@ -42,6 +42,13 @@ describe('Summary Action Bar component', () => {
     )?.nativeElement;
   }
 
+  function getErrors(debugElement: DebugElement): HTMLElement[] {
+    const errors = debugElement.queryAll(By.css('.sky-status-indicator'));
+    return errors.map((error) => {
+      return error.nativeElement;
+    }) as HTMLElement[];
+  }
+
   function getExpandButton(debugElement: DebugElement): HTMLElement {
     return debugElement.query(
       By.css('.sky-summary-action-bar-details-expand button'),
@@ -572,6 +579,29 @@ describe('Summary Action Bar component', () => {
         await expectAsync(modalHostElem).toBeAccessible();
         closeModal();
         fixture.detectChanges();
+      });
+    });
+
+    describe('errors', () => {
+      it('should display multiple errors', () => {
+        fixture.componentInstance.formErrors = [
+          { message: 'Test error' },
+          { message: 'Test error 2' },
+        ];
+        fixture.detectChanges();
+
+        const errors = getErrors(debugElement);
+        expect(errors.length).toBe(2);
+      });
+
+      it('should be accessible', async () => {
+        fixture.componentInstance.formErrors = [
+          { message: 'Test error' },
+          { message: 'Test error 2' },
+        ];
+        fixture.detectChanges();
+
+        await expectAsync(fixture.nativeElement).toBeAccessible();
       });
     });
   });

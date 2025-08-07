@@ -60,7 +60,6 @@ let uniqueZIndex = 5000;
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-overlay',
   templateUrl: './overlay.component.html',
   styleUrls: ['./overlay.component.scss'],

@@ -3,13 +3,13 @@ import type { AngularProjectConfiguration } from '@nx/angular/src/utils/types';
 import {
   ProjectConfiguration,
   Tree,
-  formatFiles,
   generateFiles,
   getProjects,
   joinPathFragments,
   normalizePath,
 } from '@nx/devkit';
 
+import { formatFiles } from '../../utils/format-files';
 import {
   getProjectTypeBase,
   getStorybookProject,
@@ -82,7 +82,10 @@ function normalizeOptions(
   };
 }
 
-export default async function (tree: Tree, options: ComponentGeneratorSchema) {
+export default async function (
+  tree: Tree,
+  options: ComponentGeneratorSchema,
+): Promise<void> {
   const normalizedOptions = normalizeOptions(tree, options);
   const baseName = basename(normalizedOptions.name);
   const componentPath = joinPathFragments(
@@ -130,5 +133,5 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
     },
   );
 
-  await formatFiles(tree);
+  await formatFiles(tree, { skipFormat: options.skipFormat });
 }

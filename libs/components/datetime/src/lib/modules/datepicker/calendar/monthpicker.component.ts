@@ -11,7 +11,6 @@ import { SkyDayPickerContext } from './daypicker-context';
 @Component({
   imports: [CommonModule, SkyDatepickerCalendarLabelPipe],
   selector: 'sky-monthpicker',
-  standalone: true,
   templateUrl: 'monthpicker.component.html',
 })
 export class SkyMonthPickerComponent implements OnInit {

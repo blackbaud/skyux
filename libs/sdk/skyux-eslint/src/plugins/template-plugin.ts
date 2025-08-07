@@ -10,6 +10,10 @@ import {
   RULE_NAME as noDeprecatedDirectivesRuleName,
 } from '../rules/template/no-deprecated-directives';
 import {
+  rule as noLegacyIcons,
+  RULE_NAME as noLegacyIconsRuleName,
+} from '../rules/template/no-legacy-icons';
+import {
   rule as noRadioGroupWithNestedList,
   RULE_NAME as noRadioGroupWithNestedListRuleName,
 } from '../rules/template/no-radio-group-with-nested-list';
@@ -30,6 +34,7 @@ export default {
   rules: {
     [noDeprecatedClassnamesRuleName]: noDeprecatedClassnames,
     [noDeprecatedDirectivesRuleName]: noDeprecatedDirectives,
+    [noLegacyIconsRuleName]: noLegacyIcons,
     [noRadioGroupWithNestedListRuleName]: noRadioGroupWithNestedList,
     [noUnboundIdRuleName]: noUnboundId,
     [preferLabelTextRuleName]: preferLabelText,

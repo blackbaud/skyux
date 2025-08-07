@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<StatusIndicatorComponent>;
 export const StatusIndicator = {
-  render: (args: StatusIndicatorComponent) => ({
+  render: (args: StatusIndicatorComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

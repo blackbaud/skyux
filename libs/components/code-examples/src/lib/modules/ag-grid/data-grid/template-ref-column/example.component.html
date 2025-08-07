@@ -1,0 +1,14 @@
+<ng-template #boldColumn let-value="value">
+  <strong>{{ value }}</strong>
+</ng-template>
+<ng-template #emphasizedColumn let-value="value" let-row="row">
+  @if (row['jobLevel']) {
+    <span class="sky-margin-inline-sm sky-pull-right">{{
+      row['jobLevel']
+    }}</span>
+  }
+  <em>{{ value }}</em>
+</ng-template>
+<sky-ag-grid-wrapper>
+  <ag-grid-angular [gridOptions]="gridOptions" [rowData]="gridData" />
+</sky-ag-grid-wrapper>

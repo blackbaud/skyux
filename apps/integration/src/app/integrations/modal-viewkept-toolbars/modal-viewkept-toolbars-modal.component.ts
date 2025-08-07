@@ -10,7 +10,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkyThemeModule } from '@skyux/theme';
 
 @Component({
-  standalone: true,
   selector: 'app-modal-viewkept-toolbars-modal',
   templateUrl: './modal-viewkept-toolbars-modal.component.html',
   styleUrls: ['./modal-viewkept-toolbars-modal.component.scss'],

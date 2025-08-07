@@ -57,7 +57,9 @@ describe('File item component', () => {
   }
 
   function getOtherPreview(): DebugElement | null {
-    return fixture.debugElement.query(By.css('.sky-file-item-preview-other i'));
+    return fixture.debugElement.query(
+      By.css('.sky-file-item-preview-other sky-icon-svg'),
+    );
   }
 
   function testImage(extension: string): void {
@@ -102,18 +104,18 @@ describe('File item component', () => {
     ) {
       expectedClassExtension = 'archive';
     } else if (extension === 'ppt' || extension === 'pptx') {
-      expectedClassExtension = 'powerpoint';
+      expectedClassExtension = 'ppt';
     } else if (extension === 'doc' || extension === 'docx') {
-      expectedClassExtension = 'word';
+      expectedClassExtension = 'doc';
     } else if (extension === 'xls' || extension === 'xlsx') {
-      expectedClassExtension = 'excel';
+      expectedClassExtension = 'xls';
     } else if (extension === 'txt') {
       expectedClassExtension = 'text';
     } else if (extension === 'htm' || extension === 'html') {
-      expectedClassExtension = 'code';
+      expectedClassExtension = 'chevron-double';
     }
-    expect(otherEl?.nativeElement.classList).toContain(
-      'fa-file-' + expectedClassExtension + '-o',
+    expect(otherEl?.nativeElement.getAttribute('data-sky-icon')).toContain(
+      'document-' + expectedClassExtension,
     );
 
     const imageEl = getImage();

@@ -1,11 +1,32 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('sky-page-header-actions') {
+  --sky-override-page-header-actions-button-space-bottom: var(
+    --sky-margin-stacked-sm
+  );
+  --sky-override-page-header-actions-button-space-right: var(
+    --sky-margin-inline-sm
+  );
+  --sky-override-page-header-actions-space-bottom: calc(
+    var(--sky-margin-stacked-sm) * -1
+  );
+  --sky-override-page-header-actions-space-top: var(--sky-margin-stacked-xl);
+}
+
 sky-page-header-actions {
   display: block;
 
   &:not(:empty) {
-    margin-top: var(--sky-margin-stacked-xl);
+    margin-top: var(
+      --sky-override-page-header-actions-space-top,
+      var(--sky-space-stacked-xl)
+    );
     // Negate the bottom margin of the last row of buttons so it doesn't create extra
     // vertical space between the actions and the page content.
-    margin-bottom: calc(var(--sky-margin-stacked-sm) * -1);
+    margin-bottom: var(
+      --sky-override-page-header-actions-space-bottom,
+      calc(var(--sky-space-stacked-s) * -1)
+    );
   }
 
   > sky-dropdown {
@@ -16,13 +37,19 @@ sky-page-header-actions {
   // inside the dropdown.
   > :is(.sky-btn, sky-dropdown) {
     // Vertical space between rows of buttons that have wrapped.
-    margin-bottom: var(--sky-margin-stacked-sm);
+    margin-bottom: var(
+      --sky-override-page-header-actions-button-space-bottom,
+      var(--sky-space-stacked-s)
+    );
 
     &:not(:last-child) {
       // Horizontal space between buttons on the same row. Use margin-right so that
       // extra horizontal space is not added to the first button that wraps to the
       // next line.
-      margin-right: var(--sky-margin-inline-sm);
+      margin-right: var(
+        --sky-override-page-header-actions-button-space-right,
+        var(--sky-space-gap-action_group-m)
+      );
     }
   }
 }

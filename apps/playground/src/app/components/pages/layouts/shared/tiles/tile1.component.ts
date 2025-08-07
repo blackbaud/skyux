@@ -4,7 +4,6 @@ import { SkyTilesModule } from '@skyux/tiles';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'div.page-blocks-tile1',
-  standalone: true,
   imports: [SkyTilesModule],
   template: `<sky-tile
     helpPopoverContent="Sample help information for tile 1."

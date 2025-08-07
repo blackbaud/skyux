@@ -17,6 +17,7 @@ export function flyoutTestSampleFactory(): SkyFlyoutTestSampleContext {
 @Component({
   selector: 'sky-test-component',
   templateUrl: './flyout.component.fixture.html',
+  standalone: false,
 })
 export class SkyFlyoutTestComponent {
   #flyoutService: SkyFlyoutService;

@@ -163,16 +163,22 @@ describe('Label component', () => {
     fixture.componentInstance.labelType = 'danger';
 
     fixture.detectChanges();
-    expect(getLabel(fixture).querySelector('i')).toHaveCssClass('fa-warning');
+    expect(
+      getLabel(fixture)
+        .querySelector('sky-icon-svg')
+        ?.getAttribute('data-sky-icon'),
+    ).toBe('warning');
   });
 
   it('should render the correct icon when no `labelType` is given', () => {
     const fixture = TestBed.createComponent(LabelTestComponent);
 
     fixture.detectChanges();
-    expect(getLabelWithoutLabelType(fixture).querySelector('i')).toHaveCssClass(
-      'fa-exclamation-circle',
-    );
+    expect(
+      getLabelWithoutLabelType(fixture)
+        .querySelector('sky-icon-svg')
+        ?.getAttribute('data-sky-icon'),
+    ).toBe('info');
   });
 
   describe('a11y', () => {

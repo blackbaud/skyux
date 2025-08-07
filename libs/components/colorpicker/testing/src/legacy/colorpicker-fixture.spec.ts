@@ -27,6 +27,7 @@ import { SkyColorpickerFixture } from './colorpicker-fixture';
       </sky-colorpicker>
     </div>
   `,
+  standalone: false,
 })
 class TestComponent {
   public hexColor = '#000';

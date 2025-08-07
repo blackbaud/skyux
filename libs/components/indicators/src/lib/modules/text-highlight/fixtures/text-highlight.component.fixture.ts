@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-text-highlight-component',
   templateUrl: './text-highlight.component.fixture.html',
+  standalone: false,
 })
 export class SkyTextHighlightTestComponent {
   public searchTerm: string | string[] | undefined;

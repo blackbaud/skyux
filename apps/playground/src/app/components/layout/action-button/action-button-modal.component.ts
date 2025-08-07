@@ -3,7 +3,6 @@ import { SkyActionButtonModule } from '@skyux/layout';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   imports: [SkyActionButtonModule, SkyModalModule],
   templateUrl: './action-button-modal.component.html',
 })

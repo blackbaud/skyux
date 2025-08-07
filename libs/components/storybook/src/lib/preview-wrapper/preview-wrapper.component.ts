@@ -7,47 +7,55 @@ import {
   OnInit,
   Renderer2,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   SkyTheme,
+  SkyThemeBrand,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
+  SkyThemeSpacing,
 } from '@skyux/theme';
+
+import { FontLoadingService } from '../font-loading/font-loading.service';
 
 import { PreviewWrapperThemeValue } from './preview-wrapper-theme-value';
 
 @Component({
   selector: 'sky-preview-wrapper',
-  template: '<ng-content />',
+  templateUrl: './preview-wrapper.component.html',
   styleUrls: ['./preview-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class PreviewWrapperComponent implements OnInit, OnDestroy {
   @Input()
   public set theme(value: PreviewWrapperThemeValue | undefined) {
-    this.#removeModernV2Class();
-
     const themeOrDefault = value ?? 'default';
-    if (themeOrDefault.match(/^modern(-(light|dark))?$/)) {
+    if (themeOrDefault === 'modern-light') {
+      this.themeSettings = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+      );
+    } else if (themeOrDefault.match(/^modern-v2(-(light|dark))?$/)) {
       if (themeOrDefault.includes('dark')) {
         this.themeSettings = new SkyThemeSettings(
           SkyTheme.presets.modern,
           SkyThemeMode.presets.dark,
+          SkyThemeSpacing.presets.standard,
+          new SkyThemeBrand('blackbaud', '1.0.0'),
         );
       } else {
         this.themeSettings = new SkyThemeSettings(
           SkyTheme.presets.modern,
           SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.standard,
+          new SkyThemeBrand('blackbaud', '1.0.0'),
         );
       }
-    } else if (themeOrDefault.includes('v2')) {
-      this.themeSettings = new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
-      );
-      this.#addModernV2Class();
     } else {
       this.themeSettings = new SkyThemeSettings(
         SkyTheme.presets.default,
@@ -65,6 +73,8 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
       this.#themeService.setTheme(this.#_themeSettings);
     }
   }
+
+  protected ready = toSignal(inject(FontLoadingService).ready(true));
 
   #_themeSettings = new SkyThemeSettings(
     SkyTheme.presets.default,
@@ -93,13 +103,5 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.#themeService.destroy();
-  }
-
-  #addModernV2Class() {
-    this.#renderer.addClass(document.body, 'sky-theme-brand-blackbaud');
-  }
-
-  #removeModernV2Class() {
-    this.#renderer.removeClass(document.body, 'sky-theme-brand-blackbaud');
   }
 }

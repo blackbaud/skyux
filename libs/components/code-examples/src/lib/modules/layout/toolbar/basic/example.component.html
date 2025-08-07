@@ -1,0 +1,38 @@
+<sky-toolbar data-sky-id="basic-toolbar">
+  <sky-toolbar-item data-sky-id="toolbar-item-1">
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="onButtonClicked('Button 1')"
+    >
+      Button 1
+    </button>
+  </sky-toolbar-item>
+  <sky-toolbar-item data-sky-id="toolbar-item-2">
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="onButtonClicked('Button 2')"
+    >
+      Button 2
+    </button>
+  </sky-toolbar-item>
+  <sky-toolbar-view-actions>
+    <button
+      class="sky-btn sky-btn-default sky-btn-icon"
+      title="Sort descending"
+      type="button"
+      (click)="onButtonClicked('Expand')"
+    >
+      <sky-icon iconName="chevron-double-down" />
+    </button>
+    <button
+      class="sky-btn sky-btn-default sky-btn-icon"
+      title="Sort ascending"
+      type="button"
+      (click)="onButtonClicked('Collapse')"
+    >
+      <sky-icon iconName="chevron-double-up" />
+    </button>
+  </sky-toolbar-view-actions>
+</sky-toolbar>

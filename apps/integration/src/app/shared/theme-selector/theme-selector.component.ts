@@ -1,148 +1,146 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
-import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import {
   SkyTheme,
+  SkyThemeBrand,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
   SkyThemeSpacing,
 } from '@skyux/theme';
 
+import { ThemeSelectorModeValue } from './theme-selector-mode-value';
 import { ThemeSelectorSpacingValue } from './theme-selector-spacing-value';
 import { ThemeSelectorValue } from './theme-selector-value';
 
 interface LocalStorageSettings {
   themeName: ThemeSelectorValue;
+  themeMode: ThemeSelectorModeValue;
   themeSpacing: ThemeSelectorSpacingValue;
+  themeBrand?: SkyThemeBrand;
 }
 
-const PREVIOUS_SETTINGS_KEY = 'skyux-playground-theme-selector-settings';
+const AVAILABLE_BRANDS = [
+  new SkyThemeBrand('blackbaud', '1.0.0'),
+  new SkyThemeBrand('rainbow', '1.0.1'),
+];
+const PREVIOUS_SETTINGS_KEY =
+  'skyux-playground-theme-mode-spacing-selector-settings';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'sky-theme-selector',
-  standalone: true,
-  imports: [FormsModule, SkyIdModule, SkyInputBoxModule],
+  imports: [FormsModule, SkyCheckboxModule, SkyIdModule, SkyInputBoxModule],
   templateUrl: './theme-selector.component.html',
 })
 export class SkyThemeSelectorComponent implements OnInit {
-  public set themeName(value: ThemeSelectorValue | undefined) {
-    const previousThemeName = this.#_themeName;
-    this.#_themeName = value;
-
-    if (value !== previousThemeName) {
-      this.#updateThemeSettings();
-    }
-  }
-
-  public get themeName(): ThemeSelectorValue | undefined {
-    return this.#_themeName;
-  }
-
-  public set themeSpacing(value: ThemeSelectorSpacingValue | undefined) {
-    const previous = this.#_themeSpacing;
-    this.#_themeSpacing = value;
-
-    if (value !== previous) {
-      this.#updateThemeSettings();
-    }
-  }
-
-  public get themeSpacing(): ThemeSelectorSpacingValue | undefined {
-    return this.#_themeSpacing;
-  }
-
-  protected spacingValues: ThemeSelectorSpacingValue[] = [];
-
-  #_themeName: ThemeSelectorValue | undefined;
-  #_themeSpacing: ThemeSelectorSpacingValue | undefined;
-
   #themeSvc = inject(SkyThemeService);
-  #currentThemeSettings: SkyThemeSettings | undefined;
+
+  #currentTheme = computed(
+    () => SkyTheme.presets[this.themeName() as ThemeSelectorValue],
+  );
+
+  protected readonly themeBrand = signal<SkyThemeBrand | undefined>(undefined);
+  protected readonly themeName = signal<ThemeSelectorValue>('default');
+  protected readonly themeMode = signal<ThemeSelectorModeValue>('light');
+  protected readonly themeSpacing =
+    signal<ThemeSelectorSpacingValue>('standard');
+
+  protected readonly brandingValues = computed(() =>
+    this.#currentTheme().name === 'default' ? [] : AVAILABLE_BRANDS,
+  );
+
+  protected readonly spacingValues = computed(() =>
+    this.#currentTheme().supportedSpacing.map((spacing) => spacing.name),
+  );
+
+  protected readonly modeValues = computed(() =>
+    this.#currentTheme().supportedModes.map((mode) => mode.name),
+  );
+
+  constructor() {
+    effect(() => {
+      this.#updateThemeSettings(
+        this.themeName(),
+        this.themeMode(),
+        this.themeSpacing(),
+        this.themeBrand(),
+      );
+    });
+  }
 
   public ngOnInit(): void {
     const previousSettings = this.#getLastSettings();
 
     if (previousSettings) {
       try {
-        this.themeName = previousSettings.themeName;
-        this.themeSpacing = previousSettings.themeSpacing;
+        this.themeName.set(previousSettings.themeName);
+        this.themeMode.set(previousSettings.themeMode);
+        this.themeSpacing.set(previousSettings.themeSpacing);
+        this.themeBrand.set(
+          this.brandingValues().find(
+            (theme) => theme.name === previousSettings.themeBrand?.name,
+          ) ?? undefined,
+        );
       } catch {
         // Bad settings.
       }
     }
-
-    this.#themeSvc.settingsChange.subscribe((settingsChange) => {
-      const settings = settingsChange.currentSettings;
-
-      if (settings.theme === SkyTheme.presets.modern) {
-        this.themeName =
-          settings.mode === SkyThemeMode.presets.dark
-            ? 'modern-dark'
-            : 'modern-light';
-
-        this.themeSpacing = settings.spacing.name as ThemeSelectorSpacingValue;
-      } else {
-        this.themeName = 'default';
-        this.themeSpacing = 'standard';
-      }
-
-      this.#currentThemeSettings = settings;
-      this.#updateSpacingOptions();
-    });
   }
 
-  #updateSpacingOptions(): void {
-    if (this.#currentThemeSettings) {
-      this.spacingValues =
-        this.#currentThemeSettings.theme.supportedSpacing.map(
-          (spacing) => spacing.name as ThemeSelectorSpacingValue,
-        );
-    }
-  }
-
-  #updateThemeSettings(): void {
-    const themeSpacing =
-      this.themeSpacing && SkyThemeSpacing.presets[this.themeSpacing];
+  #updateThemeSettings(
+    themeName: ThemeSelectorValue,
+    themeModeName: ThemeSelectorModeValue,
+    themeSpacingName: ThemeSelectorSpacingValue,
+    themeBrand?: SkyThemeBrand,
+  ): void {
+    const themeSpacing = SkyThemeSpacing.presets[themeSpacingName];
+    const themeMode = SkyThemeMode.presets[themeModeName];
 
     let theme: SkyTheme;
-    let themeMode = SkyThemeMode.presets.light;
 
-    switch (this.themeName) {
-      case 'modern-light':
-        theme = SkyTheme.presets.modern;
-        break;
-      case 'modern-dark':
-        theme = SkyTheme.presets.modern;
-        themeMode = SkyThemeMode.presets.dark;
-        break;
-      default:
-        theme = SkyTheme.presets.default;
-        break;
+    if (themeName === 'modern') {
+      theme = SkyTheme.presets.modern;
+    } else {
+      theme = SkyTheme.presets.default;
     }
 
     this.#themeSvc.setTheme(
-      new SkyThemeSettings(theme, themeMode, themeSpacing),
+      new SkyThemeSettings(
+        theme,
+        themeMode,
+        themeSpacing,
+        themeName !== 'default' ? themeBrand : undefined,
+      ),
     );
 
     this.#saveSettings({
-      themeName: this.themeName,
-      themeSpacing: this.themeSpacing,
+      themeName: themeName,
+      themeMode: themeModeName,
+      themeSpacing: themeSpacingName,
+      themeBrand: themeBrand,
     });
   }
 
   #getLastSettings(): LocalStorageSettings | undefined {
     try {
-      return JSON.parse(localStorage.getItem(PREVIOUS_SETTINGS_KEY) ?? '{}');
+      return JSON.parse(localStorage.getItem(PREVIOUS_SETTINGS_KEY) ?? '');
     } catch {
       // Local storage is disabled or settings are invalid.
       return undefined;
     }
   }
 
-  #saveSettings(settings: Partial<LocalStorageSettings>): void {
+  #saveSettings(settings: LocalStorageSettings): void {
     try {
       localStorage.setItem(PREVIOUS_SETTINGS_KEY, JSON.stringify(settings));
     } catch {

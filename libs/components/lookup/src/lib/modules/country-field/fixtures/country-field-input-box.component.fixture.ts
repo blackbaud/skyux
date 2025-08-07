@@ -7,11 +7,14 @@ import { SkyCountryFieldCountry } from '../types/country';
 
 @Component({
   selector: 'sky-test-cmp',
-  standalone: true,
   imports: [FormsModule, SkyCountryFieldModule, SkyInputBoxModule],
   templateUrl: './country-field-input-box.component.fixture.html',
 })
 export class CountryFieldInputBoxTestComponent {
   public hintText: string | undefined;
   public modelValue: SkyCountryFieldCountry | undefined;
+
+  public countryChanged(country: SkyCountryFieldCountry): void {
+    return;
+  }
 }

@@ -11,7 +11,6 @@ import { SkySkipLink } from './skip-link';
 import { SkySkipLinkAdapterService } from './skip-link-adapter.service';
 
 @Component({
-  standalone: true,
   selector: 'sky-skip-link-host',
   templateUrl: './skip-link-host.component.html',
   styleUrls: ['./skip-link-host.component.scss'],

@@ -3,7 +3,41 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('body') {
+  // BLOCK LAYOUT CUSTOM PROPERTIES
+  // xs breakpoint
+  --sky-override-page-content-blocks-spacing-xs: 10px;
+
+  // sm breakpoint
+  --sky-override-page-header-blocks-spacing-sm: 20px 20px 0 20px;
+  --sky-override-page-content-blocks-spacing-sm: 20px;
+
+  // FIT AND LIST LAYOUT CUSTOM PROPERTIES
+  // xs breakpoint
+  --sky-override-page-content-fit-list-spacing-xs: 0 10px;
+
+  // sm breakpoint
+  --sky-override-page-header-fit-list-spacing-sm: 20px;
+  --sky-override-page-content-fit-list-spacing-sm: 0 20px;
+
+  // TABS LAYOUT CUSTOM PROPERTIES
+  // xs breakpoint
   --sky-override-tabset-padding-xs-breakpoint: 10px;
+
+  // sm breakpoint
+  --sky-override-page-header-tabs-spacing-sm: 20px;
+  --sky-override-page-content-tabs-spacing-sm: 20px;
+
+  // OTHER OVERRIDES
+  --sky-override-page-content-with-links-spacing-sm: var(
+    --sky-margin-inline-xl
+  );
+  --sky-override-page-content-with-links-spacing-xs: var(
+      --sky-margin-stacked-xl
+    )
+    var(--sky-margin-inline-sm);
+  --sky-override-page-header-avatar-size-space: var(--sky-margin-inline-xl);
+  --sky-override-page-header-link-rows-space: var(--sky-margin-stacked-xl);
+  --sky-override-page-header-spacing-xs: 20px 10px;
 }
 
 // xs breakpoint
@@ -12,10 +46,6 @@
   &-list,
   &-tabs {
     display: block;
-
-    --sky-layout-host-links-spacing: var(--sky-margin-stacked-xl)
-      var(--sky-margin-inline-sm);
-
     .sky-margin-stacked-xl:empty {
       margin-bottom: 0;
     }
@@ -46,7 +76,10 @@
   &-tabs {
     &:has(> sky-page-content):has(> sky-page-links) {
       > sky-page-content {
-        margin-right: var(--sky-margin-inline-xl);
+        margin-right: var(
+          --sky-override-page-content-with-links-spacing-sm,
+          var(--sky-space-inline-xl)
+        );
       }
     }
   }
@@ -68,27 +101,93 @@
     --sky-layout-host-links-display: none;
   }
 
-  &-blocks,
-  &-list,
-  &-fit,
-  &-tabs {
-    --sky-layout-host-header-spacing: 20px 10px;
-  }
-
   &-blocks {
-    --sky-layout-host-content-spacing: 10px;
+    --sky-layout-host-content-spacing: var(
+      --sky-override-page-content-blocks-spacing-xs,
+      var(--sky-comp-layout-content-blocks-space-inset-xs-top)
+        var(--sky-comp-layout-content-blocks-space-inset-xs-right)
+        var(--sky-comp-layout-content-blocks-space-inset-xs-bottom)
+        var(--sky-comp-layout-content-blocks-space-inset-xs-left)
+    );
+    --sky-layout-host-header-spacing: var(
+      --sky-override-page-header-spacing-xs,
+      var(--sky-comp-layout-header-blocks-space-inset-xs-top)
+        var(--sky-comp-layout-header-blocks-space-inset-xs-right)
+        var(--sky-comp-layout-header-blocks-space-inset-xs-bottom)
+        var(--sky-comp-layout-header-blocks-space-inset-xs-left)
+    );
+    --sky-layout-host-links-spacing: var(
+      --sky-override-page-content-with-links-spacing-xs,
+      var(--sky-comp-layout-links-blocks-space-inset-xs-top)
+        var(--sky-comp-layout-links-blocks-space-inset-xs-right)
+        var(--sky-comp-layout-links-blocks-space-inset-xs-bottom)
+        var(--sky-comp-layout-links-blocks-space-inset-xs-left)
+    );
   }
 
-  &-fit,
+  &-fit {
+    --sky-layout-host-content-spacing: var(
+      --sky-override-page-content-fit-list-spacing-xs,
+      var(--sky-comp-layout-content-fit-space-inset-xs-top)
+        var(--sky-comp-layout-content-fit-space-inset-xs-right)
+        var(--sky-comp-layout-content-fit-space-inset-xs-bottom)
+        var(--sky-comp-layout-content-fit-space-inset-xs-left)
+    );
+    --sky-layout-host-header-spacing: var(
+      --sky-override-page-header-spacing-xs,
+      var(--sky-comp-layout-header-fit-space-inset-xs-top)
+        var(--sky-comp-layout-header-fit-space-inset-xs-right)
+        var(--sky-comp-layout-header-fit-space-inset-xs-bottom)
+        var(--sky-comp-layout-header-fit-space-inset-xs-left)
+    );
+  }
+
   &-list {
-    --sky-layout-host-content-spacing: 0 10px;
+    --sky-layout-host-content-spacing: var(
+      --sky-override-page-content-fit-list-spacing-xs,
+      var(--sky-comp-layout-content-list-space-inset-xs-top)
+        var(--sky-comp-layout-content-list-space-inset-xs-right)
+        var(--sky-comp-layout-content-list-space-inset-xs-bottom)
+        var(--sky-comp-layout-content-list-space-inset-xs-left)
+    );
+    --sky-layout-host-links-spacing: var(
+      --sky-override-page-content-with-links-spacing-xs,
+      var(--sky-comp-layout-links-list-space-inset-xs-top)
+        var(--sky-comp-layout-links-list-space-inset-xs-right)
+        var(--sky-comp-layout-links-list-space-inset-xs-bottom)
+        var(--sky-comp-layout-links-list-space-inset-xs-left)
+    );
+    --sky-layout-host-header-spacing: var(
+      --sky-override-page-header-spacing-xs,
+      var(--sky-comp-layout-header-list-space-inset-xs-top)
+        var(--sky-comp-layout-header-list-space-inset-xs-right)
+        var(--sky-comp-layout-header-list-space-inset-xs-bottom)
+        var(--sky-comp-layout-header-list-space-inset-xs-left)
+    );
   }
 
   &-tabs {
     --sky-layout-host-content-spacing: 0;
     --sky-layout-host-tab-content-spacing: var(
       --sky-override-tabset-padding-xs-breakpoint,
-      var(--sky-space-inset-tabs-s)
+      var(--sky-comp-layout-tabset-tabs-space-inset-xs-top)
+        var(--sky-comp-layout-tabset-tabs-space-inset-xs-right)
+        var(--sky-comp-layout-tabset-tabs-space-inset-xs-bottom)
+        var(--sky-comp-layout-tabset-tabs-space-inset-xs-left)
+    );
+    --sky-layout-host-links-spacing: var(
+      --sky-override-page-content-with-links-spacing-xs,
+      var(--sky-comp-layout-links-tabs-space-inset-xs-top)
+        var(--sky-comp-layout-links-tabs-space-inset-xs-right)
+        var(--sky-comp-layout-links-tabs-space-inset-xs-bottom)
+        var(--sky-comp-layout-links-tabs-space-inset-xs-left)
+    );
+    --sky-layout-host-header-spacing: var(
+      --sky-override-page-header-spacing-xs,
+      var(--sky-comp-layout-header-tabs-space-inset-xs-top)
+        var(--sky-comp-layout-header-tabs-space-inset-xs-right)
+        var(--sky-comp-layout-header-tabs-space-inset-xs-bottom)
+        var(--sky-comp-layout-header-tabs-space-inset-xs-left)
     );
   }
 
@@ -103,8 +202,6 @@
     &-list,
     &-tabs {
       &:has(> sky-page-content):has(> sky-page-links) {
-        --sky-layout-host-links-spacing: var(--sky-margin-inline-xl);
-
         > sky-page-header,
         .sky-page-header,
         .sky-page-header-info,
@@ -144,15 +241,37 @@
           'header-avatar header-content links'
           'content       content        links';
         grid-template-rows:
-          minmax(var(--sky-margin-stacked-xl), min-content)
-          minmax(var(--sky-margin-stacked-xl), min-content)
-          minmax(var(--sky-margin-stacked-xl), min-content)
+          minmax(
+            var(
+              --sky-override-page-header-link-rows-space,
+              var(--sky-space-stacked-xl)
+            ),
+            min-content
+          )
+          minmax(
+            var(
+              --sky-override-page-header-link-rows-space,
+              var(--sky-space-stacked-xl)
+            ),
+            min-content
+          )
+          minmax(
+            var(
+              --sky-override-page-header-link-rows-space,
+              var(--sky-space-stacked-xl)
+            ),
+            min-content
+          )
           auto;
         grid-template-columns: 0 75% 25%;
 
         &:has(sky-page-header-avatar:not(:empty)) {
           --sky-layout-host-header-avatar-size: calc(
-            120px + var(--sky-margin-inline-xl)
+            120px +
+              var(
+                --sky-override-page-header-avatar-size-space,
+                var(--sky-space-inline-xl)
+              )
           );
           grid-template-columns:
             var(--sky-layout-host-header-avatar-size)
@@ -173,44 +292,100 @@
 
   .sky-layout-host {
     &-blocks {
-      --sky-layout-host-header-spacing: 20px 20px 0 20px;
-      --sky-layout-host-content-spacing: 20px;
+      --sky-layout-host-header-spacing: var(
+        --sky-override-page-header-blocks-spacing-sm,
+        var(--sky-comp-layout-header-blocks-space-inset-sm-top)
+          var(--sky-comp-layout-header-blocks-space-inset-sm-right)
+          var(--sky-comp-layout-header-blocks-space-inset-sm-bottom)
+          var(--sky-comp-layout-header-blocks-space-inset-sm-left)
+      );
+      --sky-layout-host-content-spacing: var(
+        --sky-override-page-content-blocks-spacing-sm,
+        var(--sky-comp-layout-content-blocks-space-inset-sm-top)
+          var(--sky-comp-layout-content-blocks-space-inset-sm-right)
+          var(--sky-comp-layout-content-blocks-space-inset-sm-bottom)
+          var(--sky-comp-layout-content-blocks-space-inset-sm-left)
+      );
+
+      &:has(> sky-page-content):has(> sky-page-links) {
+        --sky-layout-host-links-spacing: var(
+          --sky-override-page-content-with-links-spacing-sm,
+          var(--sky-comp-layout-links-blocks-space-inset-sm-top)
+            var(--sky-comp-layout-links-blocks-space-inset-sm-right)
+            var(--sky-comp-layout-links-blocks-space-inset-sm-bottom)
+            var(--sky-comp-layout-links-blocks-space-inset-sm-left)
+        );
+      }
     }
 
-    &-fit,
+    &-fit {
+      --sky-layout-host-header-spacing: var(
+        --sky-override-page-header-fit-list-spacing-sm,
+        var(--sky-comp-layout-header-fit-space-inset-sm-top)
+          var(--sky-comp-layout-header-fit-space-inset-sm-right)
+          var(--sky-comp-layout-header-fit-space-inset-sm-bottom)
+          var(--sky-comp-layout-header-fit-space-inset-sm-left)
+      );
+      --sky-layout-host-content-spacing: var(
+        --sky-override-page-content-fit-list-spacing-sm,
+        var(--sky-comp-layout-content-fit-space-inset-sm-top)
+          var(--sky-comp-layout-content-fit-space-inset-sm-right)
+          var(--sky-comp-layout-content-fit-space-inset-sm-bottom)
+          var(--sky-comp-layout-content-fit-space-inset-sm-left)
+      );
+    }
+
     &-list {
-      --sky-layout-host-header-spacing: 20px;
-      --sky-layout-host-content-spacing: 0 20px;
+      --sky-layout-host-header-spacing: var(
+        --sky-override-page-header-fit-list-spacing-sm,
+        var(--sky-comp-layout-header-list-space-inset-sm-top)
+          var(--sky-comp-layout-header-list-space-inset-sm-right)
+          var(--sky-comp-layout-header-list-space-inset-sm-bottom)
+          var(--sky-comp-layout-header-list-space-inset-sm-left)
+      );
+      --sky-layout-host-content-spacing: var(
+        --sky-override-page-content-fit-list-spacing-sm,
+        var(--sky-comp-layout-content-list-space-inset-sm-top)
+          var(--sky-comp-layout-content-list-space-inset-sm-right)
+          var(--sky-comp-layout-content-list-space-inset-sm-bottom)
+          var(--sky-comp-layout-content-list-space-inset-sm-left)
+      );
+
+      &:has(> sky-page-content):has(> sky-page-links) {
+        --sky-layout-host-links-spacing: var(
+          --sky-override-page-content-with-links-spacing-sm,
+          var(--sky-comp-layout-links-list-space-inset-sm-top)
+            var(--sky-comp-layout-links-list-space-inset-sm-right)
+            var(--sky-comp-layout-links-list-space-inset-sm-bottom)
+            var(--sky-comp-layout-links-list-space-inset-sm-left)
+        );
+      }
     }
 
     &-tabs {
-      --sky-layout-host-header-spacing: 20px;
-      --sky-layout-host-tab-content-spacing: 20px;
-    }
-  }
-}
+      --sky-layout-host-header-spacing: var(
+        --sky-override-page-header-tabs-spacing-sm,
+        var(--sky-comp-layout-header-tabs-space-inset-sm-top)
+          var(--sky-comp-layout-header-tabs-space-inset-sm-right)
+          var(--sky-comp-layout-header-tabs-space-inset-sm-bottom)
+          var(--sky-comp-layout-header-tabs-space-inset-sm-left)
+      );
+      --sky-layout-host-tab-content-spacing: var(
+        --sky-override-page-content-tabs-spacing-sm,
+        var(--sky-comp-layout-tabset-tabs-space-inset-sm-top)
+          var(--sky-comp-layout-tabset-tabs-space-inset-sm-right)
+          var(--sky-comp-layout-tabset-tabs-space-inset-sm-bottom)
+          var(--sky-comp-layout-tabset-tabs-space-inset-sm-left)
+      );
 
-.sky-theme-modern {
-  @include mixins.sky-host-responsive-container-sm-min(false) {
-    .sky-layout-host {
-      &-blocks {
-        --sky-layout-host-header-spacing: 30px 30px 0 30px;
-        --sky-layout-host-content-spacing: 30px;
-      }
-
-      &-fit,
-      &-list,
-      &-tabs {
-        --sky-layout-host-header-spacing: 30px 30px 20px 30px;
-      }
-
-      &-fit,
-      &-list {
-        --sky-layout-host-content-spacing: 0 30px;
-      }
-
-      &-tabs {
-        --sky-layout-host-tab-content-spacing: var(--sky-space-inset-tabs-xl);
+      &:has(> sky-page-content):has(> sky-page-links) {
+        --sky-layout-host-links-spacing: var(
+          --sky-override-page-content-with-links-spacing-sm,
+          var(--sky-comp-layout-links-tabs-space-inset-sm-top)
+            var(--sky-comp-layout-links-tabs-space-inset-sm-right)
+            var(--sky-comp-layout-links-tabs-space-inset-sm-bottom)
+            var(--sky-comp-layout-links-tabs-space-inset-sm-left)
+        );
       }
     }
   }

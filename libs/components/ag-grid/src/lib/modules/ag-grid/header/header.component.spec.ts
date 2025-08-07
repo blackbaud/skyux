@@ -14,11 +14,13 @@ import { SkyAgGridHeaderComponent } from './header.component';
 
 @Component({
   template: `<span class="test-help-component">Help text</span>`,
+  imports: [SkyI18nModule, SkyIconModule, SkyThemeModule],
 })
 class TestHelpComponent {}
 
 @Component({
   template: `<span class="other-help-component">Other help text</span>`,
+  imports: [SkyI18nModule, SkyIconModule, SkyThemeModule],
 })
 class OtherTestHelpComponent {}
 
@@ -32,12 +34,14 @@ describe('HeaderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        SkyI18nModule,
+        SkyIconModule,
+        SkyThemeModule,
         SkyAgGridHeaderComponent,
         TestHelpComponent,
         OtherTestHelpComponent,
       ],
-      imports: [SkyI18nModule, SkyIconModule, SkyThemeModule],
     });
     apiEvents = {};
     columnEvents = {};
@@ -157,8 +161,8 @@ describe('HeaderComponent', () => {
     expect(
       fixture.debugElement.query(
         By.css('.ag-sort-indicator-container sky-icon'),
-      ).attributes['icon'],
-    ).toBe('caret-up');
+      ).attributes['iconName'],
+    ).toBe('chevron-up');
     expect(
       document.querySelector('.ag-sort-indicator-container'),
     ).not.toBeNull();
@@ -170,8 +174,8 @@ describe('HeaderComponent', () => {
     expect(
       fixture.debugElement.query(
         By.css('.ag-sort-indicator-container sky-icon'),
-      ).attributes['icon'],
-    ).toBe('caret-down');
+      ).attributes['iconName'],
+    ).toBe('chevron-down');
     expect(
       document.querySelector('.ag-sort-indicator-container'),
     ).not.toBeNull();

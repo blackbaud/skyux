@@ -81,32 +81,19 @@ describe('Illustration harness', () => {
       await validate('xl');
     });
 
-    it('should throw an error when one dimension is altered', fakeAsync(async () => {
+    it('should throw an error when the class is altered', fakeAsync(async () => {
       const { fixture, harness } = await setupTest();
       fixture.componentRef.setInput('size', 'sm');
 
-      fixture.nativeElement
-        .querySelector('.sky-illustration-img')
-        .setAttribute('width', '1');
-
-      await expectAsync(harness.getSize()).toBeRejectedWithError(
-        'The image height and width do not match.',
-      );
-    }));
-
-    it('should throw an error when both dimensions are altered to the same value', fakeAsync(async () => {
-      const { fixture, harness } = await setupTest();
-      fixture.componentRef.setInput('size', 'sm');
-
-      const imgEl: HTMLImageElement = fixture.nativeElement.querySelector(
+      const classList = fixture.nativeElement.querySelector(
         '.sky-illustration-img',
-      );
+      ).classList;
 
-      imgEl.setAttribute('height', '1');
-      imgEl.setAttribute('width', '1');
+      classList.remove('sky-illustration-img-sm');
+      classList.add('sky-illustration-img-fake');
 
       await expectAsync(harness.getSize()).toBeRejectedWithError(
-        'The image dimensions do not match the specified illustration size.',
+        'Size was not set.',
       );
     }));
 

@@ -26,15 +26,27 @@ import { SkyIconHarness } from './icon-harness';
       [variant]="variant"
       [size]="size"
     />
-    <sky-icon data-sky-id="test-icon" icon="sort" />
+    <sky-icon data-sky-id="test-icon" icon="sort" size="md" />
+    <sky-icon
+      data-sky-id="svg-icon"
+      [iconName]="svgIconName"
+      [variant]="svgVariant"
+      [iconSize]="svgIconSize"
+      [size]="svgIconRelativeSize"
+    />
   `,
+  standalone: false,
 })
 class TestComponent {
   public iconName: string | undefined = 'house';
-  public iconType: string | undefined = undefined;
-  public fixedWidth: boolean | undefined = undefined;
-  public variant: string | undefined = undefined;
-  public size: string | undefined = undefined;
+  public iconType: string | undefined;
+  public fixedWidth: boolean | undefined;
+  public variant: string | undefined;
+  public size: string | undefined;
+  public svgIconName: string | undefined = 'filter';
+  public svgVariant: string | undefined;
+  public svgIconSize: string | undefined;
+  public svgIconRelativeSize: string | undefined;
 }
 //#endregion Test component
 
@@ -44,6 +56,18 @@ async function validateIconName(
   iconName: string | undefined,
 ): Promise<void> {
   fixture.componentInstance.iconName = iconName;
+
+  fixture.detectChanges();
+
+  await expectAsync(iconHarness.getIconName()).toBeResolvedTo(iconName);
+}
+
+async function validateSvgIconName(
+  iconHarness: SkyIconHarness,
+  fixture: ComponentFixture<TestComponent>,
+  iconName: string | undefined,
+): Promise<void> {
+  fixture.componentInstance.svgIconName = iconName;
 
   fixture.detectChanges();
 
@@ -81,13 +105,29 @@ async function validateFixedWidth(
 async function validateIconSize(
   iconHarness: SkyIconHarness,
   fixture: ComponentFixture<TestComponent>,
-  iconSize: string | undefined,
+  relativeSize: string | undefined,
 ): Promise<void> {
-  fixture.componentInstance.size = iconSize;
+  fixture.componentInstance.size = relativeSize;
 
   fixture.detectChanges();
 
-  await expectAsync(iconHarness.getIconSize()).toBeResolvedTo(iconSize);
+  await expectAsync(iconHarness.getIconSize()).toBeResolvedTo(relativeSize);
+}
+
+async function validateSvgIconSize(
+  iconHarness: SkyIconHarness,
+  fixture: ComponentFixture<TestComponent>,
+  relativeSize: string | undefined,
+  fixedSize: string | undefined,
+): Promise<void> {
+  fixture.componentInstance.svgIconRelativeSize = relativeSize;
+  fixture.componentInstance.svgIconSize = fixedSize;
+
+  fixture.detectChanges();
+
+  await expectAsync(iconHarness.getIconSize()).toBeResolvedTo(
+    relativeSize || fixedSize,
+  );
 }
 
 async function validateVariant(
@@ -102,9 +142,22 @@ async function validateVariant(
   await expectAsync(iconHarness.getVariant()).toBeResolvedTo(variant);
 }
 
+async function validateSvgVariant(
+  iconHarness: SkyIconHarness,
+  fixture: ComponentFixture<TestComponent>,
+  variant: string,
+): Promise<void> {
+  fixture.componentInstance.svgVariant = variant;
+
+  fixture.detectChanges();
+
+  await expectAsync(iconHarness.getVariant()).toBeResolvedTo(variant);
+}
+
 const iconTypes = ['fa', 'skyux'];
 const variants = ['line', 'solid'];
-const sizes = ['lg', '2x', '3x', '4x', '5x'];
+const relativeSizes = ['lg', '2x', '3x', '4x', '5x'];
+const sizes = ['xxxs', 'xxs', 'xs', 's', 'm', 'l', 'xl', 'xxl', 'xxxl'];
 
 describe('Icon harness', () => {
   let mockThemeSvc: {
@@ -172,6 +225,7 @@ describe('Icon harness', () => {
   it('should throw error if icon name is not set', async () => {
     const { iconHarness, fixture } = await setupTest();
     fixture.componentInstance.iconName = undefined;
+    fixture.componentInstance.svgIconName = undefined;
 
     fixture.detectChanges();
 
@@ -183,12 +237,12 @@ describe('Icon harness', () => {
   it('should return the correct icon size', async () => {
     const { iconHarness, fixture } = await setupTest();
 
-    for (const size of sizes) {
+    for (const size of relativeSizes) {
       await validateIconSize(iconHarness, fixture, size);
     }
   });
 
-  it('should return undefined if size is not set', async () => {
+  it('should return undefined if no size input is set', async () => {
     const { iconHarness, fixture } = await setupTest();
 
     await validateIconSize(iconHarness, fixture, undefined);
@@ -266,5 +320,51 @@ describe('Icon harness', () => {
     fixture.detectChanges();
 
     await expectAsync(iconHarness.getIconName()).toBeResolvedTo('sort');
+  });
+
+  describe('svg icons', () => {
+    it('should return the correct icon name for all icon variants', async () => {
+      const { iconHarness, fixture } = await setupTest({
+        dataSkyId: 'svg-icon',
+      });
+
+      for (const variant of variants) {
+        fixture.componentInstance.svgVariant = variant;
+
+        await validateSvgIconName(
+          iconHarness,
+          fixture,
+          fixture.componentInstance.svgIconName,
+        );
+      }
+    });
+
+    it('should return the correct icon size when relative size is used', async () => {
+      const { iconHarness, fixture } = await setupTest({
+        dataSkyId: 'svg-icon',
+      });
+      for (const size of relativeSizes) {
+        await validateSvgIconSize(iconHarness, fixture, size, undefined);
+      }
+    });
+
+    it('should return the correct icon size when fixed size is used', async () => {
+      const { iconHarness, fixture } = await setupTest({
+        dataSkyId: 'svg-icon',
+      });
+      for (const size of sizes) {
+        await validateSvgIconSize(iconHarness, fixture, undefined, size);
+      }
+    });
+
+    it('should return the correct variant', async () => {
+      const { iconHarness, fixture } = await setupTest({
+        dataSkyId: 'svg-icon',
+      });
+
+      for (const variant of variants) {
+        await validateSvgVariant(iconHarness, fixture, variant);
+      }
+    });
   });
 });

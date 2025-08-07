@@ -9,7 +9,6 @@ import { ModalFooterDropdownModalComponent } from './modal-footer-dropdown-modal
   templateUrl: './modal-footer-dropdown.component.html',
   styleUrls: ['./modal-footer-dropdown.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [NgTemplateOutlet],
 })
 export class ModalFooterDropdownComponent {

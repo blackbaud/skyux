@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -13,6 +14,9 @@ import {
   SkyDynamicComponentLocation,
   SkyDynamicComponentService,
 } from '@skyux/core';
+import { SkyI18nModule } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { IHeaderGroupAngularComp } from 'ag-grid-angular';
 import { ColumnGroupOpenedEvent, ProvidedColumnGroup } from 'ag-grid-community';
@@ -20,7 +24,8 @@ import {
   BehaviorSubject,
   Observable,
   Subscription,
-  fromEventPattern,
+  fromEvent,
+  takeUntil,
 } from 'rxjs';
 
 import { SkyAgGridHeaderGroupInfo } from '../types/header-group-info';
@@ -34,6 +39,7 @@ import { SkyAgGridHeaderGroupParams } from '../types/header-group-params';
   templateUrl: './header-group.component.html',
   styleUrls: ['./header-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyThemeModule, SkyIconModule, AsyncPipe, SkyI18nModule],
 })
 export class SkyAgGridHeaderGroupComponent
   implements IHeaderGroupAngularComp, OnDestroy, AfterViewInit
@@ -83,19 +89,16 @@ export class SkyAgGridHeaderGroupComponent
     this.#isExpandableSubject.next(this.#columnGroup.isExpandable());
     if (this.#isExpandableSubject.getValue()) {
       this.#subscriptions.add(
-        fromEventPattern<ColumnGroupOpenedEvent>(
-          (handler) =>
-            params.api.addEventListener('columnGroupOpened', handler),
-          (handler) =>
-            params.api.removeEventListener('columnGroupOpened', handler),
-        ).subscribe((event) => {
-          if (
-            this.#columnGroup &&
-            event.columnGroups.includes(this.#columnGroup)
-          ) {
-            this.#isExpandedSubject.next(this.#columnGroup.isExpanded());
-          }
-        }),
+        fromEvent<ColumnGroupOpenedEvent>(params.api, 'columnGroupOpened')
+          .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
+          .subscribe((event) => {
+            if (
+              this.#columnGroup &&
+              event.columnGroups.includes(this.#columnGroup)
+            ) {
+              this.#isExpandedSubject.next(this.#columnGroup.isExpanded());
+            }
+          }),
       );
     }
     this.#updateInlineHelp();

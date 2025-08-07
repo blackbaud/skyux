@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'test-infinite-scroll-harness',
   templateUrl: './infinite-scroll-harness-test.component.html',
+  standalone: false,
 })
 export class InfiniteScrollHarnessTestComponent {
   public enabled = true;

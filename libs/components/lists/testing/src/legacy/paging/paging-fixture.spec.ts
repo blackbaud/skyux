@@ -24,6 +24,7 @@ const DATA_SKY_ID = 'test-paging';
     </sky-paging>
     <p>The current page is {{ currentPage }}.</p>
   `,
+  standalone: false,
 })
 class PagingTestComponent {
   public currentPage = 1;

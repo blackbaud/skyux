@@ -70,6 +70,7 @@
                 [autocompleteAttribute]="autocompleteAttribute"
                 [disabled]="disabled"
                 (blur)="onAutocompleteBlur()"
+                (focus)="onFocus($event)"
                 (keydown)="inputKeydown($event)"
                 (keyup)="inputKeyup($event)"
               ></textarea>
@@ -92,6 +93,7 @@
                 [autocompleteAttribute]="autocompleteAttribute"
                 [disabled]="disabled"
                 (blur)="onAutocompleteBlur()"
+                (focus)="onFocus($event)"
               ></textarea>
               @if (!inputBoxHostSvc && !enableShowMore) {
                 <ng-container *ngTemplateOutlet="searchIconTemplateRef" />
@@ -119,7 +121,7 @@
       "
       (click)="onSearchButtonClick()"
     >
-      <sky-icon icon="search" />
+      <sky-icon iconName="search" iconSize="l" />
     </button>
   </div>
 </ng-template>
@@ -129,6 +131,6 @@
     class="sky-input-group-icon sky-input-box-icon-inset"
     [ngClass]="{ 'sky-lookup-disabled': disabled }"
   >
-    <sky-icon icon="search" />
+    <sky-icon iconName="search" iconSize="l" />
   </div>
 </ng-template>

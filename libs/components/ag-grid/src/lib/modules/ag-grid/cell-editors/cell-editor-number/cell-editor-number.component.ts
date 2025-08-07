@@ -5,7 +5,13 @@ import {
   HostListener,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { SkyI18nModule } from '@skyux/i18n';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
@@ -22,6 +28,7 @@ import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
   templateUrl: './cell-editor-number.component.html',
   styleUrls: ['./cell-editor-number.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule, ReactiveFormsModule, SkyI18nModule],
 })
 export class SkyAgGridCellEditorNumberComponent
   implements ICellEditorAngularComp

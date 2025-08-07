@@ -8,7 +8,10 @@ export {
   SkyAutocompleteProperties,
 } from './lib/modules/ag-grid/types/autocomplete-properties';
 export { SkyCellClass } from './lib/modules/ag-grid/types/cell-class';
+export { SkyCellEditorAutocompleteParams } from './lib/modules/ag-grid/types/cell-editor-autocomplete-params';
+export { SkyCellEditorDatepickerParams } from './lib/modules/ag-grid/types/cell-editor-datepicker-params';
 export { SkyAgGridCellEditorInitialAction } from './lib/modules/ag-grid/types/cell-editor-initial-action';
+export { SkyCellEditorLookupParams } from './lib/modules/ag-grid/types/cell-editor-lookup-params';
 export { SkyAgGridCellEditorUtils } from './lib/modules/ag-grid/types/cell-editor-utils';
 export { SkyCellType } from './lib/modules/ag-grid/types/cell-type';
 export { SkyAgGridCurrencyProperties } from './lib/modules/ag-grid/types/currency-properties';

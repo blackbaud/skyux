@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
 
 @Component({
-  standalone: true,
   selector: 'sky-fluid-grid-fixture',
   templateUrl: './fluid-grid-test.component.html',
   styles: [

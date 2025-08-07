@@ -13,6 +13,8 @@ describe('Input box host service', () => {
     mockInputBox = jasmine.createSpyObj(
       'SkyInputBoxComponent',
       [
+        'containsElement',
+        'queryPopulatedElement',
         'populate',
         'setHostHintText',
         'setHintTextHidden',
@@ -67,6 +69,36 @@ describe('Input box host service', () => {
     hostService.init(mockInputBox);
     hostService.setHintTextHidden(true);
     expect(mockInputBox.setHintTextHidden).toHaveBeenCalledWith(true);
+  });
+
+  it('should throw an error if the `focusIsInInput` method is called prior to initialization', () => {
+    const targetElement = document.createElement('div');
+    expect(() =>
+      hostService.focusIsInInput(targetElement as EventTarget),
+    ).toThrowError(
+      'Cannot get whether the focus is in the input box because `SkyInputBoxHostService` has not yet been initialized.',
+    );
+  });
+
+  it('should call the input box `containsElement` method if the `focusIsInInput` is called after initialization', () => {
+    hostService.init(mockInputBox);
+    const targetElement = document.createElement('div');
+    hostService.focusIsInInput(targetElement as EventTarget);
+    expect(mockInputBox.containsElement).toHaveBeenCalledWith(targetElement);
+  });
+
+  it('should throw an error if the `queryHost` method is called prior to initialization', () => {
+    expect(() => hostService.queryHost('query string')).toThrowError(
+      'Cannot query input box host because `SkyInputBoxHostService` has not yet been initialized.',
+    );
+  });
+
+  it('should call the input box `queryPopulatedElement` method if the `queryHost` is called after initialization', () => {
+    hostService.init(mockInputBox);
+    hostService.queryHost('query string');
+    expect(mockInputBox.queryPopulatedElement).toHaveBeenCalledWith(
+      'query string',
+    );
   });
 
   it('should throw an error if the `setHintText` method is called prior to initialization', () => {

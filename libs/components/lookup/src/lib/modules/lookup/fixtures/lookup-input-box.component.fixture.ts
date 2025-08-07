@@ -11,6 +11,7 @@ import { SkyLookupSelectModeType } from '../types/lookup-select-mode-type';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './lookup-input-box.component.fixture.html',
+  standalone: false,
 })
 export class SkyLookupInputBoxTestComponent {
   @ViewChild(SkyLookupComponent, {

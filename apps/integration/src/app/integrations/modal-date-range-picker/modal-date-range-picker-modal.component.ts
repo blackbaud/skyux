@@ -19,7 +19,6 @@ import {
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-modal-date-range-picker-modal',
   templateUrl: './modal-date-range-picker-modal.component.html',
   // styleUrls: ['./modal-date-range-picker-modal.component.css'],

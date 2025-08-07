@@ -19,7 +19,6 @@ import { SkySplitViewService } from './split-view.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyIconModule],
   selector: 'sky-split-view-workspace-header',
-  standalone: true,
   styleUrl: './split-view-workspace-header.component.scss',
   templateUrl: './split-view-workspace-header.component.html',
 })

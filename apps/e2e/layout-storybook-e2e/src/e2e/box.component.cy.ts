@@ -9,17 +9,11 @@ describe('layout-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('#ready')
-          .should('exist')
-          .end()
-          .get('app-box')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`boxcomponent-box--box-${theme}`);
+        cy.skyReady('app-box').screenshot(`boxcomponent-box--box-${theme}`);
         cy.get('app-box').percySnapshot(`boxcomponent-box--box-${theme}`, {
           widths: E2eVariations.DISPLAY_WIDTHS,
         });
       });
     });
-  }, true);
+  });
 });

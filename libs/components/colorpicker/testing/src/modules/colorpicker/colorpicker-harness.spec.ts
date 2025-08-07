@@ -64,6 +64,7 @@ import { SkyColorpickerHarness } from './colorpicker-harness';
       />
     </form>
   `,
+  standalone: false,
 })
 class TestComponent {
   public allowTransparency = true;
@@ -380,11 +381,11 @@ describe('Colorpicker harness', () => {
   it('should get the colorpicker icon test harness', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.pickerButtonIcon = 'calendar';
+    fixture.componentInstance.pickerButtonIcon = 'calendar-ltr';
     fixture.detectChanges();
 
     const iconHarness = await colorpickerHarness.getColorpickerIcon();
-    await expectAsync(iconHarness.getIconName()).toBeResolvedTo('calendar');
+    await expectAsync(iconHarness.getIconName()).toBeResolvedTo('calendar-ltr');
   });
 
   describe('colorpicker dropdown', () => {

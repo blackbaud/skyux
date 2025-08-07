@@ -9,7 +9,6 @@ import { FlyoutDemoContext } from './flyout-demo-context';
 import { FlyoutModalDemoComponent } from './flyout-modal.component';
 
 @Component({
-  standalone: true,
   selector: 'app-flyout-demo',
   templateUrl: './flyout-demo.component.html',
   imports: [SkyDropdownModule, SkyInfiniteScrollModule],

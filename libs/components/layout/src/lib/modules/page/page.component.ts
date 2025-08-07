@@ -6,6 +6,7 @@ import { SkyPageThemeAdapterService } from './page-theme-adapter.service';
 
 /**
  * Displays page contents using the specified layout.
+ * @docsId SkyPageComponentLegacy
  * @deprecated Use the `sky-page` component in `@skyux/pages` instead.
  */
 @Component({
@@ -13,6 +14,7 @@ import { SkyPageThemeAdapterService } from './page-theme-adapter.service';
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss'],
   providers: [SkyPageThemeAdapterService],
+  standalone: false,
 })
 export class SkyPageComponent implements OnInit, OnDestroy {
   /**

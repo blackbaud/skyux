@@ -8,6 +8,8 @@ describe('Modal Date range picker', () => {
         .skyChooseTheme(theme)
         .get('a[href="#/integrations/modal-date-range-picker"]')
         .click();
+
+      cy.skyReady('app-modal-date-range-picker');
       cy.url()
         .should('include', '#/integrations/modal-date-range-picker')
         .get('app-modal-date-range-picker button:first-of-type')
@@ -20,7 +22,7 @@ describe('Modal Date range picker', () => {
       cy.get('.sky-date-range-picker-form-group')
         .should('exist')
         .should('have.length', 3);
-      cy.window().skyVisualTest(`modal-date-range-picker-${theme}`);
+      cy.skyVisualTest(`modal-date-range-picker-${theme}`);
     });
-  });
+  }, false);
 });

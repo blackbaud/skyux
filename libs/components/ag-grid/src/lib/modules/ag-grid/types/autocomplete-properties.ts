@@ -2,9 +2,11 @@ import { TemplateRef } from '@angular/core';
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 
 export interface SkyAgGridAutocompleteProperties {
+  allowAnyValue?: boolean;
   data?: unknown[];
   debounceTime?: number;
   descriptorProperty?: string;
+  highlightSearchText?: boolean;
   propertiesToSearch?: string[];
   search?: (
     searchText: string,

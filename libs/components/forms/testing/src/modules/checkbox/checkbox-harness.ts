@@ -85,9 +85,7 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    * Gets the help popover content.
    */
   public async getHelpPopoverContent(): Promise<string | undefined> {
-    const content = await (await this.#getHelpInline()).getPopoverContent();
-
-    return content as string | undefined;
+    return await (await this.#getHelpInline()).getPopoverContent();
   }
 
   /**
@@ -125,7 +123,7 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
 
     if (label) {
       throw new Error(
-        '`labelIsHidden` is only supported when setting the checkbox label via the `labelText` input.',
+        '`labelHidden` is only supported when setting the checkbox label via the `labelText` input.',
       );
     } else {
       return !(await labelTextLabel?.getText());

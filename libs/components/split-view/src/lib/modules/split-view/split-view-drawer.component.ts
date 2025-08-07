@@ -26,7 +26,6 @@ let skySplitViewNextId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, SkySplitViewResourcesModule],
   selector: 'sky-split-view-drawer',
-  standalone: true,
   styleUrl: './split-view-drawer.component.scss',
   templateUrl: './split-view-drawer.component.html',
 })

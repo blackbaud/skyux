@@ -9,10 +9,8 @@ describe('Modal Colorpicker', () => {
           .skyChooseTheme(theme)
           .get('a[href="#/integrations/modal-colorpicker"]')
           .click();
-        cy.url()
-          .should('include', '#/integrations/modal-colorpicker')
-          .get('app-modal-colorpicker button:first-of-type')
-          .should('be.visible')
+
+        cy.skyReady('app-modal-colorpicker button:first-of-type')
           .should('contain.text', 'Open modal')
           .click();
         cy.get('sky-modal button[aria-haspopup="dialog"]:not([disabled])')
@@ -112,5 +110,5 @@ describe('Modal Colorpicker', () => {
           .click({ waitForAnimations: true });
       });
     });
-  });
+  }, false);
 });

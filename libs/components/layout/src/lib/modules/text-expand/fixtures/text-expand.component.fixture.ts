@@ -5,6 +5,7 @@ import { SkyTextExpandComponent } from '../text-expand.component';
 @Component({
   selector: 'sky-text-expand-demo',
   templateUrl: './text-expand.component.fixture.html',
+  standalone: false,
 })
 export class TextExpandTestComponent {
   @ViewChild(SkyTextExpandComponent, {

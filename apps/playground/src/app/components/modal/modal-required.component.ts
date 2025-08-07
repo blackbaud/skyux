@@ -3,12 +3,11 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
-function round(val: number) {
+function round(val: number): number {
   return Math.round(val * 10) / 10;
 }
 
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, SkyInputBoxModule, SkyModalModule],
   template: `
     <sky-modal

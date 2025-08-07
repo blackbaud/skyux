@@ -6,6 +6,7 @@ import { SkySummaryActionBarModalTestComponent } from './summary-action-bar-moda
 @Component({
   selector: 'sky-test-cmp-modal',
   templateUrl: './summary-action-bar-modal-empty.component.fixture.html',
+  standalone: false,
 })
 export class SkySummaryActionBarModalEmptyTestComponent implements OnDestroy {
   #modal: SkyModalInstance | undefined;

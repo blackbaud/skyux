@@ -1,41 +1,23 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
-@include mixins.sky-component('modern', '.sky-action-button', false, 'xs') {
-  --sky-action-button-margin-bottom: #{$sky-margin-double};
-  --sky-action-button-icon-header-container-flex-direction: unset;
-
+@include mixins.sky-component('modern', '.sky-action-button', false) {
   cursor: pointer;
   text-decoration: none !important;
   max-width: 446px;
   display: flex;
   flex-flow: row nowrap;
-  padding: $sky-theme-modern-padding-even-xl;
+  padding: var(--sky-comp-action_button-space-inset-top)
+    var(--sky-comp-action_button-space-inset-right)
+    var(--sky-comp-action_button-space-inset-bottom)
+    var(--sky-comp-action_button-space-inset-left);
   text-align: left;
   border: none;
   margin: 0;
 
-  &:hover {
-    border-color: darken($sky-border-color-neutral-light, 12%);
-  }
-
   .sky-action-button-content {
     flex: 1 1 auto;
-    margin: 0 $sky-space-md 0 0;
+    margin: 0 var(--sky-space-inline-s) 0 0;
     white-space: initial;
   }
-
-  .sky-action-button-icon-header-container {
-    display: flex;
-    flex-direction: var(
-      --sky-action-button-icon-header-container-flex-direction
-    );
-    justify-content: center;
-    margin-bottom: var(--sky-action-button-margin-bottom);
-  }
-}
-
-@include mixins.sky-component('modern', '.sky-action-button', false, 'sm') {
-  --sky-action-button-margin-bottom: 0;
-  --sky-action-button-icon-header-container-flex-direction: column;
 }

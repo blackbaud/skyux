@@ -6,7 +6,6 @@ import { BlocksTileDashboardPageTile2Component } from './tile2.component';
 
 @Component({
   selector: 'app-page-layout-tile-dashboard',
-  standalone: true,
   imports: [SkyTilesModule],
   template: `<sky-tile-dashboard [(config)]="dashboardConfig" />`,
 })

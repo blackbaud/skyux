@@ -5,7 +5,7 @@
   @if (linksArray().length > 0) {
     <ng-container [ngTemplateOutlet]="headingTemplateRef" />
     <ul class="sky-link-list">
-      @for (link of linksArray(); track link) {
+      @for (link of linksArray(); track link.label) {
         <li>
           @if (link | linkAs: 'skyHref') {
             <a class="sky-link-list-item" [skyHref]="link.permalink?.url">

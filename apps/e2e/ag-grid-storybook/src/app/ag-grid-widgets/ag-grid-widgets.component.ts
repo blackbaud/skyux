@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { PreviewWrapperModule } from '@skyux/storybook/components';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -21,7 +20,14 @@ import {
 } from '@skyux/theme';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, ColGroupDef, GridOptions, GridState } from 'ag-grid-community';
+import {
+  AllCommunityModule,
+  ColDef,
+  ColGroupDef,
+  GridOptions,
+  GridState,
+  ModuleRegistry,
+} from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
@@ -31,8 +37,9 @@ import {
   data,
 } from '../shared/baseball-players-data';
 
+ModuleRegistry.registerModules([AllCommunityModule]);
+
 @Component({
-  standalone: true,
   imports: [
     AgGridAngular,
     CommonModule,
@@ -72,7 +79,6 @@ export class AgGridWidgetsComponent
 
   readonly #agGridService = inject(SkyAgGridService);
   readonly #changeDetectorRef = inject(ChangeDetectorRef);
-  readonly #fontLoadingService = inject(FontLoadingService);
   readonly #gridsReady = new Map<string, Observable<boolean>>();
   readonly #initialStates: Record<string, GridState> = {
     columnGroups: {
@@ -127,7 +133,6 @@ export class AgGridWidgetsComponent
       'theme',
       this.#themeSvc.settingsChange.pipe(map(() => true)),
     );
-    this.#gridsReady.set('font', this.#fontLoadingService.ready());
     this.#ngUnsubscribe.add(
       this.#themeSvc.settingsChange.subscribe((settings) => {
         this.skyTheme = settings.currentSettings;
@@ -179,6 +184,8 @@ export class AgGridWidgetsComponent
         suppressColumnVirtualisation: true,
         suppressHorizontalScroll: true,
         suppressRowVirtualisation: true,
+        alwaysShowHorizontalScroll: true,
+        alwaysShowVerticalScroll: true,
         onFirstDataRendered: () => {
           (this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>).next(
             true,

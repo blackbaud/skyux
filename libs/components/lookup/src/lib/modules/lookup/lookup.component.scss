@@ -169,8 +169,8 @@ sky-input-box .sky-lookup {
               var(--sky-font-line_height-input-label) *
                 var(--sky-font-size-input-label)
             ) +
-            var(--sky-space-inset-input_label-top-m) +
-            var(--sky-space-inset-input_label-bottom-m)
+            var(--sky-comp-input-label-space-inset-top) +
+            var(--sky-comp-input-label-space-inset-bottom)
         )
     )
   );
@@ -181,8 +181,8 @@ sky-input-box .sky-lookup {
           var(--sky-font-line_height-input-label) *
             var(--sky-font-size-input-label)
         ) +
-        var(--sky-space-inset-input_label-top-m) +
-        var(--sky-space-inset-input_label-bottom-m)
+        var(--sky-comp-input-label-space-inset-top) +
+        var(--sky-comp-input-label-space-inset-bottom)
     )
   );
 
@@ -220,10 +220,13 @@ sky-input-box .sky-lookup {
       .sky-tokens {
         margin-top: 0;
         margin-bottom: 0;
-        padding-left: var(
-          --sky-override-lookup-tokens-padding-left,
-          var(--sky-space-inset-input-left-m)
-        );
+
+        &:has(sky-token) {
+          padding-left: var(
+            --sky-override-lookup-tokens-padding-left,
+            var(--sky-comp-input-value-space-inset-left)
+          );
+        }
         align-items: var(
           --sky-override-lookup-input-box-tokens-align-items,
           flex-start
@@ -276,7 +279,7 @@ sky-input-box .sky-lookup {
       // and so `inherit` does not work in this case.
       padding-left: var(
         --sky-override-lookup-textarea-padding-left,
-        var(--sky-space-inset-input-left-m)
+        var(--sky-comp-input-value-space-inset-left)
       );
       resize: none;
     }

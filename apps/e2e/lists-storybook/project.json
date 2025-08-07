@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/e2e/lists-storybook/src",
   "prefix": "app",
+  "tags": ["component-e2e"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -19,8 +20,7 @@
         "styles": [
           "apps/e2e/lists-storybook/src/styles.scss",
           "libs/components/theme/src/lib/styles/sky.scss",
-          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
-          "node_modules/@blackbaud/skyux-design-tokens/scss/blackbaud.css"
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "scripts": []
       },
@@ -67,7 +67,8 @@
           "buildTarget": "lists-storybook:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -90,8 +91,7 @@
         "compodoc": false,
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
-          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
-          "node_modules/@blackbaud/skyux-design-tokens/scss/blackbaud.css"
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ]
       },
       "configurations": {
@@ -111,8 +111,7 @@
         "compodoc": false,
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
-          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
-          "node_modules/@blackbaud/skyux-design-tokens/scss/blackbaud.css"
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ]
       },
       "configurations": {
@@ -133,6 +132,5 @@
         }
       }
     }
-  },
-  "tags": ["component-e2e"]
+  }
 }

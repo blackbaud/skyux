@@ -16,17 +16,20 @@ import { SkyPagingContentChangeArgs, SkyPagingModule } from '@skyux/lists';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  AllCommunityModule,
   ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
+  ModuleRegistry,
 } from 'ag-grid-community';
 
 import { DataManagerPagedItemsPipe } from './data-manager-paged-items.pipe';
 
+ModuleRegistry.registerModules([AllCommunityModule]);
+
 @Component({
   selector: 'app-data-view-grid',
-  standalone: true,
   imports: [
     AgGridModule,
     DataManagerPagedItemsPipe,
@@ -72,7 +75,7 @@ export class DataViewGridComponent implements OnInit {
   public viewConfig: SkyDataViewConfig = {
     id: this.viewId,
     name: 'Grid View',
-    icon: 'table',
+    iconName: 'table',
     searchEnabled: true,
     searchHighlightEnabled: true,
     multiselectToolbarEnabled: true,

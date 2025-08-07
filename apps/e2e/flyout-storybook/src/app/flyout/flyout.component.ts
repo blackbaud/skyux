@@ -1,19 +1,10 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnDestroy,
-  inject,
-} from '@angular/core';
+import { AfterViewInit, Component, Input, inject } from '@angular/core';
 import {
   SkyFlyoutAction,
   SkyFlyoutInstance,
   SkyFlyoutPermalink,
   SkyFlyoutService,
 } from '@skyux/flyout';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
-
-import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { FlyoutResponsiveComponent } from './flyout-responsive.component';
 import { FlyoutStandardComponent } from './flyout-standard.component';
@@ -22,8 +13,9 @@ import { FlyoutStandardComponent } from './flyout-standard.component';
   selector: 'app-flyout',
   templateUrl: './flyout.component.html',
   styleUrls: ['./flyout.component.scss'],
+  standalone: false,
 })
-export class FlyoutComponent implements AfterViewInit, OnDestroy {
+export class FlyoutComponent implements AfterViewInit {
   public flyout: SkyFlyoutInstance<any> | undefined;
 
   @Input()
@@ -32,23 +24,9 @@ export class FlyoutComponent implements AfterViewInit, OnDestroy {
   @Input()
   public showHeaderButtons = false;
 
-  public readonly ready = new BehaviorSubject(false);
-
-  #fontLoadingService = inject(FontLoadingService);
   #flyoutService = inject(SkyFlyoutService);
-  #subscriptions = new Subscription();
 
-  public ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
-  }
-
-  public ngAfterViewInit() {
-    this.#subscriptions.add(
-      this.#fontLoadingService.ready().subscribe(() => {
-        this.ready.next(true);
-      }),
-    );
-
+  public ngAfterViewInit(): void {
     this.openFlyout();
   }
 
@@ -58,7 +36,7 @@ export class FlyoutComponent implements AfterViewInit, OnDestroy {
 
     if (this.showHeaderButtons) {
       primaryAction = {
-        callback: () => {
+        callback: (): void => {
           return;
         },
         label: 'Primary action',
@@ -86,15 +64,22 @@ export class FlyoutComponent implements AfterViewInit, OnDestroy {
         break;
     }
 
-    this.flyout = this.#flyoutService.open(
-      this.responsive ? FlyoutResponsiveComponent : FlyoutStandardComponent,
-      {
+    if (this.responsive) {
+      this.flyout = this.#flyoutService.open(FlyoutResponsiveComponent, {
         defaultWidth: width,
         primaryAction: primaryAction,
         permalink: permalink,
         showIterator: this.showHeaderButtons,
         maxWidth: 5000,
-      },
-    );
+      });
+    } else {
+      this.flyout = this.#flyoutService.open(FlyoutStandardComponent, {
+        defaultWidth: width,
+        primaryAction: primaryAction,
+        permalink: permalink,
+        showIterator: this.showHeaderButtons,
+        maxWidth: 5000,
+      });
+    }
   }
 }

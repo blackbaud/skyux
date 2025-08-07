@@ -94,7 +94,6 @@ import { SkyAffixer } from './affixer';
       }
     `,
   ],
-  standalone: true,
   imports: [NgClass],
 })
 class AffixerSpecComponent {

@@ -8,8 +8,8 @@
   (window:resize)="windowResize()"
 >
   <div
-    tabindex="-1"
     class="sky-modal sky-shadow sky-box sky-elevation-16 sky-modal-{{ size }}"
+    tabindex="-1"
     [ngClass]="{
       'sky-modal-tiled': tiledBody,
       'sky-modal-viewkeeper': viewkeeperEnabled()
@@ -24,14 +24,7 @@
         'box-shadow': scrollShadow?.topShadow
       }"
     >
-      <div
-        #headerId="skyId"
-        class="sky-modal-header-content"
-        skyId
-        [ngClass]="{
-          'sky-font-heading-2': size === 'full-page'
-        }"
-      >
+      <div #headerId="skyId" class="sky-modal-header-content" skyId>
         @if (headingText) {
           <sky-modal-header>
             {{ headingText }}
@@ -58,7 +51,7 @@
             [attr.aria-label]="'skyux_modal_open_help' | skyLibResources"
             (click)="helpButtonClick()"
           >
-            <sky-icon icon="question-circle" />
+            <sky-icon iconName="question-circle" />
           </button>
         }
 
@@ -68,14 +61,14 @@
           [attr.aria-label]="'skyux_modal_close' | skyLibResources"
           (click)="closeButtonClick()"
         >
-          <sky-icon icon="close" />
+          <sky-icon iconName="close" />
         </button>
       </div>
     </div>
     <div
       #modalContentId="skyId"
       #modalContentWrapper
-      class="sky-modal-content sky-padding-even-large"
+      class="sky-modal-content"
       role="region"
       tabindex="0"
       skyId
@@ -83,6 +76,9 @@
       [layout]="layout()"
       [attr.aria-labelledby]="headerId.id"
       [skyScrollShadowEnabled]="scrollShadowEnabled"
+      [skyThemeClass]="{
+        'sky-padding-even-large': 'default'
+      }"
       (skyScrollShadow)="scrollShadowChange($event)"
     >
       <ng-content select="sky-modal-content" />

@@ -1,0 +1,24 @@
+<div class="sky-padding-even-lg">
+  <form [formGroup]="formGroup">
+    <sky-input-box
+      data-sky-id="timepicker-example"
+      labelText="Start time"
+      [helpPopoverContent]="helpPopoverContent"
+      [hintText]="hintText"
+    >
+      <sky-timepicker #timepicker>
+        <input
+          formControlName="time"
+          timeFormat="hh"
+          [skyTimepickerInput]="timepicker"
+        />
+      </sky-timepicker>
+      @if (time.errors?.['invalidMinute']) {
+        <sky-form-error
+          errorName="invalidMinute"
+          errorText="Start time must be a 15-minute increment."
+        />
+      }
+    </sky-input-box>
+  </form>
+</div>

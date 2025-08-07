@@ -3,7 +3,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 @Component({
-  standalone: true,
   selector: 'app-modal-footer-dropdown-modal',
   templateUrl: './modal-footer-dropdown-modal.component.html',
   styleUrls: ['./modal-footer-dropdown-modal.component.css'],
