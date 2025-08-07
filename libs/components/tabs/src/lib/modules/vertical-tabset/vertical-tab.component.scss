@@ -18,7 +18,6 @@
   --sky-override-vertical-tab-font-color-disabled: var(
     --sky-text-color-deemphasized
   );
-  --sky-override-vertical-tab-font-selected-color: #{$sky-text-color-default};
   --sky-override-vertical-tab-gap: #{$sky-margin-half};
   --sky-override-vertical-tab-heading-error-line-height: normal;
   --sky-override-vertical-tab-heading-error-padding-left: #{$sky-padding-half};
@@ -107,10 +106,7 @@
       var(--sky-border-width-selected-l) solid
         var(--sky-color-border-nav-active)
     );
-    color: var(
-      --sky-override-vertical-tab-active-font-color,
-      var(--sky-color-text-default)
-    );
+    color: var(--sky-color-text-default);
     padding-left: var(
       --sky-override-vertical-tab-padding-left-active,
       calc(
@@ -137,10 +133,7 @@
       --sky-override-vertical-tab-outline-focus,
       var(--sky-border-width-selected-m) solid var(--sky-color-border-nav-focus)
     );
-    outline-offset: var(
-      --sky-override-vertical-tab-outline-focus-offset,
-      calc(var(--sky-border-width-selected-m) * -1)
-    );
+    outline-offset: calc(var(--sky-border-width-selected-m) * -1);
     box-shadow: none;
 
     &.sky-vertical-tab-active {
@@ -148,10 +141,7 @@
         --sky-override-vertical-tab-background-color-selected,
         var(--sky-color-background-selected-soft)
       );
-      color: var(
-        --sky-override-vertical-tab-selected-font-color,
-        var(--sky-color-text-default)
-      );
+      color: var(--sky-color-text-default);
 
       .sky-vertical-tab-right-arrow {
         color: var(
@@ -183,10 +173,7 @@
     --sky-override-vertical-tab-background-color-selected,
     var(--sky-color-background-selected-soft)
   );
-  color: var(
-    --sky-override-vertical-tab-selected-font-color,
-    var(--sky-color-text-default)
-  );
+  color: var(--sky-color-text-default);
   padding-left: var(
     --sky-override-vertical-tab-padding-left-selected,
     calc(
@@ -224,6 +211,7 @@
     --sky-override-vertical-tab-heading-error-padding-left,
     var(--sky-space-gap-text_action-s)
   );
+  line-height: var(--sky-override-vertical-tab-heading-error-line-height, 1);
 }
 
 .sky-vertical-tab-count {

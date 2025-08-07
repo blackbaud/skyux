@@ -11,10 +11,6 @@ export const previewWrapperGlobalTypes = {
           value: 'default',
         },
         {
-          title: 'Modern theme',
-          value: 'modern-light',
-        },
-        {
           title: 'Modern theme, v2',
           value: 'modern-v2-light',
         },

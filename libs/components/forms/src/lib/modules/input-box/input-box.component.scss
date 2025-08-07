@@ -768,10 +768,7 @@ sky-input-box {
     }
 
     .sky-input-group-icon {
-      color: var(
-        --sky-override-input-box-form-group-color,
-        var(--sky-color-icon-deemphasized)
-      );
+      color: var(--sky-color-icon-deemphasized);
     }
   }
 }

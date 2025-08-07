@@ -5,11 +5,6 @@
   --sky-override-filter-bar-item-selected-background-color: #c1e8fb;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-filter-bar-btn-selected') {
-  --sky-override-filter-bar-item-border-selected: inset 0 0 0
-    var(--sky-border-width-action-base) var(--sky-color-border-selected);
-}
-
 .sky-filter-bar-btn {
   display: flex;
   max-width: 300px;
@@ -35,11 +30,8 @@
 
 .sky-filter-bar-btn.sky-filter-bar-btn-selected {
   &:not(:hover, :focus-visible, :active, :disabled) {
-    box-shadow: var(
-      --sky-override-filter-bar-item-border-selected,
-      inset 0 0 0 var(--sky-border-width-action-base)
-        var(--sky-color-border-selected_soft)
-    );
+    box-shadow: inset 0 0 0 var(--sky-border-width-action-base)
+      var(--sky-color-border-selected_soft);
   }
 
   &,

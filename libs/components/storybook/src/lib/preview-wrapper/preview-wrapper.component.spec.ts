@@ -70,11 +70,6 @@ describe('PreviewWrapperComponent', () => {
         }
       },
     );
-    expectedTheme = {
-      theme: 'modern',
-      mode: 'light',
-    };
-    component.theme = 'modern-light';
 
     expectedTheme = {
       theme: 'modern',

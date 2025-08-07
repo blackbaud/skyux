@@ -266,10 +266,7 @@
   }
 
   ::ng-deep .sky-dropdown:hover .sky-dropdown-button {
-    background-color: var(
-      --sky-override-navbar-item-active-background-color-hover,
-      transparent
-    );
+    background-color: transparent;
     color: var(
       --sky-override-navbar-item-active-color-hover,
       var(--sky-color-text-default)

@@ -63,8 +63,7 @@
   --sky-override-repeater-item-split-view-box-shadow-active: none;
   --sky-override-repeater-item-split-view-box-shadow-focus: none;
   --sky-override-repeater-item-split-view-box-shadow-hover: none;
-  --sky-override-repeater-item-split-view-padding-left: #{$sky-padding};
-  --sky-override-repeater-item-split-view-padding-left-active: 6px;
+
   --sky-override-repeater-item-title-line-height: 1.1;
   --sky-override-repeater-item-top-button-placeholder-height: 0;
   --sky-override-repeater-item-left-no-header-padding-top: #{$sky-padding};
@@ -101,17 +100,11 @@ sky-repeater-item {
     &:focus-visible,
     &:focus-visible:active {
       outline: var(--sky-override-repeater-item-outline-focus-visible, none);
-      outline-offset: var(
-        --sky-override-repeater-item-outline-offset-focus-visible,
-        0
-      );
+      outline-offset: 0;
     }
 
     &:focus-visible:not(:active) {
-      box-shadow: var(
-        --sky-override-repeater-item-box-shadow-focus-visible,
-        none
-      );
+      box-shadow: none;
     }
 
     sky-inline-form {
@@ -442,7 +435,7 @@ sky-repeater-item {
       )
       var(--sky-override-repeater-item-grab-handle-margin-vertical, 0) 0;
 
-    // Remove when default and v1 modern support is dropped and these will then come from the button class.
+    // Remove when default support is dropped and these will then come from the button class.
     &.sky-btn-icon-borderless {
       height: var(--sky-override-repeater-item-grab-handle-size, '');
       padding: var(
@@ -558,26 +551,5 @@ sky-repeater-item {
       inset 0 0 0 var(--sky-border-width-input-focus)
         var(--sky-color-border-input-focus)
     );
-  }
-}
-
-// NOTE: Only v1 modern has a difference from standard left padding here. Remove when v1 modern support is dropped.
-.sky-split-view-drawer {
-  sky-repeater-item .sky-repeater-item {
-    padding-left: var(
-      --sky-override-repeater-item-split-view-padding-left,
-      var(--sky-comp-repeater_item-space-inset-left)
-    );
-
-    &.sky-repeater-item-active {
-      padding-left: var(
-        --sky-override-repeater-item-split-view-padding-left-active,
-        calc(
-          var(--sky-comp-repeater_item-space-inset-left) - var(
-              --sky-border-width-selected-m
-            )
-        )
-      );
-    }
   }
 }
