@@ -7,7 +7,6 @@ import { SkyRadioType } from '../types/radio-type';
   standalone: false,
 })
 export class SkySingleRadioComponent {
-  public icon = 'plus';
-  public iconName: string | undefined;
+  public iconName = 'add';
   public radioType: SkyRadioType | undefined;
 }

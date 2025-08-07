@@ -423,21 +423,7 @@ describe('Radio component', function () {
       debugElement = fixture.debugElement;
     });
 
-    it('should set icon based on input', () => {
-      fixture.detectChanges();
-
-      let radioIcon = debugElement.query(By.css('i')).nativeElement;
-      expect(radioIcon).toHaveCssClass('fa-plus');
-
-      fixture.componentInstance.icon = 'umbrella';
-      fixture.detectChanges();
-
-      radioIcon = debugElement.query(By.css('i')).nativeElement;
-      expect(radioIcon).toHaveCssClass('fa-umbrella');
-    });
-
     it('should set icon based on input - iconName', () => {
-      fixture.componentInstance.iconName = 'add';
       fixture.detectChanges();
 
       let radioIcon = debugElement.query(By.css('svg')).nativeElement;
