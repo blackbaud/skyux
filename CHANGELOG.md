@@ -1,5 +1,24 @@
 # Changelog
 
+## [12.31.0](https://github.com/blackbaud/skyux/compare/12.30.0...12.31.0) (2025-07-29)
+
+
+### Features
+
+* add container background color to default theme ([#3732](https://github.com/blackbaud/skyux/issues/3732)) ([068a39e](https://github.com/blackbaud/skyux/commit/068a39e438feed44ac723683d899371ae8fb2db9))
+* **components/lists:** remove hover state from selected sort item ([#3730](https://github.com/blackbaud/skyux/issues/3730)) ([3bf120f](https://github.com/blackbaud/skyux/commit/3bf120fd0946e467bae1096d4092cbf313a46022))
+* **components/theme:** allow undefined value to be passed to SkyThemeService.setThemeBrand() to clear branding ([#3760](https://github.com/blackbaud/skyux/issues/3760)) ([0046f1f](https://github.com/blackbaud/skyux/commit/0046f1fdce30542b9df1a274e07b59fdfc761a62))
+
+
+### Bug Fixes
+
+* **components/datetime:** timepicker buttons use a set size in v2 modern ([#3742](https://github.com/blackbaud/skyux/issues/3742)) ([a3c8b8a](https://github.com/blackbaud/skyux/commit/a3c8b8a5bcf49df01a6783d28041ec964b2c786e))
+* **components/forms:** radio buttons do not use interactive styling when checked in v2 modern ([#3746](https://github.com/blackbaud/skyux/issues/3746)) ([5cab8cb](https://github.com/blackbaud/skyux/commit/5cab8cb6cb0edf86e6089ac3b8f651748b1a5f58))
+* **components/forms:** selection box uses interactive states in v2 modern ([#3736](https://github.com/blackbaud/skyux/issues/3736)) ([3d714f1](https://github.com/blackbaud/skyux/commit/3d714f1a5f6e8fbf54356e02ab0296b4ba039f32))
+* **components/theme:** components using the layout host use component tokens for link area margin ([#3740](https://github.com/blackbaud/skyux/issues/3740)) ([1b842b2](https://github.com/blackbaud/skyux/commit/1b842b25003f011584ae40a7d97e6b9edc916f78))
+* **components/theme:** icon switch components are sized based on the icon size in v2 modern ([#3723](https://github.com/blackbaud/skyux/issues/3723)) ([f582eb4](https://github.com/blackbaud/skyux/commit/f582eb46dfd13482b5948fae7e755e5dd132e059))
+* **components/tiles:** tile box shadows are not clipped on xs breakpoints and block layout host configurations ([#3748](https://github.com/blackbaud/skyux/issues/3748)) ([a1ff256](https://github.com/blackbaud/skyux/commit/a1ff256cb2c5842f5244a752066059b3cc8ff150))
+
 ## [12.30.0](https://github.com/blackbaud/skyux/compare/12.29.0...12.30.0) (2025-07-24)
 
 

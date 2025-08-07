@@ -89,7 +89,7 @@
         }
 
         &.sky-switch-control-icon {
-          background-color: var(--sky-color-background-selected-soft);
+          background: var(--sky-color-background-selected-soft);
           color: var(
             --sky-override-switch-icon-checked-color-no-group,
             var(--sky-color-icon-selected)
@@ -97,7 +97,7 @@
           border-color: var(--sky-color-border-selected);
         }
 
-        background-color: var(--sky-color-background-selected-heavy);
+        background: var(--sky-color-background-selected-switch-base);
         border-width: var(--sky-border-width-selected-s);
         border-color: var(
           --sky-override-switch-border-color-checked,
@@ -152,7 +152,7 @@
     }
 
     &:disabled + .sky-switch-control {
-      background-color: var(--sky-color-background-input-disabled);
+      background-color: var(--sky-color-background-selected-switch-disabled);
       border-width: var(--sky-border-width-input-disabled);
       border-color: var(--sky-color-border-switch-disabled);
       box-shadow: var(
@@ -316,7 +316,7 @@
 
   .sky-switch-control {
     background-color: var(--sky-color-background-action-tertiary-base);
-    border-width: var(--sky-width-action-base);
+    border-width: var(--sky-border-width-action-base);
     border-color: var(--sky-color-border-action-tertiary-base);
   }
 
