@@ -1,12 +1,28 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-link-list') {
+  --sky-override-link-list-space-below: var(--sky-margin-stacked-xl);
+}
+
+@include compatMixins.sky-default-host-overrides() {
+  --sky-override-link-list-heading-space: var(--sky-margin-stacked-sm);
+}
+
 ul.sky-link-list {
   list-style: none;
-  margin: 0 0 var(--sky-margin-stacked-xl) 0;
+  margin: 0 0
+    var(--sky-override-link-list-space-below, var(--sky-space-stacked-xl)) 0;
   padding-left: 0;
 }
 
 h2,
 li {
-  margin: 0 0 var(--sky-margin-stacked-sm) 0;
+  margin: 0 0
+    var(--sky-override-link-list-heading-space, var(--sky-space-stacked-s)) 0;
+}
+
+ul.sky-link-list > li:has(> a[hidden]) {
+  display: none;
 }
 
 ul.sky-link-list > li:has(> a[hidden]) {

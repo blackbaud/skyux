@@ -16,7 +16,6 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { Observable, delay, of } from 'rxjs';
 
 @Component({
-  standalone: true,
   selector: 'app-key-dates',
   templateUrl: './key-dates.component.html',
   imports: [

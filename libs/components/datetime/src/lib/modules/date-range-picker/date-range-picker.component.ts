@@ -131,7 +131,6 @@ function isPartialValue(
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
   selector: 'sky-date-range-picker',
-  standalone: true,
   styleUrl: './date-range-picker.component.scss',
   templateUrl: './date-range-picker.component.html',
 })

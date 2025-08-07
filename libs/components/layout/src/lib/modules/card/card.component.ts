@@ -25,6 +25,7 @@ import { SkyCardTitleComponent } from './card-title.component';
   selector: 'sky-card',
   styleUrls: ['./card.component.scss'],
   templateUrl: './card.component.html',
+  standalone: false,
 })
 export class SkyCardComponent implements AfterContentInit, OnDestroy {
   /**
@@ -83,7 +84,7 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
     });
   }
 
-  public ngAfterContentInit() {
+  public ngAfterContentInit(): void {
     this.showTitle = !!this.titleComponent && this.titleComponent.length > 0;
 
     this.#subscription = this.titleComponent?.changes.subscribe(() => {
@@ -101,21 +102,21 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
     });
   }
 
-  public contentClick() {
+  public contentClick(): void {
     if (this.selectable) {
       this.selected = !this.selected;
       this.selectedChange.emit(this.selected);
     }
   }
 
-  public onCheckboxChange(newValue: boolean) {
+  public onCheckboxChange(newValue: boolean): void {
     if (this.selectable && this.selected !== newValue) {
       this.selected = newValue;
       this.selectedChange.emit(this.selected);
     }
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     /* istanbul ignore else */
     /* sanity check */
     if (this.#subscription) {

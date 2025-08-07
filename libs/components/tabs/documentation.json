@@ -1,0 +1,126 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "sectioned-form": {
+      "development": {
+        "docsIds": [
+          "SkySectionedFormModule",
+          "SkySectionedFormComponent",
+          "SkySectionedFormSectionComponent",
+          "SkySectionedFormService",
+          "SkySectionedFormMessage",
+          "SkySectionedFormMessageType"
+        ],
+        "primaryDocsId": "SkySectionedFormModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkySectionedFormHarness",
+          "SkySectionedFormHarnessFilters",
+          "SkySectionedFormSectionHarness",
+          "SkySectionedFormSectionHarnessFilters",
+          "SkySectionedFormSectionContentHarness",
+          "SkySectionedFormSectionContentHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["TabsSectionedFormModalExampleComponent"]
+      }
+    },
+    "tabs": {
+      "development": {
+        "docsIds": [
+          "SkyTabsModule",
+          "SkyTabsetComponent",
+          "SkyTabComponent",
+          "SkyTabsetNavButtonComponent",
+          "SkyTabsetNavButtonType",
+          "SkyTabIndex",
+          "SkyTabLayoutType",
+          "SkyTabsetButtonsDisplayMode",
+          "SkyTabsetStyle",
+          "SkyTabsetTabIndexesChange"
+        ],
+        "primaryDocsId": "SkyTabsModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyTabsetHarness",
+          "SkyTabsetHarnessFilters",
+          "SkyTabButtonHarness",
+          "SkyTabButtonHarnessFilters",
+          "SkyTabContentHarness"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "TabsStaticExampleComponent",
+          "TabsStaticAddCloseExampleComponent",
+          "TabsDynamicExampleComponent",
+          "TabsDynamicAddCloseExampleComponent"
+        ]
+      }
+    },
+    "vertical-tabset": {
+      "development": {
+        "docsIds": [
+          "SkyVerticalTabsetModule",
+          "SkyVerticalTabsetComponent",
+          "SkyVerticalTabComponent",
+          "SkyVerticalTabsetGroupComponent"
+        ],
+        "primaryDocsId": "SkyVerticalTabsetModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyVerticalTabsetHarness",
+          "SkyVerticalTabsetHarnessFilters",
+          "SkyVerticalTabsetGroupHarness",
+          "SkyVerticalTabsetGroupHarnessFilters",
+          "SkyVerticalTabButtonHarness",
+          "SkyVerticalTabButtonHarnessFilters",
+          "SkyVerticalTabContentHarness",
+          "SkyVerticalTabContentHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "TabsVerticalTabsBasicExampleComponent",
+          "TabsVerticalTabsGroupedExampleComponent"
+        ]
+      }
+    },
+    "wizard": {
+      "development": {
+        "docsIds": [
+          "SkyTabsModule",
+          "SkyTabsetComponent",
+          "SkyTabComponent",
+          "SkyTabsetNavButtonComponent",
+          "SkyTabsetNavButtonType",
+          "SkyTabIndex",
+          "SkyTabLayoutType",
+          "SkyTabsetButtonsDisplayMode",
+          "SkyTabsetStyle",
+          "SkyTabsetTabIndexesChange"
+        ],
+        "primaryDocsId": "SkyTabsModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyTabsetHarness",
+          "SkyTabsetHarnessFilters",
+          "SkyTabButtonHarness",
+          "SkyTabButtonHarnessFilters",
+          "SkyTabContentHarness",
+          "SkyTabContentHarnessFilters",
+          "SkyTabsetNavButtonHarness",
+          "SkyTabsetNavButtonHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["TabsWizardBasicExampleComponent"]
+      }
+    }
+  }
+}

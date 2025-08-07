@@ -6,6 +6,7 @@ import { SkyTextSanitizationService } from '../text-editor/services/text-sanitiz
 @Component({
   selector: 'sky-rich-text-display',
   templateUrl: './rich-text-display.component.html',
+  standalone: false,
 })
 export class SkyRichTextDisplayComponent {
   /**

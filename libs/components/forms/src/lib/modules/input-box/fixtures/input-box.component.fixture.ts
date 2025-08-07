@@ -11,6 +11,7 @@ import { InputBoxHostServiceFixtureComponent } from './input-box-host-service.co
 @Component({
   selector: 'sky-input-box-fixture',
   templateUrl: './input-box.component.fixture.html',
+  standalone: false,
 })
 export class InputBoxFixtureComponent {
   @Input()

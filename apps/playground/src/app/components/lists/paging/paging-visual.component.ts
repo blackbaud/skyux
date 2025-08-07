@@ -4,6 +4,7 @@ import { SkyPagingContentChangeArgs, SkyPagingModule } from '@skyux/lists';
 @Component({
   selector: 'app-paging-visual',
   templateUrl: './paging-visual.component.html',
+  standalone: false,
 })
 export class PagingVisualComponent {
   protected pageNumber = 1;

@@ -1,0 +1,30 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <sky-checkbox-group
+    data-sky-id="checkbox-group"
+    headingText="Contact method"
+    headingStyle="5"
+    helpPopoverContent="We use your contact info to keep you informed on current events. We will not sell your information."
+    hintText="Please select at least one phone-based method."
+    [formGroup]="contactMethod"
+    [required]="true"
+    [stacked]="true"
+  >
+    <sky-checkbox formControlName="email" labelText="Email" />
+    <sky-checkbox formControlName="phone" labelText="Phone" />
+    <sky-checkbox formControlName="text" labelText="Text" />
+    @if (contactMethod.errors?.['emailOnly']) {
+      <sky-form-error
+        errorName="emailOnly"
+        errorText="Email cannot be the only contact method."
+      />
+    }
+  </sky-checkbox-group>
+  <sky-checkbox
+    data-sky-id="single-checkbox"
+    formControlName="terms"
+    labelText="I agree to the terms and conditions"
+    [required]="true"
+    [stacked]="true"
+  />
+  <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
+</form>

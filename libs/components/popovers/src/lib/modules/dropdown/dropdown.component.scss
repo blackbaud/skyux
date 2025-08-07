@@ -7,7 +7,8 @@
   --sky-override-context-menu-border-radius: 50%;
   --sky-override-context-menu-font-size: 15px;
   --sky-override-context-menu-line-height: 1.428571429;
-  --sky-override-context-menu-padding: 3px 8px;
+  --sky-override-context-menu-padding: 3px;
+  --sky-override-context-menu-height-width: 30px;
 }
 
 @include compatMixins.sky-default-overrides('.sky-dropdown-button-type-tab') {
@@ -17,7 +18,14 @@
   --sky-override-tab-font-size: 15px;
   --sky-override-tab-font-weight: 600;
   --sky-override-tab-line-height: 1.8;
+  --sky-override-tab-outline-active: auto;
+  --sky-override-tab-outline-focus: auto;
+  --sky-override-tab-outline-color-active: black;
+  --sky-override-tab-outline-color-focus: black;
   --sky-override-tab-padding: 8px 16px;
+  --sky-override-tab-padding-active: 8px 16px;
+  --sky-override-tab-padding-focus: 8px 16px;
+  --sky-override-tab-padding-hover: 8px 16px;
   --sky-override-tab-selected-background-color: var(
     --sky-background-color-primary-dark
   );
@@ -30,17 +38,71 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-dropdown-button-type-tab') {
+  --sky-override-dropdown-button-type-tab-box-shadow-focus: var(
+    --sky-elevation-focus
+  );
   --sky-override-tab-button-radius: 0;
+  --sky-override-tab-dropdown-color: var(--sky-color-text-default);
   --sky-override-tab-line-height: 1.8;
+  --sky-override-tab-outline-active: solid var(--sky-border-width-selected-m)
+    var(--sky-color-border-selected);
+  --sky-override-tab-outline-offset-active: calc(
+    var(--sky-border-width-selected-m) * -1
+  );
   --sky-override-tab-selected-background-color: var(--modern-color-transparent);
   --sky-override-tab-selected-border-bottom-size: var(--modern-size-3);
+  --sky-override-tab-border-active: none;
+  --sky-override-tab-border-focus: none;
+  --sky-override-tab-border-hover: none;
+  --sky-override-tab-padding: var(--sky-comp-tab-horizontal-space-inset-top)
+    var(--sky-comp-tab-horizontal-space-inset-right)
+    calc(
+      var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
+          --sky-override-tab-selected-border-bottom-size,
+          var(--sky-border-width-selected-l)
+        )
+    )
+    var(--sky-comp-tab-horizontal-space-inset-left);
+  --sky-override-tab-padding-hover: var(
+      --sky-comp-tab-horizontal-space-inset-top
+    )
+    var(--sky-comp-tab-horizontal-space-inset-right)
+    calc(
+      var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
+          --sky-override-tab-selected-border-bottom-size,
+          var(--sky-border-width-selected-m)
+        )
+    )
+    var(--sky-comp-tab-horizontal-space-inset-left);
+  --sky-override-tab-padding-active: var(
+      --sky-comp-tab-horizontal-space-inset-top
+    )
+    var(--sky-comp-tab-horizontal-space-inset-right)
+    calc(
+      var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
+          --sky-override-tab-selected-border-bottom-size,
+          var(--sky-border-width-selected-m)
+        )
+    )
+    var(--sky-comp-tab-horizontal-space-inset-left);
+  --sky-override-tab-padding-focus: var(
+      --sky-comp-tab-horizontal-space-inset-top
+    )
+    var(--sky-comp-tab-horizontal-space-inset-right)
+    calc(
+      var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
+          --sky-override-tab-selected-border-bottom-size,
+          var(--sky-border-width-selected-m)
+        )
+    )
+    var(--sky-comp-tab-horizontal-space-inset-left);
 }
 
 .sky-dropdown {
   .sky-dropdown-button-type-tab {
     background-color: var(
       --sky-override-tab-selected-background-color,
-      var(--sky-color-background-selected-soft)
+      var(--sky-color-background-tab-selected)
     );
     border: none;
     box-shadow: none;
@@ -51,13 +113,13 @@
       var(--sky-override-tab-button-radius, var(--sky-border-radius-s)) 0 0;
     color: var(
       --sky-override-tab-dropdown-color,
-      var(--sky-color-text-default)
+      var(--sky-color-text-selected)
     );
     border-bottom: var(
       --sky-override-tab-border-bottom,
       var(
           --sky-override-tab-selected-border-bottom-size,
-          var(--sky-border-width-selected-l)
+          var(--sky-border-width-selected-m)
         )
         var(--sky-border-style-accent) var(--sky-color-border-selected)
     );
@@ -66,7 +128,7 @@
     font-size: var(--sky-override-tab-font-size, var(--sky-font-size-body-m));
     font-weight: var(
       --sky-override-tab-font-weight,
-      var(--sky-font-weight-body-m)
+      var(--sky-font-style-body-m)
     );
     line-height: var(
       --sky-override-tab-line-height,
@@ -74,18 +136,165 @@
     );
     padding: var(
       --sky-override-tab-padding,
-      var(--sky-space-inset-pillarbox-2_3-top-m)
-        var(--sky-space-inset-pillarbox-2_3-right-m)
+      var(--sky-comp-tab-horizontal-space-inset-top)
+        var(--sky-comp-tab-horizontal-space-inset-right)
         calc(
-          var(--sky-space-inset-pillarbox-2_3-bottom-m) - var(
+          var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
               --sky-override-tab-selected-border-bottom-size,
-              var(--sky-border-width-selected-l)
+              var(--sky-border-width-selected-m)
             )
         )
-        var(--sky-space-inset-pillarbox-2_3-left-m)
+        var(--sky-comp-tab-horizontal-space-inset-left)
     );
     max-width: 100%;
     text-align: left;
+
+    &:hover {
+      background-color: var(
+        --sky-override-tab-selected-background-color,
+        var(--sky-color-background-action-tertiary-hover)
+      );
+      border: var(
+        --sky-override-tab-border-hover,
+        var(--sky-border-width-action-hover) var(--sky-border-style-accent)
+          var(--sky-color-border-action-tertiary-hover)
+      );
+      border-bottom: var(
+        --sky-override-tab-border-bottom,
+        var(
+            --sky-override-tab-selected-border-bottom-size,
+            var(--sky-border-width-selected-m)
+          )
+          var(--sky-border-style-accent) var(--sky-color-border-selected)
+      );
+      padding: var(
+        --sky-override-tab-padding-hover,
+        calc(
+            var(--sky-comp-tab-horizontal-space-inset-top) - var(
+                --sky-border-width-action-hover
+              )
+          )
+          calc(
+            var(--sky-comp-tab-horizontal-space-inset-right) - var(
+                --sky-border-width-action-hover
+              )
+          )
+          calc(
+            var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
+                --sky-override-tab-selected-border-bottom-size,
+                var(--sky-border-width-selected-m)
+              )
+          )
+          calc(
+            var(--sky-comp-tab-horizontal-space-inset-left) - var(
+                --sky-border-width-action-hover
+              )
+          )
+      );
+    }
+
+    &:active {
+      background-color: var(
+        --sky-override-tab-selected-background-color,
+        var(--sky-color-background-action-tertiary-active)
+      );
+      border: var(
+        --sky-override-tab-border-active,
+        var(--sky-border-width-action-active) var(--sky-border-style-accent)
+          var(--sky-color-border-action-tertiary-active)
+      );
+      border-bottom: var(
+        --sky-override-tab-border-bottom,
+        var(
+            --sky-override-tab-selected-border-bottom-size,
+            var(--sky-border-width-selected-m)
+          )
+          var(--sky-border-style-accent) var(--sky-color-border-selected)
+      );
+      padding: var(
+        --sky-override-tab-padding-active,
+        calc(
+            var(--sky-comp-tab-horizontal-space-inset-top) - var(
+                --sky-border-width-action-active
+              )
+          )
+          calc(
+            var(--sky-comp-tab-horizontal-space-inset-right) - var(
+                --sky-border-width-action-active
+              )
+          )
+          calc(
+            var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
+                --sky-override-tab-selected-border-bottom-size,
+                var(--sky-border-width-selected-m)
+              )
+          )
+          calc(
+            var(--sky-comp-tab-horizontal-space-inset-left) - var(
+                --sky-border-width-action-active
+              )
+          )
+      );
+    }
+
+    &:focus-visible {
+      outline: var(--sky-override-tab-outline-focus, none);
+      outline-color: var(--sky-override-tab-outline-color-focus, none);
+    }
+
+    &:focus-visible:not(:active) {
+      outline-offset: var(--sky-override-tab-outline-offset-active, initial);
+    }
+
+    &:focus-visible:not(:active) {
+      background-color: var(
+        --sky-override-tab-selected-background-color,
+        var(--sky-color-background-action-tertiary-focus)
+      );
+      border: var(
+        --sky-override-tab-border-focus,
+        var(--sky-border-width-action-focus) var(--sky-border-style-accent)
+          var(--sky-color-border-action-tertiary-focus)
+      );
+      border-bottom: var(
+        --sky-override-tab-border-bottom,
+        var(
+            --sky-override-tab-selected-border-bottom-size,
+            var(--sky-border-width-selected-m)
+          )
+          var(--sky-border-style-accent) var(--sky-color-border-selected)
+      );
+      box-shadow: var(
+        --sky-override-dropdown-button-type-tab-box-shadow-focus,
+        none
+      );
+      outline: var(--sky-override-tab-outline-active, none);
+      outline-color: var(--sky-override-tab-outline-color-active, none);
+      padding: var(
+        --sky-override-tab-padding-focus,
+        calc(
+            var(--sky-comp-tab-horizontal-space-inset-top) - var(
+                --sky-border-width-action-focus
+              )
+          )
+          calc(
+            var(--sky-comp-tab-horizontal-space-inset-right) - var(
+                --sky-border-width-action-focus
+              )
+          )
+          calc(
+            var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
+                --sky-override-tab-selected-border-bottom-size,
+                var(--sky-border-width-selected-m)
+              )
+          )
+          calc(
+            var(--sky-comp-tab-horizontal-space-inset-left) - var(
+                --sky-border-width-action-focus
+              )
+          )
+      );
+    }
   }
 }
 
@@ -96,13 +305,18 @@
   );
   padding: var(
     --sky-override-context-menu-padding,
-    var(--sky-space-inset-balanced-xs)
+    var(--sky-comp-button-borderless-space-inset-top)
+      var(--sky-comp-button-borderless-space-inset-right)
+      var(--sky-comp-button-borderless-space-inset-bottom)
+      var(--sky-comp-button-borderless-space-inset-left)
   );
   font-size: var(
     --sky-override-context-menu-font-size,
     var(--sky-font-size-body-l)
   );
   line-height: var(--sky-override-context-menu-line-height, 1);
+  height: var(--sky-override-context-menu-height-width);
+  width: var(--sky-override-context-menu-height-width);
 }
 
 :host-context(.sky-toolbar-container) {
@@ -141,19 +355,6 @@
 }
 
 @include mixins.sky-theme-modern {
-  .sky-dropdown-button-type-tab {
-    &:focus-visible {
-      outline: none;
-    }
-
-    &:focus-visible:not(:active) {
-      outline: solid var(--sky-border-width-selected-m)
-        var(--sky-color-border-selected);
-      outline-offset: calc(var(--sky-border-width-selected-m) * -1);
-      box-shadow: var(--sky-elevation-focus);
-    }
-  }
-
   .sky-dropdown-button-type-context-menu {
     background-color: var(--sky-color-background-action-tertiary-base);
 

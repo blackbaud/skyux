@@ -1,53 +1,50 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-modal-footer-container') {
+  --sky-override-modal-footer-border-top: #{1px solid
+    $sky-border-color-neutral-light};
+  --sky-override-modal-footer-btn-btn-link-margin: -2px;
+  --sky-override-modal-footer-btn-btn-margin: 10px;
+  --sky-override-modal-footer-padding: 15px;
+}
 
 sky-modal-footer {
   display: block;
 }
 
 .sky-modal-footer-container {
-  background-color: #fff;
-  @include mixins.sky-border(light, top);
-  /* Offset the margin-left of the link */
-  .sky-btn-link:first-child {
-    margin-left: -12px;
-  }
+  background-color: var(
+    --sky-override-modal-background-color,
+    var(--sky-color-background-container-base)
+  );
+  border-top: var(--sky-override-modal-footer-border-top, none);
+  padding: var(
+    --sky-override-modal-footer-padding,
+    var(--sky-comp-modal-footer-space-inset-top)
+      var(--sky-comp-modal-footer-space-inset-right)
+      var(--sky-comp-modal-footer-space-inset-bottom)
+      var(--sky-comp-modal-footer-space-inset-left)
+  );
 
   .sky-btn + .sky-btn {
-    margin-left: $sky-margin;
+    margin-left: var(
+      --sky-override-modal-footer-btn-btn-margin,
+      var(--sky-space-gap-action_group-m)
+    );
   }
 
   .sky-btn + .sky-btn-link {
-    margin-left: -2px;
+    margin-left: var(
+      --sky-override-modal-footer-btn-btn-link-margin,
+      var(--sky-space-gap-action_group-m)
+    );
   }
 
   .sky-modal-footer-errors {
-    max-height: 100px;
-    overflow-y: auto;
-
     .footer-error {
       display: block;
     }
-  }
-}
-
-.sky-theme-modern {
-  .sky-modal-footer-container {
-    border-top: none;
-    padding: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
-
-    .sky-btn-link:first-child {
-      margin-left: 0;
-    }
-
-    .sky-btn + .sky-btn-link {
-      margin-left: $sky-margin;
-    }
-  }
-}
-
-.sky-theme-modern-dark {
-  .sky-modal-footer-container {
-    background-color: transparent;
   }
 }

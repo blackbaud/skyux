@@ -7,6 +7,7 @@ import { SkyAvatarComponent } from '../avatar.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './avatar.component.fixture.html',
+  standalone: false,
 })
 export class AvatarTestComponent {
   @ViewChild(SkyAvatarComponent)

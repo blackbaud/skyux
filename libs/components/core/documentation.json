@@ -1,0 +1,69 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "id": {
+      "development": {
+        "docsIds": ["SkyIdModule", "SkyIdDirective", "SkyIdService"],
+        "primaryDocsId": "SkyIdModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": ["CoreIdExampleComponent"]
+      }
+    },
+    "media-query": {
+      "development": {
+        "docsIds": [
+          "SkyMediaQueryService",
+          "SkyMediaBreakpoints",
+          "SkyMediaQueryListener",
+          "SkyBreakpoint"
+        ],
+        "primaryDocsId": "SkyMediaQueryService"
+      },
+      "testing": {
+        "docsIds": [
+          "provideSkyMediaQueryTesting",
+          "SkyMediaQueryTestingController"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "CoreMediaQueryBasicExampleComponent",
+          "CoreMediaQueryResponsiveHostExampleComponent"
+        ]
+      }
+    },
+    "numeric": {
+      "development": {
+        "docsIds": [
+          "SkyNumericModule",
+          "SkyNumericPipe",
+          "SkyNumericService",
+          "SkyNumericOptions"
+        ],
+        "primaryDocsId": "SkyNumericModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": ["CoreNumericBasicExampleComponent"]
+      }
+    },
+    "window": {
+      "development": {
+        "docsIds": ["SkyAppWindowRef"],
+        "primaryDocsId": "SkyAppWindowRef"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": []
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "tile": {
+      "development": {
+        "docsIds": [
+          "SkyTilesModule",
+          "SkyTileComponent",
+          "SkyTileTitleComponent",
+          "SkyTileSummaryComponent",
+          "SkyTileContentComponent",
+          "SkyTileContentSectionComponent",
+          "SkyTileDashboardComponent",
+          "SkyTileDashboardService",
+          "SkyTileDashboardConfig",
+          "SkyTileDashboardConfigLayout",
+          "SkyTileDashboardConfigLayoutColumn",
+          "SkyTileDashboardConfigLayoutTile",
+          "SkyTileDashboardConfigTile",
+          "SkyTileDashboardConfigReorderData",
+          "SkyTileDashboardMessage",
+          "SkyTileDashboardMessageType"
+        ],
+        "primaryDocsId": "SkyTilesModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyTileHarness",
+          "SkyTileHarnessFilters",
+          "SkyTileContentHarness",
+          "SkyTileContentSectionHarness",
+          "SkyTileContentSectionHarnessFilters",
+          "SkyTileDashboardHarness",
+          "SkyTileDashboardHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["TilesBasicExampleComponent"]
+      }
+    }
+  }
+}

@@ -12,6 +12,7 @@ import { SKY_BOX_HEADER_ID } from './box-header-id-token';
   templateUrl: './box-header.component.html',
   styleUrls: ['./box-header.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyBoxHeaderComponent {
   protected readonly boxHeaderId = inject(SKY_BOX_HEADER_ID);
@@ -20,7 +21,7 @@ export class SkyBoxHeaderComponent {
     inject(SkyLogService).deprecated('SkyBoxHeaderComponent', {
       deprecationMajorVersion: 10,
       replacementRecommendation:
-        'To add a header to box, use the `headerText` input on the box component instead.',
+        'To add a header to box, use the `headingText` input on the box component instead.',
     });
   }
 }

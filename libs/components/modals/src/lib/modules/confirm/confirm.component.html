@@ -20,8 +20,7 @@
           'sky-confirm-preserve-white-space': preserveWhiteSpace
         }"
         [skyThemeClass]="{
-          'sky-font-display-4': 'default',
-          'sky-font-heading-1 sky-font-display-3': 'modern'
+          'sky-font-display-4': 'default'
         }"
         >{{ message }}</div
       >
@@ -45,15 +44,11 @@
       }
 
       <div class="sky-confirm-buttons">
-        @for (button of buttons; track button) {
+        @for (button of buttons; track button.text) {
           <button
             type="button"
             class="sky-btn"
             [ngClass]="'sky-btn-' + button.styleType"
-            [skyThemeClass]="{
-              'sky-margin-inline-sm': 'modern',
-              'sky-margin-inline-compact': 'default'
-            }"
             [attr.autofocus]="button.autofocus ? 'autofocus' : null"
             (click)="close(button)"
           >

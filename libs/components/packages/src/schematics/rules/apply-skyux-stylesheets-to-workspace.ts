@@ -27,7 +27,7 @@ export function applySkyuxStylesheetsToWorkspace(projectName: string): Rule {
       /*istanbul ignore else*/
       if (target && target.options) {
         target.options['styles'] = ensureSkyuxStylesheets(
-          target.options['styles'] as string[],
+          target.options['styles'] as string[] | undefined,
         );
       }
     }

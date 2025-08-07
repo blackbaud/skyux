@@ -14,7 +14,7 @@
   >
     <button
       aria-live="polite"
-      class="sky-btn sky-btn-default"
+      class="sky-btn sky-btn-default sky-phone-field-country-select-btn"
       type="button"
       [attr.title]="
         ('skyux_phone_field_country_select_label' | skyLibResources) +
@@ -69,10 +69,9 @@
         <sky-country-field
           formControlName="countrySearch"
           [defaultCountry]="defaultCountry"
-          [hideSelectedCountryFlag]="true"
-          [includePhoneInfo]="true"
           [supportedCountryISOs]="supportedCountryISOs"
           (selectedCountryChange)="onCountrySelected($event)"
+          (countryFieldFocusout)="onCountryFieldFocusout($event)"
         />
       </div>
     </span>
@@ -95,14 +94,14 @@
             (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
             'modern'
         }"
-        (click)="toggleCountrySearch(false)"
+        (click)="dismissButtonClicked()"
       >
+        <sky-icon *skyThemeIf="'default'" iconName="chevron-double-left" />
         <sky-icon
-          *skyThemeIf="'default'"
-          icon="chevron-circle-left"
-          size="lg"
+          *skyThemeIf="'modern'"
+          iconName="chevron-double-left"
+          iconSize="l"
         />
-        <sky-icon *skyThemeIf="'modern'" icon="double-chevron-left" size="2x" />
       </button>
     </div>
   }

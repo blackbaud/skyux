@@ -1,4 +1,4 @@
-@use 'node_modules/ag-grid-community/styles' as ag;
+@use 'ag-grid-community/styles' as ag;
 @use 'libs/components/theme/src/lib/styles/variables' as variables;
 
 /**
@@ -13,31 +13,6 @@
 
     .ag-picker-field-wrapper {
       min-height: calc(var(--ag-grid-size) * 4);
-    }
-
-    .ag-standard-button {
-      font-family: inherit;
-      appearance: none;
-      -webkit-appearance: none;
-      border-radius: var(--ag-border-radius);
-      border: solid 1px var(--ag-input-border-color);
-      background-color: var(--ag-background-color);
-      padding: var(--ag-grid-size) calc(var(--ag-grid-size) * 2);
-      cursor: pointer;
-
-      &:hover {
-        background-color: var(--ag-row-hover-color);
-      }
-
-      &:active {
-        border-color: var(--ag-active-color);
-      }
-
-      &:disabled {
-        color: var(--ag-disabled-foreground-color);
-        background-color: var(--ag-input-disabled-background-color);
-        border-color: var(--ag-input-disabled-border-color);
-      }
     }
 
     .ag-floating-filter-body .ag-wrapper.ag-input-wrapper input {
@@ -55,24 +30,16 @@
     .ag-mini-filter,
     .ag-filter-filter {
       .ag-wrapper.ag-input-wrapper {
-        &::before {
-          position: absolute;
-          left: 4px;
-          display: block;
-          width: 12px;
-          height: 12px;
-          background-image: url('data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBkPSJNNS4zIDlhMy43IDMuNyAwIDEgMCAwLTcuNSAzLjcgMy43IDAgMCAwIDAgNy41Wk0xMC41IDEwLjUgOC4zIDguMiIvPjwvc3ZnPg==');
-          background-position: 50% 50%;
-          background-size: contain;
-          opacity: 40%;
-          content: '';
-          filter: var(--ag-icon-filter);
+        &:before {
+          background-color: transparent;
+          background-image: none;
+          -webkit-mask-image: none;
+          mask-image: none;
         }
 
         input.ag-text-field-input,
         input.ag-number-field-input {
-          // Room for the icon.
-          padding-left: 20px;
+          padding-left: var(--ag-widget-horizontal-spacing);
         }
       }
     }
@@ -90,42 +57,6 @@
     .ag-radio-button-input,
     input[class^='ag-'][type='range'] {
       cursor: pointer;
-    }
-
-    input.ag-checkbox-input[type='checkbox'] {
-      appearance: none;
-      display: inline-flex;
-      width: var(--sky-switch-size);
-      height: var(--sky-switch-size);
-
-      &:disabled {
-        background-color: var(--sky-background-color-disabled);
-        cursor: default;
-      }
-
-      &:checked:before {
-        background-color: currentColor;
-        content: ' ';
-        display: inline-block;
-      }
-    }
-  }
-}
-
-@mixin ag-grid-extra-dark() {
-  .ag-root-wrapper .ag-root {
-    .ag-floating-filter,
-    .ag-mini-filter,
-    .ag-filter-filter {
-      .ag-wrapper.ag-input-wrapper::before {
-        opacity: 66%;
-        filter: invert(100%);
-      }
-    }
-
-    .ag-text-field-input::placeholder {
-      color: var(--ag-data-color);
-      opacity: 0.8;
     }
   }
 }

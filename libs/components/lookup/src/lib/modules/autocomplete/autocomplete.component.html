@@ -4,11 +4,13 @@
   class="sky-autocomplete"
   role="combobox"
   [attr.aria-expanded]="
-    isOpen && (showActionsArea || (isResultsVisible | async))
+    isOpen &&
+    (showActionsArea || dropdownHintText || (isResultsVisible | async))
   "
   [attr.aria-labelledby]="ariaLabelledBy"
   [attr.aria-controls]="
-    isOpen && (showActionsArea || (isResultsVisible | async))
+    isOpen &&
+    (showActionsArea || dropdownHintText || (isResultsVisible | async))
       ? resultsListId
       : null
   "
@@ -23,14 +25,11 @@
     #resultsRef
     class="sky-autocomplete-results-container"
     [attr.id]="resultsListId"
-    [skyThemeClass]="{
-      'sky-shadow': 'default',
-      'sky-elevation-4': 'modern'
-    }"
+    [skyThemeClass]="{ 'sky-shadow': 'default', 'sky-elevation-4': 'modern' }"
     (mousedown)="$event.preventDefault()"
     (keydown)="handleKeydown($event)"
   >
-    @if (isSearchingAsync) {
+    @if (isSearchingAsync && !allowAnyValue()) {
       <div class="sky-autocomplete-results-waiting">
         <sky-wait [isWaiting]="true" />
       </div>
@@ -41,7 +40,7 @@
           role="listbox"
           [attr.aria-labelledby]="ariaLabelledBy"
         >
-          @for (result of searchResults; track result; let i = $index) {
+          @for (result of searchResults; track result.data; let i = $index) {
             @if (
               (!searchResultsLimit || i < searchResultsLimit) &&
               !(enableShowMore && i >= 5)
@@ -67,6 +66,11 @@
               </div>
             }
           }
+          @if (isSearchingAsync && allowAnyValue()) {
+            <div class="sky-autocomplete-results-waiting">
+              <sky-wait [isWaiting]="true" />
+            </div>
+          }
           @if (searchResults.length === 0) {
             <div class="sky-font-deemphasized sky-autocomplete-no-results">
               {{
@@ -75,6 +79,10 @@
               }}
             </div>
           }
+        </div>
+      } @else if (dropdownHintText) {
+        <div class="sky-autocomplete-dropdown-hint-text sky-font-deemphasized">
+          {{ dropdownHintText }}
         </div>
       }
       @if (showActionsArea) {
@@ -137,7 +145,7 @@
               [class.focused]="isElementFocused(addButtonEl)"
               (click)="addButtonClicked()"
             >
-              <sky-icon icon="add" />
+              <sky-icon iconName="add" />
               {{ 'skyux_autocomplete_add' | skyLibResources }}
             </button>
           }

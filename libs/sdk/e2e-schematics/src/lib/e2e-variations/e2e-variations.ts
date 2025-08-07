@@ -11,8 +11,8 @@ export const E2eVariations = {
 
   forEachTheme: (
     callback: (theme: E2EVariationName) => void,
-    includeModernV2 = false,
-  ) => {
+    includeModernV2 = true,
+  ): void => {
     callback('default');
     callback('modern-light');
 

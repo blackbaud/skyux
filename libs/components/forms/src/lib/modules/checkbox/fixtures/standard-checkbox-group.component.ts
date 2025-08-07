@@ -15,7 +15,6 @@ import { SkyCheckboxGroupHeadingStyle } from '../checkbox-group-heading-style';
 import { SkyCheckboxModule } from '../checkbox.module';
 
 @Component({
-  standalone: true,
   selector: 'sky-standard-checkbox-group',
   templateUrl: './standard-checkbox-group.component.html',
   imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],

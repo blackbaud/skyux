@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-sort',
   templateUrl: './sort.component.html',
   styleUrls: ['./sort.component.scss'],
+  standalone: false,
 })
 export class SortComponent {
   public initialState = 3;

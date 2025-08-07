@@ -10,7 +10,7 @@ import {
   RowClickedEvent,
   RowNode,
 } from 'ag-grid-community';
-import { AgRowNodeEventListener } from 'ag-grid-community/dist/types/core/interfaces/iRowNode';
+import { AgRowNodeEventListener } from 'ag-grid-community/dist/types/src/interfaces/iRowNode';
 import { Observable, of } from 'rxjs';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';

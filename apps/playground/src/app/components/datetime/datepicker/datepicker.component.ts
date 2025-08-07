@@ -18,6 +18,7 @@ import { delay, distinctUntilChanged } from 'rxjs/operators';
 @Component({
   selector: 'app-datepicker',
   templateUrl: './datepicker.component.html',
+  standalone: false,
 })
 export class DatepickerComponent implements OnInit {
   public futureDisabled = true;
@@ -86,13 +87,13 @@ export class DatepickerComponent implements OnInit {
     this.disabled = !this.disabled;
   }
 
-  public setReactiveDate(emitEvent = true) {
+  public setReactiveDate(emitEvent = true): void {
     this.reactiveDate.setValue(new Date('12/12/2012'), {
       emitEvent: emitEvent,
     });
   }
 
-  public setReactiveString(emitEvent = true) {
+  public setReactiveString(emitEvent = true): void {
     this.reactiveDate.setValue('12/12/2012', { emitEvent: emitEvent });
   }
 

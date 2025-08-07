@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { AsyncPipe, DOCUMENT, NgClass } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -12,12 +12,14 @@ import {
   OnDestroy,
   OnInit,
   booleanAttribute,
-  computed,
+  effect,
   inject,
   input,
   numberAttribute,
+  viewChild,
 } from '@angular/core';
-import { SkyMutationObserverService } from '@skyux/core';
+import { SkyIdModule, SkyMutationObserverService } from '@skyux/core';
+import { SkyViewkeeperModule } from '@skyux/core';
 import {
   SkyThemeService,
   SkyThemeSettings,
@@ -28,10 +30,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import {
   CellEditingStartedEvent,
   CellFocusedEvent,
-  DetailGridInfo,
   HeaderFocusedEvent,
-  ModuleNames,
-  ModuleRegistry,
 } from 'ag-grid-community';
 import {
   BehaviorSubject,
@@ -45,7 +44,10 @@ import {
   takeUntil,
 } from 'rxjs';
 
-import { agGridTheme } from '../../styles/ag-grid-theme';
+import {
+  getSkyAgGridTheme,
+  getSkyAgGridThemeClassName,
+} from '../../styles/ag-grid-theme';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyCellType } from './types/cell-type';
@@ -56,6 +58,7 @@ let idIndex = 0;
   selector: 'sky-ag-grid-wrapper',
   templateUrl: './ag-grid-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AsyncPipe, NgClass, SkyIdModule, SkyViewkeeperModule],
 })
 export class SkyAgGridWrapperComponent
   implements AfterContentInit, AfterViewInit, OnDestroy, OnInit
@@ -103,15 +106,9 @@ export class SkyAgGridWrapperComponent
       const primaryGridEditing = this.agGrid.api.getEditingCells().length > 0;
       if (primaryGridEditing) {
         return true;
-      } else if (
-        ModuleRegistry.__isRegistered(
-          ModuleNames.EnterpriseCoreModule,
-          'sky-ag-grid-wrapper',
-        )
-      ) {
-        // AG Grid 32+ throws an error for calling this API without enterprise modules.
+      } else if (this.agGrid.api.getGridOption('masterDetail')) {
         let innerEditing = false;
-        this.agGrid.api.forEachDetailGridInfo((detailGrid: DetailGridInfo) => {
+        this.agGrid.api.forEachDetailGridInfo((detailGrid) => {
           if (detailGrid?.api && detailGrid.api.getEditingCells().length > 0) {
             innerEditing = true;
           }
@@ -123,9 +120,8 @@ export class SkyAgGridWrapperComponent
     return false;
   }
 
-  protected readonly minHeightStyle = computed(() => {
-    return `--sky-ag-grid-min-height: ${this.minHeight()}px;`;
-  });
+  protected readonly skyAgGridDiv =
+    viewChild<ElementRef<HTMLElement>>('skyAgGridDiv');
 
   #_viewkeeperClasses: string[] = [];
   readonly #ngUnsubscribe = new Subject<void>();
@@ -153,6 +149,15 @@ export class SkyAgGridWrapperComponent
     this.beforeAnchorId = 'sky-ag-grid-nav-anchor-before-' + idIndex;
     this.gridId = 'sky-ag-grid-' + idIndex;
     this.wrapperClasses$ = this.#wrapperClasses.asObservable();
+
+    effect(() => {
+      const minHeight = this.minHeight();
+      const skyAgGridDiv = this.skyAgGridDiv()?.nativeElement;
+      skyAgGridDiv?.style.setProperty(
+        '--sky-ag-grid-min-height',
+        `${minHeight}px`,
+      );
+    });
   }
 
   public ngAfterContentInit(): void {
@@ -364,11 +369,19 @@ export class SkyAgGridWrapperComponent
     isCompact: boolean,
     themeSettings?: SkyThemeSettings,
   ): void {
-    const agTheme = agGridTheme(hasEditableClass, themeSettings, isCompact);
+    const skyAgGridTheme = getSkyAgGridTheme(
+      hasEditableClass ? 'data-entry-grid' : 'data-grid',
+    );
+    this.agGrid?.api.setGridOption('theme', skyAgGridTheme);
+    const skyAgGridThemeClassName = getSkyAgGridThemeClassName(
+      hasEditableClass,
+      themeSettings,
+      isCompact,
+    );
     const previousValue = this.#wrapperClasses.getValue();
     let value = [
       ...previousValue.filter((c) => !c.startsWith('ag-theme-')),
-      agTheme,
+      skyAgGridThemeClassName,
     ];
     const textSelectionClass = 'sky-ag-grid-text-selection';
     if (this.#getTextSelection(hasEditableClass)) {

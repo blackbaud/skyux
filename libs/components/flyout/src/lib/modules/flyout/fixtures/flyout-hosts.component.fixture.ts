@@ -12,6 +12,7 @@ import { SkyFlyoutModalFixtureFormComponent } from './flyout-modal-form.componen
   selector: 'sky-test-flyout-internal',
   templateUrl: './flyout-hosts.component.fixture.html',
   providers: [SkyFlyoutService],
+  standalone: false,
 })
 export class SkyFlyoutHostsTestComponent {
   #modal: SkyModalService;

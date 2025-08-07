@@ -21,6 +21,7 @@ const STATUS_NAME_DEFAULT = 'incomplete';
   templateUrl: './progress-indicator-item.component.html',
   styleUrls: ['./progress-indicator-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyProgressIndicatorItemComponent implements OnInit {
   /**

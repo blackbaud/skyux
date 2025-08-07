@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './action-button-ngfor.component.fixture.html',
+  standalone: false,
 })
 export class ActionButtonNgforTestComponent {
   public items: any[] = [

@@ -6,8 +6,7 @@ import { ButtonsComponent } from './buttons.component';
 
 const routes: Routes = [{ path: '', component: ButtonsComponent }];
 @NgModule({
-  declarations: [ButtonsComponent],
-  imports: [CommonModule, RouterModule.forChild(routes)],
+  imports: [ButtonsComponent, CommonModule, RouterModule.forChild(routes)],
   exports: [ButtonsComponent],
 })
 export class ButtonsModule {}

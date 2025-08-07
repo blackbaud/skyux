@@ -13,7 +13,6 @@ import { LocalStorageConfigService } from './local-storage-config.service';
 
 @Component({
   selector: 'app-data-manager-visual',
-  standalone: true,
   imports: [
     SkyDataManagerModule,
     DataViewGridComponent,
@@ -184,7 +183,7 @@ export class DataManagerVisualComponent implements OnInit {
     });
   }
 
-  public searchSo() {
+  public searchSo(): void {
     const newDataState = new SkyDataManagerState({
       ...this.dataState,
       searchText: 'so',

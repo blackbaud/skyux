@@ -11,6 +11,7 @@ import { SkyPageLink } from '../action-hub/types/page-link';
   selector: 'sky-page-header',
   templateUrl: './page-header.component.html',
   styleUrls: ['./page-header.component.scss'],
+  standalone: false,
 })
 export class SkyPageHeaderComponent {
   /**

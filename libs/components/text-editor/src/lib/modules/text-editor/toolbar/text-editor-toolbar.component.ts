@@ -43,7 +43,6 @@ import { UrlTarget } from '../url-modal/text-editor-url-target';
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-text-editor-toolbar',
   templateUrl: './text-editor-toolbar.component.html',
   styleUrls: ['./text-editor-toolbar.component.scss'],
@@ -152,7 +151,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
     const inputModal = this.#modalService.open(SkyTextEditorUrlModalComponent, [
       {
         provide: SkyUrlModalContext,
-        useFactory: () => {
+        useFactory: (): SkyUrlModalContext => {
           const context = new SkyUrlModalContext();
           context.urlResult = currentLink;
           context.linkWindowOptions = this.linkWindowOptions;

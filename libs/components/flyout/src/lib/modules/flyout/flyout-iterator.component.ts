@@ -16,7 +16,6 @@ import { SkyFlyoutResourcesModule } from '../shared/sky-flyout-resources.module'
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-flyout-iterator',
   templateUrl: './flyout-iterator.component.html',
   styleUrls: ['./flyout-iterator.component.scss'],

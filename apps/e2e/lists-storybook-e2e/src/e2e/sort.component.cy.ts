@@ -19,10 +19,7 @@ describe('lists-storybook - sort', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('app-sort')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`sortcomponent-sort--sort-${theme}`);
+        cy.skyReady('app-sort').screenshot(`sortcomponent-sort--sort-${theme}`);
         cy.get('app-sort').percySnapshot(`sortcomponent-sort--sort-${theme}`, {
           widths: E2eVariations.DISPLAY_WIDTHS,
         });
@@ -31,9 +28,7 @@ describe('lists-storybook - sort', () => {
       sortVariations.forEach((sort) => {
         const textDescriptor = sort.hasText ? 'with' : 'without';
         it(`should open the sort ${textDescriptor} button text`, () => {
-          cy.get('app-sort')
-            .should('exist')
-            .should('be.visible')
+          cy.skyReady('app-sort')
             .get(`#${sort.id} .sky-dropdown-button`)
             .should('exist')
             .should('be.visible')
@@ -53,5 +48,5 @@ describe('lists-storybook - sort', () => {
         });
       });
     });
-  }, true);
+  });
 });

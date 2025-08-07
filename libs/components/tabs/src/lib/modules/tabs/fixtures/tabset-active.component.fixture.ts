@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './tabset-active.component.fixture.html',
+  standalone: false,
 })
 export class TabsetActiveTestComponent {
   public tab1Heading = 'Tab 1';

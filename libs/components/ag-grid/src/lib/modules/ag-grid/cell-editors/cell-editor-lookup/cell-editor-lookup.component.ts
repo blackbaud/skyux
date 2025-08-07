@@ -7,7 +7,15 @@ import {
   HostListener,
   inject,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { SkyIdModule } from '@skyux/core';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyLookupModule } from '@skyux/lookup';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ColumnResizedEvent } from 'ag-grid-community';
@@ -26,6 +34,13 @@ import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
   templateUrl: './cell-editor-lookup.component.html',
   styleUrls: ['./cell-editor-lookup.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    SkyInputBoxModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SkyLookupModule,
+    SkyIdModule,
+  ],
 })
 export class SkyAgGridCellEditorLookupComponent
   implements ICellEditorAngularComp
@@ -46,6 +61,7 @@ export class SkyAgGridCellEditorLookupComponent
   protected labelText: string | undefined = undefined;
 
   #lookupOpen = false;
+  #selectionModalOpen = false;
   #params: SkyCellEditorLookupParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
   #changeDetector = inject(ChangeDetectorRef);
@@ -148,7 +164,6 @@ export class SkyAgGridCellEditorLookupComponent
         this.#elementRef.nativeElement.querySelector('.sky-lookup-input');
       lookupInput.focus();
       if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
-        lookupInput.select();
         lookupInput.setRangeText(`${this.#params?.eventKey}`);
         // Ensure the cursor is at the end of the text.
         lookupInput.setSelectionRange(
@@ -156,15 +171,25 @@ export class SkyAgGridCellEditorLookupComponent
           lookupInput.value.length,
         );
         lookupInput.dispatchEvent(new Event('input'));
-      }
-      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
-        lookupInput.select();
+      } else if (
+        this.#triggerType === SkyAgGridCellEditorInitialAction.Untouched
+      ) {
+        // Ensure the cursor is at the end of the text.
+        lookupInput.setSelectionRange(
+          lookupInput.value.length,
+          lookupInput.value.length,
+        );
       }
     });
   }
 
   public onLookupOpenChange(isOpen: boolean): void {
     this.#lookupOpen = isOpen;
+    this.#stopEditingOnBlur();
+  }
+
+  public onSelectionModalOpenChange(isOpen: boolean): void {
+    this.#selectionModalOpen = isOpen;
     this.#stopEditingOnBlur();
   }
 
@@ -178,6 +203,7 @@ export class SkyAgGridCellEditorLookupComponent
   #stopEditingOnBlur(): void {
     if (
       !this.#lookupOpen &&
+      !this.#selectionModalOpen &&
       this.#params?.api.getGridOption('stopEditingWhenCellsLoseFocus') &&
       !this.#elementRef.nativeElement.matches(':focus-within')
     ) {

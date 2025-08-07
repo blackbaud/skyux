@@ -5,7 +5,13 @@ import {
   HostListener,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { SkyI18nModule } from '@skyux/i18n';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
@@ -22,17 +28,16 @@ import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
   templateUrl: './cell-editor-text.component.html',
   styleUrls: ['./cell-editor-text.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule, ReactiveFormsModule, SkyI18nModule],
 })
 export class SkyAgGridCellEditorTextComponent
   implements ICellEditorAngularComp
 {
   public textInputLabel: string | undefined;
   public columnHeader: string | undefined;
-  public columnWidth: number | undefined;
   public editorForm = new UntypedFormGroup({
     text: new UntypedFormControl(),
   });
-  public rowHeightWithoutBorders: number | undefined;
   public rowNumber: number | undefined;
   public maxlength: number | undefined;
 
@@ -86,8 +91,6 @@ export class SkyAgGridCellEditorTextComponent
       'header',
     );
     this.rowNumber = this.#params.rowIndex + 1;
-    this.columnWidth = this.#params.column.getActualWidth();
-    this.rowHeightWithoutBorders = (this.#params.node.rowHeight as number) - 4;
   }
 
   /**

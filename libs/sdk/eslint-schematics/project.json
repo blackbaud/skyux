@@ -1,0 +1,38 @@
+{
+  "name": "eslint-schematics",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/sdk/eslint-schematics/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/sdk/eslint-schematics"],
+      "options": {
+        "jestConfig": "libs/sdk/eslint-schematics/jest.config.ts"
+      }
+    },
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/sdk/eslint-schematics",
+        "tsConfig": "libs/sdk/eslint-schematics/tsconfig.lib.json",
+        "packageJson": "libs/sdk/eslint-schematics/package.json",
+        "main": "libs/sdk/eslint-schematics/src/index.ts",
+        "assets": [
+          "libs/sdk/eslint-schematics/*.md",
+          "libs/sdk/eslint-schematics/src/schematics/ng-add/schema.json",
+          "libs/sdk/eslint-schematics/collection.json",
+          "libs/sdk/eslint-schematics/migrations.json"
+        ]
+      }
+    }
+  },
+  "tags": ["sdk", "npm"]
+}

@@ -13,6 +13,7 @@ import { IntegrationRouteInfo } from '../shared/integration-info/integration-rou
   selector: 'app-home',
   templateUrl: './home.component.html',
   providers: [SkyDataManagerService],
+  standalone: false,
 })
 export class HomeComponent implements AfterViewInit {
   public integrationsData: IntegrationInfo[] = [];

@@ -1,0 +1,19 @@
+<div class="sky-margin-stacked-lg">
+  <sky-input-box labelText="Text to highlight" [stacked]="true">
+    <input type="text" [(ngModel)]="searchTerm" />
+  </sky-input-box>
+</div>
+
+<div class="sky-margin-stacked-lg">
+  <sky-checkbox
+    labelText="Display additional content"
+    [(ngModel)]="showAdditionalContent"
+  />
+</div>
+
+<div [skyHighlight]="searchTerm">
+  The text that you enter is highlighted here.
+  @if (showAdditionalContent) {
+    <div>This additional content is highlighted too!</div>
+  }
+</div>

@@ -5,6 +5,7 @@ import { SkyListViewChecklistComponent } from '../list-view-checklist.component'
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-view-checklist-empty.component.fixture.html',
+  standalone: false,
 })
 export class ListViewChecklistEmptyTestComponent {
   public tempValue: string = undefined;

@@ -7,6 +7,7 @@ import { SkyGridComponent } from '../grid.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './grid-async.component.fixture.html',
+  standalone: false,
 })
 export class GridAsyncTestComponent implements OnInit {
   public asyncHeading = new BehaviorSubject<string>('');

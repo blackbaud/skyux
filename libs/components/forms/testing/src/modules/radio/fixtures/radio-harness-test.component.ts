@@ -21,7 +21,6 @@ function validatePaymentMethod(
 }
 
 @Component({
-  standalone: true,
   selector: 'test-radio-harness',
   templateUrl: './radio-harness-test.component.html',
   imports: [FormsModule, ReactiveFormsModule, SkyRadioModule],

@@ -57,6 +57,7 @@ import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-n
   providers: [SkyLookupAdapterService],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyLookupComponent
   extends SkyLookupAutocompleteAdapter
@@ -231,6 +232,12 @@ export class SkyLookupComponent
    */
   @Output()
   public openChange = new EventEmitter<boolean>();
+
+  /**
+   * @internal
+   */
+  @Output()
+  public selectionModalOpenChange = new EventEmitter<boolean>();
 
   public get tokens(): SkyToken[] | undefined {
     return this.#_tokens;
@@ -498,7 +505,7 @@ export class SkyLookupComponent
     this.#setValue(value ? value.slice() : [], { emitEvent: false });
   }
 
-  public registerOnChange(fn: (value: any[]) => void) {
+  public registerOnChange(fn: (value: any[]) => void): void {
     this.#notifyChange = fn;
   }
 
@@ -622,6 +629,7 @@ export class SkyLookupComponent
       });
     } else {
       const initialValue = this.#getValue();
+      this.selectionModalOpenChange.emit(true);
 
       if (this.#hasSearchAsync()) {
         this.#openSelectionModal =
@@ -635,6 +643,7 @@ export class SkyLookupComponent
               ? closeArgs.selectedItems
               : initialValue,
           );
+          this.selectionModalOpenChange.emit(false);
         });
       } else {
         this.#openNativePicker =
@@ -666,6 +675,7 @@ export class SkyLookupComponent
           }
 
           this.#processPickerResult(selectedItems);
+          this.selectionModalOpenChange.emit(false);
         });
 
         this.#changeDetector.markForCheck();
@@ -679,6 +689,10 @@ export class SkyLookupComponent
     } else if (!this.#pickerModalOpen()) {
       this.openChange.emit(false);
     }
+  }
+
+  protected onFocus($event: FocusEvent): void {
+    ($event.target as HTMLTextAreaElement).select();
   }
 
   #createSelectionModalInstance(

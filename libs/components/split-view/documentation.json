@@ -1,0 +1,37 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "split-view": {
+      "development": {
+        "docsIds": [
+          "SkySplitViewModule",
+          "SkySplitViewComponent",
+          "SkySplitViewDrawerComponent",
+          "SkySplitViewWorkspaceComponent",
+          "SkySplitViewWorkspaceContentComponent",
+          "SkySplitViewWorkspaceFooterComponent",
+          "SkySplitViewDockType",
+          "SkySplitViewMessage",
+          "SkySplitViewMessageType"
+        ],
+        "primaryDocsId": "SkySplitViewModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkySplitViewHarness",
+          "SkySplitViewHarnessFilters",
+          "SkySplitViewDrawerHarness",
+          "SkySplitViewWorkspaceHarness",
+          "SkySplitViewWorkspaceContentHarness",
+          "SkySplitViewWorkspaceFooterHarness"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "SplitViewBasicExampleComponent",
+          "SplitViewPageBoundExampleComponent"
+        ]
+      }
+    }
+  }
+}

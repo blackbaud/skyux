@@ -5,6 +5,7 @@ import { SkyInputBoxHostService } from '../input-box-host.service';
 @Component({
   selector: 'sky-input-box-host-service-fixture',
   templateUrl: './input-box-host-service.component.fixture.html',
+  standalone: false,
 })
 export class InputBoxHostServiceFixtureComponent implements OnInit {
   @ViewChild('inputTemplate', {
@@ -45,5 +46,13 @@ export class InputBoxHostServiceFixtureComponent implements OnInit {
 
   public setHintTextScreenReaderOnly(hide: boolean): void {
     this.#inputBoxHostSvc.setHintTextScreenReaderOnly(hide);
+  }
+
+  public containsElement(el: EventTarget): boolean {
+    return this.#inputBoxHostSvc.focusIsInInput(el);
+  }
+
+  public queryInputBox(query: string): HTMLElement | undefined {
+    return this.#inputBoxHostSvc.queryHost(query);
   }
 }

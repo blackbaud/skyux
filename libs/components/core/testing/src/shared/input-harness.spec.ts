@@ -18,7 +18,6 @@ class TestDirective {}
 
 @Component({
   imports: [FormsModule, ReactiveFormsModule, TestDirective],
-  standalone: true,
   template: `
     <form [formGroup]="formGroup">
       <input type="text" formControlName="firstName" skyFoo />

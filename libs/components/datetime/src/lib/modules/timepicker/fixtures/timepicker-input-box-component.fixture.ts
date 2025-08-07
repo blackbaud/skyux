@@ -8,6 +8,7 @@ import { SkyTimepickerInputDirective } from '../timepicker.directive';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './timepicker-input-box-component.fixture.html',
+  standalone: false,
 })
 export class TimepickerInputBoxTestComponent {
   @ViewChild(SkyTimepickerComponent)

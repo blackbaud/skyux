@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<AutocompleteComponent>;
 export const Autocomplete = {
-  render: (args: AutocompleteComponent) => ({
+  render: (args: AutocompleteComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

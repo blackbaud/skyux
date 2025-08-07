@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   selector: 'sky-filter-inline-item',
   styleUrls: ['./filter-inline-item.component.scss'],
   templateUrl: './filter-inline-item.component.html',
+  standalone: false,
 })
 export class SkyFilterInlineItemComponent {}

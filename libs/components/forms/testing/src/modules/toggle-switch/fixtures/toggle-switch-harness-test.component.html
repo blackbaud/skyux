@@ -1,0 +1,15 @@
+<form [formGroup]="formGroup">
+  <sky-toggle-switch
+    data-sky-id="toggle-switch"
+    formControlName="registration"
+    [helpPopoverContent]="helpPopoverContent()"
+    [helpPopoverTitle]="helpPopoverTitle()"
+    [helpKey]="helpKey()"
+    [labelHidden]="useAlternateLabel() ? undefined : labelHidden()"
+    [labelText]="useAlternateLabel() ? undefined : labelText()"
+  >
+    @if (useAlternateLabel()) {
+      <sky-toggle-switch-label>Alternate label</sky-toggle-switch-label>
+    }
+  </sky-toggle-switch>
+</form>

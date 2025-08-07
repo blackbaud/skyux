@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-selection-box-description',
   templateUrl: './selection-box-description.component.html',
+  standalone: false,
 })
 export class SkySelectionBoxDescriptionComponent {}

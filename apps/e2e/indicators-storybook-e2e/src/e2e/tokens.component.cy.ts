@@ -9,9 +9,7 @@ describe('indicators-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('app-tokens')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-tokens')
           // Capture the focus style of the first token.
           .get(
             'sky-tokens:first-child sky-token:first-child .sky-token-btn-action',
@@ -28,5 +26,5 @@ describe('indicators-storybook', () => {
         );
       });
     });
-  }, true);
+  });
 });

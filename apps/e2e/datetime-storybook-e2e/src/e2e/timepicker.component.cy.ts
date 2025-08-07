@@ -11,6 +11,7 @@ describe('datetime-storybook', () => {
             ),
           );
           it('should render the component', () => {
+            cy.skyReady('app-timepicker');
             cy.get('.sky-input-group-timepicker-btn')
               .last()
               .should('exist')
@@ -54,5 +55,5 @@ describe('datetime-storybook', () => {
         });
       });
     });
-  }, true);
+  });
 });

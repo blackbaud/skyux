@@ -2,7 +2,6 @@ import { Component, input } from '@angular/core';
 import { SkyIllustrationModule, SkyIllustrationSize } from '@skyux/indicators';
 
 @Component({
-  standalone: true,
   imports: [SkyIllustrationModule],
   template: `
     <sky-illustration

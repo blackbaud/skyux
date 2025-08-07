@@ -5,13 +5,12 @@
     [ngClass]="{
       'sky-vertical-tabset-group-header-active sky-font-emphasized': isActive(),
       'sky-vertical-tabset-group-header-sub-open': open,
-      'sky-font-deemphasized': disabled,
-      'sky-deemphasized': disabled
+      'sky-font-deemphasized': disabled
     }"
   >
     <button
       #groupHeadingButton
-      class="sky-padding-even-default sky-vertical-tabset-button"
+      class="sky-vertical-tabset-button"
       role="tab"
       type="button"
       [attr.aria-controls]="groupContent.id"

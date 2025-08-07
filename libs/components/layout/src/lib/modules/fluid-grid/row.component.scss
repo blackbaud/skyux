@@ -1,6 +1,13 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
-@use 'scss/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-row') {
+  --sky-override-fluid-grid-gutter-size-small: #{$sky-padding-half};
+  --sky-override-fluid-grid-gutter-size-medium: #{$sky-padding};
+  --sky-override-fluid-grid-gutter-size-large: #{$sky-padding-plus-half};
+  --sky-override-fluid-grid-top-bottom: 0;
+}
 
 .sky-row {
   display: flex;
@@ -8,54 +15,188 @@
   flex-wrap: wrap;
   // Default to large gutters for backwards compatibility.
   // (Prior versions of fluid-grid did not require the wrapping `sky-fluid-grid` component.)
-  margin-left: -(map-get($gutter-sizes, large));
-  margin-right: -(map-get($gutter-sizes, large));
+  margin: var(
+      --sky-override-fluid-grid-top-bottom,
+      calc(var(--sky-space-inset-horizontal-top-xl) * -1)
+    )
+    calc(
+      var(
+          --sky-override-fluid-grid-gutter-size-large,
+          var(--sky-space-inset-horizontal-right-xl)
+        ) *
+        -1
+    )
+    var(
+      --sky-override-fluid-grid-top-bottom,
+      calc(var(--sky-space-inset-horizontal-bottom-xl) * -1)
+    )
+    calc(
+      var(
+          --sky-override-fluid-grid-gutter-size-large,
+          var(--sky-space-inset-horizontal-left-xl)
+        ) *
+        -1
+    );
 }
 
-@mixin create_row_gutters($gutter-size) {
-  :host-context(.sky-fluid-grid-gutter-size-#{$gutter-size}) {
-    .sky-row {
-      margin-left: -(map-get($gutter-sizes, $gutter-size));
-      margin-right: -(map-get($gutter-sizes, $gutter-size));
-    }
+:host-context(.sky-fluid-grid-gutter-size-small) {
+  .sky-row {
+    margin: var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-top-s) * -1)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-small,
+            var(--sky-space-inset-horizontal-right-s)
+          ) *
+          -1
+      )
+      var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-bottom-s) * -1)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-small,
+            var(--sky-space-inset-horizontal-left-s)
+          ) *
+          -1
+      );
   }
-  :host-context(
-    .sky-fluid-grid-gutter-size-#{$gutter-size}.sky-fluid-grid-no-margin
-  ) {
-    .sky-row {
-      margin-left: -(map-get($gutter-sizes, $gutter-size)) * 2;
-      margin-right: -(map-get($gutter-sizes, $gutter-size)) * 2;
-    }
+}
+:host-context(.sky-fluid-grid-gutter-size-small.sky-fluid-grid-no-margin) {
+  .sky-row {
+    margin: var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-top-s) * -2)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-small,
+            var(--sky-space-inset-horizontal-right-s)
+          ) *
+          -2
+      )
+      var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-bottom-s) * -2)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-small,
+            var(--sky-space-inset-horizontal-left-s)
+          ) *
+          -2
+      );
   }
 }
 
-@mixin create_row_gutters_modern($gutter-size) {
-  /* clean-css ignore:start */
-  :host-context(.sky-theme-modern .sky-fluid-grid-gutter-size-#{$gutter-size}) {
-    .sky-row {
-      margin-left: -(map-get($gutter-sizes-modern, $gutter-size));
-      margin-right: -(map-get($gutter-sizes-modern, $gutter-size));
-    }
+:host-context(.sky-fluid-grid-gutter-size-medium) {
+  .sky-row {
+    margin: var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-top-m) * -1)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-medium,
+            var(--sky-space-inset-horizontal-right-m)
+          ) *
+          -1
+      )
+      var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-bottom-m) * -1)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-medium,
+            var(--sky-space-inset-horizontal-left-m)
+          ) *
+          -1
+      );
   }
-  :host-context(
-    .sky-theme-modern
-      .sky-fluid-grid-gutter-size-#{$gutter-size}.sky-fluid-grid-no-margin
-  ) {
-    .sky-row {
-      margin-left: -(map-get($gutter-sizes-modern, $gutter-size)) * 2;
-      margin-right: -(map-get($gutter-sizes-modern, $gutter-size)) * 2;
-    }
+}
+:host-context(.sky-fluid-grid-gutter-size-medium.sky-fluid-grid-no-margin) {
+  .sky-row {
+    margin: var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-top-m) * -2)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-medium,
+            var(--sky-space-inset-horizontal-right-m)
+          ) *
+          -2
+      )
+      var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-bottom-m) * -2)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-medium,
+            var(--sky-space-inset-horizontal-left-m)
+          ) *
+          -2
+      );
   }
-  /* clean-css ignore:end */
 }
 
-@include create_row_gutters(small);
-@include create_row_gutters(medium);
-@include create_row_gutters(large);
-
-@include create_row_gutters_modern(small);
-@include create_row_gutters_modern(medium);
-@include create_row_gutters_modern(large);
+:host-context(.sky-fluid-grid-gutter-size-large) {
+  .sky-row {
+    margin: var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-top-xl) * -1)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-large,
+            var(--sky-space-inset-horizontal-right-xl)
+          ) *
+          -1
+      )
+      var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-bottom-xl) * -1)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-large,
+            var(--sky-space-inset-horizontal-left-xl)
+          ) *
+          -1
+      );
+  }
+}
+:host-context(.sky-fluid-grid-gutter-size-large.sky-fluid-grid-no-margin) {
+  .sky-row {
+    margin: var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-top-xl) * -2)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-large,
+            var(--sky-space-inset-horizontal-right-xl)
+          ) *
+          -2
+      )
+      var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-bottom-xl) * -2)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-large,
+            var(--sky-space-inset-horizontal-left-xl)
+          ) *
+          -2
+      );
+  }
+}
 
 @include mixins.sky-host-responsive-container-xs-min() {
   .sky-row.sky-row-reverse {
@@ -66,14 +207,5 @@
 @include mixins.sky-host-responsive-container-sm-min() {
   .sky-row.sky-row-reverse {
     flex-direction: row-reverse;
-  }
-}
-
-@include mixins.sky-theme-modern {
-  .sky-row {
-    // Default to large gutters for backwards compatibility.
-    // (Prior versions of fluid-grid did not require the wrapping `sky-fluid-grid` component.)
-    margin-left: -(map-get($gutter-sizes-modern, large));
-    margin-right: -(map-get($gutter-sizes-modern, large));
   }
 }

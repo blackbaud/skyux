@@ -58,6 +58,7 @@ import { ListViewChecklistItemsLoadAction } from './state/items/load.action';
     ChecklistStateModel,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyListViewChecklistComponent
   extends ListViewComponent
@@ -200,7 +201,7 @@ export class SkyListViewChecklistComponent
       });
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     if (this.selectMode === 'multiple') {
       this.dispatcher.toolbarShowMultiselectToolbar(true);
     }
@@ -223,7 +224,7 @@ export class SkyListViewChecklistComponent
       });
   }
 
-  public ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (
       changes['showOnlySelected'] &&
       changes['showOnlySelected'].currentValue !==
@@ -238,7 +239,7 @@ export class SkyListViewChecklistComponent
    * Multiselect toolbar will automatically show if select mode is set to 'multiple'.
    * These methods are no longer needed, as that functionality is part of list-builder.
    */
-  public changeVisibleItems(change: SkyCheckboxChange) {
+  public changeVisibleItems(change: SkyCheckboxChange): void {
     this.showOnlySelected = change.checked;
   }
 
@@ -247,7 +248,7 @@ export class SkyListViewChecklistComponent
    * Multiselect toolbar will automatically show if select mode is set to 'multiple'.
    * These methods are no longer needed, as that functionality is part of list-builder.
    */
-  public clearSelections() {
+  public clearSelections(): void {
     this.state
       .pipe(
         observableMap((state) => state.items.items),
@@ -274,7 +275,7 @@ export class SkyListViewChecklistComponent
    * Multiselect toolbar will automatically show if select mode is set to 'multiple'.
    * These methods are no longer needed, as that functionality is part of list-builder.
    */
-  public selectAll() {
+  public selectAll(): void {
     this.state
       .pipe(
         observableMap((state) => state.items.items),
@@ -296,7 +297,7 @@ export class SkyListViewChecklistComponent
       });
   }
 
-  public override onViewActive() {
+  public override onViewActive(): void {
     if (this.search !== undefined) {
       this.dispatcher.searchSetFunctions([this.search]);
     }
@@ -315,7 +316,7 @@ export class SkyListViewChecklistComponent
     this.dispatcher.next(new ListToolbarSetTypeAction('search'));
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
@@ -326,8 +327,8 @@ export class SkyListViewChecklistComponent
     );
   }
 
-  public searchFunction() {
-    return (data: any, searchText: string) => {
+  public searchFunction(): (data: any, searchText: string) => boolean {
+    return (data: any, searchText: string): boolean => {
       if (this.labelFieldSelector !== undefined) {
         const label = getData(data, this.labelFieldSelector);
         if (
@@ -360,23 +361,26 @@ export class SkyListViewChecklistComponent
     );
   }
 
-  public setItemSelection(item: ListItemModel, event: any) {
+  public setItemSelection(item: ListItemModel, event: any): void {
     this.dispatcher.next(
       new ListSelectedSetItemSelectedAction(item.id, event.checked),
     );
   }
 
-  public singleSelectRowClick(item: ListItemModel) {
+  public singleSelectRowClick(item: ListItemModel): void {
     this.dispatcher.next(
       new ListSelectedSetItemsSelectedAction([item.id], true, true),
     );
   }
 
-  private getShowSelectedFilter(isSelected: boolean) {
+  private getShowSelectedFilter(isSelected: boolean): ListFilterModel {
     return new ListFilterModel({
       name: 'show-selected',
       value: isSelected.toString(),
-      filterFunction: (model: ListItemModel, showOnlySelected: boolean) => {
+      filterFunction: (
+        model: ListItemModel,
+        showOnlySelected: boolean,
+      ): boolean => {
         /* istanbul ignore else */
         if (showOnlySelected.toString() !== false.toString()) {
           return this._selectedIdMap.get(model.id);
@@ -386,7 +390,7 @@ export class SkyListViewChecklistComponent
     });
   }
 
-  private reapplyFilter(isSelected: boolean) {
+  private reapplyFilter(isSelected: boolean): void {
     this.state
       .pipe(
         observableMap((state) => state.filters),
@@ -402,7 +406,7 @@ export class SkyListViewChecklistComponent
   private showSelectedValuesEqual(
     prev: ListFilterModel[],
     next: ListFilterModel[],
-  ) {
+  ): boolean {
     const prevShowSelectedFilter = prev.find(
       (filter) => filter.name === 'show-selected',
     );

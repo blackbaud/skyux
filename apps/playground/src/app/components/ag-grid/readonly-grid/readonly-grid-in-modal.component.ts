@@ -8,7 +8,6 @@ import {
 import { ReadonlyGridComponent } from './readonly-grid.component';
 
 @Component({
-  standalone: true,
   selector: 'app-readonly-grid-in-modal-modal',
   templateUrl: './readonly-grid-in-modal.component.html',
   imports: [SkyModalModule],
@@ -33,7 +32,7 @@ export class ReadonlyGridInModalModalComponent {
 }
 
 @Component({
-  standalone: true,
+  selector: 'app-readonly-grid-in-modal-modal-grid',
   template: `
     <app-readonly-grid-in-modal-modal>
       <app-readonly-grid-visual />
@@ -44,7 +43,7 @@ export class ReadonlyGridInModalModalComponent {
 export class ReadonlyGridInModalModalGridComponent {}
 
 @Component({
-  standalone: true,
+  selector: 'app-readonly-grid-in-modal-modal-not-grid',
   template: `
     <app-readonly-grid-in-modal-modal>
       <p>Not a grid.</p>
@@ -55,7 +54,6 @@ export class ReadonlyGridInModalModalGridComponent {}
 export class ReadonlyGridInModalModalNotGridComponent {}
 
 @Component({
-  standalone: true,
   selector: 'app-readonly-grid-in-modal',
   template: '',
 })

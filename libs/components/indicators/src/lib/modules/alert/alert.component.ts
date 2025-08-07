@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
-import { SkyIconStackItem } from '@skyux/icon';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { Subscription } from 'rxjs';
@@ -29,6 +28,7 @@ const ALERT_TYPE_DEFAULT = 'warning';
   ],
   templateUrl: './alert.component.html',
   hostDirectives: [SkyThemeComponentClassDirective],
+  standalone: false,
 })
 export class SkyAlertComponent implements AfterViewChecked, OnInit, OnDestroy {
   /**
@@ -92,9 +92,7 @@ export class SkyAlertComponent implements AfterViewChecked, OnInit, OnDestroy {
   @Output()
   public closedChange = new EventEmitter<boolean>();
 
-  public alertBaseIcon: SkyIconStackItem | undefined;
-
-  public alertTopIcon: SkyIconStackItem | undefined;
+  public iconName: string | undefined;
 
   public alertTypeOrDefault: SkyIndicatorIconType = ALERT_TYPE_DEFAULT;
 
@@ -136,12 +134,9 @@ export class SkyAlertComponent implements AfterViewChecked, OnInit, OnDestroy {
   }
 
   #updateAlertIcon(): void {
-    const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
+    this.iconName = SkyIndicatorIconUtility.getIconNameForType(
       this.alertTypeOrDefault,
     );
-
-    this.alertBaseIcon = indicatorIcon.modernThemeBaseIcon;
-    this.alertTopIcon = indicatorIcon.modernThemeTopIcon;
   }
 
   #updateDescriptionComputed(): void {

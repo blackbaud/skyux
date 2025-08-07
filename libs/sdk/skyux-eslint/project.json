@@ -26,8 +26,15 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/sdk/skyux-eslint"],
       "options": {
-        "jestConfig": "libs/sdk/skyux-eslint/jest.config.ts"
-      }
+        "jestConfig": "libs/sdk/skyux-eslint/jest.config.ts",
+        "coverage": true
+      },
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "manifest"
+        }
+      ]
     }
   }
 }

@@ -5,12 +5,7 @@
       class="sky-status-indicator-icon"
       [ngClass]="'sky-status-indicator-icon-' + indicatorTypeOrDefault"
     >
-      <span class="sky-status-indicator-icon-default">
-        <sky-icon [icon]="icon" />
-      </span>
-      <span class="sky-status-indicator-icon-modern">
-        <sky-icon-stack size="xs" [baseIcon]="baseIcon" [topIcon]="topIcon" />
-      </span>
+      <sky-icon variant="solid" [iconName]="iconName" />
     </div>
     <div class="sky-status-indicator-message-wrapper">
       @if (descriptionComputed) {

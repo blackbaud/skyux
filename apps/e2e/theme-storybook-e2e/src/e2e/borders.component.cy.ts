@@ -10,9 +10,7 @@ describe('theme-storybook', () => {
         );
       });
       it('should render the component', () => {
-        cy.get('app-borders')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-borders')
           .end()
           .document()
           .screenshot(`borderscomponent-borders--borders-${theme}`);
@@ -24,5 +22,5 @@ describe('theme-storybook', () => {
         );
       });
     });
-  }, true);
+  });
 });

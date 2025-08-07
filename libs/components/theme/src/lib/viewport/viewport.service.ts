@@ -26,7 +26,6 @@ export class SkyAppViewportService {
   public visible = new ReplaySubject<boolean>(1);
 
   // ESLint doesn't recognize how this is used.
-  // eslint-disable-next-line no-unused-private-class-members
   #updateRequest: number | undefined = undefined;
   readonly #reserveItems = new Map<string, ReserveItemType>();
   readonly #conditionallyReserveItems = new Map<Element, ReserveItemType>();

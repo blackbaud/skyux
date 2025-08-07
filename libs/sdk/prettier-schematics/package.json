@@ -24,15 +24,15 @@
     "migrations": "./src/schematics/migrations/migration-collection.json",
     "packageGroup": {
       "@skyux-sdk/prettier-schematics": "0.0.0-PLACEHOLDER",
-      "@trivago/prettier-plugin-sort-imports": "^4.3.0",
-      "eslint-config-prettier": "^9.1.0",
-      "prettier": "^3.2.5"
+      "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+      "eslint-config-prettier": "^10.1.2",
+      "prettier": "^3.5.3"
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^18.2.12"
+    "@angular/cli": "^19.2.15"
   },
   "dependencies": {
-    "comment-json": "4.2.4"
+    "comment-json": "4.2.5"
   }
 }

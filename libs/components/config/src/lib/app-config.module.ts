@@ -17,7 +17,7 @@ export class SkyAppConfigModule {
       providers: [
         {
           provide: SkyAppConfigParams,
-          useFactory() {
+          useFactory(): SkyAppConfigParams {
             const appConfigParams = new SkyAppConfigParams();
             appConfigParams.init(config.params);
             return appConfigParams;
@@ -25,7 +25,7 @@ export class SkyAppConfigModule {
         },
         {
           provide: SkyAppConfigHost,
-          useFactory() {
+          useFactory(): SkyAppConfigHost {
             const appConfigHost = new SkyAppConfigHost();
             appConfigHost.init(config.host);
             return appConfigHost;

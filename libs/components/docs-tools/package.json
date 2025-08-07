@@ -1,0 +1,45 @@
+{
+  "name": "@skyux/docs-tools",
+  "version": "0.0.0-PLACEHOLDER",
+  "author": "Blackbaud, Inc.",
+  "keywords": [
+    "blackbaud",
+    "skyux"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux#readme",
+  "exports": {
+    "./css/styles.css": {
+      "default": "./css/styles.css"
+    }
+  },
+  "peerDependencies": {
+    "@angular/common": "^19.2.14",
+    "@angular/core": "^19.2.14",
+    "@angular/platform-browser": "^19.2.14",
+    "@angular/router": "^19.2.14",
+    "@skyux/assets": "0.0.0-PLACEHOLDER",
+    "@skyux/core": "0.0.0-PLACEHOLDER",
+    "@skyux/i18n": "0.0.0-PLACEHOLDER",
+    "@skyux/icon": "0.0.0-PLACEHOLDER",
+    "@skyux/indicators": "0.0.0-PLACEHOLDER",
+    "@skyux/layout": "0.0.0-PLACEHOLDER",
+    "@skyux/tabs": "0.0.0-PLACEHOLDER",
+    "@skyux/toast": "0.0.0-PLACEHOLDER"
+  },
+  "dependencies": {
+    "@skyux/manifest": "0.0.0-PLACEHOLDER",
+    "@stackblitz/sdk": "1.11.0",
+    "highlight.js": "11.11.1",
+    "marked": "15.0.7",
+    "tslib": "^2.8.1"
+  },
+  "sideEffects": false
+}

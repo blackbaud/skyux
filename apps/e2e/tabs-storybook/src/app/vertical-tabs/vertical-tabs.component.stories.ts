@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<VerticalTabsComponent>;
 export const VerticalTabs = {
-  render: (args: VerticalTabsComponent) => ({
+  render: (args: VerticalTabsComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

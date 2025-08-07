@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: ToastComponent,
     data: {
       name: 'Toast',
-      icon: 'envelope',
+      icon: 'mail',
       library: 'toast',
     },
   },

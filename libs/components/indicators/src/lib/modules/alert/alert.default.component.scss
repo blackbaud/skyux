@@ -33,58 +33,28 @@
     height: 32px;
   }
 
-  &.sky-alert-info,
-  &.sky-alert-success,
-  &.sky-alert-warning,
-  &.sky-alert-danger {
-    &:before {
-      font-family: FontAwesome;
-      margin-left: -32px;
-      margin-right: 19px;
-      color: $sky-color-white;
-    }
-  }
-
   &:not(.sky-alert-danger) {
-    --sky-icon-stack-top-icon-color-override: #{$sky-text-color-default};
+    --sky-icon-svg-path-2-color-input: #{$sky-text-color-default};
   }
 
   &.sky-alert-info {
     background-color: var(--sky-background-color-info);
     border-color: var(--sky-highlight-color-info);
-
-    &:before {
-      content: '\f06a';
-      margin-left: -31px;
-      margin-right: 20px;
-    }
   }
 
   &.sky-alert-success {
     background-color: var(--sky-background-color-success);
     border-color: var(--sky-highlight-color-success);
-
-    &:before {
-      content: '\f00c';
-    }
   }
 
   &.sky-alert-warning {
     background-color: var(--sky-background-color-warning);
     border-color: var(--sky-highlight-color-warning);
-
-    &:before {
-      content: '\f071';
-    }
   }
 
   &.sky-alert-danger {
     background-color: var(--sky-background-color-danger);
     border-color: var(--sky-highlight-color-danger);
-
-    &:before {
-      content: '\f071';
-    }
   }
 
   .sky-alert-close {
@@ -126,7 +96,25 @@
     }
   }
 
-  .sky-alert-icon-theme-modern {
-    display: none;
+  .sky-alert-icon {
+    color: white;
+    margin-left: -35px;
+    margin-right: 17px;
+  }
+
+  &.sky-alert-info .sky-alert-icon {
+    --sky-icon-svg-path-2-color-input: var(--sky-highlight-color-info);
+  }
+
+  &.sky-alert-success .sky-alert-icon {
+    --sky-icon-svg-path-2-color-input: var(--sky-highlight-color-success);
+  }
+
+  &.sky-alert-warning .sky-alert-icon {
+    --sky-icon-svg-path-2-color-input: var(--sky-highlight-color-warning);
+  }
+
+  &.sky-alert-danger .sky-alert-icon {
+    --sky-icon-svg-path-2-color-input: var(--sky-highlight-color-danger);
   }
 }

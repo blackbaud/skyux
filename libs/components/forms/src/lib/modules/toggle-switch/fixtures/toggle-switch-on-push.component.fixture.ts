@@ -7,6 +7,7 @@ import {
 @Component({
   templateUrl: './toggle-switch-on-push.component.fixture.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyToggleSwitchOnPushFixtureComponent {
   public isChecked = false;

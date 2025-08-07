@@ -35,7 +35,6 @@ interface Column extends SkyDataManagerColumnPickerOption {
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-data-manager-column-picker',
   templateUrl: './data-manager-column-picker.component.html',
   styleUrls: ['./data-manager-column-picker.component.scss'],

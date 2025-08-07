@@ -1,32 +1,46 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-:host:not(:last-child) .sky-tile-content-section {
-  @include mixins.sky-border(light);
+@include compatMixins.sky-default-overrides('.sky-tile-content-section') {
+  --sky-override-tile-content-section-border-color: #{$sky-border-color-neutral-light};
+  --sky-override-tile-content-section-border-style: solid;
+  --sky-override-tile-content-section-first-margin-top: 0;
+  --sky-override-tile-content-section-padding: 15px;
+  --sky-override-tile-content-section-padding-last: 15px;
 }
 
-:host-context(.sky-theme-modern sky-tile-content) {
+.sky-tile-content-section {
+  // NOTE: Remove border rules here when support for default theme is removed and use the class specified on the element for border.
+  border-bottom-color: var(
+    --sky-override-tile-content-section-border-color,
+    var(--sky-color-border-separator-row)
+  );
+  border-bottom-style: var(
+    --sky-override-tile-content-section-border-style,
+    var(--sky-border-style-separator-row)
+  );
+  padding: var(
+    --sky-override-tile-content-section-padding,
+    var(--sky-comp-tile-section-space-inset-top)
+      var(--sky-comp-tile-section-space-inset-right)
+      var(--sky-comp-tile-section-space-inset-bottom)
+      var(--sky-comp-tile-section-space-inset-left)
+  );
+}
+
+:host:first-child {
   .sky-tile-content-section {
-    border-bottom: 1px dotted $sky-theme-modern-color-gray-30;
-  }
-
-  :host:first-child {
-    .sky-tile-content-section {
-      margin-top: $sky-space-lg;
-    }
-  }
-
-  :host:last-child {
-    .sky-tile-content-section {
-      padding-bottom: 0;
-      border-bottom: none;
-    }
+    margin-top: var(
+      --sky-override-tile-content-section-first-margin-top,
+      var(--sky-space-stacked-m)
+    );
   }
 }
 
-@include mixins.sky-theme-modern {
+:host:last-child {
   .sky-tile-content-section {
-    border-bottom: 1px dotted $sky-theme-modern-color-gray-30;
-    padding: $sky-space-lg 0;
+    padding-bottom: var(--sky-override-tile-content-section-padding-last, 0);
+    border-bottom: none;
   }
 }

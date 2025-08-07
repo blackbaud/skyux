@@ -1,0 +1,25 @@
+{
+  "name": "manifest-generator",
+  "version": "0.0.0-PLACEHOLDER",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    }
+  },
+  "dependencies": {
+    "@skyux/manifest": "0.0.0-PLACEHOLDER",
+    "ajv": "8.17.1",
+    "fast-glob": "3.3.3",
+    "tslib": "^2.3.0",
+    "typedoc": "0.28.2"
+  },
+  "sideEffects": false
+}

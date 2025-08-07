@@ -1,0 +1,16 @@
+<sky-page layout="list">
+  <sky-page-header pageTitle="Filter bar" />
+  <sky-page-content>
+    <sky-filter-bar [filterAsyncSearchFn]="searchFn" [(filters)]="filters" />
+    <div>Filters:</div>
+    <div>{{ filters }}</div>
+
+    <button
+      type="button"
+      class="sky-btn sky-btn-default"
+      (click)="resetFilters()"
+    >
+      Reset filters
+    </button>
+  </sky-page-content>
+</sky-page>

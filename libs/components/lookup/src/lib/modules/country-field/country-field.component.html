@@ -10,45 +10,37 @@
     }"
   >
     <sky-autocomplete
-      [ariaLabelledBy]="inputId"
+      [ariaLabelledBy]="inputBoxHostSvc?.labelId ?? inputId"
       [data]="countries"
+      [dropdownHintText]="
+        'skyux_country_field_dropdown_hint_text' | skyLibResources
+      "
       [propertiesToSearch]="['name', 'iso2']"
       [searchResultTemplate]="countrySearchResultTemplate"
       [searchTextMinimumCharacters]="searchTextMinimumCharacters"
       (selectionChange)="onCountrySelected($event)"
     >
-      <div
-        class="sky-country-field-input"
-        [ngClass]="{
-          'sky-country-field-input-with-flag':
-            selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag
-        }"
-      >
-        @if (
-          selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag
-        ) {
-          <div class="sky-country-field-flag">
-            <div
-              class="iti__flag"
-              [ngClass]="'iti__' + selectedCountry.iso2.toLowerCase()"
-            ></div>
-          </div>
-        }
+      <div class="sky-country-field-input">
+        <!-- The check for label text on the aria-label is to allow for backwards compatibility while also respecting label text functionality. -->
         <textarea
           class="sky-form-control"
           name="selectedCountry"
           rows="1"
           skyAutocomplete
           [attr.aria-describedby]="ariaDescribedBy | async"
+          [attr.aria-label]="
+            context?.inPhoneField
+              ? ('skyux_country_field_dropdown_hint_text' | skyLibResources)
+              : inputBoxHostSvc?.labelText
+                ? undefined
+                : ('skyux_country_field_dropdown_hint_text' | skyLibResources)
+          "
           [attr.id]="inputId"
           [autocompleteAttribute]="autocompleteAttribute"
           [formControl]="countrySearchFormControl"
-          [placeholder]="
-            context?.showPlaceholderText || currentTheme === 'default'
-              ? ('skyux_country_field_search_placeholder' | skyLibResources)
-              : ''
-          "
           (blur)="onAutocompleteBlur()"
+          (focus)="onFocus($event)"
+          (focusout)="onAutocompleteFocusout($event)"
         ></textarea>
       </div>
     </sky-autocomplete>
@@ -61,19 +53,12 @@
   </div>
   <div class="sky-country-field-search-result-info">
     {{ item.name }}
-    @if (includePhoneInfo) {
+    @if (context?.inPhoneField) {
       <span
         class="sky-font-deemphasized sky-country-field-search-result-dial-code"
       >
         {{ item.dialCode }}
       </span>
     }
-  </div>
-</ng-template>
-
-<!-- This template should only be used in modern theme input boxes. -->
-<ng-template #searchIconTemplateRef>
-  <div class="sky-input-group-icon sky-input-box-icon-inset">
-    <sky-icon icon="search" />
   </div>
 </ng-template>

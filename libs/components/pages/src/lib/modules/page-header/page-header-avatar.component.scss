@@ -1,16 +1,32 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-host-overrides() {
+  --sky-override-page-header-avatar-space-above: 5px;
+  --sky-override-page-header-avatar-space-right-sm: var(--sky-margin-inline-lg);
+  --sky-override-page-header-avatar-space-right-xs: var(--sky-margin-inline-sm);
+}
 
 :host {
   display: block;
 
   &:not(:empty) {
-    padding-top: 5px;
-    margin-right: var(--sky-margin-inline-sm);
+    padding-top: var(
+      --sky-override-page-header-avatar-space-above,
+      var(--sky-space-stacked-xs)
+    );
+    margin-right: var(
+      --sky-override-page-header-avatar-space-right-xs,
+      var(--sky-space-inline-s)
+    );
   }
 }
 
 @include mixins.sky-host-responsive-container-sm-min() {
   &:not(:empty) {
-    margin-right: var(--sky-margin-inline-lg);
+    margin-right: var(
+      --sky-override-page-header-avatar-space-right-sm,
+      var(--sky-space-inline-l)
+    );
   }
 }

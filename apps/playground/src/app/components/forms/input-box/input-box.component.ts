@@ -11,6 +11,7 @@ import {
   selector: 'app-input-box',
   templateUrl: './input-box.component.html',
   styleUrls: ['./input-box.component.scss'],
+  standalone: false,
 })
 export class InputBoxComponent implements OnInit, AfterViewInit {
   public errorAutofillForm: UntypedFormGroup;

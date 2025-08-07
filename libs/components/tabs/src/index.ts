@@ -5,6 +5,7 @@ export { SkyTabIndex } from './lib/modules/tabs/tab-index';
 export { SkyTabLayoutType } from './lib/modules/tabs/tab-layout-type';
 export { SkyTabsModule } from './lib/modules/tabs/tabs.module';
 export { SkyTabsetButtonsDisplayMode } from './lib/modules/tabs/tabset-buttons-display-mode';
+export { SkyTabsetNavButtonType } from './lib/modules/tabs/tabset-nav-button-type';
 export { SkyTabsetStyle } from './lib/modules/tabs/tabset-style';
 export { SkyTabsetTabIndexesChange } from './lib/modules/tabs/tabset-tab-indexes-change';
 

@@ -10,6 +10,7 @@ import {
   templateUrl: './character-counter-indicator.component.html',
   styleUrls: ['./character-counter-indicator.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyCharacterCounterIndicatorComponent {
   #_characterCountLimit = 0;

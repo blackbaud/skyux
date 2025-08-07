@@ -16,6 +16,7 @@ import { SkyCharacterCounterInputDirective } from '../character-counter.directiv
   selector: 'sky-character-count-test',
   templateUrl: './character-count-no-indicator.component.fixture.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CharacterCountNoIndicatorTestComponent {
   public testForm: UntypedFormGroup;

@@ -7,7 +7,6 @@ import { ModalDateRangePickerModalComponent } from './modal-date-range-picker-mo
   selector: 'app-modal-date-range-picker',
   templateUrl: './modal-date-range-picker.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
 })
 export class ModalDateRangePickerComponent {
   public isWaiting = false;

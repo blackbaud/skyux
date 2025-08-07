@@ -3,6 +3,7 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 
@@ -13,6 +14,7 @@ import { delay } from 'rxjs/operators';
   selector: 'app-colorpicker',
   templateUrl: './colorpicker.component.html',
   styleUrls: ['./colorpicker.component.scss'],
+  standalone: false,
 })
 export class ColorpickerComponent {
   public colorForm: FormGroup;
@@ -41,7 +43,7 @@ export class ColorpickerComponent {
     '#DA9C9C',
   ];
 
-  protected ready$ = of(true).pipe(delay(1200));
+  public readonly ready = of(true).pipe(delay(1200));
 
   constructor(formBuilder: FormBuilder) {
     this.colorForm = formBuilder.group({
@@ -53,7 +55,7 @@ export class ColorpickerComponent {
       colorSix: new FormControl('#00f'),
       colorSeven: new FormControl('#00f', {
         validators: [
-          () => {
+          (): ValidationErrors | null => {
             return { intentionalError: true };
           },
         ],

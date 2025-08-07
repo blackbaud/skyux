@@ -1,4 +1,12 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-validator-cell') {
+  --sky-override-cell-validator-space: 5px;
+}
+
 :host {
+  --sky-staus-indicator-padding-right: 0;
+
   display: contents;
 }
 
@@ -10,4 +18,11 @@
   &:focus {
     outline: none;
   }
+}
+
+sky-status-indicator {
+  margin-left: var(
+    --sky-override-cell-validator-space,
+    var(--sky-space-gap-icon-s)
+  );
 }

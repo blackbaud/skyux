@@ -5,6 +5,7 @@ import { SkyInfiniteScrollComponent } from '../infinite-scroll.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './infinite-scroll.component.fixture.html',
+  standalone: false,
 })
 export class SkyInfiniteScrollTestComponent {
   @ViewChild('infiniteScrollComponent', {

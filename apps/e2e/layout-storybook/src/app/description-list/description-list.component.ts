@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-description-list',
   templateUrl: './description-list.component.html',
   styleUrls: ['./description-list.component.scss'],
+  standalone: false,
 })
 export class DescriptionListComponent {
   public orgInfo: { label: string; value?: string }[] = [

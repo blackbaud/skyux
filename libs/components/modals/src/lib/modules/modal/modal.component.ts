@@ -26,7 +26,7 @@ import {
 } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/icon';
-import { SkyTheme, SkyThemeService } from '@skyux/theme';
+import { SkyTheme, SkyThemeModule, SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -48,7 +48,6 @@ const ARIA_ROLE_DEFAULT = 'dialog';
  * and buttons.
  */
 @Component({
-  standalone: true,
   selector: 'sky-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
@@ -62,10 +61,11 @@ const ARIA_ROLE_DEFAULT = 'dialog';
     SkyHelpInlineModule,
     SkyIconModule,
     SkyIdModule,
-    SkyModalHeaderComponent,
-    SkyScrollShadowDirective,
-    SkyModalsResourcesModule,
     SkyLayoutHostDirective,
+    SkyModalHeaderComponent,
+    SkyModalsResourcesModule,
+    SkyScrollShadowDirective,
+    SkyThemeModule,
   ],
 })
 export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {

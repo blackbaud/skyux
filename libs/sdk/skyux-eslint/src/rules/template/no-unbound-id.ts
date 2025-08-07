@@ -1,5 +1,8 @@
 import { type TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
-import { getTemplateParserServices } from '@angular-eslint/utils';
+import {
+  ensureTemplateParser,
+  getTemplateParserServices,
+} from '@angular-eslint/utils';
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
@@ -8,10 +11,12 @@ export const messageId = 'noUnboundId';
 
 export const rule = createESLintTemplateRule({
   create(context) {
+    ensureTemplateParser(context);
+
     const parserServices = getTemplateParserServices(context);
 
     return {
-      ['Element$1'](el: TmplAstElement): void {
+      ['Element'](el: TmplAstElement): void {
         const idAttr = el.attributes.find((attribute) => {
           return attribute.name === 'id';
         });

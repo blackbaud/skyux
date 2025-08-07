@@ -35,6 +35,15 @@ runs:
       uses: actions/github-script@v7
       with:
         script: |
+          if ('${{ inputs.percy-token }}'.trim() === '') {
+            core.warning(`
+              The secret PERCY_TOKEN_${'${{ inputs.project }}'.toUpperCase()} is not set. Unabled to check for previous run.
+
+              Generate a project token at https://percy.io/82a32315/web/skyux-${{ inputs.project }}/settings and add it to https://github.com/${{ github.repository }}/settings/secrets/actions\n`);
+            core.setOutput('affected', 'true');
+            process.exit(0);
+          }
+
           const options = {
             method: 'GET',
             headers: {
@@ -49,13 +58,14 @@ runs:
             workflow_id: 'e2e.yml',
             branch: '${{ inputs.branch }}',
             status: 'completed',
-          }).then(({data}) => {
-            return data.workflow_runs.map(run => run.head_sha);
-          });
+          })
+            .then(({data}) => data.workflow_runs.map(run => run.head_sha).filter(Boolean))
+            .catch(() => []);
 
           // Getting 500 commits to the base branch, looking for one where this e2e test was affected and run.
           const targetBranchCommits = await exec.getExecOutput('git', ['log', '--format=%H', '-500', '${{ inputs.base }}'])
-            .then(({stdout}) => stdout.trim().split('\n'));
+            .then(({stdout}) => stdout.trim().split('\n'))
+            .catch(() => []);
 
           const { getLastGoodPercyBuild, getPercyTargetCommit } = require('./dist/libs/sdk/e2e-schematics/src/workflow');
           const targetCommit = await getPercyTargetCommit(
@@ -63,9 +73,10 @@ runs:
             targetBranchCommits,
             core,
             (url) => fetch(url, options)
-          );
+          )
+            .catch(() => '');
           core.setOutput('percy_target_commit', targetCommit);
-          const lastGoodCommit = await getLastGoodPercyBuild(
+          const { lastGoodCommit, buildId } = await getLastGoodPercyBuild(
             'skyux-${{ inputs.project }}',
             prBranchCommitsBuilt,
             '${{ inputs.allow-deleted-screenshots }}' !== 'false',
@@ -76,6 +87,14 @@ runs:
           if (!lastGoodCommit) {
             core.info('No good Percy test found, running e2e tests');
             core.setOutput('affected', 'true');
+            process.exit(0);
+          }
+
+          if (lastGoodCommit === '${{ inputs.head }}') {
+            const fs = require('fs');
+            fs.writeFileSync(`${{ runner.temp }}/percy-build-${{ inputs.project }}.txt`, buildId);
+            core.info(`The build for ${lastGoodCommit.substring(0, 7)} already passed.`);
+            core.setOutput('affected', 'false');
             process.exit(0);
           }
 

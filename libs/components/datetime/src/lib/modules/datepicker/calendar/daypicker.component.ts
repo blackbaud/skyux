@@ -32,7 +32,6 @@ interface SkyDateRange {
 @Component({
   imports: [SkyDayPickerCellComponent, SkyWaitModule],
   selector: 'sky-daypicker',
-  standalone: true,
   templateUrl: 'daypicker.component.html',
 })
 export class SkyDayPickerComponent implements OnDestroy, OnInit {

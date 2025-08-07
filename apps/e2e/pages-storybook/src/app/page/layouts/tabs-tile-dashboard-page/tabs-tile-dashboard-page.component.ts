@@ -5,7 +5,6 @@ import { SkyTabsModule } from '@skyux/tabs';
 import { PageLayoutTileDashboardComponent } from '../shared/tiles/tile-dashboard.component';
 
 @Component({
-  standalone: true,
   imports: [PageLayoutTileDashboardComponent, SkyPageModule, SkyTabsModule],
   selector: 'app-tabs-tile-dashboard-page',
   template: `<sky-page layout="tabs">
@@ -26,7 +25,7 @@ import { PageLayoutTileDashboardComponent } from '../shared/tiles/tile-dashboard
         </sky-tab>
       </sky-tabset>
     </sky-page-content>
-  </sky-page> `,
+  </sky-page>`,
   styles: `
     :host {
       display: block;

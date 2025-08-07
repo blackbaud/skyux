@@ -14,6 +14,7 @@ import { SkyPageHarness } from './page-harness';
       <sky-page-header [pageTitle]="pageTitle" />
     }
   </sky-page>`,
+  standalone: false,
 })
 class TestComponent {
   public layout: string | undefined;

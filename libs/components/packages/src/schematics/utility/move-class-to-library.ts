@@ -1,5 +1,5 @@
 import { Tree } from '@angular-devkit/schematics';
-import { findNodes } from '@angular/cdk/schematics';
+import { findNodes, parseSourceFile } from '@angular/cdk/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
 export interface MoveClassToLibraryOptions {
@@ -10,12 +10,13 @@ export interface MoveClassToLibraryOptions {
 
 export function moveClassToLibrary(
   tree: Tree,
-  projectPath: string,
-  sourceFile: ts.SourceFile,
-  content: string,
+  filePath: string,
   options: MoveClassToLibraryOptions,
 ): void {
-  const recorder = tree.beginUpdate(projectPath);
+  const sourceFile = parseSourceFile(tree, filePath);
+  const content = tree.readText(filePath);
+  const recorder = tree.beginUpdate(filePath);
+
   const replacedImports: {
     className: string;
     moduleImport: ts.ImportDeclaration;
@@ -85,5 +86,6 @@ export function moveClassToLibrary(
       `import { ${replacedImports.map(({ className }) => className).join(', ')} } from '${options.newLibrary}';\n`,
     );
   }
+
   tree.commitUpdate(recorder);
 }

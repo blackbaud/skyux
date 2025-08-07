@@ -15,18 +15,9 @@ import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 import { FirstDataRenderedEvent, GridOptions } from 'ag-grid-community';
-import {
-  BehaviorSubject,
-  Observable,
-  combineLatest,
-  filter,
-  first,
-  map,
-  timer,
-} from 'rxjs';
+import { BehaviorSubject, first, timer } from 'rxjs';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
 
@@ -45,6 +36,7 @@ interface GridSettingsType {
   styleUrls: ['./data-manager.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [SkyDataManagerService],
+  standalone: false,
 })
 export class DataManagerComponent implements AfterViewInit {
   @HostBinding('class.use-normal-dom-layout')
@@ -117,12 +109,10 @@ export class DataManagerComponent implements AfterViewInit {
   public gridOptions: GridOptions = {};
   public readonly isActive$ = new BehaviorSubject(false);
   public readonly gridSettings: FormGroup<GridSettingsType>;
-  public readonly ready: Observable<boolean>;
+  public readonly ready = new BehaviorSubject(false);
 
   readonly #agGridService = inject(SkyAgGridService);
   readonly #dataManagerService = inject(SkyDataManagerService);
-  readonly #gridReady = new BehaviorSubject(false);
-  readonly #fontLoadingService = inject(FontLoadingService);
 
   constructor(formBuilder: FormBuilder) {
     this.gridSettings = formBuilder.group<GridSettingsType>({
@@ -135,14 +125,6 @@ export class DataManagerComponent implements AfterViewInit {
         this.autoHeightColumns,
       ),
     });
-    this.ready = combineLatest([
-      this.#gridReady,
-      this.#fontLoadingService.ready(),
-    ]).pipe(
-      filter(([gridReady, fontsLoaded]) => gridReady && fontsLoaded),
-      first(),
-      map(() => true),
-    );
   }
 
   public ngAfterViewInit(): void {
@@ -240,13 +222,15 @@ export class DataManagerComponent implements AfterViewInit {
         },
         suppressColumnVirtualisation: true,
         suppressRowVirtualisation: true,
+        alwaysShowHorizontalScroll: true,
+        alwaysShowVerticalScroll: true,
         onFirstDataRendered: (event: FirstDataRenderedEvent) => {
           // Delay to allow the grid to render before capturing the screenshot.
           timer(1800)
             .pipe(first())
             .subscribe(() => {
               event.api.setFocusedCell(0, 'name');
-              this.#gridReady.next(true);
+              this.ready.next(true);
             });
         },
       },

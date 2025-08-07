@@ -12,6 +12,7 @@ import { SkyFileAttachmentChange } from '@skyux/forms';
   selector: 'app-single-file-attachment',
   templateUrl: './single-file-attachment.component.html',
   styleUrls: ['./single-file-attachment.component.scss'],
+  standalone: false,
 })
 export class SingleFileAttachmentComponent {
   public imageAttachment: UntypedFormControl;

@@ -544,33 +544,6 @@ describe('Timepicker', () => {
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
-
-    it('should display the expected clock icon in the time button', fakeAsync(() => {
-      function validateIcon(iconCls: string): void {
-        const iconEl = fixture.nativeElement.querySelector(
-          '.sky-input-group-timepicker-btn .sky-icon',
-        );
-
-        expect(iconEl).toHaveCssClass(iconCls);
-      }
-
-      detectChangesAndTick(fixture);
-
-      validateIcon('fa-clock-o');
-
-      mockThemeSvc.settingsChange.next({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings:
-          mockThemeSvc.settingsChange.getValue().currentSettings,
-      });
-
-      detectChangesAndTick(fixture);
-
-      validateIcon('sky-i-clock');
-    }));
   });
 
   describe('template-driven form', () => {
@@ -620,7 +593,7 @@ describe('Timepicker', () => {
       expect(component.selectedTime?.local).toEqual('2:55 AM');
     }));
 
-    it('should highlight the minute that is the passed multiple of five in the picker', fakeAsync(() => {
+    it('should highlight the minute that is the passed multiple of five in the 12 hour picker', fakeAsync(() => {
       detectChangesAndTick(fixture);
       setInput('2:33 AM', fixture);
       openTimepicker(fixture);
@@ -631,6 +604,20 @@ describe('Timepicker', () => {
       );
 
       expect(highlightedMinute).toHaveText('30');
+    }));
+
+    it('should highlight the minute that is the passed multiple of fifteen in the 24 hour picker ', fakeAsync(() => {
+      component.timeFormat = 'HH';
+      detectChangesAndTick(fixture);
+      setInput('02:23', fixture);
+      openTimepicker(fixture);
+
+      const timepicker = getTimepicker();
+      const highlightedMinute = timepicker.querySelector(
+        'button[name="minute"].sky-btn-active',
+      );
+
+      expect(highlightedMinute).toHaveText('15');
     }));
 
     it('should handle undefined date', fakeAsync(() => {

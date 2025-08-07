@@ -1,0 +1,34 @@
+{
+  "name": "eslint-config-skyux",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/sdk/eslint-config-skyux/src",
+  "projectType": "library",
+  "tags": ["sdk", "npm"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/sdk/eslint-config-skyux",
+        "tsConfig": "libs/sdk/eslint-config-skyux/tsconfig.lib.json",
+        "packageJson": "libs/sdk/eslint-config-skyux/package.json",
+        "main": "libs/sdk/eslint-config-skyux/src/index.ts",
+        "assets": ["libs/sdk/eslint-config-skyux/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/sdk/eslint-config-skyux"],
+      "options": {
+        "jestConfig": "libs/sdk/eslint-config-skyux/jest.config.ts",
+        "coverage": true
+      }
+    }
+  }
+}

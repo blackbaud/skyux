@@ -6,7 +6,6 @@ import { SkyFileAttachmentModule } from '../file-attachment.module';
 @Component({
   imports: [SkyFileAttachmentModule],
   selector: 'sky-file-attachment-test',
-  standalone: true,
   template: `
     <sky-file-attachment [disabled]="disabled">
       <sky-file-attachment-label> Field Label </sky-file-attachment-label>

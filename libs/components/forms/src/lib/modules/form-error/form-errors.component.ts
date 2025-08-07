@@ -17,7 +17,6 @@ import { SkyFormErrorComponent } from './form-error.component';
  */
 @Component({
   selector: 'sky-form-errors',
-  standalone: true,
   imports: [SkyIdModule, SkyFormErrorComponent, SkyFormsResourcesModule],
   templateUrl: './form-errors.component.html',
   styleUrls: ['./form-errors.component.scss'],

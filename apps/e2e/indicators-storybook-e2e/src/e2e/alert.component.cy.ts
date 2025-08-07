@@ -9,10 +9,9 @@ describe(`indicators-storybook`, () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('app-alert')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`alertcomponent-alert--alert-${theme}`);
+        cy.skyReady('app-alert').screenshot(
+          `alertcomponent-alert--alert-${theme}`,
+        );
         cy.get('app-alert').percySnapshot(
           `alertcomponent-alert--alert-${theme}`,
         );
@@ -28,5 +27,5 @@ describe(`indicators-storybook`, () => {
         }
       });
     });
-  }, true);
+  });
 });

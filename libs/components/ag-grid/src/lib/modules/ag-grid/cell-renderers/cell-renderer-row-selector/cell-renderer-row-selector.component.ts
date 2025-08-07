@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,6 +6,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
+import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
@@ -29,6 +31,7 @@ import {
   styleUrls: ['./cell-renderer-row-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  imports: [SkyCheckboxModule, AsyncPipe],
 })
 export class SkyAgGridCellRendererRowSelectorComponent
   implements ICellRendererAngularComp, OnDestroy

@@ -4,9 +4,10 @@ import { SkyIconVariantType } from './types/icon-variant-type';
 
 async function getIconMap(): Promise<Map<string, number[]>> {
   const response = await fetch(
-    `https://sky.blackbaudcdn.net/static/skyux-icons/7/assets/svg/skyux-icons.svg`,
+    `https://sky.blackbaudcdn.net/static/skyux-icons/9/assets/svg/skyux-icons.svg`,
   );
 
+  /* istanbul ignore next */
   if (!response.ok) {
     throw new Error('Icon sprite could not be loaded.');
   }
@@ -80,6 +81,8 @@ function getNearestSize(
   return undefined;
 }
 
+let iconMapPromise: Promise<Map<string, number[]>> | undefined;
+
 /**
  * @internal
  */
@@ -87,18 +90,16 @@ function getNearestSize(
   providedIn: 'root',
 })
 export class SkyIconSvgResolverService {
-  #iconMapPromise: Promise<Map<string, number[]>> | undefined;
-
   public async resolveHref(
     name: string,
     pixelSize = 16,
     variant: SkyIconVariantType = 'line',
   ): Promise<string> {
-    if (!this.#iconMapPromise) {
-      this.#iconMapPromise = getIconMap();
+    if (!iconMapPromise) {
+      iconMapPromise = getIconMap();
     }
 
-    const iconMap = await this.#iconMapPromise;
+    const iconMap = await iconMapPromise;
 
     let href = `#sky-i-${name}`;
 

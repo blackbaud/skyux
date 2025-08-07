@@ -1,13 +1,20 @@
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
+import { SkyModalModule } from '@skyux/modals';
 import { SkyPageModule } from '@skyux/pages';
-import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
+import {
+  SkyTabIndex,
+  SkyTabsModule,
+  SkyTabsetNavButtonType,
+} from '@skyux/tabs';
 
 import { SkyTabButtonHarness } from './tab-button-harness';
 import { SkyTabsetHarness } from './tabset-harness';
+import { SkyTabsetNavButtonHarness } from './tabset-nav-button-harness';
 
 @Component({
   standalone: true,
@@ -53,6 +60,44 @@ class TestComponent {
   public tabAction(): void {
     // This function is for the spy.
   }
+}
+
+@Component({
+  standalone: true,
+  imports: [SkyTabsModule, SkyModalModule],
+  template: `
+    <sky-modal headingText="Modal title">
+      <sky-modal-content>
+        <sky-tabset #wizardTest tabStyle="wizard" ariaLabel="wizard">
+          <sky-tab tabHeading="Tab 1"> Tab 1 content </sky-tab>
+          <sky-tab tabHeading="Tab 2" [disabled]="isStep2Disabled">
+            Tab 2 content
+          </sky-tab>
+          <sky-tab tabHeading="Tab 3" [disabled]="isStep3Disabled">
+            Tab 3 content
+          </sky-tab>
+        </sky-tabset>
+      </sky-modal-content>
+      <sky-modal-footer>
+        <sky-tabset-nav-button
+          data-sky-id="previous-button"
+          buttonType="previous"
+          [tabset]="wizardTest"
+        />
+        <sky-tabset-nav-button buttonType="next" [tabset]="wizardTest" />
+        <sky-tabset-nav-button
+          buttonType="finish"
+          [tabset]="wizardTest"
+          [disabled]="isSaveDisabled"
+        />
+      </sky-modal-footer>
+    </sky-modal>
+  `,
+})
+class WizardTestComponent {
+  public isStep2Disabled = true;
+  public isStep3Disabled = true;
+  public isSaveDisabled = true;
 }
 
 describe('Tab harness', () => {
@@ -201,6 +246,11 @@ describe('Tab harness', () => {
     ).toBeResolvedTo('Tab 2');
   });
 
+  it('should get if the tabstyle is wizard', async () => {
+    const { tabsetHarness } = await setupTest();
+    await expectAsync(tabsetHarness.isWizardTabset()).toBeResolvedTo(false);
+  });
+
   describe('tab button harness', () => {
     async function setupTabButtonTest(tabHeading: string): Promise<{
       tabButtonHarness: SkyTabButtonHarness;
@@ -267,6 +317,13 @@ describe('Tab harness', () => {
       await tabButtonHarness.clickRemoveButton();
       expect(closeClickSpy).toHaveBeenCalled();
     });
+
+    it('should get if the tab button is inside a wizard tabset', async () => {
+      const { tabButtonHarness } = await setupTabButtonTest('Tab 1');
+      await expectAsync(tabButtonHarness.isInWizardTabset()).toBeResolvedTo(
+        false,
+      );
+    });
   });
 
   describe('in dropdown mode', () => {
@@ -309,6 +366,158 @@ describe('Tab harness', () => {
       ).toBeRejectedWithError(
         'Cannot get tab button when tabs is in dropdown mode and is closed.',
       );
+    });
+  });
+});
+
+describe('Wizard tab harness', () => {
+  async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
+    wizardHarness: SkyTabsetHarness;
+    fixture: ComponentFixture<WizardTestComponent>;
+  }> {
+    await TestBed.configureTestingModule({
+      providers: [provideRouter([])],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(WizardTestComponent);
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    const wizardHarness = options.dataSkyId
+      ? await loader.getHarness(
+          SkyTabsetHarness.with({ dataSkyId: options.dataSkyId }),
+        )
+      : await loader.getHarness(SkyTabsetHarness);
+
+    return { wizardHarness, fixture };
+  }
+
+  it('should get if the tabset is a wizard tabset', async () => {
+    const { wizardHarness } = await setupTest();
+    await expectAsync(wizardHarness.isWizardTabset()).toBeResolvedTo(true);
+  });
+
+  it('should throw an error if attempting to click new tab in wizard mode', async () => {
+    const { wizardHarness } = await setupTest();
+    await expectAsync(wizardHarness.clickNewTabButton()).toBeRejectedWithError(
+      'Cannot use new tab button in a wizard tabset.',
+    );
+  });
+
+  it('should throw an error if attempting to click open tab in wizard mode', async () => {
+    const { wizardHarness } = await setupTest();
+    await expectAsync(wizardHarness.clickOpenTabButton()).toBeRejectedWithError(
+      'Cannot use open tab button in a wizard tabset.',
+    );
+  });
+
+  describe('tab button harness', () => {
+    it('should throw an error if trying to click remove tab button in wizard mode', async () => {
+      const { wizardHarness } = await setupTest();
+      const tabButtonHarness = await wizardHarness.getTabButtonHarness('Tab 1');
+      await expectAsync(
+        tabButtonHarness.clickRemoveButton(),
+      ).toBeRejectedWithError(
+        'Cannot use remove tab button in a wizard tabset.',
+      );
+    });
+
+    it('should throw an error if attempting to get the permalink in wizard mode', async () => {
+      const { wizardHarness } = await setupTest();
+      const tabButtonHarness = await wizardHarness.getTabButtonHarness('Tab 1');
+      await expectAsync(tabButtonHarness.getPermalink()).toBeRejectedWithError(
+        'Cannot get permalink for tab button in a wizard tabset.',
+      );
+    });
+  });
+
+  describe('nav button harness', () => {
+    async function setupTabButtonTest(
+      options: { dataSkyId?: string; buttonType?: SkyTabsetNavButtonType } = {},
+      fixture: ComponentFixture<WizardTestComponent>,
+    ): Promise<{
+      navButtonHarness: SkyTabsetNavButtonHarness;
+      loader: HarnessLoader;
+    }> {
+      const loader = TestbedHarnessEnvironment.loader(fixture);
+      const navButtonHarness = options.dataSkyId
+        ? await loader.getHarness(
+            SkyTabsetNavButtonHarness.with({ dataSkyId: options.dataSkyId }),
+          )
+        : options.buttonType
+          ? await loader.getHarness(
+              SkyTabsetNavButtonHarness.with({
+                buttonType: options.buttonType,
+              }),
+            )
+          : await loader.getHarness(SkyTabsetNavButtonHarness);
+      return { navButtonHarness, loader };
+    }
+
+    it('should get the nav button from data-sky-id', async () => {
+      const { fixture } = await setupTest();
+      const { navButtonHarness } = await setupTabButtonTest(
+        { dataSkyId: 'previous-button' },
+        fixture,
+      );
+      await expectAsync(navButtonHarness.getButtonText()).toBeResolvedTo(
+        'Previous',
+      );
+    });
+
+    it('should get the nav button from button type', async () => {
+      const { fixture } = await setupTest();
+      const { navButtonHarness } = await setupTabButtonTest(
+        { buttonType: 'next' },
+        fixture,
+      );
+      await expectAsync(navButtonHarness.getButtonText()).toBeResolvedTo(
+        'Next',
+      );
+    });
+
+    it('should click the nav button', async () => {
+      const { wizardHarness, fixture } = await setupTest();
+      const { navButtonHarness } = await setupTabButtonTest(
+        { buttonType: 'next' },
+        fixture,
+      );
+
+      fixture.componentInstance.isStep2Disabled = false;
+      fixture.detectChanges();
+
+      let activeTab = await wizardHarness.getActiveTabButton();
+      await expectAsync(activeTab?.getTabHeading()).toBeResolvedTo('Tab 1');
+      await navButtonHarness.click();
+      activeTab = await wizardHarness.getActiveTabButton();
+      await expectAsync(activeTab?.getTabHeading()).toBeResolvedTo('Tab 2');
+    });
+
+    it('should get if the button is disabled', async () => {
+      const { fixture, wizardHarness } = await setupTest();
+      const { navButtonHarness, loader } = await setupTabButtonTest(
+        { buttonType: 'next' },
+        fixture,
+      );
+
+      fixture.componentInstance.isStep2Disabled = false;
+      fixture.componentInstance.isStep3Disabled = false;
+      fixture.detectChanges();
+
+      await navButtonHarness.click();
+      await navButtonHarness.click();
+
+      await expectAsync(
+        (await wizardHarness.getActiveTabButton())?.getTabHeading(),
+      ).toBeResolvedTo('Tab 3');
+
+      const finishButton = await loader.getHarness(
+        SkyTabsetNavButtonHarness.with({ buttonType: 'finish' }),
+      );
+
+      await expectAsync(finishButton.isDisabled()).toBeResolvedTo(true);
+
+      fixture.componentInstance.isSaveDisabled = false;
+      fixture.detectChanges();
+
+      await expectAsync(finishButton.isDisabled()).toBeResolvedTo(false);
     });
   });
 });

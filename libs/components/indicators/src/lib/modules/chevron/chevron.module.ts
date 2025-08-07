@@ -7,6 +7,9 @@ import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources
 
 import { SkyChevronComponent } from './chevron.component';
 
+/**
+ * @internal
+ */
 @NgModule({
   declarations: [SkyChevronComponent],
   imports: [

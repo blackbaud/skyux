@@ -1,0 +1,41 @@
+<sky-repeater>
+  @for (item of items; track item) {
+    <sky-repeater-item
+      [inlineFormConfig]="inlineFormConfig"
+      [inlineFormTemplate]="inlineFormTemplate"
+      [showInlineForm]="activeInlineFormId === item.id"
+      (inlineFormClose)="onInlineFormClose($event)"
+    >
+      <sky-repeater-item-title>
+        <div class="sky-font-emphasized">
+          {{ item.title }}
+        </div>
+      </sky-repeater-item-title>
+      <sky-repeater-item-context-menu>
+        <button
+          aria-label="Edit"
+          class="sky-btn sky-btn-icon-borderless"
+          type="button"
+          (click)="showInlineForm(item)"
+        >
+          <sky-icon iconName="edit" />
+        </button>
+      </sky-repeater-item-context-menu>
+
+      <sky-repeater-item-content>
+        {{ item.note }}
+      </sky-repeater-item-content>
+    </sky-repeater-item>
+  }
+</sky-repeater>
+
+<ng-template #inlineFormTemplate>
+  <form novalidate [formGroup]="formGroup">
+    <sky-input-box labelTex="Title" stacked="true">
+      <input formControlName="title" type="text" />
+    </sky-input-box>
+    <sky-input-box labelText="Note">
+      <input formControlName="note" type="text" />
+    </sky-input-box>
+  </form>
+</ng-template>

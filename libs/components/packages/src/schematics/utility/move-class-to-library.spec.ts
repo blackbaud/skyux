@@ -1,5 +1,4 @@
 import { Tree } from '@angular-devkit/schematics';
-import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
 import { moveClassToLibrary } from './move-class-to-library';
 
@@ -28,18 +27,14 @@ import { AppComponent } from './app.component';
   bootstrap: [AppComponent],
 })
 export class AppModule {}`;
+
     tree.create(path, content);
-    moveClassToLibrary(
-      tree,
-      path,
-      ts.createSourceFile(path, content, ts.ScriptTarget.Latest, true),
-      content,
-      {
-        classNames: ['SkyIconModule'],
-        previousLibrary: '@skyux/indicators',
-        newLibrary: '@skyux/icon',
-      },
-    );
+
+    moveClassToLibrary(tree, path, {
+      classNames: ['SkyIconModule'],
+      previousLibrary: '@skyux/indicators',
+      newLibrary: '@skyux/icon',
+    });
     const updatedContent = tree.readText(path);
     expect(updatedContent).toEqual(
       `import { NgModule } from '@angular/core';
@@ -68,17 +63,11 @@ import { SkyChevronModule, SkyIconType, SkyIconStackItem, SkyKeyInfoModule } fro
 import { BrowserModule } from '@angular/platform-browser';
 `;
     tree.create(path, content);
-    moveClassToLibrary(
-      tree,
-      path,
-      ts.createSourceFile(path, content, ts.ScriptTarget.Latest, true),
-      content,
-      {
-        classNames: ['SkyIconStackItem', 'SkyIconType'],
-        previousLibrary: '@skyux/indicators',
-        newLibrary: '@skyux/icon',
-      },
-    );
+    moveClassToLibrary(tree, path, {
+      classNames: ['SkyIconStackItem', 'SkyIconType'],
+      previousLibrary: '@skyux/indicators',
+      newLibrary: '@skyux/icon',
+    });
     const updatedContent = tree.readText(path);
     expect(updatedContent).toEqual(
       `import { NgModule } from '@angular/core';
@@ -95,17 +84,11 @@ import { SkyIconType, SkyIconStackItem } from '@skyux/indicators';
 import { BrowserModule } from '@angular/platform-browser';
 `;
     tree.create(path, content);
-    moveClassToLibrary(
-      tree,
-      path,
-      ts.createSourceFile(path, content, ts.ScriptTarget.Latest, true),
-      content,
-      {
-        classNames: ['SkyIconStackItem', 'SkyIconType'],
-        previousLibrary: '@skyux/indicators',
-        newLibrary: '@skyux/icon',
-      },
-    );
+    moveClassToLibrary(tree, path, {
+      classNames: ['SkyIconStackItem', 'SkyIconType'],
+      previousLibrary: '@skyux/indicators',
+      newLibrary: '@skyux/icon',
+    });
     const updatedContent = tree.readText(path);
     expect(updatedContent).toEqual(
       `import { NgModule } from '@angular/core';
@@ -123,17 +106,11 @@ import { SkyIconType, SkyIconStackItem, SkyKeyInfoModule } from '@skyux/indicato
 import { BrowserModule } from '@angular/platform-browser';
 `;
     tree.create(path, content);
-    moveClassToLibrary(
-      tree,
-      path,
-      ts.createSourceFile(path, content, ts.ScriptTarget.Latest, true),
-      content,
-      {
-        classNames: ['SkyIconStackItem', 'SkyIconType'],
-        previousLibrary: '@skyux/indicators',
-        newLibrary: '@skyux/icon',
-      },
-    );
+    moveClassToLibrary(tree, path, {
+      classNames: ['SkyIconStackItem', 'SkyIconType'],
+      previousLibrary: '@skyux/indicators',
+      newLibrary: '@skyux/icon',
+    });
     const updatedContent = tree.readText(path);
     expect(updatedContent).toEqual(
       `import { NgModule } from '@angular/core';
@@ -153,17 +130,11 @@ import { SkyKeyInfoModule } from '@skyux/indicators';
 import { BrowserModule } from '@angular/platform-browser';
 `;
     tree.create(path, content);
-    moveClassToLibrary(
-      tree,
-      path,
-      ts.createSourceFile(path, content, ts.ScriptTarget.Latest, true),
-      content,
-      {
-        classNames: ['SkyIconStackItem', 'SkyIconType'],
-        previousLibrary: '@skyux/indicators',
-        newLibrary: '@skyux/icon',
-      },
-    );
+    moveClassToLibrary(tree, path, {
+      classNames: ['SkyIconStackItem', 'SkyIconType'],
+      previousLibrary: '@skyux/indicators',
+      newLibrary: '@skyux/icon',
+    });
     const updatedContent = tree.readText(path);
     expect(updatedContent).toEqual(
       `import { NgModule } from '@angular/core';
@@ -184,17 +155,11 @@ import { SkyKeyInfoModule } from '@skyux/indicators';
 import { BrowserModule } from '@angular/platform-browser';
 `;
     tree.create(path, content);
-    moveClassToLibrary(
-      tree,
-      path,
-      ts.createSourceFile(path, content, ts.ScriptTarget.Latest, true),
-      content,
-      {
-        classNames: ['SkyIconStackItem', 'SkyIconType'],
-        previousLibrary: '@skyux/indicators',
-        newLibrary: '@skyux/icon',
-      },
-    );
+    moveClassToLibrary(tree, path, {
+      classNames: ['SkyIconStackItem', 'SkyIconType'],
+      previousLibrary: '@skyux/indicators',
+      newLibrary: '@skyux/icon',
+    });
     const updatedContent = tree.readText(path);
     expect(updatedContent).toEqual(
       `import { NgModule } from '@angular/core';

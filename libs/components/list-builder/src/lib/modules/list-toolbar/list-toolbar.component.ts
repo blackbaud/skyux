@@ -66,6 +66,7 @@ let nextId = 0;
     ListToolbarStateModel,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyListToolbarComponent
   implements OnInit, AfterContentInit, OnDestroy
@@ -230,7 +231,7 @@ export class SkyListToolbarComponent
     });
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.dispatcher.toolbarExists(true);
 
     getValue(this.searchText, (searchText: string) => {
@@ -366,7 +367,7 @@ export class SkyListToolbarComponent
     });
   }
 
-  public ngAfterContentInit() {
+  public ngAfterContentInit(): void {
     // Inject custom toolbar items.
     this.toolbarItems.forEach((toolbarItem) => {
       this.dispatcher.toolbarAddItems([new ListToolbarItemModel(toolbarItem)]);
@@ -428,7 +429,7 @@ export class SkyListToolbarComponent
     this.hasViewActions = this.viewActions.length > 0;
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.searchApplied.complete();
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
@@ -449,11 +450,11 @@ export class SkyListToolbarComponent
     });
   }
 
-  public inlineFilterButtonClick() {
+  public inlineFilterButtonClick(): void {
     this.inlineFilterBarExpanded = !this.inlineFilterBarExpanded;
   }
 
-  public updateSearchText(searchText: string) {
+  public updateSearchText(searchText: string): void {
     this.searchApplied.next(searchText);
     if (this.inMemorySearchEnabled) {
       this.state.pipe(take(1)).subscribe((currentState) => {
@@ -469,11 +470,16 @@ export class SkyListToolbarComponent
     }
   }
 
-  private itemIsInView(itemView: string, activeView: string) {
+  private itemIsInView(itemView: string, activeView: string): boolean {
     return itemView === undefined || itemView === activeView;
   }
 
-  private getSortSelectors() {
+  private getSortSelectors(): Observable<
+    {
+      sort: ListSortLabelModel;
+      selected: boolean;
+    }[]
+  > {
     return observableCombineLatest(
       this.state.pipe(
         observableMap((s) => s.sort.available),
@@ -524,7 +530,7 @@ export class SkyListToolbarComponent
     ).pipe(takeUntil(this.ngUnsubscribe));
   }
 
-  private watchTemplates() {
+  private watchTemplates(): void {
     observableCombineLatest(
       this.state.pipe(
         observableMap((s) => s.toolbar),

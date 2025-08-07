@@ -14,6 +14,7 @@ import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
  */
 @Directive({
   selector: '[skyColorpickerSlider]',
+  standalone: false,
 })
 export class SkyColorpickerSliderDirective {
   @Output()
@@ -34,17 +35,17 @@ export class SkyColorpickerSliderDirective {
 
   constructor(el: ElementRef) {
     this.#el = el;
-    this.#listenerMove = (event) => {
+    this.#listenerMove = (event): void => {
       this.move(event);
     };
-    this.#listenerStop = () => {
+    this.#listenerStop = (): void => {
       this.stop();
     };
   }
 
   @HostListener('touchstart', ['$event'])
   @HostListener('mousedown', ['$event'])
-  public start(event: MouseEvent) {
+  public start(event: MouseEvent): void {
     this.#setCursor(event);
     document.addEventListener('mousemove', this.#listenerMove);
     document.addEventListener('touchmove', this.#listenerMove);
@@ -52,7 +53,7 @@ export class SkyColorpickerSliderDirective {
     document.addEventListener('touchend', this.#listenerStop);
   }
 
-  #setCursor(event: MouseEvent | TouchEvent) {
+  #setCursor(event: MouseEvent | TouchEvent): void {
     const height = this.#el.nativeElement.offsetHeight;
     const width = this.#el.nativeElement.offsetWidth;
     const xAxis = Math.max(0, Math.min(this.getX(event), width));
@@ -76,14 +77,14 @@ export class SkyColorpickerSliderDirective {
     } */
   }
 
-  public stop() {
+  public stop(): void {
     document.removeEventListener('mousemove', this.#listenerMove);
     document.removeEventListener('touchmove', this.#listenerMove);
     document.removeEventListener('mouseup', this.#listenerStop);
     document.removeEventListener('touchend', this.#listenerStop);
   }
 
-  public move(event: MouseEvent | TouchEvent) {
+  public move(event: MouseEvent | TouchEvent): void {
     event.preventDefault();
     this.#setCursor(event);
   }

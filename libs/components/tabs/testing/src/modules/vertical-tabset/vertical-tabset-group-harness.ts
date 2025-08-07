@@ -86,7 +86,6 @@ export class SkyVerticalTabsetGroupHarness extends SkyComponentHarness {
 
   /**
    * Whether the group is expanded.
-   * todo ask other engineers if checking for a class or property is better. my vote is property.
    */
   public async isOpen(): Promise<boolean> {
     return (

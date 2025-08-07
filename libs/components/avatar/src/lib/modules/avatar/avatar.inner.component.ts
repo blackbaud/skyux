@@ -20,6 +20,7 @@ import { SkyAvatarSrc } from './avatar-src';
   styleUrls: ['./avatar.inner.component.scss'],
   providers: [SkyAvatarAdapterService],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
   public get src(): SkyAvatarSrc | undefined {

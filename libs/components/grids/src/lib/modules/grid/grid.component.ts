@@ -80,6 +80,7 @@ let nextId = 0;
   viewProviders: [DragulaService],
   providers: [SkyGridAdapterService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyGridComponent
   implements OnInit, AfterContentInit, AfterViewInit, OnChanges, OnDestroy
@@ -305,7 +306,7 @@ export class SkyGridComponent
   public showResizeBar = false;
   public showTopScroll = false;
 
-  public get tableWidth() {
+  public get tableWidth(): any {
     return this.tableElementRef.nativeElement.offsetWidth;
   }
 
@@ -371,7 +372,7 @@ export class SkyGridComponent
     this.dragulaGroupName = `sky-grids-group-${this.gridId}`;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.messageStream
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((message: SkyGridMessage) => {
@@ -379,7 +380,7 @@ export class SkyGridComponent
       });
   }
 
-  public ngAfterContentInit() {
+  public ngAfterContentInit(): void {
     if (this.settingsKey) {
       this.applyUserConfig().then(() => {
         this.initColumns();
@@ -400,11 +401,11 @@ export class SkyGridComponent
     this.applySelectedRows();
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.checkUserColumnWidthsForScroll();
   }
 
-  public ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes['columns'] && this.columns) {
       if (this.selectedColumnIds) {
         this.selectedColumnIds = this.selectedColumnIds.filter((columnId) => {
@@ -451,7 +452,7 @@ export class SkyGridComponent
     }
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
@@ -476,7 +477,7 @@ export class SkyGridComponent
     return this.tableElementRef.nativeElement.scrollWidth;
   }
 
-  public getTableClassNames() {
+  public getTableClassNames(): string {
     const classNames: string[] = [];
 
     if (this.fit !== 'scroll') {
@@ -490,7 +491,7 @@ export class SkyGridComponent
     return this.addDelimiter(classNames, ' ');
   }
 
-  public getTableHeaderClassNames(column: SkyGridColumnModel) {
+  public getTableHeaderClassNames(column: SkyGridColumnModel): string {
     const classNames: string[] = [];
 
     if (column && column.locked) {
@@ -500,29 +501,29 @@ export class SkyGridComponent
     return this.addDelimiter(classNames, ' ');
   }
 
-  public getCaretIconNames(column: SkyGridColumnModel) {
+  public getCaretIconNames(column: SkyGridColumnModel): string {
     const iconNames: string[] = [];
 
     this.getSortDirection(column.field).subscribe((sortDir) => {
       if (sortDir === 'asc') {
-        iconNames.push('caret-up');
+        iconNames.push('chevron-up');
       }
       if (sortDir === 'desc') {
-        iconNames.push('caret-down');
+        iconNames.push('chevron-down');
       }
     });
 
     return this.addDelimiter(iconNames, ' ');
   }
 
-  public onKeydown(event: KeyboardEvent, column: SkyGridColumnModel) {
+  public onKeydown(event: KeyboardEvent, column: SkyGridColumnModel): void {
     const key = event.key.toLowerCase();
     if (key === 'enter' || key === ' ') {
       this.sortByColumn(column);
     }
   }
 
-  public sortByColumn(column: SkyGridColumnModel) {
+  public sortByColumn(column: SkyGridColumnModel): void {
     if (!this.isDraggingResizeHandle && column.isSortable) {
       this.currentSortField
         .pipe(
@@ -596,11 +597,11 @@ export class SkyGridComponent
     );
   }
 
-  public onMultiselectCheckboxChange() {
+  public onMultiselectCheckboxChange(): void {
     this.emitSelectedRows(SkyGridSelectedRowsSource.CheckboxChange);
   }
 
-  public updateColumnHeading(change: SkyGridColumnHeadingModelChange) {
+  public updateColumnHeading(change: SkyGridColumnHeadingModelChange): void {
     const foundColumnModel = this.columns.find((column: SkyGridColumnModel) => {
       return (
         (change.id !== undefined && change.id === column.id) ||
@@ -617,7 +618,7 @@ export class SkyGridComponent
 
   public updateInlineHelpPopover(
     change: SkyGridColumnInlineHelpPopoverModelChange,
-  ) {
+  ): void {
     const foundColumnModel = this.columns.find((column: SkyGridColumnModel) => {
       return (
         (change.id !== undefined && change.id === column.id) ||
@@ -632,7 +633,9 @@ export class SkyGridComponent
     }
   }
 
-  public updateColumnDescription(change: SkyGridColumnDescriptionModelChange) {
+  public updateColumnDescription(
+    change: SkyGridColumnDescriptionModelChange,
+  ): void {
     const foundColumnModel = this.columns.find((column: SkyGridColumnModel) => {
       return (
         (change.id !== undefined && change.id === column.id) ||
@@ -698,7 +701,7 @@ export class SkyGridComponent
       });
   }
 
-  public onKeydownResizeCol(event: KeyboardEvent) {
+  public onKeydownResizeCol(event: KeyboardEvent): void {
     // If this table hasn't been resized, initialize all the resize widths.
     if (!this.isResized) {
       this.initColumnWidths();
@@ -708,7 +711,7 @@ export class SkyGridComponent
     this.initializeResizeColumn(event);
   }
 
-  public onInputChangeResizeCol(event: Event) {
+  public onInputChangeResizeCol(event: Event): void {
     const input = event.target as HTMLInputElement;
     const newValue = Number(input.value);
     const deltaX = newValue - this.startColumnWidth;
@@ -717,7 +720,7 @@ export class SkyGridComponent
     this.setResizeBarPosition(left);
   }
 
-  public onResizeHandleMove(event: MouseEvent) {
+  public onResizeHandleMove(event: MouseEvent): void {
     const deltaX = event.pageX - this.xPosStart;
     const newColWidth = this.startColumnWidth + deltaX;
 
@@ -735,11 +738,11 @@ export class SkyGridComponent
     this.setResizeBarPosition(event.pageX);
   }
 
-  public onResizeHandleBlur() {
+  public onResizeHandleBlur(): void {
     this.showResizeBar = false;
   }
 
-  public onResizeHandleFocus(event: FocusEvent) {
+  public onResizeHandleFocus(event: FocusEvent): void {
     this.showResizeBar = true;
     this.changeDetector.detectChanges();
 
@@ -748,7 +751,7 @@ export class SkyGridComponent
     this.setResizeBarPosition(left);
   }
 
-  public onResizeHandleRelease(event: MouseEvent) {
+  public onResizeHandleRelease(event: MouseEvent): void {
     this.showResizeBar = false;
     const deltaX = event.pageX - this.xPosStart;
     const newColWidth = this.startColumnWidth + deltaX;
@@ -760,7 +763,7 @@ export class SkyGridComponent
     this.changeDetector.markForCheck();
   }
 
-  public onRowClick(event: any, selectedItem: ListItemModel) {
+  public onRowClick(event: any, selectedItem: ListItemModel): void {
     /* istanbul ignore else */
     if (this.enableMultiselect) {
       if (
@@ -785,7 +788,7 @@ export class SkyGridComponent
     return this.gridAdapter.getRowHeight(this.tableElementRef, index);
   }
 
-  public cancelRowDelete(id: string) {
+  public cancelRowDelete(id: string): void {
     this.rowDeleteConfigs = this.rowDeleteConfigs.filter(
       (config) => config.id !== id,
     );
@@ -794,7 +797,7 @@ export class SkyGridComponent
     this.destroyRowDelete(id);
   }
 
-  public confirmRowDelete(id: string) {
+  public confirmRowDelete(id: string): void {
     this.rowDeleteConfigs.find((config) => config.id === id).pending = true;
     this.rowDeleteConfirm.emit({ id: id });
   }
@@ -866,7 +869,7 @@ export class SkyGridComponent
     }
   }
 
-  private multiselectSelectAll() {
+  private multiselectSelectAll(): void {
     for (const item of this.items) {
       item.isSelected = true;
     }
@@ -874,7 +877,7 @@ export class SkyGridComponent
     this.emitSelectedRows(SkyGridSelectedRowsSource.SelectAll);
   }
 
-  private multiselectClearAll() {
+  private multiselectClearAll(): void {
     for (const item of this.items) {
       item.isSelected = false;
     }
@@ -882,7 +885,7 @@ export class SkyGridComponent
     this.emitSelectedRows(SkyGridSelectedRowsSource.ClearAll);
   }
 
-  private handleIncomingMessages(message: SkyGridMessage) {
+  private handleIncomingMessages(message: SkyGridMessage): void {
     switch (message.type) {
       case SkyGridMessageType.SelectAll:
         this.multiselectSelectAll();
@@ -976,7 +979,7 @@ export class SkyGridComponent
     this.changeDetector.markForCheck();
   }
 
-  private onHeaderDrop(newColumnIds: string[]) {
+  private onHeaderDrop(newColumnIds: string[]): void {
     // update selected columnIds
     this.selectedColumnIdsSet = true;
     this.selectedColumnIds = newColumnIds;
@@ -985,7 +988,7 @@ export class SkyGridComponent
     this.changeDetector.markForCheck();
   }
 
-  private setDisplayedColumns(respectHidden = false) {
+  private setDisplayedColumns(respectHidden = false): void {
     /* sanity check */
     /* istanbul ignore else */
     if (this.columns) {
@@ -1008,7 +1011,7 @@ export class SkyGridComponent
     }
   }
 
-  private transformData() {
+  private transformData(): void {
     // Transform data into object with id and data properties
     if (
       this.data &&
@@ -1026,7 +1029,7 @@ export class SkyGridComponent
     }
   }
 
-  private getGridDataWithSelectedRows() {
+  private getGridDataWithSelectedRows(): ListItemModel[] {
     const selectedRows = this.getSelectedRows();
     return this.data.map((item) => {
       let checked;
@@ -1048,19 +1051,19 @@ export class SkyGridComponent
     }
   }
 
-  private setSortHeaders() {
+  private setSortHeaders(): void {
     this.currentSortField.next(
       this.sortField || { fieldSelector: '', descending: false },
     );
   }
 
-  private getColumnsFromComponent() {
+  private getColumnsFromComponent(): void {
     this.columns = this.columnComponents.map((columnComponent) => {
       return new SkyGridColumnModel(columnComponent.template, columnComponent);
     });
   }
 
-  private updateColumns() {
+  private updateColumns(): void {
     this.getColumnsFromComponent();
 
     // This set timeout is necessary to ensure the columns have rendered in the grid
@@ -1073,7 +1076,7 @@ export class SkyGridComponent
     columnIndex: string,
     newColWidth: number,
     deltaX: number,
-  ) {
+  ): void {
     const column = this.getColumnModelByIndex(columnIndex);
 
     // Prevent accidental shrinkage below minimum width.
@@ -1109,7 +1112,7 @@ export class SkyGridComponent
     this.columnWidthChange.emit(this.getColumnWidthModelChange());
   }
 
-  private initColumnWidths() {
+  private initColumnWidths(): void {
     // Establish table width.
     this.showTopScroll = true;
 
@@ -1143,7 +1146,7 @@ export class SkyGridComponent
   private transferColumnWidths(
     oldColumns: SkyGridColumnModel[],
     newColumns: SkyGridColumnModel[],
-  ) {
+  ): void {
     /* sanity check */
     /* istanbul ignore else */
     if (oldColumns && newColumns) {
@@ -1161,7 +1164,7 @@ export class SkyGridComponent
     this.changeDetector.markForCheck();
   }
 
-  private getColumnWidthModelChange() {
+  private getColumnWidthModelChange(): SkyGridColumnWidthModelChange[] {
     const columnWidthModelChange = new Array<SkyGridColumnWidthModelChange>();
     this.columns.forEach((column) => {
       columnWidthModelChange.push({
@@ -1173,7 +1176,7 @@ export class SkyGridComponent
     return columnWidthModelChange;
   }
 
-  private updateMaxRange() {
+  private updateMaxRange(): void {
     const leftoverWidth =
       this.getLastDisplayedColumn().width - this.minColWidth;
     this.displayedColumns.forEach((column, index) => {
@@ -1184,14 +1187,14 @@ export class SkyGridComponent
     });
   }
 
-  private initializeResizeColumn(event: any) {
+  private initializeResizeColumn(event: any): void {
     const clickTarget = event.target as HTMLElement;
     this.activeResizeColumnIndex = clickTarget.getAttribute('sky-cmp-index');
     const column = this.getColumnModelByIndex(this.activeResizeColumnIndex);
     this.startColumnWidth = column.width;
   }
 
-  private resetTableWidth() {
+  private resetTableWidth(): void {
     this.skyWindow.nativeWindow.setTimeout(() => {
       this.gridAdapter.setStyle(this.tableElementRef, 'width', `auto`);
       this.changeDetector.detectChanges();
@@ -1204,18 +1207,18 @@ export class SkyGridComponent
     });
   }
 
-  private getRangeInputByIndex(index: string | number) {
+  private getRangeInputByIndex(index: string | number): ElementRef {
     return this.columnRangeInputElementRefs.find(
       (input) =>
         input.nativeElement.getAttribute('sky-cmp-index') === index.toString(),
     );
   }
 
-  private getColumnModelByIndex(index: string | number) {
+  private getColumnModelByIndex(index: string | number): SkyGridColumnModel {
     return this.displayedColumns[Number(index)];
   }
 
-  private getMaxRangeByIndex(index: string) {
+  private getMaxRangeByIndex(index: string): number {
     const columnElementRef = this.columnElementRefs.find(
       (th) => th.nativeElement.getAttribute('sky-cmp-index') === index,
     );
@@ -1225,15 +1228,15 @@ export class SkyGridComponent
     return Number(rangeInput.max);
   }
 
-  private getLastDisplayedColumn() {
+  private getLastDisplayedColumn(): SkyGridColumnModel {
     return this.getColumnModelByIndex(this.displayedColumns.length - 1);
   }
 
-  private addDelimiter(text: string[], delimiter: string) {
+  private addDelimiter(text: string[], delimiter: string): string {
     return text.filter((val) => val).join(delimiter);
   }
 
-  private destroyRowDelete(id: string) {
+  private destroyRowDelete(id: string): void {
     const rowDeleteContents = this.rowDeleteContents[id];
     /* istanbul ignore else */
     if (rowDeleteContents) {
@@ -1243,7 +1246,7 @@ export class SkyGridComponent
     }
   }
 
-  private emitSelectedRows(source: SkyGridSelectedRowsSource) {
+  private emitSelectedRows(source: SkyGridSelectedRowsSource): void {
     const selectedRows: SkyGridSelectedRowsModelChange = {
       selectedRowIds: this.getSelectedRows(),
       source: source,
@@ -1251,7 +1254,7 @@ export class SkyGridComponent
     this.multiselectSelectionChange.emit(selectedRows);
   }
 
-  private getSelectedRows() {
+  private getSelectedRows(): any[] {
     return this.items
       .filter((item) => {
         return item.isSelected;

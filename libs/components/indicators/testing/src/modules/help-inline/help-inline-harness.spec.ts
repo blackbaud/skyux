@@ -17,6 +17,7 @@ import { SkyHelpInlineHarness } from './help-inline-harness';
       (actionClick)="otherClick()"
     ></sky-help-inline>
   `,
+  standalone: false,
 })
 class TestComponent {
   public onActionClick(): void {

@@ -4,7 +4,6 @@ import { SkyDropdownModule } from '@skyux/popovers';
 
 @Component({
   selector: 'app-dropdown-example',
-  standalone: true,
   imports: [SkyDropdownModule, SkyIconModule],
   templateUrl: './dropdown-example.component.html',
   styleUrl: './dropdown-example.component.scss',

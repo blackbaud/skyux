@@ -6,6 +6,7 @@ import { SkyTextExpandRepeaterListStyleType } from '../types/text-expand-repeate
 @Component({
   selector: 'sky-text-expand-repeater-demo',
   templateUrl: './text-expand-repeater.component.fixture.html',
+  standalone: false,
 })
 export class TextExpandRepeaterTestComponent {
   public customTemplateData: any[] | undefined;

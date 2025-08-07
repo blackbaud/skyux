@@ -9,6 +9,7 @@ import { SkyGridComponent } from '../grid.component';
       <sky-grid-column field="column1" heading="Column1" />
     </sky-grid>
   `,
+  standalone: false,
 })
 export class GridUndefinedTestComponent {
   @ViewChild(SkyGridComponent)

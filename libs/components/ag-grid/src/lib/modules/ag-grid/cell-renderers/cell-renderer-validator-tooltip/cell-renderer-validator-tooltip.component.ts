@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -10,6 +11,7 @@ import {
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
+import { SkyAgGridCellValidatorTooltipComponent } from '../../cell-validator/ag-grid-cell-validator-tooltip.component';
 import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-validator-params';
 
 /**
@@ -19,6 +21,7 @@ import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-valida
   selector: 'sky-ag-grid-cell-renderer-validator-tooltip',
   templateUrl: 'cell-renderer-validator-tooltip.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyAgGridCellValidatorTooltipComponent, AsyncPipe],
 })
 export class SkyAgGridCellRendererValidatorTooltipComponent
   implements ICellRendererAngularComp, OnDestroy

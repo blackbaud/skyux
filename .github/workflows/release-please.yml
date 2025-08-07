@@ -5,11 +5,11 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 11.x.x
+      - 12.x.x
 env:
   # Set to 'alpha', 'beta', or 'rc' to create a prerelease.
   PRERELEASE: 'false'
-  MAJOR_VERSION: 11
+  MAJOR_VERSION: 12
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -70,6 +70,7 @@ jobs:
       - uses: actions/setup-node@v4
         id: setup-node
         with:
+          cache: 'npm'
           node-version-file: '.nvmrc'
       # Workaround to avoid "Post Run actions/setup-node" failures.
       # See: https://github.com/actions/setup-node/issues/317
@@ -77,15 +78,8 @@ jobs:
         if: ${{ !steps.release.outputs.release_created }}
         run: mkdir -p /home/runner/.npm
         continue-on-error: true
-      - name: Cache node modules
-        if: ${{ steps.release.outputs.release_created }}
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
-        if: ${{ steps.release.outputs.release_created && steps.cache.outputs.cache-hit != 'true' }}
+        if: ${{ steps.release.outputs.release_created }}
         run: npm ci
       - name: Build
         if: ${{ steps.release.outputs.release_created }}

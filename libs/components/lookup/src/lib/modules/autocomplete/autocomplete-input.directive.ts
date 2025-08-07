@@ -36,6 +36,7 @@ const SKY_AUTOCOMPLETE_VALIDATOR = {
 @Directive({
   selector: 'input[skyAutocomplete], textarea[skyAutocomplete]',
   providers: [SKY_AUTOCOMPLETE_VALUE_ACCESSOR, SKY_AUTOCOMPLETE_VALIDATOR],
+  standalone: false,
 })
 export class SkyAutocompleteInputDirective
   implements OnInit, OnDestroy, ControlValueAccessor, Validator
@@ -309,7 +310,7 @@ export class SkyAutocompleteInputDirective
   public onTouched(): void {}
   // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public onValidatorChange = () => {};
+  public onValidatorChange = (): void => {};
 
   #setAttributes(elementRef: ElementRef): void {
     const element = elementRef.nativeElement;

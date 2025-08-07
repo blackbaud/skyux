@@ -16,6 +16,7 @@ import { SkyPageSummaryFixture } from './page-summary-fixture';
       <sky-page-summary-content> Sample content </sky-page-summary-content>
     </sky-page-summary>
   `,
+  standalone: false,
 })
 class TestComponent {
   public name = 'Robert C. Hernandez';

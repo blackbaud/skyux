@@ -6,7 +6,6 @@ import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner
 import { SkyDatepickerCalendarLabelPipe } from './datepicker-calendar-label.pipe';
 
 @Component({
-  standalone: true,
   selector: 'sky-datepicker-calendar-label-pipe-test',
   template: '{{ value | skyDatepickerCalendarLabel : format }}',
   imports: [SkyDatepickerCalendarLabelPipe],

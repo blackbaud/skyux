@@ -1,6 +1,6 @@
-import fs from 'fs-extra';
 import path from 'path';
-import sass from 'sass';
+
+import { renderScss } from './utils/render-scss';
 
 const STYLES_ROOT = path.resolve(
   __dirname,
@@ -8,21 +8,16 @@ const STYLES_ROOT = path.resolve(
 );
 const DEST_ROOT = path.resolve(__dirname, '../dist/libs/components/ag-grid');
 
-function copyScss() {
-  const result = sass.renderSync({
-    file: path.join(STYLES_ROOT, 'ag-grid-styles.scss'),
-  });
-
+async function copyScss(): Promise<void> {
   const target = path.join(DEST_ROOT, 'css/sky-ag-grid.css');
 
-  fs.ensureFileSync(target);
-  fs.writeFileSync(target, result.css);
+  await renderScss(path.join(STYLES_ROOT, 'ag-grid-styles.scss'), target);
 }
 
-function postBuildAgGrid() {
+async function postBuildAgGrid(): Promise<void> {
   console.log('Running @skyux/ag-grid postbuild step...');
   try {
-    copyScss();
+    await copyScss();
 
     console.log('Done running @skyux/ag-grid postbuild.');
   } catch (err) {
@@ -31,4 +26,4 @@ function postBuildAgGrid() {
   }
 }
 
-postBuildAgGrid();
+void postBuildAgGrid();

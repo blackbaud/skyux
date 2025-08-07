@@ -23,7 +23,7 @@ export class EditableGridRow {
   }[];
 }
 
-function getDay(i: number) {
+function getDay(i: number): Date {
   const dates = [
     new Date(1955, 10, 5),
     new Date(1979, 5, 13),

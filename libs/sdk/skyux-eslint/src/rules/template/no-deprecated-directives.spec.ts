@@ -17,6 +17,11 @@ jest.mock('@skyux/manifest', () => {
 
   return {
     ...original,
+    isDirectiveDefinition: jest
+      .fn()
+      .mockImplementation(
+        (def) => def.kind === 'component' || def.kind === 'directive',
+      ),
     getPublicApi: (): SkyManifestPublicApi => ({
       packages: {
         '@skyux/no-deprecated': [
@@ -32,6 +37,13 @@ jest.mock('@skyux/manifest', () => {
             selector: 'sky-card',
             isDeprecated: true,
             deprecationReason: 'Do not use the card component.',
+          } as SkyManifestDirectiveDefinition,
+          // The sky-page component is an ignored selector.
+          {
+            kind: 'component',
+            selector: 'sky-page',
+            isDeprecated: true,
+            deprecationReason: 'Do not use the page component.',
           } as SkyManifestDirectiveDefinition,
           // A component without a selector.
           {
@@ -106,6 +118,7 @@ ruleTester.run(RULE_NAME, rule, {
     // Deprecated directive, but on the "wrong" element should still pass.
     '<foobar skyDeprecatedThing />',
     '<sky-no-deprecated></sky-no-deprecated>',
+    '<sky-page></sky-page>',
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({

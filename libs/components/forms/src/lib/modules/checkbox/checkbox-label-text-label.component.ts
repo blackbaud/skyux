@@ -10,6 +10,7 @@ import { Component, Input } from '@angular/core';
     './checkbox-label-text-label.modern.component.scss',
   ],
   templateUrl: './checkbox-label-text-label.component.html',
+  standalone: false,
 })
 export class SkyCheckboxLabelTextLabelComponent {
   @Input()

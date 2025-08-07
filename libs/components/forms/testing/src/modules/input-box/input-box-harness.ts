@@ -1,5 +1,4 @@
 import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
-import { TemplateRef } from '@angular/core';
 import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 import { SkyStatusIndicatorHarness } from '@skyux/indicators/testing';
@@ -195,9 +194,7 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
   /**2
    * Gets the help popover content.
    */
-  public async getHelpPopoverContent(): Promise<
-    TemplateRef<unknown> | string | undefined
-  > {
+  public async getHelpPopoverContent(): Promise<string | undefined> {
     return await (await this.#getHelpInline()).getPopoverContent();
   }
 

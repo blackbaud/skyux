@@ -17,11 +17,16 @@ import {
   Validator,
 } from '@angular/forms';
 
-import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
+import {
+  PhoneNumber,
+  PhoneNumberFormat,
+  PhoneNumberUtil,
+} from 'google-libphonenumber';
 import { Subject, take, takeUntil } from 'rxjs';
 
 import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
 import { SkyPhoneFieldComponent } from './phone-field.component';
+import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
 
 /**
  * Creates a button, search input, and text input for entering and validating
@@ -206,7 +211,7 @@ export class SkyPhoneFieldInputDirective
     this.#notifyChange?.(this.#getValue());
   }
 
-  #formatPhoneNumber(value: string | undefined): string | undefined {
+  #maybeFormatPhoneNumber(value: string | undefined): string | undefined {
     if (!value) {
       return;
     }
@@ -222,37 +227,45 @@ export class SkyPhoneFieldInputDirective
       );
 
       if (this.#phoneUtils.isPossibleNumber(phoneNumber)) {
-        switch (returnFormat) {
-          case 'international':
-            return this.#phoneUtils.format(
-              phoneNumber,
-              PhoneNumberFormat.INTERNATIONAL,
-            );
-
-          case 'national':
-            return this.#phoneUtils.format(
-              phoneNumber,
-              PhoneNumberFormat.NATIONAL,
-            );
-
-          case 'default':
-          default:
-            return regionCode && regionCode !== defaultCountry
-              ? this.#phoneUtils.format(
-                  phoneNumber,
-                  PhoneNumberFormat.INTERNATIONAL,
-                )
-              : this.#phoneUtils.format(
-                  phoneNumber,
-                  PhoneNumberFormat.NATIONAL,
-                );
-        }
+        return this.#formatPhoneNumber(
+          phoneNumber,
+          returnFormat,
+          defaultCountry,
+          regionCode,
+        );
       }
-    } catch (err) {
+    } catch {
       /* */
     }
 
     return;
+  }
+
+  #formatPhoneNumber(
+    phoneNumber: PhoneNumber,
+    returnFormat?: SkyPhoneFieldNumberReturnFormat,
+    defaultCountry?: string,
+    regionCode?: string,
+  ): string {
+    switch (returnFormat) {
+      case 'international':
+        return this.#phoneUtils.format(
+          phoneNumber,
+          PhoneNumberFormat.INTERNATIONAL,
+        );
+
+      case 'national':
+        return this.#phoneUtils.format(phoneNumber, PhoneNumberFormat.NATIONAL);
+
+      case 'default':
+      default:
+        return regionCode && regionCode !== defaultCountry
+          ? this.#phoneUtils.format(
+              phoneNumber,
+              PhoneNumberFormat.INTERNATIONAL,
+            )
+          : this.#phoneUtils.format(phoneNumber, PhoneNumberFormat.NATIONAL);
+    }
   }
 
   #getDefaultCountry(): string | undefined {
@@ -283,7 +296,7 @@ export class SkyPhoneFieldInputDirective
       }
 
       return this.#phoneUtils.isValidNumberForRegion(phoneNumber, regionCode);
-    } catch (e) {
+    } catch {
       return false;
     }
   }
@@ -291,7 +304,7 @@ export class SkyPhoneFieldInputDirective
   #setValue(value: string | undefined): void {
     /* istanbul ignore else */
     if (value !== undefined) {
-      const formatted = this.#formatPhoneNumber(value);
+      const formatted = this.#maybeFormatPhoneNumber(value);
       this.#_value = formatted ?? value;
     }
   }

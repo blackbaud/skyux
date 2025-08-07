@@ -90,7 +90,6 @@ a.sky-btn {
   display: inline;
   padding: 0;
   border: none;
-  vertical-align: top;
 }
 
 .sky-btn-link-inline:hover {
@@ -230,7 +229,6 @@ a.sky-btn {
   line-height: inherit;
   display: inline;
   padding: 0;
-  vertical-align: top;
 }
 
 .sky-btn-borderless-inline:hover {
@@ -243,4 +241,26 @@ a.sky-btn {
   width: 26px;
   border: none;
   padding: 0;
+}
+
+.sky-btn-block {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  text-overflow: ellipsis;
+  width: 100%;
+
+  &:has(.sky-btn-block-logo) {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .sky-btn-block-logo {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    // Center the icon vertically.
+    transform: translate(0, -50%);
+  }
 }

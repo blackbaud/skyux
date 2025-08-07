@@ -20,7 +20,6 @@ import { SkyWaitAdapterService } from './wait-adapter.service';
 let nextId = 0;
 
 @Component({
-  standalone: true,
   selector: 'sky-wait',
   templateUrl: './wait.component.html',
   styleUrls: ['./wait.component.scss'],

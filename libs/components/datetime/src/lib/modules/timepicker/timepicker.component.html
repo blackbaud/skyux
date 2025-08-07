@@ -36,7 +36,7 @@
       [disabled]="disabled"
       (click)="onTriggerButtonClick()"
     >
-      <sky-icon icon="clock" size="lg" />
+      <sky-icon iconName="clock" iconSize="l" />
     </button>
   </div>
 </ng-template>
@@ -52,8 +52,8 @@
   >
     <div class="sky-timepicker-content">
       <section
-        class="sky-timepicker-column"
-        [ngClass]="{ 'sky-timepicker-24hour': is8601 }"
+        class="sky-timepicker-column sky-timepicker-column-hours"
+        [ngClass]="{ 'sky-timepicker-24hour-hours': is8601 }"
       >
         <ol>
           @for (hour of hours; track hour) {
@@ -70,7 +70,10 @@
           }
         </ol>
       </section>
-      <section class="sky-timepicker-column">
+      <section
+        class="sky-timepicker-column sky-timepicker-column-minutes"
+        [ngClass]="{ 'sky-timepicker-24hour-minutes': is8601 }"
+      >
         <ol>
           @for (minute of minutes; track minute) {
             <li>
@@ -89,7 +92,7 @@
         </ol>
       </section>
       @if (!is8601) {
-        <section class="sky-timepicker-column">
+        <section class="sky-timepicker-column sky-timepicker-column-meridies">
           <ol>
             <li>
               <button

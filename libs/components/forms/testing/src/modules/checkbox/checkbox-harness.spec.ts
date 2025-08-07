@@ -156,13 +156,13 @@ describe('Checkbox harness', () => {
     await expectAsync(checkboxHarness.getLabelHidden()).toBeResolvedTo(true);
   });
 
-  it('should throw an error when getting `labelIsHidden` for a checkbox using `sky-checkbox-label`', async () => {
+  it('should throw an error when getting `labelHidden` for a checkbox using `sky-checkbox-label`', async () => {
     const { checkboxHarness } = await setupTest({
       dataSkyId: 'my-email-checkbox',
     });
 
     await expectAsync(checkboxHarness.getLabelHidden()).toBeRejectedWithError(
-      '`labelIsHidden` is only supported when setting the checkbox label via the `labelText` input.',
+      '`labelHidden` is only supported when setting the checkbox label via the `labelText` input.',
     );
   });
 

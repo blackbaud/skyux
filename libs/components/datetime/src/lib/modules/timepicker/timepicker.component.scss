@@ -8,17 +8,20 @@
   --sky-override-timepicker-button-active-background-color: #{$sky-color-gray-10};
   --sky-override-timepicker-button-background-color: #{$sky-color-white};
   --sky-override-timepicker-button-border-radius: 3px;
+  --sky-override-timepicker-button-focus-box-shadow: none;
   --sky-override-timepicker-button-focus-outline-offset: -2px;
   --sky-override-timepicker-button-focus-outline: -webkit-focus-ring-color auto
     5px;
+  --sky-override-timepicker-button-height: 100%;
   --sky-override-timepicker-button-hover-active-focus-border-radius: 0;
-  --sky-override-timepicker-button-hover-active-focus-box-shadow: none;
+  --sky-override-timepicker-button-hover-active-box-shadow: none;
   --sky-override-timepicker-button-hover-background-color: #{$sky-color-gray-05};
   --sky-override-timepicker-button-padding-horizontal: #{$sky-padding-plus-half};
   --sky-override-timepicker-button-padding-vertical: #{$sky-padding-half};
   --sky-override-timepicker-button-selected-background-color: #{$sky-background-color-info-light};
   --sky-override-timepicker-button-selected-box-shadow: #{inset 0 0 0 2px
     $sky-highlight-color-info};
+  --sky-override-timepicker-button-width: 100%;
   --sky-override-timepicker-column-border: #{1px solid
     $sky-border-color-neutral-light};
   --sky-override-timepicker-column-gap: 10px;
@@ -36,12 +39,19 @@
   --sky-override-timepicker-border: #{solid 1px
     $sky-border-color-neutral-medium};
   --sky-override-timepicker-button-background-color: var(--modern-color-white);
+  --sky-override-timepicker-button-focus-box-shadow:
+    inset 0 0 0 var(--sky-border-width-action-focus)
+      var(--sky-color-border-action-tertiary-focus),
+    var(--sky-elevation-focus);
+  --sky-override-timepicker-button-height: 100%;
+  --sky-override-timepicker-button-padding-horizontal: var(--modern-size-15);
   --sky-override-timepicker-button-padding-vertical: var(--modern-size-5);
   --sky-override-timepicker-button-selected-hover-border-color: var(
     --modern-color-blue-50
   );
+  --sky-override-timepicker-button-width: 100%;
   --sky-override-timepicker-column-border: #{1px solid
-    $sky-border-color-neutral-light};
+    var(--modern-color-gray-10)};
   --sky-override-timepicker-content-space: var(--modern-space-s)
     var(--modern-space-s) 0 var(--modern-space-s);
   --sky-override-timepicker-font-size: #{$sky-theme-modern-font-body-default-size};
@@ -77,8 +87,8 @@
 .sky-timepicker-column ol {
   border: var(
     --sky-override-timepicker-column-border,
-    var(--sky-border-width-separator-light) solid
-      var(--sky-color-border-separator-light)
+    var(--sky-border-width-container-base) solid
+      var(--sky-color-border-container-base)
   );
   column-gap: 1px;
   columns: 2;
@@ -103,24 +113,16 @@
         var(--sky-color-text-default)
       );
       cursor: pointer;
-      padding: var(
-          --sky-override-timepicker-button-padding-vertical,
-          var(--sky-space-inset-pillarbox-2_3-top-m)
-        )
-        var(
-          --sky-override-timepicker-button-padding-horizontal,
-          var(--sky-space-inset-pillarbox-2_3-right-m)
-        )
-        var(
-          --sky-override-timepicker-button-padding-vertical,
-          var(--sky-space-inset-pillarbox-2_3-bottom-m)
-        )
-        var(
-          --sky-override-timepicker-button-padding-horizontal,
-          var(--sky-space-inset-pillarbox-2_3-left-m)
-        );
-      width: 100%;
-      height: 100%;
+      padding: var(--sky-override-timepicker-button-padding-vertical, auto)
+        var(--sky-override-timepicker-button-padding-horizontal, auto);
+      width: var(
+        --sky-override-timepicker-button-width,
+        var(--sky-size-picker_btn)
+      );
+      height: var(
+        --sky-override-timepicker-button-height,
+        var(--sky-size-picker_btn)
+      );
 
       &:focus-visible:not(:active) {
         outline: var(--sky-override-timepicker-button-focus-outline);
@@ -132,14 +134,13 @@
           var(--sky-border-radius-s)
         );
         box-shadow: var(
-          --sky-override-timepicker-button-hover-active-focus-box-shadow,
+          --sky-override-timepicker-button-focus-box-shadow,
           inset 0 0 0 var(--sky-border-width-action-focus)
-            var(--sky-color-border-action-tertiary-focus),
-          var(--sky-elevation-focus)
+            var(--sky-color-border-action-tertiary-focus)
         );
       }
 
-      &:hover:not(.sky-btn-active) {
+      &:hover:not(.sky-btn-active):not(:active) {
         border-radius: var(
           --sky-override-timepicker-button-hover-active-focus-border-radius,
           var(--sky-border-radius-s)
@@ -149,7 +150,7 @@
           var(--sky-color-background-action-tertiary-hover)
         );
         box-shadow: var(
-          --sky-override-timepicker-button-hover-active-focus-box-shadow,
+          --sky-override-timepicker-button-hover-active-box-shadow,
           inset 0 0 0 var(--sky-border-width-action-hover)
             var(
               --sky-override-timepicker-button-selected-hover-border-color,
@@ -168,7 +169,7 @@
           var(--sky-border-radius-s)
         );
         box-shadow: var(
-          --sky-override-timepicker-button-hover-active-focus-box-shadow,
+          --sky-override-timepicker-button-hover-active-box-shadow,
           inset 0 0 0 var(--sky-border-width-action-active)
             var(--sky-color-border-action-tertiary-active)
         );
@@ -196,11 +197,20 @@
   }
 }
 
-.sky-timepicker-column.sky-timepicker-24hour ol {
+.sky-timepicker-column.sky-timepicker-column-meridies ol,
+.sky-timepicker-column.sky-timepicker-24hour-minutes ol {
+  li {
+    button {
+      height: 100%;
+    }
+  }
+}
+
+.sky-timepicker-column.sky-timepicker-24hour-hours ol {
   columns: 4;
 }
 
-.sky-timepicker-column.sky-timepicker-24hour ol li {
+.sky-timepicker-column.sky-timepicker-24hour-hours ol li {
   border-bottom-width: 0;
 }
 
@@ -208,7 +218,10 @@
   display: flex;
   padding: var(
     --sky-override-timepicker-content-space,
-    var(--sky-space-inset-balanced-m)
+    var(--sky-comp-timepicker-content-space-inset-top)
+      var(--sky-comp-timepicker-content-space-inset-right)
+      var(--sky-comp-timepicker-content-space-inset-bottom)
+      var(--sky-comp-timepicker-content-space-inset-left)
   );
   gap: var(
     --sky-override-timepicker-column-gap,
@@ -220,19 +233,19 @@
   margin: 0;
   padding: var(
       --sky-override-timepicker-footer-padding-vertical,
-      var(--sky-space-inset-pillarbox-2_3-top-m)
+      var(--sky-comp-timepicker-footer-space-inset-top)
     )
     var(
       --sky-override-timepicker-footer-padding-horizontal,
-      var(--sky-space-inset-pillarbox-2_3-right-m)
+      var(--sky-comp-timepicker-footer-space-inset-right)
     )
     var(
       --sky-override-timepicker-footer-padding-vertical,
-      var(--sky-space-inset-pillarbox-2_3-bottom-m)
+      var(--sky-comp-timepicker-footer-space-inset-bottom)
     )
     var(
       --sky-override-timepicker-footer-padding-horizontal,
-      var(--sky-space-inset-pillarbox-2_3-left-m)
+      var(--sky-comp-timepicker-footer-space-inset-left)
     );
 }
 

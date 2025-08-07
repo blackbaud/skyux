@@ -1,7 +1,7 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
-@import 'node_modules/intl-tel-input/build/css/intlTelInput.css';
+@import 'intl-tel-input/build/css/intlTelInput.css';
 
 @include compatMixins.sky-default-overrides('.sky-country-field-container') {
   --sky-override-country-field-disabled-flag-filter: none;
@@ -87,10 +87,6 @@
   );
 }
 
-.sky-country-field-flag {
-  display: none;
-}
-
 .sky-country-field-disabled {
   .sky-country-field-input {
     cursor: default;
@@ -99,11 +95,6 @@
       transparent
     );
   }
-
-  // NOTE: This rule is set for non-input box country fields. Remove when support for this is fully removed.
-  .sky-country-field-flag {
-    opacity: 0.65;
-  }
 }
 
 .sky-country-field-input {
@@ -111,33 +102,10 @@
   display: flex;
   position: relative;
 
-  .sky-country-field-flag {
-    align-items: center;
-    margin-bottom: auto;
-    margin-top: auto;
-    position: absolute;
-
-    // NOTE: These styles are set for non-input box country fields. Remove when support for this is fully removed.
-    bottom: 0;
-    left: 13px;
-    height: 35px;
-  }
-
   textarea {
     overflow: hidden;
     resize: none !important;
     white-space: nowrap;
-  }
-}
-
-.sky-country-field-input-with-flag {
-  .sky-country-field-flag {
-    display: flex;
-  }
-
-  // NOTE: This rule is set for non-input box country fields. Remove when support for this is fully removed.
-  .sky-form-control {
-    padding-left: 40px;
   }
 }
 
@@ -148,56 +116,7 @@
   outline: none;
 }
 
-.sky-country-field-disabled {
-  .sky-country-field-flag {
-    filter: var(
-      --sky-override-country-field-disabled-flag-filter,
-      grayscale(100%)
-    );
-  }
-}
-
-.sky-input-box .sky-form-group {
-  .sky-country-field-input-with-flag {
-    .sky-country-field-flag {
-      height: var(
-        --sky-override-country-field-input-box-flag-height,
-        calc(
-          var(--sky-font-line_height-input-val) * var(--sky-font-size-input-val)
-        )
-      );
-      left: var(
-        --sky-override-country-field-input-box-flag-left,
-        var(--sky-space-inset-input-left-m)
-      );
-      bottom: var(
-        --sky-override-country-field-flag-bottom,
-        var(--sky-space-inset-input-bottom-m)
-      );
-    }
-
-    .sky-form-control {
-      padding-left: var(
-        --sky-override-country-field-input-box-form-control-padding-left,
-        calc(
-          var(--sky-space-inset-input-left-m) + var(--sky-size-icon-s) +
-            var(--sky-space-gap-icon-m)
-        )
-      );
-    }
-  }
-
-  .sky-country-field-disabled {
-    .sky-country-field-input-with-flag {
-      .sky-country-field-flag {
-        opacity: var(--sky-override-country-field-disabled-flag-opacity, 1);
-      }
-    }
-  }
-}
-
-.sky-country-field-search-result-flag .iti__flag,
-.sky-country-field-flag .iti__flag {
+.sky-country-field-search-result-flag .iti__flag {
   background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.4/assets/images/intl-tel-input/flags@2x.webp) !important;
   max-width: var(--sky-override-country-field-max-width, inherit);
   max-height: var(--sky-override-country-field-max-height, inherit);

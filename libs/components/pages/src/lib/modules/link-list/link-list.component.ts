@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, contentChildren, input } from '@angular/core';
 import { SkyWaitModule } from '@skyux/indicators';
 import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { SkyPageLink } from '../action-hub/types/page-link';
 import { SkyPageLinksInput } from '../action-hub/types/page-links-input';
@@ -13,7 +14,6 @@ import { SkyLinkListItemComponent } from './link-list-item.component';
  * A component that displays a list of links, such as within a `<sky-page-links>` component.
  */
 @Component({
-  standalone: true,
   selector: 'sky-link-list',
   templateUrl: './link-list.component.html',
   styleUrls: ['./link-list.component.scss'],
@@ -24,6 +24,7 @@ import { SkyLinkListItemComponent } from './link-list-item.component';
     SkyHrefModule,
     SkyWaitModule,
   ],
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyLinkListComponent {
   /**

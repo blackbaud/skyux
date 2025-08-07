@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<DatepickerComponent>;
 export const Datepicker = {
-  render: (args: DatepickerComponent) => ({
+  render: (args: DatepickerComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

@@ -23,8 +23,7 @@
         "styles": [
           "apps/e2e/datetime-storybook/src/styles.scss",
           "libs/components/theme/src/lib/styles/sky.scss",
-          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
-          "node_modules/@blackbaud/skyux-design-tokens/scss/blackbaud.css"
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "scripts": []
       },
@@ -65,7 +64,8 @@
           "buildTarget": "datetime-storybook:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -94,8 +94,7 @@
         "compodoc": false,
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
-          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
-          "node_modules/@blackbaud/skyux-design-tokens/scss/blackbaud.css"
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ]
       },
       "configurations": {
@@ -115,8 +114,7 @@
         "compodoc": false,
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
-          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
-          "node_modules/@blackbaud/skyux-design-tokens/scss/blackbaud.css"
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ]
       },
       "configurations": {

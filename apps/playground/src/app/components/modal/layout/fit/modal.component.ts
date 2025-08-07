@@ -8,7 +8,6 @@ import { ModalDemoDataService } from './data.service';
 import { DemoSplitViewComponent } from './demosplitview.component';
 
 @Component({
-  standalone: true,
   selector: 'app-split-view-modal',
   templateUrl: './modal.component.html',
   imports: [

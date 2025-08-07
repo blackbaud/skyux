@@ -9,7 +9,7 @@ const routes: Routes = [
     component: AngularTreeComponentComponent,
     data: {
       name: 'Angular tree component',
-      icon: 'sitemap',
+      icon: 'cube-tree',
       library: 'angular-tree-component',
     },
   },

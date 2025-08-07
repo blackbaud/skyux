@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -16,10 +17,13 @@ import {
   SkyDynamicComponentLocation,
   SkyDynamicComponentService,
 } from '@skyux/core';
+import { SkyI18nModule } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
 import { ColumnMovedEvent } from 'ag-grid-community';
-import { BehaviorSubject, Subscription, fromEventPattern } from 'rxjs';
+import { BehaviorSubject, Subscription, fromEvent, takeUntil } from 'rxjs';
 
 import { SkyAgGridHeaderInfo } from '../types/header-info';
 import { SkyAgGridHeaderParams } from '../types/header-params';
@@ -37,6 +41,7 @@ import { SkyAgGridHeaderParams } from '../types/header-params';
     '[attr.aria-label]': 'displayName() || accessibleHeaderText()',
     '[attr.role]': '"note"',
   },
+  imports: [SkyIconModule, SkyThemeModule, AsyncPipe, SkyI18nModule],
 })
 export class SkyAgGridHeaderComponent
   implements IHeaderAngularComp, OnDestroy, AfterViewInit
@@ -111,37 +116,32 @@ export class SkyAgGridHeaderComponent
     this.#subscriptions = new Subscription();
     if (params.column.isFilterAllowed()) {
       this.#subscriptions.add(
-        fromEventPattern(
-          (handler) => params.column.addEventListener('filterChanged', handler),
-          (handler) =>
-            params.column.removeEventListener('filterChanged', handler),
-        ).subscribe(() => {
-          const isFilterActive = params.column.isFilterActive();
-          if (isFilterActive !== this.filterEnabled$.getValue()) {
-            this.filterEnabled$.next(isFilterActive);
-          }
-        }),
+        fromEvent(params.column, 'filterChanged')
+          .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
+          .subscribe(() => {
+            const isFilterActive = params.column.isFilterActive();
+            if (isFilterActive !== this.filterEnabled$.getValue()) {
+              this.filterEnabled$.next(isFilterActive);
+            }
+          }),
       );
     }
     if (params.enableSorting) {
       // Column sort state changes
       this.#subscriptions.add(
-        fromEventPattern(
-          (handler) => params.column.addEventListener('sortChanged', handler),
-          (handler) =>
-            params.column.removeEventListener('sortChanged', handler),
-        ).subscribe(() => {
-          this.#updateSort();
-        }),
+        fromEvent(params.column, 'sortChanged')
+          .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
+          .subscribe(() => {
+            this.#updateSort();
+          }),
       );
       // Other column sort state changes, for multi-column sorting
       this.#subscriptions.add(
-        fromEventPattern(
-          (handler) => params.api.addEventListener('sortChanged', handler),
-          (handler) => params.api.removeEventListener('sortChanged', handler),
-        ).subscribe(() => {
-          this.#updateSortIndex();
-        }),
+        fromEvent(params.api, 'sortChanged')
+          .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
+          .subscribe(() => {
+            this.#updateSortIndex();
+          }),
       );
       this.#updateSort();
       this.#updateSortIndex();
@@ -150,21 +150,20 @@ export class SkyAgGridHeaderComponent
     // When the column is moved left via the keyboard, the element is detached
     // and reattached to the DOM to maintain DOM order, and its focus is lost.
     this.#subscriptions.add(
-      fromEventPattern<ColumnMovedEvent>(
-        (handler) => params.api.addEventListener('columnMoved', handler),
-        (handler) => params.api.removeEventListener('columnMoved', handler),
-      ).subscribe((event) => {
-        const left = event.column?.getLeft() ?? 0;
-        const oldLeft = this.#leftPosition;
-        if (
-          event.column === params.column &&
-          event.source === 'uiColumnMoved' &&
-          left < oldLeft
-        ) {
-          params.eGridHeader.focus();
-        }
-        this.#leftPosition = left;
-      }),
+      fromEvent<ColumnMovedEvent>(params.api, 'columnMoved')
+        .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
+        .subscribe((event) => {
+          const left = event.column?.getLeft() ?? 0;
+          const oldLeft = this.#leftPosition;
+          if (
+            event.column === params.column &&
+            event.source === 'uiColumnMoved' &&
+            left < oldLeft
+          ) {
+            params.eGridHeader.focus();
+          }
+          this.#leftPosition = left;
+        }),
     );
 
     this.#updateInlineHelp();

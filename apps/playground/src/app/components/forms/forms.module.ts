@@ -52,6 +52,20 @@ const routes: Routes = [
         (m) => m.SingleFileAttachmentModule,
       ),
   },
+  {
+    path: 'single-file-attachment',
+    loadChildren: () =>
+      import('./single-file-attachment/single-file-attachment.module').then(
+        (m) => m.SingleFileAttachmentModule,
+      ),
+  },
+  {
+    path: 'selection-box',
+    loadChildren: () =>
+      import('./selection-box/selection-box.module').then(
+        (m) => m.SelectionBoxModule,
+      ),
+  },
 ];
 
 @NgModule({

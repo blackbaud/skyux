@@ -1,10 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-box',
   templateUrl: './box.component.html',
   styleUrls: ['./box.component.scss'],
+  standalone: false,
 })
 export class BoxComponent {
   public readonly boxTypes = [
@@ -38,6 +38,4 @@ export class BoxComponent {
       heading: 5,
     },
   ];
-
-  protected readonly ready$ = inject(FontLoadingService).ready();
 }

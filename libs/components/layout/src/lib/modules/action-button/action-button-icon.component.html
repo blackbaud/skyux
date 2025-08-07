@@ -1,7 +1,22 @@
 <div aria-hidden="true" class="sky-action-button-icon-container">
-  <sky-icon
-    class="sky-action-button-icon"
-    [icon]="iconType"
-    [size]="fontSizeClass()"
-  />
+  @if (iconName) {
+    <sky-icon
+      *skyThemeIf="'default'"
+      class="sky-action-button-icon"
+      [iconSize]="breakpoint() === 'xs' ? 'xl' : 'xxxl'"
+      [iconName]="iconName"
+    />
+    <sky-icon
+      *skyThemeIf="'modern'"
+      class="sky-action-button-icon"
+      iconSize="l"
+      [iconName]="iconName"
+    />
+  } @else if (iconType) {
+    <sky-icon
+      class="sky-action-button-icon"
+      [icon]="iconType"
+      [size]="fontSizeClass()"
+    />
+  }
 </div>

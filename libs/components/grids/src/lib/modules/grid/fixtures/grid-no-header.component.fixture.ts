@@ -6,6 +6,7 @@ import { SkyGridComponent } from '../grid.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './grid-no-header.component.fixture.html',
+  standalone: false,
 })
 export class GridNoHeaderTestComponent {
   public columns: SkyGridColumnModel[];

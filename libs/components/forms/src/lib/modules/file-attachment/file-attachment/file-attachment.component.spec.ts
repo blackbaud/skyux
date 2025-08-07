@@ -81,6 +81,8 @@ describe('File attachment', () => {
       TestBed.inject(SkyLiveAnnouncerService),
       'announce',
     );
+
+    jasmine.clock().install();
   });
 
   beforeEach(() => {
@@ -88,6 +90,10 @@ describe('File attachment', () => {
     fixture.detectChanges();
     el = fixture.nativeElement;
     fileAttachmentInstance = fixture.componentInstance.fileAttachmentComponent;
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
   });
 
   //#region helpers
@@ -176,7 +182,7 @@ describe('File attachment', () => {
     return el.querySelector('.sky-file-attachment-label-wrapper');
   }
 
-  function triggerChangeEvent(expectedChangeFiles: any[]): void {
+  async function triggerChangeEvent(expectedChangeFiles: any[]): Promise<void> {
     const inputEl = getInputDebugEl(fixture);
 
     const fileChangeEvent = {
@@ -191,6 +197,14 @@ describe('File attachment', () => {
     };
 
     inputEl.triggerEventHandler('change', fileChangeEvent);
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    jasmine.clock().tick(501);
+
+    fixture.detectChanges();
+    await fixture.whenStable();
   }
 
   function getFileReaderSpyData(existingSpy?: jasmine.Spy): {
@@ -233,10 +247,10 @@ describe('File attachment', () => {
     };
   }
 
-  function setupStandardFileChangeEvent(
+  async function setupStandardFileChangeEvent(
     files?: any[],
     existingSpy?: jasmine.Spy,
-  ): jasmine.Spy {
+  ): Promise<jasmine.Spy> {
     const fileReaderSpyData = getFileReaderSpyData(existingSpy);
 
     if (!files) {
@@ -248,7 +262,7 @@ describe('File attachment', () => {
         },
       ];
     }
-    triggerChangeEvent(files);
+    await triggerChangeEvent(files);
 
     fixture.componentInstance.attachment.markAsTouched();
     fixture.detectChanges();
@@ -529,7 +543,7 @@ describe('File attachment', () => {
     expect(inputEl.references['fileInputRef'].click).toHaveBeenCalled();
   });
 
-  it('should not click the file input on remove button click', () => {
+  it('should not click the file input on remove button click', async () => {
     fixture.detectChanges();
 
     const inputEl = getInputDebugEl(fixture);
@@ -544,7 +558,7 @@ describe('File attachment', () => {
       },
     ];
 
-    setupStandardFileChangeEvent(file);
+    await setupStandardFileChangeEvent(file);
 
     const deleteEl = getDeleteEl();
 
@@ -575,7 +589,7 @@ describe('File attachment', () => {
       },
     ];
 
-    setupStandardFileChangeEvent(file);
+    await setupStandardFileChangeEvent(file);
     await fixture.whenStable();
 
     expect(fileChangeActual?.file).toBeTruthy();
@@ -597,7 +611,7 @@ describe('File attachment', () => {
 
     const fileReaderSpy = getFileReaderSpyData();
 
-    triggerChangeEvent([
+    await triggerChangeEvent([
       {
         name: 'woo.txt',
         size: 3000,
@@ -613,7 +627,7 @@ describe('File attachment', () => {
     expect(filesChangedActual?.file?.file.name).toBe('woo.txt');
     expect(filesChangedActual?.file?.file.size).toBe(3000);
 
-    triggerChangeEvent([
+    await triggerChangeEvent([
       {
         name: 'foo.txt',
         size: 2000,
@@ -647,7 +661,7 @@ describe('File attachment', () => {
       },
     ];
 
-    setupStandardFileChangeEvent(file);
+    await setupStandardFileChangeEvent(file);
     await fixture.whenStable();
     fixture.detectChanges();
 
@@ -879,7 +893,7 @@ describe('File attachment', () => {
       },
     ];
 
-    const fileReaderSpy = setupStandardFileChangeEvent(initialFile);
+    const fileReaderSpy = await setupStandardFileChangeEvent(initialFile);
     await fixture.whenStable();
 
     expect(fileChangeActual?.file).toBeTruthy();
@@ -1009,7 +1023,7 @@ describe('File attachment', () => {
     expect(fileReaderSpy.loadCallbacks.length).toBe(0);
   });
 
-  it('should allow the user to specify a min file size', () => {
+  it('should allow the user to specify a min file size', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -1019,7 +1033,7 @@ describe('File attachment', () => {
     fileAttachmentInstance.minFileSize = 1500;
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent();
+    await setupStandardFileChangeEvent();
 
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(1000);
@@ -1036,7 +1050,7 @@ describe('File attachment', () => {
       (fileChange: SkyFileAttachmentChange) => (fileChangeActual = fileChange),
     );
 
-    const spy = setupStandardFileChangeEvent();
+    const spy = await setupStandardFileChangeEvent();
     await fixture.whenStable();
 
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
@@ -1053,7 +1067,7 @@ describe('File attachment', () => {
     fileAttachmentInstance.minFileSize = 1500;
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent(undefined, spy);
+    await setupStandardFileChangeEvent(undefined, spy);
     await fixture.whenStable();
 
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
@@ -1068,7 +1082,7 @@ describe('File attachment', () => {
     fileAttachmentInstance.minFileSize = undefined;
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent(undefined, spy);
+    await setupStandardFileChangeEvent(undefined, spy);
     await fixture.whenStable();
 
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
@@ -1079,7 +1093,7 @@ describe('File attachment', () => {
     expect(fileAttachmentInstance.value).toBeTruthy();
   });
 
-  it('should allow the user to specify a max file size', () => {
+  it('should allow the user to specify a max file size', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -1097,7 +1111,7 @@ describe('File attachment', () => {
       },
     ];
 
-    setupStandardFileChangeEvent(file);
+    await setupStandardFileChangeEvent(file);
 
     expect(fileChangeActual?.file?.file.name).toBe('woo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(2000);
@@ -1107,7 +1121,7 @@ describe('File attachment', () => {
     expect(fileAttachmentInstance.value).toBeFalsy();
   });
 
-  it('should respect a default max file size of 500000', () => {
+  it('should respect a default max file size of 500000', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -1122,7 +1136,7 @@ describe('File attachment', () => {
       },
     ];
 
-    const spy = setupStandardFileChangeEvent(file);
+    const spy = await setupStandardFileChangeEvent(file);
 
     expect(fileChangeActual?.file?.file.name).toBe('woo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(500001);
@@ -1134,7 +1148,7 @@ describe('File attachment', () => {
     fileAttachmentInstance.maxFileSize = undefined;
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent(file, spy);
+    await setupStandardFileChangeEvent(file, spy);
 
     expect(fileChangeActual?.file?.file.name).toBe('woo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(500001);
@@ -1144,7 +1158,7 @@ describe('File attachment', () => {
     expect(fileAttachmentInstance.value).toBeFalsy();
   });
 
-  it('should set errors if file fails user provided validation function', () => {
+  it('should set errors if file fails user provided validation function', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -1173,7 +1187,7 @@ describe('File attachment', () => {
       },
     ];
 
-    setupStandardFileChangeEvent(file);
+    await setupStandardFileChangeEvent(file);
 
     expect(fileChangeActual?.file?.file.name).toBe('woo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(2000);
@@ -1212,7 +1226,7 @@ describe('File attachment', () => {
       },
     ];
 
-    setupStandardFileChangeEvent(file);
+    await setupStandardFileChangeEvent(file);
     await fixture.whenStable();
 
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
@@ -1241,7 +1255,7 @@ describe('File attachment', () => {
       },
     ];
 
-    setupStandardFileChangeEvent(file);
+    await setupStandardFileChangeEvent(file);
     await fixture.whenStable();
 
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
@@ -1249,7 +1263,7 @@ describe('File attachment', () => {
     expect(fileChangeActual?.file?.url).toBe('$/url');
   });
 
-  it('should reject a file with a type that is not accepted', () => {
+  it('should reject a file with a type that is not accepted', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -1268,7 +1282,7 @@ describe('File attachment', () => {
       },
     ];
 
-    setupStandardFileChangeEvent(file);
+    await setupStandardFileChangeEvent(file);
 
     expect(fileChangeActual?.file?.file.name).toBe('woo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(2000);
@@ -1276,7 +1290,7 @@ describe('File attachment', () => {
     expect(fileChangeActual?.file?.errorParam).toBe('PNG, TIFF');
   });
 
-  it('should reject a file with no type when accepted types are defined', () => {
+  it('should reject a file with no type when accepted types are defined', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -1294,7 +1308,7 @@ describe('File attachment', () => {
       },
     ];
 
-    setupStandardFileChangeEvent(file);
+    await setupStandardFileChangeEvent(file);
 
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(1000);
@@ -1321,7 +1335,7 @@ describe('File attachment', () => {
       },
     ];
 
-    setupStandardFileChangeEvent(file);
+    await setupStandardFileChangeEvent(file);
     await fixture.whenStable();
 
     expect(fileChangeActual?.file?.file.name).toBe('woo.txt');
@@ -1348,7 +1362,7 @@ describe('File attachment', () => {
       },
     ];
 
-    setupStandardFileChangeEvent(file);
+    await setupStandardFileChangeEvent(file);
     await fixture.whenStable();
 
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
@@ -1423,12 +1437,14 @@ describe('File attachment', () => {
   });
 
   it('should pass accessibility', async () => {
+    jasmine.clock().uninstall();
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
   it('should pass accessibility when required', async () => {
+    jasmine.clock().uninstall();
     fixture.componentInstance.required = true;
     fixture.detectChanges();
     await fixture.whenStable();
@@ -1436,6 +1452,7 @@ describe('File attachment', () => {
   });
 
   it('should pass accessibility when label does not match the button text', async () => {
+    jasmine.clock().uninstall();
     fixture.componentInstance.labelElementText = 'Something different';
     fixture.detectChanges();
     await fixture.whenStable();
@@ -1443,6 +1460,7 @@ describe('File attachment', () => {
   });
 
   it('should pass accessibility when `labelText` is set', async () => {
+    jasmine.clock().uninstall();
     fixture.componentInstance.labelText = 'Attach file';
     fixture.componentInstance.labelElementText = undefined;
     fixture.detectChanges();
@@ -1451,6 +1469,7 @@ describe('File attachment', () => {
   });
 
   it('should set ARIA attributes', async () => {
+    jasmine.clock().uninstall();
     const componentInstance = fixture.componentInstance;
 
     fixture.detectChanges();
@@ -1535,7 +1554,7 @@ describe('File attachment', () => {
     ).toBe('Error: file attachment is required.');
   });
 
-  it('should render file errors when label text is set and no NgControl errors', () => {
+  it('should render file errors when label text is set and no NgControl errors', async () => {
     const btn = getButtonEl(fixture.nativeElement);
     expect(btn?.getAttribute('aria-invalid')).toEqual('false');
     expect(btn?.getAttribute('aria-errormessage')).toBeNull();
@@ -1545,7 +1564,7 @@ describe('File attachment', () => {
     fixture.componentInstance.maxFileSize = 50;
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent();
+    await setupStandardFileChangeEvent();
 
     expect(btn?.getAttribute('aria-invalid')).toEqual('true');
     expect(btn?.getAttribute('aria-errormessage')).toEqual('MOCK_ID_1');
@@ -1628,7 +1647,7 @@ describe('File attachment', () => {
     validateLabelText('label element');
   });
 
-  it('should mark as dirty when an invalid file is uploaded first', () => {
+  it('should mark as dirty when an invalid file is uploaded first', async () => {
     const files = [
       {
         name: 'woo.txt',
@@ -1639,7 +1658,7 @@ describe('File attachment', () => {
     fixture.componentInstance.maxFileSize = 1000;
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent(files);
+    await setupStandardFileChangeEvent(files);
     fixture.detectChanges();
 
     expect(fixture.componentInstance.attachment.dirty).toBeTrue();

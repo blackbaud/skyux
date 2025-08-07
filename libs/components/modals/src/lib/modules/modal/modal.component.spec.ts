@@ -208,6 +208,11 @@ describe('Modal component', () => {
       providers: [provideSkyMediaQueryTesting()],
     });
 
+    document.body.style.setProperty(
+      '--sky-elevation-overflow',
+      '0 1px 8px 0 rgba(0, 0, 0, 0.3)',
+    );
+
     // Confirm all modals are closed before another test is executed.
     expect(SkyModalHostService.openModalCount).toBe(0);
   });
@@ -1420,16 +1425,41 @@ describe('Modal component', () => {
       expect(getConfirmModalElement()).toBeNull();
     }));
 
-    it('should not prompt to discard if dirty but canceling', fakeAsync(() => {
+    it('should prompt to discard if canceling when dirty and stay open when keep working is selected', fakeAsync(async () => {
       const modalInstance = openModal(
         ModalIsDirtyTestComponent,
         dirtyContextProvider,
       );
       modalInstance.cancel();
-      expect(getConfirmModalElement()).toBeNull();
+
+      const confirmModalEl = getConfirmModalElement();
+      expect(confirmModalEl).not.toBeNull();
+
+      if (confirmModalEl) {
+        await checkConfirmModalIsCorrect(confirmModalEl);
+        getKeepWorkingButtonElement(confirmModalEl)?.click();
+        expect(getModalElement()).not.toBeNull();
+      }
     }));
 
-    it('should prompt to discard if dirty and stay open when keep working is selected', fakeAsync(async () => {
+    it('should prompt to discard if canceling when dirty and close when discard changes is selected', fakeAsync(async () => {
+      const modalInstance = openModal(
+        ModalIsDirtyTestComponent,
+        dirtyContextProvider,
+      );
+      closeModal(modalInstance);
+
+      const confirmModalEl = getConfirmModalElement();
+      expect(confirmModalEl).not.toBeNull();
+
+      if (confirmModalEl) {
+        await checkConfirmModalIsCorrect(confirmModalEl);
+        getDiscardButtonElement(confirmModalEl)?.click();
+        expect(getModalElement()).toBeNull();
+      }
+    }));
+
+    it('should prompt to discard if closing when dirty and stay open when keep working is selected', fakeAsync(async () => {
       const modalInstance = openModal(
         ModalIsDirtyTestComponent,
         dirtyContextProvider,
@@ -1446,7 +1476,7 @@ describe('Modal component', () => {
       }
     }));
 
-    it('should prompt to discard if dirty and close when discard changes is selected', fakeAsync(async () => {
+    it('should prompt to discard if closing when dirty and close when discard changes is selected', fakeAsync(async () => {
       const modalInstance = openModal(
         ModalIsDirtyTestComponent,
         dirtyContextProvider,

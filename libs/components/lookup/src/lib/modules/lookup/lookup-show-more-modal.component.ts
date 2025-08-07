@@ -33,7 +33,6 @@ import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-n
  * Internal component to implement the native picker.
  */
 @Component({
-  standalone: true,
   selector: 'sky-lookup-show-more-modal',
   templateUrl: './lookup-show-more-modal.component.html',
   styleUrls: ['./lookup-show-more-modal.component.scss'],

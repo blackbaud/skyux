@@ -7,6 +7,7 @@ import { SkyTabsetComponent } from '../tabset.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './tabset.component.fixture.html',
+  standalone: false,
 })
 export class TabsetTestComponent {
   public ariaLabel: string | undefined;

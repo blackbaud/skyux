@@ -41,7 +41,7 @@
                 "
                 (click)="addButtonClicked()"
               >
-                <sky-icon icon="add" />
+                <sky-icon iconName="add" />
                 {{ 'skyux_lookup_show_more_add' | skyLibResources }}
               </button>
             }
@@ -109,7 +109,11 @@
         {{ 'skyux_lookup_show_more_no_results' | skyLibResources }}
       </div>
     }
-    <sky-repeater class="sky-lookup-show-more-repeater" expandMode="none">
+    <sky-repeater
+      class="sky-lookup-show-more-repeater"
+      expandMode="none"
+      [ngClass]="{ 'hover-rows': context.selectMode === 'single' }"
+    >
       @for (item of displayedItems; track item) {
         <sky-repeater-item
           [isSelected]="

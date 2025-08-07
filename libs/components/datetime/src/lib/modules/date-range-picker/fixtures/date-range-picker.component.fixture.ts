@@ -19,7 +19,6 @@ import { SkyDateRangeCalculatorId } from '../types/date-range-calculator-id';
 @Component({
   imports: [FormsModule, ReactiveFormsModule, SkyDateRangePickerModule],
   selector: 'sky-date-range-picker-test',
-  standalone: true,
   templateUrl: './date-range-picker.component.fixture.html',
 })
 export class DateRangePickerTestComponent implements OnInit, OnDestroy {

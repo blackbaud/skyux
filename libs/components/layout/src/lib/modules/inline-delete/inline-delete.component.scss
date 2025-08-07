@@ -1,5 +1,13 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-inline-delete') {
+  --sky-override-inline-delete-background-color: rgba(0, 0, 0, 0.5);
+  --sky-override-inline-delete-border: 2px solid #{$sky-highlight-color-danger};
+  --sky-override-inline-delete-button-margin-right: #{$sky-margin};
+  --sky-override-inline-delete-content-left: #{$sky-padding-double};
+  --sky-override-inline-delete-content-padding: 0;
+}
 
 .sky-inline-delete {
   // The important is needed here because wait elements set element position styles but in our case
@@ -9,19 +17,25 @@
   left: 0px;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(
+    --sky-override-inline-delete-background-color,
+    var(--sky-color-background-scrim)
+  );
   z-index: 999;
-  border: 2px solid $sky-highlight-color-danger;
-}
-
-.sky-inline-delete-assistive-text {
-  @include mixins.sky-screen-reader-only();
+  border: var(
+    --sky-override-inline-delete-border,
+    var(--sky-border-width-selected-m) solid var(--sky-color-border-danger)
+  );
 }
 
 .sky-inline-delete-button {
-  margin-right: $sky-margin;
+  margin-right: var(
+    --sky-override-inline-delete-button-margin-right,
+    var(--sky-space-gap-action_group-m)
+  );
 }
 
+// NOTE: Not tokenized - should be done with card if we tokenize the deprecated components
 .sky-inline-delete-card .sky-inline-delete-content {
   position: absolute;
   bottom: $sky-padding;
@@ -33,7 +47,14 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: $sky-padding-double;
+  left: var(--sky-override-inline-delete-content-left, 0);
+  padding: var(
+    --sky-override-inline-delete-content-padding,
+    var(--sky-space-inset-horizontal-top-l)
+      var(--sky-space-inset-horizontal-right-l)
+      var(--sky-space-inset-horizontal-bottom-l)
+      var(--sky-space-inset-horizontal-left-l)
+  );
 }
 
 .sky-inline-delete-wait {

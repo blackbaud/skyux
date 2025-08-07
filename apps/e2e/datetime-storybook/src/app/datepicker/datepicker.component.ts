@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -10,7 +10,6 @@ import {
   SkyDatepickerCalendarChange,
   SkyDatepickerCustomDate,
 } from '@skyux/datetime';
-import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 import { of } from 'rxjs';
 import { delay, distinctUntilChanged } from 'rxjs/operators';
@@ -18,6 +17,7 @@ import { delay, distinctUntilChanged } from 'rxjs/operators';
 @Component({
   selector: 'app-datepicker',
   templateUrl: './datepicker.component.html',
+  standalone: false,
 })
 export class DatepickerComponent implements OnInit {
   public dateFormat: string | undefined = undefined;
@@ -32,11 +32,13 @@ export class DatepickerComponent implements OnInit {
   public selectedDate: Date | undefined;
   public startingDay: number | undefined;
   public strict = false;
-  public readonly ready$ = inject(FontLoadingService).ready();
 
   constructor(formBuilder: FormBuilder) {
+    // Set a fixed date for visual tests to prevent daily changes
+    this.selectedDate = new Date(1955, 10, 5); // November 5, 1955
+
     this.reactiveDate = new FormControl<Date>(
-      new Date(1955, 10, 5),
+      new Date(1955, 10, 5), // November 5, 1955 - same fixed date for consistency
       Validators.required,
     );
     this.reactiveForm = formBuilder.group({
@@ -77,13 +79,13 @@ export class DatepickerComponent implements OnInit {
     this.disabled = !this.disabled;
   }
 
-  public setReactiveDate(emitEvent = true) {
+  public setReactiveDate(emitEvent = true): void {
     this.reactiveDate.setValue(new Date('12/12/2012'), {
       emitEvent: emitEvent,
     });
   }
 
-  public setReactiveString(emitEvent = true) {
+  public setReactiveString(emitEvent = true): void {
     this.reactiveDate.setValue('12/12/2012', { emitEvent: emitEvent });
   }
 

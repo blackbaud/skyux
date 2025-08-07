@@ -15,11 +15,11 @@
     [attr.aria-owns]="ariaRole ? ariaOwns : undefined"
     [attr.role]="ariaRole"
   ></span>
-  @if (maintainSectionContent || tabsVisible()) {
+  @if (maintainSectionContent || tabService.tabsVisible()) {
     <div
       class="sky-sectioned-form-tabs"
       [ngClass]="{
-        'sky-sectioned-form-tabs-hidden': !tabsVisible(),
+        'sky-sectioned-form-tabs-hidden': !tabService.tabsVisible(),
         'sky-sectioned-form-tabs-only': !tabService.contentVisible()
       }"
       [@tabEnter]="tabService.animationTabsVisibleState"

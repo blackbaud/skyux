@@ -32,7 +32,6 @@ import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
  * @deprecated `SkySelectFieldComponent` is deprecated. Use `SkyLookupComponent` instead.
  */
 @Component({
-  standalone: true,
   selector: 'sky-select-field',
   templateUrl: './select-field.component.html',
   styleUrls: ['./select-field.component.scss'],
@@ -251,12 +250,12 @@ export class SkySelectFieldComponent
     });
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.blur.complete();
     this.addNewRecordButtonClick.complete();
   }
 
-  public onTokensChange(change: SkyToken[]) {
+  public onTokensChange(change: SkyToken[]): void {
     if (!change || change === this.tokens) {
       return;
     }
@@ -271,7 +270,7 @@ export class SkySelectFieldComponent
     });
   }
 
-  public openPicker() {
+  public openPicker(): void {
     (this.pickerHeading
       ? observableOf(this.pickerHeading)
       : this.resourcesService.getString(
@@ -296,7 +295,7 @@ export class SkySelectFieldComponent
       });
   }
 
-  public writeValue(value: any) {
+  public writeValue(value: any): void {
     if (this.disabled) {
       return;
     }
@@ -322,22 +321,22 @@ export class SkySelectFieldComponent
 
   // Angular automatically constructs these methods.
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public onChange = (value: any) => {};
+  public onChange = (value: any): void => {};
 
-  public registerOnChange(fn: (value: any) => void) {
+  public registerOnChange(fn: (value: any) => void): void {
     this.onChange = fn;
   }
 
-  public registerOnTouched(fn: () => void) {
+  public registerOnTouched(fn: () => void): void {
     this._registeredTouchCallback = fn;
   }
 
-  public setDisabledState(disabled: boolean) {
+  public setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
     this.changeDetector.markForCheck();
   }
 
-  public clearSelection() {
+  public clearSelection(): void {
     this.elementRef.nativeElement
       .querySelector('.sky-select-field-btn')
       .focus();
@@ -345,9 +344,9 @@ export class SkySelectFieldComponent
   }
 
   /* istanbul ignore next */
-  private _registeredTouchCallback = () => {};
+  private _registeredTouchCallback = (): void => {};
 
-  private setTokensFromValue() {
+  private setTokensFromValue(): void {
     // Tokens only appear for multiple select mode.
     if (this.selectMode === 'single') {
       return;
@@ -381,7 +380,7 @@ export class SkySelectFieldComponent
     }
   }
 
-  private openStandardPicker(pickerContext: SkySelectFieldPickerContext) {
+  private openStandardPicker(pickerContext: SkySelectFieldPickerContext): void {
     const modalInstance = this.modalService.open(
       SkySelectFieldPickerComponent,
       {
@@ -420,7 +419,7 @@ export class SkySelectFieldComponent
     });
   }
 
-  private openCustomPicker(pickerContext: SkySelectFieldPickerContext) {
+  private openCustomPicker(pickerContext: SkySelectFieldPickerContext): void {
     this.isPickerOpen = true;
     this.customPicker.open(pickerContext, (value) => {
       if (this.selectMode === 'single') {

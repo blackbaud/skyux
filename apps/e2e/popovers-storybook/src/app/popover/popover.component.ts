@@ -19,6 +19,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
   styleUrls: ['./popover.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PopoverComponent implements AfterViewInit {
   public readonly ready = new BehaviorSubject(false);

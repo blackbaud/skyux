@@ -5,6 +5,7 @@ import { SkyToastService, SkyToastType } from '@skyux/toast';
   selector: 'app-toast',
   templateUrl: './toast.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ToastComponent {
   #toastService = inject(SkyToastService);

@@ -33,20 +33,25 @@ describe(`ag-grid-storybook data manager`, () => {
             });
 
             it(`should render ag-grid with data manager, ${label} layout${compact ? ', compact' : ''}`, () => {
-              cy.get('#ready', { timeout: 10000 })
-                .should('exist')
+              cy.skyReady('app-data-manager', ['#ready'])
                 .end()
-
                 .get('#storybook-root')
                 .should('exist')
                 .should('be.visible');
 
               if (!domLayout.includes('no-select')) {
                 // Verify that the checkboxes are visible.
-                cy.get('[name="center"] .sky-ag-grid-cell-row-selector')
+                cy.get(
+                  '.ag-viewport.ag-center-cols-viewport .sky-ag-grid-cell-row-selector',
+                )
                   .should('have.length.gt', 14)
                   .should('have.descendants', '.sky-switch-control');
               }
+
+              // Verify that the first cell is focused.
+              cy.get('div[row-index="0"] div[col-id="name"] a').should(
+                'be.focused',
+              );
 
               cy.get('#storybook-root').skyVisualTest(
                 /* spell-checker:disable-next-line */
@@ -62,15 +67,13 @@ describe(`ag-grid-storybook data manager`, () => {
         });
 
         it(`should render data manager column picker${compact ? ', compact' : ''}`, () => {
-          cy.viewport(1300, 900)
-            .visit(
-              /* spell-checker:disable-next-line */
-              `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-normal${compact ? '-compact' : ''}`,
-            )
-            .get('#ready')
-            .should('exist');
+          cy.viewport(1300, 900).visit(
+            /* spell-checker:disable-next-line */
+            `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-normal${compact ? '-compact' : ''}`,
+          );
 
-          cy.get('#storybook-root').should('exist').should('be.visible');
+          cy.skyReady('app-data-manager', ['#ready', '#storybook-root']).end();
+
           // Necessary to wait for the grid to render.
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(1000).get('.sky-col-picker-btn').click();

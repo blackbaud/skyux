@@ -15,6 +15,7 @@ import { SkyAutocompleteSelectionChange } from '../types/autocomplete-selection-
 @Component({
   selector: 'sky-autocomplete-fixture',
   templateUrl: './autocomplete.component.fixture.html',
+  standalone: false,
 })
 export class SkyAutocompleteFixtureComponent {
   public autocompleteAttribute: string | undefined;
@@ -39,14 +40,13 @@ export class SkyAutocompleteFixtureComponent {
     favoriteColor:
       | { objectid?: string; name?: string; text?: string }
       | undefined;
-  } = {
-    favoriteColor: {},
-  };
+  } = { favoriteColor: {} };
 
   public customNoResultsMessage: string | undefined;
   public debounceTime: number | undefined;
   public descriptorProperty: string | undefined;
   public disabled: boolean | undefined = false;
+  public dropdownHintText: string | undefined;
   public enableShowMore: boolean | undefined = false;
   public hideInput = false;
   public propertiesToSearch: string[] | undefined;
@@ -58,6 +58,8 @@ export class SkyAutocompleteFixtureComponent {
   public searchTextMinimumCharacters: number | undefined;
   public selectionFromChangeEvent: SkyAutocompleteSelectionChange | undefined;
   public showAddButton: boolean | undefined = false;
+  public allowAnyValue = false;
+  public highlightSearchText = true;
 
   @ViewChild('asyncAutocomplete', {
     read: SkyAutocompleteComponent,
@@ -76,22 +78,13 @@ export class SkyAutocompleteFixtureComponent {
   })
   public autocompleteInput!: SkyAutocompleteInputDirective;
 
-  @ViewChild('myForm', {
-    read: NgForm,
-    static: true,
-  })
+  @ViewChild('myForm', { read: NgForm, static: true })
   public myForm!: NgForm;
 
-  @ViewChild('asyncForm', {
-    read: NgForm,
-    static: true,
-  })
+  @ViewChild('asyncForm', { read: NgForm, static: true })
   public asyncForm!: NgForm;
 
-  @ViewChild('customSearchResultTemplate', {
-    read: TemplateRef,
-    static: true,
-  })
+  @ViewChild('customSearchResultTemplate', { read: TemplateRef, static: true })
   public customSearchResultTemplate!: TemplateRef<unknown>;
 
   public addButtonClicked(): void {

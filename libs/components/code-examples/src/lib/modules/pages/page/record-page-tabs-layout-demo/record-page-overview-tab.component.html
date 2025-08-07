@@ -1,0 +1,97 @@
+<sky-fluid-grid gutterSize="medium" [disableMargin]="true">
+  <sky-row>
+    <sky-column [screenSmall]="4" [screenXSmall]="12">
+      <sky-box class="sky-margin-stacked-xl" headingText="Details">
+        <sky-box-controls>
+          <button
+            aria-label="Edit button for details"
+            class="sky-btn sky-btn-icon-borderless"
+            type="button"
+          >
+            <sky-icon iconName="edit" />
+          </button>
+        </sky-box-controls>
+        <sky-box-content>
+          <sky-description-list mode="vertical">
+            @for (recordDetail of recordDetails; track recordDetail.detail) {
+              <sky-description-list-content>
+                <sky-description-list-term>
+                  {{ recordDetail.detail }}
+                </sky-description-list-term>
+                <sky-description-list-description>
+                  {{ recordDetail.info }}
+                </sky-description-list-description>
+              </sky-description-list-content>
+            }
+          </sky-description-list>
+        </sky-box-content>
+      </sky-box>
+    </sky-column>
+    <sky-column [screenSmall]="4" [screenXSmall]="12">
+      <sky-box class="sky-margin-stacked-xl" headingText="Payments">
+        <sky-box-content>
+          <div class="box-2-content">
+            <div class="box-2-actuals">
+              <h3 class="sky-font-heading-4">Actuals</h3>
+              @for (
+                actual of actualPayments;
+                track actual.category;
+                let i = $index
+              ) {
+                <sky-key-info
+                  [ngClass]="{
+                    'sky-margin-stacked-lg': i < actualPayments.length - 1
+                  }"
+                >
+                  <sky-key-info-value class="sky-font-display-3">
+                    {{ actual.value }}
+                  </sky-key-info-value>
+                  <sky-key-info-label>{{ actual.category }}</sky-key-info-label>
+                </sky-key-info>
+              }
+            </div>
+            <div class="box-2-projected">
+              <h3 class="sky-font-heading-4">Projected</h3>
+              @for (
+                projected of projectedPayments;
+                track projected;
+                let i = $index
+              ) {
+                <sky-key-info
+                  [ngClass]="{
+                    'sky-margin-stacked-lg': i < projectedPayments.length - 1
+                  }"
+                >
+                  <sky-key-info-value class="sky-font-display-3">
+                    {{ projected.value }}
+                  </sky-key-info-value>
+                  <sky-key-info-label>
+                    {{ projected.category }}
+                  </sky-key-info-label>
+                </sky-key-info>
+              }
+            </div>
+          </div>
+        </sky-box-content>
+      </sky-box>
+    </sky-column>
+    <sky-column [screenSmall]="4" [screenXSmall]="12">
+      <sky-box headingText="Recent activity">
+        <sky-box-content>
+          <sky-repeater>
+            @for (activity of recentActivity; track activity.activity) {
+              <sky-repeater-item>
+                <sky-repeater-item-content>
+                  <div class="sky-margin-stacked-xs">
+                    {{ activity.activity }}
+                  </div>
+                  <div class="sky-font-deemphasized">{{ activity.date }}</div>
+                </sky-repeater-item-content>
+              </sky-repeater-item>
+            }
+          </sky-repeater>
+        </sky-box-content>
+      </sky-box>
+    </sky-column>
+  </sky-row>
+</sky-fluid-grid>

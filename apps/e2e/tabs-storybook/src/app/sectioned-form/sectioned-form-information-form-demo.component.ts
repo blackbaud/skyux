@@ -5,7 +5,6 @@ import { SkyCheckboxModule } from '@skyux/forms';
 import { SkySectionedFormService } from '@skyux/tabs';
 
 @Component({
-  standalone: true,
   selector: 'app-sectioned-form-information-form-demo',
   templateUrl: './sectioned-form-information-form-demo.component.html',
   imports: [CommonModule, FormsModule, SkyCheckboxModule],

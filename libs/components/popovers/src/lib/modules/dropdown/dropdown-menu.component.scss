@@ -18,13 +18,14 @@
   );
   border-radius: var(
     --sky-override-dropdown-menu-border-radius,
-    var(--sky-border-radius-s)
+    var(--sky-border-radius-m)
   );
   padding: var(
     --sky-override-dropdown-menu-padding,
-    var(--sky-space-inset-vertical-top-s) var(--sky-space-inset-vertical-left-s)
-      var(--sky-space-inset-vertical-bottom-s)
-      var(--sky-space-inset-vertical-right-s)
+    var(--sky-comp-dropdown-menu-space-inset-top)
+      var(--sky-comp-dropdown-menu-space-inset-left)
+      var(--sky-comp-dropdown-menu-space-inset-bottom)
+      var(--sky-comp-dropdown-menu-space-inset-right)
   );
 
   button {

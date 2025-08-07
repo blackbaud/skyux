@@ -31,6 +31,7 @@ import { SkyVerticalTabsetService } from './vertical-tabset.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [skyAnimationSlide],
   providers: [SkyVerticalTabsetGroupService],
+  standalone: false,
 })
 export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   /**

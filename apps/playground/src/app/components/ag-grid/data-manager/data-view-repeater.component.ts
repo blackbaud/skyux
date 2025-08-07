@@ -21,7 +21,6 @@ import { DataManagerPagedItemsPipe } from './data-manager-paged-items.pipe';
 
 @Component({
   selector: 'app-data-view-repeater',
-  standalone: true,
   imports: [
     DataManagerPagedItemsPipe,
     SkyDataManagerModule,
@@ -42,7 +41,7 @@ export class DataViewRepeaterComponent implements OnInit {
   public viewConfig: SkyDataViewConfig = {
     id: this.viewId,
     name: 'Repeater View',
-    icon: 'list',
+    iconName: 'text-bullet-list',
     searchEnabled: true,
     searchHighlightEnabled: true,
     filterButtonEnabled: true,

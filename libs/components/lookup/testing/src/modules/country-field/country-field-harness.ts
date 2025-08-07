@@ -147,7 +147,7 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
    * @internal
    */
   /* istanbul ignore next */
-  public override async getNoResultsFoundText(): Promise<string | undefined> {
+  public override async getNoResultsFoundText(): Promise<string> {
     return await super.getNoResultsFoundText();
   }
 

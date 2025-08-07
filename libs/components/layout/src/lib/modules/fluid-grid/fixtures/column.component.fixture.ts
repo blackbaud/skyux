@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './column.component.fixture.html',
+  standalone: false,
 })
 export class ColumnTestComponent {
   public xsSize: number | undefined = 1;

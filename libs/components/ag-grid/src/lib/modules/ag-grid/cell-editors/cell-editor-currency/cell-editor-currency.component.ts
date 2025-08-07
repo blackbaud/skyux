@@ -7,7 +7,14 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { SkyAutonumericModule } from '@skyux/autonumeric';
+import { SkyI18nModule } from '@skyux/i18n';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
@@ -24,6 +31,12 @@ import { SkyAgGridCurrencyProperties } from '../../types/currency-properties';
   templateUrl: './cell-editor-currency.component.html',
   styleUrls: ['./cell-editor-currency.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SkyAutonumericModule,
+    SkyI18nModule,
+  ],
 })
 export class SkyAgGridCellEditorCurrencyComponent
   implements ICellEditorAngularComp
@@ -34,13 +47,11 @@ export class SkyAgGridCellEditorCurrencyComponent
     isCancellable: false,
   };
   public columnHeader: string | undefined;
-  public columnWidth: number | undefined;
   public currency = new UntypedFormControl();
   public editorForm = new UntypedFormGroup({
     currency: this.currency,
   });
   public params: SkyCellEditorCurrencyParams | undefined;
-  public rowHeightWithoutBorders: number | undefined;
   public rowNumber: number | undefined;
 
   @ViewChild('skyCellEditorCurrency', { read: ElementRef })
@@ -70,11 +81,6 @@ export class SkyAgGridCellEditorCurrencyComponent
       'header',
     );
     this.rowNumber = this.params.rowIndex + 1;
-    this.columnWidth = this.params.column.getActualWidth();
-    this.rowHeightWithoutBorders = SkyAgGridCellEditorUtils.subtractOrZero(
-      this.params.node?.rowHeight,
-      4,
-    );
     this.skyComponentProperties = {
       ...(this.params.skyComponentProperties || {
         decimalPlaces: 2,

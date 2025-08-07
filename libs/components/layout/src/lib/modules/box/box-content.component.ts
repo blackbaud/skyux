@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-box-content',
   templateUrl: './box-content.component.html',
+  standalone: false,
 })
 export class SkyBoxContentComponent {}

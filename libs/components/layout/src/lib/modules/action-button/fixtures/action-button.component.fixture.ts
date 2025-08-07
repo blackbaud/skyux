@@ -7,6 +7,7 @@ import { SkyActionButtonContainerAlignItemsType } from '../types/action-button-c
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './action-button.component.fixture.html',
+  standalone: false,
 })
 export class ActionButtonTestComponent {
   public firstButtonHeight: string | undefined;
@@ -39,6 +40,8 @@ export class ActionButtonTestComponent {
   public buttonIsClicked = false;
 
   public alignItems: SkyActionButtonContainerAlignItemsType | undefined;
+
+  public useIconName = false;
 
   @ViewChild(SkyActionButtonContainerComponent, {
     read: SkyActionButtonContainerComponent,

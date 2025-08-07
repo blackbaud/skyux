@@ -4,7 +4,6 @@ import { SkyPageLinksInput } from '../../action-hub/types/page-links-input';
 import { SkyLinkListModule } from '../link-list.module';
 
 @Component({
-  standalone: true,
   selector: 'sky-link-list-fixture',
   template: `
     <sky-link-list headingText="Heading..." [links]="links()">

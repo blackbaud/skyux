@@ -15,6 +15,7 @@ import { HomeFiltersModalDemoComponent } from './home-filter.component';
   selector: 'app-home',
   templateUrl: './home.component.html',
   providers: [SkyDataManagerService],
+  standalone: false,
 })
 export class HomeComponent implements AfterViewInit {
   public componentData: ComponentInfo[] = [];
@@ -153,7 +154,7 @@ export class HomeComponent implements AfterViewInit {
             }
           }),
         );
-      } else if (route.data) {
+      } else if (route.data && !this.componentData.includes(route.data)) {
         route.data.path = parentPath + '/' + route.path;
         this.componentData.push(route.data);
         promises.push(Promise.resolve());

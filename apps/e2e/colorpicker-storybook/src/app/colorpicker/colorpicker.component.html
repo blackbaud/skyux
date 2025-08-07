@@ -3,7 +3,7 @@
     <div class="sky-margin-stacked-xl" id="colorpicker-12-presets-fa-icon">
       <sky-colorpicker
         #colorPickerPresets
-        pickerButtonIcon="pencil"
+        pickerButtonIcon="edit"
         labelText="Colorpicker with 12 presets and FA icon"
         helpPopoverTitle="This should not appear"
       >
@@ -24,7 +24,6 @@
       <sky-colorpicker
         #colorPickerTransparent
         pickerButtonIcon="text-color"
-        pickerButtonIconType="skyux"
         helpPopoverContent="This should not appear"
       >
         <input
@@ -124,4 +123,4 @@
     </div>
   </form>
 </div>
-<span *ngIf="ready$ | async" id="ready"></span>
+<span *ngIf="ready | async" id="ready"></span>

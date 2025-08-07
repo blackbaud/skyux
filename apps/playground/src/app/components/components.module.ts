@@ -47,6 +47,11 @@ export const componentRoutes: Routes = [
       import('./datetime/datetime.module').then((m) => m.DatetimeModule),
   },
   {
+    path: 'filter-bar',
+    loadChildren: () =>
+      import('./filter-bar/filter-bar.module').then((m) => m.FilterBarModule),
+  },
+  {
     path: 'flyout',
     loadChildren: () =>
       import('./flyout/flyout.module').then((m) => m.FlyoutModule),
@@ -94,8 +99,13 @@ export const componentRoutes: Routes = [
     data: {
       name: 'Modal (standalone)',
       library: 'modal',
-      icon: 'universal-access',
+      icon: 'square',
     },
+  },
+  {
+    path: 'navbar',
+    loadChildren: () =>
+      import('./navbar/navbar.module').then((m) => m.NavbarModule),
   },
   {
     path: 'pages',

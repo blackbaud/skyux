@@ -5,7 +5,6 @@ import { DataManagerModule } from '../../shared/data-manager/data-manager.module
 import { LipsumComponent } from '../../shared/lipsum/lipsum.component';
 
 @Component({
-  standalone: true,
   selector: 'app-test-cmp-modal-full-page',
   templateUrl: './modal-full-page-demo.component.html',
   imports: [DataManagerModule, LipsumComponent, SkyModalModule],

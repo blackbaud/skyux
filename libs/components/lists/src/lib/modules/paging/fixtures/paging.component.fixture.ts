@@ -5,6 +5,7 @@ import { SkyPagingComponent } from '../paging.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './paging.component.fixture.html',
+  standalone: false,
 })
 export class SkyPagingTestComponent {
   @ViewChild(SkyPagingComponent, {

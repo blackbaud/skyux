@@ -13,3 +13,16 @@
 .display-none {
   display: none;
 }
+
+.additional-host {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  width: 78px;
+  height: 120px;
+  pointer-events: none;
+
+  &:before {
+    content: ' ';
+  }
+}

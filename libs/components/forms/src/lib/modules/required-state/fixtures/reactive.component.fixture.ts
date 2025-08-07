@@ -10,7 +10,6 @@ import { TestControlComponent } from './test-control.component.fixture';
 
 @Component({
   imports: [ReactiveFormsModule, TestControlComponent],
-  standalone: true,
   template: `<form [formGroup]="formGroup">
     <sky-test-control formControlName="foobar" />
   </form>`,

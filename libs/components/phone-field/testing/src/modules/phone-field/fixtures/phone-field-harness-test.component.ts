@@ -14,7 +14,6 @@ import {
 } from '@skyux/phone-field';
 
 @Component({
-  standalone: true,
   selector: 'sky-phone-field-test',
   imports: [
     FormsModule,

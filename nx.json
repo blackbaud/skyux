@@ -3,13 +3,16 @@
   "cli": {
     "packageManager": "npm"
   },
+  "tui": {
+    "enabled": false
+  },
   "defaultProject": "playground",
   "generators": {
     "@nx/angular:application": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
       "e2eTestRunner": "cypress",
+      "linter": "eslint",
+      "style": "scss",
+      "unitTestRunner": "jest",
       "strict": false
     },
     "@nx/angular:library": {
@@ -22,6 +25,9 @@
     }
   },
   "targetDefaults": {
+    "prebuild": {
+      "cache": true
+    },
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["buildInputs", "^buildInputs"],
@@ -79,6 +85,11 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["buildInputs", "^buildInputs"]
+    },
+    "@angular-devkit/build-angular:application": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^default"]
     }
   },
   "namedInputs": {
@@ -129,6 +140,5 @@
       "!{projectRoot}/tsconfig.storybook.json"
     ]
   },
-  "defaultBase": "11.x.x",
-  "useLegacyCache": true
+  "defaultBase": "12.x.x"
 }

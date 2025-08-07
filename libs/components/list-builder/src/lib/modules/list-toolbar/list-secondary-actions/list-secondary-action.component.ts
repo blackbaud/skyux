@@ -14,6 +14,7 @@ import { SkyListSecondaryActionsService } from './list-secondary-actions.service
 @Component({
   selector: 'sky-list-secondary-action',
   templateUrl: './list-secondary-action.component.html',
+  standalone: false,
 })
 export class SkyListSecondaryActionComponent implements AfterContentInit {
   @ViewChild('listSecondaryAction', {
@@ -24,7 +25,7 @@ export class SkyListSecondaryActionComponent implements AfterContentInit {
 
   constructor(private actionService: SkyListSecondaryActionsService) {}
 
-  public ngAfterContentInit() {
+  public ngAfterContentInit(): void {
     this.actionService.addSecondaryAction({
       template: this.templateRef,
     });

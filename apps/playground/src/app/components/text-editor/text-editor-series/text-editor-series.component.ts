@@ -17,7 +17,6 @@ import { startWith } from 'rxjs';
   selector: 'app-text-editor-series',
   templateUrl: './text-editor-series.component.html',
   styleUrls: ['./text-editor-series.component.scss'],
-  standalone: true,
   imports: [SkyTextEditorModule, SkyVerticalTabsetModule, ReactiveFormsModule],
 })
 export class TextEditorSeriesComponent implements OnInit {

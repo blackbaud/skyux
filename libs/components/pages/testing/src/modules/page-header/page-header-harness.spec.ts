@@ -16,6 +16,7 @@ import { SkyPageHeaderHarness } from './page-header-harness';
       data-sky-id="test-page-header"
     />
   `,
+  standalone: false,
 })
 class TestComponent {
   public pageTitle: string | undefined;

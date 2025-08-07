@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<TextExpandRepeaterComponent>;
 export const TextExpandRepeater = {
-  render: (args: TextExpandRepeaterComponent) => ({
+  render: (args: TextExpandRepeaterComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

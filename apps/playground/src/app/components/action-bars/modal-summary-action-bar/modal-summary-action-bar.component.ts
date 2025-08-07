@@ -7,6 +7,7 @@ import { ModalSummaryActionBarModalComponent } from './modal-summary-action-bar-
   selector: 'app-modal-summary-action-bar',
   templateUrl: './modal-summary-action-bar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ModalSummaryActionBarComponent {
   #modalSvc: SkyModalService;

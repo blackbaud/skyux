@@ -42,19 +42,7 @@
 }
 
 <ng-template #icon>
-  <sky-icon *skyThemeIf="'default'" icon="info-circle" />
-  <sky-icon-stack
-    *skyThemeIf="'modern'"
-    size="xs"
-    [baseIcon]="{
-      icon: 'circle-solid',
-      iconType: 'skyux'
-    }"
-    [topIcon]="{
-      icon: 'help-i',
-      iconType: 'skyux'
-    }"
-  />
+  <sky-icon iconName="info" iconSize="s" variant="solid" />
 </ng-template>
 
 <span #labelledByPrefixRef="skyId" hidden skyId>{{

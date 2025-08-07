@@ -45,6 +45,7 @@ import { SkyProgressIndicatorHarness } from './progress-indicator-harness';
     </sky-progress-indicator>
     <sky-progress-indicator data-sky-id="other-indicator" [isPassive]="true" />
   `,
+  standalone: false,
 })
 class TestProgressIndicatorComponent {
   public isPassive = false;

@@ -41,15 +41,20 @@ export class SkyIconHarness extends SkyComponentHarness {
       // match a class name that starts with `fa-` and follows with `lg`, `2x`, `3x`, `4x`, `5x`
       if (/^fa-(?=2xs|lg|[2-5]+x)/.test(iconClass)) {
         return iconClass.replace('fa-', '');
+      } else if (/^sky-icon-svg-relative-(?=2xs|lg|[2-5]+x)/.test(iconClass)) {
+        return iconClass.replace('sky-icon-svg-relative-', '');
+      } else if (
+        /^sky-icon-svg-(?=xxxs|xxs|xs|s|m|l|xl|xxl|xxxl)/.test(iconClass)
+      ) {
+        return iconClass.replace('sky-icon-svg-', '');
       }
     }
-
     return undefined;
   }
 
   /**
    * Gets the icon type.
-   * @deprecated The `iconType` input is no longer used. This method will be removed in a future version.
+   * @deprecated The `iconType` input is no longer used. This method will be removed in SKY UX 13.
    */
   public async getIconType(): Promise<string> {
     return (await this.#getSpecifiedIconInfo()).iconType || 'fa';
@@ -60,8 +65,9 @@ export class SkyIconHarness extends SkyComponentHarness {
    */
   public async getVariant(): Promise<string | undefined> {
     const iconInfo = await this.#getSpecifiedIconInfo();
+    const svgIcon = await this.locatorForOptional('sky-icon-svg')();
 
-    if (iconInfo.iconType === 'skyux') {
+    if (svgIcon || iconInfo.iconType === 'skyux') {
       return iconInfo.variant || 'line';
     }
 
@@ -72,6 +78,7 @@ export class SkyIconHarness extends SkyComponentHarness {
 
   /**
    * Whether the icon has fixed width.
+   * @deprecated Font Awesome icons are deprecated, and all icons are now fixed width. This method will be removed in SKY UX 13.
    */
   public async isFixedWidth(): Promise<boolean> {
     const icon = await this.#getIcon();
@@ -80,9 +87,12 @@ export class SkyIconHarness extends SkyComponentHarness {
 
   async #getIcon(): Promise<TestElement> {
     const icon = await this.locatorForOptional('.sky-icon')();
+    const svgIcon = await this.locatorForOptional('sky-icon-svg')();
 
     if (icon) {
       return icon;
+    } else if (svgIcon) {
+      return svgIcon;
     }
 
     throw new Error('Icon could not be rendered.');

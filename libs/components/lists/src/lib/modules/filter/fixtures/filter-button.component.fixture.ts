@@ -4,6 +4,7 @@ import { SkyTheme, SkyThemeMode, SkyThemeSettings } from '@skyux/theme';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './filter-button.component.fixture.html',
+  standalone: false,
 })
 export class FilterButtonTestComponent {
   public filtersActive = false;

@@ -50,6 +50,7 @@ import { SkySectionedFormMessageType } from './types/sectioned-form-message-type
       ]),
     ]),
   ],
+  standalone: false,
 })
 export class SkySectionedFormComponent
   implements OnInit, OnDestroy, AfterViewChecked
@@ -175,6 +176,7 @@ export class SkySectionedFormComponent
   /**
    * @deprecated Use the `tabsVisibleChanged` output to listen for tab visibility changes.
    */
+  /* istanbul ignore next */
   public tabsVisible(): boolean {
     this.#logger.deprecated('SectionedFormComponent.tabsVisible()', {
       deprecationMajorVersion: 8,

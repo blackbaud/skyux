@@ -78,9 +78,7 @@ export class SkyFileDropHarness extends SkyComponentHarness {
    * Gets the help inline popover content.
    */
   public async getHelpPopoverContent(): Promise<string | undefined> {
-    const content = await (await this.#getHelpInline()).getPopoverContent();
-
-    return content as string | undefined;
+    return await (await this.#getHelpInline()).getPopoverContent();
   }
 
   /**
@@ -187,6 +185,13 @@ export class SkyFileDropHarness extends SkyComponentHarness {
 
   /**
    * Loads a single file.
+   * Be sure to include `provideSkyFileReaderTesting` as a provider when calling this function in tests.
+   *  @example
+   * ```typescript
+   * TestBed.configureTestingModule({
+   *   providers: [provideSkyFileReaderTesting()]
+   * });
+   * ``
    */
   public async loadFile(file: File): Promise<void> {
     await this.#dropFiles([file]);
@@ -194,6 +199,13 @@ export class SkyFileDropHarness extends SkyComponentHarness {
 
   /**
    * Loads multiple files.
+   * Be sure to include `provideSkyFileReaderTesting` as a provider when calling this function in tests.
+   *  @example
+   * ```typescript
+   * TestBed.configureTestingModule({
+   *   providers: [provideSkyFileReaderTesting()]
+   * });
+   * ``
    */
   public async loadFiles(files: File[] | null): Promise<void> {
     return await this.#dropFiles(files);

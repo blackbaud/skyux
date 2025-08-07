@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: DropdownComponent,
     data: {
       name: 'Dropdown',
-      icon: 'caret-down',
+      icon: 'chevron-down',
       library: 'popovers',
     },
   },
@@ -23,10 +23,15 @@ const routes: ComponentRouteInfo[] = [
       ...routes,
       {
         path: 'iframe',
-        loadComponent: () =>
+        loadComponent: (): Promise<any> =>
           import('./dropdown-example.component').then(
             (m) => m.DropdownExampleComponent,
           ),
+        data: {
+          name: 'Dropdown (iframe)',
+          icon: 'chevron-down',
+          library: 'popovers',
+        },
       },
     ]),
   ],

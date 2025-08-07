@@ -6,6 +6,7 @@ import { SkySelectionBoxGridAlignItemsType } from '../types/selection-box-grid-a
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './selection-box-grid.component.fixture.html',
+  standalone: false,
 })
 export class SelectionBoxGridTestComponent {
   public alignItems: SkySelectionBoxGridAlignItemsType | undefined;

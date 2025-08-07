@@ -366,7 +366,7 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   @HostListener('change', ['$event'])
-  public onInputChange(event: any) {
+  public onInputChange(event: any): void {
     this.#onValueChange(event.target.value);
   }
 
@@ -578,9 +578,9 @@ export class SkyFuzzyDatepickerInputDirective
 
   /* istanbul ignore next */
   #fuzzyDatesEqual(dateA?: SkyFuzzyDate, dateB?: SkyFuzzyDate): boolean {
-    return (
-      dateA !== undefined &&
-      dateB !== undefined &&
+    return !!(
+      dateA &&
+      dateB &&
       ((!dateA.day && !dateB.day) || dateA.day === dateB.day) &&
       ((!dateA.month && !dateB.month) || dateA.month === dateB.month) &&
       ((!dateA.year && !dateB.year) || dateA.year === dateB.year)
@@ -588,9 +588,9 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   // istanbul ignore next
-  #onChange = (_: any) => {};
+  #onChange = (_: any): void => {};
   // istanbul ignore next
-  #onValidatorChange = () => {};
+  #onValidatorChange = (): void => {};
 
   /**
    * Update the value of the form control and input element

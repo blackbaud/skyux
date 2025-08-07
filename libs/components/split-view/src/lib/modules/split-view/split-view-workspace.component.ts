@@ -16,7 +16,6 @@ import { SkySplitViewWorkspaceHeaderComponent } from './split-view-workspace-hea
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkySplitViewWorkspaceHeaderComponent],
   selector: 'sky-split-view-workspace',
-  standalone: true,
   styleUrl: './split-view-workspace.component.scss',
   templateUrl: './split-view-workspace.component.html',
 })

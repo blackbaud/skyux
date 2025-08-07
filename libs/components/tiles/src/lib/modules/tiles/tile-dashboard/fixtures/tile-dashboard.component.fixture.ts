@@ -14,6 +14,7 @@ import { TileTestContext } from './tile-context.fixture';
 @Component({
   selector: 'sky-demo-app',
   templateUrl: './tile-dashboard.component.fixture.html',
+  standalone: false,
 })
 export class TileDashboardTestComponent {
   @ViewChild(SkyTileDashboardComponent, {

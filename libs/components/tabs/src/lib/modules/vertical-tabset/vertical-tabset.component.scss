@@ -1,5 +1,35 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-vertical-tabset') {
+  --sky-override-vertical-tab-content-pane-margin-bottom: 0;
+  --sky-override-vertical-tabset-content-margin-sm-lg: #{$sky-margin} 0 0
+    #{$sky-margin};
+  --sky-override-vertical-tabset-content-margin-xs: #{$sky-margin} 0 0
+    #{$sky-margin};
+  --sky-override-vertical-tabset-group-container-border-right: 1px solid
+    #{$sky-border-color-neutral-medium};
+  --sky-override-vertical-tabset-group-container-padding: 0;
+  --sky-override-vertical-tabset-modal-margin-adjustment: -15px;
+  --sky-override-vertical-tabset-modal-margin-adjustment-with-group: -15px;
+  --sky-override-vertical-tabset-show-tabs-margin-top: #{$sky-margin};
+}
+
+@include compatMixins.sky-modern-overrides('.sky-vertical-tabset') {
+  --sky-override-vertical-tab-content-pane-margin-bottom: 0;
+  --sky-override-vertical-tabset-content-margin-sm-lg: var(--modern-size-20)
+    var(--modern-size-30);
+  --sky-override-vertical-tabset-content-margin-xs: var(--modern-size-15);
+  --sky-override-vertical-tabset-group-container-padding: 0;
+  --sky-override-vertical-tabset-modal-margin-adjustment: calc(
+    var(--modern-size-15) * -1
+  );
+  --sky-override-vertical-tabset-modal-margin-adjustment-with-group: calc(
+    var(--modern-size-15) * -1
+  );
+  --sky-override-vertical-tabset-show-tabs-margin-top: var(--modern-size-10);
+}
 
 @include mixins.sky-host-responsive-container-xs-min() {
   .sky-vertical-tabset {
@@ -19,7 +49,11 @@
   }
 
   .sky-vertical-tabset-group-container {
-    @include mixins.sky-border(dark, right);
+    border-right: var(
+      --sky-override-vertical-tabset-group-container-border-right,
+      var(--sky-border-width-divider) var(--sky-border-style-divider)
+        var(--sky-color-border-divider)
+    );
   }
 }
 
@@ -28,7 +62,13 @@
 }
 
 .sky-vertical-tabset-content {
-  margin: $sky-margin 0 0 $sky-margin;
+  margin: var(
+    --sky-override-vertical-tabset-content-margin-xs,
+    var(--sky-comp-tab-vertical-content-space-inset-xs-top)
+      var(--sky-comp-tab-vertical-content-space-inset-xs-right)
+      var(--sky-comp-tab-vertical-content-space-inset-xs-bottom)
+      var(--sky-comp-tab-vertical-content-space-inset-xs-left)
+  );
   flex-basis: 75%;
   overflow-y: auto;
 }
@@ -38,28 +78,50 @@
 }
 
 .sky-vertical-tabset-show-tabs-btn {
-  margin-top: $sky-margin;
+  margin-top: var(--sky-override-vertical-tabset-show-tabs-margin-top, 0);
 }
 
 .sky-vertical-tabset-group-container {
   flex-basis: 25%;
   overflow-y: auto;
+  padding: var(
+    --sky-override-vertical-tabset-group-container-padding,
+    var(--sky-comp-tab-vertical-group-space-inset-top) 0
+      var(--sky-comp-tab-vertical-group-space-inset-bottom)
+  );
 }
 
 :host-context(sky-modal-content) > :host .sky-vertical-tabset {
-  margin: -15px;
+  margin: var(
+    --sky-override-vertical-tabset-modal-margin-adjustment,
+    calc(var(--sky-comp-modal-content-space-inset-top) * -1)
+      calc(var(--sky-comp-modal-content-space-inset-right) * -1)
+      calc(var(--sky-comp-modal-content-space-inset-bottom) * -1)
+      calc(
+        calc(
+            var(--sky-comp-tab-vertical-space-inset-left) +
+              var(--sky-space-inline-s)
+          ) *
+          -1
+      )
+  );
+
+  &:has(sky-vertical-tabset-group) {
+    margin-left: var(
+      --sky-override-vertical-tabset-modal-margin-adjustment-with-group,
+      calc(var(--sky-comp-tab-vertical-group-button-space-inset-left) * -1)
+    );
+  }
 }
 
-@include mixins.sky-theme-modern {
+@include mixins.sky-host-responsive-container-sm-min() {
   .sky-vertical-tabset-content {
-    margin: $sky-theme-modern-space-md;
-  }
-  @include mixins.sky-host-responsive-container-sm-min() {
-    .sky-vertical-tabset-content {
-      margin: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
-    }
-    .sky-vertical-tabset-group-container {
-      border-right: 1px solid $sky-theme-modern-border-color-neutral-medium;
-    }
+    margin: var(
+      --sky-override-vertical-tabset-content-margin-sm-lg,
+      var(--sky-comp-tab-vertical-content-space-inset-sm-top)
+        var(--sky-comp-tab-vertical-content-space-inset-sm-right)
+        var(--sky-comp-tab-vertical-content-space-inset-sm-bottom)
+        var(--sky-comp-tab-vertical-content-space-inset-sm-left)
+    );
   }
 }

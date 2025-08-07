@@ -20,6 +20,7 @@ import { SkyInfiniteScrollDomAdapterService } from './infinite-scroll-dom-adapte
   styleUrls: ['./infinite-scroll.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyInfiniteScrollDomAdapterService],
+  standalone: false,
 })
 export class SkyInfiniteScrollComponent implements OnDestroy {
   /**

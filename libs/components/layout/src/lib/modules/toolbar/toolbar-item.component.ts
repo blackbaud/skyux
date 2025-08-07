@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   selector: 'sky-toolbar-item',
   styleUrls: ['./toolbar-item.component.scss'],
   templateUrl: './toolbar-item.component.html',
+  standalone: false,
 })
 export class SkyToolbarItemComponent {}

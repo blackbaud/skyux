@@ -1,0 +1,23 @@
+<form [formGroup]="formGroup">
+  <sky-input-box
+    data-sky-id="input-box-favorite-color"
+    labelText="Favorite color"
+  >
+    <select formControlName="favoriteColor">
+      <option value="none">None</option>
+      <option value="red">Red</option>
+      <option value="orange">Orange</option>
+      <option value="yellow">Yellow</option>
+      <option value="green">Green</option>
+      <option value="blue">Blue</option>
+      <option value="purple">Purple</option>
+      <option value="invalid">Invalid Color</option>
+    </select>
+    @if (favoriteColor.errors?.['invalid']) {
+      <sky-form-error
+        errorName="invalid"
+        errorText="The color Invalid Color is not a color"
+      />
+    }
+  </sky-input-box>
+</form>

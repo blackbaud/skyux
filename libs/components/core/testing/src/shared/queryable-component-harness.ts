@@ -40,7 +40,7 @@ export abstract class SkyQueryableComponentHarness extends SkyComponentHarness {
   /**
    * Returns a child test element or throws an error if not found.
    */
-  public async querySelector(selector: string): Promise<TestElement | null> {
+  public async querySelector(selector: string): Promise<TestElement> {
     return await this.locatorFor(selector)();
   }
 

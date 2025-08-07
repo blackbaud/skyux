@@ -1,0 +1,29 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "help-inline": {
+      "development": {
+        "docsIds": [
+          "SkyHelpInlineModule",
+          "SkyHelpInlineComponent",
+          "SkyHelpService",
+          "SkyHelpGlobalOptions",
+          "SkyHelpOpenArgs",
+          "SkyHelpUpdateArgs"
+        ],
+        "primaryDocsId": "SkyHelpInlineModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyHelpInlineHarness",
+          "SkyHelpInlineHarnessFilters",
+          "SkyHelpTestingModule",
+          "SkyHelpTestingController"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["HelpInlineBasicExampleComponent"]
+      }
+    }
+  }
+}

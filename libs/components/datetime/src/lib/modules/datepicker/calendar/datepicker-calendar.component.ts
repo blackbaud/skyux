@@ -27,7 +27,6 @@ import { SkyYearPickerComponent } from './yearpicker.component';
     SkyYearPickerComponent,
   ],
   selector: 'sky-datepicker-calendar',
-  standalone: true,
   styleUrl: './datepicker-calendar.component.scss',
   templateUrl: './datepicker-calendar.component.html',
 })

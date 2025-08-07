@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-repeater-item-content',
   templateUrl: './repeater-item-content.component.html',
+  standalone: false,
 })
 export class SkyRepeaterItemContentComponent {}

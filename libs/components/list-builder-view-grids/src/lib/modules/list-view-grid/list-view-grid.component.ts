@@ -79,6 +79,7 @@ import { SkyListViewGridRowDeleteConfirmArgs } from './types/list-view-grid-row-
     GridStateModel,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyListViewGridComponent
   extends ListViewComponent
@@ -273,7 +274,7 @@ export class SkyListViewGridComponent
     });
   }
 
-  public ngAfterContentInit() {
+  public ngAfterContentInit(): void {
     // Watch for selection changes and update multiselectSelectedIds for local comparison.
     this.state
       .pipe(
@@ -409,7 +410,7 @@ export class SkyListViewGridComponent
     this.initInlineDeleteMessages();
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
@@ -452,7 +453,7 @@ export class SkyListViewGridComponent
     }
   }
 
-  public columnIdsChanged(selectedColumnIds: string[]) {
+  public columnIdsChanged(selectedColumnIds: string[]): void {
     this.selectedColumnIds.pipe(take(1)).subscribe((currentIds) => {
       if (!this.arraysEqual(selectedColumnIds, currentIds)) {
         this.gridState
@@ -483,11 +484,11 @@ export class SkyListViewGridComponent
     this.rowDeleteConfirm.emit(args);
   }
 
-  public sortFieldChanged(sortField: ListSortFieldSelectorModel) {
+  public sortFieldChanged(sortField: ListSortFieldSelectorModel): void {
     this.dispatcher.sortSetFieldSelectors([sortField]);
   }
 
-  public override onViewActive() {
+  public override onViewActive(): void {
     /*
       Ran into problem where state updates were consumed out of order. For example, on search text
       update, the searchText update was consumed after the resulting list item update. Scanning the
@@ -515,11 +516,12 @@ export class SkyListViewGridComponent
             ? [this.searchFunction]
             : displayedColumns
                 .map(
-                  (column) => (data: any, searchText: string) =>
-                    column.searchFunction(
-                      getData(data, column.field),
-                      searchText,
-                    ),
+                  (column) =>
+                    (data: any, searchText: string): any =>
+                      column.searchFunction(
+                        getData(data, column.field),
+                        searchText,
+                      ),
                 )
                 .filter((c) => c !== undefined);
 
@@ -560,7 +562,7 @@ export class SkyListViewGridComponent
     }
   }
 
-  private handleColumnChange() {
+  private handleColumnChange(): void {
     // watch for changes in column components
     this.columnComponents.changes
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -650,7 +652,10 @@ export class SkyListViewGridComponent
     );
   }
 
-  private haveColumnIdsChanged(previousValue: string[], newValue: string[]) {
+  private haveColumnIdsChanged(
+    previousValue: string[],
+    newValue: string[],
+  ): boolean {
     if (previousValue.length !== newValue.length) {
       this.selectedColumnIdsChange.emit(newValue);
       return false;
@@ -697,7 +702,7 @@ export class SkyListViewGridComponent
     return arrA.filter((value) => -1 !== arrB.indexOf(value));
   }
 
-  private arraysEqual(arrayA: any[], arrayB: any[]) {
+  private arraysEqual(arrayA: any[], arrayB: any[]): boolean {
     return (
       arrayA.length === arrayB.length &&
       arrayA.every((value, index) => value === arrayB[index])

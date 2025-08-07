@@ -9,6 +9,7 @@ import { DynamicComponentTestComponent } from './dynamic-component-test.componen
   template: `<button class="click-me" type="button" (click)="createComponent()">
     Click me
   </button>`,
+  standalone: false,
 })
 export class LazyLoadedTestComponent {
   #dynamicComponentSvc: SkyDynamicComponentService;

@@ -1,7 +1,10 @@
-<svg
-  aria-hidden="true"
-  class="sky-icon-svg-img"
-  [ngClass]="iconSize() && 'sky-icon-svg-img-' + iconSize()"
->
-  <use [attr.xlink:href]="iconHref()" />
-</svg>
+<div class="sky-icon-svg-container">
+  <svg
+    aria-hidden="true"
+    class="sky-icon-svg-img"
+    [attr.data-sky-icon]="iconName()"
+    [attr.data-sky-icon-variant]="iconVariant()"
+  >
+    <use [attr.xlink:href]="iconHref()" />
+  </svg>
+</div>

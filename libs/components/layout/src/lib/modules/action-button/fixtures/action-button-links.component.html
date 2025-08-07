@@ -1,5 +1,5 @@
 <sky-action-button-container>
-  @for (item of items; track item; let first = $first) {
+  @for (item of items; track item.header; let first = $first) {
     <sky-action-button
       [permalink]="item.permalink"
       [style.height]="first ? firstButtonHeight : ''"

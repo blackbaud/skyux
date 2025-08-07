@@ -57,9 +57,7 @@ describe('Modal Split View Tile Dashboard', () => {
         .should('contain.text', 'Test header');
       cy.get('.sky-modal').focus();
       cy.get('.sky-modal').should('have.focus');
-      cy.window().skyVisualTest(
-        `modal-split-view-tile-dashboard-fit-layout-${theme}`,
-      );
+      cy.skyVisualTest(`modal-split-view-tile-dashboard-fit-layout-${theme}`);
     });
-  });
+  }, false);
 });

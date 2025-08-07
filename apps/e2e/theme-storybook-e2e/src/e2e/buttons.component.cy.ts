@@ -10,9 +10,7 @@ describe('theme-storybook', () => {
         );
       });
       it('should render the component', () => {
-        cy.get('app-buttons')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-buttons')
           .end()
           .document()
           .screenshot(`buttonscomponent-buttons--buttons-${theme}`);
@@ -24,5 +22,5 @@ describe('theme-storybook', () => {
         );
       });
     });
-  }, true);
+  });
 });

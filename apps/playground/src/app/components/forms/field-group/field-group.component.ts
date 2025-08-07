@@ -28,7 +28,6 @@ interface Item {
 @Component({
   selector: 'app-field-group',
   templateUrl: './field-group.component.html',
-  standalone: true,
   imports: [
     AsyncPipe,
     FormsModule,
@@ -48,8 +47,8 @@ export class FieldGroupComponent {
 
   protected views: Item[] = [
     { icon: 'table', label: 'Table', name: 'table' },
-    { icon: 'list', label: 'List', name: 'list' },
-    { icon: 'map-marker', label: 'Map', name: 'map' },
+    { icon: 'text-bullet-list', label: 'List', name: 'list' },
+    { icon: 'location', label: 'Map', name: 'map' },
   ];
   protected lazyName = of('Name').pipe(delay(2200));
 

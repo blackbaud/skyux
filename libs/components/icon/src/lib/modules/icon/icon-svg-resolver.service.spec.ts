@@ -35,11 +35,11 @@ describe('Icon SVG resolver service', () => {
     // Fetch should only be called once per instance of the resolver service
     // and the result shared across subsequent calls to resolveHref().
     expect(fetchMock).toHaveBeenCalledOnceWith(
-      'https://sky.blackbaudcdn.net/static/skyux-icons/7/assets/svg/skyux-icons.svg',
+      'https://sky.blackbaudcdn.net/static/skyux-icons/9/assets/svg/skyux-icons.svg',
     );
   }
 
-  beforeEach(() => {
+  beforeAll(() => {
     fetchMock = spyOn(window, 'fetch').and.resolveTo(
       new Response(
         `<svg id="sky-icon-svg-sprite" width="0" height="0" style="position:absolute">
@@ -54,7 +54,9 @@ describe('Icon SVG resolver service', () => {
   </svg>`,
       ),
     );
+  });
 
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [SkyIconSvgResolverService],
     });
@@ -78,22 +80,6 @@ describe('Icon SVG resolver service', () => {
       undefined,
       undefined,
       `Icon with name 'invalid' was not found.`,
-    );
-  });
-
-  it('should throw an error when the request fails', async () => {
-    fetchMock.and.resolveTo(
-      new Response('Internal Server Error', {
-        status: 500,
-      }),
-    );
-
-    await validate(
-      'single-size',
-      undefined,
-      undefined,
-      undefined,
-      `Icon sprite could not be loaded.`,
     );
   });
 

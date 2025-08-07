@@ -68,6 +68,7 @@ const VALID_US_NUMBER = '8675555309';
       }
     </form>
   `,
+  standalone: false,
 })
 class PhoneFieldTestComponent implements OnInit {
   public allowExtensions = true;

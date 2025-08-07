@@ -9,10 +9,9 @@ describe('lists-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('app-repeater')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`repeatercomponent-repeater--repeater-${theme}`);
+        cy.skyReady('app-repeater').screenshot(
+          `repeatercomponent-repeater--repeater-${theme}`,
+        );
         cy.get('app-repeater').percySnapshot(
           `repeatercomponent-repeater--repeater-${theme}`,
           {

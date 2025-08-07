@@ -4,7 +4,6 @@ import { SkyHelpInlineModule } from '../help-inline.module';
 
 @Component({
   selector: 'sky-test-cmp',
-  standalone: true,
   templateUrl: './help-inline.component.fixture.html',
   imports: [SkyHelpInlineModule],
 })

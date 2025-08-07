@@ -1,14 +1,19 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-modal') {
+  --sky-override-modal-content-padding: 0;
+}
 
 sky-modal-content {
   display: block;
   min-height: 100%;
-}
-
-.sky-theme-modern {
-  sky-modal-content {
-    padding: $sky-theme-modern-space-sm $sky-theme-modern-space-xl
-      $sky-theme-modern-space-xl $sky-theme-modern-space-xl;
-  }
+  padding: var(
+    --sky-override-modal-content-padding,
+    var(--sky-comp-modal-content-space-inset-top)
+      var(--sky-comp-modal-content-space-inset-right)
+      var(--sky-comp-modal-content-space-inset-bottom)
+      var(--sky-comp-modal-content-space-inset-left)
+  );
 }

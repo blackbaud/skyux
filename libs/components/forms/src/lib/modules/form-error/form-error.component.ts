@@ -18,7 +18,6 @@ import { SKY_FORM_ERRORS_ENABLED } from './form-errors-enabled-token';
  */
 @Component({
   selector: 'sky-form-error',
-  standalone: true,
   imports: [SkyStatusIndicatorModule],
   template: `
     @if (formErrors) {
@@ -50,7 +49,7 @@ export class SkyFormErrorComponent {
   @Input({ required: true })
   public errorText!: string;
 
-  @HostBinding('attr.errorName') public get hostErrorName(): string {
+  @HostBinding('attr.data-error-name') public get dataErrorName(): string {
     return this.errorName;
   }
 

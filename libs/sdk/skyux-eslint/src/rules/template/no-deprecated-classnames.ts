@@ -1,6 +1,9 @@
-import { TmplAstTextAttribute } from '@angular-eslint/bundled-angular-compiler';
-import { getTemplateParserServices } from '@angular-eslint/utils';
-import { RuleFix } from '@typescript-eslint/utils/dist/ts-eslint';
+import type { TmplAstTextAttribute } from '@angular-eslint/bundled-angular-compiler';
+import {
+  ensureTemplateParser,
+  getTemplateParserServices,
+} from '@angular-eslint/utils';
+import type { RuleFix } from '@typescript-eslint/utils/ts-eslint';
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
@@ -45,10 +48,12 @@ function getDeprecatedClasses(
 
 export const rule = createESLintTemplateRule({
   create(context) {
+    ensureTemplateParser(context);
+
     const parserServices = getTemplateParserServices(context);
 
     return {
-      [`Element$1 > :matches(TextAttribute)[name="class"]`](
+      [`Element > :matches(TextAttribute)[name="class"]`](
         attr: TmplAstTextAttribute,
       ): void {
         const existing = attr.value.split(' ');

@@ -6,6 +6,7 @@ import { SkyListViewGridComponent } from '../list-view-grid.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-view-grid-display.component.fixture.html',
+  standalone: false,
 })
 export class ListViewGridDisplayTestComponent {
   public displayedColumns: string[] = ['column3', 'column4'];

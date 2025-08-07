@@ -13,6 +13,7 @@ import { SkyColorpickerOutput } from '@skyux/colorpicker';
   selector: 'app-colorpicker-demo',
   templateUrl: './colorpicker.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ColorpickerComponent {
   public reactiveForm: UntypedFormGroup;

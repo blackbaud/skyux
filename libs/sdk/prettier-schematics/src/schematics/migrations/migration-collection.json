@@ -4,11 +4,6 @@
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./noop/noop.schematic",
       "description": "Update prettier dependencies"
-    },
-    "sort-imports-plugin": {
-      "version": "10.0.0-0",
-      "factory": "./update-10/sort-imports-plugin/sort-imports-plugin.schematic",
-      "description": "Update .prettierrc.json plugins"
     }
   }
 }

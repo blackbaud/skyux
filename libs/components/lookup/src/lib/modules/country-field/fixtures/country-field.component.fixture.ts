@@ -7,6 +7,7 @@ import { SkyCountryFieldCountry } from '../types/country';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './country-field.component.fixture.html',
+  standalone: false,
 })
 export class CountryFieldTestComponent {
   public autocompleteAttribute: string | undefined;
@@ -30,6 +31,10 @@ export class CountryFieldTestComponent {
   public supportedCountryISOs: string[] | undefined;
 
   public countryChanged(country: SkyCountryFieldCountry): void {
+    return;
+  }
+
+  public focusLeftCountryField(e: FocusEvent): void {
     return;
   }
 }

@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { SkyVerticalTabsetModule } from '../vertical-tabset.module';
 
 @Component({
-  standalone: true,
   template: `<sky-vertical-tabset>
     <sky-vertical-tab tabHeading="Tab 1" [active]="activeIndex === 0">
       Tab 1 content

@@ -8,6 +8,7 @@ import { SkySkipLinkService } from '@skyux/a11y';
   selector: 'app-skip-link',
   templateUrl: './skip-link.component.html',
   styleUrls: ['./skip-link.component.scss'],
+  standalone: false,
 })
 export class SkipLinkComponent implements AfterViewInit {
   @ViewChild('skipLink1', { read: ElementRef })

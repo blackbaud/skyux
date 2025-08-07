@@ -1,0 +1,26 @@
+<form [formGroup]="formGroup">
+  <sky-radio-group
+    data-sky-id="radio-group"
+    formControlName="paymentMethod"
+    headingLevel="4"
+    headingText="Payment method"
+    helpKey="payment-help"
+    [hintText]="hintText"
+  >
+    @for (option of paymentOptions; track option) {
+      <sky-radio
+        [disabled]="option.disabled"
+        [value]="option.value"
+        [labelText]="option.name"
+        [helpKey]="option.helpKey"
+        [hintText]="option.hintText"
+      />
+    }
+    @if (paymentMethod.errors?.['processingIssue']) {
+      <sky-form-error
+        errorName="processingIssue"
+        errorText="An error occurred with this payment method. Please contact us to resolve."
+      />
+    }
+  </sky-radio-group>
+</form>

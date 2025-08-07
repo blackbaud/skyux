@@ -1,9 +1,18 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
-import { firstValueFrom, fromEventPattern } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { AgGridAngular } from 'ag-grid-angular';
+import {
+  AllCommunityModule,
+  ColDef,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  ModuleRegistry,
+} from 'ag-grid-community';
+import { firstValueFrom, fromEvent } from 'rxjs';
 
+import { SkyAgGridRowDeleteDirective } from '../ag-grid-row-delete.directive';
+import { SkyAgGridWrapperComponent } from '../ag-grid-wrapper.component';
 import { SkyAgGridService } from '../ag-grid.service';
 import { SkyAgGridRowDeleteCancelArgs } from '../types/ag-grid-row-delete-cancel-args';
 import { SkyAgGridRowDeleteConfirmArgs } from '../types/ag-grid-row-delete-confirm-args';
@@ -14,16 +23,24 @@ import {
   SKY_AG_GRID_LONG_DATA,
 } from './ag-grid-data.fixture';
 
+ModuleRegistry.registerModules([AllCommunityModule]);
+
 @Component({
   selector: 'sky-ag-grid-row-delete-component-fixture',
   templateUrl: './ag-grid-row-delete.component.fixture.html',
   encapsulation: ViewEncapsulation.None,
+  imports: [
+    SkyAgGridWrapperComponent,
+    SkyAgGridRowDeleteDirective,
+    AgGridAngular,
+  ],
 })
 export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   public allColumnWidth = 0;
   public hideFirstColumn = false;
+  public domLayout: GridOptions['domLayout'] | undefined = undefined;
 
-  public columnDefs = () => [
+  public columnDefs: () => ColDef[] = () => [
     {
       field: 'selected',
       headerName: '',
@@ -85,6 +102,7 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
     this.gridOptions = this.#gridService.getEditableGridOptions({
       gridOptions: {
         columnDefs: this.columnDefs(),
+        domLayout: this.domLayout,
         onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
       },
     });
@@ -113,40 +131,28 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
     this.gridApi?.setGridOption('rowData', this.gridData);
   }
 
-  public filterName(): Promise<void> {
+  public async filterName(filter: string): Promise<void> {
     const filterChangedPromise = firstValueFrom(
-      fromEventPattern(
-        (handler) => this.gridApi?.addEventListener('filterChanged', handler),
-        (handler) =>
-          this.gridApi?.removeEventListener('filterChanged', handler),
-      ).pipe(
-        first(),
-        map(() => undefined),
-      ),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      fromEvent(this.gridApi!, 'filterChanged'),
     );
     this.gridApi?.setFilterModel({
       name: {
         filterType: 'text',
         type: 'startsWith',
-        filter: 'Mar',
+        filter,
       },
     });
-    return filterChangedPromise;
+    await filterChangedPromise.then(() => undefined);
   }
 
-  public clearFilter(): Promise<void> {
+  public async clearFilter(): Promise<void> {
     const filterChangedPromise = firstValueFrom(
-      fromEventPattern(
-        (handler) => this.gridApi?.addEventListener('filterChanged', handler),
-        (handler) =>
-          this.gridApi?.removeEventListener('filterChanged', handler),
-      ).pipe(
-        first(),
-        map(() => undefined),
-      ),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      fromEvent(this.gridApi!, 'filterChanged'),
     );
     this.gridApi?.destroyFilter('name');
-    return filterChangedPromise;
+    await filterChangedPromise.then(() => undefined);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -158,20 +164,20 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
     this.gridApi = gridReadyEvent.api;
   }
 
-  public removeFirstItem(): void {
+  public async removeFirstItem(): Promise<void> {
+    const dataChangedPromise = firstValueFrom(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      fromEvent(this.gridApi!, 'rowDataUpdated'),
+    );
     this.gridData = this.gridData.slice(1);
     this.gridApi?.setGridOption('rowData', this.gridData);
+    await dataChangedPromise.then(() => undefined);
   }
 
-  public sortName(): Promise<void> {
+  public async sortName(): Promise<void> {
     const sortChangedPromise = firstValueFrom(
-      fromEventPattern(
-        (handler) => this.gridApi?.addEventListener('sortChanged', handler),
-        (handler) => this.gridApi?.removeEventListener('sortChanged', handler),
-      ).pipe(
-        first(),
-        map(() => undefined),
-      ),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      fromEvent(this.gridApi!, 'sortChanged'),
     );
     this.gridApi?.applyColumnState({
       state: [
@@ -181,6 +187,6 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
         },
       ],
     });
-    return sortChangedPromise;
+    await sortChangedPromise.then(() => undefined);
   }
 }

@@ -10,10 +10,7 @@ describe('illustration', () => {
       );
 
       it('should render the component', () => {
-        cy.get('app-illustration')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`illustration-${theme}`);
+        cy.skyReady('app-illustration').screenshot(`illustration-${theme}`);
         cy.percySnapshot(`illustration-${theme}`, {
           widths: E2eVariations.DISPLAY_WIDTHS,
         });

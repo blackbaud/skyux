@@ -46,20 +46,3 @@ export { SkyTokensComponent as λ13 } from './lib/modules/tokens/tokens.componen
 export { SkyWaitComponent as λ14 } from './lib/modules/wait/wait.component';
 export { SkyTextHighlightDirective } from './lib/modules/text-highlight/text-highlight.directive';
 export { SkyIllustrationComponent as λ16 } from './lib/modules/illustration/illustration.component';
-
-/**
- * @deprecated Use `@skyux/help-inline` instead.
- */
-export { SkyHelpInlineModule, λ1 as λ3 } from '@skyux/help-inline';
-
-/**
- * @deprecated Use `@skyux/icon` instead.
- */
-export {
-  SkyIconStackItem,
-  SkyIconModule,
-  SkyIconType,
-  SkyIconVariantType,
-  λ1 as λ4,
-  λ2 as λ5,
-} from '@skyux/icon';

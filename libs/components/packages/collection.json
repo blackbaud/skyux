@@ -1,16 +1,6 @@
 {
   "$schema": "./node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
-    "ag-grid-migrate": {
-      "description": "Run AG Grid code modifications.",
-      "factory": "./src/schematics/ag-grid-migrate/ag-grid-migrate.schematic",
-      "schema": "./src/schematics/ag-grid-migrate/schema.json"
-    },
-    "ag-grid-update": {
-      "description": "Run AG Grid update schematic.",
-      "factory": "./src/schematics/migrations/update-11/ag-grid/ag-grid.schematic",
-      "schema": "./src/schematics/migrations/update-11/ag-grid/schema.json"
-    },
     "ng-add": {
       "description": "Add @skyux/packages to your project.",
       "factory": "./src/schematics/ng-add/ng-add.schematic",
@@ -20,6 +10,21 @@
       "description": "Add @skyux/ag-grid styles to project config.",
       "factory": "./src/schematics/ng-generate/add-ag-grid-styles/add-ag-grid-styles.schematic",
       "schema": "./src/schematics/ng-generate/add-ag-grid-styles/schema.json"
+    },
+    "ag-grid-migrate": {
+      "description": "Run AG Grid code modifications.",
+      "factory": "./src/schematics/ag-grid-migrate/ag-grid-migrate.schematic",
+      "schema": "./src/schematics/ag-grid-migrate/schema.json"
+    },
+    "convert-definition-list-to-description-list": {
+      "description": "Convert <sky-definition-list> components to <sky-description-list> components.",
+      "factory": "./src/schematics/ng-generate/convert-definition-list-to-description-list/convert-definition-list-to-description-list.schematic",
+      "schema": "./src/schematics/ng-generate/convert-definition-list-to-description-list/schema.json"
+    },
+    "convert-page-summary-to-page-header": {
+      "description": "Convert <sky-page-summary> components to <sky-page-header> components.",
+      "factory": "./src/schematics/ng-generate/convert-page-summary-to-page-header/convert-page-summary-to-page-header.schematic",
+      "schema": "./src/schematics/ng-generate/convert-page-summary-to-page-header/schema.json"
     },
     "polyfills": {
       "description": "Add @skyux/packages/polyfills to project config.",

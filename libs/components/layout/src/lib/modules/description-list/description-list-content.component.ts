@@ -15,6 +15,7 @@ import { SkyDescriptionListTermComponent } from './description-list-term.compone
 @Component({
   selector: 'sky-description-list-content',
   templateUrl: './description-list-content.component.html',
+  standalone: false,
 })
 export class SkyDescriptionListContentComponent {
   @ContentChildren(SkyDescriptionListTermComponent)

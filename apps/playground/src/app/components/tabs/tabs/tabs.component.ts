@@ -5,6 +5,7 @@ import { SkyTabIndex } from '@skyux/tabs';
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TabsComponent {
   protected showTab3 = true;

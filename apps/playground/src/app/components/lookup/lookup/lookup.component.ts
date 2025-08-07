@@ -29,6 +29,7 @@ import { LookupCustomPickerComponent } from './lookup-custom-picker.component';
   selector: 'app-lookup',
   templateUrl: './lookup.component.html',
   styleUrls: ['./lookup.component.scss'],
+  standalone: false,
 })
 export class LookupComponent implements OnInit {
   public friendsForm: UntypedFormGroup;

@@ -12,6 +12,7 @@ import { SkyLabelFixture } from './label-fixture';
       This is a sample label.
     </sky-label>
   `,
+  standalone: false,
 })
 class TestComponent {
   public labelType = 'warning';

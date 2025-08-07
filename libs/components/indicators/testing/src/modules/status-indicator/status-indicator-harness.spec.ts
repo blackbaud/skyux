@@ -12,7 +12,6 @@ import { SkyStatusIndicatorHarness } from './status-indicator-harness';
 
 @Component({
   selector: 'sky-status-indicator-test',
-  standalone: true,
   imports: [SkyStatusIndicatorModule],
   template: `
     <sky-status-indicator

@@ -7,7 +7,6 @@ import { SKY_TILE_TITLE_ID } from './tile-title-id-token';
  * Specifies content to display in the tile's title.
  */
 @Component({
-  standalone: true,
   selector: 'sky-tile-title',
   templateUrl: './tile-title.component.html',
   styleUrls: ['./tile-title.component.scss'],

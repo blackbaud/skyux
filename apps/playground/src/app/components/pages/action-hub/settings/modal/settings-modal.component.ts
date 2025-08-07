@@ -4,7 +4,6 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-settings-modal',
   templateUrl: './settings-modal.component.html',
   imports: [SkyIdModule, SkyInputBoxModule, SkyModalModule],

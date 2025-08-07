@@ -7,7 +7,10 @@ import {
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
+import { SkyAgGridCellValidatorTooltipComponent } from '../../cell-validator/ag-grid-cell-validator-tooltip.component';
 import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
+
+import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderer-currency.component';
 
 /**
  * @internal
@@ -21,6 +24,10 @@ import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currenc
   `,
   templateUrl: 'cell-renderer-currency-validator.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    SkyAgGridCellValidatorTooltipComponent,
+    SkyAgGridCellRendererCurrencyComponent,
+  ],
 })
 export class SkyAgGridCellRendererCurrencyValidatorComponent
   implements ICellRendererAngularComp

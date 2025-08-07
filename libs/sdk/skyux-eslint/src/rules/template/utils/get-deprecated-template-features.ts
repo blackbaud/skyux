@@ -6,6 +6,11 @@ import {
 
 import type { DeprecatedProperty, TemplateFeatureDeprecations } from './types';
 
+// Ignore the following selectors because there is a deprecated and
+// non-deprecated version with the same selector and our linter cannot determine
+// which is which in the HTML files.
+const IGNORE_SELECTORS = ['sky-page'];
+
 function getDeprecatedProperties(
   definition: SkyManifestParentDefinition,
 ): DeprecatedProperty[] {
@@ -40,7 +45,7 @@ export function getDeprecatedTemplateFeatures(): TemplateFeatureDeprecations {
       if (isDirectiveDefinition(definition)) {
         const { kind, deprecationReason, isDeprecated, selector } = definition;
 
-        if (!selector) {
+        if (!selector || IGNORE_SELECTORS.includes(selector)) {
           continue;
         }
 

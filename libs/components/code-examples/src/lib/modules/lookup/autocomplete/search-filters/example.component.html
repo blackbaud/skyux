@@ -1,0 +1,15 @@
+<form novalidate [formGroup]="formGroup">
+  <p>
+    The following field provides a custom function that filters the data before
+    every search attempt.
+  </p>
+  <div class="sky-margin-stacked-lg">
+    <sky-input-box labelText='Color ("Red" is not available)' stacked>
+      <sky-autocomplete [data]="colors" [searchFilters]="searchFilters">
+        <input formControlName="favoriteColor" skyAutocomplete type="text" />
+      </sky-autocomplete>
+    </sky-input-box>
+  </div>
+  <p class="sky-font-emphasized">Form model:</p>
+  <pre>{{ formGroup.value | json }}</pre>
+</form>

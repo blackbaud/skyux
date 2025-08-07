@@ -1,4 +1,5 @@
 export { SkySummaryActionBarModule } from './lib/modules/summary-action-bar/summary-action-bar.module';
+export { SkySummaryActionBarError } from './lib/modules/summary-action-bar/types/summary-action-bar-error';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

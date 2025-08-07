@@ -6,6 +6,7 @@ import { FontLoadingService } from '@skyux/storybook/font-loading';
   selector: 'app-dropdown',
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss'],
+  standalone: false,
 })
 export class DropdownComponent {
   @Input()

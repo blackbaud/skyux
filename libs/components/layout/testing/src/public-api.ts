@@ -22,10 +22,14 @@ export { SkyTextExpandHarness } from './modules/text-expand/text-expand-harness'
 export { SkyTextExpandHarnessFilters } from './modules/text-expand/text-expand-harness-filters';
 export { SkyTextExpandModalHarness } from './modules/text-expand/text-expand-modal-harness';
 
-export { SkyToolbarItemHarness } from './modules/toolbar/toolbar-item-harness';
-export { SkyToolbarItemHarnessFilters } from './modules/toolbar/toolbar-item-harness-filters';
+export { SkyTextExpandRepeaterHarness } from './modules/text-expand-repeater/text-expand-repeater-harness';
+export { SkyTextExpandRepeaterHarnessFilters } from './modules/text-expand-repeater/text-expand-repeater-harness-filters';
+export { SkyTextExpandRepeaterItemHarness } from './modules/text-expand-repeater/text-expand-repeater-item-harness';
+
 export { SkyToolbarHarness } from './modules/toolbar/toolbar-harness';
 export { SkyToolbarHarnessFilters } from './modules/toolbar/toolbar-harness-filters';
+export { SkyToolbarItemHarness } from './modules/toolbar/toolbar-item-harness';
+export { SkyToolbarItemHarnessFilters } from './modules/toolbar/toolbar-item-harness-filters';
 export { SkyToolbarSectionHarness } from './modules/toolbar/toolbar-section-harness';
 export { SkyToolbarSectionHarnessFilters } from './modules/toolbar/toolbar-section-harness-filters';
 export { SkyToolbarViewActionsHarness } from './modules/toolbar/toolbar-view-actions-harness';
@@ -34,3 +38,6 @@ export { SkyActionButtonContainerHarnessFilters } from './modules/action-button/
 export { SkyActionButtonContainerHarness } from './modules/action-button/action-button-container-harness';
 export { SkyActionButtonHarnessFilters } from './modules/action-button/action-button-harness.filters';
 export { SkyActionButtonHarness } from './modules/action-button/action-button-harness';
+
+export { SkyInlineDeleteHarness } from './modules/inline-delete/inline-delete-harness';
+export { SkyInlineDeleteHarnessFilters } from './modules/inline-delete/inline-delete-harness.filters';

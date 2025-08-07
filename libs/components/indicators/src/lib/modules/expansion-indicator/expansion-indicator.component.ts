@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
  * Displays a chevron icon.
@@ -6,11 +7,10 @@ import { Component, Input } from '@angular/core';
  */
 @Component({
   selector: 'sky-expansion-indicator',
-  styleUrls: [
-    './expansion-indicator.default.component.scss',
-    './expansion-indicator.modern.component.scss',
-  ],
+  styleUrls: ['./expansion-indicator.component.scss'],
   templateUrl: './expansion-indicator.component.html',
+  hostDirectives: [SkyThemeComponentClassDirective],
+  standalone: false,
 })
 export class SkyExpansionIndicatorComponent {
   /**

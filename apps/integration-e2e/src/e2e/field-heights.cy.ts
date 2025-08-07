@@ -13,8 +13,7 @@ describe('field heights', () => {
       });
 
       it('should match heights across different field types', () => {
-        cy.get('#ready')
-          .should('exist')
+        cy.skyReady('app-field-heights', ['#ready'])
           .end()
           .get('app-field-heights .sky-input-box')
           .should('have.length.gte', 2)
@@ -30,8 +29,8 @@ describe('field heights', () => {
             console.log(`Heights: ${Array.from(heights).join(', ')}`);
             expect(heights.size).to.equal(1);
           });
-        cy.window().skyVisualTest(`field-heights-${theme}`);
+        cy.skyVisualTest(`field-heights-${theme}`);
       });
     });
-  });
+  }, false);
 });

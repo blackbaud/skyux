@@ -49,6 +49,7 @@ let nextId = 0;
   styleUrls: ['./timepicker.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyTimepickerComponent implements OnInit, OnDestroy {
   /**
@@ -186,9 +187,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public triggerButtonId: string;
 
-  @ViewChild('timepickerRef', {
-    read: ElementRef,
-  })
+  @ViewChild('timepickerRef', { read: ElementRef })
   public set timepickerRef(value: ElementRef | undefined) {
     if (value) {
       this.#_timepickerRef = value;
@@ -220,26 +219,16 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     return this.#_timepickerRef;
   }
 
-  @ViewChild('timepickerTemplateRef', {
-    read: TemplateRef,
-  })
+  @ViewChild('timepickerTemplateRef', { read: TemplateRef })
   public timepickerTemplateRef: TemplateRef<unknown> | undefined;
 
-  @ViewChild('triggerButtonRef', {
-    read: ElementRef,
-  })
+  @ViewChild('triggerButtonRef', { read: ElementRef })
   public triggerButtonRef: ElementRef | undefined;
 
-  @ViewChild('inputTemplateRef', {
-    read: TemplateRef,
-    static: true,
-  })
+  @ViewChild('inputTemplateRef', { read: TemplateRef, static: true })
   public inputTemplateRef: TemplateRef<unknown> | undefined;
 
-  @ViewChild('triggerButtonTemplateRef', {
-    read: TemplateRef,
-    static: true,
-  })
+  @ViewChild('triggerButtonTemplateRef', { read: TemplateRef, static: true })
   public triggerButtonTemplateRef: TemplateRef<unknown> | undefined;
 
   #affixer: SkyAffixer | undefined;
@@ -393,7 +382,8 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   }
 
   protected highlightMinute(selectedMinute: number, minute: number): boolean {
-    return Math.floor(selectedMinute / 5) === minute / 5;
+    const radix = this.is8601 ? 15 : 5;
+    return Math.floor(selectedMinute / radix) === minute / radix;
   }
 
   #closePicker(): void {

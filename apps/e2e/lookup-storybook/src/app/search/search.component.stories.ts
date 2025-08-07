@@ -14,8 +14,6 @@ export default {
   ],
 } as Meta<SearchComponent>;
 export const Search = {
-  render: (args: SearchComponent) => ({
-    props: args,
-  }),
+  render: (args: SearchComponent): { props: unknown } => ({ props: args }),
   args: {},
 };

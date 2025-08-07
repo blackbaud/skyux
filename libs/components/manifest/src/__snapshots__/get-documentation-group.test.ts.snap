@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`get-documentation-group should remove internal parents and children 1`] = `
+Object {
+  "codeExamples": Array [],
+  "packageInfo": Object {
+    "packageName": "@skyux/core",
+    "registryUrl": "https://www.npmjs.com/package/@skyux/core",
+    "repoUrl": "https://repo.com/foo",
+  },
+  "publicApi": Array [
+    Object {
+      "children": Array [
+        Object {
+          "name": "publicProperty",
+        },
+      ],
+      "docsId": "FooComponent",
+      "name": "FooComponent",
+      "packageName": "@skyux/core",
+      "repoUrl": "https://repo.com/foo",
+    },
+  ],
+  "testing": Array [],
+}
+`;
+
+exports[`get-documentation-group should return information about a documentation group 1`] = `
+Object {
+  "codeExamples": Array [
+    Object {
+      "componentName": "FooCodeExample",
+      "files": Object {
+        "example.component.html": "HTML_CONTENTS",
+        "example.component.ts": "TS_CONTENTS",
+      },
+      "importPath": "@skyux/code-examples",
+      "primaryFile": "example.component.ts",
+      "selector": "lib-foo",
+    },
+  ],
+  "packageInfo": Object {
+    "packageName": "@skyux/core",
+    "registryUrl": "https://www.npmjs.com/package/@skyux/core",
+    "repoUrl": "https://repo.com/foo",
+  },
+  "publicApi": Array [
+    Object {
+      "docsId": "FooComponent",
+      "name": "FooComponent",
+      "packageName": "@skyux/core",
+      "repoUrl": "https://repo.com/foo",
+    },
+    Object {
+      "docsId": "IndicatorComponent",
+      "name": "IndicatorComponent",
+      "packageName": "@skyux/indicators",
+      "repoUrl": "https://repo.com/foo",
+    },
+  ],
+  "testing": Array [
+    Object {
+      "docsId": "FooHarness",
+      "name": "FooHarness",
+      "packageName": "@skyux/core/testing",
+      "repoUrl": "https://repo.com/foo",
+    },
+  ],
+}
+`;
+
+exports[`get-documentation-group should throw if docsId unrecognized 1`] = `"Failed to retrieve type definition with docsId \\"invalid\\"."`;
+
+exports[`get-documentation-group should throw if group name unrecognized 1`] = `"Documentation exists for a package named \\"@skyux/core\\", but it does not include a group with the name \\"invalid\\"."`;
+
+exports[`get-documentation-group should throw if package name unrecognized 1`] = `"Documentation could not be found for the package \\"@skyux/invalid\\"."`;

@@ -38,7 +38,9 @@
       "@skyux/packages": "0.0.0-PLACEHOLDER",
       "@blackbaud/angular-tree-component": "^1.0.0",
       "@skyux-sdk/eslint-config": "0.0.0-PLACEHOLDER",
+      "@skyux-sdk/eslint-schematics": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/prettier-schematics": "0.0.0-PLACEHOLDER",
+      "@skyux-sdk/stylelint-schematics": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
       "@skyux/a11y": "0.0.0-PLACEHOLDER",
       "@skyux/action-bars": "0.0.0-PLACEHOLDER",
@@ -48,11 +50,13 @@
       "@skyux/assets": "0.0.0-PLACEHOLDER",
       "@skyux/autonumeric": "0.0.0-PLACEHOLDER",
       "@skyux/avatar": "0.0.0-PLACEHOLDER",
+      "@skyux/code-examples": "0.0.0-PLACEHOLDER",
       "@skyux/colorpicker": "0.0.0-PLACEHOLDER",
       "@skyux/config": "0.0.0-PLACEHOLDER",
       "@skyux/core": "0.0.0-PLACEHOLDER",
       "@skyux/data-manager": "0.0.0-PLACEHOLDER",
       "@skyux/datetime": "0.0.0-PLACEHOLDER",
+      "@skyux/docs-tools": "0.0.0-PLACEHOLDER",
       "@skyux/errors": "0.0.0-PLACEHOLDER",
       "@skyux/flyout": "0.0.0-PLACEHOLDER",
       "@skyux/forms": "0.0.0-PLACEHOLDER",
@@ -60,7 +64,7 @@
       "@skyux/help-inline": "0.0.0-PLACEHOLDER",
       "@skyux/i18n": "0.0.0-PLACEHOLDER",
       "@skyux/icon": "0.0.0-PLACEHOLDER",
-      "@skyux/icons": "^7.10.0",
+      "@skyux/icons": "^9.0.0",
       "@skyux/indicators": "0.0.0-PLACEHOLDER",
       "@skyux/inline-form": "0.0.0-PLACEHOLDER",
       "@skyux/layout": "0.0.0-PLACEHOLDER",
@@ -86,20 +90,25 @@
       "@skyux/tiles": "0.0.0-PLACEHOLDER",
       "@skyux/toast": "0.0.0-PLACEHOLDER",
       "@skyux/validation": "0.0.0-PLACEHOLDER",
-      "ag-grid-angular": "^32.3.3",
-      "ag-grid-community": "^32.3.3",
+      "ag-grid-angular": "^33.3.2",
+      "ag-grid-community": "^33.3.2",
       "ag-grid-enterprise": "^32.1.0",
-      "autonumeric": "^4.10.5"
+      "autonumeric": "^4.10.5",
+      "eslint-config-skyux": "0.0.0-PLACEHOLDER",
+      "skyux-stylelint": "0.0.0-PLACEHOLDER",
+      "stylelint-config-skyux": "0.0.0-PLACEHOLDER"
     }
   },
   "peerDependencies": {
-    "@angular/cdk": "^18.2.14",
-    "@angular/cli": "^18.2.12",
-    "@angular/core": "^18.2.13"
+    "@angular/cdk": "^19.2.19",
+    "@angular/cli": "^19.2.15",
+    "@angular/core": "^19.2.14"
   },
   "dependencies": {
-    "fs-extra": "11.2.0",
-    "jsonc-parser": "3.3.1"
+    "fs-extra": "11.3.0",
+    "jsonc-parser": "3.3.1",
+    "tslib": "^2.8.1"
   },
+  "sideEffects": true,
   "main": "./src/index.js"
 }

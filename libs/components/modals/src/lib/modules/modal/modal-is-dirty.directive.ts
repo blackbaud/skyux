@@ -57,7 +57,11 @@ export class SkyModalIsDirtyDirective implements OnInit, OnDestroy {
   }
 
   #promptIfDirty(handler: SkyModalBeforeCloseHandler): void {
-    if (this.isDirty && handler.closeArgs.reason === 'close') {
+    if (
+      this.isDirty &&
+      (handler.closeArgs.reason === 'close' ||
+        handler.closeArgs.reason === 'cancel')
+    ) {
       this.#resourcesSvc
         .getStrings({
           message: 'skyux_modal_dirty_default_message',

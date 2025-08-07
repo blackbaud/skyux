@@ -11,6 +11,7 @@ import {
 @Component({
   selector: 'app-radio',
   templateUrl: './radio.component.html',
+  standalone: false,
 })
 export class RadioComponent {
   public disabled = false;

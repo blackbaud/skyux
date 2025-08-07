@@ -1,5 +1,6 @@
 export { SkyAutocompleteHarness } from './modules/autocomplete/autocomplete-harness';
 export { SkyAutocompleteHarnessFilters } from './modules/autocomplete/autocomplete-harness-filters';
+export { SkyAutocompleteInputHarness } from './modules/autocomplete/autocomplete-input-harness';
 export { SkyAutocompleteSearchResultHarness } from './modules/autocomplete/autocomplete-search-result-harness';
 export { SkyAutocompleteSearchResultHarnessFilters } from './modules/autocomplete/autocomplete-search-result-harness-filters';
 
@@ -12,8 +13,9 @@ export { SkyCountryFieldSearchResultHarnessFilters } from './modules/country-fie
 
 export { SkyLookupHarness } from './modules/lookup/lookup-harness';
 export { SkyLookupHarnessFilters } from './modules/lookup/lookup-harness-filters';
+export { SkyLookupSearchResultHarness } from './modules/lookup/lookup-search-result-harness';
+export { SkyLookupSearchResultHarnessFilters } from './modules/lookup/lookup-search-result-harness-filters';
 export { SkyLookupSelectionHarness } from './modules/lookup/lookup-selection-harness';
-export { SkyLookupSelectionHarnessFilters } from './modules/lookup/lookup-selection-harness-filters';
 export { SkyLookupSelectionsListHarness } from './modules/lookup/lookup-selections-list-harness';
 export { SkyLookupShowMorePickerHarness } from './modules/lookup/lookup-show-more-picker-harness';
 export { SkyLookupShowMorePickerHarnessFilters } from './modules/lookup/lookup-show-more-picker-harness-filters';

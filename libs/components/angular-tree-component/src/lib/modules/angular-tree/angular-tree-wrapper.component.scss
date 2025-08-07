@@ -1,5 +1,88 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-angular-tree-wrapper') {
+  --sky-override-angular-tree-context-menu-margin: 0 #{$sky-margin} 0 0;
+  --sky-override-angular-tree-node-active-background-color: #{$sky-background-color-neutral-light};
+  --sky-override-angular-tree-node-border-left-active: #{$sky-nav-selected-border-width}
+    solid #{$sky-highlight-color-info};
+  --sky-override-angular-tree-node-border-left-selected: #{$sky-nav-selected-border-width}
+    solid transparent;
+  --sky-override-angular-tree-node-drop-slot-dragging-background-color: #{$sky-background-color-neutral-light};
+  --sky-override-angular-tree-node-drop-slot-dragging-border: 1px solid
+    #{$sky-border-color-neutral-light};
+  --sky-override-angular-tree-node-padding-left-base: 0;
+  --sky-override-angular-tree-node-selected-background-color: #{$sky-background-color-selected};
+  --sky-override-angular-tree-node-wrapper-background-color: transparent;
+  --sky-override-angular-tree-node-wrapper-background-color-active: transparent;
+  --sky-override-angular-tree-node-wrapper-background-color-focus: transparent;
+  --sky-override-angular-tree-node-wrapper-background-color-hover: transparent;
+  --sky-override-angular-tree-node-wrapper-border-left: #{$sky-nav-selected-border-width}
+    solid transparent;
+  --sky-override-angular-tree-node-wrapper-border-radius: 0;
+  --sky-override-angular-tree-node-wrapper-padding: 4px #{$sky-margin-half};
+  --sky-override-tree-children-padding: 30px;
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-active: none;
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-base: none;
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-focus: none;
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-hover: none;
+  --sky-override-angular-tree-node-wrapper-standard-outline-active: auto;
+  --sky-override-angular-tree-node-wrapper-standard-outline-focus: auto;
+  --sky-override-angular-tree-switch-control-margin: 0 8px 0 0;
+  --sky-override-angular-tree-toggle-children-height: 20px;
+  --sky-override-angular-tree-toggle-children-margin: 0 #{$sky-margin} 0 0;
+  --sky-override-angular-tree-toggle-children-padding: 0;
+  --sky-override-angular-tree-toggle-children-placeholder-height: 19px;
+  --sky-override-angular-tree-toggle-children-placeholder-margin: 0
+    #{$sky-margin} 0 0;
+  --sky-override-angular-tree-toggle-children-placeholder-width: 20px;
+  --sky-override-angular-tree-toggle-children-width: 20px;
+  --sky-override-angular-tree-toggle-color: var(--sky-text-color-deemphasized);
+  --sky-override-angular-tree-wrapper-background-color: transparent;
+}
+
+@include compatMixins.sky-modern-overrides('.sky-angular-tree-wrapper') {
+  --sky-override-angular-tree-context-menu-margin: 0 var(--modern-space-s) 0 0;
+  --sky-override-angular-tree-node-active-background-color: #{$sky-background-color-neutral-light};
+  --sky-override-angular-tree-node-border-left-active: #{$sky-nav-selected-border-width}
+    solid #{$sky-highlight-color-info};
+  --sky-override-angular-tree-node-border-left-selected: #{$sky-nav-selected-border-width}
+    solid transparent;
+  --sky-override-angular-tree-node-drop-slot-dragging-background-color: #{$sky-background-color-neutral-light};
+  --sky-override-angular-tree-node-drop-slot-dragging-border: 1px solid
+    #{$sky-border-color-neutral-light};
+  --sky-override-angular-tree-node-padding-left-base: 0;
+  --sky-override-angular-tree-node-selected-background-color: #{$sky-background-color-selected};
+  --sky-override-angular-tree-node-wrapper-background-color: transparent;
+  --sky-override-angular-tree-node-wrapper-background-color-active: transparent;
+  --sky-override-angular-tree-node-wrapper-background-color-focus: transparent;
+  --sky-override-angular-tree-node-wrapper-background-color-hover: transparent;
+  --sky-override-angular-tree-node-wrapper-border-left: #{$sky-nav-selected-border-width}
+    solid transparent;
+  --sky-override-angular-tree-node-wrapper-padding: 4px #{$sky-margin-half};
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-active: none;
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-base: none;
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-focus: none;
+  --sky-override-angular-tree-node-wrapper-standard-box-shadow-hover: none;
+  --sky-override-angular-tree-node-wrapper-standard-outline-active: auto;
+  --sky-override-angular-tree-node-wrapper-standard-outline-focus: auto;
+  --sky-override-angular-tree-toggle-children-padding: 0;
+  --sky-override-angular-tree-toggle-children-placeholder-height: 19px;
+  --sky-override-angular-tree-toggle-children-placeholder-width: 20px;
+  --sky-override-angular-tree-toggle-children-height: 20px;
+  --sky-override-angular-tree-toggle-children-margin: 0 #{$sky-margin} 0 0;
+  --sky-override-angular-tree-toggle-children-width: 20px;
+  --sky-override-angular-tree-switch-control-margin: 0 8px 0 0;
+  --sky-override-angular-tree-wrapper-background-color: transparent;
+}
+
+.sky-angular-tree-wrapper {
+  background-color: var(
+    --sky-override-angular-tree-wrapper-background-color,
+    var(--sky-color-background-container-base)
+  );
+}
 
 .sky-angular-tree-wrapper ::ng-deep {
   .angular-tree-component {
@@ -16,8 +99,52 @@
   .node-wrapper {
     display: flex;
     align-items: center;
-    padding: 4px $sky-margin-half; // Allows 2px of space for drop-slot, but total 10px between each node.
-    border-left: $sky-nav-selected-border-width solid transparent; // Whitespace for active style.
+    background-color: var(
+      --sky-override-angular-tree-node-wrapper-background-color,
+      var(--sky-color-background-nav-base)
+    );
+    padding: var(
+      --sky-override-angular-tree-node-wrapper-padding,
+      calc(var(--sky-comp-tree-node-space-inset-top) - 1px)
+        var(--sky-comp-tree-node-space-inset-right)
+    ); // Allows 2px of space for drop-slot, but total between each node based on the token.
+    padding-left: max(
+      var(--sky-angular-tree-node-padding),
+      var(
+        --sky-override-angular-tree-node-padding-left-base,
+        var(--sky-comp-tree-node-space-inset-left)
+      )
+    );
+    border-left: var(
+      --sky-override-angular-tree-node-wrapper-border-left,
+      var(--sky-border-width-selected-m) solid transparent
+    ); // Whitespace for active/selected style.
+    border-radius: var(
+      --sky-override-angular-tree-node-wrapper-border-radius,
+      var(--sky-border-radius-xs) var(--sky-border-radius-0)
+        var(--sky-border-radius-0) var(--sky-border-radius-xs)
+    );
+    box-shadow: var(
+      --sky-override-angular-tree-node-wrapper-standard-box-shadow-base,
+      inset 0 0 0 var(--sky-border-width-action-base)
+        var(--sky-color-border-nav-base)
+    );
+
+    &:focus-visible {
+      background-color: var(
+        --sky-override-angular-tree-node-wrapper-background-color-focus,
+        var(--sky-color-background-nav-focus)
+      );
+      box-shadow: var(
+        --sky-override-angular-tree-node-wrapper-standard-box-shadow-focus,
+        inset 0 0 0 var(--sky-border-width-action-focus)
+          var(--sky-color-border-nav-focus)
+      );
+      outline: var(
+        --sky-override-angular-tree-node-wrapper-standard-outline-focus,
+        none
+      );
+    }
   }
 
   .node-content-wrapper {
@@ -28,37 +155,89 @@
   }
 
   .tree-children {
-    padding-left: 30px;
+    padding-left: var(
+      --sky-override-tree-children-padding,
+      var(--sky-comp-tree-child-space-inset-left)
+    );
     overflow: hidden;
   }
 
   // Toggle indicator
   .sky-toggle-children {
-    @include mixins.sky-icon-button-borderless();
-    min-height: 19px;
-    min-width: 20px;
-    margin: 0 $sky-margin 0 0;
-    padding: 0;
+    color: var(
+      --sky-override-angular-tree-toggle-color,
+      var(--sky-color-text-deemphasized)
+    );
+    margin: var(
+      --sky-override-angular-tree-toggle-children-margin,
+      0 var(--sky-space-gap-action_group-s) 0 0
+    );
+    height: var(--sky-override-angular-tree-toggle-children-height, '');
+    width: var(--sky-override-angular-tree-toggle-children-width, '');
+    padding: var(
+      --sky-override-angular-tree-toggle-children-padding,
+      var(--sky-comp-button-borderless-space-inset-top)
+        var(--sky-comp-button-borderless-space-inset-right)
+        var(--sky-comp-button-borderless-space-inset-bottom)
+        var(--sky-comp-button-borderless-space-inset-left)
+    );
     line-height: 1;
   }
 
   .toggle-children-placeholder {
     display: inline-block;
-    height: 19px;
-    width: 20px;
-    margin: 0 $sky-margin 0 0;
+    height: var(
+      --sky-override-angular-tree-toggle-children-placeholder-height,
+      calc(
+        var(--sky-size-icon-s) +
+          calc(
+            var(--sky-comp-button-borderless-space-inset-top) +
+              var(--sky-comp-button-borderless-space-inset-bottom)
+          )
+      )
+    );
+    width: var(
+      --sky-override-angular-tree-toggle-children-placeholder-width,
+      calc(
+        var(--sky-size-icon-s) +
+          calc(
+            var(--sky-comp-button-borderless-space-inset-left) +
+              var(--sky-comp-button-borderless-space-inset-right)
+          )
+      )
+    );
+    margin: var(
+      --sky-override-angular-tree-toggle-children-placeholder-margin,
+      0 var(--sky-space-inline-s) 0 0
+    );
   }
 
   // Selected states
   .sky-angular-tree-node-selected {
-    background: $sky-background-color-selected;
+    background: var(
+      --sky-override-angular-tree-node-selected-background-color,
+      var(--sky-color-background-selected-soft)
+    );
+
+    &:not(.sky-angular-tree-node-has-checkbox) {
+      border-left: var(
+        --sky-override-angular-tree-node-border-left-selected,
+        var(--sky-border-width-selected-m) solid
+          var(--sky-color-border-selected)
+      );
+    }
   }
 
   // Active states
   .sky-angular-tree-node-active {
-    background-color: $sky-background-color-neutral-light;
-    color: $sky-text-color-default;
-    border-left: $sky-nav-selected-border-width solid $sky-highlight-color-info;
+    background: var(
+      --sky-override-angular-tree-node-active-background-color,
+      var(--sky-color-background-selected-soft)
+    );
+    border-left: var(
+      --sky-override-angular-tree-node-border-left-active,
+      var(--sky-border-width-selected-m) solid var(--sky-color-border-selected)
+    );
   }
 
   // Checkboxes
@@ -67,12 +246,18 @@
   }
 
   .sky-switch-control {
-    margin: 0 8px 0 0;
+    margin: var(
+      --sky-override-angular-tree-switch-control-margin,
+      0 var(--sky-space-gap-action_group-s) 0 0
+    );
   }
 
   // Context Menus
   .sky-angular-tree-context-menu {
-    margin: 0 $sky-margin 0 0;
+    margin: var(
+      --sky-override-angular-tree-context-menu-margin,
+      0 var(--sky-space-gap-action_group-s) 0 0
+    );
   }
 
   // Drag & Drop
@@ -82,8 +267,15 @@
   }
   .node-drop-slot.is-dragging-over {
     height: 20px;
-    background: $sky-background-color-neutral-light;
-    border: 1px solid $sky-border-color-neutral-light;
+    background: var(
+      --sky-override-angular-tree-node-drop-slot-dragging-background-color,
+      var(--sky-color-background-action-soft)
+    );
+    border: var(
+      --sky-override-angular-tree-node-drop-slot-dragging-border,
+      var(--sky-border-width-container-base) solid
+        var(--sky-color-border-container-base)
+    );
   }
 }
 
@@ -91,5 +283,38 @@
 .sky-angular-tree-wrapper.sky-angular-tree-read-only ::ng-deep {
   .node-content-wrapper {
     cursor: initial;
+  }
+}
+
+// Non-read-only mode
+.sky-angular-tree-wrapper:not(.sky-angular-tree-read-only) ::ng-deep {
+  .node-wrapper {
+    &:hover {
+      background-color: var(
+        --sky-override-angular-tree-node-wrapper-background-color-hover,
+        var(--sky-color-background-nav-hover)
+      );
+      box-shadow: var(
+        --sky-override-angular-tree-node-wrapper-standard-box-shadow-hover,
+        inset 0 0 0 var(--sky-border-width-action-hover)
+          var(--sky-color-border-nav-hover)
+      );
+    }
+
+    &:active {
+      background: var(
+        --sky-override-angular-tree-node-wrapper-background-color-active,
+        var(--sky-color-background-nav-active)
+      );
+      box-shadow: var(
+        --sky-override-angular-tree-node-wrapper-standard-box-shadow-active,
+        inset 0 0 0 var(--sky-border-width-action-active)
+          var(--sky-color-border-nav-active)
+      );
+      outline: var(
+        --sky-override-angular-tree-node-wrapper-standard-outline-active,
+        none
+      );
+    }
   }
 }

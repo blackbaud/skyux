@@ -23,6 +23,7 @@ import { SkyListFilterInlineModel } from './list-filter-inline.model';
 @Component({
   selector: 'sky-list-filter-inline',
   templateUrl: './list-filter-inline.component.html',
+  standalone: false,
 })
 export class SkyListFilterInlineComponent implements AfterContentInit {
   public inlineFilters: SkyListFilterInlineModel[] = [];
@@ -35,7 +36,7 @@ export class SkyListFilterInlineComponent implements AfterContentInit {
     private state: ListState,
   ) {}
 
-  public ngAfterContentInit() {
+  public ngAfterContentInit(): void {
     this.inlineFilters = this.filters.map((filter) => {
       return new SkyListFilterInlineModel({
         name: filter.name,
@@ -57,7 +58,7 @@ export class SkyListFilterInlineComponent implements AfterContentInit {
     );
   }
 
-  public applyFilters() {
+  public applyFilters(): void {
     this.state.pipe(take(1)).subscribe((currentState) => {
       if (
         currentState.paging.pageNumber &&
@@ -72,7 +73,9 @@ export class SkyListFilterInlineComponent implements AfterContentInit {
     });
   }
 
-  private getFilterModelFromInline(inlineFilters: SkyListFilterInlineModel[]) {
+  private getFilterModelFromInline(
+    inlineFilters: SkyListFilterInlineModel[],
+  ): ListFilterModel[] {
     return inlineFilters.map((filter) => {
       return new ListFilterModel({
         name: filter.name,

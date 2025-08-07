@@ -8,12 +8,14 @@ import { SkyAppLinkDirective } from './link.directive';
 
 @Component({
   template: '<a skyAppLink="test">Test</a>',
+  standalone: false,
 })
 class SkyAppLinkTestComponent {}
 
 @Component({
   template:
     '<a skyAppLink="test" [queryParams]="{qp1: 1, qp2: false}">Test</a>',
+  standalone: false,
 })
 class SkyAppLinkWithParamsTestComponent {}
 

@@ -1,0 +1,40 @@
+{
+  "name": "stylelint-config-skyux",
+  "version": "0.0.0-PLACEHOLDER",
+  "author": "Blackbaud, Inc.",
+  "description": "Recommended Stylelint configuration for SKY UX projects",
+  "keywords": [
+    "blackbaud",
+    "skyux"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux#readme",
+  "schematics": "@skyux-sdk/stylelint-schematics/collection.json",
+  "ng-add": {
+    "save": "devDependencies"
+  },
+  "ng-update": {
+    "packageGroupName": "stylelint-config-skyux",
+    "migrations": "@skyux-sdk/stylelint-schematics/migrations.json",
+    "packageGroup": {
+      "@skyux-sdk/stylelint-schematics": "0.0.0-PLACEHOLDER"
+    }
+  },
+  "peerDependencies": {
+    "skyux-stylelint": "0.0.0-PLACEHOLDER",
+    "stylelint-config-recommended-scss": "^15.0.1"
+  },
+  "dependencies": {
+    "@skyux-sdk/stylelint-schematics": "0.0.0-PLACEHOLDER",
+    "tslib": "^2.8.1"
+  },
+  "type": "module",
+  "main": "./src/index.js"
+}

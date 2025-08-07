@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row-reverse;
+  gap: 40px;
+}
+
+:host(:not(.sky-docs-toc-page-with-links)) {
+  .sky-docs-toc-body {
+    width: 100%;
+  }
+}
+
+:host(.sky-docs-toc-page-with-links) {
+  .sky-docs-toc-body {
+    min-width: 50%;
+    flex: 1;
+  }
+
+  .sky-docs-toc-menu {
+    position: sticky;
+    top: var(--sky-viewport-top);
+    flex-shrink: 1;
+    max-width: 40%;
+    min-width: 20%;
+  }
+}

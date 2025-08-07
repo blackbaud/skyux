@@ -5,6 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
  * Specifies a filter that was applied.
@@ -13,7 +14,10 @@ import {
   selector: 'sky-filter-summary-item',
   styleUrls: ['./filter-summary-item.component.scss'],
   templateUrl: './filter-summary-item.component.html',
+  hostDirectives: [SkyThemeComponentClassDirective],
+
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyFilterSummaryItemComponent {
   /**

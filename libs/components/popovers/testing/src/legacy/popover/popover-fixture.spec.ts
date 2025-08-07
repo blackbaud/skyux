@@ -24,6 +24,7 @@ import { SkyPopoverTestingModule } from './popover-testing.module';
       {{ popoverBody }}
     </sky-popover>
   `,
+  standalone: false,
 })
 class PopoverTestComponent {
   public popoverAlignment: string | undefined;

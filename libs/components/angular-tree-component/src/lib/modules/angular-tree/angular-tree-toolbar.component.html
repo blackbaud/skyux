@@ -24,18 +24,18 @@
       <button
         class="sky-btn sky-btn-default sky-margin-inline-default sky-angular-tree-expand-all-btn"
         type="button"
-        title="{{ 'skyux_angular_tree_expand_all' | skyLibResources }}"
+        [title]="'skyux_angular_tree_expand_all' | skyLibResources"
         (click)="onExpandAllClick()"
       >
-        <sky-icon icon="angle-double-down" />
+        <sky-icon iconName="chevron-double-down" />
       </button>
       <button
         class="sky-btn sky-btn-default sky-margin-inline-default sky-angular-tree-collapse-all-btn"
         type="button"
-        title="{{ 'skyux_angular_tree_collapse_all' | skyLibResources }}"
+        [title]="'skyux_angular_tree_collapse_all' | skyLibResources"
         (click)="onCollapseAllClick()"
       >
-        <sky-icon icon="angle-double-up" />
+        <sky-icon iconName="chevron-double-up" />
       </button>
     </sky-toolbar-view-actions>
   </sky-toolbar>

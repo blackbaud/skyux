@@ -1,0 +1,26 @@
+{
+  "sky_docs_code_snippet_copy_to_clipboard_button_label": {
+    "_description": "The ARIA label for the copy-code-to-clipboard button",
+    "message": "Copy"
+  },
+  "sky_docs_code_snippet_copy_to_clipboard_success_message": {
+    "_description": "The message displayed to the user when the text is successfully saved to the clipboard",
+    "message": "Code copied"
+  },
+  "sky_docs_code_example_viewer_demo_hidden_message": {
+    "_description": "The message displayed to the user when an example's demo is hidden",
+    "message": "Open this code example in StackBlitz to view the demo."
+  },
+  "sky_docs_code_example_viewer_demo_stack_blitz_button": {
+    "_description": "The label for the button that launches the code example in StackBlitz",
+    "message": "Edit in StackBlitz"
+  },
+  "sky_docs_code_example_viewer_hide_code_button_label": {
+    "_description": "The ARIA label for the button that hides the example code snippet",
+    "message": "Hide code"
+  },
+  "sky_docs_code_example_viewer_show_code_button_label": {
+    "_description": "The ARIA label for the button that shows the example code snippet",
+    "message": "Show code"
+  }
+}

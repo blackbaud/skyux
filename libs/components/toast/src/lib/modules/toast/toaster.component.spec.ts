@@ -141,7 +141,9 @@ describe('Toaster component', () => {
     expect(toasts.length).toEqual(1);
     validateToastMessage(toasts[0], message);
     expect(toasts.item(0).querySelector('.sky-toast-info')).toExist();
-    expect(toasts.item(0).querySelector('.fa-exclamation-circle')).toExist();
+    expect(
+      toasts.item(0).querySelector('sky-icon-svg[data-sky-icon="info"]'),
+    ).toExist();
   }));
 
   it('should display a toast component with a type set', fakeAsync(() => {
@@ -152,7 +154,9 @@ describe('Toaster component', () => {
     expect(toasts.length).toEqual(1);
     validateToastMessage(toasts[0], message);
     expect(toasts.item(0).querySelector('.sky-toast-danger')).toExist();
-    expect(toasts.item(0).querySelector('.fa-warning')).toExist();
+    expect(
+      toasts.item(0).querySelector('sky-icon-svg[data-sky-icon="warning"]'),
+    ).toExist();
   }));
 
   it('should handle closing a toast', fakeAsync(() => {

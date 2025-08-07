@@ -9,9 +9,7 @@ const routes: Routes = [
   {
     path: 'data-manager-large',
     loadChildren: () =>
-      import('./data-manager-large/data-manager-large.module').then(
-        (m) => m.DataManagerLargeModule,
-      ),
+      import('./data-manager-large/data-manager-large-routes'),
   },
   {
     path: 'edit-complex-cells',
@@ -40,6 +38,10 @@ const routes: Routes = [
       import('./editable-grid/editable-grid.module').then(
         (m) => m.EditableGridModule,
       ),
+  },
+  {
+    path: 'lookup-focus',
+    loadChildren: () => import('./lookup-focus/lookup-focus-routes'),
   },
   {
     path: 'readonly-grid',

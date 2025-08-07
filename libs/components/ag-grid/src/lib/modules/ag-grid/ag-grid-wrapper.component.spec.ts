@@ -21,7 +21,6 @@ import {
   GridApi,
   GridReadyEvent,
   HeaderFocusedEvent,
-  ModuleRegistry,
   RowDataUpdatedEvent,
 } from 'ag-grid-community';
 import { BehaviorSubject, EMPTY, Subject, firstValueFrom } from 'rxjs';
@@ -82,8 +81,8 @@ describe('SkyAgGridWrapperComponent', () => {
       forEachDetailGridInfo: spyOn(agGridApi, 'forEachDetailGridInfo'),
       getAllDisplayedColumns: spyOn(agGridApi, 'getAllDisplayedColumns'),
       getDisplayedRowAtIndex: spyOn(agGridApi, 'getDisplayedRowAtIndex'),
-      getEditingCells: spyOn(agGridApi, 'getEditingCells'),
-      getGridOption: spyOn(agGridApi, 'getGridOption'),
+      getEditingCells: spyOn(agGridApi, 'getEditingCells').and.returnValue([]),
+      getGridOption: spyOn(agGridApi, 'getGridOption').and.returnValue(false),
       isDestroyed: spyOn(agGridApi, 'isDestroyed'),
       redrawRows: spyOn(agGridApi, 'redrawRows'),
       refreshCells: spyOn(agGridApi, 'refreshCells'),
@@ -182,19 +181,6 @@ describe('SkyAgGridWrapperComponent', () => {
     expect(
       gridWrapperNativeElement.querySelector('.sky-ag-grid'),
     ).toHaveCssClass('ag-theme-sky-data-grid-modern-light');
-
-    mockThemeSvc.settingsChange.next({
-      currentSettings: new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.dark,
-        SkyThemeSpacing.presets.compact,
-      ),
-      previousSettings: undefined,
-    });
-    gridWrapperFixture.detectChanges();
-    expect(
-      gridWrapperNativeElement.querySelector('.sky-ag-grid'),
-    ).toHaveCssClass('ag-theme-sky-data-grid-modern-dark-compact');
 
     mockThemeSvc.settingsChange.next({
       currentSettings: new SkyThemeSettings(
@@ -332,7 +318,7 @@ describe('SkyAgGridWrapperComponent', () => {
     it('should not move focus when tab is pressed but master/detail cells are being edited', () => {
       const col = {} as AgColumn;
       spyOn(gridAdapterService, 'setFocusedElementById');
-      spyOn(ModuleRegistry, '__isRegistered').and.returnValue(true);
+      (agGrid.api.getGridOption as jasmine.Spy).and.returnValue(true);
       (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([]);
       (agGrid.api.forEachDetailGridInfo as jasmine.Spy).and.callFake((fn) => {
         fn(
@@ -364,6 +350,7 @@ describe('SkyAgGridWrapperComponent', () => {
     it(`should move focus to the anchor after the grid when tab is pressed, no cells are being edited,
       and the grid was previously focused`, () => {
       (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([]);
+      (agGrid.api.getGridOption as jasmine.Spy).and.returnValue(true);
       (agGrid.api.forEachDetailGridInfo as jasmine.Spy).and.callFake((fn) => {
         fn(
           {

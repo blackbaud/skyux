@@ -6,7 +6,6 @@ import { SkyModalError, SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { ModalTestContext } from './modal-context';
 
 @Component({
-  standalone: true,
   selector: 'app-modal',
   templateUrl: './modal-basic.component.html',
   imports: [CommonModule, SkyHelpInlineModule, SkyModalModule],

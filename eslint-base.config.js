@@ -19,7 +19,10 @@ module.exports = [
     rules: {
       '@nx/dependency-checks': [
         'error',
-        { ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'] },
+        {
+          ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'],
+          ignoredDependencies: ['rxjs, tslib, @blackbaud/skyux-design-tokens'],
+        },
       ],
     },
     languageOptions: { parser: require('jsonc-eslint-parser') },
@@ -41,16 +44,6 @@ module.exports = [
         },
       ],
     },
-  },
-  {
-    files: ['**/*.json'],
-    rules: {
-      '@nx/dependency-checks': [
-        'error',
-        { ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'] },
-      ],
-    },
-    languageOptions: { parser: require('jsonc-eslint-parser') },
   },
   cspell,
 ];

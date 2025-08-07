@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './definition-list.component.fixture.html',
+  standalone: false,
 })
 export class SkyDefinitionListTestComponent {
   public personalInfo: { label: string; value?: string }[] = [

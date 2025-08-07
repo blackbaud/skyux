@@ -33,6 +33,7 @@ import { SkyRadioFixture } from './radio-fixture';
       </ul>
     </sky-radio-group>
   `,
+  standalone: false,
 })
 class TestComponent {
   public seasons = [

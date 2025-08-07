@@ -27,7 +27,7 @@ export class SkyErrorModalService {
    * Text for the the error message, including title, description, and action label.
    * @deprecated We recommend using a standard modal with an error component instead.
    */
-  public open(config: ErrorModalConfig) {
+  public open(config: ErrorModalConfig): void {
     this.#logSvc?.deprecated("SkyErrorModalService's open method", {
       deprecationMajorVersion: 6,
       replacementRecommendation:

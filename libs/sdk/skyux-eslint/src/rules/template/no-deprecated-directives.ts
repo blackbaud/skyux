@@ -1,16 +1,19 @@
-import {
-  type TmplAstBoundAttribute,
-  type TmplAstElement,
-  type TmplAstTextAttribute,
+import type {
+  TmplAstBoundAttribute,
+  TmplAstElement,
+  TmplAstTextAttribute,
 } from '@angular-eslint/bundled-angular-compiler';
-import { getTemplateParserServices } from '@angular-eslint/utils';
-import { type RuleListener } from '@typescript-eslint/utils/dist/ts-eslint';
+import {
+  ensureTemplateParser,
+  getTemplateParserServices,
+} from '@angular-eslint/utils';
+import type { RuleListener } from '@typescript-eslint/utils/ts-eslint';
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
 import { getDeprecatedTemplateFeatures } from './utils/get-deprecated-template-features';
 import { getDirectiveSelectorDetails } from './utils/get-directive-selector-details';
-import { DeprecatedDirective } from './utils/types';
+import type { DeprecatedDirective } from './utils/types';
 
 const DEPRECATIONS = getDeprecatedTemplateFeatures();
 
@@ -18,6 +21,8 @@ export const RULE_NAME = 'no-deprecated-directives';
 
 export const rule = createESLintTemplateRule({
   create(context) {
+    ensureTemplateParser(context);
+
     const parserServices = getTemplateParserServices(context);
 
     const reportDeprecatedDirective = (
@@ -70,7 +75,7 @@ export const rule = createESLintTemplateRule({
         .map((component) => component.selector)
         .join('|');
 
-      rules[`Element$1[name=/^(${selectors})$/]`] = (
+      rules[`Element[name=/^(${selectors})$/]`] = (
         el: TmplAstElement,
       ): void => {
         const docs = components.find((c) => c.selector === el.name);
@@ -92,7 +97,7 @@ export const rule = createESLintTemplateRule({
       for (const detail of details) {
         const ruleId = detail.elementName
           ? // The directive is defined as an attribute of a specific element.
-            `Element$1[name=${detail.elementName}] > :matches(BoundAttribute, TextAttribute)[name="${detail.templateBindingName}"]`
+            `Element[name=${detail.elementName}] > :matches(BoundAttribute, TextAttribute)[name="${detail.templateBindingName}"]`
           : // The directive is defined as an attribute of any element.
             `:matches(BoundAttribute, TextAttribute)[name="${detail.templateBindingName}"]`;
 

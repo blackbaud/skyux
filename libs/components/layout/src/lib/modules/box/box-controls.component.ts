@@ -10,6 +10,7 @@ import { SKY_BOX_HEADER_ID } from './box-header-id-token';
   selector: 'sky-box-controls',
   templateUrl: './box-controls.component.html',
   providers: [SkyContentInfoProvider],
+  standalone: false,
 })
 export class SkyBoxControlsComponent {
   public boxHasHeader(value: boolean): void {

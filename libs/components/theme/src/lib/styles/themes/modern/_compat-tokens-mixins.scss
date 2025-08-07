@@ -9,8 +9,7 @@
         @content;
       }
     } @else {
-      :host-context(.sky-theme-modern:not(.sky-theme-brand-blackbaud))
-        #{$selector} {
+      :host-context(.sky-theme-modern:not(.sky-theme-brand-base)) #{$selector} {
         @content;
       }
     }
@@ -20,7 +19,7 @@
         @content;
       }
     } @else {
-      .sky-theme-modern:not(.sky-theme-brand-blackbaud) #{$selector} {
+      .sky-theme-modern:not(.sky-theme-brand-base) #{$selector} {
         @content;
       }
     }
@@ -29,18 +28,18 @@
 
 @mixin sky-modern-v2($selector: '', $encapsulate: true) {
   @if $encapsulate {
-    :host-context(.sky-theme-modern.sky-theme-brand-blackbaud) #{$selector} {
+    :host-context(.sky-theme-modern.sky-theme-brand-base) #{$selector} {
       @content;
     }
   } @else {
-    .sky-theme-modern.sky-theme-brand-blackbaud #{$selector} {
+    .sky-theme-modern.sky-theme-brand-base #{$selector} {
       @content;
     }
   }
 }
 
 @mixin sky-modern-v2-html() {
-  html:has(.sky-theme-brand-blackbaud) {
+  html:has(.sky-theme-brand-base) {
     @content;
   }
 }

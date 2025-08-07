@@ -15,6 +15,7 @@ import {
   SkyDropdownMessageType,
   SkyDropdownModule,
 } from '@skyux/popovers';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 
@@ -34,9 +35,10 @@ import { SkySummaryActionBarSecondaryActionComponent } from './summary-action-ba
     SkyIconModule,
   ],
   selector: 'sky-summary-action-bar-secondary-actions',
-  standalone: true,
   templateUrl: './summary-action-bar-secondary-actions.component.html',
+  styleUrls: ['./summary-action-bar-secondary-actions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkySummaryActionBarSecondaryActionsComponent {
   readonly #destroyRef = inject(DestroyRef);

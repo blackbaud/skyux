@@ -42,7 +42,6 @@ export class λChildTestComponent {
     '[class]': '"breakpoint-" + breakpoint()',
   },
   imports: [λChildTestComponent, λWrapperTestComponent, CommonModule],
-  standalone: true,
   template: `
     <sky-foo-wrapper>
       <!-- Children will use the element injector of the wrapper -->

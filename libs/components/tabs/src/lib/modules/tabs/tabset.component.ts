@@ -41,6 +41,7 @@ import { SkyTabsetService } from './tabset.service';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   /**
@@ -130,6 +131,10 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
 
   public get tabStyle(): SkyTabsetStyle {
     return this.#_tabStyle;
+  }
+
+  @HostBinding('attr.data-tab-style') public get dataTabStyle(): string {
+    return this.tabStyle;
   }
 
   /**

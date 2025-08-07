@@ -6,6 +6,7 @@ import { SkyFilterModule } from '@skyux/lists';
 @Component({
   selector: 'app-filter-visual',
   templateUrl: './filter-visual.component.html',
+  standalone: false,
 })
 export class FilterVisualComponent {
   public filtersActive = false;

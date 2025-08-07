@@ -8,6 +8,7 @@ let nextItemId = 0;
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './repeater.component.fixture.html',
+  standalone: false,
 })
 export class RepeaterTestComponent {
   public set activeIndex(value: number | undefined) {

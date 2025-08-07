@@ -26,6 +26,7 @@ let nextId = 0;
   templateUrl: './vertical-tab.component.html',
   styleUrls: ['./vertical-tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   /**
@@ -89,6 +90,13 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    */
   @Input()
   public errorIndicator: boolean | undefined = false;
+
+  /**
+   * Whether to indicate that the tab has required content.
+   * @internal This is used for sectioned forms and is not currently a supported design for pure vertical tabs.
+   */
+  @Input()
+  public requiredIndicator: boolean | undefined = false;
 
   /**
    * Displays an item count alongside the tab header to indicate how many list items the tab contains.

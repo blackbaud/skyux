@@ -20,7 +20,6 @@ type CellState =
 
 @Component({
   selector: 'sky-ag-grid-cell-renderer-template',
-  standalone: true,
   template: `@if (state.hasTemplate) {
     <ng-container *ngTemplateOutlet="state.template; context: state.context" />
   }`,

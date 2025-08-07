@@ -10,6 +10,7 @@ let uniqueId = 0;
   selector: 'app-dock-item-visual',
   styleUrls: ['./dock-item-visual.component.scss'],
   templateUrl: './dock-item-visual.component.html',
+  standalone: false,
 })
 export class DockItemVisualComponent {
   public closeClicked = new Subject<void>();

@@ -12,7 +12,7 @@ const routes: ComponentRouteInfo[] = [
     component: SplitViewComponent,
     data: {
       name: 'Split view (basic)',
-      icon: 'columns',
+      icon: 'layout-column-three',
       library: 'split-view',
     },
   },
@@ -21,7 +21,7 @@ const routes: ComponentRouteInfo[] = [
     component: SplitViewPageBoundComponent,
     data: {
       name: 'Split view (page bound)',
-      icon: 'columns',
+      icon: 'layout-column-three',
       library: 'split-view',
     },
   },

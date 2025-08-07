@@ -8,7 +8,14 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { SkyDatepickerModule } from '@skyux/datetime';
+import { SkyI18nModule } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
@@ -30,6 +37,12 @@ import { SkyAgGridDatepickerProperties } from '../../types/datepicker-properties
   styleUrls: ['./cell-editor-datepicker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SkyDatepickerModule,
+    SkyI18nModule,
+  ],
 })
 export class SkyAgGridCellEditorDatepickerComponent
   extends PopupComponent
@@ -125,6 +138,7 @@ export class SkyAgGridCellEditorDatepickerComponent
     this.columnWidthWithoutBorders = this.columnWidth - 2;
     this.rowHeightWithoutBorders = (this.#params.node.rowHeight as number) - 3;
     this.rowNumber = this.#params.rowIndex + 1;
+
     this.#themeSvc?.settingsChange.subscribe((themeSettings) => {
       if (themeSettings.currentSettings.theme.name === 'modern') {
         this.columnWidthWithoutBorders = this.columnWidth;

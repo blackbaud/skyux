@@ -6,6 +6,7 @@
   --sky-override-dropdown-item-active-class-background: #{$sky-background-color-neutral-light};
   --sky-override-dropdown-item-border-radius: 0px;
   --sky-override-dropdown-item-box-shadow: none;
+  --sky-override-dropdown-item-box-shadow-focus: none;
   --sky-override-dropdown-item-color-background: transparent;
   --sky-override-dropdown-item-color-text: #{$sky-text-color-default};
   --sky-override-dropdown-item-disabled-color-background: transparent;
@@ -22,6 +23,10 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-dropdown-item', false) {
+  --sky-override-dropdown-item-box-shadow-focus:
+    inset 0 0 0 var(--sky-border-width-action-focus)
+      var(--sky-color-border-action-tertiary-focus),
+    var(--sky-elevation-focus);
   --sky-override-dropdown-item-disabled-box-shadow: none;
   --sky-override-dropdown-item-disabled-color-background: transparent;
   --sky-override-dropdown-item-disabled-font-size: 15px;
@@ -75,10 +80,10 @@
     display: block;
     padding: var(
       --sky-override-dropdown-item-padding,
-      var(--sky-space-inset-pillarbox-1_2-top-m)
-        var(--sky-space-inset-pillarbox-1_2-left-m)
-        var(--sky-space-inset-pillarbox-1_2-bottom-m)
-        var(--sky-space-inset-pillarbox-1_2-right-m)
+      var(--sky-comp-dropdown-option-space-inset-top)
+        var(--sky-comp-dropdown-option-space-inset-left)
+        var(--sky-comp-dropdown-option-space-inset-bottom)
+        var(--sky-comp-dropdown-option-space-inset-right)
     );
     text-align: left;
     width: 100%;
@@ -114,10 +119,9 @@
         var(--sky-color-background-action-tertiary-focus)
       );
       box-shadow: var(
-        --sky-override-dropdown-item-box-shadow,
+        --sky-override-dropdown-item-box-shadow-focus,
         inset 0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus),
-        var(--sky-elevation-focus)
+          var(--sky-color-border-action-tertiary-focus)
       );
     }
 

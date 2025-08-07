@@ -1,18 +1,10 @@
 {
-  "baseBranch": "11.x.x",
-  "documentationExcludeProjects": [
-    "animations",
-    "assets",
-    "config",
-    "e2e-schematics",
-    "eslint-config",
-    "manifest",
-    "packages",
-    "prettier-schematics",
-    "router",
-    "skyux-eslint",
-    "storybook",
-    "testing"
-  ],
+  "baseBranch": "12.x.x",
+  "implicitPeerDependencies": {
+    "stylelint-config-skyux": [
+      "skyux-stylelint",
+      "stylelint-config-recommended-scss"
+    ]
+  },
   "packageNameUsedToDetermineDistTags": "@skyux/packages"
 }

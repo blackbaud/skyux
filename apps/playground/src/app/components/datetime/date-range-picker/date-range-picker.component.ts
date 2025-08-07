@@ -51,7 +51,6 @@ function dateRangeExcludesWeekend(
     },
   ],
   selector: 'app-date-range-picker',
-  standalone: true,
   templateUrl: './date-range-picker.component.html',
 })
 export class DateRangePickerComponent {

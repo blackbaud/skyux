@@ -11,7 +11,6 @@ import { SkyDayPickerContext } from './daypicker-context';
 @Component({
   imports: [CommonModule, SkyDatepickerCalendarLabelPipe],
   selector: 'sky-daypicker-button',
-  standalone: true,
   styleUrl: './daypicker-button.component.scss',
   templateUrl: 'daypicker-button.component.html',
 })

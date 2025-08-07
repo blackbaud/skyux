@@ -49,7 +49,6 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
   imports: [CommonModule],
   providers: [SkySplitViewAdapterService, SkySplitViewService],
   selector: 'sky-split-view',
-  standalone: true,
   styleUrl: './split-view.component.scss',
   templateUrl: './split-view.component.html',
 })

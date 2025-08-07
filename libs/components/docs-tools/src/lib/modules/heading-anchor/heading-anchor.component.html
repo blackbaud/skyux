@@ -1,0 +1,66 @@
+@switch (headingLevel()) {
+  @case (1) {
+    <h1 class="sky-docs-heading-anchor-heading">
+      <ng-container [ngTemplateOutlet]="headingTextRef" />
+    </h1>
+  }
+  @case (2) {
+    <h2 class="sky-docs-heading-anchor-heading">
+      <ng-container [ngTemplateOutlet]="headingTextRef" />
+    </h2>
+  }
+  @case (3) {
+    <h3 class="sky-docs-heading-anchor-heading">
+      <ng-container [ngTemplateOutlet]="headingTextRef" />
+    </h3>
+  }
+  @case (4) {
+    <h4 class="sky-docs-heading-anchor-heading">
+      <ng-container [ngTemplateOutlet]="headingTextRef" />
+    </h4>
+  }
+  @case (5) {
+    <h5 class="sky-docs-heading-anchor-heading">
+      <ng-container [ngTemplateOutlet]="headingTextRef" />
+    </h5>
+  }
+  @case (6) {
+    <h6 class="sky-docs-heading-anchor-heading">
+      <ng-container [ngTemplateOutlet]="headingTextRef" />
+    </h6>
+  }
+}
+
+@if (categoryColor(); as categoryColor) {
+  <sky-docs-category-tag [color]="categoryColor">
+    @if (categoryTemplate(); as categoryTemplate) {
+      <ng-container [ngTemplateOutlet]="categoryTemplate" />
+    } @else {
+      {{ categoryText() }}
+    }
+  </sky-docs-category-tag>
+}
+
+<ng-content />
+
+<ng-template #headingTextRef>
+  <span class="sky-docs-heading-anchor-position" [attr.id]="anchorId()"></span>
+  <a
+    class="sky-docs-heading-anchor-link"
+    queryParamsHandling="merge"
+    [fragment]="anchorId()"
+    [routerLink]="[]"
+  >
+    <sky-icon iconName="link" />
+    <span class="sky-screen-reader-only"
+      >Link for section titled {{ headingText() }}</span
+    >
+  </a>
+  <span skyTrim [class.sky-docs-text-strikethrough]="strikethrough()">
+    @if (headingTextFormat() === 'code') {
+      <code>{{ headingText() }}</code>
+    } @else {
+      {{ headingText() }}
+    }
+  </span>
+</ng-template>
