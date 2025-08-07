@@ -14,21 +14,21 @@ import { SkyActionButtonContainerHarness } from './action-button-container-harne
   template: `
     <sky-action-button-container [alignItems]="alignItems">
       <sky-action-button>
-        <sky-action-button-icon iconType="filter" />
+        <sky-action-button-icon iconName="filter" />
         <sky-action-button-header> Build a new list </sky-action-button-header>
         <sky-action-button-details>
           Start from scratch and fine-tune with filters.
         </sky-action-button-details>
       </sky-action-button>
       <sky-action-button>
-        <sky-action-button-icon iconType="folder-open-o" />
+        <sky-action-button-icon iconName="folder-open" />
         <sky-action-button-header> Open a saved list </sky-action-button-header>
       </sky-action-button>
     </sky-action-button-container>
 
     <sky-action-button-container data-sky-id="other-container">
       <sky-action-button>
-        <sky-action-button-icon iconType="filter" />
+        <sky-action-button-icon iconName="filter" />
         <sky-action-button-header> Build a new list </sky-action-button-header>
         <sky-action-button-details>
           Start from scratch and fine-tune with filters.
