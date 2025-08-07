@@ -6,10 +6,6 @@
   --sky-override-infinite-scroll-max-height: 75px;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-infinite-scroll') {
-  --sky-override-infinite-scroll-max-height: 75px;
-}
-
 .sky-infinite-scroll {
   margin-top: var(
     --sky-override-infinite-scroll-margin,

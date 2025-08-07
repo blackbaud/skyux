@@ -19,7 +19,6 @@
   );
   --sky-override-label-display: inline;
   --sky-override-label-icon-info-color: var(--sky-color-icon-info);
-  --sky-override-label-icon-modern-display: none;
   --sky-override-label-inner-icon-path-color-danger: var(
     --sky-background-color-danger
   );
@@ -42,29 +41,6 @@
   --sky-override-label-margin: 0 3px;
   --sky-override-label-padding: 0.3em 0.6em 0.3em 0.6em;
   --sky-override-label-text-padding-left: var(--sky-padding-half);
-}
-
-@include compatMixins.sky-modern-overrides('.sky-label') {
-  --sky-override-sky-icon-svg-size-s: 21px;
-  --sky-override-label-icon-info-color: var(--sky-color-icon-info);
-  --sky-override-label-line-height: 1;
-  --sky-override-label-margin: 0 3px;
-  --sky-override-label-inner-icon-path-color-info: var(--modern-color-gray-105);
-  --sky-override-label-inner-icon-path-color-success: var(
-    --modern-color-gray-105
-  );
-  --sky-override-label-link-hover-color: var(--sky-text-color-default);
-  --sky-override-label-link-text-color: #212327cc;
-
-  &.sky-label-danger,
-  &.sky-label-warning {
-    --sky-override-label-padding-left: var(--modern-size-9);
-  }
-
-  &.sky-label-info,
-  &.sky-label-success {
-    --sky-override-label-padding-left: var(--modern-size-6);
-  }
 }
 
 /* Modern theme */
@@ -108,10 +84,7 @@
     var(--sky-comp-label-space-inset-top)
       var(--sky-comp-label-space-inset-right)
       var(--sky-comp-label-space-inset-bottom)
-      var(
-        --sky-override-label-padding-left,
-        var(--sky-comp-label-space-inset-left)
-      )
+      var(--sky-comp-label-space-inset-left)
   );
 
   ::ng-deep a {

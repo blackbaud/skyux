@@ -18,11 +18,6 @@
   --sky-override-description-list-long-pair-bottom-margin: 10px;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-description-list') {
-  --sky-override-description-list-term-bottom-margin: 3px;
-  --sky-override-description-list-term-font-size: 14px;
-}
-
 :host {
   display: block;
 }
