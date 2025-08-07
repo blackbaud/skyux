@@ -3,14 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
-import { HelpInlineBasicExampleComponent } from './example.component';
+import { HelpInlinePopoverExampleComponent } from './example.component';
 
-describe('Basic help inline', () => {
+describe('Help inline with popover', () => {
   async function setupTest(): Promise<{
     helpInlineHarness: SkyHelpInlineHarness;
-    fixture: ComponentFixture<HelpInlineBasicExampleComponent>;
+    fixture: ComponentFixture<HelpInlinePopoverExampleComponent>;
   }> {
-    const fixture = TestBed.createComponent(HelpInlineBasicExampleComponent);
+    const fixture = TestBed.createComponent(HelpInlinePopoverExampleComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const helpInlineHarness = await loader.getHarness(
       SkyHelpInlineHarness.with({
@@ -23,7 +23,7 @@ describe('Basic help inline', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HelpInlineBasicExampleComponent],
+      imports: [HelpInlinePopoverExampleComponent],
       providers: [provideNoopAnimations()],
     });
   });

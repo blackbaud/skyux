@@ -6,7 +6,7 @@ import { SkyHelpInlineModule } from '@skyux/help-inline';
  */
 @Component({
   imports: [SkyHelpInlineModule],
-  selector: 'app-help-inline-basic-example',
+  selector: 'app-help-inline-popover-example',
   templateUrl: './example.component.html',
 })
-export class HelpInlineBasicExampleComponent {}
+export class HelpInlinePopoverExampleComponent {}
