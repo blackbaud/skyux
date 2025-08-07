@@ -72,10 +72,7 @@ export function swapTags<T extends string>(
       const tagName = currentNode.tagName.toLowerCase() as T;
       if (oldTags.includes(tagName)) {
         /* istanbul ignore if */
-        if (
-          !currentNode.sourceCodeLocation?.startTag ||
-          !currentNode.sourceCodeLocation?.endTag
-        ) {
+        if (typeof currentNode.sourceCodeLocation?.startTag !== 'object') {
           // Skip if source code location is not available
           continue;
         }
@@ -89,19 +86,41 @@ export function swapTags<T extends string>(
           offset + currentNode.sourceCodeLocation.startTag.startOffset,
           callback('open', tagName, currentNode, content),
         );
-        recorder.remove(
-          offset + currentNode.sourceCodeLocation.endTag.startOffset,
-          currentNode.sourceCodeLocation.endTag.endOffset -
-            currentNode.sourceCodeLocation.endTag.startOffset,
-        );
-        recorder.insertLeft(
-          offset + currentNode.sourceCodeLocation.endTag.startOffset,
-          callback('close', tagName, currentNode, content),
-        );
+        if (currentNode.sourceCodeLocation.endTag) {
+          recorder.remove(
+            offset + currentNode.sourceCodeLocation.endTag.startOffset,
+            currentNode.sourceCodeLocation.endTag.endOffset -
+              currentNode.sourceCodeLocation.endTag.startOffset,
+          );
+          recorder.insertLeft(
+            offset + currentNode.sourceCodeLocation.endTag.startOffset,
+            callback('close', tagName, currentNode, content),
+          );
+        }
       }
     }
     if (isParentNode(currentNode)) {
       nodeQueue.push(...currentNode.childNodes.filter(isElement));
     }
+  }
+}
+
+/**
+ * Extracts the text content from a selector within element and returns it as a string.
+ * If the element wraps anything more than a simple text node, an error is thrown.
+ */
+export function getText(
+  text: parse5.DefaultTreeAdapterTypes.ChildNode[],
+): string {
+  if (text.length === 1 && text[0].nodeName === '#text') {
+    return (text[0] as parse5.DefaultTreeAdapterTypes.TextNode).value.trim();
+  } else if (!text) {
+    return '';
+  } else {
+    // If the result contains something other than a single text node,
+    // throw an error to indicate that the title cannot be converted.
+    throw new Error(
+      `The element contains additional markup that cannot be processed.`,
+    );
   }
 }
