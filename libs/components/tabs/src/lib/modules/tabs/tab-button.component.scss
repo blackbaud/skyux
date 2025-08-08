@@ -21,22 +21,6 @@
   --sky-override-tab-btn-wizard-disabled-border-color: #{$sky-border-color-neutral-light};
 }
 
-@include compatMixins.sky-modern-overrides('sky-tab-button', false) {
-  --sky-override-closeable-tab-padding-right: 44px;
-  --sky-override-tab-close-box-shadow-states: none;
-  --sky-override-tab-close-border-radius: none;
-  --sky-override-tab-close-outline: auto;
-  --sky-override-tab-close-outline-color: black;
-  --sky-override-tab-close-padding: var(--modern-size-1) var(--modern-size-6);
-  --sky-override-tab-close-position: absolute;
-  --sky-override-tab-close-position-right: var(--modern-size-10);
-  --sky-override-tab-close-position-top: var(--modern-size-12);
-  --sky-override-tab-btn-wizard-disabled-background-color: var(
-    --modern-color-transparent
-  );
-  --sky-override-tab-btn-wizard-disabled-border-color: none;
-}
-
 .sky-btn-tab-wrapper {
   display: inline-block;
   position: relative;
@@ -46,18 +30,10 @@
   );
 
   .sky-btn-tab-close {
-    border-radius: var(
-      --sky-override-tab-close-border-radius,
-      var(--sky-border-radius-s)
-    );
     position: var(--sky-override-tab-close-position, static);
     top: var(--sky-override-tab-close-position-top, none);
     right: var(--sky-override-tab-close-position-right, none);
-    color: var(
-      --sky-override-tab-close-color,
-      var(--sky-color-icon-deemphasized)
-    );
-    // padding default should change to be the same on all sides when we do the icon work
+    // Remove padding rule when default theme support is dropped as this will come from the button class
     padding: var(
       --sky-override-tab-close-padding,
       var(--sky-comp-button-borderless-space-inset-top)
@@ -66,40 +42,10 @@
         var(--sky-comp-button-borderless-space-inset-left)
     );
 
-    // when v1 modern is dropped, investigate adding icon borderless button classes to close element
-    &:hover {
-      color: var(
-        --sky-override-tab-close-hover-color,
-        var(--sky-color-icon-default)
-      );
-      transition: color $sky-transition-time-short;
-      box-shadow: var(
-        --sky-override-tab-close-box-shadow-states,
-        inset 0 0 0 var(--sky-border-width-action-hover)
-          var(--sky-color-border-action-tertiary-hover)
-      );
-    }
-
-    &:active,
-    &:focus-visible {
-      outline: var(--sky-override-tab-close-outline, none);
-      outline-color: var(--sky-override-tab-close-outline-color);
-    }
-
-    &:active {
-      box-shadow: var(
-        --sky-override-tab-close-box-shadow-states,
-        inset 0 0 0 var(--sky-border-width-action-active)
-          var(--sky-color-border-action-tertiary-active)
-      );
-    }
-
-    &:focus-visible:not(:active) {
-      box-shadow: var(
-        --sky-override-tab-close-box-shadow-states,
-        inset 0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus)
-      );
+    &.sky-btn-icon-borderless {
+      display: inline;
+      height: auto;
+      width: auto;
     }
   }
 

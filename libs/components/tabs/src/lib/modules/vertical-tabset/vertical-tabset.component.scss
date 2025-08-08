@@ -16,21 +16,6 @@
   --sky-override-vertical-tabset-show-tabs-margin-top: #{$sky-margin};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-vertical-tabset') {
-  --sky-override-vertical-tab-content-pane-margin-bottom: 0;
-  --sky-override-vertical-tabset-content-margin-sm-lg: var(--modern-size-20)
-    var(--modern-size-30);
-  --sky-override-vertical-tabset-content-margin-xs: var(--modern-size-15);
-  --sky-override-vertical-tabset-group-container-padding: 0;
-  --sky-override-vertical-tabset-modal-margin-adjustment: calc(
-    var(--modern-size-15) * -1
-  );
-  --sky-override-vertical-tabset-modal-margin-adjustment-with-group: calc(
-    var(--modern-size-15) * -1
-  );
-  --sky-override-vertical-tabset-show-tabs-margin-top: var(--modern-size-10);
-}
-
 @include mixins.sky-host-responsive-container-xs-min() {
   .sky-vertical-tabset {
     display: block;

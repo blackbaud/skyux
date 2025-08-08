@@ -11,11 +11,6 @@
     #{$sky-border-color-neutral-medium};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-split-view') {
-  --sky-override-split-view-border-right: var(--sky-border-width-divider) solid
-    var(--sky-color-border-divider);
-}
-
 :host {
   display: block;
 }

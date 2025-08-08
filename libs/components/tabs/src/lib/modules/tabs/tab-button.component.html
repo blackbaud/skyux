@@ -49,6 +49,9 @@
           [ngClass]="{
             'sky-btn-tab-close-disabled': disabled
           }"
+          [skyThemeClass]="{
+            'sky-btn sky-btn-icon-borderless': 'modern'
+          }"
           (click)="onCloseClick($event)"
           (keydown.enter)="onCloseClick($event)"
         >

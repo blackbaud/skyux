@@ -43,23 +43,6 @@
   --sky-override-text-editor-hint-text-space: 5px;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-text-editor', false) {
-  --sky-override-text-editor-background-color: var(--modern-color-white);
-  --sky-override-text-editor-border-color: #{$sky-theme-modern-border-color-neutral-medium};
-  --sky-override-text-editor-box-shadow-focused:
-    inset 0 0 0 var(--sky-border-width-input-focus)
-      var(--sky-color-border-input-focus),
-    var(--sky-elevation-focus);
-  --sky-override-text-editor-focus-shadow: #{$sky-theme-modern-elevation-1-shadow-size
-    $sky-theme-modern-elevation-1-shadow-color};
-  --sky-override-text-editor-label-color: var(--sky-text-color-deemphasized);
-  --sky-override-text-editor-label-padding: 10px 10px 0 10px;
-  --sky-override-text-editor-toolbar-section-padding: #{$sky-theme-modern-space-sm};
-  --sky-override-text-editor-top-toolbar-bottom-padding: 0;
-  --sky-override-text-editor-toolbar-item-spacing: 0
-    var(--sky-space-gap-action_group-xl) 0 0;
-}
-
 sky-text-editor.sky-form-field-stacked {
   display: block;
 }
@@ -73,10 +56,7 @@ sky-text-editor.sky-form-field-stacked {
   box-shadow: var(
     --sky-override-text-editor-box-shadow,
     inset 0 0 0 var(--sky-border-width-input-base)
-      var(
-        --sky-override-text-editor-border-color,
-        var(--sky-color-border-input-base)
-      )
+      var(--sky-color-border-input-base)
   );
   background-color: var(--sky-color-background-input-base);
 
@@ -85,10 +65,7 @@ sky-text-editor.sky-form-field-stacked {
     box-shadow: var(
       --sky-override-text-editor-box-shadow,
       inset 0 0 0 var(--sky-border-width-input-disabled)
-        var(
-          --sky-override-text-editor-border-color,
-          var(--sky-color-border-input-disabled)
-        )
+        var(--sky-color-border-input-disabled)
     );
     cursor: var(--sky-override-text-editor-disabled-cursor, not-allowed);
   }
@@ -157,10 +134,7 @@ sky-text-editor.sky-form-field-stacked {
     box-shadow: var(
       --sky-override-text-editor-box-shadow,
       inset 0 0 0 var(--sky-border-width-input-base)
-        var(
-          --sky-override-text-editor-border-color,
-          var(--sky-color-border-input-base)
-        )
+        var(--sky-color-border-input-base)
     );
     overflow-y: auto;
     outline: none;
@@ -172,10 +146,7 @@ sky-text-editor.sky-form-field-stacked {
       box-shadow: var(
         --sky-override-text-editor-box-shadow,
         inset 0 0 0 var(--sky-border-width-input-disabled)
-          var(
-            --sky-override-text-editor-border-color,
-            var(--sky-color-border-input-disabled)
-          )
+          var(--sky-color-border-input-disabled)
       );
     }
   }
