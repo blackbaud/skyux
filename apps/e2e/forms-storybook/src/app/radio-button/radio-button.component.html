@@ -29,24 +29,6 @@
       <div class="sky-switch-icon-group">
         @for (option of radioIconOptions; track option) {
           <sky-radio
-            [icon]="option.icon"
-            [label]="option.label"
-            [value]="option.name"
-            [disabled]="option.disabled"
-          />
-        }
-      </div>
-    </sky-radio-group>
-    <sky-radio-group
-      formControlName="radioIconOption"
-      headingLevel="3"
-      headingStyle="4"
-      headingText="Radio icon options"
-      stacked="true"
-    >
-      <div class="sky-switch-icon-group">
-        @for (option of radioIconOptions; track option) {
-          <sky-radio
             [iconName]="option.iconName"
             [label]="option.label"
             [value]="option.name"
@@ -73,23 +55,6 @@
           </li>
         }
       </ul>
-    </sky-radio-group>
-    <sky-radio-group
-      formControlName="disabledIconButtonOption"
-      headingLevel="5"
-      headingText="All disabled radio icon options"
-      stacked="true"
-    >
-      <div class="sky-switch-icon-group">
-        @for (option of radioIconOptions; track option) {
-          <sky-radio
-            [icon]="option.icon"
-            [label]="option.label"
-            [value]="option.name"
-            [disabled]="option.disabled"
-          />
-        }
-      </div>
     </sky-radio-group>
     <sky-radio-group
       formControlName="disabledIconButtonOption"
@@ -149,25 +114,6 @@
           </li>
         }
       </ul>
-    </sky-radio-group>
-    <sky-radio-group
-      formControlName="noDefaultRadioIconOption"
-      [required]="true"
-      [stacked]="true"
-    >
-      <label class="sky-control-label sky-control-label-required">
-        All unselected radio icon options
-      </label>
-      <div class="sky-switch-icon-group">
-        @for (option of radioIconOptions; track option) {
-          <sky-radio
-            [icon]="option.icon"
-            [label]="option.label"
-            [value]="option.name"
-            [disabled]="option.disabled"
-          />
-        }
-      </div>
     </sky-radio-group>
     <sky-radio-group
       formControlName="noDefaultRadioIconOption"
