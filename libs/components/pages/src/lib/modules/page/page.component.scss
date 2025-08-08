@@ -1,8 +1,9 @@
-:host {
-  &.sky-layout-host-list,
-  &.sky-layout-host-fit {
-    --sky-comp-override-list-header-background-color: var(
-      --sky-color-background-container-dimmed
-    );
-  }
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include sky-modern-v2(
+  ':host.sky-layout-host-fit, :host.sky-layout-host-list'
+) {
+  --sky-comp-override-list-header-background-color: var(
+    --sky-color-background-container-dimmed
+  );
 }

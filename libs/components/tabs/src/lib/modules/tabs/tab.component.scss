@@ -1,3 +1,5 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
 :host {
   display: block;
 
@@ -12,13 +14,6 @@
         position: relative;
       }
     }
-
-    &-fit,
-    &-list {
-      --sky-comp-override-list-header-background-color: var(
-        --sky-color-background-container-dimmed
-      );
-    }
   }
 }
 
@@ -27,4 +22,12 @@
   overflow: var(--sky-layout-host-content-overflow, visible);
   padding: var(--sky-layout-host-content-spacing, 0);
   position: var(--sky-layout-host-content-position, static);
+}
+
+@include sky-modern-v2(
+  ':host.sky-layout-host-fit, :host.sky-layout-host-list'
+) {
+  --sky-comp-override-list-header-background-color: var(
+    --sky-color-background-container-dimmed
+  );
 }
