@@ -35,7 +35,7 @@
       <sky-checkbox
         [checked]="option.checked"
         [disabled]="option.disabled"
-        [icon]="option.icon"
+        [iconName]="option.iconName"
       />
     }
   </div>
@@ -48,7 +48,7 @@
         @for (option of radioGroupIconOptions; track option) {
           <sky-radio
             [disabled]="option.disabled"
-            [icon]="option.icon"
+            [iconName]="option.iconName"
             [value]="option.name"
           />
         }
@@ -60,7 +60,7 @@
         @for (option of radioGroupIconDisabledOptions; track option) {
           <sky-radio
             [disabled]="option.disabled"
-            [icon]="option.icon"
+            [iconName]="option.iconName"
             [value]="option.name"
           />
         }
