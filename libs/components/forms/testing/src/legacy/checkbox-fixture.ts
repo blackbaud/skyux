@@ -40,11 +40,11 @@ export class SkyCheckboxFixture {
    */
   public get iconType(): string | undefined {
     const svgElement = this.#debugEl.query(By.css('sky-icon svg'));
-    
+
     if (svgElement) {
       return svgElement.nativeElement.getAttribute('data-sky-icon');
     }
-    
+
     return undefined;
   }
 

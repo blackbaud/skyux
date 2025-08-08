@@ -199,11 +199,7 @@
         <sky-checkbox iconName="text-bold" label="bold" [checked]="true" />
         <sky-checkbox iconName="megaphone" label="umbrella" [checked]="false" />
         <sky-checkbox iconName="star" label="favorite" [checked]="false" />
-        <sky-checkbox
-          iconName="warning"
-          label="careful"
-          [checked]="false"
-        />
+        <sky-checkbox iconName="warning" label="careful" [checked]="false" />
       </div>
     </sky-column>
   </sky-row>
@@ -514,7 +510,11 @@
       [headingHidden]="true"
     >
       <sky-checkbox formControlName="bold" iconName="text-bold" label="Bold" />
-      <sky-checkbox formControlName="italic" iconName="text-italic" label="Italic" />
+      <sky-checkbox
+        formControlName="italic"
+        iconName="text-italic"
+        label="Italic"
+      />
       <sky-checkbox
         formControlName="underline"
         iconName="text-underline"
