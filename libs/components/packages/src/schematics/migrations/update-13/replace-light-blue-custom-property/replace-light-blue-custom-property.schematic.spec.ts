@@ -129,4 +129,53 @@ export class TestComponent {
     expect(matches).toHaveLength(3);
     expect(updatedContent).not.toContain('--sky-category-color-light-blue');
   });
+
+  it('should preserve var() function and fallback values around custom properties', async () => {
+    const { tree, runSchematic } = await setup();
+
+    const content = `
+.test-class {
+  color: var(--sky-category-color-light-blue);
+  background: var(--sky-category-color-light-blue, blue);
+  border: var(--sky-category-color-light-blue, var(--fallback-color));
+}
+
+@Component({
+  template: \`
+    <div [style.color]="'var(--sky-category-color-light-blue, red)'">
+      Content
+    </div>
+  \`
+})
+export class TestComponent {
+  styles = {
+    backgroundColor: 'var(--sky-category-color-light-blue)',
+    borderColor: 'var(--sky-category-color-light-blue, transparent)'
+  };
+}
+    `;
+
+    tree.create('/src/app/var-preservation.component.ts', content);
+
+    const updatedTree = await runSchematic();
+
+    const updatedContent = updatedTree.readText(
+      '/src/app/var-preservation.component.ts',
+    );
+
+    // Verify var() function is preserved with new property
+    expect(updatedContent).toContain('var(--sky-category-color-green)');
+    expect(updatedContent).toContain('var(--sky-category-color-green, blue)');
+    expect(updatedContent).toContain(
+      'var(--sky-category-color-green, var(--fallback-color))',
+    );
+    expect(updatedContent).toContain("'var(--sky-category-color-green, red)'");
+    expect(updatedContent).toContain("'var(--sky-category-color-green)'");
+    expect(updatedContent).toContain(
+      "'var(--sky-category-color-green, transparent)'",
+    );
+
+    // Verify old property is completely replaced
+    expect(updatedContent).not.toContain('--sky-category-color-light-blue');
+  });
 });
