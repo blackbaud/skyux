@@ -39,17 +39,13 @@ export class SkyCheckboxFixture {
    * The checkbox's icon type
    */
   public get iconType(): string | undefined {
-    const classList = this.#debugEl.query(By.css('.fa.sky-icon'))?.nativeElement
-      .classList;
+    const svgElement = this.#debugEl.query(By.css('sky-icon svg'));
 
-    for (let i = 0, n = classList?.length; i < n; i++) {
-      const cls = classList.item(i);
-
-      if (cls.indexOf('fa-') === 0) {
-        return cls.substr(3);
-      }
+    if (svgElement) {
+      return svgElement.nativeElement.getAttribute('data-sky-icon');
     }
-    return;
+
+    return undefined;
   }
 
   /**

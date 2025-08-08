@@ -35,60 +35,34 @@ import { SkyCheckboxModule } from './checkbox.module';
 /** Simple component for testing a single checkbox. */
 @Component({
   template: ` <div>
-    @if (iconName) {
-      <sky-checkbox
-        [checkboxType]="checkboxType"
-        [checked]="isChecked"
-        [disabled]="isDisabled"
-        [iconName]="iconName"
-        [id]="id"
-        [helpKey]="helpKey"
-        [helpPopoverContent]="helpPopoverContent"
-        [helpPopoverTitle]="helpPopoverTitle"
-        [hintText]="hintText"
-        [labelText]="labelText"
-        [stacked]="stacked"
-        [(indeterminate)]="indeterminate"
-        (change)="checkboxChange($event)"
-      >
-        <sky-checkbox-label>
-          Simple checkbox
-          @if (showInlineHelp) {
-            <span>Help inline</span>
-          }
-        </sky-checkbox-label>
-      </sky-checkbox>
-    } @else {
-      <sky-checkbox
-        [checkboxType]="checkboxType"
-        [checked]="isChecked"
-        [disabled]="isDisabled"
-        [icon]="icon"
-        [id]="id"
-        [helpKey]="helpKey"
-        [helpPopoverContent]="helpPopoverContent"
-        [helpPopoverTitle]="helpPopoverTitle"
-        [hintText]="hintText"
-        [labelText]="labelText"
-        [stacked]="stacked"
-        [(indeterminate)]="indeterminate"
-        (change)="checkboxChange($event)"
-      >
-        <sky-checkbox-label>
-          Simple checkbox
-          @if (showInlineHelp) {
-            <span>Help inline</span>
-          }
-        </sky-checkbox-label>
-      </sky-checkbox>
-    }
+    <sky-checkbox
+      [checkboxType]="checkboxType"
+      [checked]="isChecked"
+      [disabled]="isDisabled"
+      [iconName]="iconName"
+      [id]="id"
+      [helpKey]="helpKey"
+      [helpPopoverContent]="helpPopoverContent"
+      [helpPopoverTitle]="helpPopoverTitle"
+      [hintText]="hintText"
+      [labelText]="labelText"
+      [stacked]="stacked"
+      [(indeterminate)]="indeterminate"
+      (change)="checkboxChange($event)"
+    >
+      <sky-checkbox-label>
+        Simple checkbox
+        @if (showInlineHelp) {
+          <span>Help inline</span>
+        }
+      </sky-checkbox-label>
+    </sky-checkbox>
   </div>`,
   standalone: false,
 })
 class SingleCheckboxComponent implements AfterViewInit {
   public checkboxType: string | undefined;
-  public icon = 'plus';
-  public iconName: string | undefined;
+  public iconName = 'add';
   public id: string | undefined = 'simple-check';
   public indeterminate = false;
   public isChecked: boolean | undefined = false;
@@ -1405,19 +1379,6 @@ describe('Checkbox component', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(SingleCheckboxComponent);
       debugElement = fixture.debugElement;
-    });
-
-    it('should set icon based on input', () => {
-      fixture.detectChanges();
-
-      let checkboxIcon = debugElement.query(By.css('i')).nativeElement;
-      expect(checkboxIcon).toHaveCssClass('fa-plus');
-
-      fixture.componentInstance.icon = 'umbrella';
-      fixture.detectChanges();
-
-      checkboxIcon = debugElement.query(By.css('i')).nativeElement;
-      expect(checkboxIcon).toHaveCssClass('fa-umbrella');
     });
 
     it('should set icon based on input - iconName', () => {
