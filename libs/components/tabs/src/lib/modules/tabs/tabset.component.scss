@@ -15,7 +15,6 @@
   --sky-override-tabset-overflow: hidden;
   --sky-override-tabset-padding: 0 0 0
     var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
-  --sky-override-tabset-wizard-border-bottom: none;
   --sky-override-tabset-wizard-modal-margin: #{0 0 $sky-space-xl};
 }
 
@@ -67,11 +66,8 @@ sky-tabset {
   position: var(--sky-layout-host-content-position, static);
 
   &.sky-tabset-style-wizard {
-    border-bottom: var(
-      --sky-override-tabset-wizard-border-bottom-style,
-      var(--sky-border-width-divider) var(--sky-border-style-divider)
-        var(--sky-color-border-divider)
-    );
+    border-bottom: var(--sky-border-width-divider)
+      var(--sky-border-style-divider) var(--sky-color-border-divider);
   }
 }
 

@@ -35,12 +35,7 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
   @Input()
   public set theme(value: PreviewWrapperThemeValue | undefined) {
     const themeOrDefault = value ?? 'default';
-    if (themeOrDefault === 'modern-light') {
-      this.themeSettings = new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
-      );
-    } else if (themeOrDefault.match(/^modern-v2(-(light|dark))?$/)) {
+    if (themeOrDefault.match(/^modern-v2(-(light|dark))?$/)) {
       if (themeOrDefault.includes('dark')) {
         this.themeSettings = new SkyThemeSettings(
           SkyTheme.presets.modern,

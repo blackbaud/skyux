@@ -11,7 +11,7 @@
 h2.sky-modal-heading {
   display: inline;
 
-  // These font rules can be removed when default and modern v1 support is removed as the heading 2 styles are applied to the h2 tag.
+  // These font rules can be removed when default support is removed as the heading 2 styles are applied to the h2 tag.
   line-height: var(
     --sky-override-modal-h2-line-height,
     var(--sky-font-line_height-heading-2)

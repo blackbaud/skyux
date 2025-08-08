@@ -7,6 +7,7 @@
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-body-m);
     font-weight: var(--sky-font-style-body-m);
+    line-height: var(--sky-font-line_height-body-m);
   }
 
   .sky-font-body-sm {
@@ -14,6 +15,7 @@
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-body-s);
     font-weight: var(--sky-font-style-body-s);
+    line-height: var(--sky-font-line_height-body-s);
   }
 
   .sky-font-body-lg {
@@ -21,6 +23,7 @@
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-body-l);
     font-weight: var(--sky-font-style-body-l);
+    line-height: var(--sky-font-line_height-body-l);
   }
 
   .sky-font-data-label {
@@ -28,6 +31,7 @@
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-body-m);
     font-weight: var(--sky-font-style-body-m);
+    line-height: var(--sky-font-line_height-body-m);
   }
 
   .sky-font-field-label {
@@ -35,6 +39,7 @@
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-body-m);
     font-weight: var(--sky-font-style-body-m);
+    line-height: var(--sky-font-line_height-body-m);
   }
 
   .sky-font-deemphasized {
@@ -75,6 +80,7 @@
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-1);
     font-weight: var(--sky-font-style-display-1);
+    line-height: var(--sky-font-line_height-display-1);
   }
 
   .sky-font-display-2 {
@@ -82,6 +88,7 @@
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-2);
     font-weight: var(--sky-font-style-display-2);
+    line-height: var(--sky-font-line_height-display-2);
   }
 
   .sky-font-display-3,
@@ -90,6 +97,7 @@
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-3);
     font-weight: var(--sky-font-style-display-3);
+    line-height: var(--sky-font-line_height-display-3);
   }
 
   .sky-font-display-4 {
@@ -97,44 +105,6 @@
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-4);
     font-weight: var(--sky-font-style-display-4);
-  }
-}
-
-@include compatMixins.sky-modern-v2($encapsulate: false) {
-  .sky-font-body-default {
-    line-height: var(--sky-font-line_height-body-m);
-  }
-
-  .sky-font-body-sm {
-    line-height: var(--sky-font-line_height-body-s);
-  }
-
-  .sky-font-body-lg {
-    line-height: var(--sky-font-line_height-body-l);
-  }
-
-  .sky-font-data-label {
-    line-height: var(--sky-font-line_height-body-m);
-  }
-
-  .sky-font-field-label {
-    line-height: var(--sky-font-line_height-body-m);
-  }
-
-  .sky-font-display-1 {
-    line-height: var(--sky-font-line_height-display-1);
-  }
-
-  .sky-font-display-2 {
-    line-height: var(--sky-font-line_height-display-2);
-  }
-
-  .sky-font-display-3,
-  .sky-headline {
-    line-height: var(--sky-font-line_height-display-3);
-  }
-
-  .sky-font-display-4 {
     line-height: var(--sky-font-line_height-display-4);
   }
 }

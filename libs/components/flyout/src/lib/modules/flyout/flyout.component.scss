@@ -180,9 +180,9 @@
 
 .sky-flyout-content {
   overflow-y: auto;
-  // This margin-top rule can be removed when all that is left is modern v2;
+  // This margin-top rule can be removed when default support is dropped;
   margin-top: var(--sky-override-flyout-header-height, 0);
-  // This height rule can be a straight 100% when all that is left is modern v2;
+  // This height rule can be a straight 100% when default support is dropped;
   height: calc(100% - var(--sky-override-flyout-header-height, 0px));
 }
 

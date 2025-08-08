@@ -105,29 +105,15 @@
       &:hover,
       &:focus-visible,
       &:active {
-        box-shadow: var(
-          --sky-override-sort-item-disabled-box-shadow,
-          inset 0 0 0 var(--sky-border-width-action-disabled)
-            var(--sky-color-border-action-tertiary-disabled)
-        );
-        background-color: var(
-          --sky-override-sort-item-disabled-color-background,
-          var(--sky-color-background-action-tertiary-disabled)
-        );
-        color: var(
-          --sky-override-sort-item-disabled-color-text,
-          var(--sky-color-text-deemphasized)
-        );
+        box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
+          var(--sky-color-border-action-tertiary-disabled);
+        background-color: var(--sky-color-background-action-tertiary-disabled);
+        color: var(--sky-color-text-deemphasized);
         cursor: default;
-        font-size: var(--sky-override-sort-item-disabled-font-size, inherit);
-        font-style: var(--sky-override-sort-item-disabled-font-style, inherit);
 
         &:focus-visible {
-          box-shadow: var(
-            --sky-override-sort-item-disabled-box-shadow,
-            inset 0 0 0 var(--sky-border-width-action-disabled)
-              var(--sky-color-border-action-tertiary-disabled)
-          );
+          box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
+            var(--sky-color-border-action-tertiary-disabled);
         }
       }
     }

@@ -1,5 +1,3 @@
-@forward 'themes/modern/compat-tokens-mixins';
-
 @mixin sky-default-overrides($selector: 'body') {
   @if $selector == 'body' {
     body:not(.sky-theme-modern) {

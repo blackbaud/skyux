@@ -22,7 +22,7 @@
       var(--sky-comp-split_view-footer-space-inset-bottom)
       var(--sky-comp-split_view-footer-space-inset-left)
   );
-  // Remove this rule and use the `sky-elevation-3` class directly when only v2 modern is supported
+  // Remove this rule and use the `sky-elevation-3` class directly when default support is dropped.
   box-shadow: var(
     --sky-override-split-view-workspace-footer-box-shadow,
     var(--sky-elevation-overflow)
