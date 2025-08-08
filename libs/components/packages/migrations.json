@@ -19,6 +19,11 @@
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/update-13/workspace-check/workspace-check.schematic",
       "description": "Log warnings if the workspace is not configured correctly."
+    },
+    "replace-light-blue-custom-property": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-13/replace-light-blue-custom-property/replace-light-blue-custom-property.schematic",
+      "description": "Replace --sky-category-color-light-blue custom property with --sky-category-color-green."
     }
   }
 }
