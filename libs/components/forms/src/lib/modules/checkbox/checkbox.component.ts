@@ -180,14 +180,6 @@ export class SkyCheckboxComponent
   public change = new EventEmitter<SkyCheckboxChange>();
 
   /**
-   * The icon to display in place of the checkbox. To group icon checkboxes
-   * like in the demo, place the checkboxes within a `sky-checkbox-group`.
-   * @deprecated Use `iconName` instead.
-   */
-  @Input()
-  public icon: string | undefined;
-
-  /**
    * The SVG icon to display in place of the checkbox. To group icon checkboxes
    * like in the demo, place the checkboxes within a `sky-checkbox-group`.
    */

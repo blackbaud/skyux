@@ -12,7 +12,7 @@ import { SkyCheckboxFixture } from './checkbox-fixture';
       [checkboxType]="checkboxType"
       [checked]="selected"
       [disabled]="disabled"
-      [icon]="icon"
+      [iconName]="iconName"
       [id]="id"
       [label]="label"
       [labelledBy]="labelledBy"
@@ -31,7 +31,7 @@ class TestComponent {
 
   public disabled = false;
 
-  public icon: string | undefined = 'star';
+  public iconName: string | undefined = 'text-bold';
 
   public label = 'checkbox label';
 
@@ -59,7 +59,7 @@ describe('Checkbox fixture', () => {
     expect(checkbox.selected).toBe(false);
     expect(checkbox.disabled).toBe(false);
     expect(checkbox.labelText).toEqual(fixture.componentInstance.label);
-    expect(checkbox.iconType).toEqual(fixture.componentInstance.icon);
+    expect(checkbox.iconType).toEqual(fixture.componentInstance.iconName);
     expect(checkbox.checkboxType).toEqual(
       fixture.componentInstance.checkboxType,
     );
@@ -80,7 +80,7 @@ describe('Checkbox fixture', () => {
 
     expect(checkbox.checkboxType).toBeUndefined();
 
-    fixture.componentInstance.icon = undefined;
+    fixture.componentInstance.iconName = undefined;
 
     fixture.detectChanges();
 
