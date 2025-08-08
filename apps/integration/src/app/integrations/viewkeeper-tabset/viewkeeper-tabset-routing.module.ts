@@ -11,7 +11,7 @@ const routes: IntegrationRouteInfo[] = [
     component: ViewkeeperTabsetComponent,
     data: {
       name: 'Viewkeeper inside Tabset',
-      icon: 'window-maximize',
+      icon: 'arrow-maximize',
     },
   },
 ];

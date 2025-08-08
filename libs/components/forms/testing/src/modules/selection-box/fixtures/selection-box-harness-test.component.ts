@@ -36,27 +36,27 @@ export class SelectionBoxHarnessTestComponent {
 
   protected selectionBoxes: {
     description: string;
-    icon: string;
+    iconName: string;
     name: string;
     value: string;
     selected?: boolean;
   }[] = [
     {
       name: 'Save time and effort',
-      icon: 'clock',
+      iconName: 'clock',
       description:
         'Automate mundane tasks and spend more time on the things that matter.',
       value: 'clock',
     },
     {
       name: 'Boost engagement',
-      icon: 'person',
+      iconName: 'person',
       description: 'Encourage supporters to interact with your organization.',
       value: 'engagement',
     },
     {
       name: 'Build relationships',
-      icon: 'people-team',
+      iconName: 'people-team',
       description:
         'Connect to supporters on a personal level and maintain accurate data.',
       value: 'relationships',

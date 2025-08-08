@@ -12,7 +12,7 @@ const routes: IntegrationRouteInfo[] = [
       ),
     data: {
       name: 'Dropdown in Modal Footer',
-      icon: 'ellipsis',
+      icon: 'more-actions',
     },
   },
 ];

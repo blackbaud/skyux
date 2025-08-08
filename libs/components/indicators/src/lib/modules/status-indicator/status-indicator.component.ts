@@ -93,7 +93,9 @@ export class SkyStatusIndicatorComponent implements OnInit {
 
   public descriptionComputed: string | undefined;
 
-  public iconName: string | undefined;
+  public iconName = SkyIndicatorIconUtility.getIconNameForType(
+    INDICATOR_TYPE_DEFAULT,
+  );
 
   public indicatorTypeOrDefault: SkyIndicatorIconType = INDICATOR_TYPE_DEFAULT;
 

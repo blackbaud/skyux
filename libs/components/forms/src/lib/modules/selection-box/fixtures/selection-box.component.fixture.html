@@ -2,7 +2,7 @@
   <sky-radio-group ariaLabel="Test options" value="red">
     @for (item of radioArray; track item) {
     <sky-selection-box [control]="radio">
-      <sky-icon iconSize="l" [iconName]="item.icon" />
+      <sky-icon iconSize="l" [iconName]="item.iconName" />
       <sky-selection-box-header #radioHeaderId="skyId" skyId>
         {{ item.header }}
       </sky-selection-box-header>
@@ -17,7 +17,7 @@
     @for (aControl of selectionBoxFormArray.controls; track aControl; let i =
     $index) {
     <sky-selection-box [control]="checkbox">
-      <sky-icon iconSize="l" [iconName]="checkboxSelectionBoxes[i].icon" />
+      <sky-icon iconSize="l" [iconName]="checkboxSelectionBoxes[i].iconName" />
       <sky-selection-box-header #checkboxHeaderId="skyId" skyId>
         {{ checkboxSelectionBoxes[i].header }}
       </sky-selection-box-header>

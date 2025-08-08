@@ -28,7 +28,7 @@ const routes: Routes = [
     loadComponent: () => import('./key-dates/key-dates.component'),
     data: {
       name: 'Key Dates',
-      icon: 'calendar',
+      icon: 'calendar-ltr',
       library: 'datetime',
     },
   },

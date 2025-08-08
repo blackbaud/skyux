@@ -11,7 +11,7 @@ const routes: IntegrationRouteInfo[] = [
     component: ModalViewkeptToolbarsComponent,
     data: {
       name: 'Viewkept Toolbars inside Modal',
-      icon: 'window-maximize',
+      icon: 'arrow-maximize',
     },
   },
 ];

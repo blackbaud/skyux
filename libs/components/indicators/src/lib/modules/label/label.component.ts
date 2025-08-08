@@ -67,7 +67,8 @@ export class SkyLabelComponent implements AfterViewChecked, OnDestroy, OnInit {
 
   public descriptionComputed: string | undefined;
 
-  public iconName: string | undefined;
+  public iconName =
+    SkyIndicatorIconUtility.getIconNameForType(LABEL_TYPE_DEFAULT);
 
   public labelTypeOrDefault = LABEL_TYPE_DEFAULT;
 

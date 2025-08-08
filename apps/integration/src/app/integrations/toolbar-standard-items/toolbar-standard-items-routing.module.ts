@@ -9,7 +9,7 @@ const routes: Routes = [
     component: ToolbarStandardItemsComponent,
     data: {
       name: 'Toolbar with standard items',
-      icon: 'menu',
+      icon: 'options',
     },
   },
 ];

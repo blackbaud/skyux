@@ -9,7 +9,7 @@ const routes: Routes = [
     component: ToastComponent,
     data: {
       name: 'Toast',
-      icon: 'fire',
+      icon: 'megaphone',
     },
   },
 ];

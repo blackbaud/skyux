@@ -12,7 +12,7 @@ const routes: IntegrationRouteInfo[] = [
       ),
     data: {
       name: 'Date range picker inside Modal',
-      icon: 'calendar',
+      icon: 'calendar-ltr',
     },
   },
 ];

@@ -92,7 +92,8 @@ export class SkyAlertComponent implements AfterViewChecked, OnInit, OnDestroy {
   @Output()
   public closedChange = new EventEmitter<boolean>();
 
-  public iconName: string | undefined;
+  public iconName =
+    SkyIndicatorIconUtility.getIconNameForType(ALERT_TYPE_DEFAULT);
 
   public alertTypeOrDefault: SkyIndicatorIconType = ALERT_TYPE_DEFAULT;
 
