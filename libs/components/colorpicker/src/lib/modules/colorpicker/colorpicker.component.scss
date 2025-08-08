@@ -30,13 +30,11 @@
   --sky-override-colorpicker-button-size: 30px;
   --sky-override-colorpicker-disabled-cursor: default;
   --sky-override-colorpicker-disabled-opacity: 0.65;
-  --sky-override-colorpicker-icon-font-size: 12px;
 }
 
 @include compatMixins.sky-default-overrides('.sky-colorpicker-container') {
   --sky-override-colorpicker-alpha-margin-top: 16px;
   --sky-override-colorpicker-background-color: #fff;
-  --sky-override-colorpicker-bottom-radius: 0;
   --sky-override-colorpicker-box-padding: 4px 8px;
   --sky-override-colorpicker-current-color-padding: 16px 8px;
   --sky-override-colorpicker-current-controls-padding: 12px 8px;

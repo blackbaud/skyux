@@ -97,7 +97,7 @@
       var(--sky-font-text_decoration-visible_link)
     );
 
-    // In modern v2 all states of a link will display as "blue", so remove this hover state
+    // In modern all states of a link display as "blue", so remove this hover state when default support is dropped
     &:hover {
       color: var(
         --sky-override-label-link-hover-color,

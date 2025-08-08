@@ -31,7 +31,6 @@
   --sky-override-toast-content-link-decoration: underline;
   --sky-override-toast-content-padding: #{$sky-padding} 0;
   --sky-override-toast-info-success-exclamation-path-color: #{$sky-highlight-color-info};
-  --sky-override-toast-link-text-hover-color: #{$sky-text-color-default};
   --sky-override-toast-margin-bottom: #{$sky-margin-double};
   --sky-override-toast-padding: 0 #{$sky-padding};
 }
@@ -72,14 +71,6 @@ sky-toast {
     display: flex;
     flex-direction: row;
     align-items: var(--sky-override-toast-align-items, flex-start);
-
-    // This box shadow rule and both overrides can be removed when v1 modern support is dropped. The class on the element will handle the styles correctly then.
-    &.sky-elevation-16 {
-      box-shadow: var(
-        --sky-override-toast-box-shadow,
-        var(--sky-elevation-overlay-300)
-      );
-    }
 
     .sky-toast-btn-close {
       background-color: var(

@@ -1,7 +1,6 @@
 @use '../../variables' as *;
-@use '../../compat-tokens-mixins' as compatMixins;
 
-@include compatMixins.sky-modern-v2-html {
+html:has(.sky-theme-modern) {
   font-size: initial;
 }
 
@@ -48,6 +47,7 @@ body.sky-theme-modern {
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-heading-1);
     font-weight: var(--sky-font-style-heading-1);
+    line-height: var(--sky-font-line_height-heading-1);
   }
 
   h2,
@@ -56,6 +56,7 @@ body.sky-theme-modern {
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-heading-2);
     font-weight: var(--sky-font-style-heading-2);
+    line-height: var(--sky-font-line_height-heading-2);
   }
 
   h3,
@@ -63,6 +64,7 @@ body.sky-theme-modern {
     color: var(--sky-color-text-heading);
     font-size: var(--sky-font-size-heading-3);
     font-weight: var(--sky-font-style-heading-3);
+    line-height: var(--sky-font-line_height-heading-3);
   }
 
   h4,
@@ -71,6 +73,7 @@ body.sky-theme-modern {
     font-size: var(--sky-font-size-heading-4);
     font-weight: var(--sky-font-style-heading-4);
     text-transform: none;
+    line-height: var(--sky-font-line_height-heading-4);
   }
 
   h5,
@@ -79,6 +82,7 @@ body.sky-theme-modern {
     font-size: var(--sky-font-size-heading-5);
     font-weight: var(--sky-font-style-heading-5);
     text-transform: none;
+    line-height: var(--sky-font-line_height-heading-5);
   }
 
   p {
@@ -98,32 +102,5 @@ body.sky-theme-modern {
 
   .sky-rounded-corners {
     border-radius: var(--sky-border-radius-s);
-  }
-}
-
-@include compatMixins.sky-modern-v2($encapsulate: false) {
-  h1,
-  .sky-font-heading-1 {
-    line-height: var(--sky-font-line_height-heading-1);
-  }
-
-  h2,
-  .sky-font-heading-2 {
-    line-height: var(--sky-font-line_height-heading-2);
-  }
-
-  h3,
-  .sky-font-heading-3 {
-    line-height: var(--sky-font-line_height-heading-3);
-  }
-
-  h4,
-  .sky-font-heading-4 {
-    line-height: var(--sky-font-line_height-heading-4);
-  }
-
-  h5,
-  .sky-font-heading-5 {
-    line-height: var(--sky-font-line_height-heading-5);
   }
 }

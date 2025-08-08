@@ -192,13 +192,10 @@ $popover-max-width: 276px;
   }
 
   .sky-popover-header {
-    padding: var(
-      --sky-override-popover-heading-padding,
-      var(--sky-comp-popover-header-space-inset-top)
-        var(--sky-comp-popover-header-space-inset-right)
-        var(--sky-comp-popover-header-space-inset-bottom)
-        var(--sky-comp-popover-header-space-inset-left)
-    );
+    padding: var(--sky-comp-popover-header-space-inset-top)
+      var(--sky-comp-popover-header-space-inset-right)
+      var(--sky-comp-popover-header-space-inset-bottom)
+      var(--sky-comp-popover-header-space-inset-left);
   }
 
   .sky-popover-arrow {
