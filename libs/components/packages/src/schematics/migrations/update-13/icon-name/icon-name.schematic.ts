@@ -1,7 +1,7 @@
 import { Rule, Tree } from '@angular-devkit/schematics';
+import { getWorkspace } from '@schematics/angular/utility/workspace';
 
 import { visitProjectFiles } from '../../../utility/visit-project-files';
-import { getWorkspace } from '../../../utility/workspace';
 
 import { IconNameMappings } from './icon-name-mappings';
 

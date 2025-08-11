@@ -1,10 +1,12 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
+import path from 'node:path';
+
 describe('icons-name.schematic', () => {
   const runner = new SchematicTestRunner(
-    'schematics',
-    require.resolve('../../migration-collection.json'),
+    'migrations',
+    path.join(__dirname, '../../../../migrations.json'),
   );
 
   const angularJson = {

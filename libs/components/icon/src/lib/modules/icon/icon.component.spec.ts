@@ -74,42 +74,28 @@ describe('Icon component', () => {
     });
 
     it('should display the resolved icon by ID', fakeAsync(() => {
-      setupIcon('test', undefined, undefined, undefined);
+      setupIcon('test', undefined, undefined);
       detectUrlChanges();
 
       validateIconId('#test-20-line');
     }));
 
-    it('should display the resolved icon by ID and size', fakeAsync(() => {
-      setupIcon('test', '2x', undefined, undefined);
-      detectUrlChanges();
-
-      validateIconId('#test-32-line');
-    }));
-
     it('should display the resolved icon by ID and iconSize', fakeAsync(() => {
-      setupIcon('test', undefined, 'l', undefined);
+      setupIcon('test', 'l', undefined);
       detectUrlChanges();
 
       validateIconId('#test-24-line');
     }));
 
     it('should display the resolved icon by ID and variant', fakeAsync(() => {
-      setupIcon('test', undefined, undefined, 'solid');
+      setupIcon('test', undefined, 'solid');
       detectUrlChanges();
 
       validateIconId('#test-20-solid');
     }));
 
-    it('should display the resolved icon by ID, size, and variant', fakeAsync(() => {
-      setupIcon('test', '2x', undefined, 'solid');
-      detectUrlChanges();
-
-      validateIconId('#test-32-solid');
-    }));
-
     it('should display the resolved icon by ID, iconSize, and variant', fakeAsync(() => {
-      setupIcon('test', undefined, 'm', 'solid');
+      setupIcon('test', 'm', 'solid');
       detectUrlChanges();
 
       validateIconId('#test-20-solid');
