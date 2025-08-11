@@ -66,7 +66,7 @@ function updateIcon(
 }
 
 async function updateSourceFiles(tree: Tree): Promise<void> {
-  const { workspace } = await getWorkspace(tree);
+  const workspace = await getWorkspace(tree);
 
   workspace.projects.forEach((project) => {
     visitProjectFiles(tree, project.sourceRoot || project.root, (filePath) => {

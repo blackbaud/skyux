@@ -6,7 +6,7 @@ import path from 'node:path';
 describe('icons-name.schematic', () => {
   const runner = new SchematicTestRunner(
     'migrations',
-    path.join(__dirname, '../../../../migrations.json'),
+    path.join(__dirname, '../../../../../migrations.json'),
   );
 
   const angularJson = {
