@@ -12,10 +12,7 @@
   }
 
   .sky-error-label::before {
-    content: '\f071';
-    font-family: FontAwesome;
     margin-right: var(--sky-space-gap-icon-s);
-    color: var(--sky-color-icon-danger);
   }
 
   // Placeholder text

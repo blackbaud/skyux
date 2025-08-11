@@ -23,8 +23,8 @@
     <h2>Default Theme Element</h2>
   </ng-template>
   <p>
-    <i *skyThemeIf="'default'" class="fa fa-check"></i>
-    <i *skyThemeIf="'modern'" class="fa fa-clock-o"></i>
+    <sky-icon *skyThemeIf="'default'" iconName="checkmark" />
+    <sky-icon *skyThemeIf="'modern'" iconName="clock" />
     {{ ' ' }}
     <app-on-push
       *skyThemeIf="'default'"

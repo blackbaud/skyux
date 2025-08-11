@@ -43,21 +43,19 @@ describe('FontLoadingService', () => {
       .toPromise();
   });
 
-  describe('when waiting for SVG icons', () => {
-    it('should resolve when the SVG sprite appears in the DOM before calling ready()', async () => {
-      createSvgSprite();
+  it('should resolve when the SVG sprite appears in the DOM before calling ready()', async () => {
+    createSvgSprite();
 
-      const readyPromise = service.ready(true);
+    const readyPromise = service.ready();
 
-      await expectAsync(firstValueFrom(readyPromise)).toBeResolvedTo(true);
-    });
+    await expectAsync(firstValueFrom(readyPromise)).toBeResolvedTo(true);
+  });
 
-    it('should resolve when the SVG sprite appears in the DOM after calling ready()', async () => {
-      const readyPromise = service.ready(true);
+  it('should resolve when the SVG sprite appears in the DOM after calling ready()', async () => {
+    const readyPromise = service.ready();
 
-      createSvgSprite();
+    createSvgSprite();
 
-      await expectAsync(firstValueFrom(readyPromise)).toBeResolvedTo(true);
-    });
+    await expectAsync(firstValueFrom(readyPromise)).toBeResolvedTo(true);
   });
 });

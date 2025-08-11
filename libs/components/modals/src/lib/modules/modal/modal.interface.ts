@@ -70,7 +70,7 @@ export interface SkyModalConfigurationInterface {
 
   /**
    * The `helpKey` string. This property displays
-   * the <i class="fa fa-question-circle" aria-hidden="true"></i> button in the modal header.
+   * the help inline button in the modal header.
    * When users click this button, the `helpOpened` event broadcasts the `helpKey` parameter.
    * Blackbaud developers can use the Help Widget, which is for internal Blackbaud use only, to
    * [display help content in a flyout panel](https://docs.blackbaud.com/bb-help-docs/components/modal-header).

@@ -77,7 +77,7 @@ export class SkyColorpickerComponent
   implements OnInit, OnDestroy, AfterContentChecked
 {
   /**
-   * The name of the [Font Awesome 4.7](https://fontawesome.com/v4.7/icons/) icon to overlay on top of the picker. Do not specify the `fa fa-` classes.
+   * The name of the icon to overlay on top of the picker.
    * @internal
    */
   @Input()
