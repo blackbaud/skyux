@@ -3,7 +3,6 @@ import { DOCUMENT } from '@angular/common';
 import {
   ElementRef,
   Injectable,
-  NgZone,
   OnDestroy,
   RendererFactory2,
   inject,
@@ -18,8 +17,6 @@ export class SkyAffixService implements OnDestroy {
   readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
 
   readonly #viewportRuler = inject(ViewportRuler);
-
-  readonly #zone = inject(NgZone);
 
   readonly #layoutViewport = this.#createLayoutViewportShim(inject(DOCUMENT));
 
@@ -39,7 +36,6 @@ export class SkyAffixService implements OnDestroy {
       affixed.nativeElement,
       this.#renderer,
       this.#viewportRuler,
-      this.#zone,
       this.#layoutViewport,
     );
   }
