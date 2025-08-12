@@ -1,4 +1,5 @@
-import { DOCUMENT, Injectable, Renderer2, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Injectable, Renderer2, inject } from '@angular/core';
 
 import { SkyThemeBrand } from './theme-brand';
 

@@ -1,4 +1,5 @@
-import { DOCUMENT, Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { SkyThemeBrand } from './theme-brand';
