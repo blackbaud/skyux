@@ -8,15 +8,15 @@
 #
 # When the `automated-translations` branch is merged and deleted, this workflow recreates the branch.
 
-name: Automated Translations 11.x.x
+name: Automated Translations 12.x.x
 on:
   push:
     branches:
-      - 11.x.x
+      - 12.x.x
       - automated-translations
   workflow_dispatch:
 env:
-  LTS_BRANCH: '11.x.x'
+  LTS_BRANCH: '12.x.x'
 jobs:
   automated-translations:
     runs-on: ubuntu-latest

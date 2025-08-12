@@ -7,6 +7,7 @@ import {
 import { isImported, parse5, parseSourceFile } from '@angular/cdk/schematics';
 import { getEOL } from '@schematics/angular/utility/eol';
 
+import { logOnce } from '../../utility/log-once';
 import {
   ElementWithLocation,
   SwapTagCallback,
@@ -69,7 +70,7 @@ function definitionListTagSwap(
         node.sourceCodeLocation.startTag.endOffset,
       );
       if (oldTag === 'sky-definition-list') {
-        let value = `<${tags[oldTag]} mode="longDescription"`;
+        let value = `<${tags[oldTag]} mode="horizontal"`;
         // Copy over any other attributes that are not in the new tag.
         for (const attr of node.attrs) {
           // eslint-disable-next-line @cspell/spellchecker
@@ -122,6 +123,13 @@ function convertTemplate(
       Object.keys(tags) as (keyof typeof tags)[],
       definitionListTagSwap(context),
       definitionList,
+    );
+  }
+  if (definitionLists.length > 0) {
+    logOnce(
+      context,
+      'info',
+      `Converted ${definitionLists.length} <sky-definition-list> component(s) to <sky-description-list> component(s). Next steps: https://developer.blackbaud.com/skyux/learn/develop/deprecation/definition-list`,
     );
   }
 }

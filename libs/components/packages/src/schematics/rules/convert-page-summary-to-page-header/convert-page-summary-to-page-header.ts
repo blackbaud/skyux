@@ -1,7 +1,13 @@
-import { Rule, Tree, UpdateRecorder } from '@angular-devkit/schematics';
+import {
+  Rule,
+  SchematicContext,
+  Tree,
+  UpdateRecorder,
+} from '@angular-devkit/schematics';
 import { isImported, parse5, parseSourceFile } from '@angular/cdk/schematics';
 import { getEOL } from '@schematics/angular/utility/eol';
 
+import { logOnce } from '../../utility/log-once';
 import {
   ElementWithLocation,
   SwapTagCallback,
@@ -62,29 +68,20 @@ function moveDetails(
   ]
     .flatMap((tag) => {
       const elements = getElementsByTagName(tag, pageSummary);
-      return elements.map((element) =>
-        content
+      return elements.map((element) => ({
+        tag,
+        content: content
           .substring(
             element.sourceCodeLocation.startTag.endOffset,
             element.sourceCodeLocation.endTag.startOffset,
           )
           .trim(),
-      );
+      }));
     })
     .filter(Boolean);
   const indent = ' '.repeat(pageSummary.sourceCodeLocation.endTag.startCol);
   const eol = getEOL(content);
-  if (detailsContents.length === 1) {
-    recorder.insertLeft(
-      pageSummary.sourceCodeLocation.endTag.startOffset + offset,
-      [
-        `  <sky-page-header-details>`,
-        `${indent}  ${detailsContents[0].trim()}`,
-        `${indent}  </sky-page-header-details>`,
-        `${indent}`,
-      ].join(eol),
-    );
-  } else if (detailsContents.length > 1) {
+  if (detailsContents.length > 0) {
     recorder.insertLeft(
       pageSummary.sourceCodeLocation.endTag.startOffset + offset,
       [
@@ -92,8 +89,8 @@ function moveDetails(
         detailsContents
           .map((detailsContent) =>
             [
-              `${indent}  <div class="sky-margin-stacked-md">`,
-              `${indent}    ${detailsContent.trim()}`,
+              `${indent}  <div class="${['sky-page-summary-subtitle'].includes(detailsContent.tag) ? 'sky-margin-stacked-sm' : 'sky-margin-stacked-md'}">`,
+              `${indent}    ${detailsContent.content.trim()}`,
               `${indent}  </div>`,
             ].join(eol),
           )
@@ -161,6 +158,7 @@ function pageSummaryTagSwap(): SwapTagCallback<keyof typeof tags> {
 function convertTemplate(
   recorder: UpdateRecorder,
   content: string,
+  context: SchematicContext,
   offset = 0,
 ): void {
   const fragment = parseTemplate(content);
@@ -177,18 +175,33 @@ function convertTemplate(
       pageSummary,
     );
   }
+  if (pageSummaries.length > 0) {
+    logOnce(
+      context,
+      'info',
+      `Converted <sky-page-summary> component(s) to <sky-page-header> component(s). Next steps: https://developer.blackbaud.com/skyux/learn/develop/deprecation/page-summary`,
+    );
+  }
 }
 
-function convertHtmlFile(tree: Tree, filePath: string): void {
+function convertHtmlFile(
+  tree: Tree,
+  filePath: string,
+  context: SchematicContext,
+): void {
   const content = tree.readText(filePath);
   if (content.includes('<sky-page-summary')) {
     const recorder = tree.beginUpdate(filePath);
-    convertTemplate(recorder, content);
+    convertTemplate(recorder, content, context);
     tree.commitUpdate(recorder);
   }
 }
 
-function convertTypescriptFile(tree: Tree, filePath: string): void {
+function convertTypescriptFile(
+  tree: Tree,
+  filePath: string,
+  context: SchematicContext,
+): void {
   const source = parseSourceFile(tree, filePath);
   const templates = getInlineTemplates(source);
   const recorder = tree.beginUpdate(filePath);
@@ -198,6 +211,7 @@ function convertTypescriptFile(tree: Tree, filePath: string): void {
       convertTemplate(
         recorder,
         content.slice(template.start, template.end),
+        context,
         template.start,
       );
     }
@@ -219,13 +233,13 @@ function convertTypescriptFile(tree: Tree, filePath: string): void {
 }
 
 export function convertPageSummaryToPageHeader(projectPath: string): Rule {
-  return (tree) => {
+  return (tree, context) => {
     visitProjectFiles(tree, projectPath, (filePath) => {
       try {
         if (filePath.endsWith('.html')) {
-          convertHtmlFile(tree, filePath);
+          convertHtmlFile(tree, filePath, context);
         } else if (filePath.endsWith('.ts')) {
-          convertTypescriptFile(tree, filePath);
+          convertTypescriptFile(tree, filePath, context);
         }
       } catch (error) {
         /* istanbul ignore next */

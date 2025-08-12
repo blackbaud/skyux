@@ -39,7 +39,7 @@ describe('Convert Definition List to Description List', () => {
     `;
     tree.create('src/app/test.component.html', input);
     const output = stripIndents`
-      <sky-description-list mode="longDescription" *ngIf="true" class="test-class" data-sky-id="test-id" defaultDescription="Shrug." directiveExample>
+      <sky-description-list mode="horizontal" *ngIf="true" class="test-class" data-sky-id="test-id" defaultDescription="Shrug." directiveExample>
         <sky-description-list-content *ngIf="true">
           <sky-description-list-term class="test-label">Label 1</sky-description-list-term>
           <sky-description-list-description directiveExample>Value 1</sky-description-list-description>
@@ -99,7 +99,7 @@ describe('Convert Definition List to Description List', () => {
         <!-- This is a comment -->
         <em>Heading</em>
       </h3>
-      <sky-description-list mode="longDescription" [defaultDescription]="null">
+      <sky-description-list mode="horizontal" [defaultDescription]="null">
 
         <sky-description-list-content>
           <sky-description-list-term>Label 1</sky-description-list-term>
@@ -156,7 +156,7 @@ describe('Convert Definition List to Description List', () => {
         selector: 'app-test',
         template: ${backtick}
           <h3>Heading</h3>
-          <sky-description-list mode="longDescription">
+          <sky-description-list mode="horizontal">
 
             <sky-description-list-content>
               <sky-description-list-term>Label 1</sky-description-list-term>
