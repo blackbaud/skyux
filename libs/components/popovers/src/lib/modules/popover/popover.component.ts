@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import {
   SKY_STACKING_CONTEXT,
+  SkyAppWindowRef,
   SkyIdService,
   SkyOverlayInstance,
   SkyOverlayService,
@@ -35,6 +36,8 @@ import { SkyPopoverType } from './types/popover-type';
   standalone: false,
 })
 export class SkyPopoverComponent implements OnDestroy {
+  readonly #windowRef = inject(SkyAppWindowRef);
+
   /**
    * The horizontal alignment of the popover in relation to the trigger element.
    * The `skyPopoverAlignment` property on the popover directive takes precedence over this property when specified.
@@ -181,7 +184,7 @@ export class SkyPopoverComponent implements OnDestroy {
       // Wait for the overlay component to be fully initialized before opening.
       // Create a microtask to prioritize opening the popover immediately after
       // setting up its overlay.
-      queueMicrotask(() => {
+      this.#windowRef.nativeWindow.queueMicrotask(() => {
         this.#openPopover(caller);
       });
     } else {
