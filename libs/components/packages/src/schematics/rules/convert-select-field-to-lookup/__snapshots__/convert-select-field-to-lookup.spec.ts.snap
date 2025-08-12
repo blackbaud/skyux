@@ -75,6 +75,29 @@ SkyLookupModule
 export class TestModule { }"
 `;
 
+exports[`Convert select field to lookup should convert select field to lookup 3`] = `
+"import { TestBed } from '@angular/core/testing';
+
+
+import { TestComponent } from './test.component';
+import { SkyLookupModule } from '@skyux/lookup';
+
+describe('Test component', () => {
+beforeEach(() => {
+TestBed.configureTestingModule({
+declarations: [TestComponent],
+imports: [SkyLookupModule],
+});
+});
+
+it('should create a test component', () => {
+const fixture = TestBed.createComponent(TestComponent);
+fixture.detectChanges();
+expect(fixture.component).toBeTruthy();
+});
+});"
+`;
+
 exports[`Convert select field to lookup should convert select field to lookup using template expressions 1`] = `
 "import { Component } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
@@ -135,4 +158,26 @@ SkyInputBoxModule
 ]
 })
 export class TestModule { }"
+`;
+
+exports[`Convert select field to lookup should convert select field without input box if the label is too complicated 1`] = `
+"import { Component } from '@angular/core';
+
+import { SkyLookupModule } from '@skyux/lookup';
+import { AsyncPipe } from '@angular/common';
+import { SkyInputBoxModule } from '@skyux/forms';
+
+@Component({
+selector: 'app-test',
+imports: [
+SkyLookupModule,
+AsyncPipe,
+SkyInputBoxModule
+],
+templateUrl: './test.component.html',
+styleUrl: './test.component.scss'
+})
+export class TestComponent {
+
+}"
 `;

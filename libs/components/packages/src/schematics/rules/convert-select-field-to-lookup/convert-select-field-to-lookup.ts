@@ -15,11 +15,7 @@ import {
   parseSourceFile,
 } from '@angular/cdk/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import {
-  ExistingBehavior,
-  ProjectDefinition,
-  addDependency,
-} from '@schematics/angular/utility';
+import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
 import { Change, InsertChange } from '@schematics/angular/utility/change';
 import { getEOL } from '@schematics/angular/utility/eol';
 import { applyChangesToFile } from '@schematics/angular/utility/standalone/util';
@@ -45,7 +41,6 @@ import {
 } from '../../utility/typescript/ng-ast';
 import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../utility/visit-project-files';
-import { getRequiredProject } from '../../utility/workspace';
 
 import { ConvertSelectFieldToLookupOptions } from './options';
 
@@ -191,10 +186,8 @@ function applyFollowupTasksToModule(
   followupTasks: FollowupTasks,
   context: SchematicContext,
   options: ConvertSelectFieldToLookupOptions,
-  project: ProjectDefinition,
+  projectPath: string,
 ): void {
-  /* istanbul ignore next */
-  const projectPath = project.sourceRoot ?? project.root;
   const module = findDeclaringModule(tree, projectPath, filePath);
   if (module) {
     const moduleSource = parseSourceFile(tree, module.filepath);
@@ -483,6 +476,7 @@ function selectFieldTagSwap(
 
 function convertTemplate(
   recorder: UpdateRecorder,
+  filePath: string,
   content: string,
   context: SchematicContext,
   options: ConvertSelectFieldToLookupOptions,
@@ -497,6 +491,19 @@ function convertTemplate(
     addCommentsToFunctions: {},
     addCommentsToProperties: {},
   };
+  function getLabelTextAttribute(labelText: string): string {
+    if (labelText.includes('"')) {
+      if (labelText.includes("'")) {
+        if (labelText.includes('`')) {
+          return '';
+        }
+        return `"${labelText.replace(/"/g, '`')}"`;
+      }
+      return `'${labelText}'`;
+    }
+    return `"${labelText}"`;
+  }
+
   for (const selectField of selectFields) {
     followupTasks.swapModuleImports = true;
     const siblingElements = selectField.parentNode?.childNodes.filter(
@@ -510,9 +517,11 @@ function convertTemplate(
       followupTasks.importInputBox = true;
       const labelNode = siblingElements[0] as ElementWithLocation;
       const labelText = getText(labelNode.childNodes);
+      const labelTextAttribute = getLabelTextAttribute(labelText);
       const replaceParent =
         !!selectField.parentNode &&
         'tagName' in selectField.parentNode &&
+        !!labelTextAttribute &&
         ['sky-input-box', 'p', 'div'].includes(selectField.parentNode.tagName);
       if (replaceParent) {
         const parentNode = selectField.parentNode as ElementWithLocation;
@@ -528,13 +537,13 @@ function convertTemplate(
         );
         recorder.insertRight(
           parentNode.sourceCodeLocation.startTag.startOffset + offset,
-          `<sky-input-box labelText="${labelText.replace(/'/g, "\\'").replace(/"/g, "'")}">`,
+          `<sky-input-box labelText=${labelTextAttribute}>`,
         );
         recorder.insertRight(
           parentNode.sourceCodeLocation.endTag.endOffset + offset,
           '</sky-input-box>',
         );
-      } else {
+      } else if (labelTextAttribute) {
         recorder.remove(
           labelNode.sourceCodeLocation.startTag.startOffset + offset,
           labelNode.sourceCodeLocation.endTag.endOffset -
@@ -542,7 +551,7 @@ function convertTemplate(
         );
         recorder.insertRight(
           labelNode.sourceCodeLocation.startOffset + offset,
-          `<sky-input-box labelText="${labelText}">`,
+          `<sky-input-box labelText=${labelTextAttribute}>`,
         );
         recorder.insertRight(
           selectField.sourceCodeLocation.endOffset + offset,
@@ -571,7 +580,13 @@ function convertHtmlFile(
   const content = tree.readText(filePath);
   if (content.includes('<sky-select-field')) {
     const recorder = tree.beginUpdate(filePath);
-    const followupTasks = convertTemplate(recorder, content, context, options);
+    const followupTasks = convertTemplate(
+      recorder,
+      filePath,
+      content,
+      context,
+      options,
+    );
     tree.commitUpdate(recorder);
     return followupTasks;
   }
@@ -583,7 +598,7 @@ function convertTypescriptFile(
   filePath: string,
   context: SchematicContext,
   options: ConvertSelectFieldToLookupOptions,
-  project: ProjectDefinition,
+  projectPath: string,
 ): void {
   const source = parseSourceFile(tree, filePath);
   const eol = getEOL(tree.readText(filePath));
@@ -610,6 +625,7 @@ function convertTypescriptFile(
         const recorder = tree.beginUpdate(filePath);
         followupTasks = convertTemplate(
           recorder,
+          filePath,
           templateContent,
           context,
           options,
@@ -636,10 +652,22 @@ function convertTypescriptFile(
           followupTasks,
           context,
           options,
-          project,
+          projectPath,
         );
       }
     }
+  } else if (
+    isImported(source, 'TestBed', '@angular/core/testing') &&
+    isImported(source, 'SkySelectFieldModule', '@skyux/select-field')
+  ) {
+    const recorder = tree.beginUpdate(filePath);
+    swapImportedClass(recorder, filePath, source, [
+      {
+        classNames: { SkySelectFieldModule: 'SkyLookupModule' },
+        moduleName: { old: '@skyux/select-field', new: '@skyux/lookup' },
+      },
+    ]);
+    tree.commitUpdate(recorder);
   }
 }
 
@@ -648,10 +676,15 @@ export function convertSelectFieldToLookup(
 ): Rule {
   return chain([
     async (tree, context): Promise<void> => {
-      const { project } = await getRequiredProject(tree, options.project);
       visitProjectFiles(tree, options.projectPath, (filePath) => {
         if (filePath.endsWith('.ts')) {
-          convertTypescriptFile(tree, filePath, context, options, project);
+          convertTypescriptFile(
+            tree,
+            filePath,
+            context,
+            options,
+            options.projectPath,
+          );
         }
       });
     },

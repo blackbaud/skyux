@@ -33,15 +33,15 @@ describe('ng-generate/convert-select-field-to-lookup.schematic', () => {
 
   it('should run the schematic without errors', async () => {
     const { runSchematic } = await setupTest();
-    await expect(runSchematic({})).resolves.not.toThrow();
+    await expect(
+      runSchematic({
+        project: 'test-app',
+      }),
+    ).resolves.not.toThrow();
   });
 
-  it('should error without a clear project', async () => {
+  it('should run the schematic without specifying a project', async () => {
     const { runSchematic } = await setupTest('lib');
-    await expect(runSchematic({})).rejects.toThrow(
-      new Error(
-        'Project name is required. Provide a valid project name using the `--project` option.',
-      ),
-    );
+    await expect(runSchematic({})).resolves.not.toThrow();
   });
 });

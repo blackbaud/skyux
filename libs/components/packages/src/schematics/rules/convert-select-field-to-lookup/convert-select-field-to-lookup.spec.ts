@@ -132,6 +132,30 @@ describe('Convert select field to lookup', () => {
       }
     `,
     );
+    tree.overwrite(
+      'src/app/test.component.spec.ts',
+      stripIndents`
+      import { TestBed } from '@angular/core/testing';
+      import { SkySelectFieldModule } from '@skyux/select-field';
+
+      import { TestComponent } from './test.component';
+
+      describe('Test component', () => {
+        beforeEach(() => {
+          TestBed.configureTestingModule({
+            declarations: [TestComponent],
+            imports: [SkySelectFieldModule],
+          });
+        });
+
+        it('should create a test component', () => {
+          const fixture = TestBed.createComponent(TestComponent);
+          fixture.detectChanges();
+          expect(fixture.component).toBeTruthy();
+        });
+      });
+    `,
+    );
     const output = stripIndents`
       <sky-lookup
         *ngIf="true"
@@ -168,6 +192,9 @@ describe('Convert select field to lookup', () => {
     ).toMatchSnapshot();
     expect(
       stripIndents`${tree.readText('src/app/test.module.ts')}`,
+    ).toMatchSnapshot();
+    expect(
+      stripIndents`${tree.readText('src/app/test.component.spec.ts')}`,
     ).toMatchSnapshot();
   });
 
@@ -424,6 +451,131 @@ describe('Convert select field to lookup', () => {
     );
     expect(
       stripIndents`${tree.readText('src/app/test.module.ts')}`,
+    ).toMatchSnapshot();
+  });
+
+  it('should convert select field without input box if the label is too complicated', async () => {
+    const tree = await createTestApp(runner, {
+      projectName: 'test-app',
+    });
+    await angularComponentGenerator(runner, tree, {
+      name: 'test',
+      project: 'test-app',
+      module: 'test',
+      flat: true,
+    });
+    const backtick = '`';
+    const input = stripIndents`
+      <app-cmp>
+      <label for="modelValue">
+        Can't {{ 'resource' | skyAppResources }}
+        {{ "resource" | skyAppResources }}
+        {{ ${backtick}resource${backtick} | skyAppResources }} touch this
+      </label>
+      <sky-select-field
+        ariaLabel="{{ ariaLabel }}"
+        ariaLabelledBy="{{ ariaLabelledBy }}"
+        [customPicker]="customPicker"
+        [data]="data"
+        [disabled]="disabled"
+      />
+      </app-cmp>
+      <app-cmp>
+      <label for="modelValue">
+        Can {{ 'resource' | skyAppResources }}
+        {{ "resource" | skyAppResources }} touch this
+      </label>
+      <sky-select-field
+        ariaLabel="{{ ariaLabel }}"
+        ariaLabelledBy="{{ ariaLabelledBy }}"
+        [customPicker]="customPicker"
+        [data]="data"
+        [disabled]="disabled"
+      />
+      </app-cmp>
+      <app-cmp>
+      <label for="modelValue">
+        {{ "Can touch this" | skyAppResources }}
+      </label>
+      <sky-select-field
+        ariaLabel="{{ ariaLabel }}"
+        ariaLabelledBy="{{ ariaLabelledBy }}"
+        [data]="data"
+        [disabled]="disabled"
+      />
+      </app-cmp>
+    `;
+    applyChangesToFile(
+      tree,
+      'src/app/test.component.ts',
+      addSymbolToClassMetadata(
+        parseSourceFile(tree, 'src/app/test.component.ts'),
+        'Component',
+        'src/app/test.component.ts',
+        'imports',
+        'SkySelectFieldModule',
+        '@skyux/select-field',
+      ),
+    );
+    tree.overwrite('src/app/test.component.html', input);
+    const output = stripIndents`
+      <app-cmp>
+      <label for="modelValue">
+        Can't {{ 'resource' | skyAppResources }}
+        {{ "resource" | skyAppResources }}
+        {{ ${backtick}resource${backtick} | skyAppResources }} touch this
+      </label>
+      <sky-lookup
+        ariaLabel="{{ ariaLabel }}"
+        ariaLabelledBy="{{ ariaLabelledBy }}"
+        [showMoreConfig]="{ customPicker: customPicker }"
+        [data]="data | async"
+        [disabled]="disabled"
+        descriptorProperty="label"
+        enableShowMore
+        idProperty="id" />
+      </app-cmp>
+      <app-cmp>
+      <sky-input-box labelText="Can {{ 'resource' | skyAppResources }}
+        {{ ${backtick}resource${backtick} | skyAppResources }} touch this">
+      <sky-lookup
+        ariaLabel="{{ ariaLabel }}"
+        ariaLabelledBy="{{ ariaLabelledBy }}"
+        [showMoreConfig]="{ customPicker: customPicker }"
+        [data]="data | async"
+        [disabled]="disabled"
+        descriptorProperty="label"
+        enableShowMore
+        idProperty="id" />
+      </sky-input-box></app-cmp>
+      <app-cmp>
+      <sky-input-box labelText='{{ "Can touch this" | skyAppResources }}'>
+      <sky-lookup
+        ariaLabel="{{ ariaLabel }}"
+        ariaLabelledBy="{{ ariaLabelledBy }}"
+        [data]="data | async"
+        [disabled]="disabled"
+        descriptorProperty="label"
+        enableShowMore
+        idProperty="id" />
+      </sky-input-box></app-cmp>
+    `;
+    await firstValueFrom(
+      runner.callRule(
+        convertSelectFieldToLookup({
+          project: 'test-app',
+          bestEffortMode: true,
+          insertTodos: true,
+          projectPath: '',
+        }),
+        tree,
+      ),
+    );
+    expect(stripIndents`${tree.readText('src/app/test.component.html')}`).toBe(
+      output,
+    );
+    expect(
+      stripIndents`${tree.readText('src/app/test.component.ts')}`,
     ).toMatchSnapshot();
   });
 
