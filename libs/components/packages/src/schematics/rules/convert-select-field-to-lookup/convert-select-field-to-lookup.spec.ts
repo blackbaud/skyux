@@ -1,6 +1,4 @@
-import { logging } from '@angular-devkit/core';
 import { stripIndents } from '@angular-devkit/core/src/utils/literals';
-import { SchematicContext } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { parseSourceFile } from '@angular/cdk/schematics';
 import { applyChangesToFile } from '@schematics/angular/utility/standalone/util';
@@ -12,6 +10,7 @@ import {
   angularModuleGenerator,
 } from '../../testing/angular-module-generator';
 import { createTestApp } from '../../testing/scaffold';
+import * as logOnce from '../../utility/log-once';
 import { addSymbolToClassMetadata } from '../../utility/typescript/ng-ast';
 
 import { convertSelectFieldToLookup } from './convert-select-field-to-lookup';
@@ -674,7 +673,7 @@ describe('Convert select field to lookup', () => {
     );
   });
 
-  it('should throw an error if it cannot find a module', async () => {
+  it('should log an error if it cannot find a module', async () => {
     const tree = await createTestApp(runner, {
       projectName: 'test-app',
     });
@@ -694,7 +693,6 @@ describe('Convert select field to lookup', () => {
             [descriptorKey]="descriptorKey"
             [disabled]="disabled"
             [inMemorySearchEnabled]="inMemorySearchEnabled"
-            [multipleSelectOpenButtonText]="multipleSelectOpenButtonText"
             [selectMode]="selectMode"
             [singleSelectClearButtonTitle]="singleSelectClearButtonTitle"
             [singleSelectOpenButtonTitle]="singleSelectOpenButtonTitle"
@@ -739,20 +737,26 @@ describe('Convert select field to lookup', () => {
       })
       export class TestComponent {}
     `;
-    const context: Pick<SchematicContext, 'logger'> = {
-      logger: new logging.NullLogger(),
-    };
-    const warn = jest.spyOn(context.logger, 'warn');
-    await convertSelectFieldToLookup({
-      project: 'test-app',
-      bestEffortMode: true,
-      insertTodos: true,
-      projectPath: '',
-    })(tree, context as SchematicContext);
+    const logOnceSpy = jest
+      .spyOn(logOnce, 'logOnce')
+      .mockImplementation(() => {});
+    await firstValueFrom(
+      runner.callRule(
+        convertSelectFieldToLookup({
+          project: 'test-app',
+          bestEffortMode: true,
+          insertTodos: true,
+          projectPath: '',
+        }),
+        tree,
+      ),
+    );
     expect(stripIndents`${tree.readText('src/app/test.component.ts')}`).toBe(
       output,
     );
-    expect(warn).toHaveBeenCalledWith(
+    expect(logOnceSpy).toHaveBeenCalledWith(
+      expect.any(Object),
+      'warn',
       'Could not find the declaring module for the component in /src/app/test.component.ts. Please review the code to ensure it still works as expected.',
     );
   });

@@ -13,6 +13,12 @@ export type SwapTagCallback<T extends string> = (
   node: ElementWithLocation,
   content: string,
 ) => string;
+export type SwapAttributeCallback<T extends string, U extends string> = (
+  oldAttribute: T,
+  newAttribute: U,
+  node: ElementWithLocation,
+  content: string,
+) => string | null;
 
 function isElement(node: unknown): node is ElementWithLocation {
   return !!node && typeof node === 'object' && 'tagName' in node;
@@ -86,7 +92,7 @@ export function swapTags<T extends string>(
           offset + currentNode.sourceCodeLocation.startTag.startOffset,
           callback('open', tagName, currentNode, content),
         );
-        if (currentNode.sourceCodeLocation.endTag) {
+        if (currentNode.sourceCodeLocation.endTag?.startOffset) {
           recorder.remove(
             offset + currentNode.sourceCodeLocation.endTag.startOffset,
             currentNode.sourceCodeLocation.endTag.endOffset -
@@ -99,10 +105,106 @@ export function swapTags<T extends string>(
         }
       }
     }
-    if (isParentNode(currentNode)) {
+    if (
+      // Only traverse child nodes if the current node is not a self-closing tag
+      (!isElement(currentNode) ||
+        currentNode?.sourceCodeLocation?.endTag?.startOffset) &&
+      isParentNode(currentNode)
+    ) {
       nodeQueue.push(...currentNode.childNodes.filter(isElement));
     }
   }
+}
+
+function safeSubstring(content: string, start: number, end: number): string {
+  return start < end && start < content.length && end < content.length
+    ? content.substring(start, end)
+    : '';
+}
+
+export function getAttributeValueText<T extends string>(
+  content: string,
+  node: ElementWithLocation,
+  attribute: T,
+): string {
+  return safeSubstring(
+    content,
+    node.sourceCodeLocation.attrs[attribute.toLowerCase()].startOffset +
+      attribute.length,
+    node.sourceCodeLocation.attrs[attribute.toLowerCase()].endOffset,
+  );
+}
+
+/**
+ * Swaps attributes in an HTML element based on a mapping of old attribute names to new attribute names.
+ *
+ * The function loops over each attribute in the node:
+ * - If the attribute is in the mapping, it calls the optional callback function
+ * - If the callback result is truthy, it adds the result to the output
+ * - If the attribute is not in the mapping, it copies the attribute as-is
+ */
+export function swapAttributes<T extends string, U extends string>(
+  node: ElementWithLocation,
+  attributeSwaps: Record<T, U>,
+  content: string,
+  callback?: SwapAttributeCallback<T, U>,
+): string {
+  if (node.attrs.length === 0) {
+    return '';
+  }
+  const result = [
+    safeSubstring(
+      content,
+      node.sourceCodeLocation.startTag.startOffset + node.tagName.length + 1,
+      node.sourceCodeLocation.attrs[node.attrs[0].name].startOffset,
+    ),
+  ];
+  const swap = Object.fromEntries(
+    Object.keys(attributeSwaps).map((key) => [key.toLowerCase(), key]),
+  );
+
+  const swapAttributeCallback =
+    callback ??
+    ((oldAttribute, newAttribute, node, content) =>
+      newAttribute
+        ? newAttribute + getAttributeValueText(content, node, oldAttribute)
+        : null);
+
+  const copySpace = (index: number): void => {
+    if (index > 0) {
+      result.push(
+        safeSubstring(
+          content,
+          node.sourceCodeLocation.attrs[node.attrs[index - 1].name].endOffset,
+          node.sourceCodeLocation.attrs[node.attrs[index].name].startOffset,
+        ),
+      );
+    }
+  };
+
+  node.attrs.forEach((attr, index) => {
+    if (attr.name in swap) {
+      const oldAttribute = swap[attr.name] as T;
+      const newAttribute = attributeSwaps[oldAttribute] as U;
+      const replacement =
+        newAttribute &&
+        swapAttributeCallback(oldAttribute, newAttribute, node, content);
+      if (replacement) {
+        copySpace(index);
+        result.push(replacement);
+      }
+    } else {
+      copySpace(index);
+      result.push(
+        safeSubstring(
+          content,
+          node.sourceCodeLocation.attrs[attr.name].startOffset,
+          node.sourceCodeLocation.attrs[attr.name].endOffset,
+        ),
+      );
+    }
+  });
+  return result.join('');
 }
 
 /**
@@ -114,7 +216,7 @@ export function getText(
 ): string {
   if (text.length === 1 && text[0].nodeName === '#text') {
     return (text[0] as parse5.DefaultTreeAdapterTypes.TextNode).value.trim();
-  } else if (!text) {
+  } else if (!text || text.length === 0) {
     return '';
   } else {
     // If the result contains something other than a single text node,

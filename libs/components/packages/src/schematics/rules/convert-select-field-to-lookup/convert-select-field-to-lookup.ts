@@ -3,8 +3,10 @@ import {
   SchematicContext,
   Tree,
   UpdateRecorder,
+  chain,
 } from '@angular-devkit/schematics';
 import {
+  addModuleImportToModule,
   findNodes,
   getDecoratorMetadata,
   getMetadataField,
@@ -13,13 +15,18 @@ import {
   parseSourceFile,
 } from '@angular/cdk/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import { ProjectDefinition } from '@schematics/angular/utility';
+import {
+  ExistingBehavior,
+  ProjectDefinition,
+  addDependency,
+} from '@schematics/angular/utility';
 import { Change, InsertChange } from '@schematics/angular/utility/change';
 import { getEOL } from '@schematics/angular/utility/eol';
 import { applyChangesToFile } from '@schematics/angular/utility/standalone/util';
 
 import { dirname, join, normalize } from 'node:path';
 
+import { logOnce } from '../../utility/log-once';
 import {
   ElementWithLocation,
   SwapTagCallback,
@@ -190,15 +197,11 @@ function applyFollowupTasksToModule(
   const projectPath = project.sourceRoot ?? project.root;
   const module = findDeclaringModule(tree, projectPath, filePath);
   if (module) {
-    contextLogOnce(
-      'info',
-      `Found the declaring module for the component in ${module.filepath}.`,
-      context,
-    );
-    let moduleSource = parseSourceFile(tree, module.filepath);
+    const moduleSource = parseSourceFile(tree, module.filepath);
 
     if (
-      isImported(moduleSource, 'SkySelectFieldModule', '@skyux/select-field')
+      isImported(moduleSource, 'SkySelectFieldModule', '@skyux/select-field') &&
+      !isImported(moduleSource, 'SkyLookupModule', '@skyux/lookup')
     ) {
       const recorder = tree.beginUpdate(module.filepath);
       swapImportedClass(recorder, filePath, moduleSource, [
@@ -208,7 +211,6 @@ function applyFollowupTasksToModule(
         },
       ]);
       tree.commitUpdate(recorder);
-      moduleSource = parseSourceFile(tree, module.filepath);
     }
 
     if (
@@ -216,36 +218,23 @@ function applyFollowupTasksToModule(
       !isImported(moduleSource, 'AsyncPipe', '@angular/common') &&
       !isImported(moduleSource, 'CommonModule', '@angular/common')
     ) {
-      applyChangesToFile(
+      addModuleImportToModule(
         tree,
         module.filepath,
-        addSymbolToClassMetadata(
-          moduleSource,
-          'NgModule',
-          module.filepath,
-          'imports',
-          'AsyncPipe',
-          '@angular/common',
-        ),
+        'AsyncPipe',
+        '@angular/common',
       );
-      moduleSource = parseSourceFile(tree, module.filepath);
     }
 
     if (
       followupTasks?.importInputBox &&
       !isImported(moduleSource, 'SkyInputBoxModule', '@skyux/forms')
     ) {
-      applyChangesToFile(
+      addModuleImportToModule(
         tree,
         module.filepath,
-        addSymbolToClassMetadata(
-          moduleSource,
-          'NgModule',
-          module.filepath,
-          'imports',
-          'SkyInputBoxModule',
-          '@skyux/forms',
-        ),
+        'SkyInputBoxModule',
+        '@skyux/forms',
       );
     }
   } else {
@@ -267,10 +256,10 @@ function bestEffortMessage(
   options: ConvertSelectFieldToLookupOptions,
 ): void {
   if (options.bestEffortMode) {
-    contextLogOnce(
+    logOnce(
+      context,
       'warn',
       `${msg} Please review the code to ensure it still works as expected.`,
-      context,
     );
   } else {
     throw new Error(
@@ -296,10 +285,10 @@ function buildOpeningTag(
     before = getIndentation(previousAttrLine, node, attr, eol);
     const attrName = normalizeAttrName(attr);
     if (attrNameIsOneOf(attrName, unsupportedAttributes)) {
-      contextLogOnce(
+      logOnce(
+        context,
         'warn',
         `The "${attrName}" attribute is not supported on the <sky-lookup> component and will be removed.`,
-        context,
       );
     } else {
       if (attrNameIsOneOf(attrName, unsupportedEvents)) {
@@ -385,7 +374,7 @@ function buildShowMoreConfig(
     ) {
       showMoreConfig += `title: ( ${pickerHeadingValue.slice(2, -2).trim()} )`;
     } else {
-      showMoreConfig += `title: '${pickerHeadingValue}'`;
+      showMoreConfig += `title: '${pickerHeadingValue.replace(/'/g, "\\'")}'`;
     }
     showMoreConfig += ` }`;
   }
@@ -408,18 +397,6 @@ function buildShowMoreConfig(
   }
   showMoreConfig += ` }"`;
   return showMoreConfig;
-}
-
-const loggedMessages: Set<string> = new Set();
-function contextLogOnce(
-  level: 'info' | 'warn',
-  message: string,
-  context: SchematicContext,
-): void {
-  if (!loggedMessages.has(message)) {
-    context.logger[level](message);
-    loggedMessages.add(message);
-  }
 }
 
 function defineAttribute(
@@ -551,7 +528,7 @@ function convertTemplate(
         );
         recorder.insertRight(
           parentNode.sourceCodeLocation.startTag.startOffset + offset,
-          `<sky-input-box labelText="${labelText}">`,
+          `<sky-input-box labelText="${labelText.replace(/'/g, "\\'").replace(/"/g, "'")}">`,
         );
         recorder.insertRight(
           parentNode.sourceCodeLocation.endTag.endOffset + offset,
@@ -669,12 +646,17 @@ function convertTypescriptFile(
 export function convertSelectFieldToLookup(
   options: ConvertSelectFieldToLookupOptions,
 ): Rule {
-  return async (tree, context) => {
-    const { project } = await getRequiredProject(tree, options.project);
-    visitProjectFiles(tree, options.projectPath, (filePath) => {
-      if (filePath.endsWith('.ts')) {
-        convertTypescriptFile(tree, filePath, context, options, project);
-      }
-    });
-  };
+  return chain([
+    async (tree, context) => {
+      const { project } = await getRequiredProject(tree, options.project);
+      visitProjectFiles(tree, options.projectPath, (filePath) => {
+        if (filePath.endsWith('.ts')) {
+          convertTypescriptFile(tree, filePath, context, options, project);
+        }
+      });
+    },
+    addDependency('@skyux/lookup', `0.0.0-PLACEHOLDER`, {
+      existing: ExistingBehavior.Skip,
+    }),
+  ]);
 }
