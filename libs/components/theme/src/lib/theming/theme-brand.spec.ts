@@ -53,6 +53,52 @@ describe('Theme brand', () => {
     expect(brand.sriHash).toBe(sriHash);
   });
 
+  it('should set title correctly when provided', () => {
+    const title = 'Custom Brand Title';
+    const brand = new SkyThemeBrand(
+      'custom-brand',
+      '1.0.0',
+      undefined,
+      undefined,
+      undefined,
+      title,
+    );
+
+    expect(brand.title).toBe(title);
+  });
+
+  it('should set faviconUrl correctly when provided', () => {
+    const faviconUrl = 'https://example.com/favicon.ico';
+    const brand = new SkyThemeBrand(
+      'custom-brand',
+      '1.0.0',
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      faviconUrl,
+    );
+
+    expect(brand.faviconUrl).toBe(faviconUrl);
+  });
+
+  it('should set both title and faviconUrl when provided', () => {
+    const title = 'Custom Brand Title';
+    const faviconUrl = 'https://example.com/favicon.ico';
+    const brand = new SkyThemeBrand(
+      'custom-brand',
+      '1.0.0',
+      undefined,
+      undefined,
+      undefined,
+      title,
+      faviconUrl,
+    );
+
+    expect(brand.title).toBe(title);
+    expect(brand.faviconUrl).toBe(faviconUrl);
+  });
+
   it('should set both styleUrl and sriHash when provided', () => {
     const styleUrl = 'https://example.com/styles.css';
     const sriHash = 'sha384-abc123def456';
@@ -72,12 +118,16 @@ describe('Theme brand', () => {
     const styleUrl = 'https://example.com/styles.css';
     const sriHash = 'sha384-abc123def456';
     const hostClass = 'custom-host-class';
+    const title = 'Custom Brand Title';
+    const faviconUrl = 'https://example.com/favicon.ico';
     const brand = new SkyThemeBrand(
       'custom-brand',
       '1.0.0',
       hostClass,
       styleUrl,
       sriHash,
+      title,
+      faviconUrl,
     );
 
     expect(brand.name).toBe('custom-brand');
@@ -85,6 +135,8 @@ describe('Theme brand', () => {
     expect(brand.hostClass).toBe(hostClass);
     expect(brand.styleUrl).toBe(styleUrl);
     expect(brand.sriHash).toBe(sriHash);
+    expect(brand.title).toBe(title);
+    expect(brand.faviconUrl).toBe(faviconUrl);
   });
 
   it('should set the version correctly when a version with an appropriate suffix is given', () => {
@@ -180,15 +232,88 @@ describe('Theme brand', () => {
       });
     });
 
+    it('should serialize brand with title correctly', () => {
+      const title = 'Custom Brand Title';
+      const brand = new SkyThemeBrand(
+        'custom',
+        '2.0.0',
+        undefined,
+        undefined,
+        undefined,
+        title,
+      );
+      const serialized = brand.serialize();
+
+      expect(serialized).toEqual({
+        name: 'custom',
+        version: '2.0.0',
+        title,
+      });
+    });
+
+    it('should serialize brand with faviconUrl correctly', () => {
+      const faviconUrl = 'https://example.com/favicon.ico';
+      const brand = new SkyThemeBrand(
+        'custom',
+        '2.0.0',
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        faviconUrl,
+      );
+      const serialized = brand.serialize();
+
+      expect(serialized).toEqual({
+        name: 'custom',
+        version: '2.0.0',
+        faviconUrl,
+      });
+    });
+
+    it('should serialize brand with maskIcon correctly', () => {
+      const brand = new SkyThemeBrand(
+        'custom',
+        '2.0.0',
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        {
+          color: '#fff',
+          url: 'https://example.com/mask-icon.ico',
+        },
+      );
+      const serialized = brand.serialize();
+
+      expect(serialized).toEqual({
+        name: 'custom',
+        version: '2.0.0',
+        maskIcon: {
+          color: '#fff',
+          url: 'https://example.com/mask-icon.ico',
+        },
+      });
+    });
+
     it('should serialize brand with all properties correctly', () => {
       const styleUrl = 'https://example.com/styles.css';
       const sriHash = 'sha384-abc123def456';
+      const title = 'Custom Brand Title';
+      const faviconUrl = 'https://example.com/favicon.ico';
       const brand = new SkyThemeBrand(
         'custom',
         '2.0.0',
         'custom-host-class',
         styleUrl,
         sriHash,
+        title,
+        faviconUrl,
+        {
+          color: '#fff',
+          url: 'https://example.com/mask-icon.ico',
+        },
       );
       const serialized = brand.serialize();
 
@@ -198,6 +323,12 @@ describe('Theme brand', () => {
         hostClass: 'custom-host-class',
         styleUrl,
         sriHash,
+        title,
+        faviconUrl,
+        maskIcon: {
+          color: '#fff',
+          url: 'https://example.com/mask-icon.ico',
+        },
       });
     });
 
@@ -252,15 +383,70 @@ describe('Theme brand', () => {
       expect(brand.sriHash).toBe(sriHash);
     });
 
+    it('should deserialize brand with title correctly', () => {
+      const title = 'Custom Brand Title';
+      const brand = SkyThemeBrand.deserialize({
+        name: 'custom',
+        version: '2.0.0',
+        title,
+      });
+
+      expect(brand.name).toBe('custom');
+      expect(brand.version).toBe('2.0.0');
+      expect(brand.hostClass).toBe('sky-theme-brand-custom');
+      expect(brand.title).toBe(title);
+    });
+
+    it('should deserialize brand with faviconUrl correctly', () => {
+      const faviconUrl = 'https://example.com/favicon.ico';
+      const brand = SkyThemeBrand.deserialize({
+        name: 'custom',
+        version: '2.0.0',
+        faviconUrl,
+      });
+
+      expect(brand.name).toBe('custom');
+      expect(brand.version).toBe('2.0.0');
+      expect(brand.hostClass).toBe('sky-theme-brand-custom');
+      expect(brand.faviconUrl).toBe(faviconUrl);
+    });
+
+    it('should deserialize brand with maskIcon correctly', () => {
+      const brand = SkyThemeBrand.deserialize({
+        name: 'custom',
+        version: '2.0.0',
+        maskIcon: {
+          color: '#fff',
+          url: 'https://example.com/mask-icon.ico',
+        },
+      });
+
+      expect(brand.name).toBe('custom');
+      expect(brand.version).toBe('2.0.0');
+      expect(brand.hostClass).toBe('sky-theme-brand-custom');
+      expect(brand.maskIcon).toEqual({
+        color: '#fff',
+        url: 'https://example.com/mask-icon.ico',
+      });
+    });
+
     it('should deserialize brand with all properties correctly', () => {
       const styleUrl = 'https://example.com/styles.css';
       const sriHash = 'sha384-abc123def456';
+      const title = 'Custom Brand Title';
+      const faviconUrl = 'https://example.com/favicon.ico';
       const brand = SkyThemeBrand.deserialize({
         name: 'custom',
         version: '2.0.0',
         hostClass: 'custom-host-class',
         styleUrl,
         sriHash,
+        title,
+        faviconUrl,
+        maskIcon: {
+          color: '#fff',
+          url: 'https://example.com/mask-icon.ico',
+        },
       });
 
       expect(brand.name).toBe('custom');
@@ -268,6 +454,12 @@ describe('Theme brand', () => {
       expect(brand.hostClass).toBe('custom-host-class');
       expect(brand.styleUrl).toBe(styleUrl);
       expect(brand.sriHash).toBe(sriHash);
+      expect(brand.title).toBe(title);
+      expect(brand.faviconUrl).toBe(faviconUrl);
+      expect(brand.maskIcon).toEqual({
+        color: '#fff',
+        url: 'https://example.com/mask-icon.ico',
+      });
     });
   });
 });
