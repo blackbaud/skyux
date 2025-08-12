@@ -95,7 +95,7 @@ describe('Convert Definition List to Description List', () => {
     `;
     tree.create('src/app/test.component.html', input);
     const output = stripIndents`
-      <h3>
+      <h3 class="sky-margin-stacked-sm">
         <!-- This is a comment -->
         <em>Heading</em>
       </h3>
@@ -155,7 +155,7 @@ describe('Convert Definition List to Description List', () => {
       @Component({
         selector: 'app-test',
         template: ${backtick}
-          <h3>Heading</h3>
+          <h3 class="sky-margin-stacked-sm">Heading</h3>
           <sky-description-list mode="horizontal">
 
             <sky-description-list-content>
