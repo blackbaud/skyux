@@ -1,6 +1,7 @@
 /**
  * Type definitions for theme serialization and deserialization.
  */
+import { SkyThemeBrandMaskIcon } from './theme-brand';
 
 /**
  * Serialized representation of a SkyThemeMode.
@@ -29,6 +30,9 @@ export interface SkyThemeBrandData {
   hostClass?: string;
   styleUrl?: string;
   sriHash?: string;
+  title?: string;
+  faviconUrl?: string;
+  maskIcon?: SkyThemeBrandMaskIcon;
 }
 
 /**
