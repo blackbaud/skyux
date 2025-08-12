@@ -1,9 +1,25 @@
-<sky-filter-bar showFilterSelector [filters]="filters">
-  <sky-filter-bar-item filterId="1" filterName="Filter 1" />
-  <sky-filter-bar-item filterId="2" filterName="Filter 2" />
+<sky-filter-bar [filters]="filters" [selectedFilters]="['1', '2']">
+  <sky-filter-item-modal
+    filterId="1"
+    labelText="Filter 1"
+    [filterModalConfig]="modalConfig"
+  />
+  <sky-filter-item-modal
+    filterId="2"
+    labelText="Filter 2"
+    [filterModalConfig]="modalConfig"
+  />
 </sky-filter-bar>
 <div class="spacer"></div>
 <sky-filter-bar [filters]="filters">
-  <sky-filter-bar-item filterId="1" filterName="Filter 1" />
-  <sky-filter-bar-item filterId="2" filterName="Filter 2" />
+  <sky-filter-item-modal
+    filterId="1"
+    labelText="Filter 1"
+    [filterModalConfig]="modalConfig"
+  />
+  <sky-filter-item-modal
+    filterId="2"
+    labelText="Filter 2"
+    [filterModalConfig]="modalConfig"
+  />
 </sky-filter-bar>

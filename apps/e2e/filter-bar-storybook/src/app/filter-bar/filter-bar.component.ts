@@ -24,12 +24,5 @@ export class FilterBarComponent {
     { id: '2' },
   ];
 
-  protected summaryItems = [
-    { value: 1, label: 'Summary 1', helpPopoverContent: 'test' },
-    { value: 2, label: 'Summary 2', valueFormat: { format: 'currency' } },
-  ];
-
-  protected searchFn: (
-    args: SkySelectionModalSearchArgs,
-  ) => Observable<SkySelectionModalSearchResult> | undefined = () => undefined;
+  protected modalConfig = { modalComponent: class {} };
 }

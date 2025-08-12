@@ -4,7 +4,7 @@
       'skyux_filter_bar_filter_label' | skyLibResources
     }}</span>
   </sky-toolbar-item>
-  @if (showFilterSelector()) {
+  @if (!!selectedFilters()) {
     <sky-toolbar-item>
       <button
         type="button"
@@ -15,19 +15,12 @@
       </button>
     </sky-toolbar-item>
   }
-  @for (filter of visibleFilters(); track filter.id) {
+  @for (filter of visibleFilters(); track filter.filterId()) {
     <sky-toolbar-item>
-      <sky-filter-bar-button
-        [filterId]="filter.id"
-        [filterName]="filter.name"
-        [filterModalConfig]="filter.filterModalConfig"
-        [filterSelectionModalConfig]="filter.filterSelectionModalConfig"
-        [filterValue]="filter.filterValue"
-        (filterUpdated)="updateFilters($event, filter.id)"
-      />
+      <ng-container *ngTemplateOutlet="filter.templateRef() ?? null" />
     </sky-toolbar-item>
   }
-  @if (hasFilters()) {
+  @if (!!filters()) {
     <sky-toolbar-item>
       <button
         type="button"

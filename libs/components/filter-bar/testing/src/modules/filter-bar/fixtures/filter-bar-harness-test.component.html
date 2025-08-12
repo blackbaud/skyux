@@ -1,10 +1,18 @@
 <sky-filter-bar
   data-sky-id="basic-filter-bar"
-  showFilterSelector
   [(filters)]="filters"
+  [(selectedFilters)]="selectedFilters"
 >
-  <sky-filter-bar-item filterId="filter1" labelText="Test filter 1" />
-  <sky-filter-bar-item filterId="filter2" labelText="Test filter 2" />
+  <sky-filter-item-modal
+    filterId="filter1"
+    labelText="Test filter 1"
+    [filterModalConfig]="modalConfig"
+  />
+  <sky-filter-item-modal
+    filterId="filter2"
+    labelText="Test filter 2"
+    [filterModalConfig]="modalConfig"
+  />
 </sky-filter-bar>
 
 <sky-filter-bar data-sky-id="empty-filter-bar"> </sky-filter-bar>

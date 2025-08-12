@@ -1,6 +1,3 @@
-import { SkySelectionModalOpenArgs } from '@skyux/lookup';
-
-import { SkyFilterBarFilterModalConfig } from './filter-bar-filter-modal-config';
 import { SkyFilterBarFilterValue } from './filter-bar-filter-value';
 
 /**
@@ -20,12 +17,4 @@ export interface SkyFilterBarItem {
    * The value of the filter, if it is set.
    */
   filterValue?: SkyFilterBarFilterValue;
-  /**
-   * Configuration options for the modal that is invoked when a user selects a filter.
-   */
-  filterModalConfig?: SkyFilterBarFilterModalConfig;
-  /**
-   * Configuration options for using a SkySelectionModal as the filter modal.
-   */
-  filterSelectionModalConfig?: SkySelectionModalOpenArgs;
 }

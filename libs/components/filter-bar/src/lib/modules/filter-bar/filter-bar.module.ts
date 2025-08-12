@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 
-import { SkyFilterBarItemComponent } from './filter-bar-item.component';
 import { SkyFilterBarComponent } from './filter-bar.component';
+import { SkyFilterItemModalComponent } from './filter-item-modal.component';
 
 @NgModule({
-  imports: [SkyFilterBarComponent, SkyFilterBarItemComponent],
-  exports: [SkyFilterBarComponent, SkyFilterBarItemComponent],
+  imports: [SkyFilterBarComponent, SkyFilterItemModalComponent],
+  exports: [SkyFilterBarComponent, SkyFilterItemModalComponent],
 })
 export class SkyFilterBarModule {}

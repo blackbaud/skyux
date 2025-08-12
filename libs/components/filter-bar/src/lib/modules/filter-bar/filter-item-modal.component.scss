@@ -19,21 +19,21 @@
   max-width: 300px;
 }
 
-.sky-filter-bar-filter-item-title,
-.sky-filter-bar-filter-item-value {
+.sky-filter-item-title,
+.sky-filter-item-value {
   margin-right: var(
     --sky-override-filter-bar-button-gap-spacing,
     var(--sky-space-gap-action_group-m)
   );
 }
 
-.sky-filter-bar-filter-item-value {
+.sky-filter-item-value {
   flex-shrink: 1;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.sky-filter-bar-filter-item-caret {
+.sky-filter-item-caret {
   flex-grow: 1;
 }
 
@@ -57,12 +57,12 @@
     );
   }
 
-  .sky-filter-bar-filter-item-title {
+  .sky-filter-item-title {
     color: var(--sky-color-text-deemphasized);
   }
 
-  .sky-filter-bar-filter-item-value,
-  .sky-filter-bar-filter-item-caret {
+  .sky-filter-item-value,
+  .sky-filter-item-caret {
     color: var(--sky-color-text-action);
     font-weight: var(--sky-font-style-emphasized);
   }

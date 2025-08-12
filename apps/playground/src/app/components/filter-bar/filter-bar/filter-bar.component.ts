@@ -15,47 +15,54 @@ export class FilterBarComponent {
   }
 
   public set filters(value: SkyFilterBarFilterItem[] | undefined) {
-    value.toString = (): string => {
-      return (
-        '[' +
-        this.filters
-          .map(
-            (filter) =>
-              `{ ${filter.id}${filter.filterValue ? ': ' + (filter.filterValue.displayValue ?? filter.filterValue.value) : ''} }`,
-          )
-          .join(', ') +
-        ' ]'
-      );
-    };
+    if (value) {
+      value.toString = (): string => {
+        return (
+          '[' +
+          this.filters
+            .map(
+              (filter) =>
+                `{ ${filter.id}${filter.filterValue ? ': ' + (filter.filterValue.displayValue ?? filter.filterValue.value) : ''} }`,
+            )
+            .join(', ') +
+          ' ]'
+        );
+      };
+    }
 
     this.#_filters = value;
 
     console.log(value);
   }
 
-  public summaryItems = [
-    {
-      value: 10000000,
-      label: 'Raised',
-      valueFormat: { format: 'currency', truncate: true },
-      helpPopoverContent: 'test content',
-    },
-    { value: 10, label: 'Elements', helpPopoverContent: 'test content2' },
-  ];
+  public selectedFilters: string[] | undefined;
+  #selectedFilters: string[] | undefined;
 
   public filterModalConfig = { modalComponent: TestModalComponent };
 
-  #_filters: SkyFilterBarFilterItem[] | undefined = [
-    { id: '1' },
-    { id: '2' },
-    { id: '3' },
-  ];
+  public labelText = 'filter 1';
+
+  #_filters: SkyFilterBarFilterItem[] | undefined;
+
+  #defaultFilters = [{ id: '2', filterValue: { value: 1, displayValue: '1' } }];
 
   constructor() {
     this.resetFilters();
   }
 
   public resetFilters(): void {
-    this.filters = [{ id: '1' }, { id: '2' }, { id: '3' }];
+    this.filters = this.#defaultFilters;
+    this.selectedFilters = ['1', '2', '3'];
+    this.#selectedFilters = undefined;
+  }
+
+  public toggleSelectedFilters(): void {
+    const selectedFilters = this.selectedFilters;
+    this.selectedFilters = this.#selectedFilters;
+    this.#selectedFilters = selectedFilters;
+  }
+
+  public toggleLabelText(): void {
+    this.labelText = this.labelText === 'filter 1' ? 'Filter 1' : 'filter 1';
   }
 }
