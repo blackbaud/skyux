@@ -3,7 +3,7 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkySelectionModalHarness } from '@skyux/lookup/testing';
 
 import { SkyFilterBarHarnessFilters } from './filter-bar-harness-filters';
-import { SkyFilterItemHarness } from './filter-item-harness
+import { SkyFilterItemHarness } from './filter-item-harness';
 import { SkyFilterItemHarnessFilters } from './filter-item-harness-filters';
 
 /**
