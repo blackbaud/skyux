@@ -62,7 +62,7 @@ describe('Convert Page Summary to Page Header', () => {
           <sky-avatar [name]="name" [canChange]="true" />
         </sky-page-header-avatar>
         <sky-page-header-details>
-          <div class="sky-margin-stacked-sm">
+          <div class="sky-margin-stacked-sm sky-emphasized">
             Board member
           </div>
           <div class="sky-margin-stacked-md">
@@ -125,7 +125,7 @@ describe('Convert Page Summary to Page Header', () => {
           <sky-avatar [name]="name" [canChange]="true" />
         </sky-page-header-avatar>
         <sky-page-header-details>
-          <div class="sky-margin-stacked-sm">
+          <div class="sky-margin-stacked-sm sky-emphasized">
             Board member
           </div>
         </sky-page-header-details>
