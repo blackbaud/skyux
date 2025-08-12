@@ -3,6 +3,7 @@ import { DOCUMENT, NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
+  NgZone,
   RendererFactory2,
   ViewChild,
 } from '@angular/core';
@@ -131,6 +132,7 @@ describe('Affixer', () => {
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
+      TestBed.inject(NgZone),
       TestBed.inject(DOCUMENT).documentElement,
     );
     const offsetChangeObserver = jasmine.createSpy('offsetChange');
@@ -178,6 +180,7 @@ describe('Affixer', () => {
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
+      TestBed.inject(NgZone),
       TestBed.inject(DOCUMENT).documentElement,
     );
     expect(affixer).toBeTruthy();
@@ -195,6 +198,7 @@ describe('Affixer', () => {
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
+      TestBed.inject(NgZone),
       TestBed.inject(DOCUMENT).documentElement,
     );
     expect(affixer).toBeTruthy();
@@ -211,6 +215,7 @@ describe('Affixer', () => {
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
+      TestBed.inject(NgZone),
       TestBed.inject(DOCUMENT).documentElement,
     );
     expect(affixer).toBeTruthy();
@@ -236,6 +241,7 @@ describe('Affixer', () => {
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
+      TestBed.inject(NgZone),
       TestBed.inject(DOCUMENT).documentElement,
     );
     expect(affixer).toBeTruthy();
@@ -262,6 +268,7 @@ describe('Affixer', () => {
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
+      TestBed.inject(NgZone),
       TestBed.inject(DOCUMENT).documentElement,
     );
     expect(affixer).toBeTruthy();

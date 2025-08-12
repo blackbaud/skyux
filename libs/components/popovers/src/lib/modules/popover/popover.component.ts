@@ -171,14 +171,25 @@ export class SkyPopoverComponent implements OnDestroy {
     placement?: SkyPopoverPlacement,
     alignment?: SkyPopoverAlignment,
   ): void {
-    if (!this.#overlay) {
-      this.#setupOverlay();
-    }
-
     this.placement = placement ?? this.placement;
     this.alignment = alignment ?? this.alignment;
     this.isActive = true;
 
+    if (!this.#overlay) {
+      this.#setupOverlay();
+
+      // Wait for the overlay component to be fully initialized before opening.
+      // Create a microtask to prioritize opening the popover immediately after
+      // setting up its overlay.
+      queueMicrotask(() => {
+        this.#openPopover(caller);
+      });
+    } else {
+      this.#openPopover(caller);
+    }
+  }
+
+  #openPopover(caller: ElementRef): void {
     this.#contentRef.open(caller, {
       enableAnimations: this.enableAnimations,
       horizontalAlignment: this.alignment,
