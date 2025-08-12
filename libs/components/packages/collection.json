@@ -26,6 +26,11 @@
       "factory": "./src/schematics/ng-generate/convert-page-summary-to-page-header/convert-page-summary-to-page-header.schematic",
       "schema": "./src/schematics/ng-generate/convert-page-summary-to-page-header/schema.json"
     },
+    "convert-progress-indicator-wizard-to-tab-wizard": {
+      "description": "Convert <sky-progress-indicator> components using wizard to use <sky-tabset> components.",
+      "factory": "./src/schematics/ng-generate/convert-progress-indicator-wizard-to-tab-wizard/convert-progress-indicator-wizard-to-tab-wizard.schematic",
+      "schema": "./src/schematics/ng-generate/convert-progress-indicator-wizard-to-tab-wizard/schema.json"
+    },
     "polyfills": {
       "description": "Add @skyux/packages/polyfills to project config.",
       "factory": "./src/schematics/ng-generate/polyfills/polyfills.schematic",

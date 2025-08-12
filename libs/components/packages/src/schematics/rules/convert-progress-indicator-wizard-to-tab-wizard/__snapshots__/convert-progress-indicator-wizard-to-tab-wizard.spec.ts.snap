@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard 1`] = `
+"import { Component } from '@angular/core';
+
+import { SkyTabsModule } from '@skyux/tabs';
+
+@Component({
+selector: 'app-test',
+templateUrl: './test.component.html',
+imports: [SkyTabsModule],
+})
+export class TestComponent {
+public isSaveDisabled = false;
+public updateIndex(event: { activeIndex: number }): void {
+console.log('Active index changed:', event.activeIndex);
+}
+public onSaveClick(event: Event): void {
+console.log('Save clicked:', event);
+}
+}"
+`;
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard with ambiguous module 1`] = `
+"import { Component } from '@angular/core';
+
+@Component({
+selector: 'app-test',
+templateUrl: './test.component.html',
+standalone: false,
+})
+export class TestComponent {
+public isSaveDisabled = false;
+public updateIndex(event: { activeIndex: number }): void {
+console.log('Active index changed:', event.activeIndex);
+}
+public onSaveClick(event: Event): void {
+console.log('Save clicked:', event);
+}
+}"
+`;
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard with module 1`] = `
+"import { Component } from '@angular/core';
+
+@Component({
+selector: 'app-test',
+templateUrl: './test.component.html',
+standalone: false,
+})
+export class TestComponent {
+public isSaveDisabled = false;
+public updateIndex(event: { activeIndex: number }): void {
+console.log('Active index changed:', event.activeIndex);
+}
+public onSaveClick(event: Event): void {
+console.log('Save clicked:', event);
+}
+}"
+`;
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard with module 2`] = `
+"import { NgModule } from '@angular/core';
+import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
+
+import { TestComponent } from './test.component';
+import { SkyTabsModule } from '@skyux/tabs';
+
+@NgModule({
+imports: [SkyProgressIndicatorModule, SkyTabsModule],
+declarations: [TestComponent],
+exports: [TestComponent],
+})
+export class TestModule {}"
+`;
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard, maintaining other progress indicators 1`] = `
+"import { Component } from '@angular/core';
+import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
+import { SkyTabsModule } from '@skyux/tabs';
+
+@Component({
+selector: 'app-test',
+templateUrl: './test.component.html',
+imports: [SkyProgressIndicatorModule, SkyTabsModule],
+})
+export class TestComponent {
+public isSaveDisabled = false;
+public updateIndex(event: { activeIndex: number }): void {
+console.log('Active index changed:', event.activeIndex);
+}
+public onSaveClick(event: Event): void {
+console.log('Save clicked:', event);
+}
+}"
+`;

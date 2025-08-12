@@ -89,7 +89,7 @@ function moveDetails(
         detailsContents
           .map((detailsContent) =>
             [
-              `${indent}  <div class="${['sky-page-summary-subtitle'].includes(detailsContent.tag) ? 'sky-margin-stacked-sm' : 'sky-margin-stacked-md'}">`,
+              `${indent}  <div class="${['sky-page-summary-subtitle'].includes(detailsContent.tag) ? 'sky-margin-stacked-sm sky-emphasized' : 'sky-margin-stacked-md'}">`,
               `${indent}    ${detailsContent.content.trim()}`,
               `${indent}  </div>`,
             ].join(eol),
