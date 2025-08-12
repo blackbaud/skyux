@@ -236,7 +236,7 @@ function convertTypescriptFile(
 
 export function convertPageSummaryToPageHeader(projectPath: string): Rule {
   return chain([
-    (tree, context) => {
+    (tree, context): void => {
       visitProjectFiles(tree, projectPath, (filePath) => {
         try {
           if (filePath.endsWith('.html')) {

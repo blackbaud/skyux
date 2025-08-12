@@ -647,7 +647,7 @@ export function convertSelectFieldToLookup(
   options: ConvertSelectFieldToLookupOptions,
 ): Rule {
   return chain([
-    async (tree, context) => {
+    async (tree, context): Promise<void> => {
       const { project } = await getRequiredProject(tree, options.project);
       visitProjectFiles(tree, options.projectPath, (filePath) => {
         if (filePath.endsWith('.ts')) {
