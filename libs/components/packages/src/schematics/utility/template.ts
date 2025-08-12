@@ -163,9 +163,9 @@ export function swapAttributes<T extends string, U extends string>(
     Object.keys(attributeSwaps).map((key) => [key.toLowerCase(), key]),
   );
 
-  const swapAttributeCallback =
+  const swapAttributeCallback: SwapAttributeCallback<T, U> =
     callback ??
-    ((oldAttribute, newAttribute, node, content) =>
+    ((oldAttribute, newAttribute, node, content): string | null =>
       newAttribute
         ? newAttribute + getAttributeValueText(content, node, oldAttribute)
         : null);

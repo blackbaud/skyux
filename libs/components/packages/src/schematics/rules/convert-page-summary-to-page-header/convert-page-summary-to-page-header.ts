@@ -3,8 +3,10 @@ import {
   SchematicContext,
   Tree,
   UpdateRecorder,
+  chain,
 } from '@angular-devkit/schematics';
 import { isImported, parse5, parseSourceFile } from '@angular/cdk/schematics';
+import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
 import { getEOL } from '@schematics/angular/utility/eol';
 
 import { logOnce } from '../../utility/log-once';
@@ -233,19 +235,24 @@ function convertTypescriptFile(
 }
 
 export function convertPageSummaryToPageHeader(projectPath: string): Rule {
-  return (tree, context) => {
-    visitProjectFiles(tree, projectPath, (filePath) => {
-      try {
-        if (filePath.endsWith('.html')) {
-          convertHtmlFile(tree, filePath, context);
-        } else if (filePath.endsWith('.ts')) {
-          convertTypescriptFile(tree, filePath, context);
+  return chain([
+    (tree, context): void => {
+      visitProjectFiles(tree, projectPath, (filePath) => {
+        try {
+          if (filePath.endsWith('.html')) {
+            convertHtmlFile(tree, filePath, context);
+          } else if (filePath.endsWith('.ts')) {
+            convertTypescriptFile(tree, filePath, context);
+          }
+        } catch (error) {
+          /* istanbul ignore next */
+          const msg = error instanceof Error ? error.message : String(error);
+          throw new Error(`Error converting '${filePath}': ${msg}`);
         }
-      } catch (error) {
-        /* istanbul ignore next */
-        const msg = error instanceof Error ? error.message : String(error);
-        throw new Error(`Error converting '${filePath}': ${msg}`);
-      }
-    });
-  };
+      });
+    },
+    addDependency('@skyux/pages', `0.0.0-PLACEHOLDER`, {
+      existing: ExistingBehavior.Skip,
+    }),
+  ]);
 }
