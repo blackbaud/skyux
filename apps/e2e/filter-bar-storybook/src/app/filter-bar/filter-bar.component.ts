@@ -1,12 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyFilterBarFilterItem, SkyFilterBarModule } from '@skyux/filter-bar';
-import {
-  SkySelectionModalSearchArgs,
-  SkySelectionModalSearchResult,
-} from '@skyux/lookup';
-
-import { Observable } from 'rxjs';
 
 @Component({
   standalone: true,
