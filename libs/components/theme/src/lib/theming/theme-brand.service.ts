@@ -4,6 +4,15 @@ import { SkyThemeBrand } from './theme-brand';
 
 const BRAND_BLACKBAUD = 'blackbaud';
 
+// Commonly-used icon configurations. Appending these to the head element will
+// override any existing link elements with the same attribute values. When
+// they are removed, the previous favicon link elements will take effect again.
+const FAVICON_CONFIGS = [
+  { rel: 'apple-touch-icon', sizes: '180x180' },
+  { rel: 'icon', sizes: '32x32' },
+  { rel: 'icon', sizes: '16x16' },
+];
+
 /**
  * @internal
  * Provides methods for managing theme branding including brand registration,
@@ -143,23 +152,16 @@ export class SkyThemeBrandService {
     if (brand?.faviconUrl) {
       const faviconUrl = brand.faviconUrl;
 
-      // Define the three favicon configurations
-      const faviconConfigs = [
-        { rel: 'apple-touch-icon', sizes: '180x180' },
-        { rel: 'icon', sizes: '32x32' },
-        { rel: 'icon', sizes: '16x16' },
-      ];
-
       // Create favicon elements if they don't exist, or reuse existing ones
-      while (this.#faviconEls.length < faviconConfigs.length) {
+      while (this.#faviconEls.length < FAVICON_CONFIGS.length) {
         const faviconEl = renderer.createElement('link') as HTMLLinkElement;
         this.#faviconEls.push(faviconEl);
         this.#appendToHead(renderer, faviconEl);
       }
 
       // Update each favicon element with its configuration
-      for (let i = 0; i < faviconConfigs.length; i++) {
-        const config = faviconConfigs[i];
+      for (let i = 0; i < FAVICON_CONFIGS.length; i++) {
+        const config = FAVICON_CONFIGS[i];
         const faviconEl = this.#faviconEls[i];
 
         renderer.setAttribute(faviconEl, 'rel', config.rel);
