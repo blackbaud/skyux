@@ -663,4 +663,133 @@ describe('ng-ast', () => {
       ).toBeFalsy();
     });
   });
+
+  describe('addSymbolToClassMetadata', () => {
+    let modulePath: string;
+    let moduleContent: string;
+
+    beforeEach(() => {
+      modulePath = '/src/app/app.module.ts';
+      moduleContent = `
+      import { BrowserModule } from '@angular/platform-browser';
+      import { NgModule } from '@angular/core';
+      import { AppComponent } from './app.component';
+
+      @NgModule({
+        declarations: [
+          AppComponent
+        ],
+        imports: [
+          BrowserModule
+        ],
+        providers: [],
+        bootstrap: [AppComponent]
+      })
+      export class AppModule { }
+    `;
+    });
+
+    it('should add metadata', () => {
+      const source = getTsSource(modulePath, moduleContent);
+      const changes = addSymbolToClassMetadata(
+        source,
+        'NgModule',
+        modulePath,
+        'imports',
+        'HelloWorld',
+      );
+      expect(changes).not.toBeNull();
+
+      const output = applyChanges(modulePath, moduleContent, changes || []);
+      expect(output).toMatch(/imports: \[[^\]]+,\n(\s*) {2}HelloWorld\n\1\]/);
+    });
+
+    it('should add metadata (comma)', () => {
+      const moduleContent = `
+      import { BrowserModule } from '@angular/platform-browser';
+      import { NgModule } from '@angular/core';
+
+      @NgModule({
+        declarations: [
+          AppComponent
+        ],
+        imports: [
+          BrowserModule,
+        ],
+        providers: [],
+        bootstrap: [AppComponent]
+      })
+      export class AppModule { }
+    `;
+      const source = getTsSource(modulePath, moduleContent);
+      const changes = addSymbolToClassMetadata(
+        source,
+        'NgModule',
+        modulePath,
+        'imports',
+        'HelloWorld',
+      );
+      expect(changes).not.toBeNull();
+
+      const output = applyChanges(modulePath, moduleContent, changes || []);
+      expect(output).toMatch(/imports: \[[^\]]+,\n(\s*) {2}HelloWorld,\n\1\]/);
+    });
+
+    it('should add metadata (missing)', () => {
+      const moduleContent = `
+      import { BrowserModule } from '@angular/platform-browser';
+      import { NgModule } from '@angular/core';
+
+      @NgModule({
+        declarations: [
+          AppComponent
+        ],
+        providers: [],
+        bootstrap: [AppComponent]
+      })
+      export class AppModule { }
+    `;
+      const source = getTsSource(modulePath, moduleContent);
+      const changes = addSymbolToClassMetadata(
+        source,
+        'NgModule',
+        modulePath,
+        'imports',
+        'HelloWorld',
+      );
+      expect(changes).not.toBeNull();
+
+      const output = applyChanges(modulePath, moduleContent, changes || []);
+      expect(output).toMatch(/imports: \[\n(\s*) {2}HelloWorld\n\1\]/);
+    });
+
+    it('should add metadata (empty)', () => {
+      const moduleContent = `
+      import { BrowserModule } from '@angular/platform-browser';
+      import { NgModule } from '@angular/core';
+
+      @NgModule({
+        declarations: [
+          AppComponent
+        ],
+        providers: [],
+        imports: [],
+        bootstrap: [AppComponent]
+      })
+      export class AppModule { }
+    `;
+      const source = getTsSource(modulePath, moduleContent);
+      const changes = addSymbolToClassMetadata(
+        source,
+        'NgModule',
+        modulePath,
+        'imports',
+        'HelloWorld',
+      );
+      expect(changes).not.toBeNull();
+
+      const output = applyChanges(modulePath, moduleContent, changes || []);
+      expect(output).toMatch(/imports: \[\n(\s*) {2}HelloWorld\n\1\],\n/);
+    });
+  });
 });
