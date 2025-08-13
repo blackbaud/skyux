@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { SkyFluidGridModule, SkyPageModule } from '@skyux/layout';
+import { SkyFluidGridModule } from '@skyux/layout';
+import { SkyPageModule } from '@skyux/pages';
 
 /**
  * @title Page with basic setup
