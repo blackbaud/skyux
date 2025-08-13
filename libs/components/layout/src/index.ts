@@ -29,8 +29,6 @@ export { SkyFormatModule } from './lib/modules/format/format.module';
 export { SkyInlineDeleteType } from './lib/modules/inline-delete/inline-delete-type';
 export { SkyInlineDeleteModule } from './lib/modules/inline-delete/inline-delete.module';
 
-
-
 export { SkyPageSummaryModule } from './lib/modules/page-summary/page-summary.module';
 
 export { SkyTextExpandModule } from './lib/modules/text-expand/text-expand.module';
