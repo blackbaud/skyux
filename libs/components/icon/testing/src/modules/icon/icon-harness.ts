@@ -69,11 +69,6 @@ export class SkyIconHarness extends SkyComponentHarness {
     icon: string | null;
     variant: string | null;
   }> {
-    // Since SKY UX icons have Font Awesome alternatives that may be used
-    // in default theme instead of the icon specified by the consumer, we
-    // need to get the specified values using data- attributes added by
-    // the icon component. This conflicts with the usual pattern of giving
-    // the effective state of the component but is necessary in this case.
     const icon = await this.#getIcon();
 
     return {
