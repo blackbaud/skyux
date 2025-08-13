@@ -10,7 +10,6 @@ import {
   angularModuleGenerator,
 } from '../../testing/angular-module-generator';
 import { createTestApp } from '../../testing/scaffold';
-import * as logOnce from '../../utility/log-once';
 import { addSymbolToClassMetadata } from '../../utility/typescript/ng-ast';
 
 import { convertSelectFieldToLookup } from './convert-select-field-to-lookup';
@@ -60,18 +59,6 @@ describe('Convert select field to lookup', () => {
         (searchApplied)="onSearchApplied($event)"
       />
     `;
-    applyChangesToFile(
-      tree,
-      'src/app/test.module.ts',
-      addSymbolToClassMetadata(
-        parseSourceFile(tree, 'src/app/test.module.ts'),
-        'NgModule',
-        'src/app/test.module.ts',
-        'imports',
-        'NgIf',
-        '@angular/common',
-      ),
-    );
     applyChangesToFile(
       tree,
       'src/app/test.module.ts',
@@ -163,7 +150,7 @@ describe('Convert select field to lookup', () => {
         [ariaLabel]="ariaLabel"
         [ariaLabelledBy]="ariaLabelledBy"
         [showMoreConfig]="{ nativePickerConfig: { title: ( pickerHeading ) }, customPicker: customPicker }"
-        [data]="data | async"
+        [data]="(data | async) ?? []"
         [descriptorProperty]="descriptorKey"
         [disabled]="disabled"
         [selectMode]="selectMode"
@@ -208,6 +195,18 @@ describe('Convert select field to lookup', () => {
       standalone: true,
       flat: true,
     });
+    applyChangesToFile(
+      tree,
+      'src/app/test.component.ts',
+      addSymbolToClassMetadata(
+        parseSourceFile(tree, 'src/app/test.component.ts'),
+        'Component',
+        'src/app/test.component.ts',
+        'imports',
+        'SkySelectFieldModule',
+        '@skyux/select-field',
+      ),
+    );
     const input = stripIndents`
       <sky-select-field
         name="modelValue"
@@ -236,7 +235,7 @@ describe('Convert select field to lookup', () => {
         ariaLabel="{{ ariaLabel }}"
         ariaLabelledBy="{{ ariaLabelledBy }}"
         [showMoreConfig]="{ nativePickerConfig: { title: ( pickerHeading ) }, customPicker: customPicker }"
-        [data]="data | async"
+        [data]="(data | async) ?? []"
         [disabled]="disabled"
         [selectMode]="selectMode"
         placeholderText="{{ singleSelectPlaceholderText }}"
@@ -275,6 +274,18 @@ describe('Convert select field to lookup', () => {
       standalone: true,
       flat: true,
     });
+    applyChangesToFile(
+      tree,
+      'src/app/test.component.ts',
+      addSymbolToClassMetadata(
+        parseSourceFile(tree, 'src/app/test.component.ts'),
+        'Component',
+        'src/app/test.component.ts',
+        'imports',
+        'SkySelectFieldModule',
+        '@skyux/select-field',
+      ),
+    );
     const input = stripIndents`
       <div>
       <label for="modelValue">Model Value</label>
@@ -307,7 +318,7 @@ describe('Convert select field to lookup', () => {
         ariaLabel="{{ ariaLabel }}"
         ariaLabelledBy="{{ ariaLabelledBy }}"
         [showMoreConfig]="{ nativePickerConfig: { title: ( pickerHeading ) }, customPicker: customPicker }"
-        [data]="data | async"
+        [data]="(data | async) ?? []"
         [disabled]="disabled"
         [selectMode]="selectMode"
         placeholderText="{{ singleSelectPlaceholderText }}"
@@ -387,18 +398,6 @@ describe('Convert select field to lookup', () => {
         'NgModule',
         'src/app/test.module.ts',
         'imports',
-        'NgIf',
-        '@angular/common',
-      ),
-    );
-    applyChangesToFile(
-      tree,
-      'src/app/test.module.ts',
-      addSymbolToClassMetadata(
-        parseSourceFile(tree, 'src/app/test.module.ts'),
-        'NgModule',
-        'src/app/test.module.ts',
-        'imports',
         'NgModel',
         '@angular/forms',
       ),
@@ -424,7 +423,7 @@ describe('Convert select field to lookup', () => {
         ariaLabel="{{ ariaLabel }}"
         ariaLabelledBy="{{ ariaLabelledBy }}"
         [showMoreConfig]="{ nativePickerConfig: { title: ( pickerHeading ) }, customPicker: customPicker }"
-        [data]="data | async"
+        [data]="(data | async) ?? []"
         [disabled]="disabled"
         [selectMode]="selectMode"
         placeholderText="{{ singleSelectPlaceholderText }}"
@@ -529,7 +528,7 @@ describe('Convert select field to lookup', () => {
         ariaLabel="{{ ariaLabel }}"
         ariaLabelledBy="{{ ariaLabelledBy }}"
         [showMoreConfig]="{ customPicker: customPicker }"
-        [data]="data | async"
+        [data]="(data | async) ?? []"
         [disabled]="disabled"
         descriptorProperty="label"
         enableShowMore
@@ -542,7 +541,7 @@ describe('Convert select field to lookup', () => {
         ariaLabel="{{ ariaLabel }}"
         ariaLabelledBy="{{ ariaLabelledBy }}"
         [showMoreConfig]="{ customPicker: customPicker }"
-        [data]="data | async"
+        [data]="(data | async) ?? []"
         [disabled]="disabled"
         descriptorProperty="label"
         enableShowMore
@@ -553,7 +552,7 @@ describe('Convert select field to lookup', () => {
       <sky-lookup
         ariaLabel="{{ ariaLabel }}"
         ariaLabelledBy="{{ ariaLabelledBy }}"
-        [data]="data | async"
+        [data]="(data | async) ?? []"
         [disabled]="disabled"
         descriptorProperty="label"
         enableShowMore
@@ -648,8 +647,9 @@ describe('Convert select field to lookup', () => {
     const output = stripIndents`
       import { Component } from '@angular/core';
 
-      import { SkyLookupModule } from '@skyux/lookup';
+      import { SkyInputBoxModule } from '@skyux/forms';
       import { AsyncPipe } from '@angular/common';
+      import { SkyLookupModule } from '@skyux/lookup';
 
       @Component({
         selector: 'app-test',
@@ -658,7 +658,7 @@ describe('Convert select field to lookup', () => {
             name="modelValue"
             ariaLabel="ariaLabel"
             ariaLabelledBy="ariaLabelledBy"
-            [data]="data | async"
+            [data]="(data | async) ?? []"
             [descriptorProperty]="descriptorKey"
             [disabled]="disabled"
             [selectMode]="selectMode"
@@ -671,7 +671,7 @@ describe('Convert select field to lookup', () => {
             enableShowMore
             idProperty="id"></sky-lookup>
         ${backtick},
-        imports: [SkyLookupModule, AsyncPipe],
+        imports: [SkyLookupModule, SkyInputBoxModule, AsyncPipe],
       })
       export class TestComponent {}
     `;
@@ -755,7 +755,7 @@ describe('Convert select field to lookup', () => {
             name="modelValue"
             ariaLabel="ariaLabel"
             ariaLabelledBy="ariaLabelledBy"
-            [data]="data | async"
+            [data]="(data | async) ?? []"
             [descriptorProperty]="descriptorKey"
             [disabled]="disabled"
             [selectMode]="selectMode"
@@ -822,94 +822,6 @@ describe('Convert select field to lookup', () => {
     // The input should not be modified.
     expect(stripIndents`${tree.readText('src/app/test.component.html')}`).toBe(
       input,
-    );
-  });
-
-  it('should log an error if it cannot find a module', async () => {
-    const tree = await createTestApp(runner, {
-      projectName: 'test-app',
-    });
-    const backtick = '`';
-    const input = stripIndents`
-      import { Component } from '@angular/core';
-
-      @Component({
-        selector: 'app-test',
-        standalone: false,
-        template: ${backtick}
-          <sky-select-field
-            name="modelValue"
-            ariaLabel="ariaLabel"
-            ariaLabelledBy="ariaLabelledBy"
-            [data]="data"
-            [descriptorKey]="descriptorKey"
-            [disabled]="disabled"
-            [inMemorySearchEnabled]="inMemorySearchEnabled"
-            [selectMode]="selectMode"
-            [singleSelectClearButtonTitle]="singleSelectClearButtonTitle"
-            [singleSelectOpenButtonTitle]="singleSelectOpenButtonTitle"
-            singleSelectPlaceholderText="Placeholder Text"
-            pickerHeading="Picker Heading"
-            [showAddNewRecordButton]="true"
-            [(ngModel)]="formData.modelValue"
-            (blur)="onBlur)"
-            (ngModelChange)="onModelChange($event)"
-            (addNewRecordButtonClick)="onAddNewRecordButtonClick()"
-            (searchApplied)="onSearchApplied($event)"
-          ></sky-select-field>
-        ${backtick},
-      })
-      export class TestComponent {}
-    `;
-    tree.create('src/app/test.component.ts', input);
-    const output = stripIndents`
-      import { Component } from '@angular/core';
-
-      @Component({
-        selector: 'app-test',
-        standalone: false,
-        template: ${backtick}
-          <sky-lookup
-            name="modelValue"
-            ariaLabel="ariaLabel"
-            ariaLabelledBy="ariaLabelledBy"
-            [data]="data | async"
-            [descriptorProperty]="descriptorKey"
-            [disabled]="disabled"
-            [selectMode]="selectMode"
-            placeholderText="Placeholder Text"
-            [showMoreConfig]="{ nativePickerConfig: { title: 'Picker Heading' } }"
-            [showAddButton]="true"
-            [(ngModel)]="formData.modelValue"
-            (ngModelChange)="onModelChange($event)"
-            (addClick)="onAddNewRecordButtonClick()"
-            enableShowMore
-            idProperty="id"></sky-lookup>
-        ${backtick},
-      })
-      export class TestComponent {}
-    `;
-    const logOnceSpy = jest
-      .spyOn(logOnce, 'logOnce')
-      .mockImplementation(() => {});
-    await firstValueFrom(
-      runner.callRule(
-        convertSelectFieldToLookup({
-          project: 'test-app',
-          bestEffortMode: true,
-          insertTodos: true,
-          projectPath: '',
-        }),
-        tree,
-      ),
-    );
-    expect(stripIndents`${tree.readText('src/app/test.component.ts')}`).toBe(
-      output,
-    );
-    expect(logOnceSpy).toHaveBeenCalledWith(
-      expect.any(Object),
-      'warn',
-      'Could not find the declaring module for the component in /src/app/test.component.ts. Please review the code to ensure it still works as expected.',
     );
   });
 });

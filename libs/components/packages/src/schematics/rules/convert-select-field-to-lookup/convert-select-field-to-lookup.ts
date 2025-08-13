@@ -6,7 +6,6 @@ import {
   chain,
 } from '@angular-devkit/schematics';
 import {
-  addModuleImportToModule,
   findNodes,
   getDecoratorMetadata,
   getMetadataField,
@@ -32,12 +31,10 @@ import {
   swapTags,
 } from '../../utility/template';
 import {
-  findDeclaringModule,
-  isStandaloneComponent,
-} from '../../utility/typescript/find-module';
-import {
   addSymbolToClassMetadata,
   getInlineTemplates,
+  getTestingModuleMetadata,
+  isSymbolInClassMetadataFieldArray,
 } from '../../utility/typescript/ng-ast';
 import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../utility/visit-project-files';
@@ -63,9 +60,7 @@ const unsupportedAttributes = [
 const unsupportedEvents = ['blur', 'searchApplied'];
 
 interface FollowupTasks {
-  importAsyncPipe: boolean;
-  importInputBox: boolean;
-  swapModuleImports: boolean;
+  templateUsesSelectField: boolean;
   addCommentsToFunctions: Record<string, string>;
   addCommentsToProperties: Record<string, string>;
 }
@@ -104,139 +99,81 @@ function addFollowupComments(
   return changes;
 }
 
-function applyFollowupTasksToComponent(
-  source: ts.SourceFile,
+function applyModuleDependencies(
+  originalSource: ts.SourceFile,
   tree: Tree,
   filePath: string,
-  followupTasks: FollowupTasks,
-  isStandalone: boolean,
-  eol: string,
-): void {
-  if (
-    isStandalone &&
-    isImported(source, 'SkySelectFieldModule', '@skyux/select-field')
-  ) {
-    const recorder = tree.beginUpdate(filePath);
-    swapImportedClass(recorder, filePath, parseSourceFile(tree, filePath), [
-      {
-        classNames: { SkySelectFieldModule: 'SkyLookupModule' },
-        moduleName: {
-          old: '@skyux/select-field',
-          new: '@skyux/lookup',
-        },
-      },
-    ]);
-    tree.commitUpdate(recorder);
-  }
-
-  if (
-    isStandalone &&
-    followupTasks?.importAsyncPipe &&
-    !isImported(source, 'AsyncPipe', '@angular/common') &&
-    !isImported(source, 'CommonModule', '@angular/common')
-  ) {
-    applyChangesToFile(
-      tree,
-      filePath,
-      addSymbolToClassMetadata(
-        parseSourceFile(tree, filePath),
-        'Component',
-        filePath,
-        'imports',
-        'AsyncPipe',
-        '@angular/common',
-      ),
-    );
-  }
-
-  if (
-    isStandalone &&
-    followupTasks?.importInputBox &&
-    !isImported(source, 'SkyInputBoxModule', '@skyux/forms')
-  ) {
-    applyChangesToFile(
-      tree,
-      filePath,
-      addSymbolToClassMetadata(
-        parseSourceFile(tree, filePath),
-        'Component',
-        filePath,
-        'imports',
-        'SkyInputBoxModule',
-        '@skyux/forms',
-      ),
-    );
-  }
-
-  applyChangesToFile(
-    tree,
-    filePath,
-    addFollowupComments(
-      filePath,
-      parseSourceFile(tree, filePath),
-      followupTasks,
-      eol,
-    ),
-  );
-}
-
-function applyFollowupTasksToModule(
-  tree: Tree,
-  filePath: string,
-  followupTasks: FollowupTasks,
-  context: SchematicContext,
-  options: ConvertSelectFieldToLookupOptions,
-  projectPath: string,
-): void {
-  const module = findDeclaringModule(tree, projectPath, filePath);
-  if (module) {
-    const moduleSource = parseSourceFile(tree, module.filepath);
-
+  _context: SchematicContext,
+) {
+  [
+    ['Component', '@angular/core'],
+    ['NgModule', '@angular/core'],
+    ['TestBed.configureTestingModule', '@angular/core/testing'],
+  ].forEach(([decorator, decoratorModule]) => {
     if (
-      isImported(moduleSource, 'SkySelectFieldModule', '@skyux/select-field') &&
-      !isImported(moduleSource, 'SkyLookupModule', '@skyux/lookup')
+      isImported(
+        originalSource,
+        String(decorator.split('.').shift()),
+        decoratorModule,
+      )
     ) {
-      const recorder = tree.beginUpdate(module.filepath);
-      swapImportedClass(recorder, filePath, moduleSource, [
-        {
-          classNames: { SkySelectFieldModule: 'SkyLookupModule' },
-          moduleName: { old: '@skyux/select-field', new: '@skyux/lookup' },
-        },
-      ]);
-      tree.commitUpdate(recorder);
+      const metadata =
+        decorator === 'TestBed.configureTestingModule'
+          ? getTestingModuleMetadata(originalSource)
+          : getDecoratorMetadata(originalSource, decorator, decoratorModule);
+      ['imports', 'exports'].forEach((metadataField) => {
+        if (
+          metadata.some(
+            (node) =>
+              ts.isObjectLiteralExpression(node) &&
+              isSymbolInClassMetadataFieldArray(
+                node,
+                metadataField,
+                'SkySelectFieldModule',
+              ),
+          )
+        ) {
+          [
+            ['SkyInputBoxModule', '@skyux/forms'],
+            [
+              decorator === 'NgModule' ? 'CommonModule' : 'AsyncPipe',
+              '@angular/common',
+            ],
+          ].forEach(([symbol, module]) => {
+            applyChangesToFile(
+              tree,
+              filePath,
+              addSymbolToClassMetadata(
+                parseSourceFile(tree, filePath),
+                decorator as
+                  | 'Component'
+                  | 'NgModule'
+                  | 'TestBed.configureTestingModule',
+                filePath,
+                metadataField,
+                symbol,
+                module,
+              ),
+            );
+          });
+          if (decorator === 'TestBed.configureTestingModule') {
+            applyChangesToFile(
+              tree,
+              filePath,
+              addSymbolToClassMetadata(
+                parseSourceFile(tree, filePath),
+                decorator,
+                filePath,
+                'providers',
+                'provideNoopAnimations()',
+                '@angular/platform-browser/animations',
+              ),
+            );
+          }
+        }
+      });
     }
-
-    if (
-      followupTasks.importAsyncPipe &&
-      !isImported(moduleSource, 'AsyncPipe', '@angular/common') &&
-      !isImported(moduleSource, 'CommonModule', '@angular/common')
-    ) {
-      addModuleImportToModule(
-        tree,
-        module.filepath,
-        'AsyncPipe',
-        '@angular/common',
-      );
-    }
-
-    if (
-      followupTasks?.importInputBox &&
-      !isImported(moduleSource, 'SkyInputBoxModule', '@skyux/forms')
-    ) {
-      addModuleImportToModule(
-        tree,
-        module.filepath,
-        'SkyInputBoxModule',
-        '@skyux/forms',
-      );
-    }
-  } else {
-    bestEffortMessage(
-      `Could not find the declaring module for the component in ${filePath}.`,
-      context,
-      options,
-    );
-  }
+  });
 }
 
 function attrNameIsOneOf(attrName: string, checkAttrName: string[]): boolean {
@@ -298,8 +235,7 @@ function buildOpeningTag(
           context,
           options,
         );
-        value += `${before}[data]="${attr.value} | async"`;
-        followupTasks.importAsyncPipe = true;
+        value += `${before}[data]="(${attr.value} | async) ?? []"`;
       } else if (attrNameIsOneOf(attrName, Object.keys(attrSwap))) {
         const newAttrName = attrSwap[attrName];
         value += defineAttribute(before, attr, newAttrName);
@@ -485,9 +421,7 @@ function convertTemplate(
   const fragment = parseTemplate(content);
   const selectFields = getElementsByTagName('sky-select-field', fragment);
   const followupTasks: FollowupTasks = {
-    importAsyncPipe: false,
-    importInputBox: false,
-    swapModuleImports: false,
+    templateUsesSelectField: false,
     addCommentsToFunctions: {},
     addCommentsToProperties: {},
   };
@@ -505,7 +439,7 @@ function convertTemplate(
   }
 
   for (const selectField of selectFields) {
-    followupTasks.swapModuleImports = true;
+    followupTasks.templateUsesSelectField = true;
     const siblingElements = selectField.parentNode?.childNodes.filter(
       (el) => 'tagName' in el,
     );
@@ -514,7 +448,6 @@ function convertTemplate(
       siblingElements[0].tagName === 'label' &&
       siblingElements[1] === selectField
     ) {
-      followupTasks.importInputBox = true;
       const labelNode = siblingElements[0] as ElementWithLocation;
       const labelText = getText(labelNode.childNodes);
       const labelTextAttribute = getLabelTextAttribute(labelText);
@@ -600,9 +533,22 @@ function convertTypescriptFile(
   options: ConvertSelectFieldToLookupOptions,
   projectPath: string,
 ): void {
-  const source = parseSourceFile(tree, filePath);
+  let source = parseSourceFile(tree, filePath);
   const eol = getEOL(tree.readText(filePath));
   let followupTasks: FollowupTasks | undefined = undefined;
+  if (isImported(source, 'SkySelectFieldModule', '@skyux/select-field')) {
+    applyModuleDependencies(source, tree, filePath, context);
+    const recorder = tree.beginUpdate(filePath);
+    swapImportedClass(recorder, filePath, parseSourceFile(tree, filePath), [
+      {
+        classNames: { SkySelectFieldModule: 'SkyLookupModule' },
+        moduleName: { old: '@skyux/select-field', new: '@skyux/lookup' },
+      },
+    ]);
+    tree.commitUpdate(recorder);
+    source = parseSourceFile(tree, filePath);
+  }
+
   if (isImported(source, 'Component', '@angular/core')) {
     const metadata = getDecoratorMetadata(
       source,
@@ -635,51 +581,18 @@ function convertTypescriptFile(
       }
     }
 
-    if (followupTasks?.swapModuleImports) {
-      const isStandalone = isStandaloneComponent(metadata);
-      applyFollowupTasksToComponent(
-        source,
+    if (followupTasks?.templateUsesSelectField) {
+      applyChangesToFile(
         tree,
         filePath,
-        followupTasks,
-        isStandalone,
-        eol,
-      );
-      if (!isStandalone) {
-        applyFollowupTasksToModule(
-          tree,
+        addFollowupComments(
           filePath,
+          parseSourceFile(tree, filePath),
           followupTasks,
-          context,
-          options,
-          projectPath,
-        );
-      }
+          eol,
+        ),
+      );
     }
-  } else if (
-    isImported(source, 'TestBed', '@angular/core/testing') &&
-    isImported(source, 'SkySelectFieldModule', '@skyux/select-field')
-  ) {
-    const recorder = tree.beginUpdate(filePath);
-    swapImportedClass(recorder, filePath, source, [
-      {
-        classNames: { SkySelectFieldModule: 'SkyLookupModule' },
-        moduleName: { old: '@skyux/select-field', new: '@skyux/lookup' },
-      },
-    ]);
-    tree.commitUpdate(recorder);
-    applyChangesToFile(
-      tree,
-      filePath,
-      addSymbolToClassMetadata(
-        parseSourceFile(tree, filePath),
-        'TestBed.configureTestingModule',
-        filePath,
-        'imports',
-        'SkyInputBoxModule',
-        '@skyux/forms',
-      ),
-    );
   }
 }
 

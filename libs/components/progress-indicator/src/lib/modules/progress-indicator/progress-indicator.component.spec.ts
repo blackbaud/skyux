@@ -4,7 +4,10 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  NoopAnimationsModule,
+  provideNoopAnimations,
+} from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyHelpTestingController,
@@ -133,6 +136,7 @@ describe('Progress indicator component', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        provideNoopAnimations(),
       ],
     });
 

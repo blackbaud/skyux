@@ -24,10 +24,7 @@ export function getInlineTemplates(
     if (templates.length > 0) {
       return templates
         .map((template) => {
-          if (
-            ts.isStringLiteralLike(template.initializer) ||
-            ts.isNoSubstitutionTemplateLiteral(template.initializer)
-          ) {
+          if (ts.isStringLiteralLike(template.initializer)) {
             return {
               start: template.initializer.getStart() + 1,
               end: template.initializer.getEnd() - 1, // Exclude quotes
@@ -39,6 +36,22 @@ export function getInlineTemplates(
     }
   }
   return [];
+}
+
+/**
+ * Like `getDecoratorMetadata` from @angular/cdk/schematics, but for `TestBed.configureTestingModule`.
+ */
+export function getTestingModuleMetadata(
+  source: ts.SourceFile,
+): ts.ObjectLiteralExpression[] {
+  return findNodes(
+    source,
+    (node: ts.Node): node is ts.ObjectLiteralExpression =>
+      ts.isObjectLiteralExpression(node) &&
+      ts.isCallExpression(node.parent) &&
+      node.parent.expression.getText().trim() ===
+        'TestBed.configureTestingModule',
+  );
 }
 
 /**
@@ -60,19 +73,20 @@ export function addSymbolToClassMetadata(
 ): Change[] {
   const nodes =
     'TestBed.configureTestingModule' === decorator
-      ? findNodes(
-          source,
-          (node: ts.Node): node is ts.ObjectLiteralExpression =>
-            ts.isObjectLiteralExpression(node) &&
-            ts.isCallExpression(node.parent) &&
-            node.parent.expression.getText() ===
-              'TestBed.configureTestingModule',
-        )
+      ? getTestingModuleMetadata(source)
       : getDecoratorMetadata(source, decorator, '@angular/core');
   let insertedImport = false;
   return nodes
     .filter((node) => ts.isObjectLiteralExpression(node))
     .flatMap((node: ts.ObjectLiteralExpression): Change[] => {
+      if (
+        importPath === '@angular/common' &&
+        isSymbolInClassMetadataFieldArray(node, metadataField, 'CommonModule')
+      ) {
+        // Special case: don't add children of CommonModule if it's already present.
+        return [];
+      }
+
       // Get all the children property assignment of object literals.
       const matchingProperties = getMetadataField(node, metadataField);
 
@@ -104,7 +118,7 @@ export function addSymbolToClassMetadata(
             insertImport(
               source,
               filePath,
-              symbolName.replace(/\..*$/, ''),
+              symbolName.replace(/[.(].*$/, ''),
               importPath,
             ),
           ];
@@ -163,7 +177,7 @@ export function addSymbolToClassMetadata(
           insertImport(
             source,
             filePath,
-            symbolName.replace(/\..*$/, ''),
+            symbolName.replace(/[.(].*$/, ''),
             importPath,
           ),
         ];
@@ -171,4 +185,33 @@ export function addSymbolToClassMetadata(
 
       return [new InsertChange(filePath, position, toInsert)];
     });
+}
+
+/**
+ * Checks if a symbol is present in a class metadata field array.
+ */
+export function isSymbolInClassMetadataFieldArray(
+  node: ts.ObjectLiteralExpression,
+  metadataField: string,
+  symbolName: string,
+): boolean {
+  const matchingProperties = getMetadataField(node, metadataField);
+
+  if (!matchingProperties.length) {
+    return false;
+  }
+  const assignment = matchingProperties[0];
+
+  if (
+    !ts.isPropertyAssignment(assignment) ||
+    !ts.isArrayLiteralExpression(assignment.initializer)
+  ) {
+    return false;
+  }
+
+  const assignmentInit = assignment.initializer;
+  const elements = assignmentInit.elements;
+
+  const symbolsArray = elements.map((node) => tags.oneLine`${node.getText()}`);
+  return symbolsArray.includes(tags.oneLine`${symbolName}`);
 }

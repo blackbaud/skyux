@@ -4,12 +4,13 @@ exports[`Convert select field to lookup should convert inline template with modu
 "import { NgModule } from '@angular/core';
 
 import { TestComponent } from './test.component';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { CommonModule } from '@angular/common';
 import { SkyLookupModule } from '@skyux/lookup';
-import { AsyncPipe } from '@angular/common';
 
 @NgModule({
 declarations: [TestComponent],
-imports: [SkyLookupModule, NgModel, AsyncPipe],
+imports: [SkyLookupModule, NgModel, SkyInputBoxModule, CommonModule],
 exports: [TestComponent],
 })
 export class TestModule {}"
@@ -53,10 +54,11 @@ onSearchApplied(value: any) {}
 
 exports[`Convert select field to lookup should convert select field to lookup 2`] = `
 "import { NgModule } from '@angular/core';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { TestComponent } from './test.component';
 import { NgModel } from '@angular/forms';
 
+import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyLookupModule } from '@skyux/lookup';
 
 
@@ -67,9 +69,9 @@ TestComponent
 ],
 imports: [
 CommonModule,
-NgIf,
 NgModel,
-SkyLookupModule
+SkyLookupModule,
+SkyInputBoxModule
 ]
 })
 export class TestModule { }"
@@ -80,14 +82,19 @@ exports[`Convert select field to lookup should convert select field to lookup 3`
 
 
 import { TestComponent } from './test.component';
-import { SkyLookupModule } from '@skyux/lookup';
 import { SkyInputBoxModule } from '@skyux/forms';
+import { AsyncPipe } from '@angular/common';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { SkyLookupModule } from '@skyux/lookup';
 
 describe('Test component', () => {
 beforeEach(() => {
 TestBed.configureTestingModule({
 declarations: [TestComponent],
-imports: [SkyLookupModule, SkyInputBoxModule],
+imports: [SkyLookupModule, SkyInputBoxModule, AsyncPipe],
+providers: [
+provideNoopAnimations()
+],
 });
 });
 
@@ -101,11 +108,16 @@ expect(fixture.component).toBeTruthy();
 
 exports[`Convert select field to lookup should convert select field to lookup using template expressions 1`] = `
 "import { Component } from '@angular/core';
+
+import { SkyInputBoxModule } from '@skyux/forms';
 import { AsyncPipe } from '@angular/common';
+import { SkyLookupModule } from '@skyux/lookup';
 
 @Component({
 selector: 'app-test',
 imports: [
+SkyLookupModule,
+SkyInputBoxModule,
 AsyncPipe
 ],
 templateUrl: './test.component.html',
@@ -118,14 +130,17 @@ export class TestComponent {
 
 exports[`Convert select field to lookup should convert select field to use input box with label text 1`] = `
 "import { Component } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+
 import { SkyInputBoxModule } from '@skyux/forms';
+import { AsyncPipe } from '@angular/common';
+import { SkyLookupModule } from '@skyux/lookup';
 
 @Component({
 selector: 'app-test',
 imports: [
-AsyncPipe,
-SkyInputBoxModule
+SkyLookupModule,
+SkyInputBoxModule,
+AsyncPipe
 ],
 templateUrl: './test.component.html',
 styleUrl: './test.component.scss'
@@ -137,12 +152,12 @@ export class TestComponent {
 
 exports[`Convert select field to lookup should convert select field to use input box with label text, leaving the parent 1`] = `
 "import { NgModule } from '@angular/core';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { TestComponent } from './test.component';
 import { NgModel } from '@angular/forms';
 
-import { SkyLookupModule } from '@skyux/lookup';
 import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyLookupModule } from '@skyux/lookup';
 
 
 
@@ -152,7 +167,6 @@ TestComponent
 ],
 imports: [
 CommonModule,
-NgIf,
 NgModel,
 SkyLookupModule,
 SkyInputBoxModule
@@ -164,16 +178,16 @@ export class TestModule { }"
 exports[`Convert select field to lookup should convert select field without input box if the label is too complicated 1`] = `
 "import { Component } from '@angular/core';
 
-import { SkyLookupModule } from '@skyux/lookup';
-import { AsyncPipe } from '@angular/common';
 import { SkyInputBoxModule } from '@skyux/forms';
+import { AsyncPipe } from '@angular/common';
+import { SkyLookupModule } from '@skyux/lookup';
 
 @Component({
 selector: 'app-test',
 imports: [
 SkyLookupModule,
-AsyncPipe,
-SkyInputBoxModule
+SkyInputBoxModule,
+AsyncPipe
 ],
 templateUrl: './test.component.html',
 styleUrl: './test.component.scss'
