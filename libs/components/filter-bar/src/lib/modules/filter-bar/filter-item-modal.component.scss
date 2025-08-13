@@ -5,13 +5,9 @@
   --sky-override-filter-bar-button-selected-background-color: #c1e8fb;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-filter-bar-btn-selected') {
+::ng-deep .sky-theme-modern:not(.sky-theme-brand-base) .sky-filter-item {
   --sky-override-filter-bar-button-border-selected: inset 0 0 0
     var(--sky-border-width-action-base) var(--sky-color-border-selected);
-}
-
-:host {
-  display: block;
 }
 
 .sky-filter-bar-btn {
