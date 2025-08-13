@@ -176,5 +176,43 @@ describe('ng-ast', () => {
       const output = applyChanges(modulePath, moduleContent, changes || []);
       expect(output).toMatch(/imports: \[\n(\s*) {2}HelloWorld\n\1\],\n/);
     });
+
+    it('should add metadata to TestBed.configureTestingModule', () => {
+      const moduleContent = stripIndents`
+      import { TestBed } from '@angular/core/testing';
+
+      describe('My Test', () => {
+        beforeEach(() => {
+          TestBed.configureTestingModule({
+            declarations: [AppComponent],
+            imports: [CommonModule],
+          });
+        });
+      });
+
+      describe('My Other Test', () => {
+        beforeEach(() => {
+          TestBed.configureTestingModule({
+            declarations: [OtherComponent],
+          });
+        });
+      });
+    `;
+      const source = getTsSource(modulePath, moduleContent);
+      const changes = addSymbolToClassMetadata(
+        source,
+        'TestBed.configureTestingModule',
+        modulePath,
+        'imports',
+        'HelloWorld',
+        './hello-world',
+      );
+      expect(changes).not.toBeNull();
+      expect(changes).not.toEqual([]);
+
+      const output = applyChanges(modulePath, moduleContent, changes || []);
+      expect(output).toContain('imports: [CommonModule, HelloWorld]');
+      expect(output).toMatchSnapshot();
+    });
   });
 });

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ng-ast addSymbolToClassMetadata should add metadata to TestBed.configureTestingModule 1`] = `
+"import { TestBed } from '@angular/core/testing';
+import { HelloWorld } from './hello-world';
+
+describe('My Test', () => {
+beforeEach(() => {
+TestBed.configureTestingModule({
+declarations: [AppComponent],
+imports: [CommonModule, HelloWorld],
+});
+});
+});
+
+describe('My Other Test', () => {
+beforeEach(() => {
+TestBed.configureTestingModule({
+declarations: [OtherComponent],
+imports: [
+  HelloWorld
+],
+});
+});
+});"
+`;

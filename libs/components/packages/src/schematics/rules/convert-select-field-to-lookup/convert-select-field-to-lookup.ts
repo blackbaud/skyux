@@ -668,6 +668,18 @@ function convertTypescriptFile(
       },
     ]);
     tree.commitUpdate(recorder);
+    applyChangesToFile(
+      tree,
+      filePath,
+      addSymbolToClassMetadata(
+        parseSourceFile(tree, filePath),
+        'TestBed.configureTestingModule',
+        filePath,
+        'imports',
+        'SkyInputBoxModule',
+        '@skyux/forms',
+      ),
+    );
   }
 }
 
@@ -688,6 +700,9 @@ export function convertSelectFieldToLookup(
         }
       });
     },
+    addDependency('@skyux/forms', `0.0.0-PLACEHOLDER`, {
+      existing: ExistingBehavior.Skip,
+    }),
     addDependency('@skyux/lookup', `0.0.0-PLACEHOLDER`, {
       existing: ExistingBehavior.Skip,
     }),

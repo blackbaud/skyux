@@ -81,12 +81,13 @@ exports[`Convert select field to lookup should convert select field to lookup 3`
 
 import { TestComponent } from './test.component';
 import { SkyLookupModule } from '@skyux/lookup';
+import { SkyInputBoxModule } from '@skyux/forms';
 
 describe('Test component', () => {
 beforeEach(() => {
 TestBed.configureTestingModule({
 declarations: [TestComponent],
-imports: [SkyLookupModule],
+imports: [SkyLookupModule, SkyInputBoxModule],
 });
 });
 
