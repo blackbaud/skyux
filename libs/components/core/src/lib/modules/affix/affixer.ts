@@ -397,7 +397,6 @@ export class SkyAffixer {
     const parent = this.#getAutoFitContextParent();
     let parentOffset: Required<SkyAffixOffset>;
 
-    // Use the same logic for both OverflowParent and Viewport contexts
     if (this.#config.autoFitOverflowOffset) {
       // When the config contains a specific offset.
       parentOffset = getElementOffset(
