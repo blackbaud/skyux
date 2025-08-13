@@ -96,3 +96,13 @@ export async function getRequiredProject(
 
   return { projectName, project };
 }
+
+export async function getDefaultProjectName(
+  tree: Tree,
+): Promise<string | undefined> {
+  const { workspace } = await getWorkspace(tree);
+  if (workspace.projects.size === 1) {
+    return workspace.projects.keys().next().value;
+  }
+  return undefined;
+}
