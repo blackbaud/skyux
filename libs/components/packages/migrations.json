@@ -24,6 +24,11 @@
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/update-13/replace-light-blue-custom-property/replace-light-blue-custom-property.schematic",
       "description": "Replace --sky-category-color-light-blue custom property with --sky-category-color-green."
+    },
+    "replace-disabled-class-with-attribute": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-13/replace-disabled-class-with-attribute/replace-disabled-class-with-attribute.schematic",
+      "description": "Replace sky-btn-disabled class with [disabled] attribute."
     }
   }
 }
