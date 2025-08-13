@@ -49,7 +49,7 @@ async function validateIconName(
 async function validateIconSize(
   iconHarness: SkyIconHarness,
   fixture: ComponentFixture<TestComponent>,
-  iconSize: string | undefined,
+  iconSize: string,
 ): Promise<void> {
   fixture.componentInstance.iconSize = iconSize;
 
@@ -150,5 +150,16 @@ describe('Icon harness', () => {
     for (const variant of variants) {
       await validateVariant(iconHarness, fixture, variant);
     }
+  });
+
+  it('should return "line" as the default variant when no variant is specified', async () => {
+    const { iconHarness, fixture } = await setupTest({
+      dataSkyId: 'svg-icon',
+    });
+
+    fixture.componentInstance.variant = undefined;
+    fixture.detectChanges();
+
+    await expectAsync(iconHarness.getVariant()).toBeResolvedTo('line');
   });
 });

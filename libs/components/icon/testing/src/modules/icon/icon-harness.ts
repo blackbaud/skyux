@@ -34,7 +34,7 @@ export class SkyIconHarness extends SkyComponentHarness {
   /**
    * Gets the icon size.
    */
-  public async getIconSize(): Promise<string | undefined> {
+  public async getIconSize(): Promise<string> {
     const iconClasses = await this.#getIconClasses();
 
     for (const iconClass of iconClasses) {
@@ -43,25 +43,21 @@ export class SkyIconHarness extends SkyComponentHarness {
         return iconClass.replace('sky-icon-svg-', '');
       }
     }
-    return undefined;
+
+    /* istanbul ignore next: safety check */
+    throw new Error('Icon size could not be determined');
   }
 
   /**
    * Gets if the icon is a variant.
    */
-  public async getVariant(): Promise<string | undefined> {
+  public async getVariant(): Promise<string> {
     const iconInfo = await this.#getSpecifiedIconInfo();
     return iconInfo.variant || 'line';
   }
 
   async #getIcon(): Promise<TestElement> {
-    const svgIcon = await this.locatorForOptional('sky-icon-svg')();
-
-    if (svgIcon) {
-      return svgIcon;
-    }
-
-    throw new Error('Icon could not be rendered.');
+    return await this.locatorFor('sky-icon-svg')();
   }
 
   async #getIconClasses(): Promise<string[]> {

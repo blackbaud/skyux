@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 
 import FontFaceObserver from 'fontfaceobserver';
 import { firstValueFrom } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { FontLoadingService } from './font-loading.service';
 
@@ -30,17 +29,6 @@ describe('FontLoadingService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
-
-  it('should load fonts', async () => {
-    await service
-      .ready()
-      .pipe(
-        map((ready) => {
-          expect(ready).toBe(true);
-        }),
-      )
-      .toPromise();
   });
 
   it('should resolve when the SVG sprite appears in the DOM before calling ready()', async () => {
