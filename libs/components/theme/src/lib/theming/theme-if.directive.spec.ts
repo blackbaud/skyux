@@ -223,12 +223,7 @@ describe('ThemeIf directive', () => {
       TestBed.configureTestingModule({
         declarations: [SkyThemeIfTestComponent, TestProjectionComponent],
         imports: [SkyThemeModule],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: new SkyThemeService(),
-          },
-        ],
+        providers: [SkyThemeService],
       });
       const fixture = TestBed.createComponent(SkyThemeIfTestComponent);
       fixture.detectChanges();
