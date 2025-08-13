@@ -15,11 +15,22 @@ export default {
 } as Meta<BlocksPageComponent>;
 type Story = StoryObj<BlocksPageComponent>;
 export const BlocksPage: Story = {};
-BlocksPage.args = {};
+BlocksPage.args = {
+  showDescriptionList: true,
+};
+
+export const BlocksPageWithDescriptionListNoAvatar: Story = {};
+BlocksPageWithDescriptionListNoAvatar.args = {
+  hideActions: true,
+  hideAlert: true,
+  hideAvatar: true,
+  showDescriptionList: true,
+};
 
 export const BlocksPageWithLinks: Story = {};
 BlocksPageWithLinks.args = {
   showLinks: true,
+  showDescriptionList: true,
 };
 
 export const BlocksPageWithLinksNoAlert: Story = {};
