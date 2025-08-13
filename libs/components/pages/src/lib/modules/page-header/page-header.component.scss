@@ -19,6 +19,10 @@
     display: flex;
   }
 
+  &-text-and-content {
+    flex-grow: 1;
+  }
+
   &-text {
     margin: 0;
   }
