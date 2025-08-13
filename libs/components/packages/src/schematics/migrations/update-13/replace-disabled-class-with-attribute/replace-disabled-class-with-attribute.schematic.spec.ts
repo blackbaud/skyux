@@ -48,7 +48,6 @@ fdescribe('Migrations > Replace disabled class with attribute', () => {
     const updatedTree = await runSchematic();
 
     const updatedContent = updatedTree.readText('/src/app/test.component.html');
-    console.log(updatedContent);
 
     expect(updatedContent).toBe(stripIndents`
 <div>
@@ -63,6 +62,7 @@ fdescribe('Migrations > Replace disabled class with attribute', () => {
   <div>
     <button class="sky-btn sky-btn-disabled sky-btn-primary">Button</button>
     <button class="sky-btn-disabled other-class">Another Button</button>
+    <button class="sky-btn sky-btn-disabled">Even More Button</button>
   </div>
       `;
 
@@ -76,6 +76,7 @@ fdescribe('Migrations > Replace disabled class with attribute', () => {
   <div>
     <button class="sky-btn sky-btn-primary" [disabled]="true">Button</button>
     <button class="other-class" [disabled]="true">Another Button</button>
+    <button class="sky-btn" [disabled]="true">Even More Button</button>
   </div>`);
   });
 
@@ -106,10 +107,12 @@ fdescribe('Migrations > Replace disabled class with attribute', () => {
   it('should replace ngClass with sky-btn-disabled', async () => {
     const { tree, runSchematic } = await setup();
 
-    const htmlContent = `
+    const htmlContent = stripIndents`
   <div>
     <button [ngClass]="{'sky-btn-disabled': isButtonDisabled}">Button 1</button>
     <button [ngClass]="{'sky-btn': true, 'sky-btn-disabled': shouldDisable, 'primary': isPrimary}">Button 2</button>
+    <button [ngClass]="{'sky-btn': true, 'sky-btn-disabled': shouldDisable}">Button 3</button>
+    <button [disabled]="true" [ngClass]="{'sky-btn': true, 'sky-btn-disabled': shouldDisable}">Button 4</button>
   </div>
       `;
 
@@ -119,15 +122,19 @@ fdescribe('Migrations > Replace disabled class with attribute', () => {
 
     const updatedContent = updatedTree.readText('/src/app/test.component.html');
 
-    expect(updatedContent).toContain('[disabled]="isButtonDisabled"');
-    expect(updatedContent).toContain('[disabled]="shouldDisable"');
-    expect(updatedContent).not.toContain('sky-btn-disabled');
+    expect(updatedContent).toBe(stripIndents`
+  <div>
+    <button [disabled]="isButtonDisabled">Button 1</button>
+    <button [disabled]="shouldDisable" [ngClass]="{'sky-btn': true, 'primary': isPrimary}">Button 2</button>
+    <button [disabled]="shouldDisable" [ngClass]="{'sky-btn': true}">Button 3</button>
+    <button [disabled]="true" [ngClass]="{'sky-btn': true}">Button 4</button>
+  </div>`);
   });
 
   it('should not add duplicate [disabled] attribute if it already exists', async () => {
     const { tree, runSchematic } = await setup();
 
-    const htmlContent = `
+    const htmlContent = stripIndents`
   <div>
     <button class="sky-btn-disabled" [disabled]="existingCondition">Button 1</button>
     <button class="sky-btn sky-btn-disabled" disabled="true">Button 2</button>
@@ -141,19 +148,11 @@ fdescribe('Migrations > Replace disabled class with attribute', () => {
     const updatedContent = updatedTree.readText('/src/app/test.component.html');
 
     // Should remove class but keep existing disabled attribute
-    expect(updatedContent).toContain('[disabled]="existingCondition"');
-    expect(updatedContent).toContain('disabled="true"');
-    expect(updatedContent).not.toContain('sky-btn-disabled');
-
-    // Should not have duplicate disabled attributes
-    const button1Match = updatedContent.match(
-      /<button[^>]*\[disabled\]="existingCondition"[^>]*>/,
-    );
-    const button2Match = updatedContent.match(
-      /<button[^>]*disabled="true"[^>]*>/,
-    );
-    expect(button1Match).toBeTruthy();
-    expect(button2Match).toBeTruthy();
+    expect(updatedContent).toBe(stripIndents`
+  <div>
+    <button [disabled]="existingCondition">Button 1</button>
+    <button class="sky-btn" disabled="true">Button 2</button>
+  </div>`);
   });
 
   it('should handle multiple occurrences in the same file', async () => {

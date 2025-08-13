@@ -40,7 +40,7 @@ function replaceDisabledClassInFile(
           );
         } else {
           // If disabled attribute already exists, just remove the class
-          return `${classAttr}${afterQuote}`;
+          return `${classAttr}${afterQuote}`.trim();
         }
       },
     );
@@ -57,13 +57,25 @@ function replaceDisabledClassInFile(
 
     // Pattern 3: Replace ngClass with sky-btn-disabled
     const ngClassPattern =
-      /\[ngClass\]="([^"]*\{[^}]*'sky-btn-disabled':\s*([^,}]+)[^}]*\}[^"]*)"/g;
+      /\[ngClass\]="(\{[^}]*'sky-btn-disabled':\s*([^,}]+)[^}]*\})"/g;
     updatedContent = updatedContent.replace(
       ngClassPattern,
-      (match, fullExpression, condition) => {
+      (match, objectExpression, condition) => {
         hasChanges = true;
-        // Extract the condition and use it for [disabled]
-        return `[disabled]="${condition.trim()}"`;
+
+        // Remove the sky-btn-disabled property from the object
+        const cleanedObject = objectExpression
+          .replace(/\s*'sky-btn-disabled':\s*[^,}]+,?/g, '')
+          .replace(/,\s*}/g, '}')
+          .trim();
+
+        // If the object is now empty or only has whitespace, just return the disabled attribute
+        if (cleanedObject === '{}' || cleanedObject.match(/^\{\s*\}$/)) {
+          return `[disabled]="${condition.trim()}"`;
+        } else {
+          // Return both the disabled attribute and the cleaned ngClass
+          return `[disabled]="${condition.trim()}" [ngClass]="${cleanedObject}"`;
+        }
       },
     );
 
