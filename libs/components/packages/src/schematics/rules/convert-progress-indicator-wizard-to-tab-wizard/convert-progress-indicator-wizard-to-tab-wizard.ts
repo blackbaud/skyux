@@ -3,6 +3,7 @@ import {
   SchematicContext,
   Tree,
   UpdateRecorder,
+  chain,
 } from '@angular-devkit/schematics';
 import {
   getDecoratorMetadata,
@@ -12,7 +13,7 @@ import {
   parseSourceFile,
 } from '@angular/cdk/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import { ProjectDefinition } from '@schematics/angular/utility';
+import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
 import { Change, InsertChange } from '@schematics/angular/utility/change';
 import { getEOL } from '@schematics/angular/utility/eol';
@@ -41,7 +42,6 @@ import {
 } from '../../utility/typescript/ng-ast';
 import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../utility/visit-project-files';
-import { getRequiredProject } from '../../utility/workspace';
 
 import { ConvertProgressIndicatorWizardToTabWizardOptions } from './options';
 
@@ -259,10 +259,8 @@ function applyFollowupTasksToModule(
   followupTasks: FollowupTasks,
   context: SchematicContext,
   options: ConvertProgressIndicatorWizardToTabWizardOptions,
-  project: ProjectDefinition,
+  projectPath: string,
 ): void {
-  /* istanbul ignore next */
-  const projectPath = project.sourceRoot ?? project.root;
   const module = findDeclaringModule(tree, projectPath, filePath);
   if (module) {
     const moduleSource = parseSourceFile(tree, module.filepath);
@@ -462,7 +460,7 @@ function convertTypescriptFile(
   filePath: string,
   context: SchematicContext,
   options: ConvertProgressIndicatorWizardToTabWizardOptions,
-  project: ProjectDefinition,
+  projectPath: string,
 ): void {
   const source = parseSourceFile(tree, filePath);
   const eol = getEOL(tree.readText(filePath));
@@ -523,8 +521,23 @@ function convertTypescriptFile(
           followupTasks,
           context,
           options,
-          project,
+          projectPath,
         );
+        const specFilePath = filePath.replace('.ts', '.spec.ts');
+        if (tree.exists(specFilePath)) {
+          applyChangesToFile(
+            tree,
+            specFilePath,
+            addSymbolToClassMetadata(
+              parseSourceFile(tree, specFilePath),
+              'TestBed.configureTestingModule',
+              specFilePath,
+              'imports',
+              'SkyTabsModule',
+              '@skyux/tabs',
+            ),
+          );
+        }
       }
     }
   }
@@ -533,12 +546,22 @@ function convertTypescriptFile(
 export function convertProgressIndicatorWizardToTabWizard(
   options: ConvertProgressIndicatorWizardToTabWizardOptions,
 ): Rule {
-  return async (tree, context) => {
-    const { project } = await getRequiredProject(tree, options.project);
-    visitProjectFiles(tree, options.projectPath, (filePath) => {
-      if (filePath.endsWith('.ts')) {
-        convertTypescriptFile(tree, filePath, context, options, project);
-      }
-    });
-  };
+  return chain([
+    (tree, context): void => {
+      visitProjectFiles(tree, options.projectPath, (filePath) => {
+        if (filePath.endsWith('.ts')) {
+          convertTypescriptFile(
+            tree,
+            filePath,
+            context,
+            options,
+            options.projectPath,
+          );
+        }
+      });
+    },
+    addDependency('@skyux/tabs', `0.0.0-PLACEHOLDER`, {
+      existing: ExistingBehavior.Skip,
+    }),
+  ]);
 }

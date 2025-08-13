@@ -1,14 +1,9 @@
 {
   "$schema": "http://json-schema.org/schema",
   "type": "object",
+  "description": "Converts sky-progress-indicator components using horizontal layout to use sky-tabset wizard",
+  "additionalProperties": false,
   "properties": {
-    "project": {
-      "type": "string",
-      "description": "The name of the project to target for the migration.",
-      "$default": {
-        "$source": "projectName"
-      }
-    },
     "projectPath": {
       "type": "string",
       "description": "The path to the files where the rule should be applied.",

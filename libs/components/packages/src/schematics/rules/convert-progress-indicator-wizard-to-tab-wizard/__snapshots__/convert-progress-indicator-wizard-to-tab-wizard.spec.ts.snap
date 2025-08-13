@@ -45,33 +45,65 @@ exports[`Convert progress indicator wizard to tab wizard should convert progress
 
 @Component({
 selector: 'app-test',
-templateUrl: './test.component.html',
 standalone: false,
+templateUrl: './test.component.html',
+styleUrl: './test.component.scss'
 })
 export class TestComponent {
-public isSaveDisabled = false;
-public updateIndex(event: { activeIndex: number }): void {
-console.log('Active index changed:', event.activeIndex);
-}
-public onSaveClick(event: Event): void {
-console.log('Save clicked:', event);
-}
+
 }"
 `;
 
 exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard with module 2`] = `
 "import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TestComponent } from './test.component';
 import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
+import { SkyTabsModule } from '@skyux/tabs';
+
+
+
+@NgModule({
+declarations: [
+TestComponent
+],
+imports: [
+CommonModule,
+SkyProgressIndicatorModule,
+SkyTabsModule
+]
+})
+export class TestModule { }"
+`;
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard with module 3`] = `
+"import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TestComponent } from './test.component';
 import { SkyTabsModule } from '@skyux/tabs';
 
-@NgModule({
-imports: [SkyProgressIndicatorModule, SkyTabsModule],
+describe('TestComponent', () => {
+let component: TestComponent;
+let fixture: ComponentFixture<TestComponent>;
+
+beforeEach(async () => {
+await TestBed.configureTestingModule({
 declarations: [TestComponent],
-exports: [TestComponent],
+imports: [
+SkyTabsModule
+]
 })
-export class TestModule {}"
+.compileComponents();
+
+fixture = TestBed.createComponent(TestComponent);
+component = fixture.componentInstance;
+fixture.detectChanges();
+});
+
+it('should create', () => {
+expect(component).toBeTruthy();
+});
+});"
 `;
 
 exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard, maintaining other progress indicators 1`] = `

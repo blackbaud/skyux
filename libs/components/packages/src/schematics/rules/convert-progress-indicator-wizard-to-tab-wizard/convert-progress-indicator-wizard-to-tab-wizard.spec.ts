@@ -1,9 +1,16 @@
 import { stripIndents } from '@angular-devkit/core/src/utils/literals';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
+import { parseSourceFile } from '@angular/cdk/schematics';
+import { applyChangesToFile } from '@schematics/angular/utility/standalone/util';
 
 import { firstValueFrom } from 'rxjs';
 
+import {
+  angularComponentGenerator,
+  angularModuleGenerator,
+} from '../../testing/angular-module-generator';
 import { createTestApp } from '../../testing/scaffold';
+import { addSymbolToClassMetadata } from '../../utility/typescript/ng-ast';
 
 import { convertProgressIndicatorWizardToTabWizard } from './convert-progress-indicator-wizard-to-tab-wizard';
 
@@ -119,7 +126,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
     await firstValueFrom(
       runner.callRule(
         convertProgressIndicatorWizardToTabWizard({
-          project: 'test-app',
           projectPath: '',
           bestEffortMode: true,
           insertTodos: true,
@@ -214,7 +220,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
     await firstValueFrom(
       runner.callRule(
         convertProgressIndicatorWizardToTabWizard({
-          project: 'test-app',
           projectPath: '',
           bestEffortMode: true,
           insertTodos: true,
@@ -234,6 +239,30 @@ describe('Convert progress indicator wizard to tab wizard', () => {
     const tree = await createTestApp(runner, {
       projectName: 'test-app',
     });
+    await angularModuleGenerator(runner, tree, {
+      name: 'test',
+      project: 'test-app',
+      flat: true,
+    });
+    await angularComponentGenerator(runner, tree, {
+      name: 'test',
+      project: 'test-app',
+      standalone: false,
+      module: 'test',
+      flat: true,
+    });
+    applyChangesToFile(
+      tree,
+      'src/app/test.module.ts',
+      addSymbolToClassMetadata(
+        parseSourceFile(tree, 'src/app/test.module.ts'),
+        'NgModule',
+        'src/app/test.module.ts',
+        'imports',
+        'SkyProgressIndicatorModule',
+        '@skyux/progress-indicator',
+      ),
+    );
     const input = stripIndents`
       <sky-progress-indicator
         #wizardRef
@@ -274,44 +303,7 @@ describe('Convert progress indicator wizard to tab wizard', () => {
         [disabled]="isSaveDisabled"
       />
     `;
-    tree.create('src/app/test.component.html', input);
-    tree.create(
-      'src/app/test.component.ts',
-      stripIndents`
-      import { Component } from '@angular/core';
-
-      @Component({
-        selector: 'app-test',
-        templateUrl: './test.component.html',
-        standalone: false,
-      })
-      export class TestComponent {
-        public isSaveDisabled = false;
-        public updateIndex(event: { activeIndex: number }): void {
-          console.log('Active index changed:', event.activeIndex);
-        }
-        public onSaveClick(event: Event): void {
-          console.log('Save clicked:', event);
-        }
-      }
-      `,
-    );
-    tree.create(
-      'src/app/test.module.ts',
-      stripIndents`
-      import { NgModule } from '@angular/core';
-      import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
-
-      import { TestComponent } from './test.component';
-
-      @NgModule({
-        imports: [SkyProgressIndicatorModule],
-        declarations: [TestComponent],
-        exports: [TestComponent],
-      })
-      export class TestModule {}
-      `,
-    );
+    tree.overwrite('src/app/test.component.html', input);
     const output = stripIndents`
       <h3 class="sky-margin-stacked-sm">
         Set up my connection
@@ -351,7 +343,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
     await firstValueFrom(
       runner.callRule(
         convertProgressIndicatorWizardToTabWizard({
-          project: 'test-app',
           projectPath: '',
           bestEffortMode: true,
           insertTodos: true,
@@ -367,6 +358,9 @@ describe('Convert progress indicator wizard to tab wizard', () => {
     ).toMatchSnapshot();
     expect(
       stripIndents`${tree.readText('src/app/test.module.ts')}`,
+    ).toMatchSnapshot();
+    expect(
+      stripIndents`${tree.readText('src/app/test.component.spec.ts')}`,
     ).toMatchSnapshot();
   });
 
@@ -419,7 +413,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
     await firstValueFrom(
       runner.callRule(
         convertProgressIndicatorWizardToTabWizard({
-          project: 'test-app',
           projectPath: '',
           bestEffortMode: true,
           insertTodos: true,
@@ -457,7 +450,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
     await firstValueFrom(
       runner.callRule(
         convertProgressIndicatorWizardToTabWizard({
-          project: 'test-app',
           projectPath: '',
           bestEffortMode: true,
           insertTodos: true,
@@ -578,7 +570,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
     await firstValueFrom(
       runner.callRule(
         convertProgressIndicatorWizardToTabWizard({
-          project: 'test-app',
           projectPath: '',
           bestEffortMode: true,
           insertTodos: true,
@@ -626,7 +617,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
       firstValueFrom(
         runner.callRule(
           convertProgressIndicatorWizardToTabWizard({
-            project: 'test-app',
             projectPath: '',
             bestEffortMode: true,
             insertTodos: true,
@@ -681,7 +671,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
       firstValueFrom(
         runner.callRule(
           convertProgressIndicatorWizardToTabWizard({
-            project: 'test-app',
             projectPath: '',
             bestEffortMode: true,
             insertTodos: true,
@@ -735,7 +724,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
       firstValueFrom(
         runner.callRule(
           convertProgressIndicatorWizardToTabWizard({
-            project: 'test-app',
             projectPath: '',
             bestEffortMode: true,
             insertTodos: true,
@@ -782,7 +770,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
       firstValueFrom(
         runner.callRule(
           convertProgressIndicatorWizardToTabWizard({
-            project: 'test-app',
             projectPath: '',
             bestEffortMode: true,
             insertTodos: true,
@@ -835,7 +822,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
       firstValueFrom(
         runner.callRule(
           convertProgressIndicatorWizardToTabWizard({
-            project: 'test-app',
             projectPath: '',
             bestEffortMode: true,
             insertTodos: true,
@@ -891,7 +877,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
       firstValueFrom(
         runner.callRule(
           convertProgressIndicatorWizardToTabWizard({
-            project: 'test-app',
             projectPath: '',
             bestEffortMode: false,
             insertTodos: false,
