@@ -57,10 +57,10 @@ function replaceDisabledClassInFile(
 
     // Pattern 3: Replace ngClass with sky-btn-disabled
     const ngClassPattern =
-      /\[ngClass\]="(\{[^}]*'sky-btn-disabled':\s*([^,}]+)[^}]*\})"/g;
+      /([^>]*)\[ngClass\]="(\{[^}]*'sky-btn-disabled':\s*([^,}]+)[^}]*\})"([^>]*>)/g;
     updatedContent = updatedContent.replace(
       ngClassPattern,
-      (match, objectExpression, condition) => {
+      (match, beforeNgClass, objectExpression, condition, afterNgClass) => {
         hasChanges = true;
 
         // Remove the sky-btn-disabled property from the object
@@ -69,12 +69,31 @@ function replaceDisabledClassInFile(
           .replace(/,\s*}/g, '}')
           .trim();
 
-        // If the object is now empty or only has whitespace, just return the disabled attribute
+        // Check if [disabled] attribute already exists before or after ngClass
+        const hasDisabledAttribute =
+          beforeNgClass.includes('[disabled]') ||
+          beforeNgClass.includes('disabled=') ||
+          afterNgClass.includes('[disabled]') ||
+          afterNgClass.includes('disabled=');
+
+        // If the object is now empty or only has whitespace
         if (cleanedObject === '{}' || cleanedObject.match(/^\{\s*\}$/)) {
-          return `[disabled]="${condition.trim()}"`;
+          if (hasDisabledAttribute) {
+            // Just remove the ngClass entirely since disabled already exists
+            return beforeNgClass + afterNgClass;
+          } else {
+            // Replace ngClass with disabled attribute
+            return `${beforeNgClass}[disabled]="${condition.trim()}"${afterNgClass}`;
+          }
         } else {
-          // Return both the disabled attribute and the cleaned ngClass
-          return `[disabled]="${condition.trim()}" [ngClass]="${cleanedObject}"`;
+          // Object still has other properties
+          if (hasDisabledAttribute) {
+            // Keep the cleaned ngClass but don't add disabled
+            return `${beforeNgClass}[ngClass]="${cleanedObject}"${afterNgClass}`;
+          } else {
+            // Add both the disabled attribute and the cleaned ngClass
+            return `${beforeNgClass}[disabled]="${condition.trim()}" [ngClass]="${cleanedObject}"${afterNgClass}`;
+          }
         }
       },
     );
