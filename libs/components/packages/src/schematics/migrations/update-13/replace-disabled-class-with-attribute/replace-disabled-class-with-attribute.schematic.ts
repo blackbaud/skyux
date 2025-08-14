@@ -19,28 +19,35 @@ function replaceDisabledClassInFile(
     // Pattern 1: Replace class="sky-btn-disabled" with [disabled]="true"
     // Also handles multiple classes like class="sky-btn sky-btn-disabled"
     const classPattern =
-      /class="([^"]*\s?)sky-btn-disabled(\s[^"]*)?"([^>]*>)/g;
+      /([^>]*)class="([^"]*\s?)sky-btn-disabled(\s[^"]*)?"([^>]*>)/g;
     updatedContent = updatedContent.replace(
       classPattern,
-      (match, beforeClass, afterClass, afterQuote) => {
+      (match, beforeClass, beforeDisabled, afterDisabled, afterQuote) => {
         hasChanges = true;
-        const cleanedClasses = (beforeClass.trim() + (afterClass || '')).trim();
+        const cleanedClasses = (
+          beforeDisabled.trim() + (afterDisabled || '')
+        ).trim();
         const classAttr = (
           cleanedClasses ? ` class="${cleanedClasses}"` : ''
         ).trim();
 
-        // Check if [disabled] attribute already exists
-        if (
-          !afterQuote.includes('[disabled]') &&
-          !afterQuote.includes('disabled=')
-        ) {
+        // Check if [disabled] attribute already exists before or after class
+        const hasDisabledAttribute =
+          beforeClass.includes('[disabled]') ||
+          beforeClass.includes('disabled=') ||
+          afterQuote.includes('[disabled]') ||
+          afterQuote.includes('disabled=');
+
+        if (hasDisabledAttribute) {
+          // If disabled attribute already exists, just remove the sky-btn-disabled class
+          return `${beforeClass}${classAttr}${afterQuote}`.trim();
+        } else {
+          // Add the disabled attribute
           return (
+            beforeClass +
             (classAttr ? classAttr + ' ' : '') +
             `[disabled]="true"${afterQuote}`
           );
-        } else {
-          // If disabled attribute already exists, just remove the class
-          return `${classAttr}${afterQuote}`.trim();
         }
       },
     );

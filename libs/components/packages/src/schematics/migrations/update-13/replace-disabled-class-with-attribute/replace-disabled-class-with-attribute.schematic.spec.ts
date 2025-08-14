@@ -138,6 +138,8 @@ fdescribe('Migrations > Replace disabled class with attribute', () => {
   <div>
     <button class="sky-btn-disabled" [disabled]="existingCondition">Button 1</button>
     <button class="sky-btn sky-btn-disabled" disabled="true">Button 2</button>
+    <button [disabled]="existingCondition" class="sky-btn-disabled">Button 1</button>
+    <button disabled="true" class="sky-btn sky-btn-disabled">Button 2</button>
   </div>
       `;
 
@@ -152,6 +154,8 @@ fdescribe('Migrations > Replace disabled class with attribute', () => {
   <div>
     <button [disabled]="existingCondition">Button 1</button>
     <button class="sky-btn" disabled="true">Button 2</button>
+    <button [disabled]="existingCondition">Button 1</button>
+    <button disabled="true" class="sky-btn">Button 2</button>
   </div>`);
   });
 
