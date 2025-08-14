@@ -46,8 +46,9 @@ const SKY_DATEPICKER_VALIDATOR = {
 };
 
 /**
- * When using `FormControl`, the value will be an empty string if the input is empty,
- * a `Date` object if the input is a valid date, or a string if the input is invalid.
+ * Input directive that provides date input functionality and handles date parsing, formatting and
+ * validation. Emits a `Date` object for valid dates, an empty string when cleared,
+ * or the raw string value for invalid input.
  */
 @Directive({
   host: {
