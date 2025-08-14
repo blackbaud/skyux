@@ -41,7 +41,7 @@ function moveHeading(
     );
     recorder.insertLeft(
       offset + definitionList.sourceCodeLocation.startTag.startOffset,
-      `<h3>${headingText}</h3>${eol}${indent}`,
+      `<h3 class="sky-margin-stacked-sm">${headingText}</h3>${eol}${indent}`,
     );
     recorder.remove(
       offset + heading.sourceCodeLocation.startOffset,
