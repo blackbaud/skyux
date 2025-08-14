@@ -1,7 +1,7 @@
 import { Rule } from '@angular-devkit/schematics';
-import { readWorkspace } from '@schematics/angular/utility';
 
 import { convertPageSummaryToPageHeader } from '../../rules/convert-page-summary-to-page-header/convert-page-summary-to-page-header';
+import { getRequiredProject } from '../../utility/workspace';
 
 import { Schema } from './schema';
 
@@ -12,10 +12,8 @@ export default function convertPageSummaryToPageHeaderSchematic(
   options: Schema,
 ): Rule {
   return async (tree) => {
-    const projectRoot = await readWorkspace(tree).then(
-      ({ projects }) => projects.get(`${options.project}`)?.root ?? '',
-    );
+    const { project } = await getRequiredProject(tree, options.project);
 
-    return convertPageSummaryToPageHeader(projectRoot);
+    return convertPageSummaryToPageHeader(project.root);
   };
 }

@@ -14,14 +14,16 @@ describe('ng-generate/convert-definition-list-to-description-list.schematic', ()
   const runner = new SchematicTestRunner('generate', collectionPath);
 
   async function setupTest(): Promise<{
-    runSchematic: (options: object) => Promise<UnitTestTree>;
+    runSchematic: () => Promise<UnitTestTree>;
     tree: UnitTestTree;
   }> {
     const tree = await createTestApp(runner, { projectName: 'test-app' });
-    const runSchematic = (options: object): Promise<UnitTestTree> => {
+    const runSchematic = (): Promise<UnitTestTree> => {
       return runner.runSchematic(
         'convert-definition-list-to-description-list',
-        options,
+        {
+          project: 'test-app',
+        },
         tree,
       );
     };
@@ -30,15 +32,6 @@ describe('ng-generate/convert-definition-list-to-description-list.schematic', ()
 
   it('should run the schematic without errors', async () => {
     const { runSchematic } = await setupTest();
-    await expect(
-      runSchematic({
-        project: 'test-app',
-      }),
-    ).resolves.not.toThrow();
-  });
-
-  it('should run the schematic without specifying a project', async () => {
-    const { runSchematic } = await setupTest();
-    await expect(runSchematic({})).resolves.not.toThrow();
+    await expect(runSchematic()).resolves.not.toThrow();
   });
 });

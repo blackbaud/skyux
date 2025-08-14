@@ -204,28 +204,7 @@ function convertTypescriptFile(
   filePath: string,
   context: SchematicContext,
 ): void {
-  let source = parseSourceFile(tree, filePath);
-  if (
-    isImported(source, 'SkyPageLayoutType', '@skyux/layout') ||
-    isImported(source, 'SkyPageModule', '@skyux/layout')
-  ) {
-    // These should have been migrated in SKY UX 9.
-    const recorder = tree.beginUpdate(filePath);
-    swapImportedClass(recorder, filePath, source, [
-      {
-        classNames: {
-          SkyPageLayoutType: 'SkyPageLayoutType',
-          SkyPageModule: 'SkyPageModule',
-        },
-        moduleName: {
-          old: '@skyux/layout',
-          new: '@skyux/pages',
-        },
-      },
-    ]);
-    tree.commitUpdate(recorder);
-    source = parseSourceFile(tree, filePath);
-  }
+  const source = parseSourceFile(tree, filePath);
   const templates = getInlineTemplates(source);
   const recorder = tree.beginUpdate(filePath);
   if (templates.length > 0) {
