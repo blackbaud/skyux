@@ -198,12 +198,7 @@ describe('ThemeClass directive', () => {
       TestBed.configureTestingModule({
         declarations: [SkyThemeClassTestComponent],
         imports: [SkyThemeModule],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: new SkyThemeService(),
-          },
-        ],
+        providers: [SkyThemeService],
       });
       const fixture = TestBed.createComponent(SkyThemeClassTestComponent);
       fixture.detectChanges();
