@@ -13,7 +13,7 @@ const routes: Routes = [
       import('./viewport-service/viewport-service.component'),
     data: {
       name: 'Viewport Service',
-      icon: 'grid-view',
+      icon: 'grid',
       library: 'theme',
     },
   },

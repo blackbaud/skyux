@@ -33,47 +33,6 @@ function addPackageExport(filePath: string): void {
   fs.writeJsonSync(packageJsonPath, packageJson, { spaces: 2 });
 }
 
-function validateSkyuxIconVersionMatch(): void {
-  console.log('Validating SKY UX icon font version...');
-
-  const scssContents = fs.readFileSync(skyScssPath, 'utf8').toString();
-
-  const scssVersionMatches = scssContents.match(
-    /@import url\('https:\/\/sky\.blackbaudcdn\.net\/static\/skyux-icons\/([A-z0-9\-.]+)\/assets\/css\/skyux-icons\.min\.css'\)/,
-  );
-
-  if (!scssVersionMatches || scssVersionMatches.length !== 2) {
-    throw new Error('Could not find the SKY UX icon font version in sky.scss.');
-  }
-
-  const scssVersion = scssVersionMatches[1];
-
-  const packageJsonPath = path.resolve(
-    __dirname,
-    '../libs/components/theme/package.json',
-  );
-  const packageJson = fs.readJsonSync(packageJsonPath);
-
-  const packageVersion = packageJson.dependencies['@skyux/icons'];
-  if (!packageVersion) {
-    throw new Error(
-      'Could not find the @skyux/icons dependency in package.json',
-    );
-  }
-
-  if (scssVersion !== packageVersion) {
-    throw new Error(
-      'sky.scss references SKY UX icon font version ' +
-        scssVersion +
-        ', but package.json references @skyux/icons version ' +
-        packageVersion +
-        '. These versions should match.',
-    );
-  }
-
-  console.log('Done.');
-}
-
 async function compileScss(): Promise<void> {
   console.log('Preparing SCSS and CSS files...');
 
@@ -140,7 +99,6 @@ function copyCompatScssFiles(): void {
 async function postBuildTheme(): Promise<void> {
   console.log('Running @skyux/theme postbuild step...');
   try {
-    validateSkyuxIconVersionMatch();
     await compileScss();
     copyPublicScssFiles();
     copyCompatScssFiles();

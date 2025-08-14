@@ -22,7 +22,7 @@ const routes: Routes = [
     component: FieldHeightsComponent,
     data: {
       name: 'Field Heights',
-      icon: 'text-height',
+      icon: 'text-font-size',
     },
   },
 ];
