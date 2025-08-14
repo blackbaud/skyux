@@ -2,7 +2,7 @@
   <sky-selection-box-grid>
     @for (control of checkboxControls; track control; let i = $index) {
       <sky-selection-box [control]="checkbox">
-        <sky-icon [iconName]="selectionBoxes[i].icon" />
+        <sky-icon [iconName]="selectionBoxes[i].iconName" />
         <sky-selection-box-header #checkboxHeaderId="skyId" skyId>
           {{ selectionBoxes[i].name }}
         </sky-selection-box-header>

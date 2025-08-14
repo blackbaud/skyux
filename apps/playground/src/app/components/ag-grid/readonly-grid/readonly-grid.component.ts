@@ -23,7 +23,7 @@ import {
 import { Observable, Subject } from 'rxjs';
 
 import { ReadonlyGridContextMenuComponent } from './readonly-grid-context-menu.component';
-import { READONLY_GRID_DATA, RowStatusNames } from './readonly-grid-data';
+import { READONLY_GRID_DATA } from './readonly-grid-data';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -179,17 +179,10 @@ export class ReadonlyGridComponent implements OnInit {
   }
 
   public statusRenderer(cellRendererParams: ICellRendererParams): string {
-    const iconClassMap = {
-      [RowStatusNames.BEHIND]: 'fa-warning',
-      [RowStatusNames.CURRENT]: 'fa-clock-o',
-      [RowStatusNames.COMPLETE]: 'fa-check',
-    };
     if (cellRendererParams.value) {
-      return `<div class="status ${cellRendererParams.value.toLowerCase()}">
-              <i class="fa ${iconClassMap[cellRendererParams.value]}"></i> ${
-                cellRendererParams.value
-              }
-            </div>`;
+      return `<div class="status ${cellRendererParams.value.toLowerCase()}">${
+        cellRendererParams.value
+      }</div>`;
     } else {
       return '';
     }

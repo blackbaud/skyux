@@ -17,7 +17,7 @@ import {
 })
 export class AppComponent {
   public title = 'integration';
-  protected ready = toSignal(inject(FontLoadingService).ready(true));
+  protected ready = toSignal(inject(FontLoadingService).ready());
 
   constructor(
     private router: Router,
