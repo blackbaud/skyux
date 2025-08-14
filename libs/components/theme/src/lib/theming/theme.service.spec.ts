@@ -79,11 +79,14 @@ describe('Theme service', () => {
     current: SkyThemeSettings,
     previous?: SkyThemeSettings,
   ): void {
-    // Validate that the brand service updateBrand method was called with correct parameters
+    // Validate that the brand service updateBrand method was called with correct parameters. When no brand is given - Blackbaud is the default
     expect(mockBrandService.updateBrand).toHaveBeenCalledWith(
       jasmine.any(Object),
       mockRenderer as unknown as Renderer2,
-      current.brand,
+      current.brand ??
+        (current.theme === SkyTheme.presets.modern
+          ? new SkyThemeBrand('blackbaud', '1.0.0')
+          : undefined),
       previous?.brand,
     );
   }
@@ -187,6 +190,40 @@ describe('Theme service', () => {
           settingsWithBranding,
         );
       }).toThrowError('Branding is not supported for the given theme.');
+    });
+
+    it('should throw an error if branding is changed for a theme which does not support branding', () => {
+      const settingsWithoutBranding = new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light,
+      );
+
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        settingsWithoutBranding,
+      );
+
+      expect(() => {
+        themeSvc.setThemeBrand(new SkyThemeBrand('rainbow', '1.0.1'));
+      }).toThrowError('Branding is not supported for the given theme.');
+    });
+
+    it('should not throw an error if branding is changed for a theme which does not support branding but undefined is given for the brand', () => {
+      const settingsWithoutBranding = new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light,
+      );
+
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        settingsWithoutBranding,
+      );
+
+      expect(() => {
+        themeSvc.setThemeBrand(undefined);
+      }).not.toThrowError();
     });
 
     it('should register initial brands when provided', () => {
@@ -702,7 +739,7 @@ describe('Theme service', () => {
       expect(mockBrandService.updateBrand).toHaveBeenCalledWith(
         jasmine.any(Object),
         mockRenderer as unknown as Renderer2,
-        undefined,
+        new SkyThemeBrand('blackbaud', '1.0.0'),
         brand,
       );
     }
@@ -886,7 +923,7 @@ describe('Theme service', () => {
       testClearBrand('rainbow');
     });
 
-    it('should clear blackbaud brand when setThemeBrand() is called with undefined', () => {
+    it('should not clear blackbaud brand when setThemeBrand() is called with undefined', () => {
       testClearBrand('blackbaud');
     });
 
@@ -924,7 +961,7 @@ describe('Theme service', () => {
       // Verify that the new brand was applied
       expect(capturedSettings?.brand).toBe(brand2);
 
-      // Verify the brand service was called with the new brand
+      // Verify the brand service was called with the new brand. Previous brand would be Blackbaud due to that being the default when no brand is given
       expect(mockBrandService.updateBrand).toHaveBeenCalledWith(
         jasmine.any(Object),
         mockRenderer as unknown as Renderer2,

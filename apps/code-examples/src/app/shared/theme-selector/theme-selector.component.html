@@ -57,6 +57,7 @@
       [disabled]="brandingValues().length === 0"
       [(ngModel)]="themeBrand"
     >
+      <option [ngValue]="undefined">Blackbaud</option>
       @for (brandingValue of brandingValues(); track brandingValue) {
         <option [ngValue]="brandingValue">
           {{
