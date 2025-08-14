@@ -10,6 +10,11 @@
       "factory": "./src/schematics/migrations/update-13/i18n-resources-module/i18n-resources-module.schematic",
       "description": "Regenerate i18n resources modules for libraries."
     },
+    "icon-name": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-13/icon-name/icon-name.schematic",
+      "description": "Update icon `icon` properties to `iconName`."
+    },
     "remove-old-compat-stylesheets": {
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/update-13/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",

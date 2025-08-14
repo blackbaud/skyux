@@ -17,18 +17,18 @@ export class SelectionBoxTestComponent {
 
   public checkboxSelectionBoxes: any[] = [
     {
-      icon: 'edit',
+      iconName: 'edit',
       header: 'Write an introduction',
       description:
         'A brief one paragraph introduction about your organization will help supporters identify with your cause',
     },
     {
-      icon: 'calendar-ltr',
+      iconName: 'calendar-ltr',
       header: 'Schedule a consultation',
       description: 'Get something on the calendar to engage your constituents!',
     },
     {
-      icon: 'clock',
+      iconName: 'clock',
       header: 'Save time and effort',
       description: 'Encourage supporters to interact with your organization',
     },
@@ -36,17 +36,17 @@ export class SelectionBoxTestComponent {
 
   public radioArray: any = [
     {
-      icon: 'edit',
+      iconName: 'edit',
       header: 'Red',
       name: 'red',
     },
     {
-      icon: 'edit',
+      iconName: 'edit',
       header: 'Yellow',
       name: 'yellow',
     },
     {
-      icon: 'edit',
+      iconName: 'edit',
       header: 'Blue',
       name: 'blue',
     },

@@ -11,7 +11,7 @@ const routes: IntegrationRouteInfo[] = [
     component: ModalSplitViewTileDashboardComponent,
     data: {
       name: 'Modal Split View Tile Dashboard',
-      icon: 'columns',
+      icon: 'layout-column-three',
     },
   },
 ];

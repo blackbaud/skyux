@@ -37,7 +37,7 @@ const routes: Routes = [
     data: {
       name: 'Live announcer',
       library: 'core',
-      icon: 'universal-access',
+      icon: 'accessibility',
     },
   },
 ];

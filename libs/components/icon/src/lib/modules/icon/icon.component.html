@@ -1,26 +1,7 @@
-@if (iconName) {
-  <sky-icon-svg
-    [iconName]="iconName"
-    [relativeSize]="size"
-    [iconSize]="iconSize()"
-    [iconVariant]="variant"
-    [attr.data-sky-icon]="iconName"
-    [attr.data-sky-icon-variant]="variant"
-  />
-} @else if (icon) {
-  <i
-    aria-hidden="true"
-    class="sky-icon"
-    [attr.data-sky-icon]="icon"
-    [attr.data-sky-icon-type]="iconType"
-    [attr.data-sky-icon-variant]="variant"
-    [ngClass]="
-      icon
-        | skyIconClassList
-          : (themeSvc?.settingsChange | async)?.currentSettings
-          : size
-          : fixedWidth
-          : variant
-    "
-  ></i>
-}
+<sky-icon-svg
+  [iconName]="iconName"
+  [iconSize]="iconSize()"
+  [iconVariant]="variant"
+  [attr.data-sky-icon]="iconName"
+  [attr.data-sky-icon-variant]="variant"
+/>
