@@ -7,6 +7,7 @@ import { Change, InsertChange } from '@schematics/angular/utility/change';
 import {
   addSymbolToClassMetadata,
   getInlineTemplates,
+  getTemplateUrls,
   isSymbolInClassMetadataFieldArray,
 } from './ng-ast';
 
@@ -90,6 +91,65 @@ describe('ng-ast', () => {
         ts.ScriptKind.TS,
       );
       expect(getInlineTemplates(sourceFile)).toEqual([]);
+    });
+  });
+
+  describe('getTemplateUrls', () => {
+    it('should get template URLs', () => {
+      const sourceText = stripIndents`
+      import { Component } from '@angular/core';
+
+      @Component({
+        selector: 'app-test',
+        templateUrl: './test.component.html'
+      })
+      export class TestComponent {}
+    `;
+      const sourceFile = ts.createSourceFile(
+        'test.ts',
+        sourceText,
+        ts.ScriptTarget.Latest,
+        true,
+        ts.ScriptKind.TS,
+      );
+      expect(getTemplateUrls(sourceFile)).toEqual(['./test.component.html']);
+    });
+
+    it('should not get template URL if it is not a string', () => {
+      const sourceText = stripIndents`
+      import { Component } from '@angular/core';
+
+      @Component({
+        selector: 'app-test',
+        templateUrl: false,
+      })
+      export class TestComponent {}
+    `;
+      const sourceFile = ts.createSourceFile(
+        'test.ts',
+        sourceText,
+        ts.ScriptTarget.Latest,
+        true,
+        ts.ScriptKind.TS,
+      );
+      expect(getTemplateUrls(sourceFile)).toEqual([]);
+    });
+
+    it('should not get template URL if it is not an Angular component', () => {
+      const sourceText = stripIndents`
+      import { NgModule } from '@angular/core';
+
+      @NgModule({})
+      export class TestModule {}
+    `;
+      const sourceFile = ts.createSourceFile(
+        'test.ts',
+        sourceText,
+        ts.ScriptTarget.Latest,
+        true,
+        ts.ScriptKind.TS,
+      );
+      expect(getTemplateUrls(sourceFile)).toEqual([]);
     });
   });
 

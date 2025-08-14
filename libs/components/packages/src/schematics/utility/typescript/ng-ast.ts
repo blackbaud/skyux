@@ -38,6 +38,32 @@ export function getInlineTemplates(
   return [];
 }
 
+export function getTemplateUrls(sourceFile: ts.SourceFile): string[] {
+  if (isImported(sourceFile, 'Component', '@angular/core')) {
+    const components = getDecoratorMetadata(
+      sourceFile,
+      'Component',
+      '@angular/core',
+    );
+    const templates = components
+      .filter((component) => ts.isObjectLiteralExpression(component))
+      .flatMap((component) => getMetadataField(component, 'templateUrl'))
+      .filter((template) => ts.isPropertyAssignment(template));
+    if (templates.length > 0) {
+      return templates
+        .map((template) => {
+          if (ts.isStringLiteralLike(template.initializer)) {
+            const quoted = template.initializer.getText();
+            return quoted.substring(1, quoted.length - 1);
+          }
+          return undefined;
+        })
+        .filter(Boolean) as string[];
+    }
+  }
+  return [];
+}
+
 /**
  * Like `getDecoratorMetadata` from @angular/cdk/schematics, but for `TestBed.configureTestingModule`.
  */
@@ -47,6 +73,7 @@ export function getTestingModuleMetadata(
   return findNodes(
     source,
     (node: ts.Node): node is ts.ObjectLiteralExpression =>
+      !!node?.parent &&
       ts.isObjectLiteralExpression(node) &&
       ts.isCallExpression(node.parent) &&
       node.parent.expression.getText().trim() ===
@@ -77,8 +104,8 @@ export function addSymbolToClassMetadata(
       : getDecoratorMetadata(source, decorator, '@angular/core');
   let insertedImport = false;
   return nodes
-    .filter((node) => ts.isObjectLiteralExpression(node))
-    .flatMap((node: ts.ObjectLiteralExpression): Change[] => {
+    .filter((node) => !!node && ts.isObjectLiteralExpression(node))
+    .flatMap((node): Change[] => {
       if (
         importPath === '@angular/common' &&
         isSymbolInClassMetadataFieldArray(node, metadataField, 'CommonModule')

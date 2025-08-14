@@ -10,6 +10,7 @@ import {
   angularModuleGenerator,
 } from '../../testing/angular-module-generator';
 import { createTestApp } from '../../testing/scaffold';
+import * as logOnce from '../../utility/log-once';
 import { addSymbolToClassMetadata } from '../../utility/typescript/ng-ast';
 
 import { convertSelectFieldToLookup } from './convert-select-field-to-lookup';
@@ -217,7 +218,7 @@ describe('Convert select field to lookup', () => {
         [disabled]="disabled"
         [inMemorySearchEnabled]="inMemorySearchEnabled"
         [multipleSelectOpenButtonText]="multipleSelectOpenButtonText"
-        [selectMode]="selectMode"
+        selectMode="single"
         [singleSelectClearButtonTitle]="singleSelectClearButtonTitle"
         [singleSelectOpenButtonTitle]="singleSelectOpenButtonTitle"
         singleSelectPlaceholderText="{{ singleSelectPlaceholderText }}"
@@ -237,7 +238,7 @@ describe('Convert select field to lookup', () => {
         [showMoreConfig]="{ nativePickerConfig: { title: ( pickerHeading ) }, customPicker: customPicker }"
         [data]="(data | async) ?? []"
         [disabled]="disabled"
-        [selectMode]="selectMode"
+        selectMode="single"
         placeholderText="{{ singleSelectPlaceholderText }}"
         [(ngModel)]="formData.modelValue"
         (ngModelChange)="onModelChange($event)"
@@ -245,6 +246,9 @@ describe('Convert select field to lookup', () => {
         enableShowMore
         idProperty="id" />
     `;
+    const logOnceSpy = jest
+      .spyOn(logOnce, 'logOnce')
+      .mockImplementation(() => {});
     await firstValueFrom(
       runner.callRule(
         convertSelectFieldToLookup({
@@ -258,6 +262,11 @@ describe('Convert select field to lookup', () => {
     );
     expect(stripIndents`${tree.readText('src/app/test.component.html')}`).toBe(
       output,
+    );
+    expect(logOnceSpy).toHaveBeenCalledWith(
+      expect.any(Object),
+      'warn',
+      'The <sky-select-field> component would return a single item when using single select mode, but the <sky-lookup> component returns an array value regardless of the "selectMode" attribute. The form model and validation may need to be updated. Please review the code to ensure it still works as expected.',
     );
     expect(
       stripIndents`${tree.readText('src/app/test.component.ts')}`,

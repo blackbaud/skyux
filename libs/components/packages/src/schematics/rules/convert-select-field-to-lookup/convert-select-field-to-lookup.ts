@@ -8,7 +8,6 @@ import {
 import {
   findNodes,
   getDecoratorMetadata,
-  getMetadataField,
   isImported,
   parse5,
   parseSourceFile,
@@ -33,6 +32,7 @@ import {
 import {
   addSymbolToClassMetadata,
   getInlineTemplates,
+  getTemplateUrls,
   getTestingModuleMetadata,
   isSymbolInClassMetadataFieldArray,
 } from '../../utility/typescript/ng-ast';
@@ -104,12 +104,14 @@ function applyModuleDependencies(
   tree: Tree,
   filePath: string,
   _context: SchematicContext,
-) {
-  [
-    ['Component', '@angular/core'],
-    ['NgModule', '@angular/core'],
-    ['TestBed.configureTestingModule', '@angular/core/testing'],
-  ].forEach(([decorator, decoratorModule]) => {
+): void {
+  (
+    [
+      ['Component', '@angular/core'],
+      ['NgModule', '@angular/core'],
+      ['TestBed.configureTestingModule', '@angular/core/testing'],
+    ] as ['Component' | 'NgModule' | 'TestBed.configureTestingModule', string][]
+  ).forEach(([decorator, decoratorModule]) => {
     if (
       isImported(
         originalSource,
@@ -145,10 +147,7 @@ function applyModuleDependencies(
               filePath,
               addSymbolToClassMetadata(
                 parseSourceFile(tree, filePath),
-                decorator as
-                  | 'Component'
-                  | 'NgModule'
-                  | 'TestBed.configureTestingModule',
+                decorator,
                 filePath,
                 metadataField,
                 symbol,
@@ -157,23 +156,27 @@ function applyModuleDependencies(
             );
           });
           if (decorator === 'TestBed.configureTestingModule') {
-            applyChangesToFile(
-              tree,
-              filePath,
-              addSymbolToClassMetadata(
-                parseSourceFile(tree, filePath),
-                decorator,
-                filePath,
-                'providers',
-                'provideNoopAnimations()',
-                '@angular/platform-browser/animations',
-              ),
-            );
+            applyTestDependencies(tree, filePath);
           }
         }
       });
     }
   });
+}
+
+function applyTestDependencies(tree: Tree, filePath: string): void {
+  applyChangesToFile(
+    tree,
+    filePath,
+    addSymbolToClassMetadata(
+      parseSourceFile(tree, filePath),
+      'TestBed.configureTestingModule',
+      filePath,
+      'providers',
+      'provideNoopAnimations()',
+      '@angular/platform-browser/animations',
+    ),
+  );
 }
 
 function attrNameIsOneOf(attrName: string, checkAttrName: string[]): boolean {
@@ -211,6 +214,19 @@ function buildOpeningTag(
   const { customPicker, pickerHeading, eitherShowMoreConfig } =
     findShowMoreConfigAttributes(node);
   let before = '';
+  if (
+    node.attrs.some(
+      (attr) =>
+        '[selectMode]'.toLowerCase() === attr.name ||
+        ('selectMode'.toLowerCase() === attr.name && attr.value !== 'multiple'),
+    )
+  ) {
+    bestEffortMessage(
+      `The <sky-select-field> component would return a single item when using single select mode, but the <sky-lookup> component returns an array value regardless of the "selectMode" attribute. The form model and validation may need to be updated.`,
+      context,
+      options,
+    );
+  }
   for (const attr of node.attrs) {
     before = getIndentation(previousAttrLine, node, attr, eol);
     const attrName = normalizeAttrName(attr);
@@ -550,18 +566,9 @@ function convertTypescriptFile(
   }
 
   if (isImported(source, 'Component', '@angular/core')) {
-    const metadata = getDecoratorMetadata(
-      source,
-      'Component',
-      '@angular/core',
-    )[0] as ts.ObjectLiteralExpression;
-    const templateUrl = getMetadataField(metadata, 'templateUrl')[0] as
-      | ts.PropertyAssignment
-      | undefined;
-    if (templateUrl && ts.isStringLiteralLike(templateUrl.initializer)) {
-      const htmlFilePath = normalize(
-        join(dirname(filePath), templateUrl.initializer.text),
-      );
+    const templateUrl = getTemplateUrls(source)[0];
+    if (templateUrl) {
+      const htmlFilePath = normalize(join(dirname(filePath), templateUrl));
       followupTasks = convertHtmlFile(tree, htmlFilePath, context, options);
     } else {
       const template = getInlineTemplates(source)[0];
@@ -592,6 +599,10 @@ function convertTypescriptFile(
           eol,
         ),
       );
+      const testFilePath = filePath.replace('.ts', '.spec.ts');
+      if (tree.exists(testFilePath)) {
+        applyTestDependencies(tree, testFilePath);
+      }
     }
   }
 }
