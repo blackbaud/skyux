@@ -164,7 +164,6 @@ describe('Convert select field to lookup', () => {
     await firstValueFrom(
       runner.callRule(
         convertSelectFieldToLookup({
-          project: 'test-app',
           bestEffortMode: true,
           insertTodos: true,
           projectPath: '',
@@ -252,7 +251,6 @@ describe('Convert select field to lookup', () => {
     await firstValueFrom(
       runner.callRule(
         convertSelectFieldToLookup({
-          project: 'test-app',
           bestEffortMode: true,
           insertTodos: true,
           projectPath: '',
@@ -341,7 +339,6 @@ describe('Convert select field to lookup', () => {
     await firstValueFrom(
       runner.callRule(
         convertSelectFieldToLookup({
-          project: 'test-app',
           bestEffortMode: true,
           insertTodos: true,
           projectPath: '',
@@ -446,7 +443,6 @@ describe('Convert select field to lookup', () => {
     await firstValueFrom(
       runner.callRule(
         convertSelectFieldToLookup({
-          project: 'test-app',
           bestEffortMode: true,
           insertTodos: true,
           projectPath: '',
@@ -571,7 +567,6 @@ describe('Convert select field to lookup', () => {
     await firstValueFrom(
       runner.callRule(
         convertSelectFieldToLookup({
-          project: 'test-app',
           bestEffortMode: true,
           insertTodos: true,
           projectPath: '',
@@ -601,7 +596,6 @@ describe('Convert select field to lookup', () => {
     await firstValueFrom(
       runner.callRule(
         convertSelectFieldToLookup({
-          project: 'test-app',
           bestEffortMode: true,
           insertTodos: true,
           projectPath: '',
@@ -687,7 +681,6 @@ describe('Convert select field to lookup', () => {
     await firstValueFrom(
       runner.callRule(
         convertSelectFieldToLookup({
-          project: 'test-app',
           bestEffortMode: true,
           insertTodos: true,
           projectPath: '',
@@ -783,7 +776,6 @@ describe('Convert select field to lookup', () => {
     await firstValueFrom(
       runner.callRule(
         convertSelectFieldToLookup({
-          project: 'test-app',
           bestEffortMode: true,
           insertTodos: true,
           projectPath: '',
@@ -817,7 +809,6 @@ describe('Convert select field to lookup', () => {
       firstValueFrom(
         runner.callRule(
           convertSelectFieldToLookup({
-            project: 'test-app',
             bestEffortMode: false,
             insertTodos: true,
             projectPath: '',

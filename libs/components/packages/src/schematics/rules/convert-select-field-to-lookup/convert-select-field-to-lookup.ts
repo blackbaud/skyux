@@ -41,6 +41,13 @@ import { visitProjectFiles } from '../../utility/visit-project-files';
 
 import { ConvertSelectFieldToLookupOptions } from './options';
 
+/**
+ * Maps old select-field attribute names to new lookup attribute names.
+ * This is used to migrate templates from the deprecated select-field component
+ * to the new lookup component, ensuring that attributes are correctly renamed.
+ * Key: old select-field attribute name (lowercase, as used in templates)
+ * Value: new lookup attribute name
+ */
 const attrSwap: Record<string, string> = {
   /* eslint-disable-next-line @cspell/spellchecker */
   descriptorkey: 'descriptorProperty',

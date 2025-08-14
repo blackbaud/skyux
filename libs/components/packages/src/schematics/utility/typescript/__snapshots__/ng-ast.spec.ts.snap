@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ng-ast addSymbolToClassMetadata should add AsyncPiple 1`] = `
+exports[`ng-ast addSymbolToClassMetadata should add AsyncPipe 1`] = `
 "
       import { Component } from '@angular/core';
 import { AsyncPipe } from '@angular/common';

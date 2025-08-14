@@ -145,7 +145,8 @@ export function addSymbolToClassMetadata(
             insertImport(
               source,
               filePath,
-              symbolName.replace(/[.(].*$/, ''),
+              // Remove function call syntax (e.g., SomeSymbol()) and property access (e.g., SomeSymbol.method) from symbolName for import.
+              symbolName.replace(/(\.\w+|\(.*\))$/, ''),
               importPath,
             ),
           ];

@@ -464,7 +464,7 @@ describe('ng-ast', () => {
       expect(output).toMatchSnapshot();
     });
 
-    it('should add AsyncPiple', () => {
+    it('should add AsyncPipe', () => {
       const moduleContent = `
       import { Component } from '@angular/core';
 

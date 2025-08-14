@@ -12,15 +12,16 @@ export default function convertSelectFieldToLookupSchematic(
   options: Partial<Schema>,
 ): Rule {
   return async (tree) => {
-    const projectPath = await readWorkspace(tree).then(
-      ({ projects }) => projects.get(`${options.project}`)?.root ?? '',
+    const projectPath = String(
+      options.projectPath ??
+        (await readWorkspace(tree).then(
+          ({ projects }) => projects.get(`${options.project}`)?.root ?? '',
+        )),
     );
-    const settings: Schema = {
-      project: `${options.project}`,
-      projectPath: projectPath,
+    return convertSelectFieldToLookup({
+      projectPath,
       bestEffortMode: !!options.bestEffortMode,
       insertTodos: !!options.insertTodos,
-    };
-    return convertSelectFieldToLookup(settings);
+    });
   };
 }
