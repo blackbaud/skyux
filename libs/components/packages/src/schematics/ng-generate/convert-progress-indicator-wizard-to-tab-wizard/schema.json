@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "description": "Converts sky-progress-indicator components using horizontal layout to use sky-tabset wizard",
+  "additionalProperties": false,
+  "properties": {
+    "projectPath": {
+      "type": "string",
+      "description": "The path to the files where the rule should be applied.",
+      "format": "path",
+      "$default": {
+        "$source": "workingDirectory"
+      }
+    },
+    "bestEffortMode": {
+      "type": "boolean",
+      "description": "Whether to eagerly migrate as much as possible, ignoring problematic patterns that would otherwise prevent migration.",
+      "default": false
+    },
+    "insertTodos": {
+      "type": "boolean",
+      "description": "Whether to insert todos for any items that could not be migrated or that require manual review.",
+      "default": true
+    }
+  }
+}
