@@ -126,8 +126,8 @@ describe('Modals with viewkept toolbars', () => {
       toolbarContainers.forEach((toolbar) => {
         const toolbarStyle = window.getComputedStyle(toolbar);
         expect(toolbarStyle.backgroundColor).toBe('rgb(255, 255, 255)');
-        expect(toolbarStyle.paddingLeft).toBe('30px');
-        expect(toolbarStyle.paddingRight).toBe('30px');
+        expect(toolbarStyle.paddingLeft).toBe('24px');
+        expect(toolbarStyle.paddingRight).toBe('24px');
       });
     });
   });

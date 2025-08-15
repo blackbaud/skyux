@@ -24,5 +24,5 @@ describe('Modal Date range picker', () => {
         .should('have.length', 3);
       cy.skyVisualTest(`modal-date-range-picker-${theme}`);
     });
-  }, false);
+  });
 });
