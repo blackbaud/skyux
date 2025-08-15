@@ -4,7 +4,6 @@ export { SkyFilterBarFilterItem } from './lib/modules/filter-bar/models/filter-b
 export { SkyFilterBarFilterModalConfig } from './lib/modules/filter-bar/models/filter-bar-filter-modal-config';
 export { SkyFilterBarFilterModalContext } from './lib/modules/filter-bar/models/filter-bar-filter-modal-context';
 export { SkyFilterBarFilterValue } from './lib/modules/filter-bar/models/filter-bar-filter-value';
-export { SkyFilterBarItem } from './lib/modules/filter-bar/models/filter-bar-item';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of public API.
