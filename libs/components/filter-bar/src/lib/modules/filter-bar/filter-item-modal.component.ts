@@ -35,20 +35,21 @@ export class SkyFilterItemModalComponent implements SkyFilterItem {
   /**
    * A unique identifier for the filter.
    */
-  public filterId = input.required<string>();
+  public readonly filterId = input.required<string>();
   /**
    * The label for the filter.
    */
-  public labelText = input.required<string>();
+  public readonly labelText = input.required<string>();
   /**
    * The configuration options for showing a custom filter modal.
    */
-  public filterModalConfig = input.required<SkyFilterBarFilterModalConfig>();
+  public readonly filterModalConfig =
+    input.required<SkyFilterBarFilterModalConfig>();
   /**
    * The template of the filter that is rendered by the filter bar.
    * @internal
    */
-  public templateRef = viewChild(TemplateRef<unknown>);
+  public readonly templateRef = viewChild(TemplateRef<unknown>);
 
   readonly #modalSvc = inject(SkyModalService);
   readonly #filterBarSvc = inject(SkyFilterBarService);
@@ -61,7 +62,7 @@ export class SkyFilterItemModalComponent implements SkyFilterItem {
     ),
   );
 
-  public openFilter(): void {
+  protected openFilter(): void {
     const filterModalConfig = this.filterModalConfig();
 
     const context = new SkyFilterBarFilterModalContext(

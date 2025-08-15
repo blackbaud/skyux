@@ -54,16 +54,16 @@ export class SkyFilterBarComponent {
   /**
    * An array of filter items containing the IDs and values of the filters that have been set.
    */
-  public filters = model<SkyFilterBarFilterItem[] | undefined>();
+  public readonly filters = model<SkyFilterBarFilterItem[] | undefined>();
 
   /**
    * An array of filter IDs that the user has selected using the built-in selection modal. Setting this input to undefined results in all filters being displayed.
    */
-  public selectedFilterIds = model<string[] | undefined>();
+  public readonly selectedFilterIds = model<string[] | undefined>();
 
-  protected filterItems = contentChildren(SKY_FILTER_ITEM);
+  protected readonly filterItems = contentChildren(SKY_FILTER_ITEM);
 
-  protected visibleFilters = computed((): SkyFilterItem[] => {
+  protected readonly visibleFilters = computed((): SkyFilterItem[] => {
     const items = this.filterItems();
     const selectedFilters = this.selectedFilterIds();
 
@@ -115,7 +115,7 @@ export class SkyFilterBarComponent {
     });
   }
 
-  public openFilters(): void {
+  protected openFilters(): void {
     const strings = this.#strings();
     const existingFilters = this.#getExistingFilterItems();
 
@@ -145,7 +145,7 @@ export class SkyFilterBarComponent {
     });
   }
 
-  public clearFilters(): void {
+  protected clearFilters(): void {
     const strings = this.#strings();
 
     /* istanbul ignore if: safety check */

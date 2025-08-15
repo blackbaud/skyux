@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import {
   SkySelectionModalInstance,
@@ -14,7 +13,6 @@ import {
 
 import { of } from 'rxjs';
 
-import { SkyFilterBarComponent } from './filter-bar.component';
 import { SkyFilterBarTestComponent } from './fixtures/filter-bar.component.fixture';
 
 describe('Filter bar component', () => {
@@ -26,11 +24,6 @@ describe('Filter bar component', () => {
 
   function getClearFiltersButton(): HTMLButtonElement | null {
     return fixture.nativeElement.querySelector('.sky-filter-bar-clear-filters');
-  }
-
-  function getFilterBarComponent(): SkyFilterBarComponent {
-    return fixture.debugElement.query(By.directive(SkyFilterBarComponent))
-      .componentInstance;
   }
 
   function getFilterItems(): Element[] {
@@ -149,14 +142,6 @@ describe('Filter bar component', () => {
       expect(filterItems.length).toBe(0);
     });
 
-    it('should open selection modal when filter picker button is clicked', () => {
-      spyOn(getFilterBarComponent(), 'openFilters');
-
-      getFilterPickerButton()?.click();
-
-      expect(getFilterBarComponent().openFilters).toHaveBeenCalled();
-    });
-
     it('should handle deselecting filters with existing values', () => {
       // Set up initial state with multiple filters having values
       component.filters.set([
@@ -260,7 +245,8 @@ describe('Filter bar component', () => {
         closed: closed$,
       } as SkyConfirmInstance);
 
-      getFilterBarComponent().clearFilters();
+      getClearFiltersButton()?.click();
+      fixture.detectChanges();
 
       expect(component.filters()).toBeUndefined();
     });
@@ -277,7 +263,8 @@ describe('Filter bar component', () => {
         closed: closed$,
       } as SkyConfirmInstance);
 
-      getFilterBarComponent().clearFilters();
+      getClearFiltersButton()?.click();
+      fixture.detectChanges();
 
       expect(component.filters()).toEqual(initialFilterValues);
     });
@@ -289,8 +276,6 @@ describe('Filter bar component', () => {
     });
 
     it('should handle complete user workflow: add, update, clear', () => {
-      const filterBarComponent = getFilterBarComponent();
-
       // 1. Add filter value
       component.filters.set([
         { id: '1', filterValue: { value: 'test value' } },
@@ -312,7 +297,8 @@ describe('Filter bar component', () => {
         closed: closed$,
       } as SkyConfirmInstance);
 
-      filterBarComponent.clearFilters();
+      getClearFiltersButton()?.click();
+      fixture.detectChanges();
 
       expect(component.filters()).toBeUndefined();
       fixture.detectChanges();
