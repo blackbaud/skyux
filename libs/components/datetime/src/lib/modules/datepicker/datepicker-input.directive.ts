@@ -45,6 +45,10 @@ const SKY_DATEPICKER_VALIDATOR = {
   multi: true,
 };
 
+/**
+ * Input directive that provides date input functionality and handles date parsing, formatting and
+ * validation. Emits a `Date` object for valid dates or the raw string value for invalid input.
+ */
 @Directive({
   host: {
     '(focusout)': 'onFocusout($event)',
