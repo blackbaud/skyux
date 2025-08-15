@@ -731,7 +731,7 @@ describe('Convert progress indicator wizard to tab wizard', () => {
         imports: [SkyTabsModule],
       })
       export class TestComponent {
-        // todo: Remove. The displayMode property was previous used to determine if the progress indicator should be displayed as a wizard. It is no longer needed.
+        // todo: Remove. The displayMode property was previously used to determine if the progress indicator should be displayed as a wizard. It is no longer needed.
         protected displayMode = SkyProgressIndicatorDisplayMode.Horizontal;
       }
     `;

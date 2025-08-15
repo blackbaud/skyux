@@ -345,7 +345,7 @@ function isThisAWizard(
         followupTasks.addCommentsToProperties[
           displayModeProperty.name.getText()
         ] =
-          `Remove. The ${displayModeProperty.name.getText()} property was previous used to determine if the progress indicator should be displayed as a wizard. It is no longer needed.`;
+          `Remove. The ${displayModeProperty.name.getText()} property was previously used to determine if the progress indicator should be displayed as a wizard. It is no longer needed.`;
         return true;
       }
     }
@@ -524,6 +524,27 @@ function hasSymbolReference(
   );
 }
 
+function isModuleExportingProgressIndicatorModule(
+  source: ts.SourceFile,
+): boolean {
+  if (isImported(source, 'NgModule', '@angular/core')) {
+    const decoratorMetadata = getDecoratorMetadata(
+      source,
+      'NgModule',
+      '@angular/core',
+    )[0];
+    return (
+      ts.isObjectLiteralExpression(decoratorMetadata) &&
+      isSymbolInClassMetadataFieldArray(
+        decoratorMetadata,
+        'exports',
+        'SkyProgressIndicatorModule',
+      )
+    );
+  }
+  return false;
+}
+
 /**
  * If this is a test file and references a component that was converted,
  * we need to ensure that the SkyTabsModule is imported in the TestBed configuration.
@@ -538,11 +559,20 @@ function updateModuleOrTestFile(
 ): void {
   const source = parseSourceFile(tree, filePath);
   if (
-    (isImported(source, 'TestBed', '@angular/core/testing') ||
-      isImported(source, 'NgModule', '@angular/core')) &&
-    hasSymbolReference(source, componentsThatNeedModules)
+    (isImported(source, 'TestBed', '@angular/core/testing') &&
+      hasSymbolReference(source, componentsThatNeedModules)) ||
+    (isImported(source, 'NgModule', '@angular/core') &&
+      isImported(
+        source,
+        'SkyProgressIndicatorModule',
+        '@skyux/progress-indicator',
+      ))
   ) {
-    if (hasSymbolReference(source, componentsThatKeepProgressIndicator)) {
+    if (
+      (componentsThatKeepProgressIndicator.length > 0 &&
+        isModuleExportingProgressIndicatorModule(source)) ||
+      hasSymbolReference(source, componentsThatKeepProgressIndicator)
+    ) {
       applyModuleDependencies(source, tree, filePath);
     } else {
       swapModuleDependencies(tree, filePath);
