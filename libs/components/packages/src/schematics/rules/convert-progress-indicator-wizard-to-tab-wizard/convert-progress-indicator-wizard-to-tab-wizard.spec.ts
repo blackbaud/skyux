@@ -145,6 +145,24 @@ describe('Convert progress indicator wizard to tab wizard', () => {
     const tree = await createTestApp(runner, {
       projectName: 'test-app',
     });
+    await angularComponentGenerator(runner, tree, {
+      name: 'test',
+      project: 'test-app',
+      module: 'test',
+      flat: true,
+    });
+    applyChangesToFile(
+      tree,
+      'src/app/test.component.spec.ts',
+      addSymbolToClassMetadata(
+        parseSourceFile(tree, 'src/app/test.component.spec.ts'),
+        'TestBed.configureTestingModule',
+        'src/app/test.component.spec.ts',
+        'imports',
+        'SkyProgressIndicatorModule',
+        '@skyux/progress-indicator',
+      ),
+    );
     const input = stripIndents`
       <sky-progress-indicator
         #wizardRef
@@ -170,8 +188,8 @@ describe('Convert progress indicator wizard to tab wizard', () => {
         </sky-progress-indicator-item>
       </sky-progress-indicator>
     `;
-    tree.create('src/app/test.component.html', input);
-    tree.create(
+    tree.overwrite('src/app/test.component.html', input);
+    tree.overwrite(
       'src/app/test.component.ts',
       stripIndents`
       import { Component } from '@angular/core';
@@ -233,6 +251,144 @@ describe('Convert progress indicator wizard to tab wizard', () => {
     expect(
       stripIndents`${tree.readText('src/app/test.component.ts')}`,
     ).toMatchSnapshot();
+    expect(
+      stripIndents`${tree.readText('src/app/test.component.spec.ts')}`,
+    ).toMatchSnapshot();
+  });
+
+  it('should convert progress indicator wizard to tab wizard, maintaining other progress indicators, with module', async () => {
+    const tree = await createTestApp(runner, {
+      projectName: 'test-app',
+    });
+    await angularModuleGenerator(runner, tree, {
+      name: 'test',
+      project: 'test-app',
+      flat: true,
+    });
+    await angularComponentGenerator(runner, tree, {
+      name: 'test',
+      project: 'test-app',
+      standalone: false,
+      module: 'test',
+      flat: true,
+    });
+    applyChangesToFile(
+      tree,
+      'src/app/test.module.ts',
+      addSymbolToClassMetadata(
+        parseSourceFile(tree, 'src/app/test.module.ts'),
+        'NgModule',
+        'src/app/test.module.ts',
+        'imports',
+        'SkyProgressIndicatorModule',
+        '@skyux/progress-indicator',
+      ),
+    );
+    applyChangesToFile(
+      tree,
+      'src/app/test.component.spec.ts',
+      addSymbolToClassMetadata(
+        parseSourceFile(tree, 'src/app/test.component.spec.ts'),
+        'TestBed.configureTestingModule',
+        'src/app/test.component.spec.ts',
+        'imports',
+        'SkyProgressIndicatorModule',
+        '@skyux/progress-indicator',
+      ),
+    );
+    const input = stripIndents`
+      <sky-progress-indicator
+        #wizardRef
+        displayMode="horizontal"
+        (progressChanges)="updateIndex($event)"
+      >
+        <sky-progress-indicator-title>
+          Set up my connection
+        </sky-progress-indicator-title>
+
+        <sky-progress-indicator-item title="First step">
+          ...
+        </sky-progress-indicator-item>
+      </sky-progress-indicator>
+
+      <sky-progress-indicator #muggleRef>
+        <sky-progress-indicator-title>
+          Less magical.
+        </sky-progress-indicator-title>
+
+        <sky-progress-indicator-item title="🧙‍♂️">
+          ...
+        </sky-progress-indicator-item>
+      </sky-progress-indicator>
+    `;
+    tree.overwrite('src/app/test.component.html', input);
+    tree.overwrite(
+      'src/app/test.component.ts',
+      stripIndents`
+      import { Component } from '@angular/core';
+
+      @Component({
+        selector: 'app-test',
+        templateUrl: './test.component.html',
+        standalone: false,
+      })
+      export class TestComponent {
+        public isSaveDisabled = false;
+        public updateIndex(event: { activeIndex: number }): void {
+          console.log('Active index changed:', event.activeIndex);
+        }
+        public onSaveClick(event: Event): void {
+          console.log('Save clicked:', event);
+        }
+      }
+      `,
+    );
+    const output = stripIndents`
+      <h3 class="sky-margin-stacked-sm">
+        Set up my connection
+      </h3>
+      <sky-tabset tabStyle="wizard"
+        #wizardRef
+        (activeChange)="updateIndex({ activeIndex: $event })">
+
+
+        <sky-tab tabHeading="First step">
+          ...
+        </sky-tab>
+      </sky-tabset>
+
+      <sky-progress-indicator #muggleRef>
+        <sky-progress-indicator-title>
+          Less magical.
+        </sky-progress-indicator-title>
+
+        <sky-progress-indicator-item title="🧙‍♂️">
+          ...
+        </sky-progress-indicator-item>
+      </sky-progress-indicator>
+    `;
+    await firstValueFrom(
+      runner.callRule(
+        convertProgressIndicatorWizardToTabWizard({
+          projectPath: '',
+          bestEffortMode: true,
+          insertTodos: true,
+        }),
+        tree,
+      ),
+    );
+    expect(stripIndents`${tree.readText('src/app/test.component.html')}`).toBe(
+      output,
+    );
+    expect(
+      stripIndents`${tree.readText('src/app/test.component.ts')}`,
+    ).toMatchSnapshot();
+    expect(
+      stripIndents`${tree.readText('src/app/test.module.ts')}`,
+    ).toMatchSnapshot();
+    expect(
+      stripIndents`${tree.readText('src/app/test.component.spec.ts')}`,
+    ).toMatchSnapshot();
   });
 
   it('should convert progress indicator wizard to tab wizard with module', async () => {
@@ -258,6 +414,18 @@ describe('Convert progress indicator wizard to tab wizard', () => {
         parseSourceFile(tree, 'src/app/test.module.ts'),
         'NgModule',
         'src/app/test.module.ts',
+        'imports',
+        'SkyProgressIndicatorModule',
+        '@skyux/progress-indicator',
+      ),
+    );
+    applyChangesToFile(
+      tree,
+      'src/app/test.component.spec.ts',
+      addSymbolToClassMetadata(
+        parseSourceFile(tree, 'src/app/test.component.spec.ts'),
+        'TestBed.configureTestingModule',
+        'src/app/test.component.spec.ts',
         'imports',
         'SkyProgressIndicatorModule',
         '@skyux/progress-indicator',
@@ -832,61 +1000,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
     ).rejects.toThrow(
       new Error(
         `Unable to determine the value for the 'displayMode' attribute on <sky-progress-indicator> in /src/app/test.component.html.`,
-      ),
-    );
-  });
-
-  it('should error for ambiguous module without bestEffort mode', async () => {
-    const tree = await createTestApp(runner, {
-      projectName: 'test-app',
-    });
-    const input = stripIndents`
-      <sky-progress-indicator
-        #wizardRef
-        displayMode="horizontal"
-        (progressChanges)="updateIndex($event)"
-      >
-        <sky-progress-indicator-item title="First step">
-          ...
-        </sky-progress-indicator-item>
-      </sky-progress-indicator>
-    `;
-    tree.create('src/app/test.component.html', input);
-    tree.create(
-      'src/app/test.component.ts',
-      stripIndents`
-      import { Component } from '@angular/core';
-
-      @Component({
-        selector: 'app-test',
-        templateUrl: './test.component.html',
-        standalone: false,
-      })
-      export class TestComponent {
-        public isSaveDisabled = false;
-        public updateIndex(event: { activeIndex: number }): void {
-          console.log('Active index changed:', event.activeIndex);
-        }
-        public onSaveClick(event: Event): void {
-          console.log('Save clicked:', event);
-        }
-      }
-      `,
-    );
-    await expect(
-      firstValueFrom(
-        runner.callRule(
-          convertProgressIndicatorWizardToTabWizard({
-            projectPath: '',
-            bestEffortMode: false,
-            insertTodos: false,
-          }),
-          tree,
-        ),
-      ),
-    ).rejects.toThrow(
-      new Error(
-        `Could not find the declaring module for the component in /src/app/test.component.ts to add the SkyTabsModule import. The 'bestEffortMode' option is required to continue.`,
       ),
     );
   });

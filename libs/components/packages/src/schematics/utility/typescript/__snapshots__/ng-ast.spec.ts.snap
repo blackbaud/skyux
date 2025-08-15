@@ -1,5 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ng-ast addSymbolToClassMetadata should add AsyncPipe 1`] = `
+"
+      import { Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+
+      @Component({
+        selector: 'app-test',
+        template: '<div>Hello</div>',
+        imports: [
+          AsyncPipe
+        ],
+      })
+      export class AppTest { }
+    "
+`;
+
+exports[`ng-ast addSymbolToClassMetadata should add CommonModule 1`] = `
+"
+      import { BrowserModule } from '@angular/platform-browser';
+      import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+      @NgModule({
+        declarations: [
+          AppComponent
+        ],
+        providers: [],
+        imports: [
+    CommonModule
+  ],
+        bootstrap: [AppComponent]
+      })
+      export class AppModule { }
+    "
+`;
+
 exports[`ng-ast addSymbolToClassMetadata should add metadata to TestBed.configureTestingModule 1`] = `
 "import { TestBed } from '@angular/core/testing';
 import { HelloWorld } from './hello-world';

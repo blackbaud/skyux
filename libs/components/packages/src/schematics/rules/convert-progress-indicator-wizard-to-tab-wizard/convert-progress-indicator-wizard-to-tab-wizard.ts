@@ -21,7 +21,6 @@ import { applyChangesToFile } from '@schematics/angular/utility/standalone/util'
 
 import { dirname, join, normalize } from 'node:path';
 
-import { logOnce } from '../../utility/log-once';
 import {
   ElementWithLocation,
   SwapTagCallback,
@@ -33,12 +32,11 @@ import {
   swapTags,
 } from '../../utility/template';
 import {
-  findDeclaringModule,
-  isStandaloneComponent,
-} from '../../utility/typescript/find-module';
-import {
   addSymbolToClassMetadata,
   getInlineTemplates,
+  getTestingModuleMetadata,
+  isStandaloneComponent,
+  isSymbolInClassMetadataFieldArray,
 } from '../../utility/typescript/ng-ast';
 import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../utility/visit-project-files';
@@ -158,7 +156,6 @@ function progressIndicatorNavButtonTagSwap(
 interface FollowupTasks {
   swapModuleImports: boolean;
   keepProgressIndicator: boolean;
-  addCommentsToFunctions: Record<string, string>;
   addCommentsToProperties: Record<string, string>;
 }
 
@@ -191,7 +188,6 @@ function addFollowupComments(
       );
     }
   };
-  Object.entries(followupTasks.addCommentsToFunctions).forEach(addComments);
   Object.entries(followupTasks.addCommentsToProperties).forEach(addComments);
   return changes;
 }
@@ -214,30 +210,9 @@ function applyFollowupTasksToComponent(
     !isImported(source, 'SkyTabsModule', '@skyux/tabs')
   ) {
     if (followupTasks.keepProgressIndicator) {
-      applyChangesToFile(
-        tree,
-        filePath,
-        addSymbolToClassMetadata(
-          source,
-          'Component',
-          filePath,
-          'imports',
-          'SkyTabsModule',
-          '@skyux/tabs',
-        ),
-      );
+      applyModuleDependencies(source, tree, filePath);
     } else {
-      const recorder = tree.beginUpdate(filePath);
-      swapImportedClass(recorder, filePath, parseSourceFile(tree, filePath), [
-        {
-          classNames: { SkyProgressIndicatorModule: 'SkyTabsModule' },
-          moduleName: {
-            old: '@skyux/progress-indicator',
-            new: '@skyux/tabs',
-          },
-        },
-      ]);
-      tree.commitUpdate(recorder);
+      swapModuleDependencies(tree, filePath);
     }
   }
 
@@ -253,64 +228,71 @@ function applyFollowupTasksToComponent(
   );
 }
 
-function applyFollowupTasksToModule(
+function applyModuleDependencies(
+  originalSource: ts.SourceFile,
   tree: Tree,
   filePath: string,
-  followupTasks: FollowupTasks,
-  context: SchematicContext,
-  options: ConvertProgressIndicatorWizardToTabWizardOptions,
-  projectPath: string,
 ): void {
-  const module = findDeclaringModule(tree, projectPath, filePath);
-  if (module) {
-    const moduleSource = parseSourceFile(tree, module.filepath);
+  (
+    [
+      ['Component', '@angular/core'],
+      ['NgModule', '@angular/core'],
+      ['TestBed.configureTestingModule', '@angular/core/testing'],
+    ] as ['Component' | 'NgModule' | 'TestBed.configureTestingModule', string][]
+  ).forEach(([decorator, decoratorModule]) => {
     if (
-      isImported(moduleSource, 'NgModule', '@angular/core') &&
       isImported(
-        moduleSource,
-        'SkyProgressIndicatorModule',
-        '@skyux/progress-indicator',
-      ) &&
-      !isImported(moduleSource, 'SkyTabsModule', '@skyux/tabs')
+        originalSource,
+        String(decorator.split('.').shift()),
+        decoratorModule,
+      )
     ) {
-      applyChangesToFile(
-        tree,
-        module.filepath,
-        addSymbolToClassMetadata(
-          moduleSource,
-          'NgModule',
-          module.filepath,
-          'imports',
-          'SkyTabsModule',
-          '@skyux/tabs',
-        ),
-      );
+      const metadata =
+        decorator === 'TestBed.configureTestingModule'
+          ? getTestingModuleMetadata(originalSource)
+          : getDecoratorMetadata(originalSource, decorator, decoratorModule);
+      ['imports', 'exports'].forEach((metadataField) => {
+        if (
+          metadata.some(
+            (node) =>
+              ts.isObjectLiteralExpression(node) &&
+              isSymbolInClassMetadataFieldArray(
+                node,
+                metadataField,
+                'SkyProgressIndicatorModule',
+              ),
+          )
+        ) {
+          applyChangesToFile(
+            tree,
+            filePath,
+            addSymbolToClassMetadata(
+              parseSourceFile(tree, filePath),
+              decorator,
+              filePath,
+              metadataField,
+              'SkyTabsModule',
+              '@skyux/tabs',
+            ),
+          );
+        }
+      });
     }
-  } else {
-    bestEffortMessage(
-      `Could not find the declaring module for the component in ${filePath} to add the SkyTabsModule import.`,
-      context,
-      options,
-    );
-  }
+  });
 }
 
-function bestEffortMessage(
-  msg: string,
-  context: SchematicContext,
-  options: ConvertProgressIndicatorWizardToTabWizardOptions,
-): void {
-  if (options.bestEffortMode) {
-    logOnce(
-      context,
-      'warn',
-      `${msg} Please review the code to ensure it still works as expected.`,
-    );
-  } else {
-    throw new Error(
-      `${msg} The 'bestEffortMode' option is required to continue.`,
-    );
-  }
+function swapModuleDependencies(tree: Tree, filePath: string): void {
+  const recorder = tree.beginUpdate(filePath);
+  swapImportedClass(recorder, filePath, parseSourceFile(tree, filePath), [
+    {
+      classNames: { SkyProgressIndicatorModule: 'SkyTabsModule' },
+      moduleName: {
+        old: '@skyux/progress-indicator',
+        new: '@skyux/tabs',
+      },
+    },
+  ]);
+  tree.commitUpdate(recorder);
 }
 
 function isThisAWizard(
@@ -389,7 +371,6 @@ function convertTemplate(
   const followupTasks: FollowupTasks = {
     swapModuleImports: false,
     keepProgressIndicator: false,
-    addCommentsToFunctions: {},
     addCommentsToProperties: {},
   };
   for (const progressIndicator of progressIndicators) {
@@ -461,6 +442,8 @@ function convertTypescriptFile(
   context: SchematicContext,
   options: ConvertProgressIndicatorWizardToTabWizardOptions,
   projectPath: string,
+  componentsThatNeedModules: string[],
+  componentsThatKeepProgressIndicator: string[],
 ): void {
   const source = parseSourceFile(tree, filePath);
   const eol = getEOL(tree.readText(filePath));
@@ -515,30 +498,54 @@ function convertTypescriptFile(
         eol,
       );
       if (!isStandalone) {
-        applyFollowupTasksToModule(
-          tree,
-          filePath,
-          followupTasks,
-          context,
-          options,
-          projectPath,
-        );
-        const specFilePath = filePath.replace('.ts', '.spec.ts');
-        if (tree.exists(specFilePath)) {
-          applyChangesToFile(
-            tree,
-            specFilePath,
-            addSymbolToClassMetadata(
-              parseSourceFile(tree, specFilePath),
-              'TestBed.configureTestingModule',
-              specFilePath,
-              'imports',
-              'SkyTabsModule',
-              '@skyux/tabs',
-            ),
-          );
+        const componentClassName = findNodes<ts.ClassDeclaration>(
+          source,
+          ts.isClassDeclaration,
+        )[0]?.name?.text as string;
+        componentsThatNeedModules.push(componentClassName);
+        if (followupTasks?.keepProgressIndicator) {
+          componentsThatKeepProgressIndicator.push(componentClassName);
         }
       }
+    }
+  }
+}
+
+function hasSymbolReference(
+  source: ts.SourceFile,
+  symbolNames: string[],
+): boolean {
+  return (
+    findNodes(
+      source,
+      (node): node is ts.Identifier =>
+        ts.isIdentifier(node) && symbolNames.includes(node.text),
+    ).length > 0
+  );
+}
+
+/**
+ * If this is a test file and references a component that was converted,
+ * we need to ensure that the SkyTabsModule is imported in the TestBed configuration.
+ */
+function updateModuleOrTestFile(
+  tree: Tree,
+  filePath: string,
+  context: SchematicContext,
+  options: ConvertProgressIndicatorWizardToTabWizardOptions,
+  componentsThatNeedModules: string[],
+  componentsThatKeepProgressIndicator: string[],
+): void {
+  const source = parseSourceFile(tree, filePath);
+  if (
+    (isImported(source, 'TestBed', '@angular/core/testing') ||
+      isImported(source, 'NgModule', '@angular/core')) &&
+    hasSymbolReference(source, componentsThatNeedModules)
+  ) {
+    if (hasSymbolReference(source, componentsThatKeepProgressIndicator)) {
+      applyModuleDependencies(source, tree, filePath);
+    } else {
+      swapModuleDependencies(tree, filePath);
     }
   }
 }
@@ -548,6 +555,9 @@ export function convertProgressIndicatorWizardToTabWizard(
 ): Rule {
   return chain([
     (tree, context): void => {
+      // This is used to track if we need to add the SkyTabsModule to the module imports.
+      const componentsThatNeedModules: string[] = [];
+      const componentsThatKeepProgressIndicator: string[] = [];
       visitProjectFiles(tree, options.projectPath, (filePath) => {
         if (filePath.endsWith('.ts')) {
           convertTypescriptFile(
@@ -556,9 +566,25 @@ export function convertProgressIndicatorWizardToTabWizard(
             context,
             options,
             options.projectPath,
+            componentsThatNeedModules,
+            componentsThatKeepProgressIndicator,
           );
         }
       });
+      if (componentsThatNeedModules.length > 0) {
+        visitProjectFiles(tree, options.projectPath, (filePath) => {
+          if (filePath.endsWith('.ts')) {
+            updateModuleOrTestFile(
+              tree,
+              filePath,
+              context,
+              options,
+              componentsThatNeedModules,
+              componentsThatKeepProgressIndicator,
+            );
+          }
+        });
+      }
     },
     addDependency('@skyux/tabs', `0.0.0-PLACEHOLDER`, {
       existing: ExistingBehavior.Skip,
