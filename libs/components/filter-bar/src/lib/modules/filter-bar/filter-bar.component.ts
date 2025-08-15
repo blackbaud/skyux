@@ -100,7 +100,7 @@ export class SkyFilterBarComponent {
   );
 
   constructor() {
-    // Subscribe to child filter updates
+    // Subscribe to filter value updates from child filter items
     effect(() => {
       const updatedFilter = this.#filterUpdated();
       if (updatedFilter) {
@@ -108,7 +108,7 @@ export class SkyFilterBarComponent {
       }
     });
 
-    // Push filter value
+    // Push filter value updates to child filter items
     effect(() => {
       const filters = this.filters();
       this.#updateFilters(filters);
@@ -186,8 +186,8 @@ export class SkyFilterBarComponent {
     return this.filterItems()
       .filter((item) => selectedIds.includes(item.filterId()))
       .map((item) => ({
-        id: item.filterId(),
-        name: item.labelText(),
+        filterId: item.filterId(),
+        labelText: item.labelText(),
         filterValue: item.filterValue(),
       }));
   }
@@ -201,7 +201,7 @@ export class SkyFilterBarComponent {
       existingFilters,
     );
 
-    const selectedIds = newFilterItems.map((item) => item.id);
+    const selectedIds = newFilterItems.map((item) => item.filterId);
     this.selectedFilterIds.set(selectedIds);
 
     if (removedFilterItems.length) {
@@ -225,21 +225,21 @@ export class SkyFilterBarComponent {
 
     // Process existing filters
     for (const existingFilter of existingFilters) {
-      if (this.#isFilterSelected(existingFilter.id, selectedFilters)) {
+      if (this.#isFilterSelected(existingFilter.filterId, selectedFilters)) {
         newFilterItems.push({
-          id: existingFilter.id,
+          filterId: existingFilter.filterId,
           filterValue: existingFilter.filterValue,
         });
       } else {
-        removedFilterItems.push({ id: existingFilter.id });
+        removedFilterItems.push({ filterId: existingFilter.filterId });
       }
     }
 
     // Add newly selected filters
     if (selectedFilters) {
       for (const selectedFilter of selectedFilters) {
-        if (!this.#isFilterInList(selectedFilter.id, newFilterItems)) {
-          newFilterItems.push({ id: selectedFilter.id });
+        if (!this.#isFilterInList(selectedFilter.filterId, newFilterItems)) {
+          newFilterItems.push({ filterId: selectedFilter.filterId });
         }
       }
     }
@@ -252,7 +252,7 @@ export class SkyFilterBarComponent {
     selectedFilters: SkyFilterBarItem[] | undefined,
   ): boolean {
     return !!selectedFilters?.find(
-      (selectedFilter) => selectedFilter.id === filterId,
+      (selectedFilter) => selectedFilter.filterId === filterId,
     );
   }
 
@@ -260,7 +260,7 @@ export class SkyFilterBarComponent {
     filterId: string,
     filterList: SkyFilterBarFilterItem[],
   ): boolean {
-    return !!filterList.find((filter) => filter.id === filterId);
+    return !!filterList.find((filter) => filter.filterId === filterId);
   }
 
   /* istanbul ignore next */
@@ -292,7 +292,7 @@ export class SkyFilterBarComponent {
 
     let replaceFilter = false;
     for (const filterValue of filters) {
-      if (filterValue.id === updatedFilter.id) {
+      if (filterValue.filterId === updatedFilter.filterId) {
         if (updatedFilter.filterValue) {
           newFilterValues.push(updatedFilter);
         }
@@ -315,7 +315,7 @@ export class SkyFilterBarComponent {
     } else {
       this.#filterBarSvc.updateFilters(
         untracked(() => this.filterItems()).map((filterItem) => ({
-          id: filterItem.filterId(),
+          filterId: filterItem.filterId(),
         })),
       );
     }

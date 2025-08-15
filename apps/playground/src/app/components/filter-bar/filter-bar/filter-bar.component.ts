@@ -22,7 +22,7 @@ export class FilterBarComponent {
           this.filters
             .map(
               (filter) =>
-                `{ ${filter.id}${filter.filterValue ? ': ' + (filter.filterValue.displayValue ?? filter.filterValue.value) : ''} }`,
+                `{ ${filter.filterId}${filter.filterValue ? ': ' + (filter.filterValue.displayValue ?? filter.filterValue.value) : ''} }`,
             )
             .join(', ') +
           ' ]'
@@ -44,7 +44,9 @@ export class FilterBarComponent {
 
   #_filters: SkyFilterBarFilterItem[] | undefined;
 
-  #defaultFilters = [{ id: '2', filterValue: { value: 1, displayValue: '1' } }];
+  #defaultFilters: SkyFilterBarFilterItem[] = [
+    { filterId: '2', filterValue: { value: 1, displayValue: '1' } },
+  ];
 
   constructor() {
     this.resetFilters();

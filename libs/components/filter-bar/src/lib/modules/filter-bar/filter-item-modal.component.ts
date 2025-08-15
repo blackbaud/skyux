@@ -20,7 +20,9 @@ import { SkyFilterBarFilterModalContext } from './models/filter-bar-filter-modal
 import { SkyFilterItem } from './models/filter-item';
 
 /**
- * A filter bar item component that can display a filter in a modal.
+ * A filter bar item that opens a modal for complex filter configuration.
+ * Use this component when your filter requires a rich UI with multiple inputs,
+ * date pickers, or other complex controls that don't fit in an inline filter.
  */
 @Component({
   selector: 'sky-filter-item-modal',
@@ -32,23 +34,13 @@ import { SkyFilterItem } from './models/filter-item';
   ],
 })
 export class SkyFilterItemModalComponent implements SkyFilterItem {
-  /**
-   * A unique identifier for the filter.
-   */
   public readonly filterId = input.required<string>();
-  /**
-   * The label for the filter.
-   */
   public readonly labelText = input.required<string>();
   /**
    * The configuration options for showing a custom filter modal.
    */
   public readonly filterModalConfig =
     input.required<SkyFilterBarFilterModalConfig>();
-  /**
-   * The template of the filter that is rendered by the filter bar.
-   * @internal
-   */
   public readonly templateRef = viewChild(TemplateRef<unknown>);
 
   readonly #modalSvc = inject(SkyModalService);
@@ -93,7 +85,7 @@ export class SkyFilterItemModalComponent implements SkyFilterItem {
     instance.closed.subscribe((args) => {
       if (args.reason === 'save') {
         this.#filterBarSvc.updateFilter({
-          id: this.filterId(),
+          filterId: this.filterId(),
           filterValue: args.data,
         });
       }

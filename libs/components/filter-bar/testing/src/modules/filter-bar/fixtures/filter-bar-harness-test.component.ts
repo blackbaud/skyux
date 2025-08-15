@@ -9,11 +9,11 @@ import { SkyFilterBarModule } from '@skyux/filter-bar';
 export class FilterBarHarnessTestComponent {
   public filters = signal([
     {
-      id: 'filter1',
+      filterId: 'filter1',
       filterValue: { value: 'value1' },
     },
     {
-      id: 'filter2',
+      filterId: 'filter2',
       filterValue: undefined,
     },
   ]);

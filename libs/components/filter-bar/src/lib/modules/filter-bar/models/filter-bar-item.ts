@@ -1,18 +1,18 @@
 import { SkyFilterBarFilterValue } from './filter-bar-filter-value';
 
 /**
- * A configuration object for how a filter is displayed on the filter bar.
+ * An internal representation of a filter item displayed on the filter bar.
  * @internal
  */
 export interface SkyFilterBarItem {
   /**
    * A unique identifier for the filter.
    */
-  id: string;
+  filterId: string;
   /**
    * The human-readable display string for the filter.
    */
-  name: string;
+  labelText: string;
   /**
    * The value of the filter, if it is set.
    */

@@ -14,6 +14,7 @@ import {
 import { of } from 'rxjs';
 
 import { SkyFilterBarTestComponent } from './fixtures/filter-bar.component.fixture';
+import { SkyFilterBarFilterItem } from './models/filter-bar-filter-item';
 
 describe('Filter bar component', () => {
   //#region helpers
@@ -145,9 +146,9 @@ describe('Filter bar component', () => {
     it('should handle deselecting filters with existing values', () => {
       // Set up initial state with multiple filters having values
       component.filters.set([
-        { id: '1', filterValue: { value: 'value1' } },
-        { id: '2', filterValue: { value: 'value2' } },
-        { id: '3', filterValue: { value: 'value3' } },
+        { filterId: '1', filterValue: { value: 'value1' } },
+        { filterId: '2', filterValue: { value: 'value2' } },
+        { filterId: '3', filterValue: { value: 'value3' } },
       ]);
       fixture.detectChanges();
 
@@ -155,8 +156,8 @@ describe('Filter bar component', () => {
       const closed$ = of({
         reason: 'save',
         selectedItems: [
-          { id: '1', name: 'filter 1' },
-          { id: '3', name: 'filter 3' },
+          { filterId: '1', labelText: 'filter 1' },
+          { filterId: '3', labelText: 'filter 3' },
         ],
       });
       selectionModalServiceSpy.open.and.returnValue({
@@ -173,13 +174,17 @@ describe('Filter bar component', () => {
       // Verify the deselected filter's value is removed from filterValues
       const filterValues = component.filters();
       expect(filterValues?.length).toBe(2);
-      expect(filterValues?.find((f) => f.id === '1')?.filterValue).toEqual({
+      expect(
+        filterValues?.find((f) => f.filterId === '1')?.filterValue,
+      ).toEqual({
         value: 'value1',
       });
-      expect(filterValues?.find((f) => f.id === '3')?.filterValue).toEqual({
+      expect(
+        filterValues?.find((f) => f.filterId === '3')?.filterValue,
+      ).toEqual({
         value: 'value3',
       });
-      expect(filterValues?.find((f) => f.id === '2')).toBeUndefined();
+      expect(filterValues?.find((f) => f.filterId === '2')).toBeUndefined();
     });
   });
 
@@ -192,7 +197,7 @@ describe('Filter bar component', () => {
       const newFilterValue = { value: 'updated value' };
 
       // Set filter values directly on the model
-      component.filters.set([{ id: '1', filterValue: newFilterValue }]);
+      component.filters.set([{ filterId: '1', filterValue: newFilterValue }]);
       fixture.detectChanges();
 
       expect(component.filters()?.[0]?.filterValue).toEqual(newFilterValue);
@@ -200,7 +205,9 @@ describe('Filter bar component', () => {
 
     it('should clear individual filter values', () => {
       // Set initial filter value
-      component.filters.set([{ id: '1', filterValue: { value: 'initial' } }]);
+      component.filters.set([
+        { filterId: '1', filterValue: { value: 'initial' } },
+      ]);
       fixture.detectChanges();
 
       // Clear by setting to undefined
@@ -215,7 +222,7 @@ describe('Filter bar component', () => {
       // The filter bar now uses effects to monitor filter updates
       const newFilterValue = { value: 'emitted value' };
 
-      component.filters.set([{ id: '1', filterValue: newFilterValue }]);
+      component.filters.set([{ filterId: '1', filterValue: newFilterValue }]);
       fixture.detectChanges();
 
       expect(component.filters()?.[0]?.filterValue).toEqual(newFilterValue);
@@ -226,7 +233,9 @@ describe('Filter bar component', () => {
       expect(getClearFiltersButton()).toBeFalsy();
 
       // Add filter value
-      component.filters.set([{ id: '1', filterValue: { value: 'test' } }]);
+      component.filters.set([
+        { filterId: '1', filterValue: { value: 'test' } },
+      ]);
       fixture.detectChanges();
 
       expect(getClearFiltersButton()).toBeTruthy();
@@ -235,8 +244,8 @@ describe('Filter bar component', () => {
     it('should clear all filters when confirmed', () => {
       // Set initial filter values
       component.filters.set([
-        { id: '1', filterValue: { value: 'value1' } },
-        { id: '2', filterValue: { value: 'value2' } },
+        { filterId: '1', filterValue: { value: 'value1' } },
+        { filterId: '2', filterValue: { value: 'value2' } },
       ]);
       fixture.detectChanges();
 
@@ -252,8 +261,8 @@ describe('Filter bar component', () => {
     });
 
     it('should not clear filters when cancelled', () => {
-      const initialFilterValues = [
-        { id: '1', filterValue: { value: 'value1' } },
+      const initialFilterValues: SkyFilterBarFilterItem[] = [
+        { filterId: '1', filterValue: { value: 'value1' } },
       ];
       component.filters.set(initialFilterValues);
       fixture.detectChanges();
@@ -278,7 +287,7 @@ describe('Filter bar component', () => {
     it('should handle complete user workflow: add, update, clear', () => {
       // 1. Add filter value
       component.filters.set([
-        { id: '1', filterValue: { value: 'test value' } },
+        { filterId: '1', filterValue: { value: 'test value' } },
       ]);
       fixture.detectChanges();
 
@@ -286,7 +295,7 @@ describe('Filter bar component', () => {
 
       // 2. Update filter value
       const newValue = { value: 'updated value' };
-      component.filters.set([{ id: '1', filterValue: newValue }]);
+      component.filters.set([{ filterId: '1', filterValue: newValue }]);
       fixture.detectChanges();
 
       expect(component.filters()?.[0]?.filterValue).toEqual(newValue);
@@ -338,7 +347,9 @@ describe('Filter bar component', () => {
 
     it('should update filter value when modal is saved with new data', () => {
       // Set up initial filter state
-      component.filters.set([{ id: '1', filterValue: { value: 'initial' } }]);
+      component.filters.set([
+        { filterId: '1', filterValue: { value: 'initial' } },
+      ]);
       fixture.detectChanges();
 
       // Verify initial state
@@ -379,7 +390,9 @@ describe('Filter bar component', () => {
 
     it('should handle modal with displayValue different from value', () => {
       // Set up initial filter state
-      component.filters.set([{ id: '1', filterValue: { value: 'code123' } }]);
+      component.filters.set([
+        { filterId: '1', filterValue: { value: 'code123' } },
+      ]);
       fixture.detectChanges();
 
       // Set up modal to return value with displayValue
@@ -416,7 +429,7 @@ describe('Filter bar component', () => {
     it('should not update filter value when modal is cancelled', () => {
       // Set up initial filter state
       const initialValue = { value: 'original value' };
-      component.filters.set([{ id: '1', filterValue: initialValue }]);
+      component.filters.set([{ filterId: '1', filterValue: initialValue }]);
       fixture.detectChanges();
 
       // Verify initial state
@@ -461,7 +474,9 @@ describe('Filter bar component', () => {
       };
 
       // Set up filter with a value
-      component.filters.set([{ id: '1', filterValue: { value: 'test' } }]);
+      component.filters.set([
+        { filterId: '1', filterValue: { value: 'test' } },
+      ]);
       fixture.detectChanges();
 
       // Set up modal response
@@ -492,9 +507,9 @@ describe('Filter bar component', () => {
     it('should persist other filter values when updating one filter among multiple', () => {
       // Set up initial state with multiple filters having values
       component.filters.set([
-        { id: '1', filterValue: { value: 'filter1 value' } },
-        { id: '2', filterValue: { value: 'filter2 value' } },
-        { id: '3', filterValue: { value: 'filter3 value' } },
+        { filterId: '1', filterValue: { value: 'filter1 value' } },
+        { filterId: '2', filterValue: { value: 'filter2 value' } },
+        { filterId: '3', filterValue: { value: 'filter3 value' } },
       ]);
       fixture.detectChanges();
 
@@ -517,15 +532,19 @@ describe('Filter bar component', () => {
 
       // Verify the updated filter changed
       const updatedFilters = component.filters();
-      expect(updatedFilters?.find((f) => f.id === '2')?.filterValue).toEqual(
-        updatedFilterValue,
-      );
+      expect(
+        updatedFilters?.find((f) => f.filterId === '2')?.filterValue,
+      ).toEqual(updatedFilterValue);
 
       // Verify other filters remained unchanged
-      expect(updatedFilters?.find((f) => f.id === '1')?.filterValue).toEqual({
+      expect(
+        updatedFilters?.find((f) => f.filterId === '1')?.filterValue,
+      ).toEqual({
         value: 'filter1 value',
       });
-      expect(updatedFilters?.find((f) => f.id === '3')?.filterValue).toEqual({
+      expect(
+        updatedFilters?.find((f) => f.filterId === '3')?.filterValue,
+      ).toEqual({
         value: 'filter3 value',
       });
       expect(updatedFilters?.length).toBe(3);
@@ -534,7 +553,7 @@ describe('Filter bar component', () => {
     it('should handle clearing the only set filter', () => {
       // Set up initial state with only one filter having a value
       component.filters.set([
-        { id: '2', filterValue: { value: 'only filter value' } },
+        { filterId: '2', filterValue: { value: 'only filter value' } },
       ]);
       fixture.detectChanges();
 
@@ -613,7 +632,7 @@ describe('Filter bar component', () => {
       // Verify filter is set in component state
       const updatedFilters = component.filters();
       expect(updatedFilters?.length).toBe(1);
-      expect(updatedFilters?.[0]?.id).toBe('1');
+      expect(updatedFilters?.[0]?.filterId).toBe('1');
       expect(updatedFilters?.[0]?.filterValue).toEqual(newFilterValue);
 
       // Verify clear filters button appears
@@ -633,15 +652,15 @@ describe('Filter bar component', () => {
     it('should handle setting a previously unset filter when other filters exist', () => {
       // Set up initial state with some filters set, but not the third one
       component.filters.set([
-        { id: '1', filterValue: { value: 'existing filter1' } },
-        { id: '2', filterValue: { value: 'existing filter2' } },
+        { filterId: '1', filterValue: { value: 'existing filter1' } },
+        { filterId: '2', filterValue: { value: 'existing filter2' } },
       ]);
       fixture.detectChanges();
 
       // Verify initial state
       const initialFilters = component.filters();
       expect(initialFilters?.length).toBe(2);
-      expect(initialFilters?.find((f) => f.id === '3')).toBeUndefined();
+      expect(initialFilters?.find((f) => f.filterId === '3')).toBeUndefined();
 
       // Set up modal to set the third filter
       const newFilterValue = { value: 'new filter3 value' };
@@ -663,13 +682,17 @@ describe('Filter bar component', () => {
       // Verify the new filter is added and existing filters remain
       const updatedFilters = component.filters();
       expect(updatedFilters?.length).toBe(3);
-      expect(updatedFilters?.find((f) => f.id === '3')?.filterValue).toEqual(
-        newFilterValue,
-      );
-      expect(updatedFilters?.find((f) => f.id === '1')?.filterValue).toEqual({
+      expect(
+        updatedFilters?.find((f) => f.filterId === '3')?.filterValue,
+      ).toEqual(newFilterValue);
+      expect(
+        updatedFilters?.find((f) => f.filterId === '1')?.filterValue,
+      ).toEqual({
         value: 'existing filter1',
       });
-      expect(updatedFilters?.find((f) => f.id === '2')?.filterValue).toEqual({
+      expect(
+        updatedFilters?.find((f) => f.filterId === '2')?.filterValue,
+      ).toEqual({
         value: 'existing filter2',
       });
     });
@@ -677,7 +700,7 @@ describe('Filter bar component', () => {
     it('should update DOM correctly when adding filter to existing filters', () => {
       // Set up initial state with some filters
       component.filters.set([
-        { id: '1', filterValue: { value: 'existing filter1' } },
+        { filterId: '1', filterValue: { value: 'existing filter1' } },
       ]);
       fixture.detectChanges();
 

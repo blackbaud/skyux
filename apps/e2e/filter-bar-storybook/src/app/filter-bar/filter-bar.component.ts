@@ -12,10 +12,10 @@ import { SkyFilterBarFilterItem, SkyFilterBarModule } from '@skyux/filter-bar';
 export class FilterBarComponent {
   protected filters: SkyFilterBarFilterItem[] = [
     {
-      id: '1',
+      filterId: '1',
       filterValue: { value: 'Yes' },
     },
-    { id: '2' },
+    { filterId: '2' },
   ];
 
   protected modalConfig = { modalComponent: class {} };
