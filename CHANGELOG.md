@@ -1,5 +1,22 @@
 # Changelog
 
+## [12.33.0](https://github.com/blackbaud/skyux/compare/12.32.1...12.33.0) (2025-08-14)
+
+
+### Features
+
+* **components/theme:** add title and favicon support to brand ([#3815](https://github.com/blackbaud/skyux/issues/3815)) ([7154e5e](https://github.com/blackbaud/skyux/commit/7154e5e29604de019f288e930ff818d2ce7f63b1))
+
+
+### Bug Fixes
+
+* ag-grid headers are correctly styled when within a page component with a list layout ([#3830](https://github.com/blackbaud/skyux/issues/3830)) ([20f3457](https://github.com/blackbaud/skyux/commit/20f3457d7ba2dc87db7e6d13af3449946496d7be))
+* **components/code-examples:** add popover example for help inline component ([#3753](https://github.com/blackbaud/skyux/issues/3753)) ([ac7c59e](https://github.com/blackbaud/skyux/commit/ac7c59e790bfbdf359d7e1501d5e59de969d6816))
+* **components/core:** unify autofit context behavior in SkyAffixer ([#3821](https://github.com/blackbaud/skyux/issues/3821)) ([77db68e](https://github.com/blackbaud/skyux/commit/77db68e25b44e531934cb14bc71878db21e610b3))
+* **components/packages:** add dependency if necessary for convert-page-summary-to-page-header schematic ([#3816](https://github.com/blackbaud/skyux/issues/3816)) ([c7a3608](https://github.com/blackbaud/skyux/commit/c7a3608046f05d37d8eb4cf107a3af684790b0cd))
+* **components/pages:** flexbox layout should grow for sky-page-header-details ([#3823](https://github.com/blackbaud/skyux/issues/3823)) ([b7c7eea](https://github.com/blackbaud/skyux/commit/b7c7eea25bb4e4c99b69f98af34d19bd6bfb35df))
+* **components/popovers:** use microtask to resolve positioning issue in Safari browser ([#3820](https://github.com/blackbaud/skyux/issues/3820)) ([fe488d4](https://github.com/blackbaud/skyux/commit/fe488d481d01fb790307cbf24f94955f58659fe1))
+
 ## [12.32.1](https://github.com/blackbaud/skyux/compare/12.32.0...12.32.1) (2025-08-11)
 
 
