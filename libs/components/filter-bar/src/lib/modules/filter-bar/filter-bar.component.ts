@@ -59,13 +59,13 @@ export class SkyFilterBarComponent {
   /**
    * An array of filter IDs that the user has selected using the built-in selection modal. Setting this input to undefined results in all filters being displayed.
    */
-  public selectedFilters = model<string[] | undefined>();
+  public selectedFilterIds = model<string[] | undefined>();
 
   protected filterItems = contentChildren(SKY_FILTER_ITEM);
 
   protected visibleFilters = computed((): SkyFilterItem[] => {
     const items = this.filterItems();
-    const selectedFilters = this.selectedFilters();
+    const selectedFilters = this.selectedFilterIds();
 
     const visibleFilters: (SkyFilterItem | undefined)[] = [];
 
@@ -182,7 +182,7 @@ export class SkyFilterBarComponent {
 
   #getExistingFilterItems(): SkyFilterBarItem[] {
     /* istanbul ignore next: safety check */
-    const selectedIds = this.selectedFilters() ?? [];
+    const selectedIds = this.selectedFilterIds() ?? [];
     return this.filterItems()
       .filter((item) => selectedIds.includes(item.filterId()))
       .map((item) => ({
@@ -202,7 +202,7 @@ export class SkyFilterBarComponent {
     );
 
     const selectedIds = newFilterItems.map((item) => item.id);
-    this.selectedFilters.set(selectedIds);
+    this.selectedFilterIds.set(selectedIds);
 
     if (removedFilterItems.length) {
       this.#updateFilters(removedFilterItems);

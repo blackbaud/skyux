@@ -17,7 +17,7 @@ export class FilterBarHarnessTestComponent {
       filterValue: undefined,
     },
   ]);
-  public selectedFilters = signal(['filter1', 'filter2']);
+  public selectedFilterIds = signal(['filter1', 'filter2']);
 
   public modalConfig = { modalComponent: class {} };
 }

@@ -35,8 +35,8 @@ export class FilterBarComponent {
     console.log(value);
   }
 
-  public selectedFilters: string[] | undefined;
-  #selectedFilters: string[] | undefined;
+  public selectedFilterIds: string[] | undefined;
+  #selectedFilterIds: string[] | undefined;
 
   public filterModalConfig = { modalComponent: TestModalComponent };
 
@@ -52,14 +52,14 @@ export class FilterBarComponent {
 
   public resetFilters(): void {
     this.filters = this.#defaultFilters;
-    this.selectedFilters = ['1', '2', '3'];
-    this.#selectedFilters = undefined;
+    this.selectedFilterIds = ['1', '2', '3'];
+    this.#selectedFilterIds = undefined;
   }
 
   public toggleSelectedFilters(): void {
-    const selectedFilters = this.selectedFilters;
-    this.selectedFilters = this.#selectedFilters;
-    this.#selectedFilters = selectedFilters;
+    const selectedFilters = this.selectedFilterIds;
+    this.selectedFilterIds = this.#selectedFilterIds;
+    this.#selectedFilterIds = selectedFilters;
   }
 
   public toggleLabelText(): void {

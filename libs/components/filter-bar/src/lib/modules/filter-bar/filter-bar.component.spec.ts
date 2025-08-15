@@ -99,12 +99,12 @@ describe('Filter bar component', () => {
       // Initially shows since selectedFilters is set to ['1', '2', '3']
       expect(getFilterPickerButton()).toBeTruthy();
 
-      component.selectedFilters.set(undefined);
+      component.selectedFilterIds.set(undefined);
       fixture.detectChanges();
 
       expect(getFilterPickerButton()).toBeFalsy();
 
-      component.selectedFilters.set(['1']);
+      component.selectedFilterIds.set(['1']);
       fixture.detectChanges();
 
       expect(getFilterPickerButton()).toBeTruthy();
@@ -141,7 +141,7 @@ describe('Filter bar component', () => {
       expect(selectionModalServiceSpy.open).toHaveBeenCalled();
 
       // When no filters are selected, selectedFilters should be undefined
-      expect(component.selectedFilters()).toEqual([]);
+      expect(component.selectedFilterIds()).toEqual([]);
 
       fixture.detectChanges();
 
@@ -183,7 +183,7 @@ describe('Filter bar component', () => {
       expect(selectionModalServiceSpy.open).toHaveBeenCalled();
 
       // Verify selectedFilters is updated to only include selected items
-      expect(component.selectedFilters()).toEqual(['1', '3']);
+      expect(component.selectedFilterIds()).toEqual(['1', '3']);
 
       // Verify the deselected filter's value is removed from filterValues
       const filterValues = component.filters();

@@ -12,7 +12,7 @@ import { SkyFilterBarFilterModalConfig } from '../models/filter-bar-filter-modal
 export class SkyFilterBarTestComponent {
   public filters = model<SkyFilterBarFilterItem[]>();
 
-  public selectedFilters = model<string[] | undefined>(['1', '2', '3']);
+  public selectedFilterIds = model<string[] | undefined>(['1', '2', '3']);
 
   public modalConfig: SkyFilterBarFilterModalConfig = {
     modalComponent: class {},
