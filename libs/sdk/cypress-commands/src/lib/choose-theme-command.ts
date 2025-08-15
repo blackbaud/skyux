@@ -13,7 +13,13 @@ declare namespace Cypress {
  * Choose theme for visual regression testing.
  */
 Cypress.Commands.add('skyChooseTheme', (theme: string) => {
-  const [themeName, themeMode] = theme.split('-');
+  // Normalize modern-v2 themes to modern themes
+  let processedTheme = theme;
+  if (theme.startsWith('modern-v2')) {
+    processedTheme = theme.replace(/^modern-v2/, 'modern');
+  }
+
+  const [themeName, themeMode] = processedTheme.split('-');
   cy.get('select.sky-theme-selector')
     .first()
     .should('be.visible')

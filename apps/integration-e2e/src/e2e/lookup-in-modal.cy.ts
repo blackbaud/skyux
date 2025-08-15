@@ -44,5 +44,5 @@ describe('lookup in modal', () => {
         });
       });
     });
-  }, false);
+  });
 });

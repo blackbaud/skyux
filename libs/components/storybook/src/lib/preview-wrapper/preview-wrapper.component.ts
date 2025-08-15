@@ -12,7 +12,6 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   SkyTheme,
-  SkyThemeBrand,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
@@ -41,14 +40,12 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
           SkyTheme.presets.modern,
           SkyThemeMode.presets.dark,
           SkyThemeSpacing.presets.standard,
-          new SkyThemeBrand('blackbaud', '1.0.0'),
         );
       } else {
         this.themeSettings = new SkyThemeSettings(
           SkyTheme.presets.modern,
           SkyThemeMode.presets.light,
           SkyThemeSpacing.presets.standard,
-          new SkyThemeBrand('blackbaud', '1.0.0'),
         );
       }
     } else {
