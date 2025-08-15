@@ -48,15 +48,15 @@ describe('SkyCellEditorTextComponent', () => {
 
     gridFixture.detectChanges();
 
-    const textCellElement = gridNativeElement.querySelector(
-      `.${SkyCellClass.Text}`,
-    );
     const textCellEditorSelector = `.ag-cell-inline-editing.${SkyCellClass.Text}`;
     let inputElement = gridNativeElement.querySelector(textCellEditorSelector);
 
     expect(inputElement).toBeNull();
 
-    textCellElement.click();
+    gridFixture.componentInstance.agGrid?.api.startEditingCell({
+      rowIndex: 0,
+      colKey: 'nickname',
+    });
 
     inputElement = gridNativeElement.querySelector(textCellEditorSelector);
 

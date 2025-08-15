@@ -166,9 +166,7 @@ describe('ag-grid-storybook data entry grid', () => {
             cy.get('#editText')
               .contains('Ernie Banks')
               .should('have.focus')
-              .trigger('keydown', {
-                key: 'Enter',
-              });
+              .type('{enter}', { force: true });
             cy.get(
               /* spell-checker:disable-next-line */
               '#editText div[row-id="bankser01"] > div[col-id="name"] > sky-ag-grid-cell-editor-text > input',
@@ -228,9 +226,7 @@ describe('ag-grid-storybook data entry grid', () => {
               .type('gossage');
             cy.get(
               '#editLookupMultiple .ag-popup-editor sky-ag-grid-cell-editor-lookup textarea',
-            ).trigger('keydown', {
-              key: 'Enter',
-            });
+            ).type('{enter}', { force: true });
 
             // Leave the lookup field to show it render multiple values.
             cy.get(
@@ -259,9 +255,7 @@ describe('ag-grid-storybook data entry grid', () => {
               .type('mat');
             cy.get(
               '#editLookupMultiple .ag-popup-editor sky-ag-grid-cell-editor-lookup textarea',
-            ).trigger('keydown', {
-              key: 'Enter',
-            });
+            ).type('{enter}', { force: true });
             cy.get(
               '#editLookupMultiple .ag-popup-editor sky-ag-grid-cell-editor-lookup',
             )
@@ -277,9 +271,7 @@ describe('ag-grid-storybook data entry grid', () => {
             ).type('Rabbit');
             cy.get(
               '#editLookupMultiple .ag-popup-editor sky-ag-grid-cell-editor-lookup textarea',
-            ).trigger('keydown', {
-              key: 'Enter',
-            });
+            ).type('{enter}', { force: true });
             cy.get(
               '#editLookupMultiple .ag-popup-editor sky-ag-grid-cell-editor-lookup',
             )
@@ -321,13 +313,7 @@ describe('ag-grid-storybook data entry grid', () => {
               '#editLookup .ag-popup-editor sky-ag-grid-cell-editor-lookup textarea',
             )
               .wait(100)
-              .trigger('keydown', { key: 'ArrowDown' });
-            // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.get(
-              '#editLookup .ag-popup-editor sky-ag-grid-cell-editor-lookup textarea',
-            )
-              .wait(100)
-              .trigger('keydown', { key: 'ArrowDown' });
+              .type('{downArrow}{downArrow}', { delay: 100, force: true });
             // eslint-disable-next-line cypress/no-unnecessary-waiting
             cy.wait(300);
 

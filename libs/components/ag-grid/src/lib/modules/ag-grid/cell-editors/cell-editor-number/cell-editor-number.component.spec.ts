@@ -47,9 +47,6 @@ describe('SkyCellEditorNumberComponent', () => {
 
     gridFixture.detectChanges();
 
-    const numberCellElement = gridNativeElement.querySelector(
-      `.${SkyCellClass.Number}`,
-    );
     const numberCellEditorSelector = `.ag-cell-inline-editing.${SkyCellClass.Number}`;
     let inputElement = gridNativeElement.querySelector(
       numberCellEditorSelector,
@@ -57,7 +54,10 @@ describe('SkyCellEditorNumberComponent', () => {
 
     expect(inputElement).toBeNull();
 
-    numberCellElement.click();
+    gridFixture.componentInstance.agGrid?.api.startEditingCell({
+      rowIndex: 0,
+      colKey: 'value',
+    });
 
     inputElement = gridNativeElement.querySelector(numberCellEditorSelector);
 

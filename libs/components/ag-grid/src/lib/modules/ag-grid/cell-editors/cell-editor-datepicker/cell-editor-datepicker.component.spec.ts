@@ -27,7 +27,6 @@ import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
-import { SkyCellClass } from '../../types/cell-class';
 import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
 import { SkyAgGridCellEditorDatepickerComponent } from '../cell-editor-datepicker/cell-editor-datepicker.component';
 
@@ -73,17 +72,12 @@ describe('SkyCellEditorDatepickerComponent', () => {
   describe('in ag grid', () => {
     let gridFixture: ComponentFixture<SkyAgGridFixtureComponent>;
     let gridNativeElement: HTMLElement;
-    let dateCellElement: HTMLElement;
 
     beforeEach(() => {
       gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
       gridNativeElement = gridFixture.nativeElement;
 
       gridFixture.detectChanges();
-
-      dateCellElement = gridNativeElement.querySelector(
-        `.${SkyCellClass.Date}`,
-      ) as HTMLElement;
     });
 
     it('renders a skyux datepicker', () => {
@@ -94,7 +88,10 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
       expect(datepickerEditorElement).toBeNull();
 
-      dateCellElement.click();
+      gridFixture.componentInstance.agGrid?.api.startEditingCell({
+        rowIndex: 0,
+        colKey: 'date',
+      });
 
       datepickerEditorElement = gridNativeElement.querySelector(
         datepickerEditorSelector,
@@ -759,17 +756,12 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
   describe('in ag grid', () => {
     let gridFixture: ComponentFixture<SkyAgGridFixtureComponent>;
     let gridNativeElement: HTMLElement;
-    let dateCellElement: HTMLElement;
 
     beforeEach(() => {
       gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
       gridNativeElement = gridFixture.nativeElement;
 
       gridFixture.detectChanges();
-
-      dateCellElement = gridNativeElement.querySelector(
-        `.${SkyCellClass.Date}`,
-      ) as HTMLElement;
     });
 
     it('renders a skyux datepicker', () => {
@@ -780,7 +772,10 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
 
       expect(datepickerEditorElement).toBeNull();
 
-      dateCellElement.click();
+      gridFixture.componentInstance.agGrid?.api.startEditingCell({
+        rowIndex: 0,
+        colKey: 'date',
+      });
 
       datepickerEditorElement = gridNativeElement.querySelector(
         datepickerEditorSelector,

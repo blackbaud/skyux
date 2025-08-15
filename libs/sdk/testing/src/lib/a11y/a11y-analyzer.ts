@@ -63,6 +63,7 @@ function filterViolationNodeResults(
 ): (node: axe.NodeResult) => boolean {
   if (
     [
+      'aria-dialog-name', // AG Grid adds role="dialog" to its popup editor container, but doesn't set title, aria-label, or aria-labelledby
       'aria-hidden-focus', // AG Grid uses aria-hidden on elements before they are ready
       'aria-required-children', // AG Grid uses some aria-hidden elements that axe doesn't like
       'aria-valid-attr', // AG Grid uses aria-description, which is still in draft
