@@ -186,7 +186,7 @@ describe('Convert Page Summary to Page Header', () => {
     const backtick = '`';
     const input = stripIndents`
       import { Component } from '@angular/core';
-      import { SkyPageSummaryModule } from '@skyux/layout';
+      import { SkyPageSummaryModule, SkyPageLayoutType, SkyPageModule } from '@skyux/layout';
 
       @Component({
         selector: 'app-test',
@@ -203,14 +203,17 @@ describe('Convert Page Summary to Page Header', () => {
             </sky-page-summary-title>
           </sky-page-summary>
         ${backtick},
-        imports: [SkyPageSummaryModule],
+        imports: [SkyPageSummaryModule, SkyPageModule],
       })
-      export class TestComponent {}
+      export class TestComponent {
+        public layout: SkyPageLayoutType = 'fit';
+      }
     `;
     tree.create('src/app/test.component.ts', input);
     const output = stripIndents`
       import { Component } from '@angular/core';
 
+      import { SkyPageLayoutType } from '@skyux/pages';
       import { SkyPageModule } from '@skyux/pages';
 
       @Component({
@@ -226,9 +229,11 @@ describe('Convert Page Summary to Page Header', () => {
 
           </sky-page-header>
         ${backtick},
-        imports: [SkyPageModule],
+        imports: [SkyPageModule, SkyPageModule],
       })
-      export class TestComponent {}
+      export class TestComponent {
+        public layout: SkyPageLayoutType = 'fit';
+      }
     `;
     await firstValueFrom(
       runner.callRule(convertPageSummaryToPageHeader(''), tree),
