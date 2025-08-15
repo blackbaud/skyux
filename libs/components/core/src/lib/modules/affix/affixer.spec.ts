@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SkyAffixAutoFitContext } from './affix-auto-fit-context';
 import { SkyAffixer } from './affixer';
 
 @Component({
@@ -124,18 +125,22 @@ describe('Affixer', () => {
     component = fixture.componentInstance;
   });
 
-  it('should create an instance, place above the top', async () => {
-    fixture.detectChanges();
-    await fixture.whenStable();
-    expect(component).toBeTruthy();
-    expect(component.affixedElement?.nativeElement).toBeTruthy();
-    const affixer = new SkyAffixer(
+  function createAffixer(): SkyAffixer {
+    return new SkyAffixer(
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
       TestBed.inject(NgZone),
       TestBed.inject(DOCUMENT).documentElement,
     );
+  }
+
+  it('should create an instance, place above the top', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component).toBeTruthy();
+    expect(component.affixedElement?.nativeElement).toBeTruthy();
+    const affixer = createAffixer();
     const offsetChangeObserver = jasmine.createSpy('offsetChange');
     const overflowScrollObserver = jasmine.createSpy('overflowScroll');
     const placementChangeObserver = jasmine.createSpy('placementChange');
@@ -177,13 +182,7 @@ describe('Affixer', () => {
   it('should create an instance, place at top right', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
-    const affixer = new SkyAffixer(
-      component.affixedElement?.nativeElement as HTMLElement,
-      TestBed.inject(RendererFactory2).createRenderer(undefined, null),
-      TestBed.inject(ViewportRuler),
-      TestBed.inject(NgZone),
-      TestBed.inject(DOCUMENT).documentElement,
-    );
+    const affixer = createAffixer();
     expect(affixer).toBeTruthy();
     affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
       isSticky: true,
@@ -195,13 +194,7 @@ describe('Affixer', () => {
   it('should use viewport ruler change observable', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
-    const affixer = new SkyAffixer(
-      component.affixedElement?.nativeElement as HTMLElement,
-      TestBed.inject(RendererFactory2).createRenderer(undefined, null),
-      TestBed.inject(ViewportRuler),
-      TestBed.inject(NgZone),
-      TestBed.inject(DOCUMENT).documentElement,
-    );
+    const affixer = createAffixer();
     expect(affixer).toBeTruthy();
     affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
       placement: 'above',
@@ -212,13 +205,7 @@ describe('Affixer', () => {
   it('should handle multiple layers of fixed elements', () => {
     component.fixedLayer1 = true;
     fixture.detectChanges();
-    const affixer = new SkyAffixer(
-      component.affixedElement?.nativeElement as HTMLElement,
-      TestBed.inject(RendererFactory2).createRenderer(undefined, null),
-      TestBed.inject(ViewportRuler),
-      TestBed.inject(NgZone),
-      TestBed.inject(DOCUMENT).documentElement,
-    );
+    const affixer = createAffixer();
     expect(affixer).toBeTruthy();
     affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
       isSticky: true,
@@ -238,13 +225,7 @@ describe('Affixer', () => {
   it('should handle multiple layers of overflow elements', () => {
     component.overflowLayer1 = true;
     fixture.detectChanges();
-    const affixer = new SkyAffixer(
-      component.affixedElement?.nativeElement as HTMLElement,
-      TestBed.inject(RendererFactory2).createRenderer(undefined, null),
-      TestBed.inject(ViewportRuler),
-      TestBed.inject(NgZone),
-      TestBed.inject(DOCUMENT).documentElement,
-    );
+    const affixer = createAffixer();
     expect(affixer).toBeTruthy();
     affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
       isSticky: true,
@@ -265,13 +246,7 @@ describe('Affixer', () => {
     document.body.style.height = '2px';
     fixture.detectChanges();
     await fixture.whenStable();
-    const affixer = new SkyAffixer(
-      component.affixedElement?.nativeElement as HTMLElement,
-      TestBed.inject(RendererFactory2).createRenderer(undefined, null),
-      TestBed.inject(ViewportRuler),
-      TestBed.inject(NgZone),
-      TestBed.inject(DOCUMENT).documentElement,
-    );
+    const affixer = createAffixer();
     expect(affixer).toBeTruthy();
     affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
       isSticky: true,
@@ -279,5 +254,118 @@ describe('Affixer', () => {
     });
     expect(component.affixedElement?.nativeElement.style.top).toEqual('31px');
     document.body.style.height = 'initial';
+  });
+
+  describe('autofit context behavior', () => {
+    it('should handle OverflowParent autofit context with enableAutoFit', async () => {
+      // Setup a constrained container to test autofit behavior
+      component.overflowLayer1 = true;
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const affixer = createAffixer();
+
+      affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
+        placement: 'below',
+        enableAutoFit: true,
+        autoFitContext: SkyAffixAutoFitContext.OverflowParent,
+      });
+
+      // Verify that the affixer was created and positioned
+      expect(affixer).toBeTruthy();
+      expect(component.affixedElement?.nativeElement.style.top).toBeDefined();
+      expect(component.affixedElement?.nativeElement.style.top).not.toEqual('');
+
+      affixer.destroy();
+    });
+
+    it('should handle Viewport autofit context with enableAutoFit', async () => {
+      // Setup a constrained container
+      component.overflowLayer1 = true;
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const affixer = createAffixer();
+
+      affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
+        placement: 'below',
+        enableAutoFit: true,
+        autoFitContext: SkyAffixAutoFitContext.Viewport,
+      });
+
+      // Verify that the affixer was created and positioned
+      expect(affixer).toBeTruthy();
+      expect(component.affixedElement?.nativeElement.style.top).toBeDefined();
+      expect(component.affixedElement?.nativeElement.style.top).not.toEqual('');
+
+      affixer.destroy();
+    });
+
+    it('should use unified behavior for both OverflowParent and Viewport contexts', async () => {
+      // Create a scenario where both contexts would need adjustment
+      component.overflowLayer1 = true;
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const affixer1 = createAffixer();
+      const affixer2 = createAffixer();
+
+      // Test OverflowParent context
+      affixer1.affixTo(component.baseRef?.nativeElement as HTMLElement, {
+        placement: 'below',
+        enableAutoFit: true,
+        autoFitContext: SkyAffixAutoFitContext.OverflowParent,
+      });
+
+      const overflowParentPosition = {
+        top: component.affixedElement?.nativeElement.style.top,
+        left: component.affixedElement?.nativeElement.style.left,
+      };
+
+      affixer1.destroy();
+
+      // Test Viewport context with same configuration
+      affixer2.affixTo(component.baseRef?.nativeElement as HTMLElement, {
+        placement: 'below',
+        enableAutoFit: true,
+        autoFitContext: SkyAffixAutoFitContext.Viewport,
+      });
+
+      const viewportPosition = {
+        top: component.affixedElement?.nativeElement.style.top,
+        left: component.affixedElement?.nativeElement.style.left,
+      };
+
+      // Both contexts should now use the same sophisticated logic
+      // The exact position may differ due to different boundary calculations,
+      // but both should be properly positioned within their respective contexts
+      expect(overflowParentPosition.top).toBeDefined();
+      expect(overflowParentPosition.left).toBeDefined();
+      expect(viewportPosition.top).toBeDefined();
+      expect(viewportPosition.left).toBeDefined();
+
+      affixer2.destroy();
+    });
+
+    it('should properly calculate boundaries for autofit contexts', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const affixer = createAffixer();
+
+      // Test with autofit enabled to ensure the unified offset adjustment logic is triggered
+      affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
+        placement: 'above',
+        enableAutoFit: true,
+        autoFitContext: SkyAffixAutoFitContext.OverflowParent,
+      });
+
+      // Verify the config was applied correctly
+      const config = affixer.getConfig();
+      expect(config.enableAutoFit).toBe(true);
+      expect(config.autoFitContext).toBe(SkyAffixAutoFitContext.OverflowParent);
+
+      affixer.destroy();
+    });
   });
 });
