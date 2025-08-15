@@ -1003,6 +1003,7 @@ describe('Popover directive accessibility', () => {
     // Open the popover.
     btn?.click();
     fixture.detectChanges();
+    await fixture.whenStable();
 
     await expectAccessible(btn, {
       ariaExpanded: 'true',
