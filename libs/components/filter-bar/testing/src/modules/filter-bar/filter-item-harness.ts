@@ -24,15 +24,15 @@ export class SkyFilterItemHarness extends SkyComponentHarness {
     filters: SkyFilterItemHarnessFilters,
   ): HarnessPredicate<SkyFilterItemHarness> {
     return SkyFilterItemHarness.getDataSkyIdPredicate(filters)
-      .addOption('id', filters.id, async (harness, id) => {
+      .addOption('filterId', filters.filterId, async (harness, filterId) => {
         const harnessId = await (
           await harness.#getButton()
         ).getAttribute('data-filter-id');
-        return await HarnessPredicate.stringMatches(harnessId, id);
+        return await HarnessPredicate.stringMatches(harnessId, filterId);
       })
-      .addOption('name', filters.name, async (harness, name) => {
+      .addOption('labelText', filters.labelText, async (harness, labelText) => {
         const harnessName = await harness.getName();
-        return await HarnessPredicate.stringMatches(harnessName, name);
+        return await HarnessPredicate.stringMatches(harnessName, labelText);
       });
   }
 

@@ -101,12 +101,12 @@ describe('Filter bar test harness', () => {
       dataSkyId: 'basic-filter-bar',
     });
 
-    const filterItem1 = await filterBarHarness.getItem({ id: 'filter1' });
+    const filterItem1 = await filterBarHarness.getItem({ filterId: 'filter1' });
     await expectAsync(filterItem1.hasActiveValue()).toBeResolvedTo(true);
     await expectAsync(filterItem1.click()).toBeResolved();
 
     const filterItem2 = await filterBarHarness.getItem({
-      name: 'Test filter 2',
+      labelText: 'Test filter 2',
     });
     await expectAsync(filterItem2.hasActiveValue()).toBeResolvedTo(false);
   });
@@ -127,9 +127,9 @@ describe('Filter bar test harness', () => {
     });
 
     await expectAsync(
-      filterBarHarness.getItems({ id: 'non-existent-filter' }),
+      filterBarHarness.getItems({ filterId: 'non-existent-filter' }),
     ).toBeRejectedWithError(
-      'Unable to find any filter items with filter(s): {"id":"non-existent-filter"}',
+      'Unable to find any filter items with filter(s): {"filterId":"non-existent-filter"}',
     );
   });
 });

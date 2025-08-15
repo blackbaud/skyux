@@ -6,11 +6,11 @@ import { BaseHarnessFilters } from '@angular/cdk/testing';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-empty-object-type
 export interface SkyFilterItemHarnessFilters extends BaseHarnessFilters {
   /**
-   * Finds a filter item whose id matches the given value.
+   * Finds a filter item whose filter id matches the given value.
    */
-  id?: string;
+  filterId?: string;
   /**
-   * Finds a filter item whose name matches the given value.
+   * Finds a filter item whose label text matches the given value.
    */
-  name?: string;
+  labelText?: string;
 }
