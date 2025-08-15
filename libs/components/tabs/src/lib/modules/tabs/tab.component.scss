@@ -24,9 +24,13 @@
   position: var(--sky-layout-host-content-position, static);
 }
 
-@include compatMixins.sky-modern-v2(
-  ':host.sky-layout-host-fit, :host.sky-layout-host-list'
-) {
+@include compatMixins.sky-modern-v2(':host.sky-layout-host-fit') {
+  --sky-comp-override-list-header-background-color: var(
+    --sky-color-background-container-dimmed
+  );
+}
+
+@include compatMixins.sky-modern-v2(':host.sky-layout-host-list') {
   --sky-comp-override-list-header-background-color: var(
     --sky-color-background-container-dimmed
   );
