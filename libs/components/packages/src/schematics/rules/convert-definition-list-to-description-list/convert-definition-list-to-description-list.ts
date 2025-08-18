@@ -32,6 +32,7 @@ import { visitProjectFiles } from '../../utility/visit-project-files';
 function moveHeading(
   definitionList: ElementWithLocation,
   recorder: UpdateRecorder,
+  content: string,
   offset: number,
   eol: string,
 ): void {
@@ -120,7 +121,7 @@ function convertTemplate(
   const fragment = parseTemplate(content);
   const definitionLists = getElementsByTagName('sky-definition-list', fragment);
   for (const definitionList of definitionLists) {
-    moveHeading(definitionList, recorder, offset, eol);
+    moveHeading(definitionList, recorder, content, offset, eol);
     swapTags(
       content,
       recorder,
