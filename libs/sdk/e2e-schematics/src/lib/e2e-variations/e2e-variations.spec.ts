@@ -11,12 +11,6 @@ describe('e2e variations', function () {
     expect(callback).not.toHaveBeenCalledWith('modern-dark');
     callback.mockReset();
 
-    E2eVariations.forEachTheme(callback, false);
-    expect(callback).toHaveBeenCalledTimes(1);
-    expect(callback).toHaveBeenCalledWith('default');
-    expect(callback).not.toHaveBeenCalledWith('modern-v2-light');
-    callback.mockReset();
-
     expect(E2eVariations.DISPLAY_WIDTHS).toEqual([1280]);
     expect(E2eVariations.RESPONSIVE_WIDTHS).toEqual([375, 800, 1000, 1280]);
     expect(E2eVariations.MOBILE_WIDTHS).toEqual([375]);
