@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 /**
- * @title Help inline button with basic setup
+ * @title Help inline button with action click
  */
 @Component({
-  selector: 'app-help-inline-basic-example',
-  templateUrl: './example.component.html',
   imports: [SkyHelpInlineModule],
+  selector: 'app-help-inline-action-click-example',
+  templateUrl: './example.component.html',
 })
-export class HelpInlineBasicExampleComponent {
+export class HelpInlineActionClickExampleComponent {
   public onActionClick(): void {
     alert('Use help inline to show supplemental information to the user.');
   }
