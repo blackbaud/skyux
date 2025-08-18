@@ -886,10 +886,10 @@ describe('Text editor', () => {
         value: jasmine.stringContaining('data-fielddisplay="&quot;&gt;&lt;'),
       });
 
-      // The browser converts the escaped angle brackets back to their unescaped
-      // versions since they appear within quotes in an attribute value.
-      expect(testComponent.value).toContain('data-fieldid="&quot;><');
-      expect(testComponent.value).toContain('data-fielddisplay="&quot;><"');
+      expect(testComponent.value).toContain('data-fieldid="&quot;&gt;&lt;');
+      expect(testComponent.value).toContain(
+        'data-fielddisplay="&quot;&gt;&lt;"',
+      );
     }));
 
     it('Toolbar values should update based on selection', fakeAsync(() => {
