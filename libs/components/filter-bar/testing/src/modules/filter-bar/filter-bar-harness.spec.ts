@@ -1,6 +1,9 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyModalInstance, SkyModalService } from '@skyux/modals';
+
+import { of } from 'rxjs';
 
 import { SkyFilterBarHarness } from './filter-bar-harness';
 import { FilterBarHarnessTestComponent } from './fixtures/filter-bar-harness-test.component';
@@ -100,6 +103,9 @@ describe('Filter bar test harness', () => {
     const { filterBarHarness } = await setupTest({
       dataSkyId: 'basic-filter-bar',
     });
+    spyOn(TestBed.inject(SkyModalService), 'open').and.returnValue({
+      closed: of({ reason: 'save' }),
+    } as SkyModalInstance);
 
     const filterItem1 = await filterBarHarness.getItem({ filterId: 'filter1' });
     await expectAsync(filterItem1.hasActiveValue()).toBeResolvedTo(true);
