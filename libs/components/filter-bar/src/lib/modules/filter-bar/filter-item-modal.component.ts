@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   TemplateRef,
@@ -26,7 +25,7 @@ import { SkyFilterItem } from './models/filter-item';
  */
 @Component({
   selector: 'sky-filter-item-modal',
-  imports: [CommonModule, SkyIconModule],
+  imports: [SkyIconModule],
   templateUrl: './filter-item-modal.component.html',
   styleUrls: ['./filter-item-modal.component.scss'],
   providers: [
