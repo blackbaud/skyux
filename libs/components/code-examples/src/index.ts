@@ -98,7 +98,6 @@ export { LayoutFormatExampleComponent } from './lib/modules/layout/format/exampl
 export { LayoutInlineDeleteCustomExampleComponent } from './lib/modules/layout/inline-delete/custom/example.component';
 export { LayoutInlineDeleteRepeaterExampleComponent } from './lib/modules/layout/inline-delete/repeater/example.component';
 export { LayoutPageSummaryBasicExampleComponent } from './lib/modules/layout/page-summary/basic/example.component';
-export { LayoutPageLayoutFitExampleComponent } from './lib/modules/layout/page/layout-fit/example.component';
 export { LayoutTextExpandRepeaterExampleComponent } from './lib/modules/layout/text-expand-repeater/example.component';
 export { LayoutTextExpandInlineExampleComponent } from './lib/modules/layout/text-expand/inline/example.component';
 export { LayoutTextExpandModalExampleComponent } from './lib/modules/layout/text-expand/modal/example.component';

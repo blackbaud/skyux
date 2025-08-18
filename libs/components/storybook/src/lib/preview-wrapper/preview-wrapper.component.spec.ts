@@ -74,7 +74,6 @@ describe('PreviewWrapperComponent', () => {
     expectedTheme = {
       theme: 'modern',
       mode: 'dark',
-      brand: 'blackbaud',
     };
     expectModernV2Class = true;
     component.theme = 'modern-v2-dark';
@@ -88,7 +87,6 @@ describe('PreviewWrapperComponent', () => {
     expectedTheme = {
       theme: 'modern',
       mode: 'light',
-      brand: 'blackbaud',
     };
     expectModernV2Class = true;
     component.theme = 'modern-v2-light';
