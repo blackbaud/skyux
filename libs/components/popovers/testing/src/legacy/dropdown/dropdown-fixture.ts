@@ -11,6 +11,7 @@ import { SkyPopoversFixtureDropdownMenu } from './popovers-fixture-dropdown-menu
  * Provides information for and interaction with a SKY UX dropdown component.
  * By using the fixture API, a test insulates itself against updates to the internals
  * of a component, such as changing its DOM structure.
+ * @deprecated Use `SkyDropdownHarness` instead.
  * @internal
  */
 export class SkyDropdownFixture {
