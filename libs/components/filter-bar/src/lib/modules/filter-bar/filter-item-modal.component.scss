@@ -1,12 +1,12 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-@include compatMixins.sky-default-overrides('.sky-filter-bar-item') {
-  --sky-override-filter-bar-item-gap-spacing: 10px;
-  --sky-override-filter-bar-item-selected-background-color: #c1e8fb;
+@include compatMixins.sky-default-overrides('.sky-filter-item') {
+  --sky-override-filter-bar-button-gap-spacing: 10px;
+  --sky-override-filter-bar-button-selected-background-color: #c1e8fb;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-filter-bar-btn-selected') {
-  --sky-override-filter-bar-item-border-selected: inset 0 0 0
+::ng-deep .sky-theme-modern:not(.sky-theme-brand-base) .sky-filter-item {
+  --sky-override-filter-bar-button-border-selected: inset 0 0 0
     var(--sky-border-width-action-base) var(--sky-color-border-selected);
 }
 
@@ -15,28 +15,28 @@
   max-width: 300px;
 }
 
-.sky-filter-bar-filter-item-title,
-.sky-filter-bar-filter-item-value {
+.sky-filter-item-title,
+.sky-filter-item-value {
   margin-right: var(
-    --sky-override-filter-bar-item-gap-spacing,
+    --sky-override-filter-bar-button-gap-spacing,
     var(--sky-space-gap-action_group-m)
   );
 }
 
-.sky-filter-bar-filter-item-value {
+.sky-filter-item-value {
   flex-shrink: 1;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.sky-filter-bar-filter-item-caret {
+.sky-filter-item-caret {
   flex-grow: 1;
 }
 
 .sky-filter-bar-btn.sky-filter-bar-btn-selected {
   &:not(:hover, :focus-visible, :active, :disabled) {
     box-shadow: var(
-      --sky-override-filter-bar-item-border-selected,
+      --sky-override-filter-bar-button-border-selected,
       inset 0 0 0 var(--sky-border-width-action-base)
         var(--sky-color-border-selected_soft)
     );
@@ -48,17 +48,17 @@
   &:active,
   &:not(:disabled) {
     background-color: var(
-      --sky-override-filter-bar-item-selected-background-color,
+      --sky-override-filter-bar-button-selected-background-color,
       var(--sky-color-background-selected-soft)
     );
   }
 
-  .sky-filter-bar-filter-item-title {
+  .sky-filter-item-title {
     color: var(--sky-color-text-deemphasized);
   }
 
-  .sky-filter-bar-filter-item-value,
-  .sky-filter-bar-filter-item-caret {
+  .sky-filter-item-value,
+  .sky-filter-item-caret {
     color: var(--sky-color-text-action);
     font-weight: var(--sky-font-style-emphasized);
   }
