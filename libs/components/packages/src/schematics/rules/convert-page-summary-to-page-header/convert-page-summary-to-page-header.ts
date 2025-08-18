@@ -5,7 +5,7 @@ import {
   UpdateRecorder,
   chain,
 } from '@angular-devkit/schematics';
-import { isImported, parse5, parseSourceFile } from '@angular/cdk/schematics';
+import { isImported, parseSourceFile } from '@angular/cdk/schematics';
 import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
 import { getEOL } from '@schematics/angular/utility/eol';
 
@@ -14,6 +14,7 @@ import {
   ElementWithLocation,
   SwapTagCallback,
   getElementsByTagName,
+  getText,
   isParentNode,
   parseTemplate,
   swapTags,
@@ -33,22 +34,19 @@ function getPageTitle(pageSummary: ElementWithLocation): string {
     'sky-page-summary-title',
     pageSummary,
   )[0];
-  if (
-    isParentNode(heading) &&
-    heading.childNodes.length === 1 &&
-    heading.childNodes[0].nodeName === '#text'
-  ) {
-    return (
-      heading.childNodes[0] as parse5.DefaultTreeAdapterTypes.TextNode
-    ).value.trim();
-  } else if (!heading) {
-    return '';
+  if (isParentNode(heading)) {
+    try {
+      return getText(heading.childNodes);
+    } catch (error) {
+      // If the heading contains something other than a single text node,
+      // throw an error to indicate that the title cannot be converted.
+      throw new Error(
+        `The '<sky-page-summary-title>' element contains additional markup that is not supported as a 'pageTitle' for the <sky-page-header> component.`,
+        { cause: error },
+      );
+    }
   } else {
-    // If the heading contains something other than a single text node,
-    // throw an error to indicate that the title cannot be converted.
-    throw new Error(
-      `The '<sky-page-summary-title>' element contains additional markup that is not supported as a 'pageTitle' for the <sky-page-header> component.`,
-    );
+    return '';
   }
 }
 
@@ -204,7 +202,28 @@ function convertTypescriptFile(
   filePath: string,
   context: SchematicContext,
 ): void {
-  const source = parseSourceFile(tree, filePath);
+  let source = parseSourceFile(tree, filePath);
+  if (
+    isImported(source, 'SkyPageLayoutType', '@skyux/layout') ||
+    isImported(source, 'SkyPageModule', '@skyux/layout')
+  ) {
+    // These should have been migrated in SKY UX 9.
+    const recorder = tree.beginUpdate(filePath);
+    swapImportedClass(recorder, filePath, source, [
+      {
+        classNames: {
+          SkyPageLayoutType: 'SkyPageLayoutType',
+          SkyPageModule: 'SkyPageModule',
+        },
+        moduleName: {
+          old: '@skyux/layout',
+          new: '@skyux/pages',
+        },
+      },
+    ]);
+    tree.commitUpdate(recorder);
+    source = parseSourceFile(tree, filePath);
+  }
   const templates = getInlineTemplates(source);
   const recorder = tree.beginUpdate(filePath);
   if (templates.length > 0) {

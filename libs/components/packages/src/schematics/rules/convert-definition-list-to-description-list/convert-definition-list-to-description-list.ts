@@ -4,7 +4,7 @@ import {
   Tree,
   UpdateRecorder,
 } from '@angular-devkit/schematics';
-import { isImported, parse5, parseSourceFile } from '@angular/cdk/schematics';
+import { isImported, parseSourceFile } from '@angular/cdk/schematics';
 import { getEOL } from '@schematics/angular/utility/eol';
 
 import { logOnce } from '../../utility/log-once';
@@ -27,6 +27,7 @@ import { visitProjectFiles } from '../../utility/visit-project-files';
 function moveHeading(
   definitionList: ElementWithLocation,
   recorder: UpdateRecorder,
+  content: string,
   offset: number,
   eol: string,
 ): void {
@@ -35,7 +36,10 @@ function moveHeading(
     definitionList,
   )[0];
   if (isParentNode(heading)) {
-    const headingText = parse5.serialize(heading);
+    const headingText = content.slice(
+      heading.sourceCodeLocation.startTag.endOffset,
+      heading.sourceCodeLocation.endTag.startOffset,
+    );
     const indent = ' '.repeat(
       definitionList.sourceCodeLocation.startTag.startCol - 1,
     );
@@ -115,7 +119,7 @@ function convertTemplate(
   const fragment = parseTemplate(content);
   const definitionLists = getElementsByTagName('sky-definition-list', fragment);
   for (const definitionList of definitionLists) {
-    moveHeading(definitionList, recorder, offset, eol);
+    moveHeading(definitionList, recorder, content, offset, eol);
     swapTags(
       content,
       recorder,
