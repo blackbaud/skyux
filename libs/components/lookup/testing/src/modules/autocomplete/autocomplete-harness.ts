@@ -11,9 +11,12 @@ import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search
  */
 export class SkyAutocompleteHarness extends SkyComponentHarness {
   /**
+   * Finds a standard autocomplete component, or a autocomplete component that is wrapped by an input box component.
+   * For input box implementations, we need to use the `sky-input-box` selector since the `sky-autocomplete`
+   * element is removed from the DOM.
    * @internal
    */
-  public static hostSelector = 'sky-autocomplete';
+  public static hostSelector = 'sky-autocomplete,sky-input-box';
 
   #documentRootLocator = this.documentRootLocatorFactory();
   #getAutocomplete = this.locatorFor('.sky-autocomplete');

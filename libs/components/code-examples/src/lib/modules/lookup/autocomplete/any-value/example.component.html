@@ -1,7 +1,10 @@
 <form novalidate [formGroup]="formGroup">
-  <sky-input-box labelText="Favorite color" stacked>
+  <sky-input-box
+    data-sky-id="favorite-color"
+    labelText="Favorite color"
+    stacked
+  >
     <sky-autocomplete
-      data-sky-id="favorite-color"
       allowAnyValue="true"
       highlightSearchText="false"
       (searchAsync)="onSearchAsync($event)"
