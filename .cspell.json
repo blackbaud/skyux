@@ -1,6 +1,7 @@
 {
   "import": "@skyux/dev-infra-private/.cspell-shared.json",
   "words": [
+    "autofit",
     "buttontype",
     "checkmark",
     "cyclomatic",
