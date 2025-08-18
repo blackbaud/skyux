@@ -29,6 +29,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_filter_bar_clear_filters_label: { message: 'Clear all values' },
     skyux_filter_bar_filter_label: { message: 'Filters' },
     skyux_filter_bar_filter_picker_descriptor: { message: 'filters' },
+    skyux_filter_item_n_selected: { message: '{0} selected' },
   },
 };
 

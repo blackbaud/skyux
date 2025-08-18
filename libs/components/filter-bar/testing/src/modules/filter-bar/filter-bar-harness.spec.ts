@@ -42,6 +42,22 @@ describe('Filter bar test harness', () => {
     await expectAsync(filterBarHarness.hasFilterPicker()).toBeResolvedTo(false);
   });
 
+  it('should detect active filters', async () => {
+    const { filterBarHarness } = await setupTest({
+      dataSkyId: 'basic-filter-bar',
+    });
+
+    await expectAsync(filterBarHarness.hasActiveFilters()).toBeResolvedTo(true);
+  });
+
+  it('should detect filter picker button', async () => {
+    const { filterBarHarness } = await setupTest({
+      dataSkyId: 'basic-filter-bar',
+    });
+
+    await expectAsync(filterBarHarness.hasFilterPicker()).toBeResolvedTo(true);
+  });
+
   it('should click filter picker button', async () => {
     const { filterBarHarness } = await setupTest({
       dataSkyId: 'basic-filter-bar',
@@ -80,20 +96,22 @@ describe('Filter bar test harness', () => {
     );
   });
 
-  it('should get a filter bar item by criteria', async () => {
+  it('should get a filter item by criteria', async () => {
     const { filterBarHarness } = await setupTest({
       dataSkyId: 'basic-filter-bar',
     });
 
-    await expectAsync(
-      filterBarHarness.getItem({ id: 'filter1' }),
-    ).toBeResolved();
-    await expectAsync(
-      filterBarHarness.getItem({ name: 'Test filter 2' }),
-    ).toBeResolved();
+    const filterItem1 = await filterBarHarness.getItem({ filterId: 'filter1' });
+    await expectAsync(filterItem1.hasActiveValue()).toBeResolvedTo(true);
+    await expectAsync(filterItem1.click()).toBeResolved();
+
+    const filterItem2 = await filterBarHarness.getItem({
+      labelText: 'Test filter 2',
+    });
+    await expectAsync(filterItem2.hasActiveValue()).toBeResolvedTo(false);
   });
 
-  it('should get an array of all filter bar items', async () => {
+  it('should get an array of all filter items', async () => {
     const { filterBarHarness } = await setupTest({
       dataSkyId: 'basic-filter-bar',
     });
@@ -103,46 +121,15 @@ describe('Filter bar test harness', () => {
     expect(items.length).toBe(2);
   });
 
-  it('should detect active filters', async () => {
-    const { filterBarHarness } = await setupTest({
-      dataSkyId: 'basic-filter-bar',
-    });
-
-    await expectAsync(filterBarHarness.hasActiveFilters()).toBeResolvedTo(true);
-  });
-
-  it('should detect filter picker button', async () => {
-    const { filterBarHarness } = await setupTest({
-      dataSkyId: 'basic-filter-bar',
-    });
-
-    await expectAsync(filterBarHarness.hasFilterPicker()).toBeResolvedTo(true);
-  });
-
   it('should throw an error if no filter items are found matching criteria', async () => {
     const { filterBarHarness } = await setupTest({
       dataSkyId: 'basic-filter-bar',
     });
 
     await expectAsync(
-      filterBarHarness.getItems({ id: 'non-existent-filter' }),
+      filterBarHarness.getItems({ filterId: 'non-existent-filter' }),
     ).toBeRejectedWithError(
-      'Unable to find any filter bar items with filter(s): {"id":"non-existent-filter"}',
+      'Unable to find any filter items with filter(s): {"filterId":"non-existent-filter"}',
     );
-  });
-
-  it('should get a filter bar item by criteria', async () => {
-    const { filterBarHarness } = await setupTest({
-      dataSkyId: 'basic-filter-bar',
-    });
-
-    const filterItem1 = await filterBarHarness.getItem({ id: 'filter1' });
-    await expectAsync(filterItem1.hasActiveValue()).toBeResolvedTo(true);
-    await expectAsync(filterItem1.click()).toBeResolved();
-
-    const filterItem2 = await filterBarHarness.getItem({
-      name: 'Test filter 2',
-    });
-    await expectAsync(filterItem2.hasActiveValue()).toBeResolvedTo(false);
   });
 });
