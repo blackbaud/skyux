@@ -25,6 +25,11 @@
     "@skyux/i18n": "0.0.0-PLACEHOLDER",
     "@skyux/modals": "0.0.0-PLACEHOLDER"
   },
+  "peerDependenciesMeta": {
+    "@skyux-sdk/testing": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "tslib": "^2.8.1"
   },
