@@ -20,12 +20,9 @@
     "@angular/cdk": "^20.0.4",
     "@angular/common": "^20.0.5",
     "@angular/core": "^20.0.5",
-    "@angular/platform-browser": "^20.0.5",
-    "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
     "@skyux/core": "0.0.0-PLACEHOLDER",
     "@skyux/i18n": "0.0.0-PLACEHOLDER",
-    "@skyux/icon": "0.0.0-PLACEHOLDER",
-    "@skyux/theme": "0.0.0-PLACEHOLDER"
+    "@skyux/icon": "0.0.0-PLACEHOLDER"
   },
   "peerDependenciesMeta": {
     "@skyux-sdk/testing": {
