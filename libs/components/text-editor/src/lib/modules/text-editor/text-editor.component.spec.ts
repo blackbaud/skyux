@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/component-class-suffix */
 import { Component, DebugElement, Provider, Type } from '@angular/core';
 import {
   ComponentFixture,
