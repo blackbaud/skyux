@@ -127,8 +127,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
       runner.callRule(
         convertProgressIndicatorWizardToTabWizard({
           projectPath: '',
-          bestEffortMode: true,
-          insertTodos: true,
         }),
         tree,
       ),
@@ -239,8 +237,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
       runner.callRule(
         convertProgressIndicatorWizardToTabWizard({
           projectPath: '',
-          bestEffortMode: true,
-          insertTodos: true,
         }),
         tree,
       ),
@@ -371,8 +367,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
       runner.callRule(
         convertProgressIndicatorWizardToTabWizard({
           projectPath: '',
-          bestEffortMode: true,
-          insertTodos: true,
         }),
         tree,
       ),
@@ -512,8 +506,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
       runner.callRule(
         convertProgressIndicatorWizardToTabWizard({
           projectPath: '',
-          bestEffortMode: true,
-          insertTodos: true,
         }),
         tree,
       ),
@@ -582,8 +574,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
       runner.callRule(
         convertProgressIndicatorWizardToTabWizard({
           projectPath: '',
-          bestEffortMode: true,
-          insertTodos: true,
         }),
         tree,
       ),
@@ -619,8 +609,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
       runner.callRule(
         convertProgressIndicatorWizardToTabWizard({
           projectPath: '',
-          bestEffortMode: true,
-          insertTodos: true,
         }),
         tree,
       ),
@@ -739,8 +727,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
       runner.callRule(
         convertProgressIndicatorWizardToTabWizard({
           projectPath: '',
-          bestEffortMode: true,
-          insertTodos: true,
         }),
         tree,
       ),
@@ -786,8 +772,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
         runner.callRule(
           convertProgressIndicatorWizardToTabWizard({
             projectPath: '',
-            bestEffortMode: true,
-            insertTodos: true,
           }),
           tree,
         ),
@@ -840,8 +824,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
         runner.callRule(
           convertProgressIndicatorWizardToTabWizard({
             projectPath: '',
-            bestEffortMode: true,
-            insertTodos: true,
           }),
           tree,
         ),
@@ -893,8 +875,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
         runner.callRule(
           convertProgressIndicatorWizardToTabWizard({
             projectPath: '',
-            bestEffortMode: true,
-            insertTodos: true,
           }),
           tree,
         ),
@@ -939,8 +919,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
         runner.callRule(
           convertProgressIndicatorWizardToTabWizard({
             projectPath: '',
-            bestEffortMode: true,
-            insertTodos: true,
           }),
           tree,
         ),
@@ -991,8 +969,6 @@ describe('Convert progress indicator wizard to tab wizard', () => {
         runner.callRule(
           convertProgressIndicatorWizardToTabWizard({
             projectPath: '',
-            bestEffortMode: true,
-            insertTodos: true,
           }),
           tree,
         ),

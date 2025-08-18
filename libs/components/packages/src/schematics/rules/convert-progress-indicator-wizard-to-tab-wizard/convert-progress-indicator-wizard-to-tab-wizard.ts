@@ -1,15 +1,8 @@
-import {
-  Rule,
-  SchematicContext,
-  Tree,
-  UpdateRecorder,
-  chain,
-} from '@angular-devkit/schematics';
+import { Rule, Tree, UpdateRecorder, chain } from '@angular-devkit/schematics';
 import {
   getDecoratorMetadata,
   getMetadataField,
   isImported,
-  parse5,
   parseSourceFile,
 } from '@angular/cdk/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
@@ -44,12 +37,13 @@ import { visitProjectFiles } from '../../utility/visit-project-files';
 import { ConvertProgressIndicatorWizardToTabWizardOptions } from './options';
 
 /**
- * Description list does not use a heading element.
+ * Tabs do not use a heading element.
  * Create a new `<h3>` element with the heading text.
  */
 function moveHeading(
   progressIndicator: ElementWithLocation,
   recorder: UpdateRecorder,
+  content: string,
   offset: number,
   eol: string,
 ): void {
@@ -58,7 +52,10 @@ function moveHeading(
     progressIndicator,
   )[0];
   if (isParentNode(heading)) {
-    const headingText = parse5.serialize(heading);
+    const headingText = content.slice(
+      heading.sourceCodeLocation.startTag.endOffset,
+      heading.sourceCodeLocation.endTag.startOffset,
+    );
     const indent = ' '.repeat(
       progressIndicator.sourceCodeLocation.startTag.startCol - 1,
     );
@@ -358,8 +355,6 @@ function convertTemplate(
   filePath: string,
   content: string,
   componentSource: ts.SourceFile,
-  context: SchematicContext,
-  options: ConvertProgressIndicatorWizardToTabWizardOptions,
   offset = 0,
 ): FollowupTasks {
   const eol = getEOL(content);
@@ -385,7 +380,7 @@ function convertTemplate(
       continue;
     }
     followupTasks.swapModuleImports = true;
-    moveHeading(progressIndicator, recorder, offset, eol);
+    moveHeading(progressIndicator, recorder, content, offset, eol);
     swapTags(
       content,
       recorder,
@@ -416,8 +411,6 @@ function convertHtmlFile(
   tree: Tree,
   filePath: string,
   componentSource: ts.SourceFile,
-  context: SchematicContext,
-  options: ConvertProgressIndicatorWizardToTabWizardOptions,
 ): FollowupTasks | undefined {
   const content = tree.readText(filePath);
   if (content.includes('<sky-progress-indicator')) {
@@ -427,8 +420,6 @@ function convertHtmlFile(
       filePath,
       content,
       componentSource,
-      context,
-      options,
     );
     tree.commitUpdate(recorder);
     return followupTasks;
@@ -439,9 +430,6 @@ function convertHtmlFile(
 function convertTypescriptFile(
   tree: Tree,
   filePath: string,
-  context: SchematicContext,
-  options: ConvertProgressIndicatorWizardToTabWizardOptions,
-  projectPath: string,
   componentsThatNeedModules: string[],
   componentsThatKeepProgressIndicator: string[],
 ): void {
@@ -461,13 +449,7 @@ function convertTypescriptFile(
       const htmlFilePath = normalize(
         join(dirname(filePath), templateUrl.initializer.text),
       );
-      followupTasks = convertHtmlFile(
-        tree,
-        htmlFilePath,
-        source,
-        context,
-        options,
-      );
+      followupTasks = convertHtmlFile(tree, htmlFilePath, source);
     } else {
       const template = getInlineTemplates(source)[0];
       if (template) {
@@ -479,8 +461,6 @@ function convertTypescriptFile(
           filePath,
           templateContent,
           source,
-          context,
-          options,
           template.start,
         );
         tree.commitUpdate(recorder);
@@ -552,8 +532,6 @@ function isModuleExportingProgressIndicatorModule(
 function updateModuleOrTestFile(
   tree: Tree,
   filePath: string,
-  context: SchematicContext,
-  options: ConvertProgressIndicatorWizardToTabWizardOptions,
   componentsThatNeedModules: string[],
   componentsThatKeepProgressIndicator: string[],
 ): void {
@@ -593,9 +571,6 @@ export function convertProgressIndicatorWizardToTabWizard(
           convertTypescriptFile(
             tree,
             filePath,
-            context,
-            options,
-            options.projectPath,
             componentsThatNeedModules,
             componentsThatKeepProgressIndicator,
           );
@@ -607,8 +582,6 @@ export function convertProgressIndicatorWizardToTabWizard(
             updateModuleOrTestFile(
               tree,
               filePath,
-              context,
-              options,
               componentsThatNeedModules,
               componentsThatKeepProgressIndicator,
             );

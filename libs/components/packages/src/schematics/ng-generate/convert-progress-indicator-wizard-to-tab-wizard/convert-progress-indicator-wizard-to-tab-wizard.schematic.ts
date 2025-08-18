@@ -14,7 +14,5 @@ export default function convertProgressIndicatorWizardToTabWizardSchematic(
 ): Rule {
   return convertProgressIndicatorWizardToTabWizard({
     projectPath: options.projectPath ?? '',
-    bestEffortMode: !!options.bestEffortMode,
-    insertTodos: !!options.insertTodos,
   });
 }
