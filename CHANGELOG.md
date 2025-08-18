@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.34.0](https://github.com/blackbaud/skyux/compare/12.33.0...12.34.0) (2025-08-18)
+
+
+### Features
+
+* **components/theme:** use base and blackbaud stylesheets ([#3836](https://github.com/blackbaud/skyux/issues/3836)) ([5abc879](https://github.com/blackbaud/skyux/commit/5abc8796887e3cac33c147035d934a365be5c28c))
+
 ## [13.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.4...13.0.0-alpha.5) (2025-08-16)
 
 
