@@ -1,40 +1,38 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
-import { SkyFilterBarItemHarnessFilters } from './filter-bar-item-harness-filters';
+import { SkyFilterItemHarnessFilters } from './filter-item-harness-filters';
 
 /**
- * Harness to interact with a filter bar item component in tests.
+ * Harness to interact with a filter item component in tests.
  */
-export class SkyFilterBarItemHarness extends SkyComponentHarness {
+export class SkyFilterItemHarness extends SkyComponentHarness {
   /**
    * @internal
    */
-  public static hostSelector = 'sky-filter-bar-item';
+  public static hostSelector = '.sky-filter-item';
 
   #getButton = this.locatorFor('button.sky-filter-bar-btn');
-  #getFilterName = this.locatorFor('span.sky-filter-bar-filter-item-name');
-  #getFilterValue = this.locatorForOptional(
-    'span.sky-filter-bar-filter-item-value',
-  );
+  #getFilterName = this.locatorFor('span.sky-filter-item-name');
+  #getFilterValue = this.locatorForOptional('span.sky-filter-item-value');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyFilterBarItemHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyFilterBarItemHarnessFilters,
-  ): HarnessPredicate<SkyFilterBarItemHarness> {
-    return SkyFilterBarItemHarness.getDataSkyIdPredicate(filters)
-      .addOption('id', filters.id, async (harness, id) => {
+    filters: SkyFilterItemHarnessFilters,
+  ): HarnessPredicate<SkyFilterItemHarness> {
+    return SkyFilterItemHarness.getDataSkyIdPredicate(filters)
+      .addOption('filterId', filters.filterId, async (harness, filterId) => {
         const harnessId = await (
           await harness.#getButton()
         ).getAttribute('data-filter-id');
-        return await HarnessPredicate.stringMatches(harnessId, id);
+        return await HarnessPredicate.stringMatches(harnessId, filterId);
       })
-      .addOption('name', filters.name, async (harness, name) => {
+      .addOption('labelText', filters.labelText, async (harness, labelText) => {
         const harnessName = await harness.getName();
-        return await HarnessPredicate.stringMatches(harnessName, name);
+        return await HarnessPredicate.stringMatches(harnessName, labelText);
       });
   }
 
