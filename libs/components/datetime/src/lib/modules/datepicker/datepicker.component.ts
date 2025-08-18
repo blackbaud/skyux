@@ -48,7 +48,8 @@ let nextId = 0;
 
 /**
  * Creates the datepicker button and calendar.
- * You must wrap this component around an input with the `skyDatepickerInput` directive.
+ * You must wrap this component around an input with the `skyDatepickerInput`
+ * or `skyFuzzyDatepickerInput` directive.
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
