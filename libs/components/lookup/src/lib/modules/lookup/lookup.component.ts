@@ -11,6 +11,7 @@ import {
   Optional,
   Output,
   Self,
+  SkipSelf,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
@@ -54,7 +55,15 @@ import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-n
   selector: 'sky-lookup',
   templateUrl: './lookup.component.html',
   styleUrls: ['./lookup.component.scss'],
-  providers: [SkyLookupAdapterService],
+  providers: [
+    SkyLookupAdapterService,
+    {
+      // Hide the input box host service from child components like autocomplete since this component
+      // handles interactions with the service.
+      provide: SkyInputBoxHostService,
+      useValue: undefined,
+    },
+  ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
@@ -363,7 +372,7 @@ export class SkyLookupComponent
 
   constructor(
     @Self() @Optional() ngControl?: NgControl,
-    @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
+    @Optional() @SkipSelf() public inputBoxHostSvc?: SkyInputBoxHostService,
     @Optional() public themeSvc?: SkyThemeService,
   ) {
     super();
