@@ -12,5 +12,6 @@
     {
       "file": ".github/instructions/commit-message.instructions.md"
     }
-  ]
+  ],
+  "nxConsole.generateAiAgentRules": true
 }
