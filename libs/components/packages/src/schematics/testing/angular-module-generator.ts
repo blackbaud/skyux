@@ -13,7 +13,10 @@ export async function angularModuleGenerator(
   return await runner.runExternalSchematic(
     '@schematics/angular',
     'module',
-    schema,
+    {
+      typeSeparator: '.',
+      ...schema,
+    },
     tree,
   );
 }
