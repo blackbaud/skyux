@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
  * Specifies an action that users can perform on the card.
@@ -9,5 +10,6 @@ import { Component } from '@angular/core';
   templateUrl: './card-actions.component.html',
   styleUrls: ['./card-actions.component.scss'],
   standalone: false,
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyCardActionsComponent {}

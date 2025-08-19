@@ -2,6 +2,7 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('sky-tabset') {
+  --sky-override-tabset-align-items: center;
   --sky-override-tabset-border-bottom: #{2px solid
     $sky-background-color-primary-dark};
   --sky-override-tabset-button-color: #{$sky-text-color-action-primary};
@@ -14,14 +15,7 @@
   --sky-override-tabset-overflow: hidden;
   --sky-override-tabset-padding: 0 0 0
     var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
-  --sky-override-tabset-wizard-border-bottom: none;
   --sky-override-tabset-wizard-modal-margin: #{0 0 $sky-space-xl};
-}
-
-@include compatMixins.sky-modern-overrides('sky-tabset', false) {
-  --sky-override-tabset-icon-button-padding: 9px 15px;
-  --sky-override-tabset-padding: 0 0 0
-    var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
 }
 
 sky-tabset {
@@ -43,7 +37,7 @@ sky-tabset {
 .sky-tabset {
   --sky-tabset-margin: 0;
 
-  align-items: center;
+  align-items: var(--sky-override-tabset-align-items, baseline);
   border-bottom: var(
     --sky-override-tabset-border-bottom,
     var(--sky-border-width-divider) var(--sky-border-style-divider)
@@ -54,11 +48,13 @@ sky-tabset {
   margin: var(--sky-tabset-margin);
   padding: var(
     --sky-override-tabset-padding,
-    0 0 0
-      var(
-        --sky-layout-host-tab-content-spacing,
+    var(
+      --sky-layout-host-tab-content-spacing,
+      var(--sky-comp-tabset-tabs-space-inset-top)
+        var(--sky-comp-tabset-tabs-space-inset-right)
+        var(--sky-comp-tabset-tabs-space-inset-bottom)
         var(--sky-comp-tabset-tabs-space-inset-left)
-      )
+    )
   );
   white-space: nowrap;
 
@@ -70,11 +66,8 @@ sky-tabset {
   position: var(--sky-layout-host-content-position, static);
 
   &.sky-tabset-style-wizard {
-    border-bottom: var(
-      --sky-override-tabset-wizard-border-bottom-style,
-      var(--sky-border-width-divider) var(--sky-border-style-divider)
-        var(--sky-color-border-divider)
-    );
+    border-bottom: var(--sky-border-width-divider)
+      var(--sky-border-style-divider) var(--sky-color-border-divider);
   }
 }
 

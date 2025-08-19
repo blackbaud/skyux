@@ -1,10 +1,9 @@
 <sky-tile>
   <sky-tile-title>
     {{ tileParameters.tileName }}
-    <sky-help-inline
-      *ngIf="tileParameters.showInlineHelp"
-      class="sky-control-help"
-    />
+    @if (tileParameters.showInlineHelp) {
+      <sky-help-inline class="sky-control-help" />
+    }
   </sky-tile-title>
   <sky-tile-content>
     <sky-tile-content-section> Section 1 </sky-tile-content-section>

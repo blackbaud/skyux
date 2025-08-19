@@ -1,7 +1,7 @@
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
+import { getWorkspace } from '@schematics/angular/utility/workspace';
 
 import { createTestLibrary } from '../../testing/scaffold';
-import { getWorkspace } from '../../utility/workspace';
 
 describe('add-ag-grid-styles', () => {
   const runner = new SchematicTestRunner(
@@ -27,7 +27,7 @@ describe('add-ag-grid-styles', () => {
       ),
     ).resolves.toBeTruthy();
 
-    const { workspace } = await getWorkspace(tree);
+    const workspace = await getWorkspace(tree);
     const project = workspace.projects.get('my-lib-showcase');
     expect(project?.targets.get('build')?.options?.['styles']).toBeDefined();
     expect(project?.targets.get('build')?.options?.['styles']).toContain(

@@ -15,5 +15,9 @@
     {
       "path": "./.storybook/tsconfig.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "strict": false,
+    "noImplicitReturns": false
+  }
 }

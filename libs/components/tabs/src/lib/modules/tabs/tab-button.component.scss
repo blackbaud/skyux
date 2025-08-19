@@ -4,23 +4,15 @@
 @include compatMixins.sky-default-overrides('sky-tab-button') {
   --sky-override-closeable-tab-padding-right: 43px;
   --sky-override-tab-close-active-hover-color: #fff;
-  --sky-override-tab-close-box-shadow-states: none;
-  --sky-override-tab-close-color: #{$sky-text-color-deemphasized};
-  --sky-override-tab-close-hover-color: #{$sky-text-color-default};
   --sky-override-tab-close-padding: 1px 6px;
   --sky-override-tab-close-position: absolute;
   --sky-override-tab-close-position-right: 10px;
   --sky-override-tab-close-position-top: 10px;
   --sky-override-tab-margin-right: #{$sky-margin-inline-compact};
-}
-
-@include compatMixins.sky-modern-overrides('sky-tab-button', false) {
-  --sky-override-closeable-tab-padding-right: 44px;
-  --sky-override-tab-close-box-shadow-states: none;
-  --sky-override-tab-close-padding: var(--modern-size-1) var(--modern-size-6);
-  --sky-override-tab-close-position: absolute;
-  --sky-override-tab-close-position-right: var(--modern-size-10);
-  --sky-override-tab-close-position-top: var(--modern-size-12);
+  --sky-override-tab-btn-wizard-disabled-background-color: var(
+    --sky-background-color-neutral-light
+  );
+  --sky-override-tab-btn-wizard-disabled-border-color: #{$sky-border-color-neutral-light};
 }
 
 .sky-btn-tab-wrapper {
@@ -35,11 +27,7 @@
     position: var(--sky-override-tab-close-position, static);
     top: var(--sky-override-tab-close-position-top, none);
     right: var(--sky-override-tab-close-position-right, none);
-    color: var(
-      --sky-override-tab-close-color,
-      var(--sky-color-icon-deemphasized)
-    );
-    // padding default should change to be the same on all sides when we do the icon work
+    // Remove padding rule when default theme support is dropped as this will come from the button class
     padding: var(
       --sky-override-tab-close-padding,
       var(--sky-comp-button-borderless-space-inset-top)
@@ -48,34 +36,10 @@
         var(--sky-comp-button-borderless-space-inset-left)
     );
 
-    // when v1 modern is dropped, investigate adding icon borderless button classes to close element
-    &:hover {
-      color: var(
-        --sky-override-tab-close-hover-color,
-        var(--sky-color-icon-default)
-      );
-      transition: color $sky-transition-time-short;
-      box-shadow: var(
-        --sky-override-tab-close-box-shadow-states,
-        inset 0 0 0 var(--sky-border-width-action-hover)
-          var(--sky-color-border-action-tertiary-hover)
-      );
-    }
-
-    &:active {
-      box-shadow: var(
-        --sky-override-tab-close-box-shadow-states,
-        inset 0 0 0 var(--sky-border-width-action-active)
-          var(--sky-color-border-action-tertiary-active)
-      );
-    }
-
-    &:focus-visible:not(:active) {
-      box-shadow: var(
-        --sky-override-tab-close-box-shadow-states,
-        inset 0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus)
-      );
+    &.sky-btn-icon-borderless {
+      display: inline;
+      height: auto;
+      width: auto;
     }
   }
 
@@ -97,6 +61,17 @@
     padding-right: var(
       --sky-override-closeable-tab-padding-right,
       var(--sky-comp-tab-horizontal-space-inset-right)
+    );
+  }
+
+  a.sky-btn-tab-wizard.sky-btn-tab-disabled {
+    background-color: var(
+      --sky-override-tab-btn-wizard-disabled-background-color,
+      var(--sky-color-background-tab-wizard-disabled)
+    );
+    border-color: var(
+      --sky-override-tab-btn-wizard-disabled-border-color,
+      var(--sky-color-border-tab-wizard-disabled)
     );
   }
 }

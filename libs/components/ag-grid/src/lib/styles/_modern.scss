@@ -8,12 +8,12 @@
   .ag-cell.ag-cell-wrap-text span.ag-cell-value {
     line-height: var(--sky-font-line_height-body-m);
     padding-top: var(
-      --sky-override-ag-grid-cell-padding-vertical,
-      var(--sky-space-inset-letterbox-2_3-top-m)
+      --sky-comp-override-ag-grid-cell-padding-vertical-compact,
+      var(--sky-comp-grid-cell-space-inset-top)
     );
     padding-bottom: var(
-      --sky-override-ag-grid-cell-padding-vertical,
-      var(--sky-space-inset-letterbox-2_3-bottom-m)
+      --sky-comp-override-ag-grid-cell-padding-vertical-compact,
+      var(--sky-comp-grid-cell-space-inset-bottom)
     );
     min-height: calc(var(--ag-row-height) - 2px);
   }
@@ -36,9 +36,9 @@
       );
     }
     &:not(
-        .ag-column-resizing,
-        .sky-ag-grid-header-resizable:has(> .ag-header-cell-resize:hover)
-      ) {
+      .ag-column-resizing,
+      .sky-ag-grid-header-resizable:has(> .ag-header-cell-resize:hover)
+    ) {
       .ag-header-cell-resize::after {
         // these styles make the resize handle a dotted line since it is not technically a border
         mask-size: 1px 2px;
@@ -67,8 +67,7 @@
   .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing,
   .ag-header-cell.sky-ag-grid-header-resizable > .ag-header-cell-resize:hover {
     --ag-header-column-resize-handle-color: var(
-      --sky-override-ag-grid-resize-handle-color,
-      var(--sky-color-border-column_divider)
+      --sky-color-border-column_divider
     );
     --ag-header-column-resize-handle-height: 100%;
     --ag-header-column-resize-handle-width: 3px;
@@ -97,19 +96,14 @@
   @for $i from 1 through 100 {
     // Hover, not while resizing
     .ag-root:has(
-        .ag-header-cell.sky-ag-grid-header-resizable:not(
-            .ag-column-resizing
-          ):nth-child(#{$i})
-          > .ag-header-cell-resize:hover
-      ) {
+      .ag-header-cell.sky-ag-grid-header-resizable:not(
+          .ag-column-resizing
+        ):nth-child(#{$i})
+        > .ag-header-cell-resize:hover
+    ) {
       .ag-header-cell.ag-floating-filter:nth-child(#{$i}),
       .ag-cell:nth-child(#{$i}) {
-        border-right: 1px
-          solid
-          var(
-            --sky-override-ag-grid-resize-handle-color,
-            var(--sky-color-border-column_divider)
-          );
+        border-right: 1px solid var(--sky-color-border-column_divider);
         padding-right: calc(
           var(--ag-cell-horizontal-padding) - var(
               --sky-override-ag-grid-border-width,
@@ -121,18 +115,13 @@
 
     // While resizing
     .ag-root:has(
-        .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing:nth-child(
-            #{$i}
-          )
-      ) {
+      .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing:nth-child(
+          #{$i}
+        )
+    ) {
       .ag-header-cell.ag-floating-filter:nth-child(#{$i}),
       .ag-cell:nth-child(#{$i}) {
-        border-right: 3px
-          solid
-          var(
-            --sky-override-ag-grid-resize-handle-color,
-            var(--sky-color-border-column_divider)
-          );
+        border-right: 3px solid var(--sky-color-border-column_divider);
         padding-right: calc(var(--ag-cell-horizontal-padding) - 3px);
       }
     }
@@ -141,7 +130,7 @@
 
 .ag-theme-sky-data-grid-modern-light,
 .ag-theme-sky-data-grid-modern-light-compact {
-  border-top: var(--sky-override-ag-grid-top-border, none);
+  border-top: none;
 
   .ag-row-hover::before {
     background-color: transparent;
@@ -168,7 +157,7 @@
 .ag-theme-sky-data-entry-grid-modern-light,
 .ag-theme-sky-data-entry-grid-modern-light-compact {
   .sky-ag-grid-editable {
-    border-top-width: var(--sky-override-ag-grid-top-border-width-editable, 0);
+    border-top-width: 0;
   }
 
   .ag-popup {
@@ -176,7 +165,9 @@
       background-color: transparent;
 
       sky-input-box {
-        --sky-background-color-input-box-group: var(--ag-background-color);
+        --sky-comp-override-input-box-group-background-color: var(
+          --ag-background-color
+        );
       }
     }
 
@@ -225,7 +216,7 @@
           padding-left: var(
             --sky-override-ag-grid-cell-focus-horizontal-padding,
             calc(
-              var(--sky-space-inset-letterbox-2_3-left-m) - var(
+              var(--sky-comp-grid-cell-space-inset-left) - var(
                   --sky-border-width-input-focus
                 )
             )

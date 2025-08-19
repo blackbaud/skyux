@@ -26,21 +26,18 @@ export class RadioButtonComponent {
 
   public radioIconOptions = [
     {
-      icon: 'table',
       iconName: 'table',
       label: 'Table',
       name: 'table',
       disabled: false,
     },
     {
-      icon: 'list-ul',
       iconName: 'text-bullet-list-ltr',
       label: 'List',
       name: 'list',
       disabled: true,
     },
     {
-      icon: 'map-marker',
       iconName: 'location',
       label: 'Map',
       name: 'map',

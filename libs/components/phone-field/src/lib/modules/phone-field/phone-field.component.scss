@@ -16,16 +16,6 @@
   }
 }
 
-@include compatMixins.sky-modern-overrides(
-  '.sky-phone-field-country-btn',
-  false
-) {
-  --sky-override-phone-field-flag-transform: scaleX(1.25) translateX(2px);
-  --sky-override-phone-field-flag-min-width: var(--modern-size-20);
-  --sky-override-phone-field-flag-display: block;
-  --sky-override-phone-field-input-box-country-button-padding: 0 17px 0 18px;
-}
-
 .sky-phone-field-country-btn {
   .sky-btn {
     // NOTE: This rule is set for non-input box phone fields. Remove when support for this is fully removed.
@@ -62,7 +52,7 @@
   }
 
   .iti__flag {
-    background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.4/assets/images/intl-tel-input/flags@2x.webp) !important;
+    background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.5/assets/images/intl-tel-input/flags@2x.webp) !important;
     transform: var(--sky-override-phone-field-flag-transform, none);
   }
 }

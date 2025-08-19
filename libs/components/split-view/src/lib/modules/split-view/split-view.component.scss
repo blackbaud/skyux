@@ -7,6 +7,8 @@
     #{$sky-border-color-neutral-medium};
   --sky-override-split-view-border-left: 1px solid
     #{$sky-border-color-neutral-medium};
+  --sky-override-split-view-border-right: 1px solid
+    #{$sky-border-color-neutral-medium};
 }
 
 :host {
@@ -14,6 +16,7 @@
 }
 
 .sky-split-view {
+  --sky-comp-override-list-header-background-color: initial;
   // Set position:relative to give resize handle's absolute positioning a new origin.
   position: relative;
   display: flex;
@@ -55,5 +58,6 @@
 @include mixins.sky-host-responsive-container-sm-min() {
   .sky-split-view {
     border-left: var(--sky-override-split-view-border-left, none);
+    border-right: var(--sky-override-split-view-border-right, none);
   }
 }

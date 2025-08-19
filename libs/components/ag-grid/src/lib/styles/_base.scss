@@ -56,6 +56,13 @@
       var(--sky-size-switch)
     );
     --ag-focus-shadow: none;
+
+    .ag-checked {
+      background: var(
+        --sky-override-ag-grid-checkbox-checked-background-color,
+        var(--sky-color-background-selected-switch-base)
+      );
+    }
   }
 
   .ag-disabled {
@@ -68,21 +75,17 @@
         --sky-override-ag-grid-checkbox-disabled-color,
         var(--sky-color-text-deemphasized)
       );
-      --ag-checkbox-checked-background-color: var(
-        --sky-override-ag-grid-checkbox-checked-background-color,
-        var(--sky-color-background-input-disabled)
-      );
       --ag-checkbox-checked-border-color: var(
         --sky-override-ag-grid-checkbox-checked-border-color,
         var(--sky-color-border-input-disabled)
       );
-      --ag-checkbox-unchecked-background-color: var(
-        --sky-override-ag-grid-checkbox-checked-background-color,
-        var(--sky-color-background-input-disabled)
-      );
       --ag-checkbox-unchecked-border-color: var(
         --sky-override-ag-grid-checkbox-checked-border-color,
         var(--sky-color-border-input-disabled)
+      );
+      background: var(
+        --sky-override-ag-grid-checkbox-disabled-background-color,
+        var(--sky-color-background-selected-switch-disabled)
       );
     }
   }
@@ -144,7 +147,10 @@
 
 .ag-theme-sky-data-grid-modern-light,
 .ag-theme-sky-data-grid-modern-light-compact {
-  --ag-header-background-color: var(--sky-background-color-page-default);
+  --ag-header-background-color: var(
+    --sky-comp-override-list-header-background-color,
+    var(--sky-background-color-page-default)
+  );
   --ag-header-column-separator-color: var(--sky-background-color-page-default);
 }
 
@@ -170,7 +176,7 @@
     z-index: 1;
     --ag-cell-horizontal-padding: var(
       --sky-override-ag-grid-cell-focus-horizontal-padding,
-      var(--sky-space-inset-letterbox-2_3-left-m)
+      var(--sky-comp-grid-cell-space-inset-left)
     );
 
     &.ag-cell-inline-editing {

@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular/cdk": "^19.2.10",
-    "@angular/common": "^19.2.7",
-    "@angular/core": "^19.2.7",
-    "@angular/forms": "^19.2.7",
-    "@angular/router": "^19.2.7",
+    "@angular/cdk": "^20.0.4",
+    "@angular/common": "^20.0.5",
+    "@angular/core": "^20.0.5",
+    "@angular/forms": "^20.0.5",
+    "@angular/router": "^20.0.5",
     "@blackbaud/angular-tree-component": "^1.0.0",
     "@skyux/action-bars": "0.0.0-PLACEHOLDER",
     "@skyux/ag-grid": "0.0.0-PLACEHOLDER",
@@ -55,8 +55,8 @@
     "@skyux/tiles": "0.0.0-PLACEHOLDER",
     "@skyux/toast": "0.0.0-PLACEHOLDER",
     "@skyux/validation": "0.0.0-PLACEHOLDER",
-    "ag-grid-angular": "^33.2.1",
-    "ag-grid-community": "^33.2.1"
+    "ag-grid-angular": "^34.1.1",
+    "ag-grid-community": "^34.1.1"
   },
   "dependencies": {
     "tslib": "^2.8.1"

@@ -32,5 +32,5 @@ describe('field heights', () => {
         cy.skyVisualTest(`field-heights-${theme}`);
       });
     });
-  }, false);
+  });
 });

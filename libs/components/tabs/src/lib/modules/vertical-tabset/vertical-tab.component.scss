@@ -18,7 +18,6 @@
   --sky-override-vertical-tab-font-color-disabled: var(
     --sky-text-color-deemphasized
   );
-  --sky-override-vertical-tab-font-selected-color: #{$sky-text-color-default};
   --sky-override-vertical-tab-gap: #{$sky-margin-half};
   --sky-override-vertical-tab-heading-error-line-height: normal;
   --sky-override-vertical-tab-heading-error-padding-left: #{$sky-padding-half};
@@ -39,38 +38,6 @@
   );
   --sky-override-vertical-tab-right-arrow-color-selected: #{$sky-text-color-deemphasized};
   --sky-override-vertical-tab-right-arrow-padding: 3px #{$sky-padding} 0 0;
-}
-
-@include compatMixins.sky-modern-overrides('.sky-vertical-tab') {
-  --sky-override-vertical-tab-background-color-disabled: transparent;
-  --sky-override-vertical-tab-background-color-selected: transparent;
-  --sky-override-vertical-tab-border-left-active: var(--modern-size-4) solid
-    var(--modern-color-blue-50);
-  --sky-override-vertical-tab-border-left-hover: var(--modern-size-1) solid
-    var(--modern-color-blue-50);
-  --sky-override-vertical-tab-box-shadow-focus: var(--sky-elevation-focus);
-  --sky-override-vertical-tab-content-pane-margin-bottom: 0;
-  --sky-override-vertical-tab-display-align-items: normal;
-  --sky-override-vertical-tab-gap: var(--modern-size-15);
-  --sky-override-vertical-tab-heading-error-margin-right: calc(
-    var(--modern-size-10) * -1
-  );
-  --sky-override-vertical-tab-heading-error-line-height: normal;
-  --sky-override-vertical-tab-heading-error-padding-left: var(--modern-size-10);
-  --sky-override-vertical-tab-heading-error-position: relative;
-  --sky-override-vertical-tab-margin: var(--modern-size-15) 0
-    var(--modern-size-15) var(--modern-size-10);
-  --sky-override-vertical-tab-padding: var(--modern-size-10)
-    var(--modern-size-10) var(--modern-size-10) var(--modern-size-15);
-  --sky-override-vertical-tab-right-arrow-color: var(--modern-color-gray-20);
-  --sky-override-vertical-tab-right-arrow-color-active: var(
-    --modern-color-gray-20
-  );
-  --sky-override-vertical-tab-right-arrow-color-hover: #979ba2;
-  --sky-override-vertical-tab-right-arrow-color-selected: var(
-    --modern-color-gray-20
-  );
-  --sky-override-vertical-tab-right-arrow-padding: var(--modern-size-3) 0 0 0;
 }
 
 :host {
@@ -111,7 +78,7 @@
   );
   border-radius: var(--sky-border-radius-0);
 
-  &:hover {
+  &:hover:not(.sky-vertical-tab-active) {
     color: var(
       --sky-override-vertical-tab-hover-font-color,
       var(--sky-color-text-default)
@@ -129,19 +96,17 @@
     }
   }
 
-  &:active {
+  &:active:not(.sky-vertical-tab-active) {
     background-color: var(
       --sky-override-vertical-tab-background-color-active,
       var(--sky-color-background-nav-active)
     );
     border-left: var(
       --sky-override-vertical-tab-border-left-active,
-      var(--sky-border-width-selected-l) solid var(--sky-color-border-selected)
+      var(--sky-border-width-selected-l) solid
+        var(--sky-color-border-nav-active)
     );
-    color: var(
-      --sky-override-vertical-tab-active-font-color,
-      var(--sky-color-text-default)
-    );
+    color: var(--sky-color-text-default);
     padding-left: var(
       --sky-override-vertical-tab-padding-left-active,
       calc(
@@ -166,23 +131,17 @@
     );
     outline: var(
       --sky-override-vertical-tab-outline-focus,
-      var(--sky-border-width-selected-m) solid var(--sky-color-border-selected)
+      var(--sky-border-width-selected-m) solid var(--sky-color-border-nav-focus)
     );
-    outline-offset: var(
-      --sky-override-vertical-tab-outline-focus-offset,
-      calc(var(--sky-border-width-selected-m) * -1)
-    );
-    box-shadow: var(--sky-override-vertical-tab-box-shadow-focus, none);
+    outline-offset: calc(var(--sky-border-width-selected-m) * -1);
+    box-shadow: none;
 
     &.sky-vertical-tab-active {
       background-color: var(
         --sky-override-vertical-tab-background-color-selected,
         var(--sky-color-background-selected-soft)
       );
-      color: var(
-        --sky-override-vertical-tab-selected-font-color,
-        var(--sky-color-text-default)
-      );
+      color: var(--sky-color-text-default);
 
       .sky-vertical-tab-right-arrow {
         color: var(
@@ -204,7 +163,7 @@
     );
     border-left: var(
       --sky-override-vertical-tab-border-left-hover,
-      var(--sky-border-width-selected-s) solid var(--sky-color-border-selected)
+      var(--sky-border-width-selected-s) solid var(--sky-color-border-nav-hover)
     );
   }
 }
@@ -214,21 +173,18 @@
     --sky-override-vertical-tab-background-color-selected,
     var(--sky-color-background-selected-soft)
   );
-  color: var(
-    --sky-override-vertical-tab-selected-font-color,
-    var(--sky-color-text-default)
-  );
+  color: var(--sky-color-text-default);
   padding-left: var(
     --sky-override-vertical-tab-padding-left-selected,
     calc(
       var(--sky-comp-tab-vertical-space-inset-left) - var(
-          --sky-border-width-selected-l
+          --sky-border-width-selected-m
         )
     )
   );
   border-left: var(
     --sky-override-vertical-tab-border-left-selected,
-    var(--sky-border-width-selected-l) solid var(--sky-color-border-selected)
+    var(--sky-border-width-selected-m) solid var(--sky-color-border-selected)
   );
 
   .sky-vertical-tab-right-arrow {
@@ -255,12 +211,6 @@
     --sky-override-vertical-tab-heading-error-padding-left,
     var(--sky-space-gap-text_action-s)
   );
-  margin-right: var(--sky-override-vertical-tab-heading-error-margin-right);
-
-  // TODO: The position, top, and line height rules are due to a bug in icons where icon stacks display larger than their inner icons current.
-  // Remove these two rules when we move to SVG icons
-  position: var(--sky-override-vertical-tab-heading-error-position);
-  top: -2px;
   line-height: var(--sky-override-vertical-tab-heading-error-line-height, 1);
 }
 
@@ -272,10 +222,7 @@
 }
 
 .sky-vertical-tabset-button-disabled {
-  background-color: var(
-    --sky-override-vertical-tab-background-color-disabled,
-    var(--sky-color-background-nav-disabled)
-  );
+  background-color: var(--sky-color-background-nav-disabled);
   // Only needed for default theme. This rule can be removed when that theme is removed.
   color: var(
     --sky-override-vertical-tab-font-color-disabled,

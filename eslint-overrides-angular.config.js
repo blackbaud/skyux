@@ -5,7 +5,8 @@ module.exports = [
   {
     files: ['**/*.ts'],
     rules: {
-      '@angular-eslint/prefer-standalone': 'off',
+      '@angular-eslint/prefer-inject': 'warn',
+      '@angular-eslint/prefer-standalone': 'warn',
       '@typescript-eslint/consistent-indexed-object-style': ['error', 'record'],
     },
   },

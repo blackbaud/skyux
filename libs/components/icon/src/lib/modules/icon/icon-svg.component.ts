@@ -10,20 +10,16 @@ import { SkyIconVariantType } from './types/icon-variant-type';
 
 const SIZE_BASE = 16;
 
-const RELATIVE_SIZES = new Map([
-  ['md', SIZE_BASE],
-  ['lg', 21.333 /* SIZE_BASE * (4/3) */],
-  ['2x', 32 /* SIZE_BASE * 2 */],
-  ['3x', 48 /* SIZE_BASE * 3 */],
-  ['4x', 64 /* SIZE_BASE * 4 */],
-  ['5x', 80 /* SIZE_BASE * 5 */],
-]);
-
 const FIXED_SIZES = new Map([
+  ['xxxs', 4],
+  ['xxs', 8],
+  ['xs', 12],
   ['s', SIZE_BASE],
   ['m', 20],
   ['l', 24],
   ['xl', 32],
+  ['xxl', 40],
+  ['xxxl', 48],
 ]);
 
 function defaultSize(value: SkyIconSize | undefined): SkyIconSize {
@@ -38,8 +34,7 @@ function defaultSize(value: SkyIconSize | undefined): SkyIconSize {
   templateUrl: './icon-svg.component.html',
   styleUrls: ['./icon-svg.component.scss'],
   host: {
-    '[class]':
-      'relativeSize() ? "sky-icon-svg-relative-" + relativeSize() : "sky-icon-svg-" + iconSize()',
+    '[class]': '"sky-icon-svg-" + iconSize()',
   },
   hostDirectives: [SkyThemeComponentClassDirective],
 })
@@ -50,13 +45,11 @@ export class SkyIconSvgComponent {
   public readonly iconSize = input<SkyIconSize, SkyIconSize | undefined>('m', {
     transform: defaultSize,
   });
-  public readonly relativeSize = input<string | undefined>();
   public readonly iconVariant = input<SkyIconVariantType>();
 
   readonly #iconInfo = computed(() => {
     return {
       src: this.iconName(),
-      relativeSize: this.relativeSize(),
       iconSize: this.iconSize(),
       variant: this.iconVariant(),
     };
@@ -67,9 +60,7 @@ export class SkyIconSvgComponent {
       switchMap((info) =>
         this.#resolverSvc.resolveHref(
           info.src,
-          info.relativeSize !== undefined
-            ? RELATIVE_SIZES.get(info.relativeSize)
-            : FIXED_SIZES.get(info.iconSize),
+          FIXED_SIZES.get(info.iconSize),
           info.variant,
         ),
       ),

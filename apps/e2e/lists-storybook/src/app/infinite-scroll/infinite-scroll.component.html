@@ -7,9 +7,11 @@
     [ngClass]="{ 'scrollable-parent': scrollableParent }"
   >
     <ul>
-      <li *ngFor="let item of items">
-        {{ item }}
-      </li>
+      @for (item of items; track item) {
+        <li>
+          {{ item }}
+        </li>
+      }
     </ul>
     <sky-infinite-scroll [enabled]="enabled" [loading]="loading" />
   </div>

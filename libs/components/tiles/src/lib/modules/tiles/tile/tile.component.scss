@@ -3,6 +3,7 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-tile') {
+  --sky-override-tile-background-color: #fff;
   --sky-override-tile-border-radius: 0;
   --sky-override-tile-border-radius-xs-first: 0;
   --sky-override-tile-border-radius-xs-last: 0;
@@ -23,24 +24,17 @@
   --sky-override-tile-summary-color: #{$sky-text-color-action-primary};
   --sky-override-tile-summary-padding-left: #{$sky-tile-header-tool-padding};
   --sky-override-tile-tools-control-color: var(--sky-text-color-deemphasized);
-  --sky-override-tile-tools-control-height: 24px;
   --sky-override-tile-tools-control-margin-right: 9px;
   --sky-override-tile-tools-control-size: 24px;
-  --sky-override-tile-tools-control-width: 24px;
   --sky-override-tile-tools-padding-right: #{$sky-space-lg};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-tile') {
-  --sky-override-tile-border-radius-xs-first: 0;
-  --sky-override-tile-border-radius-xs-last: 0;
-  --sky-override-tile-margin-bottom-base: 20px;
-  --sky-override-tile-summary-color: #{$sky-text-color-action-primary};
-  --sky-override-tile-tools-control-margin-right: 10px;
-  --sky-override-tile-tools-control-size: 26px;
-}
-
 .sky-tile {
-  background-color: #fff;
+  --sky-comp-override-list-header-background-color: initial;
+  background-color: var(
+    --sky-override-tile-background-color,
+    var(--sky-color-background-container-base)
+  );
   margin-bottom: var(
     --sky-override-tile-margin-bottom-base,
     var(--sky-space-stacked-xl)
@@ -52,7 +46,10 @@
       var(--sky-comp-tile-space-inset-left)
   );
 
-  --sky-background-color-page-default: #fff;
+  --sky-background-color-page-default: var(
+    --sky-override-tile-background-color,
+    var(--sky-color-background-container-base)
+  );
 }
 
 /* NOTE: This style is here as we only want it when inside a tile dashboard */
@@ -130,6 +127,7 @@
 }
 
 .sky-tile-tools {
+  align-items: center;
   display: flex;
   padding: 0 var(--sky-override-tile-tools-padding-right, 0) 0 0;
 }

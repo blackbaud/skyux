@@ -29,8 +29,8 @@
         "main": "libs/components/packages/src/index.ts",
         "assets": [
           "libs/components/packages/collection.json",
+          "libs/components/packages/migrations.json",
           "libs/components/packages/src/polyfills.js",
-          "libs/components/packages/src/schematics/migrations/migration-collection.json",
           "libs/components/packages/src/schematics/**/schema.json",
           "libs/components/packages/src/schematics/**/*.template",
           "libs/components/packages/*.md"

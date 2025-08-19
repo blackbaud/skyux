@@ -429,13 +429,13 @@ export const iconMap: Record<
   // show on column header when column is sorted ascending
   sortAscending: {
     name: 'chevron-up',
-    size: 24,
+    size: 16,
   },
 
   // show on column header when column is sorted descending
   sortDescending: {
     name: 'chevron-down',
-    size: 24,
+    size: 16,
   },
 
   // show on column header when column has no sort, only when

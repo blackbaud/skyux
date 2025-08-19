@@ -3,6 +3,21 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-radio-outer-wrapper') {
+  --sky-override-radio-border-color-checked-active: var(
+    --sky-highlight-color-info
+  );
+  --sky-override-radio-border-color-checked-hover: var(
+    --sky-highlight-color-info
+  );
+  --sky-override-radio-border-width-checked-active: 2px;
+  --sky-override-radio-border-width-checked-hover: 2px;
+  --sky-override-radio-border-color-icon-checked-active: var(
+    --sky-highlight-color-info
+  );
+  --sky-override-radio-border-color-icon-checked-hover: var(
+    --sky-highlight-color-info
+  );
+  --sky-override-radio-border-width-icon-checked-active: 2px;
   --sky-override-radio-icon-border-radius: 50%;
   --sky-override-radio-icon-color-disabled: #{$sky-color-black};
   --sky-override-radio-icon-color-selected: #{$sky-color-black};
@@ -14,11 +29,6 @@
   --sky-override-radio-group-radio-bottom-margin: var(--sky-margin-stacked-sm);
   --sky-override-radio-hint-text-inset: var(--sky-margin-stacked-xs) 0 0
     calc(var(--sky-switch-size) + var(--sky-switch-margin));
-}
-
-@include compatMixins.sky-modern-overrides('.sky-radio-outer-wrapper') {
-  --sky-override-radio-icon-color-selected: var(--sky-color-icon-selected);
-  --sky-override-radio-label-margin-right: var(--sky-margin-inline-xs);
 }
 
 :host:has(.sky-switch-control-icon) {
@@ -75,10 +85,52 @@
   );
 }
 
+.sky-switch-input:checked:not(:disabled) {
+  &.sky-radio-input:active + .sky-switch-control {
+    border-width: var(
+      --sky-override-radio-border-width-checked-active,
+      var(--sky-border-width-selected-s)
+    );
+    border-color: var(
+      --sky-override-radio-border-color-checked-active,
+      var(--sky-color-border-switch-selected-base)
+    );
+
+    &.sky-switch-control-icon {
+      border-width: var(
+        --sky-override-radio-border-width-icon-checked-active,
+        var(--sky-border-width-selected-s)
+      );
+      border-color: var(
+        --sky-override-radio-border-color-icon-checked-active,
+        var(--sky-color-border-selected)
+      );
+    }
+  }
+
+  &.sky-radio-input:hover:not(:active) + .sky-switch-control {
+    border-width: var(
+      --sky-override-radio-border-width-checked-hover,
+      var(--sky-border-width-selected-s)
+    );
+    border-color: var(
+      --sky-override-radio-border-color-checked-hover,
+      var(--sky-color-border-switch-selected-base)
+    );
+
+    &.sky-switch-control-icon {
+      border-color: var(
+        --sky-override-radio-border-color-icon-checked-hover,
+        var(--sky-color-border-selected)
+      );
+    }
+  }
+}
+
 .sky-radio-hint-text {
   margin: var(
     --sky-override-radio-hint-text-inset,
-    var(--sky-space-gap-stacked_supplemental-s) 0 0
+    var(--sky-space-gap-stacked_supplemental-xs) 0 0
       var(--sky-space-inset-switch)
   );
 }

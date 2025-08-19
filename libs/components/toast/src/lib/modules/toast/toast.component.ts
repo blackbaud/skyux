@@ -77,7 +77,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   public ariaLive = 'polite';
   public ariaRole: string | undefined;
   public classNames = '';
-  public iconName: string | undefined;
+  public iconName = 'info';
   public toastTypeOrDefault: SkyToastType = SKY_TOAST_TYPE_DEFAULT;
 
   #autoCloseTimeoutId: unknown;

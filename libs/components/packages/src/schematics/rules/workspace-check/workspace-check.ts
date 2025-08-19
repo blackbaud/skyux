@@ -1,17 +1,24 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { getWorkspace } from '@schematics/angular/utility/workspace';
 
-import { getWorkspace } from '../../utility/workspace';
+const SUPPORTED_BUILD_BUILDERS = [
+  '@angular/build:application',
+  '@angular-devkit/build-angular:application',
+  '@angular-devkit/build-angular:browser',
+  '@blackbaud-internal/skyux-angular-builders:browser',
+  '@blackbaud-internal/skyux-build:application',
+];
 
 export function workspaceCheck(): Rule {
   return async (tree: Tree, context: SchematicContext): Promise<void> => {
-    const { workspace } = await getWorkspace(tree);
+    const workspace = await getWorkspace(tree);
+
     workspace.projects.forEach((project, projectName) => {
-      const build = { ...project.targets.get('build') };
+      const build = project.targets.get('build');
+
       if (
-        [
-          '@angular/build:application',
-          '@angular-devkit/build-angular:application',
-        ].includes(build.builder ?? '') &&
+        build &&
+        SUPPORTED_BUILD_BUILDERS.includes(build.builder) &&
         (build.options?.['ssr'] ||
           Object.values(build.configurations ?? {}).some(
             (config) => config?.['ssr'],

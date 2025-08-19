@@ -1,5 +1,11 @@
-import { DOCUMENT, JsonPipe } from '@angular/common';
-import { Component, DestroyRef, RendererFactory2, inject } from '@angular/core';
+import { JsonPipe } from '@angular/common';
+import {
+  Component,
+  DOCUMENT,
+  DestroyRef,
+  RendererFactory2,
+  inject,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,

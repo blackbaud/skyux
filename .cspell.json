@@ -1,6 +1,7 @@
 {
   "import": "@skyux/dev-infra-private/.cspell-shared.json",
   "words": [
+    "autofit",
     "buttontype",
     "checkmark",
     "cyclomatic",
@@ -10,10 +11,12 @@
     "ngsrc",
     "novalidate",
     "pillarbox",
+    "subresource",
     "tabindex",
     "tabstyle",
     "Tmpl",
     "TSES",
+    "unreviewed",
     "xlink"
   ]
 }

@@ -1,4 +1,4 @@
-import { Tree } from '@angular-devkit/schematics';
+import { UpdateRecorder } from '@angular-devkit/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
 
@@ -8,12 +8,10 @@ export interface RemoveImportOptions {
 }
 
 export function removeImport(
-  tree: Tree,
-  projectPath: string,
+  recorder: UpdateRecorder,
   sourceFile: ts.SourceFile,
   options: RemoveImportOptions,
 ): void {
-  const recorder = tree.beginUpdate(projectPath);
   const importDeclarations = findNodes(
     sourceFile,
     ts.SyntaxKind.ImportDeclaration,
@@ -51,7 +49,5 @@ export function removeImport(
         }
       }
     }
-
-    tree.commitUpdate(recorder);
   }
 }

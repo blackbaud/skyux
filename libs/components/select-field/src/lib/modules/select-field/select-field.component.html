@@ -22,14 +22,15 @@
           ('skyux_select_field_multiple_select_open_button' | skyLibResources)
       }}
     </button>
-    <sky-tokens
-      *ngIf="tokens && tokens.length"
-      [disabled]="disabled"
-      [displayWith]="descriptorKey"
-      [tokens]="tokens"
-      (tokensChange)="onTokensChange($event)"
-      (tokenSelected)="openPicker()"
-    />
+    @if (tokens && tokens.length) {
+      <sky-tokens
+        [disabled]="disabled"
+        [displayWith]="descriptorKey"
+        [tokens]="tokens"
+        (tokensChange)="onTokensChange($event)"
+        (tokenSelected)="openPicker()"
+      />
+    }
   </div>
 </ng-template>
 
@@ -53,31 +54,37 @@
     >
       <div class="sky-form-control">
         {{ singleSelectModeValue }}
-        <div *ngIf="!singleSelectModeValue" class="sky-deemphasized">
-          {{
-            singleSelectPlaceholderText ||
-              ('skyux_select_field_single_select_placeholder' | skyLibResources)
-          }}
-        </div>
+        @if (!singleSelectModeValue) {
+          <div class="sky-deemphasized">
+            {{
+              singleSelectPlaceholderText ||
+                ('skyux_select_field_single_select_placeholder'
+                  | skyLibResources)
+            }}
+          </div>
+        }
       </div>
       <div class="sky-input-group-btn">
-        <button
-          *ngIf="singleSelectModeValue"
-          class="sky-btn"
-          type="button"
-          [attr.title]="
-            singleSelectClearButtonTitle ||
-            ('skyux_select_field_single_select_clear_button_title'
-              | skyLibResources)
-          "
-          [disabled]="disabled"
-          (click)="clearSelection(); $event.stopPropagation()"
-          (keydown.enter)="
-            clearSelection(); $event.preventDefault(); $event.stopPropagation()
-          "
-        >
-          <sky-icon iconName="close" />
-        </button>
+        @if (singleSelectModeValue) {
+          <button
+            class="sky-btn"
+            type="button"
+            [attr.title]="
+              singleSelectClearButtonTitle ||
+              ('skyux_select_field_single_select_clear_button_title'
+                | skyLibResources)
+            "
+            [disabled]="disabled"
+            (click)="clearSelection(); $event.stopPropagation()"
+            (keydown.enter)="
+              clearSelection();
+              $event.preventDefault();
+              $event.stopPropagation()
+            "
+          >
+            <sky-icon iconName="close" />
+          </button>
+        }
       </div>
       <div class="sky-input-group-btn">
         <button

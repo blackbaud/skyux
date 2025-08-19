@@ -1,8 +1,23 @@
 <sky-page layout="blocks">
   <sky-page-content>
-    <sky-input-box hintText="Here's some hint text." labelText="Pick a time">
+    <sky-input-box
+      hintText="Here's some hint text."
+      labelText="Pick a time - 12hr format"
+    >
       <sky-timepicker #timepicker>
         <input type="text" [skyTimepickerInput]="timepicker" />
+      </sky-timepicker>
+    </sky-input-box>
+    <sky-input-box
+      hintText="Here's some hint text."
+      labelText="Pick a time - 24hr format"
+    >
+      <sky-timepicker #timepicker24>
+        <input
+          type="text"
+          [skyTimepickerInput]="timepicker24"
+          [timeFormat]="'HH'"
+        />
       </sky-timepicker>
     </sky-input-box>
   </sky-page-content>

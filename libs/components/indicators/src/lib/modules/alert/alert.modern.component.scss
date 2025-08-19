@@ -1,29 +1,15 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
-@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 @include mixins.sky-component-host('modern') {
   display: block;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-alert') {
-  --sky-override-alert-button-padding: 0;
-  --sky-override-alert-button-size: 32px;
-  --sky-override-alert-inner-icon-color: var(--sky-color-icon-default);
-  --sky-override-alert-padding: 0 var(--modern-size-10);
-  --sky-override-alert-text-link-color: #212327cc;
-  --sky-override-alert-text-vertical-padding: var(--modern-size-15);
-  --sky-override-sky-icon-svg-size-xxl: 32px;
-}
-
 @include mixins.sky-component('modern', '.sky-alert') {
-  padding: var(
-    --sky-override-alert-padding,
-    var(--sky-comp-alert-space-inset-top)
-      var(--sky-comp-alert-space-inset-right)
-      var(--sky-comp-alert-space-inset-bottom)
-      var(--sky-comp-alert-space-inset-left)
-  );
+  padding: var(--sky-comp-alert-space-inset-top)
+    var(--sky-comp-alert-space-inset-right)
+    var(--sky-comp-alert-space-inset-bottom)
+    var(--sky-comp-alert-space-inset-left);
   border-left: solid var(--sky-border-width-accent);
   color: var(--sky-color-text-default);
   display: flex;
@@ -31,47 +17,33 @@
   align-items: center;
 
   .sky-alert-content {
-    padding: var(--sky-override-alert-text-vertical-padding, 0)
-      var(--sky-space-gap-text_action-m)
-      var(--sky-override-alert-text-vertical-padding, 0)
-      var(--sky-space-gap-icon-l);
+    padding: 0 var(--sky-space-gap-text_action-m) 0 var(--sky-space-gap-icon-l);
     width: 100%;
 
     ::ng-deep a {
-      color: var(
-        --sky-override-alert-text-link-color,
-        var(--sky-color-text-default)
-      );
+      color: var(--sky-color-text-action_contrast);
       text-decoration: var(--sky-font-text_decoration-visible_link);
 
       &:hover {
-        color: var(--sky-color-text-default);
+        color: var(--sky-color-text-action_contrast);
       }
     }
   }
 
   button {
     margin-left: auto;
-    height: var(--sky-override-alert-button-size, auto);
-    width: var(--sky-override-alert-button-size, auto);
   }
 
   &.sky-alert-info {
     background-color: var(--sky-color-background-container-info);
     border-color: var(--sky-color-border-info);
-    --sky-icon-svg-path-2-color-input: var(
-      --sky-override-alert-inner-icon-color,
-      var(--sky-color-icon-inverse)
-    );
+    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-inverse);
   }
 
   &.sky-alert-success {
     background-color: var(--sky-color-background-container-success);
     border-color: var(--sky-color-border-success);
-    --sky-icon-svg-path-2-color-input: var(
-      --sky-override-alert-inner-icon-color,
-      var(--sky-color-icon-inverse)
-    );
+    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-inverse);
   }
 
   &.sky-alert-warning {
@@ -88,13 +60,10 @@
   .sky-alert-close {
     cursor: pointer;
     line-height: 1;
-    padding: var(
-      --sky-override-alert-button-padding,
-      var(--sky-comp-button-borderless-space-inset-top)
-        var(--sky-comp-button-borderless-space-inset-right)
-        var(--sky-comp-button-borderless-space-inset-bottom)
-        var(--sky-comp-button-borderless-space-inset-left)
-    );
+    padding: var(--sky-comp-button-borderless-space-inset-top)
+      var(--sky-comp-button-borderless-space-inset-right)
+      var(--sky-comp-button-borderless-space-inset-bottom)
+      var(--sky-comp-button-borderless-space-inset-left);
     color: var(--sky-color-icon-default);
     border-style: solid;
     border-color: var(--sky-color-border-action-tertiary-base);
@@ -133,18 +102,18 @@
   }
 
   &.sky-alert-info .sky-alert-icon {
-    color: var(--sky-color-icon-info);
+    color: var(--sky-color-background-icon_matte-action-heavy);
   }
 
   &.sky-alert-success .sky-alert-icon {
-    color: var(--sky-color-icon-success);
+    color: var(--sky-color-background-icon_matte-success);
   }
 
   &.sky-alert-warning .sky-alert-icon {
-    color: var(--sky-color-icon-warning);
+    color: var(--sky-color-background-icon_matte-warning);
   }
 
   &.sky-alert-danger .sky-alert-icon {
-    color: var(--sky-color-icon-danger);
+    color: var(--sky-color-background-icon_matte-danger);
   }
 }

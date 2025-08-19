@@ -15,15 +15,6 @@
     #{$sky-margin-half} #{$sky-margin-half};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-vertical-tabset-group') {
-  --sky-override-tabset-group-expansion-indicator-position: absolute;
-  --sky-override-tabset-group-header-position: relative;
-  --sky-override-vertical-tabset-button-disabled-font-color: buttontext;
-  --sky-override-vertical-tabset-group-button-font-color: buttontext;
-  --sky-override-vertical-tabset-group-gap: var(--modern-size-15);
-  --sky-override-vertical-tabset-group-margin: var(--modern-size-15) 0;
-}
-
 .sky-vertical-tabset-group {
   border-bottom: var(--sky-override-vertical-tabset-group-border, none);
   margin: var(--sky-override-vertical-tabset-group-margin);
@@ -37,8 +28,6 @@
 }
 
 .sky-vertical-tabset-group-header {
-  position: var(--sky-override-tabset-group-header-position, initial);
-
   button {
     color: var(
       --sky-override-vertical-tabset-group-button-font-color,
@@ -73,17 +62,6 @@
         var(--sky-color-text-deemphasized)
       );
     }
-  }
-
-  .sky-vertical-tabset-group-expansion-indicator {
-    position: var(
-      --sky-override-tabset-group-expansion-indicator-position,
-      initial
-    );
-    // NOTE: The top and right rules are only used for modern theme v1 and can be removed when support of modern v1 is removed.
-    // The properties are ignored by other style versions.
-    top: 6px;
-    right: 5px;
   }
 
   &:has(.sky-vertical-tabset-button-disabled) {

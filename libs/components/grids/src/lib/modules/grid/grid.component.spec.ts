@@ -739,7 +739,9 @@ describe('Grid Component', () => {
             .querySelectorAll('th')
             .item(1) as HTMLElement;
           expect(component.activeSortSelector).toEqual(undefined);
-          expect(headerEl.querySelector('sky-icon-svg')).toBeNull();
+          const skyIcon = headerEl.querySelector('sky-icon') as HTMLElement;
+          expect(skyIcon).toHaveCssClass('sky-grid-heading-sort-hidden');
+          expect(skyIcon).not.toHaveCssClass('sky-grid-heading-sort-visible');
         });
 
         it('responds to sort selector input change', () => {

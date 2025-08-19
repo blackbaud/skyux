@@ -106,7 +106,7 @@ export class DataManagerViewGridComponent implements OnInit {
   public viewConfig: SkyDataViewConfig = {
     id: this.viewId,
     name: 'Data Grid View',
-    icon: 'table',
+    iconName: 'table',
     searchEnabled: true,
     multiselectToolbarEnabled: true,
     columnPickerEnabled: true,

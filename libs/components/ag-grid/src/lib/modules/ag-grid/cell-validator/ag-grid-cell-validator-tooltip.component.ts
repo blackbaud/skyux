@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnDestroy,
   inject,
   signal,
 } from '@angular/core';
@@ -26,33 +27,18 @@ import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet, SkyPopoverModule, SkyStatusIndicatorModule],
 })
-export class SkyAgGridCellValidatorTooltipComponent {
+export class SkyAgGridCellValidatorTooltipComponent implements OnDestroy {
   @Input()
   public set params(value: SkyCellRendererValidatorParams | undefined) {
     this.cellRendererParams = value;
 
     if (value?.api && !this.#listenersAdded) {
       this.#listenersAdded = true;
-
-      value.api.addEventListener(
-        'cellFocused',
-        (eventParams: CellFocusedEvent) => {
-          // We want to close any popovers that are opened when other cells are focused, but open a popover if the current cell is focused.
-          if (
-            (eventParams.column as AgColumn).getColId() ===
-              value.column?.getColId() &&
-            eventParams.rowIndex === value.node?.rowIndex
-          ) {
-            this.showPopover();
-          } else {
-            this.hidePopover();
-          }
-        },
-      );
-
-      value.api.addEventListener('cellEditingStarted', () => {
-        this.hidePopover();
-      });
+      value.api.addEventListener('cellFocused', this.#cellFocusHandler);
+      value.api.addEventListener('cellEditingStarted', this.#blurHandler);
+      value.eGridCell?.addEventListener('keyup', this.#keyupHandler);
+      value.eGridCell?.addEventListener('mouseenter', this.#focusHandler);
+      value.eGridCell?.addEventListener('mouseleave', this.#blurHandler);
     }
 
     if (typeof value?.skyComponentProperties?.validatorMessage === 'function') {
@@ -77,6 +63,41 @@ export class SkyAgGridCellValidatorTooltipComponent {
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   #listenersAdded = false;
+
+  readonly #keyupHandler = (event: KeyboardEvent): void => {
+    if (
+      ['ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp'].includes(event.key)
+    ) {
+      this.showPopover();
+    }
+  };
+  readonly #focusHandler = (): void => this.showPopover();
+  readonly #cellFocusHandler = (eventParams: CellFocusedEvent): void => {
+    // We want to close any popovers that are opened when other cells are focused, but open a popover if the current cell is focused.
+    if (
+      (eventParams.column as AgColumn).getColId() ===
+        this.cellRendererParams?.column?.getColId() &&
+      eventParams.rowIndex === this.cellRendererParams?.node?.rowIndex
+    ) {
+      this.showPopover();
+    } else {
+      this.hidePopover();
+    }
+  };
+  readonly #blurHandler = (): void => this.hidePopover();
+
+  public ngOnDestroy(): void {
+    const params = this.cellRendererParams;
+    if (params?.api && (!params.api.isDestroyed || !params.api.isDestroyed())) {
+      params.api.removeEventListener('cellFocused', this.#cellFocusHandler);
+      params.api.removeEventListener('cellEditingStarted', this.#blurHandler);
+    }
+    if (params?.eGridCell) {
+      params.eGridCell.removeEventListener('keyup', this.#keyupHandler);
+      params.eGridCell.removeEventListener('mouseenter', this.#focusHandler);
+      params.eGridCell.removeEventListener('mouseleave', this.#blurHandler);
+    }
+  }
 
   public hidePopover(): void {
     this.popoverMessageStream.next({ type: SkyPopoverMessageType.Close });

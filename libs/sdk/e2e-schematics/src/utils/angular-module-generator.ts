@@ -1,6 +1,12 @@
 import { type GeneratorCallback, type Tree } from '@nx/devkit';
-import { Schema as ComponentSchema } from '@schematics/angular/component/schema';
-import { Schema as ModuleSchema } from '@schematics/angular/module/schema';
+import {
+  Schema as ComponentSchema,
+  Style,
+} from '@schematics/angular/component/schema';
+import {
+  Schema as ModuleSchema,
+  TypeSeparator,
+} from '@schematics/angular/module/schema';
 
 import { wrapAngularDevkitSchematic } from 'nx/src/adapter/ngcli-adapter';
 
@@ -10,7 +16,10 @@ export async function angularModuleGenerator(
 ): Promise<GeneratorCallback> {
   return await wrapAngularDevkitSchematic('@schematics/angular', 'module')(
     tree,
-    schema,
+    {
+      typeSeparator: TypeSeparator.TypeSeparator,
+      ...schema,
+    } satisfies ModuleSchema,
   );
 }
 
@@ -21,8 +30,9 @@ export async function angularComponentGenerator(
   return await wrapAngularDevkitSchematic('@schematics/angular', 'component')(
     tree,
     {
-      style: 'scss',
+      style: Style.Scss,
+      type: 'component',
       ...schema,
-    },
+    } satisfies ComponentSchema,
   );
 }

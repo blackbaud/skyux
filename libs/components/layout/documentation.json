@@ -214,22 +214,6 @@
         "docsIds": ["LayoutPageSummaryBasicExampleComponent"]
       }
     },
-    "page": {
-      "development": {
-        "docsIds": [
-          "SkyPageModuleLegacy",
-          "SkyPageComponentLegacy",
-          "SkyPageLayoutLegacy"
-        ],
-        "primaryDocsId": "SkyPageModuleLegacy"
-      },
-      "testing": {
-        "docsIds": []
-      },
-      "codeExamples": {
-        "docsIds": ["LayoutPageLayoutFitExampleComponent"]
-      }
-    },
     "text-expand-repeater": {
       "development": {
         "docsIds": [

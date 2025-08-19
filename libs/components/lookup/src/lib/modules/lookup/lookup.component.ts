@@ -315,12 +315,6 @@ export class SkyLookupComponent
   })
   public lookupWrapperRef: ElementRef | undefined;
 
-  @ViewChild('searchIconTemplateRef', {
-    read: TemplateRef,
-    static: true,
-  })
-  public searchIconTemplateRef: TemplateRef<unknown> | undefined;
-
   #idle = new Subject<void>();
   #markForTokenFocusOnKeyUp = false;
   #ngUnsubscribe = new Subject<void>();
@@ -389,9 +383,6 @@ export class SkyLookupComponent
         buttonsTemplate: this.enableShowMore
           ? this.showMoreButtonTemplateRef
           : undefined,
-        iconsInsetTemplate: this.enableShowMore
-          ? undefined
-          : this.searchIconTemplateRef,
       });
 
       this.inputBoxHostSvc?.setRequired(this.required);

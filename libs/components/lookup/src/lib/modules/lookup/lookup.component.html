@@ -73,9 +73,6 @@
                 (keydown)="inputKeydown($event)"
                 (keyup)="inputKeyup($event)"
               ></textarea>
-              @if (!inputBoxHostSvc && !enableShowMore) {
-                <ng-container *ngTemplateOutlet="searchIconTemplateRef" />
-              }
             </sky-tokens>
           } @else if (selectMode === 'single') {
             <div class="sky-lookup-single-control">
@@ -93,9 +90,6 @@
                 [disabled]="disabled"
                 (blur)="onAutocompleteBlur()"
               ></textarea>
-              @if (!inputBoxHostSvc && !enableShowMore) {
-                <ng-container *ngTemplateOutlet="searchIconTemplateRef" />
-              }
             </div>
           }
         </div>
@@ -121,14 +115,5 @@
     >
       <sky-icon iconName="search" iconSize="l" />
     </button>
-  </div>
-</ng-template>
-
-<ng-template #searchIconTemplateRef>
-  <div
-    class="sky-input-group-icon sky-input-box-icon-inset"
-    [ngClass]="{ 'sky-lookup-disabled': disabled }"
-  >
-    <sky-icon iconName="search" iconSize="l" />
   </div>
 </ng-template>

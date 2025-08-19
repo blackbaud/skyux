@@ -5,16 +5,8 @@
   --sky-override-confirm-body-padding: 8px 0 0;
   --sky-override-confirm-btn-spacing: 5px;
   --sky-override-confirm-footer-padding: 20px 0 0;
-  --sky-override-confirm-header-color: var(--sky-text-color-default);
   --sky-override-confirm-header-font-size: 16px;
   --sky-override-confirm-message-padding: 5px 0 0;
-}
-
-@include compatMixins.sky-modern-overrides('.sky-confirm') {
-  --sky-override-confirm-body-padding-vertical: 0;
-  --sky-override-confirm-header-font-size: 20px;
-  --sky-override-confirm-message-padding-bottom: 20px;
-  --sky-override-confirm-message-padding-top: 25px;
 }
 
 .sky-confirm {
@@ -24,15 +16,9 @@
   &-message {
     padding: var(
       --sky-override-confirm-message-padding,
-      var(
-          --sky-override-confirm-message-padding-top,
-          var(--sky-comp-modal-header-space-inset-top)
-        )
+      var(--sky-comp-modal-header-space-inset-top)
         var(--sky-comp-modal-header-space-inset-right)
-        var(
-          --sky-override-confirm-message-padding-bottom,
-          var(--sky-comp-modal-header-space-inset-bottom)
-        )
+        var(--sky-comp-modal-header-space-inset-bottom)
         var(--sky-comp-modal-header-space-inset-left)
     );
 
@@ -46,15 +32,9 @@
   &-body {
     padding: var(
       --sky-override-confirm-body-padding,
-      var(
-          --sky-override-confirm-body-padding-vertical,
-          var(--sky-comp-modal-content-space-inset-top)
-        )
+      var(--sky-comp-modal-content-space-inset-top)
         var(--sky-comp-modal-content-space-inset-right)
-        var(
-          --sky-override-confirm-body-padding-vertical,
-          var(--sky-comp-modal-content-space-inset-bottom)
-        )
+        var(--sky-comp-modal-content-space-inset-bottom)
         var(--sky-comp-modal-content-space-inset-left)
     );
   }

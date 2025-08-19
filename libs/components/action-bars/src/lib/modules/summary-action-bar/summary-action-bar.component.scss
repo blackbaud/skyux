@@ -26,30 +26,6 @@
   --sky-override-summary-action-bar-summary-margin: #{$sky-margin} 0;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-summary-action-bar') {
-  --sky-override-summary-action-bar-box-shadow: 0
-    calc(var(--modern-size-3) * -1) var(--modern-size-3) 0 #{$sky-color-gray-20};
-  --sky-override-summary-action-bar-details-collapse-margin-left: 0;
-  --sky-override-summary-action-bar-details-collapse-margin-right: var(
-    --modern-size-10
-  );
-  --sky-override-summary-action-bar-details-expand-margin-right: var(
-    --modern-size-20
-  );
-  --sky-override-summary-action-bar-margin-top: var(--modern-size-20);
-  --sky-override-summary-action-bar-summary-actions-collapsible-padding: #{$sky-theme-modern-padding-even-lg};
-  --sky-override-summary-action-bar-summary-body-collapsible-padding: #{$sky-theme-modern-padding-even-lg};
-  --sky-override-summary-action-bar-summary-body-padding: 0 0 0
-    #{$sky-theme-modern-space-xl};
-  --sky-override-summary-action-bar-summary-items-margin-bottom: calc(
-    var(--sky-space-inline-s) * -1
-  );
-  --sky-override-summary-action-bar-summary-items-margin-right: var(
-    --modern-size-10
-  );
-  --sky-override-summary-action-bar-summary-margin: var(--modern-size-10) 0;
-}
-
 .sky-summary-action-bar {
   --sky-summary-action-bar-left: var(--sky-viewport-left);
 
@@ -200,13 +176,6 @@
 
 @include defaultMixins.sky-theme-modern {
   .sky-summary-action-bar-summary-items {
-    // NOTE: This is to maintain backwards compatibility with v1 modern. We however, were removing extra space when key infos are not used.
-    // This is addressed by the `:has` selector below and this unscoped margin bottom adjustment should be removed when only v2 exists.
-    margin-bottom: var(
-      --sky-override-summary-action-bar-summary-items-margin-bottom,
-      0
-    );
-
     &:has(::ng-deep sky-key-info:last-child) {
       margin-bottom: calc(var(--sky-space-inline-s) * -1);
     }

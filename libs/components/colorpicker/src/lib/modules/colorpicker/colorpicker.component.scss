@@ -30,13 +30,11 @@
   --sky-override-colorpicker-button-size: 30px;
   --sky-override-colorpicker-disabled-cursor: default;
   --sky-override-colorpicker-disabled-opacity: 0.65;
-  --sky-override-colorpicker-icon-font-size: 12px;
 }
 
 @include compatMixins.sky-default-overrides('.sky-colorpicker-container') {
   --sky-override-colorpicker-alpha-margin-top: 16px;
   --sky-override-colorpicker-background-color: #fff;
-  --sky-override-colorpicker-bottom-radius: 0;
   --sky-override-colorpicker-box-padding: 4px 8px;
   --sky-override-colorpicker-current-color-padding: 16px 8px;
   --sky-override-colorpicker-current-controls-padding: 12px 8px;
@@ -70,48 +68,6 @@
   --sky-override-colorpicker-swatch-size: 32px;
   --sky-override-colorpicker-width: 270px;
   --sky-override-colorpicker-rgba-font-size: 18px;
-}
-
-@include compatMixins.sky-modern-overrides(
-  '.sky-color-picker-label-wrapper',
-  false
-) {
-  --sky-override-colorpicker-label-font-size: 16px;
-}
-
-@include compatMixins.sky-modern-overrides(
-  '.sky-colorpicker-input-group',
-  false
-) {
-  --sky-override-colorpicker-button-border-color: var(--modern-color-gray-15);
-  --sky-override-colorpicker-button-box-shadow-focus:
-    inset 0 0 0 var(--sky-border-width-input-focus)
-      var(--sky-color-border-input-focus),
-    inset 0 0 0 var(--sky-colorpicker-border-padding-size)
-      var(--sky-color-background-container-base),
-    inset 0 0 0 var(--sky-color-picker-inner-border-size)
-      var(
-        --sky-override-colorpicker-button-border-color,
-        var(--sky-color-border-input-base)
-      ),
-    var(--sky-elevation-focus);
-  --sky-override-colorpicker-button-size: 40px;
-  --sky-override-colorpicker-reset-button-size: 40px;
-}
-
-@include compatMixins.sky-modern-overrides(
-  '.sky-colorpicker-container',
-  false
-) {
-  --sky-override-colorpicker-box-padding: 15px 30px;
-  --sky-override-colorpicker-footer-padding: 10px 10px 15px;
-  --sky-override-colorpicker-rgba-padding: 0 10px 10px;
-  --sky-override-colorpicker-selected-color-size: 46px;
-  --sky-override-colorpicker-swatch-area-padding: 10px 10px 15px;
-  --sky-override-colorpicker-swatch-border-radius: 4px;
-  --sky-override-colorpicker-swatch-size-hover: 46px;
-  --sky-override-colorpicker-swatch-size: 46px;
-  --sky-override-colorpicker-width: 310px;
 }
 
 sky-colorpicker.sky-form-field-stacked {
@@ -169,17 +125,11 @@ sky-colorpicker.sky-form-field-stacked {
   box-shadow: var(
     --sky-override-colorpicker-button-box-shadow,
     inset 0 0 0 var(--sky-border-width-input-base)
-      var(
-        --sky-override-colorpicker-button-border-color,
-        var(--sky-color-border-input-base)
-      ),
+      var(--sky-color-border-input-base),
     inset 0 0 0 var(--sky-colorpicker-border-padding-size)
       var(--sky-color-background-container-base),
     inset 0 0 0 var(--sky-color-picker-inner-border-size)
-      var(
-        --sky-override-colorpicker-button-border-color,
-        var(--sky-color-border-input-base)
-      )
+      var(--sky-color-border-input-base)
   );
   cursor: pointer;
   position: relative;
@@ -193,10 +143,7 @@ sky-colorpicker.sky-form-field-stacked {
       inset 0 0 0 var(--sky-colorpicker-border-padding-size)
         var(--sky-color-background-container-base),
       inset 0 0 0 var(--sky-color-picker-inner-border-size)
-        var(
-          --sky-override-colorpicker-button-border-color,
-          var(--sky-color-border-input-base)
-        )
+        var(--sky-color-border-input-base)
     );
   }
 
@@ -208,10 +155,7 @@ sky-colorpicker.sky-form-field-stacked {
       inset 0 0 0 var(--sky-colorpicker-border-padding-size)
         var(--sky-color-background-container-base),
       inset 0 0 0 var(--sky-color-picker-inner-border-size)
-        var(
-          --sky-override-colorpicker-button-border-color,
-          var(--sky-color-border-input-base)
-        )
+        var(--sky-color-border-input-base)
     );
     outline: var(--sky-override-colorpicker-button-focus-outline);
   }
@@ -267,10 +211,7 @@ sky-colorpicker.sky-form-field-stacked {
         var(--sky-colorpicker-border-padding-size) +
           var(--sky-border-width-action-base)
       )
-      var(
-        --sky-override-colorpicker-button-border-color,
-        var(--sky-color-border-input-base)
-      )
+      var(--sky-color-border-input-base)
   );
 
   border: var(--sky-override-colorpicker-button-error-border);
@@ -306,8 +247,6 @@ sky-colorpicker.sky-form-field-stacked {
 
 // only applies to modern theme
 .sky-colorpicker-input-group .sky-colorpicker-reset-button-modern {
-  width: var(--sky-override-colorpicker-reset-button-size);
-  height: var(--sky-override-colorpicker-reset-button-size);
   margin-left: var(--sky-space-gap-action_group-m);
 
   &.sky-colorpicker-reset-button-disabled {
@@ -326,15 +265,9 @@ sky-colorpicker.sky-form-field-stacked {
     var(--sky-border-radius-s) - var(--sky-colorpicker-border-padding-size)
   );
   border-left: var(--sky-border-width-input-base) solid
-    var(
-      --sky-override-colorpicker-button-border-color,
-      var(--sky-color-border-input-base)
-    );
+    var(--sky-color-border-input-base);
   border-top: var(--sky-border-width-input-base) solid
-    var(
-      --sky-override-colorpicker-button-border-color,
-      var(--sky-color-border-input-base)
-    );
+    var(--sky-color-border-input-base);
   bottom: var(--sky-colorpicker-border-padding-size);
   color: var(--sky-color-icon-default);
   right: var(--sky-colorpicker-border-padding-size);
@@ -556,7 +489,7 @@ sky-colorpicker.sky-form-field-stacked {
     height: 170px;
     border: none;
     background-size: 100% 100%;
-    background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.4/assets/images/colorpicker/saturation-lightness.webp);
+    background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.5/assets/images/colorpicker/saturation-lightness.webp);
   }
 
   .box {
@@ -788,7 +721,7 @@ sky-colorpicker.sky-form-field-stacked {
   .sky-control-label {
     color: var(
       --sky-override-colorpicker-label-color,
-      var(--sky-color-text-deemphasized)
+      var(--sky-color-text-default)
     );
     margin-bottom: var(
       --sky-override-colorpicker-label-space,
@@ -801,7 +734,7 @@ sky-colorpicker.sky-form-field-stacked {
     font-style: var(--sky-font-style-input-label);
     font-weight: var(
       --sky-override-colorpicker-label-font-weight,
-      var(--sky-font-weight-input-label)
+      var(--sky-font-style-input-label)
     );
     letter-spacing: var(--sky-font-letter_spacing-input-label);
     line-height: var(

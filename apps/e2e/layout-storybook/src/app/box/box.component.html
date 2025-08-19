@@ -1,4 +1,4 @@
-<ng-container *ngFor="let boxType of boxTypes">
+@for (boxType of boxTypes; track boxType) {
   <sky-box
     [headingText]="boxType.useHeader ? boxType.name : undefined"
     [headingLevel]="boxType.heading"
@@ -7,7 +7,9 @@
   >
     <sky-box-header>
       <h2 class="sky-font-heading-2">{{ boxType.name }}</h2>
-      <sky-help-inline *ngIf="boxType.showHelp" class="sky-control-help" />
+      @if (boxType.showHelp) {
+        <sky-help-inline class="sky-control-help" />
+      }
     </sky-box-header>
     <sky-box-controls>
       <sky-dropdown buttonType="context-menu" label="Box demo context menu">
@@ -25,4 +27,4 @@
       <p>Box content</p>
     </sky-box-content>
   </sky-box>
-</ng-container>
+}

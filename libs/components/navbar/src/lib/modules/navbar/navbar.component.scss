@@ -7,12 +7,6 @@
   --sky-override-navbar-height: auto;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-navbar') {
-  --sky-override-navbar-background-color: #{$sky-nav-background-color};
-  --sky-override-navbar-border-bottom: none;
-  --sky-override-navbar-height: auto;
-}
-
 .sky-navbar {
   background-color: var(
     --sky-override-navbar-background-color,

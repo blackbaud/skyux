@@ -12,7 +12,6 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   SkyTheme,
-  SkyThemeBrand,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
@@ -35,25 +34,18 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
   @Input()
   public set theme(value: PreviewWrapperThemeValue | undefined) {
     const themeOrDefault = value ?? 'default';
-    if (themeOrDefault === 'modern-light') {
-      this.themeSettings = new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
-      );
-    } else if (themeOrDefault.match(/^modern-v2(-(light|dark))?$/)) {
+    if (themeOrDefault.match(/^modern-v2(-(light|dark))?$/)) {
       if (themeOrDefault.includes('dark')) {
         this.themeSettings = new SkyThemeSettings(
           SkyTheme.presets.modern,
           SkyThemeMode.presets.dark,
           SkyThemeSpacing.presets.standard,
-          new SkyThemeBrand('blackbaud', '1.0.0'),
         );
       } else {
         this.themeSettings = new SkyThemeSettings(
           SkyTheme.presets.modern,
           SkyThemeMode.presets.light,
           SkyThemeSpacing.presets.standard,
-          new SkyThemeBrand('blackbaud', '1.0.0'),
         );
       }
     } else {
@@ -74,7 +66,7 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected ready = toSignal(inject(FontLoadingService).ready(true));
+  protected ready = toSignal(inject(FontLoadingService).ready());
 
   #_themeSettings = new SkyThemeSettings(
     SkyTheme.presets.default,

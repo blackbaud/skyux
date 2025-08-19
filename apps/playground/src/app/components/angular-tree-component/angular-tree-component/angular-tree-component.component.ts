@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ITreeOptions, TreeNode } from '@blackbaud/angular-tree-component';
 import {
-  IDTypeDictionary,
+  ITreeOptions,
   ITreeState,
-} from '@blackbaud/angular-tree-component/lib/defs/api';
+  TreeNode,
+} from '@blackbaud/angular-tree-component';
 
 @Component({
   selector: 'app-angular-tree-component',
@@ -111,7 +111,7 @@ export class AngularTreeComponentComponent {
       : undefined;
   }
 
-  private getDictionaryValue(dictionary: IDTypeDictionary): string[] {
+  private getDictionaryValue(dictionary: Record<string, unknown>): string[] {
     const returnValue: string[] = [];
     for (const key in dictionary) {
       if (dictionary[key] && dictionary[key]) {

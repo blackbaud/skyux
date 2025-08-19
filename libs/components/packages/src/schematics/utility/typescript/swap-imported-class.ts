@@ -1,14 +1,18 @@
-import { Tree, UpdateRecorder } from '@angular-devkit/schematics';
+import { UpdateRecorder } from '@angular-devkit/schematics';
 import { isImported } from '@angular/cdk/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { findNodes, insertImport } from '@schematics/angular/utility/ast-utils';
-import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
+import {
+  InsertChange,
+  applyToUpdateRecorder,
+} from '@schematics/angular/utility/change';
+import { getEOL } from '@schematics/angular/utility/eol';
 
 import { removeImport } from './remove-import';
 
 export interface SwapImportedClassOptions {
   classNames: Record<string, string>;
-  moduleName: string;
+  moduleName: string | { old: string; new: string };
   filter?: (node: ts.Identifier) => boolean;
 }
 
@@ -32,15 +36,36 @@ function swapReference(
   recorder.insertRight(start, newClassName);
 }
 
+function shiftLineBreakForInsertedImport(
+  change: InsertChange,
+  eol: string,
+): void {
+  if (change.toAdd.startsWith(`;${eol}import `)) {
+    // If the import is added after a semicolon, we need to remove the semicolon.
+    change.toAdd = change.toAdd.substring(`;${eol}`.length) + `;${eol}`;
+    change.pos += `;${eol}`.length;
+  }
+}
+
+function getModuleName(
+  moduleName: string | { old: string; new: string },
+  field: 'old' | 'new',
+): string {
+  return typeof moduleName === 'object' ? moduleName[field] : moduleName;
+}
+
 export function swapImportedClass(
-  tree: Tree,
+  recorder: UpdateRecorder,
   filePath: string,
   sourceFile: ts.SourceFile,
   options: SwapImportedClassOptions[],
 ): void {
+  const eol = getEOL(sourceFile.text);
   const applicableOptions = options.filter((option) =>
     Object.keys(option.classNames).some((className) =>
-      isImported(sourceFile, className, option.moduleName),
+      typeof option.moduleName === 'object'
+        ? isImported(sourceFile, className, option.moduleName.old)
+        : isImported(sourceFile, className, option.moduleName),
     ),
   );
   if (applicableOptions.length === 0) {
@@ -52,10 +77,10 @@ export function swapImportedClass(
     ts.SyntaxKind.ImportDeclaration,
   ).reduce((max, node) => Math.max(max, node.getEnd()), 0);
 
-  const recorder = tree.beginUpdate(filePath);
-  const addImports: Record<string, string[]> = {};
   const removeImports: Record<string, string[]> = {};
   applicableOptions.forEach(({ classNames, moduleName, filter }) => {
+    const oldModuleName = getModuleName(moduleName, 'old');
+    const newModuleName = getModuleName(moduleName, 'new');
     Object.entries(classNames).forEach(([oldClassName, newClassName]) => {
       const referencesInCode = findReferences(sourceFile, oldClassName).filter(
         (reference) => reference.getStart() > endOfImports,
@@ -66,40 +91,54 @@ export function swapImportedClass(
       referencesFiltered.forEach((reference) => {
         swapReference(recorder, reference, newClassName);
       });
-      if (
-        referencesFiltered.length > 0 &&
-        !isImported(sourceFile, newClassName, moduleName)
-      ) {
-        addImports[moduleName] ??= [];
-        addImports[moduleName].push(newClassName);
-      }
-      if (referencesFiltered.length === referencesInCode.length) {
-        removeImports[moduleName] ??= [];
-        removeImports[moduleName].push(oldClassName);
+      if (referencesFiltered.length > 0) {
+        const allReferencesToBeReplaced =
+          referencesFiltered.length === referencesInCode.length;
+        if (!isImported(sourceFile, newClassName, newModuleName)) {
+          if (allReferencesToBeReplaced) {
+            if (oldModuleName === newModuleName) {
+              const referencesInImport = findReferences(
+                sourceFile,
+                oldClassName,
+              ).filter((reference) => reference.getEnd() <= endOfImports);
+              /* istanbul ignore if */
+              if (referencesInImport.length !== 1) {
+                throw new Error(
+                  `Expected exactly one import for ${oldClassName} from ${oldModuleName}, found ${referencesInImport.length}.`,
+                );
+              }
+              swapReference(recorder, referencesInImport[0], newClassName);
+            } else {
+              const change = insertImport(
+                sourceFile,
+                filePath,
+                newClassName,
+                newModuleName,
+              ) as InsertChange;
+              shiftLineBreakForInsertedImport(change, eol);
+              applyToUpdateRecorder(recorder, [change]);
+              removeImports[oldModuleName] ??= [];
+              removeImports[oldModuleName].push(oldClassName);
+            }
+          } else {
+            applyToUpdateRecorder(recorder, [
+              insertImport(sourceFile, filePath, newClassName, newModuleName),
+            ]);
+          }
+        } else {
+          if (allReferencesToBeReplaced) {
+            removeImports[oldModuleName] ??= [];
+            removeImports[oldModuleName].push(oldClassName);
+          }
+        }
       }
     });
   });
 
-  const changes = Object.entries(addImports).flatMap(
-    ([moduleName, classNames]) =>
-      classNames.map((className) =>
-        insertImport(sourceFile, filePath, className, moduleName),
-      ),
-  );
-  applyToUpdateRecorder(recorder, changes);
-
-  tree.commitUpdate(recorder);
-
   const removeImportEntries = Object.entries(removeImports);
   if (removeImportEntries.length > 0) {
-    const sourceFileAfterChanges = ts.createSourceFile(
-      filePath,
-      tree.readText(filePath),
-      ts.ScriptTarget.Latest,
-      true,
-    );
     removeImportEntries.forEach(([moduleName, classNames]) =>
-      removeImport(tree, filePath, sourceFileAfterChanges, {
+      removeImport(recorder, sourceFile, {
         classNames,
         moduleName,
       }),

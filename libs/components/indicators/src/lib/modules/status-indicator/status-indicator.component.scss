@@ -8,13 +8,6 @@
   --sky-override-status-indicator-icon-color-success: #{$sky-highlight-color-success};
   --sky-override-status-indicator-icon-color-warning: #{$sky-highlight-color-warning};
   --sky-override-status-indicator-icon-padding-right: #{$sky-space-xs};
-  --sky-override-status-indicator-modern-default-display: none;
-}
-
-@include compatMixins.sky-modern-overrides('.sky-status-indicator') {
-  --sky-override-status-indicator-info-success-exclamation-path-color: var(
-    --modern-color-gray-105
-  );
 }
 
 .sky-status-indicator {
@@ -36,28 +29,28 @@
 .sky-status-indicator-icon-info {
   color: var(
     --sky-override-status-indicator-icon-color-info,
-    var(--sky-color-icon-info)
+    var(--sky-color-background-icon_matte-action-heavy)
   );
 }
 
 .sky-status-indicator-icon-success {
   color: var(
     --sky-override-status-indicator-icon-color-success,
-    var(--sky-color-icon-success)
+    var(--sky-color-background-icon_matte-success)
   );
 }
 
 .sky-status-indicator-icon-warning {
   color: var(
     --sky-override-status-indicator-icon-color-warning,
-    var(--sky-color-icon-warning)
+    var(--sky-color-background-icon_matte-warning)
   );
 }
 
 .sky-status-indicator-icon-danger {
   color: var(
     --sky-override-status-indicator-icon-color-danger,
-    var(--sky-color-icon-danger)
+    var(--sky-color-background-icon_matte-danger)
   );
 }
 
@@ -71,16 +64,10 @@
   }
 
   &.sky-status-indicator-icon-info {
-    --sky-icon-svg-path-2-color-input: var(
-      --sky-override-status-indicator-info-success-exclamation-path-color,
-      var(--sky-color-icon-inverse)
-    );
+    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-inverse);
   }
 
   &.sky-status-indicator-icon-success {
-    --sky-icon-svg-path-2-color-input: var(
-      --sky-override-status-indicator-info-success-exclamation-path-color,
-      var(--sky-color-icon-inverse)
-    );
+    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-inverse);
   }
 }

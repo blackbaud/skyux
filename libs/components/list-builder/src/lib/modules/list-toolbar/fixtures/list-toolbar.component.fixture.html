@@ -6,14 +6,11 @@
   [sortSelectorEnabled]="sortEnabled"
   [toolbarType]="toolbarType"
 >
-  <sky-list-toolbar-item
-    *ngIf="showCustomItem1"
-    id="custom-item"
-    location="right"
-    [index]="2"
-  >
+  @if (showCustomItem1) {
+  <sky-list-toolbar-item id="custom-item" location="right" [index]="2">
     <ng-template>Custom Item</ng-template>
   </sky-list-toolbar-item>
+  }
   <sky-list-toolbar-item id="custom-item-test2" location="right">
     <ng-template>Custom Item 2</ng-template>
   </sky-list-toolbar-item>

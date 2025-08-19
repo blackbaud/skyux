@@ -6,11 +6,6 @@
   --sky-override-data-manager-column-picker-footer-margin: #{$sky-margin-stacked-default};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-data-manager-column-picker') {
-  --sky-override-data-manager-column-picker-item-margin: #{$sky-margin-inline-compact};
-  --sky-override-data-manager-column-picker-footer-margin: #{$sky-margin-stacked-default};
-}
-
 .sky-data-manager-column-picker-content sky-repeater-item-content {
   margin-top: var(
     --sky-override-data-manager-column-picker-item-margin,

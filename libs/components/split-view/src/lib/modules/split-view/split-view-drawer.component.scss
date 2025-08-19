@@ -11,20 +11,33 @@
   --sky-override-split-view-resize-handle-width: 14px;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-split-view-drawer') {
-  --sky-override-split-view-resize-handle-box-shadow-focus: var(
-    --sky-elevation-focus
-  );
-}
-
 .sky-split-view-drawer {
   background: var(
     --sky-override-split-view-drawer-background-color,
-    transparent
+    var(--sky-color-background-container-base)
   );
   overflow: auto;
   height: 100%;
   width: 100%;
+}
+
+@include mixins.sky-host-responsive-container-xs-min() {
+  .sky-split-view-drawer {
+    &:has(sky-repeater) {
+      padding-top: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-xs-top
+      );
+      padding-right: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-xs-right
+      );
+      padding-bottom: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-xs-bottom
+      );
+      padding-left: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-xs-left
+      );
+    }
+  }
 }
 
 @include mixins.sky-host-responsive-container-sm-min() {
@@ -33,6 +46,20 @@
       --sky-override-split-view-drawer-border-right,
       var(--sky-border-width-divider) solid var(--sky-color-border-divider)
     );
+    &:has(sky-repeater) {
+      padding-top: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-sm-top
+      );
+      padding-right: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-sm-right
+      );
+      padding-bottom: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-sm-bottom
+      );
+      padding-left: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-sm-left
+      );
+    }
   }
 }
 
@@ -61,10 +88,7 @@
       solid var(--sky-border-width-action-focus)
         var(--sky-color-border-action-tertiary-focus)
     );
-    box-shadow: var(
-      --sky-override-split-view-resize-handle-box-shadow-focus,
-      none
-    );
+    box-shadow: none;
     outline: var(--sky-override-split-view-resize-handle-outline-focus, none);
   }
 

@@ -12,7 +12,11 @@ describe('Date picker', () => {
       });
 
       it('should show day picker', () => {
-        cy.get('#screenshot-datepicker').skyVisualTest(
+        cy.get('.sky-datepicker-calendar-table-container').blur({
+          force: true,
+        });
+
+        cy.get('#screenshot-datepicker-calendar').skyVisualTest(
           `datepicker-day-picker-${theme}`,
           {
             overwrite: true,
@@ -26,11 +30,15 @@ describe('Date picker', () => {
           '#screenshot-datepicker-calendar .sky-datepicker-calendar-title',
         ).click();
 
+        cy.get(
+          '#screenshot-datepicker-calendar .sky-datepicker-calendar-title',
+        ).blur();
+
         cy.get('#screenshot-datepicker-calendar .sky-datepicker-calendar-title')
           .invoke('text')
           .should('match', /^\d{4}$/);
 
-        cy.get('#screenshot-datepicker').skyVisualTest(
+        cy.get('#screenshot-datepicker-calendar').skyVisualTest(
           `datepicker-month-picker-${theme}`,
           {
             overwrite: true,
@@ -56,7 +64,7 @@ describe('Date picker', () => {
           .invoke('text')
           .should('match', /^\d{4} - \d{4}$/);
 
-        cy.get('#screenshot-datepicker').skyVisualTest(
+        cy.get('#screenshot-datepicker-calendar').skyVisualTest(
           `datepicker-year-picker-${theme}`,
           {
             overwrite: true,
@@ -95,6 +103,9 @@ describe('Date picker', () => {
             cy.wrap(buttonBottom).should('equal', dialogTop);
             return cy.wrap($body.get(0));
           });
+
+        // Check that the calendar table container has focus
+        cy.get('.sky-datepicker-calendar-table-container').should('be.focused');
 
         cy.get('#screenshot-datepicker').skyVisualTest(
           `datepicker-input-open-${theme}`,
@@ -156,17 +167,22 @@ describe('Date picker', () => {
 
         cy.get('#sky-datepicker-button-2').click();
 
-        cy.get('body > sky-overlay sky-wait[ng-reflect-is-waiting="false"]', {
+        cy.get('body > sky-overlay sky-wait .sky-wait-mask-loading-blocking', {
           timeout: 10000,
         })
-          .should('exist')
-          .should('not.be.visible')
-          .end()
-          .get('#screenshot-datepicker-input-box')
-          .skyVisualTest(`datepicker-input-custom-dates-${theme}`, {
+          .should('not.exist')
+          .end();
+
+        // Check that the calendar table container has focus
+        cy.get('.sky-datepicker-calendar-table-container').should('be.focused');
+
+        cy.get('#screenshot-datepicker-input-box').skyVisualTest(
+          `datepicker-input-custom-dates-${theme}`,
+          {
             overwrite: true,
             disableTimersAndAnimations: true,
-          });
+          },
+        );
       });
     });
   });

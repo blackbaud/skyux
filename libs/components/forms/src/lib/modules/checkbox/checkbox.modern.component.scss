@@ -2,17 +2,13 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-@include compatMixins.sky-modern-overrides('.sky-checkbox-outer-wrapper') {
-  --sky-override-checkbox-label-margin-right: var(--sky-margin-inline-xs);
-}
-
 @include mixins.sky-component-host('modern') {
   display: inline-block;
 
   .sky-switch:not(:has(~ .sky-control-help-container)):not(
       :has(.sky-switch-control-icon)
     ):has(sky-checkbox-label-text-label) {
-    margin-right: var(--sky-override-checkbox-label-margin-right, 0);
+    margin-right: 0;
   }
 }
 
@@ -28,12 +24,12 @@
   }
 
   .sky-switch-control {
-    border-radius: var(--sky-border-radius-s);
+    border-radius: var(--sky-comp-checkbox-border-radius);
   }
 }
 
 @include mixins.sky-component('modern', '.sky-checkbox-hint-text') {
-  margin-top: var(--sky-space-gap-stacked_supplemental-s);
+  margin-top: var(--sky-space-gap-stacked_supplemental-xs);
 }
 
 @include mixins.sky-component('modern', '.sky-checkbox-form-margin') {

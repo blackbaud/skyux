@@ -21,7 +21,6 @@
   --sky-override-navbar-item-active-padding-sides: 12px;
   --sky-override-navbar-item-color: #{$sky-nav-color};
   --sky-override-navbar-item-dropdown-button-active-background-color-hover: #{$sky-nav-selected-background-color};
-  --sky-override-navbar-item-dropdown-button-background-color-hover: #{$sky-nav-selected-background-color};
   --sky-override-navbar-item-dropdown-button-border-bottom-hover: #{$sky-nav-selected-border-width}
     solid #1c84c6;
   --sky-override-navbar-item-dropdown-button-border-radius: 3px;
@@ -35,47 +34,6 @@
   --sky-override-navbar-item-padding: 16px 12px;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-navbar-item') {
-  --sky-override-navbar-item-a-border-radius: 0;
-  --sky-override-navbar-item-a-box-shadow-active: none;
-  --sky-override-navbar-item-a-box-shadow-focus: none;
-  --sky-override-navbar-item-a-box-shadow-hover: none;
-  --sky-override-navbar-item-active-background-color: #{$sky-nav-selected-background-color};
-  --sky-override-navbar-item-active-border-bottom: #{$sky-nav-selected-border-width}
-    solid #1c84c6;
-  --sky-override-navbar-item-active-border-bottom-hover: #{$sky-nav-selected-border-width}
-    solid #1c84c6;
-  --sky-override-navbar-item-active-border-sides: none;
-  --sky-override-navbar-item-active-color-hover: #{$sky-nav-selected-color};
-  --sky-override-navbar-item-active-padding-bottom: #{$sky-nav-item-padding -
-    $sky-nav-selected-border-width};
-  --sky-override-navbar-item-active-padding-bottom-hover: #{$sky-nav-item-padding -
-    $sky-nav-selected-border-width};
-  --sky-override-navbar-item-active-padding-sides: 12px;
-  --sky-override-navbar-item-color: #{$sky-nav-color};
-  --sky-override-navbar-item-dropdown-button-active-background-color-hover: #{$sky-nav-selected-background-color};
-  --sky-override-navbar-item-dropdown-button-background-color-hover: #{$sky-nav-selected-background-color};
-  --sky-override-navbar-item-dropdown-button-border-bottom-hover: #{$sky-nav-selected-border-width}
-    solid #1c84c6;
-  --sky-override-navbar-item-dropdown-button-border-radius: 6px;
-  --sky-override-navbar-item-dropdown-button-box-shadow: inset 0 0 0
-    var(--sky-border-width-action-base)
-    var(--sky-color-border-action-secondary-base);
-  --sky-override-navbar-item-dropdown-button-box-shadow-active: inset 0 0 0
-    var(--sky-border-width-action-active)
-    var(--sky-color-border-action-secondary-active);
-  --sky-override-navbar-item-dropdown-button-box-shadow-focus: inset 0 0 0
-    var(--sky-border-width-action-focus)
-    var(--sky-color-border-action-secondary-focus);
-  --sky-override-navbar-item-dropdown-button-box-shadow-hover: inset 0 0 0
-    var(--sky-border-width-action-hover)
-    var(--sky-color-border-action-secondary-hover);
-  --sky-override-navbar-item-dropdown-button-padding-bottom-hover: #{$sky-nav-item-padding -
-    $sky-nav-selected-border-width};
-  --sky-override-navbar-item-font-weight: 600;
-  --sky-override-navbar-item-padding: 16px 12px;
-}
-
 :host {
   height: 100%;
 }
@@ -84,7 +42,7 @@
   display: block;
   font-weight: var(
     --sky-override-navbar-item-font-weight,
-    var(--sky-font-weight-body-m)
+    var(--sky-font-style-body-m)
   );
   margin-right: var(
     --sky-override-navbar-item-margin-right,
@@ -191,10 +149,7 @@
     }
 
     .sky-dropdown-button:not(:hover):not(:active):not(:focus-visible) {
-      box-shadow: var(
-        --sky-override-navbar-item-dropdown-button-box-shadow,
-        none
-      );
+      box-shadow: none;
     }
   }
 
@@ -311,10 +266,7 @@
   }
 
   ::ng-deep .sky-dropdown:hover .sky-dropdown-button {
-    background-color: var(
-      --sky-override-navbar-item-active-background-color-hover,
-      transparent
-    );
+    background-color: transparent;
     color: var(
       --sky-override-navbar-item-active-color-hover,
       var(--sky-color-text-default)

@@ -14,9 +14,9 @@ describe('forms-storybook', () => {
             cy.viewport(width, 1200);
             cy.skyReady('app-selection-box');
             cy.get('app-selection-box').then((el) => {
-              el
-                .get(0)
-                .ownerDocument.defaultView?.dispatchEvent(new Event('resize'));
+              el.get(0).ownerDocument.defaultView?.dispatchEvent(
+                new Event('resize'),
+              );
             });
 
             cy.get('app-selection-box label.sky-selection-box')
@@ -25,7 +25,7 @@ describe('forms-storybook', () => {
               .should('have.length', 6)
               .then((el) => {
                 el.each((_, box) => {
-                  cy.wrap(Cypress.$(box).outerHeight()).should('be.gte', 78);
+                  cy.wrap(Cypress.$(box).outerHeight()).should('be.gte', 75);
                 });
               });
 

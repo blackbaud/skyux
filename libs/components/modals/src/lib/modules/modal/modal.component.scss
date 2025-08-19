@@ -26,16 +26,6 @@
     #{$sky-margin};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-modal') {
-  --sky-override-modal-full-page-margin-xs: 30px;
-  --sky-override-modal-full-page-margin: 30px;
-  --sky-override-modal-header-top-bottom-padding: 20px;
-  --sky-override-modal-viewkept-toolbar-box-shadow: 0px 4px 8px -4px
-    rgba(0, 0, 0, 0.3);
-  --sky-override-modal-xs-margin: 30px #{$sky-margin} #{$sky-margin}
-    #{$sky-margin};
-}
-
 :host {
   --sky-viewport-top: 0;
   --sky-viewport-bottom: 0;
@@ -44,6 +34,7 @@
 }
 
 .sky-modal {
+  --sky-comp-override-list-header-background-color: initial;
   border: var(
     --sky-override-modal-border,
     var(--sky-border-width-container-base) solid
@@ -56,10 +47,10 @@
   top: 0;
   margin: var(
     --sky-override-modal-xs-margin,
-    var(--sky-comp-modal-space-offset-top)
-      var(--sky-comp-modal-space-offset-right)
-      var(--sky-comp-modal-space-offset-bottom)
-      var(--sky-comp-modal-space-offset-left)
+    var(--sky-comp-modal-space-offset-xs-top)
+      var(--sky-comp-modal-space-offset-xs-right)
+      var(--sky-comp-modal-space-offset-xs-bottom)
+      var(--sky-comp-modal-space-offset-xs-left)
   );
   display: flex;
   flex-direction: column;
@@ -92,21 +83,21 @@
       100% - calc(
           var(
               --sky-override-modal-full-page-margin-xs,
-              var(--sky-comp-modal-fullscreen-space-offset-right)
+              var(--sky-comp-modal-fullscreen-space-offset-xs-right)
             ) +
             var(
               --sky-override-modal-full-page-margin-xs,
-              var(--sky-comp-modal-fullscreen-space-offset-left)
+              var(--sky-comp-modal-fullscreen-space-offset-xs-left)
             )
         )
     )
   );
   margin: var(
     --sky-override-modal-full-page-margin-xs,
-    var(--sky-comp-modal-fullscreen-space-offset-top)
-      var(--sky-comp-modal-fullscreen-space-offset-right)
-      var(--sky-comp-modal-fullscreen-space-offset-bottom)
-      var(--sky-comp-modal-fullscreen-space-offset-left)
+    var(--sky-comp-modal-fullscreen-space-offset-xs-top)
+      var(--sky-comp-modal-fullscreen-space-offset-xs-right)
+      var(--sky-comp-modal-fullscreen-space-offset-xs-bottom)
+      var(--sky-comp-modal-fullscreen-space-offset-xs-left)
   );
 }
 
@@ -114,8 +105,8 @@
   .sky-modal:not(.sky-modal-full-page) {
     margin: var(
       --sky-override-modal-margin,
-      var(--sky-comp-modal-space-offset-top) auto
-        var(--sky-comp-modal-space-offset-bottom)
+      var(--sky-comp-modal-space-offset-sm-top) auto
+        var(--sky-comp-modal-space-offset-sm-bottom)
     );
   }
 
@@ -152,11 +143,11 @@
         100% - calc(
             var(
                 --sky-override-modal-full-page-margin,
-                var(--sky-comp-modal-fullscreen-space-offset-left)
+                var(--sky-comp-modal-fullscreen-space-offset-sm-left)
               ) +
               var(
                 --sky-override-modal-full-page-margin,
-                var(--sky-comp-modal-fullscreen-space-offset-right)
+                var(--sky-comp-modal-fullscreen-space-offset-sm-right)
               )
           )
       )
@@ -164,10 +155,10 @@
 
     margin: var(
       --sky-override-modal-full-page-margin,
-      var(--sky-comp-modal-fullscreen-space-offset-top)
-        var(--sky-comp-modal-fullscreen-space-offset-right)
-        var(--sky-comp-modal-fullscreen-space-offset-bottom)
-        var(--sky-comp-modal-fullscreen-space-offset-left)
+      var(--sky-comp-modal-fullscreen-space-offset-sm-top)
+        var(--sky-comp-modal-fullscreen-space-offset-sm-right)
+        var(--sky-comp-modal-fullscreen-space-offset-sm-bottom)
+        var(--sky-comp-modal-fullscreen-space-offset-sm-left)
     );
   }
 }
@@ -222,15 +213,9 @@
 .sky-modal-header {
   padding: var(
     --sky-override-modal-header-padding,
-    var(
-        --sky-override-modal-header-top-bottom-padding,
-        var(--sky-comp-modal-header-space-inset-top)
-      )
+    var(--sky-comp-modal-header-space-inset-top)
       var(--sky-comp-modal-header-space-inset-right)
-      var(
-        --sky-override-modal-header-top-bottom-padding,
-        var(--sky-comp-modal-header-space-inset-bottom)
-      )
+      var(--sky-comp-modal-header-space-inset-bottom)
       var(--sky-comp-modal-header-space-inset-left)
   );
   background-color: var(

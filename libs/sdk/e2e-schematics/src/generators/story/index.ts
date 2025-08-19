@@ -1,15 +1,14 @@
 import { strings } from '@angular-devkit/core';
-import type { AngularProjectConfiguration } from '@nx/angular/src/utils/types';
 import {
   ProjectConfiguration,
   Tree,
-  formatFiles,
   generateFiles,
   getProjects,
   joinPathFragments,
   normalizePath,
 } from '@nx/devkit';
 
+import { formatFiles } from '../../utils/format-files';
 import {
   getProjectTypeBase,
   getStorybookProject,
@@ -17,6 +16,10 @@ import {
 import { basename, capitalizeWords } from '../../utils/utils';
 
 import { ComponentGeneratorSchema } from './schema';
+
+type AngularProjectConfiguration = ProjectConfiguration & {
+  prefix?: string;
+};
 
 interface NormalizedSchema extends ComponentGeneratorSchema {
   projectName: string;
@@ -133,5 +136,5 @@ export default async function (
     },
   );
 
-  await formatFiles(tree);
+  await formatFiles(tree, { skipFormat: options.skipFormat });
 }

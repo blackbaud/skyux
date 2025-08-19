@@ -18,7 +18,7 @@
     --sky-background-color-warning
   );
   --sky-override-label-display: inline;
-  --sky-override-label-icon-modern-display: none;
+  --sky-override-label-icon-info-color: var(--sky-color-icon-info);
   --sky-override-label-inner-icon-path-color-danger: var(
     --sky-background-color-danger
   );
@@ -32,47 +32,36 @@
     --sky-background-color-warning
   );
   --sky-override-label-line-height: 2.2;
+  --sky-override-label-link-hover-color: var(--sky-text-color-default);
+  --sky-override-label-link-text-decoration: underline;
+  --sky-override-label-link-text-color: change-color(
+    $sky-text-color-default,
+    $alpha: 0.8
+  );
   --sky-override-label-margin: 0 3px;
   --sky-override-label-padding: 0.3em 0.6em 0.3em 0.6em;
   --sky-override-label-text-padding-left: var(--sky-padding-half);
 }
 
-@include compatMixins.sky-modern-overrides('.sky-label') {
-  --sky-override-sky-icon-svg-size-s: 21px;
-  --sky-override-label-line-height: 1;
-  --sky-override-label-margin: 0 3px;
-  --sky-override-label-inner-icon-path-color-info: var(--modern-color-gray-105);
-  --sky-override-label-inner-icon-path-color-success: var(
-    --modern-color-gray-105
-  );
-
-  &.sky-label-danger,
-  &.sky-label-warning {
-    --sky-override-label-padding-left: var(--modern-size-9);
-  }
-
-  &.sky-label-info,
-  &.sky-label-success {
-    --sky-override-label-padding-left: var(--modern-size-6);
-  }
-}
-
 /* Modern theme */
 @include mixins.sky-theme-modern {
   .sky-label-info .sky-label-icon {
-    color: var(--sky-color-icon-info);
+    color: var(
+      --sky-override-label-icon-info-color,
+      var(--sky-color-background-icon_matte-action-heavy)
+    );
   }
 
   .sky-label-success .sky-label-icon {
-    color: var(--sky-color-icon-success);
+    color: var(--sky-color-background-icon_matte-success);
   }
 
   .sky-label-warning .sky-label-icon {
-    color: var(--sky-color-icon-warning);
+    color: var(--sky-color-background-icon_matte-warning);
   }
 
   .sky-label-danger .sky-label-icon {
-    color: var(--sky-color-icon-danger);
+    color: var(--sky-color-background-icon_matte-danger);
   }
 }
 
@@ -84,19 +73,38 @@
     --sky-override-label-border-radius-pill,
     var(--sky-border-radius-pill)
   );
-  line-height: var(--sky-override-label-line-height, unset);
-  margin: var(--sky-override-label-margin, unset);
+  line-height: var(
+    --sky-override-label-line-height,
+    var(--sky-font-line_height-body-m)
+  );
+  margin: var(--sky-override-label-margin, 0);
   white-space: nowrap;
   padding: var(
     --sky-override-label-padding,
     var(--sky-comp-label-space-inset-top)
       var(--sky-comp-label-space-inset-right)
       var(--sky-comp-label-space-inset-bottom)
-      var(
-        --sky-override-label-padding-left,
-        var(--sky-comp-label-space-inset-left)
-      )
+      var(--sky-comp-label-space-inset-left)
   );
+
+  ::ng-deep a {
+    color: var(
+      --sky-override-label-link-text-color,
+      var(--sky-color-text-action_contrast)
+    );
+    text-decoration: var(
+      --sky-override-label-link-text-decoration,
+      var(--sky-font-text_decoration-visible_link)
+    );
+
+    // In modern all states of a link display as "blue", so remove this hover state when default support is dropped
+    &:hover {
+      color: var(
+        --sky-override-label-link-hover-color,
+        var(--sky-color-text-action_contrast)
+      );
+    }
+  }
 }
 
 .sky-label-success {

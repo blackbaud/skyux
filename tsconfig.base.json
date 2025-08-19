@@ -9,7 +9,7 @@
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noImplicitOverride": true,
     "noUnusedLocals": true,
     "experimentalDecorators": true,
@@ -75,6 +75,10 @@
       "@skyux/errors": ["libs/components/errors/src/index.ts"],
       "@skyux/errors/testing": [
         "libs/components/errors/testing/src/public-api.ts"
+      ],
+      "@skyux/filter-bar": ["libs/components/filter-bar/src/index.ts"],
+      "@skyux/filter-bar-testing": [
+        "libs/components/filter-bar/testing/src/public-api.ts"
       ],
       "@skyux/flyout": ["libs/components/flyout/src/index.ts"],
       "@skyux/flyout/testing": [

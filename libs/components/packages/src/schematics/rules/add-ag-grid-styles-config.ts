@@ -1,9 +1,10 @@
 import { Rule } from '@angular-devkit/schematics';
+import { updateWorkspace } from '@schematics/angular/utility';
 
-import { updateWorkspace } from '../utility/workspace';
-
-// List of builders that support allowedCommonJsDependencies.
+// List of builders that support styles.
 const allowedBuilders = [
+  '@angular/build:application',
+  '@angular/build:karma',
   '@angular-devkit/build-angular:application',
   '@angular-devkit/build-angular:browser',
   '@angular-devkit/build-angular:karma',

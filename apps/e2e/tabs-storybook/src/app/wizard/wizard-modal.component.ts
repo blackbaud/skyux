@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -14,7 +13,6 @@ import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
   selector: 'app-wizard-demo-modal',
   templateUrl: './wizard-modal.component.html',
   imports: [
-    CommonModule,
     SkyCheckboxModule,
     SkyIdModule,
     SkyInputBoxModule,
@@ -31,14 +29,10 @@ export class WizardModalComponent implements OnInit {
   public step3Disabled = true;
   public saveDisabled = true;
 
-  #formBuilder: UntypedFormBuilder;
+  readonly #formBuilder = inject(UntypedFormBuilder);
+  public readonly instance = inject(SkyModalInstance);
 
-  constructor(
-    public instance: SkyModalInstance,
-    formBuilder: UntypedFormBuilder,
-  ) {
-    this.#formBuilder = formBuilder;
-
+  constructor() {
     this.myForm = this.#formBuilder.group({
       requiredValue1: undefined,
       requiredValue2: false,

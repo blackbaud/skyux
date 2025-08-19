@@ -321,7 +321,7 @@ describe('Flyout component', () => {
   }));
 
   afterEach(fakeAsync(() => {
-    const modalService = TestBed.get(SkyModalService);
+    const modalService = TestBed.inject(SkyModalService);
     modalService.dispose();
     flyoutService.close();
     tick();

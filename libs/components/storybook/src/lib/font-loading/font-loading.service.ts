@@ -36,7 +36,7 @@ async function waitForSvgSprite(): Promise<void> {
   providedIn: 'root',
 })
 export class FontLoadingService {
-  public ready(waitForSvgIcons?: boolean): Observable<boolean> {
+  public ready(): Observable<boolean> {
     const fonts: FontFaceObserver[] = [
       design.text.weight.light,
       design.text.weight.regular,
@@ -52,22 +52,10 @@ export class FontLoadingService {
           },
         ),
     );
-    fonts.push(
-      new FontFaceObserver('FontAwesome', {
-        weight: 400,
-      }),
-    );
-    fonts.push(
-      new FontFaceObserver('skyux-icons', {
-        weight: 400,
-      }),
-    );
 
     const fontPromises = fonts.map((font) => font.load());
 
-    if (waitForSvgIcons) {
-      fontPromises.push(waitForSvgSprite());
-    }
+    fontPromises.push(waitForSvgSprite());
 
     return from(Promise.all(fontPromises)).pipe(map(() => true));
   }

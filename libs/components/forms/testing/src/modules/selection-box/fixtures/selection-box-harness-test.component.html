@@ -5,7 +5,7 @@
         [attr.data-sky-id]="selectionBoxes[i].value"
         [control]="checkbox"
       >
-        <sky-icon [iconName]="selectionBoxes[i].icon" />
+        <sky-icon [iconName]="selectionBoxes[i].iconName" />
         <sky-selection-box-header #checkboxHeaderId="skyId" skyId>
           {{ selectionBoxes[i].name }}
         </sky-selection-box-header>
@@ -25,7 +25,7 @@
     <sky-selection-box-grid data-sky-id="radio-selection-boxes">
       @for (item of selectionBoxes; track item) {
         <sky-selection-box [control]="radio">
-          <sky-icon [iconName]="item.icon" />
+          <sky-icon [iconName]="item.iconName" />
           <sky-selection-box-header #radioHeaderId="skyId" skyId>
             {{ item.name }}
           </sky-selection-box-header>

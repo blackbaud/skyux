@@ -1,5 +1,10 @@
-import { DOCUMENT } from '@angular/common';
-import { DestroyRef, Injectable, NgZone, inject } from '@angular/core';
+import {
+  DOCUMENT,
+  DestroyRef,
+  Injectable,
+  NgZone,
+  inject,
+} from '@angular/core';
 
 import { ReplaySubject } from 'rxjs';
 

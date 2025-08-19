@@ -1,5 +1,5 @@
 import { Path, dirname, normalize, strings } from '@angular-devkit/core';
-import { ProjectDefinition } from '@angular-devkit/core/src/workspace';
+import type { ProjectDefinition } from '@angular-devkit/core/src/workspace/definitions';
 import {
   MergeStrategy,
   Rule,

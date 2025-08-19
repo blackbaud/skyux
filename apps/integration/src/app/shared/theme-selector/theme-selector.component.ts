@@ -29,10 +29,7 @@ interface LocalStorageSettings {
   themeBrand?: SkyThemeBrand;
 }
 
-const AVAILABLE_BRANDS = [
-  new SkyThemeBrand('blackbaud', '1.0.0'),
-  new SkyThemeBrand('rainbow', '1.0.1'),
-];
+const AVAILABLE_BRANDS = [new SkyThemeBrand('rainbow', '1.0.1')];
 const PREVIOUS_SETTINGS_KEY =
   'skyux-playground-theme-mode-spacing-selector-settings';
 

@@ -16,21 +16,6 @@
   --sky-override-vertical-tabset-show-tabs-margin-top: #{$sky-margin};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-vertical-tabset') {
-  --sky-override-vertical-tab-content-pane-margin-bottom: 0;
-  --sky-override-vertical-tabset-content-margin-sm-lg: var(--modern-size-20)
-    var(--modern-size-30);
-  --sky-override-vertical-tabset-content-margin-xs: var(--modern-size-15);
-  --sky-override-vertical-tabset-group-container-padding: 0;
-  --sky-override-vertical-tabset-modal-margin-adjustment: calc(
-    var(--modern-size-15) * -1
-  );
-  --sky-override-vertical-tabset-modal-margin-adjustment-with-group: calc(
-    var(--modern-size-15) * -1
-  );
-  --sky-override-vertical-tabset-show-tabs-margin-top: var(--modern-size-10);
-}
-
 @include mixins.sky-host-responsive-container-xs-min() {
   .sky-vertical-tabset {
     display: block;
@@ -64,10 +49,10 @@
 .sky-vertical-tabset-content {
   margin: var(
     --sky-override-vertical-tabset-content-margin-xs,
-    var(--sky-comp-tab-vertical-content-space-inset-top)
-      var(--sky-comp-tab-vertical-content-space-inset-right)
-      var(--sky-comp-tab-vertical-content-space-inset-bottom)
-      var(--sky-comp-tab-vertical-content-space-inset-left)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-top)
+      var(--sky-comp-tab-vertical-content-space-inset-xs-right)
+      var(--sky-comp-tab-vertical-content-space-inset-xs-bottom)
+      var(--sky-comp-tab-vertical-content-space-inset-xs-left)
   );
   flex-basis: 75%;
   overflow-y: auto;
@@ -118,10 +103,10 @@
   .sky-vertical-tabset-content {
     margin: var(
       --sky-override-vertical-tabset-content-margin-sm-lg,
-      var(--sky-comp-tab-vertical-space-inset-top)
-        var(--sky-comp-tab-vertical-space-inset-right)
-        var(--sky-comp-tab-vertical-space-inset-bottom)
-        var(--sky-comp-tab-vertical-space-inset-left)
+      var(--sky-comp-tab-vertical-content-space-inset-sm-top)
+        var(--sky-comp-tab-vertical-content-space-inset-sm-right)
+        var(--sky-comp-tab-vertical-content-space-inset-sm-bottom)
+        var(--sky-comp-tab-vertical-content-space-inset-sm-left)
     );
   }
 }

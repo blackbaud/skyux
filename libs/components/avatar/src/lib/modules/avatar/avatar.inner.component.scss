@@ -50,16 +50,9 @@
     ($avatar-border-width * 2)};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-avatar', false) {
-  --sky-override-avatar-wrapper-drop-border-width: 2px;
-  --sky-override-avatar-wrapper-drop-box-shadow-focus: var(
-    --sky-elevation-focus
-  );
-}
-
 // begin avatar colors
 $sky-avatar-colors: (
-  var(--sky-category-color-light-blue),
+  var(--sky-category-color-green),
   var(--sky-category-color-teal),
   var(--sky-category-color-purple),
   var(--sky-category-color-orange),

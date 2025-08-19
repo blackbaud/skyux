@@ -19,17 +19,18 @@
         [width]="listWidth"
       >
         <sky-repeater [activeIndex]="activeIndex">
-          <sky-repeater-item
-            *ngFor="let item of items; let i = index"
-            (click)="onItemClick(i)"
-            (keyup.enter)="onItemClick(i)"
-          >
-            <sky-repeater-item-content>
-              {{ item.amount }} <br />
-              {{ item.date }} <br />
-              {{ item.vendor }}
-            </sky-repeater-item-content>
-          </sky-repeater-item>
+          @for (item of items; track item; let i = $index) {
+            <sky-repeater-item
+              (click)="onItemClick(i)"
+              (keyup.enter)="onItemClick(i)"
+            >
+              <sky-repeater-item-content>
+                {{ item.amount }} <br />
+                {{ item.date }} <br />
+                {{ item.vendor }}
+              </sky-repeater-item-content>
+            </sky-repeater-item>
+          }
         </sky-repeater>
       </sky-split-view-drawer>
 

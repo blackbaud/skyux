@@ -2,36 +2,6 @@
 @use '../../mixins' as mixins;
 @use '../../compat-tokens-mixins' as compatMixins;
 
-@include compatMixins.sky-modern-overrides($encapsulate: false) {
-  --sky-override-icon-color-group: var(--sky-color-icon-action);
-  --sky-override-icon-switch-border-width-disabled: 0;
-  --sky-override-icon-switch-font-size: 18px;
-  --sky-override-icon-switch-font-size-group: 20px;
-  --sky-override-icon-switch-size: 35px;
-  --sky-override-icon-switch-size-group: 40px;
-  --sky-override-switch-background-color: var(--modern-color-white);
-  --sky-override-switch-background-color-danger: #{lighten(
-      $sky-background-color-danger,
-      10%
-    )};
-  --sky-override-switch-background-color-success: #{lighten(
-      $sky-background-color-success,
-      10%
-    )};
-  --sky-override-switch-background-color-warning: #{lighten(
-      $sky-background-color-warning,
-      10%
-    )};
-  --sky-override-switch-border-color: var(--modern-color-blue-74);
-  --sky-override-switch-border-color-checked: var(--sky-color-border-selected);
-  --sky-override-switch-box-shadow-focus-elevation: var(--sky-elevation-focus);
-  --sky-override-switch-checked-color: var(--sky-color-icon-selected);
-  --sky-override-switch-icon-checked-color-no-group: var(
-    --sky-color-text-default
-  );
-  --sky-switch-label-margin-right: #{$sky-margin};
-}
-
 @include mixins.sky-component('modern', '.sky-switch', false) {
   cursor: pointer;
   display: inline-flex;
@@ -43,6 +13,10 @@
 
   &.sky-switch-disabled {
     cursor: not-allowed;
+
+    .sky-switch-label {
+      color: var(--sky-color-text-deemphasized);
+    }
   }
 
   &.sky-control-label-required {
@@ -72,53 +46,37 @@
     &[type='checkbox']:indeterminate:not(:disabled) {
       & + .sky-switch-control {
         &:not(.sky-switch-control-icon) {
-          color: var(
-            --sky-override-switch-checked-color,
-            var(--sky-color-icon-inverse)
-          );
+          color: var(--sky-color-icon-inverse);
         }
 
         &.sky-switch-control-icon {
-          color: var(
-            --sky-override-switch-icon-checked-color-no-group,
-            var(--sky-color-icon-inverse)
-          );
+          background: var(--sky-color-background-selected-soft);
+          color: var(--sky-color-icon-selected);
+          border-color: var(--sky-color-border-selected);
         }
 
-        background-color: var(--sky-color-background-selected-heavy);
+        background: var(--sky-color-background-selected-switch-base);
         border-width: var(--sky-border-width-selected-s);
-        border-color: var(
-          --sky-override-switch-border-color-checked,
-          var(--sky-color-border-switch-selected-base)
-        );
+        border-color: var(--sky-color-border-switch-selected-base);
 
         &:is(
-            .sky-switch-control-success,
-            .sky-switch-control-warning,
-            .sky-switch-control-danger
-          ) {
+          .sky-switch-control-success,
+          .sky-switch-control-warning,
+          .sky-switch-control-danger
+        ) {
           color: var(--sky-color-icon-default);
         }
 
         &.sky-switch-control-success {
-          background-color: var(
-            --sky-override-switch-background-color-success,
-            var(--sky-color-background-selected-success)
-          );
+          background-color: var(--sky-color-background-selected-success);
         }
 
         &.sky-switch-control-warning {
-          background-color: var(
-            --sky-override-switch-background-color-warning,
-            var(--sky-color-background-selected-warning)
-          );
+          background-color: var(--sky-color-background-selected-warning);
         }
 
         &.sky-switch-control-danger {
-          background-color: var(
-            --sky-override-switch-background-color-danger,
-            var(--sky-color-background-selected-danger)
-          );
+          background-color: var(--sky-color-background-selected-danger);
         }
       }
 
@@ -140,13 +98,18 @@
     }
 
     &:disabled + .sky-switch-control {
-      background-color: var(--sky-color-background-input-disabled);
+      background-color: var(--sky-color-background-selected-switch-disabled);
       border-width: var(--sky-border-width-input-disabled);
       border-color: var(--sky-color-border-switch-disabled);
+      box-shadow: var(--sky-elevation-input-disabled);
       color: var(--sky-color-text-deemphasized);
     }
 
     &:not(:disabled) {
+      + .sky-switch-control {
+        box-shadow: var(--sky-elevation-input-base);
+      }
+
       &:hover + .sky-switch-control {
         border-width: var(--sky-border-width-input-hover);
         border-color: var(--sky-color-border-switch-hover);
@@ -163,7 +126,7 @@
       }
 
       &:focus-visible:not(:active) + .sky-switch-control {
-        box-shadow: var(--sky-override-switch-box-shadow-focus-elevation, none);
+        box-shadow: var(--sky-elevation-input-base);
         outline: none;
       }
 
@@ -171,24 +134,15 @@
         &:checked + .sky-switch-control,
         &[type='checkbox']:indeterminate + .sky-switch-control {
           &.sky-switch-control-success {
-            border-color: var(
-              --sky-override-switch-border-color,
-              var(--sky-color-border-success)
-            );
+            border-color: var(--sky-color-border-success);
           }
 
           &.sky-switch-control-warning {
-            border-color: var(
-              --sky-override-switch-border-color,
-              var(--sky-color-border-warning)
-            );
+            border-color: var(--sky-color-border-warning);
           }
 
           &.sky-switch-control-danger {
-            border-color: var(
-              --sky-override-switch-border-color,
-              var(--sky-color-border-danger)
-            );
+            border-color: var(--sky-color-border-danger);
           }
         }
       }
@@ -200,15 +154,17 @@
     max-width: var(--sky-size-switch);
     height: var(--sky-size-switch);
     flex: 1 0 var(--sky-size-switch);
-    margin: 0 var(--sky-space-gap-label-s) auto auto;
+    margin: 0
+      var(
+        --sky-comp-override-switch-label-margin-right,
+        var(--sky-space-gap-label-s)
+      )
+      auto auto;
     display: inline-flex;
     position: relative;
     border: var(--sky-border-width-input-base) solid
       var(--sky-color-border-switch-base);
-    background-color: var(
-      --sky-override-switch-background-color,
-      var(--sky-color-background-input-base)
-    );
+    background-color: var(--sky-color-background-input-base);
     color: var(--sky-color-icon-default);
     text-align: center;
     line-height: 1;
@@ -218,47 +174,29 @@
 
     &.sky-switch-control-icon {
       max-width: none;
-      width: var(
-        --sky-override-icon-switch-size,
-        calc(
+      width: calc(
+        var(--sky-size-icon-m) +
           calc(
-              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-            ) +
+            var(--sky-comp-button-icon-space-inset-left) +
+              var(--sky-comp-button-icon-space-inset-right)
+          )
+      );
+      height: calc(
+        var(--sky-size-icon-m) +
+          calc(
+            var(--sky-comp-button-icon-space-inset-top) +
+              var(--sky-comp-button-icon-space-inset-bottom)
+          )
+      );
+      flex: 1 0
+        calc(
+          var(--sky-size-icon-m) +
             calc(
               var(--sky-comp-button-icon-space-inset-left) +
                 var(--sky-comp-button-icon-space-inset-right)
             )
-        )
-      );
-      height: var(
-        --sky-override-icon-switch-size,
-        calc(
-          calc(
-              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-            ) +
-            calc(
-              var(--sky-comp-button-icon-space-inset-top) +
-                var(--sky-comp-button-icon-space-inset-bottom)
-            )
-        )
-      );
-      flex: 1 0
-        var(
-          --sky-override-icon-switch-size,
-          calc(
-            calc(
-                var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-              ) +
-              calc(
-                var(--sky-comp-button-icon-space-inset-left) +
-                  var(--sky-comp-button-icon-space-inset-right)
-              )
-          )
         );
-      font-size: var(
-        --sky-override-icon-switch-font-size,
-        var(--sky-size-icon-m)
-      );
+      font-size: var(--sky-size-icon-m);
 
       i {
         justify-content: center;
@@ -291,7 +229,7 @@
 
   .sky-switch-control {
     background-color: var(--sky-color-background-action-tertiary-base);
-    border-width: var(--sky-width-action-base);
+    border-width: var(--sky-border-width-action-base);
     border-color: var(--sky-color-border-action-tertiary-base);
   }
 
@@ -300,18 +238,12 @@
     &[type='checkbox']:indeterminate:not(:disabled)
       + .sky-switch-control.sky-switch-control-icon {
       border-width: var(--sky-border-width-selected-s);
-      color: var(
-        --sky-override-switch-checked-color,
-        var(--sky-color-icon-inverse)
-      );
+      color: var(--sky-color-icon-action);
     }
 
     &:disabled + .sky-switch-control.sky-switch-control-icon {
       border-color: var(--sky-color-border-action-tertiary-disabled);
-      border-width: var(
-        --sky-override-icon-switch-border-width-disabled,
-        var(--sky-border-width-action-disabled)
-      );
+      border-width: var(--sky-border-width-action-disabled);
     }
 
     &:checked:disabled + .sky-switch-control.sky-switch-control-icon,
@@ -321,6 +253,12 @@
     }
 
     &:not(:disabled) {
+      &:not(:checked):not(:hover):not(:active):not(:focus-visible) {
+        + .sky-switch-control.sky-switch-control-icon {
+          box-shadow: none;
+        }
+      }
+
       &:hover + .sky-switch-control {
         border-width: var(--sky-border-width-action-hover);
         border-color: var(--sky-color-border-action-tertiary-hover);
@@ -340,34 +278,21 @@
 
   .sky-switch-control {
     &.sky-switch-control-icon {
-      width: var(
-        --sky-override-icon-switch-size-group,
-        calc(
+      width: calc(
+        var(--sky-size-icon-m) +
           calc(
-              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-            ) +
-            calc(
-              var(--sky-comp-button-icon-space-inset-left) +
-                var(--sky-comp-button-icon-space-inset-right)
-            )
-        )
+            var(--sky-comp-button-icon-space-inset-left) +
+              var(--sky-comp-button-icon-space-inset-right)
+          )
       );
-      height: var(
-        --sky-override-icon-switch-size-group,
-        calc(
+      height: calc(
+        var(--sky-size-icon-m) +
           calc(
-              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-            ) +
-            calc(
-              var(--sky-comp-button-icon-space-inset-top) +
-                var(--sky-comp-button-icon-space-inset-bottom)
-            )
-        )
+            var(--sky-comp-button-icon-space-inset-top) +
+              var(--sky-comp-button-icon-space-inset-bottom)
+          )
       );
-      font-size: var(
-        --sky-override-icon-switch-font-size-group,
-        var(--sky-size-icon-m)
-      );
+      font-size: var(--sky-size-icon-m);
     }
   }
 

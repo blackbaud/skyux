@@ -1,6 +1,4 @@
-Add given css variable to either the `sky-default-overrides` mixin or the `sky-modern-overrides` mixin based on the input.
-
-If asked to add it to both, add it to both the `sky-default-overrides` mixin and the `sky-modern-overrides` mixin
+Add given css variable to either the `sky-default-overrides` mixin based on the input.
 
 Add the variable to the mixin in alphabetical order.
 

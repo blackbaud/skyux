@@ -33,7 +33,7 @@
             {
               "type": "anyComponentStyle",
               "maximumWarning": "2kb",
-              "maximumError": "9kb"
+              "maximumError": "10kb"
             }
           ],
           "outputHashing": "all"
@@ -59,7 +59,8 @@
           "buildTarget": "navbar-storybook:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",

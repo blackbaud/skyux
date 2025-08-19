@@ -4,6 +4,7 @@
 
 @include compatMixins.sky-default-host-overrides() {
   --sky-override-tile-dashboard-column-padding-gt-sm: 0 #{$sky-padding};
+  --sky-override-tile-dashboard-column-padding-xs: 0;
 }
 
 :host {
@@ -16,17 +17,42 @@
 }
 
 @include mixins.sky-host-responsive-container-xs-min() {
-  padding: 0;
+  // The calculations here ensure that the columns have enough padding that the tiles within them have enough space to display their shadows.
+  // Negative margins at the dashboard level ensure that it has no visual side effect other than the shadow.
+  // This is done on both left and right as the dashboard is single column at that breakpoint.
+  padding: var(
+    --sky-override-tile-dashboard-column-padding-xs,
+    var(--sky-comp-tile-dashboard-column-space-inset-xs-top)
+      calc(
+        var(--sky-comp-tile-dashboard-column-space-inset-sm-right) +
+          var(--sky-comp-tile-dashboard-column-space-inset-xs-right)
+      )
+      calc(
+        var(--sky-space-stacked-xl) +
+          var(--sky-comp-tile-dashboard-column-space-inset-xs-bottom)
+      )
+      calc(
+        var(--sky-comp-tile-dashboard-column-space-inset-sm-left) +
+          var(--sky-comp-tile-dashboard-column-space-inset-xs-left)
+      )
+  );
 }
 
 @include mixins.sky-host-responsive-container-sm-min() {
   padding: var(
     --sky-override-tile-dashboard-column-padding-gt-sm,
-    var(--sky-space-inset-horizontal-top-m)
-      var(--sky-space-inset-horizontal-right-m)
-      var(--sky-space-inset-horizontal-bottom-m)
-      var(--sky-space-inset-horizontal-left-m)
+    var(--sky-comp-tile-dashboard-column-space-inset-sm-top)
+      var(--sky-comp-tile-dashboard-column-space-inset-sm-right)
+      var(--sky-comp-tile-dashboard-column-space-inset-sm-bottom)
+      var(--sky-comp-tile-dashboard-column-space-inset-sm-left)
   );
+
+  &.sky-tile-dashboard-layout-single {
+    padding-bottom: calc(
+      var(--sky-space-stacked-xl) +
+        var(--sky-comp-tile-dashboard-column-space-inset-sm-bottom)
+    );
+  }
 }
 
 .sky-tile-dashboard-column {
@@ -34,23 +60,4 @@
   // other column is tall enough to give it a reasonable drop target.
   min-height: 100px;
   width: 100%;
-}
-
-:host-context(.sky-theme-modern .sky-layout-host-blocks) {
-  @include mixins.sky-host-responsive-container-sm-min() {
-    &.sky-tile-dashboard-layout-multi {
-      &-first {
-        padding-left: 0;
-      }
-
-      &-last {
-        padding-right: 0;
-      }
-    }
-
-    &.sky-tile-dashboard-layout-single {
-      padding-left: 0;
-      padding-right: 0;
-    }
-  }
 }

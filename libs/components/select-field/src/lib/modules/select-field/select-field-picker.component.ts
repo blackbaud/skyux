@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -9,6 +8,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyAppWindowRef } from '@skyux/core';
@@ -43,7 +43,6 @@ import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
   styleUrls: ['./select-field-picker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     FormsModule,
     SkyIconModule,
     SkyListFiltersModule,
@@ -106,19 +105,17 @@ export class SkySelectFieldPickerComponent
 
   private _inMemorySearchEnabled: boolean;
 
-  constructor(
-    private context: SkySelectFieldPickerContext,
-    private instance: SkyModalInstance,
-    private elementRef: ElementRef,
-    private windowRef: SkyAppWindowRef,
-  ) {}
+  readonly #context = inject(SkySelectFieldPickerContext);
+  readonly #instance = inject(SkyModalInstance);
+  readonly #elementRef = inject(ElementRef);
+  readonly #windowRef = inject(SkyAppWindowRef);
 
   public ngOnInit(): void {
-    this.data = this.context.data;
-    this.headingText = this.context.headingText;
-    this.selectMode = this.context.selectMode;
-    this.showAddNewRecordButton = this.context.showAddNewRecordButton;
-    this.inMemorySearchEnabled = this.context.inMemorySearchEnabled;
+    this.data = this.#context.data;
+    this.headingText = this.#context.headingText;
+    this.selectMode = this.#context.selectMode;
+    this.showAddNewRecordButton = this.#context.showAddNewRecordButton;
+    this.inMemorySearchEnabled = this.#context.inMemorySearchEnabled;
 
     this.selectedIds = this.getSelectedIds();
     this.assignCategories();
@@ -131,8 +128,8 @@ export class SkySelectFieldPickerComponent
   }
 
   public ngAfterContentInit(): void {
-    this.windowRef.nativeWindow.setTimeout(() => {
-      this.elementRef.nativeElement.querySelector('.sky-search-input').focus();
+    this.#windowRef.nativeWindow.setTimeout(() => {
+      this.#elementRef.nativeElement.querySelector('.sky-search-input').focus();
     });
   }
 
@@ -151,12 +148,12 @@ export class SkySelectFieldPickerComponent
       const results = items.filter((item: SkySelectField) => {
         return this.selectedIds.indexOf(item.id) > -1;
       });
-      this.instance.save(results);
+      this.#instance.save(results);
     });
   }
 
   public close(): void {
-    this.instance.close();
+    this.#instance.close();
   }
 
   public filterByCategory(model: ListItemModel, category: string): boolean {
@@ -196,7 +193,7 @@ export class SkySelectFieldPickerComponent
   }
 
   private getSelectedIds(): string[] {
-    const context = this.context;
+    const context = this.#context;
     const selectedValue = context.selectedValue;
 
     if (selectedValue) {

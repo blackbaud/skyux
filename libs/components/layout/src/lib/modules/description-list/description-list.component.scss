@@ -18,11 +18,6 @@
   --sky-override-description-list-long-pair-bottom-margin: 10px;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-description-list') {
-  --sky-override-description-list-term-bottom-margin: 3px;
-  --sky-override-description-list-term-font-size: 14px;
-}
-
 :host {
   display: block;
 }
@@ -138,7 +133,7 @@
         );
         font-weight: var(
           --sky-override-description-list-long-term-font-weight,
-          var(--sky-font-weight-emphasized)
+          var(--sky-font-style-emphasized)
         );
         margin: 0
           var(

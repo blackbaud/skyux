@@ -17,7 +17,11 @@ sky-toolbar + :host {
 
 .sky-toolbar-container {
   min-height: $sky-toolbar-min-height;
-  background-color: var(--sky-override-toolbar-background-color);
+  background-color: var(
+    --sky-comp-override-list-header-background-color,
+    var(--sky-override-toolbar-background-color)
+  );
+  // This padding override is used by the SkyFilterBar component in modern theme.
   padding: var(
     --sky-override-toolbar-container-padding,
     var(--sky-comp-toolbar-space-inset-top)
@@ -46,7 +50,7 @@ sky-toolbar + :host {
 
   &.sky-viewkeeper-fixed {
     background-color: var(
-      --sky-override-toolbar-background-color,
+      --sky-comp-override-list-header-background-color,
       var(--sky-background-color-page-default, var(--sky-color-background-page))
     );
   }
@@ -67,7 +71,13 @@ sky-toolbar + :host {
   .sky-toolbar-container {
     background-color: var(
       --sky-override-toolbar-background-color,
-      var(--sky-background-color-page-default, var(--sky-color-background-page))
+      var(
+        --sky-comp-override-list-header-background-color,
+        var(
+          --sky-background-color-page-default,
+          var(--sky-color-background-page)
+        )
+      )
     );
   }
 }

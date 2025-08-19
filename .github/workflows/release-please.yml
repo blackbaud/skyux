@@ -6,10 +6,11 @@ on:
   push:
     branches:
       - main
+      - '[0-9]+.x.x'
 env:
   # Set to 'alpha', 'beta', or 'rc' to create a prerelease.
-  PRERELEASE: 'false'
-  MAJOR_VERSION: 12
+  PRERELEASE: 'alpha'
+  MAJOR_VERSION: 13
 jobs:
   release:
     runs-on: ubuntu-latest

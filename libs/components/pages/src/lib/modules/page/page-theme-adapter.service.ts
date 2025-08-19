@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { CSP_NONCE, Inject, Injectable, inject } from '@angular/core';
+import { CSP_NONCE, DOCUMENT, Injectable, inject } from '@angular/core';
 
 /**
  * @internal
@@ -8,12 +7,8 @@ import { CSP_NONCE, Inject, Injectable, inject } from '@angular/core';
 export class SkyPageThemeAdapterService {
   #styleEl: HTMLStyleElement | undefined;
 
-  #document: Document;
-  #nonce = inject(CSP_NONCE, { optional: true });
-
-  constructor(@Inject(DOCUMENT) document: Document) {
-    this.#document = document;
-  }
+  readonly #document = inject(DOCUMENT);
+  readonly #nonce = inject(CSP_NONCE, { optional: true });
 
   /**
    * We can't use ViewEncapsulation.None for this behavior because Angular does

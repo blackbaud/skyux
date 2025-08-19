@@ -91,7 +91,10 @@ describe('percy-api', () => {
       logger,
       fetchClient,
     );
-    expect(result).toEqual('');
+    expect(result).toEqual({
+      buildId: 0,
+      lastGoodCommit: '',
+    });
   });
 
   it('should get last good build', async () => {
@@ -114,6 +117,7 @@ describe('percy-api', () => {
                     'review-state': 'approved',
                     state: 'finished',
                     'commit-html-url': 'https://.../commitSha',
+                    'web-url': 'https://.../321',
                   },
                 },
               ],
@@ -129,7 +133,7 @@ describe('percy-api', () => {
       logger,
       fetchClient,
     );
-    expect(result).toEqual('commitSha');
+    expect(result).toEqual({ lastGoodCommit: 'commitSha', buildId: 321 });
   });
 
   it('should get target commit', async () => {
@@ -218,14 +222,15 @@ describe('percy-api', () => {
       }
       return Promise.reject(new Error('Unexpected URL'));
     });
-    await expect(() =>
+    await expect(
       getPercyTargetCommit(
         'test-storybook-e2e',
         ['commitSha'],
         logger,
         fetchClient,
       ),
-    ).rejects.toThrow(
+    ).resolves.toEqual('');
+    expect(logger.error).toHaveBeenCalledWith(
       'Error checking Percy: Error: Error fetching Percy project ID',
     );
   });
@@ -288,7 +293,10 @@ describe('percy-api', () => {
       logger,
       fetchClient,
     );
-    expect(result).toEqual('');
+    expect(result).toEqual({
+      buildId: 0,
+      lastGoodCommit: '',
+    });
   });
 
   it('should handle no good builds', async () => {
@@ -316,7 +324,10 @@ describe('percy-api', () => {
       logger,
       fetchClient,
     );
-    expect(result).toEqual('');
+    expect(result).toEqual({
+      buildId: 0,
+      lastGoodCommit: '',
+    });
   });
 
   it('should handle incomplete response', async () => {
@@ -334,11 +345,77 @@ describe('percy-api', () => {
         logger,
         fetchClient,
       ),
-    ).rejects.toThrow(
+    ).resolves.toEqual({
+      buildId: 0,
+      lastGoodCommit: '',
+    });
+    expect(logger.error).toHaveBeenCalledWith(
       'Error checking Percy: Percy project ID response for test-storybook-e2e: {}',
     );
     expect(logger.error).toHaveBeenCalledWith(
       `Percy project ID response for test-storybook-e2e: {}`,
+    );
+  });
+
+  it('should handle invalid response', async () => {
+    const logger = createLogger();
+    const fetchClient = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        json: () =>
+          Promise.resolve({
+            data: [
+              {
+                id: 'buildId',
+                type: 'builds',
+                attributes: {
+                  'review-state': 'approved',
+                  state: 'finished',
+                  'commit-html-url': undefined,
+                },
+              },
+            ],
+          }),
+      }),
+    );
+    await expect(
+      getLastGoodPercyBuild(
+        'test-storybook-e2e',
+        ['commitSha'],
+        true,
+        logger,
+        fetchClient,
+      ),
+    ).resolves.toEqual({
+      buildId: 0,
+      lastGoodCommit: '',
+    });
+    expect(logger.error).toHaveBeenCalledWith(
+      `Error checking Percy: Percy project ID response for test-storybook-e2e: ${JSON.stringify(
+        [
+          {
+            id: 'buildId',
+            type: 'builds',
+            attributes: {
+              'review-state': 'approved',
+              state: 'finished',
+              'commit-html-url': undefined,
+            },
+          },
+        ],
+      )}`,
+    );
+    expect(logger.error).toHaveBeenCalledWith(
+      `Percy project ID response for test-storybook-e2e: ${JSON.stringify([
+        {
+          id: 'buildId',
+          type: 'builds',
+          attributes: {
+            'review-state': 'approved',
+            state: 'finished',
+            'commit-html-url': undefined,
+          },
+        },
+      ])}`,
     );
   });
 
@@ -416,7 +493,15 @@ describe('percy-api', () => {
     });
     await expect(
       checkPercyBuild('test-storybook-e2e', 'buildId', logger, fetchClient),
-    ).rejects.toThrow('Error checking Percy build: Error: Nope.');
+    ).resolves.toEqual({
+      project: 'test-storybook-e2e',
+      approved: false,
+      removedSnapshots: [],
+      state: undefined,
+    });
+    expect(logger.error).toHaveBeenCalledWith(
+      expect.stringMatching(/^Error checking Percy build/),
+    );
   });
 
   it('should handle rejection', async () => {
@@ -426,8 +511,14 @@ describe('percy-api', () => {
       .mockImplementation(() => Promise.reject('Nope.'));
     await expect(
       checkPercyBuild('test-storybook-e2e', 'buildId', logger, fetchClient),
-    ).rejects.toThrow(
-      'Error checking Percy build: Error: Error fetching Percy build buildId',
+    ).resolves.toEqual({
+      project: 'test-storybook-e2e',
+      approved: false,
+      removedSnapshots: [],
+      state: undefined,
+    });
+    expect(logger.error).toHaveBeenCalledWith(
+      expect.stringMatching(/^Error checking Percy build/),
     );
   });
 
@@ -440,8 +531,14 @@ describe('percy-api', () => {
       );
     await expect(
       checkPercyBuild('test-storybook-e2e', 'buildId', logger, fetchClient),
-    ).rejects.toThrow(
-      'Error checking Percy build: Error: Error fetching Percy build buildId',
+    ).resolves.toEqual({
+      project: 'test-storybook-e2e',
+      approved: false,
+      removedSnapshots: [],
+      state: undefined,
+    });
+    expect(logger.error).toHaveBeenCalledWith(
+      expect.stringMatching(/^Error checking Percy build/),
     );
   });
 });

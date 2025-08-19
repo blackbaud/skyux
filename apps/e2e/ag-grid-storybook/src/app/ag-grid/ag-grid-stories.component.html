@@ -2,36 +2,41 @@
 
 <div class="grid">
   <div class="scrollable" id="row-delete">
-    <sky-ag-grid-wrapper
-      *ngIf="isActive$ | async"
-      skyAgGridRowDelete
-      [compact]="compact"
-      [(rowDeleteIds)]="rowDeleteIds"
-      (rowDeleteConfirm)="deleteConfirm($event)"
-    >
-      <ag-grid-angular [gridOptions]="gridOptions['row-delete']" />
-    </sky-ag-grid-wrapper>
+    @if (isActive$ | async) {
+      <sky-ag-grid-wrapper
+        skyAgGridRowDelete
+        [compact]="compact"
+        [(rowDeleteIds)]="rowDeleteIds"
+        (rowDeleteConfirm)="deleteConfirm($event)"
+      >
+        <ag-grid-angular [gridOptions]="gridOptions['row-delete']" />
+      </sky-ag-grid-wrapper>
+    }
   </div>
 
   <div class="scrollable" id="back-to-top">
-    <sky-ag-grid-wrapper
-      *ngIf="isActive$ | async"
-      [skyBackToTop]=""
-      [compact]="compact"
-    >
-      <ag-grid-angular [gridOptions]="gridOptions['back-to-top']" />
-    </sky-ag-grid-wrapper>
+    @if (isActive$ | async) {
+      <sky-ag-grid-wrapper [skyBackToTop]="" [compact]="compact">
+        <ag-grid-angular [gridOptions]="gridOptions['back-to-top']" />
+      </sky-ag-grid-wrapper>
+    }
   </div>
 
   <div class="scrollable" id="validation">
-    <sky-ag-grid-wrapper *ngIf="isActive$ | async" [compact]="compact">
-      <ag-grid-angular [gridOptions]="gridOptions['validation']" />
-    </sky-ag-grid-wrapper>
+    @if (isActive$ | async) {
+      <sky-ag-grid-wrapper [compact]="compact">
+        <ag-grid-angular [gridOptions]="gridOptions['validation']" />
+      </sky-ag-grid-wrapper>
+    }
   </div>
 </div>
 
 <br />
 
-<span *ngIf="ready | async" id="ready"></span>
+@if (ready | async) {
+  <span id="ready"></span>
+}
 
-<sky-preview-wrapper *ngIf="addPreviewWrapper$ | async" />
+@if (addPreviewWrapper$ | async) {
+  <sky-preview-wrapper />
+}

@@ -15,10 +15,9 @@
   --sky-docs-category-tag-background-color: var(--sky-category-color-blue);
 }
 
-:host(.sky-docs-category-tag-color-light-blue) {
-  --sky-docs-category-tag-background-color: var(
-    --sky-category-color-light-blue
-  );
+:host(.sky-docs-category-tag-color-light-blue),
+:host(.sky-docs-category-tag-color-green) {
+  --sky-docs-category-tag-background-color: var(--sky-category-color-green);
 }
 
 :host(.sky-docs-category-tag-color-orange) {

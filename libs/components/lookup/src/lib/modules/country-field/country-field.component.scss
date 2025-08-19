@@ -4,13 +4,7 @@
 @import 'intl-tel-input/build/css/intlTelInput.css';
 
 @include compatMixins.sky-default-overrides('.sky-country-field-container') {
-  --sky-override-country-field-disabled-flag-filter: none;
-  --sky-override-country-field-disabled-flag-opacity: 0.65;
   --sky-override-country-field-disabled-input-background-color: #{$sky-background-color-disabled};
-  --sky-override-country-field-flag-bottom: 0;
-  --sky-override-country-field-input-box-flag-height: 35px;
-  --sky-override-country-field-input-box-flag-left: 13px;
-  --sky-override-country-field-input-box-form-control-padding-left: 40px;
   --sky-override-country-field-max-height: 13px;
   --sky-override-country-field-max-width: 25px;
   --sky-override-country-field-transform: scaleX(1.25) translateX(2px);
@@ -18,31 +12,6 @@
 
 @include compatMixins.sky-default-overrides(
   '.sky-autocomplete-result:has(.sky-country-field-search-result-flag)'
-) {
-  --sky-override-country-field-max-height: 13px;
-  --sky-override-country-field-max-width: 25px;
-  --sky-override-country-field-phone-info-font-size: 15px;
-  --sky-override-country-field-search-result-dial-code-padding-left: 0;
-  --sky-override-country-field-search-result-info-padding-left: 29px;
-  --sky-override-country-field-transform: scaleX(1.25) translateX(2px);
-}
-
-@include compatMixins.sky-modern-overrides(
-  '.sky-country-field-container',
-  false
-) {
-  --sky-override-country-field-flag-bottom: 0;
-  --sky-override-country-field-input-box-flag-height: 40px;
-  --sky-override-country-field-input-box-flag-left: 15px;
-  --sky-override-country-field-input-box-form-control-padding-left: 45px;
-  --sky-override-country-field-max-height: 13px;
-  --sky-override-country-field-max-width: 25px;
-  --sky-override-country-field-transform: scaleX(1.25) translateX(2px);
-}
-
-@include compatMixins.sky-modern-overrides(
-  '.sky-autocomplete-result:has(.sky-country-field-search-result-flag)',
-  false
 ) {
   --sky-override-country-field-max-height: 13px;
   --sky-override-country-field-max-width: 25px;
@@ -117,7 +86,7 @@
 }
 
 .sky-country-field-search-result-flag .iti__flag {
-  background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.4/assets/images/intl-tel-input/flags@2x.webp) !important;
+  background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.5/assets/images/intl-tel-input/flags@2x.webp) !important;
   max-width: var(--sky-override-country-field-max-width, inherit);
   max-height: var(--sky-override-country-field-max-height, inherit);
   transform: var(--sky-override-country-field-transform, inherit);

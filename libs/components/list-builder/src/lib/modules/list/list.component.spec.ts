@@ -1364,7 +1364,7 @@ describe('List Component', () => {
         expect(
           element.queryAll(
             By.css(
-              'sky-list-view-test[ng-reflect-name="First"] .list-view-test-item',
+              'sky-list-view-test[data-sky-id="first-list-view"] .list-view-test-item',
             ),
           ).length,
         ).toBe(7);
@@ -1375,7 +1375,7 @@ describe('List Component', () => {
         expect(
           element.queryAll(
             By.css(
-              'sky-list-view-test[ng-reflect-name="Second"] .list-view-test-item',
+              'sky-list-view-test[data-sky-id="second-list-view"] .list-view-test-item',
             ),
           ).length,
         ).toBe(7);

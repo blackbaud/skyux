@@ -2,101 +2,6 @@
 @use '../../variables' as *;
 @use '../../compat-tokens-mixins' as compatMixins;
 
-@include compatMixins.sky-modern-overrides('.sky-btn', false) {
-  --sky-override-borderless-icon-size: 26px;
-  --sky-override-button-default-box-shadow-focus:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-secondary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-icon-borderless-padding: 1px;
-  --sky-override-button-icon-padding: 9px 15px;
-  --sky-override-button-link-inline-border-radius: 0;
-  --sky-override-button-link-inline-color-disabled: var(
-    --sky-color-text-action
-  );
-  --sky-override-button-link-inline-color-hover-active: var(
-    --sky-text-color-action-primary-hover
-  );
-  --sky-override-button-link-inline-font-size: var(--sky-font-size-body-m);
-  --sky-override-button-padding: 9px 21px;
-
-  --sky-override-button-primary-box-shadow-focus:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-primary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-primary-disabled-box-shadow:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-primary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-icon-disabled-box-shadow:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-secondary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-danger-box-shadow-focus:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-danger-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-danger-disabled-box-shadow:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-danger-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-tertiary-box-shadow-focus:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-tertiary-disabled-box-shadow:
-    inset 0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus,);
-  --sky-override-button-link-inline-box-shadow-focus:
-    0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-link-inline-disabled-box-shadow:
-    0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-borderless-inline-box-shadow-focus:
-    0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus);
-  --sky-override-button-borderless-inline-disabled-box-shadow:
-    0 0 0 var(--sky-border-width-action-focus)
-      var(--sky-color-border-action-tertiary-focus),
-    var(--sky-elevation-focus);
-
-  // Ensures the height of a modern block button is 47px.
-  --sky-override-button-block-line-height: 1.6115;
-
-  &:not(.sky-btn-link-inline):not(.sky-btn-borderless-inline) {
-    --sky-override-button-line-height: calc(20 / 14);
-  }
-
-  &.sky-btn-link-inline,
-  &.sky-btn-borderless-inline {
-    --sky-override-button-line-height: normal;
-    --sky-override-button-opacity-disabled: 0.65;
-  }
-}
-
-@include compatMixins.sky-modern-overrides('.sky-btn-tab', false) {
-  --sky-override-tab-box-shadow-focus-elevation: var(--sky-elevation-focus);
-  --sky-override-tab-selected-background-color: var(--modern-color-transparent);
-  --sky-override-tab-selected-border-bottom-size: var(--modern-size-3);
-  --sky-override-tab-hover-border-bottom-color: var(--modern-color-blue-50);
-  --sky-override-tab-disabled-background-color: var(--modern-color-transparent);
-  --sky-override-tab-disabled-font-size: 15px;
-  --sky-override-tab-button-radius: 0;
-  --sky-override-tab-line-height: 1.8;
-  --sky-override-tab-item-box-shadow-focus-elevation: var(
-    --sky-elevation-focus
-  );
-  --sky-override-selected-dropdown-item-border-width: var(--modern-size-3);
-  --sky-override-selected-dropdown-background-color: var(
-    --modern-color-transparent
-  );
-}
-
 .sky-theme-modern {
   .sky-btn {
     border: none;
@@ -104,10 +9,7 @@
     font-size: var(--sky-font-size-body-m);
     transition: box-shadow $sky-transition-time-short;
 
-    line-height: var(
-      --sky-override-button-line-height,
-      var(--sky-font-line_height-body-m)
-    );
+    line-height: var(--sky-font-line_height-body-m);
   }
 
   .sky-btn-default,
@@ -115,13 +17,10 @@
   .sky-btn-danger,
   .sky-btn-link,
   .sky-btn-borderless {
-    padding: var(
-      --sky-override-button-padding,
-      var(--sky-comp-button-space-inset-top)
-        var(--sky-comp-button-space-inset-right)
-        var(--sky-comp-button-space-inset-bottom)
-        var(--sky-comp-button-space-inset-left)
-    );
+    padding: var(--sky-comp-button-space-inset-top)
+      var(--sky-comp-button-space-inset-right)
+      var(--sky-comp-button-space-inset-bottom)
+      var(--sky-comp-button-space-inset-left);
   }
 
   .sky-btn-default,
@@ -149,56 +48,68 @@
       &:active,
       &.sky-btn-active {
         border: none;
-        opacity: var(--sky-override-button-opacity-disabled, 1);
+        opacity: 1;
         color: var(--sky-color-text-deemphasized);
 
         &.sky-btn-link-inline {
-          color: var(
-            --sky-override-button-link-inline-color-disabled,
-            var(--sky-color-text-default)
-          );
+          color: var(--sky-color-text-default);
         }
       }
     }
   }
 
   .sky-btn-icon {
-    padding: var(
-      --sky-override-button-icon-padding,
-      var(--sky-comp-button-icon-space-inset-top)
-        var(--sky-comp-button-icon-space-inset-right)
-        var(--sky-comp-button-icon-space-inset-bottom)
-        var(--sky-comp-button-icon-space-inset-left)
-    );
+    padding: var(--sky-comp-button-icon-space-inset-top)
+      var(--sky-comp-button-icon-space-inset-right)
+      var(--sky-comp-button-icon-space-inset-bottom)
+      var(--sky-comp-button-icon-space-inset-left);
   }
 
   .sky-btn-default,
   .sky-btn-icon {
     background-color: var(--sky-color-background-action-secondary-base);
     color: var(--sky-color-text-default);
-    box-shadow: inset 0 0 0 var(--sky-border-width-action-base)
-      var(--sky-color-border-action-secondary-base);
+    box-shadow:
+      inset 0 0 0 var(--sky-border-width-action-base)
+        var(--sky-color-border-action-secondary-base),
+      var(
+        --sky-comp-override-toolbar-button-elevation-base,
+        var(--sky-elevation-action-secondary-base)
+      );
 
     &:hover {
       background-color: var(--sky-color-background-action-secondary-hover);
-      box-shadow: inset 0 0 0 var(--sky-border-width-action-hover)
-        var(--sky-color-border-action-secondary-hover);
+      box-shadow:
+        inset 0 0 0 var(--sky-border-width-action-hover)
+          var(--sky-color-border-action-secondary-hover),
+        var(
+          --sky-comp-override-toolbar-button-elevation-hover,
+          var(--sky-elevation-action-secondary-hover)
+        );
     }
 
     &:active,
     &.sky-btn-active {
       background-color: var(--sky-color-background-action-secondary-active);
-      box-shadow: inset 0 0 0 var(--sky-border-width-action-active)
-        var(--sky-color-border-action-secondary-active);
+      box-shadow:
+        inset 0 0 0 var(--sky-border-width-action-active)
+          var(--sky-color-border-action-secondary-active),
+        var(
+          --sky-comp-override-toolbar-button-elevation-active,
+          var(--sky-elevation-action-secondary-active)
+        );
+      transition: none;
     }
 
     &:focus-visible:not(:active) {
       background-color: var(--sky-color-background-action-secondary-focus);
-      box-shadow: var(
-        --sky-override-button-default-box-shadow-focus,
+      box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-secondary-focus)
-      );
+          var(--sky-color-border-action-secondary-focus),
+        var(
+          --sky-comp-override-toolbar-button-elevation-focus,
+          var(--sky-elevation-action-secondary-focus)
+        );
     }
 
     &.sky-btn-disabled,
@@ -209,16 +120,23 @@
       &.sky-btn-focus,
       &:active,
       &.sky-btn-active {
-        box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
-          var(--sky-color-border-action-secondary-disabled);
+        box-shadow:
+          inset 0 0 0 var(--sky-border-width-action-disabled)
+            var(--sky-color-border-action-secondary-disabled),
+          var(
+            --sky-comp-override-toolbar-button-elevation-disabled,
+            var(--sky-elevation-action-secondary-disabled)
+          );
         background-color: var(--sky-color-background-action-secondary-disabled);
 
         &:is(:focus-visible, .sky-btn-focus) {
-          box-shadow: var(
-            --sky-override-button-icon-disabled-box-shadow,
+          box-shadow:
             inset 0 0 0 var(--sky-border-width-action-disabled)
-              var(--sky-color-border-action-secondary-disabled)
-          );
+              var(--sky-color-border-action-secondary-disabled),
+            var(
+              --sky-comp-override-toolbar-button-elevation-disabled,
+              var(--sky-elevation-action-secondary-disabled)
+            );
         }
       }
     }
@@ -227,29 +145,47 @@
   .sky-btn-primary {
     background-color: var(--sky-color-background-action-primary-base);
     color: var(--sky-color-text-inverse);
-    box-shadow: inset 0 0 0 var(--sky-border-width-action-base)
-      var(--sky-color-border-action-primary-base);
+    box-shadow:
+      inset 0 0 0 var(--sky-border-width-action-base)
+        var(--sky-color-border-action-primary-base),
+      var(
+        --sky-comp-override-toolbar-button-elevation-base,
+        var(--sky-elevation-action-primary-base)
+      );
 
     &:hover {
       background-color: var(--sky-color-background-action-primary-hover);
-      box-shadow: inset 0 0 0 var(--sky-border-width-action-hover)
-        var(--sky-color-border-action-primary-hover);
+      box-shadow:
+        inset 0 0 0 var(--sky-border-width-action-hover)
+          var(--sky-color-border-action-primary-hover),
+        var(
+          --sky-comp-override-toolbar-button-elevation-hover,
+          var(--sky-elevation-action-primary-hover)
+        );
     }
 
     &:active,
     &.sky-btn-active {
       background-color: var(--sky-color-background-action-primary-active);
-      box-shadow: inset 0 0 0 var(--sky-border-width-action-active)
-        var(--sky-color-border-action-primary-active);
+      box-shadow:
+        inset 0 0 0 var(--sky-border-width-action-active)
+          var(--sky-color-border-action-primary-active),
+        var(
+          --sky-comp-override-toolbar-button-elevation-active,
+          var(--sky-elevation-action-primary-active)
+        );
+      transition: none;
     }
 
     &:focus-visible:not(:active) {
       background-color: var(--sky-color-background-action-primary-focus);
-      box-shadow: var(
-        --sky-override-button-primary-box-shadow-focus,
+      box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-primary-focus)
-      );
+          var(--sky-color-border-action-primary-focus),
+        var(
+          --sky-comp-override-toolbar-button-elevation-focus,
+          var(--sky-elevation-action-primary-focus)
+        );
     }
 
     &.sky-btn-disabled,
@@ -260,16 +196,23 @@
       &.sky-btn-focus,
       &:active,
       &.sky-btn-active {
-        box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
-          var(--sky-color-border-action-primary-disabled);
+        box-shadow:
+          inset 0 0 0 var(--sky-border-width-action-disabled)
+            var(--sky-color-border-action-primary-disabled),
+          var(
+            --sky-comp-override-toolbar-button-elevation-disabled,
+            var(--sky-elevation-action-primary-disabled)
+          );
         background-color: var(--sky-color-background-action-primary-disabled);
 
         &:is(:focus-visible, .sky-btn-focus) {
-          box-shadow: var(
-            --sky-override-button-primary-disabled-box-shadow,
+          box-shadow:
             inset 0 0 0 var(--sky-border-width-action-disabled)
-              var(--sky-color-border-action-primary-disabled)
-          );
+              var(--sky-color-border-action-primary-disabled),
+            var(
+              --sky-comp-override-toolbar-button-elevation-disabled,
+              var(--sky-elevation-action-primary-disabled)
+            );
         }
       }
     }
@@ -278,29 +221,47 @@
   .sky-btn-danger {
     background-color: var(--sky-color-background-action-danger-base);
     color: var(--sky-color-text-inverse);
-    box-shadow: inset 0 0 0 var(--sky-border-width-action-base)
-      var(--sky-color-border-action-danger-base);
+    box-shadow:
+      inset 0 0 0 var(--sky-border-width-action-base)
+        var(--sky-color-border-action-danger-base),
+      var(
+        --sky-comp-override-toolbar-button-elevation-base,
+        var(--sky-elevation-action-danger-base)
+      );
 
     &:hover {
       background-color: var(--sky-color-background-action-danger-hover);
-      box-shadow: inset 0 0 0 var(--sky-border-width-action-hover)
-        var(--sky-color-border-action-danger-hover);
+      box-shadow:
+        inset 0 0 0 var(--sky-border-width-action-hover)
+          var(--sky-color-border-action-danger-hover),
+        var(
+          --sky-comp-override-toolbar-button-elevation-hover,
+          var(--sky-elevation-action-danger-hover)
+        );
     }
 
     &:active,
     &.sky-btn-active {
       background-color: var(--sky-color-background-action-danger-active);
-      box-shadow: inset 0 0 0 var(--sky-border-width-action-active)
-        var(--sky-color-border-action-danger-active);
+      box-shadow:
+        inset 0 0 0 var(--sky-border-width-action-active)
+          var(--sky-color-border-action-danger-active),
+        var(
+          --sky-comp-override-toolbar-button-elevation-active,
+          var(--sky-elevation-action-danger-active)
+        );
+      transition: none;
     }
 
     &:focus-visible:not(:active) {
       background-color: var(--sky-color-background-action-danger-focus);
-      box-shadow: var(
-        --sky-override-button-danger-box-shadow-focus,
+      box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-danger-focus)
-      );
+          var(--sky-color-border-action-danger-focus),
+        var(
+          --sky-comp-override-toolbar-button-elevation-focus,
+          var(--sky-elevation-action-danger-focus)
+        );
     }
 
     &.sky-btn-disabled,
@@ -311,16 +272,23 @@
       &.sky-btn-focus,
       &:active,
       &.sky-btn-active {
-        box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
-          var(--sky-color-border-action-danger-disabled);
+        box-shadow:
+          inset 0 0 0 var(--sky-border-width-action-disabled)
+            var(--sky-color-border-action-danger-disabled),
+          var(
+            --sky-comp-override-toolbar-button-elevation-disabled,
+            var(--sky-elevation-action-danger-disabled)
+          );
         background-color: var(--sky-color-background-action-danger-disabled);
 
         &:is(:focus-visible, .sky-btn-focus) {
-          box-shadow: var(
-            --sky-override-button-danger-disabled-box-shadow,
+          box-shadow:
             inset 0 0 0 var(--sky-border-width-action-disabled)
-              var(--sky-color-border-action-danger-disabled)
-          );
+              var(--sky-color-border-action-danger-disabled),
+            var(
+              --sky-comp-override-toolbar-button-elevation-disabled,
+              var(--sky-elevation-action-danger-disabled)
+            );
         }
       }
     }
@@ -336,15 +304,12 @@
   }
 
   .sky-btn-icon-borderless {
-    padding: var(
-      --sky-override-button-icon-borderless-padding,
-      var(--sky-comp-button-borderless-space-inset-top)
-        var(--sky-comp-button-borderless-space-inset-right)
-        var(--sky-comp-button-borderless-space-inset-bottom)
-        var(--sky-comp-button-borderless-space-inset-left)
-    );
-    height: var(--sky-override-borderless-icon-size, '');
-    width: var(--sky-override-borderless-icon-size, '');
+    padding: var(--sky-comp-button-borderless-space-inset-top)
+      var(--sky-comp-button-borderless-space-inset-right)
+      var(--sky-comp-button-borderless-space-inset-bottom)
+      var(--sky-comp-button-borderless-space-inset-left);
+    height: auto;
+    width: auto;
     line-height: 1;
   }
 
@@ -352,29 +317,47 @@
   .sky-btn-borderless,
   .sky-btn-icon-borderless {
     background-color: var(--sky-color-background-action-tertiary-base);
-    box-shadow: inset 0 0 0 var(--sky-border-width-action-base)
-      var(--sky-color-border-action-tertiary-base);
+    box-shadow:
+      inset 0 0 0 var(--sky-border-width-action-base)
+        var(--sky-color-border-action-tertiary-base),
+      var(
+        --sky-comp-override-toolbar-button-elevation-base,
+        var(--sky-elevation-action-tertiary-base)
+      );
 
     &:hover {
       background-color: var(--sky-color-background-action-tertiary-hover);
-      box-shadow: inset 0 0 0 var(--sky-border-width-action-hover)
-        var(--sky-color-border-action-tertiary-hover);
+      box-shadow:
+        inset 0 0 0 var(--sky-border-width-action-hover)
+          var(--sky-color-border-action-tertiary-hover),
+        var(
+          --sky-comp-override-toolbar-button-elevation-hover,
+          var(--sky-elevation-action-tertiary-hover)
+        );
     }
 
     &:active,
     &.sky-btn-active {
       background-color: var(--sky-color-background-action-tertiary-active);
-      box-shadow: inset 0 0 0 var(--sky-border-width-action-active)
-        var(--sky-color-border-action-tertiary-active);
+      box-shadow:
+        inset 0 0 0 var(--sky-border-width-action-active)
+          var(--sky-color-border-action-tertiary-active),
+        var(
+          --sky-comp-override-toolbar-button-elevation-active,
+          var(--sky-elevation-action-tertiary-active)
+        );
+      transition: none;
     }
 
     &:focus-visible:not(:active) {
       background-color: var(--sky-color-background-action-tertiary-focus);
-      box-shadow: var(
-        --sky-override-button-tertiary-box-shadow-focus,
+      box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus)
-      );
+          var(--sky-color-border-action-tertiary-focus),
+        var(
+          --sky-comp-override-toolbar-button-elevation-focus,
+          var(--sky-elevation-action-tertiary-focus)
+        );
     }
 
     &.sky-btn-disabled,
@@ -385,54 +368,51 @@
       &.sky-btn-focus,
       &:active,
       &.sky-btn-active {
-        box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
-          var(--sky-color-border-action-tertiary-disabled);
+        box-shadow:
+          inset 0 0 0 var(--sky-border-width-action-disabled)
+            var(--sky-color-border-action-tertiary-disabled),
+          var(
+            --sky-comp-override-toolbar-button-elevation-disabled,
+            var(--sky-elevation-action-tertiary-disabled)
+          );
         background-color: var(--sky-color-background-action-tertiary-disabled);
 
         &:is(:focus-visible, .sky-btn-focus) {
-          box-shadow: var(
-            --sky-override-button-tertiary-disabled-box-shadow,
+          box-shadow:
             inset 0 0 0 var(--sky-border-width-action-disabled)
-              var(--sky-color-border-action-tertiary-disabled)
-          );
+              var(--sky-color-border-action-tertiary-disabled),
+            var(
+              --sky-comp-override-toolbar-button-elevation-disabled,
+              var(--sky-elevation-action-tertiary-disabled)
+            );
         }
       }
     }
   }
 
   .sky-btn-link-inline {
-    background-color: var(--sky-color-background-action-tertiary-base);
-    border-radius: var(
-      --sky-override-button-link-inline-border-radius,
-      var(--sky-border-radius-s)
-    );
+    background-color: transparent;
+    border-radius: var(--sky-border-radius-s);
     padding: var(--sky-space-inset-balanced-none);
     color: var(--sky-color-text-action);
-    font-size: var(--sky-override-button-link-inline-font-size, inherit);
 
     &:focus-visible:not(:active) {
-      background-color: var(--sky-color-background-action-tertiary-focus);
-      box-shadow: var(
-        --sky-override-button-link-inline-box-shadow-focus,
-        0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus)
-      );
+      background-color: transparent;
+      box-shadow: 0 0 0 var(--sky-border-width-action-focus)
+        var(--sky-color-border-action-tertiary-focus);
     }
 
     &:active {
-      background-color: var(--sky-color-background-action-tertiary-active);
+      background-color: transparent;
     }
 
     &:hover {
-      background-color: var(--sky-color-background-action-tertiary-hover);
+      background-color: transparent;
     }
 
     &:hover,
     &:active {
-      color: var(
-        --sky-override-button-link-inline-color-hover-active,
-        var(--sky-color-text-action)
-      );
+      color: var(--sky-color-text-action);
       text-decoration: underline;
     }
 
@@ -448,10 +428,8 @@
           var(--sky-color-border-action-tertiary-disabled);
 
         &:is(:focus-visible, .sky-btn-focus) {
-          box-shadow: var(
-            --sky-override-button-link-inline-disabled-box-shadow,
-            inset 0 0 0 0 var(--sky-color-border-action-tertiary-disabled)
-          );
+          box-shadow: inset 0 0 0 0
+            var(--sky-color-border-action-tertiary-disabled);
         }
       }
     }
@@ -460,14 +438,10 @@
   .sky-btn-borderless-inline {
     color: var(--sky-color-text-deemphasized);
     padding: var(--sky-space-inset-balanced-none);
-    font-size: var(--sky-override-button-link-inline-font-size, inherit);
 
     &:focus-visible:not(:active) {
-      box-shadow: var(
-        --sky-override-button-borderless-inline-box-shadow-focus,
-        0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus)
-      );
+      box-shadow: 0 0 0 var(--sky-border-width-action-focus)
+        var(--sky-color-border-action-tertiary-focus);
     }
 
     &.sky-btn-disabled,
@@ -482,10 +456,8 @@
           var(--sky-color-border-action-tertiary-disabled);
 
         &:is(:focus-visible, .sky-btn-focus) {
-          box-shadow: var(
-            --sky-override-button-borderless-inline-disabled-box-shadow,
-            inset 0 0 0 0 var(--sky-color-border-action-tertiary-disabled)
-          );
+          box-shadow: inset 0 0 0 0
+            var(--sky-color-border-action-tertiary-disabled);
         }
       }
     }
@@ -499,17 +471,11 @@
 
   .sky-btn-block {
     font-size: var(--sky-font-size-body-l);
-    line-height: var(
-      --sky-override-button-block-line-height,
-      var(--sky-font-line_height-body-l)
-    );
-    padding: var(
-      --sky-override-button-padding,
-      var(--sky-comp-button-block-space-inset-top)
-        var(--sky-comp-button-block-space-inset-right)
-        var(--sky-comp-button-block-space-inset-bottom)
-        var(--sky-comp-button-block-space-inset-left)
-    );
+    line-height: var(--sky-font-line_height-body-l);
+    padding: var(--sky-comp-button-block-space-inset-top)
+      var(--sky-comp-button-block-space-inset-right)
+      var(--sky-comp-button-block-space-inset-bottom)
+      var(--sky-comp-button-block-space-inset-left);
 
     &:has(.sky-btn-block-logo) {
       // Reserve space for a medium-size icon on the left. The icon will be
@@ -533,24 +499,15 @@
   }
 
   .sky-btn-tab {
-    background-color: var(--sky-color-background-nav-base);
+    background-color: var(--sky-color-background-tab-base);
     border: none;
     border-radius: 0;
-    border-top-left-radius: var(
-      --sky-override-tab-button-radius,
-      var(--sky-border-radius-s)
-    );
-    border-top-right-radius: var(
-      --sky-override-tab-button-radius,
-      var(--sky-border-radius-s)
-    );
+    border-top-left-radius: var(--sky-border-radius-s);
+    border-top-right-radius: var(--sky-border-radius-s);
     color: var(--sky-color-text-deemphasized);
     font-size: var(--sky-font-size-body-m);
-    font-weight: var(--sky-font-weight-body-m);
-    line-height: var(
-      --sky-override-tab-line-height,
-      var(--sky-font-line_height-body-m)
-    );
+    font-weight: var(--sky-font-style-body-m);
+    line-height: var(--sky-font-line_height-body-m);
     padding: var(--sky-comp-tab-horizontal-space-inset-top)
       var(--sky-comp-tab-horizontal-space-inset-right)
       var(--sky-comp-tab-horizontal-space-inset-bottom)
@@ -560,13 +517,9 @@
     &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(
         .sky-dropdown-button-type-tab
       ):not(:focus-visible) {
-      background-color: var(--sky-color-background-nav-hover);
+      background-color: var(--sky-color-background-tab-hover);
       border-bottom: var(--sky-border-width-selected-s)
-        var(--sky-border-style-accent)
-        var(
-          --sky-override-tab-hover-border-bottom-color,
-          var(--sky-color-border-selected)
-        );
+        var(--sky-border-style-accent) var(--sky-color-border-tab-hover);
       color: var(--sky-color-text-default);
       padding-bottom: calc(
         var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
@@ -576,34 +529,52 @@
     }
 
     &:focus-visible {
-      background-color: var(--sky-color-background-nav-focus);
-      color: var(--sky-color-text-default);
+      background-color: var(--sky-color-background-tab-focus);
       outline: none;
+
+      &:not(.sky-btn-tab-selected) {
+        color: var(--sky-color-text-default);
+      }
+
+      &.sky-btn-tab-selected {
+        background-color: var(--sky-color-background-selected-soft);
+      }
     }
 
     &:focus-visible:not(:active) {
-      color: var(--sky-color-text-default);
+      &:not(.sky-btn-tab-selected) {
+        color: var(--sky-color-text-default);
+      }
       outline: solid var(--sky-border-width-selected-m)
-        var(--sky-color-border-selected);
+        var(--sky-color-border-tab-focus);
       outline-offset: calc(var(--sky-border-width-selected-m) * -1);
-      box-shadow: var(--sky-override-tab-box-shadow-focus-elevation, none);
+      box-shadow: none;
     }
 
-    &:active {
+    &:active,
+    &:active:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(
+        :focus-visible
+      ) {
       color: var(--sky-color-text-default);
-      background-color: var(--sky-color-background-nav-active);
+      background-color: var(--sky-color-background-tab-active);
       border-bottom: var(--sky-border-width-selected-s)
-        var(--sky-border-style-accent)
-        var(
-          --sky-override-tab-hover-border-bottom-color,
-          var(--sky-color-border-selected)
-        );
+        var(--sky-border-style-accent) var(--sky-color-border-tab-active);
       padding-bottom: calc(
         var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
-            --sky-override-tab-selected-border-bottom-size,
-            var(--sky-border-width-selected-s)
+            --sky-border-width-selected-s
           )
       );
+
+      &.sky-btn-tab-selected {
+        background-color: var(--sky-color-background-selected-soft);
+        border-bottom: var(--sky-border-width-selected-m)
+          var(--sky-border-style-accent) var(--sky-color-border-selected);
+        padding-bottom: calc(
+          var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
+              --sky-border-width-selected-m
+            )
+        );
+      }
     }
 
     .sky-btn-tab-close {
@@ -611,17 +582,11 @@
     }
 
     &.sky-btn-tab-disabled {
-      background-color: var(
-        --sky-override-tab-disabled-background-color,
-        var(--sky-color-background-nav-disabled)
-      );
+      background-color: var(--sky-color-background-tab-disabled);
       color: var(--sky-color-text-deemphasized);
       font-style: var(--sky-font-style-deemphasized-style);
       font-weight: var(--sky-font-style-deemphasized-weight);
-      font-size: var(
-        --sky-override-tab-disabled-font-size,
-        var(--sky-font-size-body-m)
-      );
+      font-size: var(--sky-font-size-body-m);
 
       .sky-btn-tab-close {
         font-size: var(--sky-font-size-body-m);
@@ -630,33 +595,23 @@
   }
 
   .sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
-    background-color: var(
-      --sky-override-tab-selected-background-color,
-      var(--sky-color-background-selected-soft)
-    );
-    color: var(--sky-color-text-default);
+    background-color: var(--sky-color-background-tab-selected);
+    color: var(--sky-color-text-selected);
     box-shadow: none;
 
     &:not(:active) {
-      border-bottom: var(
-          --sky-override-tab-selected-border-bottom-size,
-          var(--sky-border-width-selected-l)
-        )
+      border-bottom: var(--sky-border-width-selected-m)
         var(--sky-border-style-accent) var(--sky-color-border-selected);
       padding-bottom: calc(
         var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
-            --sky-override-tab-selected-border-bottom-size,
-            var(--sky-border-width-selected-l)
+            --sky-border-width-selected-m
           )
       );
     }
 
     &:hover:not(.sky-btn-tab-disabled) {
-      background-color: var(
-        --sky-override-tab-selected-background-color,
-        var(--sky-color-background-selected-soft)
-      );
-      color: var(--sky-color-text-default);
+      background-color: var(--sky-color-background-tab-selected);
+      color: var(--sky-color-text-selected);
     }
 
     .sky-btn-tab-close,
@@ -696,35 +651,25 @@
 
       &:focus-visible:not(:active) {
         background-color: transparent;
-        box-shadow: var(
-          --sky-override-tab-item-box-shadow-focus-elevation,
-          none
-        );
+        box-shadow: none;
         outline: solid var(--sky-border-width-action-active)
           var(--sky-color-border-action-secondary-focus);
         outline-offset: calc(var(--sky-border-width-action-active) * -1);
       }
 
       &.sky-btn-tab-selected {
-        background-color: var(
-          --sky-override-selected-dropdown-background-color,
-          var(--sky-color-background-selected-soft)
-        );
+        background-color: var(--sky-color-background-selected-soft);
         color: var(--sky-color-text-default);
         border-bottom: none;
         border-radius: 0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0;
-        border-left: var(
-            --sky-override-selected-dropdown-item-border-width,
-            var(--sky-border-width-selected-l)
-          )
+        border-left: var(--sky-border-width-selected-m)
           var(--sky-border-style-accent) var(--sky-color-border-selected);
         padding: var(--sky-comp-tab-horizontal-space-inset-top)
           var(--sky-comp-tab-horizontal-space-inset-right)
           var(--sky-comp-tab-horizontal-space-inset-bottom)
           calc(
             var(--sky-comp-tab-horizontal-space-inset-left) - var(
-                --sky-override-selected-dropdown-item-border-width,
-                var(--sky-border-width-selected-l)
+                --sky-border-width-selected-m
               )
           );
       }
