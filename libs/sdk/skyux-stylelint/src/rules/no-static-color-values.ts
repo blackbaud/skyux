@@ -11,20 +11,7 @@ const messages = stylelint.utils.ruleMessages(ruleName, {
     `Unexpected static color value "${value}" for property "${property}". Use SKY UX approved custom properties instead.`,
 });
 
-// Properties that should not have static color values
-const COLOR_PROPERTIES = new Set([
-  'color',
-  'background',
-  'background-color',
-  'border',
-  'border-color',
-  'border-top-color',
-  'border-right-color',
-  'border-bottom-color',
-  'border-left-color',
-]);
-
-// Properties that require direct color value checking (non-shorthand)
+// Properties that only assign color values (non-shorthand)
 const DIRECT_COLOR_PROPERTIES = new Set([
   'color',
   'background-color',
@@ -35,8 +22,14 @@ const DIRECT_COLOR_PROPERTIES = new Set([
   'border-left-color',
 ]);
 
-// Shorthand properties that need color value extraction
-const SHORTHAND_PROPERTIES = new Set(['background', 'border']);
+// Shorthand properties that can assign color values.
+const SHORTHAND_COLOR_PROPERTIES = new Set(['background', 'border']);
+
+// Properties that should not have static color values
+const COLOR_PROPERTIES = new Set([
+  ...DIRECT_COLOR_PROPERTIES,
+  ...SHORTHAND_COLOR_PROPERTIES,
+]);
 
 // Allowed CSS keywords that should not be flagged
 const ALLOWED_KEYWORDS = new Set([
@@ -58,158 +51,17 @@ const COLOR_VALUE_PATTERNS = [
   /^hsla?\([^)]+\)$/,
 ];
 
-// Named colors set for O(1) lookup performance
-/* cspell:disable */
-const NAMED_COLORS = new Set([
-  'aliceblue',
-  'antiquewhite',
-  'aqua',
-  'aquamarine',
-  'azure',
-  'beige',
-  'bisque',
-  'black',
-  'blanchedalmond',
-  'blue',
-  'blueviolet',
-  'brown',
-  'burlywood',
-  'cadetblue',
-  'chartreuse',
-  'chocolate',
-  'coral',
-  'cornflowerblue',
-  'cornsilk',
-  'crimson',
-  'cyan',
-  'darkblue',
-  'darkcyan',
-  'darkgoldenrod',
-  'darkgray',
-  'darkgrey',
-  'darkgreen',
-  'darkkhaki',
-  'darkmagenta',
-  'darkolivegreen',
-  'darkorange',
-  'darkorchid',
-  'darkred',
-  'darksalmon',
-  'darkseagreen',
-  'darkslateblue',
-  'darkslategray',
-  'darkslategrey',
-  'darkturquoise',
-  'darkviolet',
-  'deeppink',
-  'deepskyblue',
-  'dimgray',
-  'dimgrey',
-  'dodgerblue',
-  'firebrick',
-  'floralwhite',
-  'forestgreen',
-  'fuchsia',
-  'gainsboro',
-  'ghostwhite',
-  'gold',
-  'goldenrod',
-  'gray',
-  'grey',
-  'green',
-  'greenyellow',
-  'honeydew',
-  'hotpink',
-  'indianred',
-  'indigo',
-  'ivory',
-  'khaki',
-  'lavender',
-  'lavenderblush',
-  'lawngreen',
-  'lemonchiffon',
-  'lightblue',
-  'lightcoral',
-  'lightcyan',
-  'lightgoldenrodyellow',
-  'lightgray',
-  'lightgrey',
-  'lightgreen',
-  'lightpink',
-  'lightsalmon',
-  'lightseagreen',
-  'lightskyblue',
-  'lightslategray',
-  'lightslategrey',
-  'lightsteelblue',
-  'lightyellow',
-  'lime',
-  'limegreen',
-  'linen',
-  'magenta',
-  'maroon',
-  'mediumaquamarine',
-  'mediumblue',
-  'mediumorchid',
-  'mediumpurple',
-  'mediumseagreen',
-  'mediumslateblue',
-  'mediumspringgreen',
-  'mediumturquoise',
-  'mediumvioletred',
-  'midnightblue',
-  'mintcream',
-  'mistyrose',
-  'moccasin',
-  'navajowhite',
-  'navy',
-  'oldlace',
-  'olive',
-  'olivedrab',
-  'orange',
-  'orangered',
-  'orchid',
-  'palegoldenrod',
-  'palegreen',
-  'paleturquoise',
-  'palevioletred',
-  'papayawhip',
-  'peachpuff',
-  'peru',
-  'pink',
-  'plum',
-  'powderblue',
-  'purple',
-  'red',
-  'rosybrown',
-  'royalblue',
-  'saddlebrown',
-  'salmon',
-  'sandybrown',
-  'seagreen',
-  'seashell',
-  'sienna',
-  'silver',
-  'skyblue',
-  'slateblue',
-  'slategray',
-  'slategrey',
-  'snow',
-  'springgreen',
-  'steelblue',
-  'tan',
-  'teal',
-  'thistle',
-  'tomato',
-  'turquoise',
-  'violet',
-  'wheat',
-  'white',
-  'whitesmoke',
-  'yellow',
-  'yellowgreen',
-]);
-/* cspell:enable */
+/**
+ * Check if a value is a CSS named color.
+ * Note: CSS named colors are standardized and stable since CSS 2.1/3.0 (2011).
+ * This list is complete and unlikely to change.
+ */
+function isNamedColor(value: string): boolean {
+  const namedColorPattern =
+    /^(?:aliceblue|antiquewhite|aqua|aquamarine|azure|beige|bisque|black|blanchedalmond|blue|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgrey|darkgreen|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|fuchsia|gainsboro|ghostwhite|gold|goldenrod|gray|grey|green|greenyellow|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgrey|lightgreen|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|lime|limegreen|linen|magenta|maroon|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orange|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|purple|red|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|silver|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|teal|thistle|tomato|turquoise|violet|wheat|white|whitesmoke|yellow|yellowgreen)$/i;
+
+  return namedColorPattern.test(value.toLowerCase());
+}
 
 const APPROVED_CUSTOM_PROPERTIES = [
   /^var\(\s*--sky-category-color-/,
@@ -223,13 +75,11 @@ const APPROVED_CUSTOM_PROPERTIES = [
 function isStaticColorValue(value: string): boolean {
   const trimmedValue = value.trim();
 
-  // Check regex patterns for hex, rgb/rgba, hsl/hsla
   if (COLOR_VALUE_PATTERNS.some((pattern) => pattern.test(trimmedValue))) {
     return true;
   }
 
-  // Check named colors (case-insensitive lookup)
-  return NAMED_COLORS.has(trimmedValue.toLowerCase());
+  return isNamedColor(trimmedValue);
 }
 
 function isApprovedCustomProperty(value: string): boolean {
@@ -281,23 +131,19 @@ const ruleBase: RuleBase = (options) => {
       const { prop, value } = decl;
       const lowerProp = prop.toLowerCase();
 
-      // Early exit if not a color property
       if (!COLOR_PROPERTIES.has(lowerProp)) {
         return;
       }
 
-      // Early exit for approved custom properties
       if (isApprovedCustomProperty(value)) {
         return;
       }
 
-      // Early exit for allowed CSS keywords
       const lowerValue = value.toLowerCase();
       if (ALLOWED_KEYWORDS.has(lowerValue)) {
         return;
       }
 
-      // Handle direct color properties (non-shorthand)
       if (DIRECT_COLOR_PROPERTIES.has(lowerProp)) {
         if (isStaticColorValue(value)) {
           stylelint.utils.report({
@@ -310,8 +156,7 @@ const ruleBase: RuleBase = (options) => {
         return;
       }
 
-      // Handle shorthand properties that need color value extraction
-      if (SHORTHAND_PROPERTIES.has(lowerProp)) {
+      if (SHORTHAND_COLOR_PROPERTIES.has(lowerProp)) {
         const colorValues = extractColorValues(value);
         for (const colorValue of colorValues) {
           stylelint.utils.report({
