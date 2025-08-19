@@ -1,0 +1,228 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard 1`] = `
+"import { Component } from '@angular/core';
+
+import { SkyTabsModule } from '@skyux/tabs';
+
+@Component({
+selector: 'app-test',
+templateUrl: './test.component.html',
+imports: [SkyTabsModule],
+})
+export class TestComponent {
+public isSaveDisabled = false;
+public updateIndex(event: { activeIndex: number }): void {
+console.log('Active index changed:', event.activeIndex);
+}
+public onSaveClick(event: Event): void {
+console.log('Save clicked:', event);
+}
+}"
+`;
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard with ambiguous module 1`] = `
+"import { Component } from '@angular/core';
+
+@Component({
+selector: 'app-test',
+templateUrl: './test.component.html',
+standalone: false,
+})
+export class TestComponent {
+public isSaveDisabled = false;
+public updateIndex(event: { activeIndex: number }): void {
+console.log('Active index changed:', event.activeIndex);
+}
+public onSaveClick(event: Event): void {
+console.log('Save clicked:', event);
+}
+}"
+`;
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard with module 1`] = `
+"import { Component } from '@angular/core';
+
+@Component({
+selector: 'app-test',
+standalone: false,
+templateUrl: './test.component.html',
+styleUrl: './test.component.scss'
+})
+export class TestComponent {
+
+}"
+`;
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard with module 2`] = `
+"import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TestComponent } from './test.component';
+
+import { SkyTabsModule } from '@skyux/tabs';
+
+
+
+@NgModule({
+declarations: [
+TestComponent
+],
+imports: [
+CommonModule,
+SkyTabsModule
+]
+})
+export class TestModule { }"
+`;
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard with module 3`] = `
+"import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { TestComponent } from './test.component';
+
+import { SkyTabsModule } from '@skyux/tabs';
+
+describe('TestComponent', () => {
+let component: TestComponent;
+let fixture: ComponentFixture<TestComponent>;
+
+beforeEach(async () => {
+await TestBed.configureTestingModule({
+declarations: [TestComponent],
+imports: [
+SkyTabsModule
+]
+})
+.compileComponents();
+
+fixture = TestBed.createComponent(TestComponent);
+component = fixture.componentInstance;
+fixture.detectChanges();
+});
+
+it('should create', () => {
+expect(component).toBeTruthy();
+});
+});"
+`;
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard, maintaining other progress indicators 1`] = `
+"import { Component } from '@angular/core';
+import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
+import { SkyTabsModule } from '@skyux/tabs';
+
+@Component({
+selector: 'app-test',
+templateUrl: './test.component.html',
+imports: [SkyProgressIndicatorModule, SkyTabsModule],
+})
+export class TestComponent {
+public isSaveDisabled = false;
+public updateIndex(event: { activeIndex: number }): void {
+console.log('Active index changed:', event.activeIndex);
+}
+public onSaveClick(event: Event): void {
+console.log('Save clicked:', event);
+}
+}"
+`;
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard, maintaining other progress indicators 2`] = `
+"import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { TestComponent } from './test.component';
+import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
+
+describe('TestComponent', () => {
+let component: TestComponent;
+let fixture: ComponentFixture<TestComponent>;
+
+beforeEach(async () => {
+await TestBed.configureTestingModule({
+imports: [TestComponent, SkyProgressIndicatorModule]
+})
+.compileComponents();
+
+fixture = TestBed.createComponent(TestComponent);
+component = fixture.componentInstance;
+fixture.detectChanges();
+});
+
+it('should create', () => {
+expect(component).toBeTruthy();
+});
+});"
+`;
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard, maintaining other progress indicators, with module 1`] = `
+"import { Component } from '@angular/core';
+
+@Component({
+selector: 'app-test',
+templateUrl: './test.component.html',
+standalone: false,
+})
+export class TestComponent {
+public isSaveDisabled = false;
+public updateIndex(event: { activeIndex: number }): void {
+console.log('Active index changed:', event.activeIndex);
+}
+public onSaveClick(event: Event): void {
+console.log('Save clicked:', event);
+}
+}"
+`;
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard, maintaining other progress indicators, with module 2`] = `
+"import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TestComponent } from './test.component';
+import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
+import { SkyTabsModule } from '@skyux/tabs';
+
+
+
+@NgModule({
+declarations: [
+TestComponent
+],
+imports: [
+CommonModule,
+SkyProgressIndicatorModule,
+SkyTabsModule
+]
+})
+export class TestModule { }"
+`;
+
+exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard, maintaining other progress indicators, with module 3`] = `
+"import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { TestComponent } from './test.component';
+import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
+import { SkyTabsModule } from '@skyux/tabs';
+
+describe('TestComponent', () => {
+let component: TestComponent;
+let fixture: ComponentFixture<TestComponent>;
+
+beforeEach(async () => {
+await TestBed.configureTestingModule({
+declarations: [TestComponent],
+imports: [
+SkyProgressIndicatorModule,
+SkyTabsModule
+]
+})
+.compileComponents();
+
+fixture = TestBed.createComponent(TestComponent);
+component = fixture.componentInstance;
+fixture.detectChanges();
+});
+
+it('should create', () => {
+expect(component).toBeTruthy();
+});
+});"
+`;
