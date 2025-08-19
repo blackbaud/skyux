@@ -1,9 +1,5 @@
 {
   "servers": {
-    "nx-mcp": {
-      "type": "sse",
-      "url": "http://localhost:9698/sse"
-    },
     "github": {
       "url": "https://api.githubcopilot.com/mcp/",
       "type": "http"

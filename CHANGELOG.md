@@ -24,6 +24,13 @@
 * make `@skyux-sdk/testing` an optional peer dependency; deprecate legacy testing fixtures ([#3840](https://github.com/blackbaud/skyux/issues/3840)) ([65f8d6e](https://github.com/blackbaud/skyux/commit/65f8d6ef727a5d1700be58f59c213e78a3be2fa5))
 * **sdk/eslint-config-skyux:** re-enable `@angular-eslint/prefer-standalone` ESLint rule ([#3837](https://github.com/blackbaud/skyux/issues/3837)) ([d8987ad](https://github.com/blackbaud/skyux/commit/d8987adc099fc280ec83fe793220860faf79d88c))
 
+## [12.35.0](https://github.com/blackbaud/skyux/compare/12.34.0...12.35.0) (2025-08-19)
+
+
+### Features
+
+* **components/packages:** create schematic to convert progress-indicator wizard to tabs wizard ([#3814](https://github.com/blackbaud/skyux/issues/3814)) ([40b8d68](https://github.com/blackbaud/skyux/commit/40b8d68bd172dd80b00b4cf61f6357efc81d9662))
+
 ## [12.34.0](https://github.com/blackbaud/skyux/compare/12.33.0...12.34.0) (2025-08-18)
 
 
