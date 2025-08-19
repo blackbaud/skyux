@@ -163,23 +163,26 @@ export class SkyAgGridCellEditorLookupComponent
       const lookupInput: HTMLTextAreaElement =
         this.#elementRef.nativeElement.querySelector('.sky-lookup-input');
       lookupInput.focus();
-      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
-        lookupInput.setRangeText(`${this.#params?.eventKey}`);
-        // Ensure the cursor is at the end of the text.
-        lookupInput.setSelectionRange(
-          lookupInput.value.length,
-          lookupInput.value.length,
-        );
-        lookupInput.dispatchEvent(new Event('input'));
-      } else if (
-        this.#triggerType === SkyAgGridCellEditorInitialAction.Untouched
-      ) {
-        // Ensure the cursor is at the end of the text.
-        lookupInput.setSelectionRange(
-          lookupInput.value.length,
-          lookupInput.value.length,
-        );
-      }
+      // Lookup selects content on focus normally. Allow this to happen prior to us resetting the selection.
+      setTimeout(() => {
+        if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
+          lookupInput.setRangeText(`${this.#params?.eventKey}`);
+          // Ensure the cursor is at the end of the text.
+          lookupInput.setSelectionRange(
+            lookupInput.value.length,
+            lookupInput.value.length,
+          );
+          lookupInput.dispatchEvent(new Event('input'));
+        } else if (
+          this.#triggerType === SkyAgGridCellEditorInitialAction.Untouched
+        ) {
+          // Ensure the cursor is at the end of the text.
+          lookupInput.setSelectionRange(
+            lookupInput.value.length,
+            lookupInput.value.length,
+          );
+        }
+      });
     });
   }
 

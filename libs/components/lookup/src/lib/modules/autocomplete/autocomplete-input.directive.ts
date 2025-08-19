@@ -16,6 +16,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
+import { SkyInputBoxHostService } from '@skyux/forms';
 
 import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -151,6 +152,8 @@ export class SkyAutocompleteInputDirective
 
   #focusObs: Observable<void>;
 
+  #inputBoxHostSvc = inject(SkyInputBoxHostService, { optional: true });
+
   #isFirstChange = true;
 
   #ngUnsubscribe = new Subject<void>();
@@ -194,7 +197,10 @@ export class SkyAutocompleteInputDirective
         }
       });
 
-    observableFromEvent(element, 'blur')
+    (
+      this.#inputBoxHostSvc?.inputFocusout ??
+      observableFromEvent(element, 'blur')
+    )
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         if (!this.disabled) {
@@ -202,7 +208,10 @@ export class SkyAutocompleteInputDirective
         }
       });
 
-    observableFromEvent(element, 'focus')
+    (
+      this.#inputBoxHostSvc?.inputFocusin ??
+      observableFromEvent(element, 'focusin')
+    )
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         if (!this.disabled) {

@@ -42,7 +42,7 @@ describe('Country Field Component', () => {
     const inputElement = getInputElement();
     inputElement.value = newValue;
 
-    SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+    SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
     SkyAppTestUtility.fireDomEvent(inputElement, 'input');
     fixture.detectChanges();
     tick();
@@ -104,7 +104,10 @@ describe('Country Field Component', () => {
 
   function triggerInputFocus(): void {
     const inputElement = getInputElement();
-    SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+    inputElement.focus();
+    SkyAppTestUtility.fireDomEvent(inputElement, 'focusin', {
+      bubbles: true,
+    });
   }
 
   function validateSelectedCountry(
@@ -179,7 +182,7 @@ describe('Country Field Component', () => {
       it('should show hint text in dropdown before searching', fakeAsync(() => {
         fixture.detectChanges();
 
-        SkyAppTestUtility.fireDomEvent(getInputElement(), 'focus');
+        SkyAppTestUtility.fireDomEvent(getInputElement(), 'focusin');
 
         fixture.detectChanges();
         tick();
@@ -482,19 +485,22 @@ describe('Country Field Component', () => {
         expect(focusOutSpy).toHaveBeenCalled();
       }));
 
-      it('should select the value on focus', fakeAsync(() => {
+      it('should select the value on focus', async () => {
         component.modelValue = {
           name: 'Australia',
           iso2: 'au',
         };
         fixture.detectChanges();
-        tick();
+        await fixture.whenStable();
         fixture.detectChanges();
         validateSelectedCountry(nativeElement, 'Australia');
 
         triggerInputFocus();
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
         expect(window.getSelection().toString()).toBe('Australia');
-      }));
+      });
     });
 
     describe('validation', () => {
@@ -685,7 +691,7 @@ describe('Country Field Component', () => {
       it('should show hint text in dropdown before searching', fakeAsync(() => {
         fixture.detectChanges();
 
-        SkyAppTestUtility.fireDomEvent(getInputElement(), 'focus');
+        SkyAppTestUtility.fireDomEvent(getInputElement(), 'focusin');
 
         fixture.detectChanges();
         tick();
@@ -1053,19 +1059,22 @@ describe('Country Field Component', () => {
         });
       }));
 
-      it('should select the value on focus', fakeAsync(() => {
+      it('should select the value on focus', async () => {
         component.initialValue = {
           name: 'Australia',
           iso2: 'au',
         };
         fixture.detectChanges();
-        tick();
+        await fixture.whenStable();
         fixture.detectChanges();
         validateSelectedCountry(nativeElement, 'Australia');
 
         triggerInputFocus();
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
         expect(window.getSelection().toString()).toBe('Australia');
-      }));
+      });
     });
 
     describe('validation', () => {
@@ -1365,7 +1374,7 @@ describe('Country Field Component', () => {
         const inputElement = getInputElement();
         inputElement.value = 'Austr';
 
-        SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+        SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
         SkyAppTestUtility.fireDomEvent(inputElement, 'input');
         fixture.detectChanges();
         await fixture.whenStable();

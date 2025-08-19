@@ -20,8 +20,8 @@
           'sky-field-status-active': formControlHasFocus,
           'sky-field-status-invalid': hasErrorsComputed
         }"
-        (focusin)="formControlFocusIn()"
-        (focusout)="formControlFocusOut()"
+        (focusin)="formControlFocusIn($event)"
+        (focusout)="formControlFocusOut($event)"
       >
         <ng-container *ngTemplateOutlet="iconsInsetLeftTemplate" />
         <ng-container *ngTemplateOutlet="inputTemplate" />
@@ -50,13 +50,13 @@
         'sky-input-box-group-form-control-focus': formControlHasFocus,
         'sky-input-box-group-form-control-invalid': hasErrorsComputed
       }"
-      (focusin)="formControlFocusIn()"
-      (focusout)="formControlFocusOut()"
+      (focusin)="formControlFocusIn($event)"
+      (focusout)="formControlFocusOut($event)"
     >
       <div class="sky-form-group">
         <ng-container *ngTemplateOutlet="iconsInsetLeftTemplate" />
         <div class="sky-input-box-form-group-inner">
-          <div class="sky-input-box-label-wrapper">
+          <div class="sky-input-box-label-wrapper" tabindex="-1">
             <ng-container *ngTemplateOutlet="labelTemplate" /><ng-container
               *ngTemplateOutlet="inlineHelpTemplate"
             />
@@ -154,7 +154,11 @@
 </ng-template>
 
 <ng-template #iconsInsetTemplate>
-  <div class="sky-input-box-icon-inset-wrapper" (click)="onInsetIconClick()">
+  <div
+    class="sky-input-box-icon-inset-wrapper"
+    tabindex="-1"
+    (click)="onInsetIconClick()"
+  >
     <ng-content select=".sky-input-group-icon.sky-input-box-icon-inset" />
     @if (hostIconsInsetTemplate) {
       <ng-container [ngTemplateOutlet]="hostIconsInsetTemplate" />
@@ -165,6 +169,7 @@
 <ng-template #iconsInsetLeftTemplate>
   <div
     class="sky-input-box-icon-inset-left-wrapper"
+    tabindex="-1"
     (click)="onInsetIconClick()"
   >
     <ng-content select=".sky-input-group-icon.sky-input-box-icon-inset-left" />

@@ -1,7 +1,9 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   Injector,
   Input,
@@ -29,7 +31,7 @@ import {
 import { SkyInputBoxHostService } from '@skyux/forms';
 
 import intlTelInput from 'intl-tel-input';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
@@ -60,7 +62,7 @@ let uniqueId = 0;
   standalone: false,
 })
 export class SkyCountryFieldComponent
-  implements ControlValueAccessor, OnDestroy, OnInit, Validator
+  implements ControlValueAccessor, OnDestroy, OnInit, Validator, AfterViewInit
 {
   /**
    * The value for the HTML `autocomplete` attribute on the form input.
@@ -229,9 +231,16 @@ export class SkyCountryFieldComponent
   })
   public inputTemplateRef: TemplateRef<unknown> | undefined;
 
+  @ViewChild('countryFieldWrapper', {
+    read: ElementRef,
+  })
+  public countryFieldWrapperRef: ElementRef | undefined;
+
   #changeDetector: ChangeDetectorRef;
 
   #defaultCountryData: SkyCountryFieldCountry | undefined;
+
+  #elementRef = inject(ElementRef);
 
   #injector: Injector;
 
@@ -300,6 +309,24 @@ export class SkyCountryFieldComponent
         }
       });
     this.#changeDetector.markForCheck();
+  }
+
+  public ngAfterViewInit(): void {
+    const hostElement = !this.inputBoxHostSvc
+      ? this.#elementRef.nativeElement
+      : this.countryFieldWrapperRef?.nativeElement;
+
+    (this.inputBoxHostSvc?.inputFocusin ?? fromEvent(hostElement, 'focusin'))
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        const isInputFocused = hostElement.contains(document.activeElement);
+
+        if (isInputFocused) {
+          hostElement
+            .querySelector('.sky-country-field-input textarea')
+            .select();
+        }
+      });
   }
 
   /**
@@ -386,10 +413,6 @@ export class SkyCountryFieldComponent
   public writeValue(value: SkyCountryFieldCountry | undefined): void {
     this.selectedCountry = value;
     this.#changeDetector.markForCheck();
-  }
-
-  protected onFocus($event: FocusEvent): void {
-    ($event.target as HTMLTextAreaElement).select();
   }
 
   #countriesAreEqual(
