@@ -1,4 +1,9 @@
-import { Rule, Tree, chain } from '@angular-devkit/schematics';
+import {
+  Rule,
+  Tree,
+  chain,
+  externalSchematic,
+} from '@angular-devkit/schematics';
 
 import { readJson } from 'fs-extra';
 import { resolve } from 'path';
@@ -7,6 +12,8 @@ import { modifyEsLintConfig } from '../shared/rules/modify-eslint-config';
 import { modifyTsConfig } from '../shared/rules/modify-tsconfig';
 import { PackageJson } from '../shared/types/package-json';
 import { readRequiredFile } from '../shared/utility/tree';
+
+import { NgAddSchema } from './schema';
 
 function getPackageJson(tree: Tree): PackageJson {
   return JSON.parse(readRequiredFile(tree, '/package.json')) as PackageJson;
@@ -26,8 +33,12 @@ function hardenPackageVersion(): Rule {
   };
 }
 
-export default function ngAdd(): Rule {
+export default function ngAdd(options: NgAddSchema): Rule {
   return (tree) => {
+    if (options.useRecommendedPackage) {
+      return externalSchematic('eslint-config-skyux', 'ng-add', {});
+    }
+
     const packageJson = getPackageJson(tree);
 
     if (

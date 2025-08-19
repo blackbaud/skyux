@@ -1,5 +1,12 @@
 {
-  "$schema": "http://json-schema.org/schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
   "type": "object",
-  "properties": {}
+  "properties": {
+    "useRecommendedPackage": {
+      "type": "boolean",
+      "description": "Install eslint-config-skyux instead of the deprecated @skyux-sdk/eslint-config",
+      "default": true,
+      "x-prompt": "The @skyux-sdk/eslint-config package is deprecated. Would you like to install eslint-config-skyux instead? (recommended)"
+    }
+  }
 }
