@@ -62,15 +62,7 @@ describe('Icon SVG component', () => {
     validateIconId('#test-20-line');
   }));
 
-  it('should display the resolved icon by ID and relative size', fakeAsync(() => {
-    fixture.componentRef.setInput('iconName', 'test');
-    fixture.componentRef.setInput('relativeSize', '2x');
-    detectUrlChanges();
-
-    validateIconId('#test-32-line');
-  }));
-
-  it('should display the resolved icon by ID and fixed size', fakeAsync(() => {
+  it('should display the resolved icon by ID and iconSize', fakeAsync(() => {
     fixture.componentRef.setInput('iconName', 'test');
     fixture.componentRef.setInput('iconSize', 'l');
     detectUrlChanges();
@@ -86,13 +78,13 @@ describe('Icon SVG component', () => {
     validateIconId('#test-20-solid');
   }));
 
-  it('should display the resolved icon by ID, relative size, and variant', fakeAsync(() => {
+  it('should display the resolved icon by ID, iconSize, and variant', fakeAsync(() => {
     fixture.componentRef.setInput('iconName', 'test');
-    fixture.componentRef.setInput('relativeSize', '2x');
+    fixture.componentRef.setInput('iconSize', 'l');
     fixture.componentRef.setInput('iconVariant', 'solid');
     detectUrlChanges();
 
-    validateIconId('#test-32-solid');
+    validateIconId('#test-24-solid');
   }));
 
   it('should handle errors', fakeAsync(() => {

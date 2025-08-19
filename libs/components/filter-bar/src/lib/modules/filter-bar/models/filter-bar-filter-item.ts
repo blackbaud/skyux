@@ -1,9 +1,15 @@
-import { SkyFilterBarFilterModalConfig } from './filter-bar-filter-modal-config';
 import { SkyFilterBarFilterValue } from './filter-bar-filter-value';
 
+/**
+ * Represents a specific filter item and its selected value, if any.
+ */
 export interface SkyFilterBarFilterItem {
-  id: string;
-  name: string;
+  /**
+   * A unique identifier for the filter item.
+   */
+  filterId: string;
+  /**
+   * The value of the filter item.
+   */
   filterValue?: SkyFilterBarFilterValue;
-  filterModalConfig?: SkyFilterBarFilterModalConfig;
 }

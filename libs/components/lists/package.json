@@ -31,6 +31,11 @@
     "@skyux/popovers": "0.0.0-PLACEHOLDER",
     "@skyux/theme": "0.0.0-PLACEHOLDER"
   },
+  "peerDependenciesMeta": {
+    "@skyux-sdk/testing": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "@types/dragula": "2.1.36",
     "dom-autoscroller": "2.3.4",

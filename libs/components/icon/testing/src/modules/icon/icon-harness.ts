@@ -34,68 +34,30 @@ export class SkyIconHarness extends SkyComponentHarness {
   /**
    * Gets the icon size.
    */
-  public async getIconSize(): Promise<string | undefined> {
+  public async getIconSize(): Promise<string> {
     const iconClasses = await this.#getIconClasses();
 
     for (const iconClass of iconClasses) {
-      // match a class name that starts with `fa-` and follows with `lg`, `2x`, `3x`, `4x`, `5x`
-      if (/^fa-(?=2xs|lg|[2-5]+x)/.test(iconClass)) {
-        return iconClass.replace('fa-', '');
-      } else if (/^sky-icon-svg-relative-(?=2xs|lg|[2-5]+x)/.test(iconClass)) {
-        return iconClass.replace('sky-icon-svg-relative-', '');
-      } else if (
-        /^sky-icon-svg-(?=xxxs|xxs|xs|s|m|l|xl|xxl|xxxl)/.test(iconClass)
-      ) {
+      // match a class name that starts with `sky-icon-svg-` and follows with icon sizes
+      if (/^sky-icon-svg-(?=xxxs|xxs|xs|s|m|l|xl|xxl|xxxl)/.test(iconClass)) {
         return iconClass.replace('sky-icon-svg-', '');
       }
     }
-    return undefined;
-  }
 
-  /**
-   * Gets the icon type.
-   * @deprecated The `iconType` input is no longer used. This method will be removed in SKY UX 13.
-   */
-  public async getIconType(): Promise<string> {
-    return (await this.#getSpecifiedIconInfo()).iconType || 'fa';
+    /* istanbul ignore next: safety check */
+    throw new Error('Icon size could not be determined');
   }
 
   /**
    * Gets if the icon is a variant.
    */
-  public async getVariant(): Promise<string | undefined> {
+  public async getVariant(): Promise<string> {
     const iconInfo = await this.#getSpecifiedIconInfo();
-    const svgIcon = await this.locatorForOptional('sky-icon-svg')();
-
-    if (svgIcon || iconInfo.iconType === 'skyux') {
-      return iconInfo.variant || 'line';
-    }
-
-    throw new Error(
-      'Variant cannot be determined because variants are only assigned to icons with type `skyux`.',
-    );
-  }
-
-  /**
-   * Whether the icon has fixed width.
-   * @deprecated Font Awesome icons are deprecated, and all icons are now fixed width. This method will be removed in SKY UX 13.
-   */
-  public async isFixedWidth(): Promise<boolean> {
-    const icon = await this.#getIcon();
-    return await icon.hasClass(`fa-fw`);
+    return iconInfo.variant || 'line';
   }
 
   async #getIcon(): Promise<TestElement> {
-    const icon = await this.locatorForOptional('.sky-icon')();
-    const svgIcon = await this.locatorForOptional('sky-icon-svg')();
-
-    if (icon) {
-      return icon;
-    } else if (svgIcon) {
-      return svgIcon;
-    }
-
-    throw new Error('Icon could not be rendered.');
+    return await this.locatorFor('sky-icon-svg')();
   }
 
   async #getIconClasses(): Promise<string[]> {
@@ -105,19 +67,12 @@ export class SkyIconHarness extends SkyComponentHarness {
 
   async #getSpecifiedIconInfo(): Promise<{
     icon: string | null;
-    iconType: string | null;
     variant: string | null;
   }> {
-    // Since SKY UX icons have Font Awesome alternatives that may be used
-    // in default theme instead of the icon specified by the consumer, we
-    // need to get the specified values using data- attributes added by
-    // the icon component. This conflicts with the usual pattern of giving
-    // the effective state of the component but is necessary in this case.
     const icon = await this.#getIcon();
 
     return {
       icon: await icon.getAttribute('data-sky-icon'),
-      iconType: await icon.getAttribute('data-sky-icon-type'),
       variant: await icon.getAttribute('data-sky-icon-variant'),
     };
   }

@@ -10,13 +10,11 @@ ruleTester.run(RULE_NAME, rule, {
   valid: [
     `<sky-icon iconName="add"></sky-icon>`,
     `<sky-icon [iconName]="boundIcon"></sky-icon>`,
-    `<sky-icon iconName="add" [fixedWidth]="true"></sky-icon>`,
-    `<sky-icon iconName="add" size="2x"></sky-icon>`,
+    `<sky-icon iconName="add" iconSize="xxl"></sky-icon>`,
     `<sky-icon iconName="add" variant="solid"></sky-icon>`,
     `<sky-icon iconName="add"/>`,
     `<sky-icon [iconName]="boundIcon"/>`,
-    `<sky-icon iconName="add" [fixedWidth]="true"/>`,
-    `<sky-icon iconName="add" size="2x"/>`,
+    `<sky-icon iconName="add" iconSize="xxl"/>`,
     `<sky-icon iconName="add" variant="solid"/>`,
     `<sky-action-button-container>
       <sky-action-button (actionClick)="filterActionClick()">

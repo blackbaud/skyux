@@ -60,7 +60,9 @@ export { FormsSelectionBoxCheckboxExampleComponent } from './lib/modules/forms/s
 export { FormsSelectionBoxRadioExampleComponent } from './lib/modules/forms/selection-box/radio/example.component';
 export { FormsToggleSwitchBasicExampleComponent } from './lib/modules/forms/toggle-switch/basic/example.component';
 export { FormsToggleSwitchHelpKeyExampleComponent } from './lib/modules/forms/toggle-switch/help-key/example.component';
-export { HelpInlineBasicExampleComponent } from './lib/modules/help-inline/basic/example.component';
+export { HelpInlineActionClickExampleComponent } from './lib/modules/help-inline/action-click/example.component';
+export { HelpInlineHelpKeyExampleComponent } from './lib/modules/help-inline/help-key/example.component';
+export { HelpInlinePopoverExampleComponent } from './lib/modules/help-inline/popover/example.component';
 export { IconBasicExampleComponent } from './lib/modules/icon/basic/example.component';
 export { IconIconButtonExampleComponent } from './lib/modules/icon/icon-button/example.component';
 export { IndicatorsAlertBasicExampleComponent } from './lib/modules/indicators/alert/basic/example.component';
@@ -96,7 +98,6 @@ export { LayoutFormatExampleComponent } from './lib/modules/layout/format/exampl
 export { LayoutInlineDeleteCustomExampleComponent } from './lib/modules/layout/inline-delete/custom/example.component';
 export { LayoutInlineDeleteRepeaterExampleComponent } from './lib/modules/layout/inline-delete/repeater/example.component';
 export { LayoutPageSummaryBasicExampleComponent } from './lib/modules/layout/page-summary/basic/example.component';
-export { LayoutPageLayoutFitExampleComponent } from './lib/modules/layout/page/layout-fit/example.component';
 export { LayoutTextExpandRepeaterExampleComponent } from './lib/modules/layout/text-expand-repeater/example.component';
 export { LayoutTextExpandInlineExampleComponent } from './lib/modules/layout/text-expand/inline/example.component';
 export { LayoutTextExpandModalExampleComponent } from './lib/modules/layout/text-expand/modal/example.component';

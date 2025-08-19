@@ -1,7 +1,3 @@
-export { SkySummaryActionBarFixture } from './legacy/summary-action-bar/summary-action-bar-fixture';
-export { SkySummaryActionBarFixtureAction } from './legacy/summary-action-bar/summary-action-bar-fixture-action';
-export { SkySummaryActionBarTestingModule } from './legacy/summary-action-bar/summary-action-bar.module';
-
 export { SkySummaryActionBarCancelHarness } from './modules/summary-action-bar/summary-action-bar-cancel-harness';
 export { SkySummaryActionBarCancelHarnessFilters } from './modules/summary-action-bar/summary-action-bar-cancel-harness-filters';
 export { SkySummaryActionBarHarness } from './modules/summary-action-bar/summary-action-bar-harness';

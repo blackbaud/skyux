@@ -154,7 +154,10 @@ export class SkyThemeService {
       this.#brandSvc.updateBrand(
         this.#hostEl,
         this.#getRenderer(),
-        settings.brand,
+        settings.brand ??
+          (settings.theme === SkyTheme.presets.modern
+            ? new SkyThemeBrand('blackbaud', '1.0.0')
+            : undefined),
         previous?.brand,
       );
     }

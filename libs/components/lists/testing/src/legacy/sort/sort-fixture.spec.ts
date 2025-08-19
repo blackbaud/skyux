@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 import { SkyToolbarModule } from '@skyux/layout';
-import { SkyRepeaterModule } from '@skyux/lists';
+import { SkyRepeaterModule, SkySortModule } from '@skyux/lists';
 
 import { SortFixtureTestComponent } from './fixtures/sort-fixture.component.fixture';
 import { SkySortFixture } from './sort-fixture';
 import { SkySortFixtureMenuItem } from './sort-fixture-menu-item';
-import { SkySortTestingModule } from './sort-testing.module';
 
 describe('Sort fixture', () => {
   let fixture: ComponentFixture<SortFixtureTestComponent>;
@@ -59,7 +59,8 @@ describe('Sort fixture', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [SortFixtureTestComponent],
-      imports: [SkyRepeaterModule, SkySortTestingModule, SkyToolbarModule],
+      imports: [SkyRepeaterModule, SkySortModule, SkyToolbarModule],
+      providers: [provideNoopAnimations()],
     });
 
     fixture = TestBed.createComponent(SortFixtureTestComponent);
