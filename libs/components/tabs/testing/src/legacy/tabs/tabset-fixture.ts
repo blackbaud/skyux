@@ -7,6 +7,7 @@ import { SkyTabsetFixtureTab } from './tab-fixture-tab';
 
 /**
  * Allows interaction with a SKY UX tabset component.
+ * @deprecated Use `SkyTabsetHarness` instead.
  * @internal
  */
 export class SkyTabsetFixture {

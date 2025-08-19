@@ -1,3 +1,4 @@
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import {
   ComponentFixture,
   TestBed,
@@ -6,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyDatepickerFixture } from '@skyux/datetime/testing';
+import { SkyDatepickerHarness } from '@skyux/datetime/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -193,11 +194,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
       };
     });
 
-    it('initializes the SkyAgGridCellEditorDatepickerComponent properties', fakeAsync(() => {
-      const datepicker = new SkyDatepickerFixture(
-        datepickerEditorFixture,
-        'cell-datepicker',
+    it('initializes the SkyAgGridCellEditorDatepickerComponent properties', fakeAsync(async () => {
+      const loader = TestbedHarnessEnvironment.loader(datepickerEditorFixture);
+
+      const datepicker = await loader.getHarness(
+        SkyDatepickerHarness.with({ dataSkyId: 'cell-datepicker' }),
       );
+
       expect(
         datepickerEditorComponent.editorForm.get('date')?.value,
       ).toBeNull();
@@ -210,7 +213,10 @@ describe('SkyCellEditorDatepickerComponent', () => {
       expect(datepickerEditorComponent.editorForm.get('date')?.value).toEqual(
         date,
       );
-      expect(datepicker.date).toEqual(dateString);
+
+      await expectAsync(
+        (await datepicker.getControl()).getValue(),
+      ).toBeResolvedTo(dateString);
     }));
 
     it('initializes disabled if the disabled property is passed in', () => {

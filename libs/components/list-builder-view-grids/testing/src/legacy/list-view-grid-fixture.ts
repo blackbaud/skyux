@@ -9,6 +9,7 @@ import { SkyListViewGridFixtureRow } from './list-view-grid-fixture-row';
 
 /**
  * Allows interaction with a SKY UX list view grid component.
+ * @deprecated
  * @internal
  */
 export class SkyListViewGridFixture {
