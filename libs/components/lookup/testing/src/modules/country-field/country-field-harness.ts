@@ -83,7 +83,26 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
   }
 
   /**
-   * Returns country field search result harnesses.
+   * Gets a specific country field search result that meets certain criteria.
+   */
+  public async getSearchResult(
+    filter: SkyCountryFieldSearchResultHarnessFilters,
+  ): Promise<SkyCountryFieldSearchResultHarness> {
+    const overlay = await this.#getOverlay();
+
+    if (!overlay) {
+      throw new Error(
+        'Unable to retrieve search result. The country field is closed.',
+      );
+    }
+
+    return await overlay.queryHarness(
+      SkyCountryFieldSearchResultHarness.with(filter),
+    );
+  }
+
+  /**
+   * Gets an array of country field search result harnesses.
    */
   public override async getSearchResults(
     filters?: SkyCountryFieldSearchResultHarnessFilters,

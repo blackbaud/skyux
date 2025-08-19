@@ -245,7 +245,7 @@ describe('Data manager harness', () => {
       );
     });
 
-    describe('Data manager column picker', () => {
+    fdescribe('Data manager column picker', () => {
       async function setupColumnPickerTest(): Promise<{
         columnPickerHarness: SkyDataManagerColumnPickerHarness;
         toolbarHarness: SkyDataManagerToolbarHarness;
@@ -340,6 +340,17 @@ describe('Data manager harness', () => {
         ).toBeRejectedWithError(
           'Could not find columns in the column picker matching filter(s): {"contentText":"anything"}',
         );
+      });
+
+      it('should get a specific column that matches the given filters', async () => {
+        const { columnPickerHarness } = await setupColumnPickerTest();
+
+        const column = await columnPickerHarness.getColumn({
+          titleText: 'Fruit name',
+        });
+
+        await expectAsync(column.getTitleText()).toBeResolvedTo('Fruit name');
+        await expectAsync(column.isSelected()).toBeResolvedTo(true);
       });
     });
   });

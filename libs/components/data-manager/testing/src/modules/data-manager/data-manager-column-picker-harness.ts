@@ -65,7 +65,18 @@ export class SkyDataManagerColumnPickerHarness extends ComponentHarness {
   }
 
   /**
-   * Gets a list of columns.
+   * Gets a specific column that meets certain criteria.
+   */
+  public async getColumn(
+    filter: SkyDataManagerColumnPickerColumnHarnessFilters,
+  ): Promise<SkyDataManagerColumnPickerColumnHarness> {
+    return await this.locatorFor(
+      SkyDataManagerColumnPickerColumnHarness.with(filter),
+    )();
+  }
+
+  /**
+   * Gets an array of columns.
    */
   public async getColumns(
     filters?: SkyDataManagerColumnPickerColumnHarnessFilters,

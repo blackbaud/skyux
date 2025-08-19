@@ -61,7 +61,7 @@ export class SkyActionHubHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific needs attention item that meets certain criteria.
+   * Gets a specific needs attention item that meets certain criteria.
    */
   public async getNeedsAttentionItem(
     filter: SkyNeedsAttentionItemHarnessFilters,
@@ -70,7 +70,7 @@ export class SkyActionHubHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all needs attention items.
+   * Gets an array of needs attention items.
    */
   public async getNeedsAttentionItems(
     filters?: SkyNeedsAttentionItemHarnessFilters,
