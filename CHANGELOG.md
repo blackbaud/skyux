@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.35.0](https://github.com/blackbaud/skyux/compare/12.34.0...12.35.0) (2025-08-19)
+
+
+### Features
+
+* **components/packages:** create schematic to convert progress-indicator wizard to tabs wizard ([#3814](https://github.com/blackbaud/skyux/issues/3814)) ([40b8d68](https://github.com/blackbaud/skyux/commit/40b8d68bd172dd80b00b4cf61f6357efc81d9662))
+
 ## [12.34.0](https://github.com/blackbaud/skyux/compare/12.33.0...12.34.0) (2025-08-18)
 
 
