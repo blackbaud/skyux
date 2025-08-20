@@ -7,7 +7,7 @@ Disallow the usage of `::ng-deep` in CSS selectors. According to [Angular's offi
 The `::ng-deep` pseudo-element was introduced as a shadow-piercing combinator to allow styles to penetrate component boundaries in Angular's emulated view encapsulation. However, it has several significant drawbacks:
 
 1. **Breaks component encapsulation**: Defeats the purpose of scoped component styles
-2. **Creates global styles**: Styles leak out and can affect other components unintentionally  
+2. **Creates global styles**: Styles leak out and can affect other components unintentionally
 3. **Difficult to maintain**: Makes it hard to understand which styles apply where
 4. **Deprecated by Angular team**: Strongly discouraged and may be removed in future versions
 
@@ -162,7 +162,7 @@ export default {
 This rule accepts a boolean value:
 
 - `true` (default): Disallows all usage of `::ng-deep`
-- `false`: Disables the rule
+- `null`: Disables the rule
 
 ## Related Links
 
