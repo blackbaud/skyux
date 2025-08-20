@@ -70,6 +70,11 @@ describe(ruleName, () => {
         code: '.ng-container { display: contents; }',
         description: 'other ng- prefixed classes should be allowed',
       },
+      {
+        code: '::NG-DEEP .uppercase { color: green; }',
+        description:
+          'uppercase ::NG-DEEP should be allowed (Angular does not recognize it)',
+      },
     ],
 
     reject: [
@@ -90,27 +95,6 @@ describe(ruleName, () => {
       {
         code: ':host ::ng-deep .global { color: blue; }',
         description: '::ng-deep with :host should be rejected',
-        message:
-          'Unexpected usage of "::ng-deep". The Angular team strongly discourages new use of ::ng-deep as it breaks component encapsulation. Consider using :host or component communication patterns instead.',
-        line: 1,
-      },
-      {
-        code: '::NG-DEEP .uppercase { color: green; }',
-        description: 'uppercase ::NG-DEEP should be rejected',
-        message:
-          'Unexpected usage of "::ng-deep". The Angular team strongly discourages new use of ::ng-deep as it breaks component encapsulation. Consider using :host or component communication patterns instead.',
-        line: 1,
-      },
-      {
-        code: ':: ng-deep .with-space { color: purple; }',
-        description: ':: ng-deep with space should be rejected',
-        message:
-          'Unexpected usage of "::ng-deep". The Angular team strongly discourages new use of ::ng-deep as it breaks component encapsulation. Consider using :host or component communication patterns instead.',
-        line: 1,
-      },
-      {
-        code: ': ng-deep .single-colon { color: orange; }',
-        description: ': ng-deep (single colon) should be rejected',
         message:
           'Unexpected usage of "::ng-deep". The Angular team strongly discourages new use of ::ng-deep as it breaks component encapsulation. Consider using :host or component communication patterns instead.',
         line: 1,

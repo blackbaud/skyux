@@ -27,9 +27,7 @@ const ruleBase: RuleBase = (options) => {
     root.walkRules((ruleNode) => {
       const { selector } = ruleNode;
 
-      // Check for ::ng-deep in selectors (case-insensitive)
-      // Matches ::ng-deep, : :ng-deep (with space), and variations
-      if (/::?\s*ng-deep/i.test(selector)) {
+      if (/::ng-deep/.test(selector)) {
         stylelint.utils.report({
           result,
           ruleName,
