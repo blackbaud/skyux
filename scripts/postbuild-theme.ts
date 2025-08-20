@@ -104,6 +104,11 @@ function copyPublicScssFiles(): void {
   );
 
   copyScss(
+    path.join(STYLES_ROOT, '_public-api/_responsive-container.scss'),
+    path.join(DEST_ROOT, 'scss/responsive-container.scss'),
+  );
+
+  copyScss(
     path.join(STYLES_ROOT, '_public-api/_variables.scss'),
     path.join(DEST_ROOT, 'scss/variables.scss'),
   );
