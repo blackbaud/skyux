@@ -1,3 +1,4 @@
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import {
   ComponentFixture,
   TestBed,
@@ -6,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyDatepickerFixture } from '@skyux/datetime/testing';
+import { SkyDatepickerHarness } from '@skyux/datetime/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -27,7 +28,6 @@ import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
-import { SkyCellClass } from '../../types/cell-class';
 import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
 import { SkyAgGridCellEditorDatepickerComponent } from '../cell-editor-datepicker/cell-editor-datepicker.component';
 
@@ -73,17 +73,12 @@ describe('SkyCellEditorDatepickerComponent', () => {
   describe('in ag grid', () => {
     let gridFixture: ComponentFixture<SkyAgGridFixtureComponent>;
     let gridNativeElement: HTMLElement;
-    let dateCellElement: HTMLElement;
 
     beforeEach(() => {
       gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
       gridNativeElement = gridFixture.nativeElement;
 
       gridFixture.detectChanges();
-
-      dateCellElement = gridNativeElement.querySelector(
-        `.${SkyCellClass.Date}`,
-      ) as HTMLElement;
     });
 
     it('renders a skyux datepicker', () => {
@@ -94,7 +89,10 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
       expect(datepickerEditorElement).toBeNull();
 
-      dateCellElement.click();
+      gridFixture.componentInstance.agGrid?.api.startEditingCell({
+        rowIndex: 0,
+        colKey: 'date',
+      });
 
       datepickerEditorElement = gridNativeElement.querySelector(
         datepickerEditorSelector,
@@ -196,11 +194,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
       };
     });
 
-    it('initializes the SkyAgGridCellEditorDatepickerComponent properties', fakeAsync(() => {
-      const datepicker = new SkyDatepickerFixture(
-        datepickerEditorFixture,
-        'cell-datepicker',
+    it('initializes the SkyAgGridCellEditorDatepickerComponent properties', fakeAsync(async () => {
+      const loader = TestbedHarnessEnvironment.loader(datepickerEditorFixture);
+
+      const datepicker = await loader.getHarness(
+        SkyDatepickerHarness.with({ dataSkyId: 'cell-datepicker' }),
       );
+
       expect(
         datepickerEditorComponent.editorForm.get('date')?.value,
       ).toBeNull();
@@ -213,7 +213,10 @@ describe('SkyCellEditorDatepickerComponent', () => {
       expect(datepickerEditorComponent.editorForm.get('date')?.value).toEqual(
         date,
       );
-      expect(datepicker.date).toEqual(dateString);
+
+      await expectAsync(
+        (await datepicker.getControl()).getValue(),
+      ).toBeResolvedTo(dateString);
     }));
 
     it('initializes disabled if the disabled property is passed in', () => {
@@ -759,17 +762,12 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
   describe('in ag grid', () => {
     let gridFixture: ComponentFixture<SkyAgGridFixtureComponent>;
     let gridNativeElement: HTMLElement;
-    let dateCellElement: HTMLElement;
 
     beforeEach(() => {
       gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
       gridNativeElement = gridFixture.nativeElement;
 
       gridFixture.detectChanges();
-
-      dateCellElement = gridNativeElement.querySelector(
-        `.${SkyCellClass.Date}`,
-      ) as HTMLElement;
     });
 
     it('renders a skyux datepicker', () => {
@@ -780,7 +778,10 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
 
       expect(datepickerEditorElement).toBeNull();
 
-      dateCellElement.click();
+      gridFixture.componentInstance.agGrid?.api.startEditingCell({
+        rowIndex: 0,
+        colKey: 'date',
+      });
 
       datepickerEditorElement = gridNativeElement.querySelector(
         datepickerEditorSelector,

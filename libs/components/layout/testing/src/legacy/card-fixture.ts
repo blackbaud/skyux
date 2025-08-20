@@ -5,6 +5,7 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX avatar component.
+ * @deprecated
  * @internal
  */
 export class SkyCardFixture {

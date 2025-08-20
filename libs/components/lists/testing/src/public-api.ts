@@ -1,5 +1,3 @@
-export { SkyFilterFixtureButton } from './legacy/filter/filter-fixture-button';
-export { SkyFilterFixtureSummary } from './legacy/filter/filter-fixture-summary';
 export { SkyFilterTestingModule } from './legacy/filter/filter-testing.module';
 
 export { SkyFilterButtonHarness } from './modules/filter/filter-button-harness';
@@ -15,7 +13,6 @@ export { SkyFilterSummaryItemHarnessFilters } from './modules/filter/filter-summ
 
 export { SkyPagingFixture } from './legacy/paging/paging-fixture';
 export { SkyPagingFixtureButton } from './legacy/paging/paging-fixture-button';
-export { SkyPagingTestingModule } from './legacy/paging/paging-testing.module';
 
 export { SkyPagingContentHarness } from './modules/paging/paging-content-harness';
 export { SkyPagingHarness } from './modules/paging/paging-harness';
@@ -29,7 +26,6 @@ export { SkyRepeaterItemHarnessFilters } from './modules/repeater/repeater-item-
 export { SkySortFixture } from './legacy/sort/sort-fixture';
 export { SkySortFixtureMenu } from './legacy/sort/sort-fixture-menu';
 export { SkySortFixtureMenuItem } from './legacy/sort/sort-fixture-menu-item';
-export { SkySortTestingModule } from './legacy/sort/sort-testing.module';
 
 export { SkySortHarness } from './modules/sort/sort-harness';
 export { SkySortHarnessFilters } from './modules/sort/sort-harness-filters';

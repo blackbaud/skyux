@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
+import { SkyPagingModule } from '@skyux/lists';
 
 import { SkyPagingFixture } from './paging-fixture';
 import { SkyPagingFixtureButton } from './paging-fixture-button';
-import { SkyPagingTestingModule } from './paging-testing.module';
 
 const DATA_SKY_ID = 'test-paging';
 
@@ -80,7 +80,7 @@ describe('Paging fixture', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PagingTestComponent],
-      imports: [SkyPagingTestingModule],
+      imports: [SkyPagingModule],
     });
 
     fixture = TestBed.createComponent(PagingTestComponent);

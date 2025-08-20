@@ -1,11 +1,5 @@
 import { Component, signal } from '@angular/core';
 import { SkyFilterBarModule } from '@skyux/filter-bar';
-import {
-  SkySelectionModalSearchArgs,
-  SkySelectionModalSearchResult,
-} from '@skyux/lookup';
-
-import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'sky-filter-bar-fixture',
@@ -15,24 +9,15 @@ import { Observable, of } from 'rxjs';
 export class FilterBarHarnessTestComponent {
   public filters = signal([
     {
-      id: 'filter1',
-      name: 'Test filter 1',
+      filterId: 'filter1',
       filterValue: { value: 'value1' },
     },
     {
-      id: 'filter2',
-      name: 'Test filter 2',
+      filterId: 'filter2',
       filterValue: undefined,
     },
   ]);
+  public selectedFilterIds = signal(['filter1', 'filter2']);
 
-  public searchFn = (
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    args: SkySelectionModalSearchArgs,
-  ): Observable<SkySelectionModalSearchResult> =>
-    of({ hasMore: false, totalCount: 0, items: [] });
-
-  public onFilterUpdate(filterName: string): void {
-    console.log(`Filter ${filterName} updated`);
-  }
+  public modalConfig = { modalComponent: class {} };
 }

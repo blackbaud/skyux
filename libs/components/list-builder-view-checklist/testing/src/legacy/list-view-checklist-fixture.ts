@@ -12,6 +12,7 @@ const SINGLE_SELECT_EL_SELECTOR = By.css(
 
 /**
  * Allows interaction with a SKY UX list view checklist component.
+ * @deprecated
  * @internal
  */
 export class SkyListViewChecklistFixture {

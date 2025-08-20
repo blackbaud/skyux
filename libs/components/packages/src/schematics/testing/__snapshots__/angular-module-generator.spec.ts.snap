@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`angularModuleGenerator should generate an angular module with routing 1`] = `
+"import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { MyModuleRoutingModule } from './my-module-routing.module';
+
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CommonModule,
+    MyModuleRoutingModule
+  ]
+})
+export class MyModuleModule { }
+"
+`;
+
+exports[`angularModuleGenerator should generate an angular module with routing 2`] = `
+"import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { MySubModuleRoutingModule } from './my-sub-module-routing.module';
+import { MySubModule } from './my-sub-module';
+
+
+@NgModule({
+  declarations: [
+    MySubModule
+  ],
+  imports: [
+    CommonModule,
+    MySubModuleRoutingModule
+  ]
+})
+export class MySubModuleModule { }
+"
+`;

@@ -5,6 +5,7 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX label component.
+ * @deprecated Use `SkyLabelHarness` instead.
  * @internal
  */
 export class SkyLabelFixture {

@@ -1,5 +1,86 @@
 # Changelog
 
+## [13.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.5...13.0.0-alpha.6) (2025-08-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* make `@skyux-sdk/testing` an optional peer dependency; deprecate legacy testing fixtures ([#3840](https://github.com/blackbaud/skyux/issues/3840))
+* **sdk/eslint-config:** add prompt to `ng add` schematic to install `eslint-config-skyux` instead ([#3845](https://github.com/blackbaud/skyux/issues/3845))
+* **sdk/eslint-config-skyux:** re-enable `@angular-eslint/prefer-standalone` ESLint rule ([#3837](https://github.com/blackbaud/skyux/issues/3837))
+* **components/ag-grid:** AG Grid 33 is no longer supported.
+
+### Features
+
+* **components/ag-grid:** support AG Grid 34 ([#3834](https://github.com/blackbaud/skyux/issues/3834)) ([22a65e7](https://github.com/blackbaud/skyux/commit/22a65e7fe84331dd91546894abca0dee36d8b0f3))
+* **components/packages:** create schematic to convert progress-indicator wizard to tabs wizard ([#3814](https://github.com/blackbaud/skyux/issues/3814)) ([#3847](https://github.com/blackbaud/skyux/issues/3847)) ([1311481](https://github.com/blackbaud/skyux/commit/1311481431429a61a1d64011b223993c11d99277))
+* **sdk/eslint-config:** add prompt to `ng add` schematic to install `eslint-config-skyux` instead ([#3845](https://github.com/blackbaud/skyux/issues/3845)) ([915cb93](https://github.com/blackbaud/skyux/commit/915cb93f9541f86ef0391e9efa2bdb86b7034729))
+
+
+### Bug Fixes
+
+* **components/code-examples:** add popover example for help inline component ([#3753](https://github.com/blackbaud/skyux/issues/3753)) ([#3828](https://github.com/blackbaud/skyux/issues/3828)) ([001f033](https://github.com/blackbaud/skyux/commit/001f033948fe0c4a6497d212c732f3c497a65261))
+* **components/core:** unify autofit context behavior in SkyAffixer ([#3821](https://github.com/blackbaud/skyux/issues/3821)) ([#3827](https://github.com/blackbaud/skyux/issues/3827)) ([8e28385](https://github.com/blackbaud/skyux/commit/8e28385014790586abaf2660e0e2266045337adf))
+* make `@skyux-sdk/testing` an optional peer dependency; deprecate legacy testing fixtures ([#3840](https://github.com/blackbaud/skyux/issues/3840)) ([65f8d6e](https://github.com/blackbaud/skyux/commit/65f8d6ef727a5d1700be58f59c213e78a3be2fa5))
+* **sdk/eslint-config-skyux:** re-enable `@angular-eslint/prefer-standalone` ESLint rule ([#3837](https://github.com/blackbaud/skyux/issues/3837)) ([d8987ad](https://github.com/blackbaud/skyux/commit/d8987adc099fc280ec83fe793220860faf79d88c))
+
+## [12.35.0](https://github.com/blackbaud/skyux/compare/12.34.0...12.35.0) (2025-08-19)
+
+
+### Features
+
+* **components/packages:** create schematic to convert progress-indicator wizard to tabs wizard ([#3814](https://github.com/blackbaud/skyux/issues/3814)) ([40b8d68](https://github.com/blackbaud/skyux/commit/40b8d68bd172dd80b00b4cf61f6357efc81d9662))
+
+## [12.34.0](https://github.com/blackbaud/skyux/compare/12.33.0...12.34.0) (2025-08-18)
+
+
+### Features
+
+* **components/theme:** use base and blackbaud stylesheets ([#3836](https://github.com/blackbaud/skyux/issues/3836)) ([5abc879](https://github.com/blackbaud/skyux/commit/5abc8796887e3cac33c147035d934a365be5c28c))
+
+## [13.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.4...13.0.0-alpha.5) (2025-08-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/layout:** deprecated page component has been removed and consumers should use the page component in the pages library ([#3824](https://github.com/blackbaud/skyux/issues/3824))
+* **components/icon:** remove deprecated `icon`, `iconType`, `size`, and `fixedWidth` inputs from icons in favor of `iconName` and `iconSize` ([#3804](https://github.com/blackbaud/skyux/issues/3804))
+* **components/theme:** remove the `--sky-category-color-light-blue` custom property in favor of `--sky-category-color-green` and add a schematic to convert existing usages ([#3805](https://github.com/blackbaud/skyux/issues/3805))
+
+### Features
+
+* **components/icon:** remove deprecated `icon`, `iconType`, `size`, and `fixedWidth` inputs from icons in favor of `iconName` and `iconSize` ([#3804](https://github.com/blackbaud/skyux/issues/3804)) ([d4938a0](https://github.com/blackbaud/skyux/commit/d4938a01c9213cb832d2027965255bb38ee95f27))
+* **components/layout:** deprecated page component has been removed and consumers should use the page component in the pages library ([#3824](https://github.com/blackbaud/skyux/issues/3824)) ([e1b780c](https://github.com/blackbaud/skyux/commit/e1b780cbbe1c8f28d469bfeb58402137399b1816))
+* **components/theme:** add title and favicon support to brand ([#3815](https://github.com/blackbaud/skyux/issues/3815)) ([#3818](https://github.com/blackbaud/skyux/issues/3818)) ([fcaec23](https://github.com/blackbaud/skyux/commit/fcaec2303c6f6b9678441e1147b564f031b0a455))
+* **components/theme:** modern v2 styles are now the styles rendered for modern theme when no brand is applied ([#3829](https://github.com/blackbaud/skyux/issues/3829)) ([a323b13](https://github.com/blackbaud/skyux/commit/a323b13c0daf94f31a56bbef74409fb3304c6c31))
+* **components/theme:** remove the `--sky-category-color-light-blue` custom property in favor of `--sky-category-color-green` and add a schematic to convert existing usages ([#3805](https://github.com/blackbaud/skyux/issues/3805)) ([f3ec92d](https://github.com/blackbaud/skyux/commit/f3ec92d27f675fda52dd34d2520ab95034bd5eb3))
+* **components/theme:** use base and blackbaud stylesheets ([#3831](https://github.com/blackbaud/skyux/issues/3831)) ([f86c6db](https://github.com/blackbaud/skyux/commit/f86c6db70c70d7192c5c7958f76cc5b615e56401))
+
+
+### Bug Fixes
+
+* **components/packages:** add dependency if necessary for convert-page-summary-to-page-header schematic ([#3816](https://github.com/blackbaud/skyux/issues/3816)) ([#3819](https://github.com/blackbaud/skyux/issues/3819)) ([cefbddc](https://github.com/blackbaud/skyux/commit/cefbddcceb3910c73f0f7e0a0f524840030f6f8c))
+* **components/packages:** adjust spacing generated by convert-page-summary-to-page-header schematic ([#3808](https://github.com/blackbaud/skyux/issues/3808)) ([#3811](https://github.com/blackbaud/skyux/issues/3811)) ([b575468](https://github.com/blackbaud/skyux/commit/b5754687f2043a836b6ca7a018b65d11145c249d))
+* **components/pages:** flexbox layout should grow for sky-page-header-details ([#3823](https://github.com/blackbaud/skyux/issues/3823)) ([#3825](https://github.com/blackbaud/skyux/issues/3825)) ([e53fa26](https://github.com/blackbaud/skyux/commit/e53fa2631d1aed367fc518daa82280ac12cfb256))
+* **components/popovers:** use microtask to resolve positioning issue in Safari browser ([#3820](https://github.com/blackbaud/skyux/issues/3820)) ([#3822](https://github.com/blackbaud/skyux/issues/3822)) ([dcede90](https://github.com/blackbaud/skyux/commit/dcede907884f11da97bca41321026dff86df359d))
+
+## [12.33.0](https://github.com/blackbaud/skyux/compare/12.32.1...12.33.0) (2025-08-14)
+
+
+### Features
+
+* **components/theme:** add title and favicon support to brand ([#3815](https://github.com/blackbaud/skyux/issues/3815)) ([7154e5e](https://github.com/blackbaud/skyux/commit/7154e5e29604de019f288e930ff818d2ce7f63b1))
+
+
+### Bug Fixes
+
+* ag-grid headers are correctly styled when within a page component with a list layout ([#3830](https://github.com/blackbaud/skyux/issues/3830)) ([20f3457](https://github.com/blackbaud/skyux/commit/20f3457d7ba2dc87db7e6d13af3449946496d7be))
+* **components/code-examples:** add popover example for help inline component ([#3753](https://github.com/blackbaud/skyux/issues/3753)) ([ac7c59e](https://github.com/blackbaud/skyux/commit/ac7c59e790bfbdf359d7e1501d5e59de969d6816))
+* **components/core:** unify autofit context behavior in SkyAffixer ([#3821](https://github.com/blackbaud/skyux/issues/3821)) ([77db68e](https://github.com/blackbaud/skyux/commit/77db68e25b44e531934cb14bc71878db21e610b3))
+* **components/packages:** add dependency if necessary for convert-page-summary-to-page-header schematic ([#3816](https://github.com/blackbaud/skyux/issues/3816)) ([c7a3608](https://github.com/blackbaud/skyux/commit/c7a3608046f05d37d8eb4cf107a3af684790b0cd))
+* **components/pages:** flexbox layout should grow for sky-page-header-details ([#3823](https://github.com/blackbaud/skyux/issues/3823)) ([b7c7eea](https://github.com/blackbaud/skyux/commit/b7c7eea25bb4e4c99b69f98af34d19bd6bfb35df))
+* **components/popovers:** use microtask to resolve positioning issue in Safari browser ([#3820](https://github.com/blackbaud/skyux/issues/3820)) ([fe488d4](https://github.com/blackbaud/skyux/commit/fe488d481d01fb790307cbf24f94955f58659fe1))
+
 ## [12.32.1](https://github.com/blackbaud/skyux/compare/12.32.0...12.32.1) (2025-08-11)
 
 

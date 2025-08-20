@@ -26,6 +26,11 @@
       "factory": "./src/schematics/ng-generate/convert-page-summary-to-page-header/convert-page-summary-to-page-header.schematic",
       "schema": "./src/schematics/ng-generate/convert-page-summary-to-page-header/schema.json"
     },
+    "convert-progress-indicator-wizard-to-tab-wizard": {
+      "description": "Convert <sky-progress-indicator> components using wizard to use <sky-tabset> components.",
+      "factory": "./src/schematics/ng-generate/convert-progress-indicator-wizard-to-tab-wizard/convert-progress-indicator-wizard-to-tab-wizard.schematic",
+      "schema": "./src/schematics/ng-generate/convert-progress-indicator-wizard-to-tab-wizard/schema.json"
+    },
     "remove-compat-stylesheets": {
       "description": "Remove SKY UX compatibility stylesheets.",
       "factory": "./src/schematics/ng-generate/remove-compat-stylesheets/remove-compat-stylesheets.schematic",
