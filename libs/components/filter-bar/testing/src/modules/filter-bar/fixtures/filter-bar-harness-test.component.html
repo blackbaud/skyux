@@ -1,8 +1,18 @@
 <sky-filter-bar
   data-sky-id="basic-filter-bar"
   [(filters)]="filters"
-  [filterAsyncSearchFn]="searchFn"
+  [(selectedFilterIds)]="selectedFilterIds"
 >
+  <sky-filter-item-modal
+    filterId="filter1"
+    labelText="Test filter 1"
+    [filterModalConfig]="modalConfig"
+  />
+  <sky-filter-item-modal
+    filterId="filter2"
+    labelText="Test filter 2"
+    [filterModalConfig]="modalConfig"
+  />
 </sky-filter-bar>
 
 <sky-filter-bar data-sky-id="empty-filter-bar"> </sky-filter-bar>

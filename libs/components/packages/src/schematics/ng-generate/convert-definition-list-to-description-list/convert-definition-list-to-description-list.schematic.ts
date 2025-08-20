@@ -1,7 +1,7 @@
 import { Rule } from '@angular-devkit/schematics';
+import { readWorkspace } from '@schematics/angular/utility';
 
 import { convertDefinitionListToDescriptionList } from '../../rules/convert-definition-list-to-description-list/convert-definition-list-to-description-list';
-import { getRequiredProject } from '../../utility/workspace';
 
 import { Schema } from './schema';
 
@@ -12,8 +12,10 @@ export default function convertDefinitionListToDescriptionListSchematic(
   options: Schema,
 ): Rule {
   return async (tree) => {
-    const { project } = await getRequiredProject(tree, options.project);
+    const projectRoot = await readWorkspace(tree).then(
+      ({ projects }) => projects.get(`${options.project}`)?.root ?? '',
+    );
 
-    return convertDefinitionListToDescriptionList(project.root);
+    return convertDefinitionListToDescriptionList(projectRoot);
   };
 }

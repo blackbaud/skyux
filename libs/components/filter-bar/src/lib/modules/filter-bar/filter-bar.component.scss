@@ -1,5 +1,9 @@
+:host {
+  display: block;
+}
+
 // Default theme sets this toolbar override in the toolbar component.
-:host-context(.sky-theme-modern) .sky-filter-bar {
+:host-context(.sky-theme-modern) .sky-filter-bar-toolbar {
   --sky-override-toolbar-container-padding: var(
       --sky-comp-filter_bar-space-inset-top
     )

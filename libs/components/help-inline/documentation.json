@@ -22,7 +22,11 @@
         ]
       },
       "codeExamples": {
-        "docsIds": ["HelpInlineBasicExampleComponent"]
+        "docsIds": [
+          "HelpInlinePopoverExampleComponent",
+          "HelpInlineHelpKeyExampleComponent",
+          "HelpInlineActionClickExampleComponent"
+        ]
       }
     }
   }

@@ -14,16 +14,14 @@ describe('ng-generate/convert-page-summary-to-page-header.schematic', () => {
   const runner = new SchematicTestRunner('generate', collectionPath);
 
   async function setupTest(): Promise<{
-    runSchematic: () => Promise<UnitTestTree>;
+    runSchematic: (options: object) => Promise<UnitTestTree>;
     tree: UnitTestTree;
   }> {
     const tree = await createTestApp(runner, { projectName: 'test-app' });
-    const runSchematic = (): Promise<UnitTestTree> => {
+    const runSchematic = (options: object): Promise<UnitTestTree> => {
       return runner.runSchematic(
         'convert-page-summary-to-page-header',
-        {
-          project: 'test-app',
-        },
+        options,
         tree,
       );
     };
@@ -32,6 +30,15 @@ describe('ng-generate/convert-page-summary-to-page-header.schematic', () => {
 
   it('should run the schematic without errors', async () => {
     const { runSchematic } = await setupTest();
-    await expect(runSchematic()).resolves.not.toThrow();
+    await expect(
+      runSchematic({
+        project: 'test-app',
+      }),
+    ).resolves.not.toThrow();
+  });
+
+  it('should run the schematic without specifying a project', async () => {
+    const { runSchematic } = await setupTest();
+    await expect(runSchematic({})).resolves.not.toThrow();
   });
 });

@@ -3,8 +3,8 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkySelectionModalHarness } from '@skyux/lookup/testing';
 
 import { SkyFilterBarHarnessFilters } from './filter-bar-harness-filters';
-import { SkyFilterBarItemHarness } from './filter-bar-item-harness';
-import { SkyFilterBarItemHarnessFilters } from './filter-bar-item-harness-filters';
+import { SkyFilterItemHarness } from './filter-item-harness';
+import { SkyFilterItemHarnessFilters } from './filter-item-harness-filters';
 
 /**
  * Harness for interacting with a filter bar component in tests.
@@ -48,27 +48,27 @@ export class SkyFilterBarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific filter bar item that meets certain criteria.
+   * Gets a harness for a specific filter item that meets certain criteria.
    */
   public async getItem(
-    filter: SkyFilterBarItemHarnessFilters,
-  ): Promise<SkyFilterBarItemHarness> {
-    return await this.locatorFor(SkyFilterBarItemHarness.with(filter))();
+    filter: SkyFilterItemHarnessFilters,
+  ): Promise<SkyFilterItemHarness> {
+    return await this.locatorFor(SkyFilterItemHarness.with(filter))();
   }
 
   /**
-   * Gets an array of all filter bar items.
+   * Gets an array of all filter items.
    */
   public async getItems(
-    filters?: SkyFilterBarItemHarnessFilters,
-  ): Promise<SkyFilterBarItemHarness[]> {
+    filters?: SkyFilterItemHarnessFilters,
+  ): Promise<SkyFilterItemHarness[]> {
     const items = await this.locatorForAll(
-      SkyFilterBarItemHarness.with(filters || {}),
+      SkyFilterItemHarness.with(filters || {}),
     )();
 
     if (filters && items.length === 0) {
       throw new Error(
-        `Unable to find any filter bar items with filter(s): ${JSON.stringify(filters)}`,
+        `Unable to find any filter items with filter(s): ${JSON.stringify(filters)}`,
       );
     }
 

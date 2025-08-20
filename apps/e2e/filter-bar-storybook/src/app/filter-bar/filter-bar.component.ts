@@ -1,12 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyFilterBarFilterItem, SkyFilterBarModule } from '@skyux/filter-bar';
-import {
-  SkySelectionModalSearchArgs,
-  SkySelectionModalSearchResult,
-} from '@skyux/lookup';
-
-import { Observable } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -18,19 +12,11 @@ import { Observable } from 'rxjs';
 export class FilterBarComponent {
   protected filters: SkyFilterBarFilterItem[] = [
     {
-      id: '1',
-      name: 'Filter 1',
+      filterId: '1',
       filterValue: { value: 'Yes' },
     },
-    { id: '2', name: 'Filter 2' },
+    { filterId: '2' },
   ];
 
-  protected summaryItems = [
-    { value: 1, label: 'Summary 1', helpPopoverContent: 'test' },
-    { value: 2, label: 'Summary 2', valueFormat: { format: 'currency' } },
-  ];
-
-  protected searchFn: (
-    args: SkySelectionModalSearchArgs,
-  ) => Observable<SkySelectionModalSearchResult> | undefined = () => undefined;
+  protected modalConfig = { modalComponent: class {} };
 }

@@ -82,6 +82,20 @@ export function getTestingModuleMetadata(
 }
 
 /**
+ * Determines whether a component is standalone from its metadata.
+ */
+export function isStandaloneComponent(
+  metadata: ts.ObjectLiteralExpression,
+): boolean {
+  const standalone = getMetadataField(metadata, 'standalone');
+  return (
+    !standalone[0] ||
+    (ts.isPropertyAssignment(standalone[0]) &&
+      standalone[0].initializer.kind === ts.SyntaxKind.TrueKeyword)
+  );
+}
+
+/**
  * Adds a symbol to the metadata of an Angular class (NgModule, Component, Directive).
  *
  * Derived from https://github.com/angular/angular-cli/blob/20.1.x/packages/schematics/angular/utility/ast-utils.ts
