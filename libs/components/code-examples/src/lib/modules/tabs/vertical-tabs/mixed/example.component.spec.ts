@@ -10,7 +10,9 @@ describe('Mixed vertical tabs example', () => {
     harness: SkyVerticalTabsetHarness;
     fixture: ComponentFixture<TabsVerticalTabsMixedExampleComponent>;
   }> {
-    const fixture = TestBed.createComponent(TabsVerticalTabsMixedExampleComponent);
+    const fixture = TestBed.createComponent(
+      TabsVerticalTabsMixedExampleComponent,
+    );
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const harness = await loader.getHarness(

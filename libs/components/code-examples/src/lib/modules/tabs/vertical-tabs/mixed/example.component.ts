@@ -15,13 +15,13 @@ export class TabsVerticalTabsMixedExampleComponent {
       heading: 'Group 1',
       isOpen: true,
       subTabs: [
-        { 
-          tabHeading: 'Group 1 — Tab 1', 
+        {
+          tabHeading: 'Group 1 — Tab 1',
           content: 'Group 1 — Tab 1 Content',
           active: true,
         },
-        { 
-          tabHeading: 'Group 1 — Tab 2', 
+        {
+          tabHeading: 'Group 1 — Tab 2',
           content: 'Group 1 — Tab 2 Content',
         },
       ],
@@ -30,12 +30,12 @@ export class TabsVerticalTabsMixedExampleComponent {
       heading: 'Group 2',
       isOpen: false,
       subTabs: [
-        { 
-          tabHeading: 'Group 2 — Tab 1', 
+        {
+          tabHeading: 'Group 2 — Tab 1',
           content: 'Group 2 — Tab 1 Content',
         },
-        { 
-          tabHeading: 'Group 2 — Tab 2', 
+        {
+          tabHeading: 'Group 2 — Tab 2',
           content: 'Group 2 — Tab 2 Content',
         },
       ],
