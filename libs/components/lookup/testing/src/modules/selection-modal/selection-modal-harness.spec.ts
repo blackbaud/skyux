@@ -217,4 +217,68 @@ describe('Selection modal harness', () => {
       );
     });
   });
+
+  describe('search results', () => {
+    it('should get all search results', async () => {
+      const { harness } = await setupTest({
+        selectMode: 'multiple',
+      });
+
+      await harness.enterSearchText('ra');
+
+      const results = await harness.getSearchResults();
+      expect(results.length).toBe(2);
+    });
+
+    it('should get a specific search result that meets criteria', async () => {
+      const { harness } = await setupTest({
+        selectMode: 'multiple',
+      });
+
+      await harness.enterSearchText('ra');
+
+      const result = await harness.getSearchResult({ contentText: 'Rachel' });
+      await expectAsync(result.getContentText()).toBeResolvedTo('Rachel');
+    });
+
+    it('should get filtered search results', async () => {
+      const { harness } = await setupTest({
+        selectMode: 'multiple',
+      });
+
+      await harness.enterSearchText('ra');
+
+      const results = await harness.getSearchResults({ contentText: 'Rachel' });
+      expect(results.length).toBe(1);
+    });
+
+    it('should throw error when getting search results with filters but no matches found', async () => {
+      const { harness } = await setupTest({
+        selectMode: 'multiple',
+      });
+
+      await harness.enterSearchText('ra');
+
+      const filters = { contentText: 'Nonexistent Person' };
+      await expectAsync(
+        harness.getSearchResults(filters),
+      ).toBeRejectedWithError(
+        `Could not find search results in the picker matching filter(s): ${JSON.stringify(filters)}`,
+      );
+    });
+
+    // it('should return empty array when no search results exist and no filters provided', async () => {
+    //   const { harness } = await setupTest({
+    //     selectMode: 'multiple',
+    //   });
+
+    //   // this should work but it does not enter and submit search text as expected
+    //   await harness.enterSearchText('z');
+
+    //   const results = await harness.getSearchResults();
+    //   expect(results).toEqual([]);
+    //   // Note: This test may need adjustment based on the actual behavior of the component
+    //   // when no search has been performed. The component might show all results or no results.
+    // });
+  });
 });

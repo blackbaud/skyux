@@ -104,6 +104,22 @@ export class SkySelectionModalHarness extends ComponentHarness {
   }
 
   /**
+   * Gets a specific search result that meets certain criteria.
+   */
+  public async getSearchResult(
+    filter: SkySelectionModalSearchResultHarnessFilters,
+  ): Promise<SkySelectionModalSearchResultHarness> {
+    const pickerId = (await (await this.host()).getAttribute('id')) as string;
+
+    return await this.locatorFor(
+      SkyRepeaterItemHarness.with({
+        ...filter,
+        ancestor: `#${pickerId}`,
+      }),
+    )();
+  }
+
+  /**
    * Gets a list of search results.
    */
   public async getSearchResults(

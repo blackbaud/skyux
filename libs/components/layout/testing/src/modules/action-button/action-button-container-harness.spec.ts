@@ -35,6 +35,9 @@ import { SkyActionButtonContainerHarness } from './action-button-container-harne
         </sky-action-button-details>
       </sky-action-button>
     </sky-action-button-container>
+
+    <sky-action-button-container data-sky-id="empty-container">
+    </sky-action-button-container>
   `,
 })
 class TestComponent {
@@ -90,6 +93,35 @@ describe('Action button container harness', () => {
     const actionButtons = await harness.getActionButtons();
 
     expect(actionButtons.length).toBe(2);
+  });
+
+  it('should return empty array when no action buttons match and no filters provided', async () => {
+    const { harness } = await setupTest({
+      dataSkyId: 'empty-container',
+    });
+
+    const actionButtons = await harness.getActionButtons();
+    expect(actionButtons.length).toBe(0);
+  });
+
+  it('should get filtered action buttons', async () => {
+    const { harness } = await setupTest();
+
+    const actionButtons = await harness.getActionButtons({
+      header: 'Build a new list',
+    });
+
+    expect(actionButtons.length).toBe(1);
+    await expectAsync(actionButtons[0].getIconType()).toBeResolvedTo('filter');
+  });
+
+  it('should throw error when getting action buttons with filters but no matches found', async () => {
+    const { harness } = await setupTest();
+
+    const filters = { header: 'Nonexistent Button' };
+    await expectAsync(harness.getActionButtons(filters)).toBeRejectedWithError(
+      `Unable to find any action buttons with filter(s): ${JSON.stringify(filters)}`,
+    );
   });
 
   it('should get action button from header', async () => {

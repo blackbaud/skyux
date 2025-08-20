@@ -37,8 +37,20 @@ export class SkyActionButtonContainerHarness extends SkyComponentHarness {
   /**
    * Gets the action buttons.
    */
-  public async getActionButtons(): Promise<SkyActionButtonHarness[]> {
-    return await this.locatorForAll(SkyActionButtonHarness)();
+  public async getActionButtons(
+    filters?: SkyActionButtonHarnessFilters,
+  ): Promise<SkyActionButtonHarness[]> {
+    const buttons = await this.locatorForAll(
+      SkyActionButtonHarness.with(filters || {}),
+    )();
+
+    if (buttons.length === 0 && filters) {
+      throw new Error(
+        `Unable to find any action buttons with filter(s): ${JSON.stringify(filters)}`,
+      );
+    }
+
+    return buttons;
   }
 
   /**

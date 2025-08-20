@@ -25,13 +25,30 @@ export class SkyRepeaterHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets a specific repeater item that meets certain criteria.
+   */
+  public async getRepeaterItem(
+    filter: SkyRepeaterItemHarnessFilters,
+  ): Promise<SkyRepeaterItemHarness> {
+    return await this.locatorFor(SkyRepeaterItemHarness.with(filter))();
+  }
+
+  /**
    * Gets a list of child repeater items.
    */
   public async getRepeaterItems(
     filters?: SkyRepeaterItemHarnessFilters,
   ): Promise<SkyRepeaterItemHarness[]> {
-    return await this.locatorForAll(
+    const items = await this.locatorForAll(
       SkyRepeaterItemHarness.with(filters || {}),
     )();
+
+    if (items.length === 0 && filters) {
+      throw new Error(
+        `Unable to find any repeater items with filter(s): ${JSON.stringify(filters)}`,
+      );
+    }
+
+    return items;
   }
 }

@@ -67,7 +67,7 @@ export class SkySummaryActionBarSecondaryActionsHarness extends SkyComponentHarn
           SkySummaryActionBarSecondaryActionHarness.with(filters),
         )();
 
-        if (actions.length === 0) {
+        if (actions.length === 0 && filters) {
           filters['ancestor'] = undefined;
           throw new Error(
             `Unable to find summary action secondary action(s) with filter(s): ${JSON.stringify(
