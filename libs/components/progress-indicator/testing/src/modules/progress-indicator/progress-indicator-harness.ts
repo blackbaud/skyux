@@ -62,13 +62,10 @@ export class SkyProgressIndicatorHarness extends SkyComponentHarness {
       SkyProgressIndicatorItemHarness.with(filters || {}),
     )();
 
-    if (items.length === 0) {
-      if (filters) {
-        throw new Error(
-          `Unable to find any progress indicator items with filter(s): ${JSON.stringify(filters)}`,
-        );
-      }
-      throw new Error('Unable to find any progress indicator items.');
+    if (items.length === 0 && filters) {
+      throw new Error(
+        `Unable to find any progress indicator items with filter(s): ${JSON.stringify(filters)}`,
+      );
     }
 
     return items;

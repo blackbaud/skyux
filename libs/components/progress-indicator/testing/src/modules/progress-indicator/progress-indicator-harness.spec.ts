@@ -113,14 +113,12 @@ describe('Progress indicator test harness', () => {
     expect(items.length).toBe(2);
   });
 
-  it('should throw an error if no items are found', async () => {
+  it('should return an empty array if no items are found', async () => {
     const { progressIndicatorHarness } = await setupTest({
       dataSkyId: 'other-indicator',
     });
 
-    await expectAsync(
-      progressIndicatorHarness.getItems(),
-    ).toBeRejectedWithError('Unable to find any progress indicator items.');
+    await expectAsync(progressIndicatorHarness.getItems()).toBeResolvedTo([]);
   });
 
   it('should throw an error if no items are found matching criteria', async () => {

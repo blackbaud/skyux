@@ -43,13 +43,10 @@ export class SkyFilterInlineHarness extends SkyComponentHarness {
       SkyFilterInlineItemHarness.with(filters || {}),
     )();
 
-    if (items.length === 0) {
-      if (filters) {
-        throw new Error(
-          `Unable to find any filter inline items with filter(s): ${JSON.stringify(filters)}`,
-        );
-      }
-      throw new Error('Unable to find any filter inline items.');
+    if (items.length === 0 && filters) {
+      throw new Error(
+        `Unable to find any filter inline items with filter(s): ${JSON.stringify(filters)}`,
+      );
     }
 
     return items;

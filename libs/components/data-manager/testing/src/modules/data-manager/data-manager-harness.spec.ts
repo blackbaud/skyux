@@ -245,7 +245,7 @@ describe('Data manager harness', () => {
       );
     });
 
-    fdescribe('Data manager column picker', () => {
+    describe('Data manager column picker', () => {
       async function setupColumnPickerTest(): Promise<{
         columnPickerHarness: SkyDataManagerColumnPickerHarness;
         toolbarHarness: SkyDataManagerToolbarHarness;

@@ -82,13 +82,22 @@ describe('Dropdown menu test harness', () => {
     await expectAsync(harness.getAriaRole()).toBeResolvedTo('test-item');
   });
 
+  it('should get a specific dropdown menu item that meets certain criteria', async () => {
+    const { dropdownMenuHarness, fixture } = await setupTest();
+
+    fixture.detectChanges();
+    const harness = await dropdownMenuHarness.getItem({ text: 'Option 2' });
+
+    await expectAsync(harness.getText()).toBeResolvedTo('Option 2');
+  });
+
   it('should throw an error if menu item does not exist', async () => {
     const { dropdownMenuHarness, fixture } = await setupTest();
 
     fixture.detectChanges();
 
     await expectAsync(
-      dropdownMenuHarness.getItem({ text: 'Option nil' }),
+      dropdownMenuHarness.getItems({ text: 'Option nil' }),
     ).toBeRejectedWithError(
       'Unable to find dropdown menu item(s) with filter(s): {"text":"Option nil"}.',
     );

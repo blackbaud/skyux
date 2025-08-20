@@ -41,13 +41,10 @@ export class SkyTileDashboardHarness extends SkyQueryableComponentHarness {
       SkyTileHarness.with(filters || {}),
     )();
 
-    if (tiles.length === 0) {
-      if (filters) {
-        throw new Error(
-          `Unable to find any tiles with filter(s): ${JSON.stringify(filters)}`,
-        );
-      }
-      throw new Error('Unable to find any tiles.');
+    if (tiles.length === 0 && filters) {
+      throw new Error(
+        `Unable to find any tiles with filter(s): ${JSON.stringify(filters)}`,
+      );
     }
     return tiles;
   }

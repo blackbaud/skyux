@@ -79,13 +79,10 @@ export class SkyActionHubHarness extends SkyComponentHarness {
       SkyNeedsAttentionItemHarness.with(filters || {}),
     )();
 
-    if (items.length === 0) {
-      if (filters) {
-        throw new Error(
-          `Unable to find any needs attention items with filter(s): ${JSON.stringify(filters)}`,
-        );
-      }
-      throw new Error('Unable to find any needs attention items.');
+    if (items.length === 0 && filters) {
+      throw new Error(
+        `Unable to find any needs attention items with filter(s): ${JSON.stringify(filters)}`,
+      );
     }
 
     return items;

@@ -153,7 +153,7 @@ describe('Filter test harness', () => {
     expect(items.length).toBe(1);
   });
 
-  it('should throw an error if no filter inline items are found', async () => {
+  it('should return an empty array when no filter inline items are found', async () => {
     const { filterButtonHarness, fixture, loader } = await setupTest();
 
     await filterButtonHarness.clickFilterButton();
@@ -164,9 +164,7 @@ describe('Filter test harness', () => {
       SkyFilterInlineHarness.with({ dataSkyId: 'other-filter-inline' }),
     );
 
-    await expectAsync(filterInlineHarness.getItems()).toBeRejectedWithError(
-      'Unable to find any filter inline items.',
-    );
+    await expectAsync(filterInlineHarness.getItems()).toBeResolvedTo([]);
   });
 
   it('should throw an error if no filter inline items are found matching criteria', async () => {
@@ -269,9 +267,7 @@ describe('Filter test harness', () => {
 
     const emptySummary = await loader.getHarness(SkyFilterSummaryHarness);
 
-    await expectAsync(emptySummary.getItems()).toBeRejectedWithError(
-      'Unable to find any filter summary items.',
-    );
+    await expectAsync(emptySummary.getItems()).toBeResolvedTo([]);
   });
 
   it('should throw an error if no filter summary items are found matching criteria', async () => {

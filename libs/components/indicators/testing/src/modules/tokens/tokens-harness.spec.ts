@@ -1,12 +1,17 @@
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TokensHarnessTestComponent } from './fixtures/tokens-harness-test.component';
 import { TokensHarnessTestModule } from './fixtures/tokens-harness-test.module';
 import { SkyTokensHarness } from './tokens-harness';
 
 describe('Tokens harness', () => {
-  async function setupTest(options: { dataSkyId: string }) {
+  async function setupTest(options: { dataSkyId: string }): Promise<{
+    tokensHarness: SkyTokensHarness;
+    fixture: ComponentFixture<TokensHarnessTestComponent>;
+    loader: HarnessLoader;
+  }> {
     await TestBed.configureTestingModule({
       imports: [TokensHarnessTestModule],
     }).compileComponents();
@@ -28,6 +33,47 @@ describe('Tokens harness', () => {
 
     const tokens = await tokensHarness.getTokens();
     expect(tokens.length).toEqual(3);
+    await expectAsync(tokens[0].getText()).toBeResolvedTo('Red');
+  });
+
+  it('should return empty array when no tokens exist and no filters provided', async () => {
+    const { tokensHarness } = await setupTest({
+      dataSkyId: 'my-tokens',
+    });
+
+    await tokensHarness.dismissTokens();
+
+    const tokens = await tokensHarness.getTokens();
+    expect(tokens.length).toEqual(0);
+  });
+
+  it('should get a specific token that meets criteria', async () => {
+    const { tokensHarness } = await setupTest({
+      dataSkyId: 'my-tokens',
+    });
+
+    const token = await tokensHarness.getToken({ text: 'Red' });
+    await expectAsync(token.getText()).toBeResolvedTo('Red');
+  });
+
+  it('should throw error when getting specific token with filters but no match found', async () => {
+    const { tokensHarness } = await setupTest({
+      dataSkyId: 'my-tokens',
+    });
+
+    const filters = { text: 'NonexistentToken' };
+    await expectAsync(tokensHarness.getTokens(filters)).toBeRejectedWithError(
+      `Unable to find any tokens with filter(s): ${JSON.stringify(filters)}`,
+    );
+  });
+
+  it('should return filtered tokens when filters match', async () => {
+    const { tokensHarness } = await setupTest({
+      dataSkyId: 'my-tokens',
+    });
+
+    const tokens = await tokensHarness.getTokens({ text: 'Red' });
+    expect(tokens.length).toEqual(1);
     await expectAsync(tokens[0].getText()).toBeResolvedTo('Red');
   });
 

@@ -63,14 +63,12 @@ describe('Text expand test harness', () => {
     expect(items.length).toBe(1);
   });
 
-  it('should throw an error if no toolbar items are found', async () => {
+  it('should return an empty array if no toolbar items are found', async () => {
     const { toolbarHarness } = await setupTest({
       dataSkyId: 'empty-toolbar',
     });
 
-    await expectAsync(toolbarHarness.getItems()).toBeRejectedWithError(
-      'Unable to find any toolbar items.',
-    );
+    await expectAsync(toolbarHarness.getItems()).toBeResolvedTo([]);
   });
 
   it('should throw an error if no toolbar items are found matching criteria', async () => {
@@ -135,14 +133,12 @@ describe('Text expand test harness', () => {
     expect(items.length).toBe(1);
   });
 
-  it('should throw an error if no toolbar sections are found', async () => {
+  it('should return an empty array if no toolbar sections are found', async () => {
     const { toolbarHarness } = await setupTest({
       dataSkyId: 'empty-toolbar',
     });
 
-    await expectAsync(toolbarHarness.getSections()).toBeRejectedWithError(
-      'Unable to find any toolbar sections.',
-    );
+    await expectAsync(toolbarHarness.getSections()).toBeResolvedTo([]);
   });
 
   it('should throw an error if no toolbar sections are found matching criteria', async () => {
@@ -201,7 +197,7 @@ describe('Text expand test harness', () => {
     expect(items.length).toBe(1);
   });
 
-  it('should throw an error if no toolbar section items are found', async () => {
+  it('should return an empty array if no toolbar section items are found', async () => {
     const { toolbarHarness } = await setupTest({
       dataSkyId: 'empty-toolbar-section',
     });
@@ -210,9 +206,7 @@ describe('Text expand test harness', () => {
       dataSkyId: 'empty-section',
     });
 
-    await expectAsync(sectionHarness.getItems()).toBeRejectedWithError(
-      'Unable to find any toolbar section items.',
-    );
+    await expectAsync(sectionHarness.getItems()).toBeResolvedTo([]);
   });
 
   it('should throw an error if no toolbar section items are found matching criteria', async () => {

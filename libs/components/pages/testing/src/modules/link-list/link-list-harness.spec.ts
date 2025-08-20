@@ -119,4 +119,101 @@ describe('Link list harness', () => {
         .then((harness) => harness.getText()),
     ).toBeResolvedTo('Test Link 2');
   });
+
+  it('should get all list items using harness method', async () => {
+    const { harness, fixture } = await setupTest();
+    fixture.componentRef.setInput('inputLinks', [
+      {
+        label: 'Test Link 1',
+        permalink: {
+          url: '#',
+        },
+      },
+      {
+        label: 'Test Link 2',
+        permalink: {
+          url: '#',
+        },
+      },
+    ]);
+    fixture.detectChanges();
+
+    const items = await harness.getListItems();
+    expect(items.length).toBe(2);
+    await expectAsync(items[0].getText()).toBeResolvedTo('Test Link 1');
+    await expectAsync(items[1].getText()).toBeResolvedTo('Test Link 2');
+  });
+
+  it('should return empty array when no list items exist and no filters provided', async () => {
+    const { harness, fixture } = await setupTest();
+    fixture.componentRef.setInput('inputLinks', []);
+    fixture.componentRef.setInput('showLinks', false);
+    fixture.detectChanges();
+
+    const items = await harness.getListItems();
+    expect(items.length).toBe(0);
+  });
+
+  it('should get a specific list item using harness method', async () => {
+    const { harness, fixture } = await setupTest();
+    fixture.componentRef.setInput('inputLinks', [
+      {
+        label: 'Test Link 1',
+        permalink: {
+          url: '#',
+        },
+      },
+      {
+        label: 'Test Link 2',
+        permalink: {
+          url: '#',
+        },
+      },
+    ]);
+    fixture.detectChanges();
+
+    const item = await harness.getListItem({ text: 'Test Link 2' });
+    await expectAsync(item.getText()).toBeResolvedTo('Test Link 2');
+  });
+
+  it('should get filtered list items using harness method', async () => {
+    const { harness, fixture } = await setupTest();
+    fixture.componentRef.setInput('inputLinks', [
+      {
+        label: 'Test Link 1',
+        permalink: {
+          url: '#',
+        },
+      },
+      {
+        label: 'Test Link 2',
+        permalink: {
+          url: '#',
+        },
+      },
+    ]);
+    fixture.detectChanges();
+
+    const items = await harness.getListItems({ text: 'Test Link 1' });
+    expect(items.length).toBe(1);
+    await expectAsync(items[0].getText()).toBeResolvedTo('Test Link 1');
+  });
+
+  it('should throw error when getting list items with filters but no matches found', async () => {
+    const { harness, fixture } = await setupTest();
+    fixture.componentRef.setInput('inputLinks', [
+      {
+        label: 'Test Link 1',
+        permalink: {
+          url: '#',
+        },
+      },
+    ]);
+    fixture.detectChanges();
+
+    const filters = { text: 'Nonexistent Link' };
+    await expectAsync(harness.getListItems(filters)).toBeRejectedWithError(
+      `Unable to find any list items with filter(s): ${JSON.stringify(filters)}`,
+    );
+  });
 });

@@ -114,9 +114,7 @@ describe('Tile test harness', () => {
 
     const contentHarness = await tileHarness.getContent();
 
-    await expectAsync(contentHarness.getSections()).toBeRejectedWithError(
-      'Unable to find any tile content sections.',
-    );
+    await expectAsync(contentHarness.getSections()).toBeResolvedTo([]);
   });
 
   it('should throw an error if no tile content sections are found matching criteria', async () => {

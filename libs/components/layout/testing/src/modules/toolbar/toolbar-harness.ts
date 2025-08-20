@@ -48,13 +48,10 @@ export class SkyToolbarHarness extends SkyComponentHarness {
       SkyToolbarItemHarness.with(filters || {}),
     )();
 
-    if (items.length === 0) {
-      if (filters) {
-        throw new Error(
-          `Unable to find any toolbar items with filter(s): ${JSON.stringify(filters)}`,
-        );
-      }
-      throw new Error('Unable to find any toolbar items.');
+    if (items.length === 0 && filters) {
+      throw new Error(
+        `Unable to find any toolbar items with filter(s): ${JSON.stringify(filters)}`,
+      );
     }
 
     return items;
@@ -79,13 +76,10 @@ export class SkyToolbarHarness extends SkyComponentHarness {
       SkyToolbarSectionHarness.with(filters || {}),
     )();
 
-    if (sections.length === 0) {
-      if (filters) {
-        throw new Error(
-          `Unable to find any toolbar sections with filter(s): ${JSON.stringify(filters)}`,
-        );
-      }
-      throw new Error('Unable to find any toolbar sections.');
+    if (sections.length === 0 && filters) {
+      throw new Error(
+        `Unable to find any toolbar sections with filter(s): ${JSON.stringify(filters)}`,
+      );
     }
 
     return sections;

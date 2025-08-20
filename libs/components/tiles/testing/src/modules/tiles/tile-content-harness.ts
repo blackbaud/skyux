@@ -31,13 +31,10 @@ export class SkyTileContentHarness extends SkyQueryableComponentHarness {
       SkyTileContentSectionHarness.with(filters || {}),
     )();
 
-    if (sections.length === 0) {
-      if (filters) {
-        throw new Error(
-          `Unable to find any tile content sections with filter(s): ${JSON.stringify(filters)}`,
-        );
-      }
-      throw new Error('Unable to find any tile content sections.');
+    if (sections.length === 0 && filters) {
+      throw new Error(
+        `Unable to find any tile content sections with filter(s): ${JSON.stringify(filters)}`,
+      );
     }
     return sections;
   }

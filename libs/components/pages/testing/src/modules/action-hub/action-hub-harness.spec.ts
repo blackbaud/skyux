@@ -38,7 +38,7 @@ class TestComponent {
 
 //#endregion Test component
 
-fdescribe('SkyActionHubHarness', () => {
+describe('SkyActionHubHarness', () => {
   async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
     harness: SkyActionHubHarness;
     fixture: ComponentFixture<TestComponent>;
@@ -186,14 +186,12 @@ fdescribe('SkyActionHubHarness', () => {
     );
   });
 
-  it('should throw an error if there are no needs attention items', async () => {
+  it('should return an empty array if there are no needs attention items', async () => {
     const { fixture, harness } = await setupTest();
     fixture.componentRef.setInput('needsAttention', []);
     fixture.detectChanges();
 
-    await expectAsync(harness.getNeedsAttentionItems()).toBeRejectedWithError(
-      'Unable to find any needs attention items.',
-    );
+    await expectAsync(harness.getNeedsAttentionItems()).toBeResolvedTo([]);
   });
 
   it('should return the links', async () => {

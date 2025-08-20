@@ -70,19 +70,16 @@ export class SkyLinkListHarness extends SkyComponentHarness {
    * Gets an array of link list items.
    */
   public async getListItems(
-    filter: SkyLinkListItemHarnessFilters = {},
+    filter?: SkyLinkListItemHarnessFilters,
   ): Promise<SkyLinkListItemHarness[]> {
     const items = await this.locatorForAll(
-      SkyLinkListItemHarness.with(filter),
+      SkyLinkListItemHarness.with(filter || {}),
     )();
 
-    if (items.length === 0) {
-      if (Object.keys(filter).length > 0) {
-        throw new Error(
-          `Unable to find any list items with filter(s): ${JSON.stringify(filter)}`,
-        );
-      }
-      throw new Error('Unable to find any list items.');
+    if (items.length === 0 && filter) {
+      throw new Error(
+        `Unable to find any list items with filter(s): ${JSON.stringify(filter)}`,
+      );
     }
 
     return items;

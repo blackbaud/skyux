@@ -43,13 +43,10 @@ export class SkyFilterSummaryHarness extends SkyComponentHarness {
       SkyFilterSummaryItemHarness.with(filters || {}),
     )();
 
-    if (items.length === 0) {
-      if (filters) {
-        throw new Error(
-          `Unable to find any filter summary items with filter(s): ${JSON.stringify(filters)}`,
-        );
-      }
-      throw new Error('Unable to find any filter summary items.');
+    if (items.length === 0 && filters) {
+      throw new Error(
+        `Unable to find any filter summary items with filter(s): ${JSON.stringify(filters)}`,
+      );
     }
 
     return items;

@@ -53,13 +53,10 @@ export class SkyTokensHarness extends SkyComponentHarness {
       SkyTokenHarness.with(filters || {}),
     )();
 
-    if (tokens.length === 0) {
-      if (filters) {
-        throw new Error(
-          `Unable to find any tokens with filter(s): ${JSON.stringify(filters)}`,
-        );
-      }
-      throw new Error('Unable to find any tokens.');
+    if (tokens.length === 0 && filters) {
+      throw new Error(
+        `Unable to find any tokens with filter(s): ${JSON.stringify(filters)}`,
+      );
     }
 
     return tokens;

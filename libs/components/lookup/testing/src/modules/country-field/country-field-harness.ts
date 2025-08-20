@@ -85,7 +85,7 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
   /**
    * Gets a specific country field search result that meets certain criteria.
    */
-  public async getSearchResult(
+  public override async getSearchResult(
     filter: SkyCountryFieldSearchResultHarnessFilters,
   ): Promise<SkyCountryFieldSearchResultHarness> {
     const overlay = await this.#getOverlay();

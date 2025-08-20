@@ -258,6 +258,45 @@ describe('Confirm harness', () => {
     });
   });
 
+  describe('getCustomButton', () => {
+    it('should get a specific custom button that meets certain criteria', async () => {
+      const { confirmHarness } = await setupTest({
+        ...DEFAULT_CONFIRM_CONFIG,
+        type: SkyConfirmType.Custom,
+        buttons: [
+          {
+            text: 'Delete',
+            action: 'delete',
+            styleType: 'danger',
+          },
+          {
+            text: 'Cancel',
+            action: 'cancel',
+            styleType: 'link',
+          },
+        ],
+      });
+
+      const button = await confirmHarness.getCustomButton({ text: 'Delete' });
+
+      await expectAsync(button.getText()).toBeResolvedTo('Delete');
+      await expectAsync(button.getStyleType()).toBeResolvedTo('danger');
+    });
+
+    it('should throw an error when called on a confirm of type OK', async () => {
+      const { confirmHarness } = await setupTest({
+        ...DEFAULT_CONFIRM_CONFIG,
+        type: SkyConfirmType.OK,
+      });
+
+      await expectAsync(
+        confirmHarness.getCustomButton({ text: 'OK' }),
+      ).toBeRejectedWithError(
+        'Cannot get custom button for confirm of type OK.',
+      );
+    });
+  });
+
   describe('clickOkButton', () => {
     it('should throw an error when called on a custom confirm', async () => {
       const { confirmHarness } = await setupTest({

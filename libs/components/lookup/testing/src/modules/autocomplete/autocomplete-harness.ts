@@ -78,7 +78,26 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   /**
-   * Returns autocomplete search result harnesses.
+   * Gets a specific autocomplete search result that meets certain criteria.
+   */
+  public async getSearchResult(
+    filter: SkyAutocompleteSearchResultHarnessFilters,
+  ): Promise<SkyAutocompleteSearchResultHarness> {
+    const overlay = await this.#getOverlay();
+
+    if (!overlay) {
+      throw new Error(
+        'Unable to retrieve search result. The autocomplete is closed.',
+      );
+    }
+
+    return await overlay.queryHarness(
+      SkyAutocompleteSearchResultHarness.with(filter),
+    );
+  }
+
+  /**
+   * Gets an array of autocomplete search result harnesses.
    */
   public async getSearchResults(
     filters?: SkyAutocompleteSearchResultHarnessFilters,

@@ -114,6 +114,32 @@ describe('Country field harness', () => {
     await expectAsync(results[0].getText()).toBeResolvedTo('Greece');
   });
 
+  it('should get a specific search result that meets criteria', async () => {
+    const { countryFieldHarness, countryFieldInputHarness } = await setupTest({
+      dataSkyId: 'country-field',
+    });
+
+    await countryFieldInputHarness.setValue('gr');
+
+    const result = await countryFieldHarness.getSearchResult({
+      text: 'Greece',
+    });
+    await expectAsync(result.getDescriptorValue()).toBeResolvedTo('Greece');
+    await expectAsync(result.getText()).toBeResolvedTo('Greece');
+  });
+
+  it('should throw error if getting search result when country field not open', async () => {
+    const { countryFieldHarness } = await setupTest({
+      dataSkyId: 'country-field',
+    });
+
+    await expectAsync(
+      countryFieldHarness.getSearchResult({ text: 'Greece' }),
+    ).toBeRejectedWithError(
+      'Unable to retrieve search result. The country field is closed.',
+    );
+  });
+
   it('should return search results text content', async () => {
     const { countryFieldHarness, countryFieldInputHarness } = await setupTest({
       dataSkyId: 'country-field',

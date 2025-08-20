@@ -46,13 +46,10 @@ export class SkyToolbarSectionHarness extends SkyComponentHarness {
       SkyToolbarItemHarness.with(filters || {}),
     )();
 
-    if (items.length === 0) {
-      if (filters) {
-        throw new Error(
-          `Unable to find any toolbar section items with filter(s): ${JSON.stringify(filters)}`,
-        );
-      }
-      throw new Error('Unable to find any toolbar section items.');
+    if (items.length === 0 && filters) {
+      throw new Error(
+        `Unable to find any toolbar section items with filter(s): ${JSON.stringify(filters)}`,
+      );
     }
 
     return items;

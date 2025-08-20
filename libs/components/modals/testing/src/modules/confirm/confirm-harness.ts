@@ -1,4 +1,3 @@
-import { ComponentHarness, HarnessQuery } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyConfirmType } from '@skyux/modals';
 
@@ -61,7 +60,22 @@ export class SkyConfirmHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the confirm component's custom buttons.
+   * Gets a specific confirm custom button that meets certain criteria.
+   */
+  public async getCustomButton(
+    filter: SkyConfirmButtonHarnessFilters,
+  ): Promise<SkyConfirmButtonHarness> {
+    const confirmType = await this.getType();
+
+    if (confirmType === SkyConfirmType.OK) {
+      throw new Error('Cannot get custom button for confirm of type OK.');
+    }
+
+    return await this.locatorFor(SkyConfirmButtonHarness.with(filter))();
+  }
+
+  /**
+   * Gets an array of confirm custom buttons.
    */
   public async getCustomButtons(
     filters?: SkyConfirmButtonHarnessFilters,
@@ -72,9 +86,9 @@ export class SkyConfirmHarness extends SkyComponentHarness {
       throw new Error('Cannot get custom buttons for confirm of type OK.');
     }
 
-    const harnesses = await this.#queryHarnesses(
+    const harnesses = await this.locatorForAll(
       SkyConfirmButtonHarness.with(filters || {}),
-    );
+    )();
 
     if (filters && harnesses.length === 0) {
       // Stringify the regular expression so that it's readable in the console log.
@@ -118,14 +132,5 @@ export class SkyConfirmHarness extends SkyComponentHarness {
     return await (
       await this.#getMessageEl()
     ).hasClass('sky-confirm-preserve-white-space');
-  }
-
-  /**
-   * Returns child harnesses.
-   */
-  async #queryHarnesses<T extends ComponentHarness>(
-    harness: HarnessQuery<T>,
-  ): Promise<T[]> {
-    return await this.locatorForAll(harness)();
   }
 }
