@@ -63,25 +63,6 @@ export default {
 }
 ```
 
-### Case variations
-
-```css
-::NG-DEEP .uppercase {
-~~~~~~~~
-  font-weight: bold;
-}
-
-:: ng-deep .with-space {
-~~~~~~~~
-  text-decoration: underline;
-}
-
-: ng-deep .single-colon {
-~~~~~~~~
-  border: 1px solid black;
-}
-```
-
 ### `::ng-deep` in media queries
 
 ```css
