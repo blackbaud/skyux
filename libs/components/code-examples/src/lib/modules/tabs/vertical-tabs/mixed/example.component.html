@@ -1,0 +1,29 @@
+<sky-vertical-tabset data-sky-id="vertical-tabs-mixed" showTabsText="Tab list">
+  @for (group of groupedTabs; track group) {
+    <sky-vertical-tabset-group
+      [groupHeading]="group.heading"
+      [open]="group.isOpen"
+    >
+      @for (tab of group.subTabs; track tab) {
+        <sky-vertical-tab
+          [active]="tab.active"
+          [tabHeading]="tab.tabHeading"
+        >
+          {{ tab.content }}
+        </sky-vertical-tab>
+      }
+    </sky-vertical-tabset-group>
+  }
+  
+  <sky-vertical-tab tabHeading="Tab 1">
+    Tab 1 Content
+  </sky-vertical-tab>
+  
+  <sky-vertical-tab tabHeading="Tab 2" [tabHeaderCount]="3">
+    Tab 2 Content
+  </sky-vertical-tab>
+  
+  <sky-vertical-tab tabHeading="Tab 3" [disabled]="true">
+    Tab 3 Content
+  </sky-vertical-tab>
+</sky-vertical-tabset>
