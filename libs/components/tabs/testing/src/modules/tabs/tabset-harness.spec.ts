@@ -191,6 +191,42 @@ describe('Tab harness', () => {
     expect(tabs.length).toBe(4);
   });
 
+  it('should get tab button harnesses that matches given filters', async () => {
+    const { tabsetHarness } = await setupTest();
+    const tabs = await tabsetHarness.getTabButtonHarnesses({
+      tabHeading: 'Tab 2',
+    });
+
+    expect(tabs.length).toBe(1);
+    await expectAsync(tabs[0].getTabHeading()).toBeResolvedTo('Tab 2');
+  });
+
+  it('should throw error when tab button harnesses with filters not found', async () => {
+    const { tabsetHarness } = await setupTest();
+    const filter = { tabHeading: 'Non-existent' };
+
+    await expectAsync(
+      tabsetHarness.getTabButtonHarnesses(filter),
+    ).toBeRejectedWithError(
+      `Unable to find any tab buttons with filter(s): ${JSON.stringify(filter)}`,
+    );
+  });
+
+  it('should get a tab button with filters', async () => {
+    const { tabsetHarness } = await setupTest();
+    const tab = await tabsetHarness.getTabButton({ tabHeading: 'Tab 3' });
+
+    await expectAsync(tab.getTabHeading()).toBeResolvedTo('Tab 3');
+  });
+
+  it('should throw error when single tab button with filters not found', async () => {
+    const { tabsetHarness } = await setupTest();
+
+    await expectAsync(
+      tabsetHarness.getTabButton({ tabHeading: 'Non-existent' }),
+    ).toBeRejectedWithError();
+  });
+
   it('should get the active tab button', async () => {
     const { tabsetHarness } = await setupTest();
     const activeTab = await tabsetHarness.getActiveTabButton();
@@ -356,6 +392,39 @@ describe('Tab harness', () => {
       await tabsetHarness.clickDropdownTab();
       const tabButtonHarnesses = await tabsetHarness.getTabButtonHarnesses();
       expect(tabButtonHarnesses.length).toBe(4);
+    });
+
+    it('should get tab button harnesses with filters in dropdown mode', async () => {
+      const { tabsetHarness, fixture } = await setupTest();
+      await shrinkScreen(fixture);
+      await tabsetHarness.clickDropdownTab();
+      const tabs = await tabsetHarness.getTabButtonHarnesses({
+        tabHeading: 'Tab 2',
+      });
+
+      expect(tabs.length).toBe(1);
+      await expectAsync(tabs[0].getTabHeading()).toBeResolvedTo('Tab 2');
+    });
+
+    it('should throw error when tab button harnesses with filters not found in dropdown mode', async () => {
+      const { tabsetHarness, fixture } = await setupTest();
+      await shrinkScreen(fixture);
+      await tabsetHarness.clickDropdownTab();
+
+      await expectAsync(
+        tabsetHarness.getTabButtonHarnesses({ tabHeading: 'Non-existent' }),
+      ).toBeRejectedWithError(
+        `Unable to find any tab buttons with filter(s): {"tabHeading":"Non-existent"}`,
+      );
+    });
+
+    it('should get a tab button with filters in dropdown mode', async () => {
+      const { tabsetHarness, fixture } = await setupTest();
+      await shrinkScreen(fixture);
+      await tabsetHarness.clickDropdownTab();
+      const tab = await tabsetHarness.getTabButton({ tabHeading: 'Tab 3' });
+
+      await expectAsync(tab.getTabHeading()).toBeResolvedTo('Tab 3');
     });
 
     it('should throw an error when trying to get tab buttons when dropdown is closed', async () => {

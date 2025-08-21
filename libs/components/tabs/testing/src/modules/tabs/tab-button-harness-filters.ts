@@ -7,5 +7,5 @@ export interface SkyTabButtonHarnessFilters extends SkyHarnessFilters {
   /**
    * Finds tab button whose tab heading matches this value.
    */
-  tabHeading: string;
+  tabHeading?: string;
 }

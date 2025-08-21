@@ -196,6 +196,30 @@ describe('Vertical Tabset harness', () => {
     expect(groups.length).toBe(2);
   });
 
+  it('should get vertical tabset groups with filters', async () => {
+    const { tabsetHarness } = await setupTest();
+    const groups = await tabsetHarness.getGroups({ groupHeading: 'Group 1' });
+    expect(groups.length).toBe(1);
+    await expectAsync(groups[0].getGroupHeading()).toBeResolvedTo('Group 1');
+  });
+
+  it('should throw error when vertical tabset groups with filters not found', async () => {
+    const { tabsetHarness } = await setupTest();
+
+    await expectAsync(
+      tabsetHarness.getGroups({ groupHeading: 'Non-existent' }),
+    ).toBeRejectedWithError(
+      `Unable to find any vertical tabset groups with filter(s): {"groupHeading":"Non-existent"}`,
+    );
+  });
+
+  it('should get a vertical tabset group with filters', async () => {
+    const { tabsetHarness } = await setupTest();
+    const group = await tabsetHarness.getGroup({ groupHeading: 'Group 1' });
+
+    await expectAsync(group?.getGroupHeading()).toBeResolvedTo('Group 1');
+  });
+
   it('should get tab harness by heading', async () => {
     const { tabsetHarness } = await setupTest();
     const tab = await tabsetHarness.getTab({ tabHeading: 'Tab 2' });
@@ -206,6 +230,30 @@ describe('Vertical Tabset harness', () => {
     const { tabsetHarness } = await setupTest();
     const tabs = await tabsetHarness.getTabs();
     expect(tabs.length).toBe(4);
+  });
+
+  it('should get tabs with filters', async () => {
+    const { tabsetHarness } = await setupTest();
+    const tabs = await tabsetHarness.getTabs({ tabHeading: 'Tab 1' });
+    expect(tabs.length).toBe(1);
+    await expectAsync(tabs[0].getTabHeading()).toBeResolvedTo('Tab 1');
+  });
+
+  it('should throw error when tabs with filters not found', async () => {
+    const { tabsetHarness } = await setupTest();
+
+    await expectAsync(
+      tabsetHarness.getTabs({ tabHeading: 'Non-existent' }),
+    ).toBeRejectedWithError(
+      `Unable to find any vertical tab buttons with filter(s): {"tabHeading":"Non-existent"}`,
+    );
+  });
+
+  it('should get a single tab with filters', async () => {
+    const { tabsetHarness } = await setupTest();
+    const tab = await tabsetHarness.getTab({ tabHeading: 'Tab 2' });
+
+    await expectAsync(tab.getTabHeading()).toBeResolvedTo('Tab 2');
   });
 
   it('should not return show tab text when not in mobile view', async () => {
@@ -314,6 +362,24 @@ describe('Vertical Tabset harness', () => {
       const tabs = await tabsetHarness.getTabs();
       await expectAsync(tabsetHarness.isTabsVisible()).toBeResolvedTo(true);
       expect(tabs.length).toBe(4);
+    });
+
+    it('should get groups with filters in mobile view', async () => {
+      const { tabsetHarness, fixture } = await setupTest();
+      shrinkScreen(fixture);
+
+      const groups = await tabsetHarness.getGroups({ groupHeading: 'Group 1' });
+      expect(groups.length).toBe(1);
+      await expectAsync(groups[0].getGroupHeading()).toBeResolvedTo('Group 1');
+    });
+
+    it('should get tabs with filters in mobile view', async () => {
+      const { tabsetHarness, fixture } = await setupTest();
+      shrinkScreen(fixture);
+
+      const tabs = await tabsetHarness.getTabs({ tabHeading: 'Tab 2' });
+      expect(tabs.length).toBe(1);
+      await expectAsync(tabs[0].getTabHeading()).toBeResolvedTo('Tab 2');
     });
   });
 });

@@ -22,7 +22,7 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
   public static with(
     filters: SkyTabButtonHarnessFilters,
   ): HarnessPredicate<SkyTabButtonHarness> {
-    return new HarnessPredicate(SkyTabButtonHarness, filters).addOption(
+    return SkyTabButtonHarness.getDataSkyIdPredicate(filters).addOption(
       'tabHeading',
       filters.tabHeading,
       async (harness, tabHeading) => {

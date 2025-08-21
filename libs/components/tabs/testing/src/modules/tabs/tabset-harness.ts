@@ -7,6 +7,7 @@ import {
 import { SkyTabsetButtonsDisplayMode } from '@skyux/tabs';
 
 import { SkyTabButtonHarness } from './tab-button-harness';
+import { SkyTabButtonHarnessFilters } from './tab-button-harness-filters';
 import { SkyTabContentHarness } from './tab-content-harness';
 import { SkyTabsetHarnessFilters } from './tabset-harness-filters';
 
@@ -20,7 +21,6 @@ export class SkyTabsetHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-tabset';
 
   #getTabset = this.locatorFor('.sky-tabset');
-  #getTabButtons = this.locatorForAll(SkyTabButtonHarness);
   #getTabDropdown = this.locatorFor(SkyDropdownHarness);
 
   /**
@@ -152,12 +152,46 @@ export class SkyTabsetHarness extends SkyComponentHarness {
   /**
    * Gets an array of all tab button harnesses.
    */
-  public async getTabButtonHarnesses(): Promise<SkyTabButtonHarness[]> {
+  public async getTabButtonHarnesses(
+    filters?: SkyTabButtonHarnessFilters,
+  ): Promise<SkyTabButtonHarness[]> {
+    let tabButtons: SkyTabButtonHarness[];
+
     if ((await this.getMode()) === 'dropdown') {
       const menu = await this.#getDropdownMenu();
-      return await menu.queryHarnesses(SkyTabButtonHarness);
+      tabButtons = await menu.queryHarnesses(
+        SkyTabButtonHarness.with(filters || {}),
+      );
+    } else {
+      tabButtons = await this.locatorForAll(
+        SkyTabButtonHarness.with(filters || {}),
+      )();
     }
-    return await this.#getTabButtons();
+
+    if (filters && tabButtons.length === 0) {
+      throw new Error(
+        `Unable to find any tab buttons with filter(s): ${JSON.stringify(filters)}`,
+      );
+    }
+
+    return tabButtons;
+  }
+
+  /**
+   * Gets a tab button harness.
+   *
+   * @param filters - Filters used to identify which tab button to return.
+   *
+   * @throws Will throw an error if no tab button is found.
+   */
+  public async getTabButton(
+    filters: SkyTabButtonHarnessFilters,
+  ): Promise<SkyTabButtonHarness> {
+    if ((await this.getMode()) === 'dropdown') {
+      const menu = await this.#getDropdownMenu();
+      return await menu.queryHarness(SkyTabButtonHarness.with(filters));
+    }
+    return await this.locatorFor(SkyTabButtonHarness.with(filters))();
   }
 
   /**

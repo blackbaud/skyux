@@ -109,15 +109,27 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of `SkyVerticalTabsetGroupHarness` in this tabset.
+   * Gets an array of vertical tabset groups.
    */
-  public async getGroups(): Promise<SkyVerticalTabsetGroupHarness[]> {
+  public async getGroups(
+    filters?: SkyVerticalTabsetGroupHarnessFilters,
+  ): Promise<SkyVerticalTabsetGroupHarness[]> {
     // open tablist if in mobile view
     if (!(await this.isTabsVisible())) {
       await this.clickShowTabsButton();
     }
 
-    return await this.locatorForAll(SkyVerticalTabsetGroupHarness)();
+    const groups = await this.locatorForAll(
+      SkyVerticalTabsetGroupHarness.with(filters || {}),
+    )();
+
+    if (groups.length === 0 && filters) {
+      throw new Error(
+        `Unable to find any vertical tabset groups with filter(s): ${JSON.stringify(filters)}`,
+      );
+    }
+
+    return groups;
   }
 
   /**
@@ -144,15 +156,27 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of `SkyVerticalTabButtonHarness` in this tabset.
+   * Gets an array of vertical tab buttons.
    */
-  public async getTabs(): Promise<SkyVerticalTabButtonHarness[]> {
+  public async getTabs(
+    filters?: SkyVerticalTabButtonHarnessFilters,
+  ): Promise<SkyVerticalTabButtonHarness[]> {
     // open tablist if in mobile view
     if (!(await this.isTabsVisible())) {
       await this.clickShowTabsButton();
     }
 
-    return await this.locatorForAll(SkyVerticalTabButtonHarness)();
+    const tabs = await this.locatorForAll(
+      SkyVerticalTabButtonHarness.with(filters || {}),
+    )();
+
+    if (tabs.length === 0 && filters) {
+      throw new Error(
+        `Unable to find any vertical tab buttons with filter(s): ${JSON.stringify(filters)}`,
+      );
+    }
+
+    return tabs;
   }
 
   /**
