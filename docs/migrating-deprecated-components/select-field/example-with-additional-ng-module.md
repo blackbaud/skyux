@@ -192,7 +192,7 @@ export class ProductFilterModule {}
 <div class="product-filter-container">
   <form [formGroup]="filterForm">
     <div class="filter-row">
-      <sky-input-box labelText="Product Categories">
+      <sky-input-box labelText="Product Categories" stacked>
         <sky-lookup
           formControlName="categories"
           [data]="(categoriesStream | async) ?? []"
@@ -206,7 +206,7 @@ export class ProductFilterModule {}
     </div>
 
     <div class="filter-row">
-      <sky-input-box labelText="Price Range">
+      <sky-input-box labelText="Price Range" stacked>
         <sky-lookup
           formControlName="priceRange"
           selectMode="single"
@@ -222,7 +222,7 @@ export class ProductFilterModule {}
     </div>
 
     <div class="filter-row">
-      <sky-input-box labelText="Brand">
+      <sky-input-box labelText="Brand" stacked>
         <sky-lookup
           formControlName="brand"
           selectMode="single"

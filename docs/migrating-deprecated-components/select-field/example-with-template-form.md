@@ -111,7 +111,7 @@ export class UserPreferencesComponent {
 
 ```html
 <form #userForm="ngForm">
-  <sky-input-box labelText="Favorite Colors" required>
+  <sky-input-box labelText="Favorite Colors" required stacked>
     <sky-lookup
       name="favoriteColors"
       [(ngModel)]="selectedColors"
@@ -129,7 +129,7 @@ export class UserPreferencesComponent {
     }
   </sky-input-box>
 
-  <sky-input-box labelText="Primary Language">
+  <sky-input-box labelText="Primary Language" stacked>
     <sky-lookup
       name="primaryLanguage"
       [(ngModel)]="selectedLanguage"
@@ -145,7 +145,7 @@ export class UserPreferencesComponent {
     </sky-lookup>
   </sky-input-box>
 
-  <sky-input-box labelText="Notification Settings">
+  <sky-input-box labelText="Notification Settings" stacked>
     <sky-lookup
       name="notifications"
       [(ngModel)]="selectedNotifications"

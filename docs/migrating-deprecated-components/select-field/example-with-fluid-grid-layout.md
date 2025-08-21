@@ -92,7 +92,7 @@ export class EmployeeFormComponent {
 <sky-fluid-grid>
   <sky-row>
     <sky-column screenSmall="6" screenMedium="4">
-      <sky-input-box labelText="Department" required>
+      <sky-input-box labelText="Department" required stacked>
         <sky-lookup
           formControlName="department"
           [data]="(departmentsStream | async) ?? []"
@@ -107,7 +107,7 @@ export class EmployeeFormComponent {
     </sky-column>
 
     <sky-column screenSmall="6" screenMedium="4">
-      <sky-input-box labelText="Manager">
+      <sky-input-box labelText="Manager" stacked>
         <sky-lookup
           formControlName="manager"
           selectMode="single"
@@ -122,7 +122,7 @@ export class EmployeeFormComponent {
     </sky-column>
 
     <sky-column screenSmall="12" screenMedium="4">
-      <sky-input-box labelText="Skills">
+      <sky-input-box labelText="Skills" stacked>
         <sky-lookup
           formControlName="skills"
           [data]="(skillsStream | async) ?? []"

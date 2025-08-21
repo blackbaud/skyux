@@ -105,7 +105,7 @@ npm install @skyux/lookup @skyux/forms
 **After:**
 
 ```html
-<sky-input-box labelText="Environment Ids">
+<sky-input-box labelText="Environment Ids" stacked>
   <sky-lookup
     formControlName="environmentIds"
     [data]="(environmentIdsStream | async) ?? []"
@@ -138,7 +138,7 @@ npm install @skyux/lookup @skyux/forms
 **After:**
 
 ```html
-<sky-input-box labelText="Value Aggregate Function">
+<sky-input-box labelText="Value Aggregate Function" stacked>
   <sky-lookup
     formControlName="valueAggregateFunction"
     selectMode="single"
@@ -429,7 +429,7 @@ The `sky-input-box` now handles labeling, replacing manual label associations:
 **After:**
 
 ```html
-<sky-input-box labelText="Select Item">
+<sky-input-box labelText="Select Item" stacked>
   <sky-lookup></sky-lookup>
 </sky-input-box>
 ```
@@ -541,7 +541,7 @@ export class MyComponent {
 
 ```html
 <form [formGroup]="myForm">
-  <sky-input-box labelText="Environment Ids" required>
+  <sky-input-box labelText="Environment Ids" required stacked>
     <sky-lookup
       formControlName="environmentIds"
       [data]="(environmentIdsStream | async) ?? []"
@@ -610,5 +610,7 @@ After migration, verify:
 - [ ] Unsupported events have TODO comments
 - [ ] Custom pickers updated to use `SkyLookupShowMoreCustomPicker`
 - [ ] Tests updated with proper module imports and `provideNoopAnimations()`
+- [ ] Use the command `npx ng t --browsers=ChromeHeadless --no-watch` to run tests in headless mode and ensure no errors
+- [ ] Use the command `npm run lint` to check for linting issues and ensure code quality
 
 This migration ensures your application follows current SKY UX patterns while maintaining functionality and improving accessibility.
