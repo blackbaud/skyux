@@ -241,6 +241,40 @@ describe('Radio group harness', () => {
     await expectAsync(radioGroupHarness.hasError('test')).toBeResolvedTo(false);
   });
 
+  it('should get all radio buttons', async () => {
+    const { radioGroupHarness } = await setupTest();
+    const radioButtons = await radioGroupHarness.getRadioButtons();
+    expect(radioButtons.length).toBe(3);
+  });
+
+  it('should throw an error when no radio buttons match filters', async () => {
+    const { radioGroupHarness } = await setupTest();
+
+    await expectAsync(
+      radioGroupHarness.getRadioButtons({ dataSkyId: 'non-existent' }),
+    ).toBeRejectedWithError(
+      `Unable to find any radio buttons with filter(s): {"dataSkyId":"non-existent"}`,
+    );
+  });
+
+  it('should get a radio button with filters', async () => {
+    const { radioGroupHarness } = await setupTest();
+
+    const radioButton = await radioGroupHarness.getRadioButton({
+      dataSkyId: 'my-cash-radio',
+    });
+    await expectAsync(radioButton.getLabelText()).toBeResolvedTo('Cash');
+  });
+
+  it('should get radio buttons with filters', async () => {
+    const { radioGroupHarness } = await setupTest();
+
+    const radioButtons = await radioGroupHarness.getRadioButtons({
+      dataSkyId: 'my-cash-radio',
+    });
+    await expectAsync(radioButtons[0].getLabelText()).toBeResolvedTo('Cash');
+  });
+
   it('should throw an error if no help inline is found', async () => {
     const { radioGroupHarness } = await setupTest();
 

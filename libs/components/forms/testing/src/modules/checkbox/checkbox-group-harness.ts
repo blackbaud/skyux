@@ -10,6 +10,7 @@ import { SkyFormErrorsHarness } from '../form-error/form-errors-harness';
 
 import { SkyCheckboxGroupHarnessFilters } from './checkbox-group-harness-filters';
 import { SkyCheckboxHarness } from './checkbox-harness';
+import { SkyCheckboxHarnessFilters } from './checkbox-harness-filters';
 
 /**
  * Harness for interacting with a checkbox group component in tests.
@@ -20,7 +21,6 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-checkbox-group';
 
-  #getCheckboxes = this.locatorForAll(SkyCheckboxHarness);
   #getHeading = this.locatorFor('.sky-checkbox-group-heading');
   #getHeadingWrapper = this.locatorFor('.sky-checkbox-group-legend');
   #getHintText = this.locatorForOptional('.sky-checkbox-group-hint-text');
@@ -52,10 +52,31 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets a specific checkbox that meets certain criteria.
+   */
+  public async getCheckbox(
+    filter: SkyCheckboxHarnessFilters,
+  ): Promise<SkyCheckboxHarness> {
+    return await this.locatorFor(SkyCheckboxHarness.with(filter))();
+  }
+
+  /**
    * Gets an array of harnesses for the checkboxes in the checkbox group.
    */
-  public async getCheckboxes(): Promise<SkyCheckboxHarness[]> {
-    return await this.#getCheckboxes();
+  public async getCheckboxes(
+    filters?: SkyCheckboxHarnessFilters,
+  ): Promise<SkyCheckboxHarness[]> {
+    const checkboxes = await this.locatorForAll(
+      SkyCheckboxHarness.with(filters || {}),
+    )();
+
+    if (checkboxes.length === 0 && filters) {
+      throw new Error(
+        `Unable to find any checkboxes with filter(s): ${JSON.stringify(filters)}`,
+      );
+    }
+
+    return checkboxes;
   }
 
   /**

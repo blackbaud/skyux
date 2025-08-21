@@ -67,16 +67,16 @@ export class SkySortHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all sort items.
+   * Gets an array of sort items.
    */
   public async getItems(
     filters?: SkySortItemHarnessFilters,
   ): Promise<SkySortItemHarness[]> {
     const menuHarness = await this.#getMenuHarness();
 
-    const items = await (filters
-      ? menuHarness.queryHarnesses(SkySortItemHarness.with(filters))
-      : menuHarness.queryHarnesses(SkySortItemHarness));
+    const items = await menuHarness.queryHarnesses(
+      SkySortItemHarness.with(filters || {}),
+    );
 
     if (filters && !items.length) {
       throw new Error(
