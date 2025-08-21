@@ -60,10 +60,22 @@ export class SkyVerticalTabsetGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the `SkyVerticalTabButtonHarness` for all tabs under this group.
+   * Gets an array of vertical tab buttons under this group.
    */
-  public async getVerticalTabs(): Promise<SkyVerticalTabButtonHarness[]> {
-    return await this.locatorForAll(SkyVerticalTabButtonHarness)();
+  public async getVerticalTabs(
+    filters?: SkyVerticalTabButtonHarnessFilters,
+  ): Promise<SkyVerticalTabButtonHarness[]> {
+    const tabs = await this.locatorForAll(
+      SkyVerticalTabButtonHarness.with(filters || {}),
+    )();
+
+    if (filters && tabs.length === 0) {
+      throw new Error(
+        `Unable to find vertical tabs with filter(s): ${JSON.stringify(filters)}`,
+      );
+    }
+
+    return tabs;
   }
 
   /**

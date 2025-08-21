@@ -295,6 +295,25 @@ describe('Vertical Tabset harness', () => {
       expect(tabs?.length).toBe(2);
     });
 
+    it('should get tab harnesses inside a group with filters', async () => {
+      const { tabsetHarness } = await setupTest();
+      const group1 = await tabsetHarness.getGroup({ groupHeading: 'Group 1' });
+      const tabs = await group1?.getVerticalTabs({ tabHeading: 'Tab 3' });
+      expect(tabs?.length).toBe(1);
+      await expectAsync(tabs?.[0].getTabHeading()).toBeResolvedTo('Tab 3');
+    });
+
+    it('should throw error when tab harnesses inside a group with filters not found', async () => {
+      const { tabsetHarness } = await setupTest();
+      const group1 = await tabsetHarness.getGroup({ groupHeading: 'Group 1' });
+
+      await expectAsync(
+        group1?.getVerticalTabs({ tabHeading: 'Non-existent' }),
+      ).toBeRejectedWithError(
+        `Unable to find vertical tabs with filter(s): ${JSON.stringify({ tabHeading: 'Non-existent' })}`,
+      );
+    });
+
     it('should get if the group is active', async () => {
       const { tabsetHarness } = await setupTest();
       const group1 = await tabsetHarness.getGroup({ groupHeading: 'Group 1' });
