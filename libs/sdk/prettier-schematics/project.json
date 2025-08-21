@@ -3,6 +3,9 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/sdk/prettier-schematics/src",
   "projectType": "library",
+  "metadata": {
+    "deprecated": "Install 'prettier' and 'eslint-config-prettier' instead."
+  },
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint",

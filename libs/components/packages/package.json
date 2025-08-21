@@ -37,9 +37,7 @@
     "packageGroup": {
       "@skyux/packages": "0.0.0-PLACEHOLDER",
       "@blackbaud/angular-tree-component": "^1.0.0",
-      "@skyux-sdk/eslint-config": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/eslint-schematics": "0.0.0-PLACEHOLDER",
-      "@skyux-sdk/prettier-schematics": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/stylelint-schematics": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
       "@skyux/a11y": "0.0.0-PLACEHOLDER",
@@ -95,6 +93,7 @@
       "ag-grid-enterprise": "^34.1.1",
       "autonumeric": "^4.10.8",
       "eslint-config-skyux": "0.0.0-PLACEHOLDER",
+      "skyux-eslint": "0.0.0-PLACEHOLDER",
       "skyux-stylelint": "0.0.0-PLACEHOLDER",
       "stylelint-config-skyux": "0.0.0-PLACEHOLDER"
     }

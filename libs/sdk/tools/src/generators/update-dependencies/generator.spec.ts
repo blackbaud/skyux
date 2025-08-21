@@ -171,6 +171,91 @@ describe('update dependencies generator', () => {
     });
   });
 
+  it('should ignore projects that are deprecated', async () => {
+    await libraryGenerator(appTree, {
+      name: 'active-package',
+      buildable: true,
+      publishable: true,
+      importPath: '@proj/active-package',
+      directory: 'libs/components/active-package',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+      tags: 'npm',
+    });
+    await libraryGenerator(appTree, {
+      name: 'deprecated-package',
+      buildable: true,
+      publishable: true,
+      importPath: '@proj/deprecated-package',
+      directory: 'libs/components/deprecated-package',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+      tags: 'npm',
+    });
+    await libraryGenerator(appTree, {
+      name: 'packages',
+      buildable: true,
+      publishable: true,
+      importPath: '@proj/packages',
+      directory: 'libs/components/packages',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+      tags: 'npm',
+    });
+
+    // Mark the deprecated-package project as deprecated by adding metadata
+    updateJson(
+      appTree,
+      'libs/components/deprecated-package/project.json',
+      (json: any) => {
+        json.metadata = {
+          deprecated: true,
+        };
+        return json;
+      },
+    );
+
+    appTree.write(
+      'package.json',
+      JSON.stringify({
+        dependencies: {
+          '@proj/one': '1.1.0',
+        },
+      }),
+    );
+    appTree.write(
+      'libs/components/packages/package.json',
+      JSON.stringify({
+        'ng-update': {
+          packageGroup: {
+            '@proj/one': '1.0.0',
+          },
+        },
+      }),
+    );
+
+    await generator(appTree, options);
+    const projectPackageJson = readJson(
+      appTree,
+      `libs/components/packages/package.json`,
+    );
+
+    // Should only include active packages and exclude the deprecated one
+    expect(projectPackageJson).toEqual({
+      'ng-update': {
+        packageGroup: {
+          '@skyux/packages': '0.0.0-PLACEHOLDER',
+          '@proj/active-package': '0.0.0-PLACEHOLDER',
+          '@proj/one': '1.1.0',
+          // '@proj/deprecated-package' should be filtered out due to metadata.deprecated
+        },
+      },
+    });
+  });
+
   it('should throw error on unmet dependencies', async () => {
     await libraryGenerator(appTree, {
       name: 'test',

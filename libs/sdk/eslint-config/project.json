@@ -3,6 +3,9 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/sdk/eslint-config/src",
   "projectType": "library",
+  "metadata": {
+    "deprecated": "Use 'eslint-config-skyux' instead."
+  },
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint",
