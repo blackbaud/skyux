@@ -77,12 +77,14 @@ function updateNgUpdatePackageGroup(tree: Tree): void {
     ...rootPackageJson.devDependencies,
   };
   if (tree.exists('libs/components/packages/package.json')) {
-    const excludedPackages = ['@skyux/packages'];
+    const excludedPackages = [
+      '@skyux/packages',
+      '@skyux-sdk/eslint-config',
+      '@skyux-sdk/prettier-schematics',
+    ];
+
     const npmPackages = Array.from(getProjects(tree).values())
       .filter((project) => !!project.tags?.includes('npm'))
-      .filter(
-        (project) => !(project.metadata && 'deprecated' in project.metadata),
-      )
       .map(
         (project) =>
           readJson(tree, joinPathFragments(project.root, 'package.json')).name,
