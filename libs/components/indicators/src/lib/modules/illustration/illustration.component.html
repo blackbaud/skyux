@@ -1,10 +1,10 @@
-<img
-  alt=""
-  loading="lazy"
+<div
   [attr.data-sky-illustration-name]="name()"
-  [class]="'sky-illustration-img sky-illustration-img-' + size()"
-  [ngClass]="{
-    'sky-illustration-img-loaded': !!url()
-  }"
-  [src]="url()"
-/>
+  [class]="'sky-illustration-wrapper sky-illustration-' + size()"
+>
+  @if (svg()) {
+    <div class="sky-illustration-svg-wrapper" [innerHTML]="svg()"></div>
+  } @else {
+    <img alt="" loading="lazy" class="sky-illustration-img" [src]="url()" />
+  }
+</div>

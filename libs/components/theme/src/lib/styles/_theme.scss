@@ -141,6 +141,27 @@ symbol[id^='sky-i-']:not(.sky-i-branded) * {
   }
 }
 
+svg.sky-illustration-svg {
+  height: 100%;
+  width: 100%;
+
+  .sky-illustration-fill-softest {
+    fill: #ffffff;
+  }
+
+  .sky-illustration-fill-soft {
+    fill: #e7fbf1;
+  }
+
+  .sky-illustration-fill-heavy {
+    fill: #6de8ab;
+  }
+
+  .sky-illustration-outline {
+    stroke: #004054;
+  }
+}
+
 .sky-viewkeeper-boundary {
   isolation: isolate;
 }

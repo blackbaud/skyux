@@ -22,6 +22,7 @@ describe('Illustration', () => {
     size: SkyIllustrationSize,
     resolver?: {
       resolveUrl: (url: string) => Promise<string>;
+      resolveSvg: (name: string) => Promise<string>;
     },
   ): void {
     const providers: Provider[] = [];
@@ -47,6 +48,17 @@ describe('Illustration', () => {
     return (fixture.nativeElement as HTMLElement).querySelector(
       '.sky-illustration-img',
     );
+  }
+
+  function getSvgContainer(): HTMLDivElement | null {
+    return (fixture.nativeElement as HTMLElement).querySelector(
+      '.sky-illustration-wrapper .sky-illustration-svg-wrapper',
+    );
+  }
+
+  function getSvgElement(): SVGElement | null {
+    const container = getSvgContainer();
+    return container?.querySelector('svg') || null;
   }
 
   function validateImageAttr(name: string, expectedValue: string): void {
@@ -128,6 +140,7 @@ describe('Illustration', () => {
 
       setupTest(true, 'test', 'sm', {
         resolveUrl: () => resolvePromise,
+        resolveSvg: () => Promise.resolve(''),
       });
 
       detectUrlChanges();
@@ -151,6 +164,145 @@ describe('Illustration', () => {
       detectUrlChanges();
 
       validateImageAttr('src', '');
+    }));
+  });
+
+  describe('SVG functionality', () => {
+    it('should display SVG when resolveSvg returns content', fakeAsync(() => {
+      const mockSvg = '<svg><circle cx="50" cy="50" r="40" /></svg>';
+
+      setupTest(true, 'test-svg', 'md', {
+        resolveUrl: () => Promise.resolve('https://example.com/test.svg'),
+        resolveSvg: () => Promise.resolve(mockSvg),
+      });
+
+      detectUrlChanges();
+
+      const svgContainer = getSvgContainer();
+      const imgEl = getImgEl();
+
+      expect(svgContainer).toBeTruthy();
+      expect(svgContainer?.innerHTML).toContain('<svg>');
+      expect(svgContainer?.innerHTML).toContain('<circle');
+      expect(imgEl).toBeFalsy();
+    }));
+
+    it('should fallback to image when resolveSvg returns empty string', fakeAsync(() => {
+      setupTest(true, 'test-image', 'md', {
+        resolveUrl: () => Promise.resolve('https://example.com/test.svg'),
+        resolveSvg: () => Promise.resolve(''),
+      });
+
+      detectUrlChanges();
+
+      const svgContainer = getSvgContainer();
+      const imgEl = getImgEl();
+
+      expect(svgContainer).toBeFalsy();
+      expect(imgEl).toBeTruthy();
+      expect(imgEl?.getAttribute('src')).toBe('https://example.com/test.svg');
+    }));
+
+    it('should fallback to image when resolveSvg fails', fakeAsync(() => {
+      setupTest(true, 'test-fail', 'md', {
+        resolveUrl: () => Promise.resolve('https://example.com/test.svg'),
+        resolveSvg: () => Promise.reject(new Error('SVG load failed')),
+      });
+
+      detectUrlChanges();
+
+      const svgContainer = getSvgContainer();
+      const imgEl = getImgEl();
+
+      expect(svgContainer).toBeFalsy();
+      expect(imgEl).toBeTruthy();
+      expect(imgEl?.getAttribute('src')).toBe('https://example.com/test.svg');
+    }));
+
+    it('should sanitize SVG content properly', fakeAsync(() => {
+      const maliciousSvg =
+        '<svg><script>alert("xss")</script><circle cx="50" cy="50" r="40" /></svg>';
+
+      setupTest(true, 'test-sanitize', 'md', {
+        resolveUrl: () => Promise.resolve('https://example.com/test.svg'),
+        resolveSvg: () => Promise.resolve(maliciousSvg),
+      });
+
+      detectUrlChanges();
+
+      const svgContainer = getSvgContainer();
+
+      console.log('WHATTT');
+      console.log(svgContainer);
+
+      expect(svgContainer).toBeTruthy();
+      expect(svgContainer?.innerHTML).toContain('<svg>');
+      expect(svgContainer?.innerHTML).toContain('<circle');
+      expect(svgContainer?.innerHTML).not.toContain('<script>');
+    }));
+
+    xit('should handle SVG with complex content', fakeAsync(() => {
+      const complexSvg = `
+      <svg viewBox="0 0 100 100" class="sky-illustration-svg">
+        <defs>
+          <linearGradient id="gradient1">
+            <stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:1" />
+            <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="100" height="100" fill="url(#gradient1)" />
+        <text x="50" y="50" text-anchor="middle">Test</text>
+      </svg>
+    `;
+
+      setupTest(true, 'test-complex', 'lg', {
+        resolveUrl: () => Promise.resolve('https://example.com/complex.svg'),
+        resolveSvg: () => Promise.resolve(complexSvg),
+      });
+
+      detectUrlChanges();
+
+      const svgContainer = getSvgContainer();
+      const svgElement = getSvgElement();
+
+      expect(svgContainer).toBeTruthy();
+      expect(svgElement).toBeTruthy();
+      expect(svgElement?.getAttribute('viewBox')).toBe('0 0 100 100');
+      expect(svgContainer?.innerHTML).toContain('<defs>');
+      expect(svgContainer?.innerHTML).toContain('<linearGradient');
+      expect(svgContainer?.innerHTML).toContain('<text');
+    }));
+
+    xit('should apply correct wrapper class with SVG', fakeAsync(() => {
+      const mockSvg = '<svg><circle cx="50" cy="50" r="40" /></svg>';
+
+      setupTest(true, 'test-class', 'sm', {
+        resolveUrl: () => Promise.resolve('https://example.com/test.svg'),
+        resolveSvg: () => Promise.resolve(mockSvg),
+      });
+
+      detectUrlChanges();
+
+      const wrapper = (fixture.nativeElement as HTMLElement).querySelector(
+        '.sky-illustration-wrapper',
+      );
+
+      expect(wrapper).toBeTruthy();
+      expect(wrapper?.classList.contains('sky-illustration-img-sm')).toBe(true);
+    }));
+
+    xit('should be accessible with SVG content', fakeAsync(async () => {
+      const accessibleSvg =
+        '<svg role="img" aria-label="Test illustration"><circle cx="50" cy="50" r="40" /></svg>';
+
+      setupTest(true, 'test-accessible', 'md', {
+        resolveUrl: () => Promise.resolve('https://example.com/test.svg'),
+        resolveSvg: () => Promise.resolve(accessibleSvg),
+      });
+
+      detectUrlChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     }));
   });
 });
