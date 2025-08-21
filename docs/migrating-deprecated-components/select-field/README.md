@@ -610,7 +610,7 @@ After migration, verify:
 - [ ] Unsupported events have TODO comments
 - [ ] Custom pickers updated to use `SkyLookupShowMoreCustomPicker`
 - [ ] Tests updated with proper module imports and `provideNoopAnimations()`
-- [ ] Use the command `npx ng t --browsers=ChromeHeadless --no-watch` to run tests in headless mode and ensure no errors
+- [ ] Use the command `npx ng t --browsers=ChromeHeadless --no-watch --include=src/app/path/to/example.component.spec.ts` to run tests in headless mode and ensure no errors
 - [ ] Use the command `npm run lint` to check for linting issues and ensure code quality
 
 This migration ensures your application follows current SKY UX patterns while maintaining functionality and improving accessibility.
