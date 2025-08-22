@@ -1,6 +1,6 @@
 // @internal
 
-@use '../responsive' as res;
+@use 'responsive' as res;
 
 @mixin sky-component($theme, $selector, $encapsulate: true, $breakpoint: '') {
   @if $breakpoint == '' {
