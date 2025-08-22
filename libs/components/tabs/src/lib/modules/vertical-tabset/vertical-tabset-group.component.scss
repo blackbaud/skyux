@@ -8,11 +8,13 @@
   --sky-override-vertical-tabset-group-border: 1px solid
     #{$sky-border-color-neutral-light};
   --sky-override-vertical-tabset-group-button-font-color: buttontext;
+  --sky-override-vertical-tabset-group-button-background-color-hover: transparent;
   --sky-override-vertical-tabset-group-header-selected-font-color: buttontext;
   --sky-override-vertical-tabset-group-header-selected-font-weight: 600;
   --sky-override-vertical-tabset-group-button-padding: #{$sky-padding};
   --sky-override-vertical-tabset-group-content-padding: 0 0 0 #{$sky-padding};
   --sky-override-vertical-tabset-group-gap: #{$sky-margin-half};
+  --sky-override-vertical-tabset-group-header-align-items: flex-start;
   --sky-override-vertical-tabset-group-header-background-color: transparent;
   --sky-override-vertical-tabset-group-margin: #{$sky-margin-half} 0
     #{$sky-margin-half} #{$sky-margin-half};
@@ -29,10 +31,10 @@
 
 .sky-vertical-tabset-group-header {
   button {
-    color: var(
-      --sky-override-vertical-tabset-group-button-font-color,
-      var(--sky-color-text-default)
+    --sky-comp-override-expansion-indicator-color: var(
+      --sky-color-text-deemphasized
     );
+    // The padding here can be consolidated into the tabset button styles when support for default theme is removed.
     padding: var(
       --sky-override-vertical-tabset-group-button-padding,
       var(--sky-comp-tab-vertical-space-inset-top)
@@ -40,20 +42,21 @@
         var(--sky-comp-tab-vertical-space-inset-bottom)
         var(--sky-comp-tab-vertical-space-inset-left)
     );
-    cursor: pointer;
-    display: flex;
     justify-content: space-between;
     border: none;
     width: 100%;
     text-align: left;
-    align-items: center;
+    align-items: var(
+      --sky-override-vertical-tabset-group-header-align-items,
+      center
+    );
     margin-bottom: var(--sky-space-gap-action_group-m);
 
-    &.sky-vertical-tabset-button-disabled {
-      pointer-events: none;
-      color: var(
-        --sky-override-vertical-tabset-button-disabled-font-color,
-        var(--sky-color-text-deemphasized)
+    // Needed for default theme. Remove when default theme support is removed.
+    &:hover {
+      background-color: var(
+        --sky-override-vertical-tabset-group-button-background-color-hover,
+        var(--sky-color-background-nav-hover)
       );
     }
   }

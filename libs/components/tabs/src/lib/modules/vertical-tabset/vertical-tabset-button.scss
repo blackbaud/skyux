@@ -3,11 +3,13 @@
 
 @mixin sky-vertical-tabset-button {
   @include compatMixins.sky-default-overrides('.sky-vertical-tabset-button') {
+    --sky-override-vertical-tab-background-color: transparent;
     --sky-override-vertical-tab-background-color-active: #{$sky-background-color-neutral-light};
     --sky-override-vertical-tab-background-color-focus: transparent;
     --sky-override-vertical-tab-background-color-hover: #{$sky-background-color-neutral-light};
     --sky-override-vertical-tab-border-left-active: none;
     --sky-override-vertical-tab-border-left-hover: none;
+    --sky-override-vertical-tab-font-color: #{$sky-text-color-default};
     --sky-override-vertical-tab-font-color-disabled: var(
       --sky-text-color-deemphasized
     );
@@ -27,11 +29,21 @@
   }
 
   .sky-vertical-tabset-button {
-    background-color: var(--sky-color-background-nav-base);
+    background-color: var(
+      --sky-override-vertical-tab-background-color,
+      var(--sky-color-background-nav-base)
+    );
     border-bottom-left-radius: var(--sky-border-radius-s);
     border-top-left-radius: var(--sky-border-radius-s);
     border-bottom-right-radius: var(--sky-border-radius-0);
     border-top-right-radius: var(--sky-border-radius-0);
+    color: var(
+      --sky-override-vertical-tab-font-color,
+      var(--sky-color-text-deemphasized)
+    );
+    cursor: pointer;
+    display: flex;
+    text-decoration: none;
 
     &:hover:not(.sky-vertical-tab-active) {
       color: var(

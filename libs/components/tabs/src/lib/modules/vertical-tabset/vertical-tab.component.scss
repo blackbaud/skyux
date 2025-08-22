@@ -5,13 +5,11 @@
   as verticalTabsetButtonMixins;
 
 @include compatMixins.sky-default-overrides('.sky-vertical-tab') {
-  --sky-override-vertical-tab-background-color: transparent;
   --sky-override-vertical-tab-background-color-selected: #{$sky-background-color-neutral-light};
   --sky-override-vertical-tab-border-left-selected: #{$sky-nav-selected-border-width}
     solid #{$sky-highlight-color-info};
   --sky-override-vertical-tab-count-margin-left: #{$sky-margin-half};
   --sky-override-vertical-tab-display-align-items: normal;
-  --sky-override-vertical-tab-font-color: #{$sky-text-color-default};
   --sky-override-vertical-tab-gap: #{$sky-margin-half};
   --sky-override-vertical-tab-heading-error-line-height: normal;
   --sky-override-vertical-tab-heading-error-padding-left: #{$sky-padding-half};
@@ -25,15 +23,8 @@
   --sky-override-vertical-tab-right-arrow-padding: 3px #{$sky-padding} 0 0;
 }
 
-:host {
-}
-
 .sky-vertical-tab {
-  cursor: pointer;
-  background-color: var(
-    --sky-override-vertical-tab-background-color,
-    var(--sky-color-background-nav-base)
-  );
+  // The padding here can be consolidated into the tabset button styles when support for default theme is removed.
   padding: var(
     --sky-override-vertical-tab-padding,
     var(--sky-comp-tab-vertical-space-inset-top)
@@ -44,12 +35,6 @@
   margin: var(
     --sky-override-vertical-tab-margin,
     0 0 var(--sky-space-gap-action_group-m)
-  );
-  display: flex;
-  text-decoration: none;
-  color: var(
-    --sky-override-vertical-tab-font-color,
-    var(--sky-color-text-deemphasized)
   );
 }
 
@@ -78,6 +63,19 @@
         var(--sky-border-width-selected-m) solid
           var(--sky-color-border-selected)
       );
+    }
+
+    // This css block is to maintain default compatibility. It can be removed when default theme support is removed.
+    &:not(:active):focus-visible {
+      background-color: var(
+        --sky-override-vertical-tab-background-color-selected,
+        var(--sky-color-background-nav-focus)
+      );
+      padding-left: var(
+        --sky-override-vertical-tab-padding-left-selected,
+        var(--sky-comp-tab-vertical-space-inset-left)
+      );
+      border-left: var(--sky-override-vertical-tab-border-left-selected, none);
     }
 
     .sky-vertical-tab-right-arrow {
