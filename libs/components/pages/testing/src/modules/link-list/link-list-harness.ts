@@ -72,16 +72,8 @@ export class SkyLinkListHarness extends SkyComponentHarness {
   public async getListItems(
     filter?: SkyLinkListItemHarnessFilters,
   ): Promise<SkyLinkListItemHarness[]> {
-    const items = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyLinkListItemHarness.with(filter || {}),
     )();
-
-    if (items.length === 0 && filter) {
-      throw new Error(
-        `Unable to find any list items with filter(s): ${JSON.stringify(filter)}`,
-      );
-    }
-
-    return items;
   }
 }

@@ -75,17 +75,9 @@ export class SkyActionHubHarness extends SkyComponentHarness {
   public async getNeedsAttentionItems(
     filters?: SkyNeedsAttentionItemHarnessFilters,
   ): Promise<SkyNeedsAttentionItemHarness[]> {
-    const items = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyNeedsAttentionItemHarness.with(filters || {}),
     )();
-
-    if (items.length === 0 && filters) {
-      throw new Error(
-        `Unable to find any needs attention items with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
   }
 
   /**

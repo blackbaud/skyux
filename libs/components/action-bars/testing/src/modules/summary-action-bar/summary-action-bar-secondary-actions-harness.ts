@@ -61,32 +61,16 @@ export class SkySummaryActionBarSecondaryActionsHarness extends SkyComponentHarn
     const dropdown = await this.#dropdown();
     if (dropdown) {
       await dropdown.clickDropdownButton();
-      if (filters) {
-        filters['ancestor'] = 'sky-dropdown-menu';
-        const actions = await this.#documentRootLocator.locatorForAll(
-          SkySummaryActionBarSecondaryActionHarness.with(filters),
-        )();
-
-        if (actions.length === 0 && filters) {
-          filters['ancestor'] = undefined;
-          throw new Error(
-            `Unable to find summary action secondary action(s) with filter(s): ${JSON.stringify(
-              filters,
-            )}.`,
-          );
-        }
-        return actions;
-      } else {
-        return await this.#documentRootLocator.locatorForAll(
-          SkySummaryActionBarSecondaryActionHarness.with({
-            ancestor: 'sky-dropdown-menu',
-          }),
-        )();
-      }
+      const filtersWithAncestor = filters
+        ? { ...filters, ancestor: 'sky-dropdown-menu' }
+        : { ancestor: 'sky-dropdown-menu' };
+      return await this.#documentRootLocator.locatorForAll(
+        SkySummaryActionBarSecondaryActionHarness.with(filtersWithAncestor),
+      )();
     }
 
     return await this.locatorForAll(
-      SkySummaryActionBarSecondaryActionHarness,
+      SkySummaryActionBarSecondaryActionHarness.with(filters || {}),
     )();
   }
 }

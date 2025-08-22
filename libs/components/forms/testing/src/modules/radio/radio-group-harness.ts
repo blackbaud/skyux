@@ -151,17 +151,7 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
   public async getRadioButtons(
     filters?: SkyRadioHarnessFilters,
   ): Promise<SkyRadioHarness[]> {
-    const radioButtons = await this.locatorForAll(
-      SkyRadioHarness.with(filters || {}),
-    )();
-
-    if (radioButtons.length === 0 && filters) {
-      throw new Error(
-        `Unable to find any radio buttons with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return radioButtons;
+    return await this.locatorForAll(SkyRadioHarness.with(filters || {}))();
   }
 
   /**

@@ -66,17 +66,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   public async getCheckboxes(
     filters?: SkyCheckboxHarnessFilters,
   ): Promise<SkyCheckboxHarness[]> {
-    const checkboxes = await this.locatorForAll(
-      SkyCheckboxHarness.with(filters || {}),
-    )();
-
-    if (checkboxes.length === 0 && filters) {
-      throw new Error(
-        `Unable to find any checkboxes with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return checkboxes;
+    return await this.locatorForAll(SkyCheckboxHarness.with(filters || {}))();
   }
 
   /**

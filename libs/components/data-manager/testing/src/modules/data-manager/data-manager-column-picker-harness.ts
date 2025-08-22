@@ -81,21 +81,9 @@ export class SkyDataManagerColumnPickerHarness extends ComponentHarness {
   public async getColumns(
     filters?: SkyDataManagerColumnPickerColumnHarnessFilters,
   ): Promise<SkyDataManagerColumnPickerColumnHarness[]> {
-    const harnesses = await this.locatorForAll(
-      SkyDataManagerColumnPickerColumnHarness.with({
-        ...(filters || {}),
-      }),
+    return await this.locatorForAll(
+      SkyDataManagerColumnPickerColumnHarness.with(filters || {}),
     )();
-
-    if (filters && harnesses.length === 0) {
-      throw new Error(
-        `Could not find columns in the column picker matching filter(s): ${JSON.stringify(
-          filters,
-        )}`,
-      );
-    }
-
-    return harnesses;
   }
 
   /**

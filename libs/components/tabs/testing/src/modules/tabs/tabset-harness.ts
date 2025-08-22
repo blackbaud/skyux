@@ -155,26 +155,14 @@ export class SkyTabsetHarness extends SkyComponentHarness {
   public async getTabButtonHarnesses(
     filters?: SkyTabButtonHarnessFilters,
   ): Promise<SkyTabButtonHarness[]> {
-    let tabButtons: SkyTabButtonHarness[];
-
     if ((await this.getMode()) === 'dropdown') {
       const menu = await this.#getDropdownMenu();
-      tabButtons = await menu.queryHarnesses(
-        SkyTabButtonHarness.with(filters || {}),
-      );
+      return await menu.queryHarnesses(SkyTabButtonHarness.with(filters || {}));
     } else {
-      tabButtons = await this.locatorForAll(
+      return await this.locatorForAll(
         SkyTabButtonHarness.with(filters || {}),
       )();
     }
-
-    if (filters && tabButtons.length === 0) {
-      throw new Error(
-        `Unable to find any tab buttons with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return tabButtons;
   }
 
   /**

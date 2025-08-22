@@ -39,16 +39,8 @@ export class SkyRepeaterHarness extends SkyComponentHarness {
   public async getRepeaterItems(
     filters?: SkyRepeaterItemHarnessFilters,
   ): Promise<SkyRepeaterItemHarness[]> {
-    const items = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyRepeaterItemHarness.with(filters || {}),
     )();
-
-    if (items.length === 0 && filters) {
-      throw new Error(
-        `Unable to find any repeater items with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
   }
 }

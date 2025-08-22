@@ -81,17 +81,9 @@ export class SkySectionedFormHarness extends SkyComponentHarness {
         'Unable to find any sectioned form sections because they are not visible.',
       );
     }
-    const sections = await this.locatorForAll(
+    return await this.locatorForAll(
       SkySectionedFormSectionHarness.with(filters || {}),
     )();
-
-    if (filters && sections.length === 0) {
-      throw new Error(
-        `Unable to find any sectioned form sections with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return sections;
   }
 
   /**

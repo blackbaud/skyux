@@ -34,21 +34,13 @@ export class SkyFilterInlineHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all toolbar items.
+   * Gets an array of toolbar items.
    */
   public async getItems(
     filters?: SkyFilterInlineItemHarnessFilters,
   ): Promise<SkyFilterInlineItemHarness[]> {
-    const items = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyFilterInlineItemHarness.with(filters || {}),
     )();
-
-    if (items.length === 0 && filters) {
-      throw new Error(
-        `Unable to find any filter inline items with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
   }
 }

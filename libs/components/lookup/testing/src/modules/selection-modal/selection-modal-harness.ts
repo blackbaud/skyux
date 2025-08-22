@@ -127,22 +127,12 @@ export class SkySelectionModalHarness extends ComponentHarness {
   ): Promise<SkySelectionModalSearchResultHarness[]> {
     const pickerId = (await (await this.host()).getAttribute('id')) as string;
 
-    const harnesses = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyRepeaterItemHarness.with({
         ...(filters || {}),
         ancestor: `#${pickerId}`,
       }),
     )();
-
-    if (filters && harnesses.length === 0) {
-      throw new Error(
-        `Could not find search results in the picker matching filter(s): ${JSON.stringify(
-          filters,
-        )}`,
-      );
-    }
-
-    return harnesses;
   }
 
   /**

@@ -39,16 +39,8 @@ export class SkySelectionBoxGridHarness extends SkyComponentHarness {
   public async getSelectionBoxes(
     filters?: SkySelectionBoxHarnessFilters,
   ): Promise<SkySelectionBoxHarness[]> {
-    const items = await this.locatorForAll(
+    return await this.locatorForAll(
       SkySelectionBoxHarness.with(filters || {}),
     )();
-
-    if (filters && items.length === 0) {
-      throw new Error(
-        `Unable to find any selection boxes with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
   }
 }

@@ -86,24 +86,9 @@ export class SkyConfirmHarness extends SkyComponentHarness {
       throw new Error('Cannot get custom buttons for confirm of type OK.');
     }
 
-    const harnesses = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyConfirmButtonHarness.with(filters || {}),
     )();
-
-    if (filters && harnesses.length === 0) {
-      // Stringify the regular expression so that it's readable in the console log.
-      if (filters.text instanceof RegExp) {
-        filters.text = filters.text.toString();
-      }
-
-      throw new Error(
-        `Could not find buttons matching filter(s): ${JSON.stringify(
-          filters,
-        )}.`,
-      );
-    }
-
-    return harnesses;
   }
 
   /**

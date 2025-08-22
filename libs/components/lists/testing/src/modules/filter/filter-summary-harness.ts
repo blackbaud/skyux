@@ -39,16 +39,8 @@ export class SkyFilterSummaryHarness extends SkyComponentHarness {
   public async getItems(
     filters?: SkyFilterSummaryItemHarnessFilters,
   ): Promise<SkyFilterSummaryItemHarness[]> {
-    const items = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyFilterSummaryItemHarness.with(filters || {}),
     )();
-
-    if (items.length === 0 && filters) {
-      throw new Error(
-        `Unable to find any filter summary items with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
   }
 }

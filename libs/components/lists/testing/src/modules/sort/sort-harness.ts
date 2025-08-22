@@ -74,17 +74,9 @@ export class SkySortHarness extends SkyComponentHarness {
   ): Promise<SkySortItemHarness[]> {
     const menuHarness = await this.#getMenuHarness();
 
-    const items = await menuHarness.queryHarnesses(
+    return await menuHarness.queryHarnesses(
       SkySortItemHarness.with(filters || {}),
     );
-
-    if (filters && !items.length) {
-      throw new Error(
-        `Unable to find any sort items with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
   }
 
   async #getMenuHarness(): Promise<SkyDropdownMenuHarness> {

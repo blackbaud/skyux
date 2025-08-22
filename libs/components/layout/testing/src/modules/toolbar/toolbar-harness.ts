@@ -44,17 +44,9 @@ export class SkyToolbarHarness extends SkyComponentHarness {
   public async getItems(
     filters?: SkyToolbarItemHarnessFilters,
   ): Promise<SkyToolbarItemHarness[]> {
-    const items = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyToolbarItemHarness.with(filters || {}),
     )();
-
-    if (items.length === 0 && filters) {
-      throw new Error(
-        `Unable to find any toolbar items with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
   }
 
   /**
@@ -72,17 +64,9 @@ export class SkyToolbarHarness extends SkyComponentHarness {
   public async getSections(
     filters?: SkyToolbarSectionHarnessFilters,
   ): Promise<SkyToolbarSectionHarness[]> {
-    const sections = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyToolbarSectionHarness.with(filters || {}),
     )();
-
-    if (sections.length === 0 && filters) {
-      throw new Error(
-        `Unable to find any toolbar sections with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return sections;
   }
 
   /**

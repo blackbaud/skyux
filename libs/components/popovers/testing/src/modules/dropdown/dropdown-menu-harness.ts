@@ -66,24 +66,8 @@ export class SkyDropdownMenuHarness extends SkyQueryableComponentHarness {
   public async getItems(
     filters?: SkyDropdownItemHarnessFilters,
   ): Promise<SkyDropdownItemHarness[]> {
-    const harnesses = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyDropdownItemHarness.with(filters || {}),
     )();
-
-    if (harnesses.length === 0) {
-      if (filters) {
-        throw new Error(
-          `Unable to find dropdown menu item(s) with filter(s): ${JSON.stringify(
-            filters,
-          )}.`,
-        );
-      } else {
-        throw new Error(
-          'Unable to retrieve item(s) because dropdown menu is empty.',
-        );
-      }
-    }
-
-    return harnesses;
   }
 }

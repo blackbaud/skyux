@@ -94,17 +94,9 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   public async getLeftItems(
     filters?: SkyDataManagerToolbarLeftItemHarnessFilters,
   ): Promise<SkyDataManagerToolbarLeftItemHarness[]> {
-    const items = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyDataManagerToolbarLeftItemHarness.with(filters || {}),
     )();
-
-    if (filters && items.length === 0) {
-      throw new Error(
-        `Unable to find any data manager toolbar left items with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
   }
 
   /**
@@ -136,17 +128,9 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   public async getPrimaryItems(
     filters?: SkyDataManagerToolbarPrimaryItemHarnessFilters,
   ): Promise<SkyDataManagerToolbarPrimaryItemHarness[]> {
-    const items = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyDataManagerToolbarPrimaryItemHarness.with(filters || {}),
     )();
-
-    if (filters && items.length === 0) {
-      throw new Error(
-        `Unable to find any data manager toolbar primary items with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
   }
 
   /**
@@ -166,17 +150,9 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   public async getRightItems(
     filters?: SkyDataManagerToolbarRightItemHarnessFilters,
   ): Promise<SkyDataManagerToolbarRightItemHarness[]> {
-    const items = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyDataManagerToolbarRightItemHarness.with(filters || {}),
     )();
-
-    if (filters && items.length === 0) {
-      throw new Error(
-        `Unable to find any data manager toolbar right items with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
   }
 
   /**
@@ -207,17 +183,9 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   public async getSections(
     filters?: SkyDataManagerToolbarSectionHarnessFilters,
   ): Promise<SkyDataManagerToolbarSectionHarness[]> {
-    const sections = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyDataManagerToolbarSectionHarness.with(filters || {}),
     )();
-
-    if (filters && sections.length === 0) {
-      throw new Error(
-        `Unable to find any data manager toolbar sections with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return sections;
   }
 
   /**

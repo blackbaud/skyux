@@ -110,24 +110,9 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
       );
     }
 
-    const harnesses = await overlay.queryHarnesses(
+    return await overlay.queryHarnesses(
       SkyAutocompleteSearchResultHarness.with(filters || {}),
     );
-
-    if (filters && harnesses.length === 0) {
-      // Stringify the regular expression so that it's readable in the console log.
-      if (filters.text instanceof RegExp) {
-        filters.text = filters.text.toString();
-      }
-
-      throw new Error(
-        `Could not find search results matching filter(s): ${JSON.stringify(
-          filters,
-        )}`,
-      );
-    }
-
-    return harnesses;
   }
 
   /**

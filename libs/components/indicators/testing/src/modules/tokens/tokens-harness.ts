@@ -49,17 +49,7 @@ export class SkyTokensHarness extends SkyComponentHarness {
   public async getTokens(
     filters?: SkyTokenHarnessFilters,
   ): Promise<SkyTokenHarness[]> {
-    const tokens = await this.locatorForAll(
-      SkyTokenHarness.with(filters || {}),
-    )();
-
-    if (tokens.length === 0 && filters) {
-      throw new Error(
-        `Unable to find any tokens with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return tokens;
+    return await this.locatorForAll(SkyTokenHarness.with(filters || {}))();
   }
 
   /**

@@ -119,17 +119,9 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
       await this.clickShowTabsButton();
     }
 
-    const groups = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyVerticalTabsetGroupHarness.with(filters || {}),
     )();
-
-    if (groups.length === 0 && filters) {
-      throw new Error(
-        `Unable to find any vertical tabset groups with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return groups;
   }
 
   /**
@@ -166,17 +158,9 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
       await this.clickShowTabsButton();
     }
 
-    const tabs = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyVerticalTabButtonHarness.with(filters || {}),
     )();
-
-    if (tabs.length === 0 && filters) {
-      throw new Error(
-        `Unable to find any vertical tab buttons with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return tabs;
   }
 
   /**
