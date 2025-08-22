@@ -1,7 +1,7 @@
 // This file is included as-is with the @skyux/theme NPM package to be used by our consumers.
 
 @forward '@blackbaud/skyux-design-tokens/scss/mixins';
-@forward 'internal/component-theme';
+@forward '_internal/component-theme';
 @forward 'responsive';
 
 @use 'variables' as vars;
