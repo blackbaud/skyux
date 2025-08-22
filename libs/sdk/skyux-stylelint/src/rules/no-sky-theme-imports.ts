@@ -9,12 +9,12 @@ export const ruleName = withNamespace(ruleId);
 const messages = stylelint.utils.ruleMessages(ruleName, {
   rejected: (path: string): string =>
     `Direct imports from "${path}" are not allowed. ` +
-    'Only "@skyux/theme/scss/responsive-container" is permitted for direct import.',
+    'Only "@skyux/theme/scss/responsive" is permitted for direct import.',
 });
 
 /**
  * Detects disallowed imports from '@skyux/theme/scss/*' paths.
- * Only allows '@skyux/theme/scss/responsive-container' for direct import.
+ * Only allows '@skyux/theme/scss/responsive' for direct import.
  */
 const ruleBase: RuleBase = (options) => {
   return (root, result) => {
@@ -42,8 +42,8 @@ const ruleBase: RuleBase = (options) => {
         const importPath = pathMatch[1];
 
         const allowedPaths = [
-          '@skyux/theme/scss/responsive-container.scss',
-          '@skyux/theme/scss/responsive-container',
+          '@skyux/theme/scss/responsive.scss',
+          '@skyux/theme/scss/responsive',
         ];
 
         if (!allowedPaths.includes(importPath)) {

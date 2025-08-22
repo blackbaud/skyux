@@ -1,12 +1,12 @@
 # no-sky-theme-imports
 
-Disallows direct imports from `@skyux/theme/scss/*` paths except for `responsive-container`.
+Disallows direct imports from `@skyux/theme/scss/*` paths except for `responsive`.
 
 ## Rule details
 
 This rule prevents imports from `@skyux/theme/scss/*` paths because the SCSS variables and mixins in these files are not considered part of the public API. The SKY UX team recommends using the documented CSS custom properties instead of importing internal SCSS files directly.
 
-Only `@skyux/theme/scss/responsive-container` (with or without `.scss` extension) is permitted for direct import because it contains approved mixins that allow consumers to write responsive styles.
+Only `@skyux/theme/scss/responsive` (with or without `.scss` extension) is permitted for direct import because it contains approved mixins that allow consumers to write responsive styles.
 
 ## Examples
 
@@ -26,11 +26,11 @@ Only `@skyux/theme/scss/responsive-container` (with or without `.scss` extension
 ### ✅ Correct
 
 ```scss
-// Only responsive-container is allowed for direct import
-@import '@skyux/theme/scss/responsive-container.scss';
-@import '@skyux/theme/scss/responsive-container';
-@use '@skyux/theme/scss/responsive-container';
-@forward '@skyux/theme/scss/responsive-container';
+// Only responsive is allowed for direct import
+@import '@skyux/theme/scss/responsive.scss';
+@import '@skyux/theme/scss/responsive';
+@use '@skyux/theme/scss/responsive';
+@forward '@skyux/theme/scss/responsive';
 
 // Main theme import is allowed
 @import '@skyux/theme';
@@ -62,4 +62,4 @@ The SKY UX team considers SCSS variables and mixins in `@skyux/theme/scss/*` fil
 
 **Recommended approach**: Use the documented CSS custom properties (e.g., `var(--sky-color-text-default)`) instead of importing SCSS variables directly.
 
-**Exception**: `@skyux/theme/scss/responsive-container` contains approved mixins for responsive design and is part of the public API.
+**Exception**: `@skyux/theme/scss/responsive` contains approved mixins for responsive design and is part of the public API.
