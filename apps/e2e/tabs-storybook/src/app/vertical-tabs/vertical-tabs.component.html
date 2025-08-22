@@ -45,7 +45,7 @@
     </sky-vertical-tabset>
   </div>
 
-  <div id="vertical-tabs-without-groups">
+  <div id="vertical-tabs-without-groups" class="sky-margin-stacked-xl">
     <sky-vertical-tabset showTabsText="Back to tabs list">
       <sky-vertical-tab tabHeading="tab 1"> Tab 1 content </sky-vertical-tab>
       <sky-vertical-tab tabHeading="tab 2" [active]="true">
@@ -53,6 +53,51 @@
       </sky-vertical-tab>
       <sky-vertical-tab tabHeading="tab 3" [disabled]="true">
         Tab 3 content
+      </sky-vertical-tab>
+    </sky-vertical-tabset>
+  </div>
+
+  <div id="vertical-tabs-mixed">
+    <sky-vertical-tabset showTabsText="Mixed tabs list">
+      <sky-vertical-tabset-group groupHeading="Group 1" [open]="true">
+        <sky-vertical-tab tabHeading="Group 1 — Tab 1" [active]="true">
+          Group 1 — Tab 1 Content
+        </sky-vertical-tab>
+        <sky-vertical-tab tabHeading="Group 1 — Tab 2">
+          Group 1 — Tab 2 Content
+        </sky-vertical-tab>
+      </sky-vertical-tabset-group>
+
+      <sky-vertical-tabset-group groupHeading="Group 2" [open]="false">
+        <sky-vertical-tab tabHeading="Group 2 — Tab 1">
+          Group 2 — Tab 1 Content
+        </sky-vertical-tab>
+        <sky-vertical-tab tabHeading="Group 2 — Tab 2">
+          Group 2 — Tab 2 Content
+        </sky-vertical-tab>
+      </sky-vertical-tabset-group>
+
+      <sky-vertical-tabset-group
+        groupHeading="Group 3 - disabled"
+        [open]="false"
+        [disabled]="true"
+      >
+        <sky-vertical-tab tabHeading="Group 3 — Tab 1">
+          Group 3 — Tab 1 Content
+        </sky-vertical-tab>
+        <sky-vertical-tab tabHeading="Group 3 — Tab 2">
+          Group 3 — Tab 2 Content
+        </sky-vertical-tab>
+      </sky-vertical-tabset-group>
+
+      <sky-vertical-tab tabHeading="Tab 1"> Tab 1 Content </sky-vertical-tab>
+
+      <sky-vertical-tab tabHeading="Tab 2" [tabHeaderCount]="3">
+        Tab 2 Content
+      </sky-vertical-tab>
+
+      <sky-vertical-tab tabHeading="Tab 3" [disabled]="true">
+        Tab 3 Content
       </sky-vertical-tab>
     </sky-vertical-tabset>
   </div>
