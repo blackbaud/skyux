@@ -6,12 +6,14 @@ import {
   effect,
   inject,
   model,
+  signal,
   untracked,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyToolbarModule } from '@skyux/layout';
+import { SkyFilterStateService } from '@skyux/lists';
 import {
   SkySelectionModalOpenArgs,
   SkySelectionModalSearchArgs,
@@ -86,7 +88,11 @@ export class SkyFilterBarComponent {
 
   readonly #confirmSvc = inject(SkyConfirmService);
   readonly #filterBarSvc = inject(SkyFilterBarService);
-  readonly #filterUpdated = toSignal(this.#filterBarSvc.filterItemUpdated);
+  readonly #filterItemUpdated = toSignal(this.#filterBarSvc.filterItemUpdated);
+  readonly #filterStateSvc = inject(SkyFilterStateService, { optional: true });
+  readonly #filterStateUpdated = this.#filterStateSvc
+    ? toSignal(this.#filterStateSvc.dataStateChanges)
+    : signal(undefined);
   readonly #modalSvc = inject(SkySelectionModalService);
   readonly #resourceSvc = inject(SkyLibResourcesService);
   readonly #strings = toSignal(
@@ -100,9 +106,18 @@ export class SkyFilterBarComponent {
   );
 
   constructor() {
+    // Subscribe to external filter state updates
+    effect(() => {
+      const filterState = this.#filterStateUpdated();
+
+      if (filterState) {
+        this.filters.set(filterState.filters);
+        this.selectedFilterIds.set(filterState.selectedFilterIds);
+      }
+    });
     // Subscribe to filter value updates from child filter items
     effect(() => {
-      const updatedFilter = this.#filterUpdated();
+      const updatedFilter = this.#filterItemUpdated();
       if (updatedFilter) {
         this.#updateFilter(updatedFilter);
       }
@@ -126,8 +141,8 @@ export class SkyFilterBarComponent {
 
     const filterArgs: SkySelectionModalOpenArgs = {
       selectionDescriptor: strings.descriptor,
-      descriptorProperty: 'name',
-      idProperty: 'id',
+      descriptorProperty: 'labelText',
+      idProperty: 'filterId',
       selectMode: 'multiple',
       value: existingFilters,
       searchAsync: this.#filterAsyncSearchFn,
@@ -175,7 +190,7 @@ export class SkyFilterBarComponent {
 
     instance.closed.subscribe((result) => {
       if (result.action === 'save') {
-        this.filters.set(undefined);
+        this.#updateFilterState(undefined);
       }
     });
   }
@@ -209,7 +224,7 @@ export class SkyFilterBarComponent {
       const newFilters = newFilterItems.filter(
         (filter) => !!filter.filterValue,
       );
-      this.filters.set(newFilters.length ? newFilters : undefined);
+      this.#updateFilterState(newFilters.length ? newFilters : undefined);
     }
   }
 
@@ -268,13 +283,13 @@ export class SkyFilterBarComponent {
     args: SkySelectionModalSearchArgs,
   ): Observable<SkySelectionModalSearchResult> => {
     const items = this.filterItems().map((item) => ({
-      id: item.filterId(),
-      name: item.labelText(),
+      filterId: item.filterId(),
+      labelText: item.labelText(),
     }));
 
     const results = args.searchText
       ? items.filter((item) =>
-          item.name
+          item.labelText
             .toLocaleUpperCase()
             .includes(args.searchText.toLocaleUpperCase()),
         )
@@ -306,7 +321,9 @@ export class SkyFilterBarComponent {
       newFilterValues.push(updatedFilter);
     }
 
-    this.filters.set(newFilterValues.length ? newFilterValues : undefined);
+    this.#updateFilterState(
+      newFilterValues.length ? newFilterValues : undefined,
+    );
   }
 
   #updateFilters(updatedFilters: SkyFilterBarFilterItem[] | undefined): void {
@@ -318,6 +335,18 @@ export class SkyFilterBarComponent {
           filterId: filterItem.filterId(),
         })),
       );
+    }
+  }
+
+  #updateFilterState(newFilters: SkyFilterBarFilterItem[] | undefined): void {
+    this.filters.set(newFilters);
+
+    if (this.#filterStateSvc) {
+      const selectedFilterIds = untracked(() => this.selectedFilterIds());
+      this.#filterStateSvc.updateDataState({
+        filters: newFilters,
+        selectedFilterIds: selectedFilterIds,
+      });
     }
   }
 }

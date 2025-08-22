@@ -1,5 +1,6 @@
 import { SkyDataManagerFilterData } from './data-manager-filter-data';
 import { SkyDataManagerSortOption } from './data-manager-sort-option';
+import { SkyDataManagerStateExtensions } from './data-manager-state-extensions';
 import { SkyDataViewStateOptions } from './data-view-state-options';
 
 export interface SkyDataManagerStateOptions {
@@ -13,6 +14,10 @@ export interface SkyDataManagerStateOptions {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   additionalData?: any;
+  /**
+   * Stores settings for data manager extensions.
+   */
+  extensions?: SkyDataManagerStateExtensions;
   /**
    * The state of the filters.
    */
