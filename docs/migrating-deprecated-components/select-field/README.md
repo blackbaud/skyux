@@ -196,6 +196,26 @@ Convert `pickerHeading` and `customPicker` to `showMoreConfig`:
 </sky-lookup>
 ```
 
+Convert `pickerHeading` with resource pipe to `showMoreConfig`:
+
+**Before:**
+
+```html
+<sky-select-field pickerHeading="{{ 'Select Items' | skyAppResources }}">
+</sky-select-field>
+```
+
+**After:**
+
+```html
+<sky-lookup
+  [showMoreConfig]="{
+    nativePickerConfig: { title: ( 'Select Items' | skyAppResources ) }
+  }"
+>
+</sky-lookup>
+```
+
 ### Data Binding Changes
 
 Always wrap observables with the async pipe:
@@ -286,14 +306,37 @@ this.myForm = this.formBuilder.group({
 });
 ```
 
+When initializing as undefined, ensure to use an empty array for single selects:
+
+**Before:**
+
+```typescript
+this.myForm = this.formBuilder.group({
+  // Single select - undefined
+  singleItem: [undefined],
+  // Multiple select - array
+  multipleItems: [[]],
+});
+```
+
+**After:**
+
+```typescript
+this.myForm = this.formBuilder.group({
+  // Both single and multiple now use empty arrays for empty states
+  singleItem: [[]]],
+  multipleItems: [[]],
+});
+```
+
 ### Form Validation Updates
 
 ```typescript
 // Before - validator expected single object for single select
-Validators.required;
+const ctrl = new FormControl<{} | null>({}, Validators.required);
 
 // After - validator needs to handle array
-Validators.compose([
+const ctrl = new FormControl<{}[]>([{}], Validators.compose([
   Validators.required,
   (control: AbstractControl) => {
     const value = control.value;
@@ -301,7 +344,7 @@ Validators.compose([
       ? null
       : { required: true };
   },
-]);
+]));
 ```
 
 ### Complex Validation Scenarios
@@ -397,18 +440,42 @@ TestBed.configureTestingModule({
 
 ```typescript
 // Before
-expect(component.myForm.get('item')?.value).toEqual({ id: '1', label: 'Item' });
+expect(component.myForm.controls['item'].value).toEqual({
+  id: '1',
+  label: 'Item',
+});
+expect(component.myForm.get('item')?.value).toEqual({
+  id: '1',
+  label: 'Item',
+});
 
 // After - for single select
+expect(component.myForm.controls['item'].value[0]).toEqual({
+  id: '1',
+  label: 'Item',
+});
 expect(component.myForm.get('item')?.value?.[0]).toEqual({
   id: '1',
   label: 'Item',
 });
 
 // After - for multiple select (unchanged)
+expect(component.myForm.controls['item'].value).toEqual([
+  { id: '1', label: 'Item' },
+]);
 expect(component.myForm.get('items')?.value).toEqual([
   { id: '1', label: 'Item' },
 ]);
+```
+
+### Verify Tests
+
+For each component migrated to use sky-lookup, look for its test file, such as a
+test file named `user-preferences.component.spec.ts`, run the following command
+to ensure the tests still pass:
+
+```bash
+npx ng t --browsers=ChromeHeadless --no-watch --include='**/user-preferences.component.spec.ts'
 ```
 
 ## Step 8: Accessibility Considerations
@@ -448,6 +515,12 @@ The migration follows this logic for label handling:
 
 **Result:** Replace the entire container with `sky-input-box`
 
+```html
+<sky-input-box labelText="{{ 'resource' | skyAppResources }}" stacked>
+  <sky-lookup></sky-lookup>
+</sky-input-box>
+```
+
 #### Case 2: Label + Select Field (No Container)
 
 ```html
@@ -458,6 +531,12 @@ The migration follows this logic for label handling:
 
 **Result:** Replace label with `sky-input-box` opening tag, add closing tag after select field
 
+```html
+<sky-input-box labelText="{{ 'resource' | skyAppResources }}" stacked>
+  <sky-lookup></sky-lookup>
+</sky-input-box>
+```
+
 #### Case 3: Complex Label Content
 
 ```html
@@ -467,6 +546,10 @@ The migration follows this logic for label handling:
 
 **Result:** No automatic wrapping - requires manual review
 
+```html
+<sky-lookup></sky-lookup>
+```
+
 #### Case 4: No Clear Label
 
 ```html
@@ -475,6 +558,10 @@ The migration follows this logic for label handling:
 ```
 
 **Result:** No `sky-input-box` wrapper - add manually with appropriate `labelText`
+
+```html
+<sky-lookup></sky-lookup>
+```
 
 ## Step 9: Removed Features
 
@@ -500,13 +587,13 @@ These `sky-select-field` features have no equivalent in `sky-lookup`:
 <form [formGroup]="myForm">
   <div class="form-group">
     <label class="sky-control-label sky-control-label-required">
-      Environment Ids
+      {{ 'Environment Ids' | skyAppResources }}
     </label>
     <sky-select-field
       formControlName="environmentIds"
       [data]="environmentIdsStream"
       multipleSelectOpenButtonText="Select"
-      pickerHeading="Environment Ids"
+      pickerHeading="{{ 'Environment Ids' | skyAppResources }}"
       (addNewRecordButtonClick)="onAddEnvironment()"
       (searchApplied)="onSearchApplied($event)"
       required
@@ -541,14 +628,18 @@ export class MyComponent {
 
 ```html
 <form [formGroup]="myForm">
-  <sky-input-box labelText="Environment Ids" required stacked>
+  <sky-input-box
+    labelText="{{ 'Environment Ids' | skyAppResources }}"
+    required
+    stacked
+  >
     <sky-lookup
       formControlName="environmentIds"
       [data]="(environmentIdsStream | async) ?? []"
       descriptorProperty="label"
       idProperty="id"
       enableShowMore
-      [showMoreConfig]="{ nativePickerConfig: { title: 'Environment Ids' } }"
+      [showMoreConfig]="{ nativePickerConfig: { title: ( 'Environment Ids' | skyAppResources ) } }"
       (addClick)="onAddEnvironment()"
       required
     >
@@ -591,6 +682,18 @@ export class MyComponent {
 }
 ```
 
+## Migration Rules Summary
+
+- Replace all `SkySelectFieldModule` imports with `SkyLookupModule` and `SkyInputBoxModule`
+- Add `AsyncPipe` to component imports
+- Wrap all observable data bindings with `(observable | async) ?? []`
+- Wrap all `sky-select-field` elements in `sky-input-box` with appropriate `labelText` and `stacked` attribute
+- Add required attributes: `descriptorProperty="label"`, `idProperty="id"`, `enableShowMore`
+- Update event bindings: `(addNewRecordButtonClick)` to `(addClick)`
+- Update form value access for single select mode to use `[0]`
+- Initialize form controls with arrays for both single and multiple select modes
+- Add TODO comments for unsupported events and custom picker updates
+
 ## Additional Examples
 
 - [Migration with NgModule and Exported Dependencies](./example-with-additional-ng-module.md)
@@ -610,7 +713,5 @@ After migration, verify:
 - [ ] Unsupported events have TODO comments
 - [ ] Custom pickers updated to use `SkyLookupShowMoreCustomPicker`
 - [ ] Tests updated with proper module imports and `provideNoopAnimations()`
-- [ ] Use the command `npx ng t --browsers=ChromeHeadless --no-watch --include=src/app/path/to/example.component.spec.ts` to run tests in headless mode and ensure no errors
-- [ ] Use the command `npm run lint` to check for linting issues and ensure code quality
 
 This migration ensures your application follows current SKY UX patterns while maintaining functionality and improving accessibility.
