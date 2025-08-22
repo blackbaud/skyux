@@ -167,24 +167,6 @@ describe('Filter test harness', () => {
     await expectAsync(filterInlineHarness.getItems()).toBeResolvedTo([]);
   });
 
-  it('should throw an error if no filter inline items are found matching criteria', async () => {
-    const { filterButtonHarness, fixture, loader } = await setupTest();
-
-    await filterButtonHarness.clickFilterButton();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const filterInlineHarness = await loader.getHarness(
-      SkyFilterInlineHarness.with({ dataSkyId: 'filter-inline' }),
-    );
-
-    await expectAsync(
-      filterInlineHarness.getItems({ dataSkyId: 'other-filter' }),
-    ).toBeRejectedWithError(
-      'Unable to find any filter inline items with filter(s): {"dataSkyId":"other-filter"}',
-    );
-  });
-
   it('should get a filter summary and filter summary item by data-sky-id and interact with the summary item', async () => {
     const { filterButtonHarness, fixture, loader } = await setupTest();
 
@@ -268,36 +250,5 @@ describe('Filter test harness', () => {
     const emptySummary = await loader.getHarness(SkyFilterSummaryHarness);
 
     await expectAsync(emptySummary.getItems()).toBeResolvedTo([]);
-  });
-
-  it('should throw an error if no filter summary items are found matching criteria', async () => {
-    const { filterButtonHarness, fixture, loader } = await setupTest();
-
-    await filterButtonHarness.clickFilterButton();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const filterInlineHarness = await loader.getHarness(
-      SkyFilterInlineHarness.with({ dataSkyId: 'filter-inline' }),
-    );
-
-    const itemHarness = await filterInlineHarness.getItem({
-      dataSkyId: 'hide-orange-filter',
-    });
-    const orangeCheck = await itemHarness.queryHarness(SkyCheckboxHarness);
-    await orangeCheck.check();
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const filterSummaryHarness = await loader.getHarness(
-      SkyFilterSummaryHarness.with({ dataSkyId: 'filter-summary' }),
-    );
-
-    await expectAsync(
-      filterSummaryHarness.getItems({ dataSkyId: 'wrong-id' }),
-    ).toBeRejectedWithError(
-      'Unable to find any filter summary items with filter(s): {"dataSkyId":"wrong-id"}',
-    );
   });
 });

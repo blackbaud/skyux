@@ -71,18 +71,6 @@ describe('Text expand test harness', () => {
     await expectAsync(toolbarHarness.getItems()).toBeResolvedTo([]);
   });
 
-  it('should throw an error if no toolbar items are found matching criteria', async () => {
-    const { toolbarHarness } = await setupTest({
-      dataSkyId: 'basic-toolbar',
-    });
-
-    await expectAsync(
-      toolbarHarness.getItems({ dataSkyId: 'toolbar-item-3' }),
-    ).toBeRejectedWithError(
-      'Unable to find any toolbar items with filter(s): {"dataSkyId":"toolbar-item-3"}',
-    );
-  });
-
   it('should get the toolbar view actions', async () => {
     const { toolbarHarness } = await setupTest({
       dataSkyId: 'basic-toolbar',
@@ -141,18 +129,6 @@ describe('Text expand test harness', () => {
     await expectAsync(toolbarHarness.getSections()).toBeResolvedTo([]);
   });
 
-  it('should throw an error if no toolbar sections are found matching criteria', async () => {
-    const { toolbarHarness } = await setupTest({
-      dataSkyId: 'sectioned-toolbar',
-    });
-
-    await expectAsync(
-      toolbarHarness.getSections({ dataSkyId: 'middle-section' }),
-    ).toBeRejectedWithError(
-      'Unable to find any toolbar sections with filter(s): {"dataSkyId":"middle-section"}',
-    );
-  });
-
   it('should get a toolbar section item by data-sky-id', async () => {
     const { toolbarHarness } = await setupTest({
       dataSkyId: 'sectioned-toolbar',
@@ -207,22 +183,6 @@ describe('Text expand test harness', () => {
     });
 
     await expectAsync(sectionHarness.getItems()).toBeResolvedTo([]);
-  });
-
-  it('should throw an error if no toolbar section items are found matching criteria', async () => {
-    const { toolbarHarness } = await setupTest({
-      dataSkyId: 'empty-toolbar-section',
-    });
-
-    const sectionHarness = await toolbarHarness.getSection({
-      dataSkyId: 'empty-section',
-    });
-
-    await expectAsync(
-      sectionHarness.getItems({ dataSkyId: 'toolbar-item-3' }),
-    ).toBeRejectedWithError(
-      'Unable to find any toolbar section items with filter(s): {"dataSkyId":"toolbar-item-3"}',
-    );
   });
 
   it('should get the toolbar section view actions', async () => {

@@ -230,22 +230,6 @@ function testSingleSelect(dataSkyId: string): void {
     );
   });
 
-  it('should throw error if filtered search results are empty', async () => {
-    const { lookupHarness, lookupInputHarness } = await setupTest({
-      dataSkyId: dataSkyId,
-    });
-
-    await lookupInputHarness.setValue('r');
-
-    await expectAsync(
-      lookupHarness.getSearchResults({
-        text: /invalidSearchText/,
-      }),
-    ).toBeRejectedWithError(
-      'Could not find search results matching filter(s): {"text":"/invalidSearchText/"}',
-    );
-  });
-
   it('should return an empty array if search results are not filtered', async () => {
     const { lookupHarness, lookupInputHarness } = await setupTest({
       dataSkyId: dataSkyId,
@@ -486,21 +470,6 @@ function testMultiselect(dataSkyId: string): void {
     await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Vicki',
     ]);
-  });
-
-  it('should throw an error if selecting non-existent result', async () => {
-    const { lookupHarness } = await setupTest({
-      dataSkyId,
-    });
-
-    await lookupHarness.clickShowMoreButton();
-    const picker = await lookupHarness.getShowMorePicker();
-
-    await expectAsync(
-      picker.selectSearchResult({ contentText: 'Invalid search' }),
-    ).toBeRejectedWithError(
-      'Could not find search results in the picker matching filter(s): {"contentText":"Invalid search"}',
-    );
   });
 
   it('should throw an error when attempting to get an unopened picker', async () => {

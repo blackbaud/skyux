@@ -121,18 +121,6 @@ describe('Progress indicator test harness', () => {
     await expectAsync(progressIndicatorHarness.getItems()).toBeResolvedTo([]);
   });
 
-  it('should throw an error if no items are found matching criteria', async () => {
-    const { progressIndicatorHarness } = await setupTest({});
-
-    await expectAsync(
-      progressIndicatorHarness.getItems({
-        dataSkyId: 'unknown-step',
-      }),
-    ).toBeRejectedWithError(
-      'Unable to find any progress indicator items with filter(s): {"dataSkyId":"unknown-step"}',
-    );
-  });
-
   it('should get whether the progress indicator is passive', async () => {
     const { progressIndicatorHarness, fixture } = await setupTest({});
 

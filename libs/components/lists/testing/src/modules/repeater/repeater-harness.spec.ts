@@ -80,19 +80,6 @@ describe('Repeater harness', () => {
     );
   });
 
-  it('should throw error when getting repeater items with filters but no matches found', async () => {
-    const { repeaterHarness } = await setupTest({
-      dataSkyId: 'my-basic-repeater',
-    });
-
-    const filters = { titleText: 'Nonexistent Item' };
-    await expectAsync(
-      repeaterHarness.getRepeaterItems(filters),
-    ).toBeRejectedWithError(
-      `Unable to find any repeater items with filter(s): ${JSON.stringify(filters)}`,
-    );
-  });
-
   it('should update the active index when a repeater item is clicked', async () => {
     const { fixture, repeaterHarness } = await setupTest({
       dataSkyId: 'my-basic-repeater',

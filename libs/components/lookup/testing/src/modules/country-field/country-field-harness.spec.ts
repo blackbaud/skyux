@@ -249,22 +249,6 @@ describe('Country field harness', () => {
     );
   });
 
-  it('should throw error if filtered search results are empty', async () => {
-    const { countryFieldHarness, countryFieldInputHarness } = await setupTest({
-      dataSkyId: 'country-field',
-    });
-
-    await countryFieldInputHarness.setValue('gr');
-
-    await expectAsync(
-      countryFieldHarness.getSearchResults({
-        text: /invalidSearchText/,
-      }),
-    ).toBeRejectedWithError(
-      'Could not find search results matching filter(s): {"text":"/invalidSearchText/"}',
-    );
-  });
-
   it('should return an empty array if search results are not filtered', async () => {
     const { countryFieldHarness } = await setupTest({
       dataSkyId: 'country-field',

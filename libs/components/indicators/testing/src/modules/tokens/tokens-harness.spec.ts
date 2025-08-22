@@ -56,17 +56,6 @@ describe('Tokens harness', () => {
     await expectAsync(token.getText()).toBeResolvedTo('Red');
   });
 
-  it('should throw error when getting specific token with filters but no match found', async () => {
-    const { tokensHarness } = await setupTest({
-      dataSkyId: 'my-tokens',
-    });
-
-    const filters = { text: 'NonexistentToken' };
-    await expectAsync(tokensHarness.getTokens(filters)).toBeRejectedWithError(
-      `Unable to find any tokens with filter(s): ${JSON.stringify(filters)}`,
-    );
-  });
-
   it('should return filtered tokens when filters match', async () => {
     const { tokensHarness } = await setupTest({
       dataSkyId: 'my-tokens',

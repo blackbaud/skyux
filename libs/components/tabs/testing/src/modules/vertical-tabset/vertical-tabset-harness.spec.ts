@@ -203,16 +203,6 @@ describe('Vertical Tabset harness', () => {
     await expectAsync(groups[0].getGroupHeading()).toBeResolvedTo('Group 1');
   });
 
-  it('should throw error when vertical tabset groups with filters not found', async () => {
-    const { tabsetHarness } = await setupTest();
-
-    await expectAsync(
-      tabsetHarness.getGroups({ groupHeading: 'Non-existent' }),
-    ).toBeRejectedWithError(
-      `Unable to find any vertical tabset groups with filter(s): {"groupHeading":"Non-existent"}`,
-    );
-  });
-
   it('should get a vertical tabset group with filters', async () => {
     const { tabsetHarness } = await setupTest();
     const group = await tabsetHarness.getGroup({ groupHeading: 'Group 1' });
@@ -237,16 +227,6 @@ describe('Vertical Tabset harness', () => {
     const tabs = await tabsetHarness.getTabs({ tabHeading: 'Tab 1' });
     expect(tabs.length).toBe(1);
     await expectAsync(tabs[0].getTabHeading()).toBeResolvedTo('Tab 1');
-  });
-
-  it('should throw error when tabs with filters not found', async () => {
-    const { tabsetHarness } = await setupTest();
-
-    await expectAsync(
-      tabsetHarness.getTabs({ tabHeading: 'Non-existent' }),
-    ).toBeRejectedWithError(
-      `Unable to find any vertical tab buttons with filter(s): {"tabHeading":"Non-existent"}`,
-    );
   });
 
   it('should get a single tab with filters', async () => {
@@ -301,17 +281,6 @@ describe('Vertical Tabset harness', () => {
       const tabs = await group1?.getVerticalTabs({ tabHeading: 'Tab 3' });
       expect(tabs?.length).toBe(1);
       await expectAsync(tabs?.[0].getTabHeading()).toBeResolvedTo('Tab 3');
-    });
-
-    it('should throw error when tab harnesses inside a group with filters not found', async () => {
-      const { tabsetHarness } = await setupTest();
-      const group1 = await tabsetHarness.getGroup({ groupHeading: 'Group 1' });
-
-      await expectAsync(
-        group1?.getVerticalTabs({ tabHeading: 'Non-existent' }),
-      ).toBeRejectedWithError(
-        `Unable to find vertical tabs with filter(s): ${JSON.stringify({ tabHeading: 'Non-existent' })}`,
-      );
     });
 
     it('should get if the group is active', async () => {

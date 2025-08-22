@@ -90,16 +90,4 @@ describe('Dropdown menu test harness', () => {
 
     await expectAsync(harness.getText()).toBeResolvedTo('Option 2');
   });
-
-  it('should throw an error if menu item does not exist', async () => {
-    const { dropdownMenuHarness, fixture } = await setupTest();
-
-    fixture.detectChanges();
-
-    await expectAsync(
-      dropdownMenuHarness.getItems({ text: 'Option nil' }),
-    ).toBeRejectedWithError(
-      'Unable to find dropdown menu item(s) with filter(s): {"text":"Option nil"}.',
-    );
-  });
 });

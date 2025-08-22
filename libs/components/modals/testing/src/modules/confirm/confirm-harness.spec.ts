@@ -227,26 +227,6 @@ describe('Confirm harness', () => {
       await expectAsync(results[2].getStyleType()).toBeResolvedTo('link');
     });
 
-    it('should throw an error when no child button harnesses are found', async () => {
-      const { confirmHarness } = await setupTest({
-        ...DEFAULT_CONFIRM_CONFIG,
-        type: SkyConfirmType.Custom,
-        buttons: [
-          {
-            text: 'Proceed',
-            action: 'proceed',
-            styleType: 'default',
-          },
-        ],
-      });
-
-      await expectAsync(
-        confirmHarness.getCustomButtons({ text: /invalidButtonName/ }),
-      ).toBeRejectedWithError(
-        `Could not find buttons matching filter(s): {"text":"/invalidButtonName/"}.`,
-      );
-    });
-
     it('should throw an error when called on confirm of type OK', async () => {
       const { confirmHarness } = await setupTest();
 

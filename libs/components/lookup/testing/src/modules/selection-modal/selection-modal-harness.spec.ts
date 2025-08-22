@@ -252,21 +252,6 @@ describe('Selection modal harness', () => {
       expect(results.length).toBe(1);
     });
 
-    it('should throw error when getting search results with filters but no matches found', async () => {
-      const { harness } = await setupTest({
-        selectMode: 'multiple',
-      });
-
-      await harness.enterSearchText('ra');
-
-      const filters = { contentText: 'Nonexistent Person' };
-      await expectAsync(
-        harness.getSearchResults(filters),
-      ).toBeRejectedWithError(
-        `Could not find search results in the picker matching filter(s): ${JSON.stringify(filters)}`,
-      );
-    });
-
     // it('should return empty array when no search results exist and no filters provided', async () => {
     //   const { harness } = await setupTest({
     //     selectMode: 'multiple',

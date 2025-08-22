@@ -167,25 +167,6 @@ describe('SkyActionHubHarness', () => {
     ).toBeResolvedTo(['First item', 'First item']);
   });
 
-  it('should throw an error if there are no needs attention items that match the filters', async () => {
-    const { fixture, harness } = await setupTest();
-    fixture.componentRef.setInput('needsAttention', [
-      {
-        title: 'First item',
-        click: jasmine.createSpy('click'),
-      },
-    ]);
-    fixture.detectChanges();
-
-    await expectAsync(
-      harness.getNeedsAttentionItems({
-        text: 'Nonexistent item',
-      }),
-    ).toBeRejectedWithError(
-      'Unable to find any needs attention items with filter(s): {"text":"Nonexistent item"}',
-    );
-  });
-
   it('should return an empty array if there are no needs attention items', async () => {
     const { fixture, harness } = await setupTest();
     fixture.componentRef.setInput('needsAttention', []);

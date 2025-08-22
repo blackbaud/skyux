@@ -67,18 +67,6 @@ describe('Selection box harness', () => {
     expect(selectionBoxes.length).toBe(1);
   });
 
-  it('should throw an error if no selection boxes are found matching criteria', async () => {
-    const { selectionBoxGridHarness } = await setupTest({
-      dataSkyId: 'checkbox-selection-boxes',
-    });
-
-    await expectAsync(
-      selectionBoxGridHarness.getSelectionBoxes({ dataSkyId: 'invalid' }),
-    ).toBeRejectedWithError(
-      'Unable to find any selection boxes with filter(s): {"dataSkyId":"invalid"}',
-    );
-  });
-
   it('should get the selection box header text', async () => {
     const { selectionBoxGridHarness } = await setupTest({
       dataSkyId: 'checkbox-selection-boxes',

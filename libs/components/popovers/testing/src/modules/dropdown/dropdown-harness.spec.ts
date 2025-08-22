@@ -263,7 +263,7 @@ describe('Dropdown test harness', () => {
       );
     });
 
-    it('should throw an error when trying to get an item in an empty menu', async () => {
+    it('should return an empty array when dropdown menu is empty', async () => {
       const { dropdownHarness, fixture } = await setupTest();
 
       fixture.detectChanges();
@@ -272,9 +272,7 @@ describe('Dropdown test harness', () => {
 
       const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
 
-      await expectAsync(dropdownMenuHarness.getItems()).toBeRejectedWithError(
-        'Unable to retrieve item(s) because dropdown menu is empty.',
-      );
+      await expectAsync(dropdownMenuHarness.getItems()).toBeResolvedTo([]);
     });
   });
 });

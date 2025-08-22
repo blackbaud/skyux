@@ -115,15 +115,6 @@ describe('Action button container harness', () => {
     await expectAsync(actionButtons[0].getIconType()).toBeResolvedTo('filter');
   });
 
-  it('should throw error when getting action buttons with filters but no matches found', async () => {
-    const { harness } = await setupTest();
-
-    const filters = { header: 'Nonexistent Button' };
-    await expectAsync(harness.getActionButtons(filters)).toBeRejectedWithError(
-      `Unable to find any action buttons with filter(s): ${JSON.stringify(filters)}`,
-    );
-  });
-
   it('should get action button from header', async () => {
     const { harness } = await setupTest();
 

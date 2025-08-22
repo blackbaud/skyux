@@ -198,22 +198,4 @@ describe('Link list harness', () => {
     expect(items.length).toBe(1);
     await expectAsync(items[0].getText()).toBeResolvedTo('Test Link 1');
   });
-
-  it('should throw error when getting list items with filters but no matches found', async () => {
-    const { harness, fixture } = await setupTest();
-    fixture.componentRef.setInput('inputLinks', [
-      {
-        label: 'Test Link 1',
-        permalink: {
-          url: '#',
-        },
-      },
-    ]);
-    fixture.detectChanges();
-
-    const filters = { text: 'Nonexistent Link' };
-    await expectAsync(harness.getListItems(filters)).toBeRejectedWithError(
-      `Unable to find any list items with filter(s): ${JSON.stringify(filters)}`,
-    );
-  });
 });

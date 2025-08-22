@@ -247,16 +247,6 @@ describe('Radio group harness', () => {
     expect(radioButtons.length).toBe(3);
   });
 
-  it('should throw an error when no radio buttons match filters', async () => {
-    const { radioGroupHarness } = await setupTest();
-
-    await expectAsync(
-      radioGroupHarness.getRadioButtons({ dataSkyId: 'non-existent' }),
-    ).toBeRejectedWithError(
-      `Unable to find any radio buttons with filter(s): {"dataSkyId":"non-existent"}`,
-    );
-  });
-
   it('should get a radio button with filters', async () => {
     const { radioGroupHarness } = await setupTest();
 

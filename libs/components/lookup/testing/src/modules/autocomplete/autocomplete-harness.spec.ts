@@ -266,22 +266,6 @@ describe('Autocomplete harness', () => {
     );
   });
 
-  it('should throw error if filtered search results are empty', async () => {
-    const { autocompleteHarness, autocompleteInputHarness } = await setupTest({
-      dataSkyId: 'my-autocomplete-1',
-    });
-
-    await autocompleteInputHarness?.setValue('r');
-
-    await expectAsync(
-      autocompleteHarness?.getSearchResults({
-        text: /invalidSearchText/,
-      }),
-    ).toBeRejectedWithError(
-      'Could not find search results matching filter(s): {"text":"/invalidSearchText/"}',
-    );
-  });
-
   it('should return an empty array if search results are not filtered', async () => {
     const { autocompleteHarness, autocompleteInputHarness } = await setupTest({
       dataSkyId: 'my-autocomplete-1',

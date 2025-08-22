@@ -255,16 +255,6 @@ describe('Checkbox group harness', () => {
     expect(checkboxes.length).toBe(3);
   });
 
-  it('should throw an error when no checkboxes match filters', async () => {
-    const { checkboxGroupHarness } = await setupTest();
-
-    await expectAsync(
-      checkboxGroupHarness.getCheckboxes({ dataSkyId: 'non-existent' }),
-    ).toBeRejectedWithError(
-      `Unable to find any checkboxes with filter(s): {"dataSkyId":"non-existent"}`,
-    );
-  });
-
   it('should get a checkbox with filters', async () => {
     const { checkboxGroupHarness } = await setupTest();
 

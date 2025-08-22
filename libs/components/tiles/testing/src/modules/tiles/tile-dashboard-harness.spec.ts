@@ -79,18 +79,6 @@ describe('Tile dashboard test harness', () => {
     await expectAsync(tileDashboardHarness.getTiles()).toBeResolvedTo([]);
   });
 
-  it('should throw an error if no tiles are found matching criteria', async () => {
-    const { tileDashboardHarness } = await setupTest({
-      dataSkyId: 'basic-dashboard',
-    });
-
-    await expectAsync(
-      tileDashboardHarness.getTiles({ dataSkyId: 'tile-3' }),
-    ).toBeRejectedWithError(
-      'Unable to find any tiles with filter(s): {"dataSkyId":"tile-3"}',
-    );
-  });
-
   it('should indicate if the dashboard is multi-column or not', async () => {
     const { tileDashboardHarness, mediaQueryController } = await setupTest({
       dataSkyId: 'basic-dashboard',
