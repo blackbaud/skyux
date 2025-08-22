@@ -3,6 +3,7 @@
     <sky-vertical-tabset-group
       [groupHeading]="group.heading"
       [open]="group.isOpen"
+      [disabled]="group.isDisabled"
     >
       @for (tab of group.subTabs; track tab) {
         <sky-vertical-tab [active]="tab.active" [tabHeading]="tab.tabHeading">
