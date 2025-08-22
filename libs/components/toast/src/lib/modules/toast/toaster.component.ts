@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   EnvironmentInjector,
   OnDestroy,
@@ -15,7 +16,11 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { SKY_STACKING_CONTEXT, SkyDynamicComponentService } from '@skyux/core';
+import {
+  SKY_STACKING_CONTEXT,
+  SkyDynamicComponentService,
+  SkyStackingContextService,
+} from '@skyux/core';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -54,7 +59,9 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
   @ViewChildren(SkyToastComponent)
   public toastComponents: QueryList<SkyToastComponent> | undefined;
 
-  protected zIndex$ = new BehaviorSubject(1051);
+  protected zIndex$ = new BehaviorSubject(
+    inject(SkyStackingContextService).getZIndex('toast', inject(DestroyRef)),
+  );
 
   #ngUnsubscribe = new Subject<void>();
 

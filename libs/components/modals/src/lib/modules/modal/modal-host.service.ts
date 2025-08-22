@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SKY_STACKING_CONTEXT, SkyStackingContextService } from '@skyux/core';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
-const BASE_Z_INDEX = 1040;
 const modalHosts: SkyModalHostService[] = [];
 
 const backdropZIndex = new BehaviorSubject<number>(0);
@@ -42,7 +43,10 @@ export class SkyModalHostService {
    * @deprecated Subscribe to `backdropZIndexChange` instead.
    */
   public static get backdropZIndex(): number {
-    return BASE_Z_INDEX + modalHosts.length * 10;
+    if (modalHosts.length > 0) {
+      return SkyModalHostService.topModal.zIndex - 10;
+    }
+    return SkyStackingContextService.MODAL_BACKDROP_Z_INDEX;
   }
 
   public static get topModal(): SkyModalHostService {
@@ -55,10 +59,18 @@ export class SkyModalHostService {
    * @deprecated
    */
   public openHelp = new Subject<string>();
-  public zIndex: number;
+  public get zIndex(): number {
+    return this.#zIndex;
+  }
+
+  #zIndex = SkyStackingContextService.MODAL_BACKDROP_Z_INDEX;
 
   constructor() {
-    this.zIndex = this.#calculateZIndex();
+    inject(SKY_STACKING_CONTEXT, { optional: true })
+      ?.zIndex.pipe(takeUntilDestroyed())
+      .subscribe((zIndex) => {
+        this.#zIndex = zIndex;
+      });
     modalHosts.push(this);
     this.#notifyBackdropZIndex();
     this.#notifyOpenModalCount();
@@ -83,16 +95,6 @@ export class SkyModalHostService {
     modalHosts.splice(modalHosts.indexOf(this), 1);
     this.#notifyBackdropZIndex();
     this.#notifyOpenModalCount();
-  }
-
-  #calculateZIndex(): number {
-    const zIndexArray = modalHosts.map((hostService) => hostService.zIndex);
-    if (zIndexArray.length === 0) {
-      return BASE_Z_INDEX + 11;
-    } else {
-      const currentMaxZIndex = Math.max(...zIndexArray);
-      return currentMaxZIndex + 10;
-    }
   }
 
   #notifyOpenModalCount(): void {

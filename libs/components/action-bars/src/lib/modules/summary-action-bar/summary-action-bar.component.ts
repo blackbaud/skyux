@@ -21,6 +21,8 @@ import {
   SkyAppWindowRef,
   SkyMediaQueryService,
   SkyMutationObserverService,
+  SkyStackingContextService,
+  SkyStackingContextStratum,
 } from '@skyux/core';
 import { SkyChevronModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
@@ -98,6 +100,11 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
 
   protected readonly type = signal<SkySummaryActionBarType | undefined>(
     undefined,
+  );
+
+  protected zIndex = inject(SkyStackingContextService).getZIndex(
+    inject(SkyStackingContextStratum),
+    inject(DestroyRef),
   );
 
   #observer: MutationObserver | undefined;

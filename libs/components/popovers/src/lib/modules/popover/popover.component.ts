@@ -1,12 +1,11 @@
 import {
   Component,
+  DestroyRef,
   ElementRef,
   EnvironmentInjector,
   EventEmitter,
-  Inject,
   Input,
   OnDestroy,
-  Optional,
   Output,
   TemplateRef,
   ViewChild,
@@ -18,10 +17,11 @@ import {
   SkyIdService,
   SkyOverlayInstance,
   SkyOverlayService,
-  SkyStackingContext,
+  SkyStackingContextService,
+  SkyStackingContextStratum,
 } from '@skyux/core';
 
-import { Observable, Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyPopoverContentComponent } from './popover-content.component';
@@ -136,19 +136,18 @@ export class SkyPopoverComponent implements OnDestroy {
 
   readonly #environmentInjector = inject(EnvironmentInjector);
 
-  #overlayService: SkyOverlayService;
+  readonly #overlayService = inject(SkyOverlayService);
 
-  #zIndex: Observable<number> | undefined;
+  readonly #zIndex =
+    inject(SKY_STACKING_CONTEXT, { optional: true })?.zIndex ??
+    of(
+      inject(SkyStackingContextService).getZIndex(
+        inject(SkyStackingContextStratum),
+        inject(DestroyRef),
+      ),
+    );
 
-  constructor(
-    overlayService: SkyOverlayService,
-    @Optional()
-    @Inject(SKY_STACKING_CONTEXT)
-    stackingContext?: SkyStackingContext,
-  ) {
-    this.#overlayService = overlayService;
-    this.#zIndex = stackingContext?.zIndex;
-
+  constructor() {
     this.popoverId = inject(SkyIdService).generateId();
   }
 

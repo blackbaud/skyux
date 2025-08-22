@@ -2,13 +2,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
   inject,
 } from '@angular/core';
-import { SkyAppWindowRef, SkyCoreAdapterService } from '@skyux/core';
+import {
+  SkyAppWindowRef,
+  SkyCoreAdapterService,
+  SkyStackingContextService,
+  SkyStackingContextStratum,
+} from '@skyux/core';
 
 import { Subject, fromEvent } from 'rxjs';
 import { takeUntil, takeWhile } from 'rxjs/operators';
@@ -81,6 +87,11 @@ export class SkySplitViewDrawerComponent implements OnInit, OnDestroy {
   public widthMin = 100;
 
   public widthTolerance = 100;
+
+  protected zIndex = inject(SkyStackingContextService).getZIndex(
+    inject(SkyStackingContextStratum),
+    inject(DestroyRef),
+  );
 
   #isDragging = false;
   #ngUnsubscribe = new Subject<void>();

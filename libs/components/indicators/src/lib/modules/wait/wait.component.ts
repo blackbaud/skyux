@@ -3,15 +3,21 @@ import {
   Component,
   ElementRef,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
+  SimpleChanges,
   inject,
+  signal,
 } from '@angular/core';
-import { SkyLiveAnnouncerService } from '@skyux/core';
+import {
+  SkyLiveAnnouncerService,
+  SkyStackingContextService,
+  SkyStackingContextStratum,
+} from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { BehaviorSubject, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Subject, take, takeUntil } from 'rxjs';
 
 import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources.module';
 
@@ -26,7 +32,7 @@ let nextId = 0;
   providers: [SkyWaitAdapterService],
   imports: [CommonModule, SkyIndicatorsResourcesModule],
 })
-export class SkyWaitComponent implements OnInit, OnDestroy {
+export class SkyWaitComponent implements OnInit, OnDestroy, OnChanges {
   /**
    * The ARIA label for the wait icon.
    * This sets the icon's `aria-label` attribute to provide a text equivalent for screen readers
@@ -135,6 +141,8 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
   public ariaLiveText = '';
   public screenReaderCompletedTextStream = new BehaviorSubject<string>('');
 
+  protected readonly zIndex = signal<number | undefined>(undefined);
+
   #customAriaLabel: string | undefined;
   #customScreenReaderCompletedText: string | undefined;
   #id = `sky-wait-${++nextId}`;
@@ -148,6 +156,10 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
   readonly #elRef = inject(ElementRef);
   readonly #liveAnnouncer = inject(SkyLiveAnnouncerService);
   readonly #resourceSvc = inject(SkyLibResourcesService);
+  readonly #stackingContextService = inject(SkyStackingContextService);
+  readonly #stackingContextStratum = inject(SkyStackingContextStratum);
+  #pageWaitZIndex: number | undefined;
+  #blockWaitZIndex: number | undefined;
 
   public ngOnInit(): void {
     this.#publishAriaLabel();
@@ -157,6 +169,22 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+    if (this.#pageWaitZIndex !== undefined) {
+      this.#stackingContextService.unsetZIndex(this.#pageWaitZIndex);
+    }
+    if (this.#blockWaitZIndex !== undefined) {
+      this.#stackingContextService.unsetZIndex(this.#blockWaitZIndex);
+    }
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (
+      'isFullPage' in changes ||
+      'isNonBlocking' in changes ||
+      'isWaiting' in changes
+    ) {
+      this.#updateZIndex();
+    }
   }
 
   #publishAriaLabel(): void {
@@ -189,6 +217,23 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
         .subscribe((value) => {
           this.screenReaderCompletedTextStream.next(value);
         });
+    }
+  }
+
+  #updateZIndex(): void {
+    if (this.isWaiting && !this.isNonBlocking) {
+      if (this.isFullPage) {
+        this.#pageWaitZIndex ??=
+          this.#stackingContextService.getZIndex('page-wait');
+        this.zIndex.set(this.#pageWaitZIndex);
+      } else {
+        this.#blockWaitZIndex ??= this.#stackingContextService.getZIndex(
+          this.#stackingContextStratum,
+        );
+        this.zIndex.set(this.#blockWaitZIndex);
+      }
+    } else {
+      this.zIndex.set(undefined);
     }
   }
 }

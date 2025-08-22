@@ -36,6 +36,11 @@ describe('Wait component', () => {
     );
   }
 
+  function getWaitMaskZIndex(): string | undefined {
+    const el = document.body.querySelector('.sky-wait-mask');
+    return (el && getComputedStyle(el).zIndex) ?? undefined;
+  }
+
   function testScreenReaderAnnouncements(
     fixture: ComponentFixture<SkyWaitTestComponent>,
     customValues: boolean,
@@ -160,6 +165,32 @@ describe('Wait component', () => {
       fixture.detectChanges();
 
       expect(el.querySelector('.sky-wait-mask-loading-blocking')).toBeNull();
+    });
+
+    it('should set z-index', async () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+      fixture.componentInstance.isFullPage = true;
+      fixture.componentInstance.isWaiting = false;
+      fixture.componentInstance.isNonBlocking = true;
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(getWaitMaskZIndex()).toBeFalsy();
+
+      fixture.componentInstance.isWaiting = true;
+      fixture.componentInstance.isNonBlocking = false;
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(getWaitMaskZIndex()).toBe('120000000');
+
+      fixture.componentInstance.isFullPage = false;
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(getWaitMaskZIndex()).toBe('1000000');
+
+      fixture.componentInstance.isWaiting = false;
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(getWaitMaskZIndex()).toBeFalsy();
     });
 
     it('should not block a menu overlay', () => {

@@ -4,6 +4,7 @@
   [@inlineDeleteAnimation]="animationState"
   [attr.aria-describedby]="assistiveTextId"
   [attr.aria-label]="'skyux_inline_delete_confirm_deletion' | skyLibResources"
+  [style.z-index]="zIndex"
   (@inlineDeleteAnimation.done)="onAnimationDone($event)"
 >
   <span

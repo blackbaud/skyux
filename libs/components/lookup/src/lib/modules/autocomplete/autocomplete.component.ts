@@ -4,10 +4,10 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
+  DestroyRef,
   ElementRef,
   EnvironmentInjector,
   EventEmitter,
-  Inject,
   Input,
   OnDestroy,
   Optional,
@@ -26,7 +26,8 @@ import {
   SkyLiveAnnouncerService,
   SkyOverlayInstance,
   SkyOverlayService,
-  SkyStackingContext,
+  SkyStackingContextService,
+  SkyStackingContextStratum,
 } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -518,7 +519,15 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #isResultsVisible = new BehaviorSubject<boolean>(false);
 
-  #zIndex: Observable<number> | undefined;
+  readonly #stackingContextService = inject(SkyStackingContextService);
+  readonly #zIndex =
+    inject(SKY_STACKING_CONTEXT, { optional: true })?.zIndex ??
+    of(
+      this.#stackingContextService.getZIndex(
+        inject(SkyStackingContextStratum),
+        inject(DestroyRef),
+      ),
+    );
 
   #_data: any[] = [];
 
@@ -557,9 +566,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     adapterService: SkyAutocompleteAdapterService,
     overlayService: SkyOverlayService,
     @Optional() inputBoxHostSvc?: SkyInputBoxHostService,
-    @Optional()
-    @Inject(SKY_STACKING_CONTEXT)
-    stackingContext?: SkyStackingContext,
   ) {
     this.#changeDetector = changeDetector;
     this.#elementRef = elementRef;
@@ -567,7 +573,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#adapterService = adapterService;
     this.#overlayService = overlayService;
     this.#inputBoxHostSvc = inputBoxHostSvc;
-    this.#zIndex = stackingContext?.zIndex;
 
     this.searchOrDefault = skyAutocompleteDefaultSearchFunction({
       propertiesToSearch: ['name'],
@@ -977,11 +982,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         wrapperClass: this.wrapperClass,
       });
 
-      if (this.#zIndex) {
-        this.#zIndex.pipe(takeUntil(overlay.closed)).subscribe((zIndex) => {
-          overlay.componentRef.instance.zIndex = zIndex.toString(10);
-        });
-      }
+      this.#zIndex.pipe(takeUntil(overlay.closed)).subscribe((zIndex) => {
+        overlay.componentRef.instance.zIndex = zIndex.toString(10);
+      });
 
       overlay.attachTemplate(this.resultsTemplateRef);
 

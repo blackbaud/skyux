@@ -423,7 +423,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     // The `toString` here is to address IE returning a number but all other browsers
     // returning a string
     overlays.forEach((overlay) =>
-      expect(overlay.style.zIndex.toString()).toBe('998'),
+      expect(overlay.style.zIndex.toString()).toBe('1000000'),
     );
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
     expect(

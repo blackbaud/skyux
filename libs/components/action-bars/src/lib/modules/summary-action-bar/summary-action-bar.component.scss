@@ -39,7 +39,6 @@
   transition-duration: 60ms;
   transition-timing-function: ease-out;
   left: var(--sky-summary-action-bar-left, 0);
-  z-index: 999;
   background-color: var(
     --sky-override-summary-action-bar-background-color,
     var(--sky-color-background-container-base)
@@ -70,7 +69,6 @@
       var(--sky-comp-sab-actions-space-inset-left)
   );
   flex-shrink: 0;
-  z-index: 999;
 }
 
 .sky-summary-action-bar-form-error-stacked:not(:last-of-type) {

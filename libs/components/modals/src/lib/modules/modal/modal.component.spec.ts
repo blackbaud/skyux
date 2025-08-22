@@ -241,13 +241,13 @@ describe('Modal component', () => {
     const zIndex1 = parseInt(getComputedStyle(modalEls[0]).zIndex, 10);
     let zIndex2 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
 
-    expect(zIndex1).toBe(1051);
-    expect(zIndex2).toBe(1061);
+    expect(zIndex1).toBe(80000000);
+    expect(zIndex2).toBe(80001000);
 
     closeModal(modalInstance1);
 
     zIndex2 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
-    expect(zIndex2).toBe(1061);
+    expect(zIndex2).toBe(80001000);
 
     const modalInstance3 = openModal(ModalTestComponent);
 
@@ -255,8 +255,8 @@ describe('Modal component', () => {
     zIndex2 = parseInt(getComputedStyle(modalEls[0]).zIndex, 10);
     const zIndex3 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
 
-    expect(zIndex2).toBe(1061);
-    expect(zIndex3).toBe(1071);
+    expect(zIndex2).toBe(80001000);
+    expect(zIndex3).toBe(80002000);
 
     closeModal(modalInstance2);
     closeModal(modalInstance3);
@@ -271,8 +271,8 @@ describe('Modal component', () => {
     const zIndex1 = parseInt(getComputedStyle(modalEls[0]).zIndex, 10);
     const zIndex2 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
 
-    expect(zIndex1).toBe(1051);
-    expect(zIndex2).toBe(1061);
+    expect(zIndex1).toBe(80000000);
+    expect(zIndex2).toBe(80001000);
 
     closeModal(modalInstance1);
     closeModal(modalInstance2);
@@ -282,7 +282,7 @@ describe('Modal component', () => {
     modalEls = document.querySelectorAll('.sky-modal');
     const zIndex3 = parseInt(getComputedStyle(modalEls[0]).zIndex, 10);
 
-    expect(zIndex3).toBe(1051);
+    expect(zIndex3).toBe(80000000);
 
     closeModal(modalInstance3);
   }));
