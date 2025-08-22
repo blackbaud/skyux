@@ -7,16 +7,12 @@
     --sky-override-vertical-tab-background-color-active: #{$sky-background-color-neutral-light};
     --sky-override-vertical-tab-background-color-focus: transparent;
     --sky-override-vertical-tab-background-color-hover: #{$sky-background-color-neutral-light};
-    --sky-override-vertical-tab-border-left-active: none;
-    --sky-override-vertical-tab-border-left-hover: none;
     --sky-override-vertical-tab-font-color: #{$sky-text-color-default};
     --sky-override-vertical-tab-font-color-disabled: var(
       --sky-text-color-deemphasized
     );
     --sky-override-vertical-tab-hover-font-color: #{$sky-text-color-default};
     --sky-override-vertical-tab-outline-focus: auto;
-    --sky-override-vertical-tab-padding-left-active: #{$sky-padding};
-    --sky-override-vertical-tab-padding-left-hover: #{$sky-padding};
     --sky-override-vertical-tab-right-arrow-color-active: #{$sky-text-color-deemphasized};
     --sky-override-vertical-tab-right-arrow-color-hover: color.adjust(
       #{$sky-text-color-deemphasized},

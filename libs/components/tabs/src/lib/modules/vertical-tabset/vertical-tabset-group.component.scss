@@ -4,7 +4,6 @@
   as verticalTabsetButtonMixins;
 
 @include compatMixins.sky-default-overrides('.sky-vertical-tabset-group') {
-  --sky-override-vertical-tabset-button-disabled-font-color: buttontext;
   --sky-override-vertical-tabset-group-border: 1px solid
     #{$sky-border-color-neutral-light};
   --sky-override-vertical-tabset-group-button-font-color: buttontext;
@@ -15,7 +14,6 @@
   --sky-override-vertical-tabset-group-content-padding: 0 0 0 #{$sky-padding};
   --sky-override-vertical-tabset-group-gap: #{$sky-margin-half};
   --sky-override-vertical-tabset-group-header-align-items: flex-start;
-  --sky-override-vertical-tabset-group-header-background-color: transparent;
   --sky-override-vertical-tabset-group-margin: #{$sky-margin-half} 0
     #{$sky-margin-half} #{$sky-margin-half};
 }
@@ -51,6 +49,12 @@
       center
     );
     margin-bottom: var(--sky-space-gap-action_group-m);
+
+    // Needed for default theme. Remove when default theme support is removed.
+    color: var(
+      --sky-override-vertical-tabset-group-button-font-color,
+      var(--sky-color-text-deemphasized)
+    );
 
     // Needed for default theme. Remove when default theme support is removed.
     &:hover {
