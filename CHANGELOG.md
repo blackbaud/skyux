@@ -1,5 +1,12 @@
 # Changelog
 
+## [13.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.7...13.0.0-alpha.8) (2025-08-25)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** row delete destroy should not affect other overlays ([#3861](https://github.com/blackbaud/skyux/issues/3861)) ([#3862](https://github.com/blackbaud/skyux/issues/3862)) ([fd24fbc](https://github.com/blackbaud/skyux/commit/fd24fbc2359b6e9ae1bff12a20a8a5f6a153202e))
+
 ## [13.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.6...13.0.0-alpha.7) (2025-08-21)
 
 
