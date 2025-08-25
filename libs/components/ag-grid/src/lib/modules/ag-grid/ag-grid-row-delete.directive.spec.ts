@@ -3,7 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expectAsync } from '@skyux-sdk/testing';
-import { SKY_STACKING_CONTEXT, SkyScrollableHostService } from '@skyux/core';
+import {
+  SKY_STACKING_CONTEXT,
+  SkyOverlayService,
+  SkyScrollableHostService,
+} from '@skyux/core';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
@@ -557,6 +561,26 @@ describe('SkyAgGridRowDeleteDirective', () => {
     expect(inlineDelete1.offsetTop).toEqual(Math.round(row1Rect.top));
     expect(inlineDelete2.offsetLeft).toEqual(Math.round(row2Rect.left));
     expect(inlineDelete2.offsetTop).toEqual(Math.round(row2Rect.top));
+  });
+
+  it('should not close other overlays', async () => {
+    setupTest();
+    await fixture.whenStable();
+
+    fixture.componentInstance.rowDeleteIds = ['0', '1'];
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const overlaySvc = TestBed.inject(SkyOverlayService);
+    const otherOverlay = overlaySvc.create({});
+    expect(Array.from(document.querySelectorAll('sky-overlay'))).toHaveSize(2);
+    fixture.componentRef.hostView.destroy();
+    fixture.componentRef.destroy();
+    expect(Array.from(document.querySelectorAll('sky-overlay'))).toHaveSize(1);
+    expect(document.getElementById(otherOverlay.id)).toBeTruthy();
+    overlaySvc.close(otherOverlay);
+    expect(document.getElementById(otherOverlay.id)).toBeFalsy();
   });
 
   it('should be accessible', async () => {
