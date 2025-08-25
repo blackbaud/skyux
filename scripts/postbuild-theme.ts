@@ -99,8 +99,18 @@ function copyPublicScssFiles(): void {
   console.log('Copying public SCSS files...');
 
   copyScss(
+    path.join(STYLES_ROOT, '_public-api/_component-theme.scss'),
+    path.join(DEST_ROOT, 'scss/component-theme.scss'),
+  );
+
+  copyScss(
     path.join(STYLES_ROOT, '_public-api/_mixins.scss'),
     path.join(DEST_ROOT, 'scss/mixins.scss'),
+  );
+
+  copyScss(
+    path.join(STYLES_ROOT, '_public-api/_responsive.scss'),
+    path.join(DEST_ROOT, 'scss/responsive.scss'),
   );
 
   copyScss(
