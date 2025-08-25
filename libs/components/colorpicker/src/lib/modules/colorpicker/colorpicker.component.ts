@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
+  DestroyRef,
   ElementRef,
   EnvironmentInjector,
   EventEmitter,
@@ -32,6 +33,8 @@ import {
   SkyIdService,
   SkyOverlayInstance,
   SkyOverlayService,
+  SkyStackingContextService,
+  SkyStackingContextStratum,
 } from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
@@ -414,6 +417,10 @@ export class SkyColorpickerComponent
   #_disabled = false;
   #_labelText: string | undefined;
 
+  readonly #zIndex = inject(SkyStackingContextService)
+    .getZIndex(inject(SkyStackingContextStratum), inject(DestroyRef))
+    .toString();
+
   constructor(
     affixSvc: SkyAffixService,
     changeDetector: ChangeDetectorRef,
@@ -694,6 +701,7 @@ export class SkyColorpickerComponent
         environmentInjector: this.#environmentInjector,
         hideOthersFromScreenReaders: true,
       });
+      overlay.componentRef.instance.zIndex = this.#zIndex;
 
       overlay.attachTemplate(this.colorpickerTemplateRef);
 
