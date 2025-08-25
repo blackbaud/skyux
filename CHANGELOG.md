@@ -1,5 +1,31 @@
 # Changelog
 
+## [12.36.0](https://github.com/blackbaud/skyux/compare/12.35.0...12.36.0) (2025-08-22)
+
+
+### Features
+
+* **sdk/stylelint-config-skyux:** add `no-ng-deep` rule to prevent usage of `::ng-deep` in stylesheets ([#3853](https://github.com/blackbaud/skyux/issues/3853)) ([1da93d3](https://github.com/blackbaud/skyux/commit/1da93d37600e4ab99a3613ec47fd6d8dea4c0cb6))
+* **sdk/stylelint-config-skyux:** add `no-static-color-values` rule to prevent usage of static color values in stylesheets ([#3851](https://github.com/blackbaud/skyux/issues/3851)) ([a7e3dda](https://github.com/blackbaud/skyux/commit/a7e3ddac85dc2459f98270dddc3586e267c2339d))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** row delete destroy should not affect other overlays ([#3861](https://github.com/blackbaud/skyux/issues/3861)) ([4db734e](https://github.com/blackbaud/skyux/commit/4db734eb3e305955eaa847af664c8478d4f7cdf6))
+
+## [13.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.6...13.0.0-alpha.7) (2025-08-21)
+
+
+### Features
+
+* **sdk/stylelint-config-skyux:** add `no-ng-deep` rule to prevent usage of `::ng-deep` in stylesheets ([#3853](https://github.com/blackbaud/skyux/issues/3853)) ([#3857](https://github.com/blackbaud/skyux/issues/3857)) ([1aea3ee](https://github.com/blackbaud/skyux/commit/1aea3eef40ef5e369a49626827fc4f4fc4ab0538))
+* **sdk/stylelint-config-skyux:** add `no-static-color-values` rule to prevent usage of static color values in stylesheets ([#3851](https://github.com/blackbaud/skyux/issues/3851)) ([#3852](https://github.com/blackbaud/skyux/issues/3852)) ([138dfa4](https://github.com/blackbaud/skyux/commit/138dfa4e2e18924a5410c221a8790c75e68452d9))
+
+
+### Bug Fixes
+
+* deprecate `@skyux-sdk/prettier-schematics` and `@skyux-sdk/eslint-config` ([#3859](https://github.com/blackbaud/skyux/issues/3859)) ([396f7dd](https://github.com/blackbaud/skyux/commit/396f7dd4d558453f23aad76d31f416c2ad7af0b4))
+
 ## [13.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.5...13.0.0-alpha.6) (2025-08-19)
 
 

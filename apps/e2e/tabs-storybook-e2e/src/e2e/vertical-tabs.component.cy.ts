@@ -31,6 +31,9 @@ describe('tabs-storybook - vertical tabs', () => {
           )
           .should('exist')
           .should('be.visible')
+          .get('#vertical-tabs-mixed .sky-vertical-tabset-show-tabs-btn')
+          .should('exist')
+          .should('be.visible')
           .screenshot(
             `verticaltabscomponent-verticaltabs--vertical-tabs-mobile-content-section-${theme}`,
           );
@@ -57,6 +60,10 @@ describe('tabs-storybook - vertical tabs', () => {
           .should('exist')
           .should('be.visible')
           .click();
+        cy.get('#vertical-tabs-mixed .sky-vertical-tabset-show-tabs-btn')
+          .should('exist')
+          .should('be.visible')
+          .click();
         cy.get(
           '#vertical-tabs-with-groups .sky-vertical-tabset-group-container',
         )
@@ -65,6 +72,9 @@ describe('tabs-storybook - vertical tabs', () => {
           .get(
             '#vertical-tabs-without-groups .sky-vertical-tabset-group-container',
           )
+          .should('exist')
+          .should('be.visible')
+          .get('#vertical-tabs-mixed .sky-vertical-tabset-group-container')
           .should('exist')
           .should('be.visible')
           .screenshot(

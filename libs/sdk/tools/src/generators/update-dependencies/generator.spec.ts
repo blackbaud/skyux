@@ -171,6 +171,89 @@ describe('update dependencies generator', () => {
     });
   });
 
+  it('should ignore specific packages', async () => {
+    await libraryGenerator(appTree, {
+      name: 'eslint-config',
+      buildable: true,
+      publishable: true,
+      importPath: '@skyux-sdk/eslint-config',
+      directory: 'libs/components/eslint-config',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+      tags: 'npm',
+    });
+    await libraryGenerator(appTree, {
+      name: 'prettier-schematics',
+      buildable: true,
+      publishable: true,
+      importPath: '@skyux-sdk/prettier-schematics',
+      directory: 'libs/components/prettier-schematics',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+      tags: 'npm',
+    });
+    await libraryGenerator(appTree, {
+      name: 'allowed-package',
+      buildable: true,
+      publishable: true,
+      importPath: '@proj/allowed-package',
+      directory: 'libs/components/allowed-package',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+      tags: 'npm',
+    });
+    await libraryGenerator(appTree, {
+      name: 'packages',
+      buildable: true,
+      publishable: true,
+      importPath: '@skyux/packages',
+      directory: 'libs/components/packages',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+      tags: 'npm',
+    });
+
+    appTree.write(
+      'package.json',
+      JSON.stringify({
+        dependencies: {
+          '@proj/one': '1.1.0',
+        },
+      }),
+    );
+    appTree.write(
+      'libs/components/packages/package.json',
+      JSON.stringify({
+        'ng-update': {
+          packageGroup: {
+            '@proj/one': '1.0.0',
+          },
+        },
+      }),
+    );
+
+    await generator(appTree, options);
+    const projectPackageJson = readJson(
+      appTree,
+      `libs/components/packages/package.json`,
+    );
+
+    expect(projectPackageJson).toEqual({
+      'ng-update': {
+        packageGroup: {
+          '@skyux/packages': '0.0.0-PLACEHOLDER',
+          '@proj/allowed-package': '0.0.0-PLACEHOLDER',
+          '@proj/one': '1.1.0',
+          // @skyux-sdk/eslint-config and @skyux-sdk/prettier-schematics should be filtered out
+        },
+      },
+    });
+  });
+
   it('should throw error on unmet dependencies', async () => {
     await libraryGenerator(appTree, {
       name: 'test',

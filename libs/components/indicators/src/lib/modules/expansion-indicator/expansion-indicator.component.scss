@@ -35,8 +35,11 @@
 
 .sky-expansion-indicator-part {
   background: var(
-    --sky-override-expansion-indicator-color,
-    var(--sky-color-icon-deemphasized)
+    --sky-comp-override-expansion-indicator-color,
+    var(
+      --sky-override-expansion-indicator-color,
+      var(--sky-color-icon-deemphasized)
+    )
   );
   border: none;
   border-radius: 1px;
