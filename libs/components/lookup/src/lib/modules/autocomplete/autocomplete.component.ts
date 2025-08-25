@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -15,8 +14,10 @@ import {
   TemplateRef,
   ViewChild,
   booleanAttribute,
+  effect,
   inject,
   input,
+  viewChild,
 } from '@angular/core';
 import {
   SKY_STACKING_CONTEXT,
@@ -82,7 +83,7 @@ let uniqueId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
+export class SkyAutocompleteComponent implements OnDestroy {
   //#region public_api
 
   /**
@@ -455,18 +456,8 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   @ViewChild('resultsTemplateRef', { read: TemplateRef })
   public resultsTemplateRef: TemplateRef<unknown> | undefined;
 
-  @ViewChild('resultsRef', { read: ElementRef })
-  public set resultsRef(value: ElementRef | undefined) {
-    if (value) {
-      this.#_resultsRef = value;
-      this.#destroyAffixer();
-      this.#createAffixer();
-    }
-  }
-
-  public get resultsRef(): ElementRef | undefined {
-    return this.#_resultsRef;
-  }
+  public readonly resultsRef = viewChild<ElementRef>('resultsRef');
+  public readonly wrapperRef = viewChild<ElementRef>('wrapperRef');
 
   public searchOrDefault: SkyAutocompleteSearchFunction;
 
@@ -485,8 +476,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #changeDetector: ChangeDetectorRef;
 
-  #elementRef: ElementRef;
-
   readonly #environmentInjector = inject(EnvironmentInjector);
 
   readonly #liveAnnounceService = inject(SkyLiveAnnouncerService);
@@ -495,7 +484,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #hasFocus = false;
 
-  #inputBoxHostSvc: SkyInputBoxHostService | undefined;
+  protected readonly inputBoxHostSvc: SkyInputBoxHostService | undefined;
+
+  public inputTemplateRef = viewChild<TemplateRef<unknown>>('inputTemplateRef');
 
   #inputDirectiveUnsubscribe = new Subject<void>();
 
@@ -536,8 +527,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #_propertiesToSearch = ['name'];
 
-  #_resultsRef: ElementRef | undefined;
-
   #_search: SkyAutocompleteSearchFunction | undefined;
 
   #_searchFilters: SkyAutocompleteSearchFunctionFilter[] | undefined;
@@ -552,7 +541,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   constructor(
     changeDetector: ChangeDetectorRef,
-    elementRef: ElementRef,
     affixService: SkyAffixService,
     adapterService: SkyAutocompleteAdapterService,
     overlayService: SkyOverlayService,
@@ -562,11 +550,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     stackingContext?: SkyStackingContext,
   ) {
     this.#changeDetector = changeDetector;
-    this.#elementRef = elementRef;
     this.#affixService = affixService;
     this.#adapterService = adapterService;
     this.#overlayService = overlayService;
-    this.#inputBoxHostSvc = inputBoxHostSvc;
+    this.inputBoxHostSvc = inputBoxHostSvc;
     this.#zIndex = stackingContext?.zIndex;
 
     this.searchOrDefault = skyAutocompleteDefaultSearchFunction({
@@ -578,10 +565,34 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.resultsListId = `sky-autocomplete-list-${id}`;
     this.resultsWrapperId = `sky-autocomplete-wrapper-${id}`;
     this.isResultsVisible = this.#isResultsVisible.asObservable();
-  }
 
-  public ngAfterViewInit(): void {
-    this.#addInputEventListeners();
+    effect(() => {
+      const inputTemplateRef = this.inputTemplateRef();
+
+      if (inputTemplateRef) {
+        this.inputBoxHostSvc?.populate({
+          inputTemplate: inputTemplateRef,
+        });
+      }
+    });
+
+    effect(() => {
+      const wrapperRef = this.wrapperRef();
+
+      if (wrapperRef) {
+        this.#addInputEventListeners(wrapperRef);
+      }
+    });
+
+    effect(() => {
+      const resultsRef = this.resultsRef();
+      const wrapperRef = this.wrapperRef();
+
+      if (resultsRef && wrapperRef) {
+        this.#destroyAffixer();
+        this.#createAffixer(resultsRef, wrapperRef);
+      }
+    });
   }
 
   public ngOnDestroy(): void {
@@ -1041,8 +1052,8 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#changeDetector.markForCheck();
   }
 
-  #addInputEventListeners(): void {
-    const element = this.#elementRef.nativeElement;
+  #addInputEventListeners(wrapperRef: ElementRef): void {
+    const element = wrapperRef.nativeElement;
 
     observableFromEvent<KeyboardEvent>(element, 'keydown')
       .pipe(takeUntil(this.#ngUnsubscribe))
@@ -1055,11 +1066,15 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       .subscribe(() => {
         /* istanbul ignore else */
         if (this.isOpen && this.resultsRef) {
-          this.#adapterService.setDropdownWidth(
-            this.#elementRef,
-            this.resultsRef,
-            !!this.#inputBoxHostSvc,
-          );
+          const resultsRef = this.resultsRef();
+
+          if (resultsRef) {
+            this.#adapterService.setDropdownWidth(
+              wrapperRef,
+              resultsRef,
+              !!this.inputBoxHostSvc,
+            );
+          }
         }
       });
   }
@@ -1071,19 +1086,19 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  #createAffixer(): void {
+  #createAffixer(resultsRef: ElementRef, wrapperRef: ElementRef): void {
     /* Sanity check */
     /* istanbul ignore else */
-    if (!this.#affixer && this.resultsRef) {
-      const affixer = this.#affixService.createAffixer(this.resultsRef);
+    if (!this.#affixer) {
+      const affixer = this.#affixService.createAffixer(resultsRef);
 
       this.#adapterService.setDropdownWidth(
-        this.#elementRef,
-        this.resultsRef,
-        !!this.#inputBoxHostSvc,
+        wrapperRef,
+        resultsRef,
+        !!this.inputBoxHostSvc,
       );
 
-      affixer.affixTo(this.#elementRef.nativeElement, {
+      affixer.affixTo(wrapperRef.nativeElement, {
         autoFitContext: SkyAffixAutoFitContext.Viewport,
         enableAutoFit: true,
         isSticky: true,
