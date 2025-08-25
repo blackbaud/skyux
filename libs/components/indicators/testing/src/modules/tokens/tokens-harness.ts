@@ -35,7 +35,16 @@ export class SkyTokensHarness extends SkyComponentHarness {
   }
 
   /**
-   * Returns a list of tokens.
+   * Gets a specific token that meets certain criteria.
+   */
+  public async getToken(
+    filter: SkyTokenHarnessFilters,
+  ): Promise<SkyTokenHarness> {
+    return await this.locatorFor(SkyTokenHarness.with(filter))();
+  }
+
+  /**
+   * Gets an array of tokens.
    */
   public async getTokens(
     filters?: SkyTokenHarnessFilters,

@@ -249,6 +249,30 @@ describe('Checkbox group harness', () => {
     );
   });
 
+  it('should get all checkboxes', async () => {
+    const { checkboxGroupHarness } = await setupTest();
+    const checkboxes = await checkboxGroupHarness.getCheckboxes();
+    expect(checkboxes.length).toBe(3);
+  });
+
+  it('should get a checkbox with filters', async () => {
+    const { checkboxGroupHarness } = await setupTest();
+
+    const checkbox = await checkboxGroupHarness.getCheckbox({
+      dataSkyId: 'my-phone-checkbox',
+    });
+    await expectAsync(checkbox.getLabelText()).toBeResolvedTo('Phone');
+  });
+
+  it('should get checkboxes with filters', async () => {
+    const { checkboxGroupHarness } = await setupTest();
+
+    const checkbox = await checkboxGroupHarness.getCheckboxes({
+      dataSkyId: 'my-phone-checkbox',
+    });
+    await expectAsync(checkbox[0].getLabelText()).toBeResolvedTo('Phone');
+  });
+
   it('should throw an error if no help inline is found', async () => {
     const { checkboxGroupHarness } = await setupTest();
 

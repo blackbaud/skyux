@@ -63,18 +63,6 @@ describe('Navbar test harness', () => {
     expect(items.length).toBe(1);
   });
 
-  it('should throw an error if no navbar items are found matching criteria', async () => {
-    const { navbarHarness } = await setupTest({
-      dataSkyId: 'basic-navbar',
-    });
-
-    await expectAsync(
-      navbarHarness.getItems({ dataSkyId: 'navbar-item-3' }),
-    ).toBeRejectedWithError(
-      'Unable to find any navbar items with filter(s): {"dataSkyId":"navbar-item-3"}',
-    );
-  });
-
   it('should return the navbar item active status', async () => {
     const { navbarHarness } = await setupTest({ dataSkyId: 'basic-navbar' });
 

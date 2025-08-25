@@ -112,16 +112,6 @@ describe('Sectioned form harness', () => {
     expect(sections.length).toBe(3);
   });
 
-  it('should throw an error if no sections are found matching criteria', async () => {
-    const { sectionedFormHarness } = await setupTest();
-
-    await expectAsync(
-      sectionedFormHarness.getSections({ dataSkyId: 'some-section' }),
-    ).toBeRejectedWithError(
-      'Unable to find any sectioned form sections with filter(s): {"dataSkyId":"some-section"}',
-    );
-  });
-
   it('should get the section header count', async () => {
     const { sectionedFormHarness } = await setupTest();
 

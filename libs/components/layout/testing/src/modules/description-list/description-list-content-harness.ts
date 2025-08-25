@@ -1,4 +1,4 @@
-import { SkyComponentHarness } from '@skyux/core/testing';
+import { ComponentHarness } from '@angular/cdk/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { SkyDescriptionListDescriptionHarness } from './description-list-description-harness';
@@ -7,7 +7,7 @@ import { SkyDescriptionListTermHarness } from './description-list-term-harness';
 /**
  * Harness for interacting with a description list content component in tests.
  */
-export class SkyDescriptionListContentHarness extends SkyComponentHarness {
+export class SkyDescriptionListContentHarness extends ComponentHarness {
   /**
    * @internal
    */

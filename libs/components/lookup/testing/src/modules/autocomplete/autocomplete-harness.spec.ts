@@ -191,6 +191,31 @@ describe('Autocomplete harness', () => {
     );
   });
 
+  it('should get a specific autocomplete search result that meets certain criteria', async () => {
+    const { autocompleteHarness, autocompleteInputHarness } = await setupTest({
+      dataSkyId: 'my-autocomplete-1',
+    });
+
+    await autocompleteInputHarness?.setValue('r');
+    const result = await autocompleteHarness?.getSearchResult({
+      text: 'Red',
+    });
+
+    await expectAsync(result?.getText()).toBeResolvedTo('Red');
+  });
+
+  it('should throw an error when autocomplete is closed for getSearchResult', async () => {
+    const { autocompleteHarness } = await setupTest({
+      dataSkyId: 'my-autocomplete-1',
+    });
+
+    await expectAsync(
+      autocompleteHarness?.getSearchResult({ text: 'Red' }),
+    ).toBeRejectedWithError(
+      'Unable to retrieve search result. The autocomplete is closed.',
+    );
+  });
+
   it('should clear the input value', async () => {
     const { autocompleteHarness, autocompleteInputHarness } = await setupTest({
       dataSkyId: 'my-autocomplete-1',
@@ -238,22 +263,6 @@ describe('Autocomplete harness', () => {
       autocompleteHarness?.getSearchResults(),
     ).toBeRejectedWithError(
       'Unable to retrieve search results. The autocomplete is closed.',
-    );
-  });
-
-  it('should throw error if filtered search results are empty', async () => {
-    const { autocompleteHarness, autocompleteInputHarness } = await setupTest({
-      dataSkyId: 'my-autocomplete-1',
-    });
-
-    await autocompleteInputHarness?.setValue('r');
-
-    await expectAsync(
-      autocompleteHarness?.getSearchResults({
-        text: /invalidSearchText/,
-      }),
-    ).toBeRejectedWithError(
-      'Could not find search results matching filter(s): {"text":"/invalidSearchText/"}',
     );
   });
 

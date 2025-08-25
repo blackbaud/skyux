@@ -371,19 +371,6 @@ describe('Summary action harness', () => {
         expect(actions.length).toBe(1);
       });
 
-      it('should throw an error if no actions found with filter', async () => {
-        const { summaryActionHarness, fixture, mediaQuery } = await setupTest();
-        await mobileView(fixture, mediaQuery);
-        const actionsHarness = await summaryActionHarness.getSecondaryActions();
-        await expectAsync(
-          actionsHarness.getActions({
-            dataSkyId: 'secondary-actions',
-          }),
-        ).toBeRejectedWithError(
-          'Unable to find summary action secondary action(s) with filter(s): {"dataSkyId":"secondary-actions"}.',
-        );
-      });
-
       it("should get an action from it's data-sky-id", async () => {
         const { summaryActionHarness, fixture, mediaQuery } = await setupTest();
         await mobileView(fixture, mediaQuery);

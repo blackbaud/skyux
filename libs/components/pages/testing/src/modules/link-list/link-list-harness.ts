@@ -58,11 +58,22 @@ export class SkyLinkListHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the link list items.
+   * Gets a specific link list item that meets certain criteria.
+   */
+  public async getListItem(
+    filter: SkyLinkListItemHarnessFilters,
+  ): Promise<SkyLinkListItemHarness> {
+    return await this.locatorFor(SkyLinkListItemHarness.with(filter))();
+  }
+
+  /**
+   * Gets an array of link list items.
    */
   public async getListItems(
-    filter: SkyLinkListItemHarnessFilters = {},
+    filter?: SkyLinkListItemHarnessFilters,
   ): Promise<SkyLinkListItemHarness[]> {
-    return await this.locatorForAll(SkyLinkListItemHarness.with(filter))();
+    return await this.locatorForAll(
+      SkyLinkListItemHarness.with(filter || {}),
+    )();
   }
 }

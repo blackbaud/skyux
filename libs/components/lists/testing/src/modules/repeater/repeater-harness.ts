@@ -25,6 +25,15 @@ export class SkyRepeaterHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets a specific repeater item that meets certain criteria.
+   */
+  public async getRepeaterItem(
+    filter: SkyRepeaterItemHarnessFilters,
+  ): Promise<SkyRepeaterItemHarness> {
+    return await this.locatorFor(SkyRepeaterItemHarness.with(filter))();
+  }
+
+  /**
    * Gets a list of child repeater items.
    */
   public async getRepeaterItems(

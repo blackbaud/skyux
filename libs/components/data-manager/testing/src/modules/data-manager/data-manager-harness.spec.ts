@@ -55,16 +55,6 @@ describe('Data manager harness', () => {
     expect(views.length).toBe(2);
   });
 
-  it('should throw an error if no data views are found matching criteria', async () => {
-    const { dataManagerHarness } = await setupTest();
-
-    await expectAsync(
-      dataManagerHarness.getViews({ dataSkyId: 'view1' }),
-    ).toBeRejectedWithError(
-      'Unable to find any data views with filter(s): {"dataSkyId":"view1"}',
-    );
-  });
-
   describe('Data manager toolbar', () => {
     async function setupToolbarTest(options?: {
       dataManagerId?: string;
@@ -121,31 +111,6 @@ describe('Data manager harness', () => {
 
       const sections = await toolbarHarness.getSections();
       expect(sections.length).toBe(1);
-    });
-
-    it('should throw an error if no toolbar components are found matching criteria', async () => {
-      const { toolbarHarness } = await setupToolbarTest();
-
-      await expectAsync(
-        toolbarHarness.getPrimaryItems({ dataSkyId: 'other-item' }),
-      ).toBeRejectedWithError(
-        'Unable to find any data manager toolbar primary items with filter(s): {"dataSkyId":"other-item"}',
-      );
-      await expectAsync(
-        toolbarHarness.getLeftItems({ dataSkyId: 'other-item' }),
-      ).toBeRejectedWithError(
-        'Unable to find any data manager toolbar left items with filter(s): {"dataSkyId":"other-item"}',
-      );
-      await expectAsync(
-        toolbarHarness.getRightItems({ dataSkyId: 'other-item' }),
-      ).toBeRejectedWithError(
-        'Unable to find any data manager toolbar right items with filter(s): {"dataSkyId":"other-item"}',
-      );
-      await expectAsync(
-        toolbarHarness.getSections({ dataSkyId: 'other-section' }),
-      ).toBeRejectedWithError(
-        'Unable to find any data manager toolbar sections with filter(s): {"dataSkyId":"other-section"}',
-      );
     });
 
     it('should get the view actions', async () => {
@@ -323,22 +288,38 @@ describe('Data manager harness', () => {
         ]);
       });
 
-      it('should search for results', async () => {
+      it('should search for results and clear them', async () => {
         const { columnPickerHarness, fixture } = await setupColumnPickerTest();
 
-        await columnPickerHarness.enterSearchText('fruit');
+        await columnPickerHarness.enterSearchText('some');
         fixture.detectChanges();
         await fixture.whenStable();
 
-        const columns = await columnPickerHarness.getColumns();
-        expect(columns.length).toBe(2);
+        let columns = await columnPickerHarness.getColumns();
+        expect(columns.length).toBe(1);
 
         await columnPickerHarness.clearSearchText();
 
-        await expectAsync(
-          columnPickerHarness.getColumns({ contentText: 'anything' }),
-        ).toBeRejectedWithError(
-          'Could not find columns in the column picker matching filter(s): {"contentText":"anything"}',
+        columns = await columnPickerHarness.getColumns();
+        expect(columns.length).toBe(2);
+      });
+
+      it('should get a specific column that matches the given filters', async () => {
+        const { columnPickerHarness } = await setupColumnPickerTest();
+
+        const column = await columnPickerHarness.getColumn({
+          titleText: 'Fruit name',
+        });
+
+        await expectAsync(column.getTitleText()).toBeResolvedTo('Fruit name');
+        await expectAsync(column.isSelected()).toBeResolvedTo(true);
+
+        const otherColumn = await columnPickerHarness.getColumn({
+          contentText: 'Some information about the fruit.',
+        });
+
+        await expectAsync(otherColumn.getTitleText()).toBeResolvedTo(
+          'Description',
         );
       });
     });

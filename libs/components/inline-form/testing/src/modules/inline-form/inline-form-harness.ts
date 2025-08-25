@@ -50,15 +50,9 @@ export class SkyInlineFormHarness extends SkyQueryableComponentHarness {
         'Inline form is not expanded. The buttons cannot be retrieved when not visible.',
       );
     }
-    const buttons = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyInlineFormButtonHarness.with(filters || {}),
     )();
-    if (filters && buttons.length === 0) {
-      throw new Error(
-        `No button(s) found that match the given filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-    return buttons;
   }
 
   /**

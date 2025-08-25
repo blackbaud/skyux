@@ -109,15 +109,19 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of `SkyVerticalTabsetGroupHarness` in this tabset.
+   * Gets an array of vertical tabset groups.
    */
-  public async getGroups(): Promise<SkyVerticalTabsetGroupHarness[]> {
+  public async getGroups(
+    filters?: SkyVerticalTabsetGroupHarnessFilters,
+  ): Promise<SkyVerticalTabsetGroupHarness[]> {
     // open tablist if in mobile view
     if (!(await this.isTabsVisible())) {
       await this.clickShowTabsButton();
     }
 
-    return await this.locatorForAll(SkyVerticalTabsetGroupHarness)();
+    return await this.locatorForAll(
+      SkyVerticalTabsetGroupHarness.with(filters || {}),
+    )();
   }
 
   /**
@@ -144,15 +148,19 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of `SkyVerticalTabButtonHarness` in this tabset.
+   * Gets an array of vertical tab buttons.
    */
-  public async getTabs(): Promise<SkyVerticalTabButtonHarness[]> {
+  public async getTabs(
+    filters?: SkyVerticalTabButtonHarnessFilters,
+  ): Promise<SkyVerticalTabButtonHarness[]> {
     // open tablist if in mobile view
     if (!(await this.isTabsVisible())) {
       await this.clickShowTabsButton();
     }
 
-    return await this.locatorForAll(SkyVerticalTabButtonHarness)();
+    return await this.locatorForAll(
+      SkyVerticalTabButtonHarness.with(filters || {}),
+    )();
   }
 
   /**

@@ -52,16 +52,6 @@ export class SkyDataManagerHarness extends SkyComponentHarness {
   public async getViews(
     filters?: SkyDataViewHarnessFilters,
   ): Promise<SkyDataViewHarness[]> {
-    const items = await this.locatorForAll(
-      SkyDataViewHarness.with(filters || {}),
-    )();
-
-    if (filters && items.length === 0) {
-      throw new Error(
-        `Unable to find any data views with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
+    return await this.locatorForAll(SkyDataViewHarness.with(filters || {}))();
   }
 }
