@@ -71,8 +71,10 @@
   overflow-y: auto;
   padding: var(
     --sky-override-vertical-tabset-group-container-padding,
-    var(--sky-comp-tab-vertical-group-space-inset-top) 0
+    var(--sky-comp-tab-vertical-group-space-inset-top)
+      var(--sky-comp-tab-vertical-group-space-inset-right)
       var(--sky-comp-tab-vertical-group-space-inset-bottom)
+      var(--sky-comp-tab-vertical-group-space-inset-left)
   );
 }
 

@@ -1,0 +1,101 @@
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@mixin sky-vertical-tabset-button {
+  @include compatMixins.sky-default-overrides('.sky-vertical-tabset-button') {
+    --sky-override-vertical-tab-background-color: transparent;
+    --sky-override-vertical-tab-background-color-active: #{$sky-background-color-neutral-light};
+    --sky-override-vertical-tab-background-color-focus: transparent;
+    --sky-override-vertical-tab-background-color-hover: #{$sky-background-color-neutral-light};
+    --sky-override-vertical-tab-font-color: #{$sky-text-color-default};
+    --sky-override-vertical-tab-font-color-disabled: var(
+      --sky-text-color-deemphasized
+    );
+    --sky-override-vertical-tab-hover-font-color: #{$sky-text-color-default};
+    --sky-override-vertical-tab-outline-focus: auto;
+    --sky-override-vertical-tab-right-arrow-color-active: #{$sky-text-color-deemphasized};
+    --sky-override-vertical-tab-right-arrow-color-hover: color.adjust(
+      #{$sky-text-color-deemphasized},
+      $lightness: -20%
+    );
+  }
+
+  :host:has(.sky-vertical-tabset-button-disabled) {
+    cursor: not-allowed;
+  }
+
+  .sky-vertical-tabset-button {
+    background-color: var(
+      --sky-override-vertical-tab-background-color,
+      var(--sky-color-background-nav-base)
+    );
+    border-bottom-left-radius: var(--sky-border-radius-s);
+    border-top-left-radius: var(--sky-border-radius-s);
+    border-bottom-right-radius: var(--sky-border-radius-0);
+    border-top-right-radius: var(--sky-border-radius-0);
+    color: var(
+      --sky-override-vertical-tab-font-color,
+      var(--sky-color-text-deemphasized)
+    );
+    cursor: pointer;
+    display: flex;
+    text-decoration: none;
+
+    &:hover:not(.sky-vertical-tab-active) {
+      color: var(
+        --sky-override-vertical-tab-hover-font-color,
+        var(--sky-color-text-default)
+      );
+      background-color: var(
+        --sky-override-vertical-tab-background-color-hover,
+        var(--sky-color-background-nav-hover)
+      );
+      box-shadow: inset 0 0 0 var(--sky-border-width-action-hover)
+        var(--sky-color-border-nav-hover);
+
+      .sky-vertical-tab-right-arrow {
+        color: var(
+          --sky-override-vertical-tab-right-arrow-color-hover,
+          var(--sky-color-icon-default)
+        );
+      }
+    }
+
+    &:active:not(.sky-vertical-tab-active) {
+      background-color: var(
+        --sky-override-vertical-tab-background-color-active,
+        var(--sky-color-background-nav-active)
+      );
+      color: var(--sky-color-text-default);
+      box-shadow: inset 0 0 0 var(--sky-border-width-action-active)
+        var(--sky-color-border-nav-active);
+
+      .sky-vertical-tab-right-arrow {
+        color: var(
+          --sky-override-vertical-tab-right-arrow-color-active,
+          var(--sky-color-icon-default)
+        );
+      }
+    }
+
+    &:not(:active):focus-visible {
+      background-color: var(
+        --sky-override-vertical-tab-background-color-focus,
+        var(--sky-color-background-nav-focus)
+      );
+      outline: var(--sky-override-vertical-tab-outline-focus, none);
+      box-shadow: inset 0 0 0 var(--sky-border-width-action-focus)
+        var(--sky-color-border-nav-focus);
+    }
+
+    &.sky-vertical-tabset-button-disabled {
+      background-color: var(--sky-color-background-nav-disabled);
+      // Only needed for default theme. This rule can be removed when that theme is removed.
+      color: var(
+        --sky-override-vertical-tab-font-color-disabled,
+        var(--sky-color-text-deemphasized)
+      );
+      pointer-events: none;
+    }
+  }
+}
