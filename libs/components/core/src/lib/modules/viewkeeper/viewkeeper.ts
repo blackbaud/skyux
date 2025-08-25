@@ -74,12 +74,8 @@ function getHeightWithMargin(el: HTMLElement): number {
   );
 }
 
-function createCustomEvent(name: any): CustomEvent<any> {
-  const evt = document.createEvent('CustomEvent');
-
-  evt.initCustomEvent(name, false, false, undefined);
-
-  return evt;
+function createCustomEvent<T extends string>(name: T): CustomEvent<T> {
+  return new CustomEvent<T>(name, { bubbles: false, cancelable: false });
 }
 
 export class SkyViewkeeper {
@@ -87,17 +83,17 @@ export class SkyViewkeeper {
 
   #el: HTMLElement | undefined;
 
-  #id: string;
+  readonly #id: string;
 
-  #setWidth: boolean;
+  readonly #setWidth: boolean;
 
-  #verticalOffset: number;
+  readonly #verticalOffset: number;
 
   #verticalOffsetEl: HTMLElement | undefined;
 
-  #viewportMarginTop = 0;
+  readonly #viewportMarginTop: number | undefined;
 
-  #viewportMarginProperty: `--${string}` | undefined;
+  readonly #viewportMarginProperty: `--${string}` | undefined;
 
   #currentElFixedLeft: number | undefined;
 
@@ -111,19 +107,22 @@ export class SkyViewkeeper {
 
   #isDestroyed = false;
 
-  #scrollableHost: HTMLElement | undefined;
+  readonly #scrollableHost: HTMLElement | undefined;
 
-  #syncElPositionHandler: () => void;
+  readonly #syncElPositionHandler: () => void;
 
   #intersectionObserver: IntersectionObserver | undefined;
 
   #spacerResizeObserver: ResizeObserver | undefined;
+
+  readonly #zIndex: number | undefined;
 
   constructor(options: SkyViewkeeperOptions) {
     options = options || /* istanbul ignore next */ {};
 
     this.#el = options.el;
     this.#boundaryEl = options.boundaryEl;
+    this.#zIndex = options.zIndex ?? 999;
 
     if (!this.#el) {
       throw new Error('[SkyViewkeeper] The option `el` is required.');
@@ -246,6 +245,7 @@ export class SkyViewkeeper {
     }
 
     el.classList.remove(CLS_VIEWKEEPER_FIXED);
+    el.style.zIndex = '';
 
     this.#currentElFixedLeft =
       this.#currentElFixedTop =
@@ -289,7 +289,7 @@ export class SkyViewkeeper {
       anchorTop = getOffset(el, this.#scrollableHost).top;
     }
 
-    let viewportMarginTop = this.#viewportMarginTop;
+    let viewportMarginTop = this.#viewportMarginTop ?? 0;
     const viewportMarginProperty =
       this.#viewportMarginProperty &&
       getComputedStyle(document.body).getPropertyValue(
@@ -299,10 +299,9 @@ export class SkyViewkeeper {
       viewportMarginTop += parseInt(viewportMarginProperty, 10);
     }
 
-    const doFixEl =
-      boundaryInfo.scrollTop + verticalOffset + viewportMarginTop > anchorTop;
-
-    return doFixEl;
+    return (
+      boundaryInfo.scrollTop + verticalOffset + viewportMarginTop > anchorTop
+    );
   }
 
   #getFixedStyles(
@@ -338,26 +337,29 @@ export class SkyViewkeeper {
     doFixEl: boolean,
     fixedStyles: SkyViewkeeperFixedStyles,
   ): boolean {
-    if (
-      (doFixEl &&
-        this.#currentElFixedLeft === fixedStyles.elFixedLeft &&
-        this.#currentElFixedTop === fixedStyles.elFixedTop &&
-        this.#currentElClipLeft === fixedStyles.elClipLeft &&
-        this.#currentElClipTop === fixedStyles.elClipTop &&
-        this.#currentElFixedWidth === fixedStyles.elFixedWidth) ||
-      (!doFixEl &&
-        !(
-          this.#currentElFixedLeft !== undefined &&
-          this.#currentElFixedLeft !== null
-        ))
-    ) {
-      // The element is either currently fixed and its position and width do not need
-      // to change, or the element is not currently fixed and does not need to be fixed.
-      // No changes are needed.
-      return false;
+    if (doFixEl) {
+      if (
+        this.#currentElFixedLeft !== fixedStyles.elFixedLeft ||
+        this.#currentElClipLeft !== fixedStyles.elClipLeft
+      ) {
+        return true;
+      }
+      if (
+        this.#currentElFixedTop !== fixedStyles.elFixedTop ||
+        this.#currentElClipTop !== fixedStyles.elClipTop
+      ) {
+        return true;
+      }
+      return this.#currentElFixedWidth !== fixedStyles.elFixedWidth;
     }
 
-    return true;
+    // The element is either currently fixed and its position and width do not need
+    // to change, or the element is not currently fixed and does not need to be fixed.
+    // No changes are needed.
+    return (
+      this.#currentElFixedLeft !== undefined &&
+      this.#currentElFixedLeft !== null
+    );
   }
 
   #fixEl(
@@ -389,6 +391,7 @@ export class SkyViewkeeper {
     }
 
     el.classList.add(CLS_VIEWKEEPER_FIXED);
+    el.style.zIndex = String(this.#zIndex);
 
     this.#currentElFixedTop = fixedStyles.elFixedTop;
     this.#currentElFixedLeft = fixedStyles.elFixedLeft;
@@ -407,7 +410,7 @@ export class SkyViewkeeper {
       fixedStyles.elFixedLeft,
       fixedStyles.elFixedTop,
       width,
-      this.#viewportMarginTop,
+      this.#viewportMarginTop ?? 0,
       this.#viewportMarginProperty,
       fixedStyles.elClipTop,
       fixedStyles.elClipLeft,

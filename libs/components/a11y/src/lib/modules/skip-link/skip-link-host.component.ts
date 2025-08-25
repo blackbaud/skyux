@@ -2,8 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   inject,
 } from '@angular/core';
+import { SkyStackingContextService } from '@skyux/core';
 
 import { SkyA11yResourcesModule } from '../shared/sky-a11y-resources.module';
 
@@ -27,6 +29,11 @@ export class SkySkipLinkHostComponent {
     this.#_links = value;
     this.#changeDetector.markForCheck();
   }
+
+  protected zIndex = inject(SkyStackingContextService).getZIndex(
+    'toast',
+    inject(DestroyRef),
+  );
 
   #_links: SkySkipLink[] = [];
 

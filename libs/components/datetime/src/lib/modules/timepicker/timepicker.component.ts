@@ -2,10 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   EnvironmentInjector,
   EventEmitter,
-  Inject,
   OnDestroy,
   OnInit,
   Optional,
@@ -23,14 +23,14 @@ import {
   SkyCoreAdapterService,
   SkyOverlayInstance,
   SkyOverlayService,
-  SkyStackingContext,
+  SkyStackingContextService,
+  SkyStackingContextStratum,
 } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyThemeService } from '@skyux/theme';
 
 import moment from 'moment';
-import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, Subscription, fromEvent, of, takeUntil } from 'rxjs';
 
 import { SkyTimepickerTimeFormatType } from './timepicker-time-format-type';
 import { SkyTimepickerTimeOutput } from './timepicker-time-output';
@@ -250,7 +250,14 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   #coreAdapter: SkyCoreAdapterService;
   readonly #environmentInjector = inject(EnvironmentInjector);
   #overlayService: SkyOverlayService;
-  #zIndex: Observable<number> | undefined;
+  readonly #zIndex =
+    inject(SKY_STACKING_CONTEXT, { optional: true })?.zIndex ??
+    of(
+      inject(SkyStackingContextService).getZIndex(
+        inject(SkyStackingContextStratum),
+        inject(DestroyRef),
+      ),
+    );
 
   constructor(
     affixService: SkyAffixService,
@@ -259,15 +266,11 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     overlayService: SkyOverlayService,
     @Optional() public inputBoxHostService?: SkyInputBoxHostService,
     @Optional() themeSvc?: SkyThemeService,
-    @Optional()
-    @Inject(SKY_STACKING_CONTEXT)
-    stackingContext?: SkyStackingContext,
   ) {
     this.#affixService = affixService;
     this.#changeDetector = changeDetector;
     this.#coreAdapter = coreAdapter;
     this.#overlayService = overlayService;
-    this.#zIndex = stackingContext?.zIndex;
 
     const uniqueId = nextId++;
     this.timepickerId = `sky-timepicker-${uniqueId}`;
@@ -446,13 +449,11 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
         environmentInjector: this.#environmentInjector,
       });
 
-      if (this.#zIndex) {
-        this.#zIndex
-          .pipe(takeUntil(this.#timepickerUnsubscribe))
-          .subscribe((zIndex) => {
-            overlay.componentRef.instance.zIndex = zIndex.toString(10);
-          });
-      }
+      this.#zIndex
+        .pipe(takeUntil(this.#timepickerUnsubscribe))
+        .subscribe((zIndex) => {
+          overlay.componentRef.instance.zIndex = zIndex.toString(10);
+        });
 
       overlay.backdropClick
         .pipe(takeUntil(this.#timepickerUnsubscribe))

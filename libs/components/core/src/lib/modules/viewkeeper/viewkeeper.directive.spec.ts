@@ -57,6 +57,7 @@ describe('Viewkeeper directive', () => {
       setWidth: true,
       scrollableHost: scrollableHost !== undefined ? scrollableHost : undefined,
       verticalOffsetEl: undefined,
+      zIndex: 1000000,
     });
 
     expect(mockViewkeeperSvc.create).toHaveBeenCalledWith({
@@ -65,6 +66,7 @@ describe('Viewkeeper directive', () => {
       setWidth: true,
       scrollableHost: scrollableHost !== undefined ? scrollableHost : undefined,
       verticalOffsetEl: document.querySelector('.el1'),
+      zIndex: 1000000,
     });
 
     if (fixture.componentInstance.showEl3) {
@@ -75,6 +77,7 @@ describe('Viewkeeper directive', () => {
         scrollableHost:
           scrollableHost !== undefined ? scrollableHost : undefined,
         verticalOffsetEl: document.querySelector('.el2'),
+        zIndex: 1000000,
       });
     }
 
@@ -88,6 +91,7 @@ describe('Viewkeeper directive', () => {
         verticalOffsetEl: document.querySelector(
           fixture.componentInstance.showEl3 ? '.el3' : '.el2',
         ),
+        zIndex: 1000000,
       });
     }
   }

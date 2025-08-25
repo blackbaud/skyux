@@ -23,7 +23,6 @@
     --sky-override-wait-mask-color,
     var(--sky-color-background-blocking)
   );
-  z-index: $sky-component-wait-z-index;
 }
 
 .sky-wait-mask-loading-fixed {
