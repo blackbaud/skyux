@@ -1,5 +1,7 @@
+import { Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { SkyFilterState, SkyFilterStateService } from '@skyux/lists';
 import {
   SkySelectionModalInstance,
   SkySelectionModalService,
@@ -11,7 +13,7 @@ import {
   SkyModalService,
 } from '@skyux/modals';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { SkyFilterBarTestComponent } from './fixtures/filter-bar.component.fixture';
 import { SkyFilterBarFilterItem } from './models/filter-bar-filter-item';
@@ -43,31 +45,63 @@ describe('Filter bar component', () => {
   let component: SkyFilterBarTestComponent;
   let fixture: ComponentFixture<SkyFilterBarTestComponent>;
   let confirmServiceSpy: jasmine.SpyObj<SkyConfirmService>;
+  let modalServiceSpy: jasmine.SpyObj<SkyModalService>;
   let selectionModalServiceSpy: jasmine.SpyObj<SkySelectionModalService>;
 
   // Common setup for all tests
-  async function setupTestBed(): Promise<void> {
+  async function setupTestBed(includeFilterStateService = false): Promise<{
+    filterStateServiceSpy: jasmine.SpyObj<SkyFilterStateService>;
+    filterStateSubject: BehaviorSubject<SkyFilterState>;
+  }> {
     confirmServiceSpy = jasmine.createSpyObj('SkyConfirmService', ['open']);
+    modalServiceSpy = jasmine.createSpyObj('SkyModalService', ['open']);
     selectionModalServiceSpy = jasmine.createSpyObj(
       'SkySelectionModalService',
       ['open'],
     );
 
-    await TestBed.configureTestingModule({
-      imports: [SkyFilterBarTestComponent],
-      providers: [
-        provideNoopAnimations(),
-        { provide: SkyConfirmService, useValue: confirmServiceSpy },
+    const providers: Provider[] = [
+      provideNoopAnimations(),
+      { provide: SkyConfirmService, useValue: confirmServiceSpy },
+      { provide: SkyModalService, useValue: modalServiceSpy },
+      { provide: SkySelectionModalService, useValue: selectionModalServiceSpy },
+    ];
+
+    const filterStateSubject = new BehaviorSubject<SkyFilterState>({
+      filters: [
         {
-          provide: SkySelectionModalService,
-          useValue: selectionModalServiceSpy,
+          filterId: '1',
+          filterValue: { value: 'fs-value1' },
         },
       ],
+      selectedFilterIds: ['1', '2'],
+    });
+
+    const filterStateServiceSpy = jasmine.createSpyObj(
+      'SkyFilterStateService',
+      ['updateDataState'],
+      {
+        dataStateChanges: filterStateSubject.asObservable(),
+      },
+    );
+
+    if (includeFilterStateService) {
+      providers.push({
+        provide: SkyFilterStateService,
+        useValue: filterStateServiceSpy,
+      });
+    }
+
+    await TestBed.configureTestingModule({
+      imports: [SkyFilterBarTestComponent],
+      providers,
     }).compileComponents();
 
     fixture = TestBed.createComponent(SkyFilterBarTestComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    return { filterStateServiceSpy, filterStateSubject };
   }
 
   describe('basic functionality', () => {
@@ -217,17 +251,6 @@ describe('Filter bar component', () => {
       expect(component.filters()).toBeUndefined();
     });
 
-    it('should emit filterUpdated event when filter item is updated', () => {
-      // This test needs to be rethought since the architecture changed
-      // The filter bar now uses effects to monitor filter updates
-      const newFilterValue = { value: 'emitted value' };
-
-      component.filters.set([{ filterId: '1', filterValue: newFilterValue }]);
-      fixture.detectChanges();
-
-      expect(component.filters()?.[0]?.filterValue).toEqual(newFilterValue);
-    });
-
     it('should show/hide clear filters button based on active filters', () => {
       // Initially no active filters
       expect(getClearFiltersButton()).toBeFalsy();
@@ -316,33 +339,8 @@ describe('Filter bar component', () => {
   });
 
   describe('filter modal interactions', () => {
-    let modalServiceSpy: jasmine.SpyObj<SkyModalService>;
-
     beforeEach(async () => {
-      modalServiceSpy = jasmine.createSpyObj('SkyModalService', ['open']);
-
-      confirmServiceSpy = jasmine.createSpyObj('SkyConfirmService', ['open']);
-      selectionModalServiceSpy = jasmine.createSpyObj(
-        'SkySelectionModalService',
-        ['open'],
-      );
-
-      await TestBed.configureTestingModule({
-        imports: [SkyFilterBarTestComponent],
-        providers: [
-          provideNoopAnimations(),
-          { provide: SkyConfirmService, useValue: confirmServiceSpy },
-          {
-            provide: SkySelectionModalService,
-            useValue: selectionModalServiceSpy,
-          },
-          { provide: SkyModalService, useValue: modalServiceSpy },
-        ],
-      }).compileComponents();
-
-      fixture = TestBed.createComponent(SkyFilterBarTestComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
+      await setupTestBed();
     });
 
     it('should update filter value when modal is saved with new data', () => {
@@ -728,6 +726,122 @@ describe('Filter bar component', () => {
 
       const secondButton = updatedFilterItems[1].querySelector('button');
       expect(secondButton?.getAttribute('aria-pressed')).toBe('true');
+    });
+  });
+
+  describe('with filter state service', () => {
+    let filterStateServiceSpy: jasmine.SpyObj<SkyFilterStateService>;
+    let filterStateSubject: BehaviorSubject<SkyFilterState>;
+
+    beforeEach(async () => {
+      const setup = await setupTestBed(true);
+      filterStateServiceSpy = setup.filterStateServiceSpy;
+      filterStateSubject = setup.filterStateSubject;
+    });
+
+    it('should use filter state service filters over model filters', () => {
+      const filterItems = getFilterItems();
+
+      expect(filterItems.length).toBe(2);
+      const firstItemValue = filterItems[0].querySelector(
+        '.sky-filter-item-value',
+      );
+      expect(firstItemValue?.textContent?.trim()).toBe('fs-value1');
+
+      // Second filter should not have a value element since filterValue is undefined
+      const secondItemValue = filterItems[1].querySelector(
+        '.sky-filter-item-value',
+      );
+      expect(secondItemValue).toBeFalsy();
+    });
+
+    it('should update filter state service when filters change', () => {
+      // Simulate filter being updated
+      const filterItems = getFilterItems();
+      const newFilterValue = { value: 'updated value' };
+      const closed$ = of({ reason: 'save', data: newFilterValue });
+      modalServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as SkyModalInstance);
+
+      // Click the first filter item to open modal
+      const filterButton = filterItems[0].querySelector(
+        'button',
+      ) as HTMLButtonElement;
+      filterButton.click();
+      fixture.detectChanges();
+
+      expect(filterStateServiceSpy.updateDataState).toHaveBeenCalledWith({
+        filters: [{ filterId: '1', filterValue: newFilterValue }],
+        selectedFilterIds: jasmine.any(Array),
+      });
+    });
+
+    it('should sync filter state service changes to component model', () => {
+      const newFilterState: SkyFilterState = {
+        filters: [
+          {
+            filterId: 'synced-filter',
+            filterValue: { value: 'synced value' },
+          },
+        ],
+        selectedFilterIds: ['synced-filter'],
+      };
+
+      filterStateSubject.next(newFilterState);
+      fixture.detectChanges();
+
+      expect(component.filters()).toEqual(newFilterState.filters);
+      expect(component.selectedFilterIds()).toEqual(
+        newFilterState.selectedFilterIds,
+      );
+    });
+
+    it('should clear filters through filter state service', () => {
+      // Set up initial filters
+      component.filters.set([
+        { filterId: '1', filterValue: { value: 'test' } },
+      ]);
+      fixture.detectChanges();
+
+      const closed$ = of({ action: 'save' });
+      confirmServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as SkyConfirmInstance);
+
+      getClearFiltersButton()?.click();
+      fixture.detectChanges();
+
+      expect(filterStateServiceSpy.updateDataState).toHaveBeenCalledWith({
+        filters: undefined,
+        selectedFilterIds: jasmine.any(Array),
+      });
+    });
+
+    it('should show clear button when filter state service has active filters', () => {
+      // Filter state service has filters with values, so clear button should be visible
+      expect(getClearFiltersButton()).toBeTruthy();
+    });
+
+    it('should update selected filter IDs when filters are selected/deselected', () => {
+      const closed$ = of({
+        reason: 'save',
+        selectedItems: [
+          { filterId: '1', labelText: 'filter 1' },
+          { filterId: '3', labelText: 'filter 3' },
+        ],
+      });
+      selectionModalServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as SkySelectionModalInstance);
+
+      const filterPickerButton = getFilterPickerButton();
+      filterPickerButton?.click();
+
+      expect(filterStateServiceSpy.updateDataState).toHaveBeenCalledWith({
+        filters: jasmine.any(Array),
+        selectedFilterIds: ['1', '3'],
+      });
     });
   });
 });

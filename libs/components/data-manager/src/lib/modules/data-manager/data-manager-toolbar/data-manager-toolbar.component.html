@@ -97,6 +97,9 @@
     </sky-toolbar-section>
     <ng-content select="sky-data-manager-toolbar-section" />
   </sky-toolbar>
+  @if (activeView?.filterBarEnabled) {
+    <ng-content select="sky-filter-bar" />
+  }
 
   @if (activeView?.multiselectToolbarEnabled) {
     <sky-toolbar class="sky-data-manager-multiselect-toolbar">

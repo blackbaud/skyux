@@ -8,6 +8,10 @@ export { SkyDataManagerFilterData } from './lib/modules/data-manager/models/data
 export { SkyDataManagerInitArgs } from './lib/modules/data-manager/models/data-manager-init-args';
 export { SkyDataManagerSortOption } from './lib/modules/data-manager/models/data-manager-sort-option';
 export { SkyDataManagerState } from './lib/modules/data-manager/models/data-manager-state';
+export {
+  SkyDataManagerStateExtensions,
+  SkyDataManagerExtensionsFilterState,
+} from './lib/modules/data-manager/models/data-manager-state-extensions';
 export { SkyDataManagerStateOptions } from './lib/modules/data-manager/models/data-manager-state-options';
 export { SkyDataManagerStateUpdateFilterArgs } from './lib/modules/data-manager/models/data-manager-state-update-filter-args';
 export { SkyDataManagerSummary } from './lib/modules/data-manager/models/data-manager-summary';
