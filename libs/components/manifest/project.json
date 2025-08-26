@@ -7,7 +7,10 @@
   "targets": {
     "prebuild": {
       "executor": "@nx/js:tsc",
-      "inputs": ["default", "{workspaceRoot}/**/documentation.json"],
+      "inputs": [
+        "default",
+        "{workspaceRoot}/libs/components/*/documentation.json"
+      ],
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/components/manifest",
@@ -22,7 +25,10 @@
     },
     "build": {
       "executor": "nx:run-commands",
-      "inputs": ["default", "{workspaceRoot}/**/documentation.json"],
+      "inputs": [
+        "default",
+        "{workspaceRoot}/libs/components/*/documentation.json"
+      ],
       "outputs": ["{options.outputPath}"],
       "options": {
         "command": "npx vite-node ./scripts/postbuild-manifest.mts",
