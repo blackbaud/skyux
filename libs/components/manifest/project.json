@@ -25,10 +25,6 @@
     },
     "build": {
       "executor": "nx:run-commands",
-      "inputs": [
-        "default",
-        "{workspaceRoot}/libs/components/*/documentation.json"
-      ],
       "outputs": ["{options.outputPath}"],
       "options": {
         "command": "npx vite-node ./scripts/postbuild-manifest.mts",
