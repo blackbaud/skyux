@@ -2,14 +2,17 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DOCUMENT,
   DestroyRef,
   ElementRef,
   computed,
+  effect,
   inject,
   input,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
 import { SkyMediaQueryService, SkyScrollableHostService } from '@skyux/core';
 
 import { debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
@@ -66,6 +69,22 @@ export class SkyDocsTableOfContentsPageComponent implements AfterViewInit {
       }) ?? []
     );
   });
+
+  readonly #routeFragment = toSignal(inject(ActivatedRoute).fragment);
+  readonly #doc = inject(DOCUMENT);
+
+  constructor() {
+    effect(() => {
+      const fragment = this.#routeFragment();
+      const links = this.links();
+      if (
+        fragment &&
+        links.some((link) => link.anchorId === fragment && !link.active)
+      ) {
+        setTimeout(() => this.#doc.getElementById(fragment)?.scrollIntoView());
+      }
+    });
+  }
 
   public ngAfterViewInit(): void {
     const scrollEl = this.#scrollableHostSvc.getScrollableHost(
