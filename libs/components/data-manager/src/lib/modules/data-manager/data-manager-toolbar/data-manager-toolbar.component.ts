@@ -4,9 +4,11 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  effect,
   inject,
   isStandalone,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { SkyLogService } from '@skyux/core';
 import {
@@ -16,7 +18,11 @@ import {
 } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyToolbarModule } from '@skyux/layout';
-import { SkyFilterModule, SkySortModule } from '@skyux/lists';
+import {
+  SkyFilterModule,
+  SkyFilterStateService,
+  SkySortModule,
+} from '@skyux/lists';
 import { SkySearchModule } from '@skyux/lookup';
 import {
   SkyModalCloseArgs,
@@ -40,6 +46,8 @@ import { SkyDataManagerSortOption } from '../models/data-manager-sort-option';
 import { SkyDataManagerState } from '../models/data-manager-state';
 import { SkyDataViewConfig } from '../models/data-view-config';
 
+import { SkyDataManagerFilterStateService } from './data-manager-filter-state.service';
+
 /**
  * Renders a `sky-toolbar` with the contents specified by the active view's `SkyDataViewConfig`
  * and the `SkyDataManagerToolbarLeftItemComponent`, `SkyDataManagerToolbarRightItemComponent`,
@@ -60,6 +68,12 @@ import { SkyDataViewConfig } from '../models/data-view-config';
     SkySearchModule,
     SkySortModule,
     SkyToolbarModule,
+  ],
+  providers: [
+    {
+      provide: SkyFilterStateService,
+      useClass: SkyDataManagerFilterStateService,
+    },
   ],
 })
 export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
@@ -117,7 +131,29 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #columnPickerService = inject(SkyDataManagerColumnPickerService);
   readonly #dataManagerService = inject(SkyDataManagerService);
+  readonly #filterStateService = inject(SkyFilterStateService);
   readonly #modalService = inject(SkyModalService);
+
+  readonly #filterStateUpdated = toSignal(
+    this.#filterStateService.filterBarChanges,
+  );
+
+  constructor() {
+    effect(() => {
+      const filterState = this.#filterStateUpdated();
+
+      if (
+        filterState &&
+        this.dataState &&
+        JSON.stringify(this.dataState.extensions?.filterState) !==
+          JSON.stringify(filterState)
+      ) {
+        this.dataState.extensions ??= {};
+        this.dataState.extensions.filterState = filterState;
+        this.#dataManagerService.updateDataState(this.dataState, this.#_source);
+      }
+    });
+  }
 
   public ngOnInit(): void {
     this.#dataManagerService
@@ -148,6 +184,15 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
       .getDataStateUpdates(this.#_source)
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((dataState) => {
+        if (
+          dataState?.extensions?.filterState &&
+          JSON.stringify(dataState.extensions.filterState) !==
+            JSON.stringify(this.dataState?.extensions?.filterState)
+        ) {
+          this.#filterStateService.updateFilterBar(
+            dataState.extensions.filterState,
+          );
+        }
         this.#_dataState = dataState;
         this.onlyShowSelected = dataState.onlyShowSelected;
         this.#changeDetector.markForCheck();

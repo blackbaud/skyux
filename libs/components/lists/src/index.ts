@@ -1,4 +1,8 @@
 export { SkyFilterModule } from './lib/modules/filter/filter.module';
+export { SkyFilterState } from './lib/modules/filter/filter-state';
+export { SkyFilterStateItem } from './lib/modules/filter/filter-state-item';
+export { SkyFilterStateValue } from './lib/modules/filter/filter-state-value';
+export { SkyFilterStateService } from './lib/modules/filter/filter-state.service';
 
 export { SkyInfiniteScrollModule } from './lib/modules/infinite-scroll/infinite-scroll.module';
 
