@@ -1,5 +1,18 @@
 # Changelog
 
+## [12.37.0](https://github.com/blackbaud/skyux/compare/12.36.0...12.37.0) (2025-08-26)
+
+
+### Features
+
+* pull in latest design tokens ([#3867](https://github.com/blackbaud/skyux/issues/3867)) ([2cc985a](https://github.com/blackbaud/skyux/commit/2cc985a12898fa3ce9e7f9a1ab442e50cbd9694f))
+* **sdk/stylelint-config-skyux:** add `no-sky-theme-imports` rule to prevent imports from `@skyux/theme/scss/*` in stylesheets ([#3855](https://github.com/blackbaud/skyux/issues/3855)) ([4b20671](https://github.com/blackbaud/skyux/commit/4b20671b9043a11a1c303957217bdd9c2ec9a9cd))
+
+
+### Bug Fixes
+
+* **components/docs-tools:** scroll to header on page load ([#3869](https://github.com/blackbaud/skyux/issues/3869)) ([4c57af7](https://github.com/blackbaud/skyux/commit/4c57af78acd8cd5174e6cb195a6822652513e29c))
+
 ## [12.36.0](https://github.com/blackbaud/skyux/compare/12.35.0...12.36.0) (2025-08-22)
 
 
