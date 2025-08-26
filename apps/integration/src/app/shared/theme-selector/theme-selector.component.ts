@@ -29,7 +29,11 @@ interface LocalStorageSettings {
   themeBrand?: SkyThemeBrand;
 }
 
-const AVAILABLE_BRANDS = [new SkyThemeBrand('rainbow', '1.0.1')];
+const AVAILABLE_BRANDS = [
+  { readableName: 'Rainbow', brand: new SkyThemeBrand('rainbow', '1.0.1') },
+  { readableName: 'JustGiving', brand: new SkyThemeBrand('jg', '4') },
+];
+
 const PREVIOUS_SETTINGS_KEY =
   'skyux-playground-theme-mode-spacing-selector-settings';
 
@@ -85,8 +89,9 @@ export class SkyThemeSelectorComponent implements OnInit {
         this.themeSpacing.set(previousSettings.themeSpacing);
         this.themeBrand.set(
           this.brandingValues().find(
-            (theme) => theme.name === previousSettings.themeBrand?.name,
-          ) ?? undefined,
+            (brandInfo) =>
+              brandInfo.brand.name === previousSettings.themeBrand?.name,
+          )?.brand ?? undefined,
         );
       } catch {
         // Bad settings.
