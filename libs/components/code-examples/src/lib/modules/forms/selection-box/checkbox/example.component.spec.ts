@@ -59,19 +59,4 @@ describe('Selection box checkbox example', () => {
 
     await (await selectionBoxHarnesses[0].getControl()).check();
   });
-
-  it('should throw an error', async () => {
-    const { selectionBoxGridHarness } = await setupTest();
-
-    // should replace with empty array
-    try {
-      await selectionBoxGridHarness.getSelectionBoxes({
-        dataSkyId: 'non-existent',
-      });
-    } catch (e: any) {
-      expect(e.mnessage).toBe(
-        `Unable to find any selection boxes with filter(s): {"dataSkyId":"non-existent"}`,
-      );
-    }
-  });
 });

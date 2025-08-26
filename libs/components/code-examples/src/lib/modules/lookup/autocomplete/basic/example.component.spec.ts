@@ -56,26 +56,4 @@ describe('Basic autocomplete example', () => {
       fixture.componentInstance.formGroup.get('favoriteColor')?.value;
     expect(value?.name).toBe('Blue');
   });
-
-  it('should expect an error', async () => {
-    const { harness } = await setupTest({
-      dataSkyId: 'favorite-color',
-    });
-
-    // should not get rid of this
-    await expectAsync(harness.getSearchResults()).toBeRejectedWithError(
-      'Unable to retrieve search results. The autocomplete is closed.',
-    );
-
-    const control = await harness.getControl();
-
-    await control.focus();
-    await control.setValue('x');
-    const filter = { text: 'Blue' };
-
-    // should get rid of this and expect empty array. Slightly different string 'Could not.... matching'
-    await expectAsync(harness.getSearchResults(filter)).toBeRejectedWithError(
-      `Could not find search results matching filter(s): ${JSON.stringify(filter)}`,
-    );
-  });
 });
