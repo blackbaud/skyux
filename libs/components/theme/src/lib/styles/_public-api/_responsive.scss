@@ -1,0 +1,97 @@
+@use 'variables' as vars;
+
+@mixin sky-host-responsive-container-xs-min($encapsulate: true) {
+  @if $encapsulate {
+    :host {
+      @content;
+    }
+
+    :host-context(.sky-responsive-container-xs),
+    :host-context(.sky-responsive-container-sm),
+    :host-context(.sky-responsive-container-md),
+    :host-context(.sky-responsive-container-lg) {
+      @content;
+    }
+  } @else {
+    @content;
+
+    .sky-responsive-container-xs,
+    .sky-responsive-container-sm,
+    .sky-responsive-container-md,
+    .sky-responsive-container-lg {
+      @content;
+    }
+  }
+}
+
+@mixin sky-host-responsive-container-sm-min($encapsulate: true) {
+  @if $encapsulate {
+    @media (min-width: vars.$sky-screen-sm-min) {
+      :host {
+        @content;
+      }
+    }
+
+    :host-context(.sky-responsive-container-sm),
+    :host-context(.sky-responsive-container-md),
+    :host-context(.sky-responsive-container-lg) {
+      @content;
+    }
+  } @else {
+    @media (min-width: vars.$sky-screen-sm-min) {
+      @content;
+    }
+
+    .sky-responsive-container-sm,
+    .sky-responsive-container-md,
+    .sky-responsive-container-lg {
+      @content;
+    }
+  }
+}
+
+@mixin sky-host-responsive-container-md-min($encapsulate: true) {
+  @if $encapsulate {
+    @media (min-width: vars.$sky-screen-md-min) {
+      :host {
+        @content;
+      }
+    }
+
+    :host-context(.sky-responsive-container-md),
+    :host-context(.sky-responsive-container-lg) {
+      @content;
+    }
+  } @else {
+    @media (min-width: vars.$sky-screen-md-min) {
+      @content;
+    }
+
+    .sky-responsive-container-md,
+    .sky-responsive-container-lg {
+      @content;
+    }
+  }
+}
+
+@mixin sky-host-responsive-container-lg-min($encapsulate: true) {
+  @if $encapsulate {
+    @media (min-width: vars.$sky-screen-lg-min) {
+      :host {
+        @content;
+      }
+    }
+
+    :host-context(.sky-responsive-container-lg) {
+      @content;
+    }
+  } @else {
+    @media (min-width: vars.$sky-screen-lg-min) {
+      @content;
+    }
+
+    .sky-responsive-container-lg {
+      @content;
+    }
+  }
+}
