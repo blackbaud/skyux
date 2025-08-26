@@ -33,6 +33,10 @@ export class SkyDescriptionListHarness extends SkyComponentHarness {
   public async getContent(): Promise<SkyDescriptionListContentHarness[]> {
     const items = await this.#getContentEls();
 
+    if (items.length === 0) {
+      throw new Error('Unable to find any description list content.');
+    }
+
     return items;
   }
 

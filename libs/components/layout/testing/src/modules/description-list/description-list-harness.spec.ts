@@ -99,6 +99,16 @@ describe('Description list test harness', () => {
     );
   });
 
+  it('should throw an error if no description list content items are found', async () => {
+    const { descriptionListHarness } = await setupTest({
+      dataSkyId: 'empty-list',
+    });
+
+    await expectAsync(
+      descriptionListHarness.getContent(),
+    ).toBeRejectedWithError('Unable to find any description list content.');
+  });
+
   it('should throw an error if no help inline is found', async () => {
     const { descriptionListHarness } = await setupTest({
       dataSkyId: 'description-list',
