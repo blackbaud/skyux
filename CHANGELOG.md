@@ -1,5 +1,22 @@
 # Changelog
 
+## [13.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.7...13.0.0-alpha.8) (2025-08-26)
+
+
+### Features
+
+* **components/packages:** create schematic to fix deep imports ([#3872](https://github.com/blackbaud/skyux/issues/3872)) ([914b1a9](https://github.com/blackbaud/skyux/commit/914b1a9f1a22919fabddc1707ad033cb23e407ed))
+* **components/tabs:** add code example for vertical tabs with both grouped and ungrouped tabs ([#3868](https://github.com/blackbaud/skyux/issues/3868)) ([73d0c62](https://github.com/blackbaud/skyux/commit/73d0c62d846c683c7196ea17062412111a5e8d66))
+* **components/tabs:** vertical tab groups and top level tabs are aligned and use new interactive states ([#3864](https://github.com/blackbaud/skyux/issues/3864)) ([5d7c9e5](https://github.com/blackbaud/skyux/commit/5d7c9e5056336c08327e4347fbd5a48e755b43a1))
+* pull in latest design tokens ([#3867](https://github.com/blackbaud/skyux/issues/3867)) ([#3871](https://github.com/blackbaud/skyux/issues/3871)) ([83d16bd](https://github.com/blackbaud/skyux/commit/83d16bd9505b1f44b371f7214ba0dbd0ee9b0231))
+* **sdk/stylelint-config-skyux:** add `no-sky-theme-imports` rule to prevent imports from `@skyux/theme/scss/*` in stylesheets ([#3855](https://github.com/blackbaud/skyux/issues/3855)) ([#3875](https://github.com/blackbaud/skyux/issues/3875)) ([47be048](https://github.com/blackbaud/skyux/commit/47be048fa7d2995b24b2bd3c45374437d4094c71))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** row delete destroy should not affect other overlays ([#3861](https://github.com/blackbaud/skyux/issues/3861)) ([#3862](https://github.com/blackbaud/skyux/issues/3862)) ([fd24fbc](https://github.com/blackbaud/skyux/commit/fd24fbc2359b6e9ae1bff12a20a8a5f6a153202e))
+* **components/docs-tools:** scroll to header on page load ([#3869](https://github.com/blackbaud/skyux/issues/3869)) ([#3873](https://github.com/blackbaud/skyux/issues/3873)) ([29287d1](https://github.com/blackbaud/skyux/commit/29287d1a50a70b953f9778b44b74d27c06388e07))
+
 ## [12.36.0](https://github.com/blackbaud/skyux/compare/12.35.0...12.36.0) (2025-08-22)
 
 
