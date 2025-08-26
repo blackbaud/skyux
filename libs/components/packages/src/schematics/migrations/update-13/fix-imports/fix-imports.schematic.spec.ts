@@ -57,6 +57,7 @@ describe('Fix Imports', () => {
     const input = stripIndents`
       import { Component } from '@angular/core';
       import { SkyBreakpoint } from '@skyux/core/lib/modules/breakpoint-observer/breakpoint';
+      import { SkyModalConfigurationInterface } from '@skyux/modals/lib/modules/modal/modal.interface';
 
       @Component({
         selector: 'app-test',
@@ -68,6 +69,7 @@ describe('Fix Imports', () => {
     const output = stripIndents`
       import { Component } from '@angular/core';
       import { SkyBreakpoint } from '@skyux/core';
+      import { SkyModalConfigurationInterface } from '@skyux/modals';
 
       @Component({
         selector: 'app-test',
