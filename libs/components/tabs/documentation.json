@@ -86,7 +86,8 @@
       "codeExamples": {
         "docsIds": [
           "TabsVerticalTabsBasicExampleComponent",
-          "TabsVerticalTabsGroupedExampleComponent"
+          "TabsVerticalTabsGroupedExampleComponent",
+          "TabsVerticalTabsMixedExampleComponent"
         ]
       }
     },
