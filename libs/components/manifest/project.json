@@ -7,6 +7,10 @@
   "targets": {
     "prebuild": {
       "executor": "@nx/js:tsc",
+      "inputs": [
+        "default",
+        "{workspaceRoot}/libs/components/*/documentation.json"
+      ],
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/components/manifest",
