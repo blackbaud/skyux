@@ -251,19 +251,5 @@ describe('Selection modal harness', () => {
       const results = await harness.getSearchResults({ contentText: 'Rachel' });
       expect(results.length).toBe(1);
     });
-
-    // it('should return empty array when no search results exist and no filters provided', async () => {
-    //   const { harness } = await setupTest({
-    //     selectMode: 'multiple',
-    //   });
-
-    //   // this should work but it does not enter and submit search text as expected
-    //   await harness.enterSearchText('z');
-
-    //   const results = await harness.getSearchResults();
-    //   expect(results).toEqual([]);
-    //   // Note: This test may need adjustment based on the actual behavior of the component
-    //   // when no search has been performed. The component might show all results or no results.
-    // });
   });
 });
