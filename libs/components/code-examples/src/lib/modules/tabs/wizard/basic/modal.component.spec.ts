@@ -42,7 +42,9 @@ describe('Wizard tabset demo', () => {
     await expectAsync(tabs[1].isDisabled()).toBeResolvedTo(true);
 
     // You can get the tab button harness from its `tabHeading`
-    const tab2 = await harness.getTabButtonHarness('2. Contact Information');
+    const tab2 = await harness.getTabButtonHarness({
+      tabHeading: '2. Contact Information',
+    });
     await expectAsync(tab2.isActive()).toBeResolvedTo(false);
 
     // You can get the active tab button's harness.
@@ -90,7 +92,9 @@ describe('Wizard tabset demo', () => {
       await harness.clickDropdownTab();
     }
 
-    const tab2 = await harness.getTabButtonHarness('2. Contact Information');
+    const tab2 = await harness.getTabButtonHarness({
+      tabHeading: '2. Contact Information',
+    });
     expect(await tab2.isDisabled()).toBe(false);
 
     const nextButton = await loader.getHarness(
