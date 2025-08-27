@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
+  DestroyRef,
   ElementRef,
   EnvironmentInjector,
   Input,
@@ -22,11 +23,12 @@ import {
   SkyIdService,
   SkyOverlayInstance,
   SkyOverlayService,
+  SkyStackingContextService,
+  SkyStackingContextStratum,
 } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, of, takeUntil } from 'rxjs';
 
 import { parseAffixHorizontalAlignment } from './dropdown-extensions';
 import { SkyDropdownTriggerDirective } from './dropdown-trigger.directive';
@@ -58,7 +60,14 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   readonly #idSvc = inject(SkyIdService);
   readonly #overlayService = inject(SkyOverlayService);
   readonly #themeSvc = inject(SkyThemeService, { optional: true });
-  readonly #zIndex = inject(SKY_STACKING_CONTEXT, { optional: true })?.zIndex;
+  readonly #zIndex =
+    inject(SKY_STACKING_CONTEXT, { optional: true })?.zIndex ??
+    of(
+      inject(SkyStackingContextService).getZIndex(
+        inject(SkyStackingContextStratum),
+        inject(DestroyRef),
+      ),
+    );
   readonly #contentInfoProvider = inject(SkyContentInfoProvider, {
     optional: true,
   });
@@ -443,13 +452,9 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
         environmentInjector: this.#environmentInjector,
       });
 
-      if (this.#zIndex) {
-        this.#zIndex
-          .pipe(takeUntil(this.#ngUnsubscribe))
-          .subscribe((zIndex) => {
-            overlay.componentRef.instance.zIndex = zIndex.toString(10);
-          });
-      }
+      this.#zIndex.pipe(takeUntil(this.#ngUnsubscribe)).subscribe((zIndex) => {
+        overlay.componentRef.instance.zIndex = zIndex.toString(10);
+      });
 
       overlay.attachTemplate(this.menuContainerTemplateRef);
 

@@ -5,8 +5,9 @@
     'sky-summary-action-bar-modal': type() === 1 || type() === 2,
     'sky-summary-action-bar-split-view': type() === 4
   }"
+  [style.z-index]="zIndex"
 >
-  <div class="sky-summary-action-bar-actions">
+  <div class="sky-summary-action-bar-actions" [style.z-index]="zIndex">
     <div aria-live="polite">
       @if (formErrors) {
         @if (formErrors.length > 0) {

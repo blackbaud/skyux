@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ComponentRef,
+  DestroyRef,
   ElementRef,
   EmbeddedViewRef,
   EnvironmentInjector,
@@ -32,7 +33,9 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SkyCoreAdapterService } from '../adapter-service/adapter.service';
 import { SkyIdService } from '../id/id.service';
+import { SkyStackingContextStratum } from '../stacking-context/stacking-context-stratum';
 import { SKY_STACKING_CONTEXT } from '../stacking-context/stacking-context-token';
+import { SkyStackingContextService } from '../stacking-context/stacking-context.service';
 
 import { SkyOverlayAdapterService } from './overlay-adapter.service';
 import { SkyOverlayConfig } from './overlay-config';
@@ -40,21 +43,6 @@ import { SkyOverlayContext } from './overlay-context';
 import { SkyOverlayPosition } from './overlay-position';
 
 const POSITION_DEFAULT: SkyOverlayPosition = 'fixed';
-
-/**
- * Omnibar is 1000.
- * See: https://github.com/blackbaud/auth-client/blob/master/src/omnibar/omnibar.ts#L139
- * ---
- * Modals start their z-indexes at 1040. However, each modal's z-index is a multiple of 10, so it
- * will be difficult to reliably predict a z-index that will always appear above all other
- * layers. Starting the z-index for overlays at a number much greater than modals will accommodate
- * the most reasonable of scenarios.
- * See: https://github.com/blackbaud/skyux-modals/blob/master/src/app/public/modules/modal/modal-host.service.ts#L22
- * (NOTE: It should be noted that modals do not use the overlay service, which is something we
- * should do in the near future to make sure z-indexes are predictable across all component
- * libraries.)
- */
-let uniqueZIndex = 5000;
 
 /**
  * @internal
@@ -84,7 +72,9 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   public showBackdrop = false;
 
-  public zIndex = `${++uniqueZIndex}`;
+  public zIndex = inject(SkyStackingContextService)
+    .getZIndex(inject(SkyStackingContextStratum), inject(DestroyRef))
+    .toString();
 
   protected clipPath$ = new ReplaySubject<string | undefined>(1);
 
