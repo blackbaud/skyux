@@ -1,0 +1,198 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Convert select field to lookup should convert inline template with module 1`] = `
+"import { NgModule } from '@angular/core';
+
+import { TestComponent } from './test.component';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { CommonModule } from '@angular/common';
+import { SkyLookupModule } from '@skyux/lookup';
+
+@NgModule({
+declarations: [TestComponent],
+imports: [SkyLookupModule, NgModel, SkyInputBoxModule, CommonModule],
+exports: [TestComponent],
+})
+export class TestModule {}"
+`;
+
+exports[`Convert select field to lookup should convert select field to lookup 1`] = `
+"import { Component } from '@angular/core';
+
+@Component({
+selector: 'app-test',
+standalone: false,
+templateUrl: './test.component.html',
+styleUrl: './test.component.scss'
+})
+export class TestComponent {
+public formData = {
+modelValue: null,
+};
+public ariaLabel = 'Aria Label';
+public ariaLabelledBy = 'Aria Labelled By';
+// todo: update this to use SkyLookupShowMoreCustomPicker; more info at https://developer.blackbaud.com/skyux/components/lookup?docs-active-tab=development#interface_sky-lookup-show-more-custom-picker
+public customPicker = false;
+public data = [];
+public descriptorKey = 'label';
+public disabled = false;
+public inMemorySearchEnabled = true;
+public multipleSelectOpenButtonText = 'Open Multiple Select';
+public selectMode = 'single';
+public singleSelectClearButtonTitle = 'Clear Selection';
+public singleSelectOpenButtonTitle = 'Open Single Select';
+public singleSelectPlaceholderText = 'Select an option';
+public pickerHeading = 'Picker Heading';
+
+// todo: check whether this is still needed; previously used for the blur event on <sky-select-field>
+onBlur() {}
+onModelChange(value: any) {}
+// todo: check whether this is still needed; previously used for the searchapplied event on <sky-select-field>
+onSearchApplied(value: any) {}
+}"
+`;
+
+exports[`Convert select field to lookup should convert select field to lookup 2`] = `
+"import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TestComponent } from './test.component';
+import { NgModel } from '@angular/forms';
+
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyLookupModule } from '@skyux/lookup';
+
+
+
+@NgModule({
+declarations: [
+TestComponent
+],
+imports: [
+CommonModule,
+NgModel,
+SkyLookupModule,
+SkyInputBoxModule
+]
+})
+export class TestModule { }"
+`;
+
+exports[`Convert select field to lookup should convert select field to lookup 3`] = `
+"import { TestBed } from '@angular/core/testing';
+
+
+import { TestComponent } from './test.component';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { AsyncPipe } from '@angular/common';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { SkyLookupModule } from '@skyux/lookup';
+
+describe('Test component', () => {
+beforeEach(() => {
+TestBed.configureTestingModule({
+declarations: [TestComponent],
+imports: [SkyLookupModule, SkyInputBoxModule, AsyncPipe],
+providers: [
+provideNoopAnimations()
+],
+});
+});
+
+it('should create a test component', () => {
+const fixture = TestBed.createComponent(TestComponent);
+fixture.detectChanges();
+expect(fixture.component).toBeTruthy();
+});
+});"
+`;
+
+exports[`Convert select field to lookup should convert select field to lookup using template expressions 1`] = `
+"import { Component } from '@angular/core';
+
+import { SkyInputBoxModule } from '@skyux/forms';
+import { AsyncPipe } from '@angular/common';
+import { SkyLookupModule } from '@skyux/lookup';
+
+@Component({
+selector: 'app-test',
+imports: [
+SkyLookupModule,
+SkyInputBoxModule,
+AsyncPipe
+],
+templateUrl: './test.component.html',
+styleUrl: './test.component.scss'
+})
+export class TestComponent {
+
+}"
+`;
+
+exports[`Convert select field to lookup should convert select field to use input box with label text 1`] = `
+"import { Component } from '@angular/core';
+
+import { SkyInputBoxModule } from '@skyux/forms';
+import { AsyncPipe } from '@angular/common';
+import { SkyLookupModule } from '@skyux/lookup';
+
+@Component({
+selector: 'app-test',
+imports: [
+SkyLookupModule,
+SkyInputBoxModule,
+AsyncPipe
+],
+templateUrl: './test.component.html',
+styleUrl: './test.component.scss'
+})
+export class TestComponent {
+
+}"
+`;
+
+exports[`Convert select field to lookup should convert select field to use input box with label text, leaving the parent 1`] = `
+"import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TestComponent } from './test.component';
+import { NgModel } from '@angular/forms';
+
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyLookupModule } from '@skyux/lookup';
+
+
+
+@NgModule({
+declarations: [
+TestComponent
+],
+imports: [
+CommonModule,
+NgModel,
+SkyLookupModule,
+SkyInputBoxModule
+]
+})
+export class TestModule { }"
+`;
+
+exports[`Convert select field to lookup should convert select field without input box if the label is too complicated 1`] = `
+"import { Component } from '@angular/core';
+
+import { SkyInputBoxModule } from '@skyux/forms';
+import { AsyncPipe } from '@angular/common';
+import { SkyLookupModule } from '@skyux/lookup';
+
+@Component({
+selector: 'app-test',
+imports: [
+SkyLookupModule,
+SkyInputBoxModule,
+AsyncPipe
+],
+templateUrl: './test.component.html',
+styleUrl: './test.component.scss'
+})
+export class TestComponent {
+
+}"
+`;
