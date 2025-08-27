@@ -59,11 +59,8 @@
     >
       <option [ngValue]="undefined">Blackbaud</option>
       @for (brandingValue of brandingValues(); track brandingValue) {
-        <option [ngValue]="brandingValue">
-          {{
-            brandingValue.name.charAt(0).toUpperCase() +
-              brandingValue.name.substring(1)
-          }}
+        <option [ngValue]="brandingValue.brand">
+          {{ brandingValue.readableName }}
         </option>
       }
     </select>

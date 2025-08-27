@@ -1,16 +1,19 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+@use 'libs/components/tabs/src/lib/modules/vertical-tabset/vertical-tabset-button.scss'
+  as verticalTabsetButtonMixins;
 
 @include compatMixins.sky-default-overrides('.sky-vertical-tabset-group') {
-  --sky-override-vertical-tabset-button-disabled-font-color: buttontext;
   --sky-override-vertical-tabset-group-border: 1px solid
     #{$sky-border-color-neutral-light};
   --sky-override-vertical-tabset-group-button-font-color: buttontext;
+  --sky-override-vertical-tabset-group-button-background-color-hover: transparent;
+  --sky-override-vertical-tabset-group-header-selected-font-color: buttontext;
+  --sky-override-vertical-tabset-group-header-selected-font-weight: 600;
   --sky-override-vertical-tabset-group-button-padding: #{$sky-padding};
-  --sky-override-vertical-tabset-group-content-padding-left: 0;
+  --sky-override-vertical-tabset-group-content-padding: 0 0 0 #{$sky-padding};
   --sky-override-vertical-tabset-group-gap: #{$sky-margin-half};
   --sky-override-vertical-tabset-group-header-align-items: flex-start;
-  --sky-override-vertical-tabset-group-header-background-color: transparent;
   --sky-override-vertical-tabset-group-margin: #{$sky-margin-half} 0
     #{$sky-margin-half} #{$sky-margin-half};
 }
@@ -21,27 +24,22 @@
 }
 
 :host:has(~ sky-vertical-tabset-group) .sky-vertical-tabset-group {
-  margin-bottom: var(
-    --sky-override-vertical-tabset-group-gap,
-    var(--sky-space-gap-action_group-l)
-  );
+  margin-bottom: var(--sky-override-vertical-tabset-group-gap, 0);
 }
 
 .sky-vertical-tabset-group-header {
   button {
-    color: var(
-      --sky-override-vertical-tabset-group-button-font-color,
-      var(--sky-color-text-default)
+    --sky-comp-override-expansion-indicator-color: var(
+      --sky-color-text-deemphasized
     );
+    // The padding here can be consolidated into the tabset button styles when support for default theme is removed.
     padding: var(
       --sky-override-vertical-tabset-group-button-padding,
-      var(--sky-comp-tab-vertical-group-button-space-inset-top)
-        var(--sky-comp-tab-vertical-group-button-space-inset-right)
-        var(--sky-comp-tab-vertical-group-button-space-inset-bottom)
-        var(--sky-comp-tab-vertical-group-button-space-inset-left)
+      var(--sky-comp-tab-vertical-space-inset-top)
+        var(--sky-comp-tab-vertical-space-inset-right)
+        var(--sky-comp-tab-vertical-space-inset-bottom)
+        var(--sky-comp-tab-vertical-space-inset-left)
     );
-    cursor: pointer;
-    display: flex;
     justify-content: space-between;
     border: none;
     width: 100%;
@@ -50,30 +48,58 @@
       --sky-override-vertical-tabset-group-header-align-items,
       center
     );
-    background-color: var(
-      --sky-override-vertical-tabset-group-header-background-color,
-      var(--sky-color-background-nav-base)
+    margin-bottom: var(--sky-space-gap-action_group-m);
+
+    // Needed for default theme. Remove when default theme support is removed.
+    color: var(
+      --sky-override-vertical-tabset-group-button-font-color,
+      var(--sky-color-text-deemphasized)
     );
 
-    &.sky-vertical-tabset-button-disabled {
-      pointer-events: none;
-      color: var(
-        --sky-override-vertical-tabset-button-disabled-font-color,
-        var(--sky-color-text-deemphasized)
+    // Needed for default theme. Remove when default theme support is removed.
+    &:hover {
+      background-color: var(
+        --sky-override-vertical-tabset-group-button-background-color-hover,
+        var(--sky-color-background-nav-hover)
       );
     }
   }
 
-  &:has(.sky-vertical-tabset-button-disabled) {
-    cursor: not-allowed;
+  &.sky-vertical-tabset-group-header-active {
+    button {
+      --sky-comp-override-expansion-indicator-color: var(
+        --sky-color-text-selected
+      );
+      color: var(
+        --sky-override-vertical-tabset-group-header-selected-text-color,
+        var(--sky-color-text-selected)
+      );
+      font-weight: var(
+        --sky-override-vertical-tabset-group-header-selected-font-weight,
+        var(--sky-font-style-emphasized)
+      );
+    }
+  }
+
+  .sky-vertical-tabset-group-expansion-indicator {
+    margin-left: var(--sky-space-gap-text_action-s);
   }
 }
 
 .sky-vertical-tabset-group-content {
   overflow: hidden;
   border-top: var(--sky-override-vertical-tabset-group-border, none);
-  padding-left: var(
-    --sky-override-vertical-tabset-group-content-padding-left,
-    var(--sky-space-inline-s)
+}
+
+.sky-vertical-tabset-group-header-sub-open
+  ~ .sky-vertical-tabset-group-content {
+  padding: var(
+    --sky-override-vertical-tabset-group-content-padding,
+    var(--sky-comp-tab-vertical-subgroup-space-inset-top)
+      var(--sky-comp-tab-vertical-subgroup-space-inset-right)
+      var(--sky-comp-tab-vertical-subgroup-space-inset-bottom)
+      var(--sky-comp-tab-vertical-subgroup-space-inset-left)
   );
 }
+
+@include verticalTabsetButtonMixins.sky-vertical-tabset-button();
