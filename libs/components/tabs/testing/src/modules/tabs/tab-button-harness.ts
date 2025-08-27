@@ -1,5 +1,4 @@
-import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyComponentHarness } from '@skyux/core/testing';
+import { ComponentHarness, HarnessPredicate } from '@angular/cdk/testing';
 
 import { SkyTabButtonHarnessFilters } from './tab-button-harness-filters';
 import { SkyTabContentHarness } from './tab-content-harness';
@@ -7,7 +6,7 @@ import { SkyTabContentHarness } from './tab-content-harness';
 /**
  * Harness for interacting with a tab button component in tests.
  */
-export class SkyTabButtonHarness extends SkyComponentHarness {
+export class SkyTabButtonHarness extends ComponentHarness {
   /**
    * @internal
    */
@@ -22,7 +21,7 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
   public static with(
     filters: SkyTabButtonHarnessFilters,
   ): HarnessPredicate<SkyTabButtonHarness> {
-    return SkyTabButtonHarness.getDataSkyIdPredicate(filters).addOption(
+    return new HarnessPredicate(SkyTabButtonHarness, filters).addOption(
       'tabHeading',
       filters.tabHeading,
       async (harness, tabHeading) => {

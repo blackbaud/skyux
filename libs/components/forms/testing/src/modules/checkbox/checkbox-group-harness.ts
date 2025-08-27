@@ -61,7 +61,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of harnesses for the checkboxes in the checkbox group.
+   * Gets an array of checkboxes in the checkbox group.
    */
   public async getCheckboxes(
     filters?: SkyCheckboxHarnessFilters,

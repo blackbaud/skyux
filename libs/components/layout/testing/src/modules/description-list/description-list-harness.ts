@@ -28,7 +28,7 @@ export class SkyDescriptionListHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the description list's content items.
+   * Gets the description list content items.
    */
   public async getContent(): Promise<SkyDescriptionListContentHarness[]> {
     const items = await this.#getContentEls();

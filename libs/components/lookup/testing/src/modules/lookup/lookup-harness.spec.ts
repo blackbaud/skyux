@@ -147,6 +147,31 @@ function testSingleSelect(dataSkyId: string): void {
     ]);
   });
 
+  it('should return a specific search result harness using filters', async () => {
+    const { lookupHarness, lookupInputHarness } = await setupTest({
+      dataSkyId,
+    });
+
+    await lookupInputHarness.setValue('d');
+
+    const result = await lookupHarness.getSearchResult({ text: 'Leonard' });
+
+    await expectAsync(result.getText()).toBeResolvedTo('Leonard');
+    await expectAsync(result.getDescriptorValue()).toBeResolvedTo('Leonard');
+  });
+
+  it('should throw error if getting search result when autocomplete not open', async () => {
+    const { lookupHarness } = await setupTest({
+      dataSkyId: dataSkyId,
+    });
+
+    await expectAsync(
+      lookupHarness.getSearchResult({ text: 'Leonard' }),
+    ).toBeRejectedWithError(
+      'Unable to retrieve search result. The lookup is closed.',
+    );
+  });
+
   it('should select a search result from the autocomplete results', async () => {
     const { lookupHarness, lookupInputHarness } = await setupTest({
       dataSkyId: dataSkyId,

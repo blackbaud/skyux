@@ -34,7 +34,7 @@ export class SkyRepeaterHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a list of child repeater items.
+   * Gets an array of repeater items.
    */
   public async getRepeaterItems(
     filters?: SkyRepeaterItemHarnessFilters,

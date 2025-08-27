@@ -51,7 +51,7 @@ export class SkyVerticalTabsetGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the `SkyVerticalTabButtonHarness` for a specific tab under this group based on filters.
+   * Gets a specific tab under this group that matches certain criteria.
    */
   public async getVerticalTab(
     filters: SkyVerticalTabButtonHarnessFilters,

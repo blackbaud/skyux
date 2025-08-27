@@ -25,7 +25,7 @@ export class SkySelectionBoxGridHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific selection box that meets certain criteria.
+   * Gets a specific selection box that meets certain criteria.
    */
   public async getSelectionBox(
     filter: SkySelectionBoxHarnessFilters,

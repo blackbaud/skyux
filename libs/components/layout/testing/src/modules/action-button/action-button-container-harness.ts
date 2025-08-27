@@ -26,7 +26,7 @@ export class SkyActionButtonContainerHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an action button that matches the given filter.
+   * Gets a specific action button that meets certain criteria.
    */
   public async getActionButton(
     filter: SkyActionButtonHarnessFilters,
@@ -35,7 +35,7 @@ export class SkyActionButtonContainerHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the action buttons.
+   * Gets an array of action buttons.
    */
   public async getActionButtons(
     filters?: SkyActionButtonHarnessFilters,

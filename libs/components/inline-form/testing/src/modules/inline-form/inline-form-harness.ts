@@ -30,7 +30,7 @@ export class SkyInlineFormHarness extends SkyQueryableComponentHarness {
    */
   public async getButton(
     filters: SkyInlineFormButtonHarnessFilters,
-  ): Promise<SkyInlineFormButtonHarness | null> {
+  ): Promise<SkyInlineFormButtonHarness> {
     if (!(await this.isFormExpanded())) {
       throw new Error(
         'Inline form is not expanded. The buttons cannot be retrieved when not visible.',
@@ -40,7 +40,7 @@ export class SkyInlineFormHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets the inline form's buttons.
+   * Gets an array of inline form buttons.
    */
   public async getButtons(
     filters?: SkyInlineFormButtonHarnessFilters,

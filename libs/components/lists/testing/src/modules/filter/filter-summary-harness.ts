@@ -25,7 +25,7 @@ export class SkyFilterSummaryHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific toolbar item that meets certain criteria.
+   * Gets a filter summary item that meets certain criteria.
    */
   public async getItem(
     filter: SkyFilterSummaryItemHarnessFilters,
@@ -34,7 +34,7 @@ export class SkyFilterSummaryHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all toolbar items.
+   * Gets an array of filter summary items.
    */
   public async getItems(
     filters?: SkyFilterSummaryItemHarnessFilters,

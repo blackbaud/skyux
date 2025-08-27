@@ -97,7 +97,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of autocomplete search result harnesses.
+   * Gets an array of autocomplete search results.
    */
   public async getSearchResults(
     filters?: SkyAutocompleteSearchResultHarnessFilters,

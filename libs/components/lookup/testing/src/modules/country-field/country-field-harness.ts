@@ -102,7 +102,7 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
   }
 
   /**
-   * Gets an array of country field search result harnesses.
+   * Gets an array of country field search results.
    */
   public override async getSearchResults(
     filters?: SkyCountryFieldSearchResultHarnessFilters,

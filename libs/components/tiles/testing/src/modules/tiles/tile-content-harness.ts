@@ -13,7 +13,7 @@ export class SkyTileContentHarness extends SkyQueryableComponentHarness {
   public static hostSelector = 'sky-tile-content';
 
   /**
-   * Gets a harness for a specific tile content section that meets certain criteria.
+   * Gets a harness for a tile content section that meets certain criteria.
    */
   public async getSection(
     filter: SkyTileContentSectionHarnessFilters,

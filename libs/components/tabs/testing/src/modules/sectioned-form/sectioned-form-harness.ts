@@ -65,6 +65,9 @@ export class SkySectionedFormHarness extends SkyComponentHarness {
     throw new Error('Unable to find active content because it is not visible.');
   }
 
+  /**
+   * Gets a specific section that meets certain criteria.
+   */
   public async getSection(
     filters: SkySectionedFormSectionHarnessFilters,
   ): Promise<SkySectionedFormSectionHarness> {
@@ -73,6 +76,9 @@ export class SkySectionedFormHarness extends SkyComponentHarness {
     )();
   }
 
+  /**
+   * Gets an array of sections.
+   */
   public async getSections(
     filters?: SkySectionedFormSectionHarnessFilters,
   ): Promise<SkySectionedFormSectionHarness[]> {

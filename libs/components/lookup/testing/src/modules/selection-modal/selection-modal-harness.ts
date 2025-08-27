@@ -56,7 +56,6 @@ export class SkySelectionModalHarness extends ComponentHarness {
   }
 
   /**
-   *
    * Gets the search input's aria-label.
    */
   public async getSearchAriaLabel(): Promise<string | null> {
@@ -120,7 +119,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
   }
 
   /**
-   * Gets a list of search results.
+   * Gets an array of search results.
    */
   public async getSearchResults(
     filters?: SkySelectionModalSearchResultHarnessFilters,

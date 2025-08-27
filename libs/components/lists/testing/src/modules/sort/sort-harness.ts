@@ -56,7 +56,7 @@ export class SkySortHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific sort item that meets certain criteria.
+   * Gets a specific sort item that meets certain criteria.
    */
   public async getItem(
     filters: SkySortItemHarnessFilters,

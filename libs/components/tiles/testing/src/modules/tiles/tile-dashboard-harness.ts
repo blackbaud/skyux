@@ -25,7 +25,7 @@ export class SkyTileDashboardHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific tile  that meets certain criteria.
+   * Gets a harness for a tile that meets certain criteria.
    */
   public async getTile(filter: SkyTileHarnessFilters): Promise<SkyTileHarness> {
     return await this.locatorFor(SkyTileHarness.with(filter))();

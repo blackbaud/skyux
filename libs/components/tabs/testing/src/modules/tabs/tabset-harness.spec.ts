@@ -179,7 +179,9 @@ describe('Tab harness', () => {
 
   it('should get a tab button harness by tab heading', async () => {
     const { tabsetHarness } = await setupTest();
-    const tabOne = await tabsetHarness.getTabButtonHarness('Tab 1');
+    const tabOne = await tabsetHarness.getTabButtonHarness({
+      tabHeading: 'Tab 1',
+    });
 
     await expectAsync(tabOne.getTabHeading()).toBeResolvedTo('Tab 1');
   });
@@ -283,8 +285,9 @@ describe('Tab harness', () => {
       fixture: ComponentFixture<TestComponent>;
     }> {
       const { tabsetHarness, fixture } = await setupTest();
-      const tabButtonHarness =
-        await tabsetHarness.getTabButtonHarness(tabHeading);
+      const tabButtonHarness = await tabsetHarness.getTabButtonHarness({
+        tabHeading,
+      });
       return { tabButtonHarness, tabsetHarness, fixture };
     }
 
@@ -370,7 +373,9 @@ describe('Tab harness', () => {
       const { tabsetHarness, fixture } = await setupTest();
       await shrinkScreen(fixture);
       await tabsetHarness.clickDropdownTab();
-      const tabButtonHarness = await tabsetHarness.getTabButtonHarness('Tab 1');
+      const tabButtonHarness = await tabsetHarness.getTabButtonHarness({
+        tabHeading: 'Tab 1',
+      });
 
       await expectAsync(tabButtonHarness.isActive()).toBeResolvedTo(true);
     });
@@ -457,7 +462,9 @@ describe('Wizard tab harness', () => {
   describe('tab button harness', () => {
     it('should throw an error if trying to click remove tab button in wizard mode', async () => {
       const { wizardHarness } = await setupTest();
-      const tabButtonHarness = await wizardHarness.getTabButtonHarness('Tab 1');
+      const tabButtonHarness = await wizardHarness.getTabButtonHarness({
+        tabHeading: 'Tab 1',
+      });
       await expectAsync(
         tabButtonHarness.clickRemoveButton(),
       ).toBeRejectedWithError(
@@ -467,7 +474,9 @@ describe('Wizard tab harness', () => {
 
     it('should throw an error if attempting to get the permalink in wizard mode', async () => {
       const { wizardHarness } = await setupTest();
-      const tabButtonHarness = await wizardHarness.getTabButtonHarness('Tab 1');
+      const tabButtonHarness = await wizardHarness.getTabButtonHarness({
+        tabHeading: 'Tab 1',
+      });
       await expectAsync(tabButtonHarness.getPermalink()).toBeRejectedWithError(
         'Cannot get permalink for tab button in a wizard tabset.',
       );

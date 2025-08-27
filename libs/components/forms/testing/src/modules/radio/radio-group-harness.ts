@@ -146,7 +146,7 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of harnesses for the radio buttons in the radio group.
+   * Gets an array of the radio buttons in the radio group.
    */
   public async getRadioButtons(
     filters?: SkyRadioHarnessFilters,

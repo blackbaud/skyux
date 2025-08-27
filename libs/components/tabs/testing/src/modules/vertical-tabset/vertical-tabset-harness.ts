@@ -100,7 +100,7 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Get the vertical tabset group by `SkyVerticalTabsetGroupHarnessFilters`
+   * Get a vertical tabset group that meets certain criteria.
    */
   public async getGroup(
     filters: SkyVerticalTabsetGroupHarnessFilters,

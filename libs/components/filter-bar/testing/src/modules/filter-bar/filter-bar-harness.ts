@@ -48,7 +48,7 @@ export class SkyFilterBarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific filter item that meets certain criteria.
+   * Gets a specific filter item that meets certain criteria.
    */
   public async getItem(
     filter: SkyFilterItemHarnessFilters,
@@ -57,7 +57,7 @@ export class SkyFilterBarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all filter items.
+   * Gets an array of filter items.
    */
   public async getItems(
     filters?: SkyFilterItemHarnessFilters,

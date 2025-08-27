@@ -233,7 +233,7 @@ describe('Confirm harness', () => {
       await expectAsync(
         confirmHarness.getCustomButtons({}),
       ).toBeRejectedWithError(
-        'Cannot get custom buttons for confirm of type OK.',
+        'Cannot get custom button non `Custom` type confirm modals.',
       );
     });
   });
@@ -272,7 +272,7 @@ describe('Confirm harness', () => {
       await expectAsync(
         confirmHarness.getCustomButton({ text: 'OK' }),
       ).toBeRejectedWithError(
-        'Cannot get custom button for confirm of type OK.',
+        'Cannot get custom button non `Custom` type confirm modals.',
       );
     });
   });

@@ -112,7 +112,24 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
   }
 
   /**
-   * Returns lookup search result harnesses.
+   * Gets a specific lookup search result that meets certain criteria.
+   */
+  public override async getSearchResult(
+    filters: SkyLookupSearchResultHarnessFilters,
+  ): Promise<SkyLookupSearchResultHarness> {
+    const overlay = await this.#getOverlay();
+    if (!overlay) {
+      throw new Error(
+        'Unable to retrieve search result. The lookup is closed.',
+      );
+    }
+    return await overlay.queryHarness(
+      SkyLookupSearchResultHarness.with(filters),
+    );
+  }
+
+  /**
+   * Returns an array of lookup search results.
    */
   public override async getSearchResults(
     filters?: SkyLookupSearchResultHarnessFilters,
