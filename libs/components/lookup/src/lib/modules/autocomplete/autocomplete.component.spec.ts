@@ -219,7 +219,7 @@ describe('Autocomplete component', () => {
     fixture: ComponentFixture<unknown>,
   ): SkyAutocompleteAdapterService {
     return fixture.debugElement
-      .query(By.directive(SkyAutocompleteComponent))
+      .query(By.css('.sky-autocomplete'))
       .injector.get(SkyAutocompleteAdapterService);
   }
 
@@ -716,6 +716,8 @@ describe('Autocomplete component', () => {
     });
 
     it('should set the width of the dropdown when a search is performed', fakeAsync(() => {
+      fixture.detectChanges();
+
       const adapterService = getAdapterService(fixture);
 
       const adapterSpy = spyOn(
@@ -741,6 +743,8 @@ describe('Autocomplete component', () => {
     }));
 
     it('should set the width of the dropdown on window resize', fakeAsync(() => {
+      fixture.detectChanges();
+
       const adapterService = getAdapterService(fixture);
 
       fixture.detectChanges();
