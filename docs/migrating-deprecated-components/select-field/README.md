@@ -199,9 +199,9 @@ const inputBoxHarness = await loader.getHarness(
 expect(await inputBoxHarness.getLabelText()).toBe('Department');
 ```
 
-### 2. Template Migration Patterns
+### 6. Template Migration Patterns
 
-Pattern A: With sky-input-box (clear static label)
+#### Pattern A: With sky-input-box (clear static label)
 
 ```html
 <!-- Before -->
@@ -224,7 +224,7 @@ Pattern A: With sky-input-box (clear static label)
 </sky-input-box>
 ```
 
-Pattern B: Without sky-input-box (aria-labelledby)
+#### Pattern B: Without sky-input-box (aria-labelledby)
 
 ```html
 <!-- Before -->
@@ -245,7 +245,7 @@ Pattern B: Without sky-input-box (aria-labelledby)
 </sky-lookup>
 ```
 
-Pattern C: Without sky-input-box (conditional/no label)
+#### Pattern C: Without sky-input-box (conditional/no label)
 
 ```html
 <!-- Before: Conditional label -->
@@ -269,7 +269,7 @@ Pattern C: Without sky-input-box (conditional/no label)
 </sky-lookup>
 ```
 
-### 3. Required Attribute Updates
+### 7. Required Attribute Updates
 
 **Always add these to sky-lookup:**
 
@@ -430,7 +430,7 @@ Pattern C: Without sky-input-box (conditional/no label)
 </sky-lookup>
 ```
 
-### 2. Critical Value Access Change (Single Select)
+### 3. Critical Value Access Change (Single Select)
 
 **Before (sky-select-field):**
 
@@ -454,7 +454,7 @@ onSelectionChange(value: MyObject[] | undefined) {
 }
 ```
 
-### 3. Module Import Patterns
+### 4. Module Import Patterns
 
 **Standalone Component:**
 
@@ -479,7 +479,7 @@ imports: [
 ];
 ```
 
-### 4. Required Test Updates
+### 5. Required Test Updates
 
 **Test Setup (Add to beforeEach):**
 
