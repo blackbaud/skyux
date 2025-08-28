@@ -33,6 +33,7 @@
   --sky-override-datepicker-table-border-spacing: 2px;
   --sky-override-datepicker-td-padding: 1px;
   --sky-override-datepicker-title-font-style: 700;
+  --sky-override-datepicker-title-font-weight: 12px;
   --sky-override-datepicker-vertical-padding: 0;
   --sky-override-datepicker-weekday-font-size: 12px;
   --sky-override-datepicker-weekday-font-weight: 900;
@@ -72,6 +73,7 @@
   --sky-override-datepicker-table-border-spacing: 2px;
   --sky-override-datepicker-td-padding: 1px;
   --sky-override-datepicker-title-font-style: 700;
+  --sky-override-datepicker-title-font-weight: 12px;
   --sky-override-datepicker-vertical-padding: 5px;
   --sky-override-datepicker-weekday-font-size: 12.8px;
   --sky-override-datepicker-weekday-font-weight: 900;
@@ -154,6 +156,72 @@
     }
   }
 
+  .sky-datepicker-btn-previous {
+    margin-right: var(
+      --sky-override-datepicker-nav-space,
+      var(--sky-space-gap-action_group-s)
+    );
+
+    // Rules can be removed when default and modern v1 are removed. Classes will handle this.
+    padding: var(
+      --sky-override-datepicker-nav-button-padding,
+      var(--sky-comp-button-borderless-space-inset-top)
+        var(--sky-comp-button-borderless-space-inset-right)
+        var(--sky-comp-button-borderless-space-inset-bottom)
+        var(--sky-comp-button-borderless-space-inset-left)
+    );
+    height: auto;
+    width: auto;
+  }
+
+  .sky-datepicker-btn-next {
+    margin-left: var(
+      --sky-override-datepicker-nav-space,
+      var(--sky-space-gap-action_group-s)
+    );
+
+    // Rules can be removed when default and modern v1 are removed. Classes will handle this.
+    padding: var(
+      --sky-override-datepicker-nav-button-padding,
+      var(--sky-comp-button-borderless-space-inset-top)
+        var(--sky-comp-button-borderless-space-inset-right)
+        var(--sky-comp-button-borderless-space-inset-bottom)
+        var(--sky-comp-button-borderless-space-inset-left)
+    );
+    height: auto;
+    width: auto;
+  }
+
+  // Rules can be removed when default and modern v1 are removed. Classes will handle this.
+  .sky-datepicker-calendar-title {
+    font-size: var(
+      --sky-override-datepicker-title-font-weight,
+      var(--sky-font-size-body-m)
+    );
+    font-weight: var(
+      --sky-override-datepicker-title-font-style,
+      var(--sky-font-style-default)
+    );
+    padding: var(
+      --sky-override-datepicker-nav-button-padding,
+      var(--sky-comp-button-borderless-space-inset-top)
+        var(--sky-comp-button-borderless-space-inset-right)
+        var(--sky-comp-button-borderless-space-inset-bottom)
+        var(--sky-comp-button-borderless-space-inset-left)
+    );
+  }
+
+  .sky-btn-link {
+    color: var(--sky-color-text-default);
+    padding: var(
+      --sky-override-datepicker-nav-button-padding,
+      var(--sky-comp-button-borderless-space-inset-top)
+        var(--sky-comp-button-borderless-space-inset-right)
+        var(--sky-comp-button-borderless-space-inset-bottom)
+        var(--sky-comp-button-borderless-space-inset-left)
+    );
+  }
+
   .sky-btn-default {
     background-color: var(
       --sky-override-datepicker-button-background-color,
@@ -216,43 +284,6 @@
             var(--sky-border-width-action-disabled)
           )
           var(--sky-color-border-action-tertiary-disabled)
-      );
-    }
-
-    &.sky-datepicker-btn-next,
-    &.sky-datepicker-btn-previous {
-      padding: var(
-        --sky-override-datepicker-nav-button-padding,
-        var(--sky-comp-button-borderless-space-inset-top)
-          var(--sky-comp-button-borderless-space-inset-right)
-          var(--sky-comp-button-borderless-space-inset-bottom)
-          var(--sky-comp-button-borderless-space-inset-left)
-      );
-    }
-
-    &.sky-datepicker-btn-previous {
-      margin-right: var(
-        --sky-override-datepicker-nav-space,
-        var(--sky-space-gap-action_group-s)
-      );
-    }
-
-    &.sky-datepicker-btn-next {
-      margin-left: var(
-        --sky-override-datepicker-nav-space,
-        var(--sky-space-gap-action_group-s)
-      );
-    }
-
-    &.sky-datepicker-calendar-title {
-      font-weight: var(
-        --sky-override-datepicker-title-font-style,
-        var(--sky-font-style-emphasized)
-      );
-      padding: var(
-        --sky-override-datepicker-nav-button-padding,
-        var(--sky-comp-button-borderless-space-inset-top) auto
-          var(--sky-comp-button-borderless-space-inset-bottom)
       );
     }
   }

@@ -1,15 +1,14 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, inject } from '@angular/core';
 
 import { Observable, ReplaySubject } from 'rxjs';
 
 import { SkyTheme } from './theme';
 import { SkyThemeBrand } from './theme-brand';
+import { SkyThemeBrandService } from './theme-brand.service';
 import { SkyThemeMode } from './theme-mode';
 import { SkyThemeSettings } from './theme-settings';
 import { SkyThemeSettingsChange } from './theme-settings-change';
 import { SkyThemeSpacing } from './theme-spacing';
-
-const BRAND_BLACKBAUD = 'blackbaud';
 
 function assertCurrentSettings(
   currentSettings: SkyThemeSettings | undefined,
@@ -24,6 +23,8 @@ function assertCurrentSettings(
  */
 @Injectable()
 export class SkyThemeService {
+  #brandSvc = inject(SkyThemeBrandService);
+
   /**
    * Notifies consumers when the current theme settings have changed.
    */
@@ -33,15 +34,11 @@ export class SkyThemeService {
 
   #current: SkyThemeSettings | undefined;
 
-  #brandLinkElement: HTMLLinkElement | undefined;
-
   #hostEl: any | undefined;
 
   #renderer: Renderer2 | undefined;
 
   #settings: ReplaySubject<SkyThemeSettingsChange>;
-
-  #registeredBrands = new Map<string, SkyThemeBrand>();
 
   #_settingsObs: Observable<SkyThemeSettingsChange>;
 
@@ -70,7 +67,7 @@ export class SkyThemeService {
 
     if (registeredBrands) {
       for (const brand of registeredBrands) {
-        this.#registeredBrands.set(brand.name, brand);
+        this.#brandSvc.registerBrand(brand);
       }
     }
 
@@ -83,6 +80,7 @@ export class SkyThemeService {
    */
   public destroy(): void {
     this.#settings.complete();
+    this.#brandSvc.destroy();
 
     this.#hostEl = this.#renderer = undefined;
   }
@@ -105,9 +103,9 @@ export class SkyThemeService {
 
   /**
    * Updates the current theme brand.
-   * @param brand The new theme brand to apply.
+   * @param brand The new theme brand to apply, or undefined to clear the current brand.
    */
-  public setThemeBrand(brand: SkyThemeBrand): void {
+  public setThemeBrand(brand: SkyThemeBrand | undefined): void {
     this.#updateThemeProperty('brand', brand);
   }
 
@@ -127,7 +125,7 @@ export class SkyThemeService {
     let settings: SkyThemeSettings;
 
     if (settingsOrTheme instanceof SkyThemeSettings) {
-      settings = this.#applyRegisteredBrand(settingsOrTheme);
+      settings = settingsOrTheme;
     } else {
       const current = this.#current;
 
@@ -146,7 +144,20 @@ export class SkyThemeService {
     this.#applyThemeClass(previous, settings, 'theme');
     this.#applyThemeClass(previous, settings, 'mode', 'supportedModes');
     this.#applyThemeClass(previous, settings, 'spacing', 'supportedSpacing');
-    this.#applyThemeClass(previous, settings, 'brand');
+
+    if (this.#hostEl) {
+      // Validate branding support
+      if (settings.brand && !settings.theme.supportsBranding) {
+        throw new Error('Branding is not supported for the given theme.');
+      }
+
+      this.#brandSvc.updateBrand(
+        this.#hostEl,
+        this.#getRenderer(),
+        settings.brand,
+        previous?.brand,
+      );
+    }
 
     this.#settings.next({
       currentSettings: settings,
@@ -157,35 +168,16 @@ export class SkyThemeService {
   }
 
   public registerBrand(brand: SkyThemeBrand): void {
-    this.#registeredBrands.set(brand.name, brand);
+    this.#brandSvc.registerBrand(brand);
   }
 
   public unregisterBrand(name: string): void {
-    this.#registeredBrands.delete(name);
-  }
-
-  #applyRegisteredBrand(settings: SkyThemeSettings): SkyThemeSettings {
-    const brandName = settings.brand?.name;
-
-    if (brandName) {
-      const registeredBrand = this.#registeredBrands.get(brandName);
-
-      if (registeredBrand) {
-        settings = new SkyThemeSettings(
-          settings.theme,
-          settings.mode,
-          settings.spacing,
-          registeredBrand,
-        );
-      }
-    }
-
-    return settings;
+    this.#brandSvc.unregisterBrand(name);
   }
 
   #updateThemeProperty(
     property: 'mode' | 'spacing' | 'brand',
-    value: SkyThemeMode | SkyThemeSpacing | SkyThemeBrand,
+    value: SkyThemeMode | SkyThemeSpacing | SkyThemeBrand | undefined,
   ): void {
     const current = this.#current;
 
@@ -206,7 +198,7 @@ export class SkyThemeService {
       default:
     }
 
-    if (supportedValues && !supportedValues.includes(value)) {
+    if (supportedValues && value && !supportedValues.includes(value)) {
       throw new Error(
         `The current theme does not support the specified ${property}.`,
       );
@@ -233,7 +225,7 @@ export class SkyThemeService {
   #applyThemeClass(
     previous: SkyThemeSettings | undefined,
     current: SkyThemeSettings,
-    prop: 'theme' | 'mode' | 'spacing' | 'brand',
+    prop: 'theme' | 'mode' | 'spacing',
     supportedProp?: 'supportedModes' | 'supportedSpacing',
   ): void {
     const currentSetting = current[prop];
@@ -242,39 +234,16 @@ export class SkyThemeService {
 
     if (!previousClass || previousClass !== currentClass) {
       this.#updateHostClass(
-        prop,
         previousClass,
         currentClass,
         currentSetting,
         current,
         supportedProp,
       );
-
-      if (prop === 'brand') {
-        if (!current.theme.supportsBranding && currentSetting) {
-          throw new Error('Branding is not supported for the given theme.');
-        }
-
-        this.#updateBrandStylesheet(current.brand, previous?.brand);
-      }
-    }
-  }
-
-  #updateBrandStylesheet(
-    currentBrand: SkyThemeBrand | undefined,
-    previousBrand: SkyThemeBrand | undefined,
-  ): void {
-    if (previousBrand && previousBrand.name !== BRAND_BLACKBAUD) {
-      this.#removeBrandStylesheet();
-    }
-
-    if (currentBrand && currentBrand.name !== BRAND_BLACKBAUD) {
-      this.#addBrandStylesheet(currentBrand);
     }
   }
 
   #updateHostClass(
-    prop: 'theme' | 'mode' | 'spacing' | 'brand',
     previousClass: string | undefined,
     currentClass: string | undefined,
     currentSetting:
@@ -290,60 +259,11 @@ export class SkyThemeService {
       this.#removeHostClass(previousClass);
     }
 
-    if (prop === 'brand') {
-      if (currentClass && !previousClass) {
-        this.#addHostClass('sky-theme-brand-base');
-      } else if (!currentClass && previousClass) {
-        this.#removeHostClass('sky-theme-brand-base');
-      }
-    }
-
     if (
       currentClass &&
       this.#isSupportedProperty(currentSetting, current, supportedProp)
     ) {
       this.#addHostClass(currentClass);
-    }
-  }
-
-  #addBrandStylesheet(brand: SkyThemeBrand): void {
-    if (brand.name !== BRAND_BLACKBAUD) {
-      // Use styleUrl if provided, otherwise build the default URL
-      const styleUrl =
-        brand.styleUrl ||
-        `https://sky.blackbaudcdn.net/static/skyux-brand-${brand.name}/${brand.version}/assets/scss/${brand.name}.css`;
-
-      const renderer = this.#getRenderer();
-
-      this.#brandLinkElement = renderer.createElement(
-        'link',
-      ) as HTMLLinkElement;
-
-      renderer.appendChild(this.#hostEl, this.#brandLinkElement);
-
-      renderer.setAttribute(this.#brandLinkElement, 'rel', 'stylesheet');
-      renderer.setAttribute(this.#brandLinkElement, 'href', styleUrl);
-
-      if (brand.sriHash) {
-        renderer.setAttribute(
-          this.#brandLinkElement,
-          'integrity',
-          brand.sriHash,
-        );
-
-        renderer.setAttribute(
-          this.#brandLinkElement,
-          'crossorigin',
-          'anonymous',
-        );
-      }
-    }
-  }
-
-  #removeBrandStylesheet(): void {
-    if (this.#brandLinkElement) {
-      this.#getRenderer().removeChild(this.#hostEl, this.#brandLinkElement);
-      this.#brandLinkElement = undefined;
     }
   }
 

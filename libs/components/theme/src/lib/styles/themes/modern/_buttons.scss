@@ -540,7 +540,7 @@
   }
 
   .sky-btn-link-inline {
-    background-color: var(--sky-color-background-action-tertiary-base);
+    background-color: transparent;
     border-radius: var(
       --sky-override-button-link-inline-border-radius,
       var(--sky-border-radius-s)
@@ -550,7 +550,7 @@
     font-size: var(--sky-override-button-link-inline-font-size, inherit);
 
     &:focus-visible:not(:active) {
-      background-color: var(--sky-color-background-action-tertiary-focus);
+      background-color: transparent;
       box-shadow: var(
         --sky-override-button-link-inline-box-shadow-focus,
         0 0 0 var(--sky-border-width-action-focus)
@@ -559,11 +559,11 @@
     }
 
     &:active {
-      background-color: var(--sky-color-background-action-tertiary-active);
+      background-color: transparent;
     }
 
     &:hover {
-      background-color: var(--sky-color-background-action-tertiary-hover);
+      background-color: transparent;
     }
 
     &:hover,
@@ -685,7 +685,7 @@
     );
     color: var(--sky-color-text-deemphasized);
     font-size: var(--sky-font-size-body-m);
-    font-weight: var(--sky-font-weight-body-m);
+    font-weight: var(--sky-font-style-body-m);
     line-height: var(
       --sky-override-tab-line-height,
       var(--sky-font-line_height-body-m)
@@ -897,7 +897,7 @@
         border-radius: 0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0;
         border-left: var(
             --sky-override-selected-dropdown-item-border-width,
-            var(--sky-border-width-selected-l)
+            var(--sky-border-width-selected-m)
           )
           var(--sky-border-style-accent) var(--sky-color-border-selected);
         padding: var(--sky-comp-tab-horizontal-space-inset-top)
@@ -906,7 +906,7 @@
           calc(
             var(--sky-comp-tab-horizontal-space-inset-left) - var(
                 --sky-override-selected-dropdown-item-border-width,
-                var(--sky-border-width-selected-l)
+                var(--sky-border-width-selected-m)
               )
           );
       }

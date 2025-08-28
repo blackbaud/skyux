@@ -2,6 +2,21 @@ import { SkyThemeBrandData } from './theme-serialization-types';
 
 /**
  * @internal
+ * Defines properties for a mask icon.
+ */
+export interface SkyThemeBrandMaskIcon {
+  /**
+   * The URL of the mask icon.
+   */
+  url: string;
+  /**
+   * The color of the mask icon.
+   */
+  color: string;
+}
+
+/**
+ * @internal
  * Defines properties of SKY UX theme branding.
  */
 export class SkyThemeBrand {
@@ -22,6 +37,9 @@ export class SkyThemeBrand {
    * adjusting for a specified theme brand. This defaults to `sky-theme-brand-<name>`
    * @param styleUrl The URL of the stylesheet to load for this brand
    * @param sriHash The subresource integrity hash for the stylesheet
+   * @param title The title to display for this brand
+   * @param faviconUrl The URL of the favicon to use for this brand
+   * @param maskIcon The mask icon configuration for this brand
    */
   constructor(
     public readonly name: string,
@@ -29,6 +47,9 @@ export class SkyThemeBrand {
     hostClass?: string,
     public readonly styleUrl?: string,
     public readonly sriHash?: string,
+    public readonly title?: string,
+    public readonly faviconUrl?: string,
+    public readonly maskIcon?: SkyThemeBrandMaskIcon,
   ) {
     this.hostClass = hostClass;
 
@@ -56,13 +77,24 @@ export class SkyThemeBrand {
       result.hostClass = this.hostClass;
     }
 
-    // Include styleUrl and sriHash if they are provided
     if (this.styleUrl) {
       result.styleUrl = this.styleUrl;
     }
 
     if (this.sriHash) {
       result.sriHash = this.sriHash;
+    }
+
+    if (this.title) {
+      result.title = this.title;
+    }
+
+    if (this.faviconUrl) {
+      result.faviconUrl = this.faviconUrl;
+    }
+
+    if (this.maskIcon) {
+      result.maskIcon = this.maskIcon;
     }
 
     return result;
@@ -79,6 +111,9 @@ export class SkyThemeBrand {
       data.hostClass,
       data.styleUrl,
       data.sriHash,
+      data.title,
+      data.faviconUrl,
+      data.maskIcon,
     );
   }
 

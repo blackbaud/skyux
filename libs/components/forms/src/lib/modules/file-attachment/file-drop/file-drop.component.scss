@@ -70,10 +70,10 @@
     --sky-font-size-display-3
   );
   --sky-override-file-drop-text-header-font-weight: var(
-    --sky-font-weight-display-3
+    --sky-font-style-display-3
   );
   --sky-override-file-drop-text-font-size: #{$sky-font-size-base};
-  --sky-override-file-drop-text-font-weight: var(--sky-font-weight-body-m);
+  --sky-override-file-drop-text-font-weight: var(--sky-font-style-body-m);
   --sky-override-file-drop-text-header-line-height: var(
     --modern-line_height-110
   );
@@ -329,11 +329,11 @@ button.sky-file-drop {
   cursor: default;
 
   sky-input-box {
-    --sky-background-color-input-box-group: var(
+    --sky-comp-override-input-box-group-background-color: var(
       --sky-override-file-drop-link-input-background-color,
       var(--bb-color-white)
     );
-    --sky-background-color-input-box-group-focused: var(
+    --sky-comp-override-input-box-group-background-color-focused: var(
       --sky-override-file-drop-link-input-background-color,
       var(--bb-color-white)
     );
@@ -354,7 +354,7 @@ button.sky-file-drop {
   font-style: var(--sky-font-style-body-m);
   font-weight: var(
     --sky-override-file-drop-text-header-font-weight,
-    var(--sky-font-weight-body-m)
+    var(--sky-font-style-body-m)
   );
   line-height: var(
     --sky-override-file-drop-text-header-line-height,
@@ -375,7 +375,7 @@ button.sky-file-drop {
   font-style: var(--sky-font-style-body-s);
   font-weight: var(
     --sky-override-file-drop-text-font-weight,
-    var(--sky-font-weight-body-s)
+    var(--sky-font-style-body-s)
   );
   line-height: var(
     --sky-override-file-drop-text-line-height,
@@ -411,7 +411,7 @@ button.sky-file-drop {
     var(--sky-font-size-input-label)
   );
   font-style: var(--sky-font-style-input-label);
-  font-weight: var(--sky-font-weight-input-label);
+  font-weight: var(--sky-font-style-input-label);
   letter-spacing: var(--sky-font-letter_spacing-input-label);
   line-height: var(--sky-font-line_height-input-label);
 }

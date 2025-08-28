@@ -1,0 +1,14 @@
+{
+  "servers": {
+    "github": {
+      "url": "https://api.githubcopilot.com/mcp/",
+      "type": "http"
+    },
+    "azure-devops": {
+      "command": "npx",
+      "args": ["-y", "@azure-devops/mcp", "blackbaud"],
+      "type": "stdio"
+    }
+  },
+  "inputs": []
+}

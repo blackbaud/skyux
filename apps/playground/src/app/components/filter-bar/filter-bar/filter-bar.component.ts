@@ -1,11 +1,5 @@
 import { Component } from '@angular/core';
 import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
-import {
-  SkySelectionModalSearchArgs,
-  SkySelectionModalSearchResult,
-} from '@skyux/lookup';
-
-import { Observable, of } from 'rxjs';
 
 import { TestModalComponent } from './test-modal.component';
 
@@ -21,77 +15,37 @@ export class FilterBarComponent {
   }
 
   public set filters(value: SkyFilterBarFilterItem[] | undefined) {
-    value.toString = (): string => {
-      return (
-        '[' +
-        this.filters
-          .map(
-            (filter) =>
-              `{ ${filter.name}${filter.filterValue ? ': ' + (filter.filterValue.displayValue ?? filter.filterValue.value) : ''} }`,
-          )
-          .join(', ') +
-        ' ]'
-      );
-    };
+    if (value) {
+      value.toString = (): string => {
+        return (
+          '[' +
+          this.filters
+            .map(
+              (filter) =>
+                `{ ${filter.filterId}${filter.filterValue ? ': ' + (filter.filterValue.displayValue ?? filter.filterValue.value) : ''} }`,
+            )
+            .join(', ') +
+          ' ]'
+        );
+      };
+    }
 
     this.#_filters = value;
 
     console.log(value);
   }
 
-  public summaryItems = [
-    {
-      value: 10000000,
-      label: 'Raised',
-      valueFormat: { format: 'currency', truncate: true },
-      helpPopoverContent: 'test content',
-    },
-    { value: 10, label: 'Elements', helpPopoverContent: 'test content2' },
-  ];
+  public selectedFilterIds: string[] | undefined;
+  #selectedFilterIds: string[] | undefined;
+
+  public filterModalConfig = { modalComponent: TestModalComponent };
+
+  public labelText = 'filter 1';
 
   #_filters: SkyFilterBarFilterItem[] | undefined;
 
-  #filters: SkyFilterBarFilterItem[] = [
-    {
-      name: 'filter 1',
-      id: '1',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 2',
-      id: '2',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 3',
-      id: '3',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 4',
-      id: '4',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 5',
-      id: '5',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 6',
-      id: '6',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 7',
-      id: '7',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
-    {
-      name: 'filter 8',
-      id: '8',
-      filterModalConfig: { modalComponent: TestModalComponent },
-    },
+  #defaultFilters: SkyFilterBarFilterItem[] = [
+    { filterId: '2', filterValue: { value: 1, displayValue: '1' } },
   ];
 
   constructor() {
@@ -99,34 +53,18 @@ export class FilterBarComponent {
   }
 
   public resetFilters(): void {
-    this.filters = [
-      {
-        name: 'filter 1',
-        id: '1',
-        filterModalConfig: { modalComponent: TestModalComponent },
-      },
-      {
-        name: 'filter 2',
-        id: '2',
-        filterModalConfig: { modalComponent: TestModalComponent },
-      },
-      {
-        name: 'filter 3',
-        id: '3',
-        filterModalConfig: { modalComponent: TestModalComponent },
-      },
-    ];
+    this.filters = this.#defaultFilters;
+    this.selectedFilterIds = ['1', '2', '3'];
+    this.#selectedFilterIds = undefined;
   }
 
-  public searchFn = (
-    args: SkySelectionModalSearchArgs,
-  ): Observable<SkySelectionModalSearchResult> => {
-    let retVal = this.#filters;
-    if (args?.searchText) {
-      retVal = this.#filters.filter((filter) =>
-        filter.name.includes(args.searchText),
-      );
-    }
-    return of({ items: retVal, totalCount: retVal.length });
-  };
+  public toggleSelectedFilters(): void {
+    const selectedFilters = this.selectedFilterIds;
+    this.selectedFilterIds = this.#selectedFilterIds;
+    this.#selectedFilterIds = selectedFilters;
+  }
+
+  public toggleLabelText(): void {
+    this.labelText = this.labelText === 'filter 1' ? 'Filter 1' : 'filter 1';
+  }
 }

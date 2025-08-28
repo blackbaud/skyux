@@ -4,9 +4,10 @@ import {
   Tree,
   UpdateRecorder,
 } from '@angular-devkit/schematics';
-import { isImported, parse5, parseSourceFile } from '@angular/cdk/schematics';
+import { isImported, parseSourceFile } from '@angular/cdk/schematics';
 import { getEOL } from '@schematics/angular/utility/eol';
 
+import { logOnce } from '../../utility/log-once';
 import {
   ElementWithLocation,
   SwapTagCallback,
@@ -26,6 +27,7 @@ import { visitProjectFiles } from '../../utility/visit-project-files';
 function moveHeading(
   definitionList: ElementWithLocation,
   recorder: UpdateRecorder,
+  content: string,
   offset: number,
   eol: string,
 ): void {
@@ -34,13 +36,16 @@ function moveHeading(
     definitionList,
   )[0];
   if (isParentNode(heading)) {
-    const headingText = parse5.serialize(heading);
+    const headingText = content.slice(
+      heading.sourceCodeLocation.startTag.endOffset,
+      heading.sourceCodeLocation.endTag.startOffset,
+    );
     const indent = ' '.repeat(
       definitionList.sourceCodeLocation.startTag.startCol - 1,
     );
     recorder.insertLeft(
       offset + definitionList.sourceCodeLocation.startTag.startOffset,
-      `<h3>${headingText}</h3>${eol}${indent}`,
+      `<h3 class="sky-margin-stacked-sm">${headingText}</h3>${eol}${indent}`,
     );
     recorder.remove(
       offset + heading.sourceCodeLocation.startOffset,
@@ -69,7 +74,7 @@ function definitionListTagSwap(
         node.sourceCodeLocation.startTag.endOffset,
       );
       if (oldTag === 'sky-definition-list') {
-        let value = `<${tags[oldTag]} mode="longDescription"`;
+        let value = `<${tags[oldTag]} mode="horizontal"`;
         // Copy over any other attributes that are not in the new tag.
         for (const attr of node.attrs) {
           // eslint-disable-next-line @cspell/spellchecker
@@ -114,7 +119,7 @@ function convertTemplate(
   const fragment = parseTemplate(content);
   const definitionLists = getElementsByTagName('sky-definition-list', fragment);
   for (const definitionList of definitionLists) {
-    moveHeading(definitionList, recorder, offset, eol);
+    moveHeading(definitionList, recorder, content, offset, eol);
     swapTags(
       content,
       recorder,
@@ -122,6 +127,13 @@ function convertTemplate(
       Object.keys(tags) as (keyof typeof tags)[],
       definitionListTagSwap(context),
       definitionList,
+    );
+  }
+  if (definitionLists.length > 0) {
+    logOnce(
+      context,
+      'info',
+      `Converted ${definitionLists.length} <sky-definition-list> component(s) to <sky-description-list> component(s). Next steps: https://developer.blackbaud.com/skyux/learn/develop/deprecation/definition-list`,
     );
   }
 }

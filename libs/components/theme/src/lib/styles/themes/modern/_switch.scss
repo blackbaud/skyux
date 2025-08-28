@@ -89,7 +89,7 @@
         }
 
         &.sky-switch-control-icon {
-          background-color: var(--sky-color-background-selected-soft);
+          background: var(--sky-color-background-selected-soft);
           color: var(
             --sky-override-switch-icon-checked-color-no-group,
             var(--sky-color-icon-selected)
@@ -97,7 +97,7 @@
           border-color: var(--sky-color-border-selected);
         }
 
-        background-color: var(--sky-color-background-selected-heavy);
+        background: var(--sky-color-background-selected-switch-base);
         border-width: var(--sky-border-width-selected-s);
         border-color: var(
           --sky-override-switch-border-color-checked,
@@ -152,7 +152,7 @@
     }
 
     &:disabled + .sky-switch-control {
-      background-color: var(--sky-color-background-input-disabled);
+      background-color: var(--sky-color-background-selected-switch-disabled);
       border-width: var(--sky-border-width-input-disabled);
       border-color: var(--sky-color-border-switch-disabled);
       box-shadow: var(
@@ -226,7 +226,12 @@
     max-width: var(--sky-size-switch);
     height: var(--sky-size-switch);
     flex: 1 0 var(--sky-size-switch);
-    margin: 0 var(--sky-space-gap-label-s) auto auto;
+    margin: 0
+      var(
+        --sky-comp-override-switch-label-margin-right,
+        var(--sky-space-gap-label-s)
+      )
+      auto auto;
     display: inline-flex;
     position: relative;
     border: var(--sky-border-width-input-base) solid
@@ -247,9 +252,7 @@
       width: var(
         --sky-override-icon-switch-size,
         calc(
-          calc(
-              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-            ) +
+          var(--sky-size-icon-m) +
             calc(
               var(--sky-comp-button-icon-space-inset-left) +
                 var(--sky-comp-button-icon-space-inset-right)
@@ -259,9 +262,7 @@
       height: var(
         --sky-override-icon-switch-size,
         calc(
-          calc(
-              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-            ) +
+          var(--sky-size-icon-m) +
             calc(
               var(--sky-comp-button-icon-space-inset-top) +
                 var(--sky-comp-button-icon-space-inset-bottom)
@@ -272,9 +273,7 @@
         var(
           --sky-override-icon-switch-size,
           calc(
-            calc(
-                var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-              ) +
+            var(--sky-size-icon-m) +
               calc(
                 var(--sky-comp-button-icon-space-inset-left) +
                   var(--sky-comp-button-icon-space-inset-right)
@@ -317,7 +316,7 @@
 
   .sky-switch-control {
     background-color: var(--sky-color-background-action-tertiary-base);
-    border-width: var(--sky-width-action-base);
+    border-width: var(--sky-border-width-action-base);
     border-color: var(--sky-color-border-action-tertiary-base);
   }
 
@@ -375,9 +374,7 @@
       width: var(
         --sky-override-icon-switch-size-group,
         calc(
-          calc(
-              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-            ) +
+          var(--sky-size-icon-m) +
             calc(
               var(--sky-comp-button-icon-space-inset-left) +
                 var(--sky-comp-button-icon-space-inset-right)
@@ -387,9 +384,7 @@
       height: var(
         --sky-override-icon-switch-size-group,
         calc(
-          calc(
-              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-            ) +
+          var(--sky-size-icon-m) +
             calc(
               var(--sky-comp-button-icon-space-inset-top) +
                 var(--sky-comp-button-icon-space-inset-bottom)

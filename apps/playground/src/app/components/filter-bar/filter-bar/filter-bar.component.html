@@ -1,18 +1,77 @@
-<sky-filter-bar [filterAsyncSearchFn]="searchFn" [(filters)]="filters">
-  <sky-filter-bar-summary>
-    @for (summaryItem of summaryItems; track summaryItem.label) {
-      <sky-filter-bar-summary-item
-        [helpPopoverContent]="summaryItem.helpPopoverContent"
-        [label]="summaryItem.label"
-        [value]="summaryItem.value"
-        [valueFormat]="summaryItem.valueFormat"
+<sky-page layout="list">
+  <sky-page-header pageTitle="Filter bar" />
+  <sky-page-content>
+    <sky-filter-bar
+      [(selectedFilterIds)]="selectedFilterIds"
+      [(filters)]="filters"
+    >
+      <sky-filter-item-modal
+        filterId="1"
+        [labelText]="labelText"
+        [filterModalConfig]="filterModalConfig"
       />
-    }
-  </sky-filter-bar-summary>
-</sky-filter-bar>
-<div>Filters:</div>
-<div>{{ filters }}</div>
-
-<button type="button" class="sky-btn sky-btn-default" (click)="resetFilters()">
-  Reset filters
-</button>
+      <sky-filter-item-modal
+        filterId="2"
+        labelText="filter 2"
+        [filterModalConfig]="filterModalConfig"
+      />
+      <sky-filter-item-modal
+        filterId="3"
+        labelText="filter 3"
+        [filterModalConfig]="filterModalConfig"
+      />
+      <sky-filter-item-modal
+        filterId="4"
+        labelText="filter 4"
+        [filterModalConfig]="filterModalConfig"
+      />
+      <sky-filter-item-modal
+        filterId="5"
+        labelText="filter 5"
+        [filterModalConfig]="filterModalConfig"
+      />
+      <sky-filter-item-modal
+        filterId="6"
+        labelText="filter 6"
+        [filterModalConfig]="filterModalConfig"
+      />
+      <sky-filter-item-modal
+        filterId="7"
+        labelText="filter 7"
+        [filterModalConfig]="filterModalConfig"
+      />
+      <sky-filter-item-modal
+        filterId="8"
+        labelText="filter 8"
+        [filterModalConfig]="filterModalConfig"
+      />
+    </sky-filter-bar>
+    <div>Selected filters:</div>
+    <div>{{ selectedFilterIds }}</div>
+    <div>Filters:</div>
+    <div>{{ filters }}</div>
+    <div class="button-row">
+      <button
+        type="button"
+        class="sky-btn sky-btn-default"
+        (click)="resetFilters()"
+      >
+        Reset filters
+      </button>
+      <button
+        type="button"
+        class="sky-btn sky-btn-default"
+        (click)="toggleSelectedFilters()"
+      >
+        Toggle filter picker
+      </button>
+      <button
+        type="button"
+        class="sky-btn sky-btn-default"
+        (click)="toggleLabelText()"
+      >
+        Toggle filter label
+      </button>
+    </div>
+  </sky-page-content>
+</sky-page>

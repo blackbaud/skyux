@@ -15,6 +15,7 @@ import {
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
   SKY_STACKING_CONTEXT,
+  SkyOverlayInstance,
   SkyOverlayService,
   SkyScrollableHostService,
 } from '@skyux/core';
@@ -88,6 +89,7 @@ export class SkyAgGridRowDeleteDirective
   readonly #elementRef = inject(ElementRef<HTMLElement>);
   readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #overlayService = inject(SkyOverlayService);
+  #overlay: SkyOverlayInstance | undefined;
   readonly #rowDeleteSvc: SkyAgGridRowDeleteContext;
   readonly #scrollableHostService = inject(SkyScrollableHostService);
   readonly #stackingContext = inject(SKY_STACKING_CONTEXT, { optional: true });
@@ -195,7 +197,7 @@ export class SkyAgGridRowDeleteDirective
   }
 
   public ngAfterContentInit(): void {
-    const overlay = this.#overlayService.create({
+    this.#overlay = this.#overlayService.create({
       enableScroll: true,
       environmentInjector: this.#environmentInjector,
       showBackdrop: false,
@@ -204,7 +206,7 @@ export class SkyAgGridRowDeleteDirective
       enablePointerEvents: true,
     });
 
-    overlay.attachComponent(SkyAgGridRowDeleteComponent, [
+    this.#overlay.attachComponent(SkyAgGridRowDeleteComponent, [
       {
         provide: SKY_AG_GRID_ROW_DELETE_CONTEXT,
         useValue: this.#rowDeleteSvc,
@@ -213,20 +215,22 @@ export class SkyAgGridRowDeleteDirective
     this.#zIndex
       .pipe(
         takeUntil(this.#ngUnsubscribe),
-        takeUntil(overlay.closed),
+        takeUntil(this.#overlay.closed),
         distinctUntilChanged(),
       )
       .subscribe((zIndex) => {
-        overlay.componentRef.instance.zIndex = zIndex.toString(10);
+        if (this.#overlay) {
+          this.#overlay.componentRef.instance.zIndex = zIndex.toString(10);
+        }
       });
     this.#clipPath
       .pipe(
         takeUntil(this.#ngUnsubscribe),
-        takeUntil(overlay.closed),
+        takeUntil(this.#overlay.closed),
         distinctUntilChanged(),
       )
       .subscribe((clipPath) => {
-        overlay.componentRef.instance.updateClipPath(clipPath);
+        this.#overlay?.componentRef.instance.updateClipPath(clipPath);
       });
   }
 
@@ -246,6 +250,8 @@ export class SkyAgGridRowDeleteDirective
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
     this.#rowDeleteSvc.subscription.unsubscribe();
-    this.#overlayService.closeAll();
+    if (this.#overlay) {
+      this.#overlayService.close(this.#overlay);
+    }
   }
 }

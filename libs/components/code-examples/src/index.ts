@@ -61,7 +61,9 @@ export { FormsSelectionBoxCheckboxExampleComponent } from './lib/modules/forms/s
 export { FormsSelectionBoxRadioExampleComponent } from './lib/modules/forms/selection-box/radio/example.component';
 export { FormsToggleSwitchBasicExampleComponent } from './lib/modules/forms/toggle-switch/basic/example.component';
 export { FormsToggleSwitchHelpKeyExampleComponent } from './lib/modules/forms/toggle-switch/help-key/example.component';
-export { HelpInlineBasicExampleComponent } from './lib/modules/help-inline/basic/example.component';
+export { HelpInlineActionClickExampleComponent } from './lib/modules/help-inline/action-click/example.component';
+export { HelpInlineHelpKeyExampleComponent } from './lib/modules/help-inline/help-key/example.component';
+export { HelpInlinePopoverExampleComponent } from './lib/modules/help-inline/popover/example.component';
 export { IconBasicExampleComponent } from './lib/modules/icon/basic/example.component';
 export { IconIconButtonExampleComponent } from './lib/modules/icon/icon-button/example.component';
 export { IndicatorsAlertBasicExampleComponent } from './lib/modules/indicators/alert/basic/example.component';

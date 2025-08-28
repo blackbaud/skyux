@@ -1,11 +1,13 @@
+/**
+ * Represents a value for a filter item.
+ */
 export interface SkyFilterBarFilterValue {
   /**
-   * The raw value of the filter.
-   * @required
+   * The real value for the filter.
    */
   value: unknown;
   /**
-   * A string representation of the value that is displayed by the filter bar when the filter is set.
+   * A human-readable string for use with values that can't be displayed to the user.
    */
   displayValue?: string;
 }

@@ -16,11 +16,9 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
     'var(--sky-override-ag-grid-border-radius, var(--sky-border-radius-s))',
   cardShadow: 'none',
   cellHorizontalPadding:
-    'var(--sky-override-ag-grid-cell-horizontal-padding, var(--sky-space-inset-letterbox-2_3-left-m))',
+    'var(--sky-override-ag-grid-cell-horizontal-padding, var(--sky-comp-grid-cell-space-inset-left))',
   cellEditingBorder:
     'var(--sky-override-ag-grid-cell-focus-border-width, var(--sky-border-width-input-focus)) solid var(--sky-override-ag-grid-cell-focus-border-color, var(--sky-color-border-input-focus))',
-  checkboxCheckedBackgroundColor:
-    'var(--sky-override-ag-grid-checkbox-selected-background-color, var(--sky-color-background-selected-heavy))',
   checkboxCheckedBorderColor: { ref: 'checkboxCheckedShapeColor' },
   checkboxCheckedShapeColor:
     'var(--sky-override-switch-checked-color, var(--sky-color-icon-inverse, var(--sky-text-color-default)))',
@@ -41,7 +39,8 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
     'var(--sky-override-ag-grid-font-size, var(--sky-font-size-body-m))',
   foregroundColor:
     'var(--sky-override-ag-grid-foreground-color, var(--sky-color-text-default))',
-  headerBackgroundColor: 'var(--sky-background-color-page-default)',
+  headerBackgroundColor:
+    'var(--sky-comp-override-list-header-background-color, var(--sky-background-color-page-default))',
   headerColumnBorder:
     'var(--sky-override-ag-grid-border-width, var(--sky-border-width-divider)) var(--sky-override-ag-grid-border-style, var(--sky-border-style-divider)) var(--sky-override-ag-grid-border-color, transparent)',
   headerColumnBorderHeight: '100%',
@@ -53,7 +52,7 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
     'var(--sky-override-ag-grid-header-divider-width, var(--sky-border-width-divider))',
   headerFontFamily: { ref: 'fontFamily' },
   headerHeight:
-    'var(--sky-override-ag-grid-header-height, calc(calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) + calc(var(--sky-space-inset-letterbox-2_3-top-m) + var(--sky-space-inset-letterbox-2_3-bottom-m))))',
+    'var(--sky-override-ag-grid-header-height, calc(calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) + calc(var(--sky-comp-grid-cell-space-inset-top) + var(--sky-comp-grid-cell-space-inset-bottom))))',
   headerRowBorder:
     'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-separator-row)) var(--sky-override-ag-grid-header-row-border-style, var(--sky-border-style-separator-row)) var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
   iconSize: 12,
@@ -73,7 +72,7 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
   rowBorder:
     'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-separator-row)) var(--sky-override-ag-grid-row-border-style, var(--sky-border-style-separator-row)) var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
   rowHeight:
-    'var(--sky-override-ag-grid-row-height, calc(calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) + calc(var(--sky-space-inset-letterbox-2_3-top-m) + var(--sky-space-inset-letterbox-2_3-bottom-m))))',
+    'var(--sky-override-ag-grid-row-height, calc(calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) + calc(var(--sky-comp-grid-cell-space-inset-top) + var(--sky-comp-grid-cell-space-inset-bottom))))',
   rowHoverColor: 'transparent',
   selectedRowBackgroundColor:
     'var(--sky-override-ag-grid-row-selected-color, var(--sky-color-background-selected-soft))',
