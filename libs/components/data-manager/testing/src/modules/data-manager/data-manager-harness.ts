@@ -38,7 +38,8 @@ export class SkyDataManagerHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a specific data view that meets certain criteria.
+   * Gets a specific data view based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getView(
     filter: SkyDataViewHarnessFilters,
@@ -47,7 +48,9 @@ export class SkyDataManagerHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of data views.
+   * Gets an array of data views based on the filter criteria.
+   * If no filter is provided, returns all data views.
+   * @param filters The optional filter criteria.
    */
   public async getViews(
     filters?: SkyDataViewHarnessFilters,

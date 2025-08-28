@@ -52,7 +52,8 @@ export class SkyDropdownMenuHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets a specific dropdown menu item that meets certain criteria.
+   * Gets a specific dropdown menu item based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getItem(
     filter: SkyDropdownItemHarnessFilters,
@@ -61,7 +62,9 @@ export class SkyDropdownMenuHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets an array of dropdown menu items.
+   * Gets an array of dropdown menu items based on the filter criteria.
+   * If no filter is provided, returns all dropdown menu items.
+   * @param filters The optional filter criteria.
    */
   public async getItems(
     filters?: SkyDropdownItemHarnessFilters,

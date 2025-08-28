@@ -52,7 +52,8 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a specific checkbox that meets certain criteria.
+   * Gets a specific checkbox based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getCheckbox(
     filter: SkyCheckboxHarnessFilters,
@@ -61,7 +62,9 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of checkboxes in the checkbox group.
+   * Gets an array of checkboxes based on the filter criteria.
+   * If no filter is provided, returns all checkboxes.
+   * @param filter The optional filter criteria.
    */
   public async getCheckboxes(
     filters?: SkyCheckboxHarnessFilters,

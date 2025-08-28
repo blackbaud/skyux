@@ -137,7 +137,8 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a specific radio button that meets certain criteria.
+   * Gets a specific radio button based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getRadioButton(
     filter: SkyRadioHarnessFilters,
@@ -146,7 +147,9 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of the radio buttons in the radio group.
+   * Gets an array of radio buttons based on the filter criteria.
+   * If no filter is provided, returns all radio buttons.
+   * @param filters The optional filter criteria.
    */
   public async getRadioButtons(
     filters?: SkyRadioHarnessFilters,

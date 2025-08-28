@@ -35,7 +35,8 @@ export class SkyTokensHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a specific token that meets certain criteria.
+   * Gets a specific token based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getToken(
     filter: SkyTokenHarnessFilters,
@@ -44,7 +45,9 @@ export class SkyTokensHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of tokens.
+   * Gets an array of tokens based on the filter criteria.
+   * If no filter is provided, returns all tokens.
+   * @param filters The optional filter criteria.
    */
   public async getTokens(
     filters?: SkyTokenHarnessFilters,

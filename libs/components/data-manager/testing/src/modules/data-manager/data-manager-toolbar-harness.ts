@@ -78,7 +78,8 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific data manager toolbar left item that meets certain criteria.
+   * Gets a specific data manager toolbar left item based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getLeftItem(
     filter: SkyDataManagerToolbarLeftItemHarnessFilters,
@@ -89,7 +90,9 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all data manager toolbar left items.
+   * Gets an array of data manager toolbar left items based on the filter criteria.
+   * If no filter is provided, returns all data manager toolbar left items.
+   * @param filters The optional filter criteria.
    */
   public async getLeftItems(
     filters?: SkyDataManagerToolbarLeftItemHarnessFilters,
@@ -112,7 +115,8 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific data manager toolbar primary item that meets certain criteria.
+   * Gets a specific data manager toolbar primary item based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getPrimaryItem(
     filter: SkyDataManagerToolbarPrimaryItemHarnessFilters,
@@ -123,7 +127,9 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all data manager toolbar primary items.
+   * Gets an array of data manager toolbar primary items based on the filter criteria.
+   * If no filter is provided, returns all data manager toolbar primary items.
+   * @param filters The optional filter criteria.
    */
   public async getPrimaryItems(
     filters?: SkyDataManagerToolbarPrimaryItemHarnessFilters,
@@ -134,7 +140,8 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific data manager toolbar right item that meets certain criteria.
+   * Gets a specific data manager toolbar right item based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getRightItem(
     filter: SkyDataManagerToolbarRightItemHarnessFilters,
@@ -145,7 +152,9 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all data manager toolbar right items.
+   * Gets an array of data manager toolbar right items based on the filter criteria.
+   * If no filter is provided, returns all data manager toolbar right items.
+   * @param filters The optional filter criteria.
    */
   public async getRightItems(
     filters?: SkyDataManagerToolbarRightItemHarnessFilters,
@@ -167,7 +176,8 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific toolbar section that meets certain criteria.
+   * Gets a specific toolbar section based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getSection(
     filter: SkyDataManagerToolbarSectionHarnessFilters,
@@ -178,7 +188,9 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all toolbar sections.
+   * Gets an array of toolbar sections based on the filter criteria.
+   * If no filter is provided, returns all toolbar sections.
+   * @param filters The optional filter criteria.
    */
   public async getSections(
     filters?: SkyDataManagerToolbarSectionHarnessFilters,

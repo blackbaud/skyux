@@ -58,7 +58,8 @@ export class SkyLinkListHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a specific link list item that meets certain criteria.
+   * Gets a specific link list item based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getListItem(
     filter: SkyLinkListItemHarnessFilters,
@@ -67,7 +68,9 @@ export class SkyLinkListHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of link list items.
+   * Gets an array of link list items based on the filter criteria.
+   * If no filter is provided, returns all link list items.
+   * @param filter The optional filter criteria.
    */
   public async getListItems(
     filter?: SkyLinkListItemHarnessFilters,

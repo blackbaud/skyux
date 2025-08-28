@@ -112,7 +112,8 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
   }
 
   /**
-   * Gets a specific lookup search result that meets certain criteria.
+   * Gets a specific lookup search result based on the filter criteria.
+   * @param filters The filter criteria.
    */
   public override async getSearchResult(
     filters: SkyLookupSearchResultHarnessFilters,
@@ -129,7 +130,9 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
   }
 
   /**
-   * Returns an array of lookup search results.
+   * Gets an array of lookup search results based on the filter criteria.
+   * If no filter is provided, returns all lookup search results.
+   * @param filters The optional filter criteria.
    */
   public override async getSearchResults(
     filters?: SkyLookupSearchResultHarnessFilters,

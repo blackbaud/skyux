@@ -32,7 +32,8 @@ export class SkySummaryActionBarSecondaryActionsHarness extends SkyComponentHarn
   }
 
   /**
-   * Gets a specific action that meets certain criteria.
+   * Gets a specific action based on the filter criteria.
+   * @param filters The filter criteria.
    */
   public async getAction(
     filters: SkySummaryActionBarSecondaryActionHarnessFilters,
@@ -53,8 +54,9 @@ export class SkySummaryActionBarSecondaryActionsHarness extends SkyComponentHarn
   }
 
   /**
-   * Gets an array of actions.
-   * @params filters optional filters to apply to the query.
+   * Gets an array of actions based on the filter criteria.
+   * If no filter is provided, returns all actions.
+   * @param filters The optional filter criteria.
    */
   public async getActions(
     filters?: SkySummaryActionBarSecondaryActionHarnessFilters,

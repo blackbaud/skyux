@@ -83,7 +83,8 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
   }
 
   /**
-   * Gets a specific country field search result that meets certain criteria.
+   * Gets a specific country field search result based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public override async getSearchResult(
     filter: SkyCountryFieldSearchResultHarnessFilters,
@@ -102,7 +103,9 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
   }
 
   /**
-   * Gets an array of country field search results.
+   * Gets an array of country field search results based on the filter criteria.
+   * If no filter is provided, returns all country field search results.
+   * @param filters The optional filter criteria.
    */
   public override async getSearchResults(
     filters?: SkyCountryFieldSearchResultHarnessFilters,

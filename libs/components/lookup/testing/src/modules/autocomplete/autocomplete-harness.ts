@@ -78,7 +78,8 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a specific autocomplete search result that meets certain criteria.
+   * Gets a specific autocomplete search result based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getSearchResult(
     filter: SkyAutocompleteSearchResultHarnessFilters,
@@ -97,7 +98,9 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of autocomplete search results.
+   * Gets an array of autocomplete search results based on the filter criteria.
+   * If no filter is provided, returns all autocomplete search results.
+   * @param filters The optional filter criteria.
    */
   public async getSearchResults(
     filters?: SkyAutocompleteSearchResultHarnessFilters,

@@ -25,7 +25,8 @@ export class SkyNavbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a specific navbar item that meets certain criteria.
+   * Gets a specific navbar item based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getItem(
     filter: SkyNavbarItemHarnessFilters,
@@ -34,7 +35,9 @@ export class SkyNavbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of navbar items.
+   * Gets an array of navbar items based on the filter criteria.
+   * If no filter is provided, returns all navbar items.
+   * @param filters The optional filter criteria.
    */
   public async getItems(
     filters?: SkyNavbarItemHarnessFilters,

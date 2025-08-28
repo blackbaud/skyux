@@ -25,14 +25,17 @@ export class SkyTileDashboardHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets a harness for a tile that meets certain criteria.
+   * Gets a specific tile based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getTile(filter: SkyTileHarnessFilters): Promise<SkyTileHarness> {
     return await this.locatorFor(SkyTileHarness.with(filter))();
   }
 
   /**
-   * Gets an array of tiles.
+   * Gets an array of tiles based on the filter criteria.
+   * If no filter is provided, returns all tiles.
+   * @param filters The optional filter criteria.
    */
   public async getTiles(
     filters?: SkyTileHarnessFilters,

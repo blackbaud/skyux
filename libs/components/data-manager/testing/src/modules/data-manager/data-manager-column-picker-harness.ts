@@ -65,7 +65,8 @@ export class SkyDataManagerColumnPickerHarness extends ComponentHarness {
   }
 
   /**
-   * Gets a specific column that meets certain criteria.
+   * Gets a specific column based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getColumn(
     filter: SkyDataManagerColumnPickerColumnHarnessFilters,
@@ -76,7 +77,9 @@ export class SkyDataManagerColumnPickerHarness extends ComponentHarness {
   }
 
   /**
-   * Gets an array of columns.
+   * Gets an array of columns based on the filter criteria.
+   * If no filter is provided, returns all columns.
+   * @param filters The optional filter criteria.
    */
   public async getColumns(
     filters?: SkyDataManagerColumnPickerColumnHarnessFilters,

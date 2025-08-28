@@ -60,7 +60,8 @@ export class SkyConfirmHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a specific confirm custom button that meets certain criteria.
+   * Gets a specific confirm custom button based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getCustomButton(
     filter: SkyConfirmButtonHarnessFilters,
@@ -77,7 +78,9 @@ export class SkyConfirmHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of confirm custom buttons.
+   * Gets an array of confirm custom buttons based on the filter criteria.
+   * If no filter is provided, returns all confirm custom buttons.
+   * @param filters The optional filter criteria.
    */
   public async getCustomButtons(
     filters?: SkyConfirmButtonHarnessFilters,

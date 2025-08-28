@@ -26,7 +26,8 @@ export class SkyInlineFormHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets an inline form button that matches the given filters.
+   * Gets a specific inline form button based on the filter criteria.
+   * @param filters The filter criteria.
    */
   public async getButton(
     filters: SkyInlineFormButtonHarnessFilters,
@@ -40,7 +41,9 @@ export class SkyInlineFormHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets an array of inline form buttons.
+   * Gets an array of inline form buttons based on the filter criteria.
+   * If no filter is provided, returns all inline form buttons.
+   * @param filters The optional filter criteria.
    */
   public async getButtons(
     filters?: SkyInlineFormButtonHarnessFilters,

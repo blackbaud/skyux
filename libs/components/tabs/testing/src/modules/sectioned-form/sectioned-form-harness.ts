@@ -66,7 +66,8 @@ export class SkySectionedFormHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a specific section that meets certain criteria.
+   * Gets a specific section based on the filter criteria.
+   * @param filters The filter criteria.
    */
   public async getSection(
     filters: SkySectionedFormSectionHarnessFilters,
@@ -77,7 +78,9 @@ export class SkySectionedFormHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of sections.
+   * Gets an array of sections based on the filter criteria.
+   * If no filter is provided, returns all sections.
+   * @param filters The optional filter criteria.
    */
   public async getSections(
     filters?: SkySectionedFormSectionHarnessFilters,

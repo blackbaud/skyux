@@ -103,7 +103,8 @@ export class SkySelectionModalHarness extends ComponentHarness {
   }
 
   /**
-   * Gets a specific search result that meets certain criteria.
+   * Gets a specific search result based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getSearchResult(
     filter: SkySelectionModalSearchResultHarnessFilters,
@@ -119,7 +120,9 @@ export class SkySelectionModalHarness extends ComponentHarness {
   }
 
   /**
-   * Gets an array of search results.
+   * Gets an array of search results based on the filter criteria.
+   * If no filter is provided, returns all search results.
+   * @param filters The optional filter criteria.
    */
   public async getSearchResults(
     filters?: SkySelectionModalSearchResultHarnessFilters,

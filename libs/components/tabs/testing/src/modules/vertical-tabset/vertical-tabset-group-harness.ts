@@ -51,7 +51,8 @@ export class SkyVerticalTabsetGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a specific tab under this group that matches certain criteria.
+   * Gets a specific vertical tab based on the filter criteria.
+   * @param filters The filter criteria.
    */
   public async getVerticalTab(
     filters: SkyVerticalTabButtonHarnessFilters,
@@ -60,7 +61,9 @@ export class SkyVerticalTabsetGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of vertical tab buttons under this group.
+   * Gets an array of vertical tab buttons based on the filter criteria.
+   * If no filter is provided, returns all vertical tab buttons.
+   * @param filters The optional filter criteria.
    */
   public async getVerticalTabs(
     filters?: SkyVerticalTabButtonHarnessFilters,

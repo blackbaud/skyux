@@ -135,7 +135,8 @@ export class SkyTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a tab button harness with the given `tabHeading`
+   * Gets a specific tab button based on the filter criteria.
+   * @param filters The filter criteria.
    */
   public async getTabButtonHarness(
     filters: SkyTabButtonHarnessFilters,
@@ -148,7 +149,9 @@ export class SkyTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all tab button harnesses.
+   * Gets an array of tab button harnesses based on the filter criteria.
+   * If no filter is provided, returns all tab button harnesses.
+   * @param filters The optional filter criteria.
    */
   public async getTabButtonHarnesses(
     filters?: SkyTabButtonHarnessFilters,
