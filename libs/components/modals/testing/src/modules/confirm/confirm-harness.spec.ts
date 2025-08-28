@@ -231,9 +231,9 @@ describe('Confirm harness', () => {
       const { confirmHarness } = await setupTest();
 
       await expectAsync(
-        confirmHarness.getCustomButtons({}),
+        confirmHarness.getCustomButtons(),
       ).toBeRejectedWithError(
-        'Cannot get custom button non `Custom` type confirm modals.',
+        'Cannot get custom buttons for non-custom confirm modals.',
       );
     });
   });
@@ -272,7 +272,7 @@ describe('Confirm harness', () => {
       await expectAsync(
         confirmHarness.getCustomButton({ text: 'OK' }),
       ).toBeRejectedWithError(
-        'Cannot get custom button non `Custom` type confirm modals.',
+        'Cannot get a custom button for non-custom confirm modals.',
       );
     });
   });
@@ -316,7 +316,7 @@ describe('Confirm harness', () => {
       await expectAsync(
         confirmHarness.clickCustomButton({}),
       ).toBeRejectedWithError(
-        'Cannot get custom buttons for confirm of type OK.',
+        'Cannot get custom buttons for non-custom confirm modals.',
       );
     });
 

@@ -70,7 +70,7 @@ export class SkyConfirmHarness extends SkyComponentHarness {
 
     if (confirmType !== SkyConfirmType.Custom) {
       throw new Error(
-        'Cannot get custom button non `Custom` type confirm modals.',
+        'Cannot get a custom button for non-custom confirm modals.',
       );
     }
 
@@ -87,8 +87,10 @@ export class SkyConfirmHarness extends SkyComponentHarness {
   ): Promise<SkyConfirmButtonHarness[]> {
     const confirmType = await this.getType();
 
-    if (confirmType === SkyConfirmType.OK) {
-      throw new Error('Cannot get custom buttons for confirm of type OK.');
+    if (confirmType !== SkyConfirmType.Custom) {
+      throw new Error(
+        'Cannot get custom buttons for non-custom confirm modals.',
+      );
     }
 
     return await this.locatorForAll(
