@@ -167,23 +167,6 @@ export class SkyTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a tab button harness.
-   *
-   * @param filters - Filters used to identify which tab button to return.
-   *
-   * @throws Will throw an error if no tab button is found.
-   */
-  public async getTabButton(
-    filters: SkyTabButtonHarnessFilters,
-  ): Promise<SkyTabButtonHarness> {
-    if ((await this.getMode()) === 'dropdown') {
-      const menu = await this.#getDropdownMenu();
-      return await menu.queryHarness(SkyTabButtonHarness.with(filters));
-    }
-    return await this.locatorFor(SkyTabButtonHarness.with(filters))();
-  }
-
-  /**
    * Gets a tab content harness for the tab with the given `tabHeading`.
    */
   public async getTabContentHarness(
