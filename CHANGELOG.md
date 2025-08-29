@@ -1,5 +1,31 @@
 # Changelog
 
+## [12.37.0](https://github.com/blackbaud/skyux/compare/12.36.0...12.37.0) (2025-08-26)
+
+
+### Features
+
+* pull in latest design tokens ([#3867](https://github.com/blackbaud/skyux/issues/3867)) ([2cc985a](https://github.com/blackbaud/skyux/commit/2cc985a12898fa3ce9e7f9a1ab442e50cbd9694f))
+* **sdk/stylelint-config-skyux:** add `no-sky-theme-imports` rule to prevent imports from `@skyux/theme/scss/*` in stylesheets ([#3855](https://github.com/blackbaud/skyux/issues/3855)) ([4b20671](https://github.com/blackbaud/skyux/commit/4b20671b9043a11a1c303957217bdd9c2ec9a9cd))
+
+
+### Bug Fixes
+
+* **components/docs-tools:** scroll to header on page load ([#3869](https://github.com/blackbaud/skyux/issues/3869)) ([4c57af7](https://github.com/blackbaud/skyux/commit/4c57af78acd8cd5174e6cb195a6822652513e29c))
+
+## [12.36.0](https://github.com/blackbaud/skyux/compare/12.35.0...12.36.0) (2025-08-22)
+
+
+### Features
+
+* **sdk/stylelint-config-skyux:** add `no-ng-deep` rule to prevent usage of `::ng-deep` in stylesheets ([#3853](https://github.com/blackbaud/skyux/issues/3853)) ([1da93d3](https://github.com/blackbaud/skyux/commit/1da93d37600e4ab99a3613ec47fd6d8dea4c0cb6))
+* **sdk/stylelint-config-skyux:** add `no-static-color-values` rule to prevent usage of static color values in stylesheets ([#3851](https://github.com/blackbaud/skyux/issues/3851)) ([a7e3dda](https://github.com/blackbaud/skyux/commit/a7e3ddac85dc2459f98270dddc3586e267c2339d))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** row delete destroy should not affect other overlays ([#3861](https://github.com/blackbaud/skyux/issues/3861)) ([4db734e](https://github.com/blackbaud/skyux/commit/4db734eb3e305955eaa847af664c8478d4f7cdf6))
+
 ## [12.35.0](https://github.com/blackbaud/skyux/compare/12.34.0...12.35.0) (2025-08-19)
 
 
