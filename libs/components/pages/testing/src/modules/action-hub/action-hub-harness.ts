@@ -61,13 +61,25 @@ export class SkyActionHubHarness extends SkyComponentHarness {
   }
 
   /**
-   * Get the testing harnesses for items within the needs attention block.
+   * Gets a specific needs attention item based on the filter criteria.
+   * @param filter The filter criteria.
+   */
+  public async getNeedsAttentionItem(
+    filter: SkyNeedsAttentionItemHarnessFilters,
+  ): Promise<SkyNeedsAttentionItemHarness> {
+    return await this.locatorFor(SkyNeedsAttentionItemHarness.with(filter))();
+  }
+
+  /**
+   * Gets an array of needs attention items based on the filter criteria.
+   * If no filter is provided, returns all needs attention items.
+   * @param filters The optional filter criteria.
    */
   public async getNeedsAttentionItems(
-    filter: SkyNeedsAttentionItemHarnessFilters = {},
+    filters?: SkyNeedsAttentionItemHarnessFilters,
   ): Promise<SkyNeedsAttentionItemHarness[]> {
     return await this.locatorForAll(
-      SkyNeedsAttentionItemHarness.with(filter),
+      SkyNeedsAttentionItemHarness.with(filters || {}),
     )();
   }
 

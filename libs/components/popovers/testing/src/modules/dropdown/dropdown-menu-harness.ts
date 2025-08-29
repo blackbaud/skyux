@@ -52,41 +52,25 @@ export class SkyDropdownMenuHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets an array of dropdown menu item harnesses.
-   * @param filters Optional filter for which menu items to return
+   * Gets a specific dropdown menu item based on the filter criteria.
+   * @param filter The filter criteria.
+   */
+  public async getItem(
+    filter: SkyDropdownItemHarnessFilters,
+  ): Promise<SkyDropdownItemHarness> {
+    return await this.locatorFor(SkyDropdownItemHarness.with(filter))();
+  }
+
+  /**
+   * Gets an array of dropdown menu items based on the filter criteria.
+   * If no filter is provided, returns all dropdown menu items.
+   * @param filters The optional filter criteria.
    */
   public async getItems(
     filters?: SkyDropdownItemHarnessFilters,
   ): Promise<SkyDropdownItemHarness[]> {
-    const harnesses = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyDropdownItemHarness.with(filters || {}),
     )();
-
-    if (harnesses.length === 0) {
-      if (filters) {
-        throw new Error(
-          `Unable to find dropdown menu item(s) with filter(s): ${JSON.stringify(
-            filters,
-          )}.`,
-        );
-      } else {
-        throw new Error(
-          'Unable to retrieve item(s) because dropdown menu is empty.',
-        );
-      }
-    }
-
-    return harnesses;
-  }
-
-  /**
-   * Gets the first item that matches the given filters
-   * @param filters filter for which menu item to return
-   */
-  public async getItem(
-    filters: SkyDropdownItemHarnessFilters,
-  ): Promise<SkyDropdownItemHarness> {
-    const harnesses = await this.getItems(filters);
-    return harnesses[0];
   }
 }

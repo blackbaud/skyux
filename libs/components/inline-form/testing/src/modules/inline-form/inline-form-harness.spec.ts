@@ -145,21 +145,6 @@ describe('Inline form harness', () => {
     expect(buttons.length).toBe(2);
   });
 
-  it('should throw an error if there are no buttons that match the filters', async () => {
-    const { inlineFormHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.onOpen();
-    fixture.detectChanges();
-
-    await expectAsync(
-      inlineFormHarness.getButtons({
-        text: 'Save',
-      }),
-    ).toBeRejectedWithError(
-      'No button(s) found that match the given filter(s): {"text":"Save"}',
-    );
-  });
-
   it('should get the inline form template', async () => {
     const { inlineFormHarness, fixture } = await setupTest();
 

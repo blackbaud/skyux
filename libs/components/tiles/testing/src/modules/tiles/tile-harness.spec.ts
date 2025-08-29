@@ -114,21 +114,7 @@ describe('Tile test harness', () => {
 
     const contentHarness = await tileHarness.getContent();
 
-    await expectAsync(contentHarness.getSections()).toBeRejectedWithError(
-      'Unable to find any tile content sections.',
-    );
-  });
-
-  it('should throw an error if no tile content sections are found matching criteria', async () => {
-    const { tileHarness } = await setupTest();
-
-    const contentHarness = await tileHarness.getContent();
-
-    await expectAsync(
-      contentHarness.getSections({ dataSkyId: 'section-2' }),
-    ).toBeRejectedWithError(
-      'Unable to find any tile content sections with filter(s): {"dataSkyId":"section-2"}',
-    );
+    await expectAsync(contentHarness.getSections()).toBeResolvedTo([]);
   });
 
   it('should throw an error if no help inline is found', async () => {

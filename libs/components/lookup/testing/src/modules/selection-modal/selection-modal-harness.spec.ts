@@ -217,4 +217,39 @@ describe('Selection modal harness', () => {
       );
     });
   });
+
+  describe('search results', () => {
+    it('should get all search results', async () => {
+      const { harness } = await setupTest({
+        selectMode: 'multiple',
+      });
+
+      await harness.enterSearchText('ra');
+
+      const results = await harness.getSearchResults();
+      expect(results.length).toBe(2);
+    });
+
+    it('should get a specific search result that meets criteria', async () => {
+      const { harness } = await setupTest({
+        selectMode: 'multiple',
+      });
+
+      await harness.enterSearchText('ra');
+
+      const result = await harness.getSearchResult({ contentText: 'Rachel' });
+      await expectAsync(result.getContentText()).toBeResolvedTo('Rachel');
+    });
+
+    it('should get filtered search results', async () => {
+      const { harness } = await setupTest({
+        selectMode: 'multiple',
+      });
+
+      await harness.enterSearchText('ra');
+
+      const results = await harness.getSearchResults({ contentText: 'Rachel' });
+      expect(results.length).toBe(1);
+    });
+  });
 });

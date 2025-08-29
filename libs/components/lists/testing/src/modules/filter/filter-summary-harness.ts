@@ -25,7 +25,8 @@ export class SkyFilterSummaryHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific toolbar item that meets certain criteria.
+   * Gets a specific filter summary item based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getItem(
     filter: SkyFilterSummaryItemHarnessFilters,
@@ -34,24 +35,15 @@ export class SkyFilterSummaryHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all toolbar items.
+   * Gets an array of filter summary items based on the filter criteria.
+   * If no filter is provided, returns all filter summary items.
+   * @param filters The optional filter criteria.
    */
   public async getItems(
     filters?: SkyFilterSummaryItemHarnessFilters,
   ): Promise<SkyFilterSummaryItemHarness[]> {
-    const items = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyFilterSummaryItemHarness.with(filters || {}),
     )();
-
-    if (items.length === 0) {
-      if (filters) {
-        throw new Error(
-          `Unable to find any filter summary items with filter(s): ${JSON.stringify(filters)}`,
-        );
-      }
-      throw new Error('Unable to find any filter summary items.');
-    }
-
-    return items;
   }
 }

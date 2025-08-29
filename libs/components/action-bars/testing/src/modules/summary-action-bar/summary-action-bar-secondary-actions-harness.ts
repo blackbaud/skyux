@@ -32,7 +32,8 @@ export class SkySummaryActionBarSecondaryActionsHarness extends SkyComponentHarn
   }
 
   /**
-   * Gets the harness for an individual action that matches the given filters.
+   * Gets a specific action based on the filter criteria.
+   * @param filters The filter criteria.
    */
   public async getAction(
     filters: SkySummaryActionBarSecondaryActionHarnessFilters,
@@ -53,7 +54,9 @@ export class SkySummaryActionBarSecondaryActionsHarness extends SkyComponentHarn
   }
 
   /**
-   * Gets the harnesses for all secondary action.
+   * Gets an array of actions based on the filter criteria.
+   * If no filter is provided, returns all actions.
+   * @param filters The optional filter criteria.
    */
   public async getActions(
     filters?: SkySummaryActionBarSecondaryActionHarnessFilters,
@@ -61,32 +64,16 @@ export class SkySummaryActionBarSecondaryActionsHarness extends SkyComponentHarn
     const dropdown = await this.#dropdown();
     if (dropdown) {
       await dropdown.clickDropdownButton();
-      if (filters) {
-        filters['ancestor'] = 'sky-dropdown-menu';
-        const actions = await this.#documentRootLocator.locatorForAll(
-          SkySummaryActionBarSecondaryActionHarness.with(filters),
-        )();
-
-        if (actions.length === 0) {
-          filters['ancestor'] = undefined;
-          throw new Error(
-            `Unable to find summary action secondary action(s) with filter(s): ${JSON.stringify(
-              filters,
-            )}.`,
-          );
-        }
-        return actions;
-      } else {
-        return await this.#documentRootLocator.locatorForAll(
-          SkySummaryActionBarSecondaryActionHarness.with({
-            ancestor: 'sky-dropdown-menu',
-          }),
-        )();
-      }
+      const filtersWithAncestor = filters
+        ? { ...filters, ancestor: 'sky-dropdown-menu' }
+        : { ancestor: 'sky-dropdown-menu' };
+      return await this.#documentRootLocator.locatorForAll(
+        SkySummaryActionBarSecondaryActionHarness.with(filtersWithAncestor),
+      )();
     }
 
     return await this.locatorForAll(
-      SkySummaryActionBarSecondaryActionHarness,
+      SkySummaryActionBarSecondaryActionHarness.with(filters || {}),
     )();
   }
 }

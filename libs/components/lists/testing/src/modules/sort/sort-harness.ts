@@ -56,7 +56,8 @@ export class SkySortHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific sort item that meets certain criteria.
+   * Gets a specific sort item based on the filter criteria.
+   * @param filters The filter criteria.
    */
   public async getItem(
     filters: SkySortItemHarnessFilters,
@@ -67,24 +68,18 @@ export class SkySortHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all sort items.
+   * Gets an array of sort items based on the filter criteria.
+   * If no filter is provided, returns all sort items.
+   * @param filters The optional filter criteria.
    */
   public async getItems(
     filters?: SkySortItemHarnessFilters,
   ): Promise<SkySortItemHarness[]> {
     const menuHarness = await this.#getMenuHarness();
 
-    const items = await (filters
-      ? menuHarness.queryHarnesses(SkySortItemHarness.with(filters))
-      : menuHarness.queryHarnesses(SkySortItemHarness));
-
-    if (filters && !items.length) {
-      throw new Error(
-        `Unable to find any sort items with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
+    return await menuHarness.queryHarnesses(
+      SkySortItemHarness.with(filters || {}),
+    );
   }
 
   async #getMenuHarness(): Promise<SkyDropdownMenuHarness> {

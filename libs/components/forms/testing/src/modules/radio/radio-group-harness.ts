@@ -10,6 +10,7 @@ import { SkyFormErrorsHarness } from '../form-error/form-errors-harness';
 
 import { SkyRadioGroupHarnessFilters } from './radio-group-harness-filters';
 import { SkyRadioHarness } from './radio-harness';
+import { SkyRadioHarnessFilters } from './radio-harness-filters';
 
 /**
  * Harness for interacting with a radio group component in tests.
@@ -32,7 +33,6 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
   #getLegendHeading = this.locatorForOptional(
     'legend h3,h4,h5,.sky-radio-group-heading-text',
   );
-  #getRadioButtons = this.locatorForAll(SkyRadioHarness);
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -137,10 +137,24 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of harnesses for the radio buttons in the radio group.
+   * Gets a specific radio button based on the filter criteria.
+   * @param filter The filter criteria.
    */
-  public async getRadioButtons(): Promise<SkyRadioHarness[]> {
-    return await this.#getRadioButtons();
+  public async getRadioButton(
+    filter: SkyRadioHarnessFilters,
+  ): Promise<SkyRadioHarness> {
+    return await this.locatorFor(SkyRadioHarness.with(filter))();
+  }
+
+  /**
+   * Gets an array of radio buttons based on the filter criteria.
+   * If no filter is provided, returns all radio buttons.
+   * @param filters The optional filter criteria.
+   */
+  public async getRadioButtons(
+    filters?: SkyRadioHarnessFilters,
+  ): Promise<SkyRadioHarness[]> {
+    return await this.locatorForAll(SkyRadioHarness.with(filters || {}))();
   }
 
   /**

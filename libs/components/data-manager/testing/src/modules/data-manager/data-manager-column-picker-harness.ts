@@ -65,26 +65,28 @@ export class SkyDataManagerColumnPickerHarness extends ComponentHarness {
   }
 
   /**
-   * Gets a list of columns.
+   * Gets a specific column based on the filter criteria.
+   * @param filter The filter criteria.
+   */
+  public async getColumn(
+    filter: SkyDataManagerColumnPickerColumnHarnessFilters,
+  ): Promise<SkyDataManagerColumnPickerColumnHarness> {
+    return await this.locatorFor(
+      SkyDataManagerColumnPickerColumnHarness.with(filter),
+    )();
+  }
+
+  /**
+   * Gets an array of columns based on the filter criteria.
+   * If no filter is provided, returns all columns.
+   * @param filters The optional filter criteria.
    */
   public async getColumns(
     filters?: SkyDataManagerColumnPickerColumnHarnessFilters,
   ): Promise<SkyDataManagerColumnPickerColumnHarness[]> {
-    const harnesses = await this.locatorForAll(
-      SkyDataManagerColumnPickerColumnHarness.with({
-        ...(filters || {}),
-      }),
+    return await this.locatorForAll(
+      SkyDataManagerColumnPickerColumnHarness.with(filters || {}),
     )();
-
-    if (filters && harnesses.length === 0) {
-      throw new Error(
-        `Could not find columns in the column picker matching filter(s): ${JSON.stringify(
-          filters,
-        )}`,
-      );
-    }
-
-    return harnesses;
   }
 
   /**

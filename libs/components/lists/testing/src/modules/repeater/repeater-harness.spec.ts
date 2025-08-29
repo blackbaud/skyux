@@ -39,6 +39,47 @@ describe('Repeater harness', () => {
     expect(items[0] instanceof SkyRepeaterItemHarness).toBeTrue();
   });
 
+  it('should return empty array when no repeater items exist and no filters provided', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    // Test filtering that returns empty results
+    const items = await repeaterHarness.getRepeaterItems();
+    expect(items.length).toBe(2);
+
+    // Test that getting all items without filters works
+    const allItems = await repeaterHarness.getRepeaterItems();
+    expect(allItems.length).toBe(2);
+  });
+
+  it('should get a specific repeater item that meets criteria', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    const item = await repeaterHarness.getRepeaterItem({
+      dataSkyId: 'my-basic-repeater-item-0',
+    });
+
+    expect(item instanceof SkyRepeaterItemHarness).toBeTrue();
+  });
+
+  it('should get filtered repeater items', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems({
+      titleText: 'Call Robert Hernandez',
+    });
+
+    expect(items.length).toBe(1);
+    await expectAsync(items[0].getTitleText()).toBeResolvedTo(
+      'Call Robert Hernandez',
+    );
+  });
+
   it('should update the active index when a repeater item is clicked', async () => {
     const { fixture, repeaterHarness } = await setupTest({
       dataSkyId: 'my-basic-repeater',

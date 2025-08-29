@@ -26,11 +26,12 @@ export class SkyInlineFormHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets an inline form button that matches the given filters.
+   * Gets a specific inline form button based on the filter criteria.
+   * @param filters The filter criteria.
    */
   public async getButton(
     filters: SkyInlineFormButtonHarnessFilters,
-  ): Promise<SkyInlineFormButtonHarness | null> {
+  ): Promise<SkyInlineFormButtonHarness> {
     if (!(await this.isFormExpanded())) {
       throw new Error(
         'Inline form is not expanded. The buttons cannot be retrieved when not visible.',
@@ -40,7 +41,9 @@ export class SkyInlineFormHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets the inline form's buttons.
+   * Gets an array of inline form buttons based on the filter criteria.
+   * If no filter is provided, returns all inline form buttons.
+   * @param filters The optional filter criteria.
    */
   public async getButtons(
     filters?: SkyInlineFormButtonHarnessFilters,
@@ -50,15 +53,9 @@ export class SkyInlineFormHarness extends SkyQueryableComponentHarness {
         'Inline form is not expanded. The buttons cannot be retrieved when not visible.',
       );
     }
-    const buttons = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyInlineFormButtonHarness.with(filters || {}),
     )();
-    if (filters && buttons.length === 0) {
-      throw new Error(
-        `No button(s) found that match the given filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-    return buttons;
   }
 
   /**

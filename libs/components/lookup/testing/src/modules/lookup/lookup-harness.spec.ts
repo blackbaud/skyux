@@ -147,6 +147,31 @@ function testSingleSelect(dataSkyId: string): void {
     ]);
   });
 
+  it('should return a specific search result harness using filters', async () => {
+    const { lookupHarness, lookupInputHarness } = await setupTest({
+      dataSkyId,
+    });
+
+    await lookupInputHarness.setValue('d');
+
+    const result = await lookupHarness.getSearchResult({ text: 'Leonard' });
+
+    await expectAsync(result.getText()).toBeResolvedTo('Leonard');
+    await expectAsync(result.getDescriptorValue()).toBeResolvedTo('Leonard');
+  });
+
+  it('should throw error if getting search result when autocomplete not open', async () => {
+    const { lookupHarness } = await setupTest({
+      dataSkyId: dataSkyId,
+    });
+
+    await expectAsync(
+      lookupHarness.getSearchResult({ text: 'Leonard' }),
+    ).toBeRejectedWithError(
+      'Unable to retrieve search result. The lookup is closed.',
+    );
+  });
+
   it('should select a search result from the autocomplete results', async () => {
     const { lookupHarness, lookupInputHarness } = await setupTest({
       dataSkyId: dataSkyId,
@@ -227,22 +252,6 @@ function testSingleSelect(dataSkyId: string): void {
 
     await expectAsync(lookupHarness.getSearchResults()).toBeRejectedWithError(
       'Unable to retrieve search results. The lookup is closed.',
-    );
-  });
-
-  it('should throw error if filtered search results are empty', async () => {
-    const { lookupHarness, lookupInputHarness } = await setupTest({
-      dataSkyId: dataSkyId,
-    });
-
-    await lookupInputHarness.setValue('r');
-
-    await expectAsync(
-      lookupHarness.getSearchResults({
-        text: /invalidSearchText/,
-      }),
-    ).toBeRejectedWithError(
-      'Could not find search results matching filter(s): {"text":"/invalidSearchText/"}',
     );
   });
 
@@ -486,21 +495,6 @@ function testMultiselect(dataSkyId: string): void {
     await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Vicki',
     ]);
-  });
-
-  it('should throw an error if selecting non-existent result', async () => {
-    const { lookupHarness } = await setupTest({
-      dataSkyId,
-    });
-
-    await lookupHarness.clickShowMoreButton();
-    const picker = await lookupHarness.getShowMorePicker();
-
-    await expectAsync(
-      picker.selectSearchResult({ contentText: 'Invalid search' }),
-    ).toBeRejectedWithError(
-      'Could not find search results in the picker matching filter(s): {"contentText":"Invalid search"}',
-    );
   });
 
   it('should throw an error when attempting to get an unopened picker', async () => {

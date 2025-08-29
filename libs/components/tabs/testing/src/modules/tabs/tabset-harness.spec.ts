@@ -179,7 +179,9 @@ describe('Tab harness', () => {
 
   it('should get a tab button harness by tab heading', async () => {
     const { tabsetHarness } = await setupTest();
-    const tabOne = await tabsetHarness.getTabButtonHarness('Tab 1');
+    const tabOne = await tabsetHarness.getTabButtonHarness({
+      tabHeading: 'Tab 1',
+    });
 
     await expectAsync(tabOne.getTabHeading()).toBeResolvedTo('Tab 1');
   });
@@ -189,6 +191,16 @@ describe('Tab harness', () => {
     const tabs = await tabsetHarness.getTabButtonHarnesses();
 
     expect(tabs.length).toBe(4);
+  });
+
+  it('should get tab button harnesses that matches given filters', async () => {
+    const { tabsetHarness } = await setupTest();
+    const tabs = await tabsetHarness.getTabButtonHarnesses({
+      tabHeading: 'Tab 2',
+    });
+
+    expect(tabs.length).toBe(1);
+    await expectAsync(tabs[0].getTabHeading()).toBeResolvedTo('Tab 2');
   });
 
   it('should get the active tab button', async () => {
@@ -258,8 +270,9 @@ describe('Tab harness', () => {
       fixture: ComponentFixture<TestComponent>;
     }> {
       const { tabsetHarness, fixture } = await setupTest();
-      const tabButtonHarness =
-        await tabsetHarness.getTabButtonHarness(tabHeading);
+      const tabButtonHarness = await tabsetHarness.getTabButtonHarness({
+        tabHeading,
+      });
       return { tabButtonHarness, tabsetHarness, fixture };
     }
 
@@ -345,7 +358,9 @@ describe('Tab harness', () => {
       const { tabsetHarness, fixture } = await setupTest();
       await shrinkScreen(fixture);
       await tabsetHarness.clickDropdownTab();
-      const tabButtonHarness = await tabsetHarness.getTabButtonHarness('Tab 1');
+      const tabButtonHarness = await tabsetHarness.getTabButtonHarness({
+        tabHeading: 'Tab 1',
+      });
 
       await expectAsync(tabButtonHarness.isActive()).toBeResolvedTo(true);
     });
@@ -356,6 +371,18 @@ describe('Tab harness', () => {
       await tabsetHarness.clickDropdownTab();
       const tabButtonHarnesses = await tabsetHarness.getTabButtonHarnesses();
       expect(tabButtonHarnesses.length).toBe(4);
+    });
+
+    it('should get tab button harnesses with filters in dropdown mode', async () => {
+      const { tabsetHarness, fixture } = await setupTest();
+      await shrinkScreen(fixture);
+      await tabsetHarness.clickDropdownTab();
+      const tabs = await tabsetHarness.getTabButtonHarnesses({
+        tabHeading: 'Tab 2',
+      });
+
+      expect(tabs.length).toBe(1);
+      await expectAsync(tabs[0].getTabHeading()).toBeResolvedTo('Tab 2');
     });
 
     it('should throw an error when trying to get tab buttons when dropdown is closed', async () => {
@@ -411,7 +438,9 @@ describe('Wizard tab harness', () => {
   describe('tab button harness', () => {
     it('should throw an error if trying to click remove tab button in wizard mode', async () => {
       const { wizardHarness } = await setupTest();
-      const tabButtonHarness = await wizardHarness.getTabButtonHarness('Tab 1');
+      const tabButtonHarness = await wizardHarness.getTabButtonHarness({
+        tabHeading: 'Tab 1',
+      });
       await expectAsync(
         tabButtonHarness.clickRemoveButton(),
       ).toBeRejectedWithError(
@@ -421,7 +450,9 @@ describe('Wizard tab harness', () => {
 
     it('should throw an error if attempting to get the permalink in wizard mode', async () => {
       const { wizardHarness } = await setupTest();
-      const tabButtonHarness = await wizardHarness.getTabButtonHarness('Tab 1');
+      const tabButtonHarness = await wizardHarness.getTabButtonHarness({
+        tabHeading: 'Tab 1',
+      });
       await expectAsync(tabButtonHarness.getPermalink()).toBeRejectedWithError(
         'Cannot get permalink for tab button in a wizard tabset.',
       );

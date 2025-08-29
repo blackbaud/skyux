@@ -78,7 +78,8 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific data manager toolbar left item that meets certain criteria.
+   * Gets a specific data manager toolbar left item based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getLeftItem(
     filter: SkyDataManagerToolbarLeftItemHarnessFilters,
@@ -89,22 +90,16 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all data manager toolbar left items.
+   * Gets an array of data manager toolbar left items based on the filter criteria.
+   * If no filter is provided, returns all data manager toolbar left items.
+   * @param filters The optional filter criteria.
    */
   public async getLeftItems(
     filters?: SkyDataManagerToolbarLeftItemHarnessFilters,
   ): Promise<SkyDataManagerToolbarLeftItemHarness[]> {
-    const items = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyDataManagerToolbarLeftItemHarness.with(filters || {}),
     )();
-
-    if (filters && items.length === 0) {
-      throw new Error(
-        `Unable to find any data manager toolbar left items with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
   }
 
   /**
@@ -120,7 +115,8 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific data manager toolbar primary item that meets certain criteria.
+   * Gets a specific data manager toolbar primary item based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getPrimaryItem(
     filter: SkyDataManagerToolbarPrimaryItemHarnessFilters,
@@ -131,26 +127,21 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all data manager toolbar primary items.
+   * Gets an array of data manager toolbar primary items based on the filter criteria.
+   * If no filter is provided, returns all data manager toolbar primary items.
+   * @param filters The optional filter criteria.
    */
   public async getPrimaryItems(
     filters?: SkyDataManagerToolbarPrimaryItemHarnessFilters,
   ): Promise<SkyDataManagerToolbarPrimaryItemHarness[]> {
-    const items = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyDataManagerToolbarPrimaryItemHarness.with(filters || {}),
     )();
-
-    if (filters && items.length === 0) {
-      throw new Error(
-        `Unable to find any data manager toolbar primary items with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
   }
 
   /**
-   * Gets a harness for a specific data manager toolbar right item that meets certain criteria.
+   * Gets a specific data manager toolbar right item based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getRightItem(
     filter: SkyDataManagerToolbarRightItemHarnessFilters,
@@ -161,22 +152,16 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all data manager toolbar right items.
+   * Gets an array of data manager toolbar right items based on the filter criteria.
+   * If no filter is provided, returns all data manager toolbar right items.
+   * @param filters The optional filter criteria.
    */
   public async getRightItems(
     filters?: SkyDataManagerToolbarRightItemHarnessFilters,
   ): Promise<SkyDataManagerToolbarRightItemHarness[]> {
-    const items = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyDataManagerToolbarRightItemHarness.with(filters || {}),
     )();
-
-    if (filters && items.length === 0) {
-      throw new Error(
-        `Unable to find any data manager toolbar right items with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
   }
 
   /**
@@ -191,7 +176,8 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific toolbar section that meets certain criteria.
+   * Gets a specific toolbar section based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getSection(
     filter: SkyDataManagerToolbarSectionHarnessFilters,
@@ -202,22 +188,16 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all toolbar sections.
+   * Gets an array of toolbar sections based on the filter criteria.
+   * If no filter is provided, returns all toolbar sections.
+   * @param filters The optional filter criteria.
    */
   public async getSections(
     filters?: SkyDataManagerToolbarSectionHarnessFilters,
   ): Promise<SkyDataManagerToolbarSectionHarness[]> {
-    const sections = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyDataManagerToolbarSectionHarness.with(filters || {}),
     )();
-
-    if (filters && sections.length === 0) {
-      throw new Error(
-        `Unable to find any data manager toolbar sections with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return sections;
   }
 
   /**

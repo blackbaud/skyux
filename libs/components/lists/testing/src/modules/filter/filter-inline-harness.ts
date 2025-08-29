@@ -25,7 +25,8 @@ export class SkyFilterInlineHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific toolbar item that meets certain criteria.
+   * Gets a specific filter inline item based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getItem(
     filter: SkyFilterInlineItemHarnessFilters,
@@ -34,24 +35,15 @@ export class SkyFilterInlineHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all toolbar items.
+   * Gets an array of filter inline items based on the filter criteria.
+   * If no filter is provided, returns all filter inline items.
+   * @param filters The optional filter criteria.
    */
   public async getItems(
     filters?: SkyFilterInlineItemHarnessFilters,
   ): Promise<SkyFilterInlineItemHarness[]> {
-    const items = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyFilterInlineItemHarness.with(filters || {}),
     )();
-
-    if (items.length === 0) {
-      if (filters) {
-        throw new Error(
-          `Unable to find any filter inline items with filter(s): ${JSON.stringify(filters)}`,
-        );
-      }
-      throw new Error('Unable to find any filter inline items.');
-    }
-
-    return items;
   }
 }

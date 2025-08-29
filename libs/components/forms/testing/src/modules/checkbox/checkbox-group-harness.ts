@@ -10,6 +10,7 @@ import { SkyFormErrorsHarness } from '../form-error/form-errors-harness';
 
 import { SkyCheckboxGroupHarnessFilters } from './checkbox-group-harness-filters';
 import { SkyCheckboxHarness } from './checkbox-harness';
+import { SkyCheckboxHarnessFilters } from './checkbox-harness-filters';
 
 /**
  * Harness for interacting with a checkbox group component in tests.
@@ -20,7 +21,6 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-checkbox-group';
 
-  #getCheckboxes = this.locatorForAll(SkyCheckboxHarness);
   #getHeading = this.locatorFor('.sky-checkbox-group-heading');
   #getHeadingWrapper = this.locatorFor('.sky-checkbox-group-legend');
   #getHintText = this.locatorForOptional('.sky-checkbox-group-hint-text');
@@ -52,10 +52,24 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of harnesses for the checkboxes in the checkbox group.
+   * Gets a specific checkbox based on the filter criteria.
+   * @param filter The filter criteria.
    */
-  public async getCheckboxes(): Promise<SkyCheckboxHarness[]> {
-    return await this.#getCheckboxes();
+  public async getCheckbox(
+    filter: SkyCheckboxHarnessFilters,
+  ): Promise<SkyCheckboxHarness> {
+    return await this.locatorFor(SkyCheckboxHarness.with(filter))();
+  }
+
+  /**
+   * Gets an array of checkboxes based on the filter criteria.
+   * If no filter is provided, returns all checkboxes.
+   * @param filter The optional filter criteria.
+   */
+  public async getCheckboxes(
+    filters?: SkyCheckboxHarnessFilters,
+  ): Promise<SkyCheckboxHarness[]> {
+    return await this.locatorForAll(SkyCheckboxHarness.with(filters || {}))();
   }
 
   /**

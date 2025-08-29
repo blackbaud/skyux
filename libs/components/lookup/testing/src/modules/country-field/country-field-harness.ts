@@ -83,7 +83,29 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
   }
 
   /**
-   * Returns country field search result harnesses.
+   * Gets a specific country field search result based on the filter criteria.
+   * @param filter The filter criteria.
+   */
+  public override async getSearchResult(
+    filter: SkyCountryFieldSearchResultHarnessFilters,
+  ): Promise<SkyCountryFieldSearchResultHarness> {
+    const overlay = await this.#getOverlay();
+
+    if (!overlay) {
+      throw new Error(
+        'Unable to retrieve search result. The country field is closed.',
+      );
+    }
+
+    return await overlay.queryHarness(
+      SkyCountryFieldSearchResultHarness.with(filter),
+    );
+  }
+
+  /**
+   * Gets an array of country field search results based on the filter criteria.
+   * If no filter is provided, returns all country field search results.
+   * @param filters The optional filter criteria.
    */
   public override async getSearchResults(
     filters?: SkyCountryFieldSearchResultHarnessFilters,
@@ -96,24 +118,9 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
       );
     }
 
-    const harnesses = await overlay.queryHarnesses(
+    return await overlay.queryHarnesses(
       SkyCountryFieldSearchResultHarness.with(filters || {}),
     );
-
-    if (filters && harnesses.length === 0) {
-      // Stringify the regular expression so that it's readable in the console log.
-      if (filters.text instanceof RegExp) {
-        filters.text = filters.text.toString();
-      }
-
-      throw new Error(
-        `Could not find search results matching filter(s): ${JSON.stringify(
-          filters,
-        )}`,
-      );
-    }
-
-    return harnesses;
   }
 
   /**

@@ -84,18 +84,4 @@ describe('Sort test harness', () => {
 
     expect(items.length).toBe(6);
   });
-
-  it('should throw an error if no sort items are found matching criteria', async () => {
-    const { sortHarness, fixture } = await setupTest();
-
-    await sortHarness.click();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    await expectAsync(
-      sortHarness.getItems({ text: 'missing sort' }),
-    ).toBeRejectedWithError(
-      'Unable to find any sort items with filter(s): {"text":"missing sort"}',
-    );
-  });
 });

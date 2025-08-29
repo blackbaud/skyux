@@ -112,7 +112,27 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
   }
 
   /**
-   * Returns lookup search result harnesses.
+   * Gets a specific lookup search result based on the filter criteria.
+   * @param filters The filter criteria.
+   */
+  public override async getSearchResult(
+    filters: SkyLookupSearchResultHarnessFilters,
+  ): Promise<SkyLookupSearchResultHarness> {
+    const overlay = await this.#getOverlay();
+    if (!overlay) {
+      throw new Error(
+        'Unable to retrieve search result. The lookup is closed.',
+      );
+    }
+    return await overlay.queryHarness(
+      SkyLookupSearchResultHarness.with(filters),
+    );
+  }
+
+  /**
+   * Gets an array of lookup search results based on the filter criteria.
+   * If no filter is provided, returns all lookup search results.
+   * @param filters The optional filter criteria.
    */
   public override async getSearchResults(
     filters?: SkyLookupSearchResultHarnessFilters,
@@ -125,24 +145,9 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
       );
     }
 
-    const harnesses = await overlay.queryHarnesses(
+    return await overlay.queryHarnesses(
       SkyLookupSearchResultHarness.with(filters || {}),
     );
-
-    if (filters && harnesses.length === 0) {
-      // Stringify the regular expression so that it's readable in the console log.
-      if (filters.text instanceof RegExp) {
-        filters.text = filters.text.toString();
-      }
-
-      throw new Error(
-        `Could not find search results matching filter(s): ${JSON.stringify(
-          filters,
-        )}`,
-      );
-    }
-
-    return harnesses;
   }
 
   /**

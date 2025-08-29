@@ -12,8 +12,6 @@ import {
   SkyRecentLinksInput,
 } from '@skyux/pages';
 
-import { SkyNeedsAttentionItemHarness } from '../needs-attention/needs-attention-item-harness';
-
 import { SkyActionHubHarness } from './action-hub-harness';
 
 //#region Test component
@@ -77,7 +75,7 @@ describe('SkyActionHubHarness', () => {
   });
 
   it('should return the needs attention block', async () => {
-    const { fixture, harness, loader } = await setupTest();
+    const { fixture, harness } = await setupTest();
     fixture.componentRef.setInput('needsAttention', [
       {
         title: 'First item',
@@ -95,19 +93,86 @@ describe('SkyActionHubHarness', () => {
         .getNeedsAttentionBlock()
         .then((needsAttention) => needsAttention.getTitle()),
     ).toBeResolvedTo('Needs attention');
+  });
+
+  it('should get all needs attention items', async () => {
+    const { fixture, harness } = await setupTest();
+    fixture.componentRef.setInput('needsAttention', [
+      {
+        title: 'First item',
+        click: jasmine.createSpy('click'),
+      },
+      {
+        title: 'Second item',
+        click: jasmine.createSpy('click'),
+      },
+    ]);
+    fixture.detectChanges();
+
+    const items = await harness.getNeedsAttentionItems();
+    expect(items.length).toBe(2);
+
     await expectAsync(
-      harness
-        .getNeedsAttentionItems()
-        .then((needsAttentionItems) =>
-          Promise.all(needsAttentionItems.map((item) => item.getText())),
-        ),
+      Promise.all(items.map((item) => item.getText())),
     ).toBeResolvedTo(['First item', 'Second item']);
-    const item = await loader.getHarness(
-      SkyNeedsAttentionItemHarness.with({
-        text: 'First item',
-      }),
-    );
+  });
+
+  it('should get a needs attention item that matches the given filters', async () => {
+    const { fixture, harness } = await setupTest();
+    fixture.componentRef.setInput('needsAttention', [
+      {
+        title: 'First item',
+        click: jasmine.createSpy('click'),
+      },
+      {
+        title: 'Second item',
+        click: jasmine.createSpy('click'),
+      },
+    ]);
+    fixture.detectChanges();
+
+    const item = await harness.getNeedsAttentionItem({
+      text: 'First item',
+    });
+
+    await expectAsync(item.getText()).toBeResolvedTo('First item');
     await expectAsync(item.click()).toBeResolved();
+  });
+
+  it('should get needs attention items that match the given filters', async () => {
+    const { fixture, harness } = await setupTest();
+    fixture.componentRef.setInput('needsAttention', [
+      {
+        title: 'First item',
+        click: jasmine.createSpy('click'),
+      },
+      {
+        title: 'Second item',
+        click: jasmine.createSpy('click'),
+      },
+      {
+        title: 'First item',
+        click: jasmine.createSpy('click'),
+      },
+    ]);
+    fixture.detectChanges();
+
+    const items = await harness.getNeedsAttentionItems({
+      text: 'First item',
+    });
+
+    expect(items.length).toBe(2);
+    await expectAsync(
+      Promise.all(items.map((item) => item.getText())),
+    ).toBeResolvedTo(['First item', 'First item']);
+  });
+
+  it('should return an empty array if there are no needs attention items', async () => {
+    const { fixture, harness } = await setupTest();
+    fixture.componentRef.setInput('needsAttention', []);
+    fixture.detectChanges();
+
+    await expectAsync(harness.getNeedsAttentionItems()).toBeResolvedTo([]);
   });
 
   it('should return the links', async () => {

@@ -45,7 +45,9 @@ describe('Static tabs demo with add and close', () => {
   it('should hide Tab 3 if it is closed', async () => {
     const { harness } = await setupTest({ dataSkyId: 'tab-demo' });
 
-    const tab3Harness = await harness.getTabButtonHarness('Tab 3');
+    const tab3Harness = await harness.getTabButtonHarness({
+      tabHeading: 'Tab 3',
+    });
     await tab3Harness.clickRemoveButton();
 
     const tabButtons = await harness.getTabButtonHarnesses();

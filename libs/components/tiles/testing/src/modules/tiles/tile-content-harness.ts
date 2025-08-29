@@ -13,7 +13,8 @@ export class SkyTileContentHarness extends SkyQueryableComponentHarness {
   public static hostSelector = 'sky-tile-content';
 
   /**
-   * Gets a harness for a specific tile content section that meets certain criteria.
+   * Gets a specific tile content section based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getSection(
     filter: SkyTileContentSectionHarnessFilters,
@@ -22,23 +23,15 @@ export class SkyTileContentHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets an array of tile content sections.
+   * Gets an array of tile content sections based on the filter criteria.
+   * If no filter is provided, returns all tile content sections.
+   * @param filters The optional filter criteria.
    */
   public async getSections(
     filters?: SkyTileContentSectionHarnessFilters,
   ): Promise<SkyTileContentSectionHarness[]> {
-    const sections = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyTileContentSectionHarness.with(filters || {}),
     )();
-
-    if (sections.length === 0) {
-      if (filters) {
-        throw new Error(
-          `Unable to find any tile content sections with filter(s): ${JSON.stringify(filters)}`,
-        );
-      }
-      throw new Error('Unable to find any tile content sections.');
-    }
-    return sections;
   }
 }

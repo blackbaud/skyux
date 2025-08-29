@@ -58,11 +58,25 @@ export class SkyLinkListHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the link list items.
+   * Gets a specific link list item based on the filter criteria.
+   * @param filter The filter criteria.
+   */
+  public async getListItem(
+    filter: SkyLinkListItemHarnessFilters,
+  ): Promise<SkyLinkListItemHarness> {
+    return await this.locatorFor(SkyLinkListItemHarness.with(filter))();
+  }
+
+  /**
+   * Gets an array of link list items based on the filter criteria.
+   * If no filter is provided, returns all link list items.
+   * @param filter The optional filter criteria.
    */
   public async getListItems(
-    filter: SkyLinkListItemHarnessFilters = {},
+    filter?: SkyLinkListItemHarnessFilters,
   ): Promise<SkyLinkListItemHarness[]> {
-    return await this.locatorForAll(SkyLinkListItemHarness.with(filter))();
+    return await this.locatorForAll(
+      SkyLinkListItemHarness.with(filter || {}),
+    )();
   }
 }

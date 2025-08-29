@@ -56,7 +56,6 @@ export class SkySelectionModalHarness extends ComponentHarness {
   }
 
   /**
-   *
    * Gets the search input's aria-label.
    */
   public async getSearchAriaLabel(): Promise<string | null> {
@@ -104,29 +103,38 @@ export class SkySelectionModalHarness extends ComponentHarness {
   }
 
   /**
-   * Gets a list of search results.
+   * Gets a specific search result based on the filter criteria.
+   * @param filter The filter criteria.
+   */
+  public async getSearchResult(
+    filter: SkySelectionModalSearchResultHarnessFilters,
+  ): Promise<SkySelectionModalSearchResultHarness> {
+    const pickerId = (await (await this.host()).getAttribute('id')) as string;
+
+    return await this.locatorFor(
+      SkyRepeaterItemHarness.with({
+        ...filter,
+        ancestor: `#${pickerId}`,
+      }),
+    )();
+  }
+
+  /**
+   * Gets an array of search results based on the filter criteria.
+   * If no filter is provided, returns all search results.
+   * @param filters The optional filter criteria.
    */
   public async getSearchResults(
     filters?: SkySelectionModalSearchResultHarnessFilters,
   ): Promise<SkySelectionModalSearchResultHarness[]> {
     const pickerId = (await (await this.host()).getAttribute('id')) as string;
 
-    const harnesses = await this.locatorForAll(
+    return await this.locatorForAll(
       SkyRepeaterItemHarness.with({
         ...(filters || {}),
         ancestor: `#${pickerId}`,
       }),
     )();
-
-    if (filters && harnesses.length === 0) {
-      throw new Error(
-        `Could not find search results in the picker matching filter(s): ${JSON.stringify(
-          filters,
-        )}`,
-      );
-    }
-
-    return harnesses;
   }
 
   /**

@@ -7,6 +7,7 @@ import {
 import { SkyTabsetButtonsDisplayMode } from '@skyux/tabs';
 
 import { SkyTabButtonHarness } from './tab-button-harness';
+import { SkyTabButtonHarnessFilters } from './tab-button-harness-filters';
 import { SkyTabContentHarness } from './tab-content-harness';
 import { SkyTabsetHarnessFilters } from './tabset-harness-filters';
 
@@ -20,7 +21,6 @@ export class SkyTabsetHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-tabset';
 
   #getTabset = this.locatorFor('.sky-tabset');
-  #getTabButtons = this.locatorForAll(SkyTabButtonHarness);
   #getTabDropdown = this.locatorFor(SkyDropdownHarness);
 
   /**
@@ -88,7 +88,9 @@ export class SkyTabsetHarness extends SkyComponentHarness {
    * Clicks a tab button with a `tabHeading` matching the input.
    */
   public async clickTabButton(tabHeading: string): Promise<void> {
-    const tabButton = await this.getTabButtonHarness(tabHeading);
+    const tabButton = await this.getTabButtonHarness({
+      tabHeading: tabHeading,
+    });
     return await tabButton.click();
   }
 
@@ -133,31 +135,35 @@ export class SkyTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a tab button harness with the given `tabHeading`
+   * Gets a specific tab button based on the filter criteria.
+   * @param filters The filter criteria.
    */
   public async getTabButtonHarness(
-    tabHeading: string,
+    filters: SkyTabButtonHarnessFilters,
   ): Promise<SkyTabButtonHarness> {
     if ((await this.getMode()) === 'dropdown') {
       const menu = await this.#getDropdownMenu();
-      return await menu.queryHarness(
-        SkyTabButtonHarness.with({ tabHeading: tabHeading }),
-      );
+      return await menu.queryHarness(SkyTabButtonHarness.with(filters));
     }
-    return await this.locatorFor(
-      SkyTabButtonHarness.with({ tabHeading: tabHeading }),
-    )();
+    return await this.locatorFor(SkyTabButtonHarness.with(filters))();
   }
 
   /**
-   * Gets an array of all tab button harnesses.
+   * Gets an array of tab button harnesses based on the filter criteria.
+   * If no filter is provided, returns all tab button harnesses.
+   * @param filters The optional filter criteria.
    */
-  public async getTabButtonHarnesses(): Promise<SkyTabButtonHarness[]> {
+  public async getTabButtonHarnesses(
+    filters?: SkyTabButtonHarnessFilters,
+  ): Promise<SkyTabButtonHarness[]> {
     if ((await this.getMode()) === 'dropdown') {
       const menu = await this.#getDropdownMenu();
-      return await menu.queryHarnesses(SkyTabButtonHarness);
+      return await menu.queryHarnesses(SkyTabButtonHarness.with(filters || {}));
+    } else {
+      return await this.locatorForAll(
+        SkyTabButtonHarness.with(filters || {}),
+      )();
     }
-    return await this.#getTabButtons();
   }
 
   /**
@@ -166,7 +172,9 @@ export class SkyTabsetHarness extends SkyComponentHarness {
   public async getTabContentHarness(
     tabHeading: string,
   ): Promise<SkyTabContentHarness> {
-    const tabButton = await this.getTabButtonHarness(tabHeading);
+    const tabButton = await this.getTabButtonHarness({
+      tabHeading: tabHeading,
+    });
     const id = await tabButton.getTabId();
     return await this.locatorFor(SkyTabContentHarness.with({ tabId: id }))();
   }

@@ -100,7 +100,8 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Get the vertical tabset group by `SkyVerticalTabsetGroupHarnessFilters`
+   * Gets a specific vertical tabset group based on the filter criteria.
+   * @param filters The filter criteria.
    */
   public async getGroup(
     filters: SkyVerticalTabsetGroupHarnessFilters,
@@ -109,15 +110,21 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of `SkyVerticalTabsetGroupHarness` in this tabset.
+   * Gets an array of vertical tabset groups based on the filter criteria.
+   * If no filter is provided, returns all vertical tabset groups.
+   * @param filters The optional filter criteria.
    */
-  public async getGroups(): Promise<SkyVerticalTabsetGroupHarness[]> {
+  public async getGroups(
+    filters?: SkyVerticalTabsetGroupHarnessFilters,
+  ): Promise<SkyVerticalTabsetGroupHarness[]> {
     // open tablist if in mobile view
     if (!(await this.isTabsVisible())) {
       await this.clickShowTabsButton();
     }
 
-    return await this.locatorForAll(SkyVerticalTabsetGroupHarness)();
+    return await this.locatorForAll(
+      SkyVerticalTabsetGroupHarness.with(filters || {}),
+    )();
   }
 
   /**
@@ -135,7 +142,8 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a `SkyVerticalTabButtonHarness` that matches the filter.
+   * Gets a specific vertical tab button based on the filter criteria.
+   * @param filters The filter criteria.
    */
   public async getTab(
     filters: SkyVerticalTabButtonHarnessFilters,
@@ -144,15 +152,21 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of `SkyVerticalTabButtonHarness` in this tabset.
+   * Gets an array of vertical tab buttons based on the filter criteria.
+   * If no filter is provided, returns all vertical tab buttons.
+   * @param filters The optional filter criteria.
    */
-  public async getTabs(): Promise<SkyVerticalTabButtonHarness[]> {
+  public async getTabs(
+    filters?: SkyVerticalTabButtonHarnessFilters,
+  ): Promise<SkyVerticalTabButtonHarness[]> {
     // open tablist if in mobile view
     if (!(await this.isTabsVisible())) {
       await this.clickShowTabsButton();
     }
 
-    return await this.locatorForAll(SkyVerticalTabButtonHarness)();
+    return await this.locatorForAll(
+      SkyVerticalTabButtonHarness.with(filters || {}),
+    )();
   }
 
   /**

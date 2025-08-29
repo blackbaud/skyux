@@ -65,6 +65,10 @@ export class SkySectionedFormHarness extends SkyComponentHarness {
     throw new Error('Unable to find active content because it is not visible.');
   }
 
+  /**
+   * Gets a specific section based on the filter criteria.
+   * @param filters The filter criteria.
+   */
   public async getSection(
     filters: SkySectionedFormSectionHarnessFilters,
   ): Promise<SkySectionedFormSectionHarness> {
@@ -73,6 +77,11 @@ export class SkySectionedFormHarness extends SkyComponentHarness {
     )();
   }
 
+  /**
+   * Gets an array of sections based on the filter criteria.
+   * If no filter is provided, returns all sections.
+   * @param filters The optional filter criteria.
+   */
   public async getSections(
     filters?: SkySectionedFormSectionHarnessFilters,
   ): Promise<SkySectionedFormSectionHarness[]> {
@@ -81,17 +90,9 @@ export class SkySectionedFormHarness extends SkyComponentHarness {
         'Unable to find any sectioned form sections because they are not visible.',
       );
     }
-    const sections = await this.locatorForAll(
+    return await this.locatorForAll(
       SkySectionedFormSectionHarness.with(filters || {}),
     )();
-
-    if (filters && sections.length === 0) {
-      throw new Error(
-        `Unable to find any sectioned form sections with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return sections;
   }
 
   /**

@@ -78,7 +78,29 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   /**
-   * Returns autocomplete search result harnesses.
+   * Gets a specific autocomplete search result based on the filter criteria.
+   * @param filter The filter criteria.
+   */
+  public async getSearchResult(
+    filter: SkyAutocompleteSearchResultHarnessFilters,
+  ): Promise<SkyAutocompleteSearchResultHarness> {
+    const overlay = await this.#getOverlay();
+
+    if (!overlay) {
+      throw new Error(
+        'Unable to retrieve search result. The autocomplete is closed.',
+      );
+    }
+
+    return await overlay.queryHarness(
+      SkyAutocompleteSearchResultHarness.with(filter),
+    );
+  }
+
+  /**
+   * Gets an array of autocomplete search results based on the filter criteria.
+   * If no filter is provided, returns all autocomplete search results.
+   * @param filters The optional filter criteria.
    */
   public async getSearchResults(
     filters?: SkyAutocompleteSearchResultHarnessFilters,
@@ -91,24 +113,9 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
       );
     }
 
-    const harnesses = await overlay.queryHarnesses(
+    return await overlay.queryHarnesses(
       SkyAutocompleteSearchResultHarness.with(filters || {}),
     );
-
-    if (filters && harnesses.length === 0) {
-      // Stringify the regular expression so that it's readable in the console log.
-      if (filters.text instanceof RegExp) {
-        filters.text = filters.text.toString();
-      }
-
-      throw new Error(
-        `Could not find search results matching filter(s): ${JSON.stringify(
-          filters,
-        )}`,
-      );
-    }
-
-    return harnesses;
   }
 
   /**
