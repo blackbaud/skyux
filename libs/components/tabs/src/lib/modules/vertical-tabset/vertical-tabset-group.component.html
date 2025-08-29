@@ -39,7 +39,7 @@
     [attr.labelledby]="groupId"
     [@.disabled]="animationDisabled"
     [@skyAnimationSlide]="slideDirection"
-    (@skyAnimationSlide.done)="updateSlideDirection($event)"
+    [@skyVerticalTabsetPaddingAnimation]="slideDirection"
   >
     <ng-content />
   </div>

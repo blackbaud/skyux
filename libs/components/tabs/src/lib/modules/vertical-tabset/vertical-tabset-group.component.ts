@@ -1,4 +1,12 @@
 import {
+  AnimationTriggerMetadata,
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -24,12 +32,44 @@ import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.servi
 import { SkyVerticalTabsetGroupService } from './vertical-tabset-group.service';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
+// Due to how we leave the content element in the DOM - we need to ensure that the padding for the content area is animated away along with the height.
+// The timing here matches what the slide animation uses to ensure they happen together.
+const skyVerticalTabsetPaddingAnimation: AnimationTriggerMetadata = trigger(
+  'skyVerticalTabsetPaddingAnimation',
+  [
+    state(
+      'down',
+      style({
+        'padding-top': 'var(--sky-comp-tab-vertical-subgroup-space-inset-top)',
+        'padding-bottom':
+          'var(--sky-comp-tab-vertical-subgroup-space-inset-bottom)',
+      }),
+    ),
+    state(
+      'up',
+      style({
+        'padding-top': '0',
+        'padding-bottom': '0',
+      }),
+    ),
+    state(
+      'void',
+      style({
+        'padding-top': '0',
+        'padding-bottom': '0',
+      }),
+    ),
+    // Same timing as skyAnimationSlide to stay synchronized
+    transition('up <=> down', animate('150ms ease-in')),
+  ],
+);
+
 @Component({
   selector: 'sky-vertical-tabset-group',
   templateUrl: './vertical-tabset-group.component.html',
   styleUrls: ['./vertical-tabset-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [skyAnimationSlide],
+  animations: [skyAnimationSlide, skyVerticalTabsetPaddingAnimation],
   providers: [SkyVerticalTabsetGroupService],
   standalone: false,
 })
