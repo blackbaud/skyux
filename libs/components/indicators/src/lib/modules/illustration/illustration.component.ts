@@ -2,12 +2,10 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  SecurityContext,
   inject,
   input,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { DomSanitizer } from '@angular/platform-browser';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { catchError, from, of, switchMap } from 'rxjs';
@@ -30,7 +28,6 @@ export class SkyIllustrationComponent {
   readonly #resolverSvc = inject(SkyIllustrationResolverService, {
     optional: true,
   });
-  readonly #domSanitizer = inject(DomSanitizer);
 
   /**
    * The name of the illustration to display.
@@ -53,31 +50,12 @@ export class SkyIllustrationComponent {
     ),
   );
 
-  protected readonly svg = toSignal(
+  protected readonly svgHref = toSignal(
     toObservable(this.name).pipe(
       switchMap((name) =>
-        this.#resolverSvc ? from(this.#resolverSvc.resolveSvg(name)) : of(''),
+        this.#resolverSvc ? from(this.#resolverSvc.resolveHref(name)) : of(''),
       ),
       catchError(() => of('')),
-    ),
-  );
-
-  protected readonly sanitizedSvg = toSignal(
-    toObservable(this.svg).pipe(
-      switchMap((svg) => {
-        if (svg) {
-          const sanitized = this.#domSanitizer.sanitize(
-            SecurityContext.HTML,
-            svg,
-          );
-          return of(
-            sanitized
-              ? this.#domSanitizer.bypassSecurityTrustHtml(sanitized)
-              : '',
-          );
-        }
-        return of('');
-      }),
     ),
   );
 }

@@ -25,7 +25,7 @@ export class SkyIllustrationTestResolverService extends SkyIllustrationResolverS
     });
   }
 
-  public override async resolveSvg(name: string): Promise<string> {
+  public override async resolveHref(name: string): Promise<string> {
     return await new Promise((resolve, reject) => {
       setTimeout(() => {
         switch (name) {

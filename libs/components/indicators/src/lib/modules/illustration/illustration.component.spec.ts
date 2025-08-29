@@ -1,3 +1,4 @@
+import { Component } from '@angular/core';
 import { Provider } from '@angular/core';
 import {
   ComponentFixture,
@@ -10,11 +11,44 @@ import { expectAsync } from '@skyux-sdk/testing';
 import { SkyIllustrationTestResolverService } from './fixtures/illustration-test-resolver.service';
 import { SkyIllustrationResolverService } from './illustration-resolver.service';
 import { SkyIllustrationSize } from './illustration-size';
-import { SkyIllustrationComponent } from './illustration.component';
 import { SkyIllustrationModule } from './illustration.module';
 
+@Component({
+  template: `
+    <!-- mock sprite map -->
+    <svg id="sky-illustration-svg-sprite" hidden="true">
+      <symbol
+        viewBox="-2 -2 96 96"
+        class="sky-illustration-svg"
+        id="sky-illustration-square"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect width="10" height="10" fill="blue" />
+      </symbol>
+
+      <symbol
+        viewBox="-2 -2 96 96"
+        class="sky-illustration-svg"
+        id="sky-illustration-circle"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle r="5" cx="5" cy="5" fill="green" />
+      </symbol>
+    </svg>
+    <div class="test-wrapper">
+      <sky-illustration [name]="illustrationName" [size]="illustrationSize" />
+    </div>
+  `,
+  imports: [SkyIllustrationModule],
+})
+class IllustrationComponent {
+  public illustrationName = 'success';
+  public illustrationSize: SkyIllustrationSize = 'sm';
+}
+
 describe('Illustration', () => {
-  let fixture: ComponentFixture<SkyIllustrationComponent>;
+  let fixture: ComponentFixture<IllustrationComponent>;
+  let component: IllustrationComponent;
 
   function setupTest(
     provideResolver: boolean,
@@ -22,7 +56,7 @@ describe('Illustration', () => {
     size: SkyIllustrationSize,
     resolver?: {
       resolveUrl: (url: string) => Promise<string>;
-      resolveSvg: (name: string) => Promise<string>;
+      resolveHref: (name: string) => Promise<string>;
     },
   ): void {
     const providers: Provider[] = [];
@@ -35,13 +69,14 @@ describe('Illustration', () => {
     }
 
     TestBed.configureTestingModule({
-      imports: [SkyIllustrationModule],
+      imports: [IllustrationComponent],
       providers,
     });
 
-    fixture = TestBed.createComponent(SkyIllustrationComponent);
-    fixture.componentRef.setInput('name', name);
-    fixture.componentRef.setInput('size', size);
+    fixture = TestBed.createComponent(IllustrationComponent);
+    component = fixture.componentInstance;
+    component.illustrationName = name;
+    component.illustrationSize = size;
   }
 
   function getImgEl(): HTMLImageElement | null {
@@ -50,15 +85,10 @@ describe('Illustration', () => {
     );
   }
 
-  function getSvgContainer(): HTMLDivElement | null {
+  function getSvg(): SVGElement | null {
     return (fixture.nativeElement as HTMLElement).querySelector(
-      '.sky-illustration-wrapper .sky-illustration-svg-wrapper',
+      '.sky-illustration-wrapper .sky-illustration-svg',
     );
-  }
-
-  function getSvgElement(): SVGElement | null {
-    const container = getSvgContainer();
-    return container?.querySelector('svg') || null;
   }
 
   function validateImageAttr(name: string, expectedValue: string): void {
@@ -76,10 +106,10 @@ describe('Illustration', () => {
     expect(visibility).toBe(expectedVisible ? 'visible' : 'hidden');
   }
 
-  function detectUrlChanges(): void {
+  function detectChanges(): void {
     fixture.detectChanges();
 
-    // Resolve URL promise and apply changes.
+    // Resolve URL or href promise and apply changes.
     tick();
     fixture.detectChanges();
   }
@@ -98,7 +128,7 @@ describe('Illustration', () => {
     it('should set the expected attributes', fakeAsync(() => {
       setupTest(true, 'success', 'sm');
 
-      detectUrlChanges();
+      detectChanges();
 
       validateImageAttr('loading', 'lazy');
       validateImageAttr('src', 'https://example.com/success.svg');
@@ -107,7 +137,7 @@ describe('Illustration', () => {
     it('should show a broken image if no URL is returned', fakeAsync(() => {
       setupTest(true, 'invalid', 'sm');
 
-      detectUrlChanges();
+      detectChanges();
 
       validateImageAttr('src', '');
     }));
@@ -115,12 +145,12 @@ describe('Illustration', () => {
     it('should show a broken image if retrieving the URL fails', fakeAsync(() => {
       setupTest(true, 'fail', 'sm');
 
-      detectUrlChanges();
+      detectChanges();
 
       validateImageAttr('src', '');
     }));
 
-    it('should be accessible', async () => {
+    it('should be accessible with img', async () => {
       setupTest(true, 'success', 'sm');
 
       fixture.detectChanges();
@@ -140,16 +170,16 @@ describe('Illustration', () => {
 
       setupTest(true, 'test', 'sm', {
         resolveUrl: () => resolvePromise,
-        resolveSvg: () => Promise.resolve(''),
+        resolveHref: () => Promise.resolve(''),
       });
 
-      detectUrlChanges();
+      detectChanges();
 
       validateImageVisibility(false);
 
       resolveUrl('https://example.com/success.svg');
 
-      detectUrlChanges();
+      detectChanges();
 
       validateImageVisibility(true);
 
@@ -161,148 +191,71 @@ describe('Illustration', () => {
     it('should show a broken image', fakeAsync(() => {
       setupTest(false, 'success', 'sm');
 
-      detectUrlChanges();
+      detectChanges();
 
       validateImageAttr('src', '');
     }));
   });
 
   describe('SVG functionality', () => {
-    it('should display SVG when resolveSvg returns content', fakeAsync(() => {
-      const mockSvg = '<svg><circle cx="50" cy="50" r="40" /></svg>';
+    it('should display SVG when resolveHref returns content', fakeAsync(() => {
+      const href = '#sky-illustration-square';
 
       setupTest(true, 'test-svg', 'md', {
         resolveUrl: () => Promise.resolve('https://example.com/test.svg'),
-        resolveSvg: () => Promise.resolve(mockSvg),
+        resolveHref: () => Promise.resolve(href),
       });
 
-      detectUrlChanges();
+      detectChanges();
 
-      const svgContainer = getSvgContainer();
+      const svgEl = getSvg();
       const imgEl = getImgEl();
 
-      expect(svgContainer).toBeTruthy();
-      expect(svgContainer?.innerHTML).toContain('<svg>');
-      expect(svgContainer?.innerHTML).toContain('<circle');
+      expect(svgEl).toBeTruthy();
+      expect(svgEl?.innerHTML).toContain('<use');
       expect(imgEl).toBeFalsy();
     }));
 
-    it('should fallback to image when resolveSvg returns empty string', fakeAsync(() => {
+    it('should fallback to image when resolveHref returns empty string', fakeAsync(() => {
       setupTest(true, 'test-image', 'md', {
         resolveUrl: () => Promise.resolve('https://example.com/test.svg'),
-        resolveSvg: () => Promise.resolve(''),
+        resolveHref: () => Promise.resolve(''),
       });
 
-      detectUrlChanges();
+      detectChanges();
 
-      const svgContainer = getSvgContainer();
+      const svgEl = getSvg();
       const imgEl = getImgEl();
 
-      expect(svgContainer).toBeFalsy();
+      expect(svgEl).toBeFalsy();
       expect(imgEl).toBeTruthy();
       expect(imgEl?.getAttribute('src')).toBe('https://example.com/test.svg');
     }));
 
-    it('should fallback to image when resolveSvg fails', fakeAsync(() => {
+    it('should fallback to image when resolveHref fails', fakeAsync(() => {
       setupTest(true, 'test-fail', 'md', {
         resolveUrl: () => Promise.resolve('https://example.com/test.svg'),
-        resolveSvg: () => Promise.reject(new Error('SVG load failed')),
+        resolveHref: () => Promise.reject(new Error('href load failed')),
       });
 
-      detectUrlChanges();
+      detectChanges();
 
-      const svgContainer = getSvgContainer();
+      const svgEl = getSvg();
       const imgEl = getImgEl();
 
-      expect(svgContainer).toBeFalsy();
+      expect(svgEl).toBeFalsy();
       expect(imgEl).toBeTruthy();
       expect(imgEl?.getAttribute('src')).toBe('https://example.com/test.svg');
     }));
 
-    it('should sanitize SVG content properly', fakeAsync(() => {
-      const maliciousSvg =
-        '<svg><script>alert("xss")</script><circle cx="50" cy="50" r="40" /></svg>';
+    it('should be accessible with SVG', async () => {
+      setupTest(true, 'svg', 'md');
 
-      setupTest(true, 'test-sanitize', 'md', {
-        resolveUrl: () => Promise.resolve('https://example.com/test.svg'),
-        resolveSvg: () => Promise.resolve(maliciousSvg),
-      });
+      fixture.detectChanges();
 
-      detectUrlChanges();
-
-      const svgContainer = getSvgContainer();
-
-      console.log('WHATTT');
-      console.log(svgContainer);
-
-      expect(svgContainer).toBeTruthy();
-      expect(svgContainer?.innerHTML).toContain('<svg>');
-      expect(svgContainer?.innerHTML).toContain('<circle');
-      expect(svgContainer?.innerHTML).not.toContain('<script>');
-    }));
-
-    xit('should handle SVG with complex content', fakeAsync(() => {
-      const complexSvg = `
-      <svg viewBox="0 0 100 100" class="sky-illustration-svg">
-        <defs>
-          <linearGradient id="gradient1">
-            <stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:1" />
-            <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
-          </linearGradient>
-        </defs>
-        <rect width="100" height="100" fill="url(#gradient1)" />
-        <text x="50" y="50" text-anchor="middle">Test</text>
-      </svg>
-    `;
-
-      setupTest(true, 'test-complex', 'lg', {
-        resolveUrl: () => Promise.resolve('https://example.com/complex.svg'),
-        resolveSvg: () => Promise.resolve(complexSvg),
-      });
-
-      detectUrlChanges();
-
-      const svgContainer = getSvgContainer();
-      const svgElement = getSvgElement();
-
-      expect(svgContainer).toBeTruthy();
-      expect(svgElement).toBeTruthy();
-      expect(svgElement?.getAttribute('viewBox')).toBe('0 0 100 100');
-      expect(svgContainer?.innerHTML).toContain('<defs>');
-      expect(svgContainer?.innerHTML).toContain('<linearGradient');
-      expect(svgContainer?.innerHTML).toContain('<text');
-    }));
-
-    xit('should apply correct wrapper class with SVG', fakeAsync(() => {
-      const mockSvg = '<svg><circle cx="50" cy="50" r="40" /></svg>';
-
-      setupTest(true, 'test-class', 'sm', {
-        resolveUrl: () => Promise.resolve('https://example.com/test.svg'),
-        resolveSvg: () => Promise.resolve(mockSvg),
-      });
-
-      detectUrlChanges();
-
-      const wrapper = (fixture.nativeElement as HTMLElement).querySelector(
-        '.sky-illustration-wrapper',
-      );
-
-      expect(wrapper).toBeTruthy();
-      expect(wrapper?.classList.contains('sky-illustration-img-sm')).toBe(true);
-    }));
-
-    xit('should be accessible with SVG content', fakeAsync(async () => {
-      const accessibleSvg =
-        '<svg role="img" aria-label="Test illustration"><circle cx="50" cy="50" r="40" /></svg>';
-
-      setupTest(true, 'test-accessible', 'md', {
-        resolveUrl: () => Promise.resolve('https://example.com/test.svg'),
-        resolveSvg: () => Promise.resolve(accessibleSvg),
-      });
-
-      detectUrlChanges();
+      expect(fixture.nativeElement.innerHTML).toContain('<svg');
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
-    }));
+    });
   });
 });
