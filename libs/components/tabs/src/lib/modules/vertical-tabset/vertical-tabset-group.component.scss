@@ -11,7 +11,8 @@
   --sky-override-vertical-tabset-group-header-selected-font-color: buttontext;
   --sky-override-vertical-tabset-group-header-selected-font-weight: 600;
   --sky-override-vertical-tabset-group-button-padding: #{$sky-padding};
-  --sky-override-vertical-tabset-group-content-padding: 0 0 0 #{$sky-padding};
+  --sky-override-vertical-tabset-group-content-padding-left: #{$sky-padding};
+  --sky-override-vertical-tabset-group-content-padding-right: 0;
   --sky-override-vertical-tabset-group-gap: #{$sky-margin-half};
   --sky-override-vertical-tabset-group-header-align-items: flex-start;
   --sky-override-vertical-tabset-group-margin: #{$sky-margin-half} 0
@@ -89,16 +90,14 @@
 .sky-vertical-tabset-group-content {
   overflow: hidden;
   border-top: var(--sky-override-vertical-tabset-group-border, none);
-}
-
-.sky-vertical-tabset-group-header-sub-open
-  ~ .sky-vertical-tabset-group-content {
-  padding: var(
-    --sky-override-vertical-tabset-group-content-padding,
-    var(--sky-comp-tab-vertical-subgroup-space-inset-top)
-      var(--sky-comp-tab-vertical-subgroup-space-inset-right)
-      var(--sky-comp-tab-vertical-subgroup-space-inset-bottom)
-      var(--sky-comp-tab-vertical-subgroup-space-inset-left)
+  // Left and right padding is handled by the component, top and bottom by animation
+  padding-left: var(
+    --sky-override-vertical-tabset-group-content-padding-left,
+    var(--sky-comp-tab-vertical-subgroup-space-inset-left)
+  );
+  padding-right: var(
+    --sky-override-vertical-tabset-group-content-padding-right,
+    var(--sky-comp-tab-vertical-subgroup-space-inset-right)
   );
 }
 
