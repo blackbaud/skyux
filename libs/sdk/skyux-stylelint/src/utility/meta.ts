@@ -8,6 +8,6 @@ export function getRuleMeta(args: {
 
   return {
     fixable,
-    url: `https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-stylelint/docs/rules/${ruleId}.md`,
+    url: `https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-stylelint/docs/rules/${ruleId}.md`,
   } satisfies stylelint.RuleMeta;
 }
