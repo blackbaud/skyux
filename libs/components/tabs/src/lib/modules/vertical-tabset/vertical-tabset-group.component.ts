@@ -175,10 +175,6 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
     this.#tabIdService.unregister(this.groupId);
   }
 
-  public updateSlideDirection(event: any): void {
-    this.slideDirection = event.toState;
-  }
-
   public toggleMenuOpen(): void {
     if (!this.disabled) {
       this.open = !this.open;
