@@ -10,7 +10,7 @@ import { SkyFilterBarFilterModalConfig } from '../models/filter-bar-filter-modal
   templateUrl: './filter-bar.component.fixture.html',
 })
 export class SkyFilterBarTestComponent {
-  public filters = model<SkyFilterBarFilterItem[]>();
+  public appliedFilters = model<SkyFilterBarFilterItem[]>();
 
   public selectedFilterIds = model<string[] | undefined>(['1', '2', '3']);
 
