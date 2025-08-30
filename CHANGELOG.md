@@ -1,5 +1,16 @@
 # Changelog
 
+## [13.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.8...13.0.0-alpha.9) (2025-08-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* child harness methods standardization ([#3854](https://github.com/blackbaud/skyux/issues/3854))
+
+### Features
+
+* child harness methods standardization ([#3854](https://github.com/blackbaud/skyux/issues/3854)) ([38806f3](https://github.com/blackbaud/skyux/commit/38806f3a865c1e33d4832d84fe5eba8eb42b1b8b))
+
 ## [13.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.7...13.0.0-alpha.8) (2025-08-26)
 
 
