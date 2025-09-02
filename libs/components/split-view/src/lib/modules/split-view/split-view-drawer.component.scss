@@ -14,7 +14,7 @@
 .sky-split-view-drawer {
   background: var(
     --sky-override-split-view-drawer-background-color,
-    var(--sky-color-background-container-base)
+    var(--sky-color-background-container-dimmed)
   );
   overflow: auto;
   height: 100%;
