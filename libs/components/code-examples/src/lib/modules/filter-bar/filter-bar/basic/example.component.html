@@ -1,1 +1,30 @@
-<sky-filter-bar [filterAsyncSearchFn]="searchFn" [(filters)]="filters" />
+<sky-filter-bar
+  [(appliedFilters)]="appliedFilters"
+  [selectedFilterIds]="selectedFilterIds"
+>
+  <sky-filter-item-modal
+    filterId="community-connection"
+    labelText="Community connection"
+    [filterModalConfig]="communityConnectionConfig"
+  />
+  <sky-filter-item-modal
+    filterId="current-grade"
+    labelText="Current grade"
+    [filterModalConfig]="currentGradeConfig"
+  />
+  <sky-filter-item-modal
+    filterId="entering-grade"
+    labelText="Entering grade"
+    [filterModalConfig]="enteringGradeConfig"
+  />
+  <sky-filter-item-modal
+    filterId="role"
+    labelText="Role"
+    [filterModalConfig]="roleConfig"
+  />
+  <sky-filter-item-modal
+    filterId="staff-assigned"
+    labelText="Staff assigned"
+    [filterModalConfig]="staffAssignedConfig"
+  />
+</sky-filter-bar>

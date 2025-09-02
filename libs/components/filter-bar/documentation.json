@@ -9,7 +9,8 @@
           "SkyFilterBarFilterItem",
           "SkyFilterBarFilterValue",
           "SkyFilterBarFilterModalConfig",
-          "SkyFilterBarFilterModalContext"
+          "SkyFilterBarFilterModalContext",
+          "SkyFilterBarFilterModalSizeType"
         ],
         "primaryDocsId": "SkyFilterBarModule"
       },
@@ -17,8 +18,8 @@
         "docsIds": [
           "SkyFilterBarHarness",
           "SkyFilterBarHarnessFilters",
-          "SkyFilterBarItemHarness",
-          "SkyFilterBarItemHarnessFilters"
+          "SkyFilterItemHarness",
+          "SkyFilterItemHarnessFilters"
         ]
       },
       "codeExamples": {

@@ -1,5 +1,7 @@
 import { Type } from '@angular/core';
 
+import { SkyFilterBarFilterModalSizeType } from './filter-bar-filter-modal-size';
+
 export interface SkyFilterBarFilterModalConfig {
   /**
    * The modal component to display when the user selects the filter.
@@ -12,7 +14,7 @@ export interface SkyFilterBarFilterModalConfig {
    * The size of the modal to display.
    * @default 'medium'
    */
-  modalSize?: 'small' | 'medium' | 'large' | 'full';
+  modalSize?: SkyFilterBarFilterModalSizeType;
   /**
    * Any additional properties to be passed in to the filter modal.
    */

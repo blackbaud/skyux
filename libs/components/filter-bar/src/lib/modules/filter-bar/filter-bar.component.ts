@@ -128,8 +128,8 @@ export class SkyFilterBarComponent {
 
     const filterArgs: SkySelectionModalOpenArgs = {
       selectionDescriptor: strings.descriptor,
-      descriptorProperty: 'name',
-      idProperty: 'id',
+      descriptorProperty: 'labelText',
+      idProperty: 'filterId',
       selectMode: 'multiple',
       value: existingFilters,
       searchAsync: this.#filterAsyncSearchFn,
@@ -270,13 +270,13 @@ export class SkyFilterBarComponent {
     args: SkySelectionModalSearchArgs,
   ): Observable<SkySelectionModalSearchResult> => {
     const items = this.filterItems().map((item) => ({
-      id: item.filterId(),
-      name: item.labelText(),
+      filterId: item.filterId(),
+      labelText: item.labelText(),
     }));
 
     const results = args.searchText
       ? items.filter((item) =>
-          item.name
+          item.labelText
             .toLocaleUpperCase()
             .includes(args.searchText.toLocaleUpperCase()),
         )
