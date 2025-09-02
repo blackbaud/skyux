@@ -102,8 +102,8 @@ myControl = new FormControl<MyObject[]>([]);
 
 // Form initialization
 this.form = this.fb.group({
-  singleSelect: [[{ id: '1', name: 'Item' }]], // Array now
-  multiSelect: [[{ id: '1', name: 'Item' }]], // Array (unchanged)
+  singleSelect: [{ id: '1', name: 'Item' }], // Array now
+  multiSelect: [{ id: '1', name: 'Item' }], // Array (unchanged)
 });
 ```
 
@@ -681,7 +681,7 @@ myControl = new FormControl<MyObject | null>(null);
 myControl = new FormControl<MyObject[]>([]);
 
 // Template binding stays the same
-[formControl] = 'myControl';
+[formControl]="myControl";
 ```
 
 ### Template-Driven Forms
