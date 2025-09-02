@@ -44,6 +44,13 @@ export class SkyFilterItemHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the filter item value.
+   */
+  public async getValue(): Promise<string | undefined> {
+    return await (await this.#getFilterValue())?.text();
+  }
+
+  /**
    * Gets the filter item name.
    */
   public async getName(): Promise<string> {
