@@ -153,4 +153,25 @@ body.sky-theme-modern {
   .sky-font-heading-5 {
     line-height: var(--sky-font-line_height-heading-5);
   }
+
+  svg.sky-illustration-svg {
+    height: 100%;
+    width: 100%;
+
+    .sky-illustration-fill-softest {
+      fill: var(--sky-color-illustration-fill-softest);
+    }
+
+    .sky-illustration-fill-soft {
+      fill: var(--sky-color-illustration-fill-soft);
+    }
+
+    .sky-illustration-fill-heavy {
+      fill: var(--sky-color-illustration-fill-heavy);
+    }
+
+    .sky-illustration-outline {
+      stroke: var(--sky-color-illustration-stroke);
+    }
+  }
 }
