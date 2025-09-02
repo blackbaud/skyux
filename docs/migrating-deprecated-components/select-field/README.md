@@ -136,6 +136,7 @@ class MyComponent {
 
 ### 4. Update Value Access (CRITICAL)
 
+<!-- prettier-ignore-start -->
 ```typescript
 // Before - direct object access
 onSelectionChange(value: MyObject | undefined) {
@@ -154,6 +155,7 @@ onSelectionChange(value: MyObject[] | undefined) {
 // Form value access
 const selectedItem = this.form.get('field')?.value?.[0]; // Use [0]
 ```
+<!-- prettier-ignore-end -->
 
 ### 5. Update Tests
 
@@ -434,6 +436,7 @@ expect(await inputBoxHarness.getLabelText()).toBe('Department');
 
 **Before (sky-select-field):**
 
+<!-- prettier-ignore-start -->
 ```typescript
 // Value is the object directly
 onSelectionChange(value: MyObject | undefined) {
@@ -442,9 +445,11 @@ onSelectionChange(value: MyObject | undefined) {
   }
 }
 ```
+<!-- prettier-ignore-end -->
 
 **After (sky-lookup):**
 
+<!-- prettier-ignore-start -->
 ```typescript
 // Value is always an array, even for single select
 onSelectionChange(value: MyObject[] | undefined) {
@@ -453,6 +458,7 @@ onSelectionChange(value: MyObject[] | undefined) {
   }
 }
 ```
+<!-- prettier-ignore-end -->
 
 ### 4. Module Import Patterns
 
@@ -584,6 +590,7 @@ export class MyComponent {
 
 **Before (failing after migration):**
 
+<!-- prettier-ignore-start -->
 ```typescript
 // Test looking for old sky-control-label
 const labelElement = fixture.nativeElement.querySelector('.sky-control-label');
@@ -594,9 +601,11 @@ getSelectFieldLabel(): string {
   return this.fixture.nativeElement.querySelector('.sky-control-label')?.innerHTML;
 }
 ```
+<!-- prettier-ignore-end -->
 
 **After (use SkyInputBoxHarness):**
 
+<!-- prettier-ignore-start -->
 ```typescript
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { expectAsync } from '@skyux-sdk/testing'; // If using skyAppResources pipe
@@ -625,6 +634,7 @@ async getInputBoxLabelText(): Promise<string> {
   return await inputBoxHarness.getLabelText();
 }
 ```
+<!-- prettier-ignore-end -->
 
 **Setup harness loader in test:**
 
@@ -673,6 +683,7 @@ TestBed.configureTestingModule({
 
 ### Reactive Forms (Single Select)
 
+<!-- prettier-ignore-start -->
 ```typescript
 // Before
 myControl = new FormControl<MyObject | null>(null);
@@ -683,6 +694,7 @@ myControl = new FormControl<MyObject[]>([]);
 // Template binding stays the same
 [formControl]="myControl";
 ```
+<!-- prettier-ignore-end -->
 
 ### Template-Driven Forms
 
