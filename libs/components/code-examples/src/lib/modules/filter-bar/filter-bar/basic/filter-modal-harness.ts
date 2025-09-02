@@ -25,7 +25,7 @@ export class FilterModalHarness extends SkyComponentHarness {
     await select.selectOptions(value);
 
     const saveButton = await this.#getSaveButton();
-    return await saveButton.click();
+    await saveButton.click();
   }
 
   /**
@@ -33,6 +33,6 @@ export class FilterModalHarness extends SkyComponentHarness {
    */
   public async clickCancel(): Promise<void> {
     const cancelButton = await this.#getCancelButton();
-    return await cancelButton.click();
+    await cancelButton.click();
   }
 }
