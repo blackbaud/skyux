@@ -8,6 +8,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyContentInfoProvider, SkyLogService } from '@skyux/core';
+import { SkyFilterState, SkyFilterStateService } from '@skyux/lists';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -24,6 +25,7 @@ import { SkyDataManagerState } from '../models/data-manager-state';
 import { SkyDataViewConfig } from '../models/data-view-config';
 import { SkyDataViewState } from '../models/data-view-state';
 
+import { SkyDataManagerFilterStateService } from './data-manager-filter-state.service';
 import { SkyDataManagerToolbarComponent } from './data-manager-toolbar.component';
 
 class MockModalService {
@@ -67,6 +69,7 @@ describe('SkyDataManagerToolbarComponent', () => {
   let dataManagerToolbarComponent: SkyDataManagerToolbarComponent;
   let dataManagerToolbarNativeElement: HTMLElement;
   let dataManagerService: SkyDataManagerService;
+  let filterStateService: SkyDataManagerFilterStateService;
   let modalServiceInstance: MockModalService;
   let viewConfig: SkyDataViewConfig;
 
@@ -158,6 +161,10 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarNativeElement = dataManagerToolbarFixture.nativeElement;
     dataManagerToolbarComponent = dataManagerToolbarFixture.componentInstance;
     dataManagerService = TestBed.inject(SkyDataManagerService);
+    // Get the instance provided on the component (token: SkyFilterStateService)
+    filterStateService = dataManagerToolbarFixture.debugElement.injector.get(
+      SkyFilterStateService,
+    ) as SkyDataManagerFilterStateService;
     viewConfig = {
       id: 'cardsView',
       name: 'test view',
@@ -933,6 +940,112 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     it('should pass accessibility', async () => {
       await expectAsync(dataManagerToolbarNativeElement).toBeAccessible();
+    });
+  });
+
+  describe('filter state service integration', () => {
+    it('should call updateFilterBar on filter state service when data state is updated with new filter state', () => {
+      spyOn(filterStateService, 'updateFilterBar').and.callThrough();
+
+      const newFilterState: SkyFilterState = {
+        filters: [
+          {
+            filterId: 'filter1',
+            filterValue: { value: 'test1', displayValue: 'Test 1' },
+          },
+          {
+            filterId: 'filter2',
+            filterValue: { value: 'test2', displayValue: 'Test 2' },
+          },
+        ],
+        selectedFilterIds: ['filter1', 'filter2'],
+      };
+
+      // Create a data state with filter extensions
+      const dataState = new SkyDataManagerState({});
+      dataState.extensions = {
+        filterState: newFilterState,
+      };
+
+      // Simulate data state update from service
+      dataManagerService.updateDataState(dataState, 'external');
+      dataManagerToolbarFixture.detectChanges();
+
+      expect(filterStateService.updateFilterBar).toHaveBeenCalledWith(
+        newFilterState,
+      );
+    });
+
+    it('should update data state extensions when filter state service emits new filter state', () => {
+      spyOn(dataManagerService, 'updateDataState');
+
+      const newFilterState: SkyFilterState = {
+        filters: [
+          {
+            filterId: 'filter1',
+            filterValue: { value: 'updated', displayValue: 'Updated Filter' },
+          },
+        ],
+        selectedFilterIds: ['filter1'],
+      };
+
+      // Simulate filter state change from filter state service
+      filterStateService.updateDataState(newFilterState);
+      dataManagerToolbarFixture.detectChanges();
+
+      // Should update data state with new filter state in extensions
+      expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          extensions: jasmine.objectContaining({
+            filterState: newFilterState,
+          }),
+        }),
+        'toolbar',
+      );
+    });
+
+    it('should not update data state if filter state has not changed', () => {
+      const filterState: SkyFilterState = {
+        filters: [
+          {
+            filterId: 'filter1',
+            filterValue: { value: 'test', displayValue: 'Filter 1' },
+          },
+        ],
+        selectedFilterIds: ['filter1'],
+      };
+
+      // Set initial state
+      const dataState = new SkyDataManagerState({});
+      dataState.extensions = { filterState: filterState };
+      dataManagerToolbarComponent.dataState = dataState;
+      dataManagerToolbarFixture.detectChanges();
+
+      spyOn(dataManagerService, 'updateDataState');
+
+      // Emit the same filter state
+      filterStateService.updateDataState(filterState);
+      dataManagerToolbarFixture.detectChanges();
+
+      // Should not call updateDataState since state hasn't changed
+      expect(dataManagerService.updateDataState).not.toHaveBeenCalled();
+    });
+
+    it('should handle undefined filter states gracefully', () => {
+      spyOn(dataManagerService, 'updateDataState');
+
+      // Simulate filter state being cleared
+      filterStateService.updateDataState({});
+      dataManagerToolbarFixture.detectChanges();
+
+      expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          extensions: jasmine.objectContaining({
+            filterState: {},
+          }),
+        }),
+        'toolbar',
+      );
     });
   });
 });
