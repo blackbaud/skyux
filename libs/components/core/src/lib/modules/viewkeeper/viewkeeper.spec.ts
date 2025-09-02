@@ -237,14 +237,50 @@ describe('Viewkeeper', () => {
       scrollWindowTo(40, 100);
       validatePinned(el, true, 0, 2);
       expect(el.style.marginTop).toBe(
-        'calc(0px + var(--test-viewport-top, 0))',
+        'calc(0px + var(--test-viewport-top, 0px))',
       );
+
+      // Verify computed style is calculated correctly when viewport property is set
+      const computedStyle = window.getComputedStyle(el);
+      expect(computedStyle.marginTop).toBe('2px');
 
       document.documentElement.style.setProperty('--test-viewport-top', '12px');
       validatePinned(el, true, 0, 12);
 
+      // Verify computed style updates correctly when property value changes
+      const updatedComputedStyle = window.getComputedStyle(el);
+      expect(updatedComputedStyle.marginTop).toBe('12px');
+
       document.documentElement.style.removeProperty('--test-viewport-top');
       document.body.style.removeProperty('--test-viewport-top');
+    });
+
+    it('should compute correct margin when viewportMarginProperty fallback is used', () => {
+      vks.push(
+        new SkyViewkeeper({
+          el,
+          boundaryEl,
+          viewportMarginTop: 5,
+          viewportMarginProperty: '--test-viewport-fallback',
+          setWidth: true,
+        }),
+      );
+
+      scrollWindowTo(0, 5);
+      validatePinned(el, false);
+
+      // Scroll to trigger pinning (without setting the CSS property, so fallback is used)
+      scrollWindowTo(40, 100);
+      validatePinned(el, true, 0, 5);
+
+      // Verify CSS calc() expression uses proper units for fallback
+      expect(el.style.marginTop).toBe(
+        'calc(5px + var(--test-viewport-fallback, 0px))',
+      );
+
+      // Verify computed style when property is not set (uses fallback 0px)
+      const computedStyle = window.getComputedStyle(el);
+      expect(computedStyle.marginTop).toBe('5px');
     });
 
     describe('ResizeObserver', () => {

@@ -22,7 +22,7 @@ import { DropdownExampleComponent } from './dropdown-example.component';
       }
 
       .space {
-        height: calc(100vh - 200px - var(--sky-viewport-top, 0));
+        height: calc(100vh - 200px - var(--sky-viewport-top, 0px));
         min-height: 200px;
         background-color: var(--sky-background-color-info-light);
         padding: var(--sky-padding-even-xl);
