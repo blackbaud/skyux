@@ -39,7 +39,7 @@ export class FilterModalComponent {
   });
 
   protected save(): void {
-    const selectedValue = this.formGroup.get('selectedOption')?.value;
+    const selectedValue = this.formGroup.get('selectedOption')?.value as string;
 
     if (selectedValue) {
       // Map the primitive value back to the full object
