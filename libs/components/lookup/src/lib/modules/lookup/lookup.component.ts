@@ -117,9 +117,9 @@ export class SkyLookupComponent
    * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
-  @Input()
-  public set disabled(value: boolean | undefined) {
-    this.#_disabled = value ?? false;
+  @Input({ transform: booleanAttribute })
+  public set disabled(value: boolean) {
+    this.#_disabled = value;
   }
 
   public get disabled(): boolean {
@@ -144,9 +144,9 @@ export class SkyLookupComponent
    * Whether to enable users to open a picker where they can view all options.
    * @default false
    */
-  @Input()
-  public set enableShowMore(value: boolean | undefined) {
-    this.#_enableShowMore = value ?? false;
+  @Input({ transform: booleanAttribute })
+  public set enableShowMore(value: boolean) {
+    this.#_enableShowMore = value;
   }
 
   public get enableShowMore(): boolean {
@@ -171,9 +171,9 @@ export class SkyLookupComponent
    * Whether to display a button that lets users add options to the list.
    * @default false
    */
-  @Input()
-  public set showAddButton(value: boolean | undefined) {
-    this.#_showAddButton = value ?? false;
+  @Input({ transform: booleanAttribute })
+  public set showAddButton(value: boolean) {
+    this.#_showAddButton = value;
   }
 
   public get showAddButton(): boolean {
