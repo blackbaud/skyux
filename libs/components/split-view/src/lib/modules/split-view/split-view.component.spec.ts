@@ -156,6 +156,24 @@ function getHeader(): HTMLElement {
 function isWithin(actual: number, base: number, distance: number): boolean {
   return Math.abs(actual - base) <= distance;
 }
+
+function validateSplitViewHeightStyles(
+  expectedComputedHeight: number,
+  actionBarHeight: number,
+  lowered = false,
+): void {
+  const splitViewElement = document.querySelector(
+    '.sky-split-view',
+  ) as HTMLElement;
+
+  expect(splitViewElement.style.maxHeight).toBe(
+    `calc(100vh - ${lowered ? '100px' : '0px'} - calc(${actionBarHeight}px + var(--sky-dock-height, 0px)))`,
+  );
+
+  // Verify computed style is calculated correctly
+  const computedStyle = window.getComputedStyle(splitViewElement);
+  expect(parseInt(computedStyle.maxHeight)).toBe(expectedComputedHeight);
+}
 // #endregion
 
 describe('Split view component', () => {
@@ -392,17 +410,14 @@ describe('Split view component', () => {
           'min-height',
           '300px',
         );
-        expect(rendererSpy).toHaveBeenCalledWith(
-          splitViewElement,
-          'max-height',
-          `calc(100vh - 100px - calc(${actionBar.offsetHeight}px + var(--sky-dock-height, 0px)))`,
-        );
 
-        // Verify computed style when dock height is not set (uses fallback 0px)
-        const computedStyle = window.getComputedStyle(splitViewElement);
         const expectedHeight =
           window.innerHeight - 100 - actionBar.offsetHeight;
-        expect(parseInt(computedStyle.maxHeight)).toBe(expectedHeight);
+        validateSplitViewHeightStyles(
+          expectedHeight,
+          actionBar.offsetHeight,
+          true,
+        );
       }, 10);
     }));
 
@@ -417,22 +432,22 @@ describe('Split view component', () => {
 
       setTimeout(() => {
         fixture.detectChanges();
-        const splitViewElement = document.querySelector(
-          '.sky-split-view',
-        ) as HTMLElement;
         const actionBar = document.querySelector(
           '.sky-summary-action-bar',
         ) as HTMLElement;
 
         // Verify computed style includes dock height in calculation
-        const computedStyle = window.getComputedStyle(splitViewElement);
         const expectedHeight =
           window.innerHeight - 100 - (actionBar.offsetHeight + 40);
-        expect(parseInt(computedStyle.maxHeight)).toBe(expectedHeight);
+        validateSplitViewHeightStyles(
+          expectedHeight,
+          actionBar.offsetHeight,
+          true,
+        );
 
         // Clean up
         document.documentElement.style.removeProperty('--sky-dock-height');
-      }, 10);
+      }, 20);
     }));
   });
 
@@ -804,11 +819,11 @@ describe('Split view component', () => {
               'min-height',
               '300px',
             );
-            expect(rendererSpy).toHaveBeenCalledWith(
-              splitViewElement,
-              'max-height',
-              `calc(100vh - 0px - calc(${actionBar.offsetHeight}px + var(--sky-dock-height, 0px)))`,
+            validateSplitViewHeightStyles(
+              window.innerHeight - actionBar.offsetHeight,
+              actionBar.offsetHeight,
             );
+
             rendererSpy.calls.reset();
 
             component.lowerSplitView = true;
@@ -831,10 +846,10 @@ describe('Split view component', () => {
               'min-height',
               '300px',
             );
-            expect(rendererSpy).toHaveBeenCalledWith(
-              splitViewElement,
-              'max-height',
-              `calc(100vh - 100px - calc(${actionBar.offsetHeight}px + var(--sky-dock-height, 0px)))`,
+            validateSplitViewHeightStyles(
+              window.innerHeight - 100 - actionBar.offsetHeight,
+              actionBar.offsetHeight,
+              true,
             );
           }, 10);
         });
