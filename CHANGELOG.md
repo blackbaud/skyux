@@ -1,5 +1,24 @@
 # Changelog
 
+## [13.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.8...13.0.0-alpha.9) (2025-09-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* child harness methods standardization ([#3854](https://github.com/blackbaud/skyux/issues/3854))
+
+### Features
+
+* child harness methods standardization ([#3854](https://github.com/blackbaud/skyux/issues/3854)) ([38806f3](https://github.com/blackbaud/skyux/commit/38806f3a865c1e33d4832d84fe5eba8eb42b1b8b))
+* **components/select-field:** create instructions to convert select-field to lookup ([#3766](https://github.com/blackbaud/skyux/issues/3766)) ([#3892](https://github.com/blackbaud/skyux/issues/3892)) ([110a9e2](https://github.com/blackbaud/skyux/commit/110a9e26f9f19bdde8dbc4159353d4a14eb56b8d))
+
+
+### Bug Fixes
+
+* **components/tabs:** vertical tab group padding does not jump during open and close animations ([#3884](https://github.com/blackbaud/skyux/issues/3884)) ([88ea5ce](https://github.com/blackbaud/skyux/commit/88ea5ceea1f1650d96b919e728e28405fab88f98))
+* **sdk/skyux-stylelint:** use correct documentation link for rules ([#3881](https://github.com/blackbaud/skyux/issues/3881)) ([#3886](https://github.com/blackbaud/skyux/issues/3886)) ([a11aae7](https://github.com/blackbaud/skyux/commit/a11aae7e5243ef2a26765e3b0cbe1c7efbbff8da))
+* update tokens package, use correct tokens ([#3880](https://github.com/blackbaud/skyux/issues/3880)) ([#3889](https://github.com/blackbaud/skyux/issues/3889)) ([c332290](https://github.com/blackbaud/skyux/commit/c332290c8393621f0b355efd91b863dd66cb8dd4))
+
 ## [13.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.7...13.0.0-alpha.8) (2025-08-26)
 
 
