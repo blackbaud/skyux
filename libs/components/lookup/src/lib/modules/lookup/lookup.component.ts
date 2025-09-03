@@ -118,13 +118,7 @@ export class SkyLookupComponent
    * @default false
    */
   @Input({ transform: booleanAttribute })
-  public set disabled(value: boolean) {
-    this.#_disabled = value;
-  }
-
-  public get disabled(): boolean {
-    return this.#_disabled;
-  }
+  public disabled = false;
 
   /**
    * Whether the lookup field is required.
@@ -145,13 +139,7 @@ export class SkyLookupComponent
    * @default false
    */
   @Input({ transform: booleanAttribute })
-  public set enableShowMore(value: boolean) {
-    this.#_enableShowMore = value;
-  }
-
-  public get enableShowMore(): boolean {
-    return this.#_enableShowMore;
-  }
+  public enableShowMore = false;
 
   /**
    * Placeholder text to display in the lookup field.
@@ -172,13 +160,7 @@ export class SkyLookupComponent
    * @default false
    */
   @Input({ transform: booleanAttribute })
-  public set showAddButton(value: boolean) {
-    this.#_showAddButton = value;
-  }
-
-  public get showAddButton(): boolean {
-    return this.#_showAddButton;
-  }
+  public showAddButton = false;
 
   /**
    * Configuration options for the picker that displays all options.
@@ -332,10 +314,7 @@ export class SkyLookupComponent
 
   #_autocompleteInputDirective: SkyAutocompleteInputDirective | undefined;
   #_data: any[] | undefined;
-  #_disabled = false;
-  #_enableShowMore = false;
   #_selectMode: SkyLookupSelectModeType | undefined;
-  #_showAddButton = false;
   #_tokens: SkyToken[] | undefined;
   #_value: any[] | undefined;
 
