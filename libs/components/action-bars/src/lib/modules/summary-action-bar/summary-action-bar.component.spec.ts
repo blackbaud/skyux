@@ -102,9 +102,12 @@ describe('Summary Action Bar component', () => {
     );
   }
 
-  function validateBodyMargin(debugElement: DebugElement, dockHeight = 0): void {
+  function validateBodyMargin(
+    debugElement: DebugElement,
+    dockHeight = 0,
+  ): void {
     const actionBarHeight = getActionBarHeight(debugElement);
-    
+
     // Verify the CSS calc() expression is set correctly
     expect(document.body.style.marginBottom).toBe(
       `calc(${actionBarHeight}px + var(--sky-dock-height, 0px))`,
