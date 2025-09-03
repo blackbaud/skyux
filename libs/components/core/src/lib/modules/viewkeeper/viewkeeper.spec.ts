@@ -34,6 +34,21 @@ describe('Viewkeeper', () => {
     expect(getComputedStyle(elToValidate)[styleProperty]).toBe(expectedValue);
   }
 
+  function validateMarginTopStyles(
+    elToValidate: HTMLElement,
+    expectedComputedMargin: string,
+    viewportMarginProperty: string,
+  ): void {
+    // Verify the CSS calc() expression is set correctly
+    expect(elToValidate.style.marginTop).toContain(
+      `var(${viewportMarginProperty}, 0px)`,
+    );
+
+    // Verify computed style is calculated correctly
+    const computedStyle = window.getComputedStyle(elToValidate);
+    expect(computedStyle.marginTop).toBe(expectedComputedMargin);
+  }
+
   function validatePinned(
     elToValidate: HTMLElement,
     pinned: boolean,
@@ -236,15 +251,37 @@ describe('Viewkeeper', () => {
       document.documentElement.style.setProperty('--test-viewport-top', '2px');
       scrollWindowTo(40, 100);
       validatePinned(el, true, 0, 2);
-      expect(el.style.marginTop).toBe(
-        'calc(0px + var(--test-viewport-top, 0))',
-      );
+      validateMarginTopStyles(el, '2px', '--test-viewport-top');
 
       document.documentElement.style.setProperty('--test-viewport-top', '12px');
       validatePinned(el, true, 0, 12);
 
+      validateMarginTopStyles(el, '12px', '--test-viewport-top');
+
       document.documentElement.style.removeProperty('--test-viewport-top');
       document.body.style.removeProperty('--test-viewport-top');
+    });
+
+    it('should compute correct margin when viewportMarginProperty fallback is used', () => {
+      vks.push(
+        new SkyViewkeeper({
+          el,
+          boundaryEl,
+          viewportMarginTop: 5,
+          viewportMarginProperty: '--test-viewport-fallback',
+          setWidth: true,
+        }),
+      );
+
+      scrollWindowTo(0, 5);
+      validatePinned(el, false);
+
+      // Scroll to trigger pinning (without setting the CSS property, so fallback is used)
+      scrollWindowTo(40, 100);
+      validatePinned(el, true, 0, 5);
+
+      // Verify CSS calc() expression and computed style when property is not set (uses fallback 0px)
+      validateMarginTopStyles(el, '5px', '--test-viewport-fallback');
     });
 
     describe('ResizeObserver', () => {

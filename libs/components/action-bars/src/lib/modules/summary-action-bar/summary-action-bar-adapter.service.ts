@@ -36,7 +36,7 @@ export class SkySummaryActionBarAdapterService {
       this.#renderer.setStyle(
         body,
         'margin-bottom',
-        `calc(${actionBarEl.offsetHeight}px + var(--sky-dock-height, 0))`,
+        `calc(${actionBarEl.offsetHeight}px + var(--sky-dock-height, 0px))`,
       );
     }
   }

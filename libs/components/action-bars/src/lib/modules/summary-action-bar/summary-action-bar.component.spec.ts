@@ -102,6 +102,23 @@ describe('Summary Action Bar component', () => {
     );
   }
 
+  function validateBodyMargin(
+    debugElement: DebugElement,
+    dockHeight = 0,
+  ): void {
+    const actionBarHeight = getActionBarHeight(debugElement);
+
+    // Verify the CSS calc() expression is set correctly
+    expect(document.body.style.marginBottom).toBe(
+      `calc(${actionBarHeight}px + var(--sky-dock-height, 0px))`,
+    );
+
+    // Verify computed style is calculated correctly
+    const computedStyle = window.getComputedStyle(document.body);
+    const expectedMargin = `${parseInt(actionBarHeight) + dockHeight}px`;
+    expect(computedStyle.marginBottom).toBe(expectedMargin);
+  }
+
   let mediaQueryController: SkyMediaQueryTestingController;
 
   beforeEach(() => {
@@ -132,25 +149,28 @@ describe('Summary Action Bar component', () => {
     describe('body stylings', () => {
       it('should set a margin on the body if the action bar is not in a modal footer', () => {
         fixture.detectChanges();
-        const actionBarHeight = getActionBarHeight(debugElement);
-        expect(document.body.style.marginBottom).toBe(
-          `calc(${actionBarHeight}px + var(--sky-dock-height, 0))`,
-        );
+        validateBodyMargin(debugElement);
       });
 
       it('should set a new margin when the summary area changes collapsed state', fakeAsync(() => {
         mediaQueryController.setBreakpoint('xs');
         fixture.detectChanges();
-        let actionBarHeight = getActionBarHeight(debugElement);
-        expect(document.body.style.marginBottom).toBe(
-          `calc(${actionBarHeight}px + var(--sky-dock-height, 0))`,
-        );
+        validateBodyMargin(debugElement);
+
         clickCollapseButton(debugElement);
-        actionBarHeight = getActionBarHeight(debugElement);
-        expect(document.body.style.marginBottom).toBe(
-          `calc(${actionBarHeight}px + var(--sky-dock-height, 0))`,
-        );
+        validateBodyMargin(debugElement);
       }));
+
+      it('should compute correct margin when sky-dock-height is set', () => {
+        // Set a dock height value
+        document.documentElement.style.setProperty('--sky-dock-height', '50px');
+
+        fixture.detectChanges();
+        validateBodyMargin(debugElement, 50);
+
+        // Clean up
+        document.documentElement.style.removeProperty('--sky-dock-height');
+      });
 
       it('should set a new margin on the body if the window is resized', () => {
         const initialBottomMargin = document.body.style.marginBottom;
@@ -448,10 +468,7 @@ describe('Summary Action Bar component', () => {
         cmp.hideMainActionBar = true;
         cmp.showSecondaryActionBar = true;
         fixture.detectChanges();
-        const actionBarHeight = getActionBarHeight(debugElement);
-        expect(document.body.style.marginBottom).toBe(
-          `calc(${actionBarHeight}px + var(--sky-dock-height, 0))`,
-        );
+        validateBodyMargin(debugElement);
       });
 
       it('should set isSummaryCollapsible to true when on a xs screen on a replaced action bar', () => {
@@ -626,10 +643,7 @@ describe('Summary Action Bar component', () => {
           setTimeout(() => {
             fixture.detectChanges();
             void fixture.whenStable().then(() => {
-              const actionBarHeight = getActionBarHeight(debugElement);
-              expect(document.body.style.marginBottom).toBe(
-                `calc(${actionBarHeight}px + var(--sky-dock-height, 0))`,
-              );
+              validateBodyMargin(debugElement);
               done();
             });
           });
@@ -658,10 +672,7 @@ describe('Summary Action Bar component', () => {
             setTimeout(() => {
               fixture.detectChanges();
               void fixture.whenStable().then(() => {
-                const actionBarHeight = getActionBarHeight(debugElement);
-                expect(document.body.style.marginBottom).toBe(
-                  `calc(${actionBarHeight}px + var(--sky-dock-height, 0))`,
-                );
+                validateBodyMargin(debugElement);
                 done();
               });
             });
@@ -684,10 +695,7 @@ describe('Summary Action Bar component', () => {
               setTimeout(() => {
                 fixture.detectChanges();
                 void fixture.whenStable().then(() => {
-                  const actionBarHeight = getActionBarHeight(debugElement);
-                  expect(document.body.style.marginBottom).toBe(
-                    `calc(${actionBarHeight}px + var(--sky-dock-height, 0))`,
-                  );
+                  validateBodyMargin(debugElement);
                   done();
                 });
               });

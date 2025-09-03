@@ -52,7 +52,7 @@ function setElPosition(
   el.style.top = px(top);
   el.style.left = px(left);
   el.style.marginTop = marginTopProperty
-    ? `calc(${px(marginTop)} + var(${marginTopProperty}, 0))`
+    ? `calc(${px(marginTop)} + var(${marginTopProperty}, 0px))`
     : px(marginTop);
   el.style.clipPath =
     clipTop || clipLeft ? `inset(${px(clipTop)} 0 0 ${px(clipLeft)})` : 'none';
