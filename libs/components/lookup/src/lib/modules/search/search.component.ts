@@ -33,12 +33,10 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { SkySearchAdapterService } from './search-adapter.service';
+import { SkySearchExpandModeType } from './search-expand-mode-type';
 
 const INPUT_SHOWN_STATE = 'inputShown';
 const INPUT_HIDDEN_STATE = 'inputHidden';
-const EXPAND_MODE_RESPONSIVE = 'responsive';
-const EXPAND_MODE_FIT = 'fit';
-const EXPAND_MODE_NONE = 'none';
 
 @Component({
   selector: 'sky-search',
@@ -121,11 +119,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
    * @default "responsive"
    */
   @Input()
-  public set expandMode(value: string | undefined) {
-    this.#_expandMode = value ?? EXPAND_MODE_RESPONSIVE;
+  public set expandMode(value: SkySearchExpandModeType | undefined) {
+    this.#_expandMode = value ?? 'responsive';
   }
 
-  public get expandMode(): string {
+  public get expandMode(): SkySearchExpandModeType {
     return this.#_expandMode;
   }
 
@@ -198,7 +196,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   #_disabled = false;
 
-  #_expandMode = EXPAND_MODE_RESPONSIVE;
+  #_expandMode: SkySearchExpandModeType = 'responsive';
 
   readonly #destroyRef = inject(DestroyRef);
   readonly #mediaQuerySvc = inject(SkyMediaQueryService);
@@ -231,11 +229,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if (this.#expandModeBindingChanged(changes)) {
       switch (this.expandMode) {
-        case EXPAND_MODE_NONE:
+        case 'none':
           this.isCollapsible = false;
           this.isFullWidth = false;
           break;
-        case EXPAND_MODE_FIT:
+        case 'fit':
           this.isCollapsible = false;
           this.isFullWidth = true;
           break;

@@ -41,6 +41,7 @@
           "SkyModalIsDirtyDirective",
           "SkyModalService",
           "SkyModalConfigurationInterface",
+          "SkyModalConfigurationSizeType",
           "SkyModalInstance",
           "SkyModalCloseArgs",
           "SkyModalBeforeCloseHandler",

@@ -8,6 +8,7 @@ import {
 } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  SkyModalConfigurationSizeType,
   SkyModalInstance,
   SkyModalModule,
   SkyModalService,
@@ -80,7 +81,7 @@ class TestComponent {
 
   public helpKey: string | undefined;
 
-  public size: string | undefined;
+  public size: SkyModalConfigurationSizeType | undefined;
 
   public tiledBody: boolean | undefined;
 

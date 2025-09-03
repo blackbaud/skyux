@@ -12,6 +12,7 @@ export { SkyConfirmService } from './lib/modules/confirm/confirm.service';
 export { SkyModalBeforeCloseHandler } from './lib/modules/modal/modal-before-close-handler';
 export { SkyModalCloseArgs } from './lib/modules/modal/modal-close-args';
 export { SkyModalConfiguration } from './lib/modules/modal/modal-configuration';
+export { SkyModalConfigurationSizeType } from './lib/modules/modal/modal-configuration-size-type';
 export { SkyModalError } from './lib/modules/modal/modal-error';
 export { SkyModalErrorsService } from './lib/modules/modal/modal-errors.service';
 export { SkyModalHostService } from './lib/modules/modal/modal-host.service';

@@ -10,6 +10,7 @@
           "SkyDropdownMenuComponent",
           "SkyDropdownItemComponent",
           "SkyDropdownButtonType",
+          "SkyDropdownButtonStyleType",
           "SkyDropdownHorizontalAlignment",
           "SkyDropdownTriggerType"
         ],

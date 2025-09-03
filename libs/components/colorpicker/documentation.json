@@ -8,6 +8,8 @@
           "SkyColorpickerComponent",
           "SkyFormErrorComponent",
           "SkyColorpickerInputDirective",
+          "SkyColorpickerAlphaChannelType",
+          "SkyColorpickerOutputFormatType",
           "SkyColorpickerCmyk",
           "SkyColorpickerHsla",
           "SkyColorpickerHsva",
