@@ -589,4 +589,45 @@ export class IconComponentComponent {}`,
       `<sky-icon icon="plus-circle"></sky-icon>`,
     );
   });
+
+  it('should update SkyDataViewConfig', async () => {
+    const tree = Tree.empty();
+
+    tree.create(
+      `/file.ts`,
+      `import { SkyDataViewConfig } from '@skyux/data-manager';
+
+      export class MyClass {
+
+        private viewConfig: SkyDataViewConfig = {
+          id: this.gridViewId,
+          name: 'Grid View',
+          icon: 'table',
+          searchEnabled: false,
+          sortEnabled: true,
+        };
+
+      }`,
+    );
+
+    tree.create('/angular.json', JSON.stringify(angularJson));
+
+    await runner.runSchematic('icon-name', {}, tree);
+
+    expect(tree.readText('/file.ts')).toBe(
+      `import { SkyDataViewConfig } from '@skyux/data-manager';
+
+      export class MyClass {
+
+        private viewConfig: SkyDataViewConfig = {
+          id: this.gridViewId,
+          name: 'Grid View',
+          iconName: 'table',
+          searchEnabled: false,
+          sortEnabled: true,
+        };
+
+      }`,
+    );
+  });
 });

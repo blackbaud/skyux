@@ -1,5 +1,7 @@
 import { Rule, Tree, UpdateRecorder } from '@angular-devkit/schematics';
 import { isImported, parseSourceFile } from '@angular/cdk/schematics';
+import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
+import { findNodes } from '@schematics/angular/utility/ast-utils';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 
 import {
@@ -95,6 +97,48 @@ function updateIcon(
   });
 }
 
+function updateDataViewConfig(
+  source: ts.SourceFile,
+  recorder: UpdateRecorder,
+): void {
+  const hasSkyDataViewConfig = isImported(
+    source,
+    'SkyDataViewConfig',
+    '@skyux/data-manager',
+  );
+  if (hasSkyDataViewConfig) {
+    const dataViewConfig = findNodes(
+      source,
+      (node): node is ts.ObjectLiteralExpression =>
+        ts.isObjectLiteralExpression(node) &&
+        (ts.isVariableDeclaration(node.parent) ||
+          ts.isPropertyDeclaration(node.parent)) &&
+        node.parent.type?.getText(source) === 'SkyDataViewConfig',
+    );
+    dataViewConfig.forEach((node) => {
+      const iconProperty = node.properties.find(
+        (prop): prop is ts.PropertyAssignment =>
+          ts.isPropertyAssignment(prop) && prop.name.getText(source) === 'icon',
+      );
+      if (iconProperty && ts.isStringLiteral(iconProperty.initializer)) {
+        const iconName = iconProperty.initializer.text;
+        const iconReplacementInfo = IconNameMappings[iconName];
+        if (iconReplacementInfo) {
+          // Replace the property name to `iconName` and update the value. Leave the initial whitespace.
+          recorder.remove(
+            iconProperty.name.end - 'icon'.length,
+            iconProperty.end - iconProperty.name.end + 'icon'.length,
+          );
+          recorder.insertLeft(
+            iconProperty.name.end - 'icon'.length,
+            `iconName: '${iconReplacementInfo.newName}'`,
+          );
+        }
+      }
+    });
+  }
+}
+
 async function updateSourceFiles(tree: Tree): Promise<void> {
   const workspace = await getWorkspace(tree);
 
@@ -110,8 +154,8 @@ async function updateSourceFiles(tree: Tree): Promise<void> {
       }
       if (filePath.endsWith('.ts')) {
         const source = parseSourceFile(tree, filePath);
+        const recorder = tree.beginUpdate(filePath);
         if (isImported(source, 'Component', '@angular/core')) {
-          const recorder = tree.beginUpdate(filePath);
           const content = tree.readText(filePath);
           const templates = getInlineTemplates(source);
           templates.forEach((template) => {
@@ -122,8 +166,9 @@ async function updateSourceFiles(tree: Tree): Promise<void> {
               updateIcon(doc, componentInfo, template.start, recorder);
             });
           });
-          tree.commitUpdate(recorder);
         }
+        updateDataViewConfig(source, recorder);
+        tree.commitUpdate(recorder);
       }
     });
   });
