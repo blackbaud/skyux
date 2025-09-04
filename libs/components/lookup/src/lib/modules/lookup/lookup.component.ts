@@ -117,14 +117,8 @@ export class SkyLookupComponent
    * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
-  @Input()
-  public set disabled(value: boolean | undefined) {
-    this.#_disabled = value ?? false;
-  }
-
-  public get disabled(): boolean {
-    return this.#_disabled;
-  }
+  @Input({ transform: booleanAttribute })
+  public disabled = false;
 
   /**
    * Whether the lookup field is required.
@@ -144,14 +138,8 @@ export class SkyLookupComponent
    * Whether to enable users to open a picker where they can view all options.
    * @default false
    */
-  @Input()
-  public set enableShowMore(value: boolean | undefined) {
-    this.#_enableShowMore = value ?? false;
-  }
-
-  public get enableShowMore(): boolean {
-    return this.#_enableShowMore;
-  }
+  @Input({ transform: booleanAttribute })
+  public enableShowMore = false;
 
   /**
    * Placeholder text to display in the lookup field.
@@ -171,14 +159,8 @@ export class SkyLookupComponent
    * Whether to display a button that lets users add options to the list.
    * @default false
    */
-  @Input()
-  public set showAddButton(value: boolean | undefined) {
-    this.#_showAddButton = value ?? false;
-  }
-
-  public get showAddButton(): boolean {
-    return this.#_showAddButton;
-  }
+  @Input({ transform: booleanAttribute })
+  public showAddButton = false;
 
   /**
    * Configuration options for the picker that displays all options.
@@ -332,10 +314,7 @@ export class SkyLookupComponent
 
   #_autocompleteInputDirective: SkyAutocompleteInputDirective | undefined;
   #_data: any[] | undefined;
-  #_disabled = false;
-  #_enableShowMore = false;
   #_selectMode: SkyLookupSelectModeType | undefined;
-  #_showAddButton = false;
   #_tokens: SkyToken[] | undefined;
   #_value: any[] | undefined;
 
