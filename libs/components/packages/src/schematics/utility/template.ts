@@ -4,7 +4,7 @@ import { Element, parse5 } from '@angular/cdk/schematics';
 export type ElementWithLocation = Element & {
   sourceCodeLocation: Required<parse5.Token.ElementLocation>;
 };
-type ParentNode = parse5.DefaultTreeAdapterTypes.ParentNode & {
+export type ParentNode = parse5.DefaultTreeAdapterTypes.ParentNode & {
   sourceCodeLocation: Required<parse5.Token.ElementLocation>;
 };
 export type SwapTagCallback<T extends string> = (
