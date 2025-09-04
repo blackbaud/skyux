@@ -124,6 +124,18 @@ describe('icons-name.schematic', () => {
       },
       {
         invalidTemplate: `
+      <sky-icon iconName="add" fixedWidth="true"/>
+      <sky-icon iconName="add" [fixedWidth]="true"/>
+      <sky-icon iconName="add" fixedWidth/>
+      `,
+        convertedTemplate: `
+      <sky-icon iconName="add" />
+      <sky-icon iconName="add" />
+      <sky-icon iconName="add" />
+      `,
+      },
+      {
+        invalidTemplate: `
       <sky-icon icon="bb-diamond-2-solid" variant="line"></sky-icon>
       `,
         convertedTemplate: `
