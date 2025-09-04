@@ -121,7 +121,9 @@ function modifyDetailsContent(detailsContent: {
           '<sky-key-info'.length,
         ` class="sky-margin-inline-xxl"`,
       );
-      const layoutAttr = element.sourceCodeLocation.attrs?.['layout'] || element.sourceCodeLocation.attrs?.['[layout]'];
+      const layoutAttr =
+        element.sourceCodeLocation.attrs?.['layout'] ||
+        element.sourceCodeLocation.attrs?.['[layout]'];
       if (layoutAttr) {
         recorder.remove(
           layoutAttr.startOffset,
