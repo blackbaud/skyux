@@ -67,7 +67,7 @@ function updateIcon(
           `iconName="${iconReplacementInfo.newName}"` +
             (componentInfo.honorReplacementVariant &&
             iconReplacementInfo.variant &&
-            !element.attrs.find((attr) =>
+            !element.attrs.some((attr) =>
               ['[variant]', 'variant'].includes(attr.name),
             )
               ? ` variant="${iconReplacementInfo.variant}"`
@@ -76,19 +76,21 @@ function updateIcon(
       }
     }
     if (componentInfo.selector === 'sky-icon') {
-      const fixedWidthAttr = element.attrs.find((attr) =>
-        ['fixedWidth'.toLowerCase(), '[fixedWidth]'.toLowerCase()].includes(
-          attr.name,
-        ),
-      );
-      if (fixedWidthAttr) {
-        recorder.remove(
-          element.sourceCodeLocation.attrs[fixedWidthAttr.name].startOffset +
-            offset,
-          element.sourceCodeLocation.attrs[fixedWidthAttr.name].endOffset -
-            element.sourceCodeLocation.attrs[fixedWidthAttr.name].startOffset,
-        );
-      }
+      const removedAttrs = [
+        'fixedWidth',
+        '[fixedWidth]',
+        'iconType',
+        '[iconType]',
+      ].map((attr) => attr.toLowerCase());
+      element.attrs
+        .filter((attr) => removedAttrs.includes(attr.name))
+        .forEach((attr) => {
+          recorder.remove(
+            element.sourceCodeLocation.attrs[attr.name].startOffset + offset,
+            element.sourceCodeLocation.attrs[attr.name].endOffset -
+              element.sourceCodeLocation.attrs[attr.name].startOffset,
+          );
+        });
     }
   });
 }
