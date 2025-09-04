@@ -126,13 +126,13 @@ describe('icons-name.schematic', () => {
         invalidTemplate: `
       <sky-icon iconName="add" fixedWidth="true"/>
       <sky-icon icon="bogus" fixedWidth="true"/>
-      <sky-icon icon="clock-o" [fixedWidth]="true"/>
+      <sky-icon icon="clock-o" iconType="fa" [fixedWidth]="true"/>
       <sky-icon icon="code-fork" fixedWidth/>
       `,
         convertedTemplate: `
       <sky-icon iconName="add" />
       <sky-icon icon="bogus" />
-      <sky-icon iconName="clock" />
+      <sky-icon iconName="clock"  />
       <sky-icon iconName="branch-fork" />
       `,
       },

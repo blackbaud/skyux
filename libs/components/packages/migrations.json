@@ -18,7 +18,7 @@
     "icon-name": {
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/update-13/icon-name/icon-name.schematic",
-      "description": "Update icon `icon` properties to `iconName` and remove `fixedWidth` properties."
+      "description": "Update icon `icon` properties to `iconName` and remove other obsolete properties."
     },
     "remove-old-compat-stylesheets": {
       "version": "0.0.0-PLACEHOLDER",
