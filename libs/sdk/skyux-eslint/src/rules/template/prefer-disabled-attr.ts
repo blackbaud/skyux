@@ -6,6 +6,7 @@ import {
   ensureTemplateParser,
   getTemplateParserServices,
 } from '@angular-eslint/utils';
+import type { RuleFix } from '@typescript-eslint/utils/ts-eslint';
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
@@ -31,6 +32,27 @@ function containsSkyBtnDisabledClass(classValue: string): boolean {
   return classValue
     .split(/\s+/)
     .some((className) => className.trim() === 'sky-btn-disabled');
+}
+
+/**
+ * Removes 'sky-btn-disabled' from a class string and returns the cleaned string.
+ */
+function removeSkyBtnDisabledClass(classValue: string): string {
+  return classValue
+    .split(/\s+/)
+    .filter((className) => className.trim() !== 'sky-btn-disabled')
+    .join(' ')
+    .trim();
+}
+
+/**
+ * Checks if an element already has a disabled attribute.
+ */
+function hasDisabledAttribute(element: TmplAstElement): boolean {
+  return (
+    element.attributes.some((attr) => attr.name === 'disabled') ||
+    element.inputs.some((input) => input.name === 'disabled')
+  );
 }
 
 export const rule = createESLintTemplateRule({
@@ -60,6 +82,53 @@ export const rule = createESLintTemplateRule({
             data: {
               element: element.name,
             },
+            fix: () => {
+              const fixers: RuleFix[] = [];
+              const cleanedClasses = removeSkyBtnDisabledClass(classAttr.value);
+              const hasExistingDisabled = hasDisabledAttribute(element);
+
+              // If there are other classes, update the class attribute
+              if (cleanedClasses) {
+                if (classAttr.valueSpan) {
+                  fixers.push({
+                    range: [
+                      classAttr.valueSpan.start.offset,
+                      classAttr.valueSpan.end.offset,
+                    ],
+                    text: cleanedClasses,
+                  });
+                }
+              } else {
+                // Remove the entire class attribute including one preceding space if present
+                const sourceFile = classAttr.sourceSpan.start.file.content;
+                let startPos = classAttr.sourceSpan.start.offset;
+
+                // Check if there's a space before the class attribute and include it
+                if (startPos > 0 && sourceFile[startPos - 1] === ' ') {
+                  startPos--;
+                }
+
+                fixers.push({
+                  range: [startPos, classAttr.sourceSpan.end.offset],
+                  text: '',
+                });
+              }
+
+              // Add disabled attribute if not already present
+              if (!hasExistingDisabled) {
+                // Insert disabled attribute after the opening tag name
+                const elementStart = element.sourceSpan.start.offset;
+                const tagName = element.name;
+                const insertPosition = elementStart + tagName.length + 1; // +1 for '<'
+
+                fixers.push({
+                  range: [insertPosition, insertPosition],
+                  text: ' disabled',
+                });
+              }
+
+              return fixers;
+            },
           });
           return;
         }
@@ -79,6 +148,55 @@ export const rule = createESLintTemplateRule({
             messageId,
             data: {
               element: element.name,
+            },
+            fix: () => {
+              const fixers: RuleFix[] = [];
+              const hasExistingDisabled = hasDisabledAttribute(element);
+
+              // Remove the [class.sky-btn-disabled] binding including one preceding space if present
+              const sourceFile =
+                skyBtnDisabledClassInput.sourceSpan.start.file.content;
+              let startPos = skyBtnDisabledClassInput.sourceSpan.start.offset;
+
+              // Check if there's a space before the binding and include it
+              if (startPos > 0 && sourceFile[startPos - 1] === ' ') {
+                startPos--;
+              }
+
+              fixers.push({
+                range: [
+                  startPos,
+                  skyBtnDisabledClassInput.sourceSpan.end.offset,
+                ],
+                text: '',
+              });
+
+              // Add [disabled] binding if not already present
+              if (!hasExistingDisabled) {
+                // Get the expression source text from the binding
+                const sourceFile =
+                  skyBtnDisabledClassInput.sourceSpan.start.file.content;
+                const expressionStart =
+                  skyBtnDisabledClassInput.value.sourceSpan.start;
+                const expressionEnd =
+                  skyBtnDisabledClassInput.value.sourceSpan.end;
+                const expressionText = sourceFile.slice(
+                  expressionStart,
+                  expressionEnd,
+                );
+
+                // Insert [disabled] attribute after the opening tag name
+                const elementStart = element.sourceSpan.start.offset;
+                const tagName = element.name;
+                const insertPosition = elementStart + tagName.length + 1; // +1 for '<'
+
+                fixers.push({
+                  range: [insertPosition, insertPosition],
+                  text: ` [disabled]="${expressionText}"`,
+                });
+              }
+
+              return fixers;
             },
           });
           return;
@@ -124,6 +242,7 @@ export const rule = createESLintTemplateRule({
     },
     schema: [],
     type: 'problem',
+    fixable: 'code',
   },
   name: RULE_NAME,
 });

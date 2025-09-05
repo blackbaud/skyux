@@ -39,6 +39,10 @@ ruleTester.run(RULE_NAME, rule, {
       <button class="sky-btn-disabled"></button>
               ~~~~~~~~~~~~~~~~~~~~~~~~
       `,
+      annotatedOutput: `
+      <button disabled></button>
+              ~
+      `,
       messageId,
       data: {
         element: 'button',
@@ -51,6 +55,10 @@ ruleTester.run(RULE_NAME, rule, {
       <button class="sky-btn-disabled" disabled></button>
               ~~~~~~~~~~~~~~~~~~~~~~~~
       `,
+      annotatedOutput: `
+      <button disabled></button>
+              ~
+      `,
       messageId,
       data: {
         element: 'button',
@@ -61,6 +69,10 @@ ruleTester.run(RULE_NAME, rule, {
         'should fail when button has sky-btn-disabled class WITH property binding',
       annotatedSource: `
       <button class="sky-btn-disabled" [disabled]="isDisabled"></button>
+              ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+      <button [disabled]="isDisabled"></button>
               ~~~~~~~~~~~~~~~~~~~~~~~~
       `,
       messageId,
@@ -75,6 +87,10 @@ ruleTester.run(RULE_NAME, rule, {
       <button class="sky-btn-disabled" [attr.disabled]="isDisabled"></button>
               ~~~~~~~~~~~~~~~~~~~~~~~~
       `,
+      annotatedOutput: `
+      <button [attr.disabled]="isDisabled"></button>
+              ~
+      `,
       messageId,
       data: {
         element: 'button',
@@ -85,6 +101,10 @@ ruleTester.run(RULE_NAME, rule, {
       annotatedSource: `
       <input class="sky-btn-disabled" />
              ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+      <input disabled />
+             ~
       `,
       messageId,
       data: {
@@ -97,6 +117,10 @@ ruleTester.run(RULE_NAME, rule, {
       <textarea class="sky-btn-disabled"></textarea>
                 ~~~~~~~~~~~~~~~~~~~~~~~~
       `,
+      annotatedOutput: `
+      <textarea disabled></textarea>
+                ~
+      `,
       messageId,
       data: {
         element: 'textarea',
@@ -107,6 +131,10 @@ ruleTester.run(RULE_NAME, rule, {
       annotatedSource: `
       <select class="sky-btn-disabled"></select>
               ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+      <select disabled></select>
+              ~
       `,
       messageId,
       data: {
@@ -120,6 +148,10 @@ ruleTester.run(RULE_NAME, rule, {
       <button class="btn sky-btn-disabled primary"></button>
               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
+      annotatedOutput: `
+      <button disabled class="btn primary"></button>
+              ~
+      `,
       messageId,
       data: {
         element: 'button',
@@ -131,6 +163,10 @@ ruleTester.run(RULE_NAME, rule, {
       <button [class.sky-btn-disabled]="someCondition"></button>
               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
+      annotatedOutput: `
+      <button [disabled]="someCondition"></button>
+              ~
+      `,
       messageId,
       data: {
         element: 'button',
@@ -141,6 +177,10 @@ ruleTester.run(RULE_NAME, rule, {
       annotatedSource: `
       <button [class.sky-btn-disabled]="isDisabled" [disabled]="isDisabled"></button>
               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+      <button [disabled]="isDisabled"></button>
+              ~
       `,
       messageId,
       data: {

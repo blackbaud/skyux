@@ -5,6 +5,7 @@ Prefer the `disabled` attribute over `.sky-btn-disabled` class for elements that
 This rule encourages using the semantic HTML `disabled` attribute instead of the visual `.sky-btn-disabled` class on form elements and buttons. The `disabled` attribute provides proper accessibility semantics, keyboard navigation behavior, and screen reader support that the CSS class alone cannot provide.
 
 - Type: problem
+- 🔧 Supports autofix (`--fix`)
 
 <br>
 
@@ -81,6 +82,50 @@ This rule applies to the following HTML elements that support the `disabled` att
 <!-- sky-btn-disabled class is allowed on non-form elements -->
 <div class="sky-btn-disabled">Visual styling only</div>
 <span [class.sky-btn-disabled]="condition">Status indicator</span>
+```
+
+## Auto-Fix Support
+
+This rule provides automatic fixes for the most common scenarios:
+
+### ✅ **Fixable Cases**
+
+```html
+<!-- Static class attributes -->
+<button class="sky-btn-disabled">Submit</button>
+<!-- Auto-fixes to: -->
+<button disabled>Submit</button>
+
+<!-- Class bindings -->
+<button [class.sky-btn-disabled]="isDisabled">Submit</button>
+<!-- Auto-fixes to: -->
+<button [disabled]="isDisabled">Submit</button>
+
+<!-- Multiple classes - removes only sky-btn-disabled -->
+<button class="btn sky-btn-disabled primary">Submit</button>
+<!-- Auto-fixes to: -->
+<button disabled class="btn primary">Submit</button>
+
+<!-- Already has disabled attribute - removes redundant class -->
+<button class="sky-btn-disabled" disabled>Submit</button>
+<!-- Auto-fixes to: -->
+<button disabled>Submit</button>
+```
+
+### ⚠️ **Manual Fix Required**
+
+More complex cases require manual intervention:
+
+```html
+<!-- Complex [class] bindings -->
+<button [class]="condition ? 'sky-btn-disabled' : 'enabled'">
+<!-- Manually change to: -->
+<button [disabled]="condition">
+
+<!-- Complex [ngClass] objects -->
+<button [ngClass]="{'sky-btn-disabled': isDisabled, 'active': isActive}">
+<!-- Manually change to: -->
+<button [ngClass]="{'active': isActive}" [disabled]="isDisabled">
 ```
 
 <br>
