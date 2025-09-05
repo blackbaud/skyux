@@ -41,7 +41,7 @@ describe('Convert Page Summary to Page Header', () => {
           content and limit the amount of content to avoid overloading the summary.
         </sky-page-summary-content>
         <sky-page-summary-key-info>
-          <sky-key-info>
+          <sky-key-info [layout]="'horizontal'">
             <sky-key-info-value> $1,500 </sky-key-info-value>
             <sky-key-info-label> Largest gift </sky-key-info-label>
           </sky-key-info>
@@ -77,11 +77,11 @@ describe('Convert Page Summary to Page Header', () => {
             content and limit the amount of content to avoid overloading the summary.
           </div>
           <div class="sky-margin-stacked-md">
-            <sky-key-info>
+            <sky-key-info class="sky-margin-inline-xxl" >
               <sky-key-info-value> $1,500 </sky-key-info-value>
               <sky-key-info-label> Largest gift </sky-key-info-label>
             </sky-key-info>
-            <sky-key-info>
+            <sky-key-info class="sky-margin-inline-xxl">
               <sky-key-info-value> 37 </sky-key-info-value>
               <sky-key-info-label> Total gifts </sky-key-info-label>
             </sky-key-info>
