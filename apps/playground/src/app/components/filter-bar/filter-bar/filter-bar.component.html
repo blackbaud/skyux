@@ -2,8 +2,8 @@
   <sky-page-header pageTitle="Filter bar" />
   <sky-page-content>
     <sky-filter-bar
+      [(appliedFilters)]="appliedFilters"
       [(selectedFilterIds)]="selectedFilterIds"
-      [(filters)]="filters"
     >
       <sky-filter-item-modal
         filterId="1"
@@ -49,7 +49,7 @@
     <div>Selected filters:</div>
     <div>{{ selectedFilterIds }}</div>
     <div>Filters:</div>
-    <div>{{ filters }}</div>
+    <div>{{ appliedFilters }}</div>
     <div class="button-row">
       <button
         type="button"

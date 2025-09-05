@@ -1,4 +1,7 @@
-<sky-filter-bar [filters]="filters" [selectedFilterIds]="['1', '2']">
+<sky-filter-bar
+  [appliedFilters]="appliedFilters"
+  [selectedFilterIds]="['1', '2']"
+>
   <sky-filter-item-modal
     filterId="1"
     labelText="Filter 1"
@@ -11,7 +14,7 @@
   />
 </sky-filter-bar>
 <div class="spacer"></div>
-<sky-filter-bar [filters]="filters">
+<sky-filter-bar [appliedFilters]="appliedFilters">
   <sky-filter-item-modal
     filterId="1"
     labelText="Filter 1"
