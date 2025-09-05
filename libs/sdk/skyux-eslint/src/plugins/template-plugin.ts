@@ -18,13 +18,13 @@ import {
   RULE_NAME as noRadioGroupWithNestedListRuleName,
 } from '../rules/template/no-radio-group-with-nested-list';
 import {
-  rule as noSkyBtnDisabledClass,
-  RULE_NAME as noSkyBtnDisabledClassRuleName,
-} from '../rules/template/no-sky-btn-disabled-class';
-import {
   rule as noUnboundId,
   RULE_NAME as noUnboundIdRuleName,
 } from '../rules/template/no-unbound-id';
+import {
+  rule as preferDisabledAttr,
+  RULE_NAME as preferDisabledAttrRuleName,
+} from '../rules/template/prefer-disabled-attr';
 import {
   rule as preferLabelText,
   RULE_NAME as preferLabelTextRuleName,
@@ -40,7 +40,7 @@ export default {
     [noDeprecatedDirectivesRuleName]: noDeprecatedDirectives,
     [noLegacyIconsRuleName]: noLegacyIcons,
     [noRadioGroupWithNestedListRuleName]: noRadioGroupWithNestedList,
-    [noSkyBtnDisabledClassRuleName]: noSkyBtnDisabledClass,
+    [preferDisabledAttrRuleName]: preferDisabledAttr,
     [noUnboundIdRuleName]: noUnboundId,
     [preferLabelTextRuleName]: preferLabelText,
   },

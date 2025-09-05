@@ -2,7 +2,7 @@ import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils'
 
 import { createTemplateRuleTester } from '../testing/create-template-rule-tester';
 
-import { RULE_NAME, messageId, rule } from './no-sky-btn-disabled-class';
+import { RULE_NAME, messageId, rule } from './prefer-disabled-attr';
 
 const ruleTester = createTemplateRuleTester();
 

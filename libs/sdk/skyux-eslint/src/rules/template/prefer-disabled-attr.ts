@@ -9,8 +9,8 @@ import {
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
-export const RULE_NAME = 'no-sky-btn-disabled-class';
-export const messageId = 'noSkyBtnDisabledClass';
+export const RULE_NAME = 'prefer-disabled-attr';
+export const messageId = 'preferDisabledAttr';
 
 /**
  * Elements that support the `disabled` attribute.
@@ -126,11 +126,11 @@ export const rule = createESLintTemplateRule({
   meta: {
     docs: {
       description:
-        'Prevents using .sky-btn-disabled class on elements that support the disabled attribute. Use the disabled attribute instead.',
+        'Prefer the disabled attribute over .sky-btn-disabled class for elements that support the disabled attribute.',
     },
     messages: {
       [messageId]:
-        'The <{{element}}> element must not use the .sky-btn-disabled class. Use the disabled attribute instead for proper accessibility and semantic meaning.',
+        'Use the disabled attribute instead of the .sky-btn-disabled class on <{{element}}> elements for proper accessibility and semantic meaning.',
     },
     schema: [],
     type: 'problem',

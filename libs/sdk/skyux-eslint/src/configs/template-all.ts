@@ -11,7 +11,7 @@ export default [
       'skyux-eslint-template/no-deprecated-directives': 'error',
       'skyux-eslint-template/no-legacy-icons': 'error',
       'skyux-eslint-template/no-radio-group-with-nested-list': 'error',
-      'skyux-eslint-template/no-sky-btn-disabled-class': 'error',
+      'skyux-eslint-template/prefer-disabled-attr': 'error',
       'skyux-eslint-template/no-unbound-id': 'error',
       'skyux-eslint-template/prefer-label-text': 'error',
     },
