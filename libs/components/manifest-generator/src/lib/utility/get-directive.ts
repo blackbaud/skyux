@@ -27,7 +27,8 @@ function isInputSignal(
   return (
     reflection.type instanceof ReferenceType &&
     (reflection.type?.name === 'InputSignal' ||
-      reflection.type?.name === 'InputSignalWithTransform')
+      reflection.type?.name === 'InputSignalWithTransform' ||
+      reflection.type?.name === 'ModelSignal')
   );
 }
 
