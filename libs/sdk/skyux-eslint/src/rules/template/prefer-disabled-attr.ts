@@ -108,17 +108,7 @@ export const rule = createESLintTemplateRule({
               return;
             }
           }
-        } // Note: This rule detects .sky-btn-disabled class usage on elements that support disabled:
-        // 1. Static class="sky-btn-disabled" - NEVER allowed on elements that support disabled
-        // 2. [class.sky-btn-disabled]="condition" - NEVER allowed on elements that support disabled
-        //
-        // Elements that support disabled should use the native disabled attribute instead:
-        // - disabled (static)
-        // - [disabled]="condition" (property binding)
-        // - [attr.disabled]="condition" (attribute binding)
-        //
-        // More complex cases like [class]="dynamicClassObject" or [ngClass]="complexExpression"
-        // are not detected due to the complexity of parsing arbitrary expressions.
+        }
       },
     };
   },
