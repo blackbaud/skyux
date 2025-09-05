@@ -72,14 +72,15 @@ export function getNgFor(el: TmplAstTemplate): string {
 }
 
 /**
- * Gets the text content of the provided element.
+ * Gets the text content of the provided element, preserving HTML entities.
  */
 export function getTextContent(el: TmplAstElement): string {
   let text = '';
 
   el.children.forEach((child) => {
     if (child instanceof TmplAstText) {
-      text += child.value.trim();
+      // Use sourceSpan to get original source text with entities preserved (e.g. `&#64;`).
+      text += child.sourceSpan.toString().trim();
     } else if (child instanceof TmplAstBoundText) {
       text += child.sourceSpan.toString().trim();
     }

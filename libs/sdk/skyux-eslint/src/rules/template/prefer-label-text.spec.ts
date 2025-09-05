@@ -209,5 +209,125 @@ ruleTester.run(RULE_NAME, rule, {
         labelSelector: 'sky-checkbox-label',
       },
     }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail but not fix if label contains control flow syntax',
+      annotatedSource: `
+        <sky-checkbox>
+        ~~~~~~~~~~~~~~
+          <sky-checkbox-label>
+          ~~~~~~~~~~~~~~~~~~~~
+            @if (showPrefix) {
+            ~~~~~~~~~~~~~~~~~~
+              Prefix:
+              ~~~~~~~
+            }
+            ~
+            Label text
+            ~~~~~~~~~~
+          </sky-checkbox-label>
+          ~~~~~~~~~~~~~~~~~~~~~
+        </sky-checkbox>
+        ~~~~~~~~~~~~~~~
+      `,
+      messageId,
+      data: {
+        selector: 'sky-checkbox',
+        labelInputName: 'labelText',
+        labelSelector: 'sky-checkbox-label',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail but not fix if label contains @for control flow',
+      annotatedSource: `
+        <sky-toggle-switch>
+        ~~~~~~~~~~~~~~~~~~~
+          <sky-toggle-switch-label>
+          ~~~~~~~~~~~~~~~~~~~~~~~~~
+            @for (item of items; track item.id) {
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              {{ item.name }}
+              ~~~~~~~~~~~~~~~
+            }
+            ~
+          </sky-toggle-switch-label>
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </sky-toggle-switch>
+        ~~~~~~~~~~~~~~~~~~~~
+      `,
+      messageId,
+      data: {
+        selector: 'sky-toggle-switch',
+        labelInputName: 'labelText',
+        labelSelector: 'sky-toggle-switch-label',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail but not fix if label contains @switch control flow',
+      annotatedSource: `
+        <sky-input-box>
+        ~~~~~~~~~~~~~~~
+          <label>
+          ~~~~~~~
+            @switch (labelType) {
+            ~~~~~~~~~~~~~~~~~~~~~
+              @case ('short') {
+              ~~~~~~~~~~~~~~~~~
+                Short Label
+                ~~~~~~~~~~~
+              }
+              ~
+              @default {
+              ~~~~~~~~~~
+                Default Label
+                ~~~~~~~~~~~~~
+              }
+              ~
+            }
+            ~
+          </label>
+          ~~~~~~~~
+        </sky-input-box>
+        ~~~~~~~~~~~~~~~~
+      `,
+      messageId,
+      data: {
+        selector: 'sky-input-box',
+        labelInputName: 'labelText',
+        labelSelector: 'label',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail and fix if labelText not set and has label element with escaped "@" character',
+      annotatedSource: `
+        <sky-checkbox>
+        ~~~~~~~~~~~~~~
+          <sky-checkbox-label>
+          ~~~~~~~~~~~~~~~~~~~~
+            foo&#64;email.com
+            ~~~~~~~~~~~~~
+          </sky-checkbox-label>
+          ~~~~~~~~~~~~~~~~~~~~~
+        </sky-checkbox>
+        ~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+        <sky-checkbox labelText="foo&#64;email.com">
+        ~
+          ~
+          ~
+        </sky-checkbox>
+        ~
+      `,
+      messageId,
+      data: {
+        selector: 'sky-checkbox',
+        labelInputName: 'labelText',
+        labelSelector: 'sky-checkbox-label',
+      },
+    }),
   ],
 });
