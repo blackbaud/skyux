@@ -22,6 +22,10 @@ import {
   RULE_NAME as noUnboundIdRuleName,
 } from '../rules/template/no-unbound-id';
 import {
+  rule as preferDisabledAttr,
+  RULE_NAME as preferDisabledAttrRuleName,
+} from '../rules/template/prefer-disabled-attr';
+import {
   rule as preferLabelText,
   RULE_NAME as preferLabelTextRuleName,
 } from '../rules/template/prefer-label-text';
@@ -36,6 +40,7 @@ export default {
     [noDeprecatedDirectivesRuleName]: noDeprecatedDirectives,
     [noLegacyIconsRuleName]: noLegacyIcons,
     [noRadioGroupWithNestedListRuleName]: noRadioGroupWithNestedList,
+    [preferDisabledAttrRuleName]: preferDisabledAttr,
     [noUnboundIdRuleName]: noUnboundId,
     [preferLabelTextRuleName]: preferLabelText,
   },
