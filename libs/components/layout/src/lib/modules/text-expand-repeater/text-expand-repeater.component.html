@@ -1,15 +1,15 @@
 <div class="sky-text-expand-repeater">
-  @if (listStyle !== 'ordered') {
+  @if (listStyle() !== 'ordered') {
     <ul
       #container
       class="sky-text-expand-repeater-container"
       [@expansionAnimation]="{
-        value: isExpanded,
+        value: isExpanded(),
         params: { transitionHeight: transitionHeight }
       }"
       [id]="contentSectionId"
       [ngClass]="{
-        'sky-text-expand-repeater-list-style-none': listStyle === 'unstyled'
+        'sky-text-expand-repeater-list-style-none': listStyle() === 'unstyled'
       }"
       (@expansionAnimation.done)="animationEnd()"
     >
@@ -20,7 +20,7 @@
       #container
       class="sky-text-expand-repeater-container"
       [@expansionAnimation]="{
-        value: isExpanded,
+        value: isExpanded(),
         params: { transitionHeight: transitionHeight }
       }"
       [id]="contentSectionId"
@@ -33,15 +33,15 @@
     <button
       type="button"
       class="sky-btn sky-btn-link-inline sky-text-expand-repeater-see-more"
-      [attr.aria-expanded]="!!isExpanded"
+      [attr.aria-expanded]="isExpanded()"
       [attr.aria-controls]="contentSectionId"
       [ngClass]="{
         'sky-text-expand-repeater-see-more-list-style-none':
-          listStyle === 'unstyled'
+          listStyle() === 'unstyled'
       }"
       (click)="repeaterExpand()"
     >
-      {{ buttonText }}
+      {{ buttonText() }}
     </button>
   }
 </div>
@@ -51,11 +51,11 @@
 </ng-template>
 
 <ng-template #listItemTemplate>
-  @for (item of data; track item) {
+  @for (item of trackedData(); track item.index) {
     <li class="sky-text-expand-repeater-item">
       <ng-template
-        [ngTemplateOutlet]="itemTemplate || defaultItemTemplate"
-        [ngTemplateOutletContext]="{ $implicit: item }"
+        [ngTemplateOutlet]="itemTemplate() || defaultItemTemplate"
+        [ngTemplateOutletContext]="{ $implicit: item.item }"
       />
     </li>
   }
