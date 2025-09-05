@@ -7,7 +7,7 @@ export class SkyFilterBarFilterModalContext {
   /**
    * The name of the filter for displaying in the modal title.
    */
-  public filterName: string;
+  public filterLabelText: string;
   /**
    * The value of the filter.
    */
@@ -18,13 +18,13 @@ export class SkyFilterBarFilterModalContext {
    */
   public additionalContext?: Record<string, unknown>;
 
-  constructor(
-    filterName: string,
-    filterValue?: SkyFilterBarFilterValue,
-    additionalContext?: Record<string, unknown>,
-  ) {
-    this.filterName = filterName;
-    this.filterValue = filterValue;
-    this.additionalContext = additionalContext;
+  constructor(args: {
+    filterLabelText: string;
+    filterValue?: SkyFilterBarFilterValue;
+    additionalContext?: Record<string, unknown>;
+  }) {
+    this.filterLabelText = args.filterLabelText;
+    this.filterValue = args.filterValue;
+    this.additionalContext = args.additionalContext;
   }
 }

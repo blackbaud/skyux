@@ -5,26 +5,31 @@
   <sky-filter-item-modal
     filterId="community-connection"
     labelText="Community connection"
-    [filterModalConfig]="communityConnectionConfig"
+    [modalComponent]="communityConnectionModal"
+    (modalOpened)="onModalOpened($event, 'community-connection')"
   />
   <sky-filter-item-modal
     filterId="current-grade"
     labelText="Current grade"
-    [filterModalConfig]="currentGradeConfig"
+    [modalComponent]="currentGradeModal"
+    (modalOpened)="onModalOpened($event, 'current-grade')"
   />
   <sky-filter-item-modal
     filterId="entering-grade"
     labelText="Entering grade"
-    [filterModalConfig]="enteringGradeConfig"
+    [modalComponent]="enteringGradeModal"
+    (modalOpened)="onModalOpened($event, 'entering-grade')"
   />
   <sky-filter-item-modal
     filterId="role"
     labelText="Role"
-    [filterModalConfig]="roleConfig"
+    [modalComponent]="roleModal"
+    (modalOpened)="onModalOpened($event, 'role')"
   />
   <sky-filter-item-modal
     filterId="staff-assigned"
     labelText="Staff assigned"
-    [filterModalConfig]="staffAssignedConfig"
+    [modalComponent]="staffAssignedModal"
+    (modalOpened)="onModalOpened($event, 'staff-assigned')"
   />
 </sky-filter-bar>

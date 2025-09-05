@@ -398,6 +398,93 @@ describe('Filter bar component', () => {
       expect(valueElement?.textContent?.trim()).toBe('new value from modal');
     });
 
+    it('should accept filter modal context', () => {
+      // Update the test component's modal config to be full screen
+      component.modalComponent.set(class TestModalComponent {});
+
+      // Set up filter with a value
+      component.appliedFilters.set([
+        { filterId: '3', filterValue: { value: 'test' } },
+      ]);
+      fixture.detectChanges();
+
+      // Set up modal response
+      const closed$ = of({ reason: 'save', data: { value: 'updated' } });
+      modalServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as SkyModalInstance);
+
+      // Click the filter item to open modal
+      const filterItems = getFilterItems();
+      const filterButton = filterItems[2].querySelector(
+        'button',
+      ) as HTMLButtonElement;
+      filterButton.click();
+
+      // Verify modal was opened with fullPage option
+      expect(modalServiceSpy.open).toHaveBeenCalledWith(
+        component.modalComponent(),
+        jasmine.objectContaining({
+          providers: jasmine.arrayContaining([
+            jasmine.objectContaining({
+              useValue: jasmine.objectContaining({
+                additionalContext: { value: 'context' },
+              }),
+            }),
+          ]),
+        }),
+      );
+
+      fixture.detectChanges();
+      expect(component.appliedFilters()?.[0]?.filterValue).toEqual({
+        value: 'updated',
+      });
+    });
+
+    it('should handle undefined on filter modal context', () => {
+      component.onModalOpened = () => {};
+      // Update the test component's modal config to be full screen
+      component.modalComponent.set(class TestModalComponent {});
+
+      // Set up filter with a value
+      component.appliedFilters.set([
+        { filterId: '3', filterValue: { value: 'test' } },
+      ]);
+      fixture.detectChanges();
+
+      // Set up modal response
+      const closed$ = of({ reason: 'save', data: { value: 'updated' } });
+      modalServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as SkyModalInstance);
+
+      // Click the filter item to open modal
+      const filterItems = getFilterItems();
+      const filterButton = filterItems[2].querySelector(
+        'button',
+      ) as HTMLButtonElement;
+      filterButton.click();
+
+      // Verify modal was opened with fullPage option
+      expect(modalServiceSpy.open).toHaveBeenCalledWith(
+        component.modalComponent(),
+        jasmine.objectContaining({
+          providers: jasmine.arrayContaining([
+            jasmine.objectContaining({
+              useValue: jasmine.objectContaining({
+                additionalContext: undefined,
+              }),
+            }),
+          ]),
+        }),
+      );
+
+      fixture.detectChanges();
+      expect(component.appliedFilters()?.[0]?.filterValue).toEqual({
+        value: 'updated',
+      });
+    });
+
     it('should handle modal with displayValue different from value', () => {
       // Set up initial filter state
       component.appliedFilters.set([
@@ -486,10 +573,8 @@ describe('Filter bar component', () => {
 
     it('should open full screen modal when configured', () => {
       // Update the test component's modal config to be full screen
-      component.modalConfig = {
-        modalComponent: class TestModalComponent {},
-        modalSize: 'full',
-      };
+      component.modalComponent.set(class TestModalComponent {});
+      component.modalSize.set('fullScreen');
 
       // Set up filter with a value
       component.appliedFilters.set([
@@ -512,7 +597,7 @@ describe('Filter bar component', () => {
 
       // Verify modal was opened with fullPage option
       expect(modalServiceSpy.open).toHaveBeenCalledWith(
-        component.modalConfig.modalComponent,
+        component.modalComponent(),
         jasmine.objectContaining({ fullPage: true }),
       );
 

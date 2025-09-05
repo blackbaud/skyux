@@ -31,7 +31,7 @@ export class SkyFilterItemHarness extends SkyComponentHarness {
         return await HarnessPredicate.stringMatches(harnessId, filterId);
       })
       .addOption('labelText', filters.labelText, async (harness, labelText) => {
-        const harnessName = await harness.getName();
+        const harnessName = await harness.getLabelText();
         return await HarnessPredicate.stringMatches(harnessName, labelText);
       });
   }
@@ -46,21 +46,14 @@ export class SkyFilterItemHarness extends SkyComponentHarness {
   /**
    * Gets the filter item value.
    */
-  public async getValue(): Promise<string | undefined> {
+  public async getFilterValue(): Promise<string | undefined> {
     return await (await this.#getFilterValue())?.text();
   }
 
   /**
    * Gets the filter item name.
    */
-  public async getName(): Promise<string> {
+  public async getLabelText(): Promise<string> {
     return await (await this.#getFilterName()).text();
-  }
-
-  /**
-   * Checks if the filter item has an active value.
-   */
-  public async hasActiveValue(): Promise<boolean> {
-    return !!(await this.#getFilterValue());
   }
 }

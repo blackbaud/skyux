@@ -14,8 +14,8 @@ import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  selector: 'app-filter-modal',
-  templateUrl: './filter-modal.component.html',
+  selector: 'app-role-filter-modal',
+  templateUrl: './role-filter-modal.component.html',
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -25,11 +25,11 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterModalComponent {
+export class RoleFilterModalComponent {
   protected readonly modalInstance = inject(SkyModalInstance);
   readonly #context = inject(SkyFilterBarFilterModalContext);
   readonly #formBuilder: FormBuilder = inject(FormBuilder);
-  protected headingText = this.#context.filterName;
+  protected headingText = this.#context.filterLabelText;
   protected items: SkyFilterBarFilterValue[] = this.#context
     .additionalContext?.['items'] as SkyFilterBarFilterValue[];
   protected selectedValue = this.#context.filterValue;

@@ -1,12 +1,17 @@
 import { Component } from '@angular/core';
 import {
   SkyFilterBarFilterItem,
-  SkyFilterBarFilterModalConfig,
-  SkyFilterBarFilterValue,
+  SkyFilterBarFilterModalOpenedArgs,
   SkyFilterBarModule,
 } from '@skyux/filter-bar';
 
-import { FilterModalComponent } from './filter-modal.component';
+import { of } from 'rxjs';
+
+import { CommunityConnectionFilterModalComponent } from './filter-modals/community-connection-filter-modal.component';
+import { CurrentGradeFilterModalComponent } from './filter-modals/current-grade-filter-modal.component';
+import { EnteringGradeFilterModalComponent } from './filter-modals/entering-grade-filter-modal.component';
+import { RoleFilterModalComponent } from './filter-modals/role-filter-modal.component';
+import { StaffAssignedFilterModalComponent } from './filter-modals/staff-assigned-filter-modal.component';
 import { FILTER_SELECTION_VALUES } from './filter-selection-values';
 
 /**
@@ -21,31 +26,11 @@ export class FilterBarBasicExampleComponent {
   public appliedFilters: SkyFilterBarFilterItem[] | undefined;
   public selectedFilterIds: string[] | undefined;
 
-  protected communityConnectionConfig: SkyFilterBarFilterModalConfig = {
-    modalComponent: FilterModalComponent,
-    modalSize: 'medium',
-    additionalContext: this.#getFilterContext('community-connection'),
-  };
-  protected currentGradeConfig: SkyFilterBarFilterModalConfig = {
-    modalComponent: FilterModalComponent,
-    modalSize: 'medium',
-    additionalContext: this.#getFilterContext('current-grade'),
-  };
-  protected enteringGradeConfig: SkyFilterBarFilterModalConfig = {
-    modalComponent: FilterModalComponent,
-    modalSize: 'medium',
-    additionalContext: this.#getFilterContext('entering-grade'),
-  };
-  protected roleConfig: SkyFilterBarFilterModalConfig = {
-    modalComponent: FilterModalComponent,
-    modalSize: 'medium',
-    additionalContext: this.#getFilterContext('role'),
-  };
-  protected staffAssignedConfig: SkyFilterBarFilterModalConfig = {
-    modalComponent: FilterModalComponent,
-    modalSize: 'medium',
-    additionalContext: this.#getFilterContext('staff-assigned'),
-  };
+  protected communityConnectionModal = CommunityConnectionFilterModalComponent;
+  protected currentGradeModal = CurrentGradeFilterModalComponent;
+  protected enteringGradeModal = EnteringGradeFilterModalComponent;
+  protected roleModal = RoleFilterModalComponent;
+  protected staffAssignedModal = StaffAssignedFilterModalComponent;
 
   constructor() {
     this.setInitialFilters();
@@ -59,9 +44,10 @@ export class FilterBarBasicExampleComponent {
     ];
   }
 
-  #getFilterContext(filterId: string): {
-    items: SkyFilterBarFilterValue[];
-  } {
-    return { items: FILTER_SELECTION_VALUES[filterId] };
+  protected onModalOpened(
+    args: SkyFilterBarFilterModalOpenedArgs,
+    filterId: string,
+  ): void {
+    args.data = of({ items: FILTER_SELECTION_VALUES[filterId] });
   }
 }
