@@ -80,9 +80,7 @@ function getAttributeByName(
  */
 function hasControlFlowSyntax(el: TmplAstElement): boolean {
   const sourceText = el.sourceSpan.toString();
-  const controlFlowPatterns =
-    /@(if|for|switch|case|default|else|defer|placeholder|loading|error)\b/;
-  return controlFlowPatterns.test(sourceText);
+  return sourceText.includes('@');
 }
 
 /**

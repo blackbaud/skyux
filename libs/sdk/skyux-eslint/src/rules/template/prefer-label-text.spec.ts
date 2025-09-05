@@ -17,10 +17,6 @@ ruleTester.run(RULE_NAME, rule, {
       <label [for]="myInput.id">My label</label>
       <input #myInput="skyId" skyId class="sky-form-control" type="text" />
     </sky-input-box>`,
-    // Should not trigger when there's text that looks like control flow but isn't
-    `<sky-checkbox>
-      <sky-checkbox-label>Email: @if.service.com</sky-checkbox-label>
-    </sky-checkbox>`,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
@@ -301,6 +297,36 @@ ruleTester.run(RULE_NAME, rule, {
         selector: 'sky-input-box',
         labelInputName: 'labelText',
         labelSelector: 'label',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail and fix if labelText not set and has label element with escaped "@" character',
+      annotatedSource: `
+        <sky-checkbox>
+        ~~~~~~~~~~~~~~
+          <sky-checkbox-label>
+          ~~~~~~~~~~~~~~~~~~~~
+            foo&#64;email.com
+            ~~~~~~~~~~~~~
+          </sky-checkbox-label>
+          ~~~~~~~~~~~~~~~~~~~~~
+        </sky-checkbox>
+        ~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+        <sky-checkbox labelText="foo&#64;email.com">
+        ~
+          ~
+          ~
+        </sky-checkbox>
+        ~
+      `,
+      messageId,
+      data: {
+        selector: 'sky-checkbox',
+        labelInputName: 'labelText',
+        labelSelector: 'sky-checkbox-label',
       },
     }),
   ],
