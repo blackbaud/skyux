@@ -5,6 +5,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyModalConfigurationInterface,
+  SkyModalConfigurationSizeType,
   SkyModalModule,
   SkyModalService,
 } from '@skyux/modals';
@@ -233,7 +234,7 @@ describe('Modal test harness', () => {
     await expectAsync(modalHarness.getSize()).toBeResolvedTo('medium');
   });
 
-  const sizes = ['small', 'medium', 'large'];
+  const sizes: SkyModalConfigurationSizeType[] = ['small', 'medium', 'large'];
   for (const size of sizes) {
     it(`should return the correct modal size when ${size}`, async () => {
       const { modalHarness, fixture } = await setupTest({
