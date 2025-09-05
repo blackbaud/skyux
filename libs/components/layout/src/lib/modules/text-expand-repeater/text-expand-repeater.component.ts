@@ -12,7 +12,9 @@ import {
   ElementRef,
   Input,
   TemplateRef,
+  TrackByFunction,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -56,12 +58,14 @@ let nextId = 0;
   providers: [SkyTextExpandRepeaterAdapterService],
   standalone: false,
 })
-export class SkyTextExpandRepeaterComponent implements AfterViewInit {
+export class SkyTextExpandRepeaterComponent<T = unknown>
+  implements AfterViewInit
+{
   /**
    * The data to truncate.
    */
   @Input()
-  public set data(value: any[] | undefined) {
+  public set data(value: T[] | undefined) {
     this.#_data = value;
 
     // Wait for the dom to render the new items based on the updated data
@@ -71,7 +75,7 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
     });
   }
 
-  public get data(): any[] | undefined {
+  public get data(): T[] | undefined {
     return this.#_data;
   }
 
@@ -102,6 +106,13 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
     return this.#_maxItems;
   }
 
+  /**
+   * A [TrackByFunction](https://angular.dev/api/core/TrackByFunction) to uniquely identify items in the list.
+   */
+  @Input()
+  public trackBy: TrackByFunction<T> = (_index: number, item: T): unknown =>
+    item;
+
   public buttonText = '';
   public expandable = false;
   public contentSectionId = `sky-text-expand-repeater-content-${++nextId}`;
@@ -120,25 +131,15 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
 
   #htmlItems: NodeListOf<HTMLElement> | undefined;
 
-  #_data: any[] | undefined;
+  #_data: T[] | undefined;
   #_maxItems: number | undefined;
 
-  #resources: SkyLibResourcesService;
-  #elRef: ElementRef;
-  #textExpandRepeaterAdapter: SkyTextExpandRepeaterAdapterService;
-  #changeDetector: ChangeDetectorRef;
-
-  constructor(
-    resources: SkyLibResourcesService,
-    elRef: ElementRef,
-    textExpandRepeaterAdapter: SkyTextExpandRepeaterAdapterService,
-    changeDetector: ChangeDetectorRef,
-  ) {
-    this.#resources = resources;
-    this.#elRef = elRef;
-    this.#textExpandRepeaterAdapter = textExpandRepeaterAdapter;
-    this.#changeDetector = changeDetector;
-  }
+  readonly #resources = inject(SkyLibResourcesService);
+  readonly #elRef = inject(ElementRef);
+  readonly #textExpandRepeaterAdapter = inject(
+    SkyTextExpandRepeaterAdapterService,
+  );
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   public ngAfterViewInit(): void {
     observableForkJoin([
@@ -194,8 +195,7 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
       } else {
         this.#hideItems();
       }
-      const newHeight = adapter.getContainerHeight(container);
-      this.transitionHeight = newHeight;
+      this.transitionHeight = adapter.getContainerHeight(container);
       if (!expanding) {
         this.buttonText = this.#seeMoreText;
       } else {

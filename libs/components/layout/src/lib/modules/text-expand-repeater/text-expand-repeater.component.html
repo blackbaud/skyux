@@ -51,7 +51,7 @@
 </ng-template>
 
 <ng-template #listItemTemplate>
-  @for (item of data; track item) {
+  @for (item of data; track trackBy($index, item)) {
     <li class="sky-text-expand-repeater-item">
       <ng-template
         [ngTemplateOutlet]="itemTemplate || defaultItemTemplate"
