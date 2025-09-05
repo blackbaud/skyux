@@ -590,7 +590,7 @@ export class IconComponentComponent {}`,
     );
   });
 
-  it('should update SkyDataViewConfig', async () => {
+  it('should update SkyDataViewConfig variable', async () => {
     const tree = Tree.empty();
 
     tree.create(
@@ -626,6 +626,55 @@ export class IconComponentComponent {}`,
           searchEnabled: false,
           sortEnabled: true,
         };
+
+      }`,
+    );
+  });
+
+  it('should update initDataView parameter', async () => {
+    const tree = Tree.empty();
+
+    tree.create(
+      `/file.ts`,
+      `import { SkyDataManagerService } from '@skyux/data-manager';
+
+      export class MyClass {
+
+        readonly #dm = inject(SkyDataManagerService);
+
+        public ngOnInit(): void {
+          this.#dm.initDataView({
+            id: this.gridViewId,
+            name: 'Grid View',
+            icon: 'clipboard-list',
+            searchEnabled: false,
+            sortEnabled: true,
+          });
+        }
+
+      }`,
+    );
+
+    tree.create('/angular.json', JSON.stringify(angularJson));
+
+    await runner.runSchematic('icon-name', {}, tree);
+
+    expect(tree.readText('/file.ts')).toBe(
+      `import { SkyDataManagerService } from '@skyux/data-manager';
+
+      export class MyClass {
+
+        readonly #dm = inject(SkyDataManagerService);
+
+        public ngOnInit(): void {
+          this.#dm.initDataView({
+            id: this.gridViewId,
+            name: 'Grid View',
+            iconName: 'clipboard-bullet-list',
+            searchEnabled: false,
+            sortEnabled: true,
+          });
+        }
 
       }`,
     );

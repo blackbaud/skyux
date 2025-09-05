@@ -101,19 +101,23 @@ function updateDataViewConfig(
   source: ts.SourceFile,
   recorder: UpdateRecorder,
 ): void {
-  const hasSkyDataViewConfig = isImported(
-    source,
-    'SkyDataViewConfig',
-    '@skyux/data-manager',
-  );
-  if (hasSkyDataViewConfig) {
+  const checkSkyDataViewConfig =
+    isImported(source, 'SkyDataViewConfig', '@skyux/data-manager') ||
+    isImported(source, 'SkyDataManagerService', '@skyux/data-manager');
+  if (checkSkyDataViewConfig) {
     const dataViewConfig = findNodes(
       source,
       (node): node is ts.ObjectLiteralExpression =>
+        !!node.parent &&
         ts.isObjectLiteralExpression(node) &&
-        (ts.isVariableDeclaration(node.parent) ||
+        // Object typed as SkyDataViewConfig via variable or property declaration.
+        (((ts.isVariableDeclaration(node.parent) ||
           ts.isPropertyDeclaration(node.parent)) &&
-        node.parent.type?.getText(source) === 'SkyDataViewConfig',
+          node.parent.type?.getText(source) === 'SkyDataViewConfig') ||
+          // Object parameter to SkyDataManagerService.initDataView(), inferred type.
+          (ts.isCallExpression(node.parent) &&
+            ts.isPropertyAccessExpression(node.parent.expression) &&
+            node.parent.expression.name.text === 'initDataView')),
     );
     dataViewConfig.forEach((node) => {
       const iconProperty = node.properties.find(
