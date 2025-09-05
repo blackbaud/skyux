@@ -46,7 +46,7 @@ This rule applies to the following HTML elements that support the `disabled` att
 ```html
 <!-- Static class attribute -->
 <button class="sky-btn-disabled">Submit</button>
-        ~~~~~~~~~~~~~~~~~~~~
+        ~~~~~~~~~~~~~~~~~~~~~~~~
 
 <!-- Class binding -->
 <button [class.sky-btn-disabled]="isDisabled">Submit</button>
@@ -57,7 +57,7 @@ This rule applies to the following HTML elements that support the `disabled` att
        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <select [ngClass]="{'sky-btn-disabled': isDisabled}">
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   <option>Option 1</option>
 </select>
 ```
