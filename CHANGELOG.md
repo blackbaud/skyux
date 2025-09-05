@@ -1,5 +1,22 @@
 # Changelog
 
+## [13.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.9...13.0.0-alpha.10) (2025-09-05)
+
+
+### Features
+
+* **components/packages:** create schematic to remove fixedWidth input on sky-icon ([#3895](https://github.com/blackbaud/skyux/issues/3895)) ([1d6850d](https://github.com/blackbaud/skyux/commit/1d6850db02924449f2bb3c655b02e9fdb753dcaf))
+* **components/packages:** create schematic to update data view config icon ([#3902](https://github.com/blackbaud/skyux/issues/3902)) ([675c81f](https://github.com/blackbaud/skyux/commit/675c81f0d1fe4e00a36fb416cdcb5a6270532a26))
+
+
+### Bug Fixes
+
+* **components/docs-tools:** allow scrolling away from the anchor position ([#3896](https://github.com/blackbaud/skyux/issues/3896)) ([#3899](https://github.com/blackbaud/skyux/issues/3899)) ([e204bf9](https://github.com/blackbaud/skyux/commit/e204bf9d840a4534aec6fd42fe8334d6eee4e4dd))
+* **components/lookup:** add transformations for boolean inputs ([#3890](https://github.com/blackbaud/skyux/issues/3890)) ([#3900](https://github.com/blackbaud/skyux/issues/3900)) ([871af15](https://github.com/blackbaud/skyux/commit/871af152df94286b200bd968ef1b5438059b4ad8))
+* **components/manifest:** include `ModelSignal` in directive properties metadata ([#3903](https://github.com/blackbaud/skyux/issues/3903)) ([#3905](https://github.com/blackbaud/skyux/issues/3905)) ([702f702](https://github.com/blackbaud/skyux/commit/702f7026d1d2f2ed63026d167cf697b791ea24ad))
+* **sdk/skyux-eslint:** do not apply fix for `prefer-label-text` rule when label element uses control flow syntax ([#3904](https://github.com/blackbaud/skyux/issues/3904)) ([#3906](https://github.com/blackbaud/skyux/issues/3906)) ([2f46ce2](https://github.com/blackbaud/skyux/commit/2f46ce29ddb9d769cd74b6b2dee2ad2acbb99b2f))
+* viewkeeper and summary action bar use correct fallback values for css calculations using a fallback for a custom property ([#3888](https://github.com/blackbaud/skyux/issues/3888)) ([#3893](https://github.com/blackbaud/skyux/issues/3893)) ([faccc8b](https://github.com/blackbaud/skyux/commit/faccc8b927eb80e647ed9e90140d095c0be99b11))
+
 ## [12.38.1](https://github.com/blackbaud/skyux/compare/12.38.0...12.38.1) (2025-09-05)
 
 
