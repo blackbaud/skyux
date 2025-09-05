@@ -1,4 +1,9 @@
-import { Component, QueryList, TrackByFunction, ViewChildren } from '@angular/core';
+import {
+  Component,
+  QueryList,
+  TrackByFunction,
+  ViewChildren,
+} from '@angular/core';
 
 import { SkyTextExpandRepeaterComponent } from '../text-expand-repeater.component';
 import { SkyTextExpandRepeaterListStyleType } from '../types/text-expand-repeater-list-style-type';
@@ -22,6 +27,8 @@ export class TextExpandRepeaterTestComponent {
 
   public listStyle: SkyTextExpandRepeaterListStyleType = 'unordered';
 
-  public trackBy: TrackByFunction<{text: string;
-    number: number}> = (_index: number, item: {text: string; number: number }): unknown => item.number;
+  public trackBy: TrackByFunction<{ text: string; number: number }> = (
+    _index: number,
+    item: { text: string; number: number },
+  ): unknown => item.number;
 }
