@@ -17,6 +17,16 @@
 * **sdk/skyux-eslint:** do not apply fix for `prefer-label-text` rule when label element uses control flow syntax ([#3904](https://github.com/blackbaud/skyux/issues/3904)) ([#3906](https://github.com/blackbaud/skyux/issues/3906)) ([2f46ce2](https://github.com/blackbaud/skyux/commit/2f46ce29ddb9d769cd74b6b2dee2ad2acbb99b2f))
 * viewkeeper and summary action bar use correct fallback values for css calculations using a fallback for a custom property ([#3888](https://github.com/blackbaud/skyux/issues/3888)) ([#3893](https://github.com/blackbaud/skyux/issues/3893)) ([faccc8b](https://github.com/blackbaud/skyux/commit/faccc8b927eb80e647ed9e90140d095c0be99b11))
 
+## [12.38.1](https://github.com/blackbaud/skyux/compare/12.38.0...12.38.1) (2025-09-05)
+
+
+### Bug Fixes
+
+* **components/docs-tools:** allow scrolling away from the anchor position ([#3896](https://github.com/blackbaud/skyux/issues/3896)) ([c6e436e](https://github.com/blackbaud/skyux/commit/c6e436e263649f277ec0b3f97d30dc0910e368f8))
+* **components/lookup:** add transformations for boolean inputs ([#3890](https://github.com/blackbaud/skyux/issues/3890)) ([d8daa5a](https://github.com/blackbaud/skyux/commit/d8daa5a2ed325713f56a5cbfa9390304c56db63c))
+* **components/manifest:** include `ModelSignal` in directive properties metadata ([#3903](https://github.com/blackbaud/skyux/issues/3903)) ([6510df3](https://github.com/blackbaud/skyux/commit/6510df3a6db80abfba2d61dbbc5766bc249c46ae))
+* **sdk/skyux-eslint:** do not apply fix for `prefer-label-text` rule when label element uses control flow syntax ([#3904](https://github.com/blackbaud/skyux/issues/3904)) ([3a0778f](https://github.com/blackbaud/skyux/commit/3a0778f920c23340658caa6ccf83d6ac3eb598b2))
+
 ## [12.38.0](https://github.com/blackbaud/skyux/compare/12.37.0...12.38.0) (2025-09-03)
 
 
