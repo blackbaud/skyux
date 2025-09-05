@@ -18,6 +18,10 @@ import {
   RULE_NAME as noRadioGroupWithNestedListRuleName,
 } from '../rules/template/no-radio-group-with-nested-list';
 import {
+  rule as noSkyBtnDisabledClass,
+  RULE_NAME as noSkyBtnDisabledClassRuleName,
+} from '../rules/template/no-sky-btn-disabled-class';
+import {
   rule as noUnboundId,
   RULE_NAME as noUnboundIdRuleName,
 } from '../rules/template/no-unbound-id';
@@ -36,6 +40,7 @@ export default {
     [noDeprecatedDirectivesRuleName]: noDeprecatedDirectives,
     [noLegacyIconsRuleName]: noLegacyIcons,
     [noRadioGroupWithNestedListRuleName]: noRadioGroupWithNestedList,
+    [noSkyBtnDisabledClassRuleName]: noSkyBtnDisabledClass,
     [noUnboundIdRuleName]: noUnboundId,
     [preferLabelTextRuleName]: preferLabelText,
   },
