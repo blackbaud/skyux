@@ -76,6 +76,14 @@ function getAttributeByName(
 }
 
 /**
+ * Checks if the provided element contains Angular control flow syntax (@if, @for, @switch, etc.).
+ */
+function hasControlFlowSyntax(el: TmplAstElement): boolean {
+  const sourceText = el.sourceSpan.toString();
+  return sourceText.includes('@');
+}
+
+/**
  * Removes the "sky-form-control" CSS class from <sky-input-box /> input elements
  * to satisfy the input box's input directive selector.
  * See: https://github.com/blackbaud/skyux/blob/040e461a50cb3d08ff8f7332dba350b7e97c5fd8/libs/components/forms/src/lib/modules/input-box/input-box-control.directive.ts#L11
@@ -168,6 +176,8 @@ export const rule = createESLintTemplateRule({
             (child) => child instanceof TmplAstElement,
           );
 
+          const hasControlFlow = hasControlFlowSyntax(labelEl);
+
           context.report({
             loc: parserServices.convertNodeSourceSpanToLoc(el.sourceSpan),
             messageId,
@@ -176,36 +186,37 @@ export const rule = createESLintTemplateRule({
               labelInputName,
               labelSelector,
             },
-            // Don't fix if the label includes child elements.
-            fix: hasElementChildren
-              ? undefined
-              : (fixer): RuleFix[] => {
-                  const textContent = getTextContent(labelEl);
-                  const textReplacement = ` ${labelInputName}="${textContent}"`;
-                  const range = [
-                    el.startSourceSpan.end.offset - 1,
-                    el.startSourceSpan.end.offset,
-                  ] as const;
+            // Don't fix if the label includes child elements or control flow syntax.
+            fix:
+              hasElementChildren || hasControlFlow
+                ? undefined
+                : (fixer): RuleFix[] => {
+                    const textContent = getTextContent(labelEl);
+                    const textReplacement = ` ${labelInputName}="${textContent}"`;
+                    const range = [
+                      el.startSourceSpan.end.offset - 1,
+                      el.startSourceSpan.end.offset,
+                    ] as const;
 
-                  const fixers = [
-                    fixer.removeRange([
-                      labelEl.sourceSpan.start.offset,
-                      labelEl.sourceSpan.end.offset,
-                    ]),
-                  ];
+                    const fixers = [
+                      fixer.removeRange([
+                        labelEl.sourceSpan.start.offset,
+                        labelEl.sourceSpan.end.offset,
+                      ]),
+                    ];
 
-                  if (!hasLabelText) {
-                    fixers.push(
-                      fixer.insertTextBeforeRange(range, textReplacement),
-                    );
-                  }
+                    if (!hasLabelText) {
+                      fixers.push(
+                        fixer.insertTextBeforeRange(range, textReplacement),
+                      );
+                    }
 
-                  if (el.name === 'sky-input-box' && inputEl) {
-                    fixers.push(...removeFormControlClass(fixer, inputEl));
-                  }
+                    if (el.name === 'sky-input-box' && inputEl) {
+                      fixers.push(...removeFormControlClass(fixer, inputEl));
+                    }
 
-                  return fixers;
-                },
+                    return fixers;
+                  },
           });
         }
       },
