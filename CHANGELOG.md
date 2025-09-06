@@ -1,5 +1,12 @@
 # Changelog
 
+## [13.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.10...13.0.0-alpha.11) (2025-09-06)
+
+
+### Bug Fixes
+
+* **components/packages:** update format when converting `sky-page-summary-key-info` ([#3901](https://github.com/blackbaud/skyux/issues/3901)) ([#3911](https://github.com/blackbaud/skyux/issues/3911)) ([0b6555e](https://github.com/blackbaud/skyux/commit/0b6555ec3140e656a844df19bed486fe4f310836))
+
 ## [13.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.9...13.0.0-alpha.10) (2025-09-05)
 
 
