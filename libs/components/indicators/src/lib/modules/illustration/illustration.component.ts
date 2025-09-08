@@ -20,10 +20,7 @@ import { SkyIllustrationSize } from './illustration-size';
   selector: 'sky-illustration',
   imports: [CommonModule],
   templateUrl: './illustration.component.html',
-  styleUrls: [
-    './illustration.default.component.scss',
-    './illustration.modern.component.scss',
-  ],
+  styleUrls: ['./illustration.component.scss'],
   hostDirectives: [SkyThemeComponentClassDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -48,6 +45,15 @@ export class SkyIllustrationComponent {
     toObservable(this.name).pipe(
       switchMap((name) =>
         this.#resolverSvc ? from(this.#resolverSvc.resolveUrl(name)) : of(''),
+      ),
+      catchError(() => of('')),
+    ),
+  );
+
+  protected readonly svgHref = toSignal(
+    toObservable(this.name).pipe(
+      switchMap((name) =>
+        this.#resolverSvc ? from(this.#resolverSvc.resolveHref(name)) : of(''),
       ),
       catchError(() => of('')),
     ),
