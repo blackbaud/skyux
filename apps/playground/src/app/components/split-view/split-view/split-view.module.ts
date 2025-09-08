@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
+import {
+  SkyDataManagerModule,
+  SkyDataManagerService,
+} from '@skyux/data-manager';
 import { SkyInputBoxModule } from '@skyux/forms';
 import {
   SkyDefinitionListModule,
@@ -37,7 +41,9 @@ import { SplitViewRoutingModule } from './split-view-routing.module';
     SplitViewRoutingModule,
     LipsumModule,
     DataManagerModule,
+    SkyDataManagerModule,
   ],
+  providers: [SkyDataManagerService],
 })
 export class SplitViewModule {
   public static routes = SplitViewRoutingModule.routes;
