@@ -38,7 +38,7 @@ export class FilterBarComponent {
   public selectedFilterIds: string[] | undefined;
   #selectedFilterIds: string[] | undefined;
 
-  public filterModalConfig = { modalComponent: TestModalComponent };
+  public modalComponent = TestModalComponent;
 
   public labelText = 'filter 1';
 

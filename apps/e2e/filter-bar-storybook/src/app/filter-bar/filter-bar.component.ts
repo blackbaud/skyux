@@ -18,5 +18,5 @@ export class FilterBarComponent {
     { filterId: '2' },
   ];
 
-  protected modalConfig = { modalComponent: class {} };
+  protected modalComponent = class {};
 }

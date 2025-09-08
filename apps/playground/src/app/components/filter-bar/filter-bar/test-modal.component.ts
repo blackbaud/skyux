@@ -11,7 +11,7 @@ export class TestModalComponent {
   #context = inject(SkyFilterBarFilterModalContext);
   readonly #modalInstance = inject(SkyModalInstance);
 
-  protected filterName = this.#context.filterName;
+  protected filterName = this.#context.filterLabelText;
 
   public save(): void {
     if (this.#context.filterValue) {
