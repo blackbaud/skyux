@@ -13,6 +13,15 @@ import { SkyIllustrationResolverService } from './illustration-resolver.service'
 import { SkyIllustrationSize } from './illustration-size';
 import { SkyIllustrationModule } from './illustration.module';
 
+// Test resolver that extends the actual service but only implements resolveUrl
+// This will use the default resolveHref implementation
+class TestDefaultHrefResolverService extends SkyIllustrationResolverService {
+  public resolveUrl(name: string): Promise<string> {
+    return Promise.resolve(`https://example.com/${name}.svg`);
+  }
+  // Note: resolveHref is intentionally not overridden to test default implementation
+}
+
 @Component({
   template: `
     <!-- mock sprite map -->
@@ -194,6 +203,39 @@ describe('Illustration', () => {
       detectChanges();
 
       validateImageAttr('src', '');
+    }));
+  });
+
+  describe('default illustration resolver implementation', () => {
+    it('should fallback to image when resolver service uses default resolveHref implementation', fakeAsync(() => {
+      const providers: Provider[] = [
+        {
+          provide: SkyIllustrationResolverService,
+          useClass: TestDefaultHrefResolverService,
+        },
+      ];
+
+      TestBed.configureTestingModule({
+        imports: [IllustrationComponent],
+        providers,
+      });
+
+      fixture = TestBed.createComponent(IllustrationComponent);
+      component = fixture.componentInstance;
+      component.illustrationName = 'test-default-href';
+      component.illustrationSize = 'md';
+
+      detectChanges();
+
+      const svgEl = getSvg();
+      const imgEl = getImgEl();
+
+      // Should fallback to image since default resolveHref returns empty string
+      expect(svgEl).toBeFalsy();
+      expect(imgEl).toBeTruthy();
+      expect(imgEl?.getAttribute('src')).toBe(
+        'https://example.com/test-default-href.svg',
+      );
     }));
   });
 
