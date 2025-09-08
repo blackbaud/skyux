@@ -51,7 +51,7 @@ export class SkyFilterItemHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the filter item name.
+   * Gets the filter item label text.
    */
   public async getLabelText(): Promise<string> {
     return await (await this.#getFilterName()).text();
