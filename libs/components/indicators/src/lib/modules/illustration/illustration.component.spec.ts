@@ -1,3 +1,4 @@
+import { Component } from '@angular/core';
 import { Provider } from '@angular/core';
 import {
   ComponentFixture,
@@ -10,11 +11,53 @@ import { expectAsync } from '@skyux-sdk/testing';
 import { SkyIllustrationTestResolverService } from './fixtures/illustration-test-resolver.service';
 import { SkyIllustrationResolverService } from './illustration-resolver.service';
 import { SkyIllustrationSize } from './illustration-size';
-import { SkyIllustrationComponent } from './illustration.component';
 import { SkyIllustrationModule } from './illustration.module';
 
+// Test resolver that extends the actual service but only implements resolveUrl
+// This will use the default resolveHref implementation
+class TestDefaultHrefResolverService extends SkyIllustrationResolverService {
+  public resolveUrl(name: string): Promise<string> {
+    return Promise.resolve(`https://example.com/${name}.svg`);
+  }
+  // Note: resolveHref is intentionally not overridden to test default implementation
+}
+
+@Component({
+  template: `
+    <!-- mock sprite map -->
+    <svg id="sky-illustration-svg-sprite" hidden="true">
+      <symbol
+        viewBox="-2 -2 96 96"
+        class="sky-illustration-svg"
+        id="sky-illustration-square"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect width="10" height="10" fill="blue" />
+      </symbol>
+
+      <symbol
+        viewBox="-2 -2 96 96"
+        class="sky-illustration-svg"
+        id="sky-illustration-circle"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle r="5" cx="5" cy="5" fill="green" />
+      </symbol>
+    </svg>
+    <div class="test-wrapper">
+      <sky-illustration [name]="illustrationName" [size]="illustrationSize" />
+    </div>
+  `,
+  imports: [SkyIllustrationModule],
+})
+class IllustrationComponent {
+  public illustrationName = 'success';
+  public illustrationSize: SkyIllustrationSize = 'sm';
+}
+
 describe('Illustration', () => {
-  let fixture: ComponentFixture<SkyIllustrationComponent>;
+  let fixture: ComponentFixture<IllustrationComponent>;
+  let component: IllustrationComponent;
 
   function setupTest(
     provideResolver: boolean,
@@ -22,6 +65,7 @@ describe('Illustration', () => {
     size: SkyIllustrationSize,
     resolver?: {
       resolveUrl: (url: string) => Promise<string>;
+      resolveHref: (name: string) => Promise<string>;
     },
   ): void {
     const providers: Provider[] = [];
@@ -34,18 +78,25 @@ describe('Illustration', () => {
     }
 
     TestBed.configureTestingModule({
-      imports: [SkyIllustrationModule],
+      imports: [IllustrationComponent],
       providers,
     });
 
-    fixture = TestBed.createComponent(SkyIllustrationComponent);
-    fixture.componentRef.setInput('name', name);
-    fixture.componentRef.setInput('size', size);
+    fixture = TestBed.createComponent(IllustrationComponent);
+    component = fixture.componentInstance;
+    component.illustrationName = name;
+    component.illustrationSize = size;
   }
 
   function getImgEl(): HTMLImageElement | null {
     return (fixture.nativeElement as HTMLElement).querySelector(
       '.sky-illustration-img',
+    );
+  }
+
+  function getSvg(): SVGElement | null {
+    return (fixture.nativeElement as HTMLElement).querySelector(
+      '.sky-illustration-wrapper .sky-illustration-svg',
     );
   }
 
@@ -64,10 +115,10 @@ describe('Illustration', () => {
     expect(visibility).toBe(expectedVisible ? 'visible' : 'hidden');
   }
 
-  function detectUrlChanges(): void {
+  function detectChanges(): void {
     fixture.detectChanges();
 
-    // Resolve URL promise and apply changes.
+    // Resolve URL or href promise and apply changes.
     tick();
     fixture.detectChanges();
   }
@@ -86,7 +137,7 @@ describe('Illustration', () => {
     it('should set the expected attributes', fakeAsync(() => {
       setupTest(true, 'success', 'sm');
 
-      detectUrlChanges();
+      detectChanges();
 
       validateImageAttr('loading', 'lazy');
       validateImageAttr('src', 'https://example.com/success.svg');
@@ -95,7 +146,7 @@ describe('Illustration', () => {
     it('should show a broken image if no URL is returned', fakeAsync(() => {
       setupTest(true, 'invalid', 'sm');
 
-      detectUrlChanges();
+      detectChanges();
 
       validateImageAttr('src', '');
     }));
@@ -103,12 +154,12 @@ describe('Illustration', () => {
     it('should show a broken image if retrieving the URL fails', fakeAsync(() => {
       setupTest(true, 'fail', 'sm');
 
-      detectUrlChanges();
+      detectChanges();
 
       validateImageAttr('src', '');
     }));
 
-    it('should be accessible', async () => {
+    it('should be accessible with img', async () => {
       setupTest(true, 'success', 'sm');
 
       fixture.detectChanges();
@@ -128,15 +179,16 @@ describe('Illustration', () => {
 
       setupTest(true, 'test', 'sm', {
         resolveUrl: () => resolvePromise,
+        resolveHref: () => Promise.resolve(''),
       });
 
-      detectUrlChanges();
+      detectChanges();
 
       validateImageVisibility(false);
 
       resolveUrl('https://example.com/success.svg');
 
-      detectUrlChanges();
+      detectChanges();
 
       validateImageVisibility(true);
 
@@ -148,9 +200,104 @@ describe('Illustration', () => {
     it('should show a broken image', fakeAsync(() => {
       setupTest(false, 'success', 'sm');
 
-      detectUrlChanges();
+      detectChanges();
 
       validateImageAttr('src', '');
     }));
+  });
+
+  describe('default illustration resolver implementation', () => {
+    it('should fallback to image when resolver service uses default resolveHref implementation', fakeAsync(() => {
+      const providers: Provider[] = [
+        {
+          provide: SkyIllustrationResolverService,
+          useClass: TestDefaultHrefResolverService,
+        },
+      ];
+
+      TestBed.configureTestingModule({
+        imports: [IllustrationComponent],
+        providers,
+      });
+
+      fixture = TestBed.createComponent(IllustrationComponent);
+      component = fixture.componentInstance;
+      component.illustrationName = 'test-default-href';
+      component.illustrationSize = 'md';
+
+      detectChanges();
+
+      const svgEl = getSvg();
+      const imgEl = getImgEl();
+
+      // Should fallback to image since default resolveHref returns empty string
+      expect(svgEl).toBeFalsy();
+      expect(imgEl).toBeTruthy();
+      expect(imgEl?.getAttribute('src')).toBe(
+        'https://example.com/test-default-href.svg',
+      );
+    }));
+  });
+
+  describe('SVG functionality', () => {
+    it('should display SVG when resolveHref returns content', fakeAsync(() => {
+      const href = '#sky-illustration-square';
+
+      setupTest(true, 'test-svg', 'md', {
+        resolveUrl: () => Promise.resolve('https://example.com/test.svg'),
+        resolveHref: () => Promise.resolve(href),
+      });
+
+      detectChanges();
+
+      const svgEl = getSvg();
+      const imgEl = getImgEl();
+
+      expect(svgEl).toBeTruthy();
+      expect(svgEl?.innerHTML).toContain('<use');
+      expect(imgEl).toBeFalsy();
+    }));
+
+    it('should fallback to image when resolveHref returns empty string', fakeAsync(() => {
+      setupTest(true, 'test-image', 'md', {
+        resolveUrl: () => Promise.resolve('https://example.com/test.svg'),
+        resolveHref: () => Promise.resolve(''),
+      });
+
+      detectChanges();
+
+      const svgEl = getSvg();
+      const imgEl = getImgEl();
+
+      expect(svgEl).toBeFalsy();
+      expect(imgEl).toBeTruthy();
+      expect(imgEl?.getAttribute('src')).toBe('https://example.com/test.svg');
+    }));
+
+    it('should fallback to image when resolveHref fails', fakeAsync(() => {
+      setupTest(true, 'test-fail', 'md', {
+        resolveUrl: () => Promise.resolve('https://example.com/test.svg'),
+        resolveHref: () => Promise.reject(new Error('href load failed')),
+      });
+
+      detectChanges();
+
+      const svgEl = getSvg();
+      const imgEl = getImgEl();
+
+      expect(svgEl).toBeFalsy();
+      expect(imgEl).toBeTruthy();
+      expect(imgEl?.getAttribute('src')).toBe('https://example.com/test.svg');
+    }));
+
+    it('should be accessible with SVG', async () => {
+      setupTest(true, 'svg', 'md');
+
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.innerHTML).toContain('<svg');
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });
