@@ -1,5 +1,29 @@
 # Changelog
 
+## [12.38.1](https://github.com/blackbaud/skyux/compare/12.38.0...12.38.1) (2025-09-05)
+
+
+### Bug Fixes
+
+* **components/docs-tools:** allow scrolling away from the anchor position ([#3896](https://github.com/blackbaud/skyux/issues/3896)) ([c6e436e](https://github.com/blackbaud/skyux/commit/c6e436e263649f277ec0b3f97d30dc0910e368f8))
+* **components/lookup:** add transformations for boolean inputs ([#3890](https://github.com/blackbaud/skyux/issues/3890)) ([d8daa5a](https://github.com/blackbaud/skyux/commit/d8daa5a2ed325713f56a5cbfa9390304c56db63c))
+* **components/manifest:** include `ModelSignal` in directive properties metadata ([#3903](https://github.com/blackbaud/skyux/issues/3903)) ([6510df3](https://github.com/blackbaud/skyux/commit/6510df3a6db80abfba2d61dbbc5766bc249c46ae))
+* **sdk/skyux-eslint:** do not apply fix for `prefer-label-text` rule when label element uses control flow syntax ([#3904](https://github.com/blackbaud/skyux/issues/3904)) ([3a0778f](https://github.com/blackbaud/skyux/commit/3a0778f920c23340658caa6ccf83d6ac3eb598b2))
+
+## [12.38.0](https://github.com/blackbaud/skyux/compare/12.37.0...12.38.0) (2025-09-03)
+
+
+### Features
+
+* **components/select-field:** create instructions to convert select-field to lookup ([#3766](https://github.com/blackbaud/skyux/issues/3766)) ([9354e54](https://github.com/blackbaud/skyux/commit/9354e54fb7e365cedca58117aeef4d436a6f20da))
+
+
+### Bug Fixes
+
+* **sdk/skyux-stylelint:** use correct documentation link for rules ([#3881](https://github.com/blackbaud/skyux/issues/3881)) ([8220b82](https://github.com/blackbaud/skyux/commit/8220b8241156feb0317693ffcdbb3dbbf8323584))
+* update tokens package, use correct tokens ([#3880](https://github.com/blackbaud/skyux/issues/3880)) ([e8cbd18](https://github.com/blackbaud/skyux/commit/e8cbd182788069aa7a0ab81556f75a9735f84820))
+* viewkeeper and summary action bar use correct fallback values for css calculations using a fallback for a custom property ([#3888](https://github.com/blackbaud/skyux/issues/3888)) ([65286a1](https://github.com/blackbaud/skyux/commit/65286a1ea9a3b04315a921d19896b49535c5780a))
+
 ## [12.37.0](https://github.com/blackbaud/skyux/compare/12.36.0...12.37.0) (2025-08-26)
 
 

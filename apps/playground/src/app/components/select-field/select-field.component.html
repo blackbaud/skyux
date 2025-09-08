@@ -1,0 +1,67 @@
+<h2>Select Field</h2>
+
+<form [formGroup]="selectFieldsForm">
+  <div class="sky-margin-stacked-sm">
+    <label
+      #environmentIdsLabel="skyId"
+      class="sky-control-label sky-control-label-required"
+      skyId
+    >
+      Environment Ids
+    </label>
+    <sky-select-field
+      formControlName="environmentIds"
+      multipleSelectOpenButtonText="Select"
+      pickerHeading="Environment Ids"
+      [ariaLabelledBy]="environmentIdsLabel.id"
+      [data]="environmentIdsStream"
+    />
+  </div>
+
+  <div class="sky-margin-stacked-sm">
+    <label
+      #valueAggregateFunctionLabel="skyId"
+      class="sky-control-label sky-control-label-required"
+      skyId
+    >
+      Value Aggregate Function
+    </label>
+    <sky-select-field
+      formControlName="valueAggregateFunction"
+      selectMode="single"
+      pickerHeading="Configure Chart Part Value Aggregate Function"
+      singleSelectPlaceholderText="Configure Chart Part Value"
+      [ariaLabelledBy]="valueAggregateFunctionLabel.id"
+      [data]="aggregateFunctionsStream"
+    />
+  </div>
+</form>
+
+<pre>{{ selectFieldsForm.value | json }}</pre>
+
+<hr />
+
+<h2>Lookup Equivalents</h2>
+
+<form [formGroup]="lookupForm">
+  <sky-input-box stacked labelText="Environment Ids" required>
+    <sky-lookup
+      formControlName="environmentIds"
+      idProperty="id"
+      descriptorProperty="label"
+      [data]="(environmentIdsStream | async) ?? []"
+    />
+  </sky-input-box>
+
+  <sky-input-box stacked labelText="Value Aggregate Function" required>
+    <sky-lookup
+      formControlName="valueAggregateFunction"
+      idProperty="id"
+      descriptorProperty="label"
+      selectMode="single"
+      [data]="(aggregateFunctionsStream | async) ?? []"
+    />
+  </sky-input-box>
+</form>
+
+<pre>{{ lookupForm.value | json }}</pre>
