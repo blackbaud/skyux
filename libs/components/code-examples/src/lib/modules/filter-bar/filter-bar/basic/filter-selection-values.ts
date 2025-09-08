@@ -8,18 +8,18 @@ export const FILTER_SELECTION_VALUES: Record<
   'community-connection': [
     { value: 'child-of-faculty', displayValue: 'Child of faculty' },
     { value: 'child-of-alum', displayValue: 'Child of alum' },
-    { value: 'grandparent-is-alum', displayValue: 'Grandparent is an alum' },
+    { value: 'grandparent-is-alum', displayValue: 'Grandchild of alum' },
     { value: 'related-to-trustee', displayValue: 'Related to trustee' },
-    { value: 'sibling-candidate', displayValue: 'Sibling is a candidate' },
+    { value: 'sibling-candidate', displayValue: 'Sibling is candidate' },
     {
       value: 'sibling-past-candidate',
-      displayValue: 'Sibling is a past candidate',
+      displayValue: 'Sibling is past candidate',
     },
-    { value: 'sibling-student', displayValue: 'Sibling is a student' },
-    { value: 'sibling alum', displayValue: 'Sibling is an alum' },
+    { value: 'sibling-student', displayValue: 'Sibling is student' },
+    { value: 'sibling alum', displayValue: 'Sibling is alum' },
     {
       value: 'sibling-incoming',
-      displayValue: 'Sibling is an incoming student',
+      displayValue: 'Sibling is incoming student',
     },
   ],
   'current-grade': [
