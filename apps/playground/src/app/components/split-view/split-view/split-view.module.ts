@@ -11,11 +11,16 @@ import { DataManagerModule } from '../../../shared/data-manager/data-manager.mod
 import { LipsumModule } from '../../../shared/lipsum/lipsum.module';
 
 import { SplitViewComponent } from './basic/split-view.component';
+import { SplitViewDataManagerComponent } from './data-manager/split-view-data-manager.component';
 import { SplitViewPageBoundComponent } from './page-bound/split-view-page-bound.component';
 import { SplitViewRoutingModule } from './split-view-routing.module';
 
 @NgModule({
-  declarations: [SplitViewComponent, SplitViewPageBoundComponent],
+  declarations: [
+    SplitViewComponent,
+    SplitViewDataManagerComponent,
+    SplitViewPageBoundComponent,
+  ],
   imports: [
     FormsModule,
     ReactiveFormsModule,
