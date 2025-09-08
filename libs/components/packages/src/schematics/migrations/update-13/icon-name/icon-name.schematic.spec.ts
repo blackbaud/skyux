@@ -631,6 +631,71 @@ export class IconComponentComponent {}`,
     );
   });
 
+  it('should update SkyDataViewConfig property with late initialization', async () => {
+    const tree = Tree.empty();
+
+    tree.create(
+      `/file.ts`,
+      `import { SkyDataViewConfig } from '@skyux/data-manager';
+
+      export class MyClass {
+
+        private viewConfig: SkyDataViewConfig;
+        private secondViewConfig: SkyDataViewConfig | undefined;
+
+        constructor() {
+          this.viewConfig = {
+            id: this.gridViewId,
+            name: 'Grid View',
+            icon: 'table',
+            searchEnabled: false,
+            sortEnabled: true,
+          };
+          this.secondViewConfig = {
+            id: this.otherViewId,
+            name: 'Other View',
+            icon: 'clipboard-list',
+            searchEnabled: false,
+            sortEnabled: true,
+          };
+        }
+
+      }`,
+    );
+
+    tree.create('/angular.json', JSON.stringify(angularJson));
+
+    await runner.runSchematic('icon-name', {}, tree);
+
+    expect(tree.readText('/file.ts')).toBe(
+      `import { SkyDataViewConfig } from '@skyux/data-manager';
+
+      export class MyClass {
+
+        private viewConfig: SkyDataViewConfig;
+        private secondViewConfig: SkyDataViewConfig | undefined;
+
+        constructor() {
+          this.viewConfig = {
+            id: this.gridViewId,
+            name: 'Grid View',
+            iconName: 'table',
+            searchEnabled: false,
+            sortEnabled: true,
+          };
+          this.secondViewConfig = {
+            id: this.otherViewId,
+            name: 'Other View',
+            iconName: 'clipboard-bullet-list',
+            searchEnabled: false,
+            sortEnabled: true,
+          };
+        }
+
+      }`,
+    );
+  });
+
   it('should update initDataView parameter', async () => {
     const tree = Tree.empty();
 
