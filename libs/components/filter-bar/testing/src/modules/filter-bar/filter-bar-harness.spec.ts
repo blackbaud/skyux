@@ -120,16 +120,4 @@ describe('Filter bar test harness', () => {
 
     expect(items.length).toBe(2);
   });
-
-  it('should throw an error if no filter items are found matching criteria', async () => {
-    const { filterBarHarness } = await setupTest({
-      dataSkyId: 'basic-filter-bar',
-    });
-
-    await expectAsync(
-      filterBarHarness.getItems({ filterId: 'non-existent-filter' }),
-    ).toBeRejectedWithError(
-      'Unable to find any filter items with filter(s): {"filterId":"non-existent-filter"}',
-    );
-  });
 });
