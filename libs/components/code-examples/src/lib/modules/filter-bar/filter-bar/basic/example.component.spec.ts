@@ -43,14 +43,14 @@ describe('Basic filter bar', () => {
     const staffAssignedFilter = await filterBarHarness.getItem({
       filterId: 'staff-assigned',
     });
-    await expectAsync(staffAssignedFilter.getName()).toBeResolvedTo(
+    await expectAsync(staffAssignedFilter.getLabelText()).toBeResolvedTo(
       'Staff assigned',
     );
 
     const currentGradeFilter = await filterBarHarness.getItem({
       filterId: 'current-grade',
     });
-    await expectAsync(currentGradeFilter.getName()).toBeResolvedTo(
+    await expectAsync(currentGradeFilter.getLabelText()).toBeResolvedTo(
       'Current grade',
     );
   });
@@ -66,7 +66,9 @@ describe('Basic filter bar', () => {
       filterId: 'staff-assigned',
     });
 
-    await expectAsync(staffAssignedFilter.getValue()).toBeResolvedTo(undefined);
+    await expectAsync(staffAssignedFilter.getFilterValue()).toBeResolvedTo(
+      undefined,
+    );
 
     await staffAssignedFilter.click();
 
@@ -80,7 +82,7 @@ describe('Basic filter bar', () => {
     // Select an option and verify it's selected
     await filterModalHarness.selectOption(2);
 
-    await expectAsync(staffAssignedFilter.getValue()).toBeResolvedTo(
+    await expectAsync(staffAssignedFilter.getFilterValue()).toBeResolvedTo(
       'Kanesha Hutto',
     );
   });

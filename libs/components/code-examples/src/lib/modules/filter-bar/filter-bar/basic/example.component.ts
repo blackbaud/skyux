@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import {
   SkyFilterBarFilterItem,
   SkyFilterBarFilterModalOpenedArgs,
@@ -23,26 +23,20 @@ import { FILTER_SELECTION_VALUES } from './filter-selection-values';
   templateUrl: './example.component.html',
 })
 export class FilterBarBasicExampleComponent {
-  public appliedFilters: SkyFilterBarFilterItem[] | undefined;
-  public selectedFilterIds: string[] | undefined;
+  protected readonly appliedFilters = input<
+    SkyFilterBarFilterItem[] | undefined
+  >();
+  protected readonly selectedFilterIds = signal<string[] | undefined>([
+    'staff-assigned',
+    'entering-grade',
+    'current-grade',
+  ]);
 
   protected communityConnectionModal = CommunityConnectionFilterModalComponent;
   protected currentGradeModal = CurrentGradeFilterModalComponent;
   protected enteringGradeModal = EnteringGradeFilterModalComponent;
   protected roleModal = RoleFilterModalComponent;
   protected staffAssignedModal = StaffAssignedFilterModalComponent;
-
-  constructor() {
-    this.setInitialFilters();
-  }
-
-  public setInitialFilters(): void {
-    this.selectedFilterIds = [
-      'staff-assigned',
-      'entering-grade',
-      'current-grade',
-    ];
-  }
 
   protected onModalOpened(
     args: SkyFilterBarFilterModalOpenedArgs,

@@ -5,7 +5,7 @@ import { SkyFilterBarFilterValue } from './filter-bar-filter-value';
  */
 export class SkyFilterBarFilterModalContext {
   /**
-   * The name of the filter for displaying in the modal title.
+   * The name of the filter. We recommend using this value for the modal's heading.
    */
   public filterLabelText: string;
   /**

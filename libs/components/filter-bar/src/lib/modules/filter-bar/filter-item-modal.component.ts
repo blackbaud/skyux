@@ -66,8 +66,8 @@ export class SkyFilterItemModalComponent implements SkyFilterItem {
   public readonly modalSize = input<SkyFilterBarFilterModalSizeType>();
 
   /**
-   * Fires when the user clicks on the filter item. Consumers passing context data to the filter modal
-   * should subscribe to this and return the context via the observable property on the event args.
+   * Fires when the user clicks on the filter item. Consumers passing additional context data to a filter modal
+   * must subscribe to this and return the context via the observable property on the event args.
    */
   @Output()
   public modalOpened = new EventEmitter<SkyFilterBarFilterModalOpenedArgs>();
