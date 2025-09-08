@@ -97,6 +97,40 @@ function updateIcon(
   });
 }
 
+function objectIsAssignedToDataViewConfigVariableOrProperty(
+  node: ts.ObjectLiteralExpression,
+  source: ts.SourceFile,
+): boolean {
+  return (
+    (ts.isVariableDeclaration(node.parent) ||
+      ts.isPropertyDeclaration(node.parent)) &&
+    node.parent.type?.getText(source) === 'SkyDataViewConfig'
+  );
+}
+
+function objectIsInitDataViewParameter(
+  node: ts.ObjectLiteralExpression,
+): boolean {
+  return (
+    ts.isCallExpression(node.parent) &&
+    ts.isPropertyAccessExpression(node.parent.expression) &&
+    node.parent.expression.name.text === 'initDataView'
+  );
+}
+
+function objectIsAssignedToDataViewConfigProperty(
+  node: ts.ObjectLiteralExpression,
+  uninitializedDataViewConfigs: string[],
+): boolean {
+  return (
+    ts.isBinaryExpression(node.parent) &&
+    ts.isPropertyAccessExpression(node.parent.left) &&
+    node.parent.left.expression.kind === ts.SyntaxKind.ThisKeyword &&
+    uninitializedDataViewConfigs.includes(node.parent.left.name.text) &&
+    node.parent.operatorToken.kind === ts.SyntaxKind.EqualsToken
+  );
+}
+
 function updateDataViewConfig(
   source: ts.SourceFile,
   recorder: UpdateRecorder,
@@ -105,19 +139,35 @@ function updateDataViewConfig(
     isImported(source, 'SkyDataViewConfig', '@skyux/data-manager') ||
     isImported(source, 'SkyDataManagerService', '@skyux/data-manager');
   if (checkSkyDataViewConfig) {
+    const uninitializedDataViewConfigs = findNodes(
+      source,
+      (node): node is ts.PropertyDeclaration =>
+        ts.isPropertyDeclaration(node) &&
+        !!node.type &&
+        (node.type.getText(source) === 'SkyDataViewConfig' ||
+          // Find e.g., SkyDataViewConfig | undefined
+          (ts.isUnionTypeNode(node.type) &&
+            node.type.types.some(
+              (type) =>
+                ts.isTypeReferenceNode(type) &&
+                type.typeName.getText(source) === 'SkyDataViewConfig',
+            ))) &&
+        !node.initializer,
+    ).map((node): string => node.name.getText(source));
     const dataViewConfig = findNodes(
       source,
       (node): node is ts.ObjectLiteralExpression =>
         !!node.parent &&
         ts.isObjectLiteralExpression(node) &&
         // Object typed as SkyDataViewConfig via variable or property declaration.
-        (((ts.isVariableDeclaration(node.parent) ||
-          ts.isPropertyDeclaration(node.parent)) &&
-          node.parent.type?.getText(source) === 'SkyDataViewConfig') ||
+        (objectIsAssignedToDataViewConfigVariableOrProperty(node, source) ||
           // Object parameter to SkyDataManagerService.initDataView(), inferred type.
-          (ts.isCallExpression(node.parent) &&
-            ts.isPropertyAccessExpression(node.parent.expression) &&
-            node.parent.expression.name.text === 'initDataView')),
+          objectIsInitDataViewParameter(node) ||
+          // Object assigned to a property previously typed as SkyDataViewConfig.
+          objectIsAssignedToDataViewConfigProperty(
+            node,
+            uninitializedDataViewConfigs,
+          )),
     );
     dataViewConfig.forEach((node) => {
       const iconProperty = node.properties.find(
