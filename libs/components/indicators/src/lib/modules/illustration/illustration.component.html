@@ -2,9 +2,9 @@
   [attr.data-sky-illustration-name]="name()"
   [class]="'sky-illustration-wrapper sky-illustration-' + size()"
 >
-  @if (svgHref()) {
+  @if (svgHref(); as svgHrefValue) {
     <svg aria-hidden="true" class="sky-illustration-svg">
-      <use [attr.xlink:href]="svgHref()" />
+      <use [attr.xlink:href]="svgHrefValue" />
     </svg>
   } @else {
     <img alt="" loading="lazy" class="sky-illustration-img" [src]="url()" />
