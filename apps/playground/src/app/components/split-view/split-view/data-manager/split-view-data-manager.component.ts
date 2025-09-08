@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import {
+  SkyDataManagerService,
+  SkyDataManagerState,
+  SkyDataViewConfig,
+} from '@skyux/data-manager';
 import {
   SkyConfirmCloseEventArgs,
   SkyConfirmService,
@@ -17,7 +22,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./split-view-data-manager.component.scss'],
   standalone: false,
 })
-export class SplitViewDataManagerComponent {
+export class SplitViewDataManagerComponent implements OnInit {
   public set activeIndex(value: number) {
     this._activeIndex = value;
     this.activeRecord = this.items[this._activeIndex];
@@ -47,11 +52,27 @@ export class SplitViewDataManagerComponent {
 
   private _activeIndex = 0;
 
-  constructor(
-    public changeDetectorRef: ChangeDetectorRef,
-    public confirmService: SkyConfirmService,
-  ) {
+  public changeDetectorRef = inject(ChangeDetectorRef);
+  public confirmService = inject(SkyConfirmService);
+  public dataManagerService = inject(SkyDataManagerService);
+
+  constructor() {
     this.activeIndex = 0;
+  }
+
+  public ngOnInit(): void {
+    this.dataManagerService.initDataManager({
+      activeViewId: 'dataManagerView',
+      dataManagerConfig: {},
+      defaultDataState: new SkyDataManagerState({
+        views: [
+          {
+            viewId: 'dataManagerView',
+          },
+        ],
+      }),
+    });
+    this.dataManagerService.initDataView(this.#splitViewConfig);
   }
 
   public onItemClick(index: number): void {
@@ -101,4 +122,11 @@ export class SplitViewDataManagerComponent {
 
     this.splitViewStream.next(message);
   }
+
+  #splitViewConfig: SkyDataViewConfig = {
+    id: 'dataManagerView',
+    name: 'Split View Data Manager View',
+    sortEnabled: true,
+    searchEnabled: true,
+  };
 }
