@@ -14,5 +14,7 @@ export abstract class SkyIllustrationResolverService {
    * Resolves the `href` of the SVG element to reference in `use`.
    * If both an `href` and a URL are resolved, the SVG with `href` will be rendered.
    */
-  public abstract resolveHref(name: string): Promise<string>;
+  public async resolveHref(name: string): Promise<string> {
+    return '';
+  }
 }
