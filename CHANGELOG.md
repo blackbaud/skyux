@@ -19,6 +19,20 @@
 * **components/packages:** update data view config icon when property is initialized later ([#3915](https://github.com/blackbaud/skyux/issues/3915)) ([67dbca9](https://github.com/blackbaud/skyux/commit/67dbca99b13cada000219e6b147cdf446c1d65e7))
 * **components/packages:** update format when converting `sky-page-summary-key-info` ([#3901](https://github.com/blackbaud/skyux/issues/3901)) ([#3911](https://github.com/blackbaud/skyux/issues/3911)) ([0b6555e](https://github.com/blackbaud/skyux/commit/0b6555ec3140e656a844df19bed486fe4f310836))
 
+## [12.39.0](https://github.com/blackbaud/skyux/compare/12.38.1...12.39.0) (2025-09-08)
+
+
+### Features
+
+* **components/indicators:** support svg sprite map in illustration ([#3883](https://github.com/blackbaud/skyux/issues/3883)) ([14aa440](https://github.com/blackbaud/skyux/commit/14aa440856e4486830f2fb06e8f7fafc1304d3ac))
+* **sdk/skyux-eslint:** add `prefer-disabled-attr` rule ([#3907](https://github.com/blackbaud/skyux/issues/3907)) ([c9d08d5](https://github.com/blackbaud/skyux/commit/c9d08d55cf9ecc51679b0368fd7f5b9ae3ba862d))
+
+
+### Bug Fixes
+
+* **components/layout:** fix track expression error in text-expand-repeater ([#3908](https://github.com/blackbaud/skyux/issues/3908)) ([34a9889](https://github.com/blackbaud/skyux/commit/34a98897e9ef19eb9da1b49af7a5a6792d250c46))
+* **components/packages:** update format when converting `sky-page-summary-key-info` ([#3901](https://github.com/blackbaud/skyux/issues/3901)) ([1a464d4](https://github.com/blackbaud/skyux/commit/1a464d49c71d7f2ee8553e848c36c7bd6c81312d))
+
 ## [13.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.9...13.0.0-alpha.10) (2025-09-05)
 
 
