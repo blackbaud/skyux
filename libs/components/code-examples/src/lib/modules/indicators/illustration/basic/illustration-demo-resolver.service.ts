@@ -11,4 +11,8 @@ export class IllustrationDemoResolverService extends SkyIllustrationResolverServ
 
     return Promise.resolve(url);
   }
+
+  public override async resolveHref(): Promise<string> {
+    return await Promise.resolve('');
+  }
 }
