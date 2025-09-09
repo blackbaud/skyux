@@ -4,6 +4,7 @@ import { SkyCardModule, SkyToolbarModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyThemeService } from '@skyux/theme';
 
+import { SkyDataManagerFilterStateService } from '../data-manager-toolbar/data-manager-filter-state.service';
 import { SkyDataManagerModule } from '../data-manager.module';
 import { SkyDataManagerService } from '../data-manager.service';
 
@@ -24,6 +25,10 @@ import { DataManagerFixtureComponent } from './data-manager.component.fixture';
     SkyRepeaterModule,
     SkyToolbarModule,
   ],
-  providers: [SkyDataManagerService, SkyThemeService],
+  providers: [
+    SkyDataManagerService,
+    SkyDataManagerFilterStateService,
+    SkyThemeService,
+  ],
 })
 export class DataManagerFixtureModule {}

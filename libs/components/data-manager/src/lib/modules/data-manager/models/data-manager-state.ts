@@ -1,5 +1,6 @@
 import { SkyDataManagerFilterData } from './data-manager-filter-data';
 import { SkyDataManagerSortOption } from './data-manager-sort-option';
+import { SkyDataManagerStateExtensions } from './data-manager-state-extensions';
 import { SkyDataManagerStateOptions } from './data-manager-state-options';
 import { SkyDataViewState } from './data-view-state';
 import { SkyDataViewStateOptions } from './data-view-state-options';
@@ -18,6 +19,10 @@ export class SkyDataManagerState {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public additionalData: any;
+  /**
+   * Stores settings for data manager extensions.
+   */
+  public extensions: SkyDataManagerStateExtensions | undefined;
   /**
    * The state of the filters.
    */
@@ -46,6 +51,7 @@ export class SkyDataManagerState {
 
     this.activeSortOption = data.activeSortOption;
     this.additionalData = data.additionalData;
+    this.extensions = data.extensions;
     this.filterData = data.filterData;
     this.onlyShowSelected = data.onlyShowSelected;
     this.selectedIds = data.selectedIds;
@@ -65,6 +71,7 @@ export class SkyDataManagerState {
     return {
       activeSortOption: this.activeSortOption,
       additionalData: this.additionalData,
+      extensions: this.extensions,
       filterData: this.filterData,
       onlyShowSelected: this.onlyShowSelected,
       searchText: this.searchText,
@@ -103,6 +110,7 @@ export class SkyDataManagerState {
     return new SkyDataManagerState({
       activeSortOption: this.activeSortOption,
       additionalData: this.additionalData,
+      extensions: this.extensions,
       filterData: this.filterData,
       searchText: this.searchText,
       selectedIds: this.selectedIds,
