@@ -84,7 +84,7 @@ export class SkyTabsetPermalinkService implements OnDestroy {
     // Don't overwrite the URL while the Angular router is in the process
     // of navigating (e.g. when the tabset is destroyed due to navigating
     // away from the current page).
-    if (!this.#router.getCurrentNavigation()) {
+    if (!this.#router.currentNavigation()) {
       this.setParam(name, null);
     }
   }

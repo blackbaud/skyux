@@ -10,15 +10,14 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/progress-indicator"],
       "options": {
-        "project": "libs/components/progress-indicator/ng-package.json"
+        "project": "libs/components/progress-indicator/ng-package.json",
+        "tsConfig": "libs/components/progress-indicator/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/components/progress-indicator/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/components/progress-indicator/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production",
       "dependsOn": [

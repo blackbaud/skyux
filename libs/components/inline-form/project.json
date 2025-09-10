@@ -10,15 +10,14 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/inline-form"],
       "options": {
-        "project": "libs/components/inline-form/ng-package.json"
+        "project": "libs/components/inline-form/ng-package.json",
+        "tsConfig": "libs/components/inline-form/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/components/inline-form/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/components/inline-form/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production",
       "dependsOn": [

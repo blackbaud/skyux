@@ -4,20 +4,20 @@
   "projectType": "library",
   "sourceRoot": "libs/components/config/src",
   "prefix": "sky",
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/config"],
       "options": {
-        "project": "libs/components/config/ng-package.json"
+        "project": "libs/components/config/ng-package.json",
+        "tsConfig": "libs/components/config/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/components/config/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/components/config/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production"
     },
@@ -61,6 +61,5 @@
         ]
       }
     }
-  },
-  "tags": ["component", "npm"]
+  }
 }

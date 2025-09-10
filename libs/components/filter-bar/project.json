@@ -10,15 +10,14 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/filter-bar"],
       "options": {
-        "project": "libs/components/filter-bar/ng-package.json"
+        "project": "libs/components/filter-bar/ng-package.json",
+        "tsConfig": "libs/components/filter-bar/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/components/filter-bar/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/components/filter-bar/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production",
       "dependsOn": [

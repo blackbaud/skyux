@@ -4,20 +4,20 @@
   "projectType": "library",
   "sourceRoot": "libs/components/autonumeric/src",
   "prefix": "sky",
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/autonumeric"],
       "options": {
-        "project": "libs/components/autonumeric/ng-package.json"
+        "project": "libs/components/autonumeric/ng-package.json",
+        "tsConfig": "libs/components/autonumeric/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/components/autonumeric/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/components/autonumeric/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production"
     },
@@ -61,6 +61,5 @@
         ]
       }
     }
-  },
-  "tags": ["component", "npm"]
+  }
 }

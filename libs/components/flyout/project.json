@@ -10,15 +10,14 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/flyout"],
       "options": {
-        "project": "libs/components/flyout/ng-package.json"
+        "project": "libs/components/flyout/ng-package.json",
+        "tsConfig": "libs/components/flyout/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/components/flyout/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/components/flyout/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production",
       "dependsOn": [

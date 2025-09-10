@@ -4,20 +4,20 @@
   "projectType": "library",
   "sourceRoot": "libs/components/list-builder/src",
   "prefix": "sky",
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/list-builder"],
       "options": {
-        "project": "libs/components/list-builder/ng-package.json"
+        "project": "libs/components/list-builder/ng-package.json",
+        "tsConfig": "libs/components/list-builder/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/components/list-builder/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/components/list-builder/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production"
     },
@@ -61,6 +61,5 @@
         ]
       }
     }
-  },
-  "tags": ["component", "npm"]
+  }
 }
