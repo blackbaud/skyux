@@ -10,15 +10,14 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/modals"],
       "options": {
-        "project": "libs/components/modals/ng-package.json"
+        "project": "libs/components/modals/ng-package.json",
+        "tsConfig": "libs/components/modals/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/components/modals/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/components/modals/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production",
       "dependsOn": [

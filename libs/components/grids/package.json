@@ -16,9 +16,9 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular/common": "^20.0.5",
-    "@angular/core": "^20.0.5",
-    "@angular/forms": "^20.0.5",
+    "@angular/common": "^20.2.4",
+    "@angular/core": "^20.2.4",
+    "@angular/forms": "^20.2.4",
     "@skyux/core": "0.0.0-PLACEHOLDER",
     "@skyux/forms": "0.0.0-PLACEHOLDER",
     "@skyux/help-inline": "0.0.0-PLACEHOLDER",
@@ -30,7 +30,7 @@
     "@skyux/popovers": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
-    "@types/dragula": "2.1.36",
+    "@types/dragula": "2.1.39",
     "dragula": "3.7.3",
     "ng2-dragula": "5.1.0",
     "tslib": "^2.8.1"

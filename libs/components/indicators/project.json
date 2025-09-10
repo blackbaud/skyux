@@ -10,15 +10,14 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/indicators"],
       "options": {
-        "project": "libs/components/indicators/ng-package.json"
+        "project": "libs/components/indicators/ng-package.json",
+        "tsConfig": "libs/components/indicators/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/components/indicators/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/components/indicators/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production",
       "dependsOn": [

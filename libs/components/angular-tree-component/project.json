@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/components/angular-tree-component/src",
   "prefix": "sky",
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
@@ -11,15 +12,14 @@
         "{workspaceRoot}/dist/libs/components/angular-tree-component"
       ],
       "options": {
-        "project": "libs/components/angular-tree-component/ng-package.json"
+        "project": "libs/components/angular-tree-component/ng-package.json",
+        "tsConfig": "libs/components/angular-tree-component/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/components/angular-tree-component/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/components/angular-tree-component/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production"
     },
@@ -63,6 +63,5 @@
         ]
       }
     }
-  },
-  "tags": ["component", "npm"]
+  }
 }

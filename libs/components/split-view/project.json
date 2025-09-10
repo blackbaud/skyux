@@ -10,15 +10,14 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/split-view"],
       "options": {
-        "project": "libs/components/split-view/ng-package.json"
+        "project": "libs/components/split-view/ng-package.json",
+        "tsConfig": "libs/components/split-view/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/components/split-view/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/components/split-view/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production",
       "dependsOn": [

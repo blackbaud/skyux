@@ -4,20 +4,20 @@
   "projectType": "library",
   "sourceRoot": "libs/components/i18n/src",
   "prefix": "sky",
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/i18n"],
       "options": {
-        "project": "libs/components/i18n/ng-package.json"
+        "project": "libs/components/i18n/ng-package.json",
+        "tsConfig": "libs/components/i18n/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/components/i18n/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/components/i18n/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production"
     },
@@ -74,6 +74,5 @@
         "command": "ts-node --project ./scripts/tsconfig.json ./scripts/posttest-i18n.ts"
       }
     }
-  },
-  "tags": ["component", "npm"]
+  }
 }

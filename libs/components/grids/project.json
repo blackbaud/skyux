@@ -4,20 +4,20 @@
   "projectType": "library",
   "sourceRoot": "libs/components/grids/src",
   "prefix": "sky",
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/grids"],
       "options": {
-        "project": "libs/components/grids/ng-package.json"
+        "project": "libs/components/grids/ng-package.json",
+        "tsConfig": "libs/components/grids/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/components/grids/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/components/grids/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production"
     },
@@ -61,6 +61,5 @@
         ]
       }
     }
-  },
-  "tags": ["component", "npm"]
+  }
 }
