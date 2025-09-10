@@ -38,7 +38,7 @@
 .sky-split-view-dock-fill {
   position: absolute;
   left: 0;
-  top: 0;
+  top: var(--sky-viewport-top-sandhya, 0);
   right: 0;
   bottom: 0;
 }
