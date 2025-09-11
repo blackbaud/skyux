@@ -54,7 +54,7 @@ export class SkyFilterItemModalComponent<
   public readonly filterId = input.required<string>();
 
   /**
-   * The label text for the filter item.
+   * The label to display for the filter item.
    * @required
    */
   public readonly labelText = input.required<string>();
@@ -75,8 +75,8 @@ export class SkyFilterItemModalComponent<
   public readonly modalSize = input<SkyFilterItemModalSizeType>();
 
   /**
-   * Fires when the user clicks on the filter item. Consumers passing additional context data to a filter modal
-   * must subscribe to this and return the context via the observable property on the event args.
+   * Fires when the user clicks the filter item. To pass additional context data to a filter modal, consumers
+   * must subscribe to this event and return the context using the observable property on the event args.
    */
   @Output()
   public modalOpened = new EventEmitter<SkyFilterItemModalOpenedArgs<TData>>();
