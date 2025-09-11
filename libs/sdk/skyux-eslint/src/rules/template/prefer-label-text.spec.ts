@@ -329,5 +329,27 @@ ruleTester.run(RULE_NAME, rule, {
         labelSelector: 'sky-checkbox-label',
       },
     }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if labelText not set and has label element with double quotes',
+      annotatedSource: `
+        <sky-checkbox>
+        ~~~~~~~~~~~~~~
+          <sky-checkbox-label>
+          ~~~~~~~~~~~~~~~~~~~~
+            {{ foo ?? "my_message" | skyAppResources }}
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          </sky-checkbox-label>
+          ~~~~~~~~~~~~~~~~~~~~~
+        </sky-checkbox>
+        ~~~~~~~~~~~~~~~
+      `,
+      messageId,
+      data: {
+        selector: 'sky-checkbox',
+        labelInputName: 'labelText',
+        labelSelector: 'sky-checkbox-label',
+      },
+    }),
   ],
 });
