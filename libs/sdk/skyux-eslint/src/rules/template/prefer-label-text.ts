@@ -76,11 +76,14 @@ function getAttributeByName(
 }
 
 /**
- * Checks if the provided element contains Angular control flow syntax (@if, @for, @switch, etc.).
+ * Checks if the provided element contains Angular control flow syntax or
+ * double quotes, since these characters are difficult to translate into an
+ * element attribute value.
  */
-function hasControlFlowSyntax(el: TmplAstElement): boolean {
+function hasUnsupportedSyntax(el: TmplAstElement): boolean {
   const sourceText = el.sourceSpan.toString();
-  return sourceText.includes('@');
+
+  return sourceText.includes('@') || sourceText.includes('"');
 }
 
 /**
@@ -176,7 +179,9 @@ export const rule = createESLintTemplateRule({
             (child) => child instanceof TmplAstElement,
           );
 
-          const hasControlFlow = hasControlFlowSyntax(labelEl);
+          const isFixable = !(
+            hasUnsupportedSyntax(labelEl) || hasElementChildren
+          );
 
           context.report({
             loc: parserServices.convertNodeSourceSpanToLoc(el.sourceSpan),
@@ -186,37 +191,35 @@ export const rule = createESLintTemplateRule({
               labelInputName,
               labelSelector,
             },
-            // Don't fix if the label includes child elements or control flow syntax.
-            fix:
-              hasElementChildren || hasControlFlow
-                ? undefined
-                : (fixer): RuleFix[] => {
-                    const textContent = getTextContent(labelEl);
-                    const textReplacement = ` ${labelInputName}="${textContent}"`;
-                    const range = [
-                      el.startSourceSpan.end.offset - 1,
-                      el.startSourceSpan.end.offset,
-                    ] as const;
+            fix: isFixable
+              ? (fixer): RuleFix[] => {
+                  const textContent = getTextContent(labelEl);
+                  const textReplacement = ` ${labelInputName}="${textContent}"`;
+                  const range = [
+                    el.startSourceSpan.end.offset - 1,
+                    el.startSourceSpan.end.offset,
+                  ] as const;
 
-                    const fixers = [
-                      fixer.removeRange([
-                        labelEl.sourceSpan.start.offset,
-                        labelEl.sourceSpan.end.offset,
-                      ]),
-                    ];
+                  const fixers = [
+                    fixer.removeRange([
+                      labelEl.sourceSpan.start.offset,
+                      labelEl.sourceSpan.end.offset,
+                    ]),
+                  ];
 
-                    if (!hasLabelText) {
-                      fixers.push(
-                        fixer.insertTextBeforeRange(range, textReplacement),
-                      );
-                    }
+                  if (!hasLabelText) {
+                    fixers.push(
+                      fixer.insertTextBeforeRange(range, textReplacement),
+                    );
+                  }
 
-                    if (el.name === 'sky-input-box' && inputEl) {
-                      fixers.push(...removeFormControlClass(fixer, inputEl));
-                    }
+                  if (el.name === 'sky-input-box' && inputEl) {
+                    fixers.push(...removeFormControlClass(fixer, inputEl));
+                  }
 
-                    return fixers;
-                  },
+                  return fixers;
+                }
+              : undefined,
           });
         }
       },
