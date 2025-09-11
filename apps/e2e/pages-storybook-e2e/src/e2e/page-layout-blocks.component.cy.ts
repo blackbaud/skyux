@@ -27,6 +27,8 @@ describe(`pages-storybook`, () => {
           'block-layout-with-description-list-no-avatar',
           `${ID}-with-description-list-no-avatar`,
         ],
+        ['block-layout-all-hidden', `${ID}-all-hidden`],
+        ['block-layout-all-hidden-with-links', `${ID}-all-hidden-with-links`],
       ].forEach(([_, ID]) => {
         describe(`${_}`, () => {
           beforeEach(() =>

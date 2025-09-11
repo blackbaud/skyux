@@ -51,3 +51,20 @@ BlocksPageWithLinksNoAvatarNoAlert.args = {
   hideAvatar: true,
   showLinks: true,
 };
+
+export const BlocksPageAllHidden: Story = {};
+BlocksPageAllHidden.args = {
+  hideAlert: true,
+  hideActions: true,
+  hideAvatar: true,
+  hideDetails: true,
+};
+
+export const BlocksPageAllHiddenWithLinks: Story = {};
+BlocksPageAllHiddenWithLinks.args = {
+  hideAlert: true,
+  hideActions: true,
+  hideAvatar: true,
+  hideDetails: true,
+  showLinks: true,
+};
