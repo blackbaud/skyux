@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { SkyFilterBarFilterModalContext } from '@skyux/filter-bar';
-import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+import { SkyFilterItemModalInstance } from '@skyux/filter-bar';
+import { SkyModalModule } from '@skyux/modals';
 
 @Component({
   selector: 'app-test-modal',
@@ -8,25 +8,26 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   imports: [SkyModalModule],
 })
 export class TestModalComponent {
-  #context = inject(SkyFilterBarFilterModalContext);
-  readonly #modalInstance = inject(SkyModalInstance);
+  #instance = inject(SkyFilterItemModalInstance);
+  #context = this.#instance.context;
+  #filterValue = this.#context.filterValue;
 
   protected filterName = this.#context.filterLabelText;
 
   public save(): void {
-    if (this.#context.filterValue) {
-      this.#context.filterValue = undefined;
+    if (this.#filterValue) {
+      this.#filterValue = undefined;
     } else {
-      this.#context.filterValue = {
+      this.#filterValue = {
         value: true,
         displayValue:
           'Really really really really really really really really really really really really long display value for testing purposes.',
       };
     }
-    this.#modalInstance.save(this.#context.filterValue);
+    this.#instance.save(this.#filterValue);
   }
 
   public cancel(): void {
-    this.#modalInstance.cancel();
+    this.#instance.cancel();
   }
 }

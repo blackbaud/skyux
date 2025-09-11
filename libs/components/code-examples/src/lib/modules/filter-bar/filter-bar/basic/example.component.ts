@@ -1,12 +1,13 @@
 import { Component, model } from '@angular/core';
 import {
   SkyFilterBarFilterItem,
-  SkyFilterBarFilterModalOpenedArgs,
   SkyFilterBarModule,
+  SkyFilterItemModalOpenedArgs,
 } from '@skyux/filter-bar';
 
 import { of } from 'rxjs';
 
+import { FilterItems } from './filter-items';
 import { CommunityConnectionFilterModalComponent } from './filter-modals/community-connection-filter-modal.component';
 import { CurrentGradeFilterModalComponent } from './filter-modals/current-grade-filter-modal.component';
 import { EnteringGradeFilterModalComponent } from './filter-modals/entering-grade-filter-modal.component';
@@ -39,7 +40,7 @@ export class FilterBarBasicExampleComponent {
   protected staffAssignedModal = StaffAssignedFilterModalComponent;
 
   protected onModalOpened(
-    args: SkyFilterBarFilterModalOpenedArgs,
+    args: SkyFilterItemModalOpenedArgs<FilterItems>,
     filterId: string,
   ): void {
     args.data = of({ items: FILTER_SELECTION_VALUES[filterId] });

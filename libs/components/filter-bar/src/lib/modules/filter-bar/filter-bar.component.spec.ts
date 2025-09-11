@@ -10,11 +10,13 @@ import {
   SkyModalInstance,
   SkyModalService,
 } from '@skyux/modals';
+import { SkyModalCloseArgs } from '@skyux/modals';
 
-import { of } from 'rxjs';
+import { Subject, of } from 'rxjs';
 
 import { SkyFilterBarTestComponent } from './fixtures/filter-bar.component.fixture';
 import { SkyFilterBarFilterItem } from './models/filter-bar-filter-item';
+import { SkyFilterItemModalInstance } from './models/filter-item-modal-instance';
 
 describe('Filter bar component', () => {
   //#region helpers
@@ -353,6 +355,40 @@ describe('Filter bar component', () => {
       fixture.detectChanges();
     });
 
+    interface ProviderLike<T = unknown> {
+      provide: unknown;
+      useValue: T;
+    }
+
+    function mockModalOpen(
+      capture: (inst: SkyFilterItemModalInstance) => void,
+    ): void {
+      modalServiceSpy.open.and.callFake(
+        (componentArg: unknown, config: { providers?: ProviderLike[] }) => {
+          const provider = config?.providers?.find(
+            (p): p is ProviderLike<SkyFilterItemModalInstance> =>
+              p.provide === SkyFilterItemModalInstance,
+          );
+          if (provider) {
+            capture(provider.useValue);
+          }
+          const closed$ = new Subject<SkyModalCloseArgs>();
+          const modalInstance = {
+            closed: closed$.asObservable(),
+            save: (data: unknown) => {
+              closed$.next({ reason: 'save', data });
+              closed$.complete();
+            },
+            cancel: () => {
+              closed$.next({ reason: 'cancel', data: undefined });
+              closed$.complete();
+            },
+          } as SkyModalInstance;
+          return modalInstance;
+        },
+      );
+    }
+
     it('should update filter value when modal is saved with new data', () => {
       // Set up initial filter state
       component.appliedFilters.set([
@@ -371,10 +407,8 @@ describe('Filter bar component', () => {
 
       // Set up modal to return new value on save
       const newFilterValue = { value: 'new value from modal' };
-      const closed$ = of({ reason: 'save', data: newFilterValue });
-      modalServiceSpy.open.and.returnValue({
-        closed: closed$,
-      } as SkyModalInstance);
+      let capturedFilterModalInstance: SkyFilterItemModalInstance | undefined;
+      mockModalOpen((inst) => (capturedFilterModalInstance = inst));
 
       // Click the filter item to open modal
       const filterButton = filterItems[0].querySelector(
@@ -383,6 +417,8 @@ describe('Filter bar component', () => {
       filterButton.click();
 
       expect(modalServiceSpy.open).toHaveBeenCalled();
+      // Simulate consumer calling save on the provided filter modal instance
+      capturedFilterModalInstance?.save(newFilterValue);
       fixture.detectChanges();
 
       // Verify filter bar component state is updated
@@ -400,7 +436,7 @@ describe('Filter bar component', () => {
 
     it('should accept filter modal context', () => {
       // Update the test component's modal config to be full screen
-      component.modalComponent.set(class TestModalComponent {});
+      // component.modalComponent.set(class TestModalComponent {});
 
       // Set up filter with a value
       component.appliedFilters.set([
@@ -409,10 +445,9 @@ describe('Filter bar component', () => {
       fixture.detectChanges();
 
       // Set up modal response
-      const closed$ = of({ reason: 'save', data: { value: 'updated' } });
-      modalServiceSpy.open.and.returnValue({
-        closed: closed$,
-      } as SkyModalInstance);
+      const updatedValue = { value: 'updated' };
+      let capturedFilterModalInstance: SkyFilterItemModalInstance | undefined;
+      mockModalOpen((inst) => (capturedFilterModalInstance = inst));
 
       // Click the filter item to open modal
       const filterItems = getFilterItems();
@@ -421,30 +456,25 @@ describe('Filter bar component', () => {
       ) as HTMLButtonElement;
       filterButton.click();
 
-      // Verify modal was opened with fullPage option
-      expect(modalServiceSpy.open).toHaveBeenCalledWith(
-        component.modalComponent(),
-        jasmine.objectContaining({
-          providers: jasmine.arrayContaining([
-            jasmine.objectContaining({
-              useValue: jasmine.objectContaining({
-                additionalContext: { value: 'context' },
-              }),
-            }),
-          ]),
-        }),
-      );
-
-      fixture.detectChanges();
-      expect(component.appliedFilters()?.[0]?.filterValue).toEqual({
-        value: 'updated',
+      expect(modalServiceSpy.open).toHaveBeenCalled();
+      expect(capturedFilterModalInstance?.context.additionalContext).toEqual({
+        value: 'context',
       });
+
+      // Simulate save via filter modal instance to update the filter
+      capturedFilterModalInstance?.save(updatedValue);
+      fixture.detectChanges();
+      expect(component.appliedFilters()?.[0]?.filterValue).toEqual(
+        updatedValue,
+      );
     });
 
     it('should handle undefined on filter modal context', () => {
-      component.onModalOpened = () => {};
+      component.onModalOpened = (): void => {
+        /* intentionally empty */
+      };
       // Update the test component's modal config to be full screen
-      component.modalComponent.set(class TestModalComponent {});
+      // component.modalComponent.set(class TestModalComponent {});
 
       // Set up filter with a value
       component.appliedFilters.set([
@@ -453,10 +483,9 @@ describe('Filter bar component', () => {
       fixture.detectChanges();
 
       // Set up modal response
-      const closed$ = of({ reason: 'save', data: { value: 'updated' } });
-      modalServiceSpy.open.and.returnValue({
-        closed: closed$,
-      } as SkyModalInstance);
+      const updatedValue = { value: 'updated' };
+      let capturedFilterModalInstance: SkyFilterItemModalInstance | undefined;
+      mockModalOpen((inst) => (capturedFilterModalInstance = inst));
 
       // Click the filter item to open modal
       const filterItems = getFilterItems();
@@ -465,24 +494,16 @@ describe('Filter bar component', () => {
       ) as HTMLButtonElement;
       filterButton.click();
 
-      // Verify modal was opened with fullPage option
-      expect(modalServiceSpy.open).toHaveBeenCalledWith(
-        component.modalComponent(),
-        jasmine.objectContaining({
-          providers: jasmine.arrayContaining([
-            jasmine.objectContaining({
-              useValue: jasmine.objectContaining({
-                additionalContext: undefined,
-              }),
-            }),
-          ]),
-        }),
-      );
+      expect(modalServiceSpy.open).toHaveBeenCalled();
+      expect(
+        capturedFilterModalInstance?.context.additionalContext,
+      ).toBeUndefined();
 
+      capturedFilterModalInstance?.save(updatedValue);
       fixture.detectChanges();
-      expect(component.appliedFilters()?.[0]?.filterValue).toEqual({
-        value: 'updated',
-      });
+      expect(component.appliedFilters()?.[0]?.filterValue).toEqual(
+        updatedValue,
+      );
     });
 
     it('should handle modal with displayValue different from value', () => {
@@ -497,10 +518,8 @@ describe('Filter bar component', () => {
         value: 'complex_filter_code',
         displayValue: 'User Friendly Display',
       };
-      const closed$ = of({ reason: 'save', data: newFilterValue });
-      modalServiceSpy.open.and.returnValue({
-        closed: closed$,
-      } as SkyModalInstance);
+      let capturedFilterModalInstance: SkyFilterItemModalInstance | undefined;
+      mockModalOpen((inst) => (capturedFilterModalInstance = inst));
 
       // Click the filter item to open modal
       const filterItems = getFilterItems();
@@ -510,6 +529,7 @@ describe('Filter bar component', () => {
       filterButton.click();
 
       expect(modalServiceSpy.open).toHaveBeenCalled();
+      capturedFilterModalInstance?.save(newFilterValue);
       fixture.detectChanges();
 
       // Verify filter bar component stores the complete value
@@ -545,10 +565,8 @@ describe('Filter bar component', () => {
       expect(initialValueElement?.textContent?.trim()).toBe('original value');
 
       // Set up modal to be cancelled
-      const closed$ = of({ reason: 'cancel' });
-      modalServiceSpy.open.and.returnValue({
-        closed: closed$,
-      } as SkyModalInstance);
+      let capturedFilterModalInstance: SkyFilterItemModalInstance | undefined;
+      mockModalOpen((inst) => (capturedFilterModalInstance = inst));
 
       // Click the filter item to open modal
       const filterButton = filterItems[0].querySelector(
@@ -557,6 +575,8 @@ describe('Filter bar component', () => {
       filterButton.click();
 
       expect(modalServiceSpy.open).toHaveBeenCalled();
+      // Simulate cancel action via filter modal instance
+      capturedFilterModalInstance?.cancel();
       fixture.detectChanges();
 
       // Verify nothing changed
@@ -573,7 +593,7 @@ describe('Filter bar component', () => {
 
     it('should open full screen modal when configured', () => {
       // Update the test component's modal config to be full screen
-      component.modalComponent.set(class TestModalComponent {});
+      // component.modalComponent.set(class TestModalComponent {});
       component.modalSize.set('fullScreen');
 
       // Set up filter with a value
@@ -583,10 +603,9 @@ describe('Filter bar component', () => {
       fixture.detectChanges();
 
       // Set up modal response
-      const closed$ = of({ reason: 'save', data: { value: 'updated' } });
-      modalServiceSpy.open.and.returnValue({
-        closed: closed$,
-      } as SkyModalInstance);
+      const updatedValue = { value: 'updated' };
+      let capturedFilterModalInstance: SkyFilterItemModalInstance | undefined;
+      mockModalOpen((inst) => (capturedFilterModalInstance = inst));
 
       // Click the filter item to open modal
       const filterItems = getFilterItems();
@@ -601,10 +620,11 @@ describe('Filter bar component', () => {
         jasmine.objectContaining({ fullPage: true }),
       );
 
+      capturedFilterModalInstance?.save(updatedValue);
       fixture.detectChanges();
-      expect(component.appliedFilters()?.[0]?.filterValue).toEqual({
-        value: 'updated',
-      });
+      expect(component.appliedFilters()?.[0]?.filterValue).toEqual(
+        updatedValue,
+      );
     });
 
     it('should persist other filter values when updating one filter among multiple', () => {
@@ -618,10 +638,8 @@ describe('Filter bar component', () => {
 
       // Set up modal to update only the second filter
       const updatedFilterValue = { value: 'updated filter2 value' };
-      const closed$ = of({ reason: 'save', data: updatedFilterValue });
-      modalServiceSpy.open.and.returnValue({
-        closed: closed$,
-      } as SkyModalInstance);
+      let capturedFilterModalInstance: SkyFilterItemModalInstance | undefined;
+      mockModalOpen((inst) => (capturedFilterModalInstance = inst));
 
       // Click the second filter item to open modal
       const filterItems = getFilterItems();
@@ -631,6 +649,7 @@ describe('Filter bar component', () => {
       secondFilterButton.click();
 
       expect(modalServiceSpy.open).toHaveBeenCalled();
+      capturedFilterModalInstance?.save(updatedFilterValue);
       fixture.detectChanges();
 
       // Verify the updated filter changed
@@ -671,10 +690,8 @@ describe('Filter bar component', () => {
       expect(getClearFiltersButton()).toBeTruthy();
 
       // Set up modal to clear the filter (save with undefined/empty data)
-      const closed$ = of({ reason: 'save', data: undefined });
-      modalServiceSpy.open.and.returnValue({
-        closed: closed$,
-      } as SkyModalInstance);
+      let capturedFilterModalInstance: SkyFilterItemModalInstance | undefined;
+      mockModalOpen((inst) => (capturedFilterModalInstance = inst));
 
       // Click the filter item to open modal
       const filterButton = initialFilterItems[1].querySelector(
@@ -683,6 +700,8 @@ describe('Filter bar component', () => {
       filterButton.click();
 
       expect(modalServiceSpy.open).toHaveBeenCalled();
+      // Simulate clearing filter by saving undefined
+      capturedFilterModalInstance?.save();
       fixture.detectChanges();
 
       // Verify filter is cleared from component state
@@ -703,6 +722,7 @@ describe('Filter bar component', () => {
       expect(updatedButton?.getAttribute('aria-pressed')).toBe('false');
     });
 
+    // eslint-disable-next-line complexity
     it('should handle setting a filter when no filters were previously set', () => {
       // Set up initial state with no filters set
       component.appliedFilters.set(undefined);
@@ -718,10 +738,8 @@ describe('Filter bar component', () => {
 
       // Set up modal to set a new filter value
       const newFilterValue = { value: 'first filter value' };
-      const closed$ = of({ reason: 'save', data: newFilterValue });
-      modalServiceSpy.open.and.returnValue({
-        closed: closed$,
-      } as SkyModalInstance);
+      let capturedFilterModalInstance: SkyFilterItemModalInstance | undefined;
+      mockModalOpen((inst) => (capturedFilterModalInstance = inst));
 
       // Click the first filter item to open modal
       const filterButton = initialFilterItems[0].querySelector(
@@ -730,6 +748,7 @@ describe('Filter bar component', () => {
       filterButton.click();
 
       expect(modalServiceSpy.open).toHaveBeenCalled();
+      capturedFilterModalInstance?.save(newFilterValue);
       fixture.detectChanges();
 
       // Verify filter is set in component state
@@ -752,6 +771,7 @@ describe('Filter bar component', () => {
       expect(updatedButton?.getAttribute('aria-pressed')).toBe('true');
     });
 
+    // eslint-disable-next-line complexity
     it('should handle setting a previously unset filter when other filters exist', () => {
       // Set up initial state with some filters set, but not the third one
       component.appliedFilters.set([
@@ -767,10 +787,8 @@ describe('Filter bar component', () => {
 
       // Set up modal to set the third filter
       const newFilterValue = { value: 'new filter3 value' };
-      const closed$ = of({ reason: 'save', data: newFilterValue });
-      modalServiceSpy.open.and.returnValue({
-        closed: closed$,
-      } as SkyModalInstance);
+      let capturedFilterModalInstance: SkyFilterItemModalInstance | undefined;
+      mockModalOpen((inst) => (capturedFilterModalInstance = inst));
 
       // Click the third filter item to open modal
       const filterItems = getFilterItems();
@@ -780,6 +798,7 @@ describe('Filter bar component', () => {
       thirdFilterButton.click();
 
       expect(modalServiceSpy.open).toHaveBeenCalled();
+      capturedFilterModalInstance?.save(newFilterValue);
       fixture.detectChanges();
 
       // Verify the new filter is added and existing filters remain

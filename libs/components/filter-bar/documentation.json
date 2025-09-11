@@ -7,11 +7,13 @@
           "SkyFilterBarModule",
           "SkyFilterBarComponent",
           "SkyFilterBarFilterItem",
-          "SkyFilterItemModalComponent",
           "SkyFilterBarFilterValue",
-          "SkyFilterBarFilterModalContext",
-          "SkyFilterBarFilterModalOpenedArgs",
-          "SkyFilterBarFilterModalSizeType"
+          "SkyFilterItemModalComponent",
+          "SkyFilterItemModal",
+          "SkyFilterItemModalInstance",
+          "SkyFilterItemModalContext",
+          "SkyFilterItemModalOpenedArgs",
+          "SkyFilterItemModalSizeType"
         ],
         "primaryDocsId": "SkyFilterBarModule"
       },

@@ -1,10 +1,12 @@
 export { SkyFilterBarModule } from './lib/modules/filter-bar/filter-bar.module';
 
 export { SkyFilterBarFilterItem } from './lib/modules/filter-bar/models/filter-bar-filter-item';
-export { SkyFilterBarFilterModalContext } from './lib/modules/filter-bar/models/filter-bar-filter-modal-context';
-export { SkyFilterBarFilterModalOpenedArgs } from './lib/modules/filter-bar/models/filter-bar-filter-modal-opened-args';
-export { SkyFilterBarFilterModalSizeType } from './lib/modules/filter-bar/models/filter-bar-filter-modal-size';
 export { SkyFilterBarFilterValue } from './lib/modules/filter-bar/models/filter-bar-filter-value';
+export { SkyFilterItemModal } from './lib/modules/filter-bar/models/filter-item-modal';
+export { SkyFilterItemModalContext } from './lib/modules/filter-bar/models/filter-item-modal-context';
+export { SkyFilterItemModalInstance } from './lib/modules/filter-bar/models/filter-item-modal-instance';
+export { SkyFilterItemModalOpenedArgs } from './lib/modules/filter-bar/models/filter-item-modal-opened-args';
+export { SkyFilterItemModalSizeType } from './lib/modules/filter-bar/models/filter-item-modal-size';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of public API.

@@ -1,4 +1,4 @@
-export type SkyFilterBarFilterModalSizeType =
+export type SkyFilterItemModalSizeType =
   | 'small'
   | 'medium'
   | 'large'

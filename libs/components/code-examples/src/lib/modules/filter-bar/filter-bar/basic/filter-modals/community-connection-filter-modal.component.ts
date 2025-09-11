@@ -6,12 +6,14 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import {
-  SkyFilterBarFilterModalContext,
-  SkyFilterBarFilterValue,
+  SkyFilterItemModal,
+  SkyFilterItemModalInstance,
 } from '@skyux/filter-bar';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyRepeaterModule } from '@skyux/lists';
-import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
+
+import { FilterItems } from '../filter-items';
 
 @Component({
   selector: 'app-community-connection-filter-modal',
@@ -25,13 +27,16 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommunityConnectionFilterModalComponent {
-  protected readonly modalInstance = inject(SkyModalInstance);
-  readonly #context = inject(SkyFilterBarFilterModalContext);
+export class CommunityConnectionFilterModalComponent
+  implements SkyFilterItemModal<FilterItems>
+{
+  public readonly modalInstance = inject<
+    SkyFilterItemModalInstance<FilterItems>
+  >(SkyFilterItemModalInstance);
+  readonly #context = this.modalInstance.context;
   readonly #formBuilder: FormBuilder = inject(FormBuilder);
   protected headingText = this.#context.filterLabelText;
-  protected items: SkyFilterBarFilterValue[] = this.#context
-    .additionalContext?.['items'] as SkyFilterBarFilterValue[];
+  protected items = this.#context.additionalContext!.items;
   protected selectedValue = this.#context.filterValue;
 
   protected formGroup: FormGroup = this.#formBuilder.group({
@@ -48,7 +53,7 @@ export class CommunityConnectionFilterModalComponent {
       );
       this.modalInstance.save(selectedItem);
     } else {
-      this.modalInstance.save(null);
+      this.modalInstance.save();
     }
   }
 }
