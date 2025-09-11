@@ -435,9 +435,6 @@ describe('Filter bar component', () => {
     });
 
     it('should accept filter modal context', () => {
-      // Update the test component's modal config to be full screen
-      // component.modalComponent.set(class TestModalComponent {});
-
       // Set up filter with a value
       component.appliedFilters.set([
         { filterId: '3', filterValue: { value: 'test' } },
@@ -473,8 +470,6 @@ describe('Filter bar component', () => {
       component.onModalOpened = (): void => {
         /* intentionally empty */
       };
-      // Update the test component's modal config to be full screen
-      // component.modalComponent.set(class TestModalComponent {});
 
       // Set up filter with a value
       component.appliedFilters.set([
@@ -593,7 +588,6 @@ describe('Filter bar component', () => {
 
     it('should open full screen modal when configured', () => {
       // Update the test component's modal config to be full screen
-      // component.modalComponent.set(class TestModalComponent {});
       component.modalSize.set('fullScreen');
 
       // Set up filter with a value

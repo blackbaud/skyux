@@ -69,8 +69,8 @@ export class SkyFilterItemModalComponent<
     input.required<Type<SkyFilterItemModal<TData>>>();
 
   /**
-   * The size of the modal to display. The valid options are `'small'`, `'medium'`, `'large'`, and `'fullScreen'`.
-   * @default 'medium'
+   * The size of the modal to display. The valid options are `"small"`, `"medium"`, `"large"`, and `"fullScreen"`.
+   * @default "medium"
    */
   public readonly modalSize = input<SkyFilterItemModalSizeType>();
 

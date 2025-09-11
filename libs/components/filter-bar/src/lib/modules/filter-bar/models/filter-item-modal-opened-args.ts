@@ -1,13 +1,13 @@
 import { Observable } from 'rxjs';
 
 /**
- * Arguments passed when a filter modal is opened.
+ * Arguments passed to a filter modal when it opens.
  */
 export interface SkyFilterItemModalOpenedArgs<
   TData = Record<string, unknown> | undefined,
 > {
   /**
-   * An Observable representing data passed into the filter modal as additional context.
+   * An observable representing data that is passed to the filter modal as additional context.
    */
   data?: Observable<TData>;
 }
