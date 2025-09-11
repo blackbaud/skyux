@@ -1,12 +1,17 @@
 @if (isInitialized) {
   <div
     #dataManager
-    class="sky-data-manager"
     skyViewkeeperOmitShadow=".ag-body-horizontal-scroll"
+    [class]="'sky-data-manager sky-data-manager-dock-' + dock"
     [skyBackToTop]="backToTopOptions"
     [skyBackToTopMessageStream]="backToTopController"
     [skyViewkeeper]="currentViewkeeperClasses"
   >
-    <ng-content />
+    <div class="sky-data-manager-toolbar-container">
+      <ng-content select="sky-data-manager-toolbar" />
+    </div>
+    <div class="sky-data-manager-content">
+      <ng-content />
+    </div>
   </div>
 }

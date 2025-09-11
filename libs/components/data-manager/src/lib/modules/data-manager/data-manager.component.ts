@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
   OnDestroy,
   OnInit,
   inject,
@@ -20,6 +21,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { SkyDataManagerService } from './data-manager.service';
 import { SkyDataManagerState } from './models/data-manager-state';
 import { SkyDataManagerSummary } from './models/data-manager-summary';
+import { SkyDataManagerDockType } from './types/data-manager-dock-type';
 
 const VIEWKEEPER_CLASSES_DEFAULT = ['.sky-data-manager-toolbar'];
 
@@ -29,6 +31,7 @@ const VIEWKEEPER_CLASSES_DEFAULT = ['.sky-data-manager-toolbar'];
 @Component({
   selector: 'sky-data-manager',
   templateUrl: './data-manager.component.html',
+  styleUrl: './data-manager.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyBackToTopModule, SkyViewkeeperModule],
 })
@@ -54,6 +57,23 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
     this.#changeDetection.markForCheck();
   }
 
+  /**
+   * How the data manager docks to the page. Use `fill` to dock the data manager
+   * to the container's size where the container is a `sky-page` component with
+   * its `layout` set to `fit`, or where the container is another element with
+   * a `relative` or `absolute` position and a fixed size.
+   * `sky-data-manager-toolbar` will be docked to the top of all other content.
+   * @default "none"
+   */
+  @Input()
+  public set dock(value: SkyDataManagerDockType) {
+    this.#_dock = value || 'none';
+  }
+
+  public get dock(): SkyDataManagerDockType {
+    return this.#_dock;
+  }
+
   public backToTopController = new Subject<SkyBackToTopMessage>();
 
   public backToTopOptions = {
@@ -68,6 +88,7 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
 
   #_isInitialized = false;
   #_currentViewkeeperClasses = VIEWKEEPER_CLASSES_DEFAULT;
+  #_dock: SkyDataManagerDockType = 'none';
 
   readonly #changeDetection = inject(ChangeDetectorRef);
   readonly #dataManagerService = inject(SkyDataManagerService);
