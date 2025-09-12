@@ -1,8 +1,13 @@
 import { Component, model } from '@angular/core';
 
+import { of } from 'rxjs';
+
 import { SkyFilterBarModule } from '../filter-bar.module';
 import { SkyFilterBarFilterItem } from '../models/filter-bar-filter-item';
-import { SkyFilterBarFilterModalConfig } from '../models/filter-bar-filter-modal-config';
+import { SkyFilterItemModalOpenedArgs } from '../models/filter-item-modal-opened-args';
+import { SkyFilterItemModalSizeType } from '../models/filter-item-modal-size';
+
+import { SkyFilterBarModalTestComponent } from './filter-modal-test.component.fixture';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -10,11 +15,15 @@ import { SkyFilterBarFilterModalConfig } from '../models/filter-bar-filter-modal
   templateUrl: './filter-bar.component.fixture.html',
 })
 export class SkyFilterBarTestComponent {
-  public filters = model<SkyFilterBarFilterItem[]>();
+  public appliedFilters = model<SkyFilterBarFilterItem[]>();
 
   public selectedFilterIds = model<string[] | undefined>(['1', '2', '3']);
 
-  public modalConfig: SkyFilterBarFilterModalConfig = {
-    modalComponent: class {},
-  };
+  public modalComponent = model(SkyFilterBarModalTestComponent);
+
+  public modalSize = model<SkyFilterItemModalSizeType>();
+
+  public onModalOpened(args: SkyFilterItemModalOpenedArgs): void {
+    args.data = of({ value: 'context' });
+  }
 }

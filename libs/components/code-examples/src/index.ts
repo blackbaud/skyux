@@ -39,6 +39,7 @@ export { DatetimeDatepickerFuzzyExampleComponent } from './lib/modules/datetime/
 export { DatetimeTimepickerBasicExampleComponent } from './lib/modules/datetime/timepicker/basic/example.component';
 export { ErrorsErrorEmbeddedExampleComponent } from './lib/modules/errors/error/embedded/example.component';
 export { ErrorsErrorModalExampleComponent } from './lib/modules/errors/error/modal/example.component';
+export { FilterBarBasicExampleComponent } from './lib/modules/filter-bar/filter-bar/basic/example.component';
 export { FlyoutBasicExampleComponent } from './lib/modules/flyout/flyout/basic/example.component';
 export { FlyoutCustomHeadersExampleComponent } from './lib/modules/flyout/flyout/custom-headers/example.component';
 export { FormsCharacterCountExampleComponent } from './lib/modules/forms/character-count/example.component';

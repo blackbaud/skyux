@@ -2,54 +2,62 @@
   <sky-page-header pageTitle="Filter bar" />
   <sky-page-content>
     <sky-filter-bar
+      [(appliedFilters)]="appliedFilters"
       [(selectedFilterIds)]="selectedFilterIds"
-      [(filters)]="filters"
     >
       <sky-filter-item-modal
         filterId="1"
+        modalSize="medium"
         [labelText]="labelText"
-        [filterModalConfig]="filterModalConfig"
+        [modalComponent]="modalComponent"
       />
       <sky-filter-item-modal
         filterId="2"
         labelText="filter 2"
-        [filterModalConfig]="filterModalConfig"
+        modalSize="medium"
+        [modalComponent]="modalComponent"
       />
       <sky-filter-item-modal
         filterId="3"
         labelText="filter 3"
-        [filterModalConfig]="filterModalConfig"
+        modalSize="medium"
+        [modalComponent]="modalComponent"
       />
       <sky-filter-item-modal
         filterId="4"
         labelText="filter 4"
-        [filterModalConfig]="filterModalConfig"
+        modalSize="medium"
+        [modalComponent]="modalComponent"
       />
       <sky-filter-item-modal
         filterId="5"
         labelText="filter 5"
-        [filterModalConfig]="filterModalConfig"
+        modalSize="medium"
+        [modalComponent]="modalComponent"
       />
       <sky-filter-item-modal
         filterId="6"
         labelText="filter 6"
-        [filterModalConfig]="filterModalConfig"
+        modalSize="medium"
+        [modalComponent]="modalComponent"
       />
       <sky-filter-item-modal
         filterId="7"
         labelText="filter 7"
-        [filterModalConfig]="filterModalConfig"
+        modalSize="medium"
+        [modalComponent]="modalComponent"
       />
       <sky-filter-item-modal
         filterId="8"
         labelText="filter 8"
-        [filterModalConfig]="filterModalConfig"
+        modalSize="medium"
+        [modalComponent]="modalComponent"
       />
     </sky-filter-bar>
     <div>Selected filters:</div>
     <div>{{ selectedFilterIds }}</div>
     <div>Filters:</div>
-    <div>{{ filters }}</div>
+    <div>{{ appliedFilters }}</div>
     <div class="button-row">
       <button
         type="button"
