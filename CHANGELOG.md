@@ -1,5 +1,28 @@
 # Changelog
 
+## [13.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.11...13.0.0-alpha.12) (2025-09-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **sdk/stylelint-config-skyux:** add support for `stylelint-config-recommended-scss@16.0.1` ([#3930](https://github.com/blackbaud/skyux/issues/3930))
+
+### Features
+
+* add child harness method standardization prompt ([#3919](https://github.com/blackbaud/skyux/issues/3919)) ([3f3c83d](https://github.com/blackbaud/skyux/commit/3f3c83d930d889eb9d3640b73fa293ecf97c5b5d))
+* **components/ag-grid:** support AG Grid 34.2 ([#3931](https://github.com/blackbaud/skyux/issues/3931)) ([45dbc45](https://github.com/blackbaud/skyux/commit/45dbc4563634c14ae116be30495c549191b758a7))
+* **components/errors:** update error images to match v2 modern visual styles ([#3927](https://github.com/blackbaud/skyux/issues/3927)) ([61d67f3](https://github.com/blackbaud/skyux/commit/61d67f3d278ee75c0f864b265a75ba6429fecf32))
+* **components/filter-bar:** add filter bar library and component ([#3679](https://github.com/blackbaud/skyux/issues/3679)) ([#3933](https://github.com/blackbaud/skyux/issues/3933)) ([0855c20](https://github.com/blackbaud/skyux/commit/0855c20e3601420a098b0c0b2a6f1a763394e04b))
+* **components/layout:** add Copilot instruction file for Stache action button migration ([#3932](https://github.com/blackbaud/skyux/issues/3932)) ([ce6f347](https://github.com/blackbaud/skyux/commit/ce6f3477008f3e5062c5106a385b712aa309dc59))
+* **sdk/stylelint-config-skyux:** add support for `stylelint-config-recommended-scss@16.0.1` ([#3930](https://github.com/blackbaud/skyux/issues/3930)) ([a6225cd](https://github.com/blackbaud/skyux/commit/a6225cd5c12de844a6ce6ec05c111ea3b51b8fff))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** wrapText autoHeight columns resize correctly ([#3928](https://github.com/blackbaud/skyux/issues/3928)) ([#3929](https://github.com/blackbaud/skyux/issues/3929)) ([a55f567](https://github.com/blackbaud/skyux/commit/a55f5677db156ab7dad09c34357e13f3a62b5253))
+* **components/pages:** page content has correct top space when no header actions or details are specified and links are present ([#3921](https://github.com/blackbaud/skyux/issues/3921)) ([#3924](https://github.com/blackbaud/skyux/issues/3924)) ([c553e63](https://github.com/blackbaud/skyux/commit/c553e6379fb13a4694ba727566d41d91e913ed1a))
+* **sdk/skyux-eslint:** do not fix `prefer-label-text` rule if label element includes double quotes ([#3922](https://github.com/blackbaud/skyux/issues/3922)) ([#3925](https://github.com/blackbaud/skyux/issues/3925)) ([afd27c4](https://github.com/blackbaud/skyux/commit/afd27c441e87c145fbd41534a0bbff988f7ae296))
+
 ## [12.40.0](https://github.com/blackbaud/skyux/compare/12.39.0...12.40.0) (2025-09-12)
 
 
