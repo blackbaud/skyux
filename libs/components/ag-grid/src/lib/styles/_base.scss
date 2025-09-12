@@ -101,12 +101,6 @@
     }
   }
 
-  // Stretch the cell wrapper to the full height of the row so validator popovers are triggered on the entire cell.
-  .ag-row > .ag-cell.sky-ag-grid-cell-validator > .ag-cell-wrapper {
-    align-items: stretch;
-    height: 100%;
-  }
-
   .ag-cell.sky-ag-grid-cell-invalid:not(
       .ag-cell-inline-editing,
       .ag-cell-popup-editing
