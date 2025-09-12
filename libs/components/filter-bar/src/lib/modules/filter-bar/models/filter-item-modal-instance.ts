@@ -20,12 +20,12 @@ export class SkyFilterItemModalInstance<TData = Record<string, unknown>> {
   readonly #saved = new Subject<SkyFilterBarFilterValue | undefined>();
 
   /**
-   * Emits when the user cancels the modal.
+   * Fires when the user cancels the modal.
    * @internal
    */
   public readonly canceled = this.#canceled.asObservable();
   /**
-   * Emits when the user saves the modal.
+   * Fires when the user saves the modal.
    * @internal
    */
   public readonly saved = this.#saved.asObservable();
