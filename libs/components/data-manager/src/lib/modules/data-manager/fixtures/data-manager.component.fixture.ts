@@ -9,6 +9,7 @@ import { SkyDataManagerComponent } from '../data-manager.component';
 import { SkyDataManagerService } from '../data-manager.service';
 import { SkyDataManagerConfig } from '../models/data-manager-config';
 import { SkyDataManagerState } from '../models/data-manager-state';
+import { SkyDataManagerDockType } from '../types/data-manager-dock-type';
 
 import { DataViewRepeaterFixtureComponent } from './data-manager-repeater-view.component.fixture';
 import { DataManagerTestItem } from './data-manager-test-item';
@@ -46,6 +47,8 @@ export class DataManagerFixtureComponent implements OnInit {
   };
 
   public dataManagerSourceId = 'dataManagerFixture';
+
+  public dock: SkyDataManagerDockType | undefined;
 
   public items: DataManagerTestItem[] = [
     {
