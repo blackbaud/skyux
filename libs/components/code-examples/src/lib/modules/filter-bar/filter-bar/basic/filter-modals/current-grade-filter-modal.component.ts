@@ -52,7 +52,7 @@ export class CurrentGradeFilterModalComponent
       );
       this.modalInstance.save({ filterValue: selectedItem });
     } else {
-      this.modalInstance.save({});
+      this.modalInstance.save({ filterValue: undefined });
     }
   }
 }

@@ -695,7 +695,7 @@ describe('Filter bar component', () => {
 
       expect(modalServiceSpy.open).toHaveBeenCalled();
       // Simulate clearing filter by saving undefined
-      capturedFilterModalInstance?.save({});
+      capturedFilterModalInstance?.save({ filterValue: undefined });
       fixture.detectChanges();
 
       // Verify filter is cleared from component state

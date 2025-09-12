@@ -53,7 +53,7 @@ export class CommunityConnectionFilterModalComponent
       );
       this.modalInstance.save({ filterValue: selectedItem });
     } else {
-      this.modalInstance.save({});
+      this.modalInstance.save({ filterValue: undefined });
     }
   }
 }

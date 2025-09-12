@@ -41,8 +41,7 @@ export class FilterBarBasicExampleComponent {
 
   protected onModalOpened(
     args: SkyFilterItemModalOpenedArgs<FilterItems>,
-    filterId: string,
   ): void {
-    args.data = of({ items: FILTER_SELECTION_VALUES[filterId] });
+    args.data = of({ items: FILTER_SELECTION_VALUES[args.filterId] });
   }
 }

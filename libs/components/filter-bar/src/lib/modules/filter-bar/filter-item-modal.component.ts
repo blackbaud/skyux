@@ -173,7 +173,9 @@ export class SkyFilterItemModalComponent<
 
   #openFilterCallback(): Observable<TData | undefined> {
     if (this.modalOpened.observed) {
-      const args: SkyFilterItemModalOpenedArgs<TData> = {};
+      const args: SkyFilterItemModalOpenedArgs<TData> = {
+        filterId: this.filterId(),
+      };
       this.modalOpened.emit(args);
       return args.data?.pipe(take(1)) || of(undefined);
     }
