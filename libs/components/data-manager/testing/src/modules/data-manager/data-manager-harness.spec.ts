@@ -65,6 +65,18 @@ describe('Data manager harness', () => {
     );
   });
 
+  fit('should return dock type', async () => {
+    const { dataManagerHarness, fixture } = await setupTest();
+
+    await expectAsync(dataManagerHarness.getDockType()).toBeResolvedTo('fill');
+
+    fixture.componentInstance.dock = 'none';
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await expectAsync(dataManagerHarness.getDockType()).toBeResolvedTo('none');
+  });
+
   describe('Data manager toolbar', () => {
     async function setupToolbarTest(options?: {
       dataManagerId?: string;

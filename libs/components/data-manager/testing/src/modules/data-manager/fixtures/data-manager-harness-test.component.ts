@@ -10,6 +10,7 @@ import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
+import { SkyDataManagerDockType } from '@skyux/data-manager';
 import { SkyToolbarModule } from '@skyux/layout';
 
 import { FilterModalComponent } from './filter-modal.component';
@@ -27,6 +28,8 @@ export class DataManagerHarnessTestComponent implements OnInit {
   public selectedColumns: string[] = [];
   protected viewId1 = 'view-1';
   protected viewId2 = 'view-2';
+
+  public dock: SkyDataManagerDockType | undefined = 'fill';
 
   readonly #dataManagerSvc = inject(SkyDataManagerService);
 

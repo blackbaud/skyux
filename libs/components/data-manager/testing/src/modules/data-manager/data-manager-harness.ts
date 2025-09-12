@@ -16,6 +16,8 @@ export class SkyDataManagerHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-data-manager';
 
+  #getDataManager = this.locatorFor('.sky-data-manager');
+
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyDataManagerHarness` that meets certain criteria.
@@ -24,6 +26,17 @@ export class SkyDataManagerHarness extends SkyComponentHarness {
     filters: SkyDataManagerHarnessFilters,
   ): HarnessPredicate<SkyDataManagerHarness> {
     return SkyDataManagerHarness.getDataSkyIdPredicate(filters);
+  }
+
+  /**
+   * Gets the type of dock style on the data manager.
+   */
+  public async getDockType(): Promise<string> {
+    return (await (
+      await this.#getDataManager()
+    ).hasClass('sky-data-manager-dock-fill'))
+      ? 'fill'
+      : 'none';
   }
 
   /**

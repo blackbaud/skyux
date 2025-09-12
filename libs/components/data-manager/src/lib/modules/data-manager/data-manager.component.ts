@@ -70,9 +70,9 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
    */
   public readonly dock = input<SkyDataManagerDockType>(DEFAULT_DOCK_TYPE);
 
-  protected readonly dockType = computed(
-    () => this.dock() || DEFAULT_DOCK_TYPE,
-  );
+  protected readonly dockClass = computed(() => {
+    return 'sky-data-manager-dock-' + (this.dock() || DEFAULT_DOCK_TYPE);
+  });
 
   public backToTopController = new Subject<SkyBackToTopMessage>();
 
