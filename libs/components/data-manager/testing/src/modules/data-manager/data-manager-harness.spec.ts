@@ -65,7 +65,7 @@ describe('Data manager harness', () => {
     );
   });
 
-  fit('should return dock type', async () => {
+  it('should return dock type', async () => {
     const { dataManagerHarness, fixture } = await setupTest();
 
     await expectAsync(dataManagerHarness.getDockType()).toBeResolvedTo('fill');
