@@ -49,8 +49,8 @@ describe('ng-add', () => {
     expect(packageJson.devDependencies).toEqual(
       expect.objectContaining({
         'skyux-stylelint': '0.0.0-PLACEHOLDER',
-        stylelint: '^16.21.0',
-        'stylelint-config-recommended-scss': '^15.0.1',
+        stylelint: '^16.24.0',
+        'stylelint-config-recommended-scss': '^16.0.1',
         'stylelint-config-skyux': '0.0.0-PLACEHOLDER',
       }),
     );
