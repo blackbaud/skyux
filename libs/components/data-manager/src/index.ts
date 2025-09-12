@@ -15,6 +15,7 @@ export { SkyDataViewColumnWidths } from './lib/modules/data-manager/models/data-
 export { SkyDataViewConfig } from './lib/modules/data-manager/models/data-view-config';
 export { SkyDataViewState } from './lib/modules/data-manager/models/data-view-state';
 export { SkyDataViewStateOptions } from './lib/modules/data-manager/models/data-view-state-options';
+export { SkyDataManagerDockType } from './lib/modules/data-manager/types/data-manager-dock-type';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of public API.

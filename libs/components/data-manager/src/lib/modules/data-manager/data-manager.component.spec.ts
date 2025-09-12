@@ -255,8 +255,8 @@ describe('SkyDataManagerComponent', () => {
   });
 
   it('should apply the correct CSS class for the dock input', async () => {
-    await validateDockCssClass(undefined, 'sky-data-manager-dock-none');
-    await validateDockCssClass('fill', 'sky-data-manager-dock-fill');
     await validateDockCssClass('none', 'sky-data-manager-dock-none');
+    await validateDockCssClass('fill', 'sky-data-manager-dock-fill');
+    await validateDockCssClass(undefined, 'sky-data-manager-dock-none');
   });
 });
