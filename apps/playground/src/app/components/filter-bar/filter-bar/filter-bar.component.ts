@@ -10,16 +10,16 @@ import { TestModalComponent } from './test-modal.component';
   standalone: false,
 })
 export class FilterBarComponent {
-  public get filters(): SkyFilterBarFilterItem[] | undefined {
+  public get appliedFilters(): SkyFilterBarFilterItem[] | undefined {
     return this.#_filters;
   }
 
-  public set filters(value: SkyFilterBarFilterItem[] | undefined) {
+  public set appliedFilters(value: SkyFilterBarFilterItem[] | undefined) {
     if (value) {
       value.toString = (): string => {
         return (
           '[' +
-          this.filters
+          this.appliedFilters
             .map(
               (filter) =>
                 `{ ${filter.filterId}${filter.filterValue ? ': ' + (filter.filterValue.displayValue ?? filter.filterValue.value) : ''} }`,
@@ -38,7 +38,7 @@ export class FilterBarComponent {
   public selectedFilterIds: string[] | undefined;
   #selectedFilterIds: string[] | undefined;
 
-  public filterModalConfig = { modalComponent: TestModalComponent };
+  public modalComponent = TestModalComponent;
 
   public labelText = 'filter 1';
 
@@ -53,7 +53,7 @@ export class FilterBarComponent {
   }
 
   public resetFilters(): void {
-    this.filters = this.#defaultFilters;
+    this.appliedFilters = this.#defaultFilters;
     this.selectedFilterIds = ['1', '2', '3'];
     this.#selectedFilterIds = undefined;
   }

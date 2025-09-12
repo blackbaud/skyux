@@ -7,17 +7,16 @@ import { SkyFilterBarModule } from '@skyux/filter-bar';
   imports: [SkyFilterBarModule],
 })
 export class FilterBarHarnessTestComponent {
-  public filters = signal([
+  public appliedFilters = signal([
     {
       filterId: 'filter1',
       filterValue: { value: 'value1' },
     },
-    {
-      filterId: 'filter2',
-      filterValue: undefined,
-    },
   ]);
   public selectedFilterIds = signal(['filter1', 'filter2']);
 
-  public modalConfig = { modalComponent: class {} };
+  public modalComponent = TestModalComponent;
 }
+
+@Component({})
+class TestModalComponent {}

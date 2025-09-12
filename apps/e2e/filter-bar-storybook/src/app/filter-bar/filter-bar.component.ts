@@ -10,7 +10,7 @@ import { SkyFilterBarFilterItem, SkyFilterBarModule } from '@skyux/filter-bar';
   styleUrls: ['./filter-bar.component.scss'],
 })
 export class FilterBarComponent {
-  protected filters: SkyFilterBarFilterItem[] = [
+  protected appliedFilters: SkyFilterBarFilterItem[] = [
     {
       filterId: '1',
       filterValue: { value: 'Yes' },
@@ -18,5 +18,5 @@ export class FilterBarComponent {
     { filterId: '2' },
   ];
 
-  protected modalConfig = { modalComponent: class {} };
+  protected modalComponent = class {};
 }
