@@ -77,7 +77,7 @@
         "libs/components/errors/testing/src/public-api.ts"
       ],
       "@skyux/filter-bar": ["libs/components/filter-bar/src/index.ts"],
-      "@skyux/filter-bar-testing": [
+      "@skyux/filter-bar/testing": [
         "libs/components/filter-bar/testing/src/public-api.ts"
       ],
       "@skyux/flyout": ["libs/components/flyout/src/index.ts"],

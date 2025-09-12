@@ -1,22 +1,34 @@
 import {
   Component,
+  DestroyRef,
+  EnvironmentInjector,
+  EventEmitter,
+  Injector,
+  Output,
   TemplateRef,
+  Type,
   inject,
   input,
+  runInInjectionContext,
   viewChild,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
-import { switchMap } from 'rxjs/operators';
+import { Observable, Subject, of } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 
 import { SkyFilterBarService } from './filter-bar.service';
 import { SKY_FILTER_ITEM } from './filter-item.token';
-import { SkyFilterBarFilterModalConfig } from './models/filter-bar-filter-modal-config';
-import { SkyFilterBarFilterModalContext } from './models/filter-bar-filter-modal-context';
 import { SkyFilterItem } from './models/filter-item';
+import { SkyFilterItemModal } from './models/filter-item-modal';
+import { SkyFilterItemModalContext } from './models/filter-item-modal-context';
+import { SkyFilterItemModalInstance } from './models/filter-item-modal-instance';
+import { SkyFilterItemModalOpenedArgs } from './models/filter-item-modal-opened-args';
+import { SkyFilterItemModalSavedArgs } from './models/filter-item-modal-saved-args';
+import { SkyFilterItemModalSizeType } from './models/filter-item-modal-size';
 
 /**
  * A filter bar item that opens a modal for complex filter configuration.
@@ -32,16 +44,46 @@ import { SkyFilterItem } from './models/filter-item';
     { provide: SKY_FILTER_ITEM, useExisting: SkyFilterItemModalComponent },
   ],
 })
-export class SkyFilterItemModalComponent implements SkyFilterItem {
-  public readonly filterId = input.required<string>();
-  public readonly labelText = input.required<string>();
+export class SkyFilterItemModalComponent<
+  TData = Record<string, unknown> | undefined,
+> implements SkyFilterItem
+{
   /**
-   * The configuration options for showing a custom filter modal.
+   * A unique identifier for the filter item.
+   * @required
    */
-  public readonly filterModalConfig =
-    input.required<SkyFilterBarFilterModalConfig>();
+  public readonly filterId = input.required<string>();
+
+  /**
+   * The label to display for the filter item.
+   * @required
+   */
+  public readonly labelText = input.required<string>();
+
+  /**
+   * The modal component to display when the user selects the filter.
+   * The component needs to inject a `SkyFilterItemModalInstance` object on instantiation to receive the modal instance and context from the modal service.
+   * The return value of the modal save action needs to be a `SkyFilterBarFilterValue`.
+   * @required
+   */
+  public readonly modalComponent =
+    input.required<Type<SkyFilterItemModal<TData>>>();
+
+  /**
+   * The size of the modal to display. The valid options are `"small"`, `"medium"`, `"large"`, and `"fullScreen"`.
+   */
+  public readonly modalSize = input.required<SkyFilterItemModalSizeType>();
+
+  /**
+   * Fires when the user clicks the filter item. To pass additional context data to a filter modal, consumers
+   * must subscribe to this event and return the context using the observable property on the event args.
+   */
+  @Output()
+  public modalOpened = new EventEmitter<SkyFilterItemModalOpenedArgs<TData>>();
+
   public readonly templateRef = viewChild(TemplateRef<unknown>);
 
+  readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #modalSvc = inject(SkyModalService);
   readonly #filterBarSvc = inject(SkyFilterBarService);
 
@@ -54,40 +96,89 @@ export class SkyFilterItemModalComponent implements SkyFilterItem {
   );
 
   protected openFilter(): void {
-    const filterModalConfig = this.filterModalConfig();
+    const modalComponent = this.modalComponent();
+    const modalSize = this.modalSize();
+    const labelText = this.labelText();
+    const filterValue = this.filterValue();
 
-    const context = new SkyFilterBarFilterModalContext(
-      this.labelText(),
-      this.filterValue(),
-      filterModalConfig.additionalContext,
-    );
+    this.#openFilterCallback().subscribe((additionalContext) => {
+      const context = new SkyFilterItemModalContext<TData>({
+        filterLabelText: labelText,
+        filterValue,
+        additionalContext,
+      });
 
-    const modalConfig: SkyModalConfigurationInterface = {
-      providers: [
-        {
-          provide: SkyFilterBarFilterModalContext,
-          useValue: context,
-        },
-      ],
-    };
-    if (filterModalConfig.modalSize === 'full') {
-      modalConfig.fullPage = true;
-    } else {
-      modalConfig.size = filterModalConfig.modalSize;
+      const injector = Injector.create({
+        parent: this.#environmentInjector,
+        providers: [{ provide: SkyFilterItemModalContext, useValue: context }],
+      });
+
+      runInInjectionContext(injector, () => {
+        const destroyRef = injector.get(DestroyRef);
+
+        const saved = new Subject<SkyFilterItemModalSavedArgs>();
+        const canceled = new Subject<void>();
+
+        const context = inject<SkyFilterItemModalContext<TData>>(
+          SkyFilterItemModalContext,
+        );
+
+        const filterModalInstance: SkyFilterItemModalInstance<TData> = {
+          context,
+          cancel() {
+            canceled.next();
+            canceled.complete();
+          },
+          save(result) {
+            saved.next(result);
+            saved.complete();
+          },
+        };
+
+        canceled
+          .pipe(takeUntilDestroyed(destroyRef))
+          .subscribe(() => instance.cancel());
+        saved
+          .pipe(takeUntilDestroyed(destroyRef))
+          .subscribe((result) => instance.save(result.filterValue));
+
+        const modalConfig: SkyModalConfigurationInterface = {
+          providers: [
+            {
+              provide: SkyFilterItemModalInstance,
+              useValue: filterModalInstance,
+            },
+          ],
+        };
+        if (modalSize === 'fullScreen') {
+          modalConfig.fullPage = true;
+        } else {
+          modalConfig.size = modalSize;
+        }
+
+        const instance = this.#modalSvc.open(modalComponent, modalConfig);
+
+        instance.closed.subscribe((args) => {
+          if (args.reason === 'save') {
+            this.#filterBarSvc.updateFilter({
+              filterId: this.filterId(),
+              filterValue: args.data,
+            });
+          }
+        });
+      });
+    });
+  }
+
+  #openFilterCallback(): Observable<TData | undefined> {
+    if (this.modalOpened.observed) {
+      const args: SkyFilterItemModalOpenedArgs<TData> = {
+        filterId: this.filterId(),
+      };
+      this.modalOpened.emit(args);
+      return args.data?.pipe(take(1)) || of(undefined);
     }
 
-    const instance = this.#modalSvc.open(
-      filterModalConfig.modalComponent,
-      modalConfig,
-    );
-
-    instance.closed.subscribe((args) => {
-      if (args.reason === 'save') {
-        this.#filterBarSvc.updateFilter({
-          filterId: this.filterId(),
-          filterValue: args.data,
-        });
-      }
-    });
+    return of(undefined);
   }
 }
