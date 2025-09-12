@@ -30,13 +30,14 @@ import { takeUntil } from 'rxjs/operators';
 
 import { parseAffixHorizontalAlignment } from './dropdown-extensions';
 import { SkyDropdownTriggerDirective } from './dropdown-trigger.directive';
+import { SkyDropdownButtonStyleType } from './types/dropdown-button-style-type';
 import { SkyDropdownButtonType } from './types/dropdown-button-type';
 import { SkyDropdownHorizontalAlignment } from './types/dropdown-horizontal-alignment';
 import { SkyDropdownMessage } from './types/dropdown-message';
 import { SkyDropdownMessageType } from './types/dropdown-message-type';
 import { SkyDropdownTriggerType } from './types/dropdown-trigger-type';
 
-const DEFAULT_BUTTON_STYLE = 'default';
+const DEFAULT_BUTTON_STYLE: SkyDropdownButtonStyleType = 'default';
 const DEFAULT_BUTTON_TYPE: SkyDropdownButtonType = 'select';
 const DEFAULT_HORIZONTAL_ALIGNMENT: SkyAffixHorizontalAlignment = 'left';
 const DEFAULT_TRIGGER_TYPE: SkyDropdownTriggerType = 'click';
@@ -70,11 +71,11 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * @default "default"
    */
   @Input()
-  public set buttonStyle(value: string | undefined) {
+  public set buttonStyle(value: SkyDropdownButtonStyleType | undefined) {
     this.#_buttonStyle = value ?? DEFAULT_BUTTON_STYLE;
   }
 
-  public get buttonStyle(): string {
+  public get buttonStyle(): SkyDropdownButtonStyleType {
     return this.#_buttonStyle;
   }
 

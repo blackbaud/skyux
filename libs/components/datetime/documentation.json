@@ -87,7 +87,8 @@
           "SkyTimepickerComponent",
           "SkyTimepickerInputDirective",
           "SkyTimepickerTimeFormatType",
-          "SkyTimepickerTimeOutput"
+          "SkyTimepickerTimeOutput",
+          "SkyTimepickerTimeOutputMeridieType"
         ],
         "primaryDocsId": "SkyTimepickerModule"
       },
