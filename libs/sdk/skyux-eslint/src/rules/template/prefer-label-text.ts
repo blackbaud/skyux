@@ -76,6 +76,17 @@ function getAttributeByName(
 }
 
 /**
+ * Checks if the provided element contains Angular control flow syntax or
+ * double quotes, since these characters are difficult to translate into an
+ * element attribute value.
+ */
+function hasUnsupportedSyntax(el: TmplAstElement): boolean {
+  const sourceText = el.sourceSpan.toString();
+
+  return sourceText.includes('@') || sourceText.includes('"');
+}
+
+/**
  * Removes the "sky-form-control" CSS class from <sky-input-box /> input elements
  * to satisfy the input box's input directive selector.
  * See: https://github.com/blackbaud/skyux/blob/040e461a50cb3d08ff8f7332dba350b7e97c5fd8/libs/components/forms/src/lib/modules/input-box/input-box-control.directive.ts#L11
@@ -168,6 +179,10 @@ export const rule = createESLintTemplateRule({
             (child) => child instanceof TmplAstElement,
           );
 
+          const isFixable = !(
+            hasUnsupportedSyntax(labelEl) || hasElementChildren
+          );
+
           context.report({
             loc: parserServices.convertNodeSourceSpanToLoc(el.sourceSpan),
             messageId,
@@ -176,10 +191,8 @@ export const rule = createESLintTemplateRule({
               labelInputName,
               labelSelector,
             },
-            // Don't fix if the label includes child elements.
-            fix: hasElementChildren
-              ? undefined
-              : (fixer): RuleFix[] => {
+            fix: isFixable
+              ? (fixer): RuleFix[] => {
                   const textContent = getTextContent(labelEl);
                   const textReplacement = ` ${labelInputName}="${textContent}"`;
                   const range = [
@@ -205,7 +218,8 @@ export const rule = createESLintTemplateRule({
                   }
 
                   return fixers;
-                },
+                }
+              : undefined,
           });
         }
       },

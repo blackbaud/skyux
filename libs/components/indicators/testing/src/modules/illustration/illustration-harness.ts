@@ -13,7 +13,7 @@ export class SkyIllustrationHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-illustration';
 
-  #getImage = this.locatorFor('.sky-illustration-img');
+  #getIllustrationWrapper = this.locatorFor('.sky-illustration-wrapper');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -29,8 +29,8 @@ export class SkyIllustrationHarness extends SkyComponentHarness {
    * Gets the specified name of the illustration.
    */
   public async getName(): Promise<string> {
-    const img = await this.#getImage();
-    const name = await img.getAttribute('data-sky-illustration-name');
+    const wrapper = await this.#getIllustrationWrapper();
+    const name = await wrapper.getAttribute('data-sky-illustration-name');
 
     if (name === null) {
       throw new Error('Name was not set.');
@@ -43,12 +43,12 @@ export class SkyIllustrationHarness extends SkyComponentHarness {
    * Gets the specified size of the illustration.
    */
   public async getSize(): Promise<SkyIllustrationSize> {
-    const img = await this.#getImage();
+    const wrapper = await this.#getIllustrationWrapper();
 
     let foundSize;
 
     for (const size of ['sm', 'md', 'lg', 'xl']) {
-      if (await img.hasClass(`sky-illustration-img-${size}`)) {
+      if (await wrapper.hasClass(`sky-illustration-${size}`)) {
         foundSize = size as SkyIllustrationSize;
       }
     }

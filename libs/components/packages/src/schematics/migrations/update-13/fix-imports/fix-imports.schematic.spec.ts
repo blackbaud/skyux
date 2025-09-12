@@ -118,6 +118,107 @@ describe('Fix Imports', () => {
     );
   });
 
+  it('should update SkyPageModule import from @skyux/layout', async () => {
+    const tree = await createTestApp(runner, {
+      projectName: 'test-app',
+    });
+    const input = stripIndents`
+      import { Component } from '@angular/core';
+      import { SkyPageModule } from '@skyux/layout';
+      import { SkyModule } from '@skyux/core';
+
+      @Component({
+        selector: 'app-test',
+        template: '<div></div>',
+      })
+      export class TestComponent {}
+    `;
+    tree.create('src/app/test.component.ts', input);
+    const output = stripIndents`
+      import { Component } from '@angular/core';
+      import { SkyPageModule } from '@skyux/pages';
+      import { SkyModule } from '@skyux/core';
+
+      @Component({
+        selector: 'app-test',
+        template: '<div></div>',
+      })
+      export class TestComponent {}
+    `;
+    await runner.runSchematic('fix-imports', {}, tree);
+    expect(stripIndents`${tree.readText('src/app/test.component.ts')}`).toBe(
+      output,
+    );
+  });
+
+  it('should update SkyPageModule import from @skyux/layout with other imports preceding', async () => {
+    const tree = await createTestApp(runner, {
+      projectName: 'test-app',
+    });
+    const input = stripIndents`
+      import { Component } from '@angular/core';
+      import { SkyBoxModule, SkyPageModule } from '@skyux/layout';
+      import { SkyModule } from '@skyux/core';
+
+      @Component({
+        selector: 'app-test',
+        template: '<div></div>',
+      })
+      export class TestComponent {}
+    `;
+    tree.create('src/app/test.component.ts', input);
+    const output = stripIndents`
+      import { Component } from '@angular/core';
+      import { SkyBoxModule } from '@skyux/layout';
+      import { SkyModule } from '@skyux/core';
+      import { SkyPageModule } from '@skyux/pages';
+
+      @Component({
+        selector: 'app-test',
+        template: '<div></div>',
+      })
+      export class TestComponent {}
+    `;
+    await runner.runSchematic('fix-imports', {}, tree);
+    expect(stripIndents`${tree.readText('src/app/test.component.ts')}`).toBe(
+      output,
+    );
+  });
+
+  it('should update SkyPageModule import from @skyux/layout with other imports', async () => {
+    const tree = await createTestApp(runner, {
+      projectName: 'test-app',
+    });
+    const input = stripIndents`
+      import { Component } from '@angular/core';
+      import { SkyPageModule, SkyToolbarModule } from '@skyux/layout';
+      import { SkyModule } from '@skyux/core';
+
+      @Component({
+        selector: 'app-test',
+        template: '<div></div>',
+      })
+      export class TestComponent {}
+    `;
+    tree.create('src/app/test.component.ts', input);
+    const output = stripIndents`
+      import { Component } from '@angular/core';
+      import { SkyToolbarModule } from '@skyux/layout';
+      import { SkyModule } from '@skyux/core';
+      import { SkyPageModule } from '@skyux/pages';
+
+      @Component({
+        selector: 'app-test',
+        template: '<div></div>',
+      })
+      export class TestComponent {}
+    `;
+    await runner.runSchematic('fix-imports', {}, tree);
+    expect(stripIndents`${tree.readText('src/app/test.component.ts')}`).toBe(
+      output,
+    );
+  });
+
   it('should not modify files without deep imports', async () => {
     const tree = await createTestApp(runner, {
       projectName: 'test-app',

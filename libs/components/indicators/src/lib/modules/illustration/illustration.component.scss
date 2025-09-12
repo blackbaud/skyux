@@ -1,0 +1,53 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-illustration-wrapper') {
+  --sky-override-illustration-img-size-sm: 48px;
+  --sky-override-illustration-img-size-md: 64px;
+  --sky-override-illustration-img-size-lg: 80px;
+  --sky-override-illustration-img-size-xl: 96px;
+}
+
+:host {
+  display: block;
+}
+
+.sky-illustration-img {
+  aspect-ratio: auto 1 / 1;
+  display: block;
+  height: 100%;
+  width: 100%;
+
+  &[src=''] {
+    visibility: hidden;
+  }
+}
+
+.sky-illustration-wrapper {
+  --sky-illustration-img-size: var(
+    --sky-override-illustration-img-size-sm,
+    var(--sky-size-illustration-s)
+  );
+
+  height: var(--sky-illustration-img-size);
+  width: var(--sky-illustration-img-size);
+  &.sky-illustration {
+    &-md {
+      --sky-illustration-img-size: var(
+        --sky-override-illustration-img-size-md,
+        var(--sky-size-illustration-m)
+      );
+    }
+    &-lg {
+      --sky-illustration-img-size: var(
+        --sky-override-illustration-img-size-lg,
+        var(--sky-size-illustration-l)
+      );
+    }
+    &-xl {
+      --sky-illustration-img-size: var(
+        --sky-override-illustration-img-size-xl,
+        var(--sky-size-illustration-xl)
+      );
+    }
+  }
+}

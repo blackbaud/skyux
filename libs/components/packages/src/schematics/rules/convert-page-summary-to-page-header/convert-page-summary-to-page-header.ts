@@ -5,6 +5,7 @@ import {
   UpdateRecorder,
   chain,
 } from '@angular-devkit/schematics';
+import { empty } from '@angular-devkit/schematics/src/tree/static';
 import { isImported, parse5, parseSourceFile } from '@angular/cdk/schematics';
 import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
 import { getEOL } from '@schematics/angular/utility/eol';
@@ -92,7 +93,7 @@ function moveDetails(
           .map((detailsContent) =>
             [
               `${indent}  <div class="${['sky-page-summary-subtitle'].includes(detailsContent.tag) ? 'sky-margin-stacked-sm sky-emphasized' : 'sky-margin-stacked-md'}">`,
-              `${indent}    ${detailsContent.content.trim()}`,
+              `${indent}    ${modifyDetailsContent(detailsContent)}`,
               `${indent}  </div>`,
             ].join(eol),
           )
@@ -102,6 +103,40 @@ function moveDetails(
       ].join(eol),
     );
   }
+}
+
+function modifyDetailsContent(detailsContent: {
+  tag: string;
+  content: string;
+}): string {
+  if (detailsContent.tag === 'sky-page-summary-key-info') {
+    // Add class="sky-margin-inline-xxl" and remove layout input from sky-key-info.
+    const content = detailsContent.content.trim();
+    const tree = empty();
+    tree.create('template.html', content);
+    const recorder = tree.beginUpdate('template.html');
+    const partial = parseTemplate(content);
+    const keyInfoElements = getElementsByTagName('sky-key-info', partial);
+    keyInfoElements.forEach((element) => {
+      recorder.insertRight(
+        element.sourceCodeLocation.startTag.startOffset +
+          '<sky-key-info'.length,
+        ` class="sky-margin-inline-xxl"`,
+      );
+      const layoutAttr =
+        element.sourceCodeLocation.attrs?.['layout'] ||
+        element.sourceCodeLocation.attrs?.['[layout]'];
+      if (layoutAttr) {
+        recorder.remove(
+          layoutAttr.startOffset,
+          layoutAttr.endOffset - layoutAttr.startOffset,
+        );
+      }
+    });
+    tree.commitUpdate(recorder);
+    return tree.readText('template.html');
+  }
+  return detailsContent.content.trim();
 }
 
 /**

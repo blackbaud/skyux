@@ -15,7 +15,7 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { SkyMediaQueryService, SkyScrollableHostService } from '@skyux/core';
 
-import { debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
+import { debounceTime, distinctUntilChanged, fromEvent, map, take } from 'rxjs';
 
 import { SkyDocsHeadingAnchorService } from '../heading-anchor/heading-anchor.service';
 
@@ -70,18 +70,21 @@ export class SkyDocsTableOfContentsPageComponent implements AfterViewInit {
     );
   });
 
-  readonly #routeFragment = toSignal(inject(ActivatedRoute).fragment);
+  readonly #routeFragment = toSignal(
+    inject(ActivatedRoute).fragment.pipe(take(1)),
+  );
   readonly #doc = inject(DOCUMENT);
+
+  #delayedScroll: ReturnType<typeof setTimeout> | undefined;
 
   constructor() {
     effect(() => {
       const fragment = this.#routeFragment();
-      const links = this.links();
-      if (
-        fragment &&
-        links.some((link) => link.anchorId === fragment && !link.active)
-      ) {
-        setTimeout(() => this.#doc.getElementById(fragment)?.scrollIntoView());
+      const anchors = this.#anchors();
+      if (fragment && anchors?.some((anchor) => anchor.anchorId === fragment)) {
+        this.#delayedScroll = setTimeout(() =>
+          this.#doc.getElementById(fragment)?.scrollIntoView(),
+        );
       }
     });
   }
@@ -101,6 +104,7 @@ export class SkyDocsTableOfContentsPageComponent implements AfterViewInit {
         takeUntilDestroyed(this.#destroyRef),
       )
       .subscribe((activeLink) => {
+        clearTimeout(this.#delayedScroll);
         this.#activeAnchorIdOnScroll.set(activeLink);
       });
   }

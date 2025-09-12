@@ -1,5 +1,98 @@
 # Changelog
 
+## [13.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.10...13.0.0-alpha.11) (2025-09-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* **sdk/skyux-eslint:** add `prefer-disabled-attr` rule ([#3907](https://github.com/blackbaud/skyux/issues/3907)) (#3912)
+
+### Features
+
+* **components/indicators:** support svg sprite map in illustration ([#3883](https://github.com/blackbaud/skyux/issues/3883)) ([#3916](https://github.com/blackbaud/skyux/issues/3916)) ([b83b170](https://github.com/blackbaud/skyux/commit/b83b170683af9db35af7d3726c67d1d7fa25fae0))
+* **sdk/skyux-eslint:** add `prefer-disabled-attr` rule ([#3907](https://github.com/blackbaud/skyux/issues/3907)) ([#3912](https://github.com/blackbaud/skyux/issues/3912)) ([cd8c495](https://github.com/blackbaud/skyux/commit/cd8c495e33a9e1601b456d6efd6bed8de85043e2))
+
+
+### Bug Fixes
+
+* **components/layout:** fix track expression error in text-expand-repeater ([#3908](https://github.com/blackbaud/skyux/issues/3908)) ([#3914](https://github.com/blackbaud/skyux/issues/3914)) ([f194f1b](https://github.com/blackbaud/skyux/commit/f194f1b7c1336072e7acf20613d3ea1e41002fd1))
+* **components/packages:** update data view config icon when property is initialized later ([#3915](https://github.com/blackbaud/skyux/issues/3915)) ([67dbca9](https://github.com/blackbaud/skyux/commit/67dbca99b13cada000219e6b147cdf446c1d65e7))
+* **components/packages:** update format when converting `sky-page-summary-key-info` ([#3901](https://github.com/blackbaud/skyux/issues/3901)) ([#3911](https://github.com/blackbaud/skyux/issues/3911)) ([0b6555e](https://github.com/blackbaud/skyux/commit/0b6555ec3140e656a844df19bed486fe4f310836))
+
+## [12.39.0](https://github.com/blackbaud/skyux/compare/12.38.1...12.39.0) (2025-09-08)
+
+
+### Features
+
+* **components/indicators:** support svg sprite map in illustration ([#3883](https://github.com/blackbaud/skyux/issues/3883)) ([14aa440](https://github.com/blackbaud/skyux/commit/14aa440856e4486830f2fb06e8f7fafc1304d3ac))
+* **sdk/skyux-eslint:** add `prefer-disabled-attr` rule ([#3907](https://github.com/blackbaud/skyux/issues/3907)) ([c9d08d5](https://github.com/blackbaud/skyux/commit/c9d08d55cf9ecc51679b0368fd7f5b9ae3ba862d))
+
+
+### Bug Fixes
+
+* **components/layout:** fix track expression error in text-expand-repeater ([#3908](https://github.com/blackbaud/skyux/issues/3908)) ([34a9889](https://github.com/blackbaud/skyux/commit/34a98897e9ef19eb9da1b49af7a5a6792d250c46))
+* **components/packages:** update format when converting `sky-page-summary-key-info` ([#3901](https://github.com/blackbaud/skyux/issues/3901)) ([1a464d4](https://github.com/blackbaud/skyux/commit/1a464d49c71d7f2ee8553e848c36c7bd6c81312d))
+
+## [13.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.9...13.0.0-alpha.10) (2025-09-05)
+
+
+### Features
+
+* **components/packages:** create schematic to remove fixedWidth input on sky-icon ([#3895](https://github.com/blackbaud/skyux/issues/3895)) ([1d6850d](https://github.com/blackbaud/skyux/commit/1d6850db02924449f2bb3c655b02e9fdb753dcaf))
+* **components/packages:** create schematic to update data view config icon ([#3902](https://github.com/blackbaud/skyux/issues/3902)) ([675c81f](https://github.com/blackbaud/skyux/commit/675c81f0d1fe4e00a36fb416cdcb5a6270532a26))
+
+
+### Bug Fixes
+
+* **components/docs-tools:** allow scrolling away from the anchor position ([#3896](https://github.com/blackbaud/skyux/issues/3896)) ([#3899](https://github.com/blackbaud/skyux/issues/3899)) ([e204bf9](https://github.com/blackbaud/skyux/commit/e204bf9d840a4534aec6fd42fe8334d6eee4e4dd))
+* **components/lookup:** add transformations for boolean inputs ([#3890](https://github.com/blackbaud/skyux/issues/3890)) ([#3900](https://github.com/blackbaud/skyux/issues/3900)) ([871af15](https://github.com/blackbaud/skyux/commit/871af152df94286b200bd968ef1b5438059b4ad8))
+* **components/manifest:** include `ModelSignal` in directive properties metadata ([#3903](https://github.com/blackbaud/skyux/issues/3903)) ([#3905](https://github.com/blackbaud/skyux/issues/3905)) ([702f702](https://github.com/blackbaud/skyux/commit/702f7026d1d2f2ed63026d167cf697b791ea24ad))
+* **sdk/skyux-eslint:** do not apply fix for `prefer-label-text` rule when label element uses control flow syntax ([#3904](https://github.com/blackbaud/skyux/issues/3904)) ([#3906](https://github.com/blackbaud/skyux/issues/3906)) ([2f46ce2](https://github.com/blackbaud/skyux/commit/2f46ce29ddb9d769cd74b6b2dee2ad2acbb99b2f))
+* viewkeeper and summary action bar use correct fallback values for css calculations using a fallback for a custom property ([#3888](https://github.com/blackbaud/skyux/issues/3888)) ([#3893](https://github.com/blackbaud/skyux/issues/3893)) ([faccc8b](https://github.com/blackbaud/skyux/commit/faccc8b927eb80e647ed9e90140d095c0be99b11))
+
+## [12.38.1](https://github.com/blackbaud/skyux/compare/12.38.0...12.38.1) (2025-09-05)
+
+
+### Bug Fixes
+
+* **components/docs-tools:** allow scrolling away from the anchor position ([#3896](https://github.com/blackbaud/skyux/issues/3896)) ([c6e436e](https://github.com/blackbaud/skyux/commit/c6e436e263649f277ec0b3f97d30dc0910e368f8))
+* **components/lookup:** add transformations for boolean inputs ([#3890](https://github.com/blackbaud/skyux/issues/3890)) ([d8daa5a](https://github.com/blackbaud/skyux/commit/d8daa5a2ed325713f56a5cbfa9390304c56db63c))
+* **components/manifest:** include `ModelSignal` in directive properties metadata ([#3903](https://github.com/blackbaud/skyux/issues/3903)) ([6510df3](https://github.com/blackbaud/skyux/commit/6510df3a6db80abfba2d61dbbc5766bc249c46ae))
+* **sdk/skyux-eslint:** do not apply fix for `prefer-label-text` rule when label element uses control flow syntax ([#3904](https://github.com/blackbaud/skyux/issues/3904)) ([3a0778f](https://github.com/blackbaud/skyux/commit/3a0778f920c23340658caa6ccf83d6ac3eb598b2))
+
+## [12.38.0](https://github.com/blackbaud/skyux/compare/12.37.0...12.38.0) (2025-09-03)
+
+
+### Features
+
+* **components/select-field:** create instructions to convert select-field to lookup ([#3766](https://github.com/blackbaud/skyux/issues/3766)) ([9354e54](https://github.com/blackbaud/skyux/commit/9354e54fb7e365cedca58117aeef4d436a6f20da))
+
+
+### Bug Fixes
+
+* **sdk/skyux-stylelint:** use correct documentation link for rules ([#3881](https://github.com/blackbaud/skyux/issues/3881)) ([8220b82](https://github.com/blackbaud/skyux/commit/8220b8241156feb0317693ffcdbb3dbbf8323584))
+* update tokens package, use correct tokens ([#3880](https://github.com/blackbaud/skyux/issues/3880)) ([e8cbd18](https://github.com/blackbaud/skyux/commit/e8cbd182788069aa7a0ab81556f75a9735f84820))
+* viewkeeper and summary action bar use correct fallback values for css calculations using a fallback for a custom property ([#3888](https://github.com/blackbaud/skyux/issues/3888)) ([65286a1](https://github.com/blackbaud/skyux/commit/65286a1ea9a3b04315a921d19896b49535c5780a))
+
+## [13.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.8...13.0.0-alpha.9) (2025-09-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* child harness methods standardization ([#3854](https://github.com/blackbaud/skyux/issues/3854))
+
+### Features
+
+* child harness methods standardization ([#3854](https://github.com/blackbaud/skyux/issues/3854)) ([38806f3](https://github.com/blackbaud/skyux/commit/38806f3a865c1e33d4832d84fe5eba8eb42b1b8b))
+* **components/select-field:** create instructions to convert select-field to lookup ([#3766](https://github.com/blackbaud/skyux/issues/3766)) ([#3892](https://github.com/blackbaud/skyux/issues/3892)) ([110a9e2](https://github.com/blackbaud/skyux/commit/110a9e26f9f19bdde8dbc4159353d4a14eb56b8d))
+
+
+### Bug Fixes
+
+* **components/tabs:** vertical tab group padding does not jump during open and close animations ([#3884](https://github.com/blackbaud/skyux/issues/3884)) ([88ea5ce](https://github.com/blackbaud/skyux/commit/88ea5ceea1f1650d96b919e728e28405fab88f98))
+* **sdk/skyux-stylelint:** use correct documentation link for rules ([#3881](https://github.com/blackbaud/skyux/issues/3881)) ([#3886](https://github.com/blackbaud/skyux/issues/3886)) ([a11aae7](https://github.com/blackbaud/skyux/commit/a11aae7e5243ef2a26765e3b0cbe1c7efbbff8da))
+* update tokens package, use correct tokens ([#3880](https://github.com/blackbaud/skyux/issues/3880)) ([#3889](https://github.com/blackbaud/skyux/issues/3889)) ([c332290](https://github.com/blackbaud/skyux/commit/c332290c8393621f0b355efd91b863dd66cb8dd4))
+
 ## [13.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.7...13.0.0-alpha.8) (2025-08-26)
 
 

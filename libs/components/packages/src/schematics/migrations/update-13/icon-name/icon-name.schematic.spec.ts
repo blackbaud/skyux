@@ -124,6 +124,20 @@ describe('icons-name.schematic', () => {
       },
       {
         invalidTemplate: `
+      <sky-icon iconName="add" fixedWidth="true"/>
+      <sky-icon icon="bogus" fixedWidth="true"/>
+      <sky-icon icon="clock-o" iconType="fa" [fixedWidth]="true"/>
+      <sky-icon icon="code-fork" fixedWidth/>
+      `,
+        convertedTemplate: `
+      <sky-icon iconName="add" />
+      <sky-icon icon="bogus" />
+      <sky-icon iconName="clock"  />
+      <sky-icon iconName="branch-fork" />
+      `,
+      },
+      {
+        invalidTemplate: `
       <sky-icon icon="bb-diamond-2-solid" variant="line"></sky-icon>
       `,
         convertedTemplate: `
@@ -573,6 +587,161 @@ export class IconComponentComponent {}`,
 
     expect(tree.readText('/not-a-template.txt')).toBe(
       `<sky-icon icon="plus-circle"></sky-icon>`,
+    );
+  });
+
+  it('should update SkyDataViewConfig variable', async () => {
+    const tree = Tree.empty();
+
+    tree.create(
+      `/file.ts`,
+      `import { SkyDataViewConfig } from '@skyux/data-manager';
+
+      export class MyClass {
+
+        private viewConfig: SkyDataViewConfig = {
+          id: this.gridViewId,
+          name: 'Grid View',
+          icon: 'table',
+          searchEnabled: false,
+          sortEnabled: true,
+        };
+
+      }`,
+    );
+
+    tree.create('/angular.json', JSON.stringify(angularJson));
+
+    await runner.runSchematic('icon-name', {}, tree);
+
+    expect(tree.readText('/file.ts')).toBe(
+      `import { SkyDataViewConfig } from '@skyux/data-manager';
+
+      export class MyClass {
+
+        private viewConfig: SkyDataViewConfig = {
+          id: this.gridViewId,
+          name: 'Grid View',
+          iconName: 'table',
+          searchEnabled: false,
+          sortEnabled: true,
+        };
+
+      }`,
+    );
+  });
+
+  it('should update SkyDataViewConfig property with late initialization', async () => {
+    const tree = Tree.empty();
+
+    tree.create(
+      `/file.ts`,
+      `import { SkyDataViewConfig } from '@skyux/data-manager';
+
+      export class MyClass {
+
+        private viewConfig: SkyDataViewConfig;
+        private secondViewConfig: SkyDataViewConfig | undefined;
+
+        constructor() {
+          this.viewConfig = {
+            id: this.gridViewId,
+            name: 'Grid View',
+            icon: 'table',
+            searchEnabled: false,
+            sortEnabled: true,
+          };
+          this.secondViewConfig = {
+            id: this.otherViewId,
+            name: 'Other View',
+            icon: 'clipboard-list',
+            searchEnabled: false,
+            sortEnabled: true,
+          };
+        }
+
+      }`,
+    );
+
+    tree.create('/angular.json', JSON.stringify(angularJson));
+
+    await runner.runSchematic('icon-name', {}, tree);
+
+    expect(tree.readText('/file.ts')).toBe(
+      `import { SkyDataViewConfig } from '@skyux/data-manager';
+
+      export class MyClass {
+
+        private viewConfig: SkyDataViewConfig;
+        private secondViewConfig: SkyDataViewConfig | undefined;
+
+        constructor() {
+          this.viewConfig = {
+            id: this.gridViewId,
+            name: 'Grid View',
+            iconName: 'table',
+            searchEnabled: false,
+            sortEnabled: true,
+          };
+          this.secondViewConfig = {
+            id: this.otherViewId,
+            name: 'Other View',
+            iconName: 'clipboard-bullet-list',
+            searchEnabled: false,
+            sortEnabled: true,
+          };
+        }
+
+      }`,
+    );
+  });
+
+  it('should update initDataView parameter', async () => {
+    const tree = Tree.empty();
+
+    tree.create(
+      `/file.ts`,
+      `import { SkyDataManagerService } from '@skyux/data-manager';
+
+      export class MyClass {
+
+        readonly #dm = inject(SkyDataManagerService);
+
+        public ngOnInit(): void {
+          this.#dm.initDataView({
+            id: this.gridViewId,
+            name: 'Grid View',
+            icon: 'clipboard-list',
+            searchEnabled: false,
+            sortEnabled: true,
+          });
+        }
+
+      }`,
+    );
+
+    tree.create('/angular.json', JSON.stringify(angularJson));
+
+    await runner.runSchematic('icon-name', {}, tree);
+
+    expect(tree.readText('/file.ts')).toBe(
+      `import { SkyDataManagerService } from '@skyux/data-manager';
+
+      export class MyClass {
+
+        readonly #dm = inject(SkyDataManagerService);
+
+        public ngOnInit(): void {
+          this.#dm.initDataView({
+            id: this.gridViewId,
+            name: 'Grid View',
+            iconName: 'clipboard-bullet-list',
+            searchEnabled: false,
+            sortEnabled: true,
+          });
+        }
+
+      }`,
     );
   });
 });

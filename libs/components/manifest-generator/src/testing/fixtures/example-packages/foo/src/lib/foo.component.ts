@@ -8,6 +8,7 @@ import {
   ViewChild,
   booleanAttribute,
   input,
+  model,
   output,
 } from '@angular/core';
 
@@ -60,6 +61,16 @@ export class FooComponent implements OnDestroy {
    */
   @Output()
   public onTouch = new EventEmitter<void>();
+
+  /**
+   * This describes the items model.
+   */
+  public items = model<string[]>();
+
+  /**
+   * This describes the requiredItems model.
+   */
+  public requiredItems = model.required<string[]>();
 
   /**
    * This describes a public query property.

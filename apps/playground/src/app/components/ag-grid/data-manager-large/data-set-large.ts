@@ -11,11 +11,13 @@ export const columnDefinitions: ColDef[] = [
   {
     field: 'object_number',
     headerName: 'Object Number',
-    type: [],
+    type: SkyCellType.Text,
     sortable: false,
     headerComponentParams: {
       inlineHelpComponent: InlineHelpComponent,
     },
+    wrapText: true,
+    autoHeight: true,
   },
   {
     field: 'is_highlight',
