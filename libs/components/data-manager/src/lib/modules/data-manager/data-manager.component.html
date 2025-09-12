@@ -2,7 +2,8 @@
   <div
     #dataManager
     skyViewkeeperOmitShadow=".ag-body-horizontal-scroll"
-    [class]="'sky-data-manager sky-data-manager-dock-' + dock"
+    [class]="'sky-data-manager'"
+    [ngClass]="'sky-data-manager-dock-' + dockType()"
     [skyBackToTop]="backToTopOptions"
     [skyBackToTopMessageStream]="backToTopController"
     [skyViewkeeper]="currentViewkeeperClasses"

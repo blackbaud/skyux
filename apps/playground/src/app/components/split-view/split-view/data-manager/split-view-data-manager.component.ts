@@ -55,6 +55,7 @@ export class SplitViewDataManagerComponent implements OnInit {
   public changeDetectorRef = inject(ChangeDetectorRef);
   public confirmService = inject(SkyConfirmService);
   public dataManagerService = inject(SkyDataManagerService);
+  public dock = undefined;
 
   constructor() {
     this.activeIndex = 0;
