@@ -365,7 +365,7 @@ export class SkyFilterBarComponent {
 
     instance.closed.subscribe((result) => {
       if (result.action === 'save') {
-        this.filters.set(undefined);
+        this.appliedFilters.set(undefined);
       }
     });
   }
@@ -399,7 +399,7 @@ export class SkyFilterBarComponent {
       const newFilters = newFilterItems.filter(
         (filter) => !!filter.filterValue,
       );
-      this.filters.set(newFilters.length ? newFilters : undefined);
+      this.appliedFilters.set(newFilters.length ? newFilters : undefined);
     }
   }
 
@@ -458,13 +458,13 @@ export class SkyFilterBarComponent {
     args: SkySelectionModalSearchArgs,
   ): Observable<SkySelectionModalSearchResult> => {
     const items = this.filterItems().map((item) => ({
-      id: item.filterId(),
-      name: item.labelText(),
+      filterId: item.filterId(),
+      labelText: item.labelText(),
     }));
 
     const results = args.searchText
       ? items.filter((item) =>
-          item.name
+          item.labelText
             .toLocaleUpperCase()
             .includes(args.searchText.toLocaleUpperCase()),
         )
@@ -477,7 +477,7 @@ export class SkyFilterBarComponent {
   };
 
   #updateFilter(updatedFilter: SkyFilterBarFilterItem): void {
-    const filters = untracked(() => this.filters()) ?? [];
+    const filters = untracked(() => this.appliedFilters()) ?? [];
     const newFilterValues: SkyFilterBarFilterItem[] = [];
 
     let replaceFilter = false;
@@ -496,7 +496,9 @@ export class SkyFilterBarComponent {
       newFilterValues.push(updatedFilter);
     }
 
-    this.filters.set(newFilterValues.length ? newFilterValues : undefined);
+    this.appliedFilters.set(
+      newFilterValues.length ? newFilterValues : undefined,
+    );
   }
 
   #updateFilters(updatedFilters: SkyFilterBarFilterItem[] | undefined): void {
