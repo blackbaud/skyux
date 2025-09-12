@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,7 +17,7 @@ import { SkyIllustrationSize } from './illustration-size';
  */
 @Component({
   selector: 'sky-illustration',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './illustration.component.html',
   styleUrls: ['./illustration.component.scss'],
   hostDirectives: [SkyThemeComponentClassDirective],

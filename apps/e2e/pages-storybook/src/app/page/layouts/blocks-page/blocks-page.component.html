@@ -17,35 +17,37 @@
         </sky-alert>
       </sky-page-header-alerts>
     }
-    <sky-page-header-details>
-      <div [class.sky-margin-stacked-sm]="showDescriptionList()">
-        <sky-label labelType="info" descriptionType="important-info">
-          Important information
-        </sky-label>
-      </div>
-      @if (showDescriptionList()) {
-        <sky-description-list mode="horizontal">
-          <sky-description-list-content>
-            <sky-description-list-term> Status </sky-description-list-term>
-            <sky-description-list-description>
-              Requested
-            </sky-description-list-description>
-          </sky-description-list-content>
-          <sky-description-list-content>
-            <sky-description-list-term> Requested </sky-description-list-term>
-            <sky-description-list-description>
-              {{ date | skyDate: 'shortDate' }}
-            </sky-description-list-description>
-          </sky-description-list-content>
-          <sky-description-list-content>
-            <sky-description-list-term> Requester </sky-description-list-term>
-            <sky-description-list-description>
-              First.Last{{ '@' }}blackbaud.com
-            </sky-description-list-description>
-          </sky-description-list-content>
-        </sky-description-list>
-      }
-    </sky-page-header-details>
+    @if (!hideDetails()) {
+      <sky-page-header-details>
+        <div [class.sky-margin-stacked-sm]="showDescriptionList()">
+          <sky-label labelType="info" descriptionType="important-info">
+            Important information
+          </sky-label>
+        </div>
+        @if (showDescriptionList()) {
+          <sky-description-list mode="horizontal">
+            <sky-description-list-content>
+              <sky-description-list-term> Status </sky-description-list-term>
+              <sky-description-list-description>
+                Requested
+              </sky-description-list-description>
+            </sky-description-list-content>
+            <sky-description-list-content>
+              <sky-description-list-term> Requested </sky-description-list-term>
+              <sky-description-list-description>
+                {{ date | skyDate: 'shortDate' }}
+              </sky-description-list-description>
+            </sky-description-list-content>
+            <sky-description-list-content>
+              <sky-description-list-term> Requester </sky-description-list-term>
+              <sky-description-list-description>
+                First.Last{{ '@' }}blackbaud.com
+              </sky-description-list-description>
+            </sky-description-list-content>
+          </sky-description-list>
+        }
+      </sky-page-header-details>
+    }
     @if (!hideActions()) {
       <sky-page-header-actions>
         <button class="sky-btn sky-btn-default" type="button">
