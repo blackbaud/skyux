@@ -24,7 +24,7 @@ export class TestModalComponent {
           'Really really really really really really really really really really really really long display value for testing purposes.',
       };
     }
-    this.#instance.save(this.#filterValue);
+    this.#instance.save({ filterValue: this.#filterValue });
   }
 
   public cancel(): void {

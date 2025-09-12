@@ -14,7 +14,7 @@ export class SkyFilterBarModalTestComponent implements SkyFilterItemModal {
   public readonly modalInstance = inject(SkyFilterItemModalInstance);
 
   public save(filterValue: SkyFilterBarFilterValue): void {
-    this.modalInstance.save(filterValue);
+    this.modalInstance.save({ filterValue });
   }
 
   public cancel(): void {

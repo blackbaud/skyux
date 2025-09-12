@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  DestroyRef,
   EnvironmentInjector,
   EventEmitter,
   Injector,
@@ -12,12 +13,12 @@ import {
   runInInjectionContext,
   viewChild,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
-import { Observable, of } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 
 import { SkyFilterBarService } from './filter-bar.service';
@@ -27,6 +28,7 @@ import { SkyFilterItemModal } from './models/filter-item-modal';
 import { SkyFilterItemModalContext } from './models/filter-item-modal-context';
 import { SkyFilterItemModalInstance } from './models/filter-item-modal-instance';
 import { SkyFilterItemModalOpenedArgs } from './models/filter-item-modal-opened-args';
+import { SkyFilterItemModalSavedArgs } from './models/filter-item-modal-saved-args';
 import { SkyFilterItemModalSizeType } from './models/filter-item-modal-size';
 
 /**
@@ -70,9 +72,8 @@ export class SkyFilterItemModalComponent<
 
   /**
    * The size of the modal to display. The valid options are `"small"`, `"medium"`, `"large"`, and `"fullScreen"`.
-   * @default "medium"
    */
-  public readonly modalSize = input<SkyFilterItemModalSizeType>();
+  public readonly modalSize = input.required<SkyFilterItemModalSizeType>();
 
   /**
    * Fires when the user clicks the filter item. To pass additional context data to a filter modal, consumers
@@ -114,10 +115,33 @@ export class SkyFilterItemModalComponent<
       });
 
       runInInjectionContext(injector, () => {
-        const filterModalInstance = new SkyFilterItemModalInstance<TData>();
+        const destroyRef = injector.get(DestroyRef);
 
-        filterModalInstance.canceled.subscribe(() => instance.cancel());
-        filterModalInstance.saved.subscribe((result) => instance.save(result));
+        const saved = new Subject<SkyFilterItemModalSavedArgs>();
+        const canceled = new Subject<void>();
+
+        const context = inject<SkyFilterItemModalContext<TData>>(
+          SkyFilterItemModalContext,
+        );
+
+        const filterModalInstance: SkyFilterItemModalInstance<TData> = {
+          context,
+          cancel() {
+            canceled.next();
+            canceled.complete();
+          },
+          save(result) {
+            saved.next(result);
+            saved.complete();
+          },
+        };
+
+        canceled
+          .pipe(takeUntilDestroyed(destroyRef))
+          .subscribe(() => instance.cancel());
+        saved
+          .pipe(takeUntilDestroyed(destroyRef))
+          .subscribe((result) => instance.save(result.filterValue));
 
         const modalConfig: SkyModalConfigurationInterface = {
           providers: [

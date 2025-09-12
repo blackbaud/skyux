@@ -51,9 +51,9 @@ export class CommunityConnectionFilterModalComponent
       const selectedItem = this.items.find(
         (item) => item.value === selectedValue,
       );
-      this.modalInstance.save(selectedItem);
+      this.modalInstance.save({ filterValue: selectedItem });
     } else {
-      this.modalInstance.save();
+      this.modalInstance.save({});
     }
   }
 }

@@ -418,7 +418,7 @@ describe('Filter bar component', () => {
 
       expect(modalServiceSpy.open).toHaveBeenCalled();
       // Simulate consumer calling save on the provided filter modal instance
-      capturedFilterModalInstance?.save(newFilterValue);
+      capturedFilterModalInstance?.save({ filterValue: newFilterValue });
       fixture.detectChanges();
 
       // Verify filter bar component state is updated
@@ -459,7 +459,7 @@ describe('Filter bar component', () => {
       });
 
       // Simulate save via filter modal instance to update the filter
-      capturedFilterModalInstance?.save(updatedValue);
+      capturedFilterModalInstance?.save({ filterValue: updatedValue });
       fixture.detectChanges();
       expect(component.appliedFilters()?.[0]?.filterValue).toEqual(
         updatedValue,
@@ -494,7 +494,7 @@ describe('Filter bar component', () => {
         capturedFilterModalInstance?.context.additionalContext,
       ).toBeUndefined();
 
-      capturedFilterModalInstance?.save(updatedValue);
+      capturedFilterModalInstance?.save({ filterValue: updatedValue });
       fixture.detectChanges();
       expect(component.appliedFilters()?.[0]?.filterValue).toEqual(
         updatedValue,
@@ -524,7 +524,7 @@ describe('Filter bar component', () => {
       filterButton.click();
 
       expect(modalServiceSpy.open).toHaveBeenCalled();
-      capturedFilterModalInstance?.save(newFilterValue);
+      capturedFilterModalInstance?.save({ filterValue: newFilterValue });
       fixture.detectChanges();
 
       // Verify filter bar component stores the complete value
@@ -614,7 +614,7 @@ describe('Filter bar component', () => {
         jasmine.objectContaining({ fullPage: true }),
       );
 
-      capturedFilterModalInstance?.save(updatedValue);
+      capturedFilterModalInstance?.save({ filterValue: updatedValue });
       fixture.detectChanges();
       expect(component.appliedFilters()?.[0]?.filterValue).toEqual(
         updatedValue,
@@ -643,7 +643,7 @@ describe('Filter bar component', () => {
       secondFilterButton.click();
 
       expect(modalServiceSpy.open).toHaveBeenCalled();
-      capturedFilterModalInstance?.save(updatedFilterValue);
+      capturedFilterModalInstance?.save({ filterValue: updatedFilterValue });
       fixture.detectChanges();
 
       // Verify the updated filter changed
@@ -695,7 +695,7 @@ describe('Filter bar component', () => {
 
       expect(modalServiceSpy.open).toHaveBeenCalled();
       // Simulate clearing filter by saving undefined
-      capturedFilterModalInstance?.save();
+      capturedFilterModalInstance?.save({});
       fixture.detectChanges();
 
       // Verify filter is cleared from component state
@@ -742,7 +742,7 @@ describe('Filter bar component', () => {
       filterButton.click();
 
       expect(modalServiceSpy.open).toHaveBeenCalled();
-      capturedFilterModalInstance?.save(newFilterValue);
+      capturedFilterModalInstance?.save({ filterValue: newFilterValue });
       fixture.detectChanges();
 
       // Verify filter is set in component state
@@ -792,7 +792,7 @@ describe('Filter bar component', () => {
       thirdFilterButton.click();
 
       expect(modalServiceSpy.open).toHaveBeenCalled();
-      capturedFilterModalInstance?.save(newFilterValue);
+      capturedFilterModalInstance?.save({ filterValue: newFilterValue });
       fixture.detectChanges();
 
       // Verify the new filter is added and existing filters remain

@@ -13,6 +13,7 @@
           "SkyFilterItemModalInstance",
           "SkyFilterItemModalContext",
           "SkyFilterItemModalOpenedArgs",
+          "SkyFilterItemModalSavedArgs",
           "SkyFilterItemModalSizeType"
         ],
         "primaryDocsId": "SkyFilterBarModule"

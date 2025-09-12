@@ -6,6 +6,7 @@ export { SkyFilterItemModal } from './lib/modules/filter-bar/models/filter-item-
 export { SkyFilterItemModalContext } from './lib/modules/filter-bar/models/filter-item-modal-context';
 export { SkyFilterItemModalInstance } from './lib/modules/filter-bar/models/filter-item-modal-instance';
 export { SkyFilterItemModalOpenedArgs } from './lib/modules/filter-bar/models/filter-item-modal-opened-args';
+export { SkyFilterItemModalSavedArgs } from './lib/modules/filter-bar/models/filter-item-modal-saved-args';
 export { SkyFilterItemModalSizeType } from './lib/modules/filter-bar/models/filter-item-modal-size';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
