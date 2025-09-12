@@ -20,7 +20,7 @@
       <ng-container *ngTemplateOutlet="filter.templateRef() ?? null" />
     </sky-toolbar-item>
   }
-  @if (!!filters()) {
+  @if (!!appliedFilters()) {
     <sky-toolbar-item>
       <button
         type="button"
