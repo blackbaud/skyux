@@ -1,5 +1,19 @@
 # Changelog
 
+## [12.40.0](https://github.com/blackbaud/skyux/compare/12.39.0...12.40.0) (2025-09-12)
+
+
+### Features
+
+* **components/filter-bar:** add filter bar library and component ([#3679](https://github.com/blackbaud/skyux/issues/3679)) ([1c660a1](https://github.com/blackbaud/skyux/commit/1c660a169cfa08cd6b7bff4bb577274e9904c40f))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** wrapText autoHeight columns resize correctly ([#3928](https://github.com/blackbaud/skyux/issues/3928)) ([59008d5](https://github.com/blackbaud/skyux/commit/59008d51f6e1e41bf54846f42c2a192c52e12be7))
+* **components/pages:** page content has correct top space when no header actions or details are specified and links are present ([#3921](https://github.com/blackbaud/skyux/issues/3921)) ([5c7f431](https://github.com/blackbaud/skyux/commit/5c7f4319debf14a73cf83657fb0bb9e883427f4d))
+* **sdk/skyux-eslint:** do not fix `prefer-label-text` rule if label element includes double quotes ([#3922](https://github.com/blackbaud/skyux/issues/3922)) ([17262e3](https://github.com/blackbaud/skyux/commit/17262e387ba729c8555bcac703e33b338d408558))
+
 ## [13.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.10...13.0.0-alpha.11) (2025-09-08)
 
 
