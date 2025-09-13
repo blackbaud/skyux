@@ -1,4 +1,9 @@
-import { Rule, Tree, UpdateRecorder } from '@angular-devkit/schematics';
+import {
+  Rule,
+  SchematicContext,
+  Tree,
+  UpdateRecorder,
+} from '@angular-devkit/schematics';
 import { isImported, parseSourceFile } from '@angular/cdk/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
@@ -193,36 +198,46 @@ function updateDataViewConfig(
   }
 }
 
-async function updateSourceFiles(tree: Tree): Promise<void> {
+async function updateSourceFiles(
+  tree: Tree,
+  context: SchematicContext,
+): Promise<void> {
   const workspace = await getWorkspace(tree);
 
   workspace.projects.forEach((project) => {
     visitProjectFiles(tree, project.sourceRoot || project.root, (filePath) => {
-      if (filePath.endsWith('.html')) {
-        const doc = parseTemplate(tree.readText(filePath));
-        const recorder = tree.beginUpdate(filePath);
-        COMPONENTS_WITH_ICON.forEach((componentInfo) => {
-          updateIcon(doc, componentInfo, 0, recorder);
-        });
-        tree.commitUpdate(recorder);
-      }
-      if (filePath.endsWith('.ts')) {
-        const source = parseSourceFile(tree, filePath);
-        const recorder = tree.beginUpdate(filePath);
-        if (isImported(source, 'Component', '@angular/core')) {
-          const content = tree.readText(filePath);
-          const templates = getInlineTemplates(source);
-          templates.forEach((template) => {
-            const doc = parseTemplate(
-              content.substring(template.start, template.end),
-            );
-            COMPONENTS_WITH_ICON.forEach((componentInfo) => {
-              updateIcon(doc, componentInfo, template.start, recorder);
-            });
+      try {
+        if (filePath.endsWith('.html')) {
+          const doc = parseTemplate(tree.readText(filePath));
+          const recorder = tree.beginUpdate(filePath);
+          COMPONENTS_WITH_ICON.forEach((componentInfo) => {
+            updateIcon(doc, componentInfo, 0, recorder);
           });
+          tree.commitUpdate(recorder);
         }
-        updateDataViewConfig(source, recorder);
-        tree.commitUpdate(recorder);
+        if (filePath.endsWith('.ts')) {
+          const source = parseSourceFile(tree, filePath);
+          const recorder = tree.beginUpdate(filePath);
+          if (isImported(source, 'Component', '@angular/core')) {
+            const content = tree.readText(filePath);
+            const templates = getInlineTemplates(source);
+            templates.forEach((template) => {
+              const doc = parseTemplate(
+                content.substring(template.start, template.end),
+              );
+              COMPONENTS_WITH_ICON.forEach((componentInfo) => {
+                updateIcon(doc, componentInfo, template.start, recorder);
+              });
+            });
+          }
+          updateDataViewConfig(source, recorder);
+          tree.commitUpdate(recorder);
+        }
+      } catch (error) {
+        // Log the error and continue the migration.
+        context.logger.warn(
+          `Error when updating icons in ${filePath}: ${error}`,
+        );
       }
     });
   });
@@ -233,7 +248,7 @@ async function updateSourceFiles(tree: Tree): Promise<void> {
  * fixedWidth input from sky-icon components.
  */
 export default function (): Rule {
-  return async (tree: Tree): Promise<void> => {
-    await updateSourceFiles(tree);
+  return async (tree: Tree, context: SchematicContext): Promise<void> => {
+    await updateSourceFiles(tree, context);
   };
 }

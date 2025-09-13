@@ -1,4 +1,4 @@
-import { Tree } from '@angular-devkit/schematics';
+import { DelegateTree, Tree, UpdateRecorder } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
 import path from 'node:path';
@@ -740,6 +740,63 @@ export class IconComponentComponent {}`,
             sortEnabled: true,
           });
         }
+
+      }`,
+    );
+  });
+
+  it('should continue processing other files if one file has a parse error', async () => {
+    const tree = Tree.empty();
+
+    tree.create(
+      `/bad-file.ts`,
+      `import { SkyDataViewConfig } from '@skyux/data-manager';
+      export class MyClass {}`,
+    );
+
+    tree.create(
+      `/good-file.ts`,
+      `import { SkyDataViewConfig } from '@skyux/data-manager';
+
+      export class MyClass {
+
+        private viewConfig: SkyDataViewConfig = {
+          id: this.gridViewId,
+          name: 'Grid View',
+          icon: 'table',
+          searchEnabled: false,
+          sortEnabled: true,
+        };
+
+      }`,
+    );
+
+    tree.create('/angular.json', JSON.stringify(angularJson));
+
+    const testTree = new DelegateTree(tree);
+    testTree.beginUpdate = (path: string): UpdateRecorder => {
+      if (path === '/bad-file.ts') {
+        // Simulate a parse error.
+        throw new Error('Parse error');
+      }
+      return tree.beginUpdate(path);
+    };
+
+    await runner.runSchematic('icon-name', {}, testTree);
+
+    // The good file should be processed and updated.
+    expect(tree.readText('/good-file.ts')).toBe(
+      `import { SkyDataViewConfig } from '@skyux/data-manager';
+
+      export class MyClass {
+
+        private viewConfig: SkyDataViewConfig = {
+          id: this.gridViewId,
+          name: 'Grid View',
+          iconName: 'table',
+          searchEnabled: false,
+          sortEnabled: true,
+        };
 
       }`,
     );
