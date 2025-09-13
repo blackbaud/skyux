@@ -1,5 +1,12 @@
 # Changelog
 
+## [13.0.0-alpha.13](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.12...13.0.0-alpha.13) (2025-09-13)
+
+
+### Bug Fixes
+
+* **components/packages:** icon name schematic should handle exceptions ([#3936](https://github.com/blackbaud/skyux/issues/3936)) ([fd4dc77](https://github.com/blackbaud/skyux/commit/fd4dc776be30b2bdc21455d53534c07651fb50ef))
+
 ## [13.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.11...13.0.0-alpha.12) (2025-09-12)
 
 
