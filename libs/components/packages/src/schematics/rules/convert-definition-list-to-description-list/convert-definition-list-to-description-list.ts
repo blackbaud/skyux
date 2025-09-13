@@ -7,7 +7,7 @@ import {
 import { isImported, parse5, parseSourceFile } from '@angular/cdk/schematics';
 import { getEOL } from '@schematics/angular/utility/eol';
 
-import { logOnce } from '../../utility/log-once';
+import { logOnce } from '../../utility/log-once.js';
 import {
   ElementWithLocation,
   SwapTagCallback,

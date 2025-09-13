@@ -7,8 +7,8 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 
-import { VERSION as SKYUX_VERSION } from '../../version';
-import { workspaceCheck } from '../rules/workspace-check/workspace-check';
+import { VERSION as SKYUX_VERSION } from '../../version.js';
+import { workspaceCheck } from '../rules/workspace-check/workspace-check.js';
 
 export default function ngAdd(): Rule {
   return (_, context) => {

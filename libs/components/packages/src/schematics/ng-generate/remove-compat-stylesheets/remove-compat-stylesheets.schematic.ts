@@ -1,7 +1,7 @@
 import { Rule } from '@angular-devkit/schematics';
 import { updateWorkspace } from '@schematics/angular/utility';
 
-import { Schema } from './schema';
+import { Schema } from './schema.js';
 
 const COMPAT_STYLESHEET_REGEX = /skyux(\d+)-compat\.css$/;
 

@@ -1,6 +1,7 @@
 {
   "name": "@skyux/packages",
   "version": "0.0.0-PLACEHOLDER",
+  "type": "module",
   "author": "Blackbaud, Inc.",
   "description": "Handles the `ng update` command for SKY UX component libraries.",
   "keywords": [
@@ -25,7 +26,7 @@
       "default": "./package.json"
     },
     "./polyfills": {
-      "default": "./src/polyfills.js"
+      "default": "./src/polyfills.mjs"
     }
   },
   "schematics": "./collection.json",
@@ -109,6 +110,5 @@
     "jsonc-parser": "3.3.1",
     "tslib": "^2.8.1"
   },
-  "sideEffects": true,
-  "main": "./src/index.js"
+  "sideEffects": true
 }

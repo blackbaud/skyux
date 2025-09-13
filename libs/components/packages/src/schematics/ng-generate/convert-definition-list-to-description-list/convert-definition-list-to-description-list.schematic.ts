@@ -2,9 +2,9 @@ import { Rule } from '@angular-devkit/schematics';
 import { getProjectFromWorkspace } from '@angular/cdk/schematics';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 
-import { convertDefinitionListToDescriptionList } from '../../rules/convert-definition-list-to-description-list/convert-definition-list-to-description-list';
+import { convertDefinitionListToDescriptionList } from '../../rules/convert-definition-list-to-description-list/convert-definition-list-to-description-list.js';
 
-import { Schema } from './schema';
+import { Schema } from './schema.js';
 
 /**
  * Converts `<sky-definition-list>` to `<sky-description-list>`.

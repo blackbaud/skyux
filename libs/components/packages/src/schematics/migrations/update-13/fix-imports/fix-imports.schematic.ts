@@ -4,7 +4,7 @@ import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/
 import { findNodes, insertImport } from '@schematics/angular/utility/ast-utils';
 import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
 
-import { visitProjectFiles } from '../../../utility/visit-project-files';
+import { visitProjectFiles } from '../../../utility/visit-project-files.js';
 
 const knownDeepImportUpdates: Record<string, string> = {
   '@skyux/ag-grid/lib/modules/ag-grid/types/cell-editor-lookup-params':

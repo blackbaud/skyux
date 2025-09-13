@@ -4,7 +4,7 @@ import {
   updateWorkspace,
 } from '@schematics/angular/utility';
 
-import { Schema } from './schema';
+import { Schema } from './schema.js';
 
 const SUPPORTED_BUILD_BUILDERS = [
   '@angular/build:application',

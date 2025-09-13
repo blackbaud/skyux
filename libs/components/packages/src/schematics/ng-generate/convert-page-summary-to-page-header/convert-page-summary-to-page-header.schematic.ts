@@ -2,9 +2,9 @@ import { Rule } from '@angular-devkit/schematics';
 import { getProjectFromWorkspace } from '@angular/cdk/schematics';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 
-import { convertPageSummaryToPageHeader } from '../../rules/convert-page-summary-to-page-header/convert-page-summary-to-page-header';
+import { convertPageSummaryToPageHeader } from '../../rules/convert-page-summary-to-page-header/convert-page-summary-to-page-header.js';
 
-import { Schema } from './schema';
+import { Schema } from './schema.js';
 
 /**
  * Converts `<sky-page-summary>` components to `<sky-page-header>` components.

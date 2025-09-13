@@ -8,7 +8,7 @@ import {
 } from '@schematics/angular/utility/change';
 import { getEOL } from '@schematics/angular/utility/eol';
 
-import { removeImport } from './remove-import';
+import { removeImport } from './remove-import.js';
 
 export interface SwapImportedClassOptions {
   classNames: Record<string, string>;

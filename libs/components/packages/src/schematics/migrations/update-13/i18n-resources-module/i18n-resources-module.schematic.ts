@@ -1,8 +1,8 @@
 import { Rule, chain, externalSchematic } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 
-import { readRequiredFile } from '../../../utility/tree';
-import { visitProjectFiles } from '../../../utility/visit-project-files';
+import { readRequiredFile } from '../../../utility/tree.js';
+import { visitProjectFiles } from '../../../utility/visit-project-files.js';
 
 const RESOURCES_MODULE_SUFFIX = '-resources.module.ts';
 

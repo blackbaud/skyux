@@ -31,10 +31,10 @@ import {
   isStandaloneComponent,
   isSymbolInClassMetadataFieldArray,
 } from '../../utility/typescript/ng-ast';
-import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
-import { visitProjectFiles } from '../../utility/visit-project-files';
+import { swapImportedClass } from '../../utility/typescript/swap-imported-class.js';
+import { visitProjectFiles } from '../../utility/visit-project-files.js';
 
-import { ConvertProgressIndicatorWizardToTabWizardOptions } from './options';
+import { ConvertProgressIndicatorWizardToTabWizardOptions } from './options.js';
 
 /**
  * Tabs do not use a heading element.

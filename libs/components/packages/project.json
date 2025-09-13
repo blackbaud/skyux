@@ -27,10 +27,11 @@
         "tsConfig": "libs/components/packages/tsconfig.lib.json",
         "packageJson": "libs/components/packages/package.json",
         "main": "libs/components/packages/src/index.ts",
+        "format": ["esm"],
         "assets": [
           "libs/components/packages/collection.json",
           "libs/components/packages/migrations.json",
-          "libs/components/packages/src/polyfills.js",
+          "libs/components/packages/src/polyfills.mjs",
           "libs/components/packages/src/schematics/**/schema.json",
           "libs/components/packages/src/schematics/**/*.template",
           "libs/components/packages/*.md"

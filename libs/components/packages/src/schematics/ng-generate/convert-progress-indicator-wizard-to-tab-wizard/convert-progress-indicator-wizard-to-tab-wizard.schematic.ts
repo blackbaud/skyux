@@ -1,8 +1,8 @@
 import { Rule } from '@angular-devkit/schematics';
 
-import { convertProgressIndicatorWizardToTabWizard } from '../../rules/convert-progress-indicator-wizard-to-tab-wizard/convert-progress-indicator-wizard-to-tab-wizard';
+import { convertProgressIndicatorWizardToTabWizard } from '../../rules/convert-progress-indicator-wizard-to-tab-wizard/convert-progress-indicator-wizard-to-tab-wizard.js';
 
-import { Schema } from './schema';
+import { Schema } from './schema.js';
 
 /**
  * Converts `<sky-progress-indicator>` components using

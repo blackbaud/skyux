@@ -1,3 +1,3 @@
 // eslint-disable-next-line no-restricted-syntax
-export * from './schematics/ng-add/ng-add.schematic';
-export { VERSION } from './version';
+export * from './schematics/ng-add/ng-add.schematic.js';
+export { VERSION } from './version.js';

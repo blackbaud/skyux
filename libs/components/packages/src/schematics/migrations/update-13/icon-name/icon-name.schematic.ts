@@ -14,10 +14,10 @@ import {
   getElementsByTagName,
   parseTemplate,
 } from '../../../utility/template';
-import { getInlineTemplates } from '../../../utility/typescript/ng-ast';
-import { visitProjectFiles } from '../../../utility/visit-project-files';
+import { getInlineTemplates } from '../../../utility/typescript/ng-ast.js';
+import { visitProjectFiles } from '../../../utility/visit-project-files.js';
 
-import { IconNameMappings } from './icon-name-mappings';
+import { IconNameMappings } from './icon-name-mappings.js';
 
 const COMPONENTS_WITH_ICON: {
   selector: string;
