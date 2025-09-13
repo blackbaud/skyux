@@ -2,15 +2,8 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import { VERSION } from '@angular/cli';
 import { Schema } from '@schematics/angular/ng-new/schema';
-
-function getAngularVersion(): string {
-  // Use require for compatibility with Jest/CommonJS
-  const { version } = require('@angular/cli/package.json');
-  return version;
-}
-
-const ANGULAR_VERSION = getAngularVersion();
 
 /**
  * Creates a new Angular CLI application.
@@ -28,7 +21,7 @@ export async function createTestApp(
     routing: true,
     strict: true,
     style: 'scss',
-    version: ANGULAR_VERSION,
+    version: VERSION.major,
     ...appOptions.options,
   });
 }
@@ -51,7 +44,7 @@ export async function createTestLibrary(
       name: `${libOptions.projectName}-workspace`,
       createApplication: false,
       strict: true,
-      version: ANGULAR_VERSION,
+      version: VERSION.major,
       ...libOptions.options,
     },
   );
