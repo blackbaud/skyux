@@ -13,7 +13,7 @@ describe('SkyAppConfigModule', () => {
 
   it('should not add providers by default', () => {
     expect(() => TestBed.inject(SkyAppConfigHost)).toThrowError(
-      /No provider found for 1SkyAppConfigHost/,
+      /No provider found for `SkyAppConfigHost/,
     );
     expect(() => TestBed.inject(SkyAppConfigParams)).toThrowError(
       /No provider found for `SkyAppConfigParams/,
