@@ -119,7 +119,7 @@ describe('ThemeIf directive', () => {
     // Establish that our test is set up correctly.
     it('should not have a SkyThemeService provider', () => {
       expect(() => TestBed.inject(SkyThemeService)).toThrowError(
-        /No provider for SkyThemeService/,
+        /No provider found for `SkyThemeService/,
       );
     });
 
@@ -154,7 +154,7 @@ describe('ThemeIf directive', () => {
     // Establish that our test is set up correctly.
     it('should have a SkyThemeService provider', () => {
       expect(() => TestBed.inject(SkyThemeService)).not.toThrowError(
-        /No provider for SkyThemeService/,
+        /No provider found for `SkyThemeService/,
       );
     });
 
