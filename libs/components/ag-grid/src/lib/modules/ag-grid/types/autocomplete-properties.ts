@@ -42,9 +42,22 @@ export interface SkyAgGridAutocompleteProperties {
    * The array of functions to call against each search result in order to filter the search results when using the default search function. When using the search property to specify a custom search function, you must manually apply filters inside that function. The function must return true or false for each result to indicate whether to display it in the dropdown list.
    */
   searchFilters?: ((searchText: string, item: unknown) => boolean)[];
+  /**
+   * The maximum number of search results to display in the dropdown list. By default, the autocomplete component displays all matching results.
+   */
   searchResultsLimit?: number;
+  /**
+   * The template that formats each search result in the dropdown list. The autocomplete component injects search result values into the template as item variables that reference all of the object properties of the search results.
+   */
   searchResultTemplate?: TemplateRef<unknown>;
+  /**
+   * The minimum number of characters that users must enter before the autocomplete component searches the data source and displays search results in the dropdown list.
+   * @default 1
+   */
   searchTextMinimumCharacters?: number;
+  /**
+   * Output that fires when users select items in the dropdown list.
+   */
   selectionChange?: (event: SkyAutocompleteSelectionChange) => void;
 }
 
