@@ -39,7 +39,7 @@ export interface SkyAgGridAutocompleteProperties {
     data?: unknown[],
   ) => unknown[] | Promise<unknown[]>;
   /**
-   * The array of functions to call against each search result in order to filter the search results when using the default search function. When using the search property to specify a custom search function, you must manually apply filters inside that function. The function must return true or false for each result to indicate whether to display it in the dropdown list.
+   * The array of functions to call against each search result in order to filter the search results when using the default search function. When using the search property to specify a custom search function, you must manually apply filters inside that function. The function must return `true` or `false` for each result to indicate whether to display it in the dropdown list.
    */
   searchFilters?: ((searchText: string, item: unknown) => boolean)[];
   /**
@@ -47,7 +47,7 @@ export interface SkyAgGridAutocompleteProperties {
    */
   searchResultsLimit?: number;
   /**
-   * The template that formats each search result in the dropdown list. The autocomplete component injects search result values into the template as item variables that reference all of the object properties of the search results.
+   * The template that formats each search result in the dropdown list. The autocomplete component injects search result values into the template as `item` variables that reference all of the object properties of the search results.
    */
   searchResultTemplate?: TemplateRef<unknown>;
   /**
