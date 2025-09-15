@@ -30,6 +30,9 @@ export class SkyAgGridCellEditorUtils {
     }
   }
 
+  /**
+   * Returns the difference between the minuend and subtrahend, or 0 if the minuend is not defined.
+   */
   public static subtractOrZero(
     minuend: number | null | undefined,
     subtrahend: number,
