@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
-      - *.x.x
+      - 'main'
+      - '*.x.x'
 env:
   # Set to 'alpha', 'beta', or 'rc' to create a prerelease.
   PRERELEASE: 'false'
