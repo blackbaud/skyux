@@ -34,9 +34,9 @@ jobs:
 
           # Bump the prerelease version.
           if ( -not "$CURRENT_RELEASE" -or "$CURRENT_RELEASE" -notlike "${{ env.MAJOR_VERSION }}.0.0-${{ env.PRERELEASE }}.*" ) {
-            NEXT_VERSION="${{ env.MAJOR_VERSION }}.0.0-${{ env.PRERELEASE }}.0"
+            $NEXT_VERSION="${{ env.MAJOR_VERSION }}.0.0-${{ env.PRERELEASE }}.0"
           } else {
-            NEXT_VERSION=$(npx --yes semver -i prerelease $CURRENT_RELEASE)
+            $NEXT_VERSION=$(npx --yes semver -i prerelease $CURRENT_RELEASE)
           }
 
           # If version is empty, exit.
