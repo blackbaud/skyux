@@ -41,7 +41,6 @@ import { SplitViewRoutingModule } from './split-view-routing.module';
     SplitViewRoutingModule,
     LipsumModule,
     DataManagerModule,
-    SkyDataManagerModule,
   ],
   providers: [SkyDataManagerService],
 })

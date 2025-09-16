@@ -85,9 +85,9 @@ const routes: Routes = [
   {
     path: 'page-data-manager-split-view',
     loadChildren: () =>
-      import('./page-data-manager-split-view/page-data-manager-split-view.module').then(
-        (m) => m.PageDataManagerSplitViewModule,
-      ),
+      import(
+        './page-data-manager-split-view/page-data-manager-split-view.module'
+      ).then((m) => m.PageDataManagerSplitViewModule),
   },
 ];
 
