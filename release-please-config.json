@@ -25,11 +25,6 @@
   "draft-pull-request": true,
   "include-component-in-tag": false,
   "include-v-in-tag": false,
-  "packages": {
-    ".": {
-      "package-name": "skyux"
-    }
-  },
   "pull-request-title-pattern": "chore: release ${version}",
   "release-type": "node"
 }
