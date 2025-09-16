@@ -15,6 +15,9 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
       - name: Next release
         if: ${{ env.PRERELEASE != 'false' }}
         id: next-release
@@ -59,9 +62,6 @@ jobs:
         with:
           release-type: node
           target-branch: '${{ github.ref_name }}'
-          token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
-      - uses: actions/checkout@v4
-        with:
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
       - uses: actions/setup-node@v4
         id: setup-node
