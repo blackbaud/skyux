@@ -3,7 +3,7 @@
     <sky-modal-content>
       <sky-input-box [labelText]="headingText">
         <select formControlName="selectedOption" class="sky-form-control">
-          <option [value]="null">-- Select an option --</option>
+          <option [value]="null"></option>
           @for (item of items; track item.value) {
             <option [value]="item.value">
               {{ item.displayValue }}
