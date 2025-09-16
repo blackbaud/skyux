@@ -255,13 +255,7 @@
             ),
             min-content
           )
-          minmax(
-            var(
-              --sky-override-page-header-link-rows-space,
-              var(--sky-space-stacked-xl)
-            ),
-            min-content
-          )
+          minmax(0, min-content)
           auto;
         grid-template-columns: 0 75% 25%;
 

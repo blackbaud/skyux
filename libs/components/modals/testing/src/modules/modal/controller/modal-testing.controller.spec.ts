@@ -60,7 +60,7 @@ class ModalTestComponent {
   }
 
   protected saveForm(): void {
-    this.#instance.save({});
+    this.#instance.save({ filterValue: undefined });
   }
 }
 

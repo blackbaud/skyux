@@ -54,6 +54,16 @@ describe('Illustration harness', () => {
       await expectAsync(harness.getName()).toBeResolvedTo('success-data');
     }));
 
+    it('should return name when the name resolves to an SVG href', fakeAsync(async () => {
+      const { fixture, harness } = await setupTest();
+
+      fixture.componentRef.setInput('name', 'svg');
+      fixture.detectChanges();
+      tick();
+
+      await expectAsync(harness.getName()).toBeResolvedTo('svg');
+    }));
+
     it('should throw an error when name is set to undefined', fakeAsync(async () => {
       const { fixture, harness } = await setupTest();
 
@@ -86,11 +96,11 @@ describe('Illustration harness', () => {
       fixture.componentRef.setInput('size', 'sm');
 
       const classList = fixture.nativeElement.querySelector(
-        '.sky-illustration-img',
+        '.sky-illustration-wrapper',
       ).classList;
 
-      classList.remove('sky-illustration-img-sm');
-      classList.add('sky-illustration-img-fake');
+      classList.remove('sky-illustration-sm');
+      classList.add('sky-illustration-fake');
 
       await expectAsync(harness.getSize()).toBeRejectedWithError(
         'Size was not set.',

@@ -54,7 +54,9 @@ export class SkyFilterBarComponent {
   /**
    * An array of filter items containing the IDs and values of the filters that have been set.
    */
-  public readonly filters = model<SkyFilterBarFilterItem[] | undefined>();
+  public readonly appliedFilters = model<
+    SkyFilterBarFilterItem[] | undefined
+  >();
 
   /**
    * An array of filter IDs that the user has selected using the built-in selection modal. Setting this input to undefined results in all filters being displayed.
@@ -110,7 +112,7 @@ export class SkyFilterBarComponent {
 
     // Push filter value updates to child filter items
     effect(() => {
-      const filters = this.filters();
+      const filters = this.appliedFilters();
       this.#updateFilters(filters);
     });
   }
@@ -126,8 +128,8 @@ export class SkyFilterBarComponent {
 
     const filterArgs: SkySelectionModalOpenArgs = {
       selectionDescriptor: strings.descriptor,
-      descriptorProperty: 'name',
-      idProperty: 'id',
+      descriptorProperty: 'labelText',
+      idProperty: 'filterId',
       selectMode: 'multiple',
       value: existingFilters,
       searchAsync: this.#filterAsyncSearchFn,
@@ -175,7 +177,7 @@ export class SkyFilterBarComponent {
 
     instance.closed.subscribe((result) => {
       if (result.action === 'save') {
-        this.filters.set(undefined);
+        this.appliedFilters.set(undefined);
       }
     });
   }
@@ -209,7 +211,7 @@ export class SkyFilterBarComponent {
       const newFilters = newFilterItems.filter(
         (filter) => !!filter.filterValue,
       );
-      this.filters.set(newFilters.length ? newFilters : undefined);
+      this.appliedFilters.set(newFilters.length ? newFilters : undefined);
     }
   }
 
@@ -268,13 +270,13 @@ export class SkyFilterBarComponent {
     args: SkySelectionModalSearchArgs,
   ): Observable<SkySelectionModalSearchResult> => {
     const items = this.filterItems().map((item) => ({
-      id: item.filterId(),
-      name: item.labelText(),
+      filterId: item.filterId(),
+      labelText: item.labelText(),
     }));
 
     const results = args.searchText
       ? items.filter((item) =>
-          item.name
+          item.labelText
             .toLocaleUpperCase()
             .includes(args.searchText.toLocaleUpperCase()),
         )
@@ -287,7 +289,7 @@ export class SkyFilterBarComponent {
   };
 
   #updateFilter(updatedFilter: SkyFilterBarFilterItem): void {
-    const filters = untracked(() => this.filters()) ?? [];
+    const filters = untracked(() => this.appliedFilters()) ?? [];
     const newFilterValues: SkyFilterBarFilterItem[] = [];
 
     let replaceFilter = false;
@@ -306,7 +308,9 @@ export class SkyFilterBarComponent {
       newFilterValues.push(updatedFilter);
     }
 
-    this.filters.set(newFilterValues.length ? newFilterValues : undefined);
+    this.appliedFilters.set(
+      newFilterValues.length ? newFilterValues : undefined,
+    );
   }
 
   #updateFilters(updatedFilters: SkyFilterBarFilterItem[] | undefined): void {

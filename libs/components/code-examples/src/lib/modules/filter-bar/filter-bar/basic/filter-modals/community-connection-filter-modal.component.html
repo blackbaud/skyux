@@ -1,0 +1,28 @@
+<form class="filter-modal-demo-form" novalidate [formGroup]="formGroup">
+  <sky-modal [headingText]="headingText">
+    <sky-modal-content>
+      <sky-input-box [labelText]="headingText">
+        <select formControlName="selectedOption" class="sky-form-control">
+          <option [value]="null">-- Select an option --</option>
+          @for (item of items; track item.value) {
+            <option [value]="item.value">
+              {{ item.displayValue }}
+            </option>
+          }
+        </select>
+      </sky-input-box>
+    </sky-modal-content>
+    <sky-modal-footer>
+      <button class="sky-btn sky-btn-primary" type="button" (click)="save()">
+        Save
+      </button>
+      <button
+        class="sky-btn sky-btn-link"
+        type="button"
+        (click)="modalInstance.cancel()"
+      >
+        Cancel
+      </button>
+    </sky-modal-footer>
+  </sky-modal>
+</form>

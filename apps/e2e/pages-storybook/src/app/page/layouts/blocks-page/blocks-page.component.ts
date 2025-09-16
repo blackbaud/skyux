@@ -35,6 +35,7 @@ export default class BlocksPageComponent {
   public readonly hideActions = input<boolean>(false);
   public readonly hideAlert = input<boolean>(false);
   public readonly hideAvatar = input<boolean>(false);
+  public readonly hideDetails = input<boolean>(false);
   public readonly showLinks = input<boolean>(false);
   public readonly showDescriptionList = input<boolean>(false);
 

@@ -48,7 +48,8 @@ export class SkyFilterBarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a harness for a specific filter item that meets certain criteria.
+   * Gets a specific filter item based on the filter criteria.
+   * @param filter The filter criteria.
    */
   public async getItem(
     filter: SkyFilterItemHarnessFilters,
@@ -57,22 +58,14 @@ export class SkyFilterBarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of all filter items.
+   * Gets an array of filter items based on the filter criteria.
+   * If no filter is provided, returns all filter items.
+   * @param filters The optional filter criteria.
    */
   public async getItems(
     filters?: SkyFilterItemHarnessFilters,
   ): Promise<SkyFilterItemHarness[]> {
-    const items = await this.locatorForAll(
-      SkyFilterItemHarness.with(filters || {}),
-    )();
-
-    if (filters && items.length === 0) {
-      throw new Error(
-        `Unable to find any filter items with filter(s): ${JSON.stringify(filters)}`,
-      );
-    }
-
-    return items;
+    return await this.locatorForAll(SkyFilterItemHarness.with(filters || {}))();
   }
 
   /**
