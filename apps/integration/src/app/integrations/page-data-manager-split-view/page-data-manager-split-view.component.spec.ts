@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PageDataManagerSplitViewComponent } from './page-data-manager-split-view.component';
 
@@ -8,7 +9,7 @@ describe('PageDataManagerSplitViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PageDataManagerSplitViewComponent],
+      imports: [NoopAnimationsModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PageDataManagerSplitViewComponent);
