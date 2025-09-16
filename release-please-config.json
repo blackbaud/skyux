@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "changelog-sections": [
+    {
+      "type": "feat",
+      "section": "Features",
+      "hidden": false
+    },
+    {
+      "type": "fix",
+      "section": "Bug Fixes",
+      "hidden": false
+    },
+    {
+      "type": "deprecation",
+      "section": "Deprecations",
+      "hidden": false
+    },
+    {
+      "type": "revert",
+      "section": "Reverts",
+      "hidden": false
+    }
+  ],
+  "draft-pull-request": true,
+  "include-component-in-tag": false,
+  "include-v-in-tag": false,
+  "packages": {
+    ".": {
+      "package-name": "skyux"
+    }
+  },
+  "pull-request-title-pattern": "chore: release ${version}",
+  "release-type": "node"
+}
