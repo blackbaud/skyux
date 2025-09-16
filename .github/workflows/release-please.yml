@@ -49,7 +49,7 @@ jobs:
 
           $configFilePath = "release-please-config.json"
           $configFile = Get-Content $configFilePath -Raw | ConvertFrom-Json
-          $configFile["release-as"] = "$NEXT_VERSION"
+          $configFile."release-as" = "$NEXT_VERSION"
           $configFile.prerelease = $True
           $configFile | ConvertTo-Json -Depth 10 | Set-Content $configFilePath
         env:
