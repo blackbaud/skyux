@@ -5,7 +5,8 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 12.x.x
+      - 'main'
+      - '*.x.x'
 env:
   # Set to 'alpha', 'beta', or 'rc' to create a prerelease.
   PRERELEASE: 'false'
@@ -56,6 +57,7 @@ jobs:
       - uses: googleapis/release-please-action@v4
         id: release
         with:
+          release-type: node
           target-branch: '${{ github.ref_name }}'
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
       - uses: actions/checkout@v4
