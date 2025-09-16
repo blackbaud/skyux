@@ -9,6 +9,7 @@ import {
   OnInit,
   Optional,
   Output,
+  SkipSelf,
   TemplateRef,
   Type,
   ViewChild,
@@ -54,7 +55,15 @@ let uniqueId = 0;
   selector: 'sky-country-field',
   templateUrl: './country-field.component.html',
   styleUrls: ['./country-field.component.scss'],
-  providers: [SKY_COUNTRY_FIELD_VALIDATOR],
+  providers: [
+    SKY_COUNTRY_FIELD_VALIDATOR,
+    {
+      // Hide the input box host service from child components like autocomplete since this component
+      // handles interactions with the service.
+      provide: SkyInputBoxHostService,
+      useValue: undefined,
+    },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   standalone: false,
@@ -254,7 +263,7 @@ export class SkyCountryFieldComponent
   constructor(
     changeDetector: ChangeDetectorRef,
     injector: Injector,
-    @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
+    @Optional() @SkipSelf() public inputBoxHostSvc?: SkyInputBoxHostService,
   ) {
     this.#changeDetector = changeDetector;
     this.#injector = injector;
