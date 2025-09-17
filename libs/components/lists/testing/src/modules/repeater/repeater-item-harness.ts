@@ -58,14 +58,21 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Whether the repeater item is selectable.
+   * Whether a selectable repeater item is disabled.
+   */
+  public async isDisabled(): Promise<boolean> {
+    return (await (await this.#getCheckbox())?.isDisabled()) || false;
+  }
+
+  /**
+   * Whether a repeater item has selectability enabled.
    */
   public async isSelectable(): Promise<boolean> {
     return !!(await this.#getCheckbox());
   }
 
   /**
-   * Whether the repeater item is selected.
+   * Whether a selectable repeater item is selected. Throws an error if the item is not selectable.
    */
   public async isSelected(): Promise<boolean> {
     const checkbox = await this.#getCheckbox();
