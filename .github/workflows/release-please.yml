@@ -15,6 +15,9 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
       - name: Next release
         if: ${{ env.PRERELEASE != 'false' }}
         id: next-release
@@ -34,9 +37,9 @@ jobs:
 
           # Bump the prerelease version.
           if ( -not "$CURRENT_RELEASE" -or "$CURRENT_RELEASE" -notlike "${{ env.MAJOR_VERSION }}.0.0-${{ env.PRERELEASE }}.*" ) {
-            NEXT_VERSION="${{ env.MAJOR_VERSION }}.0.0-${{ env.PRERELEASE }}.0"
+            $NEXT_VERSION="${{ env.MAJOR_VERSION }}.0.0-${{ env.PRERELEASE }}.0"
           } else {
-            NEXT_VERSION=$(npx --yes semver -i prerelease $CURRENT_RELEASE)
+            $NEXT_VERSION=$(npx --yes semver -i prerelease $CURRENT_RELEASE)
           }
 
           # If version is empty, exit.
@@ -49,7 +52,7 @@ jobs:
 
           $configFilePath = "release-please-config.json"
           $configFile = Get-Content $configFilePath -Raw | ConvertFrom-Json
-          $configFile["release-as"] = "$NEXT_VERSION"
+          $configFile."release-as" = "$NEXT_VERSION"
           $configFile.prerelease = $True
           $configFile | ConvertTo-Json -Depth 10 | Set-Content $configFilePath
         env:
@@ -57,11 +60,7 @@ jobs:
       - uses: googleapis/release-please-action@v4
         id: release
         with:
-          release-type: node
           target-branch: '${{ github.ref_name }}'
-          token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
-      - uses: actions/checkout@v4
-        with:
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
       - uses: actions/setup-node@v4
         id: setup-node
