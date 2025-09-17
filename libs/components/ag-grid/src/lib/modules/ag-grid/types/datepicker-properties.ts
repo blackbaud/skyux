@@ -14,7 +14,7 @@ export interface SkyAgGridDatepickerProperties {
    */
   maxDate?: Date;
   /**
-   * The earliest date that is available in the calendar. To avoid validation errors, the time associated with the minimum date must be midnight. This is necessary because the datepicker automatically sets the time on the Date object for selected dates to midnight in the current user's time zone.
+   * The earliest date that is available in the calendar. To avoid validation errors, the time associated with the minimum date is midnight. This is necessary because the datepicker automatically sets the time on the Date object for selected dates to midnight in the current user's time zone.
    */
   minDate?: Date;
   /**
@@ -23,7 +23,7 @@ export interface SkyAgGridDatepickerProperties {
    */
   skyDatepickerNoValidate?: boolean;
   /**
-   * The starting day of the week in the calendar, where 0 sets the starting day to Sunday.
+   * The starting day of the week in the calendar. `0` sets the starting day to Sunday.
    * @default 0
    */
   startingDay?: number;

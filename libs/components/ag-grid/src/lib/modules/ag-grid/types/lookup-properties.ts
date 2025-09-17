@@ -14,27 +14,27 @@ export interface SkyAgGridLookupProperties {
    */
   addClick?: (args: SkyLookupAddClickEventArgs) => void;
   /**
-   * The `aria-label` text for the lookup cell. If neither `ariaLabel` or `ariaLabelledBy` are specified, the `aria-label` defaults to the column's `headerName`, `headerTooltip`, `field`, or `colId`.
+   * The `aria-label` text for the lookup cell. If neither `ariaLabel` nor `ariaLabelledBy` are specified, the `aria-label` defaults to the column's `headerName`, `headerTooltip`, `field`, or `colId`.
    */
   ariaLabel?: string;
   /**
-   * The HTML element ID of the element that labels the lookup cell. If neither `ariaLabel` or `ariaLabelledBy` are specified, the `aria-label` defaults to the column's `headerName`, `headerTooltip`, `field`, or `colId`.
+   * The ID of the HTML element that labels the lookup cell. If neither `ariaLabel` nor `ariaLabelledBy` are specified, the `aria-label` defaults to the column's `headerName`, `headerTooltip`, `field`, or `colId`.
    */
   ariaLabelledBy?: string;
   /**
-   * The value for the autocomplete attribute on the form input.
+   * The value to provide to the autocomplete attribute on the form input.
    * @default "off"
    * @deprecated
    */
   autocompleteAttribute?: string;
   /**
-   * The data source for the lookup cell to search when users enter text. You can specify static data such as an array of objects, or you can pull data from a database.
+   * The data source for the lookup cell to search when users enter text. You can specify static data, such as an array of objects, or you can pull data from a database.
+   * @deprecated Use the `searchAsync` event emitter and callback instead to provide data to the lookup component.
    */
   data?: unknown[];
   /**
    * How many milliseconds to wait before searching while users enter text in the lookup field.
    * @default 0
-   * @deprecated Use the `searchAsync` event emitter and callback instead to provide data to the lookup component.
    */
   debounceTime?: number;
   /**
@@ -61,22 +61,22 @@ export interface SkyAgGridLookupProperties {
    */
   placeholderText?: string;
   /**
-   * The array of object properties to search when utilizing the data property and the built-in search function.
+   * The array of object properties to search when using the `data` property and the built-in search function.
    * @default ["name"]
    * @deprecated Use the `searchAsync` event emitter and callback instead to provide data to the lookup component.
    */
   propertiesToSearch?: string[];
   /**
-   * The function to dynamically manage the data source when users change the text in the lookup field. The search function must return an array or a promise of an array.
+   * The function that dynamically manage the data source when users change the text in the lookup field. The search function must return an array or a promise of an array.
    * @deprecated Use the `searchAsync` event emitter and callback instead to provide searched data to the lookup component.
    */
   search?: SkyAutocompleteSearchFunction;
   /**
-   * Fires when users enter new search information and allows results to be returned via an observable. The event is also fired with empty search text when the "Show more" picker is opened without search text.
+   * Fires when users enter new search information and allows results to be returned via an observable. The event is also fired when the "Show more" picker is opened without search text.
    */
   searchAsync?: (args: SkyAutocompleteSearchAsyncArgs) => void;
   /**
-   * The array of functions to call against each search result in order to filter the search results when using the data input and the default search function. When using a custom search function via the search property filters must be applied manually inside that function. The function must return `true` or `false` for each result to indicate whether to display it in the dropdown list.
+   * The array of functions to call against each search result. This filters the search results when using the data input and the default search function. When the `search` property specifies a custom search function, you must manually apply filters inside that function. The function must return `true` or `false` for each result to indicate whether to display it in the dropdown list.
    * @deprecated  Use the `searchAsync` event emitter and callback instead to provide searched data to the lookup component.
    */
   searchFilters?: SkyAutocompleteSearchFunctionFilter[];
@@ -85,7 +85,7 @@ export interface SkyAgGridLookupProperties {
    */
   searchResultsLimit?: number;
   /**
-   * The template that formats each option in the dropdown list. The lookup component injects values into the template as `item` variables that reference all the object properties of the options.
+   * The template that formats each option in the dropdown list. The lookup component injects values into the template as `item` variables that reference all of the object properties of the search results.
    */
   searchResultTemplate?: TemplateRef<unknown>;
   /**

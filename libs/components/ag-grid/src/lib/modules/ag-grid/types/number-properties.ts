@@ -1,10 +1,10 @@
 export interface SkyAgGridNumberProperties {
   /**
-   * The maximum number the user can enter in the cell.
+   * The maximum number that users can enter in the cell.
    */
   max?: number;
   /**
-   * The minimum number the user can enter in the cell.
+   * The minimum number that users can enter in the cell.
    */
   min?: number;
 }

@@ -85,7 +85,7 @@ export class SkyLookupComponent
   public ariaLabelledBy: string | undefined;
 
   /**
-   * The value for the `autocomplete` attribute on the form input.
+   * The value to provide to the `autocomplete` attribute on the form input.
    * @default 'off'
    * @deprecated SKY UX only supports browser autofill on components where the direct input matches the return value. This input may not behave as expected due to the dropdown selection interaction.
    */
@@ -94,8 +94,9 @@ export class SkyLookupComponent
 
   /**
    * The data source for the lookup component to search when users
-   * enter text. You can specify static data such as an array of objects, or
+   * enter text. You can specify static data, such as an array of objects, or
    * you can pull data from a database.
+   *
    * @default []
    * @deprecated Use the `searchAsync` event emitter and callback instead to provide data to the lookup component.
    */

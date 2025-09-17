@@ -3,12 +3,12 @@ import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 
 export interface SkyAgGridAutocompleteProperties {
   /**
-   * Allows the user to specify arbitrary values not in the search results.
+   * Allows users to specify arbitrary values not in the search results.
    * @default false
    */
   allowAnyValue?: boolean;
   /**
-   * The static data source for the autocomplete cell to search when users enter text. For a dynamic data source such as an array that changes due to server calls, use search instead.
+   * The static data source for the autocomplete cell to search when users enter text. For a dynamic data source, such as an array that changes due to server calls, use search instead. You can specify static data, such as an array of objects, or you can pull data from a database.
    */
   data?: unknown[];
   /**
@@ -22,12 +22,13 @@ export interface SkyAgGridAutocompleteProperties {
    */
   descriptorProperty?: string;
   /**
-   * Highlights the search text in each search result. Set this to false when your search finds results that are not exact text matches, e.g. returning "Bob" for the term "Robert."
+   * Highlights the search text in each search result. Set this to `false` when your search returns results that aren't exact text matches, such as returning "Bob" for "Robert."
    * @default true
    */
   highlightSearchText?: boolean;
   /**
-   * The object properties to search.
+   * The array of object properties to search when utilizing the `data` property and the built-in search function.
+
    * @default ["name"]
    */
   propertiesToSearch?: string[];
@@ -39,7 +40,7 @@ export interface SkyAgGridAutocompleteProperties {
     data?: unknown[],
   ) => unknown[] | Promise<unknown[]>;
   /**
-   * The array of functions to call against each search result in order to filter the search results when using the default search function. When using the search property to specify a custom search function, you must manually apply filters inside that function. The function must return `true` or `false` for each result to indicate whether to display it in the dropdown list.
+   * The array of functions to call against each search result. This filters the search results when using the default search function. When the `search` property specifies a custom search function, you must manually apply filters inside that function. The function must return `true` or `false` for each result to indicate whether to display it in the dropdown list.
    */
   searchFilters?: ((searchText: string, item: unknown) => boolean)[];
   /**
