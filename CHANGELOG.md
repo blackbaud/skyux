@@ -1,5 +1,12 @@
 # Changelog
 
+## [13.1.0-alpha.14](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.14...v13.1.0-alpha.14) (2025-09-17)
+
+
+### Features
+
+* initial beta release ([#3956](https://github.com/blackbaud/skyux/issues/3956)) ([5daa80b](https://github.com/blackbaud/skyux/commit/5daa80bcf21d3f0133bbaad9853aab95d784aaf8))
+
 ## [13.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.13...13.0.0-alpha.14) (2025-09-16)
 
 
