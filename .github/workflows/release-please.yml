@@ -49,7 +49,6 @@ jobs:
           }
 
           echo "Next release version: $NEXT_VERSION"
-          echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_OUTPUT
 
           $configFilePath = "release-please-config.json"
           $configFile = Get-Content $configFilePath -Raw | ConvertFrom-Json
@@ -61,7 +60,6 @@ jobs:
       - uses: googleapis/release-please-action@v4
         id: release
         with:
-          release-as: ${{ steps.next-release.outputs.NEXT_VERSION }}
           release-type: node
           target-branch: '${{ github.ref_name }}'
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
