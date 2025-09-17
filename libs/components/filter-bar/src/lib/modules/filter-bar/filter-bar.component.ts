@@ -29,7 +29,7 @@ import { Observable, of } from 'rxjs';
 import { SkyFilterBarResourcesModule } from '../shared/sky-filter-bar-resources.module';
 
 import { SkyFilterBarService } from './filter-bar.service';
-import { SKY_FILTER_ITEM } from './filter-item.token';
+import { SKY_FILTER_ITEM } from './filter-items/filter-item.token';
 import { SkyFilterBarFilterItem } from './models/filter-bar-filter-item';
 import { SkyFilterBarItem } from './models/filter-bar-item';
 import { SkyFilterItem } from './models/filter-item';
