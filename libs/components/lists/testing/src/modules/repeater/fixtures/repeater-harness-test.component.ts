@@ -29,4 +29,8 @@ export class RepeaterHarnessTestComponent {
   public expandMode = 'none';
 
   public activeIndex: number | undefined;
+
+  public disabled = false;
+
+  public ariaLabel: string | undefined;
 }

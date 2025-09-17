@@ -256,4 +256,46 @@ describe('Repeater harness', () => {
       items[0].queryHarnessOrNull(NonexistentHarness),
     ).toBeResolvedTo(null);
   });
+
+  it('should get whether a selectable item is disabled', async () => {
+    const { fixture, repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    fixture.componentInstance.selectable = true;
+    fixture.componentInstance.disabled = true;
+    fixture.detectChanges();
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(item.isDisabled()).toBeResolvedTo(true);
+  });
+
+  it('should get the aria-label of the repeater', async () => {
+    const { fixture, repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    fixture.componentInstance.ariaLabel = 'Test Repeater Aria Label';
+    fixture.detectChanges();
+
+    await expectAsync(repeaterHarness.getAriaLabel()).toBeResolvedTo(
+      'Test Repeater Aria Label',
+    );
+  });
+
+  it('should return false if a non-selectable item is disabled', async () => {
+    const { fixture, repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    fixture.componentInstance.disabled = true;
+    fixture.detectChanges();
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(item.isDisabled()).toBeResolvedTo(false);
+  });
 });

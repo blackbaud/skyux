@@ -1,5 +1,6 @@
 <sky-repeater
   data-sky-id="my-basic-repeater"
+  [ariaLabel]="ariaLabel"
   [expandMode]="expandMode"
   [reorderable]="reorderable"
   [(activeIndex)]="activeIndex"
@@ -8,6 +9,7 @@
     <sky-repeater-item
       [attr.data-sky-id]="'my-basic-repeater-item-' + i"
       [selectable]="selectable"
+      [disabled]="disabled"
     >
       <sky-repeater-item-title>
         {{ item.title }}
