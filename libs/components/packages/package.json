@@ -100,7 +100,6 @@
     }
   },
   "peerDependencies": {
-    "@angular/cdk": "^20.2.3",
     "@angular/cli": "^20.3.1",
     "@angular/core": "^20.3.0"
   },
