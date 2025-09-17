@@ -1,11 +1,13 @@
 import { UpdateRecorder } from '@angular-devkit/schematics';
-import { Element, parse5 } from '@angular/cdk/schematics';
 
-export type ElementWithLocation = Element & {
-  sourceCodeLocation: Required<parse5.Token.ElementLocation>;
+import { parseFragment } from 'parse5';
+import type { DefaultTreeAdapterTypes, Token } from 'parse5';
+
+export type ElementWithLocation = DefaultTreeAdapterTypes.Element & {
+  sourceCodeLocation: Required<Token.ElementLocation>;
 };
-export type ParentNode = parse5.DefaultTreeAdapterTypes.ParentNode & {
-  sourceCodeLocation: Required<parse5.Token.ElementLocation>;
+export type ParentNode = DefaultTreeAdapterTypes.ParentNode & {
+  sourceCodeLocation: Required<Token.ElementLocation>;
 };
 export type SwapTagCallback<T extends string> = (
   position: 'open' | 'close',
@@ -44,7 +46,11 @@ export function getElementsByTagName(
       elements.push(currentNode);
     }
     if (isParentNode(currentNode)) {
-      nodeQueue.push(...currentNode.childNodes.filter(isElement));
+      nodeQueue.push(
+        ...currentNode.childNodes.filter(
+          (node: any): node is ElementWithLocation => isElement(node),
+        ),
+      );
     }
   }
 
@@ -52,13 +58,13 @@ export function getElementsByTagName(
 }
 
 export function parseTemplate(template: string): ParentNode {
-  const document = parse5.parseFragment(template, {
+  const document = parseFragment(template, {
     sourceCodeLocationInfo: true,
   });
   if (isParentNode(document)) {
     return document;
   }
-  return parse5.parseFragment('', {
+  return parseFragment('', {
     sourceCodeLocationInfo: true,
   }) as ParentNode;
 }
@@ -182,7 +188,7 @@ export function swapAttributes<T extends string, U extends string>(
     }
   };
 
-  node.attrs.forEach((attr, index) => {
+  node.attrs.forEach((attr: any, index: number) => {
     if (attr.name in swap) {
       const oldAttribute = swap[attr.name] as T;
       const newAttribute = attributeSwaps[oldAttribute] as U;
@@ -211,11 +217,9 @@ export function swapAttributes<T extends string, U extends string>(
  * Extracts the text content from a selector within element and returns it as a string.
  * If the element wraps anything more than a simple text node, an error is thrown.
  */
-export function getText(
-  text: parse5.DefaultTreeAdapterTypes.ChildNode[],
-): string {
+export function getText(text: DefaultTreeAdapterTypes.ChildNode[]): string {
   if (text.length === 1 && text[0].nodeName === '#text') {
-    return (text[0] as parse5.DefaultTreeAdapterTypes.TextNode).value.trim();
+    return (text[0] as DefaultTreeAdapterTypes.TextNode).value.trim();
   } else if (!text || text.length === 0) {
     return '';
   } else {

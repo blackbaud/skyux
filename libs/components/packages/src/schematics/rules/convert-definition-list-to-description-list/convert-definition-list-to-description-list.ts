@@ -4,8 +4,9 @@ import {
   Tree,
   UpdateRecorder,
 } from '@angular-devkit/schematics';
-import { isImported, parse5, parseSourceFile } from '@angular/cdk/schematics';
 import { getEOL } from '@schematics/angular/utility/eol';
+
+import { serialize } from 'parse5';
 
 import { logOnce } from '../../utility/log-once';
 import {
@@ -16,7 +17,11 @@ import {
   parseTemplate,
   swapTags,
 } from '../../utility/template';
-import { getInlineTemplates } from '../../utility/typescript/ng-ast';
+import {
+  getInlineTemplates,
+  isImportedFromPackage,
+  parseSourceFile,
+} from '../../utility/typescript/ng-ast';
 import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../utility/visit-project-files';
 
@@ -35,7 +40,7 @@ function moveHeading(
     definitionList,
   )[0];
   if (isParentNode(heading)) {
-    const headingText = parse5.serialize(heading);
+    const headingText = serialize(heading);
     const indent = ' '.repeat(
       definitionList.sourceCodeLocation.startTag.startCol - 1,
     );
@@ -166,7 +171,9 @@ function convertTypescriptFile(
       );
     }
   }
-  if (isImported(source, 'SkyDefinitionListModule', '@skyux/layout')) {
+  if (
+    isImportedFromPackage(source, 'SkyDefinitionListModule', '@skyux/layout')
+  ) {
     swapImportedClass(recorder, filePath, source, [
       {
         classNames: {
