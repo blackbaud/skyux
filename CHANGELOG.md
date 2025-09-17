@@ -1,5 +1,33 @@
 # Changelog
 
+## [13.0.0-beta.0](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.14...v13.0.0-beta.0) (2025-09-17)
+
+
+### Features
+
+* initial beta release ([#3956](https://github.com/blackbaud/skyux/issues/3956)) ([5daa80b](https://github.com/blackbaud/skyux/commit/5daa80bcf21d3f0133bbaad9853aab95d784aaf8))
+
+
+### Continuous Integration
+
+* fix release as version ([#3963](https://github.com/blackbaud/skyux/issues/3963)) ([90d54bb](https://github.com/blackbaud/skyux/commit/90d54bbb20b8a18d51c83d5d8bb722a5b8b498e5))
+
+## [13.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.13...13.0.0-alpha.14) (2025-09-16)
+
+
+### Features
+
+* use 3.0.0 of design tokens ([#3944](https://github.com/blackbaud/skyux/issues/3944)) ([3f9942e](https://github.com/blackbaud/skyux/commit/3f9942e28284ca2570f075145c6379bdb4ed36b5))
+* use latest version of design tokens ([#3941](https://github.com/blackbaud/skyux/issues/3941)) ([7a97700](https://github.com/blackbaud/skyux/commit/7a97700abed6ac51991de0142ae5abe3cff29f24))
+
+## [12.41.0](https://github.com/blackbaud/skyux/compare/12.40.0...12.41.0) (2025-09-15)
+
+
+### Features
+
+* use 3.0.0 of design tokens ([#3945](https://github.com/blackbaud/skyux/issues/3945)) ([cbdd7e0](https://github.com/blackbaud/skyux/commit/cbdd7e09ad838a9dbeeb54d6ed9f1dc483c7bdd8))
+* use latest version of design tokens ([#3940](https://github.com/blackbaud/skyux/issues/3940)) ([30217f2](https://github.com/blackbaud/skyux/commit/30217f2d33e2743062b4792892ea3f6f024ec2d8))
+
 ## [13.0.0-alpha.13](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.12...13.0.0-alpha.13) (2025-09-13)
 
 
