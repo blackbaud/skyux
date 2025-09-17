@@ -19,7 +19,7 @@ describe('Page Data Manager Split View', () => {
 
           cy.get('sky-split-view').should('exist').should('be.visible');
 
-          cy.skyVisualTest(`page-data-manager-split-view-${theme}`);
+          cy.skyVisualTest(`page-data-manager-split-view-${theme}-${width}`);
         });
       },
     );
