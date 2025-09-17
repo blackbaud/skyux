@@ -26,5 +26,11 @@
   "include-component-in-tag": false,
   "include-v-in-tag": false,
   "pull-request-title-pattern": "chore: release ${version}",
-  "release-type": "node"
+  "packages": {
+    "": {
+      "release-type": "node"
+    }
+  },
+  "release-as": "",
+  "prerelease": false
 }
