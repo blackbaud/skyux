@@ -1,13 +1,11 @@
 import { Rule, Tree, UpdateRecorder, chain } from '@angular-devkit/schematics';
-import {
-  getDecoratorMetadata,
-  getMetadataField,
-  isImported,
-  parseSourceFile,
-} from '@angular/cdk/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
-import { findNodes } from '@schematics/angular/utility/ast-utils';
+import {
+  findNodes,
+  getDecoratorMetadata,
+  getMetadataField,
+} from '@schematics/angular/utility/ast-utils';
 import { Change, InsertChange } from '@schematics/angular/utility/change';
 import { getEOL } from '@schematics/angular/utility/eol';
 import { applyChangesToFile } from '@schematics/angular/utility/standalone/util';
@@ -28,8 +26,10 @@ import {
   addSymbolToClassMetadata,
   getInlineTemplates,
   getTestingModuleMetadata,
+  isImportedFromPackage,
   isStandaloneComponent,
   isSymbolInClassMetadataFieldArray,
+  parseSourceFile,
 } from '../../utility/typescript/ng-ast';
 import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../utility/visit-project-files';
@@ -199,12 +199,12 @@ function applyFollowupTasksToComponent(
 ): void {
   if (
     isStandalone &&
-    isImported(
+    isImportedFromPackage(
       source,
       'SkyProgressIndicatorModule',
       '@skyux/progress-indicator',
     ) &&
-    !isImported(source, 'SkyTabsModule', '@skyux/tabs')
+    !isImportedFromPackage(source, 'SkyTabsModule', '@skyux/tabs')
   ) {
     if (followupTasks.keepProgressIndicator) {
       applyModuleDependencies(source, tree, filePath);
@@ -238,7 +238,7 @@ function applyModuleDependencies(
     ] as ['Component' | 'NgModule' | 'TestBed.configureTestingModule', string][]
   ).forEach(([decorator, decoratorModule]) => {
     if (
-      isImported(
+      isImportedFromPackage(
         originalSource,
         String(decorator.split('.').shift()),
         decoratorModule,
@@ -436,7 +436,7 @@ function convertTypescriptFile(
   const source = parseSourceFile(tree, filePath);
   const eol = getEOL(tree.readText(filePath));
   let followupTasks: FollowupTasks | undefined = undefined;
-  if (isImported(source, 'Component', '@angular/core')) {
+  if (isImportedFromPackage(source, 'Component', '@angular/core')) {
     const metadata = getDecoratorMetadata(
       source,
       'Component',
@@ -507,7 +507,7 @@ function hasSymbolReference(
 function isModuleExportingProgressIndicatorModule(
   source: ts.SourceFile,
 ): boolean {
-  if (isImported(source, 'NgModule', '@angular/core')) {
+  if (isImportedFromPackage(source, 'NgModule', '@angular/core')) {
     const decoratorMetadata = getDecoratorMetadata(
       source,
       'NgModule',
@@ -537,10 +537,10 @@ function updateModuleOrTestFile(
 ): void {
   const source = parseSourceFile(tree, filePath);
   if (
-    (isImported(source, 'TestBed', '@angular/core/testing') &&
+    (isImportedFromPackage(source, 'TestBed', '@angular/core/testing') &&
       hasSymbolReference(source, componentsThatNeedModules)) ||
-    (isImported(source, 'NgModule', '@angular/core') &&
-      isImported(
+    (isImportedFromPackage(source, 'NgModule', '@angular/core') &&
+      isImportedFromPackage(
         source,
         'SkyProgressIndicatorModule',
         '@skyux/progress-indicator',

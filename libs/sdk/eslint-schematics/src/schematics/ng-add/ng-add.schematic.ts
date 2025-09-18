@@ -1,6 +1,5 @@
 import { Rule, chain } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { VERSION } from '@angular/cli';
 import {
   NodeDependencyType,
   addPackageJsonDependency,
@@ -9,6 +8,14 @@ import {
 
 import fs from 'node:fs';
 import path from 'node:path';
+
+function getAngularVersion(): number {
+  // Use require for compatibility with Jest/CommonJS
+  const { version } = require('@angular/cli/package.json');
+  return version.split('.')[0];
+}
+
+const ANGULAR_MAJOR_VERSION = getAngularVersion();
 
 function installDependencies(): Rule {
   return (tree, context) => {
@@ -44,7 +51,7 @@ export default function ngAdd(): Rule {
     if (!getPackageJsonDependency(tree, 'angular-eslint')) {
       throw new Error(
         "The package 'angular-eslint' is not installed. " +
-          `Run 'ng add angular-eslint@${VERSION.major}' and try this command again.\n` +
+          `Run 'ng add angular-eslint@${ANGULAR_MAJOR_VERSION}' and try this command again.\n` +
           'See: https://github.com/angular-eslint/angular-eslint#quick-start',
       );
     }

@@ -1,9 +1,9 @@
 import { Rule, Tree, UpdateRecorder } from '@angular-devkit/schematics';
-import { parseSourceFile } from '@angular/cdk/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { findNodes, insertImport } from '@schematics/angular/utility/ast-utils';
 import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
 
+import { parseSourceFile } from '../../../utility/typescript/ng-ast';
 import { visitProjectFiles } from '../../../utility/visit-project-files';
 
 const knownDeepImportUpdates: Record<string, string> = {

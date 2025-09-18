@@ -1,6 +1,6 @@
-import { getSourceNodes } from '@angular/cdk/schematics';
 import { Tree } from '@nx/devkit';
 import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
+import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
 
 export interface DecoratedClass {
   classDeclaration: ts.ClassDeclaration;

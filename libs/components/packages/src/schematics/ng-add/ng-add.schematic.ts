@@ -1,6 +1,5 @@
 import { Rule, chain, schematic } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { VERSION as ANGULAR_VERSION } from '@angular/cli';
 import {
   NodeDependencyType,
   addPackageJsonDependency,
@@ -9,6 +8,7 @@ import { getWorkspace } from '@schematics/angular/utility/workspace';
 
 import { VERSION as SKYUX_VERSION } from '../../version';
 import { workspaceCheck } from '../rules/workspace-check/workspace-check';
+import { getAngularMajorVersion } from '../utility/get-angular-major-version';
 
 export default function ngAdd(): Rule {
   return (_, context) => {
@@ -60,10 +60,12 @@ function addDependencies(): Rule {
       });
     }
 
+    const angularVersion = getAngularMajorVersion();
+
     addPackageJsonDependency(tree, {
       type: NodeDependencyType.Default,
       name: '@angular/cdk',
-      version: `^${ANGULAR_VERSION.major}.0.0`,
+      version: `^${angularVersion}.0.0`,
       overwrite: true,
     });
   };
