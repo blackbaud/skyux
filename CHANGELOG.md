@@ -1,5 +1,12 @@
 # Changelog
 
+## [13.0.0-beta.0](https://github.com/blackbaud/skyux/compare/v13.0.0-beta.0...13.0.0-beta.0) (2025-09-18)
+
+
+### Features
+
+* add support for Angular 20.3.x ([#3971](https://github.com/blackbaud/skyux/issues/3971)) ([67b45b1](https://github.com/blackbaud/skyux/commit/67b45b17be4edb3494cd4efd267bd11cc7aa5297))
+
 ## [13.0.0-beta.0](https://github.com/blackbaud/skyux/compare/13.0.0-alpha.14...v13.0.0-beta.0) (2025-09-17)
 
 
