@@ -25,6 +25,10 @@ export { SkyRepeaterHarness } from './modules/repeater/repeater-harness';
 export { SkyRepeaterHarnessFilters } from './modules/repeater/repeater-harness-filters';
 export { SkyRepeaterItemHarness } from './modules/repeater/repeater-item-harness';
 export { SkyRepeaterItemHarnessFilters } from './modules/repeater/repeater-item-harness-filters';
+export { SkyRepeaterItemContentHarness } from './modules/repeater/repeater-item-content-harness';
+export { SkyRepeaterItemContentHarnessFilters } from './modules/repeater/repeater-item-content-harness-filters';
+export { SkyRepeaterItemContextMenuHarness } from './modules/repeater/repeater-item-context-menu-harness';
+export { SkyRepeaterItemContextMenuHarnessFilters } from './modules/repeater/repeater-item-context-menu-harness-filters';
 export { SkyRepeaterItemTitleHarness } from './modules/repeater/repeater-item-title-harness';
 export { SkyRepeaterItemTitleHarnessFilters } from './modules/repeater/repeater-item-title-harness-filters';
 

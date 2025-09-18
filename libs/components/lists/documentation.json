@@ -92,6 +92,10 @@
           "SkyRepeaterHarnessFilters",
           "SkyRepeaterItemHarness",
           "SkyRepeaterItemHarnessFilters",
+          "SkyRepeaterItemContentHarness",
+          "SkyRepeaterItemContentHarnessFilters",
+          "SkyRepeaterItemContextMenuHarness",
+          "SkyRepeaterItemContextMenuHarnessFilters",
           "SkyRepeaterItemTitleHarness",
           "SkyRepeaterItemTitleHarnessFilters"
         ]
