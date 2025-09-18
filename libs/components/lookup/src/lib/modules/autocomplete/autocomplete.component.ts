@@ -240,7 +240,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   /**
    * The array of functions to call against each search result. This filters
-   * the search results when using the default search function.
+   * the search results when using the `data` input and the default search function.
    *  When the `search` property specifies a custom search function, you must
    * manually apply filters inside that function. The function must return `true`
    * or `false` for each result to indicate whether to display it in the dropdown list.
