@@ -93,11 +93,12 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public ariaLabelledBy: string | undefined;
-
   /**
    * The static data source for the autocomplete component to search
-   * when users enter text. For a dynamic data source such as an array that
+   * when users enter text. For a dynamic data source, such as an array that
    * changes due to server calls, use `search` or `searchAsync` instead.
+   * You can specify static data, such as an array of objects,
+   * or you can pull data from a database.
    */
   @Input()
   public set data(value: any[] | undefined) {
@@ -193,7 +194,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   /**
-   * The function that dynamically manages the data source when users
+   * The function that dynamically manages the data to display in search results when users
    * change the text in the autocomplete field. The search function must return
    * an array or a promise of an array. The `search` property is particularly
    * useful when the data source does not live in the source code.
@@ -238,11 +239,12 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   /**
-   * The array of functions to call against each search result in order
-   * to filter the search results when using the default search function. When
-   * using the `search` property to specify a custom search function, you must
+   * The array of functions to call against each search result. This filters
+   * the search results when using the `data` input and the default search function.
+   *  When the `search` property specifies a custom search function, you must
    * manually apply filters inside that function. The function must return `true`
    * or `false` for each result to indicate whether to display it in the dropdown list.
+   *
    * @deprecated We recommend against using this property. To filter results, use the `searchAsync` event instead.
    */
   @Input()
@@ -312,9 +314,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   public allowAnyValue = input(false, { transform: booleanAttribute });
 
   /**
-   * Highlights the search text in each search result. Set this to false
-   * when your search finds results that are not exact text matches, e.g.
-   * returning "Bob" for the term "Robert."
+   * Highlights the search text in each search result. Set this to `false`
+   * when your search returns results that aren't exact text matches, such as
+   * returning "Bob" for "Robert."
    * @default true
    */
   public highlightSearchText = input(true, { transform: booleanAttribute });
