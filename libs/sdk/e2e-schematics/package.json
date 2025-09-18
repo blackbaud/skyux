@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "peerDependencies": {
     "@angular-devkit/core": "^20.3.1",
-    "@angular/cdk": "^20.2.3",
     "@angular/cli": "^20.3.1",
     "@nx/angular": "^21.5.2",
     "@nx/cypress": "^21.5.2",
