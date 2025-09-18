@@ -8,6 +8,11 @@ import { SkyFilterItemLookupSearchAsyncResult } from './filter-item-lookup-searc
  */
 export interface SkyFilterItemLookupSearchAsyncArgs {
   /**
+   * The unique identifier for the filter.
+   */
+  filterId: string;
+
+  /**
    * The search text entered by the user.
    */
   searchText: string;

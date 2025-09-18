@@ -37,7 +37,7 @@ describe('Basic filter bar', () => {
 
     // Get all filter items
     const filterItems = await filterBarHarness.getItems();
-    expect(filterItems).toHaveSize(3);
+    expect(filterItems).toHaveSize(4);
 
     // Check specific filter items exist
     const staffAssignedFilter = await filterBarHarness.getItem({
@@ -62,28 +62,28 @@ describe('Basic filter bar', () => {
     fixture.detectChanges();
 
     // Click on the Role filter to open its modal
-    const staffAssignedFilter = await filterBarHarness.getItem({
-      filterId: 'staff-assigned',
+    const applicationFeeFilter = await filterBarHarness.getItem({
+      filterId: 'application-fee-received',
     });
 
-    await expectAsync(staffAssignedFilter.getFilterValue()).toBeResolvedTo(
+    await expectAsync(applicationFeeFilter.getFilterValue()).toBeResolvedTo(
       undefined,
     );
 
-    await staffAssignedFilter.click();
+    await applicationFeeFilter.click();
 
     // Get the modal and our custom filter modal harness
     const modal = await loader.getHarness(SkyModalHarness);
     const filterModalHarness = await loader.getHarness(FilterModalHarness);
 
     // Verify the modal opened
-    await expectAsync(modal.getSize()).toBeResolvedTo('medium');
+    await expectAsync(modal.getSize()).toBeResolvedTo('small');
 
     // Select an option and verify it's selected
-    await filterModalHarness.selectOption(2);
+    await filterModalHarness.selectOptionByIndex(2);
 
-    await expectAsync(staffAssignedFilter.getFilterValue()).toBeResolvedTo(
-      'Kanesha Hutto',
+    await expectAsync(applicationFeeFilter.getFilterValue()).toBeResolvedTo(
+      'No',
     );
   });
 });

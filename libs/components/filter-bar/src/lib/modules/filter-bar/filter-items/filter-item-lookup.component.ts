@@ -99,6 +99,7 @@ export class SkyFilterItemLookupComponent
   }
 
   protected openFilter(): void {
+    const filterId = this.filterId();
     const filterValue = this.filterValue();
     const descriptorProperty = this.descriptorProperty();
     const idProperty = this.idProperty();
@@ -108,6 +109,7 @@ export class SkyFilterItemLookupComponent
       idProperty: idProperty,
       searchAsync: (args) => {
         const searchAsyncArgs: SkyFilterItemLookupSearchAsyncArgs = {
+          filterId: filterId,
           offset: args.offset,
           searchText: args.searchText,
           continuationData: args.continuationData,
