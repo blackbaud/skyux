@@ -32,7 +32,8 @@
       "codeExamples": {
         "docsIds": [
           "CoreMediaQueryBasicExampleComponent",
-          "CoreMediaQueryResponsiveHostExampleComponent"
+          "CoreMediaQueryResponsiveHostExampleComponent",
+          "ResponsiveMixinExampleComponent"
         ]
       }
     },

@@ -1,0 +1,36 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+
+:host {
+  border: 3px black solid;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.box-1,
+.box-2 {
+  height: 100px;
+}
+
+@include mixins.sky-host-responsive-container-xs-min() {
+  .box-1 {
+    flex-basis: 100%;
+    background-color: blue;
+  }
+
+  .box-2 {
+    flex-basis: 100%;
+    background-color: green;
+  }
+}
+
+@include mixins.sky-host-responsive-container-sm-min() {
+  .box-1 {
+    flex-basis: 50%;
+    background-color: lightblue;
+  }
+
+  .box-2 {
+    flex-basis: 50%;
+    background-color: lightgreen;
+  }
+}

@@ -164,6 +164,7 @@ export { TabsWizardBasicExampleComponent } from './lib/modules/tabs/wizard/basic
 export { TextEditorHelpKeyExampleComponent } from './lib/modules/text-editor/help-key/example.component';
 export { TextEditorRichTextDisplayExampleComponent } from './lib/modules/text-editor/rich-text-display/example.component';
 export { TextEditorExampleComponent } from './lib/modules/text-editor/text-editor/example.component';
+export { ResponsiveMixinExampleComponent } from './lib/modules/core/media-query/responsive-mixins/example.component';
 export { TilesBasicExampleComponent } from './lib/modules/tiles/tiles/basic/example.component';
 export { ToastBasicExampleComponent } from './lib/modules/toast/toast/basic/example.component';
 export { ToastCustomComponentExampleComponent } from './lib/modules/toast/toast/custom-component/example.component';
