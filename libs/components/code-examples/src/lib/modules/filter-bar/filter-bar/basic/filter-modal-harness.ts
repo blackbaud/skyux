@@ -24,7 +24,9 @@ export class FilterModalHarness extends SkyComponentHarness {
     const group = await this.#getRadioGroup();
     const radios = await group.getRadioButtons();
     if (index < 0 || index >= radios.length) {
-      throw new Error(`Radio index ${index} is out of bounds (found ${radios.length} radios).`);
+      throw new Error(
+        `Radio index ${index} is out of bounds (found ${radios.length} radios).`,
+      );
     }
     const radio = radios[index];
     await radio.check();
