@@ -21,4 +21,11 @@ export class SkyRepeaterItemTitleHarness extends SkyQueryableComponentHarness {
   ): HarnessPredicate<SkyRepeaterItemTitleHarness> {
     return SkyRepeaterItemTitleHarness.getDataSkyIdPredicate(filters);
   }
+
+  /**
+   * Gets the title text.
+   */
+  public async getTitleText(): Promise<string> {
+    return await (await this.host()).text();
+  }
 }

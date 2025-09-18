@@ -11,12 +11,16 @@
       [selectable]="selectable"
       [disabled]="disabled"
     >
-      <sky-repeater-item-title>
+      <sky-repeater-item-title [attr.data-sky-id]="'my-item-title-' + i">
         {{ item.title }}
       </sky-repeater-item-title>
-      <sky-repeater-item-content>
+      <sky-repeater-item-content [attr.data-sky-id]="'my-item-content-' + i">
         <span class="item-note">{{ item.note }}</span>
       </sky-repeater-item-content>
+      <sky-repeater-item-context-menu
+        [attr.data-sky-id]="'my-item-context-menu-' + i"
+      >
+      </sky-repeater-item-context-menu>
     </sky-repeater-item>
   }
 </sky-repeater>

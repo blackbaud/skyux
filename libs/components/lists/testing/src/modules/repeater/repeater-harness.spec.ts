@@ -321,4 +321,64 @@ describe('Repeater harness', () => {
 
     await expectAsync(item.getItemName()).toBeResolvedTo('Inline form item');
   });
+
+  it('should get the title from an item with data sky id', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    const title = await item.getTitle({
+      dataSkyId: 'my-item-title-0',
+    });
+
+    await expectAsync(title.getTitleText()).toBeResolvedTo(
+      'Call Robert Hernandez',
+    );
+  });
+
+  it('should get the context menu from an item by data sky id', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(
+      item.getContextMenu({
+        dataSkyId: 'my-item-context-menu-0',
+      }),
+    ).toBeResolved();
+  });
+
+  it('should get the content of an item', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(
+      item.getContent({
+        dataSkyId: 'my-item-content-0',
+      }),
+    ).toBeResolved();
+  });
+
+  it('should get the content, context menu and title of an item if they exist', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(item.getContent()).toBeResolved();
+    await expectAsync(item.getContextMenu()).toBeResolved();
+    await expectAsync(item.getTitle()).toBeResolved();
+  });
 });

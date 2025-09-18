@@ -4,7 +4,7 @@ import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyRepeaterItemContentHarnessFilters } from './repeater-item-content-harness-filters';
 
 /**
- * Harness to interact with a repeater item content component in tests.
+ * Harness to query inside a repeater item content component in tests.
  */
 export class SkyRepeaterItemContentHarness extends SkyQueryableComponentHarness {
   /**

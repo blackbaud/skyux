@@ -4,7 +4,13 @@ import { SkyCheckboxHarness } from '@skyux/forms/testing';
 import { SkyChevronHarness } from '@skyux/indicators/testing';
 import { SkyInlineFormHarness } from '@skyux/inline-form/testing';
 
+import { SkyRepeaterItemContentHarness } from './repeater-item-content-harness';
+import { SkyRepeaterItemContentHarnessFilters } from './repeater-item-content-harness-filters';
+import { SkyRepeaterItemContextMenuHarness } from './repeater-item-context-menu-harness';
+import { SkyRepeaterItemContextMenuHarnessFilters } from './repeater-item-context-menu-harness-filters';
 import { SkyRepeaterItemHarnessFilters } from './repeater-item-harness-filters';
+import { SkyRepeaterItemTitleHarness } from './repeater-item-title-harness';
+import { SkyRepeaterItemTitleHarnessFilters } from './repeater-item-title-harness-filters';
 
 /**
  * Harness for interacting with a repeater item component in tests.
@@ -167,7 +173,7 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Whether a repeater item has selectability enabled.
+   * Whether a repeater item has selection enabled.
    */
   public async isSelectable(): Promise<boolean> {
     return !!(await this.#getCheckbox());
@@ -199,6 +205,39 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
     }
 
     await checkbox.check();
+  }
+
+  /**
+   * Gets a harness for the repeater item content component.
+   */
+  public async getContent(
+    filters?: SkyRepeaterItemContentHarnessFilters,
+  ): Promise<SkyRepeaterItemContentHarness> {
+    return await this.locatorFor(
+      SkyRepeaterItemContentHarness.with(filters || {}),
+    )();
+  }
+
+  /**
+   * Gets a harness for the repeater item context menu component.
+   */
+  public async getContextMenu(
+    filters?: SkyRepeaterItemContextMenuHarnessFilters,
+  ): Promise<SkyRepeaterItemContextMenuHarness> {
+    return await this.locatorFor(
+      SkyRepeaterItemContextMenuHarness.with(filters || {}),
+    )();
+  }
+
+  /**
+   * Gets a harness for the repeater item title component.
+   */
+  public async getTitle(
+    filters?: SkyRepeaterItemTitleHarnessFilters,
+  ): Promise<SkyRepeaterItemTitleHarness> {
+    return await this.locatorFor(
+      SkyRepeaterItemTitleHarness.with(filters || {}),
+    )();
   }
 
   /**
