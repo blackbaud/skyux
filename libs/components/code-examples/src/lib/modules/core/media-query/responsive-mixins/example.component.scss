@@ -1,0 +1,21 @@
+@use 'libs/components/theme/src/lib/styles/variables' as vars;
+
+:host {
+  display: block;
+}
+
+.resize-observer-examples {
+  margin: 10px;
+}
+
+.container-queries-examples > .sky-responsive-container-xs {
+  max-width: vars.$sky-screen-xs-max;
+}
+
+.container-queries-examples > .sky-responsive-container-sm {
+  max-width: vars.$sky-screen-sm-max;
+}
+
+.container-queries-examples > .sky-responsive-container-md {
+  max-width: vars.$sky-screen-md-max;
+}
