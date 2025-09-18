@@ -21,9 +21,7 @@ Object {
   "targets": Object {
     "build": Object {
       "configurations": Object {
-        "development": Object {
-          "tsConfig": "lib/test/tsconfig.lib.json",
-        },
+        "development": Object {},
         "production": Object {
           "tsConfig": "lib/test/tsconfig.lib.prod.json",
         },
@@ -49,6 +47,7 @@ Object {
       ],
       "options": Object {
         "project": "lib/test/ng-package.json",
+        "tsConfig": "lib/test/tsconfig.lib.json",
       },
       "outputs": Array [
         "{workspaceRoot}/dist/{projectRoot}",
@@ -66,6 +65,7 @@ Object {
       "executor": "@nx/jest:jest",
       "options": Object {
         "jestConfig": "lib/test/jest.config.ts",
+        "tsConfig": "lib/test/tsconfig.spec.json",
       },
       "outputs": Array [
         "{workspaceRoot}/coverage/{projectRoot}",
