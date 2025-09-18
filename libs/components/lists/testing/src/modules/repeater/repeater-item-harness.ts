@@ -2,6 +2,7 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyCheckboxHarness } from '@skyux/forms/testing';
 import { SkyChevronHarness } from '@skyux/indicators/testing';
+import { SkyInlineFormHarness } from '@skyux/inline-form/testing';
 
 import { SkyRepeaterItemHarnessFilters } from './repeater-item-harness-filters';
 
@@ -108,6 +109,20 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
    */
   public async getContentText(): Promise<string> {
     return await (await this.#getContent()).text();
+  }
+
+  /**
+   * Gets the inline form. Will throw an error if the inline form does not exist.
+   */
+  public async getInlineForm(): Promise<SkyInlineFormHarness> {
+    return await this.locatorFor(SkyInlineFormHarness)();
+  }
+
+  /**
+   * Gets the item name.
+   */
+  public async getItemName(): Promise<string | null> {
+    return await (await this.#getItem()).getAttribute('aria-label');
   }
 
   /**

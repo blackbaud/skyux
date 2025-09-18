@@ -20,3 +20,22 @@
     </sky-repeater-item>
   }
 </sky-repeater>
+
+<sky-repeater data-sky-id="my-inline-form-repeater">
+  <sky-repeater-item
+    itemName="Inline form item"
+    [inlineFormConfig]="inlineFormConfig"
+    [inlineFormTemplate]="inlineFormTemplate"
+    [showInlineForm]="true"
+  >
+    <sky-repeater-item-title
+      >Repeater with inline form</sky-repeater-item-title
+    ></sky-repeater-item
+  >
+</sky-repeater>
+
+<ng-template #inlineFormTemplate>
+  <sky-input-box labelText="Title" stacked="true">
+    <input formControlName="title" type="text" />
+  </sky-input-box>
+</ng-template>

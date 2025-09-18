@@ -298,4 +298,27 @@ describe('Repeater harness', () => {
 
     await expectAsync(item.isDisabled()).toBeResolvedTo(false);
   });
+  it('should get the inline form from an item', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-inline-form-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    const inlineForm = await item.getInlineForm();
+
+    await expectAsync(inlineForm.isFormExpanded()).toBeResolvedTo(true);
+  });
+
+  it('should get the item name', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-inline-form-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(item.getItemName()).toBeResolvedTo('Inline form item');
+  });
 });
