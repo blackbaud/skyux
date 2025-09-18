@@ -7,7 +7,7 @@ import type { SkyAgGridCurrencyProperties } from './currency-properties';
  */
 export interface SkyCellEditorCurrencyParams extends ICellEditorParams {
   /**
-   * The parameters to configure the currency cell editor.
+   * The parameters provided to the currency cell editor.
    */
   skyComponentProperties?: SkyAgGridCurrencyProperties;
 }

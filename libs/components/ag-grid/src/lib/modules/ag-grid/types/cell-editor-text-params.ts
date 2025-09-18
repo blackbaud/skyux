@@ -7,7 +7,7 @@ import { SkyAgGridTextProperties } from './text-properties';
  */
 export interface SkyCellEditorTextParams extends ICellEditorParams {
   /**
-   * The parameters to configure the text cell editor.
+   * The parameters provided to the text cell editor.
    */
   skyComponentProperties?: SkyAgGridTextProperties;
 }

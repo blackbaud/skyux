@@ -7,7 +7,7 @@ import { SkyAgGridNumberProperties } from './number-properties';
  */
 export interface SkyCellEditorNumberParams extends ICellEditorParams {
   /**
-   * The parameters to configure the number cell editor.
+   * The parameters provided to the number cell editor.
    */
   skyComponentProperties?: SkyAgGridNumberProperties;
 }

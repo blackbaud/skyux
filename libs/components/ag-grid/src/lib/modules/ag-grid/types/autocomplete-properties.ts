@@ -33,14 +33,14 @@ export interface SkyAgGridAutocompleteProperties {
    */
   propertiesToSearch?: string[];
   /**
-   * The function that dynamically manages the data source when users change the text in the autocomplete cell. The search function must return an array or a promise of an array.
+   * The function that dynamically manages the data to display in search results when users change the text in the autocomplete cell. The search function must return an array or a promise of an array.
    */
   search?: (
     searchText: string,
     data?: unknown[],
   ) => unknown[] | Promise<unknown[]>;
   /**
-   * The array of functions to call against each search result. This filters the search results when using the default search function. When the `search` property specifies a custom search function, you must manually apply filters inside that function. The function must return `true` or `false` for each result to indicate whether to display it in the dropdown list.
+   * The array of functions to call against each search result. This filters the search results when using the `data` input and the default search function. When the `search` property specifies a custom search function, you must manually apply filters inside that function. The function must return `true` or `false` for each result to indicate whether to display it in the dropdown list.
    */
   searchFilters?: ((searchText: string, item: unknown) => boolean)[];
   /**

@@ -53,7 +53,7 @@ export interface SkyAgGridLookupProperties {
    */
   enableShowMore?: boolean;
   /**
-   * The object property that represents the object's unique identifier. Specifying this property enables token animations and more efficient rendering. This property is required when using `enableShowMore` and `searchAsync` together.
+   * The property that represents the object's unique identifier. Specifying this property enables token animations and more efficient rendering. This property is required when using `enableShowMore` and `searchAsync` together.
    */
   idProperty?: string;
   /**
@@ -67,7 +67,7 @@ export interface SkyAgGridLookupProperties {
    */
   propertiesToSearch?: string[];
   /**
-   * The function that dynamically manage the data source when users change the text in the lookup field. The search function must return an array or a promise of an array.
+   * The function that dynamically manages the data to display in search results when users change the text in the lookup cell. The search function must return an array or a promise of an array.
    * @deprecated Use the `searchAsync` event emitter and callback instead to provide searched data to the lookup component.
    */
   search?: SkyAutocompleteSearchFunction;
@@ -76,7 +76,7 @@ export interface SkyAgGridLookupProperties {
    */
   searchAsync?: (args: SkyAutocompleteSearchAsyncArgs) => void;
   /**
-   * The array of functions to call against each search result. This filters the search results when using the data input and the default search function. When the `search` property specifies a custom search function, you must manually apply filters inside that function. The function must return `true` or `false` for each result to indicate whether to display it in the dropdown list.
+   * The array of functions to call against each search result. This filters the search results when using the `data` input and the default search function. When the `search` property specifies a custom search function, you must manually apply filters inside that function. The function must return `true` or `false` for each result to indicate whether to display it in the dropdown list.
    * @deprecated  Use the `searchAsync` event emitter and callback instead to provide searched data to the lookup component.
    */
   searchFilters?: SkyAutocompleteSearchFunctionFilter[];

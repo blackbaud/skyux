@@ -194,7 +194,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   /**
-   * The function that dynamically manages the data source when users
+   * The function that dynamically manages the data to display in search results when users
    * change the text in the autocomplete field. The search function must return
    * an array or a promise of an array. The `search` property is particularly
    * useful when the data source does not live in the source code.
