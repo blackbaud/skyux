@@ -1,6 +1,6 @@
 # Changelog
 
-## [13.0.0-beta.1](https://github.com/blackbaud/skyux/compare/v13.0.0-beta.0...13.0.0-beta.0) (2025-09-18)
+## [13.0.0-beta.1](https://github.com/blackbaud/skyux/compare/v13.0.0-beta.0...13.0.0-beta.1) (2025-09-18)
 
 
 ### Features
