@@ -56,6 +56,7 @@ describe('configure-test-ci generator', () => {
         "executor": "@angular-devkit/build-angular:karma",
         "options": Object {
           "jestConfig": "test/jest.config.ts",
+          "tsConfig": "test/tsconfig.spec.json",
         },
         "outputs": Array [
           "{workspaceRoot}/coverage/{projectRoot}",
@@ -80,6 +81,7 @@ describe('configure-test-ci generator', () => {
         "executor": "@nx/jest:jest",
         "options": Object {
           "jestConfig": "test/jest.config.ts",
+          "tsConfig": "test/tsconfig.spec.json",
         },
         "outputs": Array [
           "{workspaceRoot}/coverage/{projectRoot}",

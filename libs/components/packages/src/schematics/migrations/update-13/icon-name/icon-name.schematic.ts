@@ -4,7 +4,6 @@ import {
   Tree,
   UpdateRecorder,
 } from '@angular-devkit/schematics';
-import { isImported, parseSourceFile } from '@angular/cdk/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
@@ -14,7 +13,11 @@ import {
   getElementsByTagName,
   parseTemplate,
 } from '../../../utility/template';
-import { getInlineTemplates } from '../../../utility/typescript/ng-ast';
+import {
+  getInlineTemplates,
+  isImportedFromPackage,
+  parseSourceFile,
+} from '../../../utility/typescript/ng-ast';
 import { visitProjectFiles } from '../../../utility/visit-project-files';
 
 import { IconNameMappings } from './icon-name-mappings';
@@ -141,8 +144,12 @@ function updateDataViewConfig(
   recorder: UpdateRecorder,
 ): void {
   const checkSkyDataViewConfig =
-    isImported(source, 'SkyDataViewConfig', '@skyux/data-manager') ||
-    isImported(source, 'SkyDataManagerService', '@skyux/data-manager');
+    isImportedFromPackage(source, 'SkyDataViewConfig', '@skyux/data-manager') ||
+    isImportedFromPackage(
+      source,
+      'SkyDataManagerService',
+      '@skyux/data-manager',
+    );
   if (checkSkyDataViewConfig) {
     const uninitializedDataViewConfigs = findNodes(
       source,
@@ -218,7 +225,7 @@ async function updateSourceFiles(
         if (filePath.endsWith('.ts')) {
           const source = parseSourceFile(tree, filePath);
           const recorder = tree.beginUpdate(filePath);
-          if (isImported(source, 'Component', '@angular/core')) {
+          if (isImportedFromPackage(source, 'Component', '@angular/core')) {
             const content = tree.readText(filePath);
             const templates = getInlineTemplates(source);
             templates.forEach((template) => {
