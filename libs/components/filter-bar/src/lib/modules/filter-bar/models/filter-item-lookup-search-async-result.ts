@@ -1,5 +1,5 @@
 /**
- * The result of searching for items to display in a Filter item lookup selection modal.
+ * The result of searching for items to display in a filter item lookup selection modal.
  */
 export interface SkyFilterItemLookupSearchAsyncResult {
   /**
@@ -12,14 +12,14 @@ export interface SkyFilterItemLookupSearchAsyncResult {
    */
   hasMore?: boolean;
   /**
-   * A list of items matching the search criteria. When there are more items that match
-   * the search criteria, set the `hasMore` property to `true` more records can be lazy-loaded
-   * as the user scrolls through the search results.
+   * A list of items that match the search criteria. When more items match
+   * the search criteria, set the `hasMore` property to `true`. More records can be lazy-loaded
+   * as users scrolls through the search results.
    */
   items: unknown[];
   /**
    * The total number of records that match the search criteria, including items not returned in
-   * the current list of items.
+   * the current list.
    */
   totalCount: number;
 }

@@ -18,20 +18,20 @@ export interface SkyFilterItemLookupSearchAsyncArgs {
   searchText: string;
 
   /**
-   * The offset index of the first result to return. When search is executed
-   * as a result of an infinite scroll event, for example, offset will be set
+   * The offset index of the first result to return. For example, when search is executed
+   * as a result of an infinite scroll event, the offset is set
    * to the number of items already displayed.
    */
   offset: number;
 
   /**
-   * A continuation token which can be set and then will be passed back with any future searches.
-   * This is helpful for applications which utilize a token instead of an offset when fetching data.
+   * A continuation token that can be set and then passed back with any future searches.
+   * This is helpful for applications that use a token to fetch data instead of an offset.
    */
   continuationData?: unknown;
 
   /**
-   * An Observable representing the search results. Consumers should set this
+   * An observable that represents the search results. Consumers should set this
    * when the event fires so the filter item lookup component can subscribe
    * to it and then display the results.
    */

@@ -17,8 +17,8 @@ export class FilterModalHarness extends SkyComponentHarness {
   }
 
   /**
-   * Select a radio option by its 0-based index within the group and save.
-   * Returns the label text of the selected radio for convenience.
+   * Selects a radio button based on its 0-based index within the group.
+   * Returns the label text of the selected radio button.
    */
   public async selectOptionByIndex(index: number): Promise<string | undefined> {
     const group = await this.#getRadioGroup();
@@ -36,8 +36,8 @@ export class FilterModalHarness extends SkyComponentHarness {
   }
 
   /**
-   * Select a radio option whose label text matches (case-sensitive) the provided label and save.
-   * Returns true if a radio was found and selected.
+   * Selects the radio button with label text that matches the provided, case-sensitive label.
+   * Returns `true` if the radio button is found and selected.
    */
   public async selectOptionByLabel(labelText: string): Promise<boolean> {
     const group = await this.#getRadioGroup();
@@ -53,7 +53,7 @@ export class FilterModalHarness extends SkyComponentHarness {
   }
 
   /**
-   * Returns all radio button labels in the modal (in order) without modifying selection.
+   * Returns all radio button labels in the order that they appear in the modal. This does not modify the selection.
    */
   public async getOptionLabels(): Promise<(string | undefined)[]> {
     const group = await this.#getRadioGroup();
@@ -66,7 +66,7 @@ export class FilterModalHarness extends SkyComponentHarness {
   }
 
   /**
-   * Convenience to get the currently checked radio harness (or undefined if none).
+   * Returns the selected radio button. Returns `undefined` if none are selected.
    */
   public async getCheckedRadio(): Promise<SkyRadioHarness | undefined> {
     const group = await this.#getRadioGroup();

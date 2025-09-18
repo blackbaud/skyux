@@ -27,7 +27,7 @@ import { SKY_FILTER_ITEM } from './filter-item.token';
 
 /**
  * A filter bar item that opens a selection modal for complex filter configuration.
- * Use this component for lookup-type filter fields where the user can select one or more
+ * Use this component for lookup-type filter fields where users select one or more
  * options from a list of values.
  */
 @Component({
@@ -55,7 +55,7 @@ export class SkyFilterItemLookupComponent
   public readonly labelText = input.required<string>();
 
   /**
-   * The object property to display for each filter value in the selection modal when the user opens the filter.
+   * The object property to display for each filter value in the selection modal when users open the filter.
    * @required
    */
   public readonly descriptorProperty = input.required<string>();
@@ -67,8 +67,8 @@ export class SkyFilterItemLookupComponent
   public readonly idProperty = input.required<string>();
 
   /**
-   * Fires when users enter new search information and allows results to be
-   * returned via an observable. The event is also fired with empty search text
+   * Fires when users enter search information and allows results to be
+   * returned via an observable. The event also fires with empty search text
    * when the filter is opened.
    * @required
    */
