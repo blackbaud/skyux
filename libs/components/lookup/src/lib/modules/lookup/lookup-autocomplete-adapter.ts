@@ -55,7 +55,7 @@ export class SkyLookupAutocompleteAdapter {
   }
 
   /**
-   * The function to dynamically manage the data source when users
+   * The function that dynamically manages the data to display in search results when users
    * change the text in the lookup field. The search function must return
    * an array or a promise of an array. The `search` property is particularly
    * useful when the data source does not live in the source code.
@@ -78,8 +78,8 @@ export class SkyLookupAutocompleteAdapter {
 
   /**
    * The template that formats each option in the dropdown list. The lookup component
-   * injects values into the template as `item` variables that reference all the object
-   * properties of the options.
+   * injects values into the template as `item` variables that reference all of the object
+   * properties of the search results.
    */
   @Input()
   public searchResultTemplate: TemplateRef<unknown> | undefined;
@@ -126,7 +126,7 @@ export class SkyLookupAutocompleteAdapter {
 
   /**
    * Fires when users enter new search information and allows results to be
-   * returned via an observable. The event is also fired with empty search text
+   * returned via an observable. The event is also fired
    * when the "Show more" picker is opened without search text.
    */
   @Output()
