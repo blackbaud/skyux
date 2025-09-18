@@ -91,7 +91,9 @@
           "SkyRepeaterHarness",
           "SkyRepeaterHarnessFilters",
           "SkyRepeaterItemHarness",
-          "SkyRepeaterItemHarnessFilters"
+          "SkyRepeaterItemHarnessFilters",
+          "SkyRepeaterItemTitleHarness",
+          "SkyRepeaterItemTitleHarnessFilters"
         ]
       },
       "codeExamples": {
