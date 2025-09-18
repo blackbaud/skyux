@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.41.1](https://github.com/blackbaud/skyux/compare/12.41.0...v12.41.1) (2025-09-17)
+
+
+### Bug Fixes
+
+* **components/filter-bar:** update filter bar code example null filter value to empty select option ([#3951](https://github.com/blackbaud/skyux/issues/3951)) ([229f19e](https://github.com/blackbaud/skyux/commit/229f19e831e294be2ebbb3d78f2e6f0496211d8e))
+
 ## [12.41.0](https://github.com/blackbaud/skyux/compare/12.40.0...12.41.0) (2025-09-15)
 
 
