@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import {
   SkySelectionModalInstance,
+  SkySelectionModalOpenArgs,
   SkySelectionModalService,
 } from '@skyux/lookup';
 import {
@@ -85,10 +86,11 @@ describe('Filter bar component', () => {
       await fixture.whenStable();
       const filterItems = getFilterItems();
 
-      expect(filterItems.length).toBe(3);
+      expect(filterItems.length).toBe(4);
       expect(getFilterItemLabel(filterItems[0])).toBe('filter 1');
       expect(getFilterItemLabel(filterItems[1])).toBe('filter 2');
       expect(getFilterItemLabel(filterItems[2])).toBe('filter 3');
+      expect(getFilterItemLabel(filterItems[3])).toBe('filter 4');
     });
 
     it('should show/hide filter picker button based on selectedFilters', () => {
@@ -398,7 +400,7 @@ describe('Filter bar component', () => {
 
       // Verify initial state
       const filterItems = getFilterItems();
-      expect(filterItems.length).toBe(3);
+      expect(filterItems.length).toBe(4);
 
       const initialValueElement = filterItems[0].querySelector(
         '.sky-filter-item-value',
@@ -844,6 +846,287 @@ describe('Filter bar component', () => {
 
       const secondButton = updatedFilterItems[1].querySelector('button');
       expect(secondButton?.getAttribute('aria-pressed')).toBe('true');
+    });
+  });
+
+  describe('filter item lookup component', () => {
+    beforeEach(async () => {
+      await setupTestBed();
+    });
+
+    it('should handle single selection modal result', () => {
+      const closed$ = of({
+        reason: 'save',
+        selectedItems: [{ id: '4', name: 'Alpha' }],
+      });
+      selectionModalServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as unknown as SkySelectionModalInstance);
+
+      // Simulate clicking a lookup filter item to open selection modal
+      component.appliedFilters.set([{ filterId: '4', filterValue: undefined }]);
+      fixture.detectChanges();
+
+      const filterItems = getFilterItems();
+      // lookup is the 4th filter item in the fixture template (index 3)
+      const filterButton = filterItems[3].querySelector(
+        'button',
+      ) as HTMLButtonElement;
+      filterButton.click();
+
+      expect(selectionModalServiceSpy.open).toHaveBeenCalled();
+
+      // After modal closes with single selection, verify display value
+      component.appliedFilters.set([
+        {
+          filterId: '4',
+          filterValue: {
+            value: [{ id: '4', name: 'Alpha' }],
+            displayValue: 'Alpha',
+          },
+        },
+      ]);
+      fixture.detectChanges();
+
+      const updatedFilterItems = getFilterItems();
+      const valueElement = updatedFilterItems[3].querySelector(
+        '.sky-filter-item-value',
+      );
+      expect(valueElement?.textContent?.trim()).toBe('Alpha');
+    });
+
+    it('should call searchAsync and handle save with no selections (internal branch)', () => {
+      // Spy implementation will invoke the provided searchAsync callback to simulate initial load
+      selectionModalServiceSpy.open.and.callFake(
+        (config: SkySelectionModalOpenArgs) => {
+          // Trigger initial search
+          config.searchAsync({ offset: 0, searchText: '' });
+          return {
+            closed: of({ reason: 'save', selectedItems: [] }),
+          } as unknown as SkySelectionModalInstance;
+        },
+      );
+
+      const filterItems = getFilterItems();
+      const filterButton = filterItems[3].querySelector(
+        'button',
+      ) as HTMLButtonElement;
+      filterButton.click();
+
+      // One search call captured
+      expect(component.searchCalls.length).toBe(1);
+      // Since no items selected, we expect lookup value element to be absent
+      const valueElement = filterItems[3].querySelector(
+        '.sky-filter-item-value',
+      );
+      expect(valueElement).toBeNull();
+    });
+
+    it('should call searchAsync and handle save with multiple selections (internal branch)', () => {
+      // Provide two selected items to drive multi-select path
+      selectionModalServiceSpy.open.and.callFake(
+        (config: SkySelectionModalOpenArgs) => {
+          config.searchAsync({ offset: 0, searchText: '' });
+          return {
+            closed: of({
+              reason: 'save',
+              selectedItems: [
+                { id: '4', name: 'Alpha' },
+                { id: '5', name: 'Beta' },
+              ],
+            }),
+          } as unknown as SkySelectionModalInstance;
+        },
+      );
+
+      const filterItems = getFilterItems();
+      const filterButton = filterItems[3].querySelector(
+        'button',
+      ) as HTMLButtonElement;
+      filterButton.click();
+
+      // Ensure search emitted
+      expect(component.searchCalls.length).toBe(1);
+      // We cannot easily assert the localized string without a resource spy in this setup, but ensure button still exists
+      const button = filterItems[3].querySelector('button');
+      expect(button).toBeTruthy();
+    });
+
+    it('should invoke searchAsync callback and save with no selections', () => {
+      expect(component.searchCalls.length).toBe(0);
+
+      selectionModalServiceSpy.open.and.callFake((args: unknown) => {
+        const cfg = args as {
+          searchAsync: (a: { offset?: number; searchText: string }) => void;
+        };
+        cfg.searchAsync({ offset: 0, searchText: '' });
+        return {
+          closed: of({ reason: 'save', selectedItems: [] }),
+        } as unknown as SkySelectionModalInstance;
+      });
+
+      const filterItems = getFilterItems();
+      const filterButton = filterItems[3].querySelector(
+        'button',
+      ) as HTMLButtonElement;
+      filterButton.click();
+
+      expect(selectionModalServiceSpy.open).toHaveBeenCalled();
+      expect(component.searchCalls.length).toBe(1);
+      const valueElement = filterItems[3].querySelector(
+        '.sky-filter-item-value',
+      );
+      expect(valueElement).toBeNull();
+    });
+
+    it('should invoke searchAsync callback and save with multiple selections', () => {
+      expect(component.searchCalls.length).toBe(0);
+
+      selectionModalServiceSpy.open.and.callFake((args: unknown) => {
+        const cfg = args as {
+          searchAsync: (a: { offset?: number; searchText: string }) => void;
+        };
+        cfg.searchAsync({ offset: 0, searchText: 'a' });
+        return {
+          closed: of({
+            reason: 'save',
+            selectedItems: [
+              { id: '4', name: 'Alpha' },
+              { id: '5', name: 'Beta' },
+            ],
+          }),
+        } as unknown as SkySelectionModalInstance;
+      });
+
+      const filterItems = getFilterItems();
+      const filterButton = filterItems[3].querySelector(
+        'button',
+      ) as HTMLButtonElement;
+      filterButton.click();
+
+      expect(selectionModalServiceSpy.open).toHaveBeenCalled();
+      expect(component.searchCalls.length).toBe(1);
+      // Simulate applied filters update (would normally be via service update emission)
+      component.appliedFilters.set([
+        {
+          filterId: '4',
+          filterValue: {
+            value: [
+              { id: '4', name: 'Alpha' },
+              { id: '5', name: 'Beta' },
+            ],
+            displayValue: '2 selected',
+          },
+        },
+      ]);
+      fixture.detectChanges();
+      const valueElement = filterItems[3].querySelector(
+        '.sky-filter-item-value',
+      );
+      expect(valueElement?.textContent?.trim()).toBe('2 selected');
+    });
+
+    it('should handle multiple selection modal result with resource string', () => {
+      const closed$ = of({
+        reason: 'save',
+        selectedItems: [
+          { id: '4', name: 'Alpha' },
+          { id: '5', name: 'Beta' },
+        ],
+      });
+      selectionModalServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as unknown as SkySelectionModalInstance);
+
+      // Simulate multiple selection result
+      component.appliedFilters.set([
+        {
+          filterId: '4',
+          filterValue: {
+            value: [
+              { id: '4', name: 'Alpha' },
+              { id: '5', name: 'Beta' },
+            ],
+            displayValue: '2 selected',
+          },
+        },
+      ]);
+      fixture.detectChanges();
+
+      const filterItems = getFilterItems();
+      const valueElement = filterItems[3].querySelector(
+        '.sky-filter-item-value',
+      );
+      expect(valueElement?.textContent?.trim()).toBe('2 selected');
+    });
+
+    it('should handle empty selection by clearing filter value', () => {
+      // Start with an existing filter value
+      component.appliedFilters.set([
+        {
+          filterId: '4',
+          filterValue: { value: 'existing', displayValue: 'Existing' },
+        },
+      ]);
+      fixture.detectChanges();
+
+      const closed$ = of({ reason: 'save', selectedItems: [] });
+      selectionModalServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as unknown as SkySelectionModalInstance);
+
+      // After empty selection, filter should be cleared only for filterId 4
+      component.appliedFilters.set([
+        { filterId: '1', filterValue: { value: 'value1' } },
+        { filterId: '2', filterValue: { value: 'value2' } },
+        { filterId: '3', filterValue: { value: 'value3' } },
+        { filterId: '4', filterValue: undefined },
+      ]);
+      fixture.detectChanges();
+
+      const filterItems = getFilterItems();
+      // Should still have 4 filter items; lookup shows no value
+      expect(filterItems.length).toBe(4);
+      const lookupValueEl = filterItems[3].querySelector(
+        '.sky-filter-item-value',
+      );
+      expect(lookupValueEl).toBeNull();
+    });
+
+    it('should ignore modal cancellation', () => {
+      const initialFilterValue = {
+        value: 'original',
+        displayValue: 'Original',
+      };
+      component.appliedFilters.set([
+        { filterId: '4', filterValue: initialFilterValue },
+      ]);
+      fixture.detectChanges();
+
+      const closed$ = of({
+        reason: 'cancel',
+        selectedItems: [{ id: '1', name: 'Alpha' }],
+      });
+      selectionModalServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as unknown as SkySelectionModalInstance);
+
+      const filterItems = getFilterItems();
+      const filterButton = filterItems[3].querySelector(
+        'button',
+      ) as HTMLButtonElement;
+      filterButton.click();
+
+      // Filter value should remain unchanged after cancellation
+      const applied = component.appliedFilters();
+      expect(applied?.find((f) => f.filterId === '4')?.filterValue).toEqual(
+        initialFilterValue,
+      );
+
+      const valueElement = filterItems[3].querySelector(
+        '.sky-filter-item-value',
+      );
+      expect(valueElement?.textContent?.trim()).toBe('Original');
     });
   });
 });

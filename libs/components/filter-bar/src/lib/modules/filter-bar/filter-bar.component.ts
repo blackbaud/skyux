@@ -297,6 +297,8 @@ export class SkyFilterBarComponent {
       if (filterValue.filterId === updatedFilter.filterId) {
         if (updatedFilter.filterValue) {
           newFilterValues.push(updatedFilter);
+        } else {
+          this.#updateFilters([updatedFilter]);
         }
         replaceFilter = true;
       } else {
