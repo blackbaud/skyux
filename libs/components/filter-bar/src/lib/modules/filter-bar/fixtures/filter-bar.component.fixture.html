@@ -21,4 +21,11 @@
     [modalSize]="modalSize()"
     (modalOpened)="onModalOpened($event)"
   />
+  <sky-filter-item-lookup
+    filterId="4"
+    labelText="filter 4"
+    idProperty="id"
+    descriptorProperty="name"
+    (searchAsync)="onSearchAsync($event)"
+  />
 </sky-filter-bar>
