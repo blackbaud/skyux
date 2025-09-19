@@ -256,4 +256,129 @@ describe('Repeater harness', () => {
       items[0].queryHarnessOrNull(NonexistentHarness),
     ).toBeResolvedTo(null);
   });
+
+  it('should get whether a selectable item is disabled', async () => {
+    const { fixture, repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    fixture.componentInstance.selectable = true;
+    fixture.componentInstance.disabled = true;
+    fixture.detectChanges();
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(item.isDisabled()).toBeResolvedTo(true);
+  });
+
+  it('should get the aria-label of the repeater', async () => {
+    const { fixture, repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    fixture.componentInstance.ariaLabel = 'Test Repeater Aria Label';
+    fixture.detectChanges();
+
+    await expectAsync(repeaterHarness.getAriaLabel()).toBeResolvedTo(
+      'Test Repeater Aria Label',
+    );
+  });
+
+  it('should return false if a non-selectable item is disabled', async () => {
+    const { fixture, repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    fixture.componentInstance.disabled = true;
+    fixture.detectChanges();
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(item.isDisabled()).toBeResolvedTo(false);
+  });
+  it('should get the inline form from an item', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-inline-form-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    const inlineForm = await item.getInlineForm();
+
+    await expectAsync(inlineForm.isFormExpanded()).toBeResolvedTo(true);
+  });
+
+  it('should get the item name', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-inline-form-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(item.getItemName()).toBeResolvedTo('Inline form item');
+  });
+
+  it('should get the title from an item with data sky id', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    const title = await item.getTitle({
+      dataSkyId: 'my-item-title-0',
+    });
+
+    await expectAsync(title.getTitleText()).toBeResolvedTo(
+      'Call Robert Hernandez',
+    );
+  });
+
+  it('should get the context menu from an item by data sky id', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(
+      item.getContextMenu({
+        dataSkyId: 'my-item-context-menu-0',
+      }),
+    ).toBeResolved();
+  });
+
+  it('should get the content of an item', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(
+      item.getContent({
+        dataSkyId: 'my-item-content-0',
+      }),
+    ).toBeResolved();
+  });
+
+  it('should get the content, context menu and title of an item if they exist', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(item.getContent()).toBeResolved();
+    await expectAsync(item.getContextMenu()).toBeResolved();
+    await expectAsync(item.getTitle()).toBeResolved();
+  });
 });
