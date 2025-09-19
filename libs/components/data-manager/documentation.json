@@ -18,6 +18,7 @@
           "SkyDataViewState",
           "SkyDataViewStateOptions",
           "SkyDataManagerConfig",
+          "SkyDataManagerDockType",
           "SkyDataManagerFilterData",
           "SkyDataManagerInitArgs",
           "SkyDataManagerSortOption",
