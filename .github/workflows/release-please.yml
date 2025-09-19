@@ -60,8 +60,7 @@ jobs:
           pull-request-title-pattern: 'chore: release ${version}'
           labels: 'autorelease ${{ github.ref_name }}: pending'
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
-          # release-as: '${{ steps.next-release.outputs.next-release }}'
-          release-as: '13.0.0'
+          release-as: '${{ steps.next-release.outputs.next-release }}'
           prerelease: ${{ env.PRERELEASE != 'false' }}
           draft-pull-request: true
           include-v-in-tag: false
