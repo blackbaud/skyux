@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/e2e/tiles-storybook/src",
   "prefix": "app",
+  "tags": ["component-e2e"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -60,27 +61,25 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "tiles-storybook:build:production"
+          "buildTarget": "tiles-storybook:build:production"
         },
         "development": {
-          "browserTarget": "tiles-storybook:build:development"
+          "buildTarget": "tiles-storybook:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "tiles-storybook:build"
+        "buildTarget": "tiles-storybook:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": [
-          "apps/e2e/tiles-storybook/**/*.ts",
-          "apps/e2e/tiles-storybook/**/*.html"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
       }
     },
     "storybook": {
@@ -133,6 +132,5 @@
         }
       }
     }
-  },
-  "tags": ["component-e2e"]
+  }
 }

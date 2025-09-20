@@ -11,6 +11,7 @@ import { delay } from 'rxjs/operators';
 @Component({
   selector: 'app-autocomplete',
   templateUrl: './autocomplete.component.html',
+  standalone: false,
 })
 export class AutocompleteComponent implements OnInit {
   public controlForm: UntypedFormGroup;

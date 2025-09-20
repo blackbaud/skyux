@@ -1,6 +1,6 @@
 import { NavigationExtras } from '@angular/router';
 
-export type SkyLink = {
+export interface SkyLink {
   label: string;
   permalink?: {
     route?: {
@@ -9,4 +9,4 @@ export type SkyLink = {
     };
     url?: string;
   };
-};
+}

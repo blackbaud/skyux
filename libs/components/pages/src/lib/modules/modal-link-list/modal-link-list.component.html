@@ -1,51 +1,55 @@
-<sky-wait [isWaiting]="links === 'loading'"></sky-wait>
-<ng-container
-  *ngIf="links === 'loading'; then loadingTemplateRef; else linksTemplateRef"
-></ng-container>
+<sky-wait [isWaiting]="links() === 'loading'" />
+@if (links() === 'loading') {
+  <ng-container [ngTemplateOutlet]="headingTemplateRef" />
+} @else {
+  @if (linksArray().length > 0) {
+    <ng-container [ngTemplateOutlet]="headingTemplateRef" />
+    <ul class="sky-link-list">
+      @for (link of linksArray(); track link.label) {
+        <li>
+          @if (link | linkAs: 'skyHref') {
+            <a class="sky-link-list-item" [skyHref]="link.permalink?.url">
+              {{ link.label }}
+            </a>
+          } @else if (link | linkAs: 'href') {
+            <a class="sky-link-list-item" [href]="link.permalink?.url">
+              {{ link.label }}
+            </a>
+          } @else if (link.permalink && link.permalink.route) {
+            <a
+              class="sky-link-list-item"
+              [skyAppLink]="link.permalink.route.commands"
+              [queryParams]="link.permalink.route.extras?.queryParams"
+              [queryParamsHandling]="
+                link.permalink.route.extras?.queryParamsHandling
+              "
+              [fragment]="link.permalink.route.extras?.fragment"
+              [preserveFragment]="link.permalink.route.extras?.preserveFragment"
+              [skipLocationChange]="
+                link.permalink.route.extras?.skipLocationChange
+              "
+              [replaceUrl]="link.permalink.route.extras?.replaceUrl"
+              [state]="link.permalink.route.extras?.state"
+            >
+              {{ link.label }}
+            </a>
+          } @else if (link.modal) {
+            <button
+              class="sky-btn sky-btn-link-inline sky-link-list-item"
+              type="button"
+              (click)="openModal(link)"
+            >
+              {{ link.label }}
+            </button>
+          }
+        </li>
+      }
+    </ul>
+  }
+}
 
 <ng-template #headingTemplateRef>
   <h2 class="sky-font-heading-4">
-    {{ title }}
+    {{ headingText() }}
   </h2>
-</ng-template>
-<ng-template #loadingTemplateRef>
-  <ng-container [ngTemplateOutlet]="headingTemplateRef"></ng-container>
-</ng-template>
-<ng-template #linksTemplateRef>
-  <ng-container *ngIf="linksArray.length > 0">
-    <ng-container [ngTemplateOutlet]="headingTemplateRef"></ng-container>
-    <ul class="sky-link-list">
-      <li *ngFor="let link of linksArray">
-        <a *ngIf="link | linkAs : 'skyHref'" [skyHref]="link.permalink?.url">
-          {{ link.label }}
-        </a>
-        <a *ngIf="link | linkAs : 'href'" [href]="link.permalink?.url">
-          {{ link.label }}
-        </a>
-        <a
-          *ngIf="link.permalink && link.permalink.route"
-          [skyAppLink]="link.permalink.route.commands"
-          [queryParams]="link.permalink.route.extras?.queryParams"
-          [queryParamsHandling]="
-            link.permalink.route.extras?.queryParamsHandling
-          "
-          [fragment]="link.permalink.route.extras?.fragment"
-          [preserveFragment]="link.permalink.route.extras?.preserveFragment"
-          [skipLocationChange]="link.permalink.route.extras?.skipLocationChange"
-          [replaceUrl]="link.permalink.route.extras?.replaceUrl"
-          [state]="link.permalink.route.extras?.state"
-        >
-          {{ link.label }}
-        </a>
-        <button
-          *ngIf="link.modal"
-          (click)="openModal(link)"
-          class="sky-btn sky-btn-link-inline"
-          type="button"
-        >
-          {{ link.label }}
-        </button>
-      </li>
-    </ul>
-  </ng-container>
 </ng-template>

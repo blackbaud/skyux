@@ -90,7 +90,6 @@ a.sky-btn {
   display: inline;
   padding: 0;
   border: none;
-  vertical-align: top;
 }
 
 .sky-btn-link-inline:hover {
@@ -109,10 +108,43 @@ a.sky-btn {
 }
 
 .sky-btn-tab {
-  @include mixins.sky-btn-tab();
+  background-color: transparent;
+  border: none;
+  border-radius: 4px 4px 0 0;
+  color: var(--sky-text-color-deemphasized);
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  line-height: 1.8;
+  padding: 8px 16px;
+
+  &:hover:not(.sky-btn-tab-disabled) {
+    background-color: var(--sky-background-color-neutral-light);
+    color: var(--sky-text-color-default);
+    text-decoration: none;
+  }
+
+  &:hover:not(.sky-btn-tab-disabled) {
+    background-color: var(--sky-background-color-neutral-light);
+  }
+
+  &.sky-btn-tab-disabled {
+    background-color: var(--sky-background-color-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+    outline: none;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--sky-text-color-deemphasized);
+      cursor: default;
+      text-decoration: none;
+    }
+  }
 }
 
-.sky-btn-tab-close {
+// Not `not` here ensures this does not affect modern theme
+.sky-btn-tab-close:not(.sky-btn-icon-borderless) {
   background-color: transparent;
   border: none;
   color: var(--sky-text-color-deemphasized);
@@ -133,9 +165,15 @@ a.sky-btn {
 }
 
 .sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
-  @include mixins.sky-btn-tab-selected;
+  background-color: var(--sky-background-color-primary-dark);
+  color: var(--sky-text-color-on-dark);
 
-  .sky-btn-tab-close,
+  &:hover:not(.sky-btn-tab-disabled) {
+    background-color: var(--sky-background-color-primary-dark);
+    color: var(--sky-text-color-on-dark);
+  }
+
+  .sky-btn-tab-close:not(.sky-btn-icon-borderless),
   .sky-tab-header-count {
     color: #fff;
   }
@@ -147,7 +185,6 @@ a.sky-btn {
   border-radius: $sky-border-radius;
   font-weight: 400;
   color: var(--sky-text-color-default);
-  line-height: 1.6em;
   margin-right: $sky-margin-half;
   padding-bottom: $sky-padding-half;
   padding-top: $sky-padding-half;
@@ -174,6 +211,10 @@ a.sky-btn {
   }
 }
 
+.sky-tabset-tabs .sky-btn-tab-wrapper .sky-btn-tab-wizard {
+  line-height: 1.6em;
+}
+
 .sky-btn-borderless {
   @include mixins.sky-icon-button-borderless();
   border: none;
@@ -189,7 +230,6 @@ a.sky-btn {
   line-height: inherit;
   display: inline;
   padding: 0;
-  vertical-align: top;
 }
 
 .sky-btn-borderless-inline:hover {
@@ -202,4 +242,26 @@ a.sky-btn {
   width: 26px;
   border: none;
   padding: 0;
+}
+
+.sky-btn-block {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  text-overflow: ellipsis;
+  width: 100%;
+
+  &:has(.sky-btn-block-logo) {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .sky-btn-block-logo {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    // Center the icon vertically.
+    transform: translate(0, -50%);
+  }
 }

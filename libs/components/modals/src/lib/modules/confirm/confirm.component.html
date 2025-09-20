@@ -13,51 +13,48 @@
       -->
       <!-- display: inline -->
       <div
+        #confirmMessage="skyId"
         class="sky-confirm-message"
+        skyId
         [ngClass]="{
           'sky-confirm-preserve-white-space': preserveWhiteSpace
         }"
         [skyThemeClass]="{
-          'sky-font-display-4': 'default',
-          'sky-font-heading-1 sky-font-display-3': 'modern'
+          'sky-font-display-4': 'default'
         }"
-        skyId
-        #confirmMessage="skyId"
         >{{ message }}</div
       >
 
-      <!--
-        The following "magic comment" keeps Prettier from adding line breaks
-        inside the div and causing leading and trailing whitespace when
-        `preserveWhiteSpace` is `true`.
-        https://prettier.io/blog/2018/11/07/1.15.0.html#whitespace-sensitive-formatting
-      -->
-      <!-- display: inline -->
-      <div
-        *ngIf="body"
-        class="sky-confirm-body"
-        [id]="bodyId"
-        [ngClass]="{
-          'sky-confirm-preserve-white-space': preserveWhiteSpace
-        }"
-        >{{ body }}</div
-      >
+      @if (body) {
+        <!--
+          The following "magic comment" keeps Prettier from adding line breaks
+          inside the div and causing leading and trailing whitespace when
+          `preserveWhiteSpace` is `true`.
+          https://prettier.io/blog/2018/11/07/1.15.0.html#whitespace-sensitive-formatting
+        -->
+        <!-- display: inline -->
+        <div
+          class="sky-confirm-body"
+          [id]="bodyId"
+          [ngClass]="{
+            'sky-confirm-preserve-white-space': preserveWhiteSpace
+          }"
+          >{{ body }}</div
+        >
+      }
 
       <div class="sky-confirm-buttons">
-        <button
-          *ngFor="let button of buttons"
-          type="button"
-          class="sky-btn"
-          [ngClass]="'sky-btn-' + button.styleType"
-          [skyThemeClass]="{
-            'sky-margin-inline-sm': 'modern',
-            'sky-margin-inline-compact': 'default'
-          }"
-          (click)="close(button)"
-          [attr.autofocus]="button.autofocus ? 'autofocus' : null"
-        >
-          {{ button.text }}
-        </button>
+        @for (button of buttons; track button.text) {
+          <button
+            type="button"
+            class="sky-btn"
+            [ngClass]="'sky-btn-' + button.styleType"
+            [attr.autofocus]="button.autofocus ? 'autofocus' : null"
+            (click)="close(button)"
+          >
+            {{ button.text }}
+          </button>
+        }
       </div>
     </sky-modal-content>
   </sky-modal>

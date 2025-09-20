@@ -3,10 +3,11 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './grid-dynamic.component.fixture.html',
+  standalone: false,
 })
 export class GridDynamicTestComponent {
-  public data: Array<any>;
-  public gridColumns: Array<any>;
+  public data: any[];
+  public gridColumns: any[];
   constructor() {
     this.data = [
       { id: 1, name: 'Windstorm', email: 'windstorm@gmail.com' },

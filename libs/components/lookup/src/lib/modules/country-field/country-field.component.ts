@@ -1,9 +1,7 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   Injector,
   Input,
@@ -14,6 +12,7 @@ import {
   TemplateRef,
   Type,
   ViewChild,
+  ViewEncapsulation,
   forwardRef,
   inject,
 } from '@angular/core';
@@ -28,15 +27,15 @@ import {
   Validator,
 } from '@angular/forms';
 import { SkyInputBoxHostService } from '@skyux/forms';
-import { SkyThemeService } from '@skyux/theme';
 
-import 'intl-tel-input';
+import intlTelInput from 'intl-tel-input';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
 import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomplete-selection-change';
 
+import { cloneCountryData } from './clone-country-data';
 import { SkyCountryFieldCountry } from './types/country';
 import { SkyCountryFieldContext } from './types/country-field-context';
 import { SKY_COUNTRY_FIELD_CONTEXT } from './types/country-field-context-token';
@@ -57,9 +56,11 @@ let uniqueId = 0;
   styleUrls: ['./country-field.component.scss'],
   providers: [SKY_COUNTRY_FIELD_VALIDATOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyCountryFieldComponent
-  implements AfterViewInit, ControlValueAccessor, OnDestroy, OnInit, Validator
+  implements ControlValueAccessor, OnDestroy, OnInit, Validator
 {
   /**
    * The value for the HTML `autocomplete` attribute on the form input.
@@ -119,35 +120,6 @@ export class SkyCountryFieldComponent
   }
 
   /**
-   * Whether to hide the flag in the input element.
-   * @default false
-   */
-  @Input()
-  public set hideSelectedCountryFlag(value: boolean | undefined) {
-    this.#_hideSelectedCountryFlag = value ?? false;
-  }
-
-  public get hideSelectedCountryFlag(): boolean {
-    return this.#_hideSelectedCountryFlag;
-  }
-
-  /**
-   * Whether to include phone information in the selected country and country dropdown.
-   * @default false
-   * @internal
-   */
-  @Input()
-  public set includePhoneInfo(value: boolean | undefined) {
-    this.#_includePhoneInfo = value ?? false;
-
-    this.#setupCountries();
-  }
-
-  public get includePhoneInfo(): boolean {
-    return this.#_includePhoneInfo;
-  }
-
-  /**
    * The [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country codes for the countries that users can select. By default, all countries are available.
    */
@@ -173,6 +145,15 @@ export class SkyCountryFieldComponent
   public selectedCountryChange: EventEmitter<SkyCountryFieldCountry> =
     new EventEmitter<SkyCountryFieldCountry>();
 
+  /**
+   * Fires when the country field is focused out.
+   * @internal
+   */
+  // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
+  @Output()
+  public countryFieldFocusout: EventEmitter<FocusEvent> =
+    new EventEmitter<FocusEvent>();
+
   public countries: SkyCountryFieldCountry[] = [];
 
   public countrySearchFormControl: UntypedFormControl;
@@ -186,7 +167,7 @@ export class SkyCountryFieldComponent
 
   public set selectedCountry(newCountry: SkyCountryFieldCountry | undefined) {
     if (!this.#countriesAreEqual(this.selectedCountry, newCountry)) {
-      const newCountryIso = newCountry && newCountry.iso2;
+      const newCountryIso = newCountry?.iso2;
       if (newCountryIso) {
         const isoCountry = this.countries.find(
           (country) => country.iso2 === newCountryIso,
@@ -209,26 +190,21 @@ export class SkyCountryFieldComponent
         this.onTouched();
 
         this.selectedCountryChange.emit(newCountry);
-      }
-
-      // Do not mark the field as "dirty"
-      // if the field has been initialized with a value.
-      if (this.#isInitialChange && this.#ngControl && this.#ngControl.control) {
+      } else if (this.#ngControl?.control) {
+        // Do not mark the field as "dirty"
+        // if the field has been initialized with a value.
         this.#ngControl.control.markAsPristine();
       }
 
       this.#isInitialChange = false;
 
       /**
-       * The second portion of this if statement is complex. The control type check ensures that
+       * The if statement is complex. The control type check ensures that
        * we only watch for the initial time through this function on reactive forms. However,
        * template forms will send through `null` and then `undefined` on empty initialization
        * so we have to check for when the non-null pass through happens.
        */
-    } else if (
-      this.#isInitialChange &&
-      (!(this.#ngControl instanceof NgModel) || newCountry !== null)
-    ) {
+    } else if (!(this.#ngControl instanceof NgModel) || newCountry !== null) {
       this.#isInitialChange = false;
     }
   }
@@ -244,8 +220,6 @@ export class SkyCountryFieldComponent
     },
   );
 
-  public currentTheme = 'default';
-
   public inputId: string;
   protected ariaDescribedBy: Observable<string | undefined> | undefined;
 
@@ -255,17 +229,9 @@ export class SkyCountryFieldComponent
   })
   public inputTemplateRef: TemplateRef<unknown> | undefined;
 
-  @ViewChild('searchIconTemplateRef', {
-    read: TemplateRef,
-    static: true,
-  })
-  public searchIconTemplateRef: TemplateRef<unknown> | undefined;
-
   #changeDetector: ChangeDetectorRef;
 
   #defaultCountryData: SkyCountryFieldCountry | undefined;
-
-  #elRef: ElementRef;
 
   #injector: Injector;
 
@@ -277,15 +243,9 @@ export class SkyCountryFieldComponent
 
   #ngUnsubscribe = new Subject<void>();
 
-  #themeSvc: SkyThemeService | undefined;
-
   #_defaultCountry: string | undefined;
 
   #_disabled = false;
-
-  #_hideSelectedCountryFlag = false;
-
-  #_includePhoneInfo = false;
 
   #_selectedCountry: SkyCountryFieldCountry | undefined;
 
@@ -293,15 +253,11 @@ export class SkyCountryFieldComponent
 
   constructor(
     changeDetector: ChangeDetectorRef,
-    elRef: ElementRef,
     injector: Injector,
     @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
-    @Optional() themeSvc?: SkyThemeService,
   ) {
     this.#changeDetector = changeDetector;
-    this.#elRef = elRef;
     this.#injector = injector;
-    this.#themeSvc = themeSvc;
 
     this.inputId = `sky-country-field-input-${uniqueId++}`;
 
@@ -343,17 +299,7 @@ export class SkyCountryFieldComponent
           this.selectedCountry = newValue;
         }
       });
-  }
-
-  public ngAfterViewInit(): void {
-    /* istanbul ignore else */
-    if (this.#themeSvc) {
-      this.#themeSvc.settingsChange.subscribe((change) => {
-        this.currentTheme = change.currentSettings.theme.name;
-        this.#updateInputBox();
-        this.#changeDetector.markForCheck();
-      });
-    }
+    this.#changeDetector.markForCheck();
   }
 
   /**
@@ -390,6 +336,14 @@ export class SkyCountryFieldComponent
     } else {
       this.writeValue(undefined);
     }
+  }
+
+  /**
+   * Called when the Autocomplete textarea loses focus
+   * @internal
+   */
+  public onAutocompleteFocusout(e: FocusEvent): void {
+    this.countryFieldFocusout.emit(e);
   }
 
   // Angular automatically constructs these methods.
@@ -434,6 +388,10 @@ export class SkyCountryFieldComponent
     this.#changeDetector.markForCheck();
   }
 
+  protected onFocus($event: FocusEvent): void {
+    ($event.target as HTMLTextAreaElement).select();
+  }
+
   #countriesAreEqual(
     country1: SkyCountryFieldCountry | undefined,
     country2: SkyCountryFieldCountry | undefined,
@@ -456,33 +414,10 @@ export class SkyCountryFieldComponent
   }
 
   #setupCountries(): void {
-    /**
-     * The json functions here ensures that we get a copy of the array and not the global original.
-     * This ensures that multiple instances of the component don't overwrite the original data.
-     *
-     * We must type the window object as any here as the intl-tel-input library adds its object
-     * to the main window object.
-     */
-    this.countries = JSON.parse(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      JSON.stringify((window as any).intlTelInputGlobals.getCountryData()),
-    );
-
-    // Ignoring coverage here as this will be removed in the next release.
-    // istanbul ignore next
-    if (!this.includePhoneInfo && !this.hideSelectedCountryFlag) {
-      if (
-        (
-          this.#elRef.nativeElement.parentElement as HTMLElement
-        )?.classList?.contains('sky-phone-field-country-search')
-      ) {
-        this.includePhoneInfo = true;
-        this.hideSelectedCountryFlag = true;
-      }
-    }
+    this.countries = cloneCountryData(intlTelInput.getCountryData());
 
     /* istanbul ignore else */
-    if (!this.includePhoneInfo) {
+    if (!this.context?.inPhoneField) {
       /**
        * The library we get the country data from includes extra phone properties.
        * We want to remove these unless we are in a phone field
@@ -553,10 +488,6 @@ export class SkyCountryFieldComponent
 
       this.inputBoxHostSvc.populate({
         inputTemplate: this.inputTemplateRef,
-        iconsInsetTemplate:
-          this.currentTheme === 'modern'
-            ? this.searchIconTemplateRef
-            : undefined,
       });
     }
   }

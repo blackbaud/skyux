@@ -9,6 +9,7 @@ import { SkyModalService } from '../modal.service';
 @Component({
   selector: 'sky-modal-launcher-test',
   template: '',
+  standalone: false,
 })
 export class ModalLauncherTestComponent {
   #modalSvc: SkyModalService;

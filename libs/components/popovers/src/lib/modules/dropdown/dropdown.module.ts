@@ -5,7 +5,7 @@ import {
   SkyIdModule,
   SkyScreenReaderLabelDirective,
 } from '@skyux/core';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyPopoversResourcesModule } from '../shared/sky-popovers-resources.module';
@@ -13,6 +13,7 @@ import { SkyPopoversResourcesModule } from '../shared/sky-popovers-resources.mod
 import { SkyDropdownButtonComponent } from './dropdown-button.component';
 import { SkyDropdownItemComponent } from './dropdown-item.component';
 import { SkyDropdownMenuComponent } from './dropdown-menu.component';
+import { SkyDropdownTriggerDirective } from './dropdown-trigger.directive';
 import { SkyDropdownComponent } from './dropdown.component';
 
 @NgModule({
@@ -25,6 +26,7 @@ import { SkyDropdownComponent } from './dropdown.component';
   imports: [
     CommonModule,
     SkyAffixModule,
+    SkyDropdownTriggerDirective,
     SkyIconModule,
     SkyIdModule,
     SkyPopoversResourcesModule,
@@ -36,6 +38,7 @@ import { SkyDropdownComponent } from './dropdown.component';
     SkyDropdownComponent,
     SkyDropdownItemComponent,
     SkyDropdownMenuComponent,
+    SkyDropdownTriggerDirective,
   ],
 })
 export class SkyDropdownModule {}

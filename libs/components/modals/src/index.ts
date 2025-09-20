@@ -4,6 +4,7 @@ export { SkyConfirmButtonStyleType } from './lib/modules/confirm/confirm-button-
 export { SkyConfirmCloseEventArgs } from './lib/modules/confirm/confirm-closed-event-args';
 export { SkyConfirmConfig } from './lib/modules/confirm/confirm-config';
 export { SkyConfirmInstance } from './lib/modules/confirm/confirm-instance';
+export { SkyConfirmServiceInterface } from './lib/modules/confirm/confirm-service-interface';
 export { SkyConfirmType } from './lib/modules/confirm/confirm-type';
 export { SkyConfirmModule } from './lib/modules/confirm/confirm.module';
 export { SkyConfirmService } from './lib/modules/confirm/confirm.service';
@@ -15,6 +16,7 @@ export { SkyModalError } from './lib/modules/modal/modal-error';
 export { SkyModalErrorsService } from './lib/modules/modal/modal-errors.service';
 export { SkyModalHostService } from './lib/modules/modal/modal-host.service';
 export { SkyModalInstance } from './lib/modules/modal/modal-instance';
+export { SkyModalServiceInterface } from './lib/modules/modal/modal-service-interface';
 export { SkyModalConfigurationInterface } from './lib/modules/modal/modal.interface';
 export { SkyModalModule } from './lib/modules/modal/modal.module';
 export {

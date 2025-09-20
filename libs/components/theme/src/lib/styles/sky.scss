@@ -1,7 +1,7 @@
 // This file is compiled down to CSS and included in the @skyux/theme NPM package to provide
 // global styles for our consumers.
 
-@forward 'node_modules/normalize-scss/sass/normalize/import-now';
+@forward 'normalize-scss/sass/normalize/import-now';
 
 @forward 'normalize-compat';
 @forward 'custom-properties';
@@ -21,6 +21,3 @@
 @forward 'switch';
 @forward 'theme';
 @forward 'type';
-
-@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
-@import url('https://sky.blackbaudcdn.net/static/skyux-icons/6.6.0/assets/css/skyux-icons.min.css');

@@ -41,21 +41,29 @@
     </button>
 
     <a class="sky-btn sky-btn-primary sky-margin-inline-compact">
-      Anchor with button class
+      Anchor primary with button class
+    </a>
+
+    <a class="sky-btn sky-btn-default sky-margin-inline-compact">
+      Anchor default with button class
+    </a>
+
+    <a class="sky-btn sky-btn-danger sky-margin-inline-compact">
+      Anchor danger with button class
     </a>
 
     <button
       class="sky-btn sky-btn-default sky-btn-icon sky-margin-inline-compact"
       type="button"
     >
-      <i class="fa fa-angle-double-down"></i>
+      <sky-icon iconName="chevron-double-down" />
     </button>
 
     <button
       class="sky-btn sky-btn-icon-borderless sky-margin-inline-compact"
       type="button"
     >
-      <i class="fa fa-angle-double-up"></i>
+      <sky-icon iconName="chevron-double-up" />
     </button>
 
     <button class="sky-btn sky-btn-default sky-btn-sm" type="button">31</button>
@@ -83,7 +91,7 @@
             class="sky-btn sky-btn-default"
             type="button"
           >
-            <i class="fa fa-clock-o"></i>
+            <sky-icon iconName="clock" />
           </button>
         </div>
         <div class="sky-input-group-btn">
@@ -92,11 +100,43 @@
             class="sky-btn sky-btn-default"
             type="button"
           >
-            <i class="fa fa-calendar-o"></i>
+            <sky-icon iconName="calendar-ltr" />
           </button>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="sky-buttons-demo-screenshot-wrapper buttons-demo-block">
+    Text
+    <button
+      class="sky-btn sky-btn-default sky-btn-block sky-margin-stacked-sm"
+      type="button"
+    >
+      Block button
+    </button>
+    <button
+      class="sky-btn sky-btn-default sky-btn-block sky-margin-stacked-sm"
+      type="button"
+    >
+      <sky-icon iconName="add" /> Block button with icon
+    </button>
+    <button
+      class="sky-btn sky-btn-default sky-btn-block sky-margin-stacked-sm"
+      type="button"
+    >
+      <sky-icon class="sky-btn-block-logo" iconName="google-branded" />Block
+      button with logo
+    </button>
+    <button
+      class="sky-btn sky-btn-default sky-btn-block sky-margin-stacked-sm"
+      type="button"
+    >
+      <sky-icon class="sky-btn-block-logo" iconName="slack" /> Block button with
+      logo and lots and lots and lots and lots and lots and lots and lots and
+      lots and lots and lots and lots of text
+    </button>
+    Text
   </div>
 
   <h2>Disabled states</h2>
@@ -194,14 +234,14 @@
       class="sky-btn sky-btn-default sky-btn-icon sky-btn-disabled sky-margin-inline-compact"
       type="button"
     >
-      <i class="fa fa-angle-double-down"></i>
+      <sky-icon iconName="chevron-double-down" />
     </button>
 
     <button
       class="sky-btn sky-btn-icon-borderless sky-btn-disabled sky-margin-inline-compact"
       type="button"
     >
-      <i class="fa fa-angle-double-up"></i>
+      <sky-icon iconName="chevron-double-up" />
     </button>
 
     <button
@@ -209,7 +249,7 @@
       type="button"
       disabled
     >
-      <i class="fa fa-angle-double-down"></i>
+      <sky-icon iconName="chevron-double-down" />
     </button>
 
     <button class="sky-btn sky-btn-default sky-btn-sm" type="button" disabled>
@@ -251,7 +291,7 @@
             class="sky-btn sky-btn-default sky-btn-disabled"
             type="button"
           >
-            <i class="fa fa-clock-o"></i>
+            <sky-icon iconName="clock" />
           </button>
         </div>
         <div class="sky-input-group-btn">
@@ -261,10 +301,46 @@
             type="button"
             disabled
           >
-            <i class="fa fa-calendar-o"></i>
+            <sky-icon iconName="calendar-ltr" />
           </button>
         </div>
       </div>
+    </div>
+
+    <div class="sky-buttons-demo-screenshot-wrapper buttons-demo-block">
+      Text
+      <button
+        class="sky-btn sky-btn-default sky-btn-block sky-margin-stacked-sm"
+        disabled
+        type="button"
+      >
+        Block button
+      </button>
+      <button
+        class="sky-btn sky-btn-default sky-btn-block sky-margin-stacked-sm"
+        disabled
+        type="button"
+      >
+        <sky-icon iconName="add" /> Block button with icon
+      </button>
+      <button
+        class="sky-btn sky-btn-default sky-btn-block sky-margin-stacked-sm"
+        disabled
+        type="button"
+      >
+        <sky-icon class="sky-btn-block-logo" iconName="google-branded" />Block
+        button with logo
+      </button>
+      <button
+        class="sky-btn sky-btn-default sky-btn-block sky-margin-stacked-sm"
+        disabled
+        type="button"
+      >
+        <sky-icon class="sky-btn-block-logo" iconName="slack" /> Block button
+        with logo and lots and lots and lots and lots and lots and lots and lots
+        and lots and lots and lots and lots of text
+      </button>
+      Text
     </div>
   </div>
 </div>

@@ -10,20 +10,18 @@ describe('theme-storybook', () => {
         );
       });
       it('should render the component', () => {
-        cy.get('app-switch-controls')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-switch-controls')
           .end()
           .document()
           .screenshot(
             `switchcontrolscomponent-switchcontrols--switch-controls-${theme}`,
-          )
-          .percySnapshot(
-            `switchcontrolscomponent-switchcontrols--switch-controls-${theme}`,
-            {
-              widths: E2eVariations.MOBILE_WIDTHS,
-            },
           );
+        cy.document().percySnapshot(
+          `switchcontrolscomponent-switchcontrols--switch-controls-${theme}`,
+          {
+            widths: E2eVariations.MOBILE_WIDTHS,
+          },
+        );
       });
     });
   });

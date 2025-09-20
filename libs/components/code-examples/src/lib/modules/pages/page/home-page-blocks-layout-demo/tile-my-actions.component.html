@@ -1,0 +1,52 @@
+<sky-tile tileName="My actions">
+  <sky-tile-title> My actions </sky-tile-title>
+  <sky-tile-summary> 3 </sky-tile-summary>
+  <sky-tile-content>
+    <sky-tile-content-section>
+      <sky-repeater data-sky-id="repeater-example">
+        @for (item of items; track item) {
+          <sky-repeater-item [itemName]="item.accessibilityLabel">
+            @if (item.title) {
+              <sky-repeater-item-title class="example-repeater-flex">
+                <div class="example-repeater-item-title sky-margin-stacked-sm">
+                  <a href="/">{{ item.title }}</a>
+                </div>
+                <div class="sky-font-deemphasized">{{ item.date }}</div>
+              </sky-repeater-item-title>
+            }
+            <sky-repeater-item-context-menu>
+              <sky-dropdown buttonType="context-menu">
+                <sky-dropdown-menu>
+                  <sky-dropdown-item>
+                    <button
+                      type="button"
+                      [attr.aria-label]="
+                        'Action 1 for ' +
+                        (item.title ?? item.accessibilityLabel)
+                      "
+                      (click)="onActionClicked('Action 1')"
+                    >
+                      Edit
+                    </button>
+                  </sky-dropdown-item>
+                  <sky-dropdown-item>
+                    <button
+                      type="button"
+                      [attr.aria-label]="
+                        'Action 2 for ' +
+                        (item.title ?? item.accessibilityLabel)
+                      "
+                      (click)="onActionClicked('Action 2')"
+                    >
+                      Mark as complete
+                    </button>
+                  </sky-dropdown-item>
+                </sky-dropdown-menu>
+              </sky-dropdown>
+            </sky-repeater-item-context-menu>
+          </sky-repeater-item>
+        }
+      </sky-repeater>
+    </sky-tile-content-section>
+  </sky-tile-content>
+</sky-tile>

@@ -20,9 +20,9 @@
     <p>
       <button
         class="sky-btn sky-btn-default"
-        [ngClass]="{ 'sky-btn-disabled': disabled }"
         id="btn-disable-lookup"
         type="button"
+        [ngClass]="{ 'sky-btn-disabled': disabled }"
         (click)="disableLookup()"
       >
         Disable lookup
@@ -33,15 +33,17 @@
       hintText="I'm some help text."
       labelText="Who are your friends?"
       mode="detect"
-      [disabled]="disabled"
       class="sky-margin-stacked-lg"
+      [disabled]="disabled"
     >
       <sky-lookup
+        required
         formControlName="friends2"
         idProperty="id"
         [data]="people"
         [debounceTime]="1000"
         [disabled]="disabled"
+        [enableShowMore]="true"
       />
     </sky-input-box>
   </form>
@@ -63,29 +65,29 @@
   <tr>
     <th>Value</th>
     <td>
-      <ng-container *ngFor="let friend of friendsForm.value.friends">
+      @for (friend of friendsForm.value.friends; track friend) {
         {{ friend.name }}
-      </ng-container>
+      }
     </td>
   </tr>
 </table>
-<!--
+
 <div>
   <p class="lookup-single-controls">
     <button
       class="sky-btn sky-btn-default"
-      [ngClass]="{ 'sky-btn-disabled': disabled }"
       id="btn-toggle-select-mode"
       type="button"
+      [ngClass]="{ 'sky-btn-disabled': disabled }"
       (click)="toggleSelectMode()"
     >
       Toggle select mode
     </button>
     <button
       class="sky-btn sky-btn-default"
-      [ngClass]="{ 'sky-btn-disabled': disabled }"
       id="btn-reset-value"
       type="button"
+      [ngClass]="{ 'sky-btn-disabled': disabled }"
       (click)="onResetValueClick()"
     >
       Reset value
@@ -105,8 +107,11 @@
 
   <div class="app-screenshot" id="lookup-single-visual">
     <form novalidate [formGroup]="bestFriendsForm">
-      <sky-input-box [disabled]="disabled" class="sky-margin-stacked-lg">
-        <label class="sky-control-label"> Who is your best friend? </label>
+      <sky-input-box
+        class="sky-margin-stacked-lg"
+        labelText="Who is your best friend?"
+        [disabled]="disabled"
+      >
         <sky-lookup
           formControlName="bestFriend"
           idProperty="id"
@@ -120,14 +125,14 @@
           [showAddButton]="true"
           [showMoreConfig]="showMoreConfig"
           (addClick)="addButtonClicked($event)"
-         />
+        />
       </sky-input-box>
     </form>
   </div>
 
   <div class="app-screenshot" id="lookup-single-async-visual">
     <form novalidate [formGroup]="bestFriendsForm">
-      <sky-input-box [disabled]="disabled" class="sky-margin-stacked-lg">
+      <sky-input-box class="sky-margin-stacked-lg" [disabled]="disabled">
         <label class="sky-control-label">
           Who is your best friend? (async)</label
         >
@@ -138,24 +143,24 @@
           [selectMode]="bestFriendSelectMode"
           [disabled]="disabled"
           [debounceTime]="1000"
-          [enableShowMore]="true"
+          [enableShowMore]="false"
           [searchResultTemplate]="itemTemplate"
-          [showAddButton]="true"
+          [showAddButton]="false"
           [showMoreConfig]="showMoreConfig"
           (searchAsync)="bestFriendSearch($event)"
           (addClick)="addButtonClicked($event)"
-         />
+        />
       </sky-input-box>
     </form>
   </div>
 </div>
 
-<ng-template let-item="item" #itemTemplate>
+<ng-template #itemTemplate let-item="item">
   <strong>{{ item.name }}</strong
   ><br />
   {{ item.id }}
 </ng-template>
-<ng-template let-item="item" #itemTemplate2>
+<ng-template #itemTemplate2 let-item="item">
   {{ item.name }}<br />
   {{ item.id }}
 </ng-template>
@@ -176,19 +181,17 @@
   <tr>
     <th>Value</th>
     <td>
-      <ng-container *ngFor="let friend of bestFriendsForm.value.bestFriend">
+      @for (friend of bestFriendsForm.value.bestFriend; track friend) {
         {{ friend.name }}
-      </ng-container>
+      }
     </td>
   </tr>
   <tr>
     <th>Value async</th>
     <td>
-      <ng-container
-        *ngFor="let friend of bestFriendsForm.value.bestFriendAsync"
-      >
+      @for (friend of bestFriendsForm.value.bestFriendAsync; track friend) {
         {{ friend.name }}
-      </ng-container>
+      }
     </td>
   </tr>
-</table> -->
+</table>

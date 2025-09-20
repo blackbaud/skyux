@@ -1,4 +1,5 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { DropdownComponent } from './dropdown.component';
 import { DropdownModule } from './dropdown.module';
@@ -13,41 +14,39 @@ export default {
     }),
   ],
 } as Meta<DropdownComponent>;
-const Template: StoryFn<DropdownComponent> = (args: DropdownComponent) => ({
-  props: args,
-});
+type Story = StoryObj<DropdownComponent>;
 
-export const DropdownDefaultButton = Template.bind({});
+export const DropdownDefaultButton: Story = {};
 DropdownDefaultButton.args = {
   buttonStyle: 'default',
 };
 
-export const DropdownPrimaryButton = Template.bind({});
+export const DropdownPrimaryButton: Story = {};
 DropdownPrimaryButton.args = {
   buttonStyle: 'primary',
 };
 
-export const DropdownLinkButton = Template.bind({});
+export const DropdownLinkButton: Story = {};
 DropdownLinkButton.args = {
   buttonStyle: 'link',
 };
 
-export const DropdownDisabledButton = Template.bind({});
+export const DropdownDisabledButton: Story = {};
 DropdownDisabledButton.args = {
   disabledFlag: true,
 };
 
-export const DropdownLeftAligned = Template.bind({});
+export const DropdownLeftAligned: Story = {};
 DropdownLeftAligned.args = {
   horizontalAlignment: 'left',
 };
 
-export const DropdownRightAligned = Template.bind({});
+export const DropdownRightAligned: Story = {};
 DropdownRightAligned.args = {
   horizontalAlignment: 'right',
 };
 
-export const DropdownCenterAligned = Template.bind({});
+export const DropdownCenterAligned: Story = {};
 DropdownCenterAligned.args = {
   horizontalAlignment: 'center',
 };

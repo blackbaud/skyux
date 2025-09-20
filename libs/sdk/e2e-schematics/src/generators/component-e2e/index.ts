@@ -1,28 +1,27 @@
 import { SchematicsAngularApplicationStyle } from '@angular/cli/lib/config/workspace-schema';
-import { applicationGenerator } from '@nx/angular/generators';
+import {
+  E2eTestRunner,
+  UnitTestRunner,
+  applicationGenerator,
+} from '@nx/angular/generators';
 import {
   ProjectConfiguration,
   Tree,
-  formatFiles,
   generateFiles,
   getProjects,
-  installPackagesTask,
   joinPathFragments,
   logger,
-  readJson,
   readProjectConfiguration,
-  removeDependenciesFromPackageJson,
   updateJson,
   updateProjectConfiguration,
 } from '@nx/devkit';
-import { addDependenciesToPackageJson } from '@nx/devkit/src/utils/package-json';
-import { Linter } from '@nx/linter';
-import { configurationGenerator } from '@nx/storybook';
+import { Linter } from '@nx/eslint';
+import { configurationGenerator as storybookConfigurationGenerator } from '@nx/storybook';
 import { moveGenerator } from '@nx/workspace';
 
+import { formatFiles } from '../../utils/format-files';
 import configurePercy from '../configure-percy';
 import configureStorybook from '../configure-storybook';
-import storiesGenerator from '../stories';
 
 import { NormalizedSchema, Schema } from './schema';
 
@@ -54,7 +53,7 @@ function normalizeOptions(options: Partial<Schema>): NormalizedSchema {
 /**
  * Drop the BASE_PATH from the project name and re-sort the projects.
  */
-function simplifyWorkspaceName(tree: Tree, projectName: string) {
+function simplifyWorkspaceName(tree: Tree, projectName: string): void {
   const projects = getProjects(tree);
   projects.forEach((projectConfig) => {
     let projectConfigJson = JSON.stringify(projectConfig).replace(
@@ -79,8 +78,9 @@ function simplifyWorkspaceName(tree: Tree, projectName: string) {
 /**
  * Add the packages polyfills to the build and test targets.
  */
-function addPackagesPolyfills(tree: Tree, projectName: string) {
+function addPackagesPolyfills(tree: Tree, projectName: string): void {
   const polyfillsBuilders = [
+    '@angular-devkit/build-angular:application',
     '@angular-devkit/build-angular:browser',
     '@angular-devkit/build-angular:karma',
     '@blackbaud-internal/skyux-angular-builders:browser',
@@ -92,6 +92,7 @@ function addPackagesPolyfills(tree: Tree, projectName: string) {
     let hasChanged = false;
     ['build', 'test'].forEach((target) => {
       if (
+        projectConfig.targets?.[target] &&
         polyfillsBuilders.includes(
           `${projectConfig.targets?.[target].executor}`,
         ) &&
@@ -115,13 +116,17 @@ function addPackagesPolyfills(tree: Tree, projectName: string) {
  * - Applies configuration to the projects.
  * - Generates stories and tests if there are demonstration components in the -storybook project.
  */
-export default async function (tree: Tree, schema: Partial<Schema>) {
+export default async function (
+  tree: Tree,
+  schema: Partial<Schema>,
+): Promise<void> {
+  const initialNxJson = tree.read('nx.json', 'utf-8');
+  const initialPackageJson = tree.read('package.json', 'utf-8');
   const options = normalizeOptions(schema);
 
   let createProject = false;
   let moveProject = false;
   /* istanbul ignore next */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   let projectConfig: ProjectConfiguration;
   let e2eProjectConfig: ProjectConfiguration;
   try {
@@ -134,7 +139,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       moveProject = true;
       await moveGenerator(tree, {
         projectName: options.storybookAppName,
-        destination: `${BASE_PATH}/${options.storybookAppName}`,
+        destination: `apps/${BASE_PATH}/${options.storybookAppName}`,
         updateImportPath: false,
         skipFormat: true,
       });
@@ -149,7 +154,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       moveProject = true;
       await moveGenerator(tree, {
         projectName: `${options.storybookAppName}-e2e`,
-        destination: `${BASE_PATH}/${options.storybookAppName}-e2e`,
+        destination: `apps/${BASE_PATH}/${options.storybookAppName}-e2e`,
         updateImportPath: false,
         skipFormat: true,
       });
@@ -173,11 +178,14 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       routing: options.routing,
       strict: options.strict,
       prefix: options.prefix,
-      directory: BASE_PATH,
+      directory: `apps/${BASE_PATH}/${options.storybookAppName}`,
       skipPackageJson: true,
       skipTests: !options.includeTests,
-      standaloneConfig: true,
+      skipFormat: true,
       standalone: false,
+      bundler: 'webpack',
+      unitTestRunner: UnitTestRunner.None,
+      e2eTestRunner: E2eTestRunner.Cypress,
     });
     simplifyWorkspaceName(tree, options.storybookAppName);
     simplifyWorkspaceName(tree, `${options.storybookAppName}-e2e`);
@@ -205,6 +213,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       'favicon.ico',
       'assets/.gitkeep',
       'app/app.module.ts',
+      'app/app.routes.ts',
       'app/app.component.scss',
       'app/app.component.html',
       'app/app.component.spec.ts',
@@ -225,7 +234,6 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
   }
 
   /* istanbul ignore next */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   if (
     createProject ||
     !(
@@ -233,54 +241,25 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       tree.isFile(`${projectConfig.root}/.storybook/main.ts`)
     )
   ) {
-    await configurationGenerator(tree, {
-      name: options.storybookAppName,
+    await storybookConfigurationGenerator(tree, {
+      project: options.storybookAppName,
       uiFramework: '@storybook/angular',
-      configureCypress: true,
+      interactionTests: false,
       linter: Linter.EsLint,
       configureStaticServe: true,
-    });
-  } else if (!moveProject) {
-    await storiesGenerator(tree, {
-      project: options.storybookAppName,
-      cypressProject: `${options.storybookAppName}-e2e`,
-      generateCypressSpecs: true,
+      skipFormat: true,
     });
   }
   if (!moveProject) {
-    await configureStorybook(tree, { name: options.storybookAppName });
-    await configurePercy(tree, { name: `${options.storybookAppName}-e2e` });
+    await configureStorybook(tree, {
+      name: options.storybookAppName,
+      skipFormat: true,
+    });
+    await configurePercy(tree, {
+      name: `${options.storybookAppName}-e2e`,
+      skipFormat: true,
+    });
   }
-
-  // @storybook/addon-essentials includes docs, which requires several other dependencies.
-  // We install only the dependencies we need, and the storybook version is different from the one
-  // that NX forces.
-  const packageJson = readJson(tree, 'package.json');
-  const storybookVersion =
-    packageJson.devDependencies['@storybook/addon-toolbars'];
-  if (storybookVersion) {
-    // The `addDependenciesToPackageJson` will not set the right version if the version is lower than the version than what the `storiesGenerator`
-    // installs (even if this version uses a caret). Remove the entries first so that the addition will go through with the right version.
-    removeDependenciesFromPackageJson(
-      tree,
-      [],
-      ['@storybook/angular', '@storybook/core-server'],
-    );
-    addDependenciesToPackageJson(
-      tree,
-      {},
-      {
-        '@storybook/angular': storybookVersion,
-        '@storybook/core-server': storybookVersion,
-      },
-    );
-  }
-  // Do not add explicit dependencies for @storybook/addon-essentials or webpack.
-  removeDependenciesFromPackageJson(
-    tree,
-    [],
-    ['@storybook/addon-essentials', 'html-webpack-plugin', 'webpack'],
-  );
 
   // Clean up duplicate entries in nx.json
   updateJson(tree, 'nx.json', (json) => {
@@ -307,8 +286,9 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
     return json;
   });
 
-  await formatFiles(tree);
+  // Adding a project should not make changes to the nx.json or package.json files.
+  tree.write('nx.json', `${initialNxJson}`);
+  tree.write('package.json', `${initialPackageJson}`);
 
-  /* istanbul ignore next */
-  return () => installPackagesTask(tree);
+  await formatFiles(tree, { skipFormat: schema.skipFormat });
 }

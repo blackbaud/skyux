@@ -1,36 +1,43 @@
 <div class="sky-description-list-test-1">
   <sky-description-list [listItemWidth]="listItemWidth" [mode]="mode">
-    <sky-description-list-content *ngFor="let item of personalInfo">
+    @for (item of personalInfo; track item) {
+    <sky-description-list-content>
       <sky-description-list-term> {{item.term}} </sky-description-list-term>
       <sky-description-list-description>
         {{item.description}}
       </sky-description-list-description>
     </sky-description-list-content>
+    }
   </sky-description-list>
 </div>
 <div class="sky-description-list-test-2">
   <sky-description-list defaultDescription="No information found">
-    <sky-description-list-content *ngFor="let item of systemInfo">
+    @for (item of systemInfo; track item) {
+    <sky-description-list-content>
       <sky-description-list-term> {{item.term}} </sky-description-list-term>
       <sky-description-list-description>
         {{item.description}}
       </sky-description-list-description>
     </sky-description-list-content>
+    }
   </sky-description-list>
 </div>
 <div class="sky-description-list-test-3">
   <sky-description-list defaultDescription="Not yet loaded">
-    <sky-description-list-content *ngFor="let item of asyncInfo">
+    @for (item of asyncInfo; track item) {
+    <sky-description-list-content>
       <sky-description-list-term> {{item.term}} </sky-description-list-term>
       <sky-description-list-description>
         {{item.description | async}}
       </sky-description-list-description>
     </sky-description-list-content>
+    }
   </sky-description-list>
 </div>
 <div class="sky-description-list-test-4">
   <sky-description-list>
-    <sky-description-list-content *ngFor="let item of personalInfo">
+    @for (item of personalInfo; track item) {
+    <sky-description-list-content>
       <sky-description-list-term>
         {{item.term}}
         <span class="sky-control-help">Help inline</span>
@@ -39,5 +46,6 @@
         {{item.description}}
       </sky-description-list-description>
     </sky-description-list-content>
+    }
   </sky-description-list>
 </div>

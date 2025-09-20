@@ -1,5 +1,14 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include compatMixins.sky-default-overrides('.sky-status-indicator') {
+  --sky-override-status-indicator-icon-color-danger: #{$sky-highlight-color-danger};
+  --sky-override-status-indicator-icon-color-info: #{$sky-highlight-color-info};
+  --sky-override-status-indicator-icon-color-success: #{$sky-highlight-color-success};
+  --sky-override-status-indicator-icon-color-warning: #{$sky-highlight-color-warning};
+  --sky-override-status-indicator-icon-padding-right: #{$sky-space-xs};
+}
 
 .sky-status-indicator {
   align-items: baseline;
@@ -8,40 +17,57 @@
 
 .sky-status-indicator-icon {
   flex-shrink: 1;
-}
-
-.sky-status-indicator-icon-modern {
-  display: none;
+  padding-right: var(
+    --sky-staus-indicator-padding-right,
+    var(
+      --sky-override-status-indicator-icon-padding-right,
+      var(--sky-space-gap-icon-s)
+    )
+  );
 }
 
 .sky-status-indicator-icon-info {
-  color: $sky-highlight-color-info;
+  color: var(
+    --sky-override-status-indicator-icon-color-info,
+    var(--sky-color-background-icon_matte-action-heavy)
+  );
 }
 
 .sky-status-indicator-icon-success {
-  color: $sky-highlight-color-success;
+  color: var(
+    --sky-override-status-indicator-icon-color-success,
+    var(--sky-color-background-icon_matte-success)
+  );
 }
 
 .sky-status-indicator-icon-warning {
-  color: $sky-highlight-color-warning;
+  color: var(
+    --sky-override-status-indicator-icon-color-warning,
+    var(--sky-color-background-icon_matte-warning)
+  );
 }
 
 .sky-status-indicator-icon-danger {
-  color: $sky-highlight-color-danger;
+  color: var(
+    --sky-override-status-indicator-icon-color-danger,
+    var(--sky-color-background-icon_matte-danger)
+  );
 }
 
-@include mixins.sky-theme-modern {
-  .sky-status-indicator-icon {
-    &:not(.sky-status-indicator-icon-danger) {
-      --sky-icon-stack-top-icon-color-override: #{$sky-text-color-default};
-    }
+.sky-status-indicator-icon {
+  &.sky-status-indicator-icon-warning,
+  &.sky-status-indicator-icon-success {
+    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-default);
+  }
+  &.sky-status-indicator-icon-danger {
+    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-inverse);
   }
 
-  .sky-status-indicator-icon-default {
-    display: none;
+  &.sky-status-indicator-icon-info {
+    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-inverse);
   }
 
-  .sky-status-indicator-icon-modern {
-    display: inline;
+  &.sky-status-indicator-icon-success {
+    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-inverse);
   }
 }

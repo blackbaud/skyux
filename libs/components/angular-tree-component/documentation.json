@@ -1,0 +1,24 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "angular-tree": {
+      "development": {
+        "docsIds": [
+          "SkyAngularTreeModule",
+          "SkyAngularTreeWrapperComponent",
+          "SkyAngularTreeNodeComponent"
+        ],
+        "primaryDocsId": "SkyAngularTreeModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "AngularTreeComponentAngularTreeBasicExampleComponent",
+          "AngularTreeComponentAngularTreeHelpKeyExampleComponent"
+        ]
+      }
+    }
+  }
+}

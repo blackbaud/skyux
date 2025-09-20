@@ -1,0 +1,41 @@
+{
+  "name": "@skyux-sdk/stylelint-schematics",
+  "version": "0.0.0-PLACEHOLDER",
+  "author": "Blackbaud, Inc.",
+  "description": "Stylelint schematics for SKY UX projects",
+  "keywords": [
+    "blackbaud",
+    "skyux"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux#readme",
+  "schematics": "./collection.json",
+  "ng-add": {
+    "save": "devDependencies"
+  },
+  "ng-update": {
+    "packageGroupName": "@skyux-sdk/stylelint-schematics",
+    "migrations": "./migrations.json",
+    "packageGroup": {
+      "@skyux-sdk/stylelint-schematics": "0.0.0-PLACEHOLDER",
+      "stylelint-config-skyux": "0.0.0-PLACEHOLDER",
+      "skyux-stylelint": "0.0.0-PLACEHOLDER",
+      "stylelint": "^16.24.0",
+      "stylelint-config-recommended-scss": "^16.0.1"
+    }
+  },
+  "peerDependencies": {
+    "@angular/cli": "^20.3.1"
+  },
+  "dependencies": {
+    "jsonc-parser": "3.3.1",
+    "tslib": "^2.8.1"
+  }
+}

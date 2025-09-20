@@ -7,9 +7,10 @@ import { SkyVerticalTabsetComponent } from '../vertical-tabset.component';
   selector: 'sky-test-cmp',
   templateUrl: './vertical-tabset.component.fixture.html',
   styleUrls: ['./vertical-tabset.component.fixture.scss'],
+  standalone: false,
 })
 export class VerticalTabsetTestComponent {
-  public active = true;
+  public active: boolean | undefined = true;
 
   public group1Open = true;
   public group1Disabled = false;

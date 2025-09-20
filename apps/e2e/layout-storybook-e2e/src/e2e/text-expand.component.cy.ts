@@ -11,23 +11,18 @@ describe('layout-storybook', () => {
           ),
       );
       it('should render the component', () => {
-        cy.get('.sky-text-expand-see-more')
-          .first()
-          .click()
-          .end()
-          .get('.sky-text-expand-see-more')
-          .last()
-          .click()
-          .get('app-text-expand')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`textexpandcomponent-textexpand--text-expand-${theme}`)
-          .percySnapshot(
-            `textexpandcomponent-textexpand--text-expand-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
-          );
+        cy.get('.sky-text-expand-see-more').first().click();
+
+        cy.get('.sky-text-expand-see-more').last().click();
+        cy.skyReady('app-text-expand').screenshot(
+          `textexpandcomponent-textexpand--text-expand-${theme}`,
+        );
+        cy.percySnapshot(
+          `textexpandcomponent-textexpand--text-expand-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

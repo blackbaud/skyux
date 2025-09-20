@@ -16,7 +16,6 @@
     "url": "https://github.com/blackbaud/skyux/issues"
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
-  "main": "./src/index.js",
   "exports": {
     ".": {
       "types": "./src/index.d.ts",
@@ -34,11 +33,12 @@
     "save": "dependencies"
   },
   "ng-update": {
-    "migrations": "./src/schematics/migrations/migration-collection.json",
+    "migrations": "./migrations.json",
     "packageGroup": {
+      "@skyux/packages": "0.0.0-PLACEHOLDER",
       "@blackbaud/angular-tree-component": "^1.0.0",
-      "@skyux-sdk/eslint-config": "0.0.0-PLACEHOLDER",
-      "@skyux-sdk/prettier-schematics": "0.0.0-PLACEHOLDER",
+      "@skyux-sdk/eslint-schematics": "0.0.0-PLACEHOLDER",
+      "@skyux-sdk/stylelint-schematics": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
       "@skyux/a11y": "0.0.0-PLACEHOLDER",
       "@skyux/action-bars": "0.0.0-PLACEHOLDER",
@@ -48,18 +48,22 @@
       "@skyux/assets": "0.0.0-PLACEHOLDER",
       "@skyux/autonumeric": "0.0.0-PLACEHOLDER",
       "@skyux/avatar": "0.0.0-PLACEHOLDER",
+      "@skyux/code-examples": "0.0.0-PLACEHOLDER",
       "@skyux/colorpicker": "0.0.0-PLACEHOLDER",
       "@skyux/config": "0.0.0-PLACEHOLDER",
       "@skyux/core": "0.0.0-PLACEHOLDER",
       "@skyux/data-manager": "0.0.0-PLACEHOLDER",
       "@skyux/datetime": "0.0.0-PLACEHOLDER",
+      "@skyux/docs-tools": "0.0.0-PLACEHOLDER",
       "@skyux/errors": "0.0.0-PLACEHOLDER",
+      "@skyux/filter-bar": "0.0.0-PLACEHOLDER",
       "@skyux/flyout": "0.0.0-PLACEHOLDER",
       "@skyux/forms": "0.0.0-PLACEHOLDER",
       "@skyux/grids": "0.0.0-PLACEHOLDER",
-      "@skyux/http": "0.0.0-PLACEHOLDER",
+      "@skyux/help-inline": "0.0.0-PLACEHOLDER",
       "@skyux/i18n": "0.0.0-PLACEHOLDER",
-      "@skyux/icons": "^6.0.0",
+      "@skyux/icon": "0.0.0-PLACEHOLDER",
+      "@skyux/icons": "^9.0.0",
       "@skyux/indicators": "0.0.0-PLACEHOLDER",
       "@skyux/inline-form": "0.0.0-PLACEHOLDER",
       "@skyux/layout": "0.0.0-PLACEHOLDER",
@@ -69,9 +73,9 @@
       "@skyux/list-builder-view-grids": "0.0.0-PLACEHOLDER",
       "@skyux/lists": "0.0.0-PLACEHOLDER",
       "@skyux/lookup": "0.0.0-PLACEHOLDER",
+      "@skyux/manifest": "0.0.0-PLACEHOLDER",
       "@skyux/modals": "0.0.0-PLACEHOLDER",
       "@skyux/navbar": "0.0.0-PLACEHOLDER",
-      "@skyux/omnibar-interop": "0.0.0-PLACEHOLDER",
       "@skyux/pages": "0.0.0-PLACEHOLDER",
       "@skyux/phone-field": "0.0.0-PLACEHOLDER",
       "@skyux/popovers": "0.0.0-PLACEHOLDER",
@@ -85,18 +89,26 @@
       "@skyux/tiles": "0.0.0-PLACEHOLDER",
       "@skyux/toast": "0.0.0-PLACEHOLDER",
       "@skyux/validation": "0.0.0-PLACEHOLDER",
-      "ag-grid-angular": "^29.3.5",
-      "ag-grid-community": "^29.3.5",
-      "ag-grid-enterprise": "^29.3.5",
-      "autonumeric": "^4.9.0"
+      "ag-grid-angular": "^34.2.0",
+      "ag-grid-community": "^34.2.0",
+      "ag-grid-enterprise": "^34.1.1",
+      "autonumeric": "^4.10.8",
+      "eslint-config-skyux": "0.0.0-PLACEHOLDER",
+      "skyux-eslint": "0.0.0-PLACEHOLDER",
+      "skyux-stylelint": "0.0.0-PLACEHOLDER",
+      "stylelint-config-skyux": "0.0.0-PLACEHOLDER"
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^16.2.6",
-    "@angular/core": "^16.2.9"
+    "@angular/cli": "^20.3.1",
+    "@angular/core": "^20.3.0"
   },
   "dependencies": {
-    "fs-extra": "11.1.1",
-    "jsonc-parser": "3.2.0"
-  }
+    "fs-extra": "11.3.0",
+    "jsonc-parser": "3.3.1",
+    "parse5": "7.3.0",
+    "tslib": "^2.8.1"
+  },
+  "sideEffects": true,
+  "main": "./src/index.js"
 }

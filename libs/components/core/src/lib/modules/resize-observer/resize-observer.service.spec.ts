@@ -5,15 +5,20 @@ import {
   mockResizeObserver,
   mockResizeObserverEntry,
   mockResizeObserverHandle,
+  stopMockResizeObserver,
 } from './fixtures/resize-observer-mock';
 import { SkyResizeObserverService } from './resize-observer.service';
 
-describe('ResizeObserver service', async () => {
+describe('ResizeObserver service', () => {
   beforeAll(() => {
     mockResizeObserver();
   });
 
-  it('should return a new instance of a resize observer', async () => {
+  afterAll(() => {
+    stopMockResizeObserver();
+  });
+
+  it('should return a new instance of a resize observer', () => {
     const service = TestBed.inject(SkyResizeObserverService);
     expect(service).toBeTruthy();
     service.ngOnDestroy();
@@ -29,7 +34,7 @@ describe('ResizeObserver service', async () => {
     target.nativeElement.remove();
   }
 
-  it('should observe an element resize', async () => {
+  it('should observe an element resize', () => {
     const target = createNewElementRef();
     let result: ResizeObserverEntry | undefined;
     const service = TestBed.inject(SkyResizeObserverService);
@@ -53,7 +58,7 @@ describe('ResizeObserver service', async () => {
     destroyElementRef(target);
   });
 
-  it('should handle multiple observers', async () => {
+  it('should handle multiple observers', () => {
     const target = createNewElementRef();
     let result: ResizeObserverEntry | undefined;
     const service = TestBed.inject(SkyResizeObserverService);
@@ -119,7 +124,7 @@ describe('ResizeObserver service', async () => {
     destroyElementRef(target);
   });
 
-  it('should handle empty entry list', async () => {
+  it('should handle empty entry list', () => {
     const nativeElement = document.createElement('div');
     document.body.appendChild(nativeElement);
     const target = new ElementRef(nativeElement);
@@ -133,7 +138,7 @@ describe('ResizeObserver service', async () => {
     nativeElement.remove();
   });
 
-  it('should capture resize observer error event on destroy', async () => {
+  it('should capture resize observer error event on destroy', () => {
     const target = createNewElementRef();
     const error: ErrorEvent[] = [];
     window.addEventListener('error', (event) => error.push(event));
@@ -153,7 +158,7 @@ describe('ResizeObserver service', async () => {
     expect(error).toEqual([]);
   });
 
-  it('should capture resize observer error via onerror on destroy', async () => {
+  it('should capture resize observer error via onerror on destroy', () => {
     // window.onerror is how Karma/Jasmine captures errors.
     // This test expects window errors and needs the test runner not to fail on errors.
     window.onerror = null;
@@ -165,15 +170,17 @@ describe('ResizeObserver service', async () => {
     const errorEvent = new ErrorEvent('error', {
       message: 'ResizeObserver loop completed with undelivered notifications.',
     });
-    window.onerror && (window as any).onerror(errorEvent);
-    window.onerror && (window as any).onerror('Other error.');
+    if (window.onerror) {
+      (window as any).onerror(errorEvent);
+      (window as any).onerror('Other error.');
+    }
     subscription.unsubscribe();
     destroyElementRef(target);
     expect(window.onerror).toHaveBeenCalledWith(errorEvent);
     expect(window.onerror).toHaveBeenCalledWith('Other error.');
   });
 
-  it('should not capture other errors on destroy', async () => {
+  it('should not capture other errors on destroy', () => {
     // window.onerror is how Karma/Jasmine captures errors.
     // This test expects window errors and needs the test runner not to fail on errors.
     window.onerror = null;

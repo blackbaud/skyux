@@ -6,6 +6,7 @@ import {
   SkyModalService,
 } from '@skyux/modals';
 
+import { SplitViewModalComponent } from './layout/fit/modal.component';
 import { ModalCloseConfirmComponent } from './modal-close-confirm.component';
 import { ModalContentAutofocusComponent } from './modal-content-autofocus.component';
 import { ModalContentDemoComponent } from './modal-content-demo.component';
@@ -15,10 +16,11 @@ import { ModalErrorComponent } from './modal-error.component';
 import { ModalFormDemoComponent } from './modal-form-demo.component';
 import { ModalFullPageDemoComponent } from './modal-full-page-demo.component';
 import { ModalLookupComponent } from './modal-lookup.component';
+import { ModalRequiredComponent } from './modal-required.component';
 import { ModalTiledDemoComponent } from './modal-tiled-demo.component';
+import { ModalWithTabsComponent } from './modal-with-tabs.component';
 
 @Component({
-  standalone: true,
   selector: 'app-modal-visual',
   templateUrl: './modal-visual.component.html',
   styleUrls: ['./modal-visual.component.scss'],
@@ -123,6 +125,18 @@ export class ModalVisualComponent {
 
   public openErrorModal(): void {
     this.openModalInstance(ModalErrorComponent);
+  }
+
+  protected openRequiredFieldModal(): void {
+    this.openModalInstance(ModalRequiredComponent);
+  }
+
+  protected openTabsModal(): void {
+    this.openModalInstance(ModalWithTabsComponent, { size: 'large' });
+  }
+
+  protected openSplitviewModal(): void {
+    this.openModalInstance(SplitViewModalComponent, { size: 'large' });
   }
 
   public hideButtons(): void {

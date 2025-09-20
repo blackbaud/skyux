@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/integration/src",
   "prefix": "app",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -64,26 +65,27 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "integration:build:production"
+          "buildTarget": "integration:build:production"
         },
         "development": {
-          "browserTarget": "integration:build:development"
+          "buildTarget": "integration:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "integration:build"
+        "buildTarget": "integration:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "apps/integration/src/**/*.ts",
-          "apps/integration/src/**/*.html"
+          "{projectRoot}/src/**/*.ts",
+          "{projectRoot}/src/**/*.html"
         ]
       }
     },
@@ -120,6 +122,5 @@
         }
       }
     }
-  },
-  "tags": []
+  }
 }

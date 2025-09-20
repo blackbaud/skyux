@@ -1,0 +1,89 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "action-hub": {
+      "development": {
+        "docsIds": [
+          "SkyActionHubModule",
+          "SkyActionHubComponent",
+          "SkyActionHubContentComponent",
+          "SkyActionHubButtonsComponent",
+          "SkyActionHubNeedsAttentionClickHandlerArgs",
+          "SkyActionHubNeedsAttentionClickHandler",
+          "SkyActionHubNeedsAttentionInput",
+          "SkyActionHubNeedsAttention",
+          "SkyPageLink",
+          "SkyPageLinksInput",
+          "SkyPageModalLink",
+          "SkyPageModalLinksInput",
+          "SkyRecentLink",
+          "SkyRecentLinksInput",
+          "SkyRecentlyAccessedGetLinksArgs"
+        ],
+        "primaryDocsId": "SkyActionHubModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyActionHubHarness",
+          "SkyActionHubHarnessFilters",
+          "SkyNeedsAttentionHarness",
+          "SkyNeedsAttentionHarnessFilters",
+          "SkyNeedsAttentionItemHarness",
+          "SkyNeedsAttentionItemHarnessFilters",
+          "SkyLinkListHarness",
+          "SkyLinkListHarnessFilters",
+          "SkyLinkListItemHarness",
+          "SkyLinkListItemHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["PagesActionHubExampleComponent"]
+      }
+    },
+    "page": {
+      "development": {
+        "docsIds": [
+          "SkyPageModule",
+          "SkyPageComponent",
+          "SkyPageContentComponent",
+          "SkyPageLinksComponent",
+          "SkyPageLayoutType",
+          "SkyPageHeaderModule",
+          "SkyPageHeaderComponent",
+          "SkyPageHeaderDetailsComponent",
+          "SkyPageHeaderActionsComponent",
+          "SkyPageHeaderAlertsComponent",
+          "SkyPageHeaderAvatarComponent",
+          "SkyPageLink",
+          "SkyPageLinksInput",
+          "SkyLinkListModule",
+          "SkyLinkListComponent",
+          "SkyLinkListItemComponent"
+        ],
+        "primaryDocsId": "SkyPageModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyPageHarness",
+          "SkyPageHarnessFilters",
+          "SkyPageHeaderHarness",
+          "SkyPageHeaderHarnessFilters",
+          "SkyLinkListHarness",
+          "SkyLinkListHarnessFilters",
+          "SkyLinkListItemHarness",
+          "SkyLinkListItemHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "PagesPageHomePageBlocksLayoutExampleComponent",
+          "PagesPageListPageListLayoutExampleComponent",
+          "PagesPageListPageTabsLayoutExampleComponent",
+          "PagesPageRecordPageBlocksLayoutExampleComponent",
+          "PagesPageRecordPageTabsLayoutExampleComponent",
+          "PagesPageSplitViewPageFitLayoutExampleComponent"
+        ]
+      }
+    }
+  }
+}

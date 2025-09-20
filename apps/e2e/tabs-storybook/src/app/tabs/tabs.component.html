@@ -1,26 +1,25 @@
 <div>
   <sky-tabset
     permalinkId="sample"
+    [active]="active"
     (newTab)="onNewTabClick()"
     (openTab)="onOpenTabClick()"
-    [active]="active"
   >
-    <ng-container *ngFor="let tab of tabs; let i = index">
-      <sky-tab
-        *ngIf="!tab.isPermanent"
-        [disabled]="tab.disabled"
-        [tabHeading]="tab.tabHeading"
-        (close)="onCloseTab(i)"
-      >
-        {{ tab.tabContent }}
-      </sky-tab>
-      <sky-tab
-        *ngIf="tab.isPermanent"
-        [disabled]="tab.disabled"
-        [tabHeading]="tab.tabHeading"
-      >
-        {{ tab.tabContent }}
-      </sky-tab>
-    </ng-container>
+    @for (tab of tabs; track tab; let i = $index) {
+      @if (!tab.isPermanent) {
+        <sky-tab
+          [disabled]="tab.disabled"
+          [tabHeading]="tab.tabHeading"
+          (close)="onCloseTab(i)"
+        >
+          {{ tab.tabContent }}
+        </sky-tab>
+      }
+      @if (tab.isPermanent) {
+        <sky-tab [disabled]="tab.disabled" [tabHeading]="tab.tabHeading">
+          {{ tab.tabContent }}
+        </sky-tab>
+      }
+    }
   </sky-tabset>
 </div>

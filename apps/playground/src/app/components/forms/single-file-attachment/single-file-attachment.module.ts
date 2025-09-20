@@ -1,8 +1,8 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyFileAttachmentsModule } from '@skyux/forms';
-import { SkyHelpInlineModule } from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
+import { SkyPagingModule } from '@skyux/lists';
 
 import {
   SingleFileAttachmentRoutingModule,
@@ -12,12 +12,12 @@ import { SingleFileAttachmentComponent } from './single-file-attachment.componen
 
 @NgModule({
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SingleFileAttachmentRoutingModule,
     SkyFileAttachmentsModule,
     SkyHelpInlineModule,
+    SkyPagingModule,
   ],
   declarations: [SingleFileAttachmentComponent],
   exports: [SingleFileAttachmentComponent],

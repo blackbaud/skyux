@@ -7,7 +7,6 @@ import { ModalStandaloneComponent } from './modal-standalone.component';
  * This standalone route opens a standalone modal component to ensure providers are correctly setup.
  */
 @Component({
-  standalone: true,
   template: `
     <button class="sky-btn sky-btn-default" type="button" (click)="open()">
       Open modal

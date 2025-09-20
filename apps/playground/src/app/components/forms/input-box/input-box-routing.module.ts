@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
 
+import { InputBoxDisabledComponent } from './input-box-disabled.component';
 import { InputBoxComponent } from './input-box.component';
 
 const routes: ComponentRouteInfo[] = [
@@ -11,7 +12,16 @@ const routes: ComponentRouteInfo[] = [
     component: InputBoxComponent,
     data: {
       name: 'Input box',
-      icon: 'server',
+      icon: 'form',
+      library: 'forms',
+    },
+  },
+  {
+    path: 'disabled',
+    component: InputBoxDisabledComponent,
+    data: {
+      name: 'Input box (disabled)',
+      icon: 'form',
       library: 'forms',
     },
   },

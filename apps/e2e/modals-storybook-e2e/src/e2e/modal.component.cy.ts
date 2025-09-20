@@ -14,62 +14,62 @@ describe('modals-storybook', () => {
         'medium',
         'large',
         'full-page',
+        'heading-text-help-inline',
         'help-inline',
         'error',
+        'positioned-background',
       ]) {
         it(`should render the ${modalType} modal on desktop`, () => {
-          cy.get('app-modal').should('exist').should('be.visible');
+          cy.skyReady('app-modal');
           cy.get(`.open-${modalType}-modal-btn`)
             .should('exist')
             .should('be.visible')
-            .click()
-            .end()
-            .get('.sky-modal')
-            .should('exist')
-            .should('be.visible');
+            .click();
+
+          cy.get('.sky-modal').should('exist').should('be.visible');
           if (modalType === 'full-page') {
             // Full page modals fit the viewport, which conflicts with how Cypress determines element screenshot bounds.
-            cy.window()
-              .screenshot(`modalcomponent-modal--${modalType}-modal-${theme}`, {
+            cy.window().screenshot(
+              `modalcomponent-modal--${modalType}-modal-${theme}`,
+              {
                 disableTimersAndAnimations: true,
                 scale: false,
                 capture: 'viewport',
-              })
-              .percySnapshot(
-                `modalcomponent-modal--${modalType}-modal-${theme}`,
-                {
-                  widths: E2eVariations.DISPLAY_WIDTHS,
-                },
-              );
+              },
+            );
+            cy.window().percySnapshot(
+              `modalcomponent-modal--${modalType}-modal-${theme}`,
+              {
+                widths: E2eVariations.DISPLAY_WIDTHS,
+              },
+            );
           } else {
-            cy.get('.sky-modal')
-              .screenshot(`modalcomponent-modal--${modalType}-modal-${theme}`, {
+            cy.get('.sky-modal').screenshot(
+              `modalcomponent-modal--${modalType}-modal-${theme}`,
+              {
                 disableTimersAndAnimations: true,
                 scale: false,
-              })
-              .percySnapshot(
-                `modalcomponent-modal--${modalType}-modal-${theme}`,
-                {
-                  widths: E2eVariations.DISPLAY_WIDTHS,
-                },
-              );
+              },
+            );
+            cy.get('.sky-modal').percySnapshot(
+              `modalcomponent-modal--${modalType}-modal-${theme}`,
+              {
+                widths: E2eVariations.DISPLAY_WIDTHS,
+              },
+            );
           }
-          cy.get('.sky-btn-close')
-            .should('exist')
-            .should('be.visible')
-            .click()
-            .end();
+          cy.get('.sky-btn-close').should('exist').should('be.visible').click();
         });
 
         it(`should render the ${modalType} modal on mobile`, () => {
           cy.viewport('iphone-x', 'portrait');
-          cy.get('app-modal').should('exist').should('be.visible');
+          cy.skyReady('app-modal');
           cy.get(`.open-${modalType}-modal-btn`)
             .should('exist')
             .should('be.visible')
-            .click()
-            .end()
-            .get('.sky-modal')
+            .click();
+
+          cy.get('.sky-modal')
             .should('exist')
             .should('be.visible')
             .window()
@@ -79,18 +79,14 @@ describe('modals-storybook', () => {
                 disableTimersAndAnimations: true,
                 scale: false,
               },
-            )
-            .percySnapshot(
-              `modalcomponent-modal--${modalType}-modal-${theme}-mobile`,
-              {
-                widths: E2eVariations.MOBILE_WIDTHS,
-              },
-            )
-            .get('.sky-btn-close')
-            .should('exist')
-            .should('be.visible')
-            .click()
-            .end();
+            );
+          cy.window().percySnapshot(
+            `modalcomponent-modal--${modalType}-modal-${theme}-mobile`,
+            {
+              widths: E2eVariations.MOBILE_WIDTHS,
+            },
+          );
+          cy.get('.sky-btn-close').should('exist').should('be.visible').click();
         });
       }
     });

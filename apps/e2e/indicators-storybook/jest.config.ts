@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'e2e-indicators-storybook',
   preset: '../../../jest.preset.js',

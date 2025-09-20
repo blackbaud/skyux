@@ -10,7 +10,7 @@ export async function runCommand(
   command: string,
   args: string[] = [],
   spawnOptions: SpawnOptions = {},
-): Promise<string | void> {
+): Promise<string | undefined> {
   spawnOptions = {
     ...{
       stdio: 'inherit',
@@ -19,7 +19,7 @@ export async function runCommand(
     ...spawnOptions,
   };
 
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     const child = crossSpawn(command, args, spawnOptions);
 
     let output = '';
@@ -42,10 +42,10 @@ export async function runCommand(
         if (output) {
           resolve(output.trim());
         } else {
-          resolve();
+          resolve('');
         }
       } else {
-        reject(new Error(error));
+        reject(new Error(error || output));
       }
     });
   });

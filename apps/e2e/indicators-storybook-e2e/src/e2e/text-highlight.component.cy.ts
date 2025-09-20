@@ -9,18 +9,15 @@ describe('indicators-storybook - text-highlight', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('app-text-highlight')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(
-            `texthighlightcomponent-texthighlight--text-highlight-${theme}`,
-          )
-          .percySnapshot(
-            `texthighlightcomponent-texthighlight--text-highlight-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
-          );
+        cy.skyReady('app-text-highlight').screenshot(
+          `texthighlightcomponent-texthighlight--text-highlight-${theme}`,
+        );
+        cy.get('app-text-highlight').percySnapshot(
+          `texthighlightcomponent-texthighlight--text-highlight-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

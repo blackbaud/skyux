@@ -1,0 +1,10 @@
+span.description-list-term {
+  display: contents;
+  white-space: normal;
+}
+
+:host-context(.sky-description-list-long-description-mode) {
+  span.description-list-term {
+    overflow-wrap: break-word;
+  }
+}

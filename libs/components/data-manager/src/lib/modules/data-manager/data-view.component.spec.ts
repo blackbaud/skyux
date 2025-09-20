@@ -5,6 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { provideSkyMediaQueryTesting } from '@skyux/core/testing';
 
 import { SkyDataManagerService } from './data-manager.service';
 import { DataViewRepeaterFixtureComponent } from './fixtures/data-manager-repeater-view.component.fixture';
@@ -20,6 +21,7 @@ describe('SkyDataViewComponent', () => {
     TestBed.configureTestingModule({
       declarations: [DataViewRepeaterFixtureComponent],
       imports: [DataManagerFixtureModule],
+      providers: [provideSkyMediaQueryTesting()],
     });
 
     dataViewFixture = TestBed.createComponent(DataViewRepeaterFixtureComponent);

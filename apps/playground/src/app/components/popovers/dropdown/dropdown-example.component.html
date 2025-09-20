@@ -1,0 +1,79 @@
+<sky-dropdown>
+  <sky-dropdown-button> Show dropdown </sky-dropdown-button>
+  <sky-dropdown-menu>
+    @for (item of items; track item.name) {
+      <sky-dropdown-item>
+        <button
+          type="button"
+          [attr.disabled]="item.disabled() ? '' : null"
+          (click)="actionClicked(item.name)"
+        >
+          {{ item.name }}
+        </button>
+      </sky-dropdown-item>
+    }
+  </sky-dropdown-menu>
+</sky-dropdown>
+<br />
+
+<sky-dropdown buttonType="context-menu">
+  <sky-dropdown-button> Show dropdown </sky-dropdown-button>
+  <sky-dropdown-menu>
+    @for (item of items; track item.name) {
+      <sky-dropdown-item>
+        <button
+          type="button"
+          [attr.disabled]="item.disabled() ? '' : null"
+          (click)="actionClicked(item.name)"
+        >
+          {{ item.name }}
+        </button>
+      </sky-dropdown-item>
+    }
+  </sky-dropdown-menu>
+</sky-dropdown>
+<br />
+
+<sky-dropdown label="Filter">
+  <sky-dropdown-button><sky-icon iconName="filter" /></sky-dropdown-button>
+  <sky-dropdown-menu>
+    @for (item of items; track item.name) {
+      <sky-dropdown-item>
+        <button
+          type="button"
+          [attr.disabled]="item.disabled() ? '' : null"
+          (click)="actionClicked(item.name)"
+        >
+          {{ item.name }}
+        </button>
+      </sky-dropdown-item>
+    }
+  </sky-dropdown-menu>
+</sky-dropdown>
+
+<sky-dropdown>
+  <button
+    class="sky-btn sky-btn-default custom-trigger"
+    type="button"
+    skyDropdownTrigger
+  >
+    <div class="custom-trigger-inner">
+      <sky-icon iconName="add" />
+      New
+      <sky-icon iconName="chevron-down" />
+    </div>
+  </button>
+  <sky-dropdown-menu>
+    @for (item of items; track item.name) {
+      <sky-dropdown-item class="custom-trigger-item">
+        <button
+          type="button"
+          [attr.disabled]="item.disabled() ? '' : null"
+          (click)="actionClicked(item.name)"
+        >
+          {{ item.name }}
+        </button>
+      </sky-dropdown-item>
+    }
+  </sky-dropdown-menu>
+</sky-dropdown>

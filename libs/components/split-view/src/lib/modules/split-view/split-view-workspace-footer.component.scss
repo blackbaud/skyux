@@ -1,10 +1,30 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides(
+  '.sky-split-view-workspace-footer'
+) {
+  --sky-override-split-view-workspace-footer-padding: 10px;
+  --sky-override-split-view-workspace-footer-box-shadow: 0 -3px 3px 0
+    #{$sky-color-gray-20};
+}
 
 :host {
+  display: block;
   flex-shrink: 0;
 }
 
 .sky-split-view-workspace-footer {
-  padding: 10px;
-  box-shadow: 0 -3px 3px 0 $sky-color-gray-20;
+  padding: var(
+    --sky-override-split-view-workspace-footer-padding,
+    var(--sky-comp-split_view-footer-space-inset-top)
+      var(--sky-comp-split_view-footer-space-inset-right)
+      var(--sky-comp-split_view-footer-space-inset-bottom)
+      var(--sky-comp-split_view-footer-space-inset-left)
+  );
+  // Remove this rule and use the `sky-elevation-3` class directly when default support is dropped.
+  box-shadow: var(
+    --sky-override-split-view-workspace-footer-box-shadow,
+    var(--sky-elevation-overflow)
+  );
 }

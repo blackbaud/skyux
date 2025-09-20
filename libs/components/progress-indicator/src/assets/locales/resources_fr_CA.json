@@ -1,0 +1,18 @@
+{
+  "skyux_progress_indicator_navigator_finish": {
+    "_description": "Texte affiché sur le bouton terminer d’un assistant",
+    "message": "Terminer"
+  },
+  "skyux_progress_indicator_navigator_next": {
+    "_description": "Texte affiché sur le bouton suivant d’un assistant",
+    "message": "Suivant"
+  },
+  "skyux_progress_indicator_navigator_previous": {
+    "_description": "Texte affiché sur le bouton précédent d’un assistant",
+    "message": "Précédent"
+  },
+  "skyux_progress_indicator_navigator_reset": {
+    "_description": "Texte affiché sur le bouton réinitialiser d’un assistant",
+    "message": "Réinitialiser"
+  }
+}

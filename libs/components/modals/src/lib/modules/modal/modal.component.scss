@@ -1,73 +1,206 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-modal') {
+  --sky-override-modal-background-color: #fff;
+  --sky-override-modal-border: 1px solid #{$sky-border-color-neutral-medium};
+  --sky-override-modal-dock-bottom: #{-$sky-padding-plus-half};
+  --sky-override-modal-dock-margin-left-right-bottom: #{-$sky-margin-plus-half};
+  --sky-override-modal-dock-padding-top: #{$sky-padding-plus-half};
+  --sky-override-modal-dock-width: calc(100% + 30px);
+  --sky-override-modal-full-page-margin-xs: 0;
+  --sky-override-modal-full-page-margin: 0;
+  --sky-override-modal-full-page-width: 100%;
+  --sky-override-modal-header-bottom-border: #{1px solid
+    $sky-border-color-neutral-light};
+  --sky-override-modal-header-padding: #{9px 3px 9px $sky-padding-plus-half};
+  --sky-override-modal-help-close-display: inline-block;
+  --sky-override-modal-margin: 20px auto;
+  --sky-override-modal-viewkept-toolbar-box-shadow: none;
+  --sky-override-modal-viewkept-toolbar-padding-horizontal: 10px;
+  --sky-override-modal-width-l: 900px;
+  --sky-override-modal-width-m: 600px;
+  --sky-override-modal-width-s: 300px;
+  --sky-override-modal-xs-margin: 30px #{$sky-margin} #{$sky-margin}
+    #{$sky-margin};
+}
+
+:host {
+  --sky-viewport-top: 0;
+  --sky-viewport-bottom: 0;
+  --sky-viewport-left: 0;
+  --sky-viewport-right: 0;
+}
 
 .sky-modal {
-  @include mixins.sky-border(dark, top, bottom, left, right);
+  --sky-comp-override-list-header-background-color: initial;
+  border: var(
+    --sky-override-modal-border,
+    var(--sky-border-width-container-base) solid
+      var(--sky-color-border-container-base)
+  );
   position: fixed;
   width: auto;
   left: 0;
   right: 0;
-  top: 20px;
-  margin: $sky-margin;
+  top: 0;
+  margin: var(
+    --sky-override-modal-xs-margin,
+    var(--sky-comp-modal-space-offset-xs-top)
+      var(--sky-comp-modal-space-offset-xs-right)
+      var(--sky-comp-modal-space-offset-xs-bottom)
+      var(--sky-comp-modal-space-offset-xs-left)
+  );
   display: flex;
   flex-direction: column;
   overflow: hidden;
+
+  &:has(.sky-modal-content.sky-layout-host-fit) {
+    height: var(--sky-modal-content-max-height, 100%);
+  }
 }
 
 .sky-modal:focus {
-  outline: none;
+  outline-style: dotted;
+  outline-width: thin;
+  outline-offset: -1px;
+}
+
+.sky-modal-header:has(.sky-modal-header-content:empty) {
+  display: none;
+}
+
+.sky-modal-btn-help,
+.sky-modal-btn-close {
+  display: var(--sky-override-modal-help-close-display, none);
+}
+
+.sky-modal-full-page {
+  width: var(
+    --sky-override-modal-full-page-width,
+    calc(
+      100% - calc(
+          var(
+              --sky-override-modal-full-page-margin-xs,
+              var(--sky-comp-modal-fullscreen-space-offset-xs-right)
+            ) +
+            var(
+              --sky-override-modal-full-page-margin-xs,
+              var(--sky-comp-modal-fullscreen-space-offset-xs-left)
+            )
+        )
+    )
+  );
+  margin: var(
+    --sky-override-modal-full-page-margin-xs,
+    var(--sky-comp-modal-fullscreen-space-offset-xs-top)
+      var(--sky-comp-modal-fullscreen-space-offset-xs-right)
+      var(--sky-comp-modal-fullscreen-space-offset-xs-bottom)
+      var(--sky-comp-modal-fullscreen-space-offset-xs-left)
+  );
 }
 
 @media (min-width: $sky-screen-sm-min) {
-  .sky-modal:not(.sky-modal-large) {
-    margin: 0 auto;
+  .sky-modal:not(.sky-modal-full-page) {
+    margin: var(
+      --sky-override-modal-margin,
+      var(--sky-comp-modal-space-offset-sm-top) auto
+        var(--sky-comp-modal-space-offset-sm-bottom)
+    );
   }
 
   .sky-modal-small {
-    width: 300px;
+    width: var(--sky-override-modal-width-s, var(--sky-size-width-modal-s));
 
     .sky-modal-content,
     .sky-modal-header,
     .sky-modal-footer {
-      max-width: 300px;
+      max-width: var(
+        --sky-override-modal-width-s,
+        var(--sky-size-width-modal-s)
+      );
     }
   }
 
   .sky-modal-medium {
-    width: 600px;
+    width: var(--sky-override-modal-width-m, var(--sky-size-width-modal-m));
 
     .sky-modal-content,
     .sky-modal-header,
     .sky-modal-footer {
-      max-width: 600px;
+      max-width: var(
+        --sky-override-modal-width-m,
+        var(--sky-size-width-modal-m)
+      );
     }
+  }
+
+  .sky-modal-full-page {
+    width: var(
+      --sky-override-modal-full-page-width,
+      calc(
+        100% - calc(
+            var(
+                --sky-override-modal-full-page-margin,
+                var(--sky-comp-modal-fullscreen-space-offset-sm-left)
+              ) +
+              var(
+                --sky-override-modal-full-page-margin,
+                var(--sky-comp-modal-fullscreen-space-offset-sm-right)
+              )
+          )
+      )
+    );
+
+    margin: var(
+      --sky-override-modal-full-page-margin,
+      var(--sky-comp-modal-fullscreen-space-offset-sm-top)
+        var(--sky-comp-modal-fullscreen-space-offset-sm-right)
+        var(--sky-comp-modal-fullscreen-space-offset-sm-bottom)
+        var(--sky-comp-modal-fullscreen-space-offset-sm-left)
+    );
   }
 }
 
 @media (min-width: 920px) {
   .sky-modal-large {
-    margin: 0 auto;
-    width: 900px;
+    width: var(--sky-override-modal-width-l, var(--sky-size-width-modal-l));
 
     .sky-modal-content,
     .sky-modal-header,
     .sky-modal-footer {
-      max-width: 900px;
+      max-width: var(
+        --sky-override-modal-width-l,
+        var(--sky-size-width-modal-l)
+      );
     }
   }
 }
 
 .sky-modal-content {
-  background-color: #fff;
-  --sky-background-color-page-default: #fff;
+  background-color: var(
+    --sky-override-modal-background-color,
+    var(--sky-color-background-container-base)
+  );
+  --sky-background-color-page-default: var(
+    --sky-override-modal-background-color,
+    var(--sky-color-background-container-base)
+  );
 
   &:focus {
     outline-style: dotted;
     outline-width: thin;
     outline-offset: -1px;
   }
+
+  &.sky-layout-host-fit {
+    flex-grow: 1;
+    position: relative;
+  }
 }
 
+// the `tiledBody` input is deprecated and will be removed in 13
 .sky-modal-tiled .sky-modal-content {
   background-color: $sky-background-color-neutral-light;
   --sky-background-color-page-default: $sky-background-color-neutral-light;
@@ -78,17 +211,21 @@
 }
 
 .sky-modal-header {
-  /* Need less padding because of the close button padding */
-  padding-left: $sky-padding-plus-half;
-  padding-top: 9px;
-  padding-bottom: 9px;
-  padding-right: 3px;
-
-  background-color: #fff;
+  padding: var(
+    --sky-override-modal-header-padding,
+    var(--sky-comp-modal-header-space-inset-top)
+      var(--sky-comp-modal-header-space-inset-right)
+      var(--sky-comp-modal-header-space-inset-bottom)
+      var(--sky-comp-modal-header-space-inset-left)
+  );
+  background-color: var(
+    --sky-override-modal-background-color,
+    var(--sky-color-background-container-base)
+  );
+  border-bottom: var(--sky-override-modal-header-bottom-border);
 
   display: flex;
   align-items: baseline;
-  @include mixins.sky-border(light, bottom);
 }
 
 .sky-modal-header-buttons {
@@ -120,97 +257,53 @@
   z-index: 2;
 }
 
-.sky-modal-full-page {
-  width: 100%;
-  top: 0;
-  margin: 0;
-
-  .sky-modal-header-buttons sky-icon[icon='close'] {
-    font-size: 20px;
-  }
-}
-
 .sky-modal-full-page .sky-modal-content {
   flex-grow: 1;
 }
 
-:host ::ng-deep .sky-sectioned-form {
-  min-height: 460px;
-  margin: -$sky-margin-plus-half;
-}
-
 .sky-modal-content > ::ng-deep sky-dock {
-  bottom: -$sky-padding-plus-half;
-  margin-left: -$sky-margin-plus-half;
-  margin-bottom: -$sky-margin-plus-half;
-  padding-top: $sky-padding-plus-half;
-  width: calc(100% + 30px);
+  bottom: var(--sky-override-modal-dock-bottom, 0);
+  margin-left: var(--sky-override-modal-dock-margin-left-right-bottom, initial);
+  margin-right: var(
+    --sky-override-modal-dock-margin-left-right-bottom,
+    initial
+  );
+  margin-bottom: var(
+    --sky-override-modal-dock-margin-left-right-bottom,
+    initial
+  );
+  padding-top: var(--sky-override-modal-dock-padding-top, initial);
+  width: var(--sky-override-modal-dock-width, 100%);
 }
 
-@include mixins.sky-theme-modern {
+.sky-modal-viewkeeper {
   .sky-modal-header {
-    border: none;
-    padding: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
+    box-shadow: none !important;
   }
 
-  .sky-modal-btn-help,
-  .sky-modal-btn-close {
-    display: none;
-  }
+  .sky-modal-content ::ng-deep sky-modal-content > .sky-viewkeeper-fixed {
+    box-shadow: var(
+      --sky-override-modal-viewkept-toolbar-box-shadow,
+      var(--sky-elevation-overflow)
+    );
 
-  .sky-modal-content {
-    padding: 0;
-  }
-
-  .sky-modal-full-page {
-    width: calc(100% - (#{$sky-theme-modern-space-xl * 2}));
-    margin: $sky-theme-modern-space-xl;
-  }
-
-  .sky-modal-content > ::ng-deep sky-dock {
-    bottom: 0;
-    margin-left: initial;
-    margin-bottom: initial;
-    padding-top: initial;
-    width: 100%;
-  }
-
-  .sky-modal-viewkeeper {
-    .sky-modal-header {
-      box-shadow: none !important;
+    > sky-toolbar .sky-toolbar-container {
+      background-color: var(
+        --sky-override-modal-background-color,
+        var(--sky-color-background-container-base)
+      );
+      --sky-background-color-page-default: var(
+        --sky-override-modal-background-color,
+        var(--sky-color-background-container-base)
+      );
+      padding-left: var(
+        --sky-override-modal-viewkept-toolbar-padding-horizontal,
+        var(--sky-comp-modal-header-space-inset-left)
+      );
+      padding-right: var(
+        --sky-override-modal-viewkept-toolbar-padding-horizontal,
+        var(--sky-comp-modal-header-space-inset-right)
+      );
     }
-
-    .sky-modal-content ::ng-deep sky-modal-content > .sky-viewkeeper-fixed {
-      box-shadow: 0px 4px 8px -4px rgb(0 0 0 / 30%);
-
-      > sky-toolbar .sky-toolbar-container {
-        background-color: #fff;
-        --sky-background-color-page-default: #fff;
-        padding-left: $sky-theme-modern-space-xl;
-        padding-right: $sky-theme-modern-space-xl;
-      }
-    }
-  }
-
-  :host ::ng-deep .sky-sectioned-form {
-    min-height: 460px;
-    margin: (-$sky-theme-modern-space-sm) (-$sky-theme-modern-space-xl)
-      (-$sky-theme-modern-space-xl) (-$sky-theme-modern-space-xl);
-  }
-}
-
-@include mixins.sky-theme-modern-dark {
-  .sky-modal {
-    border-color: $sky-theme-modern-mode-dark-background-color-page-default;
-  }
-
-  .sky-modal-header {
-    color: $sky-theme-modern-mode-dark-font-body-default-color;
-  }
-
-  .sky-modal-header,
-  .sky-modal-content {
-    background-color: transparent;
-    --sky-background-color-page-default: $sky-theme-modern-mode-dark-background-color-page-default;
   }
 }

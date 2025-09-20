@@ -7,6 +7,16 @@ const routes: Routes = [
     loadChildren: () =>
       import('./buttons/buttons.module').then((m) => m.ButtonsModule),
   },
+  {
+    path: 'viewport-service',
+    loadComponent: () =>
+      import('./viewport-service/viewport-service.component'),
+    data: {
+      name: 'Viewport Service',
+      icon: 'grid',
+      library: 'theme',
+    },
+  },
 ];
 
 @NgModule({

@@ -9,31 +9,31 @@
 </div>
 
 <div class="sky-padding-even-large">
-  <sky-toggle-switch class="sky-margin-inline-lg">
-    <sky-toggle-switch-label>Toggle switch label</sky-toggle-switch-label>
-    <sky-help-inline
-      *ngIf="showInlineHelp"
-      class="sky-control-help"
-    ></sky-help-inline>
+  <sky-toggle-switch labelText="label text" class="sky-margin-inline-lg">
+    <sky-toggle-switch-label
+      >Overridden label component</sky-toggle-switch-label
+    >
+    @if (showInlineHelp) {
+      <sky-help-inline class="sky-control-help" />
+    }
   </sky-toggle-switch>
   <span>Text after switch</span>
 </div>
+
 <div class="sky-padding-even-large">
-  <sky-toggle-switch [disabled]="true">
-    <sky-toggle-switch-label>Disabled switch</sky-toggle-switch-label>
-    <sky-help-inline
-      *ngIf="showInlineHelp"
-      class="sky-control-help"
-    ></sky-help-inline>
+  <sky-toggle-switch labelText="Disabled switch" [disabled]="true">
+    <sky-toggle-switch-label>Overridden label</sky-toggle-switch-label>
+    @if (showInlineHelp) {
+      <sky-help-inline class="sky-control-help" />
+    }
   </sky-toggle-switch>
 </div>
 <div class="sky-padding-even-large">
   <sky-toggle-switch [checked]="true" [disabled]="true">
     <sky-toggle-switch-label>Disabled switch checked</sky-toggle-switch-label>
-    <sky-help-inline
-      *ngIf="showInlineHelp"
-      class="sky-control-help"
-    ></sky-help-inline>
+    @if (showInlineHelp) {
+      <sky-help-inline class="sky-control-help" />
+    }
   </sky-toggle-switch>
 </div>
 
@@ -42,33 +42,41 @@
     class="sky-margin-inline-lg"
     ariaLabel="Toggle switch without visible label"
   >
-    <sky-help-inline
-      *ngIf="showInlineHelp"
-      class="sky-control-help"
-    ></sky-help-inline>
+    @if (showInlineHelp) {
+      <sky-help-inline class="sky-control-help" />
+    }
   </sky-toggle-switch>
   <span>Text after switch</span>
 </div>
 <div class="sky-padding-even-large">
   <sky-toggle-switch
+    labelText="Disabled switch without visible label"
+    labelHidden="true"
     [disabled]="true"
-    ariaLabel="Disabled switch without visible label"
   >
-    <sky-help-inline
-      *ngIf="showInlineHelp"
-      class="sky-control-help"
-    ></sky-help-inline>
+    @if (showInlineHelp) {
+      <sky-help-inline class="sky-control-help" />
+    }
   </sky-toggle-switch>
 </div>
 <div class="sky-padding-even-large">
   <sky-toggle-switch
+    ariaLabel="Disabled switch checked without visible label"
     [checked]="true"
     [disabled]="true"
-    ariaLabel="Disabled switch checked without visible label"
   >
-    <sky-help-inline
-      *ngIf="showInlineHelp"
-      class="sky-control-help"
-    ></sky-help-inline>
+    @if (showInlineHelp) {
+      <sky-help-inline class="sky-control-help" />
+    }
   </sky-toggle-switch>
+</div>
+
+<div class="sky-padding-even-large">
+  <sky-toggle-switch
+    ariaLabel="Switch using help popover content"
+    labelText="Unsubscribe from all"
+    [helpPopoverContent]="
+      showInlineHelp ? 'You will stop receiving emails from us.' : ''
+    "
+  />
 </div>

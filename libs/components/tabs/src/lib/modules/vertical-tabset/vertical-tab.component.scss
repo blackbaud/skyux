@@ -1,35 +1,89 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+@use 'libs/components/tabs/src/lib/modules/vertical-tabset/vertical-tabset-button.scss'
+  as verticalTabsetButtonMixins;
 
-.sky-vertical-tab {
-  cursor: pointer;
-  padding: $sky-padding-3_4 0 $sky-padding-3_4 $sky-padding;
-  margin: $sky-margin-half 0 $sky-margin-half $sky-margin;
-  display: flex;
-  text-decoration: none;
-
-  &:not(.sky-deemphasized) {
-    color: $sky-text-color-default;
-  }
-
-  &:hover {
-    background-color: $sky-background-color-neutral-light;
-  }
-
-  &:focus-visible {
-    @include mixins.sky-focus-outline;
-  }
-
-  &:hover .sky-vertical-tab-right-arrow {
-    color: darken($sky-text-color-icon-borderless, 20%);
-  }
+@include compatMixins.sky-default-overrides('.sky-vertical-tab') {
+  --sky-override-vertical-tab-background-color-selected: #{$sky-background-color-neutral-light};
+  --sky-override-vertical-tab-border-left-selected: #{$sky-nav-selected-border-width}
+    solid #{$sky-highlight-color-info};
+  --sky-override-vertical-tab-count-margin-left: #{$sky-margin-half};
+  --sky-override-vertical-tab-display-align-items: normal;
+  --sky-override-vertical-tab-heading-error-line-height: normal;
+  --sky-override-vertical-tab-heading-error-padding-left: #{$sky-padding-half};
+  --sky-override-vertical-tab-margin: #{$sky-margin-half} 0 #{$sky-margin-half}
+    #{$sky-margin-half};
+  --sky-override-vertical-tab-padding: #{$sky-padding-3_4} 0 #{$sky-padding-3_4}
+    #{$sky-padding};
+  --sky-override-vertical-tab-padding-left-selected: 6px;
+  --sky-override-vertical-tab-right-arrow-color: #{$sky-text-color-deemphasized};
+  --sky-override-vertical-tab-right-arrow-color-selected: #{$sky-text-color-deemphasized};
+  --sky-override-vertical-tab-right-arrow-padding: 3px #{$sky-padding} 0 0;
 }
 
-.sky-vertical-tab-active {
-  background-color: $sky-background-color-neutral-light;
-  color: $sky-text-color-default;
-  padding-left: 6px;
-  border-left: $sky-nav-selected-border-width solid $sky-highlight-color-info;
+.sky-vertical-tab {
+  // The padding here can be consolidated into the tabset button styles when support for default theme is removed.
+  padding: var(
+    --sky-override-vertical-tab-padding,
+    var(--sky-comp-tab-vertical-space-inset-top)
+      var(--sky-comp-tab-vertical-space-inset-right)
+      var(--sky-comp-tab-vertical-space-inset-bottom)
+      var(--sky-comp-tab-vertical-space-inset-left)
+  );
+  margin: var(
+    --sky-override-vertical-tab-margin,
+    0 0 var(--sky-space-gap-action_group-m)
+  );
+}
+
+.sky-vertical-tabset-button {
+  &.sky-vertical-tab-active {
+    color: var(--sky-color-text-selected);
+    font-weight: var(--sky-font-style-emphasized);
+
+    &:not(:focus-visible) {
+      background-color: var(
+        --sky-override-vertical-tab-background-color-selected,
+        var(--sky-color-background-selected-soft)
+      );
+      border-bottom-left-radius: var(--sky-border-radius-xs);
+      border-top-left-radius: var(--sky-border-radius-xs);
+      padding-left: var(
+        --sky-override-vertical-tab-padding-left-selected,
+        calc(
+          var(--sky-comp-tab-vertical-space-inset-left) - var(
+              --sky-border-width-selected-m
+            )
+        )
+      );
+      border-left: var(
+        --sky-override-vertical-tab-border-left-selected,
+        var(--sky-border-width-selected-m) solid
+          var(--sky-color-border-selected)
+      );
+    }
+
+    // This css block is to maintain default compatibility. It can be removed when default theme support is removed.
+    &:not(:active):focus-visible {
+      background-color: var(
+        --sky-override-vertical-tab-background-color-selected,
+        var(--sky-color-background-nav-focus)
+      );
+      padding-left: var(
+        --sky-override-vertical-tab-padding-left-selected,
+        var(--sky-comp-tab-vertical-space-inset-left)
+      );
+      border-left: var(--sky-override-vertical-tab-border-left-selected, none);
+    }
+
+    .sky-vertical-tab-right-arrow {
+      color: var(
+        --sky-override-vertical-tab-right-arrow-color-selected,
+        var(--sky-color-icon-default)
+      );
+    }
+  }
 }
 
 .sky-vertical-tab-hidden {
@@ -40,70 +94,49 @@
   display: flex;
   justify-content: space-between;
   flex-grow: 1;
+  align-items: var(--sky-override-vertical-tab-display-align-items, center);
 }
 
 .sky-vertical-tab-heading-error {
-  padding-left: $sky-padding-half;
+  padding-left: var(
+    --sky-override-vertical-tab-heading-error-padding-left,
+    var(--sky-space-gap-text_action-s)
+  );
+  line-height: var(--sky-override-vertical-tab-heading-error-line-height, 1);
 }
 
 .sky-vertical-tab-count {
-  margin-left: $sky-margin-half;
-}
-
-.sky-vertical-tab-disabled {
-  cursor: not-allowed;
-  pointer-events: none;
+  margin-left: var(
+    --sky-override-vertical-tab-count-margin-left,
+    var(--sky-space-gap-label-s)
+  );
 }
 
 .sky-vertical-tab-right-arrow {
-  padding: 3px $sky-padding 0 0;
-  color: $sky-text-color-icon-borderless;
+  padding: var(--sky-override-vertical-tab-right-arrow-padding, 0);
+  color: var(
+    --sky-override-vertical-tab-right-arrow-color,
+    var(--sky-color-icon-deemphasized)
+  );
 }
 
-@include mixins.sky-theme-modern {
-  .sky-vertical-tab {
-    color: $sky-text-color-deemphasized;
-    cursor: pointer;
-    padding: $sky-theme-modern-space-sm 0 $sky-theme-modern-space-sm
-      $sky-theme-modern-space-md;
-    margin: $sky-theme-modern-margin-inline-md 0
-      $sky-theme-modern-margin-inline-md $sky-theme-modern-margin-inline-sm;
+.sky-vertical-tab-content-pane {
+  margin-bottom: 0;
 
-    &:not(.sky-vertical-tab-active):not(:active):hover {
-      color: $sky-text-color-default;
-      background-color: transparent;
-      padding-left: 14px;
-      border-left: 1px solid $sky-highlight-color-info;
-    }
-
-    &:not(:active):focus-visible {
-      outline: solid 2px $sky-theme-modern-background-color-primary-dark;
-      outline-offset: -2px;
-      box-shadow: $sky-theme-modern-elevation-3-shadow-size
-        $sky-theme-modern-elevation-3-shadow-color;
-    }
-
-    &:focus:active:hover {
-      outline: none;
-      background: none;
-    }
-
-    &:active {
-      border-left: 4px solid $sky-highlight-color-info;
-      color: $sky-text-color-default;
-      padding-left: 11px;
-    }
-    .sky-vertical-tab-heading-error {
-      padding-left: $sky-theme-modern-space-sm;
-      position: relative;
-      top: -2px;
-    }
+  &:focus-visible {
+    outline: none;
+    border: none;
   }
-  .sky-vertical-tab-active {
-    background: none;
-    color: $sky-text-color-default;
-    padding-left: 11px;
-    border-left: 4px solid $sky-theme-modern-color-blue-74;
+}
+
+// NOTE: Due to the way that this pane is rendered, we can't use the mixins here.
+.sky-responsive-container-xs {
+  .sky-vertical-tab-content-pane {
+    // NOTE: The overrides here are housed in the tabset component scss file due to view encapsulation issues and where this class ends up rendered.
+    margin-bottom: var(
+      --sky-override-vertical-tab-content-pane-margin-bottom,
+      var(--sky-space-stacked-s)
+    );
   }
 }
 
@@ -112,3 +145,5 @@
     margin-left: 0;
   }
 }
+
+@include verticalTabsetButtonMixins.sky-vertical-tabset-button();

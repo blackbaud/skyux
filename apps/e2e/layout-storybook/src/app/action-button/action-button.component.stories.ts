@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<ActionButtonComponent>;
 export const ActionButton = {
-  render: (args: ActionButtonComponent) => ({
+  render: (args: ActionButtonComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

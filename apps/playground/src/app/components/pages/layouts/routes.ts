@@ -6,7 +6,19 @@ export default [
     loadComponent: () => import('./blocks-page/blocks-page.component'),
     data: {
       name: 'Page (Blocks)',
-      icon: 'square-o',
+      icon: 'square',
+      library: 'pages',
+    },
+  },
+  {
+    path: 'blocks-tile-dashboard-page',
+    loadComponent: () =>
+      import(
+        './blocks-page-tile-dashboard/blocks-page-tile-dashboard.component'
+      ),
+    data: {
+      name: 'Page (Blocks - tile dashboard)',
+      icon: 'square',
       library: 'pages',
     },
   },
@@ -15,7 +27,7 @@ export default [
     loadComponent: () => import('./fit-page/fit-page.component'),
     data: {
       name: 'Page (Fit)',
-      icon: 'columns',
+      icon: 'arrow-fit',
       library: 'pages',
     },
   },
@@ -24,7 +36,7 @@ export default [
     loadComponent: () => import('./list-page/list-page.component'),
     data: {
       name: 'Page (List)',
-      icon: 'list',
+      icon: 'text-bullet-list',
       library: 'pages',
     },
   },
@@ -42,7 +54,7 @@ export default [
     loadComponent: () => import('./tabs-page/tabs-page.component'),
     data: {
       name: 'Page (Tabs)',
-      icon: 'folder-open-o',
+      icon: 'note',
       library: 'pages',
     },
   },

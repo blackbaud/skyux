@@ -7,6 +7,7 @@ import { SkyDescriptionListModeType } from '../types/description-list-mode-type'
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './description-list.component.fixture.html',
+  standalone: false,
 })
 export class SkyDescriptionListTestComponent {
   public listItemWidth: string | undefined;

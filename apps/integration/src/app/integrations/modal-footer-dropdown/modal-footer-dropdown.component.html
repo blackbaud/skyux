@@ -1,0 +1,29 @@
+<ng-container *ngTemplateOutlet="buttons" />
+<div class="space"></div>
+<ng-container *ngTemplateOutlet="buttons" />
+
+<ng-template #buttons>
+  <div class="sky-padding-even-md">
+    <button
+      class="sky-btn sky-btn-primary sky-margin-inline-sm"
+      type="button"
+      (click)="openModal()"
+    >
+      Open medium modal
+    </button>
+    <button
+      class="sky-btn sky-btn-primary sky-margin-inline-sm"
+      type="button"
+      (click)="openLargeModal()"
+    >
+      Open large modal
+    </button>
+    <button
+      class="sky-btn sky-btn-primary sky-margin-inline-sm"
+      type="button"
+      (click)="openPageModal()"
+    >
+      Open full page modal
+    </button>
+  </div>
+</ng-template>

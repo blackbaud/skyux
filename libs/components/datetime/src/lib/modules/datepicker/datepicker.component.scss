@@ -1,6 +1,17 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides(
+  '.sky-datepicker-calendar-container'
+) {
+  --sky-override-datepicker-border-radius: 5px;
+}
+
 .sky-datepicker-calendar-container {
   position: fixed;
-  border-radius: 5px;
+  border-radius: var(
+    --sky-override-datepicker-border-radius,
+    var(--sky-border-radius-s)
+  );
 }
 
 .sky-datepicker-hidden {

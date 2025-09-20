@@ -1,41 +1,62 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-.sky-confirm {
-  --sky-confirm-body-margin-top: var(--sky-margin-stacked-sm);
-  --sky-confirm-buttons-margin-top: var(--sky-margin-stacked-xl);
-  --sky-confirm-content-padding: 0;
-  --sky-confirm-message-padding-bottom: 0;
-}
-
-@include mixins.sky-theme-modern {
-  .sky-confirm {
-    --sky-confirm-body-margin-top: 0;
-    --sky-confirm-buttons-margin-top: var(--sky-margin-stacked-lg);
-    --sky-confirm-content-padding: var(--sky-margin-stacked-lg)
-      var(--sky-margin-inline-xl);
-    --sky-confirm-message-padding-bottom: var(--sky-margin-stacked-lg);
-  }
+@include compatMixins.sky-default-overrides('.sky-confirm') {
+  --sky-override-confirm-body-padding: 8px 0 0;
+  --sky-override-confirm-btn-spacing: 5px;
+  --sky-override-confirm-footer-padding: 20px 0 0;
+  --sky-override-confirm-header-font-size: 16px;
+  --sky-override-confirm-message-padding: 5px 0 0;
 }
 
 .sky-confirm {
   &-content {
-    padding: var(--sky-confirm-content-padding);
+    padding: 0;
   }
-
   &-message {
-    margin-top: var(--sky-margin-stacked-xs);
-    padding-bottom: var(--sky-confirm-message-padding-bottom);
+    padding: var(
+      --sky-override-confirm-message-padding,
+      var(--sky-comp-modal-header-space-inset-top)
+        var(--sky-comp-modal-header-space-inset-right)
+        var(--sky-comp-modal-header-space-inset-bottom)
+        var(--sky-comp-modal-header-space-inset-left)
+    );
+
+    color: var(--sky-color-text-heading);
+    font-size: var(
+      --sky-override-confirm-header-font-size,
+      var(--sky-font-size-heading-2)
+    );
   }
 
   &-body {
-    margin-top: var(--sky-confirm-body-margin-top);
+    padding: var(
+      --sky-override-confirm-body-padding,
+      var(--sky-comp-modal-content-space-inset-top)
+        var(--sky-comp-modal-content-space-inset-right)
+        var(--sky-comp-modal-content-space-inset-bottom)
+        var(--sky-comp-modal-content-space-inset-left)
+    );
   }
 
   &-buttons {
-    margin-top: var(--sky-confirm-buttons-margin-top);
+    padding: var(
+      --sky-override-confirm-footer-padding,
+      var(--sky-comp-modal-footer-space-inset-top)
+        var(--sky-comp-modal-footer-space-inset-right)
+        var(--sky-comp-modal-footer-space-inset-bottom)
+        var(--sky-comp-modal-footer-space-inset-left)
+    );
   }
 
   &-preserve-white-space {
     white-space: pre-wrap;
+  }
+
+  .sky-btn {
+    margin-right: var(
+      --sky-override-confirm-btn-spacing,
+      var(--sky-space-gap-action_group-m)
+    );
   }
 }

@@ -1,22 +1,23 @@
 <div
+  #overflowParentRef
   class="canvas"
   [ngClass]="{
     'canvas-overflow': enableOverflowParent,
     'canvas-positioned': enablePositionedParent
   }"
-  #overflowParentRef
 >
   <div class="base-wrapper">
     <div
+      #baseRef
       class="base"
       [ngClass]="{
         'base-xl': enableLargerBaseElement
       }"
-      #baseRef
     ></div>
   </div>
 
   <div
+    #affixedRef
     class="affixed"
     [affixAutoFitContext]="autoFitContext"
     [affixAutoFitOverflowOffset]="autoFitOverflowOffset"
@@ -33,6 +34,5 @@
     (affixOffsetChange)="onAffixOffsetChange($event)"
     (affixOverflowScroll)="onAffixOverflowScroll($event)"
     (affixPlacementChange)="onAffixPlacementChange($event)"
-    #affixedRef
   ></div>
 </div>

@@ -1,12 +1,25 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-error') {
+  --sky-override-error-margin-top: 0;
+  --sky-override-error-padding-top: 60px;
+}
 
 .sky-error {
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  padding-top: 60px;
+  padding-top: var(
+    --sky-override-error-padding-top,
+    var(--sky-space-stacked-xxl)
+  );
+  margin-top: var(
+    --sky-override-error-margin-top,
+    var(--sky-space-stacked-xxl)
+  );
 
   .sky-error-description span {
     white-space: pre-wrap;
@@ -24,32 +37,26 @@
   }
 }
 
-@include mixins.sky-theme-modern {
-  .sky-error {
-    margin-top: $sky-theme-modern-margin-stacked-xxl;
-  }
-}
-
 .sky-error-broken-image {
   height: 110px;
   width: 170px;
-  background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.3/assets/images/errors/broken.svg);
+  background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/2.0.1/assets/images/errors/broken.svg);
 }
 
 .sky-error-construction-image {
   height: 110px;
   width: 109px;
-  background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.3/assets/images/errors/construction.svg);
+  background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/2.0.1/assets/images/errors/construction.svg);
 }
 
 .sky-error-notfound-image {
   height: 110px;
   width: 169px;
-  background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.3/assets/images/errors/notfound.svg);
+  background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/2.0.1/assets/images/errors/notfound.svg);
 }
 
 .sky-error-security-image {
   height: 110px;
   width: 97px;
-  background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.3/assets/images/errors/security.svg);
+  background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/2.0.1/assets/images/errors/security.svg);
 }

@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/components/colorpicker/src",
   "prefix": "sky",
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
@@ -19,7 +20,21 @@
           "tsConfig": "libs/components/colorpicker/tsconfig.lib.json"
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "projects": ["core", "forms", "help-inline", "icon", "testing"],
+          "target": "build"
+        }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/colorpicker/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/colorpicker/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/colorpicker/testing/src/**/fixtures/**/*"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -53,14 +68,13 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "libs/components/colorpicker/src/**/*.ts",
-          "libs/components/colorpicker/src/**/*.html"
+          "{projectRoot}/src/**/*.ts",
+          "{projectRoot}/src/**/*.html"
         ]
       }
     }
-  },
-  "tags": ["component", "npm"]
+  }
 }

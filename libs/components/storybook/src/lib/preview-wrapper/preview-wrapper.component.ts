@@ -7,37 +7,45 @@ import {
   OnInit,
   Renderer2,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
+  SkyThemeSpacing,
 } from '@skyux/theme';
+
+import { FontLoadingService } from '../font-loading/font-loading.service';
 
 import { PreviewWrapperThemeValue } from './preview-wrapper-theme-value';
 
 @Component({
   selector: 'sky-preview-wrapper',
-  template: '<ng-content />',
+  templateUrl: './preview-wrapper.component.html',
   styleUrls: ['./preview-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class PreviewWrapperComponent implements OnInit, OnDestroy {
   @Input()
   public set theme(value: PreviewWrapperThemeValue | undefined) {
     const themeOrDefault = value ?? 'default';
-    if (themeOrDefault.match(/^modern(-(light|dark))?$/)) {
+    if (themeOrDefault.match(/^modern-v2(-(light|dark))?$/)) {
       if (themeOrDefault.includes('dark')) {
         this.themeSettings = new SkyThemeSettings(
           SkyTheme.presets.modern,
           SkyThemeMode.presets.dark,
+          SkyThemeSpacing.presets.standard,
         );
       } else {
         this.themeSettings = new SkyThemeSettings(
           SkyTheme.presets.modern,
           SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.standard,
         );
       }
     } else {
@@ -57,6 +65,8 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
       this.#themeService.setTheme(this.#_themeSettings);
     }
   }
+
+  protected ready = toSignal(inject(FontLoadingService).ready());
 
   #_themeSettings = new SkyThemeSettings(
     SkyTheme.presets.default,

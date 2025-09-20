@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyLabelModule } from '@skyux/indicators';
 
@@ -7,7 +6,7 @@ import { LabelDemoComponent } from './label.component';
 
 @NgModule({
   declarations: [LabelDemoComponent],
-  imports: [CommonModule, LabelRoutingModule, SkyLabelModule],
+  imports: [LabelRoutingModule, SkyLabelModule],
 })
 export class LabelModule {
   public static routes = LabelRoutingModule.routes;

@@ -16,13 +16,14 @@ import { Observable } from 'rxjs';
 import { SkyAvatarSize } from './avatar-size';
 import { SkyAvatarSrc } from './avatar-src';
 
-const MAX_FILE_SIZE_DEFAULT = 500000;
+const MAX_FILE_SIZE_DEFAULT = 512000;
 
 @Component({
   selector: 'sky-avatar',
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyAvatarComponent {
   /**
@@ -73,7 +74,7 @@ export class SkyAvatarComponent {
 
   /**
    * The maximum file size for the image in bytes.
-   * @default 500000 bytes
+   * @default 512000 bytes
    */
   @Input()
   public maxFileSize: number | undefined = MAX_FILE_SIZE_DEFAULT;
@@ -131,7 +132,7 @@ export class SkyAvatarComponent {
     }
   }
 
-  #handleError(rejectedFiles: Array<SkyFileItem>): void {
+  #handleError(rejectedFiles: SkyFileItem[]): void {
     const rejectedFile = rejectedFiles[0];
 
     if (rejectedFile.errorType === 'maxFileSize') {

@@ -1,36 +1,18 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "skyux",
-  "affected": {
-    "defaultBase": "main"
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "nx-cloud",
-      "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "posttest",
-          "e2e",
-          "build-storybook"
-        ],
-        "accessToken": "NzE5ZWYwYzUtMGU0OC00OTU3LTk4ZDYtOTc1Zjk3MTExMzY5fHJlYWQtd3JpdGU=",
-        "parallel": 1
-      }
-    }
-  },
   "cli": {
     "packageManager": "npm"
+  },
+  "tui": {
+    "enabled": false
   },
   "defaultProject": "playground",
   "generators": {
     "@nx/angular:application": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
       "e2eTestRunner": "cypress",
+      "linter": "eslint",
+      "style": "scss",
+      "unitTestRunner": "jest",
       "strict": false
     },
     "@nx/angular:library": {
@@ -39,25 +21,127 @@
       "strict": false
     },
     "@nx/angular:component": {
-      "style": "scss"
+      "style": "scss",
+      "type": "component"
+    },
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@nx/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@nx/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@nx/angular:scam": {
+      "type": "component"
+    },
+    "@nx/angular:scam-directive": {
+      "type": "directive"
+    },
+    "@nx/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@nx/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@nx/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@nx/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@nx/angular:resolver": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
     }
   },
   "targetDefaults": {
+    "prebuild": {
+      "cache": true
+    },
     "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["buildInputs", "^buildInputs"],
+      "cache": true
+    },
+    "test": {
+      "inputs": ["testInputs", "^buildInputs"],
+      "cache": true
+    },
+    "e2e": {
+      "inputs": ["e2eInputs", "^storybookInputs", "^buildInputs"],
+      "cache": false
+    },
+    "build-storybook": {
+      "inputs": ["storybookInputs", "^buildInputs"],
+      "cache": true
+    },
+    "posttest": {
+      "dependsOn": [
+        {
+          "target": "test"
+        }
+      ],
+      "cache": true
+    },
+    "postbuild": {
+      "dependsOn": [
+        {
+          "target": "build"
+        }
+      ],
+      "cache": true,
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"]
+    },
+    "@nx/jest:jest": {
+      "inputs": ["testInputs", "^buildInputs"],
+      "cache": true,
+      "options": {
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true,
+          "quiet": true,
+          "runInBand": true
+        }
+      }
+    },
+    "@nx/eslint:lint": {
+      "inputs": ["lintInputs"],
+      "cache": true
+    },
+    "@nx/angular:package": {
+      "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["buildInputs", "^buildInputs"]
     },
-    "test": {
-      "inputs": ["testInputs", "^buildInputs"]
-    },
-    "e2e": {
-      "inputs": ["e2eInputs", "^storybookInputs", "^buildInputs"]
-    },
-    "lint": {
-      "inputs": ["lintInputs"]
-    },
-    "build-storybook": {
-      "inputs": ["storybookInputs", "^buildInputs"]
+    "@angular-devkit/build-angular:application": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^default"]
     }
   },
   "namedInputs": {
@@ -66,9 +150,10 @@
       "{workspaceRoot}/scripts/postbuild-{projectName}.ts",
       "{workspaceRoot}/scripts/utils/**",
       "!{projectRoot}/**/*.spec.[jt]s",
-      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
+      "!{projectRoot}/**/*.stories.@(js|ts)",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/**/fixtures/**/*",
+      "!{projectRoot}/eslint.config.js",
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/karma.conf.js",
@@ -76,19 +161,18 @@
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/tsconfig.storybook.json"
     ],
-    "e2eInputs": ["storybookInputs", "{workspaceRoot}/.percy.json"],
-    "lintInputs": [
-      "{projectRoot}/**/*",
-      "{workspaceRoot}/.eslintrc-overrides.json",
-      "{workspaceRoot}/.eslintrc.json"
+    "e2eInputs": [
+      "{workspaceRoot}/.github/workflows/e2e.yml",
+      "{workspaceRoot}/.percy.json"
     ],
+    "lintInputs": ["{projectRoot}/**/*", "{workspaceRoot}/eslint-*"],
     "storybookInputs": [
       "{projectRoot}/**/*",
       "{workspaceRoot}/.babelrc",
       "{workspaceRoot}/.storybook/**/*",
       "!{projectRoot}/**/*.spec.[jt]s",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/eslint.config.js",
       "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/karma.conf.js",
       "!{projectRoot}/src/test-setup.[jt]s",
@@ -102,10 +186,11 @@
       "{workspaceRoot}/karma.conf.js",
       "{workspaceRoot}/scripts/posttest-{projectName}.ts",
       "{workspaceRoot}/scripts/utils/**",
-      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
-      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/**/*.stories.@(js|ts)",
+      "!{projectRoot}/eslint.config.js",
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/tsconfig.storybook.json"
     ]
-  }
+  },
+  "defaultBase": "main"
 }

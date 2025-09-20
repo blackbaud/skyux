@@ -1,0 +1,12 @@
+<div class="wrapper">
+  <sky-repeater>
+    @for (item of items; track item) {
+      <sky-repeater-item>
+        <sky-repeater-item-title>
+          {{ item.name }}
+        </sky-repeater-item-title>
+      </sky-repeater-item>
+    }
+  </sky-repeater>
+  <sky-infinite-scroll [enabled]="itemsHaveMore" (scrollEnd)="onScrollEnd()" />
+</div>

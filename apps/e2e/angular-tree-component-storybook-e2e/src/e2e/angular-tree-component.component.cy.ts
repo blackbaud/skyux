@@ -17,35 +17,30 @@ describe('angular-tree-component-storybook', () => {
             ),
           );
           it('should render the component', () => {
-            cy.get('app-angular-tree-component')
-              .should('exist')
-              .should('be.visible');
+            cy.skyReady('app-angular-tree-component');
 
             cy.get('tree-node-content')
               .should('exist')
               .first()
               .should('exist')
               .should('be.visible')
-              .click()
-              .end();
+              .click();
             cy.get('tree-node-content')
               .should('exist')
               .eq(1)
               .should('exist')
               .should('be.visible')
-              .click()
-              .end();
+              .click();
 
-            cy.get('app-angular-tree-component')
-              .screenshot(
-                `angulartreecomponentcomponent-angulartreecomponent--${mode}-angular-tree-component-${theme}`,
-              )
-              .percySnapshot(
-                `angulartreecomponentcomponent-angulartreecomponent--${mode}-angular-tree-component-${theme}`,
-                {
-                  widths: E2eVariations.DISPLAY_WIDTHS,
-                },
-              );
+            cy.get('app-angular-tree-component').screenshot(
+              `angulartreecomponentcomponent-angulartreecomponent--${mode}-angular-tree-component-${theme}`,
+            );
+            cy.get('app-angular-tree-component').percySnapshot(
+              `angulartreecomponentcomponent-angulartreecomponent--${mode}-angular-tree-component-${theme}`,
+              {
+                widths: E2eVariations.DISPLAY_WIDTHS,
+              },
+            );
           });
         });
       });

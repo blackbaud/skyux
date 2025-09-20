@@ -5,14 +5,12 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { SkyInputBoxModule } from '@skyux/forms';
-import { SkyLookupModule, SkyLookupSelectModeType } from '@skyux/lookup';
+import { SkyLookupSelectModeType } from '@skyux/lookup';
 
 import {
-  Column,
+  AgColumn,
   GridApi,
   GridOptions,
   ICellEditorParams,
@@ -25,6 +23,7 @@ import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params
 import { SkyAgGridCellEditorLookupComponent } from './cell-editor-lookup.component';
 
 describe('SkyAgGridCellEditorLookupComponent', () => {
+  let api: jasmine.SpyObj<GridApi>;
   let component: SkyAgGridCellEditorLookupComponent;
   const data = [
     { id: '1', name: 'John Doe', town: 'Daniel Island' },
@@ -33,6 +32,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     { id: '4', name: 'Jane Smith', town: 'Mt Pleasant' },
   ];
   let fixture: ComponentFixture<SkyAgGridCellEditorLookupComponent>;
+  let gridCell: HTMLDivElement;
   let nativeElement: HTMLElement;
   let callback: ((args: Record<string, unknown>) => void) | undefined;
   const selection = [data[0]];
@@ -44,14 +44,8 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       nativeElement: jasmine.createSpyObj('nativeElement', ['matches']),
     };
     TestBed.configureTestingModule({
-      declarations: [SkyAgGridCellEditorLookupComponent],
-      imports: [
-        NoopAnimationsModule,
-        ReactiveFormsModule,
-        SkyInputBoxModule,
-        SkyLookupModule,
-      ],
       providers: [
+        provideNoopAnimations(),
         {
           provide: ElementRef,
           useValue: elementRef,
@@ -59,17 +53,21 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       ],
     });
 
+    api = jasmine.createSpyObj('GridApi', [
+      'addEventListener',
+      'getGridOption',
+      'stopEditing',
+    ]);
+    api.addEventListener.and.callFake(
+      (_event: string, listener: (params: any) => void) => {
+        callback = listener;
+      },
+    );
+    api.getGridOption.and.returnValue(true);
+    gridCell = document.createElement('div');
+
     cellEditorParams = {
-      api: {
-        addEventListener: (
-          event: string,
-          listener: (args: Record<string, unknown>) => void,
-        ) => {
-          callback = listener;
-          [event].pop();
-        },
-        stopEditing: jasmine.createSpy('stopEditing'),
-      } as unknown as GridApi,
+      api,
       cellStartedEdit: true,
       colDef: {
         headerName: 'header',
@@ -77,11 +75,12 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       column: {
         getColId: () => 'colId',
         getActualWidth: () => 123,
-      } as Column,
+      } as AgColumn,
       context: {
         gridOptions: {} as Partial<GridOptions>,
       },
       data: undefined,
+      eGridCell: gridCell,
       formatValue: jasmine.createSpy('formatValue'),
       onKeyDown: jasmine.createSpy('onKeyDown'),
       parseValue: jasmine.createSpy('parseValue'),
@@ -192,7 +191,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       const column = {
         ...cellEditorParams.column,
         getActualWidth: (): number => width,
-      } as Column;
+      } as AgColumn;
       component.agInit({ ...(cellEditorParams as ICellEditorParams) });
       fixture.detectChanges();
       expect(component.width).toBe(123);
@@ -285,22 +284,19 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         expect(component.skyComponentProperties?.addClick).toHaveBeenCalled();
       });
 
-      // NOTE: This is different than other editors due to the selection nature of autocomplete
+      // NOTE: This is different from other editors due to the selection nature of autocomplete
       it('initializes with the current value when a standard keyboard event triggers the edit', () => {
         expect(component.editorForm.get('selection')?.value).toEqual([]);
 
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(component.editorForm.get('selection')?.value).toEqual(selection);
       });
 
       it('should respond to focus changes', fakeAsync(() => {
-        cellEditorParams.context.gridOptions = {
-          stopEditingWhenCellsLoseFocus: true,
-        };
         (elementRef.nativeElement.matches as jasmine.Spy).and.returnValue(
           false,
         );
@@ -313,9 +309,66 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         expect(cellEditorParams.api?.stopEditing).toHaveBeenCalledTimes(1);
 
         (cellEditorParams.api?.stopEditing as jasmine.Spy).calls.reset();
-        component.onBlur();
+        component.onBlur({} as FocusEvent);
+        tick();
+        expect(cellEditorParams.api?.getGridOption).toHaveBeenCalledTimes(2);
+        expect(
+          (cellEditorParams.api?.getGridOption as jasmine.Spy).calls
+            .all()
+            .map((call) => call.args[0]),
+        ).toEqual([
+          'stopEditingWhenCellsLoseFocus',
+          'stopEditingWhenCellsLoseFocus',
+        ]);
+        expect(cellEditorParams.api?.stopEditing).toHaveBeenCalledTimes(1);
+      }));
+
+      it('should respond to selection modal', fakeAsync(() => {
+        (elementRef.nativeElement.matches as jasmine.Spy).and.returnValue(
+          false,
+        );
+        component.agInit({
+          ...(cellEditorParams as ICellEditorParams),
+        });
+
+        component.onSelectionModalOpenChange(false);
         tick();
         expect(cellEditorParams.api?.stopEditing).toHaveBeenCalledTimes(1);
+
+        (cellEditorParams.api?.stopEditing as jasmine.Spy).calls.reset();
+        component.onBlur({} as FocusEvent);
+        tick();
+        expect(cellEditorParams.api?.getGridOption).toHaveBeenCalledTimes(2);
+        expect(
+          (cellEditorParams.api?.getGridOption as jasmine.Spy).calls
+            .all()
+            .map((call) => call.args[0]),
+        ).toEqual([
+          'stopEditingWhenCellsLoseFocus',
+          'stopEditingWhenCellsLoseFocus',
+        ]);
+        expect(cellEditorParams.api?.stopEditing).toHaveBeenCalledTimes(1);
+      }));
+
+      it('should respond to refocus', fakeAsync(() => {
+        component.agInit(cellEditorParams as ICellEditorParams);
+        fixture.detectChanges();
+
+        const input = nativeElement.querySelector(
+          'textarea',
+        ) as HTMLTextAreaElement;
+        spyOn(input, 'focus');
+
+        component.afterGuiAttached();
+        tick();
+
+        component.onBlur({
+          relatedTarget: gridCell,
+        } as unknown as FocusEvent);
+        tick();
+        expect(input).toBeVisible();
+        expect(input.focus).toHaveBeenCalled();
+        expect(cellEditorParams.api?.stopEditing).not.toHaveBeenCalled();
       }));
     });
 
@@ -374,7 +427,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
 
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(component.editorForm.get('selection')?.value).toEqual(selection);
@@ -384,42 +437,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
 
   describe('afterGuiAttached', () => {
     describe('cellStartedEdit is true', () => {
-      it('does not select the input value if Backspace triggers the edit', () => {
-        component.agInit({
-          ...(cellEditorParams as ICellEditorParams),
-          eventKey: KeyCode.BACKSPACE,
-        });
-        fixture.detectChanges();
-
-        const input = nativeElement.querySelector(
-          'textarea',
-        ) as HTMLTextAreaElement;
-        const selectSpy = spyOn(input, 'select');
-
-        component.afterGuiAttached();
-
-        expect(input.value).toBe('');
-        expect(selectSpy).not.toHaveBeenCalled();
-      });
-
-      it('does not select the input value if Delete triggers the edit', () => {
-        component.agInit({
-          ...(cellEditorParams as ICellEditorParams),
-          eventKey: KeyCode.DELETE,
-        });
-        fixture.detectChanges();
-        const input = nativeElement.querySelector(
-          'textarea',
-        ) as HTMLTextAreaElement;
-        const selectSpy = spyOn(input, 'select');
-
-        component.afterGuiAttached();
-
-        expect(input.value).toBe('');
-        expect(selectSpy).not.toHaveBeenCalled();
-      });
-
-      it('does not select the input value if F2 triggers the edit', () => {
+      it('does not select the input value if F2 triggers the edit', fakeAsync(() => {
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.F2,
@@ -428,15 +446,17 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         const input = nativeElement.querySelector(
           'textarea',
         ) as HTMLTextAreaElement;
-        const selectSpy = spyOn(input, 'select');
+        const selectSpy = spyOn(input, 'select').and.callThrough();
 
         component.afterGuiAttached();
+        tick();
 
         expect(input.value).toBe(selection[0].name);
-        expect(selectSpy).not.toHaveBeenCalled();
-      });
+        expect(selectSpy).toHaveBeenCalledTimes(1);
+        expect(window.getSelection()?.toString()).toBe('');
+      }));
 
-      it('selects the input value if Enter triggers the edit', () => {
+      it('selects the input value if Enter triggers the edit', fakeAsync(() => {
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.ENTER,
@@ -445,18 +465,20 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         const input = nativeElement.querySelector(
           'textarea',
         ) as HTMLTextAreaElement;
-        const selectSpy = spyOn(input, 'select');
+        const selectSpy = spyOn(input, 'select').and.callThrough();
 
         component.afterGuiAttached();
+        tick();
 
         expect(input.value).toBe(selection[0].name);
         expect(selectSpy).toHaveBeenCalledTimes(1);
-      });
+        expect(window.getSelection()?.toString()).toBe(selection[0].name);
+      }));
 
-      it('does not select the input value when a standard keyboard event triggers the edit', () => {
+      it('does not select the input value when a standard keyboard event triggers the edit', fakeAsync(() => {
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
         fixture.detectChanges();
         const input = nativeElement.querySelector(
@@ -465,11 +487,13 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         const selectSpy = spyOn(input, 'select').and.callThrough();
 
         component.afterGuiAttached();
+        tick();
         fixture.detectChanges();
 
         expect(input.value).toBe('a');
         expect(selectSpy).toHaveBeenCalledTimes(1);
-      });
+        expect(window.getSelection()?.toString()).toBe('');
+      }));
     });
 
     describe('cellStartedEdit is false', () => {
@@ -549,7 +573,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       it('does not select the input value when a standard keyboard event triggers the edit', () => {
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
         fixture.detectChanges();
         const input = nativeElement.querySelector(

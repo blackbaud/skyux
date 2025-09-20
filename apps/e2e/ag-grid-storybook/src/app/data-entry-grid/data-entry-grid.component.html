@@ -2,32 +2,50 @@
 
 <ng-template #gridTemplate>
   <div [attr.id]="variationId">
-    <ng-container *ngFor="let dataSet of dataSets">
+    @for (dataSet of dataSets; track dataSet.id) {
       <sky-ag-grid-wrapper
         [attr.id]="dataSet.id"
         [ngStyle]="{ gridArea: dataSet.id }"
+        [compact]="compact"
       >
         <ag-grid-angular
           class="sky-ag-grid-editable"
           [gridOptions]="gridOptions[dataSet.id]"
         />
       </sky-ag-grid-wrapper>
-    </ng-container>
+    }
   </div>
 </ng-template>
 
-<ng-template #themeWrap>
-  <div *ngIf="skyTheme" [skyTheme]="skyTheme">
-    <ng-container *ngTemplateOutlet="gridTemplate"></ng-container>
+@if (isActive$ | async) {
+  <div [attr.id]="variationId">
+    @for (dataSet of dataSets; track dataSet.id) {
+      <sky-ag-grid-wrapper
+        [attr.id]="dataSet.id"
+        [ngStyle]="{ gridArea: dataSet.id }"
+        [compact]="compact"
+      >
+        <ag-grid-angular
+          class="sky-ag-grid-editable"
+          [gridOptions]="gridOptions[dataSet.id]"
+        />
+      </sky-ag-grid-wrapper>
+    }
   </div>
-</ng-template>
-
-<ng-container
-  *ngIf="isActive$ | async; then gridTemplate; else themeWrap"
-></ng-container>
+} @else {
+  @if (skyTheme) {
+    <div [skyTheme]="skyTheme">
+      <ng-container *ngTemplateOutlet="gridTemplate" />
+    </div>
+  }
+}
 
 <br />
 
-<span id="ready" *ngIf="ready | async"></span>
+@if (ready | async) {
+  <span id="ready"></span>
+}
 
-<sky-preview-wrapper *ngIf="addPreviewWrapper$ | async"></sky-preview-wrapper>
+@if (addPreviewWrapper$ | async) {
+  <sky-preview-wrapper />
+}

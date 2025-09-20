@@ -1,50 +1,31 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
   Input,
-  OnDestroy,
-  OnInit,
+  inject,
 } from '@angular/core';
-import { SkyCoreAdapterService, SkyMediaQueryService } from '@skyux/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyMediaQueryService } from '@skyux/core';
 
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
-import { SkySplitViewMediaQueryService } from './split-view-media-query.service';
-import { SkySplitViewService } from './split-view.service';
+import { SkySplitViewWorkspaceHeaderComponent } from './split-view-workspace-header.component';
 
 /**
  * Contains the content, footer, and header to display in the split view's workspace panel.
  */
 @Component({
-  selector: 'sky-split-view-workspace',
-  templateUrl: 'split-view-workspace.component.html',
-  styleUrls: ['./split-view-workspace.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: SkyMediaQueryService,
-      useExisting: SkySplitViewMediaQueryService,
-    },
-  ],
+  imports: [SkySplitViewWorkspaceHeaderComponent],
+  selector: 'sky-split-view-workspace',
+  styleUrl: './split-view-workspace.component.scss',
+  templateUrl: './split-view-workspace.component.html',
 })
-export class SkySplitViewWorkspaceComponent
-  implements AfterViewInit, OnDestroy, OnInit
-{
-  public set isMobile(value: boolean | undefined) {
-    this.#_isMobile = value;
-    this.#changeDetectorRef.markForCheck();
-  }
-
-  // Shows/hides the workspace header when the parent split view is in mobile responsive mode.
-  public get isMobile(): boolean | undefined {
-    return this.#_isMobile;
-  }
+export class SkySplitViewWorkspaceComponent {
+  // Use the parent's breakpoint since the mobile header should only appear when
+  // the split view container as a whole reaches the "xs" breakpoint, not just
+  // the workspace area.
+  protected breakpoint = toSignal(
+    inject(SkyMediaQueryService, { skipSelf: true }).breakpointChange,
+  );
 
   /**
    * The ARIA label for the workspace panel. This sets the panel's `aria-label` attribute to provide a text equivalent for screen readers
@@ -53,68 +34,4 @@ export class SkySplitViewWorkspaceComponent
    */
   @Input()
   public ariaLabel: string | undefined;
-
-  public showDrawerButtonClick = new EventEmitter<number>();
-
-  #ngUnsubscribe = new Subject<void>();
-  #changeDetectorRef: ChangeDetectorRef;
-  #coreAdapterSvc: SkyCoreAdapterService;
-  #elementRef: ElementRef;
-  #splitViewMediaQuerySvc: SkySplitViewMediaQueryService;
-  #splitViewSvc: SkySplitViewService;
-
-  #_isMobile: boolean | undefined;
-
-  constructor(
-    changeDetectorRef: ChangeDetectorRef,
-    coreAdapterSvc: SkyCoreAdapterService,
-    elementRef: ElementRef,
-    splitViewMediaQuerySvc: SkySplitViewMediaQueryService,
-    splitViewSvc: SkySplitViewService,
-  ) {
-    this.#changeDetectorRef = changeDetectorRef;
-    this.#coreAdapterSvc = coreAdapterSvc;
-    this.#elementRef = elementRef;
-    this.#splitViewMediaQuerySvc = splitViewMediaQuerySvc;
-    this.#splitViewSvc = splitViewSvc;
-  }
-
-  public ngOnInit(): void {
-    this.#splitViewSvc.isMobileStream
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((mobile: boolean) => {
-        this.isMobile = mobile;
-        this.#changeDetectorRef.markForCheck();
-      });
-  }
-
-  public ngAfterViewInit(): void {
-    this.#splitViewSvc.drawerWidthStream
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        this.#updateBreakpoint();
-      });
-  }
-
-  public ngOnDestroy(): void {
-    this.showDrawerButtonClick.complete();
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
-  }
-
-  @HostListener('window:resize')
-  public onWindowResize(): void {
-    this.#updateBreakpoint();
-  }
-
-  #updateBreakpoint(): void {
-    const width = this.#elementRef.nativeElement.parentElement.clientWidth;
-    this.#splitViewMediaQuerySvc.setBreakpointForWidth(width);
-    const newDrawerBreakpoint = this.#splitViewMediaQuerySvc.current;
-    this.#coreAdapterSvc.setResponsiveContainerClass(
-      this.#elementRef,
-      newDrawerBreakpoint,
-    );
-    this.#changeDetectorRef.markForCheck();
-  }
 }

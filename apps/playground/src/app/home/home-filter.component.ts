@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   SkyDataManagerFilterData,
@@ -8,10 +7,9 @@ import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-home-filter',
   templateUrl: './home-filter.component.html',
-  imports: [CommonModule, SkyModalModule, SkyRepeaterModule],
+  imports: [SkyModalModule, SkyRepeaterModule],
 })
 export class HomeFiltersModalDemoComponent {
   public libraries: { name: string; isSelected: boolean }[];
@@ -27,7 +25,7 @@ export class HomeFiltersModalDemoComponent {
     }
   }
 
-  public applyFilters() {
+  public applyFilters(): void {
     const result: SkyDataManagerFilterData = {};
 
     result.filtersApplied =
@@ -39,11 +37,11 @@ export class HomeFiltersModalDemoComponent {
     this.instance.save(result);
   }
 
-  public clearAllFilters() {
+  public clearAllFilters(): void {
     this.libraries.forEach((lib) => (lib.isSelected = false));
   }
 
-  public cancel() {
+  public cancel(): void {
     this.instance.cancel();
   }
 }

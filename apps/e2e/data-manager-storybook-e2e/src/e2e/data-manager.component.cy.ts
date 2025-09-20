@@ -11,22 +11,15 @@ describe('data-manager-storybook', () => {
             ),
           );
           it(`should render the component`, () => {
-            // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.get('#ready')
-              .should('exist')
-              .end()
-              .get('app-data-manager')
-              .should('exist')
-              .should('be.visible')
-              .screenshot(
-                `datamanagercomponent-datamanager--data-manager-${view}-${theme}`,
-              )
-              .percySnapshot(
-                `datamanagercomponent-datamanager--data-manager-${view}-${theme}`,
-                {
-                  widths: E2eVariations.DISPLAY_WIDTHS,
-                },
-              );
+            cy.skyReady('app-data-manager').screenshot(
+              `datamanagercomponent-datamanager--data-manager-${view}-${theme}`,
+            );
+            cy.get('app-data-manager').percySnapshot(
+              `datamanagercomponent-datamanager--data-manager-${view}-${theme}`,
+              {
+                widths: E2eVariations.DISPLAY_WIDTHS,
+              },
+            );
           });
         });
       });

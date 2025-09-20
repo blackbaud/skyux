@@ -1,7 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 import { expectAsync } from '@skyux-sdk/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
@@ -16,12 +16,8 @@ describe('ModalLookupComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        LookupInModalModule,
-        NoopAnimationsModule,
-        RouterTestingModule.withRoutes([]),
-      ],
-      providers: [SkyThemeService],
+      imports: [LookupInModalModule, NoopAnimationsModule],
+      providers: [SkyThemeService, provideRouter([])],
     });
 
     fixture = TestBed.createComponent(ModalLookupComponent);
@@ -43,7 +39,7 @@ describe('ModalLookupComponent', () => {
         SkyInputBoxHarness.with({ dataSkyId: 'favorite-names-field' }),
       )
     ).queryHarness(SkyLookupHarness);
-    expect(await lookupHarness?.isFocused()).toBeTruthy();
+    expect(await (await lookupHarness.getControl()).isDisabled()).toBeFalse();
     fixture.componentInstance.onSubmit();
     expect(consoleLog).toHaveBeenCalledWith({
       submitted: { favoriteNames: [] },

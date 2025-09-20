@@ -2,6 +2,6 @@ export type SkyActionHubNeedsAttentionClickHandler = (
   _: SkyActionHubNeedsAttentionClickHandlerArgs,
 ) => void;
 
-export type SkyActionHubNeedsAttentionClickHandlerArgs = {
+export interface SkyActionHubNeedsAttentionClickHandlerArgs {
   item: unknown;
-};
+}

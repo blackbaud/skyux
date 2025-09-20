@@ -5,12 +5,14 @@ import { BehaviorSubject } from 'rxjs';
 
 import { Tile1Component } from './tile1/tile1.component';
 import { Tile2Component } from './tile2/tile2.component';
+import { Tile3Component } from './tile3/tile3.component';
 import { TileParameters } from './tile-parameters.token';
 
 @Component({
   selector: 'app-tile-dashboard',
   templateUrl: './tile-dashboard.component.html',
   styleUrls: ['./tile-dashboard.component.scss'],
+  standalone: false,
 })
 export class TileDashboardComponent implements AfterViewInit {
   public dashboardConfig: SkyTileDashboardConfig = {
@@ -67,6 +69,19 @@ export class TileDashboardComponent implements AfterViewInit {
           },
         ],
       },
+      {
+        id: 'tile5',
+        componentType: Tile3Component,
+        providers: [
+          {
+            provide: TileParameters,
+            useValue: {
+              tileName: 'Tile 5',
+              showInlineHelp: true,
+            },
+          },
+        ],
+      },
     ],
     layout: {
       singleColumn: {
@@ -85,6 +100,10 @@ export class TileDashboardComponent implements AfterViewInit {
           },
           {
             id: 'tile4',
+            isCollapsed: true,
+          },
+          {
+            id: 'tile5',
             isCollapsed: true,
           },
         ],
@@ -111,6 +130,10 @@ export class TileDashboardComponent implements AfterViewInit {
             {
               id: 'tile2',
               isCollapsed: false,
+            },
+            {
+              id: 'tile5',
+              isCollapsed: true,
             },
           ],
         },

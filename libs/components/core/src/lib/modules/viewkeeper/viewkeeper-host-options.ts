@@ -17,4 +17,6 @@ export class SkyViewkeeperHostOptions implements SkyViewkeeperOptions {
   public verticalOffsetEl?: HTMLElement;
 
   public viewportMarginTop?: number;
+
+  public viewportMarginProperty?: `--${string}`;
 }

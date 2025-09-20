@@ -1,4 +1,4 @@
-import { ThemeVars, themes } from '@storybook/theming';
+import { ThemeVars, themes } from 'storybook/theming';
 
 export const blackbaud: ThemeVars = {
   ...themes.light,

@@ -15,18 +15,15 @@ describe('layout-storybook - description-list', () => {
             });
 
             it('should render the component', () => {
-              cy.get('app-description-list')
-                .should('exist')
-                .should('be.visible')
-                .screenshot(
-                  `descriptionlistcomponent-descriptionlist--description-list-${width}-${theme}`,
-                )
-                .percySnapshot(
-                  `descriptionlistcomponent-descriptionlist--description-list-${width}-${theme}`,
-                  {
-                    widths: [width],
-                  },
-                );
+              cy.skyReady('app-description-list').screenshot(
+                `descriptionlistcomponent-descriptionlist--description-list-${width}-${theme}`,
+              );
+              cy.percySnapshot(
+                `descriptionlistcomponent-descriptionlist--description-list-${width}-${theme}`,
+                {
+                  widths: [width],
+                },
+              );
             });
           });
         },

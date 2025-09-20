@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { Injectable, OnDestroy, inject } from '@angular/core';
+import { DOCUMENT, Injectable, NgZone, OnDestroy, inject } from '@angular/core';
 
 import { ReplaySubject } from 'rxjs';
 
@@ -22,6 +21,8 @@ export class SkyLiveAnnouncerService implements OnDestroy {
   #announcerElement: HTMLElement | undefined;
   #document = inject(DOCUMENT);
   #idService = inject(SkyIdService);
+  #durationTimeout: number | undefined;
+  #ngZone = inject(NgZone);
 
   constructor() {
     this.#announcerElement = this.#createLiveElement();
@@ -42,12 +43,18 @@ export class SkyLiveAnnouncerService implements OnDestroy {
     }
 
     const politeness = args?.politeness ?? 'polite';
-
-    this.clear();
-
     this.#announcerElement.setAttribute('aria-live', politeness);
 
+    this.clear();
+    clearTimeout(this.#durationTimeout);
+
     this.#announcerElement.textContent = message;
+    this.#ngZone.runOutsideAngular(() => {
+      this.#durationTimeout = setTimeout(
+        () => this.clear(),
+        args?.duration ?? this.#calculateDefaultDurationFromString(message),
+      ) as unknown as number;
+    });
   }
 
   /**
@@ -68,17 +75,32 @@ export class SkyLiveAnnouncerService implements OnDestroy {
     this.#announcerElement?.remove();
     this.#announcerElement = undefined;
     this.announcerElementChanged.next(undefined);
+    clearTimeout(this.#durationTimeout);
+  }
+
+  #calculateDefaultDurationFromString(message: string): number {
+    // Research suggests normal WPM is 110 for english. Lowering here to be conservative.
+    const baseWordsPerMinute = 80;
+    const minuteInMilliseconds = 60000;
+    const numberOfWords = message.split(' ').length;
+
+    const baseTime =
+      (numberOfWords / baseWordsPerMinute) * minuteInMilliseconds;
+
+    // Add 50% to time to account for exceptionally slow screen reader settings and/or speech settings that leave long pauses between words.
+    return baseTime * 1.5;
   }
 
   #createLiveElement(): HTMLElement {
     const elementClass = 'sky-live-announcer-element';
-    const previousElements =
-      this.#document.getElementsByClassName(elementClass);
+    const previousElements = Array.from<Element>(
+      this.#document.getElementsByClassName(elementClass),
+    );
     const liveEl = this.#document.createElement('div');
 
     // Remove any old containers. This can happen when coming in from a server-side-rendered page.
-    for (let i = 0; i < previousElements.length; i++) {
-      previousElements[i].remove();
+    for (const previousElement of previousElements) {
+      previousElement.remove();
     }
 
     liveEl.classList.add(elementClass);

@@ -24,7 +24,7 @@ type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
   providedIn: 'root',
 })
 export class SkyLibResourcesService {
-  private static resources: { [locale: string]: SkyLibResources } = {};
+  private static resources: Record<string, SkyLibResources> = {};
 
   #localeProvider: SkyAppLocaleProvider;
   #providers: SkyLibResourcesProvider[] | undefined;
@@ -45,9 +45,9 @@ export class SkyLibResourcesService {
   /**
    * Adds locale resources to be used by library components.
    */
-  public static addResources(localeResources: {
-    [locale: string]: SkyLibResources;
-  }): void {
+  public static addResources(
+    localeResources: Record<string, SkyLibResources>,
+  ): void {
     for (const [locale, resources] of Object.entries(localeResources)) {
       SkyLibResourcesService.resources[locale] ||= {};
       SkyLibResourcesService.resources[locale] = {
@@ -87,7 +87,7 @@ export class SkyLibResourcesService {
    * @return an `Observable` of a resource string dictionary in the same shape as the passed dictionary.
    *
    * @example
-   * ```
+   * ```typescript
    * service.getStrings({
    *    simpleKey: 'hello',
    *    arraySyntax: ['hi'],

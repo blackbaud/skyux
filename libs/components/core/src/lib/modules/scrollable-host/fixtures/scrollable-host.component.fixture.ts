@@ -9,6 +9,7 @@ import { SkyScrollableHostService } from '../scrollable-host.service';
   selector: 'sky-scrollable-host-fixture',
   styleUrls: ['./scrollable-host.component.fixture.scss'],
   templateUrl: './scrollable-host.component.fixture.html',
+  standalone: false,
 })
 export class ScrollableHostFixtureComponent implements OnDestroy {
   public isParentDisplayNoneClass = false;

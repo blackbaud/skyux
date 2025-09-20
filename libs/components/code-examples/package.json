@@ -1,0 +1,66 @@
+{
+  "name": "@skyux/code-examples",
+  "version": "0.0.0-PLACEHOLDER",
+  "author": "Blackbaud, Inc.",
+  "description": "Internal SKY UX use only",
+  "keywords": [
+    "blackbaud",
+    "skyux"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux#readme",
+  "peerDependencies": {
+    "@angular/cdk": "^20.2.3",
+    "@angular/common": "^20.3.0",
+    "@angular/core": "^20.3.0",
+    "@angular/forms": "^20.3.0",
+    "@angular/router": "^20.3.0",
+    "@blackbaud/angular-tree-component": "^1.0.0",
+    "@skyux/action-bars": "0.0.0-PLACEHOLDER",
+    "@skyux/ag-grid": "0.0.0-PLACEHOLDER",
+    "@skyux/angular-tree-component": "0.0.0-PLACEHOLDER",
+    "@skyux/autonumeric": "0.0.0-PLACEHOLDER",
+    "@skyux/avatar": "0.0.0-PLACEHOLDER",
+    "@skyux/colorpicker": "0.0.0-PLACEHOLDER",
+    "@skyux/core": "0.0.0-PLACEHOLDER",
+    "@skyux/data-manager": "0.0.0-PLACEHOLDER",
+    "@skyux/datetime": "0.0.0-PLACEHOLDER",
+    "@skyux/errors": "0.0.0-PLACEHOLDER",
+    "@skyux/filter-bar": "0.0.0-PLACEHOLDER",
+    "@skyux/flyout": "0.0.0-PLACEHOLDER",
+    "@skyux/forms": "0.0.0-PLACEHOLDER",
+    "@skyux/help-inline": "0.0.0-PLACEHOLDER",
+    "@skyux/icon": "0.0.0-PLACEHOLDER",
+    "@skyux/indicators": "0.0.0-PLACEHOLDER",
+    "@skyux/inline-form": "0.0.0-PLACEHOLDER",
+    "@skyux/layout": "0.0.0-PLACEHOLDER",
+    "@skyux/lists": "0.0.0-PLACEHOLDER",
+    "@skyux/lookup": "0.0.0-PLACEHOLDER",
+    "@skyux/modals": "0.0.0-PLACEHOLDER",
+    "@skyux/navbar": "0.0.0-PLACEHOLDER",
+    "@skyux/pages": "0.0.0-PLACEHOLDER",
+    "@skyux/phone-field": "0.0.0-PLACEHOLDER",
+    "@skyux/popovers": "0.0.0-PLACEHOLDER",
+    "@skyux/progress-indicator": "0.0.0-PLACEHOLDER",
+    "@skyux/router": "0.0.0-PLACEHOLDER",
+    "@skyux/split-view": "0.0.0-PLACEHOLDER",
+    "@skyux/tabs": "0.0.0-PLACEHOLDER",
+    "@skyux/text-editor": "0.0.0-PLACEHOLDER",
+    "@skyux/tiles": "0.0.0-PLACEHOLDER",
+    "@skyux/toast": "0.0.0-PLACEHOLDER",
+    "@skyux/validation": "0.0.0-PLACEHOLDER",
+    "ag-grid-angular": "^34.2.0",
+    "ag-grid-community": "^34.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.8.1"
+  },
+  "sideEffects": false
+}

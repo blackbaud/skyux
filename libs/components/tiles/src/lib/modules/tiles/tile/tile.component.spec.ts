@@ -6,6 +6,11 @@ import {
 } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -17,10 +22,10 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
-import { SkyTilesModule } from '../tiles.module';
 
 import { MockSkyTileDashboardService } from './fixtures/mock-tile-dashboard.service';
 import { TileTestComponent } from './fixtures/tile.component.fixture';
+import { SKY_TILE_TITLE_ID } from './tile-title-id-token';
 import { SkyTileComponent } from './tile.component';
 
 describe('Tile component', () => {
@@ -32,7 +37,17 @@ describe('Tile component', () => {
     return fixture.nativeElement.querySelector('sky-chevron button');
   }
 
-  function getHelpButton(fixture: ComponentFixture<any>): HTMLButtonElement {
+  function getHelpInlineButton(
+    fixture: ComponentFixture<TileTestComponent>,
+  ): HTMLButtonElement | null {
+    return fixture.nativeElement.querySelector(
+      'sky-help-inline:not(.sky-control-help) button',
+    );
+  }
+
+  function getLegacyHelpButton(
+    fixture: ComponentFixture<any>,
+  ): HTMLButtonElement {
     return fixture.nativeElement.querySelector('.sky-tile-help');
   }
 
@@ -44,6 +59,10 @@ describe('Tile component', () => {
     fixture: ComponentFixture<any>,
   ): HTMLButtonElement {
     return fixture.nativeElement.querySelector('.sky-tile-settings');
+  }
+
+  function getTileContent(fixture: ComponentFixture<any>): HTMLButtonElement {
+    return fixture.nativeElement.querySelector('.sky-tile-content');
   }
 
   beforeEach(() => {
@@ -58,8 +77,7 @@ describe('Tile component', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [TileTestComponent],
-      imports: [NoopAnimationsModule, SkyTilesModule],
+      imports: [NoopAnimationsModule, SkyHelpTestingModule, TileTestComponent],
       providers: [
         {
           provide: SkyThemeService,
@@ -268,7 +286,7 @@ describe('Tile component', () => {
     });
   });
 
-  describe('help button', () => {
+  describe('help button (legacy)', () => {
     it('should be absent if a callback is not provided', () => {
       const html = `
         <sky-tile tileName="test" [isCollapsed]="tileIsCollapsed">
@@ -285,7 +303,7 @@ describe('Tile component', () => {
 
       fixture.detectChanges();
 
-      expect(getHelpButton(fixture)).toBeNull();
+      expect(getLegacyHelpButton(fixture)).toBeNull();
     });
 
     it('should be present if a callback is provided', () => {
@@ -293,7 +311,7 @@ describe('Tile component', () => {
 
       fixture.detectChanges();
 
-      expect(getHelpButton(fixture)).not.toBeNull();
+      expect(getLegacyHelpButton(fixture)).not.toBeNull();
     });
 
     it('should not be present if a callback is provided, but the showHelp flag is false', () => {
@@ -317,7 +335,7 @@ describe('Tile component', () => {
 
       fixture.detectChanges();
 
-      expect(getHelpButton(fixture)).toBeNull();
+      expect(getLegacyHelpButton(fixture)).toBeNull();
     });
 
     it('should call the specified callback when clicked', () => {
@@ -327,7 +345,7 @@ describe('Tile component', () => {
 
       fixture.detectChanges();
 
-      getHelpButton(fixture).click();
+      getLegacyHelpButton(fixture).click();
 
       expect(tileHelpClickSpy).toHaveBeenCalled();
     });
@@ -338,17 +356,37 @@ describe('Tile component', () => {
 
       fixture.detectChanges();
 
-      getHelpButton(fixture).click();
+      getLegacyHelpButton(fixture).click();
       fixture.detectChanges();
 
       const contentAttrs = el.querySelector('.sky-tile-content').attributes;
 
       expect(contentAttrs['hidden']).toBe(undefined);
     });
+
+    it('should log a deprecation message', () => {
+      const fixture = TestBed.createComponent(TileTestComponent);
+      const logSvc = TestBed.inject(SkyLogService);
+      const logSpy = spyOn(logSvc, 'deprecated');
+
+      fixture.detectChanges();
+
+      expect(logSpy).toHaveBeenCalledWith('SkyTileComponent.showHelp', {
+        deprecationMajorVersion: 10,
+        replacementRecommendation:
+          'Set the `helpKey` or `helpPopoverContent` inputs instead.',
+      });
+    });
   });
 
-  it('should create default aria labels when tileName is not defined', fakeAsync(() => {
-    const fixture = TestBed.createComponent(TileTestComponent);
+  it('should create default aria labels or set aria-labelledby to title id when tileName is not defined', fakeAsync(() => {
+    const tileTitleId = 'title-id';
+    const fixture = TestBed.overrideComponent(SkyTileComponent, {
+      set: {
+        providers: [{ provide: SKY_TILE_TITLE_ID, useValue: tileTitleId }],
+      },
+    }).createComponent(TileTestComponent);
+
     fixture.componentInstance.tileName = undefined;
     fixture.detectChanges();
     tick();
@@ -356,20 +394,25 @@ describe('Tile component', () => {
     // Force tile to render move button.
     fixture.componentInstance.tileComponent.isInDashboardColumn = true;
     fixture.detectChanges();
-    const helpButton = getHelpButton(fixture);
+
+    const helpButton = getLegacyHelpButton(fixture);
     const expandButton = getExpandButton(fixture);
     const moveButton = getMoveButton(fixture);
     const settingsButton = getSettingsButton(fixture);
+    const tileContent = getTileContent(fixture);
+
     expect(helpButton.getAttribute('aria-label')).toEqual('Help');
     expect(expandButton.getAttribute('aria-label')).toEqual(
       'Expand or collapse',
     );
     expect(moveButton.getAttribute('aria-label')).toEqual('Move');
     expect(settingsButton.getAttribute('aria-label')).toEqual('Settings');
+    expect(tileContent.getAttribute('aria-labelledBy')).toEqual(tileTitleId);
   }));
 
   it('should create accessible aria labels when tileName is defined', fakeAsync(() => {
     const fixture = TestBed.createComponent(TileTestComponent);
+
     fixture.componentInstance.tileName = 'Users';
     fixture.detectChanges();
     tick();
@@ -377,16 +420,20 @@ describe('Tile component', () => {
     // Force tile to render move button.
     fixture.componentInstance.tileComponent.isInDashboardColumn = true;
     fixture.detectChanges();
-    const helpButton = getHelpButton(fixture);
+
+    const helpButton = getLegacyHelpButton(fixture);
     const expandButton = getExpandButton(fixture);
     const moveButton = getMoveButton(fixture);
     const settingsButton = getSettingsButton(fixture);
+    const tileContent = getTileContent(fixture);
+
     expect(helpButton.getAttribute('aria-label')).toEqual('Users help');
     expect(expandButton.getAttribute('aria-label')).toEqual(
       'Expand or collapse Users',
     );
     expect(moveButton.getAttribute('aria-label')).toEqual('Move Users');
     expect(settingsButton.getAttribute('aria-label')).toEqual('Users settings');
+    expect(tileContent.getAttribute('aria-label')).toEqual('Users');
   }));
 
   it('should pass accessibility', async () => {
@@ -394,5 +441,69 @@ describe('Tile component', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should render help inline popover', () => {
+    const fixture = TestBed.createComponent(TileTestComponent);
+
+    fixture.componentInstance.tileName = 'Tile 1';
+    fixture.componentInstance.helpPopoverContent = 'Example popover content.';
+    fixture.componentInstance.helpPopoverTitle = 'Example popover title';
+
+    fixture.detectChanges();
+
+    expect(getHelpInlineButton(fixture)).toBeDefined();
+  });
+
+  it('should not render help inline if popover content provided but tile name undefined', () => {
+    const fixture = TestBed.createComponent(TileTestComponent);
+
+    fixture.componentInstance.tileName = undefined;
+    fixture.componentInstance.helpPopoverContent = 'Example popover content.';
+
+    fixture.detectChanges();
+
+    expect(getHelpInlineButton(fixture)).toBeNull();
+  });
+
+  it('should render help inline when helpKey is provided', () => {
+    const fixture = TestBed.createComponent(TileTestComponent);
+    const helpController = TestBed.inject(SkyHelpTestingController);
+
+    fixture.componentInstance.tileName = 'Tile 1';
+    fixture.componentInstance.helpKey = 'foo.html';
+    fixture.detectChanges();
+
+    getHelpInlineButton(fixture)?.click();
+    fixture.detectChanges();
+
+    helpController.expectCurrentHelpKey('foo.html');
+  });
+
+  it('should not render help inline if helpKey provided but tile name undefined', () => {
+    const fixture = TestBed.createComponent(TileTestComponent);
+
+    fixture.componentInstance.tileName = undefined;
+    fixture.componentInstance.helpKey = 'foo.html';
+    fixture.detectChanges();
+
+    expect(getHelpInlineButton(fixture)).toBeNull();
+  });
+
+  it('should not expand/collapse the content when the help inline button is clicked', () => {
+    const fixture = TestBed.createComponent(TileTestComponent);
+    const el = fixture.nativeElement;
+
+    fixture.componentInstance.tileName = 'Tile 1';
+    fixture.componentInstance.helpPopoverContent = 'Example popover content.';
+    fixture.detectChanges();
+
+    const contentAttrs = el.querySelector('.sky-tile-content').attributes;
+
+    expect(contentAttrs['hidden']).toBeUndefined();
+
+    getHelpInlineButton(fixture)?.click();
+
+    expect(contentAttrs['hidden']).toBeUndefined();
   });
 });

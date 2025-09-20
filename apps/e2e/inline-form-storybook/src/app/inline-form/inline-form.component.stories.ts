@@ -1,4 +1,5 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { InlineFormComponent } from './inline-form.component';
 import { InlineFormModule } from './inline-form.module';
@@ -13,13 +14,10 @@ export default {
     }),
   ],
 } as Meta<InlineFormComponent>;
-const BaseInlineForm: StoryFn<InlineFormComponent> = (
-  args: InlineFormComponent,
-) => ({
-  props: args,
-});
 
-export const InlineFormCustomButtons = BaseInlineForm.bind({});
+type Story = StoryObj<InlineFormComponent>;
+
+export const InlineFormCustomButtons: Story = {};
 InlineFormCustomButtons.args = {
   inlineFormConfig: {
     buttonLayout: 0,
@@ -49,28 +47,28 @@ InlineFormCustomButtons.args = {
   },
 };
 
-export const InlineFormDoneCancelButtons = BaseInlineForm.bind({});
+export const InlineFormDoneCancelButtons: Story = {};
 InlineFormDoneCancelButtons.args = {
   inlineFormConfig: {
     buttonLayout: 1,
   },
 };
 
-export const InlineFormDoneDeleteCancelButtons = BaseInlineForm.bind({});
+export const InlineFormDoneDeleteCancelButtons: Story = {};
 InlineFormDoneDeleteCancelButtons.args = {
   inlineFormConfig: {
     buttonLayout: 2,
   },
 };
 
-export const InlineFormSaveCancelButtons = BaseInlineForm.bind({});
+export const InlineFormSaveCancelButtons: Story = {};
 InlineFormSaveCancelButtons.args = {
   inlineFormConfig: {
     buttonLayout: 3,
   },
 };
 
-export const InlineFormSaveDeleteCancelButtons = BaseInlineForm.bind({});
+export const InlineFormSaveDeleteCancelButtons: Story = {};
 InlineFormSaveDeleteCancelButtons.args = {
   inlineFormConfig: {
     buttonLayout: 4,

@@ -1,48 +1,70 @@
 <button
-  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   class="sky-btn sky-btn-default open-small-modal-btn"
   type="button"
+  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   (click)="onOpenSmallModalClick()"
 >
   Open small modal
 </button>
 <button
-  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   class="sky-btn sky-btn-default open-medium-modal-btn"
   type="button"
+  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   (click)="onOpenMediumModalClick()"
 >
   Open medium modal
 </button>
 <button
-  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   class="sky-btn sky-btn-default open-large-modal-btn"
   type="button"
+  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   (click)="onOpenLargeModalClick()"
 >
   Open large modal
 </button>
 <button
-  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   class="sky-btn sky-btn-default open-full-page-modal-btn"
   type="button"
+  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   (click)="onOpenFullPageModalClick()"
 >
   Open full page modal
 </button>
 <button
-  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   class="sky-btn sky-btn-default open-help-inline-modal-btn"
   type="button"
+  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   (click)="onOpenHelpInlineModalClick()"
 >
   Open help inline modal
 </button>
 <button
-  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   class="sky-btn sky-btn-default open-error-modal-btn"
   type="button"
+  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   (click)="onOpenErrorModalClick()"
 >
   Open error modal
 </button>
+<button
+  class="sky-btn sky-btn-default open-positioned-background-modal-btn"
+  type="button"
+  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
+  (click)="onOpenModalWithPositionedElClick()"
+>
+  Open modal with absolutely-positioned background
+</button>
+<button
+  class="sky-btn sky-btn-default open-heading-text-help-inline-modal-btn"
+  type="button"
+  [ngClass]="{
+    'modal-screenshot-buttons-hidden': buttonsHidden
+  }"
+  (click)="onOpenHeadingTextHelpInlineModalClick()"
+>
+  Open help inline modal (heading text)
+</button>
+
+@if (showPositionedEl) {
+  <div class="modal-screenshot-positioned"></div>
+}

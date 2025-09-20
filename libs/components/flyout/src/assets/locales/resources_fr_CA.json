@@ -1,0 +1,26 @@
+{
+  "skyux_flyout_close": {
+    "_description": "Texte du bouton de fermeture de la fenêtre contextuelle",
+    "message": "Fermer la fenêtre contextuelle"
+  },
+  "skyux_flyout_iterator_previous_button": {
+    "_description": "Étiquette du bouton de retour en arrière",
+    "message": "Précédent"
+  },
+  "skyux_flyout_iterator_next_button": {
+    "_description": "Étiquette du bouton pour aller à la page suivante",
+    "message": "Suivant"
+  },
+  "skyux_flyout_permalink_button": {
+    "_description": "Texte par défaut du bouton du permalien de la fenêtre contextuelle",
+    "message": "Visualiser le dossier"
+  },
+  "skyux_flyout_primary_action_button": {
+    "_description": "Texte par défaut du bouton d’action principal de la fenêtre contextuelle",
+    "message": "Créer une liste"
+  },
+  "skyux_flyout_resize_handle": {
+    "_description": "Étiquette de la poignée de redimensionnement de la fenêtre contextuelle",
+    "message": "Redimensionnez la fenêtre contextuelle. Appuyez sur la touche Entrée ou Espace pour l’activer, puis utiliser la flèche de gauche pour agrandir la fenêtre contextuelle et la flèche de droite pour réduire la fenêtre contextuelle. Appuyez sur la touche Entrée, Espace ou Tabulation pour la désactiver."
+  }
+}

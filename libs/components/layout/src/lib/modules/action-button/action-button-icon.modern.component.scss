@@ -1,0 +1,27 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include mixins.sky-component('modern', '.sky-action-button-icon-container') {
+  color: var(--sky-color-icon-action);
+  background: var(--sky-color-background-icon_matte-action-soft);
+  margin: 0 var(--sky-space-inline-l) 0 0;
+  border-radius: var(--sky-border-radius-round);
+  width: calc(
+    var(--sky-size-icon-l) + calc(var(--sky-space-inset-thumbnail_matte-xl) * 2)
+  );
+  height: calc(
+    var(--sky-size-icon-l) + calc(var(--sky-space-inset-thumbnail_matte-xl) * 2)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // keep this until font based icon input is removed
+  ::ng-deep .sky-icon {
+    font-size: 24px !important;
+  }
+
+  .sky-action-button-icon {
+    color: var(--sky-color-icon-action);
+  }
+}

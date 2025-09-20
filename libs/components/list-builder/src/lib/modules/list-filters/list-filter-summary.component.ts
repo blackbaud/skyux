@@ -23,6 +23,7 @@ import { ListFilterModel } from './filter.model';
 @Component({
   selector: 'sky-list-filter-summary',
   templateUrl: './list-filter-summary.component.html',
+  standalone: false,
 })
 export class SkyListFilterSummaryComponent implements AfterContentInit {
   /**
@@ -32,14 +33,14 @@ export class SkyListFilterSummaryComponent implements AfterContentInit {
   @Output()
   public summaryItemClick = new EventEmitter<ListFilterModel>();
 
-  public appliedFilters: Observable<Array<ListFilterModel>>;
+  public appliedFilters: Observable<ListFilterModel[]>;
 
   constructor(
     private state: ListState,
     private dispatcher: ListStateDispatcher,
   ) {}
 
-  public ngAfterContentInit() {
+  public ngAfterContentInit(): void {
     // The setTimeout here is to ensure we avoid any ExpressionChangedAfterItHasBeenCheckedError issues.
     setTimeout(() => {
       this.appliedFilters = this.state.pipe(
@@ -57,14 +58,14 @@ export class SkyListFilterSummaryComponent implements AfterContentInit {
     });
   }
 
-  public filterSummaryItemDismiss(index: number) {
+  public filterSummaryItemDismiss(index: number): void {
     this.appliedFilters.pipe(take(1)).subscribe((filters) => {
       filters.splice(index, 1);
       this.dispatcher.filtersUpdate(filters.slice());
     });
   }
 
-  public filterSummaryItemClick(item: ListFilterModel) {
+  public filterSummaryItemClick(item: ListFilterModel): void {
     this.summaryItemClick.emit(item);
   }
 }

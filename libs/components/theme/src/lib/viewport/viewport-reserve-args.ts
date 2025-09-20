@@ -18,4 +18,9 @@ export interface SkyAppViewportReserveArgs {
    * The number of pixels to reserve.
    */
   size: number;
+
+  /**
+   * Only reserve space when this element is in view.
+   */
+  reserveForElement?: HTMLElement;
 }

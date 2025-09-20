@@ -1,0 +1,36 @@
+<table
+  class="sky-daypicker-table"
+  role="grid"
+  [attr.aria-labelledby]="datepicker.datepickerId + '-title'"
+>
+  <thead>
+    <tr>
+      @for (label of labels; track label.full) {
+        <th scope="col" class="sky-datepicker-center sky-datepicker-weekdays">
+          <!-- display: inline -->
+          <span
+            class="sky-datepicker-weekday-text"
+            [attr.aria-label]="label.full"
+            >{{ label.abbr }}</span
+          >
+        </th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Wait indicator for async custom date stream -->
+    <sky-wait [isWaiting]="isWaiting" />
+    @for (row of rows; track $index) {
+      <tr role="row">
+        @for (date of row; track date.uid) {
+          <td class="sky-datepicker-center" role="gridcell" [id]="date.uid">
+            <sky-daypicker-cell
+              [activeDateHasChanged]="activeDateHasChanged"
+              [date]="date"
+            />
+          </td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>

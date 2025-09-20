@@ -23,6 +23,15 @@ const routes: Routes = [
     path: 'timepicker',
     loadChildren: () => import('./timepicker/routes'),
   },
+  {
+    path: 'key-dates',
+    loadComponent: () => import('./key-dates/key-dates.component'),
+    data: {
+      name: 'Key Dates',
+      icon: 'calendar-ltr',
+      library: 'datetime',
+    },
+  },
 ];
 
 @NgModule({

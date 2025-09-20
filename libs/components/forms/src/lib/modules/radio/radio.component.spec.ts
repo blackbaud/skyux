@@ -9,6 +9,10 @@ import { NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLogService } from '@skyux/core';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioOnPushTestComponent } from './fixtures/radio-on-push.component.fixture';
@@ -20,7 +24,7 @@ import { SkyRadioComponent } from './radio.component';
 describe('Radio component', function () {
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [SkyRadioFixturesModule],
+      imports: [SkyRadioFixturesModule, SkyHelpTestingModule],
     });
 
     // Mock the ID service.
@@ -188,23 +192,103 @@ describe('Radio component', function () {
       expect(radios.item(2).id).toEqual('sky-radio-MOCK_ID_3-input');
     }));
 
-    it('should pass a label when specified', fakeAsync(function () {
+    it('should pass a label when specified and warn of its deprecation', fakeAsync(function () {
+      const logService = TestBed.inject(SkyLogService);
+      const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
+
       componentInstance.label1 = 'My label';
       fixture.detectChanges();
       tick();
 
       const radios = fixture.nativeElement.querySelectorAll('input');
       expect(radios.item(0).getAttribute('aria-label')).toBe('My label');
+
+      expect(deprecatedLogSpy).toHaveBeenCalledWith(
+        'SkyRadioComponent.label',
+        Object({
+          deprecationMajorVersion: 10,
+          replacementRecommendation: 'Use the `labelText` input instead.',
+        }),
+      );
     }));
 
-    it('should pass a labelled by id properly when specified', fakeAsync(function () {
+    it('should pass a labelled by id properly when specified and warn of its deprecation', fakeAsync(function () {
+      const logService = TestBed.inject(SkyLogService);
+      const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
+
       componentInstance.labelledBy3 = 'label-id';
       fixture.detectChanges();
       tick();
 
       const radios = fixture.nativeElement.querySelectorAll('input');
       expect(radios.item(2).getAttribute('aria-labelledby')).toBe('label-id');
+
+      expect(deprecatedLogSpy).toHaveBeenCalledWith(
+        'SkyRadioComponent.labelledBy',
+        Object({
+          deprecationMajorVersion: 10,
+          replacementRecommendation: 'Use the `labelText` input instead.',
+        }),
+      );
     }));
+
+    it('should render the labelText when provided', fakeAsync(function () {
+      const label1 = 'Label 1';
+      const label2 = 'Label 2';
+      const label3 = 'Label 3';
+      componentInstance.label1 = 'Other label';
+      componentInstance.labelledBy3 = '#some-element';
+      componentInstance.labelText1 = label1;
+      componentInstance.labelText2 = label2;
+      componentInstance.labelText3 = label3;
+      fixture.detectChanges();
+      tick();
+
+      const radioLabels = fixture.nativeElement.querySelectorAll(
+        '.sky-radio-wrapper .sky-switch-label',
+      );
+      expect(radioLabels.item(0).textContent?.trim()).toBe(label1);
+      expect(radioLabels.item(1).textContent?.trim()).toBe(label2);
+      expect(radioLabels.item(2).textContent?.trim()).toBe(label3);
+    }));
+
+    it('should use labelText as an accessible label over label and labelledBy', fakeAsync(function () {
+      const label1 = 'Label 1';
+      const label2 = 'Label 2';
+      const label3 = 'Label 3';
+      componentInstance.label1 = 'Other label';
+      componentInstance.labelledBy3 = '#some-element';
+      componentInstance.labelText1 = label1;
+      componentInstance.labelText2 = label2;
+      componentInstance.labelText3 = label3;
+      fixture.detectChanges();
+      tick();
+
+      const radios = fixture.nativeElement.querySelectorAll('input');
+      expect(radios.item(0).getAttribute('aria-label')).toBe(label1);
+      expect(radios.item(1).getAttribute('aria-label')).toBe(label2);
+      expect(radios.item(2).getAttribute('aria-label')).toBe(label3);
+      expect(radios.item(0).getAttribute('aria-labelledby')).toBeNull();
+      expect(radios.item(1).getAttribute('aria-labelledby')).toBeNull();
+      expect(radios.item(2).getAttribute('aria-labelledby')).toBeNull();
+    }));
+
+    it('should render the hintText when provided', () => {
+      const hintText1 = 'hint text 1';
+      const hintText2 = 'hint text 2';
+      const hintText3 = 'hint text 3';
+      fixture.componentInstance.hintText1 = hintText1;
+      fixture.componentInstance.hintText2 = hintText2;
+      fixture.componentInstance.hintText3 = hintText3;
+      fixture.detectChanges();
+
+      const radios = fixture.nativeElement.querySelectorAll(
+        '.sky-radio-hint-text',
+      );
+      expect(radios.item(0).textContent?.trim()).toBe(hintText1);
+      expect(radios.item(1).textContent?.trim()).toBe(hintText2);
+      expect(radios.item(2).textContent?.trim()).toBe(hintText3);
+    });
 
     it('should use 0 when a tabindex is not specified', fakeAsync(function () {
       fixture.detectChanges();
@@ -273,6 +357,61 @@ describe('Radio component', function () {
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
+
+    it('should render help inline if label text and help popover content is provided', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(0);
+
+      componentInstance.labelText1 = 'label';
+      componentInstance.helpPopoverContent = 'content';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(1);
+    }));
+
+    it('should render help inline if help key and label text is provided', () => {
+      componentInstance.labelText1 = 'label';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector(
+          '.sky-help-inline:not(.sky-control-help)',
+        ),
+      ).toBeFalsy();
+
+      componentInstance.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector(
+          '.sky-help-inline:not(.sky-control-help)',
+        ),
+      ).toBeTruthy();
+    });
+
+    it('should set global help config with help key', async () => {
+      const helpController = TestBed.inject(SkyHelpTestingController);
+      componentInstance.labelText1 = 'Radio button';
+      componentInstance.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      const helpInlineButton = fixture.nativeElement.querySelector(
+        '.sky-help-inline',
+      ) as HTMLElement | undefined;
+
+      helpInlineButton?.click();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      helpController.expectCurrentHelpKey('helpKey.html');
+    });
   });
 
   describe('Radio icon component', () => {
@@ -284,47 +423,51 @@ describe('Radio component', function () {
       debugElement = fixture.debugElement;
     });
 
-    it('should set icon based on input', () => {
+    it('should set icon based on input - iconName', () => {
       fixture.detectChanges();
 
-      let radioIcon = debugElement.query(By.css('i')).nativeElement;
-      expect(radioIcon).toHaveCssClass('fa-bold');
+      let radioIcon = debugElement.query(By.css('svg')).nativeElement;
+      expect(radioIcon.attributes.getNamedItem('data-sky-icon')?.value).toBe(
+        'add',
+      );
 
-      fixture.componentInstance.icon = 'umbrella';
+      fixture.componentInstance.iconName = 'book';
       fixture.detectChanges();
 
-      radioIcon = debugElement.query(By.css('i')).nativeElement;
-      expect(radioIcon).toHaveCssClass('fa-umbrella');
+      radioIcon = debugElement.query(By.css('svg')).nativeElement;
+      expect(radioIcon.attributes.getNamedItem('data-sky-icon')?.value).toBe(
+        'book',
+      );
     });
 
     it('should set span class based on radio type input', () => {
       fixture.detectChanges();
 
-      let span = debugElement.query(By.css('span')).nativeElement;
+      let span = debugElement.query(By.css('label > span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-info');
 
       fixture.componentInstance.radioType = 'info';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(By.css('label > span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-info');
 
       fixture.componentInstance.radioType = 'success';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(By.css('label > span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-success');
 
       fixture.componentInstance.radioType = 'warning';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(By.css('label > span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-warning');
 
       fixture.componentInstance.radioType = 'danger';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(By.css('label > span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-danger');
     });
 

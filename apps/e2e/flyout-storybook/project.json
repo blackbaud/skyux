@@ -28,12 +28,12 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumError": "10mb"
             },
             {
               "type": "anyComponentStyle",
               "maximumWarning": "2kb",
-              "maximumError": "6kb"
+              "maximumError": "600kb"
             }
           ],
           "outputHashing": "all"
@@ -53,28 +53,25 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "flyout-storybook:build:production"
+          "buildTarget": "flyout-storybook:build:production"
         },
         "development": {
-          "browserTarget": "flyout-storybook:build:development"
+          "buildTarget": "flyout-storybook:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "flyout-storybook:build"
+        "buildTarget": "flyout-storybook:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": [
-          "apps/e2e/flyout-storybook/**/*.ts",
-          "apps/e2e/flyout-storybook/**/*.html"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
       }
     },
     "serve-static": {

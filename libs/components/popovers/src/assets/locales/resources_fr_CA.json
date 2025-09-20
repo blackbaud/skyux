@@ -1,0 +1,14 @@
+{
+  "skyux_dropdown_context_menu_default_label": {
+    "_description": "L’étiquette sur le bouton du menu du contexte utilisé pour les lecteurs d’écran lorsque le consommateur n’a pas spécifié d’étiquette",
+    "message": "Menu du contexte"
+  },
+  "skyux_dropdown_context_menu_with_content_descriptor_default_label": {
+    "_description": "L’étiquette sur le bouton du menu du contexte utilisé pour les lecteurs d’écran lorsque le consommateur n’a pas spécifié d’étiquette et que le composant a un texte de description du contenu",
+    "message": "Menu du contexte pour {0}"
+  },
+  "skyux_dropdown_context_menu_with_content_descriptor_el_default_label": {
+    "_description": "L’étiquette sur le bouton du menu du contexte utilisé pour les lecteurs d’écran lorsque le consommateur n’a pas spécifié d’étiquette et que le composant a un identifiant d’élément de description du contenu",
+    "message": "Menu du contexte pour "
+  }
+}

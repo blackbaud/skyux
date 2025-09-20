@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`update dependencies generator should capture testing dependencies 1`] = `
+Object {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "test",
+  "prefix": "lib",
+  "projectType": "library",
+  "release": Object {
+    "version": Object {
+      "currentVersionResolver": "git-tag",
+      "fallbackCurrentVersionResolver": "disk",
+      "manifestRootsToUpdate": Array [
+        "dist/{projectRoot}",
+      ],
+    },
+  },
+  "root": "lib/test",
+  "sourceRoot": "lib/test/src",
+  "tags": Array [],
+  "targets": Object {
+    "build": Object {
+      "configurations": Object {
+        "development": Object {},
+        "production": Object {
+          "tsConfig": "lib/test/tsconfig.lib.prod.json",
+        },
+      },
+      "defaultConfiguration": "production",
+      "dependsOn": Array [
+        "^build",
+        Object {
+          "projects": Array [
+            "aaa",
+            "bbb",
+          ],
+          "target": "build",
+        },
+      ],
+      "executor": "@nx/angular:package",
+      "inputs": Array [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/lib/test/testing/src/**/*",
+        "!{workspaceRoot}/lib/test/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/lib/test/testing/src/**/fixtures/**/*",
+      ],
+      "options": Object {
+        "project": "lib/test/ng-package.json",
+        "tsConfig": "lib/test/tsconfig.lib.json",
+      },
+      "outputs": Array [
+        "{workspaceRoot}/dist/{projectRoot}",
+      ],
+    },
+    "lint": Object {
+      "executor": "@nx/eslint:lint",
+    },
+    "nx-release-publish": Object {
+      "options": Object {
+        "packageRoot": "dist/{projectRoot}",
+      },
+    },
+    "test": Object {
+      "executor": "@nx/jest:jest",
+      "options": Object {
+        "jestConfig": "lib/test/jest.config.ts",
+        "tsConfig": "lib/test/tsconfig.spec.json",
+      },
+      "outputs": Array [
+        "{workspaceRoot}/coverage/{projectRoot}",
+      ],
+    },
+  },
+}
+`;
+
+exports[`update dependencies generator should capture testing dependencies 2`] = `
+Object {
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "test-testing",
+  "projectType": "library",
+  "root": "lib/test/testing",
+  "sourceRoot": "lib/test/testing/src",
+  "targets": Object {
+    "lint": Object {
+      "executor": "@nx/eslint:lint",
+      "options": Object {
+        "lintFilePatterns": Array [
+          "{projectRoot}/src/**/*.ts",
+        ],
+      },
+    },
+    "test": Object {
+      "commands": Array [
+        "echo test",
+      ],
+    },
+  },
+}
+`;

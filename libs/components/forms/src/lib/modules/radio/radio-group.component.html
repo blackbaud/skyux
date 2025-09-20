@@ -1,11 +1,86 @@
-<div
+<fieldset
   class="sky-radio-group"
   role="radiogroup"
-  [attr.aria-label]="ariaLabel"
-  [attr.aria-labelledby]="ariaLabelledBy"
+  [attr.aria-label]="headingText ? undefined : ariaLabel"
+  [attr.aria-labelledby]="headingText ? undefined : ariaLabelledBy"
+  [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
   [attr.aria-owns]="ariaOwns"
-  [attr.aria-required]="required ? true : null"
-  [attr.required]="required ? '' : null"
+  [attr.aria-required]="isRequired ? true : null"
+  [attr.required]="isRequired ? '' : null"
+  [attr.aria-invalid]="!!ngControl?.errors"
+  [attr.aria-errormessage]="
+    headingText && ngControl?.errors ? errorId : undefined
+  "
 >
-  <ng-content />
-</div>
+  @if (headingText) {
+    <legend
+      class="sky-radio-group-legend"
+      [ngClass]="{
+        'sky-screen-reader-only': headingHidden
+      }"
+    >
+      <span
+        [ngClass]="{
+          'sky-control-label-required': required
+        }"
+      >
+        @switch (headingLevel) {
+          @case (3) {
+            <h3 [class]="headingClass">{{ headingText }}</h3>
+          }
+          @case (4) {
+            <h4 [class]="headingClass">{{ headingText }}</h4>
+          }
+          @case (5) {
+            <h5 [class]="headingClass">{{ headingText }}</h5>
+          }
+          @default {
+            <span [class]="'sky-radio-group-heading-text ' + headingClass">{{
+              headingText
+            }}</span>
+          }
+        }
+      </span>
+      @if (required) {
+        <span class="sky-screen-reader-only">{{
+          'skyux_form_group_required' | skyLibResources
+        }}</span>
+      }
+      @if (helpPopoverContent || helpKey) {
+        <span class="sky-control-help-container">
+          <sky-help-inline
+            [helpKey]="helpKey"
+            [labelText]="headingText"
+            [popoverTitle]="helpPopoverTitle"
+            [popoverContent]="helpPopoverContent"
+          />
+        </span>
+      }
+    </legend>
+  }
+  <div #hintTextEl="skyId" skyId>
+    @if (hintText) {
+      <div
+        class="sky-radio-group-hint-text"
+        [skyThemeClass]="{
+          'sky-font-deemphasized': 'default',
+          'sky-font-hint-text-s': 'modern'
+        }"
+      >
+        {{ hintText }}
+      </div>
+    }
+  </div>
+  <div class="sky-radio-group-content">
+    <ng-content />
+  </div>
+</fieldset>
+<sky-form-errors
+  [id]="errorId"
+  [errors]="ngControl?.errors"
+  [labelText]="headingText"
+  [touched]="ngControl?.touched"
+  [dirty]="ngControl?.dirty"
+>
+  <ng-content select="sky-form-error" />
+</sky-form-errors>

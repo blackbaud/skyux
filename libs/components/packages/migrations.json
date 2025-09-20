@@ -1,0 +1,39 @@
+{
+  "schematics": {
+    "noop": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/noop/noop.schematic",
+      "description": "Update all SKY UX component packages"
+    },
+    "fix-imports": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-13/fix-imports/fix-imports.schematic",
+      "description": "Update typescript imports for SKY UX packages."
+    },
+    "i18n-resources-module": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-13/i18n-resources-module/i18n-resources-module.schematic",
+      "description": "Regenerate i18n resources modules for libraries."
+    },
+    "icon-name": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-13/icon-name/icon-name.schematic",
+      "description": "Update icon `icon` properties to `iconName` and remove other obsolete properties."
+    },
+    "remove-old-compat-stylesheets": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-13/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",
+      "description": "Remove backward compatible stylesheets for older versions of SKY UX."
+    },
+    "workspace-check": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-13/workspace-check/workspace-check.schematic",
+      "description": "Log warnings if the workspace is not configured correctly."
+    },
+    "replace-light-blue-custom-property": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-13/replace-light-blue-custom-property/replace-light-blue-custom-property.schematic",
+      "description": "Replace --sky-category-color-light-blue custom property with --sky-category-color-green."
+    }
+  }
+}

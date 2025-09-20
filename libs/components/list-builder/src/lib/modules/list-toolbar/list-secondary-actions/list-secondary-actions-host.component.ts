@@ -23,6 +23,7 @@ import { SkyListSecondaryActionsService } from './list-secondary-actions.service
   templateUrl: './list-secondary-actions-host.component.html',
   styleUrls: ['./list-secondary-actions-host.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyListSecondaryActionsHostComponent implements OnInit, OnDestroy {
   public dropdownHidden = false;
@@ -35,7 +36,7 @@ export class SkyListSecondaryActionsHostComponent implements OnInit, OnDestroy {
     private actionService: SkyListSecondaryActionsService,
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.actionService.actionsStream
       .pipe(takeUntil(this.ngUnsubscribe), distinctUntilChanged())
       .subscribe((actions: SkyListSecondaryAction[]) => {
@@ -46,7 +47,7 @@ export class SkyListSecondaryActionsHostComponent implements OnInit, OnDestroy {
       });
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }

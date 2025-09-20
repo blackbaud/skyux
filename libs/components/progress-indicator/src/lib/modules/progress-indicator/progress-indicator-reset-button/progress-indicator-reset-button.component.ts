@@ -20,6 +20,7 @@ import { SkyProgressIndicatorMessageType } from '../types/progress-indicator-mes
   selector: 'sky-progress-indicator-reset-button',
   templateUrl: './progress-indicator-reset-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
   /**
@@ -55,11 +56,6 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
 
   constructor(changeDetector: ChangeDetectorRef) {
     this.#changeDetector = changeDetector;
-    console.warn(
-      '[Deprecation warning] The `<sky-progress-indicator-reset-button>` component is ' +
-        'deprecated. Please use the `<sky-progress-indicator-nav-button>` component instead, with ' +
-        '`buttonType` set to "reset".',
-    );
   }
 
   public ngOnDestroy(): void {

@@ -4,7 +4,7 @@
   [disabled]="disabledFlag"
   [horizontalAlignment]="horizontalAlignment"
 >
-  <sky-dropdown-button><sky-icon icon="pencil" /></sky-dropdown-button>
+  <sky-dropdown-button><sky-icon iconName="edit" /></sky-dropdown-button>
   <sky-dropdown-menu>
     <sky-dropdown-item>Item 1</sky-dropdown-item>
     <sky-dropdown-item>Item 2</sky-dropdown-item>
@@ -43,6 +43,28 @@
   [horizontalAlignment]="horizontalAlignment"
 >
   <sky-dropdown-button>Tab dropdown</sky-dropdown-button>
+  <sky-dropdown-menu>
+    <sky-dropdown-item>Item 1</sky-dropdown-item>
+    <sky-dropdown-item>Item 2</sky-dropdown-item>
+    <sky-dropdown-item>Item 3</sky-dropdown-item>
+  </sky-dropdown-menu>
+</sky-dropdown>
+
+<sky-dropdown
+  [disabled]="disabledFlag"
+  [horizontalAlignment]="horizontalAlignment"
+>
+  <button
+    class="sky-btn sky-btn-default custom-trigger"
+    type="button"
+    skyDropdownTrigger
+  >
+    <div class="custom-trigger-inner">
+      <sky-icon iconName="add" />
+      New
+      <sky-icon iconName="chevron-down" />
+    </div>
+  </button>
   <sky-dropdown-menu>
     <sky-dropdown-item>Item 1</sky-dropdown-item>
     <sky-dropdown-item>Item 2</sky-dropdown-item>

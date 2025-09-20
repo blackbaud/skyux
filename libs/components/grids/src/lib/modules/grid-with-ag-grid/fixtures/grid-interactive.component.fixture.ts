@@ -15,6 +15,7 @@ import { SkyGridSelectedRowsModelChange } from '../types/grid-selected-rows-mode
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './grid-interactive.component.fixture.html',
+  standalone: false,
 })
 export class GridInteractiveTestComponent {
   @ViewChild(SkyGridComponent)
@@ -31,7 +32,7 @@ export class GridInteractiveTestComponent {
   public searchText: string;
   public activeSortSelector: ListSortFieldSelectorModel;
   public sortField: ListSortFieldSelectorModel;
-  public columnWidthsChange: Array<SkyGridColumnWidthModelChange>;
+  public columnWidthsChange: SkyGridColumnWidthModelChange[];
   public fitType = 'scroll';
   public enableMultiselect = true;
   public multiselectRowId: string;

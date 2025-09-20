@@ -1,12 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 
 import { SkyPhoneFieldInputDirective } from '../phone-field-input.directive';
 import { SkyPhoneFieldComponent } from '../phone-field.component';
+import { SkyPhoneFieldModule } from '../phone-field.module';
 import { SkyPhoneFieldCountry } from '../types/country';
 import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
 
 @Component({
+  imports: [ReactiveFormsModule, SkyPhoneFieldModule],
   selector: 'sky-test-cmp',
   templateUrl: './phone-field-reactive.component.fixture.html',
 })

@@ -1,17 +1,20 @@
 <span
   class="sky-toggle-switch"
   [ngClass]="{
-    'sky-toggle-switch-with-label': hasLabelComponent
+    'sky-toggle-switch-with-label': hasLabelComponent || labelText
   }"
 >
   <button
+    #toggle="skyId"
     class="sky-toggle-switch-button"
     role="switch"
     type="button"
     skyId
     [attr.aria-checked]="checked"
-    [attr.aria-label]="ariaLabel"
-    [attr.aria-labelledby]="!ariaLabel && hasLabelComponent ? labelId : null"
+    [attr.aria-label]="labelText || ariaLabel || null"
+    [attr.aria-labelledby]="
+      !ariaLabel && (hasLabelComponent || labelText) ? labelId : null
+    "
     [disabled]="disabled"
     [ngClass]="{
       'sky-toggle-switch-checked': checked,
@@ -20,7 +23,6 @@
     [tabIndex]="tabIndex"
     (blur)="onButtonBlur()"
     (click)="onButtonClick($event)"
-    #toggle="skyId"
   >
     <div aria-hidden="true" class="sky-toggle-switch-switch">
       <i
@@ -32,17 +34,32 @@
       >
     </div>
   </button>
-  <span
-    ><label
-      *ngIf="hasLabelComponent"
-      [for]="toggle.id"
-      [attr.id]="labelId"
-      class="sky-toggle-switch-label"
-      ><ng-container *ngTemplateOutlet="labelContent"></ng-container></label
-    ><span class="sky-control-help-container"
-      ><ng-content select=".sky-control-help" /></span></span
-></span>
-
-<ng-template #labelContent>
-  <ng-content select="sky-toggle-switch-label" />
-</ng-template>
+  <span>
+    @if (hasLabelComponent || labelText) {
+      <label
+        class="sky-toggle-switch-label"
+        [for]="toggle.id"
+        [attr.id]="labelId"
+      >
+        @if (labelText) {
+          @if (!labelHidden) {
+            <span class="sky-toggle-switch-label-text">{{ labelText }}</span>
+          }
+        } @else {
+          <ng-content select="sky-toggle-switch-label" />
+        }
+      </label>
+    }
+    <span class="sky-control-help-container">
+      @if (labelText && (helpPopoverContent || helpKey)) {
+        <sky-help-inline
+          [helpKey]="helpKey"
+          [labelText]="labelText"
+          [popoverTitle]="helpPopoverTitle"
+          [popoverContent]="helpPopoverContent"
+        />
+      }
+      <ng-content select=".sky-control-help" />
+    </span>
+  </span>
+</span>

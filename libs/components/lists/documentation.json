@@ -1,0 +1,127 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "filter": {
+      "development": {
+        "docsIds": [
+          "SkyFilterModule",
+          "SkyFilterInlineComponent",
+          "SkyFilterInlineItemComponent",
+          "SkyFilterSummaryComponent",
+          "SkyFilterSummaryItemComponent",
+          "SkyFilterButtonComponent"
+        ],
+        "primaryDocsId": "SkyFilterModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyFilterButtonHarness",
+          "SkyFilterButtonHarnessFilters",
+          "SkyFilterInlineHarness",
+          "SkyFilterInlineHarnessFilters",
+          "SkyFilterInlineItemHarness",
+          "SkyFilterInlineItemHarnessFilters",
+          "SkyFilterSummaryHarness",
+          "SkyFilterSummaryHarnessFilters",
+          "SkyFilterSummaryItemHarness",
+          "SkyFilterSummaryItemHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ListsFilterInlineExampleComponent",
+          "ListsFilterModalExampleComponent"
+        ]
+      }
+    },
+    "infinite-scroll": {
+      "development": {
+        "docsIds": ["SkyInfiniteScrollModule", "SkyInfiniteScrollComponent"],
+        "primaryDocsId": "SkyInfiniteScrollModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyInfiniteScrollHarness",
+          "SkyInfiniteScrollHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["ListsInfiniteScrollRepeaterExampleComponent"]
+      }
+    },
+    "paging": {
+      "development": {
+        "docsIds": [
+          "SkyPagingModule",
+          "SkyPagingComponent",
+          "SkyPagingContentComponent",
+          "SkyPagingContentChangeArgs"
+        ],
+        "primaryDocsId": "SkyPagingModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyPagingHarness",
+          "SkyPagingHarnessFilters",
+          "SkyPagingContentHarness"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ListsPagingBasicExampleComponent",
+          "ListsPagingWithContentExampleComponent"
+        ]
+      }
+    },
+    "repeater": {
+      "development": {
+        "docsIds": [
+          "SkyRepeaterModule",
+          "SkyRepeaterComponent",
+          "SkyRepeaterItemComponent",
+          "SkyRepeaterItemTitleComponent",
+          "SkyRepeaterItemContentComponent",
+          "SkyRepeaterItemContextMenuComponent",
+          "SkyRepeaterExpandModeType"
+        ],
+        "primaryDocsId": "SkyRepeaterModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyRepeaterHarness",
+          "SkyRepeaterHarnessFilters",
+          "SkyRepeaterItemHarness",
+          "SkyRepeaterItemHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ListsRepeaterBasicExampleComponent",
+          "ListsRepeaterAddRemoveExampleComponent",
+          "ListsRepeaterInlineFormExampleComponent"
+        ]
+      }
+    },
+    "sort": {
+      "development": {
+        "docsIds": [
+          "SkySortModule",
+          "SkySortComponent",
+          "SkySortItemComponent"
+        ],
+        "primaryDocsId": "SkySortModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkySortHarness",
+          "SkySortHarnessFilters",
+          "SkySortItemHarness",
+          "SkySortItemHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["ListsSortBasicExampleComponent"]
+      }
+    }
+  }
+}

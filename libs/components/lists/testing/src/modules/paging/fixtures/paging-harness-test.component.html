@@ -1,0 +1,34 @@
+<sky-paging
+  [itemCount]="(pagedData | async)?.totalCount ?? 0"
+  [maxPages]="maxPages"
+  [pageSize]="pageSize"
+  pagingLabel="Paging label"
+  [(currentPage)]="currentPage"
+  (contentChange)="contentChange.next($event)"
+>
+  <sky-paging-content>
+    <sky-repeater>
+      @for (person of (pagedData | async)?.people; track person) {
+        <sky-repeater-item>
+          <sky-repeater-item-title>
+            {{ person.name }}
+          </sky-repeater-item-title>
+          <sky-repeater-item-content>
+            <sky-description-list>
+              <sky-description-list-content>
+                <sky-description-list-term>
+                  Formal name
+                </sky-description-list-term>
+                <sky-description-list-description>
+                  {{ person.formal }}
+                </sky-description-list-description>
+              </sky-description-list-content>
+            </sky-description-list>
+          </sky-repeater-item-content>
+        </sky-repeater-item>
+      }
+    </sky-repeater>
+  </sky-paging-content>
+</sky-paging>
+
+<sky-paging data-sky-id="other-paging"></sky-paging>

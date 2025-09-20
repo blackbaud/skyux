@@ -5,7 +5,7 @@ import {
   ElementRef,
   Input,
   OnInit,
-  Optional,
+  TemplateRef,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -29,6 +29,7 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
   selector: 'sky-angular-tree-node',
   templateUrl: './angular-tree-node.component.html',
   providers: [SkyAngularTreeAdapterService, SkyContentInfoProvider],
+  standalone: false,
 })
 export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   /**
@@ -51,6 +52,29 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
    */
   @Input()
   public templates: any;
+
+  /**
+   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is placed beside the tree node label. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
+   * as configured by the application.
+   */
+  @Input()
+  public helpKey: string | undefined;
+
+  /**
+   * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the tree node. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title.
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
 
   public set childFocusIndex(value: number | undefined) {
     if (value !== this.#_childFocusIndex) {
@@ -132,20 +156,12 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
   #_nodeName = '';
 
-  #adapterService: SkyAngularTreeAdapterService;
-  #changeDetectorRef: ChangeDetectorRef;
-  #contentInfoProvider = inject(SkyContentInfoProvider);
-  #skyAngularTreeWrapper: SkyAngularTreeWrapperComponent | undefined;
-
-  constructor(
-    changeDetectorRef: ChangeDetectorRef,
-    adapterService: SkyAngularTreeAdapterService,
-    @Optional() skyAngularTreeWrapper?: SkyAngularTreeWrapperComponent,
-  ) {
-    this.#changeDetectorRef = changeDetectorRef;
-    this.#adapterService = adapterService;
-    this.#skyAngularTreeWrapper = skyAngularTreeWrapper;
-  }
+  readonly #adapterService = inject(SkyAngularTreeAdapterService);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #contentInfoProvider = inject(SkyContentInfoProvider);
+  readonly #skyAngularTreeWrapper = inject(SkyAngularTreeWrapperComponent, {
+    optional: true,
+  });
 
   public ngOnInit(): void {
     if (!this.#skyAngularTreeWrapper) {

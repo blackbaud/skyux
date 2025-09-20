@@ -1,0 +1,80 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+@include mixins.sky-component('modern', '.sky-help-inline') {
+  font-size: var(--sky-size-icon-s);
+  line-height: 1;
+  border: none;
+  outline: none;
+  padding: var(--sky-comp-help_inline-space-inset-top)
+    var(--sky-comp-help_inline-space-inset-right)
+    var(--sky-comp-help_inline-space-inset-bottom)
+    var(--sky-comp-help_inline-space-inset-left);
+  border-radius: var(--sky-border-radius-s);
+  color: var(--sky-color-icon-action);
+  background-color: var(--sky-color-background-action-tertiary-base);
+  display: inline-block;
+  box-shadow: inset 0 0 0 var(--sky-border-width-action-base)
+    var(--sky-color-border-action-tertiary-base);
+
+  ::ng-deep {
+    .fa-stack-2x {
+      font-size: 16px;
+    }
+
+    .fa-stack-1x {
+      font-size: 10px;
+    }
+  }
+
+  &:hover {
+    background-color: var(--sky-color-background-action-tertiary-hover);
+    box-shadow: inset 0 0 0 var(--sky-border-width-action-hover)
+      var(--sky-color-border-action-tertiary-hover);
+    color: var(--sky-color-icon-action);
+    transition: color $sky-transition-time-short;
+    cursor: pointer;
+  }
+
+  &:active,
+  &.sky-btn-active {
+    background-color: var(--sky-color-background-action-tertiary-active);
+    box-shadow: inset 0 0 0 var(--sky-border-width-action-active)
+      var(--sky-color-border-action-tertiary-active);
+  }
+
+  &:focus-visible:not(:active) {
+    background-color: var(--sky-color-background-action-tertiary-focus);
+    box-shadow: inset 0 0 0 var(--sky-border-width-action-focus)
+      var(--sky-color-border-action-tertiary-focus);
+  }
+
+  &.sky-btn-disabled,
+  &[disabled] {
+    &,
+    &:hover,
+    &:focus-visible,
+    &.sky-btn-focus,
+    &:active,
+    &.sky-btn-active {
+      box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
+        var(--sky-color-border-action-tertiary-disabled);
+      background-color: var(--sky-color-background-action-tertiary-disabled);
+
+      &:focus-visible,
+      &.sky-btn-focus {
+        box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
+          var(--sky-color-border-action-tertiary-disabled);
+      }
+    }
+  }
+}
+
+@include mixins.sky-component('modern', '.sky-help-inline-hidden') {
+  display: none;
+}
+
+::ng-deep .sky-theme-modern .sky-help-inline-popover-text {
+  overflow-wrap: break-word;
+  margin: 0;
+}

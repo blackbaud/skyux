@@ -1,106 +1,196 @@
 <div class="sky-padding-even-md">
   <form novalidate [formGroup]="radioForm">
-    <div class="sky-margin-stacked-xl">
-      <sky-radio-group formControlName="radioButtonOption">
-        <label class="sky-control-label"> Radio button options </label>
-        <ul class="sky-list-unstyled">
-          <li *ngFor="let option of radioButtonOptions">
+    <sky-radio-group
+      formControlName="radioButtonOption"
+      headingStyle="3"
+      headingText="Radio button options"
+      stacked="true"
+    >
+      <ul class="sky-list-unstyled">
+        @for (option of radioButtonOptions; track option) {
+          <li>
             <sky-radio [disabled]="option.disabled" [value]="option.value">
               <sky-radio-label>
                 {{ option.name }}
-                <sky-help-inline class="sky-control-help"></sky-help-inline>
+                <sky-help-inline class="sky-control-help" />
               </sky-radio-label>
             </sky-radio>
           </li>
-        </ul>
-      </sky-radio-group>
-    </div>
-    <div class="sky-margin-stacked-xl">
-      <sky-radio-group formControlName="radioIconOption">
-        <label class="sky-control-label"> Radio icon options </label>
-        <div class="sky-switch-icon-group">
+        }
+      </ul>
+    </sky-radio-group>
+    <sky-radio-group
+      formControlName="radioIconOption"
+      headingLevel="3"
+      headingStyle="4"
+      headingText="Radio icon options"
+      stacked="true"
+    >
+      <div class="sky-switch-icon-group">
+        @for (option of radioIconOptions; track option) {
           <sky-radio
-            *ngFor="let option of radioIconOptions"
-            [icon]="option.icon"
+            [iconName]="option.iconName"
             [label]="option.label"
             [value]="option.name"
             [disabled]="option.disabled"
-          >
-          </sky-radio>
-        </div>
-      </sky-radio-group>
-    </div>
-    <div class="sky-margin-stacked-xl">
-      <sky-radio-group formControlName="disabledRadioButtonOption">
-        <label class="sky-control-label">
-          All disabled radio button options
-        </label>
-        <ul class="sky-list-unstyled">
-          <li *ngFor="let option of radioButtonOptions">
-            <sky-radio [disabled]="option.disabled" [value]="option.value">
-              <sky-radio-label>
-                {{ option.name }}
-              </sky-radio-label>
-            </sky-radio>
+          />
+        }
+      </div>
+    </sky-radio-group>
+    <sky-radio-group
+      formControlName="disabledRadioButtonOption"
+      headingLevel="4"
+      headingStyle="5"
+      headingText="All disabled radio button options"
+      stacked="true"
+    >
+      <ul class="sky-list-unstyled">
+        @for (option of radioButtonOptions; track option) {
+          <li>
+            <sky-radio
+              [disabled]="option.disabled"
+              [value]="option.value"
+              [labelText]="option.name"
+            />
           </li>
-        </ul>
-      </sky-radio-group>
-    </div>
-    <div class="sky-margin-stacked-xl">
-      <sky-radio-group formControlName="disabledIconButtonOption">
-        <label class="sky-control-label">
-          All disabled radio icon options
-        </label>
-        <div class="sky-switch-icon-group">
+        }
+      </ul>
+    </sky-radio-group>
+    <sky-radio-group
+      formControlName="disabledIconButtonOption"
+      headingLevel="5"
+      headingText="All disabled radio icon options"
+      stacked="true"
+    >
+      <div class="sky-switch-icon-group">
+        @for (option of radioIconOptions; track option) {
           <sky-radio
-            *ngFor="let option of radioIconOptions"
-            [icon]="option.icon"
+            [iconName]="option.iconName"
             [label]="option.label"
             [value]="option.name"
             [disabled]="option.disabled"
-          >
-          </sky-radio>
-        </div>
-      </sky-radio-group>
-    </div>
-    <div class="sky-margin-stacked-xl">
+          />
+        }
+      </div>
+    </sky-radio-group>
+    <sky-radio-group
+      formControlName="noDefaultRadioButtonOption"
+      [required]="true"
+      [stacked]="true"
+    >
+      <label class="sky-control-label sky-control-label-required">
+        All unselected button options
+      </label>
+      <ul class="sky-list-unstyled">
+        @for (option of radioButtonOptions; track option) {
+          <li>
+            <sky-radio
+              [disabled]="option.disabled"
+              [value]="option.value"
+              [labelText]="option.name"
+            />
+          </li>
+        }
+      </ul>
+    </sky-radio-group>
+    <sky-radio-group
+      formControlName="noDefaultRadioButtonOption"
+      hintText="Radio group hint text"
+      helpPopoverContent="This is a popover"
+      headingText="Easy mode radio group and radio button"
+      [required]="true"
+      [stacked]="true"
+    >
+      <ul class="sky-list-unstyled">
+        @for (option of radioButtonOptions; track option) {
+          <li>
+            <sky-radio
+              helpPopoverContent="content"
+              [disabled]="option.disabled"
+              [hintText]="option.hint"
+              [labelText]="option.name"
+              [value]="option.value"
+            />
+          </li>
+        }
+      </ul>
+    </sky-radio-group>
+    <sky-radio-group
+      formControlName="noDefaultRadioIconOption"
+      [required]="true"
+      [stacked]="true"
+    >
+      <label class="sky-control-label sky-control-label-required">
+        All unselected radio icon options
+      </label>
+      <div class="sky-switch-icon-group">
+        @for (option of radioIconOptions; track option) {
+          <sky-radio
+            [iconName]="option.iconName"
+            [label]="option.label"
+            [value]="option.name"
+            [disabled]="option.disabled"
+          />
+        }
+      </div>
+    </sky-radio-group>
+    <div class="invalid-radio-button-group">
       <sky-radio-group
-        formControlName="noDefaultRadioButtonOption"
-        [required]="true"
+        formControlName="invalidRadioButtonOption"
+        headingText="Radio button options with validation"
       >
-        <label class="sky-control-label sky-control-label-required">
-          All unselected button options
-        </label>
         <ul class="sky-list-unstyled">
-          <li *ngFor="let option of radioButtonOptions">
-            <sky-radio [disabled]="option.disabled" [value]="option.value">
-              <sky-radio-label>
-                {{ option.name }}
-              </sky-radio-label>
-            </sky-radio>
-          </li>
+          @for (option of radioButtonOptions; track option) {
+            <li>
+              <sky-radio [disabled]="option.disabled" [value]="option.value">
+                <sky-radio-label>
+                  {{ option.name }}
+                  <sky-help-inline class="sky-control-help" />
+                </sky-radio-label>
+              </sky-radio>
+            </li>
+          }
         </ul>
+        @if (invalidRadioButtonOption.errors?.['incorrectOption']) {
+          <sky-form-error
+            errorName="incorrectOption"
+            errorText="Option 1 is incorrect."
+          />
+        }
       </sky-radio-group>
     </div>
-    <div class="sky-margin-stacked-xl">
-      <sky-radio-group
-        formControlName="noDefaultRadioIconOption"
-        [required]="true"
-      >
-        <label class="sky-control-label sky-control-label-required">
-          All unselected radio icon options
-        </label>
-        <div class="sky-switch-icon-group">
-          <sky-radio
-            *ngFor="let option of radioIconOptions"
-            [icon]="option.icon"
-            [label]="option.label"
-            [value]="option.name"
-            [disabled]="option.disabled"
-          >
-          </sky-radio>
-        </div>
-      </sky-radio-group>
-    </div>
+    <sky-radio-group
+      formControlName="radioButtonOption"
+      headingStyle="3"
+      headingText="Radio button group outside of unordered list"
+      stacked="true"
+    >
+      @for (option of radioButtonOptions; track option) {
+        <sky-radio [disabled]="option.disabled" [value]="option.value">
+          <sky-radio-label>
+            {{ option.name }}
+            <sky-help-inline class="sky-control-help" />
+          </sky-radio-label>
+        </sky-radio>
+      }
+    </sky-radio-group>
+    <sky-radio-group
+      formControlName="noDefaultRadioButtonOption"
+      hintText="Radio group hint text"
+      helpPopoverContent="This is a popover"
+      headingText="Easy mode outside of unordered list"
+      [required]="true"
+      [stacked]="true"
+    >
+      @for (option of radioButtonOptions; track option) {
+        <sky-radio
+          helpPopoverContent="content"
+          [disabled]="option.disabled"
+          [hintText]="option.hint"
+          [labelText]="option.name"
+          [value]="option.value"
+        />
+      }
+    </sky-radio-group>
   </form>
 </div>

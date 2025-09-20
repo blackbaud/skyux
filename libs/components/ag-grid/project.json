@@ -54,11 +54,11 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "libs/components/ag-grid/src/**/*.ts",
-          "libs/components/ag-grid/src/**/*.html"
+          "{projectRoot}/src/**/*.ts",
+          "{projectRoot}/src/**/*.html"
         ]
       }
     },
@@ -69,5 +69,6 @@
       }
     }
   },
+  "implicitDependencies": ["phone-field", "validation"],
   "tags": ["component", "npm"]
 }

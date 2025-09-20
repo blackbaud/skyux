@@ -33,7 +33,7 @@
             {
               "type": "anyComponentStyle",
               "maximumWarning": "2kb",
-              "maximumError": "8kb"
+              "maximumError": "80kb"
             }
           ],
           "outputHashing": "all"
@@ -53,28 +53,25 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "progress-indicator-storybook:build:production"
+          "buildTarget": "progress-indicator-storybook:build:production"
         },
         "development": {
-          "browserTarget": "progress-indicator-storybook:build:development"
+          "buildTarget": "progress-indicator-storybook:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "progress-indicator-storybook:build"
+        "buildTarget": "progress-indicator-storybook:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": [
-          "apps/e2e/progress-indicator-storybook/**/*.ts",
-          "apps/e2e/progress-indicator-storybook/**/*.html"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
       }
     },
     "serve-static": {

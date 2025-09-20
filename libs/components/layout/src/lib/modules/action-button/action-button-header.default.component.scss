@@ -1,0 +1,20 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include mixins.sky-component(
+  'default',
+  '.sky-action-button-header',
+  true,
+  'xs'
+) {
+  margin: 0 $sky-margin-half;
+}
+
+@include mixins.sky-component(
+  'default',
+  '.sky-action-button-header',
+  true,
+  'sm'
+) {
+  margin: 0 0 $sky-margin-double;
+}

@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { ActionHubComponent } from './action-hub.component';
 import { ActionHubModule } from './action-hub.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<ActionHubComponent>;
-const Template: Story<ActionHubComponent> = (args: ActionHubComponent) => ({
-  props: args,
-});
-export const ActionHub = Template.bind({});
+type Story = StoryObj<ActionHubComponent>;
+export const ActionHub: Story = {};
 ActionHub.args = {};

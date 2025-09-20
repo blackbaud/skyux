@@ -1,0 +1,50 @@
+<sky-page>
+  <form [formGroup]="formGroup">
+    <sky-input-box labelText="Documentation group" stacked>
+      <select
+        formControlName="documentationGroup"
+        (change)="onGroupChange($event)"
+      >
+        <option value="">Select a documentation group...</option>
+        <option value="foo | @skyux/theme">(test for invalid inputs)</option>
+        @for (group of documentationGroups; track group) {
+          <option [value]="group">
+            {{ group }}
+          </option>
+        }
+      </select>
+    </sky-input-box>
+  </form>
+
+  @if (groupName(); as groupName) {
+    @if (packageName(); as packageName) {
+      <sky-docs-showcase [groupName]="groupName" [packageName]="packageName">
+        <sky-docs-showcase-area-overview>
+          <sky-docs-heading-anchor anchorId="usage" headingText="Usage" />
+          <p>
+            This content should only appear in the "overview" (or "design")
+            section.
+          </p>
+        </sky-docs-showcase-area-overview>
+
+        <sky-docs-showcase-area-development>
+          <sky-docs-heading-anchor
+            anchorId="overview"
+            headingText="Getting started"
+          />
+
+          <p>This extra content should only appear in the "development" tab.</p>
+        </sky-docs-showcase-area-development>
+
+        <sky-docs-showcase-area-testing>
+          <sky-docs-heading-anchor
+            anchorId="overview"
+            headingText="Getting started"
+          />
+
+          <p>This extra content should only appear in the "testing" tab.</p>
+        </sky-docs-showcase-area-testing>
+      </sky-docs-showcase>
+    }
+  }
+</sky-page>

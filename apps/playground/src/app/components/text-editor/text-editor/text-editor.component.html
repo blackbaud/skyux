@@ -12,25 +12,30 @@
 <div class="sky-padding-even-large">
   <h1>Text editor</h1>
   <form [formGroup]="myForm">
-    <div id="screenshot-text-editor">
-      <sky-text-editor
-        formControlName="textEditor"
-        name="text-editor"
-        [autofocus]="true"
-        [menus]="menus"
-        [mergeFields]="mergeFields"
-        [linkWindowOptions]="linkWindowOptions"
-        [placeholder]="placeholder"
-        [toolbarActions]="toolbarActions"
-      >
-      </sky-text-editor>
-    </div>
+    <sky-text-editor
+      formControlName="textEditor"
+      helpKey="helpKey.html"
+      helpPopoverContent="This is some helpful content."
+      helpPopoverTitle="Did you know?"
+      hintText="Hint text"
+      stacked
+      [menus]="menus"
+      [mergeFields]="mergeFields"
+      [labelText]="labelText"
+      [linkWindowOptions]="linkWindowOptions"
+      [placeholder]="placeholder"
+      [toolbarActions]="toolbarActions"
+    />
 
     <h2>Angular form control values</h2>
     <table>
       <tr>
         <th>Disabled</th>
         <td>{{ textEditorControl.disabled }}</td>
+      </tr>
+      <tr>
+        <th>Errors</th>
+        <td>{{ textEditorControl.errors | json }}</td>
       </tr>
       <tr>
         <th>Pristine</th>
@@ -55,10 +60,8 @@
     </table>
 
     <h2>Preview HTML</h2>
-    <div
-      *ngIf="displayValue"
-      class="content-display"
-      [innerHTML]="displayValue"
-    ></div>
+    @if (displayValue) {
+      <div class="content-display" [innerHTML]="displayValue"></div>
+    }
   </form>
 </div>

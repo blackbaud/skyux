@@ -5,6 +5,7 @@ import { SkySearchComponent } from '../search.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './search.component.fixture.html',
+  standalone: false,
 })
 export class SearchTestComponent {
   @ViewChild(SkySearchComponent, {
@@ -27,10 +28,10 @@ export class SearchTestComponent {
   public lastSearchTextApplied: string | undefined;
   public lastSearchTextChanged: string | undefined;
 
-  public searchApplied(searchText: string) {
+  public searchApplied(searchText: string): void {
     this.lastSearchTextApplied = searchText;
   }
-  public searchChanged(searchText: string) {
+  public searchChanged(searchText: string): void {
     this.lastSearchTextChanged = searchText;
   }
 }

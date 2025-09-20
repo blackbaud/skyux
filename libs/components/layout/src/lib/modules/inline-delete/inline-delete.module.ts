@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyWaitModule } from '@skyux/indicators';
 
@@ -8,7 +7,7 @@ import { SkyInlineDeleteComponent } from './inline-delete.component';
 
 @NgModule({
   declarations: [SkyInlineDeleteComponent],
-  imports: [CommonModule, SkyLayoutResourcesModule, SkyWaitModule],
+  imports: [SkyLayoutResourcesModule, SkyWaitModule],
   exports: [SkyInlineDeleteComponent],
 })
 export class SkyInlineDeleteModule {}

@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
       <ng-content />
     </div>
   `,
+  standalone: false,
 })
 export class SplitViewMockComponent {}

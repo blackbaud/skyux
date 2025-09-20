@@ -14,6 +14,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -56,6 +57,7 @@ import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-n
   providers: [SkyLookupAdapterService],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyLookupComponent
   extends SkyLookupAutocompleteAdapter
@@ -66,6 +68,7 @@ export class SkyLookupComponent
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input includes a visible label, use `ariaLabelledBy` instead.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * @deprecated Use the input box `labelText` input instead.
    */
   @Input()
   public ariaLabel: string | undefined;
@@ -76,12 +79,13 @@ export class SkyLookupComponent
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input does not include a visible label, use `ariaLabel` instead.
    * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
+   * @deprecated Use the input box `labelText` input instead.
    */
   @Input()
   public ariaLabelledBy: string | undefined;
 
   /**
-   * The value for the `autocomplete` attribute on the form input.
+   * The value to provide to the `autocomplete` attribute on the form input.
    * @default 'off'
    * @deprecated SKY UX only supports browser autofill on components where the direct input matches the return value. This input may not behave as expected due to the dropdown selection interaction.
    */
@@ -90,9 +94,11 @@ export class SkyLookupComponent
 
   /**
    * The data source for the lookup component to search when users
-   * enter text. You can specify static data such as an array of objects, or
+   * enter text. You can specify static data, such as an array of objects, or
    * you can pull data from a database.
+   *
    * @default []
+   * @deprecated Use the `searchAsync` event emitter and callback instead to provide data to the lookup component.
    */
   @Input()
   public set data(value: any[] | undefined) {
@@ -112,27 +118,29 @@ export class SkyLookupComponent
    * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
-  @Input()
-  public set disabled(value: boolean | undefined) {
-    this.#_disabled = value ?? false;
+  @Input({ transform: booleanAttribute })
+  public disabled = false;
+
+  /**
+   * Whether the lookup field is required.
+   * @default false
+   */
+  @Input({ transform: booleanAttribute })
+  public set required(value: boolean) {
+    this.#_required = value;
+    this.inputBoxHostSvc?.setRequired(value);
   }
 
-  public get disabled(): boolean {
-    return this.#_disabled;
+  public get required(): boolean {
+    return this.#_required;
   }
 
   /**
    * Whether to enable users to open a picker where they can view all options.
    * @default false
    */
-  @Input()
-  public set enableShowMore(value: boolean | undefined) {
-    this.#_enableShowMore = value ?? false;
-  }
-
-  public get enableShowMore(): boolean {
-    return this.#_enableShowMore;
-  }
+  @Input({ transform: booleanAttribute })
+  public enableShowMore = false;
 
   /**
    * Placeholder text to display in the lookup field.
@@ -152,14 +160,8 @@ export class SkyLookupComponent
    * Whether to display a button that lets users add options to the list.
    * @default false
    */
-  @Input()
-  public set showAddButton(value: boolean | undefined) {
-    this.#_showAddButton = value ?? false;
-  }
-
-  public get showAddButton(): boolean {
-    return this.#_showAddButton;
-  }
+  @Input({ transform: booleanAttribute })
+  public showAddButton = false;
 
   /**
    * Configuration options for the picker that displays all options.
@@ -180,10 +182,12 @@ export class SkyLookupComponent
     this.#updateForSelectMode();
 
     if (multipleToSingle) {
-      if (this.value && this.value.length > 1) {
+      const value = this.#getValue();
+
+      if (value?.length > 1) {
         // The `setTimeout` is needed to avoid a `ExpressionChangedAfterItHasBeenCheckedError` error in template forms.
         setTimeout(() => {
-          this.writeValue([this.value[0]]);
+          this.#setValue([value[0]], { emitEvent: true });
           this.#changeDetector.detectChanges();
         });
       }
@@ -204,8 +208,7 @@ export class SkyLookupComponent
    * Fires when users select the button to add options to the list.
    */
   @Output()
-  public addClick: EventEmitter<SkyLookupAddClickEventArgs> =
-    new EventEmitter();
+  public addClick = new EventEmitter<SkyLookupAddClickEventArgs>();
 
   /**
    * @internal
@@ -213,15 +216,23 @@ export class SkyLookupComponent
   @Output()
   public openChange = new EventEmitter<boolean>();
 
+  /**
+   * @internal
+   */
+  @Output()
+  public selectionModalOpenChange = new EventEmitter<boolean>();
+
   public get tokens(): SkyToken[] | undefined {
     return this.#_tokens;
   }
 
-  public set tokens(value: SkyToken[] | undefined) {
+  public set tokens(tokens: SkyToken[] | undefined) {
+    const value = this.#getValue();
+
     // Collapse the tokens into a single token if the user has selected many options.
-    if (this.enableShowMore && this.value.length > 5) {
+    if (this.enableShowMore && value.length > 5) {
       this.#resourcesService
-        .getString('skyux_lookup_tokens_summary', this.value.length.toString())
+        .getString('skyux_lookup_tokens_summary', value.length.toString())
         .pipe(take(1))
         .subscribe((label) => {
           this.#_tokens = [
@@ -232,24 +243,18 @@ export class SkyLookupComponent
           this.#changeDetector.markForCheck();
         });
     } else {
-      this.#_tokens = value;
+      this.#_tokens = tokens;
       this.#changeDetector.markForCheck();
     }
   }
 
+  /**
+   * @internal
+   * @deprecated This is exposed for unit tests only; refactor unit tests to
+   * derive the control value a different way.
+   */
   public get value(): any[] {
-    return this.#_value ? this.#_value : [];
-  }
-
-  public set value(newValue: any[]) {
-    this.#_value = newValue;
-
-    if (!this.#pickerModalOpen()) {
-      this.tokens = this.#parseTokens(newValue);
-    }
-
-    this.onChange(this.#_value);
-    this.onTouched();
+    return this.#getValue();
   }
 
   public autocompleteController = new Subject<SkyAutocompleteMessage>();
@@ -293,24 +298,18 @@ export class SkyLookupComponent
   })
   public lookupWrapperRef: ElementRef | undefined;
 
-  @ViewChild('searchIconTemplateRef', {
-    read: TemplateRef,
-    static: true,
-  })
-  public searchIconTemplateRef: TemplateRef<unknown> | undefined;
-
   #idle = new Subject<void>();
   #markForTokenFocusOnKeyUp = false;
   #ngUnsubscribe = new Subject<void>();
+  #notifyChange: ((value: any[]) => void) | undefined;
+  #notifyTouched: (() => void) | undefined;
   #openNativePicker: SkyModalInstance | undefined;
   #openSelectionModal: SkySelectionModalInstance | undefined;
+  #_required = false;
 
   #_autocompleteInputDirective: SkyAutocompleteInputDirective | undefined;
   #_data: any[] | undefined;
-  #_disabled = false;
-  #_enableShowMore = false;
   #_selectMode: SkyLookupSelectModeType | undefined;
-  #_showAddButton = false;
   #_tokens: SkyToken[] | undefined;
   #_value: any[] | undefined;
 
@@ -323,6 +322,24 @@ export class SkyLookupComponent
   readonly #resourcesService = inject(SkyLibResourcesService);
   readonly #selectionModalSvc = inject(SkySelectionModalService);
   readonly #windowRef = inject(SkyAppWindowRef);
+
+  #getValue(): any[] {
+    return this.#_value ? this.#_value : [];
+  }
+
+  #setValue(newValue: any[], options: { emitEvent: boolean }): void {
+    this.#_value = newValue;
+
+    if (this.selectMode === 'multiple' && !this.#pickerModalOpen()) {
+      this.tokens = this.#parseTokens(newValue);
+    }
+
+    if (options.emitEvent) {
+      this.#notifyChange?.(this.#_value);
+    }
+
+    this.#updateForSelectMode();
+  }
 
   constructor(
     @Self() @Optional() ngControl?: NgControl,
@@ -346,10 +363,9 @@ export class SkyLookupComponent
         buttonsTemplate: this.enableShowMore
           ? this.showMoreButtonTemplateRef
           : undefined,
-        iconsInsetTemplate: this.enableShowMore
-          ? undefined
-          : this.searchIconTemplateRef,
       });
+
+      this.inputBoxHostSvc?.setRequired(this.required);
     } else {
       this.controlId = this.#idService.generateId();
     }
@@ -391,16 +407,15 @@ export class SkyLookupComponent
   public onAutocompleteSelectionChange(
     change: SkyAutocompleteSelectionChange,
   ): void {
-    /* istanbul ignore else */
     if (change.selectedItem) {
       this.#addToSelected(change.selectedItem);
-    } else if (this.selectMode === 'single') {
-      this.writeValue([]);
+    } else {
+      this.#setValue([], { emitEvent: true });
     }
   }
 
   public onAutocompleteBlur(): void {
-    this.onTouched();
+    this.#notifyTouched?.();
   }
 
   public onTokensChange(change: SkyToken[]): void {
@@ -413,14 +428,12 @@ export class SkyLookupComponent
         this.#focusInput();
       }
 
-      // NOTE: We do this here instead of just using the `value` setter because we need to use the
-      // set of tokens returned here for the purposes of setting focus (see `onTokensKeyUp`).
-      this.#_value = change.map((token) => {
+      this.tokens = change;
+      const value = change.map((token) => {
         return token.value;
       });
-      this.tokens = change;
-      this.onChange(this.#_value);
-      this.onTouched();
+
+      this.#setValue(value, { emitEvent: true });
     }
   }
 
@@ -460,22 +473,15 @@ export class SkyLookupComponent
 
   public writeValue(value: any[]): void {
     // Since we are dealing with arrays - clone the array being sent in to ensure we aren't modifying a consumers outer array
-    this.value = value ? value.slice() : [];
-    this.#updateForSelectMode();
+    this.#setValue(value ? value.slice() : [], { emitEvent: false });
   }
 
-  // Angular automatically constructs these methods.
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public onChange = (value: any[]) => {};
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public onTouched = () => {};
-
-  public registerOnChange(fn: (value: any) => void) {
-    this.onChange = fn;
+  public registerOnChange(fn: (value: any[]) => void): void {
+    this.#notifyChange = fn;
   }
 
   public registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
+    this.#notifyTouched = fn;
   }
 
   // Allows Angular to disable the input.
@@ -590,10 +596,11 @@ export class SkyLookupComponent
       this.showMoreConfig.customPicker.open({
         items: this.data,
         initialSearch,
-        initialValue: this.value,
+        initialValue: this.#getValue(),
       });
     } else {
-      const initialValue = this.value;
+      const initialValue = this.#getValue();
+      this.selectionModalOpenChange.emit(true);
 
       if (this.#hasSearchAsync()) {
         this.#openSelectionModal =
@@ -607,6 +614,7 @@ export class SkyLookupComponent
               ? closeArgs.selectedItems
               : initialValue,
           );
+          this.selectionModalOpenChange.emit(false);
         });
       } else {
         this.#openNativePicker =
@@ -638,6 +646,7 @@ export class SkyLookupComponent
           }
 
           this.#processPickerResult(selectedItems);
+          this.selectionModalOpenChange.emit(false);
         });
 
         this.#changeDetector.markForCheck();
@@ -653,10 +662,14 @@ export class SkyLookupComponent
     }
   }
 
+  protected onFocus($event: FocusEvent): void {
+    ($event.target as HTMLTextAreaElement).select();
+  }
+
   #createSelectionModalInstance(
     initialSearch: string,
   ): SkySelectionModalInstance {
-    const initialValue = this.value;
+    const initialValue = this.#getValue();
     const modalConfig = this.showMoreConfig?.nativePickerConfig || {};
 
     if (!modalConfig.itemTemplate) {
@@ -699,7 +712,7 @@ export class SkyLookupComponent
   }
 
   #createNativePickerInstance(initialSearch: string): SkyModalInstance {
-    const initialValue = this.value;
+    const initialValue = this.#getValue();
     const modalConfig = this.showMoreConfig?.nativePickerConfig || {};
 
     if (!modalConfig.itemTemplate) {
@@ -746,7 +759,7 @@ export class SkyLookupComponent
     /* istanbul ignore next */
     selectedItems = selectedItems || [];
 
-    this.writeValue(selectedItems);
+    this.#setValue(selectedItems, { emitEvent: true });
     this.#focusInput();
     this.#changeDetector.markForCheck();
   }
@@ -756,19 +769,21 @@ export class SkyLookupComponent
   }
 
   #addToSelected(item: any): void {
+    const value = this.#getValue();
+
     let selectedItems: any[];
 
     if (this.selectMode === 'single') {
       selectedItems = [item];
     } else {
-      selectedItems = this.value;
+      selectedItems = value;
 
       const idProperty = this.idProperty || '';
 
       // If items have a unique identifier, don't allow the same item to be added twice.
       if (
         !this.idProperty ||
-        !this.value.some(
+        !value.some(
           (existingItem) => existingItem[idProperty] === item[idProperty],
         )
       ) {
@@ -778,7 +793,7 @@ export class SkyLookupComponent
       this.clearSearchText();
     }
 
-    this.writeValue(selectedItems);
+    this.#setValue(selectedItems, { emitEvent: true });
   }
 
   #addEventListeners(): void {
@@ -874,11 +889,13 @@ export class SkyLookupComponent
       }
 
       if (addItemToValue) {
+        const oldValue = this.#getValue();
         const newValue =
           this.selectMode === 'multiple'
-            ? this.value.concat(args.item)
+            ? oldValue.concat(args.item)
             : [args.item];
-        this.writeValue(newValue);
+
+        this.#setValue(newValue, { emitEvent: true });
       }
     }
   }
@@ -902,7 +919,8 @@ export class SkyLookupComponent
   #updateForSelectMode(): void {
     if (this.autocompleteInputDirective) {
       if (this.selectMode === 'single') {
-        this.autocompleteInputDirective.value = this.value && this.value[0];
+        const value = this.#getValue();
+        this.autocompleteInputDirective.value = value && value[0];
       } else {
         this.clearSearchText();
       }

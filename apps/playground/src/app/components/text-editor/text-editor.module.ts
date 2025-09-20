@@ -16,6 +16,18 @@ const routes: Routes = [
         (m) => m.TextEditorModule,
       ),
   },
+  {
+    path: 'text-editor-series',
+    loadComponent: () =>
+      import('./text-editor-series/text-editor-series.component').then(
+        (m) => m.TextEditorSeriesComponent,
+      ),
+    data: {
+      name: 'Text editor looped',
+      icon: 'notepad-edit',
+      library: 'text-editor',
+    },
+  },
 ];
 
 @NgModule({

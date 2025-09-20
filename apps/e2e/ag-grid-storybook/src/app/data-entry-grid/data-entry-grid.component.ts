@@ -8,7 +8,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-import { FontLoadingService } from '@skyux/storybook';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -23,17 +22,24 @@ import { delay, filter, map } from 'rxjs/operators';
 import { columnDefinitions, data } from '../shared/baseball-players-data';
 import { InlineHelpComponent } from '../shared/inline-help/inline-help.component';
 
-type DataSet = { id: string; data: any[] };
+interface DataSet {
+  id: string;
+  data: any[];
+}
 
 @Component({
   selector: 'app-data-entry-grid',
   templateUrl: './data-entry-grid.component.html',
   styleUrls: ['./data-entry-grid.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class DataEntryGridComponent
   implements AfterViewInit, OnInit, OnDestroy
 {
+  @Input()
+  public compact = false;
+
   public variationId: 'date-and-lookup' | 'edit-lookup' | undefined;
 
   /**
@@ -50,6 +56,7 @@ export class DataEntryGridComponent
           { id: 'editDateWithCalendar', data: data.slice(6, 15) },
           { id: 'editDate', data: data.slice(3, 6) },
           { id: 'editLookup', data: data.slice(0, 3) },
+          { id: 'checkboxes', data: data.slice(0, 3) },
         ];
         break;
       case 'edit-lookup':
@@ -65,7 +72,7 @@ export class DataEntryGridComponent
   }
 
   public dataSets: DataSet[] | undefined;
-  public gridOptions: { [_: string]: GridOptions } = {};
+  public gridOptions: Record<string, GridOptions> = {};
   public isActive$ = new BehaviorSubject(true);
   public addPreviewWrapper$ = new BehaviorSubject(false);
   public ready = new BehaviorSubject(false);
@@ -77,19 +84,16 @@ export class DataEntryGridComponent
   readonly #themeSvc: SkyThemeService;
   readonly #changeDetectorRef: ChangeDetectorRef;
   readonly #ngUnsubscribe: Subscription;
-  readonly #fontLoadingService: FontLoadingService;
 
   constructor(
     agGridService: SkyAgGridService,
     themeSvc: SkyThemeService,
     changeDetectorRef: ChangeDetectorRef,
-    fontLoadingService: FontLoadingService,
   ) {
     this.#agGridService = agGridService;
     this.#themeSvc = themeSvc;
     this.#changeDetectorRef = changeDetectorRef;
     this.#ngUnsubscribe = new Subscription();
-    this.#fontLoadingService = fontLoadingService;
   }
 
   public ngOnInit(): void {
@@ -109,7 +113,6 @@ export class DataEntryGridComponent
       'theme',
       this.#themeSvc.settingsChange.pipe(map(() => true)),
     );
-    this.#gridsReady.set('font', this.#fontLoadingService.ready());
     this.#ngUnsubscribe.add(
       this.#themeSvc.settingsChange.subscribe((settings) => {
         if (settings.currentSettings.theme.name === 'modern' && this.dataSets) {
@@ -151,37 +154,43 @@ export class DataEntryGridComponent
           break;
         default:
           columnDefs = [
-            ...columnDefinitions.slice(0, 5).map((colDef) => {
-              if (
-                dataSet.id.startsWith('editLookup') &&
-                colDef.field === 'name'
-              ) {
+            ...columnDefinitions
+              .slice(0, dataSet.id === 'checkboxes' ? 500 : 5)
+              .map((colDef) => {
+                if (
+                  dataSet.id.startsWith('editLookup') &&
+                  colDef.field === 'name'
+                ) {
+                  return {
+                    ...colDef,
+                    editable: true,
+                    initialHide: dataSet.id === 'checkboxes',
+                    type: SkyCellType.Lookup,
+                    cellEditorParams: {
+                      skyComponentProperties: {
+                        data: this.#nameLookupData,
+                        idProperty: 'id',
+                        descriptorProperty: 'name',
+                        selectMode: dataSet.id.endsWith('Multiple')
+                          ? 'multiple'
+                          : 'single',
+                      },
+                    },
+                    cellRendererParams: {
+                      skyComponentProperties: {
+                        descriptorProperty: 'name',
+                      },
+                    },
+                  };
+                }
                 return {
                   ...colDef,
-                  editable: true,
-                  type: SkyCellType.Lookup,
-                  cellEditorParams: {
-                    skyComponentProperties: {
-                      data: this.#nameLookupData,
-                      idProperty: 'id',
-                      descriptorProperty: 'name',
-                      selectMode: dataSet.id.endsWith('Multiple')
-                        ? 'multiple'
-                        : 'single',
-                    },
-                  },
-                  cellRendererParams: {
-                    skyComponentProperties: {
-                      descriptorProperty: 'name',
-                    },
-                  },
+                  editable: !['cya', '500hr'].includes(colDef.field ?? ''),
+                  initialHide:
+                    dataSet.id === 'checkboxes' &&
+                    colDef.cellClass !== 'booleanType',
                 };
-              }
-              return {
-                ...colDef,
-                editable: colDef.field !== 'cya',
-              };
-            }),
+              }),
           ];
       }
       this.gridOptions[dataSet.id] = this.#agGridService.getGridOptions({
@@ -191,12 +200,14 @@ export class DataEntryGridComponent
           suppressColumnVirtualisation: true,
           suppressHorizontalScroll: true,
           suppressRowVirtualisation: true,
+          alwaysShowHorizontalScroll: true,
+          alwaysShowVerticalScroll: true,
           onFirstDataRendered: () => {
             (this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>).next(
               true,
             );
           },
-          rowData: (() => {
+          rowData: ((): any[] => {
             if (dataSet.id.startsWith('editLookup')) {
               return dataSet.data.map((player) => {
                 return {

@@ -1,6 +1,7 @@
-<ng-container *ngFor="let item of itemsForDisplay">
-  <ng-container *ngIf="item.text">{{ item.text }}</ng-container>
-  <ng-container *ngIf="!item.text && item.templateRef">
-    <ng-container *ngTemplateOutlet="item.templateRef"></ng-container>
-  </ng-container>
-</ng-container>
+@for (item of itemsForDisplay; track item) {
+  @if (item.text) {
+    <ng-container>{{ item.text }}</ng-container>
+  } @else if (item.templateRef) {
+    <ng-container *ngTemplateOutlet="item.templateRef" />
+  }
+}

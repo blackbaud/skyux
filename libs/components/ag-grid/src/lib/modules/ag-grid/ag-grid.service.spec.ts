@@ -1,5 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 import { SkyDateService } from '@skyux/datetime';
 import {
   SkyTheme,
@@ -10,13 +11,14 @@ import {
 } from '@skyux/theme';
 
 import {
-  Beans,
+  AgColumn,
+  BeanCollection,
   CellClassParams,
   CellFocusedEvent,
-  ColumnApi,
   GetRowIdParams,
   GridApi,
   GridOptions,
+  ICellRendererParams,
   RowClassParams,
   RowNode,
   SuppressHeaderKeyboardEventParams,
@@ -24,13 +26,11 @@ import {
   ValueFormatterFunc,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import { ICellRendererParams } from 'ag-grid-community/dist/lib/rendering/cellRenderers/iCellRenderer';
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
-import { SkyAgGridModule } from './ag-grid.module';
 import { SkyAgGridService } from './ag-grid.service';
-import { SkyAgGridFixtureComponent } from './fixtures/ag-grid.component.fixture';
+import { SkyAgGridHeaderComponent } from './header/header.component';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 
@@ -43,6 +43,7 @@ describe('SkyAgGridService', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
+  let dateService: jasmine.SpyObj<SkyDateService>;
 
   beforeEach(() => {
     mockThemeSvc = {
@@ -54,6 +55,10 @@ describe('SkyAgGridService', () => {
         previousSettings: undefined,
       }),
     };
+    dateService = jasmine.createSpyObj<SkyDateService>('SkyDateService', [
+      'format',
+    ]);
+    (dateService.format as jasmine.Spy).and.returnValue('FORMATTED_DATE');
 
     TestBed.configureTestingModule({
       providers: [
@@ -65,7 +70,7 @@ describe('SkyAgGridService', () => {
         },
         {
           provide: SkyDateService,
-          useValue: { format: () => 'FORMATTED_DATE' },
+          useValue: dateService,
         },
       ],
     });
@@ -91,9 +96,7 @@ describe('SkyAgGridService', () => {
         gridOptions: overrideGridOptions,
       });
 
-      expect(defaultGridOptions.headerHeight).not.toEqual(newHeight);
       expect(defaultGridOptions.rowHeight).not.toEqual(newHeight);
-      expect(mergedGridOptions.headerHeight).toEqual(newHeight);
       expect(mergedGridOptions.rowHeight).toEqual(newHeight);
     });
 
@@ -205,36 +208,12 @@ describe('SkyAgGridService', () => {
       expect(mergedCellClassRules?.[SkyCellClass.Uneditable]).toBeDefined();
     });
 
-    it('should set rowHeight and headerHeight for modern theme', () => {
-      // Trigger change to modern theme
-      mockThemeSvc.settingsChange.next({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings:
-          mockThemeSvc.settingsChange.getValue().currentSettings,
-      });
-
-      const modernThemeGridOptions = agGridService.getGridOptions({
+    it('should set icons for modern theme', () => {
+      const options = agGridService.getGridOptions({
         gridOptions: {},
       });
 
-      expect(modernThemeGridOptions.rowHeight).toBe(60);
-      expect(modernThemeGridOptions.headerHeight).toBe(60);
-      expect(typeof modernThemeGridOptions.icons?.['sortDescending']).toBe(
-        'function',
-      );
-      expect(
-        (modernThemeGridOptions.icons?.['sortDescending'] as Function)(),
-      ).toBe(`<i aria-hidden="true" class="sky-i-chevron-down"></i>`);
-    });
-
-    it('should unsubscribe from the theme service when destroyed', () => {
-      const overrideOptions = { gridOptions: {} };
-      let gridOptions = agGridService.getGridOptions(overrideOptions);
-
-      expect(gridOptions.rowHeight).toBe(38);
+      expect(typeof options.icons?.['sortDescending']).toBe('function');
 
       // Trigger change to modern theme
       mockThemeSvc.settingsChange.next({
@@ -246,46 +225,41 @@ describe('SkyAgGridService', () => {
           mockThemeSvc.settingsChange.getValue().currentSettings,
       });
 
-      // Get new grid options after theme change
-      gridOptions = agGridService.getGridOptions(overrideOptions);
-      expect(gridOptions.rowHeight).toBe(60);
+      expect((options.icons?.['sortDescending'] as () => string)()).toBe(
+        `<svg height="16" width="16"><use xlink:href="#sky-i-chevron-down-16-solid"></use></svg>`,
+      );
+    });
 
-      // Destroy subscription
-      agGridService.ngOnDestroy();
-
-      // Trigger change to default theme
+    it('should set options for modern theme', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.default,
+          SkyTheme.presets.modern,
           SkyThemeMode.presets.light,
         ),
         previousSettings:
           mockThemeSvc.settingsChange.getValue().currentSettings,
       });
 
-      // Get new grid options after theme change, but expect heights have not changed
-      gridOptions = agGridService.getGridOptions(overrideOptions);
-      expect(gridOptions.rowHeight).toBe(60);
+      const options = agGridService.getEditableGridOptions({
+        gridOptions: {},
+      });
+
+      expect(options.columnTypes?.[SkyCellType.Date].minWidth).toBe(180);
     });
 
-    it('should respect the value of the deprecated `frameworkComponents` property', () => {
-      const options = agGridService.getGridOptions({
+    it('should disable checkboxes if row selection is enabled', () => {
+      const editableGridOptions = agGridService.getEditableGridOptions({
         gridOptions: {
-          frameworkComponents: {
-            frameworkFoo: 'framework-bar',
+          rowSelection: {
+            mode: 'singleRow',
           },
         },
       });
 
-      expect(Object.keys(options.frameworkComponents)).toEqual([
-        'frameworkFoo',
-      ]);
-
-      expect(Object.keys(options.components as string[])).toEqual([
-        'sky-ag-grid-cell-renderer-currency',
-        'sky-ag-grid-cell-renderer-currency-validator',
-        'sky-ag-grid-cell-renderer-validator-tooltip',
-      ]);
+      expect(editableGridOptions.rowSelection).toEqual({
+        checkboxes: false,
+        mode: 'singleRow',
+      });
     });
 
     it('should not overwrite default component definitions', () => {
@@ -303,6 +277,78 @@ describe('SkyAgGridService', () => {
         'sky-ag-grid-cell-renderer-currency-validator',
         'sky-ag-grid-cell-renderer-validator-tooltip',
       ]);
+    });
+
+    it('should capture enableCellTextSelection in context', () => {
+      const optionsWithoutSettingEnableCellTextSelection =
+        agGridService.getGridOptions({
+          gridOptions: {},
+        });
+      expect(
+        optionsWithoutSettingEnableCellTextSelection.context
+          ?.enableCellTextSelection,
+      ).toBeTrue();
+
+      const optionsWhenSettingEnableCellTextSelectionTrue =
+        agGridService.getGridOptions({
+          gridOptions: {
+            enableCellTextSelection: true,
+          },
+        });
+      expect(
+        optionsWhenSettingEnableCellTextSelectionTrue.context
+          ?.enableCellTextSelection,
+      ).toBeTrue();
+
+      const optionsWhenSettingEnableCellTextSelectionFalse =
+        agGridService.getGridOptions({
+          gridOptions: {
+            enableCellTextSelection: false,
+          },
+        });
+      expect(
+        optionsWhenSettingEnableCellTextSelectionFalse.context
+          ?.enableCellTextSelection,
+      ).toBeFalsy();
+    });
+
+    it('should update selection options', () => {
+      expect(
+        agGridService.getGridOptions({
+          gridOptions: { enableRangeSelection: true, rowSelection: 'multiple' },
+        }),
+      ).toEqual(
+        jasmine.objectContaining({
+          cellSelection: true,
+          rowSelection: {
+            mode: 'multiRow',
+            enableClickSelection: false,
+            enableSelectionWithoutKeys: true,
+            checkboxes: false,
+            headerCheckbox: false,
+          },
+        }),
+      );
+    });
+
+    it('should update enableCellChangeFlash options', () => {
+      expect(
+        agGridService.getGridOptions({
+          gridOptions: { enableCellChangeFlash: true } as any,
+        }),
+      ).toEqual(
+        jasmine.objectContaining({
+          defaultColDef: {
+            cellClassRules: jasmine.any(Object),
+            headerClass: jasmine.any(Function),
+            headerComponent: SkyAgGridHeaderComponent,
+            minWidth: 100,
+            suppressHeaderKeyboardEvent: jasmine.any(Function),
+            suppressKeyboardEvent: jasmine.any(Function),
+            enableCellChangeFlash: true,
+          },
+        }),
+      );
     });
   });
 
@@ -323,9 +369,10 @@ describe('SkyAgGridService', () => {
     beforeEach(() => {
       dateValueFormatter = defaultGridOptions.columnTypes?.[SkyCellType.Date]
         .valueFormatter as ValueFormatterFunc;
+      const api = jasmine.createSpyObj('GridApi', ['refreshCells']);
       dateValueFormatterParams = {
-        columnApi: new ColumnApi(),
-      } as ValueFormatterParams;
+        api,
+      } as unknown as ValueFormatterParams;
     });
 
     it('should return the formatted date string created by the date service', () => {
@@ -335,21 +382,24 @@ describe('SkyAgGridService', () => {
     });
 
     it('should return an empty string if the date service returns undefined', () => {
-      const dateSvc = TestBed.inject(SkyDateService);
-      dateSvc.format = () => undefined;
+      (dateService.format as jasmine.Spy).and.returnValue(undefined);
 
       const formattedDate = dateValueFormatter(dateValueFormatterParams);
       expect(formattedDate).toBe('');
     });
 
     it('should return an empty string if the date service returns an error', () => {
-      const dateSvc = TestBed.inject(SkyDateService);
-      dateSvc.format = () => {
-        throw new Error('SkyDateService error message.');
-      };
+      (dateService.format as jasmine.Spy).and.throwError(
+        'SkyDateService error message.',
+      );
+      const logService = TestBed.inject(SkyLogService);
+      const errorLogSpy = spyOn(logService, 'error').and.stub();
 
       const formattedDate = dateValueFormatter(dateValueFormatterParams);
       expect(formattedDate).toBe('');
+      expect(errorLogSpy).toHaveBeenCalledWith(
+        jasmine.stringContaining('Error: SkyDateService error message.'),
+      );
     });
   });
 
@@ -394,12 +444,13 @@ describe('SkyAgGridService', () => {
       autocompleteValueFormatter = defaultGridOptions.columnTypes?.[
         SkyCellType.Autocomplete
       ].valueFormatter as ValueFormatterFunc;
+      const api = jasmine.createSpyObj('GridApi', ['refreshCells']);
       autocompleteValueFormatterParams = {
+        api,
         colDef: {
           cellEditorParams: {},
         },
-        columnApi: new ColumnApi(),
-      } as ValueFormatterParams;
+      } as unknown as ValueFormatterParams;
     });
 
     it('should return the name property of the value', () => {
@@ -475,6 +526,21 @@ describe('SkyAgGridService', () => {
         }),
       ).toBe('expected');
     });
+
+    it('should use descriptorProperty', () => {
+      expect(
+        lookupValueFormatter({
+          colDef: {
+            cellEditorParams: {
+              skyComponentProperties: {
+                descriptorProperty: 'other',
+              },
+            },
+          },
+          value: [{ name: 'not-expected', other: 'expected' }],
+        } as ValueFormatterParams),
+      ).toBe('expected');
+    });
   });
 
   describe('suppressKeyboardEvent', () => {
@@ -485,6 +551,9 @@ describe('SkyAgGridService', () => {
     let suppressKeypressFunction: (
       params: SuppressKeyboardEventParams<any>,
     ) => boolean;
+    let suppressKeypressFunctionCurrency:
+      | ((params: SuppressKeyboardEventParams<any>) => boolean)
+      | undefined;
 
     beforeEach(() => {
       suppressHeaderKeypressFunction = defaultGridOptions.defaultColDef
@@ -495,6 +564,13 @@ describe('SkyAgGridService', () => {
         ?.suppressKeyboardEvent as (
         params: SuppressKeyboardEventParams<any>,
       ) => boolean;
+      suppressKeypressFunctionCurrency =
+        defaultGridOptions.columnTypes &&
+        defaultGridOptions.columnTypes[SkyCellType.Currency] &&
+        (defaultGridOptions.columnTypes[SkyCellType.Currency]
+          ?.suppressKeyboardEvent as (
+          params: SuppressKeyboardEventParams<any>,
+        ) => boolean);
     });
 
     it('should return true to suppress the event when the tab key is pressed on a header cell', () => {
@@ -507,6 +583,29 @@ describe('SkyAgGridService', () => {
     it('should return true to suppress the event when the tab key is pressed and cells are not being edited', () => {
       const params = { event: { code: 'Tab' } } as SuppressKeyboardEventParams;
       expect(suppressKeypressFunction(params)).toBe(true);
+    });
+
+    it('should return true to suppress the event when the enter key is pressed and currency cell is being edited', () => {
+      const params = {
+        event: { code: 'Enter' },
+        editing: true,
+      } as SuppressKeyboardEventParams;
+      expect(
+        suppressKeypressFunctionCurrency &&
+          suppressKeypressFunctionCurrency(params),
+      ).toBe(true);
+    });
+
+    it('should return false to suppress the event when a key is pressed and currency cell is being edited', () => {
+      // Not Enter or Tab.
+      const params = {
+        event: { code: ' ' },
+        editing: true,
+      } as SuppressKeyboardEventParams;
+      expect(
+        suppressKeypressFunctionCurrency &&
+          suppressKeypressFunctionCurrency(params),
+      ).toBe(false);
     });
 
     it('should return true to suppress the event when the tab key is pressed, an inline cell is being edited, and there is other cell content to tab to', () => {
@@ -568,15 +667,73 @@ describe('SkyAgGridService', () => {
       spyOn(agGridAdapterService, 'getFocusedElement');
       spyOn(agGridAdapterService, 'focusOnFocusableChildren');
 
-      onCellFocusedFunction({} as CellFocusedEvent);
+      onCellFocusedFunction({
+        api: {
+          getDisplayedRowAtIndex: () => ({ rowIndex: 0 }) as RowNode,
+        } as unknown as GridApi,
+        column: {
+          isRowDrag: () => false,
+          isDndSource: () => false,
+        } as unknown as AgColumn,
+        rowIndex: 0,
+      } as unknown as CellFocusedEvent);
 
       expect(agGridAdapterService.getFocusedElement).toHaveBeenCalled();
       expect(agGridAdapterService.focusOnFocusableChildren).toHaveBeenCalled();
     });
+
+    it('should not focus if there is no matching row', () => {
+      spyOn(agGridAdapterService, 'getFocusedElement');
+      spyOn(agGridAdapterService, 'focusOnFocusableChildren');
+
+      onCellFocusedFunction({} as CellFocusedEvent);
+
+      expect(agGridAdapterService.getFocusedElement).not.toHaveBeenCalled();
+      expect(
+        agGridAdapterService.focusOnFocusableChildren,
+      ).not.toHaveBeenCalled();
+
+      onCellFocusedFunction({
+        api: {
+          getDisplayedRowAtIndex: () => undefined,
+        } as unknown as GridApi,
+        column: {
+          isRowDrag: () => false,
+          isDndSource: () => true,
+        } as unknown as AgColumn,
+        rowIndex: 0,
+      } as unknown as CellFocusedEvent);
+
+      expect(agGridAdapterService.getFocusedElement).not.toHaveBeenCalled();
+      expect(
+        agGridAdapterService.focusOnFocusableChildren,
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should not focus if the column is a drag handle', () => {
+      spyOn(agGridAdapterService, 'getFocusedElement');
+      spyOn(agGridAdapterService, 'focusOnFocusableChildren');
+
+      onCellFocusedFunction({
+        api: {
+          getDisplayedRowAtIndex: () => ({ rowIndex: 0 }) as RowNode,
+        } as unknown as GridApi,
+        column: {
+          isRowDrag: () => false,
+          isDndSource: () => true,
+        } as unknown as AgColumn,
+        rowIndex: 0,
+      } as unknown as CellFocusedEvent);
+
+      expect(agGridAdapterService.getFocusedElement).not.toHaveBeenCalled();
+      expect(
+        agGridAdapterService.focusOnFocusableChildren,
+      ).not.toHaveBeenCalled();
+    });
   });
 
   describe('getDefaultGridOptions getEditableFn', () => {
-    let cellClassRuleEditableFunction: Function;
+    let cellClassRuleEditableFunction: (params?: any) => boolean;
     let cellClassParams: CellClassParams;
 
     beforeEach(() => {
@@ -588,10 +745,15 @@ describe('SkyAgGridService', () => {
         cellClassRuleEditableFunction = cellClassRuleEditable;
       }
 
+      const api = jasmine.createSpyObj('GridApi', [
+        'getColumn',
+        'refreshCells',
+      ]);
       cellClassParams = {
-        columnApi: new ColumnApi(),
+        api,
+
         colDef: {},
-      } as CellClassParams;
+      } as unknown as CellClassParams;
     });
 
     it("should return true when the columnDefinition's editable property is true and checking for editable", () => {
@@ -618,7 +780,6 @@ describe('SkyAgGridService', () => {
       cellClassParams.colDef.editable = (): boolean => {
         return true;
       };
-      spyOn(cellClassParams.columnApi, 'getColumn').and.returnValue(null);
       const editable = cellClassRuleEditableFunction(cellClassParams);
 
       expect(editable).toBeTruthy();
@@ -657,27 +818,28 @@ describe('SkyAgGridService', () => {
         cellClassRuleValidatorFunction = cellClassRuleValidator;
       }
 
+      const api = jasmine.createSpyObj('GridApi', ['refreshCells']);
       cellClassParams = {
-        columnApi: new ColumnApi(),
+        api,
+
         colDef: {},
-      } as CellClassParams;
+      } as unknown as CellClassParams;
 
       cellRendererParams = {
         addRenderedRowListener(): void {},
-        api: undefined,
+        api,
         colDef: {},
         column: undefined,
-        columnApi: undefined,
+
         context: undefined,
         data: undefined,
         eGridCell: undefined,
         eParentOfValue: undefined,
         formatValue(): any {},
         getValue(): any {},
-        node: undefined,
+        node: { rowIndex: 0 },
         refreshCell(): void {},
         registerRowDragger(): void {},
-        rowIndex: 0,
         setValue(): void {},
         value: 1.23,
         valueFormatted: undefined,
@@ -868,7 +1030,9 @@ describe('SkyAgGridService', () => {
       const paramsValid = {
         ...paramsInvalid,
         data: true,
-        rowIndex: 1,
+        node: {
+          rowIndex: 1,
+        },
         value: 'valuable',
       } as ICellRendererParams;
       expect(cellRendererSelector?.(paramsValid)?.component).toBe(
@@ -889,37 +1053,18 @@ describe('SkyAgGridService', () => {
         defaultGridOptions.getRowId?.({ data: {} } as GetRowIdParams),
       ).toBeTruthy();
     });
-
-    it('should prefer the deprecated getRowNodeId if set by consumer', () => {
-      expect(defaultGridOptions.getRowId).toBeDefined();
-      expect(defaultGridOptions.getRowNodeId).toBeUndefined();
-
-      const options = agGridService.getGridOptions({
-        gridOptions: {
-          getRowNodeId: (data) => {
-            if ('id' in data && data.id !== undefined) {
-              return `${data.id}`;
-            }
-            return '-1';
-          },
-        },
-      });
-
-      expect(options.getRowId).toBeUndefined();
-      expect(options.getRowNodeId).toBeDefined();
-    });
   });
 
   describe('getRowClass', () => {
     const params = {
-      node: new RowNode({} as Beans),
+      node: new RowNode({} as BeanCollection),
       rowIndex: 0,
       source: 'api',
       context: {},
       type: 'rowSelected',
       api: {} as GridApi,
       data: {} as any,
-      columnApi: {} as ColumnApi,
+
       rowPinned: null,
     } as RowClassParams;
 
@@ -931,75 +1076,28 @@ describe('SkyAgGridService', () => {
             id: '123',
           },
         } as RowClassParams),
-      ).toEqual('sky-ag-grid-row-123');
+      ).toEqual(['sky-ag-grid-row-123']);
     });
 
     it('should not generate a class without an id', () => {
-      expect(defaultGridOptions.getRowClass?.(params)).toBeFalsy();
+      expect(defaultGridOptions.getRowClass?.(params)).toEqual([]);
     });
-  });
-});
 
-describe('SkyAgGridService via fixture', () => {
-  let gridWrapperFixture: ComponentFixture<SkyAgGridFixtureComponent>;
-  let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
-  };
-
-  beforeEach(() => {
-    mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings: undefined,
-      }),
-    };
-  });
-
-  it('should update header and row height via api', async () => {
-    TestBed.configureTestingModule({
-      imports: [SkyAgGridModule],
-      providers: [
-        {
-          provide: SkyThemeService,
-          useValue: mockThemeSvc,
-        },
-      ],
+    it('should merge row classes', () => {
+      expect(
+        agGridService
+          .getGridOptions({
+            gridOptions: {
+              getRowClass: () => 'custom-class',
+            },
+          })
+          .getRowClass?.({
+            ...params,
+            node: {
+              id: '123',
+            },
+          } as RowClassParams),
+      ).toEqual(['sky-ag-grid-row-123', 'custom-class']);
     });
-    gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
-    gridWrapperFixture.detectChanges();
-    await gridWrapperFixture.whenStable();
-
-    const api = gridWrapperFixture?.componentInstance?.agGrid?.api as GridApi;
-    const headerHeightSpy = spyOn(api, 'setHeaderHeight');
-    const rowHeightSpy = spyOn(api, 'resetRowHeights');
-    expect(api).toBeDefined();
-    expect(api.getSizesForCurrentTheme().headerHeight).toEqual(37);
-    expect(api.getSizesForCurrentTheme().rowHeight).toEqual(38);
-
-    mockThemeSvc.settingsChange.next({
-      currentSettings: new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
-      ),
-      previousSettings: undefined,
-    });
-    gridWrapperFixture.detectChanges();
-    await gridWrapperFixture.whenStable();
-    expect(headerHeightSpy).toHaveBeenCalledWith(60);
-    expect(rowHeightSpy).toHaveBeenCalled();
-
-    mockThemeSvc.settingsChange.next({
-      currentSettings: new SkyThemeSettings(
-        SkyTheme.presets.default,
-        SkyThemeMode.presets.light,
-      ),
-      previousSettings: undefined,
-    });
-    gridWrapperFixture.detectChanges();
-    await gridWrapperFixture.whenStable();
-    expect(headerHeightSpy).toHaveBeenCalledWith(37);
   });
 });

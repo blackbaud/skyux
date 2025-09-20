@@ -10,13 +10,15 @@ describe('indicators-storybook', () => {
           ),
         );
         it('should render the component', () => {
-          cy.get('app-wait')
-            .should('exist')
-            .should('be.visible')
-            .screenshot(`waitcomponent-wait--wait-${theme}`)
-            .percySnapshot(`waitcomponent-wait--wait-${theme}`, {
+          cy.skyReady('app-wait').screenshot(
+            `waitcomponent-wait--wait-${theme}`,
+          );
+          cy.get('app-wait').percySnapshot(
+            `waitcomponent-wait--wait-${theme}`,
+            {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            });
+            },
+          );
         });
       });
 
@@ -27,13 +29,15 @@ describe('indicators-storybook', () => {
           ),
         );
         it('should render the component', () => {
-          cy.get('app-wait')
-            .should('exist')
-            .should('be.visible')
-            .screenshot(`waitcomponent-wait--wait-page-blocking-${theme}`)
-            .percySnapshot(`waitcomponent-wait--wait-page-blocking-${theme}`, {
+          cy.skyReady('app-wait').screenshot(
+            `waitcomponent-wait--wait-page-blocking-${theme}`,
+          );
+          cy.get('app-wait').percySnapshot(
+            `waitcomponent-wait--wait-page-blocking-${theme}`,
+            {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            });
+            },
+          );
         });
       });
     });

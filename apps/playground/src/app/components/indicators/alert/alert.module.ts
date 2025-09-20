@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyAlertModule } from '@skyux/indicators';
 
@@ -7,7 +6,7 @@ import { AlertDemoComponent } from './alert.component';
 
 @NgModule({
   declarations: [AlertDemoComponent],
-  imports: [CommonModule, AlertRoutingModule, SkyAlertModule],
+  imports: [AlertRoutingModule, SkyAlertModule],
 })
 export class AlertModule {
   public static routes = AlertRoutingModule.routes;

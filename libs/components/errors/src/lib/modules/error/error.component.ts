@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { SkyErrorType } from './error-type';
@@ -12,6 +12,7 @@ import { SkyErrorService } from './error.service';
   styleUrls: ['./error.component.scss'],
   templateUrl: './error.component.html',
   providers: [SkyErrorService],
+  standalone: false,
 })
 export class SkyErrorComponent implements OnInit {
   /**
@@ -35,6 +36,12 @@ export class SkyErrorComponent implements OnInit {
   @Input()
   public showImage: boolean | undefined = true;
 
+  @HostBinding('attr.errorType') public get hostErrorType():
+    | SkyErrorType
+    | undefined {
+    return this.errorType;
+  }
+
   public defaultTitle: string | undefined;
   public defaultDescription: string | undefined;
 
@@ -49,13 +56,13 @@ export class SkyErrorComponent implements OnInit {
     this.#resourcesSvc = resourcesSvc;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     if (this.errorType) {
       this.setErrorTypeFields();
     }
   }
 
-  public setErrorTypeFields() {
+  public setErrorTypeFields(): void {
     switch (this.errorType?.toLowerCase()) {
       case 'broken':
         this.defaultTitle = this.#getString('skyux_errors_broken_title');

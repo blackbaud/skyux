@@ -7,12 +7,11 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyCoreAdapterService } from '@skyux/core';
 import {
-  SkyCoreAdapterService,
-  SkyMediaBreakpoints,
-  SkyMediaQueryService,
-} from '@skyux/core';
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -25,7 +24,6 @@ import { BehaviorSubject } from 'rxjs';
 
 import { SkyActionButtonAdapterService } from './action-button-adapter-service';
 import { SkyActionButtonContainerComponent } from './action-button-container.component';
-import { SkyActionButtonComponent } from './action-button.component';
 import { ActionButtonLinksComponent } from './fixtures/action-button-links.component';
 import { ActionButtonNgforTestComponent } from './fixtures/action-button-ngfor.component.fixture';
 import { ActionButtonTestComponent } from './fixtures/action-button.component.fixture';
@@ -50,7 +48,7 @@ describe('Action button component', () => {
   let cmp: ActionButtonTestComponent;
   let el: HTMLElement;
   let debugElement: DebugElement;
-  let mockMediaQueryService: MockSkyMediaQueryService;
+  let mediaQueryController: SkyMediaQueryTestingController;
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
@@ -66,7 +64,6 @@ describe('Action button component', () => {
       }),
     };
 
-    mockMediaQueryService = new MockSkyMediaQueryService();
     TestBed.configureTestingModule({
       imports: [SkyActionButtonFixturesModule],
       providers: [
@@ -74,19 +71,13 @@ describe('Action button component', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        provideSkyMediaQueryTesting(),
       ],
     });
 
-    fixture = TestBed.overrideComponent(SkyActionButtonComponent, {
-      add: {
-        providers: [
-          {
-            provide: SkyMediaQueryService,
-            useValue: mockMediaQueryService,
-          },
-        ],
-      },
-    }).createComponent(ActionButtonTestComponent);
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
+
+    fixture = TestBed.createComponent(ActionButtonTestComponent);
 
     cmp = fixture.componentInstance as ActionButtonTestComponent;
     el = fixture.nativeElement as HTMLElement;
@@ -166,36 +157,40 @@ describe('Action button component', () => {
     ).toBe('0');
   });
 
-  it('should display an icon based on iconType', () => {
+  it('should display an icon based on iconName', () => {
     const iconSelector =
-      '.sky-action-button-icon-header-container .sky-action-button-icon-container i.fa-filter';
+      '.sky-action-button-icon-header-container .sky-action-button-icon-container svg[data-sky-icon="filter"]';
     expect(debugElement.query(By.css(iconSelector))).not.toBeNull();
   });
 
-  it('should change icon size based on media breakpoints query', () => {
+  it('should change iconSize for SVG icons based on media breakpoints query', () => {
+    fixture.detectChanges();
     const smallIconSelector =
-      '.sky-action-button-icon-header-container .sky-action-button-icon-container i.fa-2x';
+      '.sky-action-button-icon-header-container .sky-action-button-icon-container .sky-icon-svg-xl';
     const largeIconSelector =
-      '.sky-action-button-icon-header-container .sky-action-button-icon-container i.fa-3x';
-    mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+      '.sky-action-button-icon-header-container .sky-action-button-icon-container .sky-icon-svg-xxxl';
+    mediaQueryController.setBreakpoint('xs');
     fixture.detectChanges();
     expect(debugElement.query(By.css(smallIconSelector))).not.toBeNull();
-    mockMediaQueryService.fire(SkyMediaBreakpoints.sm);
+    mediaQueryController.setBreakpoint('sm');
     fixture.detectChanges();
     expect(debugElement.query(By.css(largeIconSelector))).not.toBeNull();
   });
 
   it('should hide button with inaccessible skyHref link', async () => {
     fixture.detectChanges();
+
     await fixture.whenStable();
+
     expect(
       fixture.nativeElement
-        .querySelector('[ng-reflect-sky-href="1bb-nav://yep/"]')
+        .querySelector('[data-sky-id="bb-nav-link-visible"] a')
         .matches('[hidden]'),
     ).toBeFalse();
+
     expect(
       fixture.nativeElement
-        .querySelector('[ng-reflect-sky-href="1bb-nav://nope/"]')
+        .querySelector('[data-sky-id="bb-nav-link-hidden"] a')
         .matches('[hidden]'),
     ).toBeTrue();
   });
@@ -209,7 +204,6 @@ describe('Action button component', () => {
 
 describe('Action button component modern theme', () => {
   let fixture: ComponentFixture<ActionButtonTestComponent>;
-  let mockMediaQueryService: MockSkyMediaQueryService;
   let mockActionButtonAdapterService: any;
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
@@ -226,7 +220,6 @@ describe('Action button component modern theme', () => {
       }),
     };
 
-    mockMediaQueryService = new MockSkyMediaQueryService();
     mockActionButtonAdapterService = jasmine.createSpyObj(
       'SkyActionButtonAdapterService',
       ['getParentWidth', 'setResponsiveClass'],
@@ -238,30 +231,20 @@ describe('Action button component modern theme', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        provideSkyMediaQueryTesting(),
       ],
     });
 
-    fixture = TestBed.overrideComponent(SkyActionButtonComponent, {
+    fixture = TestBed.overrideComponent(SkyActionButtonContainerComponent, {
       add: {
         providers: [
           {
-            provide: SkyMediaQueryService,
-            useValue: mockMediaQueryService,
+            provide: SkyActionButtonAdapterService,
+            useValue: mockActionButtonAdapterService,
           },
         ],
       },
-    })
-      .overrideComponent(SkyActionButtonContainerComponent, {
-        add: {
-          providers: [
-            {
-              provide: SkyActionButtonAdapterService,
-              useValue: mockActionButtonAdapterService,
-            },
-          ],
-        },
-      })
-      .createComponent(ActionButtonTestComponent);
+    }).createComponent(ActionButtonTestComponent);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -298,8 +281,8 @@ describe('Action button component modern theme', () => {
     fixture.detectChanges();
     tick();
     const buttons = getActionButtons(fixture);
-    for (let i = 0; i < buttons.length; i++) {
-      expect(buttons[i].style.height).toEqual('500px');
+    for (const button of Array.from(buttons)) {
+      expect(button.style.height).toEqual('500px');
     }
   }));
 
@@ -326,8 +309,8 @@ describe('Action button component modern theme', () => {
     tick();
     const buttons = getActionButtons(linksFixture);
     expect(buttons.length).toBeGreaterThan(0);
-    for (let i = 0; i < buttons.length; i++) {
-      expect(buttons[i].style.height).toEqual('500px');
+    for (const button of Array.from(buttons)) {
+      expect(button.style.height).toEqual('500px');
     }
   }));
 
@@ -345,8 +328,8 @@ describe('Action button component modern theme', () => {
     tick();
     buttons = getActionButtons(linksFixture);
     expect(buttons.length).toBeGreaterThan(0);
-    for (let i = 0; i < buttons.length; i++) {
-      expect(buttons[i].style.height).toEqual('500px');
+    for (const button of Array.from(buttons)) {
+      expect(button.style.height).toEqual('500px');
     }
   }));
 
@@ -369,7 +352,6 @@ describe('Action button component modern theme', () => {
 describe('Action button container with dynamic action buttons', () => {
   let fixture: ComponentFixture<ActionButtonNgforTestComponent>;
   let cmp: ActionButtonNgforTestComponent;
-  let mockMediaQueryService: MockSkyMediaQueryService;
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
@@ -385,7 +367,6 @@ describe('Action button container with dynamic action buttons', () => {
       }),
     };
 
-    mockMediaQueryService = new MockSkyMediaQueryService();
     TestBed.configureTestingModule({
       imports: [SkyActionButtonFixturesModule],
       providers: [
@@ -393,10 +374,7 @@ describe('Action button container with dynamic action buttons', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
-        {
-          provide: SkyMediaQueryService,
-          useValue: mockMediaQueryService,
-        },
+        provideSkyMediaQueryTesting(),
       ],
     });
 

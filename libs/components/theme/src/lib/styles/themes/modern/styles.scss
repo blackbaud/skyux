@@ -1,3 +1,6 @@
+@forward '@blackbaud/skyux-design-tokens/assets/scss/base';
+@forward '@blackbaud/skyux-design-tokens/assets/scss/blackbaud';
+
 @forward 'custom-properties';
 @forward 'box';
 @forward 'buttons';
@@ -11,4 +14,3 @@
   Order is important here since rules in these files should supersede rules in previous files.
 */
 @forward 'sizing';
-@forward 'borders';

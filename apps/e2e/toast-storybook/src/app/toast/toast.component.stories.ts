@@ -14,8 +14,6 @@ export default {
   ],
 } as Meta<ToastComponent>;
 export const Toast = {
-  render: (args: ToastComponent) => ({
-    props: args,
-  }),
+  render: (args: ToastComponent): { props: unknown } => ({ props: args }),
   args: {},
 };

@@ -1,47 +1,29 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { SkyAffixModule } from '@skyux/core';
-import { SkyIconModule, SkyWaitModule } from '@skyux/indicators';
-import { SkyPopoverModule } from '@skyux/popovers';
-import { SkyThemeModule } from '@skyux/theme';
 
-import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
-
-import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
-import { SkyDatepickerCalendarComponent } from './datepicker-calendar.component';
-import { SkyFuzzyDatepickerInputDirective } from './datepicker-input-fuzzy.directive';
+import { SkyDatepickerCalendarInnerComponent } from './calendar/datepicker-calendar-inner.component';
+import { SkyDatepickerCalendarComponent } from './calendar/datepicker-calendar.component';
+import { SkyDatepickerCalendarService } from './calendar/datepicker-calendar.service';
+import { SkyDayPickerButtonComponent } from './calendar/daypicker-button.component';
+import { SkyDayPickerCellComponent } from './calendar/daypicker-cell.component';
+import { SkyDayPickerComponent } from './calendar/daypicker.component';
+import { SkyMonthPickerComponent } from './calendar/monthpicker.component';
+import { SkyYearPickerComponent } from './calendar/yearpicker.component';
 import { SkyDatepickerInputDirective } from './datepicker-input.directive';
 import { SkyDatepickerComponent } from './datepicker.component';
-import { SkyDatepickerService } from './datepicker.service';
-import { SkyDayPickerButtonComponent } from './daypicker-button.component';
-import { SkyDayPickerCellComponent } from './daypicker-cell.component';
-import { SkyDayPickerComponent } from './daypicker.component';
-import { SkyMonthPickerComponent } from './monthpicker.component';
-import { SkyYearPickerComponent } from './yearpicker.component';
+import { SkyFuzzyDatepickerInputDirective } from './fuzzy/datepicker-input-fuzzy.directive';
 
 @NgModule({
-  declarations: [
+  imports: [
     SkyDatepickerCalendarComponent,
     SkyDatepickerCalendarInnerComponent,
-    SkyDayPickerComponent,
-    SkyMonthPickerComponent,
-    SkyYearPickerComponent,
     SkyDatepickerComponent,
     SkyDatepickerInputDirective,
-    SkyFuzzyDatepickerInputDirective,
-    SkyDayPickerCellComponent,
     SkyDayPickerButtonComponent,
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    SkyIconModule,
-    SkyDatetimeResourcesModule,
-    SkyAffixModule,
-    SkyThemeModule,
-    SkyPopoverModule,
-    SkyWaitModule,
+    SkyDayPickerCellComponent,
+    SkyDayPickerComponent,
+    SkyFuzzyDatepickerInputDirective,
+    SkyMonthPickerComponent,
+    SkyYearPickerComponent,
   ],
   exports: [
     SkyDatepickerCalendarComponent,
@@ -49,6 +31,6 @@ import { SkyYearPickerComponent } from './yearpicker.component';
     SkyDatepickerInputDirective,
     SkyFuzzyDatepickerInputDirective,
   ],
-  providers: [SkyDatepickerService],
+  providers: [SkyDatepickerCalendarService],
 })
 export class SkyDatepickerModule {}

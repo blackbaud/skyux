@@ -1,0 +1,33 @@
+<sky-modal>
+  <sky-modal-header>Dropdown footer</sky-modal-header>
+  <sky-modal-content>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel nunc nec
+      tortor efficitur facilisis. Nulla facilisi. Nulla facilisi. Nulla
+      facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi.
+      Nulla facilisi. Nulla facilisi. Nulla facilisi.
+    </p>
+  </sky-modal-content>
+  <sky-modal-footer>
+    <div class="footer-buttons">
+      <sky-dropdown buttonStyle="primary">
+        <sky-dropdown-button>Menu</sky-dropdown-button>
+        <sky-dropdown-menu>
+          @for (dropdownItem of dropdownItems; track dropdownItem) {
+            <sky-dropdown-item>
+              <button type="button">{{ dropdownItem }}</button>
+            </sky-dropdown-item>
+          }
+        </sky-dropdown-menu>
+      </sky-dropdown>
+      <button
+        id="modal-wait-modal-close"
+        class="sky-btn sky-btn-default"
+        type="button"
+        (click)="modalInstance.close()"
+      >
+        Close
+      </button>
+    </div>
+  </sky-modal-footer>
+</sky-modal>

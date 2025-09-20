@@ -20,13 +20,14 @@ export interface SkyuxRuntimeConfigLocalDev {
 }
 
 export class SkyuxPactConfig {
-  public providers?: {
-    [provider: string]: {
+  public providers?: Record<
+    string,
+    {
       host?: string;
       port?: string;
       fullUrl?: string;
-    };
-  };
+    }
+  >;
   public pactProxyServer?: string;
 }
 
@@ -56,7 +57,7 @@ export interface RuntimeConfig {
   includeRouteModule: boolean;
   pactConfig?: SkyuxPactConfig;
   params: SkyAppRuntimeConfigParams;
-  routes?: Object[]; // Dynamically added in sky-pages-module-generator.js
+  routes?: object[]; // Dynamically added in sky-pages-module-generator.js
   routesPattern: string;
   runtimeAlias: string;
   spaPathAlias: string;
@@ -73,14 +74,20 @@ export interface SkyuxConfigA11y {
 
 export type SkyuxConfigAppSupportedTheme = 'default' | 'modern';
 
+export interface SkyuxConfigAppBrand {
+  name: string;
+  version: string;
+}
+
 export interface SkyuxConfigAppTheming {
   supportedThemes: SkyuxConfigAppSupportedTheme[];
   theme: SkyuxConfigAppSupportedTheme;
+  brand?: SkyuxConfigAppBrand;
 }
 
 export interface SkyuxConfigApp {
   base?: string;
-  externals?: Object;
+  externals?: object;
   port?: string;
   styles?: string[];
   theming?: SkyuxConfigAppTheming;
@@ -99,7 +106,7 @@ export interface SkyuxConfigHostFrameOptionsNone {
   blackbaud?: false;
   none: true;
   self?: false;
-  urls?: [];
+  urls?: string[];
 }
 
 export interface SkyuxConfigHostFrameOptionsOthers {
@@ -109,9 +116,7 @@ export interface SkyuxConfigHostFrameOptionsOthers {
   urls?: string[];
 }
 
-export interface SkyuxConfigHostCspDirectives {
-  [directiveName: string]: string[];
-}
+export type SkyuxConfigHostCspDirectives = Record<string, string[]>;
 
 export interface SkyuxConfigHostCsp {
   enabled: boolean;
@@ -156,13 +161,13 @@ export interface SkyuxConfig {
   importPath?: string;
   librarySettings?: SkyuxConfigLibrarySettings;
   mode?: string;
-  moduleAliases?: { [key: string]: string };
+  moduleAliases?: Record<string, string>;
   name?: string;
   pacts?: any[];
   params?: SkyuxConfigParams; // List of allowed params
   pipelineSettings?: any;
   plugins?: string[];
-  redirects?: { [from: string]: string };
+  redirects?: Record<string, string>;
   remoteModules?: SkyuxConfigRemoteModules;
   routes?: {
     public?: {

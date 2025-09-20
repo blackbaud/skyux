@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -14,12 +13,7 @@ import { FlyoutComponent } from './flyout.component';
     FlyoutResponsiveDemoComponent,
     FlyoutResponsiveDemoContentComponent,
   ],
-  imports: [
-    CommonModule,
-    DataManagerFlyoutModule,
-    FlyoutRoutingModule,
-    RouterModule,
-  ],
+  imports: [DataManagerFlyoutModule, FlyoutRoutingModule, RouterModule],
 })
 export class FlyoutModule {
   public static routes = FlyoutRoutingModule.routes;

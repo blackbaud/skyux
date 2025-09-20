@@ -1,0 +1,49 @@
+<form [formGroup]="myForm">
+  <sky-radio-group
+    data-sky-id="radio-group"
+    formControlName="paymentMethod"
+    [attr.class]="class"
+    [headingHidden]="hideGroupHeading"
+    [headingLevel]="headingLevel"
+    [headingStyle]="headingStyle"
+    [headingText]="headingText"
+    [helpKey]="helpKey"
+    [helpPopoverContent]="helpPopoverContent"
+    [helpPopoverTitle]="helpPopoverTitle"
+    [hintText]="hintText"
+    [required]="required"
+    [stacked]="stacked"
+  >
+    <sky-radio
+      data-sky-id="my-cash-radio"
+      helpPopoverContent="(xxx)xxx-xxxx"
+      helpPopoverTitle="Format"
+      labelText="Cash"
+      value="cash"
+      [helpKey]="helpKey"
+      [hintText]="cashHintText"
+      [labelHidden]="hideCashLabel"
+    />
+    <sky-radio
+      data-sky-id="my-check-radio"
+      value="check"
+      label="Pay by check"
+      labelledBy="foo-check-id"
+    >
+      @if (!hideCheckLabel) {
+        <sky-radio-label> Check </sky-radio-label>
+      }
+    </sky-radio>
+    <sky-radio
+      data-sky-id="my-credit-radio"
+      labelText="Credit"
+      value="credit"
+    />
+    @if (paymentMethod.errors?.['processingIssue']) {
+      <sky-form-error
+        errorName="processingIssue"
+        errorText="An error occurred with this payment method. Please contact us to resolve."
+      />
+    }
+  </sky-radio-group>
+</form>

@@ -1,0 +1,58 @@
+<sky-page layout="blocks">
+  <sky-page-content>
+    <button
+      class="sky-btn sky-btn-primary sky-margin-inline-default"
+      type="button"
+      [skyPopover]="myPopover0"
+    >
+      Open popover with interactive content
+    </button>
+
+    <button
+      class="sky-btn sky-btn-primary sky-margin-inline-default"
+      type="button"
+      [skyPopover]="myPopover1"
+    >
+      Only text
+    </button>
+
+    <button
+      class="sky-btn sky-btn-link"
+      type="button"
+      [skyPopover]="myPopover2"
+      [skyPopoverTrigger]="'mouseenter'"
+    >
+      Show on hover
+    </button>
+
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut velit
+      a urna fermentum fermentum. Quisque sed lectus sit amet nibh tempus
+      fermentum ac eget lorem. Mauris lorem nisl, finibus ut turpis vitae,
+      venenatis faucibus nibh. Phasellus laoreet elit ac sagittis tincidunt. Sed
+      finibus, sem nec convallis condimentum, nulla odio mattis sem, venenatis
+      rhoncus neque nisi quis quam. Ut quis aliquet eros. Fusce quis mauris
+      tellus. Ut pharetra mi sed nisi pharetra, sit amet bibendum leo cursus.
+      Maecenas bibendum risus vestibulum nisl sagittis, vitae fermentum nibh
+      facilisis. Nunc luctus vehicula ex ac aliquam. Suspendisse sodales iaculis
+      nibh id condimentum.
+    </p>
+
+    <p>
+      <button type="button">Some action</button>
+    </p>
+  </sky-page-content>
+</sky-page>
+
+<sky-popover #myPopover0 popoverTitle="Playground popover">
+  The content of a popover can be text, HTML, or Angular components.
+  <button type="button">Subscribe</button>
+</sky-popover>
+
+<sky-popover #myPopover1>
+  The content of a popover can be text, HTML, or Angular components.
+</sky-popover>
+
+<sky-popover #myPopover2>
+  The content of a popover can be text, HTML, or Angular components.
+</sky-popover>

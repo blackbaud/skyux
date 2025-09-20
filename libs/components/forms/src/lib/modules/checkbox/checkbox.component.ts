@@ -1,20 +1,32 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
-  OnInit,
   Output,
+  TemplateRef,
   ViewChild,
+  booleanAttribute,
   inject,
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator,
+  Validators,
+} from '@angular/forms';
 import { SkyIdService, SkyLogService } from '@skyux/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-import { SkyFormsUtility } from '../shared/forms-utility';
+import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 
 import { SkyCheckboxChange } from './checkbox-change';
 
@@ -25,26 +37,68 @@ import { SkyCheckboxChange } from './checkbox-change';
 @Component({
   selector: 'sky-checkbox',
   templateUrl: './checkbox.component.html',
-  styleUrls: ['./checkbox.component.scss'],
+  styleUrls: [
+    './checkbox.default.component.scss',
+    './checkbox.modern.component.scss',
+  ],
+  hostDirectives: [SkyThemeComponentClassDirective],
+  providers: [
+    { provide: NG_VALIDATORS, useExisting: SkyCheckboxComponent, multi: true },
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: SkyCheckboxComponent,
+      multi: true,
+    },
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+  ],
+  standalone: false,
 })
-export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
+export class SkyCheckboxComponent
+  implements AfterViewInit, ControlValueAccessor, Validator
+{
   /**
    * The ARIA label for the checkbox. This sets the checkbox's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
    * when the checkbox does not include a visible label. You must set this property for icon
    * checkboxes. If the checkbox includes a visible label, use `labelledBy` instead.
+   * @deprecated Use `labelText` instead.
    */
   @Input()
-  public label: string | undefined;
+  public set label(value: string | undefined) {
+    this.#_label = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyCheckboxComponent.label', {
+        deprecationMajorVersion: 9,
+      });
+    }
+  }
+
+  public get label(): string | undefined {
+    return this.#_label;
+  }
 
   /**
    * The HTML element ID of the element that labels the
    * checkbox. This sets the checkbox's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility).
    * If the checkbox does not include a visible label, use `label` instead.
+   * @deprecated Use `labelText` instead.
    */
   @Input()
-  public labelledBy: string | undefined;
+  public set labelledBy(value: string | undefined) {
+    this.#_labelledBy = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyCheckboxComponent.labelledBy', {
+        deprecationMajorVersion: 9,
+      });
+    }
+  }
+
+  public get labelledBy(): string | undefined {
+    return this.#_labelledBy;
+  }
 
   /**
    * The ID for the checkbox.
@@ -64,12 +118,11 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
-  @Input()
-  public set disabled(value: boolean | undefined) {
-    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
-    if (coercedValue !== this.#_disabled) {
-      this.#_disabled = coercedValue;
-      this.#disabledChange.next(coercedValue);
+  @Input({ transform: booleanAttribute })
+  public set disabled(value: boolean) {
+    if (value !== this.#_disabled) {
+      this.#_disabled = value;
+      this.#disabledChange.next(value);
     }
   }
 
@@ -105,6 +158,21 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   /**
+   * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the checkbox label. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title. This property only applies when `labelText` is also specified.
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
+
+  /**
    * Fires when the selected value changes.
    */
   @Output()
@@ -112,12 +180,11 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public change = new EventEmitter<SkyCheckboxChange>();
 
   /**
-   * The icon to display in place of the checkbox. To group icon checkboxes
-   * like in the demo, place the `sky-switch-icon-group` class on the direct parent
-   * element of the checkboxes.
+   * The SVG icon to display in place of the checkbox. To group icon checkboxes
+   * like in the demo, place the checkboxes within a `sky-checkbox-group`.
    */
   @Input()
-  public icon: string | undefined;
+  public iconName: string | undefined;
 
   /**
    * The background color type after users select a checkbox where the
@@ -126,7 +193,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * label types. `"info"` creates a blue background, `"success"` creates a green
    * background, `"warning"` creates an orange background, and `"danger"` creates a red background.
    * @default "info"
-   * @deprecated checkboxType is no longer supported
+   * @deprecated The `checkboxType` input is no longer supported.
    */
   @Input()
   public set checkboxType(value: string | undefined) {
@@ -169,11 +236,13 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    */
   @Input()
   public set indeterminate(value: boolean | undefined) {
-    this.#_indeterminate = !!value;
-    this.#indeterminateChange.next(this.#_indeterminate);
-    if (this.inputEl) {
-      this.inputEl.nativeElement.indeterminate = this.#_indeterminate;
-      this.#changeDetector.markForCheck();
+    if (value !== this.#_indeterminate) {
+      this.#_indeterminate = !!value;
+      this.#indeterminateChange.next(this.#_indeterminate);
+      if (this.inputEl) {
+        this.inputEl.nativeElement.indeterminate = this.#_indeterminate;
+        this.#changeDetector.markForCheck();
+      }
     }
   }
 
@@ -188,14 +257,45 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * is complete.
    * @default false
    */
-  @Input()
-  public set required(value: boolean | undefined) {
-    this.#_required = SkyFormsUtility.coerceBooleanProperty(value);
-  }
+  @Input({ transform: booleanAttribute })
+  public required = false;
 
-  public get required(): boolean {
-    return this.#_required;
-  }
+  /**
+   * The text to display as the checkbox's label. Use this instead of the `sky-checkbox-label` when the label is text-only.
+   * Specifying `labelText` also enables automatic error message handling for checkbox.
+   */
+  @Input()
+  public labelText: string | undefined;
+
+  /**
+   * Indicates whether to hide the `labelText`.
+   */
+  @Input({ transform: booleanAttribute })
+  public labelHidden = false;
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   */
+  @Input()
+  public hintText: string | undefined;
+
+  /**
+   * Whether the checkbox is stacked on another form component. When specified, the appropriate
+   * vertical spacing is automatically added to the checkbox. If the checkbox is within a checkbox group,
+   * set `stacked` on the checkbox group component instead.
+   */
+  @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-form-field-stacked')
+  public stacked = false;
+
+  /**
+   * A help key that identifies the global help content to display. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is placed beside the checkbox label. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
+   * as configured by the application. This property only applies when `labelText` is also specified.
+   */
+  @Input()
+  public helpKey: string | undefined;
 
   /**
    * Fires when users select or deselect the checkbox.
@@ -234,13 +334,22 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     return this.#_inputEl;
   }
 
+  protected get isCheckboxRequired(): boolean {
+    return !!(
+      this.required ||
+      this.control?.hasValidator(Validators.requiredTrue) ||
+      this.control?.hasValidator(Validators.required)
+    );
+  }
+
+  protected control: AbstractControl | undefined;
   protected inputId = '';
 
-  #checkedChange: BehaviorSubject<boolean>;
+  #checkedChange: Subject<boolean>;
   #checkedChangeObs: Observable<boolean>;
-  #disabledChange: BehaviorSubject<boolean>;
+  #disabledChange: Subject<boolean>;
   #disabledChangeObs: Observable<boolean>;
-  #indeterminateChange: BehaviorSubject<boolean>;
+  #indeterminateChange: Subject<boolean>;
   #indeterminateChangeObs: Observable<boolean>;
 
   #_checked = false;
@@ -249,36 +358,44 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #_indeterminate = false;
   #_inputEl: ElementRef | undefined;
   #_name = '';
-  #_required = false;
+  #_label: string | undefined;
+  #_labelledBy: string | undefined;
 
   #changeDetector = inject(ChangeDetectorRef);
-  #defaultId = inject(SkyIdService).generateId();
+  #idSvc = inject(SkyIdService);
+  #defaultId = this.#idSvc.generateId();
   #logger = inject(SkyLogService);
-  #ngControl = inject(NgControl, { optional: true, self: true });
+
+  protected readonly errorId = this.#idSvc.generateId();
 
   constructor() {
-    if (this.#ngControl) {
-      this.#ngControl.valueAccessor = this;
-    }
-
-    this.#checkedChange = new BehaviorSubject<boolean>(this.checked);
-    this.#disabledChange = new BehaviorSubject<boolean>(this.disabled);
-    this.#indeterminateChange = new BehaviorSubject<boolean>(this.disabled);
+    this.#checkedChange = new Subject<boolean>();
+    this.#disabledChange = new Subject<boolean>();
+    this.#indeterminateChange = new Subject<boolean>();
 
     this.#checkedChangeObs = this.#checkedChange.asObservable();
     this.#disabledChangeObs = this.#disabledChange.asObservable();
     this.#indeterminateChangeObs = this.#indeterminateChange.asObservable();
-
     this.id = this.#defaultId;
     this.name = this.#defaultId;
   }
 
-  public ngOnInit(): void {
-    if (this.#ngControl) {
-      // Backwards compatibility support for anyone still using Validators.Required.
-      this.required =
-        this.required || SkyFormsUtility.hasRequiredValidation(this.#ngControl);
-    }
+  public ngAfterViewInit(): void {
+    this.#checkedChange.next(this.checked);
+    this.#disabledChange.next(this.disabled);
+    this.#indeterminateChange.next(this.indeterminate);
+  }
+
+  public validate(control: AbstractControl<boolean>): ValidationErrors | null {
+    this.control ||= control;
+
+    // In template-driven forms, Angular's native 'required' attribute directive only works
+    // on `input[type="checkbox"]` selectors, so we need to write the validation logic ourselves.
+    // Also, we're treating Validators.required the same as Validators.requiredTrue internally, so
+    // we need to account for that decision in our custom validator.
+    return this.isCheckboxRequired && control.value !== true
+      ? { required: true }
+      : null;
   }
 
   /**
@@ -332,7 +449,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   /** Called when the checkbox is blurred. Needed to properly implement ControlValueAccessor. */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   // istanbul ignore next
   public onTouched: () => any = () => {};
 

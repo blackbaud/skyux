@@ -1,10 +1,9 @@
 <sky-modal>
   <sky-modal-header>
     {{ title }}
-    <sky-help-inline
-      *ngIf="showHelp"
-      class="sky-control-help"
-    ></sky-help-inline>
+    @if (showHelp) {
+      <sky-help-inline class="sky-control-help" />
+    }
   </sky-modal-header>
   <sky-modal-content>
     <sky-input-box class="sky-margin-stacked-lg">
@@ -69,11 +68,11 @@
           Favorite color
         </label>
         <input
+          #favoriteColor="skyId"
           class="sky-form-control"
           skyAutocomplete
           skyId
           type="text"
-          #favoriteColor="skyId"
         />
       </sky-input-box>
     </sky-autocomplete>

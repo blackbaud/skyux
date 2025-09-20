@@ -1,14 +1,12 @@
-<div
-  class="sky-sort-item"
-  role="menuitemradio"
-  [attr.aria-checked]="isSelected | async"
-  [ngClass]="{ 'sky-sort-item-selected': (isSelected | async) }"
->
-  <button
-    type="button"
-    [ngClass]="{ 'sky-font-emphasized': (isSelected | async) }"
-    (click)="itemClicked()"
+<ng-template #itemTemplate>
+  <div
+    class="sky-sort-item"
+    role="menuitemradio"
+    [attr.aria-checked]="isSelected | async"
+    [ngClass]="{ 'sky-sort-item-selected': (isSelected | async) }"
   >
-    <ng-content />
-  </button>
-</div>
+    <button type="button" (click)="itemClicked()">
+      <ng-content />
+    </button>
+  </div>
+</ng-template>

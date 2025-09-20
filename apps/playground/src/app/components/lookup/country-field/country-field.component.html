@@ -12,7 +12,9 @@
     </form>
   </div>
 
-  <p *ngIf="countryData">Selected Country is {{ countryData.name }}</p>
+  @if (countryData) {
+    <p>Selected Country is {{ countryData.name }}</p>
+  }
 </div>
 
 <div class="sky-country-field-visual">
@@ -31,9 +33,9 @@
     />
   </form>
 
-  <p *ngIf="countryControl.value">
-    Selected Country is {{ countryControl.value.name }}
-  </p>
+  @if (countryControl.value) {
+    <p>Selected Country is {{ countryControl.value.name }}</p>
+  }
 
   <button
     class="sky-btn sky-btn-primary"
@@ -62,10 +64,10 @@
   >
     <form>
       <sky-input-box
-        [disabled]="disableFields"
         hintText="Here's some hint text."
+        labelText="Country"
+        [disabled]="disableFields"
       >
-        <label class="sky-control-label"> Country </label>
         <sky-country-field
           name="countryField"
           required
@@ -75,7 +77,9 @@
     </form>
   </div>
 
-  <p *ngIf="countryData">Selected Country is {{ countryData.name }}</p>
+  @if (countryData) {
+    <p>Selected Country is {{ countryData.name }}</p>
+  }
 </div>
 
 <div class="sky-country-field-visual">

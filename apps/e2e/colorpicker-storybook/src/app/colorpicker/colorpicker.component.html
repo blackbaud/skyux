@@ -1,10 +1,12 @@
 <div class="sky-padding-even-large">
   <form novalidate [formGroup]="colorForm">
     <div class="sky-margin-stacked-xl" id="colorpicker-12-presets-fa-icon">
-      <label class="sky-control-label">
-        Colorpicker with 12 presets and FA icon
-      </label>
-      <sky-colorpicker #colorPickerPresets pickerButtonIcon="pencil">
+      <sky-colorpicker
+        #colorPickerPresets
+        pickerButtonIcon="edit"
+        labelText="Colorpicker with 12 presets and FA icon"
+        helpPopoverTitle="This should not appear"
+      >
         <input
           formControlName="colorOne"
           skyId
@@ -22,7 +24,7 @@
       <sky-colorpicker
         #colorPickerTransparent
         pickerButtonIcon="text-color"
-        pickerButtonIconType="skyux"
+        helpPopoverContent="This should not appear"
       >
         <input
           formControlName="colorTwo"
@@ -35,13 +37,70 @@
       </sky-colorpicker>
     </div>
     <div class="sky-margin-stacked-xl" id="colorpicker-disabled">
-      <label class="sky-control-label"> Disabled colorpicker </label>
-      <sky-colorpicker #colorPickerDisabled>
+      <sky-colorpicker
+        #colorPickerDisabled
+        labelText="Disabled colorpicker with inline help"
+        helpPopoverContent="content"
+      >
         <input
           formControlName="colorThree"
           skyId
           type="text"
           [skyColorpickerInput]="colorPickerDisabled"
+        />
+      </sky-colorpicker>
+    </div>
+    <div class="sky-margin-stacked-xl" id="colorpicker-hint-text">
+      <sky-colorpicker
+        #colorPickerHintText
+        labelText="Colorpicker with hint text"
+        helpPopoverContent="content"
+        hintText="Colorpicker hint text"
+      >
+        <input
+          formControlName="colorFour"
+          skyId
+          type="text"
+          [skyColorpickerInput]="colorPickerHintText"
+        />
+      </sky-colorpicker>
+    </div>
+    <div class="sky-margin-stacked-xl" id="colorpicker-required">
+      <sky-colorpicker
+        #colorPickerRequired
+        labelText="Colorpicker which is required"
+        helpPopoverContent="content"
+      >
+        <input
+          formControlName="colorFive"
+          skyId
+          type="text"
+          [skyColorpickerInput]="colorPickerRequired"
+        />
+      </sky-colorpicker>
+    </div>
+    <div id="colorpicker-stacked">
+      <sky-colorpicker
+        #colorPickerStacked
+        labelText="Colorpicker when stacked"
+        helpPopoverContent="content"
+        stacked="true"
+      >
+        <input
+          formControlName="colorSix"
+          skyId
+          type="text"
+          [skyColorpickerInput]="colorPickerStacked"
+        />
+      </sky-colorpicker>
+    </div>
+    <div class="sky-margin-stacked-xl" id="colorpicker-error">
+      <sky-colorpicker #colorPickerError labelText="Colorpicker with error">
+        <input
+          formControlName="colorSeven"
+          skyId
+          type="text"
+          [skyColorpickerInput]="colorPickerError"
         />
       </sky-colorpicker>
     </div>
@@ -52,9 +111,9 @@
       <label class="sky-control-label">
         Colorpicker with no icons, no clear button, default color swatches
       </label>
-      <sky-colorpicker [showResetButton]="false" #colorPickerDefault>
+      <sky-colorpicker #colorPickerDefault [showResetButton]="false">
         <input
-          formControlName="colorFour"
+          formControlName="colorEight"
           skyId
           type="text"
           [allowTransparency]="true"
@@ -64,4 +123,6 @@
     </div>
   </form>
 </div>
-<span *ngIf="ready$ | async" id="ready"></span>
+@if (ready | async) {
+  <span id="ready"></span>
+}

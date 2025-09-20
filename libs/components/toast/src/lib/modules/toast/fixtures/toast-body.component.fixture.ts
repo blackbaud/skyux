@@ -10,6 +10,7 @@ import { SkyToastBodyTestContext } from './toast-body-context';
 @Component({
   selector: 'sky-toast-body-test',
   templateUrl: './toast-body.component.fixture.html',
+  standalone: false,
 })
 export class SkyToastBodyTestComponent {
   #instance: SkyToastInstance;

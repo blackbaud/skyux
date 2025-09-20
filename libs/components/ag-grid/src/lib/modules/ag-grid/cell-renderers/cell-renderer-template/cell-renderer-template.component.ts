@@ -1,4 +1,4 @@
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, TemplateRef } from '@angular/core';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
@@ -20,11 +20,10 @@ type CellState =
 
 @Component({
   selector: 'sky-ag-grid-cell-renderer-template',
-  standalone: true,
-  template: `<ng-container *ngIf="state.hasTemplate">
+  template: `@if (state.hasTemplate) {
     <ng-container *ngTemplateOutlet="state.template; context: state.context" />
-  </ng-container>`,
-  imports: [NgTemplateOutlet, NgIf],
+  }`,
+  imports: [NgTemplateOutlet],
 })
 export class SkyAgGridCellRendererTemplateComponent
   implements ICellRendererAngularComp

@@ -1,15 +1,23 @@
 <span
-  class="sky-character-count-label sky-deemphasized"
+  class="sky-character-count-label sky-font-deemphasized"
   [ngClass]="{ 'sky-error-label': characterCount > characterCountLimit }"
 >
   {{ characterCount + '/' + characterCountLimit }}
 </span>
 <span aria-live="polite" class="sky-screen-reader-only">
-  {{ characterCount }} {{ 'skyux_character_count_message' | skyLibResources }}
-  {{ characterCountLimit }}.
-  {{
-    characterCount > characterCountLimit
-      ? ('skyux_character_count_over_limit' | skyLibResources)
-      : ''
-  }}
+  @if (characterCount > characterCountLimit) {
+    <ng-container>{{
+      'skyux_character_count_over_limit' | skyLibResources
+    }}</ng-container>
+  } @else {
+    @if (
+      characterCount | skyCharacterCounterScreenReader: characterCountLimit;
+      as screenReaderCount
+    ) {
+      <ng-container>{{
+        'skyux_character_count_message'
+          | skyLibResources: screenReaderCount : characterCountLimit
+      }}</ng-container>
+    }
+  }
 </span>

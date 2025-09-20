@@ -1,22 +1,19 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
-import { SplitViewDockFillComponent } from './split-view.component';
+import { SplitViewComponent } from './split-view.component';
 import { SplitViewModule } from './split-view.module';
 
 export default {
   id: 'splitviewcomponent-splitview',
   title: 'Components/Split View',
-  component: SplitViewDockFillComponent,
+  component: SplitViewComponent,
   decorators: [
     moduleMetadata({
       imports: [SplitViewModule],
     }),
   ],
-} as Meta<SplitViewDockFillComponent>;
-const Template: Story<SplitViewDockFillComponent> = (
-  args: SplitViewDockFillComponent,
-) => ({
-  props: args,
-});
-export const SplitView = Template.bind({});
+} as Meta<SplitViewComponent>;
+type Story = StoryObj<SplitViewComponent>;
+export const SplitView: Story = {};
 SplitView.args = {};

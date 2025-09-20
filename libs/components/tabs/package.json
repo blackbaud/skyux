@@ -16,21 +16,29 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular/animations": "^16.2.9",
-    "@angular/common": "^16.2.9",
-    "@angular/core": "^16.2.9",
-    "@angular/platform-browser": "^16.2.9",
-    "@angular/router": "^16.2.9",
+    "@angular/animations": "^20.3.0",
+    "@angular/cdk": "^20.2.3",
+    "@angular/common": "^20.3.0",
+    "@angular/core": "^20.3.0",
+    "@angular/platform-browser": "^20.3.0",
+    "@angular/router": "^20.3.0",
     "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
     "@skyux/animations": "0.0.0-PLACEHOLDER",
     "@skyux/core": "0.0.0-PLACEHOLDER",
     "@skyux/forms": "0.0.0-PLACEHOLDER",
     "@skyux/i18n": "0.0.0-PLACEHOLDER",
+    "@skyux/icon": "0.0.0-PLACEHOLDER",
     "@skyux/indicators": "0.0.0-PLACEHOLDER",
     "@skyux/popovers": "0.0.0-PLACEHOLDER",
     "@skyux/theme": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
-    "tslib": "^2.6.2"
-  }
+    "tslib": "^2.8.1"
+  },
+  "peerDependenciesMeta": {
+    "@skyux-sdk/testing": {
+      "optional": true
+    }
+  },
+  "sideEffects": false
 }

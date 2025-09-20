@@ -1,0 +1,54 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-datepicker-btn-date') {
+  --sky-override-daypicker-disabled-style: italic;
+  --sky-override-daypicker-key-date-color: #d93a3d;
+  --sky-override-daypicker-key-date-left: 15px;
+  --sky-override-daypicker-key-date-size: 5px;
+  --sky-override-daypicker-key-date-top: 22px;
+}
+
+.sky-datepicker-btn-disabled {
+  font-style: var(--sky-override-daypicker-disabled-style);
+}
+
+.sky-datepicker-btn-key-date {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    content: '';
+    height: var(
+      --sky-override-daypicker-key-date-size,
+      var(--sky-size-icon-xxxs)
+    );
+    width: var(
+      --sky-override-daypicker-key-date-size,
+      var(--sky-size-icon-xxxs)
+    );
+    background-color: var(
+      --sky-override-daypicker-key-date-color,
+      var(--sky-color-icon-danger)
+    );
+    border-radius: 50%;
+    left: var(
+      --sky-override-daypicker-key-date-left,
+      calc(50% - calc(var(--sky-size-icon-xxxs) / 2))
+    );
+    top: var(
+      --sky-override-daypicker-key-date-top,
+      calc(
+        calc(
+            50% +
+              calc(
+                calc(
+                    var(--sky-font-size-body-m) *
+                      var(--sky-font-line_height-body-m)
+                  ) /
+                  2
+              )
+          ) - calc(var(--sky-size-icon-xxxs) / 2)
+      )
+    );
+  }
+}

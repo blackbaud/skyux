@@ -1,16 +1,25 @@
+import { CommonModule } from '@angular/common';
 import {
-  AfterContentInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  ContentChildren,
-  OnDestroy,
-  QueryList,
+  DestroyRef,
+  contentChildren,
+  effect,
+  inject,
 } from '@angular/core';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { SkyMediaQueryService } from '@skyux/core';
+import { SkyIconModule } from '@skyux/icon';
+import {
+  SkyDropdownMessage,
+  SkyDropdownMessageType,
+  SkyDropdownModule,
+} from '@skyux/popovers';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+
+import { SkyActionBarsResourcesModule } from '../../shared/sky-action-bars-resources.module';
 
 import { SkySummaryActionBarSecondaryActionComponent } from './summary-action-bar-secondary-action.component';
 
@@ -19,79 +28,49 @@ import { SkySummaryActionBarSecondaryActionComponent } from './summary-action-ba
  * components.
  */
 @Component({
+  imports: [
+    CommonModule,
+    SkyActionBarsResourcesModule,
+    SkyDropdownModule,
+    SkyIconModule,
+  ],
   selector: 'sky-summary-action-bar-secondary-actions',
   templateUrl: './summary-action-bar-secondary-actions.component.html',
+  styleUrls: ['./summary-action-bar-secondary-actions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
-export class SkySummaryActionBarSecondaryActionsComponent
-  implements AfterContentInit, OnDestroy
-{
-  @ContentChildren(SkySummaryActionBarSecondaryActionComponent)
-  public secondaryActionComponents:
-    | QueryList<SkySummaryActionBarSecondaryActionComponent>
-    | undefined;
+export class SkySummaryActionBarSecondaryActionsComponent {
+  readonly #destroyRef = inject(DestroyRef);
+  readonly #mediaQuerySvc = inject(SkyMediaQueryService);
 
-  public isMobile = false;
+  protected readonly breakpoint = toSignal(
+    this.#mediaQuerySvc.breakpointChange,
+  );
 
   public dropdownMessageStream = new Subject<SkyDropdownMessage>();
 
-  #mediaQuerySubscription: Subscription | undefined;
-  #actionChanges: Subscription | undefined;
-  #actionClicks: Subscription[] = [];
-  #changeDetector: ChangeDetectorRef;
-  #mediaQueryService: SkyMediaQueryService;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    mediaQueryService: SkyMediaQueryService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#mediaQueryService = mediaQueryService;
-  }
-
-  public ngAfterContentInit(): void {
-    this.#mediaQuerySubscription = this.#mediaQueryService.subscribe(
-      (args: SkyMediaBreakpoints) => {
-        this.isMobile = args === SkyMediaBreakpoints.xs;
-        this.#checkAndUpdateChildrenType();
-      },
+  public readonly secondaryActionComponents =
+    contentChildren<SkySummaryActionBarSecondaryActionComponent>(
+      SkySummaryActionBarSecondaryActionComponent,
     );
 
-    this.#actionChanges = this.secondaryActionComponents?.changes.subscribe(
-      () => {
-        this.#checkAndUpdateChildrenType();
-      },
-    );
-    if (this.#mediaQueryService.current === SkyMediaBreakpoints.xs) {
-      this.isMobile = true;
-    }
-    this.#checkAndUpdateChildrenType();
-  }
+  constructor() {
+    effect(() => {
+      const actions = this.secondaryActionComponents();
+      const breakpoint = this.breakpoint();
 
-  public ngOnDestroy(): void {
-    this.#mediaQuerySubscription?.unsubscribe();
-    this.#actionChanges?.unsubscribe();
-    this.#actionClicks.forEach((actionClick) => actionClick.unsubscribe());
-  }
+      for (const action of actions) {
+        action.isDropdown = breakpoint === 'xs' || actions.length >= 5;
 
-  #checkAndUpdateChildrenType(): void {
-    /* istanbul ignore else */
-    if (this.secondaryActionComponents) {
-      let isDropdown = false;
-      if (this.secondaryActionComponents.length >= 5 || this.isMobile) {
-        isDropdown = true;
-      }
-      this.secondaryActionComponents.forEach((action) => {
-        action.isDropdown = isDropdown;
-        this.#actionClicks.push(
-          action.actionClick.subscribe(() => {
+        action.actionClick
+          .pipe(takeUntilDestroyed(this.#destroyRef))
+          .subscribe(() => {
             this.dropdownMessageStream.next({
               type: SkyDropdownMessageType.Close,
             });
-          }),
-        );
-      });
-    }
-    this.#changeDetector.detectChanges();
+          });
+      }
+    });
   }
 }

@@ -1,7 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { ValidationErrors } from '@angular/forms';
 import { SkyAppWindowRef } from '@skyux/core';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Subject } from 'rxjs';
+import { Subject, take } from 'rxjs';
 
 import { STYLE_STATE_DEFAULTS } from '../defaults/style-state-defaults';
 import { EditorCommand } from '../types/editor-command';
@@ -18,6 +20,7 @@ import { SkyTextEditorService } from './text-editor.service';
  */
 @Injectable()
 export class SkyTextEditorAdapterService {
+  readonly #resourceSvc = inject(SkyLibResourcesService);
   #selectionService: SkyTextEditorSelectionService;
   #textEditorService: SkyTextEditorService;
   #windowRef: SkyAppWindowRef;
@@ -44,6 +47,9 @@ export class SkyTextEditorAdapterService {
     this.#textEditorService.editor = this.#createObservers(iframeElement);
 
     const documentEl = this.#getIframeDocumentEl();
+    if (!documentEl) {
+      return;
+    }
 
     const styleEl = documentEl.createElement('style');
     styleEl.innerHTML = `.editor:empty:before {
@@ -90,29 +96,51 @@ export class SkyTextEditorAdapterService {
   /**
    * Executes a command on the text editor with the corresponding id.
    */
-  public execCommand(editorCommand: EditorCommand): void {
+  public async execCommand(editorCommand: EditorCommand): Promise<void> {
     /* istanbul ignore else */
     if (this.#textEditorService.editor) {
       const documentEl = this.#getIframeDocumentEl();
 
-      /* istanbul ignore else */
-      if (this.editorSelected()) {
-        documentEl.execCommand(
-          editorCommand.command,
-          false,
-          editorCommand.value,
-        );
+      if (editorCommand.command === 'paste') {
+        // Firefox does not support the clipboard API's `readText` as of 3/24. We are ok with just firing an alert when the paste button is used in Firefox.
+        if (!navigator.clipboard.readText) {
+          this.#resourceSvc
+            .getString('skyux_text_editor_paste_incompatibility_error')
+            .pipe(take(1))
+            .subscribe((errorString) => alert(errorString));
+        } else {
+          await navigator.clipboard.readText().then((clipText) => {
+            /* istanbul ignore else */
+            if (this.editorSelected()) {
+              documentEl?.execCommand('insertHTML', false, clipText);
 
-        this.focusEditor();
-        this.#textEditorService.editor.commandChangeObservable.next();
+              this.focusEditor();
+              this.#textEditorService.editor.commandChangeObservable.next();
+            }
+          });
+        }
+      } else {
+        /* istanbul ignore else */
+        if (this.editorSelected()) {
+          documentEl?.execCommand(
+            editorCommand.command,
+            false,
+            editorCommand.value,
+          );
+
+          this.focusEditor();
+          this.#textEditorService.editor.commandChangeObservable.next();
+        }
       }
     }
   }
 
   public getCurrentSelection(): Selection | null {
-    return this.#selectionService.getCurrentSelection(
-      this.#getIframeDocumentEl(),
-    );
+    const documentEl = this.#getIframeDocumentEl();
+    if (documentEl) {
+      return this.#selectionService.getCurrentSelection(documentEl);
+    }
+    return null;
   }
 
   /**
@@ -155,7 +183,7 @@ export class SkyTextEditorAdapterService {
     const documentEl = this.#getIframeDocumentEl();
 
     /* istanbul ignore else */
-    if (this.editorSelected()) {
+    if (documentEl && this.editorSelected()) {
       return {
         backColor: this.#getColor(documentEl, 'BackColor'),
         fontColor: this.#getColor(documentEl, 'ForeColor'),
@@ -182,9 +210,9 @@ export class SkyTextEditorAdapterService {
 
   public setEditorInnerHtml(value: string): void {
     const documentEl = this.#getIframeDocumentEl();
-    const editorContent = documentEl.body;
+    const editorContent = documentEl?.body;
     /* istanbul ignore else */
-    if (editorContent.innerHTML !== value) {
+    if (editorContent && editorContent.innerHTML !== value) {
       editorContent.innerHTML = value;
     }
   }
@@ -194,35 +222,38 @@ export class SkyTextEditorAdapterService {
     if (this.#textEditorService.editor) {
       const windowEl = this.#getContentWindowEl();
       const iframeDocumentEl = this.#getIframeDocumentEl();
-      const currentSelection = this.#selectionService.getCurrentSelectionRange(
-        iframeDocumentEl,
-        windowEl,
-      );
-      const cursorIsNotActiveAndHasReset =
-        currentSelection &&
-        currentSelection.startOffset === 0 &&
-        currentSelection.endOffset === 0;
+      if (windowEl && iframeDocumentEl) {
+        const currentSelection =
+          this.#selectionService.getCurrentSelectionRange(
+            iframeDocumentEl,
+            windowEl,
+          );
+        const cursorIsNotActiveAndHasReset =
+          currentSelection &&
+          currentSelection.startOffset === 0 &&
+          currentSelection.endOffset === 0;
 
-      if (!this.editorSelected() || cursorIsNotActiveAndHasReset) {
-        // focus the end of the editor
-        const documentEl = this.#windowRef.nativeWindow.document;
-        const editor = iframeDocumentEl.body as HTMLBodyElement;
-        const range = documentEl.createRange();
+        if (!this.editorSelected() || cursorIsNotActiveAndHasReset) {
+          // focus the end of the editor
+          const documentEl = this.#windowRef.nativeWindow.document;
+          const editor = iframeDocumentEl.body as HTMLBodyElement;
+          const range = documentEl.createRange();
 
-        this.#textEditorService.editor.iframeElementRef.focus();
-        editor.focus();
+          this.#textEditorService.editor.iframeElementRef.focus();
+          editor.focus();
 
-        if (windowEl.getSelection && documentEl.createRange) {
-          range.selectNodeContents(editor);
-          range.collapse(false);
-          const sel = windowEl.getSelection();
-          sel?.removeAllRanges();
-          sel?.addRange(range);
+          if (windowEl.getSelection && documentEl.createRange) {
+            range.selectNodeContents(editor);
+            range.collapse(false);
+            const sel = windowEl.getSelection();
+            sel?.removeAllRanges();
+            sel?.addRange(range);
+          }
+        } else {
+          // Cursor may not be active, restore it
+          this.#textEditorService.editor.iframeElementRef.focus();
+          iframeDocumentEl.body.focus();
         }
-      } else {
-        // Cursor may not be active, restore it
-        this.#textEditorService.editor.iframeElementRef.focus();
-        iframeDocumentEl.body.focus();
       }
     }
   }
@@ -250,41 +281,72 @@ export class SkyTextEditorAdapterService {
       return this.#getParent(selectedEl, 'a') as HTMLAnchorElement;
     }
 
-    /* istanbul ignore next */
     return undefined;
   }
 
   public saveSelection(): Range | undefined {
-    return this.#selectionService.getCurrentSelectionRange(
-      this.#getIframeDocumentEl(),
-      this.#getContentWindowEl(),
-    );
+    const documentEl = this.#getIframeDocumentEl();
+    const windowEl = this.#getContentWindowEl();
+    if (documentEl && windowEl) {
+      return this.#selectionService.getCurrentSelectionRange(
+        documentEl,
+        windowEl,
+      );
+    }
+    return undefined;
   }
 
   public selectElement(element: HTMLElement): void {
-    this.#selectionService.selectElement(
-      this.#getIframeDocumentEl(),
-      this.#getContentWindowEl(),
-      element,
-    );
+    const documentEl = this.#getIframeDocumentEl();
+    const windowEl = this.#getContentWindowEl();
+    if (documentEl && windowEl) {
+      this.#selectionService.selectElement(documentEl, windowEl, element);
+    }
+  }
+
+  public setErrorAttributes(
+    errorId: string,
+    errors: ValidationErrors | null,
+  ): void {
+    const documentEl = this.#getIframeDocumentEl();
+    documentEl?.body.setAttribute('aria-invalid', (!!errors).toString());
+    if (errors && errorId) {
+      documentEl?.body.setAttribute('aria-errormessage', errorId);
+    } else {
+      documentEl?.body.removeAttribute('aria-errormessage');
+    }
+  }
+
+  public setLabelAttribute(label: string | undefined): void {
+    if (label) {
+      const documentEl = this.#getIframeDocumentEl();
+      documentEl?.body.setAttribute('aria-label', label);
+    }
   }
 
   public setPlaceholder(placeholder?: string): void {
     const documentEl = this.#getIframeDocumentEl();
-    documentEl.body.setAttribute('data-placeholder', placeholder || '');
+    documentEl?.body.setAttribute('data-placeholder', placeholder || '');
   }
 
-  public setFontSize(fontSize: number): void {
+  public setRequiredAttribute(required: boolean): void {
+    const documentEl = this.#getIframeDocumentEl();
+    documentEl?.body.setAttribute('aria-required', required.toString());
+  }
+
+  public async setFontSize(fontSize: number): Promise<void> {
     const doc = this.#getIframeDocumentEl();
-    this.execCommand({ command: 'fontSize', value: '1' });
-    const fontElements: HTMLElement[] = Array.from(
-      doc.querySelectorAll('font[size="1"]'),
-    );
-    for (const element of fontElements) {
-      element.removeAttribute('size');
-      element.style.fontSize = fontSize + 'px';
+    await this.execCommand({ command: 'fontSize', value: '1' });
+    if (doc) {
+      const fontElements: HTMLElement[] = Array.from(
+        doc.querySelectorAll('font[size="1"]'),
+      );
+      for (const element of fontElements) {
+        element.removeAttribute('size');
+        element.style.fontSize = fontSize + 'px';
+      }
+      this.#cleanUpBlankStyleTags(doc);
     }
-    this.#cleanUpBlankStyleTags(doc);
 
     this.focusEditor();
     this.#textEditorService.editor.commandChangeObservable.next();
@@ -309,7 +371,7 @@ export class SkyTextEditorAdapterService {
     }
   }
 
-  #getContentWindowEl(): Window {
+  #getContentWindowEl(): Window | undefined {
     return this.#textEditorService.editor.iframeElementRef
       .contentWindow as Window;
   }
@@ -366,7 +428,7 @@ export class SkyTextEditorAdapterService {
     });
   }
 
-  #getIframeDocumentEl(): Document {
+  #getIframeDocumentEl(): Document | undefined {
     const contentWindowEl = this.#getContentWindowEl();
     /* istanbul ignore else */
     if (contentWindowEl) {
@@ -404,11 +466,11 @@ export class SkyTextEditorAdapterService {
     /* istanbul ignore next */
     const documentEl = element.contentWindow
       ? element.contentWindow.document
-      : (element.contentDocument as Document);
+      : element.contentDocument;
 
     // Firefox bug where we need to open/close to cancel load so it doesn't overwrite attrs
-    documentEl.open();
-    documentEl.close();
+    documentEl?.open();
+    documentEl?.close();
 
     const selectionObservable = new Subject<void>();
     const selectionListener = (): void => selectionObservable.next();
@@ -417,22 +479,27 @@ export class SkyTextEditorAdapterService {
     const pasteListener = this.#getPasteOverride();
     const blurObservable = new Subject<void>();
     const blurListener = (): void => blurObservable.next();
+    const focusObservable = new Subject<void>();
+    const focusListener = (): void => focusObservable.next();
     const inputObservable = new Subject<void>();
     const inputListener = (): void => inputObservable.next();
 
-    documentEl.addEventListener('selectionchange', selectionListener);
-    documentEl.addEventListener('input', inputListener);
-    documentEl.addEventListener('mousedown', clickListener);
-    documentEl.body.addEventListener('paste', pasteListener);
-    documentEl.body.addEventListener('blur', blurListener);
+    documentEl?.addEventListener('selectionchange', selectionListener);
+    documentEl?.addEventListener('input', inputListener);
+    documentEl?.addEventListener('mousedown', clickListener);
+    documentEl?.body.addEventListener('paste', pasteListener);
+    documentEl?.body.addEventListener('blur', blurListener);
+    documentEl?.body.addEventListener('focusin', focusListener);
     return {
       blurObservable,
       clickObservable,
+      focusObservable,
       commandChangeObservable: new Subject(),
       iframeElementRef: element,
       inputObservable,
       selectionChangeObservable: selectionObservable,
       blurListener,
+      focusListener,
       clickListener,
       inputListener,
       pasteListener,
@@ -447,15 +514,22 @@ export class SkyTextEditorAdapterService {
       const text = e.clipboardData?.getData('text/plain');
 
       if (text !== undefined) {
-        this.execCommand({ command: 'insertHTML', value: text.toString() });
+        void this.execCommand({
+          command: 'insertHTML',
+          value: text.toString(),
+        });
       }
     };
   }
 
   #getCurrentSelectionParentElement(): Element | null | undefined {
-    return this.#selectionService.getCurrentSelectionParentElement(
-      this.#getIframeDocumentEl(),
-    );
+    const documentEl = this.#getIframeDocumentEl();
+    if (documentEl) {
+      return this.#selectionService.getCurrentSelectionParentElement(
+        documentEl,
+      );
+    }
+    return undefined;
   }
 
   #getColor(documentEl: Document, selector: string): string {
@@ -504,10 +578,13 @@ export class SkyTextEditorAdapterService {
 
   public editorSelected(): boolean {
     const documentEl = this.#getIframeDocumentEl();
-    return this.#selectionService.isElementSelected(
-      documentEl,
-      documentEl.body,
-    );
+    if (documentEl) {
+      return this.#selectionService.isElementSelected(
+        documentEl,
+        documentEl.body,
+      );
+    }
+    return false;
   }
 
   #cleanUpBlankStyleTags(doc: Document): void {
@@ -563,7 +640,7 @@ export class SkyTextEditorAdapterService {
         aFocusableChild.tabIndex = disabled ? -1 : 0;
       });
     }
-    this.#getIframeDocumentEl().body.setAttribute(
+    this.#getIframeDocumentEl()?.body.setAttribute(
       'contenteditable',
       disabled ? 'false' : 'true',
     );

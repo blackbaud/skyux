@@ -1,40 +1,39 @@
-<div class="icon-sheet">
-  <sky-icon icon="calendar" />
-  <sky-icon icon="calendar" size="lg" />
-  <sky-icon icon="calendar" size="2x" />
-  <sky-icon icon="calendar" variant="line" size="3x" />
-  <sky-icon
-    data-sky-id="icon-demo"
-    icon="calendar"
-    variant="solid"
-    size="4x"
-    [fixedWidth]="true"
-  />
+<div class="sky-padding-even-md icon-svg-compare">
+  <div class="sky-margin-stacked-lg">
+    <sky-icon iconName="sparkles" iconSize="xxxs" />
+    <sky-icon iconName="sparkles" iconSize="xxs" />
+    <sky-icon iconName="sparkles" iconSize="xs" />
+    <sky-icon iconName="sparkles" iconSize="s" />
+    <sky-icon iconName="sparkles" />
+    <sky-icon iconName="sparkles" iconSize="l" />
+    <sky-icon iconName="sparkles" iconSize="xl" />
+    <sky-icon iconName="sparkles" iconSize="xxl" />
 
-  <div>
-    <sky-icon icon="bars" size="5x" />
-  </div>
-  <div>
-    <sky-icon icon="chevron-down" size="5x" />
-  </div>
+    <sky-icon iconName="alert" iconSize="xxxs" />
+    <sky-icon iconName="alert" iconSize="xxs" />
+    <sky-icon iconName="alert" iconSize="xs" />
+    <sky-icon iconName="alert" iconSize="s" />
+    <sky-icon iconName="alert" />
+    <sky-icon iconName="alert" iconSize="l" />
+    <sky-icon iconName="alert" iconSize="xl" />
+    <sky-icon iconName="alert" iconSize="xxl" />
 
-  <div>
-    <sky-icon icon="bars" size="5x" [fixedWidth]="true" />
+    <sky-icon iconName="attach" iconSize="xxxs" />
+    <sky-icon iconName="attach" iconSize="xxs" />
+    <sky-icon iconName="attach" iconSize="xs" />
+    <sky-icon iconName="attach" iconSize="s" />
+    <sky-icon iconName="attach" />
+    <sky-icon iconName="attach" iconSize="l" />
+    <sky-icon iconName="attach" iconSize="xl" />
+    <sky-icon iconName="attach" iconSize="xxl" />
+    Some text.
   </div>
   <div>
-    <sky-icon icon="chevron-down" size="5x" [fixedWidth]="true" />
+    <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
+      <sky-icon iconName="clipboard-multiple" /> Copy
+    </button>
+    <button type="button" class="sky-btn sky-btn-primary">
+      <sky-icon iconName="alert" /> Alert
+    </button>
   </div>
 </div>
-<div class="icon-sheet">
-  <div *ngFor="let icon of icons" class="icon-sheet--icon sky-padding-even-md">
-    <sky-icon [icon]="icon.name" size="lg" />
-    <span>{{ icon.name }}</span>
-  </div>
-</div>
-<div class="icon-sheet">
-  <div *ngFor="let fa of faIcons" class="icon-sheet--icon sky-padding-even-md">
-    <sky-icon [icon]="fa" size="lg" />
-    <span>{{ fa }}</span>
-  </div>
-</div>
-<span id="ready" *ngIf="ready | async"></span>

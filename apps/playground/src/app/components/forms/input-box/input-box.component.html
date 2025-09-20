@@ -4,15 +4,16 @@
       characterLimit="10"
       labelText="Easy mode"
       stacked="true"
-      helpPopoverContent="I'm some help content."
       hintText="Here's some hint text."
+      [helpKey]="helpKey"
+      [helpPopoverContent]="helpPopoverContent"
     >
       <input
         type="text"
         minlength="3"
         required
-        [(ngModel)]="myValue"
         aria-describedby="someOtherId"
+        [(ngModel)]="myValue"
       />
     </sky-input-box>
   </div>
@@ -27,51 +28,56 @@
       </label>
       <sky-character-counter-indicator #indicator />
       <input
+        #inputBoxInlineHelpRequiredCharacterCounter="skyId"
+        #myValueModel="ngModel"
         class="sky-form-control"
         skyId
         type="text"
         required
         minlength="4"
         skyCharacterCounter
-        [(ngModel)]="myValue"
         [skyCharacterCounterIndicator]="indicator"
         [skyCharacterCounterLimit]="10"
-        #inputBoxInlineHelpRequiredCharacterCounter="skyId"
-        #myValueModel="ngModel"
+        [(ngModel)]="myValue"
       />
 
-      <div
-        *ngIf="myValueModel.invalid && (myValueModel.dirty || myValueModel.touched) && myValueModel.errors?.['required']"
-        class="sky-error-indicator"
-      >
-        <sky-status-indicator descriptionType="error" indicatorType="danger">
-          Hard mode is required.
-        </sky-status-indicator>
-      </div>
-
-      <div
-        *ngIf="myValueModel.invalid && (myValueModel.dirty || myValueModel.touched) && myValueModel.errors?.['minlength'] as minLengthError"
-        class="sky-error-indicator"
-      >
-        <sky-status-indicator descriptionType="error" indicatorType="danger">
-          Hard mode must be at least 3 characters(s).
-        </sky-status-indicator>
-      </div>
-
-      <div
-        *ngIf="myValueModel.invalid && (myValueModel.dirty || myValueModel.touched) &&
-          myValueModel.errors?.['skyCharacterCounter'] as characterCounterError
-        "
-        class="sky-error-indicator"
-      >
-        <sky-status-indicator
-          *ngIf="errorsComputed?.['skyCharacterCounter']"
-          indicatorType="danger"
-          descriptionType="error"
-        >
-          Hard mode must be fewer than 10 character(s).
-        </sky-status-indicator>
-      </div>
+      @if (
+        myValueModel.invalid && (myValueModel.dirty || myValueModel.touched)
+      ) {
+        @if (myValueModel.errors?.['required']) {
+          <div class="sky-error-indicator">
+            <sky-status-indicator
+              descriptionType="error"
+              indicatorType="danger"
+            >
+              Hard mode is required.
+            </sky-status-indicator>
+          </div>
+        }
+        @if (myValueModel.errors?.['minlength']; as minLengthError) {
+          <div class="sky-error-indicator">
+            <sky-status-indicator
+              descriptionType="error"
+              indicatorType="danger"
+            >
+              Hard mode must be at least 3 characters(s).
+            </sky-status-indicator>
+          </div>
+        }
+        @if (
+          myValueModel.errors?.['skyCharacterCounter'];
+          as characterCounterError
+        ) {
+          <div class="sky-error-indicator">
+            <sky-status-indicator
+              indicatorType="danger"
+              descriptionType="error"
+            >
+              Hard mode must be fewer than 10 character(s).
+            </sky-status-indicator>
+          </div>
+        }
+      }
     </sky-input-box>
   </div>
 
@@ -79,11 +85,11 @@
     <sky-input-box stacked="true">
       <label class="sky-control-label" [for]="inputBoxBasic.id"> Input </label>
       <input
+        #inputBoxBasic="skyId"
         class="sky-form-control"
         skyId
         type="text"
         value="Value"
-        #inputBoxBasic="skyId"
       />
     </sky-input-box>
   </div>
@@ -93,7 +99,7 @@
       <label class="sky-control-label" [for]="inputBoxTextarea.id">
         Textarea
       </label>
-      <textarea class="sky-form-control" skyId #inputBoxTextarea="skyId">
+      <textarea #inputBoxTextarea="skyId" class="sky-form-control" skyId>
 Value</textarea
       >
     </sky-input-box>
@@ -101,41 +107,40 @@ Value</textarea
 
   <div id="input-box-help-inline">
     <sky-input-box stacked="true">
-      <sky-help-inline class="sky-control-help"></sky-help-inline>
+      <sky-help-inline class="sky-control-help" />
       <label class="sky-control-label" [for]="inputBoxInlineHelp.id">
         Input with inline help
       </label>
       <input
+        #inputBoxInlineHelp="skyId"
         class="sky-form-control"
         skyId
         type="text"
         value="Value"
-        #inputBoxInlineHelp="skyId"
       />
     </sky-input-box>
   </div>
 
   <div id="input-box-help-inline-required-with-character-counter">
     <sky-input-box stacked="true">
-      <sky-help-inline class="sky-control-help"></sky-help-inline>
+      <sky-help-inline class="sky-control-help" />
       <label
         class="sky-control-label sky-control-label-required"
         [for]="inputBoxInlineHelpRequiredCharacterCounter.id"
       >
         Required input with inline help and character counter
       </label>
-      <sky-character-counter-indicator #indicator>
-      </sky-character-counter-indicator>
+      <sky-character-counter-indicator #indicator />
       <input
+        #inputBoxInlineHelpRequiredCharacterCounter="skyId"
         class="sky-form-control"
         skyId
         type="text"
         required
         skyCharacterCounter
-        [(ngModel)]="myValue"
         [skyCharacterCounterIndicator]="indicator"
         [skyCharacterCounterLimit]="10"
-        #inputBoxInlineHelpRequiredCharacterCounter="skyId"
+        [(ngModel)]="myValue"
       />
     </sky-input-box>
   </div>
@@ -145,17 +150,62 @@ Value</textarea
       <sky-help-inline
         class="sky-control-help"
         (actionClick)="onActionClick()"
-      ></sky-help-inline>
+      />
       <label class="sky-control-label" [for]="inputBoxInlineHelpOverflow.id">
         Input with inline help and overflowing text. The label should wrap while
         the inline help icon should stick to the top right of the input box.
       </label>
       <input
+        #inputBoxInlineHelpOverflow="skyId"
         class="sky-form-control"
         skyId
         type="text"
         value="Value"
+      />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-help-inline-and-character-count-overflow">
+    <sky-input-box stacked="true">
+      <sky-help-inline
+        class="sky-control-help"
+        (actionClick)="onActionClick()"
+      />
+      <label class="sky-control-label" [for]="inputBoxInlineHelpOverflow.id">
+        Input with inline help and overflowing text. The label should wrap while
+        the inline help icon should stick to the top right of the input box
+        beside the character counter.
+      </label>
+      <sky-character-counter-indicator #indicator />
+      <input
         #inputBoxInlineHelpOverflow="skyId"
+        class="sky-form-control"
+        skyId
+        skyCharacterCounter
+        type="text"
+        value="Value"
+        [skyCharacterCounterIndicator]="indicator"
+        [skyCharacterCounterLimit]="10"
+      />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-help-inline-and-character-count-overflow">
+    <sky-input-box stacked="true">
+      <label class="sky-control-label" [for]="inputBoxInlineHelpOverflow.id">
+        Input with inline help and overflowing text. The label should wrap while
+        leaving margin beside the character counter.
+      </label>
+      <sky-character-counter-indicator #indicator />
+      <input
+        #inputBoxInlineHelpOverflow="skyId"
+        class="sky-form-control"
+        skyId
+        skyCharacterCounter
+        type="text"
+        value="Value"
+        [skyCharacterCounterIndicator]="indicator"
+        [skyCharacterCounterLimit]="10"
       />
     </sky-input-box>
   </div>
@@ -166,14 +216,14 @@ Value</textarea
         Input with one button
       </label>
       <input
+        #inputBoxButtonSingle="skyId"
         class="sky-form-control"
         skyId
         type="text"
-        #inputBoxButtonSingle="skyId"
       />
       <div class="sky-input-group-btn">
         <button class="sky-btn sky-btn-default" type="button">
-          <sky-icon icon="calendar" />
+          <sky-icon iconName="calendar-ltr" iconSize="l" />
         </button>
       </div>
     </sky-input-box>
@@ -185,19 +235,19 @@ Value</textarea
         Input with multiple buttons
       </label>
       <input
+        #inputBoxButtonMultiple="skyId"
         class="sky-form-control"
         skyId
         type="text"
-        #inputBoxButtonMultiple="skyId"
       />
       <div class="sky-input-group-btn">
         <button class="sky-btn sky-btn-default" type="button">
-          <sky-icon icon="calendar" />
+          <sky-icon iconName="calendar-ltr" iconSize="l" />
         </button>
       </div>
       <div class="sky-input-group-btn">
         <button class="sky-btn sky-btn-default" type="button">
-          <sky-icon icon="clock-o" />
+          <sky-icon iconName="clock" iconSize="l" />
         </button>
       </div>
     </sky-input-box>
@@ -209,10 +259,10 @@ Value</textarea
         Input left
       </label>
       <input
+        #inputBoxSideBySide1="skyId"
         class="sky-form-control"
         skyId
         type="text"
-        #inputBoxSideBySide1="skyId"
       />
     </sky-input-box>
 
@@ -223,10 +273,10 @@ Value</textarea
         truncating it.
       </label>
       <input
+        #inputBoxSideBySide2="skyId"
         class="sky-form-control"
         skyId
         type="text"
-        #inputBoxSideBySide2="skyId"
       />
     </sky-input-box>
   </div>
@@ -237,11 +287,11 @@ Value</textarea
         Form control error
       </label>
       <input
+        #inputBoxFormControlError="skyId"
         class="sky-form-control"
         skyId
         type="text"
         [formControl]="errorField"
-        #inputBoxFormControlError="skyId"
       />
       <div class="sky-error-label">Field is required.</div>
     </sky-input-box>
@@ -249,6 +299,16 @@ Value</textarea
 
   <div id="input-box-form-control-name-error">
     <form [formGroup]="errorForm">
+      <sky-input-box
+        labelText="Custom error easy mode"
+        stacked="true"
+        hintText="type in blue"
+      >
+        <input formControlName="customError" type="text" />
+        @if (customError.errors?.['blue']) {
+          <sky-form-error errorName="blue" errorText="Input must be blue." />
+        }
+      </sky-input-box>
       <sky-input-box
         mode="detect"
         labelText="Form control by name error with status indicator"
@@ -263,11 +323,11 @@ Value</textarea
           Form control by name error with status indicator
         </label>
         <input
+          #inputBoxFormControlNameError="skyId"
           class="sky-form-control"
           formControlName="errorFormField"
           skyId
           type="text"
-          #inputBoxFormControlNameError="skyId"
         />
         <span class="sky-error-indicator">
           <sky-status-indicator indicatorType="danger" descriptionType="error">
@@ -284,14 +344,14 @@ Value</textarea
         NgModel error
       </label>
       <input
+        #errorNgModel="ngModel"
+        #inputBoxNgModelError="skyId"
         class="sky-form-control"
         name="errorNgModel"
         required
         skyId
         type="text"
         [(ngModel)]="errorNgModelValue"
-        #errorNgModel="ngModel"
-        #inputBoxNgModelError="skyId"
       />
       <div class="sky-error-label">Field is required.</div>
     </sky-input-box>
@@ -306,16 +366,16 @@ Value</textarea
         Form control error with one button
       </label>
       <input
+        #inputBoxFormControlErrorButtonSingle="skyId"
         class="sky-form-control"
         id="field8"
         skyId
         type="text"
         [formControl]="errorField"
-        #inputBoxFormControlErrorButtonSingle="skyId"
       />
       <div class="sky-input-group-btn">
         <button class="sky-btn sky-btn-default" type="button">
-          <sky-icon icon="calendar" />
+          <sky-icon iconName="calendar-ltr" iconSize="l" />
         </button>
       </div>
       <div class="sky-error-label">Field is required.</div>
@@ -328,12 +388,12 @@ Value</textarea
         Disabled
       </label>
       <input
+        #inputBoxDisabled="skyId"
         class="sky-form-control"
         disabled
         skyId
         type="text"
         value="Disabled value"
-        #inputBoxDisabled="skyId"
       />
     </sky-input-box>
   </div>
@@ -344,17 +404,39 @@ Value</textarea
         Input with one button disabled
       </label>
       <input
+        #inputBoxButtonDisabled
         disabled
         class="sky-form-control"
         skyId
         type="text"
-        #inputBoxButtonDisabled
       />
       <div class="sky-input-group-btn">
         <button disabled class="sky-btn sky-btn-default" type="button">
-          <sky-icon icon="calendar" />
+          <sky-icon iconName="calendar-ltr" iconSize="l" />
         </button>
       </div>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-disabled-form-control-error">
+    <sky-input-box
+      stacked="true"
+      labelText="Disabled input with form control error"
+    >
+      <input type="text" [formControl]="errorDisabledField" />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-disabled-ng-model-error">
+    <sky-input-box stacked="true" labelText="Disabled input with NgModel error">
+      <input
+        #errorNgModelDisabled="ngModel"
+        type="text"
+        required
+        disabled
+        type="text"
+        [(ngModel)]="errorNgModelValue"
+      />
     </sky-input-box>
   </div>
 
@@ -363,7 +445,7 @@ Value</textarea
       <label class="sky-control-label" [for]="inputBoxSelect.id">
         Select
       </label>
-      <select class="sky-form-control" skyId #inputBoxSelect="skyId">
+      <select #inputBoxSelect="skyId" class="sky-form-control" skyId>
         <option>Option 1</option>
         <option>Option 2</option>
         <option>Option 3</option>
@@ -378,10 +460,10 @@ Value</textarea
         Select disabled
       </label>
       <select
+        #inputBoxSelectDisabled="skyId"
         disabled
         class="sky-form-control"
         skyId
-        #inputBoxSelectDisabled="skyId"
       >
         <option>Option 1</option>
         <option>Option 2</option>
@@ -396,11 +478,11 @@ Value</textarea
   <div id="input-box-basic-no-label">
     <sky-input-box stacked="true">
       <input
+        #inputBoxBasicNoLabel="skyId"
         class="sky-form-control"
         skyId
         type="text"
         value="No label"
-        #inputBoxBasicNoLabel="skyId"
       />
     </sky-input-box>
   </div>
@@ -409,7 +491,7 @@ Value</textarea
   <label class="test-label" [for]="inputBoxTextareaNoLabel.id"></label>
   <div id="input-box-textarea-no-label">
     <sky-input-box stacked="true">
-      <textarea class="sky-form-control" skyId #inputBoxTextareaNoLabel="skyId">
+      <textarea #inputBoxTextareaNoLabel="skyId" class="sky-form-control" skyId>
 No label</textarea
       >
     </sky-input-box>
@@ -425,15 +507,15 @@ No label</textarea
   <div id="input-box-button-single-no-label">
     <sky-input-box stacked="true">
       <input
+        #inputBoxButtonSingleNoLabel="skyId"
         class="sky-form-control"
         skyId
         type="text"
         value="No label with one button"
-        #inputBoxButtonSingleNoLabel="skyId"
       />
       <div class="sky-input-group-btn">
         <button class="sky-btn sky-btn-default" type="button">
-          <sky-icon icon="calendar" />
+          <sky-icon iconName="calendar-ltr" iconSize="l" />
         </button>
       </div>
     </sky-input-box>
@@ -448,7 +530,7 @@ No label</textarea
   </label>
   <div id="input-box-select-no-label">
     <sky-input-box stacked="true">
-      <select class="sky-form-control" skyId #inputBoxSelectNoLabel="skyId">
+      <select #inputBoxSelectNoLabel="skyId" class="sky-form-control" skyId>
         <option>Option 1</option>
         <option>Option 2</option>
         <option>Option 3</option>
@@ -458,16 +540,16 @@ No label</textarea
   </div>
 
   <div id="input-box-basic-wrapper">
-    <sky-input-box stacked="true">
+    <sky-input-box stacked="true" hintText="Input box hint text.">
       <label class="sky-control-label" [for]="inputBoxBasicWrapper.id">
         Wrapper
       </label>
       <app-input-box-visual-host>
         <input
+          #inputBoxBasicWrapper="skyId"
           class="sky-form-control"
           skyId
           type="text"
-          #inputBoxBasicWrapper="skyId"
         />
       </app-input-box-visual-host>
     </sky-input-box>
@@ -480,14 +562,14 @@ No label</textarea
       </label>
       <div class="sky-input-group-btn sky-input-box-btn-left">
         <button class="sky-btn sky-btn-default" type="button">
-          <sky-icon icon="calendar" />
+          <sky-icon iconName="calendar-ltr" iconSize="l" />
         </button>
       </div>
       <input
+        #inputBoxButtonLeft="skyId"
         class="sky-form-control"
         skyId
         type="text"
-        #inputBoxButtonLeft="skyId"
       />
     </sky-input-box>
   </div>
@@ -498,14 +580,14 @@ No label</textarea
         Input with inset button
       </label>
       <input
+        #inputBoxButtonInset="skyId"
         class="sky-form-control"
         skyId
         type="text"
-        #inputBoxButtonInset="skyId"
       />
       <div class="sky-input-group-btn sky-input-box-btn-inset">
         <button class="sky-btn sky-btn-default" type="button">
-          <sky-icon icon="search" />
+          <sky-icon iconName="search" iconSize="l" />
         </button>
       </div>
     </sky-input-box>
@@ -516,7 +598,7 @@ No label</textarea
       <input class="sky-form-control" skyId type="text" />
       <div class="sky-input-group-btn sky-input-box-btn-inset">
         <button class="sky-btn sky-btn-default" type="button">
-          <sky-icon icon="search" />
+          <sky-icon iconName="search" iconSize="l" />
         </button>
       </div>
     </sky-input-box>
@@ -528,14 +610,14 @@ No label</textarea
         Input with inset button (narrow)
       </label>
       <input
+        #inputBoxButtonInsetNarrow="skyId"
         class="sky-form-control"
         skyId
         type="text"
-        #inputBoxButtonInsetNarrow="skyId"
       />
       <div class="sky-input-group-btn sky-input-box-btn-inset">
         <button class="sky-btn sky-btn-default" type="button">
-          <sky-icon icon="search" />
+          <sky-icon iconName="search" iconSize="l" />
         </button>
       </div>
     </sky-input-box>
@@ -547,13 +629,13 @@ No label</textarea
         Input with inset icon
       </label>
       <input
+        #inputBoxIconInset="skyId"
         class="sky-form-control"
         skyId
         type="text"
-        #inputBoxIconInset="skyId"
       />
       <div class="sky-input-group-icon sky-input-box-icon-inset">
-        <sky-icon icon="search" />
+        <sky-icon iconName="search" iconSize="l" />
       </div>
     </sky-input-box>
   </div>
@@ -564,13 +646,13 @@ No label</textarea
         Input with left inset icon
       </label>
       <input
+        #inputBoxIconInsetLeft="skyId"
         class="sky-form-control"
         skyId
         type="text"
-        #inputBoxIconInsetLeft="skyId"
       />
       <div class="sky-input-group-icon sky-input-box-icon-inset-left">
-        <sky-icon icon="search" />
+        <sky-icon iconName="search" iconSize="l" />
       </div>
     </sky-input-box>
   </div>
@@ -581,14 +663,14 @@ No label</textarea
         Disabled input with inset icon
       </label>
       <input
+        #inputBoxIconInsetDisabled="skyId"
         class="sky-form-control"
         disabled
         skyId
         type="text"
-        #inputBoxIconInsetDisabled="skyId"
       />
       <div class="sky-input-group-icon sky-input-box-icon-inset">
-        <sky-icon icon="search" />
+        <sky-icon iconName="search" iconSize="l" />
       </div>
     </sky-input-box>
   </div>
@@ -599,29 +681,30 @@ No label</textarea
         Input W/ Placeholder
       </label>
       <input
+        #inputBoxPlaceholder="skyId"
         class="sky-form-control"
         placeholder="Placeholder Text"
         skyId
         type="text"
-        #inputBoxPlaceholder="skyId"
       />
     </sky-input-box>
   </div>
 
-  <form [formGroup]="errorAutofillForm" action="about:blank" autocomplete="on">
+  <form [formGroup]="errorAutofillForm">
     <div id="input-box-basic-autofill">
       <sky-input-box stacked="true">
         <label class="sky-control-label" [for]="inputBoxBasic.id"
           >First name (autocomplete)
         </label>
         <input
+          #inputBoxBasic="skyId"
           class="sky-form-control"
           skyId
           type="text"
           value="Value"
-          #inputBoxBasic="skyId"
           name="fname"
           autocomplete="given-name"
+          required
         />
       </sky-input-box>
     </div>
@@ -632,11 +715,12 @@ No label</textarea
           Address (autocomplete)
         </label>
         <textarea
+          #inputBoxTextarea="skyId"
           class="sky-form-control"
           skyId
-          #inputBoxTextarea="skyId"
           name="address"
           autocomplete="street-address"
+          required
         >
 Value</textarea
         >
@@ -649,13 +733,14 @@ Value</textarea
           >Last name (autocomplete - will fail)
         </label>
         <input
+          #inputBoxBasic="skyId"
           class="sky-form-control"
           skyId
           type="text"
           formControlName="errorAutofillFormField"
-          #inputBoxBasic="skyId"
           name="lname"
           autocomplete="family-name"
+          required
         />
       </sky-input-box>
     </div>
@@ -666,17 +751,28 @@ Value</textarea
           Address (autocomplete - will fail)
         </label>
         <textarea
+          #inputBoxTextarea="skyId"
           class="sky-form-control"
           skyId
-          #inputBoxTextarea="skyId"
           formControlName="errorAutofillTextareaFormField"
           name="address"
           autocomplete="street-address"
+          required
         >
 Value</textarea
         >
       </sky-input-box>
     </div>
+
+    <sky-form-errors
+      labelText="Just errors"
+      [errors]="{
+        required: true,
+        skyUrl: true,
+        minlength: { requiredLength: 5 }
+      }"
+    />
+
     <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
   </form>
 </div>

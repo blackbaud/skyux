@@ -9,7 +9,7 @@ type DateFormatterFn = (date: Date, locale: string) => string;
 const DATE_FORMATS_SPLIT =
   /((?:[^yMLdHhmsazZEwGjJ']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|L+|d+|H+|h+|J+|j+|m+|s+|a|z|Z|G+|w+))(.*)/;
 
-const PATTERN_ALIASES: { [format: string]: DateFormatterFn } = {
+const PATTERN_ALIASES: Record<string, DateFormatterFn> = {
   // Keys are quoted so they do not get renamed during closure compilation.
   yMMMdjms: datePartGetterFactory(
     combine([
@@ -72,7 +72,7 @@ const PATTERN_ALIASES: { [format: string]: DateFormatterFn } = {
 };
 /* spell-checker:enable */
 
-const DATE_FORMATS: { [format: string]: DateFormatterFn } = {
+const DATE_FORMATS: Record<string, DateFormatterFn> = {
   // Keys are quoted so they do not get renamed.
   yyyy: datePartGetterFactory(digitCondition('year', 4)),
   yy: datePartGetterFactory(digitCondition('year', 2)),
@@ -189,7 +189,7 @@ function hour12Modify(
 }
 
 function digitCondition(prop: string, len: number): Intl.DateTimeFormatOptions {
-  const result: { [k: string]: string } = {};
+  const result: Record<string, string> = {};
 
   result[prop] = len === 2 ? '2-digit' : 'numeric';
 
@@ -197,7 +197,7 @@ function digitCondition(prop: string, len: number): Intl.DateTimeFormatOptions {
 }
 
 function nameCondition(prop: string, len: number): Intl.DateTimeFormatOptions {
-  const result: { [k: string]: string } = {};
+  const result: Record<string, string> = {};
   if (len < 4) {
     result[prop] = len > 1 ? 'short' : 'narrow';
   } else {

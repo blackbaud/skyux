@@ -1,48 +1,42 @@
 <form [formGroup]="colorForm">
-  <sky-colorpicker #colorPickerTest [messageStream]="colorpickerController">
+  <sky-colorpicker
+    #colorPickerTest
+    [messageStream]="colorpickerController"
+    [labelText]="labelText"
+  >
     <input
+      formControlName="colorModel"
       [type]="inputType"
       [skyColorpickerInput]="colorPickerTest"
-      formControlName="colorModel"
       [presetColors]="presetColors"
       [initialColor]="initialColor"
       [outputFormat]="selectedOutputFormat"
       [alphaChannel]="selectedHexType"
     />
+    @if (colorControl.errors?.['opaque']) {
+    <sky-form-error
+      errorName="opaque"
+      errorText="Color must have at least 80% opacity."
+    />
+    }
   </sky-colorpicker>
-  <ng-container *ngIf="showMultiple">
-    <sky-colorpicker #colorPickerTest2 [messageStream]="colorpickerController">
+  <div class="colorpicker-form-control">
+    <sky-colorpicker #colorPickerTest2 labelText="Label text">
       <input
         [type]="inputType"
         [skyColorpickerInput]="colorPickerTest2"
-        formControlName="colorModel2"
+        [formControl]="colorControl2"
         [presetColors]="presetColors"
         [initialColor]="initialColor"
         [outputFormat]="selectedOutputFormat"
         [alphaChannel]="selectedHexType"
       />
-    </sky-colorpicker>
-    <sky-colorpicker #colorPickerTest3 [messageStream]="colorpickerController">
-      <input
-        [type]="inputType"
-        [skyColorpickerInput]="colorPickerTest3"
-        formControlName="colorModel3"
-        [presetColors]="presetColors"
-        [initialColor]="initialColor"
-        [outputFormat]="selectedOutputFormat"
-        [alphaChannel]="selectedHexType"
+      @if (colorControl2.errors?.['opaque']) {
+      <sky-form-error
+        errorName="opaque"
+        errorText="Color must have at least 80% opacity."
       />
+      }
     </sky-colorpicker>
-    <sky-colorpicker #colorPickerTest4 [messageStream]="colorpickerController">
-      <input
-        [type]="inputType"
-        [skyColorpickerInput]="colorPickerTest4"
-        formControlName="colorModel4"
-        [presetColors]="presetColors"
-        [initialColor]="initialColor"
-        [outputFormat]="selectedOutputFormat"
-        [alphaChannel]="selectedHexType"
-      />
-    </sky-colorpicker>
-  </ng-container>
+  </div>
 </form>

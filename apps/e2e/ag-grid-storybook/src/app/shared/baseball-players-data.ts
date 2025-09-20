@@ -19,6 +19,7 @@ export const columnDefinitions: ColDef[] = [
     sortable: true,
     type: SkyCellType.Text,
     minWidth: 200,
+    initialWidth: 200,
     headerComponentParams: {
       inlineHelpComponent: InlineHelpComponent,
     },
@@ -31,6 +32,7 @@ export const columnDefinitions: ColDef[] = [
     sortable: false,
     type: SkyCellType.Date,
     minWidth: 300,
+    initialWidth: 300,
     headerComponentParams: {
       inlineHelpComponent: InlineHelpComponent,
     },
@@ -48,6 +50,7 @@ export const columnDefinitions: ColDef[] = [
     sortable: field === 'mvp',
     type: SkyCellType.Number,
     minWidth: 100,
+    initialWidth: 100,
   })),
   ...[
     ['3000h', '3000 Hits'],
@@ -59,10 +62,11 @@ export const columnDefinitions: ColDef[] = [
   ].map(([field, headerName]) => ({
     field,
     colId: field,
+    dataType: 'Boolean',
     headerName,
     sortable: false,
     cellClass: 'booleanType',
-    valueFormatter: (params: any) => (params.value ? 'Yes' : 'No'),
+    initialWidth: 40,
   })),
   {
     field: 'vote%',
@@ -71,6 +75,7 @@ export const columnDefinitions: ColDef[] = [
     sortable: true,
     type: SkyCellType.Number,
     minWidth: 100,
+    initialWidth: 100,
     valueFormatter: (params) =>
       `${(Number(params.value) * 100).toPrecision(4)}%`,
   },
@@ -78,7 +83,25 @@ export const columnDefinitions: ColDef[] = [
 
 // Data derived from https://github.com/andrew-cui-zz/mlb-players-hof
 
-export const data = [
+export interface DataType {
+  id: string;
+  name: string;
+  birthday: string;
+  seasons_played: number;
+  'all-star': number;
+  triplecrown: number;
+  mvp: number;
+  cya: number;
+  '3000h': boolean;
+  '500hr': boolean;
+  '1500rbi': boolean;
+  '3000k': boolean;
+  '300w': boolean;
+  '300sv': boolean;
+  'vote%': number;
+}
+
+export const data: DataType[] = [
   {
     id: 'aaronha01',
     name: 'Hank Aaron',

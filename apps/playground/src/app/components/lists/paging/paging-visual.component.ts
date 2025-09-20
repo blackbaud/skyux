@@ -1,15 +1,24 @@
-import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { SkyPagingModule } from '@skyux/lists';
+import { SkyPagingContentChangeArgs, SkyPagingModule } from '@skyux/lists';
 
 @Component({
   selector: 'app-paging-visual',
   templateUrl: './paging-visual.component.html',
+  standalone: false,
 })
-export class PagingVisualComponent {}
+export class PagingVisualComponent {
+  protected pageNumber = 1;
+
+  public onPageChange(args: SkyPagingContentChangeArgs): void {
+    setTimeout(() => {
+      this.pageNumber = args.currentPage;
+      args.loadingComplete();
+    }, 1000);
+  }
+}
 
 @NgModule({
-  imports: [CommonModule, SkyPagingModule],
+  imports: [SkyPagingModule],
   declarations: [PagingVisualComponent],
   exports: [PagingVisualComponent],
 })

@@ -23,17 +23,15 @@
   "ng-update": {
     "migrations": "./src/schematics/migrations/migration-collection.json",
     "packageGroup": {
-      "eslint-plugin-deprecation": "^1.4.1"
+      "@skyux-sdk/eslint-config": "0.0.0-PLACEHOLDER"
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^16.2.6",
-    "eslint-plugin-deprecation": "^1.4.1"
+    "@angular/cli": "^20.3.1"
   },
   "dependencies": {
-    "comment-json": "4.2.3",
-    "fs-extra": "11.1.1",
-    "jsonc-parser": "3.2.0",
-    "package-json": "7.0.0"
+    "comment-json": "4.2.5",
+    "fs-extra": "11.3.0",
+    "jsonc-parser": "3.3.1"
   }
 }

@@ -79,8 +79,8 @@ a {
     &,
     &:hover,
     &:active {
-      color: inherit;
-      text-decoration: none;
+      color: inherit !important;
+      text-decoration: none !important;
     }
   }
 }
@@ -127,4 +127,70 @@ mark.sky-highlight-mark {
 
 .sky-field-status-success {
   @include mixins.sky-field-status('success');
+}
+
+symbol[id^='sky-i-']:not(.sky-i-branded) * {
+  fill: currentColor;
+
+  &.sky-i-path-1 {
+    fill: var(--sky-icon-svg-color-input, currentColor);
+  }
+
+  &.sky-i-path-2 {
+    fill: var(--sky-icon-svg-path-2-color-input, #fff);
+  }
+}
+
+.sky-illustration-svg {
+  height: 100%;
+  width: 100%;
+
+  .sky-illustration-fill-softest {
+    fill: #ffffff;
+  }
+
+  .sky-illustration-fill-soft {
+    fill: #e7fbf1;
+  }
+
+  .sky-illustration-fill-heavy {
+    fill: #6de8ab;
+  }
+
+  .sky-illustration-outline {
+    stroke: #004054;
+  }
+}
+
+.sky-viewkeeper-boundary {
+  isolation: isolate;
+}
+
+.sky-viewkeeper-fixed {
+  position: fixed !important;
+  z-index: 1000;
+  opacity: var(--sky-viewkeeper-opacity);
+  overflow: hidden;
+}
+
+.sky-viewkeeper-shadow {
+  position: fixed;
+  min-height: 1px;
+  z-index: 998;
+  user-select: none;
+  pointer-events: none;
+
+  &.sky-viewkeeper-shadow--active {
+    box-shadow: var(--sky-viewkeeper-box-shadow);
+  }
+}
+
+.sky-wait-element-active {
+  isolation: isolate;
+  position: relative;
+}
+
+.sky-errors-overflow {
+  overflow-y: auto;
+  max-height: 100px;
 }

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { SkyTextEditorLinkWindowOptionsType } from '@skyux/text-editor';
 
 import { FONT_LIST_DEFAULTS } from '../defaults/font-list-defaults';
 import { FONT_SIZE_LIST_DEFAULTS } from '../defaults/font-size-list-defaults';
 import { SkyTextEditorFont } from '../types/font-state';
+import { SkyTextEditorLinkWindowOptionsType } from '../types/link-window-options-type';
 import { SkyTextEditorMenuType } from '../types/menu-type';
 import { SkyTextEditorStyleState } from '../types/style-state';
 import { SkyTextEditorMergeField } from '../types/text-editor-merge-field';
@@ -15,12 +15,16 @@ import { SkyTextEditorToolbarActionType } from '../types/toolbar-action-type';
 @Component({
   selector: 'sky-text-editor-test',
   templateUrl: './text-editor.component.fixture.html',
+  standalone: false,
 })
 export class TextEditorFixtureComponent {
   public autofocus = false;
   public disabled = false;
   public fontList: SkyTextEditorFont[] | undefined = FONT_LIST_DEFAULTS;
   public fontSizeList: number[] | undefined = FONT_SIZE_LIST_DEFAULTS;
+  public helpKey: string | undefined;
+  public helpPopoverContent: string | undefined;
+  public helpPopoverTitle: string | undefined;
   public id: string | undefined = 'id-from-fixture';
   public initialStyleState: SkyTextEditorStyleState =
     {} as SkyTextEditorStyleState;
@@ -60,4 +64,7 @@ export class TextEditorFixtureComponent {
     'existing',
   ];
   public value = '<p>Some text</p>';
+  public labelText: string | undefined;
+  public hintText: string | undefined;
+  public stacked: boolean | undefined;
 }

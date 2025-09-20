@@ -1,0 +1,106 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "date-pipe": {
+      "development": {
+        "docsIds": [
+          "SkyDatePipeModule",
+          "SkyDatePipe",
+          "SkyFuzzyDatePipe",
+          "SkyFuzzyDate"
+        ],
+        "primaryDocsId": "SkyDatePipeModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": ["DatetimeDatePipeBasicExampleComponent"]
+      }
+    },
+    "date-range-picker": {
+      "development": {
+        "docsIds": [
+          "SkyDateRangePickerModule",
+          "SkyDateRangePickerComponent",
+          "SkyFormErrorComponent",
+          "SkyDateRangeService",
+          "SkyDateRange",
+          "SkyDateRangeCalculation",
+          "SkyDateRangeCalculator",
+          "SkyDateRangeCalculatorConfig",
+          "SkyDateRangeCalculatorId",
+          "SkyDateRangeCalculatorType",
+          "SkyDateRangeCalculatorGetValueFunction",
+          "SkyDateRangeCalculatorValidateFunction"
+        ],
+        "primaryDocsId": "SkyDateRangePickerModule"
+      },
+      "testing": {
+        "docsIds": ["SkyDateRangePickerHarness", "SkyDateRangePickerFilters"]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "DatetimeDateRangePickerBasicExampleComponent",
+          "DatetimeDateRangePickerHelpKeyExampleComponent",
+          "DatetimeDateRangePickerCustomCalculatorExampleComponent"
+        ]
+      }
+    },
+    "datepicker": {
+      "development": {
+        "docsIds": [
+          "SkyDatepickerModule",
+          "SkyDatepickerComponent",
+          "SkyDatepickerInputDirective",
+          "SkyDatepickerCalendarChange",
+          "SkyDatepickerConfigService",
+          "SkyDatepickerCustomDate",
+          "SkyFuzzyDatepickerInputDirective",
+          "SkyFuzzyDate"
+        ],
+        "primaryDocsId": "SkyDatepickerModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyDatepickerHarness",
+          "SkyDatepickerFilters",
+          "SkyDatepickerInputHarness",
+          "SkyFuzzyDatepickerInputHarness",
+          "SkyDatepickerCalendarHarness",
+          "SkyDatepickerCalendarHarnessFilters",
+          "SkyInputBoxHarness"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "DatetimeDatepickerBasicExampleComponent",
+          "DatetimeDatepickerCustomDatesExampleComponent",
+          "DatetimeDatepickerFuzzyExampleComponent"
+        ]
+      }
+    },
+    "timepicker": {
+      "development": {
+        "docsIds": [
+          "SkyTimepickerModule",
+          "SkyTimepickerComponent",
+          "SkyTimepickerInputDirective",
+          "SkyTimepickerTimeFormatType",
+          "SkyTimepickerTimeOutput"
+        ],
+        "primaryDocsId": "SkyTimepickerModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyTimepickerHarness",
+          "SkyTimepickerFilters",
+          "SkyTimepickerSelectorHarness"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["DatetimeTimepickerBasicExampleComponent"]
+      }
+    }
+  }
+}

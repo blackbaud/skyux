@@ -5,6 +5,6 @@
     "entryFile": "src/index.ts",
     "styleIncludePaths": ["../../.."]
   },
-  "allowedNonPeerDependencies": ["intl-tel-input"],
+  "allowedNonPeerDependencies": ["@skyux/icon", "intl-tel-input"],
   "inlineStyleLanguage": "scss"
 }

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -10,12 +9,10 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
-  standalone: true,
   selector: 'app-custom-multiline',
   templateUrl: './custom-multiline.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
 })
 export class CustomMultilineComponent implements ICellRendererAngularComp {
   public lines: number;
@@ -23,11 +20,12 @@ export class CustomMultilineComponent implements ICellRendererAngularComp {
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   public agInit(params: ICellRendererParams): void {
-    this.lines = (params.rowIndex - 3) % 5;
+    this.lines = (params.node?.rowIndex - 3) % 5;
     this.changeDetectorRef.detectChanges();
   }
 
   public refresh(params: ICellRendererParams): boolean {
+    this.agInit(params);
     return true;
   }
 }

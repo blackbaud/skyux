@@ -1,0 +1,28 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "flyout": {
+      "development": {
+        "docsIds": [
+          "SkyFlyoutService",
+          "SkyFlyoutConfig",
+          "SkyFlyoutInstance",
+          "SkyFlyoutAction",
+          "SkyFlyoutBeforeCloseHandler",
+          "SkyFlyoutCloseArgs",
+          "SkyFlyoutPermalink"
+        ],
+        "primaryDocsId": "SkyFlyoutService"
+      },
+      "testing": {
+        "docsIds": ["SkyFlyoutHarness"]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "FlyoutBasicExampleComponent",
+          "FlyoutCustomHeadersExampleComponent"
+        ]
+      }
+    }
+  }
+}

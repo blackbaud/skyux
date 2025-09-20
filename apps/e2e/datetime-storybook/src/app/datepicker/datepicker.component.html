@@ -1,5 +1,5 @@
 <sky-input-box labelText="Date format">
-  <input placeholder="MM/DD/YYYY" [(ngModel)]="dateFormat" />
+  <input [(ngModel)]="dateFormat" />
 </sky-input-box>
 
 <div
@@ -10,8 +10,7 @@
   <sky-datepicker-calendar
     [selectedDate]="selectedDate"
     (selectedDateChange)="selectedDate = $event"
-  >
-  </sky-datepicker-calendar>
+  />
 </div>
 <br />
 <div
@@ -22,6 +21,7 @@
   <p>Template form</p>
   <sky-datepicker>
     <input
+      #date="ngModel"
       skyDatepickerInput
       [disabled]="disabled"
       [maxDate]="maxDate"
@@ -31,7 +31,6 @@
       [strict]="strict"
       [dateFormat]="dateFormat"
       [(ngModel)]="selectedDate"
-      #date="ngModel"
     />
   </sky-datepicker>
 
@@ -54,22 +53,19 @@
     </tr>
   </table>
 
-  <p
-    *ngIf="date['errors'] && date['errors']['skyDate']"
-    class="sky-error-label"
-  >
-    <span *ngIf="date['errors']['skyDate']['invalid']">
-      Please enter a valid date.
-    </span>
-
-    <span *ngIf="date['errors']['skyDate']['minDate']">
-      Date is prior to minimum date range.
-    </span>
-
-    <span *ngIf="date['errors']['skyDate']['maxDate']">
-      Date is after maximum date range.
-    </span>
-  </p>
+  @if (date['errors'] && date['errors']['skyDate']) {
+    <p class="sky-error-label">
+      @if (date['errors']['skyDate']['invalid']) {
+        <span> Please enter a valid date. </span>
+      }
+      @if (date['errors']['skyDate']['minDate']) {
+        <span> Date is prior to minimum date range. </span>
+      }
+      @if (date['errors']['skyDate']['maxDate']) {
+        <span> Date is after maximum date range. </span>
+      }
+    </p>
+  }
 
   <p>
     Model value: <code>{{ selectedDate }}</code>
@@ -111,34 +107,28 @@
       </tr>
     </table>
 
-    <p *ngIf="reactiveDate.errors" class="sky-error-label">
-      <span
-        *ngIf="
+    @if (reactiveDate.errors) {
+      <p class="sky-error-label">
+        @if (
           reactiveDate['errors']['skyDate'] &&
           reactiveDate['errors']['skyDate']['invalid']
-        "
-      >
-        Please enter a valid date.
-      </span>
-
-      <span
-        *ngIf="
+        ) {
+          <span> Please enter a valid date. </span>
+        }
+        @if (
           reactiveDate['errors']['skyDate'] &&
           reactiveDate['errors']['skyDate']['minDate']
-        "
-      >
-        Date is prior to minimum date range.
-      </span>
-
-      <span
-        *ngIf="
+        ) {
+          <span> Date is prior to minimum date range. </span>
+        }
+        @if (
           reactiveDate['errors']['skyDate'] &&
           reactiveDate['errors']['skyDate']['maxDate']
-        "
-      >
-        Date is after maximum date range.
-      </span>
-    </p>
+        ) {
+          <span> Date is after maximum date range. </span>
+        }
+      </p>
+    }
 
     <p>
       Model value: <code>{{ reactiveForm.value.selectedDate }}</code>
@@ -251,4 +241,3 @@
     </sky-datepicker>
   </sky-input-box>
 </div>
-<span id="ready" *ngIf="ready$ | async"></span>

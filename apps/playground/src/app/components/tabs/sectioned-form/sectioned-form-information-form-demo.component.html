@@ -1,15 +1,15 @@
-<sky-fluid-grid [disableMargin]="true" gutterSize="small">
+<sky-fluid-grid gutterSize="small" [disableMargin]="true">
   <sky-row>
     <sky-column [screenXSmall]="6">
       <sky-input-box labelText="Name" stacked="true">
         <input
           class="sky-form-control"
+          id="inputName"
+          type="text"
           [ngModel]="name"
           [required]="nameRequired"
           (blur)="checkValidity()"
           (ngModelChange)="nameChange($event)"
-          id="inputName"
-          type="text"
         />
       </sky-input-box>
     </sky-column>
@@ -17,9 +17,9 @@
       <sky-input-box labelText="ID" stacked="true">
         <input
           class="sky-form-control"
-          [ngModel]="id"
           id="inputId"
           type="text"
+          [ngModel]="id"
         />
       </sky-input-box>
     </sky-column>

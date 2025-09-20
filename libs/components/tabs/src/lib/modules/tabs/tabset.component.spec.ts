@@ -1,5 +1,6 @@
 import { ViewportRuler } from '@angular/cdk/overlay';
 import { Location } from '@angular/common';
+import { provideLocationMocks } from '@angular/common/testing';
 import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
@@ -8,12 +9,9 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, provideRouter } from '@angular/router';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import {
-  SkyLayoutHostService,
-  SkyResizeObserverMediaQueryService,
-} from '@skyux/core';
+import { SkyIdService, SkyLayoutHostService } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -34,18 +32,17 @@ import { SkyTabsetPermalinksFixtureComponent } from './fixtures/tabset-permalink
 import { SkyWizardTestFormComponent } from './fixtures/tabset-wizard.component.fixture';
 import { TabsetTestComponent } from './fixtures/tabset.component.fixture';
 import { SkyTabLayoutType } from './tab-layout-type';
-import { SkyTabComponent } from './tab.component';
 import { SkyTabsetAdapterService } from './tabset-adapter.service';
 import { SkyTabsetPermalinkService } from './tabset-permalink.service';
 import { SkyTabsetComponent } from './tabset.component';
 import { SkyTabsetService } from './tabset.service';
 
 // #region helpers
-function getTabs(fixture: ComponentFixture<any>): NodeListOf<HTMLElement> {
+function getTabs(fixture: ComponentFixture<unknown>): NodeListOf<HTMLElement> {
   return fixture.nativeElement.querySelectorAll('.sky-tab');
 }
 
-function getTabset(fixture: ComponentFixture<any>): HTMLElement {
+function getTabset(fixture: ComponentFixture<unknown>): HTMLElement {
   return fixture.nativeElement.querySelector('.sky-tabset');
 }
 // #endregion
@@ -69,9 +66,13 @@ describe('Tabset component', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        SkyTabsFixturesModule,
-        RouterTestingModule.withRoutes([
+      imports: [SkyTabsFixturesModule],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc,
+        },
+        provideRouter([
           {
             path: 'example-path',
             children: [
@@ -91,12 +92,7 @@ describe('Tabset component', () => {
             component: TabsetOtherPageComponent,
           },
         ]),
-      ],
-      providers: [
-        {
-          provide: SkyThemeService,
-          useValue: mockThemeSvc,
-        },
+        provideLocationMocks(),
       ],
     });
 
@@ -113,7 +109,7 @@ describe('Tabset component', () => {
     el: Element,
     tabIndex: number,
     content?: string,
-  ) {
+  ): void {
     let selectedCls: string;
     let buttonEls: NodeListOf<Element>;
     const inDropDownMode = el.querySelector('.sky-tabset-mode-dropdown');
@@ -163,7 +159,7 @@ describe('Tabset component', () => {
     }
   }
 
-  function validateElFocused(el: Element) {
+  function validateElFocused(el: Element): void {
     expect(el.contains(document.activeElement)).toBeTrue();
   }
 
@@ -181,57 +177,6 @@ describe('Tabset component', () => {
     fixture.destroy();
 
     expect(goSpy).not.toHaveBeenCalled();
-  });
-
-  it('should update the tab button margin class when the theme is modern', () => {
-    function validateMargins(theme: string): void {
-      for (const btnEl of btnEls) {
-        if (theme === 'modern') {
-          expect(btnEl).toHaveCssClass('sky-margin-inline-sm');
-        } else {
-          expect(btnEl).not.toHaveCssClass('sky-margin-inline-sm');
-        }
-      }
-    }
-
-    const template = `<sky-tabset (newTab)="newTab()" (openTab)="openTab()">
-  <sky-tab
-    tabHeading="Tab 1"
-  >
-    Tab content
-  </sky-tab>
-</sky-tabset>`;
-
-    const fixture = TestBed.overrideComponent(TabsetTestComponent, {
-      set: {
-        template: template,
-      },
-    }).createComponent(TabsetTestComponent);
-
-    fixture.detectChanges();
-
-    const btnEls = [
-      ...Array.from(fixture.nativeElement.querySelectorAll('.sky-btn-tab')),
-      fixture.nativeElement.querySelector('.sky-tabset-btn-new'),
-      fixture.nativeElement.querySelector('.sky-tabset-btn-open'),
-    ];
-
-    validateMargins('default');
-
-    mockThemeSvc.settingsChange.next({
-      currentSettings: new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
-      ),
-      previousSettings: new SkyThemeSettings(
-        SkyTheme.presets.default,
-        SkyThemeMode.presets.light,
-      ),
-    });
-
-    fixture.detectChanges();
-
-    validateMargins('modern');
   });
 
   it('should set the tabs style correctly', () => {
@@ -603,8 +548,7 @@ describe('Tabset component', () => {
     const cmp: TabsetTestComponent = fixture.componentInstance;
     const el = fixture.nativeElement;
 
-    const count: number | undefined = undefined;
-    cmp.tab3HeaderCount = count;
+    cmp.tab3HeaderCount = undefined;
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -645,7 +589,7 @@ describe('Tabset component', () => {
   it('should collapse into a dropdown when the width of the tabs is greater than its container', fakeAsync(() => {
     const fixture = TestBed.createComponent(TabsetTestComponent);
 
-    function fireResizeEvent() {
+    function fireResizeEvent(): void {
       SkyAppTestUtility.fireDomEvent(window, 'resize');
       viewportRulerChange.next(new Event('resize'));
       fixture.detectChanges();
@@ -941,32 +885,6 @@ describe('Tabset component', () => {
       tick();
 
       validateTabSelected(el, 0);
-    }));
-
-    it('should observe the size of an active tab', fakeAsync(() => {
-      const mockResizeObserverMediaQueryService = jasmine.createSpyObj(
-        'SkyResizeObserverMediaQueryService',
-        ['observe', 'unobserve'],
-      );
-
-      TestBed.overrideComponent(SkyTabComponent, {
-        set: {
-          providers: [
-            {
-              provide: SkyResizeObserverMediaQueryService,
-              useValue: mockResizeObserverMediaQueryService,
-            },
-          ],
-        },
-      });
-
-      const fixture = TestBed.createComponent(TabsetActiveTestComponent);
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-      tick();
-
-      expect(mockResizeObserverMediaQueryService.observe).toHaveBeenCalled();
     }));
 
     it('should initialize active state based on string tabIndex values', fakeAsync(() => {
@@ -1702,6 +1620,12 @@ describe('Tabset component', () => {
     });
 
     describe('button aria label', () => {
+      beforeEach(() => {
+        let uniqueId = 0;
+        const idSvc = TestBed.inject(SkyIdService);
+        spyOn(idSvc, 'generateId').and.callFake(() => `MOCK_ID_${++uniqueId}`);
+      });
+
       it('should indicate the current state of a wizard step', fakeAsync(() => {
         const wizardFixture = TestBed.createComponent(
           SkyWizardTestFormComponent,
@@ -1742,7 +1666,10 @@ describe('Tabset component', () => {
         const tabBtns = debugElement.queryAll(By.css('.sky-btn-tab'));
         const tabBtn1 = tabBtns[0]?.nativeElement;
 
-        expect(tabBtn1?.ariaLabel).toEqual('Tab 1 of 3: Tab 1');
+        expect(tabBtn1?.ariaLabel).toBeNull();
+        expect(tabBtn1?.getAttribute('aria-labelledby')).toEqual(
+          jasmine.stringMatching(/MOCK_ID_[0-9]/),
+        );
       }));
     });
   });
@@ -1804,6 +1731,8 @@ describe('Tabset component', () => {
 
       expect(replaceStateSpy).toHaveBeenCalledOnceWith(
         '/?foobar-active-tab=design-guidelines',
+        '',
+        jasmine.any(Object),
       );
 
       expect(goSpy).not.toHaveBeenCalled();
@@ -1829,6 +1758,8 @@ describe('Tabset component', () => {
 
       expect(replaceStateSpy).toHaveBeenCalledOnceWith(
         '/?foobar-active-tab=api',
+        '',
+        jasmine.any(Object),
       );
 
       expect(goSpy).not.toHaveBeenCalled();
@@ -1895,12 +1826,6 @@ describe('Tabset component', () => {
 
       const buttonElement =
         fixture.nativeElement.querySelectorAll('.sky-btn-tab')[1];
-      // Prevent the anchor's href attribute from being visited,
-      // otherwise it will trigger a page reload.
-      // See: https://github.com/dfederm/karma-jasmine-html-reporter/issues/26#issuecomment-608582845
-      buttonElement.onclick = function () {
-        return false;
-      };
       SkyAppTestUtility.fireDomEvent(buttonElement, 'click');
 
       fixture.detectChanges();
@@ -1957,12 +1882,14 @@ describe('Tabset component', () => {
     }));
 
     it('should not affect existing query params', fakeAsync(() => {
-      fixture.componentInstance.activeIndex = 0;
+      fixture.componentInstance.activeIndex = 1;
       fixture.componentInstance.permalinkId = 'foobar';
-      spyOn(location, 'path').and.returnValue(
-        '?foobar-active-tab=design-guidelines&bar=baz',
-      );
-
+      void TestBed.inject(Router).navigate([], {
+        queryParams: {
+          'foobar-active-tab': 'design-guidelines',
+          bar: 'baz',
+        },
+      });
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1973,21 +1900,15 @@ describe('Tabset component', () => {
 
       const buttonElement =
         fixture.nativeElement.querySelectorAll('.sky-btn-tab')[1];
-      // Prevent the anchor's href attribute from being visited,
-      // otherwise it will trigger a page reload.
-      // See: https://github.com/dfederm/karma-jasmine-html-reporter/issues/26#issuecomment-608582845
-      buttonElement.onclick = function () {
-        return false;
-      };
+      SkyAppTestUtility.fireDomEvent(buttonElement, 'focus');
       SkyAppTestUtility.fireDomEvent(buttonElement, 'click');
 
       fixture.detectChanges();
       tick();
 
-      expect(location.path()).toBe(
-        '?foobar-active-tab=design-guidelines&bar=baz',
-        'Existing query params should be unaffected.',
-      );
+      expect(location.path())
+        .withContext('Existing query params should be unaffected.')
+        .toBe('/?foobar-active-tab=design-guidelines&bar=baz');
     }));
 
     it('should activate tabs when popstate changes', fakeAsync(() => {
@@ -2022,10 +1943,10 @@ describe('Tabset component', () => {
       validateTabSelected(fixture.nativeElement, 0);
     }));
 
-    it('should not affect the current route when a tab is opened for the first time or destroyed', fakeAsync(() => {
+    it('should not affect the current route when a tab is opened for the first time or destroyed', fakeAsync(async () => {
       fixture.componentInstance.activeIndex = 0;
       fixture.componentInstance.permalinkId = 'foobar';
-      fixture.componentInstance.router.navigate([
+      await fixture.componentInstance.router.navigate([
         'example-path',
         'example-child-path',
       ]);
@@ -2048,10 +1969,10 @@ describe('Tabset component', () => {
       expect(location.path()).toEqual('/example-path/example-child-path');
     }));
 
-    it('should not remove query params when the tabset component is destroyed due to navigation', fakeAsync(() => {
+    it('should not remove query params when the tabset component is destroyed due to navigation', fakeAsync(async () => {
       fixture.componentInstance.activeIndex = 0;
       fixture.componentInstance.permalinkId = 'foobar';
-      fixture.componentInstance.router.navigate([
+      await fixture.componentInstance.router.navigate([
         'example-path',
         'example-child-path',
       ]);
@@ -2061,7 +1982,8 @@ describe('Tabset component', () => {
 
       const goSpy = spyOn(location, 'go');
 
-      fixture.componentInstance.router.navigate(['other-page']);
+      // Navigate, but destroy the component before the navigation completes.
+      void fixture.componentInstance.router.navigate(['other-page']);
       fixture.destroy();
 
       expect(goSpy).not.toHaveBeenCalled();

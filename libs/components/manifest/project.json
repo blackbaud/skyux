@@ -1,0 +1,55 @@
+{
+  "name": "manifest",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/components/manifest/src",
+  "projectType": "library",
+  "tags": ["npm"],
+  "targets": {
+    "prebuild": {
+      "executor": "@nx/js:tsc",
+      "inputs": [
+        "default",
+        "{workspaceRoot}/libs/components/*/documentation.json"
+      ],
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/components/manifest",
+        "tsConfig": "libs/components/manifest/tsconfig.lib.json",
+        "packageJson": "libs/components/manifest/package.json",
+        "main": "libs/components/manifest/src/index.ts",
+        "assets": [
+          "libs/components/manifest/*.md",
+          "libs/components/manifest/public-api.json"
+        ]
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "command": "npx vite-node ./scripts/postbuild-manifest.mts",
+        "outputPath": "dist/libs/components/manifest"
+      },
+      "dependsOn": [
+        "^build",
+        {
+          "target": "prebuild",
+          "projects": "self"
+        }
+      ]
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/components/manifest"],
+      "options": {
+        "jestConfig": "libs/components/manifest/jest.config.ts"
+      }
+    }
+  }
+}

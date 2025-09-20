@@ -1,0 +1,44 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "email-validation": {
+      "development": {
+        "docsIds": [
+          "SkyEmailValidationModule",
+          "SkyEmailValidationDirective",
+          "SkyValidators"
+        ],
+        "primaryDocsId": "SkyEmailValidationModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ValidationEmailValidationDirectiveExampleComponent",
+          "ValidationEmailValidationControlValidatorExampleComponent"
+        ]
+      }
+    },
+    "url-validation": {
+      "development": {
+        "docsIds": [
+          "SkyUrlValidationModule",
+          "SkyUrlValidationDirective",
+          "SkyUrlValidationOptions",
+          "SkyValidators"
+        ],
+        "primaryDocsId": "SkyUrlValidationModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ValidationUrlValidationDirectiveExampleComponent",
+          "ValidationUrlValidationControlValidatorExampleComponent"
+        ]
+      }
+    }
+  }
+}

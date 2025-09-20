@@ -1,14 +1,110 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+@use 'sass:color';
+
+@include compatMixins.sky-default-overrides('.sky-repeater-item') {
+  --sky-override-repeater-item-active-background-color: #{$sky-background-color-neutral-light};
+  --sky-override-repeater-item-active-border-left-color: #{$sky-highlight-color-info};
+  --sky-override-repeater-item-active-border-left-width: #{$sky-nav-selected-border-width};
+  --sky-override-repeater-item-active-inline-delete-margin-left: -4px;
+  --sky-override-repeater-item-active-padding-left: 6px;
+  --sky-override-repeater-item-background-color: transparent;
+  --sky-override-repeater-item-border-bottom: 1px dotted
+    #{$sky-border-color-neutral-medium};
+  --sky-override-repeater-item-border-radius: 0;
+  --sky-override-repeater-item-checkbox-margin: 0;
+  --sky-override-repeater-item-checkbox-padding-right: #{$sky-padding-half};
+  --sky-override-repeater-item-chevron-margin-left: #{$sky-margin};
+  --sky-override-repeater-item-chevron-placeholder-height: 24px;
+  --sky-override-repeater-item-chevron-with-context-placeholder-height: 29px;
+  --sky-override-repeater-item-content-collapsible-padding-right: #{$sky-context-menu-size +
+    $sky-padding};
+  --sky-override-repeater-item-content-margin-top: #{$sky-margin};
+  --sky-override-repeater-item-context-menu-padding-right: #{$sky-padding};
+  --sky-override-repeater-item-content-no-header-margin-top: #{$sky-padding};
+  --sky-override-repeater-item-dragging-background-color: #fff;
+  --sky-override-repeater-item-dragging-background-color-static: #d8d8d8;
+  --sky-override-repeater-item-dragging-box-shadow: 0px 0px 5px 0
+    rgba(0, 0, 0, 0.3);
+  --sky-override-repeater-item-grab-handle-box-shadow-active: none;
+  --sky-override-repeater-item-grab-handle-box-shadow-hover: none;
+  --sky-override-repeater-item-grab-handle-color-hover: #{color.adjust(
+      $sky-text-color-deemphasized,
+      $lightness: -20%
+    )};
+  --sky-override-repeater-item-grab-handle-margin-right: #{$sky-margin};
+  --sky-override-repeater-item-grab-handle-margin-vertical: #{$sky-margin-half};
+  --sky-override-repeater-item-grab-handle-padding: 0;
+  --sky-override-repeater-item-grab-handle-size: 24px;
+  --sky-override-repeater-item-outline-focus-visible: auto;
+  --sky-override-repeater-item-padding: #{$sky-padding};
+  --sky-override-repeater-item-reorder-top-margin-left: 0;
+  --sky-override-repeater-item-selectable-background-color-active: transparent;
+  --sky-override-repeater-item-selectable-box-shadow-active: none;
+  --sky-override-repeater-item-selectable-box-shadow-focus: none;
+  --sky-override-repeater-item-selectable-box-shadow-hover: none;
+  --sky-override-repeater-item-selected-color: var(
+    --sky-background-color-selected
+  );
+  --sky-override-repeater-item-selection-modal-background-color-hover: var(
+    --sky-background-color-selected
+  );
+  --sky-override-repeater-item-selection-modal-box-shadow-hover: none;
+  --sky-override-repeater-item-single-select-background-color: var(
+    --sky-background-color-selected
+  );
+  --sky-override-repeater-item-single-select-border-left-color: transparent;
+  --sky-override-repeater-item-single-select-border-left-width: 0;
+  --sky-override-repeater-item-single-select-inline-delete-margin-left: 0;
+  --sky-override-repeater-item-single-select-padding-left: #{$sky-padding};
+  --sky-override-repeater-item-split-view-active-background-color-active: #{$sky-background-color-neutral-light};
+  --sky-override-repeater-item-split-view-background-color-active: transparent;
+  --sky-override-repeater-item-split-view-box-shadow-active: none;
+  --sky-override-repeater-item-split-view-box-shadow-focus: none;
+  --sky-override-repeater-item-split-view-box-shadow-hover: none;
+  --sky-override-repeater-item-title-line-height: 1.1;
+  --sky-override-repeater-item-top-button-placeholder-height: 0;
+  --sky-override-repeater-item-left-no-header-padding-top: #{$sky-padding};
+}
 
 sky-repeater-item {
   .sky-repeater-item {
     display: flex;
-    @include mixins.sky-border(row);
-    padding-top: 0;
+    background-color: var(
+      --sky-override-repeater-item-background-color,
+      var(--sky-color-background-row-base)
+    );
+    border-bottom: var(
+      --sky-override-repeater-item-border-bottom,
+      var(--sky-border-width-separator-row)
+        var(--sky-border-style-separator-row)
+        var(--sky-color-border-separator-row)
+    );
+    border-radius: var(
+      --sky-override-repeater-item-border-radius,
+      var(--sky-border-radius-xs)
+    );
+    padding: var(
+      --sky-override-repeater-item-padding,
+      var(--sky-comp-repeater_item-space-inset-top)
+        var(--sky-comp-repeater_item-space-inset-right)
+        var(--sky-comp-repeater_item-space-inset-bottom)
+        var(--sky-comp-repeater_item-space-inset-left)
+    );
     position: relative;
     transition: box-shadow $sky-transition-time-short;
     align-items: flex-start;
+
+    &:focus-visible,
+    &:focus-visible:active {
+      outline: var(--sky-override-repeater-item-outline-focus-visible, none);
+      outline-offset: 0;
+    }
+
+    &:focus-visible:not(:active) {
+      box-shadow: none;
+    }
 
     sky-inline-form {
       display: block;
@@ -23,31 +119,121 @@ sky-repeater-item {
         flex: 1 0 auto;
         width: 100%;
       }
-
-      .sky-slide-dissolve-last {
-        padding-top: 10px;
-      }
     }
 
     &.sky-repeater-item-active {
-      background-color: $sky-background-color-neutral-light;
-      color: $sky-text-color-default;
-      padding-left: 6px;
-      border-left: $sky-nav-selected-border-width solid
-        $sky-highlight-color-info;
+      background-color: var(
+        --sky-override-repeater-item-active-background-color,
+        var(--sky-color-background-selected-soft)
+      );
+      padding-left: var(
+        --sky-override-repeater-item-active-padding-left,
+        calc(
+          var(--sky-comp-repeater_item-space-inset-left) - var(
+              --sky-border-width-selected-m
+            )
+        )
+      );
+      border-left: var(
+          --sky-override-repeater-item-active-border-left-width,
+          var(--sky-border-width-selected-m)
+        )
+        solid
+        var(
+          --sky-override-repeater-item-active-border-left-color,
+          var(--sky-color-border-selected)
+        );
 
       .sky-inline-delete {
-        margin-left: -$sky-nav-selected-border-width;
-        // NOTE: Unfortunately, scss variables aren't compiled into calc functions. However, the
-        // added pixels should match 'sky-nav-selected-border-width'
-        width: calc(100% + 4px);
+        margin-left: var(
+          --sky-override-repeater-item-active-inline-delete-margin-left,
+          calc(
+            calc(
+                var(--sky-comp-repeater_item-space-inset-left) - var(
+                    --sky-border-width-selected-m
+                  )
+              ) *
+              -1
+          )
+        );
+        width: calc(
+          100% +
+            var(
+              --sky-override-repeater-item-active-border-left-width,
+              var(--sky-border-width-selected-m)
+            )
+        );
+      }
+    }
+
+    &.sky-repeater-item-selected:not(.sky-repeater-item-selectable) {
+      background-color: var(
+        --sky-override-repeater-item-single-select-background-color,
+        var(--sky-color-background-selected-soft)
+      );
+      padding-left: var(
+        --sky-override-repeater-item-single-select-padding-left,
+        calc(
+          var(--sky-comp-repeater_item-space-inset-left) - var(
+              --sky-border-width-selected-m
+            )
+        )
+      );
+      border-left: var(
+          --sky-override-repeater-item-single-select-border-left-width,
+          var(--sky-border-width-selected-m)
+        )
+        solid
+        var(
+          --sky-override-repeater-item-single-select-border-left-color,
+          var(--sky-color-border-selected)
+        );
+
+      .sky-inline-delete {
+        margin-left: var(
+          --sky-override-repeater-item-single-select-inline-delete-margin-left,
+          calc(
+            calc(
+                var(--sky-comp-repeater_item-space-inset-left) - var(
+                    --sky-border-width-selected-m
+                  )
+              ) *
+              -1
+          )
+        );
+        width: calc(
+          100% +
+            var(
+              --sky-override-repeater-item-single-select-border-left-width,
+              var(--sky-border-width-selected-m)
+            )
+        );
+      }
+    }
+
+    &:has(.sky-repeater-item-header[hidden] + .sky-repeater-item-content) {
+      padding-top: 0;
+
+      .sky-repeater-item-left {
+        padding-top: var(
+          --sky-override-repeater-item-left-no-header-padding-top,
+          var(--sky-comp-repeater_item-space-inset-top)
+        );
       }
     }
   }
 
+  .sky-repeater-item-header[hidden]
+    + .sky-repeater-item-content
+    sky-repeater-item-content {
+    margin-top: var(
+      --sky-override-repeater-item-content-no-header-margin-top,
+      var(--sky-comp-repeater_item-space-inset-top)
+    );
+  }
+
   .sky-repeater-item-left {
     display: flex;
-    padding-top: $sky-padding;
     align-items: center;
 
     sky-checkbox {
@@ -64,48 +250,152 @@ sky-repeater-item {
   .sky-repeater-item-header {
     align-items: center;
     display: flex;
-    padding-top: $sky-padding;
   }
 
   .sky-repeater-item-chevron {
-    margin-left: $sky-margin;
+    margin-left: var(
+      --sky-override-repeater-item-chevron-margin-left,
+      var(--sky-space-gap-text_action-s)
+    );
+  }
+
+  .sky-repeater-item-reorder-top {
+    margin-left: var(
+      --sky-override-repeater-item-reorder-top-margin-left,
+      var(--sky-space-gap-text_action-s)
+    );
   }
 
   // Height here is the standard height for checkboxes and the reorder handle. Used for when the
   // chevron is hidden to ensure that the right side is the same height as the left.
   .sky-repeater-item-chevron-placeholder {
-    height: 24px;
+    height: var(
+      --sky-override-repeater-item-chevron-placeholder-height,
+      max(
+        var(--sky-size-switch),
+        calc(
+          calc(
+              var(--sky-comp-button-borderless-space-inset-bottom) +
+                var(--sky-comp-button-borderless-space-inset-top)
+            ) +
+            var(--sky-size-icon-m)
+        )
+      )
+    );
   }
 
   // Height here is the standard height for context menus. Used to ensure that the right side is
   // the same height as the left.
   .sky-repeater-item-chevron-placeholder-with-context {
-    height: 29px;
+    height: var(
+      --sky-override-repeater-item-chevron-with-context-placeholder-height,
+      max(
+        var(--sky-size-switch),
+        calc(
+          calc(
+              var(--sky-comp-button-borderless-space-inset-bottom) +
+                var(--sky-comp-button-borderless-space-inset-top)
+            ) +
+            var(--sky-size-icon-m)
+        )
+      )
+    );
+  }
+
+  .sky-repeater-item-top-button-placeholder {
+    height: var(
+      --sky-override-repeater-item-top-button-placeholder-height,
+      calc(
+        var(--sky-comp-button-space-inset-bottom) +
+          var(--sky-comp-button-space-inset-top) +
+          calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m))
+      )
+    );
   }
 
   .sky-repeater-item-context-menu {
-    padding: 0 $sky-padding 0 0;
+    padding: 0
+      var(
+        --sky-override-repeater-item-context-menu-padding-right,
+        var(--sky-space-gap-action_group-m)
+      )
+      0 0;
   }
 
   .sky-repeater-item-checkbox {
-    padding: 0 $sky-padding-half 0 0;
+    padding: 0
+      var(
+        --sky-override-repeater-item-checkbox-padding-right,
+        var(--sky-space-gap-action_group-s)
+      )
+      0 0;
+
+    margin: var(
+      --sky-override-repeater-item-checkbox-margin,
+      var(--sky-comp-repeater_item-checkbox-space-offset-top)
+        var(--sky-comp-repeater_item-checkbox-space-offset-right)
+        var(--sky-comp-repeater_item-checkbox-space-offset-bottom)
+        var(--sky-comp-repeater_item-checkbox-space-offset-left)
+    );
+  }
+
+  .sky-repeater-item-selectable {
+    &:hover {
+      box-shadow: var(
+        --sky-override-repeater-item-selectable-box-shadow-hover,
+        inset 0 0 0 var(--sky-border-width-input-hover)
+          var(--sky-color-border-input-hover)
+      );
+    }
+
+    &:active {
+      &:not(.sky-repeater-item-selected) {
+        background-color: var(
+          --sky-override-repeater-item-selectable-background-color-active,
+          var(--sky-color-background-selected-soft)
+        );
+      }
+
+      box-shadow: var(
+        --sky-override-repeater-item-selectable-box-shadow-active,
+        inset 0 0 0 var(--sky-border-width-input-active)
+          var(--sky-color-border-input-active)
+      );
+    }
+
+    &:focus-visible:not(:active) {
+      box-shadow: var(
+        --sky-override-repeater-item-selectable-box-shadow-focus,
+        inset 0 0 0 var(--sky-border-width-input-focus)
+          var(--sky-color-border-input-focus)
+      );
+    }
   }
 
   .sky-repeater-item-selected {
-    background-color: $sky-background-color-selected;
+    background-color: var(
+      --sky-override-repeater-item-selected-color,
+      var(--sky-color-background-selected-soft)
+    );
     transition: background-color 150ms;
   }
 
   .sky-repeater-item-title {
     margin: 0;
     flex-grow: 1;
-    line-height: 1.1;
-    color: $sky-text-color-default;
+    line-height: var(
+      --sky-override-repeater-item-title-line-height,
+      var(--sky-font-line_height-body-m)
+    );
   }
 
   sky-repeater-item-content {
     display: block;
-    margin: $sky-margin 0 0;
+    margin: var(
+        --sky-override-repeater-item-content-margin-top,
+        var(--sky-space-stacked-s)
+      )
+      0 0;
   }
 
   .sky-repeater-item-collapsible {
@@ -114,7 +404,16 @@ sky-repeater-item {
     }
 
     .sky-repeater-item-content {
-      padding-right: $sky-context-menu-size + $sky-padding;
+      padding-right: var(
+        --sky-override-repeater-item-content-collapsible-padding-right,
+        calc(
+          calc(
+              var(--sky-comp-button-borderless-space-inset-bottom) +
+                var(--sky-comp-button-borderless-space-inset-top)
+            ) +
+            var(--sky-size-icon-s) + var(--sky-space-gap-text_action-s)
+        )
+      );
     }
   }
 
@@ -125,15 +424,48 @@ sky-repeater-item {
   }
 
   .sky-repeater-item-grab-handle {
-    @include mixins.sky-icon-button-borderless();
-    border: 0;
-    width: 24px;
-    height: 24px;
     cursor: grab;
     cursor: -webkit-grab;
     cursor: -moz-grab;
-    padding: 0;
-    margin: $sky-margin-half $sky-margin $sky-margin-half 0;
+    margin: var(--sky-override-repeater-item-grab-handle-margin-vertical, 0)
+      var(
+        --sky-override-repeater-item-grab-handle-margin-right,
+        var(--sky-space-gap-action_group-m)
+      )
+      var(--sky-override-repeater-item-grab-handle-margin-vertical, 0) 0;
+
+    // Remove when default support is dropped and these will then come from the button class.
+    &.sky-btn-icon-borderless {
+      height: var(--sky-override-repeater-item-grab-handle-size, '');
+      padding: var(
+        --sky-override-repeater-item-grab-handle-padding,
+        var(--sky-comp-button-borderless-space-inset-top)
+          var(--sky-comp-button-borderless-space-inset-right)
+          var(--sky-comp-button-borderless-space-inset-bottom)
+          var(--sky-comp-button-borderless-space-inset-left)
+      );
+      width: var(--sky-override-repeater-item-grab-handle-size, '');
+
+      &:active {
+        box-shadow: var(
+          --sky-override-repeater-item-grab-handle-box-shadow-active,
+          inset 0 0 0 var(--sky-border-width-action-active)
+            var(--sky-color-border-action-tertiary-active)
+        );
+      }
+
+      &:hover {
+        color: var(
+          --sky-override-repeater-item-grab-handle-color-hover,
+          var(--sky-color-icon-deemphasized)
+        );
+        box-shadow: var(
+          --sky-override-repeater-item-grab-handle-box-shadow-hover,
+          inset 0 0 0 var(--sky-border-width-action-hover)
+            var(--sky-color-border-action-tertiary-hover)
+        );
+      }
+    }
   }
 
   &.sky-repeater-item-dragging {
@@ -141,17 +473,21 @@ sky-repeater-item {
       opacity: initial;
       -ms-filter: initial;
       filter: initial;
-      background-color: #fff;
-      box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.3);
+      background-color: var(
+        --sky-override-repeater-item-dragging-background-color,
+        var(--sky-color-background-container-base)
+      );
+      box-shadow: var(
+        --sky-override-repeater-item-dragging-box-shadow,
+        var(--sky-elevation-overflow)
+      );
     }
 
     &.gu-transit .sky-repeater-item {
-      background-color: #d8d8d8;
-
-      .sky-repeater-item-left,
-      .sky-repeater-item-right {
-        visibility: hidden;
-      }
+      background-color: var(
+        --sky-override-repeater-item-dragging-background-color-static,
+        var(--sky-color-background-action-soft)
+      );
     }
 
     .sky-repeater-item-grab-handle {
@@ -162,71 +498,57 @@ sky-repeater-item {
   }
 }
 
-.sky-theme-modern {
-  .sky-split-view-drawer {
-    sky-repeater-item .sky-repeater-item {
-      padding-left: var(--sky-padding-even-md);
+.hover-rows {
+  .sky-repeater-item {
+    cursor: pointer;
 
-      &.sky-repeater-item-active {
-        padding-left: calc(
-          var(--sky-padding-even-md) - $sky-nav-selected-border-width
-        );
-      }
+    &:hover {
+      background-color: var(
+        --sky-override-repeater-item-selection-modal-background-color-hover
+      );
+      box-shadow: var(
+        --sky-override-repeater-item-selection-modal-box-shadow-hover,
+        inset 0 0 0 var(--sky-border-width-input-hover)
+          var(--sky-color-border-input-hover)
+      );
     }
   }
+}
 
-  sky-repeater-item {
-    .sky-repeater-item {
-      padding-bottom: $sky-theme-modern-margin-stacked-lg;
-
-      &.sky-repeater-item-active {
-        background-color: $sky-color-white;
-        border-left-color: $sky-theme-modern-background-color-primary-dark;
-      }
-
-      &:focus,
-      &:active:focus {
-        outline: solid 2px $sky-theme-modern-background-color-primary-dark;
-        outline-offset: -2px;
-      }
-
-      &:focus:not(:active) {
-        box-shadow: $sky-theme-modern-elevation-3-shadow-size
-          $sky-theme-modern-elevation-3-shadow-color;
-      }
-    }
-
-    .sky-repeater-item-header[hidden]
-      + .sky-repeater-item-content
-      sky-repeater-item-content {
-      margin: $sky-theme-modern-margin-stacked-lg 0 0;
-    }
-
-    .sky-repeater-item-header,
-    .sky-repeater-item-left {
-      padding-top: $sky-theme-modern-margin-stacked-lg;
-    }
-
-    sky-inline-form {
-      .sky-slide-dissolve-last {
-        padding-top: $sky-theme-modern-margin-stacked-lg;
-      }
-    }
+.sky-split-view-drawer sky-repeater-item .sky-repeater-item {
+  &:hover {
+    box-shadow: var(
+      --sky-override-repeater-item-split-view-box-shadow-hover,
+      inset 0 0 0 var(--sky-border-width-input-hover)
+        var(--sky-color-border-input-hover)
+    );
   }
 
-  &.sky-theme-mode-dark {
-    sky-repeater-item {
-      .sky-repeater-item {
-        border-bottom-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
+  &:active {
+    background-color: var(
+      --sky-override-repeater-item-split-view-background-color-active,
+      var(--sky-color-background-selected-soft)
+    );
 
-        &.sky-repeater-item-active {
-          color: $sky-theme-modern-mode-dark-font-body-default-color;
-        }
-      }
-
-      .sky-repeater-item-title {
-        color: $sky-theme-modern-mode-dark-font-body-default-color;
-      }
+    &.sky-repeater-item-active {
+      background-color: var(
+        --sky-override-repeater-item-split-view-active-background-color-active,
+        var(--sky-color-background-selected-soft)
+      );
     }
+
+    box-shadow: var(
+      --sky-override-repeater-item-split-view-box-shadow-active,
+      inset 0 0 0 var(--sky-border-width-input-active)
+        var(--sky-color-border-input-active)
+    );
+  }
+
+  &:focus-visible:not(:active) {
+    box-shadow: var(
+      --sky-override-repeater-item-split-view-box-shadow-focus,
+      inset 0 0 0 var(--sky-border-width-input-focus)
+        var(--sky-color-border-input-focus)
+    );
   }
 }

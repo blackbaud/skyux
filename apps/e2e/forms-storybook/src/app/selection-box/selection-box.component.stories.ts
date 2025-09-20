@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<SelectionBoxComponent>;
 export const SelectionBox = {
-  render: (args: SelectionBoxComponent) => ({
+  render: (args: SelectionBoxComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

@@ -49,6 +49,7 @@ let nextId = 0;
   styleUrls: ['./timepicker.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyTimepickerComponent implements OnInit, OnDestroy {
   /**
@@ -97,12 +98,21 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   }
 
   public set selectedMeridies(meridies: string) {
+    meridies = meridies.trim();
     /* istanbul ignore else */
-    if (!this.is8601) {
-      if (meridies.trim() !== this.selectedMeridies) {
-        this.activeTime = moment(this.activeTime).add(12, 'hours').toDate();
-        this.selectedTimeChanged.emit(this.selectedTime);
+    if (meridies !== this.selectedMeridies) {
+      switch (meridies) {
+        case 'AM':
+          this.activeTime = moment(this.activeTime)
+            .subtract(12, 'hours')
+            .toDate();
+          break;
+
+        case 'PM':
+          this.activeTime = moment(this.activeTime).add(12, 'hours').toDate();
+          break;
       }
+      this.selectedTimeChanged.emit(this.selectedTime);
     }
   }
 
@@ -155,7 +165,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public activeTime: Date = new Date();
 
-  public hours: Array<number> = [];
+  public hours: number[] = [];
 
   public is8601 = false;
 
@@ -165,7 +175,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public localeFormat = 'h:mm A';
 
-  public minutes: Array<number> = [];
+  public minutes: number[] = [];
 
   public minuteMultiplier: number | undefined;
 
@@ -177,12 +187,12 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public triggerButtonId: string;
 
-  @ViewChild('timepickerRef', {
-    read: ElementRef,
-  })
+  @ViewChild('timepickerRef', { read: ElementRef })
   public set timepickerRef(value: ElementRef | undefined) {
     if (value) {
       this.#_timepickerRef = value;
+
+      this.#addKeyupListener();
 
       // Wait for the timepicker component to render before gauging dimensions.
       setTimeout(() => {
@@ -209,26 +219,16 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     return this.#_timepickerRef;
   }
 
-  @ViewChild('timepickerTemplateRef', {
-    read: TemplateRef,
-  })
+  @ViewChild('timepickerTemplateRef', { read: TemplateRef })
   public timepickerTemplateRef: TemplateRef<unknown> | undefined;
 
-  @ViewChild('triggerButtonRef', {
-    read: ElementRef,
-  })
+  @ViewChild('triggerButtonRef', { read: ElementRef })
   public triggerButtonRef: ElementRef | undefined;
 
-  @ViewChild('inputTemplateRef', {
-    read: TemplateRef,
-    static: true,
-  })
+  @ViewChild('inputTemplateRef', { read: TemplateRef, static: true })
   public inputTemplateRef: TemplateRef<unknown> | undefined;
 
-  @ViewChild('triggerButtonTemplateRef', {
-    read: TemplateRef,
-    static: true,
-  })
+  @ViewChild('triggerButtonTemplateRef', { read: TemplateRef, static: true })
   public triggerButtonTemplateRef: TemplateRef<unknown> | undefined;
 
   #affixer: SkyAffixer | undefined;
@@ -239,7 +239,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   #overlay: SkyOverlayInstance | undefined;
 
-  #overlayKeydownListener: Subscription | undefined;
+  #overlayKeyupListener: Subscription | undefined;
 
   #_disabled = false;
 
@@ -283,7 +283,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.setFormat(this.timeFormat);
-    this.#addKeydownListener();
+    this.#addKeyupListener();
 
     if (this.inputBoxHostService && this.inputTemplateRef) {
       this.inputBoxHostService.populate({
@@ -381,7 +381,12 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     this.#openPicker();
   }
 
-  #closePicker() {
+  protected highlightMinute(selectedMinute: number, minute: number): boolean {
+    const radix = this.is8601 ? 15 : 5;
+    return Math.floor(selectedMinute / radix) === minute / radix;
+  }
+
+  #closePicker(): void {
     this.#destroyAffixer();
     this.#destroyOverlay();
     this.#removePickerEventListeners();
@@ -458,8 +463,6 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
           }
         });
 
-      this.#addKeydownListener();
-
       overlay.attachTemplate(this.timepickerTemplateRef);
 
       this.#overlay = overlay;
@@ -474,19 +477,25 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  #addKeydownListener(): void {
-    this.#overlayKeydownListener = fromEvent<KeyboardEvent>(
-      window.document,
-      'keydown',
-    )
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((event) => {
-        const key = event.key?.toLowerCase();
-        /* istanbul ignore else */
-        if (key === 'escape' && this.isOpen) {
-          this.#closePicker();
-        }
-      });
+  #addKeyupListener(): void {
+    const timepickerMenuElement = this.timepickerRef?.nativeElement;
+
+    if (timepickerMenuElement) {
+      this.#overlayKeyupListener = fromEvent<KeyboardEvent>(
+        timepickerMenuElement,
+        'keyup',
+      )
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((event) => {
+          const key = event.key?.toLowerCase();
+          /* istanbul ignore else */
+          if (key === 'escape' && this.isOpen) {
+            this.#closePicker();
+            event.stopPropagation();
+            event.preventDefault();
+          }
+        });
+    }
   }
 
   #removePickerEventListeners(): void {
@@ -497,6 +506,6 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
       this.#timepickerUnsubscribe = new Subject<void>();
     }
     /* istanbul ignore next */
-    this.#overlayKeydownListener?.unsubscribe();
+    this.#overlayKeyupListener?.unsubscribe();
   }
 }

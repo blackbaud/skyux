@@ -2,19 +2,20 @@
   <sky-input-box [disabled]="basicDisabled" [hasErrors]="hasErrors">
     <label class="sky-control-label" [for]="basicInput.id"> Basic input </label>
     <input
+      #basicInput="skyId"
       class="sky-form-control"
       skyId
       [disabled]="basicDisabled"
-      #basicInput="skyId"
     />
+    @if (hasErrors) {
     <sky-status-indicator
-      *ngIf="hasErrors"
       class="sky-control-error"
       indicatorType="danger"
       descriptionType="error"
     >
       Field is required.
     </sky-status-indicator>
+    }
   </sky-input-box>
 </div>
 
@@ -24,50 +25,48 @@
       Textarea input
     </label>
     <textarea
+      #textareaInput="skyId"
       class="sky-form-control"
       skyId
       [disabled]="basicDisabled"
-      #textareaInput="skyId"
     ></textarea>
+    @if (hasErrors) {
     <sky-status-indicator
-      *ngIf="hasErrors"
       class="sky-control-error"
       indicatorType="danger"
       descriptionType="error"
     >
       Field is required.
     </sky-status-indicator>
+    }
   </sky-input-box>
 </div>
 
 <div class="select-basic">
-  <sky-input-box
-    class="sky-margin-stacked-lg"
-    [disabled]="basicDisabled"
-    [hasErrors]="hasErrors"
-  >
+  <sky-input-box stacked [disabled]="basicDisabled" [hasErrors]="hasErrors">
     <label class="sky-control-label" [for]="selectInput.id">
       Select input
     </label>
     <select
-      class="sky-form-control"
-      [disabled]="basicDisabled"
-      skyId
       #selectInput="skyId"
+      class="sky-form-control"
+      skyId
+      [disabled]="basicDisabled"
     >
       <option>Option 1</option>
       <option>Option 2</option>
       <option>Option 3</option>
       <option>Option 4</option>
     </select>
+    @if (hasErrors) {
     <sky-status-indicator
-      *ngIf="hasErrors"
       class="sky-control-error"
       indicatorType="danger"
       descriptionType="error"
     >
       Field is required.
     </sky-status-indicator>
+    }
   </sky-input-box>
 </div>
 
@@ -76,14 +75,14 @@
     <label class="sky-control-label" [for]="inlineHelp.id">
       Basic input with inline help
     </label>
-    <div *ngIf="inlineHelpType === 'custom'" class="sky-control-help">
+    @if (inlineHelpType === 'custom') {
+    <div class="sky-control-help">
       <button type="button">CUSTOM HELP WIDGET</button>
     </div>
-    <sky-help-inline
-      *ngIf="inlineHelpType === 'sky'"
-      class="sky-control-help"
-    ></sky-help-inline>
-    <input class="sky-form-control" skyId #inlineHelp="skyId" />
+    } @else if (inlineHelpType === 'sky') {
+    <sky-help-inline class="sky-control-help" />
+    }
+    <input #inlineHelp="skyId" class="sky-form-control" skyId />
   </sky-input-box>
 </div>
 
@@ -92,17 +91,17 @@
     <label class="sky-control-label" [for]="textareaInlineHelp.id">
       Textarea with inline help
     </label>
-    <div *ngIf="inlineHelpType === 'custom'" class="sky-control-help">
+    @if (inlineHelpType === 'custom') {
+    <div class="sky-control-help">
       <button type="button">CUSTOM HELP WIDGET</button>
     </div>
-    <sky-help-inline
-      *ngIf="inlineHelpType === 'sky'"
-      class="sky-control-help"
-    ></sky-help-inline>
+    } @else if (inlineHelpType === 'sky') {
+    <sky-help-inline class="sky-control-help" />
+    }
     <textarea
+      #textareaInlineHelp="skyId"
       class="sky-form-control"
       skyId
-      #textareaInlineHelp="skyId"
     ></textarea>
   </sky-input-box>
 </div>
@@ -112,14 +111,14 @@
     <label class="sky-control-label" [for]="selectInlineHelp.id">
       Select with inline help
     </label>
-    <div *ngIf="inlineHelpType === 'custom'" class="sky-control-help">
+    @if (inlineHelpType === 'custom') {
+    <div class="sky-control-help">
       <button type="button">CUSTOM HELP WIDGET</button>
     </div>
-    <sky-help-inline
-      *ngIf="inlineHelpType === 'sky'"
-      class="sky-control-help"
-    ></sky-help-inline>
-    <select class="sky-form-control" skyId #selectInlineHelp="skyId">
+    } @else if (inlineHelpType === 'sky') {
+    <sky-help-inline class="sky-control-help" />
+    }
+    <select #selectInlineHelp="skyId" class="sky-form-control" skyId>
       <option>Option 1</option>
       <option>Option 2</option>
       <option>Option 3</option>
@@ -134,10 +133,10 @@
       Input with multiple buttons
     </label>
     <input
+      #multipleButtonsInput="skyId"
       class="sky-form-control"
       skyId
       type="text"
-      #multipleButtonsInput="skyId"
     />
     <div class="sky-input-group-btn">
       <button
@@ -157,64 +156,80 @@
 </div>
 
 <div class="input-host-service">
-  <sky-input-box>
+  <sky-input-box [hintText]="easyModeHintText">
     <label class="sky-control-label" [for]="hostServiceInput.id">
       Input using host service
     </label>
     <sky-input-box-host-service-fixture>
       <input
+        #hostServiceInput="skyId"
+        class="sky-form-control input-inside-host-service"
+        skyId
+        type="text"
+      />
+    </sky-input-box-host-service-fixture>
+  </sky-input-box>
+</div>
+
+<div class="easy-input-host-service">
+  <sky-input-box
+    labelText="Input using host service"
+    [hintText]="easyModeHintText"
+  >
+    <sky-input-box-host-service-fixture>
+      <input
+        #hostServiceInput="skyId"
         class="sky-form-control"
         skyId
         type="text"
-        #hostServiceInput="skyId"
       />
     </sky-input-box-host-service-fixture>
   </sky-input-box>
 </div>
 
 <div class="input-box-has-errors">
-  <sky-input-box class="sky-margin-stacked-lg" [hasErrors]="hasErrors">
+  <sky-input-box stacked [hasErrors]="hasErrors">
     <label class="sky-control-label" [for]="hasErrorsInput.id">
       hasErrors
     </label>
     <input
+      #hasErrorsInput="skyId"
       class="sky-form-control"
       required
       skyId
       type="text"
-      #hasErrorsInput="skyId"
     />
     <div class="sky-error-label">Field is required.</div>
   </sky-input-box>
 </div>
 
 <div class="input-box-form-control-error">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked>
     <label class="sky-control-label" [for]="formControlErrorInput.id">
       Form control error
     </label>
     <input
+      #formControlErrorInput="skyId"
       class="sky-form-control"
       skyId
       type="text"
       [formControl]="errorField"
-      #formControlErrorInput="skyId"
     />
     <div class="sky-error-label">Field is required.</div>
   </sky-input-box>
 </div>
 
 <div class="input-box-form-control-error-status-indicator">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked labelText="uh oh">
     <label class="sky-control-label" [for]="formControlErrorStatusIndicator.id">
       Form control error with status indicator
     </label>
     <input
+      #formControlErrorStatusIndicator="skyId"
       class="sky-form-control"
       skyId
       type="text"
       [formControl]="errorField"
-      #formControlErrorStatusIndicator="skyId"
     />
     <span class="sky-error-indicator">
       <sky-status-indicator indicatorType="danger" descriptionType="error">
@@ -226,16 +241,16 @@
 
 <div class="input-box-form-control-name-error">
   <form [formGroup]="errorForm">
-    <sky-input-box class="sky-margin-stacked-lg">
+    <sky-input-box stacked>
       <label class="sky-control-label" [for]="formControlByNameInput.id">
         Form control by name error
       </label>
       <input
+        #formControlByNameInput="skyId"
         class="sky-form-control"
         formControlName="errorFormField"
         skyId
         type="text"
-        #formControlByNameInput="skyId"
       />
       <div class="sky-error-label">Field is required.</div>
     </sky-input-box>
@@ -243,19 +258,19 @@
 </div>
 
 <div class="input-box-ngmodel-error">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked>
     <label class="sky-control-label" [for]="errorNgModelInput.id">
       NgModel error
     </label>
     <input
+      #errorNgModel="ngModel"
+      #errorNgModelInput="skyId"
       class="sky-form-control"
       name="errorNgModel"
       required
       skyId
       type="text"
       [(ngModel)]="errorNgModelValue"
-      #errorNgModel="ngModel"
-      #errorNgModelInput="skyId"
     />
     <div class="sky-error-label">Field is required.</div>
   </sky-input-box>
@@ -274,10 +289,10 @@
       ></button>
     </div>
     <input
+      #singleButtonLeftInput="skyId"
       class="sky-form-control"
       skyId
       type="text"
-      #singleButtonLeftInput="skyId"
     />
   </sky-input-box>
 </div>
@@ -287,19 +302,17 @@
     <label class="sky-control-label" [for]="characterCountInput.id">
       With character count
     </label>
-    <sky-help-inline
-      *ngIf="characterCountHelp"
-      class="sky-control-help"
-    ></sky-help-inline>
-    <sky-character-counter-indicator #characterCount>
-    </sky-character-counter-indicator>
+    @if (characterCountHelp) {
+    <sky-help-inline class="sky-control-help" />
+    }
+    <sky-character-counter-indicator #characterCount />
     <input
+      #characterCountInput="skyId"
       class="sky-form-control"
       skyCharacterCounter
       skyId
       [skyCharacterCounterIndicator]="characterCount"
       [skyCharacterCounterLimit]="10"
-      #characterCountInput="skyId"
     />
   </sky-input-box>
 </div>
@@ -309,19 +322,17 @@
     <label class="sky-control-label" [for]="characterCountTextarea.id">
       With character count
     </label>
-    <sky-help-inline
-      *ngIf="characterCountHelp"
-      class="sky-control-help"
-    ></sky-help-inline>
-    <sky-character-counter-indicator #characterCount>
-    </sky-character-counter-indicator>
+    @if (characterCountHelp) {
+    <sky-help-inline class="sky-control-help" />
+    }
+    <sky-character-counter-indicator #characterCount />
     <textarea
+      #characterCountTextarea="skyId"
       class="sky-form-control"
       skyCharacterCounter
       skyId
       [skyCharacterCounterIndicator]="characterCount"
       [skyCharacterCounterLimit]="10"
-      #characterCountTextarea="skyId"
     ></textarea>
   </sky-input-box>
 </div>
@@ -331,19 +342,17 @@
     <label class="sky-control-label" [for]="characterCountSelect.id">
       With character count
     </label>
-    <sky-help-inline
-      *ngIf="characterCountHelp"
-      class="sky-control-help"
-    ></sky-help-inline>
-    <sky-character-counter-indicator #characterCount>
-    </sky-character-counter-indicator>
+    @if (characterCountHelp) {
+    <sky-help-inline class="sky-control-help" />
+    }
+    <sky-character-counter-indicator #characterCount />
     <select
+      #characterCountSelect="skyId"
       class="sky-form-control"
       skyCharacterCounter
       skyId
       [skyCharacterCounterIndicator]="characterCount"
       [skyCharacterCounterLimit]="10"
-      #characterCountSelect="skyId"
     >
       <option>Option 1</option>
       <option>Option 2</option>
@@ -359,10 +368,10 @@
       Input with inset button
     </label>
     <input
+      #inputBoxButtonInset="skyId"
       class="sky-form-control"
       skyId
       type="text"
-      #inputBoxButtonInset="skyId"
     />
     <div class="sky-input-group-btn sky-input-box-btn-inset">
       <button
@@ -380,14 +389,14 @@
       Input with inset icon
     </label>
     <input
+      #inputBoxIconInset="skyId"
       class="sky-form-control"
       skyId
       type="text"
       [disabled]="insetIconDisabled"
-      #inputBoxIconInset="skyId"
     />
     <div class="sky-input-group-icon sky-input-box-icon-inset">
-      <sky-icon class="test-icon-inset" icon="search" />
+      <sky-icon class="test-icon-inset" iconName="search" iconSize="l" />
     </div>
   </sky-input-box>
 </div>
@@ -398,13 +407,13 @@
       Input with left inset icon
     </label>
     <input
+      #inputBoxIconInsetLeft="skyId"
       class="sky-form-control"
       skyId
       type="text"
-      #inputBoxIconInsetLeft="skyId"
     />
     <div class="sky-input-group-icon sky-input-box-icon-inset-left">
-      <sky-icon class="test-icon-inset" icon="search" />
+      <sky-icon class="test-icon-inset" iconName="search" iconSize="l" />
     </div>
   </sky-input-box>
 </div>
@@ -415,50 +424,44 @@
       Input with internal components
     </label>
     <input
+      #inputBoxInternal="skyId"
       class="sky-form-control"
       skyId
       type="text"
-      #inputBoxInternal="skyId"
     />
-    <div
-      *ngIf="a11yInsetIconLeft"
-      class="sky-input-group-icon sky-input-box-icon-inset-left"
-    >
-      <sky-icon class="test-icon-inset=left" icon="search" />
+    @if (a11yInsetIconLeft) {
+    <div class="sky-input-group-icon sky-input-box-icon-inset-left">
+      <sky-icon class="test-icon-inset=left" iconName="search" iconSize="l" />
     </div>
-    <div
-      *ngIf="a11yInsetIcon"
-      class="sky-input-group-icon sky-input-box-icon-inset"
-    >
-      <sky-icon class="test-icon-inset" icon="search" />
+    } @if (a11yInsetIcon) {
+    <div class="sky-input-group-icon sky-input-box-icon-inset">
+      <sky-icon class="test-icon-inset" iconName="search" iconSize="l" />
     </div>
-    <div
-      *ngIf="a11yButtonLeft"
-      class="sky-input-group-btn sky-input-box-btn-left"
-    >
+    } @if (a11yButtonLeft) {
+    <div class="sky-input-group-btn sky-input-box-btn-left">
       <button
         aria-label="Left button"
         class="sky-btn sky-btn-default test-button-left"
         type="button"
       ></button>
     </div>
-    <div
-      *ngIf="a11yInsetButton"
-      class="sky-input-group-btn sky-input-box-btn-inset"
-    >
+    } @if (a11yInsetButton) {
+    <div class="sky-input-group-btn sky-input-box-btn-inset">
       <button
         aria-label="Inset button"
         class="sky-btn sky-btn-default test-button-inset"
         type="button"
       ></button>
     </div>
-    <div *ngIf="a11yNormalButton" class="sky-input-group-btn">
+    } @if (a11yNormalButton) {
+    <div class="sky-input-group-btn">
       <button
         aria-label="Normal button"
         class="sky-btn sky-btn-default test-button"
         type="button"
       ></button>
     </div>
+    }
   </sky-input-box>
 </div>
 
@@ -468,50 +471,44 @@
       Textarea with internal components
     </label>
     <textarea
+      #inputBoxTextareaInternal="skyId"
       class="sky-form-control"
       skyId
       type="text"
-      #inputBoxTextareaInternal="skyId"
     ></textarea>
-    <div
-      *ngIf="a11yInsetIconLeft"
-      class="sky-input-group-icon sky-input-box-icon-inset-left"
-    >
-      <sky-icon class="test-icon-inset=left" icon="search" />
+    @if (a11yInsetIconLeft) {
+    <div class="sky-input-group-icon sky-input-box-icon-inset-left">
+      <sky-icon class="test-icon-inset=left" iconName="search" iconSize="l" />
     </div>
-    <div
-      *ngIf="a11yInsetIcon"
-      class="sky-input-group-icon sky-input-box-icon-inset"
-    >
-      <sky-icon class="test-icon-inset" icon="search" />
+    } @if (a11yInsetIcon) {
+    <div class="sky-input-group-icon sky-input-box-icon-inset">
+      <sky-icon class="test-icon-inset" iconName="search" iconSize="l" />
     </div>
-    <div
-      *ngIf="a11yButtonLeft"
-      class="sky-input-group-btn sky-input-box-btn-left"
-    >
+    } @if (a11yButtonLeft) {
+    <div class="sky-input-group-btn sky-input-box-btn-left">
       <button
         aria-label="Left button"
         class="sky-btn sky-btn-default test-button-left"
         type="button"
       ></button>
     </div>
-    <div
-      *ngIf="a11yInsetButton"
-      class="sky-input-group-btn sky-input-box-btn-inset"
-    >
+    } @if (a11yInsetButton) {
+    <div class="sky-input-group-btn sky-input-box-btn-inset">
       <button
         aria-label="Inset button"
         class="sky-btn sky-btn-default test-button-inset"
         type="button"
       ></button>
     </div>
-    <div *ngIf="a11yNormalButton" class="sky-input-group-btn">
+    } @if (a11yNormalButton) {
+    <div class="sky-input-group-btn">
       <button
         aria-label="Normal button"
         class="sky-btn sky-btn-default test-button"
         type="button"
       ></button>
     </div>
+    }
   </sky-input-box>
 </div>
 
@@ -521,72 +518,67 @@
       Select with internal components
     </label>
     <select
+      #inputBoxSelectInternal="skyId"
       class="sky-form-control"
       skyId
       type="text"
-      #inputBoxSelectInternal="skyId"
     >
       <option>Option 1</option>
       <option>Option 2</option>
       <option>Option 3</option>
       <option>Option 4</option>
     </select>
-    <div
-      *ngIf="a11yInsetIconLeft"
-      class="sky-input-group-icon sky-input-box-icon-inset-left"
-    >
-      <sky-icon class="test-icon-inset=left" icon="search" />
+    @if (a11yInsetIconLeft) {
+    <div class="sky-input-group-icon sky-input-box-icon-inset-left">
+      <sky-icon class="test-icon-inset=left" iconName="search" iconSize="l" />
     </div>
-    <div
-      *ngIf="a11yInsetIcon"
-      class="sky-input-group-icon sky-input-box-icon-inset"
-    >
-      <sky-icon class="test-icon-inset" icon="search" />
+    } @if (a11yInsetIcon) {
+    <div class="sky-input-group-icon sky-input-box-icon-inset">
+      <sky-icon class="test-icon-inset" iconName="search" iconSize="l" />
     </div>
-    <div
-      *ngIf="a11yButtonLeft"
-      class="sky-input-group-btn sky-input-box-btn-left"
-    >
+    } @if (a11yButtonLeft) {
+    <div class="sky-input-group-btn sky-input-box-btn-left">
       <button
         aria-label="Left button"
         class="sky-btn sky-btn-default test-button-left"
         type="button"
       ></button>
     </div>
-    <div
-      *ngIf="a11yInsetButton"
-      class="sky-input-group-btn sky-input-box-btn-inset"
-    >
+    } @if (a11yInsetButton) {
+    <div class="sky-input-group-btn sky-input-box-btn-inset">
       <button
         aria-label="Inset button"
         class="sky-btn sky-btn-default test-button-inset"
         type="button"
       ></button>
     </div>
-    <div *ngIf="a11yNormalButton" class="sky-input-group-btn">
+    } @if (a11yNormalButton) {
+    <div class="sky-input-group-btn">
       <button
         aria-label="Normal button"
         class="sky-btn sky-btn-default test-button"
         type="button"
       ></button>
     </div>
+    }
   </sky-input-box>
 </div>
 
 <div class="input-easy-mode">
   <sky-input-box
-    labelText="Easy mode"
     [characterLimit]="easyModeCharacterLimit"
+    [helpKey]="easyModeHelpKey"
     [helpPopoverContent]="easyModeHelpPopoverContent"
     [hintText]="easyModeHintText"
+    [labelText]="labelText"
     [stacked]="easyModeStacked"
   >
     <input
-      [attr.aria-describedby]="easyModeAriaDescribedBy"
-      [autocomplete]="autocomplete"
       type="text"
       minlength="3"
       required
+      [attr.aria-describedby]="easyModeAriaDescribedBy"
+      [autocomplete]="autocomplete"
       [(ngModel)]="easyModeValue"
     />
   </sky-input-box>
@@ -625,10 +617,10 @@
 <div class="input-not-wrapped">
   <div class="sky-form-group">
     <input
-      [autocomplete]="autocomplete"
       type="text"
       minlength="3"
       required
+      [autocomplete]="autocomplete"
       [(ngModel)]="easyModeValue"
     />
   </div>

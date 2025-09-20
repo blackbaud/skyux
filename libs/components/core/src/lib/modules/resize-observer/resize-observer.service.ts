@@ -10,14 +10,13 @@ import {
 import {
   Observable,
   Subject,
-  animationFrames,
+  animationFrameScheduler,
   distinctUntilChanged,
   filter,
   map,
+  observeOn,
   shareReplay,
-  take,
   takeUntil,
-  throttle,
 } from 'rxjs';
 
 import { SkyAppWindowRef } from '../window/window-ref';
@@ -62,13 +61,16 @@ const onError = (event: string | ErrorEvent): boolean | undefined => {
 })
 export class SkyResizeObserverService implements OnDestroy {
   readonly #ngUnsubscribe = new Subject<void>();
-  readonly #resizeObserver = new ResizeObserver((entries) =>
-    this.#resizeSubject.next(entries),
+  readonly #zone = inject(NgZone);
+  readonly #resizeObserver = this.#zone.runOutsideAngular(
+    () =>
+      new ResizeObserver((entries) =>
+        this.#zone.run(() => this.#resizeSubject.next(entries)),
+      ),
   );
   readonly #resizeSubject = new Subject<ResizeObserverEntry[]>();
   readonly #tracking = new Map<Element, Observable<ResizeObserverEntry>>();
   readonly #window = inject(SkyAppWindowRef);
-  readonly #zone = inject(NgZone);
 
   constructor() {
     this.#expectWindowError();
@@ -97,7 +99,7 @@ export class SkyResizeObserverService implements OnDestroy {
         new Observable<ResizeObserverEntry[]>((observer) => {
           const subscription = this.#resizeSubject.subscribe(observer);
           this.#resizeObserver?.observe(element.nativeElement);
-          return () => {
+          return (): void => {
             this.#resizeObserver?.unobserve(element.nativeElement);
             subscription.unsubscribe();
             this.#tracking.delete(element.nativeElement);
@@ -125,10 +127,7 @@ export class SkyResizeObserverService implements OnDestroy {
           // un-observes when all subscribers are gone.
           shareReplay({ bufferSize: 1, refCount: true }),
           // Only emit prior to an animation frame to prevent layout thrashing.
-          throttle(() => animationFrames().pipe(take(1)), {
-            leading: false,
-            trailing: true,
-          }),
+          observeOn(animationFrameScheduler),
           takeUntil(this.#ngUnsubscribe),
         ),
       );

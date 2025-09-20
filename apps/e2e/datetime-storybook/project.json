@@ -58,28 +58,25 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "datetime-storybook:build:production"
+          "buildTarget": "datetime-storybook:build:production"
         },
         "development": {
-          "browserTarget": "datetime-storybook:build:development"
+          "buildTarget": "datetime-storybook:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "datetime-storybook:build"
+        "buildTarget": "datetime-storybook:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": [
-          "apps/e2e/datetime-storybook/**/*.ts",
-          "apps/e2e/datetime-storybook/**/*.html"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
       }
     },
     "serve-static": {

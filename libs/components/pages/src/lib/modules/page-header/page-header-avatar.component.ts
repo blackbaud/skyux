@@ -1,11 +1,7 @@
-import { Component, OnDestroy, inject } from '@angular/core';
-import {
-  SkyDefaultInputProvider,
-  SkyMediaBreakpoints,
-  SkyMediaQueryService,
-} from '@skyux/core';
-
-import { Subscription } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SkyDefaultInputProvider, SkyMediaQueryService } from '@skyux/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
  * Displays an avatar within the page header to the left of the page title.
@@ -17,25 +13,21 @@ import { Subscription } from 'rxjs';
   templateUrl: './page-header-avatar.component.html',
   styleUrls: ['./page-header-avatar.component.scss'],
   providers: [SkyDefaultInputProvider],
+  standalone: false,
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
-export class SkyPageHeaderAvatarComponent implements OnDestroy {
-  #defaultInputProvider = inject(SkyDefaultInputProvider);
-  #mediaQueryService = inject(SkyMediaQueryService);
-  #mediaQuerySubscription: Subscription;
-
+export class SkyPageHeaderAvatarComponent {
   constructor() {
-    this.#mediaQuerySubscription = this.#mediaQueryService.subscribe(
-      (args: SkyMediaBreakpoints) => {
-        if (args === SkyMediaBreakpoints.xs) {
-          this.#defaultInputProvider.setValue('avatar', 'size', 'small');
-        } else {
-          this.#defaultInputProvider.setValue('avatar', 'size', 'large');
-        }
-      },
-    );
-  }
+    const defaultInputProvider = inject(SkyDefaultInputProvider);
 
-  public ngOnDestroy(): void {
-    this.#mediaQuerySubscription.unsubscribe();
+    inject(SkyMediaQueryService)
+      .breakpointChange.pipe(takeUntilDestroyed())
+      .subscribe((breakpoint) => {
+        if (breakpoint === 'xs') {
+          defaultInputProvider.setValue('avatar', 'size', 'small');
+        } else {
+          defaultInputProvider.setValue('avatar', 'size', 'large');
+        }
+      });
   }
 }

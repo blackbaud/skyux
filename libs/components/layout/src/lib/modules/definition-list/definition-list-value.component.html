@@ -2,10 +2,12 @@
   <span #valueEl>
     <ng-content />
   </span>
-  <span class="sky-deemphasized" *ngIf="!valueEl.textContent?.trim()">
-    {{
-      (service.defaultValue | async) ||
-        ('skyux_definition_list_none_found' | skyLibResources)
-    }}
-  </span>
+  @if (!valueEl.textContent?.trim()) {
+    <span class="sky-deemphasized">
+      {{
+        (service.defaultValue | async) ||
+          ('skyux_definition_list_none_found' | skyLibResources)
+      }}
+    </span>
+  }
 </div>

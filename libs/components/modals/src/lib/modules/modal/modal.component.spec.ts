@@ -3,12 +3,17 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
-  SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
   SkyLiveAnnouncerService,
   SkyMutationObserverService,
 } from '@skyux/core';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -18,6 +23,7 @@ import {
 
 import { ModalMockThemeService } from './fixtures/mock-theme.service';
 import { ModalAutofocusTestComponent } from './fixtures/modal-autofocus.component.fixture';
+import { ModalTestContext } from './fixtures/modal-context';
 import { SkyModalFixturesModule } from './fixtures/modal-fixtures.module';
 import { ModalFooterTestComponent } from './fixtures/modal-footer.component.fixture';
 import { ModalIsDirtyTestContext } from './fixtures/modal-is-dirty-test-context.fixture';
@@ -36,6 +42,7 @@ import { SkyModalError } from './modal-error';
 import { SkyModalHostComponent } from './modal-host.component';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalInstance } from './modal-instance';
+import { SkyModalConfigurationInterface } from './modal.interface';
 import { SkyModalModule } from './modal.module';
 import { SkyModalService } from './modal.service';
 
@@ -126,6 +133,10 @@ describe('Modal component', () => {
     return TestBed.inject(Router);
   }
 
+  function getHelpInlineButton(): HTMLButtonElement | null {
+    return getModalElement()?.querySelector('sky-help-inline button') ?? null;
+  }
+
   async function testLiveAnnouncer(
     changeElementAfterLoad = false,
   ): Promise<void> {
@@ -167,7 +178,7 @@ describe('Modal component', () => {
 
   function openModal<T>(
     modalType: T,
-    config?: Record<string, any>,
+    config?: SkyModalConfigurationInterface,
     async = false,
   ): SkyModalInstance {
     const modalInstance = getModalService().open(modalType, config);
@@ -193,8 +204,14 @@ describe('Modal component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyModalFixturesModule],
+      imports: [SkyModalFixturesModule, SkyHelpTestingModule],
+      providers: [provideSkyMediaQueryTesting()],
     });
+
+    document.body.style.setProperty(
+      '--sky-elevation-overflow',
+      '0 1px 8px 0 rgba(0, 0, 0, 0.3)',
+    );
 
     // Confirm all modals are closed before another test is executed.
     expect(SkyModalHostService.openModalCount).toBe(0);
@@ -548,9 +565,7 @@ describe('Modal component', () => {
   }));
 
   it('should handle empty list for focus first and last element functions', fakeAsync(() => {
-    const adapterService = new SkyModalComponentAdapterService(
-      TestBed.inject(SkyCoreAdapterService),
-    );
+    const adapterService = new SkyModalComponentAdapterService();
     const firstResult = adapterService.focusFirstElement([]);
     expect(firstResult).toBe(false);
 
@@ -632,12 +647,12 @@ describe('Modal component', () => {
     getApplicationRef().tick();
   }));
 
-  it('should close when the user navigates through history', fakeAsync(() => {
+  it('should close when the user navigates through history', fakeAsync(async () => {
     openModal(ModalTestComponent);
 
     expect(getModalElement()).toExist();
 
-    getRouter().navigate(['/']);
+    await getRouter().navigate(['/']);
 
     expect(getModalElement()).not.toExist();
 
@@ -660,7 +675,7 @@ describe('Modal component', () => {
     closeModal(modalInstance);
   }));
 
-  it('should not close on route change if it is already closed', fakeAsync(() => {
+  it('should not close on route change if it is already closed', fakeAsync(async () => {
     const instance = openModal(ModalTestComponent);
     const closeSpy = spyOn(instance, 'close').and.callThrough();
 
@@ -670,7 +685,7 @@ describe('Modal component', () => {
     expect(closeSpy).toHaveBeenCalled();
     closeSpy.calls.reset();
 
-    getRouter().navigate(['/']);
+    await getRouter().navigate(['/']);
     tick();
 
     expect(getModalElement()).not.toExist();
@@ -698,6 +713,83 @@ describe('Modal component', () => {
     closeModal(modalInstance);
   }));
 
+  it('should render help inline popover', fakeAsync(() => {
+    const modalInstance = openModal(ModalTestComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useValue: {
+            headingText: 'My modal',
+            helpPopoverContent: 'Popover content here.',
+          } satisfies Partial<ModalTestContext>,
+        },
+      ],
+    });
+
+    expect(getHelpInlineButton()).toExist();
+
+    closeModal(modalInstance);
+  }));
+
+  it('should not render help inline if popover content provided but headingText undefined', fakeAsync(() => {
+    const modalInstance = openModal(ModalTestComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useValue: {
+            headingText: undefined,
+            helpPopoverContent: 'Popover content here.',
+          } satisfies Partial<ModalTestContext>,
+        },
+      ],
+    });
+
+    expect(getHelpInlineButton()).toBeNull();
+
+    closeModal(modalInstance);
+  }));
+
+  it('should render help inline when helpKey is provided', fakeAsync(() => {
+    const helpController = TestBed.inject(SkyHelpTestingController);
+
+    const modalInstance = openModal(ModalTestComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useValue: {
+            headingText: 'My modal',
+            helpKey: 'foo.html',
+          } satisfies Partial<ModalTestContext>,
+        },
+      ],
+    });
+
+    getHelpInlineButton()?.click();
+    getApplicationRef().tick();
+
+    helpController.expectCurrentHelpKey('foo.html');
+
+    closeModal(modalInstance);
+  }));
+
+  it('should not render help inline if helpKey provided but heading text undefined', fakeAsync(() => {
+    const modalInstance = openModal(ModalTestComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useValue: {
+            headingText: undefined,
+            helpKey: 'foo.html',
+          } satisfies Partial<ModalTestContext>,
+        },
+      ],
+    });
+
+    expect(getHelpInlineButton()).toBeNull();
+
+    closeModal(modalInstance);
+  }));
+
   it('should set max height based on window and change when window resizes', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent);
     const modalEl = getModalElement();
@@ -708,12 +800,8 @@ describe('Modal component', () => {
 
     let maxHeight = parseInt(getComputedStyle(modalEl).maxHeight, 10);
     const windowHeight = window.innerHeight;
-    const contentEl = getModalContentElement(modalEl);
-
-    const contentHeight = parseInt(getComputedStyle(contentEl).maxHeight, 10);
 
     expect(maxHeight).toEqual(windowHeight - 40);
-    expect(contentHeight).toEqual(windowHeight - 40 - 114);
 
     SkyAppTestUtility.fireDomEvent(window, 'resize');
     getApplicationRef().tick();
@@ -751,6 +839,8 @@ describe('Modal component', () => {
 
   it('should contain responsive size class', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent);
+
+    TestBed.inject(SkyMediaQueryTestingController).setBreakpoint('xs');
 
     expect(document.querySelector('.sky-responsive-container-xs')).toExist();
 
@@ -957,12 +1047,24 @@ describe('Modal component', () => {
       { message: 'Test error 2' },
     ];
 
+    let errorsComponent = document.querySelector('.sky-modal-footer-errors');
     let errorEls = document.querySelectorAll('.sky-status-indicator');
+    expect(errorsComponent).toBeNull();
+    expect(errorEls.length).toBe(0);
+
+    modalInstance.componentInstance.errors = [];
+    getApplicationRef().tick();
+
+    errorsComponent = document.querySelector('.sky-modal-footer-errors');
+    errorEls = document.querySelectorAll('.sky-status-indicator');
+    expect(errorsComponent).toBeNull();
     expect(errorEls.length).toBe(0);
 
     modalInstance.componentInstance.errors = errors;
     getApplicationRef().tick();
 
+    errorsComponent = document.querySelector('.sky-modal-footer-errors');
+    expect(errorsComponent).not.toBeNull();
     errorEls = document.querySelectorAll('.sky-status-indicator');
     errorEls.forEach((el, i) => {
       expect(el.textContent).toEqual(` Error: ${errors[i].message}`);
@@ -971,7 +1073,7 @@ describe('Modal component', () => {
     await expectAsync(getModalElement()).toBeAccessible();
   });
 
-  describe('when modern theme', () => {
+  describe('scroll shadow', () => {
     function scrollContent(contentEl: HTMLElement, top: number): void {
       contentEl.scrollTop = top;
 
@@ -1026,129 +1128,221 @@ describe('Modal component', () => {
       }
     }
 
-    it('should progressively show a drop shadow as the modal content scrolls', fakeAsync(() => {
-      setModernTheme();
+    describe('when default theme', () => {
+      it('should not show a drop shadow as the modal content scrolls', fakeAsync(() => {
+        const modalInstance1 = openModal(ModalTestComponent);
 
-      const modalInstance1 = openModal(ModalTestComponent);
+        const modalHeaderEl = document.querySelector(
+          '.sky-modal-header',
+        ) as HTMLElement;
+        const modalContentEl = document.querySelector(
+          '.sky-modal-content',
+        ) as HTMLElement;
+        const modalFooterEl = document.querySelector(
+          '.sky-modal-footer',
+        ) as HTMLElement;
 
-      const modalHeaderEl = document.querySelector(
-        '.sky-modal-header',
-      ) as HTMLElement;
-      const modalContentEl = document.querySelector(
-        '.sky-modal-content',
-      ) as HTMLElement;
-      const modalFooterEl = document.querySelector(
-        '.sky-modal-footer',
-      ) as HTMLElement;
+        const fixtureContentEl = document.querySelector(
+          '.modal-fixture-content',
+        ) as HTMLElement;
+        fixtureContentEl.style.height = `${window.innerHeight + 100}px`;
 
-      const fixtureContentEl = document.querySelector(
-        '.modal-fixture-content',
-      ) as HTMLElement;
-      fixtureContentEl.style.height = `${window.innerHeight + 100}px`;
+        scrollContent(modalContentEl, 0);
+        validateShadow(modalHeaderEl);
+        validateShadow(modalFooterEl);
 
-      scrollContent(modalContentEl, 0);
-      validateShadow(modalHeaderEl);
-      validateShadow(modalFooterEl, 0.3);
+        scrollContent(modalContentEl, 15);
+        validateShadow(modalHeaderEl);
+        validateShadow(modalFooterEl);
 
-      scrollContent(modalContentEl, 15);
-      validateShadow(modalHeaderEl, 0.15);
-      validateShadow(modalFooterEl, 0.3);
+        scrollContent(modalContentEl, 30);
+        validateShadow(modalHeaderEl);
+        validateShadow(modalFooterEl);
 
-      scrollContent(modalContentEl, 30);
-      validateShadow(modalHeaderEl, 0.3);
-      validateShadow(modalFooterEl, 0.3);
+        scrollContent(modalContentEl, 31);
+        validateShadow(modalHeaderEl);
+        validateShadow(modalFooterEl);
 
-      scrollContent(modalContentEl, 31);
-      validateShadow(modalHeaderEl, 0.3);
-      validateShadow(modalFooterEl, 0.3);
+        scrollContent(
+          modalContentEl,
+          modalContentEl.scrollHeight - 15 - modalContentEl.clientHeight,
+        );
+        validateShadow(modalHeaderEl);
+        validateShadow(modalFooterEl);
 
-      scrollContent(
-        modalContentEl,
-        modalContentEl.scrollHeight - 15 - modalContentEl.clientHeight,
-      );
-      validateShadow(modalHeaderEl, 0.3);
-      validateShadow(modalFooterEl, 0.15);
+        scrollContent(
+          modalContentEl,
+          modalContentEl.scrollHeight - modalContentEl.clientHeight,
+        );
+        validateShadow(modalHeaderEl);
+        validateShadow(modalFooterEl);
 
-      scrollContent(
-        modalContentEl,
-        modalContentEl.scrollHeight - modalContentEl.clientHeight,
-      );
-      validateShadow(modalHeaderEl, 0.3);
-      validateShadow(modalFooterEl);
+        closeModal(modalInstance1);
+      }));
 
-      closeModal(modalInstance1);
-    }));
+      it('should not check for shadow when elements are added to the modal content', fakeAsync(() => {
+        let mutateCallback: MutationCallback | undefined;
 
-    it('should check for shadow when elements are added to the modal content', fakeAsync(() => {
-      let mutateCallback: MutationCallback | undefined;
+        const fakeMutationObserver: MutationObserver = {
+          observe: jasmine.createSpy('observe'),
+          disconnect: jasmine.createSpy('disconnect'),
+          takeRecords: jasmine.createSpy('takeRecords'),
+        };
 
-      const fakeMutationObserver: MutationObserver = {
-        observe: jasmine.createSpy('observe'),
-        disconnect: jasmine.createSpy('disconnect'),
-        takeRecords: jasmine.createSpy('takeRecords'),
-      };
-
-      spyOn(TestBed.inject(SkyMutationObserverService), 'create').and.callFake(
-        (cb) => {
+        spyOn(
+          TestBed.inject(SkyMutationObserverService),
+          'create',
+        ).and.callFake((cb) => {
           mutateCallback = cb;
 
           return fakeMutationObserver;
-        },
-      );
+        });
 
-      setModernTheme();
+        const modalInstance1 = openModal(ModalTestComponent);
 
-      const modalInstance1 = openModal(ModalTestComponent);
+        const modalFooterEl = document.querySelector(
+          '.sky-modal-footer',
+        ) as HTMLElement;
 
-      const modalFooterEl = document.querySelector(
-        '.sky-modal-footer',
-      ) as HTMLElement;
+        const fixtureContentEl = document.querySelector(
+          '.modal-fixture-content',
+        ) as HTMLElement;
 
-      const fixtureContentEl = document.querySelector(
-        '.modal-fixture-content',
-      ) as HTMLElement;
+        const childEl = document.createElement('div');
+        childEl.style.height = `${window.innerHeight + 100}px`;
+        childEl.style.backgroundColor = 'red';
 
-      const childEl = document.createElement('div');
-      childEl.style.height = `${window.innerHeight + 100}px`;
-      childEl.style.backgroundColor = 'red';
+        fixtureContentEl.appendChild(childEl);
 
-      fixtureContentEl.appendChild(childEl);
+        triggerMutation(mutateCallback, fakeMutationObserver);
 
-      triggerMutation(mutateCallback, fakeMutationObserver);
+        tick();
+        getApplicationRef().tick();
 
-      tick();
-      getApplicationRef().tick();
+        validateShadow(modalFooterEl);
 
-      validateShadow(modalFooterEl, 0.3);
+        fixtureContentEl.removeChild(childEl);
 
-      fixtureContentEl.removeChild(childEl);
+        triggerMutation(mutateCallback, fakeMutationObserver);
 
-      triggerMutation(mutateCallback, fakeMutationObserver);
+        tick();
+        getApplicationRef().tick();
 
-      tick();
-      getApplicationRef().tick();
+        validateShadow(modalFooterEl);
 
-      validateShadow(modalFooterEl);
+        closeModal(modalInstance1);
+      }));
+    });
 
-      closeModal(modalInstance1);
-    }));
+    describe('when modern theme', () => {
+      it('should progressively show a drop shadow as the modal content scrolls', fakeAsync(() => {
+        setModernTheme();
 
-    it('should not create multiple mutation observers', fakeAsync(() => {
-      const modalInstance1 = openModal(ModalTestComponent);
+        const modalInstance1 = openModal(ModalTestComponent);
 
-      const mutationObserverCreateSpy = spyOn(
-        TestBed.inject(SkyMutationObserverService),
-        'create',
-      ).and.callThrough();
+        const modalHeaderEl = document.querySelector(
+          '.sky-modal-header',
+        ) as HTMLElement;
+        const modalContentEl = document.querySelector(
+          '.sky-modal-content',
+        ) as HTMLElement;
+        const modalFooterEl = document.querySelector(
+          '.sky-modal-footer',
+        ) as HTMLElement;
 
-      setModernTheme();
-      setModernTheme();
-      setModernTheme();
+        const fixtureContentEl = document.querySelector(
+          '.modal-fixture-content',
+        ) as HTMLElement;
+        fixtureContentEl.style.height = `${window.innerHeight + 100}px`;
 
-      expect(mutationObserverCreateSpy.calls.count()).toBe(1);
+        scrollContent(modalContentEl, 0);
+        validateShadow(modalHeaderEl);
+        validateShadow(modalFooterEl, 0.3);
 
-      closeModal(modalInstance1);
-    }));
+        scrollContent(modalContentEl, 15);
+        validateShadow(modalHeaderEl, 0.15);
+        validateShadow(modalFooterEl, 0.3);
+
+        scrollContent(modalContentEl, 30);
+        validateShadow(modalHeaderEl, 0.3);
+        validateShadow(modalFooterEl, 0.3);
+
+        scrollContent(modalContentEl, 31);
+        validateShadow(modalHeaderEl, 0.3);
+        validateShadow(modalFooterEl, 0.3);
+
+        scrollContent(
+          modalContentEl,
+          modalContentEl.scrollHeight - 15 - modalContentEl.clientHeight,
+        );
+        validateShadow(modalHeaderEl, 0.3);
+        validateShadow(modalFooterEl, 0.15);
+
+        scrollContent(
+          modalContentEl,
+          modalContentEl.scrollHeight - modalContentEl.clientHeight,
+        );
+        validateShadow(modalHeaderEl, 0.3);
+        validateShadow(modalFooterEl);
+
+        closeModal(modalInstance1);
+      }));
+
+      it('should check for shadow when elements are added to the modal content', fakeAsync(() => {
+        let mutateCallback: MutationCallback | undefined;
+
+        const fakeMutationObserver: MutationObserver = {
+          observe: jasmine.createSpy('observe'),
+          disconnect: jasmine.createSpy('disconnect'),
+          takeRecords: jasmine.createSpy('takeRecords'),
+        };
+
+        spyOn(
+          TestBed.inject(SkyMutationObserverService),
+          'create',
+        ).and.callFake((cb) => {
+          mutateCallback = cb;
+
+          return fakeMutationObserver;
+        });
+
+        setModernTheme();
+
+        const modalInstance1 = openModal(ModalTestComponent);
+
+        const modalFooterEl = document.querySelector(
+          '.sky-modal-footer',
+        ) as HTMLElement;
+
+        const fixtureContentEl = document.querySelector(
+          '.modal-fixture-content',
+        ) as HTMLElement;
+
+        const childEl = document.createElement('div');
+        childEl.style.height = `${window.innerHeight + 100}px`;
+        childEl.style.backgroundColor = 'red';
+
+        fixtureContentEl.appendChild(childEl);
+
+        triggerMutation(mutateCallback, fakeMutationObserver);
+
+        tick();
+        getApplicationRef().tick();
+
+        validateShadow(modalFooterEl, 0.3);
+
+        fixtureContentEl.removeChild(childEl);
+
+        triggerMutation(mutateCallback, fakeMutationObserver);
+
+        tick();
+        getApplicationRef().tick();
+
+        validateShadow(modalFooterEl);
+
+        closeModal(modalInstance1);
+      }));
+    });
   });
 
   it('should pass accessibility with scrolling content', async () => {
@@ -1231,33 +1425,24 @@ describe('Modal component', () => {
       expect(getConfirmModalElement()).toBeNull();
     }));
 
-    it('should not prompt to discard if dirty but canceling', fakeAsync(() => {
+    it('should prompt to discard if canceling when dirty and stay open when keep working is selected', fakeAsync(async () => {
       const modalInstance = openModal(
         ModalIsDirtyTestComponent,
         dirtyContextProvider,
       );
       modalInstance.cancel();
-      expect(getConfirmModalElement()).toBeNull();
-    }));
-
-    it('should prompt to discard if dirty and stay open when keep working is selected', fakeAsync(() => {
-      const modalInstance = openModal(
-        ModalIsDirtyTestComponent,
-        dirtyContextProvider,
-      );
-      closeModal(modalInstance);
 
       const confirmModalEl = getConfirmModalElement();
       expect(confirmModalEl).not.toBeNull();
 
       if (confirmModalEl) {
-        checkConfirmModalIsCorrect(confirmModalEl);
+        await checkConfirmModalIsCorrect(confirmModalEl);
         getKeepWorkingButtonElement(confirmModalEl)?.click();
         expect(getModalElement()).not.toBeNull();
       }
     }));
 
-    it('should prompt to discard if dirty and close when discard changes is selected', fakeAsync(() => {
+    it('should prompt to discard if canceling when dirty and close when discard changes is selected', fakeAsync(async () => {
       const modalInstance = openModal(
         ModalIsDirtyTestComponent,
         dirtyContextProvider,
@@ -1268,7 +1453,41 @@ describe('Modal component', () => {
       expect(confirmModalEl).not.toBeNull();
 
       if (confirmModalEl) {
-        checkConfirmModalIsCorrect(confirmModalEl);
+        await checkConfirmModalIsCorrect(confirmModalEl);
+        getDiscardButtonElement(confirmModalEl)?.click();
+        expect(getModalElement()).toBeNull();
+      }
+    }));
+
+    it('should prompt to discard if closing when dirty and stay open when keep working is selected', fakeAsync(async () => {
+      const modalInstance = openModal(
+        ModalIsDirtyTestComponent,
+        dirtyContextProvider,
+      );
+      closeModal(modalInstance);
+
+      const confirmModalEl = getConfirmModalElement();
+      expect(confirmModalEl).not.toBeNull();
+
+      if (confirmModalEl) {
+        await checkConfirmModalIsCorrect(confirmModalEl);
+        getKeepWorkingButtonElement(confirmModalEl)?.click();
+        expect(getModalElement()).not.toBeNull();
+      }
+    }));
+
+    it('should prompt to discard if closing when dirty and close when discard changes is selected', fakeAsync(async () => {
+      const modalInstance = openModal(
+        ModalIsDirtyTestComponent,
+        dirtyContextProvider,
+      );
+      closeModal(modalInstance);
+
+      const confirmModalEl = getConfirmModalElement();
+      expect(confirmModalEl).not.toBeNull();
+
+      if (confirmModalEl) {
+        await checkConfirmModalIsCorrect(confirmModalEl);
         getDiscardButtonElement(confirmModalEl)?.click();
         expect(getModalElement()).toBeNull();
       }

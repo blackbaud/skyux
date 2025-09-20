@@ -14,8 +14,6 @@ export default {
   ],
 } as Meta<TextExpandComponent>;
 export const TextExpand = {
-  render: (args: TextExpandComponent) => ({
-    props: args,
-  }),
+  render: (args: TextExpandComponent): { props: unknown } => ({ props: args }),
   args: {},
 };

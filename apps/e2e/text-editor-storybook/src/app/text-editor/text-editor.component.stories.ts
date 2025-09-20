@@ -1,10 +1,6 @@
 import { provideRouter } from '@angular/router';
-import {
-  Meta,
-  StoryFn,
-  applicationConfig,
-  moduleMetadata,
-} from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { TextEditorComponent } from './text-editor.component';
 import { TextEditorModule } from './text-editor.module';
@@ -24,20 +20,17 @@ export default {
     }),
   ],
 } as Meta<TextEditorComponent>;
-const BaseTextEditor: StoryFn<TextEditorComponent> = (
-  args: TextEditorComponent,
-) => ({
-  props: args,
-});
+type Story = StoryObj<TextEditorComponent>;
 
-export const TextEditorBasic = BaseTextEditor.bind({});
+export const TextEditorBasic: Story = {};
+TextEditorBasic.args = {};
 
-export const TextEditorDisabled = BaseTextEditor.bind({});
+export const TextEditorDisabled: Story = {};
 TextEditorDisabled.args = {
   disabledFlag: true,
 };
 
-export const TextEditorInlineHelp = BaseTextEditor.bind({});
+export const TextEditorInlineHelp: Story = {};
 TextEditorInlineHelp.args = {
   inlineHelpFlag: true,
 };

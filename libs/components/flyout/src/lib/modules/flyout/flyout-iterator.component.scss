@@ -1,7 +1,18 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-@include mixins.sky-theme-modern {
-  .sky-flyout-iterators {
-    display: inline;
-  }
+@include compatMixins.sky-default-overrides('.sky-flyout-iterators') {
+  --sky-override-flyout-iterator-margin-right: #{$sky-margin-inline-compact};
+  --sky-override-flyout-iterators-display: block;
+}
+
+.sky-btn {
+  margin-right: var(
+    --sky-override-flyout-iterator-margin-right,
+    var(--sky-space-gap-action_group-m)
+  );
+}
+
+.sky-flyout-iterators {
+  display: var(--sky-override-flyout-iterators-display, inline);
 }

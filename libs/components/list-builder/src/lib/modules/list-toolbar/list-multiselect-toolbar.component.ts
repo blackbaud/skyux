@@ -26,6 +26,7 @@ let uniqueId = 0;
   selector: 'sky-list-multiselect-toolbar',
   templateUrl: './list-multiselect-toolbar.component.html',
   styleUrls: ['./list-multiselect-toolbar.component.scss'],
+  standalone: false,
 })
 export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
   @Input()
@@ -150,7 +151,10 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
     return new ListFilterModel({
       name: 'show-selected',
       value: isSelected.toString(),
-      filterFunction: (model: ListItemModel, showOnlySelected: boolean) => {
+      filterFunction: (
+        model: ListItemModel,
+        showOnlySelected: boolean,
+      ): boolean => {
         /* istanbul ignore else */
         if (showOnlySelected.toString() !== false.toString()) {
           return this.selectedIdMap.get(model.id);

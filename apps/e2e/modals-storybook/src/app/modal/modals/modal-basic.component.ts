@@ -1,24 +1,22 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { SkyHelpInlineModule } from '@skyux/indicators';
+import { Component, inject } from '@angular/core';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyModalError, SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
+import { ModalTestContext } from './modal-context';
+
 @Component({
-  standalone: true,
   selector: 'app-modal',
   templateUrl: './modal-basic.component.html',
-  imports: [CommonModule, SkyHelpInlineModule, SkyModalModule],
+  imports: [SkyHelpInlineModule, SkyModalModule],
 })
 export class ModalBasicComponent {
   public showHelp = false;
   public errors: SkyModalError[] | undefined;
   public title = 'Hello world';
 
-  #instance: SkyModalInstance;
+  protected readonly context = inject(ModalTestContext, { optional: true });
 
-  constructor(instance: SkyModalInstance) {
-    this.#instance = instance;
-  }
+  readonly #instance = inject(SkyModalInstance);
 
   public closeModal(): void {
     this.#instance.close();

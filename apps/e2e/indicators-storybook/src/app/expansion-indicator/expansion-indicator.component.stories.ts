@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<ExpansionIndicatorComponent>;
 export const ExpansionIndicator = {
-  render: (args: ExpansionIndicatorComponent) => ({
+  render: (args: ExpansionIndicatorComponent): { props: unknown } => ({
     props: args,
   }),
   args: {},

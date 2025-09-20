@@ -409,7 +409,7 @@ describe('Avatar component', () => {
     const fixture = TestBed.createComponent(SkyAvatarComponent);
     const instance = fixture.componentInstance;
 
-    fixture.componentInstance.maxFileSize = 5000000;
+    fixture.componentInstance.maxFileSize = 5242880;
 
     const badFileType = {
       file: {

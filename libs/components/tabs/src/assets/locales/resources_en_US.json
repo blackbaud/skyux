@@ -23,10 +23,6 @@
     "_description": "Label for the tab open button",
     "message": "Open tab"
   },
-  "skyux_tabs_sr_tab_order": {
-    "_description": "Text that describes which tab the user is on out of the total tabs",
-    "message": "Tab {0} of {1}: {2}"
-  },
   "skyux_vertical_tabs_show_tabs_text": {
     "_description": "The default text for the show tabs button in mobile",
     "message": "Tab list"

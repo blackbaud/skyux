@@ -31,8 +31,17 @@ describe('Date range relative values', function () {
     expectedStartDate: Date,
     expectedEndDate: Date,
   ): void {
-    expect(range.startDate?.getTime()).toEqual(expectedStartDate.getTime());
-    expect(range.endDate?.getTime()).toEqual(expectedEndDate.getTime());
+    if (range.startDate instanceof Date) {
+      expect(range.startDate.getTime()).toEqual(expectedStartDate.getTime());
+    } else {
+      fail('Expected start date to be of type Date');
+    }
+
+    if (range.endDate instanceof Date) {
+      expect(range.endDate.getTime()).toEqual(expectedEndDate.getTime());
+    } else {
+      fail('Expected end date to be of type Date');
+    }
   }
 
   it('should return today', function () {

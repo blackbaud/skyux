@@ -1,12 +1,15 @@
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs';
+import { delay, of } from 'rxjs';
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
+  standalone: false,
 })
-export class FilterComponent implements AfterViewInit, OnDestroy {
+export class FilterComponent {
+  public readonly ready = of(true).pipe(delay(300));
+
   public filtersActive = false;
 
   public appliedFilters = [
@@ -58,16 +61,4 @@ export class FilterComponent implements AfterViewInit, OnDestroy {
       dismissible: true,
     },
   ];
-
-  public readonly ready = new BehaviorSubject<boolean>(false);
-
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.ready.next(true);
-    }, 300);
-  }
-
-  ngOnDestroy(): void {
-    this.ready.complete();
-  }
 }

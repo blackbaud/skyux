@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,6 +8,7 @@ import { VerticalTabsetEmptyGroupTestComponent } from './vertical-tabset-empty-g
 import { VerticalTabsetWithNgForTestComponent } from './vertical-tabset-ngfor.component.fixture';
 import { VerticalTabsetNoActiveTestComponent } from './vertical-tabset-no-active.component.fixture';
 import { VerticalTabsetNoGroupTestComponent } from './vertical-tabset-no-group.component.fixture';
+import { VerticalTabsetProgrammaticTestComponent } from './vertical-tabset-programmatic.component';
 import { VerticalTabsetTestComponent } from './vertical-tabset.component.fixture';
 
 @NgModule({
@@ -20,16 +20,17 @@ import { VerticalTabsetTestComponent } from './vertical-tabset.component.fixture
     VerticalTabsetWithNgForTestComponent,
   ],
   imports: [
-    CommonModule,
     FormsModule,
     NoopAnimationsModule,
     SkyVerticalTabsetModule,
+    VerticalTabsetProgrammaticTestComponent,
   ],
   exports: [
     VerticalTabsetTestComponent,
     VerticalTabsetEmptyGroupTestComponent,
     VerticalTabsetNoGroupTestComponent,
     VerticalTabsetNoActiveTestComponent,
+    VerticalTabsetProgrammaticTestComponent,
     VerticalTabsetWithNgForTestComponent,
   ],
 })

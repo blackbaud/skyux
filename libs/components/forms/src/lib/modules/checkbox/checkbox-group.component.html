@@ -1,0 +1,83 @@
+<fieldset
+  class="sky-checkbox-group"
+  [attr.aria-invalid]="!!formGroup?.errors"
+  [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
+  [attr.aria-errormessage]="
+    headingText && formGroup?.errors ? errorId : undefined
+  "
+>
+  <legend
+    class="sky-checkbox-group-legend"
+    [ngClass]="{
+      'sky-screen-reader-only': headingHidden
+    }"
+  >
+    <span
+      class="sky-checkbox-group-heading"
+      [ngClass]="{
+        'sky-control-label-required': required
+      }"
+    >
+      @switch (headingLevel) {
+        @case (3) {
+          <h3 [class]="headingClass">{{ headingText }}</h3>
+        }
+        @case (4) {
+          <h4 [class]="headingClass">{{ headingText }}</h4>
+        }
+        @case (5) {
+          <h5 [class]="headingClass">{{ headingText }}</h5>
+        }
+        @default {
+          <span [class]="'sky-checkbox-group-heading-text ' + headingClass">{{
+            headingText
+          }}</span>
+        }
+      }
+    </span>
+    @if (required) {
+      <span class="sky-screen-reader-only">{{
+        'skyux_form_group_required' | skyLibResources
+      }}</span>
+    }
+    @if (helpPopoverContent || helpKey) {
+      <span class="sky-control-help-container">
+        <sky-help-inline
+          [helpKey]="helpKey"
+          [labelText]="headingText"
+          [popoverTitle]="helpPopoverTitle"
+          [popoverContent]="helpPopoverContent"
+        />
+      </span>
+    }
+  </legend>
+  <div
+    #hintTextEl="skyId"
+    skyId
+    [ngClass]="{
+      'sky-checkbox-group-hint-text': !!hintText
+    }"
+    [skyThemeClass]="{
+      'sky-font-deemphasized': 'default',
+      'sky-font-hint-text-s': 'modern'
+    }"
+  >
+    {{ hintText }}
+  </div>
+  <span class="sky-checkbox-group-inline sky-switch-icon-group">
+    <ng-content select="sky-checkbox[iconName]" />
+  </span>
+  <span class="sky-checkbox-group-stacked">
+    <ng-content select="sky-checkbox" />
+  </span>
+</fieldset>
+<sky-form-errors
+  [id]="errorId"
+  [attr.data-sky-id]="formErrorsDataId"
+  [errors]="formGroup?.errors"
+  [labelText]="headingText"
+  [touched]="formGroup?.touched"
+  [dirty]="formGroup?.dirty"
+>
+  <ng-content select="sky-form-error" />
+</sky-form-errors>

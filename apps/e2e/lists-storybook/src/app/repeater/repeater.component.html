@@ -5,11 +5,11 @@
   <sky-repeater-item [selectable]="true" [isSelected]="true">
     <sky-repeater-item-title>Item 2</sky-repeater-item-title>
   </sky-repeater-item>
-  <sky-repeater-item [selectable]="true">
+  <sky-repeater-item [selectable]="true" [disabled]="true">
     <sky-repeater-item-title>Item 3</sky-repeater-item-title>
   </sky-repeater-item>
 </sky-repeater>
-<sky-repeater [reorderable]="true" expandMode="single" [activeIndex]="0">
+<sky-repeater expandMode="single" [reorderable]="true" [activeIndex]="0">
   <sky-repeater-item tag="item1" [isExpanded]="false">
     <sky-repeater-item-title>Item 1</sky-repeater-item-title>
     <sky-repeater-item-content>Content 1</sky-repeater-item-content>
@@ -29,7 +29,7 @@
         class="sky-btn sky-btn-icon-borderless"
         type="button"
       >
-        <sky-icon icon="edit" />
+        <sky-icon iconName="edit" />
       </button>
     </sky-repeater-item-context-menu>
     <sky-repeater-item-title>Item 3</sky-repeater-item-title>
@@ -46,7 +46,7 @@
         class="sky-btn sky-btn-icon-borderless"
         type="button"
       >
-        <sky-icon icon="edit" />
+        <sky-icon iconName="edit" />
       </button>
     </sky-repeater-item-context-menu>
     <sky-repeater-item-title>Item 4</sky-repeater-item-title>
@@ -56,24 +56,25 @@
 <sky-repeater expandMode="multiple">
   <sky-repeater-item>
     <sky-repeater-item-context-menu>
-      <sky-dropdown buttonType="context-menu"></sky-dropdown>
+      <sky-dropdown buttonType="context-menu" />
     </sky-repeater-item-context-menu>
     <sky-repeater-item-title>Item 1</sky-repeater-item-title>
     <sky-repeater-item-content>Content 1</sky-repeater-item-content>
   </sky-repeater-item>
   <sky-repeater-item [isExpanded]="false">
     <sky-repeater-item-context-menu>
-      <sky-dropdown buttonType="context-menu"></sky-dropdown>
+      <sky-dropdown buttonType="context-menu" />
     </sky-repeater-item-context-menu>
     <sky-repeater-item-title>Item 2</sky-repeater-item-title>
     <sky-repeater-item-content>Content 2</sky-repeater-item-content>
   </sky-repeater-item>
   <sky-repeater-item [inlineFormTemplate]="inlineForm" [showInlineForm]="false">
     <sky-repeater-item-context-menu>
-      <sky-dropdown buttonType="context-menu"></sky-dropdown>
+      <sky-dropdown buttonType="context-menu" />
     </sky-repeater-item-context-menu>
     <sky-repeater-item-title>Item 3</sky-repeater-item-title>
     <sky-repeater-item-content>Content 3</sky-repeater-item-content>
   </sky-repeater-item>
 </sky-repeater>
+
 <ng-template #inlineForm> This is an inline form </ng-template>

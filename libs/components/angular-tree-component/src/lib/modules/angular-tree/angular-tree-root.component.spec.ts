@@ -6,6 +6,10 @@ import {
   tick,
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 
 import { SkyTreeViewFixtureComponent } from './fixtures/tree-view.fixture.component';
 import { SkyTreeViewFixturesModule } from './fixtures/tree-view.fixture.module';
@@ -190,7 +194,7 @@ describe('tree view', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyTreeViewFixturesModule],
+      imports: [SkyHelpTestingModule, SkyTreeViewFixturesModule],
     });
 
     fixture = TestBed.createComponent(
@@ -249,15 +253,44 @@ describe('tree view', () => {
       fixture.detectChanges();
       const toggleChildrenButtons = getToggleChildrenButtons();
 
-      expect(toggleChildrenButtons[0].querySelector('i')).toHaveCssClass(
-        'fa-chevron-down',
-      );
+      console.log(toggleChildrenButtons[0].querySelector('sky-icon'));
+      expect(
+        toggleChildrenButtons[0]
+          .querySelector('sky-icon-svg')
+          ?.getAttribute('data-sky-icon'),
+      ).toBe('chevron-down');
 
       toggleChildrenButtons[0].click();
 
-      expect(toggleChildrenButtons[0].querySelector('i')).toHaveCssClass(
-        'fa-chevron-right',
-      );
+      expect(
+        toggleChildrenButtons[0]
+          .querySelector('sky-icon-svg')
+          ?.getAttribute('data-sky-icon'),
+      ).toBe('chevron-right');
+    });
+
+    it('should render help inline popover', () => {
+      component.nodes[0].helpPopoverContent = 'Example popover content.';
+      component.nodes[0].helpPopoverTitle = 'Example popover title';
+
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll(
+          'sky-help-inline:not(.sky-control-help)',
+        ).length,
+      ).toBe(1);
+    });
+
+    it('should render help inline when helpKey is provided', () => {
+      const helpController = TestBed.inject(SkyHelpTestingController);
+      component.nodes[0].helpKey = 'foo.html';
+      fixture.detectChanges();
+
+      fixture.nativeElement.querySelector('.sky-help-inline')?.click();
+      fixture.detectChanges();
+
+      helpController.expectCurrentHelpKey('foo.html');
     });
   });
 
@@ -1208,7 +1241,7 @@ describe('tree view', () => {
       fixture.detectChanges();
       const nodes = document.querySelectorAll('.node-wrapper');
 
-      const nodeList: Array<Element> = Array.prototype.slice.call(nodes);
+      const nodeList: Element[] = Array.prototype.slice.call(nodes);
       nodeList.forEach((node) => {
         expect(node.getAttribute('role')).toEqual('treeitem');
       });
@@ -1218,7 +1251,7 @@ describe('tree view', () => {
       fixture.detectChanges();
       const childrenWrappers = document.querySelectorAll('tree-node-children');
 
-      const wrappersList: Array<Element> =
+      const wrappersList: Element[] =
         Array.prototype.slice.call(childrenWrappers);
       wrappersList.forEach((wrapper) => {
         expect(wrapper.getAttribute('role')).toEqual('group');

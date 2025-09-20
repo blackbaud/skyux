@@ -9,8 +9,8 @@
       (params['inlineHelpPopoverModelChanges']
         | async) as inlineHelpPopoverModelChanges
     "
-    class="sky-control-help"
     ariaLabel="Information about {{ headerInfo.displayName }}"
+    class="sky-control-help"
     [skyPopover]="
       params['inlineHelpPopover'] ||
       inlineHelpPopoverModelChanges.value ||

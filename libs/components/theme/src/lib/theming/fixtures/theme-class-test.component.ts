@@ -7,6 +7,7 @@ import { SkyThemeSettings } from '../theme-settings';
 @Component({
   selector: 'app-theme-class-test',
   templateUrl: './theme-class-test.component.html',
+  standalone: false,
 })
 export class SkyThemeClassTestComponent {
   public className: string | undefined = 'sky-theme-class-test';

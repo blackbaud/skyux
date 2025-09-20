@@ -1,0 +1,95 @@
+<form novalidate [formGroup]="myForm">
+  <sky-input-box [attr.data-sky-id]="'my-input-box-first-name'">
+    <label class="sky-control-label" [for]="firstNameField.id"
+      >First name</label
+    >
+    <input
+      class="sky-form-control"
+      type="text"
+      formControlName="firstName"
+      skyId
+      #firstNameField
+    />
+  </sky-input-box>
+  <sky-input-box [attr.data-sky-id]="'my-input-box-last-name'">
+    <label class="sky-control-label" [for]="lastNameField.id">Last name</label>
+    <input
+      class="sky-form-control my-last-name-field"
+      type="text"
+      formControlName="lastName"
+      skyId
+      #lastNameField
+    />
+  </sky-input-box>
+  <sky-input-box
+    [attr.data-sky-id]="'my-input-box-last-name-easy-mode'"
+    [characterLimit]="easyModeCharacterLimit"
+    [disabled]="easyModeDisabled"
+    [helpKey]="easyModeHelpKey"
+    [helpPopoverContent]="easyModeHelpContent"
+    [helpPopoverTitle]="easyModeHelpTitle"
+    [hintText]="easyModeHintText"
+    [labelText]="easyModeLabel"
+    [stacked]="easyModeStacked"
+  >
+    <input class="my-last-name-field" type="text" formControlName="lastName" />
+    <div class="sky-error-indicator">
+      <sky-status-indicator descriptionType="error" indicatorType="danger">
+        Test error
+      </sky-status-indicator>
+    </div>
+  </sky-input-box>
+</form>
+
+<form novalidate [formGroup]="directiveErrorForm">
+  <sky-input-box
+    [attr.data-sky-id]="'datepicker-easy-mode'"
+    labelText="easyModeDatepicker"
+  >
+    <sky-datepicker>
+      <input
+        skyDatepickerInput
+        formControlName="easyModeDatepicker"
+        [maxDate]="maxDate"
+        [minDate]="minDate"
+        type="text"
+      />
+    </sky-datepicker>
+  </sky-input-box>
+
+  <sky-input-box
+    [attr.data-sky-id]="'timepicker-easy-mode'"
+    labelText="easyModeTimepicker"
+  >
+    <sky-timepicker>
+      <input
+        [skyTimepickerInput]
+        formControlName="easyModeTimepicker"
+        type="text"
+      />
+    </sky-timepicker>
+  </sky-input-box>
+
+  <sky-input-box
+    [attr.data-sky-id]="'phone-field-easy-mode'"
+    labelText="easyModePhoneField"
+  >
+    <sky-phone-field>
+      <input
+        skyPhoneFieldInput
+        formControlName="easyModePhoneField"
+        type="text"
+      />
+    </sky-phone-field>
+  </sky-input-box>
+
+  <sky-input-box
+    [attr.data-sky-id]="'custom-error-easy-mode'"
+    labelText="easyModeCustomError"
+  >
+    <input formControlName="easyModeDatepicker" type="text" />
+    <sky-form-error errorName="custom" errorText="This is a customer error" />
+  </sky-input-box>
+</form>
+
+<ng-template #helpContentTemplate> Help content from template </ng-template>

@@ -7,6 +7,7 @@ import { SkyListComponent } from '../list.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-selected.component.fixture.html',
+  standalone: false,
 })
 export class ListSelectedTestComponent {
   @ViewChild(SkyListComponent, {
@@ -17,10 +18,7 @@ export class ListSelectedTestComponent {
 
   public selectedItems: Map<string, boolean>;
 
-  public selectedIds: Array<string> | BehaviorSubject<Array<string>> = [
-    '1',
-    '2',
-  ];
+  public selectedIds: string[] | BehaviorSubject<string[]> = ['1', '2'];
 
   constructor(@Inject('items') public items: any) {}
 

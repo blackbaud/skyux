@@ -1,52 +1,29 @@
-import { Component, Input, OnDestroy } from '@angular/core';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-
-import { Subscription } from 'rxjs';
-
-const FONTSIZECLASS_SMALL = '2x';
-const FONTSIZECLASS_LARGE = '3x';
+import { Component, Input, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyMediaQueryService } from '@skyux/core';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule } from '@skyux/theme';
 
 /**
  * Specifies an icon to display on the action button.
  */
 @Component({
   selector: 'sky-action-button-icon',
-  styleUrls: ['./action-button-icon.component.scss'],
+  styleUrls: [
+    './action-button-icon.default.component.scss',
+    './action-button-icon.modern.component.scss',
+  ],
   templateUrl: './action-button-icon.component.html',
+  imports: [SkyIconModule, SkyThemeModule],
 })
-export class SkyActionButtonIconComponent implements OnDestroy {
+export class SkyActionButtonIconComponent {
   /**
-   * The icon from the
-   * [Font Awesome library](https://fontawesome.com/v4.7.0/).
-   * For example, to display the `fa-filter` icon on the action button,
-   * set `iconType` to `filter`. SKY UX supports version 4.7.0 of Font Awesome.
-   * For more information about icons in SKY UX, see the
-   * [icon component](https://developer.blackbaud.com/skyux/components/icon).
+   * The name of the Blackbaud SVG icon to display.
    */
-  @Input()
-  public iconType: string | undefined;
+  @Input({ required: true })
+  public iconName!: string;
 
-  public fontSizeClass: string = FONTSIZECLASS_LARGE;
-
-  #subscription: Subscription;
-
-  constructor(mediaQueryService: SkyMediaQueryService) {
-    this.#subscription = mediaQueryService.subscribe(
-      (args: SkyMediaBreakpoints) => {
-        if (args === SkyMediaBreakpoints.xs) {
-          this.fontSizeClass = FONTSIZECLASS_SMALL;
-        } else {
-          this.fontSizeClass = FONTSIZECLASS_LARGE;
-        }
-      },
-    );
-  }
-
-  public ngOnDestroy() {
-    /* istanbul ignore else */
-    /* sanity check */
-    if (this.#subscription) {
-      this.#subscription.unsubscribe();
-    }
-  }
+  protected readonly breakpoint = toSignal(
+    inject(SkyMediaQueryService).breakpointChange,
+  );
 }

@@ -14,19 +14,15 @@ describe('lists-storybook - infinite-scroll', () => {
             `/iframe.html?globals=theme:${theme}&id=infinitescrollcomponent-infinitescroll--infinite-scroll-${style}`,
           );
 
-          cy.get('#ready').should('exist').end();
-          cy.get('app-infinite-scroll')
-            .should('exist')
-            .should('be.visible')
-            .screenshot(
-              `infinitescrollcomponent-infinitescroll--infinite-scroll-${style}-${theme}`,
-            )
-            .percySnapshot(
-              `infinitescrollcomponent-infinitescroll--infinite-scroll-${style}-${theme}`,
-              {
-                widths: E2eVariations.DISPLAY_WIDTHS,
-              },
-            );
+          cy.skyReady('app-infinite-scroll').screenshot(
+            `infinitescrollcomponent-infinitescroll--infinite-scroll-${style}-${theme}`,
+          );
+          cy.get('app-infinite-scroll').percySnapshot(
+            `infinitescrollcomponent-infinitescroll--infinite-scroll-${style}-${theme}`,
+            {
+              widths: E2eVariations.DISPLAY_WIDTHS,
+            },
+          );
         });
       });
     });

@@ -6,6 +6,7 @@ import { SkyGridComponent } from '../grid.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './grid-empty.component.fixture.html',
+  standalone: false,
 })
 export class GridEmptyTestComponent {
   @ViewChild(SkyGridComponent, {
@@ -17,7 +18,7 @@ export class GridEmptyTestComponent {
   @ViewChild(TemplateRef)
   public template: TemplateRef<unknown>;
 
-  public columns: Array<SkyGridColumnModel>;
+  public columns: SkyGridColumnModel[];
   public selectedColumnIds: string[];
   public settingsKey: string;
 

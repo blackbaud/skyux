@@ -1,9 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
-  Beans,
-  Column,
+  AgColumn,
+  BeanCollection,
+  GridApi,
   ICellEditorParams,
   KeyCode,
   RowNode,
@@ -33,8 +39,6 @@ describe('SkyCellEditorNumberComponent', () => {
     );
     numberEditorNativeElement = numberEditorFixture.nativeElement;
     numberEditorComponent = numberEditorFixture.componentInstance;
-
-    numberEditorFixture.detectChanges();
   });
 
   it('renders a numeric input when editing a number cell in an ag grid', () => {
@@ -43,9 +47,6 @@ describe('SkyCellEditorNumberComponent', () => {
 
     gridFixture.detectChanges();
 
-    const numberCellElement = gridNativeElement.querySelector(
-      `.${SkyCellClass.Number}`,
-    );
     const numberCellEditorSelector = `.ag-cell-inline-editing.${SkyCellClass.Number}`;
     let inputElement = gridNativeElement.querySelector(
       numberCellEditorSelector,
@@ -53,7 +54,10 @@ describe('SkyCellEditorNumberComponent', () => {
 
     expect(inputElement).toBeNull();
 
-    numberCellElement.click();
+    gridFixture.componentInstance.agGrid?.api.startEditingCell({
+      rowIndex: 0,
+      colKey: 'value',
+    });
 
     inputElement = gridNativeElement.querySelector(numberCellEditorSelector);
 
@@ -61,14 +65,17 @@ describe('SkyCellEditorNumberComponent', () => {
   });
 
   describe('agInit', () => {
+    const api = jasmine.createSpyObj<GridApi>('api', [
+      'getDisplayNameForColumn',
+    ]);
     let cellEditorParams: Partial<SkyCellEditorNumberParams>;
-    let column: Column;
-    const rowNode = new RowNode({} as Beans);
+    let column: AgColumn;
+    const rowNode = new RowNode({} as BeanCollection);
     rowNode.rowHeight = 37;
     const value = 15;
 
     beforeEach(() => {
-      column = new Column(
+      column = new AgColumn(
         {
           colId: 'col',
         },
@@ -78,6 +85,7 @@ describe('SkyCellEditorNumberComponent', () => {
       );
 
       cellEditorParams = {
+        api,
         value: value,
         column,
         node: rowNode,
@@ -98,6 +106,24 @@ describe('SkyCellEditorNumberComponent', () => {
 
       expect(numberEditorComponent.editorForm.get('number')?.value).toEqual(
         value,
+      );
+    });
+
+    it('should set the correct aria label', () => {
+      api.getDisplayNameForColumn.and.returnValue('Testing');
+      numberEditorComponent.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        rowIndex: 0,
+      });
+      numberEditorFixture.detectChanges();
+      const input = numberEditorNativeElement.querySelector(
+        'input',
+      ) as HTMLInputElement;
+
+      numberEditorFixture.detectChanges();
+
+      expect(input.getAttribute('aria-label')).toBe(
+        'Editable number Testing for row 1',
       );
     });
 
@@ -169,7 +195,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
         numberEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: '4',
+          eventKey: '4',
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(4);
@@ -182,7 +208,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
         numberEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(
@@ -263,7 +289,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
         numberEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: '4',
+          eventKey: '4',
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
@@ -278,7 +304,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
         numberEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
@@ -309,13 +335,14 @@ describe('SkyCellEditorNumberComponent', () => {
 
     describe('afterGuiAttached', () => {
       let cellEditorParams: Partial<SkyCellEditorNumberParams>;
-      let column: Column;
-      const rowNode = new RowNode({} as Beans);
+      let column: AgColumn;
+      let gridCell: HTMLDivElement;
+      const rowNode = new RowNode({} as BeanCollection);
       rowNode.rowHeight = 37;
       const value = 15;
 
       beforeEach(() => {
-        column = new Column(
+        column = new AgColumn(
           {
             colId: 'col',
           },
@@ -324,9 +351,19 @@ describe('SkyCellEditorNumberComponent', () => {
           true,
         );
 
+        const gridApi = {} as GridApi;
+
+        gridApi.getDisplayNameForColumn = (): string => {
+          return '';
+        };
+
+        gridCell = document.createElement('div');
+
         cellEditorParams = {
+          api: gridApi,
           value: value,
           column,
+          eGridCell: gridCell,
           node: rowNode,
           colDef: {},
           cellStartedEdit: true,
@@ -337,7 +374,7 @@ describe('SkyCellEditorNumberComponent', () => {
         };
       });
 
-      it('focuses on the input after it attaches to the DOM', () => {
+      it('focuses on the input after it attaches to the DOM', fakeAsync(() => {
         numberEditorFixture.detectChanges();
 
         const input = numberEditorNativeElement.querySelector(
@@ -346,10 +383,31 @@ describe('SkyCellEditorNumberComponent', () => {
         spyOn(input, 'focus');
 
         numberEditorComponent.afterGuiAttached();
+        tick();
 
         expect(input).toBeVisible();
         expect(input.focus).toHaveBeenCalled();
-      });
+      }));
+
+      it('should respond to refocus', fakeAsync(() => {
+        numberEditorComponent.agInit(cellEditorParams as ICellEditorParams);
+        numberEditorFixture.detectChanges();
+
+        const input = numberEditorNativeElement.querySelector(
+          'input',
+        ) as HTMLInputElement;
+        spyOn(input, 'focus');
+
+        numberEditorComponent.afterGuiAttached();
+        tick();
+
+        numberEditorComponent.onFocusOut({
+          relatedTarget: gridCell,
+        } as unknown as FocusEvent);
+        tick();
+        expect(input).toBeVisible();
+        expect(input.focus).toHaveBeenCalled();
+      }));
 
       describe('cellStartedEdit is true', () => {
         it('does not select the input value if Backspace triggers the edit', () => {
@@ -403,7 +461,7 @@ describe('SkyCellEditorNumberComponent', () => {
           expect(selectSpy).not.toHaveBeenCalled();
         });
 
-        it('selects the input value if Enter triggers the edit', () => {
+        it('selects the input value if Enter triggers the edit', fakeAsync(() => {
           numberEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.ENTER,
@@ -415,15 +473,16 @@ describe('SkyCellEditorNumberComponent', () => {
           const selectSpy = spyOn(input, 'select');
 
           numberEditorComponent.afterGuiAttached();
+          tick();
 
           expect(input.value).toBe('15');
           expect(selectSpy).toHaveBeenCalled();
-        });
+        }));
 
         it('does not select the input value when a standard keyboard event triggers the edit', () => {
           numberEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: '4',
+            eventKey: '4',
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(
@@ -514,7 +573,7 @@ describe('SkyCellEditorNumberComponent', () => {
         it('does not select the input value when a standard keyboard event triggers the edit', () => {
           numberEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: '4',
+            eventKey: '4',
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(

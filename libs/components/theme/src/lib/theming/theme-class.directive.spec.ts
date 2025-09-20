@@ -25,7 +25,7 @@ const MODERN_THEME = new SkyThemeSettings(
 describe('ThemeClass directive', () => {
   //#region helpers
   function expectElementWithClasses(
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<unknown>,
     selector: string,
     expected: string,
   ): void {
@@ -36,13 +36,13 @@ describe('ThemeClass directive', () => {
   }
 
   async function changeTheme(
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<unknown>,
     mockThemeSvc: MockThemeService,
     theme: SkyThemeSettings,
   ): Promise<void> {
-    mockThemeSvc.settingsChange!.next({
+    mockThemeSvc.settingsChange?.next({
       currentSettings: theme,
-      previousSettings: mockThemeSvc.settingsChange!.getValue().currentSettings,
+      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings,
     });
     fixture.detectChanges();
     await fixture.whenStable();
@@ -66,7 +66,7 @@ describe('ThemeClass directive', () => {
     // Establish that our test is set up correctly.
     it('should not have a SkyThemeService provider', () => {
       expect(() => TestBed.inject(SkyThemeService)).toThrowError(
-        /No provider for SkyThemeService/,
+        /No provider found for `SkyThemeService/,
       );
     });
 
@@ -107,7 +107,7 @@ describe('ThemeClass directive', () => {
     // Establish that our test is set up correctly.
     it('should have a SkyThemeService provider', () => {
       expect(() => TestBed.inject(SkyThemeService)).not.toThrowError(
-        /No provider for SkyThemeService/,
+        /No provider found for `SkyThemeService/,
       );
     });
 
@@ -164,7 +164,7 @@ describe('ThemeClass directive', () => {
       );
     });
 
-    it('should handle undefined class value', async () => {
+    it('should handle undefined class value', () => {
       fixture.componentInstance.className = undefined;
       fixture.detectChanges();
       expectElementWithClasses(
@@ -194,16 +194,11 @@ describe('ThemeClass directive', () => {
   });
 
   describe('with SkyThemeService provider', () => {
-    it('should use the default theme if the theme service is not initialized', async () => {
+    it('should use the default theme if the theme service is not initialized', () => {
       TestBed.configureTestingModule({
         declarations: [SkyThemeClassTestComponent],
         imports: [SkyThemeModule],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: new SkyThemeService(),
-          },
-        ],
+        providers: [SkyThemeService],
       });
       const fixture = TestBed.createComponent(SkyThemeClassTestComponent);
       fixture.detectChanges();

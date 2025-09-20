@@ -53,28 +53,25 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "data-manager-storybook:build:production"
+          "buildTarget": "data-manager-storybook:build:production"
         },
         "development": {
-          "browserTarget": "data-manager-storybook:build:development"
+          "buildTarget": "data-manager-storybook:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "data-manager-storybook:build"
+        "buildTarget": "data-manager-storybook:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": [
-          "apps/e2e/data-manager-storybook/**/*.ts",
-          "apps/e2e/data-manager-storybook/**/*.html"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
       }
     },
     "serve-static": {

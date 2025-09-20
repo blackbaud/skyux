@@ -1,0 +1,34 @@
+{
+  "skyux_avatar_error_not_image_description": {
+    "_description": "Description du message affiché lorsque l’utilisateur tente de téléverser un fichier d’avatar qui n’est pas une image valide",
+    "message": "Veuillez choisir un fichier qui soit une image valide."
+  },
+  "skyux_avatar_error_not_image_title": {
+    "_description": "Titre du message affiché lorsque l’utilisateur tente de téléverser un fichier d’avatar qui n’est pas une image valide",
+    "message": "Le fichier n’est pas une image."
+  },
+  "skyux_avatar_error_too_large_description": {
+    "_description": "Description du message affiché lorsque l’utilisateur tente de téléverser une image d’avatar avec une taille de fichier trop volumineuse",
+    "message": "Veuillez choisir une image de moins de {0}."
+  },
+  "skyux_avatar_error_too_large_title": {
+    "_description": "Titre du message affiché lorsque l’utilisateur tente de téléverser une image d’avatar avec une taille de fichier trop volumineuse",
+    "message": "Le fichier est trop gros."
+  },
+  "skyux_avatar_errormodal_ok": {
+    "_description": "Texte utilisé sur le bouton principal pour omettre l’erreur modale.",
+    "message": "OK"
+  },
+  "skyux_avatar_inner_description": {
+    "_description": "Texte d’information d’accessibilité pour les lecteurs d’écran lors de l’utilisation d’une image d’avatar",
+    "message": "Photo de profil de {0}"
+  },
+  "skyux_avatar_upload_change_aria_label": {
+    "_description": "Texte d’accessibilité lorsqu’une image d’avatar peut être modifiée.",
+    "message": "Modifier la photo de profil de {0}. Faites glisser un fichier ici ou cliquez pour naviguer."
+  },
+  "skyux_avatar_upload_new_aria_label": {
+    "_description": "Texte d’accessibilité lorsqu’une nouvelle image d’avatar peut être ajoutée.",
+    "message": "Ajoutez une photo de profil pour {0}. Faites glisser un fichier ici ou cliquez pour naviguer."
+  }
+}

@@ -1,34 +1,71 @@
-<ng-container *ngIf="show">
-  <sky-dropdown
-    [buttonStyle]="buttonStyle"
-    [buttonType]="buttonType"
-    [disabled]="disabled"
-    [dismissOnBlur]="dismissOnBlur"
-    [horizontalAlignment]="horizontalAlignment"
-    [label]="label"
-    [messageStream]="messageStream"
-    [title]="title"
-    [trigger]="trigger"
-    #dropdownRef
-  >
-    <sky-dropdown-button> Show dropdown </sky-dropdown-button>
+@if (show) { @if (useCustomTrigger) {
+<sky-dropdown
+  #dropdownRef
+  [buttonStyle]="buttonStyle"
+  [buttonType]="buttonType"
+  [disabled]="disabled"
+  [horizontalAlignment]="horizontalAlignment"
+  [label]="label"
+  [messageStream]="messageStream"
+  [title]="title"
+  [trigger]="trigger"
+>
+  <button class="custom-trigger" skyDropdownTrigger type="button">
+    Custom trigger
+  </button>
 
-    <sky-dropdown-menu
-      [ariaLabelledBy]="menuAriaLabelledBy"
-      [ariaRole]="menuAriaRole"
-      [useNativeFocus]="useNativeFocus"
-      (menuChanges)="onMenuChanges($event)"
-      #dropdownMenuRef
-    >
-      <sky-dropdown-item *ngFor="let item of items" [ariaRole]="itemAriaRole">
-        <button
-          type="button"
-          [attr.disabled]="item.disabled ? '' : null"
-          (click)="onItemClick(item.name)"
-        >
-          {{ item.name }}
-        </button>
-      </sky-dropdown-item>
-    </sky-dropdown-menu>
-  </sky-dropdown>
-</ng-container>
+  <sky-dropdown-menu
+    #dropdownMenuRef
+    [ariaLabelledBy]="menuAriaLabelledBy"
+    [ariaRole]="menuAriaRole"
+    [useNativeFocus]="useNativeFocus"
+    (menuChanges)="onMenuChanges($event)"
+  >
+    @for (item of items; track item) {
+    <sky-dropdown-item [ariaRole]="itemAriaRole">
+      <button
+        type="button"
+        [attr.disabled]="item.disabled ? '' : null"
+        (click)="onItemClick(item.name)"
+      >
+        {{ item.name }}
+      </button>
+    </sky-dropdown-item>
+    }
+  </sky-dropdown-menu>
+</sky-dropdown>
+
+} @else {<sky-dropdown
+  #dropdownRef
+  [buttonStyle]="buttonStyle"
+  [buttonType]="buttonType"
+  [disabled]="disabled"
+  [horizontalAlignment]="horizontalAlignment"
+  [label]="label"
+  [messageStream]="messageStream"
+  [title]="title"
+  [trigger]="trigger"
+>
+  <sky-dropdown-button> Show dropdown </sky-dropdown-button>
+
+  <sky-dropdown-menu
+    #dropdownMenuRef
+    [ariaLabelledBy]="menuAriaLabelledBy"
+    [ariaRole]="menuAriaRole"
+    [useNativeFocus]="useNativeFocus"
+    (menuChanges)="onMenuChanges($event)"
+  >
+    @for (item of items; track item) {
+    <sky-dropdown-item [ariaRole]="itemAriaRole">
+      <button
+        type="button"
+        [attr.disabled]="item.disabled ? '' : null"
+        (click)="onItemClick(item.name)"
+      >
+        {{ item.name }}
+      </button>
+    </sky-dropdown-item>
+    }
+  </sky-dropdown-menu>
+</sky-dropdown>
+} }

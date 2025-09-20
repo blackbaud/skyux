@@ -9,23 +9,25 @@
         First name
       </label>
 
-      <sky-character-counter-indicator #indicator>
-      </sky-character-counter-indicator>
+      <sky-character-counter-indicator #indicator />
     </div>
 
     <input
       aria-label="Input"
       class="sky-form-control"
       formControlName="firstName"
+      id="first-name-input"
       type="text"
       skyCharacterCounter
       [skyCharacterCounterIndicator]="indicator"
       [skyCharacterCounterLimit]="maxCharacterCount"
     />
 
-    <div *ngIf="firstName.errors?.skyCharacterCounter" class="sky-error-label">
+    @if (firstName.errors?.skyCharacterCounter) {
+    <div class="sky-error-label">
       Limit First name to {{maxCharacterCount}} characters.
     </div>
+    }
 
     <div style="display: flex" class="input-count-example-wrapper-last-name">
       <label
@@ -36,22 +38,24 @@
         Last name
       </label>
 
-      <sky-character-counter-indicator #indicatorLastName>
-      </sky-character-counter-indicator>
+      <sky-character-counter-indicator #indicatorLastName />
     </div>
 
     <input
       aria-label="Input"
       class="sky-form-control"
       formControlName="lastName"
+      id="last-name-input"
       type="text"
       skyCharacterCounter
       [skyCharacterCounterLimit]="maxCharacterCountLastName"
       [skyCharacterCounterIndicator]="indicatorLastName"
     />
 
-    <div *ngIf="lastName.errors?.skyCharacterCounter" class="sky-error-label">
+    @if (lastName.errors?.skyCharacterCounter) {
+    <div class="sky-error-label">
       Limit Last name to {{maxCharacterCount}} characters.
     </div>
+    }
   </form>
 </div>

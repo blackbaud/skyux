@@ -5,6 +5,12 @@ describe('e2e variations', function () {
     const callback = jest.fn();
     E2eVariations.forEachTheme(callback);
     expect(callback).toHaveBeenCalledTimes(2);
+    expect(callback).toHaveBeenCalledWith('default');
+    expect(callback).toHaveBeenCalledWith('modern-v2-light');
+    expect(callback).not.toHaveBeenCalledWith('modern-light');
+    expect(callback).not.toHaveBeenCalledWith('modern-dark');
+    callback.mockReset();
+
     expect(E2eVariations.DISPLAY_WIDTHS).toEqual([1280]);
     expect(E2eVariations.RESPONSIVE_WIDTHS).toEqual([375, 800, 1000, 1280]);
     expect(E2eVariations.MOBILE_WIDTHS).toEqual([375]);

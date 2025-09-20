@@ -9,33 +9,33 @@ describe(`modals-storybook`, () => {
         ),
       );
       it('should render the OK component', () => {
-        cy.get('app-confirm')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-confirm')
           .get('.open-ok-confirm-btn')
           .should('exist')
           .should('be.visible')
-          .click()
-          .get('.sky-modal')
+          .click();
+        cy.get('.sky-modal')
           .should('exist')
           .should('be.visible')
-          .screenshot(`confirmcomponent-confirm--confirm-ok-${theme}`)
-          .percySnapshot(`confirmcomponent-confirm--confirm-ok-${theme}`);
+          .screenshot(`confirmcomponent-confirm--confirm-ok-${theme}`);
+        cy.get('.sky-modal').percySnapshot(
+          `confirmcomponent-confirm--confirm-ok-${theme}`,
+        );
       });
 
       it('should render the Custom component', () => {
-        cy.get('app-confirm')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-confirm')
           .get('.open-custom-confirm-btn')
           .should('exist')
           .should('be.visible')
-          .click()
-          .get('.sky-modal')
+          .click();
+        cy.get('.sky-modal')
           .should('exist')
           .should('be.visible')
-          .screenshot(`confirmcomponent-confirm--confirm-custom-${theme}`)
-          .percySnapshot(`confirmcomponent-confirm--confirm-custom-${theme}`);
+          .screenshot(`confirmcomponent-confirm--confirm-custom-${theme}`);
+        cy.get('.sky-modal').percySnapshot(
+          `confirmcomponent-confirm--confirm-custom-${theme}`,
+        );
       });
     });
   });

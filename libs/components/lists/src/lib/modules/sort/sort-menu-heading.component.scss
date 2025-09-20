@@ -1,22 +1,21 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-.sky-sort-menu-heading {
-  background-color: transparent;
-  border: none;
-  display: block;
-  margin: 4px;
-  min-width: 160px;
-  text-align: left;
-  transition: background-color $sky-transition-time-short;
-  padding: 3px $sky-padding-double;
-  text-align: left;
-  width: 100%;
+@include compatMixins.sky-default-overrides('.sky-sort-menu-heading') {
+  --sky-override-sort-heading-color: var(--sky-text-color-deemphasized);
+  --sky-override-sort-heading-margin: 4px;
+  --sky-override-sort-heading-padding: 3px #{$sky-padding-double};
 }
 
-@include mixins.sky-theme-modern {
-  .sky-sort-menu-heading {
-    margin: 0;
-    padding: $sky-theme-modern-space-sm $sky-theme-modern-space-lg;
-  }
+.sky-sort-menu-heading {
+  color: var(--sky-override-sort-heading-color, var(--sky-color-text-default));
+  padding: var(
+    --sky-override-sort-heading-padding,
+    var(--sky-comp-dropdown-option-space-inset-top)
+      var(--sky-comp-dropdown-option-space-inset-right)
+      var(--sky-comp-dropdown-option-space-inset-bottom)
+      var(--sky-comp-dropdown-option-space-inset-left)
+  );
+  margin: var(--sky-override-sort-heading-margin, 0);
+  width: 100%;
 }

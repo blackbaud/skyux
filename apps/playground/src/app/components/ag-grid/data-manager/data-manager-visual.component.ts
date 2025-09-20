@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 import {
@@ -14,9 +13,7 @@ import { LocalStorageConfigService } from './local-storage-config.service';
 
 @Component({
   selector: 'app-data-manager-visual',
-  standalone: true,
   imports: [
-    CommonModule,
     SkyDataManagerModule,
     DataViewGridComponent,
     DataViewRepeaterComponent,
@@ -50,6 +47,9 @@ export class DataManagerVisualComponent implements OnInit {
   };
 
   public defaultDataState = new SkyDataManagerState({
+    additionalData: {
+      currentPage: 1,
+    },
     filterData: {
       filtersApplied: true,
       filters: {
@@ -183,8 +183,12 @@ export class DataManagerVisualComponent implements OnInit {
     });
   }
 
-  public searchSo() {
-    this.dataState.searchText = 'so';
-    this.dataManagerService.updateDataState(this.dataState, 'dataManager');
+  public searchSo(): void {
+    const newDataState = new SkyDataManagerState({
+      ...this.dataState,
+      searchText: 'so',
+    });
+    this.dataManagerService.updateDataState(newDataState, 'dataManager');
+    this.dataState = newDataState;
   }
 }

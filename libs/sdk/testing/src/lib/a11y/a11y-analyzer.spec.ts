@@ -61,9 +61,119 @@ describe('A11y analyzer', () => {
 
     spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
 
-    SkyA11yAnalyzer.run('element').then(() => {
+    void SkyA11yAnalyzer.run('element').then(() => {
       expect(true).toBe(true);
     });
+  }));
+
+  it('should filter error for radiogroup on a fieldset (pre-4.0.0 compat)', waitForAsync(() => {
+    function mockRun(
+      context: axe.ElementContext,
+      options: axe.RunOptions,
+      callback: axe.RunCallback,
+    ): void {
+      callback(new Error(), {
+        violations: [
+          {
+            id: 'aria-allowed-role',
+            tags: ['wcag2a', 'wcag412'],
+            nodes: [
+              {
+                target: ['fieldset'],
+                html: '<fieldset role="radiogroup" class="sky-radio-group">',
+                any: [],
+                all: [],
+                none: [],
+                impact: 'minor',
+                failureSummary: 'some failure summary',
+              } as axe.NodeResult,
+            ],
+          },
+        ],
+      } as axe.AxeResults);
+    }
+
+    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
+
+    void SkyA11yAnalyzer.run('element').then(() => {
+      expect(true).toBe(true);
+    });
+  }));
+
+  it('should not filter error for radiogroup on an invalid element', waitForAsync(() => {
+    function mockRun(
+      context: axe.ElementContext,
+      options: axe.RunOptions,
+      callback: axe.RunCallback,
+    ): void {
+      callback(new Error(), {
+        violations: [
+          {
+            id: 'aria-allowed-role',
+            tags: ['wcag2a', 'wcag412'],
+            nodes: [
+              {
+                target: ['p'],
+                html: '<p role="radiogroup">',
+                any: [],
+                all: [],
+                none: [],
+                impact: 'minor',
+                failureSummary: 'some failure summary',
+              } as axe.NodeResult,
+            ],
+          },
+        ],
+      } as axe.AxeResults);
+    }
+
+    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
+
+    SkyA11yAnalyzer.run('element')
+      .then(() => {
+        fail('Other: Expected error to be thrown');
+      })
+      .catch((result) => {
+        expect(result).toMatch(/<p role="radiogroup">/);
+      });
+  }));
+
+  it('should not filter error for an invalid role on a fieldset element', waitForAsync(() => {
+    function mockRun(
+      context: axe.ElementContext,
+      options: axe.RunOptions,
+      callback: axe.RunCallback,
+    ): void {
+      callback(new Error(), {
+        violations: [
+          {
+            id: 'aria-allowed-role',
+            tags: ['wcag2a', 'wcag412'],
+            nodes: [
+              {
+                target: ['p'],
+                html: '<fieldset role="alert">',
+                any: [],
+                all: [],
+                none: [],
+                impact: 'minor',
+                failureSummary: 'some failure summary',
+              } as axe.NodeResult,
+            ],
+          },
+        ],
+      } as axe.AxeResults);
+    }
+
+    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
+
+    SkyA11yAnalyzer.run('element')
+      .then(() => {
+        fail('Other: Expected error to be thrown');
+      })
+      .catch((result) => {
+        expect(result).toMatch(/<fieldset role="alert">/);
+      });
   }));
 
   it('should return detailed results', waitForAsync(() => {

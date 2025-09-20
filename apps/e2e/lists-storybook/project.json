@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/e2e/lists-storybook/src",
   "prefix": "app",
+  "tags": ["component-e2e"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -60,27 +61,25 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "lists-storybook:build:production"
+          "buildTarget": "lists-storybook:build:production"
         },
         "development": {
-          "browserTarget": "lists-storybook:build:development"
+          "buildTarget": "lists-storybook:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "lists-storybook:build"
+        "buildTarget": "lists-storybook:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": [
-          "apps/e2e/lists-storybook/**/*.ts",
-          "apps/e2e/lists-storybook/**/*.html"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
       }
     },
     "storybook": {
@@ -133,6 +132,5 @@
         }
       }
     }
-  },
-  "tags": ["component-e2e"]
+  }
 }

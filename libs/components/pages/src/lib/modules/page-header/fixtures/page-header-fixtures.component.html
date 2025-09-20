@@ -1,16 +1,22 @@
 <sky-page-header #pageHeader [parentLink]="hubLink" [pageTitle]="spokeTitle">
-  <sky-page-header-alerts *ngIf="showAlert">
-    <sky-alert alertType="danger" descriptionType="danger">
-      Urgent information about this page
-    </sky-alert>
-  </sky-page-header-alerts>
+  @if (showAlert) {
+    <sky-page-header-alerts>
+      <sky-alert alertType="danger" descriptionType="danger">
+        Urgent information about this page
+      </sky-alert>
+    </sky-page-header-alerts>
+  }
   <sky-page-header-details>
     Details about the page header.
   </sky-page-header-details>
-  <sky-page-header-actions *ngIf="showButtons">
-    <button class="sky-btn sky-btn-default" type="button">Action one</button>
-  </sky-page-header-actions>
-  <sky-page-header-avatar *ngIf="showAvatar">
-    <sky-avatar name="Test name"> </sky-avatar>
-  </sky-page-header-avatar>
+  @if (showButtons) {
+    <sky-page-header-actions>
+      <button class="sky-btn sky-btn-default" type="button">Action one</button>
+    </sky-page-header-actions>
+  }
+  @if (showAvatar) {
+    <sky-page-header-avatar>
+      <sky-avatar name="Test name" />
+    </sky-page-header-avatar>
+  }
 </sky-page-header>

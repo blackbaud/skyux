@@ -3,6 +3,7 @@ import {
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
+  Validators,
 } from '@angular/forms';
 import {
   SkyTextEditorMenuType,
@@ -15,6 +16,7 @@ import {
   selector: 'app-text-editor',
   templateUrl: './text-editor.component.html',
   styleUrls: ['./text-editor.component.scss'],
+  standalone: false,
 })
 export class TextEditorComponent {
   @Input()
@@ -34,6 +36,10 @@ export class TextEditorComponent {
   public get disabledFlag(): boolean {
     return this.#_disabledFlag;
   }
+
+  public labelText = 'Text editor';
+
+  public hintText = 'Hint text';
 
   public myForm: UntypedFormGroup;
 
@@ -74,7 +80,7 @@ export class TextEditorComponent {
 
   constructor(formBuilder: UntypedFormBuilder) {
     this.myForm = formBuilder.group({
-      myText: new UntypedFormControl(),
+      myText: new UntypedFormControl(undefined, Validators.required),
     });
   }
 }

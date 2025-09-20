@@ -13,11 +13,9 @@
  *
  * Learn more in https://angular.io/guide/browser-support
  */
-
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */
-
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
  * user can disable parts of macroTask/DomEvents patch by setting following flags
@@ -41,7 +39,6 @@
  *  (window as any).__Zone_enable_cross_context_check = true;
  *
  */
-
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
@@ -56,4 +53,5 @@ import 'zone.js';
 // Fix for crossvent "global is not defined" error. The crossvent library
 // is used by Dragula, which in turn is used by multiple SKY UX components.
 // See: https://github.com/bevacqua/dragula/issues/602
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (window as any).global = window;

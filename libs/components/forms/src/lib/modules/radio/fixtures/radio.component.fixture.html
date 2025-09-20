@@ -5,7 +5,12 @@
     <sky-radio
       name="testName"
       [disabled]="disabled1"
+      [helpKey]="helpKey"
+      [helpPopoverContent]="helpPopoverContent"
+      [helpPopoverTitle]="helpPopoverTitle"
+      [hintText]="hintText1"
       [id]="provideIds ? 'test-id-0' : undefined"
+      [labelText]="labelText1"
       [label]="label1"
       [value]="value1"
       [(ngModel)]="selectedValue"
@@ -17,8 +22,10 @@
 
     <sky-radio
       name="testName"
+      [hintText]="hintText2"
       [id]="provideIds ? 'test-id-1' : undefined"
       [tabindex]="tabindex2"
+      [labelText]="labelText2"
       [value]="value2"
       [(ngModel)]="selectedValue"
     >
@@ -27,7 +34,9 @@
 
     <sky-radio
       name="testName"
+      [hintText]="hintText3"
       [id]="provideIds ? 'test-id-2' : undefined"
+      [labelText]="labelText3"
       [labelledBy]="labelledBy3"
       [value]="value3"
       [(ngModel)]="selectedValue"

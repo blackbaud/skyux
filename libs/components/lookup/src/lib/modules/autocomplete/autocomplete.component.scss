@@ -1,9 +1,48 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides(
+  '.sky-autocomplete-results-container'
+) {
+  --sky-override-autocomplete-actions-add-icon-padding-right: #{$sky-theme-modern-space-xs};
+  --sky-override-autocomplete-actions-no-results-line-height: normal;
+  --sky-override-autocomplete-actions-no-results-padding: 7px 13px;
+  --sky-override-autocomplete-actions-top-border: 1px solid
+    #{$sky-border-color-neutral-medium};
+  --sky-override-autocomplete-dropdown-hint-text-line-height: normal;
+  --sky-override-autocomplete-dropdown-hint-text-padding: 7px 13px;
+  --sky-override-autocomplete-no-results-font-size: 15px;
+  --sky-override-autocomplete-no-results-padding: #{$sky-padding-squish-default};
+  --sky-override-autocomplete-result-background-color: transparent;
+  --sky-override-autocomplete-result-border-radius: 0;
+  --sky-override-autocomplete-result-box-shadow: none;
+  --sky-override-autocomplete-result-focus-background-color: #{$sky-background-color-neutral-light};
+  --sky-override-autocomplete-result-focus-box-shadow: none;
+  --sky-override-autocomplete-result-margin-bottom: 4px;
+  --sky-override-autocomplete-result-padding: 3px #{$sky-padding-double};
+  --sky-override-autocomplete-results-container-background-color: #{$sky-color-white};
+  --sky-override-autocomplete-results-container-border-radius: 0;
+  --sky-override-autocomplete-results-no-results-padding: 4px;
+  --sky-override-autocomplete-results-padding: 4px;
+}
+
+:host-context(sky-input-box) {
+  :host {
+    width: 100%;
+  }
+}
 
 .sky-autocomplete-results-container {
   position: fixed;
-  background-color: $sky-color-white;
+  background-color: var(
+    --sky-override-autocomplete-results-container-background-color,
+    var(--sky-color-background-container-menu)
+  );
+  border-radius: var(
+    --sky-override-autocomplete-results-container-border-radius,
+    var(--sky-border-radius-m)
+  );
 }
 
 .sky-autocomplete-results-waiting {
@@ -13,19 +52,46 @@
 .sky-autocomplete-results {
   display: flex;
   flex-direction: column;
-  padding: 4px;
+  padding: var(
+    --sky-override-autocomplete-results-padding,
+    var(--sky-comp-dropdown-menu-space-inset-top) 0
+      var(--sky-comp-dropdown-menu-space-inset-bottom)
+  );
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 35px;
-  max-height: -webkit-calc(50vh - 50px);
-  max-height: -moz-calc(50vh - 50px);
   max-height: calc(50vh - 50px);
+
+  &:has(.sky-autocomplete-no-results) {
+    padding: var(--sky-override-autocomplete-results-no-results-padding, 0);
+  }
 }
 
 .sky-autocomplete-result {
-  color: $sky-text-color-default;
-  margin-bottom: 4px;
-  padding: 3px $sky-padding-double;
+  background-color: var(
+    --sky-override-autocomplete-result-background-color,
+    var(--sky-color-background-action-tertiary-base)
+  );
+  border-radius: var(
+    --sky-override-autocomplete-result-border-radius,
+    var(--sky-border-radius-s)
+  );
+  box-shadow: var(
+    --sky-override-autocomplete-result-box-shadow,
+    inset 0 0 0 var(--sky-border-width-action-base)
+      var(--sky-color-border-action-tertiary-base)
+  );
+  margin-bottom: var(
+    --sky-override-autocomplete-result-margin-bottom,
+    var(--sky-space-gap-action_group-s)
+  );
+  padding: var(
+    --sky-override-autocomplete-result-padding,
+    var(--sky-comp-dropdown-option-space-inset-top)
+      var(--sky-comp-dropdown-option-space-inset-right)
+      var(--sky-comp-dropdown-option-space-inset-bottom)
+      var(--sky-comp-dropdown-option-space-inset-left)
+  );
   cursor: pointer;
 
   &:last-child {
@@ -33,8 +99,23 @@
   }
 }
 
+.sky-autocomplete-no-results {
+  padding: var(
+    --sky-override-autocomplete-no-results-padding,
+    var(--sky-comp-dropdown-option-space-inset-top)
+      var(--sky-comp-dropdown-option-space-inset-right)
+      var(--sky-comp-dropdown-option-space-inset-bottom)
+      var(--sky-comp-dropdown-option-space-inset-left)
+  );
+  font-size: var(--sky-override-autocomplete-no-results-font-size, inherit);
+}
+
 .sky-autocomplete-actions {
-  @include defaultMixins.sky-border(dark, top);
+  border-top: var(
+    --sky-override-autocomplete-actions-top-border,
+    var(--sky-border-width-divider) var(--sky-border-style-divider)
+      var(--sky-color-border-divider)
+  );
 
   .sky-autocomplete-action {
     border: none;
@@ -42,20 +123,49 @@
 
   .sky-autocomplete-actions-no-results {
     display: inline-block;
-    padding: 7px 13px;
+    padding: var(
+      --sky-override-autocomplete-actions-no-results-padding,
+      var(--sky-comp-dropdown-option-space-inset-top) 0
+        var(--sky-comp-dropdown-option-space-inset-bottom)
+        var(--sky-comp-dropdown-option-space-inset-left)
+    );
+    line-height: var(
+      --sky-override-autocomplete-actions-no-results-line-height,
+      var(--sky-font-line_height-body-m)
+    );
   }
+}
+
+.sky-autocomplete-dropdown-hint-text {
+  display: inline-block;
+  padding: var(
+    --sky-override-autocomplete-dropdown-hint-text-padding,
+    var(--sky-comp-dropdown-option-space-inset-top) 0
+      var(--sky-comp-dropdown-option-space-inset-bottom)
+      var(--sky-comp-dropdown-option-space-inset-left)
+  );
+  line-height: var(
+    --sky-override-autocomplete-dropdown-hint-text-line-height,
+    var(--sky-font-line_height-body-m)
+  );
 }
 
 .sky-autocomplete-action-add {
   float: right;
 
   sky-icon {
-    padding-right: $sky-theme-modern-space-xs;
+    padding-right: var(
+      --sky-override-autocomplete-actions-add-icon-padding-right,
+      var(--sky-space-gap-icon-s)
+    );
   }
 }
 
 .sky-autocomplete-descendant-focus:not(.sky-autocomplete-action) {
-  background-color: $sky-background-color-neutral-light;
+  background-color: var(
+    --sky-override-autocomplete-result-focus-background-color,
+    inherit
+  );
 }
 
 .sky-autocomplete-descendant-focus.sky-autocomplete-action {
@@ -65,30 +175,11 @@
   outline: -webkit-focus-ring-color auto 5px;
 }
 
-::ng-deep .sky-theme-modern {
-  .sky-autocomplete-results-container {
-    border-radius: $sky-theme-modern-box-border-radius-default;
-  }
-
-  .sky-autocomplete-results {
-    padding: $sky-theme-modern-space-sm 0;
-  }
-
-  .sky-autocomplete-result {
-    margin-bottom: 0;
-    padding: $sky-theme-modern-space-sm 0 $sky-theme-modern-space-sm
-      $sky-theme-modern-space-md;
-  }
-
-  .sky-autocomplete-descendant-focus:not(.sky-autocomplete-action) {
-    background-color: inherit;
-  }
-
-  .sky-autocomplete-descendant-focus {
-    @include defaultMixins.sky-theme-modern-border-focus(
-      $sky-theme-modern-background-color-primary-dark,
-      $sky-theme-modern-elevation-3-shadow-size,
-      $sky-theme-modern-elevation-3-shadow-color
-    );
-  }
+.sky-autocomplete-descendant-focus {
+  border: none;
+  box-shadow: var(
+    --sky-override-autocomplete-result-focus-box-shadow,
+    inset 0 0 0 var(--sky-border-width-action-focus)
+      var(--sky-color-border-action-tertiary-focus)
+  );
 }

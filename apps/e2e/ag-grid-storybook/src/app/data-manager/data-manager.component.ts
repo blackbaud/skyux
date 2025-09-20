@@ -1,9 +1,12 @@
 import {
+  AfterViewInit,
   Component,
   HostBinding,
   Input,
-  OnInit,
+  TemplateRef,
+  ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
@@ -12,18 +15,20 @@ import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
-import { FontLoadingService } from '@skyux/storybook';
 
-import { GridOptions } from 'ag-grid-community';
-import { BehaviorSubject, Observable, combineLatest, timer } from 'rxjs';
-import { filter, first, map } from 'rxjs/operators';
+import { FirstDataRenderedEvent, GridOptions } from 'ag-grid-community';
+import { BehaviorSubject, first, timer } from 'rxjs';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
 
-type GridSettingsType = {
+interface GridSettingsType {
   enableTopScroll: FormControl<boolean>;
   domLayout: FormControl<'normal' | 'autoHeight' | 'print'>;
-};
+  compact: FormControl<boolean>;
+  wrapText: FormControl<boolean>;
+  autoHeightColumns: FormControl<boolean>;
+  showSelect: FormControl<boolean>;
+}
 
 @Component({
   selector: 'app-data-manager',
@@ -31,8 +36,9 @@ type GridSettingsType = {
   styleUrls: ['./data-manager.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [SkyDataManagerService],
+  standalone: false,
 })
-export class DataManagerComponent implements OnInit {
+export class DataManagerComponent implements AfterViewInit {
   @HostBinding('class.use-normal-dom-layout')
   public get useNormalDomLayout(): boolean {
     return this.domLayout === 'normal';
@@ -44,10 +50,25 @@ export class DataManagerComponent implements OnInit {
   }
 
   @Input()
+  public compact = false;
+
+  @Input()
   public domLayout: 'normal' | 'autoHeight' | 'print' = 'autoHeight';
 
   @Input()
   public enableTopScroll = true;
+
+  @Input()
+  public showSelect = true;
+
+  @Input()
+  public wrapText = false;
+
+  @Input()
+  public autoHeightColumns = false;
+
+  @ViewChild('link')
+  public linkTemplate!: TemplateRef<unknown>;
 
   public dataManagerConfig: SkyDataManagerConfig = {};
 
@@ -80,49 +101,40 @@ export class DataManagerComponent implements OnInit {
     ],
   });
 
-  public viewId = 'gridView';
+  public readonly viewId = 'gridView';
 
   public dataState: SkyDataManagerState | undefined;
   public items = data.slice(0, 50);
-  public settingsKey = 'ag-grid-storybook-data-manager';
+  public readonly settingsKey = 'ag-grid-storybook-data-manager';
   public gridOptions: GridOptions = {};
-  public isActive$ = new BehaviorSubject(true);
-  public gridSettings: FormGroup<GridSettingsType>;
-  public ready: Observable<boolean>;
+  public readonly isActive$ = new BehaviorSubject(false);
+  public readonly gridSettings: FormGroup<GridSettingsType>;
+  public readonly ready = new BehaviorSubject(false);
 
-  readonly #agGridService: SkyAgGridService;
-  readonly #dataManagerService: SkyDataManagerService;
-  readonly #gridReady = new BehaviorSubject(false);
-  readonly #fontLoadingService: FontLoadingService;
+  readonly #agGridService = inject(SkyAgGridService);
+  readonly #dataManagerService = inject(SkyDataManagerService);
 
-  constructor(
-    formBuilder: FormBuilder,
-    dataManagerService: SkyDataManagerService,
-    agGridService: SkyAgGridService,
-    fontLoadingService: FontLoadingService,
-  ) {
-    this.#agGridService = agGridService;
-    this.#dataManagerService = dataManagerService;
-    this.#fontLoadingService = fontLoadingService;
-
+  constructor(formBuilder: FormBuilder) {
     this.gridSettings = formBuilder.group<GridSettingsType>({
       enableTopScroll: formBuilder.nonNullable.control(this.enableTopScroll),
+      showSelect: formBuilder.nonNullable.control(this.showSelect),
       domLayout: formBuilder.nonNullable.control(this.domLayout),
+      compact: formBuilder.nonNullable.control(this.compact),
+      wrapText: formBuilder.nonNullable.control(this.wrapText),
+      autoHeightColumns: formBuilder.nonNullable.control(
+        this.autoHeightColumns,
+      ),
     });
-    this.ready = combineLatest([
-      this.#gridReady,
-      this.#fontLoadingService.ready(),
-    ]).pipe(
-      filter(([gridReady, fontsLoaded]) => gridReady && fontsLoaded),
-      first(),
-      map(() => true),
-    );
   }
 
-  public ngOnInit(): void {
+  public ngAfterViewInit(): void {
     this.gridSettings.setValue({
       enableTopScroll: this.enableTopScroll,
       domLayout: this.domLayout,
+      autoHeightColumns: this.autoHeightColumns,
+      wrapText: this.wrapText,
+      compact: this.compact,
+      showSelect: this.showSelect,
     });
     this.#applyGridOptions();
 
@@ -140,7 +152,7 @@ export class DataManagerComponent implements OnInit {
     this.#dataManagerService.initDataView({
       id: this.viewId,
       name: 'Grid View',
-      icon: 'table',
+      iconName: 'table',
       searchEnabled: false,
       sortEnabled: true,
       multiselectToolbarEnabled: true,
@@ -151,7 +163,8 @@ export class DataManagerComponent implements OnInit {
         return {
           id: col.field ?? '',
           label: col.headerName ?? '',
-          alwaysDisplayed: ['select'].includes(col.field ?? ''),
+          alwaysDisplayed:
+            this.showSelect && ['select'].includes(col.field ?? ''),
         };
       }),
     });
@@ -159,37 +172,71 @@ export class DataManagerComponent implements OnInit {
     this.gridSettings.valueChanges.subscribe((value) => {
       this.isActive$.next(false);
       this.enableTopScroll = !!value.enableTopScroll;
+      this.showSelect = !!value.showSelect;
       this.domLayout = value.domLayout ?? 'autoHeight';
+      this.compact = !!value.compact;
+      this.wrapText = !!value.wrapText;
+      this.autoHeightColumns = !!value.autoHeightColumns;
       this.#applyGridOptions();
-      setTimeout(() => this.isActive$.next(true));
     });
   }
 
-  #applyGridOptions() {
+  #applyGridOptions(): void {
+    if (this.gridOptions.defaultColDef?.wrapText !== this.wrapText) {
+      if (this.wrapText) {
+        this.items = data.slice(0, 50).map((item) => ({
+          ...item,
+          name: [item.name, item.name, item.name].join(' '),
+        }));
+      } else {
+        this.items = data.slice(0, 50);
+      }
+    }
+    const columnDefs = [
+      ...(this.showSelect
+        ? [
+            {
+              field: 'select',
+              type: SkyCellType.RowSelector,
+            },
+          ]
+        : []),
+      ...columnDefinitions,
+    ];
+    const name = columnDefs.find((col) => col.field === 'name');
+    if (name) {
+      name.type = SkyCellType.Template;
+      name.cellRendererParams = { template: this.linkTemplate };
+      delete name.cellRenderer;
+    }
     this.gridOptions = this.#agGridService.getGridOptions({
       gridOptions: {
-        columnDefs: [
-          {
-            field: 'select',
-            headerName: '',
-            width: 30,
-            type: SkyCellType.RowSelector,
-          },
-          ...columnDefinitions,
-        ],
+        columnDefs,
         context: {
           enableTopScroll: this.enableTopScroll,
         },
         domLayout: this.domLayout,
+        defaultColDef: {
+          wrapText: this.wrapText,
+          autoHeight: this.autoHeightColumns,
+        },
         suppressColumnVirtualisation: true,
         suppressRowVirtualisation: true,
-        onFirstDataRendered: () => {
+        alwaysShowHorizontalScroll: true,
+        alwaysShowVerticalScroll: true,
+        onFirstDataRendered: (event: FirstDataRenderedEvent) => {
           // Delay to allow the grid to render before capturing the screenshot.
-          timer(800)
+          timer(1800)
             .pipe(first())
-            .subscribe(() => this.#gridReady.next(true));
+            .subscribe(() => {
+              event.api.setFocusedCell(0, 'name');
+              this.ready.next(true);
+            });
         },
       },
     });
+    setTimeout(() => this.isActive$.next(true));
   }
+
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

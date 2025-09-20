@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { SkyFuzzyDate } from '../datepicker/fuzzy-date';
-import { SkyFuzzyDateService } from '../datepicker/fuzzy-date.service';
+import { SkyFuzzyDate } from '../datepicker/fuzzy/fuzzy-date';
+import { SkyFuzzyDateService } from '../datepicker/fuzzy/fuzzy-date.service';
 
 /**
  * Formats date values using two or more date tokens that represent the day, month,
@@ -15,6 +15,7 @@ import { SkyFuzzyDateService } from '../datepicker/fuzzy-date.service';
 @Pipe({
   name: 'skyFuzzyDate',
   pure: false,
+  standalone: false,
 })
 export class SkyFuzzyDatePipe implements PipeTransform {
   #fuzzyDateService: SkyFuzzyDateService;

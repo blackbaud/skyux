@@ -1,45 +1,39 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { SkyCoreAdapterService } from '@skyux/core';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyModalComponentAdapterService {
-  #coreAdapter: SkyCoreAdapterService;
-
-  constructor(coreAdapter: SkyCoreAdapterService) {
-    this.#coreAdapter = coreAdapter;
-  }
-
   public handleWindowChange(modalEl: ElementRef): void {
     const boundedHeightEl = modalEl.nativeElement.querySelector('.sky-modal');
     const fullPageModalEl = modalEl.nativeElement.querySelector(
       '.sky-modal-full-page',
     );
+    const modalStyle = getComputedStyle(boundedHeightEl);
+
+    const marginTopBottom =
+      parseInt(modalStyle.marginTop, 10) +
+      parseInt(modalStyle.marginBottom, 10);
+
     /*
       Set modal height equal to max height of window (accounting for padding above and below modal)
     */
-    const newHeight = window.innerHeight - 40;
+    const newHeight = window.innerHeight - marginTopBottom;
 
     boundedHeightEl.style.maxHeight = newHeight.toString() + 'px';
+    boundedHeightEl.style.setProperty(
+      '--sky-modal-content-max-height',
+      boundedHeightEl.style.maxHeight,
+    );
     if (fullPageModalEl) {
       this.#setFullPageHeight(fullPageModalEl);
-    } else {
-      /*
-        IE11 doesn't handle flex and max-height correctly so we have to explicitly add
-        max-height to the content that accounts for standard header and footer height.
-      */
-      const modalContentEl =
-        modalEl.nativeElement.querySelector('.sky-modal-content');
-      const contentHeight = newHeight - 114;
-      modalContentEl.style.maxHeight = contentHeight.toString() + 'px';
     }
   }
 
   public isFocusInFirstItem(
     event: KeyboardEvent,
-    list: Array<HTMLElement>,
+    list: HTMLElement[],
   ): boolean {
     /* istanbul ignore next */
     /* sanity check */
@@ -47,10 +41,7 @@ export class SkyModalComponentAdapterService {
     return list.length > 0 && eventTarget === list[0];
   }
 
-  public isFocusInLastItem(
-    event: KeyboardEvent,
-    list: Array<HTMLElement>,
-  ): boolean {
+  public isFocusInLastItem(event: KeyboardEvent, list: HTMLElement[]): boolean {
     /* istanbul ignore next */
     /* sanity check */
     const eventTarget = event.target || event.srcElement;
@@ -67,7 +58,7 @@ export class SkyModalComponentAdapterService {
     );
   }
 
-  public focusLastElement(list: Array<HTMLElement>): boolean {
+  public focusLastElement(list: HTMLElement[]): boolean {
     if (list.length > 0) {
       list[list.length - 1].focus();
       return true;
@@ -75,7 +66,7 @@ export class SkyModalComponentAdapterService {
     return false;
   }
 
-  public focusFirstElement(list: Array<HTMLElement>): boolean {
+  public focusFirstElement(list: HTMLElement[]): boolean {
     if (list.length > 0) {
       list[0].focus();
       return true;
@@ -89,34 +80,6 @@ export class SkyModalComponentAdapterService {
     return !!modalContentEl.nativeElement.querySelector(
       'sky-modal-content > .sky-viewkeeper-fixed',
     );
-  }
-
-  public modalOpened(modalEl: ElementRef): void {
-    /* istanbul ignore else */
-    /* handle the case where somehow there is a focused element already in the modal */
-    if (
-      !(
-        document.activeElement &&
-        modalEl.nativeElement.contains(document.activeElement)
-      )
-    ) {
-      const currentScrollX = window.pageXOffset;
-      const currentScrollY = window.pageYOffset;
-
-      const inputWithAutofocus =
-        modalEl.nativeElement.querySelector('[autofocus]');
-
-      if (inputWithAutofocus) {
-        inputWithAutofocus.focus();
-      } else {
-        this.#coreAdapter.getFocusableChildrenAndApplyFocus(
-          modalEl,
-          '.sky-modal-content',
-          true,
-        );
-      }
-      window.scrollTo(currentScrollX, currentScrollY);
-    }
   }
 
   #setFullPageHeight(fullPageModalEl: HTMLElement): void {

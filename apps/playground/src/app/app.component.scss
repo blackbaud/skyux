@@ -5,6 +5,11 @@
 
 #content {
   overflow-y: auto;
+  height: calc(100vh - var(--playground-controls-height));
+}
+
+:host-context(.reset-height) #content {
+  height: unset;
 }
 
 #controls {
@@ -12,8 +17,9 @@
   top: 0;
   z-index: 500;
   display: flex;
-  background-color: #ffd597;
+  background-color: var(--sky-color-background-container-warning);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  height: var(--playground-controls-height);
 }
 
 #controls > * {

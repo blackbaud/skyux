@@ -1,55 +1,51 @@
 <sky-progress-indicator [isPassive]="true" [startingIndex]="1">
-  <sky-progress-indicator-item title="Finished step">
-  </sky-progress-indicator-item>
-  <sky-progress-indicator-item title="Current step">
-  </sky-progress-indicator-item>
-  <sky-progress-indicator-item title="HIDDEN TITLE">
-  </sky-progress-indicator-item>
+  <sky-progress-indicator-item title="Finished step" />
+  <sky-progress-indicator-item title="Current step" />
+  <sky-progress-indicator-item title="HIDDEN TITLE" />
 </sky-progress-indicator>
 
 <sky-progress-indicator #demo1>
   <sky-progress-indicator-item title="Current step">
-    <sky-help-inline class="sky-control-help"></sky-help-inline>
+    <sky-help-inline class="sky-control-help" />
   </sky-progress-indicator-item>
-  <sky-progress-indicator-item title="Unfinished step">
-  </sky-progress-indicator-item>
+  <sky-progress-indicator-item
+    helpPopoverContent="help"
+    title="Unfinished step"
+  />
 </sky-progress-indicator>
 <sky-progress-indicator-nav-button
-  [progressIndicator]="demo1"
   buttonType="previous"
-></sky-progress-indicator-nav-button>
-<sky-progress-indicator-nav-button
   [progressIndicator]="demo1"
-></sky-progress-indicator-nav-button>
+/>
+<sky-progress-indicator-nav-button [progressIndicator]="demo1" />
 <sky-progress-indicator-nav-button
-  [progressIndicator]="demo1"
   buttonType="finish"
-></sky-progress-indicator-nav-button>
-<sky-progress-indicator-nav-button
   [progressIndicator]="demo1"
+/>
+<sky-progress-indicator-nav-button
   buttonType="reset"
-></sky-progress-indicator-nav-button>
+  [progressIndicator]="demo1"
+/>
 
-<sky-progress-indicator [startingIndex]="1" #demo2>
-  <sky-progress-indicator-item title="Finished step"
+<sky-progress-indicator #demo2 [startingIndex]="1">
+  <sky-progress-indicator-item title="Finished step" helpPopoverContent="help"
     >Optional details about this step
+    <sky-help-inline class="sky-control-help" />
+    <!-- this help inline component should not appear -->
   </sky-progress-indicator-item>
-  <sky-progress-indicator-item title="Current step">
-  </sky-progress-indicator-item>
+  <sky-progress-indicator-item title="Current step" />
 </sky-progress-indicator>
 <sky-progress-indicator-nav-button
-  [progressIndicator]="demo2"
   buttonType="previous"
   buttonText="Custom back button"
-></sky-progress-indicator-nav-button>
-<sky-progress-indicator-nav-button
   [progressIndicator]="demo2"
-></sky-progress-indicator-nav-button>
+/>
+<sky-progress-indicator-nav-button [progressIndicator]="demo2" />
 <sky-progress-indicator-nav-button
-  [progressIndicator]="demo2"
   buttonType="finish"
-></sky-progress-indicator-nav-button>
-<sky-progress-indicator-nav-button
   [progressIndicator]="demo2"
+/>
+<sky-progress-indicator-nav-button
   buttonType="reset"
-></sky-progress-indicator-nav-button>
+  [progressIndicator]="demo2"
+/>

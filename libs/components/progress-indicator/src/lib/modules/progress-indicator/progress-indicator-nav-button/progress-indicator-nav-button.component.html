@@ -1,19 +1,20 @@
-<button
-  *ngIf="isVisible"
-  class="sky-btn sky-margin-inline-sm"
-  type="button"
-  [disabled]="
-    disabled
-      | skyProgressIndicatorNavButtonDisabled
-        : buttonType
-        : lastProgressChange?.activeIndex
-        : lastProgressChange?.itemStatuses
-  "
-  [ngClass]="buttonType | skyProgressIndicatorNavButtonClass"
-  (click)="onClick($event)"
->
-  {{
-    buttonText ||
-      ('skyux_progress_indicator_navigator_' + buttonType | skyLibResources)
-  }}
-</button>
+@if (isVisible) {
+  <button
+    class="sky-btn sky-margin-inline-sm"
+    type="button"
+    [disabled]="
+      disabled
+        | skyProgressIndicatorNavButtonDisabled
+          : buttonType
+          : lastProgressChange?.activeIndex
+          : lastProgressChange?.itemStatuses
+    "
+    [ngClass]="buttonType | skyProgressIndicatorNavButtonClass"
+    (click)="onClick($event)"
+  >
+    {{
+      buttonText ||
+        ('skyux_progress_indicator_navigator_' + buttonType | skyLibResources)
+    }}
+  </button>
+}

@@ -16,7 +16,7 @@ export class SkyAgGridCellEditorUtils {
         params.eventKey === KeyCode.DELETE
       ) {
         return SkyAgGridCellEditorInitialAction.Delete;
-      } else if (params.charPress) {
+      } else if (params.eventKey?.length === 1) {
         return SkyAgGridCellEditorInitialAction.Replace;
       } else {
         if (params.eventKey !== KeyCode.F2) {
@@ -30,6 +30,11 @@ export class SkyAgGridCellEditorUtils {
     }
   }
 
+  /**
+   * Returns the difference between the minuend and subtrahend. If the minuend is not defined, returns 0.
+   * @param minuend The number from which another number is subtracted.
+   * @param subtrahend The number that is subtracted from the minuend.
+   */
   public static subtractOrZero(
     minuend: number | null | undefined,
     subtrahend: number,

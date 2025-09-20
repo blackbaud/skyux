@@ -1,15 +1,12 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-/* Default theme */
-sky-box {
-  --sky-box-border-radius: initial;
-  --sky-box-overflow: initial;
-}
-
-/* Modern theme */
-.sky-theme-modern sky-box {
-  --sky-box-border-radius: $sky-theme-modern-box-border-radius-default;
-  --sky-box-overflow: hidden;
+@include compatMixins.sky-default-overrides('sky-box') {
+  --sky-override-box-content-padding: var(--sky-padding-even-xl);
+  --sky-override-box-header-container-padding: var(--sky-padding-even-xl)
+    var(--sky-padding-even-xl) 0 var(--sky-padding-even-xl);
+  --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
+  --sky-override-box-background-color-default: #fff;
 }
 
 sky-box {
@@ -17,7 +14,12 @@ sky-box {
 }
 
 .sky-box {
-  background-color: #fff;
+  --sky-background-color-page-default: var(
+    --sky-override-box-background-color-default,
+    var(--sky-color-background-container-base)
+  );
+  --sky-comp-override-list-header-background-color: initial;
+
   border-radius: var(--sky-box-border-radius);
   overflow: var(--sky-box-overflow);
 
@@ -26,15 +28,19 @@ sky-box {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: baseline;
-    padding: var(--sky-padding-even-xl) var(--sky-padding-even-xl) 0
-      var(--sky-padding-even-xl);
+    padding: var(
+      --sky-override-box-header-container-padding,
+      var(--sky-comp-box-header-space-inset-top)
+        var(--sky-comp-box-header-space-inset-right)
+        var(--sky-comp-box-header-space-inset-bottom)
+        var(--sky-comp-box-header-space-inset-left)
+    );
 
     &:empty {
       display: none;
     }
 
     sky-box-controls {
-      order: 1;
       margin-left: auto;
 
       .sky-box-controls {
@@ -42,14 +48,33 @@ sky-box {
         top: -2px;
       }
     }
+
+    .sky-box-header-right {
+      flex: 1 0;
+      padding-right: var(
+        --sky-override-box-header-padding-right,
+        var(--sky-space-gap-text_action-l)
+      );
+    }
+
+    h2,
+    h3,
+    h4,
+    h5 {
+      display: inline;
+      margin-block: 0;
+    }
   }
 
   sky-box-content {
-    flex: 0 1 100%;
-    order: 2;
-
     .sky-box-content {
-      padding: var(--sky-padding-even-xl);
+      padding: var(
+        --sky-override-box-content-padding,
+        var(--sky-comp-box-content-space-inset-top)
+          var(--sky-comp-box-content-space-inset-right)
+          var(--sky-comp-box-content-space-inset-bottom)
+          var(--sky-comp-box-content-space-inset-left)
+      );
     }
   }
 }

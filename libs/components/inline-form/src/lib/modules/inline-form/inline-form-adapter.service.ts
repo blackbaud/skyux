@@ -37,7 +37,7 @@ export class SkyInlineFormAdapterService {
   }
 
   #loadFocusableChildren(elem: HTMLElement): HTMLElement[] {
-    const elements: Array<HTMLElement> = Array.prototype.slice.call(
+    const elements: HTMLElement[] = Array.prototype.slice.call(
       elem.querySelectorAll(SKY_TABBABLE_SELECTOR),
     );
 
@@ -62,7 +62,7 @@ export class SkyInlineFormAdapterService {
     return hasBounds;
   }
 
-  #focusFirstElement(list: Array<HTMLElement>): void {
+  #focusFirstElement(list: HTMLElement[]): void {
     if (list.length > 0) {
       list[0].focus();
     }

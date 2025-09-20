@@ -14,8 +14,6 @@ export default {
   ],
 } as Meta<FluidGridComponent>;
 export const FluidGrid = {
-  render: (args: FluidGridComponent) => ({
-    props: args,
-  }),
+  render: (args: FluidGridComponent): { props: unknown } => ({ props: args }),
   args: {},
 };

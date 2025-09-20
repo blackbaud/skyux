@@ -1,39 +1,29 @@
-import type { StorybookConfig } from '@storybook/angular';
-import type { DocsOptions } from '@storybook/types';
+import { DocsOptions, Preset, StorybookConfig } from 'storybook/internal/types';
 
-const frameworkName: '@storybook/angular' = '@storybook/angular';
-export const framework = {
-  name: frameworkName,
+export const framework: Preset = {
+  name: '@storybook/angular',
   options: {},
 };
 export const docs: DocsOptions = {
-  autodocs: false,
   docsMode: false,
   defaultName: 'Documentation',
 };
 export const rootMain: StorybookConfig = {
   stories: [],
-  addons: [
-    '@storybook/addon-a11y',
-    '@storybook/addon-actions',
-    '@storybook/addon-controls',
-    // '@storybook/addon-backgrounds',
-    // '@storybook/addon-docs',
-    '@storybook/addon-toolbars',
-    '@storybook/addon-viewport',
-    'storybook-addon-angular-router',
-  ],
+  addons: ['@storybook/addon-a11y'],
   docs: docs,
   framework: framework,
-  features: {
-    buildStoriesJson: true,
-  },
+  features: {},
   // Workaround for https://github.com/storybookjs/storybook/issues/23883
-  previewHead: (head: string) => `
-    ${head}
-    <script>
-      window.beforeEach = window.beforeEach || (() => {});
-      window.afterEach = window.afterEach || (() => {});
-    </script>
-  `,
+  previewHead: (head, _options) =>
+    Promise.resolve(`
+      ${head}
+      <script>
+        window.beforeEach = window.beforeEach || (() => {});
+        window.afterEach = window.afterEach || (() => {});
+      </script>
+    `),
+  core: {
+    disableTelemetry: true, // 👈 Disables telemetry
+  },
 };

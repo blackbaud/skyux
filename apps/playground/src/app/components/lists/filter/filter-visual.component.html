@@ -4,10 +4,9 @@
   <div class="app-screenshot" id="screenshot-filter-button">
     <sky-filter-button
       [active]="filtersActive"
-      (filterButtonClick)="filtersActive = !filtersActive"
       [showButtonText]="false"
-    >
-    </sky-filter-button>
+      (filterButtonClick)="filtersActive = !filtersActive"
+    />
   </div>
 
   <h2>Filter button with text</h2>
@@ -15,22 +14,20 @@
   <div class="app-screenshot" id="screenshot-filter-button-text">
     <sky-filter-button
       [active]="filtersActive"
-      (filterButtonClick)="filtersActive = !filtersActive"
       [showButtonText]="true"
-    >
-    </sky-filter-button>
+      (filterButtonClick)="filtersActive = !filtersActive"
+    />
   </div>
 
   <h2>Filter summary</h2>
 
   <div class="app-screenshot" id="screenshot-filter-summary">
     <sky-filter-summary>
-      <sky-filter-summary-item
-        *ngFor="let item of appliedFilters; let i = index"
-        [dismissible]="item.dismissible"
-      >
-        {{ item.label }}
-      </sky-filter-summary-item>
+      @for (item of appliedFilters; track item; let i = $index) {
+        <sky-filter-summary-item [dismissible]="item.dismissible">
+          {{ item.label }}
+        </sky-filter-summary-item>
+      }
     </sky-filter-summary>
   </div>
 
@@ -38,11 +35,11 @@
 
   <div class="app-screenshot" id="screenshot-filter-summary-overflow">
     <sky-filter-summary>
-      <sky-filter-summary-item
-        *ngFor="let item of lotsOfFilters; let i = index"
-      >
-        {{ item.label }}
-      </sky-filter-summary-item>
+      @for (item of lotsOfFilters; track item; let i = $index) {
+        <sky-filter-summary-item>
+          {{ item.label }}
+        </sky-filter-summary-item>
+      }
     </sky-filter-summary>
   </div>
 
@@ -66,8 +63,7 @@
         <sky-date-range-picker
           class="sky-date-range-picker-form-group"
           label="Date range"
-        >
-        </sky-date-range-picker>
+        />
       </sky-filter-inline-item>
       <sky-filter-inline-item>
         <div>Textual item on right (for testing purposes)</div>

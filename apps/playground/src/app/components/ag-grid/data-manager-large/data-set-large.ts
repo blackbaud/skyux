@@ -9,18 +9,15 @@ import { InlineHelpComponent } from './inline-help/inline-help.component';
 /* spell-checker:disable */
 export const columnDefinitions: ColDef[] = [
   {
-    field: 'select',
-    headerName: ' ',
-    type: [SkyCellType.RowSelector],
-  },
-  {
     field: 'object_number',
     headerName: 'Object Number',
-    type: [],
+    type: SkyCellType.Text,
     sortable: false,
     headerComponentParams: {
       inlineHelpComponent: InlineHelpComponent,
     },
+    wrapText: true,
+    autoHeight: true,
   },
   {
     field: 'is_highlight',

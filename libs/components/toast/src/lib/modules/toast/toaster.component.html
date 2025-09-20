@@ -1,18 +1,19 @@
 <div
+  #toaster
   class="sky-toaster"
+  [style.z-index]="zIndex$ | async"
   (focusin)="onFocusIn()"
   (focusout)="onFocusOut()"
   (mouseenter)="onMouseEnter()"
   (mouseleave)="onMouseLeave()"
-  [style.z-index]="zIndex$ | async"
-  #toaster
 >
-  <sky-toast
-    *ngFor="let toast of toastsForDisplay"
-    [autoClose]="toast.config?.autoClose"
-    [toastType]="toast.config?.type"
-    (closed)="onToastClosed(toast)"
-  >
-    <div [attr.data-toast-id]="toast.toastId" #toastContent></div>
-  </sky-toast>
+  @for (toast of toastsForDisplay; track toast.toastId) {
+    <sky-toast
+      [autoClose]="toast.config?.autoClose"
+      [toastType]="toast.config?.type"
+      (closed)="onToastClosed(toast)"
+    >
+      <div #toastContent [attr.data-toast-id]="toast.toastId"></div>
+    </sky-toast>
+  }
 </div>

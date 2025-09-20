@@ -1,0 +1,26 @@
+<div class="scroll-shadow-test-wrapper">
+  <div
+    class="scroll-shadow-test-header"
+    [ngStyle]="{
+'box-shadow': scrollShadow?.topShadow ?? 'none'
+}"
+  ></div>
+  <div
+    class="scroll-shadow-test-body"
+    [skyScrollShadowEnabled]="enabled"
+    (skyScrollShadow)="scrollShadowChange($event)"
+  >
+    <span
+      class="scroll-shadow-test-content"
+      [ngStyle]="{
+    'height.px': height
+  }"
+    ></span>
+  </div>
+  <div
+    class="scroll-shadow-test-footer"
+    [ngStyle]="{
+  'box-shadow': scrollShadow?.bottomShadow ?? 'none'
+}"
+  ></div>
+</div>

@@ -3,7 +3,7 @@
  *
  * @internal
  */
-export type SkyContentInfoDescriptor = {
+export interface SkyContentInfoDescriptor {
   /**
    * A descriptor of type `text` is an already localized string that describes a parent's content, i.e. constituent.
    * A descriptor of type `elementId` is an HTML Element ID of an element that describes a parent's content, i.e. the ID to a box header.
@@ -13,4 +13,4 @@ export type SkyContentInfoDescriptor = {
    * A value of the given type.
    */
   value: string;
-};
+}

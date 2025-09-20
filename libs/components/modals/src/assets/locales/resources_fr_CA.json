@@ -1,0 +1,46 @@
+{
+  "skyux_confirm_dialog_default_ok_text": {
+    "_description": "Texte par défaut pour confirmer le bouton OK de la boîte de dialogue",
+    "message": "OK"
+  },
+  "skyux_confirm_dialog_default_yes_text": {
+    "_description": "Texte par défaut pour confirmer le bouton Oui de la boîte de dialogue",
+    "message": "Oui"
+  },
+  "skyux_confirm_dialog_default_no_text": {
+    "_description": "Texte par défaut pour confirmer le bouton Non de la boîte de dialogue",
+    "message": "Non"
+  },
+  "skyux_confirm_dialog_default_cancel_text": {
+    "_description": "Texte par défaut pour confirmer le bouton Annuler de la boîte de dialogue",
+    "message": "Annuler"
+  },
+  "skyux_modal_close": {
+    "_description": "Texte du bouton modal de fermeture",
+    "message": "Fermer le modal"
+  },
+  "skyux_modal_open_help": {
+    "_description": "Texte du bouton de l’en-tête modal Ouvrir l’aide",
+    "message": "Ouvrir l’aide"
+  },
+  "skyux_modal_footer_cancel_button": {
+    "_description": "Texte de l’étiquette par défaut pour le bouton modal annuler",
+    "message": "Annuler"
+  },
+  "skyux_modal_footer_primary_button": {
+    "_description": "Texte de l’étiquette par défaut pour le bouton modal principal",
+    "message": "Sauvegarder"
+  },
+  "skyux_modal_dirty_default_message": {
+    "_description": "Message d’invite par défaut lors de la fermeture d’un élément modal marqué comme étant souillé.",
+    "message": "Êtes-vous certain de vouloir supprimer ces changements?"
+  },
+  "skyux_modal_dirty_default_discard_changes_text": {
+    "_description": "Texte par défaut pour le bouton « Supprimer les changements » lors de la fermeture d’un élément modal marqué comme étant souillé.",
+    "message": "Supprimer les changements"
+  },
+  "skyux_modal_dirty_default_keep_working_text": {
+    "_description": "Texte par défaut pour le bouton « Continuer à travailler » lors de la fermeture d’un élément modal marqué comme étant souillé.",
+    "message": "Continuer à travailler"
+  }
+}

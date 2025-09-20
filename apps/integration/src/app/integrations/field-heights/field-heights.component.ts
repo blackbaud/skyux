@@ -12,12 +12,16 @@ import { SkyThemeService } from '@skyux/theme';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { delay, map, startWith } from 'rxjs/operators';
 
-type Person = { name: string; id: string };
+interface Person {
+  name: string;
+  id: string;
+}
 
 @Component({
   selector: 'app-field-heights',
   templateUrl: './field-heights.component.html',
   styleUrls: ['./field-heights.component.scss'],
+  standalone: false,
 })
 export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
   public readonly favoritesForm: FormGroup;
@@ -107,7 +111,7 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
         .subscribe(() => {
           Array.from(
             this.#elementRef.nativeElement.querySelectorAll(
-              'form > div.sky-form-group',
+              'form .fields-column > div.sky-form-group',
             ),
           ).forEach((element: unknown) => {
             const heightElement = (element as HTMLElement)
@@ -127,7 +131,9 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
               console.log(`Doesn't match .height-measure`, heightElement);
             }
           });
-          this.ready.getValue() || this.ready.next(true);
+          if (!this.ready.getValue()) {
+            this.ready.next(true);
+          }
         }),
     );
   }

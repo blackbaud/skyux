@@ -1,0 +1,66 @@
+<form [formGroup]="myForm">
+  <sky-checkbox-group
+    headingText="Contact method"
+    data-sky-id="checkbox-group"
+    [attr.class]="class"
+    [formGroup]="myCheckboxGroup"
+    [helpKey]="helpKey"
+    [helpPopoverContent]="helpPopoverContent"
+    [helpPopoverTitle]="helpPopoverTitle"
+    [hintText]="hintText"
+    [headingHidden]="hideGroupHeading"
+    [headingLevel]="headingLevel"
+    [headingStyle]="headingStyle"
+    [required]="required"
+    [stacked]="stacked"
+  >
+    <sky-checkbox
+      data-sky-id="my-email-checkbox"
+      formControlName="email"
+      label="Your email address"
+      labelledBy="foo-email-id"
+    >
+      @if (!hideEmailLabel) {
+        <sky-checkbox-label> Email </sky-checkbox-label>
+      }
+    </sky-checkbox>
+
+    <sky-checkbox
+      data-sky-id="my-phone-checkbox"
+      formControlName="phone"
+      helpPopoverContent="(xxx)xxx-xxxx"
+      helpPopoverTitle="Format"
+      labelText="Phone"
+      [helpKey]="helpKey"
+      [required]="true"
+      [hintText]="phoneHintText"
+      [labelHidden]="hidePhoneLabel"
+    />
+
+    <sky-checkbox
+      data-sky-id="my-mail-checkbox"
+      formControlName="mail"
+      labelText="Mail"
+    >
+      @if (mailControl.errors?.['requiredFalse']) {
+        <sky-form-error
+          errorName="requiredFalse"
+          errorText="This checkbox must be unchecked."
+        />
+      }
+    </sky-checkbox>
+
+    @if (myForm.errors?.['emailOnly']) {
+      <sky-form-error
+        errorName="emailOnly"
+        errorText="Email cannot be the only contact method."
+      />
+    }
+  </sky-checkbox-group>
+  <sky-checkbox
+    data-sky-id="stacked-checkbox"
+    formControlName="stacked"
+    labelText="Stacked"
+    stacked
+  />
+</form>

@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { SkyModalCloseArgs } from '../modal/modal-close-args';
-import { SkyModalInstance } from '../modal/modal-instance';
 import { SkyModalService } from '../modal/modal.service';
 
-import { SkyConfirmCloseEventArgs } from './confirm-closed-event-args';
 import { SkyConfirmConfig } from './confirm-config';
 import { SKY_CONFIRM_CONFIG } from './confirm-config-token';
 import { SkyConfirmInstance } from './confirm-instance';
+import { SkyConfirmServiceInterface } from './confirm-service-interface';
 import { SkyConfirmComponent } from './confirm.component';
 
 /**
@@ -16,7 +14,7 @@ import { SkyConfirmComponent } from './confirm.component';
 @Injectable({
   providedIn: 'root',
 })
-export class SkyConfirmService {
+export class SkyConfirmService implements SkyConfirmServiceInterface {
   #modalService: SkyModalService;
 
   constructor(modalService: SkyModalService) {
@@ -28,32 +26,19 @@ export class SkyConfirmService {
    * @param config Specifies configuration options for the dialog.
    */
   public open(config: SkyConfirmConfig): SkyConfirmInstance {
-    const modalInstance: SkyModalInstance = this.#modalService.open(
-      SkyConfirmComponent,
-      {
-        providers: [
-          {
-            provide: SKY_CONFIRM_CONFIG,
-            useValue: config,
-          },
-        ],
-      },
-    );
-
     const confirmInstance = new SkyConfirmInstance();
 
-    modalInstance.closed.subscribe((args: SkyModalCloseArgs) => {
-      let result: SkyConfirmCloseEventArgs = args.data;
-
-      // The modal was closed using the ESC key.
-      if (result === undefined) {
-        result = {
-          action: 'cancel',
-        };
-      }
-
-      confirmInstance.closed.emit(result);
-      confirmInstance.closed.complete();
+    this.#modalService.open(SkyConfirmComponent, {
+      providers: [
+        {
+          provide: SKY_CONFIRM_CONFIG,
+          useValue: config,
+        },
+        {
+          provide: SkyConfirmInstance,
+          useValue: confirmInstance,
+        },
+      ],
     });
 
     return confirmInstance;

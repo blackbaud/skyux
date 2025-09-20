@@ -3,5 +3,5 @@
  * @deprecated
  */
 export class ListSelectedLoadAction {
-  constructor(public items: Array<string>) {}
+  constructor(public items: string[]) {}
 }

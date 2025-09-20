@@ -17,6 +17,7 @@ import { SkyToolbarSectionComponent } from './toolbar-section.component';
   styleUrls: ['./toolbar.component.scss'],
   templateUrl: './toolbar.component.html',
   providers: [SkyContentInfoProvider],
+  standalone: false,
 })
 export class SkyToolbarComponent {
   public hasSections = false;

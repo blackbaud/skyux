@@ -9,6 +9,7 @@ import { SkyRepeaterComponent } from '../repeater.component';
 @Component({
   selector: 'sky-test-repeater-inline-form',
   templateUrl: './repeater-inline-form.component.fixture.html',
+  standalone: false,
 })
 export class RepeaterInlineFormFixtureComponent {
   @ViewChild(SkyRepeaterComponent, {

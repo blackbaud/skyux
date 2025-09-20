@@ -10,16 +10,20 @@ describe('forms-storybook - radio button', () => {
       );
 
       it('should render the radio buttons', () => {
-        cy.get('app-radio-button')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`radiobuttoncomponent-radiobutton--radio-button-${theme}`)
-          .percySnapshot(
-            `radiobuttoncomponent-radiobutton--radio-button-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
-          );
+        cy.skyReady('app-radio-button');
+
+        cy.get('.invalid-radio-button-group sky-radio-label').first().click();
+
+        cy.get('app-radio-button').screenshot(
+          `radiobuttoncomponent-radiobutton--radio-button-${theme}`,
+        );
+
+        cy.get('app-radio-button').percySnapshot(
+          `radiobuttoncomponent-radiobutton--radio-button-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

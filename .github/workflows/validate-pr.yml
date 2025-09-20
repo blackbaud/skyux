@@ -14,7 +14,7 @@ jobs:
   conventional-title:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: amannn/action-semantic-pull-request@v5
         with:
           # subject should not start with a capital letter, include an exclamation point, or end with a period
@@ -38,7 +38,7 @@ jobs:
             migrations
             packaging
             release
-            code-examples
+            apps/code-examples-playground
             apps/integration
             apps/playground
             components/a11y
@@ -49,17 +49,21 @@ jobs:
             components/assets
             components/autonumeric
             components/avatar
+            components/code-examples
             components/colorpicker
             components/config
             components/core
             components/data-manager
             components/datetime
+            components/docs-tools
             components/errors
+            components/filter-bar
             components/flyout
             components/forms
             components/grids
-            components/http
+            components/help-inline
             components/i18n
+            components/icon
             components/indicators
             components/inline-form
             components/layout
@@ -69,9 +73,9 @@ jobs:
             components/list-builder-view-grids
             components/lists
             components/lookup
+            components/manifest
             components/modals
             components/navbar
-            components/omnibar-interop
             components/packages
             components/pages
             components/phone-field
@@ -88,8 +92,12 @@ jobs:
             components/toast
             components/validation
             sdk/e2e-schematics
+            sdk/eslint-config-skyux
             sdk/eslint-config
+            sdk/eslint-schematics
             sdk/prettier-schematics
+            sdk/skyux-eslint
+            sdk/skyux-stylelint
+            sdk/stylelint-config-skyux
+            sdk/stylelint-schematics
             sdk/testing
-          validateSingleCommit: true
-          validateSingleCommitMatchesPrTitle: true

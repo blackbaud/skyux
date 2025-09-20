@@ -39,20 +39,21 @@
   >
     <h3>Repeater with activeIndex enabled</h3>
     <sky-repeater [(activeIndex)]="activeIndex">
-      <sky-repeater-item
-        *ngFor="let item of items; let i = index"
-        (click)="onItemClick(i)"
-        (keydown.enter)="onEnter($event, i)"
-        (keydown.space)="onSpace($event, i)"
-      >
-        <sky-repeater-item-title>
-          {{ item.title }}
-        </sky-repeater-item-title>
-        <sky-repeater-item-content>
-          {{ item.note }}
-          <button type="button" (click)="deleteItem(i)">Delete me</button>
-        </sky-repeater-item-content>
-      </sky-repeater-item>
+      @for (item of items; track item; let i = $index) {
+        <sky-repeater-item
+          (click)="onItemClick(i)"
+          (keydown.enter)="onEnter($event, i)"
+          (keydown.space)="onSpace($event, i)"
+        >
+          <sky-repeater-item-title>
+            {{ item.title }}
+          </sky-repeater-item-title>
+          <sky-repeater-item-content>
+            {{ item.note }}
+            <button type="button" (click)="deleteItem(i)">Delete me</button>
+          </sky-repeater-item-content>
+        </sky-repeater-item>
+      }
     </sky-repeater>
     <button type="button" (click)="addItem()">Add new item</button>
     <button type="button" (click)="activeIndex = undefined">
@@ -80,9 +81,9 @@
       </sky-repeater-item>
       <sky-repeater-item [isExpanded]="false">
         <sky-repeater-item-title> Title 3 </sky-repeater-item-title>
-        <sky-repeater-item-content *ngIf="showContent">
-          Content
-        </sky-repeater-item-content>
+        @if (showContent) {
+          <sky-repeater-item-content> Content </sky-repeater-item-content>
+        }
       </sky-repeater-item>
     </sky-repeater>
     <button type="button" (click)="showContent = !showContent">
@@ -193,22 +194,23 @@
   >
     <h3>Repeater with "selectable" enabled</h3>
     <sky-repeater [expandMode]="'single'">
-      <sky-repeater-item
-        *ngFor="let item of itemsForSelectableRepeater"
-        [itemName]="item.title"
-        [isExpanded]="false"
-        [selectable]="true"
-        (collapse)="onCollapse()"
-        (expand)="onExpand()"
-        [(isSelected)]="item.isSelected"
-      >
-        <sky-repeater-item-title>
-          {{ item.title }}
-        </sky-repeater-item-title>
-        <sky-repeater-item-content>
-          {{ item.content }}
-        </sky-repeater-item-content>
-      </sky-repeater-item>
+      @for (item of itemsForSelectableRepeater; track item) {
+        <sky-repeater-item
+          [itemName]="item.title"
+          [isExpanded]="false"
+          [selectable]="true"
+          [(isSelected)]="item.isSelected"
+          (collapse)="onCollapse()"
+          (expand)="onExpand()"
+        >
+          <sky-repeater-item-title>
+            {{ item.title }}
+          </sky-repeater-item-title>
+          <sky-repeater-item-content>
+            {{ item.content }}
+          </sky-repeater-item-content>
+        </sky-repeater-item>
+      }
     </sky-repeater>
   </div>
   <p>Selected items: {{ getSelectedItems() }}</p>
@@ -259,65 +261,66 @@
   >
     <h3>Repeater with inline-form</h3>
     <sky-repeater>
-      <sky-repeater-item
-        *ngFor="let item of items"
-        [inlineFormTemplate]="myInlineForm"
-        [showInlineForm]="activeInlineFormId === item.id"
-        [inlineFormConfig]="customConfig"
-        (inlineFormClose)="onInlineFormClose($event)"
-      >
-        <sky-repeater-item-title>
-          <sky-fluid-grid>
-            <sky-row>
-              <sky-column screenXSmall="11">
-                {{ item.title }}
-              </sky-column>
-              <sky-column screenXSmall="1">
-                <button
-                  class="sky-btn sky-btn-link sky-no-focus sky-demo-btn-edit"
-                  type="button"
-                  (click)="activeInlineFormId = item.id"
-                >
-                  <sky-icon icon="pencil" size="sm" />
-                </button>
-              </sky-column>
-            </sky-row>
-          </sky-fluid-grid>
-        </sky-repeater-item-title>
+      @for (item of items; track item) {
+        <sky-repeater-item
+          [inlineFormTemplate]="myInlineForm"
+          [showInlineForm]="activeInlineFormId === item.id"
+          [inlineFormConfig]="customConfig"
+          (inlineFormClose)="onInlineFormClose($event)"
+        >
+          <sky-repeater-item-title>
+            <sky-fluid-grid>
+              <sky-row>
+                <sky-column screenXSmall="11">
+                  {{ item.title }}
+                </sky-column>
+                <sky-column screenXSmall="1">
+                  <button
+                    class="sky-btn sky-btn-link sky-no-focus sky-demo-btn-edit"
+                    type="button"
+                    (click)="activeInlineFormId = item.id"
+                  >
+                    <sky-icon iconName="edit" />
+                  </button>
+                </sky-column>
+              </sky-row>
+            </sky-fluid-grid>
+          </sky-repeater-item-title>
 
-        <sky-repeater-item-content>
-          {{ item.note }}
-        </sky-repeater-item-content>
+          <sky-repeater-item-content>
+            {{ item.note }}
+          </sky-repeater-item-content>
 
-        <ng-template #myInlineForm>
-          <sky-input-box
-            [skyThemeClass]="{
-              'sky-margin-stacked-lg': 'modern'
-            }"
-          >
-            <label class="sky-control-label" for="inline-form-title">
-              Title
-            </label>
-            <input
-              class="sky-form-control"
-              id="inline-form-title"
-              type="text"
-              [(ngModel)]="item.title"
-            />
-          </sky-input-box>
-          <sky-input-box class="sky-form-group">
-            <label class="sky-control-label" for="inline-form-note">
-              Note
-            </label>
-            <input
-              class="sky-form-control"
-              id="inline-form-note"
-              type="text"
-              [(ngModel)]="item.note"
-            />
-          </sky-input-box>
-        </ng-template>
-      </sky-repeater-item>
+          <ng-template #myInlineForm>
+            <sky-input-box
+              [skyThemeClass]="{
+                'sky-margin-stacked-lg': 'modern'
+              }"
+            >
+              <label class="sky-control-label" for="inline-form-title">
+                Title
+              </label>
+              <input
+                class="sky-form-control"
+                id="inline-form-title"
+                type="text"
+                [(ngModel)]="item.title"
+              />
+            </sky-input-box>
+            <sky-input-box class="sky-form-group">
+              <label class="sky-control-label" for="inline-form-note">
+                Note
+              </label>
+              <input
+                class="sky-form-control"
+                id="inline-form-note"
+                type="text"
+                [(ngModel)]="item.note"
+              />
+            </sky-input-box>
+          </ng-template>
+        </sky-repeater-item>
+      }
     </sky-repeater>
   </div>
 
@@ -381,11 +384,12 @@
     <h3>Repeater with inline deletes</h3>
     <sky-repeater activeIndex="1" [expandMode]="'single'">
       <sky-repeater-item>
-        <sky-inline-delete
-          *ngIf="showStandardInlineDelete"
-          (cancelTriggered)="hideStandardInlineDelete()"
-          (deleteTriggered)="hideStandardInlineDelete()"
-        ></sky-inline-delete>
+        @if (showStandardInlineDelete) {
+          <sky-inline-delete
+            (cancelTriggered)="hideStandardInlineDelete()"
+            (deleteTriggered)="hideStandardInlineDelete()"
+          />
+        }
         <sky-repeater-item-context-menu>
           <sky-dropdown buttonType="context-menu">
             <sky-dropdown-menu>
@@ -405,11 +409,12 @@
         <sky-repeater-item-content> Content 1 </sky-repeater-item-content>
       </sky-repeater-item>
       <sky-repeater-item id="screenshot-last-repeater-item">
-        <sky-inline-delete
-          *ngIf="showActiveInlineDelete"
-          (cancelTriggered)="hideActiveInlineDelete()"
-          (deleteTriggered)="hideActiveInlineDelete()"
-        ></sky-inline-delete>
+        @if (showActiveInlineDelete) {
+          <sky-inline-delete
+            (cancelTriggered)="hideActiveInlineDelete()"
+            (deleteTriggered)="hideActiveInlineDelete()"
+          />
+        }
         <sky-repeater-item-context-menu>
           <sky-dropdown buttonType="context-menu">
             <sky-dropdown-menu>
@@ -474,21 +479,21 @@
       [reorderable]="true"
       (orderChange)="onOrderChangeForReorderableRepeaterWithAddButton($event)"
     >
-      <sky-repeater-item
-        *ngFor="
-          let control of itemsForReorderableRepeaterWithAddButton.controls
-        "
-        [tag]="control"
-      >
-        <sky-repeater-item-content>
-          <input
-            type="text"
-            class="sky-form-control"
-            maxlength="20"
-            [formControl]="control"
-          />
-        </sky-repeater-item-content>
-      </sky-repeater-item>
+      @for (
+        control of itemsForReorderableRepeaterWithAddButton.controls;
+        track control
+      ) {
+        <sky-repeater-item [tag]="control">
+          <sky-repeater-item-content>
+            <input
+              type="text"
+              class="sky-form-control"
+              maxlength="20"
+              [formControl]="control"
+            />
+          </sky-repeater-item-content>
+        </sky-repeater-item>
+      }
     </sky-repeater>
     <button type="button" (click)="addItemToReorderableRepeaterWithAddButton()">
       Add new item
@@ -502,21 +507,21 @@
       [reorderable]="true"
       (orderChange)="onOrderChangeForReorderableRepeaterWithAddButton($event)"
     >
-      <sky-repeater-item
-        *ngFor="
-          let control of itemsForReorderableRepeaterWithAddButton.controls
-        "
-        [tag]="control"
-      >
-        <sky-repeater-item-content>
-          <input
-            type="text"
-            class="sky-form-control"
-            maxlength="20"
-            [formControl]="control"
-          />
-        </sky-repeater-item-content>
-      </sky-repeater-item>
+      @for (
+        control of itemsForReorderableRepeaterWithAddButton.controls;
+        track control
+      ) {
+        <sky-repeater-item [tag]="control">
+          <sky-repeater-item-content>
+            <input
+              type="text"
+              class="sky-form-control"
+              maxlength="20"
+              [formControl]="control"
+            />
+          </sky-repeater-item-content>
+        </sky-repeater-item>
+      }
     </sky-repeater>
     <button type="button" (click)="addItemToReorderableRepeaterWithAddButton()">
       Add new item

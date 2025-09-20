@@ -18,5 +18,9 @@
   "skyux_phone_field_country_selected_label": {
     "_description": "Screen reader text for the phone field component to denote the selected country.",
     "message": "{0} is currently selected."
+  },
+  "skyux_phone_field_format_hint_text": {
+    "_description": "Hint text for the phone number format currently set on the phone field.",
+    "message": "Example: {0}."
   }
 }

@@ -1,0 +1,40 @@
+{
+  "name": "eslint-config-skyux",
+  "version": "0.0.0-PLACEHOLDER",
+  "author": "Blackbaud, Inc.",
+  "description": "Recommended ESLint configuration for SKY UX projects",
+  "keywords": [
+    "blackbaud",
+    "skyux"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux#readme",
+  "schematics": "@skyux-sdk/eslint-schematics/collection.json",
+  "ng-add": {
+    "save": "devDependencies"
+  },
+  "ng-update": {
+    "packageGroupName": "eslint-config-skyux",
+    "migrations": "@skyux-sdk/eslint-schematics/migrations.json",
+    "packageGroup": {
+      "@skyux-sdk/eslint-schematics": "0.0.0-PLACEHOLDER"
+    }
+  },
+  "peerDependencies": {
+    "@eslint/js": "^9.30.1",
+    "angular-eslint": "^20.1.1",
+    "skyux-eslint": "0.0.0-PLACEHOLDER",
+    "typescript-eslint": "^8.43.0"
+  },
+  "dependencies": {
+    "@skyux-sdk/eslint-schematics": "0.0.0-PLACEHOLDER",
+    "tslib": "^2.8.1"
+  }
+}

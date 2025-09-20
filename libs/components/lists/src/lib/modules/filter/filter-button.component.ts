@@ -17,6 +17,7 @@ let nextId = 0;
   styleUrls: ['./filter-button.component.scss'],
   templateUrl: './filter-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyFilterButtonComponent {
   /**
@@ -84,7 +85,7 @@ export class SkyFilterButtonComponent {
    * Fires when the filter button is selected.
    */
   @Output()
-  public filterButtonClick: EventEmitter<void> = new EventEmitter();
+  public filterButtonClick = new EventEmitter<void>();
 
   protected contentInfoObs: Observable<SkyContentInfo> | undefined;
 

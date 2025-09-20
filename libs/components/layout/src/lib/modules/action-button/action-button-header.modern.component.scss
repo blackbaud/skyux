@@ -1,0 +1,5 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+
+@include mixins.sky-component('modern', '.sky-action-button-header') {
+  margin: 0 0 var(--sky-space-stacked-s) 0;
+}

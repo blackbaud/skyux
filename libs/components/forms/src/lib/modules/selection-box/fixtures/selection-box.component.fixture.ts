@@ -8,6 +8,7 @@ import {
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './selection-box.component.fixture.html',
+  standalone: false,
 })
 export class SelectionBoxTestComponent {
   public myForm: UntypedFormGroup;
@@ -16,21 +17,18 @@ export class SelectionBoxTestComponent {
 
   public checkboxSelectionBoxes: any[] = [
     {
-      icon: 'edit',
-      iconType: 'skyux',
+      iconName: 'edit',
       header: 'Write an introduction',
       description:
         'A brief one paragraph introduction about your organization will help supporters identify with your cause',
     },
     {
-      icon: 'calendar',
-      iconType: 'skyux',
+      iconName: 'calendar-ltr',
       header: 'Schedule a consultation',
       description: 'Get something on the calendar to engage your constituents!',
     },
     {
-      icon: 'clock',
-      iconType: 'skyux',
+      iconName: 'clock',
       header: 'Save time and effort',
       description: 'Encourage supporters to interact with your organization',
     },
@@ -38,20 +36,17 @@ export class SelectionBoxTestComponent {
 
   public radioArray: any = [
     {
-      icon: 'edit',
-      iconType: 'skyux',
+      iconName: 'edit',
       header: 'Red',
       name: 'red',
     },
     {
-      icon: 'edit',
-      iconType: 'skyux',
+      iconName: 'edit',
       header: 'Yellow',
       name: 'yellow',
     },
     {
-      icon: 'edit',
-      iconType: 'skyux',
+      iconName: 'edit',
       header: 'Blue',
       name: 'blue',
     },

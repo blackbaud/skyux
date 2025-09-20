@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/e2e/split-view-storybook/src",
   "prefix": "app",
+  "tags": ["component-e2e"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -59,27 +60,25 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "split-view-storybook:build:production"
+          "buildTarget": "split-view-storybook:build:production"
         },
         "development": {
-          "browserTarget": "split-view-storybook:build:development"
+          "buildTarget": "split-view-storybook:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "split-view-storybook:build"
+        "buildTarget": "split-view-storybook:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": [
-          "apps/e2e/split-view-storybook/**/*.ts",
-          "apps/e2e/split-view-storybook/**/*.html"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
       }
     },
     "storybook": {
@@ -132,6 +131,5 @@
         }
       }
     }
-  },
-  "tags": ["component-e2e"]
+  }
 }

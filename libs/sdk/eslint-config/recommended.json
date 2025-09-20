@@ -15,12 +15,9 @@
   "plugins": [
     "@angular-eslint",
     "@angular-eslint/template",
-    "@typescript-eslint",
-    "deprecation"
+    "@typescript-eslint"
   ],
   "rules": {
-    "deprecation/deprecation": "warn",
-
     "curly": "error",
     "default-case": "error",
     "default-case-last": "error",
@@ -76,6 +73,7 @@
     "@typescript-eslint/no-base-to-string": "error",
     "@typescript-eslint/no-confusing-non-null-assertion": "error",
     "@typescript-eslint/no-confusing-void-expression": "error",
+    "@typescript-eslint/no-deprecated": "warn",
     "@typescript-eslint/no-duplicate-enum-values": "error",
     "@typescript-eslint/no-mixed-enums": "error",
     "@typescript-eslint/no-non-null-asserted-nullish-coalescing": "error",
@@ -105,12 +103,14 @@
     "@typescript-eslint/prefer-reduce-type-parameter": "error",
     "@typescript-eslint/prefer-return-this-type": "error",
     "@typescript-eslint/prefer-string-starts-ends-with": "error",
-    "@typescript-eslint/semi": "error",
-    "@typescript-eslint/switch-exhaustiveness-check": "error",
-    "@typescript-eslint/type-annotation-spacing": "error",
+    "@typescript-eslint/switch-exhaustiveness-check": [
+      "error",
+      {
+        "considerDefaultExhaustiveForUnions": true
+      }
+    ],
     "@typescript-eslint/unbound-method": ["error", { "ignoreStatic": true }],
 
-    "@angular-eslint/no-lifecycle-call": "error",
-    "@angular-eslint/sort-ngmodule-metadata-arrays": "error"
+    "@angular-eslint/no-lifecycle-call": "error"
   }
 }

@@ -1,14 +1,4 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
-@use 'libs/components/theme/src/lib/styles/variables' as *;
-
 .sky-tile-title {
   margin: 0;
-  padding: $sky-padding $sky-tile-header-tool-padding;
-}
-
-@include mixins.sky-theme-modern {
-  .sky-tile-title {
-    margin: 0 $sky-theme-modern-margin-inline-xl 0 0;
-    padding: 0;
-  }
+  padding: 0;
 }

@@ -11,7 +11,6 @@ import { SkyLookupShowMoreCustomPickerContext } from '@skyux/lookup';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-lookup-custom-picker',
   templateUrl: './lookup-custom-picker.component.html',
   imports: [

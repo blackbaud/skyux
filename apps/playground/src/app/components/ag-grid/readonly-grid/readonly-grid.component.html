@@ -1,14 +1,6 @@
-<ng-container
-  *ngIf="
-    (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
-      'modern';
-    then grid;
-    else grid
-  "
->
-</ng-container>
-
-<ng-template #grid>
+@if (
+  (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern'
+) {
   <div class="readonly-grid">
     <sky-ag-grid-wrapper
       skyAgGridRowDelete
@@ -16,12 +8,26 @@
       (rowDeleteConfirm)="deleteConfirm($event)"
     >
       <ag-grid-angular
+        skyBackToTop
         [gridOptions]="gridOptions"
         [rowData]="gridData"
-        skyBackToTop
       />
     </sky-ag-grid-wrapper>
-    <sky-infinite-scroll [enabled]="hasMore" (scrollEnd)="onScrollEnd()">
-    </sky-infinite-scroll>
+    <sky-infinite-scroll [enabled]="hasMore" (scrollEnd)="onScrollEnd()" />
   </div>
-</ng-template>
+} @else {
+  <div class="readonly-grid">
+    <sky-ag-grid-wrapper
+      skyAgGridRowDelete
+      [(rowDeleteIds)]="gridOptions.context.rowDeleteIds"
+      (rowDeleteConfirm)="deleteConfirm($event)"
+    >
+      <ag-grid-angular
+        skyBackToTop
+        [gridOptions]="gridOptions"
+        [rowData]="gridData"
+      />
+    </sky-ag-grid-wrapper>
+    <sky-infinite-scroll [enabled]="hasMore" (scrollEnd)="onScrollEnd()" />
+  </div>
+}

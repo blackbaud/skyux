@@ -13,6 +13,7 @@ import { SkyColorpickerChangeColor } from './types/colorpicker-color';
  */
 @Directive({
   selector: '[skyColorpickerText]',
+  standalone: false,
 })
 export class SkyColorpickerTextDirective {
   @Output()
@@ -25,7 +26,7 @@ export class SkyColorpickerTextDirective {
   public maxRange: number | undefined;
 
   @HostListener('input', ['$event'])
-  protected changeInput(event: Event) {
+  protected changeInput(event: Event): void {
     const element = event.target as HTMLInputElement;
     const elementValue = parseFloat(element.value);
     if (this.maxRange === undefined) {

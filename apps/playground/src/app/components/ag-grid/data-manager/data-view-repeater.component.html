@@ -1,19 +1,37 @@
 <sky-data-view [viewId]="viewConfig.id">
-  <sky-repeater *ngIf="isActive" expandMode="none">
-    <sky-repeater-item
-      *ngFor="let item of displayedItems"
-      selectable="true"
-      [(isSelected)]="item.selected"
-      (isSelectedChange)="onItemSelect($event, item)"
-    >
-      <sky-repeater-item-title>
-        {{ item.name }}
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        <div>
-          {{ item.description }}
-        </div>
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-  </sky-repeater>
+  <sky-paging
+    [currentPage]="dataState.additionalData.currentPage"
+    [itemCount]="displayedItems.length"
+    [pageSize]="pageSize"
+    (contentChange)="onContentChange($event)"
+  >
+    <sky-paging-content>
+      @if (isActive) {
+        <sky-repeater expandMode="none">
+          @for (
+            item of displayedItems
+              | dataManagerPagedItems
+                : pageSize
+                : dataState.additionalData.currentPage;
+            track item
+          ) {
+            <sky-repeater-item
+              selectable="true"
+              [(isSelected)]="item.selected"
+              (isSelectedChange)="onItemSelect($event, item)"
+            >
+              <sky-repeater-item-title>
+                {{ item.name }}
+              </sky-repeater-item-title>
+              <sky-repeater-item-content>
+                <div>
+                  {{ item.description }}
+                </div>
+              </sky-repeater-item-content>
+            </sky-repeater-item>
+          }
+        </sky-repeater>
+      }
+    </sky-paging-content>
+  </sky-paging>
 </sky-data-view>

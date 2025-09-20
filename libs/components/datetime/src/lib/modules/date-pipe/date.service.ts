@@ -21,15 +21,33 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class SkyDateService implements OnDestroy {
   /* spell-checker:disable */
-  #ALIASES: { [key: string]: string } = {
-    medium: 'yMMMdjms',
+  // See: https://github.com/angular/angular/blob/17.3.x/packages/common/src/pipes/date_pipe.ts
+  // See: https://www.ibm.com/docs/en/app-connect/11.0.0?topic=function-formatting-parsing-datetimes-as-strings
+  #ALIASES: Record<string, string> = {
+    // TODO: replace with 'M/d/yy, h:mm a' in a breaking change.
     short: 'yMdjm',
-    fullDate: 'yMMMMEEEEd',
-    longDate: 'yMMMMd',
-    mediumDate: 'yMMMd',
+    // TODO: replace with 'MMM d, y, h:mm:ss a' in a breaking change.
+    medium: 'yMMMdjms',
+    // TODO: This format was modified from 'MMMM d, y, h:mm:ss a z' due to the limitations of the Intl API.
+    long: 'MMMM d, y, h:mm:ss a Z',
+    // TODO: This format was modified from 'EEEE, MMMM d, y, h:mm:ss a zzzz' due to the limitations of the Intl API.
+    full: 'EEEE, MMMM d, y, h:mm:ss a z',
+    // TODO: Replace with 'M/d/yy' in a breaking change.
     shortDate: 'yMd',
-    mediumTime: 'jms',
+    // TODO: Replace with 'MMM d, y' in a breaking change.
+    mediumDate: 'yMMMd',
+    // TODO: Replace with 'MMMM d, y' in a breaking change.
+    longDate: 'yMMMMd',
+    // TODO: Replace with 'EEEE, MMMM d, y' in a breaking change.
+    fullDate: 'yMMMMEEEEd',
+    // TODO: Replace with 'h:mm a' in a breaking change.
     shortTime: 'jm',
+    // TODO: Replace with 'h:mm:ss a' in a breaking change.
+    mediumTime: 'jms',
+    // TODO: This format was modified from 'h:mm:ss a z' due to the limitations of the Intl API.
+    longTime: 'h:mm:ss a Z',
+    // TODO: This format was modified from 'h:mm:ss a zzzz' due to the limitations of the Intl API.
+    fullTime: 'h:mm:ss a z',
   };
   /* spell-checker:enable */
 

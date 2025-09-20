@@ -4,34 +4,11 @@ import { SkyViewkeeperOffset } from './viewkeeper-offset';
 import { SkyViewkeeperOptions } from './viewkeeper-options';
 
 const CLS_VIEWKEEPER_FIXED = 'sky-viewkeeper-fixed';
+const CLS_VIEWKEEPER_FIXED_NOT_LAST = 'sky-viewkeeper-fixed-not-last';
+const CLS_VIEWKEEPER_BOUNDARY = 'sky-viewkeeper-boundary';
 const EVT_AFTER_VIEWKEEPER_SYNC = 'afterViewkeeperSync';
 
-let styleEl: HTMLStyleElement;
 let nextIdIndex: number;
-
-function ensureStyleEl(): void {
-  if (!styleEl) {
-    styleEl = document.createElement('style');
-
-    const css = document.createTextNode(`
-.${CLS_VIEWKEEPER_FIXED} {
-  position: fixed !important;
-  z-index: 999;
-  opacity: 0.95;
-  overflow: hidden;
-}
-
-.sky-theme-modern .${CLS_VIEWKEEPER_FIXED} {
-  box-shadow: 0px 1px 8px -1px rgba(0, 0, 0, 0.3);
-  opacity: initial;
-}
-`);
-
-    styleEl.appendChild(css);
-
-    document.head.appendChild(styleEl);
-  }
-}
 
 function nextId(): string {
   nextIdIndex = (nextIdIndex || 0) + 1;
@@ -68,12 +45,15 @@ function setElPosition(
   top: number | string,
   width: number | string,
   marginTop: number | string,
+  marginTopProperty: string | undefined,
   clipTop: number | string,
   clipLeft: number | string,
 ): void {
   el.style.top = px(top);
   el.style.left = px(left);
-  el.style.marginTop = px(marginTop);
+  el.style.marginTop = marginTopProperty
+    ? `calc(${px(marginTop)} + var(${marginTopProperty}, 0px))`
+    : px(marginTop);
   el.style.clipPath =
     clipTop || clipLeft ? `inset(${px(clipTop)} 0 0 ${px(clipLeft)})` : 'none';
 
@@ -117,6 +97,8 @@ export class SkyViewkeeper {
 
   #viewportMarginTop = 0;
 
+  #viewportMarginProperty: `--${string}` | undefined;
+
   #currentElFixedLeft: number | undefined;
 
   #currentElFixedTop: number | undefined;
@@ -134,6 +116,8 @@ export class SkyViewkeeper {
   #syncElPositionHandler: () => void;
 
   #intersectionObserver: IntersectionObserver | undefined;
+
+  #spacerResizeObserver: ResizeObserver | undefined;
 
   constructor(options: SkyViewkeeperOptions) {
     options = options || /* istanbul ignore next */ {};
@@ -161,9 +145,11 @@ export class SkyViewkeeper {
     // Only set viewport margin if the scrollable host is undefined.
     if (!this.#scrollableHost) {
       this.#viewportMarginTop = options.viewportMarginTop ?? 0;
+      this.#viewportMarginProperty = options.viewportMarginProperty;
     }
 
-    this.#syncElPositionHandler = () => this.syncElPosition(el, boundaryEl);
+    this.#syncElPositionHandler = (): void =>
+      this.syncElPosition(el, boundaryEl);
 
     if (this.#verticalOffsetEl) {
       this.#verticalOffsetEl.addEventListener(
@@ -176,7 +162,7 @@ export class SkyViewkeeper {
     window.addEventListener('resize', this.#syncElPositionHandler);
     window.addEventListener('orientationchange', this.#syncElPositionHandler);
 
-    ensureStyleEl();
+    this.#boundaryEl.classList.add(CLS_VIEWKEEPER_BOUNDARY);
 
     this.syncElPosition(el, boundaryEl);
   }
@@ -185,7 +171,7 @@ export class SkyViewkeeper {
     const verticalOffset = this.#calculateVerticalOffset();
 
     // When the element isn't visible, its size can't be calculated, so don't attempt syncing position in this case.
-    if (el.offsetWidth === 0 && el.offsetHeight === 0) {
+    if (this.#isDestroyed || (el.offsetWidth === 0 && el.offsetHeight === 0)) {
       return;
     }
 
@@ -197,8 +183,10 @@ export class SkyViewkeeper {
     if (this.#needsUpdating(doFixEl, fixedStyles)) {
       if (doFixEl) {
         this.#fixEl(el, boundaryInfo, fixedStyles);
+        this.#verticalOffsetEl?.classList.add(CLS_VIEWKEEPER_FIXED_NOT_LAST);
       } else {
         this.#unfixEl(el);
+        this.#verticalOffsetEl?.classList.remove(CLS_VIEWKEEPER_FIXED_NOT_LAST);
       }
     }
 
@@ -221,14 +209,21 @@ export class SkyViewkeeper {
         this.#unfixEl(this.#el);
       }
 
-      if (this.#verticalOffsetEl) {
-        this.#verticalOffsetEl.removeEventListener(
-          EVT_AFTER_VIEWKEEPER_SYNC,
-          this.#syncElPositionHandler,
-        );
-      }
+      this.#verticalOffsetEl?.removeEventListener(
+        EVT_AFTER_VIEWKEEPER_SYNC,
+        this.#syncElPositionHandler,
+      );
+      this.#verticalOffsetEl?.classList.remove(CLS_VIEWKEEPER_FIXED_NOT_LAST);
 
-      this.#el = this.#boundaryEl = this.#verticalOffsetEl = undefined;
+      this.#spacerResizeObserver?.disconnect();
+      this.#boundaryEl?.classList.remove(CLS_VIEWKEEPER_BOUNDARY);
+
+      this.#el =
+        this.#boundaryEl =
+        this.#verticalOffsetEl =
+        this.#intersectionObserver =
+        this.#spacerResizeObserver =
+          undefined;
 
       this.#isDestroyed = true;
     }
@@ -241,9 +236,13 @@ export class SkyViewkeeper {
   #unfixEl(el: HTMLElement): void {
     const spacerEl = document.getElementById(this.#getSpacerId());
 
-    /*istanbul ignore else*/
-    if (spacerEl?.parentElement) {
-      spacerEl.parentElement.removeChild(spacerEl);
+    if (spacerEl) {
+      this.#spacerResizeObserver?.unobserve(spacerEl);
+
+      /*istanbul ignore else*/
+      if (spacerEl.parentElement) {
+        spacerEl.parentElement.removeChild(spacerEl);
+      }
     }
 
     el.classList.remove(CLS_VIEWKEEPER_FIXED);
@@ -259,7 +258,7 @@ export class SkyViewkeeper {
       width = 'auto';
     }
 
-    setElPosition(el, '', '', width, '', 0, 0);
+    setElPosition(el, '', '', width, '', '', 0, 0);
   }
 
   #calculateVerticalOffset(): number {
@@ -290,9 +289,18 @@ export class SkyViewkeeper {
       anchorTop = getOffset(el, this.#scrollableHost).top;
     }
 
+    let viewportMarginTop = this.#viewportMarginTop;
+    const viewportMarginProperty =
+      this.#viewportMarginProperty &&
+      getComputedStyle(document.body).getPropertyValue(
+        this.#viewportMarginProperty,
+      );
+    if (viewportMarginProperty) {
+      viewportMarginTop += parseInt(viewportMarginProperty, 10);
+    }
+
     const doFixEl =
-      boundaryInfo.scrollTop + verticalOffset + this.#viewportMarginTop >
-      anchorTop;
+      boundaryInfo.scrollTop + verticalOffset + viewportMarginTop > anchorTop;
 
     return doFixEl;
   }
@@ -370,6 +378,14 @@ export class SkyViewkeeper {
       if (el.parentNode) {
         el.parentNode.insertBefore(spacerEl, el.nextSibling);
       }
+
+      if (!this.#spacerResizeObserver) {
+        this.#spacerResizeObserver = new ResizeObserver(() =>
+          this.#syncElPositionHandler(),
+        );
+      }
+
+      this.#spacerResizeObserver.observe(spacerEl);
     }
 
     el.classList.add(CLS_VIEWKEEPER_FIXED);
@@ -392,6 +408,7 @@ export class SkyViewkeeper {
       fixedStyles.elFixedTop,
       width,
       this.#viewportMarginTop,
+      this.#viewportMarginProperty,
       fixedStyles.elClipTop,
       fixedStyles.elClipLeft,
     );

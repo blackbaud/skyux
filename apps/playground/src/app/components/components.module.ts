@@ -26,6 +26,11 @@ export const componentRoutes: Routes = [
       ),
   },
   {
+    path: 'avatar',
+    loadChildren: () =>
+      import('./avatar/avatar.module').then((m) => m.AvatarModule),
+  },
+  {
     path: 'colorpicker',
     loadChildren: () =>
       import('./colorpicker/colorpicker.module').then(
@@ -42,6 +47,11 @@ export const componentRoutes: Routes = [
       import('./datetime/datetime.module').then((m) => m.DatetimeModule),
   },
   {
+    path: 'filter-bar',
+    loadChildren: () =>
+      import('./filter-bar/filter-bar.module').then((m) => m.FilterBarModule),
+  },
+  {
     path: 'flyout',
     loadChildren: () =>
       import('./flyout/flyout.module').then((m) => m.FlyoutModule),
@@ -55,6 +65,13 @@ export const componentRoutes: Routes = [
     path: 'grids',
     loadChildren: () =>
       import('./grids/grids.module').then((m) => m.GridsModule),
+  },
+  {
+    path: 'help-inline',
+    loadChildren: () =>
+      import('./help-inline/help-inline.module').then(
+        (m) => m.HelpInlineModule,
+      ),
   },
   {
     path: 'indicators',
@@ -94,8 +111,13 @@ export const componentRoutes: Routes = [
     data: {
       name: 'Modal (standalone)',
       library: 'modal',
-      icon: 'universal-access',
+      icon: 'square',
     },
+  },
+  {
+    path: 'navbar',
+    loadChildren: () =>
+      import('./navbar/navbar.module').then((m) => m.NavbarModule),
   },
   {
     path: 'pages',
@@ -118,6 +140,20 @@ export const componentRoutes: Routes = [
     path: 'split-view',
     loadChildren: () =>
       import('./split-view/split-view.module').then((m) => m.SplitViewModule),
+  },
+  {
+    path: 'router',
+    loadChildren: () =>
+      import('./router/router.module').then((m) => m.RouterModule),
+  },
+  {
+    path: 'select-field',
+    loadComponent: () => import('./select-field/select-field.component'),
+    data: {
+      name: 'Select field',
+      library: 'select-field',
+      icon: 'checkmark-square',
+    },
   },
   {
     path: 'tabs',

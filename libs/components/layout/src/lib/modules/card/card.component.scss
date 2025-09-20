@@ -1,25 +1,92 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-card') {
+  --sky-override-card-background-color-selected: #{$sky-background-color-selected};
+  --sky-override-card-background-color: #fff;
+  --sky-override-card-border-radius: 0;
+  --sky-override-card-border: 1px solid #{$sky-border-color-neutral-medium};
+  --sky-override-card-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  --sky-override-card-checkbox-margin-right: 5px;
+  --sky-override-card-content-padding: #{$sky-padding};
+  --sky-override-card-header-checkbox-padding-right: #{$sky-padding};
+  --sky-override-card-header-font-size: 26px;
+  --sky-override-card-header-font-weight: 300;
+  --sky-override-card-header-line-height: #{$sky-line-height-base};
+  --sky-override-card-header-padding: #{$sky-padding 0 0 0};
+  --sky-override-card-header-text-padding: #{0 $sky-padding};
+  --sky-override-card-large-height: 350px;
+  --sky-override-card-large-width: 350px;
+  --sky-override-card-margin: #{0 $sky-margin $sky-margin 0};
+  --sky-override-card-small-height: 250px;
+  --sky-override-card-small-width: 225px;
+}
 
 .sky-card {
-  background-color: #fff;
-  @include mixins.sky-border(dark, top, bottom, left, right);
+  --sky-comp-override-switch-label-margin-right: var(
+    --sky-override-card-checkbox-margin-right,
+    0
+  );
+  background-color: var(
+    --sky-override-card-background-color,
+    var(--sky-color-background-container-base)
+  );
+  border: var(--sky-override-card-border, none);
+  border-radius: var(
+    --sky-override-card-border-radius,
+    var(--sky-border-radius-s)
+  );
+  box-shadow: var(
+    --sky-override-card-box-shadow,
+    inset 0 0 0 var(--sky-border-width-container-base)
+      var(--sky-color-border-container-base),
+    var(--sky-elevation-raised-100)
+  );
+
   display: inline-flex;
   flex-direction: column;
-  height: 350px;
-  margin: 0 $sky-margin $sky-margin 0;
+  height: var(--sky-override-card-large-height, 360px);
+  margin: var(
+    --sky-override-card-margin,
+    var(--sky-comp-card-space-offset-top)
+      var(--sky-comp-card-space-offset-right)
+      var(--sky-comp-card-space-offset-bottom)
+      var(--sky-comp-card-space-offset-left)
+  );
+
   transition: background-color $sky-transition-time-short;
   // This keeps cards with varying contents (such as one card with a header and another with no header)
   // vertically aligned with one another.  Otherwise because of the inline nature of the card the browser
   // will attempt to vertically align the cards based on the baselines of the text in each card.
   vertical-align: top;
-  width: 350px;
+  width: var(--sky-override-card-large-width, 360px);
   position: relative;
 }
 
 .sky-card-small {
-  height: 250px;
-  width: 225px;
+  height: var(--sky-override-card-small-height, 256px);
+  width: var(--sky-override-card-small-width, 240px);
+
+  .sky-card-header {
+    padding: var(
+      --sky-override-card-header-padding,
+      var(--sky-comp-card-small-header-space-inset-top)
+        var(--sky-comp-card-small-header-space-inset-right)
+        var(--sky-comp-card-small-header-space-inset-bottom)
+        var(--sky-comp-card-small-header-space-inset-left)
+    );
+  }
+
+  .sky-card-content {
+    padding: var(
+      --sky-override-card-content-padding,
+      var(--sky-comp-card-small-content-space-inset-top)
+        var(--sky-comp-card-small-content-space-inset-right)
+        var(--sky-comp-card-small-content-space-inset-bottom)
+        var(--sky-comp-card-small-content-space-inset-left)
+    );
+  }
 }
 
 .sky-card-selectable {
@@ -30,7 +97,15 @@
 }
 
 .sky-card-selected {
-  background-color: $sky-background-color-selected;
+  background-color: var(
+    --sky-override-card-background-color-selected,
+    var(--sky-color-background-selected-soft)
+  );
+  box-shadow: var(
+    --sky-override-card-box-shadow,
+    inset 0 0 0 var(--sky-border-width-action-base)
+      var(--sky-color-border-action-secondary-base)
+  );
   transition: background-color $sky-transition-time-short;
 }
 
@@ -40,47 +115,56 @@
   flex-shrink: 0;
   margin: 0;
   // Use padding so the area between the header and content is still clickable.
-  padding: $sky-padding 0 0 0;
-}
-
-.sky-card-heading-left,
-.sky-card-heading-right {
-  font-weight: normal;
-  max-width: 34px;
-}
-
-.sky-card-heading-left {
-  padding-left: $sky-padding;
-}
-
-.sky-card-heading-right {
-  padding-right: $sky-padding;
+  padding: var(
+    --sky-override-card-header-padding,
+    var(--sky-comp-card-large-header-space-inset-top)
+      var(--sky-comp-card-large-header-space-inset-right)
+      var(--sky-comp-card-large-header-space-inset-bottom)
+      var(--sky-comp-card-large-header-space-inset-left)
+  );
 }
 
 .sky-card-heading-middle {
   flex-grow: 1;
-  padding: 0 $sky-padding;
+  padding: var(
+    --sky-override-card-header-text-padding,
+    0 var(--sky-space-gap-text_action-l) 0 0
+  );
   overflow: hidden;
 }
 
 .sky-card-title {
   margin: 0;
-  line-height: $sky-line-height-base;
+  line-height: var(
+    --sky-override-card-header-line-height,
+    var(--sky-font-line_height-heading-2)
+  );
+  font-size: var(
+    --sky-override-card-header-font-size,
+    var(--sky-font-size-heading-2)
+  );
+  font-weight: var(
+    --sky-override-card-header-font-weight,
+    var(--sky-font-style-heading-2)
+  );
 }
 
 .sky-card-check {
   flex-shrink: 0;
-  padding-right: $sky-padding;
-
-  .sky-check-wrapper {
-    margin-bottom: 2px;
-  }
+  padding-right: var(--sky-override-card-header-checkbox-padding-right, 0);
 }
 
 .sky-card-content {
   flex-grow: 1;
   font-weight: normal;
   margin: 0;
+  padding: var(
+    --sky-override-card-content-padding,
+    var(--sky-comp-card-large-content-space-inset-top)
+      var(--sky-comp-card-large-content-space-inset-right)
+      var(--sky-comp-card-large-content-space-inset-bottom)
+      var(--sky-comp-card-large-content-space-inset-left)
+  );
   overflow: hidden;
 }
 
@@ -88,9 +172,4 @@
   bottom: 0;
   flex-shrink: 0;
   text-align: center;
-
-  .sky-context-menu-btn {
-    height: 32px;
-    width: 32px;
-  }
 }

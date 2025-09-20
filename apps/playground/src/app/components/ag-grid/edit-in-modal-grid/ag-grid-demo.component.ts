@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
+import {
+  SkyModalCloseArgs,
+  SkyModalConfigurationInterface,
+  SkyModalService,
+} from '@skyux/modals';
 import { SkyThemeService } from '@skyux/theme';
 
 import {
@@ -18,6 +22,7 @@ import { SkyAgGridEditModalComponent } from './ag-grid-edit-modal.component';
 @Component({
   selector: 'app-ag-grid-demo',
   templateUrl: './ag-grid-demo.component.html',
+  standalone: false,
 })
 export class SkyAgGridDemoComponent implements OnInit {
   public gridData = AG_GRID_DEMO_DATA;
@@ -81,9 +86,9 @@ export class SkyAgGridDemoComponent implements OnInit {
     },
   ];
 
-  public gridOptions: GridOptions;
-  public gridApi: GridApi;
-  public searchText: string;
+  public gridOptions: GridOptions | undefined;
+  public gridApi: GridApi | undefined;
+  public searchText = '';
 
   constructor(
     private agGridService: SkyAgGridService,
@@ -105,9 +110,8 @@ export class SkyAgGridDemoComponent implements OnInit {
     const context = new SkyAgGridEditModalContext();
     context.gridData = this.gridData;
 
-    const options: any = {
+    const options: SkyModalConfigurationInterface = {
       providers: [{ provide: SkyAgGridEditModalContext, useValue: context }],
-      ariaDescribedBy: 'docs-edit-grid-modal-content',
       size: 'large',
     };
 
@@ -122,17 +126,17 @@ export class SkyAgGridDemoComponent implements OnInit {
       } else {
         alert('Saving data!');
         this.gridData = result.data;
-        this.gridApi.refreshCells();
+        this.gridApi?.refreshCells();
       }
     });
   }
 
-  public searchApplied(searchText: string) {
+  public searchApplied(searchText: string): void {
     this.searchText = searchText;
-    this.gridApi.setQuickFilter(searchText);
+    this.gridApi?.updateGridOptions({ quickFilterText: searchText });
   }
 
-  private endDateFormatter(params: ValueFormatterParams) {
+  private endDateFormatter(params: ValueFormatterParams): string {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return params.value
       ? params.value.toLocaleDateString('en-us', dateConfig)
@@ -142,7 +146,7 @@ export class SkyAgGridDemoComponent implements OnInit {
   private getGridOptions(): void {
     this.gridOptions = {
       columnDefs: this.columnDefs,
-      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+      onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
     };
     this.gridOptions = this.agGridService.getGridOptions({
       gridOptions: this.gridOptions,

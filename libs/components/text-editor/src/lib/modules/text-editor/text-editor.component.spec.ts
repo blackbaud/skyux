@@ -1,6 +1,4 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-import { CommonModule } from '@angular/common';
-import { Component, DebugElement, Type } from '@angular/core';
+import { Component, DebugElement, Provider, Type } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -12,11 +10,16 @@ import {
   NgModel,
   ReactiveFormsModule,
   UntypedFormControl,
+  Validators,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyCoreAdapterService, SkyIdService } from '@skyux/core';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 
 import { SkyTextEditorResourcesModule } from '../shared/sky-text-editor-resources.module';
 
@@ -25,6 +28,7 @@ import { FONT_SIZE_LIST_DEFAULTS } from './defaults/font-size-list-defaults';
 import { MENU_DEFAULTS } from './defaults/menu-defaults';
 import { STYLE_STATE_DEFAULTS } from './defaults/style-state-defaults';
 import { TOOLBAR_ACTION_DEFAULTS } from './defaults/toolbar-action-defaults';
+import { TextEditorReactiveFixtureComponent } from './fixtures/text-editor-reactive.component.fixture';
 import { TextEditorFixtureComponent } from './fixtures/text-editor.component.fixture';
 import { SkyTextEditorAdapterService } from './services/text-editor-adapter.service';
 import { SkyTextEditorComponent } from './text-editor.component';
@@ -50,33 +54,46 @@ describe('Text editor', () => {
   //#region test classes
   @Component({
     template: `<sky-text-editor
+      [labelText]="labelText"
       [required]="isRequired"
       [(ngModel)]="value"
-    ></sky-text-editor>`,
+    />`,
+    standalone: false,
   })
   class TextEditorWithNgModel {
     public value: string | undefined;
     public isRequired = true;
+    public labelText: string | undefined;
   }
 
   @Component({
-    template: `<sky-text-editor [formControl]="formControl"></sky-text-editor>`,
+    template: `<sky-text-editor
+      [formControl]="formControl"
+      [labelText]="labelText"
+    />`,
+    standalone: false,
   })
   class TextEditorWithFormControl {
-    public formControl = new UntypedFormControl();
+    public formControl = new UntypedFormControl(undefined, [
+      Validators.required,
+    ]);
+    public labelText = 'Text editor';
   }
   //#endregion
 
   //#region helper functions
-  function createComponent<T>(componentType: Type<T>): ComponentFixture<T> {
+  function createComponent<T>(
+    componentType: Type<T>,
+    additionalProviders: Provider[] = [],
+  ): ComponentFixture<T> {
     id = 0;
     TestBed.configureTestingModule({
       imports: [
-        CommonModule,
         FormsModule,
         ReactiveFormsModule,
         SkyTextEditorResourcesModule,
         SkyTextEditorModule,
+        SkyHelpTestingModule,
         RouterTestingModule,
       ],
       declarations: [componentType],
@@ -87,8 +104,9 @@ describe('Text editor', () => {
             generateId: () => ID_DEFAULT + (++id).toString(),
           },
         },
+        ...additionalProviders,
       ],
-    }).compileComponents();
+    });
 
     return TestBed.createComponent<T>(componentType);
   }
@@ -413,9 +431,13 @@ describe('Text editor', () => {
 
   function validateIframeDocumentAttribute(
     name: string,
-    expectedValue: string,
+    expectedValue: string | undefined,
   ): void {
-    expect(iframeDocument.body.getAttribute(name)).toBe(expectedValue);
+    if (expectedValue) {
+      expect(getIframeDocument().body.getAttribute(name)).toBe(expectedValue);
+    } else {
+      expect(getIframeDocument().body.getAttribute(name)).toBeNull();
+    }
   }
 
   function validateMenus(expected: string[]): void {
@@ -506,6 +528,60 @@ describe('Text editor', () => {
       validateToolbarActions(testComponent.toolbarActions);
     });
 
+    it('renders label text', () => {
+      const labelText = 'Label text';
+      testComponent.labelText = labelText;
+      fixture.detectChanges();
+
+      const label = fixture.nativeElement.querySelector('.sky-control-label');
+
+      expect(label.textContent).toEqual(labelText);
+    });
+
+    it('sets the aria-label on the iframe to the label text', () => {
+      const labelText = 'Label text';
+      testComponent.labelText = labelText;
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-label', labelText);
+    });
+
+    it('does not set the aria-label on the iframe if there is no label text', () => {
+      testComponent.labelText = undefined;
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-label', undefined);
+    });
+
+    it('renders hint text', () => {
+      const hintText = 'Hint text for the group.';
+
+      testComponent.hintText = hintText;
+      fixture.detectChanges();
+
+      const hintEl = fixture.nativeElement.querySelector(
+        '.sky-text-editor-hint-text',
+      );
+
+      expect(hintEl).not.toBeNull();
+      expect(hintEl?.textContent.trim()).toBe(hintText);
+    });
+
+    it('should have the form field stacked class if stacked is true', () => {
+      testComponent.stacked = true;
+      fixture.detectChanges();
+
+      const textEditor = fixture.nativeElement.querySelector('sky-text-editor');
+
+      expect(textEditor).toHaveClass('sky-form-field-stacked');
+    });
+
+    it('should not have the form field stacked class if stacked is false', () => {
+      const textEditor = fixture.nativeElement.querySelector('sky-text-editor');
+
+      expect(textEditor).not.toHaveClass('sky-form-field-stacked');
+    });
+
     [
       {
         desc: 'new window',
@@ -592,7 +668,7 @@ describe('Text editor', () => {
         FONT_SIZE_LIST_DEFAULTS.map((item) => item + 'px'),
       );
       expect(fonts).toEqual(FONT_LIST_DEFAULTS.map((item) => item.name));
-      validateIframeDocumentAttribute('id', ID_DEFAULT + '1');
+      validateIframeDocumentAttribute('id', ID_DEFAULT + '2');
       validateMenus(MENU_DEFAULTS);
       validateMergeFields([]);
       validateToolbarActions(TOOLBAR_ACTION_DEFAULTS);
@@ -809,10 +885,10 @@ describe('Text editor', () => {
         value: jasmine.stringContaining('data-fielddisplay="&quot;&gt;&lt;'),
       });
 
-      // The browser converts the escaped angle brackets back to their unescaped
-      // versions since they appear within quotes in an attribute value.
-      expect(testComponent.value).toContain('data-fieldid="&quot;><');
-      expect(testComponent.value).toContain('data-fielddisplay="&quot;><"');
+      expect(testComponent.value).toContain('data-fieldid="&quot;&gt;&lt;');
+      expect(testComponent.value).toContain(
+        'data-fielddisplay="&quot;&gt;&lt;"',
+      );
     }));
 
     it('Toolbar values should update based on selection', fakeAsync(() => {
@@ -990,7 +1066,7 @@ describe('Text editor', () => {
 
     it('should set background color', fakeAsync(() => {
       const expectedCommand = 'backColor';
-      const expectedValue = '#ba4949';
+      const expectedValue = 'rgba(255, 255, 60, 0.5)';
 
       fixture.detectChanges();
       tick();
@@ -1005,6 +1081,7 @@ describe('Text editor', () => {
       SkyAppTestUtility.fireDomEvent(colorField, 'selectedColorChanged', {
         customEventInit: {
           hex: '#ba4949',
+          rgbaText: 'rgba(255, 255, 60, 0.5)',
         },
       });
       fixture.detectChanges();
@@ -1530,6 +1607,89 @@ describe('Text editor', () => {
       );
     }));
 
+    it('should disable text editor once iframe is loaded', fakeAsync(() => {
+      const fixture = TestBed.createComponent(
+        TextEditorReactiveFixtureComponent,
+      );
+      fixture.componentInstance.formControl.disable();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+      const fixtureIframe: HTMLIFrameElement =
+        fixture.nativeElement.querySelector('iframe');
+      expect(fixtureIframe).toBeTruthy();
+      expect(fixtureIframe.getAttribute('aria-disabled')).toEqual('true');
+      expect(
+        fixtureIframe.contentDocument?.body.getAttribute('contenteditable'),
+      ).toEqual('false');
+    }));
+
+    it('should render help inline popover if helpPopoverContent is provided', () => {
+      testComponent.helpPopoverContent = 'popover content';
+      testComponent.labelText = 'label text';
+
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll(
+          'sky-help-inline:not(.sky-control-help)',
+        ).length,
+      ).toBe(1);
+    });
+
+    it('should render help inline if help key is provided', () => {
+      testComponent.labelText = 'Text Editor';
+      testComponent.helpKey = undefined;
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector(
+          '.sky-help-inline:not(.sky-control-help)',
+        ),
+      ).toBeFalsy();
+
+      testComponent.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector(
+          '.sky-help-inline:not(.sky-control-help)',
+        ),
+      ).toBeTruthy();
+    });
+
+    it('should set global help config with help key', async () => {
+      const helpController = TestBed.inject(SkyHelpTestingController);
+      testComponent.labelText = 'Text Editor';
+      testComponent.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      const helpInlineButton = fixture.nativeElement.querySelector(
+        '.sky-help-inline',
+      ) as HTMLElement | undefined;
+      await helpInlineButton?.click();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      helpController.expectCurrentHelpKey('helpKey.html');
+    });
+
+    it('should not render help inline popover if title is provided without content', () => {
+      testComponent.helpPopoverContent = undefined;
+      testComponent.helpPopoverTitle = 'popover title';
+      testComponent.labelText = 'label text';
+
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll(
+          'sky-help-inline:not(.sky-control-help)',
+        ).length,
+      ).toBe(0);
+    });
+
     describe('Menubar commands', () => {
       it('should execute undo', fakeAsync(() => {
         fixture.detectChanges();
@@ -1576,13 +1736,36 @@ describe('Text editor', () => {
       }));
 
       it('should execute paste', fakeAsync(() => {
+        spyOn(navigator.clipboard, 'readText').and.returnValue(
+          Promise.resolve('test content'),
+        );
         fixture.detectChanges();
-        const expectedCommand = 'paste';
+        const expectedCommand = 'insertHTML';
         const optionNumber = 4;
         dropdownButtonExecCommandTest(
           '.sky-text-editor-menu-edit',
           optionNumber,
           expectedCommand,
+          'test content',
+        );
+      }));
+
+      it('should fire a browser alert if pasting is not supported (Firefox)', fakeAsync(() => {
+        spyOnProperty(navigator, 'clipboard').and.returnValue({} as Clipboard);
+        spyOn(window, 'alert').and.stub();
+        fixture.detectChanges();
+        const optionNumber = 4;
+        openDropdown('.sky-text-editor-menu-edit');
+
+        const optionButtons = document.querySelectorAll(
+          '.sky-dropdown-item button',
+        );
+        SkyAppTestUtility.fireDomEvent(optionButtons[optionNumber], 'click');
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        expect(window.alert).toHaveBeenCalledWith(
+          'Direct clipboard access is not supported by this browser. Use the Ctrl+X/C/V keyboard shortcuts instead.',
         );
       }));
 
@@ -1792,6 +1975,20 @@ describe('Text editor', () => {
 
       expect(ngModel.valid).toBe(false);
     });
+
+    it('should add an asterisk to the label when field is required', () => {
+      testComponent.labelText = 'My label';
+      testComponent.isRequired = true;
+      fixture.detectChanges();
+
+      const label = fixture.nativeElement.querySelector('.sky-control-label');
+      expect(label).toHaveCssClass('sky-control-label-required');
+
+      testComponent.isRequired = false;
+      fixture.detectChanges();
+
+      expect(label).not.toHaveCssClass('sky-control-label-required');
+    });
   });
 
   describe('with form control', () => {
@@ -1828,6 +2025,80 @@ describe('Text editor', () => {
       expect(iframeElement).not.toHaveCssClass(
         'sky-text-editor-wrapper-disabled',
       );
+    });
+
+    it('should add an asterisk to the label when field is required', () => {
+      testComponent.formControl.markAsTouched();
+      fixture.detectChanges();
+
+      const label = fixture.nativeElement.querySelector('.sky-control-label');
+      expect(label).toHaveCssClass('sky-control-label-required');
+
+      testComponent.formControl.clearValidators();
+      testComponent.formControl.updateValueAndValidity();
+      fixture.detectChanges();
+
+      expect(label).not.toHaveCssClass('sky-control-label-required');
+    });
+
+    it('should render a sky-form-error when the field is required and has been touched', () => {
+      testComponent.formControl.markAsTouched();
+      fixture.detectChanges();
+
+      const error = fixture.nativeElement.querySelector('sky-form-error');
+      expect(error).toBeVisible();
+    });
+
+    it('sets the aria-required on the iframe to true if the required validator is given', () => {
+      testComponent.formControl.markAsTouched();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-required', 'true');
+    });
+
+    it('sets the aria-required on the iframe to false if the required validator is not given', () => {
+      testComponent.formControl.removeValidators(Validators.required);
+      testComponent.formControl.updateValueAndValidity();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-required', 'false');
+    });
+
+    it('sets the aria-required correctly when the validators are updated', () => {
+      testComponent.formControl.removeValidators(Validators.required);
+      testComponent.formControl.updateValueAndValidity();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-required', 'false');
+
+      testComponent.formControl.addValidators(Validators.required);
+      testComponent.formControl.updateValueAndValidity();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-required', 'true');
+    });
+
+    it('sets the aria-invalid attribute to true and aria-errormessage to the error message when an error is present', fakeAsync(() => {
+      testComponent.formControl.markAsTouched();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-invalid', 'true');
+      validateIframeDocumentAttribute(
+        'aria-errormessage',
+        fixture.nativeElement.querySelector(
+          'sky-form-errors.sky-text-editor-errors',
+        ).id,
+      );
+    }));
+
+    it('sets the aria-invalid attribute to false and aria-errormessage should not exist when no error is present', () => {
+      testComponent.formControl.setValue('Testing');
+      testComponent.formControl.updateValueAndValidity();
+
+      validateIframeDocumentAttribute('aria-invalid', 'false');
+      validateIframeDocumentAttribute('aria-errormessage', undefined);
     });
   });
 

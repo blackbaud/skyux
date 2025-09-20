@@ -1,13 +1,22 @@
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { provideSkyMediaQueryTesting } from '@skyux/core/testing';
 
+import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
 describe('Vertical tabset service', () => {
   let service: SkyVerticalTabsetService;
-  const mockQueryService = new MockSkyMediaQueryService();
 
   beforeEach(() => {
-    service = new SkyVerticalTabsetService(mockQueryService as any);
+    TestBed.configureTestingModule({
+      providers: [
+        SkyVerticalTabsetService,
+        SkyVerticalTabsetAdapterService,
+        provideSkyMediaQueryTesting(),
+      ],
+    });
+
+    service = TestBed.inject(SkyVerticalTabsetService);
   });
 
   it('should add two non active tabs', () => {
@@ -21,7 +30,7 @@ describe('Vertical tabset service', () => {
     ]);
     tab2.tabHeading = 'tab 2';
 
-    service.tabClicked.subscribe((clicked) => {
+    service.tabClicked.subscribe(() => {
       if (service.activeIndex && service.activeIndex >= 0) {
         fail(
           `tab should not have been clicked with index =${service.activeIndex}`,
@@ -49,7 +58,7 @@ describe('Vertical tabset service', () => {
     ]);
     tab2.active = true;
 
-    service.tabClicked.subscribe((clicked) => {
+    service.tabClicked.subscribe(() => {
       if (service.activeIndex && service.activeIndex >= 0) {
         expect(service.activeIndex).toBe(1);
       }

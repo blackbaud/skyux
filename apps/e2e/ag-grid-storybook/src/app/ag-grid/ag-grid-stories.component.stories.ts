@@ -1,10 +1,11 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { AgGridStoriesComponent } from './ag-grid-stories.component';
 import { AgGridStoriesModule } from './ag-grid-stories.module';
 
 export default {
-  id: 'aggridstoriescomponent-aggridstories',
+  id: 'ag-grid',
   title: 'Components/Ag Grid',
   component: AgGridStoriesComponent,
   decorators: [
@@ -13,10 +14,12 @@ export default {
     }),
   ],
 } as Meta<AgGridStoriesComponent>;
-const Template: Story<AgGridStoriesComponent> = (
-  args: AgGridStoriesComponent,
-) => ({
-  props: args,
-});
+type Story = StoryObj<AgGridStoriesComponent>;
 
-export const AgGrid = Template.bind({});
+export const AgGrid: Story = {};
+AgGrid.args = {};
+
+export const AgGridCompact: Story = {};
+AgGridCompact.args = {
+  compact: true,
+};

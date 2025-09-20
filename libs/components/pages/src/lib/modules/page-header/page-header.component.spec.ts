@@ -1,21 +1,29 @@
+import { provideLocationMocks } from '@angular/common/testing';
 import { TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 import { expect } from '@skyux-sdk/testing';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 
 import { PageHeaderFixturesComponent } from './fixtures/page-header-fixtures.component';
 import { SkyPageHeaderModule } from './page-header.module';
 
 describe('Page header component', () => {
+  let mediaQueryController: SkyMediaQueryTestingController;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        PageHeaderFixturesComponent,
-        RouterModule,
-        SkyPageHeaderModule,
-        RouterTestingModule.withRoutes([]),
+      imports: [PageHeaderFixturesComponent, SkyPageHeaderModule],
+      providers: [
+        provideRouter([]),
+        provideLocationMocks(),
+        provideSkyMediaQueryTesting(),
       ],
     });
+
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
   });
 
   it('should create a page header', () => {
@@ -39,7 +47,8 @@ describe('Page header component', () => {
   it('should render an avatar at size large when page is at a large breakpoint', () => {
     const fixture = TestBed.createComponent(PageHeaderFixturesComponent);
     fixture.componentInstance.showAvatar = true;
-    fixture.componentInstance.width = 900;
+
+    mediaQueryController.setBreakpoint('lg');
     fixture.detectChanges();
 
     const largeAvatar = fixture.nativeElement.querySelector(
@@ -52,6 +61,8 @@ describe('Page header component', () => {
   it('should render an avatar at size small when page is at an xs breakpoint', () => {
     const fixture = TestBed.createComponent(PageHeaderFixturesComponent);
     fixture.componentInstance.showAvatar = true;
+
+    mediaQueryController.setBreakpoint('xs');
     fixture.detectChanges();
 
     const smallAvatar = fixture.nativeElement.querySelector(

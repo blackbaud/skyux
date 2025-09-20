@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
@@ -26,9 +25,7 @@ interface WorkspaceItem {
 
 @Component({
   selector: 'app-split-view-content',
-  standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     SkyDescriptionListModule,
     SkyInputBoxModule,

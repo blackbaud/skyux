@@ -1,153 +1,241 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-token') {
+  --sky-override-token-active-background-color: #{darken(
+      $sky-background-color-info-light,
+      10%
+    )};
+  --sky-override-token-active-border: 1px solid #{$sky-highlight-color-info};
+  --sky-override-token-active-box-shadow: #{0 0 8px
+    rgba($sky-highlight-color-info, 0.6)};
+  --sky-override-token-align-items: inherit;
+  --sky-override-token-background-color: #{$sky-background-color-info-light};
+  --sky-override-token-border: 1px solid #{$sky-highlight-color-info};
+  --sky-override-token-box-shadow: none;
+  --sky-override-token-button-padding: 2px 8px;
+  --sky-override-token-close-align-items: inherit;
+  --sky-override-token-close-active-background-color: transparent;
+  --sky-override-token-close-active-box-shadow: none;
+  --sky-override-token-close-border-radius: 3px;
+  --sky-override-token-close-button-opacity: 0.9;
+  --sky-override-token-close-display: inline-block;
+  --sky-override-token-close-focus-background-color: transparent;
+  --sky-override-token-close-focus-box-shadow: none;
+  --sky-override-token-close-focus-outline: auto;
+  --sky-override-token-close-hover-background-color: transparent;
+  --sky-override-token-close-hover-box-shadow: none;
+  --sky-override-token-close-icon-width: initial;
+  --sky-override-token-close-line-height: calc(20 / 14);
+  --sky-override-token-close-margin-left: -2px;
+  --sky-override-token-close-padding: 2px 8px;
+  --sky-override-token-display: inline-block;
+  --sky-override-token-disabled-background-color: #{$sky-background-color-info-light};
+  --sky-override-token-dismissible-padding-right: 0;
+  --sky-override-token-font-size: 15px;
+  --sky-override-token-focused-background-color: #{darken(
+      $sky-background-color-info-light,
+      10%
+    )};
+  --sky-override-token-focused-border: 1px solid #{$sky-highlight-color-info};
+  --sky-override-token-focused-box-shadow: #{0 0 8px
+    rgba($sky-highlight-color-info, 0.6)};
+  --sky-override-token-hover-background-color: #{darken(
+      $sky-background-color-info-light,
+      10%
+    )};
+  --sky-override-token-hover-border: 1px solid
+    #{darken($sky-highlight-color-info, 10%)};
+  --sky-override-token-hover-box-shadow: none;
+  --sky-override-token-padding: 0;
+}
 
 .sky-token {
-  background-color: $sky-background-color-info-light;
-  border: 1px solid $sky-highlight-color-info;
-  padding: 0;
-  display: inline-block;
+  background-color: var(
+    --sky-override-token-background-color,
+    var(--sky-color-background-selected-soft)
+  );
+  font-size: var(--sky-override-token-font-size, var(--sky-font-size-body-m));
+  border: var(--sky-override-token-border, none);
+  box-shadow: var(
+    --sky-override-token-box-shadow,
+    inset 0 0 0 var(--sky-border-width-action-base)
+      var(--sky-color-border-selected_soft)
+  );
+  padding: var(
+    --sky-override-token-padding,
+    var(--sky-comp-token-space-inset-top)
+      var(--sky-comp-token-space-inset-right)
+      var(--sky-comp-token-space-inset-bottom)
+      var(--sky-comp-token-space-inset-left)
+  );
+  align-items: var(--sky-override-token-align-items, center);
+  display: var(--sky-override-token-display, inline-flex);
 
-  &:hover,
-  &.sky-token-focused {
-    background-color: darken($sky-background-color-info-light, 10%);
-    border-color: darken($sky-highlight-color-info, 10%);
+  &.sky-token-focused:not(:active) {
+    background-color: var(
+      --sky-override-token-focused-background-color,
+      var(--sky-color-background-selected-soft)
+    );
+    border: var(--sky-override-token-focused-border, none);
+    box-shadow: var(
+      --sky-override-token-focused-box-shadow,
+      inset 0 0 0 var(--sky-border-width-action-focus)
+        var(--sky-color-border-action-tertiary-focus)
+    );
     cursor: pointer;
   }
 
-  &.sky-token-focused {
-    @include mixins.sky-field-status('active');
+  &:hover {
+    background-color: var(
+      --sky-override-token-hover-background-color,
+      var(--sky-color-background-selected-soft)
+    );
+    border: var(--sky-override-token-hover-border, none);
+    box-shadow: var(
+      --sky-override-token-hover-box-shadow,
+      inset 0 0 0 var(--sky-border-width-action-hover)
+        var(--sky-color-border-action-tertiary-hover)
+    );
+    cursor: pointer;
   }
 
-  &.sky-btn-disabled {
-    .sky-btn-disabled {
-      opacity: 1;
-    }
+  &.sky-token-active {
+    background-color: var(
+      --sky-override-token-active-background-color,
+      var(--sky-color-background-selected-soft)
+    );
+    border: var(--sky-override-token-active-border, none);
+    box-shadow: var(
+      --sky-override-token-active-box-shadow,
+      inset 0 0 0 var(--sky-border-width-action-active)
+        var(--sky-color-border-action-tertiary-active)
+    );
+    cursor: pointer;
   }
-}
 
-.sky-btn-disabled {
-  cursor: default;
-  user-select: none;
+  .sky-token-btn {
+    background-color: transparent;
+    border: 0;
+    box-shadow: none;
+  }
 }
 
 .sky-token-btn {
-  background-color: transparent;
-  border: 0;
-  padding: 2px 8px;
+  padding: var(--sky-override-token-button-padding, 0);
 }
 
-.sky-token-btn-action {
-  &:focus-visible {
-    outline: none;
+.sky-btn-disabled {
+  background-color: var(
+    --sky-override-token-disabled-background-color,
+    var(--sky-color-background-action-tertiary-disabled)
+  );
+  cursor: default;
+  user-select: none;
+
+  .sky-btn-disabled {
+    opacity: 1;
+  }
+
+  .sky-token-btn-action {
+    color: var(--sky-color-text-deemphasized);
+  }
+
+  .sky-token-btn-close {
+    color: var(--sky-color-icon-deemphasized);
   }
 }
 
 .sky-token-btn-close {
-  margin-left: -2px;
-  opacity: 0.9;
+  margin-left: var(
+    --sky-override-token-close-margin-left,
+    var(--sky-space-gap-text_action-xs)
+  );
+  opacity: var(--sky-override-token-close-button-opacity, 1);
+  padding: var(
+    --sky-override-token-close-padding,
+    var(--sky-comp-token-close-space-inset-top)
+      var(--sky-comp-token-close-space-inset-right)
+      var(--sky-comp-token-close-space-inset-bottom)
+      var(--sky-comp-token-close-space-inset-left)
+  );
+  border-radius: var(
+    --sky-override-token-close-border-radius,
+    calc(var(--sky-border-radius-s) - var(--sky-border-width-selected-s))
+  );
+  align-items: var(--sky-override-token-close-align-items, center);
+  display: var(--sky-override-token-close-display, flex);
+  line-height: var(--sky-override-token-close-line-height, 1);
 
   &:hover,
   &:focus-visible {
     opacity: 1;
   }
+
+  &:hover {
+    background-color: var(
+      --sky-override-token-close-hover-background-color,
+      var(--sky-color-background-action-tertiary-hover)
+    );
+    border: none;
+    box-shadow: var(
+      --sky-override-token-close-hover-box-shadow,
+      inset 0 0 0 var(--sky-border-width-action-hover)
+        var(--sky-color-border-action-tertiary-hover)
+    );
+  }
+
+  &:focus-visible {
+    outline: var(--sky-override-token-close-focus-outline, none);
+
+    &:not(:active) {
+      background-color: var(
+        --sky-override-token-close-focus-background-color,
+        var(--sky-color-background-action-tertiary-focus)
+      );
+      border: none;
+      box-shadow: var(
+        --sky-override-token-close-focus-box-shadow,
+        inset 0 0 0 var(--sky-border-width-action-focus)
+          var(--sky-color-border-action-tertiary-focus)
+      );
+    }
+  }
+
+  &.sky-token-btn-close-active {
+    background-color: var(
+      --sky-override-token-close-active-background-color,
+      var(--sky-color-background-action-tertiary-active)
+    );
+    border: none;
+    box-shadow: var(
+      --sky-override-token-close-active-box-shadow,
+      inset 0 0 0 var(--sky-border-width-action-active)
+        var(--sky-color-border-action-tertiary-active)
+    );
+  }
 }
 
 .sky-token-dismissible {
+  padding-right: var(
+    --sky-override-token-dismissible-padding-right,
+    var(--sky-border-width-selected-s)
+  );
+
   .sky-token-btn-action {
     padding-right: 0;
   }
 }
 
-@include mixins.sky-theme-modern {
-  .sky-token {
-    align-items: center;
-    display: inline-flex;
-    font-size: 14px;
+.sky-token-btn-action {
+  font-size: var(--sky-override-token-font-size, var(--sky-font-size-body-m));
 
-    &:not(.sky-btn-disabled) {
-      @include mixins.sky-theme-modern-border($sky-background-color-info);
-      background-color: $sky-color-blue-05;
-    }
-
-    &.sky-token-dismissible {
-      padding-right: 1px;
-
-      .sky-token-btn-action {
-        padding-right: 0;
-      }
-    }
-
-    &:hover:not(:active) {
-      @include mixins.sky-theme-modern-border-hover;
-    }
-
-    &.sky-token-active {
-      @include mixins.sky-theme-modern-border-active;
-    }
-
-    &.sky-token-focused:not(:active) {
-      @include mixins.sky-theme-modern-border-focus;
-    }
-
-    &.sky-token-focused,
-    &:hover {
-      background-color: $sky-color-blue-05;
-    }
-  }
-
-  .sky-token-btn {
-    padding: 1px 5px;
-    border: 0;
-    box-shadow: none;
-    background-color: transparent;
-
-    &.sky-btn-disabled {
-      color: $sky-text-color-default;
-    }
-  }
-
-  .sky-token-btn-action {
-    font-size: 14px;
-  }
-
-  .sky-token-btn-close {
-    align-items: center;
-    border-radius: $sky-theme-modern-border-radius-md - 1;
-    display: flex;
-    height: 20px;
-    margin-left: $sky-theme-modern-margin-inline-xs;
-    width: 20px;
-    padding: 0;
-
-    &:hover {
-      @include mixins.sky-theme-modern-border-hover(transparent);
-    }
-
-    &.sky-token-btn-close-active {
-      @include mixins.sky-theme-modern-border-active;
-    }
-
-    &:focus-visible {
-      outline: none;
-
-      &:not(:active) {
-        @include mixins.sky-theme-modern-border-focus;
-      }
-    }
-  }
-
-  .sky-token-btn-close-icon {
-    width: 100%;
+  &:focus-visible {
+    outline: none;
   }
 }
 
-@include mixins.sky-theme-modern-dark {
-  .sky-token {
-    background-color: $sky-background-color-info-light;
-  }
-
-  .sky-token,
-  .sky-token-btn-close {
-    color: $sky-text-color-default;
-  }
+.sky-token-btn-close-icon {
+  width: var(--sky-override-token-close-icon-width, 100%);
 }

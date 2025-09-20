@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
-import { SkyChevronModule, SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyChevronModule } from '@skyux/indicators';
 import { SkyInlineFormModule } from '@skyux/inline-form';
 
 import { DragulaModule, DragulaService } from 'ng2-dragula';

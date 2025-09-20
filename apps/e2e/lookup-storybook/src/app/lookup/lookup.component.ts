@@ -1,6 +1,5 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { FontLoadingService } from '@skyux/storybook';
 
 export interface Names {
   name: string;
@@ -9,6 +8,7 @@ export interface Names {
   selector: 'app-lookup',
   templateUrl: './lookup.component.html',
   styleUrls: ['./lookup.component.scss'],
+  standalone: false,
 })
 export class LookupComponent {
   @Input()
@@ -59,8 +59,6 @@ export class LookupComponent {
     { name: 'Vaughn' },
     { name: 'Vicki' },
   ];
-
-  public readonly ready$ = inject(FontLoadingService).ready();
 
   #_disabledFlag = false;
 

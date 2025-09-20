@@ -8,6 +8,11 @@ import {
 import { NgModel, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 
 import { SkyToggleSwitchChangeEventFixtureComponent } from './fixtures/toggle-switch-change-event.component.fixture';
 import { SkyToggleSwitchFormDirectivesFixtureComponent } from './fixtures/toggle-switch-form-directives.component.fixture';
@@ -34,7 +39,7 @@ describe('Toggle switch component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyToggleSwitchFixturesModule],
+      imports: [SkyToggleSwitchFixturesModule, SkyHelpTestingModule],
     });
   });
 
@@ -149,6 +154,29 @@ describe('Toggle switch component', () => {
       expect(label?.textContent?.trim()).toEqual('Simple toggle');
     });
 
+    it('should log a deprecation warning when aria label input is used', () => {
+      const logService = TestBed.inject(SkyLogService);
+      const spy = spyOn(logService, 'deprecated');
+
+      testComponent.ariaLabel = 'aria label';
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalledWith('SkyToggleSwitchComponent.ariaLabel', {
+        deprecationMajorVersion: 9,
+        replacementRecommendation:
+          'To add an ARIA label to the toggle switch, use the `labelText` input instead',
+      });
+    });
+
+    it('should not have `aria-label` if `ariaLabel` is empty', () => {
+      testComponent.ariaLabel = '';
+      fixture.detectChanges();
+
+      const button = getButtonElement(fixture);
+
+      expect(button?.getAttribute('aria-label')).toBeNull();
+    });
+
     it('should make the host element a tab stop', () => {
       expect(buttonElement?.tabIndex).toEqual(0);
     });
@@ -159,6 +187,85 @@ describe('Toggle switch component', () => {
       expect(
         toggleNativeElement.querySelector('.sky-help-inline'),
       ).toBeTruthy();
+    });
+
+    it('should pass accessibility with label text input and should set `aria-label` to label text', async () => {
+      testComponent.labelText = 'label text';
+      testComponent.buttonLabel = undefined;
+
+      fixture.detectChanges();
+      expect(buttonElement?.getAttribute('aria-labelledby')).toEqual(
+        getLabelElement(fixture).id,
+      );
+      expect(buttonElement?.getAttribute('aria-label')).toBe('label text');
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should still have `aria-label` if `labelHidden` is true', () => {
+      testComponent.labelText = 'label text';
+      testComponent.labelHidden = true;
+
+      fixture.detectChanges();
+      expect(buttonElement?.getAttribute('aria-label')).toBe('label text');
+    });
+
+    it('should render the `labelText` and not label element if `labelText` is set', () => {
+      testComponent.labelText = 'label text';
+      testComponent.buttonLabel = 'label element';
+
+      fixture.detectChanges();
+
+      const label = getLabelElement(fixture);
+
+      expect(label?.textContent?.trim()).toBe('label text');
+    });
+
+    it('should not render the label or label element if `labelText` is set and `labelHidden` is true', () => {
+      testComponent.labelText = 'label text';
+      testComponent.buttonLabel = 'label element';
+      testComponent.labelHidden = true;
+
+      fixture.detectChanges();
+
+      const label = getLabelElement(fixture);
+
+      expect(label?.textContent).toBe('');
+    });
+
+    it('should not render the label if `labelText` is set and `labelHidden` is true', () => {
+      testComponent.labelText = 'label text';
+      testComponent.labelHidden = true;
+
+      fixture.detectChanges();
+
+      const label = getLabelElement(fixture);
+
+      expect(label?.textContent).toBe('');
+    });
+
+    it('should render the label if `labelText` is set', () => {
+      testComponent.labelText = 'label text';
+
+      fixture.detectChanges();
+
+      const label = getLabelElement(fixture);
+
+      expect(label?.textContent).toBe('label text');
+    });
+
+    it('should render the label element regardless of `labelHidden` value if `labelText` is not set', () => {
+      testComponent.buttonLabel = 'label element';
+
+      fixture.detectChanges();
+
+      const label = getLabelElement(fixture);
+
+      expect(label?.textContent).toBe('label element');
+
+      testComponent.labelHidden = true;
+      fixture.detectChanges();
+
+      expect(label?.textContent).toBe('label element');
     });
 
     it('should pass accessibility with label element and no `ariaLabel`', async () => {
@@ -217,6 +324,74 @@ describe('Toggle switch component', () => {
         'My aria label',
       );
       await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should render help inline button if help popover content is provided', () => {
+      testComponent.helpPopoverContent = 'popover content';
+      testComponent.labelText = 'label text';
+      testComponent.showInlineHelp = false;
+      testComponent.showLabel = false;
+
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll(
+          'sky-help-inline:not(.sky-control-help)',
+        ).length,
+      ).toBe(1);
+    });
+
+    it('should not render help inline button if title is provided without content', () => {
+      testComponent.helpPopoverContent = undefined;
+      testComponent.helpPopoverTitle = 'popover title';
+      testComponent.labelText = 'label text';
+      testComponent.showInlineHelp = false;
+      testComponent.showLabel = false;
+
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll(
+          'sky-help-inline:not(.sky-control-help)',
+        ).length,
+      ).toBe(0);
+    });
+
+    it('should render help inline button if help key and label text is provided', () => {
+      testComponent.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector(
+          '.sky-help-inline:not(.sky-control-help)',
+        ),
+      ).toBeFalsy();
+
+      testComponent.labelText = 'Toggle switch';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector(
+          '.sky-help-inline:not(.sky-control-help)',
+        ),
+      ).toBeTruthy();
+    });
+
+    it('should set global help config with help key', async () => {
+      const helpController = TestBed.inject(SkyHelpTestingController);
+      testComponent.labelText = 'Text Editor';
+      testComponent.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      const helpInlineButton = fixture.nativeElement.querySelector(
+        '.sky-help-inline',
+      ) as HTMLElement | undefined;
+      await helpInlineButton?.click();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      helpController.expectCurrentHelpKey('helpKey.html');
     });
   });
 

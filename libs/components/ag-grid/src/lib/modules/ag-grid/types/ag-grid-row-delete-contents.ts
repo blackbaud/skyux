@@ -5,6 +5,7 @@ import { SkyAffixer, SkyOverlayInstance } from '@skyux/core';
  * @internal
  */
 export interface SkyAgGridRowDeleteContents {
+  id: string;
   affixer: SkyAffixer;
   overlay: SkyOverlayInstance;
 }

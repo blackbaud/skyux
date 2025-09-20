@@ -33,11 +33,19 @@
     {{ isNonBlocking ? 'non-blocking' : 'blocking' }})
   </button>
 
+  <div>
+    <button type="button" class="menu-button">Hover</button>
+    <div class="menu">
+      @for (num of oneThroughForty; track num) {
+        <div class="menu-item">Menu item {{ num }}</div>
+      }
+    </div>
+  </div>
+
   <div class="sky-wait-demo-parent" style="width: 500px; height: 500px">
     <div style="height: 200px; width: 200px">
       Wait <a href="http://example.com">link</a> inside this element with text
-      <sky-wait [isNonBlocking]="isNonBlocking" [isWaiting]="isWaiting">
-      </sky-wait>
+      <sky-wait [isNonBlocking]="isNonBlocking" [isWaiting]="isWaiting" />
     </div>
   </div>
 
@@ -45,7 +53,7 @@
     class="sky-wait-demo-absolute"
     style="height: 200px; width: 200px; margin-top: 10px"
   >
-    <sky-wait [isWaiting]="isWaiting"> </sky-wait>
+    <sky-wait [isWaiting]="isWaiting" />
     <div>
       <p style="position: absolute; background-color: red">
         A large area that can be waited with the <code>sky-wait</code> directive
@@ -58,7 +66,7 @@
     class="sky-wait-demo-absolute-behind"
     style="height: 200px; width: 200px; margin-top: 10px"
   >
-    <sky-wait [isWaiting]="isWaiting"> </sky-wait>
+    <sky-wait [isWaiting]="isWaiting" />
     <div>
       <p
         style="
@@ -78,8 +86,7 @@
   [isWaiting]="isFullPageWaiting"
   [isFullPage]="true"
   [isNonBlocking]="isNonBlocking"
->
-</sky-wait>
+/>
 
 <button class="sky-btn sky-btn-secondary" type="button">
   I am a button that does nothing, but you can tab navigate to and from me

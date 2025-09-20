@@ -23,6 +23,7 @@ import { SkyHrefResolverService } from './href-resolver.service';
 
 @Component({
   template: '',
+  standalone: false,
 })
 export class BlankComponent {}
 
@@ -280,6 +281,18 @@ describe('SkyHref Directive', () => {
     expect(element?.getAttribute('hidden')).toBeNull();
 
     fixture.componentInstance.dynamicLink = 'error://simple-app/example/page';
+    fixture.detectChanges();
+    tick();
+
+    expect(element?.getAttribute('hidden')).toBe('hidden');
+
+    fixture.componentInstance.dynamicLink = '1bb-nav://simple-app/fixed';
+    fixture.detectChanges();
+    tick();
+
+    expect(element?.getAttribute('hidden')).toBeNull();
+
+    fixture.componentInstance.dynamicLink = 'reject://simple-app/example/page';
     fixture.detectChanges();
     tick();
 

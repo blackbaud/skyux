@@ -1,24 +1,50 @@
 <form novalidate [formGroup]="reactiveForm" (ngSubmit)="submit()">
-  <div class="sky-form-group">
-    <label class="sky-control-label" [for]="colorInput.id">
-      What is your favorite color?
-    </label>
+  <div class="sky-form-group sky-padding-even-md">
     <sky-colorpicker
-      (selectedColorChanged)="onSelectedColorChanged($event)"
-      pickerButtonIcon="calendar"
-      pickerButtonIconType="skyux"
       #colorPicker
+      helpKey="help-key.html"
+      hintText="Hint text content."
+      labelText="Favorite color"
+      pickerButtonIcon="calendar-ltr"
+      stacked="true"
+      (selectedColorChanged)="onSelectedColorChanged($event)"
     >
       <input
         formControlName="favoriteColor"
-        skyId
         type="text"
         [presetColors]="swatches"
         [skyColorpickerInput]="colorPicker"
-        #colorInput="skyId"
       />
+
+      @if (favoriteColor.errors?.['opaque']) {
+        <sky-form-error
+          errorName="opaque"
+          errorText="Color must have at least 80% opacity."
+        />
+      }
     </sky-colorpicker>
   </div>
+  <table>
+    <tr>
+      <th>Touched</th>
+      <td>{{ favoriteColor.touched }}</td>
+    </tr>
+    <tr>
+      <th>Pristine</th>
+      <td>{{ favoriteColor.pristine }}</td>
+    </tr>
+    <tr>
+      <th>Valid</th>
+      <td>{{ favoriteColor.valid }}</td>
+    </tr>
+  </table>
 
   <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
+  <button
+    class="sky-btn sky-btn-primary"
+    type="button"
+    (click)="toggleRequired()"
+  >
+    Toggle required
+  </button>
 </form>

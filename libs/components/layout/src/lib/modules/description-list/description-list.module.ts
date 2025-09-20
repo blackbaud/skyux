@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyTrimModule } from '@skyux/core';
+import { SkyIdModule, SkyTrimModule } from '@skyux/core';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyLayoutResourcesModule } from '../shared/sky-layout-resources.module';
@@ -19,6 +20,8 @@ import { SkyDescriptionListComponent } from './description-list.component';
   ],
   imports: [
     CommonModule,
+    SkyHelpInlineModule,
+    SkyIdModule,
     SkyLayoutResourcesModule,
     SkyThemeModule,
     SkyTrimModule,

@@ -2,8 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
 
 import axe from 'axe-core';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 import { SkyA11yAnalyzer } from '../a11y/a11y-analyzer';
 import { SkyA11yAnalyzerConfig } from '../a11y/a11y-analyzer-config';
@@ -12,20 +11,14 @@ import { SkyToBeVisibleOptions } from './to-be-visible-options';
 
 const windowRef: any = window;
 
-function getResourcesObservable(
-  name: string,
-  args: any[] = [],
-): Observable<string> {
+function getResources(name: string, args: any[] = []): Promise<string> {
   const resourcesService = TestBed.inject(SkyAppResourcesService);
-  return resourcesService.getString(name, ...args);
+  return firstValueFrom(resourcesService.getString(name, ...args));
 }
 
-function getLibResourcesObservable(
-  name: string,
-  args: any[] = [],
-): Observable<string> {
+function getLibResources(name: string, args: any[] = []): Promise<string> {
   const resourcesService = TestBed.inject(SkyLibResourcesService);
-  return resourcesService.getString(name, ...args);
+  return firstValueFrom(resourcesService.getString(name, ...args));
 }
 
 function isTemplateMatch(sample: string, template: string): boolean {
@@ -179,7 +172,7 @@ const matchers: jasmine.CustomMatcherFactories = {
     return {
       compare(
         el: any,
-        expectedStyles: { [index: string]: string },
+        expectedStyles: Record<string, string>,
       ): jasmine.CustomMatcherResult {
         const message: string[] = [];
 
@@ -255,18 +248,16 @@ const matchers: jasmine.CustomMatcherFactories = {
         args?: any[],
         callback?: () => void,
       ): jasmine.CustomMatcherResult {
-        getResourcesObservable(name, args)
-          .toPromise()
-          .then((message) => {
-            /*istanbul ignore else*/
-            if (actual !== message) {
-              windowRef.fail(`Expected "${actual}" to equal "${message}"`);
-            }
-            /*istanbul ignore else*/
-            if (callback) {
-              callback();
-            }
-          });
+        void getResources(name, args).then((message) => {
+          /*istanbul ignore else*/
+          if (actual !== message) {
+            windowRef.fail(`Expected "${actual}" to equal "${message}"`);
+          }
+          /*istanbul ignore else*/
+          if (callback) {
+            callback();
+          }
+        });
 
         // Asynchronous matchers are currently unsupported, but
         // the method above works to fail the specific test in the
@@ -298,19 +289,17 @@ const matchers: jasmine.CustomMatcherFactories = {
           actual = actual.trim();
         }
 
-        getResourcesObservable(name, args)
-          .toPromise()
-          .then((message) => {
-            if (actual !== message) {
-              windowRef.fail(
-                `Expected element's inner text "${el.textContent}" to be "${message}"`,
-              );
-            }
-            /*istanbul ignore else*/
-            if (callback) {
-              callback();
-            }
-          });
+        void getResources(name, args).then((message) => {
+          if (actual !== message) {
+            windowRef.fail(
+              `Expected element's inner text "${el.textContent}" to be "${message}"`,
+            );
+          }
+          /*istanbul ignore else*/
+          if (callback) {
+            callback();
+          }
+        });
 
         // Asynchronous matchers are currently unsupported, but
         // the method above works to fail the specific test in the
@@ -336,19 +325,17 @@ const matchers: jasmine.CustomMatcherFactories = {
       ): jasmine.CustomMatcherResult {
         const actual = el.textContent;
 
-        getResourcesObservable(name)
-          .pipe(take(1))
-          .subscribe((message) => {
-            if (!isTemplateMatch(actual, message)) {
-              windowRef.fail(
-                `Expected element's text "${actual}" to match "${message}"`,
-              );
-            }
-            /*istanbul ignore else*/
-            if (callback) {
-              callback();
-            }
-          });
+        void getResources(name).then((message) => {
+          if (!isTemplateMatch(actual, message)) {
+            windowRef.fail(
+              `Expected element's text "${actual}" to match "${message}"`,
+            );
+          }
+          /*istanbul ignore else*/
+          if (callback) {
+            callback();
+          }
+        });
 
         // Asynchronous matchers are currently unsupported, but
         // the method above works to fail the specific test in the
@@ -398,21 +385,17 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         name: string,
         args?: any[],
       ): Promise<jasmine.CustomMatcherResult> {
-        return new Promise((resolve) => {
-          getResourcesObservable(name, args)
-            .toPromise()
-            .then((message) => {
-              if (actual === message) {
-                resolve({
-                  pass: true,
-                });
-              } else {
-                resolve({
-                  pass: false,
-                  message: `Expected "${actual}" to equal "${message}"`,
-                });
-              }
-            });
+        return getResources(name, args).then((message) => {
+          if (actual === message) {
+            return {
+              pass: true,
+            };
+          } else {
+            return {
+              pass: false,
+              message: `Expected "${actual}" to equal "${message}"`,
+            };
+          }
         });
       },
     };
@@ -425,21 +408,17 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         name: string,
         args?: any[],
       ): Promise<jasmine.CustomMatcherResult> {
-        return new Promise((resolve) => {
-          getLibResourcesObservable(name, args)
-            .toPromise()
-            .then((message) => {
-              if (actual === message) {
-                resolve({
-                  pass: true,
-                });
-              } else {
-                resolve({
-                  pass: false,
-                  message: `Expected "${actual}" to equal "${message}"`,
-                });
-              }
-            });
+        return getLibResources(name, args).then((message) => {
+          if (actual === message) {
+            return {
+              pass: true,
+            };
+          } else {
+            return {
+              pass: false,
+              message: `Expected "${actual}" to equal "${message}"`,
+            };
+          }
         });
       },
     };
@@ -453,26 +432,22 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         args?: any[],
         trimWhitespace = true,
       ): Promise<jasmine.CustomMatcherResult> {
-        return new Promise((resolve) => {
+        return getResources(name, args).then((message) => {
           let actual = element.textContent;
           if (trimWhitespace) {
             actual = actual.trim();
           }
 
-          getResourcesObservable(name, args)
-            .toPromise()
-            .then((message) => {
-              if (actual === message) {
-                resolve({
-                  pass: true,
-                });
-              } else {
-                resolve({
-                  pass: false,
-                  message: `Expected element's inner text "${actual}" to be "${message}"`,
-                });
-              }
-            });
+          if (actual === message) {
+            return {
+              pass: true,
+            };
+          } else {
+            return {
+              pass: false,
+              message: `Expected element's inner text "${actual}" to be "${message}"`,
+            };
+          }
         });
       },
     };
@@ -486,26 +461,21 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         args?: any[],
         trimWhitespace = true,
       ): Promise<jasmine.CustomMatcherResult> {
-        return new Promise((resolve) => {
+        return getLibResources(name, args).then((message) => {
           let actual = element.textContent;
           if (trimWhitespace) {
             actual = actual.trim();
           }
-
-          getLibResourcesObservable(name, args)
-            .toPromise()
-            .then((message) => {
-              if (actual === message) {
-                resolve({
-                  pass: true,
-                });
-              } else {
-                resolve({
-                  pass: false,
-                  message: `Expected element's inner text "${actual}" to be "${message}"`,
-                });
-              }
-            });
+          if (actual === message) {
+            return {
+              pass: true,
+            };
+          } else {
+            return {
+              pass: false,
+              message: `Expected element's inner text "${actual}" to be "${message}"`,
+            };
+          }
         });
       },
     };
@@ -517,23 +487,18 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         element: any,
         name: string,
       ): Promise<jasmine.CustomMatcherResult> {
-        return new Promise((resolve) => {
+        return getResources(name).then((message) => {
           const actual = element.textContent;
-
-          getResourcesObservable(name)
-            .pipe(take(1))
-            .subscribe((message) => {
-              if (isTemplateMatch(actual, message)) {
-                resolve({
-                  pass: true,
-                });
-              } else {
-                resolve({
-                  pass: false,
-                  message: `Expected element's text "${actual}" to match "${message}"`,
-                });
-              }
-            });
+          if (isTemplateMatch(actual, message)) {
+            return {
+              pass: true,
+            };
+          } else {
+            return {
+              pass: false,
+              message: `Expected element's text "${actual}" to match "${message}"`,
+            };
+          }
         });
       },
     };
@@ -545,23 +510,18 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         element: any,
         name: string,
       ): Promise<jasmine.CustomMatcherResult> {
-        return new Promise((resolve) => {
+        return getLibResources(name).then((message) => {
           const actual = element.textContent;
-
-          getLibResourcesObservable(name)
-            .pipe(take(1))
-            .subscribe((message) => {
-              if (isTemplateMatch(actual, message)) {
-                resolve({
-                  pass: true,
-                });
-              } else {
-                resolve({
-                  pass: false,
-                  message: `Expected element's text "${actual}" to match "${message}"`,
-                });
-              }
-            });
+          if (isTemplateMatch(actual, message)) {
+            return {
+              pass: true,
+            };
+          } else {
+            return {
+              pass: false,
+              message: `Expected element's text "${actual}" to match "${message}"`,
+            };
+          }
         });
       },
     };
@@ -576,11 +536,11 @@ windowRef.beforeEach(() => {
 /**
  * Interface for "asynchronous" custom Sky matchers which cannot be paired with a `.not` operator.
  */
-export interface SkyAsyncMatchers<T> {
+export interface SkyAsyncMatchers<T, U> extends jasmine.AsyncMatchers<T, U> {
   /**
    * Invert the matcher following this `expect`
    */
-  not: SkyAsyncMatchers<T>;
+  not: SkyAsyncMatchers<T, U>;
 
   /**
    * `expect` an element to be accessible based on Web Content Accessibility
@@ -697,7 +657,7 @@ export interface SkyMatchers<T> extends jasmine.Matchers<T> {
    * `expect` the actual element to have the expected style(s).
    * @param expectedStyles An object representing the style(s) to check for.
    */
-  toHaveStyle(expectedStyles: { [index: string]: string }): void;
+  toHaveStyle(expectedStyles: Record<string, string>): void;
 
   /**
    * `expect` the actual element to have the expected text.
@@ -769,6 +729,8 @@ export function expect<T>(actual: T): SkyMatchers<T> {
  * Create an async expectation for a spec.
  * @param actual Actual computed value to test expectations against.
  */
-export function expectAsync<T>(actual: T): SkyAsyncMatchers<T> {
+export function expectAsync<T, U>(
+  actual: T | PromiseLike<T>,
+): SkyAsyncMatchers<T, U> {
   return windowRef.expectAsync(actual);
 }

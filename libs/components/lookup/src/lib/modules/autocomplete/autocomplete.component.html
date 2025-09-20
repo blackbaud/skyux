@@ -4,11 +4,13 @@
   class="sky-autocomplete"
   role="combobox"
   [attr.aria-expanded]="
-    isOpen && (showActionsArea || (isResultsVisible | async))
+    isOpen &&
+    (showActionsArea || dropdownHintText || (isResultsVisible | async))
   "
   [attr.aria-labelledby]="ariaLabelledBy"
   [attr.aria-controls]="
-    isOpen && (showActionsArea || (isResultsVisible | async))
+    isOpen &&
+    (showActionsArea || dropdownHintText || (isResultsVisible | async))
       ? resultsListId
       : null
   "
@@ -20,133 +22,139 @@
 <ng-template #resultsTemplateRef>
   <!-- We do not want the blur to fire here so that the dropdown does not close. This is why we are preventing the mousedown default. -->
   <div
+    #resultsRef
     class="sky-autocomplete-results-container"
     [attr.id]="resultsListId"
-    [skyThemeClass]="{
-      'sky-shadow': 'default',
-      'sky-elevation-4': 'modern'
-    }"
+    [skyThemeClass]="{ 'sky-shadow': 'default', 'sky-elevation-4': 'modern' }"
     (mousedown)="$event.preventDefault()"
     (keydown)="handleKeydown($event)"
-    #resultsRef
   >
-    <div
-      *ngIf="isSearchingAsync; else resultControlsTemplateRef"
-      class="sky-autocomplete-results-waiting"
-    >
-      <sky-wait [isWaiting]="true"></sky-wait>
-    </div>
-  </div>
-</ng-template>
-
-<ng-template #resultControlsTemplateRef>
-  <div
-    *ngIf="isResultsVisible | async"
-    class="sky-autocomplete-results"
-    role="listbox"
-    [attr.aria-labelledby]="ariaLabelledBy"
-  >
-    <ng-container *ngFor="let result of searchResults; let i = index">
-      <div
-        *ngIf="
-          (!searchResultsLimit || i < searchResultsLimit) &&
-          !(enableShowMore && i >= 5)
-        "
-        class="sky-autocomplete-result"
-        role="option"
-        tabindex="0"
-        [attr.aria-selected]="isElementFocused(searchResultEl)"
-        [attr.data-descriptor-value]="result.data[descriptorProperty]"
-        [attr.id]="result.elementId"
-        [skyHighlight]="highlightText"
-        (click)="onResultClick(result.elementId, $event)"
-        (mousemove)="onResultMouseMove(i)"
-        #searchResultEl
-      >
-        <ng-container
-          *ngTemplateOutlet="
-            searchResultTemplate || defaultSearchResultTemplate;
-            context: { item: result.data }
-          "
-        >
-        </ng-container>
+    @if (isSearchingAsync && !allowAnyValue()) {
+      <div class="sky-autocomplete-results-waiting">
+        <sky-wait [isWaiting]="true" />
       </div>
-    </ng-container>
-    <div
-      *ngIf="searchResults.length === 0"
-      class="sky-deemphasized sky-padding-squish-default"
-    >
-      {{
-        noResultsFoundText ||
-          ('skyux_autocomplete_no_results' | skyLibResources)
-      }}
-    </div>
-  </div>
-  <div *ngIf="showActionsArea" class="sky-autocomplete-actions">
-    <button
-      *ngIf="enableShowMore && (!searchText || searchResults.length > 0)"
-      class="sky-autocomplete-action sky-autocomplete-action-more sky-btn sky-btn-link"
-      type="button"
-      (click)="moreButtonClicked()"
-    >
-      <ng-container
-        *ngIf="
-          !(
-            searchAsync
-            | skyAutocompleteSearchAsyncDisabled : searchAsyncDisabled
-          ) &&
-          searchResults.length === 0 &&
-          !searchText
-        "
-      >
-        {{ 'skyux_autocomplete_show_all' | skyLibResources }}
-      </ng-container>
-      <ng-container
-        *ngIf="
-          (searchAsync
-            | skyAutocompleteSearchAsyncDisabled : searchAsyncDisabled) &&
-          !searchText
-        "
-      >
-        {{
-          'skyux_autocomplete_show_all_count'
-            | skyLibResources : (data.length | skyNumeric : { truncate: false })
-        }}
-      </ng-container>
-      <ng-container *ngIf="searchText">
-        {{
-          'skyux_autocomplete_show_matches_count'
-            | skyLibResources
-              : (searchResultsCount === undefined
-                  ? data.length
-                  : (searchResultsCount | skyNumeric : { truncate: false }))
-        }}
-      </ng-container>
-    </button>
-    <div
-      *ngIf="searchText && searchResults.length === 0"
-      class="sky-font-deemphasized sky-autocomplete-actions-no-results"
-    >
-      {{
-        noResultsFoundText ||
-          ('skyux_autocomplete_no_results' | skyLibResources)
-      }}
-    </div>
-    <button
-      *ngIf="showAddButton"
-      class="sky-autocomplete-action sky-autocomplete-action-add sky-btn sky-btn-link"
-      tabindex="0"
-      type="button"
-      [class.focused]="isElementFocused(addButtonEl)"
-      (click)="addButtonClicked()"
-      #addButtonEl
-    >
-      <sky-icon icon="add" />
-      {{ 'skyux_autocomplete_add' | skyLibResources }}
-    </button>
+    } @else {
+      @if (isResultsVisible | async) {
+        <div
+          class="sky-autocomplete-results"
+          role="listbox"
+          [attr.aria-labelledby]="ariaLabelledBy"
+        >
+          @for (result of searchResults; track result.data; let i = $index) {
+            @if (
+              (!searchResultsLimit || i < searchResultsLimit) &&
+              !(enableShowMore && i >= 5)
+            ) {
+              <div
+                #searchResultEl
+                class="sky-autocomplete-result"
+                role="option"
+                tabindex="0"
+                [attr.aria-selected]="isElementFocused(searchResultEl)"
+                [attr.data-descriptor-value]="result.data[descriptorProperty]"
+                [attr.id]="result.elementId"
+                [skyHighlight]="highlightText"
+                (click)="onResultClick(result.elementId, $event)"
+                (mousemove)="onResultMouseMove(i)"
+              >
+                <ng-container
+                  *ngTemplateOutlet="
+                    searchResultTemplate || defaultSearchResultTemplate;
+                    context: { item: result.data }
+                  "
+                />
+              </div>
+            }
+          }
+          @if (isSearchingAsync && allowAnyValue()) {
+            <div class="sky-autocomplete-results-waiting">
+              <sky-wait [isWaiting]="true" />
+            </div>
+          }
+          @if (searchResults.length === 0) {
+            <div class="sky-font-deemphasized sky-autocomplete-no-results">
+              {{
+                noResultsFoundText ||
+                  ('skyux_autocomplete_no_results' | skyLibResources)
+              }}
+            </div>
+          }
+        </div>
+      } @else if (dropdownHintText) {
+        <div class="sky-autocomplete-dropdown-hint-text sky-font-deemphasized">
+          {{ dropdownHintText }}
+        </div>
+      }
+      @if (showActionsArea) {
+        <div class="sky-autocomplete-actions">
+          @if (enableShowMore && (!searchText || searchResults.length > 0)) {
+            <button
+              class="sky-autocomplete-action sky-autocomplete-action-more sky-btn sky-btn-link"
+              type="button"
+              (click)="moreButtonClicked()"
+            >
+              @if (
+                !(
+                  searchAsync
+                  | skyAutocompleteSearchAsyncDisabled: searchAsyncDisabled
+                ) &&
+                searchResults.length === 0 &&
+                !searchText
+              ) {
+                {{ 'skyux_autocomplete_show_all' | skyLibResources }}
+              }
+              @if (
+                (searchAsync
+                  | skyAutocompleteSearchAsyncDisabled: searchAsyncDisabled) &&
+                !searchText
+              ) {
+                {{
+                  'skyux_autocomplete_show_all_count'
+                    | skyLibResources
+                      : (data.length | skyNumeric: { truncate: false })
+                }}
+              }
+              @if (searchText) {
+                {{
+                  'skyux_autocomplete_show_matches_count'
+                    | skyLibResources
+                      : (searchResultsCount === undefined
+                          ? data.length
+                          : (searchResultsCount
+                            | skyNumeric: { truncate: false }))
+                }}
+              }
+            </button>
+          }
+          @if (searchText && searchResults.length === 0) {
+            <div
+              class="sky-font-deemphasized sky-autocomplete-actions-no-results"
+            >
+              {{
+                noResultsFoundText ||
+                  ('skyux_autocomplete_no_results' | skyLibResources)
+              }}
+            </div>
+          }
+          @if (showAddButton) {
+            <button
+              #addButtonEl
+              class="sky-autocomplete-action sky-autocomplete-action-add sky-btn sky-btn-link"
+              tabindex="0"
+              type="button"
+              [class.focused]="isElementFocused(addButtonEl)"
+              (click)="addButtonClicked()"
+            >
+              <sky-icon iconName="add" />
+              {{ 'skyux_autocomplete_add' | skyLibResources }}
+            </button>
+          }
+        </div>
+      }
+    }
   </div>
 </ng-template>
 
-<ng-template let-item="item" #defaultSearchResultTemplate>
+<ng-template #defaultSearchResultTemplate let-item="item">
   {{ item[descriptorProperty] }}
 </ng-template>

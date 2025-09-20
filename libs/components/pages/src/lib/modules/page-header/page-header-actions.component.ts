@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 /**
  * Displays buttons within the page header for page actions and applies spacing between buttons.
@@ -6,7 +6,9 @@ import { Component } from '@angular/core';
  */
 @Component({
   selector: 'sky-page-header-actions',
-  templateUrl: './page-header-actions.component.html',
+  template: `<ng-content />`,
   styleUrls: ['./page-header-actions.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyPageHeaderActionsComponent {}

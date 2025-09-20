@@ -63,14 +63,15 @@
     </sky-sectioned-form>
   </sky-modal-content>
   <sky-modal-footer>
-    <button
-      *ngIf="tabsHidden"
-      class="sky-btn sky-btn-secondary"
-      type="button"
-      (click)="showTabs()"
-    >
-      Show sections
-    </button>
+    @if (tabsHidden) {
+      <button
+        class="sky-btn sky-btn-secondary"
+        type="button"
+        (click)="showTabs()"
+      >
+        Show sections
+      </button>
+    }
     <button
       class="sky-btn sky-btn-primary sky-margin-inline-sm"
       type="button"
@@ -85,7 +86,7 @@
     >
       Close
     </button>
-    <ng-container *ngFor="let sizeOption of sizes">
+    @for (sizeOption of sizes; track sizeOption) {
       <button
         class="sky-btn sky-btn-default"
         type="button"
@@ -93,6 +94,6 @@
       >
         Open a {{ sizeOption }} modal
       </button>
-    </ng-container>
+    }
   </sky-modal-footer>
 </sky-modal>

@@ -1,10 +1,12 @@
-<sky-input-box [labelText]="labelText">
+<sky-input-box [labelText]="labelText" [hintText]="inputBoxHintText">
   <sky-datepicker #picker>
     <input
+      #date="ngModel"
       class="input-box-datepicker-input"
       name="myDate"
+      [dateFormat]="dateFormat"
+      [skyDatepickerInput]="picker"
       [(ngModel)]="selectedDate"
-      #date="ngModel"
     />
   </sky-datepicker>
 </sky-input-box>

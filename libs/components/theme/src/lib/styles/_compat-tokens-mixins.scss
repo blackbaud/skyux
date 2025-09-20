@@ -1,0 +1,17 @@
+@mixin sky-default-overrides($selector: 'body') {
+  @if $selector == 'body' {
+    body:not(.sky-theme-modern) {
+      @content;
+    }
+  } @else {
+    #{$selector}:not(.sky-theme-modern *) {
+      @content;
+    }
+  }
+}
+
+@mixin sky-default-host-overrides($selector: ':host') {
+  #{$selector}.sky-cmp-theme-default {
+    @content;
+  }
+}

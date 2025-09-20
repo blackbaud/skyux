@@ -1,43 +1,39 @@
 <div class="grid-container" [style.width]="hostWidth">
   <sky-data-manager>
-    <sky-data-manager-toolbar
-      *ngIf="
-        settings.hasToolbar ||
-        settings.searchEnabled ||
-        settings.filterButtonEnabled
-      "
-    >
-      <ng-content select="sky-data-manager-toolbar-primary-item" />
-      <ng-content select="sky-data-manager-toolbar-left-item" />
-      <ng-content select="sky-data-manager-toolbar-right-item" />
-      <ng-content select="sky-data-manager-toolbar-section" />
-    </sky-data-manager-toolbar>
-    <sky-data-view
-      *ngIf="gridOptions$ | async as gridOptions"
-      skyAgGridDataManagerAdapter
-      [viewId]="viewId"
-    >
-      <sky-ag-grid-wrapper
-        skyAgGridRowDelete
-        (rowDeleteCancel)="rowDeleteCancel.emit($event)"
-        (rowDeleteConfirm)="rowDeleteConfirm.emit($event)"
-        [(rowDeleteIds)]="rowDeleteIds"
-      >
-        <ag-grid-angular
-          [gridOptions]="gridOptions || undefined"
-          [style.height]="heightOfGrid | async"
-        />
-      </sky-ag-grid-wrapper>
-    </sky-data-view>
-
-    <ng-container *ngIf="pageCount$ | async as pageCount">
+    @if (
+      settings.hasToolbar ||
+      settings.searchEnabled ||
+      settings.filterButtonEnabled
+    ) {
+      <sky-data-manager-toolbar>
+        <ng-content select="sky-data-manager-toolbar-primary-item" />
+        <ng-content select="sky-data-manager-toolbar-left-item" />
+        <ng-content select="sky-data-manager-toolbar-right-item" />
+        <ng-content select="sky-data-manager-toolbar-section" />
+      </sky-data-manager-toolbar>
+    }
+    @if (gridOptions$ | async; as gridOptions) {
+      <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewId">
+        <sky-ag-grid-wrapper
+          skyAgGridRowDelete
+          [(rowDeleteIds)]="rowDeleteIds"
+          (rowDeleteCancel)="rowDeleteCancel.emit($event)"
+          (rowDeleteConfirm)="rowDeleteConfirm.emit($event)"
+        >
+          <ag-grid-angular
+            [gridOptions]="gridOptions || undefined"
+            [style.height]="heightOfGrid | async"
+          />
+        </sky-ag-grid-wrapper>
+      </sky-data-view>
+    }
+    @if (pageCount$ | async; as pageCount) {
       <sky-paging
-        *ngIf="pageCount > 0"
         [currentPage]="page"
         [itemCount]="pageCount * settings.pageSize"
         [pageSize]="settings.pageSize"
         (currentPageChange)="pageChange($event)"
       />
-    </ng-container>
+    }
   </sky-data-manager>
 </div>

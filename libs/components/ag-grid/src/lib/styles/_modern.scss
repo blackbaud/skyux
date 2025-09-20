@@ -1,0 +1,228 @@
+@use 'libs/components/theme/src/lib/styles/variables' as variables;
+@use './variables' as sky-ag-grid-variables;
+
+.ag-theme-sky-data-grid-modern-light,
+.ag-theme-sky-data-entry-grid-modern-light,
+.ag-theme-sky-data-grid-modern-light-compact,
+.ag-theme-sky-data-entry-grid-modern-light-compact {
+  .ag-cell.ag-cell-wrap-text span.ag-cell-value {
+    line-height: var(--sky-font-line_height-body-m);
+    padding-top: var(
+      --sky-comp-override-ag-grid-cell-padding-vertical-compact,
+      var(--sky-comp-grid-cell-space-inset-top)
+    );
+    padding-bottom: var(
+      --sky-comp-override-ag-grid-cell-padding-vertical-compact,
+      var(--sky-comp-grid-cell-space-inset-bottom)
+    );
+    min-height: calc(var(--ag-row-height) - 2px);
+  }
+
+  .ag-header .ag-header-cell .ag-header-cell-label-sortable {
+    color: var(--sky-color-text-heading);
+  }
+
+  .ag-header-cell,
+  .ag-header-group-cell {
+    overflow: visible;
+
+    &.ag-floating-filter {
+      border-right: var(--ag-column-border);
+      padding-right: calc(
+        var(--ag-cell-horizontal-padding) - var(
+            --sky-override-ag-grid-border-width,
+            var(--sky-border-width-separator-row)
+          )
+      );
+    }
+    &:not(
+      .ag-column-resizing,
+      .sky-ag-grid-header-resizable:has(> .ag-header-cell-resize:hover)
+    ) {
+      .ag-header-cell-resize::after {
+        // these styles make the resize handle a dotted line since it is not technically a border
+        mask-size: 1px 2px;
+        -webkit-mask-size: 1px 2px;
+        mask-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(0, 0, 0, 1) 50%,
+          rgba(0, 0, 0, 0) 51%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        -webkit-mask-image: -webkit-linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(0, 0, 0, 1) 50%,
+          rgba(0, 0, 0, 0) 51%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        mask-repeat: repeat;
+        -webkit-mask-repeat: repeat;
+        mask-position: top;
+        -webkit-mask-position: top;
+      }
+    }
+  }
+  .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing,
+  .ag-header-cell.sky-ag-grid-header-resizable > .ag-header-cell-resize:hover {
+    --ag-header-column-resize-handle-color: var(
+      --sky-color-border-column_divider
+    );
+    --ag-header-column-resize-handle-height: 100%;
+    --ag-header-column-resize-handle-width: 3px;
+  }
+
+  .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing
+    .ag-header-cell-resize::after {
+    height: 100%;
+    top: 0;
+  }
+
+  .ag-header-cell.sky-ag-grid-header-resizable:not(.ag-column-resizing)
+    > .ag-header-cell-resize:hover {
+    &::after {
+      position: relative;
+      left: 2px;
+      top: 0;
+      height: 100%;
+    }
+  }
+
+  .ag-tooltip {
+    box-shadow: var(--sky-elevation-overlay-100);
+  }
+
+  @for $i from 1 through 100 {
+    // Hover, not while resizing
+    .ag-root:has(
+      .ag-header-cell.sky-ag-grid-header-resizable:not(
+          .ag-column-resizing
+        ):nth-child(#{$i})
+        > .ag-header-cell-resize:hover
+    ) {
+      .ag-header-cell.ag-floating-filter:nth-child(#{$i}),
+      .ag-cell:nth-child(#{$i}) {
+        border-right: 1px solid var(--sky-color-border-column_divider);
+        padding-right: calc(
+          var(--ag-cell-horizontal-padding) - var(
+              --sky-override-ag-grid-border-width,
+              var(--sky-border-width-separator-row)
+            )
+        );
+      }
+    }
+
+    // While resizing
+    .ag-root:has(
+      .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing:nth-child(
+          #{$i}
+        )
+    ) {
+      .ag-header-cell.ag-floating-filter:nth-child(#{$i}),
+      .ag-cell:nth-child(#{$i}) {
+        border-right: 3px solid var(--sky-color-border-column_divider);
+        padding-right: calc(var(--ag-cell-horizontal-padding) - 3px);
+      }
+    }
+  }
+}
+
+.ag-theme-sky-data-grid-modern-light,
+.ag-theme-sky-data-grid-modern-light-compact {
+  border-top: none;
+
+  .ag-row-hover::before {
+    background-color: transparent;
+  }
+
+  .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
+    align-items: flex-start;
+  }
+
+  .ag-root-wrapper {
+    border: none;
+  }
+
+  .ag-cell {
+    border-block-end: none;
+    border-block-start: none;
+  }
+
+  .ag-row:not(.ag-row-first) {
+    border-top: none;
+  }
+}
+
+.ag-theme-sky-data-entry-grid-modern-light,
+.ag-theme-sky-data-entry-grid-modern-light-compact {
+  .sky-ag-grid-editable {
+    border-top-width: 0;
+  }
+
+  .ag-popup {
+    .ag-popup-editor {
+      background-color: transparent;
+
+      sky-input-box {
+        --sky-comp-override-input-box-group-background-color: var(
+          --ag-background-color
+        );
+      }
+    }
+
+    .ag-select-list {
+      box-shadow: var(--sky-elevation-overlay-100);
+
+      .ag-select-list-item {
+        cursor: pointer;
+        border: var(--sky-border-width-input-base) solid transparent;
+
+        &:focus-visible,
+        &:hover,
+        &.ag-active-item {
+          background-color: transparent;
+          border-color: var(--sky-color-border-input-hover);
+        }
+      }
+    }
+  }
+
+  .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
+    align-items: flex-start;
+  }
+
+  .ag-cell:hover {
+    border: var(--sky-border-width-input-hover) solid
+      var(--sky-color-border-input-hover);
+  }
+
+  .sky-ag-grid-cell-uneditable:not(.sky-ag-grid-cell-row-selector) {
+    background-color: var(--sky-color-background-input-disabled);
+  }
+
+  .ag-row:not(.ag-row-first) {
+    border-top: none;
+  }
+
+  .ag-row {
+    &.ag-row-focus {
+      z-index: 1;
+    }
+
+    .ag-cell.ag-cell-focus {
+      .ag-select {
+        .ag-picker-field-wrapper {
+          padding-left: var(
+            --sky-override-ag-grid-cell-focus-horizontal-padding,
+            calc(
+              var(--sky-comp-grid-cell-space-inset-left) - var(
+                  --sky-border-width-input-focus
+                )
+            )
+          );
+        }
+      }
+    }
+  }
+}

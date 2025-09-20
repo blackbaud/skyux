@@ -12,11 +12,13 @@ import { SkyFileAttachmentChange } from '@skyux/forms';
   selector: 'app-single-file-attachment',
   templateUrl: './single-file-attachment.component.html',
   styleUrls: ['./single-file-attachment.component.scss'],
+  standalone: false,
 })
 export class SingleFileAttachmentComponent {
   public imageAttachment: UntypedFormControl;
   public fileAttachment: UntypedFormControl;
   public attachment: UntypedFormControl;
+  public disabled: UntypedFormControl;
 
   public fileForm: UntypedFormGroup;
 
@@ -25,6 +27,10 @@ export class SingleFileAttachmentComponent {
   }
 
   constructor(formBuilder: UntypedFormBuilder) {
+    this.disabled = new UntypedFormControl({
+      value: undefined,
+      disabled: true,
+    });
     this.attachment = new UntypedFormControl(undefined, Validators.required);
     this.imageAttachment = new UntypedFormControl(
       {
@@ -51,6 +57,7 @@ export class SingleFileAttachmentComponent {
       imageAttachment: this.imageAttachment,
       fileAttachment: this.fileAttachment,
     });
+    this.attachment.markAsTouched();
   }
 
   public reactiveFileUpdated(result: SkyFileAttachmentChange): void {

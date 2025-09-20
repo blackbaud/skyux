@@ -1,0 +1,42 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include mixins.sky-component-host('default') {
+  display: inline-block;
+}
+
+@include mixins.sky-component('default', '.sky-checkbox-outer-wrapper') {
+  display: flex;
+
+  .sky-checkbox-help-inline {
+    display: inline-flex;
+  }
+
+  .sky-checkbox-icon-indeterminate {
+    font-size: 14px;
+  }
+}
+
+@include mixins.sky-component('default', '.sky-checkbox-hint-text') {
+  margin-top: var(--sky-margin-stacked-xs);
+}
+
+@include mixins.sky-component('default', '.sky-checkbox-form-margin') {
+  display: block;
+  margin-left: calc(var(--sky-switch-size) + var(--sky-switch-margin));
+}
+
+@include mixins.sky-component-host('default', ':host.sky-form-field-stacked') {
+  display: block;
+}
+
+@include mixins.sky-component-host(
+  'default',
+  ':host-context(sky-checkbox-group .sky-checkbox-group-stacked) :host'
+) {
+  display: block;
+
+  &:not(:last-child) {
+    margin-bottom: var(--sky-margin-stacked-sm);
+  }
+}

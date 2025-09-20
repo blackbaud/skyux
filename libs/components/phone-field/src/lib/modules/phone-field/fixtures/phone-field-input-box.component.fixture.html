@@ -1,10 +1,10 @@
-<sky-input-box>
-  <label class="sky-control-label"> Input box </label>
-  <sky-phone-field>
+<sky-input-box labelText="Input box" [hintText]="hintText">
+  <sky-phone-field [(selectedCountry)]="selectedCountry">
     <input
       class="sky-form-control"
-      [(ngModel)]="modelValue"
       skyPhoneFieldInput
+      [(ngModel)]="modelValue"
     />
   </sky-phone-field>
 </sky-input-box>
+<div class="focus-out-target"></div>

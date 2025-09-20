@@ -1,10 +1,14 @@
-import { formatFiles } from '@nrwl/devkit';
-import { Tree, getProjects, updateProjectConfiguration } from '@nx/devkit';
+import {
+  Tree,
+  formatFiles,
+  getProjects,
+  updateProjectConfiguration,
+} from '@nx/devkit';
 
 export async function configureTestCiGenerator(
   tree: Tree,
   options: { skipFormat: boolean },
-) {
+): Promise<void> {
   const projects = getProjects(tree);
   projects.forEach((project, projectName) => {
     if (project.targets?.['test']) {
@@ -36,7 +40,9 @@ export async function configureTestCiGenerator(
     updateProjectConfiguration(tree, projectName, project);
   });
   /* istanbul ignore next */
-  options.skipFormat || (await formatFiles(tree));
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
 }
 
 export default configureTestCiGenerator;

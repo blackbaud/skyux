@@ -1,29 +1,36 @@
-<span class="header-group-text" role="presentation">{{
-  params?.displayName
-}}</span>
-<button
-  *ngIf="isExpanded$ | async; else openIcons"
-  class="sky-btn sky-btn-icon-borderless"
-  type="button"
-  (click)="setExpanded(false)"
-  [attr.aria-label]="
-    'sky_ag_grid_column_group_header_collapse_aria_label'
-      | skyLibResources : params?.displayName
-  "
->
-  <sky-icon icon="double-chevron-left" />
-</button>
-<ng-template #openIcons>
-  <button
-    class="sky-btn sky-btn-icon-borderless"
-    type="button"
-    (click)="setExpanded(true)"
-    [attr.aria-label]="
-      'sky_ag_grid_column_group_header_expand_aria_label'
-        | skyLibResources : params?.displayName
-    "
+@if (params?.displayName) {
+  <span
+    class="header-group-text"
+    role="presentation"
+    [skyThemeClass]="{ 'sky-font-heading-4': 'modern' }"
+    >{{ params?.displayName }}</span
   >
-    <sky-icon icon="double-chevron-right" />
-  </button>
-</ng-template>
-<span class="sky-control-help-container" #inlineHelpContainer></span>
+}
+@if (isExpandable$ | async) {
+  @if (isExpanded$ | async) {
+    <button
+      class="sky-btn sky-btn-icon-borderless"
+      type="button"
+      [attr.aria-label]="
+        'sky_ag_grid_column_group_header_collapse_aria_label'
+          | skyLibResources: params?.displayName
+      "
+      (click)="setExpanded(false)"
+    >
+      <sky-icon iconName="chevron-double-left" />
+    </button>
+  } @else {
+    <button
+      class="sky-btn sky-btn-icon-borderless"
+      type="button"
+      [attr.aria-label]="
+        'sky_ag_grid_column_group_header_expand_aria_label'
+          | skyLibResources: params?.displayName
+      "
+      (click)="setExpanded(true)"
+    >
+      <sky-icon iconName="chevron-double-right" />
+    </button>
+  }
+}
+<span #inlineHelpContainer class="sky-control-help-container"></span>

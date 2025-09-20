@@ -1,16 +1,24 @@
 <div id="controls" class="sky-margin-stacked-sm">
   <div>
-    <button
-      *ngIf="!isHome()"
-      class="sky-btn sky-btn-primary"
-      id="home-btn"
-      routerLink="/"
-      type="button"
-    >
-      Go home
-    </button>
+    @if (!isHome()) {
+      <button
+        class="sky-btn sky-btn-primary"
+        id="home-btn"
+        routerLink="/"
+        type="button"
+      >
+        Go home
+      </button>
+    }
   </div>
   <sky-theme-selector />
+
+  <!-- load an icon so that there is an icon on every storybook page. This allows us to ensure icons are loaded before taking screenshots. Display is set to none. -->
+  <sky-icon class="icon-loader" iconName="star" />
 </div>
+
+@if (ready()) {
+  <span id="assetsLoaded"></span>
+}
 
 <router-outlet />

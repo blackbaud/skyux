@@ -6,7 +6,14 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { SkyI18nModule } from '@skyux/i18n';
+import { SkyAutocompleteModule } from '@skyux/lookup';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
@@ -23,6 +30,12 @@ import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
   templateUrl: './cell-editor-autocomplete.component.html',
   styleUrls: ['./cell-editor-autocomplete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SkyAutocompleteModule,
+    SkyI18nModule,
+  ],
 })
 export class SkyAgGridCellEditorAutocompleteComponent
   implements ICellEditorAngularComp
@@ -42,9 +55,18 @@ export class SkyAgGridCellEditorAutocompleteComponent
   @ViewChild('skyCellEditorAutocomplete', { read: ElementRef })
   public input: ElementRef | undefined;
 
-  @HostListener('blur')
-  public onBlur(): void {
-    this.#stopEditingOnBlur();
+  @HostListener('focusout', ['$event'])
+  public onBlur(event: FocusEvent): void {
+    if (
+      event.relatedTarget &&
+      event.relatedTarget === this.#params?.eGridCell
+    ) {
+      // If focus is being set to the grid cell, schedule focus on the input.
+      // This happens when the refreshCells API is called.
+      this.afterGuiAttached();
+    } else {
+      this.#stopEditingOnBlur();
+    }
   }
 
   public agInit(params: SkyCellEditorAutocompleteParams): void {
@@ -65,30 +87,38 @@ export class SkyAgGridCellEditorAutocompleteComponent
       }
     }
 
-    this.columnHeader = this.#params.colDef && this.#params.colDef.headerName;
-    this.rowNumber = this.#params.rowIndex + 1;
+    this.columnHeader = this.#params.api.getDisplayNameForColumn(
+      this.#params.column,
+      'header',
+    );
+    this.rowNumber = (this.#params.node?.rowIndex ?? 0) + 1;
     this.skyComponentProperties = this.#params.skyComponentProperties || {};
   }
 
   public afterGuiAttached(): void {
-    if (this.input) {
-      this.input.nativeElement.focus();
-      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
-        const charPress = this.#params?.charPress as string;
+    // AG Grid sets focus to the cell via setTimeout, and this queues the input to focus after that.
+    setTimeout(() => {
+      if (this.input) {
+        this.input.nativeElement.focus();
+        if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
+          const charPress = this.#params?.eventKey as string;
 
-        this.input.nativeElement.select();
-        this.input.nativeElement.setRangeText(charPress);
-        // Ensure the cursor is at the end of the text.
-        this.input.nativeElement.setSelectionRange(
-          charPress.length,
-          charPress.length,
-        );
-        this.input.nativeElement.dispatchEvent(new Event('input'));
+          this.input.nativeElement.select();
+          this.input.nativeElement.setRangeText(charPress);
+          // Ensure the cursor is at the end of the text.
+          this.input.nativeElement.setSelectionRange(
+            charPress.length,
+            charPress.length,
+          );
+          this.input.nativeElement.dispatchEvent(new Event('input'));
+        }
+        if (
+          this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted
+        ) {
+          this.input.nativeElement.select();
+        }
       }
-      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
-        this.input.nativeElement.select();
-      }
-    }
+    });
   }
 
   public getValue(): any | undefined {
@@ -104,7 +134,7 @@ export class SkyAgGridCellEditorAutocompleteComponent
   #stopEditingOnBlur(): void {
     if (
       !this.#autocompleteOpen &&
-      this.#params?.context?.gridOptions?.stopEditingWhenCellsLoseFocus &&
+      this.#params?.api.getGridOption('stopEditingWhenCellsLoseFocus') &&
       !this.#elementRef.nativeElement.matches(':focus-within')
     ) {
       this.#params?.api.stopEditing();

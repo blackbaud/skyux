@@ -5,6 +5,7 @@ import { SkyTabsetTabIndexesChange } from '../tabset-tab-indexes-change';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './tabset-loop.component.fixture.html',
+  standalone: false,
 })
 export class TabsetLoopTestComponent {
   public activeIndex: number | undefined = 0;

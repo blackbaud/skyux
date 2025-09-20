@@ -1,4 +1,9 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-character-count-label') {
+  --sky-override-character-count-font-size: 15px;
+}
 
 :host {
   // Force the icon and counter text to not wrap with a long form label
@@ -6,6 +11,8 @@
 }
 
 .sky-character-count-label {
+  font-size: var(--sky-override-character-count-font-size, inherit);
+
   &.sky-error-label {
     margin: 0;
 

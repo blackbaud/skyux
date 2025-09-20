@@ -4,17 +4,22 @@
   [ngClass]="'sky-lookup-show-more-modal-' + context.selectMode"
 >
   <sky-modal-header>
-    <ng-container *ngIf="context.userConfig?.title; else defaultTitle">
+    @if (context.userConfig?.title) {
       {{ context.userConfig.title }}
-    </ng-container>
+    } @else {
+      {{
+        'skyux_lookup_show_more_modal_title'
+          | skyLibResources: context.userConfig.selectionDescriptor
+      }}
+    }
   </sky-modal-header>
   <sky-modal-content
     [skyViewkeeper]="['.sky-lookup-show-more-toolbar-wrapper']"
   >
     <div class="sky-lookup-show-more-toolbar-wrapper">
       <sky-toolbar
-        [listDescriptor]="context.userConfig.selectionDescriptor"
         class="sky-lookup-show-more-modal-toolbar"
+        [listDescriptor]="context.userConfig.selectionDescriptor"
       >
         <sky-toolbar-section>
           <sky-toolbar-item>
@@ -22,111 +27,112 @@
               [debounceTime]="250"
               [searchText]="searchText"
               (searchApply)="searchApplied($event)"
-            >
-            </sky-search>
+            />
           </sky-toolbar-item>
           <sky-toolbar-view-actions>
-            <button
-              *ngIf="context.showAddButton"
-              type="button"
-              class="sky-btn sky-btn-link sky-lookup-show-more-modal-add"
-              (click)="addButtonClicked()"
-            >
-              <sky-icon icon="add" />
-              {{ 'skyux_lookup_show_more_add' | skyLibResources }}
-            </button>
+            @if (context.showAddButton) {
+              <button
+                type="button"
+                class="sky-btn sky-btn-link sky-lookup-show-more-modal-add"
+                [attr.aria-label]="
+                  'skyux_lookup_show_more_add_button_aria_label'
+                    | skyLibResources: context.userConfig.selectionDescriptor
+                "
+                (click)="addButtonClicked()"
+              >
+                <sky-icon iconName="add" />
+                {{ 'skyux_lookup_show_more_add' | skyLibResources }}
+              </button>
+            }
           </sky-toolbar-view-actions>
         </sky-toolbar-section>
       </sky-toolbar>
-      <sky-toolbar
-        *ngIf="context.selectMode === 'multiple'"
-        class="sky-lookup-show-more-modal-multiselect-toolbar"
-      >
-        <sky-toolbar-section>
-          <sky-toolbar-item>
-            <button
-              class="sky-btn sky-btn-link sky-lookup-show-more-modal-select-all-btn"
-              type="button"
-              [attr.aria-label]="
-                'skyux_lookup_show_more_select_all_button_aria_label'
-                  | skyLibResources : context.userConfig.selectionDescriptor
-              "
-              (click)="selectAll()"
-            >
-              {{
-                'skyux_lookup_show_more_select_all_button_title'
-                  | skyLibResources
-              }}
-            </button>
-          </sky-toolbar-item>
-          <sky-toolbar-item>
-            <button
-              class="sky-btn sky-btn-link sky-lookup-show-more-modal-clear-all-btn"
-              type="button"
-              [attr.aria-label]="
-                'skyux_lookup_show_more_clear_all_button_aria_label'
-                  | skyLibResources : context.userConfig.selectionDescriptor
-              "
-              (click)="clearAll()"
-            >
-              {{
-                'skyux_lookup_show_more_clear_all_button_title'
-                  | skyLibResources
-              }}
-            </button>
-          </sky-toolbar-item>
-          <sky-toolbar-view-actions>
-            <sky-checkbox
-              [(checked)]="onlyShowSelected"
-              [label]="
-                'skyux_lookup_show_more_show_selected_option_aria_label'
-                  | skyLibResources : context.userConfig.selectionDescriptor
-              "
-              (change)="updateDataState()"
-            >
-              <sky-checkbox-label>
+      @if (context.selectMode === 'multiple') {
+        <sky-toolbar class="sky-lookup-show-more-modal-multiselect-toolbar">
+          <sky-toolbar-section>
+            <sky-toolbar-item>
+              <button
+                class="sky-btn sky-btn-link sky-lookup-show-more-modal-select-all-btn"
+                type="button"
+                [attr.aria-label]="
+                  'skyux_lookup_show_more_select_all_button_aria_label'
+                    | skyLibResources: context.userConfig.selectionDescriptor
+                "
+                (click)="selectAll()"
+              >
                 {{
-                  'skyux_lookup_show_more_show_selected_option_title'
+                  'skyux_lookup_show_more_select_all_button_title'
                     | skyLibResources
                 }}
-              </sky-checkbox-label>
-            </sky-checkbox>
-          </sky-toolbar-view-actions>
-        </sky-toolbar-section>
-      </sky-toolbar>
+              </button>
+            </sky-toolbar-item>
+            <sky-toolbar-item>
+              <button
+                class="sky-btn sky-btn-link sky-lookup-show-more-modal-clear-all-btn"
+                type="button"
+                [attr.aria-label]="
+                  'skyux_lookup_show_more_clear_all_button_aria_label'
+                    | skyLibResources: context.userConfig.selectionDescriptor
+                "
+                (click)="clearAll()"
+              >
+                {{
+                  'skyux_lookup_show_more_clear_all_button_title'
+                    | skyLibResources
+                }}
+              </button>
+            </sky-toolbar-item>
+            <sky-toolbar-view-actions>
+              <sky-checkbox
+                [label]="
+                  'skyux_lookup_show_more_show_selected_option_aria_label'
+                    | skyLibResources: context.userConfig.selectionDescriptor
+                "
+                [(checked)]="onlyShowSelected"
+                (change)="updateDataState()"
+              >
+                <sky-checkbox-label>
+                  {{
+                    'skyux_lookup_show_more_show_selected_option_title'
+                      | skyLibResources
+                  }}
+                </sky-checkbox-label>
+              </sky-checkbox>
+            </sky-toolbar-view-actions>
+          </sky-toolbar-section>
+        </sky-toolbar>
+      }
     </div>
-    <div
-      *ngIf="displayedItems.length === 0"
-      class="sky-font-deemphasized sky-lookup-show-more-no-results"
-    >
-      {{ 'skyux_lookup_show_more_no_results' | skyLibResources }}
-    </div>
+    @if (displayedItems.length === 0) {
+      <div class="sky-font-deemphasized sky-lookup-show-more-no-results">
+        {{ 'skyux_lookup_show_more_no_results' | skyLibResources }}
+      </div>
+    }
     <sky-repeater class="sky-lookup-show-more-repeater" expandMode="none">
-      <sky-repeater-item
-        *ngFor="let item of displayedItems"
-        [selectable]="context.selectMode === 'multiple'"
-        [(isSelected)]="item.selected"
-        (click)="itemClick(item)"
-        (keyup.enter)="itemClick(item)"
-        (isSelectedChange)="onItemSelect($event, item)"
-      >
-        <sky-repeater-item-content>
-          <ng-container
-            *ngTemplateOutlet="
-              repeaterItemTemplate ?? defaultItemTemplate;
-              context: { item: item.value }
-            "
-          >
-          </ng-container>
-        </sky-repeater-item-content>
-      </sky-repeater-item>
+      @for (item of displayedItems; track item) {
+        <sky-repeater-item
+          [selectable]="context.selectMode === 'multiple'"
+          [(isSelected)]="item.selected"
+          (click)="itemClick(item)"
+          (keyup.enter)="itemClick(item)"
+          (isSelectedChange)="onItemSelect($event, item)"
+        >
+          <sky-repeater-item-content>
+            <ng-container
+              *ngTemplateOutlet="
+                repeaterItemTemplate ?? defaultItemTemplate;
+                context: { item: item.value }
+              "
+            />
+          </sky-repeater-item-content>
+        </sky-repeater-item>
+      }
     </sky-repeater>
     <sky-infinite-scroll
       [enabled]="itemsHaveMore"
       [loading]="itemsLoading"
       (scrollEnd)="addItems()"
-    >
-    </sky-infinite-scroll>
+    />
   </sky-modal-content>
   <sky-modal-footer>
     <button
@@ -134,7 +140,7 @@
       type="button"
       [attr.aria-label]="
         'skyux_lookup_show_more_select_context'
-          | skyLibResources : context.userConfig.selectionDescriptor
+          | skyLibResources: context.userConfig.selectionDescriptor
       "
       (click)="modalInstance.save(selectedItems)"
     >
@@ -150,13 +156,6 @@
   </sky-modal-footer>
 </sky-modal>
 
-<ng-template let-item="item" #defaultItemTemplate>
+<ng-template #defaultItemTemplate let-item="item">
   {{ item[context.descriptorProperty] }}
-</ng-template>
-
-<ng-template #defaultTitle>
-  {{
-    'skyux_lookup_show_more_modal_title'
-      | skyLibResources : context.userConfig.selectionDescriptor
-  }}
 </ng-template>

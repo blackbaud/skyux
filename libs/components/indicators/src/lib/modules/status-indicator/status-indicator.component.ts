@@ -4,11 +4,11 @@ import {
   Component,
   Input,
   OnInit,
+  TemplateRef,
   inject,
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { SkyIconStackItem } from '../icon/icon-stack-item';
 import { SkyIndicatorDescriptionType } from '../shared/indicator-description-type';
 import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
 import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
@@ -25,6 +25,7 @@ const INDICATOR_TYPE_DEFAULT: SkyIndicatorIconType = 'warning';
   templateUrl: './status-indicator.component.html',
   styleUrls: ['./status-indicator.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyStatusIndicatorComponent implements OnInit {
   /**
@@ -68,15 +69,35 @@ export class SkyStatusIndicatorComponent implements OnInit {
     return this.#_customDescription;
   }
 
+  /**
+   * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the status indicator. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title.
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
+
+  /**
+   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
+   * placed beside the status indicator label. Clicking the button invokes global help as configured by the application.
+   */
+  @Input()
+  public helpKey: string | undefined;
+
   public descriptionComputed: string | undefined;
 
-  public baseIcon: SkyIconStackItem | undefined;
-
-  public icon: string | undefined;
+  public iconName = SkyIndicatorIconUtility.getIconNameForType(
+    INDICATOR_TYPE_DEFAULT,
+  );
 
   public indicatorTypeOrDefault: SkyIndicatorIconType = INDICATOR_TYPE_DEFAULT;
-
-  public topIcon: SkyIconStackItem | undefined;
 
   #changeDetector = inject(ChangeDetectorRef);
   #resourcesSvc = inject(SkyLibResourcesService);
@@ -89,13 +110,9 @@ export class SkyStatusIndicatorComponent implements OnInit {
   }
 
   #updateIcon(): void {
-    const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
+    this.iconName = SkyIndicatorIconUtility.getIconNameForType(
       this.indicatorTypeOrDefault,
     );
-
-    this.icon = indicatorIcon.defaultThemeIcon;
-    this.baseIcon = indicatorIcon.modernThemeBaseIcon;
-    this.topIcon = indicatorIcon.modernThemeTopIcon;
   }
 
   #updateDescriptionComputed(): void {

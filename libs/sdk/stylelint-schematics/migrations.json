@@ -1,0 +1,9 @@
+{
+  "schematics": {
+    "noop": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/noop/noop.schematic",
+      "description": "Update stylelint-config-skyux dependencies"
+    }
+  }
+}

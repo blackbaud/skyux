@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'e2e-text-editor-storybook',
   preset: '../../../jest.preset.js',

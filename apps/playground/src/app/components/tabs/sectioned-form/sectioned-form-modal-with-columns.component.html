@@ -1,0 +1,56 @@
+<sky-modal>
+  <sky-modal-header> Sectioned form </sky-modal-header>
+  <sky-modal-content>
+    <sky-row>
+      <sky-column [screenXSmall]="6"> Some other content </sky-column>
+      <sky-column [screenXSmall]="6">
+        <div class="form-wrapper">
+          <form>
+            <sky-sectioned-form>
+              <div>
+                <sky-sectioned-form-section active="true" heading="Section 1">
+                  Section 1 content
+                </sky-sectioned-form-section>
+              </div>
+              <sky-sectioned-form-section heading="Section 2">
+                Section 2 content
+              </sky-sectioned-form-section>
+              <sky-sectioned-form-section heading="Section 3">
+                Section 3 content
+              </sky-sectioned-form-section>
+              <sky-sectioned-form-section heading="Section 4">
+                Section 4 content
+              </sky-sectioned-form-section>
+            </sky-sectioned-form>
+          </form>
+        </div>
+      </sky-column>
+    </sky-row>
+  </sky-modal-content>
+  <sky-modal-footer>
+    @if (tabsHidden()) {
+      <button
+        class="sky-btn sky-btn-default"
+        type="button"
+        (click)="showTabs()"
+      >
+        <sky-icon iconName="chevron-left" />
+        Show sections
+      </button>
+    }
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="modalInstance.save()"
+    >
+      Save
+    </button>
+    <button
+      class="sky-btn sky-btn-link"
+      type="button"
+      (click)="modalInstance.cancel()"
+    >
+      Cancel
+    </button>
+  </sky-modal-footer>
+</sky-modal>

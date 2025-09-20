@@ -3,9 +3,16 @@
   margin: 5px;
 }
 
+#content {
+  // Value set in the app component.
+  margin-top: var(--sky-viewport-top);
+}
+
 #controls {
-  position: sticky;
+  position: fixed;
   top: 0;
+  right: 0;
+  left: 0;
   z-index: 500;
   display: flex;
   background-color: #ffd597;

@@ -7,7 +7,7 @@ const ESLINT_CONFIG_NAME = '@skyux-sdk/eslint-config/recommended';
 const ESLINT_CONFIG_PATH = '.eslintrc.json';
 
 export function modifyEsLintConfig(): Rule {
-  return async (tree) => {
+  return (tree) => {
     const esLintConfig = readJsonFile<EsLintConfig>(tree, ESLINT_CONFIG_PATH);
 
     if (Array.isArray(esLintConfig.overrides)) {

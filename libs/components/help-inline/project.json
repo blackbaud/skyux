@@ -1,0 +1,80 @@
+{
+  "name": "help-inline",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/components/help-inline/src",
+  "prefix": "sky",
+  "projectType": "library",
+  "tags": ["component", "npm"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/libs/components/help-inline"],
+      "options": {
+        "project": "libs/components/help-inline/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/components/help-inline/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/components/help-inline/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "projects": ["core", "popovers"],
+          "target": "build"
+        }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/help-inline/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/help-inline/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/help-inline/testing/src/**/fixtures/**/*"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "tsConfig": "libs/components/help-inline/tsconfig.spec.json",
+        "karmaConfig": "libs/components/help-inline/karma.conf.js",
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ],
+        "codeCoverage": true,
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing",
+          "libs/components/packages/src/polyfills.js"
+        ],
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "codeCoverage": true,
+          "progress": false,
+          "sourceMap": true,
+          "watch": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/components/help-inline/src/**/*.ts",
+          "libs/components/help-inline/src/**/*.html"
+        ]
+      }
+    }
+  }
+}

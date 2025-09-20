@@ -1,13 +1,27 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-filter-summary') {
+  --sky-override-filter-summary-background-color: #{$sky-color-white};
+  --sky-override-filter-summary-font-weight: 600;
+  --sky-override-filter-summary-header-margin: #{$sky-margin-half $sky-margin 0
+    0};
+  --sky-override-filter-summary-row-gap: 0;
+}
 
 .sky-filter-summary-header {
-  margin: $sky-margin-half $sky-margin 0 0;
-  font-weight: 600;
+  margin: var(
+    --sky-override-filter-summary-header-margin,
+    0 var(--sky-space-gap-text_action-s) 0 0
+  );
+  font-weight: var(
+    --sky-override-filter-summary-font-weight,
+    var(--sky-font-style-emphasized)
+  );
 }
 
 .sky-filter-summary {
-  background-color: $sky-color-white;
+  background-color: var(--sky-override-filter-summary-background-color);
   overflow-x: auto;
   display: flex;
   align-items: flex-start;
@@ -16,10 +30,8 @@
 .sky-filter-summary-items {
   display: flex;
   flex-wrap: wrap;
-}
-
-@include mixins.sky-theme-modern() {
-  .sky-filter-summary-header {
-    margin: 0 $sky-margin 0 0;
-  }
+  row-gap: var(
+    --sky-override-filter-summary-row-gap,
+    var(--sky-space-gap-action_group-s)
+  );
 }

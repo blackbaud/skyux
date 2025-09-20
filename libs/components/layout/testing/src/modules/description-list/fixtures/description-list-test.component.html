@@ -1,0 +1,24 @@
+<sky-description-list data-sky-id="description-list" [mode]="mode">
+  @for (item of items; track item) {
+    <sky-description-list-content
+      [helpPopoverContent]="item.helpContent"
+      [helpPopoverTitle]="item.helpTitle"
+      [helpKey]="item.helpKey"
+    >
+      @if (item.term) {
+        <sky-description-list-term>
+          {{ item.term }}
+        </sky-description-list-term>
+      }
+      @if (!item.hideDescription) {
+        <sky-description-list-description>
+          @if (item.description) {
+            {{ item.description }}
+          }
+        </sky-description-list-description>
+      }
+    </sky-description-list-content>
+  }
+</sky-description-list>
+
+<sky-description-list data-sky-id="empty-list"></sky-description-list>

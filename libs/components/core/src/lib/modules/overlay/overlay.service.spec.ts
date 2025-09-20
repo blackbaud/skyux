@@ -218,7 +218,7 @@ describe('Overlay service', () => {
 
       // Run navigation through NgZone to avoid warnings in the console.
       ngZone.run(() => {
-        router.navigate(['/']);
+        void router.navigate(['/']);
         fixture.detectChanges();
         tick();
         verifyOverlayCount(0);
@@ -235,7 +235,7 @@ describe('Overlay service', () => {
       verifyOverlayCount(1);
 
       ngZone.run(() => {
-        router.navigate(['/']);
+        void router.navigate(['/']);
         fixture.detectChanges();
         tick();
 
@@ -261,6 +261,39 @@ describe('Overlay service', () => {
     expect(getAllOverlays().item(0)).toHaveCssClass(
       'enable-pointer-events-pass-through',
     );
+  }));
+
+  it('should optionally hide elements outside the overlay from screen readers', fakeAsync(() => {
+    const siblingEl = document.createElement('div');
+    document.body.appendChild(siblingEl);
+
+    // This element should remain hidden to screen readers after the overlay is displayed.
+    const siblingAriaHiddenEl = document.createElement('div');
+    siblingAriaHiddenEl.ariaHidden = 'true';
+    document.body.appendChild(siblingAriaHiddenEl);
+
+    expect(siblingEl.ariaHidden).toBeNull();
+    expect(siblingAriaHiddenEl.ariaHidden).toBe('true');
+
+    fixture.detectChanges();
+    tick();
+
+    const instance = createOverlay({
+      hideOthersFromScreenReaders: true,
+    });
+
+    verifyOverlayCount(1);
+
+    expect(siblingEl.ariaHidden).toBe('true');
+    expect(siblingAriaHiddenEl.ariaHidden).toBe('true');
+
+    destroyOverlay(instance);
+
+    expect(siblingEl.ariaHidden).toBeNull();
+    expect(siblingAriaHiddenEl.ariaHidden).toBe('true');
+
+    document.body.removeChild(siblingEl);
+    document.body.removeChild(siblingAriaHiddenEl);
   }));
 
   it('should attach a component', async () => {

@@ -1,14 +1,31 @@
 <sky-box>
-  <sky-box-header>
-    <h2 class="sky-font-heading-2">Box 1 header</h2>
-    <sky-help-inline
-      *ngIf="showHelp"
-      (actionClick)="onHelpClick()"
-      class="sky-control-help"
-    ></sky-help-inline>
-  </sky-box-header>
-  <sky-box-controls>
-    <sky-dropdown buttonType="context-menu">
+  @if (showHeader) {
+    <sky-box-header>
+      <h2 class="sky-font-heading-2">Box 1 header</h2>
+      @if (showHelp) {
+        <sky-help-inline
+          class="sky-control-help"
+          (actionClick)="onHelpClick()"
+        />
+      }
+    </sky-box-header>
+  }
+  @if (showControls) {
+    <sky-box-controls>
+      <sky-dropdown buttonType="context-menu">
+        <sky-dropdown-menu>
+          <sky-dropdown-item>
+            <button type="button">Action 1</button>
+          </sky-dropdown-item>
+          <sky-dropdown-item>
+            <button type="button">Action 2</button>
+          </sky-dropdown-item>
+        </sky-dropdown-menu>
+      </sky-dropdown>
+    </sky-box-controls>
+  }
+  <sky-box-content>
+    <sky-dropdown buttonType="context-menu" style="display: inline-block">
       <sky-dropdown-menu>
         <sky-dropdown-item>
           <button type="button">Action 1</button>
@@ -18,23 +35,38 @@
         </sky-dropdown-item>
       </sky-dropdown-menu>
     </sky-dropdown>
-  </sky-box-controls>
-  <sky-box-content>
-    <p>Box 1 content</p>
+    Box 1 content
   </sky-box-content>
 </sky-box>
 
 <sky-box>
-  <sky-box-header>
-    <h2 class="sky-font-heading-2">Box 2 header</h2>
-    <sky-help-inline
-      *ngIf="showHelp"
-      (actionClick)="onHelpClick()"
-      class="sky-control-help"
-    ></sky-help-inline>
-  </sky-box-header>
-  <sky-box-controls>
-    <sky-dropdown buttonType="context-menu">
+  @if (showHeader) {
+    <sky-box-header>
+      <h2 class="sky-font-heading-2">Box 2 header</h2>
+      @if (showHelp) {
+        <sky-help-inline
+          class="sky-control-help"
+          (actionClick)="onHelpClick()"
+        />
+      }
+    </sky-box-header>
+  }
+  @if (showControls) {
+    <sky-box-controls>
+      <sky-dropdown buttonType="context-menu">
+        <sky-dropdown-menu>
+          <sky-dropdown-item>
+            <button type="button">Action 1</button>
+          </sky-dropdown-item>
+          <sky-dropdown-item>
+            <button type="button">Action 2</button>
+          </sky-dropdown-item>
+        </sky-dropdown-menu>
+      </sky-dropdown>
+    </sky-box-controls>
+  }
+  <sky-box-content>
+    <sky-dropdown buttonType="context-menu" style="display: inline-block">
       <sky-dropdown-menu>
         <sky-dropdown-item>
           <button type="button">Action 1</button>
@@ -42,17 +74,62 @@
         <sky-dropdown-item>
           <button type="button">Action 2</button>
         </sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
-  </sky-box-controls>
+      </sky-dropdown-menu> </sky-dropdown
+    >Box 2 content
+  </sky-box-content>
+</sky-box>
+
+<sky-box
+  headingText="Easy-mode header"
+  helpPopoverTitle="Easy-mode help"
+  [headingHidden]="!showHeader"
+  [headingStyle]="headingStyle"
+  [headingLevel]="headingStyle"
+  [helpPopoverContent]="showHelp ? helpContent : undefined"
+>
+  @if (showControls) {
+    <sky-box-controls>
+      <sky-dropdown buttonType="context-menu">
+        <sky-dropdown-menu>
+          <sky-dropdown-item>
+            <button type="button">Action 1</button>
+          </sky-dropdown-item>
+          <sky-dropdown-item>
+            <button type="button">Action 2</button>
+          </sky-dropdown-item>
+        </sky-dropdown-menu>
+      </sky-dropdown>
+    </sky-box-controls>
+  }
   <sky-box-content>
-    <p>Box 2 content</p>
+    <sky-dropdown buttonType="context-menu" style="display: inline-block">
+      <sky-dropdown-menu>
+        <sky-dropdown-item>
+          <button type="button">Action 1</button>
+        </sky-dropdown-item>
+        <sky-dropdown-item>
+          <button type="button">Action 2</button>
+        </sky-dropdown-item>
+      </sky-dropdown-menu> </sky-dropdown
+    >Box 3 content
   </sky-box-content>
 </sky-box>
 
 <div style="margin-top: 4em">
-  <label>
-    <input type="checkbox" [(ngModel)]="showHelp" />
-    Show inline help
-  </label>
+  <sky-checkbox labelText="Show header" [(ngModel)]="showHeader" />
+  <sky-checkbox labelText="Show controls" [(ngModel)]="showControls" />
+  <sky-checkbox
+    labelText="Show inline help"
+    [disabled]="!showHeader"
+    [(ngModel)]="showHelp"
+  />
+  <button
+    type="button"
+    class="sky-btn sky-btn-default"
+    (click)="toggleHeadingStyle()"
+  >
+    Toggle heading style {{ headingStyle ?? 'undefined' }}
+  </button>
 </div>
+
+<ng-template #helpContent>Help content</ng-template>

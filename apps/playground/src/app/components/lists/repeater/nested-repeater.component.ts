@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,12 +6,12 @@ import {
 } from '@angular/core';
 import { SkyRepeaterModule } from '@skyux/lists';
 
-type ListItem = {
+interface ListItem {
   label: string;
   reorderable?: boolean;
   selectable?: boolean;
   children?: ListItem[];
-};
+}
 
 @Component({
   selector: 'app-nested-repeater',
@@ -39,6 +38,7 @@ type ListItem = {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class NestedRepeaterComponent {
   public list: ListItem[] = [
@@ -76,7 +76,7 @@ export class NestedRepeaterComponent {
 }
 
 @NgModule({
-  imports: [CommonModule, SkyRepeaterModule],
+  imports: [SkyRepeaterModule],
   declarations: [NestedRepeaterComponent],
   exports: [NestedRepeaterComponent],
 })

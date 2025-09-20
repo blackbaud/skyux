@@ -3,17 +3,8 @@
   class="sky-expansion-indicator"
   [ngClass]="['sky-expansion-indicator-' + directionOrDefault]"
 >
-  <ng-container *skyThemeIf="'default'">
-    <ng-container *ngTemplateOutlet="icon"></ng-container>
-  </ng-container>
-  <ng-container *skyThemeIf="'modern'">
-    <span class="sky-expansion-indicator-glyph-container">
-      <ng-container *ngTemplateOutlet="icon"></ng-container>
-    </span>
-  </ng-container>
+  <span class="sky-expansion-indicator-glyph-container">
+    <i class="sky-expansion-indicator-part sky-expansion-indicator-left"> </i>
+    <i class="sky-expansion-indicator-part sky-expansion-indicator-right"> </i>
+  </span>
 </div>
-
-<ng-template #icon>
-  <i class="sky-expansion-indicator-part sky-expansion-indicator-left"> </i>
-  <i class="sky-expansion-indicator-part sky-expansion-indicator-right"> </i>
-</ng-template>

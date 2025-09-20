@@ -1,13 +1,15 @@
 <div id="screenshot-flyout" style="height: 500px">
-  <div *ngFor="let user of users" class="sky-flyout-demo-item">
-    <button
-      class="sky-btn sky-btn-primary"
-      type="button"
-      (click)="openFlyout(user)"
-    >
-      {{ user.name }}
-    </button>
-  </div>
+  @for (user of users; track user) {
+    <div class="sky-flyout-demo-item">
+      <button
+        class="sky-btn sky-btn-primary"
+        type="button"
+        (click)="openFlyout(user)"
+      >
+        {{ user.name }}
+      </button>
+    </div>
+  }
 
   <div class="sky-flyout-demo-item">
     <button

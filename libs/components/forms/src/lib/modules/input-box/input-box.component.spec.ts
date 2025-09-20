@@ -1,3 +1,4 @@
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import {
   ComponentFixture,
   TestBed,
@@ -7,6 +8,11 @@ import {
 import { AbstractControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -32,6 +38,21 @@ interface InputBoxA11yTestingOptions {
   a11yInsetButton?: boolean;
   a11yNormalButton?: boolean;
   inlineHelpType?: 'custom' | 'sky';
+}
+
+interface InputBoxElements {
+  characterCountEl: HTMLElement | null;
+  hintTextEl: HTMLElement | null;
+  inputBoxEl: HTMLElement | null;
+  inputEl: HTMLElement | null;
+  inputGroupBtnEls: HTMLElement[];
+  inputGroupEl: HTMLElement | null;
+  insetBtnEl: HTMLElement | null;
+  labelEl: HTMLLabelElement | null;
+  inlineHelpEl: HTMLElement | null;
+  insetIconEl: HTMLElement | null;
+  insetIconWrapperEl: HTMLElement | null;
+  leftInsetIconEl: HTMLElement | null;
 }
 
 describe('Input box component', () => {
@@ -324,21 +345,21 @@ describe('Input box component', () => {
     validateInvalid('when dirty and untouched', inputBoxEl, true);
   }
 
+  function validateLabelAccessibilityLabel(
+    els: Partial<InputBoxElements>,
+    label: string | null,
+  ): void {
+    expect(els.labelEl?.getAttribute('aria-label')).toBe(label);
+  }
+
   describe('default theme', () => {
     function getDefaultEls(
       fixture: ComponentFixture<any>,
       parentCls: string,
-    ): {
-      characterCountEl: HTMLElement | null;
-      hintTextEl: HTMLElement | null;
-      inputBoxEl: HTMLElement | null;
-      inputEl: HTMLElement | null;
-      inputGroupBtnEls: HTMLElement[];
-      inputGroupEl: HTMLElement | null;
-      insetBtnEl: HTMLElement | null;
-      labelEl: HTMLLabelElement | null;
-      inlineHelpEl: HTMLElement | null;
-    } {
+    ): Omit<
+      InputBoxElements,
+      'insetIconEl' | 'insetIconWrapperEl' | 'leftInsetIconEl'
+    > {
       const parentEl = document.querySelector(`.${parentCls}`);
       const inputBoxEl = getInputBoxEl(fixture, parentCls);
 
@@ -407,15 +428,18 @@ describe('Input box component', () => {
       fixture: ComponentFixture<InputBoxFixtureComponent>,
       expectedText: string,
     ): Promise<void> {
-      const els = getDefaultEls(fixture, 'input-easy-mode');
+      const loader = TestbedHarnessEnvironment.loader(fixture);
+      const helpInlineHarness = await loader.getHarness(
+        SkyHelpInlineHarness.with({
+          selector: '.input-easy-mode sky-help-inline',
+        }),
+      );
 
-      const inlineHelpBtnEl = els.inlineHelpEl?.querySelector(
-        '.sky-help-inline',
-      ) as HTMLButtonElement;
+      expect(await helpInlineHarness.getAriaLabel()).toBe(
+        'Show help content for Easy mode',
+      );
 
-      expect(inlineHelpBtnEl.ariaLabel).toBe('Show help content for Easy mode');
-
-      inlineHelpBtnEl.click();
+      await helpInlineHarness.click();
 
       // Allow the popover open event to fire.
       fixture.detectChanges();
@@ -429,7 +453,7 @@ describe('Input box component', () => {
       );
 
       expect(popoverBodyEl).toHaveText(expectedText);
-      expect(inlineHelpBtnEl.getAttribute('aria-expanded')).toBe('true');
+      expect(await helpInlineHarness.getAriaExpanded()).toBeTrue();
 
       document.body.click();
 
@@ -439,7 +463,7 @@ describe('Input box component', () => {
       // Allow the aria-expanded attribute to update.
       fixture.detectChanges();
 
-      expect(inlineHelpBtnEl.getAttribute('aria-expanded')).toBe('false');
+      expect(await helpInlineHarness.getAriaExpanded()).toBeFalse();
 
       fixture.componentInstance.easyModeHelpPopoverContent = undefined;
       fixture.detectChanges();
@@ -461,7 +485,7 @@ describe('Input box component', () => {
       };
 
       TestBed.configureTestingModule({
-        imports: [InputBoxFixturesModule],
+        imports: [InputBoxFixturesModule, SkyHelpTestingModule],
         providers: [
           {
             provide: SkyThemeService,
@@ -483,6 +507,7 @@ describe('Input box component', () => {
       expect(els.inputGroupEl).toExist();
 
       expect(els.labelEl?.htmlFor).toBe(els.inputEl?.id);
+      validateLabelAccessibilityLabel(els, null);
 
       expect(els.inputEl?.tagName).toBe('INPUT');
     });
@@ -556,6 +581,9 @@ describe('Input box component', () => {
     it('should render the error status indicator in the expected location', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 
+      fixture.componentInstance.errorField.markAsTouched();
+      fixture.componentInstance.errorField.updateValueAndValidity();
+
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(
@@ -609,6 +637,25 @@ describe('Input box component', () => {
       expect(inputBoxWrapperEl).toHaveCssClass('sky-input-box-disabled');
     });
 
+    it('should add a disabled CSS class when the form control is disabled', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(
+        fixture,
+        'input-box-form-control-name-error',
+      );
+      const inputBoxWrapperEl = inputBoxEl?.querySelector('.sky-input-box');
+
+      expect(inputBoxWrapperEl).not.toHaveCssClass('sky-input-box-disabled');
+
+      fixture.componentInstance.errorForm.get('errorFormField')?.disable();
+      fixture.detectChanges();
+
+      expect(inputBoxWrapperEl).toHaveCssClass('sky-input-box-disabled');
+    });
+
     it('should display labelText as label', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
@@ -617,6 +664,7 @@ describe('Input box component', () => {
 
       expect(els.labelEl).toHaveText('Easy mode');
       expect(els.labelEl?.htmlFor).toBe(els.inputEl?.id);
+      validateLabelAccessibilityLabel(els, 'Easy mode 0 characters out of 10');
     });
 
     it('should add stacked CSS class', () => {
@@ -625,12 +673,12 @@ describe('Input box component', () => {
 
       const els = getDefaultEls(fixture, 'input-easy-mode');
 
-      expect(els.inputBoxEl).toHaveCssClass('sky-margin-stacked-lg');
+      expect(els.inputBoxEl).toHaveCssClass('sky-form-field-stacked');
 
       fixture.componentInstance.easyModeStacked = false;
       fixture.detectChanges();
 
-      expect(els.inputBoxEl).not.toHaveCssClass('sky-margin-stacked-lg');
+      expect(els.inputBoxEl).not.toHaveCssClass('sky-form-field-stacked');
     });
 
     it('should add help inline for text', async () => {
@@ -651,6 +699,58 @@ describe('Input box component', () => {
       await validateHelpInline(fixture, 'Help content from template');
     });
 
+    it('should not render help inline button if labelText undefined', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      fixture.componentRef.setInput('labelText', undefined);
+      fixture.componentInstance.easyModeHelpPopoverContent = "What's this?";
+      fixture.detectChanges();
+
+      const easyModeInput = getDefaultEls(fixture, 'input-easy-mode');
+
+      expect(
+        easyModeInput.inlineHelpEl?.querySelector('.sky-help-inline'),
+      ).toBeUndefined();
+    });
+
+    it('should render help inline with help key', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      fixture.componentInstance.easyModeHelpPopoverContent = undefined;
+      fixture.componentInstance.easyModeHelpKey = 'index.html';
+
+      const easyModeInput = getDefaultEls(fixture, 'input-easy-mode');
+
+      expect(
+        easyModeInput.inlineHelpEl?.querySelector('.sky-help-inline'),
+      ).toBeTruthy();
+    });
+
+    it('should set global help config with help key', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      const helpController = TestBed.inject(SkyHelpTestingController);
+
+      fixture.detectChanges();
+
+      fixture.componentInstance.easyModeHelpPopoverContent = undefined;
+      fixture.componentInstance.easyModeHelpKey = 'index.html';
+
+      fixture.detectChanges();
+
+      const easyModeInput = getDefaultEls(fixture, 'input-easy-mode');
+      const helpInlineButton = easyModeInput.inlineHelpEl?.querySelector(
+        '.sky-help-inline',
+      ) as HTMLElement | undefined;
+      helpInlineButton?.click();
+
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      helpController.expectCurrentHelpKey('index.html');
+    });
+
     it('should add character count', async () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 
@@ -669,6 +769,8 @@ describe('Input box component', () => {
 
       expect(characterCountLabelEl).toHaveText('0/10');
 
+      validateLabelAccessibilityLabel(els, 'Easy mode 0 characters out of 10');
+
       fixture.componentInstance.easyModeValue = 'def';
 
       fixture.detectChanges();
@@ -678,11 +780,39 @@ describe('Input box component', () => {
 
       expect(characterCountLabelEl).toHaveText('3/10');
 
+      // Aria-label updates when not focused
+      validateLabelAccessibilityLabel(els, 'Easy mode 3 characters out of 10');
+
       fixture.componentInstance.easyModeCharacterLimit = 11;
 
       fixture.detectChanges();
 
       expect(characterCountLabelEl).toHaveText('3/11');
+
+      // Aria-label updates when not focused
+      validateLabelAccessibilityLabel(els, 'Easy mode 3 characters out of 11');
+
+      SkyAppTestUtility.fireDomEvent(els.inputEl, 'focusin');
+
+      fixture.componentInstance.easyModeValue = 'kitten';
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      fixture.detectChanges();
+
+      expect(characterCountLabelEl).toHaveText('6/11');
+
+      // Aria-label does not update when focused
+      validateLabelAccessibilityLabel(els, 'Easy mode 3 characters out of 11');
+
+      SkyAppTestUtility.fireDomEvent(els.inputEl, 'focusout');
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Aria-label updates when focus lis lost
+      validateLabelAccessibilityLabel(els, 'Easy mode 6 characters out of 11');
     });
 
     it('should remove character count when character limit is set to undefined', () => {
@@ -699,6 +829,28 @@ describe('Input box component', () => {
       els = getDefaultEls(fixture, 'input-easy-mode');
 
       expect(els.characterCountEl).not.toExist();
+    });
+
+    it('should set required if set by the child via host service', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      const hostServiceInputBox = fixture.debugElement
+        .query(By.css('.easy-input-host-service sky-input-box'))
+        .injector.get(SkyInputBoxHostService);
+
+      fixture.detectChanges();
+
+      let requiredLabel = fixture.nativeElement.querySelector(
+        '.easy-input-host-service .sky-control-label-required',
+      );
+      expect(requiredLabel).not.toExist();
+
+      hostServiceInputBox.setRequired(true);
+      fixture.detectChanges();
+
+      requiredLabel = fixture.nativeElement.querySelector(
+        '.easy-input-host-service .sky-control-label-required',
+      );
+      expect(requiredLabel).toExist();
     });
 
     it('should add hint text', () => {
@@ -729,6 +881,123 @@ describe('Input box component', () => {
       expect(els.hintTextEl).not.toExist();
 
       expect(els.inputEl?.hasAttribute('aria-describedby')).toBeFalse();
+    });
+
+    it('should allow a child to add hint text programmatically', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-host-service');
+
+      expect(els.hintTextEl).toHaveText('Host component hint text.');
+    });
+
+    it('should allow both child and consumer specified hint text', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.componentInstance.easyModeHintText = 'Consumer hint text.';
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-host-service');
+
+      expect(els.hintTextEl).toHaveText(
+        'Consumer hint text. Host component hint text.',
+      );
+    });
+
+    it('should hide hint text when `setHintTextHidden` is called with `true`', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+      fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextHidden(
+        true,
+      );
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-host-service');
+
+      expect(els.hintTextEl).not.toBeVisible({ checkCssVisibility: true });
+      await expectAsync(els.inputBoxEl).toBeAccessible();
+    });
+
+    it('should show hint text when `setHintTextHidden` is called with `false`', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+      fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextHidden(
+        false,
+      );
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-host-service');
+
+      expect(els.hintTextEl).toBeVisible({ checkCssVisibility: true });
+      await expectAsync(els.inputBoxEl).toBeAccessible();
+    });
+
+    it('should hide hint text when `setHintTextScreenReaderOnly` is called with `true`', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+      fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextScreenReaderOnly(
+        true,
+      );
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-host-service');
+
+      expect(els.hintTextEl).toHaveClass('sky-screen-reader-only');
+      await expectAsync(els.inputBoxEl).toBeAccessible();
+    });
+
+    it('should show hint text when `setHintTextScreenReaderOnly` is called with `false`', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+      fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextScreenReaderOnly(
+        false,
+      );
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-host-service');
+
+      expect(els.hintTextEl).not.toHaveClass('sky-screen-reader-only');
+      await expectAsync(els.inputBoxEl).toBeAccessible();
+    });
+
+    it('should get whether the component contains an element', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const elementInside = fixture.nativeElement.querySelector(
+        '.input-inside-host-service',
+      );
+
+      expect(
+        fixture.componentInstance.inputBoxHostServiceComponent?.containsElement(
+          elementInside,
+        ),
+      ).toBeTrue();
+
+      const elementNotInside = fixture.nativeElement.querySelector(
+        '.input-not-wrapped-no-autocomplete',
+      );
+
+      expect(
+        fixture.componentInstance.inputBoxHostServiceComponent?.containsElement(
+          elementNotInside,
+        ),
+      ).toBeFalse();
+    });
+
+    it('should query an element inside the input box component', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const elementInside = fixture.nativeElement.querySelector(
+        '.input-inside-host-service',
+      );
+      const queriedElement =
+        fixture.componentInstance.inputBoxHostServiceComponent?.queryInputBox(
+          '.input-inside-host-service',
+        );
+
+      expect(elementInside === queriedElement).toBeTrue();
     });
 
     it('should preserve existing aria-describedby attributes when adding hint text', () => {
@@ -762,7 +1031,7 @@ describe('Input box component', () => {
       expect(els.inputEl?.id).toBe('input-box-existing-id-123');
     });
 
-    it('should set autocomplete to off if not specified', async () => {
+    it('should set autocomplete to off if not specified', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
@@ -773,7 +1042,7 @@ describe('Input box component', () => {
       );
     });
 
-    it('should set autocomplete to off if specified as undefined', async () => {
+    it('should set autocomplete to off if specified as undefined', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
@@ -784,7 +1053,7 @@ describe('Input box component', () => {
       );
     });
 
-    it('should not overwrite autocomplete if specified', async () => {
+    it('should not overwrite autocomplete if specified', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.componentInstance.autocomplete = 'fname';
       fixture.detectChanges();
@@ -796,7 +1065,7 @@ describe('Input box component', () => {
       );
     });
 
-    it('should not set autocomplete to off if not specified if not wrapped in an input box', async () => {
+    it('should not set autocomplete to off if not specified if not wrapped in an input box', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
@@ -807,7 +1076,7 @@ describe('Input box component', () => {
       );
     });
 
-    it('should not set autocomplete to off if specified as undefined if not wrapped in an input box', async () => {
+    it('should not set autocomplete to off if specified as undefined if not wrapped in an input box', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
@@ -818,7 +1087,7 @@ describe('Input box component', () => {
       );
     });
 
-    it('should not overwrite autocomplete if specified if not wrapped in an input box', async () => {
+    it('should not overwrite autocomplete if specified if not wrapped in an input box', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.componentInstance.autocomplete = 'fname';
       fixture.detectChanges();
@@ -839,18 +1108,7 @@ describe('Input box component', () => {
     function getModernEls(
       fixture: ComponentFixture<any>,
       parentCls: string,
-    ): {
-      characterCountEl: HTMLElement | null;
-      inputBoxEl: HTMLElement | null;
-      inputEl: HTMLElement | null;
-      inputGroupBtnEls: HTMLElement[];
-      insetBtnEl: HTMLElement | null;
-      insetIconEl: HTMLElement | null;
-      insetIconWrapperEl: HTMLElement | null;
-      leftInsetIconEl: HTMLElement | null;
-      labelEl: HTMLLabelElement | null;
-      inlineHelpEl: HTMLElement | null;
-    } {
+    ): InputBoxElements {
       const inputBoxEl = getInputBoxEl(fixture, parentCls);
 
       const inputGroupEl = inputBoxEl?.querySelector(
@@ -863,6 +1121,10 @@ describe('Input box component', () => {
 
       const formGroupInnerEl = formGroupEl?.querySelector(
         '.sky-input-box-form-group-inner',
+      ) as HTMLElement | null;
+
+      const hintTextEl = formGroupEl?.querySelector(
+        '.sky-input-box-hint-text',
       ) as HTMLElement | null;
 
       const labelEl = formGroupInnerEl?.querySelector(
@@ -912,6 +1174,8 @@ describe('Input box component', () => {
         leftInsetIconEl,
         labelEl,
         inlineHelpEl,
+        hintTextEl,
+        inputGroupEl,
       };
     }
 
@@ -957,6 +1221,7 @@ describe('Input box component', () => {
       expect(els.labelEl).toExist();
       expect(els.inputEl).toExist();
       expect(els.labelEl?.htmlFor).toBe(els.inputEl?.id);
+      validateLabelAccessibilityLabel(els, null);
 
       expect(els.inputEl?.tagName).toBe('INPUT');
     });
@@ -1266,7 +1531,7 @@ describe('Input box component', () => {
       expect(errorEl).toHaveText('Error: Easy mode is required.');
     });
 
-    it('should add required attributes to label and input when required', async () => {
+    it('should add required attributes to label and input when required', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 

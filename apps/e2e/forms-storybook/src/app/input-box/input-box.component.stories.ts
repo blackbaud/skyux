@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { InputBoxComponent } from './input-box.component';
 import { InputBoxModule } from './input-box.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<InputBoxComponent>;
-const Template: Story<InputBoxComponent> = (args: InputBoxComponent) => ({
-  props: args,
-});
-export const InputBox = Template.bind({});
+type Story = StoryObj<InputBoxComponent>;
+export const InputBox: Story = {};
 InputBox.args = {};

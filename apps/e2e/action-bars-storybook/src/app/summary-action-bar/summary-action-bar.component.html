@@ -1,5 +1,5 @@
 <ng-template #actionBar>
-  <sky-summary-action-bar id="summary-action-bar">
+  <sky-summary-action-bar id="summary-action-bar" [formErrors]="errors">
     <sky-summary-action-bar-actions>
       <sky-summary-action-bar-primary-action>
         Primary
@@ -30,27 +30,34 @@
     </sky-summary-action-bar-summary>
   </sky-summary-action-bar>
 </ng-template>
-<sky-split-view
-  dock="fill"
-  backButtonText="Responsive button text"
-  *ngIf="type === 'split-view'"
->
-  <sky-split-view-drawer>Drawer</sky-split-view-drawer>
-  <sky-split-view-workspace>
-    <sky-split-view-workspace-content>Content</sky-split-view-workspace-content>
-    <sky-split-view-workspace-footer
-      ><ng-container *ngTemplateOutlet="actionBar"></ng-container
-    ></sky-split-view-workspace-footer>
-  </sky-split-view-workspace>
-</sky-split-view>
-<sky-tabset *ngIf="type === 'tab'">
-  <sky-tab tabHeading="Tab 1">
-    Content for Tab 1
-    <ng-container *ngTemplateOutlet="actionBar"></ng-container>
-  </sky-tab>
-  <sky-tab tabHeading="Tab 2"> Content for Tab 2 </sky-tab>
-</sky-tabset>
-<ng-container *ngIf="type === 'page'">
-  <ng-container *ngTemplateOutlet="actionBar"></ng-container>
-</ng-container>
-<span id="ready" *ngIf="ready$ | async"></span>
+@if (type === 'split-view') {
+  <sky-split-view dock="fill" backButtonText="Responsive button text">
+    <sky-split-view-drawer>Drawer</sky-split-view-drawer>
+    <sky-split-view-workspace>
+      <sky-split-view-workspace-content
+        >Content</sky-split-view-workspace-content
+      >
+      <sky-split-view-workspace-footer #workspaceRef="skyResponsiveHost">
+        <ng-container
+          [ngTemplateOutlet]="actionBar"
+          [ngTemplateOutletInjector]="workspaceRef.injector"
+        />
+      </sky-split-view-workspace-footer>
+    </sky-split-view-workspace>
+  </sky-split-view>
+}
+@if (type === 'tab') {
+  <sky-tabset>
+    <sky-tab #tabRef="skyResponsiveHost" tabHeading="Tab 1">
+      Content for Tab 1
+      <ng-container
+        [ngTemplateOutlet]="actionBar"
+        [ngTemplateOutletInjector]="tabRef.injector"
+      />
+    </sky-tab>
+    <sky-tab tabHeading="Tab 2"> Content for Tab 2 </sky-tab>
+  </sky-tabset>
+}
+@if (type === 'page') {
+  <ng-container *ngTemplateOutlet="actionBar" />
+}

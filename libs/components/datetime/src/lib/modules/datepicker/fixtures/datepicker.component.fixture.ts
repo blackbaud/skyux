@@ -3,13 +3,14 @@ import { Component, ViewChild } from '@angular/core';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
-import { SkyDatepickerCalendarChange } from '../datepicker-calendar-change';
+import { SkyDatepickerCalendarChange } from '../calendar/datepicker-calendar-change';
 import { SkyDatepickerInputDirective } from '../datepicker-input.directive';
 import { SkyDatepickerComponent } from '../datepicker.component';
 
 @Component({
   selector: 'sky-datepicker-test',
   templateUrl: './datepicker.component.fixture.html',
+  standalone: false,
 })
 export class DatepickerTestComponent {
   public dateFormat: string | undefined;
@@ -19,6 +20,8 @@ export class DatepickerTestComponent {
   public maxDate: Date | undefined;
 
   public minDate: Date | undefined;
+
+  public startAtDate: Date | undefined;
 
   public noValidate = false;
 

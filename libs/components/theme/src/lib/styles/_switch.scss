@@ -1,119 +1,131 @@
 @use 'mixins' as mixins;
 @use 'variables' as *;
 
-$sky-switch-size: 22px !default;
-
-.sky-switch {
+@include mixins.sky-component('default', '.sky-switch') {
   cursor: pointer;
   display: inline-flex;
   position: relative;
+
+  &:has(~ .sky-control-help-container) .sky-switch-label {
+    margin-right: 0;
+  }
+
+  &.sky-switch-disabled {
+    cursor: default;
+
+    input {
+      cursor: default;
+    }
+  }
+
+  &.sky-control-label-required {
+    .sky-switch-label {
+      margin-right: 0;
+    }
+  }
 
   &:hover .sky-switch-control {
     border-color: var(--sky-highlight-color-info);
     border-width: 2px;
   }
-}
 
-.sky-switch-disabled {
-  cursor: default;
+  .sky-switch-input {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    outline: 0;
+    -webkit-appearance: none;
 
-  input {
-    cursor: default;
-  }
-}
-
-.sky-switch-input {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-  outline: 0;
-  -webkit-appearance: none;
-
-  &:checked:not(:disabled) + .sky-switch-control,
-  &[type='checkbox']:indeterminate:not(:disabled) + .sky-switch-control {
-    background-color: var(--sky-background-color-input-selected);
-    border-color: var(--sky-highlight-color-info);
-    border-width: 2px;
-
-    &.sky-switch-control-success {
-      background-color: lighten($sky-background-color-success, 10%);
-      border-color: var(--sky-highlight-color-success);
+    &.sky-switch-invalid + .sky-switch-control {
+      @include mixins.sky-field-status('invalid');
     }
 
-    &.sky-switch-control-warning {
-      background-color: lighten($sky-background-color-warning, 10%);
-      border-color: var(--sky-highlight-color-warning);
+    &:checked:not(:disabled) + .sky-switch-control,
+    &[type='checkbox']:indeterminate:not(:disabled) + .sky-switch-control {
+      background-color: var(--sky-background-color-input-selected);
+      border-color: var(--sky-highlight-color-info);
+      border-width: 2px;
+
+      &.sky-switch-control-success {
+        background-color: lighten($sky-background-color-success, 10%);
+        border-color: var(--sky-highlight-color-success);
+      }
+
+      &.sky-switch-control-warning {
+        background-color: lighten($sky-background-color-warning, 10%);
+        border-color: var(--sky-highlight-color-warning);
+      }
+
+      &.sky-switch-control-danger {
+        background-color: lighten($sky-background-color-danger, 10%);
+        border-color: var(--sky-highlight-color-danger);
+      }
     }
 
-    &.sky-switch-control-danger {
-      background-color: lighten($sky-background-color-danger, 10%);
-      border-color: var(--sky-highlight-color-danger);
+    &:disabled + .sky-switch-control {
+      background-color: var(--sky-background-color-disabled);
+    }
+
+    &:focus + .sky-switch-control {
+      //default
+      outline: thin dotted;
+
+      //webkit
+      outline: -webkit-focus-ring-color auto 5px;
     }
   }
 
-  &:disabled + .sky-switch-control {
-    background-color: var(--sky-background-color-disabled);
+  .sky-switch-control {
+    width: var(--sky-switch-size);
+    max-width: var(--sky-switch-size);
+    height: var(--sky-switch-size);
+    flex: 1 0 var(--sky-switch-size);
+    margin: 0 var(--sky-switch-margin) auto auto;
+    display: inline-flex;
+    position: relative;
+    border: 1px solid $sky-background-color-disabled;
+    background-color: $sky-color-white;
+    color: var(--sky-text-color-default);
+    text-align: center;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+
+    &.sky-switch-control-icon {
+      max-width: none;
+      width: 35px;
+      height: 35px;
+      flex: 1 0 35px;
+      font-size: 18px;
+
+      i {
+        justify-content: center;
+      }
+    }
+
+    &::before {
+      content: '';
+    }
   }
 
-  &:focus + .sky-switch-control {
-    @include mixins.sky-focus-outline;
-  }
-}
-
-.sky-switch-control {
-  width: $sky-switch-size;
-  max-width: $sky-switch-size;
-  height: $sky-switch-size;
-  flex: 1 0 $sky-switch-size;
-  margin: 0 5px auto auto;
-  display: inline-flex;
-  position: relative;
-  border: 1px solid $sky-background-color-disabled;
-  background-color: $sky-color-white;
-  color: var(--sky-text-color-default);
-  text-align: center;
-  line-height: 1;
-  align-items: center;
-  justify-content: center;
-
-  &.sky-switch-control-icon {
-    max-width: none;
-    width: 35px;
-    height: 35px;
-    flex: 1 0 35px;
-    font-size: 18px;
-  }
-
-  &::before {
-    content: '';
-  }
-}
-
-.sky-switch-label {
-  line-height: $sky-switch-size;
-  flex: 1 1 auto;
-  width: 100%;
-  margin-right: $sky-margin;
-
-  // Prevent truncated text from spilling out of bounds.
-  // See: https://css-tricks.com/flexbox-truncated-text/
-  min-width: 0;
-}
-
-.sky-control-label-required {
   .sky-switch-label {
-    margin-right: 0;
+    line-height: var(--sky-switch-size);
+    flex: 1 1 auto;
+    width: 100%;
+    margin-right: $sky-margin;
+
+    // Prevent truncated text from spilling out of bounds.
+    // See: https://css-tricks.com/flexbox-truncated-text/
+    min-width: 0;
   }
 }
 
-.sky-switch-icon-group {
-  display: flex;
-
+@include mixins.sky-component('default', '.sky-switch-icon-group') {
   .sky-switch-control-icon {
     margin-left: 0;
     margin-right: 0;

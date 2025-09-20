@@ -27,6 +27,10 @@
     "_description": "aria label for the red input",
     "message": "Red value between 0 and 255"
   },
+  "skyux_colorpicker_aria_rgba": {
+    "_description": "Aria label for the RGBA fieldset",
+    "message": "RGBA values"
+  },
   "skyux_colorpicker_blue": {
     "_description": "Label for the blue input",
     "message": "B:"

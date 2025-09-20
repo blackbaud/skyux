@@ -1,0 +1,22 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "avatar": {
+      "development": {
+        "docsIds": [
+          "SkyAvatarModule",
+          "SkyAvatarComponent",
+          "SkyAvatarSize",
+          "SkyAvatarSrc"
+        ],
+        "primaryDocsId": "SkyAvatarModule"
+      },
+      "testing": {
+        "docsIds": ["SkyAvatarHarness", "SkyAvatarHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": ["AvatarExampleComponent"]
+      }
+    }
+  }
+}

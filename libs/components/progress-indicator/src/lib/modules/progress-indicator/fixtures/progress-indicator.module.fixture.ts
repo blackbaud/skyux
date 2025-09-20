@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { SkyProgressIndicatorModule } from '../progress-indicator.module';
@@ -11,7 +10,7 @@ import { SkyProgressIndicatorFixtureComponent } from './progress-indicator.compo
     SkyProgressIndicatorFixtureComponent,
     SkyProgressIndicatorProgressHandlerFixtureComponent,
   ],
-  imports: [CommonModule, SkyProgressIndicatorModule],
+  imports: [SkyProgressIndicatorModule],
   exports: [
     SkyProgressIndicatorFixtureComponent,
     SkyProgressIndicatorProgressHandlerFixtureComponent,

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { SkyDateRangePickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -7,6 +6,7 @@ import { SkyFilterModule } from '@skyux/lists';
 @Component({
   selector: 'app-filter-visual',
   templateUrl: './filter-visual.component.html',
+  standalone: false,
 })
 export class FilterVisualComponent {
   public filtersActive = false;
@@ -63,12 +63,7 @@ export class FilterVisualComponent {
 }
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyDateRangePickerModule,
-    SkyFilterModule,
-    SkyInputBoxModule,
-  ],
+  imports: [SkyDateRangePickerModule, SkyFilterModule, SkyInputBoxModule],
   declarations: [FilterVisualComponent],
   exports: [FilterVisualComponent],
 })

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -6,11 +5,9 @@ import { SkyAutocompleteModule } from '@skyux/lookup';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-test-cmp-modal',
   templateUrl: './modal-form-demo.component.html',
   imports: [
-    CommonModule,
     SkyAutocompleteModule,
     SkyIdModule,
     SkyInputBoxModule,

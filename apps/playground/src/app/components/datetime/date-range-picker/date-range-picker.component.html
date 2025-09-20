@@ -1,125 +1,124 @@
-<div class="date-range-demo">
-  <form id="screenshot-date-range-picker" novalidate [formGroup]="reactiveForm">
-    <sky-input-box stacked="true">
-      <label class="sky-control-label"> First name </label>
-      <input
-        formControlName="firstName"
-        type="text"
-        spellcheck="false"
-        class="sky-form-control"
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <sky-date-range-picker
+    formControlName="lastDonation"
+    label="Last donation"
+    labelText="Last donation label"
+    helpKey="helpKey.html"
+    stacked
+    [calculatorIds]="calculatorIds"
+    [dateFormat]="dateFormat"
+    [hintText]="hintText"
+  >
+    @if (lastDonationControl.errors?.['dateWeekend']) {
+      <sky-form-error
+        errorName="dateWeekend"
+        errorText="Do not pick a weekend."
       />
-    </sky-input-box>
-    <div class="sky-margin-stacked-lg">
-      <sky-date-range-picker
-        formControlName="lastDonation"
-        label="Last donation"
-        [calculatorIds]="calculatorIds"
-        [dateFormat]="dateFormat"
-        [endDateRequired]="endDateRequired"
-        [startDateRequired]="startDateRequired"
-      >
-      </sky-date-range-picker>
-    </div>
-    <sky-input-box stacked="true">
-      <label class="sky-control-label"> First name </label>
-      <input
-        formControlName="firstName"
-        type="text"
-        spellcheck="false"
-        class="sky-form-control"
-      />
-    </sky-input-box>
+    }
+  </sky-date-range-picker>
 
-    <div class="sky-form-group">
-      <button class="sky-btn sky-btn-default" type="button" (click)="submit()">
-        Submit
-      </button>
-    </div>
-  </form>
+  <button class="sky-btn sky-btn-default" type="submit">Submit</button>
+</form>
 
-  <h3>&lt;sky-date-range-picker&gt; statuses</h3>
+<h3>Value</h3>
+<pre>{{ formGroup.value | json }}</pre>
 
-  <table>
-    <tr>
-      <th>Touched</th>
-      <td>{{ pickerFormControl.touched }}</td>
-    </tr>
-    <tr>
-      <th>Pristine</th>
-      <td>{{ pickerFormControl.pristine }}</td>
-    </tr>
-    <tr>
-      <th>Valid</th>
-      <td>{{ pickerFormControl.valid }}</td>
-    </tr>
-  </table>
+<h3>Errors</h3>
+<pre>{{ lastDonationControl.errors | json }}</pre>
 
-  <div *ngIf="pickerFormControl.errors" class="sky-error-label">
-    {{ pickerFormControl.errors | json }}
-  </div>
+<h3>Statuses</h3>
+<pre>
+Dirty?   {{ lastDonationControl.dirty }}
+Valid?   {{ lastDonationControl.valid }}
+Touched? {{ lastDonationControl.touched }}
+</pre>
 
-  <h3>&lt;sky-date-range-picker&gt; value</h3>
-
-  <pre *ngIf="reactiveForm.valid">
-    <code style="display:block">
-      calculatorId: {{ reactiveForm.value.lastDonation?.calculatorId }}
-      startDate: {{ reactiveForm.value.lastDonation?.startDate | skyDate }}
-      endDate: {{ reactiveForm.value.lastDonation?.endDate | skyDate }}
-    </code>
-  </pre>
-
-  <pre *ngIf="!reactiveForm.valid">
-    Invalid - fix validity to show value
-  </pre>
-
-  <h3>Manipulate value and state</h3>
-
+<div>
   <button
-    class="sky-btn sky-btn-default"
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
-    (click)="toggleDisabled()"
+    (click)="changeValue()"
   >
-    Toggle disabled
+    Change value
   </button>
+
   <button
-    class="sky-btn sky-btn-default"
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
-    (click)="toggleStartDateRequired()"
+    (click)="changeCalculators()"
   >
-    Toggle start date required
+    Change calculators
   </button>
+
   <button
-    class="sky-btn sky-btn-default"
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
-    (click)="toggleEndDateRequired()"
+    (click)="setValidRange()"
   >
-    Toggle end date required
+    Set valid range
   </button>
-  <button class="sky-btn sky-btn-default" type="button" (click)="resetForm()">
-    Reset form
-  </button>
-  <button class="sky-btn sky-btn-default" type="button" (click)="setRange()">
-    Set specific range
-  </button>
+
   <button
-    class="sky-btn sky-btn-default"
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
     (click)="setInvalidRange()"
   >
     Set invalid range
   </button>
+
   <button
-    class="sky-btn sky-btn-default"
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
-    (click)="setInvalidDates()"
+    (click)="toggleDisabled()"
   >
-    Set invalid dates
+    Toggle disabled
   </button>
+
   <button
-    class="sky-btn sky-btn-default"
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
-    (click)="setDateFormat()"
+    (click)="toggleHintText()"
   >
-    Set date format
+    Toggle hint text
+  </button>
+
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
+    type="button"
+    (click)="toggleRequired()"
+  >
+    Toggle required
+  </button>
+
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
+    type="button"
+    (click)="changeDateFormat()"
+  >
+    Change date format
+  </button>
+
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
+    type="button"
+    (click)="changeLocale()"
+  >
+    Change locale
+  </button>
+
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
+    type="button"
+    (click)="resetForm()"
+  >
+    Reset form
+  </button>
+
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
+    type="button"
+    (click)="setUndefined()"
+  >
+    Set value to undefined
   </button>
 </div>

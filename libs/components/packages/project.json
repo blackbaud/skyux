@@ -5,10 +5,9 @@
   "projectType": "library",
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["libs/components/packages/**/*.ts"]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts"]
       }
     },
     "test": {
@@ -16,16 +15,8 @@
       "outputs": ["{workspaceRoot}/coverage/libs/components/packages"],
       "options": {
         "jestConfig": "libs/components/packages/jest.config.ts",
-        "passWithNoTests": true,
         "codeCoverage": true,
         "coverageReporters": ["html", "text"]
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true,
-          "runInBand": true
-        }
       }
     },
     "build": {
@@ -36,15 +27,16 @@
         "tsConfig": "libs/components/packages/tsconfig.lib.json",
         "packageJson": "libs/components/packages/package.json",
         "main": "libs/components/packages/src/index.ts",
-        "assets": ["libs/components/packages/*.md"]
-      }
-    },
-    "postbuild": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-packages.ts"
+        "assets": [
+          "libs/components/packages/collection.json",
+          "libs/components/packages/migrations.json",
+          "libs/components/packages/src/polyfills.js",
+          "libs/components/packages/src/schematics/**/schema.json",
+          "libs/components/packages/src/schematics/**/*.template",
+          "libs/components/packages/*.md"
+        ]
       }
     }
   },
-  "tags": ["component", "npm"]
+  "tags": ["npm"]
 }

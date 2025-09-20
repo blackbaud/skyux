@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
-import { SkyLayoutHostService } from '@skyux/core';
+import { SkyHelpService, SkyLayoutHostService } from '@skyux/core';
+import { SkyHelpTestingModule } from '@skyux/core/testing';
 
 import { SkyPageComponent } from './page.component';
 import { SkyPageModule } from './page.module';
@@ -19,7 +20,7 @@ describe('Page component', () => {
     layout: SkyPageLayoutType | undefined,
     expectedCssClass: string,
   ): void {
-    fixture.componentInstance.layout = layout;
+    fixture.componentRef.setInput('layout', layout);
     fixture.detectChanges();
 
     expect(fixture.nativeElement).toHaveCssClass(expectedCssClass);
@@ -27,7 +28,7 @@ describe('Page component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyPageModule],
+      imports: [SkyPageModule, SkyHelpTestingModule],
     });
 
     styleEl = document.createElement('style');
@@ -83,5 +84,29 @@ describe('Page component', () => {
     );
 
     fixture.destroy();
+  });
+
+  it(`should notify the help service that a page's default help key has been set when the 'helpKey' input is set`, () => {
+    const helpService = TestBed.inject(SkyHelpService);
+    const updateHelpSpy = spyOn(helpService, 'updateHelp').and.stub();
+
+    const fixture = TestBed.createComponent(SkyPageComponent);
+    fixture.detectChanges();
+
+    expect(updateHelpSpy).not.toHaveBeenCalled();
+
+    fixture.componentInstance.helpKey = 'test-help';
+    fixture.detectChanges();
+
+    expect(updateHelpSpy).toHaveBeenCalledWith({
+      pageDefaultHelpKey: 'test-help',
+    });
+
+    fixture.destroy();
+
+    expect(updateHelpSpy).toHaveBeenCalledWith({
+      pageDefaultHelpKey: undefined,
+    });
+    expect(updateHelpSpy).toHaveBeenCalledTimes(2);
   });
 });

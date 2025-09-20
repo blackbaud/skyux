@@ -10,6 +10,7 @@ import { SkyInputBoxHostService } from '@skyux/forms';
 @Component({
   selector: 'app-input-box-visual-host',
   templateUrl: './input-box-visual-host.component.html',
+  standalone: false,
 })
 export class InputBoxVisualHostComponent implements OnInit {
   @ViewChild('inputTemplateRef', {
@@ -25,6 +26,7 @@ export class InputBoxVisualHostComponent implements OnInit {
       this.inputBoxHostSvc.populate({
         inputTemplate: this.inputTemplateRef,
       });
+      this.inputBoxHostSvc.setHintText('Host hint text.');
     }
   }
 }

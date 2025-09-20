@@ -1,10 +1,9 @@
 <sky-modal>
   <sky-modal-header>
     Title
-    <sky-help-inline
-      *ngIf="showHelp"
-      class="sky-control-help"
-    ></sky-help-inline>
+    @if (showHelp) {
+      <sky-help-inline class="sky-control-help" />
+    }
   </sky-modal-header>
   <sky-modal-content>
     <label for="unsaved-work-checkbox">

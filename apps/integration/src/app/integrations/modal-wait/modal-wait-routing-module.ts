@@ -11,7 +11,7 @@ const routes: IntegrationRouteInfo[] = [
     component: ModalWaitComponent,
     data: {
       name: 'Wait inside Modal',
-      icon: 'spinner',
+      icon: 'spinner-ios',
     },
   },
 ];

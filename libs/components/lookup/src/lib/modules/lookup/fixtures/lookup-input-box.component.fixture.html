@@ -1,11 +1,17 @@
-<form [formGroup]="form" novalidate>
-  <sky-input-box hintText="Some hint text." id="my-lookup">
-    <label id="my-lookup-label"> My friends </label>
+<form novalidate [formGroup]="form">
+  <sky-input-box
+    labelText="My friends"
+    hintText="Some hint text."
+    id="my-lookup"
+  >
     <sky-lookup
       formControlName="friends"
+      [ariaLabel]="ariaLabel"
+      [ariaLabelledBy]="ariaLabelledBy"
       [autocompleteAttribute]="autocompleteAttribute"
       [data]="data"
       [enableShowMore]="enableShowMore"
+      [required]="required"
       [selectMode]="selectMode"
     />
   </sky-input-box>
@@ -13,3 +19,4 @@
 <button class="sky-btn sky-btn-primary" id="test-button" type="button">
   Test
 </button>
+<label id="my-lookup-label">Testing label</label>

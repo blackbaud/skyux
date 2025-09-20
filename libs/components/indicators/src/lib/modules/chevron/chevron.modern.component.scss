@@ -1,0 +1,14 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include mixins.sky-component('modern', '.sky-chevron') {
+  border: none;
+  background-color: transparent;
+  flex-shrink: 0;
+  line-height: 1;
+  margin: 0;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  vertical-align: top;
+}

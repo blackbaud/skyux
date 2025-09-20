@@ -1,5 +1,5 @@
 import { coerceNumberProperty } from '@angular/cdk/coercion';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -15,6 +15,7 @@ import {
   SimpleChanges,
   ViewChild,
   inject,
+  numberAttribute,
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SkyAgGridModule } from '@skyux/ag-grid';
@@ -32,7 +33,6 @@ import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import {
   Column,
   ColumnResizedEvent,
-  Events,
   GridOptions,
   SelectionChangedEvent,
 } from 'ag-grid-community';
@@ -47,7 +47,6 @@ import {
 
 import { SkyGridColumnComponent } from './grid-column.component';
 import { SkyGridColumnModelInterface } from './grid-column.model';
-import { SkyGridInlineHelpComponent } from './grid-inline-help/grid-inline-help.component';
 import { ColDefWithField, SkyGridService } from './grid.service';
 import { SkyGridColumnDescriptionModelChange } from './types/grid-column-description-model-change';
 import { SkyGridColumnHeadingModelChange } from './types/grid-column-heading-model-change';
@@ -67,12 +66,9 @@ let nextId = 0;
 
 @Component({
   selector: 'sky-grid',
-  standalone: true,
   imports: [
     AgGridModule,
     AsyncPipe,
-    SkyGridInlineHelpComponent,
-    NgIf,
     SkyAgGridModule,
     SkyDataManagerModule,
     SkyPagingModule,
@@ -220,7 +216,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
   /**
    * The width of the grid in pixels.
    */
-  @Input()
+  @Input({ transform: numberAttribute })
   public width: number | undefined;
 
   /**
@@ -265,8 +261,6 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
   @Output()
   public sortFieldChange = new EventEmitter<ListSortFieldSelectorModel>();
 
-  public displayedColumns: Array<SkyGridColumnModelInterface>;
-
   @ContentChildren(SkyGridColumnComponent)
   protected columnComponents: QueryList<SkyGridColumnComponent> | undefined;
 
@@ -291,7 +285,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
         .pipe(takeUntil(this.#ngUnsubscribe), takeUntil(this.#gridChanged))
         .subscribe(() => {
           this.selectedColumnIdsChange.emit(
-            grid.columnApi.getAllDisplayedColumns().map((col) => col.getId()),
+            grid.api.getAllDisplayedColumns().map((col) => col.getId()),
           );
         });
 
@@ -301,7 +295,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
           if (event.finished) {
             const columnWidthChanges: SkyGridColumnWidthModelChange[] = [];
 
-            grid.columnApi.getAllGridColumns().forEach((col: Column) => {
+            grid.api.getAllGridColumns().forEach((col: Column) => {
               columnWidthChanges.push({
                 id: col.getId(),
                 field: col.getColDef().field,
@@ -315,7 +309,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
       grid.sortChanged
         .pipe(takeUntil(this.#ngUnsubscribe), takeUntil(this.#gridChanged))
         .subscribe(() => {
-          const colStates = grid.columnApi.getColumnState();
+          const colStates = grid.api.getColumnState();
 
           for (const col of colStates) {
             if (col.sort) {
@@ -328,18 +322,18 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
           }
         });
 
-      grid.api.addEventListener(Events.EVENT_FIRST_DATA_RENDERED, () => {
+      grid.api.addEventListener('firstDataRendered', () => {
         this.pageCount$.next(grid.api.paginationGetTotalPages());
         if (this.page > 1) {
           this.pageChange(this.page);
         }
       });
 
-      grid.api.addEventListener(Events.EVENT_ROW_DATA_UPDATED, () => {
+      grid.api.addEventListener('rowDataUpdated', () => {
         this.pageCount$.next(grid.api.paginationGetTotalPages());
       });
 
-      grid.api.addEventListener(Events.EVENT_FILTER_CHANGED, () => {
+      grid.api.addEventListener('filterChanged', () => {
         this.pageCount$.next(grid.api.paginationGetTotalPages());
       });
     }
@@ -421,14 +415,14 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
           this.settings,
           this.columnComponents,
         );
-        this.agGrid?.api.setColumnDefs(colDefs);
+        this.agGrid?.api.setGridOption('columnDefs', colDefs);
       });
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (this.#viewReady) {
       if (Object.keys(changes).length === 1 && changes['data']) {
-        this.agGrid?.api.setRowData(this.data || []);
+        this.agGrid?.api.setGridOption('rowData', this.data || []);
       } else if (
         [
           'enableMultiselect',
@@ -442,13 +436,13 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
           this.#updateColumns();
         }
         this.#updateGridView();
-        this.agGrid?.api.setRowData(this.data || []);
+        this.agGrid?.api.setGridOption('rowData', this.data || []);
       }
       if ('selectedColumnIds' in changes) {
         const select = this.selectedColumnIds;
         if (select.length > 0) {
-          const columns = this.agGrid?.columnApi.getColumns();
-          this.agGrid?.columnApi.applyColumnState({
+          const columns = this.agGrid?.api.getColumns();
+          this.agGrid?.api.applyColumnState({
             state: columns
               .filter(
                 (col) =>
@@ -464,7 +458,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
             },
           });
         } else {
-          this.agGrid?.columnApi.applyColumnState({
+          this.agGrid?.api.applyColumnState({
             defaultState: {
               hide: false,
             },
@@ -472,7 +466,8 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
         }
       }
       if ('rowHighlightedId' in changes) {
-        this.agGrid?.api.setGetRowClass(
+        this.agGrid?.api.setGridOption(
+          'getRowClass',
           this.#gridService.getRowClassFn(this.settings),
         );
       }
@@ -501,7 +496,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
     /* istanbul ignore else */
     if (foundColumnModel) {
       foundColumnModel.headerName = change.value;
-      this.agGrid?.api.setColumnDefs(columns);
+      this.agGrid?.api.setGridOption('columnDefs', columns);
     }
   }
 
@@ -520,7 +515,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
     /* istanbul ignore else */
     if (foundColumnModel) {
       foundColumnModel.headerComponentParams.description = change.value;
-      this.agGrid?.api.setColumnDefs(columns);
+      this.agGrid?.api.setGridOption('columnDefs', columns);
     }
   }
 
@@ -535,15 +530,13 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
         ) !== `${page}`)
     ) {
       // When using a query parameter, send the change through the router.
-      this.#router
-        ?.navigate(['.'], {
-          relativeTo: this.#activatedRoute,
-          queryParams: {
-            [this.settings.pageQueryParam]: coerceNumberProperty(page),
-          },
-          queryParamsHandling: 'merge',
-        })
-        .then();
+      void this.#router?.navigate(['.'], {
+        relativeTo: this.#activatedRoute,
+        queryParams: {
+          [this.settings.pageQueryParam]: coerceNumberProperty(page),
+        },
+        queryParamsHandling: 'merge',
+      });
     } else if (page) {
       this.#goToPage(`${page}`);
     }
@@ -718,7 +711,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
       this.settings,
       this.columns,
     );
-    this.agGrid?.api.setColumnDefs(colDefs);
+    this.agGrid?.api.setGridOption('columnDefs', colDefs);
   }
 
   #emitSelectedRows(source: SkyGridSelectedRowsSource): void {

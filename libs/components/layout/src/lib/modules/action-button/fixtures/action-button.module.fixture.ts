@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -19,7 +18,7 @@ import { ActionButtonTestComponent } from './action-button.component.fixture';
     ActionButtonNgforTestComponent,
     ActionButtonLinksComponent,
   ],
-  imports: [CommonModule, RouterTestingModule, SkyActionButtonModule],
+  imports: [RouterTestingModule, SkyActionButtonModule],
   providers: [
     {
       provide: SkyHrefResolverService,

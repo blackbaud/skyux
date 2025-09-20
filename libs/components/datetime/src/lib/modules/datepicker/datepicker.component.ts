@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -14,46 +16,73 @@ import {
   TemplateRef,
   ViewChild,
   inject,
+  output,
 } from '@angular/core';
 import {
   SKY_STACKING_CONTEXT,
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
+  SkyAppFormat,
   SkyCoreAdapterService,
   SkyOverlayInstance,
   SkyOverlayService,
   SkyStackingContext,
 } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
+import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
-import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
-import { SkyDatepickerCalendarComponent } from './datepicker-calendar.component';
+import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
+
+import { SkyDatepickerCalendarChange } from './calendar/datepicker-calendar-change';
+import { SkyDatepickerCalendarComponent } from './calendar/datepicker-calendar.component';
 import { SkyDatepickerCustomDate } from './datepicker-custom-date';
+import { SkyDatepickerHostService } from './datepicker-host.service';
 
 let nextId = 0;
 
 /**
  * Creates the datepicker button and calendar.
- * You must wrap this component around an input with the `skyDatepickerInput` directive.
+ * You must wrap this component around an input with the `skyDatepickerInput`
+ * or `skyFuzzyDatepickerInput` directive.
  */
 @Component({
-  selector: 'sky-datepicker',
-  templateUrl: './datepicker.component.html',
-  styleUrls: ['./datepicker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    SkyDatepickerCalendarComponent,
+    SkyDatetimeResourcesModule,
+    SkyIconModule,
+  ],
+  providers: [SkyDatepickerHostService],
+  selector: 'sky-datepicker',
+  styleUrl: './datepicker.component.scss',
+  templateUrl: './datepicker.component.html',
 })
-export class SkyDatepickerComponent implements OnDestroy, OnInit {
+export class SkyDatepickerComponent
+  implements AfterViewInit, OnDestroy, OnInit
+{
   /**
    * Adds a class to the datepicker.
    * @default ""
    */
   @Input()
   public pickerClass: string | undefined = '';
+
+  public set dateFormat(value: string | undefined) {
+    this.#_dateFormat = value;
+    this.dateFormatChange.emit(value);
+    this.#populateInputBoxHelpText();
+  }
+
+  public get dateFormat(): string | undefined {
+    return this.#_dateFormat;
+  }
 
   public get disabled(): boolean | undefined {
     return this.#_disabled;
@@ -88,7 +117,19 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
    * @internal
    */
   @Output()
+  public dateFormatChange = new EventEmitter<string>();
+
+  /**
+   * @internal
+   */
+  @Output()
   public openChange = new EventEmitter<boolean>();
+
+  /**
+   * Fires when a user selects a date from the calendar.
+   * @internal
+   */
+  public calendarDateChange = output<Date>();
 
   public calendarId: string;
 
@@ -106,6 +147,8 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   public minDate: Date | undefined;
 
+  public startAtDate: Date | undefined;
+
   public startingDay: number | undefined;
 
   public triggerButtonId: string;
@@ -120,6 +163,8 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     if (value) {
       this.#_calendarRef = value;
 
+      this.#addKeyupListener();
+
       // Wait for the calendar component to render before gauging dimensions.
       setTimeout(() => {
         if (this.calendarRef) {
@@ -130,11 +175,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
           setTimeout(() => {
             if (this.calendarRef) {
-              this.#coreAdapter.getFocusableChildrenAndApplyFocus(
-                this.calendarRef,
-                '.sky-datepicker-calendar-inner',
-                false,
-              );
+              this.#coreAdapter.applyAutoFocus(this.calendarRef);
 
               this.isVisible = true;
               this.#changeDetector.markForCheck();
@@ -181,20 +222,28 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   #overlay: SkyOverlayInstance | undefined;
 
-  #overlayKeydownListener: Subscription | undefined;
+  #overlayKeyupListener: Subscription | undefined;
 
   #_calendarRef: ElementRef | undefined;
+
+  #_dateFormat: string | undefined;
 
   #_disabled: boolean | undefined = false;
 
   #_selectedDate: Date | undefined;
 
   #affixService: SkyAffixService;
+  readonly #appFormatter = inject(SkyAppFormat);
   #changeDetector: ChangeDetectorRef;
   #coreAdapter: SkyCoreAdapterService;
+  #dateFormatHintTextTemplateString = '';
   readonly #environmentInjector = inject(EnvironmentInjector);
+  readonly #resourceSvc = inject(SkyLibResourcesService);
   #overlayService: SkyOverlayService;
   readonly #zIndex: Observable<number> | undefined;
+
+  readonly #datepickerHostSvc = inject(SkyDatepickerHostService);
+  readonly #elementRef = inject(ElementRef);
 
   constructor(
     affixService: SkyAffixService,
@@ -230,7 +279,19 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
         inputTemplate: this.inputTemplateRef,
         buttonsTemplate: this.triggerButtonTemplateRef,
       });
+
+      this.#resourceSvc
+        .getString('skyux_datepicker_format_hint_text')
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((templateString) => {
+          this.#dateFormatHintTextTemplateString = templateString;
+          this.#populateInputBoxHelpText();
+        });
     }
+  }
+
+  public ngAfterViewInit(): void {
+    this.#datepickerHostSvc.init(this);
   }
 
   public ngOnDestroy(): void {
@@ -251,6 +312,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   }
 
   public onSelectedDateChange(value: Date): void {
+    this.calendarDateChange.emit(value);
     this.dateChange.emit(value);
     this.#closePicker();
   }
@@ -300,6 +362,25 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
         }
       }
     }
+  }
+
+  /**
+   * Whether the datepicker component contains the provided focus event target.
+   * @internal
+   */
+  public containsTarget(target: EventTarget): boolean {
+    return (
+      this.#elementRef.nativeElement.contains(target) ||
+      this.getPickerRef()?.nativeElement.contains(target)
+    );
+  }
+
+  /**
+   * Gets the element reference of the picker overlay.
+   * @internal
+   */
+  public getPickerRef(): ElementRef | undefined {
+    return this.#overlay?.componentRef.location;
   }
 
   #closePicker(): void {
@@ -382,8 +463,6 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
           }
         });
 
-      this.#addKeydownListener();
-
       overlay.attachTemplate(this.calendarTemplateRef);
 
       this.#overlay = overlay;
@@ -398,31 +477,52 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     }
   }
 
-  #addKeydownListener(): void {
-    this.#overlayKeydownListener = fromEvent<KeyboardEvent>(
-      window.document,
-      'keydown',
-    )
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((event) => {
-        const key = event.key?.toLowerCase();
-        if (key === 'escape' && this.isOpen) {
-          this.#closePicker();
-        }
-      });
+  #addKeyupListener(): void {
+    const datepickerCalendarElement = this.calendarRef?.nativeElement;
+
+    if (datepickerCalendarElement) {
+      this.#overlayKeyupListener = fromEvent<KeyboardEvent>(
+        datepickerCalendarElement,
+        'keyup',
+      )
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((event) => {
+          const key = event.key?.toLowerCase();
+          if (key === 'escape' && this.isOpen) {
+            this.#closePicker();
+          }
+        });
+    }
   }
 
   #removePickerEventListeners(): void {
     this.#calendarUnsubscribe.next();
     this.#calendarUnsubscribe.complete();
     this.#calendarUnsubscribe = new Subject<void>();
-    this.#overlayKeydownListener?.unsubscribe();
+    this.#overlayKeyupListener?.unsubscribe();
   }
 
   #cancelCustomDatesSubscription(): void {
     if (this.#customDatesSubscription) {
       this.#customDatesSubscription.unsubscribe();
       this.#customDatesSubscription = undefined;
+    }
+  }
+
+  #populateInputBoxHelpText(): void {
+    if (this.inputBoxHostService && this.inputTemplateRef) {
+      /* safety check */
+      /* istanbul ignore else */
+      if (this.dateFormat) {
+        this.inputBoxHostService?.setHintText(
+          this.#appFormatter.formatText(
+            this.#dateFormatHintTextTemplateString,
+            this.dateFormat,
+          ),
+        );
+      } else {
+        this.inputBoxHostService?.setHintText('');
+      }
     }
   }
 }

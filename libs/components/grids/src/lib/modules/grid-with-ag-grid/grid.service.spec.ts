@@ -27,7 +27,7 @@ describe('SkyGridService', () => {
       SkyGridDefaultOptions,
       [],
     );
-    expect(options.domLayout).toEqual('normal');
+    expect(options.domLayout).toEqual('autoHeight');
   });
 
   it('should retrieve options with column array', () => {
@@ -35,7 +35,7 @@ describe('SkyGridService', () => {
       {
         ...SkyGridDefaultOptions,
         enableMultiselect: true,
-        visibleRows: 'all',
+        visibleRows: 10,
       },
       [
         {
@@ -54,6 +54,6 @@ describe('SkyGridService', () => {
         },
       ],
     );
-    expect(gridOptions.domLayout).toEqual('autoHeight');
+    expect(gridOptions.domLayout).toEqual('normal');
   });
 });

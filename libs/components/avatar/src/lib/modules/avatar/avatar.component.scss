@@ -1,11 +1,15 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-avatar') {
+  --sky-override-avatar-file-drop-focus-outline: auto;
+}
+
 .sky-avatar {
   .sky-file-drop-col {
     flex-basis: initial;
   }
-}
 
-.sky-theme-modern {
   .sky-file-drop:focus {
-    outline: none;
+    outline: var(--sky-override-avatar-file-drop-focus-outline, none);
   }
 }

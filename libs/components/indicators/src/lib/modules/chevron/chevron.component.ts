@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
  * Creates an accessible button that wraps the chevron icon.
@@ -6,8 +7,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
  */
 @Component({
   selector: 'sky-chevron',
-  styleUrls: ['./chevron.component.scss'],
+  styleUrls: [
+    './chevron.default.component.scss',
+    './chevron.modern.component.scss',
+  ],
   templateUrl: './chevron.component.html',
+  hostDirectives: [SkyThemeComponentClassDirective],
+  standalone: false,
 })
 export class SkyChevronComponent {
   /**

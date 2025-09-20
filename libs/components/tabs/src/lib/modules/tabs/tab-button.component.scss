@@ -1,70 +1,77 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('sky-tab-button') {
+  --sky-override-closeable-tab-padding-right: 43px;
+  --sky-override-tab-close-active-hover-color: #fff;
+  --sky-override-tab-close-padding: 1px 6px;
+  --sky-override-tab-close-position: absolute;
+  --sky-override-tab-close-position-right: 10px;
+  --sky-override-tab-close-position-top: 10px;
+  --sky-override-tab-margin-right: #{$sky-margin-inline-compact};
+  --sky-override-tab-btn-wizard-disabled-background-color: var(
+    --sky-background-color-neutral-light
+  );
+  --sky-override-tab-btn-wizard-disabled-border-color: #{$sky-border-color-neutral-light};
+}
 
 .sky-btn-tab-wrapper {
   display: inline-block;
   position: relative;
-  margin-right: $sky-margin-inline-compact;
+  margin-right: var(
+    --sky-override-tab-margin-right,
+    var(--sky-space-gap-action_group-m)
+  );
 
   .sky-btn-tab-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    color: $sky-text-color-deemphasized;
-    padding: 1px 6px;
+    position: var(--sky-override-tab-close-position, static);
+    top: var(--sky-override-tab-close-position-top, none);
+    right: var(--sky-override-tab-close-position-right, none);
+    // Remove padding rule when default theme support is dropped as this will come from the button class
+    padding: var(
+      --sky-override-tab-close-padding,
+      var(--sky-comp-button-borderless-space-inset-top)
+        var(--sky-comp-button-borderless-space-inset-right)
+        var(--sky-comp-button-borderless-space-inset-bottom)
+        var(--sky-comp-button-borderless-space-inset-left)
+    );
 
-    &:hover {
-      color: $sky-text-color-default;
-      transition: color $sky-transition-time-short;
+    &.sky-btn-icon-borderless {
+      display: inline;
+      height: auto;
+      width: auto;
     }
   }
 
   &.sky-btn-tab-wrapper-selected:not(.sky-btn-tab-wrapper-disabled) {
     .sky-btn-tab-close {
-      color: #fff;
+      color: var(
+        --sky-override-tab-close-active-hover-color,
+        var(--sky-color-icon-deemphasized)
+      );
     }
   }
 
   &.sky-btn-tab-wrapper-disabled {
     cursor: not-allowed;
   }
-}
 
-.sky-tab-btn-closeable {
-  padding-right: 43px;
-}
-
-@include mixins.sky-theme-modern {
-  .sky-btn-tab-wrapper {
-    margin-right: $sky-theme-modern-margin-inline-sm;
-
-    .sky-btn-tab-close {
-      top: 12px;
-      right: 10px;
-    }
-
-    &.sky-btn-tab-wrapper-selected:not(.sky-btn-tab-wrapper-disabled) {
-      .sky-btn-tab-close {
-        color: $sky-text-color-deemphasized;
-      }
-    }
-  }
-
+  // this can be removed when v2 is the only BB style
   .sky-tab-btn-closeable {
-    padding-right: 44px;
+    padding-right: var(
+      --sky-override-closeable-tab-padding-right,
+      var(--sky-comp-tab-horizontal-space-inset-right)
+    );
   }
-}
 
-@include mixins.sky-theme-modern-dark {
-  .sky-btn-tab-wrapper {
-    .sky-btn-tab-close {
-      color: $sky-background-color-neutral-light;
-    }
-
-    &.sky-btn-tab-wrapper-selected:not(.sky-btn-tab-wrapper-disabled) {
-      .sky-btn-tab-close {
-        color: $sky-background-color-neutral-light;
-      }
-    }
+  a.sky-btn-tab-wizard.sky-btn-tab-disabled {
+    background-color: var(
+      --sky-override-tab-btn-wizard-disabled-background-color,
+      var(--sky-color-background-tab-wizard-disabled)
+    );
+    border-color: var(
+      --sky-override-tab-btn-wizard-disabled-border-color,
+      var(--sky-color-border-tab-wizard-disabled)
+    );
   }
 }

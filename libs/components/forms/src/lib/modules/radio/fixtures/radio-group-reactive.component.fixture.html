@@ -1,21 +1,38 @@
 <form [formGroup]="radioForm">
+  @if (showRadioGroup) {
   <sky-radio-group
-    *ngIf="showRadioGroup"
     class="form-group radio"
     formControlName="radioGroup"
     [ariaLabel]="ariaLabel"
     [ariaLabelledBy]="ariaLabelledBy"
+    [headingHidden]="headingHidden"
+    [headingLevel]="headingLevel"
+    [headingStyle]="headingStyle"
+    [headingText]="headingText"
+    [helpKey]="helpKey"
+    [helpPopoverContent]="helpPopoverContent"
+    [hintText]="hintText"
     [name]="groupName"
     [required]="required"
     [tabIndex]="tabIndex"
+    [stacked]="stacked"
   >
     <legend id="radio-group-label">Reactive Radio button options:</legend>
     <ul class="sky-list-unstyled">
-      <li *ngFor="let value of options">
+      @for (value of options; track value) {
+      <li>
         <sky-radio [disabled]="value.disabled" [id]="value.id" [value]="value">
           <sky-radio-label> Option {{ value.name }} </sky-radio-label>
         </sky-radio>
       </li>
+      }
     </ul>
+    @if (radioControl?.errors?.['incorrectOption']) {
+    <sky-form-error
+      errorName="incorrectOption"
+      errorText="This option is incorrect."
+    />
+    }
   </sky-radio-group>
+  }
 </form>

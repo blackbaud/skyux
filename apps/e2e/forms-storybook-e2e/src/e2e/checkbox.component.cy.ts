@@ -10,34 +10,50 @@ describe('forms-storybook - checkbox', () => {
       );
 
       it('should render the standard components', () => {
-        cy.get('app-checkbox')
+        cy.skyReady('app-checkbox');
+        cy.get('#touched-required-checkbox .sky-switch').click();
+        cy.get('#touched-required-checkbox .sky-switch').click();
+        cy.get('#touched-required-checkbox input').blur();
+        cy.get(
+          '#touched-required-checkbox sky-form-error .sky-status-indicator-message',
+        )
           .should('exist')
-          .should('be.visible')
+          .should('be.visible');
+        cy.get('#touched-easy-mode-checkbox .sky-switch').click();
+        cy.get('#touched-easy-mode-checkbox .sky-switch').click();
+        cy.get('#touched-easy-mode-checkbox input').blur();
+        cy.get(
+          '#touched-easy-mode-checkbox sky-form-error .sky-status-indicator-message',
+        )
+          .should('exist')
+          .should('be.visible');
+        cy.get('app-checkbox')
           .get('#standard-checkboxes')
           .should('exist')
           .should('be.visible')
-          .screenshot(`checkboxcomponent-checkbox--checkbox-${theme}-standard`)
-          .percySnapshot(
-            `checkboxcomponent-checkbox--checkbox-${theme}-standard`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-              scope: '#standard-checkboxes',
-            },
-          );
+          .screenshot(`checkboxcomponent-checkbox--checkbox-${theme}-standard`);
+        cy.skyVisualTest(
+          `checkboxcomponent-checkbox--checkbox-${theme}-standard`,
+          {
+            overwrite: true,
+          },
+          '#standard-checkboxes',
+        );
       });
 
       it('should render the icon components', () => {
-        cy.get('app-checkbox')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-checkbox')
           .get('#icon-checkboxes')
           .should('exist')
           .should('be.visible')
-          .screenshot(`checkboxcomponent-checkbox--checkbox-${theme}-icon`)
-          .percySnapshot(`checkboxcomponent-checkbox--checkbox-${theme}-icon`, {
-            widths: E2eVariations.DISPLAY_WIDTHS,
-            scope: '#icon-checkboxes',
-          });
+          .screenshot(`checkboxcomponent-checkbox--checkbox-${theme}-icon`);
+        cy.skyVisualTest(
+          `checkboxcomponent-checkbox--checkbox-${theme}-icon`,
+          {
+            overwrite: true,
+          },
+          '#icon-checkboxes',
+        );
       });
     });
   });

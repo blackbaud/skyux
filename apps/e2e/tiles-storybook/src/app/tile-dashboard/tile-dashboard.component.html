@@ -1,2 +1,4 @@
-<sky-tile-dashboard [(config)]="dashboardConfig"></sky-tile-dashboard>
-<span class="ready" *ngIf="ready$ | async"></span>
+<sky-tile-dashboard [(config)]="dashboardConfig" />
+@if (ready$ | async) {
+  <span class="ready"></span>
+}

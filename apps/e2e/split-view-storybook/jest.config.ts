@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'e2e-split-view-storybook',
   preset: '../../../jest.preset.js',

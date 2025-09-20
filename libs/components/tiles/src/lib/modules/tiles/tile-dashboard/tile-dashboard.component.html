@@ -1,22 +1,29 @@
-<ng-container *ngIf="config">
+@if (config) {
   <span aria-live="assertive" class="sky-assistive-text">
     {{ tileMovedReport }}
   </span>
+  @for (
+    column of config.layout.multiColumn;
+    track column;
+    let first = $first, last = $last
+  ) {
+    <sky-tile-dashboard-column
+      class="sky-tile-dashboard-layout-multi"
+      [ngClass]="{
+        'sky-tile-dashboard-layout-multi-first': first,
+        'sky-tile-dashboard-layout-multi-last': last
+      }"
+      [ngStyle]="{
+        'flex-basis': 100 / config.layout.multiColumn.length + '%'
+      }"
+    />
+  }
   <sky-tile-dashboard-column
-    *ngFor="let column of config.layout.multiColumn"
-    class="sky-tile-dashboard-layout-multi"
-    [ngStyle]="{
-      'flex-basis': 100 / config.layout.multiColumn.length + '%'
-    }"
-  >
-  </sky-tile-dashboard-column>
-  <sky-tile-dashboard-column
-    class="sky-tile-dashboard-layout-single"
     #singleColumn
-  >
-  </sky-tile-dashboard-column>
+    class="sky-tile-dashboard-layout-single"
+  />
   <span class="sky-screen-reader-only" [id]="moveInstructionsId">{{
     'skyux_tile_move_instructions' | skyLibResources
   }}</span>
   <ng-content />
-</ng-container>
+}

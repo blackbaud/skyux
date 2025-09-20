@@ -4,7 +4,7 @@ on:
     types:
       - closed
     branches:
-      - 7.x.x
+      - '[0-9]+.x.x'
 
 env:
   TARGET_BRANCH: main
@@ -15,29 +15,20 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         id: setup-node
         with:
+          cache: 'npm'
           node-version-file: '.nvmrc'
-
-      - name: Cache node modules
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-
       - name: npm install
-        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
-
       - name: Cherry pick
+        id: cherry-pick
         run: |
           # Set the git user to the author of the merge commit.
           git config user.name "$(git log -1 --pretty=format:'%an' ${{ github.event.pull_request.merge_commit_sha }})"
@@ -60,6 +51,34 @@ jobs:
             exit 0
           fi
 
+          # Capture @angular/core migrations.
+          FROM_VERSION=$(git cat-file --textconv origin/${{ env.FROM_BRANCH }}:package.json | jq -r '.dependencies["@angular/core"]')
+          TO_VERSION=$(jq -r '.dependencies["@angular/core"]' package.json)
+          npx nx migrate @angular/core \
+            --from="@angular/core@${FROM_VERSION}" \
+            --to="@angular/core@${TO_VERSION}"
+
+          # Remove migrations that are not needed for cherry-picks. They take too long to run and should not apply.
+          jq -r '.migrations | map(select(.name != "inject-flags")) | map(select(.name != "test-bed-get")) | {"migrations": .}' migrations.json >  migrations.json.tmp \
+            && mv migrations.json.tmp migrations.json
+
+          # Run the migrations and fix any formatting issues.
+          npx nx migrate --run-migrations --if-exists && npx nx format:write
+
+          if [ $? -ne 0 ]; then
+            echo "CHERRY_PICK_RESULT=failed" >> $GITHUB_ENV
+            exit 0
+          fi
+
+          rm -f ./migrations.json
+          # Any changes to package.json and package-lock.json should not be committed.
+          git restore package.json package-lock.json
+          git add -A
+          git status
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit --amend --no-edit
+          fi
+
           # Get the name of the cherry-pick branch.
           CHERRY_PICK_BRANCH=$(git branch --show-current)
           # Add the cherry-pick branch to the environment.
@@ -72,15 +91,18 @@ jobs:
             echo "CHERRY_PICK_RESULT=failed" >> $GITHUB_ENV
             exit 0
           fi
+
+          echo "commit_message=$(git log -1 --pretty=%s)" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         if: ${{ env.CHERRY_PICK_RESULT != 'failed' }}
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
             const pr = context.payload.pull_request;
+            const title = ${{ toJson(steps.cherry-pick.outputs.commit_message) }};
             let body = `:cherries: Cherry picked from #${pr.number} [${pr.title}](${pr.html_url})`
             const prAzureBoardLink = pr.body?.match(/(?<=\[)AB#\d+(?=])/g);
             if (prAzureBoardLink) {
@@ -91,27 +113,24 @@ jobs:
               repo: context.repo.repo,
               head: process.env.CHERRY_PICK_BRANCH,
               base: process.env.TARGET_BRANCH,
-              title: `${pr.title} (#${pr.number})`,
+              title,
               body
             }).then(result => {
               console.log(`Created PR #${result.data.number}: ${result.data.html_url}`);
               core.exportVariable('PR_URL', result.data.html_url);
               core.exportVariable('CHERRY_PICK_RESULT', 'success');
-              const riskLabels = pr.labels.map(label => label.name).filter(label => label.startsWith('risk level'));
-              if (riskLabels.length === 0) {
-                if (pr.labels.find(label => label.name.startsWith('autorelease'))) {
-                  // Changelog PR, so add minimal risk level labels.
-                  riskLabels.push('risk level (author): 1', 'risk level (reviewer): 1');
-                } else {
-                  // No risk level label found, so don't add any.
-                  return;
-                }
+              const labels = pr.labels.map(label => label.name).filter(label => label.startsWith('risk level') || label === 'skip e2e');
+              const assignees = pr.user.login && pr.user.type === 'User' && pr.user.login !== 'blackbaud-sky-build-user' ? [pr.user.login] : [];
+              if (labels.length === 0 && pr.labels.find(label => label.name.startsWith('autorelease'))) {
+                // Changelog PR, so add minimal risk level labels.
+                labels.push('risk level (author): 1');
               }
               return github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: result.data.number,
-                labels: riskLabels
+                assignees: assignees,
+                labels: labels
               });
             }).catch(error => {
               console.log(error);
@@ -121,7 +140,7 @@ jobs:
 
       - name: Comment on the original PR when cherry-pick is successful
         if: ${{ env.CHERRY_PICK_RESULT == 'success' }}
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
@@ -134,7 +153,7 @@ jobs:
 
       - name: Comment on the original PR when cherry-pick fails
         if: ${{ env.CHERRY_PICK_RESULT != 'success' }}
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |

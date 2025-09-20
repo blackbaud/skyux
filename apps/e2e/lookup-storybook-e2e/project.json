@@ -23,10 +23,9 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["apps/e2e/lookup-storybook-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
   },

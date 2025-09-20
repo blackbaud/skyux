@@ -1,0 +1,54 @@
+@if (fileItem) {
+  <div class="sky-file-item">
+    <div class="sky-file-item-title">
+      <div class="sky-file-item-name-container">
+        <div class="sky-file-item-name">
+          @if (isFile) {
+            {{ fileName }}
+          } @else {
+            {{ url }}
+          }
+        </div>
+        @if (isFile) {
+          <div class="sky-file-item-size">({{ fileSize | skyFileSize }})</div>
+        }
+      </div>
+      <div class="sky-file-item-controls">
+        <button
+          type="button"
+          class="sky-btn sky-btn-default sky-file-item-btn-delete"
+          [attr.aria-label]="
+            'skyux_file_attachment_file_item_delete'
+              | skyLibResources: (isFile ? fileName : url)
+          "
+          (click)="itemDelete()"
+        >
+          <sky-icon iconName="delete" />
+        </button>
+      </div>
+    </div>
+    <div class="sky-file-item-content">
+      <div class="sky-file-item-preview">
+        @if (isImage) {
+          <div class="sky-file-item-preview-img-container">
+            <img
+              class="sky-file-item-preview-img"
+              [src]="url"
+              [alt]="
+                'skyux_file_attachment_file_upload_image_preview_alt_text'
+                  | skyLibResources
+              "
+            />
+          </div>
+        } @else if (icon) {
+          <div class="sky-file-item-preview-other">
+            <sky-icon iconSize="xxxl" [iconName]="icon" />
+          </div>
+        }
+      </div>
+      <div class="sky-file-item-content-custom">
+        <ng-content />
+      </div>
+    </div>
+  </div>
+}

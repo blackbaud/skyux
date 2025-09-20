@@ -1,0 +1,22 @@
+{
+  "skyux_angular_tree_clear_all": {
+    "_description": "Texte pour le lien afin d’effacer toutes les cases.",
+    "message": "Effacer tout"
+  },
+  "skyux_angular_tree_click_to_expand": {
+    "_description": "Texte pour le bouton agrandir/réduire pour les trois points.",
+    "message": "Cliquez pour agrandir"
+  },
+  "skyux_angular_tree_collapse_all": {
+    "_description": "Texte pour le lien afin de réduire les trois points.",
+    "message": "Réduire"
+  },
+  "skyux_angular_tree_expand_all": {
+    "_description": "Texte pour le lien afin d’agrandir les trois points.",
+    "message": "Agrandir"
+  },
+  "skyux_angular_tree_select_all": {
+    "_description": "Texte pour le lien afin de sélectionner toutes les cases.",
+    "message": "Sélectionner tout"
+  }
+}

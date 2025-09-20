@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { ResponsiveComponent } from './responsive.component';
 import { ResponsiveModule } from './responsive.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<ResponsiveComponent>;
-const Template: Story<ResponsiveComponent> = (args: ResponsiveComponent) => ({
-  props: args,
-});
-export const Responsive = Template.bind({});
+type Story = StoryObj<ResponsiveComponent>;
+export const Responsive: Story = {};
 Responsive.args = {};

@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/components/pages/src",
   "prefix": "sky",
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
@@ -19,7 +20,21 @@
           "tsConfig": "libs/components/pages/tsconfig.lib.json"
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "projects": ["core", "indicators", "layout"],
+          "target": "build"
+        }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/pages/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/pages/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/pages/testing/src/**/fixtures/**/*"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -53,14 +68,13 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "libs/components/pages/src/**/*.ts",
-          "libs/components/pages/src/**/*.html"
+          "{projectRoot}/src/**/*.ts",
+          "{projectRoot}/src/**/*.html"
         ]
       }
     }
-  },
-  "tags": ["component", "npm"]
+  }
 }

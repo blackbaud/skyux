@@ -1,4 +1,5 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { FlyoutComponent } from './flyout.component';
 import { FlyoutModule } from './flyout.module';
@@ -13,23 +14,22 @@ export default {
     }),
   ],
 } as Meta<FlyoutComponent>;
-const Flyout: StoryFn<FlyoutComponent> = (args: FlyoutComponent) => ({
-  props: args,
-});
+type Story = StoryObj<FlyoutComponent>;
 
-export const FlyoutStandard = Flyout.bind({});
+export const FlyoutStandard: Story = {};
+FlyoutStandard.args = {};
 
-export const FlyoutHeaderButtons = Flyout.bind({});
+export const FlyoutHeaderButtons: Story = {};
 FlyoutHeaderButtons.args = { showHeaderButtons: true };
 
-export const FlyoutResponsiveXs = Flyout.bind({});
+export const FlyoutResponsiveXs: Story = {};
 FlyoutResponsiveXs.args = { responsive: 'xs' };
 
-export const FlyoutResponsiveSm = Flyout.bind({});
+export const FlyoutResponsiveSm: Story = {};
 FlyoutResponsiveSm.args = { responsive: 'sm' };
 
-export const FlyoutResponsiveMd = Flyout.bind({});
+export const FlyoutResponsiveMd: Story = {};
 FlyoutResponsiveMd.args = { responsive: 'md' };
 
-export const FlyoutResponsiveLg = Flyout.bind({});
+export const FlyoutResponsiveLg: Story = {};
 FlyoutResponsiveLg.args = { responsive: 'lg' };

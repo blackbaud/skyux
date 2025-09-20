@@ -482,14 +482,15 @@ describe('Timepicker', () => {
     it('should close picker when `escape` key is pressed', fakeAsync(() => {
       detectChangesAndTick(fixture);
       openTimepicker(fixture);
+      let picker = getTimepicker();
 
-      SkyAppTestUtility.fireDomEvent(window.document, 'keydown', {
+      SkyAppTestUtility.fireDomEvent(picker, 'keyup', {
         customEventInit: {
           key: 'escape',
         },
       });
       detectChangesAndTick(fixture);
-      const picker = getTimepicker();
+      picker = getTimepicker();
 
       expect(picker).toBeNull();
     }));
@@ -497,12 +498,13 @@ describe('Timepicker', () => {
     it('should handle non-keyboard events', fakeAsync(() => {
       detectChangesAndTick(fixture);
       openTimepicker(fixture);
+      let picker = getTimepicker();
 
-      SkyAppTestUtility.fireDomEvent(window.document, 'keydown', {
+      SkyAppTestUtility.fireDomEvent(picker, 'keyup', {
         customEventInit: {}, // Don't pass in a key value.
       });
       detectChangesAndTick(fixture);
-      const picker = getTimepicker();
+      picker = getTimepicker();
 
       expect(picker).not.toBeNull();
     }));
@@ -542,33 +544,6 @@ describe('Timepicker', () => {
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
-
-    it('should display the expected clock icon in the time button', fakeAsync(() => {
-      function validateIcon(iconCls: string): void {
-        const iconEl = fixture.nativeElement.querySelector(
-          '.sky-input-group-timepicker-btn .sky-icon',
-        );
-
-        expect(iconEl).toHaveCssClass(iconCls);
-      }
-
-      detectChangesAndTick(fixture);
-
-      validateIcon('fa-clock-o');
-
-      mockThemeSvc.settingsChange.next({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings:
-          mockThemeSvc.settingsChange.getValue().currentSettings,
-      });
-
-      detectChangesAndTick(fixture);
-
-      validateIcon('sky-i-clock');
-    }));
   });
 
   describe('template-driven form', () => {
@@ -616,6 +591,33 @@ describe('Timepicker', () => {
 
       expect(getInput(fixture).value).toBe('2:55 AM');
       expect(component.selectedTime?.local).toEqual('2:55 AM');
+    }));
+
+    it('should highlight the minute that is the passed multiple of five in the 12 hour picker', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+      setInput('2:33 AM', fixture);
+      openTimepicker(fixture);
+
+      const timepicker = getTimepicker();
+      const highlightedMinute = timepicker.querySelector(
+        'button[name="minute"].sky-btn-active',
+      );
+
+      expect(highlightedMinute).toHaveText('30');
+    }));
+
+    it('should highlight the minute that is the passed multiple of fifteen in the 24 hour picker ', fakeAsync(() => {
+      component.timeFormat = 'HH';
+      detectChangesAndTick(fixture);
+      setInput('02:23', fixture);
+      openTimepicker(fixture);
+
+      const timepicker = getTimepicker();
+      const highlightedMinute = timepicker.querySelector(
+        'button[name="minute"].sky-btn-active',
+      );
+
+      expect(highlightedMinute).toHaveText('15');
     }));
 
     it('should handle undefined date', fakeAsync(() => {
@@ -700,6 +702,29 @@ describe('Timepicker', () => {
     afterEach(() => {
       fixture.destroy();
     });
+
+    it('should not change date when switching meridies', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+      openTimepicker(fixture);
+      detectChangesAndTick(fixture);
+
+      const meridieButtons = getMeridieButtons();
+      const date = component.timepickerComponent.selectedTime?.iso8601.getDay;
+
+      meridieButtons.item(1).click();
+
+      expect(component.timepickerComponent.selectedTime?.meridie).toBe('PM');
+      expect(component.timepickerComponent.selectedTime?.iso8601.getDay).toBe(
+        date,
+      );
+
+      meridieButtons.item(0).click();
+
+      expect(component.timepickerComponent.selectedTime?.meridie).toBe('AM');
+      expect(component.timepickerComponent.selectedTime?.iso8601.getDay).toBe(
+        date,
+      );
+    }));
 
     it('should set the initial value correctly', fakeAsync(() => {
       detectChangesAndTick(fixture);
@@ -799,9 +824,9 @@ describe('Timepicker', () => {
       expect(getTriggerButton(fixture).disabled).toBeFalsy();
     }));
 
-    it('should immediately initialize input value', fakeAsync(() => {
+    it('should immediately initialize input value', fakeAsync(async () => {
       fixture.detectChanges();
-      fixture.whenStable();
+      await fixture.whenStable();
       expect(component.timeControlValueAfterInit.local).toEqual('2:55 AM');
     }));
   });

@@ -20,6 +20,7 @@ import { SkyAvatarSrc } from './avatar-src';
   styleUrls: ['./avatar.inner.component.scss'],
   providers: [SkyAvatarAdapterService],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
   public get src(): SkyAvatarSrc | undefined {
@@ -39,6 +40,16 @@ export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
   @Input()
   public set name(value: string | undefined) {
     this.#_name = value;
+
+    if (value) {
+      // Generate a unique-ish color based on the record name.  This is deterministic
+      // so that a given name will always generate the same color.
+      const seed =
+        value.charCodeAt(0) + value.charCodeAt(value.length - 1) + value.length;
+      this.#colorIndex = Math.abs(seed % 7);
+    } else {
+      this.#colorIndex = 0;
+    }
   }
 
   @Input()
@@ -74,21 +85,10 @@ export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
   }
 
   public get colorIndex(): number {
-    const name = this.name;
-    let colorIndex: number;
-
-    if (name) {
-      // Generate a unique-ish color based on the record name.  This is deterministic
-      // so that a given name will always generate the same color.
-      const seed =
-        name.charCodeAt(0) + name.charCodeAt(name.length - 1) + name.length;
-      colorIndex = Math.abs(seed % 6);
-    } else {
-      colorIndex = 0;
-    }
-
-    return colorIndex;
+    return this.#colorIndex;
   }
+
+  #colorIndex = 0;
 
   public ngAfterViewInit(): void {
     this.#viewInitialized = true;

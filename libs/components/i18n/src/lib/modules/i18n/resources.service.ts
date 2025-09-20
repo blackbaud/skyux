@@ -2,14 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, Optional, forwardRef } from '@angular/core';
 import { SkyAppAssetsService } from '@skyux/assets';
 
-import { Observable, forkJoin, of as observableOf } from 'rxjs';
 import {
-  catchError,
-  map,
-  publishReplay,
-  refCount,
-  switchMap,
-} from 'rxjs/operators';
+  Observable,
+  ReplaySubject,
+  forkJoin,
+  of as observableOf,
+  share,
+} from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { Format } from '../../utils/format';
 
@@ -17,7 +17,7 @@ import { SkyAppLocaleInfo } from './locale-info';
 import { SkyAppLocaleProvider } from './locale-provider';
 import { SkyAppResourceNameProvider } from './resource-name-provider';
 
-declare type SkyResourceType = { [key: string]: { message: string } };
+type SkyResourceType = Record<string, { message: string }>;
 type ResourceKey = string;
 type TemplatedResource = [ResourceKey, ...any[]];
 type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
@@ -35,8 +35,8 @@ function getDefaultObs(): Observable<SkyResourceType> {
   providedIn: 'root',
 })
 export class SkyAppResourcesService {
-  #resourcesObsCache: { [key: string]: Observable<SkyResourceType> } = {};
-  #httpObsCache: { [key: string]: Observable<SkyResourceType> } = {};
+  #resourcesObsCache: Record<string, Observable<SkyResourceType>> = {};
+  #httpObsCache: Record<string, Observable<SkyResourceType>> = {};
 
   #http: HttpClient;
   #assets: SkyAppAssetsService | undefined;
@@ -81,7 +81,7 @@ export class SkyAppResourcesService {
    * @return an `Observable` of a resource string dictionary in the same shape as the passed dictionary.
    *
    * @example
-   * ```
+   * ```typescript
    * service.getStrings({
    *    simpleKey: 'hello',
    *    arraySyntax: ['hi'],
@@ -134,7 +134,6 @@ export class SkyAppResourcesService {
     const resourcesObs: Observable<any> = localeInfoObs.pipe(
       switchMap((localeInfo) => {
         let obs: Observable<any>;
-        let resourcesUrl: string | undefined;
 
         // Use default locale if one not provided
         const locale = localeInfo.locale || this.#localeProvider.defaultLocale;
@@ -143,49 +142,46 @@ export class SkyAppResourcesService {
           return this.#resourcesObsCache[locale];
         }
 
-        resourcesUrl =
+        const resourcesUrl =
           this.#getUrlForLocale(locale) ||
           // Try falling back to the non-region-specific language.
-          this.#getUrlForLocale(locale.substr(0, 2));
-
-        // Finally fall back to the default locale.
-        resourcesUrl =
-          resourcesUrl ||
+          this.#getUrlForLocale(locale.substring(0, 2)) ||
+          // Finally fall back to the default locale.
           this.#getUrlForLocale(this.#localeProvider.defaultLocale);
 
         if (resourcesUrl) {
-          obs =
-            this.#httpObsCache[resourcesUrl] ||
-            this.#http.get<SkyResourceType>(resourcesUrl).pipe(
-              // publishReplay(1).refCount() will ensure future subscribers to
-              // this observable will use a cached result.
-              // https://stackoverflow.com/documentation/rxjs/8247/common-recipes/26490/caching-http-responses#t=201612161544428695958
-              publishReplay(1),
-              refCount(),
-              catchError(() => {
-                // The resource file for the specified locale failed to load;
-                // fall back to the default locale if it differs from the specified
-                // locale.
-                const defaultResourcesUrl = this.#getUrlForLocale(
-                  this.#localeProvider.defaultLocale,
-                );
+          if (!this.#httpObsCache[resourcesUrl]) {
+            this.#httpObsCache[resourcesUrl] = this.#http
+              .get<SkyResourceType>(resourcesUrl)
+              .pipe(
+                share({
+                  connector: () => new ReplaySubject(1),
+                  resetOnError: false,
+                  resetOnComplete: false,
+                  resetOnRefCountZero: false,
+                }),
+                catchError(() => {
+                  // The resource file for the specified locale failed to load;
+                  // fall back to the default locale if it differs from the specified
+                  // locale.
+                  const defaultResourcesUrl = this.#getUrlForLocale(
+                    this.#localeProvider.defaultLocale,
+                  );
 
-                if (
-                  defaultResourcesUrl &&
-                  defaultResourcesUrl !== resourcesUrl
-                ) {
-                  return this.#http.get<SkyResourceType>(defaultResourcesUrl);
-                }
+                  if (
+                    defaultResourcesUrl &&
+                    defaultResourcesUrl !== resourcesUrl
+                  ) {
+                    return this.#http.get<SkyResourceType>(defaultResourcesUrl);
+                  }
 
-                return getDefaultObs();
-              }),
-            );
+                  return getDefaultObs();
+                }),
+              );
+          }
+          obs = this.#httpObsCache[resourcesUrl];
         } else {
           obs = getDefaultObs();
-        }
-
-        if (resourcesUrl) {
-          this.#httpObsCache[resourcesUrl] = obs;
         }
         this.#resourcesObsCache[locale] = obs;
 

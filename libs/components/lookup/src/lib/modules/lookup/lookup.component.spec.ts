@@ -61,7 +61,7 @@ describe('Lookup component', function () {
     fixture: ComponentFixture<any>,
   ): Promise<void> {
     clickShowMoreBase(fixture);
-    return fixture.whenStable();
+    await fixture.whenStable();
   }
 
   function clickSearchButton(
@@ -417,7 +417,7 @@ describe('Lookup component', function () {
     fixture: ComponentFixture<any>,
   ): Promise<void> {
     selectShowOnlySelectedBase(fixture);
-    return fixture.whenStable();
+    await fixture.whenStable();
   }
 
   function selectShowMoreItemMultiple(
@@ -517,7 +517,7 @@ describe('Lookup component', function () {
       modalContent.scrollTop = newYPosition ?? modalContent.scrollHeight;
       SkyAppTestUtility.fireDomEvent(modalContent, 'scroll');
       fixture.detectChanges();
-      return fixture.whenStable();
+      await fixture.whenStable();
     }
   }
 
@@ -965,6 +965,57 @@ describe('Lookup component', function () {
         component.setSingleSelect();
       });
 
+      it('should emit only once per value change', fakeAsync(() => {
+        const bestFriend = { name: 'Rachel' };
+        component.friends = [bestFriend];
+
+        let counter = 0;
+
+        const sub = component.form.valueChanges.subscribe(() => {
+          counter++;
+        });
+
+        // Expect zero on init.
+        fixture.detectChanges();
+        expect(counter).toEqual(0);
+        counter = 0;
+
+        // Programmatic change:
+        component.form.setValue({
+          friends: [{ name: 'Xavier' }],
+        });
+        fixture.detectChanges();
+        expect(counter).toEqual(1);
+        counter = 0;
+
+        // User interaction:
+        performSearch('s', fixture);
+        selectSearchResult(0, fixture);
+        expect(counter).toEqual(1);
+        counter = 0;
+
+        // Programmatic, set to null:
+        component.form.setValue({
+          friends: null,
+        });
+        fixture.detectChanges();
+        expect(counter).toEqual(1);
+        counter = 0;
+
+        // Programmatic, but do not notify:
+        component.form.setValue(
+          {
+            friends: [{ name: 'Isaac' }],
+          },
+          { emitEvent: false },
+        );
+        fixture.detectChanges();
+        expect(counter).toEqual(0);
+        counter = 0;
+
+        sub.unsubscribe();
+      }));
+
       it('should allow a preselected value', fakeAsync(() => {
         const bestFriend = { name: 'Rachel' };
         expect(lookupComponent.value).toEqual([]);
@@ -974,6 +1025,17 @@ describe('Lookup component', function () {
         tick();
         fixture.detectChanges();
         expect(lookupComponent.value).toEqual([bestFriend]);
+      }));
+
+      it('should select the value on focus', fakeAsync(() => {
+        component.friends = [{ name: 'Rachel' }];
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        expect(lookupComponent.value).toEqual([{ name: 'Rachel' }]);
+
+        triggerInputFocus(fixture);
+        expect(window.getSelection().toString()).toBe('Rachel');
       }));
 
       it('should select a new value when none is selected', fakeAsync(function () {
@@ -2326,6 +2388,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -2361,6 +2424,10 @@ describe('Lookup component', function () {
                 'Select all items',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add items',
+              );
+
               expect(
                 getModalOnlyShowSelectedInput().getAttribute('aria-label'),
               ).toBe('Show only selected items');
@@ -2370,6 +2437,7 @@ describe('Lookup component', function () {
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'people',
               });
@@ -2406,6 +2474,10 @@ describe('Lookup component', function () {
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
                 'Select all people',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add people',
               );
 
               expect(
@@ -2811,6 +2883,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -2846,6 +2919,10 @@ describe('Lookup component', function () {
                 'Select all items',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add items',
+              );
+
               expect(
                 getModalOnlyShowSelectedInput().getAttribute('aria-label'),
               ).toBe('Show only selected items');
@@ -2855,6 +2932,7 @@ describe('Lookup component', function () {
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'people',
               });
@@ -2891,6 +2969,10 @@ describe('Lookup component', function () {
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
                 'Select all people',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add people',
               );
 
               expect(
@@ -3146,6 +3228,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -3165,11 +3248,16 @@ describe('Lookup component', function () {
                 'Select item',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add item',
+              );
+
               closeModal(fixture);
             }));
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'person',
               });
@@ -3190,6 +3278,10 @@ describe('Lookup component', function () {
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
                 'Select person',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add person',
               );
 
               closeModal(fixture);
@@ -3380,6 +3472,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -3399,11 +3492,16 @@ describe('Lookup component', function () {
                 'Select item',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add item',
+              );
+
               closeModal(fixture);
             }));
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'person',
               });
@@ -3424,6 +3522,10 @@ describe('Lookup component', function () {
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
                 'Select person',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add person',
               );
 
               closeModal(fixture);
@@ -3702,6 +3804,28 @@ describe('Lookup component', function () {
         expect(component.form.invalid).toEqual(false);
         dismissSelectedItem(0, fixture);
         expect(component.form.invalid).toEqual(true);
+      }));
+
+      it('should mark the required field as valid when a value is chosen from the selection modal', fakeAsync(() => {
+        component.friends = [{ name: 'Rachel' }];
+        component.enableShowMore = true;
+
+        fixture.detectChanges();
+        component.setRequired();
+        fixture.detectChanges();
+
+        expect(component.form.invalid).toEqual(false);
+        dismissSelectedItem(0, fixture);
+        expect(component.form.invalid).toEqual(true);
+
+        performSearch('s', fixture);
+        clickShowMore(fixture);
+        selectShowMoreItemMultiple(0, fixture);
+        saveShowMoreModal(fixture);
+
+        tick();
+
+        expect(component.form.invalid).toEqual(false);
       }));
     });
 
@@ -3984,60 +4108,6 @@ describe('Lookup component', function () {
 
         expect(document.activeElement).not.toEqual(input);
       }));
-    });
-
-    describe('a11y', function () {
-      const axeConfig = {
-        rules: {
-          region: {
-            enabled: false,
-          },
-        },
-      };
-
-      it('should be accessible', async () => {
-        fixture.componentInstance.ariaLabelledBy = 'my-lookup-label';
-        fixture.componentInstance.setSingleSelect();
-        fixture.componentInstance.setValue(2);
-
-        fixture.detectChanges();
-        await fixture.whenStable();
-        await expectAsync(document.body).toBeAccessible(axeConfig);
-
-        fixture.componentInstance.ariaLabel = 'My lookup label';
-        fixture.componentInstance.ariaLabelledBy = undefined;
-
-        fixture.detectChanges();
-        await fixture.whenStable();
-        await expectAsync(document.body).toBeAccessible(axeConfig);
-
-        fixture.componentInstance.setMultiSelect();
-        fixture.componentInstance.setValue(1);
-
-        fixture.detectChanges();
-        await fixture.whenStable();
-        await expectAsync(document.body).toBeAccessible(axeConfig);
-
-        fixture.componentInstance.setSingleSelect();
-        fixture.componentInstance.resetForm();
-
-        fixture.detectChanges();
-        await fixture.whenStable();
-        await expectAsync(document.body).toBeAccessible(axeConfig);
-
-        const inputElement = getInputElement(
-          fixture.componentInstance.lookupComponent,
-        );
-        inputElement.value = 'r';
-        inputElement.focus();
-        SkyAppTestUtility.fireDomEvent(inputElement, 'keyup', {
-          keyboardEventInit: { key: '' },
-        });
-
-        fixture.detectChanges();
-        await fixture.whenStable();
-        await expectAsync(document.body).toBeAccessible(axeConfig);
-      });
     });
 
     // for testing non-async search args being passed around correctly
@@ -4430,6 +4500,17 @@ describe('Lookup component', function () {
           tick();
           fixture.detectChanges();
           expect(lookupComponent.value).toEqual([bestFriend]);
+        }));
+
+        it('should select the value on focus', fakeAsync(() => {
+          component.selectedFriends = [{ name: 'Rachel' }];
+          fixture.detectChanges();
+          tick();
+          fixture.detectChanges();
+          expect(lookupComponent.value).toEqual([{ name: 'Rachel' }]);
+
+          triggerInputFocus(fixture);
+          expect(window.getSelection().toString()).toBe('Rachel');
         }));
 
         it('should select a new value when none is selected', fakeAsync(function () {
@@ -5744,6 +5825,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -5779,6 +5861,10 @@ describe('Lookup component', function () {
                 'Select all items',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add items',
+              );
+
               expect(
                 getModalOnlyShowSelectedInput().getAttribute('aria-label'),
               ).toBe('Show only selected items');
@@ -5788,6 +5874,7 @@ describe('Lookup component', function () {
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'people',
               });
@@ -5824,6 +5911,10 @@ describe('Lookup component', function () {
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
                 'Select all people',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add people',
               );
 
               expect(
@@ -6217,6 +6308,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -6252,6 +6344,10 @@ describe('Lookup component', function () {
                 'Select all items',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add items',
+              );
+
               expect(
                 getModalOnlyShowSelectedInput().getAttribute('aria-label'),
               ).toBe('Show only selected items');
@@ -6261,6 +6357,7 @@ describe('Lookup component', function () {
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'people',
               });
@@ -6297,6 +6394,10 @@ describe('Lookup component', function () {
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
                 'Select all people',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add people',
               );
 
               expect(
@@ -6558,6 +6659,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -6577,11 +6679,16 @@ describe('Lookup component', function () {
                 'Select item',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add item',
+              );
+
               closeModal(fixture);
             }));
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'person',
               });
@@ -6602,6 +6709,10 @@ describe('Lookup component', function () {
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
                 'Select person',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add person',
               );
 
               closeModal(fixture);
@@ -6769,6 +6880,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -6788,11 +6900,16 @@ describe('Lookup component', function () {
                 'Select item',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add item',
+              );
+
               closeModal(fixture);
             }));
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'person',
               });
@@ -6813,6 +6930,10 @@ describe('Lookup component', function () {
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
                 'Select person',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add person',
               );
 
               closeModal(fixture);
@@ -7455,6 +7576,23 @@ describe('Lookup component', function () {
       expect(lookupComponent.isInputFocused).toEqual(false);
     });
 
+    it('should add or remove the required label class if `required` is set on lookup element', () => {
+      component.required = true;
+      fixture.detectChanges();
+
+      let requiredLabel = fixture.nativeElement.querySelector(
+        '.sky-control-label-required',
+      );
+      expect(requiredLabel).toExist();
+
+      component.required = false;
+      fixture.detectChanges();
+      requiredLabel = fixture.nativeElement.querySelector(
+        '.sky-control-label-required',
+      );
+      expect(requiredLabel).not.toExist();
+    });
+
     describe('aria-describedby attribute', () => {
       it('should be set when hint text is specified and select mode is single', () => {
         validateDescribedBy('single');
@@ -7492,6 +7630,168 @@ describe('Lookup component', function () {
 
         expect(document.activeElement).not.toEqual(input);
       }));
+    });
+
+    describe('a11y', function () {
+      const axeConfig = {
+        rules: {
+          region: {
+            enabled: false,
+          },
+        },
+      };
+
+      beforeEach(() => {
+        fixture.detectChanges();
+      });
+
+      it('should be accessible [mode: single, value: set, ariaLabel: undefined, ariaLabelledBy: set]', async () => {
+        fixture.componentInstance.ariaLabelledBy = 'my-lookup-label';
+        fixture.componentInstance.setSingleSelect();
+        fixture.componentInstance.setValue(2);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: single, value: set, ariaLabel: set, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setSingleSelect();
+        fixture.componentInstance.setValue(2);
+        fixture.componentInstance.ariaLabel = 'My lookup label';
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: single, value: set, ariaLabel: undefined, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setSingleSelect();
+        fixture.componentInstance.setValue(2);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: single, value: undefined, ariaLabel: undefined, ariaLabelledBy: set]', async () => {
+        fixture.componentInstance.ariaLabelledBy = 'my-lookup-label';
+        fixture.componentInstance.setSingleSelect();
+        fixture.componentInstance.setValue(undefined);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: single, value: undefined, ariaLabel: set, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setSingleSelect();
+        fixture.componentInstance.setValue(undefined);
+        fixture.componentInstance.ariaLabel = 'My lookup label';
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: single, value: undefined, ariaLabel: undefined, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setSingleSelect();
+        fixture.componentInstance.setValue(undefined);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: multiple, value: set, ariaLabel: undefined, ariaLabelledBy: set]', async () => {
+        fixture.componentInstance.ariaLabelledBy = 'my-lookup-label';
+        fixture.componentInstance.setMultiSelect();
+        fixture.componentInstance.setValue(2);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: multiple, value: set, ariaLabel: set, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setMultiSelect();
+        fixture.componentInstance.setValue(2);
+        fixture.componentInstance.ariaLabel = 'My lookup label';
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: multiple, value: set, ariaLabel: undefined, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setMultiSelect();
+        fixture.componentInstance.setValue(2);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: multiple, value: undefined, ariaLabel: undefined, ariaLabelledBy: set]', async () => {
+        fixture.componentInstance.ariaLabelledBy = 'my-lookup-label';
+        fixture.componentInstance.setMultiSelect();
+        fixture.componentInstance.setValue(undefined);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: multiple, value: undefined, ariaLabel: set, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setMultiSelect();
+        fixture.componentInstance.setValue(undefined);
+        fixture.componentInstance.ariaLabel = 'My lookup label';
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: multiple, value: undefined, ariaLabel: undefined, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setMultiSelect();
+        fixture.componentInstance.setValue(undefined);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: single, value: input typed, ariaLabel: undefined, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setSingleSelect();
+        const inputElement = getInputElement(
+          fixture.componentInstance.lookupComponent,
+        );
+        inputElement.value = 'r';
+        inputElement.focus();
+        SkyAppTestUtility.fireDomEvent(inputElement, 'keyup', {
+          keyboardEventInit: { key: '' },
+        });
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: multiple, value: input typed, ariaLabel: undefined, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setMultiSelect();
+        const inputElement = getInputElement(
+          fixture.componentInstance.lookupComponent,
+        );
+        inputElement.value = 'r';
+        inputElement.focus();
+        SkyAppTestUtility.fireDomEvent(inputElement, 'keyup', {
+          keyboardEventInit: { key: '' },
+        });
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
     });
   });
 });

@@ -18,7 +18,7 @@
       <sky-checkbox [checked]="true">
         <sky-checkbox-label>
           Checkbox with help inline
-          <sky-help-inline class="sky-control-help"></sky-help-inline>
+          <sky-help-inline class="sky-control-help" />
         </sky-checkbox-label>
       </sky-checkbox>
     </sky-column>
@@ -50,6 +50,19 @@
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
+      <sky-checkbox
+        ngModel
+        helpPopoverContent="content"
+        labelText="Checkbox with all easy mode inputs"
+        hintText="Hint text"
+        id="touched-required-checkbox"
+        [checked]="false"
+        [required]="true"
+      />
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
       <sky-checkbox [checked]="false" [disabled]="true">
         <sky-checkbox-label> Disabled Checkbox </sky-checkbox-label>
       </sky-checkbox>
@@ -69,175 +82,290 @@
       </sky-checkbox>
     </sky-column>
   </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        labelText="Checkbox with easy mode help inline"
+        helpPopoverContent="popover Content"
+      />
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        labelText="Required checkbox with easy mode help inline"
+        helpPopoverContent="popover Content"
+        [required]="true"
+      />
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        ngModel
+        labelText="Checkbox with easy mode errors and help inline"
+        helpPopoverContent="popover Content"
+        id="touched-easy-mode-checkbox"
+        [required]="true"
+      />
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <div>
+        <sky-checkbox ngModel labelText="Stacked checkbox" [stacked]="true" />
+      </div>
+      <button type="button" class="sky-btn sky-btn-primary">Save</button>
+    </sky-column>
+  </sky-row>
+  <form [formGroup]="checkboxGroupFormGroup">
+    <sky-checkbox-group
+      headingStyle="3"
+      headingText="Contact method"
+      helpPopoverContent="Select up to three."
+      helpPopoverTitle="Make a selection"
+      hintText="Group hint text"
+      stacked="true"
+      [formGroup]="standardCheckboxGroupFormGroup1"
+      [required]="true"
+    >
+      <sky-checkbox
+        formControlName="email"
+        labelText="Email"
+        hintText="Hint text"
+      />
+      <sky-checkbox
+        formControlName="phone"
+        labelText="Phone"
+        hintText="Hint text"
+      />
+      <sky-checkbox
+        formControlName="text"
+        labelText="Text"
+        hintText="Hint text"
+      />
+      @if (standardCheckboxGroupFormGroup1.errors?.['emailOnly']) {
+        <sky-form-error
+          errorName="emailOnly"
+          errorText="Email cannot be the only contact method."
+        />
+      }
+    </sky-checkbox-group>
+    <sky-checkbox-group
+      headingLevel="3"
+      headingStyle="4"
+      headingText="Contact method"
+      helpPopoverContent="Select up to three."
+      helpPopoverTitle="Make a selection"
+      stacked="true"
+      [formGroup]="standardCheckboxGroupFormGroup2"
+      [required]="true"
+    >
+      <sky-checkbox formControlName="email" labelText="Email" />
+      <sky-checkbox formControlName="phone" labelText="Phone" />
+      <sky-checkbox formControlName="text" labelText="Text" />
+    </sky-checkbox-group>
+    <sky-checkbox-group
+      headingLevel="4"
+      headingStyle="5"
+      headingText="Contact method"
+      helpPopoverContent="Select up to three."
+      helpPopoverTitle="Make a selection"
+      stacked="true"
+      [formGroup]="standardCheckboxGroupFormGroup3"
+    >
+      <sky-checkbox formControlName="email" labelText="Email" />
+      <sky-checkbox formControlName="phone" labelText="Phone" />
+      <sky-checkbox formControlName="text" labelText="Text" />
+    </sky-checkbox-group>
+    <sky-checkbox-group
+      headingLevel="5"
+      headingText="Contact method"
+      helpPopoverContent="Select up to three."
+      helpPopoverTitle="Make a selection"
+      stacked="true"
+      [formGroup]="standardCheckboxGroupFormGroup4"
+    >
+      <sky-checkbox formControlName="email" labelText="Email" />
+      <sky-checkbox formControlName="phone" labelText="Phone" />
+      <sky-checkbox formControlName="text" labelText="Text" />
+    </sky-checkbox-group>
+  </form>
 </sky-fluid-grid>
 <sky-fluid-grid id="icon-checkboxes">
   <sky-row class="sky-padding-even-md">
     <sky-column>
       <div class="sky-switch-icon-group">
-        <sky-checkbox icon="bold" label="bold" [checked]="true"> </sky-checkbox>
-        <sky-checkbox icon="umbrella" label="umbrella" [checked]="false">
-        </sky-checkbox>
-        <sky-checkbox icon="star" label="favorite" [checked]="false">
-        </sky-checkbox>
-        <sky-checkbox
-          icon="exclamation-triangle"
-          label="careful"
-          [checked]="false"
-        >
-        </sky-checkbox>
+        <sky-checkbox iconName="text-bold" label="bold" [checked]="true" />
+        <sky-checkbox iconName="megaphone" label="umbrella" [checked]="false" />
+        <sky-checkbox iconName="star" label="favorite" [checked]="false" />
+        <sky-checkbox iconName="warning" label="careful" [checked]="false" />
       </div>
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
-      <sky-checkbox icon="bold" label="bold" [checked]="true"> </sky-checkbox>
-    </sky-column>
-  </sky-row>
-  <sky-row class="sky-padding-even-md">
-    <sky-column>
-      <sky-checkbox icon="bold" label="bold" [checked]="true" [disabled]="true">
-      </sky-checkbox>
-    </sky-column>
-  </sky-row>
-  <sky-row class="sky-padding-even-md">
-    <sky-column>
-      <sky-checkbox icon="bold" label="bold" [checked]="false"> </sky-checkbox>
+      <sky-checkbox iconName="text-bold" label="bold" [checked]="true" />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
       <sky-checkbox
-        icon="umbrella"
-        checkboxType="info"
-        label="umbrella"
-        [checked]="true"
-      >
-      </sky-checkbox>
-    </sky-column>
-  </sky-row>
-  <sky-row class="sky-padding-even-md">
-    <sky-column>
-      <sky-checkbox
-        icon="umbrella"
-        checkboxType="info"
-        label="umbrella"
+        iconName="text-bold"
+        label="bold"
         [checked]="true"
         [disabled]="true"
-      >
-      </sky-checkbox>
+      />
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox iconName="text-bold" label="bold" [checked]="false" />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
       <sky-checkbox
-        icon="umbrella"
+        iconName="ribbon"
         checkboxType="info"
-        label="umbrella"
-        [checked]="false"
-      >
-      </sky-checkbox>
+        label="ribbon"
+        [checked]="true"
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
       <sky-checkbox
-        icon="star"
+        iconName="ribbon"
+        checkboxType="info"
+        label="ribbon"
+        [checked]="true"
+        [disabled]="true"
+      />
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        iconName="ribbon"
+        checkboxType="info"
+        label="riobbon"
+        [checked]="false"
+      />
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        iconName="star"
         checkboxType="success"
         label="favorite"
         [checked]="true"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
       <sky-checkbox
-        icon="star"
+        iconName="star"
         checkboxType="success"
         label="favorite"
         [checked]="true"
         [disabled]="true"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
       <sky-checkbox
-        icon="star"
+        iconName="star"
         checkboxType="success"
         label="favorite"
         [checked]="false"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
       <sky-checkbox
-        icon="exclamation-triangle"
+        iconName="warning"
         checkboxType="warning"
         label="careful"
         [checked]="true"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
       <sky-checkbox
-        icon="exclamation-triangle"
+        iconName="warning"
         checkboxType="warning"
         label="careful"
         [checked]="true"
         [disabled]="true"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
       <sky-checkbox
-        icon="exclamation-triangle"
+        iconName="warning"
         checkboxType="warning"
         label="careful"
         [checked]="false"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
       <sky-checkbox
-        icon="ban"
+        iconName="prohibited"
         checkboxType="danger"
         label="wrong"
         [checked]="true"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
       <sky-checkbox
-        icon="ban"
+        iconName="prohibited"
         checkboxType="danger"
         label="wrong"
         [checked]="true"
         [disabled]="true"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
       <sky-checkbox
-        icon="ban"
+        iconName="prohibited"
         checkboxType="danger"
         label="wrong"
         [checked]="false"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
+  <form [formGroup]="iconCheckboxGroupFormGroup">
+    <sky-checkbox-group
+      headingText="Text formatting"
+      helpPopoverContent="This should not show up"
+      helpPopoverTitle="This should not show up"
+      [formGroup]="iconCheckboxGroupFormGroup"
+      [headingHidden]="true"
+    >
+      <sky-checkbox formControlName="bold" iconName="text-bold" label="Bold" />
+      <sky-checkbox
+        formControlName="italic"
+        iconName="text-italic"
+        label="Italic"
+      />
+      <sky-checkbox
+        formControlName="underline"
+        iconName="text-underline"
+        label="Underline"
+      />
+    </sky-checkbox-group>
+  </form>
 </sky-fluid-grid>

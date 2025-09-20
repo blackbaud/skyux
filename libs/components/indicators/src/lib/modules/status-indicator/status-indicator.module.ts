@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyTrimModule } from '@skyux/core';
+import { SkyIdModule, SkyTrimModule } from '@skyux/core';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule } from '@skyux/theme';
 
-import { SkyIconModule } from '../icon/icon.module';
 import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources.module';
 
 import { SkyStatusIndicatorComponent } from './status-indicator.component';
@@ -11,8 +13,11 @@ import { SkyStatusIndicatorComponent } from './status-indicator.component';
   declarations: [SkyStatusIndicatorComponent],
   imports: [
     CommonModule,
+    SkyHelpInlineModule,
     SkyIconModule,
+    SkyIdModule,
     SkyIndicatorsResourcesModule,
+    SkyThemeModule,
     SkyTrimModule,
   ],
   exports: [SkyStatusIndicatorComponent],

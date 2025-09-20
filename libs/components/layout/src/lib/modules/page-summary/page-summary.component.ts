@@ -1,21 +1,12 @@
 import {
-  AfterContentInit,
-  AfterViewInit,
-  ChangeDetectorRef,
   Component,
-  ContentChildren,
   ElementRef,
-  OnDestroy,
-  QueryList,
+  contentChildren,
+  effect,
+  inject,
 } from '@angular/core';
-import {
-  SkyLogService,
-  SkyMediaBreakpoints,
-  SkyMediaQueryService,
-} from '@skyux/core';
-
-import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyLogService, SkyMediaQueryService } from '@skyux/core';
 
 import { SkyPageSummaryAdapterService } from './page-summary-adapter.service';
 import { SkyPageSummaryKeyInfoComponent } from './page-summary-key-info.component';
@@ -29,79 +20,29 @@ import { SkyPageSummaryKeyInfoComponent } from './page-summary-key-info.componen
   templateUrl: './page-summary.component.html',
   styleUrls: ['./page-summary.component.scss'],
   providers: [SkyPageSummaryAdapterService],
+  standalone: false,
 })
-export class SkyPageSummaryComponent
-  implements AfterContentInit, AfterViewInit, OnDestroy
-{
-  public hasKeyInfo = false;
+export class SkyPageSummaryComponent {
+  protected keyInfoComponents = contentChildren(SkyPageSummaryKeyInfoComponent);
 
-  @ContentChildren(SkyPageSummaryKeyInfoComponent, {
-    read: SkyPageSummaryKeyInfoComponent,
-  })
-  public keyInfoComponents:
-    | QueryList<SkyPageSummaryKeyInfoComponent>
-    | undefined;
+  readonly #breakpoint = toSignal(
+    inject(SkyMediaQueryService).breakpointChange,
+  );
 
-  #breakpointSubscription: Subscription | undefined;
-  #ngUnsubscribe = new Subject<void>();
+  constructor() {
+    const adapter = inject(SkyPageSummaryAdapterService);
+    const elRef = inject(ElementRef);
 
-  #elRef: ElementRef;
-  #adapter: SkyPageSummaryAdapterService;
-  #mediaQueryService: SkyMediaQueryService;
-  #changeDetectorRef: ChangeDetectorRef;
-
-  constructor(
-    elRef: ElementRef,
-    adapter: SkyPageSummaryAdapterService,
-    mediaQueryService: SkyMediaQueryService,
-    logger: SkyLogService,
-    changeDetector: ChangeDetectorRef,
-  ) {
-    this.#elRef = elRef;
-    this.#adapter = adapter;
-    this.#mediaQueryService = mediaQueryService;
-    this.#changeDetectorRef = changeDetector;
-    logger.deprecated('SkyPageSummaryComponent', {
+    inject(SkyLogService).deprecated('SkyPageSummaryComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl:
         'https://developer.blackbaud.com/skyux/design/guidelines/page-layouts',
       replacementRecommendation:
-        'For page templates and techniques to summarize page content, see the page design guidelines.',
+        "We recommend using the page component's `sky-page-header` component instead. And for page templates and techniques to summarize page content, see the page design guidelines.",
     });
-  }
 
-  public ngAfterViewInit(): void {
-    this.#breakpointSubscription = this.#mediaQueryService.subscribe(
-      (args: SkyMediaBreakpoints) => {
-        this.#adapter.updateKeyInfoLocation(
-          this.#elRef,
-          args === SkyMediaBreakpoints.xs,
-        );
-      },
-    );
-  }
-
-  public ngAfterContentInit(): void {
-    if (this.keyInfoComponents) {
-      this.hasKeyInfo = this.keyInfoComponents.length > 0;
-
-      this.keyInfoComponents.changes
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          this.hasKeyInfo =
-            !!this.keyInfoComponents && this.keyInfoComponents.length > 0;
-          this.#changeDetectorRef.markForCheck();
-        });
-    }
-  }
-
-  public ngOnDestroy(): void {
-    /* istanbul ignore else */
-    /* sanity check */
-    if (this.#breakpointSubscription) {
-      this.#breakpointSubscription.unsubscribe();
-    }
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
+    effect(() => {
+      adapter.updateKeyInfoLocation(elRef, this.#breakpoint() === 'xs');
+    });
   }
 }

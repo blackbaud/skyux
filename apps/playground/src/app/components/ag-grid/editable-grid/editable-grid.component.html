@@ -1,44 +1,39 @@
-<ng-container
-  *ngIf="
-    (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
-      'modern';
-    then grid;
-    else grid
-  "
->
-</ng-container>
-
-<ng-template #grid>
+@if (
+  (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern'
+) {
   <div class="editable-grid">
     <sky-toolbar>
-      <sky-toolbar-item *ngIf="!editMode">
-        <button
-          class="sky-btn sky-btn-primary"
-          id="edit-btn"
-          type="button"
-          (click)="setEditMode(true)"
-        >
-          Edit
-        </button>
-      </sky-toolbar-item>
-      <sky-toolbar-item *ngIf="editMode">
-        <button
-          class="sky-btn sky-btn-primary"
-          type="button"
-          (click)="saveData()"
-        >
-          Save
-        </button>
-      </sky-toolbar-item>
-      <sky-toolbar-item *ngIf="editMode">
-        <button
-          class="sky-btn sky-btn-default"
-          type="button"
-          (click)="cancelEdits()"
-        >
-          Cancel
-        </button>
-      </sky-toolbar-item>
+      @if (!editMode) {
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-primary"
+            id="edit-btn"
+            type="button"
+            (click)="setEditMode(true)"
+          >
+            Edit
+          </button>
+        </sky-toolbar-item>
+      } @else {
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-primary"
+            type="button"
+            (click)="saveData()"
+          >
+            Save
+          </button>
+        </sky-toolbar-item>
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-default"
+            type="button"
+            (click)="cancelEdits()"
+          >
+            Cancel
+          </button>
+        </sky-toolbar-item>
+      }
     </sky-toolbar>
     <sky-ag-grid-wrapper>
       <ag-grid-angular
@@ -48,4 +43,47 @@
       />
     </sky-ag-grid-wrapper>
   </div>
-</ng-template>
+} @else {
+  <div class="editable-grid">
+    <sky-toolbar>
+      @if (!editMode) {
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-primary"
+            id="edit-btn"
+            type="button"
+            (click)="setEditMode(true)"
+          >
+            Edit
+          </button>
+        </sky-toolbar-item>
+      } @else {
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-primary"
+            type="button"
+            (click)="saveData()"
+          >
+            Save
+          </button>
+        </sky-toolbar-item>
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-default"
+            type="button"
+            (click)="cancelEdits()"
+          >
+            Cancel
+          </button>
+        </sky-toolbar-item>
+      }
+    </sky-toolbar>
+    <sky-ag-grid-wrapper>
+      <ag-grid-angular
+        [ngClass]="{ 'sky-ag-grid-editable': editMode }"
+        [gridOptions]="gridOptions"
+        [rowData]="gridData"
+      />
+    </sky-ag-grid-wrapper>
+  </div>
+}

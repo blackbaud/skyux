@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyIconModule } from '@skyux/icon';
 import {
   SkyThemeModule,
   SkyThemeService,
@@ -18,7 +19,7 @@ describe('PreviewWrapperComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [PreviewWrapperComponent],
-      imports: [SkyThemeModule],
+      imports: [SkyThemeModule, SkyIconModule],
       providers: [
         SkyThemeService,
         {
@@ -41,40 +42,62 @@ describe('PreviewWrapperComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set the theme', async () => {
+  it('should set the theme', () => {
     const themeService = TestBed.inject(SkyThemeService);
-    let expectedTheme = {
+    let expectedTheme: {
+      theme: string;
+      mode: string;
+      brand?: string;
+    } = {
       theme: 'default',
       mode: 'light',
+      brand: undefined,
     };
+    let expectModernV2Class = false;
     const subscription = themeService.settingsChange.subscribe(
       (settings: SkyThemeSettingsChange) => {
         expect(settings.currentSettings.theme.name).toEqual(
           expectedTheme.theme,
         );
         expect(settings.currentSettings.mode.name).toEqual(expectedTheme.mode);
+
+        if (expectModernV2Class) {
+          expect(settings.currentSettings.brand?.name).toEqual(
+            expectedTheme.brand,
+          );
+        } else {
+          expect(settings.currentSettings.brand).toBeUndefined();
+        }
       },
     );
-    expectedTheme = {
-      theme: 'modern',
-      mode: 'light',
-    };
-    component.theme = 'modern-light';
+
     expectedTheme = {
       theme: 'modern',
       mode: 'dark',
     };
-    component.theme = 'modern-dark';
+    expectModernV2Class = true;
+    component.theme = 'modern-v2-dark';
+
     expectedTheme = {
       theme: 'default',
       mode: 'light',
     };
     component.theme = 'default';
+
+    expectedTheme = {
+      theme: 'modern',
+      mode: 'light',
+    };
+    expectModernV2Class = true;
+    component.theme = 'modern-v2-light';
+
     expectedTheme = {
       theme: 'default',
       mode: 'light',
     };
+    expectModernV2Class = false;
     component.theme = undefined;
+
     subscription.unsubscribe();
     themeService.destroy();
   });

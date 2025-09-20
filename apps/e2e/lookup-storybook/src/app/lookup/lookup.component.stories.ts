@@ -1,4 +1,5 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { LookupComponent } from './lookup.component';
 import { LookupModule } from './lookup.module';
@@ -13,27 +14,25 @@ export default {
     }),
   ],
 } as Meta<LookupComponent>;
-const BaseLookup: StoryFn<LookupComponent> = (args: LookupComponent) => ({
-  props: args,
-});
+type Story = StoryObj<LookupComponent>;
 
-export const LookupSingleMode = BaseLookup.bind({});
+export const LookupSingleMode: Story = {};
 LookupSingleMode.args = {
   selectMode: 'single',
 };
 
-export const LookupMultipleMode = BaseLookup.bind({});
+export const LookupMultipleMode: Story = {};
 LookupMultipleMode.args = {
   selectMode: 'multiple',
 };
 
-export const LookupSingleModeDisabled = BaseLookup.bind({});
+export const LookupSingleModeDisabled: Story = {};
 LookupSingleModeDisabled.args = {
   selectMode: 'single',
   disabledFlag: true,
 };
 
-export const LookupMultipleModeDisabled = BaseLookup.bind({});
+export const LookupMultipleModeDisabled: Story = {};
 LookupMultipleModeDisabled.args = {
   selectMode: 'multiple',
   disabledFlag: true,

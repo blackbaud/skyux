@@ -6,18 +6,20 @@ import {
   trigger,
 } from '@angular/animations';
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Input,
   TemplateRef,
-  ViewChild,
+  afterRenderEffect,
+  computed,
+  inject,
+  input,
+  numberAttribute,
+  signal,
+  viewChild,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyLibResourcesService } from '@skyux/i18n';
-
-import { forkJoin as observableForkJoin } from 'rxjs';
-import { take } from 'rxjs/operators';
 
 import { SkyTextExpandRepeaterAdapterService } from './text-expand-repeater-adapter.service';
 import { SkyTextExpandRepeaterListStyleType } from './types/text-expand-repeater-list-style-type';
@@ -54,130 +56,98 @@ let nextId = 0;
   templateUrl: './text-expand-repeater.component.html',
   styleUrls: ['./text-expand-repeater.component.scss'],
   providers: [SkyTextExpandRepeaterAdapterService],
+  standalone: false,
 })
-export class SkyTextExpandRepeaterComponent implements AfterViewInit {
+export class SkyTextExpandRepeaterComponent<TData = unknown> {
   /**
    * The data to truncate.
    */
-  @Input()
-  public set data(value: any[] | undefined) {
-    this.#_data = value;
-
-    // Wait for the dom to render the new items based on the updated data
-    setTimeout(() => {
-      this.#htmlItems = this.#textExpandRepeaterAdapter.getItems(this.#elRef);
-      this.#setup(value);
-    });
-  }
-
-  public get data(): any[] | undefined {
-    return this.#_data;
-  }
+  public readonly data = input<TData[] | undefined>();
 
   /**
    * The template for items in the list.
    */
-  @Input()
-  public itemTemplate: TemplateRef<unknown> | undefined;
+  public readonly itemTemplate = input<TemplateRef<unknown> | undefined>();
 
   /**
    * The style of bullet to use
    * @default "unordered"
    */
-  @Input()
-  public listStyle: SkyTextExpandRepeaterListStyleType | undefined =
-    'unordered';
+  public readonly listStyle = input<
+    SkyTextExpandRepeaterListStyleType | undefined
+  >('unordered');
 
   /**
    * The number of items to display before truncating the list. If not supplied, all items are shown.
    */
-  @Input()
-  public set maxItems(value: number | undefined) {
-    this.#_maxItems = value;
-    this.#setup(this.data);
-  }
+  public readonly maxItems = input<number, unknown>(0, {
+    transform: numberAttribute,
+  });
 
-  public get maxItems(): number | undefined {
-    return this.#_maxItems;
-  }
-
-  public buttonText = '';
-  public expandable = false;
+  protected expandable = false;
   public contentSectionId = `sky-text-expand-repeater-content-${++nextId}`;
 
-  public isExpanded: boolean | undefined;
-  public transitionHeight = 1;
+  protected readonly isExpanded = signal(false);
+  protected transitionHeight = 1;
 
-  #seeMoreText = '';
-  #seeLessText = '';
+  readonly #resources = inject(SkyLibResourcesService);
+  readonly #seeMoreText = toSignal(
+    this.#resources.getString('skyux_text_expand_see_more'),
+    { initialValue: '' },
+  );
+  readonly #seeLessText = toSignal(
+    this.#resources.getString('skyux_text_expand_see_less'),
+    { initialValue: '' },
+  );
+  protected readonly buttonText = computed(() => {
+    const seeLessText = this.#seeLessText();
+    const seeMoreText = this.#seeMoreText();
+    return this.isExpanded() ? seeLessText : seeMoreText;
+  });
 
-  @ViewChild('container', {
-    read: ElementRef,
-    static: false,
-  })
-  public containerEl: ElementRef | undefined;
+  protected containerEl = viewChild<ElementRef>('container');
 
+  #dataIndices = 0;
   #htmlItems: NodeListOf<HTMLElement> | undefined;
 
-  #_data: any[] | undefined;
-  #_maxItems: number | undefined;
+  readonly #elRef = inject(ElementRef);
+  readonly #textExpandRepeaterAdapter = inject(
+    SkyTextExpandRepeaterAdapterService,
+  );
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
-  #resources: SkyLibResourcesService;
-  #elRef: ElementRef;
-  #textExpandRepeaterAdapter: SkyTextExpandRepeaterAdapterService;
-  #changeDetector: ChangeDetectorRef;
+  protected readonly trackedData = computed(() =>
+    (this.data() ?? []).map((item) => ({
+      item,
+      index: ++this.#dataIndices,
+    })),
+  );
 
-  constructor(
-    resources: SkyLibResourcesService,
-    elRef: ElementRef,
-    textExpandRepeaterAdapter: SkyTextExpandRepeaterAdapterService,
-    changeDetector: ChangeDetectorRef,
-  ) {
-    this.#resources = resources;
-    this.#elRef = elRef;
-    this.#textExpandRepeaterAdapter = textExpandRepeaterAdapter;
-    this.#changeDetector = changeDetector;
-  }
-
-  public ngAfterViewInit(): void {
-    observableForkJoin([
-      this.#resources.getString('skyux_text_expand_see_more'),
-      this.#resources.getString('skyux_text_expand_see_less'),
-    ])
-      .pipe(take(1))
-      .subscribe((resources) => {
-        this.#seeMoreText = resources[0];
-        this.#seeLessText = resources[1];
-        /* sanity check */
-        /* istanbul ignore else */
-        if (!this.isExpanded) {
-          this.buttonText = this.#seeMoreText;
-        } else {
-          this.buttonText = this.#seeLessText;
-        }
-        this.#changeDetector.detectChanges();
-      });
+  constructor() {
+    afterRenderEffect(() => {
+      this.#htmlItems = this.#textExpandRepeaterAdapter.getItems(this.#elRef);
+      this.#setup();
+    });
   }
 
   public animationEnd(): void {
     // Ensure all items that should be hidden are hidden. This is because we need them shown during the animation window for visual purposes.
-    if (!this.isExpanded) {
+    if (!this.isExpanded()) {
       this.#hideItems();
     }
 
     // This set timeout is needed as the `animationEnd` function is called by the angular animation callback prior to the animation setting the style on the element
     setTimeout(() => {
-      if (this.containerEl) {
+      const containerEl = this.containerEl();
+      if (containerEl) {
         // Set height back to auto so the browser can change the height as needed with window changes
-        this.#textExpandRepeaterAdapter.removeContainerMaxHeight(
-          this.containerEl,
-        );
+        this.#textExpandRepeaterAdapter.removeContainerMaxHeight(containerEl);
       }
     });
   }
 
   public repeaterExpand(): void {
-    if (!this.isExpanded) {
+    if (!this.isExpanded()) {
       this.#animateRepeater(true);
     } else {
       this.#animateRepeater(false);
@@ -186,64 +156,53 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
 
   #animateRepeater(expanding: boolean): void {
     const adapter = this.#textExpandRepeaterAdapter;
-    const container = this.containerEl;
+    const container = this.containerEl();
     if (container) {
       if (expanding) {
         this.#showItems();
       } else {
         this.#hideItems();
       }
-      const newHeight = adapter.getContainerHeight(container);
-      this.transitionHeight = newHeight;
-      if (!expanding) {
-        this.buttonText = this.#seeMoreText;
-      } else {
-        this.buttonText = this.#seeLessText;
-      }
+      this.transitionHeight = adapter.getContainerHeight(container);
       if (!expanding) {
         // Show all items during animation for visual purposes.
         this.#showItems();
       }
-      this.isExpanded = expanding;
+      this.isExpanded.set(expanding);
     }
   }
 
-  #setup(value: Array<unknown> | undefined): void {
-    if (value) {
+  #setup(): void {
+    const container = this.containerEl();
+    const maxItems = this.maxItems();
+    const value = this.trackedData();
+    this.expandable = false;
+    this.isExpanded.set(false);
+    if (value.length > 0) {
       const length = value.length;
-      if (this.maxItems && length > this.maxItems) {
+      if (maxItems && length > maxItems) {
         this.expandable = true;
-        this.buttonText = this.#seeMoreText;
         this.#hideItems();
-        if (this.containerEl) {
+        if (container) {
           this.transitionHeight =
-            this.#textExpandRepeaterAdapter.getContainerHeight(
-              this.containerEl,
-            );
+            this.#textExpandRepeaterAdapter.getContainerHeight(container);
         }
-        this.isExpanded = false;
-      } else {
-        this.expandable = false;
-        this.isExpanded = undefined;
       }
-    } else {
-      this.expandable = false;
-      this.isExpanded = undefined;
     }
-    this.#changeDetector.markForCheck();
+    this.#changeDetector.detectChanges();
   }
 
   #hideItems(): void {
-    if (this.#htmlItems && this.maxItems) {
-      for (let i = this.maxItems; i < this.#htmlItems.length; i++) {
+    if (this.#htmlItems && this.maxItems()) {
+      for (let i = this.maxItems(); i < this.#htmlItems.length; i++) {
         this.#textExpandRepeaterAdapter.hideItem(this.#htmlItems[i]);
       }
     }
   }
 
   #showItems(): void {
-    if (this.#htmlItems && this.maxItems) {
-      for (let i = this.maxItems; i < this.#htmlItems.length; i++) {
+    if (this.#htmlItems && this.maxItems()) {
+      for (let i = this.maxItems(); i < this.#htmlItems.length; i++) {
         this.#textExpandRepeaterAdapter.showItem(this.#htmlItems[i]);
       }
     }

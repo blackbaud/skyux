@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
 import { SkyActionHubModule } from '@skyux/pages';
@@ -10,7 +9,6 @@ import { SettingsComponent } from './settings/settings.component';
 @NgModule({
   declarations: [ActionHubPlaygroundRecentLinksComponent, SettingsComponent],
   imports: [
-    CommonModule,
     ActionHubRoutingModule,
     SkyActionHubModule,
     SkyFluidGridModule,

@@ -1,15 +1,28 @@
-<div
-  [skyPopover]="validatorPopover"
-  [skyPopoverMessageStream]="popoverMessageStream"
-  class="sky-validator-cell"
->
+<ng-template #displayValue>
   <ng-content />
-  <sky-status-indicator
-    descriptionType="none"
-    indicatorType="danger"
-    class="sky-pull-right"
-  ></sky-status-indicator>
-</div>
-<sky-popover #validatorPopover popoverType="danger">
-  {{ validatorMessage }}
-</sky-popover>
+</ng-template>
+
+@if (showValidatorMessage()) {
+  <div
+    skyPopoverTrigger="mouseenter"
+    class="sky-validator-cell"
+    [skyPopover]="validatorPopover"
+    [skyPopoverMessageStream]="popoverMessageStream"
+  >
+    <ng-container *ngTemplateOutlet="displayValue" />
+    <sky-status-indicator
+      descriptionType="none"
+      indicatorType="danger"
+      class="sky-pull-right"
+    />
+  </div>
+  <sky-popover
+    #validatorPopover
+    data-sky-id="validatorPopover"
+    popoverType="danger"
+  >
+    {{ validatorMessage }}
+  </sky-popover>
+} @else {
+  <ng-container *ngTemplateOutlet="displayValue" />
+}

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { Route, RouterModule } from '@angular/router';
+import { provideInitialTheme } from '@skyux/theme';
 
 import { AppComponent } from './app.component';
 
@@ -26,6 +28,7 @@ if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
     BrowserModule,
     RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking' }),
   ],
+  providers: [provideAnimations(), provideInitialTheme('modern')],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

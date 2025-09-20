@@ -7,7 +7,6 @@ import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { SkyGridColumnComponent } from './grid-column.component';
 
 @Component({
-  standalone: true,
   template: `
     <sky-grid-column width="123">
       <ng-container *ngIf="(selector | async) === 'one'">

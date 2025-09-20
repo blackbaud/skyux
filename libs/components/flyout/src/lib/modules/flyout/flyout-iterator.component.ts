@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -6,7 +5,7 @@ import {
   OnDestroy,
   Output,
 } from '@angular/core';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
@@ -17,16 +16,10 @@ import { SkyFlyoutResourcesModule } from '../shared/sky-flyout-resources.module'
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-flyout-iterator',
   templateUrl: './flyout-iterator.component.html',
   styleUrls: ['./flyout-iterator.component.scss'],
-  imports: [
-    CommonModule,
-    SkyIconModule,
-    SkyFlyoutResourcesModule,
-    SkyThemeModule,
-  ],
+  imports: [SkyIconModule, SkyFlyoutResourcesModule, SkyThemeModule],
 })
 export class SkyFlyoutIteratorComponent implements OnDestroy {
   @Input()

@@ -1,0 +1,9 @@
+.space {
+  margin: var(--sky-margin-stacked-lg);
+  height: 100vh;
+  background-color: var(--sky-background-color-info);
+}
+
+.space:before {
+  content: ' ';
+}

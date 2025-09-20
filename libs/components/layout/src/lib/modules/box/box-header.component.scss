@@ -1,9 +1,17 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('sky-box') {
+  --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
+}
+
 sky-box-header {
   flex: 1 0;
-  order: 0;
 
   .sky-box-header {
-    padding: 0 var(--sky-margin-inline-xl) 0 0;
+    padding-right: var(
+      --sky-override-box-header-padding-right,
+      var(--sky-space-gap-text_action-l)
+    );
 
     h1,
     h2,

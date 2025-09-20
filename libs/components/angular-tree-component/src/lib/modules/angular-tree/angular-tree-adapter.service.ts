@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { SkyCoreAdapterService } from '@skyux/core';
 
 /**
@@ -6,11 +6,7 @@ import { SkyCoreAdapterService } from '@skyux/core';
  */
 @Injectable()
 export class SkyAngularTreeAdapterService {
-  #coreAdapterService: SkyCoreAdapterService;
-
-  constructor(coreAdapterService: SkyCoreAdapterService) {
-    this.#coreAdapterService = coreAdapterService;
-  }
+  readonly #coreAdapterService = inject(SkyCoreAdapterService);
 
   public getFocusableChildren(element: HTMLElement): HTMLElement[] {
     return this.#coreAdapterService.getFocusableChildren(element);

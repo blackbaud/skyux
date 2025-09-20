@@ -1,67 +1,59 @@
 <h2 class="sky-font-heading-2">Standard phone field</h2>
 
-<div
-  id="screenshot-phone-field"
-  style="width: 50%; height: 100px; margin: 10px; padding: 10px"
->
-  <sky-phone-field [allowExtensions]="false" returnFormat="international">
-    <input [(ngModel)]="phoneNumber" skyPhoneFieldInput />
+<div id="screenshot-phone-field" class="phone-field-playground-instance">
+  <sky-phone-field returnFormat="international" [allowExtensions]="false">
+    <input skyPhoneFieldInput [(ngModel)]="phoneNumber" />
   </sky-phone-field>
 </div>
 
-<p *ngIf="phoneNumber">Entered phone number is {{ phoneNumber }}</p>
+@if (phoneNumber) {
+  <p>Entered phone number is {{ phoneNumber }}</p>
+}
 
 <h2 class="sky-font-heading-2">Reactive phone field with default country</h2>
 
 <form
   id="screenshot-phone-field-default"
-  style="width: 50%; height: 100px; margin: 10px; padding: 10px"
+  class="phone-field-playground-instance"
   [formGroup]="phoneForm"
 >
-  <sky-phone-field [defaultCountry]="'CA'">
+  <sky-phone-field [defaultCountry]="'US'" [selectedCountry]="selectedCountry">
     <input formControlName="phoneControl" skyPhoneFieldInput />
   </sky-phone-field>
 </form>
 
-<p *ngIf="phoneControl.value">
-  Entered phone number is {{ phoneControl.value }}
-</p>
+@if (phoneControl.value) {
+  <p>Entered phone number is {{ phoneControl.value }}</p>
+}
+
+<button
+  type="button"
+  class="sky-btn sky-btn-primary"
+  (click)="switchToAustralia()"
+>
+  Switch to AU
+</button>
 
 <h2 class="sky-font-heading-2">Phone field inside input box</h2>
 
 <div
   id="screenshot-phone-field-input-box"
-  style="width: 50%; height: 160px; margin: 10px; padding: 10px"
+  class="phone-field-playground-instance"
 >
-  <sky-input-box>
-    <label class="sky-control-label" [for]="skyPhoneFieldInputBox.id">
-      Input box
-    </label>
-    <sky-phone-field>
-      <input
-        class="sky-form-control"
-        [(ngModel)]="phoneNumberInputBox"
-        skyId
-        skyPhoneFieldInput
-        #skyPhoneFieldInputBox="skyId"
-      />
-    </sky-phone-field>
-  </sky-input-box>
-</div>
-
-<div
-  id="screenshot-phone-field-input-box-easy"
-  style="width: 50%; height: 160px; margin: 10px; padding: 10px"
->
-  <sky-input-box
-    hintText="We'll call this number when it's your birthday."
-    labelText="Input box (easy)"
-    mode="detect"
+  <div
+    id="screenshot-phone-field-input-box-easy"
+    class="phone-field-playground-instance"
   >
-    <sky-phone-field>
-      <input [(ngModel)]="phoneNumberInputBox" skyPhoneFieldInput />
-    </sky-phone-field>
-  </sky-input-box>
-</div>
+    <sky-input-box
+      hintText="We'll call this number when it's your birthday."
+      labelText="Input box (easy)"
+      mode="detect"
+    >
+      <sky-phone-field>
+        <input skyPhoneFieldInput [(ngModel)]="phoneNumberInputBox" />
+      </sky-phone-field>
+    </sky-input-box>
+  </div>
 
-<input type="text" />
+  <input type="text" />
+</div>

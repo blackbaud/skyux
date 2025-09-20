@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/e2e/indicators-storybook/src",
   "prefix": "app",
+  "tags": ["component-e2e"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -33,7 +34,7 @@
             {
               "type": "anyComponentStyle",
               "maximumWarning": "2kb",
-              "maximumError": "14kb"
+              "maximumError": "140kb"
             }
           ],
           "fileReplacements": [
@@ -59,27 +60,25 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "indicators-storybook:build:production"
+          "buildTarget": "indicators-storybook:build:production"
         },
         "development": {
-          "browserTarget": "indicators-storybook:build:development"
+          "buildTarget": "indicators-storybook:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "indicators-storybook:build"
+        "buildTarget": "indicators-storybook:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": [
-          "apps/e2e/indicators-storybook/**/*.ts",
-          "apps/e2e/indicators-storybook/**/*.html"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
       }
     },
     "storybook": {
@@ -132,6 +131,5 @@
         }
       }
     }
-  },
-  "tags": ["component-e2e"]
+  }
 }

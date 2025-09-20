@@ -7,23 +7,24 @@
       The role must use square brackets otherwise Angular sets the native 'role'
       attribute as well as the input attribute of the token, which fails accessibility rules.
     -->
-  <sky-token
-    *ngFor="let token of tokens; let i = index; trackBy: trackTokenFn"
-    [@.disabled]="!trackWith"
-    [@dismiss]
-    [disabled]="disabled"
-    [dismissible]="dismissible"
-    [focusable]="focusable"
-    [role]="'row'"
-    (@dismiss.done)="animationDone()"
-    (dismiss)="removeToken(token)"
-    (click)="onTokenClick(token)"
-    (keydown)="onTokenKeyDown($event)"
-    (keyup.enter)="selectToken(token); $event.preventDefault()"
-    (tokenFocus)="activeIndex = i"
-  >
-    {{ token.value[displayWith] }}
-  </sky-token>
+  @for (token of tokens; track trackTokenFn(i, token); let i = $index) {
+    <sky-token
+      [@.disabled]="!trackWith"
+      [@dismiss]
+      [disabled]="disabled"
+      [dismissible]="dismissible"
+      [focusable]="focusable"
+      [role]="'row'"
+      (@dismiss.done)="animationDone()"
+      (dismiss)="removeToken(token)"
+      (click)="onTokenClick(token)"
+      (keydown)="onTokenKeyDown($event)"
+      (keyup.enter)="selectToken(token); $event.preventDefault()"
+      (tokenFocus)="activeIndex = i"
+    >
+      {{ token.value[displayWith] }}
+    </sky-token>
+  }
   <div class="sky-tokens-content" [attr.role]="tokens.length ? 'row' : null">
     <div [attr.role]="tokens.length ? 'gridcell' : null">
       <ng-content />

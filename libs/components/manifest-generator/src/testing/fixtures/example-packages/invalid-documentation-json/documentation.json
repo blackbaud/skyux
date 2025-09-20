@@ -1,0 +1,22 @@
+{
+  "$schema": "../../../../../documentation-schema.json",
+  "groups": {
+    "valid": {
+      "development": {
+        "docsIds": ["FooClass"],
+        "primaryDocsId": "FooClass"
+      },
+      "testing": { "docsIds": [] },
+      "codeExamples": { "docsIds": [] }
+    },
+    "invalid": {
+      "development": {
+        "docsIds": ["FooInternalClass", "Duplicate1", "Duplicate1", "Invalid2"],
+        "primaryDocsId": "ModuleNotListed",
+        "unrecognizedProperty": true
+      },
+      "testing": { "docsIds": [] },
+      "codeExamples": { "docsIds": [] }
+    }
+  }
+}

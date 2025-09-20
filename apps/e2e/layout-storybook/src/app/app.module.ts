@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Route, RouterModule } from '@angular/router';
+import { provideInitialTheme } from '@skyux/theme';
 
 import { AppComponent } from './app.component';
 
@@ -8,10 +9,6 @@ const routes: Route[] = [
   {
     path: 'box',
     loadChildren: () => import('./box/box.module').then((m) => m.BoxModule),
-  },
-  {
-    path: 'page',
-    loadChildren: () => import('./page/page.module').then((m) => m.PageModule),
   },
   {
     path: 'fluid-grid',
@@ -74,6 +71,7 @@ if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
     BrowserModule,
     RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking' }),
   ],
+  providers: [provideInitialTheme('modern')],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

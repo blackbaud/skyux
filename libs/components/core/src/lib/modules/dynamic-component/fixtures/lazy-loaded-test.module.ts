@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -7,14 +6,13 @@ import { LazyLoadedTestComponent } from './lazy-loaded-test.component';
 
 @NgModule({
   imports: [
-    CommonModule,
     RouterModule.forChild([{ path: '', component: LazyLoadedTestComponent }]),
   ],
 })
 class LazyLoadedRoutingModule {}
 
 @NgModule({
-  imports: [CommonModule, LazyLoadedRoutingModule],
+  imports: [LazyLoadedRoutingModule],
   declarations: [LazyLoadedTestComponent],
   providers: [
     {

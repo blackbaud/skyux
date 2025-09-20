@@ -22,9 +22,11 @@
   <a skyHref="test://test-app/example">Example</a>
 </p>
 
-<p *ngIf="testSlowLink" class="slowLink">
-  <a skyHref="slow://test-app/example">Example</a>
-</p>
+@if (testSlowLink) {
+  <p class="slowLink">
+    <a skyHref="slow://test-app/example">Example</a>
+  </p>
+}
 
 <p class="fragmentLink">
   <a skyHref="test://simple-app/example/page#foobar">Example</a>

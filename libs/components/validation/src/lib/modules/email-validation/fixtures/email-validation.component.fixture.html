@@ -1,14 +1,13 @@
 <div>
   <label>
     Test input
-    <input [(ngModel)]="emailValidator" skyEmailValidation #email="ngModel" />
+    <input #email="ngModel" skyEmailValidation [(ngModel)]="emailValidator" />
   </label>
-  <div
-    class="sky-error-label"
-    *ngIf="email.errors && email.errors.skyEmail && (email.dirty || email.touched)"
-  >
+  @if (email.errors?.skyEmail && (email.dirty || email.touched)) {
+  <div class="sky-error-label">
     <div [hidden]="!email.errors.skyEmail.invalid">
-      Please enter valid email with format joe@abc.com
+      Please enter valid email with format joe&#64;abc.com
     </div>
   </div>
+  }
 </div>

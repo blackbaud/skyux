@@ -1,11 +1,13 @@
-import { cypressProjectGenerator } from '@nx/cypress';
+import { configurationGenerator } from '@nx/cypress';
 import { NxJsonConfiguration, readNxJson, updateNxJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+
+import { createTestApplication } from '../../utils/testing';
 
 import configurePercy from './index';
 
 describe('configure-percy', () => {
-  function setupTest() {
+  async function setupTest() {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
     nxJson.workspaceLayout = {
@@ -16,32 +18,38 @@ describe('configure-percy', () => {
 
     tree.write('.gitignore', '');
 
+    await createTestApplication(tree, { name: 'cypress' });
     return { tree };
   }
 
   it('should import percy', async () => {
-    const { tree } = setupTest();
-    await cypressProjectGenerator(tree, {
-      name: `cypress`,
+    const { tree } = await setupTest();
+    await configurationGenerator(tree, {
+      project: 'cypress',
       baseUrl: 'https://example.com',
+      linter: 'none',
+      bundler: 'none',
+      skipFormat: true,
     });
     expect(tree.exists('apps/cypress/src/support/e2e.ts')).toBeTruthy();
-    expect(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      tree.read('apps/cypress/src/support/e2e.ts')!.toString(),
-    ).not.toContain('percy');
+    expect(tree.read('apps/cypress/src/support/e2e.ts', 'utf-8')).not.toContain(
+      'percy',
+    );
     await configurePercy(tree, { name: 'cypress' });
-    expect(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      tree.read('apps/cypress/src/support/e2e.ts')!.toString(),
-    ).toContain('percy');
+    expect(tree.read('apps/cypress/src/support/e2e.ts', 'utf-8')).toContain(
+      'percy',
+    );
   });
 
   it('should generate cypress.config.ts', async () => {
-    const { tree } = setupTest();
-    await cypressProjectGenerator(tree, {
-      name: `cypress`,
+    const { tree } = await setupTest();
+    await configurationGenerator(tree, {
+      project: `cypress`,
       baseUrl: 'https://example.com',
+      linter: 'none',
+      bundler: 'none',
+      directory: '',
+      skipFormat: true,
     });
     await configurePercy(tree, { name: 'cypress' });
     expect(tree.exists('apps/cypress/cypress.config.ts')).toBeTruthy();
@@ -51,10 +59,14 @@ describe('configure-percy', () => {
   });
 
   it('should handle missing supportFile', async () => {
-    const { tree } = setupTest();
-    await cypressProjectGenerator(tree, {
-      name: `cypress`,
+    const { tree } = await setupTest();
+    await configurationGenerator(tree, {
+      project: `cypress`,
       baseUrl: 'https://example.com',
+      linter: 'none',
+      bundler: 'none',
+      directory: '',
+      skipFormat: true,
     });
     tree.delete(`apps/cypress/src/support/e2e.ts`);
     await configurePercy(tree, { name: 'cypress' });

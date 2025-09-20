@@ -53,28 +53,25 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "colorpicker-storybook:build:production"
+          "buildTarget": "colorpicker-storybook:build:production"
         },
         "development": {
-          "browserTarget": "colorpicker-storybook:build:development"
+          "buildTarget": "colorpicker-storybook:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "colorpicker-storybook:build"
+        "buildTarget": "colorpicker-storybook:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": [
-          "apps/e2e/colorpicker-storybook/**/*.ts",
-          "apps/e2e/colorpicker-storybook/**/*.html"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
       }
     },
     "serve-static": {

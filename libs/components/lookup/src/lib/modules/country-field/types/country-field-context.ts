@@ -2,5 +2,5 @@
  * @internal
  */
 export interface SkyCountryFieldContext {
-  showPlaceholderText: boolean;
+  inPhoneField: boolean;
 }

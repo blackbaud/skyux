@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyVerticalTabsetModule } from '@skyux/tabs';
 
@@ -9,8 +9,8 @@ import { VerticalTabsetBackToTopComponent } from './vertical-tabset-back-to-top.
 @NgModule({
   declarations: [VerticalTabsetBackToTopComponent],
   imports: [
-    CommonModule,
     SkyBackToTopModule,
+    SkySummaryActionBarModule,
     SkyVerticalTabsetModule,
     VerticalTabsetBackToTopRoutingModule,
   ],

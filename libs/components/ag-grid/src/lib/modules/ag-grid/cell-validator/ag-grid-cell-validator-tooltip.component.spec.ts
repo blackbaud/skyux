@@ -1,135 +1,276 @@
-import { TestBed, fakeAsync, flush, tick } from '@angular/core/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { expect } from '@skyux-sdk/testing';
+import { SkyPopoverContentHarness } from '@skyux/popovers/testing';
+
+import { CellFocusedEvent } from 'ag-grid-community';
 
 import { SkyAgGridCellValidatorTooltipFixtureComponent } from '../fixtures/ag-grid-cell-validator-tooltip.component.fixture';
 import { SkyAgGridFixtureModule } from '../fixtures/ag-grid.module.fixture';
 import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator-params';
 
-import { SkyAgGridCellValidatorTooltipComponent } from './ag-grid-cell-validator-tooltip.component';
-
-const NOOP = (): void => {
-  return;
-};
-
 describe('SkyAgGridCellValidatorTooltipComponent', () => {
+  let fixture: ComponentFixture<SkyAgGridCellValidatorTooltipFixtureComponent>;
+  let component: SkyAgGridCellValidatorTooltipFixtureComponent;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
     });
+    fixture = TestBed.createComponent(
+      SkyAgGridCellValidatorTooltipFixtureComponent,
+    );
+    component = fixture.componentInstance;
+    component.parameters = {
+      addRenderedRowListener: jasmine.createSpy('addRenderedRowListener'),
+      api: {
+        addEventListener: jasmine.createSpy('addEventListener'),
+        getEditingCells: jasmine.createSpy('getEditingCells'),
+        isDestroyed: jasmine
+          .createSpy('getEditingCells')
+          .and.returnValue(false),
+        removeEventListener: jasmine.createSpy('removeEventListener'),
+      },
+      column: {
+        getColId: () => 'test',
+      },
+      eGridCell: fixture.nativeElement,
+      formatValue: jasmine.createSpy('formatValue'),
+      getValue: jasmine.createSpy('getValue'),
+      refreshCell: jasmine.createSpy('refreshCell'),
+      node: {
+        rowIndex: 0,
+      },
+      setValue: jasmine.createSpy('setValue'),
+    } as unknown as SkyCellRendererValidatorParams;
   });
 
   it('should create an instance', () => {
-    const fixture = TestBed.createComponent(
-      SkyAgGridCellValidatorTooltipFixtureComponent,
-    );
-    fixture.componentInstance.parameters = {
-      addRenderedRowListener: NOOP,
-      column: {
-        getActualWidth(): number {
-          return -1;
-        },
-      },
-      formatValue: NOOP,
-      getValue: NOOP,
-      refreshCell: NOOP,
-      rowIndex: 0,
-      setValue: NOOP,
-    } as unknown as SkyCellRendererValidatorParams;
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it('should toggle popover', fakeAsync(() => {
-    const fixture = TestBed.createComponent(
-      SkyAgGridCellValidatorTooltipComponent,
-    );
-
-    const parameters = {
-      addRenderedRowListener: NOOP,
-      column: {
-        getActualWidth(): number {
-          return -1;
-        },
-      },
-      formatValue: NOOP,
-      getValue: NOOP,
-      refreshCell: NOOP,
-      rowIndex: 0,
-      setValue: NOOP,
-    } as unknown as SkyCellRendererValidatorParams;
-
-    fixture.componentInstance.params = {
-      ...parameters,
+  it('should toggle popover', async () => {
+    fixture.componentInstance.parameters = {
+      ...fixture.componentInstance.parameters,
       skyComponentProperties: {
         validatorMessage: 'Test message ABC',
       },
-    };
+    } as SkyCellRendererValidatorParams;
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
 
-    fixture.componentInstance.showPopover();
-    tick();
+    component.tooltip()?.showPopover();
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-    fixture.componentInstance.params = {
-      ...parameters,
+    const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    const popoverHarness = await loader.getHarness(
+      SkyPopoverContentHarness.with({
+        dataSkyId: 'validatorPopover',
+      }),
+    );
+    expect(await popoverHarness.getBodyText()).toEqual('Test message ABC');
+
+    fixture.componentInstance.parameters = {
+      ...fixture.componentInstance.parameters,
       skyComponentProperties: {
         validatorMessage: (): string => 'Test message XYZ',
       },
-    };
-    expect(fixture.componentInstance.validatorMessage).toBe('Test message XYZ');
-  }));
+    } as SkyCellRendererValidatorParams;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(await popoverHarness.getBodyText()).toEqual('Test message XYZ');
+  });
 
-  it('should show popover on delayed hover', fakeAsync(() => {
-    const fixture = TestBed.createComponent(
-      SkyAgGridCellValidatorTooltipComponent,
-    );
-    const eventHandlers: { [eventName: string]: (event: Event) => void } = {};
-    fixture.componentInstance.params = {
-      addRenderedRowListener: NOOP,
-      column: {
-        getActualWidth(): number {
-          return -1;
-        },
-      },
-      eGridCell: {
-        addEventListener: (eventName: string, handler: () => void) => {
-          eventHandlers[eventName] = handler;
-        },
-      } as HTMLElement,
-      formatValue: NOOP,
-      getValue: NOOP,
-      refreshCell: NOOP,
-      rowIndex: 0,
-      setValue: NOOP,
+  it('should toggle popover with mouse events', async () => {
+    fixture.componentInstance.parameters = {
+      ...fixture.componentInstance.parameters,
       skyComponentProperties: {
         validatorMessage: 'Test message ABC',
       },
-    } as unknown as SkyCellRendererValidatorParams;
-    const popover = (): HTMLElement | null =>
-      (fixture.nativeElement as HTMLElement).ownerDocument.querySelector(
-        'sky-popover-content',
-      );
+    } as SkyCellRendererValidatorParams;
     fixture.detectChanges();
-    expect(eventHandlers['keyup']).toBeTruthy();
-    expect(eventHandlers['mouseenter']).toBeTruthy();
-    expect(eventHandlers['mouseleave']).toBeTruthy();
-    eventHandlers['keyup']({ key: 'ArrowRight' } as KeyboardEvent);
-    tick();
+    expect(fixture.componentInstance).toBeTruthy();
+
+    fixture.nativeElement.dispatchEvent(new Event('mouseenter'));
+    fixture.nativeElement.dispatchEvent(
+      new KeyboardEvent('keyup', { key: 'ArrowUp' }),
+    );
     fixture.detectChanges();
-    fixture.whenStable();
-    expect(popover()).toBeTruthy();
-    eventHandlers['mouseleave']({} as MouseEvent);
-    tick();
+    await fixture.whenStable();
+
+    const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    const popoverHarness = await loader.getHarness(
+      SkyPopoverContentHarness.with({
+        dataSkyId: 'validatorPopover',
+      }),
+    );
+    expect(await popoverHarness.getBodyText()).toEqual('Test message ABC');
+
+    fixture.nativeElement.dispatchEvent(new Event('mouseleave'));
     fixture.detectChanges();
-    tick();
+    await fixture.whenStable();
+  });
+
+  it('should hide empty messages', async () => {
+    fixture.componentInstance.parameters = {
+      ...fixture.componentInstance.parameters,
+      skyComponentProperties: {
+        validatorMessage: '',
+      },
+    } as SkyCellRendererValidatorParams;
     fixture.detectChanges();
-    fixture.whenStable();
-    expect(popover()).toBeFalsy();
-    eventHandlers['mouseenter']({} as MouseEvent);
-    tick();
-    flush();
+    await fixture.whenStable();
+    expect(fixture.componentInstance).toBeTruthy();
+
+    component.tooltip()?.showPopover();
     fixture.detectChanges();
-    fixture.whenStable();
-    expect(popover()).toBeTruthy();
-  }));
+    await fixture.whenStable();
+
+    const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    await expectAsync(
+      loader.getHarness(
+        SkyPopoverContentHarness.with({
+          dataSkyId: 'validatorPopover',
+        }),
+      ),
+    ).toBeRejectedWithError(
+      /^Failed to find element matching one of the following queries/,
+    );
+  });
+
+  it('should hide messages when editing', async () => {
+    fixture.componentInstance.parameters = {
+      ...fixture.componentInstance.parameters,
+      skyComponentProperties: {
+        validator: () => false,
+        validatorMessage: 'Test message ABC',
+      },
+    } as SkyCellRendererValidatorParams;
+    (
+      fixture.componentInstance.parameters?.api.getEditingCells as jasmine.Spy
+    ).and.returnValue(['test']);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(fixture.componentInstance).toBeTruthy();
+    expect(
+      fixture.debugElement.query(By.css('.sky-validator-cell')),
+    ).toBeTruthy();
+
+    component.tooltip()?.showPopover();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    await expectAsync(
+      loader.getHarness(
+        SkyPopoverContentHarness.with({
+          dataSkyId: 'validatorPopover',
+        }),
+      ),
+    ).toBeRejectedWithError(
+      /^Failed to find element matching one of the following queries/,
+    );
+  });
+
+  it('should hide messages when valid', async () => {
+    fixture.componentInstance.parameters = {
+      ...fixture.componentInstance.parameters,
+      skyComponentProperties: {
+        validator: () => true,
+        validatorMessage: 'Test message ABC',
+      },
+    } as SkyCellRendererValidatorParams;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(fixture.componentInstance).toBeTruthy();
+    expect(
+      fixture.debugElement.query(By.css('.sky-validator-cell')),
+    ).toBeFalsy();
+  });
+
+  it('should show messages when not valid', async () => {
+    fixture.componentInstance.parameters = {
+      ...fixture.componentInstance.parameters,
+      skyComponentProperties: {
+        validator: () => false,
+        validatorMessage: 'Test message ABC',
+      },
+    } as SkyCellRendererValidatorParams;
+    (
+      fixture.componentInstance.parameters?.api.getEditingCells as jasmine.Spy
+    ).and.returnValue([]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(fixture.componentInstance).toBeTruthy();
+
+    component.tooltip()?.showPopover();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    const popoverHarness = await loader.getHarness(
+      SkyPopoverContentHarness.with({
+        dataSkyId: 'validatorPopover',
+      }),
+    );
+    expect(await popoverHarness.getBodyText()).toEqual('Test message ABC');
+  });
+
+  it('should show messages when a cell is focused', async () => {
+    fixture.componentInstance.parameters = {
+      ...fixture.componentInstance.parameters,
+      skyComponentProperties: {
+        validator: () => false,
+        validatorMessage: 'Test message ABC',
+      },
+    } as SkyCellRendererValidatorParams;
+    (
+      fixture.componentInstance.parameters?.api.getEditingCells as jasmine.Spy
+    ).and.returnValue([]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(fixture.componentInstance).toBeTruthy();
+
+    expect(
+      fixture.componentInstance.parameters.api.addEventListener,
+    ).toHaveBeenCalledTimes(2);
+    expect(
+      fixture.componentInstance.parameters.api.addEventListener,
+    ).toHaveBeenCalledWith('cellFocused', jasmine.any(Function));
+    expect(
+      fixture.componentInstance.parameters.api.addEventListener,
+    ).toHaveBeenCalledWith('cellEditingStarted', jasmine.any(Function));
+    const eventListener = (
+      fixture.componentInstance.parameters.api.addEventListener as jasmine.Spy
+    ).calls.argsFor(0)[1] as (eventParams: CellFocusedEvent) => void;
+    expect(typeof eventListener).toEqual('function');
+    eventListener({
+      column: {
+        getColId: () => 'test',
+      },
+      rowIndex: 0,
+    } as unknown as CellFocusedEvent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    const popoverHarness = await loader.getHarness(
+      SkyPopoverContentHarness.with({
+        dataSkyId: 'validatorPopover',
+      }),
+    );
+    expect(await popoverHarness.getBodyText()).toEqual('Test message ABC');
+
+    eventListener({
+      column: {
+        getColId: () => 'other',
+      },
+      rowIndex: 0,
+    } as unknown as CellFocusedEvent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+  });
 });

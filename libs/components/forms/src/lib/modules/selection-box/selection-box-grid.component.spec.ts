@@ -114,14 +114,12 @@ describe('Selection box grid component', () => {
     // Fixture has a single hard-coded selection box of 500px,
     // so the other selection boxes should be at least 500px tall.
     expect(newHeight).toBeGreaterThanOrEqual(500);
-    for (let i = 0; i < selectionBoxes.length; i++) {
-      expect(selectionBoxes[i].getBoundingClientRect().height).toEqual(
-        newHeight,
-      );
+    for (const selectionBox of Array.from(selectionBoxes)) {
+      expect(selectionBox.getBoundingClientRect().height).toEqual(newHeight);
     }
   });
 
-  it(`should update CSS responsive classes on window resize`, async () => {
+  it(`should update CSS responsive classes on window resize`, () => {
     spyOn(
       SkySelectionBoxAdapterService.prototype,
       'getParentWidth',

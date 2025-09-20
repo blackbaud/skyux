@@ -1,34 +1,32 @@
 <div class="sky-error">
-  <div
-    *ngIf="showImage"
-    class="sky-error-image-container sky-margin-stacked-lg"
-  >
-    <div
-      *ngIf="errorType"
-      class="sky-error-image-svg"
-      [ngClass]="['sky-error-' + errorType + '-image']"
-    ></div>
-    <ng-content select="sky-error-image" />
-  </div>
+  @if (showImage) {
+    <div class="sky-error-image-container sky-margin-stacked-lg">
+      @if (errorType) {
+        <div
+          class="sky-error-image-svg"
+          [ngClass]="['sky-error-' + errorType + '-image']"
+        ></div>
+      }
+      <ng-content select="sky-error-image" />
+    </div>
+  }
 
   <div class="sky-error-title sky-font-heading-1 sky-margin-stacked-lg">
-    <ng-container
-      *ngIf="defaultTitle && (errorSvc.replaceDefaultTitle | async) === false"
-      >{{ defaultTitle }}</ng-container
-    >
+    @if (defaultTitle && (errorSvc.replaceDefaultTitle | async) === false) {
+      <ng-container>{{ defaultTitle }}</ng-container>
+    }
     <ng-content select="sky-error-title" />
   </div>
 
   <div
     class="sky-error-description sky-font-body-default sky-margin-stacked-xl"
   >
-    <span
-      *ngIf="
-        defaultDescription &&
-        (errorSvc.replaceDefaultDescription | async) === false
-      "
-      >{{ defaultDescription }}</span
-    >
+    @if (
+      defaultDescription &&
+      (errorSvc.replaceDefaultDescription | async) === false
+    ) {
+      <span>{{ defaultDescription }}</span>
+    }
     <ng-content select="sky-error-description" />
   </div>
 

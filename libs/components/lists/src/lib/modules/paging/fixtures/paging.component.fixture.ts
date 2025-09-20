@@ -5,6 +5,7 @@ import { SkyPagingComponent } from '../paging.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './paging.component.fixture.html',
+  standalone: false,
 })
 export class SkyPagingTestComponent {
   @ViewChild(SkyPagingComponent, {
@@ -18,7 +19,4 @@ export class SkyPagingTestComponent {
   public currentPage = 1;
   public itemCount = 8;
   public label: string | undefined;
-  public currentPageChanged(currentPage: number): void {
-    this.currentPage = currentPage;
-  }
 }

@@ -1,39 +1,56 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-inline-form') {
+  --sky-override-inline-form-background-color: #{$sky-background-color-neutral-light};
+  --sky-override-inline-form-border: 1px solid
+    #{$sky-border-color-neutral-medium};
+  --sky-override-inline-form-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  --sky-override-inline-form-button-margin-right: #{$sky-margin-stacked-compact};
+  --sky-override-inline-form-padding: #{$sky-padding-even-default};
+  --sky-override-inline-form-footer-margin-top: #{$sky-margin-stacked-separate};
+}
 
 .sky-inline-form {
-  background: $sky-background-color-neutral-light;
-  border: 1px solid $sky-border-color-neutral-medium;
-  padding: $sky-padding-even-default;
+  // The background rule can be removed when default theme support is dropped as it comes from the `sky-box` class.
+  background: var(
+    --sky-override-inline-form-background-color,
+    var(--sky-color-background-container-base)
+  );
+  // Box shadow and border rules can be removed when default support is dropped as it will come from the `sky-elevation-1-bordered` class.
+  border: var(
+    --sky-override-inline-form-border,
+    var(--sky-border-style-elevation) var(--sky-border-width-container-base)
+      var(--sky-color-border-container-base)
+  );
+  box-shadow: var(
+    --sky-override-inline-form-box-shadow,
+    var(--sky-elevation-raised-100)
+  );
+  // Padding rule can be removed when default is removed as it will come from the `sky-padding-even-md` class
+  padding: var(
+    --sky-override-inline-form-padding,
+    var(--sky-comp-inline_form-space-inset-top)
+      var(--sky-comp-inline_form-space-inset-right)
+      var(--sky-comp-inline_form-space-inset-bottom)
+      var(--sky-comp-inline_form-space-inset-left)
+  );
   width: 100%;
 
   .sky-inline-form-footer {
-    margin-top: $sky-margin-stacked-separate;
+    margin-top: var(
+      --sky-override-inline-form-footer-margin-top,
+      var(--sky-space-gap-form-xl)
+    );
 
     button {
-      margin: 0 $sky-margin-stacked-compact 0 0;
+      margin: 0
+        var(
+          --sky-override-inline-form-button-margin-right,
+          var(--sky-space-gap-action_group-m)
+        )
+        0 0;
     }
-  }
-}
-
-@include mixins.sky-theme-modern {
-  .sky-inline-form {
-    background-color: #fff;
-    border: none;
-    padding: $sky-theme-modern-padding-even-md;
-
-    .sky-inline-form-footer {
-      margin-top: $sky-theme-modern-margin-stacked-xl;
-
-      button {
-        margin-right: $sky-theme-modern-margin-inline-sm;
-      }
-    }
-  }
-}
-
-@include mixins.sky-theme-modern-dark {
-  .sky-inline-form {
-    background-color: $sky-theme-modern-mode-dark-background-color-elevation-3;
   }
 }

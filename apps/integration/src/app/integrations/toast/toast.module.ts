@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -10,14 +9,14 @@ const routes: Routes = [
     component: ToastComponent,
     data: {
       name: 'Toast',
-      icon: 'fire',
+      icon: 'megaphone',
     },
   },
 ];
 
 @NgModule({
   declarations: [ToastComponent],
-  imports: [CommonModule, RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes)],
 })
 export class ToastModule {
   public static routes = routes;

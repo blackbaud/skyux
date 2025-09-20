@@ -1,35 +1,243 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-text-editor') {
+  --sky-override-text-editor-background-color: white;
+  --sky-override-text-editor-toolbar-background-color: white;
+  --sky-override-text-editor-label-background-color: transparent;
+  --sky-override-text-editor-border-error: 1px solid
+    var(--sky-highlight-color-danger);
+  --sky-override-text-editor-border-focused: 1px solid
+    var(--sky-highlight-color-info);
+  --sky-override-text-editor-border-radius: 0;
+  --sky-override-text-editor-border: #{1px solid
+    $sky-border-color-neutral-medium};
+  --sky-override-text-editor-box-shadow-error: #{0 0 8px
+    rgba($sky-highlight-color-danger, 0.6)};
+  --sky-override-text-editor-box-shadow-focused: #{0 0 8px
+    rgba($sky-highlight-color-info, 0.6)};
+  --sky-override-text-editor-box-shadow: none;
+  --sky-override-text-editor-disabled-cursor: default;
+  --sky-override-text-editor-label-color: var(--sky-text-color-default);
+  --sky-override-text-editor-label-color-focused: var(--sky-text-color-default);
+  --sky-override-text-editor-label-color-invalid: var(--sky-text-color-default);
+  --sky-override-text-editor-label-display: flex;
+  --sky-override-text-editor-label-font-size: 15px;
+  --sky-override-text-editor-label-font-weight: 400;
+  --sky-override-text-editor-label-line-height: normal;
+  --sky-override-text-editor-label-margin-bottom: 5px;
+  --sky-override-text-editor-label-padding: 0;
+  --sky-override-text-editor-toolbar-border: #{1px solid
+    $sky-border-color-neutral-medium};
+  --sky-override-text-editor-toolbar-item-spacing: 0 20px 10px 0;
+  --sky-override-text-editor-toolbar-section-padding: 10px 10px 0 10px;
+  --sky-override-text-editor-top-toolbar-bottom-padding: 0;
+  --sky-override-text-editor-wrapper-background-color-disabled: var(
+    --sky-background-color-disabled
+  );
+  --sky-override-text-editor-wrapper-padding: 1rem;
+}
+
+@include compatMixins.sky-default-overrides('.sky-text-editor-hint-text') {
+  --sky-override-text-editor-hint-text-space: 5px;
+}
+
+sky-text-editor.sky-form-field-stacked {
+  display: block;
+}
 
 .sky-text-editor {
+  border-radius: var(
+    --sky-override-text-editor-border-radius,
+    var(--sky-border-radius-s)
+  );
+
+  box-shadow: var(
+    --sky-override-text-editor-box-shadow,
+    inset 0 0 0 var(--sky-border-width-input-base)
+      var(--sky-color-border-input-base)
+  );
+  background-color: var(--sky-color-background-input-base);
+
+  &.sky-text-editor-disabled {
+    background-color: var(--sky-color-background-input-disabled);
+    box-shadow: var(
+      --sky-override-text-editor-box-shadow,
+      inset 0 0 0 var(--sky-border-width-input-disabled)
+        var(--sky-color-border-input-disabled)
+    );
+    cursor: var(--sky-override-text-editor-disabled-cursor, not-allowed);
+  }
+
+  .sky-text-editor-label-wrapper:not(:empty) {
+    background-color: var(--sky-override-text-editor-label-background-color);
+    display: var(--sky-override-text-editor-label-display, inline-block);
+    padding: var(
+      --sky-override-text-editor-label-padding,
+      var(--sky-comp-input-label-space-inset-top)
+        var(--sky-comp-input-value-space-inset-right) 0
+        var(--sky-comp-input-value-space-inset-left)
+    );
+    width: 100%;
+    color: var(
+      --sky-override-text-editor-label-color,
+      var(--sky-color-text-default)
+    );
+
+    label {
+      font-size: var(
+        --sky-override-text-editor-label-font-size,
+        var(--sky-font-size-input-label)
+      );
+      font-style: var(--sky-font-style-input-label);
+      font-weight: var(
+        --sky-override-text-editor-label-font-weight,
+        var(--sky-font-style-input-label)
+      );
+      letter-spacing: var(--sky-font-letter_spacing-input-label);
+      line-height: var(
+        --sky-override-text-editor-label-line-height,
+        var(--sky-font-line_height-input-label)
+      );
+
+      margin-bottom: var(--sky-override-text-editor-label-margin-bottom, 0);
+    }
+  }
+
   .sky-text-editor-wrapper {
     display: flex;
     flex-wrap: wrap;
-    background-color: white;
+    background-color: var(--sky-override-text-editor-background-color);
     width: 100%;
     height: 300px;
-    padding: 1rem;
+    padding: var(
+      --sky-override-text-editor-wrapper-padding,
+      var(--sky-comp-text_editor-space-inset-top)
+        var(--sky-comp-text_editor-space-inset-right)
+        var(--sky-comp-text_editor-space-inset-bottom)
+        var(--sky-comp-text_editor-space-inset-left)
+    );
     font-size: 1.2rem;
-    border: 1px solid #c0c0c0;
+    border-bottom-left-radius: var(
+      --sky-override-text-editor-border-radius,
+      var(--sky-border-radius-s)
+    );
+    border-bottom-right-radius: var(
+      --sky-override-text-editor-border-radius,
+      var(--sky-border-radius-s)
+    );
+    border-top: none;
+    border-right: var(--sky-override-text-editor-border, none);
+    border-bottom: var(--sky-override-text-editor-border, none);
+    border-left: var(--sky-override-text-editor-border, none);
+    box-shadow: var(
+      --sky-override-text-editor-box-shadow,
+      inset 0 0 0 var(--sky-border-width-input-base)
+        var(--sky-color-border-input-base)
+    );
     overflow-y: auto;
     outline: none;
     &.sky-text-editor-wrapper-disabled {
-      background-color: #ededee;
+      background-color: var(
+        --sky-override-text-editor-wrapper-background-color-disabled,
+        var(--sky-color-background-input-disabled)
+      );
+      box-shadow: var(
+        --sky-override-text-editor-box-shadow,
+        inset 0 0 0 var(--sky-border-width-input-disabled)
+          var(--sky-color-border-input-disabled)
+      );
+    }
+  }
+
+  &.sky-text-editor-invalid {
+    .sky-text-editor-wrapper {
+      box-shadow: var(
+        --sky-override-text-editor-box-shadow-error,
+        inset 0 0 0 var(--sky-border-width-input-error)
+          var(--sky-color-border-input-error)
+      );
+      border: var(--sky-override-text-editor-border-error, none);
+      outline: none;
+    }
+
+    .sky-text-editor-label-wrapper {
+      color: var(
+        --sky-override-text-editor-label-color-invalid,
+        var(--sky-color-text-danger)
+      );
+    }
+  }
+
+  &.sky-text-editor-wrapper-focused {
+    .sky-text-editor-wrapper {
+      box-shadow: var(
+        --sky-override-text-editor-box-shadow-focused,
+        inset 0 0 0 var(--sky-border-width-input-focus)
+          var(--sky-color-border-input-focus)
+      );
+      border: var(--sky-override-text-editor-border-focused, none);
+      outline: none;
+    }
+
+    .sky-text-editor-label-wrapper {
+      color: var(
+        --sky-override-text-editor-label-color-focused,
+        var(--sky-color-text-action)
+      );
+    }
+  }
+
+  &:not(.sky-text-editor-wrapper-focused) {
+    .sky-text-editor-wrapper:hover:not(:active) {
+      box-shadow: var(
+        --sky-override-text-editor-box-shadow,
+        inset 0 0 0 var(--sky-border-width-input-hover)
+          var(--sky-color-border-input-hover)
+      );
     }
   }
 
   .sky-text-editor-toolbar {
+    .sky-toolbar-container {
+      background-color: var(
+        --sky-override-text-editor-toolbar-background-color
+      ) !important;
+    }
+
     .sky-toolbar-section {
-      padding: 10px 10px 0 10px;
+      padding: var(
+        --sky-override-text-editor-toolbar-section-padding,
+        var(--sky-comp-toolbar-space-inset-top)
+          var(--sky-comp-input-value-space-inset-right)
+          var(--sky-comp-toolbar-space-inset-bottom)
+          var(--sky-comp-input-value-space-inset-left)
+      ) !important;
+      border-top: var(
+        --sky-override-text-editor-toolbar-border,
+        none
+      ) !important;
+    }
+
+    sky-toolbar-section:not(:last-of-type) .sky-toolbar-section {
+      padding-bottom: var(
+        --sky-override-text-editor-top-toolbar-bottom-padding,
+        var(--sky-comp-toolbar-space-inset-bottom)
+      ) !important;
+      border-top: none !important;
     }
 
     .sky-toolbar-sectioned {
-      // !important is needed to override specificity from modern stylesheet in theme.
-      border-left: 1px solid $sky-border-color-neutral-medium !important;
-      border-right: 1px solid $sky-border-color-neutral-medium !important;
+      border-left: var(--sky-override-text-editor-toolbar-border, none);
+      border-right: var(--sky-override-text-editor-toolbar-border, none);
     }
 
     .sky-toolbar-item {
-      margin: 0 20px 10px 0;
+      margin: var(
+        --sky-override-text-editor-toolbar-item-spacing,
+        0 var(--sky-space-gap-action_group-m) 0 0
+      ) !important;
     }
 
     .sky-dropdown-button {
@@ -44,34 +252,21 @@
   }
 }
 
+.sky-text-editor-hint-text {
+  margin-top: var(
+    --sky-override-text-editor-hint-text-space,
+    var(--sky-space-gap-stacked_supplemental-s)
+  );
+}
+
 .sky-theme-modern {
   .sky-text-editor {
-    .sky-text-editor-wrapper {
-      border: 1px solid $sky-theme-modern-border-color-neutral-medium;
-      &.sky-text-editor-wrapper-disabled {
-        background-color: #ececed;
-      }
+    .sky-text-editor-label-wrapper:not(:empty) {
+      transition: $sky-form-border-and-color-transitions;
     }
 
-    .sky-text-editor-toolbar {
-      .sky-toolbar {
-        padding: 10px 10px 0 10px;
-      }
-
-      .sky-toolbar-section {
-        padding: 10px !important;
-      }
-
-      .sky-toolbar-sectioned {
-        // !important is needed to override specificity from modern stylesheet in theme.
-        border-top: 1px solid $sky-theme-modern-border-color-neutral-medium !important;
-        border-left: 1px solid $sky-theme-modern-border-color-neutral-medium !important;
-        border-right: 1px solid $sky-theme-modern-border-color-neutral-medium !important;
-      }
-
-      .sky-toolbar-item {
-        margin: 0 20px 0 0 !important;
-      }
+    .sky-text-editor-wrapper {
+      transition: $sky-form-border-and-color-transitions;
     }
   }
 }

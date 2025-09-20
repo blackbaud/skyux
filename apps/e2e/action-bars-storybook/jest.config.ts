@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'e2e-action-bars-storybook',
   preset: '../../../jest.preset.js',

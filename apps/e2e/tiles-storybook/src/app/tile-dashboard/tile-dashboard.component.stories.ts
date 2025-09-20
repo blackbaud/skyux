@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { TileDashboardComponent } from './tile-dashboard.component';
 import { TileDashboardModule } from './tile-dashboard.module';
@@ -13,10 +14,6 @@ export default {
     }),
   ],
 } as Meta<TileDashboardComponent>;
-const Template: Story<TileDashboardComponent> = (
-  args: TileDashboardComponent,
-) => ({
-  props: args,
-});
-export const TileDashboard = Template.bind({});
+type Story = StoryObj<TileDashboardComponent>;
+export const TileDashboard: Story = {};
 TileDashboard.args = {};

@@ -1,7 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SkyPageModule } from '@skyux/layout';
+import { SkyPageModule } from '@skyux/pages';
 import { SkyTabsModule } from '@skyux/tabs';
 
 import { TabsRoutingModule } from './tabs-routing.module';
@@ -9,13 +8,7 @@ import { TabsComponent } from './tabs.component';
 
 @NgModule({
   declarations: [TabsComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    SkyTabsModule,
-    SkyPageModule,
-    TabsRoutingModule,
-  ],
+  imports: [FormsModule, SkyTabsModule, SkyPageModule, TabsRoutingModule],
 })
 export class TabsModule {
   public static routes = TabsRoutingModule.routes;

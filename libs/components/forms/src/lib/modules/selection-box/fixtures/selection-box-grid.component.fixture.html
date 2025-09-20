@@ -1,33 +1,33 @@
-<ng-container *ngIf="render">
-  <sky-selection-box-grid [alignItems]="alignItems">
-    <sky-selection-box [control]="checkbox1">
-      <sky-selection-box-header id="header1">
-        header one
-      </sky-selection-box-header>
-      <sky-selection-box-description>
-        <div [style.height]="firstBoxHeight">
-          Set height on me to make the other selection boxes grow!
-        </div>
-      </sky-selection-box-description>
-      <sky-checkbox [labelledBy]="'header1'" #checkbox1> </sky-checkbox>
-    </sky-selection-box>
-    <sky-selection-box [control]="checkbox2">
-      <sky-selection-box-header id="header2">
-        header two
-      </sky-selection-box-header>
-      <sky-selection-box-description>
-        description two
-      </sky-selection-box-description>
-      <sky-checkbox [labelledBy]="'header2'" #checkbox2> </sky-checkbox>
-    </sky-selection-box>
-    <sky-selection-box [control]="checkbox3">
-      <sky-selection-box-header id="header3">
-        header three
-      </sky-selection-box-header>
-      <sky-selection-box-description>
-        {{ dynamicDescription }}
-      </sky-selection-box-description>
-      <sky-checkbox [labelledBy]="'header3'" #checkbox3> </sky-checkbox>
-    </sky-selection-box>
-  </sky-selection-box-grid>
-</ng-container>
+@if (render) {
+<sky-selection-box-grid [alignItems]="alignItems">
+  <sky-selection-box [control]="checkbox1">
+    <sky-selection-box-header id="header1">
+      header one
+    </sky-selection-box-header>
+    <sky-selection-box-description>
+      <div [style.height]="firstBoxHeight">
+        Set height on me to make the other selection boxes grow!
+      </div>
+    </sky-selection-box-description>
+    <sky-checkbox #checkbox1 [labelledBy]="'header1'" />
+  </sky-selection-box>
+  <sky-selection-box [control]="checkbox2">
+    <sky-selection-box-header id="header2">
+      header two
+    </sky-selection-box-header>
+    <sky-selection-box-description>
+      description two
+    </sky-selection-box-description>
+    <sky-checkbox #checkbox2 [labelledBy]="'header2'" />
+  </sky-selection-box>
+  <sky-selection-box [control]="checkbox3">
+    <sky-selection-box-header id="header3">
+      header three
+    </sky-selection-box-header>
+    <sky-selection-box-description>
+      {{ dynamicDescription }}
+    </sky-selection-box-description>
+    <sky-checkbox #checkbox3 [labelledBy]="'header3'" />
+  </sky-selection-box>
+</sky-selection-box-grid>
+}

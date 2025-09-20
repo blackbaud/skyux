@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -9,10 +8,11 @@ import {
   OnInit,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyAppWindowRef } from '@skyux/core';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import {
   SkyListFilterInlineModel,
   SkyListFiltersModule,
@@ -38,13 +38,11 @@ import { SkySelectField } from './types/select-field';
 import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
 
 @Component({
-  standalone: true,
   selector: 'sky-select-field-picker',
   templateUrl: './select-field-picker.component.html',
   styleUrls: ['./select-field-picker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     FormsModule,
     SkyIconModule,
     SkyListFiltersModule,
@@ -85,15 +83,13 @@ export class SkySelectFieldPickerComponent
     return this._inMemorySearchEnabled;
   }
 
+  public readonly defaultCategory = 'any';
+
   public selectedCategory = this.defaultCategory;
   public selectedIds: any[] = [];
 
   public addNewRecordButtonClick = new Subject<void>();
   public showAddNewRecordButton = false;
-
-  public get defaultCategory(): string {
-    return 'any';
-  }
 
   @ViewChild(SkyListViewChecklistComponent, {
     static: true,
@@ -109,19 +105,17 @@ export class SkySelectFieldPickerComponent
 
   private _inMemorySearchEnabled: boolean;
 
-  constructor(
-    private context: SkySelectFieldPickerContext,
-    private instance: SkyModalInstance,
-    private elementRef: ElementRef,
-    private windowRef: SkyAppWindowRef,
-  ) {}
+  readonly #context = inject(SkySelectFieldPickerContext);
+  readonly #instance = inject(SkyModalInstance);
+  readonly #elementRef = inject(ElementRef);
+  readonly #windowRef = inject(SkyAppWindowRef);
 
-  public ngOnInit() {
-    this.data = this.context.data;
-    this.headingText = this.context.headingText;
-    this.selectMode = this.context.selectMode;
-    this.showAddNewRecordButton = this.context.showAddNewRecordButton;
-    this.inMemorySearchEnabled = this.context.inMemorySearchEnabled;
+  public ngOnInit(): void {
+    this.data = this.#context.data;
+    this.headingText = this.#context.headingText;
+    this.selectMode = this.#context.selectMode;
+    this.showAddNewRecordButton = this.#context.showAddNewRecordButton;
+    this.inMemorySearchEnabled = this.#context.inMemorySearchEnabled;
 
     this.selectedIds = this.getSelectedIds();
     this.assignCategories();
@@ -133,9 +127,9 @@ export class SkySelectFieldPickerComponent
       });
   }
 
-  public ngAfterContentInit() {
-    this.windowRef.nativeWindow.setTimeout(() => {
-      this.elementRef.nativeElement.querySelector('.sky-search-input').focus();
+  public ngAfterContentInit(): void {
+    this.#windowRef.nativeWindow.setTimeout(() => {
+      this.#elementRef.nativeElement.querySelector('.sky-search-input').focus();
     });
   }
 
@@ -149,32 +143,32 @@ export class SkySelectFieldPickerComponent
     this.addNewRecordButtonClick.next();
   }
 
-  public save() {
+  public save(): void {
     this.latestData.subscribe((items: SkySelectField[]) => {
       const results = items.filter((item: SkySelectField) => {
         return this.selectedIds.indexOf(item.id) > -1;
       });
-      this.instance.save(results);
+      this.#instance.save(results);
     });
   }
 
-  public close() {
-    this.instance.close();
+  public close(): void {
+    this.#instance.close();
   }
 
-  public filterByCategory(model: ListItemModel, category: string) {
+  public filterByCategory(model: ListItemModel, category: string): boolean {
     return (
       category === this.defaultCategory || model.data.category === category
     );
   }
 
-  public onCategoryChange(change: SkyListFilterInlineModel, filter: any) {
+  public onCategoryChange(change: SkyListFilterInlineModel, filter: any): void {
     // Reset the selected values when the category changes.
     this.listViewChecklist.clearSelections();
     filter.changed(change);
   }
 
-  public onSelectedIdsChange(selectedMap: Map<string, boolean>) {
+  public onSelectedIdsChange(selectedMap: Map<string, boolean>): void {
     this.latestData.subscribe((items: SkySelectField[]) => {
       this.selectedIds = items
         .filter((item) => selectedMap.get(item.id))
@@ -182,7 +176,7 @@ export class SkySelectFieldPickerComponent
     });
   }
 
-  private assignCategories() {
+  private assignCategories(): void {
     this.latestData.subscribe((items: SkySelectField[]) => {
       const allCategories = items.map((item) => item.category);
       // Remove duplicate category names:
@@ -199,7 +193,7 @@ export class SkySelectFieldPickerComponent
   }
 
   private getSelectedIds(): string[] {
-    const context = this.context;
+    const context = this.#context;
     const selectedValue = context.selectedValue;
 
     if (selectedValue) {

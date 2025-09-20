@@ -1,23 +1,60 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-summary-action-bar') {
+  --sky-override-summary-action-bar-actions-padding: #{$sky-padding
+    $sky-padding-double $sky-padding $sky-padding};
+  --sky-override-summary-action-bar-background-color: #{$sky-color-white};
+  --sky-override-summary-action-bar-box-shadow: 0 -3px 3px 0
+    #{$sky-color-gray-20};
+  --sky-override-summary-action-bar-details-expand-margin-right: #{$sky-margin};
+  --sky-override-summary-action-bar-details-collapse-margin-left: 0;
+  --sky-override-summary-action-bar-details-collapse-margin-right: 0;
+  --sky-override-summary-action-bar-margin-top: #{$sky-margin-double};
+
+  --sky-override-summary-action-bar-summary-actions-collapsible-padding: #{$sky-padding
+    $sky-padding-double $sky-padding $sky-padding};
+  --sky-override-summary-action-bar-summary-body-collapsible-padding: #{$sky-padding};
+  --sky-override-summary-action-bar-summary-body-padding: 0 0 0
+    #{$sky-padding-double};
+  --sky-override-summary-action-bar-summary-border-left: 1px solid
+    #{$sky-border-color-neutral-light};
+  --sky-override-summary-action-bar-summary-collapsible-border-bottom: 1px solid
+    #{$sky-border-color-neutral-light};
+  --sky-override-summary-action-bar-summary-items-margin-right: #{$sky-margin};
+  --sky-override-summary-action-bar-summary-margin: #{$sky-margin} 0;
+}
 
 .sky-summary-action-bar {
+  --sky-summary-action-bar-left: var(--sky-viewport-left);
+
   display: flex;
   align-items: center;
   width: 100%;
-  margin-top: $sky-margin-double;
+  margin-top: var(--sky-override-summary-action-bar-margin-top, 0);
   position: fixed;
-  bottom: 0;
-  left: 0;
+  bottom: var(--sky-dock-height, 0);
+  transition-property: bottom;
+  transition-duration: 60ms;
+  transition-timing-function: ease-out;
+  left: var(--sky-summary-action-bar-left, 0);
   z-index: 999;
-  background-color: $sky-color-white;
-  box-shadow: 0 -3px 3px 0 $sky-color-gray-20;
+  background-color: var(
+    --sky-override-summary-action-bar-background-color,
+    var(--sky-color-background-container-base)
+  );
+  box-shadow: var(
+    --sky-override-summary-action-bar-box-shadow,
+    var(--sky-elevation-overflow)
+  );
 }
 
 .sky-summary-action-bar-modal,
 .sky-summary-action-bar-split-view {
   position: relative;
   margin-top: 0;
+  --sky-summary-action-bar-left: 0;
 }
 
 .sky-summary-action-bar-split-view {
@@ -25,19 +62,35 @@
 }
 
 .sky-summary-action-bar-actions {
-  padding: $sky-padding $sky-padding-double $sky-padding $sky-padding;
+  padding: var(
+    --sky-override-summary-action-bar-actions-padding,
+    var(--sky-comp-sab-actions-space-inset-top)
+      var(--sky-comp-sab-actions-space-inset-right)
+      var(--sky-comp-sab-actions-space-inset-bottom)
+      var(--sky-comp-sab-actions-space-inset-left)
+  );
   flex-shrink: 0;
-  background-color: $sky-color-white;
   z-index: 999;
 }
 
+.sky-summary-action-bar-form-error-stacked:not(:last-of-type) {
+  margin-top: 0;
+  margin-bottom: var(--sky-space-stacked-s);
+}
+
 .sky-summary-action-bar-summary {
-  margin: $sky-margin 0;
-  @include defaultMixins.sky-border(light, left);
+  margin: var(--sky-override-summary-action-bar-summary-margin);
+  border-left: var(--sky-override-summary-action-bar-summary-border-left, none);
 }
 
 .sky-summary-action-bar-summary-body {
-  padding-left: $sky-padding-double;
+  padding: var(
+    --sky-override-summary-action-bar-summary-body-padding,
+    var(--sky-comp-sab-summary-inline-space-inset-top)
+      var(--sky-comp-sab-summary-inline-space-inset-right)
+      var(--sky-comp-sab-summary-inline-space-inset-bottom)
+      var(--sky-comp-sab-summary-inline-space-inset-left)
+  );
   display: flex;
 }
 
@@ -45,12 +98,9 @@
   display: flex;
   flex-wrap: wrap;
   flex-grow: 1;
-  margin-right: $sky-margin;
-}
-
-.sky-summary-action-bar-details-expand {
-  margin-left: auto;
-  margin-right: $sky-margin;
+  margin-right: var(
+    --sky-override-summary-action-bar-summary-items-margin-right
+  );
 }
 
 .sky-summary-action-bar-details-expand,
@@ -66,66 +116,77 @@
   .sky-summary-action-bar-summary {
     order: -1;
     width: 100%;
-    @include defaultMixins.sky-border(light, bottom);
+    border-bottom: var(
+      --sky-override-summary-action-bar-summary-collapsible-border-bottom,
+      none
+    );
     margin: 0;
     border-left: none;
     z-index: 998;
   }
 
   .sky-summary-action-bar-summary-body {
-    padding: $sky-padding;
+    padding: var(
+      --sky-override-summary-action-bar-summary-body-collapsible-padding,
+      var(--sky-comp-sab-summary-expanded-space-inset-top)
+        var(--sky-comp-sab-summary-expanded-space-inset-right)
+        var(--sky-comp-sab-summary-expanded-space-inset-bottom)
+        var(--sky-comp-sab-summary-expanded-space-inset-left)
+    );
   }
 
   .sky-summary-action-bar-details-expand,
   .sky-summary-action-bar-details-collapse {
     display: block;
   }
+
+  .sky-summary-action-bar-details-expand {
+    margin-left: auto;
+    margin-right: var(
+      --sky-override-summary-action-bar-details-expand-margin-right,
+      var(--sky-space-inline-xl)
+    );
+  }
+
+  .sky-summary-action-bar-details-collapse {
+    margin-left: var(
+      --sky-override-summary-action-bar-details-collapse-margin-left,
+      var(--sky-space-gap-text_action-l)
+    );
+    margin-right: var(
+      --sky-override-summary-action-bar-details-collapse-margin-right,
+      calc(
+        var(--sky-space-inline-xl) - var(
+            --sky-comp-sab-summary-expanded-space-inset-right
+          )
+      )
+    );
+  }
+
+  .sky-summary-action-bar-actions {
+    padding: var(
+      --sky-override-summary-action-bar-summary-actions-collapsible-padding,
+      var(--sky-comp-sab-actions-space-inset-top)
+        var(--sky-comp-sab-actions-space-inset-right)
+        var(--sky-comp-sab-actions-space-inset-bottom)
+        var(--sky-comp-sab-actions-space-inset-left)
+    );
+  }
 }
 
 @include defaultMixins.sky-theme-modern {
-  .sky-summary-action-bar-actions {
-    padding: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
-  }
-
-  .sky-summary-action-bar-summary {
-    border: none;
-  }
-
-  .sky-summary-action-bar-summary-body {
-    padding-left: $sky-theme-modern-space-xl;
-  }
-
-  .sky-summary-action-bar-summary-collapsible {
-    .sky-summary-action-bar-actions {
-      padding: $sky-theme-modern-padding-even-lg;
-    }
-
-    .sky-summary-action-bar-summary-body {
-      padding: $sky-theme-modern-padding-even-lg;
-    }
-  }
-
   .sky-summary-action-bar-summary-items {
-    margin-bottom: -$sky-theme-modern-margin-inline-sm;
+    &:has(::ng-deep sky-key-info:last-child) {
+      margin-bottom: calc(var(--sky-space-inline-s) * -1);
+    }
 
     ::ng-deep sky-key-info {
-      margin: 0 $sky-theme-modern-margin-inline-xl
-        $sky-theme-modern-margin-inline-sm 0;
+      margin: 0 var(--sky-space-inline-xl) var(--sky-space-inline-s) 0;
       display: inline-block;
     }
 
     ::ng-deep sky-key-info:last-child {
-      margin: 0 0 $sky-theme-modern-margin-inline-sm 0;
+      margin: 0 0 var(--sky-space-inline-s) 0;
     }
-  }
-}
-
-@include defaultMixins.sky-theme-modern-dark {
-  .sky-summary-action-bar {
-    background-color: $sky-color-black;
-    box-shadow: none;
-  }
-  .sky-summary-action-bar-actions {
-    background-color: $sky-color-black;
   }
 }

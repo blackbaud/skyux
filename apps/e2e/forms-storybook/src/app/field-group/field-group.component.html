@@ -1,0 +1,38 @@
+<div class="sky-padding-even-xl">
+  <form [formGroup]="formGroup">
+    <sky-field-group
+      headingText="Field group"
+      hintText="Hint text for the section"
+      helpPopoverContent="Additional info about the field"
+      stacked="true"
+    >
+      <sky-input-box labelText="Input">
+        <input type="text" formControlName="input" />
+      </sky-input-box>
+    </sky-field-group>
+    <sky-field-group
+      headingText="Field group"
+      stacked="true"
+      [headingLevel]="4"
+    >
+      <sky-input-box labelText="Input">
+        <input type="text" formControlName="input" />
+      </sky-input-box>
+    </sky-field-group>
+    <sky-field-group
+      headingText="Field group"
+      stacked="true"
+      [headingLevel]="3"
+      [headingStyle]="4"
+    >
+      <sky-input-box labelText="Input">
+        <input type="text" formControlName="input" />
+      </sky-input-box>
+    </sky-field-group>
+    <sky-field-group headingText="Field group" [headingStyle]="4">
+      <sky-input-box labelText="Input">
+        <input type="text" formControlName="input" />
+      </sky-input-box>
+    </sky-field-group>
+  </form>
+</div>

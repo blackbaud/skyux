@@ -2,19 +2,39 @@
   <div class="sky-margin-stacked-lg">
     <sky-status-indicator descriptionType="error" indicatorType="danger">
       {{ indicatorText }}
-      <sky-help-inline class="sky-control-help"></sky-help-inline>
+      <sky-help-inline class="sky-control-help" />
     </sky-status-indicator>
     <sky-status-indicator descriptionType="error" indicatorType="info">
       {{ indicatorText }}
-      <sky-help-inline class="sky-control-help"></sky-help-inline>
+      <sky-help-inline class="sky-control-help" />
+    </sky-status-indicator>
+    <sky-status-indicator
+      descriptionType="error"
+      indicatorType="success"
+      helpPopoverContent="Help!"
+    >
+      {{ indicatorText }}
+    </sky-status-indicator>
+    <sky-status-indicator
+      descriptionType="error"
+      indicatorType="warning"
+      helpPopoverContent="Help!"
+    >
+      {{ indicatorText }}
+    </sky-status-indicator>
+  </div>
+  <div class="sky-margin-stacked-lg">
+    <sky-status-indicator descriptionType="error" indicatorType="danger">
+      {{ indicatorText }}
+    </sky-status-indicator>
+    <sky-status-indicator descriptionType="error" indicatorType="info">
+      {{ indicatorText }}
     </sky-status-indicator>
     <sky-status-indicator descriptionType="error" indicatorType="success">
       {{ indicatorText }}
-      <sky-help-inline class="sky-control-help"></sky-help-inline>
     </sky-status-indicator>
     <sky-status-indicator descriptionType="error" indicatorType="warning">
       {{ indicatorText }}
-      <sky-help-inline class="sky-control-help"></sky-help-inline>
     </sky-status-indicator>
   </div>
   <button

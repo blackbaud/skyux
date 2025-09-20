@@ -42,7 +42,7 @@ export class ListStateOrchestrator<T> extends StateOrchestrator<
  */
 @Injectable()
 export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
-  public viewsSetActive(id: string) {
+  public viewsSetActive(id: string): void {
     this.next(new ListViewsSetActiveAction(id));
   }
 
@@ -73,15 +73,15 @@ export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
   }
 
   /* istanbul ignore next */
-  public searchSetFieldSelectors(fieldSelectors: Array<string>): void {
+  public searchSetFieldSelectors(fieldSelectors: string[]): void {
     this.next(new ListSearchSetFieldSelectorsAction(fieldSelectors));
   }
 
-  public searchSetText(searchText: string) {
+  public searchSetText(searchText: string): void {
     this.next(new ListSearchSetSearchTextAction(searchText));
   }
 
-  public searchSetOptions(searchOptions: ListSearchModel) {
+  public searchSetOptions(searchOptions: ListSearchModel): void {
     this.next(
       new ListSearchSetOptionsAction(
         new ListSearchSetSearchTextAction(searchOptions.searchText),

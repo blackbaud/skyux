@@ -23,6 +23,7 @@ import { SkyBackToTopOptions } from './models/back-to-top-options';
 @Directive({
   selector: '[skyBackToTop]',
   providers: [SkyBackToTopDomAdapterService],
+  standalone: false,
 })
 export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
   /**

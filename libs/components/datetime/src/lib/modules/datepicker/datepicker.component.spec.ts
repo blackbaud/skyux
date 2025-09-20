@@ -53,7 +53,7 @@ let mockThemeSvc: {
   settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
 };
 
-function detectChanges(fixture: ComponentFixture<any>): void {
+function detectChanges(fixture: ComponentFixture<unknown>): void {
   fixture.detectChanges();
   tick();
   fixture.detectChanges();
@@ -61,18 +61,24 @@ function detectChanges(fixture: ComponentFixture<any>): void {
 }
 
 function getTriggerButton(
-  fixture: ComponentFixture<any>,
-): HTMLButtonElement | null {
-  return fixture.nativeElement.querySelector(
+  fixture: ComponentFixture<unknown>,
+): HTMLButtonElement {
+  const buttonEl = fixture.nativeElement.querySelector(
     '.sky-input-group-datepicker-btn',
   ) as HTMLButtonElement | null;
+
+  if (buttonEl === null) {
+    throw new Error('Expected trigger button to exist.');
+  }
+
+  return buttonEl;
 }
 
 function clickTrigger(
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
   isFakeAsync = true,
 ): void {
-  getTriggerButton(fixture)?.click();
+  getTriggerButton(fixture).click();
   if (isFakeAsync) {
     detectChanges(fixture);
   }
@@ -81,7 +87,7 @@ function clickTrigger(
 function setInputProperty(
   value: any,
   component: any,
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): void {
   component.selectedDate = value;
   detectChanges(fixture);
@@ -90,7 +96,7 @@ function setInputProperty(
 function setInputElementValue(
   element: HTMLElement,
   text: string,
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): void {
   const inputEl = getInputElement(fixture);
   if (inputEl) {
@@ -101,33 +107,65 @@ function setInputElementValue(
   detectChanges(fixture);
 }
 
-function blurInput(element: HTMLElement, fixture: ComponentFixture<any>): void {
-  const inputEl = element.querySelector('input');
-  SkyAppTestUtility.fireDomEvent(inputEl, 'blur');
+function blurInput(
+  fixture: ComponentFixture<unknown>,
+  relatedTarget: Element | null = null,
+): void {
+  const inputEl = getInputElement(fixture);
+
+  inputEl.dispatchEvent(
+    new FocusEvent('focusout', {
+      bubbles: true,
+      cancelable: true,
+      relatedTarget,
+    }),
+  );
+
+  detectChanges(fixture);
+}
+
+function blurTriggerButton(
+  fixture: ComponentFixture<unknown>,
+  relatedTarget: Element | null = null,
+): void {
+  const buttonEl = getTriggerButton(fixture);
+
+  buttonEl.dispatchEvent(
+    new FocusEvent('focusout', {
+      bubbles: true,
+      cancelable: true,
+      relatedTarget,
+    }),
+  );
+
   detectChanges(fixture);
 }
 
 function setFormControlProperty(
   value: any,
   component: any,
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): void {
   component.dateControl.setValue(value);
   detectChanges(fixture);
 }
 
-function getInputElement(
-  fixture: ComponentFixture<any>,
-): HTMLInputElement | null {
-  return fixture.nativeElement.querySelector(
+function getInputElement(fixture: ComponentFixture<unknown>): HTMLInputElement {
+  const inputEl = fixture.nativeElement.querySelector(
     'input',
   ) as HTMLInputElement | null;
+
+  if (inputEl === null) {
+    throw new Error('Expected input element to exist.');
+  }
+
+  return inputEl;
 }
 
 function getInputElementValue(
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): string | undefined {
-  return getInputElement(fixture)?.value;
+  return getInputElement(fixture).value;
 }
 
 function getCalendar(): HTMLElement | null {
@@ -136,7 +174,7 @@ function getCalendar(): HTMLElement | null {
 
 function getCalendarDayButton(
   index: number,
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): HTMLButtonElement | null {
   return document
     .querySelectorAll('tbody tr td .sky-btn-default')
@@ -145,7 +183,7 @@ function getCalendarDayButton(
 
 function clickCalendarDateButton(
   index: number,
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): void {
   getCalendarDayButton(index, fixture)?.click();
   detectChanges(fixture);
@@ -153,20 +191,22 @@ function clickCalendarDateButton(
 
 function getCalendarColumn(
   index: number,
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): HTMLElement | null {
   return document
     .querySelectorAll('.sky-datepicker-center.sky-datepicker-weekdays')
     .item(0) as HTMLElement | null;
 }
 
-function getCalendarTitle(fixture: ComponentFixture<any>): HTMLElement | null {
+function getCalendarTitle(
+  fixture: ComponentFixture<unknown>,
+): HTMLElement | null {
   return document.querySelector(
     '.sky-datepicker-calendar-title',
   ) as HTMLElement | null;
 }
 
-function clickCalendarTitle(fixture: ComponentFixture<any>): void {
+function clickCalendarTitle(fixture: ComponentFixture<unknown>): void {
   getCalendarTitle(fixture)?.click();
   detectChanges(fixture);
 }
@@ -297,13 +337,13 @@ describe('datepicker', () => {
     });
 
     it('should not overwrite aria-label on the datepicker input when one is provided', () => {
-      getInputElement(fixture)?.setAttribute(
+      getInputElement(fixture).setAttribute(
         'aria-label',
         'This is a date field.',
       );
       fixture.detectChanges();
 
-      expect(getInputElement(fixture)?.getAttribute('aria-label')).toBe(
+      expect(getInputElement(fixture).getAttribute('aria-label')).toBe(
         'This is a date field.',
       );
     });
@@ -341,15 +381,16 @@ describe('datepicker', () => {
       fixture.detectChanges();
       tick();
       clickTrigger(fixture);
+      let picker = getCalendar();
 
-      SkyAppTestUtility.fireDomEvent(window.document, 'keydown', {
+      SkyAppTestUtility.fireDomEvent(picker, 'keyup', {
         customEventInit: {
           key: 'escape',
         },
       });
       fixture.detectChanges();
       tick();
-      const picker = getCalendar();
+      picker = getCalendar();
 
       expect(picker).toBeNull();
     }));
@@ -406,15 +447,16 @@ describe('datepicker', () => {
       fixture.detectChanges();
       tick();
       clickTrigger(fixture);
+      let picker = getCalendar();
 
-      SkyAppTestUtility.fireDomEvent(window.document, 'keydown', {
+      SkyAppTestUtility.fireDomEvent(picker, 'keydown', {
         customEventInit: {
           key: undefined,
         },
       });
       fixture.detectChanges();
       tick();
-      const picker = getCalendar();
+      picker = getCalendar();
 
       expect(picker).not.toBeNull();
     }));
@@ -432,76 +474,6 @@ describe('datepicker', () => {
       fixture.detectChanges();
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
-
-    it('should display the expected calendar icon in the calendar button', fakeAsync(() => {
-      mockThemeSvc.settingsChange.next({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings:
-          mockThemeSvc.settingsChange.getValue().currentSettings,
-      });
-
-      detectChanges(fixture);
-      tick();
-      fixture.whenStable();
-
-      const iconDefault = fixture.nativeElement.querySelector(
-        '.sky-input-group-datepicker-btn .sky-icon',
-      );
-
-      expect(iconDefault).toHaveCssClass('fa-calendar');
-
-      mockThemeSvc.settingsChange.next({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings:
-          mockThemeSvc.settingsChange.getValue().currentSettings,
-      });
-
-      detectChanges(fixture);
-      tick();
-      fixture.whenStable();
-
-      const iconModern = fixture.nativeElement.querySelector(
-        '.sky-input-group-datepicker-btn .sky-icon',
-      );
-
-      expect(iconModern).toHaveCssClass('sky-i-calendar');
-    }));
-
-    it('should show a default placeholder of the default date format', fakeAsync(() => {
-      component.selectedDate = undefined;
-      detectChanges(fixture);
-
-      expect(getInputElement(fixture)?.getAttribute('placeholder')).toEqual(
-        'MM/DD/YYYY',
-      );
-    }));
-
-    it('should show a placeholder of the consumer provided date format', fakeAsync(() => {
-      component.selectedDate = undefined;
-      component.dateFormat = 'DD/MM/YY';
-      detectChanges(fixture);
-      detectChanges(fixture);
-
-      expect(getInputElement(fixture)?.getAttribute('placeholder')).toBe(
-        'DD/MM/YY',
-      );
-    }));
-
-    it('should allow consumer to override the default placeholder', fakeAsync(() => {
-      component.selectedDate = undefined;
-      getInputElement(fixture)?.setAttribute('placeholder', 'DD/MM/YY');
-      detectChanges(fixture);
-
-      expect(getInputElement(fixture)?.getAttribute('placeholder')).toBe(
-        'DD/MM/YY',
-      );
-    }));
 
     describe('initialization', () => {
       it('should handle initializing with a Date object', fakeAsync(() => {
@@ -741,7 +713,7 @@ describe('datepicker', () => {
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
 
-        blurInput(fixture.nativeElement, fixture);
+        blurInput(fixture);
 
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
@@ -788,7 +760,7 @@ describe('datepicker', () => {
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
 
-        blurInput(fixture.nativeElement, fixture);
+        blurInput(fixture);
 
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
@@ -845,6 +817,21 @@ describe('datepicker', () => {
 
         expect(getInputElementValue(fixture)).toBe('abcdef');
         expect(component.selectedDate).toBe('abcdef');
+        expect(ngModel.valid).toBe(true);
+      }));
+
+      it('should handle date formats with text months', fakeAsync(() => {
+        component.dateFormat = 'MMM DD YYYY';
+        detectChanges(fixture);
+
+        setInputElementValue(
+          fixture.nativeElement,
+          'January 15, 2024',
+          fixture,
+        );
+
+        expect(getInputElementValue(fixture)).toBe('Jan 15 2024');
+        expect(component.selectedDate).toEqual(new Date('Jan 15 2024'));
         expect(ngModel.valid).toBe(true);
       }));
     });
@@ -936,6 +923,12 @@ describe('datepicker', () => {
         setInputElementValue(fixture.nativeElement, '5/26/2017', fixture);
 
         expect(ngModel.valid).toBe(false);
+        expect(ngModel.errors).toEqual({
+          skyDate: {
+            maxDate: component.maxDate,
+            maxDateFormatted: '05/25/2017',
+          },
+        });
       }));
 
       it('should handle change below min date', fakeAsync(() => {
@@ -946,6 +939,12 @@ describe('datepicker', () => {
         setInputElementValue(fixture.nativeElement, '5/1/2017', fixture);
 
         expect(ngModel.valid).toBe(false);
+        expect(ngModel.errors).toEqual({
+          skyDate: {
+            minDate: component.minDate,
+            minDateFormatted: '05/04/2017',
+          },
+        });
       }));
 
       it('should pass max date to calendar', fakeAsync(() => {
@@ -979,6 +978,20 @@ describe('datepicker', () => {
 
         const firstDayCol = getCalendarColumn(0, fixture);
         expect(firstDayCol).toHaveText('Fr');
+      }));
+    });
+
+    describe('startAtDate', () => {
+      it('should be passed to calendar', fakeAsync(() => {
+        fixture.detectChanges();
+        setInputProperty(undefined, component, fixture);
+        component.startAtDate = new Date('3/10/1995');
+        detectChanges(fixture);
+
+        clickTrigger(fixture);
+
+        expect(getSelectedCalendarItem()).toHaveText('10');
+        expect(getCalendarTitle(fixture)).toHaveText('March 1995');
       }));
     });
 
@@ -1386,7 +1399,7 @@ describe('datepicker', () => {
         expect(component.dateControl.touched).toBe(false);
 
         setInputElementValue(nativeElement, '1/1/2000', fixture);
-        blurInput(nativeElement, fixture);
+        blurInput(fixture);
 
         expect(component.dateControl.valid).toBe(true);
         expect(component.dateControl.pristine).toBe(false);
@@ -1402,10 +1415,33 @@ describe('datepicker', () => {
 
         clickTrigger(fixture);
         getSelectedCalendarItem()?.click();
-        detectChanges(fixture);
+        blurTriggerButton(fixture);
 
         expect(component.dateControl.valid).toBe(true);
         expect(component.dateControl.pristine).toBe(false);
+        expect(component.dateControl.touched).toBe(true);
+      }));
+
+      it('should mark control as touched only after focus has left the composite control', fakeAsync(() => {
+        detectChanges(fixture);
+
+        expect(component.dateControl.touched).toBe(false);
+
+        const inputEl = getInputElement(fixture);
+        const triggerButtonEl = getTriggerButton(fixture);
+
+        // Move focus to the trigger button.
+        blurInput(fixture, triggerButtonEl);
+        expect(component.dateControl.touched).toBe(false);
+
+        // Click the calendar and move focus to the input.
+        clickTrigger(fixture);
+        getSelectedCalendarItem()?.click();
+        blurTriggerButton(fixture, inputEl);
+        expect(component.dateControl.touched).toBe(false);
+
+        // Blur the input, but move focus elsewhere.
+        blurInput(fixture, null);
         expect(component.dateControl.touched).toBe(true);
       }));
     });
@@ -1434,7 +1470,7 @@ describe('datepicker', () => {
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.touched).toBe(true);
 
-        blurInput(fixture.nativeElement, fixture);
+        blurInput(fixture);
 
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.touched).toBe(true);
@@ -1730,6 +1766,20 @@ describe('datepicker', () => {
       }));
     });
 
+    describe('startAtDate', () => {
+      it('should be passed to calendar', fakeAsync(() => {
+        fixture.detectChanges();
+        setFormControlProperty(undefined, component, fixture);
+        component.startAtDate = new Date('3/10/1995');
+        detectChanges(fixture);
+
+        clickTrigger(fixture);
+
+        expect(getSelectedCalendarItem()).toHaveText('10');
+        expect(getCalendarTitle(fixture)).toHaveText('March 1995');
+      }));
+    });
+
     describe('disabled state', () => {
       it(
         'should disable the input and trigger button when disabled is set to true ' +
@@ -1807,10 +1857,12 @@ describe('datepicker', () => {
   });
 
   describe('inside input box', () => {
+    let component: DatepickerInputBoxTestComponent;
     let fixture: ComponentFixture<DatepickerInputBoxTestComponent>;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(DatepickerInputBoxTestComponent);
+      component = fixture.componentInstance;
     });
     it('should render in the expected input box containers', fakeAsync(() => {
       detectChanges(fixture);
@@ -1848,6 +1900,43 @@ describe('datepicker', () => {
       );
 
       expect(calendarButton.getAttribute('aria-label')).toBe('Select date');
+    }));
+
+    it('should show hint text for the the default date format', fakeAsync(() => {
+      detectChanges(fixture);
+      tick();
+
+      const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
+      const hintText = inputBoxEl
+        .querySelector('.sky-input-box-hint-text')
+        .textContent.trim();
+
+      expect(hintText).toEqual('Use the format MM/DD/YYYY.');
+    }));
+
+    it('should show hint text for the the consumer provided date format', fakeAsync(() => {
+      component.dateFormat = 'DD/MM/YY';
+      detectChanges(fixture);
+
+      const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
+      const hintText = inputBoxEl
+        .querySelector('.sky-input-box-hint-text')
+        .textContent.trim();
+
+      expect(hintText).toEqual('Use the format DD/MM/YY.');
+    }));
+
+    it('should allow consumer to provide hint text along with the format hint text', fakeAsync(() => {
+      component.dateFormat = 'DD/MM/YY';
+      component.inputBoxHintText = 'Select a date.';
+      detectChanges(fixture);
+
+      const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
+      const hintText = inputBoxEl
+        .querySelector('.sky-input-box-hint-text')
+        .textContent.trim();
+
+      expect(hintText).toEqual('Select a date. Use the format DD/MM/YY.');
     }));
   });
 });

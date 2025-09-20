@@ -396,30 +396,21 @@ export class SkyAffixer {
 
     const parent = this.#getAutoFitContextParent();
     let parentOffset: Required<SkyAffixOffset>;
-    if (this.#config.autoFitContext === SkyAffixAutoFitContext.OverflowParent) {
-      if (this.#config.autoFitOverflowOffset) {
-        // When the config contains a specific offset.
-        parentOffset = getElementOffset(
-          parent,
-          this.#config.autoFitOverflowOffset,
-        );
-      } else if (
-        isOffsetFullyVisibleWithinParent(this.#viewportRuler, parent, baseRect)
-      ) {
-        // When the base element is fully visible within the parent, aim for the visible portion of the parent element.
-        parentOffset = getVisibleRectForElement(this.#viewportRuler, parent);
-      } else {
-        // Anywhere in the parent element.
-        parentOffset = getOuterRect(parent);
-      }
+
+    if (this.#config.autoFitOverflowOffset) {
+      // When the config contains a specific offset.
+      parentOffset = getElementOffset(
+        parent,
+        this.#config.autoFitOverflowOffset,
+      );
+    } else if (
+      isOffsetFullyVisibleWithinParent(this.#viewportRuler, parent, baseRect)
+    ) {
+      // When the base element is fully visible within the parent, aim for the visible portion of the parent element.
+      parentOffset = getVisibleRectForElement(this.#viewportRuler, parent);
     } else {
-      const viewportRect = this.#viewportRuler.getViewportRect();
-      parentOffset = {
-        top: -viewportRect.top,
-        left: -viewportRect.left,
-        bottom: -viewportRect.bottom,
-        right: -viewportRect.right,
-      };
+      // Anywhere in the parent element.
+      parentOffset = getOuterRect(parent);
     }
 
     // A pixel value representing the leeway between the edge of the overflow parent and the edge

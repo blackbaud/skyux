@@ -1,3 +1,5 @@
+import { Injectable } from '@angular/core';
+
 import { Observable, ReplaySubject } from 'rxjs';
 
 import { SkyContentInfo } from './content-info';
@@ -9,8 +11,9 @@ import { SkyContentInfo } from './content-info';
  * descriptor they can use to construct aria labels, or tree view can provide the node
  * name to its context menus.
  */
+@Injectable()
 export class SkyContentInfoProvider {
-  #contentInfo: ReplaySubject<SkyContentInfo> = new ReplaySubject(1);
+  #contentInfo = new ReplaySubject<SkyContentInfo>(1);
   #currentValue: SkyContentInfo = {};
 
   public patchInfo(value: SkyContentInfo): void {

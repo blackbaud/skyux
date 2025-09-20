@@ -1,156 +1,346 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-$indicator-size: 22px;
+@include compatMixins.sky-default-overrides('.sky-toggle-switch') {
+  --sky-override-toggle-switch-background-color: #{$sky-background-color-neutral-light};
+  --sky-override-toggle-switch-background-color-disabled: #{$sky-background-color-disabled};
+  --sky-override-toggle-switch-background-color-selected: #{$sky-background-color-info-light};
+  --sky-override-toggle-switch-border: 1px solid
+    #{$sky-border-color-neutral-medium};
+  --sky-override-toggle-switch-border-color-active: #{$sky-highlight-color-info};
+  --sky-override-toggle-switch-border-color-disabled: transparent;
+  --sky-override-toggle-switch-border-color-focus: #{$sky-theme-modern-background-color-primary-dark};
+  --sky-override-toggle-switch-border-color-hover: #{$sky-highlight-color-info};
+  --sky-override-toggle-switch-border-color-selected: #{$sky-highlight-color-info};
+  --sky-override-toggle-switch-border-radius: 24px;
+  --sky-override-toggle-switch-border-width-active: 2px;
+  --sky-override-toggle-switch-border-width-disabled: 2px;
+  --sky-override-toggle-switch-border-width-focus: 2px;
+  --sky-override-toggle-switch-border-width-hover: 2px;
+  --sky-override-toggle-switch-border-width-selected: 2px;
+  --sky-override-toggle-switch-indicator-background-color: #{$sky-color-white};
+  --sky-override-toggle-switch-indicator-background-color-disabled: #{$sky-background-color-neutral-light};
+  --sky-override-toggle-switch-indicator-border-radius: 100%;
+  --sky-override-toggle-switch-indicator-box-shadow: 0px 1px 2px 0px
+    rgba(0, 0, 0, 0.75);
+  --sky-override-toggle-switch-indicator-height: 22px;
+  --sky-override-toggle-switch-indicator-left: 22px;
+  --sky-override-toggle-switch-indicator-margin-left: -22px;
+  --sky-override-toggle-switch-indicator-width: 22px;
+
+  --sky-override-toggle-switch-label-color-disabled: var(
+    --sky-text-color-default
+  );
+  --sky-override-toggle-switch-label-gap: #{$sky-margin};
+  --sky-override-toggle-switch-line-height: calc(20 / 14);
+  --sky-override-toggle-switch-padding: 1px;
+  --sky-override-toggle-switch-padding-active: 0;
+  --sky-override-toggle-switch-padding-disabled: 0;
+  --sky-override-toggle-switch-padding-focus: 0;
+  --sky-override-toggle-switch-padding-hover: 0;
+  --sky-override-toggle-switch-padding-selected: 0;
+  --sky-override-toggle-switch-pointer-disabled: default;
+  --sky-override-toggle-switch-transition: none;
+  --sky-override-toggle-switch-width: 46px;
+}
 
 .sky-toggle-switch {
   display: inline-flex;
   align-items: baseline;
 
   &.sky-toggle-switch-with-label {
-    gap: $sky-margin;
+    gap: var(
+      --sky-override-toggle-switch-label-gap,
+      var(--sky-space-gap-label-m)
+    );
   }
-}
 
-.sky-toggle-switch-switch {
-  border: 1px solid $sky-border-color-neutral-medium;
-  background-color: $sky-background-color-neutral-light;
-  padding: 1px;
-  border-radius: $indicator-size + 2;
-  flex: none;
-  line-height: $sky-line-height-base;
-  width: $indicator-size * 2 + 2;
-  display: inline-block;
-}
-
-.sky-toggle-switch-button {
-  border: none;
-  background: none;
-  margin: 0;
-  padding: 0;
-  outline: none;
-
-  &:focus-visible .sky-toggle-switch-switch {
-    outline: none;
-    border: solid 2px $sky-theme-modern-background-color-primary-dark;
+  .sky-toggle-switch-button {
+    border: none;
+    background: none;
+    margin: 0;
     padding: 0;
-  }
+    outline: none;
 
-  &:hover:not(.sky-toggle-switch-disabled) {
-    cursor: pointer;
-
-    &:not(:focus-visible) .sky-toggle-switch-switch {
-      border-color: $sky-highlight-color-info;
-      border-width: 2px;
-      padding: 0;
-    }
-  }
-
-  &.sky-toggle-switch-checked {
     .sky-toggle-switch-switch {
-      background-color: $sky-background-color-info-light;
-      border-width: 2px;
-      padding: 0;
+      border: var(
+        --sky-override-toggle-switch-border,
+        var(--sky-border-width-input-base) solid
+          var(--sky-color-border-switch-base)
+      );
+      background-color: var(
+        --sky-override-toggle-switch-background-color,
+        var(--sky-color-background-input-base)
+      );
+      padding: var(
+        --sky-override-toggle-switch-padding,
+        var(--sky-border-width-input-base)
+      );
+      border-radius: var(
+        --sky-override-toggle-switch-border-radius,
+        calc(
+            var(--sky-border-radius-thumb) +
+              calc(var(--sky-space-inset-thumb) * 2)
+          ) /
+          100%
+      );
+      flex: none;
+      line-height: var(
+        --sky-override-toggle-switch-line-height,
+        calc(
+          var(--sky-size-switch) - calc(
+              calc(var(--sky-border-width-input-base) * 2) +
+                calc(var(--sky-space-inset-thumb) * 2)
+            )
+        )
+      );
+      width: var(
+        --sky-override-toggle-switch-width,
+        calc(
+          calc(var(--sky-size-switch) * 2) - calc(
+              calc(var(--sky-border-width-input-base) * 2) +
+                calc(var(--sky-space-inset-thumb) * 2)
+            )
+        )
+      );
+      display: inline-block;
+      transition: var(
+        --sky-override-toggle-switch-transition,
+        border-color $sky-transition-time-short,
+        box-shadow $sky-transition-time-short
+      );
     }
 
-    &:not(:focus-visible, .sky-toggle-switch-disabled)
+    &:focus-visible .sky-toggle-switch-switch {
+      border-width: var(
+        --sky-override-toggle-switch-border-width-focus,
+        var(--sky-border-width-input-focus)
+      );
+      border-color: var(
+        --sky-override-toggle-switch-border-color-focus,
+        var(--sky-color-border-switch-focus)
+      );
+      padding: var(
+        --sky-override-toggle-switch-padding-focus,
+        calc(
+          calc(var(--sky-space-inset-thumb) * 2) - var(
+              --sky-border-width-input-focus
+            )
+        )
+      );
+    }
+
+    &:focus-visible:not(:active, .sky-toggle-switch-disabled)
       .sky-toggle-switch-switch {
-      border-color: $sky-highlight-color-info;
+      box-shadow: none;
+    }
+
+    &:active .sky-toggle-switch-switch {
+      border-width: var(
+        --sky-override-toggle-switch-border-width-active,
+        var(--sky-border-width-input-active)
+      );
+      border-color: var(
+        --sky-override-toggle-switch-border-color-active,
+        var(--sky-color-border-switch-active)
+      );
+      padding: var(
+        --sky-override-toggle-switch-padding-active,
+        calc(
+          calc(var(--sky-space-inset-thumb) * 2) - var(
+              --sky-border-width-input-active
+            )
+        )
+      );
+    }
+
+    &:hover:not(.sky-toggle-switch-disabled) {
+      cursor: pointer;
+
+      &:not(:focus-visible):not(:active) .sky-toggle-switch-switch {
+        border-width: var(
+          --sky-override-toggle-switch-border-width-hover,
+          var(--sky-border-width-input-hover)
+        );
+        border-color: var(
+          --sky-override-toggle-switch-border-color-hover,
+          var(--sky-color-border-switch-hover)
+        );
+        padding: var(
+          --sky-override-toggle-switch-padding-hover,
+          calc(
+            calc(var(--sky-space-inset-thumb) * 2) - var(
+                --sky-border-width-input-base
+              )
+          )
+        );
+      }
+    }
+
+    &.sky-toggle-switch-checked {
+      .sky-toggle-switch-switch {
+        background: var(
+          --sky-override-toggle-switch-background-color-selected,
+          var(--sky-color-background-selected-switch-base)
+        );
+      }
+
+      &:not(:focus-visible, :active, .sky-toggle-switch-disabled)
+        .sky-toggle-switch-switch {
+        border-width: var(
+          --sky-override-toggle-switch-border-width-selected,
+          var(--sky-border-width-selected-s)
+        );
+        border-color: var(
+          --sky-override-toggle-switch-border-color-selected,
+          var(--sky-color-border-switch-selected-base)
+        );
+        padding: var(
+          --sky-override-toggle-switch-padding-selected,
+          calc(
+            calc(var(--sky-space-inset-thumb) * 2) - var(
+                --sky-border-width-input-base
+              )
+          )
+        );
+      }
+
+      &:focus-visible:not(:active) .sky-toggle-switch-switch {
+        border-color: var(
+          --sky-override-toggle-switch-border-color-focus,
+          var(--sky-color-border-switch-selected-focus)
+        );
+      }
+
+      &:active .sky-toggle-switch-switch {
+        border-color: var(
+          --sky-override-toggle-switch-border-color-active,
+          var(--sky-color-border-switch-selected-active)
+        );
+      }
+
+      &:hover:not(:focus-visible, .sky-toggle-switch-disabled)
+        .sky-toggle-switch-switch {
+        border-color: var(
+          --sky-override-toggle-switch-border-color-hover,
+          var(--sky-color-border-switch-selected-hover)
+        );
+      }
+
+      &.sky-toggle-switch-disabled .sky-toggle-switch-switch {
+        border-color: var(
+          --sky-override-toggle-switch-border-color-disabled,
+          var(--sky-color-border-switch-selected-disabled)
+        );
+      }
+
+      .sky-toggle-switch-indicator {
+        left: 100%;
+      }
+    }
+
+    &.sky-toggle-switch-disabled {
+      color: var(--sky-color-text-default);
+
+      .sky-toggle-switch-switch {
+        background: var(
+          --sky-override-toggle-switch-background-color-disabled,
+          var(--sky-color-background-selected-switch-disabled)
+        );
+        border-color: var(
+          --sky-override-toggle-switch-border-color-disabled,
+          var(--sky-color-border-switch-disabled)
+        );
+        border-width: var(
+          --sky-override-toggle-switch-border-width-disabled,
+          var(--sky-border-width-input-disabled)
+        );
+        padding: var(
+          --sky-override-toggle-switch-padding-disabled,
+          calc(
+            calc(var(--sky-space-inset-thumb) * 2) - var(
+                --sky-border-width-input-disabled
+              )
+          )
+        );
+        cursor: var(--sky-override-toggle-switch-pointer-disabled, not-allowed);
+      }
+
+      + span .sky-toggle-switch-label {
+        color: var(
+          --sky-override-toggle-switch-label-color-disabled,
+          var(--sky-color-text-deemphasized)
+        );
+      }
+
+      .sky-toggle-switch-indicator {
+        background-color: var(
+          --sky-override-toggle-switch-indicator-background-color-disabled,
+          var(--sky-color-background-thumb-disabled)
+        );
+      }
     }
 
     .sky-toggle-switch-indicator {
-      left: 100%;
-    }
-  }
+      height: var(
+        --sky-override-toggle-switch-indicator-height,
+        calc(
+          var(--sky-size-switch) - calc(
+              calc(var(--sky-border-width-input-base) * 2) +
+                calc(var(--sky-space-inset-thumb) * 2)
+            )
+        )
+      );
+      width: var(
+        --sky-override-toggle-switch-indicator-width,
+        calc(
+          var(--sky-size-switch) - calc(
+              calc(var(--sky-border-width-input-base) * 2) +
+                calc(var(--sky-space-inset-thumb) * 2)
+            )
+        )
+      );
+      display: block;
+      position: relative;
+      top: 0;
+      left: var(
+        --sky-override-toggle-switch-indicator-left,
+        calc(
+          var(--sky-size-switch) - calc(
+              calc(var(--sky-border-width-input-base) * 2) +
+                calc(var(--sky-space-inset-thumb) * 2)
+            )
+        )
+      );
+      margin-left: var(
+        --sky-override-toggle-switch-indicator-margin-left,
+        calc(
+          calc(
+              var(--sky-size-switch) - calc(
+                  calc(var(--sky-border-width-input-base) * 2) +
+                    calc(var(--sky-space-inset-thumb) * 2)
+                )
+            ) *
+            -1
+        )
+      );
+      border-radius: var(
+        --sky-override-toggle-switch-indicator-border-radius,
+        var(--sky-border-radius-thumb)
+      );
+      box-shadow: var(
+        --sky-override-toggle-switch-indicator-box-shadow,
+        var(--sky-elevation-raised-100)
+      );
+      background-color: var(
+        --sky-override-toggle-switch-indicator-background-color,
+        var(--sky-color-background-thumb-base)
+      );
 
-  &.sky-toggle-switch-disabled {
-    color: var(--sky-text-color-default);
-
-    .sky-toggle-switch-switch {
-      background-color: $sky-background-color-disabled;
-      border-color: transparent;
-    }
-
-    .sky-toggle-switch-indicator {
-      background-color: $sky-background-color-neutral-light;
-    }
-  }
-}
-
-.sky-toggle-switch-indicator {
-  height: $indicator-size;
-  width: $indicator-size;
-  display: block;
-  position: relative;
-  top: 0;
-  left: $indicator-size;
-  margin-left: -$indicator-size;
-  border-radius: 100%;
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.75);
-  background-color: $sky-color-white;
-
-  &.sky-toggle-switch-transition {
-    transition: left 150ms;
-  }
-}
-
-@include mixins.sky-theme-modern {
-  .sky-toggle-switch-button {
-    .sky-toggle-switch-switch {
-      background-color: $sky-color-white;
-      border: 1px solid var(--sky-border-color-neutral-medium-dark);
-      width: 48px;
-      transition: border-color $sky-transition-time-short,
-        box-shadow $sky-transition-time-short;
-    }
-
-    &.sky-toggle-switch-disabled .sky-toggle-switch-switch {
-      cursor: not-allowed;
-    }
-
-    &.sky-toggle-switch-disabled .sky-toggle-switch-switch,
-    &.sky-toggle-switch-disabled .sky-toggle-switch-indicator {
-      background-color: $sky-theme-modern-color-gray-07;
-    }
-
-    &.sky-toggle-switch-checked .sky-toggle-switch-switch {
-      padding: 1px;
-    }
-
-    &:not(.sky-toggle-switch-disabled) {
-      &.sky-toggle-switch-checked .sky-toggle-switch-switch {
-        background-color: var(--sky-background-color-input-selected);
-        border-color: $sky-theme-modern-background-color-primary-dark;
-      }
-
-      &:active .sky-toggle-switch-switch,
-      &:focus-visible .sky-toggle-switch-switch {
-        outline: none;
-        border: solid 2px $sky-theme-modern-background-color-primary-dark;
-        padding: 0;
-      }
-
-      &:not(:active) {
-        &:focus-visible .sky-toggle-switch-switch {
-          box-shadow: $sky-theme-modern-elevation-3-shadow-size
-            $sky-theme-modern-elevation-3-shadow-color;
-        }
-
-        &:hover:not(:focus-visible) .sky-toggle-switch-switch {
-          padding: 1px;
-          border: solid 1px $sky-theme-modern-background-color-primary-dark;
-        }
+      &.sky-toggle-switch-transition {
+        transition: left 150ms;
       }
     }
-  }
-
-  .sky-toggle-switch-indicator {
-    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
-  }
-}
-
-@include mixins.sky-theme-modern-dark {
-  .sky-toggle-switch-button {
-    background-color: $sky-theme-modern-mode-dark-background-color-page-default;
   }
 }

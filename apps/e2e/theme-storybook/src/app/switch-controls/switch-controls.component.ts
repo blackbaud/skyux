@@ -5,37 +5,83 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   selector: 'app-switch-controls',
   templateUrl: './switch-controls.component.html',
   styleUrls: ['./switch-controls.component.scss'],
+  standalone: false,
 })
 export class SwitchControlsComponent {
   public myForm: FormGroup;
 
-  public checkboxOptions: any[] = [
+  public checkboxOptions = [
     { label: 'Checked Checkbox', checked: true, disabled: false },
     { label: 'Unchecked Checkbox', checked: false, disabled: false },
     { label: 'Disabled Checkbox', checked: false, disabled: true },
     { label: 'Disabled Checked Checkbox', checked: true, disabled: true },
   ];
 
-  public checkboxIconGroupOptions: any[] = [
-    { label: 'Bold', checked: true, icon: 'bold', disabled: false },
-    { label: 'Italicized', checked: false, icon: 'italic', disabled: false },
-    { label: 'Underlined', checked: false, icon: 'underline', disabled: false },
-    { label: 'Indent', icon: 'indent', checked: false, disabled: true },
-    { label: 'Outdent', icon: 'outdent', checked: true, disabled: true },
+  public checkboxIconGroupOptions = [
+    { label: 'Bold', checked: true, iconName: 'text-bold', disabled: false },
+    {
+      label: 'Italicized',
+      checked: false,
+      iconName: 'text-italic',
+      disabled: false,
+    },
+    {
+      label: 'Underlined',
+      checked: false,
+      iconName: 'text-underline',
+      disabled: false,
+    },
+    {
+      label: 'Indent',
+      iconName: 'text-indent-increase',
+      checked: false,
+      disabled: true,
+    },
+    {
+      label: 'Outdent',
+      iconName: 'text-indent-decrease',
+      checked: true,
+      disabled: true,
+    },
   ];
 
-  public radioGroupIconOptions: any[] = [
-    { name: 'Left align', value: '1', icon: 'align-left', disabled: false },
-    { name: 'Center align', value: '2', icon: 'align-center', disabled: false },
-    { name: 'Right align', value: '3', icon: 'align-right', disabled: false },
+  public radioGroupIconOptions = [
+    {
+      name: 'Left align',
+      value: '1',
+      iconName: 'text-align-left',
+      disabled: false,
+    },
+    {
+      name: 'Center align',
+      value: '2',
+      iconName: 'text-align-center',
+      disabled: false,
+    },
+    {
+      name: 'Right align',
+      value: '3',
+      iconName: 'text-align-right',
+      disabled: false,
+    },
   ];
 
-  public radioGroupIconDisabledOptions: any[] = [
-    { name: 'Indent', value: '1', icon: 'indent', disabled: true },
-    { name: 'Outdent', value: '2', icon: 'outdent', disabled: true },
+  public radioGroupIconDisabledOptions = [
+    {
+      name: 'Indent',
+      value: '1',
+      iconName: 'text-indent-increase',
+      disabled: true,
+    },
+    {
+      name: 'Outdent',
+      value: '2',
+      iconName: 'text-indent-decrease',
+      disabled: true,
+    },
   ];
 
-  public radioOptions: any[] = [
+  public radioOptions = [
     { name: 'Selected radio button', value: '1', disabled: false },
     { name: 'Unselected radio button', value: '2', disabled: false },
     { name: 'Disabled radio button', value: '3', disabled: true },

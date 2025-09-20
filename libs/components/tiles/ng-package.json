@@ -5,6 +5,6 @@
     "entryFile": "src/index.ts",
     "styleIncludePaths": ["../../.."]
   },
-  "allowedNonPeerDependencies": ["dragula", "ng2-dragula"],
+  "allowedNonPeerDependencies": ["@skyux/icon", "dragula", "ng2-dragula"],
   "inlineStyleLanguage": "scss"
 }

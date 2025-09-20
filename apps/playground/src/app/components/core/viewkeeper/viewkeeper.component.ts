@@ -4,17 +4,24 @@ import { Component } from '@angular/core';
   selector: 'app-viewkeeper',
   templateUrl: './viewkeeper.component.html',
   styleUrls: ['./viewkeeper.component.scss'],
+  standalone: false,
 })
 export class ViewkeeperComponent {
-  public el2Visible = false;
+  protected el2Visible = false;
 
-  public scrollableHost = false;
+  protected scrollableHost = false;
 
-  public toggleEl2(): void {
+  protected sidebarExpanded = false;
+
+  protected toggleEl2(): void {
     this.el2Visible = !this.el2Visible;
   }
 
-  public toggleScrollableHost(): void {
+  protected toggleScrollableHost(): void {
     this.scrollableHost = !this.scrollableHost;
+  }
+
+  protected toggleSidebar(): void {
+    this.sidebarExpanded = !this.sidebarExpanded;
   }
 }

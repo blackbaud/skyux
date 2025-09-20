@@ -1,29 +1,36 @@
-<ng-container *ngFor="let popoverType of popoverTypes">
-  <div *ngFor="let popoverTitle of titles" class="static-popover-row">
-    <div
-      *ngFor="let poveroverPlacement of placements"
-      class="static-popover-wrapper"
-    >
-      <button
-        type="button"
-        [skyPopover]="staticPopover"
-        [skyPopoverMessageStream]="staticPopoverMessageStream"
-        class="static-popover-button"
-        [ngClass]="'static-popover-button-' + poveroverPlacement"
-      ></button>
-      <sky-popover
-        #staticPopover
-        [placement]="poveroverPlacement"
-        [popoverTitle]="popoverTitle"
-        [popoverType]="popoverType"
-        alignment="center"
-      >
-        <div class="popover-message">
-          The content of a popover can be text, HTML, or Angular components.
-        </div>
-      </sky-popover>
+<div class="static-popover-container">
+  @for (popoverType of popoverTypes; track popoverType) {
+    <div class="static-popover-column">
+      @for (popoverTitle of titles; track popoverTitle) {
+        @for (popoverPlacement of placements; track popoverPlacement) {
+          <div class="static-popover-wrapper">
+            <button
+              aria-label="Button"
+              class="static-popover-button"
+              type="button"
+              [skyPopover]="staticPopover"
+              [skyPopoverMessageStream]="staticPopoverMessageStream"
+              [ngClass]="'static-popover-button-' + popoverPlacement"
+            ></button>
+            <sky-popover
+              #staticPopover
+              alignment="center"
+              [placement]="popoverPlacement"
+              [popoverTitle]="popoverTitle"
+              [popoverType]="popoverType"
+            >
+              <div class="popover-message">
+                The content of a popover can be text, HTML, or Angular
+                components.
+              </div>
+            </sky-popover>
+          </div>
+        }
+      }
     </div>
-  </div>
-</ng-container>
+  }
 
-<div id="popovers-ready" *ngIf="ready | async"></div>
+  @if (ready | async) {
+    <div id="popovers-ready"></div>
+  }
+</div>

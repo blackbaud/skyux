@@ -6,9 +6,9 @@ import { ListItemModel } from '@skyux/list-builder-common';
  */
 export class ListItemsLoadAction {
   constructor(
-    public items: Array<ListItemModel>,
-    public refresh: boolean = false,
-    public dataChanged: boolean = true,
+    public items: ListItemModel[],
+    public refresh = false,
+    public dataChanged = true,
     public count?: number,
   ) {}
 }

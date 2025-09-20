@@ -2,9 +2,9 @@
   <sky-list-filter-inline>
     <sky-list-filter-inline-item
       name="fruitType"
-      [filter]="fruitTypeFilterFunction"
       value="any"
       defaultValue="any"
+      [filter]="fruitTypeFilterFunction"
     >
       <ng-template let-filter="filter">
         <label for="sky-demo-select-type">Fruit type</label>
@@ -23,12 +23,11 @@
       [name]="hideOrangeName"
       [filter]="hideOrangeFilterFunction"
       [template]="hideOrangeTemplate"
-    >
-    </sky-list-filter-inline-item>
+    />
   </sky-list-filter-inline>
 </sky-list-toolbar>
 
-<ng-template let-filter="filter" #hideOrangeTemplate>
+<ng-template #hideOrangeTemplate let-filter="filter">
   <sky-checkbox
     [ngModel]="filter.value"
     (ngModelChange)="filter.changed($event)"

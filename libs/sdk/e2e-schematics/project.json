@@ -37,14 +37,13 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "libs/sdk/e2e-schematics/**/*.ts",
-          "libs/sdk/e2e-schematics/generators.json",
-          "libs/sdk/e2e-schematics/executors.json",
-          "libs/sdk/e2e-schematics/package.json"
+          "{projectRoot}/**/*.ts",
+          "{projectRoot}/generators.json",
+          "{projectRoot}/executors.json",
+          "{projectRoot}/package.json"
         ]
       }
     },
@@ -52,15 +51,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/sdk/e2e-schematics"],
       "options": {
-        "jestConfig": "libs/sdk/e2e-schematics/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true,
-          "runInBand": true
-        }
+        "jestConfig": "libs/sdk/e2e-schematics/jest.config.ts"
       }
     }
   },

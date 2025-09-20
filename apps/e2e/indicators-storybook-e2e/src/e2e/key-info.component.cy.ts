@@ -9,11 +9,12 @@ describe('indicators-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('app-key-info')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`keyinfocomponent-keyinfo--key-info-${theme}`)
-          .percySnapshot(`keyinfocomponent-keyinfo--key-info-${theme}`);
+        cy.skyReady('app-key-info').screenshot(
+          `keyinfocomponent-keyinfo--key-info-${theme}`,
+        );
+        cy.get('app-key-info').percySnapshot(
+          `keyinfocomponent-keyinfo--key-info-${theme}`,
+        );
         for (const x of ['vertical', 'horizontal']) {
           cy.get(`.${x}-key-info`).should('exist').should('be.visible');
         }

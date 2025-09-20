@@ -3,40 +3,43 @@
   [ngClass]="'sky-avatar-wrapper-size-' + size"
 >
   <div class="sky-avatar-image" [hidden]="!src"></div>
-  <div *ngIf="src" class="sky-screen-reader-only">
-    {{ 'skyux_avatar_inner_description' | skyLibResources : name }}
-  </div>
+  @if (src) {
+    <div class="sky-screen-reader-only">
+      {{ 'skyux_avatar_inner_description' | skyLibResources: name }}
+    </div>
+  }
   <div
     class="sky-avatar-initials"
     [hidden]="src || !name"
-    [ngClass]="'sky-palette-multi-' + (colorIndex + 1)"
+    [ngClass]="'sky-avatar-colors-' + (colorIndex + 1)"
   >
-    <div
-      *ngIf="size === 'small'"
-      class="sky-avatar-initials-inner"
-      [skyThemeClass]="{
-        'sky-font-body-sm': 'modern'
-      }"
-    >
-      {{ initials }}
-    </div>
-    <div
-      *ngIf="size === 'medium'"
-      class="sky-avatar-initials-inner"
-      [skyThemeClass]="{
-        'sky-font-display-3': 'modern'
-      }"
-    >
-      {{ initials }}
-    </div>
-    <div
-      *ngIf="size === 'large'"
-      class="sky-avatar-initials-inner"
-      [skyThemeClass]="{
-        'sky-font-display-2': 'modern'
-      }"
-    >
-      {{ initials }}
-    </div>
+    @if (size === 'small') {
+      <div
+        class="sky-avatar-initials-inner"
+        [skyThemeClass]="{
+          'sky-font-body-sm': 'modern'
+        }"
+      >
+        {{ initials }}
+      </div>
+    } @else if (size === 'medium') {
+      <div
+        class="sky-avatar-initials-inner"
+        [skyThemeClass]="{
+          'sky-font-display-3': 'modern'
+        }"
+      >
+        {{ initials }}
+      </div>
+    } @else if (size === 'large') {
+      <div
+        class="sky-avatar-initials-inner"
+        [skyThemeClass]="{
+          'sky-font-display-2': 'modern'
+        }"
+      >
+        {{ initials }}
+      </div>
+    }
   </div>
 </div>

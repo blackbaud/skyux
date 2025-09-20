@@ -1,0 +1,24 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "select-field": {
+      "development": {
+        "docsIds": [
+          "SkySelectFieldModule",
+          "SkySelectFieldComponent",
+          "SkySelectFieldPickerContext",
+          "SkySelectFieldCustomPicker",
+          "SkySelectFieldSelectMode",
+          "SkySelectField"
+        ],
+        "primaryDocsId": "SkySelectFieldModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": []
+      }
+    }
+  }
+}

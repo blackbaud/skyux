@@ -1,64 +1,3 @@
-<ng-template #itemsTemplate>
-  <ul>
-    <li
-      *ngFor="let item of items; let isLast = last"
-      class="sky-needs-attention-item-wrapper sky-font-emphasized"
-      [ngClass]="{
-        'sky-border-bottom-row': !isLast
-      }"
-    >
-      <a
-        *ngIf="
-          (item | linkAs : 'skyAppLink') &&
-          item.permalink?.route as permalinkRoute
-        "
-        [skyAppLink]="permalinkRoute.commands"
-        [queryParams]="permalinkRoute.extras?.queryParams"
-        [queryParamsHandling]="permalinkRoute.extras?.queryParamsHandling"
-        [fragment]="permalinkRoute.extras?.fragment"
-        [preserveFragment]="permalinkRoute.extras?.preserveFragment"
-        [skipLocationChange]="permalinkRoute.extras?.skipLocationChange"
-        [replaceUrl]="permalinkRoute.extras?.replaceUrl"
-        [state]="permalinkRoute.extras?.state"
-        class="sky-needs-attention-item"
-        >{{ item.title }} {{ item.message }}</a
-      >
-      <ng-container *ngIf="item.permalink as permalink">
-        <a
-          *ngIf="item | linkAs : 'skyHref'"
-          [skyHref]="permalink.url"
-          class="sky-needs-attention-item"
-          >{{ item.title }} {{ item.message }}</a
-        >
-        <a
-          *ngIf="item | linkAs : 'href'"
-          [href]="permalink.url"
-          class="sky-needs-attention-item"
-          >{{ item.title }} {{ item.message }}</a
-        >
-      </ng-container>
-      <button
-        *ngIf="item | linkAs : 'button'"
-        class="sky-needs-attention-item sky-btn sky-btn-link-inline"
-        type="button"
-        (click)="item?.click({item})"
-      >
-        {{ item.title }} {{ item.message }}
-      </button>
-      <sky-icon
-        *skyThemeIf="'default'"
-        class="sky-needs-attention-item-icon"
-        icon="caret-right"
-      />
-      <sky-icon
-        *skyThemeIf="'modern'"
-        class="sky-needs-attention-item-icon"
-        icon="chevron-right"
-      />
-    </li>
-  </ul>
-</ng-template>
-
 <sky-box>
   <sky-box-header>
     <h2 class="sky-font-heading-2">
@@ -66,8 +5,65 @@
     </h2>
   </sky-box-header>
   <sky-box-content>
-    <ng-container *ngIf="items?.length === 0; else itemsTemplate">{{
-      'sky_action_hub_needs_attention_empty' | skyLibResources
-    }}</ng-container>
+    @let itemsToDisplay = displayItems | async;
+    @if (!itemsToDisplay?.length) {
+      {{ 'sky_action_hub_needs_attention_empty' | skyLibResources }}
+    } @else {
+      <ul class="sky-needs-attention-list">
+        @for (
+          item of itemsToDisplay;
+          track displayItemsTrackByFn(item);
+          let isLast = $last
+        ) {
+          <li
+            class="sky-needs-attention-item-wrapper sky-font-emphasized"
+            [ngClass]="{
+              'sky-border-bottom-row': !isLast
+            }"
+          >
+            @if (
+              (item | linkAs: 'skyAppLink') && item.permalink?.route;
+              as permalinkRoute
+            ) {
+              <a
+                class="sky-needs-attention-item"
+                [skyAppLink]="permalinkRoute.commands"
+                [queryParams]="permalinkRoute.extras?.queryParams"
+                [queryParamsHandling]="
+                  permalinkRoute.extras?.queryParamsHandling
+                "
+                [fragment]="permalinkRoute.extras?.fragment"
+                [preserveFragment]="permalinkRoute.extras?.preserveFragment"
+                [skipLocationChange]="permalinkRoute.extras?.skipLocationChange"
+                [replaceUrl]="permalinkRoute.extras?.replaceUrl"
+                [state]="permalinkRoute.extras?.state"
+                >{{ item.title }} {{ item.message }}</a
+              >
+            } @else if (item | linkAs: 'skyHref') {
+              <a class="sky-needs-attention-item" [skyHref]="item.permalink.url"
+                >{{ item.title }} {{ item.message }}</a
+              >
+            } @else if (item | linkAs: 'href') {
+              <a class="sky-needs-attention-item" [href]="item.permalink.url"
+                >{{ item.title }} {{ item.message }}</a
+              >
+            } @else if (item | linkAs: 'button') {
+              <button
+                class="sky-needs-attention-item sky-btn sky-btn-link-inline"
+                type="button"
+                (click)="item.click({ item })"
+              >
+                {{ item.title }} {{ item.message }}
+              </button>
+            }
+            <sky-icon
+              class="sky-needs-attention-item-icon"
+              iconName="chevron-right"
+              iconSize="s"
+            />
+          </li>
+        }
+      </ul>
+    }
   </sky-box-content>
 </sky-box>

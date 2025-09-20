@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../../../documentation-schema.json",
+  "groups": {
+    "foo": {
+      "development": {
+        "docsIds": [
+          "docs-id-override",
+          "FooWithStaticPropertiesClass",
+          "FooClass"
+        ],
+        "primaryDocsId": "FooClass"
+      },
+      "testing": { "docsIds": [] },
+      "codeExamples": { "docsIds": ["FooCodeExample1", "FooCodeExample2"] }
+    }
+  }
+}

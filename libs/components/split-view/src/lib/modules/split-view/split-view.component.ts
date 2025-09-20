@@ -5,6 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -15,14 +16,13 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { SkyCoreAdapterService } from '@skyux/core';
+import { SkyCoreAdapterService, SkyResponsiveHostDirective } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SkySplitViewAdapterService } from './split-view-adapter.service';
 import { SkySplitViewDrawerComponent } from './split-view-drawer.component';
-import { SkySplitViewMediaQueryService } from './split-view-media-query.service';
 import { SkySplitViewService } from './split-view.service';
 import { SkySplitViewDockType } from './types/split-view-dock-type';
 import { SkySplitViewMessage } from './types/split-view-message';
@@ -33,15 +33,6 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
  * and take actions.
  */
 @Component({
-  selector: 'sky-split-view',
-  templateUrl: './split-view.component.html',
-  styleUrls: ['./split-view.component.scss'],
-  providers: [
-    SkySplitViewAdapterService,
-    SkySplitViewMediaQueryService,
-    SkySplitViewService,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('blockAnimationOnLoad', [transition(':enter', [])]),
     trigger('drawerEnter', [
@@ -53,6 +44,13 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
       transition('* => true', animate('150ms ease-in')),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [SkyResponsiveHostDirective],
+  imports: [CommonModule],
+  providers: [SkySplitViewAdapterService, SkySplitViewService],
+  selector: 'sky-split-view',
+  styleUrl: './split-view.component.scss',
+  templateUrl: './split-view.component.html',
 })
 export class SkySplitViewComponent implements OnInit, OnDestroy {
   /**

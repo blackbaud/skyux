@@ -20,6 +20,7 @@ import { SkyDropdownTriggerType } from '../types/dropdown-trigger-type';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './dropdown.component.fixture.html',
+  standalone: false,
 })
 export class DropdownFixtureComponent {
   //#region directive properties
@@ -29,8 +30,6 @@ export class DropdownFixtureComponent {
   public buttonType: SkyDropdownButtonType | string | undefined;
 
   public disabled: boolean | undefined;
-
-  public dismissOnBlur: boolean | undefined;
 
   public horizontalAlignment: SkyDropdownHorizontalAlignment | undefined;
 
@@ -49,6 +48,8 @@ export class DropdownFixtureComponent {
   public trigger: SkyDropdownTriggerType | undefined;
 
   public useNativeFocus: boolean | undefined;
+
+  public useCustomTrigger = false;
 
   //#endregion directive properties
 

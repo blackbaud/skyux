@@ -9,18 +9,15 @@ describe('indicators-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('app-status-indicator')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(
-            `statusindicatorcomponent-statusindicator--status-indicator-${theme}`,
-          )
-          .percySnapshot(
-            `statusindicatorcomponent-statusindicator--status-indicator-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
-          );
+        cy.skyReady('app-status-indicator').screenshot(
+          `statusindicatorcomponent-statusindicator--status-indicator-${theme}`,
+        );
+        cy.get('app-status-indicator').percySnapshot(
+          `statusindicatorcomponent-statusindicator--status-indicator-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

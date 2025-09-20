@@ -1,0 +1,12 @@
+<ul>
+  @for (item of items; track item) {
+    <li>{{ item.name }}</li>
+  }
+</ul>
+
+<sky-infinite-scroll
+  data-sky-id="my-infinite-scroll"
+  [enabled]="enabled"
+  [loading]="loading"
+  (scrollEnd)="onScrollEnd()"
+/>

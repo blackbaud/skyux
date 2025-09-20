@@ -10,7 +10,6 @@ import { SkyValidation } from '../validation/validation';
 
 import { SkyUrlValidationOptions } from './url-validation-options';
 
-// tslint:disable:no-forward-ref no-use-before-declare
 const SKY_URL_VALIDATION_VALIDATOR = {
   provide: NG_VALIDATORS,
   useExisting: forwardRef(() => SkyUrlValidationDirective),
@@ -23,6 +22,7 @@ const SKY_URL_VALIDATION_VALIDATOR = {
 @Directive({
   selector: '[skyUrlValidation]',
   providers: [SKY_URL_VALIDATION_VALIDATOR],
+  standalone: false,
 })
 export class SkyUrlValidationDirective implements Validator {
   /**
@@ -37,7 +37,7 @@ export class SkyUrlValidationDirective implements Validator {
   #_skyUrlValidationOptions: SkyUrlValidationOptions | undefined;
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  #validatorChange = () => {};
+  #validatorChange = (): void => {};
 
   public validate(control: AbstractControl): ValidationErrors | null {
     const value = control.value;

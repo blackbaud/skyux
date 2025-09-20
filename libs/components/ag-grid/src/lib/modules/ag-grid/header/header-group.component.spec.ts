@@ -2,13 +2,12 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyI18nModule } from '@skyux/i18n';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
 import {
   ColGroupDef,
   ColumnGroup,
-  Events,
   ProvidedColumnGroup,
 } from 'ag-grid-community';
 
@@ -18,18 +17,21 @@ import { SkyAgGridHeaderGroupComponent } from './header-group.component';
 
 @Component({
   template: `<span class="test-help-component">Help text</span>`,
+  imports: [SkyI18nModule, SkyIconModule, SkyThemeModule],
 })
 class TestHelpComponent {}
 
-type mockEventParam = { columnGroup: ProvidedColumnGroup };
+interface mockEventParam {
+  columnGroups: ProvidedColumnGroup[];
+}
 
 describe('SkyAgGridHeaderGroupComponent', () => {
   let component: SkyAgGridHeaderGroupComponent;
   let fixture: ComponentFixture<SkyAgGridHeaderGroupComponent>;
-  let events: { [key: string]: ((value: mockEventParam) => void)[] };
+  let events: Record<string, ((value: mockEventParam) => void)[]>;
   let expanded: boolean;
   let providedColumnGroup: ProvidedColumnGroup;
-  const baseProvidedColumnGroup = {
+  const baseProvidedColumnGroup: Partial<ProvidedColumnGroup> = {
     isExpanded: (): boolean => expanded,
     isExpandable: (): boolean => true,
   };
@@ -56,23 +58,28 @@ describe('SkyAgGridHeaderGroupComponent', () => {
     },
     setExpanded: (open: boolean) => {
       expanded = open;
-      (events[Events.EVENT_COLUMN_GROUP_OPENED] || []).forEach((l) =>
-        l({ columnGroup: providedColumnGroup }),
+      (events['columnGroupOpened'] || []).forEach((l) =>
+        l({ columnGroups: [providedColumnGroup] }),
       );
     },
-  } as unknown as SkyAgGridHeaderGroupParams;
+  } as SkyAgGridHeaderGroupParams;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SkyAgGridHeaderGroupComponent, TestHelpComponent],
-      imports: [SkyI18nModule, SkyIconModule, SkyThemeModule],
+      imports: [
+        SkyI18nModule,
+        SkyIconModule,
+        SkyThemeModule,
+        SkyAgGridHeaderGroupComponent,
+        TestHelpComponent,
+      ],
       providers: [],
     });
     events = {};
     expanded = false;
     providedColumnGroup = {
       ...baseProvidedColumnGroup,
-    } as unknown as ProvidedColumnGroup;
+    } as ProvidedColumnGroup;
 
     fixture = TestBed.createComponent(SkyAgGridHeaderGroupComponent);
     component = fixture.componentInstance;
@@ -85,14 +92,12 @@ describe('SkyAgGridHeaderGroupComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(
-      fixture.debugElement.query(By.css('.header-group-text')).properties[
-        'innerText'
-      ],
+      fixture.debugElement.query(By.css('.header-group-text')),
     ).toBeFalsy();
     providedColumnGroup = {
       ...baseProvidedColumnGroup,
       isExpandable: () => false,
-    } as unknown as ProvidedColumnGroup;
+    } as ProvidedColumnGroup;
     component.agInit({
       ...baseParams,
       columnGroup: {
@@ -100,8 +105,8 @@ describe('SkyAgGridHeaderGroupComponent', () => {
         getColGroupDef: () =>
           ({
             headerGroupComponent: undefined,
-          } as unknown as ColGroupDef),
-      } as unknown as ColumnGroup,
+          }) as ColGroupDef,
+      } as ColumnGroup,
     });
   });
 
@@ -116,8 +121,8 @@ describe('SkyAgGridHeaderGroupComponent', () => {
             headerGroupComponentParams: {
               inlineHelpComponent: TestHelpComponent,
             },
-          } as ColGroupDef),
-      } as unknown as ColumnGroup,
+          }) as ColGroupDef,
+      } as ColumnGroup,
     });
     component.ngAfterViewInit();
     fixture.detectChanges();

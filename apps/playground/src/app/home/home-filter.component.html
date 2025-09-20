@@ -2,15 +2,16 @@
   <sky-modal-header> Filter by library </sky-modal-header>
   <sky-modal-content>
     <sky-repeater>
-      <sky-repeater-item
-        *ngFor="let library of libraries"
-        [selectable]="true"
-        [(isSelected)]="library.isSelected"
-      >
-        <sky-repeater-item-title>
-          {{ library.name }}
-        </sky-repeater-item-title>
-      </sky-repeater-item>
+      @for (library of libraries; track library) {
+        <sky-repeater-item
+          [selectable]="true"
+          [(isSelected)]="library.isSelected"
+        >
+          <sky-repeater-item-title>
+            {{ library.name }}
+          </sky-repeater-item-title>
+        </sky-repeater-item>
+      }
     </sky-repeater>
   </sky-modal-content>
   <sky-modal-footer>

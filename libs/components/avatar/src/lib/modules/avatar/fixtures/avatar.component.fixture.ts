@@ -7,12 +7,13 @@ import { SkyAvatarComponent } from '../avatar.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './avatar.component.fixture.html',
+  standalone: false,
 })
 export class AvatarTestComponent {
   @ViewChild(SkyAvatarComponent)
   public avatarComponent!: SkyAvatarComponent;
 
-  public maxFileSize = 500000;
+  public maxFileSize = 512000;
 
   public name: string | undefined;
 

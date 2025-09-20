@@ -7,8 +7,8 @@
     <sky-tab [tabHeading]="tab1Heading" [active]="activeTab === 0">
       <div class="tabset-test-content-1">{{tab1Content}}</div>
     </sky-tab>
+    @if (tab2Available) {
     <sky-tab
-      *ngIf="tab2Available"
       layout="fit"
       [tabHeading]="tab2Heading"
       [active]="activeTab === 1"
@@ -17,15 +17,16 @@
     >
       <div class="tabset-test-content-2">{{tab2Content}}</div>
     </sky-tab>
+    } @if (tab3Available) {
     <sky-tab
-      *ngIf="tab3Available"
       [layout]="tab3Layout"
       [tabHeading]="tab3Heading"
       [tabHeaderCount]="tab3HeaderCount"
-      [tabIndex]="3"
+      [tabIndexValue]="3"
       [active]="activeTab === 2"
     >
       <div class="tabset-test-content-3">{{tab3Content}}</div>
     </sky-tab>
+    }
   </sky-tabset>
 </div>

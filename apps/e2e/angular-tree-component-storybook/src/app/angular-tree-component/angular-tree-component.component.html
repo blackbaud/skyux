@@ -4,19 +4,18 @@
   id="screenshot-tree-view-basic"
 >
   <sky-angular-tree-wrapper [selectSingle]="singleSelectFlag">
-    <tree-root [nodes]="nodes" [options]="basicOptions" #treeBasic>
+    <tree-root #treeBasic [nodes]="nodes" [options]="basicOptions">
       <ng-template
+        #treeNodeFullTemplate
         let-index="index"
         let-node
         let-templates="templates"
-        #treeNodeFullTemplate
       >
         <sky-angular-tree-node
           [index]="index"
           [node]="node"
           [templates]="templates"
-        >
-        </sky-angular-tree-node>
+        />
       </ng-template>
     </tree-root>
   </sky-angular-tree-wrapper>
@@ -28,12 +27,12 @@
     [selectSingle]="singleSelectFlag"
     [showToolbar]="true"
   >
-    <tree-root [nodes]="modeNodes" [options]="selectionOptions" #treeBasic>
+    <tree-root #treeBasic [nodes]="modeNodes" [options]="selectionOptions">
       <ng-template
+        #treeNodeFullTemplate
         let-index="index"
         let-node
         let-templates="templates"
-        #treeNodeFullTemplate
       >
         <sky-angular-tree-node
           [index]="index"
@@ -43,8 +42,8 @@
           <sky-help-inline
             *ngIf="node.data.showHelp"
             class="sky-control-help"
-          ></sky-help-inline>
-          <sky-dropdown buttonType="context-menu"></sky-dropdown>
+          />
+          <sky-dropdown buttonType="context-menu" />
         </sky-angular-tree-node>
       </ng-template>
     </tree-root>
@@ -54,12 +53,12 @@
     [selectSingle]="singleSelectFlag"
     [showToolbar]="true"
   >
-    <tree-root [nodes]="modeNodes" [options]="basicOptions" #treeBasic>
+    <tree-root #treeBasic [nodes]="modeNodes" [options]="basicOptions">
       <ng-template
+        #treeNodeFullTemplate
         let-index="index"
         let-node
         let-templates="templates"
-        #treeNodeFullTemplate
       >
         <sky-angular-tree-node
           [index]="index"
@@ -69,9 +68,29 @@
           <sky-help-inline
             *ngIf="node.data.showHelp"
             class="sky-control-help"
-          ></sky-help-inline>
-          <sky-dropdown buttonType="context-menu"></sky-dropdown>
+          />
+          <sky-dropdown buttonType="context-menu" />
         </sky-angular-tree-node>
+      </ng-template>
+    </tree-root>
+  </sky-angular-tree-wrapper>
+  <h3>Basic with easy mode inline help</h3>
+  <sky-angular-tree-wrapper>
+    <tree-root #treeBasic [nodes]="modeNodes" [options]="basicOptions">
+      <ng-template
+        #treeNodeFullTemplate
+        let-index="index"
+        let-node
+        let-templates="templates"
+      >
+        <sky-angular-tree-node
+          [helpPopoverContent]="
+            node.data.showHelp ? 'Example help inline content.' : undefined
+          "
+          [index]="index"
+          [node]="node"
+          [templates]="templates"
+        />
       </ng-template>
     </tree-root>
   </sky-angular-tree-wrapper>

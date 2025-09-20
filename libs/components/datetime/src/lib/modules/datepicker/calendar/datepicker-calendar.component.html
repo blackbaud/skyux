@@ -1,0 +1,31 @@
+<div class="sky-datepicker-calendar">
+  <sky-datepicker-inner
+    [customDates]="customDates"
+    [maxDate]="maxDate"
+    [minDate]="minDate"
+    [startAtDate]="startAtDate"
+    [selectedDate]="selectedDate"
+    [startingDay]="startingDay"
+    (calendarModeChange)="onCalendarModeChange($event)"
+    (selectedDateChange)="onSelectedDateChange($event)"
+  >
+    <div
+      class="sky-datepicker-calendar-table-container"
+      autofocus
+      tabindex="0"
+      (keydown)="datepicker?.onKeydown($event)"
+    >
+      @if (datepicker?.datepickerMode === 'day') {
+        <sky-daypicker
+          [customDates]="customDates"
+          [isWaiting]="isDaypickerWaiting"
+          (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
+        />
+      } @else if (datepicker?.datepickerMode === 'month') {
+        <sky-monthpicker />
+      } @else if (datepicker?.datepickerMode === 'year') {
+        <sky-yearpicker />
+      }
+    </div>
+  </sky-datepicker-inner>
+</div>

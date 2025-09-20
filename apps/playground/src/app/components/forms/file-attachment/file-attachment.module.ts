@@ -1,11 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyFileAttachmentsModule } from '@skyux/forms';
-import {
-  SkyHelpInlineModule,
-  SkyStatusIndicatorModule,
-} from '@skyux/indicators';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 import {
   FileAttachmentRoutingModule,
@@ -18,8 +15,8 @@ import { FileAttachmentComponent } from './file-attachment.component';
     CommonModule,
     FileAttachmentRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     SkyFileAttachmentsModule,
-    SkyHelpInlineModule,
     SkyStatusIndicatorModule,
   ],
   declarations: [FileAttachmentComponent],

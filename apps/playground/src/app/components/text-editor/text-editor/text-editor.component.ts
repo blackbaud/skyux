@@ -17,9 +17,12 @@ import {
   selector: 'app-text-editor',
   templateUrl: './text-editor.component.html',
   styleUrls: ['./text-editor.component.scss'],
+  standalone: false,
 })
 export class TextEditorComponent implements OnInit {
   public displayValue: SafeHtml;
+
+  public labelText = 'Playground text editor';
 
   public menus: SkyTextEditorMenuType[] = ['edit', 'format', 'merge-field'];
 

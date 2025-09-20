@@ -3,22 +3,20 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
   Optional,
   ViewChild,
+  inject,
 } from '@angular/core';
-import { SkyMediaQueryService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 import { SkyTabIdService } from '../shared/tab-id.service';
 
-import { SkyVerticalTabMediaQueryService } from './vertical-tab-media-query.service';
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
+import { SkyVerticalTabsetGroupService } from './vertical-tabset-group.service';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
 let nextId = 0;
@@ -27,21 +25,30 @@ let nextId = 0;
   selector: 'sky-vertical-tab',
   templateUrl: './vertical-tab.component.html',
   styleUrls: ['./vertical-tab.component.scss'],
-  providers: [
-    SkyVerticalTabMediaQueryService,
-    {
-      provide: SkyMediaQueryService,
-      useExisting: SkyVerticalTabMediaQueryService,
-    },
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   /**
    * Whether the tab is active when the tabset loads.
+   * @default false
    */
   @Input()
-  public active: boolean | undefined = false;
+  public set active(value: boolean | undefined) {
+    if (value !== this.#_active) {
+      this.#_active = value ?? false;
+
+      if (this.#_active) {
+        this.#tabsetService.activateTab(this);
+      }
+    }
+  }
+
+  public get active(): boolean {
+    return this.#_active;
+  }
+
+  #_active = false;
 
   /**
    * The HTML element ID of the element that contains
@@ -85,6 +92,13 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   public errorIndicator: boolean | undefined = false;
 
   /**
+   * Whether to indicate that the tab has required content.
+   * @internal This is used for sectioned forms and is not currently a supported design for pure vertical tabs.
+   */
+  @Input()
+  public requiredIndicator: boolean | undefined = false;
+
+  /**
    * Displays an item count alongside the tab header to indicate how many list items the tab contains.
    */
   @Input()
@@ -123,10 +137,11 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
     /* istanbul ignore else */
     if (this.#_contentRendered) {
-      // NOTE: Wrapped in a setTimeout here to ensure that everything has completed rendering.
+      // NOTE: Trigger another change detection cycle when the service marks
+      // this tab as "rendered".
       setTimeout(() => {
         if (this.tabContent) {
-          this.#updateBreakpointAndResponsiveClass();
+          this.#changeRef.markForCheck();
         }
       });
     }
@@ -140,8 +155,15 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   public isMobile = false;
 
+  @ViewChild('tabButton')
+  public tabButton: ElementRef | undefined;
+
   @ViewChild('tabContentWrapper')
   public tabContent: ElementRef | undefined;
+
+  public groupService = inject(SkyVerticalTabsetGroupService, {
+    optional: true,
+  });
 
   #_ariaRole = 'tab';
 
@@ -158,20 +180,17 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   #adapterService: SkyVerticalTabsetAdapterService;
   #changeRef: ChangeDetectorRef;
   #tabsetService: SkyVerticalTabsetService;
-  #verticalTabMediaQueryService: SkyVerticalTabMediaQueryService;
   #tabIdSvc: SkyTabIdService | undefined;
 
   constructor(
     adapterService: SkyVerticalTabsetAdapterService,
     changeRef: ChangeDetectorRef,
     tabsetService: SkyVerticalTabsetService,
-    verticalTabMediaQueryService: SkyVerticalTabMediaQueryService,
     @Optional() tabIdSvc?: SkyTabIdService,
   ) {
     this.#adapterService = adapterService;
     this.#changeRef = changeRef;
     this.#tabsetService = tabsetService;
-    this.#verticalTabMediaQueryService = verticalTabMediaQueryService;
     this.#tabIdSvc = tabIdSvc;
 
     this.#tabIdOrDefault = this.#defaultTabId = `sky-vertical-tab-${++nextId}`;
@@ -187,18 +206,6 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
       this.#changeRef.markForCheck();
     });
 
-    // Update the breakpoint and responsive class here just as a sanity check since we can not
-    // watch for element resizing.
-    this.#tabsetService.indexChanged
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((index) => {
-        if (this.index === index && this.contentRendered) {
-          if (this.tabContent) {
-            this.#updateBreakpointAndResponsiveClass();
-          }
-        }
-      });
-
     this.#tabsetService.addTab(this);
   }
 
@@ -210,14 +217,6 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     this.#tabsetService.destroyTab(this);
   }
 
-  public tabIndex(): number {
-    if (!this.disabled) {
-      return 0;
-    } else {
-      return -1;
-    }
-  }
-
   public activateTab(): void {
     if (!this.disabled) {
       this.active = true;
@@ -227,45 +226,26 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onTabButtonKeyUp(event: KeyboardEvent): void {
-    /*istanbul ignore else */
-    if (event.key) {
-      switch (event.key.toUpperCase()) {
-        case ' ':
-        case 'ENTER':
-          this.activateTab();
-          event.stopPropagation();
-          break;
-        /* istanbul ignore next */
-        default:
-          break;
-      }
-    }
+  public focusButton(): void {
+    this.#adapterService.focusButton(this.tabButton);
   }
 
-  @HostListener('window:resize')
-  public onWindowResize(): void {
-    if (this.tabContent) {
-      this.#updateBreakpointAndResponsiveClass();
+  public tabButtonActivate(event: Event): void {
+    this.activateTab();
+    event.stopPropagation();
+  }
+
+  public tabButtonArrowLeft(event: Event): void {
+    if (this.groupService) {
+      this.groupService.messageStream.next({
+        messageType: 'focus',
+      });
+
+      event.preventDefault();
     }
   }
 
   public tabDeactivated(): void {
     this.#changeRef.markForCheck();
-  }
-
-  #updateBreakpointAndResponsiveClass(): void {
-    if (this.tabContent) {
-      const width = this.#adapterService.getWidth(this.tabContent);
-      this.#verticalTabMediaQueryService.setBreakpointForWidth(width);
-
-      const newBreakpoint = this.#verticalTabMediaQueryService.current;
-
-      if (newBreakpoint) {
-        this.#adapterService.setResponsiveClass(this.tabContent, newBreakpoint);
-      }
-
-      this.#changeRef.markForCheck();
-    }
   }
 }

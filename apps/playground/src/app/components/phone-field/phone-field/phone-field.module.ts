@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
@@ -11,7 +10,6 @@ import { PhoneFieldComponent } from './phone-field.component';
 @NgModule({
   declarations: [PhoneFieldComponent],
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     PhoneFieldRoutingModule,

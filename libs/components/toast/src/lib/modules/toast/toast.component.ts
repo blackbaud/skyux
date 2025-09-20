@@ -6,6 +6,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  NgZone,
   OnDestroy,
   OnInit,
   Output,
@@ -13,7 +14,9 @@ import {
   inject,
 } from '@angular/core';
 import { skyAnimationEmerge } from '@skyux/animations';
-import { SkyIconModule, SkyIconStackItem } from '@skyux/indicators';
+import { SkyIdModule } from '@skyux/core';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -30,14 +33,19 @@ const SKY_TOAST_TYPE_DEFAULT = SkyToastType.Info;
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
   animations: [skyAnimationEmerge],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, SkyIconModule, SkyToastResourcesModule],
+  imports: [
+    CommonModule,
+    SkyIconModule,
+    SkyIdModule,
+    SkyThemeModule,
+    SkyToastResourcesModule,
+  ],
 })
 export class SkyToastComponent implements OnInit, OnDestroy {
   /**
@@ -68,11 +76,9 @@ export class SkyToastComponent implements OnInit, OnDestroy {
 
   public ariaLive = 'polite';
   public ariaRole: string | undefined;
-  public baseIcon: SkyIconStackItem | undefined;
   public classNames = '';
-  public icon: string | undefined;
+  public iconName = 'info';
   public toastTypeOrDefault: SkyToastType = SKY_TOAST_TYPE_DEFAULT;
-  public topIcon: SkyIconStackItem | undefined;
 
   #autoCloseTimeoutId: unknown;
   #isOpen = false;
@@ -80,6 +86,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #toasterService = inject(SkyToasterService, { optional: true });
+  readonly #ngZone = inject(NgZone);
 
   public ngOnInit(): void {
     this.#isOpen = true;
@@ -134,9 +141,11 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     ) {
       this.stopAutoCloseTimer();
 
-      this.#autoCloseTimeoutId = setTimeout(() => {
-        this.close();
-      }, AUTO_CLOSE_MILLISECONDS);
+      this.#ngZone.runOutsideAngular(() => {
+        this.#autoCloseTimeoutId = setTimeout(() => {
+          this.close();
+        }, AUTO_CLOSE_MILLISECONDS);
+      });
     }
   }
 
@@ -148,44 +157,21 @@ export class SkyToastComponent implements OnInit, OnDestroy {
 
   #updateForToastType(): void {
     let icon: string;
-    let baseIcon: string;
-    let topIcon: string;
 
     switch (this.toastTypeOrDefault) {
       case SkyToastType.Danger:
       case SkyToastType.Warning:
         icon = 'warning';
-        baseIcon = 'triangle-solid';
-        topIcon = 'exclamation';
         break;
       case SkyToastType.Info:
-        icon = 'exclamation-circle';
-        baseIcon = 'circle-solid';
-        topIcon = 'help-i';
+        icon = 'info';
         break;
       case SkyToastType.Success:
-        icon = 'check';
-        baseIcon = 'circle-solid';
-        topIcon = 'check';
+        icon = 'success';
         break;
     }
 
-    this.baseIcon = {
-      icon: baseIcon,
-      iconType: 'skyux',
-    };
-
-    this.topIcon = {
-      icon: topIcon,
-      iconType: 'skyux',
-    };
-
-    this.icon = icon;
-
-    this.ariaLive =
-      this.toastTypeOrDefault === SkyToastType.Danger ? 'assertive' : 'polite';
-    this.ariaRole =
-      this.toastTypeOrDefault === SkyToastType.Danger ? 'alert' : undefined;
+    this.iconName = icon;
 
     let typeLabel: string;
     switch (this.toastTypeOrDefault) {

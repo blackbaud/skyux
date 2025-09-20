@@ -20,13 +20,12 @@ import { SkyPopoverTrigger } from '../types/popover-trigger';
   selector: 'sky-test-component',
   templateUrl: './popover.component.fixture.html',
   styleUrls: ['./popover.component.fixture.scss'],
+  standalone: false,
 })
 export class PopoverFixtureComponent implements OnInit, AfterViewInit {
   //#region directive properties
 
   public alignment: SkyPopoverAlignment | undefined;
-
-  public dismissOnBlur: boolean | undefined;
 
   public messageStream: Subject<SkyPopoverMessage> | undefined =
     new Subject<SkyPopoverMessage>();

@@ -2,9 +2,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  HostListener,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { SkyI18nModule } from '@skyux/i18n';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
@@ -21,6 +28,7 @@ import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
   templateUrl: './cell-editor-number.component.html',
   styleUrls: ['./cell-editor-number.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule, ReactiveFormsModule, SkyI18nModule],
 })
 export class SkyAgGridCellEditorNumberComponent
   implements ICellEditorAngularComp
@@ -37,6 +45,18 @@ export class SkyAgGridCellEditorNumberComponent
 
   @ViewChild('skyCellEditorNumber', { read: ElementRef })
   public input: ElementRef | undefined;
+
+  @HostListener('focusout', ['$event'])
+  public onFocusOut(event: FocusEvent): void {
+    if (
+      event.relatedTarget &&
+      event.relatedTarget === this.#params?.eGridCell
+    ) {
+      // If focus is being set to the grid cell, schedule focus on the input.
+      // This happens when the refreshCells API is called.
+      this.afterGuiAttached();
+    }
+  }
 
   #params: ICellEditorParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
@@ -57,7 +77,7 @@ export class SkyAgGridCellEditorNumberComponent
           break;
         case SkyAgGridCellEditorInitialAction.Replace:
           control.setValue(
-            parseFloat(this.#params?.charPress as string) || undefined,
+            parseFloat(this.#params?.eventKey as string) || undefined,
           );
           break;
         case SkyAgGridCellEditorInitialAction.Highlighted:
@@ -70,7 +90,10 @@ export class SkyAgGridCellEditorNumberComponent
 
     this.max = params.skyComponentProperties?.max;
     this.min = params.skyComponentProperties?.min;
-    this.columnHeader = this.#params.colDef.headerName;
+    this.columnHeader = this.#params.api.getDisplayNameForColumn(
+      this.#params.column,
+      'header',
+    );
     this.rowNumber = this.#params.rowIndex + 1;
     this.columnWidth = this.#params.column.getActualWidth();
     this.rowHeightWithoutBorders = (this.#params.node.rowHeight as number) - 4;
@@ -80,12 +103,17 @@ export class SkyAgGridCellEditorNumberComponent
    * afterGuiAttached is called by agGrid after the editor is rendered in the DOM. Once it is attached the editor is ready to be focused on.
    */
   public afterGuiAttached(): void {
-    if (this.input) {
-      this.input.nativeElement.focus();
-      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
-        this.input.nativeElement.select();
+    // AG Grid sets focus to the cell via setTimeout, and this queues the input to focus after that.
+    setTimeout(() => {
+      if (this.input) {
+        this.input.nativeElement.focus();
+        if (
+          this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted
+        ) {
+          this.input.nativeElement.select();
+        }
       }
-    }
+    });
   }
 
   /**

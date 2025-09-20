@@ -1,4 +1,8 @@
 {
+  "skyux_datepicker_format_hint_text": {
+    "_description": "Hint text for the date format currently set on the datepicker.",
+    "message": "Use the format {0}."
+  },
   "skyux_datepicker_trigger_button_label": {
     "_description": "Label for the trigger button of the datepicker",
     "message": "Select date"
@@ -6,6 +10,30 @@
   "skyux_datepicker_trigger_button_label_context": {
     "_description": "Label for the trigger button of the datepicker when context is available",
     "message": "Open calendar for {0}"
+  },
+  "skyux_datepicker_move_calendar_previous_day": {
+    "_description": "ARIA label for the previous month calendar button in 'day' mode",
+    "message": "Previous month"
+  },
+  "skyux_datepicker_move_calendar_next_day": {
+    "_description": "ARIA label for the next month calendar button in 'day' mode",
+    "message": "Next month"
+  },
+  "skyux_datepicker_move_calendar_previous_month": {
+    "_description": "ARIA label for the previous year calendar button in 'month' mode",
+    "message": "Previous year"
+  },
+  "skyux_datepicker_move_calendar_next_month": {
+    "_description": "ARIA label for the next year calendar button in 'month' mode",
+    "message": "Next year"
+  },
+  "skyux_datepicker_move_calendar_previous_year": {
+    "_description": "ARIA label for the previous page calendar button in 'year' mode",
+    "message": "Previous page"
+  },
+  "skyux_datepicker_move_calendar_next_year": {
+    "_description": "ARIA label for the next page calendar button in 'year' mode",
+    "message": "Next page"
   },
   "skyux_timepicker_button_label": {
     "_description": "Screen reader text for the timepicker trigger button",
@@ -22,6 +50,10 @@
   "skyux_date_range_picker_default_label": {
     "_description": "The default label for the date range picker.",
     "message": "Select a date range"
+  },
+  "skyux_date_range_picker_end_date_before_start_date_error_label_text": {
+    "_description": "The error message for date range picker end date before start date error.",
+    "message": "Change the date range so that the end date is before the start date."
   },
   "skyux_date_range_picker_format_label_specific_range": {
     "_description": "The label for the date range picker component's select field Specific Range format type.",

@@ -1,10 +1,19 @@
-import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import {
+  DOCUMENT,
+  DestroyRef,
+  Injectable,
+  NgZone,
+  inject,
+} from '@angular/core';
 
 import { ReplaySubject } from 'rxjs';
 
 import { SkyAppViewportReserveArgs } from './viewport-reserve-args';
 import { SkyAppViewportReservedPositionType } from './viewport-reserve-position-type';
+
+type ReserveItemType = SkyAppViewportReserveArgs & {
+  active: boolean;
+};
 
 /**
  * Provides information about the state of the application's viewport.
@@ -21,11 +30,42 @@ export class SkyAppViewportService {
    */
   public visible = new ReplaySubject<boolean>(1);
 
-  #reserveItems = new Map<string, SkyAppViewportReserveArgs>();
-  #document: Document;
+  // ESLint doesn't recognize how this is used.
+  #updateRequest: number | undefined = undefined;
+  readonly #reserveItems = new Map<string, ReserveItemType>();
+  readonly #conditionallyReserveItems = new Map<Element, ReserveItemType>();
+  readonly #document = inject(DOCUMENT);
+  readonly #ngZone = inject(NgZone);
+  // Observe elements crossing the browser's viewport boundaries.
+  readonly #intersectionObserver = this.#ngZone.runOutsideAngular(
+    () =>
+      new IntersectionObserver(
+        () => this.#ngZone.run(() => this.#updateViewportArea()),
+        { threshold: Array.from({ length: 101 }, (_, i) => i / 100) },
+      ),
+  );
+  #reservedSpaces: Record<SkyAppViewportReservedPositionType, number> = {
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 0,
+  };
 
-  constructor(@Inject(DOCUMENT) document: Document) {
-    this.#document = document;
+  constructor() {
+    const onScroll = (): void => {
+      if (this.#conditionallyReserveItems.size > 0) {
+        this.#updateViewportArea();
+      }
+    };
+    this.#document.addEventListener('scroll', onScroll);
+    inject(DestroyRef).onDestroy(() => {
+      /* istanbul ignore next */
+      if (this.#updateRequest !== undefined) {
+        cancelAnimationFrame(this.#updateRequest);
+      }
+      this.#intersectionObserver.disconnect();
+      this.#document.removeEventListener('scroll', onScroll);
+    });
   }
 
   /**
@@ -33,7 +73,12 @@ export class SkyAppViewportService {
    * @param args
    */
   public reserveSpace(args: SkyAppViewportReserveArgs): void {
-    this.#reserveItems.set(args.id, args);
+    const item = {
+      ...args,
+      active: this.#isElementVisible({ ...args, active: false }),
+    };
+    this.#reserveItems.set(args.id, item);
+    this.#watchVisibility(item);
     this.#updateViewportArea();
   }
 
@@ -42,31 +87,99 @@ export class SkyAppViewportService {
    * @param id
    */
   public unreserveSpace(id: string): void {
+    const args = this.#reserveItems.get(id);
+    if (args?.reserveForElement) {
+      this.#intersectionObserver.unobserve(args.reserveForElement);
+      this.#conditionallyReserveItems.delete(args.reserveForElement);
+    }
     this.#reserveItems.delete(id);
     this.#updateViewportArea();
   }
 
   #updateViewportArea(): void {
-    const reservedSpaces: {
-      [key in SkyAppViewportReservedPositionType]: number;
-    } = {
-      bottom: 0,
-      left: 0,
-      right: 0,
-      top: 0,
+    this.#updateRequest ??= requestAnimationFrame(() => {
+      this.#updateRequest = undefined;
+      const reservedSpaces: Record<SkyAppViewportReservedPositionType, number> =
+        {
+          bottom: 0,
+          left: 0,
+          right: 0,
+          top: 0,
+        };
+
+      for (const args of this.#reserveItems.values()) {
+        args.active = this.#isElementVisible(args, reservedSpaces);
+        if (args.active) {
+          reservedSpaces[args.position] += args.size;
+        }
+      }
+
+      this.#reservedSpaces = reservedSpaces;
+      const documentElementStyle = this.#document.documentElement.style;
+
+      for (const [position, size] of Object.entries(reservedSpaces)) {
+        documentElementStyle.setProperty(
+          `--sky-viewport-${position}`,
+          size + 'px',
+        );
+      }
+    });
+  }
+
+  #watchVisibility(item: ReserveItemType): void {
+    if (item.reserveForElement) {
+      this.#conditionallyReserveItems.set(item.reserveForElement, item);
+      this.#intersectionObserver.observe(item.reserveForElement);
+    }
+  }
+
+  #isElementVisible(
+    args: ReserveItemType,
+    reservedSpaces: Record<SkyAppViewportReservedPositionType, number> = this
+      .#reservedSpaces,
+  ): boolean {
+    if (!args.reserveForElement) {
+      return true;
+    }
+    const rect = args.reserveForElement.getBoundingClientRect();
+    if (!rect || !rect.height || !rect.width) {
+      return false;
+    }
+    const midpoint = {
+      x: rect.x + Math.floor(rect.width / 2),
+      y: rect.y + Math.floor(rect.height / 2),
     };
+    if (
+      // Vertically in view
+      midpoint.y <= window.innerHeight &&
+      midpoint.y >= 0 &&
+      // Horizontally in view
+      midpoint.x <= window.innerWidth &&
+      midpoint.x >= 0
+    ) {
+      // Element is not hidden by another element
+      if (
+        args.reserveForElement.contains(
+          this.#document.elementFromPoint(midpoint.x, midpoint.y),
+        )
+      ) {
+        return true;
+      }
 
-    for (const { position, size } of this.#reserveItems.values()) {
-      reservedSpaces[position] += size;
+      // Check if the item's midpoint is visible based on current reserved spaces.
+      // Assumes reserved spaces are intended to be additive and not overlapping.
+      const threshold = reservedSpaces[args.position];
+      switch (args.position) {
+        case 'top':
+          return midpoint.y >= threshold;
+        case 'right':
+          return midpoint.x <= window.innerWidth - threshold;
+        case 'bottom':
+          return midpoint.y <= window.innerHeight - threshold;
+        case 'left':
+          return midpoint.x >= threshold;
+      }
     }
-
-    const documentElementStyle = this.#document.documentElement.style;
-
-    for (const [position, size] of Object.entries(reservedSpaces)) {
-      documentElementStyle.setProperty(
-        `--sky-viewport-${position}`,
-        size + 'px',
-      );
-    }
+    return false;
   }
 }

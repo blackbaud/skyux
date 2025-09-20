@@ -6,6 +6,7 @@ import { SkyListComponent } from '../list.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-filtered.component.fixture.html',
+  standalone: false,
 })
 export class ListFilteredTestComponent {
   @ViewChild(SkyListComponent, {
@@ -14,13 +15,13 @@ export class ListFilteredTestComponent {
   })
   public list: SkyListComponent;
 
-  public listFilters: Array<ListFilterModel> = [];
+  public listFilters: ListFilterModel[] = [];
 
-  public appliedFilters: Array<ListFilterModel> = [];
+  public appliedFilters: ListFilterModel[] = [];
 
   constructor(@Inject('items') public items: any) {}
 
-  public filtersChangeFunction(newFilters: Array<ListFilterModel>) {
+  public filtersChangeFunction(newFilters: ListFilterModel[]) {
     this.appliedFilters = newFilters;
   }
 }

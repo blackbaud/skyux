@@ -20,6 +20,7 @@ const SKY_EMAIL_VALIDATION_VALIDATOR = {
 @Directive({
   selector: '[skyEmailValidation]',
   providers: [SKY_EMAIL_VALIDATION_VALIDATOR],
+  standalone: false,
 })
 export class SkyEmailValidationDirective implements Validator {
   public validate(control: AbstractControl): ValidationErrors | null {

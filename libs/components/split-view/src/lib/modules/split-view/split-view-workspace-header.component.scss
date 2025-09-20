@@ -1,11 +1,26 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides(
+  '.sky-split-view-workspace-header'
+) {
+  --sky-override-split-view-header-border-bottom: 1px solid
+    #{$sky-border-color-neutral-medium};
+  --sky-override-split-view-header-padding: #{$sky-padding-half} 0;
+}
 
 .sky-split-view-workspace-header {
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;
-  border-bottom: 1px solid $sky-border-color-neutral-medium;
-  padding: $sky-padding-half 0;
+  border-bottom: var(
+    --sky-override-split-view-header-border-bottom,
+    var(--sky-border-width-divider) solid var(--sky-color-border-divider)
+  );
+  padding: var(
+    --sky-override-split-view-header-padding,
+    var(--sky-space-inset-balanced-none)
+  );
 
   .sky-split-view-workspace-header-content {
     flex-grow: 1;

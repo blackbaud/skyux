@@ -9,19 +9,24 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  TemplateRef,
   ViewChild,
   inject,
+  input,
 } from '@angular/core';
 import {
-  SkyAppWindowRef,
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
   SkyIdModule,
+  SkyLayoutHostDirective,
   SkyLiveAnnouncerService,
-  SkyResizeObserverMediaQueryService,
+  SkyScrollShadowDirective,
+  SkyScrollShadowEventArgs,
 } from '@skyux/core';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyTheme, SkyThemeModule, SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -32,9 +37,8 @@ import { SkyModalComponentAdapterService } from './modal-component-adapter.servi
 import { SkyModalConfiguration } from './modal-configuration';
 import { SkyModalError } from './modal-error';
 import { SkyModalErrorsService } from './modal-errors.service';
+import { SkyModalHeaderComponent } from './modal-header.component';
 import { SkyModalHostService } from './modal-host.service';
-import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args';
-import { SkyModalScrollShadowDirective } from './modal-scroll-shadow.directive';
 
 const ARIA_ROLE_DEFAULT = 'dialog';
 
@@ -44,7 +48,6 @@ const ARIA_ROLE_DEFAULT = 'dialog';
  * and buttons.
  */
 @Component({
-  standalone: true,
   selector: 'sky-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
@@ -55,10 +58,14 @@ const ARIA_ROLE_DEFAULT = 'dialog';
   ],
   imports: [
     CommonModule,
+    SkyHelpInlineModule,
     SkyIconModule,
     SkyIdModule,
-    SkyModalScrollShadowDirective,
+    SkyLayoutHostDirective,
+    SkyModalHeaderComponent,
     SkyModalsResourcesModule,
+    SkyScrollShadowDirective,
+    SkyThemeModule,
   ],
 })
 export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
@@ -74,6 +81,35 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
+   * The text to display as the modal's heading.
+   */
+  @Input()
+  public headingText: string | undefined;
+
+  /**
+   * A help key that identifies the global help content to display. When specified along with `headingText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
+   * added to the modal header. Clicking the button invokes global help as configured by the application. This property only applies when `headingText` is also specified.
+   */
+  @Input()
+  public helpKey: string | undefined;
+
+  /**
+   * The content of the help popover. When specified along with `headingText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the modal header. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title. This property only applies when `headingText` is also specified.
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
+
+  /**
+   * Used by the confirm component to set a different role for the modal.
    * @internal
    */
   @Input()
@@ -85,11 +121,14 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
 
   /**
    * @internal
+   * @deprecated
    */
   @Input()
   public tiledBody: boolean | undefined;
 
   /**
+   * Used by the confirm component to set descriptive text without using a
+   * modal header.
    * @internal
    */
   @Input()
@@ -102,6 +141,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
+   * Used by the confirm component to set descriptive text without using a
+   * modal header.
    * @internal
    */
   @Input()
@@ -113,20 +154,30 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
     return this.#_ariaLabelledBy;
   }
 
+  public readonly layout = input<'none' | 'fit'>('none');
+
   public ariaOwns: string | null = null;
 
-  public helpKey: string | undefined;
+  /**
+   * @deprecated
+   */
+  public legacyHelpKey: string | undefined;
 
   public modalState = 'in';
 
   public modalZIndex: number | undefined;
 
-  public scrollShadow: SkyModalScrollShadowEventArgs | undefined;
+  public scrollShadow: SkyScrollShadowEventArgs = {
+    bottomShadow: 'none',
+    topShadow: 'none',
+  };
 
   public size: string;
 
   @ViewChild('modalContentWrapper', { read: ElementRef })
   public modalContentWrapperElement: ElementRef | undefined;
+
+  protected scrollShadowEnabled = false;
 
   #ngUnsubscribe = new Subject<void>();
 
@@ -141,10 +192,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   readonly #errorsSvc = inject(SkyModalErrorsService);
   readonly #hostService = inject(SkyModalHostService);
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
-  readonly #mediaQueryService = inject(SkyResizeObserverMediaQueryService, {
-    optional: true,
-  });
-  readonly #windowRef = inject(SkyAppWindowRef);
 
   /**
    * This provider is optional to account for situations where a modal component
@@ -155,12 +202,13 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   readonly #config =
     inject(SkyModalConfiguration, { optional: true }) ??
     new SkyModalConfiguration();
+  readonly #themeSvc = inject(SkyThemeService, { optional: true });
 
   constructor() {
     this.ariaDescribedBy = this.#config.ariaDescribedBy;
     this.ariaLabelledBy = this.#config.ariaLabelledBy;
     this.ariaRole = this.#config.ariaRole;
-    this.helpKey = this.#config.helpKey;
+    this.legacyHelpKey = this.#config.helpKey;
     this.tiledBody = this.#config.tiledBody;
     this.wrapperClass = this.#config.wrapperClass;
 
@@ -238,43 +286,38 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
           this.#changeDetector.markForCheck();
         }
       });
+
+    if (this.#themeSvc) {
+      this.#themeSvc.settingsChange
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((themeSettings) => {
+          this.scrollShadowEnabled =
+            themeSettings.currentSettings.theme === SkyTheme.presets.modern;
+        });
+    }
   }
 
   public ngAfterViewInit(): void {
     this.#componentAdapter.handleWindowChange(this.#elRef);
-
-    // Adding a timeout to avoid ExpressionChangedAfterItHasBeenCheckedError.
-    // https://stackoverflow.com/questions/40562845
-    this.#windowRef.nativeWindow.setTimeout(() => {
-      this.#componentAdapter.modalOpened(this.#elRef);
-    });
 
     this.#dockService.setDockOptions({
       location: SkyDockLocation.ElementBottom,
       referenceEl: this.modalContentWrapperElement!.nativeElement,
       zIndex: 5,
     });
-
-    /* istanbul ignore next */
-    if (this.#mediaQueryService) {
-      this.#mediaQueryService.observe(this.modalContentWrapperElement!, {
-        updateResponsiveClasses: true,
-      });
-    }
   }
 
   public ngOnDestroy(): void {
-    /* istanbul ignore next */
-    if (this.#mediaQueryService) {
-      this.#mediaQueryService.unobserve();
-    }
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }
 
+  /**
+   * @deprecated
+   */
   public helpButtonClick(): void {
-    if (this.helpKey) {
-      this.#hostService.onOpenHelp(this.helpKey);
+    if (this.legacyHelpKey) {
+      this.#hostService.onOpenHelp(this.legacyHelpKey);
     }
   }
 
@@ -286,7 +329,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
     this.#componentAdapter.handleWindowChange(this.#elRef);
   }
 
-  public scrollShadowChange(args: SkyModalScrollShadowEventArgs): void {
+  public scrollShadowChange(args: SkyScrollShadowEventArgs): void {
     this.scrollShadow = args;
   }
 

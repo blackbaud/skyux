@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SkyNumericOptions } from '@skyux/core';
+import { SkyNumericModule } from '@skyux/core';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
@@ -14,6 +15,7 @@ import { SkyAgGridValidatorProperties } from '../../types/validator-properties';
   templateUrl: './cell-renderer-currency.component.html',
   styleUrls: ['./cell-renderer-currency.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyNumericModule],
 })
 export class SkyAgGridCellRendererCurrencyComponent
   implements ICellRendererAngularComp
@@ -23,37 +25,30 @@ export class SkyAgGridCellRendererCurrencyComponent
     this.agInit(value);
   }
 
-  public columnHeader: string | undefined;
   public columnWidth: number | undefined;
   public rowHeightWithoutBorders: number | undefined;
-  public rowNumber: number | undefined;
   public skyComponentProperties: SkyNumericOptions &
     SkyAgGridValidatorProperties = {};
   public numericOptions: SkyNumericOptions = {};
   public value: number | undefined;
 
   /**
-   * agInit is called by agGrid once after the renderer is created and provides the renderer with the information it needs.
-   * @param params The cell renderer params that include data about the cell, column, row, and grid.
+   * agInit is called by AG Grid once after the renderer is created and provides the renderer with the information it needs.
    */
   public agInit(params: SkyCellRendererCurrencyParams): void {
     this.#updateProperties(params);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  /**
+   * refresh is called by AG Grid to update the cell without destroying and recreating the component.
+   */
   public refresh(params: SkyCellRendererCurrencyParams): boolean {
+    this.agInit(params);
     return false;
   }
 
   #updateProperties(params: SkyCellRendererCurrencyParams): void {
     this.value = params.value;
-    this.columnHeader = params.colDef?.headerName;
-    this.rowNumber = params.rowIndex + 1;
-    this.columnWidth = params.column?.getActualWidth();
-    this.rowHeightWithoutBorders =
-      typeof params.node?.rowHeight === 'number'
-        ? params.node?.rowHeight - 4
-        : undefined;
     this.skyComponentProperties = params.skyComponentProperties || {};
     this.skyComponentProperties.format = 'currency';
     this.skyComponentProperties.minDigits = 2;

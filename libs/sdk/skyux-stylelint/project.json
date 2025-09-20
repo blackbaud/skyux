@@ -1,0 +1,33 @@
+{
+  "name": "skyux-stylelint",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/sdk/skyux-stylelint/src",
+  "projectType": "library",
+  "tags": ["sdk", "npm"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/sdk/skyux-stylelint",
+        "tsConfig": "libs/sdk/skyux-stylelint/tsconfig.lib.json",
+        "packageJson": "libs/sdk/skyux-stylelint/package.json",
+        "main": "libs/sdk/skyux-stylelint/src/index.ts",
+        "assets": ["libs/sdk/skyux-stylelint/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{workspaceRoot}/coverage/libs/sdk/skyux-stylelint"],
+      "options": {
+        "config": "libs/sdk/skyux-stylelint/vitest.config.ts"
+      }
+    }
+  }
+}

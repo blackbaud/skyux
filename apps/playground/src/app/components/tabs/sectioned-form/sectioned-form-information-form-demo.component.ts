@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
@@ -8,9 +7,7 @@ import { SkySectionedFormService } from '@skyux/tabs';
 @Component({
   selector: 'app-sectioned-form-information-form-demo',
   templateUrl: './sectioned-form-information-form-demo.component.html',
-  standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     SkyCheckboxModule,
     SkyFluidGridModule,

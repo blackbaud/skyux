@@ -29,7 +29,6 @@ import { SkyGridColumnInlineHelpPopoverModelChange } from './types/grid-column-i
  */
 @Component({
   selector: 'sky-grid-column',
-  standalone: true,
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

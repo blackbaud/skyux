@@ -1,0 +1,16 @@
+<sky-tile [showSettings]="true" (settingsClick)="settingsClick()">
+  <sky-tile-title>
+    Tile 2 w/ legacy inline help
+    <sky-help-inline
+      class="sky-control-help"
+      ariaLabel="Information about Tile 2"
+      (actionClick)="onActionClick()"
+      (click)="onHelpClick($event)"
+    />
+  </sky-tile-title>
+  <sky-tile-content>
+    <sky-tile-content-section> Section 1 </sky-tile-content-section>
+    <sky-tile-content-section> Section 2 </sky-tile-content-section>
+    <sky-tile-content-section> Section 3 </sky-tile-content-section>
+  </sky-tile-content>
+</sky-tile>

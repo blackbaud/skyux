@@ -1,6 +1,6 @@
 import { ViewportRuler } from '@angular/cdk/overlay';
-import { DOCUMENT } from '@angular/common';
 import {
+  DOCUMENT,
   ElementRef,
   Injectable,
   NgZone,

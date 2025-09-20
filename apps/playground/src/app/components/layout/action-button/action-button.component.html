@@ -1,7 +1,7 @@
 <h3>Basic action button</h3>
 <div class="sky-padding-even-large" id="screenshot-action-button">
   <sky-action-button (actionClick)="buttonClicked()">
-    <sky-action-button-icon iconType="filter"></sky-action-button-icon>
+    <sky-action-button-icon iconName="filter" />
     <sky-action-button-header> Build a new list </sky-action-button-header>
     <sky-action-button-details>
       Start from scratch and fine-tune with filters
@@ -9,7 +9,7 @@
   </sky-action-button>
   <br />
   <sky-action-button [permalink]="permalink">
-    <sky-action-button-icon iconType="link"></sky-action-button-icon>
+    <sky-action-button-icon iconName="link" />
     <sky-action-button-header>
       This title should be so long that it wraps to a new line
     </sky-action-button-header>
@@ -47,21 +47,20 @@
 
 <div id="screenshot-action-button-container">
   <sky-action-button-container [alignItems]="alignItems">
-    <sky-action-button
-      *ngFor="let button of actionButtons"
-      [permalink]="button.permalink"
-      (actionClick)="buttonClicked()"
-    >
-      <sky-action-button-icon
-        [iconType]="button.iconType"
-      ></sky-action-button-icon>
-      <sky-action-button-header>
-        {{ button.header }}
-      </sky-action-button-header>
-      <sky-action-button-details>
-        {{ button.details }}
-      </sky-action-button-details>
-    </sky-action-button>
+    @for (button of actionButtons; track button) {
+      <sky-action-button
+        [permalink]="button.permalink"
+        (actionClick)="buttonClicked()"
+      >
+        <sky-action-button-icon [iconName]="button.iconName" />
+        <sky-action-button-header>
+          {{ button.header }}
+        </sky-action-button-header>
+        <sky-action-button-details>
+          {{ button.details }}
+        </sky-action-button-details>
+      </sky-action-button>
+    }
   </sky-action-button-container>
 </div>
 

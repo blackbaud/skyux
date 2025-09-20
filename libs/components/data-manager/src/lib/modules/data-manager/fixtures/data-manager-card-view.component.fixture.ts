@@ -16,6 +16,7 @@ import { DataManagerTestItem } from './data-manager-test-item';
   selector: 'sky-data-view-cards-fixture',
   templateUrl: './data-manager-card-view.component.fixture.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DataViewCardFixtureComponent implements OnInit {
   @Input()
@@ -27,7 +28,7 @@ export class DataViewCardFixtureComponent implements OnInit {
   public viewConfig: SkyDataViewConfig = {
     id: this.viewId,
     name: 'Cards View',
-    icon: 'th-large',
+    iconName: 'table',
     sortEnabled: true,
     searchEnabled: true,
     filterButtonEnabled: true,

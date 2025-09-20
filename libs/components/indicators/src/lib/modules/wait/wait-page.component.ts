@@ -6,7 +6,6 @@ import { SkyWaitComponent } from './wait.component';
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-wait-page',
   templateUrl: './wait-page.component.html',
   styleUrls: ['./wait-page.component.scss'],

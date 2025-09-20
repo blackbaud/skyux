@@ -44,4 +44,9 @@ export interface SkyViewkeeperOptions {
    * Reserved space in pixels at the top of the viewport.
    */
   viewportMarginTop?: number;
+
+  /**
+   * Custom CSS property for reserved space at the top of the viewport.
+   */
+  viewportMarginProperty?: `--${string}`;
 }

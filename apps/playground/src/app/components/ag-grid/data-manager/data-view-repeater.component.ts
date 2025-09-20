@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,12 +11,22 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
-import { SkyRepeaterModule } from '@skyux/lists';
+import {
+  SkyPagingContentChangeArgs,
+  SkyPagingModule,
+  SkyRepeaterModule,
+} from '@skyux/lists';
+
+import { DataManagerPagedItemsPipe } from './data-manager-paged-items.pipe';
 
 @Component({
   selector: 'app-data-view-repeater',
-  standalone: true,
-  imports: [CommonModule, SkyDataManagerModule, SkyRepeaterModule],
+  imports: [
+    DataManagerPagedItemsPipe,
+    SkyDataManagerModule,
+    SkyPagingModule,
+    SkyRepeaterModule,
+  ],
   templateUrl: './data-view-repeater.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -32,7 +41,7 @@ export class DataViewRepeaterComponent implements OnInit {
   public viewConfig: SkyDataViewConfig = {
     id: this.viewId,
     name: 'Repeater View',
-    icon: 'list',
+    iconName: 'text-bullet-list',
     searchEnabled: true,
     searchHighlightEnabled: true,
     filterButtonEnabled: true,
@@ -40,6 +49,8 @@ export class DataViewRepeaterComponent implements OnInit {
     onClearAllClick: this.clearAll.bind(this),
     onSelectAllClick: this.selectAll.bind(this),
   };
+
+  protected readonly pageSize = 5;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -73,6 +84,14 @@ export class DataViewRepeaterComponent implements OnInit {
     if (this.dataState.onlyShowSelected) {
       this.displayedItems = this.displayedItems.filter((item) => item.selected);
     }
+
+    this.dataManagerService.updateDataSummary(
+      {
+        totalItems: this.items.length,
+        itemsMatching: this.displayedItems.length,
+      },
+      this.viewId,
+    );
 
     this.changeDetector.detectChanges();
   }
@@ -134,7 +153,7 @@ export class DataViewRepeaterComponent implements OnInit {
     });
 
     this.dataState.selectedIds = selectedIds;
-    this.dataManagerService.updateDataState(this.dataState, this.viewId);
+    this.#updateDataState();
     this.changeDetector.markForCheck();
   }
 
@@ -149,7 +168,7 @@ export class DataViewRepeaterComponent implements OnInit {
       }
     });
     this.dataState.selectedIds = selectedIds;
-    this.dataManagerService.updateDataState(this.dataState, this.viewId);
+    this.#updateDataState();
     this.changeDetector.markForCheck();
   }
 
@@ -164,6 +183,19 @@ export class DataViewRepeaterComponent implements OnInit {
     }
 
     this.dataState.selectedIds = selectedItems;
+    this.#updateDataState();
+  }
+
+  protected onContentChange(args: SkyPagingContentChangeArgs): void {
+    setTimeout(() => {
+      this.dataState.additionalData.currentPage = args.currentPage;
+      this.#updateDataState();
+
+      args.loadingComplete();
+    }, 500);
+  }
+
+  #updateDataState(): void {
     this.dataManagerService.updateDataState(this.dataState, this.viewId);
   }
 }

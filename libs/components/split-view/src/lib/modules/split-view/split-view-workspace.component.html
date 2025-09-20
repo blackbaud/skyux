@@ -1,12 +1,12 @@
 <div
   class="sky-split-view-workspace"
   role="region"
-  [attr.aria-label]="ariaLabel"
   tabindex="0"
+  [attr.aria-label]="ariaLabel"
 >
-  <sky-split-view-workspace-header
-    *ngIf="isMobile"
-  ></sky-split-view-workspace-header>
+  @if (breakpoint() === 'xs') {
+    <sky-split-view-workspace-header />
+  }
   <ng-content select="sky-split-view-workspace-content" />
   <ng-content select="sky-split-view-workspace-footer" />
 </div>

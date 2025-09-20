@@ -1,0 +1,20 @@
+<sky-box
+  [ariaRole]="ariaRole"
+  [ariaLabel]="ariaLabel"
+  [ariaLabelledBy]="ariaLabelledBy"
+  [headingText]="headingText"
+  [headingHidden]="headingHidden"
+  [headingLevel]="headingLevel"
+  [headingStyle]="headingStyle"
+  [helpKey]="helpKey"
+  [helpPopoverContent]="helpPopoverContent"
+  [helpPopoverTitle]="helpPopoverTitle"
+>
+  @if (showControls()) {
+    <sky-box-controls>
+      <button class="sky-btn sky-btn-default" type="button">Edit</button>
+    </sky-box-controls>
+  }
+  <sky-box-content> This is the box content. </sky-box-content>
+</sky-box>
+<sky-box data-sky-id="other-box" [ariaLabel]="otherBox"></sky-box>

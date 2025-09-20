@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, model } from '@angular/core';
 
 @Component({
   selector: 'app-vertical-tabset-back-to-top',
   templateUrl: './vertical-tabset-back-to-top.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VerticalTabsetBackToTopComponent {
   public active = true;
@@ -41,4 +42,6 @@ export class VerticalTabsetBackToTopComponent {
       content: 'Tab 3 content',
     },
   ];
+
+  protected readonly showSummary = model(false);
 }

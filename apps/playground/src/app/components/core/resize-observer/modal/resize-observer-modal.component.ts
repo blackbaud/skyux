@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -22,11 +21,10 @@ type SizeOptions = 'small' | 'medium' | 'large';
 let identifier = 1;
 
 @Component({
-  standalone: true,
   selector: 'app-resize-observer-modal',
   templateUrl: './resize-observer-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, SkyModalModule, SkySectionedFormModule],
+  imports: [SkyModalModule, SkySectionedFormModule],
 })
 export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
   @ViewChild(SkySectionedFormComponent)

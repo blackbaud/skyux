@@ -10,12 +10,12 @@ import {
   ViewContainerRef,
   inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
 import {
   SKY_STACKING_CONTEXT,
+  SkyAppWindowRef,
   SkyDynamicComponentService,
-  SkyMediaQueryService,
-  SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 
 import { BehaviorSubject } from 'rxjs';
@@ -34,7 +34,6 @@ import { SkyModalConfigurationInterface } from './modal.interface';
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-modal-host',
   templateUrl: './modal-host.component.html',
   styleUrls: ['./modal-host.component.scss'],
@@ -42,13 +41,8 @@ import { SkyModalConfigurationInterface } from './modal.interface';
   imports: [CommonModule, RouterModule, SkyModalsResourcesModule],
 })
 export class SkyModalHostComponent implements OnDestroy {
-  public get modalOpen(): boolean {
-    return SkyModalHostService.openModalCount > 0;
-  }
-
-  public get backdropZIndex(): number {
-    return SkyModalHostService.backdropZIndex;
-  }
+  protected backdropZIndex = toSignal(SkyModalHostService.backdropZIndexChange);
+  protected modalCount = toSignal(SkyModalHostService.openModalCountChange);
 
   @ViewChild('target', {
     read: ViewContainerRef,
@@ -65,6 +59,7 @@ export class SkyModalHostComponent implements OnDestroy {
   readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #modalHostContext = inject(SkyModalHostContext);
   readonly #router = inject(Router, { optional: true });
+  readonly #windowRef = inject(SkyAppWindowRef);
 
   public ngOnDestroy(): void {
     // Close all modal instances before disposing of the host container.
@@ -97,7 +92,6 @@ export class SkyModalHostComponent implements OnDestroy {
 
     params.providers ||= [];
     params.providers.push(
-      { provide: SkyResizeObserverMediaQueryService },
       {
         provide: SkyModalHostService,
         useValue: hostService,
@@ -105,10 +99,6 @@ export class SkyModalHostComponent implements OnDestroy {
       {
         provide: SkyModalConfiguration,
         useValue: params,
-      },
-      {
-        provide: SkyMediaQueryService,
-        useExisting: SkyResizeObserverMediaQueryService,
       },
       {
         provide: SKY_STACKING_CONTEXT,
@@ -143,15 +133,21 @@ export class SkyModalHostComponent implements OnDestroy {
 
     this.#registerModalInstance(modalInstance);
 
-    // hiding all elements at the modal-host level from screen readers when the a modal is opened
-    this.#adapter.hideHostSiblingsFromScreenReaders(this.#elRef);
-    if (
-      SkyModalHostService.openModalCount > 1 &&
-      SkyModalHostService.topModal === hostService
-    ) {
-      // hiding the lower modals when more than one modal is opened
-      this.#adapter.hidePreviousModalFromScreenReaders(modalElement);
-    }
+    // Adding a timeout to avoid ExpressionChangedAfterItHasBeenCheckedError.
+    // https://stackoverflow.com/questions/40562845
+    this.#windowRef.nativeWindow.setTimeout(() => {
+      this.#adapter.focusFirstElement(modalElement);
+
+      // hiding all elements at the modal-host level from screen readers when the a modal is opened
+      this.#adapter.hideHostSiblingsFromScreenReaders(this.#elRef);
+      if (
+        SkyModalHostService.openModalCount > 1 &&
+        SkyModalHostService.topModal === hostService
+      ) {
+        // hiding the lower modals when more than one modal is opened
+        this.#adapter.hidePreviousModalFromScreenReaders(modalElement);
+      }
+    });
 
     const closeModal = (): void => {
       // unhide siblings if last modal is closing

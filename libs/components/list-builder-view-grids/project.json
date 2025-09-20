@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/components/list-builder-view-grids/src",
   "prefix": "sky",
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
@@ -21,7 +22,21 @@
           "tsConfig": "libs/components/list-builder-view-grids/tsconfig.lib.json"
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "projects": ["testing"],
+          "target": "build"
+        }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/list-builder-view-grids/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/list-builder-view-grids/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/list-builder-view-grids/testing/src/**/fixtures/**/*"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -55,14 +70,13 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "libs/components/list-builder-view-grids/src/**/*.ts",
-          "libs/components/list-builder-view-grids/src/**/*.html"
+          "{projectRoot}/src/**/*.ts",
+          "{projectRoot}/src/**/*.html"
         ]
       }
     }
-  },
-  "tags": ["component", "npm"]
+  }
 }

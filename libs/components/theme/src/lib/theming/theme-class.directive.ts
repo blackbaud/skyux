@@ -13,7 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SkyThemeSettings } from './theme-settings';
 import { SkyThemeService } from './theme.service';
 
-type SkyThemeClassMap = { [key: string]: string };
+type SkyThemeClassMap = Record<string, string>;
 
 /**
  * Component to add classes conditionally based on the current theme.
@@ -22,6 +22,7 @@ type SkyThemeClassMap = { [key: string]: string };
  */
 @Directive({
   selector: '[skyThemeClass]',
+  standalone: false,
 })
 export class SkyThemeClassDirective implements OnDestroy {
   /**

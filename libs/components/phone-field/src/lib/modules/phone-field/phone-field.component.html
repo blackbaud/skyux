@@ -1,10 +1,10 @@
-<ng-container *ngIf="!inputBoxHostSvc">
+@if (!inputBoxHostSvc) {
   <div class="sky-input-group sky-phone-field" [@blockAnimationOnLoad]>
-    <ng-container *ngTemplateOutlet="countryBtnTemplateRef"></ng-container>
-    <ng-container *ngTemplateOutlet="inputTemplateRef"></ng-container>
-    <ng-container *ngTemplateOutlet="buttonsInsetTemplateRef"></ng-container>
+    <ng-container *ngTemplateOutlet="countryBtnTemplateRef" />
+    <ng-container *ngTemplateOutlet="inputTemplateRef" />
+    <ng-container *ngTemplateOutlet="buttonsInsetTemplateRef" />
   </div>
-</ng-container>
+}
 
 <ng-template #countryBtnTemplateRef>
   <div
@@ -14,85 +14,95 @@
   >
     <button
       aria-live="polite"
-      class="sky-btn sky-btn-default"
+      class="sky-btn sky-btn-default sky-phone-field-country-select-btn"
       type="button"
       [attr.title]="
         ('skyux_phone_field_country_select_label' | skyLibResources) +
         ' ' +
         ('skyux_phone_field_country_selected_label'
-          | skyLibResources : selectedCountry?.name)
+          | skyLibResources: selectedCountry?.name)
       "
       [attr.aria-label]="
         ('skyux_phone_field_country_select_label' | skyLibResources) +
         ' ' +
         ('skyux_phone_field_country_selected_label'
-          | skyLibResources : selectedCountry?.name)
+          | skyLibResources: selectedCountry?.name)
       "
       [disabled]="countrySelectDisabled"
       (click)="toggleCountrySearch(true)"
     >
-      <div
-        class="sky-phone-field-flag iti__flag"
-        [ngClass]="'iti__' + selectedCountry?.iso2"
-      ></div>
+      <div class="sky-phone-field-flag">
+        <div
+          class="iti__flag"
+          [ngClass]="'iti__' + selectedCountry?.iso2"
+        ></div>
+      </div>
     </button>
   </div>
 </ng-template>
 
 <ng-template #inputTemplateRef>
-  <span
-    *ngIf="phoneInputShown"
-    class="sky-phone-field-container"
-    [@phoneInputAnimation]="phoneInputShown ? 'open' : 'closed'"
-    (@phoneInputAnimation.done)="phoneInputAnimationEnd($event)"
-  >
-    <ng-content />
-  </span>
-  <span
-    *ngIf="countrySearchShown"
-    class="sky-phone-field-container"
-    [@countrySearchAnimation]="
-      'open' +
-      ((themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
-      'modern'
-        ? '-modern'
-        : '')
-    "
-    (@countrySearchAnimation.done)="countrySearchAnimationEnd($event)"
-  >
-    <div class="sky-phone-field-country-search" [formGroup]="countrySearchForm">
-      <sky-country-field
-        formControlName="countrySearch"
-        [defaultCountry]="defaultCountry"
-        [hideSelectedCountryFlag]="true"
-        [includePhoneInfo]="true"
-        [supportedCountryISOs]="supportedCountryISOs"
-        (selectedCountryChange)="onCountrySelected($event)"
-      />
-    </div>
-  </span>
+  @if (phoneInputShown) {
+    <span
+      class="sky-phone-field-container"
+      [@phoneInputAnimation]="phoneInputShown ? 'open' : 'closed'"
+      (@phoneInputAnimation.done)="phoneInputAnimationEnd($event)"
+    >
+      <ng-content />
+    </span>
+  } @else if (countrySearchShown) {
+    <span
+      class="sky-phone-field-container"
+      [@countrySearchAnimation]="
+        'open' +
+        ((themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
+        'modern'
+          ? '-modern'
+          : '')
+      "
+      (@countrySearchAnimation.done)="countrySearchAnimationEnd($event)"
+    >
+      <div
+        class="sky-phone-field-country-search"
+        [formGroup]="countrySearchForm"
+      >
+        <sky-country-field
+          formControlName="countrySearch"
+          [defaultCountry]="defaultCountry"
+          [supportedCountryISOs]="supportedCountryISOs"
+          (selectedCountryChange)="onCountrySelected($event)"
+          (countryFieldFocusout)="onCountryFieldFocusout($event)"
+        />
+      </div>
+    </span>
+  }
 </ng-template>
 
 <ng-template #buttonsInsetTemplateRef>
-  <div
-    *ngIf="countrySearchShown"
-    class="sky-input-group-btn sky-input-box-btn-inset sky-search-item-dismiss"
-  >
-    <button
-      class="sky-btn sky-phone-field-search-btn-dismiss"
-      type="button"
-      [attr.title]="
-        'skyux_phone_field_country_search_dismiss' | skyLibResources
-      "
-      [ngClass]="{
-        'sky-btn-default':
-          (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
-          'modern'
-      }"
-      (click)="toggleCountrySearch(false)"
+  @if (countrySearchShown) {
+    <div
+      class="sky-input-group-btn sky-input-box-btn-inset sky-search-item-dismiss"
     >
-      <sky-icon *skyThemeIf="'default'" icon="chevron-circle-left" size="lg" />
-      <sky-icon *skyThemeIf="'modern'" icon="double-chevron-left" size="2x" />
-    </button>
-  </div>
+      <button
+        class="sky-btn sky-phone-field-search-btn-dismiss"
+        type="button"
+        [attr.title]="
+          'skyux_phone_field_country_search_dismiss' | skyLibResources
+        "
+        [ngClass]="{
+          'sky-btn-default':
+            (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
+            'modern'
+        }"
+        (click)="dismissButtonClicked()"
+      >
+        <sky-icon *skyThemeIf="'default'" iconName="chevron-double-left" />
+        <sky-icon
+          *skyThemeIf="'modern'"
+          iconName="chevron-double-left"
+          iconSize="l"
+        />
+      </button>
+    </div>
+  }
 </ng-template>

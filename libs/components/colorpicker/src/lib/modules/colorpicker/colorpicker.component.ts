@@ -1,9 +1,12 @@
 import {
+  AfterContentChecked,
   ChangeDetectorRef,
   Component,
+  ContentChild,
   ElementRef,
   EnvironmentInjector,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -12,23 +15,35 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  booleanAttribute,
   inject,
 } from '@angular/core';
+import {
+  AbstractControlDirective,
+  FormControlDirective,
+  FormControlName,
+  NgModel,
+} from '@angular/forms';
 import {
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
   SkyCoreAdapterService,
+  SkyIdService,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
-import { SkyIconType } from '@skyux/indicators';
+import {
+  SKY_FORM_ERRORS_ENABLED,
+  SkyRequiredStateDirective,
+} from '@skyux/forms';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SliderDimension, SliderPosition } from './colorpicker-classes';
+import { SkyColorpickerInputService } from './colorpicker-input.service';
 import { SkyColorpickerService } from './colorpicker.service';
 import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
 import { SkyColorpickerChangeColor } from './types/colorpicker-color';
@@ -50,24 +65,23 @@ let componentIdIndex = 0;
   selector: 'sky-colorpicker',
   templateUrl: './colorpicker.component.html',
   styleUrls: ['./colorpicker.component.scss'],
-  providers: [SkyColorpickerService],
+  providers: [
+    SkyColorpickerInputService,
+    SkyColorpickerService,
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+  ],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
-export class SkyColorpickerComponent implements OnInit, OnDestroy {
+export class SkyColorpickerComponent
+  implements OnInit, OnDestroy, AfterContentChecked
+{
   /**
-   * The name of the [Font Awesome 4.7](https://fontawesome.com/v4.7/icons/) icon to overlay on top of the picker. Do not specify the `fa fa-` classes.
+   * The name of the icon to overlay on top of the picker.
    * @internal
    */
   @Input()
   public pickerButtonIcon: string | undefined;
-
-  /**
-   * The type of icon to display. Specifying `fa` will display a Font Awesome icon, while specifying `skyux` will display an icon from the custom SKY UX icon font. Note that the custom SKY UX icon font is currently in beta.
-   * @internal
-   * @deprecated
-   */
-  @Input()
-  public pickerButtonIconType: SkyIconType = 'fa';
 
   /**
    * The ARIA label for the colorpicker. This sets the colorpicker's `aria-label` attribute
@@ -88,6 +102,64 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   public labelledBy: string | undefined;
 
   /**
+   * The text to display as the colorpicker's label. Use this instead of a `label` element when the label is text-only.
+   * Specifying `labelText` also enables automatic error message handling for standard colorpicker errors.
+   */
+  @Input()
+  public set labelText(value: string | undefined) {
+    this.#_labelText = value;
+    this.#colorpickerInputSvc.labelText.next(value);
+  }
+
+  public get labelText(): string | undefined {
+    return this.#_labelText;
+  }
+
+  /**
+   * Whether to hide `labelText` from view.
+   */
+  @Input({ transform: booleanAttribute })
+  public labelHidden = false;
+
+  /**
+   * A help key that identifies the global help content to display. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is placed beside the colorpicker label. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
+   * as configured by the application. This property only applies when `labelText` is also specified.
+   */
+  @Input()
+  public helpKey: string | undefined;
+
+  /**
+   * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the colorpicker label. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title. This property only applies when `labelText` is also specified.
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   */
+  @Input()
+  public hintText: string | undefined;
+
+  /**
+   * Whether the colorpicker is stacked on another form component. When specified,
+   * the appropriate vertical spacing is automatically added to the text editor.
+   */
+  @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-form-field-stacked')
+  public stacked = false;
+
+  /**
    * Fires when users select a color in the colorpicker.
    */
   @Output()
@@ -101,7 +173,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
 
   /**
    * The observable to send commands to the colorpicker. The commands should
-   * respect the `SkyColorPickerMessage` type.
+   * respect the `SkyColorpickerMessage` type.
    */
   @Input()
   public messageStream = new Subject<SkyColorpickerMessage>();
@@ -126,6 +198,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     if (this.pickerButtonIcon) {
       this.iconColor = this.#getAccessibleIconColor(this.selectedColor);
     }
+    this.#changeDetector.markForCheck();
   }
 
   public get backgroundColorForDisplay(): string {
@@ -265,6 +338,34 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     return this.#_colorpickerRef;
   }
 
+  @ContentChild(FormControlDirective)
+  protected set formControl(value: FormControlDirective | undefined) {
+    if (value) {
+      this.ngControl = value;
+      this.#changeDetector.markForCheck();
+    }
+  }
+
+  @ContentChild(FormControlName)
+  protected set formControlByName(value: FormControlName | undefined) {
+    if (value) {
+      this.ngControl = value;
+      this.#changeDetector.markForCheck();
+    }
+  }
+
+  @ContentChild(NgModel)
+  protected set ngModel(value: NgModel | undefined) {
+    if (value) {
+      this.ngControl = value;
+      this.#changeDetector.markForCheck();
+    }
+  }
+
+  @ContentChild(SkyRequiredStateDirective)
+  protected requiredState: SkyRequiredStateDirective | undefined;
+
+  protected inputId: string | undefined;
   protected colorpickerId: string;
   protected isOpen = false;
   protected triggerButtonId: string;
@@ -282,6 +383,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   protected selectedColor: SkyColorpickerOutput | undefined;
   protected iconColor: string | undefined;
   protected isPickerVisible: boolean | undefined;
+  protected ngControl: AbstractControlDirective | undefined;
 
   #idIndex: number;
   #alphaChannel: string | undefined;
@@ -297,14 +399,20 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   #affixSvc: SkyAffixService;
   #changeDetector: ChangeDetectorRef;
   #coreAdapter: SkyCoreAdapterService;
-  readonly #environmentInjector = inject(EnvironmentInjector);
   #overlaySvc: SkyOverlayService;
   #svc: SkyColorpickerService;
   #themeSvc: SkyThemeService | undefined;
 
+  readonly #environmentInjector = inject(EnvironmentInjector);
+  readonly #colorpickerInputSvc = inject(SkyColorpickerInputService);
+  readonly #idSvc = inject(SkyIdService);
+
+  protected readonly errorId = this.#idSvc.generateId();
+
   #_backgroundColorForDisplay: string | undefined;
   #_colorpickerRef: ElementRef | undefined;
   #_disabled = false;
+  #_labelText: string | undefined;
 
   constructor(
     affixSvc: SkyAffixService,
@@ -324,6 +432,8 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     componentIdIndex++;
 
     this.#idIndex = componentIdIndex;
+    this.inputId = this.#idSvc.generateId();
+    this.#colorpickerInputSvc.inputId.next(this.inputId);
     this.skyColorpickerRedId = `sky-colorpicker-red-${this.#idIndex}`;
     this.skyColorpickerHexId = `sky-colorpicker-hex--${this.#idIndex}`;
     this.skyColorpickerRedId = `sky-colorpicker-red--${this.#idIndex}`;
@@ -340,7 +450,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   public setDialog(
     color: string | undefined,
     outputFormat: string,
-    presetColors: Array<string>,
+    presetColors: string[],
     alphaChannel: string,
     allowTransparency: boolean,
   ): void {
@@ -388,6 +498,15 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     }
   }
 
+  public ngAfterContentChecked(): void {
+    if (this.labelText) {
+      this.#colorpickerInputSvc.ariaError.next({
+        hasError: !this.ngControl?.valid,
+        errorId: this.errorId,
+      });
+    }
+  }
+
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
@@ -397,6 +516,8 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   }
 
   public onTriggerButtonClick(): void {
+    this.ngControl?.control?.markAsTouched();
+
     this.#sendMessage(SkyColorpickerMessageType.Open);
   }
 
@@ -409,21 +530,15 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   }
 
   public onApplyColorClick(): void {
-    if (this.selectedColor) {
-      this.selectedColorChanged.emit(this.selectedColor);
-      this.selectedColorApplied.emit({ color: this.selectedColor });
-      this.lastAppliedColor = this.selectedColor.rgbaText;
-      this.updatePickerValues(this.lastAppliedColor);
-      this.backgroundColorForDisplay = this.selectedColor.rgbaText;
-    }
-
-    this.closePicker();
+    this.#confirmSelectedColor();
   }
 
   public onCancelClick(): void {
     // Revert picker values back to previous color.
     this.updatePickerValues(this.backgroundColorForDisplay);
     this.closePicker();
+
+    this.#changeDetector.markForCheck();
   }
 
   public onPresetClick(value: string): void {
@@ -440,6 +555,13 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
       this.#hsva = hsva;
       this.#update();
     }
+  }
+
+  protected onContainerEnterKeyDown(event: Event): void {
+    event.stopPropagation();
+    event.preventDefault();
+
+    this.#confirmSelectedColor();
   }
 
   #update(): void {
@@ -495,11 +617,11 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     this.isOpen = true;
   }
 
-  #sendMessage(type: SkyColorpickerMessageType) {
+  #sendMessage(type: SkyColorpickerMessageType): void {
     this.messageStream.next({ type });
   }
 
-  #handleIncomingMessages(message: SkyColorpickerMessage) {
+  #handleIncomingMessages(message: SkyColorpickerMessage): void {
     switch (message.type) {
       case SkyColorpickerMessageType.Open:
         if (!this.isOpen) {
@@ -546,6 +668,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
         autoFitContext: SkyAffixAutoFitContext.Viewport,
         enableAutoFit: true,
         horizontalAlignment: 'left',
+        verticalAlignment: 'bottom',
         isSticky: true,
         placement: 'below',
       });
@@ -569,6 +692,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
         enablePointerEvents: false,
         enableScroll: true,
         environmentInjector: this.#environmentInjector,
+        hideOthersFromScreenReaders: true,
       });
 
       overlay.attachTemplate(this.colorpickerTemplateRef);
@@ -657,5 +781,17 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     }
     /* istanbul ignore next */
     return undefined;
+  }
+
+  #confirmSelectedColor(): void {
+    if (this.selectedColor) {
+      this.selectedColorChanged.emit(this.selectedColor);
+      this.selectedColorApplied.emit({ color: this.selectedColor });
+      this.lastAppliedColor = this.selectedColor.rgbaText;
+      this.updatePickerValues(this.lastAppliedColor);
+      this.backgroundColorForDisplay = this.selectedColor.rgbaText;
+    }
+
+    this.closePicker();
   }
 }

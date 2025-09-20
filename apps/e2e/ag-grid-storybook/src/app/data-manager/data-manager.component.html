@@ -1,33 +1,95 @@
+<ng-template #link let-value="value">
+  <a
+    href="https://www.google.com/search?q={{ encodeURIComponent(value) }}"
+    target="_blank"
+    >{{ value }}</a
+  >
+</ng-template>
+
 <sky-data-manager>
   <sky-data-manager-toolbar>
     <sky-data-manager-toolbar-primary-item>
       <form [formGroup]="gridSettings">
         <sky-checkbox
           formControlName="enableTopScroll"
-          icon="arrows-h"
-          label="Top scroll"
-        ></sky-checkbox>
-        <sky-radio-group ariaLabel="DOM layout" formControlName="domLayout">
-          <div class="sky-switch-icon-group">
-            <sky-radio
-              icon="square-o"
-              label="Normal"
-              value="normal"
-            ></sky-radio>
-            <sky-radio
-              icon="arrows-v"
-              label="Auto-height"
-              value="autoHeight"
-            ></sky-radio>
-          </div>
+          iconName="hand-left"
+          title="Top scroll"
+          labelText="Top scroll"
+          labelHidden
+        />
+        <sky-checkbox
+          formControlName="wrapText"
+          iconName="text-align-left"
+          title="Wrap text"
+          labelText="Wrap text"
+          labelHidden
+        />
+        <sky-checkbox
+          formControlName="autoHeightColumns"
+          iconName="layout-column-three"
+          title="Autoheight columns"
+          labelText="Autoheight columns"
+          labelHidden
+        />
+        <sky-checkbox
+          formControlName="showSelect"
+          iconName="checkmark"
+          title="Show select column"
+          labelText="Show select column"
+          labelHidden
+        />
+        <sky-checkbox
+          formControlName="compact"
+          iconName="text-font-size"
+          title="Compact layout"
+          labelText="Compact layout"
+          labelHidden
+        />
+        <sky-radio-group
+          labelText="DOM layout"
+          labelHidden
+          formControlName="domLayout"
+          class="sky-switch-icon-group"
+        >
+          <sky-radio
+            iconName="square"
+            title="Normal DOM layout"
+            labelText="Normal"
+            labelHidden
+            value="normal"
+          />
+          <sky-radio
+            iconName="arrow-bidirectional-up-down"
+            title="Auto-height DOM layout"
+            labelText="Auto-height"
+            labelHidden
+            value="autoHeight"
+          />
         </sky-radio-group>
       </form>
     </sky-data-manager-toolbar-primary-item>
+    <sky-data-manager-toolbar-primary-item>
+      <sky-dropdown buttonStyle="link">
+        <sky-dropdown-button> Show dropdown </sky-dropdown-button>
+        <sky-dropdown-menu>
+          <sky-dropdown-item>
+            <button type="button" click>Option 1</button>
+          </sky-dropdown-item>
+          <sky-dropdown-item>
+            <button type="button">Option 2</button>
+          </sky-dropdown-item>
+        </sky-dropdown-menu>
+      </sky-dropdown>
+    </sky-data-manager-toolbar-primary-item>
   </sky-data-manager-toolbar>
   <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewId">
-    <sky-ag-grid-wrapper *ngIf="isActive$ | async">
-      <ag-grid-angular [gridOptions]="gridOptions" [rowData]="items" />
-    </sky-ag-grid-wrapper>
+    @if (isActive$ | async) {
+      <sky-ag-grid-wrapper [compact]="compact">
+        <ag-grid-angular [gridOptions]="gridOptions" [rowData]="items" />
+      </sky-ag-grid-wrapper>
+    }
   </sky-data-view>
 </sky-data-manager>
-<span id="ready" *ngIf="ready | async"></span>
+@if (ready | async) {
+  <span id="ready"></span>
+}

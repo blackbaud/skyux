@@ -1,10 +1,6 @@
 import { provideRouter } from '@angular/router';
-import {
-  Meta,
-  Story,
-  applicationConfig,
-  moduleMetadata,
-} from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { WizardComponent } from './wizard.component';
 import { WizardModule } from './wizard.module';
@@ -24,8 +20,6 @@ export default {
     }),
   ],
 } as Meta<WizardComponent>;
-const Template: Story<WizardComponent> = (args: WizardComponent) => ({
-  props: args,
-});
-export const Wizard = Template.bind({});
+type Story = StoryObj<WizardComponent>;
+export const Wizard: Story = {};
 Wizard.args = {};

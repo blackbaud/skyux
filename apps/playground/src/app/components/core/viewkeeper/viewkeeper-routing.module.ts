@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: ViewkeeperComponent,
     data: {
       name: 'Viewkeeper',
-      icon: 'window-maximize',
+      icon: 'window-header-horizontal',
       library: 'core',
     },
   },

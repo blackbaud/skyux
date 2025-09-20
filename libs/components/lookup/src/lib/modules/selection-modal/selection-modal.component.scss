@@ -1,12 +1,16 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-.sky-lookup-show-more-no-results {
-  padding: $sky-space-xl 0;
+@include compatMixins.sky-default-overrides('.sky-lookup-show-more-modal') {
+  --sky-override-selection-modal-no-results-padding: 20px 0;
 }
 
-@include defaultMixins.sky-theme-modern {
-  .sky-lookup-show-more-no-results {
-    padding: $sky-theme-modern-space-xl 0;
-  }
+.sky-lookup-show-more-no-results {
+  padding: var(
+    --sky-override-selection-modal-no-results-padding,
+    var(--sky-space-inset-vertical-top-xl)
+      var(--sky-space-inset-vertical-right-xl)
+      var(--sky-space-inset-vertical-bottom-xl)
+      var(--sky-space-inset-vertical-left-xl)
+  );
 }

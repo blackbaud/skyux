@@ -1,70 +1,64 @@
 <form [formGroup]="myForm">
   <sky-selection-box-grid class="sky-margin-stacked-xl">
     <sky-selection-box [control]="checkbox1">
-      <sky-icon icon="calendar" />
-      <sky-selection-box-header skyId #checkbox1HeaderId="skyId">
+      <sky-icon iconName="calendar-ltr" iconSize="l" />
+      <sky-selection-box-header #checkbox1HeaderId="skyId" skyId>
         Icon
       </sky-selection-box-header>
       <sky-selection-box-description>
         Description
       </sky-selection-box-description>
       <sky-checkbox
+        #checkbox1
         formControlName="checkbox1"
         [labelledBy]="checkbox1HeaderId.id"
-        #checkbox1
-      >
-      </sky-checkbox>
+      />
     </sky-selection-box>
     <sky-selection-box [control]="checkbox2">
-      <sky-icon icon="calendar" />
-      <sky-selection-box-header skyId #checkbox2HeaderId="skyId">
+      <sky-icon iconName="calendar-ltr" iconSize="l" />
+      <sky-selection-box-header #checkbox2HeaderId="skyId" skyId>
         Icon no description
       </sky-selection-box-header>
       <sky-checkbox
+        #checkbox2
         formControlName="checkbox2"
         [labelledBy]="checkbox2HeaderId.id"
-        #checkbox2
-      >
-      </sky-checkbox>
+      />
     </sky-selection-box>
     <sky-selection-box [control]="checkbox3">
-      <sky-selection-box-header skyId #checkbox3HeaderId="skyId">
+      <sky-selection-box-header #checkbox3HeaderId="skyId" skyId>
         Disabled
       </sky-selection-box-header>
       <sky-checkbox
+        #checkbox3
         formControlName="checkbox3"
         [labelledBy]="checkbox3HeaderId.id"
-        #checkbox3
-      >
-      </sky-checkbox>
+      />
     </sky-selection-box>
   </sky-selection-box-grid>
   <sky-radio-group ariaLabel="Demo options" formControlName="myOption">
     <sky-selection-box-grid>
       <sky-selection-box [control]="radio1">
-        <sky-selection-box-header skyId #radio1HeaderId="skyId">
+        <sky-selection-box-header #radio1HeaderId="skyId" skyId>
           No icon
         </sky-selection-box-header>
         <sky-selection-box-description>
           Description
         </sky-selection-box-description>
-        <sky-radio [labelledBy]="radio1HeaderId.id" #radio1> </sky-radio>
+        <sky-radio #radio1 [labelledBy]="radio1HeaderId.id" />
       </sky-selection-box>
       <sky-selection-box [control]="radio2">
-        <sky-selection-box-header skyId #radio2HeaderId="skyId">
+        <sky-selection-box-header #radio2HeaderId="skyId" skyId>
           No icon no description
         </sky-selection-box-header>
-        <sky-radio [labelledBy]="radio2HeaderId.id" #radio2> </sky-radio>
+        <sky-radio #radio2 [labelledBy]="radio2HeaderId.id" />
       </sky-selection-box>
       <sky-selection-box [control]="radio3">
-        <sky-selection-box-header skyId #radio3HeaderId="skyId">
+        <sky-selection-box-header #radio3HeaderId="skyId" skyId>
           Disabled
         </sky-selection-box-header>
-        <sky-radio [labelledBy]="radio3HeaderId.id" [disabled]="true" #radio3>
-        </sky-radio>
+        <sky-radio #radio3 [labelledBy]="radio3HeaderId.id" [disabled]="true" />
       </sky-selection-box>
     </sky-selection-box-grid>
   </sky-radio-group>
 </form>
-
-<span id="ready" *ngIf="ready"></span>

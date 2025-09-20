@@ -124,11 +124,7 @@ export class SkyNumericService {
           SkyIntlNumberFormatStyle.Currency,
           digitsFormatted,
           numericOptions.iso,
-          // Angular 5+ needs a string for this parameter, but Angular 4 needs a boolean.
-          // To support both versions we can supply 'symbol' which will evaluate truthy for Angular 4
-          // and the appropriate string value for Angular 5+.
-          // See: https://angular.io/api/common/CurrencyPipe#parameters
-          'symbol' as any,
+          numericOptions.currencyDisplay ?? 'symbol',
           numericOptions.currencySign,
         ) as string;
         //   ^^^^^^ Result can't be null since the sanitized input is always a number.

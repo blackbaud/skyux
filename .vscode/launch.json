@@ -1,0 +1,28 @@
+{
+  "configurations": [
+    {
+      "type": "chrome",
+      "name": "Launch Chrome To Playground W/ Debug",
+      "request": "launch",
+      "url": "http://localhost:4201",
+      "preLaunchTask": "Start playground",
+      "postDebugTask": "Terminate All Tasks"
+    },
+    {
+      "type": "chrome",
+      "name": "Launch Chrome To Code Examples W/ Debug",
+      "request": "launch",
+      "url": "http://localhost:4200",
+      "preLaunchTask": "Start code examples",
+      "postDebugTask": "Terminate All Tasks"
+    },
+    {
+      "type": "chrome",
+      "name": "Launch Chrome To Integratikon W/ Debug",
+      "request": "launch",
+      "url": "http://localhost:4200",
+      "preLaunchTask": "Start integration",
+      "postDebugTask": "Terminate All Tasks"
+    }
+  ]
+}

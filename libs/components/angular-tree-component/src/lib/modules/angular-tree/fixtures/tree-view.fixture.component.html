@@ -5,38 +5,42 @@
   [showToolbar]="showToolbar"
 >
   <tree-root
+    #tree
     [nodes]="nodes"
     [options]="options"
     [state]="state"
     (stateChange)="onStateChange($event)"
-    #tree
   >
     <ng-template
+      #treeNodeFullTemplate
       let-index="index"
       let-node
       let-templates="templates"
-      #treeNodeFullTemplate
     >
       <sky-angular-tree-node
+        [helpKey]="node.data.helpKey"
+        [helpPopoverContent]="node.data.helpPopoverContent"
+        [helpPopoverTitle]="node.data.helpPopoverTitle"
         [index]="index"
         [node]="node"
         [templates]="templates"
       >
-        <sky-dropdown
-          *ngIf="showContextMenus"
-          buttonType="context-menu"
-          [label]="
-            contextMenuAriaLabel
-              ? contextMenuAriaLabel + node.data.name
-              : undefined
-          "
-        >
-          <sky-dropdown-menu>
-            <sky-dropdown-item>
-              <button type="button">FOO BAR</button>
-            </sky-dropdown-item>
-          </sky-dropdown-menu>
-        </sky-dropdown>
+        @if (showContextMenus) {
+          <sky-dropdown
+            buttonType="context-menu"
+            [label]="
+              contextMenuAriaLabel
+                ? contextMenuAriaLabel + node.data.name
+                : undefined
+            "
+          >
+            <sky-dropdown-menu>
+              <sky-dropdown-item>
+                <button type="button">FOO BAR</button>
+              </sky-dropdown-item>
+            </sky-dropdown-menu>
+          </sky-dropdown>
+        }
       </sky-angular-tree-node>
     </ng-template>
   </tree-root>
@@ -46,18 +50,19 @@
   Update state
 </button>
 
-<tree-root *ngIf="showInvalidTree" [nodes]="nodes" #tree>
-  <ng-template
-    let-index="index"
-    let-node
-    let-templates="templates"
-    #treeNodeFullTemplate
-  >
-    <sky-angular-tree-node
-      [index]="index"
-      [node]="node"
-      [templates]="templates"
+@if (showInvalidTree) {
+  <tree-root #tree [nodes]="nodes">
+    <ng-template
+      #treeNodeFullTemplate
+      let-index="index"
+      let-node
+      let-templates="templates"
     >
-    </sky-angular-tree-node>
-  </ng-template>
-</tree-root>
+      <sky-angular-tree-node
+        [index]="index"
+        [node]="node"
+        [templates]="templates"
+      />
+    </ng-template>
+  </tree-root>
+}

@@ -1,0 +1,27 @@
+<sky-page layout="blocks">
+  <sky-page-header pageTitle="Home">
+    <sky-page-header-actions>
+      <button type="button" class="sky-btn sky-btn-default">
+        <sky-icon iconName="add" /> New
+      </button>
+    </sky-page-header-actions>
+  </sky-page-header>
+  <sky-page-content>
+    <app-home-page-content />
+  </sky-page-content>
+
+  <sky-page-links>
+    <sky-link-list-recently-accessed [recentLinks]="recentLinks" />
+    <sky-link-list headingText="Resources">
+      <sky-link-list-item>
+        <a href="#">Help</a>
+      </sky-link-list-item>
+      <sky-link-list-item>
+        <a href="#">Support</a>
+      </sky-link-list-item>
+      <sky-link-list-item>
+        <a href="#">Training</a>
+      </sky-link-list-item>
+    </sky-link-list>
+  </sky-page-links>
+</sky-page>

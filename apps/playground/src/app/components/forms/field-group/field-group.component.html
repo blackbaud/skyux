@@ -1,0 +1,54 @@
+<div class="sky-padding-even-xl">
+  <form [formGroup]="formGroup">
+    <sky-field-group
+      headingText="Field group"
+      hintText="Hint text for the section."
+      headingLevel="4"
+      helpPopoverContent="content"
+      helpKey="index.html"
+    >
+      <!-- Should not generate console error. -->
+      <sky-input-box stacked [labelText]="lazyName | async">
+        <input type="text" formControlName="name" />
+      </sky-input-box>
+
+      <!-- Expect one console error for "All form fields within <sky-field-group> must have `labelText` set on initialization." -->
+      <sky-input-box class="sky-margin-stacked-lg">
+        <label class="sky-control-label" [for]="hometownInput.id">
+          Hometown
+        </label>
+        <input
+          #hometownInput="skyId"
+          class="sky-form-control"
+          formControlName="hometown"
+          skyId
+          type="text"
+        />
+      </sky-input-box>
+
+      <sky-checkbox checked="true" labelText="Checked Checkbox" stacked />
+
+      <div class="sky-padding-even-large">
+        <sky-toggle-switch
+          labelText="Activate annual fundraiser"
+          formControlName="toggle"
+        />
+      </div>
+      <sky-radio-group
+        class="sky-switch-icon-group"
+        formControlName="radio"
+        headingText="View"
+        stacked
+      >
+        @for (view of views; track view) {
+          <sky-radio
+            labelHidden
+            [iconName]="view.icon"
+            [labelText]="view.label"
+            [value]="view.name"
+          />
+        }
+      </sky-radio-group>
+    </sky-field-group>
+  </form>
+</div>

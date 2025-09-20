@@ -1,12 +1,12 @@
-import { getSourceNodes } from '@angular/cdk/schematics';
 import { Tree } from '@nx/devkit';
 import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
+import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
 
-export type DecoratedClass = {
+export interface DecoratedClass {
   classDeclaration: ts.ClassDeclaration;
-  properties: { [key: string]: ts.Expression };
+  properties: Record<string, ts.Expression>;
   propertiesObjectLiteral?: ts.ObjectLiteralExpression;
-};
+}
 
 /**
  * Apply a set of transformations to typescript source files.
@@ -105,7 +105,7 @@ function findDecoratedClass(
         decorator.expression.expression.escapedText === ngModuleName,
     );
 
-    const properties: { [key: string]: ts.Expression } = {};
+    const properties: Record<string, ts.Expression> = {};
 
     const callExpression = decorator?.expression as ts.CallExpression;
 
@@ -217,7 +217,7 @@ export function getInsertExportTransformer(
       ) => ts.Node | ts.NodeArray<ts.ExportDeclaration> = (
         rootNode: ts.Node,
       ) => {
-        const node = ts.visitEachChild(rootNode, visitor as any, context);
+        const node = ts.visitEachChild(rootNode, visitor, context);
         if (ts.isExportDeclaration(node)) {
           const exportPath = (
             (node as ts.ExportDeclaration).moduleSpecifier as ts.StringLiteral
@@ -236,7 +236,7 @@ export function getInsertExportTransformer(
         }
         return node;
       };
-      return ts.visitNode(sourceFile, visitor as any) as ts.SourceFile;
+      return ts.visitNode(sourceFile, visitor) as ts.SourceFile;
     };
   };
 }
@@ -471,9 +471,9 @@ export function getInsertStringPropertyTransformer(
 /**
  * Create a transformer to update the value of string literals in a typescript source file.
  */
-export function getStringLiteralsSetterTransformer(strings: {
-  [_: string]: string;
-}): ts.TransformerFactory<ts.SourceFile> {
+export function getStringLiteralsSetterTransformer(
+  strings: Record<string, string>,
+): ts.TransformerFactory<ts.SourceFile> {
   return (context) => {
     return (sourceFile: ts.SourceFile) => {
       const visitor: (node: ts.Node) => ts.Node | ts.Identifier = (
@@ -503,9 +503,9 @@ export function getStringLiteralsSetterTransformer(strings: {
 /**
  * Create a transformer to rename variables in a typescript source file.
  */
-export function getRenameVariablesTransformer(renameMap: {
-  [_: string]: string;
-}): ts.TransformerFactory<ts.SourceFile> {
+export function getRenameVariablesTransformer(
+  renameMap: Record<string, string>,
+): ts.TransformerFactory<ts.SourceFile> {
   return (context) => {
     return (sourceFile: ts.SourceFile) => {
       const visitor: (node: ts.Node) => ts.Node | ts.Identifier = (

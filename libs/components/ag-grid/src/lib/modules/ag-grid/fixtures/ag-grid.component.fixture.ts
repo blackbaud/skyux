@@ -1,41 +1,68 @@
 import {
   Component,
-  Inject,
   InjectionToken,
   OnInit,
-  Optional,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, GridOptions } from 'ag-grid-community';
+import {
+  AllCommunityModule,
+  ColDef,
+  DomLayoutType,
+  GridOptions,
+  ModuleRegistry,
+} from 'ag-grid-community';
 
+import { SkyAgGridWrapperComponent } from '../ag-grid-wrapper.component';
 import { SkyAgGridService } from '../ag-grid.service';
 import { SkyCellType } from '../types/cell-type';
 
 import { SKY_AG_GRID_DATA, SKY_AG_GRID_LOOKUP } from './ag-grid-data.fixture';
 import { FirstInlineHelpComponent } from './inline-help.component';
 
-export const EnableTopScroll = new InjectionToken<boolean>('EnableTopScroll');
-export const Editable = new InjectionToken<boolean>('Editable');
+export const EnableTopScroll = new InjectionToken<boolean>('EnableTopScroll', {
+  providedIn: 'root',
+  factory: (): boolean => false,
+});
+export const Editable = new InjectionToken<boolean>('Editable', {
+  providedIn: 'root',
+  factory: (): boolean => true,
+});
+export const DomLayout = new InjectionToken<DomLayoutType>('DomLayout', {
+  providedIn: 'root',
+  factory: (): DomLayoutType => 'autoHeight',
+});
+export const Loading = new InjectionToken<boolean>('Loading', {
+  providedIn: 'root',
+  factory: (): boolean => false,
+});
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'sky-ag-grid-component-fixture',
   templateUrl: './ag-grid.component.fixture.html',
   encapsulation: ViewEncapsulation.None,
+  imports: [SkyAgGridWrapperComponent, AgGridAngular],
 })
 export class SkyAgGridFixtureComponent implements OnInit {
   @ViewChild('agGrid', { static: true })
   public agGrid: AgGridAngular | undefined;
 
+  @ViewChild(SkyAgGridWrapperComponent, { static: true })
+  public agGridWrapper: SkyAgGridWrapperComponent | undefined;
+
+  public enableTopScroll = inject(EnableTopScroll);
+  public editable = inject(Editable);
+
   public gridData = SKY_AG_GRID_DATA;
   public columnDefs: ColDef[] = [
     {
       field: 'selected',
-      headerName: '',
       maxWidth: 50,
-      sortable: false,
       type: SkyCellType.RowSelector,
     },
     {
@@ -44,21 +71,30 @@ export class SkyAgGridFixtureComponent implements OnInit {
       headerComponentParams: {
         inlineHelpComponent: FirstInlineHelpComponent,
       },
+      minWidth: undefined,
+      maxWidth: undefined,
+      resizable: true,
     },
     {
       field: 'nickname',
       headerName: 'Nickname',
-      editable: true,
+      editable: this.editable,
       type: SkyCellType.Text,
+      minWidth: undefined,
+      maxWidth: undefined,
+      resizable: true,
     },
     {
       field: 'value',
       headerName: 'Current Value',
-      editable: true,
+      editable: this.editable,
       type: SkyCellType.Number,
       headerComponentParams: {
         inlineHelpComponent: FirstInlineHelpComponent,
       },
+      minWidth: undefined,
+      maxWidth: undefined,
+      resizable: true,
     },
     {
       field: 'target',
@@ -71,7 +107,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
     {
       field: 'date',
       headerName: 'Completed Date',
-      editable: true,
+      editable: this.editable,
       type: SkyCellType.Date,
       headerComponentParams: {
         inlineHelpComponent: FirstInlineHelpComponent,
@@ -80,7 +116,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
     {
       field: 'currency',
       headerName: 'Currency amount',
-      editable: true,
+      editable: this.editable,
       type: SkyCellType.Currency,
       headerComponentParams: {
         inlineHelpComponent: FirstInlineHelpComponent,
@@ -89,7 +125,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
     {
       field: 'validNumber',
       headerName: 'Valid number',
-      editable: true,
+      editable: this.editable,
       type: SkyCellType.NumberValidator,
       headerComponentParams: {
         inlineHelpComponent: FirstInlineHelpComponent,
@@ -98,7 +134,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
     {
       field: 'validCurrency',
       headerName: 'Valid currency',
-      editable: true,
+      editable: this.editable,
       type: SkyCellType.Currency,
       headerComponentParams: {
         inlineHelpComponent: FirstInlineHelpComponent,
@@ -107,7 +143,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
     {
       field: 'validDate',
       headerName: 'Valid date',
-      editable: true,
+      editable: this.editable,
       type: [SkyCellType.Date, SkyCellType.Validator],
       cellRendererParams: {
         skyComponentProperties: {
@@ -127,7 +163,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
       field: 'lookupSingle',
       minWidth: 185,
       maxWidth: 235,
-      editable: true,
+      editable: this.editable,
       type: SkyCellType.Lookup,
       cellEditorParams: {
         skyComponentProperties: {
@@ -144,6 +180,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
       },
       headerComponentParams: {
         inlineHelpComponent: FirstInlineHelpComponent,
+        headerHidden: true,
       },
     },
     {
@@ -151,7 +188,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
       field: 'lookupMultiple',
       minWidth: 185,
       maxWidth: 235,
-      editable: true,
+      editable: this.editable,
       type: SkyCellType.Lookup,
       cellEditorParams: {
         skyComponentProperties: {
@@ -175,29 +212,28 @@ export class SkyAgGridFixtureComponent implements OnInit {
 
   public gridOptions: GridOptions = {
     columnDefs: this.columnDefs,
+    domLayout: inject(DomLayout),
     suppressColumnVirtualisation: true,
     context: {
       enableTopScroll: this.enableTopScroll,
     },
+    defaultColDef: {
+      minWidth: undefined,
+    },
+    loading: inject(Loading),
   };
 
-  #gridService: SkyAgGridService;
-
-  constructor(
-    gridService: SkyAgGridService,
-    @Optional()
-    @Inject(EnableTopScroll)
-    public enableTopScroll = false,
-    @Optional()
-    @Inject(Editable)
-    public editable = true,
-  ) {
-    this.#gridService = gridService;
-  }
+  #gridService = inject(SkyAgGridService);
 
   public ngOnInit(): void {
-    this.gridOptions = this.#gridService.getEditableGridOptions({
-      gridOptions: this.gridOptions,
-    });
+    if (this.editable) {
+      this.gridOptions = this.#gridService.getEditableGridOptions({
+        gridOptions: this.gridOptions,
+      });
+    } else {
+      this.gridOptions = this.#gridService.getGridOptions({
+        gridOptions: this.gridOptions,
+      });
+    }
   }
 }

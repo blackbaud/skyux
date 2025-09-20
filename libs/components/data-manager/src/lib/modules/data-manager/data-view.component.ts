@@ -1,13 +1,14 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
   inject,
 } from '@angular/core';
+import { SkyResponsiveHostDirective } from '@skyux/core';
 import { SkyTextHighlightDirective } from '@skyux/indicators';
 
 import { Subject } from 'rxjs';
@@ -26,8 +27,14 @@ import { SkyDataManagerState } from './models/data-manager-state';
   selector: 'sky-data-view',
   templateUrl: './data-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
-  hostDirectives: [SkyTextHighlightDirective],
+  hostDirectives: [SkyResponsiveHostDirective, SkyTextHighlightDirective],
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
 })
 export class SkyDataViewComponent implements OnDestroy, OnInit {
   /**
@@ -36,6 +43,11 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
    */
   @Input()
   public viewId: string | undefined;
+
+  @HostBinding('attr.data-view-id')
+  public get dataViewId(): string | undefined {
+    return this.viewId;
+  }
 
   public get isActive(): boolean {
     return this.#_isActive;

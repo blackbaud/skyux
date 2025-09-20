@@ -4,181 +4,144 @@
   [formGroup]="favoritesForm"
   (ngSubmit)="onSubmit()"
 >
-  <div class="sky-form-group">
-    <sky-input-box stacked="true">
-      <label class="sky-control-label" [attr.for]="favoriteText.id">
-        Text field
-      </label>
-      <input
-        class="sky-form-control"
-        type="text"
-        formControlName="favoriteText"
-        skyId
-        #favoriteText="skyId"
-      />
-    </sky-input-box>
-  </div>
-  <div class="height-measure"></div>
-
-  <!-- Inline help does not maintain uniform field height in default theme. -->
-  <div *skyThemeIf="'modern'" class="sky-form-group">
-    <sky-input-box stacked="true">
-      <label class="sky-control-label" [for]="favoriteTextInputWithHelp.id">
-        Text field with help
-      </label>
-      <sky-help-inline class="sky-control-help"></sky-help-inline>
-      <input
-        formControlName="favoriteText"
-        type="text"
-        spellcheck="false"
-        class="sky-form-control"
-        skyId
-        #favoriteTextInputWithHelp="skyId"
-      />
-    </sky-input-box>
-  </div>
-  <div *skyThemeIf="'modern'" class="height-measure"></div>
-
-  <div class="sky-form-group">
-    <sky-input-box stacked="true">
-      <label class="sky-control-label" skyId #favoriteNameLabel="skyId">
-        Lookup field
-      </label>
-      <sky-lookup
-        formControlName="favoriteName"
-        selectMode="single"
-        (addClick)="onAddButtonClicked()"
-        [ariaLabelledBy]="favoriteNameLabel.id"
-        [data]="people"
-        [enableShowMore]="true"
-        [showAddButton]="true"
-      />
-    </sky-input-box>
-  </div>
-  <div class="height-measure"></div>
-
-  <!-- In default theme, the non-button icon does not use the same height. -->
-  <div *skyThemeIf="'modern'" class="sky-form-group">
-    <sky-input-box stacked="true">
-      <label class="sky-control-label" skyId #favoriteNameLabelNoAdd="skyId">
-        Lookup field without show more or add button
-      </label>
-      <sky-lookup
-        formControlName="favoriteName"
-        selectMode="single"
-        [ariaLabelledBy]="favoriteNameLabelNoAdd.id"
-        [data]="people"
-        [enableShowMore]="false"
-        [showAddButton]="false"
-      />
-    </sky-input-box>
-  </div>
-  <div *skyThemeIf="'modern'" class="height-measure"></div>
-
-  <div class="sky-form-group">
-    <sky-input-box stacked="true">
-      <label class="sky-control-label" skyId #favoritePeopleLabel="skyId">
-        Lookup field with multiple select
-      </label>
-      <sky-lookup
-        formControlName="favoritePeople"
-        selectMode="multiple"
-        (addClick)="onAddButtonClicked()"
-        [ariaLabelledBy]="favoritePeopleLabel.id"
-        [data]="people"
-        [enableShowMore]="true"
-        [showAddButton]="true"
-      />
-    </sky-input-box>
-  </div>
-  <div class="height-measure"></div>
-
-  <!-- In default theme, the non-button icon does not use the same height. -->
-  <div *skyThemeIf="'modern'" class="sky-form-group">
-    <sky-input-box stacked="true">
-      <label class="sky-control-label" skyId #favoritePeopleLabelNoAdd="skyId">
-        Lookup field without show more or add button, multiple select
-      </label>
-      <sky-lookup
-        formControlName="favoritePeople"
-        selectMode="multiple"
-        [ariaLabelledBy]="favoritePeopleLabelNoAdd.id"
-        [data]="people"
-        [enableShowMore]="false"
-        [showAddButton]="false"
-      />
-    </sky-input-box>
-  </div>
-  <div *skyThemeIf="'modern'" class="height-measure"></div>
-
-  <div class="sky-form-group">
-    <sky-input-box stacked="true">
-      <label class="sky-control-label" [for]="favoriteWordInput.id">
-        Favorite word
-      </label>
-
-      <sky-character-counter-indicator
-        #characterCountIndicator
-      ></sky-character-counter-indicator>
-
-      <input
-        class="sky-form-control"
-        formControlName="favoriteWord"
-        type="text"
-        skyCharacterCounter
-        skyId
-        [skyCharacterCounterIndicator]="characterCountIndicator"
-        [skyCharacterCounterLimit]="characterCounterLimit"
-        [attr.aria-describedby]="characterCountError.id"
-        #favoriteWordInput="skyId"
-      />
-
-      <span
-        class="sky-error-indicator"
-        skyId
-        #characterCountError="skyId"
-        data-sky-id="character-counter-error"
+  <div class="fields-column easy-mode-fields">
+    <span class="sky-font-heading-2">Easy mode</span>
+    <div class="sky-form-group">
+      <sky-input-box
+        stacked="true"
+        labelText="Text field"
+        hintText="Enter text."
       >
-        <sky-status-indicator
-          *ngIf="showCharacterCounterError | async"
-          indicatorType="danger"
-          descriptionType="error"
-        >
-          Limit favorite word to {{ characterCounterLimit }} characters.
-        </sky-status-indicator>
-      </span>
-    </sky-input-box>
-  </div>
-  <div class="height-measure"></div>
+        <input type="text" formControlName="favoriteText" />
+      </sky-input-box>
+    </div>
+    <div class="height-measure"></div>
 
-  <div class="sky-form-group">
-    <sky-input-box stacked="true">
-      <span class="sky-control-label">Favorite country</span>
-      <sky-country-field formControlName="favoriteCountry" />
-    </sky-input-box>
-  </div>
-  <div class="height-measure"></div>
+    <!-- TODO: Update to easy mode once easy mode supports help inline -->
+    <!-- Inline help does not maintain uniform field height in default theme. -->
+    <div *skyThemeIf="'modern'" class="sky-form-group">
+      <sky-input-box
+        stacked="true"
+        labelText="Text field with help"
+        helpPopoverContent="Help content"
+        hintText="Enter text."
+      >
+        <input formControlName="favoriteText" type="text" spellcheck="false" />
+      </sky-input-box>
+    </div>
+    <div *skyThemeIf="'modern'" class="height-measure"></div>
 
-  <div class="sky-form-group">
-    <sky-input-box stacked="true">
-      <label class="sky-control-label" [for]="favoriteDateInput.id">
-        Date
-      </label>
-      <sky-datepicker>
-        <input
-          formControlName="favoriteDate"
-          skyDatepickerInput
-          skyId
-          type="text"
-          #favoriteDateInput="skyId"
+    <div class="sky-form-group">
+      <sky-input-box
+        stacked="true"
+        labelText="Lookup field"
+        hintText="Lookup items."
+      >
+        <sky-lookup
+          formControlName="favoriteName"
+          selectMode="single"
+          [data]="people"
+          [enableShowMore]="true"
+          [showAddButton]="true"
+          (addClick)="onAddButtonClicked()"
         />
-      </sky-datepicker>
-    </sky-input-box>
-  </div>
-  <div class="height-measure"></div>
+      </sky-input-box>
+    </div>
+    <div class="height-measure"></div>
 
-  <!-- Date range picker fields do not have uniform height in default theme. -->
-  <div *skyThemeIf="'modern'" class="sky-form-group">
+    <!-- In default theme, the non-button icon does not use the same height. -->
+    <div *skyThemeIf="'modern'" class="sky-form-group">
+      <sky-input-box
+        stacked="true"
+        labelText="Lookup field without show more or add button"
+        hintText="Lookup items."
+      >
+        <sky-lookup
+          formControlName="favoriteName"
+          selectMode="single"
+          [data]="people"
+          [enableShowMore]="false"
+          [showAddButton]="false"
+        />
+      </sky-input-box>
+    </div>
+    <div *skyThemeIf="'modern'" class="height-measure"></div>
+
+    <!-- TODO: Set this to easy mode when AB#2843045 is fixed -->
+    <div class="sky-form-group">
+      <sky-input-box stacked="true" hintText="Lookup items.">
+        <label #favoritePeopleLabel="skyId" class="sky-control-label" skyId>
+          Lookup field with multiple select
+        </label>
+        <sky-lookup
+          formControlName="favoritePeople"
+          selectMode="multiple"
+          [ariaLabelledBy]="favoritePeopleLabel.id"
+          [data]="people"
+          [enableShowMore]="true"
+          [showAddButton]="true"
+          (addClick)="onAddButtonClicked()"
+        />
+      </sky-input-box>
+    </div>
+    <div class="height-measure"></div>
+
+    <!-- In default theme, the non-button icon does not use the same height. -->
+    <div *skyThemeIf="'modern'" class="sky-form-group">
+      <sky-input-box
+        stacked="true"
+        labelText="Lookup field without show more or add button, multiple select"
+        hintText="Lookup items."
+      >
+        <sky-lookup
+          formControlName="favoritePeople"
+          selectMode="multiple"
+          [data]="people"
+          [enableShowMore]="false"
+          [showAddButton]="false"
+        />
+      </sky-input-box>
+    </div>
+    <div *skyThemeIf="'modern'" class="height-measure"></div>
+
+    <div class="sky-form-group">
+      <sky-input-box
+        stacked="true"
+        labelText="Favorite word"
+        hintText="Enter favorite word."
+        [characterLimit]="characterCounterLimit"
+      >
+        <input formControlName="favoriteWord" type="text" />
+      </sky-input-box>
+    </div>
+    <div class="height-measure"></div>
+
+    <div class="sky-form-group">
+      <sky-input-box
+        stacked="true"
+        labelText="Favorite country"
+        hintText="Select your favorite country."
+      >
+        <sky-country-field formControlName="favoriteCountry" />
+      </sky-input-box>
+    </div>
+    <div class="height-measure"></div>
+
+    <div class="sky-form-group">
+      <sky-input-box stacked="true" labelText="Date" hintText="Select a date.">
+        <sky-datepicker>
+          <input
+            formControlName="favoriteDate"
+            skyDatepickerInput
+            type="text"
+          />
+        </sky-datepicker>
+      </sky-input-box>
+    </div>
+    <div class="height-measure"></div>
+    <!-- TODO: Reenable once date range picker has hint text support -->
+    <!-- Date range picker fields do not have uniform height in default theme. -->
+    <!-- <div *skyThemeIf="'modern'" class="sky-form-group">
     <sky-date-range-picker
       formControlName="favoriteDateRange"
       label="Favorite date range"
@@ -187,6 +150,202 @@
     >
     </sky-date-range-picker>
   </div>
-  <div *skyThemeIf="'modern'" class="height-measure"></div>
+  <div *skyThemeIf="'modern'" class="height-measure"></div> -->
+  </div>
+  <div class="fields-column hard-mode-fields">
+    <span class="sky-font-heading-2">Hard mode</span>
+    <div class="sky-form-group">
+      <sky-input-box stacked="true" hintText="Enter text.">
+        <label class="sky-control-label" [attr.for]="favoriteText.id">
+          Text field
+        </label>
+        <input
+          #favoriteText="skyId"
+          class="sky-form-control"
+          type="text"
+          formControlName="favoriteText"
+          skyId
+        />
+      </sky-input-box>
+    </div>
+    <div class="height-measure"></div>
+
+    <!-- Inline help does not maintain uniform field height in default theme. -->
+    <div *skyThemeIf="'modern'" class="sky-form-group">
+      <sky-input-box stacked="true" hintText="Enter text.">
+        <label class="sky-control-label" [for]="favoriteTextInputWithHelp.id">
+          Text field with help
+        </label>
+        <sky-help-inline class="sky-control-help" />
+        <input
+          #favoriteTextInputWithHelp="skyId"
+          formControlName="favoriteText"
+          type="text"
+          spellcheck="false"
+          class="sky-form-control"
+          skyId
+        />
+      </sky-input-box>
+    </div>
+    <div *skyThemeIf="'modern'" class="height-measure"></div>
+
+    <div class="sky-form-group">
+      <sky-input-box stacked="true" hintText="Lookup items.">
+        <label #favoriteNameLabel="skyId" class="sky-control-label" skyId>
+          Lookup field
+        </label>
+        <sky-lookup
+          formControlName="favoriteName"
+          selectMode="single"
+          [ariaLabelledBy]="favoriteNameLabel.id"
+          [data]="people"
+          [enableShowMore]="true"
+          [showAddButton]="true"
+          (addClick)="onAddButtonClicked()"
+        />
+      </sky-input-box>
+    </div>
+    <div class="height-measure"></div>
+
+    <!-- In default theme, the non-button icon does not use the same height. -->
+    <div *skyThemeIf="'modern'" class="sky-form-group">
+      <sky-input-box stacked="true" hintText="Lookup items.">
+        <label #favoriteNameLabelNoAdd="skyId" class="sky-control-label" skyId>
+          Lookup field without show more or add button
+        </label>
+        <sky-lookup
+          formControlName="favoriteName"
+          selectMode="single"
+          [ariaLabelledBy]="favoriteNameLabelNoAdd.id"
+          [data]="people"
+          [enableShowMore]="false"
+          [showAddButton]="false"
+        />
+      </sky-input-box>
+    </div>
+    <div *skyThemeIf="'modern'" class="height-measure"></div>
+
+    <div class="sky-form-group">
+      <sky-input-box stacked="true" hintText="Lookup items.">
+        <label #favoritePeopleLabel="skyId" class="sky-control-label" skyId>
+          Lookup field with multiple select
+        </label>
+        <sky-lookup
+          formControlName="favoritePeople"
+          selectMode="multiple"
+          [ariaLabelledBy]="favoritePeopleLabel.id"
+          [data]="people"
+          [enableShowMore]="true"
+          [showAddButton]="true"
+          (addClick)="onAddButtonClicked()"
+        />
+      </sky-input-box>
+    </div>
+    <div class="height-measure"></div>
+
+    <!-- In default theme, the non-button icon does not use the same height. -->
+    <div *skyThemeIf="'modern'" class="sky-form-group">
+      <sky-input-box stacked="true" hintText="Lookup items.">
+        <label
+          #favoritePeopleLabelNoAdd="skyId"
+          class="sky-control-label"
+          skyId
+        >
+          Lookup field without show more or add button, multiple select
+        </label>
+        <sky-lookup
+          formControlName="favoritePeople"
+          selectMode="multiple"
+          [data]="people"
+          [ariaLabelledBy]="favoritePeopleLabelNoAdd.id"
+          [enableShowMore]="false"
+          [showAddButton]="false"
+        />
+      </sky-input-box>
+    </div>
+    <div *skyThemeIf="'modern'" class="height-measure"></div>
+
+    <div class="sky-form-group">
+      <sky-input-box stacked="true" hintText="Enter favorite word."
+        ><label class="sky-control-label" [for]="favoriteWordInput.id">
+          Favorite word
+        </label>
+        <sky-character-counter-indicator #characterCountIndicator />
+
+        <input
+          #favoriteWordInput="skyId"
+          class="sky-form-control"
+          formControlName="favoriteWord"
+          type="text"
+          skyCharacterCounter
+          skyId
+          [skyCharacterCounterIndicator]="characterCountIndicator"
+          [skyCharacterCounterLimit]="characterCounterLimit"
+          [attr.aria-describedby]="characterCountError.id"
+        />
+
+        <span
+          #characterCountError="skyId"
+          class="sky-error-indicator"
+          skyId
+          data-sky-id="character-counter-error"
+        >
+          @if (showCharacterCounterError | async) {
+            <sky-status-indicator
+              indicatorType="danger"
+              descriptionType="error"
+            >
+              Limit favorite word to {{ characterCounterLimit }} characters.
+            </sky-status-indicator>
+          }
+        </span>
+      </sky-input-box>
+    </div>
+    <div class="height-measure"></div>
+
+    <!-- NOTE: We do not provide an accessible hard mode way of setting the label for a country field -->
+    <div class="sky-form-group">
+      <sky-input-box
+        stacked="true"
+        labelText="Favorite country"
+        hintText="Select your favorite country."
+      >
+        <sky-country-field formControlName="favoriteCountry" />
+      </sky-input-box>
+    </div>
+    <div class="height-measure"></div>
+
+    <div class="sky-form-group">
+      <sky-input-box stacked="true" hintText="Select a date.">
+        <label class="sky-control-label" [for]="favoriteDateInput.id">
+          Date
+        </label>
+        <sky-datepicker>
+          <input
+            #favoriteDateInput="skyId"
+            formControlName="favoriteDate"
+            skyDatepickerInput
+            skyId
+            type="text"
+          />
+        </sky-datepicker>
+      </sky-input-box>
+    </div>
+    <div class="height-measure"></div>
+    <!-- TODO: Reenable once date range picker has hint text support -->
+    <!-- Date range picker fields do not have uniform height in default theme. -->
+    <!-- <div *skyThemeIf="'modern'" class="sky-form-group">
+    <sky-date-range-picker
+      formControlName="favoriteDateRange"
+      label="Favorite date range"
+      [calculatorIds]="calculatorIds"
+      dateFormat="YYYY-MM-DD"
+    >
+    </sky-date-range-picker>
+  </div>
+  <div *skyThemeIf="'modern'" class="height-measure"></div> -->
+  </div>
 </form>
-<span *ngIf="ready | async" id="ready"></span>
+@if (ready | async) {
+  <span id="ready"></span>
+}

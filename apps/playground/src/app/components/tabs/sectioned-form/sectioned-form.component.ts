@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyModalModule, SkyModalService } from '@skyux/modals';
 
+import { SectionedFormModalWithColumnsComponent } from './sectioned-form-modal-with-columns.component';
 import { SectionedFormModalComponent } from './sectioned-form-modal.component';
 
 @Component({
@@ -8,7 +9,6 @@ import { SectionedFormModalComponent } from './sectioned-form-modal.component';
   templateUrl: './sectioned-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyModalModule],
-  standalone: true,
 })
 export default class SectionedFormComponent {
   #modalService: SkyModalService;
@@ -19,5 +19,11 @@ export default class SectionedFormComponent {
 
   public openSectionedForm(): void {
     this.#modalService.open(SectionedFormModalComponent, { size: 'large' });
+  }
+
+  public openSectionedFormWithColumns(): void {
+    this.#modalService.open(SectionedFormModalWithColumnsComponent, {
+      size: 'large',
+    });
   }
 }

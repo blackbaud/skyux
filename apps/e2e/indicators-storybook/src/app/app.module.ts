@@ -11,10 +11,10 @@ const routes: Route[] = [
       import('./alert/alert.module').then((m) => m.AlertModule),
   },
   {
-    path: 'help-inline',
+    path: 'illustration',
     loadChildren: () =>
-      import('./help-inline/help-inline.module').then(
-        (m) => m.HelpInlineModule,
+      import('./illustration/illustration.module').then(
+        (m) => m.IllustrationModule,
       ),
   },
   {

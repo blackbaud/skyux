@@ -6,9 +6,12 @@ import {
   Validators,
 } from '@angular/forms';
 
+import { InputBoxHostServiceFixtureComponent } from './input-box-host-service.component.fixture';
+
 @Component({
   selector: 'sky-input-box-fixture',
   templateUrl: './input-box.component.fixture.html',
+  standalone: false,
 })
 export class InputBoxFixtureComponent {
   @Input()
@@ -44,6 +47,9 @@ export class InputBoxFixtureComponent {
   @Input()
   public insetIconDisabled: boolean | undefined;
 
+  @Input()
+  public labelText: string | undefined = 'Easy mode';
+
   public errorField: UntypedFormControl;
 
   public errorForm: UntypedFormGroup;
@@ -61,6 +67,8 @@ export class InputBoxFixtureComponent {
   public easyModeHelpPopoverContent: TemplateRef<unknown> | string | undefined =
     'Help content from text';
 
+  public easyModeHelpKey: string | undefined;
+
   public easyModeHintText: string | undefined;
 
   public easyModeAriaDescribedBy: string | undefined;
@@ -70,6 +78,11 @@ export class InputBoxFixtureComponent {
 
   @ViewChild('easyModePopoverTemplate', { read: TemplateRef })
   public easyModePopoverTemplate: TemplateRef<unknown> | undefined;
+
+  @ViewChild(InputBoxHostServiceFixtureComponent)
+  public inputBoxHostServiceComponent:
+    | InputBoxHostServiceFixtureComponent
+    | undefined;
 
   constructor() {
     this.errorField = new UntypedFormControl('', [Validators.required]);

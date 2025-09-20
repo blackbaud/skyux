@@ -1,17 +1,18 @@
 <sky-split-view dock="fill" [messageStream]="splitViewStream">
   <sky-split-view-drawer [ariaLabel]="'Transaction list'" [width]="listWidth">
     <sky-repeater [activeIndex]="activeIndex">
-      <sky-repeater-item
-        *ngFor="let item of items; let i = index"
-        (click)="onItemClick(i)"
-        (keyup.enter)="onItemClick(i)"
-      >
-        <sky-repeater-item-content>
-          {{ item.amount }} <br />
-          {{ item.date }} <br />
-          {{ item.vendor }}
-        </sky-repeater-item-content>
-      </sky-repeater-item>
+      @for (item of items; track item; let i = $index) {
+        <sky-repeater-item
+          (click)="onItemClick(i)"
+          (keyup.enter)="onItemClick(i)"
+        >
+          <sky-repeater-item-content>
+            {{ item.amount }} <br />
+            {{ item.date }} <br />
+            {{ item.vendor }}
+          </sky-repeater-item-content>
+        </sky-repeater-item>
+      }
     </sky-repeater>
   </sky-split-view-drawer>
 
@@ -54,12 +55,12 @@
               Approved amount
             </label>
             <input
+              #amountInput
               class="sky-form-control"
               formControlName="approvedAmount"
               name="approvedAmount"
               type="text"
               skyId
-              #amountInput
             />
           </sky-input-box>
         </div>
@@ -70,11 +71,11 @@
               Comments
             </label>
             <textarea
+              #commentsInput
               class="sky-form-control"
               formControlName="comments"
               name="comments"
               skyId
-              #commentsInput
             ></textarea>
           </sky-input-box>
         </div>

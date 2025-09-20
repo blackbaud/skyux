@@ -6,18 +6,29 @@
   <sky-datepicker
     data-sky-id="cell-datepicker"
     pickerClass="ag-custom-component-popup"
+    (dateFormatChange)="onDateFormatChange($event)"
     (openChange)="onCalendarOpenChange($event)"
   >
     <input
+      #skyCellEditorDatepickerInput
       formControlName="date"
       skyDatepickerInput
+      [attr.aria-label]="
+        'sky_ag_grid_cell_editor_datepicker_aria_label'
+          | skyLibResources: columnHeader : rowNumber
+      "
+      [attr.title]="
+        resolvedDateFormat
+          ? ('skyux_datepicker_format_hint_text'
+            | skyLibResources: resolvedDateFormat)
+          : null
+      "
       [minDate]="skyComponentProperties.minDate"
       [maxDate]="skyComponentProperties.maxDate"
       [dateFormat]="skyComponentProperties.dateFormat"
       [startingDay]="skyComponentProperties.startingDay"
       [skyDatepickerNoValidate]="skyComponentProperties.skyDatepickerNoValidate"
       [style.height.px]="rowHeightWithoutBorders"
-      #skyCellEditorDatepickerInput
     />
   </sky-datepicker>
 </div>

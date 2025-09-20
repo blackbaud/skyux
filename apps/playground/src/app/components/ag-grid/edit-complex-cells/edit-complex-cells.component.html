@@ -1,60 +1,64 @@
-<ng-container *ngIf="refresh | async; then grid; else grid"> </ng-container>
-
-<ng-template #grid>
+@if (refresh | async) {
   <div class="editable-grid">
     <sky-toolbar>
-      <sky-toolbar-item *ngIf="!editMode">
-        <button
-          class="sky-btn sky-btn-primary"
-          id="edit-btn"
-          type="button"
-          (click)="setEditMode(true)"
-        >
-          Edit
-        </button>
-      </sky-toolbar-item>
-      <sky-toolbar-item *ngIf="editMode">
-        <button
-          class="sky-btn sky-btn-primary"
-          type="button"
-          (click)="saveData()"
-        >
-          Save
-        </button>
-      </sky-toolbar-item>
-      <sky-toolbar-item *ngIf="editMode">
-        <button
-          class="sky-btn sky-btn-default"
-          type="button"
-          (click)="cancelEdits()"
-        >
-          Cancel
-        </button>
-      </sky-toolbar-item>
-      <sky-toolbar-item *ngIf="rowModelType === 'clientSide'">
-        <button
-          class="sky-btn sky-btn-default"
-          type="button"
-          (click)="switchRowModelTypeTo('infinite')"
-        >
-          Use infinite row model
-        </button>
-      </sky-toolbar-item>
-      <sky-toolbar-item *ngIf="rowModelType === 'infinite'">
-        <button
-          class="sky-btn sky-btn-default"
-          type="button"
-          (click)="switchRowModelTypeTo('clientSide')"
-        >
-          Use client-side row model
-        </button>
-      </sky-toolbar-item>
+      @if (!editMode) {
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-primary"
+            id="edit-btn"
+            type="button"
+            (click)="setEditMode(true)"
+          >
+            Edit
+          </button>
+        </sky-toolbar-item>
+      } @else {
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-primary"
+            type="button"
+            (click)="saveData()"
+          >
+            Save
+          </button>
+        </sky-toolbar-item>
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-default"
+            type="button"
+            (click)="cancelEdits()"
+          >
+            Cancel
+          </button>
+        </sky-toolbar-item>
+      }
+      @if (rowModelType === 'clientSide') {
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-default"
+            type="button"
+            (click)="switchRowModelTypeTo('infinite')"
+          >
+            Use infinite row model
+          </button>
+        </sky-toolbar-item>
+      } @else if (rowModelType === 'infinite') {
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-default"
+            type="button"
+            (click)="switchRowModelTypeTo('clientSide')"
+          >
+            Use client-side row model
+          </button>
+        </sky-toolbar-item>
+      }
     </sky-toolbar>
     <sky-ag-grid-wrapper
       skyAgGridRowDelete
+      [(rowDeleteIds)]="rowDeleteIds"
       (rowDeleteCancel)="rowDeleteCancel($event)"
       (rowDeleteConfirm)="rowDeleteConfirm($event)"
-      [(rowDeleteIds)]="rowDeleteIds"
     >
       <ag-grid-angular
         [ngClass]="{ 'sky-ag-grid-editable': editMode }"
@@ -64,4 +68,77 @@
       />
     </sky-ag-grid-wrapper>
   </div>
+} @else {
+  <div class="editable-grid">
+    <sky-toolbar>
+      @if (!editMode) {
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-primary"
+            id="edit-btn"
+            type="button"
+            (click)="setEditMode(true)"
+          >
+            Edit
+          </button>
+        </sky-toolbar-item>
+      } @else {
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-primary"
+            type="button"
+            (click)="saveData()"
+          >
+            Save
+          </button>
+        </sky-toolbar-item>
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-default"
+            type="button"
+            (click)="cancelEdits()"
+          >
+            Cancel
+          </button>
+        </sky-toolbar-item>
+      }
+      @if (rowModelType === 'clientSide') {
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-default"
+            type="button"
+            (click)="switchRowModelTypeTo('infinite')"
+          >
+            Use infinite row model
+          </button>
+        </sky-toolbar-item>
+      } @else if (rowModelType === 'infinite') {
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-default"
+            type="button"
+            (click)="switchRowModelTypeTo('clientSide')"
+          >
+            Use client-side row model
+          </button>
+        </sky-toolbar-item>
+      }
+    </sky-toolbar>
+    <sky-ag-grid-wrapper
+      skyAgGridRowDelete
+      [(rowDeleteIds)]="rowDeleteIds"
+      (rowDeleteCancel)="rowDeleteCancel($event)"
+      (rowDeleteConfirm)="rowDeleteConfirm($event)"
+    >
+      <ag-grid-angular
+        [ngClass]="{ 'sky-ag-grid-editable': editMode }"
+        [gridOptions]="gridOptions"
+        [rowData]="gridData"
+        [rowModelType]="rowModelType"
+      />
+    </sky-ag-grid-wrapper>
+  </div>
+}
+<ng-template #actionColumn>
+  <app-action />
 </ng-template>

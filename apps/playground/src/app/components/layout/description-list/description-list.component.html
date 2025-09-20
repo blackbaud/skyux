@@ -1,30 +1,40 @@
 <div class="sky-padding-even-large">
   <sky-description-list mode="vertical">
-    <sky-description-list-content *ngFor="let item of items">
-      <sky-description-list-term>
-        {{ item.term }}
-        <sky-help-inline
-          *ngIf="item.showHelp"
-          class="sky-control-help"
-        ></sky-help-inline>
-      </sky-description-list-term>
-      <sky-description-list-description>
-        {{ item.description }}
-      </sky-description-list-description>
-    </sky-description-list-content>
+    @for (item of items; track item) {
+      <sky-description-list-content
+        [helpPopoverContent]="showHelp ? inlineHelp : undefined"
+      >
+        <sky-description-list-term>
+          {{ item.term }}
+          @if (item.showHelp) {
+            <sky-help-inline class="sky-control-help" />
+          }
+        </sky-description-list-term>
+        <sky-description-list-description>
+          {{ item.description }}
+        </sky-description-list-description>
+      </sky-description-list-content>
+    }
   </sky-description-list>
   <sky-description-list mode="horizontal">
-    <sky-description-list-content *ngFor="let item of items">
-      <sky-description-list-term>
-        {{ item.term }}
-        <sky-help-inline
-          *ngIf="item.showHelp"
-          class="sky-control-help"
-        ></sky-help-inline>
-      </sky-description-list-term>
-      <sky-description-list-description>
-        {{ item.description }}
-      </sky-description-list-description>
-    </sky-description-list-content>
+    @for (item of items; track item) {
+      <sky-description-list-content
+        [helpPopoverContent]="item.showHelp ? inlineHelp : undefined"
+      >
+        <sky-description-list-term>
+          {{ item.term }}
+          @if (item.showHelp) {
+            <sky-help-inline class="sky-control-help" />
+          }
+        </sky-description-list-term>
+        <sky-description-list-description>
+          {{ item.description }}
+        </sky-description-list-description>
+      </sky-description-list-content>
+    }
   </sky-description-list>
 </div>
+<ng-template #inlineHelp>Help</ng-template>
+<button type="button" class="sky-btn sky-btn-default" (click)="toggleHelp()">
+  Toggle help {{ showHelp }}
+</button>

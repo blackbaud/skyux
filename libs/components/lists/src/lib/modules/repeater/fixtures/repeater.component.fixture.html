@@ -1,5 +1,5 @@
+@if (!showRepeaterWithActiveIndex && !showRepeaterWithNgFor) {
 <sky-repeater
-  *ngIf="!showRepeaterWithActiveIndex && !showRepeaterWithNgFor"
   [expandMode]="expandMode"
   [reorderable]="reorderable"
   (orderChange)="onOrderChange($event)"
@@ -13,7 +13,8 @@
     (expand)="onExpand()"
     (isSelectedChange)="onIsSelectedChange($event)"
   >
-    <sky-repeater-item-context-menu *ngIf="showContextMenu">
+    @if (showContextMenu) {
+    <sky-repeater-item-context-menu>
       <sky-dropdown buttonType="context-menu">
         <sky-dropdown-menu>
           <sky-dropdown-item>
@@ -22,6 +23,7 @@
         </sky-dropdown-menu>
       </sky-dropdown>
     </sky-repeater-item-context-menu>
+    }
     <sky-repeater-item-title>Title 1</sky-repeater-item-title>
     <sky-repeater-item-content>
       <a href="/"> link 1 </a>
@@ -36,7 +38,8 @@
     [tag]="'item2'"
     [selectable]="selectable"
   >
-    <sky-repeater-item-context-menu *ngIf="showContextMenu">
+    @if (showContextMenu) {
+    <sky-repeater-item-context-menu>
       <sky-dropdown buttonType="context-menu">
         <sky-dropdown-menu>
           <sky-dropdown-item>
@@ -45,18 +48,20 @@
         </sky-dropdown-menu>
       </sky-dropdown>
     </sky-repeater-item-context-menu>
+    }
     <sky-repeater-item-title> Title 2 </sky-repeater-item-title>
     <sky-repeater-item-content> Content 2 </sky-repeater-item-content>
   </sky-repeater-item>
+  @if (!removeLastItem) {
   <sky-repeater-item
-    *ngIf="!removeLastItem"
     [itemName]="showItemName ? 'Item 3' : undefined"
     [isExpanded]="lastItemExpanded"
     [selectable]="selectable"
     [tag]="'item3'"
     [(isSelected)]="lastItemSelected"
   >
-    <sky-repeater-item-context-menu *ngIf="showContextMenu">
+    @if (showContextMenu) {
+    <sky-repeater-item-context-menu>
       <sky-dropdown buttonType="context-menu">
         <sky-dropdown-menu>
           <sky-dropdown-item>
@@ -65,17 +70,21 @@
         </sky-dropdown-menu>
       </sky-dropdown>
     </sky-repeater-item-context-menu>
+    }
     <sky-repeater-item-title> Title 3 </sky-repeater-item-title>
     <sky-repeater-item-content> Content 3 </sky-repeater-item-content>
   </sky-repeater-item>
-  <sky-repeater-item *ngIf="showItemWithNoContent">
+  } @if (showItemWithNoContent) {
+  <sky-repeater-item>
     <sky-repeater-item-title> No Content </sky-repeater-item-title>
-    <sky-repeater-item-content *ngIf="showDynamicContent">
-      Content 3
-    </sky-repeater-item-content>
+    @if (showDynamicContent) {
+    <sky-repeater-item-content> Content 3 </sky-repeater-item-content>
+    }
   </sky-repeater-item>
-  <sky-repeater-item *ngIf="showItemWithNoTitle">
-    <sky-repeater-item-context-menu *ngIf="showContextMenu">
+  } @if (showItemWithNoTitle) {
+  <sky-repeater-item>
+    @if (showContextMenu) {
+    <sky-repeater-item-context-menu>
       <sky-dropdown buttonType="context-menu">
         <sky-dropdown-menu>
           <sky-dropdown-item>
@@ -84,17 +93,18 @@
         </sky-dropdown-menu>
       </sky-dropdown>
     </sky-repeater-item-context-menu>
+    }
     <sky-repeater-item-content>
       Content with no title
     </sky-repeater-item-content>
   </sky-repeater-item>
+  }
 </sky-repeater>
-
+} @if (showRepeaterWithActiveIndex) {
 <sky-repeater
-  *ngIf="showRepeaterWithActiveIndex"
-  [(activeIndex)]="activeIndex"
   [expandMode]="expandMode"
   [reorderable]="reorderable"
+  [(activeIndex)]="activeIndex"
 >
   <sky-repeater-item [disabled]="disableFirstItem">
     <sky-repeater-item-title> Title 1 </sky-repeater-item-title>
@@ -106,14 +116,16 @@
     <sky-repeater-item-title> Title 3 </sky-repeater-item-title>
   </sky-repeater-item>
 </sky-repeater>
-
-<sky-repeater *ngIf="showRepeaterWithNgFor" [reorderable]="reorderable">
+} @if (showRepeaterWithNgFor) {
+<sky-repeater [reorderable]="reorderable">
+  @for (item of items; track item) {
   <sky-repeater-item
-    *ngFor="let item of items"
     [tag]="item.id"
     [disabled]="item.id === 'item1' && disableFirstItem"
     [selectable]="selectable"
   >
     <sky-repeater-item-title> {{ item.title }} </sky-repeater-item-title>
   </sky-repeater-item>
+  }
 </sky-repeater>
+}

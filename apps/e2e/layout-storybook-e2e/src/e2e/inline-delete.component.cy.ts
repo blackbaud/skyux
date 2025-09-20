@@ -9,18 +9,14 @@ describe('inline delete', () => {
         ),
       );
       it('should render the component', () => {
+        cy.skyReady('app-inline-delete');
         cy.get('app-inline-delete')
-          .should('exist')
-          .should('be.visible')
-          .end()
-          .get('#ready')
-          .should('exist')
           .end()
           .get('body')
-          .screenshot(`inline-delete-${theme}`)
-          .percySnapshot(`inline-delete-${theme}`, {
-            widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          .screenshot(`inline-delete-${theme}`);
+        cy.get('body').percySnapshot(`inline-delete-${theme}`, {
+          widths: E2eVariations.DISPLAY_WIDTHS,
+        });
       });
     });
   });

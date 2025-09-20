@@ -5,29 +5,32 @@
       ariaLabel ||
       ((contentInfoObs | async)?.descriptor?.type === 'text'
         ? ('skyux_sort_aria_label_descriptor'
-          | skyLibResources : (contentInfoObs | async)?.descriptor?.value)
+          | skyLibResources: (contentInfoObs | async)?.descriptor?.value)
         : ('skyux_sort_button_label' | skyLibResources))
     "
     [messageStream]="dropdownController"
     [title]="'skyux_sort_button_label' | skyLibResources"
   >
     <sky-dropdown-button>
-      <sky-icon icon="sort" />
-      <span *ngIf="showButtonText" class="sky-sort-btn-text">
-        {{ 'skyux_sort_button_label' | skyLibResources }}
-      </span>
+      <sky-icon iconName="arrow-sort" />
+      @if (showButtonText) {
+        <span class="sky-sort-btn-text">
+          {{ 'skyux_sort_button_label' | skyLibResources }}
+        </span>
+      }
     </sky-dropdown-button>
     <sky-dropdown-menu
       ariaRole="menu"
       [ariaLabelledBy]="sortMenuHeading.id"
       (click)="dropdownClicked()"
     >
-      <sky-sort-menu-heading
-        skyId
-        #sortMenuHeading="skyId"
-      ></sky-sort-menu-heading>
+      <sky-sort-menu-heading #sortMenuHeading="skyId" skyId />
       <div *skyThemeIf="'default'" class="sky-sort-heading-divider"></div>
-      <ng-content />
+      @for (item of sortItems; track item) {
+        <sky-dropdown-item>
+          <ng-container [ngTemplateOutlet]="item.itemTemplate!" />
+        </sky-dropdown-item>
+      }
     </sky-dropdown-menu>
   </sky-dropdown>
 </div>

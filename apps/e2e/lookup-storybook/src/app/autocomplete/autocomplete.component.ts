@@ -1,13 +1,13 @@
-import { Component, inject } from '@angular/core';
-import { FontLoadingService } from '@skyux/storybook';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-autocomplete',
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss'],
+  standalone: false,
 })
 export class AutocompleteComponent {
-  public data: any[] = [
+  public data = [
     { name: 'Red' },
     { name: 'Blue' },
     { name: 'Green' },
@@ -20,6 +20,4 @@ export class AutocompleteComponent {
     { name: 'White' },
     { name: 'Black' },
   ];
-
-  public readonly ready$ = inject(FontLoadingService).ready();
 }

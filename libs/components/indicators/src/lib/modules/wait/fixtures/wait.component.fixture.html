@@ -1,5 +1,20 @@
+@if (showMenuOverlay) {
+<div
+  class="menu-overlay"
+  style="
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: oklch(44% 40% 303deg / 30%);
+    z-index: 1000;
+  "
+>
+  Menu overlay
+</div>
+} @if (showAnchor0) {
 <button
-  *ngIf="showAnchor0"
   class="sky-btn sky-btn-secondary"
   href="/"
   id="anchor-0"
@@ -11,6 +26,7 @@
 >
   Anchor tag 0
 </button>
+}
 <button class="sky-btn sky-btn-secondary" href="/" id="anchor-1" type="button">
   Anchor tag 1
 </button>
@@ -24,12 +40,11 @@
     [isNonBlocking]="isNonBlocking"
     [isWaiting]="isWaiting"
     [screenReaderCompletedText]="screenReaderCompletedText"
-  >
-  </sky-wait>
+  />
 </div>
 <div>
+  @if (showAnchor2) {
   <button
-    *ngIf="showAnchor2"
     class="sky-btn sky-btn-secondary"
     href="/"
     id="anchor-2"
@@ -41,10 +56,10 @@
   >
     Anchor tag 2
   </button>
+  }
   <sky-wait
     [isFullPage]="false"
     [isNonBlocking]="false"
     [isWaiting]="secondWaitIsWaiting"
-  >
-  </sky-wait>
+  />
 </div>

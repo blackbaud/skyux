@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -9,7 +8,7 @@ import { SkyTokensTestComponent } from './tokens.component.fixture';
 
 @NgModule({
   declarations: [SkyTokenTestComponent, SkyTokensTestComponent],
-  imports: [CommonModule, NoopAnimationsModule, SkyTokensModule],
+  imports: [NoopAnimationsModule, SkyTokensModule],
   exports: [SkyTokenTestComponent, SkyTokensTestComponent],
 })
 export class SkyTokensFixturesModule {}

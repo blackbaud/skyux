@@ -2,10 +2,10 @@ import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   flush,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
@@ -223,7 +223,7 @@ describe('List View Grid Component', () => {
         expect(dispatcher.searchSetOptions).toHaveBeenCalledTimes(1);
       }));
 
-      it('should listen for the selectedColumnIdsChanged event and update the columns accordingly', async(() => {
+      it('should listen for the selectedColumnIdsChanged event and update the columns accordingly', waitForAsync(() => {
         setupTest();
         fixture.detectChanges();
         fixture.whenStable().then(() => {
@@ -259,7 +259,7 @@ describe('List View Grid Component', () => {
         });
       }));
 
-      it('should listen for the selectedColumnIdsChanged event and update the columns accordingly', async(() => {
+      it('should listen for the selectedColumnIdsChanged event and update the columns accordingly', waitForAsync(() => {
         setupTest();
         fixture.detectChanges();
         fixture.whenStable().then(() => {
@@ -329,9 +329,9 @@ describe('List View Grid Component', () => {
         tick();
 
         const headerIconEl = nativeElement
-          .querySelectorAll('th i')
+          .querySelectorAll('th sky-icon-svg')
           .item(0) as HTMLElement;
-        expect(headerIconEl).toHaveCssClass('fa-caret-up');
+        expect(headerIconEl.getAttribute('data-sky-icon')).toBe('chevron-up');
       }));
 
       it('should handle async column headings', fakeAsync(() => {
@@ -437,7 +437,7 @@ describe('List View Grid Component', () => {
         await fixture.whenStable();
         fixture.detectChanges();
 
-        await state.pipe(take(1)).subscribe(async () => {
+        await state.pipe(take(1)).subscribe(() => {
           dispatcher.searchSetText('searchText');
         });
 
@@ -447,7 +447,7 @@ describe('List View Grid Component', () => {
       });
 
       describe('Models and State', () => {
-        it('should run ListViewGridColumnsLoadAction action', async(() => {
+        it('should run ListViewGridColumnsLoadAction action', waitForAsync(() => {
           setupTest();
           const gridDispatcher = new GridStateDispatcher();
           const gridState = new GridState(new GridStateModel(), gridDispatcher);
@@ -462,7 +462,7 @@ describe('List View Grid Component', () => {
           });
         }));
 
-        it('should run ListViewDisplayedGridColumnsLoadAction action with no refresh', async(() => {
+        it('should run ListViewDisplayedGridColumnsLoadAction action with no refresh', waitForAsync(() => {
           setupTest();
           const gridDispatcher = new GridStateDispatcher();
           const gridState = new GridState(new GridStateModel(), gridDispatcher);
@@ -841,7 +841,7 @@ describe('List View Grid Component', () => {
   //     fixture: any,
   //     element: DebugElement;
 
-  //   beforeEach(async(() => {
+  //   beforeEach(waitForAsync(() => {
   //     dispatcher = new ListStateDispatcher();
   //     state = new ListState(dispatcher);
 
@@ -906,7 +906,7 @@ describe('List View Grid Component', () => {
   //     dispatcher: ListStateDispatcher,
   //     fixture: any;
 
-  //   beforeEach(async(() => {
+  //   beforeEach(waitForAsync(() => {
   //     dispatcher = new ListStateDispatcher();
   //     state = new ListState(dispatcher);
 
@@ -936,7 +936,7 @@ describe('List View Grid Component', () => {
   //     fixture: any,
   //     element: DebugElement;
 
-  //   beforeEach(async(() => {
+  //   beforeEach(waitForAsync(() => {
   //     dispatcher = new ListStateDispatcher();
   //     state = new ListState(dispatcher);
 
@@ -965,7 +965,7 @@ describe('List View Grid Component', () => {
   //     fixture.detectChanges();
   //   }));
 
-  //   it('should handle grid columns changing to the same ids', async(() => {
+  //   it('should handle grid columns changing to the same ids', waitForAsync(() => {
   //     expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(2);
   //     expect(element.query(
   //       By.css('th[sky-cmp-id="name"]')).nativeElement.textContent.trim()
@@ -988,7 +988,7 @@ describe('List View Grid Component', () => {
   //     expect(component.grid.selectedColumnIdsChange.emit).not.toHaveBeenCalled();
   //   }));
 
-  //   it('should handle grid columns changing to contain a different id', async(() => {
+  //   it('should handle grid columns changing to contain a different id', waitForAsync(() => {
   //     expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(2);
   //     expect(element.query(
   //       By.css('th[sky-cmp-id="name"]')).nativeElement.textContent.trim()
@@ -1012,7 +1012,7 @@ describe('List View Grid Component', () => {
   //     ).toBe('Other');
   //   }));
 
-  //   it('should handle grid columns changing to contain only a different id', async(() => {
+  //   it('should handle grid columns changing to contain only a different id', waitForAsync(() => {
   //     expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(2);
   //     expect(element.query(
   //       By.css('th[sky-cmp-id="name"]')).nativeElement.textContent.trim()

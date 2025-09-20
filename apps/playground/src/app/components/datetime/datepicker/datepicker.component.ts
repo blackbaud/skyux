@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -9,6 +9,7 @@ import {
 import {
   SkyDatepickerCalendarChange,
   SkyDatepickerCustomDate,
+  SkyFuzzyDate,
 } from '@skyux/datetime';
 
 import { of } from 'rxjs';
@@ -17,12 +18,18 @@ import { delay, distinctUntilChanged } from 'rxjs/operators';
 @Component({
   selector: 'app-datepicker',
   templateUrl: './datepicker.component.html',
+  standalone: false,
 })
-export class DatepickerComponent {
-  public dateFormat: string | undefined = undefined;
+export class DatepickerComponent implements OnInit {
+  public futureDisabled = true;
+  public dateFormat: string | undefined = 'MMM DD YYYY';
   public disabled = false;
   public minDate: Date | undefined;
   public maxDate: Date | undefined;
+  public startAtDate: Date | undefined;
+  public fuzzyMinDate: SkyFuzzyDate | undefined;
+  public fuzzyMaxDate: SkyFuzzyDate | undefined;
+  public fuzzyStartAtDate: SkyFuzzyDate | undefined;
   public noValidate = false;
   public reactiveForm: UntypedFormGroup;
   public showCustomDates = false;
@@ -54,9 +61,16 @@ export class DatepickerComponent {
     });
   }
 
-  public setMinMaxDates(): void {
+  public setMinMaxStartAtDates(): void {
     this.minDate = new Date('01/01/2018');
     this.maxDate = new Date('01/01/2020');
+    this.startAtDate = new Date('01/01/2018');
+  }
+
+  public setFuzzyMinMaxStartAtDates(): void {
+    this.fuzzyMinDate = { year: 2018, month: 1 };
+    this.fuzzyMaxDate = { year: 2020, month: 1 };
+    this.fuzzyStartAtDate = { year: 2018 };
   }
 
   public setStartingDay(): void {
@@ -73,13 +87,13 @@ export class DatepickerComponent {
     this.disabled = !this.disabled;
   }
 
-  public setReactiveDate(emitEvent = true) {
+  public setReactiveDate(emitEvent = true): void {
     this.reactiveDate.setValue(new Date('12/12/2012'), {
       emitEvent: emitEvent,
     });
   }
 
-  public setReactiveString(emitEvent = true) {
+  public setReactiveString(emitEvent = true): void {
     this.reactiveDate.setValue('12/12/2012', { emitEvent: emitEvent });
   }
 
@@ -172,5 +186,9 @@ export class DatepickerComponent {
     const newDate = new Date(startDate);
     newDate.setDate(newDate.getDate() + daysToAdd);
     return newDate;
+  }
+
+  public toggleFutureDisabled(): void {
+    this.futureDisabled = !this.futureDisabled;
   }
 }

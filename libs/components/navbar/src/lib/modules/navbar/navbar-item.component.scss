@@ -1,55 +1,294 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'scss/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-navbar-item') {
+  --sky-override-navbar-item-a-border-radius: 0;
+  --sky-override-navbar-item-a-box-shadow-active: none;
+  --sky-override-navbar-item-a-box-shadow-focus: none;
+  --sky-override-navbar-item-a-box-shadow-hover: none;
+  --sky-override-navbar-item-active-background-color: #{$sky-nav-selected-background-color};
+  --sky-override-navbar-item-active-border-bottom: #{$sky-nav-selected-border-width}
+    solid #1c84c6;
+  --sky-override-navbar-item-active-border-bottom-hover: #{$sky-nav-selected-border-width}
+    solid #1c84c6;
+  --sky-override-navbar-item-active-border-sides: none;
+  --sky-override-navbar-item-active-color-hover: #{$sky-nav-selected-color};
+  --sky-override-navbar-item-active-padding-bottom: #{$sky-nav-item-padding -
+    $sky-nav-selected-border-width};
+  --sky-override-navbar-item-active-padding-bottom-hover: #{$sky-nav-item-padding -
+    $sky-nav-selected-border-width};
+  --sky-override-navbar-item-active-padding-sides: 12px;
+  --sky-override-navbar-item-color: #{$sky-nav-color};
+  --sky-override-navbar-item-dropdown-button-active-background-color-hover: #{$sky-nav-selected-background-color};
+  --sky-override-navbar-item-dropdown-button-border-bottom-hover: #{$sky-nav-selected-border-width}
+    solid #1c84c6;
+  --sky-override-navbar-item-dropdown-button-border-radius: 3px;
+  --sky-override-navbar-item-dropdown-button-box-shadow-active: none;
+  --sky-override-navbar-item-dropdown-button-box-shadow-focus: none;
+  --sky-override-navbar-item-dropdown-button-box-shadow-hover: none;
+  --sky-override-navbar-item-dropdown-button-padding-bottom-hover: #{$sky-nav-item-padding -
+    $sky-nav-selected-border-width};
+  --sky-override-navbar-item-font-weight: 600;
+  --sky-override-navbar-item-margin-right: #{$sky-margin-half};
+  --sky-override-navbar-item-padding: 16px 12px;
+}
+
+:host {
+  height: 100%;
+}
 
 .sky-navbar-item {
   display: block;
-  font-weight: 600;
-  margin-right: $sky-margin-half;
-  height: 100%;
+  font-weight: var(
+    --sky-override-navbar-item-font-weight,
+    var(--sky-font-style-body-m)
+  );
+  margin-right: var(
+    --sky-override-navbar-item-margin-right,
+    var(--sky-space-gap-action_group-s)
+  );
 
   ::ng-deep {
     a,
-    .sky-dropdown-item > a,
     .sky-dropdown-button {
       background-color: transparent;
       border: none;
-      color: $sky-nav-color;
+      color: var(
+        --sky-override-navbar-item-color,
+        var(--sky-color-text-default)
+      );
       display: block;
-      padding: 16px 12px;
+      padding: var(
+        --sky-override-navbar-item-padding,
+        calc(
+            calc(
+                50px - calc(
+                    var(--sky-font-line_height-body-m) *
+                      var(--sky-font-size-body-m)
+                  ) - var(--sky-border-width-divider)
+              ) /
+              2
+          )
+          var(--sky-comp-navbar_item-space-inset-left)
+          calc(
+            calc(
+                50px - calc(
+                    var(--sky-font-line_height-body-m) *
+                      var(--sky-font-size-body-m)
+                  ) - var(--sky-border-width-divider)
+              ) /
+              2
+          )
+          var(--sky-comp-navbar_item-space-inset-right)
+      );
       text-decoration: none;
       width: 100%;
     }
 
-    .sky-dropdown-menu {
-      background-color: $sky-nav-background-color;
-    }
-
-    .sky-dropdown-item {
-      color: $sky-nav-color;
-      display: block;
-      font-size: 13px;
-      font-weight: normal;
-      margin: 0;
+    a {
+      border-radius: var(
+        --sky-override-navbar-item-a-border-radius,
+        var(--sky-border-radius-0)
+      );
 
       &:hover {
-        background-color: $sky-nav-selected-background-color;
-        color: $sky-nav-selected-color;
-
-        > ::ng-deep a,
-        ::ng-deep .sky-dropdown-button {
-          color: $sky-nav-selected-color;
-        }
+        box-shadow: var(
+          --sky-override-navbar-item-a-box-shadow-hover,
+          inset 0 0 0 var(--sky-border-width-action-hover)
+            var(--sky-color-border-action-tertiary-hover)
+        );
       }
+
+      &:active {
+        box-shadow: var(
+          --sky-override-navbar-item-a-box-shadow-active,
+          inset 0 0 0 var(--sky-border-width-action-active)
+            var(--sky-color-border-action-tertiary-active)
+        );
+      }
+
+      &:focus-visible:not(:active) {
+        box-shadow: var(
+          --sky-override-navbar-item-a-box-shadow-focus,
+          inset 0 0 0 var(--sky-border-width-action-focus)
+            var(--sky-color-border-action-tertiary-focus)
+        );
+      }
+    }
+
+    .sky-dropdown-button {
+      border-radius: var(
+        --sky-override-navbar-item-dropdown-button-border-radius,
+        var(--sky-border-radius-0)
+      );
+
+      &:hover {
+        box-shadow: var(
+          --sky-override-navbar-item-dropdown-button-box-shadow-hover,
+          inset 0 0 0 var(--sky-border-width-action-hover)
+            var(--sky-color-border-action-tertiary-hover)
+        );
+      }
+
+      &:active {
+        box-shadow: var(
+          --sky-override-navbar-item-dropdown-button-box-shadow-active,
+          inset 0 0 0 var(--sky-border-width-action-active)
+            var(--sky-color-border-action-tertiary-active)
+        );
+      }
+
+      &:focus-visible:not(:active) {
+        box-shadow: var(
+          --sky-override-navbar-item-dropdown-button-box-shadow-focus,
+          inset 0 0 0 var(--sky-border-width-action-focus)
+            var(--sky-color-border-action-tertiary-focus)
+        );
+      }
+    }
+
+    .sky-dropdown-button:not(:hover):not(:active):not(:focus-visible) {
+      box-shadow: none;
     }
   }
 
-  ::ng-deep .sky-dropdown:hover .sky-dropdown-button,
-  ::ng-deep .sky-navbar-item-active,
-  &.sky-navbar-item-active ::ng-deep > *,
+  &.sky-navbar-item-active ::ng-deep > *:not(sky-dropdown),
   &.sky-navbar-item-active ::ng-deep .sky-dropdown-button {
-    background-color: $sky-nav-selected-background-color;
-    color: $sky-nav-selected-color;
-    border-bottom: $sky-nav-selected-border-width solid #1c84c6;
-    padding-bottom: $sky-nav-item-padding - $sky-nav-selected-border-width;
+    background-color: var(
+      --sky-override-navbar-item-active-background-color,
+      var(--sky-color-background-selected-soft)
+    );
+    color: var(
+      --sky-override-navbar-item-active-color-hover,
+      var(--sky-color-text-default)
+    );
+    border-left: var(
+      --sky-override-navbar-item-active-border-sides,
+      var(--sky-border-width-selected-s) solid
+        var(--sky-color-border-selected_soft)
+    );
+    border-right: var(
+      --sky-override-navbar-item-active-border-sides,
+      var(--sky-border-width-selected-s) solid
+        var(--sky-color-border-selected_soft)
+    );
+    border-bottom: var(
+      --sky-override-navbar-item-active-border-bottom,
+      var(--sky-border-width-selected-l) solid var(--sky-color-border-selected)
+    );
+    padding-left: var(
+      --sky-override-navbar-item-active-padding-sides,
+      calc(
+        var(--sky-comp-navbar_item-space-inset-left) - var(
+            --sky-border-width-selected-s
+          )
+      )
+    );
+    padding-right: var(
+      --sky-override-navbar-item-active-padding-sides,
+      calc(
+        var(--sky-comp-navbar_item-space-inset-right) - var(
+            --sky-border-width-selected-s
+          )
+      )
+    );
+    padding-bottom: var(
+      --sky-override-navbar-item-active-padding-bottom,
+      calc(
+        calc(
+            calc(
+                50px - calc(
+                    var(--sky-font-line_height-body-m) *
+                      var(--sky-font-size-body-m)
+                  ) - var(--sky-border-width-divider)
+              ) /
+              2
+          ) - var(--sky-border-width-selected-l)
+      )
+    );
+
+    &:hover:not(:active):not(:focus-visible) {
+      border-bottom: var(
+        --sky-override-navbar-item-active-border-bottom-hover,
+        var(--sky-border-width-action-hover) solid
+          var(--sky-color-border-action-tertiary-hover)
+      );
+      padding-bottom: var(
+        --sky-override-navbar-item-active-padding-bottom-hover,
+        calc(
+          calc(
+              calc(
+                  50px - calc(
+                      var(--sky-font-line_height-body-m) *
+                        var(--sky-font-size-body-m)
+                    ) - var(--sky-border-width-divider)
+                ) /
+                2
+            ) - var(--sky-border-width-action-hover)
+        )
+      );
+      box-shadow: none;
+    }
+  }
+
+  &.sky-navbar-item-active ::ng-deep .sky-dropdown:hover .sky-dropdown-button {
+    background-color: var(
+      --sky-override-navbar-item-dropdown-button-active-background-color-hover,
+      var(--sky-color-background-selected-soft)
+    );
+
+    &:not(:active):not(:focus-visible) {
+      border-bottom: var(
+        --sky-override-navbar-item-active-border-bottom-hover,
+        var(--sky-border-width-action-hover) solid
+          var(--sky-color-border-action-tertiary-hover)
+      );
+      padding-bottom: var(
+        --sky-override-navbar-item-active-padding-bottom-hover,
+        calc(
+          calc(
+              calc(
+                  50px - calc(
+                      var(--sky-font-line_height-body-m) *
+                        var(--sky-font-size-body-m)
+                    ) - var(--sky-border-width-divider)
+                ) /
+                2
+            ) - var(--sky-border-width-action-hover)
+        )
+      );
+      box-shadow: var(
+        --sky-override-navbar-item-dropdown-button-box-shadow-hover,
+        none
+      );
+    }
+  }
+
+  ::ng-deep .sky-dropdown:hover .sky-dropdown-button {
+    background-color: transparent;
+    color: var(
+      --sky-override-navbar-item-active-color-hover,
+      var(--sky-color-text-default)
+    );
+
+    &:not(:active):not(:focus-visible) {
+      border-bottom: var(
+        --sky-override-navbar-item-dropdown-button-border-bottom-hover,
+        none
+      );
+      padding-bottom: var(
+        --sky-override-navbar-item-dropdown-button-padding-bottom-hover,
+        calc(
+          calc(
+              50px - calc(
+                  var(--sky-font-line_height-body-m) *
+                    var(--sky-font-size-body-m)
+                ) - var(--sky-border-width-divider)
+            ) /
+            2
+        )
+      );
+    }
   }
 }

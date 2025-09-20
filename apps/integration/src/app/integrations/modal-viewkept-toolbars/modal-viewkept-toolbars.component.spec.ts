@@ -1,4 +1,8 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RendererFactory2 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -44,7 +48,6 @@ describe('Modals with viewkept toolbars', () => {
 
   function openModal(): void {
     getModalTrigger()?.click();
-    fixture.detectChanges;
   }
 
   async function scrollContentDown(): Promise<void> {
@@ -55,7 +58,7 @@ describe('Modals with viewkept toolbars', () => {
       bubbles: false,
     });
     fixture.detectChanges();
-    return fixture.whenStable();
+    await fixture.whenStable();
   }
 
   let fixture: ComponentFixture<ModalViewkeptToolbarsComponent>;
@@ -66,9 +69,12 @@ describe('Modals with viewkept toolbars', () => {
         NoopAnimationsModule,
         RouterTestingModule,
         ModalViewkeptToolbarsModule,
-        HttpClientTestingModule,
       ],
-      providers: [SkyThemeService],
+      providers: [
+        SkyThemeService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
     });
 
     fixture = TestBed.createComponent(ModalViewkeptToolbarsComponent);
@@ -120,8 +126,8 @@ describe('Modals with viewkept toolbars', () => {
       toolbarContainers.forEach((toolbar) => {
         const toolbarStyle = window.getComputedStyle(toolbar);
         expect(toolbarStyle.backgroundColor).toBe('rgb(255, 255, 255)');
-        expect(toolbarStyle.paddingLeft).toBe('30px');
-        expect(toolbarStyle.paddingRight).toBe('30px');
+        expect(toolbarStyle.paddingLeft).toBe('24px');
+        expect(toolbarStyle.paddingRight).toBe('24px');
       });
     });
   });

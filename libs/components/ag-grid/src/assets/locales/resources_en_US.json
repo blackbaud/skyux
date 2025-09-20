@@ -3,6 +3,18 @@
     "_description": "aria label for the checkbox to select a row",
     "message": "Row selector for row {0}"
   },
+  "sky_ag_grid_row_selector_column_heading": {
+    "_description": "column heading above the checkboxes to select rows",
+    "message": "Row selection"
+  },
+  "sky_ag_grid_cell_editor_datepicker_aria_label": {
+    "_description": "aria label for the autocomplete cell editor",
+    "message": "Editable date {0} for row {1}"
+  },
+  "sky_ag_grid_cell_editor_datepicker_hint_text": {
+    "_description": "Hint text for the date format currently set on the datepicker.",
+    "message": "Use the format {0}."
+  },
   "sky_ag_grid_cell_editor_number_aria_label": {
     "_description": "aria label for the number cell editor",
     "message": "Editable number {0} for row {1}"
@@ -30,6 +42,18 @@
   "sky_ag_grid_cell_editor_currency_aria_label": {
     "_description": "aria label for the currency cell editor",
     "message": "Editable currency {0} for row {1}"
+  },
+  "sky_ag_grid_column_header_sort_button_aria_label_currently_asc": {
+    "_description": "aria label for the column header sort button when the column is currently sorted ascending",
+    "message": "Sort column {0}, currently ascending"
+  },
+  "sky_ag_grid_column_header_sort_button_aria_label_currently_desc": {
+    "_description": "aria label for the column header sort button when the column is currently sorted descending",
+    "message": "Sort column {0}, currently descending"
+  },
+  "sky_ag_grid_column_header_sort_button_aria_label_currently_not_sorted": {
+    "_description": "aria label for the column header sort button when the column is currently not sorted",
+    "message": "Sort column {0}, not currently sorted"
   },
   "sky_ag_grid_column_group_header_expand_aria_label": {
     "_description": "aria label for the expand column group header button",

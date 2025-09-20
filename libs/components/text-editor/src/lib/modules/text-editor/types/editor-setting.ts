@@ -8,6 +8,10 @@ export interface EditorSetting {
 
   blurObservable: Subject<void>;
 
+  focusListener: () => void;
+
+  focusObservable: Subject<void>;
+
   clickListener: () => void;
 
   clickObservable: Subject<void>;

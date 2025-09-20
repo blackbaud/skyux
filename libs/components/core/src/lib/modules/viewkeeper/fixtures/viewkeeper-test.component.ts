@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
   selector: 'sky-viewkeeper-test',
   templateUrl: './viewkeeper-test.component.html',
   styleUrls: ['./viewkeeper-test.component.scss'],
+  standalone: false,
 })
 export class ViewkeeperTestComponent {
   public scrollableHost = false;

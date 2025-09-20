@@ -12,7 +12,8 @@ describe('theme-storybook', () => {
         );
       });
       it('should render the component', () => {
-        cy.get('.media-queries-examples')
+        cy.skyReady('app-responsive')
+          .get('.media-queries-examples')
           .should('exist')
           .should('be.visible')
           .end()
@@ -23,14 +24,14 @@ describe('theme-storybook', () => {
           .document()
           .screenshot(
             `responsivecomponent-responsive--responsive-${theme}-${width}px`,
-          )
-          .percySnapshot(
-            `responsivecomponent-responsive--responsive-${theme}-${width}px`,
-            {
-              widths: [width],
-              minHeight: 960,
-            },
           );
+        cy.document().percySnapshot(
+          `responsivecomponent-responsive--responsive-${theme}-${width}px`,
+          {
+            widths: [width],
+            minHeight: 960,
+          },
+        );
       });
     });
   });

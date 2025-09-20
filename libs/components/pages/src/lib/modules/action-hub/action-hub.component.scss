@@ -1,21 +1,5 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
 :host {
-  --sky-compat-page-header-margin-top-and-bottom: 0;
   display: block;
-  margin: var(--sky-padding-even-xl);
-}
-
-[aria-busy='true'] {
-  display: block;
-  min-height: 60px;
-  margin-bottom: var(--sky-margin-stacked-xl);
-}
-
-sky-page-header {
-  margin: 0 0 var(--sky-margin-stacked-lg) 0;
-}
-
-.sky-margin-stacked-xl:empty {
-  margin-bottom: 0;
 }

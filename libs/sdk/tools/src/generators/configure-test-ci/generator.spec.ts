@@ -1,10 +1,15 @@
-import { applicationGenerator } from '@nx/angular/generators';
+import {
+  E2eTestRunner,
+  UnitTestRunner,
+  applicationGenerator,
+} from '@nx/angular/generators';
 import {
   Tree,
   readProjectConfiguration,
   updateProjectConfiguration,
 } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { Linter } from '@nx/eslint';
 
 import { configureTestCiGenerator } from './generator';
 
@@ -14,7 +19,15 @@ describe('configure-test-ci generator', () => {
   beforeEach(async () => {
     tree = createTreeWithEmptyWorkspace();
     tree.write('.gitignore', '');
-    await applicationGenerator(tree, { name: 'test', skipFormat: true });
+    await applicationGenerator(tree, {
+      name: 'test',
+      skipFormat: true,
+      directory: 'test',
+      skipPackageJson: true,
+      linter: Linter.None,
+      e2eTestRunner: E2eTestRunner.None,
+      unitTestRunner: UnitTestRunner.Jest,
+    });
   });
 
   it('should update karma project', async () => {
@@ -43,7 +56,7 @@ describe('configure-test-ci generator', () => {
         "executor": "@angular-devkit/build-angular:karma",
         "options": Object {
           "jestConfig": "test/jest.config.ts",
-          "passWithNoTests": true,
+          "tsConfig": "test/tsconfig.spec.json",
         },
         "outputs": Array [
           "{workspaceRoot}/coverage/{projectRoot}",
@@ -68,7 +81,7 @@ describe('configure-test-ci generator', () => {
         "executor": "@nx/jest:jest",
         "options": Object {
           "jestConfig": "test/jest.config.ts",
-          "passWithNoTests": true,
+          "tsConfig": "test/tsconfig.spec.json",
         },
         "outputs": Array [
           "{workspaceRoot}/coverage/{projectRoot}",

@@ -1,35 +1,29 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
-
-import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
-import { first, map } from 'rxjs/operators';
 
 import { SkyDateRangeCalculator } from './types/date-range-calculator';
 import { SkyDateRangeCalculatorConfig } from './types/date-range-calculator-config';
 import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
 import { SKY_DEFAULT_CALCULATOR_CONFIGS } from './types/date-range-default-calculator-configs';
 
+// Start the count higher than the number of available values
+// provided in the SkyDateRangeCalculatorId enum.
+let lastId = 1000;
+
 /**
  * Creates and manages `SkyDateRangeCalculator` instances.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SkyDateRangeService {
-  // Start the count higher than the number of available values
-  // provided in the SkyDateRangeCalculatorId enum.
-  private static lastId = 1000;
+  readonly #libResourcesSvc = inject(SkyLibResourcesService);
 
-  #calculatorReadyStream = new BehaviorSubject<boolean>(false);
-
-  #calculatorConfigs: { [id: number]: SkyDateRangeCalculatorConfig } = {};
-
-  #calculators: SkyDateRangeCalculator[] = [];
-
-  #resourcesService: SkyLibResourcesService;
-
-  constructor(resourcesService: SkyLibResourcesService) {
-    this.#resourcesService = resourcesService;
-    this.#createDefaultCalculators();
+  public get calculators(): SkyDateRangeCalculator[] {
+    return this.#calculators;
   }
+
+  #calculators = this.#createDefaultCalculators();
 
   /**
    * Creates a custom date range calculator.
@@ -38,8 +32,12 @@ export class SkyDateRangeService {
   public createCalculator(
     config: SkyDateRangeCalculatorConfig,
   ): SkyDateRangeCalculator {
-    const newId = SkyDateRangeService.lastId++;
-    const calculator = new SkyDateRangeCalculator(newId, config);
+    const newId = lastId++;
+    const calculator = new SkyDateRangeCalculator(
+      newId,
+      config,
+      this.#libResourcesSvc,
+    );
 
     this.#calculators.push(calculator);
 
@@ -48,7 +46,30 @@ export class SkyDateRangeService {
 
   /**
    * Returns calculators from an array of calculator IDs.
+   * @param calculatorIds The array of calculator IDs.
+   */
+  public filterCalculators(
+    calculatorIds: SkyDateRangeCalculatorId[],
+  ): SkyDateRangeCalculator[] {
+    const filtered: SkyDateRangeCalculator[] = [];
+
+    for (const calculatorId of calculatorIds) {
+      const found = this.#calculators.find(
+        (c) => c.calculatorId === calculatorId,
+      );
+
+      if (found) {
+        filtered.push(found);
+      }
+    }
+
+    return filtered;
+  }
+
+  /**
+   * Returns calculators from an array of calculator IDs.
    * @param ids The array of calculator IDs.
+   * @deprecated Call `filterCalculators()` instead.
    */
   public getCalculators(
     ids: SkyDateRangeCalculatorId[],
@@ -63,11 +84,13 @@ export class SkyDateRangeService {
   /**
    * Returns a calculator from a calculator ID.
    * @param id The calculator ID.
+   * @deprecated Call `filterCalculators()` instead.
    */
   public getCalculatorById(
     id: SkyDateRangeCalculatorId,
   ): Promise<SkyDateRangeCalculator> {
-    const calculatorId = parseInt(id as any, 10);
+    const calculatorId = +id;
+
     const found = this.#calculators.find((calculator) => {
       return calculator.calculatorId === calculatorId;
     });
@@ -78,49 +101,32 @@ export class SkyDateRangeService {
         return;
       }
 
-      this.#calculatorReadyStream.pipe(first()).subscribe(() => {
-        resolve(found);
-      });
+      resolve(found);
     });
   }
 
-  #createDefaultCalculators(): void {
-    const tasks: Observable<void>[] = [];
+  /**
+   * Returns default date range calculators with unresolved resources strings.
+   */
+  #createDefaultCalculators(): SkyDateRangeCalculator[] {
+    const calculators: SkyDateRangeCalculator[] = [];
 
-    // Get resource strings for short descriptions.
-    SKY_DEFAULT_CALCULATOR_CONFIGS.forEach((defaultConfig) => {
-      const config = {
-        getValue: defaultConfig.getValue,
-        validate: defaultConfig.validate,
-        shortDescription: '',
-        type: defaultConfig.type,
-      };
-
-      tasks.push(
-        this.#resourcesService
-          .getString(defaultConfig.shortDescriptionResourceKey)
-          .pipe(
-            first(),
-            map((value) => {
-              config.shortDescription = value;
-            }),
-          ),
+    for (const defaultConfig of SKY_DEFAULT_CALCULATOR_CONFIGS) {
+      calculators.push(
+        new SkyDateRangeCalculator(
+          defaultConfig.calculatorId,
+          {
+            getValue: defaultConfig.getValue,
+            validate: defaultConfig.validate,
+            shortDescription: '',
+            type: defaultConfig.type,
+          },
+          this.#libResourcesSvc,
+          defaultConfig.shortDescriptionResourceKey,
+        ),
       );
+    }
 
-      this.#calculatorConfigs[defaultConfig.calculatorId] = config;
-    });
-
-    forkJoin(tasks)
-      .pipe(first())
-      .subscribe(() => {
-        const calculatorIds = Object.keys(this.#calculatorConfigs);
-        const calculators = calculatorIds.map((calculatorId) => {
-          const id = parseInt(calculatorId, 10);
-          return new SkyDateRangeCalculator(id, this.#calculatorConfigs[id]);
-        });
-
-        this.#calculators = calculators;
-        this.#calculatorReadyStream.next(true);
-      });
+    return calculators;
   }
 }

@@ -23,6 +23,7 @@ import { SkyThemeService } from './theme.service';
       </ng-container>
     </app-theme-if-test>
   `,
+  standalone: false,
 })
 class TestProjectionComponent {}
 
@@ -38,7 +39,7 @@ const MODERN_THEME = new SkyThemeSettings(
 describe('ThemeIf directive', () => {
   //#region helpers
   function expectOnlyElementShowing(
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<unknown>,
     expected: string,
   ): void {
     const elements =
@@ -48,7 +49,7 @@ describe('ThemeIf directive', () => {
   }
 
   function testForWrappedElementShowing(
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<unknown>,
     expected: string,
   ): void {
     fixture.detectChanges();
@@ -60,7 +61,7 @@ describe('ThemeIf directive', () => {
   }
 
   function testForInputElementShowing(
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<unknown>,
     expected: string,
   ): void {
     fixture.detectChanges();
@@ -69,7 +70,7 @@ describe('ThemeIf directive', () => {
   }
 
   function testForContentProjectionShowing(
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<unknown>,
     expected: string,
   ): void {
     fixture.detectChanges();
@@ -80,20 +81,22 @@ describe('ThemeIf directive', () => {
   }
 
   async function changeTheme(
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<unknown>,
     mockThemeSvc: MockThemeService,
     theme: SkyThemeSettings,
   ): Promise<void> {
-    mockThemeSvc.settingsChange!.next({
+    mockThemeSvc.settingsChange?.next({
       currentSettings: theme,
-      previousSettings: mockThemeSvc.settingsChange!.getValue().currentSettings,
+      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings,
     });
     fixture.detectChanges();
     await fixture.whenStable();
     return;
   }
 
-  function getInputTestElement(fixture: ComponentFixture<any>): HTMLElement {
+  function getInputTestElement(
+    fixture: ComponentFixture<unknown>,
+  ): HTMLElement {
     return fixture.debugElement.nativeElement.querySelector(
       '.sky-theme-if-input-test',
     );
@@ -116,7 +119,7 @@ describe('ThemeIf directive', () => {
     // Establish that our test is set up correctly.
     it('should not have a SkyThemeService provider', () => {
       expect(() => TestBed.inject(SkyThemeService)).toThrowError(
-        /No provider for SkyThemeService/,
+        /No provider found for `SkyThemeService/,
       );
     });
 
@@ -151,7 +154,7 @@ describe('ThemeIf directive', () => {
     // Establish that our test is set up correctly.
     it('should have a SkyThemeService provider', () => {
       expect(() => TestBed.inject(SkyThemeService)).not.toThrowError(
-        /No provider for SkyThemeService/,
+        /No provider found for `SkyThemeService/,
       );
     });
 
@@ -216,16 +219,11 @@ describe('ThemeIf directive', () => {
   });
 
   describe('with uninitialized SkyThemeService provider', () => {
-    it('should use the default theme if the theme service is not initialized', async () => {
+    it('should use the default theme if the theme service is not initialized', () => {
       TestBed.configureTestingModule({
         declarations: [SkyThemeIfTestComponent, TestProjectionComponent],
         imports: [SkyThemeModule],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: new SkyThemeService(),
-          },
-        ],
+        providers: [SkyThemeService],
       });
       const fixture = TestBed.createComponent(SkyThemeIfTestComponent);
       fixture.detectChanges();

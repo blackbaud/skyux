@@ -1,21 +1,51 @@
 @use 'mixins' as mixins;
+@use 'compat-tokens-mixins' as compatMixins;
+@use 'variables' as *;
+
+@include compatMixins.sky-default-overrides() {
+  --sky-override-border-dark: #{1px solid $sky-border-color-neutral-medium};
+  --sky-override-border-light: #{1px solid $sky-border-color-neutral-light};
+  --sky-override-border-row: #{1px dotted $sky-border-color-neutral-medium};
+}
 
 .sky-border-bottom-dark {
-  @include mixins.sky-border(dark);
+  border-bottom: var(
+    --sky-override-border-dark,
+    var(--sky-border-style-separator-dark)
+      var(--sky-border-width-separator-dark) var(--sky-color-border-divider)
+  );
 }
 
 .sky-border-bottom-light {
-  @include mixins.sky-border(light);
+  border-bottom: var(
+    --sky-override-border-light,
+    var(--sky-border-style-separator-light)
+      var(--sky-border-width-separator-light)
+      var(--sky-color-border-separator-light)
+  );
 }
 
 .sky-border-bottom-row {
-  @include mixins.sky-border(row);
+  border-bottom: var(
+    --sky-override-border-row,
+    var(--sky-border-style-separator-row) var(--sky-border-width-separator-row)
+      var(--sky-color-border-separator-row)
+  );
 }
 
 .sky-border-dark {
-  @include mixins.sky-border(dark, top, bottom, left, right);
+  border: var(
+    --sky-override-border-dark,
+    var(--sky-border-style-separator-dark)
+      var(--sky-border-width-separator-dark) var(--sky-color-border-divider)
+  );
 }
 
 .sky-border-light {
-  @include mixins.sky-border(light, top, bottom, left, right);
+  border: var(
+    --sky-override-border-light,
+    var(--sky-border-style-separator-light)
+      var(--sky-border-width-separator-light)
+      var(--sky-color-border-separator-light)
+  );
 }

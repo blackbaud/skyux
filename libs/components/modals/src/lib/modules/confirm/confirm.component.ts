@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { SkyIdModule, SkyIdService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeModule } from '@skyux/theme';
 
-import { Observable, ReplaySubject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyModalContentComponent } from '../modal/modal-content.component';
 import { SkyModalInstance } from '../modal/modal-instance';
@@ -15,12 +15,14 @@ import { SkyModalsResourcesModule } from '../shared/sky-modals-resources.module'
 import { SkyConfirmButton } from './confirm-button';
 import { SkyConfirmButtonConfig } from './confirm-button-config';
 import { SkyConfirmCloseEventArgs } from './confirm-closed-event-args';
-import { SkyConfirmConfig } from './confirm-config';
 import { SKY_CONFIRM_CONFIG } from './confirm-config-token';
+import { SkyConfirmInstance } from './confirm-instance';
 import { SkyConfirmType } from './confirm-type';
 
+/**
+ * @internal
+ */
 @Component({
-  standalone: true,
   selector: 'sky-confirm',
   templateUrl: './confirm.component.html',
   styleUrls: ['./confirm.component.scss'],
@@ -33,69 +35,90 @@ import { SkyConfirmType } from './confirm-type';
     SkyThemeModule,
   ],
 })
-export class SkyConfirmComponent {
-  public buttons: SkyConfirmButton[] | undefined;
-  public message: string;
-  public body: string | undefined;
-  public bodyId: string;
-  public preserveWhiteSpace = false;
-  public isOkType = false;
+export class SkyConfirmComponent implements OnDestroy {
+  protected body: string | undefined;
+  protected bodyId: string;
+  protected buttons: SkyConfirmButton[] | undefined;
+  protected isOkType = false;
+  protected message: string;
+  protected preserveWhiteSpace = false;
 
-  #config: SkyConfirmConfig;
-  #modal: SkyModalInstance;
-  #resourcesService: SkyLibResourcesService;
+  #ngUnsubscribe = new Subject<void>();
 
-  constructor(
-    @Inject(SKY_CONFIRM_CONFIG)
-    config: SkyConfirmConfig,
-    modal: SkyModalInstance,
-    resourcesService: SkyLibResourcesService,
-    idService: SkyIdService,
-  ) {
-    this.#config = config;
-    this.#modal = modal;
-    this.#resourcesService = resourcesService;
+  readonly #config = inject(SKY_CONFIRM_CONFIG);
+  readonly #modalInstance = inject(SkyModalInstance);
+  readonly #confirmInstance = inject(SkyConfirmInstance);
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
+  readonly #idSvc = inject(SkyIdService);
+
+  constructor() {
+    this.#config.type ??= SkyConfirmType.OK;
 
     if (
-      config.type === SkyConfirmType.Custom &&
-      config.buttons &&
-      config.buttons.length > 0
+      this.#config.type === SkyConfirmType.Custom &&
+      this.#config.buttons &&
+      this.#config.buttons.length > 0
     ) {
-      this.buttons = this.#getCustomButtons(config.buttons);
+      this.buttons = this.#getCustomButtons(this.#config.buttons);
     } else {
       this.#getPresetButtons()
-        .pipe(take(1))
-        .subscribe((buttons: SkyConfirmButton[]) => {
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((buttons) => {
           this.buttons = buttons;
         });
     }
 
-    this.message = config.message;
-    this.body = config.body;
-    // Using the service here instead of the directive due to the confirm component's "body" container being conditional and thus a template variable being unavailable at an outer scope
-    this.bodyId = idService.generateId();
-    this.preserveWhiteSpace = !!config.preserveWhiteSpace;
-    this.isOkType = config.type === SkyConfirmType.OK;
+    this.message = this.#config.message;
+    this.body = this.#config.body;
+
+    // Using the service here instead of the directive due to the confirm
+    // component's "body" container being conditional and thus a template
+    // variable being unavailable at an outer scope
+    this.bodyId = this.#idSvc.generateId();
+
+    this.preserveWhiteSpace = !!this.#config.preserveWhiteSpace;
+    this.isOkType = this.#config.type === SkyConfirmType.OK;
+
+    // Closes the modal when requested by the confirm instance.
+    this.#confirmInstance.closed.subscribe((args) => {
+      this.#modalInstance.close(args);
+    });
+
+    this.#modalInstance.closed.subscribe((args) => {
+      // Close the confirm when the "escape" key is pressed (passes 'undefined')
+      // since this behavior is handled by the underlying modal component.
+      if (args.data === undefined) {
+        this.#confirmInstance.close({
+          action: 'cancel',
+        });
+      }
+    });
   }
 
-  public close(button: SkyConfirmButton): void {
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
+  }
+
+  protected close(button: SkyConfirmButton): void {
     const result: SkyConfirmCloseEventArgs = {
       action: button.action,
     };
 
-    this.#modal.close(result);
+    this.#confirmInstance.close(result);
   }
 
   #getPresetButtons(): Observable<SkyConfirmButton[]> {
     const emitter = new ReplaySubject<SkyConfirmButton[]>(1);
 
-    this.#resourcesService
+    this.#resourcesSvc
       .getStrings({
         cancel: 'skyux_confirm_dialog_default_cancel_text',
         no: 'skyux_confirm_dialog_default_no_text',
         ok: 'skyux_confirm_dialog_default_ok_text',
         yes: 'skyux_confirm_dialog_default_yes_text',
       })
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((values) => {
         const confirmButtons: SkyConfirmButton[] = [];
 
@@ -148,7 +171,7 @@ export class SkyConfirmComponent {
           action: config.action,
           styleType: config.styleType || 'default',
           autofocus: config.autofocus || false,
-        } as SkyConfirmButton),
+        }) as SkyConfirmButton,
     );
   }
 }

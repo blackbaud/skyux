@@ -1,24 +1,32 @@
 import { Component, ViewChild } from '@angular/core';
-import { SkyColorpickerResult } from '@skyux/colorpicker';
 
 import { Subject } from 'rxjs';
 
 import { SkyColorpickerComponent } from '../colorpicker.component';
 import { SkyColorpickerMessage } from '../types/colorpicker-message';
 import { SkyColorpickerMessageType } from '../types/colorpicker-message-type';
+import { SkyColorpickerResult } from '../types/colorpicker-result';
 
 @Component({
   selector: 'sky-colorpicker-fixture',
   templateUrl: './colorpicker-component.fixture.html',
+  standalone: false,
 })
 export class ColorpickerTestComponent {
   public pickerButtonIcon: string | undefined;
-  public pickerButtonIconType: string | undefined;
+  public helpKey: string | undefined;
+  public helpPopoverContent: string | undefined;
+  public helpPopoverTitle: string | undefined;
+  public hintText: string | undefined;
   public label: string | undefined;
   public labelledBy: string | undefined;
+  public labelHidden = false;
+  public labelText: string | undefined;
+  public required = false;
   public selectedHexType = 'hex6';
   public selectedColor: string | undefined = '#2889e5';
   public selectedOutputFormat = 'rgba';
+  public stacked = false;
   public presetColors = [
     '#333333',
     '#888888',
@@ -36,6 +44,7 @@ export class ColorpickerTestComponent {
   public inputType = 'text';
   public selectedTransparency = true;
   public disabled = false;
+  public id: string | undefined;
 
   @ViewChild(SkyColorpickerComponent, {
     static: true,

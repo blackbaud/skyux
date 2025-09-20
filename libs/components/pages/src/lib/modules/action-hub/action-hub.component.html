@@ -1,43 +1,32 @@
-<sky-fluid-grid [disableMargin]="true">
-  <sky-row>
-    <sky-column>
-      <sky-page-header
-        [pageTitle]="title"
-        [parentLink]="parentLink"
-      ></sky-page-header>
-    </sky-column>
-  </sky-row>
-  <sky-row>
-    <sky-column [screenLarge]="9" [screenXSmall]="12">
-      <div class="sky-margin-stacked-xl">
+<sky-page layout="blocks">
+  <sky-page-header [pageTitle]="title" [parentLink]="parentLink">
+    <sky-page-header-actions>
+      <div class="sky-margin-stacked-sm">
         <ng-content select="sky-action-hub-buttons" />
       </div>
+    </sky-page-header-actions>
+  </sky-page-header>
+  <sky-page-content>
+    <div class="sky-margin-stacked-xl">
+      <sky-wait [isWaiting]="needsAttention === 'loading'" />
+      @if (needsAttention !== 'loading') {
+        <sky-needs-attention [items]="needsAttentionArray" />
+      }
+    </div>
 
-      <div class="sky-margin-stacked-xl">
-        <sky-wait [isWaiting]="needsAttention === 'loading'"></sky-wait>
-        <sky-needs-attention
-          *ngIf="needsAttention !== 'loading'"
-          [items]="needsAttentionArray"
-        ></sky-needs-attention>
-      </div>
-
-      <div class="sky-margin-stacked-xl">
-        <ng-content select="sky-action-hub-content" />
-      </div>
-    </sky-column>
-    <sky-column [screenLarge]="3" [screenXSmall]="12">
-      <sky-link-list
-        [links]="relatedLinks | skyActionHubRelatedLinksSort"
-        [title]="'sky_action_hub_related_links' | skyLibResources"
-      ></sky-link-list>
-      <sky-link-list
-        [links]="recentLinks | skyActionHubRecentLinksResolve"
-        [title]="'sky_action_hub_recent_links' | skyLibResources"
-      ></sky-link-list>
-      <sky-modal-link-list
-        [links]="settingsLinks"
-        [title]="'sky_action_hub_settings_links' | skyLibResources"
-      ></sky-modal-link-list>
-    </sky-column>
-  </sky-row>
-</sky-fluid-grid>
+    <div class="sky-margin-stacked-xl">
+      <ng-content select="sky-action-hub-content" />
+    </div>
+  </sky-page-content>
+  <sky-page-links>
+    <sky-link-list
+      [links]="relatedLinks | skyActionHubRelatedLinksSort"
+      [headingText]="'sky_action_hub_related_links' | skyLibResources"
+    />
+    <sky-link-list-recently-accessed [recentLinks]="recentLinks" />
+    <sky-modal-link-list
+      [links]="settingsLinks"
+      [headingText]="'sky_action_hub_settings_links' | skyLibResources"
+    />
+  </sky-page-links>
+</sky-page>

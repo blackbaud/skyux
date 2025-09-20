@@ -1,12 +1,18 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
+  OnDestroy,
+  inject,
+  signal,
 } from '@angular/core';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
+import { SkyPopoverModule } from '@skyux/popovers';
 
-import { CellFocusedEvent, Column, Events } from 'ag-grid-community';
+import { AgColumn, CellFocusedEvent } from 'ag-grid-community';
 import { Subject } from 'rxjs';
 
 import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator-params';
@@ -19,68 +25,33 @@ import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator
   styleUrls: ['ag-grid-cell-validator-tooltip.component.scss'],
   templateUrl: 'ag-grid-cell-validator-tooltip.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgTemplateOutlet, SkyPopoverModule, SkyStatusIndicatorModule],
 })
-export class SkyAgGridCellValidatorTooltipComponent {
+export class SkyAgGridCellValidatorTooltipComponent implements OnDestroy {
   @Input()
   public set params(value: SkyCellRendererValidatorParams | undefined) {
     this.cellRendererParams = value;
 
-    /*istanbul ignore next*/
-    this.cellRendererParams?.api?.addEventListener(
-      Events.EVENT_CELL_FOCUSED,
-      (eventParams: CellFocusedEvent) => {
-        // We want to close any popovers that are opened when other cells are focused, but open a popover if the current cell is focused.
-        if (
-          !(eventParams.column instanceof Column) ||
-          eventParams.column.getColId() !==
-            this.cellRendererParams?.column?.getColId() ||
-          eventParams.rowIndex !== this.cellRendererParams.rowIndex
-        ) {
-          this.hidePopover();
-        }
-      },
-    );
-
-    /*istanbul ignore next*/
-    this.cellRendererParams?.eGridCell?.addEventListener('keyup', (event) => {
-      if (
-        ['ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp'].includes(event.key)
-      ) {
-        this.showPopover();
-      }
-    });
-
-    this.cellRendererParams?.eGridCell?.addEventListener('mouseenter', () => {
-      this.#scheduleDelayedPopover();
-    });
-
-    this.cellRendererParams?.eGridCell?.addEventListener('mouseleave', () => {
-      this.hidePopover();
-    });
-
-    /*istanbul ignore next*/
-    this.cellRendererParams?.api?.addEventListener(
-      Events.EVENT_CELL_EDITING_STARTED,
-      () => {
-        this.hidePopover();
-      },
-    );
-
-    if (
-      typeof this.cellRendererParams?.skyComponentProperties
-        ?.validatorMessage === 'function'
-    ) {
-      this.validatorMessage =
-        this.cellRendererParams.skyComponentProperties.validatorMessage(
-          this.cellRendererParams.value,
-          this.cellRendererParams.data,
-          this.cellRendererParams.rowIndex,
-        );
-    } else {
-      this.validatorMessage =
-        this.cellRendererParams?.skyComponentProperties?.validatorMessage;
+    if (value?.api && !this.#listenersAdded) {
+      this.#listenersAdded = true;
+      value.api.addEventListener('cellFocused', this.#cellFocusHandler);
+      value.api.addEventListener('cellEditingStarted', this.#blurHandler);
+      value.eGridCell?.addEventListener('keyup', this.#keyupHandler);
+      value.eGridCell?.addEventListener('mouseenter', this.#focusHandler);
+      value.eGridCell?.addEventListener('mouseleave', this.#blurHandler);
     }
 
+    if (typeof value?.skyComponentProperties?.validatorMessage === 'function') {
+      this.validatorMessage = value.skyComponentProperties.validatorMessage(
+        value.value,
+        value.data,
+        value?.node?.rowIndex,
+      );
+    } else {
+      this.validatorMessage = value?.skyComponentProperties?.validatorMessage;
+    }
+
+    this.showValidatorMessage.set(this.#showValidatorMessage());
     this.#changeDetector.markForCheck();
   }
 
@@ -88,36 +59,79 @@ export class SkyAgGridCellValidatorTooltipComponent {
   public validatorMessage: string | undefined;
   public cellRendererParams: SkyCellRendererValidatorParams | undefined;
 
-  #hoverTimeout: number | undefined;
-  #changeDetector: ChangeDetectorRef;
+  protected readonly showValidatorMessage = signal(false);
 
-  constructor(changeDetector: ChangeDetectorRef) {
-    this.#changeDetector = changeDetector;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  #listenersAdded = false;
+
+  readonly #keyupHandler = (event: KeyboardEvent): void => {
+    if (
+      ['ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp'].includes(event.key)
+    ) {
+      this.showPopover();
+    }
+  };
+  readonly #focusHandler = (): void => this.showPopover();
+  readonly #cellFocusHandler = (eventParams: CellFocusedEvent): void => {
+    // We want to close any popovers that are opened when other cells are focused, but open a popover if the current cell is focused.
+    if (
+      (eventParams.column as AgColumn).getColId() ===
+        this.cellRendererParams?.column?.getColId() &&
+      eventParams.rowIndex === this.cellRendererParams?.node?.rowIndex
+    ) {
+      this.showPopover();
+    } else {
+      this.hidePopover();
+    }
+  };
+  readonly #blurHandler = (): void => this.hidePopover();
+
+  public ngOnDestroy(): void {
+    const params = this.cellRendererParams;
+    if (params?.api && (!params.api.isDestroyed || !params.api.isDestroyed())) {
+      params.api.removeEventListener('cellFocused', this.#cellFocusHandler);
+      params.api.removeEventListener('cellEditingStarted', this.#blurHandler);
+    }
+    if (params?.eGridCell) {
+      params.eGridCell.removeEventListener('keyup', this.#keyupHandler);
+      params.eGridCell.removeEventListener('mouseenter', this.#focusHandler);
+      params.eGridCell.removeEventListener('mouseleave', this.#blurHandler);
+    }
   }
 
   public hidePopover(): void {
-    this.#cancelDelayedPopover();
     this.popoverMessageStream.next({ type: SkyPopoverMessageType.Close });
   }
 
   public showPopover(): void {
-    this.#cancelDelayedPopover();
-    this.popoverMessageStream.next({ type: SkyPopoverMessageType.Open });
-  }
-
-  #scheduleDelayedPopover(): void {
-    /* istanbul ignore else */
-    if (!this.#hoverTimeout) {
-      this.#hoverTimeout = window.setTimeout(() => {
-        this.showPopover();
-      }, 300);
+    if (this.#shouldShowPopover()) {
+      this.popoverMessageStream.next({ type: SkyPopoverMessageType.Open });
     }
   }
 
-  #cancelDelayedPopover(): void {
-    if (this.#hoverTimeout) {
-      window.clearTimeout(this.#hoverTimeout);
-      this.#hoverTimeout = undefined;
+  #showValidatorMessage(): boolean {
+    if (!this.validatorMessage) {
+      return false;
     }
+    if (
+      typeof this.cellRendererParams?.skyComponentProperties?.validator ===
+      'function'
+    ) {
+      return !this.cellRendererParams.skyComponentProperties.validator(
+        this.cellRendererParams.value,
+        this.cellRendererParams.data,
+        this.cellRendererParams.node?.rowIndex,
+      );
+    } else {
+      return true;
+    }
+  }
+
+  #shouldShowPopover(): boolean {
+    if (!this.showValidatorMessage()) {
+      return false;
+    }
+    const editingCells = this.cellRendererParams?.api.getEditingCells() ?? [];
+    return editingCells.length === 0;
   }
 }

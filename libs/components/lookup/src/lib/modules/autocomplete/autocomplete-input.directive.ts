@@ -6,6 +6,7 @@ import {
   OnInit,
   Renderer2,
   forwardRef,
+  inject,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -36,6 +37,7 @@ const SKY_AUTOCOMPLETE_VALIDATOR = {
 @Directive({
   selector: 'input[skyAutocomplete], textarea[skyAutocomplete]',
   providers: [SKY_AUTOCOMPLETE_VALUE_ACCESSOR, SKY_AUTOCOMPLETE_VALIDATOR],
+  standalone: false,
 })
 export class SkyAutocompleteInputDirective
   implements OnInit, OnDestroy, ControlValueAccessor, Validator
@@ -143,7 +145,7 @@ export class SkyAutocompleteInputDirective
 
   #control: AbstractControl | undefined;
 
-  #elementRef: ElementRef;
+  readonly #elementRef = inject(ElementRef);
 
   #focus: Subject<void>;
 
@@ -153,7 +155,7 @@ export class SkyAutocompleteInputDirective
 
   #ngUnsubscribe = new Subject<void>();
 
-  #renderer: Renderer2;
+  readonly #renderer = inject(Renderer2);
 
   #textChanges: Subject<SkyAutocompleteInputTextChange>;
 
@@ -167,10 +169,7 @@ export class SkyAutocompleteInputDirective
 
   #_value: any;
 
-  constructor(elementRef: ElementRef, renderer: Renderer2) {
-    this.#elementRef = elementRef;
-    this.#renderer = renderer;
-
+  constructor() {
     this.#blur = new Subject<void>();
     this.#focus = new Subject<void>();
     this.#textChanges = new Subject<SkyAutocompleteInputTextChange>();
@@ -309,7 +308,7 @@ export class SkyAutocompleteInputDirective
   public onTouched(): void {}
   // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public onValidatorChange = () => {};
+  public onValidatorChange = (): void => {};
 
   #setAttributes(elementRef: ElementRef): void {
     const element = elementRef.nativeElement;
@@ -326,6 +325,6 @@ export class SkyAutocompleteInputDirective
   }
 
   #getValueByKey(): string {
-    return this.value ? this.value[this.displayWith] : undefined;
+    return this.value ? this.value[this.displayWith] : '';
   }
 }

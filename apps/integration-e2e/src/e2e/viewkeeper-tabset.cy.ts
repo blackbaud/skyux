@@ -6,6 +6,7 @@ describe('viewkeeper-tabset', () => {
       it('should show the viewkeeper tabset', () => {
         cy.viewport('ipad-2', 'landscape');
         cy.visit('/#/integrations/viewkeeper-tabset');
+        cy.skyReady('app-viewkeeper-tabset');
         cy.skyChooseTheme(theme);
         cy.get('#tabTriggerBtn').should('be.visible').click();
         cy.get('#sky-tab-2-nav-btn').should('be.visible').click();

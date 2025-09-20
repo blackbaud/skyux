@@ -1,52 +1,104 @@
-<div class="sky-text-editor">
-  <sky-toolbar
-    *ngIf="
-      (menus && menus.length) > 0 ||
-      (toolbarActions && toolbarActions.length > 0)
-    "
-    class="sky-text-editor-toolbar"
-  >
-    <sky-toolbar-section
-      *ngIf="menus && menus.length > 0"
-      aria-label="Text formatting"
-      class="menubar"
-      role="toolbar"
-    >
-      <sky-text-editor-menubar
-        [disabled]="disabled"
-        [editorFocusStream]="editorFocusStream"
-        [menus]="menus"
-        [mergeFields]="mergeFields"
+<div
+  class="sky-text-editor"
+  [ngClass]="{
+    'sky-text-editor-disabled': disabled,
+    'sky-text-editor-wrapper-focused': editorFocused,
+    'sky-text-editor-invalid':
+      ngControl.errors && (ngControl.touched || ngControl.dirty)
+  }"
+>
+  <div class="sky-text-editor-label-wrapper">
+    @if (labelText) {
+      <label
+        class="sky-control-label"
+        [ngClass]="{
+          'sky-control-label-required': requiredState.isRequired()
+        }"
+        >{{ labelText }}</label
       >
-      </sky-text-editor-menubar>
-    </sky-toolbar-section>
-    <sky-toolbar-section
-      *ngIf="toolbarActions && toolbarActions.length > 0"
-      aria-label="Text formatting"
-      class="toolbar"
-      role="toolbar"
-    >
-      <sky-text-editor-toolbar
-        [disabled]="disabled"
-        [editorFocusStream]="editorFocusStream"
-        [fontList]="fontList"
-        [fontSizeList]="fontSizeList"
-        [linkWindowOptions]="linkWindowOptions"
-        [toolbarActions]="toolbarActions"
-        [styleState]="initialStyleState"
-      >
-      </sky-text-editor-toolbar>
-    </sky-toolbar-section>
-  </sky-toolbar>
+      @if (helpPopoverContent || helpKey) {
+        <span class="sky-control-help-container">
+          <sky-help-inline
+            [helpKey]="helpKey"
+            [labelText]="labelText"
+            [popoverContent]="helpPopoverContent"
+            [popoverTitle]="helpPopoverTitle"
+          />
+        </span>
+      }
+    }
+  </div>
+  @if (
+    (menus && menus.length) > 0 || (toolbarActions && toolbarActions.length > 0)
+  ) {
+    <sky-toolbar class="sky-text-editor-toolbar">
+      @if (menus && menus.length > 0) {
+        <sky-toolbar-section
+          aria-label="Text formatting"
+          class="menubar"
+          role="toolbar"
+        >
+          <sky-text-editor-menubar
+            [disabled]="disabled"
+            [editorFocusStream]="editorFocusStream"
+            [menus]="menus"
+            [mergeFields]="mergeFields"
+          />
+        </sky-toolbar-section>
+      }
+      @if (toolbarActions && toolbarActions.length > 0) {
+        <sky-toolbar-section
+          aria-label="Text formatting"
+          class="toolbar"
+          role="toolbar"
+        >
+          <sky-text-editor-toolbar
+            [disabled]="disabled"
+            [editorFocusStream]="editorFocusStream"
+            [fontList]="fontList"
+            [fontSizeList]="fontSizeList"
+            [linkWindowOptions]="linkWindowOptions"
+            [toolbarActions]="toolbarActions"
+            [styleState]="initialStyleState"
+          />
+        </sky-toolbar-section>
+      }
+    </sky-toolbar>
+  }
   <iframe
+    #iframe
     class="sky-text-editor-wrapper"
     src="about:blank"
-    title="Text Editor"
+    allow="clipboard-read *; clipboard-write *"
+    [attr.title]="
+      labelText || ('skyux_text_editor_iframe_title_default' | skyLibResources)
+    "
+    [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
     [ngClass]="{
       'sky-text-editor-wrapper-disabled': disabled
     }"
     (load)="onIframeLoad()"
-    #iframe
   >
   </iframe>
 </div>
+<div
+  #hintTextEl="skyId"
+  skyId
+  class="sky-text-editor-hint-text"
+  [skyThemeClass]="{
+    'sky-font-deemphasized': 'default',
+    'sky-font-hint-text-s': 'modern'
+  }"
+>
+  {{ hintText }}
+</div>
+<sky-form-errors
+  class="sky-text-editor-errors"
+  [id]="errorId"
+  [errors]="ngControl.errors"
+  [labelText]="labelText"
+  [touched]="ngControl.touched"
+  [dirty]="ngControl.dirty"
+>
+  <ng-content select="sky-form-error" />
+</sky-form-errors>

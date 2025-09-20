@@ -1,64 +1,83 @@
 <div class="ag-cell-label-container" role="presentation">
-  <span
-    *ngIf="params?.enableMenu"
-    class="ag-header-icon ag-header-cell-menu-button"
-    aria-hidden="true"
-    (click)="onMenuClick($event)"
-  >
-    <sky-icon icon="ellipsis" />
-  </span>
-  <ng-template #notSortingHeader>
-    <span class="ag-header-cell-text">{{ params?.displayName }}</span>
-  </ng-template>
+  @if (params()?.enableMenu) {
+    <span
+      class="ag-header-icon ag-header-cell-menu-button"
+      aria-hidden="true"
+      (click)="onMenuClick($event)"
+    >
+      <sky-icon iconName="more-actions" />
+    </span>
+  }
   <div class="ag-header-cell-label" role="presentation">
     <span class="ag-header-cell-label-and-icons">
-      <button
-        *ngIf="params?.enableSorting; else notSortingHeader"
-        class="ag-header-cell-text ag-header-cell-label-sortable sky-btn-link-inline"
-        type="button"
-        [innerText]="params?.displayName"
-        (click)="onSortRequested($event)"
-      ></button>
-      <span
-        *ngIf="filterEnabled$ | async"
-        class="ag-header-icon ag-header-label-icon ag-filter-icon"
-        aria-hidden="true"
-      >
-        <sky-icon icon="filter" />
-      </span>
-      <span *ngIf="params?.enableSorting" class="ag-sort-indicator-container">
-        <ng-container *skyThemeIf="'default'">
-          <sky-icon
-            *ngIf="(sortOrder$ | async) === 'desc'"
-            icon="caret-down"
-            class="ag-header-label-icon"
-          />
-          <sky-icon
-            *ngIf="(sortOrder$ | async) === 'asc'"
-            icon="caret-up"
-            class="ag-header-label-icon"
-          />
-        </ng-container>
-        <ng-container *skyThemeIf="'modern'">
-          <sky-icon
-            *ngIf="(sortOrder$ | async) === 'desc'"
-            icon="chevron-down"
-            class="ag-header-label-icon"
-          />
-          <sky-icon
-            *ngIf="(sortOrder$ | async) === 'asc'"
-            icon="chevron-up"
-            class="ag-header-label-icon"
-          />
-        </ng-container>
-        <span
-          *ngIf="sortIndexDisplay$ | async as sortIndexDisplay"
-          class="ag-sort-indicator-icon ag-sort-order"
+      @if (params()?.enableSorting) {
+        <button
           aria-hidden="true"
-          >{{ sortIndexDisplay }}</span
+          class="ag-header-cell-text ag-header-cell-label-sortable sky-btn-link-inline"
+          tabindex="-1"
+          type="button"
+          [attr.aria-label]="accessibleHeaderText()"
+          [innerText]="displayName() ?? ''"
+          [skyThemeClass]="{ 'sky-font-heading-4': 'modern' }"
+          (click)="onSortRequested($event)"
+        ></button>
+      } @else if (displayName()) {
+        <span
+          aria-hidden="true"
+          class="ag-header-cell-text"
+          [skyThemeClass]="{ 'sky-font-heading-4': 'modern' }"
+          >{{ displayName() }}</span
         >
-      </span>
+      }
+      @if (filterEnabled$ | async) {
+        <span
+          aria-hidden="true"
+          class="ag-header-icon ag-header-label-icon ag-filter-icon"
+          ><sky-icon iconName="filter"
+        /></span>
+      }
+      @if (params()?.enableSorting) {
+        @if (sortOrder$ | async; as sortDirection) {
+          <button
+            class="ag-sort-indicator-container sky-btn sky-btn-icon-borderless"
+            type="button"
+            (click)="onSortRequested($event)"
+          >
+            @if (sortDirection === 'desc') {
+              <span class="ag-header-icon ag-header-label-icon">
+                <sky-icon iconName="chevron-down" iconSize="s" />
+                <span class="sky-screen-reader-only">{{
+                  'sky_ag_grid_column_header_sort_button_aria_label_currently_desc'
+                    | skyLibResources: displayName() ?? accessibleHeaderText()
+                }}</span></span
+              >
+            }
+            @if (sortDirection === 'asc') {
+              <span class="ag-header-icon ag-header-label-icon">
+                <sky-icon iconName="chevron-up" iconSize="s" />
+                <span class="sky-screen-reader-only">{{
+                  'sky_ag_grid_column_header_sort_button_aria_label_currently_asc'
+                    | skyLibResources: displayName() ?? accessibleHeaderText()
+                }}</span></span
+              >
+            }
+
+            @if (sortIndexDisplay$ | async; as sortIndexDisplay) {
+              <span
+                aria-hidden="true"
+                class="ag-sort-indicator-icon ag-sort-order"
+                >{{ sortIndexDisplay }}</span
+              >
+            }
+          </button>
+        } @else {
+          <span class="sky-screen-reader-only">{{
+            'sky_ag_grid_column_header_sort_button_aria_label_currently_not_sorted'
+              | skyLibResources: displayName() ?? accessibleHeaderText()
+          }}</span>
+        }
+      }
     </span>
-    <span class="sky-control-help-container" #inlineHelpContainer></span>
+    <span #inlineHelpContainer class="sky-control-help-container"></span>
   </div>
 </div>

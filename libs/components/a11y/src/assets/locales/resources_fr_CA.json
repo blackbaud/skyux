@@ -1,0 +1,6 @@
+{
+  "skyux_list_skip_to_link": {
+    "_description": "Étiquette pour les liens « Passer à » apparaissant dans le haut de la page",
+    "message": "Passer à {0}"
+  }
+}

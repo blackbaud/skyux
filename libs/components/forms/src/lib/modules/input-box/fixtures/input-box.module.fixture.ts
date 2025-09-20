@@ -2,11 +2,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyIdModule } from '@skyux/core';
-import {
-  SkyHelpInlineModule,
-  SkyIconModule,
-  SkyStatusIndicatorModule,
-} from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 import { SkyCharacterCounterModule } from '../../character-counter/character-counter.module';
 import { SkyInputBoxModule } from '../input-box.module';

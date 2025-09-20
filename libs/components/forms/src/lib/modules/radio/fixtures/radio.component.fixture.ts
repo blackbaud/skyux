@@ -4,6 +4,7 @@ import { SkyRadioComponent } from '../radio.component';
 
 @Component({
   templateUrl: './radio.component.fixture.html',
+  standalone: false,
 })
 export class SkyRadioTestComponent {
   public selectedValue = '1';
@@ -15,6 +16,19 @@ export class SkyRadioTestComponent {
 
   public label1: string | undefined;
   public labelledBy3: string | undefined;
+
+  public labelText1: string | undefined;
+  public labelText2: string | undefined;
+  public labelText3: string | undefined;
+
+  public helpKey: string | undefined;
+
+  public hintText1: string | undefined;
+  public hintText2: string | undefined;
+  public hintText3: string | undefined;
+
+  public helpPopoverContent: string | undefined;
+  public helpPopoverTitle: string | undefined;
 
   public provideIds = true;
 

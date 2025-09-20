@@ -9,18 +9,16 @@ describe('lists-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('app-filter')
-          .should('exist')
-          .should('be.visible')
-          .end()
-          .get('#ready')
-          .should('exist')
+        cy.skyReady('app-filter', ['#ready'])
           .end()
           .get('body')
-          .screenshot(`filtercomponent-filter--filter-${theme}`)
-          .percySnapshot(`filtercomponent-filter--filter-${theme}`, {
+          .screenshot(`filtercomponent-filter--filter-${theme}`);
+        cy.get('body').percySnapshot(
+          `filtercomponent-filter--filter-${theme}`,
+          {
             widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          },
+        );
       });
     });
   });

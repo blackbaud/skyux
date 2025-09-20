@@ -101,7 +101,7 @@ describe('Autonumeric directive', () => {
    * Checks both the reactive and template-driven controls against various statuses.
    * @param statuses A set of Angular NgModel statuses to check against (e.g., pristine, touched, valid).
    */
-  function verifyFormControlStatuses(statuses: { [_: string]: boolean }): void {
+  function verifyFormControlStatuses(statuses: Record<string, boolean>): void {
     const control = fixture.componentInstance.formControl;
     const ngModel = fixture.componentInstance.templateNgModel;
 
@@ -136,6 +136,29 @@ describe('Autonumeric directive', () => {
 
     expect(modelValue).toEqual(1000);
     expect(formattedValue).toEqual('1,000.00');
+  }));
+
+  it('should destroy autoNumeric instance on completion', fakeAsync(() => {
+    setValue(1000);
+    const reactiveInput: HTMLInputElement = fixture.nativeElement.querySelector(
+      '.app-reactive-form-input',
+    );
+    const templateDrivenInput: HTMLInputElement =
+      fixture.nativeElement.querySelector('.app-template-driven-input');
+
+    expect(
+      (window as any).autoNumericGlobalList.get(reactiveInput),
+    ).toBeDefined();
+    expect(
+      (window as any).autoNumericGlobalList.get(templateDrivenInput),
+    ).toBeDefined();
+    fixture.destroy();
+    expect(
+      (window as any).autoNumericGlobalList.get(reactiveInput),
+    ).toBeUndefined();
+    expect(
+      (window as any).autoNumericGlobalList.get(templateDrivenInput),
+    ).toBeUndefined();
   }));
 
   it('should properly format 0 values', fakeAsync(() => {
@@ -186,6 +209,22 @@ describe('Autonumeric directive', () => {
 
     expect(modelValue).toEqual(1000);
     expect(formattedValue).toEqual('1,000.00000');
+  }));
+
+  it('should support negativeBracketsTypeOnBlur', fakeAsync(() => {
+    setOptions({
+      currencySymbol: '$',
+      decimalPlaces: 2,
+      negativeBracketsTypeOnBlur: '(,)',
+    });
+
+    setValue(1000);
+
+    const modelValue = getModelValue();
+    const formattedValue = getFormattedValue();
+
+    expect(modelValue).toEqual(1000);
+    expect(formattedValue).toEqual('$1,000.00');
   }));
 
   it('should update numeric value on keyup', fakeAsync(() => {
@@ -363,10 +402,10 @@ describe('Autonumeric directive', () => {
       });
 
       const inputs = fixture.nativeElement.querySelectorAll('input');
-      for (let i = 0; i < inputs.length; i++) {
-        inputs[i].value = '';
-        SkyAppTestUtility.fireDomEvent(inputs[i], 'input');
-        SkyAppTestUtility.fireDomEvent(inputs[i], 'keyup');
+      for (const input of inputs) {
+        input.value = '';
+        SkyAppTestUtility.fireDomEvent(input, 'input');
+        SkyAppTestUtility.fireDomEvent(input, 'keyup');
       }
       detectChangesTick();
 

@@ -9,18 +9,15 @@ describe('progress-indicator-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('app-progress-indicator')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(
-            `progressindicatorcomponent-progressindicator--progress-indicator-${theme}`,
-          )
-          .percySnapshot(
-            `progressindicatorcomponent-progressindicator--progress-indicator-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
-          );
+        cy.skyReady('app-progress-indicator').screenshot(
+          `progressindicatorcomponent-progressindicator--progress-indicator-${theme}`,
+        );
+        cy.get('app-progress-indicator').percySnapshot(
+          `progressindicatorcomponent-progressindicator--progress-indicator-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

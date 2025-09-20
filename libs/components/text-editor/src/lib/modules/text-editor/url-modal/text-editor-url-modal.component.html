@@ -27,41 +27,40 @@
               {{ 'skyux_text_editor_url_modal_url_label' | skyLibResources }}
             </label>
             <input
+              #urlInput="skyId"
               class="sky-form-control"
               type="text"
-              [(ngModel)]="url"
               skyId
-              #urlInput="skyId"
+              [(ngModel)]="url"
             />
           </sky-input-box>
         </div>
-        <sky-input-box
-          *ngIf="allowAllOpenLinkOptions"
-          stacked="true"
-          class="sky-form-group"
-        >
-          <label class="sky-control-label" [for]="targetInput.id">
-            {{ 'skyux_text_editor_url_modal_open_label' | skyLibResources }}
-          </label>
-          <select
-            class="sky-form-control"
-            [(ngModel)]="target"
-            skyId
-            #targetInput="skyId"
-          >
-            <option value="0">
-              {{
-                'skyux_text_editor_url_modal_current_option_label'
-                  | skyLibResources
-              }}
-            </option>
-            <option value="1">
-              {{
-                'skyux_text_editor_url_modal_new_option_label' | skyLibResources
-              }}
-            </option>
-          </select>
-        </sky-input-box>
+        @if (allowAllOpenLinkOptions) {
+          <sky-input-box stacked="true" class="sky-form-group">
+            <label class="sky-control-label" [for]="targetInput.id">
+              {{ 'skyux_text_editor_url_modal_open_label' | skyLibResources }}
+            </label>
+            <select
+              #targetInput="skyId"
+              class="sky-form-control"
+              skyId
+              [(ngModel)]="target"
+            >
+              <option value="0">
+                {{
+                  'skyux_text_editor_url_modal_current_option_label'
+                    | skyLibResources
+                }}
+              </option>
+              <option value="1">
+                {{
+                  'skyux_text_editor_url_modal_new_option_label'
+                    | skyLibResources
+                }}
+              </option>
+            </select>
+          </sky-input-box>
+        }
       </sky-tab>
       <sky-tab tabHeading="Email address">
         <div class="sky-form-group first-field">
@@ -73,11 +72,11 @@
               {{ 'skyux_text_editor_url_modal_email_label' | skyLibResources }}
             </label>
             <input
+              #emailAddressInput="skyId"
               class="sky-form-control"
               type="text"
-              [(ngModel)]="emailAddress"
               skyId
-              #emailAddressInput="skyId"
+              [(ngModel)]="emailAddress"
             />
           </sky-input-box>
         </div>
@@ -86,11 +85,11 @@
             {{ 'skyux_text_editor_url_modal_subject_label' | skyLibResources }}
           </label>
           <input
+            #subjectInput="skyId"
             class="sky-form-control"
             type="text"
-            [(ngModel)]="subject"
             skyId
-            #subjectInput="skyId"
+            [(ngModel)]="subject"
           />
         </sky-input-box>
       </sky-tab>

@@ -3,17 +3,16 @@ import { Component } from '@angular/core';
 @Component({
   template: `
     <sky-radio-group [disabled]="disableRadioGroup">
-      <sky-radio
-        *ngFor="let item of items"
-        [disabled]="item.disabled"
-        [value]="item.value"
-      >
-        <sky-radio-label>
-          {{ item.value }}
-        </sky-radio-label>
-      </sky-radio>
+      @for (item of items; track item.value) {
+        <sky-radio [disabled]="item.disabled" [value]="item.value">
+          <sky-radio-label>
+            {{ item.value }}
+          </sky-radio-label>
+        </sky-radio>
+      }
     </sky-radio-group>
   `,
+  standalone: false,
 })
 export class SkyRadioGroupFixtureComponent {
   public disableRadioGroup = false;

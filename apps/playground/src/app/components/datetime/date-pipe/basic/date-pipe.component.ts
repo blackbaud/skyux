@@ -4,6 +4,7 @@ import { SkyDatePipe } from '@skyux/datetime';
 @Component({
   selector: 'app-date-pipe',
   templateUrl: './date-pipe.component.html',
+  standalone: false,
 })
 export class DatePipeComponent implements OnInit {
   public format = 'short';

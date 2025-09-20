@@ -1,0 +1,71 @@
+<form novalidate [formGroup]="myForm">
+  <!-- BASIC SETUP -->
+  <div class="sky-form-group">
+    <label class="sky-control-label" [for]="favoriteColorInput.id">
+      Favorite color
+    </label>
+    <sky-autocomplete
+      [ariaLabelledBy]="ariaLabelledby"
+      [data]="colors"
+      [noResultsFoundText]="noResultFoundText"
+      [attr.data-sky-id]="'my-autocomplete-1'"
+    >
+      <input
+        #favoriteColorInput
+        formControlName="favoriteColor"
+        type="text"
+        skyAutocomplete
+        skyId
+      />
+    </sky-autocomplete>
+  </div>
+
+  <!-- CUSTOM SEARCH RESULT TEMPLATE -->
+  <div class="sky-form-group">
+    <label class="sky-control-label" [for]="customResultTemplateInput.id">
+      Favorite color
+    </label>
+    <sky-autocomplete
+      [data]="colors"
+      [attr.data-sky-id]="'my-autocomplete-2'"
+      [searchResultTemplate]="searchResultTemplate"
+    >
+      <input
+        #customResultTemplateInput
+        formControlName="customResultTemplate"
+        type="text"
+        skyAutocomplete
+        skyId
+      />
+    </sky-autocomplete>
+  </div>
+
+  <!-- ADD/SHOW MORE BUTTONS -->
+  <div class="sky-form-group">
+    <label class="sky-control-label" [for]="addShowMoreInput.id">
+      Favorite color
+    </label>
+    <sky-autocomplete
+      class="my-autocomplete-3"
+      [data]="colors"
+      [enableShowMore]="enableShowMore"
+      [showAddButton]="showAddButton"
+      (addClick)="onAddClick()"
+      (showMoreClick)="onShowMoreClick()"
+    >
+      <input
+        #addShowMoreInput
+        formControlName="addShowMore"
+        type="text"
+        skyAutocomplete
+        skyId
+      />
+    </sky-autocomplete>
+  </div>
+</form>
+
+<ng-template #searchResultTemplate let-item="item">
+  <strong>{{ item.name }}</strong
+  ><br />
+  ID: <span class="my-color-id">{{ item.id }}</span>
+</ng-template>

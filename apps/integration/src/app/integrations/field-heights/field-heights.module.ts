@@ -5,10 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { SkyIdModule } from '@skyux/core';
 import { SkyDateRangePickerModule, SkyDatepickerModule } from '@skyux/datetime';
 import { SkyCharacterCounterModule, SkyInputBoxModule } from '@skyux/forms';
-import {
-  SkyHelpInlineModule,
-  SkyStatusIndicatorModule,
-} from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
 import {
   SkyAutocompleteModule,
   SkyCountryFieldModule,
@@ -24,7 +22,7 @@ const routes: Routes = [
     component: FieldHeightsComponent,
     data: {
       name: 'Field Heights',
-      icon: 'text-height',
+      icon: 'text-font-size',
     },
   },
 ];

@@ -1,47 +1,11 @@
-<sky-page>
-  <div id="screenshot-tabset" style="height: 200px">
-    <sky-tabset
-      permalinkId="sample"
-      (newTab)="newTabClick()"
-      (openTab)="openTabClick()"
-      [active]="1"
-    >
-      <sky-tab [disabled]="true" [tabHeading]="'Tab 1'" (close)="closeTab()">
-        Tab 1 Content
-      </sky-tab>
-      <sky-tab [tabHeading]="'Tab 2'" (close)="closeTab()">
-        Tab 2 Content
-      </sky-tab>
-      <sky-tab [tabHeading]="'Tab 3'" (close)="closeTab()">
-        Tab 3 Content
-      </sky-tab>
-      <sky-tab [tabHeading]="'Tab 4'" (close)="closeTab()">
-        Tab 4 Content
-      </sky-tab>
-      <sky-tab tabHeading="Permanent tab" [tabHeaderCount]="9">
-        This tab cannot be closed
-      </sky-tab>
-      <sky-tab
-        permalinkValue="foobar"
-        tabHeading="Tab 3"
-        [tabHeaderCount]="144"
-        (close)="closeTab()"
-      >
-        Tab 3 Content
-      </sky-tab>
-    </sky-tabset>
-  </div>
-
-  <div id="screenshot-tabset-long" style="margin-top: 300px; height: 200px">
-    <sky-tabset [active]="0">
-      <sky-tab
-        [tabHeading]="
-          'Tab 1 Content really really really long tab name you know here is even more header content okay okay okay'
-        "
-      >
-        Tab 1 Content
-      </sky-tab>
-      <sky-tab [tabHeading]="'Tab 2'"> Tab 2 Content </sky-tab>
-    </sky-tabset>
-  </div>
-</sky-page>
+<sky-tabset ariaLabel="Tab demonstration" (newTab)="onNewTabClick()">
+  <sky-tab [tabHeading]="'Tab 1'" [tabIndexValue]="tabIndexValue">
+    Content for Tab 1</sky-tab
+  >
+  <sky-tab [tabHeading]="'Tab 2'"> Content for Tab 2 </sky-tab>
+  @if (showTab3) {
+    <sky-tab [tabHeading]="'Tab 3'" (close)="showTab3 = false">
+      Content for Tab 3
+    </sky-tab>
+  }
+</sky-tabset>

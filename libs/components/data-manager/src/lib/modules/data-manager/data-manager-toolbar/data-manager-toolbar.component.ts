@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -15,7 +14,7 @@ import {
   SkyCheckboxModule,
   SkyRadioModule,
 } from '@skyux/forms';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyFilterModule, SkySortModule } from '@skyux/lists';
 import { SkySearchModule } from '@skyux/lookup';
@@ -43,17 +42,15 @@ import { SkyDataViewConfig } from '../models/data-view-config';
 
 /**
  * Renders a `sky-toolbar` with the contents specified by the active view's `SkyDataViewConfig`
- * and the `SkyDataManagerToolbarLeftItemsComponent`, `SkyDataManagerToolbarRightItemsComponent`,
+ * and the `SkyDataManagerToolbarLeftItemComponent`, `SkyDataManagerToolbarRightItemComponent`,
  * and `SkyDataManagerToolbarSectionComponent` wrappers.
  */
 @Component({
-  standalone: true,
   selector: 'sky-data-manager-toolbar',
   templateUrl: './data-manager-toolbar.component.html',
   styleUrls: ['./data-manager-toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     FormsModule,
     SkyCheckboxModule,
     SkyDataManagerResourcesModule,
@@ -206,15 +203,13 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
         !(this.#modalService instanceof SkyModalLegacyService) &&
         !isStandalone(filterModal)
       ) {
-        this.#logger
-          ?.deprecated(
-            'SkyDataManagerConfig.filterModalComponent not standalone',
-            {
-              deprecationMajorVersion: 9,
-              replacementRecommendation: `The SkyDataManagerConfig.filterModalComponent must be a standalone component in order to receive the right dependency injector context.`,
-            },
-          )
-          .then();
+        this.#logger?.deprecated(
+          'SkyDataManagerConfig.filterModalComponent not standalone',
+          {
+            deprecationMajorVersion: 9,
+            replacementRecommendation: `The SkyDataManagerConfig.filterModalComponent must be a standalone component in order to receive the right dependency injector context.`,
+          },
+        );
       }
       const modalInstance = this.#modalService.open(filterModal, options);
 

@@ -1,27 +1,35 @@
 import {
   ApplicationRef,
   ChangeDetectorRef,
+  DestroyRef,
   Directive,
   ElementRef,
   EventEmitter,
   HostListener,
   Input,
-  Optional,
   Output,
   Renderer2,
+  inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, UrlTree } from '@angular/router';
 import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
+
+import { Subscription, catchError, finalize, from, of } from 'rxjs';
 
 import { SkyHrefResolverService } from './href-resolver.service';
 import { SkyHref } from './types/href';
 import { SkyHrefChange } from './types/href-change';
 import { SkyHrefQueryParams } from './types/href-query-params';
 
-type HrefChanges = { href: string; hidden: boolean };
+interface HrefChanges {
+  href: string;
+  hidden: boolean;
+}
 
 @Directive({
   selector: '[skyHref]',
+  standalone: false,
 })
 export class SkyHrefDirective {
   /**
@@ -89,34 +97,18 @@ export class SkyHrefDirective {
   #_skyHref = '';
   #_skyHrefElse: 'hide' | 'unlink' | undefined = 'hide';
 
-  #router: Router;
-  #renderer: Renderer2;
-  #element: ElementRef;
-  #skyAppConfig: SkyAppConfig | undefined;
-  #paramsProvider: SkyAppRuntimeConfigParamsProvider | undefined;
-  #hrefResolver: SkyHrefResolverService | undefined;
-  #applicationRef: ApplicationRef | undefined;
-  #changeDetectorRef: ChangeDetectorRef | undefined;
-
-  constructor(
-    router: Router,
-    renderer: Renderer2,
-    element: ElementRef,
-    @Optional() skyAppConfig?: SkyAppConfig,
-    @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider,
-    @Optional() hrefResolver?: SkyHrefResolverService,
-    @Optional() applicationRef?: ApplicationRef,
-    @Optional() changeDetectorRef?: ChangeDetectorRef,
-  ) {
-    this.#router = router;
-    this.#renderer = renderer;
-    this.#element = element;
-    this.#skyAppConfig = skyAppConfig;
-    this.#paramsProvider = paramsProvider;
-    this.#hrefResolver = hrefResolver;
-    this.#applicationRef = applicationRef;
-    this.#changeDetectorRef = changeDetectorRef;
-  }
+  readonly #router = inject(Router);
+  readonly #renderer = inject(Renderer2);
+  readonly #element = inject(ElementRef);
+  readonly #skyAppConfig = inject(SkyAppConfig, { optional: true });
+  readonly #paramsProvider = inject(SkyAppRuntimeConfigParamsProvider, {
+    optional: true,
+  });
+  readonly #hrefResolver = inject(SkyHrefResolverService, { optional: true });
+  readonly #applicationRef = inject(ApplicationRef);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #destroyRef = inject(DestroyRef);
+  #checkingSubscription: Subscription | undefined;
 
   @HostListener('click', [
     '$event.button',
@@ -147,7 +139,7 @@ export class SkyHrefDirective {
 
     const urlTree = this.#getUrlTree();
     if (urlTree) {
-      this.#router.navigateByUrl(urlTree);
+      void this.#router.navigateByUrl(urlTree);
       return false;
     }
     return true;
@@ -181,21 +173,32 @@ export class SkyHrefDirective {
       url: this.skyHref,
       userHasAccess: false,
     };
-    /* istanbul ignore else */
     if (this.#hrefResolver && this.skyHref) {
       this.#applyChanges(this.#getChanges());
+      this.#checkingSubscription?.unsubscribe();
       try {
-        this.#hrefResolver.resolveHref({ url: this.skyHref }).then((route) => {
-          this.#route = { ...route };
-          this.#applyChanges(this.#getChanges());
-          /* istanbul ignore else */
-          if (this.#changeDetectorRef && this.#applicationRef) {
+        this.#checkingSubscription = from(
+          this.#hrefResolver.resolveHref({ url: this.skyHref }),
+        )
+          .pipe(
+            catchError(() =>
+              of({
+                url: this.skyHref,
+                userHasAccess: false,
+              } as SkyHref),
+            ),
+            takeUntilDestroyed(this.#destroyRef),
+            finalize(() => {
+              this.#applyChanges(this.#getChanges());
+            }),
+          )
+          .subscribe((route) => {
+            this.#route = { ...route };
             this.#changeDetectorRef.markForCheck();
             this.#applicationRef.tick();
-          }
-        });
-      } catch (error) {
-        this.#applyChanges(this.#getChanges());
+          });
+      } catch {
+        // Unable to resolve.
       }
     } else {
       // no resolver or skyHref is falsy

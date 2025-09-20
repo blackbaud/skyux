@@ -2,9 +2,9 @@ import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -177,7 +177,7 @@ describe('List View Checklist Component', () => {
       element: DebugElement,
       items: any[];
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       dispatcher = new ListStateDispatcher();
       state = new ListState(dispatcher);
 
@@ -272,7 +272,7 @@ describe('List View Checklist Component', () => {
       ).toBe('Apple');
     });
 
-    it('should search based on input text', async(() => {
+    it('should search based on input text', waitForAsync(() => {
       let searchItems = items.filter((item) =>
         component.checklist.searchFunction()(item.data, '12'),
       );
@@ -310,7 +310,7 @@ describe('List View Checklist Component', () => {
       items: any[],
       element: DebugElement;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       dispatcher = new ListStateDispatcher();
       state = new ListState(dispatcher);
 
@@ -363,7 +363,7 @@ describe('List View Checklist Component', () => {
       ).toBe('');
     });
 
-    it('should search based on input text', async(() => {
+    it('should search based on input text', waitForAsync(() => {
       const searchItems = items.filter((item) => {
         return component.checklist.searchFunction()(item.data, 'banana');
       });
@@ -380,7 +380,7 @@ describe('List View Checklist Component', () => {
       state: ListState,
       fixture: ComponentFixture<ListViewChecklistPaginationTestComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       dispatcher = new ListStateDispatcher();
       state = new ListState(dispatcher);
 
@@ -445,7 +445,7 @@ describe('List View Checklist Component', () => {
       nativeElement: HTMLElement,
       component: ListViewChecklistToolbarTestComponent;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       dispatcher = new ListStateDispatcher();
       state = new ListState(dispatcher);
 
@@ -757,7 +757,7 @@ describe('List View Checklist Component', () => {
       expect(model.label).toBeUndefined();
     });
 
-    it('should run ListViewChecklistItemsLoadAction action without refresh', async(() => {
+    it('should run ListViewChecklistItemsLoadAction action without refresh', waitForAsync(() => {
       const checklistDispatcher = new ChecklistStateDispatcher();
       const checklistState = new ChecklistState(
         new ChecklistStateModel(),
@@ -925,7 +925,7 @@ describe('List View Checklist Component', () => {
       fixture: ComponentFixture<ListViewChecklistToolbarTestComponent>,
       component: ListViewChecklistToolbarTestComponent;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       dispatcher = new ListStateDispatcher();
       state = new ListState(dispatcher);
 

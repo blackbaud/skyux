@@ -5,6 +5,7 @@ import { SkyFileDropChange, SkyFileItem, SkyFileLink } from '@skyux/forms';
   selector: 'app-file-attachment',
   templateUrl: './file-attachment.component.html',
   styleUrls: ['./file-attachment.component.scss'],
+  standalone: false,
 })
 export class FileAttachmentComponent {
   @Input()
@@ -33,11 +34,14 @@ export class FileAttachmentComponent {
 
   public filesToUpload: SkyFileItem[];
 
+  public required = false;
+
   @Input()
   public basic = false;
 
   @Input()
   public set noPreview(value: boolean) {
+    this.required = value;
     if (value) {
       const testUpload = {
         files: [
@@ -63,6 +67,18 @@ export class FileAttachmentComponent {
           {
             file: {
               name: 'myUnknown.unk',
+              size: 100,
+            },
+          },
+          {
+            file: {
+              name: 'myDoc.doc',
+              size: 100,
+            },
+          },
+          {
+            file: {
+              name: 'myPowerpoint.ppt',
               size: 100,
             },
           },

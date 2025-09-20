@@ -5,15 +5,18 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
  * Displays a primary button.
  */
 @Component({
-  selector: 'sky-summary-action-bar-primary-action',
-  templateUrl: './summary-action-bar-primary-action.component.html',
-  styleUrls: ['./summary-action-bar-primary-action.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'sky-summary-action-bar-primary-action',
+  standalone: true,
+  styleUrls: ['./summary-action-bar-primary-action.component.scss'],
+  templateUrl: './summary-action-bar-primary-action.component.html',
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkySummaryActionBarPrimaryActionComponent {
   /**

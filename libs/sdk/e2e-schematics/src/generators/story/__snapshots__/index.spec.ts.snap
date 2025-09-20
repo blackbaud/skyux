@@ -1,263 +1,118 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component generator should run successfully 1`] = `
-"import { ExampleComponent } from './example.component';
-import { ExampleModule } from './example.module';
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
+exports[`story generator should run successfully 1`] = `
+"import type { Meta, StoryObj } from '@storybook/angular';
 
-const meta: Meta<ExampleComponent> = {
-  component: ExampleComponent,
-  id: 'examplecomponent-example',
+import { ExampleComponent } from './example.component';
+
+export default {
+  id: 'examplecomponent',
   title: 'Components/Example',
-  decorators: [moduleMetadata({ imports: [ExampleModule] })],
-};
-export default meta;
+  component: ExampleComponent,
+} as Meta<ExampleComponent>;
 type Story = StoryObj<ExampleComponent>;
-export const Example: Story = {
-  args: {},
-};
+export const Example: Story = {};
+Example.args = {};
 "
 `;
 
-exports[`component generator should run successfully with --module 1`] = `
-"import { ExampleComponent } from './example.component';
-import { ExampleModule } from './example.module';
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
+exports[`story generator should run successfully with sub directory 1`] = `
+"import type { Meta, StoryObj } from '@storybook/angular';
 
-const meta: Meta<ExampleComponent> = {
-  component: ExampleComponent,
-  id: 'examplecomponent-example',
-  title: 'Components/Example',
-  decorators: [moduleMetadata({ imports: [ExampleModule] })],
-};
-export default meta;
-type Story = StoryObj<ExampleComponent>;
-export const Example: Story = {
-  args: {},
-};
-"
-`;
+import { SubExampleComponent } from './sub-example.component';
 
-exports[`component generator should run successfully with sub directory 1`] = `
-"import { SubExampleComponent } from './sub-example.component';
-import { SubExampleModule } from './sub-example.module';
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-
-const meta: Meta<SubExampleComponent> = {
+export default {
+  id: 'sub-examplecomponent',
+  title: 'Components/Sub Example',
   component: SubExampleComponent,
-  id: 'subexamplecomponent-subexample',
-  title: 'Components/Example/Sub Example',
-  decorators: [moduleMetadata({ imports: [SubExampleModule] })],
-};
-export default meta;
+} as Meta<SubExampleComponent>;
 type Story = StoryObj<SubExampleComponent>;
-export const SubExample: Story = {
-  args: {},
-};
+export const SubExample: Story = {};
+SubExample.args = {};
 "
 `;
 
-exports[`component generator should run successfully, finding a module 1`] = `
-"import { ExampleComponent } from './example.component';
-import { ExampleModule } from './example.module';
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
+exports[`story generator should run successfully, when not including tests 1`] = `
+"import type { Meta, StoryObj } from '@storybook/angular';
 
-const meta: Meta<ExampleComponent> = {
-  component: ExampleComponent,
-  id: 'examplecomponent-example',
-  title: 'Components/Example',
-  decorators: [moduleMetadata({ imports: [ExampleModule] })],
-};
-export default meta;
-type Story = StoryObj<ExampleComponent>;
-export const Example: Story = {
-  args: {},
-};
+import { SubExampleComponent } from './sub-example.component';
+
+export default {
+  id: 'sub-examplecomponent',
+  title: 'Components/Sub Example',
+  component: SubExampleComponent,
+} as Meta<SubExampleComponent>;
+type Story = StoryObj<SubExampleComponent>;
+export const SubExample: Story = {};
+SubExample.args = {};
 "
 `;
 
-exports[`component generator should run successfully, finding a module 2`] = `
-"import { Component } from '@angular/core';
+exports[`story generator should run successfully, when not including tests 2`] = `
+"import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'proj-example',
-  templateUrl: './example.component.html',
-  styleUrls: ['./example.component.scss'],
+  standalone: true,
+  imports: [CommonModule],
+  selector: 'app-sub-example',
+  templateUrl: './sub-example.component.html',
+  styleUrls: ['./sub-example.component.scss'],
 })
-export class ExampleComponent {}
+export class SubExampleComponent {}
 "
 `;
 
-exports[`component generator should run successfully, finding a module 3`] = `
-"import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ExampleRoutingModule } from './example-routing.module';
-import { ExampleComponent } from './example.component';
-@NgModule({
-    declarations: [
-        ExampleComponent
-    ],
-    imports: [
-        CommonModule,
-        ExampleRoutingModule
-    ],
-    exports: [ExampleComponent]
-})
-export class ExampleModule {
-}
-"
-`;
-
-exports[`component generator should run successfully, finding a module 4`] = `
+exports[`story generator should run successfully, when not including tests 3`] = `
 "import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TestRouterRoutingModule } from './test-router-routing.module';
 
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    TestRouterRoutingModule
-  ]
+  imports: [CommonModule, TestRouterRoutingModule],
 })
-export class TestRouterModule { }
+export class TestRouterModule {}
 "
 `;
 
-exports[`component generator should run successfully, finding a module 5`] = `
-"import { ExampleComponent } from './example.component';
-import { ExampleModule } from './example.module';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+exports[`story generator should use -storybook project 1`] = `
+"import type { Meta, StoryObj } from '@storybook/angular';
 
-describe('ExampleComponent', () => {
-  let component: ExampleComponent;
-  let fixture: ComponentFixture<ExampleComponent>;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [ExampleModule],
-    });
-    fixture = TestBed.createComponent(ExampleComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
-"
-`;
-
-exports[`component generator should run successfully, when not including tests 1`] = `
-"import { ExampleComponent } from './example.component';
-import { ExampleModule } from './example.module';
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-
-const meta: Meta<ExampleComponent> = {
-  component: ExampleComponent,
-  id: 'examplecomponent-example',
-  title: 'Components/Example',
-  decorators: [moduleMetadata({ imports: [ExampleModule] })],
-};
-export default meta;
-type Story = StoryObj<ExampleComponent>;
-export const Example: Story = {
-  args: {},
-};
-"
-`;
-
-exports[`component generator should run successfully, when not including tests 2`] = `
-"import { Component } from '@angular/core';
-
-@Component({
-  selector: 'proj-example',
-  templateUrl: './example.component.html',
-  styleUrls: ['./example.component.scss'],
-})
-export class ExampleComponent {}
-"
-`;
-
-exports[`component generator should run successfully, when not including tests 3`] = `
-"import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ExampleRoutingModule } from './example-routing.module';
 import { ExampleComponent } from './example.component';
-@NgModule({
-    declarations: [
-        ExampleComponent
-    ],
-    imports: [
-        CommonModule,
-        ExampleRoutingModule
-    ],
-    exports: [ExampleComponent]
-})
-export class ExampleModule {
-}
-"
-`;
 
-exports[`component generator should run successfully, when not including tests 4`] = `
-"import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { TestRouterRoutingModule } from './test-router-routing.module';
-
-
-@NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    TestRouterRoutingModule
-  ]
-})
-export class TestRouterModule { }
-"
-`;
-
-exports[`component generator should use -storybook project 1`] = `
-"import { ExampleComponent } from './example.component';
-import { ExampleModule } from './example.module';
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-
-const meta: Meta<ExampleComponent> = {
-  component: ExampleComponent,
-  id: 'examplecomponent-example',
+export default {
+  id: 'examplecomponent',
   title: 'Components/Example',
-  decorators: [moduleMetadata({ imports: [ExampleModule] })],
-};
-export default meta;
+  component: ExampleComponent,
+} as Meta<ExampleComponent>;
 type Story = StoryObj<ExampleComponent>;
-export const Example: Story = {
-  args: {},
-};
+export const Example: Story = {};
+Example.args = {};
 "
 `;
 
-exports[`component generator should use -storybook project 2`] = `
+exports[`story generator should use -storybook project 2`] = `
 "import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
-describe('test-storybook', () => {
+describe('example', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(\`in \${theme} theme\`, () => {
       beforeEach(() =>
         cy.visit(
-          \`/iframe.html?globals=theme:\${theme}&id=examplecomponent-example--example\`
-        )
+          \`/iframe.html?globals=theme:\${theme}&id=examplecomponent--example\`,
+        ),
       );
+
       it('should render the component', () => {
-        cy.get('proj-example')
+        cy.get('app-example')
           .should('exist')
           .should('be.visible')
-          .screenshot(\`examplecomponent-example--example-\${theme}\`)
-          .percySnapshot(\`examplecomponent-example--example-\${theme}\`, {
-            widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          .screenshot(\`example-\${theme}\`);
+        cy.percySnapshot(\`example-\${theme}\`, {
+          widths: E2eVariations.DISPLAY_WIDTHS,
+        });
       });
     });
   });

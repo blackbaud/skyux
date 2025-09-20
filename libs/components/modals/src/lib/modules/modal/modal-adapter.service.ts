@@ -1,5 +1,5 @@
-import { ElementRef, Injectable } from '@angular/core';
-import { SkyAppWindowRef } from '@skyux/core';
+import { ElementRef, Injectable, inject } from '@angular/core';
+import { SkyAppWindowRef, SkyCoreAdapterService } from '@skyux/core';
 
 /**
  * @internal
@@ -12,6 +12,7 @@ export class SkyModalAdapterService {
   #docRef: any;
   #bodyEl: HTMLElement;
 
+  #coreAdapter = inject(SkyCoreAdapterService);
   #windowRef: SkyAppWindowRef;
   #hostSiblingAriaHiddenCache = new Map<Element, string | null>();
 
@@ -59,23 +60,55 @@ export class SkyModalAdapterService {
    */
   public hideHostSiblingsFromScreenReaders(hostElRef: ElementRef): void {
     const hostElement = hostElRef.nativeElement;
-    const hostSiblings = hostElement.parentElement.children;
+    const hostSiblings = hostElement.parentElement?.children;
 
-    for (let i = 0; i < hostSiblings.length; i++) {
-      const element = hostSiblings[i];
-      if (
-        element !== hostElement &&
-        !element.hasAttribute('aria-live') &&
-        element.nodeName.toLowerCase() !== 'script' &&
-        element.nodeName.toLowerCase() !== 'style'
-      ) {
-        // preserve previous aria-hidden status of elements outside of modal host
-        this.#hostSiblingAriaHiddenCache.set(
-          element,
-          element.getAttribute('aria-hidden'),
-        );
-        element.setAttribute('aria-hidden', 'true');
+    if (hostSiblings) {
+      for (const element of hostSiblings) {
+        if (element.contains(document.activeElement)) {
+          document.body.focus();
+        }
+        if (
+          element !== hostElement &&
+          !element.hasAttribute('aria-live') &&
+          element.nodeName.toLowerCase() !== 'script' &&
+          element.nodeName.toLowerCase() !== 'style'
+        ) {
+          // preserve previous aria-hidden status of elements outside of modal host
+          this.#hostSiblingAriaHiddenCache.set(
+            element,
+            element.getAttribute('aria-hidden'),
+          );
+          element.setAttribute('aria-hidden', 'true');
+        }
       }
+    }
+  }
+
+  public focusFirstElement(modalEl: ElementRef): void {
+    /* istanbul ignore else */
+    /* handle the case where somehow there is a focused element already in the modal */
+    if (
+      !(
+        document.activeElement &&
+        modalEl.nativeElement.contains(document.activeElement)
+      )
+    ) {
+      const currentScrollX = window.pageXOffset;
+      const currentScrollY = window.pageYOffset;
+
+      const inputWithAutofocus =
+        modalEl.nativeElement.querySelector('[autofocus]');
+
+      if (inputWithAutofocus) {
+        inputWithAutofocus.focus();
+      } else {
+        this.#coreAdapter.getFocusableChildrenAndApplyFocus(
+          modalEl,
+          '.sky-modal-content',
+          true,
+        );
+      }
+      window.scrollTo(currentScrollX, currentScrollY);
     }
   }
 

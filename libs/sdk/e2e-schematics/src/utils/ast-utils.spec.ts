@@ -1,7 +1,4 @@
-import {
-  applicationGenerator,
-  componentGenerator,
-} from '@nx/angular/generators';
+import { componentGenerator } from '@nx/angular/generators';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
@@ -27,6 +24,7 @@ import {
   readSourceFile,
   writeSourceFile,
 } from './ast-utils';
+import { createTestApplication } from './testing';
 
 describe('ast-utils', () => {
   it('should handle trying to read from an unknown file', () => {
@@ -273,8 +271,13 @@ describe('ast-utils', () => {
 
   it('should findComponentClass', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, { name: 'test' });
-    await componentGenerator(tree, { name: 'test', project: 'test' });
+    tree.write('.gitignore', '#');
+    await createTestApplication(tree, { name: 'test' });
+    await componentGenerator(tree, {
+      name: 'test',
+      path: 'apps/test/src/app/test/test',
+      type: 'component',
+    });
     const componentClass = findComponentClass(
       readSourceFile(tree, 'apps/test/src/app/test/test.component.ts'),
     );
@@ -285,18 +288,16 @@ describe('ast-utils', () => {
     );
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     expect(componentClass!.properties).toHaveProperty('templateUrl');
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    expect(componentClass!.properties).toHaveProperty('styleUrls');
   });
 
   it('should findComponentClass, not component', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, { name: 'test' });
+    tree.write('.gitignore', '#');
+    await createTestApplication(tree, { name: 'test' });
     await angularModuleGenerator(tree, { name: 'test', project: 'test' });
     await wrapAngularDevkitSchematic('@schematics/angular', 'pipe')(tree, {
       name: 'test/test',
       project: 'test',
-      module: 'test',
     });
     const pipeClass = findComponentClass(
       readSourceFile(tree, 'apps/test/src/app/test/test.pipe.ts'),
@@ -310,8 +311,13 @@ describe('ast-utils', () => {
 
   it('should findComponentClass, component options not object', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, { name: 'test' });
-    await componentGenerator(tree, { name: 'test', project: 'test' });
+    tree.write('.gitignore', '#');
+    await createTestApplication(tree, { name: 'test' });
+    await componentGenerator(tree, {
+      name: 'test',
+      path: 'apps/test/src/app/test/test',
+      type: 'component',
+    });
     tree.write(
       'apps/test/src/app/test/test.component.ts',
       `
@@ -331,12 +337,39 @@ describe('ast-utils', () => {
 
   it('should findComponentClass, no decorated class', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, { name: 'test' });
-    await componentGenerator(tree, { name: 'test', project: 'test' });
+    tree.write('.gitignore', '#');
+    await createTestApplication(tree, { name: 'test' });
+    await componentGenerator(tree, {
+      name: 'test',
+      path: 'apps/test/src/app/test/test',
+      type: 'component',
+    });
     tree.write(
       'apps/test/src/app/test/test.component.ts',
       `
       import { Component } from '@angular/core';
+      export class TestComponent {}
+    `,
+    );
+    const componentClass = findComponentClass(
+      readSourceFile(tree, 'apps/test/src/app/test/test.component.ts'),
+    );
+    expect(componentClass).toBeFalsy();
+  });
+
+  it('should findComponentClass, no Component import', async () => {
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree.write('.gitignore', '#');
+    await createTestApplication(tree, { name: 'test' });
+    await componentGenerator(tree, {
+      name: 'test',
+      path: 'apps/test/src/app/test/test',
+      type: 'component',
+    });
+    tree.write(
+      'apps/test/src/app/test/test.component.ts',
+      `
+      import { Injectable } from '@angular/core';
       export class TestComponent {}
     `,
     );

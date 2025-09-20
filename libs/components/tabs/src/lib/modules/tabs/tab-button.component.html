@@ -14,11 +14,12 @@
     [attr.aria-selected]="active"
     [attr.href]="buttonHref"
     [attr.aria-label]="
-      (tabStyle === 'wizard'
-        ? 'skyux_wizard_sr_step_' + wizardStepState
-        : 'skyux_tabs_sr_tab_order'
-      ) | skyLibResources : tabNumber : totalTabsCount : buttonText
+      tabStyle === 'wizard'
+        ? ('skyux_wizard_sr_step_' + wizardStepState
+          | skyLibResources: tabNumber : totalTabsCount : buttonText)
+        : null
     "
+    [attr.aria-labelledby]="tabStyle === 'wizard' ? null : tabHeading.id"
     [id]="buttonId"
     [ngClass]="{
       'sky-btn-tab-wizard': tabStyle === 'wizard',
@@ -32,23 +33,31 @@
     (focus)="onFocus()"
   >
     <span class="sky-tab-heading" [attr.aria-hidden]="true">
-      {{ buttonText }}
-      <span *ngIf="buttonTextCount !== undefined" class="sky-tab-header-count">
-        {{ buttonTextCount }}
+      <span #tabHeading="skyId" skyId>
+        {{ buttonText }}
+        @if (buttonTextCount !== undefined) {
+          <span class="sky-tab-header-count">
+            {{ buttonTextCount }}
+          </span>
+        }
       </span>
-      <span
-        *ngIf="closeable"
-        class="sky-btn-tab-close"
-        [tabindex]="closeBtnTabIndex"
-        [attr.aria-label]="'skyux_tab_close' | skyLibResources : buttonText"
-        [ngClass]="{
-          'sky-btn-tab-close-disabled': disabled
-        }"
-        (click)="onCloseClick($event)"
-        (keydown.enter)="onCloseClick($event)"
-      >
-        <sky-icon icon="remove" />
-      </span>
+      @if (closeable) {
+        <span
+          class="sky-btn-tab-close"
+          [tabindex]="closeBtnTabIndex"
+          [attr.aria-label]="'skyux_tab_close' | skyLibResources: buttonText"
+          [ngClass]="{
+            'sky-btn-tab-close-disabled': disabled
+          }"
+          [skyThemeClass]="{
+            'sky-btn sky-btn-icon-borderless': 'modern'
+          }"
+          (click)="onCloseClick($event)"
+          (keydown.enter)="onCloseClick($event)"
+        >
+          <sky-icon iconName="close" />
+        </span>
+      }
     </span>
   </a>
 </div>

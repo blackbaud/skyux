@@ -20,6 +20,7 @@ import { ListState } from '../state/list-state.state-node';
       useExisting: forwardRef(() => ListViewTestComponent),
     },
   ],
+  standalone: false,
 })
 export class ListViewTestComponent extends ListViewComponent {
   public currentSearchText: Observable<string>;
@@ -35,7 +36,10 @@ export class ListViewTestComponent extends ListViewComponent {
 
   public items: ListItemModel[];
 
-  constructor(state: ListState, private dispatcher: ListStateDispatcher) {
+  constructor(
+    state: ListState,
+    private dispatcher: ListStateDispatcher,
+  ) {
     super(state, 'Test View');
 
     state

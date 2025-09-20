@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -13,8 +12,7 @@ import { SkyPageHeaderModule } from '../page-header.module';
 
 @Component({
   selector: 'sky-page-header-fixtures',
-  standalone: true,
-  imports: [CommonModule, SkyAlertModule, SkyAvatarModule, SkyPageHeaderModule],
+  imports: [SkyAlertModule, SkyAvatarModule, SkyPageHeaderModule],
   templateUrl: './page-header-fixtures.component.html',
 })
 export class PageHeaderFixturesComponent {

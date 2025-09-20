@@ -1,0 +1,21 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <sky-checkbox-group
+    headingText="Text formatting"
+    [formGroup]="formGroup"
+    [headingHidden]="true"
+    [stacked]="true"
+  >
+    <sky-checkbox formControlName="bold" iconName="text-bold" label="Bold" />
+    <sky-checkbox
+      formControlName="italic"
+      iconName="text-italic"
+      label="Italic"
+    />
+    <sky-checkbox
+      formControlName="underline"
+      iconName="text-underline"
+      label="Underline"
+    />
+  </sky-checkbox-group>
+  <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
+</form>

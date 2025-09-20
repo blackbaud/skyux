@@ -1,0 +1,50 @@
+<form [formGroup]="demoForm">
+  <sky-modal
+    data-sky-id="modal-demo"
+    headingText="Modal title"
+    [isDirty]="demoForm.dirty"
+    [layout]="layout"
+  >
+    <sky-modal-content>
+      <div class="sky-padding-even-xl">
+        <sky-split-view [dock]="layout === 'fit' ? 'fill' : undefined">
+          <sky-split-view-drawer [ariaLabel]="'Transaction list'">
+            <sky-repeater [activeIndex]="0">
+              @for (item of items; track item) {
+                <sky-repeater-item>
+                  <sky-repeater-item-content>
+                    {{ item.amount }} <br />
+                    {{ item.date }} <br />
+                    {{ item.vendor }}
+                  </sky-repeater-item-content>
+                </sky-repeater-item>
+              }
+            </sky-repeater>
+          </sky-split-view-drawer>
+
+          <sky-split-view-workspace ariaLabel="Transaction form">
+            <sky-split-view-workspace-content>
+              <sky-tile>
+                <sky-tile-title>Test header</sky-tile-title>
+                <sky-tile-content>Test content</sky-tile-content>
+              </sky-tile>
+
+              <div>Tile dashboard test</div>
+              <sky-tile-dashboard [(config)]="dashboardConfig" />
+            </sky-split-view-workspace-content>
+          </sky-split-view-workspace>
+        </sky-split-view>
+      </div>
+    </sky-modal-content>
+    <sky-modal-footer>
+      <button class="sky-btn sky-btn-primary" type="submit">Save</button>
+      <button
+        class="sky-btn sky-btn-link"
+        type="button"
+        (click)="instance.cancel()"
+      >
+        Cancel
+      </button>
+    </sky-modal-footer>
+  </sky-modal>
+</form>

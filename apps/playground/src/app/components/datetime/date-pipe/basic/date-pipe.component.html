@@ -23,9 +23,11 @@
       name="format"
       [(ngModel)]="format"
     >
-      <option *ngFor="let formatItem of formatList">
-        {{ formatItem }}
-      </option>
+      @for (formatItem of formatList; track formatItem) {
+        <option>
+          {{ formatItem }}
+        </option>
+      }
     </select>
     <span class="sky-deemphasized">
       Angular's predefined 'short' format is default. Choose a format above to
@@ -41,9 +43,11 @@
       name="locale"
       [(ngModel)]="locale"
     >
-      <option *ngFor="let localeItem of localeList">
-        {{ localeItem }}
-      </option>
+      @for (localeItem of localeList; track localeItem) {
+        <option>
+          {{ localeItem }}
+        </option>
+      }
     </select>
     <span class="sky-deemphasized">
       Default locale based on browser's settings. Choose a locale above to
@@ -70,7 +74,7 @@
   <h3>Pipe output →</h3>
 
   <p class="sky-font-emphasized">
-    {{ myDate | skyDate : format : locale }}
+    {{ myDate | skyDate: format : locale }}
   </p>
 
   <p class="sky-field-label">

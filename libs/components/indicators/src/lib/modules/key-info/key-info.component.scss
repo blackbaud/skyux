@@ -1,5 +1,11 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-key-info') {
+  --sky-override-key-info-horizontal-gap: var(--sky-margin-inline-xs);
+}
+
 .sky-key-info {
-  display: inline-block;
+  display: var(--sky-host-key-info-display, inline-block);
 
   &.sky-key-info-horizontal {
     .sky-key-info-value,
@@ -8,7 +14,17 @@
     }
 
     .sky-key-info-label {
-      padding: 0 0 0 var(--sky-margin-inline-xs);
+      padding: 0 0 0
+        var(
+          --sky-override-key-info-horizontal-gap,
+          var(--sky-space-gap-label-s)
+        );
+    }
+  }
+
+  &:not(.sky-key-info-horizontal) {
+    .sky-key-info-label {
+      padding: var(--sky-space-gap-label-0) 0 0 0;
     }
   }
 }

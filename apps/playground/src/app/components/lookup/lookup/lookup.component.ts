@@ -9,6 +9,7 @@ import {
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
+  Validators,
 } from '@angular/forms';
 import {
   SkyAutocompleteSearchAsyncArgs,
@@ -28,6 +29,7 @@ import { LookupCustomPickerComponent } from './lookup-custom-picker.component';
   selector: 'app-lookup',
   templateUrl: './lookup.component.html',
   styleUrls: ['./lookup.component.scss'],
+  standalone: false,
 })
 export class LookupComponent implements OnInit {
   public friendsForm: UntypedFormGroup;
@@ -69,7 +71,6 @@ export class LookupComponent implements OnInit {
   public bestFriendSelectMode: SkyLookupSelectModeType = 'single';
 
   @ViewChild('itemTemplate2')
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public set modalItemTemplate(itemTemplate: TemplateRef<unknown>) {
     this.showMoreConfig.nativePickerConfig = {
       itemTemplate: itemTemplate,
@@ -177,7 +178,7 @@ export class LookupComponent implements OnInit {
     });
 
     this.bestFriendsForm = this.formBuilder.group({
-      bestFriend: new UntypedFormControl(this.bestFriend),
+      bestFriend: new UntypedFormControl(this.bestFriend, Validators.required),
       bestFriendAsync: undefined,
     });
   }

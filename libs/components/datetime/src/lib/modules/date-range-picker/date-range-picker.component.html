@@ -1,130 +1,123 @@
-<div
-  *ngIf="isReady && formGroup"
-  class="sky-date-range-picker"
-  [formGroup]="formGroup"
->
+<div class="sky-date-range-picker" [formGroup]="formGroup">
   <div
-    class="sky-date-range-picker-form-group"
+    class="sky-date-range-picker-form-group sky-date-range-picker-select-calculator"
     [ngClass]="{
       'sky-date-range-picker-last-input':
-        !showStartDatePicker && !showEndDatePicker
+        !showStartDatePicker() && !showEndDatePicker()
     }"
   >
-    <sky-input-box [disabled]="disabled">
-      <label
-        class="sky-control-label"
-        [attr.for]="dateRangePickerId + '-select-calculator'"
-      >
-        {{
-          label || ('skyux_date_range_picker_default_label' | skyLibResources)
-        }}
-      </label>
-      <select
-        class="sky-form-control"
-        formControlName="calculatorId"
-        [attr.id]="dateRangePickerId + '-select-calculator'"
-        (blur)="onFieldBlur()"
-      >
-        <option
-          *ngFor="let calculator of calculators"
-          [value]="calculator.calculatorId"
-        >
-          {{ calculator.shortDescription }}
-        </option>
+    <sky-input-box
+      [hasErrors]="calculatorIdHasErrors()"
+      [helpKey]="helpKey"
+      [helpPopoverContent]="helpPopoverContent"
+      [helpPopoverTitle]="helpPopoverTitle"
+      [hintText]="hintText"
+      [labelText]="
+        labelText ||
+        label ||
+        ('skyux_date_range_picker_default_label' | skyLibResources)
+      "
+    >
+      <select formControlName="calculatorId" (change)="onCalculatorIdChange()">
+        @for (calculator of calculators; track calculator.calculatorId) {
+          <option [value]="calculator.calculatorId">
+            {{ calculator.shortDescription$ | async }}
+          </option>
+        }
       </select>
+      @if (
+        hostControl?.errors?.['skyDateRange']?.errors?.[
+          'endDateBeforeStartDate'
+        ] && labelText
+      ) {
+        <sky-form-error
+          errorName="endDateBeforeStartDate"
+          [errorText]="
+            'skyux_date_range_picker_end_date_before_start_date_error_label_text'
+              | skyLibResources
+          "
+        />
+      }
+      <span class="sky-input-box-descendent-form-error">
+        <ng-content select="sky-form-error" />
+      </span>
     </sky-input-box>
   </div>
-
   <div
-    class="sky-date-range-picker-form-group"
+    class="sky-date-range-picker-form-group sky-date-range-datepicker-wrapper sky-date-range-picker-start-date"
+    [hidden]="!showStartDatePicker()"
     [ngClass]="{
       'sky-date-range-picker-last-input':
-        showStartDatePicker && !showEndDatePicker
+        showStartDatePicker() && !showEndDatePicker()
     }"
-    [hidden]="!showStartDatePicker"
   >
-    <sky-input-box [disabled]="disabled">
-      <label
-        class="sky-control-label"
-        [attr.for]="dateRangePickerId + '-start-date'"
-        [ngClass]="{ 'sky-control-label-required': startDateRequired }"
-      >
-        {{
-          selectedCalculator?.type
-            | skyDateRangePickerStartDateResourceKey
-            | skyLibResources
-        }}
-      </label>
-
-      <sky-datepicker>
+    <sky-input-box
+      [hasErrors]="startDateHasErrors()"
+      [labelText]="
+        selectedCalculator.type
+          | skyDateRangePickerStartDateResourceKey
+          | skyLibResources
+      "
+    >
+      <sky-datepicker (calendarDateChange)="onDateChange()">
         <input
-          class="sky-form-control"
           formControlName="startDate"
+          name="startDate"
+          skyDatepickerInput
+          type="text"
           [attr.aria-label]="
-            label
+            labelText || label
               ? ('skyux_date_range_picker_default_aria_label'
                 | skyLibResources
-                  : (selectedCalculator?.type
+                  : (selectedCalculator.type
                       | skyDateRangePickerStartDateResourceKey
                       | skyLibResources)
-                  : label)
-              : (selectedCalculator?.type
+                  : (labelText ? labelText : label))
+              : (selectedCalculator.type
                 | skyDateRangePickerStartDateResourceKey
                 | skyLibResources)
           "
-          [attr.id]="dateRangePickerId + '-start-date'"
-          [attr.placeholder]="dateFormatOrDefault"
-          [required]="!!startDateRequired"
-          [dateFormat]="dateFormatOrDefault"
-          (blur)="onFieldBlur()"
-          skyDatepickerInput
+          [dateFormat]="dateFormat"
+          [required]="showStartDatePicker()"
+          (change)="onDateChange()"
         />
       </sky-datepicker>
     </sky-input-box>
   </div>
-
   <div
-    class="sky-date-range-picker-form-group"
-    [ngClass]="{
-      'sky-date-range-picker-last-input': showEndDatePicker
-    }"
-    [hidden]="!showEndDatePicker"
+    class="sky-date-range-picker-form-group sky-date-range-datepicker-wrapper sky-date-range-picker-end-date"
+    [hidden]="!showEndDatePicker()"
+    [ngClass]="{ 'sky-date-range-picker-last-input': showEndDatePicker() }"
   >
-    <sky-input-box [disabled]="disabled">
-      <label
-        class="sky-control-label"
-        [attr.for]="dateRangePickerId + '-end-date'"
-        [ngClass]="{ 'sky-control-label-required': endDateRequired }"
-      >
-        {{
-          selectedCalculator?.type
-            | skyDateRangePickerEndDateResourceKey
-            | skyLibResources
-        }}
-      </label>
-
-      <sky-datepicker>
+    <sky-input-box
+      [hasErrors]="endDateHasErrors()"
+      [labelText]="
+        selectedCalculator.type
+          | skyDateRangePickerEndDateResourceKey
+          | skyLibResources
+      "
+    >
+      <sky-datepicker (calendarDateChange)="onDateChange()">
         <input
-          class="sky-form-control"
           formControlName="endDate"
+          name="endDate"
           skyDatepickerInput
+          type="text"
           [attr.aria-label]="
-            label
+            labelText || label
               ? ('skyux_date_range_picker_default_aria_label'
                 | skyLibResources
-                  : (selectedCalculator?.type
+                  : (selectedCalculator.type
                       | skyDateRangePickerEndDateResourceKey
                       | skyLibResources)
-                  : label)
-              : (selectedCalculator?.type
+                  : (labelText ? labelText : label))
+              : (selectedCalculator.type
                 | skyDateRangePickerEndDateResourceKey
                 | skyLibResources)
           "
-          [attr.id]="dateRangePickerId + '-end-date'"
-          [attr.placeholder]="dateFormatOrDefault"
-          [dateFormat]="dateFormatOrDefault"
-          [required]="!!endDateRequired"
-          (blur)="onFieldBlur()"
+          [dateFormat]="dateFormat"
+          [required]="showEndDatePicker()"
+          (change)="onDateChange()"
         />
       </sky-datepicker>
     </sky-input-box>

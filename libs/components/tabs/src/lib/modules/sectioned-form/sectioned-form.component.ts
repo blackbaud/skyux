@@ -15,7 +15,7 @@ import {
 import { SkyLogService } from '@skyux/core';
 
 import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { SkyTabIdService } from '../shared/tab-id.service';
 
@@ -50,6 +50,7 @@ import { SkySectionedFormMessageType } from './types/sectioned-form-message-type
       ]),
     ]),
   ],
+  standalone: false,
 })
 export class SkySectionedFormComponent
   implements OnInit, OnDestroy, AfterViewChecked
@@ -79,7 +80,7 @@ export class SkySectionedFormComponent
    * section. The index is based on the section's position when the form loads.
    */
   @Output()
-  public indexChanged: EventEmitter<number> = new EventEmitter();
+  public indexChanged = new EventEmitter<number>();
 
   /**
    * Fires when the sectioned form tabs are shown or hidden.
@@ -125,7 +126,7 @@ export class SkySectionedFormComponent
     this.tabService.maintainTabContent = this.maintainSectionContent;
 
     this.tabService.indexChanged
-      .pipe(takeUntil(this.#ngUnsubscribe))
+      .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe((index) => {
         this.indexChanged.emit(index);
         this.#changeRef.markForCheck();
@@ -175,6 +176,7 @@ export class SkySectionedFormComponent
   /**
    * @deprecated Use the `tabsVisibleChanged` output to listen for tab visibility changes.
    */
+  /* istanbul ignore next */
   public tabsVisible(): boolean {
     this.#logger.deprecated('SectionedFormComponent.tabsVisible()', {
       deprecationMajorVersion: 8,

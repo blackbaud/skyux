@@ -46,6 +46,7 @@ import {
       ]),
     ]),
   ],
+  standalone: false,
 })
 export class SkyVerticalTabsetComponent
   implements OnInit, AfterViewChecked, OnDestroy
@@ -121,36 +122,32 @@ export class SkyVerticalTabsetComponent
   public ariaOwns: string | undefined;
 
   public isMobile = false;
+
+  protected tablistHasFocus = false;
+
   #ngUnsubscribe = new Subject<void>();
   #_ariaRole = 'tablist';
 
   #resources: SkyLibResourcesService;
   #changeRef: ChangeDetectorRef;
-  #tabIdSvc: SkyTabIdService;
 
   constructor(
     public adapterService: SkyVerticalTabsetAdapterService,
     public tabService: SkyVerticalTabsetService,
     resources: SkyLibResourcesService,
     changeRef: ChangeDetectorRef,
-    tabIdSvc: SkyTabIdService,
+    public tabIdSvc: SkyTabIdService,
   ) {
     this.#resources = resources;
     this.#changeRef = changeRef;
-    this.#tabIdSvc = tabIdSvc;
-
-    this.#tabIdSvc.ids.pipe(takeUntil(this.#ngUnsubscribe)).subscribe((ids) => {
-      this.ariaOwns = ids.join(' ') || undefined;
-      this.#changeRef.markForCheck();
-    });
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.tabService.maintainTabContent = this.maintainTabContent;
 
     this.tabService.indexChanged
       .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((index: any) => {
+      .subscribe((index) => {
         this.activeChange.emit(index);
         if (this.contentWrapper) {
           this.adapterService.scrollToContentTop(this.contentWrapper);
@@ -184,13 +181,37 @@ export class SkyVerticalTabsetComponent
     }
   }
 
-  public ngAfterViewChecked() {
+  public ngAfterViewChecked(): void {
     this.tabService.content = this.content;
     this.tabService.updateContent();
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+  }
+
+  protected tabsetFocus(): void {
+    this.tabService.focusActiveTab(this.tabGroups);
+  }
+
+  protected trapFocusInTablist(): void {
+    // This will set the tab index of the the vertical tabset element to -1
+    // while focus is inside the tab list, allowing Shift+Tab to move
+    // to the next element above the tab list element. Otherwise focus would
+    // be trapped on the currently focused tab.
+    this.tablistHasFocus = true;
+  }
+
+  protected resetTabIndex(): void {
+    this.tablistHasFocus = false;
+  }
+
+  protected tabGroupsArrowDown(): void {
+    this.adapterService.focusNextButton(this.tabGroups);
+  }
+
+  protected tabGroupsArrowUp(): void {
+    this.adapterService.focusPreviousButton(this.tabGroups);
   }
 }

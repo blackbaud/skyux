@@ -1,8 +1,0 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
-
-:host
-  ::ng-deep
-  sky-tile-content-section:not(:last-child)
-  .sky-tile-content-section {
-  @include mixins.sky-border(light);
-}

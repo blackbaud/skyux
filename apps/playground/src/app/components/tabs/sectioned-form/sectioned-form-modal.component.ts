@@ -1,11 +1,10 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ViewChild,
 } from '@angular/core';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
 
@@ -15,12 +14,10 @@ import { SectionedFormInformationFormDemoComponent } from './sectioned-form-info
 import { SectionedFormPhoneFormDemoComponent } from './sectioned-form-phone-form-demo.component';
 
 @Component({
-  standalone: true,
   selector: 'app-sectioned-form-modal',
   templateUrl: './sectioned-form-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     SkyIconModule,
     SkyModalModule,
     SkySectionedFormModule,

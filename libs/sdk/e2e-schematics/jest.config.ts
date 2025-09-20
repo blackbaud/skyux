@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'e2e-schematics',
   preset: '../../../jest.preset.js',
@@ -9,6 +8,7 @@ export default {
       'ts-jest',
       {
         tsconfig: '<rootDir>/tsconfig.spec.json',
+        useESM: true,
       },
     ],
   },

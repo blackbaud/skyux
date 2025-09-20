@@ -1,7 +1,20 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-$header-height: 50px;
+@include compatMixins.sky-default-overrides('.sky-flyout') {
+  --sky-override-flyout-background: #fff;
+  --sky-override-flyout-border-left: 6px solid
+    #{$sky-background-color-primary-dark};
+  --sky-override-flyout-header-background: #{$sky-background-color-neutral-light};
+  --sky-override-flyout-header-border-bottom: 1px solid
+    #{$sky-border-color-neutral-medium};
+  --sky-override-flyout-header-button-margin-right: #{$sky-margin-inline-default};
+  --sky-override-flyout-header-height: 50px;
+  --sky-override-flyout-header-padding: #{$sky-padding-squish-large};
+  --sky-override-flyout-header-position: fixed;
+  --sky-flyout-resize-handle-offset: -10px;
+  --sky-flyout-resize-handle-width: 14px;
+}
 
 .sky-flyout {
   position: fixed;
@@ -9,9 +22,17 @@ $header-height: 50px;
   top: 0;
   bottom: 0;
   height: 100%;
-  background-color: #fff;
-  --sky-background-color-page-default: #fff;
-  border-left: 6px solid $sky-background-color-primary-dark;
+  background-color: var(
+    --sky-override-flyout-background,
+    var(--sky-color-background-container-base)
+  );
+  --sky-background-color-page-default: var(
+    --sky-override-flyout-background,
+    var(--sky-color-background-container-base)
+  );
+  --sky-comp-override-list-header-background-color: initial;
+
+  border-left: var(--sky-override-flyout-border-left);
 
   &:focus {
     outline: none;
@@ -23,6 +44,10 @@ $header-height: 50px;
 
     .sky-flyout-resize-handle {
       cursor: initial;
+    }
+
+    .sky-flyout-header {
+      width: 100%;
     }
   }
 
@@ -48,9 +73,21 @@ $header-height: 50px;
   -webkit-appearance: none;
   -moz-appearance: none;
   height: 100%;
-  width: 14px;
+  width: var(
+    --sky-flyout-resize-handle-width,
+    var(--sky-size-width-resize_handle)
+  );
   position: absolute;
-  left: -10px;
+  left: var(
+    --sky-flyout-resize-handle-offset,
+    calc(
+      var(
+          --sky-flyout-resize-handle-width,
+          var(--sky-size-width-resize_handle)
+        ) *
+        -0.5
+    )
+  );
   cursor: ew-resize;
   padding: 0;
   border: 0;
@@ -97,23 +134,40 @@ $header-height: 50px;
 }
 
 .sky-flyout-header {
-  @include mixins.sky-border(dark, bottom);
+  border-bottom: var(
+    --sky-override-flyout-header-border-bottom,
+    var(--sky-border-width-divider) var(--sky-border-style-divider)
+      var(--sky-color-border-divider)
+  );
   width: inherit;
-  background: $sky-background-color-neutral-light;
-  height: $header-height;
+  background: var(
+    --sky-override-flyout-header-background,
+    var(--sky-color-background-container-base)
+  );
+  padding: var(
+    --sky-override-flyout-header-padding,
+    var(--sky-comp-flyout-header-space-inset-top)
+      var(--sky-comp-flyout-header-space-inset-right)
+      var(--sky-comp-flyout-header-space-inset-bottom)
+      var(--sky-comp-flyout-header-space-inset-left)
+  );
+  height: var(--sky-override-flyout-header-height);
   display: flex;
-  position: fixed;
+  position: var(--sky-override-flyout-header-position, sticky);
   align-items: flex-start;
+
+  .sky-flyout-btn-primary-action,
+  .sky-flyout-btn-permalink {
+    margin-right: var(
+      --sky-override-flyout-header-button-margin-right,
+      var(--sky-space-gap-action_group-m)
+    );
+    display: inline-block;
+  }
 }
 
 .sky-flyout-header-content {
   flex-grow: 1;
-}
-
-.sky-flyout-btn-permalink {
-  &:hover {
-    text-decoration: none;
-  }
 }
 
 .sky-flyout-help-shim {
@@ -126,35 +180,15 @@ $header-height: 50px;
 
 .sky-flyout-content {
   overflow-y: auto;
-  margin-top: $header-height;
-  height: calc(100% - $header-height);
+  // This margin-top rule can be removed when default support is dropped;
+  margin-top: var(--sky-override-flyout-header-height, 0);
+  // This height rule can be a straight 100% when default support is dropped;
+  height: calc(100% - var(--sky-override-flyout-header-height, 0px));
 }
 
-@include mixins.sky-theme-modern {
-  .sky-flyout {
-    border-left: 0;
-  }
-
-  .sky-flyout-header {
-    border-bottom: none;
-    background: #fff;
-    padding: $sky-theme-modern-space-md $sky-theme-modern-space-sm;
-  }
-
-  .sky-flyout-header-grab-handle {
-    cursor: move;
-    cursor: -webkit-grab;
-    cursor: -moz-grab;
-  }
-}
-
-@include mixins.sky-theme-modern-dark {
-  .sky-flyout {
-    background: #000;
-    --sky-background-color-page-default: #000;
-  }
-
-  .sky-flyout-header {
-    background: #000;
-  }
+.sky-flyout-header-grab-handle {
+  cursor: ew-resize;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  margin-right: var(--sky-space-gap-action_group-m);
 }

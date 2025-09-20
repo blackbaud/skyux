@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { RowNode } from 'ag-grid-community';
+
 import { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-params';
 
 import { SkyAgGridCellRendererLookupComponent } from './cell-renderer-lookup.component';
@@ -10,7 +12,9 @@ describe('CellRendererLookupComponent', () => {
   const params: Partial<SkyCellRendererLookupParams> = {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     registerRowDragger(): void {},
-    rowIndex: 0,
+    node: {
+      rowIndex: 0,
+    } as RowNode,
     skyComponentProperties: {
       data: [],
       descriptorProperty: 'name',
@@ -19,7 +23,7 @@ describe('CellRendererLookupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SkyAgGridCellRendererLookupComponent],
+      imports: [SkyAgGridCellRendererLookupComponent],
     }).compileComponents();
   });
 

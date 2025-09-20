@@ -1,28 +1,68 @@
 <sky-input-box class="sky-margin-inline-lg theme-selector-input">
   <label class="sky-control-label" [for]="inputBoxSelect.id">Theme</label>
   <select
-    class="sky-theme-selector sky-form-control"
-    skyId
     #inputBoxSelect="skyId"
+    skyId
+    class="sky-theme-selector sky-form-control"
     [(ngModel)]="themeName"
   >
     <option value="default">Default</option>
-    <option value="modern-light">Modern - Light</option>
-    <option value="modern-dark">Modern - Dark</option>
+    <option value="modern">Modern</option>
   </select>
 </sky-input-box>
-<sky-input-box class="theme-selector-input">
+<sky-input-box class="sky-margin-inline-lg theme-selector-input">
+  <label class="sky-control-label" [for]="inputBoxSelectMode.id">Mode</label>
+  <select
+    #inputBoxSelectMode="skyId"
+    class="sky-theme-selector sky-form-control"
+    skyId
+    [disabled]="modeValues().length === 1"
+    [(ngModel)]="themeMode"
+  >
+    @for (modeValue of modeValues(); track modeValue) {
+      <option [value]="modeValue">
+        {{ modeValue.charAt(0).toUpperCase() + modeValue.substring(1) }}
+      </option>
+    }
+  </select>
+</sky-input-box>
+
+<sky-input-box class="sky-margin-inline-lg theme-selector-input">
   <label class="sky-control-label" [for]="inputBoxSelectSpacing.id"
     >Spacing</label
   >
   <select
-    class="sky-theme-selector sky-form-control"
-    skyId
     #inputBoxSelectSpacing="skyId"
+    skyId
+    class="sky-theme-selector sky-form-control"
+    [disabled]="spacingValues().length === 1"
     [(ngModel)]="themeSpacing"
   >
-    <option *ngFor="let spacingValue of spacingValues" [value]="spacingValue">
-      {{ spacingValue.charAt(0).toUpperCase() + spacingValue.substring(1) }}
-    </option>
+    @for (spacingValue of spacingValues(); track spacingValue) {
+      <option [value]="spacingValue">
+        {{ spacingValue.charAt(0).toUpperCase() + spacingValue.substring(1) }}
+      </option>
+    }
   </select>
 </sky-input-box>
+@if (brandingValues().length > 0) {
+  <sky-input-box
+    class="sky-margin-inline-lg theme-selector-input"
+    labelText="Brand"
+  >
+    <select
+      #inputBoxSelectBranding="skyId"
+      skyId
+      class="sky-theme-selector sky-form-control"
+      [disabled]="brandingValues().length === 0"
+      [(ngModel)]="themeBrand"
+    >
+      <option [ngValue]="undefined">Blackbaud</option>
+      @for (brandingValue of brandingValues(); track brandingValue) {
+        <option [ngValue]="brandingValue.brand">
+          {{ brandingValue.readableName }}
+        </option>
+      }
+    </select>
+  </sky-input-box>
+}

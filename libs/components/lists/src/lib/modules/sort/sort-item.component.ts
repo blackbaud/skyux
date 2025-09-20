@@ -9,6 +9,9 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  TemplateRef,
+  ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -21,9 +24,11 @@ let sortItemIdNumber = 0;
 
 @Component({
   selector: 'sky-sort-item',
-  styleUrls: ['./sort-item.component.scss'],
   templateUrl: './sort-item.component.html',
+  styleUrls: ['./sort-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
   /**
@@ -36,11 +41,14 @@ export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
    * Fires when a sort item is selected.
    */
   @Output()
-  public itemSelect: EventEmitter<any> = new EventEmitter(); // TODO: Change to `EventEmitter<void>` in a breaking change.
+  public itemSelect = new EventEmitter<any>(); // TODO: Change to `EventEmitter<void>` in a breaking change.
 
   public isSelected: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false,
   );
+
+  @ViewChild(TemplateRef<any>)
+  public itemTemplate?: TemplateRef<any> | null;
 
   #subscription: Subscription | undefined;
 

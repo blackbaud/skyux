@@ -1,14 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyInputBoxModule } from '@skyux/forms';
-import {
-  SkyDefinitionListModule,
-  SkyFluidGridModule,
-  SkyPageModule,
-} from '@skyux/layout';
+import { SkyDefinitionListModule, SkyFluidGridModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
+import { SkyPageModule } from '@skyux/pages';
 import { SkySplitViewModule } from '@skyux/split-view';
 
 import { DataManagerModule } from '../../../shared/data-manager/data-manager.module';
@@ -21,7 +17,6 @@ import { SplitViewRoutingModule } from './split-view-routing.module';
 @NgModule({
   declarations: [SplitViewComponent, SplitViewPageBoundComponent],
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyDefinitionListModule,

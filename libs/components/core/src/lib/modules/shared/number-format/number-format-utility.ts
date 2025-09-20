@@ -20,9 +20,6 @@ function parseIntAutoRadix(text: string): number {
   return result;
 }
 
-// Need to add the following to classes which contain static methods.
-// See: https://github.com/ng-packagr/ng-packagr/issues/641
-// @dynamic
 export class SkyNumberFormatUtility {
   private static _NUMBER_FORMAT_REGEXP = /^(\d+)?\.((\d+)(-(\d+))?)?$/;
 
@@ -32,7 +29,7 @@ export class SkyNumberFormatUtility {
     style: SkyIntlNumberFormatStyle,
     digits?: string | null,
     currency: string | null = null,
-    currencyAsSymbol = false,
+    currencyDisplay: 'code' | 'symbol' | 'narrowSymbol' | 'name' = 'code',
     currencySign?: 'accounting' | 'standard',
   ): string | null {
     if (value == null) {
@@ -86,7 +83,7 @@ export class SkyNumberFormatUtility {
       minimumFractionDigits: minFraction,
       maximumFractionDigits: maxFraction,
       currency: currency,
-      currencyAsSymbol: currencyAsSymbol,
+      currencyDisplay: currencyDisplay,
       currencySign: currencySign,
     });
   }

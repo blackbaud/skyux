@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/e2e/ag-grid-storybook/src",
   "prefix": "app",
+  "tags": ["component-e2e"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -60,27 +61,25 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "ag-grid-storybook:build:production"
+          "buildTarget": "ag-grid-storybook:build:production"
         },
         "development": {
-          "browserTarget": "ag-grid-storybook:build:development"
+          "buildTarget": "ag-grid-storybook:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "ag-grid-storybook:build"
+        "buildTarget": "ag-grid-storybook:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": [
-          "apps/e2e/ag-grid-storybook/**/*.ts",
-          "apps/e2e/ag-grid-storybook/**/*.html"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
       }
     },
     "storybook": {
@@ -137,6 +136,5 @@
         }
       }
     }
-  },
-  "tags": ["component-e2e"]
+  }
 }

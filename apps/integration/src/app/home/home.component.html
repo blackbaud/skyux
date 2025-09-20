@@ -1,24 +1,25 @@
 <h2>Integrations</h2>
 
-<sky-data-manager *ngIf="integrationsData && integrationsData.length > 0">
-  <sky-data-manager-toolbar></sky-data-manager-toolbar>
-  <sky-data-view viewId="integrations">
-    <sky-action-button-container>
-      <sky-action-button
-        *ngFor="let integration of displayedItems"
-        [permalink]="{
-          route: {
-            commands: integration.path
-          }
-        }"
-      >
-        <sky-action-button-icon
-          [iconType]="integration.icon"
-        ></sky-action-button-icon>
-        <sky-action-button-header>
-          {{ integration.name }}
-        </sky-action-button-header>
-      </sky-action-button>
-    </sky-action-button-container>
-  </sky-data-view>
-</sky-data-manager>
+@if (integrationsData && integrationsData.length > 0) {
+  <sky-data-manager>
+    <sky-data-manager-toolbar />
+    <sky-data-view viewId="integrations">
+      <sky-action-button-container>
+        @for (integration of displayedItems; track integration) {
+          <sky-action-button
+            [permalink]="{
+              route: {
+                commands: integration.path
+              }
+            }"
+          >
+            <sky-action-button-icon [iconName]="integration.icon" />
+            <sky-action-button-header>
+              {{ integration.name }}
+            </sky-action-button-header>
+          </sky-action-button>
+        }
+      </sky-action-button-container>
+    </sky-data-view>
+  </sky-data-manager>
+}

@@ -46,13 +46,10 @@ export class SkyLogService {
    * `args` parameter.
    * @param name The name of the deprecated class, property, function, etc.
    * @param args Information about the deprecation and replacement recommendations.
-   * @returns
    */
-  public async deprecated(
-    name: string,
-    args?: SkyLogDeprecatedArgs,
-  ): Promise<void> {
+  public deprecated(name: string, args?: SkyLogDeprecatedArgs): void {
     const logLevel = args?.logLevel ?? SkyLogLevel.Warn;
+
     name = this.#convertStringToCode(name);
 
     if (this.#canLog(logLevel)) {
@@ -98,7 +95,6 @@ export class SkyLogService {
 
       this.#logBasedOnLevel(logLevel, messageParts.join(' '));
     }
-    return Promise.resolve();
   }
 
   /**

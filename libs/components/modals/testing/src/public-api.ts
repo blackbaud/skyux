@@ -1,8 +1,13 @@
-export { SkyModalFixture } from './modal-fixture';
+export { SkyModalFixture } from './legacy/modal-fixture';
 
-export { SkyConfirmButtonHarness } from './confirm/confirm-button-harness';
-export { SkyConfirmButtonHarnessFilters } from './confirm/confirm-button-harness-filters';
-export { SkyConfirmHarness } from './confirm/confirm-harness';
+export { SkyConfirmButtonHarness } from './modules/confirm/confirm-button-harness';
+export { SkyConfirmButtonHarnessFilters } from './modules/confirm/confirm-button-harness-filters';
+export { SkyConfirmHarness } from './modules/confirm/confirm-harness';
+export { SkyConfirmTestingController } from './modules/confirm/confirm-testing.controller';
+export { SkyConfirmTestingModule } from './modules/confirm/confirm-testing.module';
 
-export { SkyModalHarness } from './modal/modal-harness';
-export { SkyModalHarnessFilters } from './modal/modal-harness-filters';
+export { SkyModalTestingController } from './modules/modal/controller/modal-testing.controller';
+export { SkyModalTestingModule } from './modules/modal/controller/modal-testing.module';
+
+export { SkyModalHarness } from './modules/modal/modal-harness';
+export { SkyModalHarnessFilters } from './modules/modal/modal-harness-filters';

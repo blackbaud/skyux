@@ -4,9 +4,10 @@ import { SkyPageLinkInterface } from './types/page-link-interface';
 
 @Pipe({
   name: 'skyActionHubRelatedLinksSort',
+  standalone: false,
 })
 export class SkyActionHubRelatedLinksSortPipe implements PipeTransform {
-  public transform<T extends Array<SkyPageLinkInterface>>(
+  public transform<T extends SkyPageLinkInterface[]>(
     relatedLinks: T | 'loading' | undefined,
   ): T | 'loading' | [] {
     if (relatedLinks === 'loading') {

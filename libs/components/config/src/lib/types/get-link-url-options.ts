@@ -3,6 +3,6 @@ import { SkyConfigQueryParams } from './query-params';
 /**
  * Options used to create link URLs.
  */
-export type SkyConfigGetLinkUrlOptions = {
+export interface SkyConfigGetLinkUrlOptions {
   queryParams: SkyConfigQueryParams;
-};
+}

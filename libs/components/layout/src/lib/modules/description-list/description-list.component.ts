@@ -29,6 +29,7 @@ import { SkyDescriptionListModeType } from './types/description-list-mode-type';
   styleUrls: ['./description-list.component.scss'],
   providers: [SkyDescriptionListAdapterService, SkyDescriptionListService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyDescriptionListComponent
   implements AfterContentInit, OnDestroy

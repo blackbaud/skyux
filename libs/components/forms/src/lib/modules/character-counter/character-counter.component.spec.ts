@@ -4,6 +4,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyCharacterCounterIndicatorComponent } from './character-counter-indicator.component';
@@ -21,6 +22,34 @@ describe('Character Counter component', () => {
     fixture.componentInstance.firstName.setValue(value);
     fixture.detectChanges();
     tick();
+  }
+
+  function getScreenReaderText(
+    fixture: ComponentFixture<
+      CharacterCountTestComponent | CharacterCountNoIndicatorTestComponent
+    >,
+  ): string | null | undefined {
+    const screenReaderElement: HTMLElement | undefined =
+      fixture.debugElement.query(
+        By.css('.sky-screen-reader-only'),
+      ).nativeElement;
+    return screenReaderElement?.textContent;
+  }
+
+  function validateScreenReaderTextForCount(
+    fixture: ComponentFixture<
+      CharacterCountTestComponent | CharacterCountNoIndicatorTestComponent
+    >,
+    characterCount: number,
+    expectedCountOrText: number | string,
+    characterCountLimit: number,
+  ): void {
+    setInputValue(fixture, '1'.repeat(characterCount));
+    expect(getScreenReaderText(fixture)).toBe(
+      typeof expectedCountOrText === 'string'
+        ? expectedCountOrText
+        : `${expectedCountOrText} characters out of ${characterCountLimit}`,
+    );
   }
 
   beforeEach(function () {
@@ -154,6 +183,94 @@ describe('Character Counter component', () => {
       expect(characterCountComponent.characterCount).toBe(4);
       expect(characterCountLabelLastName.innerText.trim()).toBe('4/5');
     });
+
+    it('should announce to screen readers every 10 characters when within 50 characters of the limit', fakeAsync(() => {
+      // Sets the screen reader to the initial state
+      expect(getScreenReaderText(fixture)).toBe('4 characters out of 5');
+      component.setCharacterCountLimit(49);
+      fixture.detectChanges();
+
+      // Sets currently typed characters do not change until a breakpoint
+      validateScreenReaderTextForCount(fixture, 9, 4, 49);
+
+      validateScreenReaderTextForCount(fixture, 10, 10, 49);
+
+      validateScreenReaderTextForCount(fixture, 0, 0, 49);
+    }));
+
+    it('should announce to screen readers every 50 characters when not within 50 characters of the limit', fakeAsync(() => {
+      // Sets the screen reader to the initial state
+      expect(getScreenReaderText(fixture)).toBe('4 characters out of 5');
+      component.setCharacterCountLimit(99);
+      fixture.detectChanges();
+
+      // Sets currently typed characters do not change until a breakpoint
+      validateScreenReaderTextForCount(fixture, 9, 4, 99);
+
+      validateScreenReaderTextForCount(fixture, 10, 4, 99);
+
+      // Should not update when 50 characters is hit on a non-multiple of 10
+      validateScreenReaderTextForCount(fixture, 49, 4, 99);
+
+      validateScreenReaderTextForCount(fixture, 50, 50, 99);
+
+      validateScreenReaderTextForCount(fixture, 60, 60, 99);
+
+      validateScreenReaderTextForCount(fixture, 0, 0, 99);
+    }));
+
+    it('should announce to screen readers when backspacing at breakpoints', fakeAsync(() => {
+      // Sets the screen reader to the initial state
+      expect(getScreenReaderText(fixture)).toBe('4 characters out of 5');
+      component.setCharacterCountLimit(99);
+      fixture.detectChanges();
+
+      validateScreenReaderTextForCount(fixture, 60, 60, 99);
+
+      validateScreenReaderTextForCount(fixture, 59, 60, 99);
+
+      validateScreenReaderTextForCount(fixture, 50, 50, 99);
+
+      validateScreenReaderTextForCount(fixture, 49, 50, 99);
+
+      validateScreenReaderTextForCount(fixture, 5, 50, 99);
+
+      validateScreenReaderTextForCount(fixture, 0, 0, 99);
+    }));
+
+    it('should announce to screen readers when jumping from the initial value to a value past an announcement point', fakeAsync(() => {
+      // Sets the screen reader to the initial state
+      expect(getScreenReaderText(fixture)).toBe('4 characters out of 5');
+      component.setCharacterCountLimit(99);
+      fixture.detectChanges();
+
+      validateScreenReaderTextForCount(fixture, 98, 90, 99);
+    }));
+
+    it('should announce to screen readers when reaching the limit', fakeAsync(() => {
+      // Sets the screen reader to the initial state
+      expect(getScreenReaderText(fixture)).toBe('4 characters out of 5');
+      component.setCharacterCountLimit(99);
+      fixture.detectChanges();
+
+      validateScreenReaderTextForCount(fixture, 90, 90, 99);
+
+      validateScreenReaderTextForCount(fixture, 99, 99, 99);
+    }));
+
+    it('should announce to screen readers when over the limit', fakeAsync(() => {
+      component.setCharacterCountLimit(99);
+      fixture.detectChanges();
+
+      validateScreenReaderTextForCount(fixture, 99, 99, 99);
+
+      validateScreenReaderTextForCount(
+        fixture,
+        100,
+        'You are over the character limit.',
+        99,
+      );
+    }));
 
     it('should pass accessibility', async () => {
       fixture.detectChanges();

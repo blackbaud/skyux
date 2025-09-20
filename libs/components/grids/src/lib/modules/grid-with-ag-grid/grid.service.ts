@@ -10,6 +10,7 @@ import { ListItemModel } from '@skyux/list-builder-common';
 
 import {
   ColDef,
+  ColDefField,
   GetRowIdParams,
   GridOptions,
   RowClassParams,
@@ -40,6 +41,7 @@ const columnTypeMapping: Record<SkyGridColumnType, SkyCellType[]> = {
 export type ColDefWithField<TData> = ColDef<TData> & { field: string };
 
 let uniqueId = -1;
+const selectorField = '_selector' as const;
 
 @Injectable({
   providedIn: 'root',
@@ -117,7 +119,7 @@ export class SkyGridService {
     return gridOptions;
   }
 
-  public getAgGridColDefs<TData>(
+  public getAgGridColDefs<TData extends { [selectorField]?: boolean }>(
     options: SkyGridOptions,
     columns: Iterable<SkyGridColumnModelInterface>,
   ): ColDefWithField<TData>[] {
@@ -152,7 +154,7 @@ export class SkyGridService {
     if (options.enableMultiselect) {
       columnDefs.unshift({
         type: columnTypeMapping.selector,
-        field: '_selector',
+        field: selectorField as ColDefField<TData>,
         lockVisible: true,
       });
     }

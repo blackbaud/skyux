@@ -5,6 +5,7 @@ import { SkyModalInstance } from '@skyux/modals';
 @Component({
   selector: 'app-settings-modal',
   templateUrl: './settings-modal.component.html',
+  standalone: false,
 })
 export class SettingsModalComponent {
   public form: UntypedFormGroup;
@@ -15,7 +16,7 @@ export class SettingsModalComponent {
     public modal: SkyModalInstance,
     @Inject('modalTitle') public title: string,
   ) {
-    const controls: { [key: string]: unknown } = {};
+    const controls: Record<string, unknown> = {};
     for (let i = 1; i <= 5; i++) {
       const field = `${this.title} ${i}`;
       this.fields.push(field);

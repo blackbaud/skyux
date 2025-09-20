@@ -1,0 +1,14 @@
+<form #myForm="ngForm" novalidate>
+  <sky-input-box labelText="Favorite color">
+    <sky-autocomplete #standardAutocomplete [data]="data">
+      <input
+        id="my-autocomplete-input"
+        name="favoriteColor"
+        skyAutocomplete
+        type="text"
+        [autocompleteAttribute]="autocompleteAttribute"
+        [(ngModel)]="model.favoriteColor"
+      />
+    </sky-autocomplete>
+  </sky-input-box>
+</form>

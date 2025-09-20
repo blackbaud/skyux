@@ -1,11 +1,9 @@
-import {
-  applicationGenerator,
-  storybookConfigurationGenerator,
-} from '@nx/angular/generators';
+import { storybookConfigurationGenerator } from '@nx/angular/generators';
 import { NxJsonConfiguration, readNxJson, updateNxJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { Linter } from '@nx/linter';
+import { Linter } from '@nx/eslint';
 
+import { createTestApplication } from '../../utils/testing';
 import configureStorybook from '../configure-storybook';
 
 import generateStorybookComposition from './index';
@@ -13,6 +11,7 @@ import generateStorybookComposition from './index';
 describe('storybook-composition', () => {
   function setupTest() {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree.write('.gitignore', '#');
     const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
     nxJson.workspaceLayout = {
       appsDir: 'apps',
@@ -27,17 +26,16 @@ describe('storybook-composition', () => {
 
   it('should create composition', async () => {
     const { tree } = setupTest();
-    tree.write('.gitignore', '#');
     for (const name of ['storybook', 'test-app']) {
-      await applicationGenerator(tree, { name });
+      await createTestApplication(tree, { name, e2eTestRunner: true });
       await storybookConfigurationGenerator(tree, {
-        configureCypress: false,
-        generateCypressSpecs: false,
+        interactionTests: false,
+        skipFormat: true,
         generateStories: false,
         linter: Linter.None,
-        name,
+        project: name,
       });
-      await configureStorybook(tree, { name });
+      await configureStorybook(tree, { name, skipFormat: true });
     }
     const storybookMain = 'apps/storybook/.storybook/main.ts';
     expect(tree.isFile(storybookMain)).toBeTruthy();
@@ -45,6 +43,7 @@ describe('storybook-composition', () => {
     await generateStorybookComposition(tree, {
       projectsJson: JSON.stringify(['test-app']),
       baseUrl: '../storybooks',
+      skipFormat: true,
     });
     expect(tree.read(storybookMain)?.toString()).toContain('test-app');
   });
@@ -53,27 +52,25 @@ describe('storybook-composition', () => {
     const { tree } = setupTest();
     tree.write('.gitignore', '#');
     for (const name of ['storybook', 'test-app']) {
-      await applicationGenerator(tree, { name });
+      await createTestApplication(tree, { name, e2eTestRunner: true });
       if (name === 'storybook') {
         await storybookConfigurationGenerator(tree, {
-          configureCypress: false,
-          generateCypressSpecs: false,
+          interactionTests: false,
+          skipFormat: true,
           generateStories: false,
           linter: Linter.None,
-          name,
+          project: name,
         });
-        await configureStorybook(tree, { name });
+        await configureStorybook(tree, { name, skipFormat: true });
       }
     }
     const storybookMain = 'apps/storybook/.storybook/main.ts';
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    expect(tree.read(storybookMain)!.toString()).not.toContain('test-app');
+    expect(tree.read(storybookMain, 'utf-8')).not.toContain('test-app');
     await generateStorybookComposition(tree, {
       projectsJson: JSON.stringify(['test-app']),
       baseUrl: '../storybooks',
     });
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    expect(tree.read(storybookMain)!.toString()).not.toContain('test-app');
+    expect(tree.read(storybookMain, 'utf-8')).not.toContain('test-app');
   });
 
   it('should error without storybook project', async () => {
@@ -91,15 +88,18 @@ describe('storybook-composition', () => {
     expect(spy).toHaveBeenCalledWith(
       `Unable to load a project named "storybook"`,
     );
-    await applicationGenerator(tree, { name: 'storybook' });
+    await createTestApplication(tree, {
+      name: 'storybook',
+      e2eTestRunner: true,
+    });
     await storybookConfigurationGenerator(tree, {
-      configureCypress: false,
-      generateCypressSpecs: false,
+      interactionTests: false,
+      skipFormat: true,
       generateStories: false,
       linter: Linter.None,
-      name: 'storybook',
+      project: 'storybook',
     });
-    await configureStorybook(tree, { name: 'storybook' });
+    await configureStorybook(tree, { name: 'storybook', skipFormat: true });
     await generateStorybookComposition(tree, {
       projectsJson: '["test-app]',
       baseUrl: '../storybooks',
@@ -123,15 +123,15 @@ describe('storybook-composition', () => {
       'test-app-two',
       'test-app-three',
     ]) {
-      await applicationGenerator(tree, { name });
+      await createTestApplication(tree, { name, e2eTestRunner: true });
       await storybookConfigurationGenerator(tree, {
-        configureCypress: false,
-        generateCypressSpecs: false,
+        interactionTests: false,
+        skipFormat: true,
         generateStories: false,
         linter: Linter.None,
-        name,
+        project: name,
       });
-      await configureStorybook(tree, { name });
+      await configureStorybook(tree, { name, skipFormat: true });
     }
     const storybookMain = 'apps/storybook/.storybook/main.ts';
     expect(tree.isFile(storybookMain)).toBeTruthy();

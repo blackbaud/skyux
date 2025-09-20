@@ -22,46 +22,69 @@
   Toggle inline help
 </button>
 
+<button
+  type="button"
+  class="sky-btn sky-btn-primary sky-test-label"
+  (click)="markAllAsTouched(foo)"
+>
+  Mark all fields as touched
+</button>
+<button
+  type="button"
+  class="sky-btn sky-btn-primary sky-test-label"
+  (click)="toggleHeadingStyle()"
+>
+  Toggle heading style: {{ headingStyle ?? 'undefined' }}
+</button>
+
 <h1>Radio buttons (reactive)</h1>
 
 <form novalidate [formGroup]="radioForm">
-  <h3 id="favorite-id" [ngClass]="{ 'sky-control-label-required': required }">
-    What is your favorite season?
-  </h3>
   <div id="screenshot-radio">
     <sky-radio-group
       ariaLabelledBy="favorite-id"
       formControlName="favoriteSeason"
+      hintText="Group hint text"
+      headingText="What is your favorite season? (reactive)"
       [required]="required"
+      [stacked]="true"
+      [headingStyle]="headingStyle"
     >
-      <ul class="sky-list-unstyled">
-        <li *ngFor="let value of seasons">
-          <sky-radio [value]="value" [disabled]="value.disabled">
-            <sky-radio-label>
-              {{ value.name }}
-              <sky-help-inline
-                *ngIf="showInlineHelp"
-                class="sky-control-help"
-              ></sky-help-inline>
-            </sky-radio-label>
-          </sky-radio>
-        </li>
-      </ul>
+      @for (value of seasons; track value) {
+        <sky-radio [value]="value" [disabled]="value.disabled">
+          <sky-radio-label>
+            {{ value.name }}
+            @if (showInlineHelp) {
+              <sky-help-inline class="sky-control-help" />
+            }
+          </sky-radio-label>
+        </sky-radio>
+      }
+      @if (favoriteSeason.errors?.['incorrectSeason']) {
+        <sky-form-error
+          errorName="incorrectSeason"
+          errorText="Spring is the best season."
+        />
+      }
     </sky-radio-group>
   </div>
 
   <table>
     <tr>
       <th>Touched</th>
-      <td>{{ radioForm.touched }}</td>
+      <td>{{ favoriteSeason.touched }}</td>
+    </tr>
+    <tr>
+      <th>Dirty</th>
+      <td>{{ favoriteSeason.dirty }}</td>
     </tr>
     <tr>
       <th>Pristine</th>
-      <td>{{ radioForm.pristine }}</td>
+      <td>{{ favoriteSeason.pristine }}</td>
     </tr>
     <tr>
       <th>Valid</th>
-      <td>{{ radioForm.valid }}</td>
+      <td>{{ favoriteSeason.valid }}</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -73,30 +96,46 @@
 </form>
 
 <h1>Radio buttons (template-driven)</h1>
-
-<h3 [ngClass]="{ 'sky-control-label-required': required }">
-  What is your favorite season?
-</h3>
 <div>
   <sky-radio-group
+    #foo="ngModel"
+    headingText="What is your favorite season? (template)"
+    [disabled]="disabled"
+    [required]="required"
+    [headingHidden]="true"
+    [(ngModel)]="radioValue"
+  >
+    @for (item of seasons; track item) {
+      <sky-radio [value]="item.name" [disabled]="item.disabled">
+        <sky-radio-label>
+          {{ item.name }}
+          @if (showInlineHelp) {
+            <sky-help-inline class="sky-control-help" />
+          }
+        </sky-radio-label>
+      </sky-radio>
+    }
+  </sky-radio-group>
+</div>
+
+<h1>Radio button and group easy mode</h1>
+<div>
+  <sky-radio-group
+    #foo="ngModel"
+    helpPopoverContent="content"
+    headingText="What is your favorite season?"
     [disabled]="disabled"
     [required]="required"
     [(ngModel)]="radioValue"
-    #foo="ngModel"
   >
-    <ul class="sky-list-unstyled">
-      <li *ngFor="let item of seasons">
-        <sky-radio [value]="item.name" [disabled]="item.disabled">
-          <sky-radio-label>
-            {{ item.name }}
-            <sky-help-inline
-              *ngIf="showInlineHelp"
-              class="sky-control-help"
-            ></sky-help-inline>
-          </sky-radio-label>
-        </sky-radio>
-      </li>
-    </ul>
+    @for (item of seasons; track item) {
+      <sky-radio
+        [value]="item.name"
+        [disabled]="item.disabled"
+        [labelText]="item.name"
+        [helpPopoverContent]="showInlineHelp ? 'help content' : undefined"
+      />
+    }
   </sky-radio-group>
 </div>
 
@@ -130,8 +169,23 @@
     [disabled]="disabled"
     [(ngModel)]="iconSelectedValue"
   >
-    <sky-radio icon="thumbs-o-up" label="I like it" value="1" />
-    <sky-radio disabled icon="balance-scale" label="meh" value="2" />
-    <sky-radio icon="thumbs-o-down" label="I hate it" value="3" />
+    <sky-radio iconName="thumbs-up" label="I like it" value="1" />
+    <sky-radio disabled iconName="balance-scale" label="meh" value="2" />
+    <sky-radio iconName="thumbs-down" label="I hate it" value="3" />
+  </sky-radio-group>
+</form>
+
+<form novalidate>
+  <h3 id="icon-radio-group-label">Do you like it?</h3>
+
+  <sky-radio-group
+    class="sky-switch-icon-group"
+    name="iconRadioTest"
+    [disabled]="disabled"
+    [(ngModel)]="iconSelectedValue"
+  >
+    <sky-radio iconName="thumb-like" label="I like it" value="1" />
+    <sky-radio disabled iconName="circle-half-fill" label="meh" value="2" />
+    <sky-radio iconName="thumb-dislike" label="I hate it" value="3" />
   </sky-radio-group>
 </form>

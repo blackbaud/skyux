@@ -13,14 +13,13 @@
       <sky-split-view dock="fill" [messageStream]="splitViewStream">
         <sky-split-view-drawer [width]="width">
           <ul class="sky-visual-list">
-            <li
-              *ngFor="let item of items; let i = index"
-              (click)="onItemClick(i)"
-            >
-              {{ item.name }} <br />
-              {{ item.date }} <br />
-              {{ item.amount }}
-            </li>
+            @for (item of items; track item; let i = $index) {
+              <li (click)="onItemClick(i)">
+                {{ item.name }} <br />
+                {{ item.date }} <br />
+                {{ item.amount }}
+              </li>
+            }
           </ul>
         </sky-split-view-drawer>
 
@@ -58,19 +57,19 @@
                 Has unsaved work
               </label>
             </form>
-            <ng-container *ngIf="activeRecord.id === 7">
-              <app-lipsum></app-lipsum>
-              <app-lipsum></app-lipsum>
-              <app-lipsum></app-lipsum>
-              <app-lipsum></app-lipsum>
-              <app-lipsum></app-lipsum>
-              <app-data-manager></app-data-manager>
-              <app-lipsum></app-lipsum>
-              <app-lipsum></app-lipsum>
-              <app-lipsum></app-lipsum>
-              <app-lipsum></app-lipsum>
-              <app-lipsum></app-lipsum>
-            </ng-container>
+            @if (activeRecord.id === 7) {
+              <app-lipsum />
+              <app-lipsum />
+              <app-lipsum />
+              <app-lipsum />
+              <app-lipsum />
+              <app-data-manager />
+              <app-lipsum />
+              <app-lipsum />
+              <app-lipsum />
+              <app-lipsum />
+              <app-lipsum />
+            }
           </sky-split-view-workspace-content>
           <sky-split-view-workspace-footer>
             <button

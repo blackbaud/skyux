@@ -1,81 +1,145 @@
-<button
-  type="button"
-  class="sky-btn sky-btn-primary"
-  id="modal-trigger"
-  (click)="openModal()"
->
-  Open Modal
-</button>
-<button
-  type="button"
-  class="sky-btn sky-btn-primary"
-  id="full-modal-trigger"
-  (click)="openFullScreenModal()"
->
-  Open Fullscreen Modal
-</button>
-<button
-  type="button"
-  class="sky-btn sky-btn-primary"
-  id="hide-trigger"
-  (click)="toggleSummary()"
->
-  Toggle summary
-</button>
-<sky-summary-action-bar id="summary-action-bar">
-  <sky-summary-action-bar-actions>
-    <sky-summary-action-bar-primary-action (actionClick)="printHello()">
-      Primary action
-    </sky-summary-action-bar-primary-action>
-    <sky-summary-action-bar-secondary-actions>
-      Foo
-      <sky-summary-action-bar-secondary-action (actionClick)="printHello()">
-        Secondary action
-      </sky-summary-action-bar-secondary-action>
-      <sky-summary-action-bar-secondary-action (actionClick)="printHello()">
-        Secondary action 2
-      </sky-summary-action-bar-secondary-action>
-    </sky-summary-action-bar-secondary-actions>
-    <sky-summary-action-bar-cancel (actionClick)="printHello()">
-      Cancel
-    </sky-summary-action-bar-cancel>
-  </sky-summary-action-bar-actions>
-  <sky-summary-action-bar-summary *ngIf="showSummary">
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>$123.00</sky-key-info-value>
-      <sky-key-info-label>Field 1</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>$456.00</sky-key-info-value>
-      <sky-key-info-label>Field 2</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>18</sky-key-info-value>
-      <sky-key-info-label>Field 3</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>$123.00</sky-key-info-value>
-      <sky-key-info-label>Field 1</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>$456.00</sky-key-info-value>
-      <sky-key-info-label>Field 2</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>18</sky-key-info-value>
-      <sky-key-info-label>Field 3</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>$123.00</sky-key-info-value>
-      <sky-key-info-label>Field 1</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>$456.00</sky-key-info-value>
-      <sky-key-info-label>Field 2</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>18</sky-key-info-value>
-      <sky-key-info-label>Field 3</sky-key-info-label>
-    </sky-key-info>
-  </sky-summary-action-bar-summary>
-</sky-summary-action-bar>
+<div skyBackToTop>
+  <button
+    type="button"
+    class="sky-btn sky-btn-primary"
+    id="modal-trigger"
+    (click)="openModal()"
+  >
+    Open Modal
+  </button>
+  <button
+    type="button"
+    class="sky-btn sky-btn-primary"
+    id="full-modal-trigger"
+    (click)="openFullScreenModal()"
+  >
+    Open Fullscreen Modal
+  </button>
+  <button
+    type="button"
+    class="sky-btn sky-btn-primary"
+    id="hide-trigger"
+    (click)="toggleSummary()"
+  >
+    Toggle summary
+  </button>
+
+  @for (n of [1, 2, 3, 4, 5]; track n) {
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+      pellentesque tincidunt interdum. Ut sodales elementum enim id fermentum.
+      Nulla quis lacinia turpis, in laoreet augue. Integer euismod sagittis
+      nibh, ut blandit erat sagittis sed. Nullam a arcu sed ligula eleifend
+      lobortis at non nulla. Morbi eleifend dui sed gravida suscipit. Cras quis
+      luctus sapien, at auctor ante. Nulla vestibulum malesuada pulvinar. Nulla
+      facilisi. Curabitur eu felis et ante interdum malesuada. Nunc enim massa,
+      malesuada at faucibus a, placerat nec orci. In imperdiet vitae nisl ac
+      consequat. Praesent sed elit velit. Pellentesque sit amet congue lacus.
+      Sed placerat neque felis, ut facilisis nunc blandit eu. Cras posuere diam
+      vitae condimentum tincidunt.
+    </p>
+    <p>
+      Donec tellus sapien, malesuada a nulla id, elementum rutrum sapien.
+      Aliquam erat volutpat. Cras fermentum felis urna, in condimentum ante
+      venenatis nec. Pellentesque pharetra semper massa quis venenatis. Quisque
+      in rhoncus ex, at pretium felis. Aliquam ante leo, ullamcorper interdum
+      feugiat quis, ultrices a nisl. Ut sit amet tempus massa, vel viverra
+      sapien. Morbi aliquam gravida nisl, lacinia placerat urna congue non.
+      Vivamus a orci quis turpis venenatis hendrerit nec non magna. Ut in odio
+      mi.
+    </p>
+    <p>
+      Nulla congue lacinia lectus ut luctus. Quisque eget orci metus. Duis a
+      tristique arcu, a aliquet dui. Pellentesque euismod nisi congue elementum
+      tempus. Quisque mi lacus, eleifend ac dictum vitae, aliquam pellentesque
+      quam. Quisque ultricies metus mauris, sit amet dapibus tellus interdum in.
+      Donec id eleifend enim.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a metus
+      eros. Proin sed lacus aliquam, cursus metus vitae, sagittis elit. Nullam
+      consectetur, justo eu pharetra molestie, libero arcu mollis dolor, eu
+      molestie urna ex eu ex. In dapibus mollis interdum. Curabitur tempor
+      consectetur ipsum. Curabitur convallis gravida rutrum. Nunc cursus, diam a
+      porttitor tempus, lectus diam dignissim tellus, nec accumsan orci nulla in
+      sem. Nunc volutpat tortor ac facilisis interdum. Praesent nulla enim,
+      imperdiet id orci sit amet, consectetur convallis odio. In bibendum dolor
+      a posuere pharetra. Sed convallis diam turpis, varius ultricies est
+      fermentum ut. Morbi tincidunt velit eu dolor congue, sed dapibus lectus
+      dictum. Ut finibus sagittis urna ut rhoncus. Pellentesque ornare, nunc et
+      dignissim varius, justo ipsum vehicula augue, nec fringilla erat velit in
+      tellus.
+    </p>
+    <p>
+      Aenean rhoncus pretium felis convallis semper. Nunc aliquet mollis ligula,
+      id fringilla orci gravida eu. Nunc sed turpis vel nibh semper euismod at
+      non mauris. Donec lobortis ligula est, vitae aliquet mauris consectetur
+      ac. Aliquam ac eros accumsan, tempus dolor a, rutrum orci. Suspendisse eu
+      purus dui. Donec cursus non urna at consequat. Donec pharetra tincidunt
+      dapibus. Duis eu ligula mattis ex dictum tristique. Nam et mollis est, sit
+      amet tempus elit. Pellentesque sed maximus est, nec venenatis massa.
+      Phasellus eleifend tellus quis mi fringilla tristique. Quisque dignissim
+      ullamcorper augue, eget maximus arcu rutrum non.
+    </p>
+  }
+
+  <sky-summary-action-bar id="summary-action-bar" [formErrors]="error">
+    <sky-summary-action-bar-actions>
+      <sky-summary-action-bar-primary-action (actionClick)="printHello()">
+        Primary action
+      </sky-summary-action-bar-primary-action>
+      <sky-summary-action-bar-secondary-actions>
+        Foo
+        <sky-summary-action-bar-secondary-action (actionClick)="printHello()">
+          Secondary action
+        </sky-summary-action-bar-secondary-action>
+        <sky-summary-action-bar-secondary-action (actionClick)="printHello()">
+          Secondary action 2
+        </sky-summary-action-bar-secondary-action>
+      </sky-summary-action-bar-secondary-actions>
+      <sky-summary-action-bar-cancel (actionClick)="printHello()">
+        Cancel
+      </sky-summary-action-bar-cancel>
+    </sky-summary-action-bar-actions>
+    @if (showSummary) {
+      <sky-summary-action-bar-summary>
+        <sky-key-info [layout]="layout">
+          <sky-key-info-value>$123.00</sky-key-info-value>
+          <sky-key-info-label>Field 1</sky-key-info-label>
+        </sky-key-info>
+        <sky-key-info [layout]="layout">
+          <sky-key-info-value>$456.00</sky-key-info-value>
+          <sky-key-info-label>Field 2</sky-key-info-label>
+        </sky-key-info>
+        <sky-key-info [layout]="layout">
+          <sky-key-info-value>18</sky-key-info-value>
+          <sky-key-info-label>Field 3</sky-key-info-label>
+        </sky-key-info>
+        <sky-key-info [layout]="layout">
+          <sky-key-info-value>$123.00</sky-key-info-value>
+          <sky-key-info-label>Field 1</sky-key-info-label>
+        </sky-key-info>
+        <sky-key-info [layout]="layout">
+          <sky-key-info-value>$456.00</sky-key-info-value>
+          <sky-key-info-label>Field 2</sky-key-info-label>
+        </sky-key-info>
+        <sky-key-info [layout]="layout">
+          <sky-key-info-value>18</sky-key-info-value>
+          <sky-key-info-label>Field 3</sky-key-info-label>
+        </sky-key-info>
+        <sky-key-info [layout]="layout">
+          <sky-key-info-value>$123.00</sky-key-info-value>
+          <sky-key-info-label>Field 1</sky-key-info-label>
+        </sky-key-info>
+        <sky-key-info [layout]="layout">
+          <sky-key-info-value>$456.00</sky-key-info-value>
+          <sky-key-info-label>Field 2</sky-key-info-label>
+        </sky-key-info>
+        <sky-key-info [layout]="layout">
+          <sky-key-info-value>18</sky-key-info-value>
+          <sky-key-info-label>Field 3</sky-key-info-label>
+        </sky-key-info>
+      </sky-summary-action-bar-summary>
+    }
+  </sky-summary-action-bar>
+</div>

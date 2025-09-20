@@ -1,10 +1,3 @@
-<span
-  [style.width.px]="columnWidth"
-  [style.height.px]="rowHeightWithoutBorders"
->
-  {{
-    value === undefined
-      ? undefined
-      : (value | skyNumeric : skyComponentProperties)
-  }}
-</span>
+{{
+  value === undefined ? undefined : (value | skyNumeric: skyComponentProperties)
+}}

@@ -79,6 +79,7 @@ import { SkyListViewGridRowDeleteConfirmArgs } from './types/list-view-grid-row-
     GridStateModel,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyListViewGridComponent
   extends ListViewComponent
@@ -97,13 +98,13 @@ export class SkyListViewGridComponent
    * The columns to display by default based on the ID or field of the item.
    */
   @Input()
-  public displayedColumns: Array<string> | Observable<Array<string>>;
+  public displayedColumns: string[] | Observable<string[]>;
 
   /**
    * The columns to hide by default based on the ID or field of the item.
    */
   @Input()
-  public hiddenColumns: Array<string> | Observable<Array<string>>;
+  public hiddenColumns: string[] | Observable<string[]>;
 
   /**
    * How the grid fits to its parent. `"width"` fits the grid to the parent's full
@@ -201,7 +202,7 @@ export class SkyListViewGridComponent
    * reflects the column order.
    */
   @Output()
-  public selectedColumnIdsChange = new EventEmitter<Array<string>>();
+  public selectedColumnIdsChange = new EventEmitter<string[]>();
 
   @ViewChild(SkyGridComponent)
   public gridComponent: SkyGridComponent;
@@ -220,9 +221,9 @@ export class SkyListViewGridComponent
       : this.width;
   }
 
-  public columns: Observable<Array<SkyGridColumnModel>>;
+  public columns: Observable<SkyGridColumnModel[]>;
 
-  public selectedColumnIds: Observable<Array<string>>;
+  public selectedColumnIds: Observable<string[]>;
 
   public items: Observable<ListItemModel[]>;
 
@@ -273,7 +274,7 @@ export class SkyListViewGridComponent
     });
   }
 
-  public ngAfterContentInit() {
+  public ngAfterContentInit(): void {
     // Watch for selection changes and update multiselectSelectedIds for local comparison.
     this.state
       .pipe(
@@ -409,7 +410,7 @@ export class SkyListViewGridComponent
     this.initInlineDeleteMessages();
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
@@ -452,7 +453,7 @@ export class SkyListViewGridComponent
     }
   }
 
-  public columnIdsChanged(selectedColumnIds: Array<string>) {
+  public columnIdsChanged(selectedColumnIds: string[]): void {
     this.selectedColumnIds.pipe(take(1)).subscribe((currentIds) => {
       if (!this.arraysEqual(selectedColumnIds, currentIds)) {
         this.gridState
@@ -483,11 +484,11 @@ export class SkyListViewGridComponent
     this.rowDeleteConfirm.emit(args);
   }
 
-  public sortFieldChanged(sortField: ListSortFieldSelectorModel) {
+  public sortFieldChanged(sortField: ListSortFieldSelectorModel): void {
     this.dispatcher.sortSetFieldSelectors([sortField]);
   }
 
-  public override onViewActive() {
+  public override onViewActive(): void {
     /*
       Ran into problem where state updates were consumed out of order. For example, on search text
       update, the searchText update was consumed after the resulting list item update. Scanning the
@@ -515,11 +516,12 @@ export class SkyListViewGridComponent
             ? [this.searchFunction]
             : displayedColumns
                 .map(
-                  (column) => (data: any, searchText: string) =>
-                    column.searchFunction(
-                      getData(data, column.field),
-                      searchText,
-                    ),
+                  (column) =>
+                    (data: any, searchText: string): any =>
+                      column.searchFunction(
+                        getData(data, column.field),
+                        searchText,
+                      ),
                 )
                 .filter((c) => c !== undefined);
 
@@ -560,7 +562,7 @@ export class SkyListViewGridComponent
     }
   }
 
-  private handleColumnChange() {
+  private handleColumnChange(): void {
     // watch for changes in column components
     this.columnComponents.changes
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -588,7 +590,7 @@ export class SkyListViewGridComponent
     });
   }
 
-  private getGridItems(): Observable<Array<ListItemModel>> {
+  private getGridItems(): Observable<ListItemModel[]> {
     /*
       Same problem as above. We should move from having a state object observable with a bunch of
       static properties to a static state object with observable properties that you can subscribe
@@ -617,7 +619,7 @@ export class SkyListViewGridComponent
     );
   }
 
-  private getSelectedIds(): Observable<Array<string>> {
+  private getSelectedIds(): Observable<string[]> {
     /*
       Same problem as above. We should move from having a state object observable with a bunch of
       static properties to a static state object with observable properties that you can subscribe
@@ -650,7 +652,10 @@ export class SkyListViewGridComponent
     );
   }
 
-  private haveColumnIdsChanged(previousValue: string[], newValue: string[]) {
+  private haveColumnIdsChanged(
+    previousValue: string[],
+    newValue: string[],
+  ): boolean {
     if (previousValue.length !== newValue.length) {
       this.selectedColumnIdsChange.emit(newValue);
       return false;
@@ -679,9 +684,7 @@ export class SkyListViewGridComponent
       keys.push(key);
     });
 
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-
+    for (const key of keys) {
       const value = next.selectedIdMap.get(key);
       if (value !== prev.selectedIdMap.get(key)) {
         return false;
@@ -691,15 +694,15 @@ export class SkyListViewGridComponent
     return true;
   }
 
-  private arrayDiff(arrA: Array<any>, arrB: Array<any>): Array<any> {
+  private arrayDiff(arrA: any[], arrB: any[]): any[] {
     return arrA.filter((i) => arrB.indexOf(i) < 0);
   }
 
-  private arrayIntersection(arrA: Array<any>, arrB: Array<any>): Array<any> {
+  private arrayIntersection(arrA: any[], arrB: any[]): any[] {
     return arrA.filter((value) => -1 !== arrB.indexOf(value));
   }
 
-  private arraysEqual(arrayA: any[], arrayB: any[]) {
+  private arraysEqual(arrayA: any[], arrayB: any[]): boolean {
     return (
       arrayA.length === arrayB.length &&
       arrayA.every((value, index) => value === arrayB[index])

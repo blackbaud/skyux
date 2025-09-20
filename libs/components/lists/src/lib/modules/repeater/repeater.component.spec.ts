@@ -5,7 +5,6 @@ import {
   flush,
   inject,
   tick,
-  waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
@@ -109,7 +108,7 @@ describe('Repeater item component', () => {
     expected: boolean,
   ): void {
     if (expected) {
-      expect(deprecatedSpy).toHaveBeenCalledOnceWith(
+      expect(deprecatedSpy).toHaveBeenCalledWith(
         'SkyRepeaterItemComponent without `itemName`',
         {
           deprecationMajorVersion: 8,
@@ -117,7 +116,13 @@ describe('Repeater item component', () => {
         },
       );
     } else {
-      expect(deprecatedSpy).not.toHaveBeenCalled();
+      expect(deprecatedSpy).not.toHaveBeenCalledWith(
+        'SkyRepeaterItemComponent without `itemName`',
+        {
+          deprecationMajorVersion: 8,
+          replacementRecommendation: 'Always specify an `itemName` property.',
+        },
+      );
     }
   }
 
@@ -403,32 +408,32 @@ describe('Repeater item component', () => {
     expect(repeaterEls[2].getAttribute('aria-selected')).toBe('true');
   }));
 
-  it('should blur item when item is disabled', waitForAsync(() => {
+  it('should blur item when item is disabled', async () => {
     const fixture = TestBed.createComponent(RepeaterTestComponent);
+
     fixture.detectChanges();
-    fixture
-      .whenStable()
-      .then(() => {
-        fixture.nativeElement
-          .querySelector('sky-repeater-item-content a')
-          .focus();
-        expect(
-          fixture.nativeElement
-            .querySelector('sky-repeater')
-            .matches(':focus-within'),
-        ).toBeTruthy();
-        fixture.componentInstance.disableFirstItem = true;
-        fixture.detectChanges();
-        return fixture.whenStable();
-      })
-      .then(() => {
-        expect(
-          fixture.nativeElement
-            .querySelector('sky-repeater')
-            .matches(':focus-within'),
-        ).toBeFalsy();
-      });
-  }));
+
+    await fixture.whenStable();
+
+    fixture.nativeElement.querySelector('sky-repeater-item-content a').focus();
+
+    expect(
+      fixture.nativeElement
+        .querySelector('sky-repeater')
+        .matches(':focus-within'),
+    ).toBeTruthy();
+
+    fixture.componentInstance.disableFirstItem = true;
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(
+      fixture.nativeElement
+        .querySelector('sky-repeater')
+        .matches(':focus-within'),
+    ).toBeFalsy();
+  });
 
   it('should hide the chevron and disable expand/collapse for items with no content', fakeAsync(() => {
     const fixture = TestBed.createComponent(RepeaterTestComponent);
@@ -1451,9 +1456,10 @@ describe('Repeater item component', () => {
     const fixture = TestBed.createComponent(
       RepeaterWithMissingTagsFixtureComponent,
     );
-    const consoleSpy = spyOn(console, 'warn');
+    const logService = TestBed.inject(SkyLogService);
+    const logServiceSpy = spyOn(logService, 'warn');
     detectChangesAndTick(fixture);
-    expect(consoleSpy).toHaveBeenCalled();
+    expect(logServiceSpy).toHaveBeenCalled();
   }));
 
   describe('dragula integration', () => {
@@ -1522,7 +1528,7 @@ describe('Repeater item component', () => {
     let cmp: RepeaterTestComponent;
     let el: any;
     let mockDragulaService: MockDragulaService;
-    let consoleSpy: jasmine.Spy;
+    let logServiceSpy: jasmine.Spy;
 
     function fireDragEvent(dragEvent: 'drag' | 'dragend', index: number): void {
       const groupName = fixture.componentInstance.repeater?.dragulaGroupName;
@@ -1545,7 +1551,8 @@ describe('Repeater item component', () => {
 
       cmp = fixture.componentInstance;
       el = fixture.nativeElement;
-      consoleSpy = spyOn(console, 'warn');
+      const logService = TestBed.inject(SkyLogService);
+      logServiceSpy = spyOn(logService, 'warn');
 
       fixture.detectChanges();
       cmp.reorderable = true;
@@ -1575,7 +1582,7 @@ describe('Repeater item component', () => {
 
     it('should not show a console warning if all item tags are defined', fakeAsync(() => {
       detectChangesAndTick(fixture);
-      expect(consoleSpy).not.toHaveBeenCalled();
+      expect(logServiceSpy).not.toHaveBeenCalled();
     }));
 
     it('should set newly added items to reorderable if repeater is reorderable', fakeAsync(() => {
@@ -1987,7 +1994,7 @@ describe('Repeater item component', () => {
       cmp.showRepeaterWithNgFor = true;
       detectChangesAndTick(fixture);
 
-      expect(consoleSpy).not.toHaveBeenCalled();
+      expect(logServiceSpy).not.toHaveBeenCalled();
 
       cmp.items = [
         {
@@ -2000,9 +2007,33 @@ describe('Repeater item component', () => {
       ];
       detectChangesAndTick(fixture);
 
-      expect(consoleSpy).toHaveBeenCalledWith(
+      expect(logServiceSpy).toHaveBeenCalledWith(
         'Please supply tag properties for each repeater item when reordering functionality is enabled.',
       );
+    }));
+
+    it('should not show a console warning when the items change and no items exist', fakeAsync(() => {
+      cmp.showRepeaterWithNgFor = true;
+      detectChangesAndTick(fixture);
+
+      expect(logServiceSpy).not.toHaveBeenCalled();
+
+      cmp.items = [];
+      detectChangesAndTick(fixture);
+
+      expect(logServiceSpy).not.toHaveBeenCalled();
+    }));
+
+    it('should not show a console warning when the items change and items are undefined', fakeAsync(() => {
+      cmp.showRepeaterWithNgFor = true;
+      detectChangesAndTick(fixture);
+
+      expect(logServiceSpy).not.toHaveBeenCalled();
+
+      cmp.items = undefined;
+      detectChangesAndTick(fixture);
+
+      expect(logServiceSpy).not.toHaveBeenCalled();
     }));
   });
 

@@ -4,9 +4,7 @@ import { SkyLibResources } from './lib-resources';
  * @internal
  */
 export function getLibStringForLocale(
-  resources: {
-    [locale: string]: SkyLibResources;
-  },
+  resources: Record<string, SkyLibResources>,
   preferredLocale: string,
   name: string,
 ): string | undefined {

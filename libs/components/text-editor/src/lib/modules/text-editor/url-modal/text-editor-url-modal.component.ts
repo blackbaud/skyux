@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
@@ -20,7 +19,6 @@ const queryStringParamKey = '?Subject=';
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-text-editor-url-modal',
   templateUrl: './text-editor-url-modal.component.html',
   styleUrls: ['./text-editor-url-modal.component.scss'],
@@ -31,7 +29,6 @@ const queryStringParamKey = '?Subject=';
     SkyInputBoxModule,
     SkyTabsModule,
     SkyTextEditorResourcesModule,
-    NgIf,
   ],
 })
 export class SkyTextEditorUrlModalComponent {
@@ -113,8 +110,8 @@ export class SkyTextEditorUrlModalComponent {
         // Set active tab to email
         this.activeTab = 1;
       } else {
-        (this.url = this.#modalContext.urlResult.url),
-          (this.target = this.#modalContext.urlResult.target as any);
+        this.url = this.#modalContext.urlResult.url;
+        this.target = this.#modalContext.urlResult.target as any;
 
         // set active tab to web page
         this.activeTab = 0;

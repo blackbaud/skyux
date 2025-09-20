@@ -1,239 +1,277 @@
-<div id="screenshot-checkbox">
-  <sky-checkbox [checked]="true">
-    <sky-checkbox-label>
-      Checked Checkbox
-      <sky-help-inline
-        *ngIf="showInlineHelp"
-        class="sky-control-help"
-      ></sky-help-inline>
-    </sky-checkbox-label>
-  </sky-checkbox>
-  <sky-checkbox [checked]="false">
-    <sky-checkbox-label>
-      Unchecked Checkbox
-      <sky-help-inline
-        *ngIf="showInlineHelp"
-        class="sky-control-help"
-      ></sky-help-inline>
-    </sky-checkbox-label>
-  </sky-checkbox>
-  <sky-checkbox [checked]="false" [indeterminate]="true">
-    <sky-checkbox-label>
-      Indeterminate Checkbox [internal only]
-      <sky-help-inline
-        *ngIf="showInlineHelp"
-        class="sky-control-help"
-      ></sky-help-inline>
-    </sky-checkbox-label>
-  </sky-checkbox>
-  <sky-checkbox [checked]="false" [disabled]="true">
-    <sky-checkbox-label>
-      Disabled Checkbox
-      <sky-help-inline
-        *ngIf="showInlineHelp"
-        class="sky-control-help"
-      ></sky-help-inline>
-    </sky-checkbox-label>
-  </sky-checkbox>
-  <sky-checkbox [checked]="true" [disabled]="true">
-    <sky-checkbox-label>
-      Disabled Checked Checkbox
-      <sky-help-inline
-        *ngIf="showInlineHelp"
-        class="sky-control-help"
-      ></sky-help-inline>
-    </sky-checkbox-label>
-  </sky-checkbox>
+<div class="sky-padding-even-large">
+  <div id="screenshot-checkbox">
+    <sky-checkbox [checked]="true">
+      <sky-checkbox-label>
+        Checked Checkbox
+        @if (showInlineHelp) {
+          <sky-help-inline class="sky-control-help" />
+        }
+      </sky-checkbox-label>
+    </sky-checkbox>
+    <sky-checkbox [checked]="false">
+      <sky-checkbox-label>
+        Unchecked Checkbox
+        @if (showInlineHelp) {
+          <sky-help-inline class="sky-control-help" />
+        }
+      </sky-checkbox-label>
+    </sky-checkbox>
+    <sky-checkbox [checked]="false" [indeterminate]="true">
+      <sky-checkbox-label>
+        Indeterminate Checkbox [internal only]
+        @if (showInlineHelp) {
+          <sky-help-inline class="sky-control-help" />
+        }
+      </sky-checkbox-label>
+    </sky-checkbox>
+    <sky-checkbox [checked]="false" [disabled]="true">
+      <sky-checkbox-label>
+        Disabled Checkbox
+        @if (showInlineHelp) {
+          <sky-help-inline class="sky-control-help" />
+        }
+      </sky-checkbox-label>
+    </sky-checkbox>
+    <sky-checkbox [checked]="true" [disabled]="true">
+      <sky-checkbox-label>
+        Disabled Checked Checkbox
+        @if (showInlineHelp) {
+          <sky-help-inline class="sky-control-help" />
+        }
+      </sky-checkbox-label>
+    </sky-checkbox>
 
-  <sky-checkbox [checked]="false" [indeterminate]="true" [disabled]="true">
-    <sky-checkbox-label>
-      Disabled Indeterminate Checkbox [internal only]
-      <sky-help-inline
-        *ngIf="showInlineHelp"
-        class="sky-control-help"
-      ></sky-help-inline>
-    </sky-checkbox-label>
-  </sky-checkbox>
-</div>
-<div id="screenshot-icon-checkbox">
-  <sky-checkbox icon="bold" label="bold" [checked]="true"> </sky-checkbox>
-  <sky-checkbox icon="bold" label="bold" [checked]="false" [disabled]="true">
-  </sky-checkbox>
-  <sky-checkbox icon="bold" label="bold" [checked]="false"> </sky-checkbox>
-  <sky-checkbox
-    icon="umbrella"
-    checkboxType="info"
-    label="umbrella"
-    [checked]="true"
-  >
-  </sky-checkbox>
-  <sky-checkbox
-    icon="umbrella"
-    checkboxType="info"
-    label="umbrella"
-    [checked]="true"
-    [disabled]="true"
-  >
-  </sky-checkbox>
-  <sky-checkbox
-    icon="umbrella"
-    checkboxType="info"
-    label="umbrella"
-    [checked]="false"
-  >
-  </sky-checkbox>
-  <sky-checkbox
-    icon="star"
-    checkboxType="success"
-    label="favorite"
-    [checked]="true"
-  >
-  </sky-checkbox>
-  <sky-checkbox
-    icon="star"
-    checkboxType="success"
-    label="favorite"
-    [checked]="true"
-    [disabled]="true"
-  >
-  </sky-checkbox>
-  <sky-checkbox
-    icon="star"
-    checkboxType="success"
-    label="favorite"
-    [checked]="false"
-  >
-  </sky-checkbox>
-  <sky-checkbox
-    icon="exclamation-triangle"
-    checkboxType="warning"
-    label="careful"
-    [checked]="true"
-  >
-  </sky-checkbox>
-  <sky-checkbox
-    icon="exclamation-triangle"
-    checkboxType="warning"
-    label="careful"
-    [checked]="true"
-    [disabled]="true"
-  >
-  </sky-checkbox>
-  <sky-checkbox
-    icon="exclamation-triangle"
-    checkboxType="warning"
-    label="careful"
-    [checked]="false"
-  >
-  </sky-checkbox>
-  <sky-checkbox icon="ban" checkboxType="danger" label="wrong" [checked]="true">
-  </sky-checkbox>
-  <sky-checkbox
-    icon="ban"
-    checkboxType="danger"
-    label="wrong"
-    [checked]="true"
-    [disabled]="true"
-  >
-  </sky-checkbox>
-  <sky-checkbox
-    icon="ban"
-    checkboxType="danger"
-    label="wrong"
-    [checked]="false"
-  >
-  </sky-checkbox>
-</div>
+    <sky-checkbox [checked]="false" [indeterminate]="true" [disabled]="true">
+      <sky-checkbox-label>
+        Disabled Indeterminate Checkbox [internal only]
+        @if (showInlineHelp) {
+          <sky-help-inline class="sky-control-help" />
+        }
+      </sky-checkbox-label>
+    </sky-checkbox>
+  </div>
 
-<div id="template-driven-checkbox">
-  <h3>Template-driven checkbox</h3>
-  <p>
+  <div id="screenshot-icon-checkbox">
+    <sky-checkbox iconName="text-bold" label="bold" [checked]="true" />
     <sky-checkbox
-      ngModel
-      [indeterminate]="indeterminate"
-      [required]="required"
+      iconName="text-bold"
+      label="bold"
+      [checked]="false"
+      [disabled]="true"
+    />
+    <sky-checkbox iconName="text-bold" label="bold" [checked]="false" />
+    <sky-checkbox
+      iconName="toolbox"
+      checkboxType="info"
+      label="toolbox"
+      [checked]="true"
+    />
+    <sky-checkbox
+      iconName="toolbox"
+      checkboxType="info"
+      label="toolbox"
+      [checked]="true"
+      [disabled]="true"
+    />
+    <sky-checkbox
+      iconName="toolbox"
+      checkboxType="info"
+      label="toolbox"
+      [checked]="false"
+    />
+    <sky-checkbox
+      iconName="star"
+      checkboxType="success"
+      label="favorite"
+      [checked]="true"
+    />
+    <sky-checkbox
+      iconName="star"
+      checkboxType="success"
+      label="favorite"
+      [checked]="true"
+      [disabled]="true"
+    />
+    <sky-checkbox
+      iconName="star"
+      checkboxType="success"
+      label="favorite"
+      [checked]="false"
+    />
+    <sky-checkbox
+      iconName="warning"
+      checkboxType="warning"
+      label="careful"
+      [checked]="true"
+    />
+    <sky-checkbox
+      iconName="warning"
+      checkboxType="warning"
+      label="careful"
+      [checked]="true"
+      [disabled]="true"
+    />
+    <sky-checkbox
+      iconName="warning"
+      checkboxType="warning"
+      label="careful"
+      [checked]="false"
+    />
+    <sky-checkbox
+      iconName="prohibited"
+      checkboxType="danger"
+      label="wrong"
+      [checked]="true"
+    />
+    <sky-checkbox
+      iconName="prohibited"
+      checkboxType="danger"
+      label="wrong"
+      [checked]="true"
+      [disabled]="true"
+    />
+    <sky-checkbox
+      iconName="prohibited"
+      checkboxType="danger"
+      label="wrong"
+      [checked]="false"
+    />
+  </div>
+
+  <div id="template-driven-checkbox">
+    <h3>Template-driven checkbox</h3>
+    <sky-checkbox
       #templateDrivenCheckbox="ngModel"
-    >
-      <sky-checkbox-label>
-        Check me
-        <sky-help-inline
-          *ngIf="showInlineHelp"
-          class="sky-control-help"
-        ></sky-help-inline>
-      </sky-checkbox-label>
-    </sky-checkbox>
-  </p>
-
-  <table>
-    <tr>
-      <th>Touched</th>
-      <td>{{ templateDrivenCheckbox.touched }}</td>
-    </tr>
-    <tr>
-      <th>Pristine</th>
-      <td>{{ templateDrivenCheckbox.pristine }}</td>
-    </tr>
-    <tr>
-      <th>Valid</th>
-      <td>{{ templateDrivenCheckbox.valid }}</td>
-    </tr>
-  </table>
-</div>
-
-<div id="reactive-checkbox">
-  <h3>Reactive checkbox</h3>
-
-  <form [formGroup]="reactiveFormGroup" novalidate>
-    <sky-checkbox
+      ngModel
+      labelText="Check me"
       [indeterminate]="indeterminate"
       [required]="required"
-      formControlName="reactiveCheckbox"
+      [stacked]="true"
+    />
+    <table>
+      <tr>
+        <th>Errors</th>
+        <td>{{ templateDrivenCheckbox.errors | json }}</td>
+      </tr>
+      <tr>
+        <th>Touched</th>
+        <td>{{ templateDrivenCheckbox.touched }}</td>
+      </tr>
+      <tr>
+        <th>Pristine</th>
+        <td>{{ templateDrivenCheckbox.pristine }}</td>
+      </tr>
+      <tr>
+        <th>Valid</th>
+        <td>{{ templateDrivenCheckbox.valid }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div id="reactive-checkbox">
+    <h3>Reactive checkbox</h3>
+
+    <form
+      novalidate
+      class="sky-margin-stacked-xl"
+      [formGroup]="reactiveFormGroup"
     >
-      <sky-checkbox-label>
-        Check me
-        <sky-help-inline
-          *ngIf="showInlineHelp"
-          class="sky-control-help"
-        ></sky-help-inline>
-      </sky-checkbox-label>
-    </sky-checkbox>
+      <sky-checkbox
+        labelText="Check me"
+        formControlName="reactiveCheckbox"
+        [indeterminate]="indeterminate"
+      />
+    </form>
+
+    <table>
+      <tr>
+        <th>Errors</th>
+        <td>{{ reactiveFormGroup.get('reactiveCheckbox')?.errors | json }}</td>
+      </tr>
+      <tr>
+        <th>Touched</th>
+        <td>{{ reactiveFormGroup.touched }}</td>
+      </tr>
+      <tr>
+        <th>Pristine</th>
+        <td>{{ reactiveFormGroup.pristine }}</td>
+      </tr>
+      <tr>
+        <th>Valid</th>
+        <td>{{ reactiveFormGroup.valid }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <button
+    class="sky-btn sky-btn-primary sky-margin-inline-xs"
+    type="button"
+    (click)="toggleRequired()"
+  >
+    Toggle required
+  </button>
+
+  <button
+    class="sky-btn sky-btn-primary sky-margin-inline-xs"
+    type="button"
+    (click)="toggleIndeterminate()"
+  >
+    Toggle indeterminate
+  </button>
+  <button
+    class="sky-btn sky-btn-primary"
+    type="button"
+    (click)="toggleInlineHelp()"
+  >
+    Toggle inline help
+  </button>
+
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmitContactMethod()">
+    <sky-checkbox-group
+      helpPopoverContent="content"
+      helpPopoverTitle="title"
+      hintText="Group hint text"
+      headingText="Contact method"
+      [formGroup]="contactMethod"
+      [required]="true"
+      [stacked]="true"
+    >
+      <sky-checkbox
+        formControlName="email"
+        helpKey="helpKey.html"
+        labelText="Email"
+        required="true"
+      />
+      <sky-checkbox
+        formControlName="phone"
+        labelText="Phone"
+        helpPopoverContent="content"
+      />
+      <sky-checkbox formControlName="text" labelText="Text" />
+    </sky-checkbox-group>
+    <div class="sky-margin-stacked-xl">
+      <sky-checkbox
+        formControlName="terms"
+        labelText="I agree to the terms and conditions"
+        [required]="true"
+      />
+    </div>
+    <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
   </form>
 
-  <table>
-    <tr>
-      <th>Touched</th>
-      <td>{{ reactiveFormGroup.touched }}</td>
-    </tr>
-    <tr>
-      <th>Pristine</th>
-      <td>{{ reactiveFormGroup.pristine }}</td>
-    </tr>
-    <tr>
-      <th>Valid</th>
-      <td>{{ reactiveFormGroup.valid }}</td>
-    </tr>
-  </table>
+  <h2>Template driven</h2>
+
+  <form (ngSubmit)="onSubmitContactMethod()">
+    <sky-checkbox-group
+      #templateFormGroup="ngModelGroup"
+      headingText="Contact method"
+      ngModelGroup="model"
+      required="true"
+    >
+      <sky-checkbox labelText="Email" name="email" ngModel />
+      <sky-checkbox labelText="Phone" name="phone" ngModel />
+      <sky-checkbox labelText="Text" name="text" ngModel />
+    </sky-checkbox-group>
+    <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
+  </form>
 </div>
-
-<button
-  class="sky-btn sky-btn-primary sky-margin-inline-xs"
-  type="button"
-  (click)="toggleRequired()"
->
-  Toggle required
-</button>
-
-<button
-  class="sky-btn sky-btn-primary sky-margin-inline-xs"
-  type="button"
-  (click)="toggleIndeterminate()"
->
-  Toggle indeterminate
-</button>
-<button
-  class="sky-btn sky-btn-primary"
-  type="button"
-  (click)="toggleInlineHelp()"
->
-  Toggle inline help
-</button>

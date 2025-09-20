@@ -1,89 +1,127 @@
 @use '../../variables' as *;
 
-.sky-theme-modern,
-.sky-theme-modern form {
-  font-size: $sky-theme-modern-font-body-default-size;
-  font-weight: $sky-theme-modern-font-body-default-weight;
-  transition: background-color $sky-transition-time-short,
+html:has(.sky-theme-modern) {
+  font-size: initial;
+}
+
+.sky-theme-modern {
+  font-size: var(--sky-font-size-body-m);
+  font-weight: var(--sky-font-style-body-m);
+  font-family: var(--sky-font-family-primary);
+  color: var(--sky-color-text-default);
+  background-color: var(--sky-color-background-page);
+
+  transition:
+    background-color $sky-transition-time-short,
     color $sky-transition-time-short;
+}
+
+.sky-theme-modern form {
+  font-size: var(--sky-font-size-body-m);
+  font-family: var(--sky-font-family-primary);
+
+  transition:
+    background-color $sky-transition-time-short,
+    color $sky-transition-time-short;
+}
+
+body.sky-theme-modern {
+  line-height: var(--sky-font-line_height-body-m);
 }
 
 .sky-theme-modern {
   a {
-    border-radius: 0;
+    color: var(--sky-color-text-action);
+    border-radius: var(--sky-border-radius-s);
 
     &:focus-visible:not(:active) {
-      box-shadow: 0 0 0 2px var(--sky-background-color-primary-dark),
-        0 1px 8px 2px $sky-theme-modern-elevation-3-shadow-color;
+      outline: none;
+      box-shadow: 0 0 0 var(--sky-border-width-action-focus)
+        var(--sky-color-border-action-tertiary-focus);
     }
   }
 
   h1,
   .sky-font-heading-1 {
-    font-family: $sky-font-family;
-    font-size: $sky-theme-modern-font-heading-1-size;
-    font-weight: $sky-theme-modern-font-heading-1-weight;
+    color: var(--sky-color-text-heading);
+    font-family: var(--sky-font-family-primary);
+    font-size: var(--sky-font-size-heading-1);
+    font-weight: var(--sky-font-style-heading-1);
+    line-height: var(--sky-font-line_height-heading-1);
   }
 
   h2,
   .sky-font-heading-2 {
-    font-family: $sky-font-family;
-    font-size: $sky-theme-modern-font-heading-2-size;
-    font-weight: $sky-theme-modern-font-heading-2-weight;
+    color: var(--sky-color-text-heading);
+    font-family: var(--sky-font-family-primary);
+    font-size: var(--sky-font-size-heading-2);
+    font-weight: var(--sky-font-style-heading-2);
+    line-height: var(--sky-font-line_height-heading-2);
   }
 
   h3,
   .sky-font-heading-3 {
-    color: var(--sky-text-color-default);
-    font-size: $sky-theme-modern-font-heading-3-size;
-    font-weight: $sky-theme-modern-font-heading-3-weight;
+    color: var(--sky-color-text-heading);
+    font-size: var(--sky-font-size-heading-3);
+    font-weight: var(--sky-font-style-heading-3);
+    line-height: var(--sky-font-line_height-heading-3);
   }
 
   h4,
   .sky-font-heading-4 {
-    color: $sky-theme-modern-font-heading-4-color;
-    font-size: $sky-theme-modern-font-heading-4-size;
-    font-weight: $sky-theme-modern-font-heading-4-weight;
-    text-transform: $sky-theme-modern-font-heading-4-transform;
+    color: var(--sky-color-text-heading);
+    font-size: var(--sky-font-size-heading-4);
+    font-weight: var(--sky-font-style-heading-4);
+    text-transform: none;
+    line-height: var(--sky-font-line_height-heading-4);
   }
 
   h5,
   .sky-font-heading-5 {
-    color: $sky-theme-modern-font-heading-5-color;
-    font-size: $sky-theme-modern-font-heading-5-size;
-    font-weight: $sky-theme-modern-font-heading-5-weight;
-    text-transform: $sky-theme-modern-font-heading-5-transform;
+    color: var(--sky-color-text-heading);
+    font-size: var(--sky-font-size-heading-5);
+    font-weight: var(--sky-font-style-heading-5);
+    text-transform: none;
+    line-height: var(--sky-font-line_height-heading-5);
   }
 
   p {
-    line-height: $sky-theme-modern-font-paragraph-line-height;
+    line-height: var(--sky-font-line_height-body-m);
   }
 
   mark.sky-highlight-mark {
-    background-color: var(--sky-background-color-danger-dark);
-    color: var(--sky-text-color-on-dark);
+    background-color: var(--sky-color-background-text_highlight);
+    color: var(--sky-color-text-default);
+    border-bottom: var(--sky-border-width-text_highlight)
+      var(--sky-border-style-accent) var(--sky-color-border-text_highlight);
   }
 
-  &.sky-theme-mode-dark {
-    h1,
-    h2,
-    h3,
-    h6,
-    .sky-font-heading-1,
-    .sky-font-heading-2,
-    .sky-font-heading-3,
-    .sky-font-heading-6 {
-      color: var(--sky-text-color-default);
-    }
-
-    h4,
-    h5,
-    .sky-font-heading-4,
-    .sky-font-heading-5 {
-      color: var(--sky-text-color-deemphasized);
-    }
+  :is(a, .sky-btn-link-inline) mark.sky-highlight-mark {
+    color: var(--sky-color-text-action_contrast);
   }
+
   .sky-rounded-corners {
-    border-radius: $sky-theme-modern-box-border-radius-default;
+    border-radius: var(--sky-border-radius-s);
+  }
+
+  .sky-illustration-svg {
+    height: 100%;
+    width: 100%;
+
+    .sky-illustration-fill-softest {
+      fill: var(--sky-color-illustration-fill-softest);
+    }
+
+    .sky-illustration-fill-soft {
+      fill: var(--sky-color-illustration-fill-soft);
+    }
+
+    .sky-illustration-fill-heavy {
+      fill: var(--sky-color-illustration-fill-heavy);
+    }
+
+    .sky-illustration-outline {
+      stroke: var(--sky-color-illustration-stroke);
+    }
   }
 }

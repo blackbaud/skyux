@@ -1,4 +1,5 @@
 <div>
+  <label for="phone-field-template-input">Template phone field</label>
   <sky-phone-field
     [allowExtensions]="allowExtensions"
     [defaultCountry]="defaultCountry"
@@ -7,14 +8,17 @@
     [(selectedCountry)]="selectedCountry"
   >
     <input
-      [disabled]="isDisabled"
+      id="phone-field-template-input"
       skyPhoneFieldInput
+      [disabled]="isDisabled"
       [skyPhoneFieldNoValidate]="noValidate"
       [(ngModel)]="modelValue"
     />
   </sky-phone-field>
 
-  <div *ngIf="showInvalidDirective">
+  @if (showInvalidDirective) {
+  <div>
     <input type="text" skyPhoneFieldInput />
   </div>
+  }
 </div>

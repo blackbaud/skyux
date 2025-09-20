@@ -141,7 +141,9 @@ describe('Toaster component', () => {
     expect(toasts.length).toEqual(1);
     validateToastMessage(toasts[0], message);
     expect(toasts.item(0).querySelector('.sky-toast-info')).toExist();
-    expect(toasts.item(0).querySelector('.fa-exclamation-circle')).toExist();
+    expect(
+      toasts.item(0).querySelector('sky-icon-svg[data-sky-icon="info"]'),
+    ).toExist();
   }));
 
   it('should display a toast component with a type set', fakeAsync(() => {
@@ -152,7 +154,9 @@ describe('Toaster component', () => {
     expect(toasts.length).toEqual(1);
     validateToastMessage(toasts[0], message);
     expect(toasts.item(0).querySelector('.sky-toast-danger')).toExist();
-    expect(toasts.item(0).querySelector('.fa-warning')).toExist();
+    expect(
+      toasts.item(0).querySelector('sky-icon-svg[data-sky-icon="warning"]'),
+    ).toExist();
   }));
 
   it('should handle closing a toast', fakeAsync(() => {
@@ -258,8 +262,12 @@ describe('Toaster component', () => {
       numToasterClicks++;
     });
 
-    toaster && SkyAppTestUtility.fireDomEvent(toaster, 'click');
-    toast && SkyAppTestUtility.fireDomEvent(toast, 'click');
+    if (toaster) {
+      SkyAppTestUtility.fireDomEvent(toaster, 'click');
+    }
+    if (toast) {
+      SkyAppTestUtility.fireDomEvent(toast, 'click');
+    }
 
     checkbox.click();
 
@@ -284,7 +292,9 @@ describe('Toaster component', () => {
       spy: jasmine.Spy,
       expectedValue: boolean,
     ) {
-      toaster && SkyAppTestUtility.fireDomEvent(toaster, eventName);
+      if (toaster) {
+        SkyAppTestUtility.fireDomEvent(toaster, eventName);
+      }
       expect(spy).toHaveBeenCalledWith(expectedValue);
     }
 

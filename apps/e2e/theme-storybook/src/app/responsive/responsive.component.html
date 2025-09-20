@@ -1,18 +1,20 @@
 <div class="media-queries-examples">
   <h3>Responsive behavior based on media query</h3>
-  <app-responsive-content></app-responsive-content>
+  <app-responsive-content />
 </div>
 
 <div class="container-queries-examples">
   <h3>Responsive behavior based on container class</h3>
-  <div
-    *ngFor="let containerBreakpoint of containerBreakpoints"
-    [class]="'sky-responsive-container-' + containerBreakpoint"
-  >
-    <p>
-      Container breakpoint:
-      <code>sky-responsive-container-{{ containerBreakpoint }}</code>
-    </p>
-    <app-responsive-content></app-responsive-content>
-  </div>
+  @for (
+    containerBreakpoint of containerBreakpoints;
+    track containerBreakpoint
+  ) {
+    <div [class]="'sky-responsive-container-' + containerBreakpoint">
+      <p>
+        Container breakpoint:
+        <code>sky-responsive-container-{{ containerBreakpoint }}</code>
+      </p>
+      <app-responsive-content />
+    </div>
+  }
 </div>

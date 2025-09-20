@@ -5,12 +5,13 @@ import { SkyListViewGridComponent } from '../list-view-grid.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-view-grid-dynamic.component.fixture.html',
+  standalone: false,
 })
 export class ListViewGridDynamicTestComponent {
   @ViewChild(SkyListViewGridComponent)
   public grid: SkyListViewGridComponent;
-  public data: Array<any>;
-  public gridColumns: Array<any>;
+  public data: any[];
+  public gridColumns: any[];
   constructor() {
     this.data = [
       {

@@ -14,6 +14,8 @@ import {
 } from '@angular/core';
 import {
   SKY_STACKING_CONTEXT,
+  SkyAppWindowRef,
+  SkyIdService,
   SkyOverlayInstance,
   SkyOverlayService,
   SkyStackingContext,
@@ -28,13 +30,14 @@ import { SkyPopoverAlignment } from './types/popover-alignment';
 import { SkyPopoverPlacement } from './types/popover-placement';
 import { SkyPopoverType } from './types/popover-type';
 
-let nextId = 0;
-
 @Component({
   selector: 'sky-popover',
   templateUrl: './popover.component.html',
+  standalone: false,
 })
 export class SkyPopoverComponent implements OnDestroy {
+  readonly #windowRef = inject(SkyAppWindowRef);
+
   /**
    * The horizontal alignment of the popover in relation to the trigger element.
    * The `skyPopoverAlignment` property on the popover directive takes precedence over this property when specified.
@@ -47,20 +50,6 @@ export class SkyPopoverComponent implements OnDestroy {
 
   public get alignment(): SkyPopoverAlignment {
     return this.#_alignment;
-  }
-
-  /**
-   * Whether to close the popover when it loses focus.
-   * To require users to click a trigger button to close the popover, set this input to false.
-   * @default true
-   */
-  @Input()
-  public set dismissOnBlur(value: boolean | undefined) {
-    this.#_dismissOnBlur = value ?? true;
-  }
-
-  public get dismissOnBlur(): boolean {
-    return this.#_dismissOnBlur;
   }
 
   /**
@@ -123,7 +112,7 @@ export class SkyPopoverComponent implements OnDestroy {
 
   public isMouseEnter = false;
 
-  public popoverId = `sky-popover-${nextId++}`;
+  public popoverId: string;
 
   @ViewChild('templateRef', {
     read: TemplateRef,
@@ -140,8 +129,6 @@ export class SkyPopoverComponent implements OnDestroy {
   #overlay: SkyOverlayInstance | undefined;
 
   #_alignment: SkyPopoverAlignment = 'center';
-
-  #_dismissOnBlur = true;
 
   #_placement: SkyPopoverPlacement = 'above';
 
@@ -161,6 +148,8 @@ export class SkyPopoverComponent implements OnDestroy {
   ) {
     this.#overlayService = overlayService;
     this.#zIndex = stackingContext?.zIndex;
+
+    this.popoverId = inject(SkyIdService).generateId();
   }
 
   public ngOnDestroy(): void {
@@ -185,16 +174,26 @@ export class SkyPopoverComponent implements OnDestroy {
     placement?: SkyPopoverPlacement,
     alignment?: SkyPopoverAlignment,
   ): void {
-    if (!this.#overlay) {
-      this.#setupOverlay();
-    }
-
     this.placement = placement ?? this.placement;
     this.alignment = alignment ?? this.alignment;
     this.isActive = true;
 
+    if (!this.#overlay) {
+      this.#setupOverlay();
+
+      // Wait for the overlay component to be fully initialized before opening.
+      // Create a microtask to prioritize opening the popover immediately after
+      // setting up its overlay.
+      this.#windowRef.nativeWindow.queueMicrotask(() => {
+        this.#openPopover(caller);
+      });
+    } else {
+      this.#openPopover(caller);
+    }
+  }
+
+  #openPopover(caller: ElementRef): void {
     this.#contentRef.open(caller, {
-      dismissOnBlur: this.dismissOnBlur,
       enableAnimations: this.enableAnimations,
       horizontalAlignment: this.alignment,
       id: this.popoverId,
@@ -231,6 +230,10 @@ export class SkyPopoverComponent implements OnDestroy {
     this.#isMarkedForCloseOnMouseLeave = true;
   }
 
+  public hasFocusableContent(): boolean {
+    return this.#contentRef.hasFocusableContent();
+  }
+
   #setupOverlay(): void {
     if (this.templateRef) {
       const overlay = this.#overlayService.create({
@@ -250,9 +253,7 @@ export class SkyPopoverComponent implements OnDestroy {
       overlay.backdropClick
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
-          if (this.dismissOnBlur) {
-            this.close();
-          }
+          this.close();
         });
 
       const contentRef = overlay.attachComponent(SkyPopoverContentComponent, [

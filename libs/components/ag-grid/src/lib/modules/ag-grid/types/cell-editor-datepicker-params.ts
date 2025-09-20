@@ -5,10 +5,10 @@ import {
   SkyDatepickerProperties,
 } from './datepicker-properties';
 
-/**
- * @internal
- */
 export interface SkyCellEditorDatepickerParams extends ICellEditorParams {
+  /**
+   * The parameters provided to the datepicker component.
+   */
   skyComponentProperties?:
     | SkyDatepickerProperties
     | SkyAgGridDatepickerProperties;

@@ -1,4 +1,5 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { SummaryActionBarComponent } from './summary-action-bar.component';
 import { SummaryActionBarModule } from './summary-action-bar.module';
@@ -13,33 +14,55 @@ export default {
     }),
   ],
 } as Meta<SummaryActionBarComponent>;
-const SummaryActionBar: StoryFn<SummaryActionBarComponent> = (
-  args: SummaryActionBarComponent,
-) => ({
-  props: args,
-});
+type Story = StoryObj<SummaryActionBarComponent>;
 
-export const SummaryActionBarPage = SummaryActionBar.bind({});
+export const SummaryActionBarPage: Story = {};
 SummaryActionBarPage.args = {
   type: 'page',
 };
 
-export const SummaryActionBarTabs = SummaryActionBar.bind({});
+export const SummaryActionBarTabs: Story = {};
 SummaryActionBarTabs.args = {
   type: 'tab',
 };
 
-export const SummaryActionBarSplitView = SummaryActionBar.bind({});
+export const SummaryActionBarSplitView: Story = {};
 SummaryActionBarSplitView.args = {
   type: 'split-view',
 };
 
-export const SummaryActionBarModal = SummaryActionBar.bind({});
+export const SummaryActionBarModal: Story = {};
 SummaryActionBarModal.args = {
   type: 'modal',
 };
 
-export const SummaryActionBarModalFullPage = SummaryActionBar.bind({});
+export const SummaryActionBarModalFullPage: Story = {};
 SummaryActionBarModalFullPage.args = {
   type: 'modal-full-page',
+};
+
+export const SummaryActionBarSingleError: Story = {};
+SummaryActionBarSingleError.args = {
+  errors: [{ message: 'This is an error inside a SAB.' }],
+};
+
+export const SummaryActionBarOverflowErrors: Story = {};
+SummaryActionBarOverflowErrors.args = {
+  errors: [
+    { message: 'This is an error inside a SAB.' },
+    { message: 'A different error.' },
+    { message: 'A different error.' },
+    { message: 'A different error.' },
+    { message: 'A different error.' },
+    { message: 'Overflow error.' },
+  ],
+};
+
+export const SummaryActionBarModalErrors: Story = {};
+SummaryActionBarModalErrors.args = {
+  errors: [
+    { message: 'This is an error inside a SAB.' },
+    { message: 'A different error.' },
+  ],
+  type: 'modal',
 };

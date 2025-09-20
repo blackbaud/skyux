@@ -1,7 +1,15 @@
-<ng-container *ngFor="let variant of variations">
-  <ng-container *ngFor="let close of closeable">
+@for (variant of variations; track variant) {
+  @for (close of closeable; track close) {
     <sky-alert [alertType]="variant" [closeable]="close">
-      {{ variant | titlecase }} alert
+      {{ variant | titlecase }} alert with a <a href="#">link</a> and a
+      <a skyHref="https://example.com" data-sky-id="my-href-1">skyHref link</a>
+      and a
+      <a
+        skyHref="deny://example.com"
+        skyHrefElse="unlink"
+        data-sky-id="my-href-unlinked"
+        >skyHref unlinked link</a
+      >
     </sky-alert>
-  </ng-container>
-</ng-container>
+  }
+}

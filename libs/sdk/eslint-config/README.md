@@ -1,7 +1,4 @@
-# eslint-config
+# @skyux-sdk/eslint-config
 
-This library was generated with [Nx](https://nx.dev).
-
-## Running unit tests
-
-Run `nx test eslint-config` to execute the unit tests via [Jest](https://jestjs.io).
+> [! WARNING]
+> This package is deprecated. Use [`eslint-config-skyux`](https://github.com/blackbaud/skyux/tree/main/libs/sdk/eslint-config-skyux) instead.

@@ -6,28 +6,42 @@ on:
   push:
     branches:
       - main
+      - '[0-9]+.x.x'
 env:
+  # Set to 'alpha', 'beta', or 'rc' to create a prerelease.
   PRERELEASE: 'false'
-  MAJOR_VERSION: 9
+  MAJOR_VERSION: 13
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - name: Next release
-        if: ${{ env.PRERELEASE == 'true' }}
+        if: ${{ env.PRERELEASE != 'false' }}
         id: next-release
         run: |
           # Log commands and exit on error.
           set -exo pipefail
 
+          if [[ "${PRERELEASE}" != "alpha" && "${PRERELEASE}" != "beta" && "${PRERELEASE}" != "rc" ]]; then
+            echo "Invalid PRERELEASE value. Must be 'alpha', 'beta', or 'rc'."
+            exit 1
+          fi
+
           # Get the current prerelease version.
-          CURRENT_RELEASE=$(gh release list -R blackbaud/skyux|grep '^v${{ env.MAJOR_VERSION }}'|head -1|cut -d$'\t' -f 3)
+          ACC="Accept: application/vnd.github+json"
+          VER="X-GitHub-Api-Version: 2022-11-28"
+          JSON='map(.tag_name) | [.[] | select(startswith("${{ env.MAJOR_VERSION }}.")) ] | .[0] // empty'
+          CURRENT_RELEASE=$(gh api -H "${ACC}" -H "${VER}" /repos/${{ github.repository }}/releases | jq -r "${JSON}")
 
           # Bump the prerelease version.
-          NEXT_VERSION=$(npx --yes semver -i prerelease $CURRENT_RELEASE)
+          if [[ -z "$CURRENT_RELEASE" || "$CURRENT_RELEASE" != "${{ env.MAJOR_VERSION }}.0.0-${{ env.PRERELEASE }}."* ]]; then
+            NEXT_VERSION="${{ env.MAJOR_VERSION }}.0.0-${{ env.PRERELEASE }}.0"
+          else
+            NEXT_VERSION=$(npx --yes semver -i prerelease $CURRENT_RELEASE)
+          fi
 
           # If version is empty, exit.
-          if [ -z "$CURRENT_RELEASE" ] || [ -z "$NEXT_VERSION" ]; then
+          if [ -z "$NEXT_VERSION" ]; then
             echo "Not able to determine prerelease version."
             exit 1
           fi
@@ -46,17 +60,19 @@ jobs:
           pull-request-title-pattern: 'chore: release ${version}'
           labels: 'autorelease ${{ github.ref_name }}: pending'
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
-          release-as: '${{ steps.next-release.outputs.next-release }}'
-          prerelease: ${{ env.PRERELEASE == 'true' }}
+          # release-as: '${{ steps.next-release.outputs.next-release }}'
+          release-as: '13.0.0'
+          prerelease: ${{ env.PRERELEASE != 'false' }}
           draft-pull-request: true
           include-v-in-tag: false
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         id: setup-node
         with:
+          cache: 'npm'
           node-version-file: '.nvmrc'
       # Workaround to avoid "Post Run actions/setup-node" failures.
       # See: https://github.com/actions/setup-node/issues/317
@@ -64,15 +80,8 @@ jobs:
         if: ${{ !steps.release.outputs.release_created }}
         run: mkdir -p /home/runner/.npm
         continue-on-error: true
-      - name: Cache node modules
-        if: ${{ steps.release.outputs.release_created }}
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
-        if: ${{ steps.release.outputs.release_created && steps.cache.outputs.cache-hit != 'true' }}
+        if: ${{ steps.release.outputs.release_created }}
         run: npm ci
       - name: Build
         if: ${{ steps.release.outputs.release_created }}
@@ -82,6 +91,13 @@ jobs:
         run: npx skyux-dev publish-packages-dist
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Capture logs
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-logs
+          path: /home/runner/.npm/_logs
+          retention-days: 3
       - name: Notify Slack (success)
         if: ${{ steps.release.outputs.release_created }}
         uses: rtCamp/action-slack-notify@v2

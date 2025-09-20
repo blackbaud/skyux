@@ -4,17 +4,17 @@ import {
   ITreeState,
   TreeComponent,
 } from '@blackbaud/angular-tree-component';
-import { IDTypeDictionary } from '@blackbaud/angular-tree-component/lib/defs/api';
 
 @Component({
   templateUrl: './tree-view.fixture.component.html',
+  standalone: false,
 })
 export class SkyTreeViewFixtureComponent {
   public activeNodeIds: any;
 
   public contextMenuAriaLabel: string | undefined;
 
-  public expandedNodeIds: IDTypeDictionary | undefined;
+  public expandedNodeIds: Record<string, unknown> | undefined;
 
   public focusedNodeId: any;
 
@@ -46,7 +46,7 @@ export class SkyTreeViewFixtureComponent {
 
   public readOnly = false;
 
-  public selectedLeafNodeIds: IDTypeDictionary | undefined;
+  public selectedLeafNodeIds: Record<string, unknown> | undefined;
 
   public selectLeafNodesOnly: boolean | undefined;
 

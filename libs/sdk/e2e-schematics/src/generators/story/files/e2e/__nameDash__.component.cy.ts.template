@@ -1,0 +1,23 @@
+import { E2eVariations } from '@skyux-sdk/e2e-schematics';
+
+describe('<%= name %>', () => {
+  E2eVariations.forEachTheme((theme) => {
+    describe(`in ${theme} theme`, () => {
+      beforeEach(() =>
+        cy.visit(
+          `/iframe.html?globals=theme:${theme}&id=<%= nameDash %>component--<%= nameDash %>`,
+        ),
+      );
+
+      it('should render the component', () => {
+        cy.get('app-<%= nameDash %>')
+          .should('exist')
+          .should('be.visible')
+          .screenshot(`<%= nameDash %>-${theme}`);
+        cy.percySnapshot(`<%= nameDash %>-${theme}`, {
+          widths: E2eVariations.DISPLAY_WIDTHS,
+        });
+      });
+    });
+  });
+});

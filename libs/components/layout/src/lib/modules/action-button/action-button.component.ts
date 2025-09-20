@@ -17,9 +17,13 @@ import { SkyActionButtonPermalink } from './action-button-permalink';
  */
 @Component({
   selector: 'sky-action-button',
-  styleUrls: ['./action-button.component.scss'],
+  styleUrls: [
+    './action-button.default.component.scss',
+    './action-button.modern.component.scss',
+  ],
   templateUrl: './action-button.component.html',
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyActionButtonComponent {
   @HostBinding('hidden')
@@ -43,15 +47,15 @@ export class SkyActionButtonComponent {
     this.#changeDetector = changeDetector;
   }
 
-  public buttonClicked() {
+  public buttonClicked(): void {
     this.actionClick.emit();
   }
 
-  public enterPress() {
+  public enterPress(): void {
     this.actionClick.emit();
   }
 
-  public onSkyHrefDisplayChange($event: SkyHrefChange) {
+  public onSkyHrefDisplayChange($event: SkyHrefChange): void {
     if (this.hidden === $event.userHasAccess) {
       setTimeout(() => {
         this.hidden = !$event.userHasAccess;

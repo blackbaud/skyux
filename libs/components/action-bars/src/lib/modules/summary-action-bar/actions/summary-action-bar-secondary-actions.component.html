@@ -1,22 +1,8 @@
-<div
-  *ngIf="
-    !isMobile &&
-    secondaryActionComponents &&
-    secondaryActionComponents.length < 5
-  "
-  class="sky-summary-action-bar-secondary-buttons"
-  role="menubar"
->
-  <ng-container
-    *ngTemplateOutlet="summaryActionBarSecondaryActions"
-  ></ng-container>
-</div>
-<div
-  *ngIf="
-    isMobile ||
-    (secondaryActionComponents && secondaryActionComponents.length > 4)
-  "
->
+@if (breakpoint() !== 'xs' && secondaryActionComponents().length < 5) {
+  <div class="sky-summary-action-bar-secondary-buttons" role="menubar">
+    <ng-container *ngTemplateOutlet="summaryActionBarSecondaryActions" />
+  </div>
+} @else {
   <sky-dropdown
     buttonType="select"
     [attr.title]="'skyux_summary_action_bar_open_secondary' | skyLibResources"
@@ -24,15 +10,13 @@
     [messageStream]="dropdownMessageStream"
   >
     <sky-dropdown-button>
-      <sky-icon icon="ellipsis" />
+      <sky-icon iconName="more-actions" />
     </sky-dropdown-button>
     <sky-dropdown-menu>
-      <ng-container
-        *ngTemplateOutlet="summaryActionBarSecondaryActions"
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="summaryActionBarSecondaryActions" />
     </sky-dropdown-menu>
   </sky-dropdown>
-</div>
+}
 <ng-template #summaryActionBarSecondaryActions>
   <ng-content select="sky-summary-action-bar-secondary-action" />
 </ng-template>

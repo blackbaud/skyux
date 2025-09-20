@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/e2e/theme-storybook/src",
   "prefix": "app",
+  "tags": ["component-e2e"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -59,27 +60,25 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "theme-storybook:build:production"
+          "buildTarget": "theme-storybook:build:production"
         },
         "development": {
-          "browserTarget": "theme-storybook:build:development"
+          "buildTarget": "theme-storybook:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "theme-storybook:build"
+        "buildTarget": "theme-storybook:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": [
-          "apps/e2e/theme-storybook/**/*.ts",
-          "apps/e2e/theme-storybook/**/*.html"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
       }
     },
     "storybook": {
@@ -132,6 +131,5 @@
         }
       }
     }
-  },
-  "tags": ["component-e2e"]
+  }
 }

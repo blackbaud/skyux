@@ -21,6 +21,11 @@ export interface SkyNumericOptions {
   currencySign?: 'accounting' | 'standard';
 
   /**
+   * Specifies the display of the currency. Defaults to 'symbol'.
+   */
+  currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name';
+
+  /**
    * Specifies the ISO4217 currency code to use for currency formatting.
    */
   iso?: string;
@@ -61,6 +66,8 @@ export class NumericOptions implements SkyNumericOptions {
 
   public currencySign?: 'accounting' | 'standard' = 'standard';
 
+  public currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name';
+
   public iso?: string = 'USD';
 
   public locale?: string;
@@ -73,13 +80,12 @@ export class NumericOptions implements SkyNumericOptions {
 
   constructor() {
     const logService = new SkyLogService(new SkyAppFormat());
-    logService
-      .deprecated('NumericOptions', {
-        deprecationMajorVersion: 7,
-        moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/numeric',
-        replacementRecommendation:
-          'Use the `SkyNumericOptions` interface instead.',
-      })
-      .then();
+
+    logService.deprecated('NumericOptions', {
+      deprecationMajorVersion: 7,
+      moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/numeric',
+      replacementRecommendation:
+        'Use the `SkyNumericOptions` interface instead.',
+    });
   }
 }

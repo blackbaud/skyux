@@ -4,6 +4,7 @@ import { SkyTabsetNavButtonType } from './tabset-nav-button-type';
 
 @Pipe({
   name: 'skyTabsetNavButtonDisabled',
+  standalone: false,
 })
 export class SkyTabsetNavButtonDisabledPipe implements PipeTransform {
   public transform(

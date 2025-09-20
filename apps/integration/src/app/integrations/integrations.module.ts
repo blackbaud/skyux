@@ -3,6 +3,20 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'modal-colorpicker',
+    loadChildren: () =>
+      import('./modal-colorpicker/modal-colorpicker.module').then(
+        (m) => m.ModalColorpickerModule,
+      ),
+  },
+  {
+    path: 'modal-footer-dropdown',
+    loadChildren: () =>
+      import('./modal-footer-dropdown/modal-footer-dropdown.module').then(
+        (m) => m.ModalFooterDropdownModule,
+      ),
+  },
+  {
     path: 'modal-viewkeeper',
     loadChildren: () =>
       import('./modal-viewkept-toolbars/modal-viewkept-toolbars.module').then(
@@ -52,6 +66,20 @@ const routes: Routes = [
     loadChildren: () =>
       import('./lookup-in-modal/lookup-in-modal.module').then(
         (m) => m.LookupInModalModule,
+      ),
+  },
+  {
+    path: 'modal-split-view-tile-dashboard',
+    loadChildren: () =>
+      import(
+        './modal-split-view-tile-dashboard/modal-split-view-tile-dashboard.module'
+      ).then((m) => m.ModalSplitViewTileDashboardModule),
+  },
+  {
+    path: 'modal-date-range-picker',
+    loadChildren: () =>
+      import('./modal-date-range-picker/modal-date-range-picker.module').then(
+        (m) => m.ModalDateRangePickerModule,
       ),
   },
 ];

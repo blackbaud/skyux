@@ -3,9 +3,17 @@
     "_description": "Label for autocomplete add button",
     "message": "New"
   },
+  "skyux_autocomplete_multiple_results": {
+    "_description": "Screen reader only text for multiple available results",
+    "message": "{0} results available."
+  },
   "skyux_autocomplete_no_results": {
     "_description": "Placeholder text for autocomplete input component when no results are found",
     "message": "No matches found"
+  },
+  "skyux_autocomplete_one_result": {
+    "_description": "Screen reader only text for singular available result",
+    "message": "One result available."
   },
   "skyux_autocomplete_show_all": {
     "_description": "Menu item text to display when an unknown number of items is available to be selected",
@@ -18,6 +26,10 @@
   "skyux_autocomplete_show_matches_count": {
     "_description": "Menu item text to display the user has searched and there are more items to view",
     "message": "Show matches ({0})"
+  },
+  "skyux_country_field_dropdown_hint_text": {
+    "_description": "Hint text within the country field dropdown",
+    "message": "Type to search for a country"
   },
   "skyux_country_field_search_placeholder": {
     "_description": "Placeholder for country search autocomplete",

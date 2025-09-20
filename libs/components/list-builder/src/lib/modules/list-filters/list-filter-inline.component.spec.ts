@@ -1,9 +1,9 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,7 +28,7 @@ describe('List inline filters', () => {
     nativeElement: HTMLElement,
     component: ListFilterInlineTestComponent;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     dispatcher = new ListStateDispatcher();
     state = new ListState(dispatcher);
 
@@ -65,7 +65,7 @@ describe('List inline filters', () => {
   }
 
   describe('standard setup', () => {
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       fixture.detectChanges();
       state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
     }));

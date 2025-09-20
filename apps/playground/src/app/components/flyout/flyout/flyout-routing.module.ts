@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: FlyoutComponent,
     data: {
       name: 'Flyout',
-      icon: 'columns',
+      icon: 'layout-column-three',
       library: 'flyout',
     },
   },

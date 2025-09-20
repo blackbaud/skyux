@@ -1,5 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 
 import { Subject } from 'rxjs';
 
@@ -10,6 +16,7 @@ import { SkyColorpickerMessageType } from '../types/colorpicker-message-type';
 @Component({
   selector: 'sky-colorpicker-fixture',
   templateUrl: './colorpicker-reactive-component.fixture.html',
+  standalone: false,
 })
 export class ColorpickerReactiveTestComponent {
   public selectedHexType = 'hex6';
@@ -30,6 +37,16 @@ export class ColorpickerReactiveTestComponent {
     '#68AFEF',
   ];
   public inputType = 'text';
+  public labelText: string | undefined;
+
+  public set required(value: boolean) {
+    if (value) {
+      this.colorControl.addValidators([Validators.required]);
+    } else {
+      this.colorControl.removeValidators([Validators.required]);
+    }
+    this.colorControl.updateValueAndValidity();
+  }
 
   @ViewChild('colorPickerTest', {
     static: true,
@@ -37,23 +54,34 @@ export class ColorpickerReactiveTestComponent {
   public colorpickerComponent!: SkyColorpickerComponent;
   public colorpickerController = new Subject<SkyColorpickerMessage>();
 
-  public showMultiple = false;
   public newValues = {
     colorModel: '#000',
-    colorModel2: '#111',
-    colorModel3: '#222',
-    colorModel4: '#333',
+    colorModel2: '#000',
   };
 
-  public colorControl = new UntypedFormControl('#00f');
-  public colorControl2 = new UntypedFormControl('#aaa');
-  public colorControl3 = new UntypedFormControl('#bbb');
-  public colorControl4 = new UntypedFormControl('#ccc');
+  public colorControl = new UntypedFormControl('#00f', [
+    (control: AbstractControl): ValidationErrors | null => {
+      if (control.value?.rgba?.alpha < 0.8) {
+        return { opaque: true };
+      }
+
+      return null;
+    },
+  ]);
+
+  public colorControl2 = new UntypedFormControl('#00f', [
+    (control: AbstractControl): ValidationErrors | null => {
+      if (control.value?.rgba?.alpha < 0.8) {
+        return { opaque: true };
+      }
+
+      return null;
+    },
+  ]);
+
   public colorForm = new UntypedFormGroup({
     colorModel: this.colorControl,
     colorModel2: this.colorControl2,
-    colorModel3: this.colorControl3,
-    colorModel4: this.colorControl4,
   });
 
   public sendMessage(type: SkyColorpickerMessageType) {

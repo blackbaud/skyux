@@ -1,4 +1,3 @@
-import { applicationGenerator } from '@nx/angular/generators';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { RoutingScope } from '@schematics/angular/module/schema';
 
@@ -6,13 +5,12 @@ import {
   angularComponentGenerator,
   angularModuleGenerator,
 } from './angular-module-generator';
+import { createTestApplication } from './testing';
 
 describe('angularModuleGenerator', () => {
   it('should generate an angular module', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, {
-      name: 'my-app',
-    });
+    await createTestApplication(tree, { name: 'my-app' });
     await angularModuleGenerator(tree, {
       name: 'my-module',
       project: 'my-app',
@@ -24,9 +22,7 @@ describe('angularModuleGenerator', () => {
 
   it('should generate an angular module with routing', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, {
-      name: 'my-app',
-    });
+    await createTestApplication(tree, { name: 'my-app' });
     await angularModuleGenerator(tree, {
       name: 'my-module',
       project: 'my-app',
@@ -54,12 +50,11 @@ describe('angularModuleGenerator', () => {
 
   it('should generate an angular component', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, {
-      name: 'my-app',
-    });
+    await createTestApplication(tree, { name: 'my-app' });
     await angularComponentGenerator(tree, {
       name: 'my-component',
       project: 'my-app',
+      skipImport: true,
     });
     expect(
       tree.read(

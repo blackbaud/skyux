@@ -1,23 +1,22 @@
 <sky-modal>
   <sky-modal-header>
     {{ title }}
-    <sky-help-inline
-      *ngIf="showHelp"
-      class="sky-control-help"
-    ></sky-help-inline>
+    @if (showHelp) {
+      <sky-help-inline class="sky-control-help" />
+    }
   </sky-modal-header>
   <sky-modal-content>
-    <app-lipsum></app-lipsum>
-    <app-lipsum></app-lipsum>
-    <app-lipsum></app-lipsum>
-    <app-lipsum></app-lipsum>
-    <app-lipsum></app-lipsum>
-    <app-data-manager></app-data-manager>
-    <app-lipsum></app-lipsum>
-    <app-lipsum></app-lipsum>
-    <app-lipsum></app-lipsum>
-    <app-lipsum></app-lipsum>
-    <app-lipsum></app-lipsum>
+    <app-lipsum />
+    <app-lipsum />
+    <app-lipsum />
+    <app-lipsum />
+    <app-lipsum />
+    <app-data-manager />
+    <app-lipsum />
+    <app-lipsum />
+    <app-lipsum />
+    <app-lipsum />
+    <app-lipsum />
   </sky-modal-content>
   <sky-modal-footer> Footer </sky-modal-footer>
 </sky-modal>

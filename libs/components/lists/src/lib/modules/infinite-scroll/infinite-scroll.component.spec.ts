@@ -72,7 +72,7 @@ describe('Infinite scroll', () => {
     fixture.detectChanges();
   });
 
-  it('should not fire parentChanges event for infinite scroll elements', async () => {
+  it('should not fire parentChanges event for infinite scroll elements', () => {
     fixture.componentInstance.enabled = true;
     // Set this to true manually so we can check if the parentChanges event sets it to false.
     fixture.componentInstance.infiniteScrollComponent.isWaiting = true;
@@ -89,7 +89,7 @@ describe('Infinite scroll', () => {
     expect(fixture.nativeElement.querySelector('.sky-wait')).toBeNull();
   });
 
-  it('should emit a scrollEnd event on button click', async () => {
+  it('should emit a scrollEnd event on button click', () => {
     const spy = spyOn(
       fixture.componentInstance,
       'onScrollEnd',
@@ -102,7 +102,7 @@ describe('Infinite scroll', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should emit a scrollEnd event on scroll when window is the scrollable parent', async () => {
+  it('should emit a scrollEnd event on scroll when window is the scrollable parent', () => {
     fixture.componentInstance.enabled = true;
     fixture.componentInstance.loadItems(1000);
     fixture.detectChanges();
@@ -123,7 +123,7 @@ describe('Infinite scroll', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should not emit scrollEnd if waiting', async () => {
+  it('should not emit scrollEnd if waiting', () => {
     fixture.componentInstance.enabled = true;
     fixture.componentInstance.loadItems(1000);
     fixture.detectChanges();
@@ -144,7 +144,7 @@ describe('Infinite scroll', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should not emit a scrollEnd event on scroll when enabled is false', async () => {
+  it('should not emit a scrollEnd event on scroll when enabled is false', () => {
     const spy = spyOn(
       fixture.componentInstance,
       'onScrollEnd',
@@ -156,7 +156,7 @@ describe('Infinite scroll', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should emit a scrollEnd event on scroll when disabled and then re-enabled', async () => {
+  it('should emit a scrollEnd event on scroll when disabled and then re-enabled', () => {
     const spy = spyOn(
       fixture.componentInstance,
       'onScrollEnd',
@@ -170,7 +170,7 @@ describe('Infinite scroll', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should emit a scrollEnd event on scroll when an element is the scrollable parent', async () => {
+  it('should emit a scrollEnd event on scroll when an element is the scrollable parent', () => {
     const wrapper = fixture.componentInstance.wrapper?.nativeElement;
     wrapper.setAttribute('style', 'height:200px;overflow:auto;');
 
@@ -195,7 +195,7 @@ describe('Infinite scroll', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should not emit a scrollEnd event on scroll when loading is true', async () => {
+  it('should not emit a scrollEnd event on scroll when loading is true', () => {
     const spy = spyOn(
       fixture.componentInstance,
       'onScrollEnd',
@@ -221,7 +221,7 @@ describe('Infinite scroll', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should set isWaiting based on DOM changes when loading is not specified', async () => {
+  it('should set isWaiting based on DOM changes when loading is not specified', () => {
     const parentChangesObs = new Subject<void>();
     parentChangesSpy.and.returnValue(parentChangesObs);
 
@@ -235,7 +235,7 @@ describe('Infinite scroll', () => {
     );
   });
 
-  it('should set isWaiting based on the loading input when specified', async () => {
+  it('should set isWaiting based on the loading input when specified', () => {
     const parentChangesObs = new Subject<void>();
     parentChangesSpy.and.returnValue(parentChangesObs);
 
@@ -265,7 +265,7 @@ describe('Infinite scroll', () => {
     );
   });
 
-  it('should support overflow-y', async () => {
+  it('should support overflow-y', () => {
     const wrapper = fixture.componentInstance.wrapper?.nativeElement;
     wrapper.setAttribute('style', 'height:200px;overflow-y:scroll;');
 

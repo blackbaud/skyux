@@ -7,7 +7,7 @@
     ariaLabel ||
     ((contentInfoObs | async)?.descriptor?.type === 'text'
       ? ('skyux_filter_aria_label_descriptor'
-        | skyLibResources : (contentInfoObs | async)?.descriptor?.value)
+        | skyLibResources: (contentInfoObs | async)?.descriptor?.value)
       : ('skyux_filter_button_title' | skyLibResources))
   "
   [attr.title]="'skyux_filter_button_title' | skyLibResources"
@@ -16,15 +16,12 @@
   [ngClass]="{
     'sky-filter-btn-active': active
   }"
-  [skyThemeClass]="{
-    'sky-rounded-corners': 'default',
-    'sky-theme-modern': 'modern'
-  }"
   (click)="filterButtonOnClick()"
 >
-  <sky-icon *skyThemeIf="'default'" icon="filter" size="lg" />
-  <sky-icon *skyThemeIf="'modern'" icon="filter" />
-  <span *ngIf="showButtonText" class="sky-filter-btn-text">
-    {{ 'skyux_filter_button_title' | skyLibResources }}
-  </span>
+  <sky-icon iconName="filter" />
+  @if (showButtonText) {
+    <span class="sky-filter-btn-text">
+      {{ 'skyux_filter_button_title' | skyLibResources }}
+    </span>
+  }
 </button>

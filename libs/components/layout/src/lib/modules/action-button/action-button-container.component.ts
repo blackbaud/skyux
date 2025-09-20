@@ -14,7 +14,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { SkyCoreAdapterService } from '@skyux/core';
-import { SkyThemeService } from '@skyux/theme';
+import { SkyThemeComponentClassDirective, SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -29,10 +29,15 @@ import { SkyActionButtonContainerAlignItemsType } from './types/action-button-co
  */
 @Component({
   selector: 'sky-action-button-container',
-  styleUrls: ['./action-button-container.component.scss'],
+  styleUrls: [
+    './action-button-container.default.component.scss',
+    './action-button-container.modern.component.scss',
+  ],
   templateUrl: './action-button-container.component.html',
   providers: [SkyActionButtonAdapterService],
   encapsulation: ViewEncapsulation.None,
+  hostDirectives: [SkyThemeComponentClassDirective],
+  standalone: false,
 })
 export class SkyActionButtonContainerComponent
   implements AfterViewInit, OnDestroy, OnInit

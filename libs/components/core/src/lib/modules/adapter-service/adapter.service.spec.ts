@@ -231,14 +231,12 @@ describe('Core adapter service', () => {
   });
 
   describe('height functions', () => {
-    let childrenArray: Array<HTMLElement>;
+    let childrenArray: HTMLElement[];
 
     beforeEach(() => {
       fixture.detectChanges();
       const children = document.querySelectorAll('#height-sync-container div');
-      childrenArray = Array.prototype.slice.call(
-        children,
-      ) as Array<HTMLElement>;
+      childrenArray = Array.prototype.slice.call(children) as HTMLElement[];
     });
 
     //#region helpers
@@ -259,9 +257,8 @@ describe('Core adapter service', () => {
 
       // Expect all heights to now match, and height attributes to be set.
       expect(heightsSynced(childrenArray)).toEqual(true);
-      for (let index = 0; index < childrenArray.length; index++) {
-        const element = childrenArray[index];
-        expect(element.getAttribute('style')).toContain('height');
+      for (const htmlElement of childrenArray) {
+        expect(htmlElement.getAttribute('style')).toContain('height');
       }
     });
 
@@ -271,10 +268,8 @@ describe('Core adapter service', () => {
 
       // Expect all heights to no longer be equal, and all inline height attributes to be removed.
       expect(heightsSynced(childrenArray)).toEqual(false);
-      for (let index = 0; index < childrenArray.length; index++) {
-        const element = childrenArray[index];
-        const styleAttribute = element.getAttribute('style');
-        expect(styleAttribute).toBe('');
+      for (const htmlElement of childrenArray) {
+        expect(htmlElement.getAttribute('style')).toBe('');
       }
     });
   });

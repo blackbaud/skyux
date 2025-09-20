@@ -1,0 +1,32 @@
+<sky-toolbar>
+  <sky-toolbar-item>
+    <sky-sort [showButtonText]="true">
+      @for (item of sortOptions; track item) {
+        <sky-sort-item
+          [active]="initialState === item.id"
+          (itemSelect)="sortItems(item)"
+        >
+          {{ item.label }}
+        </sky-sort-item>
+      }
+    </sky-sort>
+  </sky-toolbar-item>
+</sky-toolbar>
+<sky-repeater expandMode="none">
+  @for (item of sortedItems; track item) {
+    <sky-repeater-item>
+      <sky-repeater-item-title>
+        {{ item.title }}
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        <div class="item-wrapper">
+          <div>Assigned to {{ item.assignee }}</div>
+          <div>Created {{ item.date | date }}</div>
+        </div>
+        <div>
+          {{ item.note }}
+        </div>
+      </sky-repeater-item-content>
+    </sky-repeater-item>
+  }
+</sky-repeater>

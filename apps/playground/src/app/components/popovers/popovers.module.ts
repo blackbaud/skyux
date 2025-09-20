@@ -7,6 +7,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./dropdown/dropdown.module').then((m) => m.DropdownModule),
   },
+  {
+    path: 'popovers',
+    loadChildren: () =>
+      import('./popovers/popovers.module').then((m) => m.PopoversModule),
+  },
 ];
 
 @NgModule({

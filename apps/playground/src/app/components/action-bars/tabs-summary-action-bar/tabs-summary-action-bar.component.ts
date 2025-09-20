@@ -4,9 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-tabs-summary-action-bar',
   templateUrl: './tabs-summary-action-bar.component.html',
   styleUrls: ['./tabs-summary-action-bar.component.scss'],
+  standalone: false,
 })
 export class TabsSummaryActionBarComponent {
-  public printHello() {
+  public printHello(): void {
     console.log('hello');
   }
 }

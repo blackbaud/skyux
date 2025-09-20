@@ -1,17 +1,26 @@
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  OnDestroy,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
+import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import {
   ICellRendererParams,
   IRowNode,
-  RowNode,
-  RowSelectedEvent,
+  RowNodeSelectedEvent,
 } from 'ag-grid-community';
+import {
+  BehaviorSubject,
+  Subscription,
+  fromEventPattern,
+  isObservable,
+} from 'rxjs';
 
 /**
  * @internal
@@ -22,20 +31,30 @@ import {
   styleUrls: ['./cell-renderer-row-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  imports: [SkyCheckboxModule, AsyncPipe],
 })
 export class SkyAgGridCellRendererRowSelectorComponent
-  implements ICellRendererAngularComp
+  implements ICellRendererAngularComp, OnDestroy
 {
-  public checked: boolean | undefined;
   public dataField: string | undefined;
   public rowNode: IRowNode | undefined;
   public rowNumber: number | undefined;
 
-  #params: ICellRendererParams | undefined;
-  #changeDetector: ChangeDetectorRef;
+  protected checked = new BehaviorSubject(false);
+  protected readonly disabled = new BehaviorSubject(false);
+  protected readonly label = new BehaviorSubject('');
 
-  constructor(changeDetector: ChangeDetectorRef) {
-    this.#changeDetector = changeDetector;
+  readonly #labelResourceKey = 'sky_ag_grid_row_selector_aria_label';
+  #params: ICellRendererParams | undefined;
+  readonly #resources = inject(SkyLibResourcesService);
+  #subscription = new Subscription();
+
+  constructor() {
+    this.#setLabel();
+  }
+
+  public ngOnDestroy(): void {
+    this.#subscription.unsubscribe();
   }
 
   /**
@@ -44,13 +63,6 @@ export class SkyAgGridCellRendererRowSelectorComponent
    */
   public agInit(params: ICellRendererParams): void {
     this.#setParameters(params);
-
-    this.rowNode?.addEventListener(
-      RowNode.EVENT_ROW_SELECTED,
-      (event: RowSelectedEvent) => {
-        this.#rowSelectedListener(event);
-      },
-    );
   }
 
   /**
@@ -62,48 +74,82 @@ export class SkyAgGridCellRendererRowSelectorComponent
     return true;
   }
 
-  public updateRow(): void {
+  public updateRow(rowChecked: boolean): void {
+    this.checked.next(rowChecked);
     if (this.rowNode) {
       const rowSelected = this.rowNode.isSelected();
-      const rowChecked = !!this.checked;
       if (rowSelected !== rowChecked) {
-        this.rowNode.setSelected(rowChecked);
+        this.rowNode.setSelected(rowChecked, undefined, 'checkboxSelected');
       }
-
       if (this.dataField) {
-        this.rowNode.data[this.dataField] = this.checked;
+        this.rowNode.data[this.dataField] = this.checked.value;
       }
-
-      this.#changeDetector.markForCheck();
     }
   }
 
   #setParameters(params: ICellRendererParams): void {
     this.#params = params;
-    this.dataField = this.#params.colDef?.field;
+    this.disabled.next(this.#params?.node?.selectable === false);
+    this.dataField = this.#params?.colDef?.field;
     this.rowNode = this.#params?.node as IRowNode | undefined;
-    this.rowNumber = this.#params.rowIndex + 1;
-    const rowSelected = this.#params.node.isSelected();
+    const rowIndex = this.rowNode?.rowIndex ?? NaN;
+    this.rowNumber = Number.isNaN(rowIndex) ? undefined : rowIndex + 1;
+
+    this.#subscription.unsubscribe();
+    this.#subscription = new Subscription();
+    this.#setLabel();
+
+    const rowSelected = !!this.#params.node?.isSelected();
 
     if (this.dataField) {
-      this.checked = !!this.#params.value;
-      if (rowSelected !== this.checked) {
-        this.rowNode?.setSelected(this.checked);
+      this.checked.next(!!this.#params.value);
+      if (rowSelected !== this.checked.value) {
+        this.rowNode?.setSelected(this.checked.value);
       }
     } else {
-      this.checked = rowSelected;
+      this.checked.next(rowSelected);
     }
 
-    this.#changeDetector.markForCheck();
+    this.#subscription.add(
+      fromEventPattern<RowNodeSelectedEvent>(
+        (handler) => this.rowNode?.addEventListener('rowSelected', handler),
+        (handler) => this.rowNode?.removeEventListener('rowSelected', handler),
+      ).subscribe((event) => this.#rowSelectedListener(event)),
+    );
   }
 
-  #rowSelectedListener(event: RowSelectedEvent): void {
-    this.checked = event.node.isSelected();
-
-    if (this.rowNode && this.dataField) {
-      this.rowNode.data[this.dataField] = this.checked;
+  #setLabel(): void {
+    const cellRendererParamLabel =
+      this.#params?.colDef?.cellRendererParams?.label;
+    if (this.#params?.colDef && typeof cellRendererParamLabel === 'string') {
+      this.label.next(this.#params.colDef.cellRendererParams.label);
+    } else if (
+      this.#params?.colDef &&
+      typeof cellRendererParamLabel === 'function'
+    ) {
+      const label = this.#params.colDef.cellRendererParams.label(
+        this.#params.data,
+      );
+      if (isObservable(label)) {
+        this.#subscription.add(
+          label.subscribe((value: unknown) => this.label.next(String(value))),
+        );
+      } else {
+        this.label.next(label);
+      }
+    } else {
+      this.#subscription.add(
+        this.#resources
+          .getString(this.#labelResourceKey, this.rowNumber ?? '')
+          .subscribe((value) => this.label.next(value)),
+      );
     }
+  }
 
-    this.#changeDetector.markForCheck();
+  #rowSelectedListener(event: RowNodeSelectedEvent): void {
+    this.checked.next(!!event.node.isSelected());
+    if (this.rowNode && this.dataField) {
+      this.rowNode.data[this.dataField] = this.checked.value;
+    }
   }
 }

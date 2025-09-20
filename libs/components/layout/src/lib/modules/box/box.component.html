@@ -1,7 +1,7 @@
 <section
   class="sky-box"
-  [attr.aria-label]="ariaLabel"
-  [attr.aria-labelledby]="ariaLabelledBy"
+  [attr.aria-label]="headingText || ariaLabel"
+  [attr.aria-labelledby]="headingText ? headerId : ariaLabelledBy"
   [attr.role]="ariaRole"
   [skyThemeClass]="{
     'sky-shadow sky-border-dark': 'default',
@@ -9,7 +9,60 @@
   }"
 >
   <div class="sky-box-header-content">
-    <ng-content select="sky-box-header" />
+    @if (headingText) {
+      <div class="sky-box-header-right">
+        @switch (headingLevel) {
+          @case (3) {
+            <!-- display: inline -->
+            <h3
+              [id]="headerId"
+              [class]="headingClass"
+              [class.sky-screen-reader-only]="headingHidden"
+              >{{ headingText }}</h3
+            >
+          }
+          @case (4) {
+            <!-- display: inline -->
+            <h4
+              [id]="headerId"
+              [class]="headingClass"
+              [class.sky-screen-reader-only]="headingHidden"
+              >{{ headingText }}</h4
+            >
+          }
+          @case (5) {
+            <!-- display: inline -->
+            <h5
+              [id]="headerId"
+              [class]="headingClass"
+              [class.sky-screen-reader-only]="headingHidden"
+              >{{ headingText }}</h5
+            >
+          }
+          @default {
+            <!-- display: inline -->
+            <h2
+              [id]="headerId"
+              [class]="headingClass"
+              [class.sky-screen-reader-only]="headingHidden"
+              >{{ headingText }}</h2
+            >
+          }
+        }
+        @if ((helpPopoverContent || helpKey) && !headingHidden) {
+          <span class="sky-control-help-container">
+            <sky-help-inline
+              [helpKey]="helpKey"
+              [labelText]="headingText"
+              [popoverTitle]="helpPopoverTitle"
+              [popoverContent]="helpPopoverContent"
+            />
+          </span>
+        }
+      </div>
+    } @else {
+      <ng-content select="sky-box-header" />
+    }
     <ng-content select="sky-box-controls" />
   </div>
   <ng-content />

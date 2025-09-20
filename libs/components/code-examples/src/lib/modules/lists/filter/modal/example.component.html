@@ -1,0 +1,31 @@
+<sky-toolbar>
+  <sky-toolbar-section>
+    <sky-toolbar-item>
+      <sky-filter-button
+        data-sky-id="my-filter-button"
+        [showButtonText]="true"
+        (filterButtonClick)="onModalFilterButtonClick()"
+      />
+    </sky-toolbar-item>
+  </sky-toolbar-section>
+  @if (appliedFilters && appliedFilters.length > 0) {
+    <sky-toolbar-section>
+      <sky-filter-summary data-sky-id="filter-summary">
+        @for (item of appliedFilters; track item; let i = $index) {
+          <sky-filter-summary-item (dismiss)="onDismiss(i)">
+            {{ item.label }}
+          </sky-filter-summary-item>
+        }
+      </sky-filter-summary>
+    </sky-toolbar-section>
+  }
+</sky-toolbar>
+<sky-repeater expandMode="none">
+  @for (item of filteredItems; track item) {
+    <sky-repeater-item>
+      <sky-repeater-item-title>
+        {{ item.name }}
+      </sky-repeater-item-title>
+    </sky-repeater-item>
+  }
+</sky-repeater>

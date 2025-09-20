@@ -2,15 +2,24 @@
   [ariaLabel]="ariaLabel"
   [ariaLabelledBy]="ariaLabelledBy"
   [ariaRole]="ariaRole"
+  [headingHidden]="headingHidden"
+  [headingLevel]="headingLevel"
+  [headingStyle]="headingStyle"
+  [headingText]="headingText"
+  [helpKey]="helpKey"
+  [helpPopoverContent]="helpPopoverContent"
+  [helpPopoverTitle]="helpPopoverTitle"
 >
+  @if (showHeader) {
   <sky-box-header>
     <h2 class="sky-font-heading-2" id="my-header">Header</h2>
   </sky-box-header>
+  }
   <sky-box-controls>
     <button class="sky-btn sky-btn-default sky-btn-icon" type="button">
       X
     </button>
-    <sky-dropdown buttonType="context-menu">
+    <sky-dropdown buttonType="context-menu" id="controls-dropdown">
       <sky-dropdown-menu>
         <sky-dropdown-item>
           <button type="button">Action 1</button>
@@ -21,5 +30,17 @@
       </sky-dropdown-menu>
     </sky-dropdown>
   </sky-box-controls>
-  <sky-box-content> Lorem ipsum dolor sit amet. </sky-box-content>
+  <sky-box-content>
+    Lorem ipsum dolor sit amet.
+    <sky-dropdown buttonType="context-menu" id="content-dropdown">
+      <sky-dropdown-menu>
+        <sky-dropdown-item>
+          <button type="button">Action 1</button>
+        </sky-dropdown-item>
+        <sky-dropdown-item>
+          <button type="button">Action 2</button>
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown></sky-box-content
+  >
 </sky-box>

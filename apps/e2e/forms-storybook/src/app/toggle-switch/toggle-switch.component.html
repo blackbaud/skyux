@@ -2,14 +2,12 @@
   <p>
     <sky-toggle-switch [checked]="true">
       <sky-toggle-switch-label> Switch is "on" </sky-toggle-switch-label>
-      <sky-help-inline class="sky-control-help"></sky-help-inline>
+      <sky-help-inline class="sky-control-help" />
     </sky-toggle-switch>
   </p>
 
   <p>
-    <sky-toggle-switch [checked]="false">
-      <sky-toggle-switch-label> Switch is "off" </sky-toggle-switch-label>
-    </sky-toggle-switch>
+    <sky-toggle-switch labelText='Switch is "off"' [checked]="false" />
   </p>
 
   <p>
@@ -21,10 +19,18 @@
   </p>
 
   <p>
-    <sky-toggle-switch [checked]="false" [disabled]="true">
-      <sky-toggle-switch-label>
-        Switch is "off", disabled
-      </sky-toggle-switch-label>
-    </sky-toggle-switch>
+    <sky-toggle-switch
+      labelText='Switch is "off", disabled'
+      [checked]="false"
+      [disabled]="true"
+    />
+  </p>
+
+  <p>
+    <sky-toggle-switch
+      helpPopoverContent="This is a toggle switch with an inline help popover."
+      helpPopoverTitle="Did you know?"
+      labelText="Switch with help inline popover"
+    />
   </p>
 </div>

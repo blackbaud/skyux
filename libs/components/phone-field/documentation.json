@@ -1,0 +1,27 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "phone-field": {
+      "development": {
+        "docsIds": [
+          "SkyPhoneFieldModule",
+          "SkyPhoneFieldComponent",
+          "SkyPhoneFieldInputDirective",
+          "SkyPhoneFieldCountry",
+          "SkyPhoneFieldNumberReturnFormat"
+        ],
+        "primaryDocsId": "SkyPhoneFieldModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyPhoneFieldHarness",
+          "SkyPhoneFieldHarnessFilters",
+          "SkyPhoneFieldInputHarness"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["PhoneFieldBasicExampleComponent"]
+      }
+    }
+  }
+}

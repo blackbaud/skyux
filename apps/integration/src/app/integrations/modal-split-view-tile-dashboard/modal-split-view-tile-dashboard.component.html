@@ -1,0 +1,20 @@
+<button
+  class="sky-btn sky-btn-default"
+  type="button"
+  title="Open full page modal"
+  (click)="onOpenFullPageModalClick()"
+>
+  Open full page modal
+</button>
+|
+<button
+  class="sky-btn sky-btn-default"
+  type="button"
+  title="Open large modal with fit layout"
+  (click)="onOpenLargeModalClick()"
+>
+  Open large modal with fit layout
+</button>
+@if (demoValue) {
+  <div>The user entered {{ demoValue }}</div>
+}

@@ -1,4 +1,5 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { CountryFieldComponent } from './country-field.component';
 import { CountryFieldModule } from './country-field.module';
@@ -13,36 +14,22 @@ export default {
     }),
   ],
 } as Meta<CountryFieldComponent>;
-const BaseCountryField: StoryFn<CountryFieldComponent> = (
-  args: CountryFieldComponent,
-) => ({
-  props: args,
-});
+type Story = StoryObj<CountryFieldComponent>;
 
-export const EmptyCountryField = BaseCountryField.bind({});
+export const EmptyCountryField: Story = {};
+EmptyCountryField.args = {};
 
-export const PhoneInfoCountryField = BaseCountryField.bind({});
-PhoneInfoCountryField.args = {
-  phoneInfoFlag: true,
-};
-
-export const DisabledCountryField = BaseCountryField.bind({});
+export const DisabledCountryField: Story = {};
 DisabledCountryField.args = {
   disabledFlag: true,
 };
 
-export const PrepopulatedCountryField = BaseCountryField.bind({});
+export const PrepopulatedCountryField: Story = {};
 PrepopulatedCountryField.args = {
   prePopulatedFlag: true,
 };
 
-export const HideFlagPrepopulatedCountryField = BaseCountryField.bind({});
-HideFlagPrepopulatedCountryField.args = {
-  hideCountryFlag: true,
-  prePopulatedFlag: true,
-};
-
-export const DisabledPrepopulatedCountryField = BaseCountryField.bind({});
+export const DisabledPrepopulatedCountryField: Story = {};
 DisabledPrepopulatedCountryField.args = {
   disabledFlag: true,
   prePopulatedFlag: true,

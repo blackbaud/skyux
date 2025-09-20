@@ -1,0 +1,9 @@
+:host {
+  display: block;
+}
+
+.sky-ag-grid-row-delete {
+  position: fixed;
+  top: -100vh;
+  width: var(--table-width, 100%);
+}

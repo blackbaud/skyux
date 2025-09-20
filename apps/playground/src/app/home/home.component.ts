@@ -15,6 +15,7 @@ import { HomeFiltersModalDemoComponent } from './home-filter.component';
   selector: 'app-home',
   templateUrl: './home.component.html',
   providers: [SkyDataManagerService],
+  standalone: false,
 })
 export class HomeComponent implements AfterViewInit {
   public componentData: ComponentInfo[] = [];
@@ -79,13 +80,12 @@ export class HomeComponent implements AfterViewInit {
     private changeDetector: ChangeDetectorRef,
     private dataManagerService: SkyDataManagerService,
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (
+    void (
       router.config
         .find((route) => route.path === 'components')
         .loadChildren() as Promise<any>
     ).then((componentsRoutes) => {
-      this.createComponentData(componentsRoutes.routes, 'components').then(
+      void this.createComponentData(componentsRoutes.routes, 'components').then(
         () => {
           this.defaultDataState.filterData.filters = {
             libraries: [
@@ -118,7 +118,7 @@ export class HomeComponent implements AfterViewInit {
     });
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.dataManagerService
       .getDataStateUpdates('playgroundComponents')
       .subscribe((state) => {
@@ -132,17 +132,14 @@ export class HomeComponent implements AfterViewInit {
       });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private createComponentData(
     routes: ComponentRouteInfo[],
     parentPath: string,
-  ): Promise<any> {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const promises: Promise<any>[] = [];
+  ): Promise<unknown> {
+    const promises: Promise<unknown>[] = [];
 
     for (const route of routes) {
       if (route.loadChildren) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         promises.push(
           (route.loadChildren() as Promise<any>).then((newRoutes) => {
             // Account for a lazy-loaded module or a lazy-loaded routes array
@@ -157,7 +154,7 @@ export class HomeComponent implements AfterViewInit {
             }
           }),
         );
-      } else if (route.data) {
+      } else if (route.data && !this.componentData.includes(route.data)) {
         route.data.path = parentPath + '/' + route.path;
         this.componentData.push(route.data);
         promises.push(Promise.resolve());

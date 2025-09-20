@@ -1,0 +1,126 @@
+{
+  "name": "help-inline-storybook",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/e2e/help-inline-storybook/src",
+  "prefix": "app",
+  "tags": ["component-e2e"],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/e2e/help-inline-storybook",
+        "index": "apps/e2e/help-inline-storybook/src/index.html",
+        "main": "apps/e2e/help-inline-storybook/src/main.ts",
+        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
+        "tsConfig": "apps/e2e/help-inline-storybook/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "styles": [
+          "apps/e2e/help-inline-storybook/src/styles.scss",
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "help-inline-storybook:build:production"
+        },
+        "development": {
+          "buildTarget": "help-inline-storybook:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "continuous": true
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "help-inline-storybook:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
+      }
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "apps/e2e/help-inline-storybook/.storybook",
+        "browserTarget": "help-inline-storybook:build",
+        "compodoc": false,
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true,
+          "ci": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/help-inline-storybook",
+        "configDir": "apps/e2e/help-inline-storybook/.storybook",
+        "browserTarget": "help-inline-storybook:build",
+        "compodoc": false,
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "help-inline-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/help-inline-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "help-inline-storybook:build-storybook:ci"
+        }
+      }
+    }
+  }
+}

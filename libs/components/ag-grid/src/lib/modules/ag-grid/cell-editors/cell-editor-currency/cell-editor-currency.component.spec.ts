@@ -7,8 +7,8 @@ import {
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
-  Beans,
-  Column,
+  AgColumn,
+  BeanCollection,
   GridApi,
   ICellEditorParams,
   KeyCode,
@@ -40,8 +40,6 @@ describe('SkyCellEditorCurrencyComponent', () => {
     );
     currencyEditorNativeElement = currencyEditorFixture.nativeElement;
     currencyEditorComponent = currencyEditorFixture.componentInstance;
-
-    currencyEditorFixture.detectChanges();
   });
 
   it('renders a numeric input when editing a currency cell in an ag grid', () => {
@@ -58,20 +56,16 @@ describe('SkyCellEditorCurrencyComponent', () => {
   });
 
   describe('agInit', () => {
-    const api = jasmine.createSpyObj<GridApi>('api', [
-      'stopEditing',
-      'setFocusedCell',
-    ]);
-
+    let api: jasmine.SpyObj<GridApi>;
     let cellEditorParams: Partial<SkyCellEditorCurrencyParams>;
-    let column: Column;
+    let column: AgColumn;
     const columnWidth = 200;
-    const rowNode = new RowNode({} as Beans);
+    const rowNode = new RowNode({} as BeanCollection);
     rowNode.rowHeight = 37;
     const value = 15;
 
     beforeEach(() => {
-      column = new Column(
+      column = new AgColumn(
         {
           colId: 'col',
         },
@@ -80,32 +74,62 @@ describe('SkyCellEditorCurrencyComponent', () => {
         true,
       );
 
+      api = jasmine.createSpyObj<GridApi>('api', [
+        'getDisplayNameForColumn',
+        'stopEditing',
+        'setFocusedCell',
+      ]);
+
       cellEditorParams = {
         value: value,
         column,
         node: rowNode,
         colDef: {},
-        api: api,
+        api,
         cellStartedEdit: true,
+        stopEditing: jasmine.createSpy('cellEditorParams.stopEditing'),
       };
     });
 
-    it('initializes the SkyAgGridCellEditorCurrencyComponent properties', () => {
-      expect(currencyEditorComponent.columnWidth).toBeUndefined();
-
-      cellEditorParams.node = new RowNode({} as Beans);
+    it('initializes the SkyAgGridCellEditorCurrencyComponent properties', fakeAsync(() => {
+      cellEditorParams.node = new RowNode({} as BeanCollection);
       cellEditorParams.node.rowHeight = 100;
 
       spyOn(column, 'getActualWidth').and.returnValue(columnWidth);
       spyOn(column, 'fireColumnWidthChangedEvent').and.returnValue();
-      currencyEditorComponent.agInit(cellEditorParams as ICellEditorParams);
-
-      expect(currencyEditorComponent.columnWidth).toEqual(columnWidth);
-      expect(currencyEditorComponent.rowHeightWithoutBorders).toEqual(96);
+      currencyEditorComponent.refresh({
+        ...cellEditorParams,
+        value: null,
+      } as ICellEditorParams);
 
       currencyEditorComponent.onPressEscape();
       expect(api.stopEditing).toHaveBeenCalled();
       expect(api.setFocusedCell).toHaveBeenCalled();
+
+      currencyEditorComponent.onPressEnter();
+      currencyEditorComponent.afterGuiAttached();
+      tick();
+      expect(cellEditorParams.stopEditing).not.toHaveBeenCalled();
+      currencyEditorComponent.onPressEnter();
+      expect(cellEditorParams.stopEditing).toHaveBeenCalled();
+    }));
+
+    it('should set the correct aria label', () => {
+      api.getDisplayNameForColumn.and.returnValue('Testing');
+      currencyEditorComponent.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        rowIndex: 0,
+      });
+      currencyEditorFixture.detectChanges();
+      const input = currencyEditorNativeElement.querySelector(
+        'input',
+      ) as HTMLInputElement;
+
+      currencyEditorFixture.detectChanges();
+
+      expect(input.getAttribute('aria-label')).toBe(
+        'Editable currency Testing for row 1',
+      );
     });
   });
 
@@ -130,13 +154,14 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
     describe('afterGuiAttached', () => {
       let cellEditorParams: Partial<SkyCellEditorCurrencyParams>;
-      let column: Column;
-      const rowNode = new RowNode({} as Beans);
+      let column: AgColumn;
+      let gridCell: HTMLDivElement;
+      const rowNode = new RowNode({} as BeanCollection);
       rowNode.rowHeight = 37;
       const value = 15;
 
       beforeEach(() => {
-        column = new Column(
+        column = new AgColumn(
           {
             colId: 'col',
           },
@@ -145,16 +170,26 @@ describe('SkyCellEditorCurrencyComponent', () => {
           true,
         );
 
+        const api = jasmine.createSpyObj<GridApi>([
+          'getDisplayNameForColumn',
+          'stopEditing',
+        ]);
+
+        api.getDisplayNameForColumn.and.returnValue('');
+        gridCell = document.createElement('div');
+
         cellEditorParams = {
+          api,
           value: value,
           column,
+          eGridCell: gridCell,
           node: rowNode,
           colDef: {},
           cellStartedEdit: true,
         };
       });
 
-      it('sets the form control value correctly', () => {
+      it('sets the form control value correctly', fakeAsync(() => {
         expect(
           currencyEditorComponent.editorForm.get('currency')?.value,
         ).toBeNull();
@@ -162,11 +197,12 @@ describe('SkyCellEditorCurrencyComponent', () => {
         currencyEditorComponent.agInit(cellEditorParams as ICellEditorParams);
         currencyEditorFixture.detectChanges();
         currencyEditorComponent.afterGuiAttached();
+        tick();
 
         expect(
           currencyEditorComponent.editorForm.get('currency')?.value,
         ).toEqual(value);
-      });
+      }));
 
       describe('cellStartedEdit is true', () => {
         it('initializes with a cleared value unselected when Backspace triggers the edit', fakeAsync(() => {
@@ -271,7 +307,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
           currencyEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: '4',
+            eventKey: '4',
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
@@ -295,7 +331,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
           currencyEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: 'a',
+            eventKey: 'a',
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
@@ -420,7 +456,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
           currencyEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: '4',
+            eventKey: '4',
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
@@ -444,7 +480,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
           currencyEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: 'a',
+            eventKey: 'a',
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
@@ -462,7 +498,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
         }));
       });
 
-      it('focuses on the input after it attaches to the DOM', () => {
+      it('focuses on the input after it attaches to the DOM', fakeAsync(() => {
         currencyEditorComponent.agInit(cellEditorParams as ICellEditorParams);
         currencyEditorFixture.detectChanges();
 
@@ -472,10 +508,29 @@ describe('SkyCellEditorCurrencyComponent', () => {
         spyOn(input, 'focus');
 
         currencyEditorComponent.afterGuiAttached();
+        tick();
 
         expect(input).toBeVisible();
         expect(input.focus).toHaveBeenCalled();
-      });
+      }));
+
+      it('should respond to refocus', fakeAsync(() => {
+        currencyEditorComponent.agInit(cellEditorParams as ICellEditorParams);
+        currencyEditorFixture.detectChanges();
+
+        const input = currencyEditorFixture.nativeElement.querySelector(
+          'input',
+        ) as HTMLInputElement;
+        spyOn(input, 'focus');
+
+        currencyEditorComponent.onFocusOut({
+          relatedTarget: gridCell,
+        } as unknown as FocusEvent);
+        tick();
+        expect(input).toBeVisible();
+        expect(input.focus).toHaveBeenCalled();
+        expect(cellEditorParams.api?.stopEditing).not.toHaveBeenCalled();
+      }));
     });
 
     it('returns undefined if the value is not set', () => {

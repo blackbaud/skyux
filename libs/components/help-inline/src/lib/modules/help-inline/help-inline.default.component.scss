@@ -1,0 +1,26 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include mixins.sky-component('default', '.sky-help-inline') {
+  color: $sky-background-color-primary-dark;
+  font-size: $sky-font-size-base;
+  line-height: 1;
+  background-color: transparent;
+  border: none;
+  display: inline-block;
+
+  &:hover {
+    color: darken($sky-background-color-primary-dark, 10%);
+    transition: color $sky-transition-time-short;
+    cursor: pointer;
+  }
+}
+
+@include mixins.sky-component('default', '.sky-help-inline-hidden') {
+  display: none;
+}
+
+@include mixins.sky-component('default', '.sky-help-inline-popover-text') {
+  overflow-wrap: break-word;
+  margin: 0;
+}

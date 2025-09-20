@@ -1,55 +1,57 @@
 <a
-  class="sky-vertical-tab"
-  [attr.aria-controls]="isMobile ? null : ariaControls || tabContentPane.id"
-  [attr.aria-selected]="active"
+  #tabButton
+  class="sky-vertical-tab sky-vertical-tabset-button"
+  [attr.aria-controls]="
+    isMobile ? undefined : ariaControls || tabContentPane.id
+  "
+  [attr.aria-disabled]="isMobile ? undefined : disabled || undefined"
+  [attr.aria-selected]="isMobile ? undefined : active"
   [attr.id]="tabId"
   [attr.role]="isMobile ? undefined : ariaRole"
   [ngClass]="{
     'sky-vertical-tab-active': active,
-    'sky-vertical-tab-disabled': disabled,
-    'sky-font-deemphasized': disabled,
-    'sky-deemphasized': disabled
+    'sky-vertical-tabset-button-disabled': disabled,
+    'sky-font-deemphasized': disabled
   }"
-  [tabIndex]="tabIndex()"
+  [tabIndex]="-1"
   (click)="activateTab()"
-  (keyup)="onTabButtonKeyUp($event)"
+  (keyup.arrowleft)="tabButtonArrowLeft($event)"
+  (keyup.enter)="tabButtonActivate($event)"
+  (keyup.space)="tabButtonActivate($event)"
 >
   <div class="sky-vertical-tab-display">
-    <div class="sky-vertical-tab-heading">
+    <div
+      class="sky-vertical-tab-heading"
+      [ngClass]="{ 'sky-control-label-required': requiredIndicator }"
+    >
       <span class="sky-vertical-tab-heading-value">{{ tabHeading }}</span>
-      <span
-        class="sky-vertical-tab-count"
-        *ngIf="tabHeaderCount || tabHeaderCount === 0"
-      >
-        ({{ tabHeaderCount }})
-      </span>
+      @if (tabHeaderCount || tabHeaderCount === 0) {
+        <span class="sky-vertical-tab-count"> ({{ tabHeaderCount }}) </span>
+      }
     </div>
-    <sky-status-indicator
-      *ngIf="errorIndicator"
-      class="sky-vertical-tab-heading-error"
-      descriptionType="error"
-      indicatorType="danger"
-    ></sky-status-indicator>
-    <sky-icon
-      *ngIf="isMobile && showTabRightArrow"
-      class="sky-vertical-tab-right-arrow"
-      icon="chevron-right"
-    />
+    @if (errorIndicator) {
+      <sky-status-indicator
+        class="sky-vertical-tab-heading-error"
+        descriptionType="error"
+        indicatorType="danger"
+      />
+    }
+    @if (isMobile && showTabRightArrow) {
+      <sky-icon class="sky-vertical-tab-right-arrow" iconName="chevron-right" />
+    }
   </div>
 </a>
 
-<div #tabContentWrapper>
+<div #tabContentWrapper skyResponsiveHost>
   <div
+    #tabContentPane
     class="sky-vertical-tab-content-pane"
     role="tabpanel"
     tabindex="0"
     skyId
     [attr.aria-labelledby]="tabId"
     [ngClass]="{ 'sky-vertical-tab-hidden': !active }"
-    #tabContentPane
   >
     <ng-content />
-
-    <div></div>
   </div>
 </div>

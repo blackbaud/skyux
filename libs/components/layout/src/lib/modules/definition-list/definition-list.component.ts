@@ -5,6 +5,7 @@ import { SkyDefinitionListService } from './definition-list.service';
 
 /**
  * Creates a definition list to display label-value pairs.
+ * @deprecated Use `SkyDescriptionListComponent` instead.
  */
 @Component({
   selector: 'sky-definition-list',
@@ -12,6 +13,7 @@ import { SkyDefinitionListService } from './definition-list.service';
   styleUrls: ['./definition-list.component.scss'],
   providers: [SkyDefinitionListService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyDefinitionListComponent {
   /**
@@ -33,7 +35,10 @@ export class SkyDefinitionListComponent {
     this.service.defaultValue.next(value);
   }
 
-  constructor(public service: SkyDefinitionListService, logger: SkyLogService) {
+  constructor(
+    public service: SkyDefinitionListService,
+    logger: SkyLogService,
+  ) {
     logger.deprecated('SkyDefinitionListComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl:

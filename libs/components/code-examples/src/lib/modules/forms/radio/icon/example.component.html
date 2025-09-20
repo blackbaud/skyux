@@ -1,0 +1,17 @@
+<form [formGroup]="formGroup">
+  <sky-radio-group
+    class="sky-switch-icon-group"
+    formControlName="myView"
+    headingHidden="true"
+    headingText="View"
+  >
+    @for (view of views; track view) {
+      <sky-radio
+        [labelHidden]="true"
+        [iconName]="view.iconName"
+        [labelText]="view.label"
+        [value]="view.name"
+      />
+    }
+  </sky-radio-group>
+</form>

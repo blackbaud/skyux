@@ -1,3 +1,3 @@
-<ng-container *ngIf="link">
-  <a [href]="link" rel="noreferrer" target="_blank">{{ link }}</a>
-</ng-container>
+@if (link) {
+  <a rel="noreferrer" target="_blank" [href]="link">{{ link }}</a>
+}

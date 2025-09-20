@@ -11,21 +11,15 @@ describe('navbar-storybook', () => {
           ),
       );
       it('should render the component', () => {
-        cy.get('#ready')
-          .should('exist')
-          .end()
-          .get('app-navbar')
-          .should('exist')
-          .should('be.visible')
-          .get('.sky-dropdown-button')
-          .first()
-          .click();
+        cy.skyReady('app-navbar').get('.sky-dropdown-button').first().click();
 
-        cy.get('body')
-          .screenshot(`navbarcomponent-navbar--navbar-${theme}`)
-          .percySnapshot(`navbarcomponent-navbar--navbar-${theme}`, {
+        cy.get('body').screenshot(`navbarcomponent-navbar--navbar-${theme}`);
+        cy.get('body').percySnapshot(
+          `navbarcomponent-navbar--navbar-${theme}`,
+          {
             widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          },
+        );
       });
     });
   });

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyTrimModule } from '@skyux/core';
+import { SkyIdModule, SkyTrimModule } from '@skyux/core';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 import { SkyKeyInfoLabelComponent } from './key-info-label.component';
 import { SkyKeyInfoValueComponent } from './key-info-value.component';
@@ -12,7 +13,7 @@ import { SkyKeyInfoComponent } from './key-info.component';
     SkyKeyInfoLabelComponent,
     SkyKeyInfoValueComponent,
   ],
-  imports: [CommonModule, SkyTrimModule],
+  imports: [CommonModule, SkyTrimModule, SkyHelpInlineModule, SkyIdModule],
   exports: [
     SkyKeyInfoComponent,
     SkyKeyInfoLabelComponent,

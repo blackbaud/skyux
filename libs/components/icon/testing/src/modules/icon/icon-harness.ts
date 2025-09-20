@@ -1,0 +1,79 @@
+import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
+import { SkyComponentHarness } from '@skyux/core/testing';
+
+import { SkyIconHarnessFilters } from './icon-harness-filters';
+
+/**
+ * Harness for interacting with an icon component in tests.
+ */
+export class SkyIconHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
+  public static hostSelector = 'sky-icon';
+
+  /**
+   * Gets a `HarnessPredicate` that can be used to search for a
+   * `SkyIconHarness` that meets certain criteria.
+   */
+  public static with(
+    filters: SkyIconHarnessFilters,
+  ): HarnessPredicate<SkyIconHarness> {
+    return SkyIconHarness.getDataSkyIdPredicate(filters);
+  }
+
+  /**
+   * Gets the icon name.
+   */
+  public async getIconName(): Promise<string | undefined> {
+    // No need to check for null here since #getIcon() will throw an error when
+    // icon name is null.
+    return (await this.#getSpecifiedIconInfo()).icon as string;
+  }
+
+  /**
+   * Gets the icon size.
+   */
+  public async getIconSize(): Promise<string> {
+    const iconClasses = await this.#getIconClasses();
+
+    for (const iconClass of iconClasses) {
+      // match a class name that starts with `sky-icon-svg-` and follows with icon sizes
+      if (/^sky-icon-svg-(?=xxxs|xxs|xs|s|m|l|xl|xxl|xxxl)/.test(iconClass)) {
+        return iconClass.replace('sky-icon-svg-', '');
+      }
+    }
+
+    /* istanbul ignore next: safety check */
+    throw new Error('Icon size could not be determined');
+  }
+
+  /**
+   * Gets if the icon is a variant.
+   */
+  public async getVariant(): Promise<string> {
+    const iconInfo = await this.#getSpecifiedIconInfo();
+    return iconInfo.variant || 'line';
+  }
+
+  async #getIcon(): Promise<TestElement> {
+    return await this.locatorFor('sky-icon-svg')();
+  }
+
+  async #getIconClasses(): Promise<string[]> {
+    const iconClasses = await (await this.#getIcon()).getProperty('classList');
+    return Array.from(iconClasses);
+  }
+
+  async #getSpecifiedIconInfo(): Promise<{
+    icon: string | null;
+    variant: string | null;
+  }> {
+    const icon = await this.#getIcon();
+
+    return {
+      icon: await icon.getAttribute('data-sky-icon'),
+      variant: await icon.getAttribute('data-sky-icon-variant'),
+    };
+  }
+}

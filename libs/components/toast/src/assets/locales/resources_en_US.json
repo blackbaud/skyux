@@ -1,6 +1,10 @@
 {
-  "skyux_toast_close_button": {
+  "skyux_toast_close_button_aria_label": {
     "_description": "Screen reader text for the close button on toasts",
+    "message": "Close message:"
+  },
+  "skyux_toast_close_button_title": {
+    "_description": "Tooltip text for the close button on toasts",
     "message": "Close the message"
   }
 }

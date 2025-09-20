@@ -1,4 +1,8 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, inject, waitForAsync } from '@angular/core/testing';
 import { SkyAppConfig } from '@skyux/config';
 import {
@@ -23,7 +27,7 @@ function createElement(innerText: string): any {
   return elem;
 }
 
-function createPassingElement(): any {
+function createPassingElement(): HTMLDivElement {
   const wrapper = document.createElement('div');
   const elem1 = document.createElement('div');
   const elem2 = document.createElement('div');
@@ -33,23 +37,41 @@ function createPassingElement(): any {
   return wrapper;
 }
 
-function createFailingElement(): any {
-  // Make every DIV have the same ID:
+function createFailingElement(params?: {
+  includeRelatedNodesError: boolean;
+}): HTMLDivElement {
+  // Use a deprecated role to trigger an accessibility failure.
   const element = createPassingElement();
-  [].slice.call(element.querySelectorAll('div')).forEach((elem: any) => {
-    elem.setAttribute('id', 'same-id');
-  });
+  element.setAttribute('role', 'directory');
+
+  if (params?.includeRelatedNodesError) {
+    // Related nodes include additional reporting.
+    const elem1 = element.firstElementChild as HTMLElement;
+    elem1.setAttribute('role', 'grid');
+    elem1.appendChild(document.createElement('textarea'));
+  }
+
   return element;
 }
 
 describe('Jasmine matchers', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, SkyI18nModule],
-      providers: [SkyAppResourcesService, SkyLibResourcesService],
+      imports: [SkyI18nModule],
+      providers: [
+        SkyAppResourcesService,
+        SkyLibResourcesService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
     });
     document.body.innerHTML = '';
   });
+
+  it('should allow use of main jasmine matchers', waitForAsync(() => {
+    expect(2).toBe(2);
+    expectAsync(Promise.resolve(2)).toBeResolved();
+  }));
 
   describe('toBeVisible', () => {
     let child: HTMLDivElement;
@@ -191,11 +213,13 @@ describe('Jasmine matchers', () => {
     it('should fail if accessibility rules fail', waitForAsync(() => {
       const failSpy = spyOn(window as any, 'fail').and.callFake(
         (message: string) => {
-          expect(message.indexOf('duplicate-id') > -1).toEqual(true);
+          expect(message.indexOf('aria-deprecated-role') > -1).toEqual(true);
         },
       );
 
-      const element = createFailingElement();
+      const element = createFailingElement({
+        includeRelatedNodesError: true,
+      });
 
       // This will result in a failure on a consumer unit test.
       // We're swallowing the error in order to double-check
@@ -225,7 +249,7 @@ describe('Jasmine matchers', () => {
         const element = createFailingElement();
         expect(element).toBeAccessible(undefined, {
           rules: {
-            'duplicate-id': { enabled: false },
+            'aria-deprecated-role': { enabled: false },
           },
         });
       }));
@@ -335,7 +359,7 @@ describe('Jasmine matchers', () => {
         expect(elem).toHaveResourceText(messageKey);
       }));
 
-      it("should default to trimming whitespace and check that the element's text matches text provided by resources", async () => {
+      it("should default to trimming whitespace and check that the element's text matches text provided by resources", () => {
         const messageKey = 'name';
         const messageValue = 'message from resource';
         const elem: any = createElement(`    ${messageValue}     `);
@@ -351,7 +375,7 @@ describe('Jasmine matchers', () => {
         expect(elem).toHaveResourceText(messageKey);
       });
 
-      it("should check that the element's text matches text provided by resources with arguments", async () => {
+      it("should check that the element's text matches text provided by resources with arguments", () => {
         const messageKey = 'nameWithArgs';
         const messageValue = 'message from resources with args = {0}';
         const messageArgs: any[] = [100];
@@ -523,7 +547,7 @@ describe('Jasmine matchers', () => {
         });
       });
 
-      it("should default to trimming whitespace and check that the element's text matches text provided by resources", async () => {
+      it("should default to trimming whitespace and check that the element's text matches text provided by resources", () => {
         const messageKey = 'name';
         const messageValue = 'message from resource';
         const elem: any = createElement(`    ${messageValue}     `);

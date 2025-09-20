@@ -1,28 +1,35 @@
 @use '../../styles/mixins' as popoverMixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-dropdown-menu') {
+  --sky-override-dropdown-menu-border-radius: 0px;
+  --sky-override-dropdown-menu-color-background: #fff;
+  --sky-override-dropdown-menu-padding: 0;
+}
 
 .sky-dropdown-menu {
   @include popoverMixins.popoverMaxHeight();
 
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: var(
+    --sky-override-dropdown-menu-color-background,
+    var(--sky-color-background-container-menu)
+  );
+  border-radius: var(
+    --sky-override-dropdown-menu-border-radius,
+    var(--sky-border-radius-m)
+  );
+  padding: var(
+    --sky-override-dropdown-menu-padding,
+    var(--sky-comp-dropdown-menu-space-inset-top)
+      var(--sky-comp-dropdown-menu-space-inset-left)
+      var(--sky-comp-dropdown-menu-space-inset-bottom)
+      var(--sky-comp-dropdown-menu-space-inset-right)
+  );
 
   button {
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-}
-
-.sky-theme-modern {
-  .sky-dropdown-menu {
-    border-radius: 6px;
-    padding: 10px 0;
-  }
-
-  &.sky-theme-mode-dark {
-    .sky-dropdown-menu {
-      background-color: #252a2e;
-      color: #fff;
-    }
   }
 }

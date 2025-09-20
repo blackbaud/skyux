@@ -23,9 +23,21 @@
     "_description": "Default text for the label for the pagination component",
     "message": "Pagination"
   },
+  "skyux_paging_loaded": {
+    "_description": "Text read by assistive technology when the paging component's contents finishes loading",
+    "message": "Page {0} loaded."
+  },
+  "skyux_paging_loading": {
+    "_description": "Text read by assistive technology when the paging component's contents begins loading",
+    "message": "Loading page {0}"
+  },
   "skyux_paging_next": {
     "_description": "Text for the label for the next button on the pagination component",
     "message": "Next"
+  },
+  "skyux_paging_page_label": {
+    "_description": "The ARIA label for the current page group",
+    "message": "Page {0} of {1}"
   },
   "skyux_paging_page_link_aria_label": {
     "_description": "Aria label used for pagination link label",

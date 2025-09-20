@@ -1,10 +1,12 @@
-<div
-  *ngIf="isInitialized"
-  class="sky-data-manager"
-  [skyBackToTop]="backToTopOptions"
-  [skyBackToTopMessageStream]="backToTopController"
-  [skyViewkeeper]="currentViewkeeperClasses"
-  #dataManager
->
-  <ng-content />
-</div>
+@if (isInitialized) {
+  <div
+    #dataManager
+    class="sky-data-manager"
+    skyViewkeeperOmitShadow=".ag-body-horizontal-scroll"
+    [skyBackToTop]="backToTopOptions"
+    [skyBackToTopMessageStream]="backToTopController"
+    [skyViewkeeper]="currentViewkeeperClasses"
+  >
+    <ng-content />
+  </div>
+}

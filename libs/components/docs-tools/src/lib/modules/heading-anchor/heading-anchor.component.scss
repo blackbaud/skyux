@@ -1,0 +1,40 @@
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+/*
+Add space above the heading to give room when the window scrolls to the anchor.
+Use a specific selector so it beats out "stacked" classes added to the host.
+*/
+:host([id]) {
+  padding-top: var(--sky-margin-stacked-xl);
+  margin-top: -1em;
+}
+
+.sky-docs-heading-anchor-heading {
+  word-break: break-all;
+  position: relative;
+  margin: 0;
+
+  &:hover {
+    .sky-docs-heading-anchor-link {
+      opacity: 1;
+    }
+  }
+}
+
+.sky-docs-heading-anchor-link {
+  opacity: 0;
+  position: absolute;
+  transition: opacity 250ms;
+  display: inline-block;
+  left: -22px;
+}
+
+.sky-docs-heading-anchor-position {
+  position: relative;
+  top: calc(-1 * (var(--sky-viewport-top, 0px) + var(--sky-margin-stacked-lg)));
+}

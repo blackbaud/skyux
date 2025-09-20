@@ -1,28 +1,25 @@
-import {
-  E2eTestRunner,
-  applicationGenerator,
-  storybookConfigurationGenerator,
-} from '@nx/angular/generators';
+import { storybookConfigurationGenerator } from '@nx/angular/generators';
 import {
   NxJsonConfiguration,
+  Tree,
   readNxJson,
   readProjectConfiguration,
   updateNxJson,
 } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { Linter } from '@nx/linter';
 import { TsConfig } from '@nx/storybook/src/utils/utilities';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 
-import { updateJson } from '../../utils';
+import { createTestApplication } from '../../utils/testing';
+import { updateJson } from '../../utils/update-json';
 
 import configureStorybook from './index';
 
 describe('configure-storybook', () => {
   let warnSpy: jest.SpyInstance;
 
-  function setupTest() {
+  function setupTest(): { tree: Tree } {
     warnSpy = jest.spyOn(console, 'warn');
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
@@ -40,15 +37,18 @@ describe('configure-storybook', () => {
   it('should configure storybook', async () => {
     const { tree } = setupTest();
     tree.write('.gitignore', '#');
-    await applicationGenerator(tree, { name: `test-app` });
-    await storybookConfigurationGenerator(tree, {
-      configureCypress: false,
-      generateCypressSpecs: false,
-      generateStories: false,
-      linter: Linter.None,
+    await createTestApplication(tree, {
       name: `test-app`,
+      e2eTestRunner: true,
     });
-    await configureStorybook(tree, { name: 'test-app' });
+    await storybookConfigurationGenerator(tree, {
+      interactionTests: false,
+      skipFormat: true,
+      generateStories: false,
+      linter: 'none',
+      project: `test-app`,
+    });
+    await configureStorybook(tree, { name: 'test-app', skipFormat: true });
     expect(tree.exists(`apps/test-app/.storybook/preview.js`)).toBeFalsy();
     expect(tree.exists(`apps/test-app/.storybook/preview.ts`)).toBeTruthy();
     expect(tree.read(`apps/test-app/.storybook/preview.ts`, 'utf-8')).toContain(
@@ -64,11 +64,11 @@ describe('configure-storybook', () => {
     let testE2eAppConfig = readProjectConfiguration(tree, `test-app-e2e`);
     delete testE2eAppConfig.targets?.['e2e'].configurations;
     updateProjectConfiguration(tree, `test-app-e2e`, testE2eAppConfig);
-    await configureStorybook(tree, { name: 'test-app' });
-    expect(
-      readProjectConfiguration(tree, `test-app`).targets?.['build'].options
-        .styles.length,
-    ).toBeGreaterThan(0);
+    await configureStorybook(tree, { name: 'test-app', skipFormat: true });
+    const buildConfig = readProjectConfiguration(tree, `test-app`).targets?.[
+      'build'
+    ];
+    expect(buildConfig?.options?.styles.length).toBeGreaterThan(0);
     testAppConfig = readProjectConfiguration(tree, `test-app`);
     testAppConfig.targets = testAppConfig.targets || {};
     testAppConfig.targets['build'].options = {};
@@ -76,10 +76,10 @@ describe('configure-storybook', () => {
     testE2eAppConfig = readProjectConfiguration(tree, `test-app-e2e`);
     delete testE2eAppConfig.targets?.['e2e'].options.baseUrl;
     updateProjectConfiguration(tree, `test-app-e2e`, testE2eAppConfig);
-    await configureStorybook(tree, { name: 'test-app' });
+    await configureStorybook(tree, { name: 'test-app', skipFormat: true });
     expect(
-      readProjectConfiguration(tree, `test-app`).targets?.['build'].options
-        .styles.length,
+      readProjectConfiguration(tree, `test-app`).targets?.['build']?.options
+        ?.styles.length,
     ).toBeGreaterThan(0);
     expect(
       readProjectConfiguration(tree, `test-app-e2e`).targets?.['e2e'].options
@@ -90,13 +90,16 @@ describe('configure-storybook', () => {
   it('should configure storybook tsconfig', async () => {
     const { tree } = setupTest();
     tree.write('.gitignore', '#');
-    await applicationGenerator(tree, { name: `test-app` });
-    await storybookConfigurationGenerator(tree, {
-      configureCypress: false,
-      generateCypressSpecs: false,
-      generateStories: false,
-      linter: Linter.None,
+    await createTestApplication(tree, {
       name: `test-app`,
+      e2eTestRunner: true,
+    });
+    await storybookConfigurationGenerator(tree, {
+      interactionTests: false,
+      skipFormat: true,
+      generateStories: false,
+      linter: 'none',
+      project: `test-app`,
     });
     tree.delete(`apps/test-app/.storybook/tsconfig.json`);
     updateJson(
@@ -107,7 +110,7 @@ describe('configure-storybook', () => {
         return tsConfig;
       },
     );
-    await configureStorybook(tree, { name: 'test-app' });
+    await configureStorybook(tree, { name: 'test-app', skipFormat: true });
     expect(tree.exists(`apps/test-app/.storybook/tsconfig.json`)).toBeTruthy();
     expect(
       JSON.parse(tree.read(`apps/test-app/tsconfig.app.json`, 'utf-8') || '{}')
@@ -118,13 +121,16 @@ describe('configure-storybook', () => {
   it('should configure storybook tsconfig, add include and exclude', async () => {
     const { tree } = setupTest();
     tree.write('.gitignore', '#');
-    await applicationGenerator(tree, { name: `test-app` });
-    await storybookConfigurationGenerator(tree, {
-      configureCypress: false,
-      generateCypressSpecs: false,
-      generateStories: false,
-      linter: Linter.None,
+    await createTestApplication(tree, {
       name: `test-app`,
+      e2eTestRunner: true,
+    });
+    await storybookConfigurationGenerator(tree, {
+      interactionTests: false,
+      skipFormat: true,
+      generateStories: false,
+      linter: 'none',
+      project: `test-app`,
     });
     updateJson<TsConfig>(
       tree,
@@ -136,13 +142,11 @@ describe('configure-storybook', () => {
         return tsconfig;
       },
     );
-    await configureStorybook(tree, { name: 'test-app' });
+    await configureStorybook(tree, { name: 'test-app', skipFormat: true });
     expect(tree.exists(`apps/test-app/.storybook/tsconfig.json`)).toBeTruthy();
     expect(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       JSON.parse(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        tree.read(`apps/test-app/.storybook/tsconfig.json`)!.toString(),
+        tree.read(`apps/test-app/.storybook/tsconfig.json`, 'utf-8') ?? '{}',
       ).include,
     ).toBeTruthy();
   });
@@ -150,18 +154,17 @@ describe('configure-storybook', () => {
   it('should error for missing e2e project', async () => {
     const { tree } = setupTest();
     tree.write('.gitignore', '#');
-    await applicationGenerator(tree, {
+    await createTestApplication(tree, {
       name: `test-app`,
-      e2eTestRunner: E2eTestRunner.None,
     });
     await storybookConfigurationGenerator(tree, {
-      configureCypress: false,
-      generateCypressSpecs: false,
+      interactionTests: false,
+      skipFormat: true,
       generateStories: false,
-      linter: Linter.None,
-      name: `test-app`,
+      linter: 'none',
+      project: `test-app`,
     });
-    await configureStorybook(tree, { name: 'test-app' });
+    await configureStorybook(tree, { name: 'test-app', skipFormat: true });
     expect(warnSpy).toHaveBeenCalledWith(
       `Project "test-app-e2e" does not exist`,
     );
@@ -170,22 +173,22 @@ describe('configure-storybook', () => {
   it('should error for e2e project without cypress', async () => {
     const { tree } = setupTest();
     tree.write('.gitignore', '#');
-    await applicationGenerator(tree, {
+    await createTestApplication(tree, {
       name: `test-app`,
-      e2eTestRunner: E2eTestRunner.None,
+      e2eTestRunner: false,
     });
-    await applicationGenerator(tree, {
+    await createTestApplication(tree, {
       name: `test-app-e2e`,
-      e2eTestRunner: E2eTestRunner.None,
+      e2eTestRunner: false,
     });
     await storybookConfigurationGenerator(tree, {
-      configureCypress: false,
-      generateCypressSpecs: false,
+      interactionTests: false,
+      skipFormat: true,
       generateStories: false,
-      linter: Linter.None,
-      name: `test-app`,
+      linter: 'none',
+      project: `test-app`,
     });
-    await configureStorybook(tree, { name: 'test-app' });
+    await configureStorybook(tree, { name: 'test-app', skipFormat: true });
     expect(warnSpy).toHaveBeenCalledWith(
       `Project "test-app-e2e" does not have an e2e target with @nx/cypress:cypress`,
     );

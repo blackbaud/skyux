@@ -65,18 +65,10 @@ export class SkyAgGridAdapterService {
   }
 
   public focusOnFocusableChildren(element: HTMLElement): void {
-    const focusableChildren =
-      this.#skyAdapterService.getFocusableChildren(element);
+    const [focusChild] = this.#skyAdapterService.getFocusableChildren(element);
 
-    if (focusableChildren.length) {
-      focusableChildren[0].focus();
+    if (focusChild?.offsetParent) {
+      focusChild.focus();
     }
-  }
-
-  public focusOnColumnHeader(parentEl: HTMLElement, colId: string): void {
-    const columnHeader = parentEl.querySelector(
-      `.ag-header-cell[col-id="${colId}"]`,
-    ) as HTMLElement | undefined;
-    columnHeader?.focus();
   }
 }

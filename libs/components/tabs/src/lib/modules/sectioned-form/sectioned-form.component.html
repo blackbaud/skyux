@@ -11,28 +11,30 @@
     guidelines.
   -->
   <span
-    aria-orientation="vertical"
-    [attr.aria-owns]="ariaOwns"
+    [attr.aria-orientation]="ariaRole ? 'vertical' : undefined"
+    [attr.aria-owns]="ariaRole ? ariaOwns : undefined"
     [attr.role]="ariaRole"
   ></span>
-  <div
-    *ngIf="maintainSectionContent || tabsVisible()"
-    class="sky-sectioned-form-tabs"
-    [ngClass]="{
-      'sky-sectioned-form-tabs-hidden': !tabsVisible(),
-      'sky-sectioned-form-tabs-only': !tabService.contentVisible()
-    }"
-    [@tabEnter]="tabService.animationTabsVisibleState"
-  >
-    <ng-content />
-  </div>
-  <div
-    *ngIf="maintainSectionContent || tabService.contentVisible()"
-    class="sky-sectioned-form-content"
-    [ngClass]="{
-      'sky-sectioned-form-content-hidden': !tabService.contentVisible()
-    }"
-    [@contentEnter]="tabService.animationContentVisibleState"
-    #skySectionSideContent
-  ></div>
+  @if (maintainSectionContent || tabService.tabsVisible()) {
+    <div
+      class="sky-sectioned-form-tabs"
+      [ngClass]="{
+        'sky-sectioned-form-tabs-hidden': !tabService.tabsVisible(),
+        'sky-sectioned-form-tabs-only': !tabService.contentVisible()
+      }"
+      [@tabEnter]="tabService.animationTabsVisibleState"
+    >
+      <ng-content />
+    </div>
+  }
+  @if (maintainSectionContent || tabService.contentVisible()) {
+    <div
+      #skySectionSideContent
+      class="sky-sectioned-form-content"
+      [ngClass]="{
+        'sky-sectioned-form-content-hidden': !tabService.contentVisible()
+      }"
+      [@contentEnter]="tabService.animationContentVisibleState"
+    ></div>
+  }
 </div>

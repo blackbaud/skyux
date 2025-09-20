@@ -3,5 +3,11 @@
   "$id": "UpdateDependencies",
   "title": "",
   "type": "object",
-  "properties": {}
+  "properties": {
+    "skipFormat": {
+      "type": "boolean",
+      "description": "Skip formatting files",
+      "default": false
+    }
+  }
 }

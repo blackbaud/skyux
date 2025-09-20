@@ -1,0 +1,18 @@
+<sky-modal>
+  <sky-modal-header>Date range picker inside a Modal</sky-modal-header>
+  <sky-modal-content>
+    <form novalidate [formGroup]="dateForm">
+      <sky-date-range-picker formControlName="date" labelText="Label" />
+    </form>
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      id="modal-wait-modal-close"
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="modalInstance.close()"
+    >
+      Close
+    </button>
+  </sky-modal-footer>
+</sky-modal>

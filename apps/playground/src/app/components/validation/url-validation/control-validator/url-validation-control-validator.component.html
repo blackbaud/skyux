@@ -5,26 +5,25 @@
         URL - ruleset v{{ skyUrlValidationOptions.rulesetVersion }}
       </label>
       <input
+        #urlInput="skyId"
         class="sky-form-control"
         formControlName="url"
         skyId
-        #urlInput="skyId"
       />
     </sky-input-box>
   </div>
 
-  <ng-container *ngIf="urlControl.errors && urlControl.touched">
-    <div *ngIf="urlControl.errors.required" class="sky-error-label">
-      URL is required.
-    </div>
+  @if (urlControl.errors && urlControl.touched) {
+    @if (urlControl.errors.required) {
+      <div class="sky-error-label">URL is required.</div>
+    }
 
-    <div
-      *ngIf="urlControl.errors.skyUrl && urlControl.dirty"
-      class="sky-error-label"
-    >
-      Enter a valid URL in the "http(s)://site.domain" format.
-    </div>
-  </ng-container>
+    @if (urlControl.errors.skyUrl && urlControl.dirty) {
+      <div class="sky-error-label">
+        Enter a valid URL in the "http(s)://site.domain" format.
+      </div>
+    }
+  }
 </form>
 
 <button

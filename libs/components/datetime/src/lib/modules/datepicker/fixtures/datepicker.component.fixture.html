@@ -1,22 +1,25 @@
+<label for="datepicker">Datepicker</label>
 <sky-datepicker
-  (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
   #picker
+  (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
 >
   <input
+    #date="ngModel"
+    id="datepicker"
     name="myDate"
     [dateFormat]="dateFormat"
     [disabled]="isDisabled"
     [maxDate]="maxDate"
     [minDate]="minDate"
+    [startAtDate]="startAtDate"
     [skyDatepickerInput]="picker"
     [skyDatepickerNoValidate]="noValidate"
     [startingDay]="startingDay"
     [strict]="strict"
     [(ngModel)]="selectedDate"
-    #date="ngModel"
   />
 </sky-datepicker>
 
-<div *ngIf="showInvalidDirective">
-  <input type="text" skyDatepickerInput />
-</div>
+@if (showInvalidDirective) {
+<input type="text" skyDatepickerInput />
+}

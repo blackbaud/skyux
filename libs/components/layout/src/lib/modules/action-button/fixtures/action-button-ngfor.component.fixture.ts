@@ -3,23 +3,24 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './action-button-ngfor.component.fixture.html',
+  standalone: false,
 })
 export class ActionButtonNgforTestComponent {
   public items: any[] = [
     {
-      iconType: 'square-o',
+      iconName: 'square',
       header: 'Action button',
       details:
         'The action button module creates a large button with an icon, heading, and details.',
     },
     {
-      iconType: 'bell',
+      iconName: 'bell',
       header: 'Alert',
       details:
         'The alert component highlights critical information that users must see.',
     },
     {
-      iconType: 'search',
+      iconName: 'search',
       header: 'Autocomplete',
       details:
         'The autocomplete component creates a text input that filters data based on user entries.',

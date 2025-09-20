@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { TreeModule } from '@blackbaud/angular-tree-component';
 import { SkyAngularTreeModule } from '@skyux/angular-tree-component';
@@ -9,7 +8,6 @@ import { AngularTreeComponentComponent } from './angular-tree-component.componen
 @NgModule({
   declarations: [AngularTreeComponentComponent],
   imports: [
-    CommonModule,
     AngularTreeComponentRoutingModule,
     SkyAngularTreeModule,
     TreeModule,

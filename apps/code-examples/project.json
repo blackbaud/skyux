@@ -1,16 +1,18 @@
 {
-  "name": "code-examples",
+  "name": "code-examples-playground",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/code-examples/src",
   "prefix": "app",
+  "tags": [],
+  "implicitDependencies": ["eslint-config", "skyux-eslint"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "allowedCommonJsDependencies": ["dragula", "ng2-dragula"],
-        "outputPath": "dist/apps/code-examples",
+        "outputPath": "dist/apps/code-examples-playground",
         "index": "apps/code-examples/src/index.html",
         "main": "apps/code-examples/src/main.ts",
         "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
@@ -23,7 +25,9 @@
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
-          "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss"
+          "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
+          "libs/components/docs-tools/css/styles.css",
+          "apps/code-examples/src/styles.scss"
         ],
         "scripts": []
       },
@@ -33,7 +37,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "4mb"
+              "maximumError": "9mb"
             },
             {
               "type": "anyComponentStyle",
@@ -58,66 +62,54 @@
           "namedChunks": true
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "target": "build",
+          "projects": "manifest"
+        }
+      ]
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "code-examples:build:production"
+          "buildTarget": "code-examples-playground:build:production"
         },
         "development": {
-          "browserTarget": "code-examples:build:development"
+          "buildTarget": "code-examples-playground:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "manifest"
+        }
+      ],
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "code-examples:build"
+        "buildTarget": "code-examples-playground:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "apps/code-examples/src/**/*.ts",
-          "apps/code-examples/src/**/*.html"
+          "{projectRoot}/src/**/*.ts",
+          "{projectRoot}/src/**/*.html"
         ]
-      }
-    },
-    "test": {
-      "executor": "@angular-devkit/build-angular:karma",
-      "options": {
-        "tsConfig": "apps/code-examples/tsconfig.spec.json",
-        "karmaConfig": "apps/code-examples/karma.conf.js",
-        "polyfills": [
-          "zone.js",
-          "zone.js/testing",
-          "libs/components/packages/src/polyfills.js"
-        ],
-        "styles": [
-          "libs/components/theme/src/lib/styles/sky.scss",
-          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
-        ],
-        "scripts": [],
-        "assets": [],
-        "inlineStyleLanguage": "scss",
-        "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
-        }
       },
-      "configurations": {
-        "ci": {
-          "browsers": "ChromeHeadlessNoSandbox",
-          "codeCoverage": true,
-          "progress": false,
-          "sourceMap": true,
-          "watch": false
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "manifest"
         }
-      }
+      ]
     }
-  },
-  "tags": []
+  }
 }

@@ -8,6 +8,7 @@ import { SkyListComponent } from '../list.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-empty.component.fixture.html',
+  standalone: false,
 })
 export class ListEmptyTestComponent {
   @ViewChild(SkyListComponent, {
@@ -24,7 +25,7 @@ export class ListEmptyTestComponent {
   ) {}
 
   public get options() {
-    const bs = new BehaviorSubject<Array<any>>(['banana', 'apple']);
+    const bs = new BehaviorSubject<any[]>(['banana', 'apple']);
     return bs.asObservable();
   }
 }

@@ -10,9 +10,9 @@
 }
 
 :host-context(
-    .ag-header-cell.ag-right-aligned-header,
-    .ag-header-cell.sky-ag-grid-header-right-aligned
-  ) {
+  .ag-header-cell.ag-right-aligned-header,
+  .ag-header-cell.sky-ag-grid-header-right-aligned
+) {
   flex-direction: row-reverse;
 
   .ag-header-cell-label {
@@ -26,14 +26,41 @@
   }
 }
 
+.ag-header-cell-label .ag-header-cell-label-and-icons {
+  .ag-header-label-icon,
+  .ag-header-menu-icon,
+  .ag-header-icon {
+    line-height: 0;
+    margin-left: var(
+      --sky-override-ag-grid-header-icon-spacing,
+      var(--sky-space-gap-text_action-xs)
+    );
+  }
+
+  .sky-btn.sky-btn-icon-borderless {
+    margin-left: var(
+      --sky-override-ag-grid-header-icon-spacing,
+      var(--sky-space-gap-text_action-xs)
+    );
+
+    .ag-header-label-icon,
+    .ag-header-menu-icon,
+    .ag-header-icon {
+      margin-left: 0;
+    }
+  }
+}
+
 button.ag-header-cell-label {
-  text-transform: inherit;
   max-width: 100%;
 }
 
 .ag-cell-label-container {
   padding: 0;
-  gap: var(--sky-margin-inline-xs);
+  gap: var(
+    --sky-override-ag-grid-header-icon-spacing,
+    var(--sky-space-gap-text_action-xs)
+  );
 }
 
 .ag-header-cell-label {
@@ -45,15 +72,24 @@ button.ag-header-cell-label {
     flex-wrap: nowrap;
     flex-direction: row;
     overflow: hidden;
-    gap: var(--sky-margin-inline-xs);
+    align-items: center;
 
     .ag-header-cell-text {
       flex-grow: 0;
       flex-shrink: 1;
     }
 
-    .ag-sort-indicator-container:empty {
-      display: none;
+    .ag-sort-indicator-container {
+      color: var(
+        --sky-override-ag-grid-sort-color,
+        var(--sky-color-text-deemphasized)
+      );
+      width: initial;
+      height: initial;
+
+      &:hover {
+        border: none;
+      }
     }
   }
 }
@@ -62,5 +98,4 @@ button {
   cursor: pointer;
   flex-grow: 0;
   flex-shrink: 1;
-  text-transform: inherit;
 }

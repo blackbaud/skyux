@@ -1,37 +1,33 @@
-<ng-container *ngFor="let variation of variations">
-  <div [attr.id]="'screenshot-' + variation.id" class="sky-padding-even-md">
+@for (variation of variations; track variation) {
+  <div class="sky-padding-even-md" [attr.id]="'screenshot-' + variation.id">
     <h1>Character Count (reactive)</h1>
-
     <form novalidate [formGroup]="variation.formGroup">
       <div [attr.id]="'screenshot-character-count-' + variation.id">
         <div style="display: flex">
           <label
             class="sky-control-label"
-            [for]="reactiveInputBox.id"
             style="flex-grow: 1"
+            [for]="reactiveInputBox.id"
             >First name {{ variation.id }}</label
           >
-
-          <sky-character-counter-indicator #indicator>
-          </sky-character-counter-indicator>
+          <sky-character-counter-indicator #indicator />
         </div>
-
         <input
+          #reactiveInputBox="skyId"
           class="sky-form-control"
-          [formControl]="variation.control"
           type="text"
           skyCharacterCounter
           skyId
+          [formControl]="variation.control"
           [skyCharacterCounterIndicator]="indicator"
           [skyCharacterCounterLimit]="maxCharacterCount"
-          #reactiveInputBox="skyId"
         />
-
-        <div *ngIf="variation.control.errors" class="sky-error-label">
-          Limit First name to {{ maxCharacterCount }} characters.
-        </div>
+        @if (variation.control.errors) {
+          <div class="sky-error-label">
+            Limit First name to {{ maxCharacterCount }} characters.
+          </div>
+        }
       </div>
-
       <table>
         <tr>
           <th>Valid</th>
@@ -44,25 +40,22 @@
       </table>
     </form>
   </div>
-
   <div class="sky-padding-even-md">
     <h1>Character Count (template-driven)</h1>
-
     <div>
       <div style="display: flex">
         <label
           class="sky-control-label"
-          [for]="templateInputBox.id"
           style="flex-grow: 1"
+          [for]="templateInputBox.id"
         >
           First name {{ variation.id }}
         </label>
-
-        <sky-character-counter-indicator #templateIndicator>
-        </sky-character-counter-indicator>
+        <sky-character-counter-indicator #templateIndicator />
       </div>
-
       <input
+        #templateInputBoxModel="ngModel"
+        #templateInputBox="skyId"
         class="sky-form-control"
         type="text"
         skyCharacterCounter
@@ -70,15 +63,13 @@
         [skyCharacterCounterIndicator]="templateIndicator"
         [skyCharacterCounterLimit]="maxCharacterCount"
         [(ngModel)]="variation.model"
-        #templateInputBoxModel="ngModel"
-        #templateInputBox="skyId"
       />
-
-      <div *ngIf="templateInputBoxModel.errors" class="sky-error-label">
-        Limit First name to {{ maxCharacterCount }} characters.
-      </div>
+      @if (templateInputBoxModel.errors) {
+        <div class="sky-error-label">
+          Limit First name to {{ maxCharacterCount }} characters.
+        </div>
+      }
     </div>
-
     <table>
       <tr>
         <th>Valid</th>
@@ -90,10 +81,8 @@
       </tr>
     </table>
   </div>
-
   <div class="sky-padding-even-md">
     <h1>Input box</h1>
-
     <div [attr.id]="'screenshot-character-count-input-box-' + variation.id">
       <sky-input-box
         stacked="true"
@@ -104,36 +93,33 @@
       </sky-input-box>
     </div>
   </div>
-
   <div class="sky-padding-even-md">
     <h1>Input box no label</h1>
-
     <div
       [attr.id]="
         'screenshot-character-count-input-box-no-label-' + variation.id
       "
     >
       <sky-input-box stacked="true">
-        <sky-character-counter-indicator #templateIndicatorInputBoxNoLabel>
-        </sky-character-counter-indicator>
+        <sky-character-counter-indicator #templateIndicatorInputBoxNoLabel />
         <input
+          #characterCountInputBoxModelNoLabel="ngModel"
           class="sky-form-control"
           type="text"
           skyCharacterCounter
           [skyCharacterCounterIndicator]="templateIndicatorInputBoxNoLabel"
           [skyCharacterCounterLimit]="maxCharacterCount"
           [(ngModel)]="variation.model"
-          #characterCountInputBoxModelNoLabel="ngModel"
         />
-
-        <div
-          *ngIf="characterCountInputBoxModelNoLabel.errors"
-          class="sky-error-label"
-        >
-          Limit First name to {{ maxCharacterCount }} characters.
-        </div>
+        @if (characterCountInputBoxModelNoLabel.errors) {
+          <div class="sky-error-label">
+            Limit First name to {{ maxCharacterCount }} characters.
+          </div>
+        }
       </sky-input-box>
     </div>
   </div>
-</ng-container>
-<span *ngIf="ready | async" id="ready"></span>
+}
+@if (ready | async) {
+  <span id="ready"></span>
+}

@@ -1,4 +1,6 @@
 :host {
+  display: block;
+
   &.sky-layout-host {
     &-fit {
       display: flex;
@@ -9,6 +11,13 @@
         flex-grow: 1;
         position: relative;
       }
+    }
+
+    &-fit,
+    &-list {
+      --sky-comp-override-list-header-background-color: var(
+        --sky-color-background-container-dimmed
+      );
     }
   }
 }

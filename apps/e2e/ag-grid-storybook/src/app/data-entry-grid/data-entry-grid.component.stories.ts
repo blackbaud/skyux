@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { DataEntryGridComponent } from './data-entry-grid.component';
 import { DataEntryGridModule } from './data-entry-grid.module';
@@ -21,18 +22,26 @@ export default {
     },
   },
 } as Meta<DataEntryGridComponent>;
-const Template: Story<DataEntryGridComponent> = (
-  args: DataEntryGridComponent,
-) => ({
-  props: args,
-});
+type Story = StoryObj<DataEntryGridComponent>;
 
-export const DataEntryGridDateAndLookup = Template.bind({});
+export const DataEntryGridDateAndLookup: Story = {};
 DataEntryGridDateAndLookup.args = {
   variation: 'date-and-lookup',
 };
 
-export const DataEntryGridEditLookup = Template.bind({});
+export const DataEntryGridDateAndLookupCompact: Story = {};
+DataEntryGridDateAndLookupCompact.args = {
+  compact: true,
+  variation: 'date-and-lookup',
+};
+
+export const DataEntryGridEditLookup: Story = {};
 DataEntryGridEditLookup.args = {
+  variation: 'edit-lookup',
+};
+
+export const DataEntryGridEditLookupCompact: Story = {};
+DataEntryGridEditLookupCompact.args = {
+  compact: true,
   variation: 'edit-lookup',
 };

@@ -1,0 +1,18 @@
+<sky-description-list mode="vertical">
+  <sky-description-list-content>
+    <sky-description-list-term> Default setup </sky-description-list-term>
+    <sky-description-list-description>
+      <span class="default-value">
+        {{ defaultValue | skyNumeric }}
+      </span>
+    </sky-description-list-description>
+  </sky-description-list-content>
+  <sky-description-list-content>
+    <sky-description-list-term> With options </sky-description-list-term>
+    <sky-description-list-description>
+      <span class="configured-value">
+        {{ configuredValue | skyNumeric: numericOptions }}
+      </span>
+    </sky-description-list-description>
+  </sky-description-list-content>
+</sky-description-list>

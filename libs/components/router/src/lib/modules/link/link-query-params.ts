@@ -1,1 +1,1 @@
-export type SkyAppLinkQueryParams = { [k: string]: any };
+export type SkyAppLinkQueryParams = Record<string, any>;

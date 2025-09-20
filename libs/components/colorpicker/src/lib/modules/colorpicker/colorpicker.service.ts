@@ -22,7 +22,7 @@ export class SkyColorpickerService {
     const d = max - min;
     const saturation = max === 0 ? 0 : d / max;
     let hue = 0;
-    let maxValue: { [key: number]: number };
+    let maxValue: Record<number, number>;
     if (max !== min) {
       maxValue = {
         [red]: (green - blue) / d + (green < blue ? 6 : 0),
@@ -54,7 +54,7 @@ export class SkyColorpickerService {
     const p = value * (1 - saturation);
     const q = value * (1 - f * saturation);
     const t = value * (1 - (1 - f) * saturation);
-    const color: { [key: number]: () => void } = {
+    const color: Record<number, () => void> = {
       0: (): void => {
         red = value;
         green = t;
@@ -109,7 +109,7 @@ export class SkyColorpickerService {
     }[] = [
       {
         re: /(rgb)a?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*%?,\s*(\d{1,3})\s*%?(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
-        parse: (execResult) => {
+        parse: (execResult): SkyColorpickerRgba => {
           const rgba: SkyColorpickerRgba = {
             red: parseInt(execResult[2], 0) / 255,
             green: parseInt(execResult[3], 0) / 255,
@@ -121,7 +121,7 @@ export class SkyColorpickerService {
       },
       {
         re: /(hsl)a?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
-        parse: (execResult) => {
+        parse: (execResult): SkyColorpickerHsla => {
           const hsla: SkyColorpickerHsla = {
             hue: parseInt(execResult[2], 0) / 360,
             saturation: parseInt(execResult[3], 0) / 100,
@@ -326,7 +326,7 @@ export class SkyColorpickerService {
     if (['hsla', 'hex', 'cmyk'].indexOf(outputFormat) === -1) {
       outputFormat = 'rgba';
     }
-    const color: { [key: string]: () => string } = {
+    const color: Record<string, () => string> = {
       hsla: () => {
         const hsla = this.#denormalizeHSLA(this.#hsva2hsla(hsva));
         return `hsla(${hsla.hue},${hsla.saturation}%,${hsla.lightness}%,${hsla.alpha})`;

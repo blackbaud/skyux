@@ -1,98 +1,160 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
-/* Default theme */
-.sky-label {
-  --sky-label-display: inline;
-  --sky-label-align-items: initial;
-  --sky-label-line-height: 2.2;
-  --sky-label-info-background-color: var(--sky-background-color-info);
-  --sky-label-icon-default-display: inline;
-  --sky-label-icon-modern-display: none;
-  --sky-label-info-success-padding: 0.3em 0.6em 0.3em 0.6em;
-  --sky-label-warning-danger-padding: 0.3em 0.6em 0.3em 0.6em;
+@include compatMixins.sky-default-overrides('.sky-label') {
+  --sky-override-label-align-items: initial;
+  --sky-override-label-border-radius-pill: 10rem;
+  --sky-override-label-color-background-container-danger: var(
+    --sky-background-color-danger
+  );
+  --sky-override-label-color-background-container-info: var(
+    --sky-background-color-info
+  );
+  --sky-override-label-color-background-container-success: var(
+    --sky-background-color-success
+  );
+  --sky-override-label-color-background-container-warning: var(
+    --sky-background-color-warning
+  );
+  --sky-override-label-display: inline;
+  --sky-override-label-icon-info-color: var(--sky-color-icon-info);
+  --sky-override-label-inner-icon-path-color-danger: var(
+    --sky-background-color-danger
+  );
+  --sky-override-label-inner-icon-path-color-info: var(
+    --sky-background-color-info
+  );
+  --sky-override-label-inner-icon-path-color-success: var(
+    --sky-background-color-success
+  );
+  --sky-override-label-inner-icon-path-color-warning: var(
+    --sky-background-color-warning
+  );
+  --sky-override-label-line-height: 2.2;
+  --sky-override-label-link-hover-color: var(--sky-text-color-default);
+  --sky-override-label-link-text-decoration: underline;
+  --sky-override-label-link-text-color: change-color(
+    $sky-text-color-default,
+    $alpha: 0.8
+  );
+  --sky-override-label-margin: 0 3px;
+  --sky-override-label-padding: 0.3em 0.6em 0.3em 0.6em;
+  --sky-override-label-text-padding-left: var(--sky-padding-half);
 }
 
 /* Modern theme */
 @include mixins.sky-theme-modern {
-  .sky-label {
-    --sky-label-display: inline-flex;
-    --sky-label-align-items: center;
-    --sky-label-line-height: 1;
-    --sky-label-info-background-color: var(--sky-background-color-info-light);
-    --sky-label-icon-default-display: none;
-    --sky-label-icon-modern-display: block;
-    --sky-label-info-success-padding: 4px 15px 4px 6px;
-    --sky-label-warning-danger-padding: 4px 15px 4px 9px;
-
-    &:not(.sky-label-danger) {
-      --sky-icon-stack-top-icon-color-override: var(--sky-text-color-default);
-    }
+  .sky-label-info .sky-label-icon {
+    color: var(
+      --sky-override-label-icon-info-color,
+      var(--sky-color-background-icon_matte-action-heavy)
+    );
   }
 
-  .sky-label-info .sky-label-icon-theme-modern {
-    color: var(--sky-highlight-color-info);
+  .sky-label-success .sky-label-icon {
+    color: var(--sky-color-background-icon_matte-success);
   }
 
-  .sky-label-success .sky-label-icon-theme-modern {
-    color: var(--sky-highlight-color-success);
+  .sky-label-warning .sky-label-icon {
+    color: var(--sky-color-background-icon_matte-warning);
   }
 
-  .sky-label-warning .sky-label-icon-theme-modern {
-    color: var(--sky-highlight-color-warning);
-  }
-
-  .sky-label-danger .sky-label-icon-theme-modern {
-    color: var(--sky-highlight-color-danger);
+  .sky-label-danger .sky-label-icon {
+    color: var(--sky-color-background-icon_matte-danger);
   }
 }
 
 .sky-label {
   color: var(--sky-text-color-default);
-  display: var(--sky-label-display);
-  align-items: var(--sky-label-align-items);
-  border-radius: 10rem;
-  font-weight: 400;
-  line-height: var(--sky-label-line-height);
-  margin: 0 3px;
+  display: var(--sky-override-label-display, inline-block);
+  align-items: var(--sky-override-label-align-items, center);
+  border-radius: var(
+    --sky-override-label-border-radius-pill,
+    var(--sky-border-radius-pill)
+  );
+  line-height: var(
+    --sky-override-label-line-height,
+    var(--sky-font-line_height-body-m)
+  );
+  margin: var(--sky-override-label-margin, 0);
   white-space: nowrap;
+  padding: var(
+    --sky-override-label-padding,
+    var(--sky-comp-label-space-inset-top)
+      var(--sky-comp-label-space-inset-right)
+      var(--sky-comp-label-space-inset-bottom)
+      var(--sky-comp-label-space-inset-left)
+  );
 
-  &.sky-label-info,
-  &.sky-label-success {
-    padding: var(--sky-label-info-success-padding);
-  }
+  ::ng-deep a {
+    color: var(
+      --sky-override-label-link-text-color,
+      var(--sky-color-text-action_contrast)
+    );
+    text-decoration: var(
+      --sky-override-label-link-text-decoration,
+      var(--sky-font-text_decoration-visible_link)
+    );
 
-  &.sky-label-warning,
-  &.sky-label-danger {
-    padding: var(--sky-label-warning-danger-padding);
+    // In modern all states of a link display as "blue", so remove this hover state when default support is dropped
+    &:hover {
+      color: var(
+        --sky-override-label-link-hover-color,
+        var(--sky-color-text-action_contrast)
+      );
+    }
   }
 }
 
 .sky-label-success {
-  background-color: var(--sky-background-color-success);
+  background-color: var(
+    --sky-override-label-color-background-container-success,
+    var(--sky-color-background-container-success)
+  );
+  --sky-icon-svg-path-2-color-input: var(
+    --sky-override-label-inner-icon-path-color-success,
+    var(--sky-color-icon-inverse)
+  );
 }
 
 .sky-label-info {
-  background-color: var(--sky-label-info-background-color);
+  background-color: var(
+    --sky-override-label-color-background-container-info,
+    var(--sky-color-background-container-info)
+  );
+  --sky-icon-svg-path-2-color-input: var(
+    --sky-override-label-inner-icon-path-color-info,
+    var(--sky-color-icon-inverse)
+  );
 }
 
 .sky-label-warning {
-  background-color: var(--sky-background-color-warning);
+  background-color: var(
+    --sky-override-label-color-background-container-warning,
+    var(--sky-color-background-container-warning)
+  );
+  --sky-icon-svg-path-2-color-input: var(
+    --sky-override-label-inner-icon-path-color-warning,
+    var(--sky-color-icon-default)
+  );
 }
 
 .sky-label-danger {
-  background-color: var(--sky-background-color-danger);
+  background-color: var(
+    --sky-override-label-color-background-container-danger,
+    var(--sky-color-background-container-danger)
+  );
+  --sky-icon-svg-path-2-color-input: var(
+    --sky-override-label-inner-icon-path-color-danger,
+    var(--sky-color-icon-inverse)
+  );
 }
 
 .sky-label-text {
   display: inline-block;
-  padding-left: var(--sky-padding-half);
-}
-
-.sky-label-icon-theme-modern {
-  display: var(--sky-label-icon-modern-display);
-}
-
-.sky-label-icon-theme-default {
-  display: var(--sky-label-icon-default-display);
+  padding-left: var(
+    --sky-override-label-text-padding-left,
+    var(--sky-space-gap-icon-s)
+  );
 }

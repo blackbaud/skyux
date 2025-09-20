@@ -1,25 +1,34 @@
-<form [formGroup]="reactiveForm" novalidate>
+<form novalidate [formGroup]="reactiveForm">
+  @if (templateDisable === undefined) {
   <sky-date-range-picker
-    *ngIf="templateDisable === undefined"
+    #dateRangePicker
     formControlName="dateRange"
     [calculatorIds]="calculatorIds"
     [dateFormat]="dateFormat"
-    [endDateRequired]="endDateRequired"
+    [helpKey]="helpKey"
+    [helpPopoverContent]="helpPopoverContent"
+    [hintText]="hintText"
     [label]="label"
-    [startDateRequired]="startDateRequired"
-    #dateRangePicker
+    [labelText]="labelText"
+    [required]="required"
+    [stacked]="stacked"
   >
+    @if (dateRange?.errors?.['customError']) {
+    <sky-form-error
+      errorName="customError"
+      errorText="This is a custom error."
+    />
+    }
   </sky-date-range-picker>
+  }
 </form>
 
+@if (templateDisable !== undefined) {
 <sky-date-range-picker
-  *ngIf="templateDisable !== undefined"
+  #dateRangePicker
   [calculatorIds]="calculatorIds"
   [dateFormat]="dateFormat"
   [disabled]="templateDisable"
-  [endDateRequired]="endDateRequired"
   [label]="label"
-  [startDateRequired]="startDateRequired"
-  #dateRangePicker
->
-</sky-date-range-picker>
+/>
+}

@@ -1,6 +1,16 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
-@use './scss/progress-indicator-variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-progress-indicator') {
+  --sky-override-progress-indicator-mode-horizontal-item-heading-font-size: 16px;
+  --sky-override-progress-indicator-mode-horizontal-item-heading-font-weight: 600;
+  --sky-override-progress-indicator-mode-vertical-margin-left: -30px;
+  --sky-override-progress-indicator-nav-and-reset-margin: 0;
+  --sky-override-progress-indicator-nav-and-reset-padding: #{$sky-padding-triple}
+    0 0 #{$sky-margin-plus-half};
+  --sky-override-progress-indicator-nav-and-reset-text-align: start;
+}
 
 .sky-progress-indicator {
   ::ng-deep {
@@ -26,14 +36,24 @@
       text-align: center;
 
       // Accommodate the width of the status marker to make the content centered.
-      margin-left: -$status-marker-width * 2;
+      margin-left: var(
+        --sky-override-progress-indicator-mode-vertical-margin-left,
+        calc(-2 * max(var(--sky-size-progress_step), var(--sky-size-icon-m)))
+      );
     }
 
     sky-progress-indicator-nav-button,
     sky-progress-indicator-reset-button {
       display: block;
-      padding-top: $sky-padding-triple;
-      padding-left: $sky-margin-plus-half;
+      padding: var(--sky-override-progress-indicator-nav-and-reset-padding, 0);
+      text-align: var(
+        --sky-override-progress-indicator-nav-and-reset-text-align,
+        center
+      );
+      margin: var(
+        --sky-override-progress-indicator-nav-and-reset-margin,
+        var(--sky-space-stacked-xxl) 0 0
+      );
     }
   }
 }
@@ -50,8 +70,14 @@
    */
   ::ng-deep {
     .sky-progress-indicator-item-heading {
-      font-weight: 600;
-      font-size: 16px;
+      font-weight: var(
+        --sky-override-progress-indicator-mode-horizontal-item-heading-font-weight,
+        inherit
+      );
+      font-size: var(
+        --sky-override-progress-indicator-mode-horizontal-item-heading-font-size,
+        inherit
+      );
     }
   }
 }
@@ -87,28 +113,6 @@
         .sky-progress-indicator-status-marker-line {
           display: none;
         }
-      }
-    }
-  }
-}
-
-@include mixins.sky-theme-modern {
-  .sky-progress-indicator-mode-horizontal {
-    ::ng-deep {
-      .sky-progress-indicator-item-heading {
-        font-weight: inherit;
-        font-size: inherit;
-      }
-    }
-  }
-
-  .sky-progress-indicator-mode-vertical {
-    ::ng-deep {
-      sky-progress-indicator-nav-button,
-      sky-progress-indicator-reset-button {
-        padding: 0;
-        margin: $sky-theme-modern-margin-stacked-xxl 0 0;
-        text-align: center;
       }
     }
   }

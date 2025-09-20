@@ -1,35 +1,31 @@
-<div style="width: 60%">
-  <span class="sky-control-label sky-control-label-required">
-    <span class="label-text">File attachment field</span
-    ><span class="sky-control-help-container"
-      ><sky-help-inline class="sky-control-help"></sky-help-inline
-    ></span>
-  </span>
+<form [formGroup]="formGroup">
   <sky-file-drop
+    hintText="Really long hint text that should wrap and be confined to below the file drop element. We set the text to have a small margin below the drop and link controls, and if there are any errors (shown below) there will be a slight spacing between this element and those errors."
+    labelText="File attachment field"
+    linkUploadHintText="Start with http:// or https://"
+    helpKey="help.html"
+    formControlName="attachment"
     [acceptedTypes]="acceptedTypes"
     [allowLinks]="true"
     [maxFileSize]="maxFileSize"
-    [minFileSize]="minFileSize"
+    [required]="required"
     [validateFn]="validateFile"
-    (filesChanged)="filesUpdated($event)"
-    (linkChanged)="linkAdded($event)"
-  >
-  </sky-file-drop>
+    [stacked]="true"
+  />
+</form>
 
-  <sky-status-indicator
-    *ngIf="rejectedFiles.length > 0"
-    descriptionType="error"
-    indicatorType="danger"
-  >
-    The file
-    <strong> {{ rejectedFiles[rejectedFiles.length - 1].file.name }} </strong>
-    is invalid. Reason:
-    {{ rejectedFiles[rejectedFiles.length - 1].errorType }} violation. Error
-    param: {{ rejectedFiles[rejectedFiles.length - 1].errorParam }}
-  </sky-status-indicator>
+@for (file of attachment.value; track file) {
+  <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
+}
 
-  <div *ngFor="let file of allItems">
-    <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)">
-    </sky-file-item>
-  </div>
-</div>
+Values
+<div>Touched: {{ attachment.touched }}</div>
+<div>Dirty: {{ attachment.dirty }}</div>
+<div>Value: {{ attachment.value | json }}</div>
+
+<button class="sky-btn sky-btn-primary" type="button" (click)="markTouched()">
+  mark touched
+</button>
+<button class="sky-btn sky-btn-primary" type="button" (click)="setFiles()">
+  set files
+</button>

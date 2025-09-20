@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'app-dropdown',
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss'],
+  standalone: false,
 })
 export class DropdownComponent {
   @Input()

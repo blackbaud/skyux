@@ -1,17 +1,36 @@
-<div class="app-alert">
-  <sky-alert [alertType]="'info'" [closeable]="alertCloseable">
+<div class="app-alert sky-padding-even-large">
+  <sky-alert
+    class="sky-margin-stacked-lg"
+    [alertType]="'info'"
+    [closeable]="alertCloseable"
+  >
     Info alert
+    <a href="">with a link</a>
   </sky-alert>
-  <sky-alert [alertType]="'success'" [closeable]="alertCloseable">
+  <sky-alert
+    class="sky-margin-stacked-lg"
+    [alertType]="'success'"
+    [closeable]="alertCloseable"
+  >
     Success alert
   </sky-alert>
-  <sky-alert [alertType]="'warning'" [closeable]="alertCloseable">
+  <sky-alert
+    class="sky-margin-stacked-lg"
+    [alertType]="'warning'"
+    [closeable]="alertCloseable"
+  >
     Warning alert
   </sky-alert>
-  <sky-alert [alertType]="'danger'" [closeable]="alertCloseable">
+  <sky-alert
+    class="sky-margin-stacked-lg"
+    [alertType]="'danger'"
+    [closeable]="alertCloseable"
+  >
     Danger alert
   </sky-alert>
-  <sky-alert [closeable]="alertCloseable"> Default alert </sky-alert>
+  <sky-alert class="sky-margin-stacked-lg" [closeable]="alertCloseable">
+    Default alert
+  </sky-alert>
   <sky-alert [alertType]="'test'" [closeable]="alertCloseable">
     Invalid alert
   </sky-alert>

@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'e2e-data-manager-storybook',
   preset: '../../../jest.preset.js',

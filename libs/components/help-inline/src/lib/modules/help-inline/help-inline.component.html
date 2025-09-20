@@ -1,0 +1,61 @@
+@let ariaLabelResolved =
+  ariaLabel
+    | skyHelpInlineAriaLabel
+      : labelTextResolved()
+      : labelledBy
+      : defaultAriaLabel();
+
+@let ariaLabelledbyResolved =
+  labelledBy ? labelledByPrefixRef.id + ' ' + labelledBy : undefined;
+
+@if (helpKey) {
+  <sky-help-inline-help-key-button
+    [ariaLabel]="ariaLabelResolved"
+    [ariaLabelledby]="ariaLabelledbyResolved"
+    [helpKey]="helpKey"
+    (actionClick)="actionClick.emit()"
+  >
+    <ng-container [ngTemplateOutlet]="icon" />
+  </sky-help-inline-help-key-button>
+} @else if (popoverContent) {
+  <sky-help-inline-popover-button
+    [ariaLabel]="ariaLabelResolved"
+    [ariaLabelledby]="ariaLabelledbyResolved"
+    [popoverContent]="popoverContent"
+    [popoverTitle]="popoverTitle"
+    (actionClick)="actionClick.emit()"
+  >
+    <ng-container [ngTemplateOutlet]="icon" />
+  </sky-help-inline-popover-button>
+} @else {
+  <button
+    class="sky-help-inline"
+    type="button"
+    [attr.aria-controls]="ariaControls"
+    [attr.aria-expanded]="ariaControls && (ariaExpanded ?? false)"
+    [attr.aria-label]="ariaLabelResolved"
+    [attr.aria-labelledby]="ariaLabelledbyResolved"
+    (click)="onClick()"
+  >
+    <ng-container [ngTemplateOutlet]="icon" />
+  </button>
+}
+
+<ng-template #icon>
+  <sky-icon
+    *skyThemeIf="'default'"
+    iconName="info"
+    iconSize="s"
+    variant="solid"
+  />
+  <sky-icon
+    *skyThemeIf="'modern'"
+    iconName="info"
+    iconSize="s"
+    variant="line"
+  />
+</ng-template>
+
+<span #labelledByPrefixRef="skyId" hidden skyId>{{
+  'skyux_help_inline_aria_label' | skyLibResources: ''
+}}</span>

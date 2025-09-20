@@ -1,36 +1,42 @@
 <div id="screenshot-wrapper" class="sky-padding-even-md">
-  <sky-avatar
-    [name]="name"
-    src="https://imgur.com/tBiGElW.png"
-    [canChange]="true"
-  ></sky-avatar>
+  <h2>Size and image</h2>
 
-  <sky-avatar [name]="name"></sky-avatar>
+  <div class="avatar-grid">
+    <sky-avatar src="./avatar.png" [name]="name" [canChange]="true" />
 
-  <sky-avatar
-    name="L G"
-    size="large"
-    src="https://imgur.com/tBiGElW.png"
-    [canChange]="true"
-  ></sky-avatar>
+    <sky-avatar [name]="name" />
 
-  <sky-avatar name="L G" size="large"></sky-avatar>
+    <sky-avatar name="L G" size="large" src="./avatar.png" [canChange]="true" />
 
-  <sky-avatar
-    name="M D"
-    size="medium"
-    src="https://imgur.com/tBiGElW.png"
-    [canChange]="true"
-  ></sky-avatar>
+    <sky-avatar name="L G" size="large" />
 
-  <sky-avatar name="M D" size="medium"></sky-avatar>
+    <sky-avatar
+      name="M D"
+      size="medium"
+      src="./avatar.png"
+      [canChange]="true"
+    />
 
-  <sky-avatar
-    name="S M"
-    size="small"
-    src="https://imgur.com/tBiGElW.png"
-    [canChange]="true"
-  ></sky-avatar>
+    <sky-avatar name="M D" size="medium" />
 
-  <sky-avatar name="S M" size="small"></sky-avatar>
+    <sky-avatar name="S M" size="small" src="./avatar.png" [canChange]="true" />
+
+    <sky-avatar name="S M" size="small" />
+  </div>
+
+  <h2>Colors</h2>
+
+  <div class="avatar-grid">
+    <!-- All characters listed are in the United States public domain -->
+    <sky-avatar name="Doctor Jekyll" />
+    <sky-avatar name="Phantom of the Opera" />
+    <sky-avatar name="Count Dracula" />
+    <sky-avatar name="Sherlock Holmes" />
+    <sky-avatar name="Steamboat Willie" />
+    <sky-avatar name="King Kong" />
+    <sky-avatar name="Dorothy Gale" />
+  </div>
 </div>
+@if (ready | async) {
+  <span id="ready"></span>
+}

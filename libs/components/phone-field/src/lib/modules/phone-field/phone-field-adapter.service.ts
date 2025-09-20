@@ -26,22 +26,22 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
     this.#renderer.addClass(elementRef.nativeElement, className);
   }
 
+  public getInputValue(elementRef: ElementRef): string | undefined {
+    const el = elementRef.nativeElement as HTMLElement | null;
+
+    if (el && 'value' in el) {
+      return (el as HTMLInputElement).value;
+    }
+
+    /* istanbul ignore next: safety check */
+    return undefined;
+  }
+
   public setElementDisabledState(
     elementRef: ElementRef,
     disabled: boolean,
   ): void {
     this.#renderer.setProperty(elementRef.nativeElement, 'disabled', disabled);
-  }
-
-  public setElementPlaceholder(
-    elementRef: ElementRef,
-    placeholder: string,
-  ): void {
-    this.#renderer.setAttribute(
-      elementRef.nativeElement,
-      'placeholder',
-      placeholder,
-    );
   }
 
   public setElementType(elementRef: ElementRef): void {

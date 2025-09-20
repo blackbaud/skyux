@@ -5,12 +5,20 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
+  inject,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { SkyIdModule } from '@skyux/core';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyLookupModule } from '@skyux/lookup';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
-import { ColumnResizedEvent, Events } from 'ag-grid-community';
-import { IPopupComponent } from 'ag-grid-community/dist/lib/interfaces/iPopupComponent';
+import { ColumnResizedEvent } from 'ag-grid-community';
 
 import { applySkyLookupPropertiesDefaults } from '../../apply-lookup-properties-defaults';
 import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
@@ -26,9 +34,16 @@ import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
   templateUrl: './cell-editor-lookup.component.html',
   styleUrls: ['./cell-editor-lookup.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    SkyInputBoxModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SkyLookupModule,
+    SkyIdModule,
+  ],
 })
 export class SkyAgGridCellEditorLookupComponent
-  implements ICellEditorAngularComp, IPopupComponent<unknown>
+  implements ICellEditorAngularComp
 {
   @HostBinding('style.width.px')
   public width: number | undefined;
@@ -43,22 +58,27 @@ export class SkyAgGridCellEditorLookupComponent
   });
   public useAsyncSearch = false;
 
-  protected ariaLabel: string | undefined = undefined;
+  protected labelText: string | undefined = undefined;
 
   #lookupOpen = false;
+  #selectionModalOpen = false;
   #params: SkyCellEditorLookupParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
-  #changeDetector: ChangeDetectorRef;
-  #elementRef: ElementRef;
+  #changeDetector = inject(ChangeDetectorRef);
+  #elementRef = inject(ElementRef<HTMLElement>);
 
-  constructor(changeDetector: ChangeDetectorRef, elementRef: ElementRef) {
-    this.#changeDetector = changeDetector;
-    this.#elementRef = elementRef;
-  }
-
-  @HostListener('blur')
-  public onBlur(): void {
-    this.#stopEditingOnBlur();
+  @HostListener('focusout', ['$event'])
+  public onBlur(event: FocusEvent): void {
+    if (
+      event.relatedTarget &&
+      event.relatedTarget === this.#params?.eGridCell
+    ) {
+      // If focus is being set to the grid cell, schedule focus on the input.
+      // This happens when the refreshCells API is called.
+      this.afterGuiAttached();
+    } else {
+      this.#stopEditingOnBlur();
+    }
   }
 
   public agInit(params: SkyCellEditorLookupParams): void {
@@ -69,7 +89,7 @@ export class SkyAgGridCellEditorLookupComponent
 
     this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(params);
     const control = this.editorForm.get('selection');
-    this.ariaLabel = params.skyComponentProperties?.ariaLabelledBy
+    this.labelText = params.skyComponentProperties?.ariaLabelledBy
       ? undefined
       : params.skyComponentProperties?.ariaLabel ||
         params.colDef.headerName ||
@@ -92,6 +112,8 @@ export class SkyAgGridCellEditorLookupComponent
 
       if (this.#params.skyComponentProperties?.disabled) {
         control.disable();
+      } else {
+        control.enable();
       }
     }
 
@@ -101,7 +123,7 @@ export class SkyAgGridCellEditorLookupComponent
     this.isAlive = true;
     this.width = this.#params.column.getActualWidth();
     this.#params.api.addEventListener(
-      Events.EVENT_COLUMN_RESIZED,
+      'columnResized',
       (event: ColumnResizedEvent) => {
         if (event.column?.getColId() === this.#params?.column.getColId()) {
           this.width = event.column?.getActualWidth();
@@ -115,7 +137,6 @@ export class SkyAgGridCellEditorLookupComponent
   public isCancelAfterEnd(): boolean {
     // Shut down components to commit values before final value syncs to grid.
     this.isAlive = false;
-    this.#changeDetector.detectChanges();
     return false;
   }
 
@@ -132,27 +153,43 @@ export class SkyAgGridCellEditorLookupComponent
     return true;
   }
 
+  public getPopupPosition(): 'over' | 'under' | undefined {
+    return 'over';
+  }
+
   public afterGuiAttached(): void {
-    const lookupInput: HTMLTextAreaElement =
-      this.#elementRef.nativeElement.querySelector('.sky-lookup-input');
-    lookupInput.focus();
-    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
-      lookupInput.select();
-      lookupInput.setRangeText(this.#params?.charPress as string);
-      // Ensure the cursor is at the end of the text.
-      lookupInput.setSelectionRange(
-        lookupInput.value.length,
-        lookupInput.value.length,
-      );
-      lookupInput.dispatchEvent(new Event('input'));
-    }
-    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
-      lookupInput.select();
-    }
+    // AG Grid sets focus to the cell via setTimeout, and this queues the input to focus after that.
+    setTimeout(() => {
+      const lookupInput: HTMLTextAreaElement =
+        this.#elementRef.nativeElement.querySelector('.sky-lookup-input');
+      lookupInput.focus();
+      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
+        lookupInput.setRangeText(`${this.#params?.eventKey}`);
+        // Ensure the cursor is at the end of the text.
+        lookupInput.setSelectionRange(
+          lookupInput.value.length,
+          lookupInput.value.length,
+        );
+        lookupInput.dispatchEvent(new Event('input'));
+      } else if (
+        this.#triggerType === SkyAgGridCellEditorInitialAction.Untouched
+      ) {
+        // Ensure the cursor is at the end of the text.
+        lookupInput.setSelectionRange(
+          lookupInput.value.length,
+          lookupInput.value.length,
+        );
+      }
+    });
   }
 
   public onLookupOpenChange(isOpen: boolean): void {
     this.#lookupOpen = isOpen;
+    this.#stopEditingOnBlur();
+  }
+
+  public onSelectionModalOpenChange(isOpen: boolean): void {
+    this.#selectionModalOpen = isOpen;
     this.#stopEditingOnBlur();
   }
 
@@ -166,7 +203,8 @@ export class SkyAgGridCellEditorLookupComponent
   #stopEditingOnBlur(): void {
     if (
       !this.#lookupOpen &&
-      this.#params?.context?.gridOptions?.stopEditingWhenCellsLoseFocus &&
+      !this.#selectionModalOpen &&
+      this.#params?.api.getGridOption('stopEditingWhenCellsLoseFocus') &&
       !this.#elementRef.nativeElement.matches(':focus-within')
     ) {
       this.#params?.api.stopEditing();

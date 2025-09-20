@@ -67,6 +67,7 @@ let idIndex = 0;
   template: '<ng-content />',
   providers: [ListState, ListStateDispatcher],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyListComponent
   implements AfterContentInit, OnChanges, OnDestroy
@@ -81,7 +82,7 @@ export class SkyListComponent
    * an observable instead of a static array.
    */
   @Input()
-  public data?: Array<any> | Observable<Array<any>> = [];
+  public data?: any[] | Observable<any[]> = [];
 
   /**
    * The data provider that obtains the data to display. The list component requires
@@ -112,7 +113,7 @@ export class SkyListComponent
    * included are de-selected in the checklist or multiselect grid.
    */
   @Input()
-  public selectedIds?: Array<string> | Observable<Array<string>>;
+  public selectedIds?: string[] | Observable<string[]>;
 
   /**
    * The set of fields to sort by. If array of fields then sorted by order of array.
@@ -122,8 +123,8 @@ export class SkyListComponent
   @Input()
   public sortFields?:
     | ListSortFieldSelectorModel
-    | Array<ListSortFieldSelectorModel>
-    | Observable<Array<ListSortFieldSelectorModel>>
+    | ListSortFieldSelectorModel[]
+    | Observable<ListSortFieldSelectorModel[]>
     | Observable<ListSortFieldSelectorModel>;
 
   /**
@@ -133,7 +134,7 @@ export class SkyListComponent
    * component.
    */
   @Input()
-  public appliedFilters: Array<ListFilterModel> = [];
+  public appliedFilters: ListFilterModel[] = [];
 
   /**
    * For list views that support item selection, emits the selected entries.
@@ -145,7 +146,7 @@ export class SkyListComponent
    * Emits the filters applied to the list.
    */
   @Output()
-  public appliedFiltersChange = new EventEmitter<Array<ListFilterModel>>();
+  public appliedFiltersChange = new EventEmitter<ListFilterModel[]>();
 
   /**
    * The function to apply as a global sort on the list.
@@ -382,12 +383,12 @@ export class SkyListComponent
       (
         filters: ListFilterModel[],
         search: ListSearchModel,
-        sortFieldSelectors: Array<ListSortFieldSelectorModel>,
+        sortFieldSelectors: ListSortFieldSelectorModel[],
         itemsPerPage: number,
         pageNumber: number,
         isToolbarDisabled: boolean,
-        selected: Array<string>,
-        itemsData: Array<any>,
+        selected: string[],
+        itemsData: any[],
       ) => {
         cancelLastRequest.next();
         cancelLastRequest.complete();
@@ -450,7 +451,7 @@ export class SkyListComponent
     );
   }
 
-  public get selectedItems(): Observable<Array<ListItemModel>> {
+  public get selectedItems(): Observable<ListItemModel[]> {
     return observableCombineLatest(
       this.state.pipe(
         observableMap((current) => current.items.items),
@@ -460,7 +461,7 @@ export class SkyListComponent
         observableMap((current) => current.selected),
         distinctUntilChanged(),
       ),
-      (items: Array<ListItemModel>, selected: AsyncItem<ListSelectedModel>) => {
+      (items: ListItemModel[], selected: AsyncItem<ListSelectedModel>) => {
         return items.filter((i) => selected.item.selectedIdMap.get(i.id));
       },
     ).pipe(takeUntil(this.ngUnsubscribe));
@@ -475,7 +476,7 @@ export class SkyListComponent
     );
   }
 
-  public get views(): Array<ListViewComponent> {
+  public get views(): ListViewComponent[] {
     return this.listViews.toArray();
   }
 

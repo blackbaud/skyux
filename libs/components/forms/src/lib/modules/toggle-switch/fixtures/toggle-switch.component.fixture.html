@@ -2,16 +2,21 @@
   [ariaLabel]="ariaLabel"
   [checked]="isChecked"
   [disabled]="isDisabled"
+  [helpKey]="helpKey"
+  [helpPopoverContent]="helpPopoverContent"
+  [helpPopoverTitle]="helpPopoverTitle"
+  [labelHidden]="labelHidden"
+  [labelText]="labelText"
   [tabIndex]="customTabIndex"
   (toggleChange)="checkChanged($event)"
 >
-  <sky-toggle-switch-label *ngIf="showLabel"
-    >{{ buttonLabel }}</sky-toggle-switch-label
-  >
-  <sky-help-inline
-    *ngIf="showInlineHelp"
-    class="sky-control-help"
-  ></sky-help-inline>
+  @if (showLabel) {
+  <sky-toggle-switch-label>{{ buttonLabel }}</sky-toggle-switch-label>
+  } @if (showInlineHelp) {
+  <sky-help-inline class="sky-control-help" />
+  }
 </sky-toggle-switch>
 
-<sky-toggle-switch *ngIf="multiple"> Option 2 </sky-toggle-switch>
+@if (multiple) {
+<sky-toggle-switch> Option 2 </sky-toggle-switch>
+}

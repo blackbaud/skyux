@@ -27,6 +27,7 @@ export class MyLocaleProvider extends SkyAppLocaleProvider {
       useClass: MyLocaleProvider,
     },
   ],
+  standalone: false,
 })
 export class DatePipeProviderComponent {
   public dateValue = new Date('01/01/2019');

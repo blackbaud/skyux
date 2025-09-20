@@ -4,27 +4,66 @@
       <form [formGroup]="gridSettings">
         <sky-checkbox
           formControlName="enableTopScroll"
-          icon="arrows-h"
-          label="Top scroll"
-        ></sky-checkbox>
+          iconName="arrow-fit"
+          title="Top scroll"
+          labelText="Top scroll"
+          labelHidden
+        />
         <sky-checkbox
           formControlName="useColumnGroups"
-          icon="object-group"
-          label="Use column groups"
-        ></sky-checkbox>
-        <sky-radio-group ariaLabel="DOM layout" formControlName="domLayout">
-          <div class="sky-switch-icon-group">
-            <sky-radio
-              icon="square-o"
-              label="Normal"
-              value="normal"
-            ></sky-radio>
-            <sky-radio
-              icon="arrows-v"
-              label="Auto-height"
-              value="autoHeight"
-            ></sky-radio>
-          </div>
+          iconName="group"
+          title="Use column groups"
+          labelText="Use column groups"
+          labelHidden
+        />
+        <sky-checkbox
+          formControlName="wrapText"
+          iconName="text-align-left"
+          title="Wrap text"
+          labelText="Wrap text"
+          labelHidden
+        />
+        <sky-checkbox
+          formControlName="autoHeightColumns"
+          iconName="arrow-maximize"
+          title="Autoheight columns"
+          labelText="Autoheight columns"
+          labelHidden
+        />
+        <sky-checkbox
+          formControlName="compact"
+          iconName="crop"
+          title="Compact layout"
+          labelText="Compact layout"
+          labelHidden
+        />
+        <sky-checkbox
+          formControlName="showDelete"
+          iconName="delete"
+          title="Delete button"
+          labelText="Delete button"
+          labelHidden
+        />
+        <sky-radio-group
+          labelText="DOM layout"
+          labelHidden
+          formControlName="domLayout"
+          class="sky-switch-icon-group"
+        >
+          <sky-radio
+            iconName="square"
+            title="Normal DOM layout"
+            labelText="Normal"
+            labelHidden
+            value="normal"
+          />
+          <sky-radio
+            iconName="arrow-maximize"
+            title="Auto-height DOM layout"
+            labelText="Auto-height"
+            labelHidden
+            value="autoHeight"
+          />
         </sky-radio-group>
       </form>
     </sky-data-manager-toolbar-primary-item>
@@ -43,8 +82,15 @@
     </sky-data-manager-toolbar-primary-item>
   </sky-data-manager-toolbar>
   <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewId">
-    <sky-ag-grid-wrapper *ngIf="isActive$ | async">
-      <ag-grid-angular [gridOptions]="gridOptions" [rowData]="items" />
-    </sky-ag-grid-wrapper>
+    @if (isActive$ | async) {
+      <sky-ag-grid-wrapper
+        skyAgGridRowDelete
+        [compact]="compact"
+        [(rowDeleteIds)]="rowDeleteIds"
+        (rowDeleteConfirm)="deleteConfirm($event)"
+      >
+        <ag-grid-angular [gridOptions]="gridOptions" [rowData]="items" />
+      </sky-ag-grid-wrapper>
+    }
   </sky-data-view>
 </sky-data-manager>

@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Directive,
   ElementRef,
+  HostBinding,
   Input,
   OnChanges,
   OnDestroy,
@@ -61,13 +62,12 @@ function markTextNodes(node: Node, searchRegex: RegExp): number {
 }
 
 function removeHighlight(el: ElementRef): void {
-  const matchedElements = (el.nativeElement as Element).querySelectorAll(
-    `mark.${CLASS_NAME}`,
+  const matchedElements = Array.from(
+    (el.nativeElement as Element).querySelectorAll(`mark.${CLASS_NAME}`),
   );
 
   if (matchedElements) {
-    for (let i = 0; i < matchedElements.length; i++) {
-      const node = matchedElements[i];
+    for (const node of matchedElements) {
       const parentNode = node.parentNode;
 
       if (parentNode && node.firstChild) {
@@ -94,9 +94,6 @@ function createSearchRegex(searchTerms: string[]): RegExp | undefined {
   return searchRegex;
 }
 
-// Need to add the following to classes which contain static methods.
-// See: https://github.com/ng-packagr/ng-packagr/issues/641
-// @dynamic
 /**
  * Highlights all matching text within the current DOM element.
  */
@@ -125,6 +122,8 @@ export class SkyTextHighlightDirective
       this.#searchTerms = [value as string];
     }
   }
+
+  @HostBinding('attr.skyHighlight') public readonly highlight = true;
 
   #existingHighlight = false;
 

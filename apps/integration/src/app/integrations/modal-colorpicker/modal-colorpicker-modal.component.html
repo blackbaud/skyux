@@ -1,0 +1,84 @@
+<sky-modal>
+  <sky-modal-header>Colorpicker inside a Modal</sky-modal-header>
+  <sky-modal-content>
+    <form novalidate [formGroup]="colorForm">
+      <div id="colorpicker-disabled">
+        <label class="sky-control-label"> Disabled colorpicker </label>
+        <sky-colorpicker #colorPickerDisabled>
+          <input
+            formControlName="colorThree"
+            skyId
+            type="text"
+            [skyColorpickerInput]="colorPickerDisabled"
+          />
+        </sky-colorpicker>
+      </div>
+      <div id="colorpicker-6-presets-sky-icon">
+        <label class="sky-control-label">
+          Colorpicker with transparent option, 6 presets, and SKY UX icon
+        </label>
+        <sky-colorpicker
+          #colorPickerTransparent
+          pickerButtonIcon="text-color"
+          (selectedColorApplied)="cdr.markForCheck()"
+        >
+          <input
+            formControlName="colorTwo"
+            skyId
+            type="text"
+            [presetColors]="swatches6"
+            [allowTransparency]="true"
+            [skyColorpickerInput]="colorPickerTransparent"
+          />
+        </sky-colorpicker>
+      </div>
+      <div id="colorpicker-default-presets-no-clear-btn">
+        <label class="sky-control-label">
+          Colorpicker with no icons, no clear button, default color swatches
+        </label>
+        <sky-colorpicker
+          #colorPickerDefault
+          [showResetButton]="false"
+          (selectedColorApplied)="cdr.markForCheck()"
+        >
+          <input
+            formControlName="colorFour"
+            skyId
+            type="text"
+            [allowTransparency]="true"
+            [skyColorpickerInput]="colorPickerDefault"
+          />
+        </sky-colorpicker>
+      </div>
+      <div id="colorpicker-12-presets-fa-icon">
+        <label class="sky-control-label">
+          Colorpicker with 12 presets and FA icon
+        </label>
+        <sky-colorpicker
+          #colorPickerPresets
+          pickerButtonIcon="edit"
+          (selectedColorApplied)="cdr.markForCheck()"
+        >
+          <input
+            formControlName="colorOne"
+            skyId
+            type="text"
+            [presetColors]="swatches12"
+            [skyColorpickerInput]="colorPickerPresets"
+            [allowTransparency]="false"
+          />
+        </sky-colorpicker>
+      </div>
+    </form>
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      id="modal-wait-modal-close"
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="modalInstance.close()"
+    >
+      Close
+    </button>
+  </sky-modal-footer>
+</sky-modal>

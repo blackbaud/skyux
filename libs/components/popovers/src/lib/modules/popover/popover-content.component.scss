@@ -1,16 +1,31 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use '../../styles/mixins' as popoverMixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 $popover-arrow-size: 20px;
 $popover-border-size: 10px;
-$popover-modern-border-size: 6px;
 $popover-max-width: 276px;
+
+@include compatMixins.sky-default-overrides('.sky-popover-container') {
+  --sky-override-popover-background-color: #{$sky-color-white};
+  --sky-override-popover-max-width: #{$popover-max-width};
+  --sky-override-popover-with-header-top-padding: 2px;
+}
 
 .sky-popover-container {
   position: fixed;
   min-width: $popover-max-width;
-  max-width: $popover-max-width;
+  max-width: var(
+    --sky-override-popover-max-width,
+    calc(
+      min(var(--sky-size-max_width-overlay_message)) +
+        calc(
+          var(--sky-comp-popover-content-space-inset-left) +
+            var(--sky-comp-popover-content-space-inset-right)
+        )
+    )
+  );
 
   &.sky-popover-hidden {
     visibility: hidden;
@@ -39,14 +54,21 @@ $popover-max-width: 276px;
 }
 
 .sky-popover {
-  background-color: $sky-color-white;
+  background-color: var(
+    --sky-override-popover-background-color,
+    var(--sky-color-background-container-base)
+  );
 }
 
 .sky-popover-header {
   padding-bottom: 0;
 
   & + .sky-popover-body {
-    padding-top: 2px;
+    // this can be removed entirely when we drop modern and default; the l spacing is set by the padding even class
+    padding-top: var(
+      --sky-override-popover-with-header-top-padding,
+      var(--sky-comp-popover-content-space-inset-top)
+    );
   }
 }
 
@@ -55,10 +77,9 @@ $popover-max-width: 276px;
 }
 
 .sky-popover-arrow {
-  width: 0;
-  height: 0;
-  position: fixed;
-  border: $popover-border-size solid transparent;
+  display: inline-block;
+  position: absolute;
+  background-color: $sky-highlight-color-info;
 }
 
 .sky-popover-placement-above {
@@ -69,11 +90,9 @@ $popover-max-width: 276px;
   }
 
   .sky-popover-arrow {
-    border-bottom: 0;
-    border-top-color: $sky-highlight-color-info;
-    bottom: 0;
-    left: 50%;
-    margin-left: -$popover-arrow-size * 0.5;
+    width: $popover-arrow-size * 1.5;
+    height: $popover-arrow-size * 0.75;
+    clip-path: polygon(0 0, 50% 95%, 100% 0);
   }
 
   &.sky-popover-danger {
@@ -82,7 +101,7 @@ $popover-max-width: 276px;
     }
 
     .sky-popover-arrow {
-      border-top-color: $sky-highlight-color-danger;
+      background-color: $sky-highlight-color-danger;
     }
   }
 }
@@ -95,11 +114,9 @@ $popover-max-width: 276px;
   }
 
   .sky-popover-arrow {
-    border-top: 0;
-    border-bottom-color: $sky-highlight-color-info;
-    top: 0;
-    left: 50%;
-    margin-left: -$popover-arrow-size * 0.5;
+    width: $popover-arrow-size * 1.5;
+    height: $popover-arrow-size * 0.75;
+    clip-path: polygon(50% 5%, 0 100%, 100% 100%);
   }
 
   &.sky-popover-danger {
@@ -108,7 +125,7 @@ $popover-max-width: 276px;
     }
 
     .sky-popover-arrow {
-      border-bottom-color: $sky-highlight-color-danger;
+      background-color: $sky-highlight-color-danger;
     }
   }
 }
@@ -121,11 +138,10 @@ $popover-max-width: 276px;
   }
 
   .sky-popover-arrow {
-    border-left: 0;
-    border-right-color: $sky-highlight-color-info;
-    left: 0;
-    top: 50%;
-    margin-top: -$popover-arrow-size * 0.5;
+    width: $popover-arrow-size * 0.75;
+    height: $popover-arrow-size * 1.5;
+    clip-path: polygon(5% 50%, 100% 100%, 100% 0);
+    background-color: $sky-highlight-color-info;
   }
 
   &.sky-popover-danger {
@@ -134,7 +150,7 @@ $popover-max-width: 276px;
     }
 
     .sky-popover-arrow {
-      border-right-color: $sky-highlight-color-danger;
+      background-color: $sky-highlight-color-danger;
     }
   }
 }
@@ -147,11 +163,10 @@ $popover-max-width: 276px;
   }
 
   .sky-popover-arrow {
-    border-right: 0;
-    border-left-color: $sky-highlight-color-info;
-    right: 0;
-    top: 50%;
-    margin-top: -$popover-arrow-size * 0.5;
+    width: $popover-arrow-size * 0.75;
+    height: $popover-arrow-size * 1.5;
+    clip-path: polygon(0 0, 0 100%, 95% 50%);
+    background-color: $sky-highlight-color-info;
   }
 
   &.sky-popover-danger {
@@ -160,24 +175,7 @@ $popover-max-width: 276px;
     }
 
     .sky-popover-arrow {
-      border-left-color: $sky-highlight-color-danger;
-    }
-  }
-}
-
-.sky-popover-placement-above,
-.sky-popover-placement-below {
-  &.sky-popover-alignment-left {
-    .sky-popover-arrow {
-      left: $popover-arrow-size * 2;
-      right: auto;
-    }
-  }
-
-  &.sky-popover-alignment-right {
-    .sky-popover-arrow {
-      left: auto;
-      right: $popover-arrow-size * 2;
+      background-color: $sky-highlight-color-danger;
     }
   }
 }
@@ -190,38 +188,41 @@ $popover-max-width: 276px;
 
 @include mixins.sky-theme-modern {
   .sky-popover {
-    border-radius: 6px;
+    border-radius: var(--sky-border-radius-s);
+  }
+
+  .sky-popover-header {
+    padding: var(--sky-comp-popover-header-space-inset-top)
+      var(--sky-comp-popover-header-space-inset-right)
+      var(--sky-comp-popover-header-space-inset-bottom)
+      var(--sky-comp-popover-header-space-inset-left);
   }
 
   .sky-popover-arrow {
-    transform: rotate(45deg);
-    border-color: transparent;
+    background-color: var(--sky-color-border-info);
+  }
+
+  .sky-popover-danger {
+    .sky-popover-arrow {
+      background-color: var(--sky-color-border-danger);
+    }
   }
 
   .sky-popover-placement-above {
     padding-bottom: $popover-border-size;
 
     .sky-popover {
-      border-bottom: $popover-modern-border-size solid $sky-highlight-color-info;
+      border-bottom: var(--sky-border-width-accent)
+        var(--sky-border-style-accent) var(--sky-color-border-info);
     }
 
     .sky-popover-arrow {
-      bottom: 1px;
-      border-radius: 0 0 3px 0;
-      border-bottom: solid $popover-border-size $sky-highlight-color-info;
-      border-right: solid $popover-border-size $sky-highlight-color-info;
+      clip-path: polygon(0 0, 45% 88%, 50% 92%, 55% 88%, 100% 0);
     }
 
     &.sky-popover-danger {
       .sky-popover {
-        border-bottom-color: $sky-highlight-color-danger;
-      }
-
-      .sky-popover-arrow {
-        border-bottom-color: $sky-highlight-color-danger;
-        border-right-color: $sky-highlight-color-danger;
-        border-top-color: transparent;
-        border-left-color: transparent;
+        border-bottom-color: var(--sky-color-border-danger);
       }
     }
   }
@@ -230,26 +231,17 @@ $popover-max-width: 276px;
     padding-top: $popover-border-size;
 
     .sky-popover {
-      border-top: $popover-modern-border-size solid $sky-highlight-color-info;
+      border-top: var(--sky-border-width-accent) var(--sky-border-style-accent)
+        var(--sky-color-border-info);
     }
 
     .sky-popover-arrow {
-      top: 1px;
-      border-radius: 3px 0 0 0;
-      border-top: solid $popover-border-size $sky-highlight-color-info;
-      border-left: solid $popover-border-size $sky-highlight-color-info;
+      clip-path: polygon(0 100%, 45% 12%, 50% 8%, 55% 12%, 100% 100%);
     }
 
     &.sky-popover-danger {
       .sky-popover {
-        border-top-color: $sky-highlight-color-danger;
-      }
-
-      .sky-popover-arrow {
-        border-top-color: $sky-highlight-color-danger;
-        border-left-color: $sky-highlight-color-danger;
-        border-bottom-color: transparent;
-        border-right-color: transparent;
+        border-top-color: var(--sky-color-border-danger);
       }
     }
   }
@@ -258,26 +250,17 @@ $popover-max-width: 276px;
     padding-left: $popover-border-size;
 
     .sky-popover {
-      border-left: $popover-modern-border-size solid $sky-highlight-color-info;
+      border-left: var(--sky-border-width-accent) var(--sky-border-style-accent)
+        var(--sky-color-border-info);
     }
 
     .sky-popover-arrow {
-      left: 1px;
-      border-radius: 0 0 0 3px;
-      border-bottom: solid $popover-border-size $sky-highlight-color-info;
-      border-left: solid $popover-border-size $sky-highlight-color-info;
+      clip-path: polygon(100% 0, 12% 45%, 8% 50%, 12% 55%, 100% 100%);
     }
 
     &.sky-popover-danger {
       .sky-popover {
-        border-left-color: $sky-highlight-color-danger;
-      }
-
-      .sky-popover-arrow {
-        border-bottom-color: $sky-highlight-color-danger;
-        border-left-color: $sky-highlight-color-danger;
-        border-top-color: transparent;
-        border-right-color: transparent;
+        border-left-color: var(--sky-color-border-danger);
       }
     }
   }
@@ -286,26 +269,17 @@ $popover-max-width: 276px;
     padding-right: $popover-border-size;
 
     .sky-popover {
-      border-right: $popover-modern-border-size solid $sky-highlight-color-info;
+      border-right: var(--sky-border-width-accent)
+        var(--sky-border-style-accent) var(--sky-color-border-info);
     }
 
     .sky-popover-arrow {
-      right: 1px;
-      border-radius: 0 3px 0 0;
-      border-top: solid $popover-border-size $sky-highlight-color-info;
-      border-right: solid $popover-border-size $sky-highlight-color-info;
+      clip-path: polygon(0 0, 88% 45%, 92% 50%, 88% 55%, 0 100%);
     }
 
     &.sky-popover-danger {
       .sky-popover {
-        border-right-color: $sky-highlight-color-danger;
-      }
-
-      .sky-popover-arrow {
-        border-top-color: $sky-highlight-color-danger;
-        border-right-color: $sky-highlight-color-danger;
-        border-bottom-color: transparent;
-        border-left-color: transparent;
+        border-right-color: var(--sky-color-border-danger);
       }
     }
   }

@@ -1,13 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyDataManagerModule } from '@skyux/data-manager';
 
 import { AgGridModule } from 'ag-grid-angular';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
 import { SkyAgGridModule } from '../ag-grid.module';
-import { SkyAgGridCellRendererCurrencyModule } from '../cell-renderers/cell-renderer-currency/cell-renderer-currency.module';
-import { SkyAgGridCellValidatorModule } from '../cell-validator/ag-grid-cell-validator.module';
 
 import { SkyAgGridCellValidatorTooltipFixtureComponent } from './ag-grid-cell-validator-tooltip.component.fixture';
 import { SkyAgGridDataManagerFixtureComponent } from './ag-grid-data-manager.component.fixture';
@@ -18,17 +16,14 @@ import {
   SecondInlineHelpComponent,
 } from './inline-help.component';
 
+ModuleRegistry.registerModules([AllCommunityModule]);
+
 @NgModule({
   imports: [
     AgGridModule,
-    CommonModule,
     SkyAgGridModule,
     SkyDataManagerModule,
-    SkyAgGridCellRendererCurrencyModule,
-    SkyAgGridCellValidatorModule,
     NoopAnimationsModule,
-  ],
-  declarations: [
     SkyAgGridDataManagerFixtureComponent,
     SkyAgGridFixtureComponent,
     SkyAgGridRowDeleteFixtureComponent,

@@ -1,0 +1,49 @@
+<fieldset
+  class="sky-field-group"
+  [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
+>
+  <legend
+    class="sky-field-group-legend"
+    [ngClass]="{
+      'sky-screen-reader-only': headingHidden
+    }"
+  >
+    <span class="sky-field-group-heading">
+      @switch (headingLevel) {
+        @case (4) {
+          <h4 [class]="headingClass">{{ headingText }}</h4>
+        }
+        @default {
+          <h3 [class]="headingClass">{{ headingText }}</h3>
+        }
+      }
+    </span>
+    @if (helpPopoverContent || helpKey) {
+      <span class="sky-control-help-container">
+        <sky-help-inline
+          class="sky-field-group-help-inline"
+          [helpKey]="helpKey"
+          [labelText]="headingText"
+          [popoverTitle]="helpPopoverTitle"
+          [popoverContent]="helpPopoverContent"
+        />
+      </span>
+    }
+  </legend>
+  <div #hintTextEl="skyId" skyId class="sky-field-group-hint-text-wrapper">
+    @if (hintText) {
+      <div
+        class="sky-field-group-hint-text"
+        [skyThemeClass]="{
+          'sky-font-deemphasized': 'default',
+          'sky-font-hint-text-s': 'modern'
+        }"
+      >
+        {{ hintText }}
+      </div>
+    }
+  </div>
+  <div class="sky-field-group-content">
+    <ng-content />
+  </div>
+</fieldset>

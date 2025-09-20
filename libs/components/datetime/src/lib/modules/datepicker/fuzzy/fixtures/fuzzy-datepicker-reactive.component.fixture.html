@@ -1,0 +1,17 @@
+<form novalidate [formGroup]="datepickerForm">
+  <sky-datepicker class="form-input">
+    <input
+      id="dateInput"
+      formControlName="date"
+      skyFuzzyDatepickerInput
+      [futureDisabled]="futureDisabled"
+      [dateFormat]="dateFormat"
+      [maxDate]="maxDate"
+      [minDate]="minDate"
+      [startAtDate]="startAtDate"
+      [skyDatepickerNoValidate]="noValidate"
+      [startingDay]="startingDay"
+      [yearRequired]="yearRequired"
+    />
+  </sky-datepicker>
+</form>

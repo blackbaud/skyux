@@ -1,20 +1,28 @@
 <div>
   <sky-colorpicker
-    (selectedColorApplied)="lastColorApplied = $event"
+    #colorPickerTest
     [pickerButtonIcon]="pickerButtonIcon"
-    [pickerButtonIconType]="pickerButtonIconType"
+    [helpKey]="helpKey"
+    [helpPopoverContent]="helpPopoverContent"
+    [helpPopoverTitle]="helpPopoverTitle"
+    [hintText]="hintText"
     [label]="label"
     [labelledBy]="labelledBy"
+    [labelHidden]="labelHidden"
+    [labelText]="labelText"
     [messageStream]="colorpickerController"
-    #colorPickerTest
+    [stacked]="stacked"
+    (selectedColorApplied)="lastColorApplied = $event"
   >
     <input
+      [id]="id"
       [allowTransparency]="selectedTransparency"
       [alphaChannel]="selectedHexType"
       [disabled]="disabled"
       [initialColor]="selectedColor"
       [outputFormat]="selectedOutputFormat"
       [presetColors]="presetColors"
+      [required]="required"
       [skyColorpickerInput]="colorPickerTest"
       [type]="inputType"
       [(ngModel)]="colorModel"

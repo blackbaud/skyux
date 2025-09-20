@@ -1,0 +1,32 @@
+<table role="grid">
+  <tbody>
+    @for (row of rows; track $index) {
+      <tr>
+        @for (date of row; track date.uid) {
+          <td class="sky-datepicker-row" role="gridcell">
+            <button
+              type="button"
+              class="sky-btn sky-btn-default sky-datepicker-btn-date"
+              tabindex="-1"
+              [ngClass]="{
+                'sky-datepicker-btn-selected': date.selected,
+                'sky-btn-disabled': date.disabled,
+                'sky-btn-active': datepicker.isActive(date)
+              }"
+              [attr.aria-label]="
+                date.date
+                  | skyDatepickerCalendarLabel: datepicker.formatYearLabel
+              "
+              [disabled]="date.disabled"
+              (click)="datepicker.selectCalendar($event, date.date)"
+            >
+              <span [ngClass]="{ 'sky-datepicker-current': date.current }">{{
+                date.label
+              }}</span>
+            </button>
+          </td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>

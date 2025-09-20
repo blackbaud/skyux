@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { CSP_NONCE, DOCUMENT, Injectable, inject } from '@angular/core';
 
 /**
  * @internal
@@ -8,11 +7,8 @@ import { Inject, Injectable } from '@angular/core';
 export class SkyPageThemeAdapterService {
   #styleEl: HTMLStyleElement | undefined;
 
-  #document: Document;
-
-  constructor(@Inject(DOCUMENT) document: Document) {
-    this.#document = document;
-  }
+  readonly #document = inject(DOCUMENT);
+  readonly #nonce = inject(CSP_NONCE, { optional: true });
 
   /**
    * We can't use ViewEncapsulation.None for this behavior because Angular does
@@ -22,6 +18,11 @@ export class SkyPageThemeAdapterService {
   public addTheme(): void {
     if (!this.#styleEl) {
       this.#styleEl = this.#document.createElement('style');
+
+      if (this.#nonce) {
+        this.#styleEl.nonce = this.#nonce;
+      }
+
       this.#styleEl.appendChild(
         this.#document.createTextNode(
           'body:not(.sky-theme-modern) { background-color: #fff; }',

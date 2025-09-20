@@ -6,4 +6,9 @@ import { SkyLiveAnnouncerPoliteness } from './live-announcer-politeness';
  */
 export interface SkyLiveAnnouncerArgs {
   politeness?: SkyLiveAnnouncerPoliteness;
+
+  /**
+   * Sets how long the live announcer text persists in DOM.
+   */
+  duration?: number;
 }

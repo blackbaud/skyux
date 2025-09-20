@@ -1,4 +1,7 @@
 import { ValidationErrors } from '@angular/forms';
+import { SkyLibResourcesService } from '@skyux/i18n';
+
+import { Observable, of } from 'rxjs';
 
 import { SkyDateRange } from './date-range';
 import { SkyDateRangeCalculation } from './date-range-calculation';
@@ -10,17 +13,38 @@ import { SkyDateRangeCalculatorType } from './date-range-calculator-type';
  * Represents the calculator.
  */
 export class SkyDateRangeCalculator {
+  #config: SkyDateRangeCalculatorConfig;
+  #resourcesSvc: SkyLibResourcesService;
+
   /**
    * The text to display in the calculator select menu.
    */
-  public readonly shortDescription: string;
+  public get shortDescription$(): Observable<string> {
+    if (this.shortDescription) {
+      return of(this.shortDescription);
+    }
+
+    if (!this.#shortDescriptionResourceKey) {
+      throw new Error(
+        'Calculator created without short description or resource key.',
+      );
+    }
+
+    return this.#resourcesSvc.getString(this.#shortDescriptionResourceKey);
+  }
+
+  /**
+   * The text to display in the calculator select menu.
+   * @deprecated Subscribe to the `shortDescription$` observable instead.
+   */
+  public shortDescription: string;
+
+  #shortDescriptionResourceKey: string | undefined;
 
   /**
    * The type of calculations available for the date range.
    */
   public readonly type: SkyDateRangeCalculatorType;
-
-  #config: SkyDateRangeCalculatorConfig;
 
   constructor(
     /**
@@ -28,10 +52,14 @@ export class SkyDateRangeCalculator {
      */
     public readonly calculatorId: SkyDateRangeCalculatorId,
     config: SkyDateRangeCalculatorConfig,
+    resourcesSvc: SkyLibResourcesService,
+    _shortDescriptionResourceKey?: string,
   ) {
     this.#config = config;
     this.type = config.type;
     this.shortDescription = config.shortDescription;
+    this.#shortDescriptionResourceKey = _shortDescriptionResourceKey;
+    this.#resourcesSvc = resourcesSvc;
   }
 
   /**

@@ -15,6 +15,7 @@ import {
 @Component({
   selector: 'app-single-file-attachment',
   templateUrl: './single-file-attachment.component.html',
+  standalone: false,
 })
 export class SingleFileAttachmentComponent implements OnInit {
   public attachment: UntypedFormControl;
@@ -28,6 +29,10 @@ export class SingleFileAttachmentComponent implements OnInit {
   }
 
   public reactiveUploadError: string;
+
+  public helpKey: string | undefined;
+
+  protected hintText = 'Please upload a file.';
 
   constructor(private formBuilder: UntypedFormBuilder) {}
 

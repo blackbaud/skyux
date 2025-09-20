@@ -16,11 +16,12 @@ import { SkyAppResourcesService } from './resources.service';
 @Pipe({
   name: 'skyAppResources',
   pure: false,
+  standalone: false,
 })
 export class SkyAppResourcesPipe implements PipeTransform, OnDestroy {
   #ngUnsubscribe = new Subject<void>();
 
-  #resourceCache: { [key: string]: any } = {};
+  #resourceCache: Record<string, any> = {};
 
   #changeDetector: ChangeDetectorRef;
   #resourcesSvc: SkyAppResourcesService;

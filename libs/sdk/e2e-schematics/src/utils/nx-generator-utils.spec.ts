@@ -11,6 +11,7 @@ import { updateJson } from './update-json';
 describe('nx-generator-utils', () => {
   it('should getGeneratorDefaults', async () => {
     const emptyTree = createTree();
+    emptyTree.write('.gitignore', '#');
     const empty = getGeneratorDefaults(
       emptyTree,
       'nx',
@@ -35,6 +36,8 @@ describe('nx-generator-utils', () => {
     });
     await libraryGenerator(tree, {
       name: 'my-library',
+      directory: 'libs/my-library',
+      skipFormat: true,
     });
     const projectConfig = readProjectConfiguration(tree, 'my-library');
     projectConfig.generators = {

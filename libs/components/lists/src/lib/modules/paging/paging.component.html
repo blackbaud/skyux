@@ -1,50 +1,71 @@
-<nav
-  *ngIf="pageCount > 1"
-  class="sky-paging"
-  [attr.aria-label]="pagingLabel || ('skyux_paging_label' | skyLibResources)"
+<sky-wait
+  [ariaLabel]="
+    'skyux_paging_loading' | skyLibResources: currentPage : pageCount
+  "
+  [isWaiting]="!!(isLoading | async)"
+  [screenReaderCompletedText]="
+    'skyux_paging_loaded' | skyLibResources: currentPage
+  "
+/>
+<div
+  #contentWrapper
+  class="sky-paging-content-wrapper"
+  role="group"
+  tabindex="-1"
+  [attr.aria-label]="
+    'skyux_paging_page_label' | skyLibResources: currentPage : pageCount
+  "
 >
-  <ul>
-    <li>
-      <button
-        class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-previous sky-box"
-        sky-cmp-id="previous"
-        type="button"
-        [attr.aria-label]="'skyux_paging_previous' | skyLibResources"
-        [disabled]="isPreviousButtonDisabled"
-        (click)="previousPage()"
-      >
-        <sky-icon *skyThemeIf="'default'" icon="caret-left" />
-        <sky-icon *skyThemeIf="'modern'" icon="chevron-left" />
-      </button>
-    </li>
-    <li *ngFor="let pageNumber of displayedPages" class="sky-list-paging-link">
-      <button
-        class="sky-btn sky-btn-default sky-paging-btn sky-box"
-        type="button"
-        [attr.aria-current]="currentPage === pageNumber ? 'page' : null"
-        [attr.sky-cmp-id]="pageNumber"
-        [attr.aria-label]="
-          'skyux_paging_page_link_aria_label' | skyLibResources : pageNumber
-        "
-        [disabled]="currentPage === pageNumber"
-        [ngClass]="{ 'sky-paging-current': currentPage === pageNumber }"
-        (click)="setPage(pageNumber)"
-      >
-        {{ pageNumber }}
-      </button>
-    </li>
-    <li>
-      <button
-        class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-next sky-box"
-        sky-cmp-id="next"
-        type="button"
-        [attr.aria-label]="'skyux_paging_next' | skyLibResources"
-        [disabled]="isNextButtonDisabled"
-        (click)="nextPage()"
-      >
-        <sky-icon *skyThemeIf="'default'" icon="caret-right" />
-        <sky-icon *skyThemeIf="'modern'" icon="chevron-right" />
-      </button>
-    </li>
-  </ul>
-</nav>
+  <ng-content select="sky-paging-content" />
+</div>
+@if (pageCount > 1) {
+  <nav
+    class="sky-paging"
+    [attr.aria-label]="pagingLabel || ('skyux_paging_label' | skyLibResources)"
+  >
+    <ul>
+      <li>
+        <button
+          class="sky-btn sky-btn-borderless sky-paging-btn sky-paging-btn-previous sky-box"
+          sky-cmp-id="previous"
+          type="button"
+          [attr.aria-label]="'skyux_paging_previous' | skyLibResources"
+          [disabled]="isPreviousButtonDisabled"
+          (click)="previousPage()"
+        >
+          <sky-icon iconName="chevron-left" />
+        </button>
+      </li>
+      @for (pageNumber of displayedPages; track pageNumber) {
+        <li class="sky-list-paging-link">
+          <button
+            class="sky-btn sky-btn-borderless sky-paging-btn sky-box"
+            type="button"
+            [attr.aria-current]="currentPage === pageNumber ? 'page' : null"
+            [attr.sky-cmp-id]="pageNumber"
+            [attr.aria-label]="
+              'skyux_paging_page_link_aria_label' | skyLibResources: pageNumber
+            "
+            [disabled]="currentPage === pageNumber"
+            [ngClass]="{ 'sky-paging-current': currentPage === pageNumber }"
+            (click)="setPage(pageNumber)"
+          >
+            {{ pageNumber }}
+          </button>
+        </li>
+      }
+      <li>
+        <button
+          class="sky-btn sky-btn-borderless sky-paging-btn sky-paging-btn-next sky-box"
+          sky-cmp-id="next"
+          type="button"
+          [attr.aria-label]="'skyux_paging_next' | skyLibResources"
+          [disabled]="isNextButtonDisabled"
+          (click)="nextPage()"
+        >
+          <sky-icon iconName="chevron-right" />
+        </button>
+      </li>
+    </ul>
+  </nav>
+}

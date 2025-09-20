@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -13,18 +14,18 @@ import {
   SkyDynamicComponentLocation,
   SkyDynamicComponentService,
 } from '@skyux/core';
+import { SkyI18nModule } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { IHeaderGroupAngularComp } from 'ag-grid-angular';
-import {
-  ColumnGroupOpenedEvent,
-  Events,
-  ProvidedColumnGroup,
-} from 'ag-grid-community';
+import { ColumnGroupOpenedEvent, ProvidedColumnGroup } from 'ag-grid-community';
 import {
   BehaviorSubject,
   Observable,
   Subscription,
-  fromEventPattern,
+  fromEvent,
+  takeUntil,
 } from 'rxjs';
 
 import { SkyAgGridHeaderGroupInfo } from '../types/header-group-info';
@@ -38,6 +39,7 @@ import { SkyAgGridHeaderGroupParams } from '../types/header-group-params';
   templateUrl: './header-group.component.html',
   styleUrls: ['./header-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyThemeModule, SkyIconModule, AsyncPipe, SkyI18nModule],
 })
 export class SkyAgGridHeaderGroupComponent
   implements IHeaderGroupAngularComp, OnDestroy, AfterViewInit
@@ -46,9 +48,11 @@ export class SkyAgGridHeaderGroupComponent
   public inlineHelpContainer: ElementRef | undefined;
 
   protected params: SkyAgGridHeaderGroupParams | undefined = undefined;
+  protected isExpandable$: Observable<boolean>;
   protected isExpanded$: Observable<boolean>;
 
   #columnGroup: ProvidedColumnGroup | undefined = undefined;
+  #isExpandableSubject = new BehaviorSubject<boolean>(false);
   #isExpandedSubject = new BehaviorSubject<boolean>(false);
   #subscriptions = new Subscription();
   #viewInitialized = false;
@@ -59,6 +63,7 @@ export class SkyAgGridHeaderGroupComponent
   readonly #environmentInjector = inject(EnvironmentInjector);
 
   constructor() {
+    this.isExpandable$ = this.#isExpandableSubject.asObservable();
     this.isExpanded$ = this.#isExpandedSubject.asObservable();
   }
 
@@ -81,24 +86,19 @@ export class SkyAgGridHeaderGroupComponent
     }
     this.#subscriptions = new Subscription();
     this.#columnGroup = params.columnGroup.getProvidedColumnGroup();
-    if (this.#columnGroup.isExpandable()) {
+    this.#isExpandableSubject.next(this.#columnGroup.isExpandable());
+    if (this.#isExpandableSubject.getValue()) {
       this.#subscriptions.add(
-        fromEventPattern<ColumnGroupOpenedEvent>(
-          (handler) =>
-            params.api.addEventListener(
-              Events.EVENT_COLUMN_GROUP_OPENED,
-              handler,
-            ),
-          (handler) =>
-            params.api.removeEventListener(
-              Events.EVENT_COLUMN_GROUP_OPENED,
-              handler,
-            ),
-        ).subscribe((event) => {
-          if (event.columnGroup === this.#columnGroup) {
-            this.#isExpandedSubject.next(this.#columnGroup.isExpanded());
-          }
-        }),
+        fromEvent<ColumnGroupOpenedEvent>(params.api, 'columnGroupOpened')
+          .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
+          .subscribe((event) => {
+            if (
+              this.#columnGroup &&
+              event.columnGroups.includes(this.#columnGroup)
+            ) {
+              this.#isExpandedSubject.next(this.#columnGroup.isExpanded());
+            }
+          }),
       );
     }
     this.#updateInlineHelp();

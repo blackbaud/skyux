@@ -1,0 +1,24 @@
+<div class="sky-padding-even-lg">
+  <form [formGroup]="formGroup">
+    <sky-input-box
+      data-sky-id="datepicker-example"
+      labelText="Start date"
+      [helpPopoverContent]="helpPopoverContent"
+      [hintText]="hintText"
+    >
+      <sky-datepicker>
+        <input formControlName="startDate" skyDatepickerInput type="text" />
+      </sky-datepicker>
+      @if (startDate.errors?.['invalidWeekend']) {
+        <sky-form-error
+          errorName="invalidWeekend"
+          errorText="Start date must not be on a weekend."
+        />
+      }
+    </sky-input-box>
+  </form>
+
+  <p>
+    Selected date: <code>{{ startDate.value | json }}</code>
+  </p>
+</div>

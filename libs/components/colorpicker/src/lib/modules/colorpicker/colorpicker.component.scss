@@ -1,37 +1,188 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
-
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-color-picker-label-wrapper') {
+  --sky-override-colorpicker-label-color: var(--sky-text-color-default);
+  --sky-override-colorpicker-label-space: 5px;
+  --sky-override-colorpicker-label-font-size: 15px;
+  --sky-override-colorpicker-label-font-weight: 400;
+  --sky-override-colorpicker-label-line-height: normal;
+}
+
+@include compatMixins.sky-default-overrides('.sky-colorpicker-hint-text') {
+  --sky-override-colorpicker-hint-text-space: var(--sky-margin-stacked-xs);
+}
+
+@include compatMixins.sky-default-overrides('.sky-colorpicker-input-group') {
+  /* spell-checker:disable-next-line */
+  --sky-override-colorpicker-button-background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%3Cdefs%3E%3Cpath%20id%3D%22a%22%20d%3D%22M0%200h30v30H0V0zm14.5%204H4v22h14v-8h8V4H14.5z%22%2F%3E%3C%2Fdefs%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cuse%20fill%3D%22%23FFF%22%20xlink%3Ahref%3D%22%23a%22%2F%3E%3Cpath%20stroke%3D%22%23CCC%22%20d%3D%22M.5.5v29h29V.5H.5zm18%2018v8h-15v-23h23v15h-8z%22%2F%3E%3Cpath%20fill%3D%22%23292A2B%22%20d%3D%22M23.5%2025L21%2022h5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E');
+  --sky-override-colorpicker-button-border-radius: 0;
+  --sky-override-colorpicker-button-border-radius: 0;
+  --sky-override-colorpicker-button-box-shadow: none;
+  --sky-override-colorpicker-button-box-shadow-focus: none;
+  --sky-override-colorpicker-button-error-border: 1px solid
+    var(--sky-highlight-color-danger);
+  --sky-override-colorpicker-button-error-box-shadow: #{0 0 8px
+    rgba($sky-highlight-color-danger, 0.6)};
+  --sky-override-colorpicker-button-focus-outline: -webkit-focus-ring-color auto
+    5px;
+  --sky-override-colorpicker-button-size: 30px;
+  --sky-override-colorpicker-disabled-cursor: default;
+  --sky-override-colorpicker-disabled-opacity: 0.65;
+}
+
+@include compatMixins.sky-default-overrides('.sky-colorpicker-container') {
+  --sky-override-colorpicker-alpha-margin-top: 16px;
+  --sky-override-colorpicker-background-color: #fff;
+  --sky-override-colorpicker-box-padding: 4px 8px;
+  --sky-override-colorpicker-current-color-padding: 16px 8px;
+  --sky-override-colorpicker-current-controls-padding: 12px 8px;
+  --sky-override-colorpicker-footer-border-top: #{1px solid
+    $sky-border-color-neutral-light};
+  --sky-override-colorpicker-footer-button-spacing: 0;
+  --sky-override-colorpicker-footer-padding: 15px;
+  --sky-override-colorpicker-hue-alpha-height: 16px;
+  --sky-override-colorpicker-input-font-size: 14px;
+  --sky-override-colorpicker-input-height: 26px;
+  --sky-override-colorpicker-input-label-margin: 0 0 8px 0;
+  --sky-override-colorpicker-input-padding: 1px;
+  --sky-override-colorpicker-input-text-align: center;
+  --sky-override-colorpicker-rgba-padding: 7px 15px 15px;
+  --sky-override-colorpicker-rgba-space-between: 8px;
+  --sky-override-colorpicker-selected-color-left: 8px;
+  --sky-override-colorpicker-selected-color-size: 40px;
+  --sky-override-colorpicker-selected-color-top: 16px;
+  --sky-override-colorpicker-selector-size: 17px;
+  --sky-override-colorpicker-swatch-area-padding: 0 9px 15px 9px;
+  --sky-override-colorpicker-swatch-border-radius: 0;
+  --sky-override-colorpicker-swatch-border: #{1px solid
+    $sky-border-color-neutral-light};
+  --sky-override-colorpicker-swatch-hover-border: #{$sky-color-white solid 2px};
+  --sky-override-colorpicker-swatch-hover-box-shadow:
+    #{0 0 0 1px $sky-border-color-neutral-medium,
+    0 0 0 2px $sky-border-color-neutral-light};
+  --sky-override-colorpicker-swatch-hover-margin: 4px;
+  --sky-override-colorpicker-swatch-margin: 5px;
+  --sky-override-colorpicker-swatch-size-hover: 34px;
+  --sky-override-colorpicker-swatch-size: 32px;
+  --sky-override-colorpicker-width: 270px;
+  --sky-override-colorpicker-rgba-font-size: 18px;
+}
+
+sky-colorpicker.sky-form-field-stacked {
+  display: block;
+}
 
 .sky-colorpicker-container {
   position: fixed;
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: var(
+    --sky-override-colorpicker-background-color,
+    var(--sky-color-background-container-menu)
+  );
+  border-radius: 0 0 var(--sky-border-radius-s) var(--sky-border-radius-s);
 }
 
 .sky-colorpicker-button {
-  width: 30px;
-  height: 30px;
-  border: 0;
+  // the padding between the inner and outer borders should be 2X the base border width. Since the borders are stacked
+  // we need to add the size of the outer border to the intended padding size, and the outer border and padding size to the inner border
+  --sky-colorpicker-border-padding-size: calc(
+    var(--sky-border-width-input-base) +
+      calc(var(--sky-border-width-input-base) * 2)
+  );
+  --sky-color-picker-inner-border-size: calc(
+    var(--sky-colorpicker-border-padding-size) +
+      var(--sky-border-width-input-base)
+  );
+  height: var(
+    --sky-override-colorpicker-button-size,
+    calc(
+      calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
+        calc(
+          var(--sky-comp-button-icon-space-inset-top) +
+            var(--sky-comp-button-icon-space-inset-bottom)
+        )
+    )
+  );
+  width: var(
+    --sky-override-colorpicker-button-size,
+    calc(
+      calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
+        calc(
+          var(--sky-comp-button-icon-space-inset-left) +
+            var(--sky-comp-button-icon-space-inset-right)
+        )
+    )
+  );
+  border: none;
+  border-radius: var(
+    --sky-override-colorpicker-button-border-radius,
+    var(--sky-border-radius-s)
+  );
+  box-shadow: var(
+    --sky-override-colorpicker-button-box-shadow,
+    inset 0 0 0 var(--sky-border-width-input-base)
+      var(--sky-color-border-input-base),
+    inset 0 0 0 var(--sky-colorpicker-border-padding-size)
+      var(--sky-color-background-container-base),
+    inset 0 0 0 var(--sky-color-picker-inner-border-size)
+      var(--sky-color-border-input-base)
+  );
   cursor: pointer;
-  &.sky-colorpicker-button-disabled {
-    cursor: default;
+  position: relative;
+  z-index: 1;
+
+  &:hover {
+    box-shadow: var(
+      --sky-override-colorpicker-button-box-shadow,
+      inset 0 0 0 var(--sky-border-width-input-hover)
+        var(--sky-color-border-input-hover),
+      inset 0 0 0 var(--sky-colorpicker-border-padding-size)
+        var(--sky-color-background-container-base),
+      inset 0 0 0 var(--sky-color-picker-inner-border-size)
+        var(--sky-color-border-input-base)
+    );
   }
 
-  .sky-colorpicker-button-icon {
-    position: relative;
-    bottom: 2px;
-    font-size: 12px;
+  &:focus-visible:not(:active) {
+    box-shadow: var(
+      --sky-override-colorpicker-button-box-shadow-focus,
+      inset 0 0 0 var(--sky-border-width-input-focus)
+        var(--sky-color-border-input-focus),
+      inset 0 0 0 var(--sky-colorpicker-border-padding-size)
+        var(--sky-color-background-container-base),
+      inset 0 0 0 var(--sky-color-picker-inner-border-size)
+        var(--sky-color-border-input-base)
+    );
+    outline: var(--sky-override-colorpicker-button-focus-outline);
+  }
+
+  &.sky-colorpicker-button-disabled {
+    cursor: var(--sky-override-colorpicker-disabled-cursor, not-allowed);
+    box-shadow: var(
+      --sky-override-colorpicker-button-box-shadow,
+      inset 0 0 0 var(--sky-border-width-input-disabled)
+        var(--sky-color-border-action-secondary-disabled),
+      inset 0 0 0 var(--sky-colorpicker-border-padding-size)
+        var(--sky-color-background-input-disabled),
+      inset 0 0 0 var(--sky-color-picker-inner-border-size)
+        var(--sky-color-border-action-secondary-disabled)
+    );
   }
 }
 
 .sky-colorpicker-disabled {
-  opacity: 0.65;
+  opacity: var(--sky-override-colorpicker-disabled-opacity);
   cursor: default;
 }
 
-// This ensures the normalize CSS won't replace the active state of a button's background.
+// This ensures the normalize CSS won't replace the active state of a button's background. Used by default theme only.
 .sky-colorpicker-button,
 .sky-colorpicker-button:active {
-  /* spell-checker:disable-next-line */
-  background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%3Cdefs%3E%3Cpath%20id%3D%22a%22%20d%3D%22M0%200h30v30H0V0zm14.5%204H4v22h14v-8h8V4H14.5z%22%2F%3E%3C%2Fdefs%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cuse%20fill%3D%22%23FFF%22%20xlink%3Ahref%3D%22%23a%22%2F%3E%3Cpath%20stroke%3D%22%23CCC%22%20d%3D%22M.5.5v29h29V.5H.5zm18%2018v8h-15v-23h23v15h-8z%22%2F%3E%3Cpath%20fill%3D%22%23292A2B%22%20d%3D%22M23.5%2025L21%2022h5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E');
+  background-image: var(--sky-override-colorpicker-button-background-image);
 }
 
 .sky-colorpicker-hidden {
@@ -40,11 +191,40 @@
   overflow: hidden;
 }
 
+.sky-colorpicker-hint-text {
+  margin-top: var(
+    --sky-override-colorpicker-hint-text-space,
+    var(--sky-space-gap-stacked_supplemental-s)
+  );
+}
+
+.sky-colorpicker-error {
+  background-origin: border-box;
+  box-shadow: var(
+    --sky-override-colorpicker-button-error-box-shadow,
+    inset 0 0 0 var(--sky-border-width-input-error)
+      var(--sky-color-border-input-error),
+    inset 0 0 0 var(--sky-colorpicker-border-padding-size)
+      var(--sky-color-background-container-base),
+    inset 0 0 0
+      calc(
+        var(--sky-colorpicker-border-padding-size) +
+          var(--sky-border-width-action-base)
+      )
+      var(--sky-color-border-input-base)
+  );
+
+  border: var(--sky-override-colorpicker-button-error-border);
+  outline: none;
+}
+
+// only applies to default theme
 .sky-colorpicker-reset-button {
   background-color: $sky-color-white;
   margin-left: $sky-margin-half;
   @include mixins.sky-border(light, top, right, bottom, left);
-  box-shadow: inset 0 0 0 2px $sky-color-white,
+  box-shadow:
+    inset 0 0 0 2px $sky-color-white,
     inset 0 0 0 3px $sky-border-color-neutral-medium;
   width: 30px;
   height: 30px;
@@ -59,9 +239,60 @@
   }
 }
 
+// Creates a stacking context to allow for proper stacking of the checkerd background when a transparent color is used.
+.sky-colorpicker-input-group {
+  position: relative;
+  z-index: 0;
+}
+
+// only applies to modern theme
+.sky-colorpicker-input-group .sky-colorpicker-reset-button-modern {
+  margin-left: var(--sky-space-gap-action_group-m);
+
+  &.sky-colorpicker-reset-button-disabled {
+    background-color: var(--sky-color-background-action-tertiary-disabled);
+  }
+}
+
+// only applies to modern theme. Default theme chevron is part of the background image
+.sky-colorpicker-input-group .sky-colorpicker-button-modern-chevron {
+  position: absolute;
+  background-color: var(--sky-color-background-container-base);
+  border-top-left-radius: calc(
+    var(--sky-border-radius-s) - var(--sky-colorpicker-border-padding-size)
+  );
+  border-bottom-right-radius: calc(
+    var(--sky-border-radius-s) - var(--sky-colorpicker-border-padding-size)
+  );
+  border-left: var(--sky-border-width-input-base) solid
+    var(--sky-color-border-input-base);
+  border-top: var(--sky-border-width-input-base) solid
+    var(--sky-color-border-input-base);
+  bottom: var(--sky-colorpicker-border-padding-size);
+  color: var(--sky-color-icon-default);
+  right: var(--sky-colorpicker-border-padding-size);
+
+  &.sky-colorpicker-button-modern-chevron-disabled {
+    color: var(--sky-color-text-deemphasized);
+  }
+}
+
 .sky-colorpicker-footer {
-  background-color: $sky-color-white;
-  @include mixins.sky-border(light, top);
+  border-top: var(--sky-override-colorpicker-footer-border-top, none);
+  padding: var(
+    --sky-override-colorpicker-footer-padding,
+    var(--sky-comp-colorpicker-content-space-inset-top)
+      var(--sky-comp-colorpicker-content-space-inset-right)
+      var(--sky-comp-colorpicker-content-space-inset-bottom)
+      var(--sky-comp-colorpicker-content-space-inset-left)
+  );
+
+  .sky-btn-colorpicker-apply {
+    margin-right: var(
+      --sky-override-colorpicker-footer-button-spacing,
+      var(--sky-space-gap-action_group-m)
+    );
+  }
 }
 
 .sky-colorpicker * {
@@ -73,9 +304,16 @@
 
 .sky-colorpicker {
   cursor: default;
-  width: 270px;
+  width: var(
+    --sky-override-colorpicker-width,
+    calc(
+      var(--sky-size-width-viewport-smallest) - calc(
+          var(--sky-comp-button-icon-space-inset-left) +
+            var(--sky-comp-button-icon-space-inset-right)
+        )
+    )
+  );
   height: auto;
-  background-color: $sky-color-white;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -87,10 +325,9 @@
     position: relative;
   }
   input {
-    text-align: center;
-    font-size: 14px;
-    height: 26px;
-    color: $sky-text-color-default;
+    text-align: var(--sky-override-colorpicker-input-text-align);
+    font-size: var(--sky-override-colorpicker-input-font-size);
+    height: var(--sky-override-colorpicker-input-height);
     &:invalid {
       box-shadow: none;
     }
@@ -110,74 +347,170 @@
   input[type='number'].sky-form-control {
     -moz-appearance: textfield !important;
   }
-  .button-area {
-    padding: 0 $sky-padding-plus-half $sky-padding-plus-half
-      $sky-padding-plus-half;
-    text-align: right;
-  }
+
   .sky-colorpicker-preset-color-area {
-    padding-left: 9px;
-    padding-right: 9px;
-    padding-bottom: $sky-padding-plus-half;
+    padding: var(
+      --sky-override-colorpicker-swatch-area-padding,
+      var(--sky-comp-colorpicker-content-space-inset-top)
+        var(--sky-comp-colorpicker-content-space-inset-right)
+        var(--sky-comp-colorpicker-content-space-inset-bottom)
+        var(--sky-comp-colorpicker-content-space-inset-left)
+    );
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     .sky-preset-color {
       cursor: pointer;
-      width: 32px;
-      height: 32px;
-      margin: 5px;
-      @include mixins.sky-border(light, top, right, bottom, left);
+      width: var(
+        --sky-override-colorpicker-swatch-size,
+        calc(
+          calc(
+              calc(
+                  var(--sky-size-width-viewport-smallest) - calc(
+                      var(--sky-comp-button-icon-space-inset-left) +
+                        var(--sky-comp-button-icon-space-inset-right)
+                    )
+                ) - calc(
+                  var(--sky-comp-colorpicker-content-space-inset-left) +
+                    var(--sky-comp-colorpicker-content-space-inset-right)
+                ) - calc(var(--sky-space-gap-form-m) * 4)
+            ) /
+            5
+        )
+      );
+      height: var(
+        --sky-override-colorpicker-swatch-size,
+        calc(
+          calc(
+              calc(
+                  var(--sky-size-width-viewport-smallest) - calc(
+                      var(--sky-comp-button-icon-space-inset-left) +
+                        var(--sky-comp-button-icon-space-inset-right)
+                    )
+                ) - calc(
+                  var(--sky-comp-colorpicker-content-space-inset-left) +
+                    var(--sky-comp-colorpicker-content-space-inset-right)
+                ) - calc(var(--sky-space-gap-form-m) * 4)
+            ) /
+            5
+        )
+      );
+      border-radius: var(
+        --sky-override-colorpicker-swatch-border-radius,
+        var(--sky-border-radius-s)
+      );
+      margin: var(
+        --sky-override-colorpicker-swatch-margin,
+        0 var(--sky-space-gap-form-m) var(--sky-space-gap-form-m) 0
+      );
+
+      &:not(:active),
+      &:not(:hover),
+      &:not(:focus) {
+        border: var(
+          --sky-override-colorpicker-swatch-border,
+          var(--sky-border-width-input-base) solid
+            var(--sky-color-border-input-base)
+        );
+      }
     }
     .sky-preset-color:hover {
       cursor: pointer;
-      border: $sky-color-white solid 2px;
-      margin: 4px;
-      width: 34px;
-      height: 34px;
-      box-shadow: 0 0 0 1px $sky-border-color-neutral-medium,
-        0 0 0 2px $sky-border-color-neutral-light;
+      border: var(
+        --sky-override-colorpicker-swatch-hover-border,
+        var(--sky-border-width-input-base) solid
+          var(--sky-color-border-input-base)
+      );
+      margin: var(
+        --sky-override-colorpicker-swatch-hover-margin,
+        0 var(--sky-space-gap-form-m) var(--sky-space-gap-form-m) 0
+      );
+      width: var(
+        --sky-override-colorpicker-swatch-size-hover,
+        calc(
+          calc(
+              calc(
+                  var(--sky-size-width-viewport-smallest) - calc(
+                      var(--sky-comp-button-icon-space-inset-left) +
+                        var(--sky-comp-button-icon-space-inset-right)
+                    )
+                ) - calc(
+                  var(--sky-comp-colorpicker-content-space-inset-left) +
+                    var(--sky-comp-colorpicker-content-space-inset-right)
+                ) - calc(var(--sky-space-gap-form-m) * 4)
+            ) /
+            5
+        )
+      );
+      height: var(
+        --sky-override-colorpicker-swatch-size-hover,
+        calc(
+          calc(
+              calc(
+                  var(--sky-size-width-viewport-smallest) - calc(
+                      var(--sky-comp-button-icon-space-inset-left) +
+                        var(--sky-comp-button-icon-space-inset-right)
+                    )
+                ) - calc(
+                  var(--sky-comp-colorpicker-content-space-inset-left) +
+                    var(--sky-comp-colorpicker-content-space-inset-right)
+                ) - calc(var(--sky-space-gap-form-m) * 4)
+            ) /
+            5
+        )
+      );
+      // TODO: remove when we drop default; modern will inherit this from the btn class
+      box-shadow: var(
+        --sky-override-colorpicker-swatch-hover-box-shadow,
+        inset 0 0 0 var(--sky-border-width-action-hover)
+          var(--sky-color-border-action-tertiary-hover)
+      );
     }
   }
-  .arrow {
-    height: 0;
-    width: 0;
-    border-style: solid;
-    position: absolute;
-    z-index: 999999;
-  }
-  div.cursor-sv {
-    cursor: default;
-    position: relative;
-    width: 14px;
-    height: 14px;
-    @include mixins.sky-border(dark, top, right, bottom, left);
-  }
+
   div.cursor {
     cursor: default;
     position: relative;
-    width: 17px;
-    height: 17px;
-    border: $sky-text-color-deemphasized solid 2px;
+    width: var(
+      --sky-override-colorpicker-selector-size,
+      calc(var(--sky-font-size-body-m) + 1px)
+    );
+    height: var(
+      --sky-override-colorpicker-selector-size,
+      calc(var(--sky-font-size-body-m) + 1px)
+    );
+    border: $sky-color-white solid 2px;
+    outline: thin solid;
   }
+
   .saturation-lightness {
     cursor: pointer;
     width: 100%;
     height: 170px;
     border: none;
     background-size: 100% 100%;
-    background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.3/assets/images/colorpicker/saturation-lightness.webp);
+    background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/2.0.1/assets/images/colorpicker/saturation-lightness.webp);
   }
+
   .box {
     display: flex;
-    padding: 4px 8px;
+    padding: var(
+      --sky-override-colorpicker-box-padding,
+      var(--sky-comp-colorpicker-content-space-inset-top)
+        var(--sky-comp-colorpicker-content-space-inset-right)
+        var(--sky-comp-colorpicker-content-space-inset-bottom)
+        var(--sky-comp-colorpicker-content-space-inset-left)
+    );
     .left {
       position: relative;
-      padding: 16px 8px;
+      padding: var(
+        --sky-override-colorpicker-current-color-padding,
+        0 var(--sky-space-gap-form-xl) 0 0
+      );
     }
     .right {
       flex: 1 1 auto;
-      padding: 12px 8px;
+      padding: var(--sky-override-colorpicker-current-controls-padding);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -186,7 +519,10 @@
   .hue {
     cursor: pointer;
     width: 100%;
-    height: 16px;
+    height: var(
+      --sky-override-colorpicker-hue-alpha-height,
+      var(--sky-font-size-body-m)
+    );
     border: none;
     background-size: 100% 100%;
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAAAQCAYAAAD06IYnAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AIWDwkUFWbCCAAAAFxJREFUaN7t0kEKg0AQAME2x83/n2qu5qCgD1iDhCoYdpnbQC9bbY1qVO/jvc6k3ad91s7/7F1/csgPrujuQ17BDYSFsBAWwgJhISyEBcJCWAgLhIWwEBYIi2f7Ar/1TCgFH2X9AAAAAElFTkSuQmCC');
@@ -194,65 +530,80 @@
   .alpha {
     cursor: pointer;
     width: 100%;
-    height: 16px;
+    height: var(
+      --sky-override-colorpicker-hue-alpha-height,
+      var(--sky-font-size-body-m)
+    );
     border: none;
-    margin-top: 16px;
+    margin-top: var(
+      --sky-override-colorpicker-alpha-margin-top,
+      var(--sky-space-gap-form-s)
+    );
     background-size: 100% 100%;
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAAAQCAYAAAD06IYnAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AIWDwYQlZMa3gAAAWVJREFUaN7tmEGO6jAQRCsOArHgBpyAJYGjcGocxAm4A2IHpmoWE0eBH+ezmFlNvU06shJ3W6VEelWMUQAIIF9f6qZpimsA1LYtS2uF51/u27YVAFZVRUkEoGHdPV/sIcbIEIIkUdI/9Xa7neyv61+SWFUVAVCSct00TWn2fv6u3+Ecfd3tXzy/0+nEUu+SPjo/kqzrmiQpScN6v98XewfA8/lMkiLJ2WxGSUopcT6fM6U0NX9/frfbjev1WtfrlZfLhYfDQQHG/AIOlnGwjINlHCxjHCzjYJm/TJWdCwquJXseFFzGwDNNeiKMOJTO8xQdDQaeB29+K9efeLaBo9J7vdvtJj1RjFFjfiv7qv95tjx/7leSQgh93e1ffMeIp6O+YQjho/N791t1XVOSSI7N//K+4/GoxWLBx+PB5/Op5XLJ+/3OlJJWqxU3m83ovv5iGf8KjYNlHCxjHCzjYBkHy5gf5gusvQU7U37jTAAAAABJRU5ErkJggg==');
   }
   .selected-color {
-    width: 40px;
-    height: 40px;
-    top: 16px;
-    left: 8px;
+    width: var(
+      --sky-override-colorpicker-selected-color-size,
+      calc(calc(var(--sky-font-size-body-m) * 2) + var(--sky-space-gap-form-s))
+    );
+    height: var(
+      --sky-override-colorpicker-selected-color-size,
+      calc(calc(var(--sky-font-size-body-m) * 2) + var(--sky-space-gap-form-s))
+    );
+    top: var(--sky-override-colorpicker-selected-color-top, 0);
+    left: var(--sky-override-colorpicker-selected-color-left, 0);
     position: absolute;
   }
   .selected-color-background {
-    width: 40px;
-    height: 40px;
+    width: var(
+      --sky-override-colorpicker-selected-color-size,
+      calc(calc(var(--sky-font-size-body-m) * 2) + var(--sky-space-gap-form-s))
+    );
+    height: var(
+      --sky-override-colorpicker-selected-color-size,
+      calc(calc(var(--sky-font-size-body-m) * 2) + var(--sky-space-gap-form-s))
+    );
+
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAh0lEQVRYR+2W0QlAMQgD60zdfwOdqa8TmI/wQMr5K0I5bZLIzLOa2nt37VVVbd+dDx5obgCC3KBLwJ2ff4PnVidkf+ucIhw80HQaCLo3DMH3CRK3iFsmAWVl6hPNDwt8EvNE5q+YuEXcMgkonVM6SdyCoEvAnZ8v1Hjx817MilmxSUB5rdLJDycZgUAZUch/AAAAAElFTkSuQmCC');
   }
   .rgba-text {
     width: 100%;
-    font-size: 18px;
-    padding: 7px 15px 15px;
+    font-size: var(--sky-override-colorpicker-rgba-font-size);
+    padding: var(
+      --sky-override-colorpicker-rgba-padding,
+      var(--sky-comp-colorpicker-content-space-inset-top)
+        var(--sky-comp-colorpicker-content-space-inset-right)
+        var(--sky-comp-colorpicker-content-space-inset-bottom)
+        var(--sky-comp-colorpicker-content-space-inset-left)
+    );
     display: flex;
     input {
       min-width: 0;
-      padding: 1px;
+      padding: var(--sky-override-colorpicker-input-padding);
     }
     label {
-      margin: 0 0 8px 0;
+      margin: var(--sky-override-colorpicker-input-label-margin);
     }
     sky-input-box {
       flex: 1;
-      margin: 0 8px 0 0;
+      margin: 0
+        var(
+          --sky-override-colorpicker-rgba-space-between,
+          var(--sky-space-gap-form-s)
+        )
+        0 0;
     }
-    sky-input-box:first-child {
+
+    & > sky-input-box {
       flex: 2;
+    }
+    & > fieldset {
+      display: flex;
+      flex: 4;
     }
     sky-input-box:last-child {
       margin: 0;
-    }
-  }
-  .hex-text {
-    width: 100%;
-    font-size: 14px;
-    padding: 4px 8px;
-    .box {
-      padding: 0 24px 8px 8px;
-      input {
-        flex: 1 1 auto;
-        @include mixins.sky-border(light, top, right, bottom, left);
-        padding: 1px;
-      }
-      div {
-        flex: 1 1 auto;
-        text-align: center;
-        color: $sky-text-color-deemphasized;
-        float: left;
-        clear: left;
-      }
     }
   }
 }
@@ -261,10 +612,28 @@
   position: absolute;
   top: 0;
   left: 0;
-  z-index: -1;
-  height: 30px;
-  width: 30px;
-  background: -webkit-linear-gradient(
+  height: var(
+    --sky-override-colorpicker-button-size,
+    calc(
+      calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
+        calc(
+          var(--sky-comp-button-icon-space-inset-left) +
+            var(--sky-comp-button-icon-space-inset-right)
+        )
+    )
+  );
+  width: var(
+    --sky-override-colorpicker-button-size,
+    calc(
+      calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
+        calc(
+          var(--sky-comp-button-icon-space-inset-left) +
+            var(--sky-comp-button-icon-space-inset-right)
+        )
+    )
+  );
+  background:
+    -webkit-linear-gradient(
       45deg,
       rgba(0, 0, 0, 0.0980392) 25%,
       transparent 25%,
@@ -272,10 +641,17 @@
       rgba(0, 0, 0, 0.0980392) 75%,
       rgba(0, 0, 0, 0.0980392) 0
     ),
-    -webkit-linear-gradient(45deg, rgba(0, 0, 0, 0.0980392) 25%, transparent 25%, transparent
-          75%, rgba(0, 0, 0, 0.0980392) 75%, rgba(0, 0, 0, 0.0980392) 0),
+    -webkit-linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.0980392) 25%,
+        transparent 25%,
+        transparent 75%,
+        rgba(0, 0, 0, 0.0980392) 75%,
+        rgba(0, 0, 0, 0.0980392) 0
+      ),
     white;
-  background: -moz-linear-gradient(
+  background:
+    -moz-linear-gradient(
       45deg,
       rgba(0, 0, 0, 0.0980392) 25%,
       transparent 25%,
@@ -283,10 +659,17 @@
       rgba(0, 0, 0, 0.0980392) 75%,
       rgba(0, 0, 0, 0.0980392) 0
     ),
-    -moz-linear-gradient(45deg, rgba(0, 0, 0, 0.0980392) 25%, transparent 25%, transparent
-          75%, rgba(0, 0, 0, 0.0980392) 75%, rgba(0, 0, 0, 0.0980392) 0),
+    -moz-linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.0980392) 25%,
+        transparent 25%,
+        transparent 75%,
+        rgba(0, 0, 0, 0.0980392) 75%,
+        rgba(0, 0, 0, 0.0980392) 0
+      ),
     white;
-  background: linear-gradient(
+  background:
+    linear-gradient(
       45deg,
       rgba(0, 0, 0, 0.0980392) 25%,
       transparent 25%,
@@ -304,16 +687,26 @@
     ),
     white;
   background-repeat: repeat, repeat;
-  background-position: 0px 0, 5px 5px;
+  background-position:
+    0px 0,
+    5px 5px;
   -webkit-transform-origin: 0 0 0;
   transform-origin: 0 0 0;
   -webkit-background-origin: padding-box, padding-box;
   background-origin: padding-box, padding-box;
   -webkit-background-clip: border-box, border-box;
   background-clip: border-box, border-box;
-  -webkit-background-size: 10px 10px, 10px 10px;
-  background-size: 10px 10px, 10px 10px;
+  -webkit-background-size:
+    10px 10px,
+    10px 10px;
+  background-size:
+    10px 10px,
+    10px 10px;
   -webkit-box-shadow: none;
+  border-radius: var(
+    --sky-override-colorpicker-button-border-radius,
+    var(--sky-border-radius-s)
+  );
   box-shadow: none;
   text-shadow: none;
   -webkit-transition: none;
@@ -324,172 +717,61 @@
   transform: scaleX(1) scaleY(1) scaleZ(1);
 }
 
-.sky-theme-modern {
-  .sky-colorpicker-disabled {
-    opacity: 1;
+.sky-color-picker-label-wrapper {
+  .sky-control-label {
+    color: var(
+      --sky-override-colorpicker-label-color,
+      var(--sky-color-text-default)
+    );
+    margin-bottom: var(
+      --sky-override-colorpicker-label-space,
+      var(--sky-space-gap-form-xs)
+    );
+    font-size: var(
+      --sky-override-colorpicker-label-font-size,
+      var(--sky-font-size-input-label)
+    );
+    font-style: var(--sky-font-style-input-label);
+    font-weight: var(
+      --sky-override-colorpicker-label-font-weight,
+      var(--sky-font-style-input-label)
+    );
+    letter-spacing: var(--sky-font-letter_spacing-input-label);
+    line-height: var(
+      --sky-override-colorpicker-label-line-height,
+      var(--sky-font-line_height-input-label)
+    );
   }
+}
 
-  .sky-colorpicker-button {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #d2d2d2;
-    border-radius: 6px;
-    position: relative;
-    &.sky-colorpicker-button-disabled {
-      background-color: $sky-theme-modern-border-color-neutral-light !important;
-      border: 1px solid $sky-theme-modern-border-color-neutral-medium;
-      cursor: default;
+.sky-theme-modern {
+  .sky-colorpicker-button.sky-colorpicker-button-disabled {
+    background-color: var(--sky-color-background-input-disabled) !important;
+
+    .sky-colorpicker-button-modern-chevron {
+      background-color: var(--sky-color-background-input-disabled);
+      border-left: 1px solid var(--sky-color-border-action-secondary-disabled);
+      border-top: 1px solid var(--sky-color-border-action-secondary-disabled);
     }
 
     .sky-colorpicker-button-icon {
-      bottom: 1px;
-      font-size: 16px;
+      color: var(--sky-color-text-deemphasized) !important;
     }
-  }
-
-  .sky-colorpicker-button,
-  .sky-colorpicker-button:active {
-    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMzhweCIgaGVpZ2h0PSIzOHB4IiB2aWV3Qm94PSIwIDAgMzggMzgiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+Y29sb3JwaWNrZXIgU1ZHIGxpZ2h0PC90aXRsZT4KICAgIDxnIGlkPSJjb2xvcnBpY2tlci1TVkctbGlnaHQiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxwYXRoIGQ9Ik0zMywwIEMzNS43NjE0MjM3LC01LjA3MjY1MzEzZS0xNiAzOCwyLjIzODU3NjI1IDM4LDUgTDM4LDMzIEMzOCwzNS43NjE0MjM3IDM1Ljc2MTQyMzcsMzggMzMsMzggTDUsMzggQzIuMjM4NTc2MjUsMzggLTUuNTAwMDE1NDRlLTE2LDM1Ljc2MTQyMzcgMCwzMyBMMCw1IEMtMy4zODE3Njg3NmUtMTYsMi4yMzg1NzYyNSAyLjIzODU3NjI1LC0zLjgwOTEzMTA2ZS0xNiA1LDAgTDMzLDAgWiBNMzMsMiBMNSwyIEMzLjM0MzE0NTc1LDIgMiwzLjM0MzE0NTc1IDIsNSBMMiw1IEwyLDMzIEMyLDM0LjY1Njg1NDIgMy4zNDMxNDU3NSwzNiA1LDM2IEw1LDM2IEwyNCwzNiBDMjUuMTA0NTY5NSwzNiAyNiwzNS4xMDQ1Njk1IDI2LDM0IEwyNiwzNCBMMjYsMjggQzI2LDI2Ljg5NTQzMDUgMjYuODk1NDMwNSwyNiAyOCwyNiBMMjgsMjYgTDM0LDI2IEMzNS4xMDQ1Njk1LDI2IDM2LDI1LjEwNDU2OTUgMzYsMjQgTDM2LDI0IEwzNiw1IEMzNiwzLjM0MzE0NTc1IDM0LjY1Njg1NDIsMiAzMywyIEwzMywyIFoiIGlkPSJDb21iaW5lZC1TaGFwZSIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgIDxwYXRoIGQ9Ik0zMywyLjUgQzMzLjY5MDM1NTksMi41IDM0LjMxNTM1NTksMi43Nzk4MjIwMyAzNC43Njc3NjcsMy4yMzIyMzMwNSBDMzUuMjIwMTc4LDMuNjg0NjQ0MDYgMzUuNSw0LjMwOTY0NDA2IDM1LjUsNSBMMzUuNSw1IEwzNS41LDI0IEMzNS41LDI0LjQxNDIxMzYgMzUuMzMyMTA2OCwyNC43ODkyMTM2IDM1LjA2MDY2MDIsMjUuMDYwNjYwMiBDMzQuNzg5MjEzNiwyNS4zMzIxMDY4IDM0LjQxNDIxMzYsMjUuNSAzNCwyNS41IEwzNCwyNS41IEwyOCwyNS41IEMyNy4zMDk2NDQxLDI1LjUgMjYuNjg0NjQ0MSwyNS43Nzk4MjIgMjYuMjMyMjMzLDI2LjIzMjIzMyBDMjUuNzc5ODIyLDI2LjY4NDY0NDEgMjUuNSwyNy4zMDk2NDQxIDI1LjUsMjggTDI1LjUsMjggTDI1LjUsMzQgQzI1LjUsMzQuNDE0MjEzNiAyNS4zMzIxMDY4LDM0Ljc4OTIxMzYgMjUuMDYwNjYwMiwzNS4wNjA2NjAyIEMyNC43ODkyMTM2LDM1LjMzMjEwNjggMjQuNDE0MjEzNiwzNS41IDI0LDM1LjUgTDI0LDM1LjUgTDUsMzUuNSBDNC4zMDk2NDQwNiwzNS41IDMuNjg0NjQ0MDYsMzUuMjIwMTc4IDMuMjMyMjMzMDUsMzQuNzY3NzY3IEMyLjc3OTgyMjAzLDM0LjMxNTM1NTkgMi41LDMzLjY5MDM1NTkgMi41LDMzIEwyLjUsMzMgTDIuNSw1IEMyLjUsNC4zMDk2NDQwNiAyLjc3OTgyMjAzLDMuNjg0NjQ0MDYgMy4yMzIyMzMwNSwzLjIzMjIzMzA1IEMzLjY4NDY0NDA2LDIuNzc5ODIyMDMgNC4zMDk2NDQwNiwyLjUgNSwyLjUgTDUsMi41IFoiIGlkPSJQYXRoLUNvcHktNSIgc3Ryb2tlPSIjRDJEMkQyIiBmaWxsLW9wYWNpdHk9IjAiIGZpbGw9IiMwMDAwMDAiPjwvcGF0aD4KICAgIDwvZz4KPC9zdmc+');
-    &.sky-colorpicker-button-disabled {
-      background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMzhweCIgaGVpZ2h0PSIzOHB4IiB2aWV3Qm94PSIwIDAgMzggMzgiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+Y29sb3JwaWNrZXIgU1ZHIGxpZ2h0PC90aXRsZT4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJjb2xvcnBpY2tlci1TVkctbGlnaHQiIGZpbGwtcnVsZT0ibm9uemVybyI+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik0zMywwIEMzNS43NjE0MjM3LDAgMzgsMi4yMzg1NzYyNSAzOCw1IEwzOCwzMyBDMzgsMzUuNzYxNDIzNyAzNS43NjE0MjM3LDM4IDMzLDM4IEw1LDM4IEMyLjIzODU3NjI1LDM4IDAsMzUuNzYxNDIzNyAwLDMzIEwwLDUgQzAsMi4yMzg1NzYyNSAyLjIzODU3NjI1LDAgNSwwIEwzMywwIFogTTMzLDIgTDUsMiBDMy4zNDMxNDU3NSwyIDIsMy4zNDMxNDU3NSAyLDUgTDIsNSBMMiwzMyBDMiwzNC42NTY4NTQyIDMuMzQzMTQ1NzUsMzYgNSwzNiBMNSwzNiBMMjQsMzYgQzI1LjEwNDU2OTUsMzYgMjYsMzUuMTA0NTY5NSAyNiwzNCBMMjYsMzQgTDI2LDI4IEMyNiwyNi44OTU0MzA1IDI2Ljg5NTQzMDUsMjYgMjgsMjYgTDI4LDI2IEwzNCwyNiBDMzUuMTA0NTY5NSwyNiAzNiwyNS4xMDQ1Njk1IDM2LDI0IEwzNiwyNCBMMzYsNSBDMzYsMy4zNDMxNDU3NSAzNC42NTY4NTQyLDIgMzMsMiBMMzMsMiBaIiBpZD0iQ29tYmluZWQtU2hhcGUiIGZpbGw9IiNFREVERUUiPjwvcGF0aD4KICAgICAgICAgICAgPHBhdGggZD0iTTMzLDIuNSBDMzMuNjkwMzU1OSwyLjUgMzQuMzE1MzU1OSwyLjc3OTgyMjAzIDM0Ljc2Nzc2NywzLjIzMjIzMzA1IEMzNS4yMjAxNzgsMy42ODQ2NDQwNiAzNS41LDQuMzA5NjQ0MDYgMzUuNSw1IEwzNS41LDUgTDM1LjUsMjQgQzM1LjUsMjQuNDE0MjEzNiAzNS4zMzIxMDY4LDI0Ljc4OTIxMzYgMzUuMDYwNjYwMiwyNS4wNjA2NjAyIEMzNC43ODkyMTM2LDI1LjMzMjEwNjggMzQuNDE0MjEzNiwyNS41IDM0LDI1LjUgTDM0LDI1LjUgTDI4LDI1LjUgQzI3LjMwOTY0NDEsMjUuNSAyNi42ODQ2NDQxLDI1Ljc3OTgyMiAyNi4yMzIyMzMsMjYuMjMyMjMzIEMyNS43Nzk4MjIsMjYuNjg0NjQ0MSAyNS41LDI3LjMwOTY0NDEgMjUuNSwyOCBMMjUuNSwyOCBMMjUuNSwzNCBDMjUuNSwzNC40MTQyMTM2IDI1LjMzMjEwNjgsMzQuNzg5MjEzNiAyNS4wNjA2NjAyLDM1LjA2MDY2MDIgQzI0Ljc4OTIxMzYsMzUuMzMyMTA2OCAyNC40MTQyMTM2LDM1LjUgMjQsMzUuNSBMMjQsMzUuNSBMNSwzNS41IEM0LjMwOTY0NDA2LDM1LjUgMy42ODQ2NDQwNiwzNS4yMjAxNzggMy4yMzIyMzMwNSwzNC43Njc3NjcgQzIuNzc5ODIyMDMsMzQuMzE1MzU1OSAyLjUsMzMuNjkwMzU1OSAyLjUsMzMgTDIuNSwzMyBMMi41LDUgQzIuNSw0LjMwOTY0NDA2IDIuNzc5ODIyMDMsMy42ODQ2NDQwNiAzLjIzMjIzMzA1LDMuMjMyMjMzMDUgQzMuNjg0NjQ0MDYsMi43Nzk4MjIwMyA0LjMwOTY0NDA2LDIuNSA1LDIuNSBMNSwyLjUgTDMzLDIuNSBaIiBpZD0iUGF0aC1Db3B5LTUiIHN0cm9rZT0iI0QyRDJEMiIgZmlsbC1vcGFjaXR5PSIwIiBmaWxsPSIjMDAwMDAwIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
-    }
-  }
-
-  .sky-colorpicker-button:focus {
-    box-shadow: inset 0 0 0 2px $sky-theme-modern-color-blue-74,
-      0px 1px 8px 0px rgba(0, 0, 0, 0.3);
-    outline: none;
-    text-decoration: none;
-  }
-
-  .sky-colorpicker-button:hover {
-    box-shadow: inset 0 0 0 1px $sky-theme-modern-color-blue-74;
-    &.sky-colorpicker-button-disabled {
-      box-shadow: none;
-    }
-    outline: none;
-    text-decoration: none;
-  }
-
-  .sky-colorpicker-checkered-background {
-    border-radius: 6px;
-    width: 40px;
-    height: 40px;
-  }
-
-  .sky-colorpicker-button-modern-chevron {
-    position: absolute;
-    bottom: 0;
-    right: 2px;
-    font-size: 10px;
-    &.sky-colorpicker-button-modern-chevron-disabled {
-      color: $sky-theme-modern-font-deemphasized-color;
-    }
-  }
-
-  .sky-colorpicker-reset-button-modern {
-    width: 40px;
-    height: 40px;
-    &.sky-colorpicker-reset-button-disabled {
-      background-color: $sky-theme-modern-border-color-neutral-light;
-      border: 0px solid $sky-theme-modern-border-color-neutral-medium;
-      color: $sky-theme-modern-font-deemphasized-color;
-    }
-  }
-
-  .sky-colorpicker {
-    background-color: transparent;
-    width: 310px;
-
-    .saturation-lightness {
-      height: 170px;
-    }
-  }
-
-  .sky-colorpicker-container {
-    background-color: #fff;
-    border-radius: 0 0 6px 6px;
-  }
-
-  .sky-colorpicker-footer {
-    background: none;
-    border: none;
-    border-radius: 0 0 6px 6px;
-    padding: 10px 10px 15px;
-  }
-
-  .selected-color {
-    height: 46px;
-    width: 46px;
-    top: 0;
-    left: 0;
-  }
-
-  .selected-color-background {
-    height: 46px;
-    width: 46px;
-  }
-
-  input {
-    text-align: left;
-  }
-
-  .box {
-    padding: 15px 30px;
-
-    .left {
-      padding: 0 30px 0 0;
-    }
-
-    .right {
-      padding: 0;
-    }
-  }
-
-  .alpha {
-    margin-top: 10px;
   }
 
   .rgba-text {
-    padding: 0 10px;
-    display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
 
-    sky-input-box:first-child {
+    & > sky-input-box:first-child {
       width: 100%;
       flex: 0 1 auto;
-      margin: 0 0 10px 0;
-    }
-
-    sky-input-box:not(:first-child) {
-      flex: 1;
-      margin: 0 10px 10px 0;
-    }
-
-    sky-input-box:last-child {
-      margin: 0 0 10px 0;
+      margin: 0 0 var(--sky-space-gap-form-s) 0;
     }
   }
 
   .sky-colorpicker-preset-color-area {
-    padding: 10px 10px 15px 10px;
-
-    .sky-btn {
-      height: 46px;
-      width: 46px;
-      border-radius: 4px;
-      margin: 0 15px 15px 0;
-
-      &:not(:active),
-      &:not(:hover),
-      &:not(:focus) {
-        border: 1px solid var(--sky-border-color-neutral-medium-dark);
-      }
-    }
-
     .sky-btn:nth-child(5n) {
-      margin: 0 0 15px 0;
+      margin: 0 0 var(--sky-space-gap-form-m) 0;
     }
   }
 }

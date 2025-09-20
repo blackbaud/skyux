@@ -1,15 +1,41 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-lookup') {
+  --sky-override-lookup-form-control-background-color: transparent;
+  --sky-override-lookup-input-box-margin-top: 0;
+  --sky-override-lookup-input-box-padding-top: 0;
+  --sky-override-lookup-input-box-search-background-color: inherit;
+  --sky-override-lookup-input-box-search-padding: 6px 12px 5px 3px;
+  --sky-override-lookup-input-box-tokens-align-items: baseline;
+  --sky-override-lookup-input-box-tokens-content-padding-left: 10px;
+  --sky-override-lookup-search-background-color: #{$sky-color-white};
+  --sky-override-lookup-search-border: 1px solid
+    #{$sky-border-color-neutral-medium};
+  --sky-override-lookup-search-disabled-background-color: #{$sky-background-color-disabled};
+  --sky-override-lookup-search-line-height: #{$sky-line-height-base}em;
+  --sky-override-lookup-single-control-padding-left: 7px;
+  --sky-override-lookup-textarea-padding-left: 0;
+  --sky-override-lookup-token-margin-top: 0;
+  --sky-override-lookup-tokens-margin-top: -5px;
+  --sky-override-lookup-tokens-padding-left: 0;
+  --sky-override-lookup-tokens-row-gap: 0;
+}
 
 .sky-lookup {
   .sky-lookup-input.sky-form-control {
     resize: none;
-    border: 0;
     box-sizing: content-box;
-    height: #{$sky-line-height-base}em;
     overflow: hidden;
     padding: 0;
-    background-color: transparent;
+    background-color: var(
+      --sky-override-lookup-form-control-background-color,
+      inherit
+    );
+
+    // NOTE: This style is for legacy non-input box lookups. This is not needed when we fully drop support for this use case.
+    border: 0;
 
     &:focus {
       outline: none;
@@ -23,7 +49,10 @@
 
   &.sky-lookup-disabled {
     .sky-lookup-search {
-      background-color: $sky-background-color-disabled;
+      background-color: var(
+        --sky-override-lookup-search-disabled-background-color,
+        inherit
+      );
     }
   }
 
@@ -33,34 +62,54 @@
     }
 
     .sky-tokens {
-      margin-top: -5px;
+      row-gap: var(
+        --sky-override-lookup-tokens-row-gap,
+        var(--sky-space-gap-action_group-s)
+      );
+
+      // NOTE: These styles are for legacy non-input box lookups and there are overrides below for input box.
+      // Remove those overrides and use them here when we fully drop support for this use case.
+      // Mixin override only used here to maintain an existing default/modern difference without the modern mixin.
+      margin-top: var(--sky-override-lookup-tokens-margin-top, -6px);
       margin-bottom: -5px;
 
       .sky-tokens-content {
+        flex-basis: 100px;
+
+        // NOTE: These styles are for legacy non-input box lookups and there are overrides below for input box.
+        // Remove those overrides and use them here when we fully drop support for this use case.
         padding-top: 5px;
         padding-bottom: 5px;
         padding-left: 10px;
-        flex-basis: 100px;
       }
     }
   }
 
   .sky-lookup-single-control {
     display: inline-flex;
-    padding-left: 7px;
+    padding-left: var(
+      --sky-override-lookup-single-control-padding-left,
+      inherit
+    );
     width: 100%;
   }
 }
 
+// NOTE: Some of these styles are for legacy non-input box lookups and there are overrides below for input box.
+// Remove those overrides and use them here when we fully drop support for this use case.
 .sky-lookup-search {
   cursor: text;
-  background-color: $sky-color-white;
-  line-height: #{$sky-line-height-base}em;
+  background-color: var(--sky-override-lookup-search-background-color, inherit);
+  line-height: var(--sky-override-lookup-search-line-height, inherit);
   padding: 6px 12px 6px 3px;
   flex-grow: 1;
 
   &:not(.sky-field-status-active) {
-    @include defaultMixins.sky-border(dark, top, bottom, left, right);
+    border: var(
+      --sky-override-lookup-search-border,
+      var(--sky-border-width-input-base) solid
+        var(--sky-color-border-action-input-base)
+    );
   }
 }
 
@@ -82,32 +131,56 @@
   }
 }
 
+// Note: this only applies to legacy non-input box lookups - for input box the standard styling is applied there.
 sky-lookup.ng-invalid.ng-touched .sky-lookup-search {
-  @include defaultMixins.sky-field-status(invalid);
+  box-shadow: 0 0 8px rgba($sky-highlight-color-danger, 0.6);
+  border: 1px solid var(--sky-highlight-color-danger);
+  outline: none;
 }
 
 sky-input-box .sky-lookup {
   width: 100%;
+  // Since we are applying the host template directly - add the same spacing styles that we do around a directly projected text area.
+  // Calculation taken from input box
+  margin-top: var(
+    --sky-override-lookup-input-box-margin-top,
+    calc(
+      -1 *
+        (
+          calc(
+              var(--sky-font-line_height-input-label) *
+                var(--sky-font-size-input-label)
+            ) +
+            var(--sky-comp-input-label-space-inset-top) +
+            var(--sky-comp-input-label-space-inset-bottom)
+        )
+    )
+  );
+  padding-top: var(
+    --sky-override-lookup-input-box-padding-top,
+    calc(
+      calc(
+          var(--sky-font-line_height-input-label) *
+            var(--sky-font-size-input-label)
+        ) +
+        var(--sky-comp-input-label-space-inset-top) +
+        var(--sky-comp-input-label-space-inset-bottom)
+    )
+  );
 
   .sky-lookup-search {
+    background-color: var(
+      --sky-override-lookup-input-box-search-background-color,
+      transparent
+    );
     border: none;
-    padding-bottom: 5px;
+    padding: var(--sky-override-lookup-input-box-search-padding, inherit);
     width: 100%;
   }
 }
 
 @include defaultMixins.sky-theme-modern {
-  sky-tokens.sky-lookup-tokens {
-    .sky-tokens {
-      margin-top: -6px;
-    }
-  }
-
   sky-input-box .sky-lookup {
-    // Since we are applying the host template directly - add the same spacing styles that we do around a directly projected text area.
-    margin-top: -26px;
-    padding-top: 26px;
-
     sky-tokens.sky-lookup-tokens {
       // Input box adds a negative margin-top to elements with the
       // `sky-form-control` class in modern theme which causes that
@@ -121,18 +194,40 @@ sky-input-box .sky-lookup {
         margin-top: 0;
         margin-bottom: 0;
 
+        &:has(sky-token) {
+          padding-left: var(
+            --sky-override-lookup-tokens-padding-left,
+            var(--sky-comp-input-value-space-inset-left)
+          );
+        }
+        align-items: var(
+          --sky-override-lookup-input-box-tokens-align-items,
+          flex-start
+        );
+
         sky-token {
           padding-bottom: 0;
           padding-top: 0;
+          margin-top: var(--sky-override-lookup-token-margin-top, -1px);
         }
 
         .sky-tokens-content {
           padding-bottom: 0;
           padding-top: 0;
+          padding-left: var(
+            --sky-override-lookup-input-box-tokens-content-padding-left,
+            var(--sky-space-gap-text_action-xs)
+          );
 
           &:first-child {
             padding-left: 0;
           }
+        }
+      }
+
+      &:has(sky-token) {
+        textarea.sky-lookup-input.sky-form-control {
+          padding-left: var(--sky-override-lookup-textarea-padding-left, 0);
         }
       }
     }
@@ -146,21 +241,20 @@ sky-input-box .sky-lookup {
     }
 
     .sky-lookup-search {
-      background-color: transparent;
-      padding: 0 0 0 15px;
-
       &.sky-field-status-active {
         box-shadow: none;
       }
     }
 
     textarea.sky-lookup-input.sky-form-control {
-      padding-left: 0;
+      // NOTE: This left padding rule can be removed when the override support is removed.
+      // However, the value must be specified until then because the value is set on the same element in input box
+      // and so `inherit` does not work in this case.
+      padding-left: var(
+        --sky-override-lookup-textarea-padding-left,
+        var(--sky-comp-input-value-space-inset-left)
+      );
       resize: none;
-    }
-
-    .sky-lookup-single-control {
-      padding-left: 0;
     }
   }
 }

@@ -11,7 +11,9 @@ import {
   Optional,
   Renderer2,
   forwardRef,
+  inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -27,8 +29,8 @@ import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { SkyDateFormatter } from './date-formatter';
-import { SkyDatepickerAdapterService } from './datepicker-adapter.service';
 import { SkyDatepickerConfigService } from './datepicker-config.service';
+import { SkyDatepickerHostService } from './datepicker-host.service';
 import { SkyDatepickerComponent } from './datepicker.component';
 
 const SKY_DATEPICKER_VALUE_ACCESSOR = {
@@ -43,13 +45,17 @@ const SKY_DATEPICKER_VALIDATOR = {
   multi: true,
 };
 
+/**
+ * Provides date input functionality for inputs and handles date parsing, formatting and
+ * validation. It emits valid dates as `Date` objects and invalid dates as raw string values.
+ */
 @Directive({
+  host: {
+    '(focusout)': 'onFocusout($event)',
+  },
+  providers: [SKY_DATEPICKER_VALUE_ACCESSOR, SKY_DATEPICKER_VALIDATOR],
   selector: '[skyDatepickerInput]',
-  providers: [
-    SKY_DATEPICKER_VALUE_ACCESSOR,
-    SKY_DATEPICKER_VALIDATOR,
-    SkyDatepickerAdapterService,
-  ],
+  standalone: true,
 })
 export class SkyDatepickerInputDirective
   implements
@@ -122,7 +128,7 @@ export class SkyDatepickerInputDirective
 
   /**
    * The earliest date that is available in the calendar. Place this attribute on
-   * the `input` element to override the default in `SkyDatepickerConfigService`. To avoid validation errors, the time associated with the minimum date must be midnight. This is necessary because the datepicker automatically sets the time on the `Date` object for selected dates to midnight in the current user's time zone.
+   * the `input` element to override the default in `SkyDatepickerConfigService`. To avoid validation errors, the time associated with the minimum date is midnight. This is necessary because the datepicker automatically sets the time on the Date object for selected dates to midnight in the current user's time zone.
    */
   @Input()
   public set minDate(value: Date | undefined) {
@@ -135,6 +141,21 @@ export class SkyDatepickerInputDirective
   // TODO: Refactor to not have getter logic
   public get minDate(): Date | undefined {
     return this.#_minDate || this.#configService.minDate;
+  }
+
+  /**
+   * The date to open the calendar to initially. Place this attribute on the `input` element to override the default in `SkyDatepickerConfigService`.
+   * @default The current date
+   */
+  @Input()
+  public set startAtDate(value: Date | undefined) {
+    this.#_startAtDate = value;
+    this.#datepickerComponent.startAtDate = this.startAtDate;
+  }
+
+  // TODO: Refactor to not have getter logic
+  public get startAtDate(): Date | undefined {
+    return this.#_startAtDate || this.#configService.startAtDate;
   }
 
   /**
@@ -166,8 +187,8 @@ export class SkyDatepickerInputDirective
   public skyDatepickerNoValidate: boolean | undefined = false;
 
   /**
-   * The starting day of the week in the calendar, where `0` sets the starting day
-   * to Sunday. Place this attribute on the `input` element to override the default
+   * The starting day of the week in the calendar. `0` sets the starting day to Sunday.
+   * Place this attribute on the `input` element to override the default
    * in `SkyDatepickerConfigService`.
    * @default 0
    */
@@ -211,19 +232,19 @@ export class SkyDatepickerInputDirective
 
   #control: AbstractControl | undefined;
   #dateFormatter = new SkyDateFormatter();
-  #initialPlaceholder: string;
   #preferredShortDateFormat: string | undefined;
   #ngUnsubscribe = new Subject<void>();
+  #notifyTouched: (() => void) | undefined;
 
   #_dateFormat: string | undefined;
   #_disabled = false;
   #_maxDate: Date | undefined;
   #_minDate: Date | undefined;
+  #_startAtDate: Date | undefined;
   #_startingDay: number | undefined;
   #_strict = false;
   #_value: any;
 
-  #adapter: SkyDatepickerAdapterService;
   #changeDetector: ChangeDetectorRef;
   #configService: SkyDatepickerConfigService;
   #elementRef: ElementRef;
@@ -231,8 +252,11 @@ export class SkyDatepickerInputDirective
   #renderer: Renderer2;
   #datepickerComponent: SkyDatepickerComponent;
 
+  readonly #datepickerHostSvc = inject(SkyDatepickerHostService, {
+    optional: true,
+  });
+
   constructor(
-    adapter: SkyDatepickerAdapterService,
     changeDetector: ChangeDetectorRef,
     configService: SkyDatepickerConfigService,
     elementRef: ElementRef,
@@ -246,15 +270,12 @@ export class SkyDatepickerInputDirective
           '`<sky-datepicker>` component!',
       );
     }
-    this.#adapter = adapter;
     this.#changeDetector = changeDetector;
     this.#configService = configService;
     this.#elementRef = elementRef;
     this.#localeProvider = localeProvider;
     this.#renderer = renderer;
     this.#datepickerComponent = datepickerComponent;
-    this.#initialPlaceholder = this.#adapter.getPlaceholder(this.#elementRef);
-    this.#updatePlaceholder();
 
     this.#localeProvider
       .getLocaleInfo()
@@ -265,6 +286,17 @@ export class SkyDatepickerInputDirective
           SkyDateFormatter.getPreferredShortDateFormat();
         this.#applyDateFormat();
       });
+
+    this.#datepickerHostSvc?.focusout
+      .pipe(takeUntilDestroyed())
+      .subscribe((evt) => {
+        const isFocusingInput =
+          evt.relatedTarget === this.#elementRef.nativeElement;
+
+        if (!isFocusingInput) {
+          this.#notifyTouched?.();
+        }
+      });
   }
 
   public ngOnInit(): void {
@@ -274,12 +306,12 @@ export class SkyDatepickerInputDirective
   }
 
   public ngAfterContentInit(): void {
+    this.#datepickerComponent.dateFormat = this.dateFormat;
     this.#datepickerComponent.dateChange
       .pipe(distinctUntilChanged())
       .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((value: Date) => {
+      .subscribe((value) => {
         this.#value = value;
-        this.#onTouched();
       });
   }
 
@@ -307,7 +339,7 @@ export class SkyDatepickerInputDirective
   }
 
   @HostListener('change', ['$event'])
-  public onInputChange(event: any) {
+  public onInputChange(event: any): void {
     const value = event.target.value;
 
     if (this.skyDatepickerNoValidate) {
@@ -326,14 +358,9 @@ export class SkyDatepickerInputDirective
 
     this.#control?.setErrors({
       skyDate: {
-        invalid: true,
+        invalid: value,
       },
     });
-  }
-
-  @HostListener('blur')
-  public onInputBlur(): void {
-    this.#onTouched();
   }
 
   @HostListener('input')
@@ -389,6 +416,10 @@ export class SkyDatepickerInputDirective
         return {
           skyDate: {
             minDate,
+            minDateFormatted: this.#dateFormatter.format(
+              minDate,
+              this.dateFormat,
+            ),
           },
         };
       }
@@ -403,6 +434,10 @@ export class SkyDatepickerInputDirective
         return {
           skyDate: {
             maxDate,
+            maxDateFormatted: this.#dateFormatter.format(
+              maxDate,
+              this.dateFormat,
+            ),
           },
         };
       }
@@ -425,7 +460,7 @@ export class SkyDatepickerInputDirective
   }
 
   public registerOnTouched(fn: () => void): void {
-    this.#onTouched = fn;
+    this.#notifyTouched = fn;
   }
 
   public registerOnValidatorChange(fn: () => void): void {
@@ -445,8 +480,14 @@ export class SkyDatepickerInputDirective
     this.#onValueChange(this.#elementRef.nativeElement.value);
   }
 
+  protected onFocusout(evt: FocusEvent): void {
+    if (!this.#datepickerHostSvc?.isFocusingDatepicker(evt)) {
+      this.#notifyTouched?.();
+    }
+  }
+
   #applyDateFormat(): void {
-    this.#updatePlaceholder();
+    this.#datepickerComponent.dateFormat = this.dateFormat;
     if (this.#value) {
       const formattedDate = this.#dateFormatter.format(
         this.#value,
@@ -541,27 +582,13 @@ export class SkyDatepickerInputDirective
       return true;
     }
 
-    // If not, does it conform to the standard ISO format?
-    const isValidIso = moment(value, moment.ISO_8601).isValid();
-
-    return isValidIso;
+    return moment(value).isValid();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   // istanbul ignore next
-  #onChange = (_: any) => {};
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  #onChange = (_: any): void => {};
   // istanbul ignore next
-  #onTouched = () => {};
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  // istanbul ignore next
-  #onValidatorChange = () => {};
-
-  #updatePlaceholder(): void {
-    if (!this.#initialPlaceholder && this.dateFormat) {
-      this.#adapter.setPlaceholder(this.#elementRef, this.dateFormat);
-    }
-  }
+  #onValidatorChange = (): void => {};
 
   /**
    * Update the value of the form control and input element

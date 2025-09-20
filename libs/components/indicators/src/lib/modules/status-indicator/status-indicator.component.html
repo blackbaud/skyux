@@ -1,24 +1,32 @@
-<div *ngIf="descriptionType" class="sky-status-indicator">
-  <div
-    aria-hidden="true"
-    class="sky-margin-inline-xs sky-status-indicator-icon"
-    [ngClass]="'sky-status-indicator-icon-' + indicatorTypeOrDefault"
-  >
-    <span class="sky-status-indicator-icon-default">
-      <sky-icon [icon]="icon" />
-    </span>
-    <span class="sky-status-indicator-icon-modern">
-      <sky-icon-stack size="xs" [baseIcon]="baseIcon" [topIcon]="topIcon">
-      </sky-icon-stack>
-    </span>
+@if (descriptionType) {
+  <div class="sky-status-indicator">
+    <div
+      aria-hidden="true"
+      class="sky-status-indicator-icon"
+      [ngClass]="'sky-status-indicator-icon-' + indicatorTypeOrDefault"
+    >
+      <sky-icon variant="solid" [iconName]="iconName" />
+    </div>
+    <div class="sky-status-indicator-message-wrapper">
+      @if (descriptionComputed) {
+        <span class="sky-screen-reader-only">
+          {{ descriptionComputed }}
+        </span>
+      }
+      <span #message="skyId" skyId class="sky-status-indicator-message" skyTrim
+        ><ng-content /></span
+      ><span class="sky-control-help-container">
+        @if (helpPopoverContent || helpKey) {
+          <sky-help-inline
+            [labelledBy]="message.id"
+            [helpKey]="helpKey"
+            [popoverTitle]="helpPopoverTitle"
+            [popoverContent]="helpPopoverContent"
+          />
+        } @else {
+          <ng-content select=".sky-control-help" />
+        }
+      </span>
+    </div>
   </div>
-  <div class="sky-status-indicator-message-wrapper">
-    <span *ngIf="descriptionComputed" class="sky-screen-reader-only">
-      {{ descriptionComputed }}
-    </span>
-    <span class="sky-status-indicator-message" skyTrim><ng-content /></span
-    ><span class="sky-control-help-container"
-      ><ng-content select=".sky-control-help"></ng-content
-    ></span>
-  </div>
-</div>
+}

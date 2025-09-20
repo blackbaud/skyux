@@ -1,0 +1,23 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include mixins.sky-component('modern', '.sky-action-button', false) {
+  cursor: pointer;
+  text-decoration: none !important;
+  max-width: 446px;
+  display: flex;
+  flex-flow: row nowrap;
+  padding: var(--sky-comp-action_button-space-inset-top)
+    var(--sky-comp-action_button-space-inset-right)
+    var(--sky-comp-action_button-space-inset-bottom)
+    var(--sky-comp-action_button-space-inset-left);
+  text-align: left;
+  border: none;
+  margin: 0;
+
+  .sky-action-button-content {
+    flex: 1 1 auto;
+    margin: 0 var(--sky-space-inline-s) 0 0;
+    white-space: initial;
+  }
+}

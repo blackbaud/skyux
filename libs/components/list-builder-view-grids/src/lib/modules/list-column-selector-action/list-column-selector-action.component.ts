@@ -40,6 +40,7 @@ import { GridStateModel } from '../list-view-grid/state/grid-state.model';
 @Component({
   selector: 'sky-list-column-selector-action',
   templateUrl: './list-column-selector-action.component.html',
+  standalone: false,
 })
 export class SkyListColumnSelectorActionComponent implements AfterContentInit {
   /**
@@ -76,7 +77,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
     @Optional() public secondaryActions: SkyListSecondaryActionsComponent,
   ) {}
 
-  public ngAfterContentInit() {
+  public ngAfterContentInit(): void {
     if (!this.secondaryActions) {
       const columnChooserItem = new ListToolbarItemModel({
         id: 'column-chooser',
@@ -115,12 +116,12 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
     );
   }
 
-  public openColumnSelector() {
+  public openColumnSelector(): void {
     /* istanbul ignore else */
     /* sanity check */
     if (this.gridView) {
-      let columns: Array<SkyColumnSelectorModel> = [];
-      let selectedColumnIds: Array<string> = [];
+      let columns: SkyColumnSelectorModel[] = [];
+      let selectedColumnIds: string[] = [];
       this.gridView.gridState
         .pipe(take(1))
         .subscribe((state: GridStateModel) => {
@@ -165,7 +166,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
       modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
         if (result.reason === 'save' && result.data) {
           const newSelectedIds = result.data;
-          let newDisplayedColumns: Array<SkyGridColumnModel> = [];
+          let newDisplayedColumns: SkyGridColumnModel[] = [];
           this.gridView.gridState
             .pipe(take(1))
             .subscribe((state: GridStateModel) => {

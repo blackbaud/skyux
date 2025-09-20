@@ -18,8 +18,7 @@ export function getData(item: any, selector: string): any {
 
   /* istanbul ignore else */
   if (resultFieldParts.length > 0) {
-    for (let index = 0; index < resultFieldParts.length; index++) {
-      const part = resultFieldParts[index];
+    for (const part of resultFieldParts) {
       /* istanbul ignore else */
       if (result[part] === null || result[part] === undefined) {
         result = null;
@@ -37,7 +36,7 @@ export function getData(item: any, selector: string): any {
  * @internal
  * @deprecated
  */
-export function compare(value1: any, value2: any) {
+export function compare(value1: any, value2: any): -1 | 0 | 1 {
   if (value1 === null) {
     return 1;
   } else if (value2 === null) {

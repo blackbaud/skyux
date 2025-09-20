@@ -10,7 +10,7 @@ import { ListDataRequestModel } from '../list/list-data-request.model';
 import { SkyListInMemoryDataProvider } from './list-data-in-memory.provider';
 
 describe('in memory data provider', () => {
-  let items: Observable<Array<any>>;
+  let items: Observable<any[]>;
 
   function searchFunction(data: any, searchText: string) {
     return data.column2.indexOf(searchText) > -1;

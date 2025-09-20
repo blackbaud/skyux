@@ -10,10 +10,10 @@ import {
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { Subscription } from 'rxjs';
 
-import { SkyIconStackItem } from '../icon/icon-stack-item';
 import { SkyIndicatorDescriptionType } from '../shared/indicator-description-type';
 import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
 import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
@@ -22,8 +22,13 @@ const ALERT_TYPE_DEFAULT = 'warning';
 
 @Component({
   selector: 'sky-alert',
-  styleUrls: ['./alert.component.scss'],
+  styleUrls: [
+    './alert.default.component.scss',
+    './alert.modern.component.scss',
+  ],
   templateUrl: './alert.component.html',
+  hostDirectives: [SkyThemeComponentClassDirective],
+  standalone: false,
 })
 export class SkyAlertComponent implements AfterViewChecked, OnInit, OnDestroy {
   /**
@@ -87,9 +92,8 @@ export class SkyAlertComponent implements AfterViewChecked, OnInit, OnDestroy {
   @Output()
   public closedChange = new EventEmitter<boolean>();
 
-  public alertBaseIcon: SkyIconStackItem | undefined;
-
-  public alertTopIcon: SkyIconStackItem | undefined;
+  public iconName =
+    SkyIndicatorIconUtility.getIconNameForType(ALERT_TYPE_DEFAULT);
 
   public alertTypeOrDefault: SkyIndicatorIconType = ALERT_TYPE_DEFAULT;
 
@@ -131,12 +135,9 @@ export class SkyAlertComponent implements AfterViewChecked, OnInit, OnDestroy {
   }
 
   #updateAlertIcon(): void {
-    const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
+    this.iconName = SkyIndicatorIconUtility.getIconNameForType(
       this.alertTypeOrDefault,
     );
-
-    this.alertBaseIcon = indicatorIcon.modernThemeBaseIcon;
-    this.alertTopIcon = indicatorIcon.modernThemeTopIcon;
   }
 
   #updateDescriptionComputed(): void {

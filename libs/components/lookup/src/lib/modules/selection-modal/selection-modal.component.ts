@@ -15,7 +15,8 @@ import {
 } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
-import { SkyIconModule, SkyWaitModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyWaitModule } from '@skyux/indicators';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
@@ -35,7 +36,6 @@ import { SkySelectionModalSearchResult } from './types/selection-modal-search-re
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-selection-modal',
   templateUrl: './selection-modal.component.html',
   styleUrls: ['./selection-modal.component.scss'],
@@ -61,7 +61,7 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
    * @internal
    * Fires when users select the button to add new options to the list.
    */
-  public addClick: Subject<void> = new Subject();
+  public addClick = new Subject<void>();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public displayedItems: any[] = [];
@@ -86,7 +86,7 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
 
   public searchText: string | undefined;
 
-  public selectedIdMap: Map<unknown, unknown> = new Map();
+  public selectedIdMap = new Map<unknown, unknown>();
 
   #continuationData: unknown;
 

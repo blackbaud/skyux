@@ -1,16 +1,26 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
-@use 'libs/components/theme/src/lib/styles/variables' as variables;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-back-to-top') {
+  --sky-override-back-to-top-padding: var(--sky-margin-stacked-sm)
+    var(--sky-margin-inline-lg);
+  --sky-override-back-to-top-background-color: #{$sky-color-white};
+}
 
 .sky-back-to-top {
   display: flex;
   align-items: center;
   width: 100%;
-  background-color: variables.$sky-color-white;
-  padding: var(--sky-margin-stacked-sm) var(--sky-margin-inline-lg);
-}
-
-@include mixins.sky-theme-modern {
-  .sky-back-to-top {
-    padding: var(--sky-margin-stacked-sm) var(--sky-margin-inline-xl);
-  }
+  background-color: var(
+    --sky-override-back-to-top-background-color,
+    var(--sky-color-background-container-base)
+  );
+  padding: var(
+    --sky-override-back-to-top-padding,
+    var(--sky-comp-back_to_top-space-inset-top)
+      var(--sky-comp-back_to_top-space-inset-right)
+      var(--sky-comp-back_to_top-space-inset-bottom)
+      var(--sky-comp-back_to_top-space-inset-left)
+  );
 }

@@ -7,6 +7,7 @@ import { ICellRendererParams } from 'ag-grid-community';
   selector: 'app-context-menu',
   templateUrl: './context-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ContextMenuComponent implements ICellRendererAngularComp {
   public goalName: string | undefined;

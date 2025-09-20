@@ -1,10 +1,10 @@
 <div
   class="sky-alert"
+  role="alert"
   [skyThemeClass]="{
     'sky-rounded-corners': 'default',
     'sky-box sky-elevation-1': 'modern'
   }"
-  role="alert"
   [hidden]="closed"
   [ngClass]="{
     'sky-alert-info': alertTypeOrDefault === 'info',
@@ -14,13 +14,17 @@
     'sky-alert-closeable': closeable
   }"
 >
-  <div aria-hidden="true" class="sky-alert-icon-theme-modern">
-    <sky-icon-stack [baseIcon]="alertBaseIcon" [topIcon]="alertTopIcon">
-    </sky-icon-stack>
+  <div *skyThemeIf="'modern'" aria-hidden="true" class="sky-alert-icon">
+    <sky-icon iconSize="xl" variant="solid" [iconName]="iconName" />
   </div>
-  <span *ngIf="descriptionComputed" class="sky-screen-reader-only">
-    {{ descriptionComputed }}
-  </span>
+  <div *skyThemeIf="'default'" aria-hidden="true" class="sky-alert-icon">
+    <sky-icon variant="solid" [iconName]="iconName" />
+  </div>
+  @if (descriptionComputed) {
+    <span class="sky-screen-reader-only">
+      {{ descriptionComputed }}
+    </span>
+  }
   <div class="sky-alert-content">
     <ng-content />
   </div>
@@ -32,7 +36,7 @@
     (click)="close()"
   >
     <span aria-hidden="true">
-      <sky-icon icon="close" />
+      <sky-icon iconName="close" />
     </span>
   </button>
 </div>

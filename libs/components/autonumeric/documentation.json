@@ -1,0 +1,27 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "autonumeric": {
+      "development": {
+        "docsIds": [
+          "SkyAutonumericModule",
+          "SkyAutonumericDirective",
+          "SkyAutonumericOptions",
+          "SkyAutonumericOptionsProvider"
+        ],
+        "primaryDocsId": "SkyAutonumericModule"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": [
+          "AutonumericPresetExampleComponent",
+          "AutonumericCurrencyExampleComponent",
+          "AutonumericInternationalFormattingExampleComponent",
+          "AutonumericOptionsProviderExampleComponent"
+        ]
+      }
+    }
+  }
+}

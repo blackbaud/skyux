@@ -6,20 +6,18 @@ import {
   RendererFactory2,
 } from '@angular/core';
 
-const busyElements: {
-  [key: string]: {
+const busyElements: Record<
+  string,
+  {
     busyEl: HTMLElement | undefined;
     listener: () => void;
     restoreFocusElement?: HTMLElement | undefined;
     restoreFocusCheckElement?: HTMLElement | undefined;
-  };
-} = {};
+  }
+> = {};
 
-// Need to add the following to classes which contain static methods.
-// See: https://github.com/ng-packagr/ng-packagr/issues/641
 /**
  * @internal
- * @dynamic
  */
 @Injectable()
 export class SkyWaitAdapterService implements OnDestroy {
@@ -37,15 +35,17 @@ export class SkyWaitAdapterService implements OnDestroy {
   }
 
   public setWaitBounds(waitEl: ElementRef): void {
-    this.#renderer.setStyle(
+    this.#renderer.addClass(
       waitEl.nativeElement.parentElement,
-      'position',
-      'relative',
+      'sky-wait-element-active',
     );
   }
 
   public removeWaitBounds(waitEl: ElementRef): void {
-    this.#renderer.removeStyle(waitEl.nativeElement.parentElement, 'position');
+    this.#renderer.removeClass(
+      waitEl.nativeElement.parentElement,
+      'sky-wait-element-active',
+    );
   }
 
   public setBusyState(

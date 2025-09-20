@@ -1,0 +1,20 @@
+<sky-repeater
+  data-sky-id="my-basic-repeater"
+  [expandMode]="expandMode"
+  [reorderable]="reorderable"
+  [(activeIndex)]="activeIndex"
+>
+  @for (item of items; track item; let i = $index) {
+    <sky-repeater-item
+      [attr.data-sky-id]="'my-basic-repeater-item-' + i"
+      [selectable]="selectable"
+    >
+      <sky-repeater-item-title>
+        {{ item.title }}
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        <span class="item-note">{{ item.note }}</span>
+      </sky-repeater-item-content>
+    </sky-repeater-item>
+  }
+</sky-repeater>

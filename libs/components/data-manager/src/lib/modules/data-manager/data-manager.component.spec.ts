@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLiveAnnouncerService } from '@skyux/core';
+import { provideSkyMediaQueryTesting } from '@skyux/core/testing';
 import { SkyTextHighlightDirective } from '@skyux/indicators';
 import { SkyBackToTopMessageType } from '@skyux/layout';
 
@@ -17,6 +19,7 @@ describe('SkyDataManagerComponent', () => {
   let dataManagerFixtureComponent: DataManagerFixtureComponent;
   let dataManagerNativeElement: HTMLElement;
   let dataManagerService: SkyDataManagerService;
+  let liveAnnouncerService: SkyLiveAnnouncerService;
   const mockSkyHighlightDirective = jasmine.createSpyObj(
     'SkyTextHighlightDirective',
     ['skyHighlight'],
@@ -30,6 +33,7 @@ describe('SkyDataManagerComponent', () => {
         DataViewRepeaterFixtureComponent,
       ],
       imports: [DataManagerFixtureModule],
+      providers: [provideSkyMediaQueryTesting()],
     });
 
     dataManagerFixture = TestBed.overrideComponent(SkyDataViewComponent, {
@@ -45,6 +49,7 @@ describe('SkyDataManagerComponent', () => {
     dataManagerNativeElement = dataManagerFixture.nativeElement;
     dataManagerFixtureComponent = dataManagerFixture.componentInstance;
     dataManagerService = TestBed.inject(SkyDataManagerService);
+    liveAnnouncerService = TestBed.inject(SkyLiveAnnouncerService);
   });
 
   it('should render a toolbar and view if the data manager state has been set', () => {
@@ -160,6 +165,71 @@ describe('SkyDataManagerComponent', () => {
     await dataManagerFixture.whenStable();
 
     expect(mockSkyHighlightDirective.skyHighlight).toBeUndefined();
+  });
+
+  it('should announce a status message when the data summary changes, all items are displayed, and some are selected', async () => {
+    const liveAnnouncerSpy = spyOn(liveAnnouncerService, 'announce');
+    dataManagerFixture.detectChanges();
+
+    dataManagerService.updateDataState(
+      new SkyDataManagerState({
+        selectedIds: ['1', '2'],
+      }),
+      'unitTest',
+    );
+    dataManagerService.updateDataSummary(
+      { totalItems: 10, itemsMatching: 8 },
+      'unitTest',
+    );
+
+    dataManagerFixture.detectChanges();
+    await dataManagerFixture.whenStable();
+
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      '8 of 10 items meet criteria and 2 selected.',
+    );
+  });
+
+  it('should announce a status message when the data summary changes, all items are displayed, and none are selected', async () => {
+    const liveAnnouncerSpy = spyOn(liveAnnouncerService, 'announce');
+    dataManagerFixture.detectChanges();
+
+    dataManagerService.updateDataSummary(
+      { totalItems: 10, itemsMatching: 8 },
+      'unitTest',
+    );
+
+    dataManagerFixture.detectChanges();
+    await dataManagerFixture.whenStable();
+
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      '8 of 10 items meet criteria.',
+    );
+  });
+
+  it('should announce a status message when the data summary changes and only selected items are displayed', async () => {
+    const liveAnnouncerSpy = spyOn(liveAnnouncerService, 'announce');
+    dataManagerFixture.detectChanges();
+
+    dataManagerService.updateDataState(
+      new SkyDataManagerState({
+        onlyShowSelected: true,
+        selectedIds: ['1', '2'],
+      }),
+      'unitTest',
+    );
+
+    dataManagerService.updateDataSummary(
+      { totalItems: 10, itemsMatching: 2 },
+      'unitTest',
+    );
+
+    dataManagerFixture.detectChanges();
+    await dataManagerFixture.whenStable();
+
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      '2 of 10 items meet criteria and 2 selected. Only selected items are displayed.',
+    );
   });
 
   it('should pass accessibility', async () => {

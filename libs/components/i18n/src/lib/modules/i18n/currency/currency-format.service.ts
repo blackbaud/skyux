@@ -8,12 +8,12 @@ const DEFAULT_CURRENCY_CODE = 'USD';
 const DEFAULT_GROUP_CHARACTER = ',';
 const DEFAULT_DECIMAL_CHARACTER = '.';
 
-type CurrencyFormatParts = {
+interface CurrencyFormatParts {
   symbol: string;
   symbolLocation: SkyI18nCurrencySymbolLocation;
   decimalCharacter: string;
   groupCharacter: string;
-};
+}
 
 /**
  * Used to format a currency within a given locale.
@@ -43,17 +43,18 @@ export class SkyI18nCurrencyFormatService {
     const currencyCode = resolvedOptions.currency!;
     const parts = this.#formatToParts(formatter);
 
-    const format: SkyI18nCurrencyFormat = {
+    /* istanbul ignore next */
+    const precision = resolvedOptions.maximumFractionDigits ?? 0;
+
+    return {
       decimalCharacter: parts.decimalCharacter,
       groupCharacter: parts.groupCharacter,
       isoCurrencyCode: currencyCode,
       locale,
-      precision: resolvedOptions.maximumFractionDigits,
+      precision,
       symbol: parts.symbol,
       symbolLocation: parts.symbolLocation,
     };
-
-    return format;
   }
 
   #formatToParts(formatter: Intl.NumberFormat): CurrencyFormatParts {

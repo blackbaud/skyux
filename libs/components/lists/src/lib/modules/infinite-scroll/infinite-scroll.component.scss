@@ -1,7 +1,36 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-infinite-scroll') {
+  --sky-override-infinite-scroll-margin: #{$sky-margin-double};
+  --sky-override-infinite-scroll-max-height: 75px;
+}
 
 .sky-infinite-scroll {
-  margin-top: $sky-margin-double;
+  margin-top: var(
+    --sky-override-infinite-scroll-margin,
+    var(--sky-space-stacked-l)
+  );
   text-align: center;
-  min-height: 75px; // sky-wait height
+  min-height: var(
+    --sky-override-infinite-scroll-max-height,
+    calc(
+      max(
+          var(--sky-size-icon-xxxl),
+          calc(
+            calc(
+                var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
+              ) +
+              calc(
+                var(--sky-comp-button-space-inset-top) +
+                  var(--sky-comp-button-space-inset-bottom)
+              )
+          )
+        ) +
+        calc(
+          var(--sky-space-inset-vertical-top-s) +
+            var(--sky-space-inset-vertical-bottom-s)
+        )
+    )
+  ); // Min height is the max of the height of a wait or the height of a default button
 }

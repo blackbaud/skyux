@@ -1,5 +1,16 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-sectioned-form') {
+  --sky-override-sectioned-form-content-border-left: 1px solid
+    var(--sky-border-color-neutral-medium);
+  --sky-override-sectioned-form-content-padding: var(--sky-padding-even-md)
+    var(--sky-padding-even-xl);
+  --sky-override-sectioned-form-modal-margin-adjustment: -15px;
+  --sky-override-sectioned-form-tabs-only-padding: var(--sky-padding-even-md);
+  --sky-override-sectioned-form-tabs-padding: 0;
+}
 
 @include mixins.sky-host-responsive-container-xs-min() {
   .sky-sectioned-form {
@@ -10,23 +21,42 @@
   .sky-sectioned-form-content {
     flex-basis: auto;
     overflow-y: visible;
+    padding: var(
+      --sky-override-sectioned-form-content-padding,
+      var(--sky-comp-modal-content-space-inset-top)
+        var(--sky-comp-modal-content-space-inset-right)
+        var(--sky-comp-modal-content-space-inset-bottom)
+        var(--sky-comp-modal-content-space-inset-left)
+    );
   }
 
   .sky-sectioned-form-tabs {
     flex-basis: auto;
     overflow-y: visible;
+    padding: var(
+      --sky-override-sectioned-form-tabs-padding,
+      var(--sky-comp-tab-vertical-group-space-inset-top)
+        var(--sky-comp-tab-vertical-group-space-inset-right)
+        var(--sky-comp-tab-vertical-group-space-inset-bottom)
+        var(--sky-comp-tab-vertical-group-space-inset-left)
+    );
   }
 
   .sky-sectioned-form-tabs + .sky-sectioned-form-content {
-    border-left: 1px solid var(--sky-border-color-neutral-medium);
-  }
-
-  .sky-sectioned-form-content {
-    padding: var(--sky-padding-even-md) var(--sky-padding-even-xl);
+    border-left: var(
+      --sky-override-sectioned-form-content-border-left,
+      var(--sky-border-width-divider) solid var(--sky-color-border-divider)
+    );
   }
 
   .sky-sectioned-form-tabs-only {
-    padding: var(--sky-padding-even-md);
+    padding: var(
+      --sky-override-sectioned-form-tabs-only-padding,
+      var(--sky-comp-modal-content-space-inset-top)
+        var(--sky-comp-modal-content-space-inset-right)
+        var(--sky-comp-modal-content-space-inset-bottom)
+        var(--sky-comp-modal-content-space-inset-left)
+    );
   }
 }
 
@@ -44,6 +74,25 @@
   .sky-sectioned-form-tabs {
     flex-basis: 30%;
     overflow-y: auto;
+  }
+}
+
+:host-context(sky-modal) {
+  .sky-sectioned-form {
+    min-height: 460px;
+  }
+}
+
+:host-context(sky-modal-content) > {
+  :host .sky-sectioned-form,
+  form :host .sky-sectioned-form {
+    margin: var(
+      --sky-override-sectioned-form-modal-margin-adjustment,
+      calc(var(--sky-comp-modal-content-space-inset-top) * -1)
+        calc(var(--sky-comp-modal-content-space-inset-right) * -1)
+        calc(var(--sky-comp-modal-content-space-inset-bottom) * -1)
+        calc(var(--sky-comp-modal-content-space-inset-left) * -1)
+    );
   }
 }
 

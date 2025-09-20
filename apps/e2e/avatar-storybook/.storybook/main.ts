@@ -1,15 +1,13 @@
-import type { StorybookConfig } from '@storybook/angular';
+import type { StorybookConfig } from 'storybook/internal/types';
 
-import { rootMain } from '../../../..//.storybook/main';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { rootMain } from '../../../../.storybook/main';
 
 const config: StorybookConfig = {
   ...rootMain,
 
-  stories: [
-    ...rootMain.stories,
-    '../src/app/**/*.stories.mdx',
-    '../src/app/**/*.stories.@(js|jsx|ts|tsx)',
-  ],
+  stories: ['../src/app/**/*.stories.@(js|ts)'],
+  staticDirs: ['../assets'],
 };
 
 export default config;

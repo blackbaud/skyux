@@ -34,6 +34,7 @@ let nextId = 0;
   styleUrls: ['./dropdown-menu.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
   /**
@@ -244,7 +245,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
     }
   }
 
-  public focusNextItem() {
+  public focusNextItem(): void {
     if (!this.#hasFocusableItems()) {
       return;
     }
@@ -265,7 +266,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
     this.#changeDetector.markForCheck();
   }
 
-  #resetItemsActiveState() {
+  #resetItemsActiveState(): void {
     this.menuItems.forEach((item: SkyDropdownItemComponent) => {
       item.resetState();
     });
@@ -346,9 +347,8 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
             break;
 
           case 'tab':
-            if (this.#dropdownComponent?.dismissOnBlur) {
-              this.#sendMessage(SkyDropdownMessageType.Close);
-            }
+            this.#sendMessage(SkyDropdownMessageType.Close);
+
             this.#sendMessage(SkyDropdownMessageType.FocusTriggerButton);
             break;
         }

@@ -1,16 +1,65 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-split-view-drawer') {
+  --sky-override-split-view-drawer-background-color: #ffffff;
+  --sky-override-split-view-drawer-border-right: 1px solid
+    #{$sky-border-color-neutral-medium};
+  --sky-override-split-view-resize-handle-border-focus: none;
+  --sky-override-split-view-resize-handle-outline-focus: auto;
+  --sky-override-split-view-resize-handle-width: 14px;
+}
 
 .sky-split-view-drawer {
-  background: #ffffff;
+  background: var(
+    --sky-override-split-view-drawer-background-color,
+    var(--sky-color-background-container-dimmed)
+  );
   overflow: auto;
   height: 100%;
   width: 100%;
 }
 
+@include mixins.sky-host-responsive-container-xs-min() {
+  .sky-split-view-drawer {
+    &:has(sky-repeater) {
+      padding-top: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-xs-top
+      );
+      padding-right: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-xs-right
+      );
+      padding-bottom: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-xs-bottom
+      );
+      padding-left: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-xs-left
+      );
+    }
+  }
+}
+
 @include mixins.sky-host-responsive-container-sm-min() {
   .sky-split-view-drawer {
-    border-right: 1px solid $sky-border-color-neutral-medium;
+    border-right: var(
+      --sky-override-split-view-drawer-border-right,
+      var(--sky-border-width-divider) solid var(--sky-color-border-divider)
+    );
+    &:has(sky-repeater) {
+      padding-top: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-sm-top
+      );
+      padding-right: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-sm-right
+      );
+      padding-bottom: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-sm-bottom
+      );
+      padding-left: var(
+        --sky-comp-split_view-drawer-repeater-space-offset-sm-left
+      );
+    }
   }
 }
 
@@ -18,7 +67,10 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   height: 100%;
-  width: 14px;
+  width: var(
+    --sky-override-split-view-resize-handle-width,
+    var(--sky-size-width-resize_handle)
+  );
   position: absolute;
   z-index: 999;
   cursor: ew-resize;
@@ -28,6 +80,17 @@
   display: block;
   top: 0;
   bottom: 0;
+  transition: box-shadow $sky-transition-time-short;
+
+  &:focus {
+    border: var(
+      --sky-override-split-view-resize-handle-border-focus,
+      solid var(--sky-border-width-action-focus)
+        var(--sky-color-border-action-tertiary-focus)
+    );
+    box-shadow: none;
+    outline: var(--sky-override-split-view-resize-handle-outline-focus, none);
+  }
 
   &::-moz-range-thumb,
   &::-moz-range-track {
@@ -62,22 +125,5 @@
     border: 0 none;
     background: none;
     display: none;
-  }
-}
-
-@include mixins.sky-theme-modern {
-  .sky-split-view-drawer {
-    background: transparent;
-  }
-
-  .sky-split-view-resize-handle {
-    transition: box-shadow $sky-transition-time-short;
-
-    &:focus {
-      border: solid 2px $sky-theme-modern-background-color-primary-dark;
-      box-shadow: $sky-theme-modern-elevation-3-shadow-size
-        $sky-theme-modern-elevation-3-shadow-color;
-      outline: none;
-    }
   }
 }

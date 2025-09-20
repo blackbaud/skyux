@@ -3,11 +3,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SkyDatepickerModule } from '../datepicker.module';
-import { SkyFuzzyDateService } from '../fuzzy-date.service';
-
-import { FuzzyDatepickerNoFormatTestComponent } from './fuzzy-datepicker-no-format.component.fixture';
-import { FuzzyDatepickerReactiveTestComponent } from './fuzzy-datepicker-reactive.component.fixture';
-import { FuzzyDatepickerTestComponent } from './fuzzy-datepicker.component.fixture';
+import { FuzzyDatepickerNoFormatTestComponent } from '../fuzzy/fixtures/fuzzy-datepicker-no-format.component.fixture';
+import { FuzzyDatepickerReactiveTestComponent } from '../fuzzy/fixtures/fuzzy-datepicker-reactive.component.fixture';
+import { FuzzyDatepickerTestComponent } from '../fuzzy/fixtures/fuzzy-datepicker.component.fixture';
+import { SkyFuzzyDateService } from '../fuzzy/fuzzy-date.service';
 
 @NgModule({
   declarations: [

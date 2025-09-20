@@ -22,13 +22,14 @@ import { SkyGridSelectedRowsModelChange } from '../types/grid-selected-rows-mode
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './grid.component.fixture.html',
+  standalone: false,
 })
 export class GridTestComponent {
   public activeSortSelector: ListSortFieldSelectorModel;
 
   public allColumnWidth: number;
 
-  public columnWidthsChange: Array<SkyGridColumnWidthModelChange>;
+  public columnWidthsChange: SkyGridColumnWidthModelChange[];
 
   public data: any[] = [
     {
@@ -113,7 +114,7 @@ export class GridTestComponent {
 
   public selectedRowsChange: SkyGridSelectedRowsModelChange;
 
-  public selectedRowIds: Array<string>;
+  public selectedRowIds: string[];
 
   public settingsKey: string;
 
@@ -191,7 +192,7 @@ export class GridTestComponent {
       .slice();
   }
 
-  public onResize(columnWidths: Array<SkyGridColumnWidthModelChange>): void {
+  public onResize(columnWidths: SkyGridColumnWidthModelChange[]): void {
     this.columnWidthsChange = columnWidths;
   }
 

@@ -1,17 +1,18 @@
-<button
-  *ngIf="isVisible"
-  class="sky-btn sky-margin-inline-sm"
-  [attr.aria-controls]="ariaControls"
-  [disabled]="
-    disabled
-      | skyTabsetNavButtonDisabled
-        : buttonType
-        : !!tabToSelect
-        : tabToSelect?.disabled
-  "
-  [ngClass]="buttonClassName"
-  [type]="type"
-  (click)="buttonType === 'finish' ? null : buttonClick()"
->
-  {{ buttonText || ('skyux_tabs_navigator_' + buttonType | skyLibResources) }}
-</button>
+@if (isVisible) {
+  <button
+    class="sky-btn sky-margin-inline-sm"
+    [attr.aria-controls]="ariaControls"
+    [disabled]="
+      disabled
+        | skyTabsetNavButtonDisabled
+          : buttonType
+          : !!tabToSelect
+          : tabToSelect?.disabled
+    "
+    [ngClass]="buttonClassName"
+    [type]="type"
+    (click)="buttonType === 'finish' ? null : buttonClick()"
+  >
+    {{ buttonText || ('skyux_tabs_navigator_' + buttonType | skyLibResources) }}
+  </button>
+}

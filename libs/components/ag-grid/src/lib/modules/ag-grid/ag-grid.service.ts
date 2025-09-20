@@ -1,21 +1,36 @@
-import { Injectable, OnDestroy, Optional, inject } from '@angular/core';
+import {
+  CSP_NONCE,
+  Injectable,
+  OnDestroy,
+  Optional,
+  inject,
+} from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 import { SkyDateService } from '@skyux/datetime';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
+  AgColumn,
   CellClassParams,
+  CellFocusedEvent,
+  CellRendererSelectorFunc,
+  CellRendererSelectorResult,
   ColDef,
   EditableCallbackParams,
   GridOptions,
+  HeaderClassParams,
   ICellRendererParams,
   RowClassParams,
+  RowNode,
+  RowSelectionOptions,
   SuppressHeaderKeyboardEventParams,
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, takeUntil } from 'rxjs';
+
+import { getSkyAgGridTheme } from '../../styles/ag-grid-theme';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { applySkyLookupPropertiesDefaults } from './apply-lookup-properties-defaults';
@@ -32,11 +47,14 @@ import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderers/cell
 import { SkyAgGridCellRendererTemplateComponent } from './cell-renderers/cell-renderer-template/cell-renderer-template.component';
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
 import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
+import { SkyAgGridHeaderRowSelectorComponent } from './header/header-row-selector/header-row-selector.component';
 import { SkyAgGridHeaderComponent } from './header/header.component';
 import { IconMapType, iconMap } from './icons/icon-map';
+import { SkyAgGridLoadingComponent } from './loading/loading.component';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 import { SkyHeaderClass } from './types/header-class';
+import { LastFocusedCell } from './types/last-focused.cell';
 import { SkyGetGridOptionsArgs } from './types/sky-grid-options';
 
 function autocompleteComparator(
@@ -89,20 +107,22 @@ function dateComparator(date1: Date | string, date2: Date | string): number {
   return date1value ? 1 : -1;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function getValidatorCellRendererSelector(component: string, fallback?: any) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (params: ICellRendererParams): any => {
+function getValidatorCellRendererSelector(
+  component: string,
+  fallback?: CellRendererSelectorResult,
+): CellRendererSelectorFunc {
+  return (params: ICellRendererParams) => {
     if (
       params.colDef &&
       typeof params.colDef.cellRendererParams?.skyComponentProperties
         ?.validator === 'function'
     ) {
       if (
+        params.column?.isCellEditable(params.node) ||
         !params.colDef.cellRendererParams.skyComponentProperties.validator(
           params.value,
           params.data,
-          params.rowIndex,
+          params?.node?.rowIndex,
         )
       ) {
         return {
@@ -132,7 +152,9 @@ export class SkyAgGridService implements OnDestroy {
   #currentTheme: SkyThemeSettings | undefined = undefined;
   #agGridAdapterService: SkyAgGridAdapterService;
   #resources: SkyLibResourcesService | undefined;
-  private dateService = inject(SkyDateService);
+  #dateService = inject(SkyDateService);
+  #logService = inject(SkyLogService);
+  readonly #cspNonce = inject(CSP_NONCE, { optional: true });
 
   constructor(
     agGridAdapterService: SkyAgGridAdapterService,
@@ -183,22 +205,48 @@ export class SkyAgGridService implements OnDestroy {
       defaultGridOptions,
       args.gridOptions,
     );
-    mergedGridOptions.context ||= {};
-    mergedGridOptions.context.gridOptions = {
-      ...mergedGridOptions,
-    };
 
     return mergedGridOptions;
   }
 
-  public getHeaderHeight(): number {
-    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 37;
-  }
-
   #mergeGridOptions(
-    defaultGridOptions: GridOptions,
+    defaultGridOptions: GridOptions & {
+      getRowClass: (params: RowClassParams) => string[];
+    },
     providedGridOptions: GridOptions,
   ): GridOptions {
+    if ('enableRangeSelection' in providedGridOptions) {
+      if (providedGridOptions.enableRangeSelection) {
+        providedGridOptions.cellSelection = true;
+      }
+      delete providedGridOptions.enableRangeSelection;
+    }
+    if (
+      providedGridOptions.rowSelection === 'single' ||
+      providedGridOptions.rowSelection === 'multiple'
+    ) {
+      const rowSelectionOptions: Record<string, RowSelectionOptions> = {
+        single: { mode: 'singleRow', checkboxes: false },
+        multiple: { mode: 'multiRow', checkboxes: false },
+      };
+      providedGridOptions.rowSelection =
+        rowSelectionOptions[providedGridOptions.rowSelection];
+    }
+    if (providedGridOptions.rowSelection?.mode) {
+      providedGridOptions.rowSelection = {
+        ...((defaultGridOptions.rowSelection as RowSelectionOptions) ?? {
+          checkboxes: false,
+        }),
+        ...providedGridOptions.rowSelection,
+      } as RowSelectionOptions;
+    }
+    if ('enableCellChangeFlash' in providedGridOptions) {
+      providedGridOptions.defaultColDef ??= {};
+      providedGridOptions.defaultColDef.enableCellChangeFlash ??=
+        !!providedGridOptions.enableCellChangeFlash;
+      delete providedGridOptions.enableCellChangeFlash;
+    }
+
     const mergedGridOptions: GridOptions = {
       ...defaultGridOptions,
       ...providedGridOptions,
@@ -206,6 +254,10 @@ export class SkyAgGridService implements OnDestroy {
         ...providedGridOptions.components,
         // Apply default components last to prevent consumers from overwriting our component types.
         ...defaultGridOptions.components,
+      },
+      context: {
+        ...defaultGridOptions.context,
+        ...providedGridOptions.context,
       },
       columnTypes: {
         ...providedGridOptions.columnTypes,
@@ -217,26 +269,48 @@ export class SkyAgGridService implements OnDestroy {
         ...providedGridOptions.defaultColDef,
         // allow consumers to override all defaultColDef properties except cellClassRules, which we reserve for styling
         cellClassRules: defaultGridOptions.defaultColDef?.cellClassRules,
+        headerClass: defaultGridOptions.defaultColDef?.headerClass,
       },
       defaultColGroupDef: {
         ...defaultGridOptions.defaultColGroupDef,
         ...providedGridOptions.defaultColGroupDef,
+        headerClass: defaultGridOptions.defaultColGroupDef?.headerClass,
       },
-      icons: {
-        ...defaultGridOptions.icons,
-        ...providedGridOptions.icons,
+      getRowClass: (params): string[] => {
+        const defaultClasses = defaultGridOptions.getRowClass(
+          params,
+        ) as string[];
+        const providedClasses = providedGridOptions.getRowClass?.(params) ?? [];
+        const providedClassesArray = Array.isArray(providedClasses)
+          ? providedClasses
+          : [providedClasses];
+        return [...defaultClasses, ...providedClassesArray];
+      },
+      onCellFocused: (event): void => {
+        defaultGridOptions.onCellFocused?.(event);
+        providedGridOptions.onCellFocused?.(event);
       },
     };
 
-    // Prefer `getRowNodeId` over `getNodeId` if set by the consumer, for backward compatibility.
-    if (mergedGridOptions.getRowNodeId) {
-      delete mergedGridOptions.getRowId;
+    // Enable text selection unless explicitly disabled or conflicting with another setting.
+    if (
+      mergedGridOptions.enableCellTextSelection ||
+      (!('enableCellTextSelection' in mergedGridOptions) &&
+        !mergedGridOptions.cellSelection &&
+        !mergedGridOptions.columnDefs?.some((col: ColDef) => col.editable))
+    ) {
+      mergedGridOptions.context ||= {};
+      mergedGridOptions.enableCellTextSelection ??= true;
+      mergedGridOptions.context.enableCellTextSelection =
+        mergedGridOptions.enableCellTextSelection;
     }
 
     return mergedGridOptions;
   }
 
-  #getDefaultGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
+  #getDefaultGridOptions(args: SkyGetGridOptionsArgs): GridOptions & {
+    getRowClass: (params: RowClassParams) => string[];
+  } {
     // cellClassRules can be functions or string expressions
     const cellClassRuleTrueExpression = (): boolean => true;
 
@@ -247,7 +321,7 @@ export class SkyAgGridService implements OnDestroy {
         let isEditable = params.colDef.editable;
 
         if (typeof isEditable === 'function') {
-          const column = params.columnApi.getColumn(params.colDef.field);
+          const column = params.api.getColumn(params.colDef);
           isEditable = isEditable({
             ...params,
             column,
@@ -273,7 +347,7 @@ export class SkyAgGridService implements OnDestroy {
           return !param.colDef.cellRendererParams.skyComponentProperties.validator(
             param.value,
             param.data,
-            param.rowIndex,
+            param.node?.rowIndex,
           );
         }
         return false;
@@ -282,9 +356,30 @@ export class SkyAgGridService implements OnDestroy {
 
     const validatorCellClassRules = {
       [SkyCellClass.Invalid]: getValidatorFn(),
+      [SkyCellClass.Validator]: cellClassRuleTrueExpression,
     };
 
-    const defaultSkyGridOptions: GridOptions = {
+    function getHeaderClass(
+      ...classNames: string[]
+    ): (params: HeaderClassParams) => string | string[] | undefined {
+      return (params: HeaderClassParams): string | string[] | undefined => {
+        // istanbul ignore next
+        const minWidth = params.column?.getMinWidth() ?? 0;
+        // istanbul ignore next
+        const maxWidth = params.column?.getMaxWidth() ?? Infinity;
+        if (
+          (params.columnGroup?.isResizable() || params.column?.isResizable()) &&
+          minWidth < maxWidth
+        ) {
+          return [...classNames, SkyHeaderClass.Resizable];
+        }
+        return classNames;
+      };
+    }
+
+    const defaultSkyGridOptions: GridOptions & {
+      getRowClass: (params: RowClassParams) => string[];
+    } = {
       columnTypes: {
         [SkyCellType.Autocomplete]: {
           cellClassRules: {
@@ -307,8 +402,11 @@ export class SkyAgGridService implements OnDestroy {
             { component: 'sky-ag-grid-cell-renderer-currency' },
           ),
           cellEditor: SkyAgGridCellEditorCurrencyComponent,
-          headerClass: SkyHeaderClass.RightAligned,
+          headerClass: getHeaderClass(SkyHeaderClass.RightAligned),
           minWidth: 185,
+          sortingOrder: [null, 'desc', 'asc'],
+          suppressKeyboardEvent: (params) =>
+            this.#suppressEnter(params) || this.#suppressTab(params),
         },
         [SkyCellType.Date]: {
           cellClassRules: {
@@ -321,14 +419,19 @@ export class SkyAgGridService implements OnDestroy {
           valueFormatter: (params: ValueFormatterParams) => {
             try {
               return (
-                this.dateService.format(
+                this.#dateService.format(
                   params.value,
                   args.locale,
                   args.dateFormat || 'shortDate',
                 ) || ''
               );
             } catch (err) {
-              console.error(err);
+              /* istanbul ignore else */
+              if ((err as Error).stack) {
+                this.#logService.error(`${(err as Error).stack}`);
+              } else {
+                this.#logService.error(`${err}`);
+              }
               return '';
             }
           },
@@ -341,7 +444,11 @@ export class SkyAgGridService implements OnDestroy {
           cellEditor: SkyAgGridCellEditorLookupComponent,
           cellRenderer: SkyAgGridCellRendererLookupComponent,
           valueFormatter: (params) => {
-            const lookupProperties = applySkyLookupPropertiesDefaults(params);
+            const lookupProperties = applySkyLookupPropertiesDefaults(
+              params.colDef?.cellRendererParams?.skyComponentProperties ??
+                params.colDef?.cellEditorParams?.skyComponentProperties ??
+                {},
+            );
             return (params.value || [])
               .map((value: Record<string, unknown>) => {
                 return value[lookupProperties.descriptorProperty as string];
@@ -361,7 +468,14 @@ export class SkyAgGridService implements OnDestroy {
             'sky-ag-grid-cell-renderer-validator-tooltip',
           ),
           cellEditor: SkyAgGridCellEditorNumberComponent,
-          headerClass: SkyHeaderClass.RightAligned,
+          headerClass: getHeaderClass(SkyHeaderClass.RightAligned),
+          sortingOrder: [null, 'desc', 'asc'],
+        },
+        [SkyCellType.RightAligned]: {
+          cellClassRules: {
+            [SkyCellClass.RightAligned]: cellClassRuleTrueExpression,
+          },
+          headerClass: getHeaderClass(SkyHeaderClass.RightAligned),
         },
         [SkyCellType.RowSelector]: {
           cellClassRules: {
@@ -369,14 +483,20 @@ export class SkyAgGridService implements OnDestroy {
             [SkyCellClass.Uneditable]: cellClassRuleTrueExpression,
           },
           cellRenderer: SkyAgGridCellRendererRowSelectorComponent,
-          headerName: '',
+          headerComponent: SkyAgGridHeaderRowSelectorComponent,
+          headerName: 'Row selection',
           minWidth: 55,
           maxWidth: 55,
+          resizable: false,
           sortable: false,
           width: 55,
         },
         [SkyCellType.Template]: {
+          cellClassRules: {
+            [SkyCellClass.Template]: cellClassRuleTrueExpression,
+          },
           cellRenderer: SkyAgGridCellRendererTemplateComponent,
+          cellEditor: SkyAgGridCellRendererTemplateComponent,
         },
         [SkyCellType.Text]: {
           cellClassRules: {
@@ -401,10 +521,9 @@ export class SkyAgGridService implements OnDestroy {
       },
       defaultColDef: {
         cellClassRules: editableCellClassRules,
+        headerClass: getHeaderClass(),
         headerComponent: SkyAgGridHeaderComponent,
         minWidth: 100,
-        resizable: true,
-        sortable: true,
         suppressHeaderKeyboardEvent: (
           keypress: SuppressHeaderKeyboardEventParams,
         ) => keypress.event.code === 'Tab',
@@ -416,7 +535,6 @@ export class SkyAgGridService implements OnDestroy {
       },
       domLayout: 'autoHeight',
       ensureDomOrder: true,
-      enterMovesDownAfterEdit: true,
       components: {
         'sky-ag-grid-cell-renderer-currency':
           SkyAgGridCellRendererCurrencyComponent,
@@ -424,6 +542,23 @@ export class SkyAgGridService implements OnDestroy {
           SkyAgGridCellRendererCurrencyValidatorComponent,
         'sky-ag-grid-cell-renderer-validator-tooltip':
           SkyAgGridCellRendererValidatorTooltipComponent,
+      },
+      focusGridInnerElement: (params) => {
+        const lastFocusedCell = params.context?.['lastFocusedCell'] as
+          | LastFocusedCell
+          | undefined;
+        if (lastFocusedCell) {
+          if (lastFocusedCell.rowIndex !== null) {
+            params.api.setFocusedCell(
+              lastFocusedCell.rowIndex,
+              lastFocusedCell.column,
+            );
+          } else {
+            params.api.setFocusedHeader(lastFocusedCell.column);
+          }
+          return true;
+        }
+        return false;
       },
       getRowId: (params) => {
         const dataId = params.data.id;
@@ -435,32 +570,33 @@ export class SkyAgGridService implements OnDestroy {
         }
         return this.#keyMap.get(params.data) as string;
       },
-      getRowClass: (params: RowClassParams) => {
+      getRowClass: (params: RowClassParams): string[] => {
         if (params.node.id) {
-          return `sky-ag-grid-row-${params.node.id}`;
+          return [`sky-ag-grid-row-${params.node.id}`];
         } else {
-          return undefined;
+          return [];
         }
       },
-      headerHeight: this.getHeaderHeight(),
-      icons: {
-        sortDescending: this.#getIconTemplate('sortDescending'),
-        sortAscending: this.#getIconTemplate('sortAscending'),
-        columnMoveMove: this.#getIconTemplate('columnMoveMove'),
-        columnMoveHide: this.#getIconTemplate('columnMoveHide'),
-        columnMoveLeft: this.#getIconTemplate('columnMoveLeft'),
-        columnMoveRight: this.#getIconTemplate('columnMoveRight'),
-        columnMovePin: this.#getIconTemplate('columnMovePin'),
+      icons: Object.fromEntries(
+        Object.keys(iconMap).map((iconKey) => [
+          iconKey,
+          this.#getIconTemplate(iconKey as keyof IconMapType),
+        ]),
+      ),
+      loadingOverlayComponent: SkyAgGridLoadingComponent,
+      onCellFocused: (event: CellFocusedEvent) => this.#onCellFocused(event),
+      rowModelType: 'clientSide',
+      rowSelection: {
+        mode: 'multiRow',
+        enableClickSelection: false,
+        enableSelectionWithoutKeys: true,
+        checkboxes: false,
+        headerCheckbox: false,
       },
-      onCellFocused: () => this.#onCellFocused(),
-      rowHeight: this.#getRowHeight(),
-      getRowHeight: () => this.#getRowHeight(),
-      rowMultiSelectWithClick: true,
-      rowSelection: 'multiple',
       singleClickEdit: true,
-      sortingOrder: ['desc', 'asc', null],
-      suppressRowClickSelection: true,
+      styleNonce: this.#cspNonce ?? undefined,
       suppressDragLeaveHidesColumns: true,
+      theme: getSkyAgGridTheme('data-grid'),
     };
 
     const columnTypes = defaultSkyGridOptions.columnTypes as Record<
@@ -483,6 +619,7 @@ export class SkyAgGridService implements OnDestroy {
     if (this.#resources) {
       this.#resources
         .getString('sky_ag_grid_cell_renderer_currency_validator_message')
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((value) => {
           columnTypes[
             SkyCellType.CurrencyValidator
@@ -510,38 +647,59 @@ export class SkyAgGridService implements OnDestroy {
     if (this.#resources) {
       this.#resources
         .getString('sky_ag_grid_cell_renderer_number_validator_message')
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((value) => {
           columnTypes[
             SkyCellType.NumberValidator
           ].cellRendererParams.skyComponentProperties.validatorMessage = value;
+        });
+      this.#resources
+        .getString('sky_ag_grid_row_selector_column_heading')
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((value) => {
+          columnTypes[SkyCellType.RowSelector].headerName = value;
         });
     }
 
     return defaultSkyGridOptions;
   }
 
-  #onCellFocused(): void {
-    const currentElement = this.#agGridAdapterService.getFocusedElement();
-
-    this.#agGridAdapterService.focusOnFocusableChildren(currentElement);
+  #onCellFocused(event: CellFocusedEvent): void {
+    const shouldFocus = this.#shouldFocusChildren(event);
+    if (shouldFocus) {
+      const currentElement = this.#agGridAdapterService.getFocusedElement();
+      this.#agGridAdapterService.focusOnFocusableChildren(currentElement);
+    }
   }
 
-  #getDefaultEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
+  #shouldFocusChildren(event: CellFocusedEvent): boolean {
+    let shouldFocus = true;
+    // The API says the column can be string or null, but should be an object.
+    shouldFocus &&= typeof event.column === 'object';
+    // Row index can be number or null.
+    const rowNode =
+      Number.isInteger(event.rowIndex) &&
+      event.api.getDisplayedRowAtIndex(event.rowIndex as number);
+    shouldFocus &&= !!rowNode;
+    // Do not change focus if the cell is a row drag or dnd source.
+    shouldFocus &&= !(event.column as AgColumn).isRowDrag(rowNode as RowNode);
+    shouldFocus &&= !(event.column as AgColumn).isDndSource(rowNode as RowNode);
+    return shouldFocus;
+  }
+
+  #getDefaultEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions & {
+    getRowClass: (params: RowClassParams) => string[];
+  } {
     const defaultGridOptions = this.#getDefaultGridOptions(args);
-
     defaultGridOptions.rowSelection = undefined;
-
+    defaultGridOptions.theme = getSkyAgGridTheme('data-entry-grid');
     return defaultGridOptions;
   }
 
-  #getIconTemplate(iconName: keyof IconMapType): () => string {
+  #getIconTemplate(iconKey: keyof IconMapType): () => string {
     return () => {
-      const icon = iconMap[iconName];
-      if (this.#currentTheme?.theme.name === 'modern' && icon.skyIcon) {
-        return `<i aria-hidden="true" class="sky-i-${icon.skyIcon}"></i>`;
-      } else {
-        return `<i aria-hidden="true" class="fa fa-${icon.faIcon}"></i>`;
-      }
+      const iconInfo = iconMap[iconKey];
+      return `<svg height="16" width="16"><use xlink:href="#sky-i-${iconInfo.name}-${iconInfo.size}-solid"></use></svg>`;
     };
   }
 
@@ -574,7 +732,10 @@ export class SkyAgGridService implements OnDestroy {
     return false;
   }
 
-  #getRowHeight(): number {
-    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 38;
+  #suppressEnter(params: SuppressKeyboardEventParams): boolean {
+    if (params.event.code === 'Enter') {
+      return params.editing;
+    }
+    return false;
   }
 }

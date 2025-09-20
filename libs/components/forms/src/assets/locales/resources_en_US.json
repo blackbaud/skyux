@@ -1,11 +1,79 @@
 {
   "skyux_character_count_message": {
     "_description": "Screen reader only label for character count",
-    "message": "characters out of"
+    "message": "{0} characters out of {1}"
   },
   "skyux_character_count_over_limit": {
     "_description": "Screen reader only label for character count over limit symbol",
     "message": "You are over the character limit."
+  },
+  "skyux_form_error_character_count": {
+    "_description": "Error message for a field with a value that exceeds the character count limit",
+    "message": "Limit {0} to {1} characters."
+  },
+  "skyux_form_error_date": {
+    "_description": "Error message for a field with an invalid date value",
+    "message": "Select or enter a valid date."
+  },
+  "skyux_form_error_date_max": {
+    "_description": "Error message for a field with a date after max date",
+    "message": "Select or enter a date on or before {0}."
+  },
+  "skyux_form_error_date_min": {
+    "_description": "Error message for a field with a date before min date",
+    "message": "Select or enter a date on or after {0}."
+  },
+  "skyux_form_error_fuzzy_date_future_disabled": {
+    "_description": "Error message for a field with a in invalid fuzzy date in the future",
+    "message": "Future dates are disabled. Select or enter a date in the past."
+  },
+  "skyux_form_error_fuzzy_date_invalid": {
+    "_description": "Error message for a field with an invalid fuzzy date",
+    "message": "Select or enter a valid date."
+  },
+  "skyux_form_error_fuzzy_date_max_date": {
+    "_description": "Error message for a field with a date after max fuzzy date",
+    "message": "Select or enter a date on or before {0}."
+  },
+  "skyux_form_error_fuzzy_date_min_date": {
+    "_description": "Error message for a field with a date before min fuzzy date",
+    "message": "Select or enter a date on or after {0}."
+  },
+  "skyux_form_error_fuzzy_date_year_required": {
+    "_description": "Error message for a field with a date without a year",
+    "message": "Year is required."
+  },
+  "skyux_form_error_email": {
+    "_description": "Error message for a field with an invalid email value",
+    "message": "Enter an email address with a valid format."
+  },
+  "skyux_form_error_maxlength": {
+    "_description": "Error message for a field with a value that is too long",
+    "message": "Limit {0} to {1} characters."
+  },
+  "skyux_form_error_minlength": {
+    "_description": "Error message for a field with a value that is not long enough",
+    "message": "{0} must be at least {1} characters."
+  },
+  "skyux_form_error_phone": {
+    "_description": "Error message for a field with an invalid phone number",
+    "message": "Enter a phone number matching the format for the selected country."
+  },
+  "skyux_form_error_required": {
+    "_description": "Error message for a required field without a value",
+    "message": "{0} is required."
+  },
+  "skyux_form_error_time": {
+    "_description": "Error message for a field with an invalid time value",
+    "message": "Select or enter a valid time."
+  },
+  "skyux_form_error_url": {
+    "_description": "Error message for a field with an invalid URL value",
+    "message": "Enter a URL with a valid format."
+  },
+  "skyux_form_group_required": {
+    "_description": "Screen reader text after a form group label when the form group is required",
+    "message": "Required"
   },
   "skyux_file_attachment_button_label_choose_file": {
     "_description": "Button label for single file attachment when input has no value",
@@ -25,7 +93,7 @@
   },
   "skyux_file_attachment_file_item_delete": {
     "_description": "Label for the button that deletes a file",
-    "message": "Delete file"
+    "message": "Delete {0}"
   },
   "skyux_file_attachment_file_item_remove": {
     "_description": "Label for the button that deletes a file in single file attachment",
@@ -87,10 +155,6 @@
     "_description": "Label for input to link to a file",
     "message": "Link to a file"
   },
-  "skyux_file_attachment_file_upload_link_placeholder": {
-    "_description": "",
-    "message": "http://www.something.com/file"
-  },
   "skyux_file_attachment_file_upload_or_click_to_browse": {
     "_description": "",
     "message": "or click to browse"
@@ -107,45 +171,37 @@
     "_description": "Screen reader text when a link is removed",
     "message": "Link to {0} removed."
   },
+  "skyux_file_attachment_file_type_error_label_text": {
+    "_description": "The error message for file attachment incorrect file type error",
+    "message": "Upload one of these file types: {0}."
+  },
+  "skyux_file_attachment_file_type_error_label_text_with_name": {
+    "_description": "The error message for file attachment incorrect file type error",
+    "message": "{0}: Upload one of these file types: {1}."
+  },
+  "skyux_file_attachment_max_file_size_error_label_text": {
+    "_description": "The error message for file attachment max file size error",
+    "message": "Upload a file under {0}."
+  },
+  "skyux_file_attachment_max_file_size_error_label_text_with_name": {
+    "_description": "The error message for file attachment max file size error",
+    "message": "{0}: Upload a file under {1}."
+  },
+  "skyux_file_attachment_min_file_size_error_label_text": {
+    "_description": "The error message for file attachment min file size error",
+    "message": "Upload a file over {0}."
+  },
+  "skyux_file_attachment_min_file_size_error_label_text_with_name": {
+    "_description": "The error message for file attachment min file size error",
+    "message": "{0}: Upload a file over {1}."
+  },
   "skyux_file_attachment_label_no_file_chosen": {
     "_description": "Label for single file attachment when no file is chosen",
     "message": "No file chosen."
   },
-  "skyux_input_box_error_character_count": {
-    "_description": "Error message for a field with a value that exceeds the character count limit",
-    "message": "Limit {0} to {1} character(s)."
-  },
-  "skyux_input_box_error_date": {
-    "_description": "Error message for a field with an invalid date value",
-    "message": "Select or enter a valid date."
-  },
-  "skyux_input_box_error_email": {
-    "_description": "Error message for a field with an invalid email value",
-    "message": "Enter an email address with a valid format."
-  },
-  "skyux_input_box_error_maxlength": {
-    "_description": "Error message for a field with a value that is too long",
-    "message": "Limit {0} to {1} character(s)."
-  },
-  "skyux_input_box_error_minlength": {
-    "_description": "Error message for a field with a value that is not long enough",
-    "message": "{0} must be at least {1} character(s)."
-  },
-  "skyux_input_box_error_phone": {
-    "_description": "Error message for a field with an invalid phone number",
-    "message": "Enter a phone number matching the format for the selected country."
-  },
-  "skyux_input_box_error_required": {
-    "_description": "Error message for a required field without a value",
-    "message": "{0} is required."
-  },
-  "skyux_input_box_error_time": {
-    "_description": "Error message for a field with an invalid time value",
-    "message": "Select or enter a valid time."
-  },
-  "skyux_input_box_error_url": {
-    "_description": "Error message for a field with an invalid URL value",
-    "message": "Enter a URL with a valid format."
+  "skyux_file_attachment_required": {
+    "_description": "Screen reader text after the file attachment label when the file attachment is required",
+    "message": "Required"
   },
   "skyux_input_box_help_inline_aria_label": {
     "_description": "The accessible label for an input box help inline button",

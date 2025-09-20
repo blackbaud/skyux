@@ -13,21 +13,24 @@ export abstract class SkyIntlNumberFormatter {
       minimumFractionDigits,
       maximumFractionDigits,
       currency,
-      currencyAsSymbol = false,
       currencySign = 'standard',
+      currencyDisplay = 'code',
     } = opts;
 
     const options: Intl.NumberFormatOptions & { currencySign: string } = {
       minimumIntegerDigits,
       minimumFractionDigits,
       maximumFractionDigits,
-      style: SkyIntlNumberFormatStyle[style].toLowerCase(),
+      style: SkyIntlNumberFormatStyle[style].toLowerCase() as
+        | 'decimal'
+        | 'percent'
+        | 'currency',
       currencySign,
     };
 
     if (style === SkyIntlNumberFormatStyle.Currency) {
       options.currency = typeof currency === 'string' ? currency : undefined;
-      options.currencyDisplay = currencyAsSymbol ? 'symbol' : 'code';
+      options.currencyDisplay = currencyDisplay;
     }
 
     return new Intl.NumberFormat(locale, options).format(num);

@@ -1,48 +1,181 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
-@use 'libs/components/theme/src/lib/styles/_public-api/themes/modern/_compat/mixins'
-  as modernMixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-sort-item') {
+  --sky-override-sort-item-border-left-selected: none;
+  --sky-override-sort-item-border-radius: 0px;
+  --sky-override-sort-item-box-shadow: none;
+  --sky-override-sort-item-box-shadow-focus: none;
+  --sky-override-sort-item-box-shadow-selected-active: none;
+  --sky-override-sort-item-box-shadow-selected-hover: none;
+  --sky-override-sort-item-color-background: transparent;
+  --sky-override-sort-item-color-selected: inherit;
+  --sky-override-sort-item-color-text: #{$sky-text-color-default};
+  --sky-override-sort-item-selected-color-text: #{$sky-text-color-default};
+  --sky-override-sort-item-focus-visible-background: #{$sky-background-color-neutral-light};
+  --sky-override-sort-item-font-weight-selected: 600;
+  --sky-override-sort-item-hover-background: #{$sky-background-color-neutral-light};
+  --sky-override-sort-item-hover-active-background: transparent;
+  --sky-override-sort-item-hover-selected-background: #{$sky-background-color-neutral-light};
+  --sky-override-sort-item-margin: 4px;
+  --sky-override-sort-item-padding: 3px #{$sky-padding-double};
+  --sky-override-sort-item-padding-left-selected: #{$sky-padding-double};
+  --sky-override-sort-item-padding-selected: 4px;
+}
 
 .sky-sort-item {
-  @include mixins.sky-dropdown-item();
+  background-color: var(
+    --sky-override-sort-item-color-background,
+    --sky-color-background-action-tertiary-base
+  );
+  box-shadow: var(
+    --sky-override-sort-item-box-shadow,
+    inset 0 0 0 var(--sky-border-width-action-base)
+      var(--sky-color-border-action-tertiary-base)
+  );
+  border: none;
+  cursor: pointer;
+  margin: var(--sky-override-sort-item-margin, 0);
+
+  & button {
+    border-radius: var(
+      --sky-override-sort-item-border-radius,
+      var(--sky-border-radius-s)
+    );
+    text-align: left;
+    width: 100%;
+    outline: none;
+    border: none;
+    // The position relative ensures that the box shadows are not cut off by the selected item.
+    position: relative;
+    background-color: transparent;
+    color: var(
+      --sky-override-sort-item-color-text,
+      var(--sky-color-text-deemphasized)
+    );
+
+    padding: var(
+      --sky-override-sort-item-padding,
+      var(--sky-comp-dropdown-option-space-inset-top)
+        var(--sky-comp-dropdown-option-space-inset-right)
+        var(--sky-comp-dropdown-option-space-inset-bottom)
+        var(--sky-comp-dropdown-option-space-inset-left)
+    );
+
+    &:hover {
+      text-decoration: none;
+      background-color: var(
+        --sky-override-sort-item-hover-background,
+        var(--sky-color-background-action-tertiary-hover)
+      );
+      box-shadow: var(
+        --sky-override-sort-item-box-shadow,
+        inset 0 0 0 var(--sky-border-width-action-hover)
+          var(--sky-color-border-action-tertiary-hover)
+      );
+    }
+
+    &:active {
+      background-color: var(
+        --sky-override-sort-item-color-background,
+        var(--sky-color-background-action-tertiary-active)
+      );
+      box-shadow: var(
+        --sky-override-sort-item-box-shadow,
+        inset 0 0 0 var(--sky-border-width-action-active)
+          var(--sky-color-border-action-tertiary-active)
+      );
+    }
+
+    &:focus-visible:not(:active),
+    &:focus-within:not(:active) {
+      background-color: var(
+        --sky-override-sort-item-focus-visible-background,
+        var(--sky-color-background-action-tertiary-focus)
+      );
+      box-shadow: var(
+        --sky-override-sort-item-box-shadow-focus,
+        inset 0 0 0 var(--sky-border-width-action-focus)
+          var(--sky-color-border-action-tertiary-focus)
+      );
+    }
+
+    &[disabled] {
+      &,
+      &:hover,
+      &:focus-visible,
+      &:active {
+        box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
+          var(--sky-color-border-action-tertiary-disabled);
+        background-color: var(--sky-color-background-action-tertiary-disabled);
+        color: var(--sky-color-text-deemphasized);
+        cursor: default;
+
+        &:focus-visible {
+          box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
+            var(--sky-color-border-action-tertiary-disabled);
+        }
+      }
+    }
+  }
 }
 
 .sky-sort-item-selected {
-  background-color: $sky-background-color-selected;
-  padding: 4px;
+  background-color: var(
+    --sky-override-sort-item-color-selected,
+    var(--sky-color-background-selected-soft)
+  );
+  border-left: var(
+    --sky-override-sort-item-border-left-selected,
+    solid var(--sky-border-width-selected-m) var(--sky-color-border-selected)
+  );
+  border-radius: var(
+    --sky-override-sort-item-border-radius,
+    0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0
+  );
+  padding: var(--sky-override-sort-item-padding-selected, 0);
   margin: 0;
-}
 
-@include mixins.sky-theme-modern {
-  .sky-sort-item {
-    margin: 0;
-    @include modernMixins.sky-theme-modern-btn-tab;
-    @include modernMixins.sky-theme-modern-btn-tab-dropdown-item;
-    padding: $sky-theme-modern-space-sm $sky-theme-modern-space-lg;
+  & button {
+    padding-left: var(
+      --sky-override-sort-item-padding-left-selected,
+      calc(
+        var(--sky-comp-dropdown-option-space-inset-left) - var(
+            --sky-border-width-selected-m
+          )
+      )
+    );
+    border-radius: var(
+      --sky-override-sort-item-border-radius,
+      0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0
+    );
+    font-weight: var(
+      --sky-override-sort-item-font-weight-selected,
+      var(--sky-font-style-body-m)
+    );
+    color: var(
+      --sky-override-sort-item-selected-color-text,
+      var(--sky-color-text-selected)
+    );
 
-    & button {
-      padding: 0;
-      color: $sky-text-color-deemphasized;
+    &:hover {
+      text-decoration: none;
+      background-color: var(
+        --sky-override-sort-item-hover-selected-background,
+        var(--sky-color-background-selected-soft)
+      );
+      box-shadow: var(--sky-override-sort-item-box-shadow-selected-hover, none);
     }
-  }
 
-  .sky-sort-item-selected {
-    @include modernMixins.sky-theme-modern-btn-tab-selected-dropdown-item;
-    padding-left: calc(#{$sky-theme-modern-space-lg} - 3px);
-    background-color: inherit;
-
-    & button {
-      font-weight: $sky-theme-modern-text-weight-regular-value;
-      color: $sky-text-color-default;
+    &:active {
+      background-color: var(
+        --sky-override-sort-item-hover-active-background,
+        var(--sky-color-background-selected-soft)
+      );
+      box-shadow: var(
+        --sky-override-sort-item-box-shadow-selected-active,
+        none
+      );
     }
-  }
-}
-
-@include mixins.sky-theme-modern-dark {
-  .sky-sort-item button {
-    color: $sky-theme-modern-mode-dark-font-deemphasized-color;
-  }
-  .sky-sort-item-selected button {
-    color: $sky-theme-modern-mode-dark-font-body-default-color;
   }
 }

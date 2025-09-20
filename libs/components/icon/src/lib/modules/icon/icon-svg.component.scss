@@ -1,0 +1,124 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-host-overrides() {
+  --sky-override-sky-icon-svg-size-xxxs: 4px;
+  --sky-override-sky-icon-svg-size-xxs: 8px;
+  --sky-override-sky-icon-svg-size-xs: 12px;
+  --sky-override-sky-icon-svg-size-s: 16px;
+  --sky-override-sky-icon-svg-size-m: 20px;
+  --sky-override-sky-icon-svg-size-l: 24px;
+  --sky-override-sky-icon-svg-size-xl: 32px;
+  --sky-override-sky-icon-svg-size-xxl: 40px;
+  --sky-override-sky-icon-svg-size-xxxl: 48px;
+}
+
+:host {
+  display: inline-flex;
+  --sky-icon-svg-img-size: var(
+    --sky-override-sky-icon-svg-size-s,
+    var(--sky-size-icon-s)
+  );
+
+  &.sky-icon-svg {
+    &-relative-md {
+      --sky-icon-svg-img-size: 1em;
+    }
+
+    &-relative-lg {
+      .sky-icon-svg-img {
+        transform: scale(1.33);
+      }
+
+      .sky-icon-svg-container {
+        margin: 0 0.166em;
+      }
+    }
+
+    &-relative-2x {
+      --sky-icon-svg-img-size: 2em;
+    }
+
+    &-relative-3x {
+      --sky-icon-svg-img-size: 3em;
+    }
+
+    &-relative-4x {
+      --sky-icon-svg-img-size: 4em;
+    }
+
+    &-relative-5x {
+      --sky-icon-svg-img-size: 5em;
+    }
+
+    &-xxxs {
+      --sky-icon-svg-img-size: var(
+        --sky-override-sky-icon-svg-size-xxxs,
+        var(--sky-size-icon-xxxs)
+      );
+    }
+
+    &-xxs {
+      --sky-icon-svg-img-size: var(
+        --sky-override-sky-icon-svg-size-xxs,
+        var(--sky-size-icon-xxs)
+      );
+    }
+
+    &-xs {
+      --sky-icon-svg-img-size: var(
+        --sky-override-sky-icon-svg-size-xs,
+        var(--sky-size-icon-xs)
+      );
+    }
+
+    &-m {
+      --sky-icon-svg-img-size: var(
+        --sky-override-sky-icon-svg-size-m,
+        var(--sky-size-icon-m)
+      );
+    }
+
+    &-l {
+      --sky-icon-svg-img-size: var(
+        --sky-override-sky-icon-svg-size-l,
+        var(--sky-size-icon-l)
+      );
+    }
+
+    &-xl {
+      --sky-icon-svg-img-size: var(
+        --sky-override-sky-icon-svg-size-xl,
+        var(--sky-size-icon-xl)
+      );
+    }
+
+    &-xxl {
+      --sky-icon-svg-img-size: var(
+        --sky-override-sky-icon-svg-size-xxl,
+        var(--sky-size-icon-xxl)
+      );
+    }
+
+    &-xxxl {
+      --sky-icon-svg-img-size: var(
+        --sky-override-sky-icon-svg-size-xxxl,
+        var(--sky-size-icon-xxxl)
+      );
+    }
+  }
+}
+
+.sky-icon-svg-container {
+  &::before {
+    content: '\200B';
+  }
+  height: var(--sky-icon-svg-img-size);
+  width: var(--sky-icon-svg-img-size);
+  display: inline-flex;
+  align-items: center;
+
+  svg {
+    height: 100%;
+    width: 100%;
+  }
+}

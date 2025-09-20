@@ -1,5 +1,5 @@
 import { SkyAutocompleteSearchContext } from './autocomplete-search-context';
 
-export type SkyAutocompleteSearchArgs = {
+export interface SkyAutocompleteSearchArgs {
   context?: SkyAutocompleteSearchContext;
-};
+}

@@ -7,15 +7,16 @@ import {
   OnDestroy,
   Output,
   Provider,
+  TemplateRef,
+  booleanAttribute,
   forwardRef,
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SkyIdService, SkyLogService } from '@skyux/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
-
-import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioChange } from './types/radio-change';
@@ -42,6 +43,8 @@ const SKY_RADIO_CONTROL_VALUE_ACCESSOR: Provider = {
   styleUrls: ['./radio.component.scss'],
   providers: [SKY_RADIO_CONTROL_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [SkyThemeComponentClassDirective],
+  standalone: false,
 })
 export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   /**
@@ -78,12 +81,11 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
-  @Input()
-  public set disabled(value: boolean | undefined) {
-    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
-    if (coercedValue !== this.disabled) {
-      this.#_disabled = coercedValue;
-      this.disabledChange.next(coercedValue);
+  @Input({ transform: booleanAttribute })
+  public set disabled(value: boolean) {
+    if (value !== this.disabled) {
+      this.#_disabled = value;
+      this.disabledChange.next(value);
       this.#changeDetector.markForCheck();
     }
   }
@@ -112,9 +114,23 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * when the radio button does not include a visible label. You must set this property for icon
    * radio buttons. If the radio button includes a visible label, use `labelledBy` instead.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * @deprecated Use `labelText` instead.
    */
   @Input()
-  public label: string | undefined;
+  public set label(value: string | undefined) {
+    this.#_label = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyRadioComponent.label', {
+        deprecationMajorVersion: 10,
+        replacementRecommendation: 'Use the `labelText` input instead.',
+      });
+    }
+  }
+
+  public get label(): string | undefined {
+    return this.#_label;
+  }
 
   /**
    * The HTML element ID of the element that labels
@@ -122,9 +138,23 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the radio button does not include a visible label, use `label` instead.
    * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
+   * @deprecated Use `labelText` instead.
    */
   @Input()
-  public labelledBy: string | undefined;
+  public set labelledBy(value: string | undefined) {
+    this.#_labelledBy = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyRadioComponent.labelledBy', {
+        deprecationMajorVersion: 10,
+        replacementRecommendation: 'Use the `labelText` input instead.',
+      });
+    }
+  }
+
+  public get labelledBy(): string | undefined {
+    return this.#_labelledBy;
+  }
 
   /**
    * This property is deprecated in favor of the `name` property on the `sky-radio-group element`.
@@ -202,12 +232,27 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   }
 
   /**
-   * The icon to display in place of the radio button. To group radio buttons like in
+   * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to radio button. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title. This property only applies when `labelText` is also specified.
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
+
+  /**
+   * The SVG icon to display in place of the radio button. To group radio buttons like in
    * the demo above, place the `sky-switch-icon-group` class on the direct parent element of the
    * radio buttons.
    */
   @Input()
-  public icon: string | undefined;
+  public iconName: string | undefined;
 
   /**
    * The background color type after users select an icon radio button.
@@ -231,6 +276,33 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
 
     this.#_radioType = value ?? 'info';
   }
+
+  /**
+   * The text to display as the radio button's label. Use this instead of the `sky-radio-label` when the label is text-only.
+   */
+  @Input()
+  public labelText: string | undefined;
+
+  /**
+   * Indicates whether to hide the `labelText`.
+   */
+  @Input({ transform: booleanAttribute })
+  public labelHidden = false;
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   */
+  @Input()
+  public hintText: string | undefined;
+
+  /**
+   * A help key that identifies the global help content to display. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is placed beside the radio button label. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
+   * as configured by the application. This property only applies when `labelText` is also specified.
+   */
+  @Input()
+  public helpKey: string | undefined;
 
   /**
    * Fires when users select a radio button.
@@ -271,6 +343,8 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   #_selectedValue: unknown;
   #_tabindex = 0;
   #_value: any;
+  #_label: string | undefined;
+  #_labelledBy: string | undefined;
 
   #changeDetector = inject(ChangeDetectorRef);
   #defaultId = inject(SkyIdService).generateId();
@@ -304,11 +378,11 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * @internal
    * Whether to disable the control. Implemented as a part of ControlValueAccessor.
    */
-  public setDisabledState(isDisabled: boolean) {
+  public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
-  public setGroupDisabledState(isDisabled: boolean) {
+  public setGroupDisabledState(isDisabled: boolean): void {
     this.radioGroupDisabled = isDisabled;
     this.#changeDetector.markForCheck();
   }

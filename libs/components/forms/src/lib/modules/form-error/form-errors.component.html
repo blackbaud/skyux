@@ -1,0 +1,137 @@
+@if (labelText) {
+  @if (touched) {
+    @if (errors?.['required']) {
+      <sky-form-error
+        errorName="required"
+        [errorText]="'skyux_form_error_required' | skyLibResources: labelText"
+      />
+    }
+
+    @if (errors?.['minlength']; as minLengthError) {
+      <sky-form-error
+        errorName="minlength"
+        [errorText]="
+          'skyux_form_error_minlength'
+            | skyLibResources: labelText : minLengthError.requiredLength
+        "
+      />
+    }
+
+    @if (errors?.['skyDate'] && errors?.['skyDate']['invalid']) {
+      <sky-form-error
+        errorName="invalidDate"
+        [errorText]="'skyux_form_error_date' | skyLibResources"
+      />
+    }
+
+    @if (errors?.['skyDate'] && errors?.['skyDate']['minDate']) {
+      <sky-form-error
+        errorName="minDate"
+        [errorText]="
+          'skyux_form_error_date_min'
+            | skyLibResources: errors?.['skyDate']['minDateFormatted']
+        "
+      />
+    }
+
+    @if (errors?.['skyDate'] && errors?.['skyDate']['maxDate']) {
+      <sky-form-error
+        errorName="maxDate"
+        [errorText]="
+          'skyux_form_error_date_max'
+            | skyLibResources: errors?.['skyDate']['maxDateFormatted']
+        "
+      />
+    }
+
+    @if (
+      errors?.['skyFuzzyDate'] && errors?.['skyFuzzyDate']['futureDisabled']
+    ) {
+      <sky-form-error
+        errorName="fuzzyFutureDisabled"
+        [errorText]="
+          'skyux_form_error_fuzzy_date_future_disabled' | skyLibResources
+        "
+      />
+    }
+
+    @if (errors?.['skyFuzzyDate'] && errors?.['skyFuzzyDate']['invalid']) {
+      <sky-form-error
+        errorName="fuzzyInvalidDate"
+        [errorText]="'skyux_form_error_fuzzy_date_invalid' | skyLibResources"
+      />
+    }
+
+    @if (errors?.['skyFuzzyDate'] && errors?.['skyFuzzyDate']['maxDate']) {
+      <sky-form-error
+        errorName="fuzzyMaxDate"
+        [errorText]="
+          'skyux_form_error_fuzzy_date_max_date'
+            | skyLibResources: errors?.['skyFuzzyDate']['maxDateFormatted']
+        "
+      />
+    }
+
+    @if (errors?.['skyFuzzyDate'] && errors?.['skyFuzzyDate']['minDate']) {
+      <sky-form-error
+        errorName="fuzzyMinDate"
+        [errorText]="
+          'skyux_form_error_fuzzy_date_min_date'
+            | skyLibResources
+              : errors?.['skyFuzzyDate'] &&
+                  errors?.['skyFuzzyDate']['minDateFormatted']
+        "
+      />
+    }
+
+    @if (errors?.['skyFuzzyDate'] && errors?.['skyFuzzyDate']['yearRequired']) {
+      <sky-form-error
+        errorName="fuzzyYearRequired"
+        [errorText]="
+          'skyux_form_error_fuzzy_date_year_required' | skyLibResources
+        "
+      />
+    }
+
+    @if (errors?.['skyEmail']) {
+      <sky-form-error
+        errorName="email"
+        [errorText]="'skyux_form_error_email' | skyLibResources"
+      />
+    }
+
+    @if (errors?.['skyPhoneField']) {
+      <sky-form-error
+        errorName="phone"
+        [errorText]="'skyux_form_error_phone' | skyLibResources"
+      />
+    }
+
+    @if (errors?.['skyTime']) {
+      <sky-form-error
+        errorName="time"
+        [errorText]="'skyux_form_error_time' | skyLibResources"
+      />
+    }
+
+    @if (errors?.['skyUrl']) {
+      <sky-form-error
+        errorName="url"
+        [errorText]="'skyux_form_error_url' | skyLibResources"
+      />
+    }
+  }
+
+  @if (touched || dirty) {
+    @if (errors?.['maxlength']; as maxLengthError) {
+      <sky-form-error
+        errorName="maxlength"
+        [errorText]="
+          'skyux_form_error_maxlength'
+            | skyLibResources: labelText : maxLengthError.requiredLength
+        "
+      />
+    }
+    <ng-content />
+  }
+}

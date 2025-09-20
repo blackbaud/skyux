@@ -4,38 +4,35 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import {
-  FormsModule,
-  NgModel,
-  ReactiveFormsModule,
-  UntypedFormControl,
-} from '@angular/forms';
+import { NgModel, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyInputBoxModule } from '@skyux/forms';
-import {
-  SkyTheme,
-  SkyThemeMode,
-  SkyThemeService,
-  SkyThemeSettings,
-  SkyThemeSettingsChange,
-} from '@skyux/theme';
-
-import { BehaviorSubject } from 'rxjs';
 
 import { PhoneFieldInputBoxTestComponent } from './fixtures/phone-field-input-box.component.fixture';
 import { PhoneFieldReactiveTestComponent } from './fixtures/phone-field-reactive.component.fixture';
 import { PhoneFieldTestComponent } from './fixtures/phone-field.component.fixture';
-import { SkyPhoneFieldModule } from './phone-field.module';
 
 describe('Phone Field Component', () => {
-  let mockThemeSvc: Partial<SkyThemeService>;
+  function checkCountrySearchToggleButtonFlag(
+    iso: string,
+    fixture: ComponentFixture<
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
+    >,
+  ): void {
+    expect(
+      getCountrySearchToggleButton(fixture).querySelector(`.iti__${iso}`),
+    ).not.toBeNull();
+  }
 
   // #region helpers
   function getPhoneFieldInput(
     fixture: ComponentFixture<
-      PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
     >,
   ): HTMLInputElement {
     return fixture.nativeElement.querySelector('input[skyPhoneFieldInput]');
@@ -43,7 +40,9 @@ describe('Phone Field Component', () => {
 
   function getCountrySearchInput(
     fixture: ComponentFixture<
-      PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
     >,
   ): HTMLInputElement {
     return fixture.nativeElement.querySelector(
@@ -53,11 +52,25 @@ describe('Phone Field Component', () => {
 
   function getCountrySearchToggleButton(
     fixture: ComponentFixture<
-      PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
     >,
   ): HTMLInputElement {
     return fixture.nativeElement.querySelector(
       '.sky-phone-field-country-btn .sky-btn-default',
+    );
+  }
+
+  function getCountrySearchDismissButton(
+    fixture: ComponentFixture<
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
+    >,
+  ): HTMLInputElement {
+    return fixture.nativeElement.querySelector(
+      'button.sky-phone-field-search-btn-dismiss',
     );
   }
 
@@ -74,11 +87,35 @@ describe('Phone Field Component', () => {
     tick(500);
   }
 
+  function isPhoneFieldVisible(
+    fixture: ComponentFixture<
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
+    >,
+  ): boolean {
+    const phoneInput = getPhoneFieldInput(fixture);
+    return phoneInput !== null;
+  }
+
+  function isCountryFieldVisible(
+    fixture: ComponentFixture<
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
+    >,
+  ): boolean {
+    const phoneInput = getCountrySearchInput(fixture);
+    return phoneInput !== null;
+  }
+
   function setInput(
     element: HTMLElement,
     text: string,
     compFixture: ComponentFixture<
-      PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
     >,
     isAsync?: boolean,
   ): void {
@@ -104,7 +141,9 @@ describe('Phone Field Component', () => {
     element: HTMLElement,
     text: string,
     compFixture: ComponentFixture<
-      PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
     >,
   ): void {
     const inputEl = element.querySelector('input');
@@ -120,24 +159,33 @@ describe('Phone Field Component', () => {
   function setCountry(
     countryName: string,
     compFixture: ComponentFixture<
-      PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
     >,
+    programmaticIso2 = '',
   ): void {
-    const countryInput = getCountrySearchToggleButton(compFixture);
-    countryInput.click();
-    detectChangesAndTick(compFixture);
+    if (programmaticIso2) {
+      compFixture.componentInstance.selectedCountry = {
+        iso2: programmaticIso2,
+      };
+    } else {
+      const countryInput = getCountrySearchToggleButton(compFixture);
+      countryInput.click();
+      detectChangesAndTick(compFixture);
 
-    const countrySearchInput = getCountrySearchInput(compFixture);
+      const countrySearchInput = getCountrySearchInput(compFixture);
 
-    countrySearchInput.value = countryName;
+      countrySearchInput.value = countryName;
 
-    SkyAppTestUtility.fireDomEvent(countrySearchInput, 'input');
-    detectChangesAndTick(compFixture);
+      SkyAppTestUtility.fireDomEvent(countrySearchInput, 'input');
+      detectChangesAndTick(compFixture);
 
-    SkyAppTestUtility.fireDomEvent(
-      document.querySelector('.sky-autocomplete-result:first-child'),
-      'click',
-    );
+      SkyAppTestUtility.fireDomEvent(
+        document.querySelector('.sky-autocomplete-result:first-child'),
+        'click',
+      );
+    }
 
     detectChangesAndTick(compFixture);
   }
@@ -145,7 +193,9 @@ describe('Phone Field Component', () => {
   function searchCountry(
     countryName: string,
     compFixture: ComponentFixture<
-      PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
     >,
   ): NodeListOf<HTMLElement> {
     const countryInput = getCountrySearchToggleButton(compFixture);
@@ -166,7 +216,9 @@ describe('Phone Field Component', () => {
   function blurInput(
     element: HTMLElement,
     compFixture: ComponentFixture<
-      PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
     >,
     isAsync?: boolean,
   ): void {
@@ -181,19 +233,21 @@ describe('Phone Field Component', () => {
   }
 
   function validateInputAndModel(
-    modelValue: string,
-    formattedValue: string,
+    inputValue: string,
+    modelValue: string | undefined,
     isValid: boolean,
     isTouched: boolean,
     model: NgModel | UntypedFormControl | undefined,
     fixture: ComponentFixture<
-      PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
+      | PhoneFieldTestComponent
+      | PhoneFieldReactiveTestComponent
+      | PhoneFieldInputBoxTestComponent
     >,
   ): void {
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('input').value).toBe(modelValue);
+    expect(fixture.nativeElement.querySelector('input').value).toBe(inputValue);
 
-    expect(model?.value).toBe(formattedValue);
+    expect(model?.value).toBe(modelValue);
 
     expect(model?.valid).toBe(isValid);
 
@@ -202,31 +256,12 @@ describe('Phone Field Component', () => {
     } else {
       expect(model?.errors).toEqual({
         skyPhoneField: {
-          invalid: formattedValue,
+          invalid: modelValue,
         },
       });
     }
 
     expect(model?.touched).toBe(isTouched);
-  }
-
-  function setModernTheme(
-    fixture: ComponentFixture<
-      PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
-    >,
-  ): void {
-    const modernTheme = new SkyThemeSettings(
-      SkyTheme.presets.modern,
-      SkyThemeMode.presets.light,
-    );
-    (
-      mockThemeSvc.settingsChange as BehaviorSubject<SkyThemeSettingsChange>
-    ).next({
-      currentSettings: modernTheme,
-      previousSettings: undefined,
-    });
-    fixture.detectChanges();
-    tick();
   }
   // #endregion
 
@@ -236,25 +271,8 @@ describe('Phone Field Component', () => {
     let nativeElement: HTMLElement;
 
     beforeEach(() => {
-      mockThemeSvc = {
-        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light,
-          ),
-          previousSettings: undefined,
-        }),
-      };
-
       TestBed.configureTestingModule({
-        declarations: [PhoneFieldTestComponent],
-        imports: [SkyPhoneFieldModule, NoopAnimationsModule, FormsModule],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-        ],
+        imports: [PhoneFieldTestComponent, NoopAnimationsModule],
       });
 
       fixture = TestBed.createComponent(PhoneFieldTestComponent);
@@ -287,21 +305,13 @@ describe('Phone Field Component', () => {
         component.defaultCountry = 'us';
         detectChangesAndTick(fixture);
 
-        expect(nativeElement.querySelector('input')?.placeholder).toBe(
-          component.phoneFieldComponent?.countries.find(
-            (country) => country.iso2 === 'us',
-          )?.exampleNumber,
-        );
+        checkCountrySearchToggleButtonFlag('us', fixture);
       }));
 
       it('should initialize without a default country', fakeAsync(() => {
         detectChangesAndTick(fixture);
 
-        expect(nativeElement.querySelector('input')?.placeholder).toBe(
-          component.phoneFieldComponent?.countries.find(
-            (country) => country.iso2 === 'us',
-          )?.exampleNumber,
-        );
+        checkCountrySearchToggleButtonFlag('us', fixture);
       }));
 
       it('should initialize with a selected country', fakeAsync(() => {
@@ -311,11 +321,7 @@ describe('Phone Field Component', () => {
         };
         detectChangesAndTick(fixture);
 
-        expect(nativeElement.querySelector('input')?.placeholder).toBe(
-          component.phoneFieldComponent?.countries.find(
-            (country) => country.iso2 === 'de',
-          )?.exampleNumber,
-        );
+        checkCountrySearchToggleButtonFlag('de', fixture);
       }));
 
       it('should initialize with given supported countries', fakeAsync(() => {
@@ -328,7 +334,7 @@ describe('Phone Field Component', () => {
       it('should initialize without given supported countries', fakeAsync(() => {
         detectChangesAndTick(fixture);
 
-        expect(searchCountry('Un', fixture).length).toBe(11);
+        expect(searchCountry('Un', fixture).length).toBe(9);
       }));
 
       it('should handle initializing with number', fakeAsync(() => {
@@ -518,7 +524,7 @@ describe('Phone Field Component', () => {
         await fixture.whenStable();
         fixture.detectChanges();
 
-        validateInputAndModel('1234', '1234', false, true, ngModel, fixture);
+        validateInputAndModel('1234', '1234', false, false, ngModel, fixture);
 
         blurInput(fixture.nativeElement, fixture, true);
 
@@ -537,7 +543,7 @@ describe('Phone Field Component', () => {
           '667-555-530',
           '667-555-530',
           false,
-          true,
+          false,
           ngModel,
           fixture,
         );
@@ -594,7 +600,7 @@ describe('Phone Field Component', () => {
 
         fixture.detectChanges();
         await fixture.whenStable();
-        validateInputAndModel('1234', '1234', false, true, ngModel, fixture);
+        validateInputAndModel('1234', '1234', false, false, ngModel, fixture);
       });
 
       it('should validate properly when input changed to empty string', async () => {
@@ -681,7 +687,7 @@ describe('Phone Field Component', () => {
           '667-555-5309ext3',
           '(667) 555-5309 ext. 3',
           false,
-          true,
+          false,
           ngModel,
           fixture,
         );
@@ -750,25 +756,6 @@ describe('Phone Field Component', () => {
         ).toBeTruthy();
       }));
 
-      it('should show placeholder text in both themes', fakeAsync(() => {
-        fixture.detectChanges();
-        const countryInput = getCountrySearchToggleButton(fixture);
-        countryInput.click();
-        detectChangesAndTick(fixture);
-
-        const inputEl = getCountrySearchInput(fixture);
-
-        expect(inputEl.getAttribute('placeholder')).toEqual(
-          'Search for a country',
-        );
-
-        setModernTheme(fixture);
-
-        expect(inputEl.getAttribute('placeholder')).toEqual(
-          'Search for a country',
-        );
-      }));
-
       it('should be accessible when country search is shown', async () => {
         fixture.detectChanges();
         const countryInput = getCountrySearchToggleButton(fixture);
@@ -781,20 +768,6 @@ describe('Phone Field Component', () => {
         await fixture.whenStable();
         await expectAsync(fixture.nativeElement).toBeAccessible();
       });
-
-      it('should update the placeholder to the new country', fakeAsync(() => {
-        fixture.detectChanges();
-        const originalCountryData =
-          component.phoneFieldComponent?.countries.slice(0);
-
-        setCountry('Canada', fixture);
-        fixture.detectChanges();
-
-        expect(nativeElement.querySelector('input')?.placeholder).toBe(
-          originalCountryData?.find((country) => country.name === 'Canada')
-            ?.exampleNumber,
-        );
-      }));
 
       it('should revalidate after the country is changed', fakeAsync(() => {
         fixture.detectChanges();
@@ -819,7 +792,7 @@ describe('Phone Field Component', () => {
 
         validateInputAndModel(
           '6675555309',
-          '6675555309',
+          '(667) 555-5309',
           false,
           true,
           ngModel,
@@ -860,7 +833,7 @@ describe('Phone Field Component', () => {
           '+3556675555309',
           '+3556675555309',
           false,
-          true,
+          false,
           ngModel,
           fixture,
         );
@@ -900,7 +873,7 @@ describe('Phone Field Component', () => {
         );
       }));
 
-      it('should not change to a new country when the dial code is for an unsupported country', fakeAsync(() => {
+      it('should not change to a new country when the dial code is for an unsupported country - full number', fakeAsync(() => {
         fixture.detectChanges();
         const inputElement = fixture.debugElement.query(By.css('input'));
         const ngModel = inputElement.injector.get(NgModel);
@@ -933,6 +906,34 @@ describe('Phone Field Component', () => {
           ngModel,
           fixture,
         );
+      }));
+
+      it('should not change to a new country when the dial code is for an unsupported country - number parse fails', fakeAsync(() => {
+        fixture.detectChanges();
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
+
+        component.defaultCountry = 'us';
+        component.supportedCountryISOs = ['us'];
+        fixture.detectChanges();
+        component.modelValue = '6675555309';
+        detectChangesAndTick(fixture);
+
+        validateInputAndModel(
+          '6675555309',
+          '(667) 555-5309',
+          true,
+          false,
+          ngModel,
+          fixture,
+        );
+
+        setInput(nativeElement, '+3556', fixture);
+        blurInput(nativeElement, fixture);
+        detectChangesAndTick(fixture);
+
+        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('us');
+        validateInputAndModel('+3556', '+3556', false, true, ngModel, fixture);
       }));
 
       it('should not change to a new country when the dial code is not found', fakeAsync(() => {
@@ -1123,6 +1124,92 @@ describe('Phone Field Component', () => {
         validateInputAndModel('+1', '+1', false, true, ngModel, fixture);
       }));
 
+      it('should change to the country first in the alphabetical list when the dial code is given and it matches multiple countries and none are the default and no priority is given', fakeAsync(() => {
+        fixture.detectChanges();
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
+
+        if (component.phoneFieldComponent) {
+          const unitedStates = component.phoneFieldComponent.countries.find(
+            (country) => country.iso2 === 'us',
+          );
+          if (unitedStates) {
+            unitedStates.priority = undefined;
+          }
+        }
+
+        component.defaultCountry = 'au';
+        component.selectedCountry = {
+          iso2: 'gb',
+          name: 'Great Britain',
+        };
+        fixture.detectChanges();
+        component.modelValue = '8008675309';
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        validateInputAndModel(
+          '8008675309',
+          '+44 800 867 5309',
+          true,
+          false,
+          ngModel,
+          fixture,
+        );
+
+        setInput(nativeElement, '+1', fixture);
+        blurInput(nativeElement, fixture);
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('as');
+
+        validateInputAndModel('+1', '+1', false, true, ngModel, fixture);
+      }));
+
+      it('should change to a new country based on a valid phone number even if the dial code is the default country', fakeAsync(() => {
+        fixture.detectChanges();
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
+
+        component.defaultCountry = 'us';
+        fixture.detectChanges();
+        component.modelValue = '6675555309';
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        validateInputAndModel(
+          '6675555309',
+          '(667) 555-5309',
+          true,
+          false,
+          ngModel,
+          fixture,
+        );
+
+        component.modelValue = '+12045555555';
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('ca');
+        validateInputAndModel(
+          '+12045555555',
+          '+1 204-555-5555',
+          true,
+          false,
+          ngModel,
+          fixture,
+        );
+      }));
+
       it('should validate correctly after country is changed', fakeAsync(() => {
         fixture.detectChanges();
         const inputElement = fixture.debugElement.query(By.css('input'));
@@ -1146,7 +1233,7 @@ describe('Phone Field Component', () => {
 
         validateInputAndModel(
           '6675555309',
-          '6675555309',
+          '(667) 555-5309',
           false,
           true,
           ngModel,
@@ -1161,6 +1248,49 @@ describe('Phone Field Component', () => {
           '+355 24 569 874',
           true,
           true,
+          ngModel,
+          fixture,
+        );
+      }));
+
+      it('should validate correctly after country is changed programmatically', fakeAsync(() => {
+        fixture.detectChanges();
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
+
+        component.defaultCountry = 'us';
+        fixture.detectChanges();
+        component.modelValue = '6675555309';
+        detectChangesAndTick(fixture);
+
+        validateInputAndModel(
+          '6675555309',
+          '(667) 555-5309',
+          true,
+          false,
+          ngModel,
+          fixture,
+        );
+
+        setCountry('Albania', fixture, 'al');
+
+        validateInputAndModel(
+          '6675555309',
+          '(667) 555-5309',
+          false,
+          false,
+          ngModel,
+          fixture,
+        );
+
+        component.modelValue = '024569874';
+        detectChangesAndTick(fixture);
+
+        validateInputAndModel(
+          '024569874',
+          '+355 24 569 874',
+          true,
+          false,
           ngModel,
           fixture,
         );
@@ -1176,7 +1306,7 @@ describe('Phone Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        validateInputAndModel('', '', true, false, ngModel, fixture);
+        validateInputAndModel('', undefined, true, false, ngModel, fixture);
 
         setCountry('Albania', fixture);
 
@@ -1187,11 +1317,140 @@ describe('Phone Field Component', () => {
           '024569874',
           '+355 24 569 874',
           true,
-          false,
+          true,
           ngModel,
           fixture,
         );
       }));
+
+      describe('focus handling', () => {
+        it('should close country field when focus leaves phone field', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeFalse();
+          expect(isCountryFieldVisible(fixture)).toBeTrue();
+
+          const countryInput = getCountrySearchInput(fixture);
+          SkyAppTestUtility.fireDomEvent(countryInput, 'focusout');
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeTrue();
+          expect(isCountryFieldVisible(fixture)).toBeFalse();
+        }));
+
+        it('should not close country field when focus moves to dismiss button', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          const relatedTarget = getCountrySearchDismissButton(
+            fixture,
+          ) as EventTarget;
+          const countryField = getCountrySearchInput(fixture);
+
+          countryField.dispatchEvent(
+            new FocusEvent('focusout', {
+              bubbles: true,
+              cancelable: true,
+              relatedTarget,
+            }),
+          );
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeFalse();
+          expect(isCountryFieldVisible(fixture)).toBeTrue();
+        }));
+
+        it('should not close country field when focus moves to country search toggle button', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          const relatedTarget = countryButton as EventTarget;
+          const countryField = getCountrySearchInput(fixture);
+
+          countryField.dispatchEvent(
+            new FocusEvent('focusout', {
+              bubbles: true,
+              cancelable: true,
+              relatedTarget,
+            }),
+          );
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeFalse();
+          expect(isCountryFieldVisible(fixture)).toBeTrue();
+        }));
+
+        it('should close country field when focus leaves dismiss button', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          const dismissButton = getCountrySearchDismissButton(fixture);
+          SkyAppTestUtility.fireDomEvent(dismissButton, 'focusout');
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeTrue();
+          expect(isCountryFieldVisible(fixture)).toBeFalse();
+        }));
+
+        it('should close country field when focus leaves country search toggle button', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          SkyAppTestUtility.fireDomEvent(countryButton, 'focusout');
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeTrue();
+          expect(isCountryFieldVisible(fixture)).toBeFalse();
+        }));
+
+        it('should close country selector when dismiss button is clicked and move focus to phone field', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryInput = getCountrySearchToggleButton(fixture);
+          countryInput.click();
+          detectChangesAndTick(fixture);
+
+          const dismissButton = getCountrySearchDismissButton(fixture);
+          dismissButton.click();
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeTrue();
+
+          const phoneFieldInput = getPhoneFieldInput(fixture);
+          expect(document.activeElement === phoneFieldInput).toBeTruthy();
+        }));
+
+        it('should not move focus to phone field when country field is closed due to focus leaving phone field', fakeAsync(() => {
+          fixture.detectChanges();
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          const countryField = getCountrySearchInput(fixture);
+          SkyAppTestUtility.fireDomEvent(countryField, 'focusout');
+          detectChangesAndTick(fixture);
+
+          const phoneInput = getPhoneFieldInput(fixture);
+
+          expect(document.activeElement === phoneInput).toBeFalsy();
+        }));
+      });
     });
   });
 
@@ -1201,30 +1460,8 @@ describe('Phone Field Component', () => {
     let nativeElement: HTMLElement;
 
     beforeEach(() => {
-      mockThemeSvc = {
-        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light,
-          ),
-          previousSettings: undefined,
-        }),
-      };
-
       TestBed.configureTestingModule({
-        declarations: [PhoneFieldReactiveTestComponent],
-        imports: [
-          SkyPhoneFieldModule,
-          NoopAnimationsModule,
-          FormsModule,
-          ReactiveFormsModule,
-        ],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-        ],
+        imports: [PhoneFieldReactiveTestComponent, NoopAnimationsModule],
       });
 
       fixture = TestBed.createComponent(PhoneFieldReactiveTestComponent);
@@ -1241,32 +1478,20 @@ describe('Phone Field Component', () => {
         component.defaultCountry = 'us';
         detectChangesAndTick(fixture);
 
-        expect(nativeElement.querySelector('input')?.placeholder).toBe(
-          component.phoneFieldComponent?.countries.find(
-            (country) => country.iso2 === 'us',
-          )?.exampleNumber,
-        );
+        checkCountrySearchToggleButtonFlag('us', fixture);
       }));
 
       it('should initialize the default country correctly with capitalized code', fakeAsync(() => {
         component.defaultCountry = 'AU';
         detectChangesAndTick(fixture);
 
-        expect(nativeElement.querySelector('input')?.placeholder).toBe(
-          component.phoneFieldComponent?.countries.find(
-            (country) => country.iso2 === 'au',
-          )?.exampleNumber,
-        );
+        checkCountrySearchToggleButtonFlag('au', fixture);
       }));
 
       it('should initialize without a default country', fakeAsync(() => {
         detectChangesAndTick(fixture);
 
-        expect(nativeElement.querySelector('input')?.placeholder).toBe(
-          component.phoneFieldComponent?.countries.find(
-            (country) => country.iso2 === 'us',
-          )?.exampleNumber,
-        );
+        checkCountrySearchToggleButtonFlag('us', fixture);
       }));
 
       it('should initialize with a selected country', fakeAsync(() => {
@@ -1276,11 +1501,7 @@ describe('Phone Field Component', () => {
         };
         detectChangesAndTick(fixture);
 
-        expect(nativeElement.querySelector('input')?.placeholder).toBe(
-          component.phoneFieldComponent?.countries.find(
-            (country) => country.iso2 === 'de',
-          )?.exampleNumber,
-        );
+        checkCountrySearchToggleButtonFlag('de', fixture);
       }));
 
       it('should initialize with given supported countries', fakeAsync(() => {
@@ -1293,7 +1514,7 @@ describe('Phone Field Component', () => {
       it('should initialize without given supported countries', fakeAsync(() => {
         detectChangesAndTick(fixture);
 
-        expect(searchCountry('Un', fixture).length).toBe(11);
+        expect(searchCountry('Un', fixture).length).toBe(9);
       }));
 
       it('should handle initializing with number', fakeAsync(() => {
@@ -1501,7 +1722,7 @@ describe('Phone Field Component', () => {
           '1234',
           '1234',
           false,
-          true,
+          false,
           component.phoneControl,
           fixture,
         );
@@ -1527,7 +1748,7 @@ describe('Phone Field Component', () => {
           '667-555-530',
           '667-555-530',
           false,
-          true,
+          false,
           component.phoneControl,
           fixture,
         );
@@ -1581,7 +1802,7 @@ describe('Phone Field Component', () => {
           '1234',
           '1234',
           false,
-          true,
+          false,
           component.phoneControl,
           fixture,
         );
@@ -1673,7 +1894,7 @@ describe('Phone Field Component', () => {
           '667-555-5309ext3',
           '(667) 555-5309 ext. 3',
           false,
-          true,
+          false,
           component.phoneControl,
           fixture,
         );
@@ -1688,7 +1909,7 @@ describe('Phone Field Component', () => {
           '8675558309',
           '(867) 555-8309',
           false,
-          true,
+          false,
           component.phoneControl,
           fixture,
         );
@@ -1779,25 +2000,6 @@ describe('Phone Field Component', () => {
         expect(document.activeElement === phoneInput).toBeTruthy();
       }));
 
-      it('should show placeholder text in both themes', fakeAsync(() => {
-        fixture.detectChanges();
-        const countryInput = getCountrySearchToggleButton(fixture);
-        countryInput.click();
-        detectChangesAndTick(fixture);
-
-        const inputEl = getCountrySearchInput(fixture);
-
-        expect(inputEl.getAttribute('placeholder')).toEqual(
-          'Search for a country',
-        );
-
-        setModernTheme(fixture);
-
-        expect(inputEl.getAttribute('placeholder')).toEqual(
-          'Search for a country',
-        );
-      }));
-
       it('should be accessible when country search is shown', async () => {
         fixture.detectChanges();
         const countryInput = getCountrySearchToggleButton(fixture);
@@ -1810,28 +2012,6 @@ describe('Phone Field Component', () => {
         await fixture.whenStable();
         await expectAsync(fixture.nativeElement).toBeAccessible();
       });
-
-      it('should update the placeholder to the new country', fakeAsync(() => {
-        fixture.detectChanges();
-        const originalCountryData =
-          component.phoneFieldComponent?.countries.slice(0);
-
-        setCountry('Canada', fixture);
-
-        expect(nativeElement.querySelector('input')?.placeholder).toBe(
-          originalCountryData?.find((country) => country.name === 'Canada')
-            ?.exampleNumber,
-        );
-
-        setCountry('United States', fixture);
-
-        expect(nativeElement.querySelector('input')?.placeholder).toBe(
-          originalCountryData?.find(
-            (country) => country.name === 'United States',
-          )?.exampleNumber,
-        );
-        setCountry('United States', fixture);
-      }));
 
       it('should revalidate after the country is changed', fakeAsync(() => {
         fixture.detectChanges();
@@ -1853,7 +2033,7 @@ describe('Phone Field Component', () => {
 
         validateInputAndModel(
           '6675555309',
-          '6675555309',
+          '(667) 555-5309',
           false,
           true,
           component.phoneControl,
@@ -1891,7 +2071,7 @@ describe('Phone Field Component', () => {
           '+3556675555309',
           '+3556675555309',
           false,
-          true,
+          false,
           component.phoneControl,
           fixture,
         );
@@ -2061,7 +2241,7 @@ describe('Phone Field Component', () => {
 
         validateInputAndModel(
           '6675555309',
-          '6675555309',
+          '(667) 555-5309',
           false,
           true,
           component.phoneControl,
@@ -2076,6 +2256,46 @@ describe('Phone Field Component', () => {
           '+355 24 569 874',
           true,
           true,
+          component.phoneControl,
+          fixture,
+        );
+      }));
+
+      it('should validate correctly after country is changed programmatically', fakeAsync(() => {
+        fixture.detectChanges();
+        component.defaultCountry = 'us';
+        fixture.detectChanges();
+        component.phoneControl?.setValue('6675555309');
+        detectChangesAndTick(fixture);
+
+        validateInputAndModel(
+          '6675555309',
+          '(667) 555-5309',
+          true,
+          false,
+          component.phoneControl,
+          fixture,
+        );
+
+        setCountry('Albania', fixture, 'al');
+
+        validateInputAndModel(
+          '6675555309',
+          '(667) 555-5309',
+          false,
+          false,
+          component.phoneControl,
+          fixture,
+        );
+
+        component.phoneControl?.setValue('024569874');
+        detectChangesAndTick(fixture);
+
+        validateInputAndModel(
+          '024569874',
+          '+355 24 569 874',
+          true,
+          false,
           component.phoneControl,
           fixture,
         );
@@ -2095,7 +2315,7 @@ describe('Phone Field Component', () => {
           '024569874',
           '+355 24 569 874',
           true,
-          false,
+          true,
           component.phoneControl,
           fixture,
         );
@@ -2108,35 +2328,44 @@ describe('Phone Field Component', () => {
     let nativeElement: HTMLElement;
 
     beforeEach(() => {
-      mockThemeSvc = {
-        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light,
-          ),
-          previousSettings: undefined,
-        }),
-      };
-
       TestBed.configureTestingModule({
-        declarations: [PhoneFieldInputBoxTestComponent],
-        imports: [
-          SkyInputBoxModule,
-          SkyPhoneFieldModule,
-          NoopAnimationsModule,
-          FormsModule,
-        ],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-        ],
+        imports: [PhoneFieldInputBoxTestComponent, NoopAnimationsModule],
       });
 
       fixture = TestBed.createComponent(PhoneFieldInputBoxTestComponent);
       nativeElement = fixture.nativeElement as HTMLElement;
     });
+
+    it('should set validate new value on input', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+
+      const inputEl = nativeElement.querySelector('input');
+      if (inputEl) {
+        inputEl.value = '667555530';
+      }
+
+      SkyAppTestUtility.fireDomEvent(inputEl, 'input');
+      fixture.detectChanges();
+
+      const model = fixture.debugElement
+        .query(By.css('input'))
+        .injector.get(NgModel);
+
+      expect(model.errors).toEqual({
+        skyPhoneField: {
+          invalid: '667555530',
+        },
+      });
+
+      if (inputEl) {
+        inputEl.value = '6675555309';
+      }
+
+      SkyAppTestUtility.fireDomEvent(inputEl, 'input');
+      fixture.detectChanges();
+
+      expect(model.errors).toBeNull();
+    }));
 
     it('should render in the expected input box containers', fakeAsync(() => {
       detectChangesAndTick(fixture);
@@ -2152,5 +2381,155 @@ describe('Phone Field Component', () => {
       expect(countryBtnEl).toHaveCssClass('sky-phone-field-country-btn');
       expect(containerEl).toHaveCssClass('sky-phone-field-container');
     }));
+
+    it('should show hint text for the the default date format', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+      tick();
+
+      const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
+      const hintText = inputBoxEl
+        .querySelector('.sky-input-box-hint-text')
+        .textContent.trim();
+
+      expect(hintText).toEqual('Example: (201) 555-0123.');
+    }));
+
+    it('should show hint text for the the consumer provided date format', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+
+      setCountry('United Kingdom', fixture);
+
+      const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
+      const hintText = inputBoxEl
+        .querySelector('.sky-input-box-hint-text')
+        .textContent.trim();
+
+      expect(hintText).toEqual('Example: 0121 234 5678.');
+    }));
+
+    it('should allow consumer to provide hint text along with the format hint text', fakeAsync(() => {
+      fixture.componentInstance.hintText = 'Enter a phone number.';
+      detectChangesAndTick(fixture);
+
+      const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
+      const hintText = inputBoxEl
+        .querySelector('.sky-input-box-hint-text')
+        .textContent.trim();
+
+      expect(hintText).toEqual(
+        'Enter a phone number. Example: (201) 555-0123.',
+      );
+    }));
+
+    it('should hide hint text when the country search is toggled', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+      tick();
+      getCountrySearchToggleButton(fixture).click();
+      detectChangesAndTick(fixture);
+
+      const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
+      const hintTextEl = inputBoxEl.querySelector('.sky-input-box-hint-text');
+
+      expect(hintTextEl).not.toBeVisible({ checkCssVisibility: true });
+    }));
+
+    describe('country selector', () => {
+      describe('focus handling', () => {
+        it('should close country field when focus leaves phone field', fakeAsync(() => {
+          detectChangesAndTick(fixture);
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeFalse();
+          expect(isCountryFieldVisible(fixture)).toBeTrue();
+
+          const countryInput = getCountrySearchInput(fixture);
+          countryInput.dispatchEvent(
+            new FocusEvent('focusout', {
+              bubbles: true,
+              cancelable: true,
+              relatedTarget:
+                fixture.nativeElement.querySelector('.focus-out-target'),
+            }),
+          );
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeTrue();
+          expect(isCountryFieldVisible(fixture)).toBeFalse();
+        }));
+
+        it('should not close country field when focus moves to dismiss button', fakeAsync(() => {
+          detectChangesAndTick(fixture);
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          const relatedTarget = getCountrySearchDismissButton(
+            fixture,
+          ) as EventTarget;
+          const countryField = getCountrySearchInput(fixture);
+
+          countryField.dispatchEvent(
+            new FocusEvent('focusout', {
+              bubbles: true,
+              cancelable: true,
+              relatedTarget,
+            }),
+          );
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeFalse();
+          expect(isCountryFieldVisible(fixture)).toBeTrue();
+        }));
+
+        it('should not close country field when focus moves to country search toggle button', fakeAsync(() => {
+          detectChangesAndTick(fixture);
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          const relatedTarget = countryButton as EventTarget;
+          const countryField = getCountrySearchInput(fixture);
+
+          countryField.dispatchEvent(
+            new FocusEvent('focusout', {
+              bubbles: true,
+              cancelable: true,
+              relatedTarget,
+            }),
+          );
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeFalse();
+          expect(isCountryFieldVisible(fixture)).toBeTrue();
+        }));
+
+        it('should close country field when focus leaves country search toggle button', fakeAsync(() => {
+          detectChangesAndTick(fixture);
+          const countryButton = getCountrySearchToggleButton(fixture);
+
+          countryButton.click();
+          detectChangesAndTick(fixture);
+
+          const relatedTarget =
+            fixture.nativeElement.querySelector('.focus-out-target');
+          countryButton.dispatchEvent(
+            new FocusEvent('focusout', {
+              bubbles: true,
+              cancelable: true,
+              relatedTarget,
+            }),
+          );
+          detectChangesAndTick(fixture);
+
+          expect(isPhoneFieldVisible(fixture)).toBeTrue();
+          expect(isCountryFieldVisible(fixture)).toBeFalse();
+        }));
+      });
+    });
   });
 });

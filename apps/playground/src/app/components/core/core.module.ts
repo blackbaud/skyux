@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -18,6 +17,29 @@ const routes: Routes = [
     loadChildren: () =>
       import('./viewkeeper/viewkeeper.module').then((m) => m.ViewkeeperModule),
   },
+  {
+    path: 'affix',
+    loadChildren: () =>
+      import('./affix/affix.module').then((m) => m.AffixModule),
+  },
+  {
+    path: 'media-query',
+    loadComponent: () => import('./media-query/basic/media-query.component'),
+    data: {
+      name: 'Media queries',
+      icon: 'circle',
+      library: 'core',
+    },
+  },
+  {
+    path: 'live-announcer',
+    loadComponent: () => import('./live-announcer/live-announcer.component'),
+    data: {
+      name: 'Live announcer',
+      library: 'core',
+      icon: 'accessibility',
+    },
+  },
 ];
 
 @NgModule({
@@ -27,12 +49,7 @@ const routes: Routes = [
 export class CoreRoutingModule {}
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreRoutingModule,
-    ResizeObserverModule,
-    ViewkeeperModule,
-  ],
+  imports: [CoreRoutingModule, ResizeObserverModule, ViewkeeperModule],
 })
 export class CoreModule {
   public static routes = routes;

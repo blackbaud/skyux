@@ -14,7 +14,6 @@ import {
 
 import {
   ColDef,
-  ColumnApi,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -26,6 +25,7 @@ import {
   selector: 'app-data-manager-view-grid',
   templateUrl: './data-manager-view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DataManagerViewGridComponent implements OnInit {
   @Input()
@@ -96,7 +96,6 @@ export class DataManagerViewGridComponent implements OnInit {
 
   public dataState = new SkyDataManagerState({});
 
-  public columnApi?: ColumnApi;
   public displayedItems: any[] = [];
   public gridApi?: GridApi;
   public gridInitialized = false;
@@ -107,7 +106,7 @@ export class DataManagerViewGridComponent implements OnInit {
   public viewConfig: SkyDataViewConfig = {
     id: this.viewId,
     name: 'Data Grid View',
-    icon: 'table',
+    iconName: 'table',
     searchEnabled: true,
     multiselectToolbarEnabled: true,
     columnPickerEnabled: true,
@@ -242,7 +241,6 @@ export class DataManagerViewGridComponent implements OnInit {
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
-    this.columnApi = gridReadyEvent.columnApi;
     this.updateData();
     this.changeDetector.markForCheck();
   }

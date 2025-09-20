@@ -1,12 +1,8 @@
-import {
-  applicationGenerator,
-  libraryGenerator,
-  storybookConfigurationGenerator,
-} from '@nx/angular/generators';
-import { cypressProjectGenerator } from '@nx/cypress';
+import { storybookConfigurationGenerator } from '@nx/angular/generators';
+import { configurationGenerator } from '@nx/cypress';
 import { getProjects } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { Linter } from '@nx/linter';
+import { Linter } from '@nx/eslint';
 
 import {
   getE2eProjects,
@@ -14,14 +10,20 @@ import {
   getStorybookProject,
   getStorybookProjects,
 } from './get-projects';
+import { createTestApplication, createTestLibrary } from './testing';
 
 describe('some-or-all-projects', () => {
   it('should get someOrAllE2eProjects', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree.write('.gitignore', '#');
     for (let i = 1; i <= 3; i++) {
-      await cypressProjectGenerator(tree, {
+      await createTestApplication(tree, {
         name: `cypress${i}`,
+      });
+      await configurationGenerator(tree, {
+        project: `cypress${i}`,
         baseUrl: 'https://example.com',
+        skipFormat: true,
       });
     }
     // Without specifying name.
@@ -43,15 +45,15 @@ describe('some-or-all-projects', () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     tree.write('.gitignore', '#');
     for (let i = 1; i <= 3; i++) {
-      await applicationGenerator(tree, {
+      await createTestApplication(tree, {
         name: `test-app${i}`,
       });
       await storybookConfigurationGenerator(tree, {
-        configureCypress: false,
-        generateCypressSpecs: false,
         generateStories: false,
         linter: Linter.None,
-        name: `test-app${i}`,
+        project: `test-app${i}`,
+        interactionTests: false,
+        skipFormat: true,
       });
     }
     // Without specifying name.
@@ -72,8 +74,10 @@ describe('some-or-all-projects', () => {
   it('should getProjectTypeBase', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     tree.write('.gitignore', '#');
-    await applicationGenerator(tree, { name: 'test-app' });
-    await libraryGenerator(tree, { name: 'test-lib' });
+    await createTestApplication(tree, {
+      name: 'test-app',
+    });
+    await createTestLibrary(tree, { name: 'test-lib' });
     const projects = getProjects(tree);
     expect(projects.get('test-app')).toBeTruthy();
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -84,8 +88,8 @@ describe('some-or-all-projects', () => {
 
   it('should error when getStorybookProject is called without a project name', () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    expect(() => getStorybookProject(tree, {})).toThrowError(
-      'Project name not specified',
+    expect(() => getStorybookProject(tree, {})).toThrow(
+      new Error('Project name not specified'),
     );
   });
 });

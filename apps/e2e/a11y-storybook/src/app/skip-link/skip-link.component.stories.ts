@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { SkipLinkComponent } from './skip-link.component';
 import { SkipLinkModule } from './skip-link.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<SkipLinkComponent>;
-const Template: Story<SkipLinkComponent> = (args: SkipLinkComponent) => ({
-  props: args,
-});
-export const SkipLink = Template.bind({});
+type Story = StoryObj<SkipLinkComponent>;
+export const SkipLink: Story = {};
 SkipLink.args = {};

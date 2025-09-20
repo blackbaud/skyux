@@ -1,14 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
+  AbstractControl,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
+  ValidationErrors,
 } from '@angular/forms';
 
 import { SkyRadioGroupComponent } from '../radio-group.component';
+import { SkyRadioGroupHeadingLevel } from '../types/radio-group-heading-level';
+import { SkyRadioGroupHeadingStyle } from '../types/radio-group-heading-style';
 
 @Component({
   templateUrl: './radio-group-reactive.component.fixture.html',
+  standalone: false,
 })
 export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
   public ariaLabel: string | undefined;
@@ -25,6 +30,7 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
     { name: 'Lilly Corr', disabled: false },
     { name: 'Sherry Ken', disabled: false },
     { name: 'Harry Mckenzie', disabled: false },
+    { name: 'Incorrect option', disabled: false },
   ];
 
   public radioControl: UntypedFormControl | undefined;
@@ -36,6 +42,22 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
 
   public tabIndex: number | undefined;
 
+  public headingText: string | undefined;
+
+  public headingHidden = false;
+
+  public hintText: string | undefined;
+
+  public stacked: boolean | undefined;
+
+  public helpKey: string | undefined;
+
+  public helpPopoverContent: string | undefined;
+
+  public headingLevel: SkyRadioGroupHeadingLevel | undefined = 3;
+
+  public headingStyle: SkyRadioGroupHeadingStyle | undefined = 3;
+
   @ViewChild(SkyRadioGroupComponent)
   public radioGroupComponent: SkyRadioGroupComponent | undefined;
 
@@ -46,10 +68,20 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.radioControl = new UntypedFormControl({
-      value: this.initialValue,
-      disabled: this.initialDisabled,
-    });
+    this.radioControl = new UntypedFormControl(
+      {
+        value: this.initialValue,
+        disabled: this.initialDisabled,
+      },
+      [
+        (control: AbstractControl): ValidationErrors | null => {
+          if (control.value?.name === 'Incorrect option') {
+            return { incorrectOption: true };
+          }
+          return null;
+        },
+      ],
+    );
 
     this.radioForm = this.#formBuilder.group({
       radioGroup: this.radioControl,

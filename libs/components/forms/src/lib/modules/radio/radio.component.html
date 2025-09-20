@@ -1,34 +1,71 @@
-<label
-  class="sky-radio-wrapper sky-switch"
-  [ngClass]="{ 'sky-switch-disabled': disabled || radioGroupDisabled }"
->
-  <input
-    class="sky-radio-input sky-switch-input"
-    type="radio"
-    [attr.aria-label]="label"
-    [attr.aria-labelledby]="labelledBy"
-    [checked]="checked"
-    [disabled]="disabled || radioGroupDisabled"
-    [id]="inputId"
-    [name]="name"
-    [tabIndex]="tabindex"
-    [value]="value"
-    (blur)="onInputFocusChange()"
-    (change)="onInputChange($event)"
-  />
-  <span
-    class="sky-switch-control"
-    [ngClass]="{
-      'sky-switch-control-icon': icon,
-      'sky-rounded-corners': icon,
-      'sky-rounded-circle': !icon,
-      'sky-switch-control-info': icon && radioType === 'info',
-      'sky-switch-control-success': icon && radioType === 'success',
-      'sky-switch-control-warning': icon && radioType === 'warning',
-      'sky-switch-control-danger': icon && radioType === 'danger'
-    }"
+<span class="sky-radio-outer-wrapper">
+  <label
+    class="sky-radio-wrapper sky-switch"
+    [ngClass]="{ 'sky-switch-disabled': disabled || radioGroupDisabled }"
   >
-    <sky-icon *ngIf="icon" [fixedWidth]="true" [icon]="icon" />
-  </span>
-  <ng-content select="sky-radio-label" />
-</label>
+    <input
+      class="sky-radio-input sky-switch-input"
+      type="radio"
+      [attr.aria-label]="labelText || label"
+      [attr.aria-labelledby]="labelText ? undefined : labelledBy"
+      [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
+      [checked]="checked"
+      [disabled]="disabled || radioGroupDisabled"
+      [id]="inputId"
+      [name]="name"
+      [tabIndex]="tabindex"
+      [value]="value"
+      (blur)="onInputFocusChange()"
+      (change)="onInputChange($event)"
+    />
+    <span
+      class="sky-switch-control"
+      [ngClass]="{
+        'sky-switch-control-icon': iconName,
+        'sky-rounded-corners': iconName,
+        'sky-rounded-circle': !iconName,
+        'sky-switch-control-info': iconName && radioType === 'info',
+        'sky-switch-control-success': iconName && radioType === 'success',
+        'sky-switch-control-warning': iconName && radioType === 'warning',
+        'sky-switch-control-danger': iconName && radioType === 'danger'
+      }"
+    >
+      @if (iconName) {
+        <sky-icon [iconName]="iconName" />
+      }
+    </span>
+    @if (labelText) {
+      <span
+        class="sky-switch-label sky-radio-label-text"
+        [class.sky-screen-reader-only]="labelHidden"
+        >{{ labelText }}</span
+      >
+    } @else {
+      <ng-content select="sky-radio-label" />
+    }
+  </label>
+  @if ((helpPopoverContent || helpKey) && labelText) {
+    <span class="sky-control-help-container">
+      <sky-help-inline
+        class="sky-radio-help-inline"
+        [helpKey]="helpKey"
+        [labelText]="labelText"
+        [popoverTitle]="helpPopoverTitle"
+        [popoverContent]="helpPopoverContent"
+      />
+    </span>
+  }
+</span>
+<div #hintTextEl="skyId" skyId>
+  @if (hintText) {
+    <div
+      class="sky-radio-hint-text"
+      [skyThemeClass]="{
+        'sky-font-deemphasized': 'default',
+        'sky-font-hint-text-s': 'modern'
+      }"
+    >
+      {{ hintText }}
+    </div>
+  }
+</div>

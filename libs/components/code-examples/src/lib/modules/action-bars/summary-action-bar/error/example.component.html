@@ -1,0 +1,36 @@
+<form [formGroup]="exampleForm">
+  <sky-summary-action-bar
+    data-sky-id="donation-summary"
+    [formErrors]="formErrors()"
+  >
+    <sky-summary-action-bar-actions>
+      <sky-summary-action-bar-primary-action
+        (actionClick)="onPrimaryActionClick()"
+      >
+        Primary action
+      </sky-summary-action-bar-primary-action>
+      <sky-summary-action-bar-secondary-actions>
+        <sky-summary-action-bar-secondary-action
+          data-sky-id="single-error-action"
+          (actionClick)="singleError()"
+        >
+          Single error action
+        </sky-summary-action-bar-secondary-action>
+        <sky-summary-action-bar-secondary-action
+          data-sky-id="multiple-error-action"
+          (actionClick)="multipleErrors()"
+        >
+          Multiple errors action
+        </sky-summary-action-bar-secondary-action>
+      </sky-summary-action-bar-secondary-actions>
+    </sky-summary-action-bar-actions>
+    <sky-summary-action-bar-summary>
+      @for (info of donationSummary.value; track info) {
+        <sky-key-info>
+          <sky-key-info-value>${{ info.value }}</sky-key-info-value>
+          <sky-key-info-label>{{ info.label }}</sky-key-info-label>
+        </sky-key-info>
+      }
+    </sky-summary-action-bar-summary>
+  </sky-summary-action-bar>
+</form>

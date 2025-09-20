@@ -1,5 +1,4 @@
 /* istanbul ignore file */
-
 /**
  * The contents of this file were copied from '@schematics/angular'.
  * @see https://github.com/angular/angular-cli/blob/master/packages/schematics/angular/utility/json-file.ts
@@ -44,6 +43,7 @@ export class JsonFile {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public get(jsonPath: JsonPath): any {
     const jsonAstNode = this.#getJsonAst();
     if (!jsonAstNode) {
@@ -67,7 +67,7 @@ export class JsonFile {
     let getInsertionIndex: InsertionIndex | undefined;
     if (insertInOrder === undefined) {
       const property = jsonPath.slice(-1)[0];
-      getInsertionIndex = (properties) =>
+      getInsertionIndex = (properties): number =>
         [...properties, property].sort().findIndex((p) => p === property);
     } else if (insertInOrder !== false) {
       getInsertionIndex = insertInOrder;

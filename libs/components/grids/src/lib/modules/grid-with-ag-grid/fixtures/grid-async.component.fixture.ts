@@ -7,6 +7,7 @@ import { SkyGridComponent } from '../grid.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './grid-async.component.fixture.html',
+  standalone: false,
 })
 export class GridAsyncTestComponent implements OnInit {
   public asyncHeading = new BehaviorSubject<string>('');
@@ -15,7 +16,7 @@ export class GridAsyncTestComponent implements OnInit {
 
   public asyncPopover: any;
 
-  public items: Array<any> = [
+  public items: any[] = [
     { id: 1, name: 'Windstorm', email: 'windstorm@gmail.com' },
     { id: 2, name: 'Bombastic', email: 'Bombastic@gmail.com' },
     { id: 3, name: 'Magenta', email: 'magenta@gmail.com' },

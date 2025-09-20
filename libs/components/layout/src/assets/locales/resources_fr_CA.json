@@ -1,0 +1,50 @@
+{
+  "skyux_back_to_top": {
+    "_description": "Texte pour le bouton à l’arrière du composant supérieur",
+    "message": "Retour en haut"
+  },
+  "skyux_card_checkbox_label": {
+    "_description": "Étiquette pour la case à sélection multiple pour le composant de carte",
+    "message": "Sélectionner la carte"
+  },
+  "skyux_definition_list_none_found": {
+    "_description": "Le texte par défaut à afficher lorsqu’un élément de la liste de définition n’a aucune valeur",
+    "message": "Aucun trouvé."
+  },
+  "skyux_description_list_none_found": {
+    "_description": "Le texte par défaut à afficher lorsqu’un élément de la liste de définition n’a aucune description",
+    "message": "Aucun trouvé."
+  },
+  "skyux_inline_delete_assistive_text": {
+    "_description": "Description d’accessibilité pour le composant de suppression en ligne",
+    "message": "Êtes-vous certain de vouloir supprimer cet élément?"
+  },
+  "skyux_inline_delete_cancel": {
+    "_description": "Étiquette pour le bouton annuler de suppression en ligne",
+    "message": "Annuler"
+  },
+  "skyux_inline_delete_confirm_deletion": {
+    "_description": "Étiquette d’accessibilité pour le composant de suppression en ligne",
+    "message": "Confirmer la suppression"
+  },
+  "skyux_inline_delete_delete": {
+    "_description": "Étiquette pour le bouton supprimer de suppression en ligne",
+    "message": "Supprimer"
+  },
+  "skyux_text_expand_close_text": {
+    "_description": "Texte pour le bouton fermer dans l’élément modal de texte",
+    "message": "Fermer"
+  },
+  "skyux_text_expand_modal_title": {
+    "_description": "",
+    "message": "Vue agrandie"
+  },
+  "skyux_text_expand_see_less": {
+    "_description": "Afficher moins de contenu textuel",
+    "message": "Voir moins"
+  },
+  "skyux_text_expand_see_more": {
+    "_description": "",
+    "message": "Voir plus"
+  }
+}

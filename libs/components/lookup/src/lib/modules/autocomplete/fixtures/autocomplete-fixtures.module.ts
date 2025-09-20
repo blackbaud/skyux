@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -12,12 +11,7 @@ import { SkyAutocompleteFixtureComponent } from './autocomplete.component.fixtur
     SkyAutocompleteFixtureComponent,
     SkyAutocompleteReactiveFixtureComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SkyAutocompleteModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, SkyAutocompleteModule],
   exports: [
     SkyAutocompleteFixtureComponent,
     SkyAutocompleteReactiveFixtureComponent,

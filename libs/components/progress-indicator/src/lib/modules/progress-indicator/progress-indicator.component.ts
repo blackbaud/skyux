@@ -29,19 +29,20 @@ import { SkyProgressIndicatorDisplayMode } from './types/progress-indicator-mode
   templateUrl: './progress-indicator.component.html',
   styleUrls: ['./progress-indicator.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyProgressIndicatorComponent
   implements OnInit, AfterContentInit, OnDestroy
 {
   /**
    * The orientation of the progress indicator, which can be vertical or horizontal.
-   * For [passive progress indicators](https://developer.blackbaud.com/skyux-progress-indicator/docs/passive-indicator)
-   * and [waterfall progress indicators](https://developer.blackbaud.com/skyux/components/progress-indicator/waterfall-progress-indicator),
-   * use the vertical display mode. For [modal wizards](https://developer.blackbaud.com/skyux/components/wizard),
+   * For [passive progress indicators](https://developer.blackbaud.com/skyux/components/progress-indicator-passive)
+   * and [waterfall progress indicators](https://developer.blackbaud.com/skyux/components/progress-indicator-waterfall),
+   * use the vertical display mode. For [modal wizards](https://developer.blackbaud.com/skyux/components/progress-indicator-wizard),
    * use the horizontal display mode.
    * @deprecated The property was designed to create wizards by setting `displayMode="horizontal"` on progress indicators in modals,
    * but this wizard implementation was replaced by the
-   * [Wizard (Tabs) component](https://developer.blackbaud.com/skyux/components/progress-indicator).
+   * [wizard component that uses tabs](https://developer.blackbaud.com/skyux/components/tabs-wizard).
    * @default "vertical"
    */
   @Input()

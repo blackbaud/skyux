@@ -7,7 +7,7 @@ export function getGeneratorDefaults(
   collectionName: string,
   generatorName: string,
   projectName: string | null,
-) {
+): unknown {
   const nxConfig = readJsonFile(tree, 'nx.json');
   const projects = getProjects(tree);
   let defaults = {};

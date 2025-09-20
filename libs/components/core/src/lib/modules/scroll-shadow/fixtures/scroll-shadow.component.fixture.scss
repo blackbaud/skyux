@@ -1,0 +1,17 @@
+:is(.scroll-shadow-test-header, .scroll-shadow-test-footer) {
+  height: 100px;
+}
+
+.scroll-shadow-test-body {
+  overflow-y: scroll;
+  display: block;
+  max-height: calc(100vh - 200px);
+}
+
+.scroll-shadow-test-content {
+  display: block;
+}
+
+.scroll-shadow-test-wrapper {
+  max-height: 100vh;
+}

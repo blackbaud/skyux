@@ -1,0 +1,154 @@
+{
+  "skyux_alert_close": {
+    "_description": "Texte du lecteur d’écran du bouton fermer sur des alertes",
+    "message": "Fermer l’alerte"
+  },
+  "skyux_alert_sr_attention": {
+    "_description": "Texte du lecteur d’écran lorsque l’alerte contient de l’information qui nécessite une attention particulière",
+    "message": "Attention :"
+  },
+  "skyux_alert_sr_caution": {
+    "_description": "Texte du lecteur d’écran lorsque l’alerte contient de l’information donnant une mise en garde",
+    "message": "Mise en garde :"
+  },
+  "skyux_alert_sr_completed": {
+    "_description": "Texte du lecteur de l’écran lorsque l’alerte possède un statut terminé",
+    "message": "Terminé :"
+  },
+  "skyux_alert_sr_danger": {
+    "_description": "Texte du lecteur d’écran lorsque l’alerte contient de l’information avec un statut de danger",
+    "message": "Danger :"
+  },
+  "skyux_alert_sr_error": {
+    "_description": "Texte du lecteur d’écran lorsque l’alerte contient une erreur",
+    "message": "Erreur :"
+  },
+  "skyux_alert_sr_important_info": {
+    "_description": "Texte du lecteur d’écran lorsque l’alerte contient de l’information importante",
+    "message": "Information importante :"
+  },
+  "skyux_alert_sr_important_warning": {
+    "_description": "Texte du lecteur d’écran lorsque l’alerte contient un avertissement important",
+    "message": "Avertissement important :"
+  },
+  "skyux_alert_sr_success": {
+    "_description": "Texte du lecteur de l’écran lorsque l’alerte possède un statut réussi",
+    "message": "Réussi :"
+  },
+  "skyux_alert_sr_warning": {
+    "_description": "Texte du lecteur d’écran lorsque l’alerte contient un avertissement",
+    "message": "Avertissement :"
+  },
+  "skyux_help_inline_button_title": {
+    "_description": "Le titre du bouton d’aide.",
+    "message": "Afficher le contenu de l’aide"
+  },
+  "skyux_label_sr_attention": {
+    "_description": "Texte du lecteur d’écran lorsque l’étiquette contient de l’information qui nécessite une attention particulière",
+    "message": "Attention :"
+  },
+  "skyux_label_sr_caution": {
+    "_description": "Texte du lecteur d’écran lorsque l’étiquette contient de l’information donnant une mise en garde",
+    "message": "Mise en garde :"
+  },
+  "skyux_label_sr_completed": {
+    "_description": "Texte du lecteur de l’écran lorsque l’étiquette possède un statut terminé",
+    "message": "Terminé :"
+  },
+  "skyux_label_sr_danger": {
+    "_description": "Texte du lecteur d’écran lorsque l’étiquette contient de l’information avec un statut de danger",
+    "message": "Danger :"
+  },
+  "skyux_label_sr_error": {
+    "_description": "Texte du lecteur d’écran lorsque l’étiquette contient une erreur",
+    "message": "Erreur :"
+  },
+  "skyux_label_sr_important_info": {
+    "_description": "Texte du lecteur d’écran lorsque l’étiquette contient de l’information importante",
+    "message": "Information importante :"
+  },
+  "skyux_label_sr_important_warning": {
+    "_description": "Texte du lecteur d’écran lorsque l’étiquette contient un avertissement important",
+    "message": "Avertissement important :"
+  },
+  "skyux_label_sr_success": {
+    "_description": "Texte du lecteur de l’écran lorsque l’étiquette possède un statut réussi",
+    "message": "Réussi :"
+  },
+  "skyux_label_sr_warning": {
+    "_description": "Texte du lecteur d’écran lorsque l’étiquette contient un avertissement",
+    "message": "Avertissement :"
+  },
+  "skyux_status_indicator_sr_attention": {
+    "_description": "Texte du lecteur d’écran lorsque l’indicateur de statut nécessite une attention particulière",
+    "message": "Attention :"
+  },
+  "skyux_status_indicator_sr_caution": {
+    "_description": "Texte du lecteur d’écran lorsque l’indicateur de statut contient une mise en garde",
+    "message": "Mise en garde :"
+  },
+  "skyux_status_indicator_sr_completed": {
+    "_description": "Texte du lecteur de l’écran lorsque l’indicateur de statut possède un statut terminé",
+    "message": "Terminé :"
+  },
+  "skyux_status_indicator_sr_danger": {
+    "_description": "Texte du lecteur d’écran lorsque l’indicateur de statut indique un danger",
+    "message": "Danger :"
+  },
+  "skyux_status_indicator_sr_error": {
+    "_description": "Texte du lecteur d’écran lorsque l’indicateur de statut est un indicateur d’erreur",
+    "message": "Erreur :"
+  },
+  "skyux_status_indicator_sr_important_info": {
+    "_description": "Texte du lecteur d’écran lorsque l’indicateur de statut contient de l’information importante",
+    "message": "Information importante :"
+  },
+  "skyux_status_indicator_sr_important_warning": {
+    "_description": "Texte du lecteur d’écran lorsque l’indicateur de statut contient un avertissement important",
+    "message": "Avertissement important :"
+  },
+  "skyux_status_indicator_sr_success": {
+    "_description": "Texte du lecteur d’écran lorsque l’indicateur de statut indique une réussite",
+    "message": "Réussi :"
+  },
+  "skyux_status_indicator_sr_warning": {
+    "_description": "Texte du lecteur de l’écran lorsque l’indicateur de statut est un indicateur d’avertissement",
+    "message": "Avertissement :"
+  },
+  "skyux_tokens_dismiss_button_default_label": {
+    "_description": "Le texte par défaut du lecteur d’écran pour le titre du bouton d’élimination du jeton.",
+    "message": "Retirer "
+  },
+  "skyux_tokens_dismiss_button_title": {
+    "_description": "Le texte alternatif par défaut pour le titre du bouton d’élimination du jeton.",
+    "message": "Retirer l’article"
+  },
+  "skyux_tokens_token_dismissed": {
+    "_description": "Le texte du lecteur d’écran lorsqu’un jeton est rejeté.",
+    "message": "{0} retiré"
+  },
+  "skyux_wait_aria_alt_text": {
+    "_description": "Le texte alternatif par défaut pour un composant en attente d’une section non bloquante.",
+    "message": "Chargement en cours."
+  },
+  "skyux_wait_blocking_aria_alt_text": {
+    "_description": "Le texte alternatif par défaut pour un composant en attente d’une section bloquante.",
+    "message": "Chargement en cours. Veuillez patienter."
+  },
+  "skyux_wait_page_aria_alt_text": {
+    "_description": "Le texte alternatif par défaut pour un composant en attente d’une page non bloquante.",
+    "message": "Chargement de la page en cours."
+  },
+  "skyux_wait_page_blocking_aria_alt_text": {
+    "_description": "Le texte alternatif par défaut pour un composant en attente d’une page bloquante.",
+    "message": "Chargement de la page en cours. Veuillez patienter."
+  },
+  "skyux_wait_screen_reader_completed_text": {
+    "_description": "L’écran par défaut du lecteur de texte lorsqu’un composant en attente termine son attente.",
+    "message": "Chargement terminé."
+  },
+  "skyux_wait_page_screen_reader_completed_text": {
+    "_description": "L’écran par défaut du lecteur de texte lorsqu’un composant d’une page en attente termine son attente.",
+    "message": "Chargement de la page terminé."
+  }
+}

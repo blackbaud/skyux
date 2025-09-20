@@ -1,4 +1,22 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('sky-tabset') {
+  --sky-override-tabset-align-items: center;
+  --sky-override-tabset-border-bottom: #{2px solid
+    $sky-background-color-primary-dark};
+  --sky-override-tabset-button-color: #{$sky-text-color-action-primary};
+  --sky-override-tabset-button-group-padding-left: #{$sky-padding};
+  --sky-override-tabset-button-margin-right: 5px;
+  --sky-override-tabset-icon-button-padding: 6px 12px;
+  --sky-override-tabset-modal-margin: #{0 (-$sky-space-lg) $sky-space-xl};
+  --sky-override-tabset-modal-padding-left: #{$sky-space-lg};
+  --sky-override-tabset-modal-padding-none: 0;
+  --sky-override-tabset-overflow: hidden;
+  --sky-override-tabset-padding: 0 0 0
+    var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
+  --sky-override-tabset-wizard-modal-margin: #{0 0 $sky-space-xl};
+}
 
 sky-tabset {
   &.sky-tabset-layout-fit {
@@ -19,43 +37,103 @@ sky-tabset {
 .sky-tabset {
   --sky-tabset-margin: 0;
 
-  align-items: center;
-  border-bottom: 2px solid $sky-background-color-primary-dark;
+  align-items: var(--sky-override-tabset-align-items, baseline);
+  border-bottom: var(
+    --sky-override-tabset-border-bottom,
+    var(--sky-border-width-divider) var(--sky-border-style-divider)
+      var(--sky-color-border-divider)
+  );
   display: flex;
   list-style-type: none;
   margin: var(--sky-tabset-margin);
-  padding: 0 0 0
-    var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
+  padding: var(
+    --sky-override-tabset-padding,
+    var(
+      --sky-layout-host-tab-content-spacing,
+      var(--sky-comp-tabset-tabs-space-inset-top)
+        var(--sky-comp-tabset-tabs-space-inset-right)
+        var(--sky-comp-tabset-tabs-space-inset-bottom)
+        var(--sky-comp-tabset-tabs-space-inset-left)
+    )
+  );
   white-space: nowrap;
 
   flex-grow: var(--sky-layout-host-content-flex-grow, 0);
-  overflow: var(--sky-layout-host-content-overflow, hidden);
+  overflow: var(
+    --sky-layout-host-content-overflow,
+    var(--sky-override-tabset-overflow, visible)
+  );
   position: var(--sky-layout-host-content-position, static);
 
   &.sky-tabset-style-wizard {
-    border-bottom: none;
-    padding-left: 0;
+    border-bottom: var(--sky-border-width-divider)
+      var(--sky-border-style-divider) var(--sky-color-border-divider);
   }
 }
 
 .sky-modal-content {
   .sky-tabset-style-tabs {
     --sky-tabset-margin: var(
-      --sky-compat-tabset-tabs-modal-margin,
-      #{0 (-$sky-space-lg) $sky-space-xl}
+      --sky-override-tabset-modal-margin,
+      calc(var(--sky-comp-modal-content-space-inset-top) * -1)
+        calc(var(--sky-comp-modal-content-space-inset-right) * -1)
+        var(--sky-comp-modal-content-space-inset-bottom)
+        calc(var(--sky-comp-modal-content-space-inset-left) * -1)
+    );
+
+    padding-left: var(
+      --sky-override-tabset-modal-padding-left,
+      var(--sky-comp-modal-content-space-inset-left)
+    );
+    padding-right: var(
+      --sky-override-tabset-modal-padding-none,
+      var(--sky-comp-modal-content-space-inset-right)
     );
   }
+
   .sky-tabset-style-wizard {
+    // The bottom margin is not a typo. To create “balanced” inset space around the wizard tab contents,
+    // the space underneath the tabset should be equal to space on the sides of the tab contents already
     --sky-tabset-margin: var(
-      --sky-compat-tabset-wizard-modal-margin,
-      #{0 0 $sky-space-xl}
+      --sky-override-tabset-wizard-modal-margin,
+      calc(var(--sky-comp-wizard-tabset-space-inset-top) * -1)
+        calc(var(--sky-comp-wizard-tabset-space-inset-right) * -1)
+        var(--sky-comp-wizard-tabset-space-inset-left)
+        calc(var(--sky-comp-wizard-tabset-space-inset-left) * -1)
+    );
+
+    padding-left: var(
+      --sky-override-tabset-modal-padding-none,
+      var(--sky-comp-wizard-tabset-tabs-space-inset-left)
+    );
+    padding-right: var(
+      --sky-override-tabset-modal-padding-none,
+      var(--sky-comp-wizard-tabset-tabs-space-inset-right)
     );
   }
 }
 
 .sky-tabset-btns {
   order: 1;
-  padding-left: $sky-padding;
+  padding-left: var(
+    --sky-override-tabset-button-group-padding-left,
+    var(--sky-space-gap-action_group-m)
+  );
+
+  .sky-tabset-btn-new,
+  .sky-tabset-btn-open {
+    margin-right: var(
+      --sky-override-tabset-button-margin-right,
+      var(--sky-space-gap-action_group-m)
+    );
+    padding: var(
+      --sky-override-tabset-icon-button-padding,
+      var(--sky-comp-tabset-button-space-inset-top)
+        var(--sky-comp-tabset-button-space-inset-right)
+        var(--sky-comp-tabset-button-space-inset-bottom)
+        var(--sky-comp-tabset-button-space-inset-left)
+    );
+  }
 }
 
 .sky-tabset-dropdown {
@@ -63,10 +141,11 @@ sky-tabset {
   max-width: 100%;
 }
 
-.sky-tabset-mode-dropdown {
-  /* This line fixes an issue with extra whitespace under collapsed (dropdown) tabs in IE 11. */
-  line-height: 0;
+.sky-tabset.sky-tabset-mode-dropdown {
+  overflow: hidden;
+}
 
+.sky-tabset-mode-dropdown {
   .sky-tabset-tabs {
     visibility: hidden;
     order: 2;
@@ -81,11 +160,11 @@ sky-tabset {
 
   .sky-dropdown-item {
     margin: 0;
-  }
 
-  .sky-btn-tab-wrapper {
-    width: 100%;
-    margin-right: 0;
+    .sky-btn-tab-wrapper {
+      width: 100%;
+      margin-right: 0;
+    }
   }
 
   .sky-btn-tab {
@@ -111,28 +190,5 @@ sky-tabset {
 
 .sky-tabset-btn-new,
 .sky-tabset-btn-open {
-  color: $sky-text-color-action-primary;
-}
-
-.sky-theme-modern {
-  .sky-modal-content {
-    .sky-tabset {
-      --sky-tabset-margin: #{(-$sky-theme-modern-space-sm) (
-          -$sky-theme-modern-space-xl
-        ) $sky-theme-modern-space-xl};
-      padding-left: $sky-theme-modern-space-xl;
-      padding-right: $sky-theme-modern-space-xl;
-    }
-  }
-
-  .sky-tabset {
-    border-bottom: 1px solid $sky-theme-modern-border-color-neutral-medium;
-    overflow: visible; /* for drop shadow visibility on focused tabs */
-  }
-
-  .sky-tab-dropdown-menu-item {
-    .sky-btn-tab-wrapper {
-      margin-right: 0;
-    }
-  }
+  color: var(--sky-override-tabset-button-color, --sky-color-text-default);
 }

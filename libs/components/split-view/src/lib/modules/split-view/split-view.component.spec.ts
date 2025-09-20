@@ -14,8 +14,10 @@ import {
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -33,7 +35,7 @@ import { SkySplitViewDockType } from './types/split-view-dock-type';
 import { SkySplitViewMessage } from './types/split-view-message';
 import { SkySplitViewMessageType } from './types/split-view-message-type';
 
-let mockQueryService: MockSkyMediaQueryService;
+let mediaQueryController: SkyMediaQueryTestingController;
 
 // #region helpers
 function noop(): void {
@@ -135,7 +137,7 @@ function getFocusedElement(): HTMLElement {
 }
 
 function initiateResponsiveMode(fixture: ComponentFixture<unknown>): void {
-  mockQueryService.fire(SkyMediaBreakpoints.xs);
+  mediaQueryController.setBreakpoint('xs');
   fixture.detectChanges();
 }
 
@@ -153,6 +155,24 @@ function getHeader(): HTMLElement {
 
 function isWithin(actual: number, base: number, distance: number): boolean {
   return Math.abs(actual - base) <= distance;
+}
+
+function validateSplitViewHeightStyles(
+  expectedComputedHeight: number,
+  actionBarHeight: number,
+  lowered = false,
+): void {
+  const splitViewElement = document.querySelector(
+    '.sky-split-view',
+  ) as HTMLElement;
+
+  expect(splitViewElement.style.maxHeight).toBe(
+    `calc(100vh - ${lowered ? '100px' : '0px'} - calc(${actionBarHeight}px + var(--sky-dock-height, 0px)))`,
+  );
+
+  // Verify computed style is calculated correctly
+  const computedStyle = window.getComputedStyle(splitViewElement);
+  expect(parseInt(computedStyle.maxHeight)).toBe(expectedComputedHeight);
 }
 // #endregion
 
@@ -190,13 +210,10 @@ describe('Split view component', () => {
       }),
     };
 
-    // replace the mock service before using in the test bed to avoid change detection errors
-    mockQueryService = new MockSkyMediaQueryService();
-
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule, SplitViewFixturesModule],
       providers: [
-        { provide: SkyMediaQueryService, useValue: mockQueryService },
+        provideSkyMediaQueryTesting(),
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
@@ -204,6 +221,7 @@ describe('Split view component', () => {
       ],
     });
 
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
     rendererFactory = TestBed.inject(RendererFactory2);
     renderer = rendererFactory.createRenderer(undefined, null);
     fixture = TestBed.createComponent(SplitViewFixtureComponent);
@@ -392,19 +410,51 @@ describe('Split view component', () => {
           'min-height',
           '300px',
         );
-        expect(rendererSpy).toHaveBeenCalledWith(
-          splitViewElement,
-          'max-height',
-          'calc(100vh - 100px - ' + actionBar.offsetHeight + 'px)',
+
+        const expectedHeight =
+          window.innerHeight - 100 - actionBar.offsetHeight;
+        validateSplitViewHeightStyles(
+          expectedHeight,
+          actionBar.offsetHeight,
+          true,
         );
       }, 10);
+    }));
+
+    it('should compute correct split view height with dock height', waitForAsync(() => {
+      // Set a dock height value
+      document.documentElement.style.setProperty('--sky-dock-height', '40px');
+
+      component.bindHeightToWindow = true;
+      component.lowerSplitView = true;
+      component.showActionBar = true;
+      fixture.detectChanges();
+
+      setTimeout(() => {
+        fixture.detectChanges();
+        const actionBar = document.querySelector(
+          '.sky-summary-action-bar',
+        ) as HTMLElement;
+
+        // Verify computed style includes dock height in calculation
+        const expectedHeight =
+          window.innerHeight - 100 - (actionBar.offsetHeight + 40);
+        validateSplitViewHeightStyles(
+          expectedHeight,
+          actionBar.offsetHeight,
+          true,
+        );
+
+        // Clean up
+        document.documentElement.style.removeProperty('--sky-dock-height');
+      }, 20);
     }));
   });
 
   describe('after properties initialize', () => {
     // Runs the initial getters. Make sure we always have a baseline of lg media breakpoint.
     beforeEach(fakeAsync(() => {
-      mockQueryService.fire(SkyMediaBreakpoints.lg);
+      mediaQueryController.setBreakpoint('lg');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -612,7 +662,7 @@ describe('Split view component', () => {
 
     it('resize handle and workspace panel should be revealed when screen size changes back to md from xs', fakeAsync(() => {
       initiateResponsiveMode(fixture);
-      mockQueryService.fire(SkyMediaBreakpoints.md);
+      mediaQueryController.setBreakpoint('md');
       fixture.detectChanges();
       const resizeHandle = getResizeHandle(fixture);
 
@@ -726,11 +776,11 @@ describe('Split view component', () => {
     }));
 
     it(`should bind the split view hight when the 'bindHeightToWindow' property is set after
-    initialization and update correctly`, waitForAsync(() => {
+      initialization and update correctly`, waitForAsync(() => {
       component.bindHeightToWindow = true;
       const rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
+      void fixture.whenStable().then(() => {
         fixture.detectChanges();
         expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
         let splitViewElement = document.querySelector(
@@ -749,7 +799,7 @@ describe('Split view component', () => {
         rendererSpy.calls.reset();
         component.showActionBar = true;
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
+        void fixture.whenStable().then(() => {
           fixture.detectChanges();
           // Without the `setTimeout` the mutation observer isn't hit
           setTimeout(() => {
@@ -769,11 +819,11 @@ describe('Split view component', () => {
               'min-height',
               '300px',
             );
-            expect(rendererSpy).toHaveBeenCalledWith(
-              splitViewElement,
-              'max-height',
-              'calc(100vh - 0px - ' + actionBar.offsetHeight + 'px)',
+            validateSplitViewHeightStyles(
+              window.innerHeight - actionBar.offsetHeight,
+              actionBar.offsetHeight,
             );
+
             rendererSpy.calls.reset();
 
             component.lowerSplitView = true;
@@ -796,10 +846,10 @@ describe('Split view component', () => {
               'min-height',
               '300px',
             );
-            expect(rendererSpy).toHaveBeenCalledWith(
-              splitViewElement,
-              'max-height',
-              'calc(100vh - 100px - ' + actionBar.offsetHeight + 'px)',
+            validateSplitViewHeightStyles(
+              window.innerHeight - 100 - actionBar.offsetHeight,
+              actionBar.offsetHeight,
+              true,
             );
           }, 10);
         });
@@ -816,13 +866,13 @@ describe('Split view component', () => {
       fixture.componentInstance.ariaLabelForDrawer = 'My drawer';
       fixture.detectChanges();
       await fixture.whenStable();
-      return expectAsync(fixture.nativeElement).toBeAccessible();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should pass accessibility when in responsive mode', async () => {
       initiateResponsiveMode(fixture);
       await fixture.whenStable();
-      return expectAsync(fixture.nativeElement).toBeAccessible();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should pass accessibility when scrolling', async () => {
@@ -836,7 +886,7 @@ describe('Split view component', () => {
       });
       fixture.detectChanges();
       await fixture.whenStable();
-      return expectAsync(fixture.nativeElement).toBeAccessible();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
   });
 });

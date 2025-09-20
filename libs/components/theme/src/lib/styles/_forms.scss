@@ -1,5 +1,25 @@
 @use 'mixins' as mixins;
+@use 'compat-tokens-mixins' as compatMixins;
 @use 'variables' as *;
+
+@include compatMixins.sky-default-overrides(
+  '.sky-control-help-container:not(:empty)'
+) {
+  --sky-override-help-inline-margin-left: var(--sky-margin-inline-xs);
+}
+
+@include compatMixins.sky-default-overrides('.sky-control-label') {
+  --sky-override-control-label-margin-bottom: #{$sky-margin-half};
+}
+
+@include compatMixins.sky-default-overrides('.sky-control-label-required') {
+  --sky-override-required-color: var(--sky-highlight-color-danger);
+  --sky-override-required-space: var(--sky-padding-half);
+}
+
+@include compatMixins.sky-default-overrides('.sky-form-control') {
+  --sky-override-form-control-color: var(--sky-text-color-default);
+}
 
 .sky-form-control {
   width: 100%;
@@ -7,7 +27,7 @@
   @include mixins.sky-border(dark, top, bottom, left, right);
   line-height: $sky-line-height-base;
   font-size: $sky-font-size-base;
-  color: var(--sky-text-color-default);
+  color: var(--sky-override-form-control-color, var(--sky-color-text-default));
 
   &:not([type='range']):not([type='radio']):not([type='checkbox']):not(select) {
     /* Remove device-specific styles */
@@ -29,7 +49,7 @@
 }
 
 .sky-form-group {
-  margin-bottom: var(--sky-compat-sky-form-group-margin-bottom, 0px);
+  margin-bottom: 0px;
 }
 
 input.ng-invalid.ng-touched,
@@ -44,25 +64,39 @@ textarea.ng-invalid.ng-touched {
 }
 
 .sky-error-label::before {
-  content: '\f071';
-  font-family: FontAwesome;
+  content: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMzIgMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGNsYXNzPSJza3ktaS1wYXRoLTEiIGQ9Ik0xNC4wNDM3IDMuMTgxODJDMTQuOTEzMiAxLjYwNjA2IDE3LjA4NjggMS42MDYwNiAxNy45NTYzIDMuMTgxODJMMjkuNjk0IDI0LjQ1NDVDMzAuNTYzNSAyNi4wMzAzIDI5LjQ3NjYgMjggMjcuNzM3NyAyOEg0LjI2MjI5QzIuNTIzMzcgMjggMS40MzY1NSAyNi4wMzAzIDIuMzA2MDEgMjQuNDU0NUwxNC4wNDM3IDMuMTgxODJaIiBmaWxsPSIjRUY0MDQ0Ii8+CjxwYXRoIGNsYXNzPSJza3ktaS1wYXRoLTIiIGQ9Ik0xNC42MTA0IDEwLjM4MzRIMTcuNDgxNkwxNy4xNjg3IDE4Ljc5NDVIMTQuOTIzM0wxNC42MTA0IDEwLjM4MzRaTTE1Ljk5MDggMjMuNjE2NkMxNS41NzM2IDIzLjYxNjYgMTUuMjE3OCAyMy40NjkzIDE0LjkyMzMgMjMuMTc0OEMxNC42NDExIDIyLjg4MDQgMTQuNSAyMi41MjQ1IDE0LjUgMjIuMTA3NEMxNC41IDIxLjY5MDIgMTQuNjQxMSAyMS4zMzQ0IDE0LjkyMzMgMjEuMDM5OUMxNS4yMTc4IDIwLjc0NTQgMTUuNTczNiAyMC41OTgyIDE1Ljk5MDggMjAuNTk4MkMxNi40MDggMjAuNTk4MiAxNi43NjM4IDIwLjc0NTQgMTcuMDU4MyAyMS4wMzk5QzE3LjM1MjggMjEuMzM0NCAxNy41IDIxLjY5MDIgMTcuNSAyMi4xMDc0QzE3LjUgMjIuNTI0NSAxNy4zNTI4IDIyLjg4MDQgMTcuMDU4MyAyMy4xNzQ4QzE2Ljc3NjEgMjMuNDY5MyAxNi40MjAyIDIzLjYxNjYgMTUuOTkwOCAyMy42MTY2WiIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4K');
+  display: inline-block;
+  width: var(--sky-size-icon-s, 16px);
+  vertical-align: middle;
   margin-right: 5px;
-  color: var(--sky-highlight-color-danger);
 }
 
 .sky-control-label {
   display: inline-block;
   font-weight: normal;
-  margin-bottom: $sky-margin-half;
+  margin-bottom: var(
+    --sky-override-control-label-margin-bottom,
+    var(--sky-space-gap-form-xs)
+  );
   max-width: 100%;
 }
 
 .sky-control-label-required:after {
-  @include mixins.sky-required-field;
+  /* TODO: remove this fallback `content` line, once support for content alt text is added to firefox & safari */
+  content: '*';
+  content: '*' / '';
+  color: var(--sky-override-required-color, var(--sky-color-text-danger));
+  padding-left: var(
+    --sky-override-required-space,
+    var(--sky-space-gap-label-s)
+  );
 }
 
 .sky-control-help-container:not(:empty) {
-  margin-left: var(--sky-margin-inline-xs);
+  margin-left: var(
+    --sky-override-help-inline-margin-left,
+    var(--sky-space-gap-text_action-xs)
+  );
 }
 
 fieldset {

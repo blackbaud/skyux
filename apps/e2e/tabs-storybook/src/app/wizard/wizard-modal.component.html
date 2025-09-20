@@ -1,58 +1,54 @@
-<form *ngIf="myForm" [formGroup]="myForm" (ngSubmit)="onSave()">
-  <sky-modal>
-    <sky-modal-header>
-      {{ title }}
-    </sky-modal-header>
-    <sky-modal-content>
-      <sky-tabset
-        ariaLabel="Tab demonstration"
-        [(active)]="activeIndex"
-        tabStyle="wizard"
-        #wizardDemo
-      >
-        <sky-tab tabHeading="1. Get started">
-          <sky-input-box
-            stacked="true"
-            labelText="Enter text here to enable step 2."
-          >
-            <input type="text" formControlName="requiredValue1" />
-          </sky-input-box>
-        </sky-tab>
-        <sky-tab tabHeading="2. Add details" [disabled]="step2Disabled">
-          <sky-checkbox formControlName="requiredValue2">
-            <sky-checkbox-label>
-              Check this box to enable step 3.
-            </sky-checkbox-label>
-          </sky-checkbox>
-        </sky-tab>
-        <sky-tab tabHeading="3. Finishing touches" [disabled]="step3Disabled">
-          <sky-input-box stacked="true" labelText="Enter text here to save.">
-            <input type="text" formControlName="requiredValue3" />
-          </sky-input-box>
-        </sky-tab>
-      </sky-tabset>
-    </sky-modal-content>
-    <sky-modal-footer>
-      <sky-tabset-nav-button
-        buttonType="previous"
-        [tabset]="wizardDemo"
-      ></sky-tabset-nav-button>
-      <sky-tabset-nav-button
-        buttonType="next"
-        [tabset]="wizardDemo"
-      ></sky-tabset-nav-button>
-      <sky-tabset-nav-button
-        buttonType="finish"
-        [tabset]="wizardDemo"
-        [disabled]="saveDisabled"
-      ></sky-tabset-nav-button>
-      <button
-        class="sky-btn sky-btn-link"
-        type="button"
-        (click)="onCancelClick()"
-      >
-        Cancel
-      </button>
-    </sky-modal-footer>
-  </sky-modal>
-</form>
+@if (myForm) {
+  <form [formGroup]="myForm" (ngSubmit)="onSave()">
+    <sky-modal>
+      <sky-modal-header>
+        {{ title }}
+      </sky-modal-header>
+      <sky-modal-content>
+        <sky-tabset
+          #wizardDemo
+          ariaLabel="Tab demonstration"
+          tabStyle="wizard"
+          [(active)]="activeIndex"
+        >
+          <sky-tab tabHeading="1. Get started">
+            <sky-input-box
+              stacked="true"
+              labelText="Enter text here to enable step 2."
+            >
+              <input type="text" formControlName="requiredValue1" />
+            </sky-input-box>
+          </sky-tab>
+          <sky-tab tabHeading="2. Add details" [disabled]="step2Disabled">
+            <sky-checkbox formControlName="requiredValue2">
+              <sky-checkbox-label>
+                Check this box to enable step 3.
+              </sky-checkbox-label>
+            </sky-checkbox>
+          </sky-tab>
+          <sky-tab tabHeading="3. Finishing touches" [disabled]="step3Disabled">
+            <sky-input-box stacked="true" labelText="Enter text here to save.">
+              <input type="text" formControlName="requiredValue3" />
+            </sky-input-box>
+          </sky-tab>
+        </sky-tabset>
+      </sky-modal-content>
+      <sky-modal-footer>
+        <sky-tabset-nav-button buttonType="previous" [tabset]="wizardDemo" />
+        <sky-tabset-nav-button buttonType="next" [tabset]="wizardDemo" />
+        <sky-tabset-nav-button
+          buttonType="finish"
+          [tabset]="wizardDemo"
+          [disabled]="saveDisabled"
+        />
+        <button
+          class="sky-btn sky-btn-link"
+          type="button"
+          (click)="onCancelClick()"
+        >
+          Cancel
+        </button>
+      </sky-modal-footer>
+    </sky-modal>
+  </form>
+}

@@ -6,7 +6,6 @@ import { SkyGridColumnComponent } from './grid-column.component';
 import { SkyGridComponent } from './grid.component';
 
 @Component({
-  standalone: true,
   template: `
     <sky-grid page="2" width="123">
       <sky-grid-column field="test" width="123" />

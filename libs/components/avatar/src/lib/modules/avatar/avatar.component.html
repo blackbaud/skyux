@@ -1,25 +1,26 @@
 <div class="sky-avatar">
-  <div *ngIf="canChange">
+  @if (canChange) {
     <div class="sky-avatar-file-drop">
       <sky-file-drop
         [acceptedTypes]="'image/*'"
         [fileUploadAriaLabel]="
           src
-            ? ('skyux_avatar_upload_change_aria_label' | skyLibResources : name)
-            : ('skyux_avatar_upload_new_aria_label' | skyLibResources : name)
+            ? ('skyux_avatar_upload_change_aria_label' | skyLibResources: name)
+            : ('skyux_avatar_upload_new_aria_label' | skyLibResources: name)
         "
         [multiple]="false"
         [maxFileSize]="maxFileSize"
         [multiple]="false"
         (filesChanged)="photoDrop($event)"
       >
-        <ng-container *ngTemplateOutlet="innerTemplate"></ng-container>
+        <ng-container *ngTemplateOutlet="innerTemplate" />
       </sky-file-drop>
     </div>
-  </div>
-  <div *ngIf="!canChange">
-    <ng-container *ngTemplateOutlet="innerTemplate"></ng-container>
-  </div>
+  } @else {
+    <div>
+      <ng-container *ngTemplateOutlet="innerTemplate" />
+    </div>
+  }
 </div>
 
 <ng-template #innerTemplate>
@@ -27,5 +28,5 @@
     [name]="name"
     [size]="size ?? (sizeDefault | async) ?? 'large'"
     [src]="src"
-  ></sky-avatar-inner>
+  />
 </ng-template>

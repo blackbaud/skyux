@@ -9,22 +9,17 @@ describe('layout-storybook - text expand repeater', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('.sky-text-expand-repeater-see-more')
-          .last()
-          .click()
-          .end()
-          .get('app-text-expand-repeater')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(
-            `textexpandrepeatercomponent-textexpandrepeater--text-expand-repeater-${theme}`,
-          )
-          .percySnapshot(
-            `textexpandrepeatercomponent-textexpandrepeater--text-expand-repeater-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
-          );
+        cy.get('.sky-text-expand-repeater-see-more').last().click();
+
+        cy.skyReady('app-text-expand-repeater').screenshot(
+          `textexpandrepeatercomponent-textexpandrepeater--text-expand-repeater-${theme}`,
+        );
+        cy.percySnapshot(
+          `textexpandrepeatercomponent-textexpandrepeater--text-expand-repeater-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

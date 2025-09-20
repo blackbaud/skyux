@@ -1,7 +1,14 @@
 <div aria-hidden="true" class="sky-action-button-icon-container">
   <sky-icon
+    *skyThemeIf="'default'"
     class="sky-action-button-icon"
-    [icon]="iconType"
-    [size]="fontSizeClass"
+    [iconSize]="breakpoint() === 'xs' ? 'xl' : 'xxxl'"
+    [iconName]="iconName"
+  />
+  <sky-icon
+    *skyThemeIf="'modern'"
+    class="sky-action-button-icon"
+    iconSize="l"
+    [iconName]="iconName"
   />
 </div>

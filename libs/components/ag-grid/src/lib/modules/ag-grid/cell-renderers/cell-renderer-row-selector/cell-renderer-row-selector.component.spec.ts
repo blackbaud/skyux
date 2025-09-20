@@ -1,20 +1,16 @@
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { SkyCheckboxFixture } from '@skyux/forms/testing';
+import { SkyCheckboxHarness } from '@skyux/forms/testing';
 
 import {
-  Beans,
+  BeanCollection,
   ColDef,
   ICellRendererParams,
   RowClickedEvent,
   RowNode,
 } from 'ag-grid-community';
+import { Observable, of } from 'rxjs';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
@@ -22,10 +18,7 @@ import { SkyCellClass } from '../../types/cell-class';
 
 import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderer-row-selector.component';
 
-describe('SkyCellRendererCheckboxComponent', () => {
-  // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
-
+describe('SkyAgGridCellRendererRowSelectorComponent', () => {
   let rowSelectorCellFixture: ComponentFixture<SkyAgGridCellRendererRowSelectorComponent>;
   let rowSelectorCellComponent: SkyAgGridCellRendererRowSelectorComponent;
   let rowSelectorCellNativeElement: HTMLElement;
@@ -42,10 +35,18 @@ describe('SkyCellRendererCheckboxComponent', () => {
     );
     rowSelectorCellNativeElement = rowSelectorCellFixture.nativeElement;
     rowSelectorCellComponent = rowSelectorCellFixture.componentInstance;
+    const rowNode = new RowNode({ frameworkOverrides: {} } as BeanCollection);
+    spyOn(rowNode, 'isSelected').and.returnValue(false);
+    spyOn(rowNode, 'setSelected');
+    rowNode.data = {};
     cellRendererParams = {
       colDef: {
         field: dataField,
+        cellRendererParams: {
+          label: 'Select',
+        },
       },
+      node: rowNode,
     };
   });
 
@@ -63,135 +64,113 @@ describe('SkyCellRendererCheckboxComponent', () => {
 
   describe('agInit', () => {
     it(`initializes the SkyuxCheckboxGridCellComponent
-      properties and sets the checkbox to the value of the column field provided`, fakeAsync(() => {
+      properties and sets the checkbox to the value of the column field provided`, async () => {
       const checked = true;
-      const rowNode = new RowNode({} as Beans);
       cellRendererParams.value = checked;
-      cellRendererParams.node = rowNode;
-      spyOn(rowNode, 'setSelected');
 
-      const checkbox = new SkyCheckboxFixture(
+      const checkbox = await TestbedHarnessEnvironment.loader(
         rowSelectorCellFixture,
-        'row-checkbox',
-      );
+      ).getHarness(SkyCheckboxHarness.with({ dataSkyId: 'row-checkbox' }));
 
-      expect(rowSelectorCellComponent.checked).toBeUndefined();
-      expect(checkbox.selected).toBe(false);
+      expect(await checkbox.isChecked()).toBe(false);
       expect(rowSelectorCellComponent.rowNode).toBeUndefined();
+      expect(() => rowSelectorCellComponent.updateRow(checked)).not.toThrow();
 
       rowSelectorCellComponent.agInit(
         cellRendererParams as ICellRendererParams,
       );
 
       rowSelectorCellFixture.detectChanges();
-      tick();
-      rowSelectorCellFixture.detectChanges();
+      await rowSelectorCellFixture.whenStable();
 
-      expect(rowSelectorCellComponent.checked).toBe(checked);
-      expect(checkbox.selected).toBe(true);
-      expect(rowSelectorCellComponent.rowNode).toEqual(rowNode);
+      expect(await checkbox.isChecked()).toBe(true);
+      expect(rowSelectorCellComponent.rowNode).toEqual(cellRendererParams.node);
       expect(
         rowSelectorCellComponent.rowNode?.setSelected,
       ).toHaveBeenCalledWith(true);
-    }));
+    });
 
     it(`initializes the SkyuxCheckboxGridCellComponent properties and sets the checkbox to the node's selected
-      value since no column field provided`, fakeAsync(() => {
-      const rowNode = new RowNode({} as Beans);
+      value since no column field provided`, async () => {
       cellRendererParams.value = true;
-      cellRendererParams.node = rowNode;
       (cellRendererParams.colDef as ColDef).field = undefined;
-      spyOn(rowNode, 'setSelected');
 
-      const checkbox = new SkyCheckboxFixture(
+      const checkbox = await TestbedHarnessEnvironment.loader(
         rowSelectorCellFixture,
-        'row-checkbox',
-      );
+      ).getHarness(SkyCheckboxHarness.with({ dataSkyId: 'row-checkbox' }));
 
-      expect(rowSelectorCellComponent.checked).toBeUndefined();
-      expect(checkbox.selected).toBe(false);
-      expect(rowSelectorCellComponent.rowNode).toBeUndefined();
-
-      rowSelectorCellComponent.agInit(
-        cellRendererParams as ICellRendererParams,
-      );
+      rowSelectorCellComponent.agInit({
+        ...cellRendererParams,
+        colDef: {
+          cellRendererParams: {
+            label: (): string => 'Select',
+          },
+        },
+      } as ICellRendererParams);
 
       rowSelectorCellFixture.detectChanges();
-      tick();
-      rowSelectorCellFixture.detectChanges();
+      await rowSelectorCellFixture.whenStable();
 
-      expect(rowSelectorCellComponent.checked).toBe(false);
-      expect(checkbox.selected).toBe(false);
-      expect(rowSelectorCellComponent.rowNode).toEqual(rowNode);
+      expect(await checkbox.isChecked()).toBe(false);
+      expect(rowSelectorCellComponent.rowNode).toEqual(cellRendererParams.node);
       expect(
         rowSelectorCellComponent.rowNode?.setSelected,
       ).not.toHaveBeenCalled();
-    }));
+    });
   });
 
   describe('updateRow', () => {
     it(`should set the rowNode selected property and the row data's column-defined field property
       to the component's checked property value if column field provided`, () => {
-      const rowNode = new RowNode({} as Beans);
-      rowNode.data = {};
-      cellRendererParams.value = true;
-      cellRendererParams.node = rowNode;
-
-      spyOn(rowNode, 'setSelected');
+      cellRendererParams.value = false;
 
       rowSelectorCellFixture.detectChanges();
       rowSelectorCellComponent.agInit(
         cellRendererParams as ICellRendererParams,
       );
 
-      rowSelectorCellComponent.updateRow();
+      rowSelectorCellComponent.updateRow(true);
 
       expect(
         rowSelectorCellComponent.rowNode?.setSelected,
-      ).toHaveBeenCalledWith(true);
+      ).toHaveBeenCalledWith(true, undefined, 'checkboxSelected');
       expect(rowSelectorCellComponent.rowNode?.data[dataField]).toBe(true);
     });
 
     it(`should set the rowNode selected property to the component's checked property value if no column field provided`, () => {
-      const rowNode = new RowNode({} as Beans);
-      rowNode.data = {};
-      cellRendererParams.node = rowNode;
       cellRendererParams.colDef = {
         field: undefined,
       };
-      spyOn(rowNode, 'isSelected').and.returnValues(true, false);
+      (cellRendererParams.node?.isSelected as jasmine.Spy).and.returnValues(
+        true,
+        false,
+      );
 
       rowSelectorCellFixture.detectChanges();
       rowSelectorCellComponent.agInit(
         cellRendererParams as ICellRendererParams,
       );
-
-      spyOn(rowNode, 'setSelected');
-
-      rowSelectorCellComponent.updateRow();
+      rowSelectorCellComponent.updateRow(true);
 
       expect(
         rowSelectorCellComponent.rowNode?.setSelected,
-      ).toHaveBeenCalledWith(true);
+      ).toHaveBeenCalledWith(true, undefined, 'checkboxSelected');
     });
 
     it(`should not set the rowNode selected property to the component's checked property value if no column field provided and value is not changed`, () => {
-      const rowNode = new RowNode({} as Beans);
-      rowNode.data = {};
-      cellRendererParams.node = rowNode;
       cellRendererParams.colDef = {
         field: undefined,
       };
-      spyOn(rowNode, 'isSelected').and.returnValues(true, true);
+      (cellRendererParams.node?.isSelected as jasmine.Spy).and.returnValues(
+        true,
+        true,
+      );
 
       rowSelectorCellFixture.detectChanges();
       rowSelectorCellComponent.agInit(
         cellRendererParams as ICellRendererParams,
       );
-
-      spyOn(rowNode, 'setSelected');
-
-      rowSelectorCellComponent.updateRow();
+      rowSelectorCellComponent.updateRow(true);
 
       expect(
         rowSelectorCellComponent.rowNode?.setSelected,
@@ -201,25 +180,26 @@ describe('SkyCellRendererCheckboxComponent', () => {
 
   describe('refresh', () => {
     it('returns true', () => {
+      const rowNode = new RowNode({ frameworkOverrides: {} } as BeanCollection);
       expect(
         rowSelectorCellComponent.refresh({
-          node: {
-            isSelected: () => true,
-          } as unknown as RowNode,
+          node: rowNode,
         } as unknown as ICellRendererParams),
       ).toBe(true);
     });
   });
 
   describe('row selection', () => {
-    function testRowSelected(
+    async function testRowSelected(
       colDefinition: ColDef | undefined,
       isSelectedValues: boolean[],
       dataPropertySet = false,
-    ): void {
+      selectable = true,
+    ): Promise<void> {
       let rowClickListener: ((event: RowClickedEvent) => void) | undefined;
-      const rowNode = new RowNode({} as Beans);
+      const rowNode = new RowNode({ frameworkOverrides: {} } as BeanCollection);
       rowNode.data = {};
+      rowNode.selectable = selectable;
       const rowClickedEvent: Partial<RowClickedEvent> = {
         node: rowNode,
         data: undefined,
@@ -227,7 +207,6 @@ describe('SkyCellRendererCheckboxComponent', () => {
         rowPinned: undefined,
         context: undefined,
         api: undefined,
-        columnApi: undefined,
         type: undefined,
       };
 
@@ -237,46 +216,45 @@ describe('SkyCellRendererCheckboxComponent', () => {
 
       spyOn(rowNode, 'setSelected');
       spyOn(rowNode, 'isSelected').and.returnValues(...isSelectedValues);
-
-      rowNode.addEventListener = (
-        event: unknown,
-        listener: (event: RowClickedEvent) => void,
-      ): void => {
-        // set event listener
-        rowClickListener = listener;
-      };
-
-      spyOn(rowNode, 'addEventListener').and.callThrough();
+      spyOn(rowNode, 'addEventListener').and.callFake(
+        (event: any, listener: any): void => {
+          // set event listener
+          rowClickListener = listener;
+        },
+      );
 
       rowSelectorCellFixture.detectChanges();
 
-      const checkbox = new SkyCheckboxFixture(
+      const checkbox = await TestbedHarnessEnvironment.loader(
         rowSelectorCellFixture,
-        'row-checkbox',
-      );
+      ).getHarness(SkyCheckboxHarness.with({ dataSkyId: 'row-checkbox' }));
 
       rowSelectorCellComponent.agInit(
         cellRendererParams as ICellRendererParams,
       );
+      rowSelectorCellFixture.detectChanges();
 
-      expect(rowSelectorCellComponent.checked).toBeFalsy();
-      expect(checkbox.selected).toBe(false);
+      expect(await checkbox.isChecked()).toBeFalsy();
+      expect(await checkbox.isDisabled()).toBe(!selectable);
 
       // trigger the rowClickEventListener
-      if (rowClickListener) {
+      if (rowClickListener && selectable) {
         rowClickListener(rowClickedEvent as RowClickedEvent);
       }
 
       rowSelectorCellFixture.detectChanges();
-      tick();
-      rowSelectorCellFixture.detectChanges();
+      await rowSelectorCellFixture.whenStable();
 
-      expect(rowNode.addEventListener).toHaveBeenCalledWith(
-        RowNode.EVENT_ROW_SELECTED,
-        jasmine.any(Function),
-      );
-      expect(rowSelectorCellComponent.checked).toBe(true);
-      expect(checkbox.selected).toBe(true);
+      if (selectable) {
+        expect(rowNode.addEventListener).toHaveBeenCalledWith(
+          'rowSelected',
+          jasmine.any(Function),
+        );
+        expect(await checkbox.isChecked()).toBe(true);
+        expect(await checkbox.isDisabled()).toBe(false);
+      } else {
+        expect(await checkbox.isDisabled()).toBe(true);
+      }
 
       if (dataPropertySet) {
         expect(
@@ -287,17 +265,53 @@ describe('SkyCellRendererCheckboxComponent', () => {
     }
 
     it(`should set the checkbox's selected value and the row data's column-defined field property
-      to the component's checked property value if the data field is provided`, fakeAsync(() => {
-      testRowSelected(cellRendererParams.colDef, [true, true], true);
-    }));
+      to the component's checked property value if the data field is provided`, async () => {
+      await testRowSelected(cellRendererParams.colDef, [true, true], true);
+    });
 
-    it(`should set the checkbox's selected value to the component's checked property value if the data field is provided or the default is used`, fakeAsync(() => {
+    it(`should set the checkbox's selected value to the component's checked property value if the data field is provided or the default is used`, async () => {
       const columnWithoutDataField = {};
-      testRowSelected(columnWithoutDataField, [false, true, true]);
-    }));
+      await testRowSelected(columnWithoutDataField, [false, true, true]);
+    });
+
+    it(`should disable the checkbox`, async () => {
+      const columnWithoutDataField = {};
+      await testRowSelected(
+        columnWithoutDataField,
+        [false, false, false],
+        false,
+        false,
+      );
+    });
   });
 
   it('should pass accessibility', async () => {
+    rowSelectorCellComponent.agInit({
+      ...cellRendererParams,
+      colDef: {
+        cellRendererParams: {
+          label: (): Observable<string> => of('Select'),
+        },
+      },
+    } as ICellRendererParams);
+
+    rowSelectorCellFixture.detectChanges();
+    await rowSelectorCellFixture.whenStable();
+
+    await expectAsync(rowSelectorCellNativeElement).toBeAccessible();
+  });
+
+  it('should pass accessibility when collapsed', async () => {
+    (cellRendererParams.node as RowNode).rowIndex = null;
+    rowSelectorCellComponent.agInit({
+      ...cellRendererParams,
+      colDef: {
+        cellRendererParams: {
+          label: (): Observable<string> => of('Select'),
+        },
+      },
+    } as ICellRendererParams);
+
     rowSelectorCellFixture.detectChanges();
     await rowSelectorCellFixture.whenStable();
 

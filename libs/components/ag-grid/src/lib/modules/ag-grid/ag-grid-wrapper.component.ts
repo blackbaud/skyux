@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -6,22 +6,52 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
+  DOCUMENT,
   ElementRef,
   HostBinding,
+  Input,
   OnDestroy,
   OnInit,
+  booleanAttribute,
+  effect,
   inject,
+  input,
+  numberAttribute,
+  viewChild,
 } from '@angular/core';
-import { SkyMutationObserverService } from '@skyux/core';
-import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
+import { SkyIdModule, SkyMutationObserverService } from '@skyux/core';
+import { SkyViewkeeperModule } from '@skyux/core';
+import {
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange,
+} from '@skyux/theme';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { CellEditingStartedEvent, DetailGridInfo } from 'ag-grid-community';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import {
+  CellEditingStartedEvent,
+  CellFocusedEvent,
+  HeaderFocusedEvent,
+} from 'ag-grid-community';
+import {
+  BehaviorSubject,
+  Observable,
+  ReplaySubject,
+  Subject,
+  combineLatest,
+  distinctUntilChanged,
+  of,
+  take,
+  takeUntil,
+} from 'rxjs';
+
+import {
+  getSkyAgGridTheme,
+  getSkyAgGridThemeClassName,
+} from '../../styles/ag-grid-theme';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
-import { SkyAgGridService } from './ag-grid.service';
+import { SkyCellType } from './types/cell-type';
 
 let idIndex = 0;
 
@@ -29,6 +59,7 @@ let idIndex = 0;
   selector: 'sky-ag-grid-wrapper',
   templateUrl: './ag-grid-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AsyncPipe, NgClass, SkyIdModule, SkyViewkeeperModule],
 })
 export class SkyAgGridWrapperComponent
   implements AfterContentInit, AfterViewInit, OnDestroy, OnInit
@@ -40,6 +71,22 @@ export class SkyAgGridWrapperComponent
 
   @HostBinding('class.sky-ag-grid-layout-normal')
   public isNormalLayout = false;
+
+  /**
+   * Enable a compact layout for the grid when using modern theme. Compact layout uses
+   * a smaller font size and row height to display more data in a smaller space.
+   */
+  @Input({ transform: booleanAttribute })
+  public set compact(value: boolean) {
+    this.#isCompact.next(value);
+  }
+
+  /**
+   * The minimum height of the grid in pixels. The default value is `50`.
+   */
+  public readonly minHeight = input<number, unknown>(50, {
+    transform: numberAttribute,
+  });
 
   public afterAnchorId: string;
   public beforeAnchorId: string;
@@ -56,14 +103,13 @@ export class SkyAgGridWrapperComponent
   }
 
   get #isInEditMode(): boolean {
-    /* istanbul ignore else */
     if (this.agGrid && this.agGrid.api) {
       const primaryGridEditing = this.agGrid.api.getEditingCells().length > 0;
       if (primaryGridEditing) {
         return true;
-      } else {
+      } else if (this.agGrid.api.getGridOption('masterDetail')) {
         let innerEditing = false;
-        this.agGrid.api.forEachDetailGridInfo((detailGrid: DetailGridInfo) => {
+        this.agGrid.api.forEachDetailGridInfo((detailGrid) => {
           if (detailGrid?.api && detailGrid.api.getEditingCells().length > 0) {
             innerEditing = true;
           }
@@ -71,32 +117,32 @@ export class SkyAgGridWrapperComponent
 
         return innerEditing;
       }
-    } else {
-      return false;
     }
+    return false;
   }
 
-  #_viewkeeperClasses: string[] = [];
+  protected readonly skyAgGridDiv =
+    viewChild<ElementRef<HTMLElement>>('skyAgGridDiv');
 
-  #agGridService = inject(SkyAgGridService);
-  #ngUnsubscribe = new Subject<void>();
-  #themeSvc = inject(SkyThemeService, {
+  #_viewkeeperClasses: string[] = [];
+  readonly #ngUnsubscribe = new Subject<void>();
+  readonly #themeSvc = inject(SkyThemeService, {
     optional: true,
   });
-  #wrapperClasses = new BehaviorSubject<string[]>([
+  readonly #wrapperClasses = new BehaviorSubject<string[]>([
     `ag-theme-sky-data-grid-default`,
   ]);
-  #currentTheme: SkyThemeSettings | undefined = undefined;
-  #adapterService = inject(SkyAgGridAdapterService);
-  #changeDetector = inject(ChangeDetectorRef);
-  #parentChangeDetector = inject(ChangeDetectorRef, {
+  readonly #adapterService = inject(SkyAgGridAdapterService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #parentChangeDetector = inject(ChangeDetectorRef, {
     optional: true,
     skipSelf: true,
   });
-  #elementRef = inject(ElementRef);
-  #document = inject(DOCUMENT);
-  #mutationObserverService = inject(SkyMutationObserverService);
-  #hasEditableClass = false;
+  readonly #elementRef = inject(ElementRef<HTMLElement>);
+  readonly #document = inject(DOCUMENT);
+  readonly #mutationObserverService = inject(SkyMutationObserverService);
+  readonly #isCompact = new BehaviorSubject<boolean>(false);
+  readonly #hasEditableClass = new ReplaySubject<boolean>(1);
 
   constructor() {
     idIndex++;
@@ -104,6 +150,15 @@ export class SkyAgGridWrapperComponent
     this.beforeAnchorId = 'sky-ag-grid-nav-anchor-before-' + idIndex;
     this.gridId = 'sky-ag-grid-' + idIndex;
     this.wrapperClasses$ = this.#wrapperClasses.asObservable();
+
+    effect(() => {
+      const minHeight = this.minHeight();
+      const skyAgGridDiv = this.skyAgGridDiv()?.nativeElement;
+      skyAgGridDiv?.style.setProperty(
+        '--sky-ag-grid-min-height',
+        `${minHeight}px`,
+      );
+    });
   }
 
   public ngAfterContentInit(): void {
@@ -151,6 +206,12 @@ export class SkyAgGridWrapperComponent
               ...this.#wrapperClasses.getValue(),
               ...addClasses,
             ]);
+            if (
+              types.includes(SkyCellType.Template) &&
+              params.rowIndex !== null
+            ) {
+              this.agGrid?.api.setFocusedCell(params.rowIndex, params.column);
+            }
           }
         });
       this.agGrid.cellEditingStopped
@@ -159,8 +220,38 @@ export class SkyAgGridWrapperComponent
           this.#wrapperClasses.next(
             this.#wrapperClasses
               .getValue()
-              .filter((c) => c.startsWith('ag-theme-')),
+              .filter((c) => !c.startsWith('sky-ag-grid-cell-editing-')),
           );
+        });
+      this.agGrid.cellFocused
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((event: CellFocusedEvent) => {
+          const context = event.context || {};
+
+          context['lastFocusedCell'] = {
+            rowIndex: event.rowIndex,
+            column:
+              typeof event.column === 'object'
+                ? event.column?.getColId()
+                : `${event.column}`,
+          };
+
+          event.api?.setGridOption('context', context);
+        });
+
+      this.agGrid.headerFocused
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((event: HeaderFocusedEvent) => {
+          const context = event.context || {};
+
+          context['lastFocusedCell'] = {
+            rowIndex: null,
+            column: event.column?.getUniqueId
+              ? event.column.getUniqueId()
+              : `${event.column}`,
+          };
+
+          event.api?.setGridOption('context', context);
         });
     }
   }
@@ -168,25 +259,24 @@ export class SkyAgGridWrapperComponent
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+    this.#hasEditableClass.complete();
+    this.#isCompact.complete();
+    this.#wrapperClasses.complete();
   }
 
   public ngOnInit(): void {
-    this.#themeSvc?.settingsChange
+    combineLatest<[boolean, boolean, SkyThemeSettingsChange | undefined]>([
+      this.#hasEditableClass.pipe(distinctUntilChanged()),
+      this.#isCompact.pipe(distinctUntilChanged()),
+      this.#themeSvc?.settingsChange ?? of(undefined),
+    ])
       .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((settings) => {
-        this.#updateGridTheme(settings.currentSettings);
-        if (!this.#currentTheme) {
-          // Initial theme settings.
-          this.#currentTheme = settings.currentSettings;
-        } else if (this.agGrid?.api) {
-          // On subsequent theme changes, we need to call the api to re-render the grid.
-          this.#currentTheme = settings.currentSettings;
-          this.agGrid.api.setHeaderHeight(
-            this.#agGridService.getHeaderHeight(),
-          );
-          this.agGrid.api.resetRowHeights();
-          this.agGrid.api.refreshCells();
-        }
+      .subscribe(([hasEditableClass, isCompact, settings]) => {
+        this.#updateGridTheme(
+          hasEditableClass,
+          isCompact,
+          settings?.currentSettings,
+        );
       });
   }
 
@@ -194,22 +284,22 @@ export class SkyAgGridWrapperComponent
     const agGridElement: HTMLElement | undefined =
       this.#elementRef.nativeElement.querySelector('ag-grid-angular');
     const callback = (): void => {
-      this.#hasEditableClass = !!agGridElement?.classList.contains(
-        'sky-ag-grid-editable',
+      this.#hasEditableClass.next(
+        !!agGridElement?.classList.contains('sky-ag-grid-editable'),
       );
-      this.#updateGridTheme(this.#currentTheme);
     };
     if (agGridElement) {
       const agGridClassObserver =
         this.#mutationObserverService.create(callback);
       agGridClassObserver.observe(agGridElement, {
         attributes: true,
+        attributeFilter: ['class'],
       });
       this.#ngUnsubscribe.pipe(take(1)).subscribe(() => {
         agGridClassObserver.disconnect();
       });
     }
-    setTimeout(callback);
+    callback();
   }
 
   /**
@@ -235,74 +325,79 @@ export class SkyAgGridWrapperComponent
   public onAnchorFocus(event: FocusEvent): void {
     const relatedTarget = event.relatedTarget as HTMLElement | undefined;
     const previousWasGrid =
-      relatedTarget && !!this.#elementRef.nativeElement.contains(relatedTarget);
+      relatedTarget && this.#elementRef.nativeElement.contains(relatedTarget);
 
     if (this.agGrid && !previousWasGrid) {
-      const firstColumn = this.agGrid.columnApi.getAllDisplayedColumns()[0];
-
-      if (firstColumn) {
-        this.agGrid.api.ensureColumnVisible(firstColumn);
-        this.#adapterService.focusOnColumnHeader(
-          this.#elementRef.nativeElement,
-          firstColumn.getColId(),
-        );
-      }
+      this.#elementRef.nativeElement
+        .querySelector('.ag-tab-guard.ag-tab-guard-top')
+        ?.focus();
     }
   }
 
   #moveHorizontalScroll(): void {
-    if (this.agGrid && this.agGrid.api) {
-      const toTop = !!this.agGrid.gridOptions?.context?.enableTopScroll;
-      const root: HTMLElement =
-        this.#elementRef.nativeElement.querySelector('.ag-root');
-      const header: HTMLDivElement | null = root.querySelector('.ag-header');
-      const floatingBottom: HTMLDivElement | null = root.querySelector(
-        '.ag-floating-bottom',
-      );
-      const scrollbar: HTMLDivElement | null = root.querySelector(
-        '.ag-body-horizontal-scroll',
-      );
-      if (header && floatingBottom && scrollbar) {
-        if (
-          scrollbar.style.height !==
-          scrollbar.style.getPropertyValue(
-            '--sky-ag-body-horizontal-scroll-width',
-          )
-        ) {
-          scrollbar.style.setProperty(
-            '--sky-ag-body-horizontal-scroll-width',
-            scrollbar.style.height,
-          );
-        }
-        const isTop = !!root.children[1].matches('.ag-body-horizontal-scroll');
-        if (toTop && !isTop) {
-          const fragment = this.#document.createDocumentFragment();
-          fragment.appendChild(scrollbar);
-          header.after(fragment);
-        } else if (!toTop && isTop) {
-          const fragment = this.#document.createDocumentFragment();
-          fragment.appendChild(scrollbar);
-          floatingBottom.after(fragment);
-        }
+    const toTop = !!this.agGrid?.gridOptions?.context?.enableTopScroll;
+    const root = this.#elementRef.nativeElement.querySelector('.ag-root');
+    const header = root?.querySelector('.ag-header');
+    const floatingBottom = root?.querySelector('.ag-floating-bottom');
+    const scrollbar = root?.querySelector('.ag-body-horizontal-scroll');
+    if (root && header && floatingBottom && scrollbar) {
+      if (
+        scrollbar.style.height !==
+        scrollbar.style.getPropertyValue(
+          '--sky-ag-body-horizontal-scroll-width',
+        )
+      ) {
+        scrollbar.style.setProperty(
+          '--sky-ag-body-horizontal-scroll-width',
+          scrollbar.style.height,
+        );
+      }
+      const isTop = root.children[1].matches('.ag-body-horizontal-scroll');
+      if (toTop && !isTop) {
+        const fragment = this.#document.createDocumentFragment();
+        fragment.appendChild(scrollbar);
+        header.after(fragment);
+      } else if (!toTop && isTop) {
+        const fragment = this.#document.createDocumentFragment();
+        fragment.appendChild(scrollbar);
+        floatingBottom.after(fragment);
       }
     }
   }
 
-  #updateGridTheme(themeSettings?: SkyThemeSettings): void {
-    let agTheme: 'default' | 'modern-light' | 'modern-dark';
-    if (themeSettings?.theme.name === 'modern') {
-      agTheme = `modern-${themeSettings.mode.name}` as
-        | 'modern-light'
-        | 'modern-dark';
+  #updateGridTheme(
+    hasEditableClass: boolean,
+    isCompact: boolean,
+    themeSettings?: SkyThemeSettings,
+  ): void {
+    const skyAgGridTheme = getSkyAgGridTheme(
+      hasEditableClass ? 'data-entry-grid' : 'data-grid',
+    );
+    this.agGrid?.api.setGridOption('theme', skyAgGridTheme);
+    const skyAgGridThemeClassName = getSkyAgGridThemeClassName(
+      hasEditableClass,
+      themeSettings,
+      isCompact,
+    );
+    const previousValue = this.#wrapperClasses.getValue();
+    let value = [
+      ...previousValue.filter((c) => !c.startsWith('ag-theme-')),
+      skyAgGridThemeClassName,
+    ];
+    const textSelectionClass = 'sky-ag-grid-text-selection';
+    if (this.#getTextSelection(hasEditableClass)) {
+      value.push(textSelectionClass);
     } else {
-      agTheme = `default`;
+      value = value.filter((c) => c !== textSelectionClass);
     }
-    const variation = this.#hasEditableClass ? 'data-entry-grid' : 'data-grid';
-    this.#wrapperClasses.next([
-      ...this.#wrapperClasses
-        .getValue()
-        .filter((c) => !c.startsWith('ag-theme-')),
-      `ag-theme-sky-${variation}-${agTheme}`,
-    ]);
+    this.#wrapperClasses.next([...new Set(value)]);
+  }
+
+  #getTextSelection(hasEditableClass: boolean): boolean {
+    if (this.agGrid?.gridOptions?.context?.enableCellTextSelection) {
+      return !hasEditableClass;
+    } else {
+      return false;
+    }
   }
 }

@@ -4,8 +4,8 @@
  * @deprecated
  */
 export class SkyColumnSelectorContext {
-  public columns: Array<SkyColumnSelectorModel>;
-  public selectedColumnIds: Array<string>;
+  public columns: SkyColumnSelectorModel[];
+  public selectedColumnIds: string[];
 }
 
 /* istanbul ignore next */

@@ -12,6 +12,7 @@ import {
 import { SkyModalHostContext } from './modal-host-context';
 import { SkyModalHostComponent } from './modal-host.component';
 import { SkyModalInstance } from './modal-instance';
+import { SkyModalServiceInterface } from './modal-service-interface';
 import { SkyModalConfigurationInterface } from './modal.interface';
 
 /**
@@ -20,7 +21,7 @@ import { SkyModalConfigurationInterface } from './modal.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class SkyModalService {
+export class SkyModalService implements SkyModalServiceInterface {
   private static host: ComponentRef<SkyModalHostComponent> | undefined; // <-- how do we handle only having one of these?
 
   #dynamicComponentService: SkyDynamicComponentService;

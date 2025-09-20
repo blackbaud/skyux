@@ -12,82 +12,87 @@ Cypress.on(
 describe(`ag-grid-storybook data manager`, () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
-      [
-        ['normal', 'normal'],
-        ['normal-with-top-scroll', 'normal with top scroll'],
-        ['auto-height', 'auto height'],
-        ['auto-height-with-top-scroll', 'auto height with top scroll'],
-      ].forEach(([domLayout, label]) => {
-        describe(`${label} layout`, () => {
-          beforeEach(() => {
-            cy.viewport(1300, 900).visit(
-              `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-${domLayout}`,
-            );
-          });
+      const compactOptions = theme.startsWith('modern')
+        ? [false, true]
+        : [false];
+      compactOptions.forEach((compact) => {
+        [
+          ['normal', 'normal'],
+          ['normal-with-top-scroll', 'normal with top scroll'],
+          ['auto-height', 'auto height'],
+          ['auto-height-with-top-scroll', 'auto height with top scroll'],
+          ['wrap-text', 'wrap text'],
+          ['wrap-text-no-select', 'wrap text, no select checkbox'],
+        ].forEach(([domLayout, label]) => {
+          describe(`${label} layout${compact ? ', compact' : ''}`, () => {
+            beforeEach(() => {
+              cy.viewport(1300, 900).visit(
+                /* spell-checker:disable-next-line */
+                `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-${domLayout}${compact ? '-compact' : ''}`,
+              );
+            });
 
-          it(`should render ag-grid with data manager, ${label} layout`, () => {
-            // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.get('#ready')
-              .should('exist')
-              .end()
+            it(`should render ag-grid with data manager, ${label} layout${compact ? ', compact' : ''}`, () => {
+              cy.skyReady('app-data-manager', ['#ready'])
+                .end()
+                .get('#storybook-root')
+                .should('exist')
+                .should('be.visible');
 
-              .get('#storybook-root')
-              .should('exist')
-              .should('be.visible')
-              .end()
-              // Verify that the checkboxes are visible.
-              .get('[name="center"] .sky-ag-grid-cell-row-selector')
-              .should('have.length.gt', 14)
-              .should('have.descendants', '.sky-switch-control')
-              .end()
-              // Necessary to wait for the grid to render.
-              .wait(1000)
-              .get('#storybook-root')
-              .skyVisualTest(
-                `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
+              if (!domLayout.includes('no-select')) {
+                // Verify that the checkboxes are visible.
+                cy.get(
+                  '.ag-viewport.ag-center-cols-viewport .sky-ag-grid-cell-row-selector',
+                )
+                  .should('have.length.gt', 14)
+                  .should('have.descendants', '.sky-switch-control');
+              }
+
+              // Verify that the first cell is focused.
+              cy.get('div[row-index="0"] div[col-id="name"] a').should(
+                'be.focused',
+              );
+
+              cy.get('#storybook-root').skyVisualTest(
+                /* spell-checker:disable-next-line */
+                `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}${compact ? '-compact' : ''}`,
                 {
                   clip: { x: 0, y: 0, width: 1280, height: 600 },
                   overwrite: true,
                   disableTimersAndAnimations: true,
                 },
               );
+            });
           });
         });
-      });
 
-      it('should render data manager column picker', () => {
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.viewport(1300, 900)
-          .visit(
-            `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-normal`,
-          )
-          .get('#ready')
-          .should('exist')
-          .end()
+        it(`should render data manager column picker${compact ? ', compact' : ''}`, () => {
+          cy.viewport(1300, 900).visit(
+            /* spell-checker:disable-next-line */
+            `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-normal${compact ? '-compact' : ''}`,
+          );
 
-          .get('#storybook-root')
-          .should('exist')
-          .should('be.visible')
-          .end()
+          cy.skyReady('app-data-manager', ['#ready', '#storybook-root']).end();
+
           // Necessary to wait for the grid to render.
-          .wait(1000)
-          .get('.sky-col-picker-btn')
-          .click()
-          .end()
-          .get('sky-modal-header')
-          .should('exist')
-          .should('be.visible')
-          .click()
-          .end()
-          .window()
-          .skyVisualTest(
-            `datamanagercomponent-datamanager--data-manager-column-picker-${theme}`,
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(1000).get('.sky-col-picker-btn').click();
+
+          cy.get('sky-modal-header')
+            .should('exist')
+            .should('be.visible')
+            .click();
+
+          cy.window().skyVisualTest(
+            /* spell-checker:disable-next-line */
+            `datamanagercomponent-datamanager--data-manager-column-picker-${theme}${compact ? '-compact' : ''}`,
             {
               clip: { x: 0, y: 0, width: 1280, height: 900 },
               overwrite: true,
               disableTimersAndAnimations: true,
             },
           );
+        });
       });
     });
   });

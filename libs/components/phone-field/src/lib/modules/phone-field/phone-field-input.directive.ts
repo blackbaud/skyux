@@ -1,15 +1,12 @@
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
   Directive,
   ElementRef,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
-  Optional,
-  forwardRef,
+  booleanAttribute,
+  inject,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -20,25 +17,16 @@ import {
   Validator,
 } from '@angular/forms';
 
-import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import {
+  PhoneNumber,
+  PhoneNumberFormat,
+  PhoneNumberUtil,
+} from 'google-libphonenumber';
+import { Subject, take, takeUntil } from 'rxjs';
 
 import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
 import { SkyPhoneFieldComponent } from './phone-field.component';
-import { SkyPhoneFieldCountry } from './types/country';
-
-const SKY_PHONE_FIELD_VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => SkyPhoneFieldInputDirective),
-  multi: true,
-};
-
-const SKY_PHONE_FIELD_VALIDATOR = {
-  provide: NG_VALIDATORS,
-  useExisting: forwardRef(() => SkyPhoneFieldInputDirective),
-  multi: true,
-};
+import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
 
 /**
  * Creates a button, search input, and text input for entering and validating
@@ -55,24 +43,35 @@ const SKY_PHONE_FIELD_VALIDATOR = {
  */
 @Directive({
   selector: '[skyPhoneFieldInput]',
-  providers: [SKY_PHONE_FIELD_VALUE_ACCESSOR, SKY_PHONE_FIELD_VALIDATOR],
+  providers: [
+    {
+      provide: NG_VALIDATORS,
+      useExisting: SkyPhoneFieldInputDirective,
+      multi: true,
+    },
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: SkyPhoneFieldInputDirective,
+      multi: true,
+    },
+  ],
 })
 export class SkyPhoneFieldInputDirective
-  implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor, Validator
+  implements OnInit, OnDestroy, ControlValueAccessor, Validator
 {
   /**
    * Whether to disable the phone field on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
    * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
-  @Input()
-  public set disabled(value: boolean | undefined) {
-    const coercedValue = coerceBooleanProperty(value);
+  @Input({ transform: booleanAttribute })
+  public set disabled(value: boolean) {
     if (this.#phoneFieldComponent) {
-      this.#phoneFieldComponent.countrySelectDisabled = coercedValue;
-      this.#adapterService?.setElementDisabledState(this.#elRef, coercedValue);
+      this.#phoneFieldComponent.countrySelectDisabled = value;
+      this.#adapterSvc?.setElementDisabledState(this.#elRef, value);
     }
-    this.#_disabled = coercedValue;
+
+    this.#_disabled = value;
   }
 
   public get disabled(): boolean {
@@ -86,57 +85,28 @@ export class SkyPhoneFieldInputDirective
    * set this property to `true`.
    * @default false
    */
-  @Input()
-  public skyPhoneFieldNoValidate: boolean | undefined = false;
+  @Input({ transform: booleanAttribute })
+  public skyPhoneFieldNoValidate = false;
 
-  set #modelValue(value: string | undefined) {
-    const valueOrDefault = value ?? '';
-    this.#_modelValue = valueOrDefault;
-    this.#adapterService?.setElementValue(this.#elRef, valueOrDefault);
-
-    if (valueOrDefault) {
-      const formattedValue = this.#formatNumber(valueOrDefault.toString());
-
-      this.#onChange(formattedValue);
-    } else {
-      this.#onChange(valueOrDefault);
-    }
-    this.#validatorChange();
-  }
-
-  get #modelValue(): string {
-    return this.#_modelValue;
-  }
-
+  #_disabled = false;
+  #_value = '';
   #control: AbstractControl | undefined;
-
-  #textChanges: BehaviorSubject<string> | undefined;
-
   #ngUnsubscribe = new Subject<void>();
-
+  #notifyChange: ((value: string) => void) | undefined;
+  #notifyTouched: (() => void) | undefined;
   #phoneUtils = PhoneNumberUtil.getInstance();
 
-  #_disabled!: boolean;
+  readonly #adapterSvc = inject(SkyPhoneFieldAdapterService, {
+    host: true,
+    optional: true,
+    skipSelf: true,
+  });
 
-  #_modelValue = '';
-
-  #changeDetector: ChangeDetectorRef;
-  #elRef: ElementRef;
-
-  #adapterService: SkyPhoneFieldAdapterService | undefined;
-  #phoneFieldComponent: SkyPhoneFieldComponent | undefined;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    elRef: ElementRef,
-    @Optional() adapterService?: SkyPhoneFieldAdapterService,
-    @Optional() phoneFieldComponent?: SkyPhoneFieldComponent,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#elRef = elRef;
-    this.#adapterService = adapterService;
-    this.#phoneFieldComponent = phoneFieldComponent;
-  }
+  readonly #elRef = inject(ElementRef);
+  readonly #phoneFieldComponent = inject(SkyPhoneFieldComponent, {
+    host: true,
+    optional: true,
+  });
 
   public ngOnInit(): void {
     if (!this.#phoneFieldComponent) {
@@ -146,36 +116,24 @@ export class SkyPhoneFieldInputDirective
       );
     }
 
-    this.#adapterService?.setElementType(this.#elRef);
-    this.#adapterService?.addElementClass(this.#elRef, 'sky-form-control');
-    if (this.#phoneFieldComponent?.selectedCountry?.exampleNumber) {
-      this.#adapterService?.setElementPlaceholder(
-        this.#elRef,
-        this.#phoneFieldComponent.selectedCountry.exampleNumber,
-      );
-    }
-  }
+    this.#adapterSvc?.setElementType(this.#elRef);
+    this.#adapterSvc?.addElementClass(this.#elRef, 'sky-form-control');
 
-  public ngAfterViewInit(): void {
     this.#phoneFieldComponent?.selectedCountryChange
       .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((country: SkyPhoneFieldCountry) => {
-        this.#modelValue = this.#elRef.nativeElement.value;
-        if (country?.exampleNumber) {
-          this.#adapterService?.setElementPlaceholder(
-            this.#elRef,
-            country.exampleNumber,
-          );
-        }
+      .subscribe(() => {
+        const value = this.#adapterSvc?.getInputValue(this.#elRef);
+        this.#setValue(value);
+        this.#control?.updateValueAndValidity();
       });
 
-    // This is needed to address a bug in Angular 4, where the value is not changed on the view.
-    // See: https://github.com/angular/angular/issues/13792
-    /* istanbul ignore else */
-    if (this.#control && this.#modelValue) {
-      this.#control.setValue(this.#modelValue, { emitEvent: false });
-      this.#changeDetector.detectChanges();
-    }
+    this.#phoneFieldComponent.countrySearchForm
+      .get('countrySearch')
+      ?.valueChanges.pipe(takeUntil(this.#ngUnsubscribe), take(1))
+      .subscribe(() => {
+        this.#control?.markAsDirty();
+        this.#control?.markAsTouched();
+      });
   }
 
   public ngOnDestroy(): void {
@@ -183,197 +141,171 @@ export class SkyPhoneFieldInputDirective
     this.#ngUnsubscribe.complete();
   }
 
-  /**
-   * Writes the new value for reactive forms on change events on the input element
-   * @param event The change event that was received
-   */
-  @HostListener('change', ['$event'])
-  public onInputChange(event: any): void {
-    if (!this.#textChanges) {
-      this.#setupTextChangeSubscription(event.target.value);
-    } else {
-      this.#textChanges.next(event.target.value);
-    }
-  }
-
-  /**
-   * Marks reactive form controls as touched on input blur events
-   */
-  @HostListener('blur')
-  public onInputBlur(): void {
-    this.#onTouched();
-  }
-
-  @HostListener('input', ['$event'])
-  public onInputTyping(event: any): void {
-    if (!this.#textChanges) {
-      this.#setupTextChangeSubscription(event.target.value);
-    } else {
-      this.#textChanges.next(event.target.value);
-    }
-  }
-
-  /**
-   * Writes the new value for reactive forms
-   * @param value The new value for the input
-   */
-  public writeValue(value: string): void {
-    this.#phoneFieldComponent?.setCountryByDialCode(value);
-
-    this.#modelValue = value;
-  }
-
-  public registerOnChange(fn: (value: string | undefined) => void): void {
-    this.#onChange = fn;
+  public registerOnChange(fn: (value: string) => void): void {
+    this.#notifyChange = fn;
   }
 
   public registerOnTouched(fn: () => void): void {
-    this.#onTouched = fn;
+    this.#notifyTouched = fn;
   }
 
-  public registerOnValidatorChange(fn: () => void): void {
-    this.#validatorChange = fn;
-  }
-
-  /**
-   * Sets the disabled state on the input
-   * @param isDisabled the new value of the input's disabled state
-   */
   public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
-  /**
-   * Validate's the form control's current value
-   * @param control the form control for the input
-   */
   public validate(control: AbstractControl): ValidationErrors | null {
-    if (!this.#control) {
-      this.#control = control;
-    }
-
-    if (this.skyPhoneFieldNoValidate) {
-      return null;
-    }
+    this.#control ??= control;
 
     const value = control.value;
 
-    if (!value) {
+    if (!value || this.skyPhoneFieldNoValidate) {
       return null;
     }
 
-    if (
-      this.#phoneFieldComponent?.selectedCountry &&
-      !this.#validateNumber(value)
-    ) {
-      if (!this.#textChanges) {
-        // Mark the invalid control as touched so that the input's invalid CSS styles appear.
-        // (This is only required when the invalid value is set by the FormControl constructor.)
-        // We don't do this if the input is the active element so that we don't show validation
-        // errors unless it is invalid on initialization or the input has been blurred.
-        control.markAsTouched();
-      }
-
+    if (!this.#isValidPhoneNumber(value)) {
       return {
         skyPhoneField: {
           invalid: value,
         },
       };
     }
+
     return null;
   }
 
-  #setupTextChangeSubscription(text: string): void {
-    this.#textChanges = new BehaviorSubject(text);
+  public writeValue(value: unknown): void {
+    const rawValue = typeof value === 'string' ? value : '';
 
-    this.#textChanges
-      .pipe(debounceTime(500), takeUntil(this.#ngUnsubscribe))
-      .subscribe((newValue) => {
-        this.writeValue(newValue);
-      });
+    this.#phoneFieldComponent?.setCountryByDialCode(rawValue);
+    this.#adapterSvc?.setElementValue(this.#elRef, rawValue);
+
+    this.#setValue(rawValue);
+    const newValue = this.#getValue();
+
+    if (rawValue !== newValue) {
+      // If the value is set before the control is initialized, wait for the
+      // first cycle to complete before triggering a value change event.
+      // (This occurs when the control is initialized with an unformatted value
+      // but is formatted into a new value immediately in the `writeValue`
+      // method.)
+      if (!this.#control) {
+        setTimeout(() => {
+          this.#notifyChange?.(newValue);
+        });
+      } else {
+        this.#notifyChange?.(newValue);
+      }
+    }
   }
 
-  #validateNumber(phoneNumber: string): boolean {
+  @HostListener('blur')
+  protected onBlur(): void {
+    this.#notifyTouched?.();
+  }
+
+  @HostListener('input')
+  protected onInput(): void {
+    const value = this.#adapterSvc?.getInputValue(this.#elRef);
+    this.#phoneFieldComponent?.setCountryByDialCode(value);
+    this.#setValue(value);
+    this.#notifyChange?.(this.#getValue());
+  }
+
+  #maybeFormatPhoneNumber(value: string | undefined): string | undefined {
+    if (!value) {
+      return;
+    }
+
+    const defaultCountry = this.#getDefaultCountry();
+    const regionCode = this.#getRegionCode();
+    const returnFormat = this.#phoneFieldComponent?.returnFormat;
+
     try {
-      const numberObj = this.#phoneUtils.parseAndKeepRawInput(
-        phoneNumber,
-        this.#phoneFieldComponent?.selectedCountry?.iso2,
+      const phoneNumber = this.#phoneUtils.parseAndKeepRawInput(
+        value,
+        regionCode ?? defaultCountry,
       );
 
-      if (
-        this.#phoneFieldComponent &&
-        !this.#phoneFieldComponent.allowExtensions &&
-        numberObj.getExtension()
-      ) {
+      if (this.#phoneUtils.isPossibleNumber(phoneNumber)) {
+        return this.#formatPhoneNumber(
+          phoneNumber,
+          returnFormat,
+          defaultCountry,
+          regionCode,
+        );
+      }
+    } catch {
+      /* */
+    }
+
+    return;
+  }
+
+  #formatPhoneNumber(
+    phoneNumber: PhoneNumber,
+    returnFormat?: SkyPhoneFieldNumberReturnFormat,
+    defaultCountry?: string,
+    regionCode?: string,
+  ): string {
+    switch (returnFormat) {
+      case 'international':
+        return this.#phoneUtils.format(
+          phoneNumber,
+          PhoneNumberFormat.INTERNATIONAL,
+        );
+
+      case 'national':
+        return this.#phoneUtils.format(phoneNumber, PhoneNumberFormat.NATIONAL);
+
+      case 'default':
+      default:
+        return regionCode && regionCode !== defaultCountry
+          ? this.#phoneUtils.format(
+              phoneNumber,
+              PhoneNumberFormat.INTERNATIONAL,
+            )
+          : this.#phoneUtils.format(phoneNumber, PhoneNumberFormat.NATIONAL);
+    }
+  }
+
+  #getDefaultCountry(): string | undefined {
+    return this.#phoneFieldComponent?.defaultCountry;
+  }
+
+  #getRegionCode(): string | undefined {
+    return this.#phoneFieldComponent?.selectedCountry?.iso2;
+  }
+
+  #getValue(): string {
+    return this.#_value;
+  }
+
+  #isValidPhoneNumber(value: string): boolean {
+    const defaultCountry = this.#getDefaultCountry();
+    const regionCode = this.#getRegionCode() ?? defaultCountry;
+    const allowExtensions = !!this.#phoneFieldComponent?.allowExtensions;
+
+    try {
+      const phoneNumber = this.#phoneUtils.parseAndKeepRawInput(
+        value,
+        regionCode,
+      );
+
+      if (!allowExtensions && phoneNumber.getExtension()) {
         return false;
       }
 
-      return this.#phoneUtils.isValidNumberForRegion(
-        numberObj,
-        this.#phoneFieldComponent?.selectedCountry?.iso2,
-      );
-    } catch (e) {
+      return this.#phoneUtils.isValidNumberForRegion(phoneNumber, regionCode);
+    } catch {
       return false;
     }
   }
 
-  /**
-   * Format's the given phone number based on the currently selected country.
-   * @param phoneNumber The number to format
-   */
-  #formatNumber(phoneNumber: string): string {
-    try {
-      const numberObj = this.#phoneUtils.parseAndKeepRawInput(
-        phoneNumber,
-        this.#phoneFieldComponent?.selectedCountry?.iso2,
-      );
-      if (this.#phoneUtils.isPossibleNumber(numberObj)) {
-        switch (this.#phoneFieldComponent?.returnFormat) {
-          case 'international':
-            return this.#phoneUtils.format(
-              numberObj,
-              PhoneNumberFormat.INTERNATIONAL,
-            );
-          case 'national':
-            return this.#phoneUtils.format(
-              numberObj,
-              PhoneNumberFormat.NATIONAL,
-            );
-          case 'default':
-          default:
-            if (
-              this.#phoneFieldComponent?.selectedCountry?.iso2 !==
-              this.#phoneFieldComponent?.defaultCountry
-            ) {
-              return this.#phoneUtils.format(
-                numberObj,
-                PhoneNumberFormat.INTERNATIONAL,
-              );
-            } else {
-              return this.#phoneUtils.format(
-                numberObj,
-                PhoneNumberFormat.NATIONAL,
-              );
-            }
-        }
-      } else {
-        return phoneNumber;
-      }
-    } catch (e) {
-      /* sanity check */
-      /* istanbul ignore next */
-      return phoneNumber;
+  #setValue(value: string | undefined): void {
+    /* istanbul ignore else */
+    if (value !== undefined) {
+      const formatted = this.#maybeFormatPhoneNumber(value);
+      this.#_value = formatted ?? value;
     }
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function , @typescript-eslint/no-unused-vars
-  #onChange = (_: string | undefined) => {};
-
-  // istanbul ignore next
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  #onTouched = () => {};
-
-  // istanbul ignore next
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  #validatorChange = () => {};
 }

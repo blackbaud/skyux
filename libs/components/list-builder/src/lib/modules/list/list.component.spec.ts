@@ -2,9 +2,9 @@ import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -14,7 +14,7 @@ import {
   ListSortFieldSelectorModel,
 } from '@skyux/list-builder-common';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, isObservable } from 'rxjs';
 import { map as observableMap, skip, take } from 'rxjs/operators';
 
 import { SkyListInMemoryDataProvider } from '../list-data-provider-in-memory/list-data-in-memory.provider';
@@ -65,7 +65,7 @@ describe('List Component', () => {
         items: Observable<any>,
         bs: BehaviorSubject<any>;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
@@ -97,7 +97,7 @@ describe('List Component', () => {
           { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
         ];
 
-        bs = new BehaviorSubject<Array<any>>(itemsArray);
+        bs = new BehaviorSubject<any[]>(itemsArray);
         items = bs.asObservable();
 
         TestBed.configureTestingModule({
@@ -153,7 +153,7 @@ describe('List Component', () => {
       }
 
       describe('basic actions', () => {
-        beforeEach(async(() => {
+        beforeEach(waitForAsync(() => {
           initializeList();
         }));
 
@@ -215,7 +215,7 @@ describe('List Component', () => {
           validateRowCount(element, 2);
         });
 
-        it('should search based on input text', async(() => {
+        it('should search based on input text', waitForAsync(() => {
           fixture.detectChanges();
           applySearch('banana').then(() => {
             fixture.detectChanges();
@@ -375,7 +375,7 @@ describe('List Component', () => {
         items: Observable<any>,
         bs: BehaviorSubject<any>;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
@@ -407,7 +407,7 @@ describe('List Component', () => {
           { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
         ];
 
-        bs = new BehaviorSubject<Array<any>>(itemsArray);
+        bs = new BehaviorSubject<any[]>(itemsArray);
         items = bs.asObservable();
 
         TestBed.configureTestingModule({
@@ -536,7 +536,7 @@ describe('List Component', () => {
       }));
 
       it('should allow users to initialize selectedIds with an observable', fakeAsync(() => {
-        component.selectedIds = new BehaviorSubject<Array<string>>(['1', '3']);
+        component.selectedIds = new BehaviorSubject<string[]>(['1', '3']);
 
         tick();
         fixture.detectChanges();
@@ -588,7 +588,7 @@ describe('List Component', () => {
       }));
 
       it('should allow users to change selectedIds when using observables', fakeAsync(() => {
-        component.selectedIds = new BehaviorSubject<Array<string>>(['3', '4']);
+        component.selectedIds = new BehaviorSubject<string[]>(['3', '4']);
 
         tick();
         fixture.detectChanges();
@@ -604,7 +604,7 @@ describe('List Component', () => {
           expect(selectedIdMap.get('7')).toBeUndefined();
         });
 
-        component.selectedIds = new BehaviorSubject<Array<string>>([]);
+        component.selectedIds = new BehaviorSubject<string[]>([]);
         tick();
         fixture.detectChanges();
         state.pipe(take(1)).subscribe((current) => {
@@ -701,7 +701,7 @@ describe('List Component', () => {
         tick();
 
         fixture.detectChanges();
-        const selectedIds: Array<string> = Array.from(
+        const selectedIds: string[] = Array.from(
           component.selectedItems.entries(),
         )
           .filter((item) => item[1])
@@ -800,7 +800,7 @@ describe('List Component', () => {
         items: Observable<any>,
         bs: BehaviorSubject<any>;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
@@ -832,7 +832,7 @@ describe('List Component', () => {
           { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
         ];
 
-        bs = new BehaviorSubject<Array<any>>(itemsArray);
+        bs = new BehaviorSubject<any[]>(itemsArray);
         items = bs.asObservable();
 
         TestBed.configureTestingModule({
@@ -992,7 +992,7 @@ describe('List Component', () => {
         fixture: any,
         element: DebugElement;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
@@ -1068,7 +1068,7 @@ describe('List Component', () => {
         items: Observable<any>,
         bs: BehaviorSubject<any>;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
@@ -1077,7 +1077,7 @@ describe('List Component', () => {
           { id: '2', column1: '01', column2: 'Banana', column3: 1, column4: 6 },
         ];
 
-        bs = new BehaviorSubject<Array<any>>(itemsArray);
+        bs = new BehaviorSubject<any[]>(itemsArray);
         items = bs.asObservable();
         dataProvider = new SkyListInMemoryDataProvider(items);
 
@@ -1116,7 +1116,7 @@ describe('List Component', () => {
         expect(element.queryAll(By.css('tr.sky-grid-row')).length).toBe(0);
       });
 
-      it('displayed items returns without error', async(() => {
+      it('displayed items returns without error', waitForAsync(() => {
         const list = fixture.componentInstance.list;
 
         list.displayedItems.subscribe((d: any) => {
@@ -1127,7 +1127,7 @@ describe('List Component', () => {
         expect(list.displayedItems).not.toBe(null);
       }));
 
-      it('displayed items returns with generated ids', async(() => {
+      it('displayed items returns with generated ids', waitForAsync(() => {
         const list = fixture.componentInstance.list;
 
         bs.next([
@@ -1185,7 +1185,7 @@ describe('List Component', () => {
         fixture: any,
         dataProvider: SkyListInMemoryDataProvider;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
         dataProvider = new SkyListInMemoryDataProvider();
@@ -1238,7 +1238,7 @@ describe('List Component', () => {
     describe('List Component with no data and no data provider', () => {
       let state: ListState, dispatcher: ListStateDispatcher, fixture: any;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
@@ -1275,7 +1275,7 @@ describe('List Component', () => {
       it('displayed items should throw error', () => {
         const list = fixture.componentInstance.list;
         try {
-          list.displayedItems;
+          isObservable(list.displayedItems);
         } catch (error) {
           expect(error.message).toBe(
             'List requires data or dataProvider to be set.',
@@ -1295,7 +1295,7 @@ describe('List Component', () => {
         items: Observable<any>,
         bs: BehaviorSubject<any>;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
@@ -1327,7 +1327,7 @@ describe('List Component', () => {
           { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
         ];
 
-        bs = new BehaviorSubject<Array<any>>(itemsArray);
+        bs = new BehaviorSubject<any[]>(itemsArray);
         items = bs.asObservable();
 
         TestBed.configureTestingModule({
@@ -1364,7 +1364,7 @@ describe('List Component', () => {
         expect(
           element.queryAll(
             By.css(
-              'sky-list-view-test[ng-reflect-name="First"] .list-view-test-item',
+              'sky-list-view-test[data-sky-id="first-list-view"] .list-view-test-item',
             ),
           ).length,
         ).toBe(7);
@@ -1375,7 +1375,7 @@ describe('List Component', () => {
         expect(
           element.queryAll(
             By.css(
-              'sky-list-view-test[ng-reflect-name="Second"] .list-view-test-item',
+              'sky-list-view-test[data-sky-id="second-list-view"] .list-view-test-item',
             ),
           ).length,
         ).toBe(7);
@@ -1432,7 +1432,7 @@ describe('List Component', () => {
       expect(model.id).toBeUndefined();
     });
 
-    it('should construct ListToolbarItemsLoadAction action', async(() => {
+    it('should construct ListToolbarItemsLoadAction action', waitForAsync(() => {
       const action = new ListToolbarItemsLoadAction([
         new ListToolbarItemModel(),
       ]);

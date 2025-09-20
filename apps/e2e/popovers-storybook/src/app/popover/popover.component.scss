@@ -1,15 +1,23 @@
 body {
   min-width: 1280px;
-  min-height: 800px;
+  min-height: 1600px;
 }
 
-.static-popover-row {
-  margin: 0;
+.static-popover-container {
+  display: flex;
+}
+
+.static-popover-column {
+  display: flex;
+  flex-direction: column;
 }
 
 .static-popover-wrapper {
-  width: 300px;
+  // modern popovers are either 40% of the view width or 50 characters wide, whichever is smaller. 50 characters is approxmately 525px right now,
+  // so setting the width to 600px gives it the space it would need at the widest possible width + some extra space for the trigger button and spacing.
+  width: 600px;
   height: 180px;
+  margin: 10px;
   display: inline-block;
   position: relative;
 }
@@ -25,12 +33,12 @@ body {
 
   &-above {
     bottom: 0;
-    left: 145px;
+    left: 295px;
   }
 
   &-below {
     top: 0;
-    left: 145px;
+    left: 295px;
   }
 
   &-right {

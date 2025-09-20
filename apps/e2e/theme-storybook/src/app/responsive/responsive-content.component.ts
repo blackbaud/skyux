@@ -4,5 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-responsive-content',
   templateUrl: './responsive-content.component.html',
   styleUrls: ['./responsive-content.component.scss'],
+  standalone: false,
 })
 export class ResponsiveContentComponent {}

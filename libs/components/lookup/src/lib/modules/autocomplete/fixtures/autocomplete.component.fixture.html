@@ -6,11 +6,14 @@
     Favorite color
   </label>
   <sky-autocomplete
+    #standardAutocomplete
     [ariaLabelledBy]="'my-autocomplete-label'"
     [data]="data"
     [debounceTime]="debounceTime"
     [descriptorProperty]="descriptorProperty"
+    [dropdownHintText]="dropdownHintText"
     [enableShowMore]="enableShowMore"
+    [highlightSearchText]="highlightSearchText"
     [messageStream]="messageStream"
     [propertiesToSearch]="propertiesToSearch"
     [search]="search"
@@ -23,10 +26,9 @@
     (addClick)="addButtonClicked()"
     (selectionChange)="onSelectionChange($event)"
     (showMoreClick)="onShowMoreClick()"
-    #standardAutocomplete
   >
+    @if (!hideInput) {
     <input
-      *ngIf="!hideInput"
       id="my-autocomplete-input"
       name="favoriteColor"
       skyAutocomplete
@@ -35,19 +37,25 @@
       [disabled]="disabled"
       [(ngModel)]="model.favoriteColor"
     />
+    }
   </sky-autocomplete>
 </form>
 
 <form #asyncForm="ngForm" novalidate>
+  {{ highlightSearchText }}
   <label for="my-async-autocomplete-input" id="my-async-autocomplete-label">
     Favorite color (async)
   </label>
   <sky-autocomplete
+    #asyncAutocomplete
+    [allowAnyValue]="allowAnyValue"
     [ariaLabelledBy]="'my-async-autocomplete-label'"
     [data]="data"
     [debounceTime]="debounceTime"
     [descriptorProperty]="descriptorProperty"
+    [dropdownHintText]="dropdownHintText"
     [enableShowMore]="enableShowMore"
+    [highlightSearchText]="highlightSearchText"
     [messageStream]="messageStream"
     [propertiesToSearch]="propertiesToSearch"
     [searchFilters]="searchFilters"
@@ -60,10 +68,9 @@
     (searchAsync)="searchAsync($event)"
     (selectionChange)="onSelectionChange($event)"
     (showMoreClick)="onShowMoreClick()"
-    #asyncAutocomplete
   >
+    @if (!hideInput) {
     <input
-      *ngIf="!hideInput"
       id="my-async-autocomplete-input"
       name="favoriteColor"
       skyAutocomplete
@@ -72,10 +79,11 @@
       [disabled]="disabled"
       [(ngModel)]="model.favoriteColor"
     />
+    }
   </sky-autocomplete>
 </form>
 
-<ng-template let-item="item" #customSearchResultTemplate>
+<ng-template #customSearchResultTemplate let-item="item">
   {{ item.name }} &bull;
   <span class="custom-search-result-id"> ID {{ item.objectid }} </span>
 </ng-template>

@@ -1,0 +1,26 @@
+<form novalidate [formGroup]="formGroup">
+  <sky-fluid-grid gutterSize="small" [disableMargin]="true">
+    <sky-row>
+      <sky-column [screenXSmall]="6">
+        <sky-input-box data-sky-id="name-field" labelText="Name" stacked="true">
+          <input formControlName="name" type="text" />
+        </sky-input-box>
+      </sky-column>
+      <sky-column [screenXSmall]="6">
+        <sky-input-box data-sky-id="id-field" labelText="ID" stacked="true">
+          <input formControlName="id" type="text" />
+          <span class="sky-error-indicator">
+            @if (formGroup.get('id')?.invalid) {
+              <sky-status-indicator
+                indicatorType="danger"
+                descriptionType="error"
+              >
+                Enter a valid value.
+              </sky-status-indicator>
+            }
+          </span>
+        </sky-input-box>
+      </sky-column>
+    </sky-row>
+  </sky-fluid-grid>
+</form>

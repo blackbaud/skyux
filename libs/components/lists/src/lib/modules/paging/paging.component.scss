@@ -1,114 +1,200 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'sass:color';
 
-$sky-paging-modern-padding-top-bottom: 3px;
+@include compatMixins.sky-default-overrides('.sky-paging') {
+  --sky-override-paging-btn-background-color: #{$sky-color-white};
+  --sky-override-paging-btn-background-color-active: #{$sky-color-white};
+  --sky-override-paging-btn-background-color-focus: #{$sky-color-white};
+  --sky-override-paging-btn-background-color-hover: #{color.adjust(
+      $sky-background-color-neutral-light,
+      $lightness: -10%
+    )};
+  --sky-override-paging-btn-border: 1px solid #{$sky-border-color-neutral-light};
+  --sky-override-paging-btn-border-active: 1px solid
+    #{$sky-border-color-neutral-light};
+  --sky-override-paging-btn-border-focus: 1px solid
+    #{$sky-border-color-neutral-light};
+  --sky-override-paging-btn-border-hover: 1px solid
+    #{$sky-border-color-neutral-light};
+  --sky-override-paging-btn-border-radius: 0;
+  --sky-override-paging-btn-box-shadow-focus: none;
+  --sky-override-paging-btn-color: inherit;
+  --sky-override-paging-btn-color-disabled: #{$sky-text-color-deemphasized};
+  --sky-override-paging-btn-float: left;
+  --sky-override-paging-btn-font-size: #{$sky-font-size-base};
+  --sky-override-paging-btn-font-variant-numeric: normal;
+  --sky-override-paging-btn-iterators-padding: 4px 8.5px;
+  --sky-override-paging-btn-line-height: calc(20 / 14);
+  --sky-override-paging-btn-margin-left: -1px;
+  --sky-override-paging-btn-margin-right: 0;
+  --sky-override-paging-btn-outline-focus: auto;
+  --sky-override-paging-btn-padding: 4px 10px;
+  --sky-override-paging-btn-states-box-shadow: none;
+  --sky-override-paging-content-wrapper-margin-bottom: var(
+    --sky-margin-stacked-lg
+  );
+  --sky-override-paging-current-background-color: #{$sky-background-color-neutral-light};
+  --sky-override-paging-current-border: 1px solid
+    #{$sky-border-color-neutral-light};
+  --sky-override-paging-current-box-shadow: none;
+  --sky-override-paging-ul-margin: #{$sky-margin-plus-half} 0 0 0;
+}
 
 :host {
   display: block;
 }
 
-ul {
-  margin: $sky-margin-plus-half 0 0 0;
-  display: inline-block;
-  padding-left: 0;
-  border-radius: 4px;
-}
+.sky-paging-content-wrapper {
+  display: none;
 
-li {
-  display: inline;
-}
-
-.sky-paging-btn {
-  @include mixins.sky-border(light, top, right, bottom, left);
-  border-radius: 0;
-  background-color: $sky-color-white;
-  color: inherit;
-  float: left;
-  margin-left: -1px;
-  padding: 4px 10px;
-  text-decoration: none;
-  line-height: $sky-line-height-base;
-  font-size: $sky-font-size-base;
-  cursor: pointer;
-
-  &.sky-paging-caret {
-    transform: none;
+  &:not(:empty) {
+    display: block;
+    margin-bottom: var(
+      --sky-override-paging-content-wrapper-margin-bottom,
+      var(--sky-space-stacked-l)
+    );
   }
 
-  &.sky-paging-current,
-  &.sky-paging-current:disabled,
-  &.sky-paging-current[disabled] {
-    background-color: $sky-background-color-neutral-light;
-    cursor: default;
-    color: inherit;
-    opacity: 1;
-  }
-
-  &:hover {
-    background-color: darken($sky-background-color-neutral-light, 10%);
-  }
-
-  &:disabled {
-    color: $sky-text-color-deemphasized;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
-
-  &.sky-paging-btn-previous,
-  &.sky-paging-btn-next {
-    padding-left: 8.5px;
-    padding-right: 8.5px;
-  }
-}
-
-@include mixins.sky-theme-modern {
-  .sky-paging-btn {
-    background-color: transparent;
+  &:focus-visible {
+    outline: none;
     border: none;
-    box-shadow: none;
-    border-radius: $sky-theme-modern-box-border-radius-default;
-    margin-right: $sky-theme-modern-margin-inline-sm;
-    padding: $sky-paging-modern-padding-top-bottom $sky-theme-modern-space-sm;
+  }
+}
+
+.sky-paging {
+  ul {
+    margin: var(
+      --sky-override-paging-ul-margin,
+      var(--sky-space-stacked-l) 0 0 0
+    );
+    display: inline-block;
+    padding-left: 0;
+  }
+
+  li {
+    display: inline;
+
+    &:has(.sky-paging-btn:disabled) {
+      cursor: not-allowed;
+    }
+  }
+
+  // NOTE: Many rules such as the border radius, background color, and box shadow rules for this and the iterator buttons can be removed when support for default theme is dropped as many of those styles are specified by the borderless button class.
+  .sky-paging-btn {
+    border: var(--sky-override-paging-btn-border, none);
+    border-radius: var(
+      --sky-override-paging-btn-border-radius,
+      var(--sky-border-radius-s)
+    );
+    background-color: var(
+      --sky-override-paging-btn-background-color,
+      var(--sky-color-background-action-tertiary-base)
+    );
+    color: var(--sky-override-paging-btn-color, var(--sky-color-text-default));
+    float: var(--sky-override-paging-btn-float);
+    margin-left: var(--sky-override-paging-btn-margin-left);
+    margin-right: var(
+      --sky-override-paging-btn-margin-right,
+      var(--sky-space-gap-action_group-m)
+    );
+    padding: var(
+      --sky-override-paging-btn-padding,
+      var(--sky-comp-paging_button-space-inset-top)
+        var(--sky-comp-paging_button-space-inset-right)
+        var(--sky-comp-paging_button-space-inset-bottom)
+        var(--sky-comp-paging_button-space-inset-left)
+    );
+    font-size: var(
+      --sky-override-paging-btn-font-size,
+      var(--sky-font-size-body-m)
+    );
+    font-variant-numeric: var(
+      --sky-override-paging-btn-font-variant-numeric,
+      tabular-nums
+    );
+    line-height: var(
+      --sky-override-paging-btn-line-height,
+      var(--sky-font-line_height-body-m)
+    );
+    cursor: pointer;
+
+    &.sky-paging-current,
+    &.sky-paging-current:disabled,
+    &.sky-paging-current[disabled] {
+      background-color: var(
+        --sky-override-paging-current-background-color,
+        var(--sky-color-background-selected-soft)
+      );
+      cursor: default;
+      color: inherit;
+      opacity: 1;
+      border: var(--sky-override-paging-current-border);
+      box-shadow: var(
+        --sky-override-paging-current-box-shadow,
+        inset 0 0 0 var(--sky-border-width-selected-s)
+          var(--sky-color-border-selected)
+      );
+    }
 
     &:hover {
-      background-color: transparent;
-      border: solid 1px $sky-theme-modern-background-color-primary-dark;
-      padding: $sky-paging-modern-padding-top-bottom - 1
-        $sky-theme-modern-space-sm - 1;
-      z-index: 1;
+      background-color: var(
+        --sky-override-paging-btn-background-color-hover,
+        var(--sky-color-background-action-tertiary-hover)
+      );
+      border: var(--sky-override-paging-btn-border-hover);
+      box-shadow: var(
+        --sky-override-paging-btn-states-box-shadow,
+        inset 0 0 0 var(--sky-border-width-action-hover)
+          var(--sky-color-border-action-tertiary-hover)
+      );
     }
 
-    &:active,
-    &:focus {
-      border: solid 2px $sky-theme-modern-background-color-primary-dark;
-      color: $sky-text-color-default;
-      padding: $sky-paging-modern-padding-top-bottom - 2
-        $sky-theme-modern-space-sm - 2;
+    &:active {
+      background-color: var(
+        --sky-override-paging-btn-background-color-active,
+        var(--sky-color-background-action-tertiary-active)
+      );
+      border: var(--sky-override-paging-btn-border-active);
+      box-shadow: var(
+        --sky-override-paging-btn-states-box-shadow,
+        inset 0 0 0 var(--sky-border-width-action-active)
+          var(--sky-color-border-action-tertiary-active)
+      );
     }
 
-    &:focus:not(:active) {
-      outline: none;
-      box-shadow: $sky-theme-modern-elevation-1-shadow-size
-        $sky-theme-modern-elevation-1-shadow-color;
+    &:focus-visible:not(:active) {
+      background-color: var(
+        --sky-override-paging-btn-background-color-focus,
+        var(--sky-color-background-action-tertiary-focus)
+      );
+      border: var(--sky-override-paging-btn-border-focus);
+      box-shadow: var(
+        --sky-override-paging-btn-box-shadow-focus,
+        inset 0 0 0 var(--sky-border-width-action-focus)
+          var(--sky-color-border-action-tertiary-focus)
+      );
+      outline: var(--sky-override-paging-btn-outline-focus, none);
     }
-  }
 
-  .sky-paging-current {
-    background-color: var(--sky-background-color-item-selected);
-    border: solid 1px $sky-theme-modern-background-color-primary-dark;
-    padding: 2px 9px;
-  }
-}
-
-@include mixins.sky-theme-modern-dark {
-  .sky-paging-btn {
-    &:active,
-    &:focus {
-      color: $sky-theme-modern-mode-dark-font-body-default-color;
+    &:disabled {
+      box-shadow: none;
+      color: var(
+        --sky-override-paging-btn-color-disabled,
+        var(--sky-color-icon-deemphasized)
+      );
+      pointer-events: none;
     }
-  }
 
-  .sky-paging-current {
-    background-color: $sky-theme-modern-background-color-primary-dark;
+    &.sky-paging-btn-previous,
+    &.sky-paging-btn-next {
+      padding: var(
+        --sky-override-paging-btn-iterators-padding,
+        var(--sky-comp-button-borderless-space-inset-top)
+          var(--sky-comp-button-borderless-space-inset-right)
+          var(--sky-comp-button-borderless-space-inset-bottom)
+          var(--sky-comp-button-borderless-space-inset-left)
+      );
+    }
   }
 }

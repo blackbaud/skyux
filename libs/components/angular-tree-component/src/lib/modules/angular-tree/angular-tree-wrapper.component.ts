@@ -12,7 +12,6 @@ import {
   TreeModel,
   TreeNode,
 } from '@blackbaud/angular-tree-component';
-import { IDTypeDictionary } from '@blackbaud/angular-tree-component/lib/defs/api';
 
 /**
  * Wraps the Angular `tree-root` component as part of the `SkyAngularTreeModule` that provides
@@ -25,6 +24,7 @@ import { IDTypeDictionary } from '@blackbaud/angular-tree-component/lib/defs/api
   templateUrl: './angular-tree-wrapper.component.html',
   styleUrls: ['./angular-tree-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   /**
@@ -62,7 +62,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   @Input()
   public showToolbar: boolean | undefined = false;
 
-  public selectableNodeIds: IDTypeDictionary = {};
+  public selectableNodeIds: Record<string, unknown> = {};
 
   @ContentChild(TreeComponent)
   public treeComponent: TreeComponent | undefined;
@@ -112,7 +112,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     if (!this.selectSingle && this.treeComponent) {
       // Get a list of all node ids that are selectable.
       this.selectableNodeIds = {};
-      const getSelectableNodeIds = (node: TreeNode) => {
+      const getSelectableNodeIds = (node: TreeNode): void => {
         const selectable =
           node.isSelectable() &&
           !(node.hasChildren && this.selectLeafNodesOnly);
@@ -165,7 +165,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     const targetNodeId = event.target.getAttribute('data-node-id');
 
     // Key press did not happen on the node.
-    if (targetNodeId !== node.id.toString()) {
+    if (!node || targetNodeId !== node.id.toString()) {
       // angular-tree-component will preventDefault() on anything using a key action handler,
       // thus stopping "enter" and "space" keys to throw "click" events on interactive elements.
       // This logic ensures components looking for "clicks" on those keystrokes still work (dropdown component).
@@ -187,26 +187,30 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
 
     if (defaultActionMapping?.mouse) {
       // Override default click/enter/space action to check for unsupported options (leaf node, single-select).
-      defaultActionMapping.mouse.click = (tree, node, event) =>
+      defaultActionMapping.mouse.click = (tree, node, event): void =>
         this.#nodeDefaultAction(tree, node, event);
     }
 
     if (defaultActionMapping?.keys) {
-      defaultActionMapping.keys[KEYS.SPACE] = (tree, node, event) =>
+      defaultActionMapping.keys[KEYS.SPACE] = (tree, node, event): void =>
         this.#onKeyDownAction(tree, node, event);
-      defaultActionMapping.keys[KEYS.ENTER] = (tree, node, event) =>
+      defaultActionMapping.keys[KEYS.ENTER] = (tree, node, event): void =>
         this.#onKeyDownAction(tree, node, event);
 
       // Disable left/right arrow keys to support navigating through interactive elements with keyboard.
       // See onArrowLeft() / onArrowRight() methods inside the angular-tree-node.component.ts.
       /* istanbul ignore next */
-      defaultActionMapping.keys[KEYS.RIGHT] = (tree, node, $event) => undefined;
+      defaultActionMapping.keys[KEYS.RIGHT] = (tree, node, $event): void =>
+        undefined;
       /* istanbul ignore next */
-      defaultActionMapping.keys[KEYS.LEFT] = (tree, node, $event) => undefined;
+      defaultActionMapping.keys[KEYS.LEFT] = (tree, node, $event): void =>
+        undefined;
       /* istanbul ignore next */
-      defaultActionMapping.keys[KEYS.DOWN] = (tree, node, $event) => undefined;
+      defaultActionMapping.keys[KEYS.DOWN] = (tree, node, $event): void =>
+        undefined;
       /* istanbul ignore next */
-      defaultActionMapping.keys[KEYS.UP] = (tree, node, $event) => undefined;
+      defaultActionMapping.keys[KEYS.UP] = (tree, node, $event): void =>
+        undefined;
     }
   }
 

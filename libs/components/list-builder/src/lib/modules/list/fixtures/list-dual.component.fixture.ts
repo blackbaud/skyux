@@ -5,6 +5,7 @@ import { SkyListComponent } from '../list.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-dual.component.fixture.html',
+  standalone: false,
 })
 export class ListDualTestComponent {
   @ViewChild(SkyListComponent, {

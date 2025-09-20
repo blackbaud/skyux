@@ -1,0 +1,15 @@
+<div class="sky-padding-even-lg">
+  <form [formGroup]="formGroup">
+    <sky-input-box labelText="Start date">
+      <sky-datepicker
+        (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
+      >
+        <input formControlName="startDate" skyDatepickerInput type="text" />
+      </sky-datepicker>
+    </sky-input-box>
+  </form>
+
+  <p>
+    Selected date: <code>{{ formGroup.value.startDate | json }}</code>
+  </p>
+</div>

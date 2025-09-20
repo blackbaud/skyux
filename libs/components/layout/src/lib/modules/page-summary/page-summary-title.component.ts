@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
   selector: 'sky-page-summary-title',
   templateUrl: './page-summary-title.component.html',
   styleUrls: ['./page-summary-title.component.scss'],
+  standalone: false,
 })
 /* istanbul ignore next */
 /* Code coverage having problems with no statements in classes */

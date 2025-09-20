@@ -10,23 +10,107 @@
       }
     }"
   >
-    <sky-page-header-alerts>
-      <sky-alert alertType="warning" descriptionType="warning">
-        Urgent information about the page.
-      </sky-alert>
-    </sky-page-header-alerts>
-    <sky-page-header-details>
-      <sky-label labelType="info" descriptionType="important-info">
-        Important information
-      </sky-label>
-    </sky-page-header-details>
-    <sky-page-header-actions>
-      <button class="sky-btn sky-btn-default">Action one</button>
-      <button class="sky-btn sky-btn-default">Action two</button>
-    </sky-page-header-actions>
-    <sky-page-header-avatar>
-      <sky-avatar name="Test name"> </sky-avatar>
-    </sky-page-header-avatar>
+    @if (!hideAlert()) {
+      <sky-page-header-alerts>
+        <sky-alert alertType="warning" descriptionType="warning">
+          Urgent information about the page.
+        </sky-alert>
+      </sky-page-header-alerts>
+    }
+    @if (!hideDetails()) {
+      <sky-page-header-details>
+        <div [class.sky-margin-stacked-sm]="showDescriptionList()">
+          <sky-label labelType="info" descriptionType="important-info">
+            Important information
+          </sky-label>
+        </div>
+        @if (showDescriptionList()) {
+          <sky-description-list mode="horizontal">
+            <sky-description-list-content>
+              <sky-description-list-term> Status </sky-description-list-term>
+              <sky-description-list-description>
+                Requested
+              </sky-description-list-description>
+            </sky-description-list-content>
+            <sky-description-list-content>
+              <sky-description-list-term> Requested </sky-description-list-term>
+              <sky-description-list-description>
+                {{ date | skyDate: 'shortDate' }}
+              </sky-description-list-description>
+            </sky-description-list-content>
+            <sky-description-list-content>
+              <sky-description-list-term> Requester </sky-description-list-term>
+              <sky-description-list-description>
+                First.Last{{ '@' }}blackbaud.com
+              </sky-description-list-description>
+            </sky-description-list-content>
+          </sky-description-list>
+        }
+      </sky-page-header-details>
+    }
+    @if (!hideActions()) {
+      <sky-page-header-actions>
+        <button class="sky-btn sky-btn-default" type="button">
+          Action one
+        </button>
+        <button class="sky-btn sky-btn-default" type="button">
+          Action two
+        </button>
+        <sky-dropdown>
+          <sky-dropdown-button>Group action one</sky-dropdown-button>
+          <sky-dropdown-menu>
+            <sky-dropdown-item
+              ><button type="button">
+                Group action item one
+              </button></sky-dropdown-item
+            >
+            <sky-dropdown-item
+              ><button type="button">
+                Group action item two
+              </button></sky-dropdown-item
+            >
+          </sky-dropdown-menu>
+        </sky-dropdown>
+        <button class="sky-btn sky-btn-default" type="button">
+          Action six
+        </button>
+        <sky-dropdown>
+          <sky-dropdown-button>Group action two</sky-dropdown-button>
+          <sky-dropdown-menu>
+            <sky-dropdown-item
+              ><button type="button">
+                Group action item one
+              </button></sky-dropdown-item
+            >
+            <sky-dropdown-item
+              ><button type="button">
+                Group action item two
+              </button></sky-dropdown-item
+            >
+          </sky-dropdown-menu>
+        </sky-dropdown>
+        <sky-dropdown>
+          <sky-dropdown-button>Group action three</sky-dropdown-button>
+          <sky-dropdown-menu>
+            <sky-dropdown-item
+              ><button type="button">
+                Group action item one
+              </button></sky-dropdown-item
+            >
+            <sky-dropdown-item
+              ><button type="button">
+                Group action item two
+              </button></sky-dropdown-item
+            >
+          </sky-dropdown-menu>
+        </sky-dropdown>
+      </sky-page-header-actions>
+    }
+    @if (!hideAvatar()) {
+      <sky-page-header-avatar>
+        <sky-avatar name="Test name" />
+      </sky-page-header-avatar>
+    }
   </sky-page-header>
   <sky-page-content>
     <sky-fluid-grid gutterSize="medium" [disableMargin]="true">
@@ -46,4 +130,7 @@
       </sky-row>
     </sky-fluid-grid>
   </sky-page-content>
+  @if (showLinks()) {
+    <sky-page-links><app-links /></sky-page-links>
+  }
 </sky-page>

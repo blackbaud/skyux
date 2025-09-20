@@ -8,6 +8,9 @@ outputs:
   base:
     description: 'The base sha to use for nx affected commands.'
     value: ${{ steps.nx-set-shas.outputs.base || steps.set-shas.outputs.base }}
+  base-branch:
+    description: 'The base branch to use for nx affected commands.'
+    value: ${{ steps.read-default-base.outputs.main-branch-name }}
   head:
     description: 'The head sha to use for nx affected commands.'
     value: ${{ steps.nx-set-shas.outputs.head || steps.set-shas.outputs.head }}
@@ -24,11 +27,11 @@ runs:
       id: read-default-base
       shell: bash
       run: |
-        echo "main-branch-name=$(jq -r '.affected.defaultBase' nx.json)" >> $GITHUB_OUTPUT
+        echo "main-branch-name=$(jq -r '.baseBranch' .skyuxdev.json)" >> $GITHUB_OUTPUT
 
     - name: Derive appropriate SHAs for base and head for `nx affected` commands (using nrwl/nx-set-shas).
       id: nx-set-shas
-      uses: nrwl/nx-set-shas@v3
+      uses: nrwl/nx-set-shas@v4.1
       with:
         main-branch-name: ${{ steps.read-default-base.outputs.main-branch-name }}
         workflow-id: ${{ inputs.workflow-id }}
@@ -36,7 +39,7 @@ runs:
     - name: Fetch PR information (workflow_dispatch).
       if: ${{ github.event_name == 'workflow_dispatch' }}
       id: workflow-dispatch
-      uses: actions/github-script@v6
+      uses: actions/github-script@v7
       with:
         script: |
           // Find the last workflow run that intersects with commits to this PR.

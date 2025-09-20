@@ -1,14 +1,27 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
-@use 'node_modules/intl-tel-input/build/css/intlTelInput';
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+@import 'intl-tel-input/build/css/intlTelInput.css';
 
-@mixin sky-country-field-textarea {
-  overflow: hidden;
-  resize: none;
-  white-space: nowrap;
+@include compatMixins.sky-default-overrides('.sky-country-field-container') {
+  --sky-override-country-field-disabled-input-background-color: #{$sky-background-color-disabled};
+  --sky-override-country-field-max-height: 13px;
+  --sky-override-country-field-max-width: 25px;
+  --sky-override-country-field-transform: scaleX(1.25) translateX(2px);
 }
 
-.sky-country-field-country-btn + ::ng-deep .sky-form-control {
+@include compatMixins.sky-default-overrides(
+  '.sky-autocomplete-result:has(.sky-country-field-search-result-flag)'
+) {
+  --sky-override-country-field-max-height: 13px;
+  --sky-override-country-field-max-width: 25px;
+  --sky-override-country-field-phone-info-font-size: 15px;
+  --sky-override-country-field-search-result-dial-code-padding-left: 0;
+  --sky-override-country-field-search-result-info-padding-left: 29px;
+  --sky-override-country-field-transform: scaleX(1.25) translateX(2px);
+}
+
+.sky-country-field-country-btn + .sky-form-control {
   border-left: none;
 }
 
@@ -16,23 +29,40 @@
   width: 100%;
 }
 
-.sky-country-field-search-result-flag {
-  display: inline-block;
-  margin-right: $sky-margin-half;
+.sky-autocomplete-result:has(.sky-country-field-search-result-flag) {
+  position: relative;
 }
 
-.sky-country-field-flag {
-  display: none;
+.sky-country-field-search-result-flag {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+}
+
+.sky-country-field-search-result-info {
+  padding-left: var(
+    --sky-override-country-field-search-result-info-padding-left,
+    calc(var(--sky-size-icon-s) + var(--sky-space-gap-icon-m))
+  );
+}
+
+.sky-country-field-search-result-dial-code.sky-font-deemphasized {
+  font-size: var(--sky-override-country-field-phone-info-font-size, inherit);
+  padding-left: var(
+    --sky-override-country-field-search-result-dial-code-padding-left,
+    var(--sky-space-gap-label-s)
+  );
 }
 
 .sky-country-field-disabled {
   .sky-country-field-input {
     cursor: default;
-    background-color: $sky-background-color-disabled;
-  }
-
-  .sky-country-field-flag {
-    opacity: 0.65;
+    background-color: var(
+      --sky-override-country-field-disabled-input-background-color,
+      transparent
+    );
   }
 }
 
@@ -41,81 +71,23 @@
   display: flex;
   position: relative;
 
-  .sky-country-field-flag {
-    align-items: center;
-    margin-bottom: auto;
-    margin-top: auto;
-    position: absolute;
-    left: 13px;
-    height: 35px;
-    bottom: 0;
-  }
-
   textarea {
-    @include sky-country-field-textarea;
+    overflow: hidden;
+    resize: none !important;
+    white-space: nowrap;
   }
 }
 
-.sky-country-field-input-with-flag {
-  .sky-country-field-flag {
-    display: flex;
-  }
-
-  .sky-form-control {
-    padding-left: 40px;
-  }
-}
-
-.sky-country-field-country-selected,
-.sky-country-field-country-default {
-  @include mixins.sky-border(light, bottom);
-}
-
+// NOTE: These rules are set for non-input box country fields. Remove when support for this is fully removed.
 :host(.ng-invalid.ng-touched) .sky-country-field-input textarea {
-  @include mixins.sky-field-status(invalid);
+  box-shadow: 0 0 8px rgba($sky-highlight-color-danger, 0.6);
+  border: 1px solid var(--sky-highlight-color-danger);
+  outline: none;
 }
 
-::ng-deep {
-  .sky-theme-modern {
-    .sky-country-field-disabled {
-      .sky-country-field-flag {
-        filter: grayscale(100%);
-      }
-    }
-
-    .sky-input-box .sky-form-group {
-      .sky-country-field-input {
-        background-color: transparent;
-        border-radius: $sky-theme-modern-box-border-radius-default;
-
-        textarea.sky-form-control {
-          @include sky-country-field-textarea;
-        }
-      }
-
-      .sky-country-field-input-with-flag {
-        .sky-country-field-flag {
-          height: 40px;
-          left: 15px;
-          opacity: 1;
-        }
-
-        .sky-form-control {
-          padding-left: 45px;
-        }
-      }
-    }
-  }
-}
-
-.iti__flag {
-  max-width: 25px;
-  max-height: 13px;
-  background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.3/assets/images/intl-tel-input/flags.webp) !important;
-
-  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .iti__flag {
-      background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.3/assets/images/intl-tel-input/flags@2x.webp) !important;
-    }
-  }
+.sky-country-field-search-result-flag .iti__flag {
+  background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/2.0.1/assets/images/intl-tel-input/flags@2x.webp) !important;
+  max-width: var(--sky-override-country-field-max-width, inherit);
+  max-height: var(--sky-override-country-field-max-height, inherit);
+  transform: var(--sky-override-country-field-transform, inherit);
 }

@@ -1,0 +1,26 @@
+<h3 class="sky-docs-toc-heading">{{ headingText() }}</h3>
+<nav [attr.aria-label]="'Table of contents for ' + headingText()">
+  @for (link of links(); track link.anchorId) {
+    <a
+      class="sky-docs-toc-link sky-margin-stacked-sm"
+      queryParamsHandling="merge"
+      [class.sky-docs-toc-link-active]="link.active"
+      [fragment]="link.anchorId"
+      [routerLink]="[]"
+    >
+      <span class="sky-docs-toc-link-text">{{ link.text }}</span>
+      @if (link.categoryColor) {
+        <sky-docs-category-tag
+          class="sky-docs-toc-link-category sky-font-body-sm"
+          [color]="link.categoryColor"
+        >
+          @if (link.categoryTemplate) {
+            <ng-container [ngTemplateOutlet]="link.categoryTemplate" />
+          } @else {
+            {{ link.categoryText }}
+          }
+        </sky-docs-category-tag>
+      }
+    </a>
+  }
+</nav>

@@ -1,42 +1,51 @@
 <div style="width: 60%">
-  <label class="sky-control-label"> File attachment </label>
   <sky-file-drop
-    [acceptedTypes]="acceptedTypes"
-    (filesChanged)="filesUpdated($event)"
-    [allowLinks]="true"
-  >
-  </sky-file-drop>
-
-  <div *ngFor="let file of allItems">
-    <sky-file-item [fileItem]="file"> </sky-file-item>
-  </div>
-</div>
-
-<div style="width: 60%" *ngIf="basic">
-  <label class="sky-control-label"> File attachment with inline help</label>
-  <sky-help-inline class="sky-control-help"></sky-help-inline>
-  <sky-file-drop
+    helpPopoverContent="Help content"
+    helpPopoverTitle="Help title"
+    hintText="File attachment hint text"
+    labelText="File attachment"
+    linkUploadHintText="Start with http:// or https://"
     [acceptedTypes]="acceptedTypes"
     [allowLinks]="true"
+    [required]="required"
+    [stacked]="true"
     (filesChanged)="filesUpdated($event)"
-  >
-  </sky-file-drop>
-
-  <div *ngFor="let file of allItems">
-    <sky-file-item [fileItem]="file"> </sky-file-item>
-  </div>
+  />
+  @for (file of allItems; track file) {
+    <sky-file-item [fileItem]="file" />
+  }
 </div>
 
-<div style="width: 60%" *ngIf="basic">
-  <label class="sky-control-label"> File attachment links removed</label>
-  <sky-file-drop
-    [acceptedTypes]="acceptedTypes"
-    [allowLinks]="false"
-    (filesChanged)="filesUpdated($event)"
-  >
-  </sky-file-drop>
-
-  <div *ngFor="let file of allItems">
-    <sky-file-item [fileItem]="file"> </sky-file-item>
+@if (basic) {
+  <div style="width: 60%">
+    <label class="sky-control-label">
+      File attachment with old inline help</label
+    >
+    <sky-help-inline class="sky-control-help" />
+    <sky-file-drop
+      linkUploadHintText="Start with http:// or https://"
+      [acceptedTypes]="acceptedTypes"
+      [allowLinks]="true"
+      [stacked]="true"
+      (filesChanged)="filesUpdated($event)"
+    />
+    @for (file of allItems; track file) {
+      <sky-file-item [fileItem]="file" />
+    }
   </div>
-</div>
+}
+
+@if (basic) {
+  <div style="width: 60%">
+    <sky-file-drop
+      helpPopoverTitle="This should not show up"
+      labelText="File attachment links removed"
+      [acceptedTypes]="acceptedTypes"
+      [allowLinks]="false"
+      (filesChanged)="filesUpdated($event)"
+    />
+    @for (file of allItems; track file) {
+      <sky-file-item [fileItem]="file" />
+    }
+  </div>
+}

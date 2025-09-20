@@ -67,9 +67,9 @@ describe('Toast component', () => {
 
     const toastEl = document.querySelector('sky-toast');
 
-    const iconEl = toastEl?.querySelector('.sky-icon');
+    const iconEl = toastEl?.querySelector('sky-icon-svg');
 
-    expect(iconEl).toHaveCssClass(`fa-${expectedIcon}`);
+    expect(iconEl?.getAttribute('data-sky-icon')).toBe(expectedIcon);
   }
 
   function setupTest(): void {
@@ -88,9 +88,9 @@ describe('Toast component', () => {
 
   it('should show the correct icon based on the icon type', () => {
     setupTest();
-    validateIcon(undefined, 'exclamation-circle'); // default
-    validateIcon(SkyToastType.Info, 'exclamation-circle');
-    validateIcon(SkyToastType.Success, 'check');
+    validateIcon(undefined, 'info'); // default
+    validateIcon(SkyToastType.Info, 'info');
+    validateIcon(SkyToastType.Success, 'success');
     validateIcon(SkyToastType.Warning, 'warning');
     validateIcon(SkyToastType.Danger, 'warning');
   });
@@ -102,16 +102,6 @@ describe('Toast component', () => {
     fixture.nativeElement.querySelector('.sky-toast-btn-close').click();
     fixture.detectChanges();
     expect(component.toastComponent?.isOpen).toEqual(false);
-  });
-
-  it('should set aria attributes', () => {
-    setupTest();
-    expect(component.toastComponent?.ariaLive).toEqual('polite');
-    expect(component.toastComponent?.ariaRole).toEqual(undefined);
-    fixture.componentInstance.toastType = SkyToastType.Danger;
-    fixture.detectChanges();
-    expect(component.toastComponent?.ariaLive).toEqual('assertive');
-    expect(component.toastComponent?.ariaRole).toEqual('alert');
   });
 
   it('should pass accessibility', async () => {

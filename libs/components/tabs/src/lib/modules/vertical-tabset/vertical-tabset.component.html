@@ -1,4 +1,8 @@
-<div class="sky-vertical-tabset">
+<div
+  class="sky-vertical-tabset"
+  [tabIndex]="tablistHasFocus ? -1 : 0"
+  (focus)="tabsetFocus()"
+>
   <!--
     ARIA rules do not allow tabpanel elements to be children of a tablist element.
     However, the markup for each sky-vertical-tab component includes both the tab button
@@ -11,39 +15,52 @@
     guidelines.
   -->
   <span
-    aria-orientation="vertical"
     class="sky-vertical-tabset-tablist"
     [attr.aria-label]="ariaLabel"
     [attr.aria-labelledby]="ariaLabelledBy"
-    [attr.aria-owns]="ariaOwns"
+    [attr.aria-orientation]="isMobile ? undefined : 'vertical'"
+    [attr.aria-owns]="
+      isMobile ? undefined : (tabIdSvc.ids | async)?.join(' ') || undefined
+    "
     [attr.role]="isMobile ? undefined : ariaRole"
   ></span>
-  <div
-    *ngIf="maintainTabContent || tabService.tabsVisible()"
-    class="sky-vertical-tabset-group-container"
-    [@tabGroupEnter]="tabService.animationTabsVisibleState"
-    [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
-  >
-    <ng-content />
-  </div>
-  <div
-    *ngIf="maintainTabContent || tabService.contentVisible()"
-    class="sky-vertical-tabset-content"
-    [ngClass]="{
-      'sky-vertical-tabset-content-hidden': !tabService.contentVisible()
-    }"
-    [@contentEnter]="tabService.animationContentVisibleState"
-    #contentContainerWrapper
-  >
-    <div #skySideContent></div>
-    <button
-      *ngIf="!tabService.tabsVisible()"
-      (click)="tabService.showTabs()"
-      class="sky-btn sky-btn-primary sky-vertical-tabset-show-tabs-btn"
-      type="button"
+  @if (maintainTabContent || tabService.tabsVisible()) {
+    <div
+      #groupContainerWrapper
+      class="sky-vertical-tabset-group-container"
+      [@tabGroupEnter]="tabService.animationTabsVisibleState"
+      [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
+      [tabIndex]="tablistHasFocus ? -1 : 0"
+      (@tabGroupEnter.done)="tabsetFocus()"
+      (keydown.arrowDown)="tabGroupsArrowDown(); $event.preventDefault()"
+      (keydown.arrowUp)="tabGroupsArrowUp(); $event.preventDefault()"
+      (focusin)="trapFocusInTablist()"
+      (focusout)="resetTabIndex()"
     >
-      <sky-icon icon="chevron-left" />
-      {{ showTabsText }}
-    </button>
-  </div>
+      <ng-content />
+    </div>
+  }
+  @if (maintainTabContent || tabService.contentVisible()) {
+    <div
+      #contentContainerWrapper
+      class="sky-vertical-tabset-content"
+      [ngClass]="{
+        'sky-vertical-tabset-content-hidden': !tabService.contentVisible()
+      }"
+      [@contentEnter]="tabService.animationContentVisibleState"
+      (focusin)="resetTabIndex()"
+    >
+      <div #skySideContent></div>
+      @if (!tabService.tabsVisible()) {
+        <button
+          class="sky-btn sky-btn-primary sky-vertical-tabset-show-tabs-btn"
+          type="button"
+          (click)="tabService.showTabs()"
+        >
+          <sky-icon iconName="chevron-left" />
+          {{ showTabsText }}
+        </button>
+      }
+    </div>
+  }
 </div>

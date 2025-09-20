@@ -1,0 +1,10 @@
+{
+  "skyux_toast_close_button_aria_label": {
+    "_description": "Texte du lecteur d’écran du bouton fermer sur des messages transitoires",
+    "message": "Message de fermeture :"
+  },
+  "skyux_toast_close_button_title": {
+    "_description": "Texte de l’infobulle du bouton fermer sur des messages transitoires",
+    "message": "Fermer le message"
+  }
+}

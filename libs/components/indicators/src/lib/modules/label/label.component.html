@@ -1,14 +1,12 @@
 <span class="sky-label" [ngClass]="'sky-label-' + labelTypeOrDefault">
-  <span class="sky-label-icon-theme-default">
-    <sky-icon [icon]="icon" />
+  <span class="sky-label-icon">
+    <sky-icon variant="solid" [iconName]="iconName" />
   </span>
-  <span class="sky-label-icon-theme-modern">
-    <sky-icon-stack size="xs" [baseIcon]="baseIcon" [topIcon]="topIcon">
-    </sky-icon-stack>
-  </span>
-  <span *ngIf="descriptionComputed" class="sky-screen-reader-only">
-    {{ descriptionComputed }}
-  </span>
+  @if (descriptionComputed) {
+    <span class="sky-screen-reader-only">
+      {{ descriptionComputed }}
+    </span>
+  }
   <span class="sky-label-text">
     <ng-content />
   </span>

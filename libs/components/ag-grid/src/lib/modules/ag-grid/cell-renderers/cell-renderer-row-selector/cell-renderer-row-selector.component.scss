@@ -1,3 +1,7 @@
-.sky-ag-grid-cell-row-selector .sky-switch-control {
-  top: -6px;
+sky-checkbox.sky-ag-grid-row-selector {
+  display: block !important;
+  margin-top: var(
+    --sky-override-ag-grid-row-selector-margin-top,
+    var(--sky-comp-grid-cell-space-inset-top)
+  );
 }

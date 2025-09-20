@@ -6,10 +6,35 @@
       "factory": "./src/schematics/ng-add/ng-add.schematic",
       "schema": "./src/schematics/ng-add/schema.json"
     },
-    "polyfills": {
-      "description": "Add @skyux/packages/polyfills to project config.",
-      "factory": "./src/schematics/ng-generate/polyfills/polyfills.schematic",
-      "schema": "./src/schematics/ng-generate/polyfills/schema.json"
+    "add-skyux-to-project": {
+      "description": "Adds SKY UX polyfills and styles to a specific project",
+      "factory": "./src/schematics/ng-generate/add-skyux-to-project/add-skyux-to-project.schematic",
+      "schema": "./src/schematics/ng-generate/add-skyux-to-project/schema.json"
+    },
+    "add-ag-grid-styles": {
+      "description": "Add @skyux/ag-grid styles to project config.",
+      "factory": "./src/schematics/ng-generate/add-ag-grid-styles/add-ag-grid-styles.schematic",
+      "schema": "./src/schematics/ng-generate/add-ag-grid-styles/schema.json"
+    },
+    "convert-definition-list-to-description-list": {
+      "description": "Convert <sky-definition-list> components to <sky-description-list> components.",
+      "factory": "./src/schematics/ng-generate/convert-definition-list-to-description-list/convert-definition-list-to-description-list.schematic",
+      "schema": "./src/schematics/ng-generate/convert-definition-list-to-description-list/schema.json"
+    },
+    "convert-page-summary-to-page-header": {
+      "description": "Convert <sky-page-summary> components to <sky-page-header> components.",
+      "factory": "./src/schematics/ng-generate/convert-page-summary-to-page-header/convert-page-summary-to-page-header.schematic",
+      "schema": "./src/schematics/ng-generate/convert-page-summary-to-page-header/schema.json"
+    },
+    "convert-progress-indicator-wizard-to-tab-wizard": {
+      "description": "Convert <sky-progress-indicator> components using wizard to use <sky-tabset> components.",
+      "factory": "./src/schematics/ng-generate/convert-progress-indicator-wizard-to-tab-wizard/convert-progress-indicator-wizard-to-tab-wizard.schematic",
+      "schema": "./src/schematics/ng-generate/convert-progress-indicator-wizard-to-tab-wizard/schema.json"
+    },
+    "remove-compat-stylesheets": {
+      "description": "Remove SKY UX compatibility stylesheets.",
+      "factory": "./src/schematics/ng-generate/remove-compat-stylesheets/remove-compat-stylesheets.schematic",
+      "schema": "./src/schematics/ng-generate/remove-compat-stylesheets/schema.json"
     }
   }
 }

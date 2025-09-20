@@ -72,7 +72,7 @@ export function getStorybookProjects(
 export function getStorybookProject(
   tree: Tree,
   options: Partial<{ project: string }>,
-) {
+): ProjectConfiguration {
   if (!options.project) {
     throw new Error(`Project name not specified`);
   }
@@ -101,6 +101,8 @@ export function getStorybookProject(
   return projectConfig;
 }
 
-export function getProjectTypeBase(projectConfig: ProjectConfiguration) {
-  return `${projectConfig.projectType == 'library' ? 'lib' : 'app'}`;
+export function getProjectTypeBase(
+  projectConfig: ProjectConfiguration,
+): 'lib' | 'app' {
+  return `${projectConfig.projectType === 'library' ? 'lib' : 'app'}`;
 }

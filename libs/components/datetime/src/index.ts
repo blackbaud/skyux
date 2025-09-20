@@ -15,12 +15,12 @@ export { SkyDateRangeCalculatorId } from './lib/modules/date-range-picker/types/
 export { SkyDateRangeCalculatorType } from './lib/modules/date-range-picker/types/date-range-calculator-type';
 export { SkyDateRangeCalculatorValidateFunction } from './lib/modules/date-range-picker/types/date-range-calculator-validate-function';
 
-export { SkyDatepickerCalendarChange } from './lib/modules/datepicker/datepicker-calendar-change';
+export { SkyDatepickerCalendarChange } from './lib/modules/datepicker/calendar/datepicker-calendar-change';
 export { SkyDatepickerConfigService } from './lib/modules/datepicker/datepicker-config.service';
 export { SkyDatepickerCustomDate } from './lib/modules/datepicker/datepicker-custom-date';
 export { SkyDatepickerModule } from './lib/modules/datepicker/datepicker.module';
-export { SkyFuzzyDate } from './lib/modules/datepicker/fuzzy-date';
-export { SkyFuzzyDateService } from './lib/modules/datepicker/fuzzy-date.service';
+export { SkyFuzzyDate } from './lib/modules/datepicker/fuzzy/fuzzy-date';
+export { SkyFuzzyDateService } from './lib/modules/datepicker/fuzzy/fuzzy-date.service';
 
 export { SkyTimepickerTimeFormatType } from './lib/modules/timepicker/timepicker-time-format-type';
 export { SkyTimepickerTimeOutput } from './lib/modules/timepicker/timepicker-time-output';
@@ -29,8 +29,8 @@ export { SkyTimepickerModule } from './lib/modules/timepicker/timepicker.module'
 // Components and directives must be exported to support Angular’s “partial” Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
 export { SkyDateRangePickerComponent as λ5 } from './lib/modules/date-range-picker/date-range-picker.component';
-export { SkyDatepickerCalendarComponent as λ1 } from './lib/modules/datepicker/datepicker-calendar.component';
-export { SkyFuzzyDatepickerInputDirective as λ4 } from './lib/modules/datepicker/datepicker-input-fuzzy.directive';
+export { SkyDatepickerCalendarComponent as λ1 } from './lib/modules/datepicker/calendar/datepicker-calendar.component';
+export { SkyFuzzyDatepickerInputDirective as λ4 } from './lib/modules/datepicker/fuzzy/datepicker-input-fuzzy.directive';
 export { SkyDatepickerInputDirective as λ3 } from './lib/modules/datepicker/datepicker-input.directive';
 export { SkyDatepickerComponent as λ2 } from './lib/modules/datepicker/datepicker.component';
 export { SkyTimepickerComponent as λ6 } from './lib/modules/timepicker/timepicker.component';

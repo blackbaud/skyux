@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyWaitModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyListsResourcesModule } from '../shared/sky-lists-resources.module';
 
+import { SkyPagingContentComponent } from './paging-content.component';
 import { SkyPagingComponent } from './paging.component';
 
 @NgModule({
@@ -13,8 +15,10 @@ import { SkyPagingComponent } from './paging.component';
     CommonModule,
     SkyIconModule,
     SkyListsResourcesModule,
+    SkyPagingContentComponent,
     SkyThemeModule,
+    SkyWaitModule,
   ],
-  exports: [SkyPagingComponent],
+  exports: [SkyPagingComponent, SkyPagingContentComponent],
 })
 export class SkyPagingModule {}

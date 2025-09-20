@@ -1,29 +1,29 @@
 <form novalidate [formGroup]="fileForm">
-  <div style="margin-bottom: 50px">
-    <sky-file-attachment
-      formControlName="attachment"
-      [maxFileSize]="maxFileSize"
-      [validateFn]="validateFile"
-      (fileChange)="reactiveFileUpdated($event)"
-      (fileClick)="fileClick($event)"
-    >
-      <sky-file-attachment-label>
-        Birth certificate
-        <sky-help-inline
-          (actionClick)="onActionClick()"
-          class="sky-control-help"
-        ></sky-help-inline>
-      </sky-file-attachment-label>
-    </sky-file-attachment>
-
-    <div
-      *ngIf="attachment?.invalid && attachment?.dirty"
-      class="sky-error-label"
-    >
-      Attach a file.
-    </div>
-    <div *ngIf="reactiveUploadError" class="sky-error-label">
-      {{ reactiveUploadError }}
-    </div>
-  </div>
+  <sky-file-attachment
+    formControlName="attachment"
+    labelText="Attach a file"
+    [acceptedTypes]="'image/jpeg,application/pdf'"
+    [helpPopoverContent]="popoverContent"
+    [helpKey]="helpKey"
+    [hintText]="hintText"
+    [maxFileSize]="maxFileSize"
+    [validateFn]="validateFile"
+    [stacked]="true"
+    (fileChange)="reactiveFileUpdated($event)"
+    (fileClick)="fileClick($event)"
+  >
+    <sky-file-attachment-label>
+      Birth certificate
+      <sky-help-inline
+        class="sky-control-help"
+        (actionClick)="onActionClick()"
+      />
+    </sky-file-attachment-label>
+  </sky-file-attachment>
 </form>
+
+<ng-template #popoverContent>
+  <sky-paging pageSize="5" itemCount="15"
+    ><sky-paging-content>hello</sky-paging-content></sky-paging
+  >
+</ng-template>

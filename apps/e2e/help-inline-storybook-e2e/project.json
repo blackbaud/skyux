@@ -1,0 +1,32 @@
+{
+  "name": "help-inline-storybook-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/e2e/help-inline-storybook-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["help-inline-storybook"],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/e2e/help-inline-storybook-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "help-inline-storybook:storybook",
+        "baseUrl": "http://localhost:4400"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "help-inline-storybook:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "help-inline-storybook:static-storybook:ci",
+          "baseUrl": "http://localhost:4200",
+          "browser": "chrome"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

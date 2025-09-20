@@ -1,0 +1,26 @@
+<form novalidate [formGroup]="fileForm">
+  <sky-file-attachment
+    formControlName="attachment"
+    [required]="required"
+    [helpKey]="helpKey"
+    [helpPopoverContent]="popoverContent"
+    [helpPopoverTitle]="popoverTitle"
+    [labelHidden]="labelHidden"
+    [labelText]="labelText"
+    [hintText]="hintText"
+    [maxFileSize]="maxFileSize"
+    [stacked]="stacked"
+  >
+    @if (showLabel) {
+    <sky-file-attachment-label>
+      {{ labelElementText }} @if (showInlineHelp) {
+      <sky-help-inline class="sky-control-help" />
+      }
+    </sky-file-attachment-label>
+    }
+  </sky-file-attachment>
+
+  @if (attachment?.invalid && attachment?.dirty) {
+  <div class="sky-error-label">Attach a file.</div>
+  }
+</form>

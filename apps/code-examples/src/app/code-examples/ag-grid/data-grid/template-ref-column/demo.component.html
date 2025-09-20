@@ -1,9 +1,0 @@
-<ng-template #boldColumn let-value="value">
-  <strong>{{ value }}</strong>
-</ng-template>
-<ng-template #emphasizedColumn let-value="value">
-  <em>{{ value }}</em>
-</ng-template>
-<sky-ag-grid-wrapper *ngIf="ready | async">
-  <ag-grid-angular [gridOptions]="gridOptions" [rowData]="gridData" />
-</sky-ag-grid-wrapper>

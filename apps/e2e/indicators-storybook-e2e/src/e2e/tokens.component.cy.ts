@@ -9,19 +9,21 @@ describe('indicators-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('app-tokens')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-tokens')
           // Capture the focus style of the first token.
           .get(
             'sky-tokens:first-child sky-token:first-child .sky-token-btn-action',
           )
-          .click()
-          .get('app-tokens')
-          .screenshot(`tokenscomponent-tokens--tokens-${theme}`)
-          .percySnapshot(`tokenscomponent-tokens--tokens-${theme}`, {
+          .click();
+        cy.get('app-tokens').screenshot(
+          `tokenscomponent-tokens--tokens-${theme}`,
+        );
+        cy.get('app-tokens').percySnapshot(
+          `tokenscomponent-tokens--tokens-${theme}`,
+          {
             widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          },
+        );
       });
     });
   });

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SkyHelpInlineModule } from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
 
 import { ProgressIndicatorComponent } from './progress-indicator.component';

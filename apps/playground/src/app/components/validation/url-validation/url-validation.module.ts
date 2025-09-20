@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
@@ -20,7 +19,6 @@ import { UrlValidationRoutingModule } from './url-validation-routing.module';
     UrlValidationDirectiveComponent,
   ],
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyInputBoxModule,

@@ -1,14 +1,12 @@
 <ng-container [formGroup]="editorForm">
   <input
+    #skyCellEditorText
     formControlName="text"
     type="text"
     [attr.aria-label]="
       'sky_ag_grid_cell_editor_text_aria_label'
-        | skyLibResources : columnHeader : rowNumber
+        | skyLibResources: columnHeader : rowNumber
     "
-    [style.width.px]="columnWidth"
-    [style.height.px]="rowHeightWithoutBorders"
     [maxlength]="maxlength ?? null"
-    #skyCellEditorText
   />
 </ng-container>

@@ -1,15 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
-import {
-  SkyTheme,
-  SkyThemeMode,
-  SkyThemeService,
-  SkyThemeSettings,
-  SkyThemeSettingsChange,
-} from '@skyux/theme';
-
-import { BehaviorSubject } from 'rxjs';
 
 import { SkyIndicatorDescriptionType } from '../shared/indicator-description-type';
 import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
@@ -18,10 +9,6 @@ import { AlertTestComponent } from './fixtures/alert.component.fixture';
 import { SkyAlertFixtureModule } from './fixtures/alert.module.fixture';
 
 describe('Alert component', () => {
-  let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
-  };
-
   function validateDeprecatedCalled(
     deprecatedSpy: jasmine.Spy,
     expected: boolean,
@@ -40,25 +27,15 @@ describe('Alert component', () => {
     }
   }
 
-  beforeEach(() => {
-    mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings: undefined,
-      }),
-    };
+  function validateIcon(el: HTMLElement, expectedIcon: string): void {
+    expect(
+      el.querySelector('sky-icon-svg')?.getAttribute('data-sky-icon'),
+    ).toBe(expectedIcon);
+  }
 
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAlertFixtureModule],
-      providers: [
-        {
-          provide: SkyThemeService,
-          useValue: mockThemeSvc,
-        },
-      ],
     });
   });
 
@@ -132,6 +109,32 @@ describe('Alert component', () => {
     const alertEl = el.querySelector('.sky-alert');
     expect(alertEl?.classList.contains('sky-alert-warning')).toBe(true);
     await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should show the expected icon', () => {
+    const fixture = TestBed.createComponent(AlertTestComponent);
+    const cmp = fixture.componentInstance;
+    const el = fixture.nativeElement;
+
+    cmp.alertType = 'danger';
+    fixture.detectChanges();
+
+    validateIcon(el, 'warning');
+
+    cmp.alertType = 'info';
+    fixture.detectChanges();
+
+    validateIcon(el, 'info');
+
+    cmp.alertType = 'success';
+    fixture.detectChanges();
+
+    validateIcon(el, 'success');
+
+    cmp.alertType = 'warning';
+    fixture.detectChanges();
+
+    validateIcon(el, 'warning');
   });
 
   it('should have a role of "alert"', async () => {
@@ -299,62 +302,6 @@ describe('Alert component', () => {
           });
         }
       }
-    });
-  });
-
-  describe('in modern theme', () => {
-    function validateStackedIcon(
-      el: HTMLElement,
-      expectedBaseIcon: string,
-      expectedTopIcon: string,
-    ): void {
-      const iconEl = el.querySelector('.sky-alert-icon-theme-modern');
-      const baseIconEl = iconEl?.querySelector('.fa-stack-2x');
-      const topIconEl = iconEl?.querySelector('.fa-stack-1x');
-
-      expect(baseIconEl?.classList.contains('sky-i-' + expectedBaseIcon)).toBe(
-        true,
-      );
-      expect(topIconEl?.classList.contains('sky-i-' + expectedTopIcon)).toBe(
-        true,
-      );
-    }
-
-    beforeEach(() => {
-      mockThemeSvc.settingsChange.next({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings:
-          mockThemeSvc.settingsChange.getValue().currentSettings,
-      });
-    });
-
-    it('should show the expected icon', async () => {
-      const fixture = TestBed.createComponent(AlertTestComponent);
-      const cmp = fixture.componentInstance;
-      const el = fixture.nativeElement;
-
-      cmp.alertType = 'danger';
-      fixture.detectChanges();
-
-      validateStackedIcon(el, 'triangle-solid', 'exclamation');
-
-      cmp.alertType = 'info';
-      fixture.detectChanges();
-
-      validateStackedIcon(el, 'circle-solid', 'help-i');
-
-      cmp.alertType = 'success';
-      fixture.detectChanges();
-
-      validateStackedIcon(el, 'circle-solid', 'check');
-
-      cmp.alertType = 'warning';
-      fixture.detectChanges();
-
-      validateStackedIcon(el, 'triangle-solid', 'exclamation');
     });
   });
 });

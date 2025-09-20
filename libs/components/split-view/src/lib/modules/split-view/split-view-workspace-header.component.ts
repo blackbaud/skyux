@@ -4,6 +4,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { SkyIconModule } from '@skyux/icon';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -15,10 +16,11 @@ import { SkySplitViewService } from './split-view.service';
  * @internal
  */
 @Component({
-  selector: 'sky-split-view-workspace-header',
-  templateUrl: 'split-view-workspace-header.component.html',
-  styleUrls: ['split-view-workspace-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyIconModule],
+  selector: 'sky-split-view-workspace-header',
+  styleUrl: './split-view-workspace-header.component.scss',
+  templateUrl: './split-view-workspace-header.component.html',
 })
 export class SkySplitViewWorkspaceHeaderComponent implements OnDestroy, OnInit {
   public backButtonText: string | undefined;

@@ -34,6 +34,7 @@ import { SkyCoreAdapterService } from '../adapter-service/adapter.service';
 import { SkyIdService } from '../id/id.service';
 import { SKY_STACKING_CONTEXT } from '../stacking-context/stacking-context-token';
 
+import { SkyOverlayAdapterService } from './overlay-adapter.service';
 import { SkyOverlayConfig } from './overlay-config';
 import { SkyOverlayContext } from './overlay-context';
 import { SkyOverlayPosition } from './overlay-position';
@@ -59,7 +60,6 @@ let uniqueZIndex = 5000;
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-overlay',
   templateUrl: './overlay.component.html',
   styleUrls: ['./overlay.component.scss'],
@@ -120,9 +120,13 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   #routerSubscription: Subscription | undefined;
 
+  #siblingAriaHiddenCache = new Map<Element, string | null>();
+
+  readonly #adapter = inject(SkyOverlayAdapterService);
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #context = inject(SkyOverlayContext);
   readonly #coreAdapter = inject(SkyCoreAdapterService);
+  readonly #elementRef = inject(ElementRef);
   readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #idSvc = inject(SkyIdService);
   readonly #router = inject(Router, { optional: true });
@@ -147,6 +151,12 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     if (this.#context.config.closeOnNavigation) {
       this.#addRouteListener();
     }
+
+    if (this.#context.config.hideOthersFromScreenReaders) {
+      this.#siblingAriaHiddenCache = this.#adapter.addAriaHiddenToSiblings(
+        this.#elementRef,
+      );
+    }
   }
 
   public ngOnDestroy(): void {
@@ -155,6 +165,8 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     this.#ngUnsubscribe.complete();
 
     this.#backdropClick.complete();
+
+    this.#adapter.restoreAriaHiddenForSiblings(this.#siblingAriaHiddenCache);
 
     this.#closed.next();
     this.#closed.complete();

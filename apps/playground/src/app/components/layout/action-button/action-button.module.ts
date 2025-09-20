@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyActionButtonModule } from '@skyux/layout';
 import {
@@ -12,12 +11,12 @@ import { ActionButtonComponent } from './action-button.component';
 
 @NgModule({
   declarations: [ActionButtonComponent],
-  imports: [CommonModule, ActionButtonRoutingModule, SkyActionButtonModule],
+  imports: [ActionButtonRoutingModule, SkyActionButtonModule],
   providers: [
     {
       provide: SkyHrefResolverService,
       useValue: {
-        resolveHref: (args: SkyHrefResolverArgs) =>
+        resolveHref: (args: SkyHrefResolverArgs): Promise<SkyHref> =>
           Promise.resolve<SkyHref>({
             url: args.url,
             userHasAccess: !args.url.startsWith('1bb-nav://nope/'),

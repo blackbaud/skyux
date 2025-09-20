@@ -1,2 +1,2 @@
-/*eslint-disable-next-line no-restricted-syntax*/
+// eslint-disable-next-line
 export * from '../../../../.storybook/manager';

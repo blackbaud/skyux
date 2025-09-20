@@ -29,11 +29,12 @@ export interface SkyDataViewConfig {
    * Whether to display the filter button for this view.
    */
   filterButtonEnabled?: boolean;
+
   /**
-   * The Font Awesome icon name to use for this view in the view switcher.
-   * Required if you have more than one view. Do not include the `fa-` prefix.
+   * The name of the Blackbaud SVG icon to display for this view in the view switcher.
+   * Required if you have more than one view.
    */
-  icon?: string;
+  iconName?: string;
   /**
    * The unique ID for this view.
    */

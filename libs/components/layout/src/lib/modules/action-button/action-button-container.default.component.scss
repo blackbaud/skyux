@@ -1,0 +1,65 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+// Host element must be a block to allow FF to make proper getBoundingClientRect() calculations.
+@include mixins.sky-component-host('default') {
+  display: block;
+}
+
+@include mixins.sky-component('default', '.sky-action-button-container') {
+  .sky-action-button-flex {
+    sky-action-button {
+      display: block;
+    }
+
+    .sky-action-button {
+      height: 100%;
+      min-width: 236px;
+      margin-left: $sky-margin;
+      margin-right: $sky-margin;
+    }
+  }
+}
+
+@include mixins.sky-component(
+  'default',
+  '.sky-action-button-container',
+  false,
+  'xs'
+) {
+  .sky-action-button-flex {
+    display: block;
+    padding: 0;
+    margin: (-$sky-margin-double) 0;
+
+    sky-action-button {
+      margin: $sky-margin-double 0;
+    }
+  }
+}
+
+@include mixins.sky-component(
+  'default',
+  '.sky-action-button-container',
+  false,
+  'sm'
+) {
+  .sky-action-button-flex {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 0;
+    margin: (-$sky-margin) 0;
+
+    &.sky-action-button-flex-align-center {
+      justify-content: center;
+    }
+
+    &.sky-action-button-flex-align-left {
+      justify-content: flex-start;
+    }
+
+    sky-action-button {
+      margin: $sky-margin 0;
+    }
+  }
+}

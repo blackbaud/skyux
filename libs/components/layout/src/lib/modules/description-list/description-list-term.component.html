@@ -1,5 +1,15 @@
 <ng-template #termTemplateRef
-  ><span skyTrim><ng-content /></span
-  ><span class="sky-control-help-container"
-    ><ng-content select=".sky-control-help" /></span
+  ><span #term="skyId" skyTrim skyId class="description-list-term"
+    ><ng-content /></span
+  ><span class="sky-control-help-container">
+    @if (content?.helpPopoverContent || content?.helpKey) {
+      <sky-help-inline
+        [labelledBy]="term.id"
+        [helpKey]="content?.helpKey"
+        [popoverTitle]="content?.helpPopoverTitle"
+        [popoverContent]="content?.helpPopoverContent"
+      />
+    } @else {
+      <ng-content select=".sky-control-help" />
+    }</span
 ></ng-template>

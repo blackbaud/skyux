@@ -1,0 +1,45 @@
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-field-group') {
+  --sky-override-field-group-align-items: normal;
+  --sky-override-field-group-content-space: #{$sky-space-sm};
+  --sky-override-field-group-content-with-hint-text-space: #{$sky-space-md};
+  --sky-override-field-group-hint-text-space: #{$sky-space-xs};
+}
+
+:host {
+  display: block;
+}
+
+legend {
+  display: flex;
+  align-items: var(--sky-override-field-group-align-items, baseline);
+
+  h3,
+  h4 {
+    margin: 0;
+  }
+}
+
+.sky-field-group-hint-text {
+  margin-top: var(
+    --sky-override-field-group-hint-text-space,
+    var(--sky-space-gap-stacked_supplemental-s)
+  );
+}
+
+.sky-field-group-content {
+  margin-top: var(
+    --sky-override-field-group-content-space,
+    var(--sky-space-gap-form-s)
+  );
+}
+
+.sky-field-group-hint-text-wrapper:has(.sky-field-group-hint-text)
+  + .sky-field-group-content {
+  margin-top: var(
+    --sky-override-field-group-content-with-hint-text-space,
+    var(--sky-space-gap-form-l)
+  );
+}

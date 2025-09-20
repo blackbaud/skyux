@@ -1,5 +1,7 @@
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { SkyKeyInfoFixturesModule } from './fixtures/key-info-fixtures.module';
 import { KeyInfoTestComponent } from './fixtures/key-info.component.fixture';
@@ -49,6 +51,20 @@ describe('Key info component', () => {
     expect(
       el.querySelectorAll('.sky-key-info-label sky-key-info-label').length,
     ).toBe(1);
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should show help when available', async () => {
+    const fixture = TestBed.createComponent(KeyInfoTestComponent);
+    const component = fixture.componentInstance;
+    component.helpContent = 'Help.';
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    const helpInline = await loader.getHarness(SkyHelpInlineHarness);
+    expect(await helpInline.getAriaLabelledBy()).toBeTruthy();
+
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 

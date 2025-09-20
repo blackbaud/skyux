@@ -1,5 +1,22 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-description-list') {
+  --sky-override-description-list-term-color: #{$sky-text-color-deemphasized};
+  --sky-override-description-list-term-font-size: #{$sky-text-size-150};
+  --sky-override-description-list-term-font-weight: 400;
+  --sky-override-description-list-term-font-line-height: normal;
+  --sky-override-description-list-term-bottom-margin: #{$sky-space-xxs};
+  --sky-override-description-list-pair-bottom-margin: #{$sky-space-lg};
+  --sky-override-description-list-horizontal-pair-padding-right: 60px;
+  --sky-override-description-list-long-bottom-margin: #{$sky-margin-stacked-default};
+  --sky-override-description-list-long-term-font-weight: 600;
+  --sky-override-description-list-long-term-font-size: #{$sky-text-size-200};
+  --sky-override-description-list-long-term-font-color: #{$sky-text-color-default};
+  --sky-override-description-list-long-term-right-margin: #{$sky-space-xl};
+  --sky-override-description-list-long-term-bottom-margin-xs: 3px;
+  --sky-override-description-list-long-pair-bottom-margin: 10px;
+}
 
 :host {
   display: block;
@@ -10,11 +27,28 @@
   padding: 0;
 
   dt {
-    color: $sky-text-color-deemphasized;
-    font-size: $sky-text-size-150;
-    font-weight: 400;
-    margin: 0 0 $sky-space-xxs;
-    padding: 0;
+    color: var(
+      --sky-override-description-list-term-color,
+      var(--sky-color-text-deemphasized)
+    );
+    font-size: var(
+      --sky-override-description-list-term-font-size,
+      var(--sky-font-size-body-s)
+    );
+    font-weight: var(
+      --sky-override-description-list-term-font-weight,
+      var(--sky-font-style-body-s)
+    );
+    line-height: var(
+      --sky-override-description-list-term-font-line-height,
+      var(--sky-font-line_height-body-s)
+    );
+    margin: 0 0
+      var(
+        --sky-override-description-list-term-bottom-margin,
+        var(--sky-space-gap-label-xs)
+      );
+    white-space: nowrap;
   }
 
   dd {
@@ -28,7 +62,11 @@
       width: auto;
 
       &:not(:last-child) {
-        margin: 0 0 $sky-space-lg;
+        margin: 0 0
+          var(
+            --sky-override-description-list-pair-bottom-margin,
+            var(--sky-space-stacked-l)
+          );
       }
     }
   }
@@ -37,12 +75,27 @@
   &.sky-description-list-horizontal-mode {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 0 var(--sky-compat-description-list-margin-bottom, -$sky-space-lg)
-      0;
+    margin: 0 0
+      calc(
+        -1 *
+          var(
+            --sky-override-description-list-pair-bottom-margin,
+            var(--sky-space-stacked-l)
+          )
+      );
 
     .sky-description-list-content {
-      margin: 0 0 $sky-space-lg 0;
-      padding: 0 60px 0 0;
+      margin: 0 0
+        var(
+          --sky-override-description-list-pair-bottom-margin,
+          var(--sky-space-stacked-l)
+        );
+      padding: 0
+        var(
+          --sky-override-description-list-horizontal-pair-padding-right,
+          var(--sky-space-inline-xxl)
+        )
+        0 0;
       min-width: 100px;
       width: auto;
     }
@@ -62,16 +115,34 @@
       display: flex;
 
       &:not(:last-child) {
-        margin: 0 0 $sky-margin-stacked-default;
+        margin: 0 0
+          var(
+            --sky-override-description-list-long-bottom-margin,
+            var(--sky-space-stacked-s)
+          );
       }
 
       dt {
-        color: $sky-text-color-default;
-        font-size: $sky-text-size-200;
-        font-weight: 600;
-        margin: 0 $sky-space-xl 0 0;
+        color: var(
+          --sky-override-description-list-long-term-font-color,
+          inherit
+        );
+        font-size: var(
+          --sky-override-description-list-long-term-font-size,
+          inherit
+        );
+        font-weight: var(
+          --sky-override-description-list-long-term-font-weight,
+          var(--sky-font-style-emphasized)
+        );
+        margin: 0
+          var(
+            --sky-override-description-list-long-term-right-margin,
+            var(--sky-space-inline-l)
+          )
+          0 0;
         width: 25%;
-        word-break: break-word;
+        overflow-wrap: break-word;
       }
 
       dd {
@@ -84,64 +155,20 @@
         flex-direction: column;
 
         dt {
-          margin: 0 0 3px;
+          margin: 0 0
+            var(
+              --sky-override-description-list-long-term-bottom-margin-xs,
+              var(--sky-space-stacked-xs)
+            );
           width: 100%;
         }
 
         dd {
-          margin: 0 0 10px;
-        }
-      }
-    }
-  }
-}
-
-@include mixins.sky-theme-modern {
-  .sky-description-list {
-    &.sky-description-list-vertical-mode {
-      .sky-description-list-content:not(:last-child) {
-        margin: 0 0 $sky-theme-modern-margin-stacked-lg;
-      }
-
-      dt {
-        color: $sky-theme-modern-font-data-label-color;
-        font-size: $sky-theme-modern-text-size-150;
-        font-weight: $sky-theme-modern-font-data-label-weight;
-      }
-
-      dd {
-        font-size: $sky-theme-modern-font-body-default-size;
-        font-weight: $sky-theme-modern-font-body-default-weight;
-      }
-    }
-
-    &.sky-description-list-horizontal-mode {
-      margin: 0 0 (-$sky-theme-modern-margin-stacked-lg) 0;
-
-      .sky-description-list-content {
-        margin: 0 0 $sky-theme-modern-margin-stacked-lg 0;
-      }
-    }
-
-    &.sky-description-list-long-description-mode {
-      dt {
-        color: inherit;
-        font-weight: $sky-theme-modern-font-emphasized-weight;
-        font-size: inherit;
-      }
-
-      dd {
-        font-size: $sky-theme-modern-font-body-default-size;
-        font-weight: $sky-theme-modern-font-body-default-weight;
-      }
-
-      &.sky-responsive-container-xs {
-        dt {
-          margin: 0 0 5px;
-        }
-
-        dd {
-          margin: 0 0 20px;
+          margin: 0 0
+            var(
+              --sky-override-description-list-long-pair-bottom-margin,
+              var(--sky-space-stacked-l)
+            );
         }
       }
     }

@@ -1,9 +1,11 @@
-<div *ngIf="tabsHidden()" class="sky-padding-even-md">
-  <button (click)="showTabs()" class="sky-btn sky-btn-primary" type="button">
-    <sky-icon icon="chevron-left" />
-    Show tabs
-  </button>
-</div>
+@if (tabsHidden()) {
+  <div class="sky-padding-even-md">
+    <button class="sky-btn sky-btn-primary" type="button" (click)="showTabs()">
+      <sky-icon iconName="chevron-left" />
+      Show tabs
+    </button>
+  </div>
+}
 <sky-sectioned-form>
   <sky-sectioned-form-section heading="Seed of Intelligence">
     Brain is the seed of intelligence vastness is bearable only through love not

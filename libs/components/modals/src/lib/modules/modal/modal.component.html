@@ -20,33 +20,40 @@
   >
     <div
       class="sky-modal-header"
-      [hidden]="!headerContent || !headerContent.children || headerContent.children.length &lt; 1"
       [ngStyle]="{
         'box-shadow': scrollShadow?.topShadow
       }"
     >
-      <div
-        class="sky-modal-header-content"
-        skyId
-        [ngClass]="{
-          'sky-font-heading-2': size === 'full-page'
-        }"
-        #headerContent
-        #headerId="skyId"
-      >
-        <ng-content select="sky-modal-header" />
+      <div #headerId="skyId" class="sky-modal-header-content" skyId>
+        @if (headingText) {
+          <sky-modal-header>
+            {{ headingText }}
+            @if (helpKey || helpPopoverContent) {
+              <sky-help-inline
+                class="sky-control-help"
+                [helpKey]="helpKey"
+                [labelText]="headingText"
+                [popoverContent]="helpPopoverContent"
+                [popoverTitle]="helpPopoverTitle"
+              />
+            }
+          </sky-modal-header>
+        } @else {
+          <ng-content select="sky-modal-header" />
+        }
       </div>
       <div class="sky-modal-header-buttons">
-        <button
-          *ngIf="helpKey"
-          class="sky-btn sky-modal-btn-help"
-          name="help-button"
-          type="button"
-          [attr.aria-label]="'skyux_modal_open_help' | skyLibResources"
-          (click)="helpButtonClick()"
-        >
-          <sky-icon icon="question-circle" />
-        </button>
+        @if (legacyHelpKey) {
+          <button
+            class="sky-btn sky-modal-btn-help"
+            name="help-button"
+            type="button"
+            [attr.aria-label]="'skyux_modal_open_help' | skyLibResources"
+            (click)="helpButtonClick()"
+          >
+            <sky-icon iconName="question-circle" />
+          </button>
+        }
 
         <button
           type="button"
@@ -54,19 +61,25 @@
           [attr.aria-label]="'skyux_modal_close' | skyLibResources"
           (click)="closeButtonClick()"
         >
-          <sky-icon icon="close" />
+          <sky-icon iconName="close" />
         </button>
       </div>
     </div>
     <div
-      class="sky-modal-content sky-padding-even-large"
+      #modalContentId="skyId"
+      #modalContentWrapper
+      class="sky-modal-content"
       role="region"
       tabindex="0"
       skyId
+      skyLayoutHost
+      [layout]="layout()"
       [attr.aria-labelledby]="headerId.id"
-      (skyModalScrollShadow)="scrollShadowChange($event)"
-      #modalContentId="skyId"
-      #modalContentWrapper
+      [skyScrollShadowEnabled]="scrollShadowEnabled"
+      [skyThemeClass]="{
+        'sky-padding-even-large': 'default'
+      }"
+      (skyScrollShadow)="scrollShadowChange($event)"
     >
       <ng-content select="sky-modal-content" />
     </div>

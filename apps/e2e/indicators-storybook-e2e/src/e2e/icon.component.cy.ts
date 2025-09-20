@@ -9,16 +9,10 @@ describe('indicators-storybook', () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('#ready')
-          .should('exist')
-          .end()
-          .get('app-icon')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`iconcomponent-icon--icon-${theme}`)
-          .percySnapshot(`iconcomponent-icon--icon-${theme}`, {
-            widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+        cy.skyReady('app-icon').screenshot(`iconcomponent-icon--icon-${theme}`);
+        cy.get('app-icon').percySnapshot(`iconcomponent-icon--icon-${theme}`, {
+          widths: E2eVariations.DISPLAY_WIDTHS,
+        });
       });
     });
   });

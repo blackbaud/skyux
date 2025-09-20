@@ -9,6 +9,7 @@ import { SkyListComponent } from '../list.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list.component.fixture.html',
+  standalone: false,
 })
 export class ListTestComponent {
   @ViewChild(SkyListComponent, {
@@ -29,7 +30,7 @@ export class ListTestComponent {
   constructor(@Inject('items') public items: any) {}
 
   public get options() {
-    const bs = new BehaviorSubject<Array<any>>(['banana', 'apple']);
+    const bs = new BehaviorSubject<any[]>(['banana', 'apple']);
     return bs.asObservable();
   }
 }

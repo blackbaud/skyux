@@ -6,12 +6,18 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyIdService } from '@skyux/core';
+import { SkyIdService, SkyLogService } from '@skyux/core';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioGroupBooleanTestComponent } from './fixtures/radio-group-boolean.component.fixture';
 import { SkyRadioGroupReactiveFixtureComponent } from './fixtures/radio-group-reactive.component.fixture';
 import { SkyRadioGroupFixtureComponent } from './fixtures/radio-group.component.fixture';
+import { SkyRadioGroupHeadingLevel } from './types/radio-group-heading-level';
+import { SkyRadioGroupHeadingStyle } from './types/radio-group-heading-style';
 
 //#region helpers
 function getRadios(
@@ -20,8 +26,16 @@ function getRadios(
   return radioFixture.nativeElement.querySelectorAll('.sky-radio-input');
 }
 
-function getRadioGroup(radioFixture: ComponentFixture<any>): HTMLElement {
+function getRadioGroup(
+  radioFixture: ComponentFixture<any>,
+): HTMLElement | null {
   return radioFixture.nativeElement.querySelector('.sky-radio-group');
+}
+
+function getRadioGroupLabel(
+  radioFixture: ComponentFixture<any>,
+): HTMLElement | null {
+  return radioFixture.nativeElement.querySelector('.sky-radio-group-legend');
 }
 
 function getRadioLabels(
@@ -44,7 +58,7 @@ describe('Radio group component (reactive)', function () {
 
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [SkyRadioFixturesModule],
+      imports: [SkyRadioFixturesModule, SkyHelpTestingModule],
     });
 
     // Mock the ID service.
@@ -170,23 +184,33 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should not show a required state when not required', fakeAsync(() => {
+    componentInstance.headingText = 'Test';
     fixture.detectChanges();
     tick();
 
     const radioGroupDiv = getRadioGroup(fixture);
-    expect(radioGroupDiv.getAttribute('required')).toBeNull();
-    expect(radioGroupDiv.getAttribute('aria-required')).toBeNull();
+    const radioGroupLabel = fixture.nativeElement.querySelector(
+      '.sky-radio-group-legend span',
+    );
+    expect(radioGroupDiv?.getAttribute('required')).toBeNull();
+    expect(radioGroupDiv?.getAttribute('aria-required')).toBeNull();
+    expect(radioGroupLabel).not.toHaveCssClass('sky-control-label-required');
   }));
 
   it('should show a required state when required input is set to true', fakeAsync(() => {
+    componentInstance.headingText = 'Test';
     componentInstance.required = true;
 
     fixture.detectChanges();
     tick();
 
     const radioGroupDiv = getRadioGroup(fixture);
-    expect(radioGroupDiv.getAttribute('required')).not.toBeNull();
-    expect(radioGroupDiv.getAttribute('aria-required')).toBe('true');
+    const radioGroupLabel = fixture.nativeElement.querySelector(
+      '.sky-radio-group-legend span',
+    );
+    expect(radioGroupDiv?.getAttribute('required')).not.toBeNull();
+    expect(radioGroupDiv?.getAttribute('aria-required')).toBe('true');
+    expect(radioGroupLabel).toHaveCssClass('sky-control-label-required');
   }));
 
   it('should update the form properly when radio button is required and changed', fakeAsync(() => {
@@ -335,7 +359,7 @@ describe('Radio group component (reactive)', function () {
     tick();
 
     const radioGroupDiv = getRadioGroup(fixture);
-    expect(radioGroupDiv.getAttribute('aria-labelledby')).toBe(
+    expect(radioGroupDiv?.getAttribute('aria-labelledby')).toBe(
       'radio-group-label',
     );
   }));
@@ -348,7 +372,7 @@ describe('Radio group component (reactive)', function () {
     tick();
 
     const radioGroupDiv = getRadioGroup(fixture);
-    expect(radioGroupDiv.getAttribute('aria-label')).toBe(
+    expect(radioGroupDiv?.getAttribute('aria-label')).toBe(
       'radio-group-label-manual',
     );
   }));
@@ -565,33 +589,234 @@ describe('Radio group component (reactive)', function () {
   it('should set aria-owns as a space-separated list of radio ids', () => {
     fixture.detectChanges();
 
-    const radioGroupEl: HTMLDivElement =
-      fixture.nativeElement.querySelector('.sky-radio-group');
+    const radioGroupEl = getRadioGroup(fixture);
 
-    expect(radioGroupEl.getAttribute('aria-owns')).toEqual(
-      'sky-radio-MOCK_ID_1-input sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input',
+    expect(radioGroupEl?.getAttribute('aria-owns')).toEqual(
+      'sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_5-input sky-radio-MOCK_ID_7-input sky-radio-MOCK_ID_9-input',
     );
   });
 
   it('should update aria-owns if a child radio modifies its ID', () => {
     fixture.detectChanges();
 
-    const radioGroupEl: HTMLDivElement =
-      fixture.nativeElement.querySelector('.sky-radio-group');
+    const radioGroupEl = getRadioGroup(fixture);
 
-    const originalAriaOwns = radioGroupEl.getAttribute('aria-owns');
+    const originalAriaOwns = radioGroupEl?.getAttribute('aria-owns');
     expect(originalAriaOwns).toEqual(
-      'sky-radio-MOCK_ID_1-input sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input',
+      'sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_5-input sky-radio-MOCK_ID_7-input sky-radio-MOCK_ID_9-input',
     );
 
     // Change an existing ID to something else.
     fixture.componentInstance.options[0].id = 'foobar';
     fixture.detectChanges();
 
-    const newAriaOwns = radioGroupEl.getAttribute('aria-owns');
+    const newAriaOwns = radioGroupEl?.getAttribute('aria-owns');
     expect(newAriaOwns).toEqual(
-      'sky-radio-foobar-input sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input',
+      'sky-radio-foobar-input sky-radio-MOCK_ID_5-input sky-radio-MOCK_ID_7-input sky-radio-MOCK_ID_9-input',
     );
+  });
+
+  it('should display a heading if `headingText` is set', () => {
+    const headingText = 'Heading Text';
+    componentInstance.headingText = headingText;
+
+    fixture.detectChanges();
+
+    const headingEl = getRadioGroupLabel(fixture);
+
+    expect(headingEl).toBeVisible();
+    expect(headingEl?.textContent?.trim()).toBe(headingText);
+  });
+
+  it('should not display `headingText` if `headingHidden` is true', () => {
+    const headingText = 'Heading Text';
+    componentInstance.headingText = headingText;
+    componentInstance.headingHidden = true;
+
+    fixture.detectChanges();
+
+    const labelEl = getRadioGroupLabel(fixture);
+
+    expect(labelEl).not.toBeNull();
+    expect(labelEl).toHaveCssClass('sky-screen-reader-only');
+  });
+
+  it('should render the correct heading level and styles', () => {
+    const headingLevels: (SkyRadioGroupHeadingLevel | undefined)[] = [
+      undefined,
+      3,
+      4,
+      5,
+    ];
+    const headingStyles: (SkyRadioGroupHeadingStyle | undefined)[] = [
+      undefined,
+      3,
+      4,
+      5,
+    ];
+    headingLevels.forEach((headingLevel) => {
+      headingStyles.forEach((headingStyle) => {
+        componentInstance.headingText = 'Label text';
+        componentInstance.headingLevel = headingLevel;
+        componentInstance.headingStyle = headingStyle;
+        fixture.detectChanges();
+
+        const selector = headingLevel
+          ? `h${headingLevel}.sky-font-heading-${headingStyle ?? 4}`
+          : `span.sky-font-heading-${headingStyle ?? 4}`;
+        const heading = fixture.nativeElement.querySelector(selector);
+
+        expect(heading).toExist();
+      });
+    });
+  });
+
+  it('should use `headingText` as an accessible label over `ariaLabel` and `ariaLabelledBy`', () => {
+    const headingText = 'Heading Text';
+    componentInstance.headingText = headingText;
+    componentInstance.ariaLabel = 'some other label text';
+
+    fixture.detectChanges();
+
+    const labelEl = getRadioGroupLabel(fixture);
+    const radioGroup = getRadioGroup(fixture);
+
+    expect(labelEl).not.toBeNull();
+    expect(radioGroup?.getAttribute('aria-labelledBy')).toBeNull();
+    expect(radioGroup?.getAttribute('aria-label')).toBeNull();
+  });
+
+  it('should display the hint text if `hintText` is set', () => {
+    const hintText = 'Hint text for the group.';
+
+    fixture.componentInstance.hintText = hintText;
+    fixture.detectChanges();
+
+    const hintEl = fixture.nativeElement.querySelector(
+      '.sky-radio-group-hint-text',
+    );
+
+    expect(hintEl).not.toBeNull();
+    expect(hintEl?.textContent.trim()).toBe(hintText);
+  });
+
+  it('should have the lg margin class if stacked is true and headingLevel is unset', () => {
+    fixture.componentInstance.stacked = true;
+    fixture.componentInstance.headingLevel = undefined;
+    fixture.detectChanges();
+
+    const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
+
+    expect(radioGroup).toHaveClass('sky-form-field-stacked');
+  });
+
+  it('should have the xl margin class if stacked is true and headingLevel is set', () => {
+    fixture.componentInstance.stacked = true;
+    fixture.componentInstance.headingLevel = 3;
+    fixture.detectChanges();
+
+    const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
+
+    expect(radioGroup).toHaveClass('sky-field-group-stacked');
+  });
+
+  it('should not have the lg or xl margin class if stacked is false', () => {
+    fixture.detectChanges();
+    const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
+
+    expect(radioGroup).not.toHaveClass('sky-form-field-stacked');
+    expect(radioGroup).not.toHaveClass('sky-field-group-stacked');
+  });
+
+  it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {
+    const logService = TestBed.inject(SkyLogService);
+    const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
+
+    fixture.componentInstance.ariaLabel = 'aria label';
+    fixture.detectChanges();
+
+    expect(deprecatedLogSpy).toHaveBeenCalledWith(
+      'SkyRadioGroupComponent.ariaLabel',
+      Object({
+        deprecationMajorVersion: 9,
+      }),
+    );
+
+    expect(deprecatedLogSpy).toHaveBeenCalledWith(
+      'SkyRadioGroupComponent.ariaLabelledBy',
+      Object({
+        deprecationMajorVersion: 9,
+      }),
+    );
+  });
+
+  it('should render custom form errors', fakeAsync(() => {
+    componentInstance.headingText = 'Label Text';
+
+    fixture.detectChanges();
+
+    clickCheckbox(fixture, 3);
+
+    expect(
+      fixture.nativeElement.querySelector('.sky-form-error'),
+    ).toBeVisible();
+    expect(
+      fixture.nativeElement.querySelector('.sky-status-indicator-message')
+        .textContent,
+    ).toEqual('This option is incorrect.');
+  }));
+
+  it('should render help inline if label text and help popover content is provided', () => {
+    componentInstance.headingText = 'Label Text';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(0);
+
+    componentInstance.helpPopoverContent = 'popover content';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(1);
+  });
+
+  it('should render help inline if heading text and help key is provided ', () => {
+    componentInstance.helpKey = 'helpKey.html';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector(
+        '.sky-help-inline:not(.sky-control-help)',
+      ),
+    ).toBeFalsy();
+
+    componentInstance.headingText = 'Heading text';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector(
+        '.sky-help-inline:not(.sky-control-help)',
+      ),
+    ).toBeTruthy();
+  });
+
+  it('should set global help config with help key', async () => {
+    const helpController = TestBed.inject(SkyHelpTestingController);
+    componentInstance.headingText = 'Heading text';
+    componentInstance.helpKey = 'helpKey.html';
+    fixture.detectChanges();
+
+    const helpInlineButton = fixture.nativeElement.querySelector(
+      '.sky-help-inline',
+    ) as HTMLElement | undefined;
+    await helpInlineButton?.click();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    helpController.expectCurrentHelpKey('helpKey.html');
   });
 });
 

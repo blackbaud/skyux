@@ -1,28 +1,31 @@
 <sky-page layout="list">
   <sky-page-header pageTitle="Components" />
   <sky-page-content>
-    <sky-data-manager *ngIf="componentData && componentData.length > 0">
-      <sky-data-manager-toolbar />
-      <sky-data-view viewId="playgroundComponents">
-        <sky-action-button-container>
-          <sky-action-button
-            *ngFor="let component of displayedItems"
-            [permalink]="{
-              route: {
-                commands: component.path
-              }
-            }"
-          >
-            <sky-action-button-icon [iconType]="component.icon" />
-            <sky-action-button-header>
-              {{ component.name }}
-            </sky-action-button-header>
-            <sky-action-button-details>
-              {{ component.library }}
-            </sky-action-button-details>
-          </sky-action-button>
-        </sky-action-button-container>
-      </sky-data-view>
-    </sky-data-manager>
+    @if (componentData && componentData.length > 0) {
+      <sky-data-manager>
+        <sky-data-manager-toolbar />
+        <sky-data-view viewId="playgroundComponents">
+          <sky-action-button-container>
+            @for (component of displayedItems; track component) {
+              <sky-action-button
+                [permalink]="{
+                  route: {
+                    commands: component.path
+                  }
+                }"
+              >
+                <sky-action-button-icon [iconName]="component.icon" />
+                <sky-action-button-header>
+                  {{ component.name }}
+                </sky-action-button-header>
+                <sky-action-button-details>
+                  {{ component.library }}
+                </sky-action-button-details>
+              </sky-action-button>
+            }
+          </sky-action-button-container>
+        </sky-data-view>
+      </sky-data-manager>
+    }
   </sky-page-content>
 </sky-page>

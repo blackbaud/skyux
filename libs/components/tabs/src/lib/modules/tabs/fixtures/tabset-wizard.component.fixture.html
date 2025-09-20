@@ -1,12 +1,12 @@
 <form (ngSubmit)="onSave()">
-  <sky-tabset tabStyle="wizard" #wizardDemo>
+  <sky-tabset #wizardDemo tabStyle="wizard">
     <sky-tab tabHeading="Step 1" [active]="selectedTab === 0">
       <label>
         <input
           type="text"
-          [(ngModel)]="requiredValue1"
           name="requiredValue1"
           aria-label="Required Value 1"
+          [(ngModel)]="requiredValue1"
         />
       </label>
     </sky-tab>
@@ -17,9 +17,9 @@
     >
       <input
         type="text"
-        [(ngModel)]="requiredValue2"
         name="requiredValue2"
         aria-label="Required Value 2"
+        [(ngModel)]="requiredValue2"
       />
     </sky-tab>
     <sky-tab
@@ -33,15 +33,15 @@
   <sky-tabset-nav-button
     buttonType="previous"
     [tabset]="passTabset ? wizardDemo : undefined"
-  ></sky-tabset-nav-button>
+  />
   <sky-tabset-nav-button
     buttonType="next"
     [tabset]="passTabset ? wizardDemo : undefined"
-  ></sky-tabset-nav-button>
+  />
   <sky-tabset-nav-button
     buttonType="finish"
     [tabset]="wizardDemo"
     [tabset]="passTabset ? wizardDemo : undefined"
     [disabled]="finishDisabled"
-  ></sky-tabset-nav-button>
+  />
 </form>

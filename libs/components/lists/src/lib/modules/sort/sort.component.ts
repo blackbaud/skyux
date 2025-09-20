@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ContentChildren,
   Input,
+  QueryList,
   inject,
 } from '@angular/core';
 import { SkyContentInfo, SkyContentInfoProvider } from '@skyux/core';
@@ -9,6 +11,7 @@ import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
 
 import { Observable, Subject } from 'rxjs';
 
+import { SkySortItemComponent } from './sort-item.component';
 import { SkySortService } from './sort.service';
 
 @Component({
@@ -17,6 +20,7 @@ import { SkySortService } from './sort.service';
   templateUrl: './sort.component.html',
   providers: [SkySortService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkySortComponent {
   /**
@@ -37,6 +41,9 @@ export class SkySortComponent {
   public showButtonText: boolean | undefined = false;
 
   public dropdownController = new Subject<SkyDropdownMessage>();
+
+  @ContentChildren(SkySortItemComponent, { descendants: true })
+  public sortItems!: QueryList<SkySortItemComponent>;
 
   protected contentInfoObs: Observable<SkyContentInfo> | undefined;
 

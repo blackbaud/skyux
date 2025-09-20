@@ -1,14 +1,3 @@
 {
-  "import": "../../.cspell.json",
-  "patterns": [
-    {
-      "name": "screenshot-selector",
-      "pattern": "/[\\`\\'][a-zA-Z-${.}]*component[a-zA-Z0-9-${.}_\\[\\]]*[\\`\\']/g"
-    },
-    {
-      "name": "screenshot-url",
-      "pattern": "/[\\`\\']/iframe\\.html\\?[a-zA-Z0-9-${.}_=:&;\\[\\]]*component[a-zA-Z0-9-${.}_=:&;\\[\\]]*[\\`\\']/g"
-    }
-  ],
-  "ignoreRegExpList": ["screenshot-selector", "screenshot-url"]
+  "import": "../../node_modules/@skyux/dev-infra-private/.cspell-visual-tests.json"
 }

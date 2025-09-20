@@ -1,4 +1,5 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { InfiniteScrollComponent } from './infinite-scroll.component';
 import { InfiniteScrollModule } from './infinite-scroll.module';
@@ -13,22 +14,18 @@ export default {
     }),
   ],
 } as Meta<InfiniteScrollComponent>;
-const InfiniteScroll: StoryFn<InfiniteScrollComponent> = (
-  args: InfiniteScrollComponent,
-) => ({
-  props: args,
-});
+type Story = StoryObj<InfiniteScrollComponent>;
 
-export const InfiniteScrollReady = InfiniteScroll.bind({});
+export const InfiniteScrollReady: Story = {};
 InfiniteScrollReady.args = {};
 
-export const InfiniteScrollReadyScrollableParent = InfiniteScroll.bind({});
+export const InfiniteScrollReadyScrollableParent: Story = {};
 InfiniteScrollReadyScrollableParent.args = { scrollableParent: true };
 
-export const InfiniteScrollLoading = InfiniteScroll.bind({});
+export const InfiniteScrollLoading: Story = {};
 InfiniteScrollLoading.args = { loading: true };
 
-export const InfiniteScrollLoadingScrollableParent = InfiniteScroll.bind({});
+export const InfiniteScrollLoadingScrollableParent: Story = {};
 InfiniteScrollLoadingScrollableParent.args = {
   loading: true,
   scrollableParent: true,

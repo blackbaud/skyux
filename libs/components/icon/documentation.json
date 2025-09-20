@@ -1,0 +1,25 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "icon": {
+      "development": {
+        "docsIds": [
+          "SkyIconModule",
+          "SkyIconComponent",
+          "SkyIconVariantType",
+          "SkyIconSize"
+        ],
+        "primaryDocsId": "SkyIconModule"
+      },
+      "testing": {
+        "docsIds": ["SkyIconHarness", "SkyIconHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "IconBasicExampleComponent",
+          "IconIconButtonExampleComponent"
+        ]
+      }
+    }
+  }
+}

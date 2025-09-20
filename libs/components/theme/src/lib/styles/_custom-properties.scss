@@ -3,6 +3,7 @@
 :root {
   /* color */
   --sky-background-color-page-default: #{$sky-background-color-page-default};
+  --sky-background-color-container-default: #{$sky-color-white};
   --sky-background-color-neutral-light: #{$sky-background-color-neutral-light};
   --sky-background-color-primary-dark: #{$sky-background-color-primary-dark};
   --sky-background-color-disabled: #{$sky-background-color-disabled};
@@ -16,7 +17,7 @@
 
   --sky-border-color-neutral-medium: #{$sky-border-color-neutral-medium};
 
-  --sky-category-color-light-blue: #{$sky-category-color-light-blue};
+  --sky-category-color-green: #{$sky-category-color-light-blue};
   --sky-category-color-teal: #{$sky-category-color-teal};
   --sky-category-color-purple: #{$sky-category-color-purple};
   --sky-category-color-orange: #{$sky-category-color-orange};
@@ -65,4 +66,16 @@
   /* component colors */
   --sky-background-color-input-selected: var(--sky-background-color-info-light);
   --sky-background-color-item-selected: var(--sky-background-color-selected);
+
+  /* headings */
+  --sky-theme-modern-font-heading-4-weight: 600;
+  --sky-theme-modern-font-heading-5-weight: 600;
+
+  /* switch */
+  --sky-switch-size: #{$sky-switch-size};
+  --sky-switch-margin: #{$sky-switch-margin};
+
+  /* viewkeeper */
+  --sky-viewkeeper-opacity: 0.95;
+  --sky-viewkeeper-box-shadow: none;
 }

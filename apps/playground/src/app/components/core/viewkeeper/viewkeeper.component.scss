@@ -1,3 +1,16 @@
+.content-with-sidebar {
+  display: flex;
+}
+
+.sidebar-expanded .sidebar-spacer {
+  width: 300px;
+}
+
+.toggle-sidebar-btn {
+  position: fixed;
+  z-index: 10000;
+}
+
 .wrapper {
   border: solid 1px black;
 }

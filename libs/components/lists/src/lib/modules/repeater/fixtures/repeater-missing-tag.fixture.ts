@@ -16,5 +16,6 @@ import { Component } from '@angular/core';
       </sky-repeater-item>
     </sky-repeater>
   `,
+  standalone: false,
 })
 export class RepeaterWithMissingTagsFixtureComponent {}

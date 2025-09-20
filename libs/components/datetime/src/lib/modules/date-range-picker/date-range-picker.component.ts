@@ -1,109 +1,169 @@
+import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  DestroyRef,
+  ElementRef,
+  HostBinding,
+  Injector,
   Input,
-  NgZone,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Optional,
-  SimpleChanges,
-  forwardRef,
+  Signal,
+  TemplateRef,
+  booleanAttribute,
+  computed,
+  inject,
+  runInInjectionContext,
+  signal,
+  viewChildren,
 } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   ControlValueAccessor,
+  FormBuilder,
+  FormControl,
+  FormsModule,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
+  NgControl,
+  ReactiveFormsModule,
+  StatusChangeEvent,
+  TouchedChangeEvent,
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { SkyAppLocaleProvider } from '@skyux/i18n';
-import { SkyThemeService } from '@skyux/theme';
+import { SkyLogService } from '@skyux/core';
+import {
+  SKY_FORM_ERRORS_ENABLED,
+  SkyFormErrorsModule,
+  SkyInputBoxModule,
+} from '@skyux/forms';
 
-import { Subject, combineLatest } from 'rxjs';
-import { distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs';
 
-import { SkyDateFormatter } from '../datepicker/date-formatter';
+import { SkyDatepickerComponent } from '../datepicker/datepicker.component';
+import { SkyDatepickerModule } from '../datepicker/datepicker.module';
+import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
 
+import { SkyDateRangePickerEndDateResourceKeyPipe } from './date-range-picker-end-date-resource-key.pipe';
+import { SkyDateRangePickerStartDateResourceKeyPipe } from './date-range-picker-start-date-resource-key.pipe';
 import { SkyDateRangeService } from './date-range.service';
 import { SkyDateRangeCalculation } from './types/date-range-calculation';
 import { SkyDateRangeCalculator } from './types/date-range-calculator';
 import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
 import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
+import { SKY_DEFAULT_CALCULATOR_IDS } from './types/date-range-default-calculator-configs';
 
-const SKY_DATE_RANGE_PICKER_VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => SkyDateRangePickerComponent),
-  multi: true,
-};
+type DateValue = Date | string | null | undefined;
 
-const SKY_DATE_RANGE_PICKER_VALIDATOR = {
-  provide: NG_VALIDATORS,
-  useExisting: forwardRef(() => SkyDateRangePickerComponent),
-  multi: true,
-};
+function areDateRangesEqual(
+  rangeA: SkyDateRangeCalculation | undefined,
+  rangeB: SkyDateRangeCalculation | undefined,
+): boolean {
+  return (
+    !!rangeA &&
+    !!rangeB &&
+    rangeA.calculatorId === rangeB.calculatorId &&
+    areDatesEqual(rangeA.startDate, rangeB.startDate) &&
+    areDatesEqual(rangeA.endDate, rangeB.endDate)
+  );
+}
 
-let uniqueId = 0;
+function areDatesEqual(a: DateValue, b: DateValue): boolean {
+  if (typeof a !== typeof b) {
+    return false;
+  }
 
-/**
- * Acts as a form control with a form model of type `SkyDateRangeCalculation`.
- * @example
- * ```
- * <sky-date-range-picker
- *   formControlName="myPicker"
- * >
- * </sky-date-range-picker>
- * ```
- */
+  if (!a && !b) {
+    return true;
+  }
+
+  if (typeof a === 'string' && a === b) {
+    return true;
+  }
+
+  return a instanceof Date && b instanceof Date && a.getTime() === b.getTime();
+}
+
+function isNullOrUndefined(value: unknown): value is undefined | null {
+  return value === undefined || value === null;
+}
+
+function isPartialValue(
+  value: Partial<SkyDateRangeCalculation> | null | undefined,
+): value is Partial<SkyDateRangeCalculation> | null | undefined {
+  return (
+    isNullOrUndefined(value) ||
+    isNullOrUndefined(value.calculatorId) ||
+    !('endDate' in value) ||
+    !('startDate' in value)
+  );
+}
+
 @Component({
-  selector: 'sky-date-range-picker',
-  templateUrl: './date-range-picker.component.html',
-  styleUrls: ['./date-range-picker.component.scss'],
-  providers: [
-    SKY_DATE_RANGE_PICKER_VALUE_ACCESSOR,
-    SKY_DATE_RANGE_PICKER_VALIDATOR,
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(focusout)': 'onFocusout($event)',
+  },
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SkyDatepickerModule,
+    SkyDateRangePickerEndDateResourceKeyPipe,
+    SkyDateRangePickerStartDateResourceKeyPipe,
+    SkyDatetimeResourcesModule,
+    SkyInputBoxModule,
+    SkyFormErrorsModule,
+  ],
+  providers: [
+    {
+      provide: NG_VALIDATORS,
+      useExisting: SkyDateRangePickerComponent,
+      multi: true,
+    },
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: SkyDateRangePickerComponent,
+      multi: true,
+    },
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+  ],
+  selector: 'sky-date-range-picker',
+  styleUrl: './date-range-picker.component.scss',
+  templateUrl: './date-range-picker.component.html',
 })
 export class SkyDateRangePickerComponent
-  implements OnInit, OnChanges, OnDestroy, ControlValueAccessor, Validator
+  implements AfterViewInit, ControlValueAccessor, Validator
 {
+  readonly #dateRangeSvc = inject(SkyDateRangeService);
+  readonly #destroyRef = inject(DestroyRef);
+  readonly #elementRef = inject(ElementRef);
+  readonly #injector = inject(Injector);
+  readonly #logger = inject(SkyLogService);
+
   /**
    * IDs for the date range options to include in the picker's dropdown.
    * The options specify calculator objects that return two `Date` objects to represent date ranges.
    * By default, this property includes all `SkyDateRangeCalculatorId` values.
    */
   @Input()
-  public set calculatorIds(value: SkyDateRangeCalculatorId[] | undefined) {
-    this.#_calculatorIds = value || [
-      SkyDateRangeCalculatorId.AnyTime,
-      SkyDateRangeCalculatorId.Before,
-      SkyDateRangeCalculatorId.After,
-      SkyDateRangeCalculatorId.SpecificRange,
-      SkyDateRangeCalculatorId.Yesterday,
-      SkyDateRangeCalculatorId.Today,
-      SkyDateRangeCalculatorId.Tomorrow,
-      SkyDateRangeCalculatorId.LastWeek,
-      SkyDateRangeCalculatorId.ThisWeek,
-      SkyDateRangeCalculatorId.NextWeek,
-      SkyDateRangeCalculatorId.LastMonth,
-      SkyDateRangeCalculatorId.ThisMonth,
-      SkyDateRangeCalculatorId.NextMonth,
-      SkyDateRangeCalculatorId.LastQuarter,
-      SkyDateRangeCalculatorId.ThisQuarter,
-      SkyDateRangeCalculatorId.NextQuarter,
-      SkyDateRangeCalculatorId.LastCalendarYear,
-      SkyDateRangeCalculatorId.ThisCalendarYear,
-      SkyDateRangeCalculatorId.NextCalendarYear,
-      SkyDateRangeCalculatorId.LastFiscalYear,
-      SkyDateRangeCalculatorId.ThisFiscalYear,
-      SkyDateRangeCalculatorId.NextFiscalYear,
-    ];
+  public set calculatorIds(
+    calculatorIds: SkyDateRangeCalculatorId[] | undefined,
+  ) {
+    const currentCalculatorId = this.#getValue().calculatorId;
+
+    this.#_calculatorIds = calculatorIds ?? SKY_DEFAULT_CALCULATOR_IDS;
+    this.calculators = this.#dateRangeSvc.filterCalculators(
+      this.#_calculatorIds,
+    );
+
+    // If the currently selected calculator isn't available anymore,
+    // select the first calculator in the new array.
+    if (!this.#_calculatorIds.includes(currentCalculatorId)) {
+      this.#setValue({ calculatorId: this.calculatorIds[0] });
+    }
   }
 
   public get calculatorIds(): SkyDateRangeCalculatorId[] {
@@ -118,384 +178,386 @@ export class SkyDateRangePickerComponent
    * @default "MM/DD/YYYY"
    */
   @Input()
-  public set dateFormat(value: string | undefined) {
-    this.#_dateFormat = value;
-    this.dateFormatOrDefault = value || this.#preferredShortDateFormat;
-  }
+  public dateFormat: string | undefined;
 
-  public get dateFormat(): string | undefined {
-    return this.#_dateFormat;
+  /**
+   * Whether to disable the date range picker on template-driven forms. Don't use
+   * this input on reactive forms because they may overwrite the input or leave
+   * the control out of sync. To set the disabled state on reactive forms,
+   * use the `FormControl` instead.
+   * @default false
+   */
+  @Input({ transform: booleanAttribute })
+  public set disabled(value: boolean) {
+    if (value) {
+      this.formGroup.disable();
+    } else {
+      this.formGroup.enable();
+    }
   }
 
   /**
-   * Whether to disable the date range picker on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
-   * To set the disabled state on reactive forms, use the `FormControl` instead.
-   * @default false
+   * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to date range picker. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title. This property only applies when `labelText` is also specified.
    */
   @Input()
-  public set disabled(value: boolean | undefined) {
-    this.#_disabled = value;
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
 
-    if (this.formGroup) {
-      if (this.#_disabled) {
-        this.formGroup.disable();
-      } else {
-        this.formGroup.enable();
-      }
-    }
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
 
-    this.#changeDetector.markForCheck();
-  }
-
-  public get disabled(): boolean | undefined {
-    return this.#_disabled;
-  }
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   */
+  @Input()
+  public hintText: string | undefined;
 
   /**
    * The label for the date range picker.
-   * @required
+   * @deprecated Use the `labelText` input instead.
    */
   @Input()
-  public label: string | undefined;
+  public set label(value: string | undefined) {
+    this.#_label = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyDateRangePickerComponent.label', {
+        deprecationMajorVersion: 10,
+        replacementRecommendation: 'Use the `labelText` input instead.',
+      });
+    }
+  }
+
+  public get label(): string | undefined {
+    return this.#_label;
+  }
 
   /**
-   * Whether to require users to specify a start date.
-   * @default false
+   * The text to display as the date range picker's label.
    */
   @Input()
-  public startDateRequired: boolean | undefined = false;
+  public labelText: string | undefined;
 
   /**
-   * Whether to require users to specify a end date.
-   * @default false
+   * Whether the date range picker is stacked on another form component. When specified, the appropriate
+   * vertical spacing is automatically added to the date range picker.
+   */
+  @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-form-field-stacked')
+  public stacked = false;
+
+  /**
+   * A help key that identifies the global help content to display. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is placed beside the date range picker label. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
+   * as configured by the application. This property only applies when `labelText` is also specified.
    */
   @Input()
-  public endDateRequired: boolean | undefined = false;
+  public helpKey: string | undefined;
 
-  public selectedCalculator: SkyDateRangeCalculator | undefined;
+  protected calculators = this.#dateRangeSvc.calculators;
+  protected datepickers = viewChildren(SkyDatepickerComponent);
+  protected hostControl: AbstractControl | null | undefined;
+  protected selectedCalculator = this.calculators[0];
+  protected showEndDatePicker = signal<boolean>(false);
+  protected showStartDatePicker = signal<boolean>(false);
 
-  public readonly dateRangePickerId = `sky-date-range-picker-${uniqueId++}`;
+  #_calculatorIds = SKY_DEFAULT_CALCULATOR_IDS;
+  #_label: string | undefined;
+  #_value = this.selectedCalculator.getValue();
 
-  public calculators: SkyDateRangeCalculator[] = [];
-  public dateFormatOrDefault: string | undefined;
-  public formGroup: UntypedFormGroup | undefined;
-  public isReady = false;
-  public showEndDatePicker = false;
-  public showStartDatePicker = false;
+  #hostHasCustomError: Signal<boolean | undefined> | undefined;
+  #notifyChange: ((_: SkyDateRangeCalculation) => void) | undefined;
+  #notifyTouched: (() => void) | undefined;
 
-  get #calculatorIdControl(): AbstractControl | undefined | null {
-    return this.formGroup?.get('calculatorId');
-  }
+  #calculatorIdControl = new FormControl<number>(
+    this.#getValue().calculatorId,
+    { nonNullable: true },
+  );
+  #calculatorIdInvalid = this.#createStatusChangeSignal(
+    this.#calculatorIdControl,
+  );
+  #calculatorIdTouched = this.#createTouchedChangeSignal(
+    this.#calculatorIdControl,
+  );
 
-  get #defaultCalculator(): SkyDateRangeCalculator | undefined {
-    return this.calculators[0];
-  }
+  #endDateControl = new FormControl<DateValue>(this.#getValue().endDate);
+  #endDateInvalid = this.#createStatusChangeSignal(this.#endDateControl);
+  #endDateTouched = this.#createTouchedChangeSignal(this.#endDateControl);
 
-  get #defaultValue(): SkyDateRangeCalculation | undefined {
-    return this.#defaultCalculator?.getValue();
-  }
+  #startDateControl = new FormControl<DateValue>(this.#getValue().startDate);
+  #startDateInvalid = this.#createStatusChangeSignal(this.#startDateControl);
+  #startDateTouched = this.#createTouchedChangeSignal(this.#startDateControl);
 
-  get #endDateControl(): AbstractControl | undefined | null {
-    return this.formGroup?.get('endDate');
-  }
+  protected formGroup = inject(FormBuilder).group({
+    calculatorId: this.#calculatorIdControl,
+    startDate: this.#startDateControl,
+    endDate: this.#endDateControl,
+  });
 
-  get #startDateControl(): AbstractControl | undefined | null {
-    return this.formGroup?.get('startDate');
-  }
+  protected readonly calculatorIdHasErrors = computed(() => {
+    const touched = this.#calculatorIdTouched();
+    const invalid = this.#calculatorIdInvalid() || this.#hostHasCustomError?.();
+    return touched && invalid;
+  });
 
-  #value: SkyDateRangeCalculation | undefined;
+  protected readonly endDateHasErrors = computed(() => {
+    const calculatorIdHasErrors = this.calculatorIdHasErrors();
+    const touched = this.#endDateTouched();
+    const invalid = this.#endDateInvalid();
 
-  set #valueOrDefault(value: SkyDateRangeCalculation | undefined) {
-    this.#_valueOrDefault = value;
-    this.#updateSelectedCalculator();
-  }
+    return calculatorIdHasErrors || (touched && invalid);
+  });
 
-  get #valueOrDefault(): SkyDateRangeCalculation | undefined {
-    return this.#_valueOrDefault;
-  }
+  protected readonly startDateHasErrors = computed(() => {
+    const calculatorIdHasErrors = this.calculatorIdHasErrors();
+    const touched = this.#startDateTouched();
+    const invalid = this.#startDateInvalid();
 
-  #control: AbstractControl | undefined;
-  #preferredShortDateFormat: string | undefined;
-  #ngUnsubscribe = new Subject<void>();
+    return calculatorIdHasErrors || (touched && invalid);
+  });
 
-  #_calculatorIds: SkyDateRangeCalculatorId[] = [
-    SkyDateRangeCalculatorId.AnyTime,
-    SkyDateRangeCalculatorId.Before,
-    SkyDateRangeCalculatorId.After,
-    SkyDateRangeCalculatorId.SpecificRange,
-    SkyDateRangeCalculatorId.Yesterday,
-    SkyDateRangeCalculatorId.Today,
-    SkyDateRangeCalculatorId.Tomorrow,
-    SkyDateRangeCalculatorId.LastWeek,
-    SkyDateRangeCalculatorId.ThisWeek,
-    SkyDateRangeCalculatorId.NextWeek,
-    SkyDateRangeCalculatorId.LastMonth,
-    SkyDateRangeCalculatorId.ThisMonth,
-    SkyDateRangeCalculatorId.NextMonth,
-    SkyDateRangeCalculatorId.LastQuarter,
-    SkyDateRangeCalculatorId.ThisQuarter,
-    SkyDateRangeCalculatorId.NextQuarter,
-    SkyDateRangeCalculatorId.LastCalendarYear,
-    SkyDateRangeCalculatorId.ThisCalendarYear,
-    SkyDateRangeCalculatorId.NextCalendarYear,
-    SkyDateRangeCalculatorId.LastFiscalYear,
-    SkyDateRangeCalculatorId.ThisFiscalYear,
-    SkyDateRangeCalculatorId.NextFiscalYear,
-  ];
-  #_dateFormat: string | undefined;
-  #_disabled: boolean | undefined = false;
-  #_valueOrDefault: SkyDateRangeCalculation | undefined;
+  public ngAfterViewInit(): void {
+    this.hostControl = this.#injector.get(NgControl, null, {
+      optional: true,
+      self: true,
+    })?.control;
 
-  #changeDetector: ChangeDetectorRef;
-  #dateRangeService: SkyDateRangeService;
-  #formBuilder: UntypedFormBuilder;
-  #localeProvider: SkyAppLocaleProvider;
-  #ngZone: NgZone;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    dateRangeService: SkyDateRangeService,
-    formBuilder: UntypedFormBuilder,
-    localeProvider: SkyAppLocaleProvider,
-    ngZone: NgZone,
-    @Optional() themeSvc?: SkyThemeService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#dateRangeService = dateRangeService;
-    this.#formBuilder = formBuilder;
-    this.#localeProvider = localeProvider;
-    this.#ngZone = ngZone;
-
-    this.dateFormatOrDefault = this.dateFormat;
-
-    this.#localeProvider
-      .getLocaleInfo()
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((localeInfo) => {
-        SkyDateFormatter.setLocale(localeInfo.locale);
-        this.#preferredShortDateFormat =
-          SkyDateFormatter.getPreferredShortDateFormat();
-        this.dateFormatOrDefault =
-          this.dateFormat || this.#preferredShortDateFormat;
-      });
-
-    // Update icons when theme changes.
-    /* istanbul ignore next */
-    themeSvc?.settingsChange
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        this.#changeDetector.markForCheck();
-      });
-  }
-
-  public ngOnInit(): void {
-    this.#createForm();
-
-    this.#updateCalculators().then(() => {
-      if (!this.#value || !this.#value.calculatorId) {
-        this.#valueOrDefault = this.#defaultValue;
-      }
-
-      this.#addEventListeners();
-
-      this.isReady = true;
-
-      this.#showRelevantFormFields();
-
-      // We need to let Angular be stable and have rendered the components prior to setting the values and form controls. This ensures all initial validation will be ran correctly.
-      this.#ngZone.onStable.pipe(first()).subscribe(() => {
-        // Fill in any unprovided values after the calculators have been initialized.
-        // For example, if the control is initialized with only the `calculatorId`,
-        // allow the calculator to fill in the missing start and end dates.
-        const defaultValue = this.selectedCalculator?.getValue(
-          this.#valueOrDefault?.startDate,
-          this.#valueOrDefault?.endDate,
+    runInInjectionContext(this.#injector, () => {
+      if (this.hostControl) {
+        this.#hostHasCustomError = this.#createHostCustomErrorChangeSignal(
+          this.hostControl,
         );
-        const newValue = Object.assign({}, defaultValue, this.#valueOrDefault);
-
-        this.#setValue(newValue, false);
-
-        this.#resetFormGroupValue();
-
-        // This is needed to address a bug in Angular 4.
-        // When a control value is set initially, its value is not represented on the view.
-        // See: https://github.com/angular/angular/issues/13792
-        /* istanbul ignore else */
-        if (this.#control) {
-          this.#control.setValue(this.#valueOrDefault, {
-            emitEvent: false,
-          });
-        }
-      });
-    });
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes['calculatorIds'] &&
-      changes['calculatorIds'].firstChange === false
-    ) {
-      this.#updateCalculators().then(() => {
-        const id = this.#calculatorIdControl?.value;
-
-        // Maintain the currently selected values if the calculators change after
-        // a value has been chosen.
-        const found = this.calculators.find((calculator) => {
-          return calculator.calculatorId === id;
-        });
-
-        /* istanbul ignore else */
-        if (!found) {
-          const newValue = this.#defaultCalculator?.getValue();
-          this.#setValue(newValue);
-          this.#resetFormGroupValue(newValue);
-          this.#showRelevantFormFields();
-        }
-      });
-    }
-  }
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
-  }
-
-  public onFieldBlur(): void {
-    this.#onTouched();
-  }
-
-  public writeValue(value: SkyDateRangeCalculation): void {
-    // Only update the underlying controls when the calculators are ready.
-    const notifyChange = false;
-
-    // (We still need to save the initial value set by the consumer's form, however.)
-    this.#setValue(value, notifyChange);
-
-    if (this.isReady) {
-      // When the control's value is set to `null`,
-      // set it to the default value.
-      if (!value) {
-        this.#onChange(this.#defaultValue);
       }
+    });
 
-      this.#resetFormGroupValue();
-      this.#showRelevantFormFields();
+    // Set a default value on the control if it's undefined on init.
+    // We need to use setTimeout to avoid interfering with the first
+    // validation cycle.
+    if (isPartialValue(this.hostControl?.value)) {
+      setTimeout(() => {
+        this.hostControl?.setValue(this.#getValue(), {
+          emitEvent: false,
+        });
+      });
     }
+
+    // If the datepickers' statuses change, we want to retrigger the host
+    // control's validation so that their errors are reflected back to the host.
+    this.formGroup.events
+      .pipe(
+        filter((evt) => evt instanceof StatusChangeEvent),
+        map((evt: StatusChangeEvent) => evt.status),
+        distinctUntilChanged(),
+        takeUntilDestroyed(this.#destroyRef),
+      )
+      .subscribe(() => {
+        this.hostControl?.updateValueAndValidity({
+          emitEvent: false,
+          onlySelf: true,
+        });
+      });
+
+    // Mark all fields as touched if the host control is touched.
+    this.hostControl?.events
+      .pipe(
+        filter((evt) => evt instanceof TouchedChangeEvent),
+        map((evt: TouchedChangeEvent) => evt.touched),
+        distinctUntilChanged(),
+        takeUntilDestroyed(this.#destroyRef),
+      )
+      .subscribe(() => {
+        this.formGroup.markAllAsTouched();
+      });
   }
 
+  // Implemented as part of ControlValueAccessor.
+  public registerOnChange(fn: (_: unknown) => void): void {
+    this.#notifyChange = fn;
+  }
+
+  // Implemented as part of ControlValueAccessor.
+  public registerOnTouched(fn: () => void): void {
+    this.#notifyTouched = fn;
+  }
+
+  // Implemented as part of ControlValueAccessor.
+  public setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  // Implemented as part of Validator.
   public validate(control: AbstractControl): ValidationErrors | null {
-    if (!this.#control) {
-      this.#control = control;
-    }
-
-    if (!this.isReady) {
-      return null;
-    }
-
-    const value = control.value;
-    const idControl = this.#calculatorIdControl;
-    const result = this.selectedCalculator?.validate(value);
-
     let errors: ValidationErrors | null = null;
 
-    if (result) {
+    const calculatorErrors = this.selectedCalculator.validate(control.value);
+    const startDateErrors = this.#startDateControl.errors;
+    const endDateErrors = this.#endDateControl.errors;
+
+    if (calculatorErrors) {
       errors = {
         skyDateRange: {
-          calculatorId: idControl?.value,
-          errors: result,
+          calculatorId: this.#getValue().calculatorId,
+          errors: calculatorErrors,
         },
       };
-    } else {
-      let startErrors: ValidationErrors | null = null;
-      let endErrors: ValidationErrors | null = null;
-      if (this.#startDateControl) {
-        startErrors = this.#startDateControl.errors;
-      }
-      if (this.#endDateControl) {
-        endErrors = this.#endDateControl.errors;
-      }
-
-      errors = startErrors || endErrors;
     }
 
-    if (!errors) {
-      // Clear any errors on the calculator select.
-      idControl?.setErrors(null);
-      return null;
+    // Set calculator errors on the select so that they appear beneath it.
+    this.#calculatorIdControl.setErrors(errors);
+
+    if (this.showStartDatePicker() && startDateErrors) {
+      errors ||= {};
+      errors = { ...errors, ...startDateErrors };
     }
 
-    idControl?.setErrors(errors);
-    idControl?.markAsTouched();
-    idControl?.markAsDirty();
-
-    // Need to mark the control as touched for the error messages to appear.
-    this.#control.markAsTouched();
-
-    // Notify the view to display any errors.
-    this.#changeDetector.markForCheck();
+    if (this.showEndDatePicker() && endDateErrors) {
+      errors ||= {};
+      errors = { ...errors, ...endDateErrors };
+    }
 
     return errors;
   }
 
-  public registerOnChange(
-    fn: (value: SkyDateRangeCalculation | undefined) => SkyDateRangeCalculation,
-  ): void {
-    this.#onChange = fn;
-  }
+  // Implemented as part of ControlValueAccessor.
+  // The date range picker always has a value, so if the consumer passes in a
+  // partial value (via `patchValue`) or null, we need to update the host control's
+  // value with the complete value after it's been modified.
+  public writeValue(value: Partial<SkyDateRangeCalculation> | undefined): void {
+    this.#patchValue(value);
 
-  public registerOnTouched(fn: () => SkyDateRangeCalculation): void {
-    this.#onTouched = fn;
-  }
-
-  public setDisabledState(disabled: boolean): void {
-    this.disabled = disabled;
-  }
-
-  #setValue(
-    value: SkyDateRangeCalculation | undefined,
-    notifyChange = true,
-  ): void {
-    const isNewValue = !this.#dateRangesEqual(this.#value, value);
-
-    if (isNewValue) {
-      this.#value = value;
-      if (!value || value.calculatorId === undefined) {
-        this.#valueOrDefault = this.#defaultValue;
-      } else {
-        this.#valueOrDefault = value;
-      }
-
-      if (notifyChange) {
-        this.#onChange(this.#valueOrDefault);
-      }
+    // Update the host control if it is set to a partial or null value.
+    if (isPartialValue(value)) {
+      this.hostControl?.setValue(this.#getValue(), {
+        emitEvent: false,
+        onlySelf: true,
+      });
     }
   }
 
-  #patchValue(value: any): void {
-    const newValue = Object.assign({}, this.#valueOrDefault, value);
-
-    this.#setValue(newValue);
+  /**
+   * Fires when a user changes the selected calculator ID.
+   */
+  protected onCalculatorIdChange(): void {
+    // Reset the value when the calculator ID changes.
+    this.#setValue({ calculatorId: +this.#calculatorIdControl.value });
+    this.onDateChange();
   }
 
-  #createForm(): void {
-    this.formGroup = this.#formBuilder.group({
-      calculatorId: new UntypedFormControl(),
-      startDate: new UntypedFormControl(),
-      endDate: new UntypedFormControl(),
+  /**
+   * Fires when a user interacts with a date range picker.
+   */
+  protected onDateChange(): void {
+    // Wait until the form control is updated before retrieving its value.
+    setTimeout(() => {
+      this.#notifyChange?.(
+        this.formGroup.getRawValue() as SkyDateRangeCalculation,
+      );
     });
+  }
 
-    if (this.disabled) {
-      this.formGroup.disable();
+  /**
+   * Fires when the date range picker loses focus.
+   */
+  protected onFocusout({ relatedTarget }: FocusEvent): void {
+    if (
+      relatedTarget &&
+      !this.#elementRef.nativeElement.contains(relatedTarget) &&
+      !this.datepickers().some((picker) => picker.containsTarget(relatedTarget))
+    ) {
+      this.#notifyTouched?.();
     }
   }
 
-  #showRelevantFormFields(): void {
-    const calculator = this.selectedCalculator;
+  #getCalculator(calculatorId: number): SkyDateRangeCalculator {
+    const found = this.calculators.find((c) => c.calculatorId === calculatorId);
 
+    /*istanbul ignore if: safety check*/
+    if (!found) {
+      throw new Error(
+        `A date range calculator with ID (${calculatorId}) could not be found.`,
+      );
+    }
+
+    return found;
+  }
+
+  #getValue(): SkyDateRangeCalculation {
+    // Important! Return a clone to avoid changing the properties by reference.
+    return { ...this.#_value };
+  }
+
+  #patchValue(
+    partialValue: Partial<SkyDateRangeCalculation> | null | undefined,
+  ): void {
+    if (isNullOrUndefined(partialValue)) {
+      this.#setValue(null);
+      return;
+    }
+
+    const oldValue = this.#getValue();
+
+    // If the new ID is distinct, erase the old start and end dates because
+    // they're no longer applicable.
+    if (
+      !isNullOrUndefined(partialValue.calculatorId) &&
+      oldValue.calculatorId !== partialValue.calculatorId
+    ) {
+      delete oldValue.endDate;
+      delete oldValue.startDate;
+    }
+
+    const value = {
+      ...oldValue,
+      ...partialValue,
+    };
+
+    this.#setValue(value);
+  }
+
+  /**
+   * Sets the value to be used by the date range picker form control.
+   */
+  #setValue(value: SkyDateRangeCalculation | null | undefined): void {
+    const oldValue = this.#getValue();
+
+    const isValueEmpty = !value || isNullOrUndefined(value.calculatorId);
+    const valueOrDefault = isValueEmpty
+      ? this.calculators[0].getValue()
+      : {
+          ...this.#getCalculator(value.calculatorId).getValue(),
+          ...value,
+        };
+
+    // Ensure falsy values are set to null.
+    valueOrDefault.endDate = valueOrDefault.endDate || null;
+    valueOrDefault.startDate = valueOrDefault.startDate || null;
+
+    if (!areDateRangesEqual(oldValue, valueOrDefault)) {
+      this.#_value = valueOrDefault;
+
+      if (oldValue.calculatorId !== valueOrDefault.calculatorId) {
+        this.selectedCalculator = this.#getCalculator(
+          valueOrDefault.calculatorId,
+        );
+
+        this.#updatePickerVisibility(this.selectedCalculator);
+      }
+
+      this.formGroup.patchValue(valueOrDefault);
+    }
+  }
+
+  #updatePickerVisibility(calculator: SkyDateRangeCalculator): void {
     let showEndDatePicker = false;
     let showStartDatePicker = false;
 
-    switch (calculator?.type) {
+    switch (calculator.type) {
       case SkyDateRangeCalculatorType.Before:
         showEndDatePicker = true;
         break;
@@ -513,125 +575,47 @@ export class SkyDateRangePickerComponent
         break;
     }
 
-    this.showEndDatePicker = showEndDatePicker;
-    this.showStartDatePicker = showStartDatePicker;
-    this.#changeDetector.markForCheck();
+    this.showEndDatePicker.set(showEndDatePicker);
+    this.showStartDatePicker.set(showStartDatePicker);
   }
 
-  #resetFormGroupValue(value?: SkyDateRangeCalculation): void {
-    this.formGroup?.reset(value || this.#valueOrDefault);
-  }
+  #createHostCustomErrorChangeSignal(
+    control: AbstractControl,
+  ): Signal<boolean | undefined> {
+    return toSignal(
+      control.events.pipe(
+        filter((evt) => evt instanceof StatusChangeEvent),
+        map((evt: StatusChangeEvent) => {
+          const errors = evt.source.errors ?? [];
+          const knownErrors = ['required', 'skyDate'];
 
-  #addEventListeners(): void {
-    // Watch for selected calculator change.
-    this.#calculatorIdControl?.valueChanges
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((value) => {
-        if (value !== this.#valueOrDefault?.calculatorId) {
-          const id = parseInt(value, 10);
-          // if the component is disabled during form creation, null is passed
-          // as the value of the calculator id control
-          // only handle the value changes if the calculator id is a number
-          /* istanbul ignore else */
-          if (!isNaN(id)) {
-            const calculator = this.#getCalculatorById(id);
-            const newValue = calculator?.getValue();
-
-            this.#setValue(newValue);
-            this.#resetFormGroupValue(newValue);
-            this.#showRelevantFormFields();
-          }
-        }
-      });
-
-    // Watch for start date value changes.
-    this.#startDateControl?.valueChanges
-      .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
-      .subscribe((startDate) => {
-        this.#patchValue({ startDate });
-      });
-
-    // Watch for end date value changes.
-    this.#endDateControl?.valueChanges
-      .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
-      .subscribe((endDate) => {
-        this.#patchValue({ endDate });
-      });
-
-    // Safety check
-    /* istanbul ignore else */
-    if (this.#startDateControl && this.#endDateControl) {
-      // Detect errors from the date inputs and update ng- classes on picker.
-      combineLatest([
-        this.#startDateControl.statusChanges,
-        this.#endDateControl.statusChanges,
-      ])
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          this.#updateBasedOnControls();
-        });
-    } else if (this.#startDateControl) {
-      this.#startDateControl.statusChanges
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          this.#updateBasedOnControls();
-        });
-    } else if (this.#endDateControl) {
-      this.#endDateControl.statusChanges
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          this.#updateBasedOnControls();
-        });
-    }
-  }
-
-  #updateBasedOnControls(): void {
-    this.#changeDetector.markForCheck();
-
-    // Wait for initial validation to complete.
-    this.#ngZone.onStable.pipe(first()).subscribe(() => {
-      this.#control?.updateValueAndValidity({ emitEvent: false });
-    });
-  }
-
-  #updateCalculators(): Promise<void> {
-    return this.#dateRangeService
-      .getCalculators(this.calculatorIds)
-      .then((calculators) => {
-        this.calculators = calculators;
-        // Ensure that any previously set value is used to determine the selected calculator
-        this.#updateSelectedCalculator();
-        this.#changeDetector.markForCheck();
-      });
-  }
-
-  #getCalculatorById(
-    id: SkyDateRangeCalculatorId,
-  ): SkyDateRangeCalculator | undefined {
-    return this.calculators.find((calculator) => {
-      return calculator.calculatorId === id;
-    });
-  }
-
-  #dateRangesEqual(
-    rangeA: SkyDateRangeCalculation | undefined,
-    rangeB: SkyDateRangeCalculation | undefined,
-  ): boolean {
-    return (
-      !!rangeA && !!rangeB && JSON.stringify(rangeA) === JSON.stringify(rangeB)
+          return Object.keys(errors).some((error) => {
+            return !knownErrors.includes(error);
+          });
+        }),
+      ),
     );
   }
 
-  #updateSelectedCalculator(): void {
-    this.selectedCalculator = this.#valueOrDefault
-      ? this.#getCalculatorById(this.#valueOrDefault.calculatorId)
-      : undefined;
+  #createStatusChangeSignal(control: FormControl): Signal<boolean | undefined> {
+    return toSignal(
+      control.events.pipe(
+        filter((evt) => evt instanceof StatusChangeEvent),
+        map((evt: StatusChangeEvent) => evt.status === 'INVALID'),
+        takeUntilDestroyed(this.#destroyRef),
+      ),
+    );
   }
 
-  /* istanbul ignore next */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  #onChange = (_: SkyDateRangeCalculation | undefined): void => {};
-  /* istanbul ignore next */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  #onTouched = (): void => {};
+  #createTouchedChangeSignal(
+    control: FormControl,
+  ): Signal<boolean | undefined> {
+    return toSignal(
+      control.events.pipe(
+        filter((evt) => evt instanceof TouchedChangeEvent),
+        map((evt: TouchedChangeEvent) => evt.touched),
+        takeUntilDestroyed(this.#destroyRef),
+      ),
+    );
+  }
 }

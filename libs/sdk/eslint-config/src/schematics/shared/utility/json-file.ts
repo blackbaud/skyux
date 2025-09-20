@@ -1,5 +1,4 @@
 /* istanbul ignore file */
-
 /**
  * The contents of this file were copied from '@schematics/angular'.
  * @see https://github.com/angular/angular-cli/blob/master/packages/schematics/angular/utility/json-file.ts
@@ -53,7 +52,10 @@ export class JsonFile {
 
   private _jsonAst: Node | undefined;
 
-  constructor(private readonly host: Tree, private readonly path: string) {
+  constructor(
+    private readonly host: Tree,
+    private readonly path: string,
+  ) {
     const buffer = this.host.read(this.path);
     if (buffer) {
       this.content = buffer.toString();
@@ -85,7 +87,7 @@ export class JsonFile {
     let getInsertionIndex: InsertionIndex | undefined;
     if (insertInOrder === undefined) {
       const property = jsonPath.slice(-1)[0];
-      getInsertionIndex = (properties) =>
+      getInsertionIndex = (properties): number =>
         [...properties, property].sort().findIndex((p) => p === property);
     } else if (insertInOrder !== false) {
       getInsertionIndex = insertInOrder;

@@ -50,7 +50,7 @@ export class CustomLinkComponent implements ICellRendererComp {
     return false;
   }
 
-  private checkLink(value: unknown) {
+  private checkLink(value: unknown): void {
     if (!value) {
       if (this.link) {
         this.link = '';

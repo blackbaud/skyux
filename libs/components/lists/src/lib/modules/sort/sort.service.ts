@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
  */
 @Injectable()
 export class SkySortService {
-  public selectedItem: BehaviorSubject<string> = new BehaviorSubject('');
+  public selectedItem = new BehaviorSubject<string>('');
 
   public selectItem(sortItem: string): void {
     this.selectedItem.next(sortItem);

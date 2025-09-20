@@ -5,6 +5,7 @@ import {
   Component,
   Input,
   OnInit,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -15,7 +16,7 @@ import {
   SkyColorpickerOutput,
 } from '@skyux/colorpicker';
 import { SkyCheckboxModule } from '@skyux/forms';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 import {
@@ -28,7 +29,6 @@ import { SkyThemeModule } from '@skyux/theme';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyFormsUtility } from '../../shared/forms-utility';
 import { STYLE_STATE_DEFAULTS } from '../defaults/style-state-defaults';
 import { SkyTextEditorAdapterService } from '../services/text-editor-adapter.service';
 import { SkyTextEditorFont } from '../types/font-state';
@@ -43,7 +43,6 @@ import { UrlTarget } from '../url-modal/text-editor-url-target';
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-text-editor-toolbar',
   templateUrl: './text-editor-toolbar.component.html',
   styleUrls: ['./text-editor-toolbar.component.scss'],
@@ -98,18 +97,8 @@ export class SkyTextEditorToolbarComponent implements OnInit {
     return this.#_styleState;
   }
 
-  @Input()
-  public set disabled(value: boolean) {
-    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
-    if (coercedValue !== this.disabled) {
-      this.#_disabled = coercedValue;
-      this.#changeDetector.markForCheck();
-    }
-  }
-
-  public get disabled(): boolean {
-    return this.#_disabled;
-  }
+  @Input({ transform: booleanAttribute })
+  public disabled = false;
 
   public backColorpickerStream = new Subject<SkyColorpickerMessage>();
   public colorpickerStream = new Subject<SkyColorpickerMessage>();
@@ -121,7 +110,6 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   #ngUnsubscribe = new Subject<void>();
 
   #_editorFocusStream = new Subject<void>();
-  #_disabled = false;
   #_styleState = STYLE_STATE_DEFAULTS;
 
   readonly #adapterService = inject(SkyTextEditorAdapterService);
@@ -133,10 +121,11 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   }
 
   public execCommand(command: string, value = ''): void {
-    this.#adapterService.execCommand({
+    void this.#adapterService.execCommand({
       command: command,
       value: value,
     });
+
     this.styleState = {
       ...this.styleState,
       ...this.#adapterService.getStyleState(),
@@ -162,7 +151,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
     const inputModal = this.#modalService.open(SkyTextEditorUrlModalComponent, [
       {
         provide: SkyUrlModalContext,
-        useFactory: () => {
+        useFactory: (): SkyUrlModalContext => {
           const context = new SkyUrlModalContext();
           context.urlResult = currentLink;
           context.linkWindowOptions = this.linkWindowOptions;
@@ -215,7 +204,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   }
 
   public changeFontSize(size: number): void {
-    this.#adapterService.setFontSize(size);
+    void this.#adapterService.setFontSize(size);
     this.styleState = {
       ...this.styleState,
       ...this.#adapterService.getStyleState(),
@@ -226,7 +215,11 @@ export class SkyTextEditorToolbarComponent implements OnInit {
     color: SkyColorpickerOutput,
     isBackground = false,
   ): void {
-    this.execCommand(isBackground ? 'backColor' : 'foreColor', color.hex);
+    if (isBackground) {
+      this.execCommand('backColor', color.rgbaText);
+    } else {
+      this.execCommand('foreColor', color.hex);
+    }
   }
 
   #subscribeEditorFocus(): void {
@@ -255,9 +248,9 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   }
 
   #getFontName(fontName: string): string | undefined {
-    for (let i = 0; i < this.fontList.length; i++) {
-      if (fontName.replace(/['"]+/g, '') === this.fontList[i].name) {
-        return this.fontList[i].name;
+    for (const skyTextEditorFont of this.fontList) {
+      if (fontName.replace(/['"]+/g, '') === skyTextEditorFont.name) {
+        return skyTextEditorFont.name;
       }
     }
 

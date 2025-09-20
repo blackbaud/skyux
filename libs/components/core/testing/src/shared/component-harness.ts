@@ -13,7 +13,7 @@ export abstract class SkyComponentHarness extends ComponentHarness {
   protected static getDataSkyIdPredicate<T extends SkyComponentHarness>(
     this: ComponentHarnessConstructor<T>,
     filters: SkyHarnessFilters,
-  ) {
+  ): HarnessPredicate<T> {
     return new HarnessPredicate(this, filters).addOption(
       'dataSkyId',
       filters.dataSkyId,
@@ -23,6 +23,6 @@ export abstract class SkyComponentHarness extends ComponentHarness {
   }
 
   async #getSkyId(): Promise<string | null> {
-    return (await this.host()).getAttribute('data-sky-id');
+    return await (await this.host()).getAttribute('data-sky-id');
   }
 }

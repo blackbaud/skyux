@@ -1,0 +1,210 @@
+{
+  "skyux_character_count_message": {
+    "_description": "Seule étiquette du lecteur d’écran pour le décompte du nombre de caractères",
+    "message": "{0} caractères de {1}"
+  },
+  "skyux_character_count_over_limit": {
+    "_description": "Seule étiquette du lecteur d’écran pour le décompte du nombre de caractères du symbole au-dessus de la limite",
+    "message": "Vous avez dépassé la limite de caractères."
+  },
+  "skyux_form_error_character_count": {
+    "_description": "Message d’erreur pour un champ avec une valeur qui dépasse la limite de caractères",
+    "message": "Limite {0} de {1} caractère(s)."
+  },
+  "skyux_form_error_date": {
+    "_description": "Message d’erreur pour un champ avec une valeur de date invalide",
+    "message": "Sélectionnez ou entrez une date valide."
+  },
+  "skyux_form_error_date_max": {
+    "_description": "Message d’erreur pour un champ avec une date après la date maximale",
+    "message": "Sélectionnez ou entrez une date le ou avant le {0}."
+  },
+  "skyux_form_error_date_min": {
+    "_description": "Message d’erreur pour un champ avec une date avant la date minimale",
+    "message": "Sélectionnez ou entrez une date le ou après le {0}."
+  },
+  "skyux_form_error_fuzzy_date_future_disabled": {
+    "_description": "Message d’erreur pour un champ avec une date floue invalide dans l’avenir",
+    "message": "Les dates futures sont désactivées; sélectionnez ou entrez une date dans le passé."
+  },
+  "skyux_form_error_fuzzy_date_invalid": {
+    "_description": "Message d’erreur pour un champ avec une date floue invalide",
+    "message": "Sélectionnez ou entrez une date valide."
+  },
+  "skyux_form_error_fuzzy_date_max_date": {
+    "_description": "Message d’erreur pour un champ avec une date après la date floue maximale",
+    "message": "Sélectionnez ou entrez une date le ou avant le {0}."
+  },
+  "skyux_form_error_fuzzy_date_min_date": {
+    "_description": "Message d’erreur pour un champ avec une date avant la date floue minimale",
+    "message": "Sélectionnez ou entrez une date le ou après le {0}."
+  },
+  "skyux_form_error_fuzzy_date_year_required": {
+    "_description": "Message d’erreur pour un champ avec une date sans année",
+    "message": "L’année est requise."
+  },
+  "skyux_form_error_email": {
+    "_description": "Message d’erreur pour un champ avec une valeur de courriel invalide",
+    "message": "Entrez une adresse courriel avec un format valide."
+  },
+  "skyux_form_error_maxlength": {
+    "_description": "Message d’erreur pour un champ avec une valeur qui est trop longue",
+    "message": "Limite {0} de {1} caractère(s)."
+  },
+  "skyux_form_error_minlength": {
+    "_description": "Message d’erreur pour un champ avec une valeur n’est pas assez longue",
+    "message": "{0} doit avoir au moins {1} caractère(s)."
+  },
+  "skyux_form_error_phone": {
+    "_description": "Message d’erreur pour un champ avec un numéro de téléphone invalide",
+    "message": "Entrez un numéro de téléphone correspondant au format du pays sélectionné."
+  },
+  "skyux_form_error_required": {
+    "_description": "Message d’erreur pour un champ requis ne contenant aucune valeur",
+    "message": "{0} est requis."
+  },
+  "skyux_form_error_time": {
+    "_description": "Message d’erreur pour un champ avec une valeur d’heure invalide",
+    "message": "Sélectionnez ou entrez une heure valide."
+  },
+  "skyux_form_error_url": {
+    "_description": "Message d’erreur pour un champ avec une valeur d’URL invalide",
+    "message": "Entrez une URL avec un format valide."
+  },
+  "skyux_form_group_required": {
+    "_description": "Texte du lecteur d’écran après une étiquette de groupe de formulaires lorsque le groupe de formulaires est requis",
+    "message": "Requis"
+  },
+  "skyux_file_attachment_button_label_choose_file": {
+    "_description": "Étiquette de bouton pour une seule pièce jointe lorsque l’entrée n’a aucune valeur",
+    "message": "Joindre un fichier"
+  },
+  "skyux_file_attachment_button_label_choose_file_label": {
+    "_description": "Étiquette aria de bouton pour une seule pièce jointe lorsque l’entrée n’a aucune valeur",
+    "message": "Joindre un fichier pour"
+  },
+  "skyux_file_attachment_button_label_replace_file": {
+    "_description": "Étiquette de bouton pour une seule pièce jointe lorsque le fichier a été choisi",
+    "message": "Remplacer le fichier"
+  },
+  "skyux_file_attachment_button_label_replace_file_label": {
+    "_description": "Étiquette aria de bouton pour une seule pièce jointe lorsque le fichier a été choisi",
+    "message": "Remplacer le fichier {0} pour"
+  },
+  "skyux_file_attachment_file_item_delete": {
+    "_description": "Étiquette pour le bouton qui supprime un fichier",
+    "message": "Supprimer {0}"
+  },
+  "skyux_file_attachment_file_item_remove": {
+    "_description": "Étiquette pour le bouton qui supprime un fichier dans une seule pièce jointe",
+    "message": "Retirer le fichier {0} pour"
+  },
+  "skyux_file_attachment_file_size_b_plural": {
+    "_description": "",
+    "message": "{0} octets"
+  },
+  "skyux_file_attachment_file_size_b_singular": {
+    "_description": "",
+    "message": "{0} octet"
+  },
+  "skyux_file_attachment_file_size_gb": {
+    "_description": "",
+    "message": "{0} Go"
+  },
+  "skyux_file_attachment_file_size_kb": {
+    "_description": "",
+    "message": "{0} Ko"
+  },
+  "skyux_file_attachment_file_size_mb": {
+    "_description": "",
+    "message": "{0} Mo"
+  },
+  "skyux_file_attachment_file_upload_drag_file_here": {
+    "_description": "",
+    "message": "Faites glisser un fichier ici"
+  },
+  "skyux_file_attachment_file_upload_drag_or_click": {
+    "_description": "Étiquette pour un déplacement de fichier",
+    "message": "Faites glisser un fichier ici ou cliquez pour naviguer"
+  },
+  "skyux_file_attachment_file_upload_drop_files_here": {
+    "_description": "",
+    "message": "Déplacez les fichiers ici"
+  },
+  "skyux_file_attachment_file_upload_file_added": {
+    "_description": "Texte du lecteur d’écran lorsqu’un fichier est ajouté",
+    "message": "{0} a été ajouté."
+  },
+  "skyux_file_attachment_file_upload_file_replaced": {
+    "_description": "Texte du lecteur d’écran lorsqu’un fichier est remplacé",
+    "message": "{0} a été retiré. {1} a été ajouté."
+  },
+  "skyux_file_attachment_file_upload_file_removed": {
+    "_description": "Texte du lecteur d’écran lorsqu’un fichier est retiré",
+    "message": "{0} a été retiré."
+  },
+  "skyux_file_attachment_file_upload_image_preview_alt_text": {
+    "_description": "Texte alternatif pour une image téléversée",
+    "message": "Aperçu de l’image"
+  },
+  "skyux_file_attachment_file_upload_invalid_file": {
+    "_description": "",
+    "message": "Ce type de fichier n’est pas valide"
+  },
+  "skyux_file_attachment_file_upload_link_label": {
+    "_description": "Étiquette pour l’entrée d’un lien pour un fichier",
+    "message": "Liens vers un fichier"
+  },
+  "skyux_file_attachment_file_upload_or_click_to_browse": {
+    "_description": "",
+    "message": "ou cliquez pour naviguer"
+  },
+  "skyux_file_attachment_file_upload_link_done": {
+    "_description": "",
+    "message": "Terminé"
+  },
+  "skyux_file_attachment_file_upload_link_added": {
+    "_description": "Texte du lecteur d’écran lorsqu’un lien est ajouté",
+    "message": "Le lien vers {0} a été ajouté."
+  },
+  "skyux_file_attachment_file_upload_link_removed": {
+    "_description": "Texte du lecteur d’écran lorsqu’un lien est retiré",
+    "message": "Le lien vers {0} a été retiré."
+  },
+  "skyux_file_attachment_file_type_error_label_text": {
+    "_description": "Le message d’erreur pour une pièce jointe avec l’erreur du type de fichier incorrect",
+    "message": "Téléversez l’un de ces types de fichier : {0}."
+  },
+  "skyux_file_attachment_file_type_error_label_text_with_name": {
+    "_description": "Le message d’erreur pour une pièce jointe avec l’erreur du type de fichier incorrect",
+    "message": "{0} : Téléversez l’un de ces types de fichier : {1}."
+  },
+  "skyux_file_attachment_max_file_size_error_label_text": {
+    "_description": "Le message d’erreur pour une pièce jointe avec l’erreur de la taille de fichier maximale",
+    "message": "Téléversez un fichier de moins de {0}."
+  },
+  "skyux_file_attachment_max_file_size_error_label_text_with_name": {
+    "_description": "Le message d’erreur pour une pièce jointe avec l’erreur de la taille de fichier maximale",
+    "message": "{0} : Téléversez un fichier de moins de {1}."
+  },
+  "skyux_file_attachment_min_file_size_error_label_text": {
+    "_description": "Le message d’erreur pour une pièce jointe avec l’erreur de la taille de fichier minimale",
+    "message": "Téléversez un fichier de plus de {0}."
+  },
+  "skyux_file_attachment_min_file_size_error_label_text_with_name": {
+    "_description": "Le message d’erreur pour une pièce jointe avec l’erreur de la taille de fichier minimale",
+    "message": "{0} : Téléversez un fichier de plus de {1}."
+  },
+  "skyux_file_attachment_label_no_file_chosen": {
+    "_description": "Étiquette pour une seule pièce jointe lorsqu’aucun fichier n’a été choisi",
+    "message": "Aucun fichier choisi."
+  },
+  "skyux_file_attachment_required": {
+    "_description": "Texte du lecteur d’écran après une étiquette de pièce jointe lorsqu’une pièce jointe est requise",
+    "message": "Requis"
+  },
+  "skyux_input_box_help_inline_aria_label": {
+    "_description": "L’étiquette d’accessibilité pour une case d’entrée avec le bouton d’aide en ligne",
+    "message": "Afficher le contenu de l’aide pour {0}"
+  }
+}

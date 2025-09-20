@@ -1,0 +1,70 @@
+{
+  "skyux_colorpicker_alpha": {
+    "_description": "Étiquette de l’entrée alpha",
+    "message": "A :"
+  },
+  "skyux_colorpicker_apply": {
+    "_description": "Étiquette du bouton appliquer",
+    "message": "Appliquer"
+  },
+  "skyux_colorpicker_aria_alpha": {
+    "_description": "Étiquette aria de l’entrée alpha",
+    "message": "Valeur du canal alpha entre 0 et 1"
+  },
+  "skyux_colorpicker_aria_blue": {
+    "_description": "Étiquette aria de l’entrée bleue",
+    "message": "Valeur bleue entre 0 et 255"
+  },
+  "skyux_colorpicker_aria_green": {
+    "_description": "Étiquette aria de l’entrée verte",
+    "message": "Valeur verte entre 0 et 255"
+  },
+  "skyux_colorpicker_aria_hex": {
+    "_description": "Étiquette aria de l’entrée hexadécimale",
+    "message": "Code de couleur hexadécimal"
+  },
+  "skyux_colorpicker_aria_red": {
+    "_description": "Étiquette aria de l’entrée rouge",
+    "message": "Valeur rouge entre 0 et 255"
+  },
+  "skyux_colorpicker_aria_rgba": {
+    "_description": "Étiquette aria du groupe de champs RGBA",
+    "message": "Valeurs RGBA"
+  },
+  "skyux_colorpicker_blue": {
+    "_description": "Étiquette de l’entrée bleue",
+    "message": "B :"
+  },
+  "skyux_colorpicker_close": {
+    "_description": "Étiquette du bouton fermer",
+    "message": "Annuler"
+  },
+  "skyux_colorpicker_dropdown_button": {
+    "_description": "Étiquette du bouton de la liste déroulante",
+    "message": "Sélectionner la valeur de la couleur"
+  },
+  "skyux_colorpicker_green": {
+    "_description": "Étiquette de l’entrée verte",
+    "message": "G :"
+  },
+  "skyux_colorpicker_hex": {
+    "_description": "Étiquette aria de l’entrée hexadécimale",
+    "message": "Hexadécimale :"
+  },
+  "skyux_colorpicker_input_default_label": {
+    "_description": "L’étiquette du champ de saisie du composant de sélection des couleurs pour les lecteurs d’écran lorsque le consommateur n’a pas spécifié d’étiquette.",
+    "message": "Valeur de la couleur"
+  },
+  "skyux_colorpicker_preset_color": {
+    "_description": "Étiquette des couleurs prédéfinies",
+    "message": "Couleur prédéfinie :"
+  },
+  "skyux_colorpicker_red": {
+    "_description": "Étiquette de l’entrée rouge",
+    "message": "R :"
+  },
+  "skyux_colorpicker_reset": {
+    "_description": "Étiquette du bouton de réinitialisation pour modifier la couleur noire à la couleur initiale",
+    "message": "Réinitialiser la valeur de la couleur à blanc"
+  }
+}

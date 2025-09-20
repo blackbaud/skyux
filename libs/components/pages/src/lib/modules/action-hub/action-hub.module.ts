@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyWaitModule } from '@skyux/indicators';
 import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
@@ -8,6 +7,7 @@ import { SkyLinkListModule } from '../link-list/link-list.module';
 import { SkyModalLinkListModule } from '../modal-link-list/modal-link-list.module';
 import { SkyNeedsAttentionModule } from '../needs-attention/needs-attention.module';
 import { SkyPageHeaderModule } from '../page-header/page-header.module';
+import { SkyPageModule } from '../page/page.module';
 import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
 
 import { SkyActionHubButtonsComponent } from './action-hub-buttons.component';
@@ -18,7 +18,7 @@ import { SkyActionHubComponent } from './action-hub.component';
 
 @NgModule({
   imports: [
-    CommonModule,
+    SkyActionHubRecentLinksResolvePipe,
     SkyBoxModule,
     SkyFluidGridModule,
     SkyLinkListModule,
@@ -28,12 +28,12 @@ import { SkyActionHubComponent } from './action-hub.component';
     SkyPagesResourcesModule,
     SkyThemeModule,
     SkyWaitModule,
+    SkyPageModule,
   ],
   declarations: [
     SkyActionHubButtonsComponent,
     SkyActionHubComponent,
     SkyActionHubContentComponent,
-    SkyActionHubRecentLinksResolvePipe,
     SkyActionHubRelatedLinksSortPipe,
   ],
   exports: [

@@ -1,0 +1,14 @@
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-host-overrides() {
+  --sky-override-summary-action-bar-action-dropdown-margin-right: 0;
+}
+
+sky-dropdown {
+  margin-right: var(
+    --sky-override-summary-action-bar-action-dropdown-margin-right,
+    var(--sky-space-gap-action_group-m)
+  );
+  display: block;
+}

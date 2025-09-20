@@ -3,7 +3,7 @@ import { SkyTabIndex } from './tab-index';
 /**
  * @internal
  */
-export type TabButtonViewModel = {
+export interface TabButtonViewModel {
   active: boolean;
   ariaControls: string;
   buttonHref: string | null;
@@ -15,4 +15,4 @@ export type TabButtonViewModel = {
   tabIndex: SkyTabIndex | undefined;
   tabNumber: number;
   totalTabsCount: number;
-};
+}

@@ -1,22 +1,27 @@
-<div class="sky-modal-footer-container sky-padding-even-large">
+<div class="sky-modal-footer-container">
   <div aria-live="polite">
-    <div
-      *ngIf="errorsSvc.formErrors | async as formErrors"
-      class="sky-modal-footer-errors sky-margin-stacked-lg"
-    >
-      <sky-status-indicator
-        *ngFor="let formError of formErrors"
-        [ngClass]="{
-          'sky-margin-stacked-lg':
-            formErrors.indexOf(formError) < formErrors.length - 1,
-          'footer-error': true
-        }"
-        descriptionType="error"
-        indicatorType="danger"
-      >
-        {{ formError.message }}
-      </sky-status-indicator>
-    </div>
+    @if (errorsSvc.formErrors | async; as formErrors) {
+      @if (formErrors.length > 0) {
+        <div
+          class="sky-modal-footer-errors sky-margin-stacked-lg sky-errors-overflow"
+          tabindex="0"
+        >
+          @for (formError of formErrors; track formError.message) {
+            <sky-status-indicator
+              descriptionType="error"
+              indicatorType="danger"
+              [ngClass]="{
+                'sky-margin-stacked-sm':
+                  formErrors.indexOf(formError) < formErrors.length - 1,
+                'footer-error': true
+              }"
+            >
+              {{ formError.message }}
+            </sky-status-indicator>
+          }
+        </div>
+      }
+    }
   </div>
   <ng-content />
 </div>

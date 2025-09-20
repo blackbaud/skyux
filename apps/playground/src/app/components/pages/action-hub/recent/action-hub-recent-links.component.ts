@@ -17,6 +17,7 @@ import { ActionHubPlaygroundRecentlyAccessedService } from './action-hub-recentl
       useClass: ActionHubPlaygroundRecentlyAccessedService,
     },
   ],
+  standalone: false,
 })
 export class ActionHubPlaygroundRecentLinksComponent {
   public recentLinks:
@@ -32,9 +33,17 @@ export class ActionHubPlaygroundRecentLinksComponent {
         },
       },
     },
+    {
+      title: 'Documentation',
+      permalink: {
+        route: {
+          commands: ['../documentation'],
+        },
+      },
+    },
   ];
 
-  public switchRecentLinks(appName?: string, links?: SkyRecentLink[]) {
+  public switchRecentLinks(appName?: string, links?: SkyRecentLink[]): void {
     if (appName) {
       this.recentLinks = {
         requestedRoutes: [

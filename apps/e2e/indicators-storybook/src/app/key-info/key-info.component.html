@@ -1,8 +1,21 @@
-<ng-container *ngFor="let layout of layouts">
+@for (layout of layouts; track layout) {
   <div class="sky-margin-stacked-lg">
-    <sky-key-info [layout]="layout" class="{{ layout }}-key-info">
+    <sky-key-info class="{{ layout }}-key-info" [layout]="layout">
       <sky-key-info-value> 575 </sky-key-info-value>
       <sky-key-info-label> New members </sky-key-info-label>
     </sky-key-info>
   </div>
-</ng-container>
+}
+
+@for (layout of layouts; track layout) {
+  <div class="sky-margin-stacked-lg">
+    <sky-key-info
+      class="{{ layout }}-key-info"
+      helpPopoverContent="Help!"
+      [layout]="layout"
+    >
+      <sky-key-info-value> 575 </sky-key-info-value>
+      <sky-key-info-label> New members </sky-key-info-label>
+    </sky-key-info>
+  </div>
+}

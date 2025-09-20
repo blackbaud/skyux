@@ -1,13 +1,24 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
-@use 'node_modules/intl-tel-input/build/css/intlTelInput';
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+@import 'intl-tel-input/build/css/intlTelInput.css';
 
-.sky-phone-field-country-btn + .sky-form-control {
-  border-left: none;
+@include compatMixins.sky-default-overrides('.sky-phone-field-country-btn') {
+  --sky-override-phone-field-flag-transform: scaleX(1.25) translateX(2px);
+  --sky-override-phone-field-flag-min-width: 20px;
+  --sky-override-phone-field-flag-display: block;
+  --sky-override-phone-field-input-box-country-button-padding: 6px 12px;
+}
+
+@include compatMixins.sky-default-overrides('.sky-phone-field') {
+  .sky-phone-field-search-btn-dismiss {
+    border-color: transparent;
+  }
 }
 
 .sky-phone-field-country-btn {
   .sky-btn {
+    // NOTE: This rule is set for non-input box phone fields. Remove when support for this is fully removed.
     border-radius: 0;
   }
 }
@@ -21,48 +32,27 @@
   flex-grow: 1;
 }
 
-.sky-phone-field-search-btn-dismiss {
-  border-color: transparent;
-}
-
-.sky-phone-field-country-selected,
-.sky-phone-field-country-default {
-  @include mixins.sky-border(light, bottom);
-}
-
-.sky-phone-field-search-result {
-  .sky-phone-field-flag {
-    display: inline-block;
-    margin-right: $sky-margin-half;
-  }
-}
-
+// Default only style for the dismiss icon in input boxes
 .sky-input-box {
   .sky-phone-field-search-btn-dismiss .fa-lg {
     vertical-align: -10%;
   }
 }
 
-.sky-theme-modern {
-  .sky-input-box {
-    .sky-phone-field-country-search .sky-country-field-input {
-      background-color: transparent;
-    }
-
-    .sky-phone-field-country-btn.sky-input-group-btn .sky-btn {
-      padding: 0 17px 0 18px;
-    }
+.sky-input-box {
+  .sky-phone-field-country-btn.sky-input-group-btn .sky-btn {
+    padding: var(--sky-override-phone-field-input-box-country-button-padding);
   }
 }
 
-.sky-phone-field-flag {
-  max-width: 25px;
-  max-height: 13px;
-  background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.3/assets/images/intl-tel-input/flags.webp) !important;
+.sky-phone-field-country-btn {
+  .sky-phone-field-flag {
+    min-width: var(--sky-override-phone-field-flag-min-width);
+    display: var(--sky-override-phone-field-flag-display, inline-block);
+  }
 
-  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .iti__flag {
-      background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.3/assets/images/intl-tel-input/flags@2x.webp) !important;
-    }
+  .iti__flag {
+    background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/2.0.1/assets/images/intl-tel-input/flags@2x.webp) !important;
+    transform: var(--sky-override-phone-field-flag-transform, none);
   }
 }

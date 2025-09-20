@@ -1,0 +1,72 @@
+{
+  "name": "code-examples",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/components/code-examples/src",
+  "prefix": "sky",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/libs/components/code-examples"],
+      "options": {
+        "project": "libs/components/code-examples/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/components/code-examples/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/components/code-examples/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "tsConfig": "libs/components/code-examples/tsconfig.spec.json",
+        "karmaConfig": "libs/components/code-examples/karma.conf.js",
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ],
+        "codeCoverage": true,
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing",
+          "libs/components/packages/src/polyfills.js"
+        ],
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "codeCoverage": true,
+          "progress": false,
+          "sourceMap": true,
+          "watch": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "{projectRoot}/src/**/*.ts",
+          "{projectRoot}/src/**/*.html"
+        ]
+      },
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "manifest"
+        }
+      ]
+    }
+  },
+  "tags": ["component", "npm"]
+}

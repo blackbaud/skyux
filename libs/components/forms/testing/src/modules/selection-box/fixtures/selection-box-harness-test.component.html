@@ -1,0 +1,44 @@
+<form [formGroup]="formGroup">
+  <sky-selection-box-grid data-sky-id="checkbox-selection-boxes">
+    @for (control of checkboxControls; track control; let i = $index) {
+      <sky-selection-box
+        [attr.data-sky-id]="selectionBoxes[i].value"
+        [control]="checkbox"
+      >
+        <sky-icon [iconName]="selectionBoxes[i].iconName" />
+        <sky-selection-box-header #checkboxHeaderId="skyId" skyId>
+          {{ selectionBoxes[i].name }}
+        </sky-selection-box-header>
+        <sky-selection-box-description>
+          {{ selectionBoxes[i].description }}
+        </sky-selection-box-description>
+        <sky-checkbox
+          #checkbox
+          [formControl]="control"
+          [labelledBy]="checkboxHeaderId.id"
+        />
+      </sky-selection-box>
+    }
+    <sky-selection-box data-sky-id="empty-box"></sky-selection-box>
+  </sky-selection-box-grid>
+  <sky-radio-group ariaLabel="Demo options" formControlName="radioGroup">
+    <sky-selection-box-grid data-sky-id="radio-selection-boxes">
+      @for (item of selectionBoxes; track item) {
+        <sky-selection-box [control]="radio">
+          <sky-icon [iconName]="item.iconName" />
+          <sky-selection-box-header #radioHeaderId="skyId" skyId>
+            {{ item.name }}
+          </sky-selection-box-header>
+          <sky-selection-box-description>
+            {{ item.description }}
+          </sky-selection-box-description>
+          <sky-radio
+            #radio
+            [labelledBy]="radioHeaderId.id"
+            [value]="item.value"
+          />
+        </sky-selection-box>
+      }
+    </sky-selection-box-grid>
+  </sky-radio-group>
+</form>

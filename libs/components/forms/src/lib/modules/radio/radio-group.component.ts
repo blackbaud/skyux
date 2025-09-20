@@ -1,27 +1,39 @@
 import {
   AfterContentInit,
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ContentChildren,
+  HostBinding,
   Input,
   OnDestroy,
   Optional,
   QueryList,
   Self,
+  TemplateRef,
+  booleanAttribute,
+  inject,
+  numberAttribute,
 } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { NgControl, Validators } from '@angular/forms';
+import { SkyIdService, SkyLogService } from '@skyux/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyFormsUtility } from '../shared/forms-utility';
+import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioComponent } from './radio.component';
 import { SkyRadioChange } from './types/radio-change';
+import { SkyRadioGroupHeadingLevel } from './types/radio-group-heading-level';
+import { SkyRadioGroupHeadingStyle } from './types/radio-group-heading-style';
 
 let nextUniqueId = 0;
+
+function numberAttribute4(value: unknown): number {
+  return numberAttribute(value, 4);
+}
 
 /**
  * Organizes radio buttons into a group. It is required for radio
@@ -32,20 +44,37 @@ let nextUniqueId = 0;
 @Component({
   selector: 'sky-radio-group',
   templateUrl: './radio-group.component.html',
-  providers: [SkyRadioGroupIdService],
+  styleUrls: ['./radio-group.component.scss'],
+  providers: [
+    SkyRadioGroupIdService,
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+  ],
+  hostDirectives: [SkyThemeComponentClassDirective],
+  standalone: false,
 })
-export class SkyRadioGroupComponent
-  implements AfterContentInit, AfterViewInit, OnDestroy
-{
+export class SkyRadioGroupComponent implements AfterContentInit, OnDestroy {
   /**
    * The HTML element ID of the element that labels
    * the radio button group. This sets the radio button group's `aria-labelledby` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the radio button group does not include a visible label, use `ariaLabel` instead.
    * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
+   * @deprecated Use `headingText` instead.
    */
   @Input()
-  public ariaLabelledBy: string | undefined;
+  public set ariaLabelledBy(value: string | undefined) {
+    this.#_ariaLabelledBy = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyRadioGroupComponent.ariaLabelledBy', {
+        deprecationMajorVersion: 9,
+      });
+    }
+  }
+
+  public get ariaLabelledBy(): string | undefined {
+    return this.#_ariaLabelledBy;
+  }
 
   /**
    * The ARIA label for the radio button group. This sets the
@@ -53,26 +82,60 @@ export class SkyRadioGroupComponent
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the radio button group includes a visible label, use `ariaLabelledBy` instead.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * @deprecated Use `headingText` instead.
    */
   @Input()
-  public ariaLabel: string | undefined;
+  public set ariaLabel(value: string | undefined) {
+    this.#_ariaLabel = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyRadioGroupComponent.ariaLabel', {
+        deprecationMajorVersion: 9,
+      });
+    }
+  }
+
+  public get ariaLabel(): string | undefined {
+    return this.#_ariaLabel;
+  }
 
   /**
    * Whether to disable the input on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
    * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
-  @Input()
-  public set disabled(value: boolean | undefined) {
-    const newDisabledState = SkyFormsUtility.coerceBooleanProperty(value);
-    if (this.#_disabled !== newDisabledState) {
-      this.#_disabled = newDisabledState;
+  @Input({ transform: booleanAttribute })
+  public set disabled(value: boolean) {
+    if (this.#_disabled !== value) {
+      this.#_disabled = value;
       this.#updateRadioButtonDisabled();
     }
   }
 
   public get disabled(): boolean {
     return this.#_disabled;
+  }
+
+  /**
+   * The semantic heading level in the document structure. By default, the heading text is not wrapped in a heading element.
+   */
+  @Input({ transform: numberAttribute })
+  public set headingLevel(value: SkyRadioGroupHeadingLevel | undefined) {
+    this.#_headingLevel = value && !isNaN(value) ? value : undefined;
+    this.#updateStackedClasses();
+  }
+
+  public get headingLevel(): SkyRadioGroupHeadingLevel | undefined {
+    return this.#_headingLevel;
+  }
+
+  /**
+   * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
+   * @default 4
+   */
+  @Input({ transform: numberAttribute4 })
+  public set headingStyle(value: SkyRadioGroupHeadingStyle) {
+    this.headingClass = `sky-font-heading-${value}`;
   }
 
   /**
@@ -102,8 +165,22 @@ export class SkyRadioGroupComponent
    * For more information about the `aria-required` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-required).
    * @default false
    */
-  @Input()
-  public required: boolean | undefined = false;
+  @Input({ transform: booleanAttribute })
+  public required = false;
+
+  /**
+   * Whether the radio button group is stacked on another form component. When specified,
+   * the appropriate vertical spacing is automatically added to the radio button group.
+   */
+  @Input({ transform: booleanAttribute })
+  public set stacked(value: boolean) {
+    this.#_stacked = value;
+    this.#updateStackedClasses();
+  }
+
+  public get stacked(): boolean {
+    return this.#_stacked;
+  }
 
   /**
    * The value of the radio button to select by default when the group loads.
@@ -142,6 +219,48 @@ export class SkyRadioGroupComponent
   }
 
   /**
+   * The text to display as the radio group's heading.
+   */
+  @Input()
+  public headingText: string | undefined;
+
+  /**
+   * Indicates whether to hide the `headingText`.
+   */
+  @Input({ transform: booleanAttribute })
+  public headingHidden = false;
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   */
+  @Input()
+  public hintText: string | undefined;
+
+  /**
+   * The content of the help popover. When specified along with `headingText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to radio group. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title. This property only applies when `headingText` is also specified.
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
+
+  /**
+   * A help key that identifies the global help content to display. When specified along with `headingText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is placed beside the radio group heading. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
+   * as configured by the application. This property only applies when `headingText` is also specified.
+   */
+  @Input()
+  public helpKey: string | undefined;
+
+  /**
    * Our radio components are usually implemented using an unordered list. This is an
    * accessibility violation because the unordered list has an implicit role which
    * interrupts the 'radiogroup' and 'radio' relationship. To correct this, we can set the
@@ -152,6 +271,21 @@ export class SkyRadioGroupComponent
 
   @ContentChildren(SkyRadioComponent, { descendants: true })
   public radios: QueryList<SkyRadioComponent> | undefined;
+
+  @HostBinding('class.sky-form-field-stacked')
+  public stackedLg = false;
+
+  @HostBinding('class.sky-field-group-stacked')
+  public stackedXL = false;
+
+  protected get isRequired(): boolean {
+    return (
+      this.required ||
+      (this.ngControl?.control?.hasValidator(Validators.required) ?? false)
+    );
+  }
+
+  protected headingClass = 'sky-font-heading-4';
 
   #controlValue: any;
 
@@ -165,9 +299,22 @@ export class SkyRadioGroupComponent
 
   #_tabIndex: number | undefined;
 
+  #_ariaLabel: string | undefined;
+
+  #_ariaLabelledBy: string | undefined;
+
+  #_headingLevel: SkyRadioGroupHeadingLevel | undefined;
+
+  #_stacked = false;
+
   #changeDetector: ChangeDetectorRef;
   #radioGroupIdSvc: SkyRadioGroupIdService;
-  #ngControl: NgControl | undefined;
+
+  readonly #logger = inject(SkyLogService);
+  readonly #idService = inject(SkyIdService);
+
+  protected errorId = this.#idService.generateId();
+  protected ngControl: NgControl | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -179,7 +326,7 @@ export class SkyRadioGroupComponent
     }
     this.#changeDetector = changeDetector;
     this.#radioGroupIdSvc = radioGroupIdSvc;
-    this.#ngControl = ngControl;
+    this.ngControl = ngControl;
     this.name = this.#defaultName;
 
     this.#radioGroupIdSvc.radioIds
@@ -210,17 +357,6 @@ export class SkyRadioGroupComponent
         // Subscribe to the new radio buttons
         this.watchForSelections();
       });
-    }
-  }
-
-  public ngAfterViewInit(): void {
-    if (this.#ngControl) {
-      // Backwards compatibility support for anyone still using Validators.Required.
-      this.required =
-        this.required || SkyFormsUtility.hasRequiredValidation(this.#ngControl);
-
-      // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
-      this.#changeDetector.detectChanges();
     }
   }
 
@@ -320,5 +456,10 @@ export class SkyRadioGroupComponent
     this.#updateRadioButtonNames();
     this.#updateRadioButtonTabIndexes();
     this.#updateRadioButtonDisabled();
+  }
+
+  #updateStackedClasses(): void {
+    this.stackedLg = !this.headingLevel && this.stacked;
+    this.stackedXL = !!this.headingLevel && this.stacked;
   }
 }

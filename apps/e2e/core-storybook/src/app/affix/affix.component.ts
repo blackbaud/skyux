@@ -1,4 +1,9 @@
-import { Component, ViewEncapsulation, inject } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  ViewEncapsulation,
+  input,
+} from '@angular/core';
 import {
   SkyAffixAutoFitContext,
   SkyAffixHorizontalAlignment,
@@ -6,15 +11,22 @@ import {
   SkyAffixPosition,
   SkyAffixVerticalAlignment,
 } from '@skyux/core';
-import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-affix',
   templateUrl: './affix.component.html',
   styleUrls: ['./affix.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class AffixComponent {
+  public readonly wide = input<boolean>(true);
+
+  @HostBinding('style.width')
+  public get wideStyle(): string {
+    return this.wide() ? '200vw' : 'auto';
+  }
+
   protected readonly contexts = ['none', 'overflow-hidden', 'positioned'];
   protected readonly horizontalAlignments: SkyAffixHorizontalAlignment[] = [
     'left',
@@ -41,6 +53,4 @@ export class AffixComponent {
     viewport: SkyAffixAutoFitContext.Viewport,
   };
   protected readonly isSticky = true;
-
-  protected readonly ready$ = inject(FontLoadingService).ready();
 }

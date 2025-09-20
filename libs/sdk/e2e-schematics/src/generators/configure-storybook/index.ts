@@ -2,7 +2,6 @@ import {
   ProjectConfiguration,
   TargetConfiguration,
   Tree,
-  formatFiles,
   generateFiles,
   joinPathFragments,
   offsetFromRoot,
@@ -14,14 +13,15 @@ import { TsConfig } from '@nx/storybook/src/utils/utilities';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 
-import { getStorybookProjects } from '../../utils';
+import { formatFiles } from '../../utils/format-files';
+import { getStorybookProjects } from '../../utils/get-projects';
 
 import { Schema } from './schema';
 
 /**
  * Configure Storybook to use typescript. Set Storybook to run during e2e in development mode.
  */
-export default async function (tree: Tree, schema: Schema) {
+export default async function (tree: Tree, schema: Schema): Promise<void> {
   const projects = getStorybookProjects(tree, schema.name);
 
   projects.forEach((project, projectName) => {
@@ -30,8 +30,8 @@ export default async function (tree: Tree, schema: Schema) {
       project.targets as Record<string, TargetConfiguration>,
     );
     if (!targets.includes('static-storybook')) {
-      addStaticTarget(tree, {
-        name: projectName,
+      void addStaticTarget(tree, {
+        project: projectName,
         interactionTests: false,
         uiFramework: '@storybook/angular',
         skipFormat: true,
@@ -45,28 +45,23 @@ export default async function (tree: Tree, schema: Schema) {
       if (
         targetConfig.executor &&
         [
+          '@angular-devkit/build-angular:application',
           '@angular-devkit/build-angular:browser',
+          '@angular/build:application',
           '@storybook/angular:build-storybook',
           '@storybook/angular:start-storybook',
         ].includes(targetConfig.executor)
       ) {
         // Add stylesheets to project.
-        if (!targetConfig.options) {
-          targetConfig.options = {
-            styles: [],
-          };
-        }
+        targetConfig.options ??= {};
+        targetConfig.options.styles ??= [];
         [
           'libs/components/theme/src/lib/styles/sky.scss',
           'libs/components/theme/src/lib/styles/themes/modern/styles.scss',
         ].forEach((stylesheet) => {
-          if (!targetConfig.options.styles?.includes(stylesheet)) {
+          if (!targetConfig.options.styles.includes(stylesheet)) {
             hasChanged = true;
-            if (targetConfig.options.styles) {
-              targetConfig.options.styles.push(stylesheet);
-            } else {
-              targetConfig.options.styles = [stylesheet];
-            }
+            targetConfig.options.styles.push(stylesheet);
           }
         });
         if (
@@ -84,7 +79,7 @@ export default async function (tree: Tree, schema: Schema) {
         }
       }
       // Drop the asset path.
-      if (target === 'build' && targetConfig.options.assets) {
+      if (target === 'build' && targetConfig.options?.assets) {
         hasChanged = true;
         delete targetConfig.options.assets;
       }
@@ -121,7 +116,7 @@ export default async function (tree: Tree, schema: Schema) {
       if (
         e2eProject.targets['e2e'].options.devServerTarget ===
           `${projectName}:storybook` &&
-        e2eProject.targets['e2e'].configurations?.['ci'].devServerTarget !==
+        e2eProject.targets['e2e'].configurations?.['ci']?.devServerTarget !==
           `${projectName}:static-storybook`
       ) {
         hasChanged = true;
@@ -147,7 +142,10 @@ export default async function (tree: Tree, schema: Schema) {
     }
 
     const projectRoot = project.root;
-    const relativeToRoot = offsetFromRoot(`/${projectRoot}/.storybook`);
+    const relativeToRoot = offsetFromRoot(`/${projectRoot}/.storybook`).replace(
+      /\/$/,
+      '',
+    );
 
     const tsconfigFile = `${projectRoot}/.storybook/tsconfig.json`;
     const tsconfigAppFile = `${projectRoot}/tsconfig.app.json`;
@@ -228,5 +226,5 @@ export default async function (tree: Tree, schema: Schema) {
     }
   });
 
-  await formatFiles(tree);
+  await formatFiles(tree, { skipFormat: schema.skipFormat });
 }

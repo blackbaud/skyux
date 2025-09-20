@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { RepeaterComponent } from './repeater.component';
 import { RepeaterModule } from './repeater.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<RepeaterComponent>;
-const Template: Story<RepeaterComponent> = (args: RepeaterComponent) => ({
-  props: args,
-});
-export const Repeater = Template.bind({});
+type Story = StoryObj<RepeaterComponent>;
+export const Repeater: Story = {};
 Repeater.args = {};

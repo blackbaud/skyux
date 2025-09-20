@@ -12,17 +12,25 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { SkyCoreAdapterService, SkyIdService } from '@skyux/core';
-import { SkyInputBoxHostService } from '@skyux/forms';
+import { SkyCoreAdapterService, SkyIdModule, SkyIdService } from '@skyux/core';
+import {
+  SKY_FORM_ERRORS_ENABLED,
+  SkyFormErrorsModule,
+  SkyInputBoxHostService,
+  SkyRequiredStateDirective,
+} from '@skyux/forms';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyToolbarModule } from '@skyux/layout';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyFormsUtility } from '../shared/forms-utility';
+import { SkyTextEditorResourcesModule } from '../shared/sky-text-editor-resources.module';
 
 import { FONT_LIST_DEFAULTS } from './defaults/font-list-defaults';
 import { FONT_SIZE_LIST_DEFAULTS } from './defaults/font-size-list-defaults';
@@ -47,7 +55,6 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
  * The text editor component lets users format and manipulate text.
  */
 @Component({
-  standalone: true,
   selector: 'sky-text-editor',
   templateUrl: './text-editor.component.html',
   styleUrls: ['./text-editor.component.scss'],
@@ -57,12 +64,24 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
     SkyTextEditorService,
     SkyTextEditorSelectionService,
     SkyTextEditorAdapterService,
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+  ],
+  hostDirectives: [
+    {
+      directive: SkyRequiredStateDirective,
+      inputs: ['required'],
+    },
   ],
   imports: [
     CommonModule,
+    SkyHelpInlineModule,
+    SkyIdModule,
     SkyTextEditorMenubarComponent,
     SkyTextEditorToolbarComponent,
+    SkyThemeModule,
     SkyToolbarModule,
+    SkyFormErrorsModule,
+    SkyTextEditorResourcesModule,
   ],
 })
 export class SkyTextEditorComponent
@@ -79,37 +98,11 @@ export class SkyTextEditorComponent
    * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
-  @Input()
-  public set disabled(value: boolean | undefined) {
-    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
-    if (coercedValue !== this.disabled) {
-      this.#_disabled = coercedValue;
-
-      // Update focusableChildren inside the iframe.
-      let focusableChildren: HTMLElement[];
-      /* istanbul ignore else */
-      if (this.iframeRef) {
-        focusableChildren = this.#coreAdapterService.getFocusableChildren(
-          this.iframeRef.nativeElement.contentDocument.body,
-          {
-            ignoreVisibility: true,
-            ignoreTabIndex: true,
-          },
-        );
-
-        if (this.#_disabled) {
-          this.#adapterService.disableEditor(
-            focusableChildren,
-            this.iframeRef.nativeElement,
-          );
-        } else {
-          this.#adapterService.enableEditor(
-            focusableChildren,
-            this.iframeRef.nativeElement,
-          );
-        }
-        this.#changeDetector.markForCheck();
-      }
+  @Input({ transform: booleanAttribute })
+  public set disabled(value: boolean) {
+    if (value !== this.disabled) {
+      this.#_disabled = value;
+      this.#applyDisabledState();
     }
   }
 
@@ -144,6 +137,28 @@ export class SkyTextEditorComponent
   }
 
   /**
+   * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the text editor. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title. This property only applies when `labelText` is also specified.
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   */
+  @Input()
+  public hintText: string | undefined;
+
+  /**
    * The unique ID attribute for the text editor.
    * By default, the component generates a random ID.
    */
@@ -173,6 +188,19 @@ export class SkyTextEditorComponent
 
   public get initialStyleState(): SkyTextEditorStyleState {
     return this.#_initialStyleState;
+  }
+
+  /**
+   * The text to display as the text editor's label.
+   */
+  @Input()
+  public set labelText(value: string | undefined) {
+    this.#_labelText = value;
+    this.#updateA11yAttributes();
+  }
+
+  public get labelText(): string | undefined {
+    return this.#_labelText;
   }
 
   /**
@@ -219,6 +247,14 @@ export class SkyTextEditorComponent
   }
 
   /**
+   * Whether the text editor is stacked on another form component. When specified,
+   * the appropriate vertical spacing is automatically added to the text editor.
+   */
+  @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-form-field-stacked')
+  public stacked = false;
+
+  /**
    * The actions to include in the toolbar in the specified order.
    * @default [ 'font-family', 'font-size', 'font-style', 'color', 'list', 'link ]
    */
@@ -247,6 +283,14 @@ export class SkyTextEditorComponent
   public get linkWindowOptions(): SkyTextEditorLinkWindowOptionsType[] {
     return this.#_linkWindowOptions;
   }
+
+  /**
+   * A help key that identifies the global help content to display. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is placed beside the text editor label. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
+   * as configured by the application. This property only applies when `labelText` is also specified.
+   */
+  @Input()
+  public helpKey: string | undefined;
 
   @ViewChild('iframe')
   public iframeRef: ElementRef | undefined;
@@ -280,23 +324,17 @@ export class SkyTextEditorComponent
       // Update angular form control if model has been normalized.
       /* istanbul ignore else */
       if (
-        this.#ngControl?.control &&
-        normalizedValue !== this.#ngControl.control.value
+        this.ngControl?.control &&
+        normalizedValue !== this.ngControl.control.value
       ) {
-        this.#ngControl.control.setValue(normalizedValue, {
+        this.ngControl.control.setValue(normalizedValue, {
           emitModelToViewChange: false,
         });
       }
 
-      // Autofocus isn't testable in Firefox and IE.
-      // Don't set focus on the editor now if the iframe isn't initialized.
       // #initIframe() will do another check later to see if the editor should
-      // receive focus.
-      /* istanbul ignore next */
-      if (this.autofocus && this.#initialized && !this.#focusInitialized) {
-        this.#adapterService.focusEditor();
-        this.#focusInitialized = true;
-      }
+      // receive focus if not initialized before this is called.
+      this.#checkAutofocusAndFocus();
     }
   }
 
@@ -317,6 +355,8 @@ export class SkyTextEditorComponent
     optional: true,
   });
 
+  protected editorFocused = false;
+
   #defaultId: string;
   #id: string;
   #focusInitialized = false;
@@ -325,6 +365,7 @@ export class SkyTextEditorComponent
 
   #_fontList = FONT_LIST_DEFAULTS;
   #_fontSizeList = FONT_SIZE_LIST_DEFAULTS;
+  #_labelText: string | undefined;
   #_mergeFields: SkyTextEditorMergeField[] = [];
   #_menus = MENU_DEFAULTS;
   #_toolbarActions: SkyTextEditorToolbarActionType[] = TOOLBAR_ACTION_DEFAULTS;
@@ -339,13 +380,16 @@ export class SkyTextEditorComponent
   readonly #coreAdapterService = inject(SkyCoreAdapterService);
   readonly #editorService = inject(SkyTextEditorService);
   readonly #idSvc = inject(SkyIdService);
-  readonly #ngControl = inject(NgControl);
   readonly #sanitizationService = inject(SkyTextSanitizationService);
   readonly #zone = inject(NgZone);
 
+  protected readonly errorId = this.#idSvc.generateId();
+  protected readonly ngControl = inject(NgControl);
+  protected readonly requiredState = inject(SkyRequiredStateDirective);
+
   constructor() {
     this.#id = this.#defaultId = this.#idSvc.generateId();
-    this.#ngControl.valueAccessor = this;
+    this.ngControl.valueAccessor = this;
   }
 
   public ngAfterViewInit(): void {
@@ -402,6 +446,16 @@ export class SkyTextEditorComponent
     this.disabled = isDisabled;
   }
 
+  #checkAutofocusAndFocus(): void {
+    // Don't set focus on the editor if the iframe isn't initialized.
+    // Autofocus isn't testable in Firefox and IE.
+    /* istanbul ignore next */
+    if (this.autofocus && this.#initialized && !this.#focusInitialized) {
+      this.#adapterService.focusEditor();
+      this.#focusInitialized = true;
+    }
+  }
+
   #updateStyle(): void {
     this.#_initialStyleState = {
       ...this.#_initialStyleState,
@@ -416,6 +470,15 @@ export class SkyTextEditorComponent
       this.initialStyleState,
       this.placeholder,
     );
+
+    this.ngControl.statusChanges
+      ?.pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        this.#updateA11yAttributes();
+
+        // Trigger change detection when the field status is modified programmatically.
+        this.#changeDetector.markForCheck();
+      });
 
     this.#editorService
       .inputListener()
@@ -451,6 +514,8 @@ export class SkyTextEditorComponent
         // so we have to run markForCheck() inside the NgZone to force change propagation to consuming components.
         this.#zone.run(() => {
           this.#_onTouched();
+          this.editorFocused = false;
+          this.#changeDetector.markForCheck();
         });
       });
 
@@ -462,14 +527,45 @@ export class SkyTextEditorComponent
         this.#viewToModelUpdate();
       });
 
+    this.#editorService
+      .focusListener()
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        // Angular doesn't run change detection for changes originating inside an iframe,
+        // so we have to run markForCheck() inside the NgZone to force change propagation to consuming components.
+        this.#zone.run(() => {
+          this.editorFocused = true;
+          this.#changeDetector.markForCheck();
+        });
+      });
+
     this.#adapterService.setEditorInnerHtml(this.#_value);
+    this.#updateA11yAttributes();
 
     /* istanbul ignore next */
     if (this.autofocus) {
       this.#adapterService.focusEditor();
     }
 
+    this.#applyDisabledState();
+
     this.#initialized = true;
+    this.#focusInitialized = false;
+
+    this.#checkAutofocusAndFocus();
+  }
+
+  #updateA11yAttributes(): void {
+    if (this.#editorService.isInitialized) {
+      this.#adapterService.setLabelAttribute(this.labelText);
+      this.#adapterService.setErrorAttributes(
+        this.labelText ? this.errorId : '',
+        this.ngControl.errors,
+      );
+      this.#adapterService.setRequiredAttribute(
+        this.requiredState.isRequired(),
+      );
+    }
   }
 
   #viewToModelUpdate(emitChange = true): void {
@@ -480,16 +576,40 @@ export class SkyTextEditorComponent
     }
   }
 
+  #applyDisabledState(): void {
+    // Update focusableChildren inside the iframe.
+    let focusableChildren: HTMLElement[];
+    /* istanbul ignore else */
+    if (this.iframeRef?.nativeElement.contentDocument?.body) {
+      focusableChildren = this.#coreAdapterService.getFocusableChildren(
+        this.iframeRef.nativeElement.contentDocument.body,
+        {
+          ignoreVisibility: true,
+          ignoreTabIndex: true,
+        },
+      );
+
+      if (this.#_disabled) {
+        this.#adapterService.disableEditor(
+          focusableChildren,
+          this.iframeRef.nativeElement,
+        );
+      } else {
+        this.#adapterService.enableEditor(
+          focusableChildren,
+          this.iframeRef.nativeElement,
+        );
+      }
+      this.#changeDetector.markForCheck();
+    }
+  }
+
   /* istanbul ignore next */
-  #_onTouched = (): void => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-  };
+  #_onTouched = (): void => {};
 
   /* istanbul ignore next */
   #_onChange: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any,
-  ) => void = () => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-  };
+  ) => void = () => {};
 }

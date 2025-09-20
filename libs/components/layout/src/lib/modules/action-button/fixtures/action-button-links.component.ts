@@ -6,6 +6,7 @@ import { SkyActionButtonPermalink } from '../action-button-permalink';
 @Component({
   selector: 'sky-action-button-skyhref',
   templateUrl: './action-button-links.component.html',
+  standalone: false,
 })
 export class ActionButtonLinksComponent implements OnInit {
   @ViewChild(SkyActionButtonContainerComponent, {

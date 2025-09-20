@@ -10,15 +10,16 @@ describe('theme-storybook', () => {
         );
       });
       it('should render the component', () => {
-        cy.get('app-buttons')
-          .should('exist')
-          .should('be.visible')
+        cy.skyReady('app-buttons')
           .end()
           .document()
-          .screenshot(`buttonscomponent-buttons--buttons-${theme}`)
-          .percySnapshot(`buttonscomponent-buttons--buttons-${theme}`, {
+          .screenshot(`buttonscomponent-buttons--buttons-${theme}`);
+        cy.document().percySnapshot(
+          `buttonscomponent-buttons--buttons-${theme}`,
+          {
             widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          },
+        );
       });
     });
   });

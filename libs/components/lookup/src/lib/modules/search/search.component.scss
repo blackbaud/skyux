@@ -1,59 +1,30 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-@use 'scss/variables' as lookupVars;
+@include compatMixins.sky-default-overrides('.sky-search-container') {
+  --sky-override-search-applied-background-color: #fff;
+  --sky-override-search-applied-border: #{2px solid
+    $sky-highlight-color-success};
+  --sky-override-search-applied-box-shadow: none;
+  --sky-override-search-applied-color: #{$sky-highlight-color-success};
+  --sky-override-search-applied-mobile-button-horizontal-padding: 11px;
+  --sky-override-search-applied-mobile-button-vertical-padding: 5px;
+  --sky-override-search-clear-padding-right: 6px;
+  --sky-override-search-container-padding: #{$sky-padding-half};
+  --sky-override-search-mobile-background-color: #{$sky-color-white};
+  --sky-override-search-mobile-button-horizontal-padding: 12px;
+  --sky-override-search-mobile-button-vertical-padding: 6px;
+  --sky-override-search-mobile-font-size: #{$sky-font-size-base};
+}
 
 sky-search {
-  .sky-search-input {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: 0 none;
-
-    &:focus {
-      border: 0 none;
-      box-shadow: none;
-      outline: none;
-    }
-
-    /**
-     * Prevents the IE clear icon from displaying in the input
-     * because our search control already includes a clear icon.
-     */
-    &::-ms-clear {
-      display: none;
-    }
-  }
-
-  .sky-search-btn {
-    border-left: 0 none;
-
-    &:hover,
-    &:focus {
-      background-color: $sky-color-white;
-    }
-  }
-
-  .sky-search-btn-apply {
+  // only rendered in default
+  .sky-input-group-btn .sky-btn.sky-search-btn-apply {
     padding-left: 6px;
-    @include defaultMixins.sky-border(dark, top, bottom, right);
   }
-
-  .sky-search-btn-clear {
-    border-right: 0 none;
-    padding-right: 6px;
-    @include defaultMixins.sky-border(dark, top, bottom);
-  }
-
-  .sky-search-input-focused {
-    .sky-search-btn {
-      border-color: transparent;
-      border-top: 0 none;
-      border-bottom: 0 none;
-    }
-
-    .sky-search-btn-apply {
-      border-right: 0 none;
-    }
+  .sky-input-group-btn .sky-btn.sky-search-btn-clear {
+    padding-right: var(--sky-override-search-clear-padding-right);
   }
 
   // Search input (.sky-form-control) has z-index 2.
@@ -75,7 +46,7 @@ sky-search {
 
   @include defaultMixins.sky-host-responsive-container-sm-min(false) {
     .sky-search-input-container {
-      min-width: lookupVars.$sky-search-width;
+      min-width: 300px;
     }
   }
 
@@ -89,16 +60,70 @@ sky-search {
     .sky-search-input,
     .sky-search-btn-apply,
     .sky-search-btn-clear {
-      font-size: $sky-font-size-base;
+      font-size: var(
+        --sky-override-search-mobile-font-size,
+        var(--sky-font-size-body-m)
+      );
     }
   }
 
+  .sky-btn.sky-search-btn-open {
+    padding-top: var(
+      --sky-override-search-mobile-button-vertical-padding,
+      var(--sky-comp-button-space-inset-top)
+    );
+    padding-bottom: var(
+      --sky-override-search-mobile-button-vertical-padding,
+      var(--sky-comp-button-space-inset-bottom)
+    );
+    padding-left: var(
+      --sky-override-search-mobile-button-horizontal-padding,
+      var(--sky-comp-button-space-inset-left)
+    );
+    padding-right: var(
+      --sky-override-search-mobile-button-horizontal-padding,
+      var(--sky-comp-button-space-inset-right)
+    );
+  }
+
   .sky-search-btn-open-applied {
+    &.sky-search-btn-open {
+      padding-top: var(
+        --sky-override-search-applied-mobile-button-vertical-padding,
+        var(--sky-comp-button-space-inset-top)
+      );
+      padding-bottom: var(
+        --sky-override-search-applied-mobile-button-vertical-padding,
+        var(--sky-comp-button-space-inset-bottom)
+      );
+      padding-left: var(
+        --sky-override-search-applied-mobile-button-horizontal-padding,
+        var(--sky-comp-button-space-inset-left)
+      );
+      padding-right: var(
+        --sky-override-search-applied-mobile-button-horizontal-padding,
+        var(--sky-comp-button-space-inset-right)
+      );
+    }
     &.sky-search-btn-open,
-    &.sky-search-btn-open:hover {
-      color: $sky-highlight-color-success;
-      border: 2px solid $sky-highlight-color-success;
-      padding: 5px 11px;
+    .sky-btn.sky-search-btn-open:hover {
+      background-color: var(
+        --sky-override-search-applied-background-color,
+        var(--sky-color-background-selected-soft)
+      );
+      border: var(--sky-override-search-applied-border, none);
+      box-shadow: var(
+        --sky-override-search-applied-box-shadow,
+        inset 0 0 0 var(--sky-border-width-selected-s)
+          var(
+            --sky-override-search-applied-color,
+            var(--sky-color-border-selected)
+          )
+      );
+      color: var(
+        --sky-override-search-applied-color,
+        var(--sky-color-icon-action)
+      );
     }
   }
 
@@ -123,117 +148,207 @@ sky-search {
   .sky-search-dismiss-absolute {
     align-items: center;
     position: absolute;
-    background-color: lookupVars.$sky-search-background-color;
+    background-color: var(
+      --sky-override-search-mobile-background-color,
+      var(--sky-color-background-action-secondary-base)
+    );
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
-    padding: $sky-padding-half;
+    padding: var(
+      --sky-override-search-container-padding,
+      var(--sky-comp-search-space-offset-top)
+        var(--sky-comp-search-space-offset-right)
+        var(--sky-comp-search-space-offset-bottom)
+        var(--sky-comp-search-space-offset-left)
+    );
   }
 }
 
 .sky-theme-modern {
   sky-search {
-    .sky-input-box {
-      --sky-background-color-input-box-group: transparent;
+    sky-input-box {
+      --sky-comp-override-input-box-group-background-color: var(
+        --sky-color-background-action-secondary-base
+      );
+      --sky-comp-override-input-box-group-background-color-active: var(
+        --sky-color-background-action-secondary-active
+      );
+      --sky-comp-override-input-box-group-background-color-disabled: var(
+        --sky-color-background-action-secondary-disabled
+      );
+      --sky-comp-override-input-box-group-background-color-focused: var(
+        --sky-color-background-action-secondary-focus
+      );
+      --sky-comp-override-input-box-group-background-color-hover: var(
+        --sky-color-background-action-secondary-hover
+      );
     }
 
     .sky-input-box .sky-input-group-btn .sky-btn.sky-search-btn {
-      width: 40px;
+      height: calc(
+        calc(
+            var(--sky-font-line_height-input-val) *
+              var(--sky-font-size-input-val)
+          ) +
+          calc(
+            var(--sky-comp-search-space-inset-top) +
+              var(--sky-comp-search-space-inset-bottom)
+          )
+      );
+      width: calc(
+        calc(
+            var(--sky-font-line_height-input-val) *
+              var(--sky-font-size-input-val)
+          ) +
+          calc(
+            var(--sky-comp-search-space-inset-left) +
+              var(--sky-comp-search-space-inset-right)
+          )
+      );
 
       .sky-icon.sky-i-close {
-        color: $sky-theme-modern-color-gray-110;
+        color: var(--sky-color-icon-default);
         font-size: inherit;
       }
     }
 
-    .sky-search-btn-open-applied {
-      &.sky-search-btn-open,
-      &.sky-search-btn-open:hover {
-        border: none;
-        box-shadow: inset 0 0 0 2px $sky-highlight-color-success;
-        padding: $sky-theme-modern-padding-button-icon;
-      }
+    .sky-search-btn-dismiss {
+      color: var(--sky-color-icon-default);
+      height: calc(
+        calc(
+            var(--sky-font-line_height-input-val) *
+              var(--sky-font-size-input-val)
+          ) +
+          calc(
+            var(--sky-comp-button-space-inset-top) +
+              var(--sky-comp-button-space-inset-bottom)
+          )
+      );
+      width: calc(
+        calc(
+            var(--sky-font-line_height-input-val) *
+              var(--sky-font-size-input-val)
+          ) +
+          calc(
+            var(--sky-comp-button-space-inset-left) +
+              var(--sky-comp-button-space-inset-right)
+          )
+      );
+      padding: 0;
     }
 
     .sky-search-container .sky-search-input-container {
-      &.sky-search-input-container-has-value {
-        .sky-input-box-group-form-control:not(
+      .sky-input-box-disabled {
+        .sky-input-box-group .sky-input-box-group-form-control .sky-form-group {
+          --sky-comp-override-input-box-input-border-color: var(
+            --sky-color-border-action-secondary-disabled
+          );
+        }
+      }
+
+      .sky-input-box:not(.sky-input-box-disabled) {
+        .sky-input-box-group
+          .sky-input-box-group-form-control:not(
             .sky-input-box-group-form-control-focus,
             :hover
           )
           .sky-form-group {
-          border: none;
-          border-radius: unset;
-          box-shadow: inset 0 -1px 0 0 $sky-theme-modern-background-color-primary-dark;
+          --sky-comp-override-input-box-input-border-color: var(
+            --sky-color-border-action-secondary-base
+          );
+          --sky-comp-override-input-box-input-elevation-shadow: var(
+            --sky-elevation-action-toolbar-base
+          );
+        }
+
+        .sky-input-box-group-form-control:hover:not(
+            .sky-input-box-group-form-control-focus,
+            :has(:active)
+          )
+          .sky-form-group {
+          --sky-comp-override-input-box-input-border-color: var(
+            --sky-color-border-action-secondary-hover
+          );
+          --sky-comp-override-input-box-input-elevation-shadow: var(
+            --sky-elevation-action-toolbar-hover
+          );
+        }
+
+        .sky-input-box-group-form-control.sky-input-box-group-form-control-focus:not(
+            :has(:active)
+          )
+          .sky-form-group {
+          --sky-comp-override-input-box-input-border-color: var(
+            --sky-color-border-action-secondary-focus
+          );
+          --sky-comp-override-input-box-input-elevation-shadow: var(
+            --sky-elevation-action-toolbar-focus
+          );
+        }
+
+        .sky-input-box-group-form-control:has(:active) .sky-form-group {
+          --sky-comp-override-input-box-input-border-color: var(
+            --sky-color-border-action-secondary-active
+          );
+          --sky-comp-override-input-box-input-elevation-shadow: var(
+            --sky-elevation-action-toolbar-active
+          );
+        }
+      }
+
+      &.sky-search-input-container-has-value {
+        .sky-input-box-group-form-control {
+          &:not(.sky-input-box-group-form-control-focus, :hover)
+            .sky-form-group {
+            // NOTE: Have to do full box shadow override instead of variable due to only the bottom having the box shadow
+            box-shadow:
+              inset 0 0 0 var(--sky-border-width-input-base)
+                var(--sky-color-border-selected),
+              var(--sky-elevation-action-toolbar-base);
+            --sky-comp-override-input-box-group-background-color: var(
+              --sky-color-background-selected-soft
+            );
+          }
+
+          &:not(:focus-within:not(:active)) .sky-form-group input {
+            color: var(--sky-color-text-selected);
+          }
         }
       }
 
       .sky-input-box-icon-inset-left-wrapper {
         .sky-input-box-icon-inset-left {
-          padding: 0 10px;
+          padding: 0 var(--sky-space-gap-icon-m);
         }
       }
 
       .sky-input-group-icon {
         .sky-icon {
-          font-size: 17.3333px; // Override input-box's size with the old font-awesome size.
-          color: $sky-theme-modern-color-gray-110;
+          color: var(--sky-color-icon-default);
         }
       }
 
       .sky-input-box-group .sky-form-group {
-        box-shadow: none;
-
         .sky-input-box-form-group-inner {
           input {
             width: auto;
-            padding: $sky-theme-modern-space-sm $sky-theme-modern-space-sm
-              $sky-theme-modern-space-sm 0;
+            padding: var(--sky-comp-search-space-inset-top)
+              var(--sky-comp-search-space-inset-right)
+              var(--sky-comp-search-space-inset-bottom) 0;
             margin: 0;
 
             &::placeholder {
-              font-style: normal;
-              color: inherit;
-              font-weight: $sky-theme-modern-font-deemphasized-weight;
+              font-style: var(--sky-font-style-body-s);
+              color: var(--sky-color-text-deemphasized);
+              font-weight: var(--bb-font-weight-regular);
             }
 
             &:focus::placeholder {
               color: transparent;
             }
           }
-        }
-      }
-    }
-  }
-
-  &.sky-theme-mode-dark {
-    .sky-search-dismiss-absolute {
-      background-color: $sky-theme-modern-mode-dark-background-color-page-default;
-    }
-
-    .sky-search-btn-open-applied {
-      &.sky-search-btn-open,
-      &.sky-search-btn-open:hover {
-        color: $sky-highlight-color-success;
-      }
-    }
-
-    sky-search {
-      .sky-input-box {
-        --sky-background-color-input-box-group: transparent;
-      }
-
-      .sky-input-box .sky-input-group-btn .sky-btn.sky-search-btn {
-        .sky-icon.sky-i-close {
-          color: $sky-theme-modern-mode-dark-font-body-default-color;
-        }
-      }
-
-      .sky-input-group-icon {
-        .sky-icon {
-          font-size: 17.333px;
-          color: $sky-theme-modern-mode-dark-font-body-default-color;
         }
       }
     }

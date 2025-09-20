@@ -1,0 +1,52 @@
+@let group = docsGroup();
+<sky-tabset permalinkId="docs">
+  @if (highlightContent()) {
+    <sky-tab [tabHeading]="highlightContent()?.headingText()">
+      <ng-container [ngTemplateOutlet]="highlightContentRef" />
+    </sky-tab>
+  }
+  @if (overviewContent()) {
+    <sky-tab tabHeading="Design">
+      <ng-container [ngTemplateOutlet]="overviewContentRef" />
+    </sky-tab>
+  }
+  @if ((group && group.publicApi.length > 0) || developmentContent()) {
+    <sky-tab tabHeading="Development">
+      @if (developmentContent()) {
+        <ng-container [ngTemplateOutlet]="developmentContentRef" />
+      } @else {
+        <sky-docs-showcase-area-development />
+      }
+    </sky-tab>
+  }
+  @if ((group && group.testing.length > 0) || testingContent()) {
+    <sky-tab tabHeading="Testing">
+      @if (testingContent()) {
+        <ng-container [ngTemplateOutlet]="testingContentRef" />
+      } @else {
+        <sky-docs-showcase-area-testing />
+      }
+    </sky-tab>
+  }
+  @if (group && group.codeExamples.length > 0) {
+    <sky-tab tabHeading="Examples">
+      @defer (on viewport) {
+        <sky-docs-showcase-area-examples />
+      } @placeholder {
+        <p>Loading...</p>
+      }
+    </sky-tab>
+  }
+</sky-tabset>
+<ng-template #highlightContentRef>
+  <ng-content select="sky-docs-showcase-area-highlight" />
+</ng-template>
+<ng-template #overviewContentRef>
+  <ng-content select="sky-docs-showcase-area-overview" />
+</ng-template>
+<ng-template #developmentContentRef>
+  <ng-content select="sky-docs-showcase-area-development" />
+</ng-template>
+<ng-template #testingContentRef>
+  <ng-content select="sky-docs-showcase-area-testing" />
+</ng-template>

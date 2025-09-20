@@ -3,6 +3,10 @@ import { ViewportRuler } from '@angular/cdk/overlay';
 import { SkyAffixOffset } from './affix-offset';
 import { AffixRect } from './affix-rect';
 
+function useViewportForBounds(element: HTMLElement): boolean {
+  return 'BODY' === element.tagName;
+}
+
 /**
  * Returns the offset values of a given element.
  * @param element The HTML element.
@@ -75,8 +79,8 @@ export function getVisibleRectForElement(
   const visibleRect = {
     top: Math.max(elementRect.top, 0),
     left: Math.max(elementRect.left, 0),
-    bottom: Math.min(elementRect.bottom, viewportRect.bottom),
-    right: Math.min(elementRect.right, viewportRect.right),
+    bottom: Math.min(elementRect.bottom, viewportRect.height),
+    right: Math.min(elementRect.right, viewportRect.width),
   };
 
   return {
@@ -93,18 +97,24 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
   let parentElement = child?.parentNode;
 
   while (parentElement !== undefined && parentElement instanceof HTMLElement) {
+    if (parentElement.matches('body')) {
+      break;
+    }
+
     const computedStyle = window.getComputedStyle(parentElement, undefined);
     const overflowY = computedStyle.overflowY.toLowerCase();
 
-    if (computedStyle.position === 'fixed' || parentElement.matches('body')) {
-      break;
-    }
-    if (
-      overflowY === 'auto' ||
-      overflowY === 'hidden' ||
-      overflowY === 'scroll'
-    ) {
+    const largerThanTheDocumentElement =
+      window.document.documentElement.scrollWidth < parentElement.scrollWidth ||
+      window.document.documentElement.scrollHeight < parentElement.scrollHeight;
+    const hasOverflowRules =
+      overflowY === 'auto' || overflowY === 'hidden' || overflowY === 'scroll';
+
+    if (largerThanTheDocumentElement || hasOverflowRules) {
       results.push(parentElement);
+    }
+    if (computedStyle.position === 'fixed') {
+      break;
     }
 
     parentElement = parentElement.parentNode;
@@ -126,13 +136,13 @@ export function isOffsetFullyVisibleWithinParent(
 ): boolean {
   let parentOffset: Required<SkyAffixOffset>;
 
-  if (parent.matches('body')) {
+  if (useViewportForBounds(parent)) {
     const viewportRect = viewportRuler.getViewportRect();
     parentOffset = {
       top: 0,
       left: 0,
-      right: viewportRect.right,
-      bottom: viewportRect.bottom,
+      right: viewportRect.width,
+      bottom: viewportRect.height,
     };
   } else if (bufferOffset) {
     parentOffset = getElementOffset(parent, bufferOffset);
@@ -154,9 +164,20 @@ export function isOffsetPartiallyVisibleWithinParent(
   offset: Required<SkyAffixOffset>,
   bufferOffset?: SkyAffixOffset,
 ): boolean {
-  const parentOffset = bufferOffset
-    ? getElementOffset(parent, bufferOffset)
-    : getVisibleRectForElement(viewportRuler, parent);
+  let parentOffset: Required<SkyAffixOffset>;
+  if (useViewportForBounds(parent)) {
+    const viewportRect = viewportRuler.getViewportRect();
+    parentOffset = {
+      top: 0,
+      left: 0,
+      right: viewportRect.width,
+      bottom: viewportRect.height,
+    };
+  } else if (bufferOffset) {
+    parentOffset = getElementOffset(parent, bufferOffset);
+  } else {
+    parentOffset = getVisibleRectForElement(viewportRuler, parent);
+  }
 
   return !(
     parentOffset.top >= offset.bottom ||

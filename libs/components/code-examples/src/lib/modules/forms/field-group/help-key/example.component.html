@@ -1,0 +1,48 @@
+<div class="sky-padding-even-lg">
+  <form [formGroup]="formGroup">
+    <sky-field-group
+      headingText="Address"
+      helpKey="address-help"
+      hintText="We use this address for your end-of-year statement."
+      [headingStyle]="4"
+    >
+      <sky-fluid-grid gutterSize="small" [disableMargin]="true">
+        <sky-row>
+          <sky-column [screenXSmall]="12">
+            <sky-input-box labelText="Street address" stacked="true">
+              <input
+                formControlName="streetAddress"
+                spellcheck="false"
+                type="text"
+              />
+            </sky-input-box>
+          </sky-column>
+        </sky-row>
+        <sky-row>
+          <sky-column [screenSmall]="5">
+            <sky-input-box labelText="City" stacked="true">
+              <input formControlName="city" spellcheck="false" type="text" />
+            </sky-input-box>
+          </sky-column>
+          <sky-column [screenSmall]="5" [screenXSmall]="8">
+            <sky-input-box labelText="State" stacked="true">
+              <select formControlName="state">
+                <option [attr.value]="undefined"></option>
+                @for (state of states; track state) {
+                  <option value="state">
+                    {{ state }}
+                  </option>
+                }
+              </select>
+            </sky-input-box>
+          </sky-column>
+          <sky-column [screenSmall]="2" [screenXSmall]="4">
+            <sky-input-box labelText="Zip code">
+              <input formControlName="zipCode" maxlength="5" type="text" />
+            </sky-input-box>
+          </sky-column>
+        </sky-row>
+      </sky-fluid-grid>
+    </sky-field-group>
+  </form>
+</div>

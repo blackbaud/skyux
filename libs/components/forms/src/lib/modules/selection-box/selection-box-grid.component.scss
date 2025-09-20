@@ -1,4 +1,28 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-selection-box-grid') {
+  --sky-override-selection-box-grid-margin-bottom: -15px;
+  --sky-override-selection-box-grid-padding-horizontal: 7.5px;
+  --sky-override-selection-box-margin-horizontal: 7.5px;
+  --sky-override-selection-box-margin-bottom: 15px;
+  --sky-override-selection-box-padding-responsive: #{$sky-theme-modern-padding-even-md};
+  --sky-override-selection-box-header-heading-2-font-size: 26px;
+  --sky-override-selection-box-header-heading-2-font-weight: 300;
+  --sky-override-selection-box-header-heading-2-line-height: calc(20 / 14);
+  --sky-override-selection-box-header-heading-3-color-no-icon: var(
+    --sky-text-color-deemphasized
+  );
+  --sky-override-selection-box-header-heading-3-font-family: #{$sky-font-family-condensed};
+  --sky-override-selection-box-header-heading-3-font-family-no-icon: #{$sky-font-family};
+  --sky-override-selection-box-header-heading-3-font-size: 20px;
+  --sky-override-selection-box-header-heading-3-font-size-no-icon: 19px;
+  --sky-override-selection-box-header-heading-3-font-size-no-icon-sm: 20px;
+  --sky-override-selection-box-header-heading-3-font-weight: 400;
+  --sky-override-selection-box-header-heading-3-font-weight-no-icon: 300;
+  --sky-override-selection-box-header-heading-3-font-weight-no-icon-sm: 400;
+  --sky-override-selection-box-header-heading-3-line-height: calc(20 / 14);
+}
 
 // Host element must be a block to allow FF to make proper getBoundingClientRect() calculations.
 :host {
@@ -8,8 +32,16 @@
 .sky-selection-box-grid {
   display: flex;
   flex-flow: row wrap;
-  padding: 0 7.5px;
-  margin: 0 auto var(--sky-compat-selection-box-grid-margin-bottom, -15px) auto;
+  padding: 0
+    var(
+      --sky-override-selection-box-grid-padding-horizontal,
+      calc(var(--sky-space-gap-action_group-l) / 2)
+    );
+  margin: 0 auto
+    var(
+      --sky-override-selection-box-grid-margin-bottom,
+      calc(var(--sky-space-stacked-m) * -1)
+    );
 
   &.sky-selection-box-grid-align-center {
     justify-content: center;
@@ -20,7 +52,15 @@
   }
 
   > sky-selection-box {
-    margin: 0 7.5px 15px;
+    margin: 0
+      var(
+        --sky-override-selection-box-margin-horizontal,
+        calc(var(--sky-space-gap-action_group-l) / 2)
+      )
+      var(
+        --sky-override-selection-box-margin-bottom,
+        var(--sky-space-stacked-m)
+      );
     height: 100%;
   }
 
@@ -32,15 +72,60 @@
     }
 
     .sky-selection-box {
-      padding: $sky-theme-modern-padding-even-md;
+      padding: var(
+        --sky-override-selection-box-padding-responsive,
+        var(--sky-comp-selection_box-collapsed-space-inset-top)
+          var(--sky-comp-selection_box-collapsed-space-inset-right)
+          var(--sky-comp-selection_box-collapsed-space-inset-bottom)
+          var(--sky-comp-selection_box-collapsed-space-inset-left)
+      );
 
       .sky-selection-box-icon {
         display: none;
       }
 
       .sky-selection-box-header {
-        font-size: $sky-theme-modern-font-heading-3-size;
-        font-weight: $sky-theme-modern-font-heading-3-weight;
+        font-family: var(
+          --sky-override-selection-box-header-heading-3-font-family,
+          var(--sky-font-family-primary)
+        );
+        font-size: var(
+          --sky-override-selection-box-header-heading-3-font-size,
+          var(--sky-font-size-display-2)
+        );
+        font-weight: var(
+          --sky-override-selection-box-header-heading-3-font-weight,
+          var(--sky-font-style-display-2)
+        );
+        line-height: var(
+          --sky-override-selection-box-header-heading-3-line-height,
+          var(--sky-font-line_height-display-2)
+        );
+      }
+
+      .sky-selection-box-icon-hidden
+        + .sky-selection-box-content
+        .sky-selection-box-header {
+        color: var(
+          --sky-override-selection-box-header-heading-3-color-no-icon,
+          var(--sky-color-text-default)
+        );
+        font-family: var(
+          --sky-override-selection-box-header-heading-3-font-family-no-icon,
+          var(--sky-font-family-primary)
+        );
+        font-size: var(
+          --sky-override-selection-box-header-heading-3-font-size-no-icon-sm,
+          var(--sky-font-size-display-2)
+        );
+        font-weight: var(
+          --sky-override-selection-box-header-heading-3-font-weight-no-icon-sm,
+          var(--sky-font-style-display-2)
+        );
+        line-height: var(
+          --sky-override-selection-box-header-heading-3-line-height,
+          var(--sky-font-line_height-display-2)
+        );
       }
     }
   }
@@ -53,15 +138,60 @@
     }
 
     .sky-selection-box {
-      padding: $sky-theme-modern-padding-even-md;
+      padding: var(
+        --sky-override-selection-box-padding-responsive,
+        var(--sky-comp-selection_box-expanded-space-inset-top)
+          var(--sky-comp-selection_box-expanded-space-inset-right)
+          var(--sky-comp-selection_box-expanded-space-inset-bottom)
+          var(--sky-comp-selection_box-expanded-space-inset-left)
+      );
 
       .sky-selection-box-icon {
         display: none;
       }
 
       .sky-selection-box-header {
-        font-size: $sky-theme-modern-font-heading-3-size;
-        font-weight: $sky-theme-modern-font-heading-3-weight;
+        font-family: var(
+          --sky-override-selection-box-header-heading-3-font-family,
+          var(--sky-font-family-primary)
+        );
+        font-size: var(
+          --sky-override-selection-box-header-heading-3-font-size,
+          var(--sky-font-size-display-2)
+        );
+        font-weight: var(
+          --sky-override-selection-box-header-heading-3-font-weight,
+          var(--sky-font-style-display-2)
+        );
+        line-height: var(
+          --sky-override-selection-box-header-heading-3-line-height,
+          var(--sky-font-line_height-display-2)
+        );
+      }
+
+      .sky-selection-box-icon-hidden
+        + .sky-selection-box-content
+        .sky-selection-box-header {
+        color: var(
+          --sky-override-selection-box-header-heading-3-color-no-icon,
+          var(--sky-color-text-default)
+        );
+        font-family: var(
+          --sky-override-selection-box-header-heading-3-font-family-no-icon,
+          var(--sky-font-family-primary)
+        );
+        font-size: var(
+          --sky-override-selection-box-header-heading-3-font-size-no-icon-sm,
+          var(--sky-font-size-display-2)
+        );
+        font-weight: var(
+          --sky-override-selection-box-header-heading-3-font-weight-no-icon-sm,
+          var(--sky-font-style-display-2)
+        );
+        line-height: var(
+          --sky-override-selection-box-header-heading-3-line-height,
+          var(--sky-font-line_height-display-2)
+        );
       }
     }
   }
@@ -72,6 +202,48 @@
     > sky-selection-box {
       flex: 0 1 446px;
     }
+
+    .sky-selection-box {
+      .sky-selection-box-header {
+        font-size: var(
+          --sky-override-selection-box-header-heading-2-font-size,
+          var(--sky-font-size-display-2)
+        );
+        font-weight: var(
+          --sky-override-selection-box-header-heading-2-font-weight,
+          var(--sky-font-style-display-2)
+        );
+        line-height: var(
+          --sky-override-selection-box-header-heading-2-line-height,
+          var(--sky-font-line_height-display-2)
+        );
+      }
+
+      .sky-selection-box-icon-hidden
+        + .sky-selection-box-content
+        .sky-selection-box-header {
+        color: var(
+          --sky-override-selection-box-header-heading-3-color-no-icon,
+          var(--sky-color-text-default)
+        );
+        font-family: var(
+          --sky-override-selection-box-header-heading-3-font-family-no-icon,
+          var(--sky-font-family-primary)
+        );
+        font-size: var(
+          --sky-override-selection-box-header-heading-3-font-size-no-icon,
+          var(--sky-font-size-display-2)
+        );
+        font-weight: var(
+          --sky-override-selection-box-header-heading-3-font-weight-no-icon,
+          var(--sky-font-style-display-2)
+        );
+        line-height: var(
+          --sky-override-selection-box-header-heading-3-line-height,
+          var(--sky-font-line_height-display-2)
+        );
+      }
+    }
   }
 
   &.sky-selection-box-container-lg {
@@ -79,6 +251,48 @@
 
     > sky-selection-box {
       flex: 0 1 446px;
+    }
+
+    .sky-selection-box {
+      .sky-selection-box-header {
+        font-size: var(
+          --sky-override-selection-box-header-heading-2-font-size,
+          var(--sky-font-size-display-2)
+        );
+        font-weight: var(
+          --sky-override-selection-box-header-heading-2-font-weight,
+          var(--sky-font-style-display-2)
+        );
+        line-height: var(
+          --sky-override-selection-box-header-heading-2-line-height,
+          var(--sky-font-line_height-display-2)
+        );
+      }
+
+      .sky-selection-box-icon-hidden
+        + .sky-selection-box-content
+        .sky-selection-box-header {
+        color: var(
+          --sky-override-selection-box-header-heading-3-color-no-icon,
+          var(--sky-color-text-default)
+        );
+        font-family: var(
+          --sky-override-selection-box-header-heading-3-font-family-no-icon,
+          var(--sky-font-family-primary)
+        );
+        font-size: var(
+          --sky-override-selection-box-header-heading-3-font-size-no-icon,
+          var(--sky-font-size-display-2)
+        );
+        font-weight: var(
+          --sky-override-selection-box-header-heading-3-font-weight-no-icon,
+          var(--sky-font-style-display-2)
+        );
+        line-height: var(
+          --sky-override-selection-box-header-heading-3-line-height,
+          var(--sky-font-line_height-display-2)
+        );
+      }
     }
   }
 }

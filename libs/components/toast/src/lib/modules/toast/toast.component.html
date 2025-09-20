@@ -3,30 +3,37 @@
   (@skyAnimationEmerge.done)="onAnimationDone($event)"
 >
   <div
-    class="sky-toast sky-shadow sky-rounded-corners sky-box sky-elevation-24"
+    class="sky-toast sky-shadow sky-rounded-corners sky-box sky-elevation-16"
     [ngClass]="classNames"
-    [attr.aria-live]="ariaLive"
-    [attr.role]="ariaRole"
   >
-    <div aria-hidden="true" class="sky-toast-icon-theme-default">
-      <sky-icon [icon]="icon" />
+    <div *skyThemeIf="'modern'" aria-hidden="true" class="sky-toast-icon">
+      <sky-icon iconSize="xl" variant="solid" [iconName]="iconName" />
     </div>
-    <div aria-hidden="true" class="sky-toast-icon-theme-modern">
-      <sky-icon-stack
-        [baseIcon]="baseIcon"
-        [topIcon]="topIcon"
-      ></sky-icon-stack>
+    <div *skyThemeIf="'default'" aria-hidden="true" class="sky-toast-icon">
+      <sky-icon variant="solid" [iconName]="iconName" />
     </div>
-    <div class="sky-toast-content">
+    <div
+      #toastContent
+      class="sky-toast-content"
+      skyId="toastContent"
+      role="alert"
+    >
       <ng-content />
     </div>
     <button
       class="sky-toast-btn-close"
       type="button"
-      [attr.title]="'skyux_toast_close_button' | skyLibResources"
+      [attr.title]="'skyux_toast_close_button_title' | skyLibResources"
+      [attr.aria-labelledby]="toastCloseMessage.id + ' ' + toastContent.id"
       (click)="close()"
     >
-      <sky-icon icon="close" />
+      <sky-icon iconName="close" />
     </button>
   </div>
+  <span
+    #toastCloseMessage
+    class="sky-screen-reader-only"
+    skyId="toastCloseMessage"
+    >{{ 'skyux_toast_close_button_aria_label' | skyLibResources }}</span
+  >
 </aside>

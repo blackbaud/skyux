@@ -1,0 +1,10 @@
+{
+  "skyux_split_view_resize_handle": {
+    "_description": "Étiquette de la poignée de redimensionnement du panneau du menu latéral",
+    "message": "Redimensionnez le panneau du menu latéral. Utilisez la flèche de droite pour agrandir et la flèche de gauche pour réduire."
+  },
+  "skyux_split_view_back_to_list": {
+    "_description": "L’étiquette par défaut pour le bouton de l’en-tête de l’espace de travail pour montrer le menu latéral en mode mobile.",
+    "message": "Retour à la liste"
+  }
+}

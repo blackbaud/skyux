@@ -14,6 +14,7 @@ describe('Intl number formatter', function () {
       SkyIntlNumberFormatStyle.Currency,
       {
         currency: 'EUR',
+        currencyDisplay: 'code',
       },
     );
 
@@ -27,11 +28,39 @@ describe('Intl number formatter', function () {
       SkyIntlNumberFormatStyle.Currency,
       {
         currency: 'EUR',
-        currencyAsSymbol: true,
+        currencyDisplay: 'symbol',
       },
     );
 
     verifyResult(result, '123.456,79 €');
+  });
+
+  it('should format currency for a locale with a full symbol when the currency is not in the locale', function () {
+    const result = SkyIntlNumberFormatter.format(
+      123456.789,
+      'en-US',
+      SkyIntlNumberFormatStyle.Currency,
+      {
+        currency: 'CAD',
+        currencyDisplay: 'symbol',
+      },
+    );
+
+    verifyResult(result, 'CA$123,456.79');
+  });
+
+  it('should format currency for a locale with a narrow symbol when the currency is not in the locale', function () {
+    const result = SkyIntlNumberFormatter.format(
+      123456.789,
+      'en-US',
+      SkyIntlNumberFormatStyle.Currency,
+      {
+        currency: 'CAD',
+        currencyDisplay: 'narrowSymbol',
+      },
+    );
+
+    verifyResult(result, '$123,456.79');
   });
 
   it('should handle errors from Intl API', function () {
@@ -74,7 +103,7 @@ describe('Intl number formatter', function () {
       SkyIntlNumberFormatStyle.Currency,
       {
         currency: 'USD',
-        currencyAsSymbol: true,
+        currencyDisplay: 'symbol',
         currencySign: 'accounting',
       },
     );
@@ -89,7 +118,7 @@ describe('Intl number formatter', function () {
       SkyIntlNumberFormatStyle.Currency,
       {
         currency: 'USD',
-        currencyAsSymbol: true,
+        currencyDisplay: 'symbol',
         currencySign: 'accounting',
       },
     );

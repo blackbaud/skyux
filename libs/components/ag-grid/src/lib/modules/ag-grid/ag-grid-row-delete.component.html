@@ -1,0 +1,20 @@
+@for (row of rowsWithElements(); track row.increment) {
+  @if (row.element?.offsetParent && row.element; as element) {
+    <div
+      class="sky-ag-grid-row-delete"
+      affixPlacement="above"
+      affixVerticalAlignment="top"
+      affixHorizontalAlignment="left"
+      [id]="'row-delete-ref-' + row.rowId"
+      [style.height]="element.offsetHeight + 'px'"
+      [skyAffixTo]="element"
+      [affixIsSticky]="true"
+    >
+      <sky-inline-delete
+        [pending]="pending().includes(row.rowId ?? '')"
+        (cancelTriggered)="cancelDelete(row.rowId)"
+        (deleteTriggered)="confirmDelete(row.rowId)"
+      />
+    </div>
+  }
+}

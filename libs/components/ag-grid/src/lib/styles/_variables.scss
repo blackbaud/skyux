@@ -1,13 +1,9 @@
 @use 'libs/components/theme/src/lib/styles/variables' as variables;
 
 $sky-standard-border: 1px solid var(--sky-border-color-neutral-medium);
-$sky-standard-border-theme-modern: 1px solid
-  var(--sky-border-color-neutral-medium);
 
 $sky-cell-wrap-text-padding-default: 7px;
 $sky-cell-wrap-text-line-height-default: variables.$sky-line-height-base;
-$sky-cell-wrap-text-padding-modern: 16px;
-$sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragraph-line-height;
 
 @mixin skyux-cell-wrap-text($padding, $line-height) {
   .ag-cell.ag-cell-wrap-text span.ag-cell-value {

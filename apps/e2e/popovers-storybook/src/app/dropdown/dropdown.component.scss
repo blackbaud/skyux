@@ -1,8 +1,39 @@
 :host {
+  --custom-trigger-border: 2px;
+  --custom-trigger-size: 40px;
+
   display: block;
 }
 
 sky-dropdown {
   display: inline-block;
   margin-left: 20px;
+}
+
+.custom-trigger {
+  border-radius: var(--custom-trigger-size);
+  display: block;
+  height: var(--custom-trigger-size);
+  padding: var(--custom-trigger-border);
+  transition: box-shadow 0s;
+  width: 250px;
+
+  &-inner {
+    align-content: center;
+    background-color: var(--sky-background-color-page-default);
+    border-radius: calc(
+      var(--custom-trigger-size) - var(--custom-trigger-border)
+    );
+    height: 100%;
+  }
+
+  &-item {
+    display: block;
+    width: 250px;
+  }
+
+  &:not(:hover) {
+    background: linear-gradient(90deg, #00cfff66, #b061f266);
+    box-shadow: none;
+  }
 }

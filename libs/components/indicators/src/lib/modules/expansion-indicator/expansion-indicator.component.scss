@@ -1,92 +1,94 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include compatMixins.sky-default-overrides('.sky-expansion-indicator') {
+  --sky-override-expansion-indicator-container-left: 4px;
+  --sky-override-expansion-indicator-container-top: 3.5px;
+  --sky-override-expansion-indicator-leg-left-left: 4px;
+  --sky-override-expansion-indicator-leg-right-left: 10.5px;
+  --sky-override-expansion-indicator-line-height: normal;
+  --sky-override-expansion-indicator-size: 26px;
+  --sky-override-expansion-indicator-size-half: 13px;
+  --sky-override-expansion-indicator-color: var(
+    --sky-expansion-indicator-color,
+    #{$sky-text-color-deemphasized}
+  );
+}
+
+:host {
+  line-height: var(--sky-override-expansion-indicator-line-height, 1);
+}
 
 .sky-expansion-indicator {
   display: inline-block;
   border: none;
   background-color: transparent;
   flex-shrink: 0;
-  height: $sky-context-menu-size;
+  height: var(--sky-override-expansion-indicator-size, var(--sky-size-icon-s));
   margin: 0;
   overflow: hidden;
-  width: $sky-context-menu-size;
   position: relative;
   vertical-align: top;
+  width: var(--sky-override-expansion-indicator-size, var(--sky-size-icon-s));
 }
 
 .sky-expansion-indicator-part {
-  border-color: $sky-text-color-icon-borderless;
-  border-style: solid;
-  border-width: 3px 0 0 0;
+  background: var(
+    --sky-comp-override-expansion-indicator-color,
+    var(
+      --sky-override-expansion-indicator-color,
+      var(--sky-color-icon-deemphasized)
+    )
+  );
+  border: none;
+  border-radius: 1px;
   display: inline-block;
-  height: 10px;
+  height: 2px;
   position: absolute;
-  top: 10px;
-  transition: transform $sky-transition-time-medium,
+  top: var(
+    --sky-override-expansion-indicator-size-half,
+    calc(var(--sky-size-icon-s) / 2)
+  );
+  transition:
+    transform $sky-transition-time-medium,
     left $sky-transition-time-medium;
   vertical-align: top;
-  width: 10px;
+  width: 11px;
+}
+
+.sky-expansion-indicator-glyph-container {
+  left: var(--sky-override-expansion-indicator-container-left, 0);
+  display: inline-block;
+  position: absolute;
+  top: var(--sky-override-expansion-indicator-container-top, 1.5px);
+  transform: scale(0.68);
+}
+
+.sky-expansion-indicator-left {
+  left: var(--sky-override-expansion-indicator-leg-left-left, 2.75px);
+}
+
+.sky-expansion-indicator-right {
+  left: var(--sky-override-expansion-indicator-leg-right-left, 9.25px);
 }
 
 .sky-expansion-indicator-up {
   .sky-expansion-indicator-left {
-    left: 7px;
     transform: rotate(-45deg);
   }
 
   .sky-expansion-indicator-right {
-    left: 7px;
     transform: rotate(45deg);
   }
 }
 
 .sky-expansion-indicator-down {
   .sky-expansion-indicator-left {
-    left: 2px;
     transform: rotate(45deg);
   }
 
   .sky-expansion-indicator-right {
-    left: 12px;
     transform: rotate(-45deg);
-  }
-}
-
-@include mixins.sky-theme-modern {
-  .sky-expansion-indicator {
-    height: 26px;
-    width: 26px;
-  }
-
-  .sky-expansion-indicator-part {
-    background: $sky-theme-modern-font-deemphasized-color;
-    border: none;
-    height: 2px;
-    width: 11px;
-    top: 13px;
-  }
-
-  .sky-expansion-indicator-glyph-container {
-    transform: scale(0.68);
-    display: inline-block;
-    position: absolute;
-    top: 3.5px;
-    left: 4px;
-  }
-
-  .sky-expansion-indicator-left {
-    border-radius: 1px 0 0 1px;
-  }
-
-  .sky-expansion-indicator-right {
-    border-radius: 0 1px 1px 0;
-  }
-
-  .sky-expansion-indicator-left {
-    left: 4px;
-  }
-
-  .sky-expansion-indicator-right {
-    left: 10.5px;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, HostBinding, Input, OnDestroy } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
 import { Subject, Subscription } from 'rxjs';
@@ -13,9 +13,13 @@ const buttonTypeNext = 'next';
 const buttonTypePrevious = 'previous';
 const buttonTypeFinish = 'finish';
 
+/**
+ * Creates a button to navigate between tabs in a tabset when `tabStyle` is `"wizard"`.
+ */
 @Component({
   selector: 'sky-tabset-nav-button',
   templateUrl: './tabset-nav-button.component.html',
+  standalone: false,
 })
 export class SkyTabsetNavButtonComponent implements OnDestroy {
   /**
@@ -73,6 +77,11 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
     }
   }
 
+  @HostBinding('attr.data-button-type')
+  public get buttonTypeData(): SkyTabsetNavButtonType | undefined {
+    return this.buttonType;
+  }
+
   /**
    * The label to display on the nav button. The following are the defaults for each `buttonType`:
    * `next` = "Next", `previous` = "Previous", `finish` = "Finish"
@@ -120,10 +129,10 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
     this.#ngUnsubscribe.complete();
   }
 
-  public buttonClick() {
+  public buttonClick(): void {
     /* istanbul ignore else */
     if (this.tabToSelect && !this.tabToSelect.disabled && this.tabset) {
-      this.tabset.active = this.tabToSelect.tabIndex;
+      this.tabset.active = this.tabToSelect.tabIndexValue;
     }
   }
 
@@ -160,7 +169,7 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
 
       // tab index can be a number or a string, but we need the actual number index
       this.#activeIndexNumber = tabs.findIndex(
-        (tab) => tab.tabIndex === this.#activeSkyTabIndex,
+        (tab) => tab.tabIndexValue === this.#activeSkyTabIndex,
       );
 
       /* istanbul ignore else */
