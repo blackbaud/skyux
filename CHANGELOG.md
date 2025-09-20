@@ -1,5 +1,12 @@
 # Changelog
 
+## [13.0.0](https://github.com/blackbaud/skyux/compare/13.0.0...13.0.0) (2025-09-20)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** add JSDocs for cell editor params interfaces ([#3939](https://github.com/blackbaud/skyux/issues/3939)) ([#3980](https://github.com/blackbaud/skyux/issues/3980)) ([060fba7](https://github.com/blackbaud/skyux/commit/060fba79d0efd681aa9c04dce14bca81d0696973))
+
 ## [13.0.0](https://github.com/blackbaud/skyux/compare/13.0.0-beta.1...13.0.0) (2025-09-18)
 
 
