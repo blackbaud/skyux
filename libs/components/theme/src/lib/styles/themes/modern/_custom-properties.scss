@@ -13,6 +13,15 @@
   --sky-background-color-disabled: var(
     --sky-color-background-action-primary-disabled
   );
+  --sky-background-color-selected: var(--sky-color-background-selected-soft);
+  --sky-background-color-info: var(--sky-color-background-container-info);
+  --sky-background-color-info-light: var(--sky-color-background-selected-soft);
+  --sky-background-color-success: var(--sky-color-background-container-success);
+  --sky-background-color-warning: var(--sky-color-background-container-warning);
+  --sky-background-color-danger: var(--sky-color-background-container-danger);
+  --sky-background-color-danger-dark: var(
+    --sky-color-background-action-danger-base
+  );
 
   --sky-border-color-neutral-medium: var(--sky-color-border-container-base);
   --sky-border-color-neutral-medium-dark: var(--sky-color-border-switch-base);
@@ -32,6 +41,7 @@
 
   --sky-text-color-default: var(--sky-color-text-default);
   --sky-text-color-deemphasized: var(--sky-color-text-deemphasized);
+  --sky-text-color-on-dark: var(--sky-color-text-inverse);
   --sky-text-color-action-primary: var(--sky-color-text-action);
   --sky-text-color-action-primary-hover: darken(
     var(--sky-color-text-action),
@@ -63,6 +73,10 @@
   --sky-background-color-item-selected: var(
     --sky-color-background-selected-soft
   );
+
+  /* headings */
+  --sky-theme-modern-font-heading-4-weight: var(--sky-font-style-heading-4);
+  --sky-theme-modern-font-heading-5-weight: var(--sky-font-style-heading-5);
 
   /* switch */
   --sky-switch-size: #{$sky-switch-size-modern};
