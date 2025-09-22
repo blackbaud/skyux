@@ -5,7 +5,6 @@ const path = require('node:path');
  * eslint.config.js file.
  */
 require('ts-node').register({
-  transpileOnly: true,
   project: path.join(__dirname, './tsconfig.json'),
   swc: true,
 });

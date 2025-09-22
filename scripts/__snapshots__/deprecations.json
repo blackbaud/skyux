@@ -1,6 +1,10 @@
 [
   "@skyux/a11y:SkySkipLinkModule",
   "@skyux/ag-grid:SkyAgGridLookupProperties:autocompleteAttribute",
+  "@skyux/ag-grid:SkyAgGridLookupProperties:data",
+  "@skyux/ag-grid:SkyAgGridLookupProperties:propertiesToSearch",
+  "@skyux/ag-grid:SkyAgGridLookupProperties:search",
+  "@skyux/ag-grid:SkyAgGridLookupProperties:searchFilters",
   "@skyux/ag-grid:SkyAutocompleteProperties",
   "@skyux/ag-grid:SkyDatepickerProperties",
   "@skyux/avatar/testing:SkyAvatarFixture",

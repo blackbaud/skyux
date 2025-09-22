@@ -42,7 +42,6 @@ async function getTypeDocProjectReflection(
     tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
     compilerOptions: {
       skipLibCheck: true,
-      transpileOnly: true,
       resolveJsonModule: true,
     },
     exclude: ['**/(fixtures|node_modules)/**', '**/*+(.fixture|.spec).ts'],
