@@ -88,6 +88,7 @@ These tests should be **thorough showcases** of test harness capabilities, not j
 ## Development Workflow
 
 - **Running tests**: `npx nx test code-examples --include="[path to file]"`
+- **Linting**: `npx nx lint code-examples` to check for lint errors, use `--fix` flag to automatically fix issues
 - **Validation**: Ensure all tests pass and demonstrate expected harness behavior
 - **Maintenance**: Update tests when harnesses or components change
 

@@ -103,7 +103,7 @@ fdescribe('ListsRepeaterInlineFormExampleComponent', () => {
       const editButton = await contextMenu.querySelector(
         'button[aria-label="Edit"]',
       );
-      await editButton!.click();
+      await editButton.click();
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -124,7 +124,7 @@ fdescribe('ListsRepeaterInlineFormExampleComponent', () => {
       const editButton = await contextMenu.querySelector(
         'button[aria-label="Edit"]',
       );
-      await editButton!.click();
+      await editButton.click();
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -156,7 +156,7 @@ fdescribe('ListsRepeaterInlineFormExampleComponent', () => {
       const editButton = await contextMenu.querySelector(
         'button[aria-label="Edit"]',
       );
-      await editButton!.click();
+      await editButton.click();
 
       fixture.detectChanges();
       await fixture.whenStable();
