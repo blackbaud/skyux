@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'sky-trim-test',
@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class SkyTrimTestComponent {
-  public dynamicText = 'Some dynamic test';
+  protected readonly dynamicText = input('Some dynamic test');
+  protected readonly firstText = input(' First ');
+  protected readonly lastText = input(' Last ');
 }
