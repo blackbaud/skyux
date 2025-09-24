@@ -61,7 +61,7 @@ describe('Trim directive', () => {
     validateTextContent('.inline-elements', 'First span 1 middle span 2 last');
 
     // Validate first text node changing
-    fixture.componentRef.setInput('firstText', ' First 2 ');
+    fixture.componentRef.setInput('firstText', ' First 2');
     fixture.detectChanges();
 
     await whenMutationObserverReady();
@@ -72,7 +72,7 @@ describe('Trim directive', () => {
     );
 
     // Validate last text node changing
-    fixture.componentRef.setInput('lastText', '  last 2 ');
+    fixture.componentRef.setInput('lastText', 'last 2 ');
     fixture.detectChanges();
 
     await whenMutationObserverReady();

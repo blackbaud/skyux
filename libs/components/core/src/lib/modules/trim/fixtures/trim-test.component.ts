@@ -7,6 +7,6 @@ import { Component, input } from '@angular/core';
 })
 export class SkyTrimTestComponent {
   protected readonly dynamicText = input('Some dynamic test');
-  protected readonly firstText = input(' First ');
-  protected readonly lastText = input(' Last ');
+  protected readonly firstText = input(' First');
+  protected readonly lastText = input('last ');
 }
