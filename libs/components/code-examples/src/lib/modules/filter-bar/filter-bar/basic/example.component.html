@@ -3,38 +3,44 @@
   [(selectedFilterIds)]="selectedFilterIds"
 >
   <sky-filter-item-modal
+    filterId="application-fee-received"
+    labelText="Application fee received"
+    modalSize="small"
+    [modalComponent]="applicationFeeModal"
+  />
+  <sky-filter-item-lookup
+    descriptorProperty="displayValue"
     filterId="community-connection"
+    idProperty="value"
     labelText="Community connection"
-    modalSize="medium"
-    [modalComponent]="communityConnectionModal"
-    (modalOpened)="onModalOpened($event)"
+    (searchAsync)="onSearchAsync($event)"
   />
-  <sky-filter-item-modal
+  <sky-filter-item-lookup
+    descriptorProperty="displayValue"
     filterId="current-grade"
+    idProperty="value"
     labelText="Current grade"
-    modalSize="medium"
-    [modalComponent]="currentGradeModal"
-    (modalOpened)="onModalOpened($event)"
+    (searchAsync)="onSearchAsync($event)"
   />
-  <sky-filter-item-modal
+  <sky-filter-item-lookup
+    descriptorProperty="displayValue"
     filterId="entering-grade"
+    idProperty="value"
     labelText="Entering grade"
-    modalSize="medium"
-    [modalComponent]="enteringGradeModal"
-    (modalOpened)="onModalOpened($event)"
+    (searchAsync)="onSearchAsync($event)"
   />
-  <sky-filter-item-modal
+  <sky-filter-item-lookup
+    descriptorProperty="displayValue"
     filterId="role"
+    idProperty="value"
     labelText="Role"
-    modalSize="medium"
-    [modalComponent]="roleModal"
-    (modalOpened)="onModalOpened($event)"
+    (searchAsync)="onSearchAsync($event)"
   />
-  <sky-filter-item-modal
+  <sky-filter-item-lookup
+    descriptorProperty="displayValue"
     filterId="staff-assigned"
+    idProperty="value"
     labelText="Staff assigned"
-    modalSize="medium"
-    [modalComponent]="staffAssignedModal"
-    (modalOpened)="onModalOpened($event)"
+    (searchAsync)="onSearchAsync($event)"
   />
 </sky-filter-bar>

@@ -1,16 +1,11 @@
 <form class="filter-modal-demo-form" novalidate [formGroup]="formGroup">
   <sky-modal [headingText]="headingText">
     <sky-modal-content>
-      <sky-input-box [labelText]="headingText">
-        <select formControlName="selectedOption" class="sky-form-control">
-          <option [value]="null"></option>
-          @for (item of items; track item.value) {
-            <option [value]="item.value">
-              {{ item.displayValue }}
-            </option>
-          }
-        </select>
-      </sky-input-box>
+      <sky-radio-group formControlName="selectedOption">
+        @for (option of options; track option.value) {
+          <sky-radio [value]="option.value" [labelText]="option.displayValue" />
+        }
+      </sky-radio-group>
     </sky-modal-content>
     <sky-modal-footer>
       <button class="sky-btn sky-btn-primary" type="button" (click)="save()">
