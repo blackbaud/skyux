@@ -10,6 +10,14 @@
 * **components/packages:** pin version for v13 migrations ([#3987](https://github.com/blackbaud/skyux/issues/3987)) ([eb81596](https://github.com/blackbaud/skyux/commit/eb81596716381967a71fa2773cf39b0b572891e6))
 * **components/theme:** update missing custom properties for modern theme ([#3984](https://github.com/blackbaud/skyux/issues/3984)) ([ad006ec](https://github.com/blackbaud/skyux/commit/ad006ecd5e33fc4d5a9fa9a3c21e1d5ee8e0ca75))
 
+## [12.41.1](https://github.com/blackbaud/skyux/compare/12.41.0...12.41.1) (2025-09-22)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** add JSDocs for cell editor params interfaces ([#3939](https://github.com/blackbaud/skyux/issues/3939)) ([8699ede](https://github.com/blackbaud/skyux/commit/8699ede919d6ba9f06df4a601e75bb6055914532))
+* **components/filter-bar:** update filter bar code example null filter value to empty select option ([#3951](https://github.com/blackbaud/skyux/issues/3951)) ([229f19e](https://github.com/blackbaud/skyux/commit/229f19e831e294be2ebbb3d78f2e6f0496211d8e))
+
 ## [13.0.0](https://github.com/blackbaud/skyux/compare/13.0.0-beta.1...13.0.0) (2025-09-18)
 
 
