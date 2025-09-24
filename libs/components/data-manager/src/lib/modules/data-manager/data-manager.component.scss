@@ -18,3 +18,9 @@
     position: relative;
   }
 }
+
+// AG Grid in `normal` domLayout expects all parent containers to have height and width set to 100%.
+.sky-data-manager-content {
+  height: 100%;
+  width: 100%;
+}
