@@ -632,7 +632,7 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
       const label: HTMLElement | null | undefined =
         checkboxNativeElement?.querySelector('sky-checkbox-label');
-      expect(label?.innerText).toBe('Simple checkboxHelp inline'); // expect no additional space between label and help
+      expect(label?.innerText).toBe('Simple checkbox Help inline');
     });
 
     it('should pass accessibility', async () => {

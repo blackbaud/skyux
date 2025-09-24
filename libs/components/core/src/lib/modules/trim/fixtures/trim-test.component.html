@@ -1,9 +1,16 @@
 <span skyTrim class="static-text"> Some static text </span>
 
 <span skyTrim class="dynamic-text">
-  {{ dynamicText }}
+  {{ dynamicText() }}
 </span>
 
 <span skyTrim>
   <span class="child-text"> Child text </span>
 </span>
+
+<span skyTrim class="inline-elements">
+  {{ firstText() }} <span>span 1</span> middle <span>span 2</span>
+  {{ lastText() }}
+</span>
+
+<span skyTrim class="empty"></span>

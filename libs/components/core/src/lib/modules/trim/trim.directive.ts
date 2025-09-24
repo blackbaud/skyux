@@ -10,32 +10,30 @@ import { SkyMutationObserverService } from '../mutation/mutation-observer-servic
   standalone: false,
 })
 export class SkyTrimDirective implements OnInit, OnDestroy {
-  #elRef: ElementRef;
+  #el: Element;
 
   #obs: MutationObserver;
 
   constructor(elRef: ElementRef, mutationObs: SkyMutationObserverService) {
-    this.#elRef = elRef;
+    this.#el = elRef.nativeElement as Element;
 
-    this.#obs = mutationObs.create((mutations: MutationRecord[]) => {
-      const nodes: Node[] = [];
-
-      // Only trim white space inside direct descendants of the current element.
-      for (const mutation of mutations) {
-        if (mutation.target.parentNode === elRef.nativeElement) {
-          nodes.push(mutation.target);
-        }
+    this.#obs = mutationObs.create((mutations) => {
+      if (
+        mutations.some(
+          (mutation) =>
+            mutation.target === this.#el.firstChild ||
+            mutation.target === this.#el.lastChild,
+        )
+      ) {
+        this.#trimNodes();
       }
-
-      this.#trim(nodes);
     });
 
     this.#observe();
   }
 
   public ngOnInit(): void {
-    const el = this.#elRef.nativeElement as Element;
-    this.#trim(Array.from(el.childNodes));
+    this.#trimNodes();
   }
 
   public ngOnDestroy(): void {
@@ -43,7 +41,7 @@ export class SkyTrimDirective implements OnInit, OnDestroy {
   }
 
   #observe(): void {
-    this.#obs.observe(this.#elRef.nativeElement, {
+    this.#obs.observe(this.#el, {
       characterData: true,
       subtree: true,
     });
@@ -53,22 +51,39 @@ export class SkyTrimDirective implements OnInit, OnDestroy {
     this.#obs.disconnect();
   }
 
-  #trim(nodes: Node[]): void {
-    // Suspend the MutationObserver so altering the text content of each node
-    // doesn't retrigger the observe callback.
-    this.#disconnect();
+  #trimNodes(): void {
+    const el = this.#el;
 
-    for (const node of nodes) {
-      if (node.nodeType === Node.TEXT_NODE && node.textContent) {
-        const textContent = node.textContent;
-        const textContentTrimmed = textContent.trim();
+    if (el.hasChildNodes()) {
+      // Suspend the MutationObserver so altering the text content of each node
+      // doesn't retrigger the observe callback.
+      this.#disconnect();
+
+      if (el.firstChild === el.lastChild) {
+        this.#trimNode(el.firstChild, 'trim');
+      } else {
+        this.#trimNode(el.firstChild, 'trimStart');
+        this.#trimNode(el.lastChild, 'trimEnd');
+      }
+
+      this.#observe();
+    }
+  }
+
+  #trimNode(
+    node: Node | null,
+    trimMethod: 'trim' | 'trimEnd' | 'trimStart',
+  ): void {
+    if (node?.nodeType === Node.TEXT_NODE) {
+      const textContent = node.textContent;
+
+      if (textContent) {
+        const textContentTrimmed = textContent[trimMethod]();
 
         if (textContent !== textContentTrimmed) {
           node.textContent = textContentTrimmed;
         }
       }
     }
-
-    this.#observe();
   }
 }
