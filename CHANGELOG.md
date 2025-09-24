@@ -1,5 +1,15 @@
 # Changelog
 
+## [13.0.1](https://github.com/blackbaud/skyux/compare/13.0.0...13.0.1) (2025-09-24)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** add JSDocs for cell editor params interfaces ([#3939](https://github.com/blackbaud/skyux/issues/3939)) ([#3980](https://github.com/blackbaud/skyux/issues/3980)) ([060fba7](https://github.com/blackbaud/skyux/commit/060fba79d0efd681aa9c04dce14bca81d0696973))
+* **components/core:** update trim directive to only trim first and last text nodes ([#3988](https://github.com/blackbaud/skyux/issues/3988)) ([303c39d](https://github.com/blackbaud/skyux/commit/303c39da0aaef32c1ac17a05c8bfe7e891eacf98))
+* **components/packages:** pin version for v13 migrations ([#3987](https://github.com/blackbaud/skyux/issues/3987)) ([eb81596](https://github.com/blackbaud/skyux/commit/eb81596716381967a71fa2773cf39b0b572891e6))
+* **components/theme:** update missing custom properties for modern theme ([#3984](https://github.com/blackbaud/skyux/issues/3984)) ([ad006ec](https://github.com/blackbaud/skyux/commit/ad006ecd5e33fc4d5a9fa9a3c21e1d5ee8e0ca75))
+
 ## [13.0.0](https://github.com/blackbaud/skyux/compare/13.0.0-beta.1...13.0.0) (2025-09-18)
 
 
