@@ -3,14 +3,13 @@ import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyCheckboxHarness } from '@skyux/forms/testing';
 import { SkyChevronHarness } from '@skyux/indicators/testing';
 import { SkyInlineFormHarness } from '@skyux/inline-form/testing';
+import {
+  SkyDropdownHarness,
+  SkyDropdownHarnessFilters,
+} from '@skyux/popovers/testing';
 
-import { SkyRepeaterItemContentHarness } from './repeater-item-content-harness';
-import { SkyRepeaterItemContentHarnessFilters } from './repeater-item-content-harness-filters';
 import { SkyRepeaterItemContextMenuHarness } from './repeater-item-context-menu-harness';
-import { SkyRepeaterItemContextMenuHarnessFilters } from './repeater-item-context-menu-harness-filters';
 import { SkyRepeaterItemHarnessFilters } from './repeater-item-harness-filters';
-import { SkyRepeaterItemTitleHarness } from './repeater-item-title-harness';
-import { SkyRepeaterItemTitleHarnessFilters } from './repeater-item-title-harness-filters';
 
 /**
  * Harness for interacting with a repeater item component in tests.
@@ -30,6 +29,8 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
   #getChevron = this.locatorForOptional(SkyChevronHarness);
 
   #getContent = this.locatorFor('.sky-repeater-item-content');
+
+  #getContext = this.locatorFor(SkyRepeaterItemContextMenuHarness);
 
   #getItem = this.locatorFor('.sky-repeater-item');
 
@@ -109,26 +110,16 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
       'Could not expand the repeater item because it is not collapsible.',
     );
   }
-  /**
-   * Gets a harness for the repeater item content component.
-   */
-  public async getContent(
-    filters?: SkyRepeaterItemContentHarnessFilters,
-  ): Promise<SkyRepeaterItemContentHarness> {
-    return await this.locatorFor(
-      SkyRepeaterItemContentHarness.with(filters || {}),
-    )();
-  }
 
   /**
-   * Gets a harness for the repeater item context menu component.
+   * Gets a harness for the dropdown inside the context menu.
    */
-  public async getContextMenu(
-    filters?: SkyRepeaterItemContextMenuHarnessFilters,
-  ): Promise<SkyRepeaterItemContextMenuHarness> {
-    return await this.locatorFor(
-      SkyRepeaterItemContextMenuHarness.with(filters || {}),
-    )();
+  public async getContextMenuDropdown(
+    filters?: SkyDropdownHarnessFilters,
+  ): Promise<SkyDropdownHarness> {
+    return await (
+      await this.#getContext()
+    ).queryHarness(SkyDropdownHarness.with(filters || {}));
   }
 
   /**
@@ -139,7 +130,7 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets the inline form. Will throw an error if the inline form does not exist.
+   * Gets the inline form harness.
    */
   public async getInlineForm(): Promise<SkyInlineFormHarness> {
     return await this.locatorFor(SkyInlineFormHarness)();
@@ -150,17 +141,6 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
    */
   public async getItemName(): Promise<string | null> {
     return await (await this.#getItem()).getAttribute('aria-label');
-  }
-
-  /**
-   * Gets a harness for the repeater item title component.
-   */
-  public async getTitle(
-    filters?: SkyRepeaterItemTitleHarnessFilters,
-  ): Promise<SkyRepeaterItemTitleHarness> {
-    return await this.locatorFor(
-      SkyRepeaterItemTitleHarness.with(filters || {}),
-    )();
   }
 
   /**
