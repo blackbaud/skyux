@@ -3,13 +3,6 @@ applyTo: '**'
 description: 'SKY UX Copilot instructions for generating code example unit tests.'
 ---
 
----
-
-applyTo: '\*\*'
-description: 'SKY UX Copilot instructions for generating code example unit tests.'
-
----
-
 # SKY UX Copilot Instructions: Code Example Unit Tests
 
 ## Overview

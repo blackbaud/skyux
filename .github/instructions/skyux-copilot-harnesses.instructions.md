@@ -35,10 +35,19 @@ export class Sky[Component]Harness extends SkyComponentHarness {
 
 ### Component Inputs → Getter Methods
 
-Map `@Input()` properties to async getter methods:
+Map `@Input()` properties and `input()` signals to async getter methods:
 
 - `@Input() labelText: string` → `async getLabelText(): Promise<string>`
 - `@Input() disabled: boolean` → `async getDisabled(): Promise<boolean>`
+- `labelText = input<string>()` → `async getLabelText(): Promise<string>`
+- `disabled = input<boolean>()` → `async getDisabled(): Promise<boolean>`
+
+### Component Models → Value Methods
+
+Map `model()` signals to both getter and setter methods:
+
+- `value = model<string>()` → `async getValue(): Promise<string>` and `async setValue(value: string): Promise<void>`
+- `selected = model<boolean>()` → `async getSelected(): Promise<boolean>` and `async setSelected(selected: boolean): Promise<void>`
 
 ### Template Interactions → Action Methods
 
