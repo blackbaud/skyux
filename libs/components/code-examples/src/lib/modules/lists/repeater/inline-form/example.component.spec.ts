@@ -5,7 +5,7 @@ import { SkyRepeaterHarness } from '@skyux/lists/testing';
 
 import { ListsRepeaterInlineFormExampleComponent } from './example.component';
 
-fdescribe('ListsRepeaterInlineFormExampleComponent', () => {
+describe('ListsRepeaterInlineFormExampleComponent', () => {
   async function setupTest(): Promise<{
     component: ListsRepeaterInlineFormExampleComponent;
     fixture: ComponentFixture<ListsRepeaterInlineFormExampleComponent>;
@@ -99,8 +99,7 @@ fdescribe('ListsRepeaterInlineFormExampleComponent', () => {
       const firstItem = items[0];
 
       // Click edit button in context menu
-      const contextMenu = await firstItem.getContextMenu();
-      const editButton = await contextMenu.querySelector(
+      const editButton = fixture.nativeElement.querySelector(
         'button[aria-label="Edit"]',
       );
       await editButton.click();
@@ -120,8 +119,7 @@ fdescribe('ListsRepeaterInlineFormExampleComponent', () => {
       const firstItem = items[0];
 
       // Show inline form
-      const contextMenu = await firstItem.getContextMenu();
-      const editButton = await contextMenu.querySelector(
+      const editButton = fixture.nativeElement.querySelector(
         'button[aria-label="Edit"]',
       );
       await editButton.click();
@@ -152,8 +150,7 @@ fdescribe('ListsRepeaterInlineFormExampleComponent', () => {
       const firstItem = items[0];
 
       // Show inline form
-      const contextMenu = await firstItem.getContextMenu();
-      const editButton = await contextMenu.querySelector(
+      const editButton = fixture.nativeElement.querySelector(
         'button[aria-label="Edit"]',
       );
       await editButton.click();
