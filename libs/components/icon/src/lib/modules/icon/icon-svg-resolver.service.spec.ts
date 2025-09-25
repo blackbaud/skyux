@@ -35,7 +35,7 @@ describe('Icon SVG resolver service', () => {
     // Fetch should only be called once per instance of the resolver service
     // and the result shared across subsequent calls to resolveHref().
     expect(fetchMock).toHaveBeenCalledOnceWith(
-      'https://sky.blackbaudcdn.net/static/skyux-icons/9/assets/svg/skyux-icons.svg',
+      'https://sky.blackbaudcdn.net/static/skyux-icons/10/assets/svg/skyux-icons.svg',
     );
   }
 
