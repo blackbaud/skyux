@@ -21,10 +21,10 @@ jobs:
   automated-translations:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         id: setup-node
         with:
           node-version-file: '.nvmrc'
@@ -43,7 +43,7 @@ jobs:
 
       - name: Notify Slack when a PR is created
         if: ${{ steps.sync.outputs.prCreated == 'true' && steps.sync.outputs.prTitle && steps.sync.outputs.prUrl }}
-        uses: rtCamp/action-slack-notify@v2
+        uses: rtCamp/action-slack-notify@07cbdbfd6c6190970778d8f98f11d073b2932aae # v2.3.3
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_TITLE: ':writing_hand: `automated-translations` PR created: ${{ steps.sync.outputs.prTitle }}'
@@ -58,7 +58,7 @@ jobs:
 
       - name: Notify Slack when a PR is updated
         if: ${{ steps.sync.outputs.prCreated == 'false' && steps.sync.outputs.prTitle && steps.sync.outputs.prUrl }}
-        uses: rtCamp/action-slack-notify@v2
+        uses: rtCamp/action-slack-notify@07cbdbfd6c6190970778d8f98f11d073b2932aae # v2.3.3
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_TITLE: ':writing_hand: `automated-translations` PR updated: ${{ steps.sync.outputs.prTitle }}'
@@ -73,7 +73,7 @@ jobs:
 
       - name: Notify Slack for fails
         if: ${{ failure() || steps.sync.outputs.success != 'true' }}
-        uses: rtCamp/action-slack-notify@v2
+        uses: rtCamp/action-slack-notify@07cbdbfd6c6190970778d8f98f11d073b2932aae # v2.3.3
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_TITLE: ':writing_hand: :x: `automated-translations` sync failed'
