@@ -1,102 +1,92 @@
 <sky-page layout="fit">
-  <div class="my-split-view">
-    <div class="my-split-view-header">
-      <sky-fluid-grid>
-        <sky-row>
-          <sky-column>
-            <h1>Data manager with split view in page</h1>
-          </sky-column>
-        </sky-row>
-      </sky-fluid-grid>
-    </div>
-    <div class="my-split-view-content">
-      <sky-data-manager dock="fill">
-        <sky-data-manager-toolbar />
-        <sky-data-view viewId="dataManagerView">
-          <sky-split-view>
-            <sky-split-view-drawer [ariaLabel]="'Transaction list'">
-              <sky-repeater [activeIndex]="activeIndex">
-                @for (item of items; track item; let i = $index) {
-                  <sky-repeater-item>
-                    <sky-repeater-item-content>
-                      {{ item.amount }} <br />
-                      {{ item.date }} <br />
-                      {{ item.vendor }}
-                    </sky-repeater-item-content>
-                  </sky-repeater-item>
-                }
-              </sky-repeater>
-            </sky-split-view-drawer>
+  <sky-page-header pageTitle="Split view with data manager" />
+  <sky-page-content>
+    <sky-data-manager dock="fill">
+      <sky-data-manager-toolbar />
+      <sky-data-view viewId="dataManagerView">
+        <sky-split-view>
+          <sky-split-view-drawer [ariaLabel]="'Transaction list'">
+            <sky-repeater [activeIndex]="activeIndex">
+              @for (item of items; track item; let i = $index) {
+                <sky-repeater-item>
+                  <sky-repeater-item-content>
+                    {{ item.amount }} <br />
+                    {{ item.date }} <br />
+                    {{ item.vendor }}
+                  </sky-repeater-item-content>
+                </sky-repeater-item>
+              }
+            </sky-repeater>
+          </sky-split-view-drawer>
 
-            <sky-split-view-workspace ariaLabel="Transaction form">
-              <sky-split-view-workspace-content class="sky-padding-even-xl">
-                <form>
-                  <sky-description-list class="sky-margin-stacked-xl">
-                    <sky-description-list-content>
-                      <sky-description-list-term>
-                        Receipt amount
-                      </sky-description-list-term>
-                      <sky-description-list-description>
-                        {{ activeRecord.amount }}
-                      </sky-description-list-description>
-                    </sky-description-list-content>
-                    <sky-description-list-content>
-                      <sky-description-list-term>
-                        Date
-                      </sky-description-list-term>
-                      <sky-description-list-description>
-                        {{ activeRecord.date }}
-                      </sky-description-list-description>
-                    </sky-description-list-content>
-                    <sky-description-list-content>
-                      <sky-description-list-term>
-                        Vendor
-                      </sky-description-list-term>
-                      <sky-description-list-description>
-                        {{ activeRecord.vendor }}
-                      </sky-description-list-description>
-                    </sky-description-list-content>
-                  </sky-description-list>
-                  <div class="sky-form-group">
-                    <sky-input-box labelText="Approved amount" stacked="true">
-                      <input
-                        class="sky-form-control"
-                        name="approvedAmount"
-                        type="text"
-                        skyId
-                      />
-                    </sky-input-box>
-                  </div>
+          <sky-split-view-workspace ariaLabel="Transaction form">
+            <sky-split-view-workspace-content class="sky-padding-even-xl">
+              <form>
+                <sky-description-list class="sky-margin-stacked-xl">
+                  <sky-description-list-content>
+                    <sky-description-list-term>
+                      Receipt amount
+                    </sky-description-list-term>
+                    <sky-description-list-description>
+                      {{ activeRecord.amount }}
+                    </sky-description-list-description>
+                  </sky-description-list-content>
+                  <sky-description-list-content>
+                    <sky-description-list-term>
+                      Date
+                    </sky-description-list-term>
+                    <sky-description-list-description>
+                      {{ activeRecord.date }}
+                    </sky-description-list-description>
+                  </sky-description-list-content>
+                  <sky-description-list-content>
+                    <sky-description-list-term>
+                      Vendor
+                    </sky-description-list-term>
+                    <sky-description-list-description>
+                      {{ activeRecord.vendor }}
+                    </sky-description-list-description>
+                  </sky-description-list-content>
+                </sky-description-list>
+                <div class="sky-form-group">
+                  <sky-input-box labelText="Approved amount" stacked="true">
+                    <input
+                      class="sky-form-control"
+                      name="approvedAmount"
+                      type="text"
+                      skyId
+                    />
+                  </sky-input-box>
+                </div>
 
-                  <div class="sky-form-group">
-                    <sky-input-box labelText="Comments">
-                      <textarea
-                        class="sky-form-control"
-                        name="comments"
-                        skyId
-                      ></textarea>
-                    </sky-input-box>
-                  </div>
-                </form>
-              </sky-split-view-workspace-content>
-              <sky-split-view-workspace-footer>
-                <sky-summary-action-bar id="summary-action-bar">
-                  <sky-summary-action-bar-actions>
-                    <sky-summary-action-bar-primary-action>
-                      Approve expense
-                    </sky-summary-action-bar-primary-action>
-                    <sky-summary-action-bar-secondary-actions>
-                      <sky-summary-action-bar-secondary-action>
-                        Deny expense
-                      </sky-summary-action-bar-secondary-action>
-                    </sky-summary-action-bar-secondary-actions>
-                  </sky-summary-action-bar-actions>
-                </sky-summary-action-bar>
-              </sky-split-view-workspace-footer>
-            </sky-split-view-workspace>
-          </sky-split-view>
-        </sky-data-view>
-      </sky-data-manager>
-    </div>
-  </div>
+                <div class="sky-form-group">
+                  <sky-input-box labelText="Comments">
+                    <textarea
+                      class="sky-form-control"
+                      name="comments"
+                      skyId
+                    ></textarea>
+                  </sky-input-box>
+                </div>
+              </form>
+            </sky-split-view-workspace-content>
+            <sky-split-view-workspace-footer>
+              <sky-summary-action-bar id="summary-action-bar">
+                <sky-summary-action-bar-actions>
+                  <sky-summary-action-bar-primary-action>
+                    Approve expense
+                  </sky-summary-action-bar-primary-action>
+                  <sky-summary-action-bar-secondary-actions>
+                    <sky-summary-action-bar-secondary-action>
+                      Deny expense
+                    </sky-summary-action-bar-secondary-action>
+                  </sky-summary-action-bar-secondary-actions>
+                </sky-summary-action-bar-actions>
+              </sky-summary-action-bar>
+            </sky-split-view-workspace-footer>
+          </sky-split-view-workspace>
+        </sky-split-view>
+      </sky-data-view>
+    </sky-data-manager>
+  </sky-page-content>
 </sky-page>
