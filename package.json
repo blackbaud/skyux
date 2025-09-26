@@ -26,7 +26,8 @@
     "dev:format": "nx format:write",
     "dev:local-registry": "npx verdaccio --config .verdaccio/config.yml",
     "dev:publish-to-local-registry": "ts-node ./scripts/publish-local.ts",
-    "dev:pristine": "skyux-dev pristine-commit"
+    "dev:pristine": "skyux-dev pristine-commit",
+    "release": "npx skyux-dev release"
   },
   "engines": {
     "node": "^20.11.1 || ^22.15.0",
@@ -168,7 +169,7 @@
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
     "@schematics/angular": "19.2.15",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#12.0.0-alpha.5",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#12.0.0-alpha.13",
     "@storybook/addon-a11y": "9.0.13",
     "@storybook/angular": "9.0.13",
     "@swc-node/register": "1.10.9",
@@ -194,6 +195,7 @@
     "@vitest/coverage-v8": "3.2.4",
     "@vitest/ui": "3.2.4",
     "angular-eslint": "19.8.1",
+    "commit-and-tag-version": "12.6.0",
     "cross-spawn": "7.0.6",
     "cypress": "14.5.0",
     "eslint": "9.24.0",
