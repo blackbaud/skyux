@@ -3,6 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { FontLoadingService } from '@skyux/storybook/font-loading';
 import {
+  SkyAppViewportService,
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
@@ -19,6 +20,8 @@ export class AppComponent {
   public title = 'integration';
   protected ready = toSignal(inject(FontLoadingService).ready());
 
+  public readonly viewportService = inject(SkyAppViewportService);
+
   constructor(
     private router: Router,
     renderer: Renderer2,
@@ -32,6 +35,12 @@ export class AppComponent {
         SkyThemeMode.presets.light,
       ),
     );
+
+    this.viewportService.reserveSpace({
+      id: 'integration-controls',
+      position: 'top',
+      size: 80,
+    });
   }
 
   public isHome(): boolean {

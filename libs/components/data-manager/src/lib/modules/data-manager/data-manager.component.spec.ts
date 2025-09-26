@@ -13,6 +13,7 @@ import { DataManagerFixtureComponent } from './fixtures/data-manager.component.f
 import { DataManagerFixtureModule } from './fixtures/data-manager.module.fixture';
 import { SkyDataManagerState } from './models/data-manager-state';
 import { SkyDataViewConfig } from './models/data-view-config';
+import { SkyDataManagerDockType } from './types/data-manager-dock-type';
 
 describe('SkyDataManagerComponent', () => {
   let dataManagerFixture: ComponentFixture<DataManagerFixtureComponent>;
@@ -24,6 +25,19 @@ describe('SkyDataManagerComponent', () => {
     'SkyTextHighlightDirective',
     ['skyHighlight'],
   );
+
+  async function validateDockCssClass(
+    dock: SkyDataManagerDockType | undefined,
+    expectedCssClass: string,
+  ): Promise<void> {
+    dataManagerFixture.componentInstance.dock = dock;
+    dataManagerFixture.detectChanges();
+    await dataManagerFixture.whenStable();
+
+    expect(document.querySelector('.sky-data-manager')?.classList).toContain(
+      expectedCssClass,
+    );
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -238,5 +252,11 @@ describe('SkyDataManagerComponent', () => {
     dataManagerFixture.detectChanges();
     await dataManagerFixture.whenStable();
     await expectAsync(dataManagerNativeElement).toBeAccessible();
+  });
+
+  it('should apply the correct CSS class for the dock input', async () => {
+    await validateDockCssClass('none', 'sky-data-manager-dock-none');
+    await validateDockCssClass('fill', 'sky-data-manager-dock-fill');
+    await validateDockCssClass(undefined, 'sky-data-manager-dock-none');
   });
 });

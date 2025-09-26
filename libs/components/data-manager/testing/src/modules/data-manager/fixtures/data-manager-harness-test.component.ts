@@ -1,15 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
+import { SkyDataManagerDockType } from '@skyux/data-manager';
 import { SkyToolbarModule } from '@skyux/layout';
 
 import { FilterModalComponent } from './filter-modal.component';
@@ -20,13 +16,14 @@ import { Filters } from './filters';
   selector: 'test-data-manager-harness',
   templateUrl: './data-manager-harness-test.component.html',
   providers: [SkyDataManagerService, SkyUIConfigService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyDataManagerModule, SkyToolbarModule],
 })
 export class DataManagerHarnessTestComponent implements OnInit {
   public selectedColumns: string[] = [];
   protected viewId1 = 'view-1';
   protected viewId2 = 'view-2';
+
+  public dock: SkyDataManagerDockType | undefined = 'fill';
 
   readonly #dataManagerSvc = inject(SkyDataManagerService);
 
