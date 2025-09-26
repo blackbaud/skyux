@@ -93,16 +93,12 @@ describe('ListsRepeaterInlineFormExampleComponent', () => {
 
   describe('Inline form functionality', () => {
     it('should show inline form when edit button is clicked', async () => {
-      const { repeaterHarness, fixture } = await setupTest();
+      const { repeaterHarness, fixture, component } = await setupTest();
 
       const items = await repeaterHarness.getRepeaterItems();
       const firstItem = items[0];
 
-      // Click edit button in context menu
-      const editButton = fixture.nativeElement.querySelector(
-        'button[aria-label="Edit"]',
-      );
-      await editButton.click();
+      component.showInlineForm(component.items[0]);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -113,16 +109,12 @@ describe('ListsRepeaterInlineFormExampleComponent', () => {
     });
 
     it('should have save and cancel buttons in inline form', async () => {
-      const { repeaterHarness, fixture } = await setupTest();
+      const { repeaterHarness, fixture, component } = await setupTest();
 
       const items = await repeaterHarness.getRepeaterItems();
       const firstItem = items[0];
 
-      // Show inline form
-      const editButton = fixture.nativeElement.querySelector(
-        'button[aria-label="Edit"]',
-      );
-      await editButton.click();
+      component.showInlineForm(component.items[0]);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -144,16 +136,12 @@ describe('ListsRepeaterInlineFormExampleComponent', () => {
     });
 
     it('should have template when inline form is expanded', async () => {
-      const { repeaterHarness, fixture } = await setupTest();
+      const { repeaterHarness, fixture, component } = await setupTest();
 
       const items = await repeaterHarness.getRepeaterItems();
       const firstItem = items[0];
 
-      // Show inline form
-      const editButton = fixture.nativeElement.querySelector(
-        'button[aria-label="Edit"]',
-      );
-      await editButton.click();
+      component.showInlineForm(component.items[0]);
 
       fixture.detectChanges();
       await fixture.whenStable();
