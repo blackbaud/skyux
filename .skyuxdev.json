@@ -1,6 +1,6 @@
 {
   "baseBranch": "main",
-  "releaseBranch": "release-please--branches--{baseBranch}--components--dev-infra-private",
+  "releaseBranch": "release-please--branches--{baseBranch}--components--skyux",
   "implicitPeerDependencies": {
     "stylelint-config-skyux": [
       "skyux-stylelint",
