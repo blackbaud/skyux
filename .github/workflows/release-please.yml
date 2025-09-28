@@ -49,7 +49,7 @@ jobs:
             const releaseExists = await github.rest.repos.getReleaseByTag({ ...context.repo, tag: nextVersion }).then(() => true).catch(() => false);
             if (!releaseExists) {
               const releaseNotes = (await exec.getExecOutput('npx', ['skyux-dev', 'release-notes', `--releaseName=${nextVersion}`])).stdout;
-              await github.rest.repos.createRelease({ ...context.repo, tag_name: nextVersion, body: releaseNotes, prerelease: nextVersion.includes('-') });
+              await github.rest.repos.createRelease({ ...context.repo, name: `v${nextVersion}`, tag_name: nextVersion, body: releaseNotes, prerelease: nextVersion.includes('-') });
             }
       - name: Build
         if: ${{ steps.release.outputs.release_created }}
