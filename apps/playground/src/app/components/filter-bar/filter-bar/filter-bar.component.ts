@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
+import {
+  SkyFilterBarFilterItem,
+  SkyFilterItemLookupSearchAsyncArgs,
+} from '@skyux/filter-bar';
+
+import { of } from 'rxjs';
 
 import { TestModalComponent } from './test-modal.component';
 
@@ -18,7 +23,7 @@ export class FilterBarComponent {
     if (value) {
       value.toString = (): string => {
         return (
-          '[' +
+          '[ ' +
           this.appliedFilters
             .map(
               (filter) =>
@@ -50,6 +55,17 @@ export class FilterBarComponent {
 
   constructor() {
     this.resetFilters();
+  }
+
+  public onSearchAsync(args: SkyFilterItemLookupSearchAsyncArgs): void {
+    args.result = of({
+      items: [
+        { id: '1', name: '1' },
+        { id: '2', name: '2' },
+        { id: '3', name: '3' },
+      ],
+      totalCount: 3,
+    });
   }
 
   public resetFilters(): void {

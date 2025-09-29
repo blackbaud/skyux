@@ -1,0 +1,9 @@
+<sky-filter-bar [(appliedFilters)]="appliedFilters">
+  <sky-filter-item-lookup
+    filterId="lookup-filter"
+    labelText="Lookup filter"
+    searchDescriptorProperty="displayValue"
+    searchIdProperty="value"
+    (searchAsync)="onSearchAsync($event)"
+  />
+</sky-filter-bar>
