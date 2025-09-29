@@ -1,6 +1,20 @@
 # Changelog
 
 
+# [13.2.0](https://github.com/blackbaud/skyux/compare/13.0.1...13.2.0) (2025-09-29)
+
+
+### Bug Fixes
+
+* downgrade required version of ag-grid ([#3997](https://github.com/blackbaud/skyux/issues/3997)) ([90d436f](https://github.com/blackbaud/skyux/commit/90d436f2ab69faa212876c416571dc87ef37fae4))
+
+
+### Features
+
+* **components/icon:** use v10 of icons ([#3994](https://github.com/blackbaud/skyux/issues/3994)) ([87a862a](https://github.com/blackbaud/skyux/commit/87a862a7ff05929c13dbc7b164a2a3061ecf737b))
+
+
+
 # [13.1.0](https://github.com/blackbaud/skyux/compare/13.0.1...13.1.0) (2025-09-26)
 
 
