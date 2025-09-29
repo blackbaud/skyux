@@ -56,7 +56,8 @@
       "codeExamples": {
         "docsIds": [
           "DataManagerBasicExampleComponent",
-          "PagesPageListPageListLayoutExampleComponent"
+          "PagesPageListPageListLayoutExampleComponent",
+          "PagesPageDataManagerSplitViewFitLayoutExampleComponent"
         ]
       }
     }
