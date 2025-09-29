@@ -388,7 +388,6 @@ export class SkyFileAttachmentComponent
   }
 
   public onDropClicked(): void {
-    // this.#onTouched();
     /* istanbul ignore else */
     if (this.inputEl) {
       this.inputEl.nativeElement.click();
