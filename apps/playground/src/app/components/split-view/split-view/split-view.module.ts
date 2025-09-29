@@ -6,7 +6,11 @@ import {
   SkyDataManagerService,
 } from '@skyux/data-manager';
 import { SkyInputBoxModule } from '@skyux/forms';
-import { SkyDefinitionListModule, SkyFluidGridModule } from '@skyux/layout';
+import {
+  SkyDefinitionListModule,
+  SkyDescriptionListModule,
+  SkyFluidGridModule,
+} from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyPageModule } from '@skyux/pages';
 import { SkySplitViewModule } from '@skyux/split-view';
@@ -39,6 +43,7 @@ import { SplitViewRoutingModule } from './split-view-routing.module';
     LipsumModule,
     DataManagerModule,
     SkyDataManagerModule,
+    SkyDescriptionListModule,
   ],
   providers: [SkyDataManagerService],
 })

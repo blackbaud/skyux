@@ -1,14 +1,12 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import {
+  SkyDataManagerDockType,
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
-import {
-  SkyConfirmCloseEventArgs,
-  SkyConfirmService,
-  SkyConfirmType,
-} from '@skyux/modals';
+import { SkyConfirmService, SkyConfirmType } from '@skyux/modals';
 import {
   SkySplitViewMessage,
   SkySplitViewMessageType,
@@ -16,53 +14,103 @@ import {
 
 import { Subject } from 'rxjs';
 
+import { Record } from './record';
+
+interface DemoForm {
+  approvedAmount: FormControl<number>;
+  comments: FormControl<string>;
+}
+
 @Component({
   selector: 'app-split-view-data-manager',
   templateUrl: './split-view-data-manager.component.html',
-  styleUrls: ['./split-view-data-manager.component.scss'],
   standalone: false,
 })
 export class SplitViewDataManagerComponent implements OnInit {
-  public set activeIndex(value: number) {
-    this._activeIndex = value;
-    this.activeRecord = this.items[this._activeIndex];
+  protected set activeIndex(value: number) {
+    this.#_activeIndex = value;
+    this.activeRecord = this.items[this.#_activeIndex];
+    this.#loadFormGroup(this.activeRecord);
   }
 
-  public get activeIndex(): number {
-    return this._activeIndex;
+  protected get activeIndex(): number {
+    return this.#_activeIndex;
   }
 
-  public activeRecord: any;
-
-  public hasUnsavedWork = false;
-
-  public items = [
-    { id: 1, name: 'Jennifer Stanley', amount: 12.45, date: '04/28/2019' },
-    { id: 2, name: 'Jennifer Stanley', amount: 52.39, date: '04/22/2019' },
-    { id: 3, name: 'Jennifer Stanley', amount: 9.12, date: '04/09/2019' },
-    { id: 4, name: 'Jennifer Stanley', amount: 193.0, date: '03/27/2019' },
-    { id: 5, name: 'Jennifer Stanley', amount: 19.89, date: '03/11/2019' },
-    { id: 6, name: 'Jennifer Stanley', amount: 214.18, date: '02/17/2019' },
-    { id: 7, name: 'Jennifer Stanley', amount: 4.53, date: '02/26/2019' },
+  protected items = [
+    {
+      id: 1,
+      amount: 73.19,
+      date: '5/13/2020',
+      vendor: 'amazon.com',
+      receiptImage: 'amzn-office-supply-order-5-13-19.png',
+      approvedAmount: 73.19,
+      comments: '',
+    },
+    {
+      id: 2,
+      amount: 214.12,
+      date: '5/14/2020',
+      vendor: 'Office Max',
+      receiptImage: 'office-max-order.png',
+      approvedAmount: 214.12,
+      comments: '',
+    },
+    {
+      id: 3,
+      amount: 29.99,
+      date: '5/14/2020',
+      vendor: 'amazon.com',
+      receiptImage: 'amzn-office-supply-order-5-14-19.png',
+      approvedAmount: 29.99,
+      comments: '',
+    },
+    {
+      id: 4,
+      amount: 1500,
+      date: '5/15/2020',
+      vendor: 'Fresh Catering, LLC',
+      receiptImage: 'fresh-catering-llc-order.png',
+      approvedAmount: 1500,
+      comments: '',
+    },
   ];
 
-  public splitViewStream = new Subject<SkySplitViewMessage>();
+  protected activeRecord: Record;
+  protected splitViewDemoForm: FormGroup<DemoForm>;
+  protected splitViewStream = new Subject<SkySplitViewMessage>();
 
-  public width: number;
+  protected dock: SkyDataManagerDockType = 'fill';
 
-  private _activeIndex = 0;
+  #splitViewConfig: SkyDataViewConfig = {
+    id: 'dataManagerView',
+    name: 'Split View Data Manager View',
+    sortEnabled: true,
+    searchEnabled: true,
+  };
 
-  public changeDetectorRef = inject(ChangeDetectorRef);
-  public confirmService = inject(SkyConfirmService);
-  public dataManagerService = inject(SkyDataManagerService);
-  public dock = 'fill';
+  #_activeIndex = 0;
+
+  readonly #dataManagerService = inject(SkyDataManagerService);
+  readonly #confirmSvc = inject(SkyConfirmService);
 
   constructor() {
+    // Start with the first item selected.
     this.activeIndex = 0;
+    this.activeRecord = this.items[this.activeIndex];
+
+    this.splitViewDemoForm = new FormGroup({
+      approvedAmount: new FormControl(this.activeRecord.approvedAmount, {
+        nonNullable: true,
+      }),
+      comments: new FormControl(this.activeRecord.comments, {
+        nonNullable: true,
+      }),
+    });
   }
 
   public ngOnInit(): void {
-    this.dataManagerService.initDataManager({
+    this.#dataManagerService.initDataManager({
       activeViewId: 'dataManagerView',
       dataManagerConfig: {},
       defaultDataState: new SkyDataManagerState({
@@ -73,61 +121,81 @@ export class SplitViewDataManagerComponent implements OnInit {
         ],
       }),
     });
-    this.dataManagerService.initDataView(this.#splitViewConfig);
+    this.#dataManagerService.initDataView(this.#splitViewConfig);
   }
 
-  public onItemClick(index: number): void {
-    if (this.hasUnsavedWork && index !== this.activeIndex) {
-      this.confirmService
-        .open({
-          message:
-            'You have unsaved work. Would you like to save it before you change records?',
-          type: SkyConfirmType.YesCancel,
-        })
-        .closed.subscribe((closeArgs: SkyConfirmCloseEventArgs) => {
-          if (closeArgs.action.toLowerCase() === 'yes') {
-            this.activeIndex = index;
-            this.setFocusInWorkspace();
-          }
-        });
+  protected onItemClick(index: number): void {
+    // Prevent workspace from loading new data if the current workspace form is dirty.
+    if (this.splitViewDemoForm.dirty && index !== this.activeIndex) {
+      this.#openConfirmModal(index);
     } else {
-      this.activeIndex = index;
-      this.setFocusInWorkspace();
+      this.#loadWorkspace(index);
     }
   }
 
-  public submitForm(): void {
-    if (this.hasUnsavedWork) {
-      this.confirmService
-        .open({
-          message:
-            'You have unsaved work. Would you like to save it before you change records?',
-          type: SkyConfirmType.YesCancel,
-        })
-        .closed.subscribe((closeArgs: SkyConfirmCloseEventArgs) => {
-          if (closeArgs.action.toLowerCase() === 'yes') {
-            alert('Form submitted!');
-            this.setFocusInWorkspace();
-          }
-        });
-    } else {
-      alert('Form submitted!');
-      this.setFocusInWorkspace();
-    }
+  protected onApprove(): void {
+    console.log('Approved clicked!');
+    this.#saveForm();
   }
 
-  private setFocusInWorkspace(): void {
+  protected onDeny(): void {
+    console.log('Denied clicked!');
+  }
+
+  #loadFormGroup(record: Record): void {
+    this.splitViewDemoForm = new FormGroup({
+      approvedAmount: new FormControl(record.approvedAmount, {
+        nonNullable: true,
+      }),
+      comments: new FormControl(record.comments, { nonNullable: true }),
+    });
+  }
+
+  #loadWorkspace(index: number): void {
+    this.activeIndex = index;
+    this.#setFocusInWorkspace();
+  }
+
+  #openConfirmModal(index: number): void {
+    this.#confirmSvc
+      .open({
+        message:
+          'You have unsaved work. Would you like to save it before you change records?',
+        type: SkyConfirmType.Custom,
+        buttons: [
+          {
+            action: 'yes',
+            text: 'Yes',
+            styleType: 'primary',
+          },
+          {
+            action: 'discard',
+            text: 'Discard changes',
+            styleType: 'link',
+          },
+        ],
+      })
+      .closed.subscribe((closeArgs) => {
+        if (closeArgs.action.toLowerCase() === 'yes') {
+          this.#saveForm();
+        }
+
+        this.#loadWorkspace(index);
+      });
+  }
+
+  #saveForm(): void {
+    this.activeRecord.approvedAmount =
+      this.splitViewDemoForm.value.approvedAmount ?? 0;
+    this.activeRecord.comments = this.splitViewDemoForm.value.comments ?? '';
+
+    this.splitViewDemoForm.reset(this.splitViewDemoForm.value);
+  }
+
+  #setFocusInWorkspace(): void {
     const message: SkySplitViewMessage = {
       type: SkySplitViewMessageType.FocusWorkspace,
     };
-
     this.splitViewStream.next(message);
   }
-
-  #splitViewConfig: SkyDataViewConfig = {
-    id: 'dataManagerView',
-    name: 'Split View Data Manager View',
-    sortEnabled: true,
-    searchEnabled: true,
-  };
 }

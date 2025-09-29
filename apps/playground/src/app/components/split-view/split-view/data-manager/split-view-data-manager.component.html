@@ -5,74 +5,85 @@
       <sky-data-manager-toolbar />
       <sky-data-view viewId="dataManagerView">
         <sky-split-view dock="fill" [messageStream]="splitViewStream">
-          <sky-split-view-drawer [width]="width">
-            <ul class="sky-visual-list">
+          <sky-split-view-drawer [ariaLabel]="'Transaction list'">
+            <sky-repeater [activeIndex]="activeIndex">
               @for (item of items; track item; let i = $index) {
-                <li (click)="onItemClick(i)">
-                  {{ item.name }} <br />
-                  {{ item.date }} <br />
-                  {{ item.amount }}
-                </li>
+                <sky-repeater-item
+                  (click)="onItemClick(i)"
+                  (keyup.enter)="onItemClick(i)"
+                >
+                  <sky-repeater-item-content>
+                    {{ item.amount }} <br />
+                    {{ item.date }} <br />
+                    {{ item.vendor }}
+                  </sky-repeater-item-content>
+                </sky-repeater-item>
               }
-            </ul>
+            </sky-repeater>
           </sky-split-view-drawer>
 
-          <sky-split-view-workspace>
-            <sky-split-view-workspace-content class="sky-padding-even-sm">
-              <h3>Transaction for {{ activeRecord.name }}</h3>
-              <form>
-                <p>
-                  <label>
-                    Post date
-                    <input
-                      name="date"
-                      type="text"
-                      [(ngModel)]="activeRecord.date"
-                    />
-                  </label>
-                </p>
-                <p>
-                  <label>
-                    Amount
-                    <input
-                      name="amount"
-                      type="text"
-                      [(ngModel)]="activeRecord.amount"
-                    />
-                  </label>
-                </p>
-
-                <label>
-                  <input
-                    name="unsavedWork"
-                    type="checkbox"
-                    [(ngModel)]="hasUnsavedWork"
-                  />
-                  Has unsaved work
-                </label>
+          <sky-split-view-workspace ariaLabel="Transaction form">
+            <sky-split-view-workspace-content class="sky-padding-even-xl">
+              <form [formGroup]="splitViewDemoForm" (ngSubmit)="onApprove()">
+                <sky-description-list labelWidth="150px">
+                  <sky-description-list-content>
+                    <sky-description-list-term>
+                      Receipt amount
+                    </sky-description-list-term>
+                    <sky-description-list-description>
+                      {{ activeRecord.amount }}
+                    </sky-description-list-description>
+                  </sky-description-list-content>
+                  <sky-description-list-content>
+                    <sky-description-list-term>
+                      Date
+                    </sky-description-list-term>
+                    <sky-description-list-description>
+                      {{ activeRecord.date }}
+                    </sky-description-list-description>
+                  </sky-description-list-content>
+                  <sky-description-list-content>
+                    <sky-description-list-term>
+                      Vendor
+                    </sky-description-list-term>
+                    <sky-description-list-description>
+                      {{ activeRecord.vendor }}
+                    </sky-description-list-description>
+                  </sky-description-list-content>
+                  <sky-description-list-content>
+                    <sky-description-list-term>
+                      Receipt image
+                    </sky-description-list-term>
+                    <sky-description-list-description>
+                      {{ activeRecord.receiptImage }}
+                    </sky-description-list-description>
+                  </sky-description-list-content>
+                </sky-description-list>
+                <sky-input-box labelText="Approved amount" stacked="true">
+                  <input formControlName="approvedAmount" type="text" />
+                </sky-input-box>
+                <sky-input-box labelText="Comments">
+                  <textarea formControlName="comments"></textarea>
+                </sky-input-box>
               </form>
-              @if (activeRecord.id === 7) {
-                <app-lipsum />
-                <app-lipsum />
-                <app-lipsum />
-                <app-lipsum />
-                <app-lipsum />
-                <app-data-manager />
-                <app-lipsum />
-                <app-lipsum />
-                <app-lipsum />
-                <app-lipsum />
-                <app-lipsum />
-              }
             </sky-split-view-workspace-content>
             <sky-split-view-workspace-footer>
-              <button
-                class="sky-btn sky-btn-primary"
-                type="button"
-                (click)="submitForm()"
-              >
-                Save transaction
-              </button>
+              <sky-summary-action-bar>
+                <sky-summary-action-bar-actions>
+                  <sky-summary-action-bar-primary-action
+                    (actionClick)="onApprove()"
+                  >
+                    Approve expense
+                  </sky-summary-action-bar-primary-action>
+                  <sky-summary-action-bar-secondary-actions>
+                    <sky-summary-action-bar-secondary-action
+                      (actionClick)="onDeny()"
+                    >
+                      Deny expense
+                    </sky-summary-action-bar-secondary-action>
+                  </sky-summary-action-bar-secondary-actions>
+                </sky-summary-action-bar-actions>
+              </sky-summary-action-bar>
             </sky-split-view-workspace-footer>
           </sky-split-view-workspace>
         </sky-split-view>
