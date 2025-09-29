@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DOCUMENT, DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -1762,6 +1762,27 @@ describe('File attachment', () => {
     );
 
     expect(fileAttachment).not.toHaveClass('sky-form-field-stacked');
+  });
+
+  it('should mark file attachment as touched when blurred and focus is still on the document', () => {
+    const document = fixture.debugElement.injector.get(DOCUMENT);
+
+    const hasFocusSpy = spyOn(document, 'hasFocus').and.returnValue(false);
+
+    expect(fixture.componentInstance.attachment.touched).toBeFalse();
+
+    const button = getButtonEl(el);
+    SkyAppTestUtility.fireDomEvent(button, 'blur');
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.attachment.touched).toBeFalse();
+
+    hasFocusSpy.and.returnValue(true);
+
+    SkyAppTestUtility.fireDomEvent(button, 'blur');
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.attachment.touched).toBeTrue();
   });
 
   it('should mark file attachment as touched when canceled', () => {

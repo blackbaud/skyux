@@ -6,6 +6,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
+  DOCUMENT,
   ElementRef,
   EventEmitter,
   HostBinding,
@@ -99,6 +100,8 @@ export class SkyFileAttachmentComponent
     OnInit,
     OnDestroy
 {
+  readonly #document = inject(DOCUMENT);
+
   readonly #fileReaderSvc = inject(SkyFileReaderService);
 
   /**
@@ -380,6 +383,16 @@ export class SkyFileAttachmentComponent
             this.#changeDetector.markForCheck();
           },
         );
+    }
+  }
+
+  public onButtonBlur(): void {
+    // Only mark the field as touched on blur when the document still has focus. This
+    // prevents validation from occurring while the user has the file dialog open,
+    // since focus moves away from the document and onto the file dialog before this
+    // event fires.
+    if (this.#document.hasFocus()) {
+      this.#onTouched();
     }
   }
 
