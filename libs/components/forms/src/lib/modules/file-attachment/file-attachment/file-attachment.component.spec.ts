@@ -1764,10 +1764,10 @@ describe('File attachment', () => {
     expect(fileAttachment).not.toHaveClass('sky-form-field-stacked');
   });
 
-  it('should mark file attachment as touched when blurred', () => {
+  it('should mark file attachment as touched when canceled', () => {
     expect(fixture.componentInstance.attachment.touched).toBeFalse();
-    const button = getButtonEl(el);
-    SkyAppTestUtility.fireDomEvent(button, 'blur');
+    const input = getInputDebugEl(fixture).nativeElement;
+    SkyAppTestUtility.fireDomEvent(input, 'cancel');
     fixture.detectChanges();
 
     expect(fixture.componentInstance.attachment.touched).toBeTrue();

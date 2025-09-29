@@ -383,12 +383,12 @@ export class SkyFileAttachmentComponent
     }
   }
 
-  public onButtonBlur(): void {
+  public onFileCancel(): void {
     this.#onTouched();
   }
 
   public onDropClicked(): void {
-    this.#onTouched();
+    // this.#onTouched();
     /* istanbul ignore else */
     if (this.inputEl) {
       this.inputEl.nativeElement.click();
@@ -450,7 +450,6 @@ export class SkyFileAttachmentComponent
   }
 
   public fileDrop(dropEvent: DragEvent): void {
-    this.#onTouched();
     dropEvent.stopPropagation();
     dropEvent.preventDefault();
 
@@ -594,6 +593,8 @@ export class SkyFileAttachmentComponent
   }
 
   #handleFiles(fileList?: FileList | null): void {
+    this.#onTouched();
+
     if (fileList) {
       const files: SkyFileItem[] = [];
 

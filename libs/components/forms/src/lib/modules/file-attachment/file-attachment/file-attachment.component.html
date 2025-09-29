@@ -65,6 +65,7 @@
       [disabled]="disabled"
       [required]="isRequired"
       (change)="fileChangeEvent($event)"
+      (cancel)="onFileCancel()"
     />
     @if (showFileAttachmentButton) {
       <button
@@ -87,7 +88,6 @@
         "
         [disabled]="disabled"
         (click)="onDropClicked()"
-        (blur)="onButtonBlur()"
       >
         <sky-icon iconName="folder-open" />
         {{
