@@ -1,17 +1,79 @@
 import { tags } from '@angular-devkit/core';
+import { Tree } from '@angular-devkit/schematics';
+import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import {
+  findNodes,
   getDecoratorMetadata,
   getMetadataField,
-  isImported,
-} from '@angular/cdk/schematics';
-import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import { findNodes, insertImport } from '@schematics/angular/utility/ast-utils';
+  insertImport,
+} from '@schematics/angular/utility/ast-utils';
 import { Change, InsertChange } from '@schematics/angular/utility/change';
+
+/**
+ * Parse a TypeScript source file from tree
+ */
+export function parseSourceFile(tree: Tree, filePath: string): ts.SourceFile {
+  const content = tree.read(filePath);
+  if (!content) {
+    throw new Error(`Could not read file: ${filePath}`);
+  }
+
+  return ts.createSourceFile(
+    filePath,
+    content.toString(),
+    ts.ScriptTarget.Latest,
+    true,
+  );
+}
+
+/**
+ * Similar to `isImported` from @schematics/angular/utility/ast-utils, but supports
+ * typed module names, e.g. `import type { Foo } from '@skyux/foo'`.
+ */
+export function isImportedFromPackage(
+  sourceFile: ts.SourceFile,
+  identifierName: string,
+  packageName: string,
+): boolean {
+  const importDeclarations = findNodes(
+    sourceFile,
+    ts.SyntaxKind.ImportDeclaration,
+  ) as ts.ImportDeclaration[];
+
+  return importDeclarations.some((importDecl) => {
+    if (
+      !importDecl.moduleSpecifier ||
+      !ts.isStringLiteral(importDecl.moduleSpecifier)
+    ) {
+      return false;
+    }
+
+    if (importDecl.moduleSpecifier.text !== packageName) {
+      return false;
+    }
+
+    if (!importDecl.importClause) {
+      return false;
+    }
+
+    const namedBindings = importDecl.importClause.namedBindings;
+    if (!namedBindings || !ts.isNamedImports(namedBindings)) {
+      return false;
+    }
+
+    return namedBindings.elements.some((element) => {
+      const importedName = element.propertyName
+        ? element.propertyName.text
+        : element.name.text;
+      return importedName === identifierName;
+    });
+  });
+}
 
 export function getInlineTemplates(
   sourceFile: ts.SourceFile,
 ): { start: number; end: number }[] {
-  if (isImported(sourceFile, 'Component', '@angular/core')) {
+  if (isImportedFromPackage(sourceFile, 'Component', '@angular/core')) {
     const components = getDecoratorMetadata(
       sourceFile,
       'Component',
@@ -39,7 +101,7 @@ export function getInlineTemplates(
 }
 
 export function getTemplateUrls(sourceFile: ts.SourceFile): string[] {
-  if (isImported(sourceFile, 'Component', '@angular/core')) {
+  if (isImportedFromPackage(sourceFile, 'Component', '@angular/core')) {
     const components = getDecoratorMetadata(
       sourceFile,
       'Component',

@@ -2,8 +2,9 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { VERSION } from '@angular/cli';
 import { Schema } from '@schematics/angular/ng-new/schema';
+
+import { getAngularMajorVersion } from '../utility/get-angular-major-version';
 
 /**
  * Creates a new Angular CLI application.
@@ -21,7 +22,7 @@ export async function createTestApp(
     routing: true,
     strict: true,
     style: 'scss',
-    version: VERSION.major,
+    version: getAngularMajorVersion(),
     ...appOptions.options,
   });
 }
@@ -44,7 +45,7 @@ export async function createTestLibrary(
       name: `${libOptions.projectName}-workspace`,
       createApplication: false,
       strict: true,
-      version: VERSION.major,
+      version: getAngularMajorVersion(),
       ...libOptions.options,
     },
   );

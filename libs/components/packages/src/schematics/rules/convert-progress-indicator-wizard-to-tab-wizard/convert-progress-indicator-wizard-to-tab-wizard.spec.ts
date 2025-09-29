@@ -1,6 +1,5 @@
 import { stripIndents } from '@angular-devkit/core/src/utils/literals';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
-import { parseSourceFile } from '@angular/cdk/schematics';
 import { applyChangesToFile } from '@schematics/angular/utility/standalone/util';
 
 import { firstValueFrom } from 'rxjs';
@@ -10,7 +9,10 @@ import {
   angularModuleGenerator,
 } from '../../testing/angular-module-generator';
 import { createTestApp } from '../../testing/scaffold';
-import { addSymbolToClassMetadata } from '../../utility/typescript/ng-ast';
+import {
+  addSymbolToClassMetadata,
+  parseSourceFile,
+} from '../../utility/typescript/ng-ast';
 
 import { convertProgressIndicatorWizardToTabWizard } from './convert-progress-indicator-wizard-to-tab-wizard';
 
