@@ -56,17 +56,17 @@ interface DemoForm {
 export class PagesPageDataManagerSplitViewFitLayoutExampleComponent
   implements OnInit
 {
-  protected set activeIndex(value: number) {
+  public set activeIndex(value: number) {
     this.#_activeIndex = value;
     this.activeRecord = this.items[this.#_activeIndex];
     this.#loadFormGroup(this.activeRecord);
   }
 
-  protected get activeIndex(): number {
+  public get activeIndex(): number {
     return this.#_activeIndex;
   }
 
-  protected items = [
+  public items = [
     {
       id: 1,
       amount: 73.19,
@@ -105,11 +105,11 @@ export class PagesPageDataManagerSplitViewFitLayoutExampleComponent
     },
   ];
 
-  protected activeRecord: Record;
-  protected splitViewDemoForm: FormGroup<DemoForm>;
-  protected splitViewStream = new Subject<SkySplitViewMessage>();
+  public activeRecord: Record;
+  public splitViewDemoForm: FormGroup<DemoForm>;
+  public splitViewStream = new Subject<SkySplitViewMessage>();
 
-  protected dock: SkyDataManagerDockType = 'fill';
+  public dock: SkyDataManagerDockType = 'fill';
 
   #splitViewConfig: SkyDataViewConfig = {
     id: 'dataManagerView',
@@ -153,7 +153,7 @@ export class PagesPageDataManagerSplitViewFitLayoutExampleComponent
     this.#dataManagerService.initDataView(this.#splitViewConfig);
   }
 
-  protected onItemClick(index: number): void {
+  public onItemClick(index: number): void {
     // Prevent workspace from loading new data if the current workspace form is dirty.
     if (this.splitViewDemoForm.dirty && index !== this.activeIndex) {
       this.#openConfirmModal(index);
@@ -162,12 +162,12 @@ export class PagesPageDataManagerSplitViewFitLayoutExampleComponent
     }
   }
 
-  protected onApprove(): void {
+  public onApprove(): void {
     console.log('Approved clicked!');
     this.#saveForm();
   }
 
-  protected onDeny(): void {
+  public onDeny(): void {
     console.log('Denied clicked!');
   }
 
