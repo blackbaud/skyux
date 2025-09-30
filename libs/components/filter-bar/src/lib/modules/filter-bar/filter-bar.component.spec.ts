@@ -32,7 +32,7 @@ describe('Filter bar component', () => {
 
   function getFilterItems(): Element[] {
     return Array.from(
-      fixture.nativeElement.querySelectorAll('.sky-filter-item'),
+      fixture.nativeElement.querySelectorAll('sky-filter-item-base'),
     ) as Element[];
   }
 

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -12,17 +11,17 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { SkyLibResourcesService } from '@skyux/i18n';
-import { SkyIconModule } from '@skyux/icon';
 import { SkySelectionModalService } from '@skyux/lookup';
 
 import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 
 import { SkyFilterBarService } from '../filter-bar.service';
 import { SkyFilterBarFilterValue } from '../models/filter-bar-filter-value';
 import { SkyFilterItem } from '../models/filter-item';
 import { SkyFilterItemLookupSearchAsyncArgs } from '../models/filter-item-lookup-search-async-args';
 
+import { SkyFilterItemBaseComponent } from './filter-item-base.component';
 import { SKY_FILTER_ITEM } from './filter-item.token';
 
 /**
@@ -32,9 +31,8 @@ import { SKY_FILTER_ITEM } from './filter-item.token';
  */
 @Component({
   selector: 'sky-filter-item-lookup',
-  imports: [CommonModule, SkyIconModule],
+  imports: [SkyFilterItemBaseComponent],
   templateUrl: './filter-item-lookup.component.html',
-  styleUrls: ['./filter-item-lookup.component.scss'],
   providers: [
     { provide: SKY_FILTER_ITEM, useExisting: SkyFilterItemLookupComponent },
   ],
@@ -148,6 +146,7 @@ export class SkyFilterItemLookupComponent
           return this.#resourceSvc
             .getString('skyux_filter_item_n_selected', selected.length)
             .pipe(
+              take(1),
               map((displayValue) => ({
                 value: selected,
                 displayValue,

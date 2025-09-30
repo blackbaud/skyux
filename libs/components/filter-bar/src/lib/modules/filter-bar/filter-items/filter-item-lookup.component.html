@@ -1,29 +1,8 @@
 <ng-template #templateRef>
-  @let value = filterValue();
-  <div class="sky-filter-item sky-filter-item-lookup">
-    <button
-      aria-haspopup="dialog"
-      class="sky-btn sky-filter-bar-btn sky-btn-default"
-      type="button"
-      [attr.aria-pressed]="!!value"
-      [attr.data-filter-id]="filterId()"
-      [class.sky-filter-bar-btn-selected]="!!value"
-      (click)="openFilter()"
-    >
-      <span class="sky-filter-item-title"
-        ><span class="sky-filter-item-name">{{ labelText() }}</span>
-        @if (value) {
-          <span>:</span>
-        }
-      </span>
-      @if (value) {
-        <span class="sky-filter-item-value">{{
-          value.displayValue ?? value.value
-        }}</span>
-      }
-      <span class="sky-filter-item-caret">
-        <sky-icon iconName="chevron-down" />
-      </span>
-    </button>
-  </div>
+  <sky-filter-item-base
+    [filterId]="filterId()"
+    [filterValue]="filterValue()"
+    [labelText]="labelText()"
+    (itemClick)="openFilter()"
+  />
 </ng-template>

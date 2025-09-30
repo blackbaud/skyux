@@ -7,6 +7,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
+/* cspell: disable */
 const people: SkyFilterBarFilterValue[] = [
   { value: '1', displayValue: 'Solomon Hurley' },
   { value: '2', displayValue: 'Kanesha Hutto' },
@@ -26,6 +27,7 @@ const people: SkyFilterBarFilterValue[] = [
   { value: '16', displayValue: 'Jessy Witherspoon' },
   { value: '17', displayValue: 'Ilene Woo' },
 ];
+/* cspell: enable */
 
 @Injectable({
   providedIn: 'root',
@@ -34,15 +36,15 @@ export class ExampleService {
   public search(
     searchText: string,
   ): Observable<SkyFilterItemLookupSearchAsyncResult> {
-    // Simulate a network call with latency. A real-world application might
-    // use Angular's HttpClient to create an Observable from a call to a
-    // web service.
     searchText = searchText.toUpperCase();
 
     const matchingPeople = people.filter((person) =>
       person.displayValue?.toUpperCase().includes(searchText),
     );
 
+    // Simulate a network call with latency. A real-world application might
+    // use Angular's HttpClient to create an Observable from a call to a
+    // web service.
     return of({
       hasMore: false,
       items: matchingPeople,
