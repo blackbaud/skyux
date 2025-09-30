@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "13.0.0",
+  "version": "13.1.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -26,7 +26,8 @@
     "dev:format": "nx format:write",
     "dev:local-registry": "npx verdaccio --config .verdaccio/config.yml",
     "dev:publish-to-local-registry": "ts-node ./scripts/publish-local.ts",
-    "dev:pristine": "skyux-dev pristine-commit"
+    "dev:pristine": "skyux-dev pristine-commit",
+    "release": "npx skyux-dev release"
   },
   "engines": {
     "node": "^20.11.1 || ^22.15.0",
@@ -102,10 +103,10 @@
     "@blackbaud/skyux-design-tokens": "3.0.0",
     "@eslint/js": "9.30.1",
     "@nx/angular": "21.5.2",
-    "@skyux/icons": "9.0.0",
+    "@skyux/icons": "10.0.0",
     "@stackblitz/sdk": "1.11.0",
-    "ag-grid-angular": "34.2.0",
-    "ag-grid-community": "34.2.0",
+    "ag-grid-angular": "34.1.2",
+    "ag-grid-community": "34.1.2",
     "ajv": "8.17.1",
     "autonumeric": "4.10.8",
     "axe-core": "4.10.3",
@@ -169,7 +170,7 @@
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
     "@schematics/angular": "20.3.1",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#12.0.0-alpha.10",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#12.0.0-alpha.14",
     "@storybook/addon-a11y": "9.0.15",
     "@storybook/angular": "9.0.15",
     "@swc-node/register": "1.10.10",
@@ -195,6 +196,7 @@
     "@vitest/coverage-v8": "3.2.4",
     "@vitest/ui": "3.2.4",
     "angular-eslint": "20.1.1",
+    "commit-and-tag-version": "12.6.0",
     "cross-spawn": "7.0.6",
     "cypress": "14.5.1",
     "eslint": "9.30.1",
