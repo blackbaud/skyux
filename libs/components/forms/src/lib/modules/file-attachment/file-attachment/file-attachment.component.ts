@@ -6,6 +6,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
+  DOCUMENT,
   ElementRef,
   EventEmitter,
   HostBinding,
@@ -99,6 +100,8 @@ export class SkyFileAttachmentComponent
     OnInit,
     OnDestroy
 {
+  readonly #document = inject(DOCUMENT);
+
   readonly #fileReaderSvc = inject(SkyFileReaderService);
 
   /**
@@ -384,11 +387,20 @@ export class SkyFileAttachmentComponent
   }
 
   public onButtonBlur(): void {
+    // Only mark the field as touched on blur when the document still has focus. This
+    // prevents validation from occurring while the user has the file dialog open,
+    // since focus moves away from the document and onto the file dialog before this
+    // event fires.
+    if (this.#document.hasFocus()) {
+      this.#onTouched();
+    }
+  }
+
+  public onFileCancel(): void {
     this.#onTouched();
   }
 
   public onDropClicked(): void {
-    this.#onTouched();
     /* istanbul ignore else */
     if (this.inputEl) {
       this.inputEl.nativeElement.click();
@@ -450,7 +462,6 @@ export class SkyFileAttachmentComponent
   }
 
   public fileDrop(dropEvent: DragEvent): void {
-    this.#onTouched();
     dropEvent.stopPropagation();
     dropEvent.preventDefault();
 
@@ -594,6 +605,8 @@ export class SkyFileAttachmentComponent
   }
 
   #handleFiles(fileList?: FileList | null): void {
+    this.#onTouched();
+
     if (fileList) {
       const files: SkyFileItem[] = [];
 
