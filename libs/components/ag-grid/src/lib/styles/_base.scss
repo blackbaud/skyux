@@ -62,6 +62,7 @@
         --sky-override-ag-grid-checkbox-checked-background-color,
         var(--sky-color-background-selected-switch-base)
       );
+      background-origin: border-box;
     }
   }
 

@@ -184,6 +184,7 @@
           --sky-override-toggle-switch-background-color-selected,
           var(--sky-color-background-selected-switch-base)
         );
+        background-origin: border-box;
       }
 
       &:not(:focus-visible, :active, .sky-toggle-switch-disabled)

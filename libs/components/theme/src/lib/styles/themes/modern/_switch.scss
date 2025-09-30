@@ -56,6 +56,7 @@
         }
 
         background: var(--sky-color-background-selected-switch-base);
+        background-origin: border-box;
         border-width: var(--sky-border-width-selected-s);
         border-color: var(--sky-color-border-switch-selected-base);
 
