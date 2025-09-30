@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import {
+  SkyInlineFormButtonLayout,
+  SkyInlineFormConfig,
+} from '@skyux/inline-form';
 
 interface Item {
   title: string;
@@ -29,4 +33,14 @@ export class RepeaterHarnessTestComponent {
   public expandMode = 'none';
 
   public activeIndex: number | undefined;
+
+  public disabled = false;
+
+  public ariaLabel: string | undefined;
+
+  public inlineFormConfig: SkyInlineFormConfig = {
+    buttonLayout: SkyInlineFormButtonLayout.SaveCancel,
+  };
+
+  public showInlineForm = false;
 }
