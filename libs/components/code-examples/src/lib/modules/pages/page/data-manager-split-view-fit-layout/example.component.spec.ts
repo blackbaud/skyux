@@ -148,8 +148,8 @@ describe('Data manager with split view in a fit layout page example', () => {
 
     // Verify initial values match the first item using form controls
     const approvedAmountControl =
-      component.splitViewDemoForm.controls['approvedAmount'];
-    const commentsControl = component.splitViewDemoForm.controls['comments'];
+      component.splitViewDemoForm.controls.approvedAmount;
+    const commentsControl = component.splitViewDemoForm.controls.comments;
 
     expect(approvedAmountControl.value).toBe(73.19);
     expect(commentsControl.value).toBe('');
@@ -183,8 +183,8 @@ describe('Data manager with split view in a fit layout page example', () => {
 
     // Verify form was updated with new record data
     const approvedAmountControl =
-      component.splitViewDemoForm.controls['approvedAmount'];
-    const commentsControl = component.splitViewDemoForm.controls['comments'];
+      component.splitViewDemoForm.controls.approvedAmount;
+    const commentsControl = component.splitViewDemoForm.controls.comments;
 
     expect(approvedAmountControl.value).toBe(214.12);
     expect(commentsControl.value).toBe('');
@@ -198,8 +198,8 @@ describe('Data manager with split view in a fit layout page example', () => {
 
     // Get form controls
     const approvedAmountControl =
-      component.splitViewDemoForm.controls['approvedAmount'];
-    const commentsControl = component.splitViewDemoForm.controls['comments'];
+      component.splitViewDemoForm.controls.approvedAmount;
+    const commentsControl = component.splitViewDemoForm.controls.comments;
 
     // Verify initial values
     expect(approvedAmountControl.value).toBe(73.19);
