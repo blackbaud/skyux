@@ -14,11 +14,13 @@ jobs:
     name: Check risk labels
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v7
+      - uses: actions/github-script@v8
         with:
           script: |
+            const prTitle = context.payload.pull_request.title;
+            const branchName = context.payload.pull_request.head.ref;
             const labels = context.payload.pull_request.labels.map(label => label.name);
-            if (labels.find(label => label.startsWith('autorelease'))) {
+            if (prTitle.startsWith('chore: release') && branchName.startsWith('release-please--')) {
               console.log('Release PRs are not subject to risk assessment. 🚢');
             } else {
               const authorRisk = labels.find(label => label.startsWith('risk level (author):'));
