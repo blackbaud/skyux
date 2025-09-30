@@ -110,7 +110,11 @@
     @if (value || currentThemeName === 'default') {
       <span class="sky-file-attachment-file-link">
         @if (value) {
-          <a [attr.title]="fileName" (click)="emitClick()">
+          <a
+            class="sky-btn sky-btn-link-inline"
+            [attr.title]="fileName"
+            (click)="emitClick()"
+          >
             {{ truncatedFileName }}
           </a>
         } @else {
