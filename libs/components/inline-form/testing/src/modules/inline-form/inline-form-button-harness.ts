@@ -1,4 +1,5 @@
 import { ComponentHarness, HarnessPredicate } from '@angular/cdk/testing';
+import { SkyInlineFormButtonConfigStyleType } from '@skyux/inline-form';
 
 import { SkyInlineFormButtonHarnessFilters } from './inline-form-button-harness.filters';
 
@@ -42,7 +43,7 @@ export class SkyInlineFormButtonHarness extends ComponentHarness {
   /**
    * Gets the button style type.
    */
-  public async getStyleType(): Promise<'primary' | 'link' | 'default'> {
+  public async getStyleType(): Promise<SkyInlineFormButtonConfigStyleType> {
     const host = await this.host();
     if (await host.hasClass('sky-btn-primary')) {
       return 'primary';

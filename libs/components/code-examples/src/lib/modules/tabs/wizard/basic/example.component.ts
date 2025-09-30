@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { SkyModalService } from '@skyux/modals';
+import { SkyModalConfigurationSizeType, SkyModalService } from '@skyux/modals';
 
 import { ModalComponent } from './modal.component';
 
@@ -14,7 +14,7 @@ import { ModalComponent } from './modal.component';
 export class TabsWizardBasicExampleComponent {
   readonly #modalSvc = inject(SkyModalService);
 
-  #modalSize = 'large';
+  #modalSize: SkyModalConfigurationSizeType = 'large';
 
   protected openWizard(): void {
     this.#modalSvc.open(ModalComponent, { size: this.#modalSize });
