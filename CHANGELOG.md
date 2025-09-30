@@ -8,6 +8,7 @@
 
 * **components/filter-bar:** update filter bar code example null filter value to empty select option ([#3951](https://github.com/blackbaud/skyux/issues/3951)) ([#3965](https://github.com/blackbaud/skyux/issues/3965)) ([46bbb0f](https://github.com/blackbaud/skyux/commit/46bbb0f27af1bf322feac5d6104493daf30106be))
 * **components/forms:** validate file attachment on cancel and on blur when not opening file dialog ([#4004](https://github.com/blackbaud/skyux/issues/4004)) ([d6ccbd1](https://github.com/blackbaud/skyux/commit/d6ccbd16980c3d438a0eff238508e481bae606da))
+* selected switch background should go to border edge ([#4006](https://github.com/blackbaud/skyux/issues/4006)) ([43fa205](https://github.com/blackbaud/skyux/commit/43fa205a154af59e8e242e7f0236edcebf48b676))
 
 
 
