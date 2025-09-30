@@ -9,6 +9,7 @@
       <sky-repeater-item
         [selectable]="true"
         [tag]="item.note"
+        [disabled]="item.isDisabled"
         [(isSelected)]="item.isSelected"
       >
         <sky-repeater-item-title class="example-repeater-flex">

@@ -3,4 +3,5 @@ export interface Item {
   note: string;
   status: string;
   isSelected: boolean;
+  isDisabled?: boolean;
 }
