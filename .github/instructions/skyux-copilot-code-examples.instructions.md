@@ -36,19 +36,20 @@ These tests should be **thorough showcases** of test harness capabilities, not j
 
 ### Test Structure
 
-1. **Setup function**: Use `setupTest()` helper following existing patterns
-2. **Basic tests**: Component creation, rendering, data verification
+1. **Setup function**: Use `setupTest()` helper that returns `{ fixture, loader, component }`
+2. **Basic tests**: Component creation, rendering, initial state verification
 3. **Harness demonstrations**: Show all relevant harness methods and capabilities
-4. **Feature-specific tests**: Group related functionality in `describe` blocks when appropriate
+4. **User interaction tests**: Demonstrate clicking, form input, and state changes
+5. **Feature-specific tests**: Group related functionality in `describe` blocks when appropriate
 
 ### Harness Coverage
 
 - Demonstrate **all public methods** of relevant harnesses
 - Show **filtering capabilities** using the harness filter interfaces:
   - Test `dataSkyId` filtering (inherited from `SkyHarnessFilters`)
-  - Test component-specific filter properties (e.g., `buttonType`, `text`, `styleType`)
-  - Use `HarnessName.with(filters)` to demonstrate predicate filtering
-- Include **error scenarios** where appropriate
+  - Test component-specific filter properties (e.g., `viewId`, `buttonType`, `text`)
+  - Use `ComponentHarness.with(filters)` to demonstrate predicate filtering
+- Include **error scenarios** where appropriate (e.g., missing elements)
 - Test **interactions** (clicks, form submissions, state changes)
 - Showcase **sub-harness access** (context menus, forms, buttons, etc.)
 
@@ -57,7 +58,7 @@ These tests should be **thorough showcases** of test harness capabilities, not j
 ### Dependencies
 
 - Import test harnesses from appropriate testing modules
-- Use `NoopAnimationsModule` for animations
+- Use `provideNoopAnimations()` instead of `NoopAnimationsModule` for Angular 18+
 - Follow Angular testing best practices
 
 ### Test Patterns
@@ -66,10 +67,41 @@ These tests should be **thorough showcases** of test harness capabilities, not j
 - Use `expectAsync().toBeResolvedTo()` for async assertions
 - Use `fixture.detectChanges()` and `fixture.whenStable()` after UI interactions
 - Group related tests in `describe` blocks for organization
+- Always check the terminal output completely before assuming test results
+
+### Setup Function Pattern
+
+```typescript
+async function setupTest(): Promise<{
+  fixture: ComponentFixture<ComponentName>;
+  loader: HarnessLoader;
+  component: ComponentName;
+}> {
+  await TestBed.configureTestingModule({
+    imports: [ComponentName],
+    providers: [provideNoopAnimations()],
+  }).compileComponents();
+
+  const fixture = TestBed.createComponent(ComponentName);
+  const loader = TestbedHarnessEnvironment.loader(fixture);
+  const component = fixture.componentInstance;
+
+  return { fixture, loader, component };
+}
+```
+
+### Common Patterns and Pitfalls
+
+- **Harness method availability**: Check harness implementation before using methods (e.g., some methods may not exist on all harnesses)
+
+### Error Handling
+
+- Verify harness methods exist before calling them
+- Check for optional harnesses using `queryHarness()` instead of `getHarness()`
 
 ### Examples to Reference
 
-- Look at `libs/components/lists/testing/src/modules/repeater/repeater-harness.spec.ts` for comprehensive harness testing patterns
+- Look at harness spec files in `libs/components/*/testing/src/modules/*/` for comprehensive harness testing patterns
 - Follow the structure in existing code example spec files
 
 ## Documentation Integration
@@ -80,10 +112,19 @@ These tests should be **thorough showcases** of test harness capabilities, not j
 
 ## Development Workflow
 
-- **Running tests**: `npx nx test code-examples --include="[relative path to file]"`
+- **Running tests**: `npx nx test code-examples --include="**/[example-folder]/example.component.spec.ts"`
+- **Wait for completion**: Always wait for the complete test run including coverage summary before checking results
 - **Linting**: `npx nx lint code-examples` to check for lint errors, use `--fix` flag to automatically fix issues
+- **Incremental development**: Work incrementally, running tests after each change to catch errors early
 - **Validation**: Ensure all tests pass and demonstrate expected harness behavior
 - **Maintenance**: Update tests when harnesses or components change
+
+### Debugging Tips
+
+- Check terminal output completely for TypeScript errors before assuming test failures
+- Verify imports are used to avoid "unused import" errors
+- Check harness documentation for available methods and properties
+- Verify component state directly when harness methods don't provide needed access
 
 ## Key Principles
 
@@ -91,3 +132,7 @@ These tests should be **thorough showcases** of test harness capabilities, not j
 2. **Clear demonstrations** of harness capabilities
 3. **Consumer-focused** examples that teach proper usage
 4. **Maintainable** test structure that's easy to understand and update
+5. **Incremental development** - build tests step by step, running frequently
+6. **Real-world scenarios** - test actual user workflows, not just API calls
+7. **Error prevention** - anticipate common pitfalls and test edge cases
+8. **Documentation value** - tests should serve as usage examples for harnesses

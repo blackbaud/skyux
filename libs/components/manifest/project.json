@@ -47,6 +47,5 @@
         "jestConfig": "libs/components/manifest/jest.config.ts"
       }
     }
-  },
-  "implicitDependencies": ["code-examples"]
+  }
 }
