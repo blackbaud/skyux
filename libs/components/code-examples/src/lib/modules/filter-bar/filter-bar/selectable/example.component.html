@@ -1,0 +1,46 @@
+<sky-filter-bar
+  [(appliedFilters)]="appliedFilters"
+  [(selectedFilterIds)]="selectedFilterIds"
+>
+  <sky-filter-item-modal
+    filterId="application-fee-received"
+    labelText="Application fee received"
+    modalSize="small"
+    [modalComponent]="applicationFeeModal"
+  />
+  <sky-filter-item-lookup
+    filterId="community-connection"
+    labelText="Community connection"
+    searchDescriptorProperty="displayValue"
+    searchIdProperty="value"
+    (searchAsync)="onSearchAsync($event)"
+  />
+  <sky-filter-item-lookup
+    filterId="current-grade"
+    labelText="Current grade"
+    searchDescriptorProperty="displayValue"
+    searchIdProperty="value"
+    (searchAsync)="onSearchAsync($event)"
+  />
+  <sky-filter-item-lookup
+    filterId="entering-grade"
+    labelText="Entering grade"
+    searchDescriptorProperty="displayValue"
+    searchIdProperty="value"
+    (searchAsync)="onSearchAsync($event)"
+  />
+  <sky-filter-item-lookup
+    filterId="role"
+    labelText="Role"
+    searchDescriptorProperty="displayValue"
+    searchIdProperty="value"
+    (searchAsync)="onSearchAsync($event)"
+  />
+  <sky-filter-item-lookup
+    filterId="staff-assigned"
+    labelText="Staff assigned"
+    searchDescriptorProperty="displayValue"
+    searchIdProperty="value"
+    (searchAsync)="onSearchAsync($event)"
+  />
+</sky-filter-bar>

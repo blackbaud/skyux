@@ -14,21 +14,22 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { SkyIconModule } from '@skyux/icon';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { Observable, Subject, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 
-import { SkyFilterBarService } from './filter-bar.service';
+import { SkyFilterBarService } from '../filter-bar.service';
+import { SkyFilterItem } from '../models/filter-item';
+import { SkyFilterItemModal } from '../models/filter-item-modal';
+import { SkyFilterItemModalContext } from '../models/filter-item-modal-context';
+import { SkyFilterItemModalInstance } from '../models/filter-item-modal-instance';
+import { SkyFilterItemModalOpenedArgs } from '../models/filter-item-modal-opened-args';
+import { SkyFilterItemModalSavedArgs } from '../models/filter-item-modal-saved-args';
+import { SkyFilterItemModalSizeType } from '../models/filter-item-modal-size';
+
+import { SkyFilterItemBaseComponent } from './filter-item-base.component';
 import { SKY_FILTER_ITEM } from './filter-item.token';
-import { SkyFilterItem } from './models/filter-item';
-import { SkyFilterItemModal } from './models/filter-item-modal';
-import { SkyFilterItemModalContext } from './models/filter-item-modal-context';
-import { SkyFilterItemModalInstance } from './models/filter-item-modal-instance';
-import { SkyFilterItemModalOpenedArgs } from './models/filter-item-modal-opened-args';
-import { SkyFilterItemModalSavedArgs } from './models/filter-item-modal-saved-args';
-import { SkyFilterItemModalSizeType } from './models/filter-item-modal-size';
 
 /**
  * A filter bar item that opens a modal for complex filter configuration.
@@ -37,9 +38,8 @@ import { SkyFilterItemModalSizeType } from './models/filter-item-modal-size';
  */
 @Component({
   selector: 'sky-filter-item-modal',
-  imports: [SkyIconModule],
+  imports: [SkyFilterItemBaseComponent],
   templateUrl: './filter-item-modal.component.html',
-  styleUrls: ['./filter-item-modal.component.scss'],
   providers: [
     { provide: SKY_FILTER_ITEM, useExisting: SkyFilterItemModalComponent },
   ],
