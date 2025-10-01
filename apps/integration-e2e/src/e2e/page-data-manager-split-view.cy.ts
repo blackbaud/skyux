@@ -11,11 +11,11 @@ describe('Page Data Manager Split View', () => {
             .get('a[href="#/integrations/page-data-manager-split-view"]')
             .click();
           cy.skyReady('app-page-data-manager-split-view')
-            .get('h1')
+            .get('h1.sky-page-header-text')
             .should('be.visible')
-            .should('contain.text', 'Data manager with split view in page');
+            .should('contain.text', 'Split view in data manager');
 
-          cy.get('sky-data-manager').should('exist').should('be.visible');
+          cy.get('.sky-data-manager').should('exist').should('be.visible');
 
           cy.get('sky-split-view').should('exist').should('be.visible');
 
@@ -23,5 +23,5 @@ describe('Page Data Manager Split View', () => {
         });
       },
     );
-  }, false);
+  });
 });
