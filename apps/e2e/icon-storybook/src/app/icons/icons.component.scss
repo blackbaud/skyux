@@ -6,3 +6,16 @@
   gap: var(--sky-padding-even-md);
   padding: var(--sky-padding-even-md);
 }
+
+.icon-container {
+  min-height: 60px;
+  display: grid;
+  grid-template-columns: 100px auto;
+  align-items: center;
+
+  > .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
