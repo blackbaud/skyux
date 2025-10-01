@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
-import { SkyFilterItem } from './models/filter-item';
+import { SkyFilterItem } from '../models/filter-item';
 
 /**
  * A token for filter bar items.

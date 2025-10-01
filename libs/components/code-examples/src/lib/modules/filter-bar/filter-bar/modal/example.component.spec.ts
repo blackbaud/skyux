@@ -4,15 +4,15 @@ import { expect } from '@skyux-sdk/testing';
 import { SkyFilterBarHarness } from '@skyux/filter-bar/testing';
 import { SkyModalHarness } from '@skyux/modals/testing';
 
-import { FilterBarBasicExampleComponent } from './example.component';
+import { FilterBarModalExampleComponent } from './example.component';
 import { FilterModalHarness } from './filter-modal-harness';
 
-describe('Basic filter bar', () => {
+describe('Filter bar with modal filter', () => {
   async function setupTest(): Promise<{
     filterBarHarness: SkyFilterBarHarness;
-    fixture: ComponentFixture<FilterBarBasicExampleComponent>;
+    fixture: ComponentFixture<FilterBarModalExampleComponent>;
   }> {
-    const fixture = TestBed.createComponent(FilterBarBasicExampleComponent);
+    const fixture = TestBed.createComponent(FilterBarModalExampleComponent);
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     const filterBarHarness = await loader.getHarness(SkyFilterBarHarness);
 
@@ -21,11 +21,11 @@ describe('Basic filter bar', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FilterBarBasicExampleComponent],
+      imports: [FilterBarModalExampleComponent],
     });
   });
 
-  it('should display the filter bar with initial filters', async () => {
+  it('should display the filter bar with modal filter', async () => {
     const { filterBarHarness, fixture } = await setupTest();
 
     fixture.detectChanges();
@@ -37,21 +37,14 @@ describe('Basic filter bar', () => {
 
     // Get all filter items
     const filterItems = await filterBarHarness.getItems();
-    expect(filterItems).toHaveSize(3);
+    expect(filterItems).toHaveSize(1);
 
     // Check specific filter items exist
     const staffAssignedFilter = await filterBarHarness.getItem({
-      filterId: 'staff-assigned',
+      filterId: 'modal-filter',
     });
     await expectAsync(staffAssignedFilter.getLabelText()).toBeResolvedTo(
-      'Staff assigned',
-    );
-
-    const currentGradeFilter = await filterBarHarness.getItem({
-      filterId: 'current-grade',
-    });
-    await expectAsync(currentGradeFilter.getLabelText()).toBeResolvedTo(
-      'Current grade',
+      'Modal filter',
     );
   });
 
@@ -62,28 +55,24 @@ describe('Basic filter bar', () => {
     fixture.detectChanges();
 
     // Click on the Role filter to open its modal
-    const staffAssignedFilter = await filterBarHarness.getItem({
-      filterId: 'staff-assigned',
+    const modalFilter = await filterBarHarness.getItem({
+      filterId: 'modal-filter',
     });
 
-    await expectAsync(staffAssignedFilter.getFilterValue()).toBeResolvedTo(
-      undefined,
-    );
+    await expectAsync(modalFilter.getFilterValue()).toBeResolvedTo(undefined);
 
-    await staffAssignedFilter.click();
+    await modalFilter.click();
 
     // Get the modal and our custom filter modal harness
     const modal = await loader.getHarness(SkyModalHarness);
     const filterModalHarness = await loader.getHarness(FilterModalHarness);
 
     // Verify the modal opened
-    await expectAsync(modal.getSize()).toBeResolvedTo('medium');
+    await expectAsync(modal.getSize()).toBeResolvedTo('small');
 
     // Select an option and verify it's selected
-    await filterModalHarness.selectOption(2);
+    await filterModalHarness.selectOptionByIndex(2);
 
-    await expectAsync(staffAssignedFilter.getFilterValue()).toBeResolvedTo(
-      'Kanesha Hutto',
-    );
+    await expectAsync(modalFilter.getFilterValue()).toBeResolvedTo('No');
   });
 });
