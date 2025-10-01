@@ -2,8 +2,15 @@
   "name": "@skyux-sdk/cypress-commands",
   "version": "0.0.1",
   "dependencies": {},
+  "exports": {
+    ".": {
+      "default": "./src/index.js"
+    },
+    "./capture-icon-names-to-file": {
+      "default": "./src/lib/capture-icon-names-to-file.js"
+    }
+  },
   "peerDependencies": {
     "cypress": "14.5.1"
-  },
-  "private": true
+  }
 }

@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "UpdateIconsE2e",
+  "title": "Update Icons E2E",
+  "type": "object"
+}

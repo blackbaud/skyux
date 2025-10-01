@@ -17,4 +17,8 @@ describe('field-group', () => {
       });
     });
   });
+
+  afterEach(() => {
+    cy.skyCaptureIconNames();
+  });
 });

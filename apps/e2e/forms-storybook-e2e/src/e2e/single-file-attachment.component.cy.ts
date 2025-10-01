@@ -37,4 +37,8 @@ describe('forms-storybook - single file attachment', () => {
       });
     });
   });
+
+  afterEach(() => {
+    cy.skyCaptureIconNames();
+  });
 });

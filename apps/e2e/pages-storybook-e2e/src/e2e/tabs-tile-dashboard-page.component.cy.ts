@@ -22,4 +22,8 @@ describe(`pages-storybook-tabs-tile-dashboard`, () => {
       });
     });
   });
+
+  afterEach(() => {
+    cy.skyCaptureIconNames();
+  });
 });

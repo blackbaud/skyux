@@ -57,4 +57,8 @@ describe('forms-storybook - checkbox', () => {
       });
     });
   });
+
+  afterEach(() => {
+    cy.skyCaptureIconNames();
+  });
 });

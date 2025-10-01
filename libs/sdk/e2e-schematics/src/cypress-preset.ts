@@ -1,5 +1,6 @@
 import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset';
 import { joinPathFragments, offsetFromRoot } from '@nx/devkit';
+import { captureIconNamesToFile } from '@skyux-sdk/cypress-commands/capture-icon-names-to-file';
 
 export function skyE2ePreset(
   directory: string,
@@ -27,6 +28,8 @@ export function skyE2ePreset(
       if (options.setupNodeEvents) {
         await options.setupNodeEvents(on, config);
       }
+
+      captureIconNamesToFile(on, config);
 
       on('before:browser:launch', (browser, launchOptions) => {
         if (browser.name === 'chrome' && browser.isHeadless) {

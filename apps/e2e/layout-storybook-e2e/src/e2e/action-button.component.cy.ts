@@ -49,4 +49,8 @@ describe('layout-storybook - action button', () => {
       });
     });
   });
+
+  afterEach(() => {
+    cy.skyCaptureIconNames();
+  });
 });

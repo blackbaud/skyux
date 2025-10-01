@@ -32,6 +32,11 @@
       "factory": "./src/generators/pr-comment/generator",
       "schema": "./src/generators/pr-comment/schema.json",
       "description": "pr-comment generator"
+    },
+    "update-icons-e2e": {
+      "factory": "./src/generators/update-icons-e2e/update-icons-e2e",
+      "schema": "./src/generators/update-icons-e2e/schema.json",
+      "description": "update-icons-e2e generator"
     }
   }
 }

@@ -3,6 +3,42 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/e2e/forms-storybook-e2e/src",
   "projectType": "application",
+  "tags": [
+    "icons-e2e",
+    "icon:arrow-upload",
+    "icon:calendar-ltr",
+    "icon:checkmark",
+    "icon:clock",
+    "icon:delete",
+    "icon:document",
+    "icon:folder-open",
+    "icon:info",
+    "icon:prohibited",
+    "icon:search",
+    "icon:square",
+    "icon:star",
+    "icon:target"
+  ],
+  "implicitDependencies": ["forms-storybook"],
+  "metadata": {
+    "icons-e2e": {
+      "icons": [
+        "arrow-upload",
+        "calendar-ltr",
+        "checkmark",
+        "clock",
+        "delete",
+        "document",
+        "folder-open",
+        "info",
+        "prohibited",
+        "search",
+        "square",
+        "star",
+        "target"
+      ]
+    }
+  },
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -17,6 +53,15 @@
           "devServerTarget": "forms-storybook:static-storybook:ci",
           "browser": "chrome",
           "baseUrl": "http://localhost:4200"
+        },
+        "icons-e2e": {
+          "spec": "**/checkbox.component.cy.ts,**/file-attachment.component.cy.ts,**/input-box.component.cy.ts,**/single-file-attachment.component.cy.ts"
+        },
+        "icons-e2e-ci": {
+          "devServerTarget": "forms-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200",
+          "spec": "**/checkbox.component.cy.ts,**/file-attachment.component.cy.ts,**/input-box.component.cy.ts,**/single-file-attachment.component.cy.ts"
         }
       }
     },
@@ -26,7 +71,5 @@
         "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["forms-storybook"]
+  }
 }

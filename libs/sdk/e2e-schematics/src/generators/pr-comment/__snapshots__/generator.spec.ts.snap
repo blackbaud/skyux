@@ -20,7 +20,8 @@ Apps:
 `;
 
 exports[`pr-comment generator should generate files with apps: dist/pr_comment.md 1`] = `
-"[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/123/storybook/)
+"
+[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/123/storybook/)
 
 Component Storybooks:
 
@@ -53,7 +54,8 @@ Apps:
 `;
 
 exports[`pr-comment generator should generate files with no storybooks: dist/pr_comment.md 1`] = `
-"[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/123/storybook/)
+"
+[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/123/storybook/)
 
 Component Storybooks:
 
@@ -81,7 +83,8 @@ Component Storybooks:
 `;
 
 exports[`pr-comment generator should generate files: dist/pr_comment.md 1`] = `
-"[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/123/storybook/)
+"
+[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/123/storybook/)
 
 Component Storybooks:
 
@@ -91,3 +94,7 @@ Component Storybooks:
 `;
 
 exports[`pr-comment generator should throw errors 1`] = `"Invalid PR number"`;
+
+exports[`pr-comment generator should throw errors 2`] = `"Invalid repo URL"`;
+
+exports[`pr-comment generator should throw errors 3`] = `"Invalid preview URL"`;

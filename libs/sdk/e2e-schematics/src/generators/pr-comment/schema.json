@@ -5,8 +5,20 @@
   "description": "Generate markdown for a PR comment or a PR preview README.md",
   "type": "object",
   "properties": {
+    "url": {
+      "type": "string",
+      "description": "Base URL for the deployed storybooks",
+      "alias": "u",
+      "default": "https://blackbaud.github.io/skyux-pr-preview"
+    },
+    "repoUrl": {
+      "type": "string",
+      "description": "URL for the GitHub repo",
+      "alias": "r",
+      "default": "https://github.com/blackbaud/skyux"
+    },
     "pr": {
-      "type": "number",
+      "type": "string",
       "description": "PR Number",
       "$default": {
         "$source": "argv",
@@ -19,6 +31,11 @@
       "description": "Comma separated list of storybooks to include in the comment",
       "alias": "s",
       "x-prompt": "Which storybook projects should be listed?"
+    },
+    "skipCompositeStorybook": {
+      "type": "boolean",
+      "description": "Skip including the composite storybook in the comment",
+      "default": false
     },
     "apps": {
       "type": "string",

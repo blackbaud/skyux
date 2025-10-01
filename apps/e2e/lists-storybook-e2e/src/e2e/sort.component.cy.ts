@@ -49,4 +49,8 @@ describe('lists-storybook - sort', () => {
       });
     });
   });
+
+  afterEach(() => {
+    cy.skyCaptureIconNames();
+  });
 });

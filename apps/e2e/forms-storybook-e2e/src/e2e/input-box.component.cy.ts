@@ -165,4 +165,8 @@ describe('forms-storybook - input box', () => {
       });
     });
   });
+
+  afterEach(() => {
+    cy.skyCaptureIconNames();
+  });
 });

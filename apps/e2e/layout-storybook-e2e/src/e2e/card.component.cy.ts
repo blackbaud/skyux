@@ -16,4 +16,8 @@ describe('layout-storybook - card', () => {
       });
     });
   });
+
+  afterEach(() => {
+    cy.skyCaptureIconNames();
+  });
 });

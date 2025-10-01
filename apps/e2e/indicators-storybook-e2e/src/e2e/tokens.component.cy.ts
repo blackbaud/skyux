@@ -27,4 +27,8 @@ describe('indicators-storybook', () => {
       });
     });
   });
+
+  afterEach(() => {
+    cy.skyCaptureIconNames();
+  });
 });

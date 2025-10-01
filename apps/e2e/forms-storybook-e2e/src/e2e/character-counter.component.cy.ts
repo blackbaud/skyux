@@ -27,4 +27,8 @@ describe('character-counter', () => {
       });
     });
   });
+
+  afterEach(() => {
+    cy.skyCaptureIconNames();
+  });
 });

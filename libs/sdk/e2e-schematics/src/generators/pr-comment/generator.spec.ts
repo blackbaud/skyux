@@ -10,6 +10,8 @@ describe('pr-comment generator', () => {
   const options: PrCommentGeneratorSchema = {
     pr: '123',
     storybooks: 'storybook-1,storybook-2',
+    repoUrl: 'https://github.com/blackbaud/skyux',
+    url: 'https://blackbaud.github.io/skyux-pr-preview',
   };
 
   beforeEach(() => {
@@ -60,11 +62,23 @@ describe('pr-comment generator', () => {
   });
 
   it('should throw errors', async () => {
-    await expect(
+    expect(() =>
       generator(appTree, {
         ...options,
         pr: '',
       }),
-    ).rejects.toThrowErrorMatchingSnapshot();
+    ).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      generator(appTree, {
+        ...options,
+        repoUrl: '',
+      }),
+    ).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      generator(appTree, {
+        ...options,
+        url: '',
+      }),
+    ).toThrowErrorMatchingSnapshot();
   });
 });

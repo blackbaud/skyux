@@ -21,4 +21,8 @@ describe('lists-storybook - paging', () => {
       });
     });
   });
+
+  afterEach(() => {
+    cy.skyCaptureIconNames();
+  });
 });

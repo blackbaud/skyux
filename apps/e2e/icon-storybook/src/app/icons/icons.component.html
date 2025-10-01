@@ -1,0 +1,11 @@
+@if (iconMap(); as iconMap) {
+  @for (icon of iconMap; track icon) {
+    <div class="icon-container">
+      <span class="sky-margin-inline-md"
+        ><sky-icon [iconName]="icon" [iconSize]="size()"
+      /></span>
+      <span class="icon-name sky-margin-inline-md">{{ icon }}</span>
+    </div>
+  }
+  <span id="ready"></span>
+}

@@ -3,6 +3,38 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/e2e/lists-storybook-e2e/src",
   "projectType": "application",
+  "tags": [
+    "icons-e2e",
+    "icon:arrow-bidirectional-up-down",
+    "icon:arrow-up",
+    "icon:calendar-ltr",
+    "icon:checkmark",
+    "icon:close",
+    "icon:edit",
+    "icon:filter",
+    "icon:layout-column-three",
+    "icon:more-actions",
+    "icon:search",
+    "icon:star"
+  ],
+  "implicitDependencies": ["lists-storybook"],
+  "metadata": {
+    "icons-e2e": {
+      "icons": [
+        "arrow-bidirectional-up-down",
+        "arrow-up",
+        "calendar-ltr",
+        "checkmark",
+        "close",
+        "edit",
+        "filter",
+        "layout-column-three",
+        "more-actions",
+        "search",
+        "star"
+      ]
+    }
+  },
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -17,6 +49,15 @@
           "devServerTarget": "lists-storybook:static-storybook:ci",
           "browser": "chrome",
           "baseUrl": "http://localhost:4200"
+        },
+        "icons-e2e": {
+          "spec": "**/filter.component.cy.ts,**/list-view-grid.component.cy.ts,**/repeater.component.cy.ts"
+        },
+        "icons-e2e-ci": {
+          "devServerTarget": "lists-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200",
+          "spec": "**/filter.component.cy.ts,**/list-view-grid.component.cy.ts,**/repeater.component.cy.ts"
         }
       }
     },
@@ -26,7 +67,5 @@
         "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["lists-storybook"]
+  }
 }

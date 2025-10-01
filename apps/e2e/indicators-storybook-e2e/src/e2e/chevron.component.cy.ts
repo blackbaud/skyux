@@ -21,4 +21,8 @@ describe('indicators-storybook - chevron', () => {
       });
     });
   });
+
+  afterEach(() => {
+    cy.skyCaptureIconNames();
+  });
 });

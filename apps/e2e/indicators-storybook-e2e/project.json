@@ -3,6 +3,20 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/e2e/indicators-storybook-e2e/src",
   "projectType": "application",
+  "tags": [
+    "icons-e2e",
+    "icon:alert",
+    "icon:attach",
+    "icon:clipboard-multiple",
+    "icon:sparkles",
+    "icon:star"
+  ],
+  "implicitDependencies": ["indicators-storybook"],
+  "metadata": {
+    "icons-e2e": {
+      "icons": ["alert", "attach", "clipboard-multiple", "sparkles", "star"]
+    }
+  },
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -16,6 +30,14 @@
         "ci": {
           "devServerTarget": "indicators-storybook:storybook:ci",
           "browser": "chrome"
+        },
+        "icons-e2e": {
+          "spec": "**/icon.component.cy.ts"
+        },
+        "icons-e2e-ci": {
+          "devServerTarget": "indicators-storybook:storybook:ci",
+          "browser": "chrome",
+          "spec": "**/icon.component.cy.ts"
         }
       }
     },
@@ -25,7 +47,5 @@
         "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["indicators-storybook"]
+  }
 }
