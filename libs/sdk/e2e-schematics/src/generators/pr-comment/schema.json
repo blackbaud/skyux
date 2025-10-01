@@ -18,7 +18,15 @@
       "default": "https://github.com/blackbaud/skyux"
     },
     "pr": {
-      "type": "string",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number",
+          "minimum": 1
+        }
+      ],
       "description": "PR Number",
       "$default": {
         "$source": "argv",
