@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [13.1.1](https://github.com/blackbaud/skyux/compare/13.1.0...13.1.1) (2025-10-01)
+# [13.2.0](https://github.com/blackbaud/skyux/compare/13.1.0...13.2.0) (2025-10-01)
 
 
 ### Bug Fixes
@@ -10,6 +10,11 @@
 * **components/forms:** file attachment file names are styled with `sky-btn-inline-link` ([#4008](https://github.com/blackbaud/skyux/issues/4008)) ([cfa431b](https://github.com/blackbaud/skyux/commit/cfa431b93dd24843bd01b4d3b9bf1a8aa7d9e438)), closes [AB#3579522](https://github.com/AB/issues/3579522)
 * **components/forms:** validate file attachment on cancel and on blur when not opening file dialog ([#4004](https://github.com/blackbaud/skyux/issues/4004)) ([d6ccbd1](https://github.com/blackbaud/skyux/commit/d6ccbd16980c3d438a0eff238508e481bae606da))
 * selected switch background should go to border edge ([#4006](https://github.com/blackbaud/skyux/issues/4006)) ([43fa205](https://github.com/blackbaud/skyux/commit/43fa205a154af59e8e242e7f0236edcebf48b676))
+
+
+### Features
+
+* **components/filter-bar:** add filter item lookup component ([#4007](https://github.com/blackbaud/skyux/issues/4007)) ([b6715e6](https://github.com/blackbaud/skyux/commit/b6715e62559a6b84dd3b73fbef2599c3b7afa43d))
 
 
 
