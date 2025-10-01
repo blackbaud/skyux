@@ -7,7 +7,7 @@
     "resolveJsonModule": true
   },
   "files": ["src/main.ts"],
-  "include": ["src/**/*.d.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": [
     "**/*.test.ts",
     "**/*.spec.ts",

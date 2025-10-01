@@ -61,7 +61,7 @@ describe('pr-comment generator', () => {
     );
   });
 
-  it('should throw errors', async () => {
+  it('should throw errors', () => {
     expect(() =>
       generator(appTree, {
         ...options,
