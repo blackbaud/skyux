@@ -131,8 +131,8 @@ describe('ListsRepeaterInlineFormExampleComponent', () => {
       expect(saveButton).toBeTruthy();
       expect(cancelButton).toBeTruthy();
 
-      await expectAsync(saveButton!.getText()).toBeResolvedTo('Save');
-      await expectAsync(cancelButton!.getText()).toBeResolvedTo('Cancel');
+      await expectAsync(saveButton.getText()).toBeResolvedTo('Save');
+      await expectAsync(cancelButton.getText()).toBeResolvedTo('Cancel');
     });
 
     it('should have template when inline form is expanded', async () => {
