@@ -1,0 +1,20 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-list-summary') {
+  --sky-override-list-summary-padding: 5px 10px 10px;
+  --sky-override-list-summary-background-color: #ffffff;
+  --sky-override-list-summary-border-bottom: 1px solid #cdcfd2;
+}
+
+.sky-list-summary {
+  display: flex;
+  padding: var(
+    --sky-override-list-summary-padding,
+    var(--sky-margin-inline-sm)
+  );
+  background-color: var(
+    --sky-override-list-summary-background-color,
+    var(--sky-comp-override-list-header-background-color)
+  );
+  border-bottom: var(--sky-override-list-summary-border-bottom, none);
+}

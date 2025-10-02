@@ -1,0 +1,17 @@
+<div class="sky-list-summary-item">
+  <sky-key-info
+    layout="horizontal"
+    [helpKey]="helpKey()"
+    [helpPopoverContent]="helpPopoverContent()"
+    [helpPopoverTitle]="helpPopoverTitle()"
+  >
+    <sky-key-info-value class="sky-font-display-4">
+      @if (numericValue()) {
+        {{ numericValue() | skyNumeric: valueFormat() }}
+      } @else {
+        {{ value() }}
+      }
+    </sky-key-info-value>
+    <sky-key-info-label>{{ label() }}</sky-key-info-label>
+  </sky-key-info>
+</div>

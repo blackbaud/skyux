@@ -34,6 +34,7 @@ export class ListsRepeaterAddRemoveExampleComponent {
       note: 'There are 14 new prospects who are not assigned to fundraisers.',
       status: 'Due tomorrow',
       isSelected: false,
+      isDisabled: true,
     },
     {
       title: 'Process gift receipts',
