@@ -55,8 +55,4 @@ describe('sectioned form', () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

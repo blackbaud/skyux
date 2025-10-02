@@ -22,8 +22,4 @@ describe(`pages-storybook-blocks-tile-dashboard`, () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

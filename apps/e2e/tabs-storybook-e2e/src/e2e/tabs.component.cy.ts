@@ -36,8 +36,4 @@ describe(`tabs-storybook`, () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

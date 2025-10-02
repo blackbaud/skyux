@@ -3,8 +3,6 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/e2e/action-bars-storybook-e2e/src",
   "projectType": "application",
-  "tags": [],
-  "implicitDependencies": ["action-bars-storybook"],
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -22,10 +20,6 @@
           "devServerTarget": "action-bars-storybook:static-storybook:ci",
           "browser": "chrome",
           "baseUrl": "http://localhost:4200"
-        },
-        "prebuilt": {
-          "devServerTarget": "action-bars-storybook:static-storybook:prebuilt",
-          "baseUrl": ""
         }
       }
     },
@@ -35,5 +29,7 @@
         "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
-  }
+  },
+  "tags": [],
+  "implicitDependencies": ["action-bars-storybook"]
 }

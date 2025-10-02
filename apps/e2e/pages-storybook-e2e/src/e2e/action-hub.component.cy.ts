@@ -19,8 +19,4 @@ describe(`pages-storybook`, () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

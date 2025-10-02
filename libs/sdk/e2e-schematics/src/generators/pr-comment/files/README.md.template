@@ -9,7 +9,7 @@ Component Storybooks:
 storybooks.forEach(function(storybook){ %>
 - [<%=storybook%>](<%= url %>/<%=pr%>/storybooks/<%=storybook%>/)<% })
 } else { %>
-- _(no component storybooks affected in this pr)_ <%
+- _(no component storybooks affected in this pr)_<%
 }
 if (apps.length > 0) { %>
 

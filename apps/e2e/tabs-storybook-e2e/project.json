@@ -3,30 +3,6 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/e2e/tabs-storybook-e2e/src",
   "projectType": "application",
-  "tags": [
-    "icons-e2e",
-    "icon:add",
-    "icon:calendar-ltr",
-    "icon:chevron-down",
-    "icon:chevron-right",
-    "icon:close",
-    "icon:folder-open",
-    "icon:star"
-  ],
-  "implicitDependencies": ["tabs-storybook"],
-  "metadata": {
-    "icons-e2e": {
-      "icons": [
-        "add",
-        "calendar-ltr",
-        "chevron-down",
-        "chevron-right",
-        "close",
-        "folder-open",
-        "star"
-      ]
-    }
-  },
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -41,19 +17,6 @@
           "devServerTarget": "tabs-storybook:static-storybook:ci",
           "browser": "chrome",
           "baseUrl": "http://localhost:4200"
-        },
-        "icons-e2e": {
-          "spec": "**/sectioned-form.component.cy.ts,**/tabs.component.cy.ts"
-        },
-        "icons-e2e-ci": {
-          "devServerTarget": "tabs-storybook:static-storybook:ci",
-          "browser": "chrome",
-          "baseUrl": "http://localhost:4200",
-          "spec": "**/sectioned-form.component.cy.ts,**/tabs.component.cy.ts"
-        },
-        "prebuilt": {
-          "devServerTarget": "tabs-storybook:static-storybook:prebuilt",
-          "baseUrl": ""
         }
       }
     },
@@ -63,5 +26,7 @@
         "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
-  }
+  },
+  "tags": [],
+  "implicitDependencies": ["tabs-storybook"]
 }

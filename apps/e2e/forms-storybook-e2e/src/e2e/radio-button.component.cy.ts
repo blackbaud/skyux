@@ -27,8 +27,4 @@ describe('forms-storybook - radio button', () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

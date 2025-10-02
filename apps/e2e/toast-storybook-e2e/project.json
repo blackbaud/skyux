@@ -3,8 +3,6 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/e2e/toast-storybook-e2e/src",
   "projectType": "application",
-  "tags": [],
-  "implicitDependencies": ["toast-storybook"],
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -22,10 +20,6 @@
           "devServerTarget": "toast-storybook:static-storybook:ci",
           "browser": "chrome",
           "baseUrl": "http://localhost:4200"
-        },
-        "prebuilt": {
-          "devServerTarget": "toast-storybook:static-storybook:prebuilt",
-          "baseUrl": ""
         }
       }
     },
@@ -35,5 +29,7 @@
         "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
-  }
+  },
+  "tags": [],
+  "implicitDependencies": ["toast-storybook"]
 }

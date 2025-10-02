@@ -21,12 +21,7 @@ module.exports = [
         'error',
         {
           ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'],
-          ignoredDependencies: [
-            'rxjs',
-            'tslib',
-            '@blackbaud/skyux-design-tokens',
-            '@skyux-sdk/cypress-commands',
-          ],
+          ignoredDependencies: ['rxjs, tslib, @blackbaud/skyux-design-tokens'],
         },
       ],
     },

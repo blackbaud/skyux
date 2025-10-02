@@ -3,8 +3,6 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/e2e/flyout-storybook-e2e/src",
   "projectType": "application",
-  "tags": [],
-  "implicitDependencies": ["flyout-storybook"],
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -22,10 +20,6 @@
           "devServerTarget": "flyout-storybook:static-storybook:ci",
           "baseUrl": "http://localhost:4200",
           "browser": "chrome"
-        },
-        "prebuilt": {
-          "devServerTarget": "flyout-storybook:static-storybook:prebuilt",
-          "baseUrl": ""
         }
       }
     },
@@ -35,5 +29,7 @@
         "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
-  }
+  },
+  "tags": [],
+  "implicitDependencies": ["flyout-storybook"]
 }

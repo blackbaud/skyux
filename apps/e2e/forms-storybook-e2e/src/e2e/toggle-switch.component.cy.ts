@@ -21,8 +21,4 @@ describe('forms-storybook - toggle switch', () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

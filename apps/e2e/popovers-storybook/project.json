@@ -128,14 +128,8 @@
       "configurations": {
         "ci": {
           "buildTarget": "popovers-storybook:build-storybook:ci"
-        },
-        "prebuilt": {
-          "buildTarget": "popovers-storybook:noop"
         }
       }
-    },
-    "noop": {
-      "executor": "nx:noop"
     }
   }
 }

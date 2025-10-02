@@ -119,14 +119,8 @@
       "configurations": {
         "ci": {
           "buildTarget": "help-inline-storybook:build-storybook:ci"
-        },
-        "prebuilt": {
-          "buildTarget": "help-inline-storybook:noop"
         }
       }
-    },
-    "noop": {
-      "executor": "nx:noop"
     }
   }
 }

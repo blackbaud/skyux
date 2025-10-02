@@ -30,8 +30,4 @@ describe('layout-storybook', () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

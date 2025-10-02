@@ -66,8 +66,4 @@ describe('forms-storybook', () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

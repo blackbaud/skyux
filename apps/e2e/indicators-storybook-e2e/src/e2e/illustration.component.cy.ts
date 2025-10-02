@@ -17,8 +17,4 @@ describe('illustration', () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

@@ -1,12 +1,11 @@
-<% if (!skipCompositeStorybook) { %>
-[Storybook preview](<%= url %>/<%=pr%>/storybook/)
-<% } %>
-Component Storybooks:
+<% if (!skipCompositeStorybook) { %>[Storybook preview](<%= url %>/<%=pr%>/storybook/)
+
+<% } %>Component Storybooks:
 <% if (storybooks.length > 0) {
 storybooks.forEach(function(storybook){ %>
 - [<%=storybook%>](<%= url %>/<%=pr%>/storybooks/<%=storybook%>/)<% })
 } else { %>
-- _(no component storybooks affected in this pr)_ <%
+- _(no component storybooks affected in this pr)_<%
 }
 if (apps.length > 0) { %>
 

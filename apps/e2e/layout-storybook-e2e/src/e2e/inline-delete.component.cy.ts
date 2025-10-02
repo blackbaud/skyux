@@ -20,8 +20,4 @@ describe('inline delete', () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

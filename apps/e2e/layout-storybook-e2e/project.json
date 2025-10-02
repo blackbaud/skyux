@@ -3,28 +3,6 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/e2e/layout-storybook-e2e/src",
   "projectType": "application",
-  "tags": [
-    "icons-e2e",
-    "icon:add",
-    "icon:chevron-double-down",
-    "icon:chevron-double-up",
-    "icon:close",
-    "icon:search",
-    "icon:star"
-  ],
-  "implicitDependencies": ["layout-storybook"],
-  "metadata": {
-    "icons-e2e": {
-      "icons": [
-        "add",
-        "chevron-double-down",
-        "chevron-double-up",
-        "close",
-        "search",
-        "star"
-      ]
-    }
-  },
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -39,19 +17,6 @@
           "devServerTarget": "layout-storybook:static-storybook:ci",
           "browser": "chrome",
           "baseUrl": "http://localhost:4200"
-        },
-        "icons-e2e": {
-          "spec": "**/toolbar.component.cy.ts"
-        },
-        "icons-e2e-ci": {
-          "devServerTarget": "layout-storybook:static-storybook:ci",
-          "browser": "chrome",
-          "baseUrl": "http://localhost:4200",
-          "spec": "**/toolbar.component.cy.ts"
-        },
-        "prebuilt": {
-          "devServerTarget": "layout-storybook:static-storybook:prebuilt",
-          "baseUrl": ""
         }
       }
     },
@@ -61,5 +26,7 @@
         "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
-  }
+  },
+  "tags": [],
+  "implicitDependencies": ["layout-storybook"]
 }

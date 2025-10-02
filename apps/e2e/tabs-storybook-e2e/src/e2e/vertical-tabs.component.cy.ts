@@ -91,8 +91,4 @@ describe('tabs-storybook - vertical tabs', () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

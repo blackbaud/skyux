@@ -23,8 +23,4 @@ describe('layout-storybook - text expand repeater', () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

@@ -26,9 +26,6 @@
     "paths": {
       "*": ["./vendor/types/*"],
       "@skyux-sdk/cypress-commands": ["libs/sdk/cypress-commands/src/index.ts"],
-      "@skyux-sdk/cypress-commands/capture-icon-names-to-file": [
-        "libs/sdk/cypress-commands/src/lib/capture-icon-names-to-file.ts"
-      ],
       "@skyux-sdk/e2e-schematics": ["libs/sdk/e2e-schematics/src/index.ts"],
       "@skyux-sdk/e2e-schematics/cypress-preset": [
         "libs/sdk/e2e-schematics/src/cypress-preset.ts"

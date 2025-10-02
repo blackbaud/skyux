@@ -15,8 +15,4 @@ describe('icons', () => {
       cy.percySnapshot(`icons-${size}`, { widths: [1024] });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

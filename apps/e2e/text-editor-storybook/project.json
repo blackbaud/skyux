@@ -127,14 +127,8 @@
       "configurations": {
         "ci": {
           "buildTarget": "text-editor-storybook:build-storybook:ci"
-        },
-        "prebuilt": {
-          "buildTarget": "text-editor-storybook:noop"
         }
       }
-    },
-    "noop": {
-      "executor": "nx:noop"
     }
   }
 }

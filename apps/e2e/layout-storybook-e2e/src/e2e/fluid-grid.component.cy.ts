@@ -27,8 +27,4 @@ describe('layout-storybook - fluid-grid', () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

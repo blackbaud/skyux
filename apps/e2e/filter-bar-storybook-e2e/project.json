@@ -22,10 +22,6 @@
           "baseUrl": "http://localhost:4200",
           "browser": "chrome",
           "devServerTarget": "filter-bar-storybook:static-storybook:ci"
-        },
-        "prebuilt": {
-          "devServerTarget": "filter-bar-storybook:static-storybook:prebuilt",
-          "baseUrl": ""
         }
       }
     },

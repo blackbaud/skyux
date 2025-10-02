@@ -127,14 +127,8 @@
       "configurations": {
         "ci": {
           "buildTarget": "inline-form-storybook:build-storybook:ci"
-        },
-        "prebuilt": {
-          "buildTarget": "inline-form-storybook:noop"
         }
       }
-    },
-    "noop": {
-      "executor": "nx:noop"
     }
   }
 }

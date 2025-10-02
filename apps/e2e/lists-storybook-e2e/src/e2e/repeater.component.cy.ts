@@ -21,8 +21,4 @@ describe('lists-storybook', () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

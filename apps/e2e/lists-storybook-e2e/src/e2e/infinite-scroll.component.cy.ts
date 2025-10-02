@@ -27,8 +27,4 @@ describe('lists-storybook - infinite-scroll', () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

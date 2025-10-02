@@ -23,8 +23,4 @@ describe('indicators-storybook - expansion indicator', () => {
       });
     });
   });
-
-  afterEach(() => {
-    cy.skyCaptureIconNames();
-  });
 });

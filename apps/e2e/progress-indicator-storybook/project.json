@@ -127,14 +127,8 @@
       "configurations": {
         "ci": {
           "buildTarget": "progress-indicator-storybook:build-storybook:ci"
-        },
-        "prebuilt": {
-          "buildTarget": "progress-indicator-storybook:noop"
         }
       }
-    },
-    "noop": {
-      "executor": "nx:noop"
     }
   }
 }

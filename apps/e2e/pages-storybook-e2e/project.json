@@ -3,30 +3,6 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/e2e/pages-storybook-e2e/src",
   "projectType": "application",
-  "tags": [
-    "icons-e2e",
-    "icon:chevron-down",
-    "icon:chevron-right",
-    "icon:close",
-    "icon:info",
-    "icon:more-actions",
-    "icon:re-order-dots-vertical",
-    "icon:star"
-  ],
-  "implicitDependencies": ["pages-storybook"],
-  "metadata": {
-    "icons-e2e": {
-      "icons": [
-        "chevron-down",
-        "chevron-right",
-        "close",
-        "info",
-        "more-actions",
-        "re-order-dots-vertical",
-        "star"
-      ]
-    }
-  },
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -41,19 +17,6 @@
           "devServerTarget": "pages-storybook:static-storybook:ci",
           "browser": "chrome",
           "baseUrl": "http://localhost:4200"
-        },
-        "icons-e2e": {
-          "spec": "**/blocks-tile-dashboard-page.component.cy.ts,**/page-layout-blocks.component.cy.ts,**/page-layout-fit.component.cy.ts"
-        },
-        "icons-e2e-ci": {
-          "devServerTarget": "pages-storybook:static-storybook:ci",
-          "browser": "chrome",
-          "baseUrl": "http://localhost:4200",
-          "spec": "**/blocks-tile-dashboard-page.component.cy.ts,**/page-layout-blocks.component.cy.ts,**/page-layout-fit.component.cy.ts"
-        },
-        "prebuilt": {
-          "devServerTarget": "pages-storybook:static-storybook:prebuilt",
-          "baseUrl": ""
         }
       }
     },
@@ -63,5 +26,7 @@
         "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
-  }
+  },
+  "tags": [],
+  "implicitDependencies": ["pages-storybook"]
 }

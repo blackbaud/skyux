@@ -128,14 +128,8 @@
       "configurations": {
         "ci": {
           "buildTarget": "split-view-storybook:build-storybook:ci"
-        },
-        "prebuilt": {
-          "buildTarget": "split-view-storybook:noop"
         }
       }
-    },
-    "noop": {
-      "executor": "nx:noop"
     }
   }
 }

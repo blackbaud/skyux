@@ -128,14 +128,8 @@
       "configurations": {
         "ci": {
           "buildTarget": "a11y-storybook:build-storybook:ci"
-        },
-        "prebuilt": {
-          "buildTarget": "a11y-storybook:noop"
         }
       }
-    },
-    "noop": {
-      "executor": "nx:noop"
     }
   }
 }
