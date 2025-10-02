@@ -11,6 +11,7 @@ import {
   SkyIconModule,
   SkyIconSize,
   SkyIconSvgResolverService,
+  SkyIconVariantType,
 } from '@skyux/icon';
 
 @Component({
@@ -50,6 +51,7 @@ export class IconsComponent {
   });
 
   public readonly size = input<SkyIconSize>('m');
+  public readonly variant = input<SkyIconVariantType>('line');
 }
 
 export default IconsComponent;

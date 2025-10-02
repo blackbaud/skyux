@@ -6,16 +6,25 @@ export default {
   id: 'iconscomponent',
   title: 'Components/Icons',
   component: IconsComponent,
+  args: {
+    size: 'm',
+    variant: 'line',
+  },
+  argTypes: {
+    size: {
+      type: {
+        name: 'enum',
+        value: ['xxxs', 'xxs', 'xs', 's', 'm', 'l', 'xl', 'xxl', 'xxxl'],
+      },
+    },
+    variant: {
+      type: {
+        name: 'enum',
+        value: ['line', 'solid'],
+      },
+    },
+  },
 } as Meta<IconsComponent>;
 type Story = StoryObj<IconsComponent>;
 
-export const IconsS: Story = {};
-IconsS.args = { size: 's' };
-export const IconsM: Story = {};
-IconsM.args = { size: 'm' };
-export const IconsL: Story = {};
-IconsL.args = { size: 'l' };
-export const IconsXL: Story = {};
-IconsXL.args = { size: 'xl' };
-export const IconsXXL: Story = {};
-IconsXXL.args = { size: 'xxl' };
+export const Icons: Story = {};
