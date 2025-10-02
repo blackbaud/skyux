@@ -4,7 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/e2e/tabs-storybook/src",
   "prefix": "app",
-  "tags": ["component-e2e"],
+  "tags": ["component-e2e", "icons-preview"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
