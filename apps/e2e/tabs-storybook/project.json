@@ -128,8 +128,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "tabs-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "tabs-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

@@ -58,6 +58,10 @@
           "browser": "chrome",
           "baseUrl": "http://localhost:4200",
           "spec": "**/filter.component.cy.ts,**/list-view-grid.component.cy.ts,**/repeater.component.cy.ts"
+        },
+        "prebuilt": {
+          "devServerTarget": "lists-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },

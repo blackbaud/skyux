@@ -3,6 +3,8 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/e2e/lookup-storybook-e2e/src",
   "projectType": "application",
+  "tags": [],
+  "implicitDependencies": ["lookup-storybook"],
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -17,8 +19,13 @@
           "devServerTarget": "lookup-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "lookup-storybook:storybook:ci",
-          "browser": "chrome"
+          "devServerTarget": "lookup-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
+        },
+        "prebuilt": {
+          "devServerTarget": "lookup-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },
@@ -28,7 +35,5 @@
         "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["lookup-storybook"]
+  }
 }

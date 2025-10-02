@@ -28,8 +28,9 @@
       },
       "configurations": {
         "ci": {
-          "devServerTarget": "indicators-storybook:storybook:ci",
-          "browser": "chrome"
+          "devServerTarget": "indicators-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
         },
         "icons-e2e": {
           "spec": "**/icon.component.cy.ts"
@@ -38,6 +39,10 @@
           "devServerTarget": "indicators-storybook:storybook:ci",
           "browser": "chrome",
           "spec": "**/icon.component.cy.ts"
+        },
+        "prebuilt": {
+          "devServerTarget": "indicators-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },

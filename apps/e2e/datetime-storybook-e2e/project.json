@@ -3,6 +3,8 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/e2e/datetime-storybook-e2e/src",
   "projectType": "application",
+  "tags": [],
+  "implicitDependencies": ["datetime-storybook"],
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -15,8 +17,13 @@
       },
       "configurations": {
         "ci": {
-          "devServerTarget": "datetime-storybook:storybook:ci",
-          "browser": "chrome"
+          "devServerTarget": "datetime-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
+        },
+        "prebuilt": {
+          "devServerTarget": "datetime-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },
@@ -26,7 +33,5 @@
         "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["datetime-storybook"]
+  }
 }

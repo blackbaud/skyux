@@ -22,21 +22,34 @@ import { Schema } from './schema';
  * Configure Storybook to use typescript. Set Storybook to run during e2e in development mode.
  */
 export default async function (tree: Tree, schema: Schema): Promise<void> {
-  const projects = getStorybookProjects(tree, schema.name);
+  const projects = Array.from(
+    getStorybookProjects(tree, schema.name).entries(),
+  );
 
-  projects.forEach((project, projectName) => {
+  for (const [projectName, project] of projects) {
     let hasChanged = false;
+    project.targets ??= {};
     const targets = Object.keys(
       project.targets as Record<string, TargetConfiguration>,
     );
     if (!targets.includes('static-storybook')) {
-      void addStaticTarget(tree, {
+      await addStaticTarget(tree, {
         project: projectName,
         interactionTests: false,
         uiFramework: '@storybook/angular',
         skipFormat: true,
         tsConfiguration: true,
       });
+    }
+    if (
+      project.targets?.['static-storybook']?.configurations &&
+      !('prebuilt' in project.targets['static-storybook'].configurations)
+    ) {
+      project.targets['noop'] = { executor: 'nx:noop' };
+      project.targets['static-storybook'].configurations['prebuilt'] = {
+        buildTarget: `${projectName}:noop`,
+      };
+      hasChanged = true;
     }
     targets.forEach((target) => {
       project.targets = project.targets as Record<string, TargetConfiguration>;
@@ -132,6 +145,16 @@ export default async function (tree: Tree, schema: Schema): Promise<void> {
           },
         };
       }
+      if (
+        e2eProject.targets?.['e2e']?.configurations &&
+        !('prebuilt' in e2eProject.targets['e2e'].configurations)
+      ) {
+        e2eProject.targets['e2e'].configurations['prebuilt'] = {
+          devServerTarget: `${projectName}:static-storybook:prebuilt`,
+          baseUrl: '',
+        };
+        hasChanged = true;
+      }
       if (hasChanged) {
         updateProjectConfiguration(tree, e2eProjectName, e2eProject);
       }
@@ -224,7 +247,7 @@ export default async function (tree: Tree, schema: Schema): Promise<void> {
         `export * from '${relativeToRoot}/.storybook/manager';`,
       );
     }
-  });
+  }
 
   await formatFiles(tree, { skipFormat: schema.skipFormat });
 }

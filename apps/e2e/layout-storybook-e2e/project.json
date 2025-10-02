@@ -48,6 +48,10 @@
           "browser": "chrome",
           "baseUrl": "http://localhost:4200",
           "spec": "**/toolbar.component.cy.ts"
+        },
+        "prebuilt": {
+          "devServerTarget": "layout-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },

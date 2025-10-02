@@ -50,6 +50,10 @@
           "browser": "chrome",
           "baseUrl": "http://localhost:4200",
           "spec": "**/blocks-tile-dashboard-page.component.cy.ts,**/page-layout-blocks.component.cy.ts,**/page-layout-fit.component.cy.ts"
+        },
+        "prebuilt": {
+          "devServerTarget": "pages-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },

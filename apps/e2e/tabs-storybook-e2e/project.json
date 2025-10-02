@@ -50,6 +50,10 @@
           "browser": "chrome",
           "baseUrl": "http://localhost:4200",
           "spec": "**/sectioned-form.component.cy.ts,**/tabs.component.cy.ts"
+        },
+        "prebuilt": {
+          "devServerTarget": "tabs-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },

@@ -3,6 +3,8 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/e2e/data-manager-storybook-e2e/src",
   "projectType": "application",
+  "tags": [],
+  "implicitDependencies": ["data-manager-storybook"],
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -20,6 +22,10 @@
           "devServerTarget": "data-manager-storybook:static-storybook:ci",
           "browser": "chrome",
           "baseUrl": "http://localhost:4200"
+        },
+        "prebuilt": {
+          "devServerTarget": "data-manager-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },
@@ -29,7 +35,5 @@
         "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["data-manager-storybook"]
+  }
 }

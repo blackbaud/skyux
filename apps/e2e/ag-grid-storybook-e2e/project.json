@@ -3,6 +3,8 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/e2e/ag-grid-storybook-e2e/src",
   "projectType": "application",
+  "tags": [],
+  "implicitDependencies": ["ag-grid-storybook"],
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -18,6 +20,10 @@
           "devServerTarget": "ag-grid-storybook:static-storybook:ci",
           "browser": "chrome",
           "baseUrl": "http://localhost:4200"
+        },
+        "prebuilt": {
+          "devServerTarget": "ag-grid-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },
@@ -27,7 +33,5 @@
         "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["ag-grid-storybook"]
+  }
 }

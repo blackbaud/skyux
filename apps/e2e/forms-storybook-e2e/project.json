@@ -62,6 +62,10 @@
           "browser": "chrome",
           "baseUrl": "http://localhost:4200",
           "spec": "**/checkbox.component.cy.ts,**/file-attachment.component.cy.ts,**/input-box.component.cy.ts,**/single-file-attachment.component.cy.ts"
+        },
+        "prebuilt": {
+          "devServerTarget": "forms-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },

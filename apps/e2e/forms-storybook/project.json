@@ -122,8 +122,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "forms-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "forms-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

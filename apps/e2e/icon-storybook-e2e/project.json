@@ -343,8 +343,9 @@
       },
       "configurations": {
         "ci": {
-          "devServerTarget": "icon-storybook:storybook:ci",
-          "browser": "chrome"
+          "devServerTarget": "icon-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
         },
         "icons-e2e": {
           "spec": "**/icons.component.cy.ts"
@@ -353,6 +354,10 @@
           "devServerTarget": "icon-storybook:storybook:ci",
           "browser": "chrome",
           "spec": "**/icons.component.cy.ts"
+        },
+        "prebuilt": {
+          "devServerTarget": "icon-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },
