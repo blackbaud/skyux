@@ -225,6 +225,45 @@ describe('Filter bar component', () => {
       expect(component.appliedFilters()).toBeUndefined();
     });
 
+    it('should clear filters when appliedFilters is set to an empty array', () => {
+      // Start with multiple filters applied
+      component.appliedFilters.set([
+        { filterId: '1', filterValue: { value: 'value1' } },
+        { filterId: '2', filterValue: { value: 'value2' } },
+      ]);
+      fixture.detectChanges();
+
+      expect(component.appliedFilters()?.length).toBe(2);
+
+      // Set to an empty array to represent no applied filters
+      component.appliedFilters.set([]);
+      fixture.detectChanges();
+
+      // Expect the signal to hold an empty array (distinct from undefined) and UI to reflect cleared state
+      expect(component.appliedFilters()).toEqual([]);
+      // Clear filters button should be hidden since there are no active filters
+      expect(getClearFiltersButton()).toBeFalsy();
+
+      // The filter items (definitions) still render, but without value elements or pressed state
+      const filterItems = getFilterItems();
+      expect(filterItems.length).toBeGreaterThan(0); // Definitions still present
+
+      // Check first two previously-set filters no longer show values
+      const firstValueEl = filterItems[0].querySelector(
+        '.sky-filter-item-value',
+      );
+      const secondValueEl = filterItems[1].querySelector(
+        '.sky-filter-item-value',
+      );
+      expect(firstValueEl).toBeNull();
+      expect(secondValueEl).toBeNull();
+
+      const firstButton = filterItems[0].querySelector('button');
+      const secondButton = filterItems[1].querySelector('button');
+      expect(firstButton?.getAttribute('aria-pressed')).toBe('false');
+      expect(secondButton?.getAttribute('aria-pressed')).toBe('false');
+    });
+
     it('should emit filterUpdated event when filter item is updated', () => {
       // This test needs to be rethought since the architecture changed
       // The filter bar now uses effects to monitor filter updates

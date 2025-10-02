@@ -315,7 +315,7 @@ export class SkyFilterBarComponent {
   }
 
   #updateFilters(updatedFilters: SkyFilterBarFilterItem[] | undefined): void {
-    if (updatedFilters) {
+    if (updatedFilters?.length) {
       this.#filterBarSvc.updateFilters(updatedFilters);
     } else {
       this.#filterBarSvc.updateFilters(
