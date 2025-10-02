@@ -138,6 +138,7 @@ export { ModalsModalBasicWithHarnessExampleComponent } from './lib/modules/modal
 export { ModalsModalWithErrorExampleComponent } from './lib/modules/modals/modal/with-error/example.component';
 export { NavbarExampleComponent } from './lib/modules/navbar/navbar/example.component';
 export { PagesActionHubExampleComponent } from './lib/modules/pages/action-hub/example.component';
+export { PagesPageDataManagerSplitViewFitLayoutExampleComponent } from './lib/modules/pages/page/data-manager-split-view-fit-layout/example.component';
 export { PagesPageHomePageBlocksLayoutExampleComponent } from './lib/modules/pages/page/home-page-blocks-layout-demo/example.component';
 export { PagesPageListPageListLayoutExampleComponent } from './lib/modules/pages/page/list-page-list-layout-demo/example.component';
 export { PagesPageListPageTabsLayoutExampleComponent } from './lib/modules/pages/page/list-page-tabs-layout-demo/example.component';
