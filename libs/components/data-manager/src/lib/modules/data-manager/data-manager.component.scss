@@ -1,0 +1,26 @@
+.sky-data-manager-dock-fill.sky-data-manager {
+  position: absolute;
+  top: 0px;
+  right: var(--sky-viewport-right);
+  bottom: var(--sky-viewport-bottom);
+  left: var(--sky-viewport-left);
+  display: flex;
+  flex-direction: column;
+
+  .sky-data-manager-toolbar-container {
+    flex-grow: 0;
+    display: block;
+  }
+  .sky-data-manager-content {
+    display: block;
+    flex-grow: 1;
+    overflow: auto;
+    position: relative;
+  }
+}
+
+// AG Grid in `normal` domLayout expects all parent containers to have height and width set to 100%.
+.sky-data-manager-content {
+  height: 100%;
+  width: 100%;
+}
