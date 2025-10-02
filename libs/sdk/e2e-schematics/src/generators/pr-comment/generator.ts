@@ -14,8 +14,8 @@ function normalizeOptions(
   if (!repoUrl || repoUrl.trim().length === 0) {
     throw new Error('Invalid repo URL');
   }
-  const pr = options.pr;
-  const prNumber = parseInt(options.pr.replace(/[^0-9]/g, ''), 10);
+  const pr = String(options.pr);
+  const prNumber = parseInt(pr.replace(/[^0-9]/g, ''), 10);
   const storybooks = options.storybooks
     .split(',')
     .map((s) => s.trim())

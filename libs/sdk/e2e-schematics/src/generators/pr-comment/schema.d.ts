@@ -1,7 +1,7 @@
 export interface PrCommentGeneratorSchema {
   url: string;
   repoUrl: string;
-  pr: string;
+  pr: string | number;
   storybooks: string;
   skipCompositeStorybook?: boolean;
   apps?: string;

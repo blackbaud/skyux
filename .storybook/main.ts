@@ -1,5 +1,3 @@
-import * as fs from 'node:fs';
-import * as path from 'node:path';
 import { DocsOptions, Preset, StorybookConfig } from 'storybook/internal/types';
 
 export const framework: Preset = {
@@ -25,17 +23,6 @@ export const rootMain: StorybookConfig = {
         window.afterEach = window.afterEach || (() => {});
       </script>
     `),
-  previewBody: (body, _options) => {
-    const iconsSprite = path.join(
-      __dirname,
-      '../dist/skyux-icons/assets/svg/skyux-icons.svg',
-    );
-    if (fs.existsSync(iconsSprite)) {
-      const svg = fs.readFileSync(iconsSprite, 'utf8');
-      return `${svg}\n${body}`;
-    }
-    return body;
-  },
   core: {
     disableTelemetry: true, // 👈 Disables telemetry
   },
