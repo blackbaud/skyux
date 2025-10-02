@@ -146,20 +146,7 @@ export class SkyThemeService {
     this.#applyThemeClass(previous, settings, 'spacing', 'supportedSpacing');
 
     if (this.#hostEl) {
-      // Validate branding support
-      if (settings.brand && !settings.theme.supportsBranding) {
-        throw new Error('Branding is not supported for the given theme.');
-      }
-
-      this.#brandSvc.updateBrand(
-        this.#hostEl,
-        this.#getRenderer(),
-        settings.brand ??
-          (settings.theme === SkyTheme.presets.modern
-            ? new SkyThemeBrand('blackbaud', '1.0.0')
-            : undefined),
-        previous?.brand,
-      );
+      this.#updateBrand(settings, previous);
     }
 
     this.#settings.next({
@@ -176,6 +163,40 @@ export class SkyThemeService {
 
   public unregisterBrand(name: string): void {
     this.#brandSvc.unregisterBrand(name);
+  }
+
+  #updateBrand(
+    settings: SkyThemeSettings,
+    previous: SkyThemeSettings | undefined,
+  ): void {
+    // Validate branding support
+    if (settings.brand && !settings.theme.supportsBranding) {
+      throw new Error('Branding is not supported for the given theme.');
+    }
+
+    // Determine the current brand to apply
+    const currentBrand = this.#getEffectiveBrand(settings);
+
+    // Determine the previous brand
+    const previousBrand = previous
+      ? this.#getEffectiveBrand(previous)
+      : undefined;
+
+    this.#brandSvc.updateBrand(
+      this.#hostEl,
+      this.#getRenderer(),
+      currentBrand,
+      previousBrand,
+    );
+  }
+
+  #getEffectiveBrand(settings: SkyThemeSettings): SkyThemeBrand | undefined {
+    return (
+      settings.brand ??
+      (settings.theme === SkyTheme.presets.modern
+        ? new SkyThemeBrand('blackbaud', '1.0.0')
+        : undefined)
+    );
   }
 
   #updateThemeProperty(

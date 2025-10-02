@@ -87,7 +87,10 @@ describe('Theme service', () => {
         (current.theme === SkyTheme.presets.modern
           ? new SkyThemeBrand('blackbaud', '1.0.0')
           : undefined),
-      previous?.brand,
+      previous?.brand ??
+        (previous?.theme === SkyTheme.presets.modern
+          ? new SkyThemeBrand('blackbaud', '1.0.0')
+          : undefined),
     );
   }
 
@@ -760,6 +763,7 @@ describe('Theme service', () => {
       mockBrandService.updateBrand.calls.reset();
 
       const newBrand = new SkyThemeBrand('rainbow', '1.0.1');
+      const previousBrand = new SkyThemeBrand('blackbaud', '1.0.0');
       themeSvc.setThemeBrand(newBrand);
 
       // Verify the brand service was called with the new brand
@@ -767,7 +771,7 @@ describe('Theme service', () => {
         jasmine.any(Object),
         mockRenderer as unknown as Renderer2,
         newBrand,
-        undefined,
+        previousBrand,
       );
     });
 
@@ -812,6 +816,7 @@ describe('Theme service', () => {
 
       mockBrandService.updateBrand.calls.reset();
 
+      const previousBrand = new SkyThemeBrand('blackbaud', '1.0.0');
       const newBrandWithSri = new SkyThemeBrand(
         'rainbow',
         '1.0.1',
@@ -826,7 +831,7 @@ describe('Theme service', () => {
         jasmine.any(Object),
         mockRenderer as unknown as Renderer2,
         newBrandWithSri,
-        undefined,
+        previousBrand,
       );
     });
 
@@ -930,6 +935,8 @@ describe('Theme service', () => {
     it('should allow setting a brand after clearing it with undefined', () => {
       const brand1 = new SkyThemeBrand('brand1', '1.0.0');
       const brand2 = new SkyThemeBrand('brand2', '1.0.0');
+      // when brand is set to undefined, it defaults to blackbaud brand
+      const previousBrand = new SkyThemeBrand('blackbaud', '1.0.0');
 
       const initialSettingsWithBrand = new SkyThemeSettings(
         SkyTheme.presets.modern,
@@ -966,7 +973,7 @@ describe('Theme service', () => {
         jasmine.any(Object),
         mockRenderer as unknown as Renderer2,
         brand2,
-        undefined,
+        previousBrand,
       );
     });
   });
