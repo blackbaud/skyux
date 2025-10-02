@@ -53,6 +53,13 @@
         modalSize="medium"
         [modalComponent]="modalComponent"
       />
+      <sky-filter-item-lookup
+        filterId="9"
+        labelText="filter 9"
+        searchDescriptorProperty="name"
+        searchIdProperty="id"
+        (searchAsync)="onSearchAsync($event)"
+      />
     </sky-filter-bar>
     <div>Selected filters:</div>
     <div>{{ selectedFilterIds }}</div>

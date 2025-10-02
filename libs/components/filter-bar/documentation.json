@@ -8,6 +8,9 @@
           "SkyFilterBarComponent",
           "SkyFilterBarFilterItem",
           "SkyFilterBarFilterValue",
+          "SkyFilterItemLookupComponent",
+          "SkyFilterItemLookupSearchAsyncArgs",
+          "SkyFilterItemLookupSearchAsyncResult",
           "SkyFilterItemModalComponent",
           "SkyFilterItemModal",
           "SkyFilterItemModalInstance",
@@ -27,7 +30,11 @@
         ]
       },
       "codeExamples": {
-        "docsIds": ["FilterBarBasicExampleComponent"]
+        "docsIds": [
+          "FilterBarModalExampleComponent",
+          "FilterBarLookupExampleComponent",
+          "FilterBarSelectableExampleComponent"
+        ]
       }
     }
   }

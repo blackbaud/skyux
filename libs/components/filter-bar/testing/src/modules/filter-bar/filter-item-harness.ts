@@ -10,7 +10,7 @@ export class SkyFilterItemHarness extends SkyComponentHarness {
   /**
    * @internal
    */
-  public static hostSelector = '.sky-filter-item';
+  public static hostSelector = 'sky-filter-item-base';
 
   #getButton = this.locatorFor('button.sky-filter-bar-btn');
   #getFilterName = this.locatorFor('span.sky-filter-item-name');
