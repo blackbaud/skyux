@@ -128,8 +128,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "pages-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "pages-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

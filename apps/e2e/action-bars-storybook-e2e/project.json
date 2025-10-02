@@ -20,6 +20,10 @@
           "devServerTarget": "action-bars-storybook:static-storybook:ci",
           "browser": "chrome",
           "baseUrl": "http://localhost:4200"
+        },
+        "prebuilt": {
+          "devServerTarget": "action-bars-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },
