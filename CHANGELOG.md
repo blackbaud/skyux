@@ -4,6 +4,11 @@
 # [13.3.0](https://github.com/blackbaud/skyux/compare/13.2.0...13.3.0) (2025-10-02)
 
 
+### Bug Fixes
+
+* **components/filter-bar:** filter bar respects empty appliedFilters array ([#4014](https://github.com/blackbaud/skyux/issues/4014)) ([3688d5a](https://github.com/blackbaud/skyux/commit/3688d5a41ebe622aa2a5144b9214e0bcd5cb85fa))
+
+
 ### Features
 
 * add support for split view in a data manager docked in a page ([#3991](https://github.com/blackbaud/skyux/issues/3991)) ([eab5b50](https://github.com/blackbaud/skyux/commit/eab5b5089f4a609085c7dc1a59701de24fea3d40)), closes [AB#3418840](https://github.com/AB/issues/3418840)
