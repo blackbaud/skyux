@@ -62,7 +62,7 @@ class TestEmptyComponent {}
 
 // #endregion
 
-describe('Filter bar summary component', () => {
+describe('List summary component', () => {
   it('should create', async () => {
     await TestBed.configureTestingModule({
       imports: [TestSummaryComponent],
@@ -180,7 +180,7 @@ describe('Filter bar summary component', () => {
     expect(values[3].nativeElement.textContent.trim()).toBe('1K');
   });
 
-  it('should apply correct CSS classes', async () => {
+  it('should render summary component and items correctly', async () => {
     await TestBed.configureTestingModule({
       imports: [TestSummaryComponent],
     }).compileComponents();
@@ -189,12 +189,12 @@ describe('Filter bar summary component', () => {
     fixture.detectChanges();
 
     const summaryContainer = fixture.debugElement.query(
-      By.css('.sky-list-summary'),
+      By.css('sky-list-summary'),
     );
     expect(summaryContainer).toBeTruthy();
 
     const summaryItemContainers = fixture.debugElement.queryAll(
-      By.css('.sky-list-summary-item'),
+      By.css('sky-list-summary-item'),
     );
     expect(summaryItemContainers.length).toBe(2);
   });

@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 
 import { SkyListSummaryItemComponent } from './list-summary-item.component';
 
-describe('Filter bar summary item component', () => {
+describe('List summary item component', () => {
   let component: SkyListSummaryItemComponent;
   let componentRef: ComponentRef<SkyListSummaryItemComponent>;
   let fixture: ComponentFixture<SkyListSummaryItemComponent>;
@@ -82,13 +82,11 @@ describe('Filter bar summary item component', () => {
     fixture.detectChanges();
 
     const keyInfo = fixture.debugElement.query(By.css('sky-key-info'));
-    expect(keyInfo.attributes['ng-reflect-help-key']).toBe('test-help-key');
-    expect(keyInfo.attributes['ng-reflect-help-popover-content']).toBe(
-      'Help content',
-    );
-    expect(keyInfo.attributes['ng-reflect-help-popover-title']).toBe(
-      'Help title',
-    );
+    const keyInfoComponent = keyInfo.componentInstance;
+    
+    expect(keyInfoComponent.helpKey).toBe('test-help-key');
+    expect(keyInfoComponent.helpPopoverContent).toBe('Help content');
+    expect(keyInfoComponent.helpPopoverTitle).toBe('Help title');
   });
 
   it('should apply display-4 font class to value', () => {
