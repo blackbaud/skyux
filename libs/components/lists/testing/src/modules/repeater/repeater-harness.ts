@@ -14,6 +14,8 @@ export class SkyRepeaterHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-repeater';
 
+  #getRepeater = this.locatorFor('.sky-repeater');
+
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyRepeaterHarness` that meets certain criteria.
@@ -45,5 +47,12 @@ export class SkyRepeaterHarness extends SkyComponentHarness {
     return await this.locatorForAll(
       SkyRepeaterItemHarness.with(filters || {}),
     )();
+  }
+
+  /**
+   * Gets the aria-label for the repeater list
+   */
+  public async getAriaLabel(): Promise<string | null> {
+    return await (await this.#getRepeater()).getAttribute('aria-label');
   }
 }
