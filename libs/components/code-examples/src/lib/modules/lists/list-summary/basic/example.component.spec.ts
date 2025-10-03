@@ -1,3 +1,4 @@
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
@@ -9,7 +10,7 @@ import { ListsListSummaryBasicExampleComponent } from './example.component';
 describe('Lists list summary basic example', () => {
   async function setupTest(): Promise<{
     fixture: ComponentFixture<ListsListSummaryBasicExampleComponent>;
-    loader: any;
+    loader: HarnessLoader;
     component: ListsListSummaryBasicExampleComponent;
   }> {
     await TestBed.configureTestingModule({
