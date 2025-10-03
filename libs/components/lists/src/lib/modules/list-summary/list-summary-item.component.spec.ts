@@ -83,7 +83,7 @@ describe('List summary item component', () => {
 
     const keyInfo = fixture.debugElement.query(By.css('sky-key-info'));
     const keyInfoComponent = keyInfo.componentInstance;
-    
+
     expect(keyInfoComponent.helpKey).toBe('test-help-key');
     expect(keyInfoComponent.helpPopoverContent).toBe('Help content');
     expect(keyInfoComponent.helpPopoverTitle).toBe('Help title');
