@@ -1,3 +1,4 @@
-.sky-list-summary-item {
+:host {
+  display: block;
   margin-right: var(--sky-margin-inline-lg);
 }
