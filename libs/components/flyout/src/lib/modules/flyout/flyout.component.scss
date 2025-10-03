@@ -182,8 +182,22 @@
   overflow-y: auto;
   // This margin-top rule can be removed when default support is dropped;
   margin-top: var(--sky-override-flyout-header-height, 0);
-  // This height rule can be a straight 100% when default support is dropped;
-  height: calc(100% - var(--sky-override-flyout-header-height, 0px));
+  // account for the header height in the content height by adding the content size (icon buttons) and padding
+  height: calc(
+    100% - var(
+        --sky-override-flyout-header-height,
+        calc(
+          calc(
+              var(--sky-size-icon-m) +
+                var(--sky-comp-button-borderless-space-inset-top) +
+                var(--sky-comp-button-borderless-space-inset-bottom)
+            ) +
+            var(--sky-comp-flyout-header-space-inset-top) +
+            var(--sky-comp-flyout-header-space-inset-bottom) +
+            var(--sky-border-width-divider)
+        )
+      )
+  );
 }
 
 .sky-flyout-header-grab-handle {
