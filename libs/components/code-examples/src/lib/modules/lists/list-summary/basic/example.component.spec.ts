@@ -46,7 +46,7 @@ describe('Lists list summary basic example', () => {
     const listSummaryHarness = await loader.getHarness(SkyListSummaryHarness);
     const summaryItems = await listSummaryHarness.getSummaryItems();
 
-    expect(summaryItems.length).toBe(5);
+    expect(summaryItems.length).toBe(4);
   });
 
   describe('summary item content', () => {
@@ -143,12 +143,12 @@ describe('Lists list summary basic example', () => {
 
       // Find items with "rate" in the label
       const rateItems = await listSummaryHarness.getSummaryItems({
-        labelText: /rate/i,
+        labelText: /score/i,
       });
 
       expect(rateItems.length).toBe(1);
       await expectAsync(rateItems[0].getLabelText()).toBeResolvedTo(
-        'Completion rate',
+        'Average score',
       );
     });
 

@@ -62,7 +62,8 @@
         "docsIds": [
           "SkyListSummaryHarness",
           "SkyListSummaryHarnessFilters",
-          "SkyListSummaryItemHarness"
+          "SkyListSummaryItemHarness",
+          "SkyListSummaryItemHarnessFilters"
         ]
       },
       "codeExamples": {
