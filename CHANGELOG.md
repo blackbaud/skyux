@@ -12,6 +12,7 @@
 ### Features
 
 * add support for split view in a data manager docked in a page ([#3991](https://github.com/blackbaud/skyux/issues/3991)) ([eab5b50](https://github.com/blackbaud/skyux/commit/eab5b5089f4a609085c7dc1a59701de24fea3d40)), closes [AB#3418840](https://github.com/AB/issues/3418840)
+* **components/lists:** add updated testing support for repeater ([#3978](https://github.com/blackbaud/skyux/issues/3978)) ([#4010](https://github.com/blackbaud/skyux/issues/4010)) ([75805bc](https://github.com/blackbaud/skyux/commit/75805bca4f5f455d4acb269f338cad101ef24e62)), closes [AB#3554647](https://github.com/AB/issues/3554647)
 
 
 
