@@ -20,6 +20,8 @@ describe('Theme service', () => {
   let mockBrandService: jasmine.SpyObj<SkyThemeBrandService>;
   let themeSvc: SkyThemeService;
 
+  const blackbaudBrand = new SkyThemeBrand('blackbaud', '1.0.0');
+
   function validateSettingsApplied(
     current: SkyThemeSettings,
     previous?: SkyThemeSettings,
@@ -151,6 +153,8 @@ describe('Theme service', () => {
       const settings = new SkyThemeSettings(
         SkyTheme.presets.modern,
         SkyThemeMode.presets.dark,
+        SkyThemeSpacing.presets.standard,
+        blackbaudBrand,
       );
 
       themeSvc.init(mockHostEl, mockRenderer as unknown as Renderer2, settings);
@@ -293,13 +297,19 @@ describe('Theme service', () => {
           settings,
         );
 
-        let expectedCurrentSettings = settings;
+        let expectedCurrentSettings = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.dark,
+          undefined,
+          blackbaudBrand,
+        );
         let expectedPreviousSettings: SkyThemeSettings | undefined = undefined;
 
         themeSvc.settingsChange.subscribe((settingsChange) => {
           expect(settingsChange.currentSettings).toEqual(
             expectedCurrentSettings,
           );
+
           expect(settingsChange.previousSettings).toEqual(
             expectedPreviousSettings,
           );
@@ -315,8 +325,8 @@ describe('Theme service', () => {
           SkyThemeMode.presets.light,
         );
 
+        expectedPreviousSettings = expectedCurrentSettings;
         expectedCurrentSettings = newSettings;
-        expectedPreviousSettings = settings;
 
         themeSvc.setTheme(newSettings);
 
@@ -328,8 +338,13 @@ describe('Theme service', () => {
           SkyThemeSpacing.presets.compact,
         );
 
-        expectedCurrentSettings = newSettings;
-        expectedPreviousSettings = settings;
+        expectedPreviousSettings = expectedCurrentSettings;
+        expectedCurrentSettings = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.compact,
+          blackbaudBrand,
+        );
 
         themeSvc.setTheme(newSettings);
       });
@@ -732,8 +747,8 @@ describe('Theme service', () => {
       // Clear the brand by setting it to undefined
       themeSvc.setThemeBrand(undefined);
 
-      // Verify that the brand was cleared
-      expect(capturedSettings?.brand).toBeUndefined();
+      // Verify that the brand was cleared and set to the default
+      expect(capturedSettings?.brand).toEqual(blackbaudBrand);
 
       // Verify that the brand service was called to update brand from existing to undefined
       expect(mockBrandService.updateBrand).toHaveBeenCalledWith(
@@ -767,7 +782,7 @@ describe('Theme service', () => {
         jasmine.any(Object),
         mockRenderer as unknown as Renderer2,
         newBrand,
-        undefined,
+        blackbaudBrand,
       );
     });
 
@@ -826,7 +841,7 @@ describe('Theme service', () => {
         jasmine.any(Object),
         mockRenderer as unknown as Renderer2,
         newBrandWithSri,
-        undefined,
+        blackbaudBrand,
       );
     });
 
@@ -919,11 +934,11 @@ describe('Theme service', () => {
       );
     });
 
-    it('should clear custom brand when setThemeBrand() is called with undefined', () => {
+    it('should reset to blackbaud brand when the brand is custom and setThemeBrand() is called with undefined', () => {
       testClearBrand('rainbow');
     });
 
-    it('should not clear blackbaud brand when setThemeBrand() is called with undefined', () => {
+    it('should stay blackbaud brand when brand is blackbaud and setThemeBrand() is called with undefined', () => {
       testClearBrand('blackbaud');
     });
 
@@ -966,7 +981,7 @@ describe('Theme service', () => {
         jasmine.any(Object),
         mockRenderer as unknown as Renderer2,
         brand2,
-        undefined,
+        blackbaudBrand,
       );
     });
   });
