@@ -2,6 +2,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyListSummaryModule } from '@skyux/lists';
 
 import { SkyListSummaryHarness } from './list-summary-harness';
@@ -26,20 +27,50 @@ import { SkyListSummaryItemHarness } from './list-summary-item-harness';
 })
 class TestComponent {}
 
+@Component({
+  imports: [SkyListSummaryModule],
+  template: `
+    <sky-list-summary data-sky-id="test-summary-with-help">
+      <sky-list-summary-item
+        data-sky-id="test-item-with-help"
+        [label]="'Revenue'"
+        [value]="1000000"
+        [helpPopoverContent]="
+          'This represents the total revenue for the current period.'
+        "
+        [helpPopoverTitle]="'Revenue Help'"
+      />
+      <sky-list-summary-item
+        data-sky-id="test-item-without-help"
+        [label]="'Profit'"
+        [value]="250000"
+      />
+    </sky-list-summary>
+  `,
+})
+class TestComponentWithHelp {}
+
+let fixture: ComponentFixture<TestComponent | TestComponentWithHelp>;
+let loader: HarnessLoader;
+
+async function setupTest(
+  component: typeof TestComponent | typeof TestComponentWithHelp,
+): Promise<void> {
+  await TestBed.configureTestingModule({
+    imports: [component],
+    providers: [provideNoopAnimations()],
+  }).compileComponents();
+
+  fixture = TestBed.createComponent(component);
+  loader = TestbedHarnessEnvironment.loader(fixture);
+}
+
 describe('List Summary Harnesses', () => {
-  let fixture: ComponentFixture<TestComponent>;
-  let loader: HarnessLoader;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TestComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TestComponent);
-    loader = TestbedHarnessEnvironment.loader(fixture);
-  });
-
   describe('SkyListSummaryHarness', () => {
+    beforeEach(async () => {
+      await setupTest(TestComponent);
+    });
+
     it('should locate the summary component', async () => {
       const harness = await loader.getHarness(SkyListSummaryHarness);
       expect(harness).toBeTruthy();
@@ -66,6 +97,10 @@ describe('List Summary Harnesses', () => {
   });
 
   describe('SkyListSummaryItemHarness', () => {
+    beforeEach(async () => {
+      await setupTest(TestComponent);
+    });
+
     it('should get the label text', async () => {
       const harness = await loader.getHarness(
         SkyListSummaryItemHarness.with({ dataSkyId: 'test-item-1' }),
@@ -107,6 +142,48 @@ describe('List Summary Harnesses', () => {
 
       const layout = await keyInfoHarness.getLayout();
       expect(layout).toBe('horizontal');
+    });
+  });
+
+  describe('SkyListSummaryItemHarness - Help Popover', () => {
+    beforeEach(async () => {
+      await setupTest(TestComponentWithHelp);
+    });
+
+    it('should click help inline button', async () => {
+      const harness = await loader.getHarness(
+        SkyListSummaryItemHarness.with({ dataSkyId: 'test-item-with-help' }),
+      );
+
+      // This should not throw an error if help inline is present
+      await expectAsync(harness.clickHelpInline()).toBeResolved();
+    });
+
+    it('should get help popover content and title', async () => {
+      const harness = await loader.getHarness(
+        SkyListSummaryItemHarness.with({ dataSkyId: 'test-item-with-help' }),
+      );
+
+      // Click to open the popover
+      await harness.clickHelpInline();
+
+      const content = await harness.getHelpPopoverContent();
+      expect(content).toBe(
+        'This represents the total revenue for the current period.',
+      );
+
+      const title = await harness.getHelpPopoverTitle();
+      expect(title).toBe('Revenue Help');
+    });
+
+    it('should throw error when trying to interact with help inline that is not present', async () => {
+      const harness = await loader.getHarness(
+        SkyListSummaryItemHarness.with({ dataSkyId: 'test-item-without-help' }),
+      );
+
+      await expectAsync(harness.clickHelpInline()).toBeRejectedWithError(
+        'No help inline found.',
+      );
     });
   });
 });

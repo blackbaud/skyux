@@ -55,4 +55,28 @@ export class SkyListSummaryItemHarness extends SkyComponentHarness {
   public async getKeyInfo(): Promise<SkyKeyInfoHarness> {
     return await this.#getKeyInfo();
   }
+
+  /**
+   * Clicks the help inline button to show the help popover.
+   */
+  public async clickHelpInline(): Promise<void> {
+    const keyInfo = await this.#getKeyInfo();
+    return await keyInfo.clickHelpInline();
+  }
+
+  /**
+   * Gets the help popover content text.
+   */
+  public async getHelpPopoverContent(): Promise<string | undefined> {
+    const keyInfo = await this.#getKeyInfo();
+    return await keyInfo.getHelpPopoverContent();
+  }
+
+  /**
+   * Gets the help popover title text.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    const keyInfo = await this.#getKeyInfo();
+    return await keyInfo.getHelpPopoverTitle();
+  }
 }
