@@ -1,5 +1,6 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 import { SkyKeyInfoLayoutType } from '@skyux/indicators';
 
 import { SkyKeyInfoHarnessFilters } from './key-info-harness-filters';
@@ -52,5 +53,36 @@ export class SkyKeyInfoHarness extends SkyComponentHarness {
     ).hasClass('sky-key-info-horizontal'))
       ? 'horizontal'
       : 'vertical';
+  }
+
+  /**
+   * Clicks the help inline button.
+   */
+  public async clickHelpInline(): Promise<void> {
+    return await (await this.#getHelpInline()).click();
+  }
+
+  /**
+   * Gets the help popover content.
+   */
+  public async getHelpPopoverContent(): Promise<string | undefined> {
+    return await (await this.#getHelpInline()).getPopoverContent();
+  }
+
+  /**
+   * Gets the help popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await (await this.#getHelpInline()).getPopoverTitle();
+  }
+
+  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
+    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
+
+    if (harness) {
+      return harness;
+    }
+
+    throw Error('No help inline found.');
   }
 }

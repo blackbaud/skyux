@@ -49,7 +49,7 @@ export class ListsRepeaterInlineFormExampleComponent {
     buttonLayout: SkyInlineFormButtonLayout.SaveCancel,
   };
 
-  protected items: Item[] = [
+  public items: Item[] = [
     {
       id: '1',
       title: '2019 Spring Gala',
@@ -80,7 +80,7 @@ export class ListsRepeaterInlineFormExampleComponent {
     });
   }
 
-  protected showInlineForm(item: Item): void {
+  public showInlineForm(item: Item): void {
     this.activeInlineFormId = item.id;
     this.formGroup.patchValue({
       note: item.note,

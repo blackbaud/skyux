@@ -1,5 +1,6 @@
 <sky-repeater
   data-sky-id="my-basic-repeater"
+  [ariaLabel]="ariaLabel"
   [expandMode]="expandMode"
   [reorderable]="reorderable"
   [(activeIndex)]="activeIndex"
@@ -8,13 +9,41 @@
     <sky-repeater-item
       [attr.data-sky-id]="'my-basic-repeater-item-' + i"
       [selectable]="selectable"
+      [disabled]="disabled"
     >
-      <sky-repeater-item-title>
+      <sky-repeater-item-title [attr.data-sky-id]="'my-item-title-' + i">
         {{ item.title }}
       </sky-repeater-item-title>
-      <sky-repeater-item-content>
+      <sky-repeater-item-content [attr.data-sky-id]="'my-item-content-' + i">
         <span class="item-note">{{ item.note }}</span>
       </sky-repeater-item-content>
+      <sky-repeater-item-context-menu>
+        <sky-dropdown
+          [attr.data-sky-id]="'repeater-context-menu-' + i"
+          buttonType="context-menu"
+        >
+          <sky-dropdown-item>An item</sky-dropdown-item>
+        </sky-dropdown>
+      </sky-repeater-item-context-menu>
     </sky-repeater-item>
   }
 </sky-repeater>
+
+<sky-repeater data-sky-id="my-inline-form-repeater">
+  <sky-repeater-item
+    itemName="Inline form item"
+    [inlineFormConfig]="inlineFormConfig"
+    [inlineFormTemplate]="inlineFormTemplate"
+    [showInlineForm]="true"
+  >
+    <sky-repeater-item-title
+      >Repeater with inline form</sky-repeater-item-title
+    ></sky-repeater-item
+  >
+</sky-repeater>
+
+<ng-template #inlineFormTemplate>
+  <sky-input-box labelText="Title" stacked="true">
+    <input formControlName="title" type="text" />
+  </sky-input-box>
+</ng-template>
