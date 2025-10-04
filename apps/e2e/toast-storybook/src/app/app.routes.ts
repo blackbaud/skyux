@@ -1,3 +1,9 @@
 import { Route } from '@angular/router';
 
-export const appRoutes: Route[] = [];
+export const routes: Route[] = [
+  {
+    path: 'toast',
+    loadChildren: () =>
+      import('./toast/toast.module').then((m) => m.ToastModule),
+  },
+];

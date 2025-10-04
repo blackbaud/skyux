@@ -1,6 +1,7 @@
 import { Component, Renderer2, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { SkyIconModule } from '@skyux/icon';
 import { FontLoadingService } from '@skyux/storybook/font-loading';
 import {
   SkyAppViewportService,
@@ -10,11 +11,13 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
+import { SkyThemeSelectorComponent } from './shared/theme-selector/theme-selector.component';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: false,
+  imports: [RouterLink, SkyThemeSelectorComponent, SkyIconModule, RouterOutlet],
 })
 export class AppComponent {
   public title = 'integration';

@@ -1,3 +1,4 @@
+import { NgStyle } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -7,7 +8,7 @@ import {
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import {
   SkyAppViewportService,
   SkyTheme,
@@ -16,11 +17,13 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
+import { SkyThemeSelectorComponent } from './shared/theme-selector/theme-selector.component';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: false,
+  imports: [NgStyle, SkyThemeSelectorComponent, RouterOutlet],
 })
 export class AppComponent implements AfterViewInit {
   readonly #destroyRef = inject(DestroyRef);
