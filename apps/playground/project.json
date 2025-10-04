@@ -7,8 +7,8 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath.base}"],
       "options": {
         "allowedCommonJsDependencies": [
           "autonumeric",
@@ -18,9 +18,11 @@
           "google-libphonenumber",
           "fontfaceobserver"
         ],
-        "outputPath": "dist/apps/playground",
+        "outputPath": {
+          "base": "dist/apps/playground",
+          "browser": "."
+        },
         "index": "apps/playground/src/index.html",
-        "main": "apps/playground/src/main.ts",
         "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
         "tsConfig": "apps/playground/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
@@ -36,8 +38,12 @@
         ],
         "scripts": [],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/components/theme/src/lib/styles"]
-        }
+          "includePaths": [
+            "{workspaceRoot}",
+            "libs/components/theme/src/lib/styles"
+          ]
+        },
+        "browser": "apps/playground/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -53,18 +59,10 @@
               "maximumError": "4mb"
             }
           ],
-          "fileReplacements": [
-            {
-              "replace": "apps/playground/src/environments/environment.ts",
-              "with": "apps/playground/src/environments/environment.prod.ts"
-            }
-          ],
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
