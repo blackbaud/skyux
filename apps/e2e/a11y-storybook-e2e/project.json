@@ -18,6 +18,10 @@
           "devServerTarget": "a11y-storybook:static-storybook:ci",
           "browser": "chrome",
           "baseUrl": "http://localhost:4200"
+        },
+        "prebuilt": {
+          "devServerTarget": "a11y-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },

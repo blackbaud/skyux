@@ -127,8 +127,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "errors-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "errors-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

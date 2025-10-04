@@ -132,8 +132,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "filter-bar-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "filter-bar-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

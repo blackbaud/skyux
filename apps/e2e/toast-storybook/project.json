@@ -127,8 +127,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "toast-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "toast-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

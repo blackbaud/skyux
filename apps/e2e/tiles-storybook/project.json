@@ -129,8 +129,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "tiles-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "tiles-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

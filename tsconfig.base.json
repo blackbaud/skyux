@@ -177,6 +177,9 @@
       "@skyux/storybook/font-loading": [
         "libs/components/storybook/src/lib/font-loading/font-loading.service.ts"
       ],
+      "@skyux/storybook/icon-preview": [
+        "libs/components/storybook/src/lib/icon-preview/icon-preview.service.ts"
+      ],
       "@skyux/tabs": ["libs/components/tabs/src/index.ts"],
       "@skyux/tabs/testing": ["libs/components/tabs/testing/src/public-api.ts"],
       "@skyux/text-editor": ["libs/components/text-editor/src/index.ts"],

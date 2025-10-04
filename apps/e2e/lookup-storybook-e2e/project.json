@@ -17,8 +17,13 @@
           "devServerTarget": "lookup-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "lookup-storybook:storybook:ci",
-          "browser": "chrome"
+          "devServerTarget": "lookup-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
+        },
+        "prebuilt": {
+          "devServerTarget": "lookup-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },

@@ -127,8 +127,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "flyout-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "flyout-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

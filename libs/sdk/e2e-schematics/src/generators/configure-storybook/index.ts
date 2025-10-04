@@ -18,213 +18,230 @@ import { getStorybookProjects } from '../../utils/get-projects';
 
 import { Schema } from './schema';
 
-/**
- * Configure Storybook to use typescript. Set Storybook to run during e2e in development mode.
- */
-export default async function (tree: Tree, schema: Schema): Promise<void> {
-  const projects = getStorybookProjects(tree, schema.name);
-
-  projects.forEach((project, projectName) => {
-    let hasChanged = false;
-    const targets = Object.keys(
-      project.targets as Record<string, TargetConfiguration>,
-    );
-    if (!targets.includes('static-storybook')) {
-      void addStaticTarget(tree, {
-        project: projectName,
-        interactionTests: false,
-        uiFramework: '@storybook/angular',
-        skipFormat: true,
-        tsConfiguration: true,
-      });
-    }
-    targets.forEach((target) => {
-      project.targets = project.targets as Record<string, TargetConfiguration>;
-      const targetConfig = project.targets[target] as TargetConfiguration;
-      // Does the builder support styles?
-      if (
-        targetConfig.executor &&
-        [
-          '@angular-devkit/build-angular:application',
-          '@angular-devkit/build-angular:browser',
-          '@angular/build:application',
-          '@storybook/angular:build-storybook',
-          '@storybook/angular:start-storybook',
-        ].includes(targetConfig.executor)
-      ) {
-        // Add stylesheets to project.
-        targetConfig.options ??= {};
-        targetConfig.options.styles ??= [];
-        [
-          'libs/components/theme/src/lib/styles/sky.scss',
-          'libs/components/theme/src/lib/styles/themes/modern/styles.scss',
-        ].forEach((stylesheet) => {
-          if (!targetConfig.options.styles.includes(stylesheet)) {
-            hasChanged = true;
-            targetConfig.options.styles.push(stylesheet);
-          }
-        });
-        if (
-          targetConfig.executor === '@storybook/angular:start-storybook' &&
-          !targetConfig.configurations?.['ci']['ci']
-        ) {
-          hasChanged = true;
-          targetConfig.configurations = {
-            ...targetConfig.configurations,
-            ci: {
-              ...targetConfig.configurations?.['ci'],
-              ci: true,
-            },
-          };
-        }
-      }
-      // Drop the asset path.
-      if (target === 'build' && targetConfig.options?.assets) {
-        hasChanged = true;
-        delete targetConfig.options.assets;
+function addStyles(targetConfig: TargetConfiguration): void {
+  // Does the builder support styles?
+  if (
+    targetConfig.executor &&
+    [
+      '@angular-devkit/build-angular:application',
+      '@angular-devkit/build-angular:browser',
+      '@angular/build:application',
+      '@storybook/angular:build-storybook',
+      '@storybook/angular:start-storybook',
+    ].includes(targetConfig.executor)
+  ) {
+    // Add stylesheets to project.
+    targetConfig.options ??= {};
+    targetConfig.options.styles ??= [];
+    [
+      'libs/components/theme/src/lib/styles/sky.scss',
+      'libs/components/theme/src/lib/styles/themes/modern/styles.scss',
+    ].forEach((stylesheet) => {
+      if (!targetConfig.options.styles.includes(stylesheet)) {
+        targetConfig.options.styles.push(stylesheet);
       }
     });
-    if (hasChanged) {
-      updateProjectConfiguration(tree, projectName, project);
+    if (
+      targetConfig.executor === '@storybook/angular:start-storybook' &&
+      !targetConfig.configurations?.['ci']['ci']
+    ) {
+      targetConfig.configurations = {
+        ...targetConfig.configurations,
+        ci: {
+          ...targetConfig.configurations?.['ci'],
+          ci: true,
+        },
+      };
     }
+  }
+}
 
-    const e2eProjectName = `${projectName}-e2e`;
-    let e2eProject: ProjectConfiguration | undefined = undefined;
-    try {
-      e2eProject = readProjectConfiguration(tree, e2eProjectName);
-    } catch (e) {
-      console.warn(`Project "${e2eProjectName}" does not exist`);
+async function configureStorybook(
+  project: ProjectConfiguration,
+  tree: Tree,
+  projectName: string,
+): Promise<void> {
+  project.targets ??= {};
+  const targets = Object.keys(project.targets);
+  if (!targets.includes('static-storybook')) {
+    await addStaticTarget(tree, {
+      project: projectName,
+      interactionTests: false,
+      uiFramework: '@storybook/angular',
+      skipFormat: true,
+      tsConfiguration: true,
+    });
+  }
+  project.targets['noop'] = { executor: 'nx:noop' };
+  project.targets['static-storybook'] ??= {};
+  project.targets['static-storybook'].configurations ??= {};
+  project.targets['static-storybook'].configurations['prebuilt'] = {
+    buildTarget: `${projectName}:noop`,
+  };
+  targets.forEach((target) => {
+    project.targets = project.targets as Record<string, TargetConfiguration>;
+    const targetConfig = project.targets[target] as TargetConfiguration;
+    addStyles(targetConfig);
+    // Drop the asset path.
+    if (target === 'build' && targetConfig.options?.assets) {
+      delete targetConfig.options.assets;
+    }
+  });
+  updateProjectConfiguration(tree, projectName, project);
+}
+
+function updateStorybookFiles(
+  project: ProjectConfiguration,
+  tree: Tree,
+  schema: Schema,
+): void {
+  const projectRoot = project.root;
+  const relativeToRoot = offsetFromRoot(`/${projectRoot}/.storybook`).replace(
+    /\/$/,
+    '',
+  );
+
+  const tsconfigFile = `${projectRoot}/.storybook/tsconfig.json`;
+  const tsconfigAppFile = `${projectRoot}/tsconfig.app.json`;
+  if (!tree.isFile(tsconfigFile)) {
+    tree.write(
+      `${projectRoot}/.storybook/tsconfig.json`,
+      JSON.stringify({
+        extends: '../tsconfig.json',
+        compilerOptions: {
+          emitDecoratorMetadata: true,
+        },
+        exclude: ['../**/*.spec.ts', 'jest.config.ts'],
+        include: ['../src/**/*', './*'],
+      }),
+    );
+  }
+  updateJson(tree, tsconfigFile, (tsconfig: TsConfig) => {
+    // Support importing json files for font loading checks.
+    tsconfig.compilerOptions = {
+      ...tsconfig.compilerOptions,
+      emitDecoratorMetadata: true,
+      esModuleInterop: true,
+      resolveJsonModule: true,
+    };
+
+    if (!tsconfig.include) {
+      tsconfig.include = [];
+    }
+    if (!tsconfig.include.includes('./*')) {
+      tsconfig.include.push('./*');
     }
     if (
-      e2eProject &&
-      e2eProject.targets?.['e2e'] &&
-      e2eProject.targets['e2e'].executor === '@nx/cypress:cypress'
+      tsconfig.exclude &&
+      tree.exists(`${projectRoot}/jest.config.ts`) &&
+      !tsconfig.exclude.includes('jest.config.ts')
     ) {
-      let hasChanged = false;
-      if (
-        !e2eProject.targets['e2e'].options.devServerTarget ||
-        !e2eProject.targets['e2e'].options.baseUrl
-      ) {
-        hasChanged = true;
-        // During development, run Storybook and Cypress.
-        e2eProject.targets['e2e'].options = {
-          ...e2eProject.targets['e2e'].options,
-          devServerTarget: `${projectName}:storybook`,
-          baseUrl: `http://localhost:4400`,
-        };
-      }
-      if (
-        e2eProject.targets['e2e'].options.devServerTarget ===
-          `${projectName}:storybook` &&
-        e2eProject.targets['e2e'].configurations?.['ci']?.devServerTarget !==
-          `${projectName}:static-storybook`
-      ) {
-        hasChanged = true;
-
-        e2eProject.targets['e2e'].configurations = {
-          ...e2eProject.targets['e2e'].configurations,
-          ci: {
-            ...e2eProject.targets['e2e'].configurations?.['ci'],
-            baseUrl: `http://localhost:4200`,
-            browser: 'chrome',
-            devServerTarget: `${projectName}:static-storybook:ci`,
-            skipServe: undefined,
-          },
-        };
-      }
-      if (hasChanged) {
-        updateProjectConfiguration(tree, e2eProjectName, e2eProject);
-      }
-    } else if (e2eProject) {
-      console.warn(
-        `Project "${e2eProjectName}" does not have an e2e target with @nx/cypress:cypress`,
-      );
+      tsconfig.exclude.push('jest.config.ts');
     }
-
-    const projectRoot = project.root;
-    const relativeToRoot = offsetFromRoot(`/${projectRoot}/.storybook`).replace(
-      /\/$/,
-      '',
-    );
-
-    const tsconfigFile = `${projectRoot}/.storybook/tsconfig.json`;
-    const tsconfigAppFile = `${projectRoot}/tsconfig.app.json`;
-    if (!tree.isFile(tsconfigFile)) {
-      tree.write(
-        `${projectRoot}/.storybook/tsconfig.json`,
-        JSON.stringify({
-          extends: '../tsconfig.json',
-          compilerOptions: {
-            emitDecoratorMetadata: true,
-          },
-          exclude: ['../**/*.spec.ts', 'jest.config.ts'],
-          include: ['../src/**/*', './*'],
-        }),
-      );
-    }
-    updateJson(tree, tsconfigFile, (tsconfig: TsConfig) => {
+    return tsconfig;
+  });
+  if (tree.isFile(tsconfigAppFile)) {
+    updateJson(tree, tsconfigAppFile, (tsconfig: TsConfig) => {
       // Support importing json files for font loading checks.
       tsconfig.compilerOptions = {
         ...tsconfig.compilerOptions,
-        emitDecoratorMetadata: true,
         esModuleInterop: true,
         resolveJsonModule: true,
       };
 
-      if (!tsconfig.include) {
-        tsconfig.include = [];
-      }
-      if (!tsconfig.include.includes('./*')) {
-        tsconfig.include.push('./*');
-      }
-      if (tsconfig.exclude && !tsconfig.exclude.includes('jest.config.ts')) {
+      if (
+        tsconfig.exclude &&
+        tree.exists(`${projectRoot}/jest.config.ts`) &&
+        !tsconfig.exclude.includes('jest.config.ts')
+      ) {
         tsconfig.exclude.push('jest.config.ts');
       }
       return tsconfig;
     });
-    if (tree.isFile(tsconfigAppFile)) {
-      updateJson(tree, tsconfigAppFile, (tsconfig: TsConfig) => {
-        // Support importing json files for font loading checks.
-        tsconfig.compilerOptions = {
-          ...tsconfig.compilerOptions,
-          esModuleInterop: true,
-          resolveJsonModule: true,
-        };
+  }
 
-        if (tsconfig.exclude && !tsconfig.exclude.includes('jest.config.ts')) {
-          tsconfig.exclude.push('jest.config.ts');
-        }
-        return tsconfig;
-      });
-    }
-
-    // Remove default files.
-    ['preview', 'main'].forEach((file) => {
-      tree.delete(`${projectRoot}/.storybook/${file}.js`);
-    });
-
-    if (
-      !tree.isFile(`${projectRoot}/.storybook/preview.ts`) ||
-      `${tree.read(`${projectRoot}/.storybook/preview.ts`, 'utf-8')}` === ''
-    ) {
-      generateFiles(
-        tree,
-        joinPathFragments(__dirname, `./files`),
-        `./${projectRoot}/.storybook`,
-        {
-          ...schema,
-          relativeToRoot,
-        },
-      );
-    }
-
-    if (!tree.isFile(`${projectRoot}/.storybook/manager.ts`)) {
-      tree.write(
-        `${projectRoot}/.storybook/manager.ts`,
-        `export * from '${relativeToRoot}/.storybook/manager';`,
-      );
-    }
+  // Remove default files.
+  ['preview', 'main'].forEach((file) => {
+    tree.delete(`${projectRoot}/.storybook/${file}.js`);
   });
+
+  if (
+    !tree.isFile(`${projectRoot}/.storybook/preview.ts`) ||
+    `${tree.read(`${projectRoot}/.storybook/preview.ts`, 'utf-8')}` === ''
+  ) {
+    generateFiles(
+      tree,
+      joinPathFragments(__dirname, `./files`),
+      `./${projectRoot}/.storybook`,
+      {
+        ...schema,
+        relativeToRoot,
+      },
+    );
+  }
+
+  if (!tree.isFile(`${projectRoot}/.storybook/manager.ts`)) {
+    tree.write(
+      `${projectRoot}/.storybook/manager.ts`,
+      `export * from '${relativeToRoot}/.storybook/manager';`,
+    );
+  }
+}
+
+function configureCypress(projectName: string, tree: Tree): void {
+  const e2eProjectName = `${projectName}-e2e`;
+  let e2eProject: ProjectConfiguration | undefined = undefined;
+  try {
+    e2eProject = readProjectConfiguration(tree, e2eProjectName);
+  } catch {
+    console.warn(`Project "${e2eProjectName}" does not exist`);
+  }
+  if (
+    e2eProject &&
+    e2eProject.targets?.['e2e'] &&
+    e2eProject.targets['e2e'].executor === '@nx/cypress:cypress'
+  ) {
+    // During development, run Storybook and Cypress.
+    e2eProject.targets['e2e'].options = {
+      ...e2eProject.targets['e2e'].options,
+      devServerTarget: `${projectName}:storybook`,
+      baseUrl: `http://localhost:4400`,
+    };
+    e2eProject.targets['e2e'].configurations = {
+      ...e2eProject.targets['e2e'].configurations,
+      ci: {
+        ...e2eProject.targets['e2e'].configurations?.['ci'],
+        baseUrl: `http://localhost:4200`,
+        browser: 'chrome',
+        devServerTarget: `${projectName}:static-storybook:ci`,
+        skipServe: undefined,
+      },
+      prebuilt: {
+        devServerTarget: `${projectName}:static-storybook:prebuilt`,
+        baseUrl: '',
+      },
+    };
+    updateProjectConfiguration(tree, e2eProjectName, e2eProject);
+  } else if (e2eProject) {
+    console.warn(
+      `Project "${e2eProjectName}" does not have an e2e target with @nx/cypress:cypress`,
+    );
+  }
+}
+
+/**
+ * Configure Storybook to use typescript. Set Storybook to run during e2e in development mode.
+ */
+export default async function (tree: Tree, schema: Schema): Promise<void> {
+  const projects = Array.from(
+    getStorybookProjects(tree, schema.name).entries(),
+  );
+
+  for (const [projectName, project] of projects) {
+    await configureStorybook(project, tree, projectName);
+    configureCypress(projectName, tree);
+    updateStorybookFiles(project, tree, schema);
+  }
 
   await formatFiles(tree, { skipFormat: schema.skipFormat });
 }

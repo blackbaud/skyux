@@ -127,8 +127,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "data-manager-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "data-manager-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

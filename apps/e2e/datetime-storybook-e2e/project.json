@@ -15,8 +15,13 @@
       },
       "configurations": {
         "ci": {
-          "devServerTarget": "datetime-storybook:storybook:ci",
-          "browser": "chrome"
+          "devServerTarget": "datetime-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
+        },
+        "prebuilt": {
+          "devServerTarget": "datetime-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },
