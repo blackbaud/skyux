@@ -22,6 +22,11 @@ import {
 })
 export class IconsComponent {
   readonly #doc = inject(DOCUMENT);
+  readonly #classObserver = new MutationObserver(() => {
+    this.iconPreviewReady.set(
+      this.#doc.body.classList.contains('sky-icon-ready'),
+    );
+  });
   readonly #resolver = inject(SkyIconSvgResolverService);
   readonly #starIcon = resource({
     params: () => signal('star'),
@@ -49,9 +54,19 @@ export class IconsComponent {
     }
     return undefined;
   });
+  protected readonly iconPreviewReady = signal(
+    this.#doc.body.classList.contains('sky-icon-ready'),
+  );
 
   public readonly size = input<SkyIconSize>('m');
   public readonly variant = input<SkyIconVariantType>('line');
+
+  constructor() {
+    this.#classObserver.observe(this.#doc.body, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  }
 }
 
 export default IconsComponent;

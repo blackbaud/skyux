@@ -1,4 +1,4 @@
-@if (iconMap(); as iconMap) {
+@if (iconPreviewReady() && iconMap(); as iconMap) {
   @for (icon of iconMap; track icon) {
     <div class="icon-container">
       <span class="icon sky-margin-inline-md"
