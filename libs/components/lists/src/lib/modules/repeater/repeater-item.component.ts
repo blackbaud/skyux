@@ -67,7 +67,7 @@ export class SkyRepeaterItemComponent
   }
 
   /**
-   * Whether to exclude an item when cycling through.
+   * Whether to disable a selectable repeater item.
    */
   @Input()
   public set disabled(value: boolean | undefined) {
