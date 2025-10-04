@@ -11,7 +11,10 @@ import { IconPreviewService } from './icon-preview.service';
 
 describe('IconPreviewService', () => {
   let doc: jasmine.SpyObj<
-    Pick<Document, 'querySelector' | 'createElement' | 'getElementById'>
+    Pick<
+      Document,
+      'querySelector' | 'createElement' | 'getElementById' | 'body'
+    >
   >;
   let controller: HttpTestingController;
   let resolver: jasmine.SpyObj<SkyIconSvgResolverService>;
@@ -24,6 +27,12 @@ describe('IconPreviewService', () => {
         remove: jasmine.createSpy('remove'),
       }),
       getElementById: jasmine.createSpy('getElementById').and.returnValue(null),
+      body: {
+        classList: {
+          add: jasmine.createSpy('add'),
+          remove: jasmine.createSpy('remove'),
+        } as unknown as DOMTokenList,
+      } as unknown as HTMLBodyElement,
     };
     resolver = {
       resolveHref: jasmine.createSpy('resolveHref').and.resolveTo('star.svg'),

@@ -3,6 +3,7 @@ import {
   DOCUMENT,
   EnvironmentProviders,
   Injectable,
+  computed,
   effect,
   inject,
   provideAppInitializer,
@@ -29,17 +30,32 @@ export class IconPreviewService {
   readonly #previewLink = this.#doc.querySelector<HTMLLinkElement>(
     'link.skyux-icons-preview',
   )?.href;
-  readonly #preview =
-    this.#previewLink?.startsWith('/') || this.#previewLink?.startsWith('.')
-      ? httpResource<string>(() => this.#previewLink)
-      : undefined;
+  readonly #preview = this.#previewLink
+    ? httpResource<string>(() => this.#previewLink)
+    : undefined;
   readonly #resolver = inject(SkyIconSvgResolverService);
   readonly #iconResolver = resource({
     params: () => signal('star').asReadonly(),
     loader: ({ params }) => this.#resolver.resolveHref(params()),
   });
+  readonly #ready = computed(() => {
+    if (!this.#preview) {
+      return true;
+    }
+    const resolverReady = this.#iconResolver.hasValue();
+    const previewReady = this.#preview.hasValue();
+    return resolverReady && previewReady;
+  });
 
   constructor() {
+    effect(() => {
+      const ready = this.#ready();
+      if (ready) {
+        this.#doc.body.classList.add('sky-icon-ready');
+      } else {
+        this.#doc.body.classList.remove('sky-icon-ready');
+      }
+    });
     effect(() => {
       const resolverReady = !!this.#iconResolver.value();
       const previewSprite = this.#preview?.value();

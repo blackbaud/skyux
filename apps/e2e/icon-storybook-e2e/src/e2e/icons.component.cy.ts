@@ -10,6 +10,7 @@ describe('icons', () => {
             `/iframe.html?args=size:${size};variant:${variant}&globals=theme:${theme}&id=iconscomponent--icons`,
           );
           cy.get('#ready').should('exist');
+          cy.get('body').should('have.class', 'sky-icon-ready');
           cy.get('app-icons')
             .should('exist')
             .should('be.visible')
