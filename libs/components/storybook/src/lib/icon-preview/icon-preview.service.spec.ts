@@ -1,8 +1,3 @@
-import { provideHttpClient } from '@angular/common/http';
-import {
-  HttpTestingController,
-  provideHttpClientTesting,
-} from '@angular/common/http/testing';
 import { DOCUMENT } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyIconSvgResolverService } from '@skyux/icon';
@@ -16,10 +11,11 @@ describe('IconPreviewService', () => {
       'querySelector' | 'createElement' | 'getElementById' | 'body'
     >
   >;
-  let controller: HttpTestingController;
   let resolver: jasmine.SpyObj<SkyIconSvgResolverService>;
+  let fetchSpy: jasmine.Spy;
 
   beforeEach(() => {
+    fetchSpy = spyOn(global, 'fetch').and.stub();
     doc = {
       querySelector: jasmine.createSpy('querySelector').and.returnValue(null),
       createElement: jasmine.createSpy('createElement').and.returnValue({
@@ -39,8 +35,6 @@ describe('IconPreviewService', () => {
     };
     TestBed.configureTestingModule({
       providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
         {
           provide: DOCUMENT,
           useValue: doc,
@@ -51,7 +45,6 @@ describe('IconPreviewService', () => {
         },
       ],
     });
-    controller = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
@@ -59,7 +52,7 @@ describe('IconPreviewService', () => {
     expect(service).toBeTruthy();
     expect(doc.querySelector).toHaveBeenCalledWith('link.skyux-icons-preview');
     TestBed.tick();
-    controller.verify();
+    expect(fetchSpy).not.toHaveBeenCalled();
   });
 
   it('should load sprite', async () => {
@@ -69,16 +62,17 @@ describe('IconPreviewService', () => {
     doc.getElementById.and.returnValue({
       replaceWith: jasmine.createSpy('replaceWith'),
     } as unknown as HTMLElement);
+    fetchSpy.and.resolveTo({
+      text: () => Promise.resolve('<svg></svg>'),
+    } as Response);
     const service = TestBed.inject(IconPreviewService);
     expect(service).toBeTruthy();
     expect(doc.querySelector).toHaveBeenCalledWith('link.skyux-icons-preview');
     TestBed.tick();
-    const request = controller.expectOne('/sprite.svg');
-    request.flush('<svg></svg>');
+    expect(fetchSpy).toHaveBeenCalledWith('/sprite.svg');
     await new Promise((resolve) => setTimeout(resolve, 0));
     TestBed.tick();
     expect(doc.getElementById).toHaveBeenCalled();
     expect(doc.createElement).toHaveBeenCalled();
-    controller.verify();
   });
 });

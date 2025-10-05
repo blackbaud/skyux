@@ -1,4 +1,3 @@
-import { httpResource, provideHttpClient } from '@angular/common/http';
 import {
   DOCUMENT,
   EnvironmentProviders,
@@ -15,7 +14,6 @@ import { SkyIconSvgResolverService } from '@skyux/icon';
 /* istanbul ignore next */
 export function provideIconPreview(): EnvironmentProviders[] {
   return [
-    provideHttpClient(),
     provideAppInitializer(() => {
       inject(IconPreviewService);
     }),
@@ -31,7 +29,9 @@ export class IconPreviewService {
     'link.skyux-icons-preview',
   )?.href;
   readonly #preview = this.#previewLink
-    ? httpResource<string>(() => this.#previewLink)
+    ? resource({
+        loader: () => fetch(this.#previewLink as string).then((r) => r.text()),
+      })
     : undefined;
   readonly #resolver = inject(SkyIconSvgResolverService);
   readonly #iconResolver = resource({

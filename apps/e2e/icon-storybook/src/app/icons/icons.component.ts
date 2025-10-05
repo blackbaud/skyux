@@ -35,7 +35,8 @@ export class IconsComponent {
 
   protected readonly iconMap = computed(() => {
     const iconsReady = this.#starIcon.hasValue();
-    if (iconsReady) {
+    const iconsPreviewReady = this.iconPreviewReady();
+    if (iconsReady && iconsPreviewReady) {
       const iconSymbols = this.#doc.querySelectorAll(
         '#sky-icon-svg-sprite symbol',
       );
