@@ -30,13 +30,7 @@
         "command": "npx vite-node ./scripts/postbuild-manifest.mts",
         "outputPath": "dist/libs/components/manifest"
       },
-      "dependsOn": [
-        "^build",
-        {
-          "target": "prebuild",
-          "projects": "self"
-        }
-      ]
+      "dependsOn": ["^build", "prebuild"]
     },
     "lint": {
       "executor": "@nx/eslint:lint",

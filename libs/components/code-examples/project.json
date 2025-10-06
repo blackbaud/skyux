@@ -6,6 +6,7 @@
   "prefix": "sky",
   "targets": {
     "build": {
+      "inputs": ["{projectRoot}/**/*", "^buildInputs"],
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/code-examples"],
       "options": {
