@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 * **components/flyout:** account for header height in flyout content height ([#4019](https://github.com/blackbaud/skyux/issues/4019)) ([76e3986](https://github.com/blackbaud/skyux/commit/76e398670ba2a2b1f260f8d743f41c55928695ab))
+* **components/theme:** properly default brand to blackbaud for modern theme ([#4018](https://github.com/blackbaud/skyux/issues/4018)) ([1fe8a8f](https://github.com/blackbaud/skyux/commit/1fe8a8f344cce1aa94ca16b44fd41b36993ba720))
 
 
 
