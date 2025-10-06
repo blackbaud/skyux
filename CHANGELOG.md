@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.3.1](https://github.com/blackbaud/skyux/compare/13.3.0...13.3.1) (2025-10-06)
+
+
+### Bug Fixes
+
+* **components/flyout:** account for header height in flyout content height ([#4019](https://github.com/blackbaud/skyux/issues/4019)) ([76e3986](https://github.com/blackbaud/skyux/commit/76e398670ba2a2b1f260f8d743f41c55928695ab))
+
+
+
 # [13.3.0](https://github.com/blackbaud/skyux/compare/13.2.0...13.3.0) (2025-10-03)
 
 
