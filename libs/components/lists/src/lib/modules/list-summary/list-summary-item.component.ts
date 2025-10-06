@@ -49,9 +49,6 @@ export class SkyListSummaryItemComponent {
   protected numericValue = computed((): number | undefined => {
     const value = this.value();
 
-    if (typeof value === 'number') {
-      return value;
-    }
-    return undefined;
+    return typeof value === 'number' ? value : undefined;
   });
 }
