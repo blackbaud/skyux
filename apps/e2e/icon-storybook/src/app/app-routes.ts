@@ -2,6 +2,10 @@ import { Route } from '@angular/router';
 
 export const routes: Route[] = [
   {
+    path: 'icons-by-row',
+    loadComponent: () => import('./icons-by-row/icons-by-row.component'),
+  },
+  {
     path: 'icons',
     loadComponent: () => import('./icons/icons.component'),
   },

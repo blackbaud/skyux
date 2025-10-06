@@ -38,7 +38,8 @@ export class IconPreviewService {
     params: () => signal('star').asReadonly(),
     loader: ({ params }) => this.#resolver.resolveHref(params()),
   });
-  readonly #ready = computed(() => {
+
+  public readonly ready = computed(() => {
     if (!this.#preview) {
       return true;
     }
@@ -49,7 +50,7 @@ export class IconPreviewService {
 
   constructor() {
     effect(() => {
-      const ready = this.#ready();
+      const ready = this.ready();
       if (ready) {
         this.#doc.body.classList.add('sky-icon-ready');
       } else {
