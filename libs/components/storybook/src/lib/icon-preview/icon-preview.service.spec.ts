@@ -11,7 +11,9 @@ describe('IconPreviewService', () => {
       'querySelector' | 'createElement' | 'getElementById' | 'body'
     >
   >;
-  let resolver: jasmine.SpyObj<SkyIconSvgResolverService>;
+  let resolver: jasmine.SpyObj<
+    Pick<SkyIconSvgResolverService, 'resolveHref' | 'refreshIconMap'>
+  >;
   let fetchSpy: jasmine.Spy;
 
   beforeEach(() => {
@@ -32,6 +34,7 @@ describe('IconPreviewService', () => {
     };
     resolver = {
       resolveHref: jasmine.createSpy('resolveHref').and.resolveTo('star.svg'),
+      refreshIconMap: jasmine.createSpy('refreshIconMap').and.returnValue(null),
     };
     TestBed.configureTestingModule({
       providers: [

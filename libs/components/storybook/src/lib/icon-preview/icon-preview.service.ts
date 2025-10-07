@@ -67,6 +67,7 @@ export class IconPreviewService {
         fragment.innerHTML = previewSprite;
         spriteElement().replaceWith(...fragment.children);
         fragment.remove();
+        this.#resolver.refreshIconMap();
       }
       return undefined;
     });
