@@ -7,21 +7,26 @@
   "tags": ["component-e2e", "icons-preview"],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath.base}"],
       "options": {
-        "outputPath": "dist/apps/e2e/layout-storybook",
+        "outputPath": {
+          "base": "dist/apps/e2e/layout-storybook"
+        },
         "index": "apps/e2e/layout-storybook/src/index.html",
-        "main": "apps/e2e/layout-storybook/src/main.ts",
         "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
         "tsConfig": "apps/e2e/layout-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        },
         "styles": [
           "apps/e2e/layout-storybook/src/styles.scss",
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
-        "scripts": []
+        "scripts": [],
+        "browser": "apps/e2e/layout-storybook/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -37,18 +42,10 @@
               "maximumError": "40kb"
             }
           ],
-          "fileReplacements": [
-            {
-              "replace": "apps/e2e/layout-storybook/src/environments/environment.ts",
-              "with": "apps/e2e/layout-storybook/src/environments/environment.prod.ts"
-            }
-          ],
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
