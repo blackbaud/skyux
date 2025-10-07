@@ -2,6 +2,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { SKY_LOG_LEVEL, SkyHelpService, SkyLogLevel } from '@skyux/core';
+import { provideIconPreview } from '@skyux/storybook/icon-preview';
 import { SkyThemeService } from '@skyux/theme';
 
 import { AppComponent } from './app/app.component';
@@ -11,6 +12,7 @@ import { PlaygroundHelpService } from './app/shared/help.service';
 bootstrapApplication(AppComponent, {
   providers: [
     provideAnimations(),
+    provideIconPreview(),
     provideRouter(routes, withHashLocation()),
     SkyThemeService,
     { provide: SkyHelpService, useClass: PlaygroundHelpService },

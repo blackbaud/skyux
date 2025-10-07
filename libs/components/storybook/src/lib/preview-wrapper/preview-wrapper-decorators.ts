@@ -10,6 +10,8 @@ import {
 
 import type { DecoratorFunction } from 'storybook/internal/types';
 
+import { provideIconPreview } from '../icon-preview/icon-preview.service';
+
 import { PreviewWrapperComponent } from './preview-wrapper.component';
 import { PreviewWrapperModule } from './preview-wrapper.module';
 
@@ -23,6 +25,7 @@ export const previewWrapperDecorators: DecoratorFunction<
   // Define application-wide providers with the applicationConfig decorator
   applicationConfig({
     providers: [
+      provideIconPreview(),
       provideNoopAnimations(),
       SkyThemeService,
       {

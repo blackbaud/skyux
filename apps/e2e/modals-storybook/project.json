@@ -125,8 +125,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "modals-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "modals-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

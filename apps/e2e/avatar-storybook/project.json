@@ -130,8 +130,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "avatar-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "avatar-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

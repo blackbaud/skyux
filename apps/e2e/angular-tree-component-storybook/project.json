@@ -130,8 +130,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "angular-tree-component-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "angular-tree-component-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

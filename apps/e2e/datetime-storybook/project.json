@@ -135,8 +135,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "datetime-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "datetime-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

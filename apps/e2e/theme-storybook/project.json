@@ -125,8 +125,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "theme-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "theme-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

@@ -130,8 +130,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "colorpicker-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "colorpicker-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

@@ -130,8 +130,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "ag-grid-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "ag-grid-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

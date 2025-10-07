@@ -20,6 +20,10 @@
           "devServerTarget": "flyout-storybook:static-storybook:ci",
           "baseUrl": "http://localhost:4200",
           "browser": "chrome"
+        },
+        "prebuilt": {
+          "devServerTarget": "flyout-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },

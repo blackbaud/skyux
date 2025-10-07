@@ -130,8 +130,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "action-bars-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "action-bars-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

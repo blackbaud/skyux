@@ -130,8 +130,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "phone-field-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "phone-field-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }
