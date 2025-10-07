@@ -15,7 +15,10 @@ async function getIconMap(): Promise<Map<string, number[]>> {
   const markup = await response.text();
 
   document.body.insertAdjacentHTML('afterbegin', markup);
+  return buildIconMap();
+}
 
+function buildIconMap(): Map<string, number[]> {
   const iconMap = Array.from<SVGSymbolElement>(
     document.querySelectorAll('#sky-icon-svg-sprite symbol'),
   ).reduce((map, el) => {
@@ -113,5 +116,13 @@ export class SkyIconSvgResolverService {
     href = `${href}-${nearestSize}-${variant}`;
 
     return href;
+  }
+
+  public refreshIconMap(): void {
+    iconMapPromise = Promise.resolve(buildIconMap());
+  }
+
+  public resetIconMap(): void {
+    iconMapPromise = undefined;
   }
 }

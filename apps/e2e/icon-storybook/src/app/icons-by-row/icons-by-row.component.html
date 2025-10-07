@@ -1,0 +1,13 @@
+@if (iconMap(); as iconMap) {
+  @for (icon of iconMap; track icon; let last = $last) {
+    <div class="icon-row" [class.sky-border-bottom-row]="!last">
+      @for (size of sizes; track size) {
+        <span class="icon"
+          ><sky-icon [iconName]="icon" [iconSize]="size" [variant]="variant()"
+        /></span>
+      }
+      <span class="icon-name">{{ icon }}</span>
+    </div>
+  }
+  <span id="ready"></span>
+}

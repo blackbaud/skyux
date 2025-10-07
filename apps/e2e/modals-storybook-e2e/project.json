@@ -17,6 +17,10 @@
           "devServerTarget": "modals-storybook:static-storybook:ci",
           "baseUrl": "http://localhost:4200",
           "browser": "chrome"
+        },
+        "prebuilt": {
+          "devServerTarget": "modals-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },
