@@ -25,12 +25,16 @@ export default async function configurePercy(
     );
     const filePath = joinPathFragments(project.root, 'src/support/e2e.ts');
     const importPercyCypress = `import` + ` '@percy/cypress';`;
+    const importSkyUxCypress = `import` + ` '@skyux-sdk/cypress-commands';`;
     if (!tree.exists(filePath)) {
-      tree.write(filePath, importPercyCypress);
+      tree.write(filePath, importPercyCypress + '\n' + importSkyUxCypress);
     } else {
       const content = tree.read(filePath, 'utf-8') as string;
       if (!content.includes(importPercyCypress)) {
         insertStatement(tree, filePath, importPercyCypress);
+      }
+      if (!content.includes(importSkyUxCypress)) {
+        insertStatement(tree, filePath, importSkyUxCypress);
       }
     }
   });

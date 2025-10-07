@@ -40,6 +40,7 @@ describe('configure-storybook', () => {
     await createTestApplication(tree, {
       name: `test-app`,
       e2eTestRunner: true,
+      unitTestRunner: true,
     });
     await storybookConfigurationGenerator(tree, {
       interactionTests: false,
@@ -93,6 +94,7 @@ describe('configure-storybook', () => {
     await createTestApplication(tree, {
       name: `test-app`,
       e2eTestRunner: true,
+      unitTestRunner: true,
     });
     await storybookConfigurationGenerator(tree, {
       interactionTests: false,

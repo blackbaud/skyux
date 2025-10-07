@@ -4,7 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/e2e/lists-storybook/src",
   "prefix": "app",
-  "tags": ["component-e2e"],
+  "tags": ["component-e2e", "icons-preview"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -129,8 +129,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "lists-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "lists-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

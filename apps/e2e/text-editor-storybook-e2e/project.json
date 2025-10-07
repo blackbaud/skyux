@@ -20,6 +20,10 @@
           "devServerTarget": "text-editor-storybook:static-storybook:ci",
           "browser": "chrome",
           "baseUrl": "http://localhost:4200"
+        },
+        "prebuilt": {
+          "devServerTarget": "text-editor-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },
