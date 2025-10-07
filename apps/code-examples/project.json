@@ -8,16 +8,21 @@
   "implicitDependencies": ["eslint-config", "skyux-eslint"],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath.base}"],
       "options": {
         "allowedCommonJsDependencies": ["dragula", "ng2-dragula"],
-        "outputPath": "dist/apps/code-examples-playground",
+        "outputPath": {
+          "base": "dist/apps/code-examples-playground",
+          "browser": "."
+        },
         "index": "apps/code-examples/src/index.html",
-        "main": "apps/code-examples/src/main.ts",
         "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
         "tsConfig": "apps/code-examples/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        },
         "assets": [
           "apps/code-examples/src/favicon.ico",
           "apps/code-examples/src/assets"
@@ -29,7 +34,8 @@
           "libs/components/docs-tools/css/styles.css",
           "apps/code-examples/src/styles.scss"
         ],
-        "scripts": []
+        "scripts": [],
+        "browser": "apps/code-examples/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -45,18 +51,10 @@
               "maximumError": "1mb"
             }
           ],
-          "fileReplacements": [
-            {
-              "replace": "apps/code-examples/src/environments/environment.ts",
-              "with": "apps/code-examples/src/environments/environment.prod.ts"
-            }
-          ],
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
