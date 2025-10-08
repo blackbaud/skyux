@@ -16,7 +16,8 @@
       "codeExamples": {
         "docsIds": [
           "AngularTreeComponentAngularTreeBasicExampleComponent",
-          "AngularTreeComponentAngularTreeHelpKeyExampleComponent"
+          "AngularTreeComponentAngularTreeHelpKeyExampleComponent",
+          "AngularTreeComponentAngularTreePreselectedNodesExampleComponent"
         ]
       }
     }
