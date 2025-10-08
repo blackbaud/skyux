@@ -161,6 +161,9 @@
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/tsconfig.storybook.json"
     ],
+    "documentationInputs": [
+      "{workspaceRoot}/libs/components/*/documentation.json"
+    ],
     "e2eInputs": [
       "{workspaceRoot}/.github/workflows/e2e.yml",
       "{workspaceRoot}/.percy.json"
