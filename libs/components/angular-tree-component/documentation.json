@@ -10,14 +10,14 @@
         ],
         "primaryDocsId": "SkyAngularTreeModule"
       },
+      "testing": {
+        "docsIds": []
+      },
       "codeExamples": {
         "docsIds": [
           "AngularTreeComponentAngularTreeBasicExampleComponent",
           "AngularTreeComponentAngularTreeHelpKeyExampleComponent"
         ]
-      },
-      "testing": {
-        "docsIds": []
       }
     }
   }
