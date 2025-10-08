@@ -16,6 +16,7 @@ export { AgGridDataGridTemplateRefColumnExampleComponent } from './lib/modules/a
 export { AgGridDataGridTopScrollExampleComponent } from './lib/modules/ag-grid/data-grid/top-scroll/example.component';
 export { AngularTreeComponentAngularTreeBasicExampleComponent } from './lib/modules/angular-tree-component/angular-tree/basic/example.component';
 export { AngularTreeComponentAngularTreeHelpKeyExampleComponent } from './lib/modules/angular-tree-component/angular-tree/help-key/example.component';
+export { AngularTreeComponentAngularTreePreselectedNodesExampleComponent } from './lib/modules/angular-tree-component/angular-tree/preselected-nodes/example.component';
 export { AutonumericCurrencyExampleComponent } from './lib/modules/autonumeric/autonumeric/currency/example.component';
 export { AutonumericInternationalFormattingExampleComponent } from './lib/modules/autonumeric/autonumeric/international-formatting/example.component';
 export { AutonumericOptionsProviderExampleComponent } from './lib/modules/autonumeric/autonumeric/options-provider/example.component';
