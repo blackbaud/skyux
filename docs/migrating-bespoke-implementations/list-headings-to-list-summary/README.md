@@ -24,7 +24,7 @@ This migration applies if your application currently uses `sky-key-info` compone
 
 ### 1. Identify current implementation
 
-Look for `sky-key-info` components or custom templates that display summary information above lists. These often include:
+Look for `sky-key-info` components or custom templates that display summary information above lists. For example:
 
 ```html
 <!-- Example of sky-key-info implementation -->
