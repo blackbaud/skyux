@@ -82,9 +82,9 @@ Replace your `sky-key-info` implementation with the standardized components:
 
 <!-- After: List summary component -->
 <sky-list-summary>
-  <sky-list-summary-item label="Total Records" [value]="totalRecords" />
+  <sky-list-summary-item labelText="Total Records" [value]="totalRecords" />
   <sky-list-summary-item
-    label="Revenue"
+    labelText="Revenue"
     [value]="revenue"
     [valueFormat]="{ format: 'currency' }"
   />
@@ -159,7 +159,7 @@ If your summary items need explanatory content, add help popovers:
 ```html
 <sky-list-summary>
   <sky-list-summary-item
-    label="Total revenue"
+    labelText="Total revenue"
     [value]="totalRevenue"
     [valueFormat]="{ format: 'currency' }"
     helpPopoverTitle="Total revenue"
@@ -188,12 +188,12 @@ If your summary items need explanatory content, add help popovers:
 <!-- After: List summary component -->
 <sky-list-summary>
   <sky-list-summary-item
-    label="Active users"
+    labelText="Active users"
     [value]="userCount"
     [valueFormat]="{ format: 'number', digitsInfo: '1.0-0' }"
   />
   <sky-list-summary-item
-    label="Average score"
+    labelText="Average score"
     [value]="averageScore"
     [valueFormat]="{ format: 'number', digitsInfo: '1.1-1' }"
   />
@@ -222,12 +222,12 @@ If your summary items need explanatory content, add help popovers:
 <!-- After: List summary component -->
 <sky-list-summary>
   <sky-list-summary-item
-    label="Total sales"
+    labelText="Total sales"
     [value]="totalSales"
     [valueFormat]="{ format: 'currency', digitsInfo: '1.2-2' }"
   />
   <sky-list-summary-item
-    label="Average order value"
+    labelText="Average order value"
     [value]="averageOrderValue"
     [valueFormat]="{ format: 'number', digitsInfo: '1.2-2' }"
   />
@@ -247,7 +247,7 @@ If your summary items need explanatory content, add help popovers:
 
 <!-- After: List summary component -->
 <sky-list-summary>
-  <sky-list-summary-item label="System status" [value]="currentStatus" />
+  <sky-list-summary-item labelText="System status" [value]="currentStatus" />
 </sky-list-summary>
 ```
 
@@ -309,7 +309,7 @@ Verify that the new implementation maintains the expected visual appearance and 
 
 ```html
 <sky-list-summary-item
-  label="Metric name"
+  labelText="Metric name"
   [value]="metricValue"
   helpPopoverContent="Description of what this metric represents."
   helpPopoverTitle="Metric help"

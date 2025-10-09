@@ -9,8 +9,8 @@ import { SkyListSummaryComponent } from './list-summary.component';
 @Component({
   template: `
     <sky-list-summary>
-      <sky-list-summary-item label="Total Items" [value]="100" />
-      <sky-list-summary-item label="Active Items" [value]="25" />
+      <sky-list-summary-item labelText="Total Items" [value]="100" />
+      <sky-list-summary-item labelText="Active Items" [value]="25" />
     </sky-list-summary>
   `,
   imports: [SkyListSummaryComponent, SkyListSummaryItemComponent],
@@ -21,7 +21,7 @@ class TestSummaryComponent {}
   template: `
     <sky-list-summary>
       <sky-list-summary-item
-        label="Large Number"
+        labelText="Large Number"
         [value]="1234567"
         [valueFormat]="{ truncate: false }"
       />
@@ -34,7 +34,7 @@ class TestLargeNumberComponent {}
 @Component({
   template: `
     <sky-list-summary>
-      <sky-list-summary-item label="Zero Items" [value]="0" />
+      <sky-list-summary-item labelText="Zero Items" [value]="0" />
     </sky-list-summary>
   `,
   imports: [SkyListSummaryComponent, SkyListSummaryItemComponent],
@@ -44,10 +44,10 @@ class TestZeroValueComponent {}
 @Component({
   template: `
     <sky-list-summary>
-      <sky-list-summary-item label="First" [value]="1" />
-      <sky-list-summary-item label="Second" [value]="10" />
-      <sky-list-summary-item label="Third" [value]="100" />
-      <sky-list-summary-item label="Fourth" [value]="1000" />
+      <sky-list-summary-item labelText="First" [value]="1" />
+      <sky-list-summary-item labelText="Second" [value]="10" />
+      <sky-list-summary-item labelText="Third" [value]="100" />
+      <sky-list-summary-item labelText="Fourth" [value]="1000" />
     </sky-list-summary>
   `,
   imports: [SkyListSummaryComponent, SkyListSummaryItemComponent],

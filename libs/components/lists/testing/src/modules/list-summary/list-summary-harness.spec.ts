@@ -14,12 +14,12 @@ import { SkyListSummaryItemHarness } from './list-summary-item-harness';
     <sky-list-summary data-sky-id="test-summary">
       <sky-list-summary-item
         data-sky-id="test-item-1"
-        [label]="'Total Items'"
+        [labelText]="'Total Items'"
         [value]="42"
       />
       <sky-list-summary-item
         data-sky-id="test-item-2"
-        [label]="'Average Score'"
+        [labelText]="'Average Score'"
         [value]="'98.5%'"
       />
     </sky-list-summary>
@@ -33,7 +33,7 @@ class TestComponent {}
     <sky-list-summary data-sky-id="test-summary-with-help">
       <sky-list-summary-item
         data-sky-id="test-item-with-help"
-        [label]="'Revenue'"
+        [labelText]="'Revenue'"
         [value]="1000000"
         [helpPopoverContent]="
           'This represents the total revenue for the current period.'
@@ -42,7 +42,7 @@ class TestComponent {}
       />
       <sky-list-summary-item
         data-sky-id="test-item-without-help"
-        [label]="'Profit'"
+        [labelText]="'Profit'"
         [value]="250000"
       />
     </sky-list-summary>

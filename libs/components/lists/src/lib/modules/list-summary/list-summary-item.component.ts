@@ -20,7 +20,7 @@ export class SkyListSummaryItemComponent {
   /**
    * Specifies a label to display beside the value in smaller, unformatted text.
    */
-  public label = input.required<string>();
+  public labelText = input.required<string>();
 
   /**
    * Optional formatting options for numeric values.
