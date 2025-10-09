@@ -19,7 +19,7 @@ import { SkyListSummaryItemHarness } from './list-summary-item-harness';
       />
       <sky-list-summary-item
         data-sky-id="test-item-2"
-        [labelText]="'Average Score'"
+        [labelText]="'Average score'"
         [value]="'98.5%'"
       />
     </sky-list-summary>
@@ -119,10 +119,10 @@ describe('List Summary Harnesses', () => {
 
     it('should filter by label text', async () => {
       const harness = await loader.getHarness(
-        SkyListSummaryItemHarness.with({ labelText: 'Average Score' }),
+        SkyListSummaryItemHarness.with({ labelText: 'Average score' }),
       );
       const labelText = await harness.getLabelText();
-      expect(labelText).toBe('Average Score');
+      expect(labelText).toBe('Average score');
     });
 
     it('should filter by value text', async () => {
