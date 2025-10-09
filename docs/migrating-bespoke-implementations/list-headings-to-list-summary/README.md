@@ -72,7 +72,7 @@ Replace your `sky-key-info` implementation with the standardized components:
 <div class="summary-stats">
   <sky-key-info>
     <sky-key-info-value>{{ totalRecords | number }}</sky-key-info-value>
-    <sky-key-info-label>Total Records</sky-key-info-label>
+    <sky-key-info-label>Total records</sky-key-info-label>
   </sky-key-info>
   <sky-key-info>
     <sky-key-info-value>{{ revenue | currency }}</sky-key-info-value>
@@ -82,7 +82,7 @@ Replace your `sky-key-info` implementation with the standardized components:
 
 <!-- After: List summary component -->
 <sky-list-summary>
-  <sky-list-summary-item labelText="Total Records" [value]="totalRecords" />
+  <sky-list-summary-item labelText="Total records" [value]="totalRecords" />
   <sky-list-summary-item
     labelText="Revenue"
     [value]="revenue"
@@ -266,7 +266,7 @@ it('should display summary statistics', async () => {
 
   expect(summaryItems.length).toBe(2);
   await expectAsync(summaryItems[0].getLabelText()).toBeResolvedTo(
-    'Total Records',
+    'Total records',
   );
   await expectAsync(summaryItems[0].getValueText()).toBeResolvedTo('1,247');
 });
