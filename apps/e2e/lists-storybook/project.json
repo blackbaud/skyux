@@ -4,25 +4,30 @@
   "projectType": "application",
   "sourceRoot": "apps/e2e/lists-storybook/src",
   "prefix": "app",
-  "tags": ["component-e2e"],
+  "tags": ["component-e2e", "icons-preview"],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath.base}"],
       "options": {
         "allowedCommonJsDependencies": ["dragula", "ng2-dragula"],
-        "outputPath": "dist/apps/e2e/lists-storybook",
+        "outputPath": {
+          "base": "dist/apps/e2e/lists-storybook"
+        },
         "index": "apps/e2e/lists-storybook/src/index.html",
-        "main": "apps/e2e/lists-storybook/src/main.ts",
-        "polyfills": "apps/e2e/lists-storybook/src/polyfills.ts",
+        "polyfills": ["apps/e2e/lists-storybook/src/polyfills.ts"],
         "tsConfig": "apps/e2e/lists-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        },
         "styles": [
           "apps/e2e/lists-storybook/src/styles.scss",
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
-        "scripts": []
+        "scripts": [],
+        "browser": "apps/e2e/lists-storybook/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -38,18 +43,10 @@
               "maximumError": "24kb"
             }
           ],
-          "fileReplacements": [
-            {
-              "replace": "apps/e2e/lists-storybook/src/environments/environment.ts",
-              "with": "apps/e2e/lists-storybook/src/environments/environment.prod.ts"
-            }
-          ],
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -129,8 +126,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "lists-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "lists-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

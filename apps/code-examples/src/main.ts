@@ -1,15 +1,38 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { provideHttpClient } from '@angular/common/http';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {
+  provideRouter,
+  withHashLocation,
+  withInMemoryScrolling,
+} from '@angular/router';
+import * as codeExampleExports from '@skyux/code-examples';
+import {
+  SkyDocsCodeExampleComponentTypes,
+  provideSkyDocsCodeExampleTypes,
+} from '@skyux/docs-tools';
+import { provideInitialTheme } from '@skyux/theme';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+import { AppComponent } from './app/app.component';
+import { routes } from './app/app.routes';
 
-if (environment.production) {
-  enableProdMode();
-}
+const CODE_EXAMPLES = codeExampleExports as SkyDocsCodeExampleComponentTypes;
 
-platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  .catch((err) => {
-    console.error(err);
-  });
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideAnimationsAsync(),
+    provideHttpClient(),
+    provideInitialTheme('modern'),
+    provideRouter(
+      routes,
+      withHashLocation(),
+      withInMemoryScrolling({
+        anchorScrolling: 'enabled',
+        scrollPositionRestoration: 'enabled',
+      }),
+    ),
+    provideSkyDocsCodeExampleTypes(CODE_EXAMPLES),
+  ],
+}).catch((err) => {
+  console.error(err);
+});

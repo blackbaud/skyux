@@ -1,13 +1,27 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { provideRouter, withHashLocation } from '@angular/router';
+import { SkyAppAssetsService } from '@skyux/assets';
+import { provideInitialTheme } from '@skyux/theme';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+import { AppComponent } from './app/app.component';
+import { routes } from './app/app.routes';
 
-if (environment.production) {
-  enableProdMode();
-}
-
-platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  .catch((err) => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideHttpClient(withInterceptorsFromDi()),
+    provideInitialTheme('modern'),
+    provideNoopAnimations(),
+    provideRouter(routes, withHashLocation()),
+    {
+      provide: SkyAppAssetsService,
+      useValue: {
+        getUrl: (path: string): string => `/assets/${path}`,
+      },
+    },
+  ],
+}).catch((err) => console.error(err));

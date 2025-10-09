@@ -17,6 +17,10 @@
           "devServerTarget": "forms-storybook:static-storybook:ci",
           "browser": "chrome",
           "baseUrl": "http://localhost:4200"
+        },
+        "prebuilt": {
+          "devServerTarget": "forms-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
         }
       }
     },

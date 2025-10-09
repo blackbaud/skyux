@@ -16,7 +16,6 @@ import { SkyPageModule } from '@skyux/pages';
 import { SkySplitViewModule } from '@skyux/split-view';
 
 import { DataManagerModule } from '../../../shared/data-manager/data-manager.module';
-import { LipsumModule } from '../../../shared/lipsum/lipsum.module';
 
 import { SplitViewComponent } from './basic/split-view.component';
 import { SplitViewDataManagerComponent } from './data-manager/split-view-data-manager.component';
@@ -40,7 +39,6 @@ import { SplitViewRoutingModule } from './split-view-routing.module';
     SkySplitViewModule,
     SkySummaryActionBarModule,
     SplitViewRoutingModule,
-    LipsumModule,
     DataManagerModule,
     SkyDataManagerModule,
     SkyDescriptionListModule,

@@ -1,0 +1,26 @@
+:host {
+  /* Maximum contrast for visual tests */
+  background-color: white;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(auto-fill, 100px);
+  padding: var(--sky-padding-even-md);
+}
+
+.icon-row {
+  display: grid;
+  grid-template-columns: repeat(6, 100px) 1fr;
+  gap: var(--sky-padding-even-md);
+  padding: var(--sky-padding-even-md);
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-name {
+  display: flex;
+  align-items: center;
+}
