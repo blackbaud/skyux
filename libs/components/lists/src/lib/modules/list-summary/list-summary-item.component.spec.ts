@@ -21,7 +21,7 @@ describe('List summary item component', () => {
 
   it('should create', () => {
     componentRef.setInput('value', 100);
-    componentRef.setInput('label', 'Test Label');
+    componentRef.setInput('labelText', 'Test Label');
     fixture.detectChanges();
 
     expect(component).toBeTruthy();
@@ -29,7 +29,7 @@ describe('List summary item component', () => {
 
   it('should display numeric values with formatting', () => {
     componentRef.setInput('value', 1234567);
-    componentRef.setInput('label', 'Large Number');
+    componentRef.setInput('labelText', 'Large Number');
     componentRef.setInput('valueFormat', { truncate: false });
     fixture.detectChanges();
 
@@ -42,7 +42,7 @@ describe('List summary item component', () => {
 
   it('should display string values without formatting', () => {
     componentRef.setInput('value', 'Custom Value');
-    componentRef.setInput('label', 'Text Label');
+    componentRef.setInput('labelText', 'Text Label');
     fixture.detectChanges();
 
     const label = fixture.debugElement.query(By.css('.sky-key-info-label'));
@@ -54,7 +54,7 @@ describe('List summary item component', () => {
 
   it('should handle zero values', () => {
     componentRef.setInput('value', 0);
-    componentRef.setInput('label', 'Zero Count');
+    componentRef.setInput('labelText', 'Zero Count');
     fixture.detectChanges();
 
     const label = fixture.debugElement.query(By.css('.sky-key-info-label'));
@@ -66,7 +66,7 @@ describe('List summary item component', () => {
 
   it('should use horizontal layout', () => {
     componentRef.setInput('value', 100);
-    componentRef.setInput('label', 'Test Label');
+    componentRef.setInput('labelText', 'Test Label');
     fixture.detectChanges();
 
     const keyInfo = fixture.debugElement.query(By.css('sky-key-info'));
@@ -75,7 +75,7 @@ describe('List summary item component', () => {
 
   it('should pass help properties to sky-key-info', () => {
     componentRef.setInput('value', 100);
-    componentRef.setInput('label', 'Test Label');
+    componentRef.setInput('labelText', 'Test Label');
     componentRef.setInput('helpKey', 'test-help-key');
     componentRef.setInput('helpPopoverContent', 'Help content');
     componentRef.setInput('helpPopoverTitle', 'Help title');
@@ -91,7 +91,7 @@ describe('List summary item component', () => {
 
   it('should apply display-4 font class to value', () => {
     componentRef.setInput('value', 100);
-    componentRef.setInput('label', 'Test Label');
+    componentRef.setInput('labelText', 'Test Label');
     fixture.detectChanges();
 
     const value = fixture.debugElement.query(By.css('sky-key-info-value'));
@@ -100,7 +100,7 @@ describe('List summary item component', () => {
 
   it('should format large numbers with default truncation', () => {
     componentRef.setInput('value', 1000);
-    componentRef.setInput('label', 'Thousand');
+    componentRef.setInput('labelText', 'Thousand');
     fixture.detectChanges();
 
     const value = fixture.debugElement.query(By.css('.sky-key-info-value'));

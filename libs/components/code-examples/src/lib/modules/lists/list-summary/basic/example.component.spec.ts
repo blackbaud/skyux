@@ -97,7 +97,7 @@ describe('Lists list summary basic example', () => {
         'The total number of records in the current dataset.',
       );
       await expectAsync(summaryItems[0].getHelpPopoverTitle()).toBeResolvedTo(
-        'Total Records Help',
+        'Total records help',
       );
     });
 
