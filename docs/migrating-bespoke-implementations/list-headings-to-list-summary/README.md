@@ -31,7 +31,7 @@ Look for `sky-key-info` components or custom templates that display summary info
 <div class="summary-stats">
   <sky-key-info>
     <sky-key-info-value>1,247</sky-key-info-value>
-    <sky-key-info-label>Total Records</sky-key-info-label>
+    <sky-key-info-label>Total records</sky-key-info-label>
   </sky-key-info>
   <sky-key-info>
     <sky-key-info-value>$1.2M</sky-key-info-value>
@@ -40,7 +40,7 @@ Look for `sky-key-info` components or custom templates that display summary info
 </div>
 ```
 
-### 2. Import the list summary module
+### 2. Import list summary module
 
 Add `SkyListSummaryModule` to your component or module imports:
 
@@ -65,7 +65,7 @@ import { SkyListSummaryModule } from '@skyux/lists';
 
 ### 3. Replace bespoke template with list summary
 
-Replace your sky-key-info implementation with the standardized components:
+Replace your `sky-key-info` implementation with the standardized components:
 
 ```html
 <!-- Before: sky-key-info implementation -->
@@ -159,10 +159,10 @@ If your summary items need explanatory content, add help popovers:
 ```html
 <sky-list-summary>
   <sky-list-summary-item
-    label="Total Revenue"
+    label="Total revenue"
     [value]="totalRevenue"
     [valueFormat]="{ format: 'currency' }"
-    helpPopoverTitle="Total Revenue"
+    helpPopoverTitle="Total revenue"
     helpPopoverContent="The sum of all revenue generated from completed transactions."
   />
 </sky-list-summary>
@@ -177,23 +177,23 @@ If your summary items need explanatory content, add help popovers:
 <div class="stats-row">
   <sky-key-info>
     <sky-key-info-value>{{ userCount | number:'1.0-0' }}</sky-key-info-value>
-    <sky-key-info-label>Active Users</sky-key-info-label>
+    <sky-key-info-label>Active users</sky-key-info-label>
   </sky-key-info>
   <sky-key-info>
     <sky-key-info-value>{{ averageScore | number:'1.1-1' }}</sky-key-info-value>
-    <sky-key-info-label>Average Score</sky-key-info-label>
+    <sky-key-info-label>Average score</sky-key-info-label>
   </sky-key-info>
 </div>
 
 <!-- After: List summary component -->
 <sky-list-summary>
   <sky-list-summary-item
-    label="Active Users"
+    label="Active users"
     [value]="userCount"
     [valueFormat]="{ format: 'number', digitsInfo: '1.0-0' }"
   />
   <sky-list-summary-item
-    label="Average Score"
+    label="Average score"
     [value]="averageScore"
     [valueFormat]="{ format: 'number', digitsInfo: '1.1-1' }"
   />
@@ -209,25 +209,25 @@ If your summary items need explanatory content, add help popovers:
     <sky-key-info-value
       >{{ totalSales | currency:'USD':'symbol':'1.2-2' }}</sky-key-info-value
     >
-    <sky-key-info-label>Total Sales</sky-key-info-label>
+    <sky-key-info-label>Total sales</sky-key-info-label>
   </sky-key-info>
   <sky-key-info>
     <sky-key-info-value
       >{{ averageOrderValue | number:'1.2-2' }}</sky-key-info-value
     >
-    <sky-key-info-label>Avg Order Value</sky-key-info-label>
+    <sky-key-info-label>Average order value</sky-key-info-label>
   </sky-key-info>
 </div>
 
 <!-- After: List summary component -->
 <sky-list-summary>
   <sky-list-summary-item
-    label="Total Sales"
+    label="Total sales"
     [value]="totalSales"
     [valueFormat]="{ format: 'currency', digitsInfo: '1.2-2' }"
   />
   <sky-list-summary-item
-    label="Avg Order Value"
+    label="Average order value"
     [value]="averageOrderValue"
     [valueFormat]="{ format: 'number', digitsInfo: '1.2-2' }"
   />
@@ -241,13 +241,13 @@ If your summary items need explanatory content, add help popovers:
 <div class="status-summary">
   <sky-key-info>
     <sky-key-info-value>{{ currentStatus }}</sky-key-info-value>
-    <sky-key-info-label>System Status</sky-key-info-label>
+    <sky-key-info-label>System status</sky-key-info-label>
   </sky-key-info>
 </div>
 
 <!-- After: List summary component -->
 <sky-list-summary>
-  <sky-list-summary-item label="System Status" [value]="currentStatus" />
+  <sky-list-summary-item label="System status" [value]="currentStatus" />
 </sky-list-summary>
 ```
 
@@ -303,22 +303,22 @@ Verify that the new implementation maintains the expected visual appearance and 
 
 ### Issue: Help content not appearing
 
-**Problem**: Help popover doesn't display when clicking the help icon.
+**Problem**: Help popover doesn't display when clicking the inline help button.
 
 **Solution**: Ensure both `helpPopoverContent` and optionally `helpPopoverTitle` are provided:
 
 ```html
 <sky-list-summary-item
-  label="Metric Name"
+  label="Metric name"
   [value]="metricValue"
   helpPopoverContent="Description of what this metric represents."
-  helpPopoverTitle="Metric Help"
+  helpPopoverTitle="Metric help"
 />
 ```
 
 ## Additional resources
 
 - [List summary component documentation](https://developer.blackbaud.com/skyux/components/list-summary)
-- [List summary code examples](https://developer.blackbaud.com/skyux/components/list-summary#demo)
+- [List summary code examples](https://developer.blackbaud.com/skyux/components/list-summary?docs-active-tab=examples)
 - [Numeric formatting options](https://developer.blackbaud.com/skyux/components/numeric)
 - [Help inline component](https://developer.blackbaud.com/skyux/components/help-inline)

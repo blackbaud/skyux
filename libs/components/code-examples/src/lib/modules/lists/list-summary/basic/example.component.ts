@@ -15,7 +15,7 @@ export class ListsListSummaryBasicExampleComponent {
       label: 'Total records',
       value: 1247,
       helpPopoverContent: 'The total number of records in the current dataset.',
-      helpPopoverTitle: 'Total Records Help',
+      helpPopoverTitle: 'Total records help',
     },
     {
       label: 'Active items',
