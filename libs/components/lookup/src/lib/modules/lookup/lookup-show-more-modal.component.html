@@ -84,20 +84,13 @@
             </sky-toolbar-item>
             <sky-toolbar-view-actions>
               <sky-checkbox
-                [label]="
-                  'skyux_lookup_show_more_show_selected_option_aria_label'
+                [labelText]="
+                  'skyux_lookup_show_more_show_selected_option_title'
                     | skyLibResources: context.userConfig.selectionDescriptor
                 "
                 [(checked)]="onlyShowSelected"
                 (change)="updateDataState()"
-              >
-                <sky-checkbox-label>
-                  {{
-                    'skyux_lookup_show_more_show_selected_option_title'
-                      | skyLibResources
-                  }}
-                </sky-checkbox-label>
-              </sky-checkbox>
+              />
             </sky-toolbar-view-actions>
           </sky-toolbar-section>
         </sky-toolbar>
