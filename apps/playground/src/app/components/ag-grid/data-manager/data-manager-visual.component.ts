@@ -1,14 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
+import { SkyFilterBarFilterItem, SkyFilterBarModule } from '@skyux/filter-bar';
 
-import { SkyDataManagerFiltersModalVisualComponent } from './data-filter-modal.component';
+import { of } from 'rxjs';
+
 import { DataViewGridComponent } from './data-view-grid.component';
 import { DataViewRepeaterComponent } from './data-view-repeater.component';
+import { FRUIT_TYPE_LOOKUP_ITEMS } from './filters/fruit-type-lookup-data';
+import { HideOrangeFilterModalComponent } from './filters/hide-orange-filter-modal.component';
+import { FruitItem } from './fruit-item';
 import { LocalStorageConfigService } from './local-storage-config.service';
 
 @Component({
@@ -17,6 +22,7 @@ import { LocalStorageConfigService } from './local-storage-config.service';
     SkyDataManagerModule,
     DataViewGridComponent,
     DataViewRepeaterComponent,
+    SkyFilterBarModule,
   ],
   templateUrl: './data-manager-visual.component.html',
   providers: [
@@ -29,7 +35,6 @@ import { LocalStorageConfigService } from './local-storage-config.service';
 })
 export class DataManagerVisualComponent implements OnInit {
   public dataManagerConfig = {
-    filterModalComponent: SkyDataManagerFiltersModalVisualComponent,
     sortOptions: [
       {
         id: 'az',
@@ -53,7 +58,12 @@ export class DataManagerVisualComponent implements OnInit {
     filterData: {
       filtersApplied: true,
       filters: {
-        hideOrange: true,
+        appliedFilters: [
+          {
+            filterId: 'hideOrange',
+            filterValue: { value: true, displayValue: 'Hide orange fruits' },
+          },
+        ],
       },
     },
     views: [
@@ -66,7 +76,7 @@ export class DataManagerVisualComponent implements OnInit {
 
   public dataState: SkyDataManagerState;
 
-  public items: any[] = [
+  public items: FruitItem[] = [
     {
       id: '1',
       name: 'Orange',
@@ -163,19 +173,28 @@ export class DataManagerVisualComponent implements OnInit {
     },
   ];
   public activeViewId = 'repeaterView';
-  public settingsKey = 'test';
+  public settingsKey = 'test2';
 
-  constructor(private dataManagerService: SkyDataManagerService) {
-    this.dataManagerService
+  public filterBarAppliedFilters: SkyFilterBarFilterItem | undefined;
+  public filterBarSelectedIds: string[] | undefined = [
+    'fruitType',
+    'hideOrange',
+  ];
+  protected readonly hideOrangeModalComponent = HideOrangeFilterModalComponent;
+
+  readonly #dataManagerService = inject(SkyDataManagerService);
+
+  constructor() {
+    this.#dataManagerService
       .getDataStateUpdates('dataManager')
       .subscribe((state) => (this.dataState = state));
-    this.dataManagerService
+    this.#dataManagerService
       .getActiveViewIdUpdates()
       .subscribe((activeViewId) => (this.activeViewId = activeViewId));
   }
 
   public ngOnInit(): void {
-    this.dataManagerService.initDataManager({
+    this.#dataManagerService.initDataManager({
       activeViewId: this.activeViewId,
       dataManagerConfig: this.dataManagerConfig,
       defaultDataState: this.defaultDataState,
@@ -188,7 +207,14 @@ export class DataManagerVisualComponent implements OnInit {
       ...this.dataState,
       searchText: 'so',
     });
-    this.dataManagerService.updateDataState(newDataState, 'dataManager');
+    this.#dataManagerService.updateDataState(newDataState, 'dataManager');
     this.dataState = newDataState;
+  }
+
+  public onFruitTypeSearchAsync(args: { result?: unknown }): void {
+    args.result = of({
+      items: FRUIT_TYPE_LOOKUP_ITEMS,
+      totalCount: FRUIT_TYPE_LOOKUP_ITEMS.length,
+    });
   }
 }

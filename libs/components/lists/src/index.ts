@@ -10,6 +10,11 @@ export { SkyPagingContentChangeArgs } from './lib/modules/paging/types/paging-co
 export { SkyRepeaterExpandModeType } from './lib/modules/repeater/repeater-expand-mode-type';
 export { SkyRepeaterModule } from './lib/modules/repeater/repeater.module';
 
+export { SkyFilterAdapterService } from './lib/modules/shared/filter-adapter/filter-adapter.service';
+export { SkyFilterAdapterData } from './lib/modules/shared/filter-adapter/filter-adapter-data';
+export { SkyFilterAdapterFilterItem } from './lib/modules/shared/filter-adapter/filter-adapter-filter-item';
+export { SkyFilterAdapterFilterValue } from './lib/modules/shared/filter-adapter/filter-adapter-filter-value';
+
 export { SkySortModule } from './lib/modules/sort/sort.module';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
