@@ -63,13 +63,9 @@
     "_description": "Texte pour le bouton effacer tout dans la barre de recherche à sélection multiple afficher plus",
     "message": "Effacer tout"
   },
-  "skyux_lookup_show_more_show_selected_option_aria_label": {
-    "_description": "Texte de l’étiquette Aria pour la case afficher la sélection dans la barre de recherche à sélection multiple afficher plus",
-    "message": "Montrer seulement ce qui est sélectionné {0}"
-  },
   "skyux_lookup_show_more_show_selected_option_title": {
     "_description": "Texte pour le bouton afficher la sélection dans la barre de recherche à sélection multiple afficher plus",
-    "message": "Montrer seulement les éléments sélectionnés"
+    "message": "Montrer seulement ce qui est sélectionné {0}"
   },
   "skyux_lookup_show_more_cancel": {
     "_description": "Étiquette pour le bouton modal annuler de la recherche afficher plus",

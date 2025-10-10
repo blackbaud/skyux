@@ -67,13 +67,9 @@
     "_description": "Text for the clear all button in the lookup show more multiselect toolbar",
     "message": "Clear all"
   },
-  "skyux_lookup_show_more_show_selected_option_aria_label": {
-    "_description": "Aria-label text for the show selected checkbox in the lookup show more multiselect toolbar",
-    "message": "Show only selected {0}"
-  },
   "skyux_lookup_show_more_show_selected_option_title": {
     "_description": "Text for the show selected checkbox in the lookup show more multiselect toolbar",
-    "message": "Show only selected items"
+    "message": "Show only selected {0}"
   },
   "skyux_lookup_show_more_cancel": {
     "_description": "Label for lookup's show more modal cancel button",

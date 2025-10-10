@@ -2,7 +2,7 @@
   #itemRef
   class="sky-repeater-item sky-padding-even-default"
   [attr.aria-label]="itemName"
-  [attr.aria-labelledby]="itemName || titleId"
+  [attr.aria-labelledby]="itemName ? undefined : titleId"
   [attr.aria-selected]="selectable ? !!isSelected : undefined"
   [attr.role]="(itemRole$ | async)?.item"
   [attr.tabIndex]="tabindex"
@@ -75,6 +75,7 @@
         class="sky-repeater-item-checkbox"
         [checked]="isSelected"
         [disabled]="disabled"
+        [id]="contentId + '-item-checkbox'"
         [labelHidden]="true"
         [labelText]="
           itemName
