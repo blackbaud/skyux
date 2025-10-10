@@ -1,6 +1,15 @@
 # Changelog
 
 
+# [13.4.0](https://github.com/blackbaud/skyux/compare/13.3.1...13.4.0) (2025-10-10)
+
+
+### Features
+
+* **components/lists:** add list summary component ([#4016](https://github.com/blackbaud/skyux/issues/4016)) ([d923800](https://github.com/blackbaud/skyux/commit/d9238002cb202bff6e2e89a35bc0245c04db74b7))
+
+
+
 ## [13.3.1](https://github.com/blackbaud/skyux/compare/13.3.0...13.3.1) (2025-10-07)
 
 
