@@ -151,6 +151,8 @@ jobs:
           - integration
           - playground
     env:
+      NX_BASE: ${{ needs.install-deps.outputs.base }}
+      NX_HEAD: ${{ needs.install-deps.outputs.head }}
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v5

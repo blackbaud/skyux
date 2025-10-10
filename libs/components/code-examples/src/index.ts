@@ -16,6 +16,7 @@ export { AgGridDataGridTemplateRefColumnExampleComponent } from './lib/modules/a
 export { AgGridDataGridTopScrollExampleComponent } from './lib/modules/ag-grid/data-grid/top-scroll/example.component';
 export { AngularTreeComponentAngularTreeBasicExampleComponent } from './lib/modules/angular-tree-component/angular-tree/basic/example.component';
 export { AngularTreeComponentAngularTreeHelpKeyExampleComponent } from './lib/modules/angular-tree-component/angular-tree/help-key/example.component';
+export { AngularTreeComponentAngularTreePreselectedNodesExampleComponent } from './lib/modules/angular-tree-component/angular-tree/preselected-nodes/example.component';
 export { AutonumericCurrencyExampleComponent } from './lib/modules/autonumeric/autonumeric/currency/example.component';
 export { AutonumericInternationalFormattingExampleComponent } from './lib/modules/autonumeric/autonumeric/international-formatting/example.component';
 export { AutonumericOptionsProviderExampleComponent } from './lib/modules/autonumeric/autonumeric/options-provider/example.component';
@@ -110,6 +111,7 @@ export { LayoutToolbarSectionedExampleComponent } from './lib/modules/layout/too
 export { ListsFilterInlineExampleComponent } from './lib/modules/lists/filter/inline/example.component';
 export { ListsFilterModalExampleComponent } from './lib/modules/lists/filter/modal/example.component';
 export { ListsInfiniteScrollRepeaterExampleComponent } from './lib/modules/lists/infinite-scroll/repeater/example.component';
+export { ListsListSummaryBasicExampleComponent } from './lib/modules/lists/list-summary/basic/example.component';
 export { ListsPagingBasicExampleComponent } from './lib/modules/lists/paging/basic/example.component';
 export { ListsPagingWithContentExampleComponent } from './lib/modules/lists/paging/with-content/example.component';
 export { ListsRepeaterAddRemoveExampleComponent } from './lib/modules/lists/repeater/add-remove/example.component';

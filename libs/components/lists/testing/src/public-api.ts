@@ -1,5 +1,15 @@
 export { SkyFilterTestingModule } from './legacy/filter/filter-testing.module';
 
+export { SkyInfiniteScrollFixture } from './legacy/infinite-scroll/infinite-scroll-fixture';
+export { SkyInfiniteScrollTestingModule } from './legacy/infinite-scroll/infinite-scroll-testing.module';
+
+export { SkyPagingFixture } from './legacy/paging/paging-fixture';
+export { SkyPagingFixtureButton } from './legacy/paging/paging-fixture-button';
+
+export { SkySortFixture } from './legacy/sort/sort-fixture';
+export { SkySortFixtureMenu } from './legacy/sort/sort-fixture-menu';
+export { SkySortFixtureMenuItem } from './legacy/sort/sort-fixture-menu-item';
+
 export { SkyFilterButtonHarness } from './modules/filter/filter-button-harness';
 export { SkyFilterButtonHarnessFilters } from './modules/filter/filter-button-harness-filters';
 export { SkyFilterInlineHarness } from './modules/filter/filter-inline-harness';
@@ -11,8 +21,13 @@ export { SkyFilterSummaryHarnessFilters } from './modules/filter/filter-summary-
 export { SkyFilterSummaryItemHarness } from './modules/filter/filter-summary-item-harness';
 export { SkyFilterSummaryItemHarnessFilters } from './modules/filter/filter-summary-item-harness-filters';
 
-export { SkyPagingFixture } from './legacy/paging/paging-fixture';
-export { SkyPagingFixtureButton } from './legacy/paging/paging-fixture-button';
+export { SkyInfiniteScrollHarness } from './modules/infinite-scroll/infinite-scroll-harness';
+export { SkyInfiniteScrollHarnessFilters } from './modules/infinite-scroll/infinite-scroll-harness-filters';
+
+export { SkyListSummaryHarness } from './modules/list-summary/list-summary-harness';
+export { SkyListSummaryHarnessFilters } from './modules/list-summary/list-summary-harness-filters';
+export { SkyListSummaryItemHarness } from './modules/list-summary/list-summary-item-harness';
+export { SkyListSummaryItemHarnessFilters } from './modules/list-summary/list-summary-item-harness-filters';
 
 export { SkyPagingContentHarness } from './modules/paging/paging-content-harness';
 export { SkyPagingHarness } from './modules/paging/paging-harness';
@@ -24,17 +39,7 @@ export { SkyRepeaterItemHarness } from './modules/repeater/repeater-item-harness
 export { SkyRepeaterItemHarnessFilters } from './modules/repeater/repeater-item-harness-filters';
 export { SkyRepeaterItemContextMenuHarness } from './modules/repeater/repeater-item-context-menu-harness';
 
-export { SkySortFixture } from './legacy/sort/sort-fixture';
-export { SkySortFixtureMenu } from './legacy/sort/sort-fixture-menu';
-export { SkySortFixtureMenuItem } from './legacy/sort/sort-fixture-menu-item';
-
 export { SkySortHarness } from './modules/sort/sort-harness';
 export { SkySortHarnessFilters } from './modules/sort/sort-harness-filters';
 export { SkySortItemHarness } from './modules/sort/sort-item-harness';
 export { SkySortItemHarnessFilters } from './modules/sort/sort-item-harness-filters';
-
-export { SkyInfiniteScrollFixture } from './legacy/infinite-scroll/infinite-scroll-fixture';
-export { SkyInfiniteScrollTestingModule } from './legacy/infinite-scroll/infinite-scroll-testing.module';
-
-export { SkyInfiniteScrollHarness } from './modules/infinite-scroll/infinite-scroll-harness';
-export { SkyInfiniteScrollHarnessFilters } from './modules/infinite-scroll/infinite-scroll-harness-filters';
