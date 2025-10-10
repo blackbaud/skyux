@@ -1,5 +1,7 @@
+import { StaticProvider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { SkyFilterAdapterData, SkyFilterAdapterService } from '@skyux/lists';
 import {
   SkySelectionModalInstance,
   SkySelectionModalOpenArgs,
@@ -47,25 +49,56 @@ describe('Filter bar component', () => {
   let fixture: ComponentFixture<SkyFilterBarTestComponent>;
   let confirmServiceSpy: jasmine.SpyObj<SkyConfirmService>;
   let selectionModalServiceSpy: jasmine.SpyObj<SkySelectionModalService>;
+  let filterAdapterServiceSpy: jasmine.SpyObj<SkyFilterAdapterService>;
+  let adapterUpdates$: Subject<SkyFilterAdapterData>;
+  let modalServiceSpy: jasmine.SpyObj<SkyModalService>;
 
   // Common setup for all tests
-  async function setupTestBed(): Promise<void> {
+  async function setupTestBed(options?: {
+    includeFilterAdapter?: boolean;
+    includeModalService?: boolean;
+  }): Promise<void> {
     confirmServiceSpy = jasmine.createSpyObj('SkyConfirmService', ['open']);
     selectionModalServiceSpy = jasmine.createSpyObj(
       'SkySelectionModalService',
       ['open'],
     );
 
+    const providers: StaticProvider[] = [
+      provideNoopAnimations(),
+      { provide: SkyConfirmService, useValue: confirmServiceSpy },
+      {
+        provide: SkySelectionModalService,
+        useValue: selectionModalServiceSpy,
+      },
+    ];
+
+    if (options?.includeModalService) {
+      modalServiceSpy = jasmine.createSpyObj('SkyModalService', ['open']);
+      providers.push({
+        provide: SkyModalService,
+        useValue: modalServiceSpy,
+      });
+    }
+
+    if (options?.includeFilterAdapter) {
+      adapterUpdates$ = new Subject<SkyFilterAdapterData>();
+      filterAdapterServiceSpy = jasmine.createSpyObj(
+        'SkyFilterAdapterService',
+        ['getFilterDataUpdates', 'updateFilterData'],
+      );
+      filterAdapterServiceSpy.getFilterDataUpdates.and.returnValue(
+        adapterUpdates$.asObservable(),
+      );
+      providers.push({
+        provide: SkyFilterAdapterService,
+        useValue: filterAdapterServiceSpy,
+      });
+    }
+
     await TestBed.configureTestingModule({
       imports: [SkyFilterBarTestComponent],
-      providers: [
-        provideNoopAnimations(),
-        { provide: SkyConfirmService, useValue: confirmServiceSpy },
-        {
-          provide: SkySelectionModalService,
-          useValue: selectionModalServiceSpy,
-        },
-      ],
+      providers,
     }).compileComponents();
 
     fixture = TestBed.createComponent(SkyFilterBarTestComponent);
@@ -367,33 +400,8 @@ describe('Filter bar component', () => {
   });
 
   describe('filter modal interactions', () => {
-    let modalServiceSpy: jasmine.SpyObj<SkyModalService>;
-
     beforeEach(async () => {
-      modalServiceSpy = jasmine.createSpyObj('SkyModalService', ['open']);
-
-      confirmServiceSpy = jasmine.createSpyObj('SkyConfirmService', ['open']);
-      selectionModalServiceSpy = jasmine.createSpyObj(
-        'SkySelectionModalService',
-        ['open'],
-      );
-
-      await TestBed.configureTestingModule({
-        imports: [SkyFilterBarTestComponent],
-        providers: [
-          provideNoopAnimations(),
-          { provide: SkyConfirmService, useValue: confirmServiceSpy },
-          {
-            provide: SkySelectionModalService,
-            useValue: selectionModalServiceSpy,
-          },
-          { provide: SkyModalService, useValue: modalServiceSpy },
-        ],
-      }).compileComponents();
-
-      fixture = TestBed.createComponent(SkyFilterBarTestComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
+      await setupTestBed({ includeModalService: true });
     });
 
     interface ProviderLike<T = unknown> {
@@ -912,20 +920,9 @@ describe('Filter bar component', () => {
         'button',
       ) as HTMLButtonElement;
       filterButton.click();
+      fixture.detectChanges();
 
       expect(selectionModalServiceSpy.open).toHaveBeenCalled();
-
-      // After modal closes with single selection, verify display value
-      component.appliedFilters.set([
-        {
-          filterId: '4',
-          filterValue: {
-            value: [{ id: '4', name: 'Alpha' }],
-            displayValue: 'Alpha',
-          },
-        },
-      ]);
-      fixture.detectChanges();
 
       const updatedFilterItems = getFilterItems();
       const valueElement = updatedFilterItems[3].querySelector(
@@ -983,6 +980,7 @@ describe('Filter bar component', () => {
         'button',
       ) as HTMLButtonElement;
       filterButton.click();
+      fixture.detectChanges();
 
       // Ensure search emitted
       expect(component.searchCalls.length).toBe(1);
@@ -1042,23 +1040,12 @@ describe('Filter bar component', () => {
         'button',
       ) as HTMLButtonElement;
       filterButton.click();
+      fixture.detectChanges();
 
       expect(selectionModalServiceSpy.open).toHaveBeenCalled();
       expect(component.searchCalls.length).toBe(1);
       // Simulate applied filters update (would normally be via service update emission)
-      component.appliedFilters.set([
-        {
-          filterId: '4',
-          filterValue: {
-            value: [
-              { id: '4', name: 'Alpha' },
-              { id: '5', name: 'Beta' },
-            ],
-            displayValue: '2 selected',
-          },
-        },
-      ]);
-      fixture.detectChanges();
+
       const valueElement = filterItems[3].querySelector(
         '.sky-filter-item-value',
       );
@@ -1077,22 +1064,13 @@ describe('Filter bar component', () => {
         closed: closed$,
       } as unknown as SkySelectionModalInstance);
 
-      // Simulate multiple selection result
-      component.appliedFilters.set([
-        {
-          filterId: '4',
-          filterValue: {
-            value: [
-              { id: '4', name: 'Alpha' },
-              { id: '5', name: 'Beta' },
-            ],
-            displayValue: '2 selected',
-          },
-        },
-      ]);
+      const filterItems = getFilterItems();
+      const filterButton = filterItems[3].querySelector(
+        'button',
+      ) as HTMLButtonElement;
+      filterButton.click();
       fixture.detectChanges();
 
-      const filterItems = getFilterItems();
       const valueElement = filterItems[3].querySelector(
         '.sky-filter-item-value',
       );
@@ -1102,6 +1080,9 @@ describe('Filter bar component', () => {
     it('should handle empty selection by clearing filter value', () => {
       // Start with an existing filter value
       component.appliedFilters.set([
+        { filterId: '1', filterValue: { value: 'value1' } },
+        { filterId: '2', filterValue: { value: 'value2' } },
+        { filterId: '3', filterValue: { value: 'value3' } },
         {
           filterId: '4',
           filterValue: { value: 'existing', displayValue: 'Existing' },
@@ -1114,16 +1095,13 @@ describe('Filter bar component', () => {
         closed: closed$,
       } as unknown as SkySelectionModalInstance);
 
-      // After empty selection, filter should be cleared only for filterId 4
-      component.appliedFilters.set([
-        { filterId: '1', filterValue: { value: 'value1' } },
-        { filterId: '2', filterValue: { value: 'value2' } },
-        { filterId: '3', filterValue: { value: 'value3' } },
-        { filterId: '4', filterValue: undefined },
-      ]);
+      const filterItems = getFilterItems();
+      const filterButton = filterItems[3].querySelector(
+        'button',
+      ) as HTMLButtonElement;
+      filterButton.click();
       fixture.detectChanges();
 
-      const filterItems = getFilterItems();
       // Should still have 4 filter items; lookup shows no value
       expect(filterItems.length).toBe(4);
       const lookupValueEl = filterItems[3].querySelector(
@@ -1166,6 +1144,177 @@ describe('Filter bar component', () => {
         '.sky-filter-item-value',
       );
       expect(valueElement?.textContent?.trim()).toBe('Original');
+    });
+  });
+
+  describe('filter adapter service integration', () => {
+    beforeEach(async () => {
+      await setupTestBed({ includeFilterAdapter: true });
+    });
+
+    it('should update local signals when receiving adapter updates', () => {
+      // Simulate external update through adapter
+      adapterUpdates$.next({
+        appliedFilters: [
+          { filterId: '3', filterValue: { value: 'external value' } },
+        ],
+        selectedFilterIds: ['3'],
+      });
+      fixture.detectChanges();
+
+      expect(component.appliedFilters()).toEqual([
+        { filterId: '3', filterValue: { value: 'external value' } },
+      ]);
+      expect(component.selectedFilterIds()).toEqual(['3']);
+    });
+
+    it('should update local signals when receiving empty adapter updates', () => {
+      // First set some local values
+      component.appliedFilters.set([
+        { filterId: '1', filterValue: { value: 'local value' } },
+      ]);
+      component.selectedFilterIds.set(['1']);
+      fixture.detectChanges();
+
+      // Then simulate external clearing through adapter
+      adapterUpdates$.next({
+        appliedFilters: [],
+        selectedFilterIds: [],
+      });
+      fixture.detectChanges();
+
+      expect(component.appliedFilters()).toEqual([]);
+      expect(component.selectedFilterIds()).toEqual([]);
+    });
+
+    it('should call updateFilterData when a filter changes', () => {
+      const closed$ = of({
+        reason: 'save',
+        selectedItems: [
+          { id: '4', name: 'Alpha' },
+          { id: '5', name: 'Beta' },
+        ],
+      });
+      selectionModalServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as unknown as SkySelectionModalInstance);
+
+      const filterItems = getFilterItems();
+      const filterButton = filterItems[3].querySelector(
+        'button',
+      ) as HTMLButtonElement;
+      filterButton.click();
+      fixture.detectChanges();
+
+      expect(filterAdapterServiceSpy.updateFilterData).toHaveBeenCalledWith(
+        {
+          appliedFilters: [
+            {
+              filterId: '4',
+              filterValue: {
+                value: [
+                  { id: '4', name: 'Alpha' },
+                  { id: '5', name: 'Beta' },
+                ],
+                displayValue: '2 selected',
+              },
+            },
+          ],
+          selectedFilterIds: ['1', '2', '3', '4'],
+        },
+        'skyFilterBar',
+      );
+    });
+
+    it('should call updateFilterData when selectedFilterIds changes', () => {
+      // Simulate external update through adapter
+      adapterUpdates$.next({
+        appliedFilters: [
+          { filterId: '3', filterValue: { value: 'external value' } },
+        ],
+        selectedFilterIds: ['1', '2', '3', '4'],
+      });
+      fixture.detectChanges();
+
+      const closed$ = of({
+        reason: 'save',
+        selectedItems: [
+          { filterId: '2', labelText: 'filter 2' },
+          { filterId: '3', labelText: 'filter 3' },
+        ],
+      });
+      selectionModalServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as SkySelectionModalInstance);
+
+      getFilterPickerButton()?.click();
+      fixture.detectChanges();
+
+      expect(filterAdapterServiceSpy.updateFilterData).toHaveBeenCalledWith(
+        {
+          appliedFilters: [
+            { filterId: '3', filterValue: { value: 'external value' } },
+          ],
+          selectedFilterIds: ['2', '3'],
+        },
+        'skyFilterBar',
+      );
+    });
+
+    it('should call updateFilterData when clearing filters', () => {
+      // Set initial filters
+      component.appliedFilters.set([
+        { filterId: '1', filterValue: { value: 'value1' } },
+        { filterId: '2', filterValue: { value: 'value2' } },
+      ]);
+      fixture.detectChanges();
+
+      // Clear spy calls from initial setup
+      filterAdapterServiceSpy.updateFilterData.calls.reset();
+
+      // Clear filters
+      const closed$ = of({ action: 'save' });
+      confirmServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as SkyConfirmInstance);
+
+      getClearFiltersButton()?.click();
+      fixture.detectChanges();
+
+      expect(filterAdapterServiceSpy.updateFilterData).toHaveBeenCalledWith(
+        {
+          appliedFilters: undefined,
+          selectedFilterIds: ['1', '2', '3', '4'],
+        },
+        'skyFilterBar',
+      );
+    });
+
+    it('should call updateFilterData when filter selection changes via modal', () => {
+      // Clear initial spy calls
+      filterAdapterServiceSpy.updateFilterData.calls.reset();
+
+      const closed$ = of({
+        reason: 'save',
+        selectedItems: [
+          { filterId: '1', labelText: 'filter 1' },
+          { filterId: '3', labelText: 'filter 3' },
+        ],
+      });
+      selectionModalServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as SkySelectionModalInstance);
+
+      getFilterPickerButton()?.click();
+      fixture.detectChanges();
+
+      expect(filterAdapterServiceSpy.updateFilterData).toHaveBeenCalledWith(
+        {
+          appliedFilters: undefined,
+          selectedFilterIds: ['1', '3'],
+        },
+        'skyFilterBar',
+      );
     });
   });
 });

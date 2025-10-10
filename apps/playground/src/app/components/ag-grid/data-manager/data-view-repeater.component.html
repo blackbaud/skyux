@@ -1,6 +1,6 @@
 <sky-data-view [viewId]="viewConfig.id">
   <sky-paging
-    [currentPage]="dataState.additionalData.currentPage"
+    [currentPage]="currentPage"
     [itemCount]="displayedItems.length"
     [pageSize]="pageSize"
     (contentChange)="onContentChange($event)"
@@ -10,9 +10,7 @@
         <sky-repeater expandMode="none">
           @for (
             item of displayedItems
-              | dataManagerPagedItems
-                : pageSize
-                : dataState.additionalData.currentPage;
+              | dataManagerPagedItems: pageSize : currentPage;
             track item
           ) {
             <sky-repeater-item

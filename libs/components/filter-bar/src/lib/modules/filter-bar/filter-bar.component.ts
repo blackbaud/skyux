@@ -12,6 +12,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyToolbarModule } from '@skyux/layout';
+import { SkyFilterAdapterData, SkyFilterAdapterService } from '@skyux/lists';
 import {
   SkySelectionModalOpenArgs,
   SkySelectionModalSearchArgs,
@@ -85,11 +86,13 @@ export class SkyFilterBarComponent {
     return visibleFilters.filter((item) => !!item);
   });
 
+  readonly #adapterSvc = inject(SkyFilterAdapterService, { optional: true });
   readonly #confirmSvc = inject(SkyConfirmService);
   readonly #filterBarSvc = inject(SkyFilterBarService);
-  readonly #filterUpdated = toSignal(this.#filterBarSvc.filterItemUpdated);
+  readonly #filterItemUpdated = toSignal(this.#filterBarSvc.filterItemUpdated);
   readonly #modalSvc = inject(SkySelectionModalService);
   readonly #resourceSvc = inject(SkyLibResourcesService);
+  readonly #sourceId = 'skyFilterBar';
   readonly #strings = toSignal(
     this.#resourceSvc.getStrings({
       descriptor: 'skyux_filter_bar_filter_picker_descriptor',
@@ -103,7 +106,7 @@ export class SkyFilterBarComponent {
   constructor() {
     // Subscribe to filter value updates from child filter items
     effect(() => {
-      const updatedFilter = this.#filterUpdated();
+      const updatedFilter = this.#filterItemUpdated();
       if (updatedFilter) {
         this.#updateFilter(updatedFilter);
       }
@@ -114,6 +117,21 @@ export class SkyFilterBarComponent {
       const filters = this.appliedFilters();
       this.#updateFilters(filters);
     });
+
+    // If an adapter service is present, subscribe to its updates and reflect into local signals.
+    if (this.#adapterSvc) {
+      const adapterUpdates = toSignal<SkyFilterAdapterData>(
+        this.#adapterSvc.getFilterDataUpdates(this.#sourceId),
+      );
+
+      effect(() => {
+        const data = adapterUpdates();
+        if (data) {
+          this.appliedFilters.set(data.appliedFilters);
+          this.selectedFilterIds.set(data.selectedFilterIds);
+        }
+      });
+    }
   }
 
   protected openFilters(): void {
@@ -177,6 +195,7 @@ export class SkyFilterBarComponent {
     instance.closed.subscribe((result) => {
       if (result.action === 'save') {
         this.appliedFilters.set(undefined);
+        this.#updateFilterData();
       }
     });
   }
@@ -212,6 +231,7 @@ export class SkyFilterBarComponent {
       );
       this.appliedFilters.set(newFilters.length ? newFilters : undefined);
     }
+    this.#updateFilterData();
   }
 
   #processFilterChanges(
@@ -312,6 +332,7 @@ export class SkyFilterBarComponent {
     this.appliedFilters.set(
       newFilterValues.length ? newFilterValues : undefined,
     );
+    this.#updateFilterData();
   }
 
   #updateFilters(updatedFilters: SkyFilterBarFilterItem[] | undefined): void {
@@ -322,6 +343,20 @@ export class SkyFilterBarComponent {
         untracked(() => this.filterItems()).map((filterItem) => ({
           filterId: filterItem.filterId(),
         })),
+      );
+    }
+  }
+
+  #updateFilterData(): void {
+    if (this.#adapterSvc) {
+      const appliedFilters = untracked(() => this.appliedFilters());
+      const selectedFilterIds = untracked(() => this.selectedFilterIds());
+      this.#adapterSvc.updateFilterData(
+        {
+          appliedFilters,
+          selectedFilterIds,
+        },
+        this.#sourceId,
       );
     }
   }

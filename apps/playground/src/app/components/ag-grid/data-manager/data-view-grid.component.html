@@ -1,7 +1,7 @@
 @if (isActive) {
   <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewConfig.id">
     <sky-paging
-      [currentPage]="dataState.additionalData.currentPage"
+      [currentPage]="currentPage"
       [itemCount]="displayedItems.length"
       [pageSize]="pageSize"
       (contentChange)="onContentChange($event)"
@@ -11,10 +11,7 @@
           <ag-grid-angular
             [gridOptions]="gridOptions"
             [rowData]="
-              displayedItems
-                | dataManagerPagedItems
-                  : pageSize
-                  : dataState.additionalData.currentPage
+              displayedItems | dataManagerPagedItems: pageSize : currentPage
             "
           />
         </sky-ag-grid-wrapper>
