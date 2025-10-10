@@ -396,6 +396,10 @@ sky-repeater-item {
         var(--sky-space-stacked-s)
       )
       0 0;
+
+    > label {
+      display: block;
+    }
   }
 
   .sky-repeater-item-collapsible {
