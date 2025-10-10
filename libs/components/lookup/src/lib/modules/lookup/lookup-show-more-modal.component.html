@@ -104,6 +104,7 @@
     <sky-repeater class="sky-lookup-show-more-repeater" expandMode="none">
       @for (item of displayedItems; track item) {
         <sky-repeater-item
+          #repeaterItem
           [selectable]="context.selectMode === 'multiple'"
           [(isSelected)]="item.selected"
           (click)="itemClick(item)"
@@ -114,7 +115,15 @@
             <ng-container
               *ngTemplateOutlet="
                 repeaterItemTemplate ?? defaultItemTemplate;
-                context: { item: item.value }
+                context: {
+                  item: item.value,
+                  checkboxId:
+                    context.selectMode === 'multiple'
+                      ? 'sky-checkbox-' +
+                        repeaterItem.contentId +
+                        '-item-checkbox-input'
+                      : undefined
+                }
               "
             />
           </sky-repeater-item-content>
@@ -149,6 +158,12 @@
   </sky-modal-footer>
 </sky-modal>
 
-<ng-template #defaultItemTemplate let-item="item">
-  {{ item[context.descriptorProperty] }}
+<ng-template #defaultItemTemplate let-item="item" let-checkboxId="checkboxId">
+  @if (checkboxId) {
+    <label class="selection-modal-item-label" [attr.for]="checkboxId">{{
+      item[context.descriptorProperty]
+    }}</label>
+  } @else {
+    {{ item[context.descriptorProperty] }}
+  }
 </ng-template>

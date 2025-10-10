@@ -170,7 +170,7 @@
 
 <ng-template #defaultItemTemplate let-item="item" let-checkboxId="checkboxId">
   @if (checkboxId) {
-    <label [attr.for]="checkboxId">{{
+    <label class="selection-modal-item-label" [attr.for]="checkboxId">{{
       item[context.descriptorProperty]
     }}</label>
   } @else {
