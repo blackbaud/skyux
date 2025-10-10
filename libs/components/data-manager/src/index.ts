@@ -1,7 +1,7 @@
-export { SkyDataManagerFilterAdapterService } from './lib/modules/data-manager/data-manager-filter-adapter.service';
 export { SkyDataManagerFilterModalContext } from './lib/modules/data-manager/data-manager-filter-context';
 export { SkyDataManagerModule } from './lib/modules/data-manager/data-manager.module';
 export { SkyDataManagerService } from './lib/modules/data-manager/data-manager.service';
+export { SkyDataManagerFilterAdapterService } from './lib/modules/data-manager/data-manager-filters/data-manager-filter-adapter.service';
 export { SkyDataManagerColumnPickerOption } from './lib/modules/data-manager/models/data-manager-column-picker-option';
 export { SkyDataManagerColumnPickerSortStrategy } from './lib/modules/data-manager/models/data-manager-column-picker-sort-strategy';
 export { SkyDataManagerConfig } from './lib/modules/data-manager/models/data-manager-config';
@@ -21,7 +21,7 @@ export { SkyDataManagerDockType } from './lib/modules/data-manager/types/data-ma
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of public API.
 export { SkyDataManagerColumnPickerComponent as λ1 } from './lib/modules/data-manager/data-manager-column-picker/data-manager-column-picker.component';
-export { SkyDataManagerFilterControllerDirective as λ9 } from './lib/modules/data-manager/data-manager-controller.directive';
+export { SkyDataManagerFilterControllerDirective as λ9 } from './lib/modules/data-manager/data-manager-filters/data-manager-filter-controller.directive';
 export { SkyDataManagerToolbarLeftItemComponent as λ3 } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar-left-item.component';
 export { SkyDataManagerToolbarPrimaryItemComponent as λ4 } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar-primary-item.component';
 export { SkyDataManagerToolbarRightItemComponent as λ5 } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar-right-item.component';
