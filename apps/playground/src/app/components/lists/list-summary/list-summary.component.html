@@ -1,0 +1,11 @@
+<sky-list-summary>
+  @for (summaryItem of summaryItems; track summaryItem.label) {
+    <sky-list-summary-item
+      [helpPopoverContent]="summaryItem.helpPopoverContent"
+      [labelText]="summaryItem.label"
+      [value]="summaryItem.value"
+      [valueFormat]="summaryItem.valueFormat"
+    />
+  }
+  <div style="border: 1px solid black">Test</div>
+</sky-list-summary>

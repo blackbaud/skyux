@@ -1,0 +1,109 @@
+import { ComponentRef } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+
+import { SkyListSummaryItemComponent } from './list-summary-item.component';
+
+describe('List summary item component', () => {
+  let component: SkyListSummaryItemComponent;
+  let componentRef: ComponentRef<SkyListSummaryItemComponent>;
+  let fixture: ComponentFixture<SkyListSummaryItemComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [SkyListSummaryItemComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(SkyListSummaryItemComponent);
+    component = fixture.componentInstance;
+    componentRef = fixture.componentRef;
+  });
+
+  it('should create', () => {
+    componentRef.setInput('value', 100);
+    componentRef.setInput('labelText', 'Test Label');
+    fixture.detectChanges();
+
+    expect(component).toBeTruthy();
+  });
+
+  it('should display numeric values with formatting', () => {
+    componentRef.setInput('value', 1234567);
+    componentRef.setInput('labelText', 'Large Number');
+    componentRef.setInput('valueFormat', { truncate: false });
+    fixture.detectChanges();
+
+    const label = fixture.debugElement.query(By.css('.sky-key-info-label'));
+    const value = fixture.debugElement.query(By.css('.sky-key-info-value'));
+
+    expect(label.nativeElement.textContent.trim()).toBe('Large Number');
+    expect(value.nativeElement.textContent.trim()).toBe('1,234,567');
+  });
+
+  it('should display string values without formatting', () => {
+    componentRef.setInput('value', 'Custom Value');
+    componentRef.setInput('labelText', 'Text Label');
+    fixture.detectChanges();
+
+    const label = fixture.debugElement.query(By.css('.sky-key-info-label'));
+    const value = fixture.debugElement.query(By.css('.sky-key-info-value'));
+
+    expect(label.nativeElement.textContent.trim()).toBe('Text Label');
+    expect(value.nativeElement.textContent.trim()).toBe('Custom Value');
+  });
+
+  it('should handle zero values', () => {
+    componentRef.setInput('value', 0);
+    componentRef.setInput('labelText', 'Zero Count');
+    fixture.detectChanges();
+
+    const label = fixture.debugElement.query(By.css('.sky-key-info-label'));
+    const value = fixture.debugElement.query(By.css('.sky-key-info-value'));
+
+    expect(label.nativeElement.textContent.trim()).toBe('Zero Count');
+    expect(value.nativeElement.textContent.trim()).toBe('0');
+  });
+
+  it('should use horizontal layout', () => {
+    componentRef.setInput('value', 100);
+    componentRef.setInput('labelText', 'Test Label');
+    fixture.detectChanges();
+
+    const keyInfo = fixture.debugElement.query(By.css('sky-key-info'));
+    expect(keyInfo.attributes['layout']).toBe('horizontal');
+  });
+
+  it('should pass help properties to sky-key-info', () => {
+    componentRef.setInput('value', 100);
+    componentRef.setInput('labelText', 'Test Label');
+    componentRef.setInput('helpKey', 'test-help-key');
+    componentRef.setInput('helpPopoverContent', 'Help content');
+    componentRef.setInput('helpPopoverTitle', 'Help title');
+    fixture.detectChanges();
+
+    const keyInfo = fixture.debugElement.query(By.css('sky-key-info'));
+    const keyInfoComponent = keyInfo.componentInstance;
+
+    expect(keyInfoComponent.helpKey).toBe('test-help-key');
+    expect(keyInfoComponent.helpPopoverContent).toBe('Help content');
+    expect(keyInfoComponent.helpPopoverTitle).toBe('Help title');
+  });
+
+  it('should apply display-4 font class to value', () => {
+    componentRef.setInput('value', 100);
+    componentRef.setInput('labelText', 'Test Label');
+    fixture.detectChanges();
+
+    const value = fixture.debugElement.query(By.css('sky-key-info-value'));
+    expect(value.nativeElement.classList).toContain('sky-font-display-4');
+  });
+
+  it('should format large numbers with default truncation', () => {
+    componentRef.setInput('value', 1000);
+    componentRef.setInput('labelText', 'Thousand');
+    fixture.detectChanges();
+
+    const value = fixture.debugElement.query(By.css('.sky-key-info-value'));
+    expect(value.nativeElement.textContent.trim()).toBe('1K');
+  });
+});

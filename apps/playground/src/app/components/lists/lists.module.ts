@@ -11,6 +11,7 @@ import {
   InfiniteScrollVisualComponent,
   InfiniteScrollVisualComponentModule,
 } from './infinite-scroll/infinite-scroll-visual.component';
+import { ListSummaryComponent } from './list-summary/list-summary.component';
 import {
   ListViewGridComponent,
   ListViewGridComponentModule,
@@ -48,6 +49,15 @@ const routes: ComponentRouteInfo[] = [
     data: {
       name: 'Infinite scroll',
       icon: 'arrow-repeat-all',
+      library: 'lists',
+    },
+  },
+  {
+    path: 'list-summary',
+    component: ListSummaryComponent,
+    data: {
+      name: 'List summary',
+      icon: 'text-bullet-list',
       library: 'lists',
     },
   },

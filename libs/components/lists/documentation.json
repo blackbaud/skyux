@@ -49,6 +49,27 @@
         "docsIds": ["ListsInfiniteScrollRepeaterExampleComponent"]
       }
     },
+    "list-summary": {
+      "development": {
+        "docsIds": [
+          "SkyListSummaryModule",
+          "SkyListSummaryComponent",
+          "SkyListSummaryItemComponent"
+        ],
+        "primaryDocsId": "SkyListSummaryModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyListSummaryHarness",
+          "SkyListSummaryHarnessFilters",
+          "SkyListSummaryItemHarness",
+          "SkyListSummaryItemHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["ListsListSummaryBasicExampleComponent"]
+      }
+    },
     "paging": {
       "development": {
         "docsIds": [
