@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  SkyFilterAdapterFilterItem,
-  SkyFilterAdapterService,
-} from '@skyux/lists';
+import { By } from '@angular/platform-browser';
+import { SkyFilterAdapterFilterItem } from '@skyux/lists';
 
 import { SkyDataManagerService } from '../data-manager.service';
 import { SkyDataManagerState } from '../models/data-manager-state';
@@ -14,7 +12,6 @@ import { SkyDataManagerFilterControllerDirective } from './data-manager-filter-c
 @Component({
   template: `<div skyDataManagerFilterController></div>`,
   imports: [SkyDataManagerFilterControllerDirective],
-  providers: [SkyDataManagerService],
 })
 class TestComponent {}
 
@@ -27,14 +24,20 @@ describe('SkyDataManagerFilterControllerDirective', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TestComponent],
+      providers: [SkyDataManagerService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     dataManagerService = TestBed.inject(SkyDataManagerService);
-    adapterService = TestBed.inject(
-      SkyFilterAdapterService,
-    ) as SkyDataManagerFilterAdapterService;
+    // The adapter service is provided by the directive itself (useExisting on SkyFilterAdapterService).
+    // Retrieve it from the element injector rather than the root TestBed injector.
+    const directiveDebugEl = fixture.debugElement.query(
+      By.directive(SkyDataManagerFilterControllerDirective),
+    );
+    adapterService = directiveDebugEl.injector.get(
+      SkyDataManagerFilterAdapterService,
+    );
 
     // Initialize the data manager
     dataManagerService.initDataManager({
