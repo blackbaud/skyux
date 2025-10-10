@@ -3,7 +3,7 @@ import { SkyNumericModule, SkyNumericOptions } from '@skyux/core';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
 /**
- * Displays a single summary statistic with a label and formatted value.
+ * Displays a list summary item that pairs a label with a formatted value.
  */
 @Component({
   selector: 'sky-list-summary-item',
