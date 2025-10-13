@@ -11,12 +11,16 @@ import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
+import {
+  SkyFilterBarModule,
+  SkyFilterItemLookupSearchAsyncArgs,
+} from '@skyux/filter-bar';
 
 import { Subject, takeUntil } from 'rxjs';
 
 import { AG_GRID_DEMO_DATA } from './data';
-import { FilterModalComponent } from './filter-modal.component';
-import { Filters } from './filters';
+import { ExampleService } from './example.service';
+import { SalesModalComponent } from './sales-modal.component';
 import { ViewGridComponent } from './view-grid.component';
 
 /**
@@ -27,17 +31,18 @@ import { ViewGridComponent } from './view-grid.component';
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
-  imports: [SkyDataManagerModule, ViewGridComponent],
+  imports: [SkyDataManagerModule, SkyFilterBarModule, ViewGridComponent],
 })
 export class AgGridDataGridDataManagerExampleComponent
   implements OnInit, OnDestroy
 {
   protected items = AG_GRID_DEMO_DATA;
 
+  protected salesModal = SalesModalComponent;
+
   #activeViewId = 'dataGridWithDataManagerView';
 
   #dataManagerConfig = {
-    filterModalComponent: FilterModalComponent,
     sortOptions: [
       {
         id: 'az',
@@ -56,11 +61,7 @@ export class AgGridDataGridDataManagerExampleComponent
 
   #defaultDataState = new SkyDataManagerState({
     filterData: {
-      filtersApplied: false,
-      filters: {
-        hideSales: false,
-        jobTitle: 'any',
-      } satisfies Filters,
+      filters: {},
     },
     views: [
       {
@@ -82,6 +83,7 @@ export class AgGridDataGridDataManagerExampleComponent
 
   readonly #changeDetectorRef = inject(ChangeDetectorRef);
   readonly #dataManagerSvc = inject(SkyDataManagerService);
+  readonly #exampleSvc = inject(ExampleService);
 
   constructor() {
     this.#dataManagerSvc
@@ -104,5 +106,13 @@ export class AgGridDataGridDataManagerExampleComponent
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+  }
+
+  public onJobTitleSearchAsync(args: SkyFilterItemLookupSearchAsyncArgs): void {
+    // In a real-world application the search service might return an Observable
+    // created by calling HttpClient.get(). Assigning that Observable to the result
+    // allows the lookup component to cancel the web request if it does not complete
+    // before the user searches again.
+    args.result = this.#exampleSvc.search(args.searchText);
   }
 }

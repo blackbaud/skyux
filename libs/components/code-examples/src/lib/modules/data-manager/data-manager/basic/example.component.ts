@@ -1,19 +1,18 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
+import {
+  SkyFilterBarModule,
+  SkyFilterItemLookupSearchAsyncArgs,
+} from '@skyux/filter-bar';
 
 import { DATA_MANAGER_DEMO_DATA, DataManagerDemoRow } from './data';
-import { FilterModalComponent } from './filter-modal.component';
-import { Filters } from './filters';
+import { ExampleService } from './example.service';
+import { OrangeModalComponent } from './orange-modal.component';
 import { ViewGridComponent } from './view-grid.component';
 import { ViewRepeaterComponent } from './view-repeater.component';
 
@@ -25,18 +24,24 @@ import { ViewRepeaterComponent } from './view-repeater.component';
   templateUrl: './example.component.html',
   providers: [SkyDataManagerService, SkyUIConfigService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyDataManagerModule, ViewGridComponent, ViewRepeaterComponent],
+  imports: [
+    SkyDataManagerModule,
+    SkyFilterBarModule,
+    ViewGridComponent,
+    ViewRepeaterComponent,
+  ],
 })
-export class DataManagerBasicExampleComponent implements OnInit {
+export class DataManagerBasicExampleComponent {
   protected items: DataManagerDemoRow[] = DATA_MANAGER_DEMO_DATA;
+  protected readonly orangeModalComponent = OrangeModalComponent;
 
   readonly #dataManagerSvc = inject(SkyDataManagerService);
+  readonly #exampleSvc = inject(ExampleService);
 
-  public ngOnInit(): void {
+  constructor() {
     this.#dataManagerSvc.initDataManager({
       activeViewId: 'repeaterView',
       dataManagerConfig: {
-        filterModalComponent: FilterModalComponent,
         sortOptions: [
           {
             id: 'az',
@@ -56,8 +61,16 @@ export class DataManagerBasicExampleComponent implements OnInit {
         filterData: {
           filtersApplied: true,
           filters: {
-            hideOrange: true,
-          } satisfies Filters,
+            appliedFilters: [
+              {
+                filterId: 'hideOrange',
+                filterValue: {
+                  value: true,
+                  displayValue: 'True',
+                },
+              },
+            ],
+          },
         },
         views: [
           {
@@ -67,5 +80,15 @@ export class DataManagerBasicExampleComponent implements OnInit {
         ],
       }),
     });
+  }
+
+  public onFruitTypeSearchAsync(
+    args: SkyFilterItemLookupSearchAsyncArgs,
+  ): void {
+    // In a real-world application the search service might return an Observable
+    // created by calling HttpClient.get(). Assigning that Observable to the result
+    // allows the lookup component to cancel the web request if it does not complete
+    // before the user searches again.
+    args.result = this.#exampleSvc.search(args.searchText);
   }
 }

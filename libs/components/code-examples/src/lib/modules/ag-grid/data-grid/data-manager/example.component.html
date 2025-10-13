@@ -1,4 +1,20 @@
 <sky-data-manager>
-  <sky-data-manager-toolbar />
+  <sky-data-manager-toolbar>
+    <sky-filter-bar skyDataManagerFilterController>
+      <sky-filter-item-modal
+        filterId="hideSales"
+        labelText="Hide sales"
+        modalSize="small"
+        [modalComponent]="salesModal"
+      />
+      <sky-filter-item-lookup
+        filterId="jobTitle"
+        labelText="Job title"
+        searchDescriptorProperty="name"
+        searchIdProperty="id"
+        (searchAsync)="onJobTitleSearchAsync($event)"
+      />
+    </sky-filter-bar>
+  </sky-data-manager-toolbar>
   <app-view-grid [items]="items" />
 </sky-data-manager>

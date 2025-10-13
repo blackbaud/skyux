@@ -1,5 +1,21 @@
 <sky-data-manager>
-  <sky-data-manager-toolbar />
+  <sky-data-manager-toolbar>
+    <sky-filter-bar skyDataManagerFilterController>
+      <sky-filter-item-lookup
+        filterId="fruitType"
+        labelText="Fruit type"
+        searchDescriptorProperty="name"
+        searchIdProperty="id"
+        (searchAsync)="onFruitTypeSearchAsync($event)"
+      />
+      <sky-filter-item-modal
+        filterId="hideOrange"
+        labelText="Hide orange"
+        modalSize="small"
+        [modalComponent]="orangeModalComponent"
+      />
+    </sky-filter-bar>
+  </sky-data-manager-toolbar>
   <app-view-repeater [items]="items" />
   <app-view-grid [items]="items" />
 </sky-data-manager>
