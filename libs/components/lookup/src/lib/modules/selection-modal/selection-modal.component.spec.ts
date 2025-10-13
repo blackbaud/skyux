@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { expectAsync } from '@skyux-sdk/testing';
 import { SkyLiveAnnouncerService } from '@skyux/core';
 import {
   SkyModalConfiguration,
@@ -157,6 +158,8 @@ describe('Selection modal component', () => {
     expect(liveAnnouncerSpy).toHaveBeenCalledWith(
       'Showing 20 items, with 0 selected.',
     );
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
   it('should set the title and accessibility labels using the value of the selection descriptor - multi-select', async () => {
@@ -201,5 +204,7 @@ describe('Selection modal component', () => {
     expect(liveAnnouncerSpy).toHaveBeenCalledWith(
       'Showing 20 items, with 0 selected.',
     );
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 });

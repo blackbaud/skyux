@@ -108,12 +108,12 @@
   transition: $sky-form-border-and-color-transitions;
 }
 
-:host(.ng-invalid.ng-dirty) {
+:host(.ng-invalid.ng-touched) {
   .sky-file-attachment-btn {
     box-shadow: var(
       --sky-override-file-attachment-invalid-box-shadow,
       inset 0 0 0 var(--sky-border-width-input-error)
-        var(--sky-color-border-input-danger)
+        var(--sky-color-border-danger)
     );
     border: var(--sky-override-file-attachment-invalid-border, none);
   }

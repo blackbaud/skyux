@@ -118,7 +118,7 @@ export class SkyRepeaterItemComponent
   public inlineFormConfig: SkyInlineFormConfig | undefined;
 
   /**
-   * Specifies [an Angular `TemplateRef`](https://angular.io/api/core/TemplateRef) to use
+   * Specifies [an Angular `TemplateRef`](https://angular.dev/api/core/TemplateRef) to use
    * as a template to instantiate an inline form within the repeater.
    */
   @Input()

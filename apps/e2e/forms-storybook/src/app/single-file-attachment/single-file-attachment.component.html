@@ -74,6 +74,23 @@
   />
 </form>
 
+<form [formGroup]="fileForm">
+  <sky-file-attachment
+    formControlName="errored"
+    labelText="Errored single file attachment with label text and hint text"
+    hintText="Hint text"
+    stacked="true"
+  />
+</form>
+
+<form [formGroup]="fileForm">
+  <sky-file-attachment formControlName="errored" stacked="true">
+    <sky-file-attachment-label>
+      Errored single file attachment with legacy label
+    </sky-file-attachment-label>
+  </sky-file-attachment>
+</form>
+
 <sky-file-attachment
   formControlName="attachment"
   labelText="Single file attachment drag over accept state"
