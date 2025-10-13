@@ -12,7 +12,7 @@ export interface Names {
 })
 export class LookupComponent {
   @Input()
-  public selectMode: 'single' | 'multiple' = 'single';
+  public selectMode: 'single' | 'multiple' = 'multiple';
 
   @Input()
   public set disabledFlag(value: boolean) {
