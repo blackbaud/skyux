@@ -50,7 +50,7 @@ export class SkyDatePipe implements OnDestroy, PipeTransform {
    * @param value Specifies the date value to transform.
    * @param format Specifies the format to apply to the transform. The format string is
    * constructed by a series of symbols that represent date-time values. The symbols are
-   * identical to [Angular's `DatePipe`](https://angular.io/api/common/DatePipe#pre-defined-format-options) format options.
+   * identical to [Angular's `DatePipe`](https://angular.dev/api/common/DatePipe#pre-defined-format-options) format options.
    * @param locale Specifies the locale code to use in the transform.
    */
   public transform(value: any, format?: string, locale?: string): string {

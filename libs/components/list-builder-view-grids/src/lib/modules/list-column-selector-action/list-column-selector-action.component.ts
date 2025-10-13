@@ -35,7 +35,7 @@ import { GridStateModel } from '../list-view-grid/state/grid-state.model';
 
 /**
  * Provides a column selector modal for a list grid view when placed in a
- * [list toolbar](https://developer.blackbaud.com/skyux/components/list/toolbar).
+ * [list toolbar](https://developer.blackbaud.com/skyux/components/list-toolbar).
  */
 @Component({
   selector: 'sky-list-column-selector-action',

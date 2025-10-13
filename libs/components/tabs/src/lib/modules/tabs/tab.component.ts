@@ -90,8 +90,8 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   /**
    * The tab header.
    * When using tabs as the main navigation on a page,
-   * use [the Angular `Title` service](https://angular.io/docs/ts/latest/cookbook/set-document-title.html)
-   * and [the SKY UX `title` configuration property](https://developer.blackbaud.com/skyux/learn/reference/configuration#app)
+   * use [the Angular `Title` service](https://angular.dev/api/platform-browser/Title)
+   * and [the SKY UX page title guidelines](https://developer.blackbaud.com/skyux/design/guidelines/content#page-titles)
    * to reflect the tab header in the page title.
    * @required
    */
