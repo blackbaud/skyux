@@ -60,7 +60,7 @@ import { SkyListViewGridRowDeleteConfirmArgs } from './types/list-view-grid-row-
 
 /**
  * Displays a grid for a
- * [SKY UX-themed list of data](https://developer.blackbaud.com/skyux/components/list/overview)
+ * [SKY UX-themed list of data](https://developer.blackbaud.com/skyux/components/list-overview)
  * using the [grid component](https://developer.blackbaud.com/skyux/components/grid).
  * You must install `SkyListModule` as a dependency.
  * @deprecated List builder view grid and its features are deprecated. Use data entry grid instead. For more information, see https://developer.blackbaud.com/skyux/components/data-entry-grid.
@@ -177,7 +177,7 @@ export class SkyListViewGridComponent
    * The unique key for the UI Config Service that retrieves stored settings from
    * a database. The service saves configuration settings for users and returns `selectedColumnIds`
    * for the columns to display and the preferred column order. For more information, see the
-   * [sticky settings documentation](https://developer.blackbaud.com/skyux/learn/get-started/advanced/sticky-settings).
+   * [sticky settings documentation](https://developer.blackbaud.com/skyux/learn/develop/sticky-settings/overview).
    */
   @Input()
   public settingsKey: string;

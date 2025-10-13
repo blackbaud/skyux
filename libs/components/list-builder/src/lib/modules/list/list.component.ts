@@ -130,7 +130,7 @@ export class SkyListComponent
   /**
    * The set of filters to apply to list data.
    * These filters create a filter summary when the list includes the
-   * [`sky-list-filter-summary`](https://developer.blackbaud.com/skyux/components/list/filters)
+   * [`sky-list-filter-summary`](https://developer.blackbaud.com/skyux/components/list-filters)
    * component.
    */
   @Input()

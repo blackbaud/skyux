@@ -5,7 +5,7 @@ import { readRequiredFile } from './tree';
 
 /**
  * Creates a workspace host.
- * Taken from: https://angular.io/guide/schematics-for-libraries#get-the-project-configuration
+ * Taken from: https://angular.dev/tools/cli/schematics-for-libraries#get-the-project-configuration
  */
 function createHost(tree: Tree): workspaces.WorkspaceHost {
   return {

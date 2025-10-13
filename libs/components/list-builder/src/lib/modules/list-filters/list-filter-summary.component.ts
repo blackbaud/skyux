@@ -15,9 +15,9 @@ import { ListFilterModel } from './filter.model';
 
 /**
  * Creates a filter summary based on the
- * [list component's](https://developer.blackbaud.com/skyux/components/list/overview#list-properties)
+ * [list component's](https://developer.blackbaud.com/skyux/components/list-overview?docs-active-tab=development#class_sky-list-component)
  * `appliedFilters` property. Place this component within the
- * [`sky-list-toolbar`](https://developer.blackbaud.com/skyux/components/list/toolbar) component.
+ * [`sky-list-toolbar`](https://developer.blackbaud.com/skyux/components/list-toolbar) component.
  * @deprecated
  */
 @Component({
