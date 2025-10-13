@@ -6,8 +6,8 @@
 
 ### Bug Fixes
 
-* **components/forms:** errored file attachment styling ([#4024](https://github.com/blackbaud/skyux/issues/4024)) ([2494b0a](https://github.com/blackbaud/skyux/commit/2494b0acacfc9a4f2befe6a616363696e24d632a)), closes [AB#3581749](https://github.com/AB/issues/3581749)
-* **components/lookup:** clicking selection modal label text selects item ([#4027](https://github.com/blackbaud/skyux/issues/4027)) ([50e6590](https://github.com/blackbaud/skyux/commit/50e6590662cacfd428bbe327d0ffd2721102c7d2)), closes [AB#3299119](https://github.com/AB/issues/3299119)
+* **components/forms:** errored file attachment styling ([#4024](https://github.com/blackbaud/skyux/issues/4024)) ([2494b0a](https://github.com/blackbaud/skyux/commit/2494b0acacfc9a4f2befe6a616363696e24d632a)), closes [AB#3581749](https://dev.azure.com/blackbaud/Products/_workitems/edit/3581749)
+* **components/lookup:** clicking selection modal label text selects item ([#4027](https://github.com/blackbaud/skyux/issues/4027)) ([50e6590](https://github.com/blackbaud/skyux/commit/50e6590662cacfd428bbe327d0ffd2721102c7d2)), closes [AB#3299119](https://dev.azure.com/blackbaud/Products/_workitems/edit/3299119)
 
 
 
@@ -40,16 +40,16 @@
 
 ### Features
 
-* add support for split view in a data manager docked in a page ([#3991](https://github.com/blackbaud/skyux/issues/3991)) ([eab5b50](https://github.com/blackbaud/skyux/commit/eab5b5089f4a609085c7dc1a59701de24fea3d40)), closes [AB#3418840](https://github.com/AB/issues/3418840)
+* add support for split view in a data manager docked in a page ([#3991](https://github.com/blackbaud/skyux/issues/3991)) ([eab5b50](https://github.com/blackbaud/skyux/commit/eab5b5089f4a609085c7dc1a59701de24fea3d40)), closes [AB#3418840](https://dev.azure.com/blackbaud/Products/_workitems/edit/3418840)
 * **components/indicators:** add help popover methods to key info harness ([#4017](https://github.com/blackbaud/skyux/issues/4017)) ([66337b4](https://github.com/blackbaud/skyux/commit/66337b4c8f87cb1cd48908d45b4e50c15ae4167b))
-* **components/lists:** add updated testing support for repeater ([#3978](https://github.com/blackbaud/skyux/issues/3978)) ([#4010](https://github.com/blackbaud/skyux/issues/4010)) ([75805bc](https://github.com/blackbaud/skyux/commit/75805bca4f5f455d4acb269f338cad101ef24e62)), closes [AB#3554647](https://github.com/AB/issues/3554647)
+* **components/lists:** add updated testing support for repeater ([#3978](https://github.com/blackbaud/skyux/issues/3978)) ([#4010](https://github.com/blackbaud/skyux/issues/4010)) ([75805bc](https://github.com/blackbaud/skyux/commit/75805bca4f5f455d4acb269f338cad101ef24e62)), closes [AB#3554647](https://dev.azure.com/blackbaud/Products/_workitems/edit/3554647)
 
 # [12.42.0](https://github.com/blackbaud/skyux/compare/12.41.1...12.42.0) (2025-09-30)
 
 
 ### Features
 
-* **components/lists:** add updated testing support for repeater ([#3978](https://github.com/blackbaud/skyux/issues/3978)) ([d668143](https://github.com/blackbaud/skyux/commit/d6681432b5415c566ad3dd1fb2ffb39efe117c2a)), closes [AB#3554647](https://github.com/AB/issues/3554647)
+* **components/lists:** add updated testing support for repeater ([#3978](https://github.com/blackbaud/skyux/issues/3978)) ([d668143](https://github.com/blackbaud/skyux/commit/d6681432b5415c566ad3dd1fb2ffb39efe117c2a)), closes [AB#3554647](https://dev.azure.com/blackbaud/Products/_workitems/edit/3554647)
 
 
 
@@ -59,7 +59,7 @@
 ### Bug Fixes
 
 * **components/filter-bar:** update filter bar code example null filter value to empty select option ([#3951](https://github.com/blackbaud/skyux/issues/3951)) ([#3965](https://github.com/blackbaud/skyux/issues/3965)) ([46bbb0f](https://github.com/blackbaud/skyux/commit/46bbb0f27af1bf322feac5d6104493daf30106be))
-* **components/forms:** file attachment file names are styled with `sky-btn-inline-link` ([#4008](https://github.com/blackbaud/skyux/issues/4008)) ([cfa431b](https://github.com/blackbaud/skyux/commit/cfa431b93dd24843bd01b4d3b9bf1a8aa7d9e438)), closes [AB#3579522](https://github.com/AB/issues/3579522)
+* **components/forms:** file attachment file names are styled with `sky-btn-inline-link` ([#4008](https://github.com/blackbaud/skyux/issues/4008)) ([cfa431b](https://github.com/blackbaud/skyux/commit/cfa431b93dd24843bd01b4d3b9bf1a8aa7d9e438)), closes [AB#3579522](https://dev.azure.com/blackbaud/Products/_workitems/edit/3579522)
 * **components/forms:** validate file attachment on cancel and on blur when not opening file dialog ([#4004](https://github.com/blackbaud/skyux/issues/4004)) ([d6ccbd1](https://github.com/blackbaud/skyux/commit/d6ccbd16980c3d438a0eff238508e481bae606da))
 * selected switch background should go to border edge ([#4006](https://github.com/blackbaud/skyux/issues/4006)) ([43fa205](https://github.com/blackbaud/skyux/commit/43fa205a154af59e8e242e7f0236edcebf48b676))
 
