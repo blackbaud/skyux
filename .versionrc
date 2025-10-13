@@ -4,6 +4,10 @@
   "prerelease": null,
   "preset": "angular",
   "header": "# Changelog\n\n",
+  "issuePrefixes": [
+    "AB#"
+  ],
+  "issueUrlFormat": "https://dev.azure.com/blackbaud/Products/_workitems/edit/{{id}}",
   "releaseCommitMessageFormat": "chore: release {{currentTag}}",
   "scripts": {
     "prebump": "npx skyux-dev release-version"
