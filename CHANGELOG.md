@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.4.1](https://github.com/blackbaud/skyux/compare/13.4.0...13.4.1) (2025-10-13)
+
+
+### Bug Fixes
+
+* **components/forms:** errored file attachment styling ([#4024](https://github.com/blackbaud/skyux/issues/4024)) ([2494b0a](https://github.com/blackbaud/skyux/commit/2494b0acacfc9a4f2befe6a616363696e24d632a)), closes [AB#3581749](https://github.com/AB/issues/3581749)
+
+
+
 # [13.4.0](https://github.com/blackbaud/skyux/compare/13.3.1...13.4.0) (2025-10-13)
 
 
