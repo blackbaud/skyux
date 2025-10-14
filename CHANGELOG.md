@@ -1,6 +1,15 @@
 # Changelog
 
 
+# [13.5.0](https://github.com/blackbaud/skyux/compare/13.4.1...13.5.0) (2025-10-14)
+
+
+### Features
+
+* update design tokens to version `3.1.0` ([#4034](https://github.com/blackbaud/skyux/issues/4034)) ([a667d8e](https://github.com/blackbaud/skyux/commit/a667d8eb41a2479df5c5123a67c98e0f360f7263))
+
+
+
 ## [13.4.1](https://github.com/blackbaud/skyux/compare/13.4.0...13.4.1) (2025-10-13)
 
 
