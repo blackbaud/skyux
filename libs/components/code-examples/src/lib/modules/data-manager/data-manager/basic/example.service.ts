@@ -13,7 +13,7 @@ export interface FruitTypeLookupItem {
   providedIn: 'root',
 })
 export class ExampleService {
-  fruitTypes: FruitTypeLookupItem[] = [
+  #fruitTypes: FruitTypeLookupItem[] = [
     { id: 'citrus', name: 'Citrus' },
     { id: 'berry', name: 'Berry' },
   ];
@@ -23,7 +23,7 @@ export class ExampleService {
   ): Observable<SkyFilterItemLookupSearchAsyncResult> {
     searchText = searchText.toUpperCase();
 
-    const matchingTypes = this.fruitTypes.filter((fruit) =>
+    const matchingTypes = this.#fruitTypes.filter((fruit) =>
       fruit.name?.toUpperCase().includes(searchText),
     );
 

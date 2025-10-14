@@ -22,7 +22,7 @@ export class OrangeModalComponent implements SkyFilterItemModal, OnInit {
   protected hideOrange: boolean | undefined;
   protected modalLabel: string;
 
-  readonly modalInstance = inject(SkyFilterItemModalInstance);
+  public readonly modalInstance = inject(SkyFilterItemModalInstance);
   readonly #context = this.modalInstance.context;
 
   constructor() {

@@ -20,7 +20,7 @@ import { SkyModalModule } from '@skyux/modals';
   imports: [FormsModule, SkyCheckboxModule, SkyModalModule],
 })
 export class SalesModalComponent implements SkyFilterItemModal {
-  readonly modalInstance = inject(SkyFilterItemModalInstance);
+  public readonly modalInstance = inject(SkyFilterItemModalInstance);
 
   protected hideSales = false;
   protected modalLabel: string;

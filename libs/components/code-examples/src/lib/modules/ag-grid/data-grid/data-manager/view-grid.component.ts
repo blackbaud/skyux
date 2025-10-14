@@ -252,7 +252,7 @@ export class ViewGridComponent implements OnInit, OnDestroy {
         : [];
 
       filteredItems = items.filter((item: AgGridDemoRow) => {
-        if (hideSales && item.department.name !== 'Sales') {
+        if (hideSales && item.department.name === 'Sales') {
           return false;
         }
         if (
