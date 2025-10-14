@@ -129,7 +129,7 @@ export class SkyThemeService {
         settingsOrTheme.theme,
         settingsOrTheme.mode,
         settingsOrTheme.spacing,
-        this.#getEffectiveBrand(settingsOrTheme),
+        this.#getEffectiveBrandFromSettings(settingsOrTheme),
       );
     } else {
       const current = this.#current;
@@ -140,9 +140,7 @@ export class SkyThemeService {
         settingsOrTheme,
         current.mode,
         current.spacing,
-        settingsOrTheme.supportsBranding
-          ? this.#getEffectiveBrand(current)
-          : undefined,
+        this.#getEffectiveBrandFromTheme(settingsOrTheme, current),
       );
     }
 
@@ -282,13 +280,31 @@ export class SkyThemeService {
     this.#getRenderer().removeClass(this.#hostEl, className);
   }
 
-  #getEffectiveBrand(settings: SkyThemeSettings): SkyThemeBrand | undefined {
+  #getEffectiveBrandFromSettings(
+    settings: SkyThemeSettings,
+  ): SkyThemeBrand | undefined {
     return (
       settings.brand ??
       (settings.theme === SkyTheme.presets.modern
         ? new SkyThemeBrand('blackbaud', '1.0.0')
         : undefined)
     );
+  }
+
+  #getEffectiveBrandFromTheme(
+    theme: SkyTheme,
+    currentSettings: SkyThemeSettings,
+  ): SkyThemeBrand | undefined {
+    if (theme.supportsBranding) {
+      return (
+        currentSettings.brand ??
+        (theme === SkyTheme.presets.modern
+          ? new SkyThemeBrand('blackbaud', '1.0.0')
+          : undefined)
+      );
+    }
+
+    return undefined;
   }
 
   #getRenderer(): Renderer2 {
