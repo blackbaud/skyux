@@ -8,15 +8,13 @@
   "implicitDependencies": ["eslint-config", "skyux-eslint"],
   "targets": {
     "build": {
-      "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath.base}"],
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
       "options": {
         "allowedCommonJsDependencies": ["dragula", "ng2-dragula"],
-        "outputPath": {
-          "base": "dist/apps/code-examples-playground",
-          "browser": "."
-        },
+        "outputPath": "dist/apps/code-examples-playground",
         "index": "apps/code-examples/src/index.html",
+        "main": "apps/code-examples/src/main.ts",
         "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
         "tsConfig": "apps/code-examples/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
@@ -34,8 +32,7 @@
           "libs/components/docs-tools/css/styles.css",
           "apps/code-examples/src/styles.scss"
         ],
-        "scripts": [],
-        "browser": "apps/code-examples/src/main.ts"
+        "scripts": []
       },
       "configurations": {
         "production": {

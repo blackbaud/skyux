@@ -7,8 +7,8 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath.base}"],
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
       "options": {
         "allowedCommonJsDependencies": [
           "autonumeric",
@@ -18,11 +18,9 @@
           "google-libphonenumber",
           "fontfaceobserver"
         ],
-        "outputPath": {
-          "base": "dist/apps/playground",
-          "browser": "."
-        },
+        "outputPath": "dist/apps/playground",
         "index": "apps/playground/src/index.html",
+        "main": "apps/playground/src/main.ts",
         "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
         "tsConfig": "apps/playground/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
@@ -42,8 +40,7 @@
             "{workspaceRoot}",
             "libs/components/theme/src/lib/styles"
           ]
-        },
-        "browser": "apps/playground/src/main.ts"
+        }
       },
       "configurations": {
         "production": {
