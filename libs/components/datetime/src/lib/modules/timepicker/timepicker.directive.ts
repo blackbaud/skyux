@@ -26,6 +26,7 @@ import { Subscription } from 'rxjs';
 
 import { SkyTimepickerTimeFormatType } from './timepicker-time-format-type';
 import { SkyTimepickerTimeOutput } from './timepicker-time-output';
+import { SkyTimepickerTimeOutputMeridieType } from './timepicker-time-output-meridie-type';
 import { SkyTimepickerComponent } from './timepicker.component';
 
 const SKY_TIMEPICKER_VALUE_ACCESSOR = {
@@ -269,7 +270,9 @@ export class SkyTimepickerInputDirective
       const formatTime: SkyTimepickerTimeOutput = {
         hour: moment(time, currentFormat).hour(),
         minute: moment(time, currentFormat).minute(),
-        meridie: moment(time, currentFormat).format('A'),
+        meridie: moment(time, currentFormat).format(
+          'A',
+        ) as SkyTimepickerTimeOutputMeridieType,
         timezone: parseInt(moment(time, currentFormat).format('Z'), 10),
         iso8601: moment(time, currentFormat).toDate(),
         local: moment(time, currentFormat).format(currentFormat),
