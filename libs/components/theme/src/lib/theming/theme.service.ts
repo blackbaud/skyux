@@ -283,12 +283,7 @@ export class SkyThemeService {
   #getEffectiveBrandFromSettings(
     settings: SkyThemeSettings,
   ): SkyThemeBrand | undefined {
-    return (
-      settings.brand ??
-      (settings.theme === SkyTheme.presets.modern
-        ? new SkyThemeBrand('blackbaud', '1.0.0')
-        : undefined)
-    );
+    return settings.brand ?? this.#getEffectiveBrand(settings.theme);
   }
 
   #getEffectiveBrandFromTheme(
@@ -296,15 +291,16 @@ export class SkyThemeService {
     currentSettings: SkyThemeSettings,
   ): SkyThemeBrand | undefined {
     if (theme.supportsBranding) {
-      return (
-        currentSettings.brand ??
-        (theme === SkyTheme.presets.modern
-          ? new SkyThemeBrand('blackbaud', '1.0.0')
-          : undefined)
-      );
+      return currentSettings.brand ?? this.#getEffectiveBrand(theme);
     }
 
     return undefined;
+  }
+
+  #getEffectiveBrand(theme: SkyTheme): SkyThemeBrand | undefined {
+    return theme === SkyTheme.presets.modern
+      ? new SkyThemeBrand('blackbaud', '1.0.0')
+      : undefined;
   }
 
   #getRenderer(): Renderer2 {
