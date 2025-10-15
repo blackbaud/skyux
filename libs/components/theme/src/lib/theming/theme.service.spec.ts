@@ -562,6 +562,75 @@ describe('Theme service', () => {
           }),
         );
       });
+
+      it('should add the default blackbaud brand when switching from a brandless theme to modern theme', () => {
+        const initialSettings = new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.standard,
+          undefined,
+        );
+
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          initialSettings,
+        );
+
+        let capturedSettings: SkyThemeSettings | undefined;
+        themeSvc.settingsChange.subscribe((settingsChange) => {
+          capturedSettings = settingsChange.currentSettings;
+        });
+
+        const newTheme = SkyTheme.presets.modern;
+
+        themeSvc.setTheme(newTheme);
+
+        expect(capturedSettings).toEqual(
+          jasmine.objectContaining({
+            ...initialSettings,
+            theme: newTheme,
+            brand: blackbaudBrand,
+          }),
+        );
+      });
+
+      it('should not add the default blackbaud brand when switching from a brandless theme to a theme that supports brand but is not modern', () => {
+        const initialSettings = new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light,
+          SkyThemeSpacing.presets.standard,
+          undefined,
+        );
+
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          initialSettings,
+        );
+
+        let capturedSettings: SkyThemeSettings | undefined;
+        themeSvc.settingsChange.subscribe((settingsChange) => {
+          capturedSettings = settingsChange.currentSettings;
+        });
+
+        const newTheme = new SkyTheme(
+          'thirdtheme',
+          'sky-theme-three',
+          [SkyThemeMode.presets.light],
+          [SkyThemeSpacing.presets.standard],
+          true,
+        );
+
+        themeSvc.setTheme(newTheme);
+
+        expect(capturedSettings).toEqual(
+          jasmine.objectContaining({
+            ...initialSettings,
+            theme: newTheme,
+          }),
+        );
+      });
     });
   });
 
