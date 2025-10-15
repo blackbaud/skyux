@@ -1,6 +1,24 @@
 # Changelog
 
 
+## [13.5.1](https://github.com/blackbaud/skyux/compare/13.5.0...13.5.1) (2025-10-15)
+
+
+### Bug Fixes
+
+* **components/theme:** properly default brand when setting theme to modern ([#4038](https://github.com/blackbaud/skyux/issues/4038)) ([730e54f](https://github.com/blackbaud/skyux/commit/730e54f167da7aab9d22a53fdb82e29fe133ef31))
+
+
+
+# [13.5.0](https://github.com/blackbaud/skyux/compare/13.4.1...13.5.0) (2025-10-14)
+
+
+### Features
+
+* update design tokens to version `3.1.0` ([#4034](https://github.com/blackbaud/skyux/issues/4034)) ([a667d8e](https://github.com/blackbaud/skyux/commit/a667d8eb41a2479df5c5123a67c98e0f360f7263))
+
+
+
 ## [13.4.1](https://github.com/blackbaud/skyux/compare/13.4.0...13.4.1) (2025-10-13)
 
 
