@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.5.2](https://github.com/blackbaud/skyux/compare/13.5.1...13.5.2) (2025-10-15)
+
+
+### Bug Fixes
+
+* **components/lists:** sort items use pointer cursor ([#4037](https://github.com/blackbaud/skyux/issues/4037)) ([5c5f617](https://github.com/blackbaud/skyux/commit/5c5f61710f0def590c9334417c281417d087cd9a)), closes [AB#3592292](https://github.com/AB/issues/3592292)
+
+
+
 ## [13.5.1](https://github.com/blackbaud/skyux/compare/13.5.0...13.5.1) (2025-10-15)
 
 
