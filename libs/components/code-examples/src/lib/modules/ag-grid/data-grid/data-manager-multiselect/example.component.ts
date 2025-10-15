@@ -12,6 +12,7 @@ import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
+import { SkyListSummaryModule } from '@skyux/lists';
 
 import { Subject, takeUntil } from 'rxjs';
 
@@ -28,7 +29,7 @@ import { ViewGridComponent } from './view-grid.component';
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
-  imports: [SkyDataManagerModule, ViewGridComponent],
+  imports: [SkyDataManagerModule, SkyListSummaryModule, ViewGridComponent],
 })
 export class AgGridDataGridDataManagerMultiselectExampleComponent
   implements OnInit, OnDestroy
