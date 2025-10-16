@@ -56,7 +56,6 @@ const SKY_FUZZY_DATEPICKER_VALIDATOR = {
     SKY_FUZZY_DATEPICKER_VALIDATOR,
   ],
   selector: '[skyFuzzyDatepickerInput]',
-  standalone: true,
 })
 export class SkyFuzzyDatepickerInputDirective
   implements

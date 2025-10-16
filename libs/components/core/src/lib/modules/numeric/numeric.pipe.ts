@@ -21,7 +21,6 @@ import { SkyNumericService } from './numeric.service';
 @Pipe({
   name: 'skyNumeric',
   pure: false,
-  standalone: false,
 })
 export class SkyNumericPipe implements PipeTransform, OnDestroy {
   #cacheKey: string | undefined;

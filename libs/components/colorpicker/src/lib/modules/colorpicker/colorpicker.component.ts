@@ -18,26 +18,34 @@ import {
   booleanAttribute,
   inject,
 } from '@angular/core';
+import { SlicePipe } from '@angular/common';
 import {
   AbstractControlDirective,
   FormControlDirective,
   FormControlName,
   NgModel,
 } from '@angular/forms';
+import { CdkTrapFocus } from '@angular/cdk/a11y';
 import {
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
   SkyCoreAdapterService,
+  SkyIdDirective,
   SkyIdService,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
+  SkyFormErrorsModule,
+  SkyInputBoxModule,
   SkyRequiredStateDirective,
 } from '@skyux/forms';
-import { SkyThemeService } from '@skyux/theme';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
+import { SkyI18nModule } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 
 import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -53,6 +61,8 @@ import { SkyColorpickerMessageType } from './types/colorpicker-message-type';
 import { SkyColorpickerOutput } from './types/colorpicker-output';
 import { SkyColorpickerResult } from './types/colorpicker-result';
 import { SkyColorpickerRgba } from './types/colorpicker-rgba';
+import { SkyColorpickerSliderDirective } from './colorpicker-slider.directive';
+import { SkyColorpickerTextDirective } from './colorpicker-text.directive';
 
 let componentIdIndex = 0;
 
@@ -71,7 +81,7 @@ let componentIdIndex = 0;
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
   encapsulation: ViewEncapsulation.None,
-  standalone: false,
+  imports: [SlicePipe, CdkTrapFocus, SkyIdDirective, SkyFormErrorsModule, SkyInputBoxModule, SkyHelpInlineModule, SkyI18nModule, SkyIconModule, SkyThemeModule, SkyColorpickerSliderDirective, SkyColorpickerTextDirective]
 })
 export class SkyColorpickerComponent
   implements OnInit, OnDestroy, AfterContentChecked

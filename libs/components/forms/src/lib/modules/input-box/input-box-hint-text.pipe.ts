@@ -4,7 +4,6 @@ import { Pipe, PipeTransform } from '@angular/core';
  * @internal
  */
 @Pipe({
-  standalone: true,
   name: 'skyInputBoxHintText',
 })
 export class SkyInputBoxHintTextPipe implements PipeTransform {

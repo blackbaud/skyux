@@ -65,8 +65,7 @@ class ModalTestComponent {
 }
 
 @Component({
-  standalone: true,
-  template: ``,
+  template: '',
 })
 class TestComponent implements OnDestroy {
   public hasErrors = false;
@@ -111,7 +110,6 @@ class TestComponent implements OnDestroy {
 }
 
 @Component({
-  standalone: true,
   template: '',
 })
 class AnotherComponent {}

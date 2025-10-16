@@ -50,7 +50,6 @@ function getRecentLinksSorted(
 @Pipe({
   name: 'skyActionHubRecentLinksResolve',
   pure: false,
-  standalone: true,
 })
 export class SkyActionHubRecentLinksResolvePipe
   implements PipeTransform, OnDestroy

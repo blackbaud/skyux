@@ -9,8 +9,7 @@ export { SkyColorpickerMessageType } from './lib/modules/colorpicker/types/color
 export { SkyColorpickerOutput } from './lib/modules/colorpicker/types/colorpicker-output';
 export { SkyColorpickerResult } from './lib/modules/colorpicker/types/colorpicker-result';
 export { SkyColorpickerRgba } from './lib/modules/colorpicker/types/colorpicker-rgba';
-
-// Components and directives must be exported to support Angular's "partial" Ivy compiler.
-// Obscure names are used to indicate types are not part of the public API.
-export { SkyColorpickerInputDirective as λ2 } from './lib/modules/colorpicker/colorpicker-input.directive';
-export { SkyColorpickerComponent as λ1 } from './lib/modules/colorpicker/colorpicker.component';
+export { SkyColorpickerInputDirective } from './lib/modules/colorpicker/colorpicker-input.directive';
+export { SkyColorpickerSliderDirective } from './lib/modules/colorpicker/colorpicker-slider.directive';
+export { SkyColorpickerTextDirective } from './lib/modules/colorpicker/colorpicker-text.directive';
+export { SkyColorpickerComponent } from './lib/modules/colorpicker/colorpicker.component';

@@ -11,7 +11,6 @@ import { SkyRequiredStateDirective } from '../required-state.directive';
     },
   ],
   selector: 'sky-test-control',
-  standalone: true,
   template: `required: {{ requiredState.isRequired() }}`,
 })
 export class TestControlComponent implements ControlValueAccessor {

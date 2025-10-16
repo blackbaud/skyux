@@ -7,7 +7,6 @@ import { SkyHarnessFilters } from './harness-filters';
 import { SkyQueryableComponentHarness } from './queryable-component-harness';
 
 @Component({
-  standalone: true,
   template: `<div class="my-parent" data-sky-id="my-sky-id">
     <div class="my-child">Child text.</div>
   </div>`,

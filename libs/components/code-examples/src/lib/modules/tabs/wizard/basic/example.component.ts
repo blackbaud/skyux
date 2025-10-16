@@ -7,7 +7,6 @@ import { ModalComponent } from './modal.component';
  * @title Wizard in a modal
  */
 @Component({
-  standalone: true,
   selector: 'app-tabs-wizard-basic-example',
   templateUrl: './example.component.html',
 })

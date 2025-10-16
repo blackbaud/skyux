@@ -13,7 +13,6 @@ import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner
  */
 @Pipe({
   name: 'skyDatepickerCalendarLabel',
-  standalone: true,
 })
 export class SkyDatepickerCalendarLabelPipe implements PipeTransform {
   #datepicker = inject(SkyDatepickerCalendarInnerComponent);

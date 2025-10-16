@@ -7,7 +7,6 @@ import { SkyMutationObserverService } from '../mutation/mutation-observer-servic
  */
 @Directive({
   selector: '[skyTrim]',
-  standalone: false,
 })
 export class SkyTrimDirective implements OnInit, OnDestroy {
   #el: Element;

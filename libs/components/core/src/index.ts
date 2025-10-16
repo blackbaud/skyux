@@ -131,9 +131,7 @@ export { SkyAppWindowRef } from './lib/modules/window/window-ref';
 
 export { VERSION } from './version';
 
-// Components and directives must be exported to support Angular's "partial" Ivy compiler.
-// Obscure names are used to indicate types are not part of the public API.
-export { SkyAffixDirective as λ1 } from './lib/modules/affix/affix.directive';
-export { SkyIdDirective as λ2 } from './lib/modules/id/id.directive';
-export { SkyTrimDirective as λ4 } from './lib/modules/trim/trim.directive';
-export { SkyViewkeeperDirective as λ3 } from './lib/modules/viewkeeper/viewkeeper.directive';
+export { SkyAffixDirective } from './lib/modules/affix/affix.directive';
+export { SkyIdDirective } from './lib/modules/id/id.directive';
+export { SkyTrimDirective } from './lib/modules/trim/trim.directive';
+export { SkyViewkeeperDirective } from './lib/modules/viewkeeper/viewkeeper.directive';

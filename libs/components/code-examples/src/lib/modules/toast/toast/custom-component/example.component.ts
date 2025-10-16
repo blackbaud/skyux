@@ -8,7 +8,6 @@ import { CustomToastComponent } from './custom-toast.component';
  * @title Toast with custom content component
  */
 @Component({
-  standalone: true,
   selector: 'app-toast-custom-component-example',
   templateUrl: './example.component.html',
 })

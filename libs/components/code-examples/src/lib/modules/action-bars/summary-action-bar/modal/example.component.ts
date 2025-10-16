@@ -7,7 +7,6 @@ import { ModalComponent } from './modal.component';
  * @title Modal with summary action bar
  */
 @Component({
-  standalone: true,
   selector: 'app-action-bars-summary-action-bar-modal-example',
   templateUrl: './example.component.html',
 })

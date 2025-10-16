@@ -6,7 +6,6 @@ import { SkyActionButtonModule, SkyActionButtonPermalink } from '@skyux/layout';
 import { SkyActionButtonHarness } from './action-button-harness';
 
 @Component({
-  standalone: true,
   imports: [SkyActionButtonModule],
   template: `
     <sky-action-button

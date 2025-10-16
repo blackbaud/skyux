@@ -22,7 +22,6 @@ import { SkyModalInstance } from './modal-instance';
  * message when a user closes the modal without saving.
  */
 @Directive({
-  standalone: true,
   // Since this is limited to sky-modal, it should be safe to
   // leave off the sky prefix.
   // eslint-disable-next-line @angular-eslint/directive-selector

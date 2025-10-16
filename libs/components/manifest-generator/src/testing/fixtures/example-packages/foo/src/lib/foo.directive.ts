@@ -13,7 +13,6 @@ import {
  */
 @Directive({
   selector: '[fooLambda]',
-  standalone: true,
 })
 export class λ2 {}
 
@@ -22,13 +21,11 @@ export class λ2 {}
  */
 @Directive({
   selector: '[foo]',
-  standalone: true,
 })
 export class FooDirective {}
 
 @Directive({
   selector: '[foo]',
-  standalone: true,
 })
 export class FooWithInputsOutputsDirective {
   /**

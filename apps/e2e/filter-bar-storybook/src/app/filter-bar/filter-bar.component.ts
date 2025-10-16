@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { SkyFilterBarFilterItem, SkyFilterBarModule } from '@skyux/filter-bar';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, SkyFilterBarModule],
   selector: 'app-filter-bar',
   templateUrl: './filter-bar.component.html',

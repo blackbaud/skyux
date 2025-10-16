@@ -17,7 +17,6 @@ import { SkyTextEditorToolbarActionType } from '../types/toolbar-action-type';
 @Component({
   selector: 'sky-text-editor-test-reactive',
   templateUrl: './text-editor-reactive.component.fixture.html',
-  standalone: true,
   imports: [SkyTextEditorModule, ReactiveFormsModule],
 })
 export class TextEditorReactiveFixtureComponent {

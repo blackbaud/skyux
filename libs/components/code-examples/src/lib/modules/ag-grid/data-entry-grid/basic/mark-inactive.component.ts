@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
-  standalone: true,
   selector: 'app-mark-inactive',
   templateUrl: './mark-inactive.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

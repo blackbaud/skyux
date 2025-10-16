@@ -18,7 +18,6 @@ interface SortOption {
 }
 
 @Component({
-  standalone: true,
   selector: 'test-sort-harness',
   templateUrl: './sort-harness-test.component.html',
   imports: [CommonModule, SkyRepeaterModule, SkySortModule, SkyToolbarModule],

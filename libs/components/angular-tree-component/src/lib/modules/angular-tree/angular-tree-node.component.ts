@@ -9,11 +9,16 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { ITreeState, TreeNode } from '@blackbaud/angular-tree-component';
+import { NgTemplateOutlet } from '@angular/common';
+import { ITreeState, TreeModule, TreeNode } from '@blackbaud/angular-tree-component';
 import { SkyContentInfoProvider } from '@skyux/core';
+import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
+import { SkyIconModule } from '@skyux/icon';
 
 import { SkyAngularTreeAdapterService } from './angular-tree-adapter.service';
 import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component';
+import { SkyAngularTreeContextMenuComponent } from './angular-tree-context-menu.component';
 
 /**
  * Replaces the default tree node template with a SKY UX node as part of the `SkyAngularTreeModule` that
@@ -29,7 +34,7 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
   selector: 'sky-angular-tree-node',
   templateUrl: './angular-tree-node.component.html',
   providers: [SkyAngularTreeAdapterService, SkyContentInfoProvider],
-  standalone: false,
+  imports: [TreeModule, SkyAngularTreeContextMenuComponent, SkyCheckboxModule, SkyHelpInlineModule, SkyIconModule, NgTemplateOutlet]
 })
 export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   /**

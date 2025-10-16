@@ -18,7 +18,6 @@ import { Person } from './person';
  * @title Selection modal with add item functionality
  */
 @Component({
-  standalone: true,
   selector: 'app-lookup-selection-modal-add-item-example',
   templateUrl: './example.component.html',
 })

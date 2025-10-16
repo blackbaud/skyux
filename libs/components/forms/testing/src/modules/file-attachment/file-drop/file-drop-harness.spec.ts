@@ -22,7 +22,6 @@ import { SkyFileDropHarness } from './file-drop-harness';
 import { SkyFileItemHarness } from './file-item-harness';
 
 @Component({
-  standalone: true,
   imports: [SkyFileDropModule, FormsModule, ReactiveFormsModule],
   template: `
     <form [formGroup]="formGroup">

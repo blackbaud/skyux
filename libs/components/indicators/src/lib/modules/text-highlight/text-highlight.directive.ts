@@ -99,7 +99,6 @@ function createSearchRegex(searchTerms: string[]): RegExp | undefined {
  */
 @Directive({
   selector: '[skyHighlight]',
-  standalone: true,
 })
 export class SkyTextHighlightDirective
   implements OnChanges, AfterViewInit, OnDestroy

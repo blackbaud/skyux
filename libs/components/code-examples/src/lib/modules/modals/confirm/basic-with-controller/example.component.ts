@@ -6,7 +6,6 @@ import { SkyConfirmService } from '@skyux/modals';
  */
 @Component({
   selector: 'app-modals-confirm-basic-with-controller-example',
-  standalone: true,
   template: `<button
     aria-haspopup="dialog"
     class="sky-btn sky-btn-default"
