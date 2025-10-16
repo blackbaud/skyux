@@ -50,6 +50,7 @@ import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SkyColorpickerResourcesModule } from '../shared/sky-colorpicker-resources.module';
 import { SliderDimension, SliderPosition } from './colorpicker-classes';
 import { SkyColorpickerInputService } from './colorpicker-input.service';
 import { SkyColorpickerService } from './colorpicker.service';
@@ -81,7 +82,7 @@ let componentIdIndex = 0;
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
   encapsulation: ViewEncapsulation.None,
-  imports: [SlicePipe, CdkTrapFocus, SkyIdDirective, SkyFormErrorsModule, SkyInputBoxModule, SkyHelpInlineModule, SkyI18nModule, SkyIconModule, SkyThemeModule, SkyColorpickerSliderDirective, SkyColorpickerTextDirective]
+  imports: [SlicePipe, CdkTrapFocus, SkyIdDirective, SkyFormErrorsModule, SkyInputBoxModule, SkyHelpInlineModule, SkyI18nModule, SkyIconModule, SkyThemeModule, SkyColorpickerResourcesModule, SkyColorpickerSliderDirective, SkyColorpickerTextDirective]
 })
 export class SkyColorpickerComponent
   implements OnInit, OnDestroy, AfterContentChecked
