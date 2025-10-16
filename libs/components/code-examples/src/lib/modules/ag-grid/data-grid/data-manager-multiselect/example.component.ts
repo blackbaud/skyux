@@ -15,6 +15,7 @@ import {
   SkyFilterBarModule,
   SkyFilterItemLookupSearchAsyncArgs,
 } from '@skyux/filter-bar';
+import { SkyListSummaryModule } from '@skyux/lists';
 
 import { Subject, takeUntil } from 'rxjs';
 
@@ -31,7 +32,12 @@ import { ViewGridComponent } from './view-grid.component';
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
-  imports: [SkyDataManagerModule, SkyFilterBarModule, ViewGridComponent],
+  imports: [
+    SkyDataManagerModule,
+    SkyFilterBarModule,
+    SkyListSummaryModule,
+    ViewGridComponent,
+  ],
 })
 export class AgGridDataGridDataManagerMultiselectExampleComponent
   implements OnInit, OnDestroy
