@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.5.3](https://github.com/blackbaud/skyux/compare/13.5.2...13.5.3) (2025-10-16)
+
+
+### Bug Fixes
+
+* add list summary to code examples ([#4043](https://github.com/blackbaud/skyux/issues/4043)) ([92b929a](https://github.com/blackbaud/skyux/commit/92b929ad7907c3138b8ca185d248eae85f4580a1))
+
+
+
 ## [13.5.2](https://github.com/blackbaud/skyux/compare/13.5.1...13.5.2) (2025-10-16)
 
 
