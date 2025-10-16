@@ -12,7 +12,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyToolbarModule } from '@skyux/layout';
-import { SkyFilterAdapterData, SkyFilterAdapterService } from '@skyux/lists';
+import { SkyFilterState, SkyFilterStateService } from '@skyux/lists';
 import {
   SkySelectionModalOpenArgs,
   SkySelectionModalSearchArgs,
@@ -86,9 +86,9 @@ export class SkyFilterBarComponent {
     return visibleFilters.filter((item) => !!item);
   });
 
-  readonly #adapterSvc = inject(SkyFilterAdapterService, { optional: true });
   readonly #confirmSvc = inject(SkyConfirmService);
   readonly #filterBarSvc = inject(SkyFilterBarService);
+  readonly #filterStateSvc = inject(SkyFilterStateService, { optional: true });
   readonly #filterItemUpdated = toSignal(this.#filterBarSvc.filterItemUpdated);
   readonly #modalSvc = inject(SkySelectionModalService);
   readonly #resourceSvc = inject(SkyLibResourcesService);
@@ -118,14 +118,14 @@ export class SkyFilterBarComponent {
       this.#updateFilters(filters);
     });
 
-    // If an adapter service is present, subscribe to its updates and reflect into local signals.
-    if (this.#adapterSvc) {
-      const adapterUpdates = toSignal<SkyFilterAdapterData>(
-        this.#adapterSvc.getFilterDataUpdates(this.#sourceId),
+    // If a filter state service is present, subscribe to its updates and reflect into local signals.
+    if (this.#filterStateSvc) {
+      const filterStateUpdates = toSignal<SkyFilterState>(
+        this.#filterStateSvc.getFilterStateUpdates(this.#sourceId),
       );
 
       effect(() => {
-        const data = adapterUpdates();
+        const data = filterStateUpdates();
         if (data) {
           this.appliedFilters.set(data.appliedFilters);
           this.selectedFilterIds.set(data.selectedFilterIds);
@@ -348,10 +348,10 @@ export class SkyFilterBarComponent {
   }
 
   #updateFilterData(): void {
-    if (this.#adapterSvc) {
+    if (this.#filterStateSvc) {
       const appliedFilters = untracked(() => this.appliedFilters());
       const selectedFilterIds = untracked(() => this.selectedFilterIds());
-      this.#adapterSvc.updateFilterData(
+      this.#filterStateSvc.updateFilterState(
         {
           appliedFilters,
           selectedFilterIds,

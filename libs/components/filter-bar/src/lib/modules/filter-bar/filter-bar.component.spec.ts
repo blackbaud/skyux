@@ -1,7 +1,7 @@
 import { StaticProvider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { SkyFilterAdapterData, SkyFilterAdapterService } from '@skyux/lists';
+import { SkyFilterState, SkyFilterStateService } from '@skyux/lists';
 import {
   SkySelectionModalInstance,
   SkySelectionModalOpenArgs,
@@ -49,13 +49,13 @@ describe('Filter bar component', () => {
   let fixture: ComponentFixture<SkyFilterBarTestComponent>;
   let confirmServiceSpy: jasmine.SpyObj<SkyConfirmService>;
   let selectionModalServiceSpy: jasmine.SpyObj<SkySelectionModalService>;
-  let filterAdapterServiceSpy: jasmine.SpyObj<SkyFilterAdapterService>;
-  let adapterUpdates$: Subject<SkyFilterAdapterData>;
+  let filterStateServiceSpy: jasmine.SpyObj<SkyFilterStateService>;
+  let stateUpdates$: Subject<SkyFilterState>;
   let modalServiceSpy: jasmine.SpyObj<SkyModalService>;
 
   // Common setup for all tests
   async function setupTestBed(options?: {
-    includeFilterAdapter?: boolean;
+    includeFilterState?: boolean;
     includeModalService?: boolean;
   }): Promise<void> {
     confirmServiceSpy = jasmine.createSpyObj('SkyConfirmService', ['open']);
@@ -81,18 +81,18 @@ describe('Filter bar component', () => {
       });
     }
 
-    if (options?.includeFilterAdapter) {
-      adapterUpdates$ = new Subject<SkyFilterAdapterData>();
-      filterAdapterServiceSpy = jasmine.createSpyObj(
-        'SkyFilterAdapterService',
-        ['getFilterDataUpdates', 'updateFilterData'],
-      );
-      filterAdapterServiceSpy.getFilterDataUpdates.and.returnValue(
-        adapterUpdates$.asObservable(),
+    if (options?.includeFilterState) {
+      stateUpdates$ = new Subject<SkyFilterState>();
+      filterStateServiceSpy = jasmine.createSpyObj('SkyFilterStateService', [
+        'getFilterStateUpdates',
+        'updateFilterState',
+      ]);
+      filterStateServiceSpy.getFilterStateUpdates.and.returnValue(
+        stateUpdates$.asObservable(),
       );
       providers.push({
-        provide: SkyFilterAdapterService,
-        useValue: filterAdapterServiceSpy,
+        provide: SkyFilterStateService,
+        useValue: filterStateServiceSpy,
       });
     }
 
@@ -1147,14 +1147,14 @@ describe('Filter bar component', () => {
     });
   });
 
-  describe('filter adapter service integration', () => {
+  describe('filter state service integration', () => {
     beforeEach(async () => {
-      await setupTestBed({ includeFilterAdapter: true });
+      await setupTestBed({ includeFilterState: true });
     });
 
-    it('should update local signals when receiving adapter updates', () => {
-      // Simulate external update through adapter
-      adapterUpdates$.next({
+    it('should update local signals when receiving state updates', () => {
+      // Simulate external update through state
+      stateUpdates$.next({
         appliedFilters: [
           { filterId: '3', filterValue: { value: 'external value' } },
         ],
@@ -1168,7 +1168,7 @@ describe('Filter bar component', () => {
       expect(component.selectedFilterIds()).toEqual(['3']);
     });
 
-    it('should update local signals when receiving empty adapter updates', () => {
+    it('should update local signals when receiving empty state updates', () => {
       // First set some local values
       component.appliedFilters.set([
         { filterId: '1', filterValue: { value: 'local value' } },
@@ -1176,8 +1176,8 @@ describe('Filter bar component', () => {
       component.selectedFilterIds.set(['1']);
       fixture.detectChanges();
 
-      // Then simulate external clearing through adapter
-      adapterUpdates$.next({
+      // Then simulate external clearing through state
+      stateUpdates$.next({
         appliedFilters: [],
         selectedFilterIds: [],
       });
@@ -1187,7 +1187,7 @@ describe('Filter bar component', () => {
       expect(component.selectedFilterIds()).toEqual([]);
     });
 
-    it('should call updateFilterData when a filter changes', () => {
+    it('should call updateFilterState when a filter changes', () => {
       const closed$ = of({
         reason: 'save',
         selectedItems: [
@@ -1206,7 +1206,7 @@ describe('Filter bar component', () => {
       filterButton.click();
       fixture.detectChanges();
 
-      expect(filterAdapterServiceSpy.updateFilterData).toHaveBeenCalledWith(
+      expect(filterStateServiceSpy.updateFilterState).toHaveBeenCalledWith(
         {
           appliedFilters: [
             {
@@ -1226,9 +1226,9 @@ describe('Filter bar component', () => {
       );
     });
 
-    it('should call updateFilterData when selectedFilterIds changes', () => {
-      // Simulate external update through adapter
-      adapterUpdates$.next({
+    it('should call updateFilterState when selectedFilterIds changes', () => {
+      // Simulate external update through state
+      stateUpdates$.next({
         appliedFilters: [
           { filterId: '3', filterValue: { value: 'external value' } },
         ],
@@ -1250,7 +1250,7 @@ describe('Filter bar component', () => {
       getFilterPickerButton()?.click();
       fixture.detectChanges();
 
-      expect(filterAdapterServiceSpy.updateFilterData).toHaveBeenCalledWith(
+      expect(filterStateServiceSpy.updateFilterState).toHaveBeenCalledWith(
         {
           appliedFilters: [
             { filterId: '3', filterValue: { value: 'external value' } },
@@ -1261,7 +1261,7 @@ describe('Filter bar component', () => {
       );
     });
 
-    it('should call updateFilterData when clearing filters', () => {
+    it('should call updateFilterState when clearing filters', () => {
       // Set initial filters
       component.appliedFilters.set([
         { filterId: '1', filterValue: { value: 'value1' } },
@@ -1270,7 +1270,7 @@ describe('Filter bar component', () => {
       fixture.detectChanges();
 
       // Clear spy calls from initial setup
-      filterAdapterServiceSpy.updateFilterData.calls.reset();
+      filterStateServiceSpy.updateFilterState.calls.reset();
 
       // Clear filters
       const closed$ = of({ action: 'save' });
@@ -1281,7 +1281,7 @@ describe('Filter bar component', () => {
       getClearFiltersButton()?.click();
       fixture.detectChanges();
 
-      expect(filterAdapterServiceSpy.updateFilterData).toHaveBeenCalledWith(
+      expect(filterStateServiceSpy.updateFilterState).toHaveBeenCalledWith(
         {
           appliedFilters: undefined,
           selectedFilterIds: ['1', '2', '3', '4'],
@@ -1290,9 +1290,9 @@ describe('Filter bar component', () => {
       );
     });
 
-    it('should call updateFilterData when filter selection changes via modal', () => {
+    it('should call updateFilterState when filter selection changes via modal', () => {
       // Clear initial spy calls
-      filterAdapterServiceSpy.updateFilterData.calls.reset();
+      filterStateServiceSpy.updateFilterState.calls.reset();
 
       const closed$ = of({
         reason: 'save',
@@ -1308,7 +1308,7 @@ describe('Filter bar component', () => {
       getFilterPickerButton()?.click();
       fixture.detectChanges();
 
-      expect(filterAdapterServiceSpy.updateFilterData).toHaveBeenCalledWith(
+      expect(filterStateServiceSpy.updateFilterState).toHaveBeenCalledWith(
         {
           appliedFilters: undefined,
           selectedFilterIds: ['1', '3'],

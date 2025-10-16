@@ -1,9 +1,9 @@
-import { SkyFilterAdapterFilterValue } from './filter-adapter-filter-value';
+import { SkyFilterStateFilterValue } from './filter-state-filter-value';
 
 /**
  * Represents a filter item that can be applied to data.
  */
-export interface SkyFilterAdapterFilterItem {
+export interface SkyFilterStateFilterItem {
   /**
    * A unique identifier for the filter item.
    */
@@ -11,5 +11,5 @@ export interface SkyFilterAdapterFilterItem {
   /**
    * The value of the filter item.
    */
-  filterValue?: SkyFilterAdapterFilterValue;
+  filterValue?: SkyFilterStateFilterValue;
 }

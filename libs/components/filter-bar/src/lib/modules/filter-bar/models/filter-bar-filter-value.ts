@@ -1,6 +1,7 @@
-import { SkyFilterAdapterFilterValue } from '@skyux/lists';
+import { SkyFilterStateFilterValue } from '@skyux/lists';
 
 /**
  * Represents a value for a filter item.
  */
-export type SkyFilterBarFilterValue = SkyFilterAdapterFilterValue;
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type, @typescript-eslint/no-empty-interface
+export interface SkyFilterBarFilterValue extends SkyFilterStateFilterValue {}

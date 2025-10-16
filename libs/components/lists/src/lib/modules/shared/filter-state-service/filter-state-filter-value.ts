@@ -1,7 +1,7 @@
 /**
  * Represents a value for a filter item.
  */
-export interface SkyFilterAdapterFilterValue {
+export interface SkyFilterStateFilterValue {
   /**
    * The real value for the filter.
    */

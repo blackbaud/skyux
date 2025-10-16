@@ -13,7 +13,7 @@ import {
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 import {
-  SkyFilterAdapterData,
+  SkyFilterState,
   SkyPagingContentChangeArgs,
   SkyPagingModule,
 } from '@skyux/lists';
@@ -203,7 +203,7 @@ export class DataViewGridComponent implements OnInit {
   #filterItems(items: FruitItem[]): FruitItem[] {
     let filteredItems = items;
     const filterData = this.dataState.filterData?.filters as
-      | SkyFilterAdapterData
+      | SkyFilterState
       | undefined;
 
     if (filterData?.appliedFilters) {

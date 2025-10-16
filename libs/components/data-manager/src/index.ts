@@ -1,7 +1,7 @@
 export { SkyDataManagerFilterModalContext } from './lib/modules/data-manager/data-manager-filter-context';
 export { SkyDataManagerModule } from './lib/modules/data-manager/data-manager.module';
 export { SkyDataManagerService } from './lib/modules/data-manager/data-manager.service';
-export { SkyDataManagerFilterAdapterService } from './lib/modules/data-manager/data-manager-filters/data-manager-filter-adapter.service';
+export { SkyDataManagerFilterStateService } from './lib/modules/data-manager/data-manager-filters/data-manager-filter-state.service';
 export { SkyDataManagerColumnPickerOption } from './lib/modules/data-manager/models/data-manager-column-picker-option';
 export { SkyDataManagerColumnPickerSortStrategy } from './lib/modules/data-manager/models/data-manager-column-picker-sort-strategy';
 export { SkyDataManagerConfig } from './lib/modules/data-manager/models/data-manager-config';

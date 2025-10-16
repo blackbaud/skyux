@@ -13,7 +13,7 @@ import {
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 import {
-  SkyFilterAdapterData,
+  SkyFilterState,
   SkyPagingContentChangeArgs,
   SkyPagingModule,
   SkyRepeaterModule,
@@ -125,7 +125,7 @@ export class DataViewRepeaterComponent implements OnInit {
   public filterItems(items: FruitItem[]): FruitItem[] {
     let filteredItems = items;
     const filterData = this.dataState.filterData?.filters as
-      | SkyFilterAdapterData
+      | SkyFilterState
       | undefined;
 
     if (filterData?.appliedFilters) {

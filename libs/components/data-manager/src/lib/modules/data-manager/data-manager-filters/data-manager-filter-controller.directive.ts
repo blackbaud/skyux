@@ -1,42 +1,37 @@
-import { Directive, OnDestroy, OnInit, inject } from '@angular/core';
-import { SkyFilterAdapterData, SkyFilterAdapterService } from '@skyux/lists';
-
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { DestroyRef, Directive, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SkyFilterState, SkyFilterStateService } from '@skyux/lists';
 
 import { SkyDataManagerService } from '../data-manager.service';
 import { SkyDataManagerState } from '../models/data-manager-state';
 
-import { SkyDataManagerFilterAdapterService } from './data-manager-filter-adapter.service';
+import { SkyDataManagerFilterStateService } from './data-manager-filter-state.service';
 
 /**
  * A directive applied to a filtering component that enables integration with a data manager.
  */
 @Directive({
   selector: '[skyDataManagerFilterController]',
-  standalone: true,
   providers: [
-    SkyDataManagerFilterAdapterService,
+    SkyDataManagerFilterStateService,
     {
-      provide: SkyFilterAdapterService,
-      useExisting: SkyDataManagerFilterAdapterService,
+      provide: SkyFilterStateService,
+      useExisting: SkyDataManagerFilterStateService,
     },
   ],
 })
-export class SkyDataManagerFilterControllerDirective
-  implements OnInit, OnDestroy
-{
-  #currentDataState!: SkyDataManagerState;
+export class SkyDataManagerFilterControllerDirective implements OnInit {
+  #currentDataState = new SkyDataManagerState({});
   readonly #dataManagerService = inject(SkyDataManagerService);
-  readonly #adapterService = inject(SkyFilterAdapterService);
-  readonly #ngUnsubscribe = new Subject<void>();
+  readonly #adapterService = inject(SkyFilterStateService);
+  readonly #destroyRef = inject(DestroyRef);
   readonly #sourceId = 'skyDataManagerFilterController';
 
   public ngOnInit(): void {
     // Subscribe to data manager state changes to update the adapter
     this.#dataManagerService
       .getDataStateUpdates(this.#sourceId)
-      .pipe(takeUntil(this.#ngUnsubscribe))
+      .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((dataState: SkyDataManagerState) => {
         this.#currentDataState = dataState;
         this.#updateAdapterFromDataState(dataState);
@@ -44,16 +39,11 @@ export class SkyDataManagerFilterControllerDirective
 
     // Subscribe to adapter changes (excluding those this controller originated)
     this.#adapterService
-      .getFilterDataUpdates(this.#sourceId)
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((data: SkyFilterAdapterData) => {
+      .getFilterStateUpdates(this.#sourceId)
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((data: SkyFilterState) => {
         this.#updateDataManagerFromAdapter(data);
       });
-  }
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
   }
 
   /**
@@ -61,7 +51,7 @@ export class SkyDataManagerFilterControllerDirective
    */
   #updateAdapterFromDataState(dataState: SkyDataManagerState): void {
     if (dataState.filterData?.filters) {
-      this.#adapterService.updateFilterData(
+      this.#adapterService.updateFilterState(
         dataState.filterData.filters,
         this.#sourceId,
       );
@@ -71,15 +61,14 @@ export class SkyDataManagerFilterControllerDirective
   /**
    * Updates the data manager state based on adapter changes.
    */
-  #updateDataManagerFromAdapter(
-    filters: SkyFilterAdapterData | undefined,
-  ): void {
+  #updateDataManagerFromAdapter(filters: SkyFilterState | undefined): void {
     const filterData = {
       filtersApplied: !!(
         filters?.appliedFilters && filters.appliedFilters.length > 0
       ),
       filters,
     };
+
     this.#currentDataState.filterData = filterData;
 
     // Update the data manager state

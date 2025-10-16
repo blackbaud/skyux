@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { SkyFilterAdapterFilterItem } from '@skyux/lists';
+import { SkyFilterStateFilterItem } from '@skyux/lists';
 
 import { SkyDataManagerService } from '../data-manager.service';
 import { SkyDataManagerState } from '../models/data-manager-state';
 
-import { SkyDataManagerFilterAdapterService } from './data-manager-filter-adapter.service';
 import { SkyDataManagerFilterControllerDirective } from './data-manager-filter-controller.directive';
+import { SkyDataManagerFilterStateService } from './data-manager-filter-state.service';
 
 @Component({
   template: `<div skyDataManagerFilterController></div>`,
@@ -19,7 +19,7 @@ describe('SkyDataManagerFilterControllerDirective', () => {
   let component: TestComponent;
   let fixture: ComponentFixture<TestComponent>;
   let dataManagerService: SkyDataManagerService;
-  let adapterService: SkyDataManagerFilterAdapterService;
+  let filterStateService: SkyDataManagerFilterStateService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -30,13 +30,13 @@ describe('SkyDataManagerFilterControllerDirective', () => {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     dataManagerService = TestBed.inject(SkyDataManagerService);
-    // The adapter service is provided by the directive itself (useExisting on SkyFilterAdapterService).
+    // The adapter service is provided by the directive itself (useExisting on SkyFilterStateService).
     // Retrieve it from the element injector rather than the root TestBed injector.
     const directiveDebugEl = fixture.debugElement.query(
       By.directive(SkyDataManagerFilterControllerDirective),
     );
-    adapterService = directiveDebugEl.injector.get(
-      SkyDataManagerFilterAdapterService,
+    filterStateService = directiveDebugEl.injector.get(
+      SkyDataManagerFilterStateService,
     );
 
     // Initialize the data manager
@@ -54,24 +54,27 @@ describe('SkyDataManagerFilterControllerDirective', () => {
   });
 
   it('should provide adapter service', () => {
-    expect(adapterService).toBeTruthy();
-    expect(adapterService).toBeInstanceOf(SkyDataManagerFilterAdapterService);
+    expect(filterStateService).toBeTruthy();
+    expect(filterStateService).toBeInstanceOf(SkyDataManagerFilterStateService);
   });
 
   it('should update data manager when adapter filters change', () => {
     const spy = spyOn(dataManagerService, 'updateDataState');
-    const filters: SkyFilterAdapterFilterItem[] = [
+    const filters: SkyFilterStateFilterItem[] = [
       {
         filterId: 'test-filter',
         filterValue: { value: 'test-value' },
       },
     ];
-    adapterService.updateFilterData({ appliedFilters: filters }, 'test-list');
+    filterStateService.updateFilterState(
+      { appliedFilters: filters },
+      'test-list',
+    );
     expect(spy).toHaveBeenCalled();
   });
 
   it('should update adapter when data manager state changes', () => {
-    const spy = spyOn(adapterService, 'updateFilterData');
+    const spy = spyOn(filterStateService, 'updateFilterState');
 
     // Update data manager state
     const newState = new SkyDataManagerState({
