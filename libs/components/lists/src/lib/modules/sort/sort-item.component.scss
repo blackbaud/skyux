@@ -45,6 +45,7 @@
     text-align: left;
     width: 100%;
     outline: none;
+    cursor: pointer;
     border: none;
     // The position relative ensures that the box shadows are not cut off by the selected item.
     position: relative;
@@ -100,6 +101,7 @@
       );
     }
 
+    // NOTE: Not removing these in a minor version out an abundance of caution. However, there is no direct way to trigger these as of 10/14/25.
     &[disabled] {
       &,
       &:hover,
@@ -109,7 +111,11 @@
           var(--sky-color-border-action-tertiary-disabled);
         background-color: var(--sky-color-background-action-tertiary-disabled);
         color: var(--sky-color-text-deemphasized);
-        cursor: default;
+        cursor: not-allowed;
+
+        & button {
+          cursor: not-allowed;
+        }
 
         &:focus-visible {
           box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
