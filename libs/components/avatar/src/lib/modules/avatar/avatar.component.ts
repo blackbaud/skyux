@@ -14,6 +14,7 @@ import { SkyI18nModule, SkyLibResourcesService } from '@skyux/i18n';
 
 import { Observable } from 'rxjs';
 
+import { SkyAvatarResourcesModule } from '../shared/sky-avatar-resources.module';
 import { SkyAvatarSize } from './avatar-size';
 import { SkyAvatarSrc } from './avatar-src';
 import { SkyAvatarInnerComponent } from './avatar.inner.component';
@@ -25,7 +26,8 @@ const MAX_FILE_SIZE_DEFAULT = 512000;
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  imports: [AsyncPipe, NgTemplateOutlet, SkyI18nModule, SkyFileDropModule, SkyAvatarInnerComponent],
+  providers: [SkyFileSizePipe],
+  imports: [AsyncPipe, NgTemplateOutlet, SkyI18nModule, SkyFileDropModule, SkyAvatarResourcesModule, SkyAvatarInnerComponent],
 })
 export class SkyAvatarComponent {
   /**
