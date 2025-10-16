@@ -9,6 +9,7 @@ import {
   SkyFilterBarModule,
   SkyFilterItemLookupSearchAsyncArgs,
 } from '@skyux/filter-bar';
+import { SkyListSummaryModule } from '@skyux/lists';
 
 import { DATA_MANAGER_DEMO_DATA, DataManagerDemoRow } from './data';
 import { ExampleService } from './example.service';
@@ -27,6 +28,7 @@ import { ViewRepeaterComponent } from './view-repeater.component';
   imports: [
     SkyDataManagerModule,
     SkyFilterBarModule,
+    SkyListSummaryModule,
     ViewGridComponent,
     ViewRepeaterComponent,
   ],

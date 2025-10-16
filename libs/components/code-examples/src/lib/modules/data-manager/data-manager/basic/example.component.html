@@ -15,6 +15,9 @@
         [modalComponent]="orangeModalComponent"
       />
     </sky-filter-bar>
+    <sky-list-summary>
+      <sky-list-summary-item labelText="Records" [value]="items.length" />
+    </sky-list-summary>
   </sky-data-manager-toolbar>
   <app-view-repeater [items]="items" />
   <app-view-grid [items]="items" />
