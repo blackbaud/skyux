@@ -13,13 +13,14 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
+import { SkyFilterBarFilterState } from '@skyux/filter-bar';
 import { SkyRepeaterModule } from '@skyux/lists';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { DataManagerDemoRow } from './data';
-import { Filters } from './filters';
+import { FruitTypeLookupItem } from './example.service';
 
 @Component({
   selector: 'app-view-repeater',
@@ -45,7 +46,6 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
     iconName: 'text-bullet-list',
     searchEnabled: true,
     sortEnabled: true,
-    filterButtonEnabled: true,
     multiselectToolbarEnabled: true,
     onClearAllClick: () => {
       this.#clearAll();
@@ -158,23 +158,32 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
 
   #filterItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
     let filteredItems = items;
-    const filterData = this.#dataState && this.#dataState.filterData;
+    const filterState = this.#dataState.filterData?.filters as
+      | SkyFilterBarFilterState
+      | undefined;
 
-    if (filterData?.filters) {
-      const filters = filterData.filters as Filters;
+    if (filterState?.appliedFilters) {
+      const filters = filterState.appliedFilters;
+      const hideOrange = !!filters.find(
+        (f) => f.filterId === 'hideOrange' && f.filterValue?.value,
+      );
+      const fruitTypeFilter = filters.find((f) => f.filterId === 'fruitType');
+      const selectedTypes: string[] = Array.isArray(
+        fruitTypeFilter?.filterValue?.value,
+      )
+        ? (fruitTypeFilter.filterValue.value as FruitTypeLookupItem[]).map(
+            (v) => v.id,
+          )
+        : [];
 
-      filteredItems = items.filter((item: DataManagerDemoRow) => {
-        if (
-          ((filters.hideOrange && item.color !== 'orange') ??
-            !filters.hideOrange) &&
-          ((filters.type !== 'any' && item.type === filters.type) ||
-            !filters.type ||
-            filters.type === 'any')
-        ) {
-          return true;
+      filteredItems = items.filter((item) => {
+        if (hideOrange && item.color === 'orange') {
+          return false;
         }
-
-        return false;
+        if (selectedTypes.length && !selectedTypes.includes(item.type)) {
+          return false;
+        }
+        return true;
       });
     }
 

@@ -4,6 +4,7 @@ import {
   Component,
   Input,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   SkyDataManagerModule,
@@ -11,6 +12,7 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
+import { SkyFilterBarFilterState } from '@skyux/filter-bar';
 import {
   SkyPagingContentChangeArgs,
   SkyPagingModule,
@@ -18,6 +20,7 @@ import {
 } from '@skyux/lists';
 
 import { DataManagerPagedItemsPipe } from './data-manager-paged-items.pipe';
+import { FruitItem } from './fruit-item';
 
 @Component({
   selector: 'app-data-view-repeater',
@@ -32,10 +35,9 @@ import { DataManagerPagedItemsPipe } from './data-manager-paged-items.pipe';
 })
 export class DataViewRepeaterComponent implements OnInit {
   @Input()
-  public items: any[];
-
+  public items: FruitItem[]; // typed items
   public dataState = new SkyDataManagerState({});
-  public displayedItems: any[];
+  public displayedItems: FruitItem[];
   public isActive: boolean;
   public viewId = 'repeaterView';
   public viewConfig: SkyDataViewConfig = {
@@ -44,32 +46,33 @@ export class DataViewRepeaterComponent implements OnInit {
     iconName: 'text-bullet-list',
     searchEnabled: true,
     searchHighlightEnabled: true,
-    filterButtonEnabled: true,
     multiselectToolbarEnabled: true,
     onClearAllClick: this.clearAll.bind(this),
     onSelectAllClick: this.selectAll.bind(this),
   };
 
   protected readonly pageSize = 5;
+  protected currentPage = 1;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService,
-  ) {}
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dataManagerService = inject(SkyDataManagerService);
+
+  // no explicit constructor logic needed
 
   public ngOnInit(): void {
     this.displayedItems = this.items;
 
-    this.dataManagerService.initDataView(this.viewConfig);
+    this.#dataManagerService.initDataView(this.viewConfig);
 
-    this.dataManagerService
+    this.#dataManagerService
       .getDataStateUpdates(this.viewId)
       .subscribe((state) => {
         this.dataState = state;
+        this.currentPage = state.additionalData?.currentPage ?? 1;
         this.updateData();
       });
 
-    this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
+    this.#dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
       this.isActive = id === this.viewId;
     });
   }
@@ -85,7 +88,7 @@ export class DataViewRepeaterComponent implements OnInit {
       this.displayedItems = this.displayedItems.filter((item) => item.selected);
     }
 
-    this.dataManagerService.updateDataSummary(
+    this.#dataManagerService.updateDataSummary(
       {
         totalItems: this.items.length,
         itemsMatching: this.displayedItems.length,
@@ -93,16 +96,16 @@ export class DataViewRepeaterComponent implements OnInit {
       this.viewId,
     );
 
-    this.changeDetector.detectChanges();
+    this.#changeDetector.detectChanges();
   }
 
-  public searchItems(items: any[]): any[] {
+  public searchItems(items: FruitItem[]): FruitItem[] {
     let searchedItems = items;
     const searchText = this.dataState && this.dataState.searchText;
 
     if (searchText) {
-      searchedItems = items.filter(function (item: any) {
-        let property: any;
+      searchedItems = items.filter(function (item: FruitItem) {
+        let property: string;
 
         for (property in item) {
           if (property === 'name' || property === 'description') {
@@ -119,23 +122,34 @@ export class DataViewRepeaterComponent implements OnInit {
     return searchedItems;
   }
 
-  public filterItems(items: any[]): any[] {
+  public filterItems(items: FruitItem[]): FruitItem[] {
     let filteredItems = items;
-    const filterData = this.dataState && this.dataState.filterData;
+    const filterState = this.dataState.filterData?.filters as
+      | SkyFilterBarFilterState
+      | undefined;
 
-    if (filterData && filterData.filters) {
-      const filters = filterData.filters;
-      filteredItems = items.filter((item: any) => {
-        if (
-          ((filters.hideOrange && item.color !== 'orange') ||
-            !filters.hideOrange) &&
-          ((filters.type !== 'any' && item.type === filters.type) ||
-            !filters.type ||
-            filters.type === 'any')
-        ) {
-          return true;
+    if (filterState?.appliedFilters) {
+      const filters = filterState.appliedFilters;
+      const hideOrange = !!filters.find(
+        (f) => f.filterId === 'hideOrange' && f.filterValue?.value,
+      );
+      const fruitTypeFilter = filters.find((f) => f.filterId === 'fruitType');
+      const selectedTypes: string[] = Array.isArray(
+        fruitTypeFilter?.filterValue?.value,
+      )
+        ? (fruitTypeFilter.filterValue.value as Array<{ id: string }>).map(
+            (v) => v.id,
+          )
+        : [];
+
+      filteredItems = items.filter((item) => {
+        if (hideOrange && item.color === 'orange') {
+          return false;
         }
-        return false;
+        if (selectedTypes.length && !selectedTypes.includes(item.type)) {
+          return false;
+        }
+        return true;
       });
     }
 
@@ -154,7 +168,7 @@ export class DataViewRepeaterComponent implements OnInit {
 
     this.dataState.selectedIds = selectedIds;
     this.#updateDataState();
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public clearAll(): void {
@@ -169,10 +183,10 @@ export class DataViewRepeaterComponent implements OnInit {
     });
     this.dataState.selectedIds = selectedIds;
     this.#updateDataState();
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
-  public onItemSelect(isSelected: boolean, item: any): void {
+  public onItemSelect(isSelected: boolean, item: FruitItem): void {
     const selectedItems = this.dataState.selectedIds || [];
     const itemIndex = selectedItems.indexOf(item.id);
 
@@ -188,6 +202,8 @@ export class DataViewRepeaterComponent implements OnInit {
 
   protected onContentChange(args: SkyPagingContentChangeArgs): void {
     setTimeout(() => {
+      this.currentPage = args.currentPage;
+      this.dataState.additionalData ??= {};
       this.dataState.additionalData.currentPage = args.currentPage;
       this.#updateDataState();
 
@@ -196,6 +212,6 @@ export class DataViewRepeaterComponent implements OnInit {
   }
 
   #updateDataState(): void {
-    this.dataManagerService.updateDataState(this.dataState, this.viewId);
+    this.#dataManagerService.updateDataState(this.dataState, this.viewId);
   }
 }
