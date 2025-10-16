@@ -1,4 +1,8 @@
 <sky-data-manager>
-  <sky-data-manager-toolbar />
+  <sky-data-manager-toolbar>
+    <sky-list-summary>
+      <sky-list-summary-item labelText="Records" [value]="items.length" />
+    </sky-list-summary>
+  </sky-data-manager-toolbar>
   <app-view-grid [items]="items" />
 </sky-data-manager>
