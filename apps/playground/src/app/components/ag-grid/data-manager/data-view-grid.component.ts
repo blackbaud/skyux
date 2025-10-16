@@ -12,6 +12,7 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
+import { SkyFilterBarFilterState } from '@skyux/filter-bar';
 import { SkyPagingContentChangeArgs, SkyPagingModule } from '@skyux/lists';
 
 import { AgGridModule } from 'ag-grid-angular';
@@ -25,6 +26,7 @@ import {
 } from 'ag-grid-community';
 
 import { DataManagerPagedItemsPipe } from './data-manager-paged-items.pipe';
+import { FruitItem } from './fruit-item';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -80,7 +82,6 @@ export class DataViewGridComponent implements OnInit {
     searchHighlightEnabled: true,
     multiselectToolbarEnabled: true,
     columnPickerEnabled: true,
-    filterButtonEnabled: true,
     columnOptions: [
       {
         id: 'selected',
@@ -188,7 +189,7 @@ export class DataViewGridComponent implements OnInit {
   protected onContentChange(args: SkyPagingContentChangeArgs): void {
     setTimeout(() => {
       this.currentPage = args.currentPage;
-
+      this.dataState.additionalData ??= {};
       this.dataState.additionalData.currentPage = args.currentPage;
       this.#updateDataState();
 
@@ -196,23 +197,34 @@ export class DataViewGridComponent implements OnInit {
     }, 500);
   }
 
-  #filterItems(items: any[]): any[] {
+  #filterItems(items: FruitItem[]): FruitItem[] {
     let filteredItems = items;
-    const filterData = this.dataState && this.dataState.filterData;
+    const filterState = this.dataState.filterData?.filters as
+      | SkyFilterBarFilterState
+      | undefined;
 
-    if (filterData && filterData.filters) {
-      const filters = filterData.filters;
-      filteredItems = items.filter((item: any) => {
-        if (
-          ((filters.hideOrange && item.color !== 'orange') ||
-            !filters.hideOrange) &&
-          ((filters.type !== 'any' && item.type === filters.type) ||
-            !filters.type ||
-            filters.type === 'any')
-        ) {
-          return true;
+    if (filterState?.appliedFilters) {
+      const filters = filterState.appliedFilters;
+      const hideOrange = !!filters.find(
+        (f) => f.filterId === 'hideOrange' && f.filterValue?.value,
+      );
+      const fruitTypeFilter = filters.find((f) => f.filterId === 'fruitType');
+      const selectedTypes: string[] = Array.isArray(
+        fruitTypeFilter?.filterValue?.value,
+      )
+        ? (fruitTypeFilter.filterValue.value as Array<{ id: string }>).map(
+            (v) => v.id,
+          )
+        : [];
+
+      filteredItems = items.filter((item) => {
+        if (hideOrange && item.color === 'orange') {
+          return false;
         }
-        return false;
+        if (selectedTypes.length && !selectedTypes.includes(item.type)) {
+          return false;
+        }
+        return true;
       });
     }
 

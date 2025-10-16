@@ -1,6 +1,7 @@
 export { SkyFilterBarModule } from './lib/modules/filter-bar/filter-bar.module';
 
 export { SkyFilterBarFilterItem } from './lib/modules/filter-bar/models/filter-bar-filter-item';
+export { SkyFilterBarFilterState } from './lib/modules/filter-bar/models/filter-bar-filter-state';
 export { SkyFilterBarFilterValue } from './lib/modules/filter-bar/models/filter-bar-filter-value';
 export { SkyFilterItemLookupSearchAsyncArgs } from './lib/modules/filter-bar/models/filter-item-lookup-search-async-args';
 export { SkyFilterItemLookupSearchAsyncResult } from './lib/modules/filter-bar/models/filter-item-lookup-search-async-result';

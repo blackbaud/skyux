@@ -15,6 +15,7 @@ import {
   SkyDataViewConfig,
   SkyDataViewState,
 } from '@skyux/data-manager';
+import { SkyFilterBarFilterState } from '@skyux/filter-bar';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -30,8 +31,7 @@ import {
 import { Subject, of, takeUntil } from 'rxjs';
 
 import { ContextMenuComponent } from './context-menu.component';
-import { AgGridDemoRow } from './data';
-import { Filters } from './filters';
+import { AgGridDemoRow, AutocompleteOption } from './data';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -162,7 +162,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       searchEnabled: true,
       multiselectToolbarEnabled: true,
       columnPickerEnabled: true,
-      filterButtonEnabled: true,
       columnOptions: this.#columnPickerOptions,
     };
   }
@@ -246,20 +245,36 @@ export class ViewGridComponent implements OnInit, OnDestroy {
 
   #filterItems(items: AgGridDemoRow[]): AgGridDemoRow[] {
     let filteredItems = items;
-    const filterData = this.#dataState && this.#dataState.filterData;
+    const filterState = this.#dataState.filterData?.filters as
+      | SkyFilterBarFilterState
+      | undefined;
 
-    if (filterData?.filters) {
-      const filters = filterData.filters as Filters;
+    if (filterState?.appliedFilters) {
+      const filters = filterState.appliedFilters;
+      const hideSales = filters.some(
+        (filter) =>
+          filter.filterId === 'hideSales' && !!filter.filterValue?.value,
+      );
+      const jobTitleFilter = filters.find((f) => f.filterId === 'jobTitle');
+      const selectedTypes: string[] = Array.isArray(
+        jobTitleFilter?.filterValue?.value,
+      )
+        ? (jobTitleFilter.filterValue.value as AutocompleteOption[]).map(
+            (v) => v.id,
+          )
+        : [];
 
-      filteredItems = items.filter((item) => {
-        return (
-          (!!(filters.hideSales && item.department.name !== 'Sales') ||
-            !filters.hideSales) &&
-          ((filters.jobTitle !== 'any' &&
-            item.jobTitle?.name === filters.jobTitle) ||
-            !filters.jobTitle ||
-            filters.jobTitle === 'any')
-        );
+      filteredItems = items.filter((item: AgGridDemoRow) => {
+        if (hideSales && item.department.name === 'Sales') {
+          return false;
+        }
+        if (
+          selectedTypes.length &&
+          (!item.jobTitle || !selectedTypes.includes(item.jobTitle.id))
+        ) {
+          return false;
+        }
+        return true;
       });
     }
 
