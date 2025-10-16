@@ -12,11 +12,8 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
-import {
-  SkyFilterState,
-  SkyPagingContentChangeArgs,
-  SkyPagingModule,
-} from '@skyux/lists';
+import { SkyFilterBarFilterState } from '@skyux/filter-bar';
+import { SkyPagingContentChangeArgs, SkyPagingModule } from '@skyux/lists';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -202,12 +199,12 @@ export class DataViewGridComponent implements OnInit {
 
   #filterItems(items: FruitItem[]): FruitItem[] {
     let filteredItems = items;
-    const filterData = this.dataState.filterData?.filters as
-      | SkyFilterState
+    const filterState = this.dataState.filterData?.filters as
+      | SkyFilterBarFilterState
       | undefined;
 
-    if (filterData?.appliedFilters) {
-      const filters = filterData.appliedFilters;
+    if (filterState?.appliedFilters) {
+      const filters = filterState.appliedFilters;
       const hideOrange = !!filters.find(
         (f) => f.filterId === 'hideOrange' && f.filterValue?.value,
       );

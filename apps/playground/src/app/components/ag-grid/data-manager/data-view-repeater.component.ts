@@ -12,8 +12,8 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
+import { SkyFilterBarFilterState } from '@skyux/filter-bar';
 import {
-  SkyFilterState,
   SkyPagingContentChangeArgs,
   SkyPagingModule,
   SkyRepeaterModule,
@@ -124,12 +124,12 @@ export class DataViewRepeaterComponent implements OnInit {
 
   public filterItems(items: FruitItem[]): FruitItem[] {
     let filteredItems = items;
-    const filterData = this.dataState.filterData?.filters as
-      | SkyFilterState
+    const filterState = this.dataState.filterData?.filters as
+      | SkyFilterBarFilterState
       | undefined;
 
-    if (filterData?.appliedFilters) {
-      const filters = filterData.appliedFilters;
+    if (filterState?.appliedFilters) {
+      const filters = filterState.appliedFilters;
       const hideOrange = !!filters.find(
         (f) => f.filterId === 'hideOrange' && f.filterValue?.value,
       );

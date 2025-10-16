@@ -13,7 +13,7 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
-import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
+import { SkyFilterBarFilterState } from '@skyux/filter-bar';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -163,11 +163,12 @@ export class ViewGridComponent implements OnInit, OnDestroy {
 
   #filterItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
     let filteredItems = items;
-    const filters = this.#dataState?.filterData?.filters?.appliedFilters as
-      | SkyFilterBarFilterItem[]
+    const filterState = this.#dataState.filterData?.filters as
+      | SkyFilterBarFilterState
       | undefined;
 
-    if (filters) {
+    if (filterState?.appliedFilters) {
+      const filters = filterState.appliedFilters;
       const hideOrange = !!filters.find(
         (f) => f.filterId === 'hideOrange' && f.filterValue?.value,
       );

@@ -1,7 +1,7 @@
 import { SkyFilterStateFilterItem } from './filter-state-filter-item';
 
 /**
- * Represents the complete filter adapter data containing both applied filters and selected filter IDs.
+ * Represents the complete filter state containing both applied filters and selected filter IDs.
  */
 export interface SkyFilterState {
   /**
