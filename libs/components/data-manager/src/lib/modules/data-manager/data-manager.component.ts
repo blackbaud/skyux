@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -36,7 +35,7 @@ const DEFAULT_DOCK_TYPE: SkyDataManagerDockType = 'none';
   templateUrl: './data-manager.component.html',
   styleUrl: './data-manager.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyBackToTopModule, SkyViewkeeperModule, CommonModule],
+  imports: [SkyBackToTopModule, SkyViewkeeperModule],
 })
 export class SkyDataManagerComponent implements OnDestroy, OnInit {
   public get currentViewkeeperClasses(): string[] {
