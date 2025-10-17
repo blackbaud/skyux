@@ -13,8 +13,11 @@ permissions:
 env:
   RELEASE_PR_PREFIX: 'chore: release'
 jobs:
-  release:
+  next-release:
     runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created || '' }}
+      tag_name: ${{ steps.release.outputs.tag_name || '' }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -54,41 +57,6 @@ jobs:
               const releaseNotes = (await exec.getExecOutput('npx', ['skyux-dev', 'release-notes', `--releaseName=${nextVersion}`])).stdout;
               await github.rest.repos.createRelease({ ...context.repo, name: `v${nextVersion}`, tag_name: nextVersion, body: releaseNotes, prerelease: nextVersion.includes('-') });
             }
-      - name: Build
-        if: ${{ steps.release.outputs.release_created }}
-        run: npx skyux-dev create-packages-dist --skipNxCache
-      # Using Node 24 to publish with NPM 11, which supports trusted publishers.
-      - uses: actions/setup-node@v6
-        if: ${{ steps.release.outputs.release_created }}
-        with:
-          node-version: 24
-      - name: Publish
-        if: ${{ steps.release.outputs.release_created }}
-        run: npx skyux-dev publish-packages-dist --skip-registry-config
-      - name: Capture logs
-        if: ${{ failure() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: npm-logs
-          path: /home/runner/.npm/_logs
-          retention-days: 3
-      - name: Notify Slack (success)
-        if: ${{ steps.release.outputs.release_created }}
-        uses: rtCamp/action-slack-notify@07cbdbfd6c6190970778d8f98f11d073b2932aae # v2.3.3
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.release.outputs.tag_name }} to NPM. http://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md
-          SLACK_ICON: https://github.com/blackbaud.png?size=48
-          SLACK_USERNAME: SKY UX
-      - name: Notify Slack (failure)
-        if: ${{ failure() && steps.release.outputs.release_created }}
-        uses: rtCamp/action-slack-notify@07cbdbfd6c6190970778d8f98f11d073b2932aae # v2.3.3
-        env:
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: Failed to publish SKY UX ${{ steps.release.outputs.tag_name }} to NPM!
-          SLACK_ICON: https://github.com/blackbaud.png?size=48
-          SLACK_USERNAME: SKY UX
       - name: Notify Slack (failure, non-release)
         if: ${{ failure() && !steps.release.outputs.release_created }}
         uses: rtCamp/action-slack-notify@07cbdbfd6c6190970778d8f98f11d073b2932aae # v2.3.3
@@ -100,3 +68,51 @@ jobs:
           SLACK_USERNAME: SKY UX
           #cor-skyux-notifications
           SLACK_CHANNEL: C01GY7ZP4HM
+
+  release:
+    runs-on: ubuntu-latest
+    needs: next-release
+    if: ${{ needs.next-release.outputs.release_created }}
+    environment: 'npm'
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
+      - uses: actions/setup-node@v6
+        with:
+          cache: 'npm'
+          node-version-file: '.nvmrc'
+      - name: npm install
+        run: npm ci
+      - name: Build
+        run: npx skyux-dev create-packages-dist --skipNxCache
+      # Using Node 24 to publish with NPM 11, which supports trusted publishers.
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Publish
+        run: npx skyux-dev publish-packages-dist --skip-registry-config
+      - name: Capture logs
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-logs
+          path: /home/runner/.npm/_logs
+          retention-days: 3
+      - name: Notify Slack (success)
+        uses: rtCamp/action-slack-notify@07cbdbfd6c6190970778d8f98f11d073b2932aae # v2.3.3
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: Successfully published SKY UX ${{ needs.next-release.outputs.tag_name }} to NPM. http://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md
+          SLACK_ICON: https://github.com/blackbaud.png?size=48
+          SLACK_USERNAME: SKY UX
+      - name: Notify Slack (failure)
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@07cbdbfd6c6190970778d8f98f11d073b2932aae # v2.3.3
+        env:
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: Failed to publish SKY UX ${{ needs.next-release.outputs.tag_name }} to NPM!
+          SLACK_ICON: https://github.com/blackbaud.png?size=48
+          SLACK_USERNAME: SKY UX
