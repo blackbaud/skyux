@@ -7,6 +7,9 @@ on:
     branches:
       - main
       - '[0-9]+.x.x'
+permissions:
+  id-token: write
+  contents: read
 env:
   RELEASE_PR_PREFIX: 'chore: release'
 jobs:
@@ -17,7 +20,7 @@ jobs:
         with:
           fetch-depth: 0
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -54,11 +57,14 @@ jobs:
       - name: Build
         if: ${{ steps.release.outputs.release_created }}
         run: npx skyux-dev create-packages-dist --skipNxCache
+      # Using Node 24 to publish with NPM 11, which supports trusted publishers.
+      - uses: actions/setup-node@v6
+        if: ${{ steps.release.outputs.release_created }}
+        with:
+          node-version: 24
       - name: Publish
         if: ${{ steps.release.outputs.release_created }}
-        run: npx skyux-dev publish-packages-dist
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx skyux-dev publish-packages-dist --skip-registry-config
       - name: Capture logs
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
