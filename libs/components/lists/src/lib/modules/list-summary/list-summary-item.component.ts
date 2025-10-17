@@ -1,4 +1,10 @@
-import { Component, TemplateRef, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  computed,
+  input,
+} from '@angular/core';
 import { SkyNumericModule, SkyNumericOptions } from '@skyux/core';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
@@ -6,6 +12,7 @@ import { SkyKeyInfoModule } from '@skyux/indicators';
  * Displays a list summary item that pairs a label with a formatted value.
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'sky-list-summary-item',
   imports: [SkyKeyInfoModule, SkyNumericModule],
   templateUrl: './list-summary-item.component.html',

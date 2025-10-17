@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { SkyNumericOptions } from '@skyux/core';
 import { SkyListSummaryModule } from '@skyux/lists';
 
 @Component({
@@ -10,8 +11,41 @@ import { SkyListSummaryModule } from '@skyux/lists';
   styleUrls: ['./list-summary.component.scss'],
 })
 export class ListSummaryComponent {
-  protected summaryItems = [
-    { value: 1, label: 'Summary 1', helpPopoverContent: 'test' },
-    { value: 2, label: 'Summary 2', valueFormat: { format: 'currency' } },
+  protected summaryItems: {
+    value: number;
+    labelText: string;
+    helpPopoverContent?: string;
+    valueFormat?: SkyNumericOptions;
+  }[] = [
+    { value: 1, labelText: 'Record', helpPopoverContent: 'test' },
+    {
+      value: 2,
+      labelText: 'Average donation',
+      valueFormat: { format: 'currency' },
+    },
+    {
+      value: 3e4,
+      labelText: 'External contributions',
+      valueFormat: {
+        format: 'currency',
+        truncate: true,
+        currencyDisplay: 'code',
+      },
+    },
+    {
+      value: 9287847424,
+      labelText: 'Whales yet to be saved',
+      valueFormat: {
+        truncate: false,
+      },
+    },
+    {
+      value: 67,
+      labelText: 'TikTok videos',
+    },
+    {
+      value: 1999,
+      labelText: 'Video games',
+    },
   ];
 }
