@@ -7,6 +7,9 @@ on:
     branches:
       - main
       - '[0-9]+.x.x'
+  pull_request:
+    paths:
+      - '.github/workflows/release-please.yml'
 permissions:
   id-token: write
   contents: read
@@ -14,10 +17,12 @@ env:
   RELEASE_PR_PREFIX: 'chore: release'
 jobs:
   next-release:
+    name: "Prepare Release${{ github.ref_protected && github.event_name == 'push' && startsWith(github.event.head_commit.message, env.RELEASE_PR_PREFIX) && '' || ' (DRY RUN)' }}"
     runs-on: ubuntu-latest
     outputs:
       release_created: ${{ steps.release.outputs.release_created || '' }}
       tag_name: ${{ steps.release.outputs.tag_name || '' }}
+      dry_run: ${{ steps.next-release.outputs.dry_run || 'false' }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -30,14 +35,19 @@ jobs:
       - name: npm install
         run: npm ci
       - name: Next release
-        if: ${{ github.event_name != 'push' || ! startsWith(github.event.head_commit.message, env.RELEASE_PR_PREFIX) }}
+        if: ${{ !github.ref_protected || github.event_name != 'push' || ! startsWith(github.event.head_commit.message, env.RELEASE_PR_PREFIX) }}
         # Create or update a release branch and its pull request.
-        run: npx skyux-dev release ${{ github.event_name == 'workflow_dispatch' && ! endsWith(github.event.ref, 'main') && ! endsWith(github.event.ref, '.x.x') && '--dry-run=true' || '' }}
+        id: next-release
+        run: |
+          export DRY_RUN=${{ github.ref_protected && github.event_name == 'push' && startsWith(github.event.head_commit.message, env.RELEASE_PR_PREFIX) && 'false' || 'true' }}
+          echo "dry_run=$DRY_RUN" >> $GITHUB_OUTPUT
+          echo npx skyux-dev release --dry-run=$DRY_RUN
+          npx skyux-dev release --dry-run=$DRY_RUN
         env:
           GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
       - uses: actions/github-script@v8
         name: Release
-        if: ${{ github.event_name == 'push' && startsWith(github.event.head_commit.message, env.RELEASE_PR_PREFIX) }}
+        if: ${{ github.ref_protected && github.event_name == 'push' && startsWith(github.event.head_commit.message, env.RELEASE_PR_PREFIX) }}
         id: release
         # Create a release based on the release pull request.
         with:
@@ -63,16 +73,17 @@ jobs:
         env:
           SLACK_COLOR: ${{ job.status }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: Failed when preparing SKY UX release!
+          SLACK_MESSAGE: "Failed when preparing SKY UX release!${{ steps.next-release.outputs.dry_run == 'true' && ' (DRY RUN)' || '' }}"
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX
           #cor-skyux-notifications
           SLACK_CHANNEL: C01GY7ZP4HM
 
   release:
+    name: "Publish to NPM${{ needs.next-release.outputs.dry_run == 'true' && ' (DRY RUN)' || '' }}"
     runs-on: ubuntu-latest
     needs: next-release
-    if: ${{ needs.next-release.outputs.release_created }}
+    if: ${{ needs.next-release.outputs.release_created || needs.next-release.outputs.dry_run == 'true' }}
     environment: 'npm'
     steps:
       - uses: actions/checkout@v5
@@ -85,6 +96,12 @@ jobs:
           node-version-file: '.nvmrc'
       - name: npm install
         run: npm ci
+      - name: Dry run
+        if: ${{ needs.next-release.outputs.dry_run == 'true' }}
+        id: dry-run
+        run: |
+          npm pkg set version="$(npx semver -i $(jq -r .version package.json))-build.${{ github.run_number }}"
+          echo tag_name=$(jq -r .version package.json) >> $GITHUB_OUTPUT
       - name: Build
         run: npx skyux-dev create-packages-dist --skipNxCache
       # Using Node 24 to publish with NPM 11, which supports trusted publishers.
@@ -92,7 +109,7 @@ jobs:
         with:
           node-version: 24
       - name: Publish
-        run: npx skyux-dev publish-packages-dist --skip-registry-config
+        run: npx skyux-dev publish-packages-dist --skip-registry-config --dry-run=${{ needs.next-release.outputs.dry_run }}
       - name: Capture logs
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
@@ -101,18 +118,23 @@ jobs:
           path: /home/runner/.npm/_logs
           retention-days: 3
       - name: Notify Slack (success)
+        if: ${{ success() }}
         uses: rtCamp/action-slack-notify@07cbdbfd6c6190970778d8f98f11d073b2932aae # v2.3.3
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: Successfully published SKY UX ${{ needs.next-release.outputs.tag_name }} to NPM. http://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md
+          SLACK_MESSAGE: "Successfully published SKY UX ${{ needs.next-release.outputs.tag_name || steps.dry-run.outputs.tag_name }} to NPM${{ needs.next-release.outputs.dry_run == 'true' && ' (DRY RUN)' || '' }}. http://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md"
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX
+          # dry run to #cor-skyux-notifications, releases to #1bb-skyux-apps-alerts
+          SLACK_CHANNEL: ${{ needs.next-release.outputs.dry_run == 'true' && 'C01GY7ZP4HM' || 'C7CJ0QS75' }}
       - name: Notify Slack (failure)
         if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@07cbdbfd6c6190970778d8f98f11d073b2932aae # v2.3.3
         env:
           SLACK_COLOR: ${{ job.status }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: Failed to publish SKY UX ${{ needs.next-release.outputs.tag_name }} to NPM!
+          SLACK_MESSAGE: "Failed to publish SKY UX ${{ needs.next-release.outputs.tag_name || steps.dry-run.outputs.tag_name }} to NPM!${{ needs.next-release.outputs.dry_run == 'true' && ' (DRY RUN)' || '' }}"
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX
+          # dry run to #cor-skyux-notifications, releases to #1bb-skyux-apps-alerts
+          SLACK_CHANNEL: ${{ needs.next-release.outputs.dry_run == 'true' && 'C01GY7ZP4HM' || 'C7CJ0QS75' }}
