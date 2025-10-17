@@ -16,7 +16,7 @@ import { SkyToolbarModule } from '@skyux/layout';
   selector: 'sky-angular-tree-toolbar',
   templateUrl: './angular-tree-toolbar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyI18nModule, SkyIconModule, SkyToolbarModule]
+  imports: [SkyI18nModule, SkyIconModule, SkyToolbarModule],
 })
 export class SkyAngularTreeToolbarComponent {
   @Input()

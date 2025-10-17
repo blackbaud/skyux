@@ -31,7 +31,12 @@ function isColorpickerOutput(value: unknown): value is SkyColorpickerOutput {
 @Component({
   selector: 'app-colorpicker-programmatic-example',
   templateUrl: './example.component.html',
-  imports: [FormsModule, ReactiveFormsModule, SkyColorpickerModule, SkyFormErrorModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SkyColorpickerModule,
+    SkyFormErrorModule,
+  ],
 })
 export class ColorpickerProgrammaticExampleComponent {
   protected colorpickerController = new Subject<SkyColorpickerMessage>();

@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -15,7 +16,6 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
 import {
   SKY_STACKING_CONTEXT,
   SkyAffixAutoFitContext,
@@ -29,11 +29,13 @@ import {
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyLibResourcesPipe } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
-import { SkyThemeService } from '@skyux/theme';
+import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 
 import moment from 'moment';
 import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
 
 import { SkyTimepickerTimeFormatType } from './timepicker-time-format-type';
 import { SkyTimepickerTimeOutput } from './timepicker-time-output';
@@ -52,7 +54,13 @@ let nextId = 0;
   styleUrls: ['./timepicker.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, SkyLibResourcesPipe, SkyIconModule]
+  imports: [
+    NgTemplateOutlet,
+    SkyLibResourcesPipe,
+    SkyIconModule,
+    SkyThemeModule,
+    SkyDatetimeResourcesModule,
+  ],
 })
 export class SkyTimepickerComponent implements OnInit, OnDestroy {
   /**

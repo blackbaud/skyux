@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -6,7 +7,6 @@ import {
   OnDestroy,
   ViewEncapsulation,
 } from '@angular/core';
-import { NgClass } from '@angular/common';
 import { SkyI18nModule } from '@skyux/i18n';
 import { SkyThemeModule } from '@skyux/theme';
 

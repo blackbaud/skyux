@@ -53,7 +53,9 @@
     "
     [disabled]="disabled"
     [class.sky-colorpicker-button-disabled]="disabled"
-    [class.sky-colorpicker-error]="(ngControl?.touched || ngControl?.dirty) && ngControl?.errors"
+    [class.sky-colorpicker-error]="
+      (ngControl?.touched || ngControl?.dirty) && ngControl?.errors
+    "
     [style.background-color]="backgroundColorForDisplay"
     (click)="onTriggerButtonClick()"
   >

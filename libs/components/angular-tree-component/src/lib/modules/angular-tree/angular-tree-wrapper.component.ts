@@ -26,7 +26,7 @@ import { SkyAngularTreeToolbarComponent } from './angular-tree-toolbar.component
   templateUrl: './angular-tree-wrapper.component.html',
   styleUrls: ['./angular-tree-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyAngularTreeToolbarComponent]
+  imports: [SkyAngularTreeToolbarComponent],
 })
 export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   /**
