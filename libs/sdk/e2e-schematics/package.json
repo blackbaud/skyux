@@ -10,7 +10,7 @@
     "@nx/eslint": "^21.5.2",
     "@nx/storybook": "^21.5.2",
     "@nx/workspace": "^21.5.2",
-    "@percy/sdk-utils": "^1.31.0",
+    "@percy/sdk-utils": "^1.31.4",
     "@schematics/angular": "^20.3.1",
     "nx": "^21.5.2"
   },
