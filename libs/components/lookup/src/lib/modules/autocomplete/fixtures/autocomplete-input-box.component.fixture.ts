@@ -5,7 +5,6 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyAutocompleteModule } from '../autocomplete.module';
 
 @Component({
-  standalone: true,
   imports: [FormsModule, SkyAutocompleteModule, SkyInputBoxModule],
   selector: 'sky-autocomplete-input-box-fixture',
   templateUrl: './autocomplete-input-box.component.fixture.html',

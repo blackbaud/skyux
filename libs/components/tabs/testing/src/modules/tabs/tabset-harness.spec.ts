@@ -17,7 +17,6 @@ import { SkyTabsetHarness } from './tabset-harness';
 import { SkyTabsetNavButtonHarness } from './tabset-nav-button-harness';
 
 @Component({
-  standalone: true,
   imports: [SkyTabsModule, SkyPageModule],
   template: `
     <sky-tabset
@@ -63,7 +62,6 @@ class TestComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [SkyTabsModule, SkyModalModule],
   template: `
     <sky-modal headingText="Modal title">

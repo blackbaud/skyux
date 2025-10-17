@@ -28,7 +28,6 @@ interface BoxShadowInfo {
  * @internal
  */
 @Directive({
-  standalone: true,
   selector: '[skyScrollShadow]',
 })
 export class SkyScrollShadowDirective implements OnDestroy {

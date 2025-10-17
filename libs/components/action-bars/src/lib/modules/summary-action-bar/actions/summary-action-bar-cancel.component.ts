@@ -12,7 +12,6 @@ import {
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'sky-summary-action-bar-cancel',
-  standalone: true,
   styleUrls: ['./summary-action-bar-cancel.component.scss'],
   templateUrl: './summary-action-bar-cancel.component.html',
 })

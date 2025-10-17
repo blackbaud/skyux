@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { SkyTrimDirective } from './trim.directive';
 
 @NgModule({
-  declarations: [SkyTrimDirective],
+  imports: [SkyTrimDirective],
   exports: [SkyTrimDirective],
 })
 export class SkyTrimModule {}

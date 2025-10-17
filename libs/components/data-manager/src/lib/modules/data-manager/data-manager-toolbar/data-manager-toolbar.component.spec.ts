@@ -51,7 +51,6 @@ class MockModalService {
 }
 
 @Component({
-  standalone: true,
   template: '',
 })
 class MockModalComponent {}

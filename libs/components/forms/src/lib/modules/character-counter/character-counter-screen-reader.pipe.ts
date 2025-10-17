@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'skyCharacterCounterScreenReader',
-  standalone: true,
 })
 export class SkyCharacterCounterScreenReaderPipe implements PipeTransform {
   #previousAnnouncementPoint: number | undefined;

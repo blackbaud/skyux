@@ -13,6 +13,7 @@ import {
   SkyColorpickerModule,
   SkyColorpickerOutput,
 } from '@skyux/colorpicker';
+import { SkyFormErrorModule } from '@skyux/forms';
 
 import { Subject } from 'rxjs';
 
@@ -30,7 +31,12 @@ function isColorpickerOutput(value: unknown): value is SkyColorpickerOutput {
 @Component({
   selector: 'app-colorpicker-programmatic-example',
   templateUrl: './example.component.html',
-  imports: [FormsModule, ReactiveFormsModule, SkyColorpickerModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SkyColorpickerModule,
+    SkyFormErrorModule,
+  ],
 })
 export class ColorpickerProgrammaticExampleComponent {
   protected colorpickerController = new Subject<SkyColorpickerMessage>();

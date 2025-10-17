@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { SkyTilesModule } from '@skyux/tiles';
 
 @Component({
-  standalone: true,
   selector: 'div.tile1',
   templateUrl: './tile1.component.html',
   imports: [SkyTilesModule],

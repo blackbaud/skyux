@@ -12,7 +12,6 @@ import { SkyInputHarness } from './input-harness';
 
 @Directive({
   selector: 'input[skyFoo]',
-  standalone: true,
 })
 class TestDirective {}
 

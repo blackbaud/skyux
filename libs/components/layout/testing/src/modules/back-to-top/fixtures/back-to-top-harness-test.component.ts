@@ -3,7 +3,6 @@ import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 
 @Component({
-  standalone: true,
   selector: 'sky-back-to-top-fixture',
   templateUrl: './back-to-top-harness-test.component.html',
   imports: [SkyBackToTopModule, SkyRepeaterModule],

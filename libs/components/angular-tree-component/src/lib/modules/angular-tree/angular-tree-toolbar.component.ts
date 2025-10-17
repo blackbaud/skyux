@@ -5,6 +5,9 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { SkyI18nModule } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyToolbarModule } from '@skyux/layout';
 
 /**
  * @internal
@@ -13,9 +16,9 @@ import {
   selector: 'sky-angular-tree-toolbar',
   templateUrl: './angular-tree-toolbar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [SkyI18nModule, SkyIconModule, SkyToolbarModule],
 })
-export class SkyTreeViewToolbarComponent {
+export class SkyAngularTreeToolbarComponent {
   @Input()
   public showSelectButtons: boolean | undefined;
 

@@ -13,6 +13,8 @@ import {
   TreeNode,
 } from '@blackbaud/angular-tree-component';
 
+import { SkyAngularTreeToolbarComponent } from './angular-tree-toolbar.component';
+
 /**
  * Wraps the Angular `tree-root` component as part of the `SkyAngularTreeModule` that provides
  * SKY UX components and styles to complement the `angular-tree-component` library and apply SKY UX
@@ -24,7 +26,7 @@ import {
   templateUrl: './angular-tree-wrapper.component.html',
   styleUrls: ['./angular-tree-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [SkyAngularTreeToolbarComponent],
 })
 export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   /**

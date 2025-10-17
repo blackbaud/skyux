@@ -6,7 +6,6 @@ import { SkyResponsiveHostDirective } from '@skyux/core';
  */
 @Component({
   hostDirectives: [SkyResponsiveHostDirective],
-  standalone: true,
   selector: 'sky-modal-content',
   templateUrl: './modal-content.component.html',
   styleUrls: ['./modal-content.component.scss'],

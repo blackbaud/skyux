@@ -23,7 +23,6 @@ import { SkyDataManagerState } from './models/data-manager-state';
  * search text, and more to the data it displays.
  */
 @Component({
-  standalone: true,
   selector: 'sky-data-view',
   templateUrl: './data-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

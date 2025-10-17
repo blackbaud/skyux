@@ -16,7 +16,6 @@ import { SkyActionHubHarness } from './action-hub-harness';
 
 //#region Test component
 @Component({
-  standalone: true,
   selector: 'sky-link-list-test',
   template: ` <sky-action-hub
     data-sky-id="action-hub"

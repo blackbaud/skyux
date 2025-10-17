@@ -9,7 +9,6 @@ import {
 import { SkyActionButtonContainerHarness } from './action-button-container-harness';
 
 @Component({
-  standalone: true,
   imports: [SkyActionButtonModule],
   template: `
     <sky-action-button-container [alignItems]="alignItems">

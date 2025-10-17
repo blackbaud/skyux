@@ -15,7 +15,6 @@ import { SkyKeyInfoModule } from '@skyux/indicators';
 import { SkySummaryActionBarHarness } from './summary-action-bar-harness';
 
 @Component({
-  standalone: true,
   imports: [SkySummaryActionBarModule, SkyKeyInfoModule],
   template: `
     <sky-summary-action-bar [formErrors]="errors" data-sky-id="action-bar">

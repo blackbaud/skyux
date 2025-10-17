@@ -1,3 +1,4 @@
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -8,13 +9,21 @@ import {
 } from '@angular/core';
 import { SkyDefaultInputProvider } from '@skyux/core';
 import { ErrorModalConfig, SkyErrorModalService } from '@skyux/errors';
-import { SkyFileDropChange, SkyFileItem, SkyFileSizePipe } from '@skyux/forms';
-import { SkyLibResourcesService } from '@skyux/i18n';
+import {
+  SkyFileDropChange,
+  SkyFileDropModule,
+  SkyFileItem,
+  SkyFileSizePipe,
+} from '@skyux/forms';
+import { SkyI18nModule, SkyLibResourcesService } from '@skyux/i18n';
 
 import { Observable } from 'rxjs';
 
+import { SkyAvatarResourcesModule } from '../shared/sky-avatar-resources.module';
+
 import { SkyAvatarSize } from './avatar-size';
 import { SkyAvatarSrc } from './avatar-src';
+import { SkyAvatarInnerComponent } from './avatar.inner.component';
 
 const MAX_FILE_SIZE_DEFAULT = 512000;
 
@@ -23,7 +32,15 @@ const MAX_FILE_SIZE_DEFAULT = 512000;
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: false,
+  providers: [SkyFileSizePipe],
+  imports: [
+    AsyncPipe,
+    NgTemplateOutlet,
+    SkyI18nModule,
+    SkyFileDropModule,
+    SkyAvatarResourcesModule,
+    SkyAvatarInnerComponent,
+  ],
 })
 export class SkyAvatarComponent {
   /**

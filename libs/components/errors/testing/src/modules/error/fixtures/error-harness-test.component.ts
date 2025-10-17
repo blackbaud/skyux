@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { SkyErrorModule, SkyErrorType } from '@skyux/errors';
 
 @Component({
-  standalone: true,
   selector: 'sky-error-fixture',
   templateUrl: './error-harness-test.component.html',
   imports: [SkyErrorModule],

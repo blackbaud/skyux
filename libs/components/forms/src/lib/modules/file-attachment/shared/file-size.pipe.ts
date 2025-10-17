@@ -7,7 +7,6 @@ import { SkyLibResourcesService } from '@skyux/i18n';
  */
 @Pipe({
   name: 'skyFileSize',
-  standalone: true,
 })
 export class SkyFileSizePipe implements PipeTransform {
   readonly #resourcesService: SkyLibResourcesService;

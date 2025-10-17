@@ -11,7 +11,6 @@ import { SkyVerticalTabsetModule } from '@skyux/tabs';
 import { SkyVerticalTabsetHarness } from './vertical-tabset-harness';
 
 @Component({
-  standalone: true,
   imports: [SkyVerticalTabsetModule],
   template: `
     <sky-vertical-tabset

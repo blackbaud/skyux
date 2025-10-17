@@ -12,7 +12,6 @@ import { FilterModalComponent } from './filter-modal.component';
 import { Filters } from './filters';
 
 @Component({
-  standalone: true,
   selector: 'test-data-manager-harness',
   templateUrl: './data-manager-harness-test.component.html',
   providers: [SkyDataManagerService, SkyUIConfigService],

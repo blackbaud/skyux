@@ -4,7 +4,6 @@ import { SkyNumericOptions } from '@skyux/core';
 import { SkyListSummaryModule } from '@skyux/lists';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, SkyListSummaryModule],
   selector: 'app-list-summary',
   templateUrl: './list-summary.component.html',
