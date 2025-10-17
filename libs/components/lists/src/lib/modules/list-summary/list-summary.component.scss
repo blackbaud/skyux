@@ -2,7 +2,7 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 @include compatMixins.sky-default-host-overrides() {
-  --sky-override-list-summary-item-gap: 10px;
+  --sky-override-list-summary-item-gap: 15px;
   --sky-override-list-summary-padding: 5px 10px 10px;
   --sky-override-list-summary-background-color: #{$sky-color-white};
   --sky-override-list-summary-border-bottom: #{1px solid $sky-color-gray-20};
