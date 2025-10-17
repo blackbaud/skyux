@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { SkyKeyInfoLayoutType } from '@skyux/indicators';
+import { SkyKeyInfoLayoutType, SkyKeyInfoModule } from '@skyux/indicators';
 
 @Component({
+  imports: [SkyKeyInfoModule],
   selector: 'app-key-info',
   templateUrl: './key-info.component.html',
-  styleUrls: ['./key-info.component.scss'],
-  standalone: false,
+  styleUrl: './key-info.component.scss',
 })
 export class KeyInfoComponent {
   protected readonly helpEnabled = [false, true];

@@ -1,7 +1,23 @@
 @for (layout of layouts; track layout) {
   <div class="sky-margin-stacked-lg">
-    <sky-key-info class="{{ layout }}-key-info" [layout]="layout">
+    <sky-key-info [class]="layout + '-key-info'" [layout]="layout">
       <sky-key-info-value> 575 </sky-key-info-value>
+      <sky-key-info-label> New members </sky-key-info-label>
+    </sky-key-info>
+    <sky-key-info [layout]="layout">
+      <sky-key-info-value class="sky-font-display-1"> 575 </sky-key-info-value>
+      <sky-key-info-label> New members </sky-key-info-label>
+    </sky-key-info>
+    <sky-key-info [layout]="layout">
+      <sky-key-info-value class="sky-font-display-2"> 575 </sky-key-info-value>
+      <sky-key-info-label> New members </sky-key-info-label>
+    </sky-key-info>
+    <sky-key-info [layout]="layout">
+      <sky-key-info-value class="sky-font-display-3"> 575 </sky-key-info-value>
+      <sky-key-info-label> New members </sky-key-info-label>
+    </sky-key-info>
+    <sky-key-info [layout]="layout">
+      <sky-key-info-value class="sky-font-display-4"> 575 </sky-key-info-value>
       <sky-key-info-label> New members </sky-key-info-label>
     </sky-key-info>
   </div>
@@ -10,11 +26,27 @@
 @for (layout of layouts; track layout) {
   <div class="sky-margin-stacked-lg">
     <sky-key-info
-      class="{{ layout }}-key-info"
       helpPopoverContent="Help!"
+      [class]="layout + '-key-info'"
       [layout]="layout"
     >
       <sky-key-info-value> 575 </sky-key-info-value>
+      <sky-key-info-label> New members </sky-key-info-label>
+    </sky-key-info>
+    <sky-key-info helpPopoverContent="Help!" [layout]="layout">
+      <sky-key-info-value class="sky-font-display-1"> 575 </sky-key-info-value>
+      <sky-key-info-label> New members </sky-key-info-label>
+    </sky-key-info>
+    <sky-key-info helpPopoverContent="Help!" [layout]="layout">
+      <sky-key-info-value class="sky-font-display-2"> 575 </sky-key-info-value>
+      <sky-key-info-label> New members </sky-key-info-label>
+    </sky-key-info>
+    <sky-key-info helpPopoverContent="Help!" [layout]="layout">
+      <sky-key-info-value class="sky-font-display-3"> 575 </sky-key-info-value>
+      <sky-key-info-label> New members </sky-key-info-label>
+    </sky-key-info>
+    <sky-key-info helpPopoverContent="Help!" [layout]="layout">
+      <sky-key-info-value class="sky-font-display-4"> 575 </sky-key-info-value>
       <sky-key-info-label> New members </sky-key-info-label>
     </sky-key-info>
   </div>
