@@ -25,6 +25,8 @@ export { SkyFuzzyDateService } from './lib/modules/datepicker/fuzzy/fuzzy-date.s
 export { SkyTimepickerTimeFormatType } from './lib/modules/timepicker/timepicker-time-format-type';
 export { SkyTimepickerTimeOutput } from './lib/modules/timepicker/timepicker-time-output';
 export { SkyTimepickerModule } from './lib/modules/timepicker/timepicker.module';
+export { SkyTimepickerComponent } from './lib/modules/timepicker/timepicker.component';
+export { SkyTimepickerInputDirective } from './lib/modules/timepicker/timepicker.directive';
 
 // Components and directives must be exported to support Angular’s “partial” Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
@@ -33,5 +35,3 @@ export { SkyDatepickerCalendarComponent as λ1 } from './lib/modules/datepicker/
 export { SkyFuzzyDatepickerInputDirective as λ4 } from './lib/modules/datepicker/fuzzy/datepicker-input-fuzzy.directive';
 export { SkyDatepickerInputDirective as λ3 } from './lib/modules/datepicker/datepicker-input.directive';
 export { SkyDatepickerComponent as λ2 } from './lib/modules/datepicker/datepicker.component';
-export { SkyTimepickerComponent as λ6 } from './lib/modules/timepicker/timepicker.component';
-export { SkyTimepickerInputDirective as λ7 } from './lib/modules/timepicker/timepicker.directive';

@@ -1,3 +1,5 @@
+import { CdkTrapFocus } from '@angular/cdk/a11y';
+import { SlicePipe } from '@angular/common';
 import {
   AfterContentChecked,
   ChangeDetectorRef,
@@ -18,14 +20,12 @@ import {
   booleanAttribute,
   inject,
 } from '@angular/core';
-import { SlicePipe } from '@angular/common';
 import {
   AbstractControlDirective,
   FormControlDirective,
   FormControlName,
   NgModel,
 } from '@angular/forms';
-import { CdkTrapFocus } from '@angular/cdk/a11y';
 import {
   SkyAffixAutoFitContext,
   SkyAffixService,
@@ -51,8 +51,11 @@ import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyColorpickerResourcesModule } from '../shared/sky-colorpicker-resources.module';
+
 import { SliderDimension, SliderPosition } from './colorpicker-classes';
 import { SkyColorpickerInputService } from './colorpicker-input.service';
+import { SkyColorpickerSliderDirective } from './colorpicker-slider.directive';
+import { SkyColorpickerTextDirective } from './colorpicker-text.directive';
 import { SkyColorpickerService } from './colorpicker.service';
 import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
 import { SkyColorpickerChangeColor } from './types/colorpicker-color';
@@ -62,8 +65,6 @@ import { SkyColorpickerMessageType } from './types/colorpicker-message-type';
 import { SkyColorpickerOutput } from './types/colorpicker-output';
 import { SkyColorpickerResult } from './types/colorpicker-result';
 import { SkyColorpickerRgba } from './types/colorpicker-rgba';
-import { SkyColorpickerSliderDirective } from './colorpicker-slider.directive';
-import { SkyColorpickerTextDirective } from './colorpicker-text.directive';
 
 let componentIdIndex = 0;
 
@@ -82,7 +83,20 @@ let componentIdIndex = 0;
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
   encapsulation: ViewEncapsulation.None,
-  imports: [SlicePipe, CdkTrapFocus, SkyIdDirective, SkyFormErrorsModule, SkyInputBoxModule, SkyHelpInlineModule, SkyI18nModule, SkyIconModule, SkyThemeModule, SkyColorpickerResourcesModule, SkyColorpickerSliderDirective, SkyColorpickerTextDirective]
+  imports: [
+    SlicePipe,
+    CdkTrapFocus,
+    SkyIdDirective,
+    SkyFormErrorsModule,
+    SkyInputBoxModule,
+    SkyHelpInlineModule,
+    SkyI18nModule,
+    SkyIconModule,
+    SkyThemeModule,
+    SkyColorpickerResourcesModule,
+    SkyColorpickerSliderDirective,
+    SkyColorpickerTextDirective,
+  ],
 })
 export class SkyColorpickerComponent
   implements OnInit, OnDestroy, AfterContentChecked
