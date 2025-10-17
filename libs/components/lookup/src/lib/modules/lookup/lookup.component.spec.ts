@@ -620,6 +620,21 @@ describe('Lookup component', function () {
           component.setMultiSelect();
         });
 
+        it('should keep height consistent when multi select is disabled', fakeAsync(() => {
+          fixture.detectChanges();
+          const lookupSearchElement = lookupComponent[
+            'lookupWrapperRef'
+          ]?.nativeElement.querySelector('.sky-lookup-search') as HTMLElement;
+          const initialHeight = lookupSearchElement.offsetHeight;
+
+          component.disableLookup();
+          fixture.detectChanges();
+          tick();
+          fixture.detectChanges();
+
+          expect(lookupSearchElement.offsetHeight).toBe(initialHeight);
+        }));
+
         it('should allow preselected tokens', fakeAsync(() => {
           const friends = [{ name: 'Rachel' }];
           component.friends = friends;
@@ -964,6 +979,21 @@ describe('Lookup component', function () {
       beforeEach(() => {
         component.setSingleSelect();
       });
+
+      it('should keep height consistent when single select is disabled', fakeAsync(() => {
+        fixture.detectChanges();
+        const lookupSearchElement = lookupComponent[
+          'lookupWrapperRef'
+        ]?.nativeElement.querySelector('.sky-lookup-search') as HTMLElement;
+        const initialHeight = lookupSearchElement.offsetHeight;
+
+        component.disableLookup();
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(lookupSearchElement.offsetHeight).toBe(initialHeight);
+      }));
 
       it('should emit only once per value change', fakeAsync(() => {
         const bestFriend = { name: 'Rachel' };

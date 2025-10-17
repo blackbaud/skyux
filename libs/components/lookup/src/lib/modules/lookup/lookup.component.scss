@@ -86,7 +86,7 @@
   }
 
   .sky-lookup-single-control {
-    display: inline-flex;
+    display: flex;
     padding-left: var(
       --sky-override-lookup-single-control-padding-left,
       inherit
