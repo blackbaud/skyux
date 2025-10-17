@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.6.1](https://github.com/blackbaud/skyux/compare/13.6.0...13.6.1) (2025-10-17)
+
+
+### Bug Fixes
+
+* **components/lists:** add appropriate spacing around list summary items ([#4049](https://github.com/blackbaud/skyux/issues/4049)) ([2d1ee9c](https://github.com/blackbaud/skyux/commit/2d1ee9cd7c02f87cb58265ee380017a5a4d74251))
+
+
+
 # [13.6.0](https://github.com/blackbaud/skyux/compare/13.5.2...13.6.0) (2025-10-16)
 
 
