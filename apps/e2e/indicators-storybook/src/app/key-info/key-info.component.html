@@ -1,21 +1,31 @@
 @for (layout of layouts; track layout) {
-  <div class="sky-margin-stacked-lg">
-    <sky-key-info class="{{ layout }}-key-info" [layout]="layout">
-      <sky-key-info-value> 575 </sky-key-info-value>
-      <sky-key-info-label> New members </sky-key-info-label>
-    </sky-key-info>
-  </div>
-}
-
-@for (layout of layouts; track layout) {
-  <div class="sky-margin-stacked-lg">
-    <sky-key-info
-      class="{{ layout }}-key-info"
-      helpPopoverContent="Help!"
-      [layout]="layout"
-    >
-      <sky-key-info-value> 575 </sky-key-info-value>
-      <sky-key-info-label> New members </sky-key-info-label>
-    </sky-key-info>
-  </div>
+  @for (helpEnabled of helpEnabled; track helpEnabled) {
+    <div class="sky-margin-stacked-lg">
+      <sky-key-info
+        [class]="layout + '-key-info'"
+        [helpPopoverContent]="helpEnabled ? 'Help!' : undefined"
+        [layout]="layout"
+      >
+        <sky-key-info-value> 575 </sky-key-info-value>
+        <sky-key-info-label> New members </sky-key-info-label>
+      </sky-key-info>
+      @for (
+        displayClass of [
+          'sky-font-display-1',
+          'sky-font-display-2',
+          'sky-font-display-3',
+          'sky-font-display-4'
+        ];
+        track displayClass
+      ) {
+        <sky-key-info
+          [helpPopoverContent]="helpEnabled ? 'Help!' : undefined"
+          [layout]="layout"
+        >
+          <sky-key-info-value [class]="displayClass"> 575 </sky-key-info-value>
+          <sky-key-info-label> New members </sky-key-info-label>
+        </sky-key-info>
+      }
+    </div>
+  }
 }
