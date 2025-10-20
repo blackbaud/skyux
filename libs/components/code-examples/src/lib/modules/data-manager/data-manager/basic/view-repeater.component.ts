@@ -2,13 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  DestroyRef,
   Input,
   OnDestroy,
   OnInit,
   inject,
-  input,
-  signal,
 } from '@angular/core';
 import {
   SkyDataManagerModule,
@@ -23,9 +20,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { DataManagerDemoRow } from './data';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-const VIEW_ID = 'repeater_view_1';
+import { FruitTypeLookupItem } from './example.service';
 
 @Component({
   selector: 'app-view-repeater',
@@ -33,21 +28,19 @@ const VIEW_ID = 'repeater_view_1';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyDataManagerModule, SkyRepeaterModule],
 })
-export class ViewRepeaterComponent implements OnInit {
+export class ViewRepeaterComponent implements OnInit, OnDestroy {
+  @Input()
+  public items: DataManagerDemoRow[] = [];
 
-  readonly #destroyRef = inject(DestroyRef);
-  readonly #dataManagerSvc = inject(SkyDataManagerService);
+  protected displayedItems: DataManagerDemoRow[] = [];
+  protected isActive = false;
 
-  public readonly items = input.required<DataManagerDemoRow[]>();
-
-  protected displayedItems = signal<DataManagerDemoRow[]>([]);
-  protected isActive = signal(false);
-
-  protected readonly viewId = VIEW_ID;
+  protected readonly viewId = 'repeaterView';
 
   #dataState = new SkyDataManagerState<SkyFilterBarFilterState>({});
+  #ngUnsubscribe = new Subject<void>();
 
-  readonly #viewConfig: SkyDataViewConfig = {
+  #viewConfig: SkyDataViewConfig = {
     id: this.viewId,
     name: 'Repeater View',
     iconName: 'text-bullet-list',
@@ -62,16 +55,17 @@ export class ViewRepeaterComponent implements OnInit {
     },
   };
 
-
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dataManagerSvc = inject(SkyDataManagerService);
 
   public ngOnInit(): void {
-    this.displayedItems.set(this.items());
+    this.displayedItems = this.items;
 
     this.#dataManagerSvc.initDataView(this.#viewConfig);
 
     this.#dataManagerSvc
       .getDataStateUpdates(this.viewId)
-      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((state) => {
         this.#dataState = state;
         this.#updateData();
@@ -79,12 +73,17 @@ export class ViewRepeaterComponent implements OnInit {
 
     this.#dataManagerSvc
       .getActiveViewIdUpdates()
-      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((id) => {
-        this.isActive.set(id === VIEW_ID);
+        this.isActive = id === this.viewId;
+        this.#changeDetector.markForCheck();
       });
   }
 
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
+  }
 
   protected onItemSelect(isSelected: boolean, item: DataManagerDemoRow): void {
     const selectedItems = this.#dataState.selectedIds ?? [];
@@ -97,19 +96,18 @@ export class ViewRepeaterComponent implements OnInit {
     }
 
     this.#dataState.selectedIds = selectedItems;
-    this.#dataManagerSvc.updateDataState(this.#dataState, VIEW_ID);
+    this.#dataManagerSvc.updateDataState(this.#dataState, this.viewId);
 
-    const displayedItems = this.displayedItems();
-
-    if (this.#dataState.onlyShowSelected && displayedItems) {
-      this.displayedItems.set(displayedItems.filter((itm) => itm.selected));
+    if (this.#dataState.onlyShowSelected && this.displayedItems) {
+      this.displayedItems = this.displayedItems.filter((itm) => itm.selected);
+      this.#changeDetector.markForCheck();
     }
   }
 
   #updateData(): void {
     const selectedIds = this.#dataState.selectedIds ?? [];
 
-    this.items().forEach((item) => {
+    this.items.forEach((item) => {
       item.selected = selectedIds.includes(item.id);
     });
 
@@ -126,6 +124,8 @@ export class ViewRepeaterComponent implements OnInit {
       },
       this.viewId,
     );
+
+    this.#changeDetector.markForCheck();
   }
 
   #searchItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
@@ -158,9 +158,8 @@ export class ViewRepeaterComponent implements OnInit {
 
   #filterItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
     let filteredItems = items;
-    const filterState = this.#dataState.filterData?.filters as
-      | SkyFilterBarFilterState
-      | undefined;
+
+    const filterState = this.#dataState.filterData?.filters;
 
     if (filterState?.appliedFilters) {
       const filters = filterState.appliedFilters;
@@ -171,7 +170,9 @@ export class ViewRepeaterComponent implements OnInit {
       const selectedTypes: string[] = Array.isArray(
         fruitTypeFilter?.filterValue?.value,
       )
-        ? fruitTypeFilter.filterValue.value.map((v) => v.id)
+        ? (fruitTypeFilter.filterValue.value as FruitTypeLookupItem[]).map(
+            (v) => v.id,
+          )
         : [];
 
       filteredItems = items.filter((item) => {

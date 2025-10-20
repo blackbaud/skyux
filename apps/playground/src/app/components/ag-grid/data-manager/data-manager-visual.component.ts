@@ -78,7 +78,7 @@ export class DataManagerVisualComponent implements OnInit {
     ],
   });
 
-  public dataState: SkyDataManagerState<SkyFilterBarFilterState>;
+  #dataState: SkyDataManagerState<SkyFilterBarFilterState>;
 
   public items: FruitItem[] = [
     {
@@ -191,7 +191,8 @@ export class DataManagerVisualComponent implements OnInit {
   constructor() {
     this.#dataManagerService
       .getDataStateUpdates('dataManager')
-      .subscribe((state) => (this.dataState = state));
+      .subscribe((state) => (this.#dataState = state));
+
     this.#dataManagerService
       .getActiveViewIdUpdates()
       .subscribe((activeViewId) => (this.activeViewId = activeViewId));
@@ -208,11 +209,11 @@ export class DataManagerVisualComponent implements OnInit {
 
   public searchSo(): void {
     const newDataState = new SkyDataManagerState({
-      ...this.dataState,
+      ...this.#dataState,
       searchText: 'so',
     });
     this.#dataManagerService.updateDataState(newDataState, 'dataManager');
-    this.dataState = newDataState;
+    this.#dataState = newDataState;
   }
 
   public onFruitTypeSearchAsync(args: { result?: unknown }): void {

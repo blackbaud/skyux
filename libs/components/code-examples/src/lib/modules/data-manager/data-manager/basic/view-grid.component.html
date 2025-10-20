@@ -1,10 +1,10 @@
 <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewId">
-  @if (isActive() && isGridInitialized()) {
+  @if (isActive && isGridInitialized) {
     <sky-ag-grid-wrapper>
       <ag-grid-angular
         [gridOptions]="gridOptions"
         [overlayNoRowsTemplate]="noRowsTemplate"
-        [rowData]="displayedItems()"
+        [rowData]="displayedItems"
         (rowSelected)="onRowSelected($event)"
       />
     </sky-ag-grid-wrapper>

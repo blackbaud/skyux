@@ -4,13 +4,16 @@ import { SkyFilterItemLookupSearchAsyncResult } from '@skyux/filter-bar';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
-import { FruitTypeLookupItem } from './fruit-type-lookup-item';
+export interface FruitTypeLookupItem {
+  id: string;
+  name: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExampleService {
-  readonly #fruitTypes: FruitTypeLookupItem[] = [
+  #fruitTypes: FruitTypeLookupItem[] = [
     { id: 'citrus', name: 'Citrus' },
     { id: 'berry', name: 'Berry' },
   ];
@@ -18,10 +21,10 @@ export class ExampleService {
   public search(
     searchText: string,
   ): Observable<SkyFilterItemLookupSearchAsyncResult> {
-    searchText = searchText.toLocaleUpperCase();
+    searchText = searchText.toUpperCase();
 
     const matchingTypes = this.#fruitTypes.filter((fruit) =>
-      fruit.name?.toLocaleUpperCase().includes(searchText),
+      fruit.name?.toUpperCase().includes(searchText),
     );
 
     // Simulate a network call with latency. A real-world application might

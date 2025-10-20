@@ -1,38 +1,35 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  DestroyRef,
+  Input,
+  OnDestroy,
   OnInit,
   inject,
-  input,
-  signal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
-import {
-  SkyFilterBarFilterState,
-  isSkyFilterBarFilterState,
-} from '@skyux/filter-bar';
+import { SkyFilterBarFilterState } from '@skyux/filter-bar';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
   GridApi,
+  GridOptions,
   GridReadyEvent,
   ModuleRegistry,
   RowSelectedEvent,
 } from 'ag-grid-community';
-import { of } from 'rxjs';
+import { Subject, of } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { DataManagerDemoRow } from './data';
-
-const VIEW_ID = 'grid_view_1';
+import { FruitTypeLookupItem } from './example.service';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -42,14 +39,19 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AgGridModule, SkyAgGridModule],
 })
-export class ViewGridComponent implements OnInit {
-  readonly #destroyRef = inject(DestroyRef);
-  readonly #agGridSvc = inject(SkyAgGridService);
-  readonly #dataManagerSvc = inject(SkyDataManagerService);
+export class ViewGridComponent implements OnInit, OnDestroy {
+  @Input()
+  public items: DataManagerDemoRow[] = [];
 
-  public readonly items = input.required<DataManagerDemoRow[]>();
+  protected displayedItems: DataManagerDemoRow[] = [];
+  protected gridOptions: GridOptions;
+  protected isActive = false;
+  protected isGridInitialized = false;
+  protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
 
-  readonly #columnDefs: ColDef[] = [
+  protected readonly viewId = 'gridView';
+
+  #columnDefs: ColDef[] = [
     {
       colId: 'selected',
       field: 'selected',
@@ -79,9 +81,10 @@ export class ViewGridComponent implements OnInit {
 
   #dataState = new SkyDataManagerState<SkyFilterBarFilterState>({});
   #gridApi: GridApi | undefined;
+  #ngUnsubscribe = new Subject<void>();
 
   #viewConfig: SkyDataViewConfig = {
-    id: VIEW_ID,
+    id: this.viewId,
     name: 'Grid View',
     iconName: 'table',
     searchEnabled: true,
@@ -106,43 +109,48 @@ export class ViewGridComponent implements OnInit {
     ],
   };
 
-  protected readonly gridOptions = this.#agGridSvc.getGridOptions({
-    gridOptions: {
-      columnDefs: this.#columnDefs,
-      onGridReady: (args) => {
-        this.#onGridReady(args);
-      },
-    },
-  });
+  readonly #agGridSvc = inject(SkyAgGridService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dataManagerSvc = inject(SkyDataManagerService);
 
-  protected displayedItems = signal<DataManagerDemoRow[]>([]);
-  protected readonly isActive = signal(false);
-  protected readonly isGridInitialized = signal(false);
-  protected readonly noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
-  protected readonly viewId = VIEW_ID;
+  constructor() {
+    this.gridOptions = this.#agGridSvc.getGridOptions({
+      gridOptions: {
+        columnDefs: this.#columnDefs,
+        onGridReady: (args) => {
+          this.#onGridReady(args);
+        },
+      },
+    });
+  }
 
   public ngOnInit(): void {
-    this.displayedItems.set(this.items());
+    this.displayedItems = this.items;
 
     this.#dataManagerSvc.initDataView(this.#viewConfig);
 
     this.#dataManagerSvc
-      .getDataStateUpdates(VIEW_ID)
-      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .getDataStateUpdates(this.viewId)
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((state) => {
-        if (hasFilterBarState(state)) {
-          this.#dataState = state;
-          this.#setInitialColumnOrder();
-          this.#updateData();
-        }
+        this.#dataState = state;
+        this.#setInitialColumnOrder();
+        this.#updateData();
+        this.#changeDetector.markForCheck();
       });
 
     this.#dataManagerSvc
       .getActiveViewIdUpdates()
-      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((id) => {
-        this.isActive.set(id === VIEW_ID);
+        this.isActive = id === this.viewId;
+        this.#changeDetector.markForCheck();
       });
+  }
+
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   protected onRowSelected(
@@ -153,20 +161,78 @@ export class ViewGridComponent implements OnInit {
     }
   }
 
+  #filterItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
+    let filteredItems = items;
+
+    const filterState = this.#dataState.filterData?.filters;
+
+    if (filterState?.appliedFilters) {
+      const filters = filterState.appliedFilters;
+      const hideOrange = !!filters.find(
+        (f) => f.filterId === 'hideOrange' && f.filterValue?.value,
+      );
+      const fruitTypeFilter = filters.find((f) => f.filterId === 'fruitType');
+      const selectedTypes: string[] = Array.isArray(
+        fruitTypeFilter?.filterValue?.value,
+      )
+        ? (fruitTypeFilter.filterValue.value as FruitTypeLookupItem[]).map(
+            (v) => v.id,
+          )
+        : [];
+
+      filteredItems = items.filter((item) => {
+        if (hideOrange && item.color === 'orange') {
+          return false;
+        }
+        if (selectedTypes.length && !selectedTypes.includes(item.type)) {
+          return false;
+        }
+        return true;
+      });
+    }
+
+    return filteredItems;
+  }
+
   #onGridReady(event: GridReadyEvent): void {
     this.#gridApi = event.api;
     this.#updateData();
   }
 
+  #searchItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
+    let searchedItems = items;
+    const searchText = this.#dataState && this.#dataState.searchText;
+
+    if (searchText) {
+      searchedItems = items.filter((item: DataManagerDemoRow) => {
+        let property: keyof typeof item;
+
+        for (property in item) {
+          if (
+            Object.prototype.hasOwnProperty.call(item, property) &&
+            (property === 'name' || property === 'description')
+          ) {
+            const propertyText = item[property].toLowerCase();
+            if (propertyText.includes(searchText)) {
+              return true;
+            }
+          }
+        }
+
+        return false;
+      });
+    }
+    return searchedItems;
+  }
+
   #setInitialColumnOrder(): void {
-    const viewState = this.#dataState.getViewStateById(VIEW_ID);
+    const viewState = this.#dataState.getViewStateById(this.viewId);
     const visibleColumns = viewState?.displayedColumnIds ?? [];
 
     this.#columnDefs.sort((col1, col2) => {
       const col1Index = visibleColumns.findIndex(
         (colId: string) => colId === col1.colId,
       );
-
       const col2Index = visibleColumns.findIndex(
         (colId: string) => colId === col2.colId,
       );
@@ -182,22 +248,17 @@ export class ViewGridComponent implements OnInit {
       }
     });
 
-    this.isGridInitialized.set(true);
+    this.isGridInitialized = true;
   }
 
   #updateData(): void {
-    const items = this.items();
-
-    let filteredItems = filterItems(
-      searchItems(items, this.#dataState?.searchText),
-      this.#dataState?.filterData?.filters,
-    );
+    this.displayedItems = this.#filterItems(this.#searchItems(this.items));
 
     if (this.#dataState.onlyShowSelected) {
-      filteredItems = filteredItems.filter((item) => item.selected);
+      this.displayedItems = this.displayedItems.filter((item) => item.selected);
     }
 
-    if (filteredItems.length > 0) {
+    if (this.displayedItems.length > 0) {
       this.#gridApi?.hideOverlay();
     } else {
       this.#gridApi?.showNoRowsOverlay();
@@ -206,87 +267,9 @@ export class ViewGridComponent implements OnInit {
     this.#dataManagerSvc.updateDataSummary(
       {
         totalItems: this.items.length,
-        itemsMatching: filteredItems.length,
+        itemsMatching: this.displayedItems.length,
       },
-      VIEW_ID,
+      this.viewId,
     );
-
-    this.displayedItems.set(filteredItems);
   }
-}
-
-/**
- * Whether the data state includes filter bar state.
- */
-function hasFilterBarState(
-  value: SkyDataManagerState,
-): value is SkyDataManagerState<SkyFilterBarFilterState> {
-  return isSkyFilterBarFilterState(value.filterData?.filters);
-}
-
-function filterItems(
-  items: DataManagerDemoRow[],
-  filters?: SkyFilterBarFilterState,
-): DataManagerDemoRow[] {
-  let filteredItems = items;
-
-  const appliedFilters = filters?.appliedFilters;
-
-  if (appliedFilters) {
-    const hideOrange = !!appliedFilters.some(
-      (filter) => filter.filterId === 'hideOrange' && filter.filterValue?.value,
-    );
-
-    const fruitTypeFilter = appliedFilters.find(
-      (filter) => filter.filterId === 'fruitType',
-    );
-
-    const selectedTypes = Array.isArray(fruitTypeFilter?.filterValue?.value)
-      ? fruitTypeFilter.filterValue.value.map((value) => value.id)
-      : [];
-
-    filteredItems = items.filter((item) => {
-      if (hideOrange && item.color === 'orange') {
-        return false;
-      }
-
-      if (selectedTypes.length && !selectedTypes.includes(item.type)) {
-        return false;
-      }
-
-      return true;
-    });
-  }
-
-  return filteredItems;
-}
-
-function searchItems(
-  items: DataManagerDemoRow[],
-  searchText?: string,
-): DataManagerDemoRow[] {
-  let searchedItems = items;
-
-  if (searchText) {
-    searchedItems = items.filter((item) => {
-      let property: keyof typeof item;
-
-      for (property in item) {
-        if (
-          Object.prototype.hasOwnProperty.call(item, property) &&
-          (property === 'name' || property === 'description')
-        ) {
-          const propertyText = item[property].toLocaleLowerCase();
-
-          if (propertyText.includes(searchText)) {
-            return true;
-          }
-        }
-      }
-
-      return false;
-    });
-  }
-
-  return searchedItems;
 }
