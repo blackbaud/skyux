@@ -6,6 +6,7 @@ import {
   SkyDataManagerState,
 } from '@skyux/data-manager';
 import {
+  SkyFilterBarFilterState,
   SkyFilterBarModule,
   SkyFilterItemLookupSearchAsyncArgs,
 } from '@skyux/filter-bar';
@@ -34,7 +35,7 @@ import { ViewRepeaterComponent } from './view-repeater.component';
   ],
 })
 export class DataManagerBasicExampleComponent {
-  protected items: DataManagerDemoRow[] = DATA_MANAGER_DEMO_DATA;
+  protected readonly items: DataManagerDemoRow[] = DATA_MANAGER_DEMO_DATA;
   protected readonly orangeModalComponent = OrangeModalComponent;
 
   readonly #dataManagerSvc = inject(SkyDataManagerService);
@@ -59,7 +60,7 @@ export class DataManagerBasicExampleComponent {
           },
         ],
       },
-      defaultDataState: new SkyDataManagerState({
+      defaultDataState: new SkyDataManagerState<SkyFilterBarFilterState>({
         filterData: {
           filtersApplied: true,
           filters: {
@@ -84,7 +85,7 @@ export class DataManagerBasicExampleComponent {
     });
   }
 
-  public onFruitTypeSearchAsync(
+  protected onFruitTypeSearchAsync(
     args: SkyFilterItemLookupSearchAsyncArgs,
   ): void {
     // In a real-world application the search service might return an Observable

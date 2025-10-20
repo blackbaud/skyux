@@ -7,7 +7,8 @@ import { SkyDataViewStateOptions } from './data-view-state-options';
 /**
  * Provides options that control which data to display.
  */
-export class SkyDataManagerState {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export class SkyDataManagerState<TFilterState = any> {
   /**
    * The selected SkyDataManagerSortOption to apply.
    */
@@ -21,7 +22,7 @@ export class SkyDataManagerState {
   /**
    * The state of the filters.
    */
-  public filterData: SkyDataManagerFilterData | undefined;
+  public filterData: SkyDataManagerFilterData<TFilterState> | undefined;
   /**
    * Whether to display only the selected rows or objects. The multiselect toolbar
    * uses this property.
@@ -40,7 +41,7 @@ export class SkyDataManagerState {
    */
   public views: SkyDataViewState[] = [];
 
-  constructor(data: SkyDataManagerStateOptions) {
+  constructor(data: SkyDataManagerStateOptions<TFilterState>) {
     const views =
       data.views && data.views.map((view) => new SkyDataViewState(view));
 

@@ -5,7 +5,11 @@ import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
-import { SkyFilterBarFilterItem, SkyFilterBarModule } from '@skyux/filter-bar';
+import {
+  SkyFilterBarFilterItem,
+  SkyFilterBarFilterState,
+  SkyFilterBarModule,
+} from '@skyux/filter-bar';
 
 import { of } from 'rxjs';
 
@@ -51,7 +55,7 @@ export class DataManagerVisualComponent implements OnInit {
     ],
   };
 
-  public defaultDataState = new SkyDataManagerState({
+  public defaultDataState = new SkyDataManagerState<SkyFilterBarFilterState>({
     additionalData: {
       currentPage: 1,
     },
@@ -74,7 +78,7 @@ export class DataManagerVisualComponent implements OnInit {
     ],
   });
 
-  public dataState: SkyDataManagerState;
+  public dataState: SkyDataManagerState<SkyFilterBarFilterState>;
 
   public items: FruitItem[] = [
     {

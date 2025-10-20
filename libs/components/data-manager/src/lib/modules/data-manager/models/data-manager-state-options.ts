@@ -2,7 +2,8 @@ import { SkyDataManagerFilterData } from './data-manager-filter-data';
 import { SkyDataManagerSortOption } from './data-manager-sort-option';
 import { SkyDataViewStateOptions } from './data-view-state-options';
 
-export interface SkyDataManagerStateOptions {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface SkyDataManagerStateOptions<TFilterState = any> {
   /**
    * The selected SkyDataManagerSortOption to apply.
    */
@@ -16,7 +17,7 @@ export interface SkyDataManagerStateOptions {
   /**
    * The state of the filters.
    */
-  filterData?: SkyDataManagerFilterData;
+  filterData?: SkyDataManagerFilterData<TFilterState>;
   /**
    * Whether to display only the selected rows or objects. The multiselect toolbar
    * uses this property.

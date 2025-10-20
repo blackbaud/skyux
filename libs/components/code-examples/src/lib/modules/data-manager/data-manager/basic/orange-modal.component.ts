@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   SkyFilterBarFilterValue,
@@ -19,15 +19,11 @@ import { SkyModalModule } from '@skyux/modals';
   ],
 })
 export class OrangeModalComponent implements SkyFilterItemModal, OnInit {
-  protected hideOrange: boolean | undefined;
-  protected modalLabel: string;
-
   public readonly modalInstance = inject(SkyFilterItemModalInstance);
   readonly #context = this.modalInstance.context;
 
-  constructor() {
-    this.modalLabel = this.#context.filterLabelText;
-  }
+  protected hideOrange: boolean | undefined;
+  protected headingText = signal<string>(this.#context.filterLabelText);
 
   public ngOnInit(): void {
     if (this.#context.filterValue) {

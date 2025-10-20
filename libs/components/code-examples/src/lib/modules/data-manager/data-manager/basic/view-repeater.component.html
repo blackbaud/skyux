@@ -1,7 +1,7 @@
 <sky-data-view [viewId]="viewId">
   @if (isActive) {
     <sky-repeater expandMode="none">
-      @for (item of displayedItems; track item.id) {
+      @for (item of displayedItems(); track item.id) {
         <sky-repeater-item
           [selectable]="true"
           [(isSelected)]="item.selected"
