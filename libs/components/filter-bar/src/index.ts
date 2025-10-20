@@ -1,5 +1,4 @@
 export { SkyFilterBarModule } from './lib/modules/filter-bar/filter-bar.module';
-export { isSkyFilterBarFilterState } from './lib/modules/filter-bar/is-filter-bar-filter-state';
 export { SkyFilterBarFilterItem } from './lib/modules/filter-bar/models/filter-bar-filter-item';
 export { SkyFilterBarFilterState } from './lib/modules/filter-bar/models/filter-bar-filter-state';
 export { SkyFilterBarFilterValue } from './lib/modules/filter-bar/models/filter-bar-filter-value';
