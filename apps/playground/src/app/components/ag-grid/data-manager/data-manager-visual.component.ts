@@ -5,11 +5,7 @@ import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
-import {
-  SkyFilterBarFilterItem,
-  SkyFilterBarFilterState,
-  SkyFilterBarModule,
-} from '@skyux/filter-bar';
+import { SkyFilterBarFilterItem, SkyFilterBarModule } from '@skyux/filter-bar';
 
 import { of } from 'rxjs';
 
@@ -55,7 +51,7 @@ export class DataManagerVisualComponent implements OnInit {
     ],
   };
 
-  public defaultDataState = new SkyDataManagerState<SkyFilterBarFilterState>({
+  public defaultDataState = new SkyDataManagerState({
     additionalData: {
       currentPage: 1,
     },
@@ -78,7 +74,7 @@ export class DataManagerVisualComponent implements OnInit {
     ],
   });
 
-  #dataState: SkyDataManagerState<SkyFilterBarFilterState>;
+  public dataState: SkyDataManagerState;
 
   public items: FruitItem[] = [
     {
@@ -191,8 +187,7 @@ export class DataManagerVisualComponent implements OnInit {
   constructor() {
     this.#dataManagerService
       .getDataStateUpdates('dataManager')
-      .subscribe((state) => (this.#dataState = state));
-
+      .subscribe((state) => (this.dataState = state));
     this.#dataManagerService
       .getActiveViewIdUpdates()
       .subscribe((activeViewId) => (this.activeViewId = activeViewId));
@@ -209,11 +204,11 @@ export class DataManagerVisualComponent implements OnInit {
 
   public searchSo(): void {
     const newDataState = new SkyDataManagerState({
-      ...this.#dataState,
+      ...this.dataState,
       searchText: 'so',
     });
     this.#dataManagerService.updateDataState(newDataState, 'dataManager');
-    this.#dataState = newDataState;
+    this.dataState = newDataState;
   }
 
   public onFruitTypeSearchAsync(args: { result?: unknown }): void {

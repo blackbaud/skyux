@@ -35,7 +35,7 @@ import { ViewRepeaterComponent } from './view-repeater.component';
   ],
 })
 export class DataManagerBasicExampleComponent {
-  protected readonly items: DataManagerDemoRow[] = DATA_MANAGER_DEMO_DATA;
+  protected items: DataManagerDemoRow[] = DATA_MANAGER_DEMO_DATA;
   protected readonly orangeModalComponent = OrangeModalComponent;
 
   readonly #dataManagerSvc = inject(SkyDataManagerService);
@@ -85,7 +85,7 @@ export class DataManagerBasicExampleComponent {
     });
   }
 
-  protected onFruitTypeSearchAsync(
+  public onFruitTypeSearchAsync(
     args: SkyFilterItemLookupSearchAsyncArgs,
   ): void {
     // In a real-world application the search service might return an Observable
