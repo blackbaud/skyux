@@ -2,7 +2,6 @@ name: Release Please
 on:
   schedule:
     - cron: '0 5 * * *'
-  workflow_dispatch:
   push:
     branches:
       - main
@@ -17,7 +16,7 @@ env:
   RELEASE_PR_PREFIX: 'chore: release'
 jobs:
   next-release:
-    name: "Prepare Release${{ github.ref_protected && github.event_name == 'push' && startsWith(github.event.head_commit.message, 'chore: release') && '' || ' (DRY RUN)' }}"
+    name: "Prepare Release${{ github.event_name == 'pull_request' && ' (DRY RUN)' || '' }}"
     runs-on: ubuntu-latest
     outputs:
       release_created: ${{ steps.release.outputs.release_created || '' }}
@@ -39,7 +38,7 @@ jobs:
         # Create or update a release branch and its pull request.
         id: next-release
         run: |
-          export DRY_RUN=${{ github.ref_protected && github.event_name == 'push' && startsWith(github.event.head_commit.message, env.RELEASE_PR_PREFIX) && 'false' || 'true' }}
+          export DRY_RUN=${{ github.event_name == 'pull_request' && 'true' || 'false' }}
           echo "dry_run=$DRY_RUN" >> $GITHUB_OUTPUT
           echo npx skyux-dev release --dry-run=$DRY_RUN
           npx skyux-dev release --dry-run=$DRY_RUN
@@ -67,8 +66,8 @@ jobs:
               const releaseNotes = (await exec.getExecOutput('npx', ['skyux-dev', 'release-notes', `--releaseName=${nextVersion}`])).stdout;
               await github.rest.repos.createRelease({ ...context.repo, name: `v${nextVersion}`, tag_name: nextVersion, body: releaseNotes, prerelease: nextVersion.includes('-') });
             }
-      - name: Notify Slack (failure, non-release)
-        if: ${{ failure() && !steps.release.outputs.release_created }}
+      - name: Notify Slack (failure)
+        if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@07cbdbfd6c6190970778d8f98f11d073b2932aae # v2.3.3
         env:
           SLACK_COLOR: ${{ job.status }}
