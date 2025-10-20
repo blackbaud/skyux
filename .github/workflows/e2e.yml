@@ -34,7 +34,7 @@ jobs:
     name: Environment Check
     if: ${{ !startsWith( github.head_ref || github.ref_name, 'release-please--' ) && !contains( github.event.pull_request.labels.*.name, 'skip e2e' ) }}
     runs-on: ubuntu-latest
-    environment: ${{ github.event.pull_request.head.repo.full_name != github.repository && 'e2e-external-contribution' || 'e2e-team-members' }}
+    environment: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && 'e2e-external-contribution' || 'e2e-team-members' }}
     steps:
       - name: Environment approved
         run: echo "Approved to run E2E tests"
