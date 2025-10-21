@@ -78,8 +78,11 @@ const config = tseslint.config(
   {
     files: ['**/*.ts'],
     rules: {
-      // Angular rules
       '@angular-eslint/no-lifecycle-call': 'error',
+      '@angular-eslint/template/no-inline-styles': [
+        'error',
+        { allowBindToStyle: true, allowNgStyle: true },
+      ],
     },
   },
 
