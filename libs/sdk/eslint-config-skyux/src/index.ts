@@ -78,6 +78,7 @@ const config = tseslint.config(
   {
     files: ['**/*.ts'],
     rules: {
+      // Angular rules
       '@angular-eslint/no-lifecycle-call': 'error',
     },
   },
