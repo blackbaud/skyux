@@ -13285,6 +13285,13 @@ For example, when set to \`true\` the following code will not fail for the \`alt
     ],
     "rules": Object {
       "@angular-eslint/no-lifecycle-call": "error",
+    },
+  },
+  Object {
+    "files": Array [
+      "**/*.html",
+    ],
+    "rules": Object {
       "@angular-eslint/template/no-inline-styles": Array [
         "error",
         Object {
