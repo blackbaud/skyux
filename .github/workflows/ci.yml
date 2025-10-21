@@ -90,7 +90,7 @@ jobs:
         run: npm ci
         env:
           CYPRESS_INSTALL_BINARY: 0
-      - uses: nrwl/nx-set-shas@v4
+      - uses: nrwl/nx-set-shas@9885af301bd1be213e975f11ae32c6daeadc4a87 # 4.3.3
       - name: Run build, lint, test, and posttest for npm packages
         run: |
           npx nx affected --target build postbuild lint test posttest --configuration ci --parallel 1 --exclude '*,!tag:npm'
@@ -188,7 +188,7 @@ jobs:
           cache: 'npm'
           node-version-file: '.nvmrc'
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v4
+        uses: nrwl/nx-set-shas@9885af301bd1be213e975f11ae32c6daeadc4a87 # 4.3.3
       - name: npm install
         run: npm ci
         env:

@@ -24,10 +24,25 @@ env:
   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
   SB_CHROMIUM_PATH: /usr/bin/chromium
 
+permissions:
+  actions: read
+  contents: read
+  pull-requests: read
+
 jobs:
+  environment-check:
+    name: Environment Check
+    if: ${{ !startsWith( github.head_ref || github.ref_name, 'release-please--' ) && !contains( github.event.pull_request.labels.*.name, 'skip e2e' ) }}
+    runs-on: ubuntu-latest
+    environment: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && 'e2e-external-contribution' || 'e2e-team-members' }}
+    steps:
+      - name: Environment approved
+        run: echo "Approved to run E2E tests"
+
   install-deps:
     name: Install and cache dependencies
     if: ${{ !startsWith( github.head_ref || github.ref_name, 'release-please--' ) && !contains( github.event.pull_request.labels.*.name, 'skip e2e' ) }}
+    needs: environment-check
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-install-deps-${{ github.head_ref || github.ref_name || github.event.ref }}
@@ -61,7 +76,7 @@ jobs:
         with:
           workflow-id: e2e.yml
         env:
-          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set workflow parameters
         id: parameters
         shell: bash
@@ -207,7 +222,7 @@ jobs:
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
-          ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
+          ref: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && github.base_ref || github.head_ref || github.ref_name || github.event.ref }}
       - uses: actions/setup-node@v5
         with:
           cache: 'npm'
@@ -428,7 +443,7 @@ jobs:
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
-          ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
+          ref: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && github.base_ref || github.head_ref || github.ref_name || github.event.ref }}
       - uses: actions/setup-node@v5
         with:
           cache: 'npm'

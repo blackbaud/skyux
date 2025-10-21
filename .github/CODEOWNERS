@@ -1,0 +1,3 @@
+# Require review from core team for workflow changes
+/.github/workflows/ @blackbaud/skyux-maintainers
+/.github/actions/ @blackbaud/skyux-maintainers
