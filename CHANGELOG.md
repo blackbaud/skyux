@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.6.2](https://github.com/blackbaud/skyux/compare/13.6.1...13.6.2) (2025-10-21)
+
+
+### Bug Fixes
+
+* **sdk/eslint-config-skyux:** allow style bindings for `@angular-eslint/template/no-inline-styles` ESLint rule ([#4053](https://github.com/blackbaud/skyux/issues/4053)) ([0774682](https://github.com/blackbaud/skyux/commit/07746820246b90d53f9711b5c86dd293e7761000))
+
+
+
 ## [13.6.1](https://github.com/blackbaud/skyux/compare/13.6.0...13.6.1) (2025-10-20)
 
 
