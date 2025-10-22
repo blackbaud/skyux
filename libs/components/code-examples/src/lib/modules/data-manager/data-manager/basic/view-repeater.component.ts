@@ -118,19 +118,20 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
     }
 
     const sortOption = this.#dataState.activeSortOption;
-    if (sortOption) {
-      const field = sortOption.propertyName;
+    if (sortOption?.propertyName) {
+      const field = sortOption.propertyName as keyof typeof DataManagerDemoRow;
       const descending = sortOption.descending ?? false;
 
-      this.displayedItems.sort((a, b) => {
-        // The possible sort fields are both string types.
-        const aValue = (a as any)[field] as string;
-        const bValue = (b as any)[field] as string;
-        if (descending) {
-          return bValue.localeCompare(aValue);
-        }
-        return aValue.localeCompare(bValue);
-      });
+      this.displayedItems.sort(
+        (a: DataManagerDemoRow, b: DataManagerDemoRow) => {
+          const aValue = String(a[field]);
+          const bValue = String(b[field]);
+          if (descending) {
+            return bValue.localeCompare(aValue);
+          }
+          return aValue.localeCompare(bValue);
+        },
+      );
     }
 
     this.#dataManagerSvc.updateDataSummary(
