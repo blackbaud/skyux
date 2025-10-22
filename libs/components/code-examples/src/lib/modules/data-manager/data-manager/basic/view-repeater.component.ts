@@ -119,7 +119,7 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
 
     const sortOption = this.#dataState.activeSortOption;
     if (sortOption?.propertyName) {
-      const field = sortOption.propertyName as keyof typeof DataManagerDemoRow;
+      const field = sortOption.propertyName as keyof DataManagerDemoRow;
       const descending = sortOption.descending ?? false;
 
       this.displayedItems.sort(
