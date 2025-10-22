@@ -13,7 +13,10 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
-import { SkyFilterBarFilterState } from '@skyux/filter-bar';
+import {
+  SkyFilterBarFilterState,
+  isSkyFilterBarFilterState,
+} from '@skyux/filter-bar';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -30,6 +33,12 @@ import { takeUntil } from 'rxjs/operators';
 
 import { DataManagerDemoRow } from './data';
 import { FruitTypeLookupItem } from './example.service';
+
+function hasFilterBarState(
+  value: SkyDataManagerState,
+): value is SkyDataManagerState<SkyFilterBarFilterState> {
+  return isSkyFilterBarFilterState(value.filterData?.filters);
+}
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -133,10 +142,12 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       .getDataStateUpdates(this.viewId)
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((state) => {
-        this.#dataState = state;
-        this.#setInitialColumnOrder();
-        this.#updateData();
-        this.#changeDetector.markForCheck();
+        if (hasFilterBarState(state)) {
+          this.#dataState = state;
+          this.#setInitialColumnOrder();
+          this.#updateData();
+          this.#changeDetector.markForCheck();
+        }
       });
 
     this.#dataManagerSvc
