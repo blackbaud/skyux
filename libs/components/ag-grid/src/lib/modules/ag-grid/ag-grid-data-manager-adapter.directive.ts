@@ -104,7 +104,6 @@ export class SkyAgGridDataManagerAdapterDirective
 
   public ngOnDestroy(): void {
     this.#unregisterAgGrid();
-    this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }
 

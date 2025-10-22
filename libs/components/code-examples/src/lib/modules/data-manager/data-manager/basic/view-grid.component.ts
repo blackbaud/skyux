@@ -26,8 +26,7 @@ import {
   RowSelectedEvent,
   SortChangedEvent,
 } from 'ag-grid-community';
-import { Subject, fromEvent, of, takeWhile } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, Subscription, fromEvent, merge, of, takeUntil } from 'rxjs';
 
 import { DataManagerDemoRow } from './data';
 import { FruitTypeLookupItem } from './example.service';
@@ -200,24 +199,33 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     this.#gridApi = event.api;
     this.#updateData();
 
+    // When the grid is destroyed, unsubscribe from all grid events.
+    const gridSubscription = new Subscription();
+    gridSubscription.add(
+      merge([fromEvent(this.#gridApi, 'gridPreDestroyed'), this.#ngUnsubscribe])
+        .pipe(take(1))
+        .subscribe(() => {
+          gridSubscription.unsubscribe();
+        }),
+    );
+
     // Keep the data manager sort option in sync with grid sort changes.
-    fromEvent<SortChangedEvent>(this.#gridApi, 'sortChanged')
-      .pipe(
-        takeUntil(this.#ngUnsubscribe),
-        takeWhile(() => this.isActive),
-      )
-      .subscribe((sortChanged) => {
-        const sortOption = (
-          this.#dataManagerSvc.getCurrentDataManagerConfig().sortOptions ?? []
-        ).find((option) =>
-          (sortChanged.columns ?? []).some(
-            (col) => col.getColId() === option.propertyName,
-          ),
-        );
-        const state = new SkyDataManagerState(this.#dataState);
-        state.activeSortOption = sortOption;
-        this.#dataManagerSvc.updateDataState(state, this.viewId);
-      });
+    gridSubscription.add(
+      fromEvent<SortChangedEvent>(this.#gridApi, 'sortChanged').subscribe(
+        (sortChanged) => {
+          const sortOption = (
+            this.#dataManagerSvc.getCurrentDataManagerConfig().sortOptions ?? []
+          ).find((option) =>
+            (sortChanged.columns ?? []).some(
+              (col) => col.getColId() === option.propertyName,
+            ),
+          );
+          const state = new SkyDataManagerState(this.#dataState);
+          state.activeSortOption = sortOption;
+          this.#dataManagerSvc.updateDataState(state, this.viewId);
+        },
+      ),
+    );
   }
 
   #searchItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
@@ -274,7 +282,11 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     const descending = this.#dataState.activeSortOption?.descending ?? false;
     this.#columnDefs.forEach((column) => {
       column.initialSort =
-        field && field === column.field ? (descending ? 'desc' : 'asc') : null;
+        field && field === column.field
+          ? descending
+            ? 'desc'
+            : 'asc'
+          : undefined;
     });
 
     this.isGridInitialized = true;
