@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { SkyResponsiveHostDirective } from '@skyux/core';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
@@ -31,7 +30,6 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   encapsulation: ViewEncapsulation.None,
   imports: [
     SkyDataManagerModule,
-    SkyResponsiveHostDirective,
     SkyTextHighlightModule,
     SkyAgGridDataManagerAdapterDirective,
     SkyAgGridWrapperComponent,
