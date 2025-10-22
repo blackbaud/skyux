@@ -135,7 +135,6 @@
         "docsIds": [
           "SkyInputBoxModule",
           "SkyInputBoxComponent",
-          "SkyFormErrorModule",
           "SkyFormErrorComponent"
         ],
         "primaryDocsId": "SkyInputBoxModule"
