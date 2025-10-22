@@ -23,7 +23,7 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - name: Read default base from nx.json
+    - name: Read default base from .skyuxdev.json
       id: read-default-base
       shell: bash
       run: |
@@ -31,7 +31,7 @@ runs:
 
     - name: Derive appropriate SHAs for base and head for `nx affected` commands (using nrwl/nx-set-shas).
       id: nx-set-shas
-      uses: nrwl/nx-set-shas@v4.1
+      uses: nrwl/nx-set-shas@9885af301bd1be213e975f11ae32c6daeadc4a87 # 4.3.3
       with:
         main-branch-name: ${{ steps.read-default-base.outputs.main-branch-name }}
         workflow-id: ${{ inputs.workflow-id }}
@@ -51,6 +51,7 @@ runs:
             head: `${context.repo.owner}:${process.env.GITHUB_REF_NAME}`
           });
           if (pullRequests.data.length > 0) {
+            pullRequests.data.sort((a, b) => b.created_at.localeCompare(a.created_at));
             core.setOutput('pr-number', pullRequests.data[0].number);
             core.setOutput('pr-created_at', pullRequests.data[0].created_at);
             core.setOutput('pr-labels', JSON.stringify(pullRequests.data[0].labels.map(label => label.name)));

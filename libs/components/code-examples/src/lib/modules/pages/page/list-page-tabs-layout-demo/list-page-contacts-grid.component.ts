@@ -7,7 +7,7 @@ import {
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 import { SkyIconModule } from '@skyux/icon';
-import { SkyKeyInfoModule } from '@skyux/indicators';
+import { SkyListSummaryModule } from '@skyux/lists';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -37,7 +37,7 @@ interface Contact {
     SkyAgGridModule,
     SkyDataManagerModule,
     SkyIconModule,
-    SkyKeyInfoModule,
+    SkyListSummaryModule,
   ],
 })
 export class ListPageContactsGridComponent implements OnInit {

@@ -6,6 +6,7 @@
         "docsIds": [
           "SkyFilterBarModule",
           "SkyFilterBarComponent",
+          "SkyFilterBarFilterState",
           "SkyFilterBarFilterItem",
           "SkyFilterBarFilterValue",
           "SkyFilterItemLookupComponent",

@@ -7,7 +7,7 @@ import {
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 import { SkyIconModule } from '@skyux/icon';
-import { SkyKeyInfoModule } from '@skyux/indicators';
+import { SkyListSummaryModule } from '@skyux/lists';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -32,7 +32,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     SkyAgGridModule,
     SkyDataManagerModule,
     SkyIconModule,
-    SkyKeyInfoModule,
+    SkyListSummaryModule,
   ],
 })
 export class ListPageContentComponent implements OnInit {

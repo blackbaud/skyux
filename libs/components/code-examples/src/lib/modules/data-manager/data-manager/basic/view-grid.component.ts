@@ -13,6 +13,7 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
+import { SkyFilterBarFilterState } from '@skyux/filter-bar';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -28,7 +29,7 @@ import { Subject, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { DataManagerDemoRow } from './data';
-import { Filters } from './filters';
+import { FruitTypeLookupItem } from './example.service';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -89,7 +90,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     searchEnabled: true,
     multiselectToolbarEnabled: true,
     columnPickerEnabled: true,
-    filterButtonEnabled: true,
     columnOptions: [
       {
         id: 'selected',
@@ -163,20 +163,32 @@ export class ViewGridComponent implements OnInit, OnDestroy {
 
   #filterItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
     let filteredItems = items;
+    const filterState = this.#dataState.filterData?.filters as
+      | SkyFilterBarFilterState
+      | undefined;
 
-    const filterData = this.#dataState && this.#dataState.filterData;
-
-    if (filterData?.filters) {
-      const filters = filterData.filters as Filters;
+    if (filterState?.appliedFilters) {
+      const filters = filterState.appliedFilters;
+      const hideOrange = !!filters.find(
+        (f) => f.filterId === 'hideOrange' && f.filterValue?.value,
+      );
+      const fruitTypeFilter = filters.find((f) => f.filterId === 'fruitType');
+      const selectedTypes: string[] = Array.isArray(
+        fruitTypeFilter?.filterValue?.value,
+      )
+        ? (fruitTypeFilter.filterValue.value as FruitTypeLookupItem[]).map(
+            (v) => v.id,
+          )
+        : [];
 
       filteredItems = items.filter((item) => {
-        return (
-          ((filters.hideOrange && item.color !== 'orange') ??
-            !filters.hideOrange) &&
-          ((filters.type !== 'any' && item.type === filters.type) ||
-            !filters.type ||
-            filters.type === 'any')
-        );
+        if (hideOrange && item.color === 'orange') {
+          return false;
+        }
+        if (selectedTypes.length && !selectedTypes.includes(item.type)) {
+          return false;
+        }
+        return true;
       });
     }
 

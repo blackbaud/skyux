@@ -1,6 +1,29 @@
 # Changelog
 
 
+## [13.6.1](https://github.com/blackbaud/skyux/compare/13.6.0...13.6.1) (2025-10-20)
+
+
+### Bug Fixes
+
+* **components/lists:** add appropriate spacing around list summary items ([#4049](https://github.com/blackbaud/skyux/issues/4049)) ([2d1ee9c](https://github.com/blackbaud/skyux/commit/2d1ee9cd7c02f87cb58265ee380017a5a4d74251))
+
+
+
+# [13.6.0](https://github.com/blackbaud/skyux/compare/13.5.2...13.6.0) (2025-10-16)
+
+
+### Bug Fixes
+
+* add list summary to code examples ([#4043](https://github.com/blackbaud/skyux/issues/4043)) ([92b929a](https://github.com/blackbaud/skyux/commit/92b929ad7907c3138b8ca185d248eae85f4580a1))
+
+
+### Features
+
+* integrate filter bar with data manager ([#4029](https://github.com/blackbaud/skyux/issues/4029)) ([91ba220](https://github.com/blackbaud/skyux/commit/91ba220a803478c860dbc1fb118cbd1fbb292f52))
+
+
+
 ## [13.5.2](https://github.com/blackbaud/skyux/compare/13.5.1...13.5.2) (2025-10-16)
 
 

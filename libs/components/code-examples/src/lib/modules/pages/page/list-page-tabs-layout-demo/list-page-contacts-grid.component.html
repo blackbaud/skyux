@@ -11,15 +11,10 @@
           New
         </button>
       </sky-data-manager-toolbar-primary-item>
+      <sky-list-summary>
+        <sky-list-summary-item labelText="Contacts" [value]="contacts.length" />
+      </sky-list-summary>
     </sky-data-manager-toolbar>
-  </div>
-  <div class="sky-margin-stacked-sm">
-    <sky-key-info layout="horizontal" class="sky-padding-horizontal-sm">
-      <sky-key-info-value class="sky-font-display-4">
-        {{ contacts.length }}
-      </sky-key-info-value>
-      <sky-key-info-label> Contacts </sky-key-info-label>
-    </sky-key-info>
   </div>
   <sky-data-view skyAgGridDataManagerAdapter viewId="gridView">
     <sky-ag-grid-wrapper>
