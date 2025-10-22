@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -54,18 +55,6 @@ let nextContentId = 0;
 export class SkyRepeaterItemComponent
   implements OnDestroy, OnInit, AfterViewInit
 {
-  /**
-   * Make the first, non-disabled item tab-focusable.
-   * - Disabled items should not be focusable per [W3C](https://www.w3.org/TR/wai-aria-practices-1.1/#kbd_disabled_controls).
-   * - One item per list/grid/listbox should be tab focusable per [W3C](https://www.w3.org/TR/wai-aria-practices-1.1/#grid).
-   */
-  public get tabindex(): 0 | -1 {
-    return this.#repeaterService.items.filter((item) => !item.disabled)[0] ===
-      this
-      ? 0
-      : -1;
-  }
-
   /**
    * Whether to disable a selectable repeater item.
    */

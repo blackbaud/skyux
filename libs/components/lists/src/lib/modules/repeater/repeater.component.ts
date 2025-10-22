@@ -415,7 +415,7 @@ export class SkyRepeaterComponent
     };
 
     // Based on https://html.spec.whatwg.org/multipage/dom.html#interactive-content
-    const interactionSelector = [
+    const gridInteractionSelector = [
       'a[href]',
       'audio[controls]',
       'button',
@@ -435,20 +435,22 @@ export class SkyRepeaterComponent
         (selector) =>
           `sky-repeater-item-title ${selector}:not([hidden]), sky-repeater-item-content ${selector}:not([hidden])`,
       )
-      .concat([`skyux-dropdown`])
+      .concat([`sky-repeater-item-context-menu sky-dropdown`])
       .join(', ');
 
-    const hasInteraction =
+    const hasGridInteraction =
       this.reorderable ||
       this.items?.some((item) => item.isCollapsible) ||
-      this.items?.some((item) => !!item.selectable) ||
       !!(this.#elementRef.nativeElement as HTMLElement).querySelector(
-        interactionSelector,
+        gridInteractionSelector,
       );
 
-    if (hasInteraction) {
-      // If the repeater matches interaction selector https://www.w3.org/TR/wai-aria-practices-1.1/#grid
+    if (hasGridInteraction) {
+      // If the repeater matches interaction selector https://www.w3.org/WAI/ARIA/apg/patterns/grid/
       autoRole = 'grid';
+    } else if (this.items?.some((item) => !!item.selectable)) {
+      // If there are selectable items https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
+      autoRole = 'listbox';
     }
 
     if (this.role !== autoRole) {
@@ -458,6 +460,7 @@ export class SkyRepeaterComponent
       this.role = `${autoRole}`;
       this.#changeDetector.markForCheck();
     }
+    console.log(this.role);
   }
 
   #updateReorderability(): void {
