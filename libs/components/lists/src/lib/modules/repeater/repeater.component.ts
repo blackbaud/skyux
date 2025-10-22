@@ -414,7 +414,7 @@ export class SkyRepeaterComponent
     };
 
     // Based on https://html.spec.whatwg.org/multipage/dom.html#interactive-content
-    const gridInteractionSelector = [
+    const interactionSelector = [
       'a[href]',
       'audio[controls]',
       'button',
@@ -434,18 +434,19 @@ export class SkyRepeaterComponent
         (selector) =>
           `sky-repeater-item-title ${selector}:not([hidden]), sky-repeater-item-content ${selector}:not([hidden])`,
       )
-      .concat([`sky-repeater-item-context-menu sky-dropdown`])
+      .concat([`sky-dropdown`])
       .join(', ');
 
-    const hasGridInteraction =
+    const hasInteraction =
       this.reorderable ||
       this.items?.some((item) => item.isCollapsible) ||
+      this.items?.some((item) => !!item.selectable) ||
       !!(this.#elementRef.nativeElement as HTMLElement).querySelector(
-        gridInteractionSelector,
+        interactionSelector,
       );
 
-    if (hasGridInteraction) {
-      // If the repeater matches interaction selector https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+    if (hasInteraction) {
+      // If the repeater matches interaction selector https://www.w3.org/TR/wai-aria-practices-1.1/#grid
       autoRole = 'grid';
     }
 
