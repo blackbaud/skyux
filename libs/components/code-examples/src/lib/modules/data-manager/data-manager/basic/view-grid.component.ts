@@ -26,7 +26,7 @@ import {
   RowSelectedEvent,
   SortChangedEvent,
 } from 'ag-grid-community';
-import { Subject, Subscription, fromEvent, merge, of, takeUntil } from 'rxjs';
+import { Subject, Subscription, fromEvent, of, takeUntil } from 'rxjs';
 
 import { DataManagerDemoRow } from './data';
 import { FruitTypeLookupItem } from './example.service';
@@ -202,11 +202,9 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     // When the grid is destroyed, unsubscribe from all grid events.
     const gridSubscription = new Subscription();
     gridSubscription.add(
-      merge([fromEvent(this.#gridApi, 'gridPreDestroyed'), this.#ngUnsubscribe])
-        .pipe(take(1))
-        .subscribe(() => {
-          gridSubscription.unsubscribe();
-        }),
+      fromEvent(this.#gridApi, 'gridPreDestroyed').subscribe(() => {
+        gridSubscription.unsubscribe();
+      }),
     );
 
     // Keep the data manager sort option in sync with grid sort changes.
