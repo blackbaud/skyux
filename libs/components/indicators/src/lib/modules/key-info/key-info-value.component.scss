@@ -1,6 +1,23 @@
-@use 'libs/components/theme/src/lib/styles/type' as *;
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as vars;
 
-:host {
+sky-key-info-value {
   display: inline-block;
-  @extend .sky-font-display-3;
+
+  // Apply .sky-font-display-3 styles for default theme.
+  font-family: vars.$sky-font-family-condensed;
+  color: var(--sky-text-color-default);
+  font-weight: 600;
+  font-size: 22px;
+}
+
+@include mixins.sky-theme-modern {
+  sky-key-info-value {
+    // Apply .sky-font-display-3 styles for modern theme.
+    color: var(--sky-color-text-default);
+    font-family: var(--sky-font-family-primary);
+    font-size: var(--sky-font-size-display-3);
+    font-weight: var(--sky-font-style-display-3);
+    line-height: var(--sky-font-line_height-display-3);
+  }
 }

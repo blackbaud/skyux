@@ -1,4 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
 
 /**
  * Specifies a value to display in larger, bold text.
@@ -9,5 +13,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'sky-key-info-value',
   styleUrl: './key-info-value.component.scss',
   template: '<ng-content />',
+  // Disable view encapsulation to reduce specificity in the selector and make
+  // it easier for users to override styles with font classes.
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyKeyInfoValueComponent {}
