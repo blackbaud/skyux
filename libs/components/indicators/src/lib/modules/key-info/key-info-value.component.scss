@@ -1,0 +1,6 @@
+@use 'libs/components/theme/src/lib/styles/type' as *;
+
+:host {
+  display: inline-block;
+  @extend .sky-font-display-3;
+}
