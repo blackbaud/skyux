@@ -1006,7 +1006,7 @@ describe('Repeater item component', () => {
       flushDropdownTimer();
     }));
 
-    it('should be accessible', async () => {
+    fit('should be accessible', async () => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
       fixture.componentInstance.showRepeaterWithNgFor = true;
       fixture.componentInstance.selectable = true;

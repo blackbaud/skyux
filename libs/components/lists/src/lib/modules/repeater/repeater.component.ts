@@ -410,7 +410,6 @@ export class SkyRepeaterComponent
 
     const roleMap: Record<SkyRepeaterRoleType, SkyRepeaterItemRolesType> = {
       list: { item: 'listitem', title: undefined, content: undefined },
-      listbox: { item: 'option', title: undefined, content: undefined },
       grid: { item: 'row', title: 'rowheader', content: 'gridcell' },
     };
 
@@ -448,9 +447,6 @@ export class SkyRepeaterComponent
     if (hasGridInteraction) {
       // If the repeater matches interaction selector https://www.w3.org/WAI/ARIA/apg/patterns/grid/
       autoRole = 'grid';
-    } else if (this.items?.some((item) => !!item.selectable)) {
-      // If there are selectable items https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
-      autoRole = 'listbox';
     }
 
     if (this.role !== autoRole) {
@@ -460,7 +456,6 @@ export class SkyRepeaterComponent
       this.role = `${autoRole}`;
       this.#changeDetector.markForCheck();
     }
-    console.log(this.role);
   }
 
   #updateReorderability(): void {

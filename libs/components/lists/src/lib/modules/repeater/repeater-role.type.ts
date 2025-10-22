@@ -1,1 +1,1 @@
-export type SkyRepeaterRoleType = 'list' | 'listbox' | 'grid';
+export type SkyRepeaterRoleType = 'list' | 'grid';
