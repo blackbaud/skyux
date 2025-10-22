@@ -13,8 +13,8 @@ import {
   selector: 'sky-key-info-value',
   styleUrl: './key-info-value.component.scss',
   template: '<ng-content />',
-  // Disable view encapsulation to reduce specificity in the selector and make
-  // it easier for users to override styles with font classes.
+  // Disable view encapsulation to reduce selector specificity, making it
+  // possible for users to override styles with font classes.
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyKeyInfoValueComponent {}
