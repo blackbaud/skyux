@@ -12,9 +12,9 @@ import { SKY_FORM_ERRORS_ENABLED } from './form-errors-enabled-token';
 
 /**
  * Displays default and custom form field error messages for form field components.
- * Set `labelText` on the form field component to automatically display required,
+ * Set `labelText` on the `SkyInputBoxComponent` to automatically display required,
  * maximum length, minimum length, date, email, phone number, time, and URL errors.
- * To display custom errors, include sky-form-error elements in the form field component.
+ * To display custom errors, include `sky-form-error` elements in the `SkyInputBoxComponent`.
  */
 @Component({
   selector: 'sky-form-error',
