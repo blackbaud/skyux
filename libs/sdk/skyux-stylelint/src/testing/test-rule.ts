@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 /**
  * Adapted from stylelint-test-rule-node to work with vitest.
  * @see https://github.com/stylelint/stylelint-test-rule-node/tree/main
