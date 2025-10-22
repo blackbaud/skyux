@@ -24,8 +24,9 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   RowSelectedEvent,
+  SortChangedEvent,
 } from 'ag-grid-community';
-import { Subject, of } from 'rxjs';
+import { Subject, fromEvent, of, takeWhile } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { DataManagerDemoRow } from './data';
@@ -198,6 +199,25 @@ export class ViewGridComponent implements OnInit, OnDestroy {
   #onGridReady(event: GridReadyEvent): void {
     this.#gridApi = event.api;
     this.#updateData();
+
+    // Keep the data manager sort option in sync with grid sort changes.
+    fromEvent<SortChangedEvent>(this.#gridApi, 'sortChanged')
+      .pipe(
+        takeUntil(this.#ngUnsubscribe),
+        takeWhile(() => this.isActive),
+      )
+      .subscribe((sortChanged) => {
+        const sortOption = (
+          this.#dataManagerSvc.getCurrentDataManagerConfig().sortOptions ?? []
+        ).find((option) =>
+          (sortChanged.columns ?? []).some(
+            (col) => col.getColId() === option.propertyName,
+          ),
+        );
+        const state = new SkyDataManagerState(this.#dataState);
+        state.activeSortOption = sortOption;
+        this.#dataManagerSvc.updateDataState(state, this.viewId);
+      });
   }
 
   #searchItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
@@ -249,6 +269,14 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       }
     });
 
+    // Update the grid's initial sort based on the data state's active sort option.
+    const field = this.#dataState.activeSortOption?.propertyName;
+    const descending = this.#dataState.activeSortOption?.descending ?? false;
+    this.#columnDefs.forEach((column) => {
+      column.initialSort =
+        field && field === column.field ? (descending ? 'desc' : 'asc') : null;
+    });
+
     this.isGridInitialized = true;
   }
 
@@ -259,7 +287,9 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       this.displayedItems = this.displayedItems.filter((item) => item.selected);
     }
 
-    if (this.displayedItems.length > 0) {
+    if (!this.isActive) {
+      // Do nothing if the grid is not the active view.
+    } else if (this.displayedItems.length > 0) {
       this.#gridApi?.hideOverlay();
     } else {
       this.#gridApi?.showNoRowsOverlay();

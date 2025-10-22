@@ -27,7 +27,7 @@ import {
   IColumnLimit,
   RowSelectedEvent,
 } from 'ag-grid-community';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, fromEvent, of, switchMap } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
@@ -103,6 +103,7 @@ export class SkyAgGridDataManagerAdapterDirective
   }
 
   public ngOnDestroy(): void {
+    this.#unregisterAgGrid();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }
@@ -143,6 +144,7 @@ export class SkyAgGridDataManagerAdapterDirective
   }
 
   #unregisterAgGrid(): void {
+    this.#ngUnsubscribe.next();
     this.#currentAgGrid = undefined;
 
     /* istanbul ignore if */
@@ -172,32 +174,47 @@ export class SkyAgGridDataManagerAdapterDirective
     this.#currentAgGrid = agGrid;
 
     if (agGrid) {
-      agGrid.gridReady.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
-        if (this.#viewConfig && this.viewId) {
-          this.#viewConfig.onSelectAllClick = (): void =>
-            agGrid.api.selectAll();
-          this.#viewConfig.onClearAllClick = (): void =>
-            agGrid.api.deselectAll();
-          this.#dataManagerSvc.updateViewConfig(this.#viewConfig);
-          this.#dataStateSub = this.#dataManagerSvc
-            .getDataStateUpdates(this.#viewConfig.id)
-            .pipe(takeUntil(this.#ngUnsubscribe))
-            .subscribe((dataState: SkyDataManagerState) => {
-              this.#currentDataState = dataState;
-              this.#displayColumns(dataState);
-              this.#applySort(dataState);
-            });
+      this.#dataStateSub = agGrid.gridReady
+        .pipe(
+          takeUntil(this.#ngUnsubscribe),
+          switchMap(() => {
+            if (this.#viewConfig && this.viewId) {
+              this.#viewConfig.onSelectAllClick = (): void =>
+                agGrid.api.selectAll();
+              this.#viewConfig.onClearAllClick = (): void =>
+                agGrid.api.deselectAll();
+              this.#dataManagerSvc.updateViewConfig(this.#viewConfig);
+              if (agGrid.gridOptions?.context?.enableTopScroll) {
+                this.#dataManagerSvc.setViewkeeperClasses(this.viewId, [
+                  '.ag-header',
+                  '.ag-body-horizontal-scroll',
+                ]);
+              }
 
-          if (agGrid.gridOptions?.context?.enableTopScroll) {
-            this.#dataManagerSvc.setViewkeeperClasses(this.viewId, [
-              '.ag-header',
-              '.ag-body-horizontal-scroll',
-            ]);
-          }
+              this.#applyColumnWidths();
+              return this.#dataManagerSvc.getDataStateUpdates(
+                this.#viewConfig.id,
+              );
+            }
+            /* istanbul ignore next */
+            return of(undefined);
+          }),
+          filter(Boolean),
+        )
+        .subscribe((dataState: SkyDataManagerState) => {
+          this.#currentDataState = dataState;
+          this.#displayColumns(dataState);
+          this.#applySort(dataState);
+        });
 
-          this.#applyColumnWidths();
-        }
-      });
+      agGrid.gridReady
+        .pipe(
+          takeUntil(this.#ngUnsubscribe),
+          switchMap(() => fromEvent(agGrid.api, 'gridPreDestroyed')),
+        )
+        .subscribe(() => {
+          this.#unregisterAgGrid();
+        });
 
       agGrid.columnMoved
         .pipe(
@@ -321,9 +338,9 @@ export class SkyAgGridDataManagerAdapterDirective
     }
   }
 
-  #getColumnOrder(api: GridApi): string[] {
-    return api
-      .getColumnState()
+  #getColumnOrder(api: GridApi | undefined): string[] {
+    /* istanbul ignore next */
+    return (api?.getColumnState() ?? [])
       .filter((state) => !state.hide)
       .map((state) => state.colId);
   }
@@ -343,8 +360,9 @@ export class SkyAgGridDataManagerAdapterDirective
       const columnOrder = this.#getColumnOrder(agGrid.api);
 
       if (
-        displayedColumnIds.length !== columnOrder.length ||
-        displayedColumnIds.some((col, i) => col !== columnOrder[i])
+        (displayedColumnIds.length !== columnOrder.length ||
+          displayedColumnIds.some((col, i) => col !== columnOrder[i])) &&
+        agGrid.api
       ) {
         const hideColumns = agGrid.api
           .getColumnState()
