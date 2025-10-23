@@ -1,12 +1,15 @@
+import { NgClass } from '@angular/common';
 import { Component, Input, TemplateRef } from '@angular/core';
+import { SkyIdModule } from '@skyux/core';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 import { SkyKeyInfoLayoutType } from './key-info-layout-type';
 
 @Component({
+  imports: [NgClass, SkyHelpInlineModule, SkyIdModule],
   selector: 'sky-key-info',
   templateUrl: './key-info.component.html',
-  styleUrls: ['./key-info.component.scss'],
-  standalone: false,
+  styleUrl: './key-info.component.scss',
 })
 export class SkyKeyInfoComponent {
   /**

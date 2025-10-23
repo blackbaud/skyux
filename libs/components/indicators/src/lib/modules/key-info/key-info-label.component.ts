@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SkyTrimModule } from '@skyux/core';
 
 /**
  * Specifies a label to display in smaller text under or beside the value.
@@ -7,8 +8,9 @@ import { Component } from '@angular/core';
  * @required
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyTrimModule],
   selector: 'sky-key-info-label',
   template: '<span skyTrim><ng-content /></span>',
-  standalone: false,
 })
 export class SkyKeyInfoLabelComponent {}
