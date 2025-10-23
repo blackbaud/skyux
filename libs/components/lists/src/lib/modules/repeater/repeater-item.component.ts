@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -60,7 +59,7 @@ export class SkyRepeaterItemComponent
    * - Disabled items should not be focusable per [W3C](https://www.w3.org/TR/wai-aria-practices-1.1/#kbd_disabled_controls).
    * - One item per list/grid/listbox should be tab focusable per [W3C](https://www.w3.org/TR/wai-aria-practices-1.1/#grid).
    */
-  public get tabindex(): 0 | undefined | -1 {
+  public get tabindex(): 0 | -1 {
     return this.#repeaterService.items.filter((item) => !item.disabled)[0] ===
       this && this.selectable
       ? 0
