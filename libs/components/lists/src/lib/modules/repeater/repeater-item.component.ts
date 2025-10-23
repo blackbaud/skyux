@@ -56,8 +56,8 @@ export class SkyRepeaterItemComponent
 {
   /**
    * Make the first, non-disabled item tab-focusable in a selectable repeater.
-   * - Disabled items should not be focusable per [W3C](https://www.w3.org/TR/wai-aria-practices-1.1/#kbd_disabled_controls).
-   * - One item per list/grid/listbox should be tab focusable per [W3C](https://www.w3.org/TR/wai-aria-practices-1.1/#grid).
+   * - Disabled items should not be focusable per [W3C](https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#focusabilityofdisabledcontrols).
+   * - One item per grid should be tab focusable per [W3C](https://www.w3.org/WAI/ARIA/apg/patterns/grid/).
    */
   public get tabindex(): 0 | -1 {
     return this.#repeaterService.items.filter((item) => !item.disabled)[0] ===
