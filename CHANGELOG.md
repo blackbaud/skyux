@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.6.3](https://github.com/blackbaud/skyux/compare/13.6.2...13.6.3) (2025-10-23)
+
+
+### Bug Fixes
+
+* **components/indicators:** align key info value line-height with font class ([#4046](https://github.com/blackbaud/skyux/issues/4046)) ([a25b524](https://github.com/blackbaud/skyux/commit/a25b524e3abc8067dfb1d3710b9043a45ecc81b3)), closes [AB#3591446](https://github.com/AB/issues/3591446)
+
+
+
 ## [13.6.2](https://github.com/blackbaud/skyux/compare/13.6.1...13.6.2) (2025-10-22)
 
 
