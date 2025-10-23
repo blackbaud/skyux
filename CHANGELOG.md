@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [13.6.2](https://github.com/blackbaud/skyux/compare/13.6.1...13.6.2) (2025-10-22)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** data manager should unsubscribe when the grid shuts down ([#4055](https://github.com/blackbaud/skyux/issues/4055)) ([854eb0c](https://github.com/blackbaud/skyux/commit/854eb0c0332b96ea08fe603344e54c362089aaa6)), closes [AB#3601959](https://github.com/AB/issues/3601959)
+* **components/lookup:** single select wrapper set display to `flex` ([#4033](https://github.com/blackbaud/skyux/issues/4033)) ([8b7cd1a](https://github.com/blackbaud/skyux/commit/8b7cd1aebb062c7fae47f71bf6ae68d60f6529d9)), closes [AB#3430131](https://github.com/AB/issues/3430131)
+* **sdk/eslint-config-skyux:** allow style bindings for `@angular-eslint/template/no-inline-styles` ESLint rule ([#4053](https://github.com/blackbaud/skyux/issues/4053)) ([0774682](https://github.com/blackbaud/skyux/commit/07746820246b90d53f9711b5c86dd293e7761000))
+
+
+
 ## [13.6.1](https://github.com/blackbaud/skyux/compare/13.6.0...13.6.1) (2025-10-20)
 
 
