@@ -5,6 +5,7 @@
   [attr.aria-labelledby]="itemName ? undefined : titleId"
   [attr.aria-selected]="selectable ? !!isSelected : undefined"
   [attr.role]="(itemRole$ | async)?.item"
+  [attr.tabindex]="tabindex"
   [ngClass]="{
     'sky-repeater-item-active': isActive,
     'sky-repeater-item-collapsible': isCollapsible,
