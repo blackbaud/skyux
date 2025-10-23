@@ -117,6 +117,23 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
       this.displayedItems = this.displayedItems.filter((item) => item.selected);
     }
 
+    const sortOption = this.#dataState.activeSortOption;
+    if (sortOption?.propertyName) {
+      const field = sortOption.propertyName as keyof DataManagerDemoRow;
+      const descending = sortOption.descending ?? false;
+
+      this.displayedItems.sort(
+        (a: DataManagerDemoRow, b: DataManagerDemoRow) => {
+          const aValue = String(a[field]);
+          const bValue = String(b[field]);
+          if (descending) {
+            return bValue.localeCompare(aValue);
+          }
+          return aValue.localeCompare(bValue);
+        },
+      );
+    }
+
     this.#dataManagerSvc.updateDataSummary(
       {
         totalItems: this.items.length,
