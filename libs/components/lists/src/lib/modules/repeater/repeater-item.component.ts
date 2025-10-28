@@ -60,11 +60,13 @@ export class SkyRepeaterItemComponent
    * - One item per grid should be tab focusable per [W3C](https://www.w3.org/WAI/ARIA/apg/patterns/grid/).
    */
   public get tabindex(): 0 | -1 {
-    return this.#repeaterService.items.filter((item) => !item.disabled)[0] ===
-      this && this.selectable
+    return this.#repeaterService.items.find(
+      (item) => !item.disabled && this.selectable,
+    ) === this
       ? 0
       : -1;
   }
+
   /**
    * Whether to disable a selectable repeater item.
    */

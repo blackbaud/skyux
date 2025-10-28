@@ -401,8 +401,8 @@ export class SkyRepeaterComponent
 
   #updateRole(): void {
     // Determine a role using a hierarchy based on https://www.w3.org/WAI/ARIA/apg/
-    //   1. If there are one or more interactions in the repeater item projected content or there is a context menu, use grid.
-    //   3. If there are no interactions, use list.
+    //   - If there are one or more interactions in the repeater item projected content or there is a context menu, use `grid`.
+    //   - If there are no interactions, use `list`.
 
     // Default to list role.
     let autoRole: SkyRepeaterRoleType = 'list';
