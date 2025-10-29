@@ -400,17 +400,15 @@ export class SkyRepeaterComponent
   }
 
   #updateRole(): void {
-    // Determine a role using a hierarchy based on https://www.w3.org/TR/wai-aria-practices-1.1/
-    //   1. If there are one or more interactions in the repeater item projected content, use grid.
-    //   2. If there are selectable repeater items and no other interactions, use listbox.
-    //   3. If there are no interactions, use list.
+    // Determine a role using a hierarchy based on https://www.w3.org/WAI/ARIA/apg/
+    //   - If there are one or more interactions in the repeater item projected content or there is a context menu, use `grid`.
+    //   - If there are no interactions, use `list`.
 
     // Default to list role.
     let autoRole: SkyRepeaterRoleType = 'list';
 
     const roleMap: Record<SkyRepeaterRoleType, SkyRepeaterItemRolesType> = {
       list: { item: 'listitem', title: undefined, content: undefined },
-      listbox: { item: 'option', title: undefined, content: undefined },
       grid: { item: 'row', title: 'rowheader', content: 'gridcell' },
     };
 
@@ -435,7 +433,7 @@ export class SkyRepeaterComponent
         (selector) =>
           `sky-repeater-item-title ${selector}:not([hidden]), sky-repeater-item-content ${selector}:not([hidden])`,
       )
-      .concat([`skyux-dropdown`])
+      .concat([`sky-dropdown`])
       .join(', ');
 
     const hasInteraction =
@@ -447,7 +445,7 @@ export class SkyRepeaterComponent
       );
 
     if (hasInteraction) {
-      // If the repeater matches interaction selector https://www.w3.org/TR/wai-aria-practices-1.1/#grid
+      // If the repeater matches interaction selector https://www.w3.org/WAI/ARIA/apg/patterns/grid/
       autoRole = 'grid';
     }
 

@@ -502,6 +502,20 @@ describe('Repeater item component', () => {
     flushDropdownTimer();
   }));
 
+  it('should remove repeater item from tab order when not selectable', fakeAsync(() => {
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
+    const component = fixture.componentInstance;
+    component.selectable = false;
+
+    fixture.detectChanges();
+    tick();
+
+    const repeaterItems = component.repeater?.items?.toArray() || [];
+    for (const item of repeaterItems) {
+      expect(item.tabindex).toBe(-1);
+    }
+  }));
+
   describe('with expand mode of "single"', () => {
     it('should disabled collapse animations on initial render', fakeAsync(() => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
@@ -2093,6 +2107,21 @@ describe('Repeater item component', () => {
       expect(
         el.querySelector('.sky-repeater-item-content').getAttribute('role'),
       ).toEqual('gridcell');
+    });
+
+    it('should calculate aria role as grid when the only interactable element is the context menu', async () => {
+      cmp.showRepeaterWithActiveIndex = false;
+      cmp.expandMode = 'none';
+      cmp.reorderable = false;
+      cmp.selectable = false;
+      cmp.showContextMenu = true;
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(el.querySelector('.sky-repeater').getAttribute('role')).toEqual(
+        'grid',
+      );
     });
   });
 
