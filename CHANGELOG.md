@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.7.1](https://github.com/blackbaud/skyux/compare/13.7.0...13.7.1) (2025-10-29)
+
+
+### Bug Fixes
+
+* **components/lists:** remove non-selectable repeater item from tab order and update role of repeater item with only context-menu to `grid` ([#4057](https://github.com/blackbaud/skyux/issues/4057)) ([b426ba3](https://github.com/blackbaud/skyux/commit/b426ba351b71c73d5b825b859d961d51a022b720)), closes [AB#3430131](https://github.com/AB/issues/3430131)
+
+
+
 # [13.7.0](https://github.com/blackbaud/skyux/compare/13.6.2...13.7.0) (2025-10-24)
 
 
