@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+* **components/lists:** add background color styles to list summary when scrolled ([#4062](https://github.com/blackbaud/skyux/issues/4062)) ([1cd5912](https://github.com/blackbaud/skyux/commit/1cd5912f3956ef47f4026997c93a91f9a1a615b4))
 * **components/lists:** remove non-selectable repeater item from tab order and update role of repeater item with only context-menu to `grid` ([#4057](https://github.com/blackbaud/skyux/issues/4057)) ([b426ba3](https://github.com/blackbaud/skyux/commit/b426ba351b71c73d5b825b859d961d51a022b720)), closes [AB#3430131](https://github.com/AB/issues/3430131)
 
 
