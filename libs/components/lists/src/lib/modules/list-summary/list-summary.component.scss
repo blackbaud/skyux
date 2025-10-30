@@ -30,6 +30,16 @@
   border-bottom: var(--sky-override-list-summary-border-bottom, none);
 }
 
+:host-context(.sky-viewkeeper-fixed) {
+  background-color: var(
+    --sky-override-list-summary-background-color,
+    var(
+      --sky-comp-override-list-header-background-color,
+      var(--sky-background-color-page-default, var(--sky-color-background-page))
+    )
+  );
+}
+
 .sky-list-summary-content-container {
   display: inline-block;
 }
