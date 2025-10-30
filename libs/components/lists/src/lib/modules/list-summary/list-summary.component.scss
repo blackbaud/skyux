@@ -24,8 +24,8 @@
       var(--sky-comp-list_summary-space-inset-left)
   );
   background-color: var(
-    --sky-comp-override-list-header-background-color,
-    var(--sky-override-list-summary-background-color)
+    --sky-override-list-summary-background-color,
+    var(--sky-comp-override-list-header-background-color)
   );
   border-bottom: var(--sky-override-list-summary-border-bottom, none);
 }
