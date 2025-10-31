@@ -38,6 +38,7 @@
       },
       "codeExamples": {
         "docsIds": [
+          "AgGridBasicExampleComponent",
           "AgGridDataGridBasicExampleComponent",
           "AgGridDataGridBasicMultiselectExampleComponent",
           "AgGridDataGridDataManagerExampleComponent",
