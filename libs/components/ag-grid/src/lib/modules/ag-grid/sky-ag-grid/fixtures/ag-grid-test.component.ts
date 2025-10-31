@@ -63,6 +63,7 @@ export class AgGridTestComponent {
     { id: '7', column1: '21', column2: 'Grape', column3: true, myId: '107' },
   ];
 
+  public readonly displayedColumns = input<string[]>([]);
   public readonly removeRowIds = model<string[]>([]);
   public readonly rowHighlightedId = model<string | undefined>();
   public readonly selectedRowIds = model<string[]>([]);

@@ -64,10 +64,11 @@ export class AgGridTestComponent {
     { id: '7', column1: '21', column2: 'Grape', column3: true, myId: '107' },
   ];
 
-  public removeRowIds: string[] = [];
-  public rowHighlightedId: string | undefined;
+  public readonly displayedColumns = input<string[]>([]);
+  public readonly removeRowIds = model<string[]>([]);
+  public readonly rowHighlightedId = model<string | undefined>();
   public readonly selectedRowIds = model<string[]>([]);
-  public visibleColumnIds: string[] = [];
+  public readonly visibleColumnIds = model<string[]>([]);
 
   public page = 1;
   public pageSize = 0;
@@ -99,7 +100,7 @@ export class AgGridTestComponent {
   }
 
   public deleteItem(id: string): void {
-    this.removeRowIds = [id, ...this.removeRowIds];
+    this.removeRowIds.update((removeRowIds) => [id, ...removeRowIds]);
   }
 
   public finishRowDelete(confirmArgs: SkyAgGridRowDeleteConfirmArgs): void {

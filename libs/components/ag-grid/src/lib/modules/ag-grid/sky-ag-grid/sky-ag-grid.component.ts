@@ -1,7 +1,12 @@
 import {
+  coerceArray,
+  coerceBooleanProperty,
+  coerceNumberProperty,
+  coerceStringArray,
+} from '@angular/cdk/coercion';
+import {
   ChangeDetectionStrategy,
   Component,
-  booleanAttribute,
   computed,
   contentChildren,
   effect,
@@ -9,7 +14,6 @@ import {
   input,
   linkedSignal,
   model,
-  numberAttribute,
   output,
   signal,
   untracked,
@@ -28,6 +32,7 @@ import {
   GridApi,
   GridOptions,
   GridPreDestroyedEvent,
+  IRowNode,
   ModuleRegistry,
   SelectionChangedEvent,
 } from 'ag-grid-community';
@@ -93,7 +98,9 @@ export class SkyAgGridComponent<
   /**
    * The columns to display by default based on the ID or field of the item.
    */
-  public readonly displayedColumns = input<string[]>([]);
+  public readonly displayedColumns = input<string[], unknown>([], {
+    transform: coerceStringArray,
+  });
 
   /**
    * Fires when columns change. This includes changes to the displayed columns and changes
@@ -105,7 +112,9 @@ export class SkyAgGridComponent<
   /**
    * The columns to hide by default based on the ID or field of the item.
    */
-  public readonly hiddenColumns = input<string[]>([]);
+  public readonly hiddenColumns = input<string[], unknown>([], {
+    transform: coerceStringArray,
+  });
 
   /**
    * Whether to enable the multiselect feature to display a column of
@@ -115,7 +124,7 @@ export class SkyAgGridComponent<
    * @default false
    */
   public readonly enableMultiselect = input<boolean, unknown>(false, {
-    transform: booleanAttribute,
+    transform: coerceBooleanProperty,
   });
 
   /**
@@ -131,7 +140,7 @@ export class SkyAgGridComponent<
    * The height of the grid.
    */
   public readonly height = input<number, unknown>(0, {
-    transform: numberAttribute,
+    transform: coerceNumberProperty,
   });
 
   /**
@@ -145,7 +154,7 @@ export class SkyAgGridComponent<
    * @default 1
    */
   public readonly page = input<number, unknown>(1, {
-    transform: numberAttribute,
+    transform: coerceNumberProperty,
   });
 
   /**
@@ -153,7 +162,7 @@ export class SkyAgGridComponent<
    * @default 0
    */
   public readonly pageSize = input<number, unknown>(0, {
-    transform: numberAttribute,
+    transform: coerceNumberProperty,
   });
 
   /**
@@ -165,7 +174,7 @@ export class SkyAgGridComponent<
    * The width of the grid in pixels.
    */
   public readonly width = input<number, unknown>(0, {
-    transform: numberAttribute,
+    transform: coerceNumberProperty,
   });
 
   /**
@@ -225,11 +234,9 @@ export class SkyAgGridComponent<
       fromEvent<SelectionChangedEvent>(api, 'selectionChanged').pipe(
         takeUntil(this.#gridDestroyed),
         map((selection) =>
-          (
-            (selection.selectedNodes ?? [])
-              .map((node) => node.id as string)
-              .filter(Boolean) as string[]
-          ).sort((a, b) => a.localeCompare(b)),
+          this.#getRowIds(selection.selectedNodes).sort((a, b) =>
+            a.localeCompare(b),
+          ),
         ),
         distinctUntilChanged(arrayIsEqual),
       ),
@@ -263,11 +270,11 @@ export class SkyAgGridComponent<
           helpPopoverTitle: col.helpPopoverTitle(),
           helpPopoverContent: col.helpPopoverContent() || col.description(),
         },
-        initialHide:
+        hide:
           col.hidden() ||
           (displayed.length > 0 &&
-            !displayed.includes(col.id() || col.field() || '')) ||
-          hidden.includes(col.id() || col.field() || ''),
+            !displayed.includes(this.#getColumnIdOrField(col))) ||
+          hidden.includes(this.#getColumnIdOrField(col)),
         sortable: col.isSortable(),
         lockPosition: col.locked(),
         suppressMovable: col.locked(),
@@ -278,17 +285,21 @@ export class SkyAgGridComponent<
       } else if (col.id()) {
         colDef.colId = col.id();
       }
-      if (col.cellTemplate()) {
-        (colDef.type as string[]).push(SkyCellType.Template);
-        colDef.cellRendererParams = { template: col.cellTemplate() };
-      } else if (col.type() === 'date') {
+      if (col.type() === 'date') {
         (colDef.type as string[]).push(SkyCellType.Date);
+        colDef.cellDataType = 'dateString';
       } else if (col.type() === 'number') {
         (colDef.type as string[]).push(SkyCellType.Number);
+        colDef.cellDataType = 'number';
       } else if (col.type() === 'boolean') {
         colDef.cellDataType = 'boolean';
       } else {
         (colDef.type as string[]).push(SkyCellType.Text);
+        colDef.cellDataType = 'text';
+      }
+      if (col.cellTemplate()) {
+        (colDef.type as string[]).push(SkyCellType.Template);
+        colDef.cellRendererParams = { template: col.cellTemplate() };
       }
       if (col.width() > 0) {
         colDef.initialWidth = col.width();
@@ -297,6 +308,7 @@ export class SkyAgGridComponent<
       return colDef;
     });
   });
+
   readonly #activatedRoute = inject(ActivatedRoute, { optional: true });
   readonly #router = inject(Router, { optional: true });
 
@@ -365,8 +377,7 @@ export class SkyAgGridComponent<
       const api = this.gridApi();
       const selectedRowIds = this.selectedRowIds();
       this.data();
-      const currentSelectedRowIds =
-        api?.getSelectedNodes().map((node) => node.id as string) ?? [];
+      const currentSelectedRowIds = this.#getRowIds(api?.getSelectedNodes());
       if (!arrayIsEqual(selectedRowIds, currentSelectedRowIds)) {
         api?.deselectAll();
         selectedRowIds.forEach((rowId) =>
@@ -410,7 +421,7 @@ export class SkyAgGridComponent<
 
   protected pageChange(page: number): void {
     const pageQueryParam = this.pageQueryParam();
-    const pageNumber = numberAttribute(page, 1);
+    const pageNumber = coerceNumberProperty(page, 1);
     if (
       pageQueryParam &&
       this.#activatedRoute &&
@@ -428,5 +439,18 @@ export class SkyAgGridComponent<
     } else if (page) {
       this.pageNumber.set(page);
     }
+  }
+
+  #getColumnIdOrField(col: SkyAgGridColumnComponent): string {
+    const id = col.id();
+    /* istanbul ignore next */
+    const field = col.field() || '';
+    return id || field;
+  }
+
+  #getRowIds(rows: (IRowNode | undefined)[] | null | undefined): string[] {
+    return coerceArray(rows)
+      .map((node) => node?.id as string)
+      .filter(Boolean) as string[];
   }
 }
