@@ -78,6 +78,15 @@
         }
       }
     </span>
-    <span #inlineHelpContainer class="sky-control-help-container"></span>
+    <span #inlineHelpContainer class="sky-control-help-container">
+      @if (params()?.helpPopoverContent) {
+        <sky-help-inline
+          class="sky-control-help"
+          [labelText]="displayName() ?? accessibleHeaderText()"
+          [popoverContent]="params()?.helpPopoverContent"
+          [popoverTitle]="params()?.helpPopoverTitle"
+        />
+      }
+    </span>
   </div>
 </div>

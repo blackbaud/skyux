@@ -30,6 +30,9 @@ export { SkyGetGridOptionsArgs } from './lib/modules/ag-grid/types/sky-grid-opti
 export { SkyAgGridTextProperties } from './lib/modules/ag-grid/types/text-properties';
 export { SkyAgGridValidatorProperties } from './lib/modules/ag-grid/types/validator-properties';
 
+export { SkyAgGridComponent } from './lib/modules/ag-grid/sky-ag-grid/sky-ag-grid.component';
+export { SkyAgGridColumnComponent } from './lib/modules/ag-grid/sky-ag-grid/sky-ag-grid-column.component';
+
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
 export { SkyAgGridDataManagerAdapterDirective as λ14 } from './lib/modules/ag-grid/ag-grid-data-manager-adapter.directive';

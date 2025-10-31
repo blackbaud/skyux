@@ -17,6 +17,7 @@ import {
   SkyDynamicComponentLocation,
   SkyDynamicComponentService,
 } from '@skyux/core';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
@@ -41,7 +42,13 @@ import { SkyAgGridHeaderParams } from '../types/header-params';
     '[attr.aria-label]': 'displayName() || accessibleHeaderText()',
     '[attr.role]': '"note"',
   },
-  imports: [SkyIconModule, SkyThemeModule, AsyncPipe, SkyI18nModule],
+  imports: [
+    AsyncPipe,
+    SkyHelpInlineModule,
+    SkyI18nModule,
+    SkyIconModule,
+    SkyThemeModule,
+  ],
 })
 export class SkyAgGridHeaderComponent
   implements IHeaderAngularComp, OnDestroy, AfterViewInit
@@ -190,7 +197,12 @@ export class SkyAgGridHeaderComponent
       return;
     }
 
-    const inlineHelpComponent = this.params()?.inlineHelpComponent;
+    const params = this.params();
+    const inlineHelpComponent = params?.inlineHelpComponent;
+
+    if (params?.helpPopoverContent) {
+      return;
+    }
 
     if (
       inlineHelpComponent &&
@@ -202,9 +214,9 @@ export class SkyAgGridHeaderComponent
       );
 
       const headerInfo = new SkyAgGridHeaderInfo();
-      headerInfo.column = this.params()?.column;
-      headerInfo.context = this.params()?.context;
-      headerInfo.displayName = this.params()?.displayName;
+      headerInfo.column = params?.column;
+      headerInfo.context = params?.context;
+      headerInfo.displayName = params?.displayName;
 
       this.#inlineHelpComponentRef =
         this.#dynamicComponentService.createComponent(inlineHelpComponent, {

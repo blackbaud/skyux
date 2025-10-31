@@ -45,6 +45,9 @@
         "libs/components/action-bars/testing/src/public-api.ts"
       ],
       "@skyux/ag-grid": ["libs/components/ag-grid/src/index.ts"],
+      "@skyux/ag-grid/testing": [
+        "libs/components/ag-grid/testing/src/public-api.ts"
+      ],
       "@skyux/angular-tree-component": [
         "libs/components/angular-tree-component/src/index.ts"
       ],
