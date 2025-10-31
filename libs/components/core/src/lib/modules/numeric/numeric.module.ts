@@ -5,9 +5,7 @@ import { SkyCoreResourcesModule } from '../shared/sky-core-resources.module';
 import { SkyNumericPipe } from './numeric.pipe';
 
 @NgModule({
-  declarations: [SkyNumericPipe],
-  providers: [SkyNumericPipe],
-  imports: [SkyCoreResourcesModule],
+  imports: [SkyCoreResourcesModule, SkyNumericPipe],
   exports: [SkyNumericPipe],
 })
 export class SkyNumericModule {}

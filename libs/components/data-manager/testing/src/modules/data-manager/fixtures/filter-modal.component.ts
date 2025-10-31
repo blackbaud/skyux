@@ -10,7 +10,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { Filters } from './filters';
 
 @Component({
-  standalone: true,
   selector: 'app-filter-modal',
   templateUrl: './filter-modal.component.html',
   imports: [

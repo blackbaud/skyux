@@ -12,7 +12,6 @@ import { SkyNeedsAttentionItemHarness } from './needs-attention-item-harness';
 
 //#region Test component
 @Component({
-  standalone: true,
   selector: 'sky-needs-attention-test',
   template: ` <sky-needs-attention
     data-sky-id="needs-attention"

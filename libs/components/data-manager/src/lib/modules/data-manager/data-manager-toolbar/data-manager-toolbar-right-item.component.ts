@@ -7,7 +7,6 @@ import { Component } from '@angular/core';
  * `sky-data-manager-toolbar-right-item`. The items render in the order they are in in the template.
  */
 @Component({
-  standalone: true,
   selector: 'sky-data-manager-toolbar-right-item',
   templateUrl: './data-manager-toolbar-right-item.component.html',
 })

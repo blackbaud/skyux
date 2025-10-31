@@ -10,7 +10,6 @@ import { SkyIdService } from './id.service';
 @Directive({
   selector: '[skyId]',
   exportAs: 'skyId',
-  standalone: false,
 })
 export class SkyIdDirective {
   public get id(): string {

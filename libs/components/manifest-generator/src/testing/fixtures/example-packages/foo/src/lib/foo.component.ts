@@ -15,7 +15,6 @@ import {
 @Component({
   imports: [],
   selector: 'lib-foo',
-  standalone: true,
   template: ``,
 })
 export class FooComponent implements OnDestroy {

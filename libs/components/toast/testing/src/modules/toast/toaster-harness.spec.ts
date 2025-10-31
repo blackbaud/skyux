@@ -12,9 +12,8 @@ import {
 import { SkyToasterHarness } from './toaster-harness';
 
 @Component({
-  standalone: true,
   imports: [SkyToastModule],
-  template: ``,
+  template: '',
 })
 class TestComponent {
   public toastSvc = inject(SkyToastService);
@@ -29,7 +28,6 @@ class TestComponent {
 }
 
 @Component({
-  standalone: true,
   template: ` <div>This is a custom component</div> `,
 })
 class CustomComponent {

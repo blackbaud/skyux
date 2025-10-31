@@ -16,7 +16,6 @@ import { SkyLibResourcesService } from './lib-resources.service';
 @Pipe({
   name: 'skyLibResources',
   pure: false,
-  standalone: false,
 })
 export class SkyLibResourcesPipe implements PipeTransform, OnDestroy {
   #ngUnsubscribe = new Subject<void>();

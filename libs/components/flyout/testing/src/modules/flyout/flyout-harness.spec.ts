@@ -12,9 +12,8 @@ import {
 import { SkyFlyoutHarness } from './flyout-harness';
 
 @Component({
-  standalone: true,
   imports: [SkyFlyoutModule],
-  template: ``,
+  template: '',
 })
 class TestComponent {
   public flyoutSvc = inject(SkyFlyoutService);
@@ -41,7 +40,6 @@ class TestComponent {
 }
 
 @Component({
-  standalone: true,
   template: ` <div>This is a custom component</div> `,
 })
 class CustomComponent {}

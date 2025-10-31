@@ -13,7 +13,6 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'sky-summary-action-bar-primary-action',
-  standalone: true,
   styleUrls: ['./summary-action-bar-primary-action.component.scss'],
   templateUrl: './summary-action-bar-primary-action.component.html',
   hostDirectives: [SkyThemeComponentClassDirective],

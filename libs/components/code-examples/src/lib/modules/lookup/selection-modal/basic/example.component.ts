@@ -13,7 +13,6 @@ import { Person } from './person';
  * @title Selection modal with basic setup
  */
 @Component({
-  standalone: true,
   selector: 'app-lookup-selection-modal-basic-example',
   templateUrl: './example.component.html',
 })

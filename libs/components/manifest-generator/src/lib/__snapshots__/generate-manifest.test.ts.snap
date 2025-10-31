@@ -361,7 +361,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts",
         "kind": "component",
         "name": "SkyFooNonStandaloneComponent",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L95",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L94",
         "selector": "sky-foo-non-standalone"
       },
       {
@@ -371,7 +371,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts",
         "kind": "component",
         "name": "SkyFooStandaloneComponent",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L105",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L104",
         "selector": "sky-foo-standalone"
       },
       {
@@ -439,7 +439,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts",
         "kind": "component",
         "name": "FooComponent",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L21",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L20",
         "selector": "lib-foo"
       },
       {
@@ -470,7 +470,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts",
         "kind": "directive",
         "name": "FooDirective",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L27",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L25",
         "selector": "[foo]"
       },
       {
@@ -535,7 +535,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts",
         "kind": "directive",
         "name": "FooWithInputsOutputsDirective",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L33",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L30",
         "selector": "[foo]"
       },
       {
@@ -545,7 +545,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts",
         "kind": "directive",
         "name": "λ2",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L18",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L17",
         "selector": "[fooLambda]"
       },
       {

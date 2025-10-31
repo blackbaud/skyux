@@ -8,7 +8,6 @@ import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
   },
   hostDirectives: [SkyResponsiveHostDirective],
   selector: 'sky-foo-wrapper',
-  standalone: true,
   styles: `
     :host {
       display: block;
@@ -27,7 +26,6 @@ export class λWrapperTestComponent {
     '[class]': '"breakpoint-" + breakpoint()',
   },
   selector: 'sky-foo-child',
-  standalone: true,
   template: '',
 })
 export class λChildTestComponent {
