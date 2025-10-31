@@ -95,6 +95,54 @@ describe('SkyAgGridComponent', () => {
     ).toEqual(0);
   });
 
+  it('should respond to displayedColumns input', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component).toBeTruthy();
+    expect(
+      fixture.debugElement.queryAll(By.directive(SkyAgGridHeaderComponent))
+        .length,
+    ).toEqual(4 * 3 + 2); // 4 grids with 3 columns each, plus 2 extra headers for the multi-select and row delete grid
+
+    fixture.componentRef.setInput('displayedColumns', ['column1', 'column2']);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(
+      fixture.debugElement.queryAll(By.directive(SkyAgGridHeaderComponent))
+        .length,
+    ).toEqual(4 * 2); // 4 grids with 2 columns each
+    expect(component.visibleColumnIds()).toEqual(['column1', 'column2']);
+
+    fixture.componentRef.setInput('displayedColumns', [
+      'column1',
+      'column2',
+      'column3',
+    ]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(
+      fixture.debugElement.queryAll(By.directive(SkyAgGridHeaderComponent))
+        .length,
+    ).toEqual(4 * 3); // 4 grids with 3 columns each
+    expect(component.visibleColumnIds()).toEqual([
+      'column1',
+      'column2',
+      'column3',
+    ]);
+
+    fixture.componentRef.setInput('showAllColumns', false);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(
+      fixture.debugElement.queryAll(By.directive(SkyAgGridHeaderComponent))
+        .length,
+    ).toEqual(0);
+    expect(
+      fixture.debugElement.queryAll(By.directive(SkyAgGridWrapperComponent))
+        .length,
+    ).toEqual(0);
+  });
+
   it('should handle empty data', async () => {
     component.dataForSimpleGrid = undefined;
     fixture.detectChanges();
