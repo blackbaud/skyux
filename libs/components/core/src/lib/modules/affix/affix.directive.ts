@@ -29,7 +29,6 @@ import { SkyAffixer } from './affixer';
  */
 @Directive({
   selector: '[skyAffixTo]',
-  standalone: false,
 })
 export class SkyAffixDirective implements OnInit, OnChanges, OnDestroy {
   /**

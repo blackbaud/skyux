@@ -19,7 +19,6 @@ import { SkyDropdownButtonType } from './types/dropdown-button-type';
  */
 @Directive({
   selector: '[skyDropdownTrigger]',
-  standalone: true,
   host: {
     '[attr.aria-expanded]': 'isOpen()',
     '[attr.aria-controls]': 'isOpen() ? menuId() : null',

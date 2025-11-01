@@ -5,7 +5,6 @@ import { SkyThemeComponentClassDirective } from '../theme-component-class.direct
 @Component({
   selector: 'app-theme-component-class-test',
   templateUrl: './theme-component-class-test.component.html',
-  standalone: true,
   hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyThemeComponentClassTestComponent {}

@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyColorpickerModule } from '@skyux/colorpicker';
+import { SkyFormErrorModule } from '@skyux/forms';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -116,6 +117,7 @@ describe('Colorpicker harness', () => {
       declarations: [TestComponent],
       imports: [
         SkyColorpickerModule,
+        SkyFormErrorModule,
         NoopAnimationsModule,
         FormsModule,
         ReactiveFormsModule,

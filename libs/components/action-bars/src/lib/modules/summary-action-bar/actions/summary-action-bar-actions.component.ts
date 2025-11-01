@@ -6,7 +6,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'sky-summary-action-bar-actions',
-  standalone: true,
   styleUrls: ['./summary-action-bar-actions.component.scss'],
   templateUrl: './summary-action-bar-actions.component.html',
 })

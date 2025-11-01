@@ -17,7 +17,6 @@ const SCREEN_READER_LABELS_CONTAINER_ID = 'sky-screen-reader-labels-container';
  */
 @Directive({
   selector: '[skyScreenReaderLabel]',
-  standalone: true,
 })
 export class SkyScreenReaderLabelDirective implements OnDestroy {
   public ngOnDestroy(): void {

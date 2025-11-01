@@ -1,11 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { SkyAffixDirective } from './affix.directive';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [SkyAffixDirective],
   exports: [SkyAffixDirective],
-  declarations: [SkyAffixDirective],
 })
 export class SkyAffixModule {}

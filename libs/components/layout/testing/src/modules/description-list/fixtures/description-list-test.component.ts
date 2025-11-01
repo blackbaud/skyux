@@ -6,7 +6,6 @@ import {
 } from '@skyux/layout';
 
 @Component({
-  standalone: true,
   selector: 'sky-description-list-fixture',
   templateUrl: './description-list-test.component.html',
   imports: [SkyDescriptionListModule, SkyHelpInlineModule],

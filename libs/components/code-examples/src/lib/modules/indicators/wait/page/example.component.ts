@@ -5,7 +5,6 @@ import { SkyWaitService } from '@skyux/indicators';
  * @title Wait applied to a page
  */
 @Component({
-  standalone: true,
   selector: 'app-indicators-wait-page-example',
   templateUrl: './example.component.html',
 })

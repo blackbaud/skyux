@@ -55,7 +55,6 @@ const SKY_DATEPICKER_VALIDATOR = {
   },
   providers: [SKY_DATEPICKER_VALUE_ACCESSOR, SKY_DATEPICKER_VALIDATOR],
   selector: '[skyDatepickerInput]',
-  standalone: true,
 })
 export class SkyDatepickerInputDirective
   implements

@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 
+import { SkyDatePipeModule } from '../date-pipe.module';
 import { SkyDatePipe } from '../date.pipe';
 
 @Component({
   selector: 'sky-date-pipe-test',
   templateUrl: './date-pipe.component.fixture.html',
-  standalone: false,
+  imports: [SkyDatePipeModule],
+  providers: [SkyDatePipe],
 })
 export class DatePipeTestComponent {
   public dateValue: any = new Date(2000, 0, 1);

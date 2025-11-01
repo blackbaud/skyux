@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 
+import { SkyPercentPipeModule } from '../percent-pipe.module';
 import { SkyPercentPipe } from '../percent.pipe';
 
 @Component({
   selector: 'sky-percent-pipe-test',
   templateUrl: './percent-pipe.component.fixture.html',
-  standalone: false,
+  imports: [SkyPercentPipeModule],
+  providers: [SkyPercentPipe],
 })
 export class PercentPipeTestComponent {
   public format: string | undefined;

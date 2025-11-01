@@ -93,7 +93,6 @@ const people = [
 ];
 
 @Component({
-  standalone: true,
   selector: 'test-paging-harness',
   templateUrl: './paging-harness-test.component.html',
   imports: [

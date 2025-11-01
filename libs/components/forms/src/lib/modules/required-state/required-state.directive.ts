@@ -5,9 +5,7 @@ import { NgControl, Validators } from '@angular/forms';
  * A host directive used to capture the "required" state of the host's form control.
  * @internal
  */
-@Directive({
-  standalone: true,
-})
+@Directive({})
 export class SkyRequiredStateDirective {
   @Input({ transform: booleanAttribute })
   public required = false;
