@@ -234,9 +234,7 @@ export class SkyAgGridComponent<
       fromEvent<SelectionChangedEvent>(api, 'selectionChanged').pipe(
         takeUntil(this.#gridDestroyed),
         map((selection) =>
-          this.#getRowIds(selection.selectedNodes).sort((a, b) =>
-            a.localeCompare(b),
-          ),
+          arraySorted(this.#getRowIds(selection.selectedNodes)),
         ),
         distinctUntilChanged(arrayIsEqual),
       ),
@@ -282,8 +280,8 @@ export class SkyAgGridComponent<
       };
       if (col.field()) {
         colDef.field = col.field();
-      } else if (col.id()) {
-        colDef.colId = col.id();
+      } else if (col.columnId()) {
+        colDef.colId = col.columnId();
       }
       if (col.type() === 'date') {
         (colDef.type as string[]).push(SkyCellType.Date);
@@ -442,8 +440,7 @@ export class SkyAgGridComponent<
   }
 
   #getColumnIdOrField(col: SkyAgGridColumnComponent): string {
-    const id = col.id();
-    /* istanbul ignore next */
+    const id = col.columnId();
     const field = col.field() || '';
     return id || field;
   }

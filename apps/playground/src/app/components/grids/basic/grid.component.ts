@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import {
   SkyGridMessage,
@@ -17,7 +16,7 @@ import { Subject } from 'rxjs';
   selector: 'app-grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss'],
-  imports: [CommonModule, SkyGridModule, SkyPopoverModule, SkyDropdownModule],
+  imports: [SkyGridModule, SkyPopoverModule, SkyDropdownModule],
 })
 export default class GridComponent {
   public asyncPopover: any;
