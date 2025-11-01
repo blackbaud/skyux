@@ -148,15 +148,17 @@
     >
       <ng-template let-row="row">
         <!-- The `ngIf` here was added to verify that templates with Angular controls work when built. -->
-        <sky-dropdown *ngIf="row.id" buttonType="context-menu">
-          <sky-dropdown-menu>
-            <sky-dropdown-item>
-              <button type="button" (click)="deleteItem(row.id)">
-                Delete item
-              </button>
-            </sky-dropdown-item>
-          </sky-dropdown-menu>
-        </sky-dropdown>
+        @if (row.id) {
+          <sky-dropdown buttonType="context-menu">
+            <sky-dropdown-menu>
+              <sky-dropdown-item>
+                <button type="button" (click)="deleteItem(row.id)">
+                  Delete item
+                </button>
+              </sky-dropdown-item>
+            </sky-dropdown-menu>
+          </sky-dropdown>
+        }
       </ng-template>
     </sky-grid-column>
     <sky-grid-column

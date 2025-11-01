@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyAlertModule } from '@skyux/indicators';
 import { SkyListModule, SkyListToolbarModule } from '@skyux/list-builder';
@@ -18,7 +17,6 @@ import { BehaviorSubject, Subject } from 'rxjs';
   standalone: true,
   templateUrl: './list-view-grid.component.html',
   imports: [
-    CommonModule,
     SkyAlertModule,
     SkyDropdownModule,
     SkyListModule,

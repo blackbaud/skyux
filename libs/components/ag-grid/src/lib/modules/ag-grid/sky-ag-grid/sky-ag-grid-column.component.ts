@@ -16,7 +16,7 @@ export class SkyAgGridColumnComponent {
   public readonly description = input<string>();
   public readonly field = input<string>();
   public readonly heading = input<string>();
-  public readonly id = input<string>();
+  public readonly columnId = input<string>();
 
   /**
    * The title of the help popover. This property only applies when `helpPopoverContent` is

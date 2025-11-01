@@ -1,5 +1,5 @@
 <sky-ag-grid [data]="gridData">
-  <sky-ag-grid-column id="context" width="50" [isSortable]="false">
+  <sky-ag-grid-column columnId="context" width="50" [isSortable]="false">
     <ng-template let-row="row"><app-context-menu [row]="row" /></ng-template>
   </sky-ag-grid-column>
   <sky-ag-grid-column field="name" heading="Name" />

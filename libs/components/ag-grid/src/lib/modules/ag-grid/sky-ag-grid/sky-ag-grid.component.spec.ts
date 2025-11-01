@@ -161,6 +161,40 @@ describe('SkyAgGridComponent', () => {
     ).toHaveSize(0);
   });
 
+  it('should handle data changing from populated to undefined', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const api = getGridApi(
+      fixture.nativeElement.querySelector('[data-sky-id="grid"] ag-grid-angular'),
+    );
+    expect(api).toBeTruthy();
+    expect(api?.getDisplayedRowCount()).toBe(7);
+
+    component.dataForSimpleGrid = undefined;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(api?.getDisplayedRowCount()).toBe(0);
+  });
+
+  it('should handle data changing from undefined to populated', async () => {
+    component.dataForSimpleGrid = undefined;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const api = getGridApi(
+      fixture.nativeElement.querySelector('[data-sky-id="grid"] ag-grid-angular'),
+    );
+    expect(api).toBeTruthy();
+    expect(api?.getDisplayedRowCount()).toBe(0);
+
+    component.dataForSimpleGrid = [
+      { id: '1', column1: '1', column2: 'Apple', column3: true },
+      { id: '2', column1: '01', column2: 'Banana', column3: false },
+    ];
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(api?.getDisplayedRowCount()).toBe(2);
+  });
+
   it('should select all rows', async () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
