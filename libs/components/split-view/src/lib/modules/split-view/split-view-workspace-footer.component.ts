@@ -8,7 +8,6 @@ import { SkyResponsiveHostDirective } from '@skyux/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [SkyResponsiveHostDirective],
   selector: 'sky-split-view-workspace-footer',
-  standalone: true,
   styleUrl: './split-view-workspace-footer.component.scss',
   templateUrl: './split-view-workspace-footer.component.html',
 })

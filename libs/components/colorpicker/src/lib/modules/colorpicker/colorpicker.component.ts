@@ -1,3 +1,5 @@
+import { CdkTrapFocus } from '@angular/cdk/a11y';
+import { SlicePipe } from '@angular/common';
 import {
   AfterContentChecked,
   ChangeDetectorRef,
@@ -29,21 +31,31 @@ import {
   SkyAffixService,
   SkyAffixer,
   SkyCoreAdapterService,
+  SkyIdModule,
   SkyIdService,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
+  SkyFormErrorsModule,
+  SkyInputBoxModule,
   SkyRequiredStateDirective,
 } from '@skyux/forms';
-import { SkyThemeService } from '@skyux/theme';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
+import { SkyI18nModule } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 
 import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SkyColorpickerResourcesModule } from '../shared/sky-colorpicker-resources.module';
+
 import { SliderDimension, SliderPosition } from './colorpicker-classes';
 import { SkyColorpickerInputService } from './colorpicker-input.service';
+import { SkyColorpickerSliderDirective } from './colorpicker-slider.directive';
+import { SkyColorpickerTextDirective } from './colorpicker-text.directive';
 import { SkyColorpickerService } from './colorpicker.service';
 import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
 import { SkyColorpickerChangeColor } from './types/colorpicker-color';
@@ -71,7 +83,20 @@ let componentIdIndex = 0;
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
   encapsulation: ViewEncapsulation.None,
-  standalone: false,
+  imports: [
+    SlicePipe,
+    CdkTrapFocus,
+    SkyIdModule,
+    SkyFormErrorsModule,
+    SkyInputBoxModule,
+    SkyHelpInlineModule,
+    SkyI18nModule,
+    SkyIconModule,
+    SkyThemeModule,
+    SkyColorpickerResourcesModule,
+    SkyColorpickerSliderDirective,
+    SkyColorpickerTextDirective,
+  ],
 })
 export class SkyColorpickerComponent
   implements OnInit, OnDestroy, AfterContentChecked

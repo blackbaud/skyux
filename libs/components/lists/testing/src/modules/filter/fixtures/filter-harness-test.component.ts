@@ -18,7 +18,6 @@ interface Fruit {
 }
 
 @Component({
-  standalone: true,
   selector: 'test-filter-harness',
   templateUrl: './filter-harness-test.component.html',
   imports: [

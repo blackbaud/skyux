@@ -11,7 +11,6 @@ interface User {
 }
 
 @Component({
-  standalone: true,
   template: `
     @for (user of users; track user.firstName) {
       <div class="test-item">

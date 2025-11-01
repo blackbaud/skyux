@@ -43,7 +43,6 @@ const SKY_TIMEPICKER_VALIDATOR = {
 @Directive({
   selector: '[skyTimepickerInput]',
   providers: [SKY_TIMEPICKER_VALUE_ACCESSOR, SKY_TIMEPICKER_VALIDATOR],
-  standalone: false,
 })
 export class SkyTimepickerInputDirective
   implements

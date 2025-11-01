@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { SkyIdDirective } from './id.directive';
 
 @NgModule({
-  declarations: [SkyIdDirective],
+  imports: [SkyIdDirective],
   exports: [SkyIdDirective],
 })
 export class SkyIdModule {}

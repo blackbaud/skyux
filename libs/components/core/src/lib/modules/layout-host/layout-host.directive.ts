@@ -18,7 +18,6 @@ const LAYOUT_CLASS_PREFIX = 'sky-layout-host-';
  */
 @Directive({
   selector: '[skyLayoutHost]',
-  standalone: true,
   providers: [SkyLayoutHostService],
 })
 export class SkyLayoutHostDirective<T = 'none' | 'fit'> {

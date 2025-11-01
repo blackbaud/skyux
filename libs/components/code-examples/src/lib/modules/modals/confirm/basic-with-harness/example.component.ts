@@ -11,7 +11,6 @@ import {
  */
 @Component({
   selector: 'app-modals-confirm-basic-with-harness-example',
-  standalone: true,
   templateUrl: './example.component.html',
 })
 export class ModalsConfirmBasicWithHarnessExampleComponent {

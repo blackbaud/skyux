@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -6,6 +7,8 @@ import {
   OnDestroy,
   ViewEncapsulation,
 } from '@angular/core';
+import { SkyI18nModule } from '@skyux/i18n';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyAvatarAdapterService } from './avatar-adapter.service';
 import { SkyAvatarSize } from './avatar-size';
@@ -20,7 +23,7 @@ import { SkyAvatarSrc } from './avatar-src';
   styleUrls: ['./avatar.inner.component.scss'],
   providers: [SkyAvatarAdapterService],
   encapsulation: ViewEncapsulation.None,
-  standalone: false,
+  imports: [NgClass, SkyI18nModule, SkyThemeModule],
 })
 export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
   public get src(): SkyAvatarSrc | undefined {

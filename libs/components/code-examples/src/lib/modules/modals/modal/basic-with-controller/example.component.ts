@@ -15,7 +15,6 @@ import { ModalComponent } from './modal.component';
  */
 @Component({
   selector: 'app-modals-modal-basic-with-controller-example',
-  standalone: true,
   template: `<button
     class="sky-btn sky-btn-default"
     type="button"

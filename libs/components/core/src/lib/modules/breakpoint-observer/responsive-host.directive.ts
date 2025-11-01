@@ -18,7 +18,6 @@ import { provideSkyBreakpointObserver } from './provide-breakpoint-observer';
   exportAs: 'skyResponsiveHost',
   providers: [provideSkyBreakpointObserver(SkyContainerBreakpointObserver)],
   selector: '[skyResponsiveHost]',
-  standalone: true,
 })
 export class SkyResponsiveHostDirective {
   readonly #injector = inject(Injector);

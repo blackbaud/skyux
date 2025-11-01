@@ -2,10 +2,8 @@
   @if (labelText) {
     <label
       class="sky-control-label"
-      [ngClass]="{
-        'sky-screen-reader-only': labelHidden,
-        'sky-control-label-required': requiredState?.isRequired()
-      }"
+      [class.sky-screen-reader-only]="labelHidden"
+      [class.sky-control-label-required]="requiredState?.isRequired()"
       [for]="inputId"
       >{{ labelText }}</label
     >
@@ -24,10 +22,8 @@
 
 <div
   class="sky-colorpicker-input-group sky-input-group"
-  [ngClass]="{
-    'sky-colorpicker-hidden': !isVisible,
-    'sky-colorpicker-disabled': disabled
-  }"
+  [class.sky-colorpicker-hidden]="!isVisible"
+  [class.sky-colorpicker-disabled]="disabled"
 >
   <div [hidden]="true">
     <ng-content />
@@ -56,11 +52,10 @@
         : ('skyux_colorpicker_dropdown_button' | skyLibResources))
     "
     [disabled]="disabled"
-    [ngClass]="{
-      'sky-colorpicker-button-disabled': disabled,
-      'sky-colorpicker-error':
-        (ngControl?.touched || ngControl?.dirty) && ngControl?.errors
-    }"
+    [class.sky-colorpicker-button-disabled]="disabled"
+    [class.sky-colorpicker-error]="
+      (ngControl?.touched || ngControl?.dirty) && ngControl?.errors
+    "
     [style.background-color]="backgroundColorForDisplay"
     (click)="onTriggerButtonClick()"
   >
@@ -86,9 +81,7 @@
         class="sky-colorpicker-button-modern-chevron"
         iconName="chevron-down"
         iconSize="xxs"
-        [ngClass]="{
-          'sky-colorpicker-button-modern-chevron-disabled': disabled
-        }"
+        [class.sky-colorpicker-button-modern-chevron-disabled]="disabled"
       />
     </ng-container>
   </button>
@@ -344,9 +337,7 @@
       type="button"
       [attr.aria-label]="'skyux_colorpicker_reset' | skyLibResources"
       [disabled]="disabled"
-      [ngClass]="{
-        'sky-colorpicker-reset-button-disabled': disabled
-      }"
+      [class.sky-colorpicker-reset-button-disabled]="disabled"
       [skyThemeClass]="{
         'sky-colorpicker-reset-button': 'default',
         'sky-btn sky-btn-icon-borderless sky-colorpicker-reset-button-modern':

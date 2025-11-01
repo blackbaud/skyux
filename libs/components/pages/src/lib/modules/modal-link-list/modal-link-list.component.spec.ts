@@ -14,7 +14,6 @@ import { SkyModalLinkListModule } from './modal-link-list.module';
 class MockComponent {}
 
 @Component({
-  standalone: true,
   template: '',
 })
 class MockStandaloneComponent {}

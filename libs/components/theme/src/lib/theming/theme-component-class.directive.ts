@@ -10,7 +10,6 @@ import { SkyThemeService } from '../theming/theme.service';
 
 @Directive({
   selector: '[skyThemeClass]',
-  standalone: true,
 })
 export class SkyThemeComponentClassDirective {
   @HostBinding('class')

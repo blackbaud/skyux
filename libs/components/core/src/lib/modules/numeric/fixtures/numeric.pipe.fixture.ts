@@ -3,6 +3,8 @@ import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { BehaviorSubject } from 'rxjs';
 
+import { SkyNumericModule } from '../numeric.module';
+
 let providedLocale = 'es';
 const providedLocaleBehaviorSubject = new BehaviorSubject({
   locale: providedLocale,
@@ -19,7 +21,7 @@ class MockLocaleProvider extends SkyAppLocaleProvider {
   selector: 'sky-numeric-pipe-fixture',
   templateUrl: './numeric.pipe.fixture.html',
   providers: [{ provide: SkyAppLocaleProvider, useClass: MockLocaleProvider }],
-  standalone: false,
+  imports: [SkyNumericModule],
 })
 export class NumericPipeFixtureComponent {
   public locale: string | undefined;
