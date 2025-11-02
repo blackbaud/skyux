@@ -61,7 +61,7 @@ import { SkyTileTitleComponent } from './tile-title.component';
 export class SkyTileComponent implements OnChanges, OnDestroy {
   /**
    * A help key that identifies the global help content to display. When specified along with `tileName`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
-   * added to the tile header. Clicking the button invokes global help as configured by the application.
+   * added to the tile header. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help) as configured by the application.
    * This property only applies when `tileName` is also specified.
    */
   @Input()
