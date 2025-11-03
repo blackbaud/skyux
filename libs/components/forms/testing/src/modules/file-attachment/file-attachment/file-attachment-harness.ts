@@ -109,9 +109,7 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
   /**
    * Gets the custom form error.
    */
-  public async getCustomError(
-    errorName: string,
-  ): Promise<SkyFormErrorHarness> {
+  public async getCustomError(errorName: string): Promise<SkyFormErrorHarness> {
     return await this.locatorFor(
       SkyFormErrorHarness.with({ errorName: errorName }),
     )();

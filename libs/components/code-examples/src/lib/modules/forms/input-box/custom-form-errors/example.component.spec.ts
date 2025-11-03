@@ -42,4 +42,22 @@ describe('Input box with custom form errors example', () => {
       inputBoxHarness.hasCustomFormError('invalid'),
     ).toBeResolvedTo(true);
   });
+
+  it('should set custom form error details', async () => {
+    const { fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'input-box-favorite-color',
+    });
+
+    fixture.detectChanges();
+
+    const selectEl = await inputBoxHarness.querySelector('select');
+
+    await selectEl.selectOptions(7);
+
+    const customFormError = await inputBoxHarness.getCustomFormError('invalid');
+
+    await expectAsync(customFormError.getErrorText()).toBeResolvedTo(
+      'The color Invalid Color is not a color',
+    );
+  });
 });

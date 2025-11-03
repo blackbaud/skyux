@@ -55,4 +55,23 @@ describe('Basic colorpicker example', () => {
 
     await expectAsync(harness.hasError('opaque')).toBeResolvedTo(true);
   });
+
+  it('should set custom form error details', async () => {
+    const { harness, fixture } = await setupTest({
+      dataSkyId: 'favorite-color',
+    });
+
+    await harness.clickColorpickerButton();
+    const dropdown = await harness.getColorpickerDropdown();
+
+    await dropdown.setAlphaValue('.2');
+    await dropdown.clickApplyButton();
+    fixture.detectChanges();
+
+    const customFormError = await harness.getCustomError('opaque');
+
+    await expectAsync(customFormError.getErrorText()).toBeResolvedTo(
+      'Color must have at least 80% opacity.',
+    );
+  });
 });

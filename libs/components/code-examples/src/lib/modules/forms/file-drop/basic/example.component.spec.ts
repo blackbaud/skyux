@@ -111,4 +111,29 @@ describe('Basic file drop example', () => {
     expect(formControl.value?.length).toBe(3);
     expect(formControl.valid).toBe(true);
   });
+
+  it('should set custom form error details', async () => {
+    const { harness, formControl } = await setupTest({
+      dataSkyId: 'logo-upload',
+    });
+
+    await harness.loadFiles([
+      new File([], 'validFile1', { type: 'image/png' }),
+      new File([], 'validFile2', { type: 'image/png' }),
+      new File([], 'validFile3', { type: 'image/png' }),
+    ]);
+
+    await harness.enterLinkUploadText('foo.bar');
+    await harness.clickLinkUploadDoneButton();
+
+    expect(formControl.value?.length).toBe(4);
+
+    const customFormError = await harness.getCustomError(
+      'maxNumberOfFilesReached',
+    );
+
+    await expectAsync(customFormError.getErrorText()).toBeResolvedTo(
+      'Do not upload more than 3 files.',
+    );
+  });
 });

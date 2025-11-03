@@ -72,4 +72,21 @@ describe('Basic file attachment example', () => {
       harness.hasCustomError('invalidStartingLetter'),
     ).toBeResolvedTo(true);
   });
+
+  it('should set custom form error details', async () => {
+    const { harness } = await setupTest({
+      dataSkyId: 'birth-certificate',
+    });
+
+    const file = new File([], 'art.png', { type: 'image/png' });
+    await harness.attachFile(file);
+
+    const customFormError = await harness.getCustomError(
+      'invalidStartingLetter',
+    );
+
+    await expectAsync(customFormError.getErrorText()).toBeResolvedTo(
+      "You may not upload a file that begins with the letter 'a'.",
+    );
+  });
 });

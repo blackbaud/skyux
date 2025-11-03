@@ -73,6 +73,20 @@ describe('Basic radio group example', () => {
     await expectAsync(harness.hasError('processingIssue')).toBeResolvedTo(true);
   });
 
+  it('should set custom form error details', async () => {
+    const harness = await setupTest({ dataSkyId: 'radio-group' });
+
+    const radioHarness = (await harness.getRadioButtons())[1];
+
+    await radioHarness.check();
+
+    const customFormError = await harness.getCustomError('processingIssue');
+
+    await expectAsync(customFormError.getErrorText()).toBeResolvedTo(
+      'An error occurred with this payment method. Please contact us to resolve.',
+    );
+  });
+
   it('should show a help popover with the expected text', async () => {
     const harness = await setupTest({
       dataSkyId: 'radio-group',
