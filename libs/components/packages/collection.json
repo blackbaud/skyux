@@ -31,6 +31,11 @@
       "factory": "./src/schematics/ng-generate/convert-progress-indicator-wizard-to-tab-wizard/convert-progress-indicator-wizard-to-tab-wizard.schematic",
       "schema": "./src/schematics/ng-generate/convert-progress-indicator-wizard-to-tab-wizard/schema.json"
     },
+    "list-builder-view-grids-column-migration": {
+      "description": "Migrate List Builder Grids columns away from @skyux/grids.",
+      "factory": "./src/schematics/ng-generate/list-builder-view-grids-column-migration/list-builder-view-grids-column-migration.schematic",
+      "schema": "./src/schematics/ng-generate/list-builder-view-grids-column-migration/schema.json"
+    },
     "remove-compat-stylesheets": {
       "description": "Remove SKY UX compatibility stylesheets.",
       "factory": "./src/schematics/ng-generate/remove-compat-stylesheets/remove-compat-stylesheets.schematic",

@@ -3,8 +3,18 @@
   [name]="gridview"
   [displayedColumns]="displayedColumns"
 >
-  <sky-grid-column field="column1" heading="Column1" [locked]="true" />
-  <sky-grid-column field="column2" heading="Column2" [width]="150">
+  <sky-grid-column
+    field="column1"
+    heading="Column1"
+    [locked]="true"
+    class="legacy"
+  />
+  <sky-grid-column
+    field="column2"
+    heading="Column2"
+    [width]="150"
+    class="legacy"
+  >
     <ng-template let-row="row">{{row.column2}}</ng-template>
   </sky-grid-column>
   <sky-grid-column
@@ -13,16 +23,28 @@
     type="number"
     heading="Column3"
     [template]="template1"
+    class="legacy"
   />
   <sky-grid-column
     field="column4"
     type="date"
     heading="Column4"
     [hidden]="true"
+    class="legacy"
   />
-  <sky-grid-column heading="Column5" [hidden]="true" />
-  <sky-grid-column id="hiddenCol1" field="column1" heading="Column6" />
-  <sky-grid-column id="hiddenCol2" field="column1" heading="Column7" />
+  <sky-grid-column heading="Column5" [hidden]="true" class="legacy" />
+  <sky-grid-column
+    id="hiddenCol1"
+    field="column1"
+    heading="Column6"
+    class="legacy"
+  />
+  <sky-grid-column
+    id="hiddenCol2"
+    field="column1"
+    heading="Column7"
+    class="legacy"
+  />
 </sky-list-view-grid>
 
 <ng-template #template1 let-value="value"> {{value}} </ng-template>

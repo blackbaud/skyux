@@ -22,7 +22,7 @@ export type SwapAttributeCallback<T extends string, U extends string> = (
   content: string,
 ) => string | null;
 
-function isElement(node: unknown): node is ElementWithLocation {
+export function isElement(node: unknown): node is ElementWithLocation {
   return !!node && typeof node === 'object' && 'tagName' in node;
 }
 

@@ -31,10 +31,20 @@ const testItems = [
     <sky-list [data]="items" [defaultView]="grid">
       <sky-list-toolbar> </sky-list-toolbar>
       <sky-list-view-grid fit="scroll" data-sky-id="my-list-view-grid" #grid>
-        <sky-grid-column field="column1" heading="Column 1" [locked]="true">
+        <sky-grid-column
+          field="column1"
+          heading="Column 1"
+          [locked]="true"
+          class="legacy"
+        >
         </sky-grid-column>
-        <sky-grid-column field="column2" heading="Column 2"> </sky-grid-column>
-        <sky-grid-column heading="Link" [template]="linkTemplate">
+        <sky-grid-column field="column2" heading="Column 2" class="legacy">
+        </sky-grid-column>
+        <sky-grid-column
+          heading="Link"
+          [template]="linkTemplate"
+          class="legacy"
+        >
         </sky-grid-column>
       </sky-list-view-grid>
     </sky-list>
