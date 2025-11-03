@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.7.2](https://github.com/blackbaud/skyux/compare/13.7.1...13.7.2) (2025-11-03)
+
+
+### Bug Fixes
+
+* remove incorrect form control class from input box examples ([#4066](https://github.com/blackbaud/skyux/issues/4066)) ([c558e00](https://github.com/blackbaud/skyux/commit/c558e00e169dcc2fe56ef223c9e408970d964b61))
+
+
+
 ## [13.7.1](https://github.com/blackbaud/skyux/compare/13.7.0...13.7.1) (2025-10-31)
 
 
