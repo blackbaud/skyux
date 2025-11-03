@@ -24,6 +24,8 @@ import { ExampleService } from './example.service';
 import { SalesModalComponent } from './sales-modal.component';
 import { ViewGridComponent } from './view-grid.component';
 
+const SOURCE_ID = 'data_grid_data_manager_example_id';
+
 /**
  * @title Data manager setup
  */
@@ -43,6 +45,8 @@ export class AgGridDataGridDataManagerExampleComponent
   implements OnInit, OnDestroy
 {
   protected items = AG_GRID_DEMO_DATA;
+
+  protected recordCount = 0;
 
   protected salesModal = SalesModalComponent;
 
@@ -107,6 +111,13 @@ export class AgGridDataGridDataManagerExampleComponent
       dataManagerConfig: this.#dataManagerConfig,
       defaultDataState: this.#defaultDataState,
     });
+
+    this.#dataManagerSvc
+      .getDataSummaryUpdates(SOURCE_ID)
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((summary) => {
+        this.recordCount = summary.itemsMatching;
+      });
   }
 
   public ngOnDestroy(): void {

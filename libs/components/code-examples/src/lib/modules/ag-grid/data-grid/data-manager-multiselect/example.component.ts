@@ -24,8 +24,10 @@ import { ExampleService } from './example.service';
 import { SalesModalComponent } from './sales-modal.component';
 import { ViewGridComponent } from './view-grid.component';
 
+const SOURCE_ID = 'data_grid_data_manager_multiselect_example_id';
+
 /**
- * @title Data manager setup
+ * @title Data manager setup with multiselect
  */
 @Component({
   selector: 'app-ag-grid-data-grid-data-manager-example',
@@ -44,9 +46,11 @@ export class AgGridDataGridDataManagerMultiselectExampleComponent
 {
   protected items = AG_GRID_DEMO_DATA;
 
+  protected recordCount = 0;
+
   protected salesModal = SalesModalComponent;
 
-  #activeViewId = 'dataGridWithDataManagerView';
+  #activeViewId = 'dataGridMultiselectWithDataManagerView';
 
   #dataManagerConfig = {
     sortOptions: [
@@ -71,8 +75,9 @@ export class AgGridDataGridDataManagerMultiselectExampleComponent
     },
     views: [
       {
-        viewId: 'dataGridWithDataManagerView',
+        viewId: 'dataGridMultiselectWithDataManagerView',
         displayedColumnIds: [
+          'selected',
           'context',
           'name',
           'age',
@@ -107,6 +112,13 @@ export class AgGridDataGridDataManagerMultiselectExampleComponent
       dataManagerConfig: this.#dataManagerConfig,
       defaultDataState: this.#defaultDataState,
     });
+
+    this.#dataManagerSvc
+      .getDataSummaryUpdates(SOURCE_ID)
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((summary) => {
+        this.recordCount = summary.itemsMatching;
+      });
   }
 
   public ngOnDestroy(): void {

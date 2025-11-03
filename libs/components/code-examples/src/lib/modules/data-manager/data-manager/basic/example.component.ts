@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyUIConfigService } from '@skyux/core';
 import {
   SkyDataManagerModule,
@@ -16,6 +22,8 @@ import { ExampleService } from './example.service';
 import { OrangeModalComponent } from './orange-modal.component';
 import { ViewGridComponent } from './view-grid.component';
 import { ViewRepeaterComponent } from './view-repeater.component';
+
+const SOURCE_ID = 'data_manager_example_id';
 
 /**
  * @title Data manager with basic setup
@@ -36,7 +44,9 @@ import { ViewRepeaterComponent } from './view-repeater.component';
 export class DataManagerBasicExampleComponent {
   protected items: DataManagerDemoRow[] = DATA_MANAGER_DEMO_DATA;
   protected readonly orangeModalComponent = OrangeModalComponent;
+  protected recordCount = 0;
 
+  readonly #destroyRef = inject(DestroyRef);
   readonly #dataManagerSvc = inject(SkyDataManagerService);
   readonly #exampleSvc = inject(ExampleService);
 
@@ -82,6 +92,13 @@ export class DataManagerBasicExampleComponent {
         ],
       }),
     });
+
+    this.#dataManagerSvc
+      .getDataSummaryUpdates(SOURCE_ID)
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((summary) => {
+        this.recordCount = summary.itemsMatching;
+      });
   }
 
   public onFruitTypeSearchAsync(

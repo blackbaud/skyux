@@ -16,7 +16,10 @@
       />
     </sky-filter-bar>
     <sky-list-summary>
-      <sky-list-summary-item labelText="Records" [value]="items.length" />
+      <sky-list-summary-item
+        [labelText]="recordCount === 1 ? 'Record' : 'Records'"
+        [value]="recordCount"
+      />
     </sky-list-summary>
   </sky-data-manager-toolbar>
   <app-view-grid [items]="items" />
