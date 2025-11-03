@@ -6,6 +6,7 @@ import {
 } from '@skyux/forms';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
+import { SkyFormErrorHarness } from '../form-error/form-error-harness';
 import { SkyFormErrorsHarness } from '../form-error/form-errors-harness';
 
 import { SkyRadioGroupHarnessFilters } from './radio-group-harness-filters';
@@ -49,6 +50,17 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
    */
   public async clickHelpInline(): Promise<void> {
     await (await this.#getHelpInline()).click();
+  }
+
+  /**
+   * Gets the custom form error.
+   */
+  public async getCustomError(
+    errorName: string,
+  ): Promise<SkyFormErrorHarness | null> {
+    return await this.locatorFor(
+      SkyFormErrorHarness.with({ errorName: errorName }),
+    )();
   }
 
   /**
@@ -184,7 +196,7 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether the radio group has errors.
+   * Whether a form error with the specified name has fired.
    */
   public async hasError(errorName: string): Promise<boolean> {
     return await (await this.#getFormErrors()).hasError(errorName);

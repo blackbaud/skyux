@@ -5,6 +5,7 @@ import { SkyStatusIndicatorHarness } from '@skyux/indicators/testing';
 import { SkyPopoverHarness } from '@skyux/popovers/testing';
 
 import { SkyCharacterCounterIndicatorHarness } from '../character-counter/character-counter-indicator-harness';
+import { SkyFormErrorHarness } from '../form-error/form-error-harness';
 import { SkyFormErrorsHarness } from '../form-error/form-errors-harness';
 
 import { SkyInputBoxHarnessFilters } from './input-box-harness-filters';
@@ -79,7 +80,18 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Whether the custom error is triggered.
+   * Gets the custom form error.
+   */
+  public async getCustomFormError(
+    errorName: string,
+  ): Promise<SkyFormErrorHarness | null> {
+    return await this.locatorFor(
+      SkyFormErrorHarness.with({ errorName: errorName }),
+    )();
+  }
+
+  /**
+   * Whether the custom form error is triggered.
    */
   public async hasCustomFormError(errorName: string): Promise<boolean> {
     return await (await this.#getFormError()).hasError(errorName);

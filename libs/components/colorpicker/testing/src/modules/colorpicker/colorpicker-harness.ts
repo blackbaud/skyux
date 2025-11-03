@@ -1,6 +1,9 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
-import { SkyFormErrorsHarness } from '@skyux/forms/testing';
+import {
+  SkyFormErrorHarness,
+  SkyFormErrorsHarness,
+} from '@skyux/forms/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 import { SkyIconHarness } from '@skyux/icon/testing';
 
@@ -108,6 +111,17 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
    */
   public async getColorpickerIcon(): Promise<SkyIconHarness> {
     return await this.locatorFor(SkyIconHarness)();
+  }
+
+  /**
+   * Gets the custom form error.
+   */
+  public async getCustomError(
+    errorName: string,
+  ): Promise<SkyFormErrorHarness | null> {
+    return await this.locatorFor(
+      SkyFormErrorHarness.with({ errorName: errorName }),
+    )();
   }
 
   /**
