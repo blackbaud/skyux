@@ -27,8 +27,15 @@ import {
   IColumnLimit,
   RowSelectedEvent,
 } from 'ag-grid-community';
-import { Subject, Subscription, fromEvent, of, switchMap } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import {
+  Subject,
+  Subscription,
+  filter,
+  fromEvent,
+  of,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
 
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
 

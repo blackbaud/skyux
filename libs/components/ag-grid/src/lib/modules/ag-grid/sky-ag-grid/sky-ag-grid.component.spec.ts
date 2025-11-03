@@ -165,7 +165,9 @@ describe('SkyAgGridComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     const api = getGridApi(
-      fixture.nativeElement.querySelector('[data-sky-id="grid"] ag-grid-angular'),
+      fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"] ag-grid-angular',
+      ),
     );
     expect(api).toBeTruthy();
     expect(api?.getDisplayedRowCount()).toBe(7);
@@ -181,7 +183,9 @@ describe('SkyAgGridComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     const api = getGridApi(
-      fixture.nativeElement.querySelector('[data-sky-id="grid"] ag-grid-angular'),
+      fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"] ag-grid-angular',
+      ),
     );
     expect(api).toBeTruthy();
     expect(api?.getDisplayedRowCount()).toBe(0);
