@@ -11,7 +11,6 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyGridModule } from '@skyux/grids';
 import {
   ListState,
   ListStateDispatcher,
@@ -23,6 +22,7 @@ import {
 
 import { skip, take } from 'rxjs/operators';
 
+import { SkyGridModule } from '../grid/grid.module';
 import { SkyListViewGridModule } from '../list-view-grid/list-view-grid.module';
 
 import { ListColumnSelectorActionDeprecatedTestComponent } from './fixtures/list-column-selector-action-deprecated.component.fixture';

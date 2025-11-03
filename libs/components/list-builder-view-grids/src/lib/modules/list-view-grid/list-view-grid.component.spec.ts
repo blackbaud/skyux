@@ -9,7 +9,6 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyGridColumnModel, SkyGridComponent } from '@skyux/grids';
 import {
   ListItemsLoadAction,
   ListState,
@@ -20,6 +19,9 @@ import {
 import { ListItemModel } from '@skyux/list-builder-common';
 
 import { skip, take } from 'rxjs/operators';
+
+import { SkyGridColumnModel } from '../grid/grid-column.model';
+import { SkyGridComponent } from '../grid/grid.component';
 
 import { ListViewGridFixturesModule } from './fixtures/list-view-grid-fixtures.module';
 import { ListViewGridFixtureComponent } from './fixtures/list-view-grid.component.fixture';

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SkyGridModule } from '@skyux/grids';
 import { SkyListModule } from '@skyux/list-builder';
 
+import { SkyGridModule } from '../../grid/grid.module';
 import { SkyListViewGridModule } from '../list-view-grid.module';
 
 import { ListViewGridDisplayTestComponent } from './list-view-grid-display.component.fixture';

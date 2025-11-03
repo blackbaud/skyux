@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "properties": {
+    "project-path": {
+      "type": "string",
+      "description": "Project path to apply the migration to.",
+      "$default": {
+        "$source": "workingDirectory"
+      }
+    }
+  }
+}

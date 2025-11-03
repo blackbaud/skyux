@@ -24,6 +24,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_grid_column_picker_submit: { message: 'Apply changes' },
     skyux_grid_columns_button: { message: 'Choose columns' },
     skyux_grid_columns_toolbar_button: { message: 'Columns' },
+    skyux_grid_multiselect_select_row: { message: 'Select row' },
   },
 };
 

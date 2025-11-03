@@ -19,9 +19,15 @@
     [heading]="asyncHeading | async"
     [description]="asyncDescription | async"
     [locked]="true"
+    class="legacy"
   />
 
-  <sky-grid-column field="column2" heading="Column2" [width]="150">
+  <sky-grid-column
+    field="column2"
+    heading="Column2"
+    [width]="150"
+    class="legacy"
+  >
     <ng-template let-row="row"> {{row.column2}} </ng-template>
   </sky-grid-column>
 
@@ -31,18 +37,40 @@
     type="number"
     heading="Column3"
     [template]="template1"
+    class="legacy"
   />
 
-  <sky-grid-column id="column4" type="date" heading="Column4" [hidden]="true" />
+  <sky-grid-column
+    id="column4"
+    type="date"
+    heading="Column4"
+    [hidden]="true"
+    class="legacy"
+  />
 
-  <sky-grid-column id="column5" heading="Column5" [hidden]="true" />
+  <sky-grid-column
+    id="column5"
+    heading="Column5"
+    [hidden]="true"
+    class="legacy"
+  />
 
-  <sky-grid-column field="hiddenCol1" heading="Column6" />
+  <sky-grid-column field="hiddenCol1" heading="Column6" class="legacy" />
 
-  <sky-grid-column id="hiddenCol2" field="column1" heading="Column7" />
+  <sky-grid-column
+    id="hiddenCol2"
+    field="column1"
+    heading="Column7"
+    class="legacy"
+  />
 
   @if (showNgIfCol) {
-  <sky-grid-column id="ngIfCol" field="column1" heading="Column8" />
+  <sky-grid-column
+    id="ngIfCol"
+    field="column1"
+    heading="Column8"
+    class="legacy"
+  />
   }
 </sky-list-view-grid>
 

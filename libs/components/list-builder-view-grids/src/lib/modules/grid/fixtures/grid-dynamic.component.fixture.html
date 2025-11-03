@@ -1,0 +1,9 @@
+<sky-grid class="legacy" [data]="data">
+  @for (gridColumn of gridColumns; track gridColumn) {
+  <sky-grid-column
+    class="legacy"
+    [field]="gridColumn.field"
+    [heading]="gridColumn.heading"
+  />
+  }
+</sky-grid>
