@@ -3,6 +3,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
+import { Contact } from './contact';
+
 /**
  * Cell renderer for contact name links.
  */
@@ -20,11 +22,11 @@ export class ContactLinkCellRendererComponent
 {
   protected value = '';
 
-  public agInit(params: ICellRendererParams): void {
+  public agInit(params: ICellRendererParams<Contact, string>): void {
     this.value = params.value || '';
   }
 
-  public refresh(params: ICellRendererParams): boolean {
+  public refresh(params: ICellRendererParams<Contact, string>): boolean {
     this.value = params.value || '';
     return true;
   }
