@@ -84,7 +84,7 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
    */
   public async getCustomFormError(
     errorName: string,
-  ): Promise<SkyFormErrorHarness | null> {
+  ): Promise<SkyFormErrorHarness> {
     return await this.locatorFor(
       SkyFormErrorHarness.with({ errorName: errorName }),
     )();

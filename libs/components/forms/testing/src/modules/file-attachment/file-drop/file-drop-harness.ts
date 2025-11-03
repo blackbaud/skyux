@@ -73,7 +73,7 @@ export class SkyFileDropHarness extends SkyComponentHarness {
    */
   public async getCustomError(
     errorName: string,
-  ): Promise<SkyFormErrorHarness | null> {
+  ): Promise<SkyFormErrorHarness> {
     return await this.locatorFor(
       SkyFormErrorHarness.with({ errorName: errorName }),
     )();
