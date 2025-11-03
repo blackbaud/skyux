@@ -1,10 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  inject,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyUIConfigService } from '@skyux/core';
 import {
   SkyDataManagerModule,
@@ -16,6 +11,8 @@ import {
   SkyFilterItemLookupSearchAsyncArgs,
 } from '@skyux/filter-bar';
 import { SkyListSummaryModule } from '@skyux/lists';
+
+import { map } from 'rxjs';
 
 import { DATA_MANAGER_DEMO_DATA, DataManagerDemoRow } from './data';
 import { ExampleService } from './example.service';
@@ -44,11 +41,16 @@ const SOURCE_ID = 'data_manager_example_id';
 export class DataManagerBasicExampleComponent {
   protected items: DataManagerDemoRow[] = DATA_MANAGER_DEMO_DATA;
   protected readonly orangeModalComponent = OrangeModalComponent;
-  protected recordCount = 0;
 
-  readonly #destroyRef = inject(DestroyRef);
   readonly #dataManagerSvc = inject(SkyDataManagerService);
   readonly #exampleSvc = inject(ExampleService);
+
+  protected readonly recordCount = toSignal(
+    this.#dataManagerSvc
+      .getDataSummaryUpdates(SOURCE_ID)
+      .pipe(map((summary) => summary.itemsMatching)),
+    { initialValue: 0 },
+  );
 
   constructor() {
     this.#dataManagerSvc.initDataManager({
@@ -92,13 +94,6 @@ export class DataManagerBasicExampleComponent {
         ],
       }),
     });
-
-    this.#dataManagerSvc
-      .getDataSummaryUpdates(SOURCE_ID)
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((summary) => {
-        this.recordCount = summary.itemsMatching;
-      });
   }
 
   public onFruitTypeSearchAsync(

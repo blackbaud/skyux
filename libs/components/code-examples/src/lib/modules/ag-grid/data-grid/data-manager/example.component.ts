@@ -6,6 +6,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
@@ -17,7 +18,7 @@ import {
 } from '@skyux/filter-bar';
 import { SkyListSummaryModule } from '@skyux/lists';
 
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, map, takeUntil } from 'rxjs';
 
 import { AG_GRID_DEMO_DATA } from './data';
 import { ExampleService } from './example.service';
@@ -45,8 +46,6 @@ export class AgGridDataGridDataManagerExampleComponent
   implements OnInit, OnDestroy
 {
   protected items = AG_GRID_DEMO_DATA;
-
-  protected recordCount = 0;
 
   protected salesModal = SalesModalComponent;
 
@@ -95,6 +94,13 @@ export class AgGridDataGridDataManagerExampleComponent
   readonly #dataManagerSvc = inject(SkyDataManagerService);
   readonly #exampleSvc = inject(ExampleService);
 
+  protected readonly recordCount = toSignal(
+    this.#dataManagerSvc
+      .getDataSummaryUpdates(SOURCE_ID)
+      .pipe(map((summary) => summary.itemsMatching)),
+    { initialValue: 0 },
+  );
+
   constructor() {
     this.#dataManagerSvc
       .getActiveViewIdUpdates()
@@ -111,13 +117,6 @@ export class AgGridDataGridDataManagerExampleComponent
       dataManagerConfig: this.#dataManagerConfig,
       defaultDataState: this.#defaultDataState,
     });
-
-    this.#dataManagerSvc
-      .getDataSummaryUpdates(SOURCE_ID)
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((summary) => {
-        this.recordCount = summary.itemsMatching;
-      });
   }
 
   public ngOnDestroy(): void {
