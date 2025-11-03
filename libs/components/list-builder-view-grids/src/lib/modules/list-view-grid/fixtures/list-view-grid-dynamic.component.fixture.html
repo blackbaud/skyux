@@ -2,9 +2,9 @@
   <sky-list-view-grid fit="scroll" [name]="gridview">
     @for (gridColumn of gridColumns; track gridColumn) {
     <sky-grid-column
+      class="legacy"
       [field]="gridColumn.field"
       [heading]="gridColumn.heading"
-      class="legacy"
     />
     }
   </sky-list-view-grid>
