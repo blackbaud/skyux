@@ -16,17 +16,17 @@
 >
   <sky-grid-column
     field="column1"
+    class="legacy"
     [heading]="asyncHeading | async"
     [description]="asyncDescription | async"
     [locked]="true"
-    class="legacy"
   />
 
   <sky-grid-column
     field="column2"
     heading="Column2"
-    [width]="150"
     class="legacy"
+    [width]="150"
   >
     <ng-template let-row="row"> {{row.column2}} </ng-template>
   </sky-grid-column>
@@ -36,23 +36,23 @@
     field="column3"
     type="number"
     heading="Column3"
-    [template]="template1"
     class="legacy"
+    [template]="template1"
   />
 
   <sky-grid-column
     id="column4"
     type="date"
     heading="Column4"
-    [hidden]="true"
     class="legacy"
+    [hidden]="true"
   />
 
   <sky-grid-column
     id="column5"
     heading="Column5"
-    [hidden]="true"
     class="legacy"
+    [hidden]="true"
   />
 
   <sky-grid-column field="hiddenCol1" heading="Column6" class="legacy" />
