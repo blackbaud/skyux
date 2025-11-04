@@ -14,11 +14,11 @@ import {
   AllCommunityModule,
   ColDef,
   GridOptions,
-  ICellRendererParams,
   ModuleRegistry,
 } from 'ag-grid-community';
 
 import { ContactContextMenuComponent } from './contact-context-menu.component';
+import { ContactLinkCellRendererComponent } from './contact-link-cell-renderer.component';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -62,9 +62,7 @@ export class ListPageContactsGridComponent implements OnInit {
       field: 'name',
       headerName: 'Name',
       width: 150,
-      cellRenderer: (params: ICellRendererParams): string => {
-        return `<a href="/">${params.value}</a>`;
-      },
+      cellRenderer: ContactLinkCellRendererComponent,
     },
     {
       colId: 'organization',
