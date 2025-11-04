@@ -1124,6 +1124,45 @@ describe('Repeater item component', () => {
       // Expect the event to have occurred twice.
       expect(isSelectedChangeSpy).toHaveBeenCalledTimes(1);
     }));
+
+    it('should select item when clicking around the content area when there is not another click target', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
+
+      fixture.detectChanges();
+      tick();
+      cmp.selectable = true;
+      fixture.detectChanges();
+
+      const items = getRepeaterItems(el);
+
+      const isSelectedChangeSpy = spyOn(
+        cmp,
+        'onIsSelectedChange',
+      ).and.callThrough();
+
+      const firstItem = items[0];
+      const firstItemTitle = items[0].querySelector('sky-repeater-item-title');
+      const firstItemContent = items[0].querySelector(
+        'sky-repeater-item-content',
+      );
+
+      // Expect first item NOT to be selected.
+      expect(firstItem).not.toHaveCssClass('sky-repeater-item-selected');
+
+      // Clicking the title does not select the item.
+      SkyAppTestUtility.fireDomEvent(firstItemTitle, 'click');
+      fixture.detectChanges();
+      expect(firstItem).not.toHaveCssClass('sky-repeater-item-selected');
+
+      // Clicking the content selects the item.
+      SkyAppTestUtility.fireDomEvent(firstItemContent, 'click');
+      fixture.detectChanges();
+      expect(firstItem).toHaveCssClass('sky-repeater-item-selected');
+      expect(isSelectedChangeSpy).toHaveBeenCalledWith(true);
+      expect(isSelectedChangeSpy).toHaveBeenCalledTimes(1);
+    }));
   });
 
   describe('with active index', () => {

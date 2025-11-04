@@ -475,6 +475,14 @@ export class SkyRepeaterItemComponent
       this.itemHeaderRef?.nativeElement.contains(event.target)
     ) {
       this.#repeaterService.activateItem(this);
+      if (
+        this.selectable &&
+        (event.target as HTMLElement).matches(
+          '.sky-repeater-item, .sky-repeater-item-right, sky-repeater-item-content',
+        )
+      ) {
+        this.isSelected = !this.isSelected;
+      }
     }
   }
 
