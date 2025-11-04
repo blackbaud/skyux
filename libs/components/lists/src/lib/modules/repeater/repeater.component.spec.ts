@@ -1147,12 +1147,19 @@ describe('Repeater item component', () => {
       const firstItemContent = items[0].querySelector(
         'sky-repeater-item-content',
       );
+      const inputField = firstItemContent?.querySelector('#inputField');
+      expect(firstItemTitle && firstItemContent && inputField).toBeTruthy();
 
       // Expect first item NOT to be selected.
       expect(firstItem).not.toHaveCssClass('sky-repeater-item-selected');
 
       // Clicking the title does not select the item.
       SkyAppTestUtility.fireDomEvent(firstItemTitle, 'click');
+      fixture.detectChanges();
+      expect(firstItem).not.toHaveCssClass('sky-repeater-item-selected');
+
+      // Clicking the input does not select the item.
+      SkyAppTestUtility.fireDomEvent(inputField, 'click');
       fixture.detectChanges();
       expect(firstItem).not.toHaveCssClass('sky-repeater-item-selected');
 
