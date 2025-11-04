@@ -1,4 +1,4 @@
-import { SkyGridColumnModel } from '../../../grid/grid-column.model';
+import { SkyGridLegacyColumnModel } from '../../../grid/grid-column.model';
 
 /**
  * @internal
@@ -6,7 +6,7 @@ import { SkyGridColumnModel } from '../../../grid/grid-column.model';
  */
 export class ListViewGridColumnsLoadAction {
   constructor(
-    public columns: SkyGridColumnModel[],
+    public columns: SkyGridLegacyColumnModel[],
     public refresh = false,
   ) {}
 }

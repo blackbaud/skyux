@@ -10,7 +10,7 @@ import {
 
 import { BehaviorSubject, Subject } from 'rxjs';
 
-import { SkyGridSelectedRowsModelChange } from '../../grid/types/grid-selected-rows-model-change';
+import { SkyGridLegacySelectedRowsModelChange } from '../../grid/types/grid-selected-rows-model-change';
 import { SkyListViewGridComponent } from '../list-view-grid.component';
 import { SkyListViewGridMessage } from '../types/list-view-grid-message';
 import { SkyListViewGridMessageType } from '../types/list-view-grid-message-type';
@@ -54,7 +54,7 @@ export class ListViewGridFixtureComponent implements OnInit {
   }
 
   public multiselectSelectionChange(
-    multiselectSelectionChange: SkyGridSelectedRowsModelChange,
+    multiselectSelectionChange: SkyGridLegacySelectedRowsModelChange,
   ) {
     console.log(multiselectSelectionChange);
   }

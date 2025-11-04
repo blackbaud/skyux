@@ -17,7 +17,7 @@ const GRID_MULTISELECT_SELECTOR = '.sky-grid-multiselect-cell';
  * @internal
  */
 @Injectable()
-export class SkyGridAdapterService {
+export class SkyGridLegacyAdapterService {
   private renderer: Renderer2;
 
   constructor(private rendererFactory: RendererFactory2) {

@@ -6,7 +6,7 @@ import { SkyPopoverModule } from '@skyux/popovers';
 
 import { of as observableOf } from 'rxjs';
 
-import { SkyGridModule } from '../grid.module';
+import { SkyGridLegacyModule } from '../grid.module';
 
 import { GridAsyncTestComponent } from './grid-async.component.fixture';
 import { GridDynamicTestComponent } from './grid-dynamic.component.fixture';
@@ -28,7 +28,7 @@ import { GridTestComponent } from './grid.component.fixture';
   ],
   imports: [
     CommonModule,
-    SkyGridModule,
+    SkyGridLegacyModule,
     SkyPopoverModule,
     NoopAnimationsModule,
   ],

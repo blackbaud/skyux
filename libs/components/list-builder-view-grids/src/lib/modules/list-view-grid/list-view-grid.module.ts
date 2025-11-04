@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyWaitModule } from '@skyux/indicators';
 
-import { SkyGridModule } from '../grid/grid.module';
+import { SkyGridLegacyModule } from '../grid/grid.module';
 import { SkyListColumnSelectorActionModule } from '../list-column-selector-action/list-column-selector-action.module';
 import { SkyListBuilderViewGridsResourcesModule } from '../shared/sky-list-builder-view-grids-resources.module';
 
@@ -16,13 +16,13 @@ import { SkyListViewGridComponent } from './list-view-grid.component';
   imports: [
     CommonModule,
     SkyWaitModule,
-    SkyGridModule,
+    SkyGridLegacyModule,
     SkyListBuilderViewGridsResourcesModule,
   ],
   exports: [
     SkyListViewGridComponent,
     SkyListColumnSelectorActionModule,
-    SkyGridModule,
+    SkyGridLegacyModule,
   ],
 })
 export class SkyListViewGridModule {}

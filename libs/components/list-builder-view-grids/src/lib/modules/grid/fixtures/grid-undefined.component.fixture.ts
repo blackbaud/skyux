@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { SkyGridComponent } from '../grid.component';
+import { SkyGridLegacyComponent } from '../grid.component';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -12,8 +12,8 @@ import { SkyGridComponent } from '../grid.component';
   standalone: false,
 })
 export class GridUndefinedTestComponent {
-  @ViewChild(SkyGridComponent)
-  public grid: SkyGridComponent;
+  @ViewChild(SkyGridLegacyComponent)
+  public grid: SkyGridLegacyComponent;
 
   public data: any[] = undefined;
 }

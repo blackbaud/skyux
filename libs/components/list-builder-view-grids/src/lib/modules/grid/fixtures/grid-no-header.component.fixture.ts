@@ -1,7 +1,7 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 
-import { SkyGridColumnModel } from '../grid-column.model';
-import { SkyGridComponent } from '../grid.component';
+import { SkyGridLegacyColumnModel } from '../grid-column.model';
+import { SkyGridLegacyComponent } from '../grid.component';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -9,7 +9,7 @@ import { SkyGridComponent } from '../grid.component';
   standalone: false,
 })
 export class GridNoHeaderTestComponent {
-  public columns: SkyGridColumnModel[];
+  public columns: SkyGridLegacyColumnModel[];
 
   public data: any[] = [
     {
@@ -28,8 +28,8 @@ export class GridNoHeaderTestComponent {
 
   public settingsKey: string;
 
-  @ViewChild(SkyGridComponent)
-  public grid: SkyGridComponent;
+  @ViewChild(SkyGridLegacyComponent)
+  public grid: SkyGridLegacyComponent;
 
   @ViewChild(TemplateRef)
   public template: TemplateRef<unknown>;

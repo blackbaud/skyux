@@ -8,9 +8,9 @@ import {
 } from '@angular/core';
 import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
-import { SkyGridComponent } from '../grid.component';
-import { SkyGridColumnWidthModelChange } from '../types/grid-column-width-model-change';
-import { SkyGridSelectedRowsModelChange } from '../types/grid-selected-rows-model-change';
+import { SkyGridLegacyComponent } from '../grid.component';
+import { SkyGridLegacyColumnWidthModelChange } from '../types/grid-column-width-model-change';
+import { SkyGridLegacySelectedRowsModelChange } from '../types/grid-selected-rows-model-change';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -18,8 +18,8 @@ import { SkyGridSelectedRowsModelChange } from '../types/grid-selected-rows-mode
   standalone: false,
 })
 export class GridInteractiveTestComponent {
-  @ViewChild(SkyGridComponent)
-  public grid: SkyGridComponent;
+  @ViewChild(SkyGridLegacyComponent)
+  public grid: SkyGridLegacyComponent;
 
   @ContentChildren(TemplateRef)
   public templates: QueryList<TemplateRef<unknown>>;
@@ -32,11 +32,11 @@ export class GridInteractiveTestComponent {
   public searchText: string;
   public activeSortSelector: ListSortFieldSelectorModel;
   public sortField: ListSortFieldSelectorModel;
-  public columnWidthsChange: SkyGridColumnWidthModelChange[];
+  public columnWidthsChange: SkyGridLegacyColumnWidthModelChange[];
   public fitType = 'scroll';
   public enableMultiselect = true;
   public multiselectRowId: string;
-  public selectedRowsChange: SkyGridSelectedRowsModelChange;
+  public selectedRowsChange: SkyGridLegacySelectedRowsModelChange;
 
   public selectedColumnIds: string[] = ['column1', 'column2', 'column3'];
 

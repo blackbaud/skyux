@@ -20,8 +20,8 @@ import { ListItemModel } from '@skyux/list-builder-common';
 
 import { skip, take } from 'rxjs/operators';
 
-import { SkyGridColumnModel } from '../grid/grid-column.model';
-import { SkyGridComponent } from '../grid/grid.component';
+import { SkyGridLegacyColumnModel } from '../grid/grid-column.model';
+import { SkyGridLegacyComponent } from '../grid/grid.component';
 
 import { ListViewGridFixturesModule } from './fixtures/list-view-grid-fixtures.module';
 import { ListViewGridFixtureComponent } from './fixtures/list-view-grid.component.fixture';
@@ -455,8 +455,8 @@ describe('List View Grid Component', () => {
           const gridState = new GridState(new GridStateModel(), gridDispatcher);
 
           const columns = [
-            new SkyGridColumnModel(component.viewTemplates.first),
-            new SkyGridColumnModel(component.viewTemplates.first),
+            new SkyGridLegacyColumnModel(component.viewTemplates.first),
+            new SkyGridLegacyColumnModel(component.viewTemplates.first),
           ];
           gridDispatcher.next(new ListViewGridColumnsLoadAction(columns));
           gridState.pipe(take(1)).subscribe((s) => {
@@ -470,8 +470,8 @@ describe('List View Grid Component', () => {
           const gridState = new GridState(new GridStateModel(), gridDispatcher);
 
           const columns = [
-            new SkyGridColumnModel(component.viewTemplates.first),
-            new SkyGridColumnModel(component.viewTemplates.first),
+            new SkyGridLegacyColumnModel(component.viewTemplates.first),
+            new SkyGridLegacyColumnModel(component.viewTemplates.first),
           ];
           gridDispatcher.next(new ListViewGridColumnsLoadAction(columns));
           gridState.pipe(take(1)).subscribe((s) => {
@@ -480,7 +480,7 @@ describe('List View Grid Component', () => {
 
           gridDispatcher.next(
             new ListViewDisplayedGridColumnsLoadAction([
-              new SkyGridColumnModel(component.viewTemplates.first),
+              new SkyGridLegacyColumnModel(component.viewTemplates.first),
             ]),
           );
 
@@ -490,7 +490,7 @@ describe('List View Grid Component', () => {
 
           gridDispatcher.next(
             new ListViewDisplayedGridColumnsLoadAction([
-              new SkyGridColumnModel(component.viewTemplates.first),
+              new SkyGridLegacyColumnModel(component.viewTemplates.first),
             ]),
           );
 
@@ -562,8 +562,9 @@ describe('List View Grid Component', () => {
         tick(110); // wait for async heading
         fixture.detectChanges();
         const inputs = getSelectInputs();
-        const grid = fixture.debugElement.query(By.directive(SkyGridComponent))
-          .context as SkyGridComponent;
+        const grid = fixture.debugElement.query(
+          By.directive(SkyGridLegacyComponent),
+        ).context as SkyGridLegacyComponent;
         const spy = spyOn(dispatcher, 'setSelected').and.callThrough();
 
         grid.selectedRowIds = ['1'];

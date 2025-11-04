@@ -10,10 +10,10 @@ import {
   TemplateRef,
 } from '@angular/core';
 
-import { SkyGridColumnAlignment } from './types/grid-column-alignment';
-import { SkyGridColumnDescriptionModelChange } from './types/grid-column-description-model-change';
-import { SkyGridColumnHeadingModelChange } from './types/grid-column-heading-model-change';
-import { SkyGridColumnInlineHelpPopoverModelChange } from './types/grid-column-inline-help-popover-model-change';
+import { SkyGridLegacyColumnAlignment } from './types/grid-column-alignment';
+import { SkyGridLegacyColumnDescriptionModelChange } from './types/grid-column-description-model-change';
+import { SkyGridLegacyColumnHeadingModelChange } from './types/grid-column-heading-model-change';
+import { SkyGridLegacyColumnInlineHelpPopoverModelChange } from './types/grid-column-inline-help-popover-model-change';
 
 /**
  * Specifies the column information.
@@ -25,14 +25,14 @@ import { SkyGridColumnInlineHelpPopoverModelChange } from './types/grid-column-i
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class SkyGridColumnComponent implements OnChanges {
+export class SkyGridLegacyColumnComponent implements OnChanges {
   /**
    * The horizontal alignment of the column's data and header.
    * Options include: `"left"`, `"center"`, and `"right"`.
    * @default "left"
    */
   @Input()
-  public alignment: SkyGridColumnAlignment = 'left';
+  public alignment: SkyGridLegacyColumnAlignment = 'left';
 
   /**
    * The description for the column.
@@ -136,15 +136,15 @@ export class SkyGridColumnComponent implements OnChanges {
   public descriptionChanges: EventEmitter<string> = new EventEmitter<string>();
 
   public descriptionModelChanges =
-    new EventEmitter<SkyGridColumnDescriptionModelChange>();
+    new EventEmitter<SkyGridLegacyColumnDescriptionModelChange>();
 
   public headingChanges: EventEmitter<string> = new EventEmitter<string>();
 
   public headingModelChanges =
-    new EventEmitter<SkyGridColumnHeadingModelChange>();
+    new EventEmitter<SkyGridLegacyColumnHeadingModelChange>();
 
   public inlineHelpPopoverModelChanges =
-    new EventEmitter<SkyGridColumnInlineHelpPopoverModelChange>();
+    new EventEmitter<SkyGridLegacyColumnInlineHelpPopoverModelChange>();
 
   @ContentChildren(TemplateRef)
   private templates: QueryList<TemplateRef<unknown>>;

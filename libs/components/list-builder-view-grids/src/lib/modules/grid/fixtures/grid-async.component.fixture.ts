@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { SkyGridComponent } from '../grid.component';
+import { SkyGridLegacyComponent } from '../grid.component';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -23,8 +23,8 @@ export class GridAsyncTestComponent implements OnInit {
     { id: 4, name: 'Tornado', email: 'tornado@gmail.com' },
   ];
 
-  @ViewChild(SkyGridComponent)
-  public grid: SkyGridComponent;
+  @ViewChild(SkyGridLegacyComponent)
+  public grid: SkyGridLegacyComponent;
 
   @ViewChild('asyncPopoverRef')
   private popoverTemplate: any;

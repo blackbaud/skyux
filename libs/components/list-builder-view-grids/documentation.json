@@ -14,7 +14,8 @@
           "SkyListColumnSelectorActionComponent",
           "SkyColumnSelectorModule",
           "SkyColumnSelectorContext",
-          "SkyColumnSelectorModel"
+          "SkyColumnSelectorModel",
+          "SkyListModule"
         ],
         "primaryDocsId": "SkyListViewGridModule"
       },

@@ -20,7 +20,7 @@ import { ListItemModel, getData } from '@skyux/list-builder-common';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class SkyGridCellComponent implements OnInit {
+export class SkyGridLegacyCellComponent implements OnInit {
   @Input()
   public item: ListItemModel;
 

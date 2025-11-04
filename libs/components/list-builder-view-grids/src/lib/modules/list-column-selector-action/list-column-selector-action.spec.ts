@@ -22,7 +22,7 @@ import {
 
 import { skip, take } from 'rxjs/operators';
 
-import { SkyGridModule } from '../grid/grid.module';
+import { SkyGridLegacyModule } from '../grid/grid.module';
 import { SkyListViewGridModule } from '../list-view-grid/list-view-grid.module';
 
 import { ListColumnSelectorActionDeprecatedTestComponent } from './fixtures/list-column-selector-action-deprecated.component.fixture';
@@ -96,7 +96,7 @@ describe('List column selector action', () => {
           SkyListModule,
           SkyListToolbarModule,
           SkyListSecondaryActionsModule,
-          SkyGridModule,
+          SkyGridLegacyModule,
           SkyListViewGridModule,
           NoopAnimationsModule,
         ],
@@ -252,7 +252,7 @@ describe('List column selector action', () => {
           SkyListModule,
           SkyListToolbarModule,
           SkyListSecondaryActionsModule,
-          SkyGridModule,
+          SkyGridLegacyModule,
           SkyListViewGridModule,
           NoopAnimationsModule,
         ],
