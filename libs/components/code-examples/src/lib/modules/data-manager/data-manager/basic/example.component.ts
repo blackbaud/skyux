@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyUIConfigService } from '@skyux/core';
 import {
   SkyDataManagerModule,
@@ -11,11 +12,15 @@ import {
 } from '@skyux/filter-bar';
 import { SkyListSummaryModule } from '@skyux/lists';
 
+import { map } from 'rxjs';
+
 import { DATA_MANAGER_DEMO_DATA, DataManagerDemoRow } from './data';
 import { ExampleService } from './example.service';
 import { OrangeModalComponent } from './orange-modal.component';
 import { ViewGridComponent } from './view-grid.component';
 import { ViewRepeaterComponent } from './view-repeater.component';
+
+const SOURCE_ID = 'data_manager_example_id';
 
 /**
  * @title Data manager with basic setup
@@ -39,6 +44,13 @@ export class DataManagerBasicExampleComponent {
 
   readonly #dataManagerSvc = inject(SkyDataManagerService);
   readonly #exampleSvc = inject(ExampleService);
+
+  protected readonly recordCount = toSignal(
+    this.#dataManagerSvc
+      .getDataSummaryUpdates(SOURCE_ID)
+      .pipe(map((summary) => summary.itemsMatching)),
+    { initialValue: 0 },
+  );
 
   constructor() {
     this.#dataManagerSvc.initDataManager({
