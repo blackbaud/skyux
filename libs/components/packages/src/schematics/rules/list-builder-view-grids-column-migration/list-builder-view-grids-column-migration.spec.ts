@@ -58,7 +58,7 @@ describe('List Builder View Grids Column Migration', () => {
     const updatedContent = tree.readText('/src/app/test.component.html');
     expect(updatedContent).toBe(expectedContent);
     expect(scheduleSpy).toHaveBeenCalledWith(
-      new RunSchematicTask('@angular/core', 'cleanup-unused-imports'),
+      new RunSchematicTask('@angular/core', 'cleanup-unused-imports', {}),
     );
   });
 
@@ -107,7 +107,7 @@ export class TestComponent {}
     const updatedContent = tree.readText('/src/app/test.component.ts');
     expect(updatedContent).toBe(expectedContent);
     expect(scheduleSpy).toHaveBeenCalledWith(
-      new RunSchematicTask('@angular/core', 'cleanup-unused-imports'),
+      new RunSchematicTask('@angular/core', 'cleanup-unused-imports', {}),
     );
   });
 });

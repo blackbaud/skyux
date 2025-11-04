@@ -98,7 +98,7 @@ export function listBuilderViewGridColumnMigration(projectPath: string): Rule {
       }
     });
     context.addTask(
-      new RunSchematicTask('@angular/core', 'cleanup-unused-imports'),
+      new RunSchematicTask('@angular/core', 'cleanup-unused-imports', {}),
     );
   };
 }
