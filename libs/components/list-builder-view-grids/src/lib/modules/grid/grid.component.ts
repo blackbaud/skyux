@@ -51,22 +51,22 @@ import {
   takeWhile,
 } from 'rxjs/operators';
 
-import { SkyGridAdapterService } from './grid-adapter.service';
-import { SkyGridColumnComponent } from './grid-column.component';
-import { SkyGridColumnModel } from './grid-column.model';
-import { SkyGridColumnDescriptionModelChange } from './types/grid-column-description-model-change';
-import { SkyGridColumnHeadingModelChange } from './types/grid-column-heading-model-change';
-import { SkyGridColumnInlineHelpPopoverModelChange } from './types/grid-column-inline-help-popover-model-change';
-import { SkyGridColumnWidthModelChange } from './types/grid-column-width-model-change';
-import { SkyGridMessage } from './types/grid-message';
-import { SkyGridMessageType } from './types/grid-message-type';
-import { SkyGridRowDeleteCancelArgs } from './types/grid-row-delete-cancel-args';
-import { SkyGridRowDeleteConfig } from './types/grid-row-delete-config';
-import { SkyGridRowDeleteConfirmArgs } from './types/grid-row-delete-confirm-args';
-import { SkyGridRowDeleteContents } from './types/grid-row-delete-contents';
-import { SkyGridSelectedRowsModelChange } from './types/grid-selected-rows-model-change';
-import { SkyGridSelectedRowsSource } from './types/grid-selected-rows-source';
-import { SkyGridUIConfig } from './types/grid-ui-config';
+import { SkyGridLegacyAdapterService } from './grid-adapter.service';
+import { SkyGridLegacyColumnComponent } from './grid-column.component';
+import { SkyGridLegacyColumnModel } from './grid-column.model';
+import { SkyGridLegacyColumnDescriptionModelChange } from './types/grid-column-description-model-change';
+import { SkyGridLegacyColumnHeadingModelChange } from './types/grid-column-heading-model-change';
+import { SkyGridLegacyColumnInlineHelpPopoverModelChange } from './types/grid-column-inline-help-popover-model-change';
+import { SkyGridLegacyColumnWidthModelChange } from './types/grid-column-width-model-change';
+import { SkyGridLegacyMessage } from './types/grid-message';
+import { SkyGridLegacyMessageType } from './types/grid-message-type';
+import { SkyGridLegacyRowDeleteCancelArgs } from './types/grid-row-delete-cancel-args';
+import { SkyGridLegacyRowDeleteConfig } from './types/grid-row-delete-config';
+import { SkyGridLegacyRowDeleteConfirmArgs } from './types/grid-row-delete-confirm-args';
+import { SkyGridLegacyRowDeleteContents } from './types/grid-row-delete-contents';
+import { SkyGridLegacySelectedRowsModelChange } from './types/grid-selected-rows-model-change';
+import { SkyGridLegacySelectedRowsSource } from './types/grid-selected-rows-source';
+import { SkyGridLegacyUIConfig } from './types/grid-ui-config';
 
 let nextId = 0;
 
@@ -78,18 +78,18 @@ let nextId = 0;
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss'],
   viewProviders: [DragulaService],
-  providers: [SkyGridAdapterService],
+  providers: [SkyGridLegacyAdapterService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class SkyGridComponent
+export class SkyGridLegacyComponent
   implements OnInit, AfterContentInit, AfterViewInit, OnChanges, OnDestroy
 {
   /**
    * Columns and column properties for the grid.
    */
   @Input()
-  public set columns(newColumns: SkyGridColumnModel[]) {
+  public set columns(newColumns: SkyGridLegacyColumnModel[]) {
     const oldColumns = this.columns;
     this._columns = newColumns;
     if (oldColumns) {
@@ -100,7 +100,7 @@ export class SkyGridComponent
     this.changeDetector.markForCheck();
   }
 
-  public get columns(): SkyGridColumnModel[] {
+  public get columns(): SkyGridLegacyColumnModel[] {
     return this._columns;
   }
 
@@ -154,7 +154,7 @@ export class SkyGridComponent
    * The observable to send commands to the grid.
    */
   @Input()
-  public messageStream = new Subject<SkyGridMessage>();
+  public messageStream = new Subject<SkyGridLegacyMessage>();
 
   /**
    * The unique ID that matches a property on the `data` object.
@@ -218,7 +218,9 @@ export class SkyGridComponent
     if (value) {
       this._selectedRowIds = value;
       this.applySelectedRows();
-      this.emitSelectedRows(SkyGridSelectedRowsSource.SelectedRowIdsChange);
+      this.emitSelectedRows(
+        SkyGridLegacySelectedRowsSource.SelectedRowIdsChange,
+      );
     }
   }
 
@@ -257,7 +259,7 @@ export class SkyGridComponent
    */
   @Output()
   public columnWidthChange = new EventEmitter<
-    SkyGridColumnWidthModelChange[]
+    SkyGridLegacyColumnWidthModelChange[]
   >();
 
   /**
@@ -267,19 +269,20 @@ export class SkyGridComponent
    */
   @Output()
   public multiselectSelectionChange =
-    new EventEmitter<SkyGridSelectedRowsModelChange>();
+    new EventEmitter<SkyGridLegacySelectedRowsModelChange>();
 
   /**
    * @internal
    */
   @Output()
-  public rowDeleteCancel = new EventEmitter<SkyGridRowDeleteCancelArgs>();
+  public rowDeleteCancel = new EventEmitter<SkyGridLegacyRowDeleteCancelArgs>();
 
   /**
    * @internal
    */
   @Output()
-  public rowDeleteConfirm = new EventEmitter<SkyGridRowDeleteConfirmArgs>();
+  public rowDeleteConfirm =
+    new EventEmitter<SkyGridLegacyRowDeleteConfirmArgs>();
 
   /**
    * Fires when the columns to display in the grid change or when the order of the columns changes.
@@ -296,10 +299,10 @@ export class SkyGridComponent
 
   public columnResizeStep = 10;
   public currentSortField: BehaviorSubject<ListSortFieldSelectorModel>;
-  public displayedColumns: SkyGridColumnModel[];
+  public displayedColumns: SkyGridLegacyColumnModel[];
   public dragulaGroupName: string;
   public gridId: number = ++nextId;
-  public rowDeleteConfigs: SkyGridRowDeleteConfig[] = [];
+  public rowDeleteConfigs: SkyGridLegacyRowDeleteConfig[] = [];
   public items: any[];
   public maxColWidth = 9999; // This is an arbitrary number, as the input range picker won't work without a value.
   public minColWidth = 50;
@@ -310,8 +313,8 @@ export class SkyGridComponent
     return this.tableElementRef.nativeElement.offsetWidth;
   }
 
-  @ContentChildren(SkyGridColumnComponent)
-  private columnComponents: QueryList<SkyGridColumnComponent>;
+  @ContentChildren(SkyGridLegacyColumnComponent)
+  private columnComponents: QueryList<SkyGridLegacyColumnComponent>;
 
   @ViewChildren('gridCol')
   private columnElementRefs: QueryList<ElementRef>;
@@ -334,14 +337,15 @@ export class SkyGridComponent
   private isDraggingResizeHandle = false;
   private isResized = false;
   private ngUnsubscribe = new Subject<void>();
-  private rowDeleteContents: Record<string, SkyGridRowDeleteContents> = {};
+  private rowDeleteContents: Record<string, SkyGridLegacyRowDeleteContents> =
+    {};
   private startColumnWidth: number;
   private subscriptions: Subscription[] = [];
   private scrollTriggered = false;
   private selectedColumnIdsSet = false;
   private xPosStart: number;
 
-  private _columns: SkyGridColumnModel[];
+  private _columns: SkyGridLegacyColumnModel[];
   private _selectedColumnIds: string[];
   private _selectedRowIds: string[];
 
@@ -351,7 +355,7 @@ export class SkyGridComponent
     private affixService: SkyAffixService,
     private changeDetector: ChangeDetectorRef,
     private dragulaService: DragulaService,
-    private gridAdapter: SkyGridAdapterService,
+    private gridAdapter: SkyGridLegacyAdapterService,
     private overlayService: SkyOverlayService,
     private skyWindow: SkyAppWindowRef,
     private uiConfigService: SkyUIConfigService,
@@ -363,7 +367,7 @@ export class SkyGridComponent
       replacementRecommendation: 'Use data grid instead.',
     });
 
-    this.displayedColumns = new Array<SkyGridColumnModel>();
+    this.displayedColumns = new Array<SkyGridLegacyColumnModel>();
     this.items = new Array<any>();
     this.currentSortField = new BehaviorSubject<ListSortFieldSelectorModel>({
       fieldSelector: '',
@@ -375,7 +379,7 @@ export class SkyGridComponent
   public ngOnInit(): void {
     this.messageStream
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((message: SkyGridMessage) => {
+      .subscribe((message: SkyGridLegacyMessage) => {
         this.handleIncomingMessages(message);
       });
   }
@@ -491,7 +495,7 @@ export class SkyGridComponent
     return this.addDelimiter(classNames, ' ');
   }
 
-  public getTableHeaderClassNames(column: SkyGridColumnModel): string {
+  public getTableHeaderClassNames(column: SkyGridLegacyColumnModel): string {
     const classNames: string[] = [];
 
     if (column && column.locked) {
@@ -501,7 +505,7 @@ export class SkyGridComponent
     return this.addDelimiter(classNames, ' ');
   }
 
-  public getCaretIconNames(column: SkyGridColumnModel): string {
+  public getCaretIconNames(column: SkyGridLegacyColumnModel): string {
     const iconNames: string[] = [];
 
     this.getSortDirection(column.field).subscribe((sortDir) => {
@@ -516,14 +520,17 @@ export class SkyGridComponent
     return this.addDelimiter(iconNames, ' ');
   }
 
-  public onKeydown(event: KeyboardEvent, column: SkyGridColumnModel): void {
+  public onKeydown(
+    event: KeyboardEvent,
+    column: SkyGridLegacyColumnModel,
+  ): void {
     const key = event.key.toLowerCase();
     if (key === 'enter' || key === ' ') {
       this.sortByColumn(column);
     }
   }
 
-  public sortByColumn(column: SkyGridColumnModel): void {
+  public sortByColumn(column: SkyGridLegacyColumnModel): void {
     if (!this.isDraggingResizeHandle && column.isSortable) {
       this.currentSortField
         .pipe(
@@ -565,7 +572,9 @@ export class SkyGridComponent
     );
   }
 
-  public getAriaSortDirection(column: SkyGridColumnModel): Observable<string> {
+  public getAriaSortDirection(
+    column: SkyGridLegacyColumnModel,
+  ): Observable<string> {
     return this.currentSortField.pipe(
       distinctUntilChanged(),
       map((field) => {
@@ -598,16 +607,20 @@ export class SkyGridComponent
   }
 
   public onMultiselectCheckboxChange(): void {
-    this.emitSelectedRows(SkyGridSelectedRowsSource.CheckboxChange);
+    this.emitSelectedRows(SkyGridLegacySelectedRowsSource.CheckboxChange);
   }
 
-  public updateColumnHeading(change: SkyGridColumnHeadingModelChange): void {
-    const foundColumnModel = this.columns.find((column: SkyGridColumnModel) => {
-      return (
-        (change.id !== undefined && change.id === column.id) ||
-        (change.field !== undefined && change.field === column.field)
-      );
-    });
+  public updateColumnHeading(
+    change: SkyGridLegacyColumnHeadingModelChange,
+  ): void {
+    const foundColumnModel = this.columns.find(
+      (column: SkyGridLegacyColumnModel) => {
+        return (
+          (change.id !== undefined && change.id === column.id) ||
+          (change.field !== undefined && change.field === column.field)
+        );
+      },
+    );
 
     /* istanbul ignore else */
     if (foundColumnModel) {
@@ -617,14 +630,16 @@ export class SkyGridComponent
   }
 
   public updateInlineHelpPopover(
-    change: SkyGridColumnInlineHelpPopoverModelChange,
+    change: SkyGridLegacyColumnInlineHelpPopoverModelChange,
   ): void {
-    const foundColumnModel = this.columns.find((column: SkyGridColumnModel) => {
-      return (
-        (change.id !== undefined && change.id === column.id) ||
-        (change.field !== undefined && change.field === column.field)
-      );
-    });
+    const foundColumnModel = this.columns.find(
+      (column: SkyGridLegacyColumnModel) => {
+        return (
+          (change.id !== undefined && change.id === column.id) ||
+          (change.field !== undefined && change.field === column.field)
+        );
+      },
+    );
 
     /* istanbul ignore else */
     if (foundColumnModel) {
@@ -634,14 +649,16 @@ export class SkyGridComponent
   }
 
   public updateColumnDescription(
-    change: SkyGridColumnDescriptionModelChange,
+    change: SkyGridLegacyColumnDescriptionModelChange,
   ): void {
-    const foundColumnModel = this.columns.find((column: SkyGridColumnModel) => {
-      return (
-        (change.id !== undefined && change.id === column.id) ||
-        (change.field !== undefined && change.field === column.field)
-      );
-    });
+    const foundColumnModel = this.columns.find(
+      (column: SkyGridLegacyColumnModel) => {
+        return (
+          (change.id !== undefined && change.id === column.id) ||
+          (change.field !== undefined && change.field === column.field)
+        );
+      },
+    );
 
     /* istanbul ignore else */
     if (foundColumnModel) {
@@ -772,7 +789,7 @@ export class SkyGridComponent
       ) {
         selectedItem.isSelected = !selectedItem.isSelected;
         this.changeDetector.markForCheck();
-        this.emitSelectedRows(SkyGridSelectedRowsSource.RowClick);
+        this.emitSelectedRows(SkyGridLegacySelectedRowsSource.RowClick);
       }
     }
   }
@@ -802,7 +819,7 @@ export class SkyGridComponent
     this.rowDeleteConfirm.emit({ id: id });
   }
 
-  public getRowDeleteItem(id: string): SkyGridRowDeleteConfig {
+  public getRowDeleteItem(id: string): SkyGridLegacyRowDeleteConfig {
     return this.rowDeleteConfigs.find((rowDelete) => rowDelete.id === id);
   }
 
@@ -874,7 +891,7 @@ export class SkyGridComponent
       item.isSelected = true;
     }
     this.changeDetector.markForCheck();
-    this.emitSelectedRows(SkyGridSelectedRowsSource.SelectAll);
+    this.emitSelectedRows(SkyGridLegacySelectedRowsSource.SelectAll);
   }
 
   private multiselectClearAll(): void {
@@ -882,19 +899,19 @@ export class SkyGridComponent
       item.isSelected = false;
     }
     this.changeDetector.markForCheck();
-    this.emitSelectedRows(SkyGridSelectedRowsSource.ClearAll);
+    this.emitSelectedRows(SkyGridLegacySelectedRowsSource.ClearAll);
   }
 
-  private handleIncomingMessages(message: SkyGridMessage): void {
+  private handleIncomingMessages(message: SkyGridLegacyMessage): void {
     switch (message.type) {
-      case SkyGridMessageType.SelectAll:
+      case SkyGridLegacyMessageType.SelectAll:
         this.multiselectSelectAll();
         break;
 
-      case SkyGridMessageType.ClearAll:
+      case SkyGridLegacyMessageType.ClearAll:
         this.multiselectClearAll();
         break;
-      case SkyGridMessageType.PromptDeleteRow:
+      case SkyGridLegacyMessageType.PromptDeleteRow:
         /* sanity check */
         /* istanbul ignore else */
         if (message.data && message.data.promptDeleteRow) {
@@ -964,7 +981,7 @@ export class SkyGridComponent
           }
         }
         break;
-      case SkyGridMessageType.AbortDeleteRow:
+      case SkyGridLegacyMessageType.AbortDeleteRow:
         /* sanity check */
         /* istanbul ignore else */
         if (message.data && message.data.abortDeleteRow) {
@@ -1059,7 +1076,10 @@ export class SkyGridComponent
 
   private getColumnsFromComponent(): void {
     this.columns = this.columnComponents.map((columnComponent) => {
-      return new SkyGridColumnModel(columnComponent.template, columnComponent);
+      return new SkyGridLegacyColumnModel(
+        columnComponent.template,
+        columnComponent,
+      );
     });
   }
 
@@ -1144,8 +1164,8 @@ export class SkyGridComponent
   }
 
   private transferColumnWidths(
-    oldColumns: SkyGridColumnModel[],
-    newColumns: SkyGridColumnModel[],
+    oldColumns: SkyGridLegacyColumnModel[],
+    newColumns: SkyGridLegacyColumnModel[],
   ): void {
     /* sanity check */
     /* istanbul ignore else */
@@ -1164,8 +1184,9 @@ export class SkyGridComponent
     this.changeDetector.markForCheck();
   }
 
-  private getColumnWidthModelChange(): SkyGridColumnWidthModelChange[] {
-    const columnWidthModelChange = new Array<SkyGridColumnWidthModelChange>();
+  private getColumnWidthModelChange(): SkyGridLegacyColumnWidthModelChange[] {
+    const columnWidthModelChange =
+      new Array<SkyGridLegacyColumnWidthModelChange>();
     this.columns.forEach((column) => {
       columnWidthModelChange.push({
         id: column.id,
@@ -1214,7 +1235,9 @@ export class SkyGridComponent
     );
   }
 
-  private getColumnModelByIndex(index: string | number): SkyGridColumnModel {
+  private getColumnModelByIndex(
+    index: string | number,
+  ): SkyGridLegacyColumnModel {
     return this.displayedColumns[Number(index)];
   }
 
@@ -1228,7 +1251,7 @@ export class SkyGridComponent
     return Number(rangeInput.max);
   }
 
-  private getLastDisplayedColumn(): SkyGridColumnModel {
+  private getLastDisplayedColumn(): SkyGridLegacyColumnModel {
     return this.getColumnModelByIndex(this.displayedColumns.length - 1);
   }
 
@@ -1246,8 +1269,8 @@ export class SkyGridComponent
     }
   }
 
-  private emitSelectedRows(source: SkyGridSelectedRowsSource): void {
-    const selectedRows: SkyGridSelectedRowsModelChange = {
+  private emitSelectedRows(source: SkyGridLegacySelectedRowsSource): void {
+    const selectedRows: SkyGridLegacySelectedRowsModelChange = {
       selectedRowIds: this.getSelectedRows(),
       source: source,
     };
@@ -1301,7 +1324,7 @@ export class SkyGridComponent
         .getConfig(this.settingsKey)
         .pipe(take(1))
         .subscribe(
-          (config: SkyGridUIConfig) => {
+          (config: SkyGridLegacyUIConfig) => {
             /* istanbul ignore else */
             if (config && config.selectedColumnIds) {
               // Remove any columnIds that don't exist in the current data set.
@@ -1320,7 +1343,7 @@ export class SkyGridComponent
     });
   }
 
-  private setUserConfig(config: SkyGridUIConfig): void {
+  private setUserConfig(config: SkyGridLegacyUIConfig): void {
     if (!this.settingsKey) {
       return;
     }
@@ -1358,24 +1381,24 @@ export class SkyGridComponent
     );
 
     // Watch for column heading changes:
-    this.columnComponents.forEach((comp: SkyGridColumnComponent) => {
+    this.columnComponents.forEach((comp: SkyGridLegacyColumnComponent) => {
       this.subscriptions.push(
         comp.headingModelChanges.subscribe(
-          (change: SkyGridColumnHeadingModelChange) => {
+          (change: SkyGridLegacyColumnHeadingModelChange) => {
             this.updateColumnHeading(change);
           },
         ),
       );
       this.subscriptions.push(
         comp.descriptionModelChanges.subscribe(
-          (change: SkyGridColumnDescriptionModelChange) => {
+          (change: SkyGridLegacyColumnDescriptionModelChange) => {
             this.updateColumnDescription(change);
           },
         ),
       );
       this.subscriptions.push(
         comp.inlineHelpPopoverModelChanges.subscribe(
-          (change: SkyGridColumnInlineHelpPopoverModelChange) => {
+          (change: SkyGridLegacyColumnInlineHelpPopoverModelChange) => {
             this.updateInlineHelpPopover(change);
           },
         ),

@@ -10,14 +10,14 @@ import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
 import { Subject } from 'rxjs';
 
-import { SkyGridComponent } from '../grid.component';
-import { SkyGridColumnWidthModelChange } from '../types/grid-column-width-model-change';
-import { SkyGridMessage } from '../types/grid-message';
-import { SkyGridMessageType } from '../types/grid-message-type';
-import { SkyGridRowDeleteCancelArgs } from '../types/grid-row-delete-cancel-args';
-import { SkyGridRowDeleteConfig } from '../types/grid-row-delete-config';
-import { SkyGridRowDeleteConfirmArgs } from '../types/grid-row-delete-confirm-args';
-import { SkyGridSelectedRowsModelChange } from '../types/grid-selected-rows-model-change';
+import { SkyGridLegacyComponent } from '../grid.component';
+import { SkyGridLegacyColumnWidthModelChange } from '../types/grid-column-width-model-change';
+import { SkyGridLegacyMessage } from '../types/grid-message';
+import { SkyGridLegacyMessageType } from '../types/grid-message-type';
+import { SkyGridLegacyRowDeleteCancelArgs } from '../types/grid-row-delete-cancel-args';
+import { SkyGridLegacyRowDeleteConfig } from '../types/grid-row-delete-config';
+import { SkyGridLegacyRowDeleteConfirmArgs } from '../types/grid-row-delete-confirm-args';
+import { SkyGridLegacySelectedRowsModelChange } from '../types/grid-selected-rows-model-change';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -29,7 +29,7 @@ export class GridTestComponent {
 
   public allColumnWidth: number;
 
-  public columnWidthsChange: SkyGridColumnWidthModelChange[];
+  public columnWidthsChange: SkyGridLegacyColumnWidthModelChange[];
 
   public data: any[] = [
     {
@@ -98,11 +98,11 @@ export class GridTestComponent {
 
   public fitType = 'scroll';
 
-  public gridController = new Subject<SkyGridMessage>();
+  public gridController = new Subject<SkyGridLegacyMessage>();
 
   public hasToolbar = false;
 
-  public rowDeleteConfigs: SkyGridRowDeleteConfig[] = [];
+  public rowDeleteConfigs: SkyGridLegacyRowDeleteConfig[] = [];
 
   public multiselectRowId: string;
 
@@ -112,7 +112,7 @@ export class GridTestComponent {
 
   public searchText: string;
 
-  public selectedRowsChange: SkyGridSelectedRowsModelChange;
+  public selectedRowsChange: SkyGridLegacySelectedRowsModelChange;
 
   public selectedRowIds: string[];
 
@@ -146,8 +146,8 @@ export class GridTestComponent {
     'column5',
   ];
 
-  @ViewChild(SkyGridComponent)
-  public grid: SkyGridComponent;
+  @ViewChild(SkyGridLegacyComponent)
+  public grid: SkyGridLegacyComponent;
 
   @ContentChildren(TemplateRef)
   public templates: QueryList<TemplateRef<unknown>>;
@@ -192,12 +192,12 @@ export class GridTestComponent {
       .slice();
   }
 
-  public onResize(columnWidths: SkyGridColumnWidthModelChange[]): void {
+  public onResize(columnWidths: SkyGridLegacyColumnWidthModelChange[]): void {
     this.columnWidthsChange = columnWidths;
   }
 
   public onMultiselectChange(
-    selectedRows: SkyGridSelectedRowsModelChange,
+    selectedRows: SkyGridLegacySelectedRowsModelChange,
   ): void {
     this.selectedRowsChange = selectedRows;
   }
@@ -265,15 +265,15 @@ export class GridTestComponent {
     }
   }
 
-  public cancelRowDelete(cancelArgs: SkyGridRowDeleteCancelArgs): void {
+  public cancelRowDelete(cancelArgs: SkyGridLegacyRowDeleteCancelArgs): void {
     return;
   }
 
   public cancelRowDeleteViaMessageStream(
-    cancelArgs: SkyGridRowDeleteCancelArgs,
+    cancelArgs: SkyGridLegacyRowDeleteCancelArgs,
   ): void {
     this.gridController.next({
-      type: SkyGridMessageType.AbortDeleteRow,
+      type: SkyGridLegacyMessageType.AbortDeleteRow,
       data: {
         abortDeleteRow: {
           id: cancelArgs.id,
@@ -284,7 +284,7 @@ export class GridTestComponent {
 
   public deleteItem(id: string): void {
     this.gridController.next({
-      type: SkyGridMessageType.PromptDeleteRow,
+      type: SkyGridLegacyMessageType.PromptDeleteRow,
       data: {
         promptDeleteRow: {
           id: id,
@@ -293,7 +293,7 @@ export class GridTestComponent {
     });
   }
 
-  public finishRowDelete(confirmArgs: SkyGridRowDeleteConfirmArgs): void {
+  public finishRowDelete(confirmArgs: SkyGridLegacyRowDeleteConfirmArgs): void {
     return;
   }
 

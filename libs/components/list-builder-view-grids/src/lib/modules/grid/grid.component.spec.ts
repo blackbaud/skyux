@@ -21,12 +21,12 @@ import { GridNoHeaderTestComponent } from './fixtures/grid-no-header.component.f
 import { GridUndefinedTestComponent } from './fixtures/grid-undefined.component.fixture';
 import { GridTestComponent } from './fixtures/grid.component.fixture';
 import { MockDragulaService } from './fixtures/mock-dragula.service';
-import { SkyGridColumnModel } from './grid-column.model';
-import { SkyGridComponent } from './grid.component';
-import { SkyGridMessage } from './types/grid-message';
-import { SkyGridMessageType } from './types/grid-message-type';
-import { SkyGridSelectedRowsModelChange } from './types/grid-selected-rows-model-change';
-import { SkyGridSelectedRowsSource } from './types/grid-selected-rows-source';
+import { SkyGridLegacyColumnModel } from './grid-column.model';
+import { SkyGridLegacyComponent } from './grid.component';
+import { SkyGridLegacyMessage } from './types/grid-message';
+import { SkyGridLegacyMessageType } from './types/grid-message-type';
+import { SkyGridLegacySelectedRowsModelChange } from './types/grid-selected-rows-model-change';
+import { SkyGridLegacySelectedRowsSource } from './types/grid-selected-rows-source';
 
 //#region helpers
 function getColumnHeader(id: string, element: DebugElement): DebugElement {
@@ -281,7 +281,7 @@ const minColWidth = '50';
 const maxColWidth = '9999';
 //#endregion
 
-describe('Grid Component', () => {
+describe('Grid Component (Legacy)', () => {
   describe('Basic fixture with undefined data', () => {
     let component: GridUndefinedTestComponent,
       fixture: ComponentFixture<GridUndefinedTestComponent>;
@@ -835,7 +835,9 @@ describe('Grid Component', () => {
 
       describe('Models and State', () => {
         it('should construct ListViewGridColumnModel without data', () => {
-          const model = new SkyGridColumnModel(component.viewTemplates.first);
+          const model = new SkyGridLegacyColumnModel(
+            component.viewTemplates.first,
+          );
           expect(model.template).not.toBeUndefined();
           expect(model.field).toBeUndefined();
           expect(model.heading).toBeUndefined();
@@ -1893,9 +1895,9 @@ describe('Grid Component', () => {
         // Expect the emitter to send us 1,2,5.
         // Values should match the row value of the consumer-provided key in 'multiselectRowId'.
         // In this example, 'id'.
-        const expectedRows: SkyGridSelectedRowsModelChange = {
+        const expectedRows: SkyGridLegacySelectedRowsModelChange = {
           selectedRowIds: ['1', '2', '5'],
-          source: SkyGridSelectedRowsSource.CheckboxChange,
+          source: SkyGridLegacySelectedRowsSource.CheckboxChange,
         };
         expect(component.selectedRowsChange).toEqual(expectedRows);
       }));
@@ -1919,9 +1921,9 @@ describe('Grid Component', () => {
         // Expect the emitter to send us 1,2,5.
         // Values should match the row value of the consumer-provided key in 'multiselectRowId'.
         // In this example, 'id'.
-        const expectedRows: SkyGridSelectedRowsModelChange = {
+        const expectedRows: SkyGridLegacySelectedRowsModelChange = {
           selectedRowIds: ['1', '2', '5'],
-          source: SkyGridSelectedRowsSource.RowClick,
+          source: SkyGridLegacySelectedRowsSource.RowClick,
         };
         expect(component.selectedRowsChange).toEqual(expectedRows);
       });
@@ -1951,9 +1953,9 @@ describe('Grid Component', () => {
         // Expect the emitter to send us 1,2,5.
         // Values should match the row value of the consumer-provided key in 'multiselectRowId'.
         // In this example, 'customId'.
-        const expectedRows: SkyGridSelectedRowsModelChange = {
+        const expectedRows: SkyGridLegacySelectedRowsModelChange = {
           selectedRowIds: ['101', '102', '105'],
-          source: SkyGridSelectedRowsSource.CheckboxChange,
+          source: SkyGridLegacySelectedRowsSource.CheckboxChange,
         };
         expect(component.selectedRowsChange).toEqual(expectedRows);
       }));
@@ -1983,9 +1985,9 @@ describe('Grid Component', () => {
         // Expect the emitter to send us 1,2,5.
         // Values should match the row value of the consumer-provided key in 'multiselectRowId'.
         // In this example, there is no match so it should fall back to the 'id' property.
-        const expectedRows: SkyGridSelectedRowsModelChange = {
+        const expectedRows: SkyGridLegacySelectedRowsModelChange = {
           selectedRowIds: ['1', '2', '5'],
-          source: SkyGridSelectedRowsSource.CheckboxChange,
+          source: SkyGridLegacySelectedRowsSource.CheckboxChange,
         };
         expect(component.selectedRowsChange).toEqual(expectedRows);
       }));
@@ -2045,8 +2047,8 @@ describe('Grid Component', () => {
         );
 
         // Select all.
-        const selectAllMessage: SkyGridMessage = {
-          type: SkyGridMessageType.SelectAll,
+        const selectAllMessage: SkyGridLegacyMessage = {
+          type: SkyGridLegacyMessageType.SelectAll,
         };
         fixture.componentInstance.gridController.next(selectAllMessage);
         fixture.detectChanges();
@@ -2055,14 +2057,14 @@ describe('Grid Component', () => {
           verifyCheckbox(i, true);
         }
 
-        let expectedRows: SkyGridSelectedRowsModelChange = {
+        let expectedRows: SkyGridLegacySelectedRowsModelChange = {
           selectedRowIds: ['1', '2', '3', '4', '5', '6', '7'],
-          source: SkyGridSelectedRowsSource.SelectAll,
+          source: SkyGridLegacySelectedRowsSource.SelectAll,
         };
         expect(component.selectedRowsChange).toEqual(expectedRows);
 
-        const clearAllMessage: SkyGridMessage = {
-          type: SkyGridMessageType.ClearAll,
+        const clearAllMessage: SkyGridLegacyMessage = {
+          type: SkyGridLegacyMessageType.ClearAll,
         };
         fixture.componentInstance.gridController.next(clearAllMessage);
         fixture.detectChanges();
@@ -2073,7 +2075,7 @@ describe('Grid Component', () => {
 
         expectedRows = {
           selectedRowIds: [],
-          source: SkyGridSelectedRowsSource.ClearAll,
+          source: SkyGridLegacySelectedRowsSource.ClearAll,
         };
         expect(component.selectedRowsChange).toEqual(expectedRows);
       });
@@ -2227,7 +2229,7 @@ describe('Grid Component', () => {
         imports: [GridFixturesModule],
       });
 
-      fixture = TestBed.overrideComponent(SkyGridComponent, {
+      fixture = TestBed.overrideComponent(SkyGridLegacyComponent, {
         add: {
           viewProviders: [
             {
@@ -2667,7 +2669,7 @@ describe('Grid Component', () => {
       fixture.detectChanges();
       const eventSpy = jasmine.createSpyObj('event', ['preventDefault']);
 
-      SkyGridComponent.prototype.onTouchMove(eventSpy);
+      SkyGridLegacyComponent.prototype.onTouchMove(eventSpy);
 
       expect(eventSpy.preventDefault).toHaveBeenCalled();
     });
@@ -2769,11 +2771,11 @@ describe('Grid Component', () => {
     it('should be able to set columns when the columns input property is updated', () => {
       fixture.detectChanges();
       component.columns = [
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
         }),
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column2',
           heading: 'Column 2',
         }),
@@ -2788,11 +2790,11 @@ describe('Grid Component', () => {
     it('should hide columns based on the hidden property when columns property changed', () => {
       fixture.detectChanges();
       component.columns = [
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
         }),
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column2',
           heading: 'Column 2',
           hidden: true,
@@ -2807,11 +2809,11 @@ describe('Grid Component', () => {
     it('should be able to set columns when the columns input property is updated and update correctly after initialization', () => {
       fixture.detectChanges();
       component.columns = [
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
         }),
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column2',
           heading: 'Column 2',
         }),
@@ -2824,15 +2826,15 @@ describe('Grid Component', () => {
       verifyData();
 
       component.columns = [
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
         }),
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column2',
           heading: 'Column 2',
         }),
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column3',
           heading: 'Column 3',
         }),
@@ -2845,11 +2847,11 @@ describe('Grid Component', () => {
       verifyData(false, true);
 
       component.columns = [
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
         }),
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column2',
           heading: 'Column 2',
         }),
@@ -2865,11 +2867,11 @@ describe('Grid Component', () => {
     it('should be able to set columns when the columns input property is updated and update correctly after initialization with selected ids', () => {
       fixture.detectChanges();
       component.columns = [
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
         }),
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column2',
           heading: 'Column 2',
         }),
@@ -2885,15 +2887,15 @@ describe('Grid Component', () => {
       verifyData();
 
       component.columns = [
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
         }),
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column2',
           heading: 'Column 2',
         }),
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column3',
           heading: 'Column 3',
         }),
@@ -2915,11 +2917,11 @@ describe('Grid Component', () => {
       verifyData(false, true);
 
       component.columns = [
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
         }),
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column2',
           heading: 'Column 2',
         }),
@@ -2935,15 +2937,15 @@ describe('Grid Component', () => {
       // column again.
 
       component.columns = [
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
         }),
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column2',
           heading: 'Column 2',
         }),
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column3',
           heading: 'Column 3',
         }),
@@ -3102,11 +3104,11 @@ describe('Grid Component', () => {
 
     it('should call the UI config service when selected columns change', () => {
       component.columns = [
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
         }),
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column2',
           heading: 'Column 2',
         }),
@@ -3142,11 +3144,11 @@ describe('Grid Component', () => {
     it(`should not error when columns are returned from UI config service that don't exist`, () => {
       // Start with two columns.
       component.columns = [
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
         }),
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column2',
           heading: 'Column 2',
         }),
@@ -3176,11 +3178,11 @@ describe('Grid Component', () => {
       });
 
       component.columns = [
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
         }),
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column2',
           heading: 'Column 2',
         }),
@@ -3207,7 +3209,7 @@ describe('Grid Component', () => {
       ).and.callThrough();
 
       component.columns = [
-        new SkyGridColumnModel(component.template, {
+        new SkyGridLegacyColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
         }),

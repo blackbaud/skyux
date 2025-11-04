@@ -30,21 +30,21 @@ export { SkyListViewGridRowDeleteConfirmArgs } from './lib/modules/list-view-gri
 // Obscure names are used to indicate types are not part of the public API.
 export { SkyListColumnSelectorActionComponent as λ1 } from './lib/modules/list-column-selector-action/list-column-selector-action.component';
 
-export { SkyGridColumnModel } from './lib/modules/grid/grid-column.model';
-export { SkyGridModule } from './lib/modules/grid/grid.module';
-export { SkyGridColumnAlignment } from './lib/modules/grid/types/grid-column-alignment';
-export { SkyGridColumnDescriptionModelChange } from './lib/modules/grid/types/grid-column-description-model-change';
-export { SkyGridColumnHeadingModelChange } from './lib/modules/grid/types/grid-column-heading-model-change';
-export { SkyGridColumnInlineHelpPopoverModelChange } from './lib/modules/grid/types/grid-column-inline-help-popover-model-change';
-export { SkyGridColumnWidthModelChange } from './lib/modules/grid/types/grid-column-width-model-change';
-export { SkyGridMessage } from './lib/modules/grid/types/grid-message';
-export { SkyGridMessageType } from './lib/modules/grid/types/grid-message-type';
-export { SkyGridRowDeleteCancelArgs } from './lib/modules/grid/types/grid-row-delete-cancel-args';
-export { SkyGridRowDeleteConfig } from './lib/modules/grid/types/grid-row-delete-config';
-export { SkyGridRowDeleteConfirmArgs } from './lib/modules/grid/types/grid-row-delete-confirm-args';
-export { SkyGridSelectedRowsModelChange } from './lib/modules/grid/types/grid-selected-rows-model-change';
-export { SkyGridSelectedRowsSource } from './lib/modules/grid/types/grid-selected-rows-source';
-export { SkyGridUIConfig } from './lib/modules/grid/types/grid-ui-config';
+export { SkyGridLegacyColumnModel } from './lib/modules/grid/grid-column.model';
+export { SkyGridLegacyModule } from './lib/modules/grid/grid.module';
+export { SkyGridLegacyColumnAlignment } from './lib/modules/grid/types/grid-column-alignment';
+export { SkyGridLegacyColumnDescriptionModelChange } from './lib/modules/grid/types/grid-column-description-model-change';
+export { SkyGridLegacyColumnHeadingModelChange } from './lib/modules/grid/types/grid-column-heading-model-change';
+export { SkyGridLegacyColumnInlineHelpPopoverModelChange } from './lib/modules/grid/types/grid-column-inline-help-popover-model-change';
+export { SkyGridLegacyColumnWidthModelChange } from './lib/modules/grid/types/grid-column-width-model-change';
+export { SkyGridLegacyMessage } from './lib/modules/grid/types/grid-message';
+export { SkyGridLegacyMessageType } from './lib/modules/grid/types/grid-message-type';
+export { SkyGridLegacyRowDeleteCancelArgs } from './lib/modules/grid/types/grid-row-delete-cancel-args';
+export { SkyGridLegacyRowDeleteConfig } from './lib/modules/grid/types/grid-row-delete-config';
+export { SkyGridLegacyRowDeleteConfirmArgs } from './lib/modules/grid/types/grid-row-delete-confirm-args';
+export { SkyGridLegacySelectedRowsModelChange } from './lib/modules/grid/types/grid-selected-rows-model-change';
+export { SkyGridLegacySelectedRowsSource } from './lib/modules/grid/types/grid-selected-rows-source';
+export { SkyGridLegacyUIConfig } from './lib/modules/grid/types/grid-ui-config';
 
-export { SkyGridColumnComponent as λ2 } from './lib/modules/grid/grid-column.component';
-export { SkyGridComponent as λ3 } from './lib/modules/grid/grid.component';
+export { SkyGridLegacyColumnComponent as λ2 } from './lib/modules/grid/grid-column.component';
+export { SkyGridLegacyComponent as λ3 } from './lib/modules/grid/grid.component';

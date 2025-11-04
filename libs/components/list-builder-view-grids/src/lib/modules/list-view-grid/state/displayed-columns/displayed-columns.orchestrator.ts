@@ -1,6 +1,6 @@
 import { AsyncList } from '@skyux/list-builder-common';
 
-import { SkyGridColumnModel } from '../../../grid/grid-column.model';
+import { SkyGridLegacyColumnModel } from '../../../grid/grid-column.model';
 import { GridStateOrchestrator } from '../grid-state.rxstate';
 
 import { ListViewDisplayedGridColumnsLoadAction } from './load.action';
@@ -10,7 +10,7 @@ import { ListViewDisplayedGridColumnsLoadAction } from './load.action';
  * @deprecated
  */
 export class ListViewDisplayedGridColumnsOrchestrator extends GridStateOrchestrator<
-  AsyncList<SkyGridColumnModel>
+  AsyncList<SkyGridLegacyColumnModel>
 > {
   /* istanbul ignore next */
   constructor() {
@@ -20,18 +20,21 @@ export class ListViewDisplayedGridColumnsOrchestrator extends GridStateOrchestra
   }
 
   private load(
-    state: AsyncList<SkyGridColumnModel>,
+    state: AsyncList<SkyGridLegacyColumnModel>,
     action: ListViewDisplayedGridColumnsLoadAction,
-  ): AsyncList<SkyGridColumnModel> {
+  ): AsyncList<SkyGridLegacyColumnModel> {
     const newColumns = action.columns.map(
-      (g) => new SkyGridColumnModel(g.template, g),
+      (g) => new SkyGridLegacyColumnModel(g.template, g),
     );
 
     if (action.refresh) {
-      return new AsyncList<SkyGridColumnModel>([...newColumns], new Date());
+      return new AsyncList<SkyGridLegacyColumnModel>(
+        [...newColumns],
+        new Date(),
+      );
     }
 
-    return new AsyncList<SkyGridColumnModel>(
+    return new AsyncList<SkyGridLegacyColumnModel>(
       [...state.items, ...newColumns],
       new Date(),
     );

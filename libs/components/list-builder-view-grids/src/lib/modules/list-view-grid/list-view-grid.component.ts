@@ -37,15 +37,15 @@ import {
   takeUntil,
 } from 'rxjs/operators';
 
-import { SkyGridColumnComponent } from '../grid/grid-column.component';
-import { SkyGridColumnModel } from '../grid/grid-column.model';
-import { SkyGridComponent } from '../grid/grid.component';
-import { SkyGridColumnDescriptionModelChange } from '../grid/types/grid-column-description-model-change';
-import { SkyGridColumnHeadingModelChange } from '../grid/types/grid-column-heading-model-change';
-import { SkyGridMessage } from '../grid/types/grid-message';
-import { SkyGridMessageType } from '../grid/types/grid-message-type';
-import { SkyGridSelectedRowsModelChange } from '../grid/types/grid-selected-rows-model-change';
-import { SkyGridSelectedRowsSource } from '../grid/types/grid-selected-rows-source';
+import { SkyGridLegacyColumnComponent } from '../grid/grid-column.component';
+import { SkyGridLegacyColumnModel } from '../grid/grid-column.model';
+import { SkyGridLegacyComponent } from '../grid/grid.component';
+import { SkyGridLegacyColumnDescriptionModelChange } from '../grid/types/grid-column-description-model-change';
+import { SkyGridLegacyColumnHeadingModelChange } from '../grid/types/grid-column-heading-model-change';
+import { SkyGridLegacyMessage } from '../grid/types/grid-message';
+import { SkyGridLegacyMessageType } from '../grid/types/grid-message-type';
+import { SkyGridLegacySelectedRowsModelChange } from '../grid/types/grid-selected-rows-model-change';
+import { SkyGridLegacySelectedRowsSource } from '../grid/types/grid-selected-rows-source';
 
 import { ListViewGridColumnsLoadAction } from './state/columns/load.action';
 import { ListViewDisplayedGridColumnsLoadAction } from './state/displayed-columns/load.action';
@@ -202,8 +202,8 @@ export class SkyListViewGridComponent
   @Output()
   public selectedColumnIdsChange = new EventEmitter<string[]>();
 
-  @ViewChild(SkyGridComponent)
-  public gridComponent: SkyGridComponent;
+  @ViewChild(SkyGridLegacyComponent)
+  public gridComponent: SkyGridLegacyComponent;
 
   public get gridHeight(): Observable<number> {
     /* istanbul ignore next */
@@ -219,7 +219,7 @@ export class SkyListViewGridComponent
       : this.width;
   }
 
-  public columns: Observable<SkyGridColumnModel[]>;
+  public columns: Observable<SkyGridLegacyColumnModel[]>;
 
   public selectedColumnIds: Observable<string[]>;
 
@@ -229,7 +229,7 @@ export class SkyListViewGridComponent
    * Message stream for communicating with the internal grid instance
    * @internal
    */
-  public gridMessageStream = new Subject<SkyGridMessage>();
+  public gridMessageStream = new Subject<SkyGridLegacyMessage>();
 
   public loading: Observable<boolean>;
 
@@ -248,8 +248,8 @@ export class SkyListViewGridComponent
   @Input('search')
   public searchFunction: (data: any, searchText: string) => boolean;
 
-  @ContentChildren(SkyGridColumnComponent)
-  private columnComponents: QueryList<SkyGridColumnComponent>;
+  @ContentChildren(SkyGridLegacyColumnComponent)
+  private columnComponents: QueryList<SkyGridLegacyColumnComponent>;
 
   private ngUnsubscribe = new Subject<void>();
 
@@ -300,7 +300,10 @@ export class SkyListViewGridComponent
     }
 
     const columnModels = this.columnComponents.map((columnComponent) => {
-      return new SkyGridColumnModel(columnComponent.template, columnComponent);
+      return new SkyGridLegacyColumnModel(
+        columnComponent.template,
+        columnComponent,
+      );
     });
 
     if (this.width && !isObservable(this.width)) {
@@ -418,11 +421,11 @@ export class SkyListViewGridComponent
    * This logic should only run on user interaction - NOT programmatic updates.
    */
   public onMultiselectSelectionChange(
-    event: SkyGridSelectedRowsModelChange,
+    event: SkyGridLegacySelectedRowsModelChange,
   ): void {
     if (
-      event.source === SkyGridSelectedRowsSource.CheckboxChange ||
-      event.source === SkyGridSelectedRowsSource.RowClick
+      event.source === SkyGridLegacySelectedRowsSource.CheckboxChange ||
+      event.source === SkyGridLegacySelectedRowsSource.RowClick
     ) {
       this.state
         .pipe(
@@ -541,7 +544,7 @@ export class SkyListViewGridComponent
       this.messageStream.subscribe((message: SkyListViewGridMessage) => {
         if (message.type === SkyListViewGridMessageType.AbortDeleteRow) {
           this.gridMessageStream.next({
-            type: SkyGridMessageType.AbortDeleteRow,
+            type: SkyGridLegacyMessageType.AbortDeleteRow,
             data: {
               abortDeleteRow: message.data.abortDeleteRow,
             },
@@ -550,7 +553,7 @@ export class SkyListViewGridComponent
           message.type === SkyListViewGridMessageType.PromptDeleteRow
         ) {
           this.gridMessageStream.next({
-            type: SkyGridMessageType.PromptDeleteRow,
+            type: SkyGridLegacyMessageType.PromptDeleteRow,
             data: {
               promptDeleteRow: message.data.promptDeleteRow,
             },
@@ -566,7 +569,7 @@ export class SkyListViewGridComponent
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((columnComponents) => {
         const columnModels = this.columnComponents.map((column) => {
-          return new SkyGridColumnModel(column.template, column);
+          return new SkyGridLegacyColumnModel(column.template, column);
         });
         this.gridDispatcher.next(
           new ListViewGridColumnsLoadAction(columnModels, true),
@@ -577,12 +580,12 @@ export class SkyListViewGridComponent
     this.columnComponents.forEach((comp) => {
       comp.headingModelChanges
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe((change: SkyGridColumnHeadingModelChange) => {
+        .subscribe((change: SkyGridLegacyColumnHeadingModelChange) => {
           this.gridComponent.updateColumnHeading(change);
         });
       comp.descriptionModelChanges
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe((change: SkyGridColumnDescriptionModelChange) => {
+        .subscribe((change: SkyGridLegacyColumnDescriptionModelChange) => {
           this.gridComponent.updateColumnDescription(change);
         });
     });
@@ -627,8 +630,8 @@ export class SkyListViewGridComponent
       observableMap((s) => s.displayedColumns),
       scan(
         (
-          previousValue: AsyncList<SkyGridColumnModel>,
-          newValue: AsyncList<SkyGridColumnModel>,
+          previousValue: AsyncList<SkyGridLegacyColumnModel>,
+          newValue: AsyncList<SkyGridLegacyColumnModel>,
         ) => {
           if (previousValue.lastUpdate > newValue.lastUpdate) {
             return previousValue;
@@ -637,10 +640,10 @@ export class SkyListViewGridComponent
           }
         },
       ),
-      observableMap((result: AsyncList<SkyGridColumnModel>) => {
+      observableMap((result: AsyncList<SkyGridLegacyColumnModel>) => {
         /* istanbul ignore next */
         /* sanity check */
-        return result.items.map((column: SkyGridColumnModel) => {
+        return result.items.map((column: SkyGridLegacyColumnModel) => {
           return column.id || column.field;
         });
       }),

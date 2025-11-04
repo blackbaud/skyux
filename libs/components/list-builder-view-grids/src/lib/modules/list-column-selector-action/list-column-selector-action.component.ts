@@ -28,7 +28,7 @@ import {
   SkyColumnSelectorModel,
 } from '../column-selector/column-selector-context';
 import { SkyColumnSelectorComponent } from '../column-selector/column-selector-modal.component';
-import { SkyGridColumnModel } from '../grid/grid-column.model';
+import { SkyGridLegacyColumnModel } from '../grid/grid-column.model';
 import { SkyListViewGridComponent } from '../list-view-grid/list-view-grid.component';
 import { ListViewDisplayedGridColumnsLoadAction } from '../list-view-grid/state/displayed-columns/load.action';
 import { GridStateModel } from '../list-view-grid/state/grid-state.model';
@@ -126,10 +126,10 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
         .pipe(take(1))
         .subscribe((state: GridStateModel) => {
           columns = state.columns.items
-            .filter((item: SkyGridColumnModel) => {
+            .filter((item: SkyGridLegacyColumnModel) => {
               return !item.locked;
             })
-            .map((item: SkyGridColumnModel) => {
+            .map((item: SkyGridLegacyColumnModel) => {
               return {
                 id: item.id,
                 heading: item.heading,
@@ -137,10 +137,10 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
               };
             });
           selectedColumnIds = state.displayedColumns.items
-            .filter((item: SkyGridColumnModel) => {
+            .filter((item: SkyGridLegacyColumnModel) => {
               return !item.locked;
             })
-            .map((item: SkyGridColumnModel) => {
+            .map((item: SkyGridLegacyColumnModel) => {
               return item.id;
             });
         });
@@ -166,7 +166,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
       modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
         if (result.reason === 'save' && result.data) {
           const newSelectedIds = result.data;
-          let newDisplayedColumns: SkyGridColumnModel[] = [];
+          let newDisplayedColumns: SkyGridLegacyColumnModel[] = [];
           this.gridView.gridState
             .pipe(take(1))
             .subscribe((state: GridStateModel) => {
