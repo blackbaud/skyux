@@ -88,7 +88,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     name: 'Grid View',
     iconName: 'table',
     searchEnabled: true,
-    multiselectToolbarEnabled: true,
     columnPickerEnabled: true,
     columnOptions: [
       {
