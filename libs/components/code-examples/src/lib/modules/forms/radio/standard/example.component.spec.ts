@@ -23,6 +23,15 @@ describe('Basic radio group example', () => {
     return harness;
   }
 
+  async function triggerProcessingIssueError(
+    harness: SkyRadioGroupHarness,
+  ): Promise<void> {
+    const radioHarness = (await harness.getRadioButtons())[1];
+    await radioHarness.check();
+
+    await expectAsync(harness.hasError('processingIssue')).toBeResolvedTo(true);
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule, FormsRadioStandardExampleComponent],
@@ -66,9 +75,7 @@ describe('Basic radio group example', () => {
   it('should display an error message when there is a custom validation error', async () => {
     const harness = await setupTest({ dataSkyId: 'radio-group' });
 
-    const radioHarness = (await harness.getRadioButtons())[1];
-
-    await radioHarness.check();
+    await triggerProcessingIssueError(harness);
 
     await expectAsync(harness.hasError('processingIssue')).toBeResolvedTo(true);
   });
@@ -76,9 +83,7 @@ describe('Basic radio group example', () => {
   it('should set custom form error details', async () => {
     const harness = await setupTest({ dataSkyId: 'radio-group' });
 
-    const radioHarness = (await harness.getRadioButtons())[1];
-
-    await radioHarness.check();
+    await triggerProcessingIssueError(harness);
 
     const customFormError = await harness.getCustomError('processingIssue');
 

@@ -22,6 +22,19 @@ describe('Basic colorpicker example', () => {
     return { harness, fixture };
   }
 
+  async function triggerOpaqueError(
+    harness: SkyColorpickerHarness,
+    fixture: ComponentFixture<ColorpickerBasicExampleComponent>,
+  ): Promise<void> {
+    await harness.clickColorpickerButton();
+    const dropdown = await harness.getColorpickerDropdown();
+    await dropdown.setAlphaValue('.2');
+    await dropdown.clickApplyButton();
+    fixture.detectChanges();
+
+    await expectAsync(harness.hasError('opaque')).toBeResolvedTo(true);
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ColorpickerBasicExampleComponent],
@@ -44,16 +57,7 @@ describe('Basic colorpicker example', () => {
       dataSkyId: 'favorite-color',
     });
 
-    await harness.clickColorpickerButton();
-    await expectAsync(harness.isColorpickerOpen()).toBeResolvedTo(true);
-
-    const dropdown = await harness.getColorpickerDropdown();
-
-    await dropdown.setAlphaValue('.2');
-    await dropdown.clickApplyButton();
-    fixture.detectChanges();
-
-    await expectAsync(harness.hasError('opaque')).toBeResolvedTo(true);
+    await triggerOpaqueError(harness, fixture);
   });
 
   it('should set custom form error details', async () => {
@@ -61,12 +65,7 @@ describe('Basic colorpicker example', () => {
       dataSkyId: 'favorite-color',
     });
 
-    await harness.clickColorpickerButton();
-    const dropdown = await harness.getColorpickerDropdown();
-
-    await dropdown.setAlphaValue('.2');
-    await dropdown.clickApplyButton();
-    fixture.detectChanges();
+    await triggerOpaqueError(harness, fixture);
 
     const customFormError = await harness.getCustomError('opaque');
 

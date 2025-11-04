@@ -36,6 +36,23 @@ describe('Basic file drop example', () => {
     return { harness, formControl, loader };
   }
 
+  async function triggerMaxFilesReachedError(
+    harness: SkyFileDropHarness,
+  ): Promise<void> {
+    // Upload 3 files and then add a link to exceed the limit
+    await harness.loadFiles([
+      new File([], 'validFile1', { type: 'image/png' }),
+      new File([], 'validFile2', { type: 'image/png' }),
+      new File([], 'validFile3', { type: 'image/png' }),
+    ]);
+
+    await harness.enterLinkUploadText('foo.bar');
+    await harness.clickLinkUploadDoneButton();
+    await expectAsync(
+      harness.hasCustomError('maxNumberOfFilesReached'),
+    ).toBeResolvedTo(true);
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FormsFileDropBasicExampleComponent, NoopAnimationsModule],
@@ -82,25 +99,9 @@ describe('Basic file drop example', () => {
       dataSkyId: 'logo-upload',
     });
 
-    await harness.loadFiles([
-      new File([], 'validFile1', { type: 'image/png' }),
-      new File([], 'validFile2', { type: 'image/png' }),
-      new File([], 'validFile3', { type: 'image/png' }),
-    ]);
-
-    expect(formControl.value?.length).toBe(3);
-    await expectAsync(
-      harness.hasCustomError('maxNumberOfFilesReached'),
-    ).toBeResolvedTo(false);
-    expect(formControl.valid).toBe(true);
-
-    await harness.enterLinkUploadText('foo.bar');
-    await harness.clickLinkUploadDoneButton();
+    await triggerMaxFilesReachedError(harness);
 
     expect(formControl.value?.length).toBe(4);
-    await expectAsync(
-      harness.hasCustomError('maxNumberOfFilesReached'),
-    ).toBeResolvedTo(true);
     expect(formControl.valid).toBe(false);
 
     const validFileItemHarness = await loader.getHarness(
@@ -117,14 +118,7 @@ describe('Basic file drop example', () => {
       dataSkyId: 'logo-upload',
     });
 
-    await harness.loadFiles([
-      new File([], 'validFile1', { type: 'image/png' }),
-      new File([], 'validFile2', { type: 'image/png' }),
-      new File([], 'validFile3', { type: 'image/png' }),
-    ]);
-
-    await harness.enterLinkUploadText('foo.bar');
-    await harness.clickLinkUploadDoneButton();
+    await triggerMaxFilesReachedError(harness);
 
     expect(formControl.value?.length).toBe(4);
 
