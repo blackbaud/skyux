@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 * remove incorrect form control class from input box examples ([#4066](https://github.com/blackbaud/skyux/issues/4066)) ([c558e00](https://github.com/blackbaud/skyux/commit/c558e00e169dcc2fe56ef223c9e408970d964b61))
+* remove non-component cell renderer templates from page examples ([#4068](https://github.com/blackbaud/skyux/issues/4068)) ([c0f30ce](https://github.com/blackbaud/skyux/commit/c0f30cee8518d97461ebfffa918fc0a5aec92cce)), closes [AB#3613689](https://github.com/AB/issues/3613689)
 
 
 
