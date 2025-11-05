@@ -1,5 +1,6 @@
 import { Rule, Tree, UpdateRecorder } from '@angular-devkit/schematics';
 import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
+import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
 import { DefaultTreeAdapterTypes } from 'parse5';
 
@@ -13,7 +14,13 @@ import {
   getInlineTemplates,
   parseSourceFile,
 } from '../../utility/typescript/ng-ast';
+import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../utility/visit-project-files';
+
+/*
+ * region: Migrates sky-grid-column components used in sky-list-view-grid
+ * to add the "legacy" CSS class to each column.
+ */
 
 function convertColumn(
   recorder: UpdateRecorder,
@@ -85,7 +92,40 @@ function convertTypescriptFile(tree: Tree, filePath: string): void {
       );
     }
   }
+  updateImportStatements(recorder, filePath, source);
   tree.commitUpdate(recorder);
+}
+
+/*
+ * endregion
+ */
+
+/**
+ * Migrate imports from `@skyux/grids` to `@skyux/list-builder-view-grids` and
+ * use `Legacy` class names.
+ */
+function updateImportStatements(
+  recorder: UpdateRecorder,
+  filePath: string,
+  source: ts.SourceFile,
+): void {
+  swapImportedClass(recorder, filePath, source, [
+    {
+      classNames: {
+        SkyGridColumnAlignment: 'SkyGridLegacyColumnAlignment',
+        SkyGridColumnModel: 'SkyGridLegacyColumnModel',
+        SkyGridColumnWidthModelChange: 'SkyGridLegacyColumnWidthModelChange',
+        SkyGridMessage: 'SkyGridLegacyMessage',
+        SkyGridMessageType: 'SkyGridLegacyMessageType',
+        SkyGridSelectedRowsModelChange: 'SkyGridLegacySelectedRowsModelChange',
+        SkyGridUIConfig: 'SkyGridLegacyUIConfig',
+      },
+      moduleName: {
+        old: '@skyux/grids',
+        new: '@skyux/list-builder-view-grids',
+      },
+    },
+  ]);
 }
 
 export function listBuilderViewGridColumnMigration(projectPath: string): Rule {
