@@ -1,4 +1,4 @@
-import { Component, model } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import {
   SkyFilterBarFilterItem,
   SkyFilterBarModule,
@@ -19,10 +19,10 @@ import { FILTER_SELECTION_VALUES } from './filter-selection-values';
   templateUrl: './example.component.html',
 })
 export class FilterBarSelectableExampleComponent {
-  protected readonly appliedFilters = model<
+  protected readonly appliedFilters = signal<
     SkyFilterBarFilterItem[] | undefined
-  >();
-  protected readonly selectedFilterIds = model<string[] | undefined>([
+  >(undefined);
+  protected readonly selectedFilterIds = signal<string[] | undefined>([
     'staff-assigned',
     'entering-grade',
     'current-grade',
