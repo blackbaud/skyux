@@ -1,4 +1,4 @@
-import { Component, inject, model } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   SkyFilterBarFilterItem,
   SkyFilterBarModule,
@@ -16,9 +16,9 @@ import { ExampleService } from './example.service';
   templateUrl: './example.component.html',
 })
 export class FilterBarLookupExampleComponent {
-  protected readonly appliedFilters = model<
+  protected readonly appliedFilters = signal<
     SkyFilterBarFilterItem[] | undefined
-  >();
+  >(undefined);
 
   readonly #svc = inject(ExampleService);
 
