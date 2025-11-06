@@ -6,6 +6,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
@@ -17,15 +18,17 @@ import {
 } from '@skyux/filter-bar';
 import { SkyListSummaryModule } from '@skyux/lists';
 
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, map, takeUntil } from 'rxjs';
 
 import { AG_GRID_DEMO_DATA } from './data';
 import { ExampleService } from './example.service';
 import { SalesModalComponent } from './sales-modal.component';
 import { ViewGridComponent } from './view-grid.component';
 
+const SOURCE_ID = 'data_grid_data_manager_multiselect_example_id';
+
 /**
- * @title Data manager setup
+ * @title Data manager setup with multiselect
  */
 @Component({
   selector: 'app-ag-grid-data-grid-data-manager-example',
@@ -46,7 +49,7 @@ export class AgGridDataGridDataManagerMultiselectExampleComponent
 
   protected salesModal = SalesModalComponent;
 
-  #activeViewId = 'dataGridWithDataManagerView';
+  #activeViewId = 'dataGridMultiselectWithDataManagerView';
 
   #dataManagerConfig = {
     sortOptions: [
@@ -71,8 +74,9 @@ export class AgGridDataGridDataManagerMultiselectExampleComponent
     },
     views: [
       {
-        viewId: 'dataGridWithDataManagerView',
+        viewId: 'dataGridMultiselectWithDataManagerView',
         displayedColumnIds: [
+          'selected',
           'context',
           'name',
           'age',
@@ -90,6 +94,13 @@ export class AgGridDataGridDataManagerMultiselectExampleComponent
   readonly #changeDetectorRef = inject(ChangeDetectorRef);
   readonly #dataManagerSvc = inject(SkyDataManagerService);
   readonly #exampleSvc = inject(ExampleService);
+
+  protected readonly recordCount = toSignal(
+    this.#dataManagerSvc
+      .getDataSummaryUpdates(SOURCE_ID)
+      .pipe(map((summary) => summary.itemsMatching)),
+    { initialValue: 0 },
+  );
 
   constructor() {
     this.#dataManagerSvc
