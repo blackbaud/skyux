@@ -25,6 +25,8 @@
           "SkyColorpickerHarnessFilters",
           "SkyColorpickerDropdownHarness",
           "SkyColorpickerDropdownHarnessFilters",
+          "SkyFormErrorHarness",
+          "SkyFormErrorHarnessFilters",
           "SkyIconHarness",
           "SkyIconHarnessFilters"
         ]
