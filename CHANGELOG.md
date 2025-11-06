@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 * add missed links to global help docs ([#4064](https://github.com/blackbaud/skyux/issues/4064)) ([2c45bce](https://github.com/blackbaud/skyux/commit/2c45bce4f389afebf218803a91bb963e233b03e7)), closes [AB#3612167](https://github.com/AB/issues/3612167)
+* **components/ag-grid:** maintain column types when using service grid options ([#4078](https://github.com/blackbaud/skyux/issues/4078)) ([bcabffc](https://github.com/blackbaud/skyux/commit/bcabffc731160f08949fcdca0b9a9739b2db7051))
 
 
 
