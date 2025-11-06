@@ -448,6 +448,23 @@ describe('File attachment harness', () => {
     ).toBeResolvedTo(true);
   });
 
+  it('should get custom form error', async () => {
+    const { fileAttachmentHarness, fixture, formControl } = await setupTest({
+      dataSkyId: 'reactive-file-attachment',
+    });
+
+    fixture.componentInstance.showCustomError = true;
+    formControl.markAsTouched();
+    fixture.detectChanges();
+
+    const customFormError =
+      await fileAttachmentHarness.getCustomError('customError');
+
+    await expectAsync(customFormError.getErrorText()).toBeResolvedTo(
+      'This is a custom error',
+    );
+  });
+
   it('should get whether wrong file type error has fired', async () => {
     const { fileAttachmentHarness, fixture, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',

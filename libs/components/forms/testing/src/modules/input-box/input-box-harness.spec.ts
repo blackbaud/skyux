@@ -202,7 +202,7 @@ describe('Input box harness', () => {
     await expectAsync(inputBoxHarness.getStacked()).toBeResolvedTo(true);
   });
 
-  it('should return custom errors', async () => {
+  it('should return custom status indicator errors', async () => {
     const { component, fixture, inputBoxHarness } = await setupTest({
       dataSkyId: DATA_SKY_ID_EASY_MODE,
     });
@@ -224,6 +224,18 @@ describe('Input box harness', () => {
     await expectAsync(customError.getDescriptionType()).toBeResolvedTo('error');
     await expectAsync(customError.getIndicatorType()).toBeResolvedTo('danger');
     await expectAsync(customError.getText()).toBeResolvedTo('Test error');
+  });
+
+  it('should return custom form error', async () => {
+    const { inputBoxHarness } = await setupTest({
+      dataSkyId: 'custom-error-easy-mode',
+    });
+
+    const customFormError = await inputBoxHarness.getCustomFormError('custom');
+
+    await expectAsync(customFormError.getErrorText()).toBeResolvedTo(
+      'This is a customer error',
+    );
   });
 
   it('should return whether custom form error has fired', async () => {
