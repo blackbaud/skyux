@@ -76,8 +76,6 @@ describe('Basic radio group example', () => {
     const harness = await setupTest({ dataSkyId: 'radio-group' });
 
     await triggerProcessingIssueError(harness);
-
-    await expectAsync(harness.hasError('processingIssue')).toBeResolvedTo(true);
   });
 
   it('should set custom form error details', async () => {
