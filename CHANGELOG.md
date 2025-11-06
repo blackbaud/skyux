@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.7.3](https://github.com/blackbaud/skyux/compare/13.7.2...13.7.3) (2025-11-06)
+
+
+### Bug Fixes
+
+* add missed links to global help docs ([#4064](https://github.com/blackbaud/skyux/issues/4064)) ([2c45bce](https://github.com/blackbaud/skyux/commit/2c45bce4f389afebf218803a91bb963e233b03e7)), closes [AB#3612167](https://github.com/AB/issues/3612167)
+
+
+
 ## [13.7.2](https://github.com/blackbaud/skyux/compare/13.7.1...13.7.2) (2025-11-05)
 
 
