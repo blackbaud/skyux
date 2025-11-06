@@ -88,7 +88,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
 
   /**
    * A help key that identifies the global help content to display. When specified along with `headingText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
-   * added to the modal header. Clicking the button invokes global help as configured by the application. This property only applies when `headingText` is also specified.
+   * added to the modal header. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help) as configured by the application. This property only applies when `headingText` is also specified.
    */
   @Input()
   public helpKey: string | undefined;

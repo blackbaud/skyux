@@ -108,6 +108,22 @@ if (!feature) {
 - Test error scenarios
 - Include comprehensive examples
 
+### Running Tests
+
+Use the following command pattern to run harness tests:
+
+```bash
+npx nx test [component-name]-testing --include="**/*-harness.spec.ts"
+```
+
+Examples:
+
+- `npx nx test colorpicker-testing --include="**/colorpicker-harness.spec.ts"`
+- `npx nx test forms-testing --include="**/input-box-harness.spec.ts"`
+- `npx nx test tabs-testing --include="**/tabset-harness.spec.ts"`
+
+Note: The project name follows the pattern `[component-name]-testing`, not just the component name.
+
 ## Documentation Integration
 
 - Add harness class names to the component's `documentation.json` file under the `testing` section

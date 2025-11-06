@@ -326,6 +326,20 @@ describe('File drop harness', () => {
     );
   });
 
+  it('should get custom form error', async () => {
+    const { fixture, harness } = await setupTest();
+
+    fixture.componentInstance.fileDrop.markAsTouched();
+    fixture.componentInstance.showCustomError = true;
+    fixture.detectChanges();
+
+    const customFormError = await harness.getCustomError('customError');
+
+    await expectAsync(customFormError.getErrorText()).toBeResolvedTo(
+      'This is a custom error.',
+    );
+  });
+
   describe('upload link harness', () => {
     it('should get upload link aria-label', async () => {
       const { fixture, harness } = await setupTest();

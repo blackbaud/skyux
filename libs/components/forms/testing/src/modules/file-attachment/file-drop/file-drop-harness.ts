@@ -2,6 +2,7 @@ import { EventData, HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
+import { SkyFormErrorHarness } from '../../form-error/form-error-harness';
 import { SkyFormErrorsHarness } from '../../form-error/form-errors-harness';
 
 import { SkyFileDropHarnessFilters } from './file-drop-harness-filters';
@@ -65,6 +66,15 @@ export class SkyFileDropHarness extends SkyComponentHarness {
    */
   public async getAcceptedTypes(): Promise<string | null> {
     return await (await this.#input()).getAttribute('accept');
+  }
+
+  /**
+   * Gets the custom form error.
+   */
+  public async getCustomError(errorName: string): Promise<SkyFormErrorHarness> {
+    return await this.locatorFor(
+      SkyFormErrorHarness.with({ errorName: errorName }),
+    )();
   }
 
   /**

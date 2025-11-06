@@ -31,6 +31,17 @@ describe('Basic file attachment example', () => {
     return { harness, fixture };
   }
 
+  async function triggerInvalidStartingLetterError(
+    harness: SkyFileAttachmentHarness,
+  ): Promise<void> {
+    const file = new File([], 'art.png', { type: 'image/png' });
+    await harness.attachFile(file);
+
+    await expectAsync(
+      harness.hasCustomError('invalidStartingLetter'),
+    ).toBeResolvedTo(true);
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FormsFileAttachmentBasicExampleComponent, NoopAnimationsModule],
@@ -65,11 +76,22 @@ describe('Basic file attachment example', () => {
       dataSkyId: 'birth-certificate',
     });
 
-    const file = new File([], 'art.png', { type: 'image/png' });
-    await harness.attachFile(file);
+    await triggerInvalidStartingLetterError(harness);
+  });
 
-    await expectAsync(
-      harness.hasCustomError('invalidStartingLetter'),
-    ).toBeResolvedTo(true);
+  it('should set custom form error details', async () => {
+    const { harness } = await setupTest({
+      dataSkyId: 'birth-certificate',
+    });
+
+    await triggerInvalidStartingLetterError(harness);
+
+    const customFormError = await harness.getCustomError(
+      'invalidStartingLetter',
+    );
+
+    await expectAsync(customFormError.getErrorText()).toBeResolvedTo(
+      "You may not upload a file that begins with the letter 'a'.",
+    );
   });
 });

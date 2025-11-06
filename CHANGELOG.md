@@ -1,6 +1,19 @@
 # Changelog
 
 
+## [13.7.2](https://github.com/blackbaud/skyux/compare/13.7.1...13.7.2) (2025-11-05)
+
+
+### Bug Fixes
+
+* remove incorrect form control class from input box examples ([#4066](https://github.com/blackbaud/skyux/issues/4066)) ([c558e00](https://github.com/blackbaud/skyux/commit/c558e00e169dcc2fe56ef223c9e408970d964b61))
+* remove non-component cell renderer templates from page examples ([#4068](https://github.com/blackbaud/skyux/issues/4068)) ([c0f30ce](https://github.com/blackbaud/skyux/commit/c0f30cee8518d97461ebfffa918fc0a5aec92cce)), closes [AB#3613689](https://github.com/AB/issues/3613689)
+* update code examples data manager summary count ([#4065](https://github.com/blackbaud/skyux/issues/4065)) ([8f2f113](https://github.com/blackbaud/skyux/commit/8f2f113881682dc996e6afa8b03ab91ab617a1be))
+* update data entry grid example toolbar ([#4072](https://github.com/blackbaud/skyux/issues/4072)) ([c2e7a7a](https://github.com/blackbaud/skyux/commit/c2e7a7a69f855b5406b200735873b46b1e5c54ca))
+* update filter bar code examples to use writeable signals ([#4076](https://github.com/blackbaud/skyux/issues/4076)) ([f73799b](https://github.com/blackbaud/skyux/commit/f73799bca6526aaf461c4031e220ea476f808830))
+
+
+
 ## [13.7.1](https://github.com/blackbaud/skyux/compare/13.7.0...13.7.1) (2025-10-31)
 
 

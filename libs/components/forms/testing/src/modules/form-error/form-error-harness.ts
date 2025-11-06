@@ -21,7 +21,17 @@ export class SkyFormErrorHarness extends SkyComponentHarness {
   public static with(
     filters: SkyFormErrorHarnessFilters,
   ): HarnessPredicate<SkyFormErrorHarness> {
-    return SkyFormErrorHarness.getDataSkyIdPredicate(filters);
+    return SkyFormErrorHarness.getDataSkyIdPredicate(filters).addOption(
+      'errorName',
+      filters.errorName,
+      async (harness, errorName) => {
+        const harnessErrorName = await harness.getErrorName();
+        return await HarnessPredicate.stringMatches(
+          harnessErrorName,
+          errorName,
+        );
+      },
+    );
   }
 
   /**
