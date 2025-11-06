@@ -10,6 +10,7 @@ describe('list-summary', () => {
       );
 
       it('should render the component', () => {
+        cy.skyReady();
         cy.get('app-list-summary')
           .should('exist')
           .should('be.visible')
