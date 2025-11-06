@@ -14,11 +14,11 @@ import {
   AllCommunityModule,
   ColDef,
   GridOptions,
-  ICellRendererParams,
   ModuleRegistry,
 } from 'ag-grid-community';
 
 import { Attachment } from './attachment';
+import { AttachmentLinkCellRendererComponent } from './attachment-link-cell-renderer.component';
 import { AttachmentsGridContextMenuComponent } from './attachments-grid-context-menu.component';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -68,9 +68,7 @@ export class RecordPageAttachmentsTabComponent implements OnInit {
       field: 'name',
       headerName: 'Name',
       width: 150,
-      cellRenderer: (params: ICellRendererParams): string => {
-        return `<a href="/">${params.value}</a>`;
-      },
+      cellRenderer: AttachmentLinkCellRendererComponent,
     },
     {
       colId: 'description',
