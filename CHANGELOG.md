@@ -1,13 +1,18 @@
 # Changelog
 
 
-## [13.7.3](https://github.com/blackbaud/skyux/compare/13.7.2...13.7.3) (2025-11-06)
+# [13.8.0](https://github.com/blackbaud/skyux/compare/13.7.2...13.8.0) (2025-11-06)
 
 
 ### Bug Fixes
 
 * add missed links to global help docs ([#4064](https://github.com/blackbaud/skyux/issues/4064)) ([2c45bce](https://github.com/blackbaud/skyux/commit/2c45bce4f389afebf218803a91bb963e233b03e7)), closes [AB#3612167](https://github.com/AB/issues/3612167)
 * **components/ag-grid:** maintain column types when using service grid options ([#4078](https://github.com/blackbaud/skyux/issues/4078)) ([bcabffc](https://github.com/blackbaud/skyux/commit/bcabffc731160f08949fcdca0b9a9739b2db7051))
+
+
+### Features
+
+* add helper functions to get custom form errors and add SkyFormErrorHarness to docs ([#4070](https://github.com/blackbaud/skyux/issues/4070)) ([99d83b9](https://github.com/blackbaud/skyux/commit/99d83b908916b70ad10861aeaf74bf56b49720e2)), closes [AB#3609292](https://github.com/AB/issues/3609292)
 
 
 
