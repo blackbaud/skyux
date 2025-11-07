@@ -340,6 +340,15 @@ sky-repeater-item {
   }
 
   .sky-repeater-item-selectable {
+    &, sky-repeater-item-content > label {
+      cursor: pointer;
+    }
+
+    .sky-repeater-item-left,
+    sky-repeater-item-content > *:not(label) {
+      cursor: initial;
+    }
+
     &:hover {
       box-shadow: var(
         --sky-override-repeater-item-selectable-box-shadow-hover,
