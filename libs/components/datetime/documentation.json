@@ -37,7 +37,12 @@
         "primaryDocsId": "SkyDateRangePickerModule"
       },
       "testing": {
-        "docsIds": ["SkyDateRangePickerHarness", "SkyDateRangePickerFilters"]
+        "docsIds": [
+          "SkyDateRangePickerHarness",
+          "SkyDateRangePickerFilters",
+          "SkyFormErrorHarness",
+          "SkyFormErrorHarnessFilters"
+        ]
       },
       "codeExamples": {
         "docsIds": [

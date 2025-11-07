@@ -22,6 +22,19 @@ describe('Basic colorpicker example', () => {
     return { harness, fixture };
   }
 
+  async function triggerOpaqueError(
+    harness: SkyColorpickerHarness,
+    fixture: ComponentFixture<ColorpickerBasicExampleComponent>,
+  ): Promise<void> {
+    await harness.clickColorpickerButton();
+    const dropdown = await harness.getColorpickerDropdown();
+    await dropdown.setAlphaValue('.2');
+    await dropdown.clickApplyButton();
+    fixture.detectChanges();
+
+    await expectAsync(harness.hasError('opaque')).toBeResolvedTo(true);
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ColorpickerBasicExampleComponent],
@@ -44,15 +57,20 @@ describe('Basic colorpicker example', () => {
       dataSkyId: 'favorite-color',
     });
 
-    await harness.clickColorpickerButton();
-    await expectAsync(harness.isColorpickerOpen()).toBeResolvedTo(true);
+    await triggerOpaqueError(harness, fixture);
+  });
 
-    const dropdown = await harness.getColorpickerDropdown();
+  it('should set custom form error details', async () => {
+    const { harness, fixture } = await setupTest({
+      dataSkyId: 'favorite-color',
+    });
 
-    await dropdown.setAlphaValue('.2');
-    await dropdown.clickApplyButton();
-    fixture.detectChanges();
+    await triggerOpaqueError(harness, fixture);
 
-    await expectAsync(harness.hasError('opaque')).toBeResolvedTo(true);
+    const customFormError = await harness.getCustomError('opaque');
+
+    await expectAsync(customFormError.getErrorText()).toBeResolvedTo(
+      'Color must have at least 80% opacity.',
+    );
   });
 });

@@ -14,10 +14,10 @@ import {
   AllCommunityModule,
   ColDef,
   GridOptions,
-  ICellRendererParams,
   ModuleRegistry,
 } from 'ag-grid-community';
 
+import { DashboardLinkCellRendererComponent } from './dashboard-link-cell-renderer.component';
 import { DashboardGridContextMenuComponent } from './dashboards-grid-context-menu.component';
 import { Item } from './item';
 
@@ -84,9 +84,7 @@ export class ListPageContentComponent implements OnInit {
       field: 'dashboard',
       headerName: 'Name',
       width: 150,
-      cellRenderer: (params: ICellRendererParams): string => {
-        return `<a href="/">${params.value}</a>`;
-      },
+      cellRenderer: DashboardLinkCellRendererComponent,
     },
     {
       colId: 'name',

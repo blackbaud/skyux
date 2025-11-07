@@ -330,4 +330,20 @@ describe('Radio group harness', () => {
       'popover title',
     );
   });
+
+  it('should get custom form error', async () => {
+    const { radioGroupHarness, fixture } = await setupTest();
+
+    // Set payment method to 'check' to trigger the custom validator error
+    fixture.componentInstance.paymentMethod.setValue('check');
+    fixture.componentInstance.paymentMethod.markAsTouched();
+    fixture.detectChanges();
+
+    const customFormError =
+      await radioGroupHarness.getCustomError('processingIssue');
+
+    await expectAsync(customFormError.getErrorText()).toBeResolvedTo(
+      'An error occurred with this payment method. Please contact us to resolve.',
+    );
+  });
 });
