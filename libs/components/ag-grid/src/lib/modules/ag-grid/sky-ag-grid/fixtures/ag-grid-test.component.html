@@ -4,7 +4,7 @@
     height="200"
     width="600"
     [data]="dataForSimpleGrid"
-    [displayedColumns]="displayedColumns()"
+    [selectedColumnIds]="displayedColumns()"
     [page]="page"
     [pageQueryParam]="pageQueryParam"
     [pageSize]="pageSize"
@@ -45,7 +45,7 @@
     fit="scroll"
     multiselectRowId="myId"
     [data]="dataForSimpleGridWithMultiselect"
-    [displayedColumns]="displayedColumns()"
+    [selectedColumnIds]="displayedColumns()"
     [(selectedRowIds)]="selectedRowIds"
   >
     @if (showAllColumns()) {
@@ -70,7 +70,7 @@
   <sky-ag-grid
     data-sky-id="row-delete-grid"
     [data]="dataForRowDeleteGrid"
-    [displayedColumns]="displayedColumns()"
+    [selectedColumnIds]="displayedColumns()"
     (rowDeleteCancel)="cancelRowDelete($event)"
     (rowDeleteConfirm)="finishRowDelete($event)"
   >
@@ -128,7 +128,7 @@
     data-sky-id="inline-help-grid"
     fit="scroll"
     [data]="dataForSimpleGrid"
-    [displayedColumns]="displayedColumns()"
+    [selectedColumnIds]="displayedColumns()"
   >
     @if (showAllColumns()) {
       <sky-ag-grid-column

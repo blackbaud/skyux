@@ -52,6 +52,7 @@ import { SkyAgGridService } from '../ag-grid.service';
 import { SkyAgGridRowDeleteCancelArgs } from '../types/ag-grid-row-delete-cancel-args';
 import { SkyAgGridRowDeleteConfirmArgs } from '../types/ag-grid-row-delete-confirm-args';
 import { SkyCellType } from '../types/cell-type';
+import { SkyAgGridHeaderParams } from '../types/header-params';
 
 import { SkyAgGridColumnComponent } from './sky-ag-grid-column.component';
 
@@ -61,8 +62,11 @@ function arraySorted(arr: string[]): string[] {
   return arr.slice().sort((a, b) => a.localeCompare(b));
 }
 
-function arrayIsEqual(a: string[], b: string[]): boolean {
-  if (a.length !== b.length) {
+function arrayIsEqual(
+  a: string[] | undefined,
+  b: string[] | undefined,
+): boolean {
+  if (!Array.isArray(a) || !Array.isArray(b) || a?.length !== b?.length) {
     return false;
   }
   const bSorted = arraySorted(b);
@@ -98,7 +102,7 @@ export class SkyAgGridComponent<
   /**
    * The columns to display by default based on the ID or field of the item.
    */
-  public readonly displayedColumns = input<string[], unknown>([], {
+  public readonly selectedColumnIds = input<string[], unknown>([], {
     transform: coerceStringArray,
   });
 
@@ -147,7 +151,9 @@ export class SkyAgGridComponent<
    * The unique ID that matches a property on the `data` object.
    * By default, this property uses the `id` property.
    */
-  public readonly multiselectRowId = input<keyof T>('id');
+  public readonly multiselectRowId = input<keyof T, unknown>('id', {
+    transform: (value: unknown) => String(value) as keyof T,
+  });
 
   /**
    * The current page number of the grid. When using `pageQueryParam`, this value should come from the query parameter.
@@ -196,7 +202,7 @@ export class SkyAgGridComponent<
    * The set of IDs for the rows selected in a multiselect grid.
    * The IDs match the `multiselectRowId` properties of the `data` objects.
    */
-  public readonly selectedRowIdsChange = output<string[]>();
+  public readonly multiselectSelectionChange = output<string[]>();
 
   /**
    * The set of IDs for the rows to prompt for delete confirmation.
@@ -259,7 +265,7 @@ export class SkyAgGridComponent<
   );
   readonly #columnDefs = computed<ColDef<T>[]>(() => {
     const columns = this.columns();
-    const displayed = this.displayedColumns().filter(Boolean);
+    const displayed = this.selectedColumnIds().filter(Boolean);
     const hidden = this.hiddenColumns().filter(Boolean);
     return columns.map((col): ColDef => {
       const colDef: ColDef = {
@@ -267,7 +273,7 @@ export class SkyAgGridComponent<
         headerComponentParams: {
           helpPopoverTitle: col.helpPopoverTitle(),
           helpPopoverContent: col.helpPopoverContent() || col.description(),
-        },
+        } as SkyAgGridHeaderParams,
         hide:
           col.hidden() ||
           (displayed.length > 0 &&
@@ -363,8 +369,8 @@ export class SkyAgGridComponent<
   constructor() {
     effect(() => {
       const api = untracked(() => this.gridApi());
-      const data = this.data();
-      api?.setGridOption('rowData', data ?? []);
+      const data = this.data() ?? [];
+      api?.setGridOption('rowData', data);
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
@@ -373,7 +379,7 @@ export class SkyAgGridComponent<
     });
     effect(() => {
       const api = this.gridApi();
-      const selectedRowIds = this.selectedRowIds();
+      const selectedRowIds = coerceStringArray(this.selectedRowIds());
       this.data();
       const currentSelectedRowIds = this.#getRowIds(api?.getSelectedNodes());
       if (!arrayIsEqual(selectedRowIds, currentSelectedRowIds)) {
@@ -407,11 +413,19 @@ export class SkyAgGridComponent<
       this.gridApi.set(undefined);
       this.gridReady.set(false);
     });
-    this.#gridSelectedRowIds.pipe(takeUntilDestroyed()).subscribe((rowIds) => {
-      this.selectedRowIdsChange.emit(rowIds);
-    });
+    this.#gridSelectedRowIds
+      .pipe(
+        takeUntilDestroyed(),
+        map((ids) => coerceStringArray(ids)),
+      )
+      .subscribe((rowIds) => {
+        this.multiselectSelectionChange.emit(rowIds);
+      });
     this.#gridDisplayedColumnIds
-      .pipe(takeUntilDestroyed())
+      .pipe(
+        takeUntilDestroyed(),
+        map((ids) => coerceStringArray(ids)),
+      )
       .subscribe((columnIds) => {
         this.selectedColumnIdsChange.emit(columnIds);
       });
