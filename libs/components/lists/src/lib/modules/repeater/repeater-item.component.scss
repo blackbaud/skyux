@@ -340,7 +340,8 @@ sky-repeater-item {
   }
 
   .sky-repeater-item-selectable {
-    &, sky-repeater-item-content > label {
+    &,
+    sky-repeater-item-content > label {
       cursor: pointer;
     }
 
