@@ -2,12 +2,8 @@
   "baseBranch": "main",
   "releaseBranch": "release-please--branches--{baseBranch}--components--skyux",
   "implicitPeerDependencies": {
-    "ag-grid": [
-      "rxjs"
-    ],
-    "list-builder-view-grids": [
-      "rxjs"
-    ],
+    "ag-grid": ["rxjs"],
+    "list-builder-view-grids": ["rxjs"],
     "stylelint-config-skyux": [
       "skyux-stylelint",
       "stylelint-config-recommended-scss"
