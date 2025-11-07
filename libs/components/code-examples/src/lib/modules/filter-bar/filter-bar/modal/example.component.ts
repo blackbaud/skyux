@@ -1,4 +1,4 @@
-import { Component, model } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { SkyFilterBarFilterItem, SkyFilterBarModule } from '@skyux/filter-bar';
 
 import { FilterModalComponent } from './filter-modal.component';
@@ -12,9 +12,9 @@ import { FilterModalComponent } from './filter-modal.component';
   templateUrl: './example.component.html',
 })
 export class FilterBarModalExampleComponent {
-  protected readonly appliedFilters = model<
+  protected readonly appliedFilters = signal<
     SkyFilterBarFilterItem[] | undefined
-  >();
+  >(undefined);
 
   protected modalComponent = FilterModalComponent;
 }

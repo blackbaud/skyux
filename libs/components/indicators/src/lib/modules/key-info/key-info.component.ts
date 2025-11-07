@@ -14,7 +14,7 @@ import { SkyKeyInfoLayoutType } from './key-info-layout-type';
 export class SkyKeyInfoComponent {
   /**
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
-   * placed beside the key info. Clicking the button invokes global help as configured by the application.
+   * placed beside the key info. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help) as configured by the application.
    */
   @Input()
   public helpKey: string | undefined;

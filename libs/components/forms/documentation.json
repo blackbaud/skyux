@@ -89,7 +89,9 @@
         "docsIds": [
           "SkyFileAttachmentHarness",
           "SkyFileAttachmentHarnessFilters",
-          "provideSkyFileAttachmentTesting"
+          "provideSkyFileAttachmentTesting",
+          "SkyFormErrorHarness",
+          "SkyFormErrorHarnessFilters"
         ]
       },
       "codeExamples": {
@@ -120,6 +122,8 @@
           "SkyFileDropHarnessFilters",
           "SkyFileItemHarness",
           "SkyFileItemHarnessFilters",
+          "SkyFormErrorHarness",
+          "SkyFormErrorHarnessFilters",
           "provideSkyFileAttachmentTesting"
         ]
       },
@@ -140,7 +144,12 @@
         "primaryDocsId": "SkyInputBoxModule"
       },
       "testing": {
-        "docsIds": ["SkyInputBoxHarness", "SkyInputBoxHarnessFilters"]
+        "docsIds": [
+          "SkyInputBoxHarness",
+          "SkyInputBoxHarnessFilters",
+          "SkyFormErrorHarness",
+          "SkyFormErrorHarnessFilters"
+        ]
       },
       "codeExamples": {
         "docsIds": [
@@ -174,7 +183,9 @@
           "SkyRadioGroupHarness",
           "SkyRadioGroupHarnessFilters",
           "SkyRadioHarness",
-          "SkyRadioHarnessFilters"
+          "SkyRadioHarnessFilters",
+          "SkyFormErrorHarness",
+          "SkyFormErrorHarnessFilters"
         ]
       },
       "codeExamples": {
