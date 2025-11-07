@@ -2,26 +2,27 @@
 <button type="button" class="sky-btn sky-btn-primary" (click)="toggleCol3()">
   Toggle column 3
 </button>
+<button
+  type="button"
+  class="sky-btn sky-btn-primary"
+  (click)="dataForSimpleGrid = undefined"
+>
+  No data
+</button>
 <div id="screenshot-grid">
   <sky-grid
     #grid
     fit="scroll"
     [data]="dataForSimpleGrid"
-    [highlightText]="highlightText"
     [rowHighlightedId]="rowHighlightedId"
     [selectedColumnIds]="columnsForSimpleGrid"
-    [sortField]="sortFieldForSimpleGrid"
     (selectedColumnIdsChange)="onSelectedColumnIdsChange($event)"
-    (columnWidthChange)="onColumnWidthChange($event)"
-    (sortFieldChange)="sortChangedSimpleGrid($event)"
   >
     <sky-grid-column field="column1" heading="Column1" />
     <sky-grid-column field="column2" heading="Column2" />
-    <sky-grid-column
-      field="column3"
-      heading="Column3"
-      [excludeFromHighlighting]="true"
-    />
+    @if (!hideCol3()) {
+      <sky-grid-column field="column3" heading="Column3" />
+    }
   </sky-grid>
 </div>
 
@@ -30,6 +31,7 @@
     type="button"
     id="highlight-text-button"
     class="sky-btn sky-btn-primary"
+    disabled
     (click)="triggerTextHighlight()"
   >
     Trigger text highlight
@@ -63,20 +65,18 @@
     fit="scroll"
     [data]="dataForSimpleGridWithMultiselect"
     [enableMultiselect]="true"
-    [messageStream]="gridController"
     [multiselectRowId]="'myId'"
-    [selectedRowIds]="selectedRowIds"
-    (sortFieldChange)="sortChangedMultiselectGrid($event)"
-    (multiselectSelectionChange)="onMultiselectSelectionChange($event)"
+    [(selectedRowIds)]="selectedRowIds"
   >
     <sky-grid-column field="myId" heading="Custom Id" />
     <sky-grid-column field="column1" heading="Column1" />
     <sky-grid-column field="column2" heading="Column2" />
-    <sky-grid-column field="column3" heading="Column3" />
+    @if (!hideCol3()) {
+      <sky-grid-column field="column3" heading="Column3" />
+    }
   </sky-grid>
 
-  <p>Selected rows:</p>
-  <p>{{ selectedRowIdsDisplay }}</p>
+  <p>Selected rows: {{ selectedRowIds | json }}</p>
 </div>
 
 <h1>Grid with inline help</h1>
@@ -87,46 +87,40 @@
     <sky-grid-column
       field="column2"
       heading="Column2"
-      [inlineHelpPopover]="staticPopoverRef"
+      [helpPopoverContent]="staticPopoverRef"
     />
-    <sky-grid-column
-      field="column3"
-      heading="Column3"
-      [inlineHelpPopover]="asyncPopover"
-    />
+    @if (!hideCol3()) {
+      <sky-grid-column
+        field="column3"
+        heading="Column3"
+        helpPopoverTitle="This popover is asynchronous!"
+        [helpPopoverContent]="asyncPopover"
+      />
+    }
   </sky-grid>
 
-  <sky-popover #staticPopoverRef>
+  <ng-template #staticPopoverRef>
     This is a numeric column. Click <a href="#">here</a> to learn more.
-  </sky-popover>
+  </ng-template>
 
-  <sky-popover
-    #asyncPopoverRef
-    [popoverTitle]="'This popover is asynchronous!'"
-  >
+  <ng-template #asyncPopoverRef>
     This is a string column. Click <a href="#">here</a> to learn more.
-  </sky-popover>
+  </ng-template>
 </div>
 
 <h1>Grid with scroll bars</h1>
 
 <div id="screenshot-grid-scrollbars">
   <sky-grid
-    #grid
     fit="scroll"
     [data]="dataForSimpleGrid"
-    [highlightText]="highlightText"
     [rowHighlightedId]="rowHighlightedId"
-    (sortFieldChange)="sortChangedSimpleGrid($event)"
   >
     <sky-grid-column field="column1" heading="Column1" width="800" />
     <sky-grid-column field="column2" heading="Column2" width="800" />
-    <sky-grid-column
-      field="column3"
-      heading="Column3"
-      width="800"
-      [excludeFromHighlighting]="true"
-    />
+    @if (!hideCol3()) {
+      <sky-grid-column field="column3" heading="Column3" width="800" />
+    }
   </sky-grid>
 </div>
 
@@ -135,7 +129,7 @@
 <div id="screenshot-grid-row-delete">
   <sky-grid
     [data]="dataForRowDeleteGrid"
-    [messageStream]="gridRowDeleteController"
+    [rowDeleteIds]="removeRowIds"
     (rowDeleteCancel)="cancelRowDelete($event)"
     (rowDeleteConfirm)="finishRowDelete($event)"
   >
@@ -164,47 +158,37 @@
     <sky-grid-column
       field="column1"
       heading="Column1"
-      [inlineHelpPopover]="staticPopoverRef"
+      [helpPopoverContent]="staticPopoverRef"
     />
     <sky-grid-column field="column2" heading="Column2" />
-    <sky-grid-column
-      field="column3"
-      heading="Column3"
-      [inlineHelpPopover]="asyncPopover"
-    />
+    @if (!hideCol3()) {
+      <sky-grid-column
+        field="column3"
+        heading="Column3"
+        helpPopoverTitle="This popover is asynchronous!"
+        [helpPopoverContent]="asyncPopover"
+      />
+    }
   </sky-grid>
 
-  <sky-popover #staticPopoverRef>
+  <ng-template #staticPopoverRef>
     This is a numeric column. Click <a href="#">here</a> to learn more.
-  </sky-popover>
-
-  <sky-popover
-    #asyncPopoverRef
-    [popoverTitle]="'This popover is asynchronous!'"
-  >
-    This is a string column. Click <a href="#">here</a> to learn more.
-  </sky-popover>
+  </ng-template>
 </div>
 
 <h1>Grid w/ aligned columns</h1>
 
 <div id="screenshot-grid-column-align">
   <sky-grid
-    #grid
     fit="scroll"
     [data]="dataForSimpleGrid"
-    [highlightText]="highlightText"
     [rowHighlightedId]="rowHighlightedId"
-    (sortFieldChange)="sortChangedSimpleGrid($event)"
   >
     <sky-grid-column alignment="right" field="column1" heading="Column1" />
     <sky-grid-column alignment="left" field="column2" heading="Column2" />
-    <sky-grid-column
-      alignment="center"
-      field="column3"
-      heading="Column3"
-      [excludeFromHighlighting]="true"
-    />
+    @if (!hideCol3()) {
+      <sky-grid-column alignment="center" field="column3" heading="Column3" />
+    }
   </sky-grid>
 </div>
 
@@ -212,31 +196,29 @@
 
 <div id="screenshot-grid-column-align-and-inline">
   <sky-grid
-    #grid
     fit="scroll"
     [data]="dataForSimpleGrid"
-    [highlightText]="highlightText"
     [rowHighlightedId]="rowHighlightedId"
-    (sortFieldChange)="sortChangedSimpleGrid($event)"
   >
     <sky-grid-column
-      alignment="right"
+      type="number"
       field="column1"
       heading="Column1"
-      [inlineHelpPopover]="staticPopoverRef"
+      [helpPopoverContent]="staticPopoverRef"
     />
     <sky-grid-column
       alignment="left"
       field="column2"
       heading="Column2"
-      [inlineHelpPopover]="staticPopoverRef"
+      [helpPopoverContent]="staticPopoverRef"
     />
-    <sky-grid-column
-      alignment="center"
-      field="column3"
-      heading="Column3"
-      [excludeFromHighlighting]="true"
-      [inlineHelpPopover]="staticPopoverRef"
-    />
+    @if (!hideCol3()) {
+      <sky-grid-column
+        alignment="center"
+        field="column3"
+        heading="Column3"
+        [helpPopoverContent]="staticPopoverRef"
+      />
+    }
   </sky-grid>
 </div>

@@ -7,20 +7,16 @@
           "SkyGridModule",
           "SkyGridComponent",
           "SkyGridColumnComponent",
-          "SkyGridColumnAlignment",
-          "SkyGridColumnWidthModelChange",
-          "SkyGridColumnModel",
-          "SkyGridSelectedRowsModelChange",
-          "SkyGridMessage",
-          "SkyGridMessageType"
+          "SkyGridRowDeleteConfirmArgs",
+          "SkyGridRowDeleteCancelArgs"
         ],
         "primaryDocsId": "SkyGridModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": ["SkyGridHarness", "SkyGridHarnessFilters"]
       },
       "codeExamples": {
-        "docsIds": []
+        "docsIds": ["GridBasicExampleComponent"]
       }
     }
   }

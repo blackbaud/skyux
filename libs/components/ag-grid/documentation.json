@@ -34,11 +34,10 @@
         "primaryDocsId": "SkyAgGridModule"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": ["SkyAgGridWrapperHarness", "SkyAgGridWrapperHarnessFilters"]
       },
       "codeExamples": {
         "docsIds": [
-          "AgGridBasicExampleComponent",
           "AgGridDataGridBasicExampleComponent",
           "AgGridDataGridBasicMultiselectExampleComponent",
           "AgGridDataGridDataManagerExampleComponent",

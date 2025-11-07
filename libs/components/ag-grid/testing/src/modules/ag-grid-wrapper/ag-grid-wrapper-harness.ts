@@ -64,6 +64,7 @@ export class SkyAgGridWrapperHarness extends SkyComponentHarness {
 
   async #getGridApi(): Promise<GridApi> {
     await this.waitForTasksOutsideAngular();
+    await this.forceStabilize();
     const locator = this.locatorFactory.locatorFor('ag-grid-angular');
     return await locator().then((grid) => {
       if (grid instanceof UnitTestElement) {

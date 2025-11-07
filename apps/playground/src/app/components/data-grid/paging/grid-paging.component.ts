@@ -1,11 +1,11 @@
 import { Component, input } from '@angular/core';
-import { SkyAgGridColumnComponent, SkyAgGridComponent } from '@skyux/ag-grid';
+import { SkyGridModule } from '@skyux/grids';
 
 import { AG_GRID_DEMO_DATA } from '../../../shared/data-manager/data-manager-data';
 
 @Component({
   selector: 'app-data-grid-paging',
-  imports: [SkyAgGridComponent, SkyAgGridColumnComponent],
+  imports: [SkyGridModule],
   templateUrl: './grid-paging.component.html',
 })
 export default class GridPagingComponent {

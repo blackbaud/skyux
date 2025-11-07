@@ -1,22 +1,24 @@
-import { Component, ViewChild } from '@angular/core';
+import { JsonPipe } from '@angular/common';
 import {
-  SkyGridMessage,
-  SkyGridMessageType,
+  ChangeDetectorRef,
+  Component,
+  ViewChild,
+  inject,
+  model,
+} from '@angular/core';
+import {
   SkyGridModule,
   SkyGridRowDeleteCancelArgs,
   SkyGridRowDeleteConfirmArgs,
-  SkyGridSelectedRowsModelChange,
 } from '@skyux/grids';
 import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
-
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss'],
-  imports: [SkyGridModule, SkyPopoverModule, SkyDropdownModule],
+  imports: [SkyGridModule, SkyPopoverModule, SkyDropdownModule, JsonPipe],
 })
 export default class GridComponent {
   public asyncPopover: any;
@@ -58,53 +60,30 @@ export default class GridComponent {
     fieldSelector: 'column2',
   };
 
-  public gridController = new Subject<SkyGridMessage>();
-
-  public gridRowDeleteController = new Subject<SkyGridMessage>();
-
   public highlightText: string;
 
   public rowHighlightedId: string;
 
   public selectedRowIds: string[];
 
+  public removeRowIds: string[] = [];
+
   public selectedRowIdsDisplay: string[];
 
-  public selectedRows: string;
+  protected readonly hideCol3 = model<boolean>(false);
+  protected toggleCol3(): void {
+    this.hideCol3.update((show) => !show);
+  }
 
   @ViewChild('asyncPopoverRef')
   private popoverTemplate: any;
+
+  readonly #cdr = inject(ChangeDetectorRef);
 
   constructor() {
     setTimeout(() => {
       this.asyncPopover = this.popoverTemplate;
     }, 1000);
-  }
-
-  public toggleCol3(): void {
-    const col3Index = this.columnsForSimpleGrid.indexOf('column3');
-    if (col3Index === -1) {
-      this.columnsForSimpleGrid.push('column3');
-    } else {
-      this.columnsForSimpleGrid.splice(col3Index, 1);
-    }
-    this.columnsForSimpleGrid = [...this.columnsForSimpleGrid];
-  }
-
-  public sortChangedSimpleGrid(activeSort: ListSortFieldSelectorModel): void {
-    this.dataForSimpleGrid = this.performSort(
-      activeSort,
-      this.dataForSimpleGrid,
-    );
-  }
-
-  public sortChangedMultiselectGrid(
-    activeSort: ListSortFieldSelectorModel,
-  ): void {
-    this.dataForSimpleGridWithMultiselect = this.performSort(
-      activeSort,
-      this.dataForSimpleGridWithMultiselect,
-    );
   }
 
   public triggerTextHighlight(): void {
@@ -123,18 +102,16 @@ export default class GridComponent {
     }
   }
 
-  public onMultiselectSelectionChange(
-    value: SkyGridSelectedRowsModelChange,
-  ): void {
-    this.selectedRowIdsDisplay = value.selectedRowIds;
-  }
-
   public selectAll(): void {
-    this.sendMessage(SkyGridMessageType.SelectAll);
+    this.selectedRowIds = this.dataForSimpleGridWithMultiselect.map(
+      (item) => item.myId,
+    );
+    this.#cdr.markForCheck();
   }
 
   public clearAll(): void {
-    this.sendMessage(SkyGridMessageType.ClearAll);
+    this.selectedRowIds = [];
+    this.#cdr.markForCheck();
   }
 
   public cancelRowDelete(cancelArgs: SkyGridRowDeleteCancelArgs): void {
@@ -142,14 +119,7 @@ export default class GridComponent {
   }
 
   public deleteItem(id: string): void {
-    this.gridRowDeleteController.next({
-      type: SkyGridMessageType.PromptDeleteRow,
-      data: {
-        promptDeleteRow: {
-          id: id,
-        },
-      },
-    });
+    this.removeRowIds = [id, ...this.removeRowIds];
   }
 
   public finishRowDelete(confirmArgs: SkyGridRowDeleteConfirmArgs): void {
@@ -159,58 +129,16 @@ export default class GridComponent {
       this.dataForRowDeleteGrid = this.dataForRowDeleteGrid.filter(
         (data: any) => data.id !== confirmArgs.id,
       );
+      this.#cdr.markForCheck();
     }, 5000);
   }
 
   public selectRow(): void {
     this.selectedRowIds = ['101', '103', '105'];
+    this.#cdr.markForCheck();
   }
 
   public onSelectedColumnIdsChange(event: any[]): void {
     console.log(event);
-  }
-
-  public onColumnWidthChange(event: any): void {
-    console.log(event);
-  }
-
-  private performSort(
-    activeSort: ListSortFieldSelectorModel,
-    data: any[],
-  ): Array<any> {
-    const sortField = activeSort.fieldSelector;
-    const descending = activeSort.descending;
-
-    return data
-      .sort((a: any, b: any) => {
-        let value1 = a[sortField];
-        let value2 = b[sortField];
-
-        if (value1 && typeof value1 === 'string') {
-          value1 = value1.toLowerCase();
-        }
-
-        if (value2 && typeof value2 === 'string') {
-          value2 = value2.toLowerCase();
-        }
-
-        if (value1 === value2) {
-          return 0;
-        }
-
-        let result = value1 > value2 ? 1 : -1;
-
-        if (descending) {
-          result *= -1;
-        }
-
-        return result;
-      })
-      .slice();
-  }
-
-  private sendMessage(type: SkyGridMessageType): void {
-    const message: SkyGridMessage = { type };
-    this.gridController.next(message);
   }
 }

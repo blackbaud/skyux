@@ -1,27 +1,27 @@
 <h2>Updates query string</h2>
-<sky-ag-grid pageSize="5" pageQueryParam="page" [data]="data" [page]="page()">
-  <sky-ag-grid-column field="name" heading="name" />
-  <sky-ag-grid-column field="age" heading="age" type="number" width="55" />
-  <sky-ag-grid-column field="startDate" heading="start date" type="date" />
-  <sky-ag-grid-column field="endDate" heading="end date" type="date" />
-  <sky-ag-grid-column field="department" heading="department">
+<sky-grid pageSize="5" pageQueryParam="page" [data]="data" [page]="page()">
+  <sky-grid-column field="name" heading="name" />
+  <sky-grid-column field="age" heading="age" type="number" width="55" />
+  <sky-grid-column field="startDate" heading="start date" type="date" />
+  <sky-grid-column field="endDate" heading="end date" type="date" />
+  <sky-grid-column field="department" heading="department">
     <ng-template let-value="value">{{ value.name }}</ng-template>
-  </sky-ag-grid-column>
-  <sky-ag-grid-column field="jobTitle" heading="job title">
+  </sky-grid-column>
+  <sky-grid-column field="jobTitle" heading="job title">
     <ng-template let-value="value">{{ value.name }}</ng-template>
-  </sky-ag-grid-column>
-</sky-ag-grid>
+  </sky-grid-column>
+</sky-grid>
 
 <h2>No query string, just paging</h2>
-<sky-ag-grid pageSize="5" [data]="data">
-  <sky-ag-grid-column field="name" heading="name" />
-  <sky-ag-grid-column field="age" heading="age" type="number" width="55" />
-  <sky-ag-grid-column field="startDate" heading="start date" type="date" />
-  <sky-ag-grid-column field="endDate" heading="end date" type="date" />
-  <sky-ag-grid-column field="department" heading="department">
+<sky-grid pageSize="5" [data]="data">
+  <sky-grid-column field="name" heading="name" />
+  <sky-grid-column field="age" heading="age" type="number" width="55" />
+  <sky-grid-column field="startDate" heading="start date" type="date" />
+  <sky-grid-column field="endDate" heading="end date" type="date" />
+  <sky-grid-column field="department" heading="department">
     <ng-template let-value="value">{{ value.name }}</ng-template>
-  </sky-ag-grid-column>
-  <sky-ag-grid-column field="jobTitle" heading="job title">
+  </sky-grid-column>
+  <sky-grid-column field="jobTitle" heading="job title">
     <ng-template let-value="value">{{ value.name }}</ng-template>
-  </sky-ag-grid-column>
-</sky-ag-grid>
+  </sky-grid-column>
+</sky-grid>

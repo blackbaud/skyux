@@ -1,43 +1,111 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyAgGridModule } from '@skyux/ag-grid';
 
 import { SkyAgGridWrapperHarness } from './ag-grid-wrapper-harness';
-
-@Component({
-  selector: 'app-test',
-  template: `<sky-ag-grid-wrapper data-sky-id="wrapper" />`,
-  imports: [SkyAgGridModule],
-})
-class TestComponent {}
+import { AgGridTestComponent } from './fixtures/ag-grid-test.component';
+import { EmptyAgGridTestComponent } from './fixtures/empty-ag-grid-test.component';
 
 describe('SkyAgGridWrapperHarness', () => {
-  let fixture: ComponentFixture<TestComponent>;
+  describe('using grid options', () => {
+    let fixture: ComponentFixture<AgGridTestComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    fixture = TestBed.createComponent(TestComponent);
-    fixture.detectChanges();
+    beforeEach(() => {
+      TestBed.configureTestingModule({});
+      fixture = TestBed.createComponent(AgGridTestComponent);
+    });
+
+    it('should check if the grid is ready', async () => {
+      const harness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(SkyAgGridWrapperHarness.with({ dataSkyId: 'grid' }));
+      await expectAsync(harness.isGridReady()).toBeResolvedTo(true);
+    });
+
+    it('should get columns', async () => {
+      fixture.detectChanges();
+
+      const harness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(SkyAgGridWrapperHarness.with({ dataSkyId: 'grid' }));
+      await expectAsync(harness.isGridReady()).toBeResolvedTo(true);
+      await expectAsync(harness.getDisplayedColumnIds()).toBeResolvedTo([
+        'column1',
+        'column2',
+        'column3',
+      ]);
+      await expectAsync(harness.getDisplayedColumnHeaderNames()).toBeResolvedTo(
+        ['Column 1', 'Column 2', 'Column 3'],
+      );
+
+      fixture.componentRef.setInput('showCol3', false);
+      fixture.detectChanges();
+
+      await expectAsync(harness.getDisplayedColumnIds()).toBeResolvedTo([
+        'column1',
+        'column2',
+      ]);
+      await expectAsync(harness.getDisplayedColumnHeaderNames()).toBeResolvedTo(
+        ['Column 1', 'Column 2'],
+      );
+    });
+
+    it('should throw error if the grid is not available', async () => {
+      fixture.componentRef.setInput('showAllColumns', false);
+      fixture.detectChanges();
+
+      const harness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(SkyAgGridWrapperHarness.with({ dataSkyId: 'grid' }));
+      await expectAsync(harness.getDisplayedColumnIds()).toBeResolvedTo([]);
+
+      fixture.componentRef.setInput('showAllColumns', true);
+      fixture.detectChanges();
+
+      await expectAsync(harness.getDisplayedColumnIds()).toBeResolvedTo([
+        'column1',
+        'column2',
+        'column3',
+      ]);
+      await expectAsync(harness.getDisplayedColumnHeaderNames()).toBeResolvedTo(
+        ['Column 1', 'Column 2', 'Column 3'],
+      );
+
+      fixture.componentRef.setInput('showCol3HeaderText', false);
+      fixture.detectChanges();
+
+      await expectAsync(harness.getDisplayedColumnHeaderNames()).toBeResolvedTo(
+        ['Column 1', 'Column 2', ''],
+      );
+    });
   });
 
-  it('should check if the grid is ready', async () => {
-    const harness = await TestbedHarnessEnvironment.loader(fixture).getHarness(
-      SkyAgGridWrapperHarness.with({ dataSkyId: 'wrapper' }),
-    );
-    await expectAsync(harness.isGridReady()).toBeResolvedTo(false);
-  });
+  describe('using empty wrapper', () => {
+    let fixture: ComponentFixture<EmptyAgGridTestComponent>;
 
-  it('should throw error if the grid is not available', async () => {
-    const harness = await TestbedHarnessEnvironment.loader(fixture).getHarness(
-      SkyAgGridWrapperHarness.with({ dataSkyId: 'wrapper' }),
-    );
-    await expectAsync(harness.isGridReady()).toBeResolvedTo(false);
-    await expectAsync(harness.getDisplayedColumnIds()).toBeRejectedWith(
-      'Unable to retrieve displayed column IDs.',
-    );
-    await expectAsync(harness.getDisplayedColumnHeaderNames()).toBeRejectedWith(
-      'Unable to retrieve displayed column header names.',
-    );
+    beforeEach(() => {
+      TestBed.configureTestingModule({});
+      fixture = TestBed.createComponent(EmptyAgGridTestComponent);
+      fixture.detectChanges();
+    });
+
+    it('should check if the grid is ready', async () => {
+      const harness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(SkyAgGridWrapperHarness.with({ dataSkyId: 'wrapper' }));
+      await expectAsync(harness.isGridReady()).toBeResolvedTo(false);
+    });
+
+    it('should throw error if the grid is not available', async () => {
+      const harness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(SkyAgGridWrapperHarness.with({ dataSkyId: 'wrapper' }));
+      await expectAsync(harness.isGridReady()).toBeResolvedTo(false);
+      await expectAsync(harness.getDisplayedColumnIds()).toBeRejectedWith(
+        'Unable to retrieve displayed column IDs.',
+      );
+      await expectAsync(
+        harness.getDisplayedColumnHeaderNames(),
+      ).toBeRejectedWith('Unable to retrieve displayed column header names.');
+    });
   });
 });

@@ -2,7 +2,7 @@ export { ActionBarsSummaryActionBarBasicExampleComponent } from './lib/modules/a
 export { ActionBarsSummaryActionBarErrorExampleComponent } from './lib/modules/action-bars/summary-action-bar/error/example.component';
 export { ActionBarsSummaryActionBarModalExampleComponent } from './lib/modules/action-bars/summary-action-bar/modal/example.component';
 export { ActionBarsSummaryActionBarTabExampleComponent } from './lib/modules/action-bars/summary-action-bar/tab/example.component';
-export { AgGridBasicExampleComponent } from './lib/modules/ag-grid/grid/basic/example.component';
+export { GridBasicExampleComponent } from './lib/modules/grids/basic/example.component';
 export { AgGridDataEntryGridBasicExampleComponent } from './lib/modules/ag-grid/data-entry-grid/basic/example.component';
 export { AgGridDataEntryGridDataManagerAddedExampleComponent } from './lib/modules/ag-grid/data-entry-grid/data-manager-added/example.component';
 export { AgGridDataEntryGridFocusExampleComponent } from './lib/modules/ag-grid/data-entry-grid/focus/example.component';

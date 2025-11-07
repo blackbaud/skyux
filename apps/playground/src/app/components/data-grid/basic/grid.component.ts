@@ -7,12 +7,11 @@ import {
   model,
 } from '@angular/core';
 import {
-  SkyAgGridColumnComponent,
-  SkyAgGridComponent,
-  SkyAgGridRowDeleteCancelArgs,
-  SkyAgGridRowDeleteConfirmArgs,
-} from '@skyux/ag-grid';
-import { SkyGridModule } from '@skyux/grids';
+  SkyGridModule,
+  SkyGridRowDeleteCancelArgs,
+  SkyGridRowDeleteConfirmArgs,
+} from '@skyux/grids';
+import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
 interface RowModel {
@@ -27,14 +26,7 @@ interface RowModel {
   selector: 'app-data-grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss'],
-  imports: [
-    SkyAgGridComponent,
-    SkyAgGridColumnComponent,
-    SkyPopoverModule,
-    SkyDropdownModule,
-    SkyGridModule,
-    JsonPipe,
-  ],
+  imports: [JsonPipe, SkyGridModule, SkyPopoverModule, SkyDropdownModule],
 })
 export default class GridComponent {
   public asyncPopover: any;
@@ -69,6 +61,17 @@ export default class GridComponent {
     { id: '7', column1: '21', column2: 'Grape', column3: 'gg', myId: '107' },
   ];
 
+  public columnsForSimpleGrid = ['column1', 'column2', 'column3'];
+
+  public sortFieldForSimpleGrid: ListSortFieldSelectorModel = {
+    descending: true,
+    fieldSelector: 'column2',
+  };
+
+  public highlightText: string;
+
+  public rowHighlightedId: string;
+
   public selectedRowIds: string[] = [];
 
   public removeRowIds: string[] = [];
@@ -89,6 +92,22 @@ export default class GridComponent {
     }, 1000);
   }
 
+  public triggerTextHighlight(): void {
+    if (!this.highlightText) {
+      this.highlightText = 'e';
+    } else {
+      this.highlightText = undefined;
+    }
+  }
+
+  public triggerRowHighlight(): void {
+    if (!this.rowHighlightedId) {
+      this.rowHighlightedId = '2';
+    } else {
+      this.rowHighlightedId = undefined;
+    }
+  }
+
   public selectAll(): void {
     this.selectedRowIds = this.dataForSimpleGridWithMultiselect.map(
       (item) => item.myId,
@@ -101,7 +120,7 @@ export default class GridComponent {
     this.#cdr.markForCheck();
   }
 
-  public cancelRowDelete(cancelArgs: SkyAgGridRowDeleteCancelArgs): void {
+  public cancelRowDelete(cancelArgs: SkyGridRowDeleteCancelArgs): void {
     console.log('Item with id ' + cancelArgs.id + ' has not been deleted');
   }
 
@@ -109,7 +128,7 @@ export default class GridComponent {
     this.removeRowIds = [id, ...this.removeRowIds];
   }
 
-  public finishRowDelete(confirmArgs: SkyAgGridRowDeleteConfirmArgs): void {
+  public finishRowDelete(confirmArgs: SkyGridRowDeleteConfirmArgs): void {
     setTimeout(() => {
       console.log('Item with id ' + confirmArgs.id + ' has been deleted');
       // IF WORKED
@@ -123,5 +142,9 @@ export default class GridComponent {
   public selectRow(): void {
     this.selectedRowIds = ['101', '103', '105'];
     this.#cdr.markForCheck();
+  }
+
+  public onSelectedColumnIdsChange(event: any[]): void {
+    console.log(event);
   }
 }
