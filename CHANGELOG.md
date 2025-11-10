@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.8.1](https://github.com/blackbaud/skyux/compare/13.8.0...13.8.1) (2025-11-10)
+
+
+### Bug Fixes
+
+* **components/tiles:** use same heading size for tile title and summary ([#4077](https://github.com/blackbaud/skyux/issues/4077)) ([9c1ee1f](https://github.com/blackbaud/skyux/commit/9c1ee1faee1876c3e0d11db50c1dfa22f6b446bd))
+
+
+
 # [13.8.0](https://github.com/blackbaud/skyux/compare/13.7.2...13.8.0) (2025-11-10)
 
 
