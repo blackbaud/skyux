@@ -15,7 +15,6 @@ import {
   isImported,
 } from '@schematics/angular/utility/ast-utils';
 import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
-import { SkyManifestPublicApi, getPublicApi } from '@skyux/manifest';
 
 import {
   isImportedFromPackage,
@@ -98,11 +97,7 @@ function getLambdaMap(sourceFile: ts.SourceFile): Record<string, string> {
 function getPackageNgModuleMetadata(
   packageName: string,
   packageSourceFile: ts.SourceFile,
-  publicApi: SkyManifestPublicApi,
 ): Record<string, { exports: string[] }> {
-  const expectedModules = publicApi.packages[packageName]
-    .filter((item) => item.kind === 'module')
-    .map(({ name }) => name);
   const findNgModuleDeclaration = (
     member: ts.Node,
   ): member is NgModuleDeclaration =>
@@ -112,7 +107,6 @@ function getPackageNgModuleMetadata(
     member.type.getText().includes('NgModuleDeclaration') &&
     !!member.type.typeArguments?.[0] &&
     !!member.type.typeArguments?.[3] &&
-    expectedModules.includes(member.type.typeArguments[0].getText()) &&
     ts.isTupleTypeNode(member.type.typeArguments[3]);
   const packageNgModuleMetadata = findNodes(
     packageSourceFile,
@@ -144,10 +138,7 @@ function getPackageNgModuleMetadata(
   return Object.fromEntries(packageNgModuleMetadata);
 }
 
-function getSkyuxImports(
-  sourceFile: ts.SourceFile,
-  publicApi: SkyManifestPublicApi,
-): SkyUxSymbol[] {
+function getSkyuxImports(sourceFile: ts.SourceFile): SkyUxSymbol[] {
   return findNodes(
     sourceFile,
     (
@@ -158,7 +149,7 @@ function getSkyuxImports(
     } =>
       ts.isImportDeclaration(node) &&
       ts.isStringLiteral(node.moduleSpecifier) &&
-      node.moduleSpecifier.text in publicApi.packages &&
+      node.moduleSpecifier.text.startsWith('@skyux/') &&
       !!node.importClause?.namedBindings &&
       ts.isNamedImports(node.importClause.namedBindings),
   ).flatMap((node) =>
@@ -295,12 +286,11 @@ function getSymbolsToUpdate(
 }
 
 function useSkyUxModules(tree: Tree): void {
-  const publicApi = getPublicApi();
   const packageMetadata: Record<string, PackageMetadata> = {};
   visitProjectFiles(tree, '', (file) => {
     if (file.endsWith('.ts')) {
       let sourceFile = parseSourceFile(tree, file);
-      const skyuxImports = getSkyuxImports(sourceFile, publicApi);
+      const skyuxImports = getSkyuxImports(sourceFile);
       if (skyuxImports.length) {
         // Preload package data that was not already loaded.
         skyuxImports
@@ -309,11 +299,7 @@ function useSkyUxModules(tree: Tree): void {
           .forEach((packageName) => {
             const sourceFile = getPackageTypeSourceFile(tree, packageName);
             packageMetadata[packageName] = {
-              moduleData: getPackageNgModuleMetadata(
-                packageName,
-                sourceFile,
-                publicApi,
-              ),
+              moduleData: getPackageNgModuleMetadata(packageName, sourceFile),
               lambdaMap: getLambdaMap(sourceFile),
             };
           });

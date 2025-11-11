@@ -3,10 +3,6 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import {
-  SkyManifestClassDefinition,
-  SkyManifestPublicApi,
-} from '@skyux/manifest-local';
 
 import path from 'node:path';
 
@@ -19,25 +15,6 @@ jest.mock('@angular-devkit/schematics', () => {
     externalSchematic: jest.fn().mockReturnValue(jest.fn()),
   };
 });
-jest.mock('@skyux/manifest', () => ({
-  getPublicApi: (): SkyManifestPublicApi => ({
-    packages: {
-      '@skyux/datetime': [
-        {
-          name: 'SkyDatePipeModule',
-          kind: 'module',
-        } as SkyManifestClassDefinition,
-      ],
-      '@skyux/modals': [
-        {
-          name: 'SkyModalModule',
-          kind: 'module',
-        } as SkyManifestClassDefinition,
-      ],
-      '@skyux/missing': [],
-    },
-  }),
-}));
 
 const dateTime = `import * as i0 from '@angular/core';
 
