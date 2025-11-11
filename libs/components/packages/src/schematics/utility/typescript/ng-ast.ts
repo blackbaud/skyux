@@ -31,7 +31,7 @@ export function parseSourceFile(tree: Tree, filePath: string): ts.SourceFile {
  * typed module names, e.g. `import type { Foo } from '@skyux/foo'`.
  */
 export function isImportedFromPackage(
-  sourceFile: ts.SourceFile,
+  sourceFile: ts.Node,
   identifierName: string,
   packageName: string,
 ): boolean {

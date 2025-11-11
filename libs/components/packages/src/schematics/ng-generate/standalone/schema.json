@@ -1,0 +1,6 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "Standalone migration",
+  "description": "Convert components to standalone",
+  "type": "object"
+}
