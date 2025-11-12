@@ -469,12 +469,12 @@ export default function standaloneSchematic(): Rule {
       path: '',
     }),
     useSkyUxModules,
-    externalSchematic('@angular/core', 'cleanup-unused-imports', {
-      interactive: false,
-    }),
     externalSchematic('@angular/core', 'route-lazy-loading-migration', {
       interactive: false,
       path: '',
+    }),
+    externalSchematic('@angular/core', 'cleanup-unused-imports', {
+      interactive: false,
     }),
   ]);
 }
