@@ -26,6 +26,11 @@ import {
 } from '../../utility/typescript/remove-import';
 import { visitProjectFiles } from '../../utility/visit-project-files';
 
+interface DecoratedClassData {
+  metadata: ts.ObjectLiteralExpression;
+  injectedSymbols: ts.Identifier[];
+}
+
 type NgModuleDeclaration = ts.PropertyDeclaration & {
   type: ts.TypeReferenceNode;
 } & {
@@ -48,22 +53,73 @@ interface SkyUxSymbolToNgModule extends SkyUxSymbol {
   maintainImport: boolean;
 }
 
-function getDecoratedClassMetadata(
-  sourceFile: ts.SourceFile,
-): ts.ObjectLiteralExpression[] {
-  const metadata: ts.ObjectLiteralExpression[] = [];
+function findParentClassDeclaration(
+  node: ts.Node,
+): ts.ClassDeclaration | undefined {
+  let parent = node.parent;
+  while (parent) {
+    if (ts.isClassDeclaration(parent)) {
+      return parent;
+    }
+    parent = parent.parent;
+  }
+  // If the class were not present, getDecoratorMetadata would not have returned this node.
+  /* istanbul ignore next */
+  return undefined;
+}
+function getDecoratedClasses(sourceFile: ts.SourceFile): DecoratedClassData[] {
+  const classes: DecoratedClassData[] = [];
   ['NgModule', 'Component', 'Directive'].forEach((identifierName) => {
     if (isImportedFromPackage(sourceFile, identifierName, '@angular/core')) {
-      metadata.push(
-        ...getDecoratorMetadata(
-          sourceFile,
-          identifierName,
-          '@angular/core',
-        ).filter((node) => ts.isObjectLiteralExpression(node)),
-      );
+      const data = getDecoratorMetadata(
+        sourceFile,
+        identifierName,
+        '@angular/core',
+      ).filter((node) => ts.isObjectLiteralExpression(node));
+      data.forEach((metadata) => {
+        let injectedSymbols: ts.Identifier[] = [];
+        if (['Component', 'Directive'].includes(identifierName)) {
+          const classDeclaration = findParentClassDeclaration(metadata);
+          if (
+            classDeclaration &&
+            isImportedFromPackage(sourceFile, 'inject', '@angular/core')
+          ) {
+            injectedSymbols = findNodes(
+              classDeclaration,
+              (
+                node,
+              ): node is ts.CallExpression & { arguments: ts.Identifier[] } =>
+                ts.isCallExpression(node) &&
+                ts.isIdentifier(node.expression) &&
+                node.expression.text === 'inject' &&
+                ts.isIdentifier(node.arguments[0]),
+            ).map((node) => node.arguments[0] as ts.Identifier);
+          }
+          const constructorDeclaration =
+            classDeclaration &&
+            findNodes(classDeclaration, ts.isConstructorDeclaration).shift();
+          const constructorParams =
+            (constructorDeclaration &&
+              constructorDeclaration.parameters
+                .filter(
+                  (
+                    param,
+                  ): param is ts.ParameterDeclaration & {
+                    type: ts.TypeReferenceNode & { typeName: ts.Identifier };
+                  } =>
+                    !!param.type &&
+                    ts.isTypeReferenceNode(param.type) &&
+                    ts.isIdentifier(param.type.typeName),
+                )
+                .map((param) => param.type.typeName)) ??
+            [];
+          injectedSymbols.push(...constructorParams);
+        }
+        classes.push({ metadata, injectedSymbols });
+      });
     }
   });
-  return metadata;
+  return classes;
 }
 
 function getPackageTypeSourceFile(
@@ -94,8 +150,11 @@ function getLambdaMap(sourceFile: ts.SourceFile): Record<string, string> {
   );
 }
 
+/**
+ * Finds NgModules and their exported symbols in a package type definition source file.
+ * @param packageSourceFile
+ */
 function getPackageNgModuleMetadata(
-  packageName: string,
   packageSourceFile: ts.SourceFile,
 ): Record<string, { exports: string[] }> {
   const findNgModuleDeclaration = (
@@ -163,11 +222,11 @@ function getSkyuxImports(sourceFile: ts.SourceFile): SkyUxSymbol[] {
 
 function updateNgModuleBindings(
   recorder: UpdateRecorder,
-  metadata: ts.ObjectLiteralExpression,
+  decoratedClass: DecoratedClassData,
   field: string,
   symbolsToUpdate: SkyUxSymbolToNgModule[],
 ): void {
-  const matchingProperties = getMetadataField(metadata, field);
+  const matchingProperties = getMetadataField(decoratedClass.metadata, field);
   const assignment = matchingProperties[0];
   if (
     !assignment ||
@@ -178,6 +237,10 @@ function updateNgModuleBindings(
     return;
   }
   const identifiers = assignment.initializer.elements.filter(ts.isIdentifier);
+  if (field === 'imports') {
+    // If the class has injected pipes or directives, ensure their modules are included.
+    identifiers.push(...decoratedClass.injectedSymbols);
+  }
   const symbolsToAdd = symbolsToUpdate
     .filter((sym) => identifiers.some(({ text }) => sym.localName === text))
     .filter(
@@ -236,11 +299,39 @@ function updateNgModuleBindings(
   }
 }
 
+function shouldMaintainImport(
+  isLambda: boolean,
+  sourceFile: ts.SourceFile,
+  sourceName: string,
+  lastImport: ts.ImportDeclaration,
+  decoratedClasses: DecoratedClassData[],
+): boolean {
+  return (
+    !isLambda &&
+    // Look for any usage of the symbol after the last import and outside class decorators.
+    (decoratedClasses.some((dc) =>
+      dc.injectedSymbols.some(({ text }) => text === sourceName),
+    ) ||
+      findNodes(
+        sourceFile,
+        (node): node is ts.Identifier =>
+          ts.isIdentifier(node) &&
+          node.text === sourceName &&
+          node.getStart() > lastImport.getEnd() &&
+          !decoratedClasses.some(
+            ({ metadata }) =>
+              node.getStart() > metadata.getStart() &&
+              node.getEnd() < metadata.getEnd(),
+          ),
+      ).length > 0)
+  );
+}
+
 function getSymbolsToUpdate(
   skyuxImports: SkyUxSymbol[],
   packageMetadata: Record<string, PackageMetadata>,
   sourceFile: ts.SourceFile,
-  decoratedClasses: ts.ObjectLiteralExpression[],
+  decoratedClasses: DecoratedClassData[],
 ): SkyUxSymbolToNgModule[] {
   const lastImport = findNodes(
     sourceFile,
@@ -267,20 +358,13 @@ function getSymbolsToUpdate(
       return {
         ...imp,
         ngModule,
-        maintainImport:
-          !isLambda &&
-          findNodes(
-            sourceFile,
-            (node): node is ts.Identifier =>
-              ts.isIdentifier(node) &&
-              node.text === sourceName &&
-              node.getStart() > lastImport.getEnd() &&
-              !decoratedClasses.some(
-                (metadata) =>
-                  node.getStart() > metadata.getStart() &&
-                  node.getEnd() < metadata.getEnd(),
-              ),
-          ).length > 0,
+        maintainImport: shouldMaintainImport(
+          isLambda,
+          sourceFile,
+          sourceName,
+          lastImport,
+          decoratedClasses,
+        ),
       };
     });
 }
@@ -299,12 +383,12 @@ function useSkyUxModules(tree: Tree): void {
           .forEach((packageName) => {
             const sourceFile = getPackageTypeSourceFile(tree, packageName);
             packageMetadata[packageName] = {
-              moduleData: getPackageNgModuleMetadata(packageName, sourceFile),
+              moduleData: getPackageNgModuleMetadata(sourceFile),
               lambdaMap: getLambdaMap(sourceFile),
             };
           });
 
-        const decoratedClasses = getDecoratedClassMetadata(sourceFile);
+        const decoratedClasses = getDecoratedClasses(sourceFile);
 
         // Find the lambda imports and components that should be loaded via modules.
         const symbolsToUpdate = getSymbolsToUpdate(
@@ -333,16 +417,16 @@ function useSkyUxModules(tree: Tree): void {
             ]);
           });
 
-        decoratedClasses.forEach((metadata) => {
+        decoratedClasses.forEach((decoratedClass) => {
           updateNgModuleBindings(
             recorder,
-            metadata,
+            decoratedClass,
             'imports',
             symbolsToUpdate,
           );
           updateNgModuleBindings(
             recorder,
-            metadata,
+            decoratedClass,
             'exports',
             symbolsToUpdate,
           );
@@ -385,11 +469,6 @@ export default function standaloneSchematic(): Rule {
       path: '',
     }),
     useSkyUxModules,
-    externalSchematic('@angular/core', 'standalone-migration', {
-      interactive: false,
-      mode: 'prune-ng-modules',
-      path: '',
-    }),
     externalSchematic('@angular/core', 'cleanup-unused-imports', {
       interactive: false,
     }),

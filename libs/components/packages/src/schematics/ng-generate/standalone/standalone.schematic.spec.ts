@@ -19,10 +19,11 @@ jest.mock('@angular-devkit/schematics', () => {
 const dateTime = `import * as i0 from '@angular/core';
 
 declare class SkyDatePipe {}
+declare class SkyFuzzyDatePipe {}
 
 declare class SkyDatePipeModule {
   static ɵfac: i0.ɵɵFactoryDeclaration<SkyDatePipeModule, never>;
-  static ɵmod: i0.ɵɵNgModuleDeclaration<SkyDatePipeModule, never, [typeof SkyDatePipe], [typeof SkyDatePipe]>;
+  static ɵmod: i0.ɵɵNgModuleDeclaration<SkyDatePipeModule, never, [typeof SkyDatePipe, typeof SkyFuzzyDatePipe], [typeof SkyDatePipe, typeof SkyFuzzyDatePipe]>;
   static ɵinj: i0.ɵɵInjectorDeclaration<SkyDatePipeModule>;
 }
 
@@ -203,6 +204,50 @@ describe('standalone', () => {
     })
     export class TestComponent {
       protected readonly test = new BehaviorSubject<number>(1);
+    }
+    `);
+  });
+
+  it('should migrate a standalone component with injected SKY UX pipes', async () => {
+    const { tree } = await setup();
+    tree.create(
+      'src/app/test.component.ts',
+      `
+    import { Component, inject } from '@angular/core';
+    import { SkyDatePipe, SkyFuzzyDatePipe } from '@skyux/datetime';
+
+    @Component({
+      selector: 'app-test',
+      template: \`
+        <div>{{ test | skyDate }}</div>
+        <div>{{ test | skyFuzzyDate }}</div>
+      \`,
+      imports: [SkyDatePipe, SkyFuzzyDatePipe],
+    })
+    export class TestComponent {
+      protected readonly datePipe = inject(SkyDatePipe);
+
+      constructor(protected fuzzyDataPipe: SkyFuzzyDatePipe) {}
+    }
+    `,
+    );
+    await runner.runSchematic('standalone-migration', {}, tree);
+    expect(tree.readText('src/app/test.component.ts')).toEqual(`
+    import { Component, inject } from '@angular/core';
+    import { SkyDatePipe, SkyFuzzyDatePipe, SkyDatePipeModule } from '@skyux/datetime';
+
+    @Component({
+      selector: 'app-test',
+      template: \`
+        <div>{{ test | skyDate }}</div>
+        <div>{{ test | skyFuzzyDate }}</div>
+      \`,
+      imports: [SkyDatePipeModule],
+    })
+    export class TestComponent {
+      protected readonly datePipe = inject(SkyDatePipe);
+
+      constructor(protected fuzzyDataPipe: SkyFuzzyDatePipe) {}
     }
     `);
   });
