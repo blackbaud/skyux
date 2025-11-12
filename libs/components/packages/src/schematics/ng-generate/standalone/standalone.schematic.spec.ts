@@ -252,6 +252,38 @@ describe('standalone', () => {
     `);
   });
 
+  it('should migrate a test', async () => {
+    const { tree } = await setup();
+    tree.create(
+      'src/app/test.component.spec.ts',
+      `
+    import { TestBed } from '@angular/core/testing';
+    import { λ5 } from '@skyux/modals';
+
+    describe('TestComponent', () => {
+      beforeEach(() => {
+        TestBed.configureTestingModule({
+          imports: [λ5],
+        });
+      });
+    });
+    `,
+    );
+    await runner.runSchematic('standalone-migration', {}, tree);
+    expect(tree.readText('src/app/test.component.spec.ts')).toEqual(`
+    import { TestBed } from '@angular/core/testing';
+    import {  SkyModalModule } from '@skyux/modals';
+
+    describe('TestComponent', () => {
+      beforeEach(() => {
+        TestBed.configureTestingModule({
+          imports: [SkyModalModule],
+        });
+      });
+    });
+    `);
+  });
+
   it('should do nothing', async () => {
     const { tree } = await setup();
     tree.create(

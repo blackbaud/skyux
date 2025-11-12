@@ -119,6 +119,26 @@ function getDecoratedClasses(sourceFile: ts.SourceFile): DecoratedClassData[] {
       });
     }
   });
+  if (isImportedFromPackage(sourceFile, 'TestBed', '@angular/core/testing')) {
+    const configureTestingModuleCalls = findNodes(
+      sourceFile,
+      (
+        node,
+      ): node is ts.CallExpression & {
+        arguments: ts.NodeArray<ts.Expression>;
+      } =>
+        ts.isCallExpression(node) &&
+        node.expression.getText() === 'TestBed.configureTestingModule' &&
+        node.arguments.length === 1 &&
+        ts.isObjectLiteralExpression(node.arguments[0]),
+    );
+    configureTestingModuleCalls.forEach((call) => {
+      classes.push({
+        metadata: call.arguments[0] as ts.ObjectLiteralExpression,
+        injectedSymbols: [],
+      });
+    });
+  }
   return classes;
 }
 
@@ -470,6 +490,16 @@ export default function standaloneSchematic(): Rule {
     }),
     useSkyUxModules,
     externalSchematic('@angular/core', 'route-lazy-loading-migration', {
+      interactive: false,
+      path: '',
+    }),
+    externalSchematic('@angular/core', 'self-closing-tags-migration', {
+      format: true,
+      interactive: false,
+      path: '',
+    }),
+    externalSchematic('@angular/core', 'control-flow-migration', {
+      format: true,
       interactive: false,
       path: '',
     }),
