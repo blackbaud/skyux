@@ -27,13 +27,7 @@
 
 @include mixins.sky-theme-modern {
   ::ng-deep .sky-btn {
-    background-color: var(--sky-color-background-action-tertiary-base);
-    border: none;
     padding-left: var(--sky-comp-button-toolbar-space-inset-left);
     padding-right: var(--sky-comp-button-toolbar-space-inset-right);
-
-    &:not(:hover):not(:active):not(:focus) {
-      box-shadow: inset 0 0 0 var(--sky-border-width-action-base) transparent;
-    }
   }
 }
