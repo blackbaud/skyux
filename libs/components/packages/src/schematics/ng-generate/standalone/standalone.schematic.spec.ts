@@ -50,7 +50,7 @@ declare class SkyModalModule {
   static ɵinj: i0.ɵɵInjectorDeclaration<SkyModalModule>;
 }
 
-export { SkyModalModule, SkyModalComponent as λ5 };
+export { SkyModalModule, SkyModalComponent as λ5, SkyModalLegacyService, SkyModalService };
 `;
 
 describe('standalone', () => {
@@ -248,6 +248,58 @@ describe('standalone', () => {
       protected readonly datePipe = inject(SkyDatePipe);
 
       constructor(protected fuzzyDataPipe: SkyFuzzyDatePipe) {}
+    }
+    `);
+  });
+
+  it('should migrate a legacy service', async () => {
+    const { tree } = await setup();
+    tree.create(
+      'src/app/test.component.ts',
+      `
+    import { Component, inject } from '@angular/core';
+    import { SkyModalLegacyService } from '@skyux/modals';
+
+    import { TestModalComponent } from './test-modal.component';
+
+    @Component({
+      selector: 'app-test',
+      template: \`
+        <div>{{ test | skyDate }}</div>
+        <div>{{ test | skyFuzzyDate }}</div>
+      \`,
+      imports: [SkyDatePipe, SkyFuzzyDatePipe],
+    })
+    export class TestComponent {
+      readonly #modalSvc = inject(SkyModalLegacyService);
+
+      protected openModal(): void {
+        this.#modalSvc.open(TestModalComponent);
+      }
+    }
+    `,
+    );
+    await runner.runSchematic('standalone-migration', {}, tree);
+    expect(tree.readText('src/app/test.component.ts')).toEqual(`
+    import { Component, inject } from '@angular/core';
+    import { SkyModalService } from '@skyux/modals';
+
+    import { TestModalComponent } from './test-modal.component';
+
+    @Component({
+      selector: 'app-test',
+      template: \`
+        <div>{{ test | skyDate }}</div>
+        <div>{{ test | skyFuzzyDate }}</div>
+      \`,
+      imports: [SkyDatePipe, SkyFuzzyDatePipe],
+    })
+    export class TestComponent {
+      readonly #modalSvc = inject(SkyModalService);
+
+      protected openModal(): void {
+        this.#modalSvc.open(TestModalComponent);
+      }
     }
     `);
   });

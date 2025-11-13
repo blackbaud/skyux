@@ -24,6 +24,10 @@ import {
   RemoveImportOptions,
   removeImport,
 } from '../../utility/typescript/remove-import';
+import {
+  SwapImportedClassOptions,
+  swapImportedClass,
+} from '../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../utility/visit-project-files';
 
 interface DecoratedClassData {
@@ -51,6 +55,28 @@ interface SkyUxSymbolToNgModule extends SkyUxSymbol {
   ngModule: string;
   maintainImport: boolean;
 }
+
+const legacyServices: SwapImportedClassOptions[] = [
+  {
+    moduleName: '@skyux/core',
+    classNames: {
+      SkyDynamicComponentLegacyService: 'SkyDynamicComponentService',
+      SkyOverlayLegacyService: 'SkyOverlayService',
+    },
+  },
+  {
+    moduleName: '@skyux/flyout',
+    classNames: { SkyFlyoutLegacyService: 'SkyFlyoutService' },
+  },
+  {
+    moduleName: '@skyux/modals',
+    classNames: { SkyModalLegacyService: 'SkyModalService' },
+  },
+  {
+    moduleName: '@skyux/toast',
+    classNames: { SkyToastLegacyService: 'SkyToastService' },
+  },
+];
 
 function getDecoratedClasses(sourceFile: ts.SourceFile): DecoratedClassData[] {
   const classes: DecoratedClassData[] = [];
@@ -219,6 +245,9 @@ function updateNgModuleBindings(
   const symbolsToRemove = identifiers.filter(({ text }) =>
     symbolsToUpdate.some((sym) => sym.localName === text),
   );
+  if (symbolsToAdd.length === 0 && symbolsToRemove.length === 0) {
+    return;
+  }
   const array = Array.from(assignment.initializer.elements.values());
   const firstIndexThatStays = array.findIndex(
     (identifier) =>
@@ -384,7 +413,15 @@ function useSkyUxModules(tree: Tree): void {
           decoratedClasses,
         );
 
-        if (symbolsToUpdate.length === 0) {
+        const legacyServicesToUpdate = legacyServices.filter((svc) =>
+          skyuxImports.some(
+            (imp) =>
+              svc.moduleName === imp.packageName &&
+              imp.sourceName in svc.classNames,
+          ),
+        );
+
+        if (symbolsToUpdate.length + legacyServicesToUpdate.length === 0) {
           return;
         }
 
@@ -417,9 +454,17 @@ function useSkyUxModules(tree: Tree): void {
             symbolsToUpdate,
           );
         });
+
         tree.commitUpdate(recorder);
         sourceFile = parseSourceFile(tree, file);
         recorder = tree.beginUpdate(file);
+
+        if (legacyServicesToUpdate.length > 0) {
+          swapImportedClass(recorder, file, sourceFile, legacyServicesToUpdate);
+          tree.commitUpdate(recorder);
+          sourceFile = parseSourceFile(tree, file);
+          recorder = tree.beginUpdate(file);
+        }
 
         const removeImports = [
           ...new Set(
