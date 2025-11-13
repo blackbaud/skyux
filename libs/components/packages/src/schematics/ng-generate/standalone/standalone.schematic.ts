@@ -262,16 +262,13 @@ function updateNgModuleBindings(
   }
 }
 
-function shouldMaintainImport(
-  isLambda: boolean,
+function isReferencedOutsideDecorator(
   sourceFile: ts.SourceFile,
   sourceName: string,
   lastImport: ts.ImportDeclaration,
   decoratedClasses: DecoratedClassData[],
 ): boolean {
   return (
-    !isLambda &&
-    // Look for any usage of the symbol after the last import and outside class decorators.
     findNodes(
       sourceFile,
       (node): node is ts.Identifier =>
@@ -279,6 +276,28 @@ function shouldMaintainImport(
         node.text === sourceName &&
         node.getStart() > lastImport.getEnd() &&
         !decoratedClasses.some(
+          ({ metadata }) =>
+            node.getStart() > metadata.getStart() &&
+            node.getEnd() < metadata.getEnd(),
+        ),
+    ).length > 0
+  );
+}
+
+function isReferencedInsideDecorator(
+  sourceFile: ts.SourceFile,
+  sourceName: string,
+  lastImport: ts.ImportDeclaration,
+  decoratedClasses: DecoratedClassData[],
+): boolean {
+  return (
+    findNodes(
+      sourceFile,
+      (node): node is ts.Identifier =>
+        ts.isIdentifier(node) &&
+        node.text === sourceName &&
+        node.getStart() > lastImport.getEnd() &&
+        decoratedClasses.some(
           ({ metadata }) =>
             node.getStart() > metadata.getStart() &&
             node.getEnd() < metadata.getEnd(),
@@ -304,6 +323,12 @@ function getSymbolsToUpdate(
         (!(imp.sourceName in packageMetadata[imp.packageName].moduleData) &&
           Object.values(packageMetadata[imp.packageName].moduleData).some(
             (mod) => mod.exports.includes(imp.sourceName),
+          ) &&
+          isReferencedInsideDecorator(
+            sourceFile,
+            imp.sourceName,
+            lastImport,
+            decoratedClasses,
           )),
     )
     .map((imp): SkyUxSymbolToNgModule => {
@@ -318,13 +343,14 @@ function getSymbolsToUpdate(
       return {
         ...imp,
         ngModule,
-        maintainImport: shouldMaintainImport(
-          isLambda,
-          sourceFile,
-          sourceName,
-          lastImport,
-          decoratedClasses,
-        ),
+        maintainImport:
+          !isLambda &&
+          isReferencedOutsideDecorator(
+            sourceFile,
+            sourceName,
+            lastImport,
+            decoratedClasses,
+          ),
       };
     });
 }

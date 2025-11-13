@@ -284,7 +284,7 @@ describe('standalone', () => {
     `);
   });
 
-  it('should do nothing', async () => {
+  it('should do nothing on a component', async () => {
     const { tree } = await setup();
     tree.create(
       'src/app/test.component.ts',
@@ -311,6 +311,84 @@ describe('standalone', () => {
       imports: [SkyModalModule],
     })
     export class TestComponent {}
+    `);
+  });
+
+  it('should do nothing on a second component in the same file', async () => {
+    const { tree } = await setup();
+    tree.create(
+      'src/app/test.component.ts',
+      `
+    import { Component } from '@angular/core';
+    import { λ5 } from '@skyux/modals';
+
+    @Component({
+      selector: 'app-test',
+      template: '<sky-modal></sky-modal>',
+      imports: [λ5],
+    })
+    export class TestComponent {}
+
+    @Component({
+      selector: 'app-other',
+      template: '<div></div>',
+      imports: [],
+    })
+    export class OtherComponent {}
+    `,
+    );
+    await runner.runSchematic('standalone-migration', {}, tree);
+    expect(tree.readText('src/app/test.component.ts')).toEqual(`
+    import { Component } from '@angular/core';
+    import {  SkyModalModule } from '@skyux/modals';
+
+    @Component({
+      selector: 'app-test',
+      template: '<sky-modal></sky-modal>',
+      imports: [SkyModalModule],
+    })
+    export class TestComponent {}
+
+    @Component({
+      selector: 'app-other',
+      template: '<div></div>',
+      imports: [],
+    })
+    export class OtherComponent {}
+    `);
+  });
+
+  it('should do nothing on a pipe that is injected in a component', async () => {
+    const { tree } = await setup();
+    tree.create(
+      'src/app/test.component.ts',
+      `
+    import { Component } from '@angular/core';
+    import { SkyDatePipe } from '@skyux/datetime';
+
+    @Component({
+      selector: 'app-test',
+      template: '<div></div>',
+      imports: [],
+    })
+    export class TestComponent {
+      readonly #pipe = inject(SkyDatePipe);
+    }
+    `,
+    );
+    await runner.runSchematic('standalone-migration', {}, tree);
+    expect(tree.readText('src/app/test.component.ts')).toEqual(`
+    import { Component } from '@angular/core';
+    import { SkyDatePipe } from '@skyux/datetime';
+
+    @Component({
+      selector: 'app-test',
+      template: '<div></div>',
+      imports: [],
+    })
+    export class TestComponent {
+      readonly #pipe = inject(SkyDatePipe);
+    }
     `);
   });
 
