@@ -28,7 +28,6 @@ import { visitProjectFiles } from '../../utility/visit-project-files';
 
 interface DecoratedClassData {
   metadata: ts.ObjectLiteralExpression;
-  injectedSymbols: ts.Identifier[];
 }
 
 type NgModuleDeclaration = ts.PropertyDeclaration & {
@@ -53,20 +52,6 @@ interface SkyUxSymbolToNgModule extends SkyUxSymbol {
   maintainImport: boolean;
 }
 
-function findParentClassDeclaration(
-  node: ts.Node,
-): ts.ClassDeclaration | undefined {
-  let parent = node.parent;
-  while (parent) {
-    if (ts.isClassDeclaration(parent)) {
-      return parent;
-    }
-    parent = parent.parent;
-  }
-  // If the class were not present, getDecoratorMetadata would not have returned this node.
-  /* istanbul ignore next */
-  return undefined;
-}
 function getDecoratedClasses(sourceFile: ts.SourceFile): DecoratedClassData[] {
   const classes: DecoratedClassData[] = [];
   ['NgModule', 'Component', 'Directive'].forEach((identifierName) => {
@@ -77,45 +62,7 @@ function getDecoratedClasses(sourceFile: ts.SourceFile): DecoratedClassData[] {
         '@angular/core',
       ).filter((node) => ts.isObjectLiteralExpression(node));
       data.forEach((metadata) => {
-        let injectedSymbols: ts.Identifier[] = [];
-        if (['Component', 'Directive'].includes(identifierName)) {
-          const classDeclaration = findParentClassDeclaration(metadata);
-          if (
-            classDeclaration &&
-            isImportedFromPackage(sourceFile, 'inject', '@angular/core')
-          ) {
-            injectedSymbols = findNodes(
-              classDeclaration,
-              (
-                node,
-              ): node is ts.CallExpression & { arguments: ts.Identifier[] } =>
-                ts.isCallExpression(node) &&
-                ts.isIdentifier(node.expression) &&
-                node.expression.text === 'inject' &&
-                ts.isIdentifier(node.arguments[0]),
-            ).map((node) => node.arguments[0] as ts.Identifier);
-          }
-          const constructorDeclaration =
-            classDeclaration &&
-            findNodes(classDeclaration, ts.isConstructorDeclaration).shift();
-          const constructorParams =
-            (constructorDeclaration &&
-              constructorDeclaration.parameters
-                .filter(
-                  (
-                    param,
-                  ): param is ts.ParameterDeclaration & {
-                    type: ts.TypeReferenceNode & { typeName: ts.Identifier };
-                  } =>
-                    !!param.type &&
-                    ts.isTypeReferenceNode(param.type) &&
-                    ts.isIdentifier(param.type.typeName),
-                )
-                .map((param) => param.type.typeName)) ??
-            [];
-          injectedSymbols.push(...constructorParams);
-        }
-        classes.push({ metadata, injectedSymbols });
+        classes.push({ metadata });
       });
     }
   });
@@ -135,7 +82,6 @@ function getDecoratedClasses(sourceFile: ts.SourceFile): DecoratedClassData[] {
     configureTestingModuleCalls.forEach((call) => {
       classes.push({
         metadata: call.arguments[0] as ts.ObjectLiteralExpression,
-        injectedSymbols: [],
       });
     });
   }
@@ -228,7 +174,8 @@ function getSkyuxImports(sourceFile: ts.SourceFile): SkyUxSymbol[] {
     } =>
       ts.isImportDeclaration(node) &&
       ts.isStringLiteral(node.moduleSpecifier) &&
-      node.moduleSpecifier.text.startsWith('@skyux/') &&
+      (node.moduleSpecifier.text.startsWith('@blackbaud') ||
+        node.moduleSpecifier.text.startsWith('@skyux')) &&
       !!node.importClause?.namedBindings &&
       ts.isNamedImports(node.importClause.namedBindings),
   ).flatMap((node) =>
@@ -257,10 +204,6 @@ function updateNgModuleBindings(
     return;
   }
   const identifiers = assignment.initializer.elements.filter(ts.isIdentifier);
-  if (field === 'imports') {
-    // If the class has injected pipes or directives, ensure their modules are included.
-    identifiers.push(...decoratedClass.injectedSymbols);
-  }
   const symbolsToAdd = symbolsToUpdate
     .filter((sym) => identifiers.some(({ text }) => sym.localName === text))
     .filter(
@@ -329,21 +272,18 @@ function shouldMaintainImport(
   return (
     !isLambda &&
     // Look for any usage of the symbol after the last import and outside class decorators.
-    (decoratedClasses.some((dc) =>
-      dc.injectedSymbols.some(({ text }) => text === sourceName),
-    ) ||
-      findNodes(
-        sourceFile,
-        (node): node is ts.Identifier =>
-          ts.isIdentifier(node) &&
-          node.text === sourceName &&
-          node.getStart() > lastImport.getEnd() &&
-          !decoratedClasses.some(
-            ({ metadata }) =>
-              node.getStart() > metadata.getStart() &&
-              node.getEnd() < metadata.getEnd(),
-          ),
-      ).length > 0)
+    findNodes(
+      sourceFile,
+      (node): node is ts.Identifier =>
+        ts.isIdentifier(node) &&
+        node.text === sourceName &&
+        node.getStart() > lastImport.getEnd() &&
+        !decoratedClasses.some(
+          ({ metadata }) =>
+            node.getStart() > metadata.getStart() &&
+            node.getEnd() < metadata.getEnd(),
+        ),
+    ).length > 0
   );
 }
 
