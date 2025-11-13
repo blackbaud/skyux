@@ -104,7 +104,7 @@ function getPackageTypeSourceFile(
 function getLambdaMap(sourceFile: ts.SourceFile): Record<string, string> {
   const lambdaExports = findNodes(
     sourceFile,
-    (node): node is ts.ExportSpecifier & { propertyName: ts.StringLiteral } =>
+    (node): node is ts.ExportSpecifier & { propertyName: ts.Identifier } =>
       ts.isExportSpecifier(node) &&
       ts.isIdentifier(node.name) &&
       node.name.text.startsWith('λ') &&
