@@ -10,7 +10,7 @@ import {
 
 export interface SkyAgGridLookupProperties {
   /**
-   * Fires when users select the button to add options to the list. If the button opens a modal, include
+   * Fires when users select the button to add options to the list. When the button opens a modal, include
    * `wrapperClass: 'ag-custom-component-popup'` in the
    * [modal configuration](https://developer.blackbaud.com/skyux/components/modal?docs-active-tab=development#interface_sky-modal-configuration-interface)
    * to ensure proper focus behavior.
