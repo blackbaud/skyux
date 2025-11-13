@@ -62,6 +62,16 @@ export const componentRoutes: Routes = [
       import('./forms/forms.module').then((m) => m.FormsModule),
   },
   {
+    path: 'grids',
+    loadChildren: () =>
+      import('./grids/grids.module').then((m) => m.GridsModule),
+  },
+  {
+    path: 'data-grid',
+    loadChildren: () =>
+      import('./data-grid/data-grid.module').then((m) => m.DataGridModule),
+  },
+  {
     path: 'help-inline',
     loadChildren: () =>
       import('./help-inline/help-inline.module').then(
@@ -77,6 +87,13 @@ export const componentRoutes: Routes = [
     path: 'layout',
     loadChildren: () =>
       import('./layout/layout.module').then((m) => m.LayoutModule),
+  },
+  {
+    path: 'list-builder',
+    loadChildren: () =>
+      import('./list-builder/list-builder.module').then(
+        (m) => m.ListBuilderModule,
+      ),
   },
   {
     path: 'lists',
