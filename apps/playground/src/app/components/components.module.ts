@@ -31,6 +31,13 @@ export const componentRoutes: Routes = [
       import('./avatar/avatar.module').then((m) => m.AvatarModule),
   },
   {
+    path: 'autonmeric',
+    loadChildren: () =>
+      import('./autonumeric/autonumeric.module').then(
+        (m) => m.AutonumericModule,
+      ),
+  },
+  {
     path: 'colorpicker',
     loadChildren: () =>
       import('./colorpicker/colorpicker.module').then(
