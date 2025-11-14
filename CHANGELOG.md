@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [13.8.1](https://github.com/blackbaud/skyux/compare/13.8.0...13.8.1) (2025-11-13)
+
+
+### Bug Fixes
+
+* **components/lookup:** clicking selection modal label area selects item ([#4074](https://github.com/blackbaud/skyux/issues/4074)) ([905c925](https://github.com/blackbaud/skyux/commit/905c92595509ba9d531fdfab1f9b44a156755525)), closes [AB#3615418](https://github.com/AB/issues/3615418)
+* **components/tiles:** use same heading size for tile title and summary ([#4077](https://github.com/blackbaud/skyux/issues/4077)) ([9c1ee1f](https://github.com/blackbaud/skyux/commit/9c1ee1faee1876c3e0d11db50c1dfa22f6b446bd))
+* remove redundant header classes  ([#4071](https://github.com/blackbaud/skyux/issues/4071)) ([c61f9dd](https://github.com/blackbaud/skyux/commit/c61f9dd6be122a51019f1626f52677988ced0224)), closes [AB#3613664](https://github.com/AB/issues/3613664)
+
+
+
 # [13.8.0](https://github.com/blackbaud/skyux/compare/13.7.2...13.8.0) (2025-11-10)
 
 
