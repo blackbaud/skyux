@@ -1,4 +1,4 @@
-import { externalSchematic } from '@angular-devkit/schematics';
+import { callRule, externalSchematic } from '@angular-devkit/schematics';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -13,9 +13,15 @@ jest.mock('@angular-devkit/schematics', () => {
   return {
     ...schematics,
     externalSchematic: jest.fn().mockReturnValue(jest.fn()),
+    callRule: jest.fn((rule, tree) => {
+      // Default implementation - just return the tree as an observable
+      const { of } = jest.requireActual('rxjs');
+      return of(tree);
+    }),
   };
 });
 
+/* eslint-disable @cspell/spellchecker */
 const dateTime = `import * as i0 from '@angular/core';
 
 declare class SkyDatePipe {}
@@ -52,6 +58,7 @@ declare class SkyModalModule {
 
 export { SkyModalModule, SkyModalComponent as λ5, SkyModalLegacyService, SkyModalService };
 `;
+/* eslint-enable @cspell/spellchecker */
 
 describe('standalone', () => {
   const runner = new SchematicTestRunner(
@@ -366,6 +373,36 @@ describe('standalone', () => {
     `);
   });
 
+  it('should do nothing on a service', async () => {
+    const { tree } = await setup();
+    tree.create(
+      'src/app/test.service.ts',
+      `
+    import { Injectable, inject } from '@angular/core';
+    import { SkyDatePipe } from '@skyux/datetime';
+
+    @Injectable({
+      providedIn: 'root',
+    })
+    export class TestService {
+      public datePipe = inject(SkyDatePipe);
+    }
+    `,
+    );
+    await runner.runSchematic('standalone-migration', {}, tree);
+    expect(tree.readText('src/app/test.service.ts')).toEqual(`
+    import { Injectable, inject } from '@angular/core';
+    import { SkyDatePipe } from '@skyux/datetime';
+
+    @Injectable({
+      providedIn: 'root',
+    })
+    export class TestService {
+      public datePipe = inject(SkyDatePipe);
+    }
+    `);
+  });
+
   it('should do nothing on a second component in the same file', async () => {
     const { tree } = await setup();
     tree.create(
@@ -410,35 +447,80 @@ describe('standalone', () => {
     `);
   });
 
-  it('should do nothing on a pipe that is injected in a component', async () => {
+  it('should provide for a pipe that is injected in a component', async () => {
     const { tree } = await setup();
     tree.create(
       'src/app/test.component.ts',
       `
-    import { Component } from '@angular/core';
+    import { Component, Directive } from '@angular/core';
     import { SkyDatePipe } from '@skyux/datetime';
 
     @Component({
       selector: 'app-test',
-      template: '<div></div>',
-      imports: [],
+      template: '<div>{{ test | async }}</div>',
+      styles: 'display: block;',
     })
-    export class TestComponent {
+    export class Test1Component {
+      readonly #pipe = inject(SkyDatePipe);
+    }
+
+    @Component({ selector: 'app-test', template: '<div>{{ test | async }}</div>' })
+    export class Test2Component {
+      readonly #pipe = inject(SkyDatePipe);
+    }
+
+    @Component({
+      template: '<div>{{ test | async }}</div>',
+    })
+    export class Test3Component {
+      readonly #pipe = inject(SkyDatePipe);
+    }
+
+    @Component({ template: '<div>{{ test | async }}</div>' })
+    export class Test3Component {
+      readonly #pipe = inject(SkyDatePipe);
+    }
+
+    @Directive({})
+    export class TestDirective {
       readonly #pipe = inject(SkyDatePipe);
     }
     `,
     );
     await runner.runSchematic('standalone-migration', {}, tree);
     expect(tree.readText('src/app/test.component.ts')).toEqual(`
-    import { Component } from '@angular/core';
-    import { SkyDatePipe } from '@skyux/datetime';
+    import { Component, Directive } from '@angular/core';
+    import { SkyDatePipe, SkyDatePipeModule } from '@skyux/datetime';
 
     @Component({
       selector: 'app-test',
-      template: '<div></div>',
-      imports: [],
+      template: '<div>{{ test | async }}</div>',
+      styles: 'display: block;',
+      imports: [SkyDatePipeModule],
     })
-    export class TestComponent {
+    export class Test1Component {
+      readonly #pipe = inject(SkyDatePipe);
+    }
+
+    @Component({ selector: 'app-test', template: '<div>{{ test | async }}</div>', imports: [SkyDatePipeModule] })
+    export class Test2Component {
+      readonly #pipe = inject(SkyDatePipe);
+    }
+
+    @Component({
+      template: '<div>{{ test | async }}</div>', imports: [SkyDatePipeModule]
+    })
+    export class Test3Component {
+      readonly #pipe = inject(SkyDatePipe);
+    }
+
+    @Component({ template: '<div>{{ test | async }}</div>' , imports: [SkyDatePipeModule]})
+    export class Test3Component {
+      readonly #pipe = inject(SkyDatePipe);
+    }
+
+    @Directive({imports: [SkyDatePipeModule]})
+    export class TestDirective {
       readonly #pipe = inject(SkyDatePipe);
     }
     `);
@@ -465,9 +547,11 @@ describe('standalone', () => {
       '@angular/core',
       'standalone-migration',
       {
-        interactive: false,
         mode: 'convert-to-standalone',
         path: '',
+      },
+      {
+        interactive: false,
       },
     );
   });
@@ -494,5 +578,104 @@ describe('standalone', () => {
     ).rejects.toThrowError(
       `Could not find package @skyux/missing -- please run 'npm install'.`,
     );
+  });
+
+  describe('ngCoreSchematic error handling', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should catch and ignore "Could not find any files to migrate" errors', async () => {
+      const { throwError } = require('rxjs');
+      const mockCallRule = callRule as jest.MockedFunction<typeof callRule>;
+      mockCallRule.mockReturnValueOnce(
+        throwError(
+          () => new Error('Could not find any files to migrate under path ""'),
+        ),
+      );
+
+      const { tree } = await setup();
+      tree.create(
+        'src/app/test.component.ts',
+        `
+    import { Component } from '@angular/core';
+    import { SkyModalModule } from '@skyux/modals';
+
+    @Component({
+      selector: 'app-test',
+      template: '<div></div>',
+      imports: [SkyModalModule],
+    })
+    export class TestComponent {}
+    `,
+      );
+
+      // Should not throw error
+      await expect(
+        runner.runSchematic('standalone-migration', {}, tree),
+      ).resolves.toBeDefined();
+    });
+
+    it('should wrap other errors with descriptive message', async () => {
+      const { throwError } = require('rxjs');
+      const mockCallRule = callRule as jest.MockedFunction<typeof callRule>;
+      mockCallRule.mockReturnValueOnce(
+        throwError(() => new Error('Some Angular schematic error')),
+      );
+
+      const { tree } = await setup();
+      tree.create(
+        'src/app/test.component.ts',
+        `
+    import { Component } from '@angular/core';
+    import { SkyModalModule } from '@skyux/modals';
+
+    @Component({
+      selector: 'app-test',
+      template: '<div></div>',
+      imports: [SkyModalModule],
+    })
+    export class TestComponent {}
+    `,
+      );
+
+      await expect(
+        runner.runSchematic('standalone-migration', {}, tree),
+      ).rejects.toThrowError('Error while converting to standalone modules');
+    });
+
+    it('should preserve original error as cause', async () => {
+      const { throwError } = require('rxjs');
+      const originalError = new Error('Original Angular schematic error');
+      const mockCallRule = callRule as jest.MockedFunction<typeof callRule>;
+      mockCallRule.mockReturnValueOnce(throwError(() => originalError));
+
+      const { tree } = await setup();
+      tree.create(
+        'src/app/test.component.ts',
+        `
+    import { Component } from '@angular/core';
+    import { SkyModalModule } from '@skyux/modals';
+
+    @Component({
+      selector: 'app-test',
+      template: '<div></div>',
+      imports: [SkyModalModule],
+    })
+    export class TestComponent {}
+    `,
+      );
+
+      try {
+        await runner.runSchematic('standalone-migration', {}, tree);
+        fail('Expected error to be thrown');
+      } catch (error) {
+        expect(error).toBeInstanceOf(Error);
+        expect((error as Error).message).toBe(
+          'Error while converting to standalone modules',
+        );
+        expect((error as Error).cause).toBe(originalError);
+      }
+    });
   });
 });

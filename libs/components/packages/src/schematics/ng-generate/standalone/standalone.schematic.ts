@@ -3,6 +3,7 @@ import {
   Rule,
   Tree,
   UpdateRecorder,
+  callRule,
   chain,
   externalSchematic,
 } from '@angular-devkit/schematics';
@@ -15,6 +16,8 @@ import {
   isImported,
 } from '@schematics/angular/utility/ast-utils';
 import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
+
+import { catchError, of, throwError } from 'rxjs';
 
 import {
   isImportedFromPackage,
@@ -112,6 +115,16 @@ function getDecoratedClasses(sourceFile: ts.SourceFile): DecoratedClassData[] {
     });
   }
   return classes;
+}
+
+function getDecoratedClassDeclaration(
+  metadata: ts.ObjectLiteralExpression,
+): ts.ClassDeclaration {
+  let parent: ts.Node = metadata.parent;
+  while (parent && !ts.isClassDeclaration(parent)) {
+    parent = parent.parent;
+  }
+  return parent as ts.ClassDeclaration;
 }
 
 function getPackageTypeSourceFile(
@@ -227,6 +240,46 @@ function updateNgModuleBindings(
     !ts.isArrayLiteralExpression(assignment.initializer) ||
     !assignment.initializer.elements.filter(ts.isIdentifier).length
   ) {
+    const pipes = symbolsToUpdate.filter((sym) =>
+      sym.sourceName.endsWith('Pipe'),
+    );
+    if (!assignment && field === 'imports' && pipes.length > 0) {
+      if (decoratedClass.metadata.properties.length > 1) {
+        const spaceBetween = decoratedClass.metadata
+          .getText()
+          .slice(
+            decoratedClass.metadata.properties[0].getEnd() -
+              decoratedClass.metadata.getStart(),
+            decoratedClass.metadata.properties[1].getStart() -
+              decoratedClass.metadata.getStart(),
+          );
+        recorder.insertLeft(
+          decoratedClass.metadata.properties[
+            decoratedClass.metadata.properties.length - 1
+          ].getEnd(),
+          `${spaceBetween}${field}: [${pipes.map(({ ngModule }) => ngModule).join(', ')}]`,
+        );
+      } else if (decoratedClass.metadata.properties.length > 0) {
+        const spaceBetween =
+          decoratedClass.metadata
+            .getText()
+            .charAt(
+              decoratedClass.metadata.properties[0].getEnd() -
+                decoratedClass.metadata.getStart(),
+            ) === ','
+            ? ' '
+            : ', ';
+        recorder.insertLeft(
+          decoratedClass.metadata.properties[0].getEnd() + 1,
+          `${spaceBetween}${field}: [${pipes.map(({ ngModule }) => ngModule).join(', ')}]`,
+        );
+      } else {
+        recorder.insertLeft(
+          decoratedClass.metadata.getEnd() - 1,
+          `${field}: [${pipes.map(({ ngModule }) => ngModule).join(', ')}]`,
+        );
+      }
+    }
     return;
   }
   const identifiers = assignment.initializer.elements.filter(ts.isIdentifier);
@@ -304,11 +357,17 @@ function isReferencedOutsideDecorator(
         ts.isIdentifier(node) &&
         node.text === sourceName &&
         node.getStart() > lastImport.getEnd() &&
-        !decoratedClasses.some(
-          ({ metadata }) =>
-            node.getStart() > metadata.getStart() &&
-            node.getEnd() < metadata.getEnd(),
-        ),
+        decoratedClasses
+          .map(({ metadata }) => {
+            const classDeclaration = getDecoratedClassDeclaration(metadata);
+            return {
+              start: metadata.getEnd(),
+              end: classDeclaration.getEnd(),
+            };
+          })
+          .some(
+            ({ start, end }) => node.getStart() > start && node.getEnd() < end,
+          ),
     ).length > 0
   );
 }
@@ -353,12 +412,13 @@ function getSymbolsToUpdate(
           Object.values(packageMetadata[imp.packageName].moduleData).some(
             (mod) => mod.exports.includes(imp.sourceName),
           ) &&
-          isReferencedInsideDecorator(
-            sourceFile,
-            imp.sourceName,
-            lastImport,
-            decoratedClasses,
-          )),
+          (imp.sourceName.endsWith('Pipe') ||
+            isReferencedInsideDecorator(
+              sourceFile,
+              imp.sourceName,
+              lastImport,
+              decoratedClasses,
+            ))),
     )
     .map((imp): SkyUxSymbolToNgModule => {
       const isLambda =
@@ -404,6 +464,9 @@ function useSkyUxModules(tree: Tree): void {
           });
 
         const decoratedClasses = getDecoratedClasses(sourceFile);
+        if (decoratedClasses.length === 0) {
+          return;
+        }
 
         // Find the lambda imports and components that should be loaded via modules.
         const symbolsToUpdate = getSymbolsToUpdate(
@@ -492,30 +555,42 @@ function useSkyUxModules(tree: Tree): void {
   });
 }
 
+function ngCoreSchematic(name: string, options: object): Rule {
+  return (tree, context) =>
+    callRule(
+      externalSchematic('@angular/core', name, options, {
+        interactive: false,
+      }),
+      tree,
+      context,
+    ).pipe(
+      catchError((err: Error) => {
+        if (err.message.includes('Could not find any files to migrate')) {
+          return of(tree);
+        }
+        return throwError(
+          () =>
+            new Error('Error while converting to standalone modules', {
+              cause: err,
+            }),
+        );
+      }),
+    );
+}
+
 export default function standaloneSchematic(): Rule {
   return chain([
-    externalSchematic('@angular/core', 'standalone-migration', {
-      interactive: false,
+    ngCoreSchematic('standalone-migration', {
       mode: 'convert-to-standalone',
       path: '',
     }),
     useSkyUxModules,
-    externalSchematic('@angular/core', 'route-lazy-loading-migration', {
-      interactive: false,
-      path: '',
-    }),
-    externalSchematic('@angular/core', 'self-closing-tags-migration', {
+    ngCoreSchematic('route-lazy-loading-migration', { path: '' }),
+    ngCoreSchematic('self-closing-tags-migration', {
       format: true,
-      interactive: false,
       path: '',
     }),
-    externalSchematic('@angular/core', 'control-flow-migration', {
-      format: true,
-      interactive: false,
-      path: '',
-    }),
-    externalSchematic('@angular/core', 'cleanup-unused-imports', {
-      interactive: false,
-    }),
+    ngCoreSchematic('control-flow-migration', { format: true, path: '' }),
+    ngCoreSchematic('cleanup-unused-imports', {}),
   ]);
 }
