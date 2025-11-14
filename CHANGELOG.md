@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+* **components/layout:** use correct background and border for toolbar view actions ([#4083](https://github.com/blackbaud/skyux/issues/4083)) ([ff42c35](https://github.com/blackbaud/skyux/commit/ff42c3565f55d34d5ddbdf532156f1e83654148b))
 * **components/lookup:** use correct mobile search background color, collapse button size ([#4085](https://github.com/blackbaud/skyux/issues/4085)) ([2eae75c](https://github.com/blackbaud/skyux/commit/2eae75ce95e0f204cea0b5276da36e23eeb8c6cd))
 
 
