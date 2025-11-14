@@ -76,7 +76,11 @@ export class SkyAgGridCellEditorLookupComponent
       // If focus is being set to the grid cell, schedule focus on the input.
       // This happens when the refreshCells API is called.
       this.afterGuiAttached();
-    } else {
+    } else if (
+      !(event.target as HTMLElement | null)?.matches(
+        '.ag-custom-component-popup *',
+      )
+    ) {
       this.#stopEditingOnBlur();
     }
   }
