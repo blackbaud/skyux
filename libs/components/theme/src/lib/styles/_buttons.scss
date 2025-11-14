@@ -164,7 +164,8 @@ a.sky-btn {
   margin-left: $sky-margin-half;
 }
 
-.sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
+.sky-btn-tab-selected:not(.sky-btn-tab-disabled),
+.sky-dropdown-item-active .sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
   background-color: var(--sky-background-color-primary-dark);
   color: var(--sky-text-color-on-dark);
 

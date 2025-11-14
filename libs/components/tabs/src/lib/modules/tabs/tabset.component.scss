@@ -2,6 +2,7 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('sky-tabset') {
+  --sky-override-tab-heading-display: block;
   --sky-override-tabset-align-items: center;
   --sky-override-tabset-border-bottom: #{2px solid
     $sky-background-color-primary-dark};
@@ -175,6 +176,9 @@ sky-tabset {
 
     > .sky-tab-heading {
       flex: 1 1 auto;
+      display: var(--sky-override-tab-heading-display, flex);
+      align-items: baseline;
+      justify-content: space-between;
     }
 
     > .sky-btn-tab-close {
