@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [13.8.2](https://github.com/blackbaud/skyux/compare/13.8.1...13.8.2) (2025-11-14)
+
+
+### Bug Fixes
+
+* **components/layout:** use correct background and border for toolbar view actions ([#4083](https://github.com/blackbaud/skyux/issues/4083)) ([ff42c35](https://github.com/blackbaud/skyux/commit/ff42c3565f55d34d5ddbdf532156f1e83654148b))
+* **components/lookup:** use correct mobile search background color, collapse button size ([#4085](https://github.com/blackbaud/skyux/issues/4085)) ([2eae75c](https://github.com/blackbaud/skyux/commit/2eae75ce95e0f204cea0b5276da36e23eeb8c6cd))
+
+
+
 ## [13.8.1](https://github.com/blackbaud/skyux/compare/13.8.0...13.8.1) (2025-11-13)
 
 
