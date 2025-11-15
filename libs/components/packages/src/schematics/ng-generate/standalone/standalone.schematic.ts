@@ -1,5 +1,6 @@
 import { join, normalize } from '@angular-devkit/core';
 import {
+  Action,
   Rule,
   Tree,
   UpdateRecorder,
@@ -17,7 +18,16 @@ import {
 } from '@schematics/angular/utility/ast-utils';
 import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
 
-import { catchError, of, throwError } from 'rxjs';
+import {
+  catchError,
+  defaultIfEmpty,
+  filter,
+  from,
+  ignoreElements,
+  map,
+  of,
+  throwError,
+} from 'rxjs';
 
 import {
   isImportedFromPackage,
@@ -31,7 +41,6 @@ import {
   SwapImportedClassOptions,
   swapImportedClass,
 } from '../../utility/typescript/swap-imported-class';
-import { visitProjectFiles } from '../../utility/visit-project-files';
 
 interface DecoratedClassData {
   metadata: ts.ObjectLiteralExpression;
@@ -444,115 +453,129 @@ function getSymbolsToUpdate(
     });
 }
 
-function useSkyUxModules(tree: Tree): void {
+function useSkyUxModules(tree: Tree): Rule {
   const packageMetadata: Record<string, PackageMetadata> = {};
-  visitProjectFiles(tree, '', (file) => {
-    if (file.endsWith('.ts')) {
-      let sourceFile = parseSourceFile(tree, file);
-      const skyuxImports = getSkyuxImports(sourceFile);
-      if (skyuxImports.length) {
-        // Preload package data that was not already loaded.
-        skyuxImports
-          .map((imp) => imp.packageName)
-          .filter((packageName) => !(packageName in packageMetadata))
-          .forEach((packageName) => {
-            const sourceFile = getPackageTypeSourceFile(tree, packageName);
-            packageMetadata[packageName] = {
-              moduleData: getPackageNgModuleMetadata(sourceFile),
-              lambdaMap: getLambdaMap(sourceFile),
-            };
+  return () =>
+    from(tree.actions).pipe(
+      filter(
+        (action: Action) =>
+          ['c', 'o'].includes(action.kind) && action.path.endsWith('.ts'),
+      ),
+      map(({ path }) => {
+        let sourceFile = parseSourceFile(tree, path);
+        const skyuxImports = getSkyuxImports(sourceFile);
+        if (skyuxImports.length) {
+          // Preload package data that was not already loaded.
+          skyuxImports
+            .map((imp) => imp.packageName)
+            .filter((packageName) => !(packageName in packageMetadata))
+            .forEach((packageName) => {
+              const sourceFile = getPackageTypeSourceFile(tree, packageName);
+              packageMetadata[packageName] = {
+                moduleData: getPackageNgModuleMetadata(sourceFile),
+                lambdaMap: getLambdaMap(sourceFile),
+              };
+            });
+
+          const decoratedClasses = getDecoratedClasses(sourceFile);
+          if (decoratedClasses.length === 0) {
+            return;
+          }
+
+          // Find the lambda imports and components that should be loaded via modules.
+          const symbolsToUpdate = getSymbolsToUpdate(
+            skyuxImports,
+            packageMetadata,
+            sourceFile,
+            decoratedClasses,
+          );
+
+          const legacyServicesToUpdate = legacyServices.filter((svc) =>
+            skyuxImports.some(
+              (imp) =>
+                svc.moduleName === imp.packageName &&
+                imp.sourceName in svc.classNames,
+            ),
+          );
+
+          if (symbolsToUpdate.length + legacyServicesToUpdate.length === 0) {
+            return;
+          }
+
+          // Add new imports.
+          let recorder = tree.beginUpdate(path);
+          symbolsToUpdate
+            .filter(
+              ({ ngModule, packageName }, index, modulesNeeded) =>
+                modulesNeeded.findIndex(
+                  (m) =>
+                    m.ngModule === ngModule && m.packageName === packageName,
+                ) === index && !isImported(sourceFile, ngModule, packageName),
+            )
+            .forEach((imp) => {
+              applyToUpdateRecorder(recorder, [
+                insertImport(sourceFile, path, imp.ngModule, imp.packageName),
+              ]);
+            });
+
+          decoratedClasses.forEach((decoratedClass) => {
+            updateNgModuleBindings(
+              recorder,
+              decoratedClass,
+              'imports',
+              symbolsToUpdate,
+            );
+            updateNgModuleBindings(
+              recorder,
+              decoratedClass,
+              'exports',
+              symbolsToUpdate,
+            );
           });
 
-        const decoratedClasses = getDecoratedClasses(sourceFile);
-        if (decoratedClasses.length === 0) {
-          return;
-        }
-
-        // Find the lambda imports and components that should be loaded via modules.
-        const symbolsToUpdate = getSymbolsToUpdate(
-          skyuxImports,
-          packageMetadata,
-          sourceFile,
-          decoratedClasses,
-        );
-
-        const legacyServicesToUpdate = legacyServices.filter((svc) =>
-          skyuxImports.some(
-            (imp) =>
-              svc.moduleName === imp.packageName &&
-              imp.sourceName in svc.classNames,
-          ),
-        );
-
-        if (symbolsToUpdate.length + legacyServicesToUpdate.length === 0) {
-          return;
-        }
-
-        // Add new imports.
-        let recorder = tree.beginUpdate(file);
-        symbolsToUpdate
-          .filter(
-            ({ ngModule, packageName }, index, modulesNeeded) =>
-              modulesNeeded.findIndex(
-                (m) => m.ngModule === ngModule && m.packageName === packageName,
-              ) === index && !isImported(sourceFile, ngModule, packageName),
-          )
-          .forEach((imp) => {
-            applyToUpdateRecorder(recorder, [
-              insertImport(sourceFile, file, imp.ngModule, imp.packageName),
-            ]);
-          });
-
-        decoratedClasses.forEach((decoratedClass) => {
-          updateNgModuleBindings(
-            recorder,
-            decoratedClass,
-            'imports',
-            symbolsToUpdate,
-          );
-          updateNgModuleBindings(
-            recorder,
-            decoratedClass,
-            'exports',
-            symbolsToUpdate,
-          );
-        });
-
-        tree.commitUpdate(recorder);
-        sourceFile = parseSourceFile(tree, file);
-        recorder = tree.beginUpdate(file);
-
-        if (legacyServicesToUpdate.length > 0) {
-          swapImportedClass(recorder, file, sourceFile, legacyServicesToUpdate);
           tree.commitUpdate(recorder);
-          sourceFile = parseSourceFile(tree, file);
-          recorder = tree.beginUpdate(file);
+          sourceFile = parseSourceFile(tree, path);
+          recorder = tree.beginUpdate(path);
+
+          if (legacyServicesToUpdate.length > 0) {
+            swapImportedClass(
+              recorder,
+              path,
+              sourceFile,
+              legacyServicesToUpdate,
+            );
+            tree.commitUpdate(recorder);
+            sourceFile = parseSourceFile(tree, path);
+            recorder = tree.beginUpdate(path);
+          }
+
+          const removeImports = [
+            ...new Set(
+              symbolsToUpdate
+                .filter((sym) => !sym.maintainImport)
+                .map(({ packageName }) => packageName),
+            ),
+          ].map(
+            (moduleName): RemoveImportOptions => ({
+              classNames: symbolsToUpdate
+                .filter(
+                  (sym) =>
+                    sym.packageName === moduleName && !sym.maintainImport,
+                )
+                .map((sym) => sym.localName),
+              moduleName,
+            }),
+          );
+          removeImports.forEach((removeImportOptions) => {
+            removeImport(recorder, sourceFile, removeImportOptions);
+          });
+
+          tree.commitUpdate(recorder);
         }
-
-        const removeImports = [
-          ...new Set(
-            symbolsToUpdate
-              .filter((sym) => !sym.maintainImport)
-              .map(({ packageName }) => packageName),
-          ),
-        ].map(
-          (moduleName): RemoveImportOptions => ({
-            classNames: symbolsToUpdate
-              .filter(
-                (sym) => sym.packageName === moduleName && !sym.maintainImport,
-              )
-              .map((sym) => sym.localName),
-            moduleName,
-          }),
-        );
-        removeImports.forEach((removeImportOptions) => {
-          removeImport(recorder, sourceFile, removeImportOptions);
-        });
-
-        tree.commitUpdate(recorder);
-      }
-    }
-  });
+      }),
+      ignoreElements(),
+      defaultIfEmpty(tree),
+    );
 }
 
 function ngCoreSchematic(name: string, options: object): Rule {
