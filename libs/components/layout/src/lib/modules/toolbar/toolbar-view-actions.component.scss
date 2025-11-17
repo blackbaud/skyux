@@ -26,14 +26,26 @@
 }
 
 @include mixins.sky-theme-modern {
+  .sky-toolbar-view-actions {
+    --sky-comp-override-toolbar-button-elevation-base: var(
+      --sky-elevation-action-toolbar-base
+    );
+    --sky-comp-override-toolbar-button-elevation-hover: var(
+      --sky-elevation-action-toolbar-hover
+    );
+    --sky-comp-override-toolbar-button-elevation-focus: var(
+      --sky-elevation-action-toolbar-focus
+    );
+    --sky-comp-override-toolbar-button-elevation-active: var(
+      --sky-elevation-action-toolbar-active
+    );
+    --sky-comp-override-toolbar-button-elevation-disabled: var(
+      --sky-elevation-action-toolbar-disabled
+    );
+  }
+
   ::ng-deep .sky-btn {
-    background-color: var(--sky-color-background-action-tertiary-base);
-    border: none;
     padding-left: var(--sky-comp-button-toolbar-space-inset-left);
     padding-right: var(--sky-comp-button-toolbar-space-inset-right);
-
-    &:not(:hover):not(:active):not(:focus) {
-      box-shadow: inset 0 0 0 var(--sky-border-width-action-base) transparent;
-    }
   }
 }

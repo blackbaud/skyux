@@ -268,6 +268,22 @@ describe('Colorpicker harness', () => {
     );
   });
 
+  it('should get custom form error', async () => {
+    const { colorpickerHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.labelText = 'colorpicker';
+    fixture.componentInstance.showCustomError = true;
+    fixture.componentInstance.myForm.markAllAsTouched();
+    fixture.detectChanges();
+
+    const customFormError =
+      await colorpickerHarness.getCustomError('wrongColor');
+
+    await expectAsync(customFormError.getErrorText()).toBeResolvedTo(
+      'That is not a good color.',
+    );
+  });
+
   it('should get `aria-label` when set with `label` input', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
