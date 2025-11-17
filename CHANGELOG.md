@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.8.3](https://github.com/blackbaud/skyux/compare/13.8.2...13.8.3) (2025-11-17)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** lookup cell editor should not stop editing when adding a new record ([#4086](https://github.com/blackbaud/skyux/issues/4086)) ([cbd547b](https://github.com/blackbaud/skyux/commit/cbd547be48e28e257c8be69f1628174f9cd35d8b)), closes [AB#3619682](https://github.com/AB/issues/3619682)
+
+
+
 ## [13.8.2](https://github.com/blackbaud/skyux/compare/13.8.1...13.8.2) (2025-11-14)
 
 
