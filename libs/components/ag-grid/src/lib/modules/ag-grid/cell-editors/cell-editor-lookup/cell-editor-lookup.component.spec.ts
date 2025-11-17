@@ -370,6 +370,23 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         expect(input.focus).toHaveBeenCalled();
         expect(cellEditorParams.api?.stopEditing).not.toHaveBeenCalled();
       }));
+
+      it('should not respond to a tertiary popup', fakeAsync(() => {
+        component.agInit(cellEditorParams as ICellEditorParams);
+        fixture.detectChanges();
+
+        component.afterGuiAttached();
+        tick();
+
+        const matches = jasmine.createSpy('matches').and.returnValue(true);
+        component.onBlur({
+          relatedTarget: null,
+          target: { matches },
+        } as unknown as FocusEvent);
+        tick();
+        expect(cellEditorParams.api?.stopEditing).not.toHaveBeenCalled();
+        expect(matches).toHaveBeenCalledWith('.ag-custom-component-popup *');
+      }));
     });
 
     describe('cellStartedEdit is false', () => {
