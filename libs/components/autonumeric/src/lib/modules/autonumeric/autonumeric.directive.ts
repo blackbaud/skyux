@@ -121,6 +121,7 @@ export class SkyAutonumericDirective
 
           this.#changeDetector.markForCheck();
         });
+      });
   }
 
   public ngOnDestroy(): void {
