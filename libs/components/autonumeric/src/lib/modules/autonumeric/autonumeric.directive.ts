@@ -101,21 +101,26 @@ export class SkyAutonumericDirective
     fromEvent(this.#elementRef.nativeElement, 'input')
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        const numericValue: number | undefined = this.#getNumericValue();
+        // Wrapping this function in a timeout due to inconsistency in how autonumeric itself is processing
+        // input events across multiple environments. This should ensure that users are not entering bad data
+        // for numeric form inputs. There is some lingering concern about how Android devices handle backspaces
+        // in certain situations. Issue to monitor: https://github.com/autoNumeric/autoNumeric/issues/781
+        setTimeout(() => {
+          const numericValue: number | undefined = this.#getNumericValue();
 
-        /* istanbul ignore else */
-        if (this.#value !== numericValue) {
-          this.#value = numericValue;
-          this.#onChange(numericValue);
-        }
+          /* istanbul ignore else */
+          if (this.#value !== numericValue) {
+            this.#value = numericValue;
+            this.#onChange(numericValue);
+          }
 
-        /* istanbul ignore else */
-        if (this.#control && !this.#control.dirty) {
-          this.#control.markAsDirty();
-        }
+          /* istanbul ignore else */
+          if (this.#control && !this.#control.dirty) {
+            this.#control.markAsDirty();
+          }
 
-        this.#changeDetector.markForCheck();
-      });
+          this.#changeDetector.markForCheck();
+        });
   }
 
   public ngOnDestroy(): void {
