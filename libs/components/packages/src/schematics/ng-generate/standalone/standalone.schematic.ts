@@ -422,12 +422,15 @@ function getSymbolsToUpdate(
             (mod) => mod.exports.includes(imp.sourceName),
           ) &&
           (imp.sourceName.endsWith('Pipe') ||
-            isReferencedInsideDecorator(
-              sourceFile,
+            (Object.values(packageMetadata[imp.packageName].lambdaMap).includes(
               imp.sourceName,
-              lastImport,
-              decoratedClasses,
-            ))),
+            ) &&
+              isReferencedInsideDecorator(
+                sourceFile,
+                imp.sourceName,
+                lastImport,
+                decoratedClasses,
+              )))),
     )
     .map((imp): SkyUxSymbolToNgModule => {
       const isLambda =
@@ -608,12 +611,6 @@ export default function standaloneSchematic(): Rule {
       path: '',
     }),
     useSkyUxModules,
-    ngCoreSchematic('route-lazy-loading-migration', { path: '' }),
-    ngCoreSchematic('self-closing-tags-migration', {
-      format: true,
-      path: '',
-    }),
-    ngCoreSchematic('control-flow-migration', { format: true, path: '' }),
     ngCoreSchematic('cleanup-unused-imports', {}),
   ]);
 }
