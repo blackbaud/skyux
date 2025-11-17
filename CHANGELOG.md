@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 * **components/ag-grid:** lookup cell editor should not stop editing when adding a new record ([#4086](https://github.com/blackbaud/skyux/issues/4086)) ([cbd547b](https://github.com/blackbaud/skyux/commit/cbd547be48e28e257c8be69f1628174f9cd35d8b)), closes [AB#3619682](https://github.com/AB/issues/3619682)
+* **components/tabs:** tab dropdown close button is on the right in modern theme ([#4073](https://github.com/blackbaud/skyux/issues/4073)) ([d7deacb](https://github.com/blackbaud/skyux/commit/d7deacbbc06c15b7adac1fff9e1827b6a1d2afc3)), closes [AB#3614210](https://github.com/AB/issues/3614210)
 
 
 
