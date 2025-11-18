@@ -29,7 +29,7 @@ export function removeImport(
         (node) => ts.isImportSpecifier(node),
       );
       const classMatches = importSpecifiers.filter((importSpecifier) =>
-        options.classNames.includes(importSpecifier.getText()),
+        options.classNames.includes(importSpecifier.name.text),
       );
       const otherMatches = importSpecifiers.filter(
         (importSpecifier) =>
