@@ -80,8 +80,8 @@ export interface SkyModalConfigurationInterface {
   helpKey?: string;
 
   /**
-   * The CSS class to add to the modal, such as `ag-custom-component-popup` for
-   * using a modal as part of a cell editor in Data Entry Grid.
+   * The CSS class, such as `ag-custom-component-popup`, to add to the modal
+   * that you open from a cell in the data entry grid.
    */
   wrapperClass?: string;
 }
