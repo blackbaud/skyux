@@ -132,6 +132,7 @@
   font-weight: 600;
 }
 
+h1,
 .sky-font-heading-1 {
   font-family: $sky-font-family-condensed;
   color: var(--sky-text-color-default);
@@ -139,6 +140,7 @@
   font-size: 34px;
 }
 
+h2,
 .sky-font-heading-2 {
   font-family: $sky-font-family-condensed;
   color: var(--sky-text-color-default);
@@ -146,6 +148,7 @@
   font-size: 26px;
 }
 
+h3,
 .sky-font-heading-3 {
   font-family: $sky-font-family;
   color: var(--sky-text-color-deemphasized);
@@ -153,6 +156,7 @@
   font-size: 19px;
 }
 
+h4,
 .sky-font-heading-4 {
   font-family: $sky-font-family;
   color: var(--sky-text-color-default);
@@ -160,6 +164,7 @@
   font-size: 16px;
 }
 
+h5,
 .sky-font-heading-5 {
   font-family: $sky-font-family;
   color: var(--sky-text-color-deemphasized);
