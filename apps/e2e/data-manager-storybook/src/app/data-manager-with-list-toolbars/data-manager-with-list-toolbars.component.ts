@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
@@ -12,14 +12,11 @@ import {
   providers: [SkyDataManagerService],
 })
 export class DataManagerWithListToolbarsComponent implements OnInit {
-  @Input()
-  public activeView = 'view-1';
-
   #dataManagerService = inject(SkyDataManagerService);
 
   public ngOnInit(): void {
     this.#dataManagerService.initDataManager({
-      activeViewId: this.activeView,
+      activeViewId: 'view-1',
       dataManagerConfig: {
         sortOptions: [
           {

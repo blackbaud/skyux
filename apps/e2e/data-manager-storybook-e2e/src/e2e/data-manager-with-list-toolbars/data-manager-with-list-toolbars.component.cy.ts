@@ -10,6 +10,7 @@ describe('data-manager-with-list-toolbars', () => {
       );
 
       it('should render the component', () => {
+        cy.skyReady();
         cy.get('app-data-manager-with-list-toolbars')
           .should('exist')
           .should('be.visible')
