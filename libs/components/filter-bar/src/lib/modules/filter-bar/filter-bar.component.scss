@@ -11,3 +11,12 @@
     var(--sky-comp-filter_bar-space-inset-bottom)
     var(--sky-comp-filter_bar-space-inset-left);
 }
+
+// When filter bar is a child of data manager toolbar, add a top border as if it were a toolbar section.
+:host-context(.sky-data-manager-toolbar) {
+  border-top: var(
+    --sky-override-toolbar-border-top-bottom,
+    var(--sky-border-width-divider) var(--sky-border-style-divider)
+      var(--sky-color-border-divider)
+  );
+}
