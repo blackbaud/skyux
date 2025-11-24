@@ -35,6 +35,12 @@
       "description": "Remove SKY UX compatibility stylesheets.",
       "factory": "./src/schematics/ng-generate/remove-compat-stylesheets/remove-compat-stylesheets.schematic",
       "schema": "./src/schematics/ng-generate/remove-compat-stylesheets/schema.json"
+    },
+    "standalone-migration": {
+      "description": "Convert components to standalone using SKY UX modules.",
+      "factory": "./src/schematics/ng-generate/standalone/standalone.schematic",
+      "schema": "./src/schematics/ng-generate/standalone/schema.json",
+      "aliases": ["standalone"]
     }
   }
 }

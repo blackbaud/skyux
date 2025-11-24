@@ -1,6 +1,42 @@
 # Changelog
 
 
+## [13.8.2](https://github.com/blackbaud/skyux/compare/13.8.1...13.8.2) (2025-11-14)
+
+
+### Bug Fixes
+
+* **components/layout:** use correct background and border for toolbar view actions ([#4083](https://github.com/blackbaud/skyux/issues/4083)) ([ff42c35](https://github.com/blackbaud/skyux/commit/ff42c3565f55d34d5ddbdf532156f1e83654148b))
+* **components/lookup:** use correct mobile search background color, collapse button size ([#4085](https://github.com/blackbaud/skyux/issues/4085)) ([2eae75c](https://github.com/blackbaud/skyux/commit/2eae75ce95e0f204cea0b5276da36e23eeb8c6cd))
+
+
+
+## [13.8.1](https://github.com/blackbaud/skyux/compare/13.8.0...13.8.1) (2025-11-13)
+
+
+### Bug Fixes
+
+* **components/lookup:** clicking selection modal label area selects item ([#4074](https://github.com/blackbaud/skyux/issues/4074)) ([905c925](https://github.com/blackbaud/skyux/commit/905c92595509ba9d531fdfab1f9b44a156755525)), closes [AB#3615418](https://github.com/AB/issues/3615418)
+* **components/tiles:** use same heading size for tile title and summary ([#4077](https://github.com/blackbaud/skyux/issues/4077)) ([9c1ee1f](https://github.com/blackbaud/skyux/commit/9c1ee1faee1876c3e0d11db50c1dfa22f6b446bd))
+* remove redundant header classes  ([#4071](https://github.com/blackbaud/skyux/issues/4071)) ([c61f9dd](https://github.com/blackbaud/skyux/commit/c61f9dd6be122a51019f1626f52677988ced0224)), closes [AB#3613664](https://github.com/AB/issues/3613664)
+
+
+
+# [13.8.0](https://github.com/blackbaud/skyux/compare/13.7.2...13.8.0) (2025-11-10)
+
+
+### Bug Fixes
+
+* add missed links to global help docs ([#4064](https://github.com/blackbaud/skyux/issues/4064)) ([2c45bce](https://github.com/blackbaud/skyux/commit/2c45bce4f389afebf218803a91bb963e233b03e7)), closes [AB#3612167](https://github.com/AB/issues/3612167)
+* **components/ag-grid:** maintain column types when using service grid options ([#4078](https://github.com/blackbaud/skyux/issues/4078)) ([bcabffc](https://github.com/blackbaud/skyux/commit/bcabffc731160f08949fcdca0b9a9739b2db7051))
+
+
+### Features
+
+* add helper functions to get custom form errors and add SkyFormErrorHarness to docs ([#4070](https://github.com/blackbaud/skyux/issues/4070)) ([99d83b9](https://github.com/blackbaud/skyux/commit/99d83b908916b70ad10861aeaf74bf56b49720e2)), closes [AB#3609292](https://github.com/AB/issues/3609292)
+
+
+
 ## [13.7.2](https://github.com/blackbaud/skyux/compare/13.7.1...13.7.2) (2025-11-05)
 
 

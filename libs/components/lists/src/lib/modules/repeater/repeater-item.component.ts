@@ -379,11 +379,7 @@ export class SkyRepeaterItemComponent
     if (
       [' ', 'Enter', 'Home', 'End', 'ArrowUp', 'ArrowDown'].includes($event.key)
     ) {
-      if (
-        ($event.target as HTMLElement).matches(
-          'input, textarea, select, option, [contenteditable], [contenteditable] *',
-        )
-      ) {
+      if (this.#isEventTargetInteractiveElement($event)) {
         return;
       }
       $event.preventDefault();
@@ -475,6 +471,17 @@ export class SkyRepeaterItemComponent
       this.itemHeaderRef?.nativeElement.contains(event.target)
     ) {
       this.#repeaterService.activateItem(this);
+      if (this.#isEventTargetInteractiveElement(event)) {
+        return;
+      }
+      if (
+        this.selectable &&
+        (event.target as HTMLElement).matches(
+          '.sky-repeater-item, .sky-repeater-item-right, sky-repeater-item-content',
+        )
+      ) {
+        this.isSelected = !this.isSelected;
+      }
     }
   }
 
@@ -578,6 +585,12 @@ export class SkyRepeaterItemComponent
     this.#revertReorderSteps();
     this.reorderButtonLabel = this.#reorderInstructions;
     this.reorderState = undefined;
+  }
+
+  #isEventTargetInteractiveElement($event: Event): boolean {
+    return ($event.target as HTMLElement).matches(
+      'input, textarea, select, option, [contenteditable], [contenteditable] *',
+    );
   }
 
   #slideForExpanded(animate: boolean): void {

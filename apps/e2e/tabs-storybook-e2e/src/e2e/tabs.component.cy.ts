@@ -33,6 +33,20 @@ describe(`tabs-storybook`, () => {
             `tabscomponent-tabs--tabs-dropdown-${theme}`,
           );
         });
+        it('should render the component - open', () => {
+          cy.skyReady('app-tabs')
+            .get('.sky-dropdown-button')
+            .should('exist')
+            .should('be.visible')
+            .click();
+          cy.get('app-tabs')
+            .should('exist')
+            .should('be.visible')
+            .screenshot(`tabscomponent-tabs--tabs-dropdown-open-${theme}`);
+          cy.get('app-tabs').percySnapshot(
+            `tabscomponent-tabs--tabs-dropdown-open-${theme}`,
+          );
+        });
       });
     });
   });

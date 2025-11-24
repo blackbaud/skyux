@@ -150,7 +150,10 @@ sky-search {
     position: absolute;
     background-color: var(
       --sky-override-search-mobile-background-color,
-      var(--sky-color-background-action-secondary-base)
+      var(
+        --sky-comp-override-list-header-background-color,
+        var(--sky-background-color-page-default)
+      )
     );
     top: 0;
     left: 0;
@@ -163,6 +166,7 @@ sky-search {
         var(--sky-comp-search-space-offset-bottom)
         var(--sky-comp-search-space-offset-left)
     );
+    z-index: 1;
   }
 }
 
@@ -216,27 +220,10 @@ sky-search {
 
     .sky-search-btn-dismiss {
       color: var(--sky-color-icon-default);
-      height: calc(
-        calc(
-            var(--sky-font-line_height-input-val) *
-              var(--sky-font-size-input-val)
-          ) +
-          calc(
-            var(--sky-comp-button-space-inset-top) +
-              var(--sky-comp-button-space-inset-bottom)
-          )
-      );
-      width: calc(
-        calc(
-            var(--sky-font-line_height-input-val) *
-              var(--sky-font-size-input-val)
-          ) +
-          calc(
-            var(--sky-comp-button-space-inset-left) +
-              var(--sky-comp-button-space-inset-right)
-          )
-      );
-      padding: 0;
+      padding: var(--sky-comp-button-toolbar-space-inset-top)
+        var(--sky-comp-button-toolbar-space-inset-right)
+        var(--sky-comp-button-toolbar-space-inset-bottom)
+        var(--sky-comp-button-toolbar-space-inset-left);
     }
 
     .sky-search-container .sky-search-input-container {
