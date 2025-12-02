@@ -19,6 +19,11 @@ import { SelectionModalPlaygroundPerson } from './types/selection-modal-playgrou
 export class SelectionModalComponent {
   protected selectedPeople: SelectionModalPlaygroundPerson[] = [
     { id: '22', name: 'Pierce' },
+    { id: '28', name: 'Shirley' },
+    { id: '29', name: 'Todd' },
+    { id: '30', name: 'Troy' },
+    { id: '31', name: 'Vaughn' },
+    { id: '32', name: 'Vicki' },
   ];
 
   readonly #modalSvc = inject(SkyModalService);
