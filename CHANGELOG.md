@@ -6,6 +6,7 @@
 
 ### Features
 
+* update ag grid package versions ([#4095](https://github.com/blackbaud/skyux/issues/4095)) ([aa50bb4](https://github.com/blackbaud/skyux/commit/aa50bb451ddae6600f67b7add78dabd79998c287))
 * update design tokens to 3.3.0 ([#4098](https://github.com/blackbaud/skyux/issues/4098)) ([5f5fc9c](https://github.com/blackbaud/skyux/commit/5f5fc9cb8913fe32ef18214ae3c0dd20afd51156))
 
 
