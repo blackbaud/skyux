@@ -140,7 +140,7 @@
       }
     </sky-repeater>
     <sky-infinite-scroll
-      [enabled]="hasMoreItems && (!onlyShowSelected || searchText)"
+      [enabled]="hasMoreItems && (!onlyShowSelected || !!searchText)"
       [loading]="isLoadingMore"
       (scrollEnd)="infiniteScrollEnd()"
     />
