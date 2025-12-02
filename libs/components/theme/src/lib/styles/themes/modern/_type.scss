@@ -56,6 +56,15 @@
     font-weight: var(--sky-font-style-emphasized);
   }
 
+  .sky-font-eyebrow {
+    color: var(--sky-color-text-heading);
+    font-size: var(--sky-font-size-eyebrow);
+    font-weight: var(--sky-font-style-eyebrow);
+    letter-spacing: var(--sky-font-letter_spacing-eyebrow);
+    line-height: var(--sky-font-line_height-eyebrow);
+    text-transform: var(--sky-font-text_transform-eyebrow);
+  }
+
   .sky-font-hint-text-s {
     color: var(--sky-color-text-deemphasized);
     font-family: var(--sky-font-family-primary);

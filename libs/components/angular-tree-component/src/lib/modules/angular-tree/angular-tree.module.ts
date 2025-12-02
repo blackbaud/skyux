@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { SkyCoreAdapterService } from '@skyux/core';
 
 import { SkyAngularTreeComponentResourcesModule } from '../shared/sky-angular-tree-component-resources.module';
 
@@ -15,6 +16,7 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
     SkyAngularTreeToolbarComponent,
     SkyAngularTreeWrapperComponent,
   ],
+  providers: [SkyCoreAdapterService],
   exports: [SkyAngularTreeNodeComponent, SkyAngularTreeWrapperComponent],
 })
 export class SkyAngularTreeModule {}
