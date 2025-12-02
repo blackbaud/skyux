@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.9.1](https://github.com/blackbaud/skyux/compare/13.9.0...13.9.1) (2025-12-02)
+
+
+### Bug Fixes
+
+* restore module providers ([#4096](https://github.com/blackbaud/skyux/issues/4096)) ([ed5703d](https://github.com/blackbaud/skyux/commit/ed5703d72369897c29ce8016417939818d65f994)), closes [#4045](https://github.com/blackbaud/skyux/issues/4045) [AB#3637634](https://github.com/AB/issues/3637634)
+
+
+
 # [13.9.0](https://github.com/blackbaud/skyux/compare/13.8.2...13.9.0) (2025-12-01)
 
 
