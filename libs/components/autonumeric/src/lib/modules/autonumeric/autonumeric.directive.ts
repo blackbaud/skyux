@@ -111,8 +111,11 @@ export class SkyAutonumericDirective
         this.#changeDetector.markForCheck();
       });
 
-    // Workaround for Android Chrome input lag issue:
-    // https://github.com/autoNumeric/autoNumeric/issues/781
+    // On Android browsers, the native `input` event fires before AutoNumeric's
+    // `autoNumeric:rawValueModified` event (on other browsers, the order is reversed).
+    // To support Android without breaking existing behavior, we listen to both events.
+    // The filter prevents processing during programmatic changes via writeValue().
+    // See: https://github.com/autoNumeric/autoNumeric/issues/781
     fromEvent(this.#elementRef.nativeElement, 'autoNumeric:rawValueModified')
       .pipe(
         filter(() => !this.#isWritingValue),
