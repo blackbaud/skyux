@@ -1,15 +1,14 @@
 import {
   ChangeDetectorRef,
-  DestroyRef,
   Directive,
   ElementRef,
+  HostListener,
   Input,
   OnDestroy,
+  OnInit,
   Renderer2,
   forwardRef,
-  inject,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -20,7 +19,8 @@ import {
 } from '@angular/forms';
 
 import AutoNumeric from 'autonumeric';
-import { filter, fromEvent } from 'rxjs';
+import { Subject, fromEvent } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { SkyAutonumericOptions } from './autonumeric-options';
 import { SkyAutonumericOptionsProvider } from './autonumeric-options-provider';
@@ -45,19 +45,10 @@ const SKY_AUTONUMERIC_VALIDATOR = {
   selector: 'input[skyAutonumeric]',
   providers: [SKY_AUTONUMERIC_VALUE_ACCESSOR, SKY_AUTONUMERIC_VALIDATOR],
   standalone: false,
-  host: {
-    '(blur)': 'onBlur()',
-  },
 })
 export class SkyAutonumericDirective
-  implements OnDestroy, ControlValueAccessor, Validator
+  implements OnInit, OnDestroy, ControlValueAccessor, Validator
 {
-  readonly #destroyRef = inject(DestroyRef);
-  readonly #elementRef = inject(ElementRef<HTMLInputElement>);
-  readonly #globalConfig = inject(SkyAutonumericOptionsProvider);
-  readonly #renderer = inject(Renderer2);
-  readonly #changeDetector = inject(ChangeDetectorRef);
-
   /**
    * Assigns the name of a property from `SkyAutonumericOptionsProvider`.
    */
@@ -73,49 +64,123 @@ export class SkyAutonumericDirective
   @Input()
   public skyAutonumericFormChangesUnformatted: boolean | undefined = false;
 
+  #autonumericInstance: AutoNumeric;
+  #autonumericOptions: SkyAutonumericOptions | undefined;
   #control: AbstractControl | undefined;
-  #value: number | undefined;
   #isFirstChange = true;
   #isWritingValue = false;
   #userInteracted = false;
+  #value: number | undefined;
 
-  #autonumericInstance: AutoNumeric;
-  #autonumericOptions = this.#globalConfig.getConfig();
+  #ngUnsubscribe = new Subject<void>();
 
-  constructor() {
-    this.#autonumericInstance = new AutoNumeric(this.#elementRef.nativeElement);
+  #elementRef: ElementRef;
+  #globalConfig: SkyAutonumericOptionsProvider;
+  #renderer: Renderer2;
+  #changeDetector: ChangeDetectorRef;
+
+  constructor(
+    elementRef: ElementRef,
+    globalConfig: SkyAutonumericOptionsProvider,
+    renderer: Renderer2,
+    changeDetector: ChangeDetectorRef,
+  ) {
+    this.#elementRef = elementRef;
+    this.#globalConfig = globalConfig;
+    this.#renderer = renderer;
+    this.#changeDetector = changeDetector;
+
+    this.#autonumericInstance = new AutoNumeric(elementRef.nativeElement);
+  }
+
+  public ngOnInit(): void {
+    // Ensure that we set the global config even if no local config has been given.
+    if (!this.#autonumericOptions) {
+      this.#autonumericOptions = this.#globalConfig.getConfig();
+    }
     this.#updateAutonumericInstance();
-    this.#setupValueChangeListeners();
+
+    fromEvent(this.#elementRef.nativeElement, 'input')
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        this.#userInteracted = true;
+        this.#handleValueChange();
+      });
+
+    // Workaround for Android Chrome input lag issue:
+    // https://github.com/autoNumeric/autoNumeric/issues/781
+    fromEvent(this.#elementRef.nativeElement, 'autoNumeric:rawValueModified')
+      .pipe(
+        filter(() => !this.#isWritingValue),
+        takeUntil(this.#ngUnsubscribe),
+      )
+      .subscribe(() => {
+        this.#handleValueChange();
+      });
   }
 
   public ngOnDestroy(): void {
     this.#autonumericInstance.remove();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
-  public writeValue(value: number | undefined): void {
-    this.#value = value;
-    this.#markPristineOnFirstChange();
-    this.#updateViewValue(value);
-  }
-
-  public validate(control: AbstractControl): ValidationErrors | null {
-    this.#control ??= control;
-
-    if (control.value === null || control.value === undefined) {
-      return null;
-    }
-
-    return typeof control.value === 'number'
-      ? null
-      : { notTypeOfNumber: { value: control.value } };
-  }
-
+  /**
+   * Implemented as part of ControlValueAccessor.
+   */
   public setDisabledState(value: boolean): void {
     this.#renderer.setProperty(
       this.#elementRef.nativeElement,
       'disabled',
       value,
     );
+  }
+
+  public writeValue(value: number | undefined): void {
+    this.#isWritingValue = true;
+
+    if (this.#value !== value) {
+      this.#value = value;
+      this.#onChange(value);
+
+      // Mark the control as "pristine" if it is initialized with a value.
+      if (this.#isFirstChange && this.#control && this.#value !== null) {
+        this.#isFirstChange = false;
+        this.#control.markAsPristine();
+      }
+    }
+
+    if (typeof value === 'number') {
+      if (this.skyAutonumericFormChangesUnformatted) {
+        this.#autonumericInstance.setUnformatted(value.toString());
+      } else {
+        this.#autonumericInstance.set(value.toString());
+      }
+    } else {
+      this.#autonumericInstance.clear();
+    }
+
+    this.#isWritingValue = false;
+  }
+
+  public validate(control: AbstractControl): ValidationErrors | null {
+    const noErrors = null;
+
+    if (!this.#control) {
+      this.#control = control;
+    }
+
+    if (control.value === null || control.value === undefined) {
+      return noErrors;
+    }
+
+    if (typeof control.value !== 'number') {
+      return {
+        notTypeOfNumber: { value: control.value },
+      };
+    }
+
+    return noErrors;
   }
 
   public registerOnChange(fn: (value: number | undefined) => void): void {
@@ -126,114 +191,36 @@ export class SkyAutonumericDirective
     this.#onTouched = fn;
   }
 
+  @HostListener('blur')
   public onBlur(): void {
     this.#onTouched();
   }
 
-  /**
-   * Setup event listeners for value changes.
-   * Workaround for https://github.com/autoNumeric/autoNumeric/issues/781
-   * On Android Chrome, the 'input' event may lag behind actual input.
-   * We listen to both 'input' and 'autoNumeric:rawValueModified' events.
-   */
-  #setupValueChangeListeners(): void {
-    // The 'input' event indicates user interaction.
-    fromEvent(this.#elementRef.nativeElement, 'input')
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe(() => {
-        this.#userInteracted = true;
-        this.#handleValueChange();
-      });
-
-    // The 'autoNumeric:rawValueModified' event can fire on both user interaction
-    // and programmatic changes, so we handle value updates here.
-    fromEvent(this.#elementRef.nativeElement, 'autoNumeric:rawValueModified')
-      .pipe(
-        // Ignore events during writeValue to prevent interfering with validation
-        filter(() => !this.#isWritingValue),
-        takeUntilDestroyed(this.#destroyRef),
-      )
-      .subscribe(() => this.#handleValueChange());
-  }
-
-  /**
-   * Handle value changes from user input or AutoNumeric events.
-   */
   #handleValueChange(): void {
-    const numericValue = this.#getNumericValue();
+    const numericValue: number | undefined = this.#getNumericValue();
 
+    /* istanbul ignore else */
     if (this.#value !== numericValue) {
       this.#value = numericValue;
       this.#onChange(numericValue);
     }
 
-    if (this.#control && !this.#control.dirty && this.#userInteracted) {
+    /* istanbul ignore else */
+    if (this.#userInteracted && this.#control && !this.#control.dirty) {
       this.#control.markAsDirty();
     }
 
     this.#changeDetector.markForCheck();
   }
 
-  /**
-   * Mark the control as pristine on first change with a value.
-   */
-  #markPristineOnFirstChange(): void {
-    if (
-      this.#isFirstChange &&
-      this.#control &&
-      this.#value !== null &&
-      this.#value !== undefined
-    ) {
-      this.#isFirstChange = false;
-      this.#control.markAsPristine();
-    }
-  }
-
-  /**
-   * Get the current numeric value from the input.
-   * Returns undefined if the input is empty or contains only the currency symbol.
-   */
   #getNumericValue(): number | undefined {
-    const inputValue = this.#elementRef.nativeElement.value;
-    if (!inputValue || this.#isInputValueTheCurrencySymbol(inputValue)) {
-      return undefined;
-    }
-
+    const inputValue = this.#getInputValue();
     const numericValue = this.#autonumericInstance.getNumber();
-    if (typeof numericValue === 'number') {
-      return numericValue;
-    }
-
-    /* istanbul ignore next: safety check */
-    return undefined;
-  }
-
-  /**
-   * Update the view (input element) with the new value.
-   */
-  #updateViewValue(value: number | undefined): void {
-    this.#isWritingValue = true;
-    try {
-      if (typeof value === 'number') {
-        this.#setNumericValue(value);
-      } else {
-        this.#autonumericInstance.clear();
-      }
-    } finally {
-      this.#isWritingValue = false;
-    }
-  }
-
-  /**
-   * Set a numeric value using AutoNumeric.
-   */
-  #setNumericValue(value: number): void {
-    const valueString = value.toString();
-    if (this.skyAutonumericFormChangesUnformatted) {
-      this.#autonumericInstance.setUnformatted(valueString);
-    } else {
-      this.#autonumericInstance.set(valueString);
-    }
+    return inputValue &&
+      !this.#isInputValueTheCurrencySymbol(inputValue) &&
+      typeof numericValue === 'number'
+      ? numericValue
+      : undefined;
   }
 
   /**
@@ -247,8 +234,11 @@ export class SkyAutonumericDirective
     const currencySymbol = (
       (this.#autonumericOptions as AutoNumeric.Options)?.currencySymbol ?? ''
     ).trim();
-
     return !!currencySymbol && inputValue === currencySymbol;
+  }
+
+  #getInputValue(): string {
+    return this.#elementRef.nativeElement.value;
   }
 
   #updateAutonumericInstance(): void {
@@ -257,39 +247,27 @@ export class SkyAutonumericDirective
     );
   }
 
-  /**
-   * Merge global and local AutoNumeric options.
-   */
   #mergeOptions(
     value: SkyAutonumericOptions | undefined,
   ): SkyAutonumericOptions {
-    const globalOptions = this.#globalConfig.getConfig();
-    const localOptions = this.#resolveOptions(value);
+    const globalOptions: SkyAutonumericOptions = this.#globalConfig.getConfig();
 
-    return Object.assign({}, globalOptions, localOptions);
-  }
-
-  /**
-   * Resolve options from string preset name or return as-is.
-   */
-  #resolveOptions(
-    value: SkyAutonumericOptions | undefined,
-  ): SkyAutonumericOptions | undefined {
+    let newOptions: SkyAutonumericOptions | undefined;
     if (typeof value === 'string') {
       const predefinedOptions = AutoNumeric.getPredefinedOptions();
-
-      return predefinedOptions[
+      newOptions = predefinedOptions[
         value as keyof AutoNumeric.Options
       ] as AutoNumeric.Options;
+    } else {
+      newOptions = value;
     }
 
-    return value;
+    return Object.assign({}, globalOptions, newOptions);
   }
 
   // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-empty-function , @typescript-eslint/no-unused-vars
   #onChange = (_: number | undefined): void => {};
-
   // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   #onTouched = (): void => {};
