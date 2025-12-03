@@ -207,4 +207,48 @@ describe('Selection modal component', () => {
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
+
+  it('should display all selected items when showing only selected and not searching', async () => {
+    const initialSelected = [
+      { id: '1', name: 'Abed' },
+      { id: '21', name: 'Walter' },
+    ];
+
+    const fixture = createSelectionModal({
+      selectionDescriptor: 'people',
+      selectMode: 'multiple',
+      initialValue: initialSelected,
+    });
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const component = fixture.componentInstance;
+
+    let displayedNames = component.displayedItems.map((p: any) => p.name);
+    expect(displayedNames).toContain('Abed');
+    expect(displayedNames).not.toContain('Walter');
+
+    // Not showing only selected: displayedItems mirrors items.
+    expect(component.onlyShowSelected).toBeFalse();
+    expect(component.displayedItems).toEqual(component.items);
+
+    // Enable "show only selected" while not searching.
+    component.onlyShowSelected = true;
+    component.searchText = undefined; // not searching
+    component.updateDisplayedItems();
+
+    displayedNames = component.displayedItems.map((p: any) => p.name);
+    expect(displayedNames).toContain('Abed');
+    expect(displayedNames).toContain('Walter');
+
+    // Now simulate searching while showing only selected; it should restrict to items
+    // that map to the consumer results.
+    component.searchText = 'Ab';
+    component.updateDisplayedItems();
+
+    displayedNames = component.displayedItems.map((p: any) => p.name);
+    expect(displayedNames).toContain('Abed');
+    expect(displayedNames).not.toContain('Walter');
+  });
 });

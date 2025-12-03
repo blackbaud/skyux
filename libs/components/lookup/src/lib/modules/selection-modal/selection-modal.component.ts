@@ -237,7 +237,11 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
     );
 
     if (this.onlyShowSelected) {
-      this.displayedItems = selectedItems;
+      if (!this.searchText) {
+        this.displayedItems = Array.from(this.selectedIdMap.values());
+      } else {
+        this.displayedItems = selectedItems;
+      }
     } else {
       this.displayedItems = this.items;
     }
