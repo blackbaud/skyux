@@ -69,7 +69,6 @@ export class SkyAutonumericDirective
   #control: AbstractControl | undefined;
   #isFirstChange = true;
   #isWritingValue = false;
-  #userInteracted = false;
   #value: number | undefined;
 
   #ngUnsubscribe = new Subject<void>();
@@ -103,8 +102,13 @@ export class SkyAutonumericDirective
     fromEvent(this.#elementRef.nativeElement, 'input')
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        this.#userInteracted = true;
         this.#handleValueChange();
+
+        if (this.#control && !this.#control.dirty) {
+          this.#control.markAsDirty();
+        }
+
+        this.#changeDetector.markForCheck();
       });
 
     // Workaround for Android Chrome input lag issue:
@@ -199,18 +203,10 @@ export class SkyAutonumericDirective
   #handleValueChange(): void {
     const numericValue: number | undefined = this.#getNumericValue();
 
-    /* istanbul ignore else */
     if (this.#value !== numericValue) {
       this.#value = numericValue;
       this.#onChange(numericValue);
     }
-
-    /* istanbul ignore else */
-    if (this.#userInteracted && this.#control && !this.#control.dirty) {
-      this.#control.markAsDirty();
-    }
-
-    this.#changeDetector.markForCheck();
   }
 
   #getNumericValue(): number | undefined {

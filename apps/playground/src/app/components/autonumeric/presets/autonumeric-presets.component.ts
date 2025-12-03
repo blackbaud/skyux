@@ -32,9 +32,15 @@ export class AutonumericPresetsComponent {
   protected formGroup: FormGroup;
   protected donationAmount = new FormControl(1234.5678, [Validators.required]);
 
+  protected valueChangesCount = 0;
+
   constructor() {
     this.formGroup = inject(FormBuilder).group({
       donationAmount: this.donationAmount,
+    });
+
+    this.donationAmount.valueChanges.subscribe(() => {
+      this.valueChangesCount++;
     });
   }
 }
