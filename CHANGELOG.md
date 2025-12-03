@@ -1,6 +1,42 @@
 # Changelog
 
 
+# [13.10.0](https://github.com/blackbaud/skyux/compare/13.9.1...13.10.0) (2025-12-02)
+
+
+### Features
+
+* update ag grid package versions ([#4095](https://github.com/blackbaud/skyux/issues/4095)) ([aa50bb4](https://github.com/blackbaud/skyux/commit/aa50bb451ddae6600f67b7add78dabd79998c287))
+* update design tokens to 3.3.0 ([#4098](https://github.com/blackbaud/skyux/issues/4098)) ([5f5fc9c](https://github.com/blackbaud/skyux/commit/5f5fc9cb8913fe32ef18214ae3c0dd20afd51156))
+
+
+
+## [13.9.1](https://github.com/blackbaud/skyux/compare/13.9.0...13.9.1) (2025-12-02)
+
+
+### Bug Fixes
+
+* restore module providers ([#4096](https://github.com/blackbaud/skyux/issues/4096)) ([ed5703d](https://github.com/blackbaud/skyux/commit/ed5703d72369897c29ce8016417939818d65f994)), closes [#4045](https://github.com/blackbaud/skyux/issues/4045) [AB#3637634](https://github.com/AB/issues/3637634)
+
+
+
+# [13.9.0](https://github.com/blackbaud/skyux/compare/13.8.2...13.9.0) (2025-12-01)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** lookup cell editor should not stop editing when adding a new record ([#4086](https://github.com/blackbaud/skyux/issues/4086)) ([cbd547b](https://github.com/blackbaud/skyux/commit/cbd547be48e28e257c8be69f1628174f9cd35d8b)), closes [AB#3619682](https://github.com/AB/issues/3619682)
+* **components/filter-bar:** add top border styling for filter bar in data manager ([#4094](https://github.com/blackbaud/skyux/issues/4094)) ([7bdc781](https://github.com/blackbaud/skyux/commit/7bdc781b45523b4ce49cfaaa48c1c66230016595))
+* **components/tabs:** tab dropdown close button is on the right in modern theme ([#4073](https://github.com/blackbaud/skyux/issues/4073)) ([d7deacb](https://github.com/blackbaud/skyux/commit/d7deacbbc06c15b7adac1fff9e1827b6a1d2afc3)), closes [AB#3614210](https://github.com/AB/issues/3614210)
+* **components/theme:** fix default semantic header styling ([#4093](https://github.com/blackbaud/skyux/issues/4093)) ([8591069](https://github.com/blackbaud/skyux/commit/8591069d032b396cc470b0071036934e08a33b34)), closes [AB#3618574](https://github.com/AB/issues/3618574)
+
+
+### Features
+
+* **components/packages:** create schematic to convert SKY UX projects to use standalone components ([#4082](https://github.com/blackbaud/skyux/issues/4082)) ([9c1b329](https://github.com/blackbaud/skyux/commit/9c1b32960cb1a796505bef526c3d912d7f167611)), closes [AB#3603880](https://github.com/AB/issues/3603880)
+
+
+
 ## [13.8.2](https://github.com/blackbaud/skyux/compare/13.8.1...13.8.2) (2025-11-14)
 
 

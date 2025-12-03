@@ -2,6 +2,7 @@ import { SelectionModalPlaygroundPerson } from './selection-modal-playground-per
 
 export interface SelectionModalPlaygroundSearchResults {
   hasMore: boolean;
+  continuationData?: string;
   people: SelectionModalPlaygroundPerson[];
   totalCount: number;
 }

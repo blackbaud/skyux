@@ -17,7 +17,14 @@ import { SelectionModalPlaygroundPerson } from './types/selection-modal-playgrou
   standalone: false,
 })
 export class SelectionModalComponent {
-  protected selectedPeople: SelectionModalPlaygroundPerson[] | undefined;
+  protected selectedPeople: SelectionModalPlaygroundPerson[] = [
+    { id: '22', name: 'Pierce' },
+    { id: '28', name: 'Shirley' },
+    { id: '29', name: 'Todd' },
+    { id: '30', name: 'Troy' },
+    { id: '31', name: 'Vaughn' },
+    { id: '32', name: 'Vicki' },
+  ];
 
   readonly #modalSvc = inject(SkyModalService);
   readonly #searchSvc = inject(SelectionModalPlaygroundService);
@@ -28,15 +35,17 @@ export class SelectionModalComponent {
       descriptorProperty: 'name',
       idProperty: 'id',
       searchAsync: (args) =>
-        this.#searchSvc.search(args.searchText).pipe(
+        this.#searchSvc.search(args).pipe(
           map(
             (results): SkySelectionModalSearchResult => ({
               hasMore: results.hasMore,
+              continuationData: results.continuationData,
               items: results.people,
               totalCount: results.totalCount,
             }),
           ),
         ),
+      value: single ? undefined : this.selectedPeople,
       selectionDescriptor: single ? 'person' : 'people',
       selectMode: single ? 'single' : 'multiple',
       showAddButton: true,
