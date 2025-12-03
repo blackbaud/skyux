@@ -8,22 +8,33 @@ import {
   ElementRef,
   EnvironmentInjector,
   OnDestroy,
+  Type,
   ViewChild,
   computed,
   inject,
+  linkedSignal,
   signal,
 } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
   SkyDynamicComponentLocation,
   SkyDynamicComponentService,
 } from '@skyux/core';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
 import { ColumnMovedEvent } from 'ag-grid-community';
-import { BehaviorSubject, Subscription, fromEvent, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  Subscription,
+  fromEvent,
+  map,
+  of,
+  switchMap,
+} from 'rxjs';
 
 import { SkyAgGridHeaderInfo } from '../types/header-info';
 import { SkyAgGridHeaderParams } from '../types/header-params';
@@ -41,7 +52,13 @@ import { SkyAgGridHeaderParams } from '../types/header-params';
     '[attr.aria-label]': 'displayName() || accessibleHeaderText()',
     '[attr.role]': '"note"',
   },
-  imports: [SkyIconModule, SkyThemeModule, AsyncPipe, SkyI18nModule],
+  imports: [
+    AsyncPipe,
+    SkyHelpInlineModule,
+    SkyI18nModule,
+    SkyIconModule,
+    SkyThemeModule,
+  ],
 })
 export class SkyAgGridHeaderComponent
   implements IHeaderAngularComp, OnDestroy, AfterViewInit
@@ -68,11 +85,6 @@ export class SkyAgGridHeaderComponent
   protected readonly params = signal<SkyAgGridHeaderParams | undefined>(
     undefined,
   );
-  protected sorted = '';
-  protected readonly sortOrder$ = new BehaviorSubject<
-    'asc' | 'desc' | undefined
-  >(undefined);
-  protected readonly sortIndexDisplay$ = new BehaviorSubject<string>('');
 
   protected displayName = computed<string | undefined>(() => {
     const params = this.params();
@@ -86,6 +98,27 @@ export class SkyAgGridHeaderComponent
     }
   });
 
+  // Computed signals to reduce template complexity
+  protected readonly showMenu = computed(() => !!this.params()?.enableMenu);
+
+  protected readonly showSortableButton = computed(
+    () => !!this.params()?.enableSorting,
+  );
+
+  protected readonly showStaticText = computed(
+    () => !this.params()?.enableSorting && !!this.displayName(),
+  );
+
+  protected readonly sortAriaLabel = computed(() => {
+    const displayName = this.displayName();
+    const accessibleHeaderText = this.accessibleHeaderText();
+    return (displayName || accessibleHeaderText) ?? '';
+  });
+
+  protected readonly showInlineHelp = computed(
+    () => !!this.params()?.helpPopoverContent,
+  );
+
   #subscriptions = new Subscription();
   #inlineHelpComponentRef: ComponentRef<unknown> | undefined;
   #viewInitialized = false;
@@ -95,6 +128,53 @@ export class SkyAgGridHeaderComponent
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dynamicComponentService = inject(SkyDynamicComponentService);
   readonly #environmentInjector = inject(EnvironmentInjector);
+  readonly #column = linkedSignal(() => this.params()?.column);
+  readonly #gridApi = linkedSignal(() => this.params()?.api);
+  readonly #gridSortColumns = toSignal(
+    toObservable(this.#gridApi).pipe(
+      switchMap((api) => {
+        if (api) {
+          return fromEvent(api, 'sortChanged').pipe(
+            map(() =>
+              api
+                .getColumns()
+                ?.filter((column) => !!column.getSort())
+                .map((column): string => column.getColId()),
+            ),
+          );
+        }
+        return of([]);
+      }),
+    ),
+  );
+
+  protected readonly sortOrder = toSignal(
+    toObservable(this.#column).pipe(
+      switchMap((column) => {
+        if (column) {
+          return fromEvent(column, 'sortChanged').pipe(
+            map(() => column.getSort() ?? undefined),
+          );
+        }
+        return of(undefined);
+      }),
+    ),
+    { initialValue: undefined },
+  );
+  protected readonly sortIndexDisplay = computed(() => {
+    const colId = this.params()?.column.getColId();
+    const enableSorting = !!this.params()?.enableSorting;
+    const sortIndex = this.params()?.column.getSortIndex() ?? false;
+    const sortColumns = this.#gridSortColumns();
+    if (
+      enableSorting &&
+      sortIndex !== false &&
+      sortColumns?.some((id) => id !== colId)
+    ) {
+      return `${sortIndex + 1}`;
+    }
+    return '';
+  });
 
   public ngAfterViewInit(): void {
     this.#viewInitialized = true;
@@ -114,45 +194,29 @@ export class SkyAgGridHeaderComponent
     }
     this.#leftPosition = params.column.getLeft() ?? 0;
     this.#subscriptions = new Subscription();
+    this.#subscriptions.add(
+      fromEvent(params.api, 'gridPreDestroyed').subscribe(() => {
+        this.#column.set(undefined);
+        this.#gridApi.set(undefined);
+        this.#subscriptions.unsubscribe();
+      }),
+    );
     if (params.column.isFilterAllowed()) {
       this.#subscriptions.add(
-        fromEvent(params.column, 'filterChanged')
-          .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
-          .subscribe(() => {
-            const isFilterActive = params.column.isFilterActive();
-            if (isFilterActive !== this.filterEnabled$.getValue()) {
-              this.filterEnabled$.next(isFilterActive);
-            }
-          }),
+        fromEvent(params.column, 'filterChanged').subscribe(() => {
+          const isFilterActive = params.column.isFilterActive();
+          if (isFilterActive !== this.filterEnabled$.getValue()) {
+            this.filterEnabled$.next(isFilterActive);
+          }
+        }),
       );
-    }
-    if (params.enableSorting) {
-      // Column sort state changes
-      this.#subscriptions.add(
-        fromEvent(params.column, 'sortChanged')
-          .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
-          .subscribe(() => {
-            this.#updateSort();
-          }),
-      );
-      // Other column sort state changes, for multi-column sorting
-      this.#subscriptions.add(
-        fromEvent(params.api, 'sortChanged')
-          .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
-          .subscribe(() => {
-            this.#updateSortIndex();
-          }),
-      );
-      this.#updateSort();
-      this.#updateSortIndex();
     }
 
     // When the column is moved left via the keyboard, the element is detached
     // and reattached to the DOM to maintain DOM order, and its focus is lost.
     this.#subscriptions.add(
-      fromEvent<ColumnMovedEvent>(params.api, 'columnMoved')
-        .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
-        .subscribe((event) => {
+      fromEvent<ColumnMovedEvent>(params.api, 'columnMoved').subscribe(
+        (event) => {
           const left = event.column?.getLeft() ?? 0;
           const oldLeft = this.#leftPosition;
           if (
@@ -163,7 +227,8 @@ export class SkyAgGridHeaderComponent
             params.eGridHeader.focus();
           }
           this.#leftPosition = left;
-        }),
+        },
+      ),
     );
 
     this.#updateInlineHelp();
@@ -186,62 +251,68 @@ export class SkyAgGridHeaderComponent
   }
 
   #updateInlineHelp(): void {
-    if (!this.#viewInitialized || !this.#agInitialized) {
+    if (!this.#canUpdateInlineHelp()) {
       return;
     }
 
-    const inlineHelpComponent = this.params()?.inlineHelpComponent;
+    const params = this.params();
+    const inlineHelpComponent =
+      !params?.helpPopoverContent && params?.inlineHelpComponent;
 
-    if (
+    if (this.#shouldCreateInlineHelpComponent(inlineHelpComponent)) {
+      this.#createInlineHelpComponent(params, inlineHelpComponent);
+    } else if (!inlineHelpComponent) {
+      this.#removeInlineHelpComponent();
+    }
+  }
+
+  #canUpdateInlineHelp(): boolean {
+    return this.#viewInitialized && this.#agInitialized;
+  }
+
+  #shouldCreateInlineHelpComponent(
+    inlineHelpComponent: Type<unknown> | undefined | false,
+  ): inlineHelpComponent is Type<unknown> {
+    return !!(
       inlineHelpComponent &&
       (!this.#inlineHelpComponentRef ||
         this.#inlineHelpComponentRef.componentType !== inlineHelpComponent)
-    ) {
-      this.#dynamicComponentService.removeComponent(
-        this.#inlineHelpComponentRef,
-      );
-
-      const headerInfo = new SkyAgGridHeaderInfo();
-      headerInfo.column = this.params()?.column;
-      headerInfo.context = this.params()?.context;
-      headerInfo.displayName = this.params()?.displayName;
-
-      this.#inlineHelpComponentRef =
-        this.#dynamicComponentService.createComponent(inlineHelpComponent, {
-          providers: [
-            {
-              provide: SkyAgGridHeaderInfo,
-              useValue: headerInfo,
-            },
-          ],
-          environmentInjector: this.#environmentInjector,
-          referenceEl: this.inlineHelpContainer?.nativeElement,
-          location: SkyDynamicComponentLocation.ElementBottom,
-        });
-    } else if (!inlineHelpComponent) {
-      this.#dynamicComponentService.removeComponent(
-        this.#inlineHelpComponentRef,
-      );
-    }
+    );
   }
 
-  #updateSort(): void {
-    this.sortOrder$.next(this.params()?.column.getSort() || undefined);
+  #createInlineHelpComponent(
+    params: SkyAgGridHeaderParams | undefined,
+    inlineHelpComponent: Type<unknown>,
+  ): void {
+    this.#removeInlineHelpComponent();
+
+    const headerInfo = this.#createHeaderInfo(params);
+
+    this.#inlineHelpComponentRef =
+      this.#dynamicComponentService.createComponent(inlineHelpComponent, {
+        providers: [
+          {
+            provide: SkyAgGridHeaderInfo,
+            useValue: headerInfo,
+          },
+        ],
+        environmentInjector: this.#environmentInjector,
+        referenceEl: this.inlineHelpContainer?.nativeElement,
+        location: SkyDynamicComponentLocation.ElementBottom,
+      });
   }
 
-  #updateSortIndex(): void {
-    const sortIndex = this.params()?.column.getSortIndex();
-    const otherSortColumns = this.params()
-      ?.api?.getColumns()
-      ?.some(
-        (column) =>
-          column.getColId() !== this.params()?.column.getColId() &&
-          !!column.getSort(),
-      );
-    if (sortIndex !== undefined && sortIndex !== null && otherSortColumns) {
-      this.sortIndexDisplay$.next(`${sortIndex + 1}`);
-    } else {
-      this.sortIndexDisplay$.next('');
-    }
+  #createHeaderInfo(
+    params: SkyAgGridHeaderParams | undefined,
+  ): SkyAgGridHeaderInfo {
+    const headerInfo = new SkyAgGridHeaderInfo();
+    headerInfo.column = params?.column;
+    headerInfo.context = params?.context;
+    headerInfo.displayName = params?.displayName;
+    return headerInfo;
+  }
+
+  #removeInlineHelpComponent(): void {
+    this.#dynamicComponentService.removeComponent(this.#inlineHelpComponentRef);
   }
 }
