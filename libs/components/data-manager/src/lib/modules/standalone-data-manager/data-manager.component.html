@@ -1,0 +1,17 @@
+<div
+  [class]="dockClass()"
+  [class.sky-data-manager]="true"
+  [skyBackToTop]="{ buttonHidden: true }"
+  [skyBackToTopMessageStream]="backToTopController"
+  [skyViewkeeper]="currentViewkeeperClasses()"
+  [skyViewkeeperOmitShadow]="'.ag-body-horizontal-scroll'"
+>
+  <div class="sky-data-manager-toolbar-container">
+    @if (initialized()) {
+      <ng-content select="sky-data-manager-toolbar" />
+    }
+  </div>
+  <div class="sky-data-manager-content">
+    <ng-content />
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<sky-paging
+  [currentPage]="currentPage()"
+  [itemCount]="displayedItems.length"
+  [pageSize]="pageSize"
+  (contentChange)="onContentChange($event)"
+>
+  <sky-paging-content>
+    <sky-repeater expandMode="none">
+      @for (
+        item of displayedItems()
+          | dataManagerPagedItems: pageSize : currentPage();
+        track item.id
+      ) {
+        <sky-repeater-item
+          [selectable]="true"
+          [(isSelected)]="item.selected"
+          (isSelectedChange)="onItemSelect($event, item)"
+        >
+          <sky-repeater-item-title>
+            {{ item.name }}
+          </sky-repeater-item-title>
+          <sky-repeater-item-content>
+            <div>
+              {{ item.description }}
+            </div>
+          </sky-repeater-item-content>
+        </sky-repeater-item>
+      }
+    </sky-repeater>
+  </sky-paging-content>
+</sky-paging>
