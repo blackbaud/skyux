@@ -1,7 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 
-import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  ReplaySubject,
+  Subject,
+  switchMap,
+} from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -98,19 +104,20 @@ export class SkyDataManagerService implements OnDestroy {
 
     if (settingsKey) {
       this.getDataStateUpdates(this.#initSource)
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe((state: SkyDataManagerState) => {
-          this.#uiConfigService
-            .setConfig(settingsKey, state.getStateOptions())
-            .pipe(takeUntil(this.#ngUnsubscribe))
-            .subscribe(
-              // eslint-disable-next-line @typescript-eslint/no-empty-function
-              () => {},
-              (err) => {
-                console.warn('Could not save data manager settings.');
-                console.warn(err);
-              },
-            );
+        .pipe(
+          takeUntil(this.#ngUnsubscribe),
+          switchMap((state: SkyDataManagerState) =>
+            this.#uiConfigService.setConfig(
+              settingsKey,
+              state.getStateOptions(),
+            ),
+          ),
+        )
+        .subscribe({
+          error: (err) => {
+            console.warn('Could not save data manager settings.');
+            console.warn(err);
+          },
         });
     }
   }
@@ -139,7 +146,7 @@ export class SkyDataManagerService implements OnDestroy {
     });
 
     this.#dataStateChange
-      .pipe(take(1))
+      .pipe(takeUntil(this.#ngUnsubscribe), take(1))
       .subscribe((change) => {
         const dataState = change.dataState;
         const currentViewState = dataState.getViewStateById(viewConfig.id);
@@ -207,8 +214,7 @@ export class SkyDataManagerService implements OnDestroy {
 
           this.updateDataState(newDataState, this.#initSource);
         }
-      })
-      .unsubscribe();
+      });
   }
 
   /**

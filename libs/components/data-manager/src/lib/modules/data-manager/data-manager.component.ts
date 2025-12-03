@@ -31,7 +31,7 @@ const DEFAULT_DOCK_TYPE: SkyDataManagerDockType = 'none';
  * The top-level data manager component. Provide `SkyDataManagerService` at this level.
  */
 @Component({
-  selector: 'sky-data-manager',
+  selector: 'sky-data-manager:not([labelText])',
   templateUrl: './data-manager.component.html',
   styleUrl: './data-manager.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

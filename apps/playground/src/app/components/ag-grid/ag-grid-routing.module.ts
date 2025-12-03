@@ -12,6 +12,10 @@ const routes: Routes = [
       import('./data-manager-large/data-manager-large-routes'),
   },
   {
+    path: 'data-manager-easy',
+    loadChildren: () => import('./standalone-data-manager/routes'),
+  },
+  {
     path: 'edit-complex-cells',
     loadChildren: () =>
       import('./edit-complex-cells/edit-complex-cells.module').then(

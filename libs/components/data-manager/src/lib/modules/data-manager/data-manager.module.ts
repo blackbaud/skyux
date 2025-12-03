@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 
+import { SkyStandaloneDataManagerComponent } from '../standalone-data-manager/data-manager.component';
+import { SkyStandaloneDataViewComponent } from '../standalone-data-manager/data-view.component';
+
 import { SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS } from './data-manager-column-picker/data-manager-column-picker-providers';
 import { SkyDataManagerFilterControllerDirective } from './data-manager-filters/data-manager-filter-controller.directive';
 import { SkyDataManagerToolbarLeftItemComponent } from './data-manager-toolbar/data-manager-toolbar-left-item.component';
@@ -20,6 +23,8 @@ import { SkyDataViewComponent } from './data-view.component';
     SkyDataManagerToolbarRightItemComponent,
     SkyDataManagerToolbarSectionComponent,
     SkyDataViewComponent,
+    SkyStandaloneDataManagerComponent,
+    SkyStandaloneDataViewComponent,
   ],
   exports: [
     SkyDataManagerComponent,
@@ -30,6 +35,8 @@ import { SkyDataViewComponent } from './data-view.component';
     SkyDataManagerToolbarRightItemComponent,
     SkyDataManagerToolbarSectionComponent,
     SkyDataViewComponent,
+    SkyStandaloneDataManagerComponent,
+    SkyStandaloneDataViewComponent,
   ],
   providers: [SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS],
 })

@@ -29,3 +29,6 @@ export { SkyDataManagerToolbarSectionComponent as λ6 } from './lib/modules/data
 export { SkyDataManagerToolbarComponent as λ7 } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar.component';
 export { SkyDataManagerComponent as λ2 } from './lib/modules/data-manager/data-manager.component';
 export { SkyDataViewComponent as λ8 } from './lib/modules/data-manager/data-view.component';
+
+export { SkyStandaloneDataManagerComponent as SkyDataManagerComponent } from './lib/modules/standalone-data-manager/data-manager.component';
+export { SkyStandaloneDataViewComponent as SkyDataViewComponent } from './lib/modules/standalone-data-manager/data-view.component';

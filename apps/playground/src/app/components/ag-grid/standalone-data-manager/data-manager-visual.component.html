@@ -1,0 +1,82 @@
+<sky-data-manager
+  labelText="Example Data"
+  [(searchText)]="searchText"
+  (dataManagerState)="state.set($event)"
+>
+  <sky-data-manager-toolbar>
+    @if (activeViewId === 'repeaterView') {
+      <sky-data-manager-toolbar-left-item>
+        <button
+          type="button"
+          class="sky-btn sky-btn-primary"
+          (click)="searchSo()"
+        >
+          Set search text to "so"
+        </button>
+      </sky-data-manager-toolbar-left-item>
+    }
+    <sky-filter-bar skyDataManagerFilterController>
+      <sky-filter-item-lookup
+        filterId="fruitType"
+        labelText="Fruit type"
+        searchDescriptorProperty="name"
+        searchIdProperty="id"
+        (searchAsync)="onFruitTypeSearchAsync($event)"
+      />
+      <sky-filter-item-modal
+        filterId="hideOrange"
+        labelText="Hide orange"
+        modalSize="small"
+        [modalComponent]="hideOrangeModalComponent"
+      />
+    </sky-filter-bar>
+  </sky-data-manager-toolbar>
+
+  <sky-data-view
+    #repeaterView
+    labelText="Repeater view"
+    viewId="repeaterView"
+    iconName="text-bullet-list"
+    multiselectToolbarEnabled
+    searchEnabled
+    searchHighlightEnabled
+  >
+    <app-data-view-repeater
+      [items]="items"
+      [(selectedIds)]="repeaterView.selectedIds"
+      [(additionalData)]="repeaterView.additionalData"
+    />
+  </sky-data-view>
+  <sky-data-view
+    labelText="Grid view"
+    viewId="gridView"
+    iconName="table"
+    searchEnabled
+    searchHighlightEnabled
+    multiselectToolbarEnabled
+    columnPickerEnabled
+    [columnOptions]="[
+      {
+        id: 'selected',
+        alwaysDisplayed: true,
+        label: 'selected'
+      },
+      {
+        id: 'name',
+        label: 'Fruit name',
+        description: 'The name of the fruit.'
+      },
+      {
+        id: 'description',
+        label: 'Description',
+        description: 'Some information about the fruit.'
+      }
+    ]"
+  >
+    <app-data-view-grid
+      [items]="items"
+      [searchText]="searchText()"
+      [state]="state()"
+    />
+  </sky-data-view>
+</sky-data-manager>

@@ -1,0 +1,19 @@
+<sky-ag-grid
+  skyAgGridDataManagerAdapter
+  [data]="displayedItems()"
+  [pageSize]="pageSize"
+  [page]="currentPage()"
+>
+  <sky-ag-grid-column field="selected" heading="selected" locked width="50" />
+  <sky-ag-grid-column
+    description="The name of the fruit."
+    field="name"
+    heading="Fruit name"
+    width="150"
+  />
+  <sky-ag-grid-column
+    description="Some information about the fruit."
+    field="description"
+    heading="Description"
+  />
+</sky-ag-grid>
