@@ -1,0 +1,10 @@
+<form [formGroup]="formGroup">
+  <sky-input-box labelText="Donation amount">
+    <input
+      formControlName="donationAmount"
+      type="text"
+      [skyAutonumeric]="autonumericOptions"
+    />
+  </sky-input-box>
+  <pre>{{ donationAmount.value | json }}</pre>
+</form>

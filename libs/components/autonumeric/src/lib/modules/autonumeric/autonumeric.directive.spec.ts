@@ -270,6 +270,35 @@ describe('Autonumeric directive', () => {
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
+  it('should handle autoNumeric:rawValueModified event for Android Chrome workaround', fakeAsync(() => {
+    detectChangesTick();
+
+    const input = fixture.nativeElement.querySelector('input');
+
+    // Set value programmatically first to ensure we have a baseline
+    setValue(1000);
+    expect(fixture.componentInstance.formControl.value).toEqual(1000);
+
+    // Simulate user interaction - set the input value directly and fire input event
+    input.value = '2500';
+    SkyAppTestUtility.fireDomEvent(input, 'input');
+    detectChangesTick();
+
+    // Verify the input event updated the value
+    const valueAfterInput = fixture.componentInstance.formControl.value;
+
+    // Now fire the autoNumeric:rawValueModified event
+    // This simulates the Android Chrome behavior where this event provides
+    // the correct value when the input event lags behind
+    SkyAppTestUtility.fireDomEvent(input, 'autoNumeric:rawValueModified');
+    detectChangesTick();
+
+    // The value should be updated (even if input event didn't catch it)
+    expect(fixture.componentInstance.formControl.value).toEqual(
+      valueAfterInput,
+    );
+  }));
+
   describe('global configuration', () => {
     beforeEach(() => {
       TestBed.resetTestingModule();
