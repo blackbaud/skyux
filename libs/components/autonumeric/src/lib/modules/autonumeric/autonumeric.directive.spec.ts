@@ -290,6 +290,21 @@ describe('Autonumeric directive', () => {
     expect(getModelValue()).toEqual(1000);
   }));
 
+  it('should not mark control as dirty when value is set programmatically', fakeAsync(() => {
+    detectChangesTick();
+
+    verifyFormControlStatuses({
+      dirty: false,
+    });
+
+    fixture.componentInstance.formControl.setValue(500);
+    fixture.detectChanges();
+
+    verifyFormControlStatuses({
+      dirty: false, // Should remain false as this is programmatic, not user interaction
+    });
+  }));
+
   describe('global configuration', () => {
     beforeEach(() => {
       TestBed.resetTestingModule();
