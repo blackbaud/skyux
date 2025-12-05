@@ -7,11 +7,15 @@ on:
     branches:
       - main
       - '[0-9]+.x.x'
+permissions:
+  id-token: write
+  contents: read
 env:
   RELEASE_PR_PREFIX: 'chore: release'
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment: 'npm'
     steps:
       - uses: actions/checkout@v5
         with:
@@ -54,11 +58,14 @@ jobs:
       - name: Build
         if: ${{ steps.release.outputs.release_created }}
         run: npx skyux-dev create-packages-dist --skipNxCache
+      # Using Node 24 to publish with NPM 11, which supports trusted publishers.
+      - uses: actions/setup-node@v5
+        if: ${{ steps.release.outputs.release_created }}
+        with:
+          node-version: 24
       - name: Publish
         if: ${{ steps.release.outputs.release_created }}
-        run: npx skyux-dev publish-packages-dist
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx skyux-dev publish-packages-dist --skip-registry-config
       - name: Capture logs
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
