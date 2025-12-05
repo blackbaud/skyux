@@ -20,7 +20,7 @@ import {
 
 import AutoNumeric from 'autonumeric';
 import { Subject, fromEvent } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyAutonumericOptions } from './autonumeric-options';
 import { SkyAutonumericOptionsProvider } from './autonumeric-options-provider';
@@ -104,6 +104,7 @@ export class SkyAutonumericDirective
       .subscribe(() => {
         this.#handleValueChange();
 
+        /* istanbul ignore else */
         if (this.#control && !this.#control.dirty) {
           this.#control.markAsDirty();
         }
@@ -114,14 +115,15 @@ export class SkyAutonumericDirective
     // On Android browsers, the native `input` event fires before AutoNumeric's
     // `autoNumeric:rawValueModified` event (on other browsers, the order is reversed).
     // To support Android without breaking existing behavior, we listen to both events.
-    // The filter prevents processing during programmatic changes via writeValue().
     // See: https://github.com/autoNumeric/autoNumeric/issues/781
     fromEvent(this.#elementRef.nativeElement, 'autoNumeric:rawValueModified')
-      .pipe(
-        filter(() => !this.#isWritingValue),
-        takeUntil(this.#ngUnsubscribe),
-      )
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
+        // Prevent processing during programmatic changes via writeValue().
+        if (this.#isWritingValue) {
+          return;
+        }
+
         this.#handleValueChange();
       });
   }
