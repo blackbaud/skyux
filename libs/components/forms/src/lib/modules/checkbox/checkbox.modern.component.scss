@@ -23,7 +23,7 @@
     padding-left: var(--sky-space-gap-label-s);
   }
 
-  .sky-switch-control {
+  .sky-switch-control:not(.sky-switch-control-icon) {
     border-radius: var(--sky-comp-checkbox-border-radius);
   }
 }
