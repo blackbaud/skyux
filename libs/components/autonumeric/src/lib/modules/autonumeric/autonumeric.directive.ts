@@ -204,7 +204,7 @@ export class SkyAutonumericDirective
   }
 
   #handleValueChange(): void {
-    const numericValue: number | undefined = this.#getNumericValue();
+    const numericValue = this.#getNumericValue();
 
     if (this.#value !== numericValue) {
       this.#value = numericValue;

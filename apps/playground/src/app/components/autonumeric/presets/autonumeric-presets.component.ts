@@ -1,9 +1,14 @@
-import { JsonPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormControl,
-  FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -17,30 +22,30 @@ import { SkyInputBoxModule } from '@skyux/forms';
  * @title Predefined options
  */
 @Component({
-  selector: 'app-autonumeric-preset',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-autonumeric-presets',
   templateUrl: './autonumeric-presets.component.html',
-  imports: [
-    JsonPipe,
-    ReactiveFormsModule,
-    SkyAutonumericModule,
-    SkyInputBoxModule,
-  ],
+  imports: [ReactiveFormsModule, SkyAutonumericModule, SkyInputBoxModule],
 })
 export class AutonumericPresetsComponent {
+  readonly #amountControl = new FormControl(1234.5678, [Validators.required]);
+
+  protected readonly formGroup = inject(FormBuilder).group({
+    amount: this.#amountControl,
+  });
+
   protected autonumericOptions: SkyAutonumericOptions = 'Chinese';
 
-  protected formGroup: FormGroup;
-  protected donationAmount = new FormControl(1234.5678, [Validators.required]);
+  protected readonly rawValue = toSignal(this.#amountControl.valueChanges, {
+    initialValue: this.#amountControl.value,
+  });
 
-  protected valueChangesCount = 0;
+  protected readonly valueChangesCount = signal(0);
 
   constructor() {
-    this.formGroup = inject(FormBuilder).group({
-      donationAmount: this.donationAmount,
-    });
-
-    this.donationAmount.valueChanges.subscribe(() => {
-      this.valueChangesCount++;
+    effect(() => {
+      this.rawValue();
+      this.valueChangesCount.update((count) => count + 1);
     });
   }
 }
