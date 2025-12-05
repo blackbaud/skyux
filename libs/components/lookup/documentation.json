@@ -111,7 +111,11 @@
     },
     "search": {
       "development": {
-        "docsIds": ["SkySearchModule", "SkySearchComponent"],
+        "docsIds": [
+          "SkySearchModule",
+          "SkySearchComponent",
+          "SkySearchExpandModeType"
+        ],
         "primaryDocsId": "SkySearchModule"
       },
       "testing": {
@@ -130,6 +134,7 @@
           "SkySelectionModalAddCallbackArgs",
           "SkySelectionModalAddClickEventArgs",
           "SkySelectionModalCloseArgs",
+          "SkySelectionModalCloseReasonType",
           "SkySelectionModalOpenArgs",
           "SkySelectionModalResult",
           "SkySelectionModalSearchArgs",
