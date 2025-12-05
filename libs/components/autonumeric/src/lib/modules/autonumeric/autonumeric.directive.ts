@@ -120,11 +120,9 @@ export class SkyAutonumericDirective
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         // Prevent processing during programmatic changes via writeValue().
-        if (this.#isWritingValue) {
-          return;
+        if (!this.#isWritingValue) {
+          this.#handleValueChange();
         }
-
-        this.#handleValueChange();
       });
   }
 
