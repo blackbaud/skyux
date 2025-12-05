@@ -1,6 +1,20 @@
 # Changelog
 
 
+# [12.43.0](https://github.com/blackbaud/skyux/compare/12.41.1...12.43.0) (2025-12-05)
+
+
+### Bug Fixes
+
+* **components/autonumeric:** return correct value when typing on an Android device ([#4104](https://github.com/blackbaud/skyux/issues/4104)) ([a888fb8](https://github.com/blackbaud/skyux/commit/a888fb816a85bcdc751e16c5fee951b4c3bc9e69)), closes [AB#3617801](https://github.com/AB/issues/3617801)
+
+
+### Features
+
+* **components/lists:** add updated testing support for repeater ([#3978](https://github.com/blackbaud/skyux/issues/3978)) ([d668143](https://github.com/blackbaud/skyux/commit/d6681432b5415c566ad3dd1fb2ffb39efe117c2a)), closes [AB#3554647](https://github.com/AB/issues/3554647)
+
+
+
 # [12.42.0](https://github.com/blackbaud/skyux/compare/12.41.1...12.42.0) (2025-09-30)
 
 
