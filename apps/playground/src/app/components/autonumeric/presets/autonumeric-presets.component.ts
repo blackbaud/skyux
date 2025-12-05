@@ -17,6 +17,7 @@ import {
   SkyAutonumericOptions,
 } from '@skyux/autonumeric';
 import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyAlertModule } from '@skyux/indicators';
 
 /**
  * @title Predefined options
@@ -25,7 +26,12 @@ import { SkyInputBoxModule } from '@skyux/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-autonumeric-presets',
   templateUrl: './autonumeric-presets.component.html',
-  imports: [ReactiveFormsModule, SkyAutonumericModule, SkyInputBoxModule],
+  imports: [
+    ReactiveFormsModule,
+    SkyAlertModule,
+    SkyAutonumericModule,
+    SkyInputBoxModule,
+  ],
 })
 export class AutonumericPresetsComponent {
   readonly #amountControl = new FormControl(1234.5678, [Validators.required]);

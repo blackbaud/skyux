@@ -1,3 +1,10 @@
+<sky-alert>
+  On Android devices, when an input is 1) initialized with a value and 2)
+  receives focus, the FIRST key press from the native phone keyboard does NOT
+  register a raw value change when serving the playground in development mode.
+  To see the fix, serve with the "production" configuration:
+  <code>npx nx serve playground --configuration production</code>.
+</sky-alert>
 <form [formGroup]="formGroup">
   <sky-input-box labelText="Donation amount">
     <input
