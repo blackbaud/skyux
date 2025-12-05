@@ -1,9 +1,19 @@
 <form [formGroup]="formGroup">
   <sky-input-box labelText="Donation amount">
     <input
-      formControlName="donationAmount"
+      formControlName="amount"
       type="text"
       [skyAutonumeric]="autonumericOptions"
     />
   </sky-input-box>
+  <p>Raw value: {{ rawValue() }}</p>
+  <p>Value changes count: {{ valueChangesCount() }}</p>
 </form>
+
+<sky-alert class="sky-margin-stacked-xl">
+  Note: On Android devices, when an input is 1) initialized with a value and 2)
+  receives focus, the FIRST key press from the native phone keyboard does NOT
+  register a raw value change when serving the playground in development mode.
+  To see the fix, serve with the "production" configuration:<br />
+  <code>npx nx serve playground --configuration production</code>
+</sky-alert>

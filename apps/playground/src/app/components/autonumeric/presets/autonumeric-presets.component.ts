@@ -1,8 +1,14 @@
-import { Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormControl,
-  FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -11,23 +17,41 @@ import {
   SkyAutonumericOptions,
 } from '@skyux/autonumeric';
 import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyAlertModule } from '@skyux/indicators';
 
 /**
  * @title Predefined options
  */
 @Component({
-  selector: 'app-autonumeric-preset',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-autonumeric-presets',
   templateUrl: './autonumeric-presets.component.html',
-  imports: [ReactiveFormsModule, SkyAutonumericModule, SkyInputBoxModule],
+  imports: [
+    ReactiveFormsModule,
+    SkyAlertModule,
+    SkyAutonumericModule,
+    SkyInputBoxModule,
+  ],
 })
 export class AutonumericPresetsComponent {
+  readonly #amountControl = new FormControl(1234.5678, [Validators.required]);
+
+  protected readonly formGroup = inject(FormBuilder).group({
+    amount: this.#amountControl,
+  });
+
   protected autonumericOptions: SkyAutonumericOptions = 'Chinese';
 
-  protected formGroup: FormGroup;
+  protected readonly rawValue = toSignal(this.#amountControl.valueChanges, {
+    initialValue: this.#amountControl.value,
+  });
+
+  protected readonly valueChangesCount = signal(0);
 
   constructor() {
-    this.formGroup = inject(FormBuilder).group({
-      donationAmount: new FormControl(1234.5678, [Validators.required]),
+    effect(() => {
+      this.rawValue();
+      this.valueChangesCount.update((count) => count + 1);
     });
   }
 }
