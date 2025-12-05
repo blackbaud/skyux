@@ -67,6 +67,7 @@ export class SkyAutonumericDirective
   #autonumericOptions: SkyAutonumericOptions | undefined;
   #control: AbstractControl | undefined;
   #isFirstChange = true;
+  #isWritingValue = false;
   #value: number | undefined;
 
   #ngUnsubscribe = new Subject<void>();
@@ -100,13 +101,7 @@ export class SkyAutonumericDirective
     fromEvent(this.#elementRef.nativeElement, 'input')
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        const numericValue: number | undefined = this.#getNumericValue();
-
-        /* istanbul ignore else */
-        if (this.#value !== numericValue) {
-          this.#value = numericValue;
-          this.#onChange(numericValue);
-        }
+        this.#handleValueChange();
 
         /* istanbul ignore else */
         if (this.#control && !this.#control.dirty) {
@@ -114,6 +109,19 @@ export class SkyAutonumericDirective
         }
 
         this.#changeDetector.markForCheck();
+      });
+
+    // On Android browsers, the native `input` event fires before AutoNumeric's
+    // `autoNumeric:rawValueModified` event (on other browsers, the order is reversed).
+    // To support Android without breaking existing behavior, we listen to both events.
+    // See: https://github.com/autoNumeric/autoNumeric/issues/781
+    fromEvent(this.#elementRef.nativeElement, 'autoNumeric:rawValueModified')
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        // Prevent processing during programmatic changes via writeValue().
+        if (!this.#isWritingValue) {
+          this.#handleValueChange();
+        }
       });
   }
 
@@ -135,6 +143,8 @@ export class SkyAutonumericDirective
   }
 
   public writeValue(value: number | undefined): void {
+    this.#isWritingValue = true;
+
     if (this.#value !== value) {
       this.#value = value;
       this.#onChange(value);
@@ -155,6 +165,8 @@ export class SkyAutonumericDirective
     } else {
       this.#autonumericInstance.clear();
     }
+
+    this.#isWritingValue = false;
   }
 
   public validate(control: AbstractControl): ValidationErrors | null {
@@ -188,6 +200,15 @@ export class SkyAutonumericDirective
   @HostListener('blur')
   public onBlur(): void {
     this.#onTouched();
+  }
+
+  #handleValueChange(): void {
+    const numericValue = this.#getNumericValue();
+
+    if (this.#value !== numericValue) {
+      this.#value = numericValue;
+      this.#onChange(numericValue);
+    }
   }
 
   #getNumericValue(): number | undefined {
