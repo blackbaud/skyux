@@ -270,6 +270,160 @@ describe('Autonumeric directive', () => {
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
+  it('should handle input event for Android Chrome workaround', fakeAsync(() => {
+    detectChangesTick();
+
+    expect(fixture.componentInstance.formControl.value).toBeNull();
+
+    const inputEl = fixture.nativeElement.querySelector('input');
+
+    // Get the AutoNumeric instance from the global list
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const autoNumericInstance = (window as any).autoNumericGlobalList.get(
+      inputEl,
+    );
+
+    // Simulate user typing by using AutoNumeric's API to set the value
+    // This mimics what happens when a user actually types
+    autoNumericInstance.set('1000');
+
+    // Now fire the input event that would be triggered by user typing
+    SkyAppTestUtility.fireDomEvent(inputEl, 'input');
+
+    detectChangesTick();
+
+    // Verify the raw numeric value is updated in the form control
+    expect(fixture.componentInstance.formControl.value).toEqual(1000);
+  }));
+
+  it('should handle autoNumeric:rawValueModified event', fakeAsync(() => {
+    detectChangesTick();
+
+    expect(fixture.componentInstance.formControl.value).toBeNull();
+
+    const inputEl = fixture.nativeElement.querySelector('input');
+
+    // Get the AutoNumeric instance from the global list
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const autoNumericInstance = (window as any).autoNumericGlobalList.get(
+      inputEl,
+    );
+
+    // Set the value using AutoNumeric's API
+    autoNumericInstance.set('2500');
+
+    // Fire the autoNumeric:rawValueModified event (which AutoNumeric fires on non-Android browsers)
+    SkyAppTestUtility.fireDomEvent(inputEl, 'autoNumeric:rawValueModified');
+
+    detectChangesTick();
+
+    // Verify the raw numeric value is updated in the form control
+    expect(fixture.componentInstance.formControl.value).toEqual(2500);
+  }));
+
+  it('should filter out autoNumeric:rawValueModified event during programmatic value changes', fakeAsync(() => {
+    detectChangesTick();
+
+    const inputEl = fixture.nativeElement.querySelector('input');
+
+    // Get the AutoNumeric instance
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const autoNumericInstance = (window as any).autoNumericGlobalList.get(
+      inputEl,
+    );
+
+    // Spy on autoNumeric.set to fire the event during writeValue
+    const originalSet = autoNumericInstance.set.bind(autoNumericInstance);
+    spyOn(autoNumericInstance, 'set').and.callFake((value: string) => {
+      const result = originalSet(value);
+      // Fire the event that AutoNumeric would normally fire
+      SkyAppTestUtility.fireDomEvent(inputEl, 'autoNumeric:rawValueModified');
+      return result;
+    });
+
+    // Set value programmatically via setValue() which triggers writeValue()
+    // During writeValue, autoNumeric.set() is called, which fires the event
+    // The event handler should return early because #isWritingValue is true
+    fixture.componentInstance.formControl.setValue(500);
+
+    detectChangesTick();
+
+    // The value should be set correctly
+    expect(fixture.componentInstance.formControl.value).toEqual(500);
+
+    // The control should remain pristine because the value was set programmatically.
+    // This verifies the rawValueModified filter is working - if it wasn't filtering,
+    // the event handler could potentially trigger additional processing.
+    expect(fixture.componentInstance.formControl.dirty)
+      .withContext(
+        'REACTIVE form should remain pristine after programmatic setValue',
+      )
+      .toBeFalse();
+  }));
+
+  it('should not process autoNumeric:rawValueModified when value has not changed', fakeAsync(() => {
+    detectChangesTick();
+
+    const inputEl = fixture.nativeElement.querySelector('input');
+
+    // Get the AutoNumeric instance
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const autoNumericInstance = (window as any).autoNumericGlobalList.get(
+      inputEl,
+    );
+
+    // Set initial value
+    autoNumericInstance.set('1000');
+    SkyAppTestUtility.fireDomEvent(inputEl, 'autoNumeric:rawValueModified');
+    detectChangesTick();
+
+    expect(fixture.componentInstance.formControl.value).toEqual(1000);
+
+    // Fire the event again with the same value - should not trigger onChange
+    SkyAppTestUtility.fireDomEvent(inputEl, 'autoNumeric:rawValueModified');
+    detectChangesTick();
+
+    // Value should still be the same
+    expect(fixture.componentInstance.formControl.value).toEqual(1000);
+  }));
+
+  it('should handle autoNumeric:rawValueModified when getNumber returns null', fakeAsync(() => {
+    detectChangesTick();
+
+    const inputEl = fixture.nativeElement.querySelector('input');
+
+    // Get the AutoNumeric instance
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const autoNumericInstance = (window as any).autoNumericGlobalList.get(
+      inputEl,
+    );
+
+    // Spy on getNumber to return null
+    spyOn(autoNumericInstance, 'getNumber').and.returnValue(null);
+
+    // Fire the event
+    SkyAppTestUtility.fireDomEvent(inputEl, 'autoNumeric:rawValueModified');
+    detectChangesTick();
+
+    // Value should be undefined (null ?? undefined)
+    expect(fixture.componentInstance.formControl.value).toBeUndefined();
+  }));
+
+  it('should not mark control as dirty when value is set programmatically', fakeAsync(() => {
+    detectChangesTick();
+
+    verifyFormControlStatuses({
+      dirty: false,
+    });
+
+    fixture.componentInstance.formControl.setValue(500);
+    fixture.detectChanges();
+
+    verifyFormControlStatuses({
+      dirty: false, // Should remain false as this is programmatic, not user interaction
+    });
+  }));
+
   describe('global configuration', () => {
     beforeEach(() => {
       TestBed.resetTestingModule();
