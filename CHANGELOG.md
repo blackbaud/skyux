@@ -1,12 +1,7 @@
 # Changelog
 
 
-## [13.10.1](https://github.com/blackbaud/skyux/compare/13.10.0...13.10.1) (2025-12-05)
-
-
-### Bug Fixes
-
-* **components/lookup:** selection modal show only selected items return known selections ([#4101](https://github.com/blackbaud/skyux/issues/4101)) ([33db8cd](https://github.com/blackbaud/skyux/commit/33db8cd15b6ef83141c5d27d7b6a9d731daa83ae))
+## [13.10.1](https://github.com/blackbaud/skyux/compare/12.43.0...13.10.1) (2025-12-06)
 
 
 
