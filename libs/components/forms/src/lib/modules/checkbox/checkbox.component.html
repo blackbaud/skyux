@@ -32,13 +32,16 @@
       (change)="onInteractionEvent($event)"
     />
     <span
-      class="sky-switch-control sky-rounded-corners"
+      class="sky-switch-control"
       [ngClass]="{
         'sky-switch-control-icon': iconName,
         'sky-switch-control-info': checkboxType === 'info',
         'sky-switch-control-success': checkboxType === 'success',
         'sky-switch-control-warning': checkboxType === 'warning',
         'sky-switch-control-danger': checkboxType === 'danger'
+      }"
+      [skyThemeClass]="{
+        'sky-rounded-corners': 'default'
       }"
     >
       @if (iconName) {
