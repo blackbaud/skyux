@@ -40,6 +40,9 @@
         'sky-switch-control-warning': checkboxType === 'warning',
         'sky-switch-control-danger': checkboxType === 'danger'
       }"
+      [skyThemeClass]="{
+        'sky-rounded-corners': 'default'
+      }"
     >
       @if (iconName) {
         <sky-icon variant="solid" [iconName]="iconName" />
