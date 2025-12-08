@@ -1,13 +1,18 @@
 # Changelog
 
 
-## [13.10.1](https://github.com/blackbaud/skyux/compare/12.43.0...13.10.1) (2025-12-08)
+# [12.44.0](https://github.com/blackbaud/skyux/compare/12.41.1...12.44.0) (2025-12-08)
 
 
 ### Bug Fixes
 
-* **components/autonumeric:** return correct value when typing on an Android device ([#4104](https://github.com/blackbaud/skyux/issues/4104)) ([#4110](https://github.com/blackbaud/skyux/issues/4110)) ([1a86be9](https://github.com/blackbaud/skyux/commit/1a86be9eabf2e7794aa9c9e49f6b2f186bf311d1)), closes [AB#3617801](https://github.com/AB/issues/3617801)
-* **components/forms:** icon checkboxes use correct border radius token in modern theme ([#4108](https://github.com/blackbaud/skyux/issues/4108)) ([8974b44](https://github.com/blackbaud/skyux/commit/8974b44a2ce0426c8877aff6c9f002867de79ed0)), closes [AB#3626328](https://github.com/AB/issues/3626328)
+* **components/autonumeric:** return correct value when typing on an Android device ([#4104](https://github.com/blackbaud/skyux/issues/4104)) ([a888fb8](https://github.com/blackbaud/skyux/commit/a888fb816a85bcdc751e16c5fee951b4c3bc9e69)), closes [AB#3617801](https://github.com/AB/issues/3617801)
+* update dependencies to address vulnerabilities ([#4113](https://github.com/blackbaud/skyux/issues/4113)) ([2c4a81b](https://github.com/blackbaud/skyux/commit/2c4a81bf112c12c4b9d0bc66452db3e5043b457b))
+
+
+### Features
+
+* **components/lists:** add updated testing support for repeater ([#3978](https://github.com/blackbaud/skyux/issues/3978)) ([d668143](https://github.com/blackbaud/skyux/commit/d6681432b5415c566ad3dd1fb2ffb39efe117c2a)), closes [AB#3554647](https://github.com/AB/issues/3554647)
 
 
 
