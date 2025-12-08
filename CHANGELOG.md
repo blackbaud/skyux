@@ -4,6 +4,11 @@
 ## [13.10.1](https://github.com/blackbaud/skyux/compare/12.43.0...13.10.1) (2025-12-08)
 
 
+### Bug Fixes
+
+* **components/autonumeric:** return correct value when typing on an Android device ([#4104](https://github.com/blackbaud/skyux/issues/4104)) ([#4110](https://github.com/blackbaud/skyux/issues/4110)) ([1a86be9](https://github.com/blackbaud/skyux/commit/1a86be9eabf2e7794aa9c9e49f6b2f186bf311d1)), closes [AB#3617801](https://github.com/AB/issues/3617801)
+
+
 
 # [13.10.0](https://github.com/blackbaud/skyux/compare/13.9.1...13.10.0) (2025-12-02)
 
