@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 * **components/autonumeric:** return correct value when typing on an Android device ([#4104](https://github.com/blackbaud/skyux/issues/4104)) ([#4110](https://github.com/blackbaud/skyux/issues/4110)) ([1a86be9](https://github.com/blackbaud/skyux/commit/1a86be9eabf2e7794aa9c9e49f6b2f186bf311d1)), closes [AB#3617801](https://github.com/AB/issues/3617801)
+* **components/forms:** icon checkboxes use correct border radius token in modern theme ([#4108](https://github.com/blackbaud/skyux/issues/4108)) ([8974b44](https://github.com/blackbaud/skyux/commit/8974b44a2ce0426c8877aff6c9f002867de79ed0)), closes [AB#3626328](https://github.com/AB/issues/3626328)
 
 
 
