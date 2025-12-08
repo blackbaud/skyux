@@ -4,6 +4,11 @@
 ## [13.10.1](https://github.com/blackbaud/skyux/compare/12.44.0...13.10.1) (2025-12-08)
 
 
+### Bug Fixes
+
+* update dependencies to address vulnerabilities ([#4113](https://github.com/blackbaud/skyux/issues/4113)) ([#4115](https://github.com/blackbaud/skyux/issues/4115)) ([91743d3](https://github.com/blackbaud/skyux/commit/91743d3995ca6cf5692fd3da7283dc20f8afb362))
+
+
 
 # [12.44.0](https://github.com/blackbaud/skyux/compare/12.41.1...12.44.0) (2025-12-08)
 
