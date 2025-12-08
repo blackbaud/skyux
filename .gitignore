@@ -44,6 +44,7 @@ yalc.lock
 Thumbs.db
 
 .angular
+error-logs.txt
 
 .nx/cache
 .nx/workspace-data
