@@ -599,7 +599,7 @@ describe('Autocomplete component', () => {
       expect(spy).not.toHaveBeenCalled();
     }));
 
-    it('should not search if search text is not long enough', fakeAsync(() => {
+    it('should not search if search text is not long enough (searchTextMinimumCharacters is 3)', fakeAsync(() => {
       component.searchTextMinimumCharacters = 3;
       fixture.detectChanges();
 
@@ -615,6 +615,59 @@ describe('Autocomplete component', () => {
       enterSearch('1', fixture);
 
       expect(spy).not.toHaveBeenCalled();
+    }));
+
+    it('should search immediately when searchTextMinimumCharacters is 0', fakeAsync(() => {
+      component.searchTextMinimumCharacters = 0;
+      fixture.detectChanges();
+
+      const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
+
+      // Should search with even empty text when minimum is 0
+      enterSearch('', fixture);
+
+      expect(spy).toHaveBeenCalled();
+      expect(autocomplete.searchTextMinimumCharacters).toEqual(0);
+    }));
+
+    it('should default negative searchTextMinimumCharacters to 1 and search accordingly', fakeAsync(() => {
+      component.searchTextMinimumCharacters = -5;
+      fixture.detectChanges();
+
+      expect(autocomplete.searchTextMinimumCharacters).toEqual(1);
+
+      const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
+
+      // Should NOT search with 0 characters since negative value defaults to 1
+      enterSearch('', fixture);
+
+      expect(spy).not.toHaveBeenCalled();
+      spy.calls.reset();
+
+      // Should search with 1 character since negative value defaults to 1
+      enterSearch('r', fixture);
+
+      expect(spy).toHaveBeenCalled();
+    }));
+
+    it('should default undefined searchTextMinimumCharacters to 1 and search accordingly', fakeAsync(() => {
+      component.searchTextMinimumCharacters = undefined;
+      fixture.detectChanges();
+
+      expect(autocomplete.searchTextMinimumCharacters).toEqual(1);
+
+      const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
+
+      // Should NOT search with 0 characters since undefined defaults to 1
+      enterSearch('', fixture);
+
+      expect(spy).not.toHaveBeenCalled();
+      spy.calls.reset();
+
+      // Should search with 1 character since undefined defaults to 1
+      enterSearch('r', fixture);
+
+      expect(spy).toHaveBeenCalled();
     }));
 
     it('should allow for custom search function', fakeAsync(() => {

@@ -231,7 +231,8 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set searchTextMinimumCharacters(value: number | undefined) {
-    this.#_searchTextMinimumCharacters = value && value > 0 ? value : 1;
+    this.#_searchTextMinimumCharacters =
+      value !== undefined && value >= 0 ? value : 1;
   }
 
   public get searchTextMinimumCharacters(): number {
@@ -753,14 +754,17 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#openDropdown();
       if (!searchText?.trim()) {
         this.#handleEmptySearchText();
-        return;
       }
 
-      const isLongEnough =
-        searchText.length >= this.searchTextMinimumCharacters;
-      const isDifferent = searchText !== this.searchText;
+      const trimmedSearchText = searchText?.trim() || '';
 
-      this.searchText = searchText.trim();
+      const isLongEnough =
+        trimmedSearchText.length >= this.searchTextMinimumCharacters;
+      const isDifferent =
+        searchText !== this.searchText ||
+        (this.searchText === '' && this.searchTextMinimumCharacters === 0);
+
+      this.searchText = trimmedSearchText;
       this.#updateIsResultsVisible();
 
       if (isLongEnough && isDifferent) {
