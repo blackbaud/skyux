@@ -1,10 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyNumericOptions } from '@skyux/core';
 import { SkyListSummaryModule } from '@skyux/lists';
 
 @Component({
-  imports: [CommonModule, SkyListSummaryModule],
+  imports: [SkyListSummaryModule],
   selector: 'app-list-summary',
   templateUrl: './list-summary.component.html',
   styleUrls: ['./list-summary.component.scss'],
