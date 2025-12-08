@@ -174,6 +174,7 @@
     transition: $sky-form-border-and-color-transitions;
 
     &.sky-switch-control-icon {
+      border-radius: var(--sky-border-radius-s);
       max-width: none;
       width: calc(
         var(--sky-size-icon-m) +
@@ -225,7 +226,6 @@
   .sky-switch-control-icon {
     margin-left: 0;
     margin-right: 0;
-    border-radius: 0;
   }
 
   .sky-switch-control {
@@ -303,9 +303,5 @@
 
   sky-checkbox:last-of-type .sky-switch-control-icon {
     margin-right: 0;
-  }
-
-  sky-radio .sky-switch-control-icon {
-    border-radius: var(--sky-border-radius-s);
   }
 }
