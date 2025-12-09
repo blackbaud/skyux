@@ -2,12 +2,12 @@
   "name": "@skyux/storybook",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/cdk": "^20.2.3",
-    "@angular/common": "^20.3.0",
-    "@angular/core": "^20.3.0",
-    "@angular/platform-browser": "^20.3.0",
+    "@angular/cdk": "^20.2.14",
+    "@angular/common": "^20.3.15",
+    "@angular/core": "^20.3.15",
+    "@angular/platform-browser": "^20.3.15",
     "@skyux/theme": "0.0.0-PLACEHOLDER",
-    "@storybook/angular": "^9.0.15"
+    "@storybook/angular": "^9.1.16"
   },
   "dependencies": {
     "tslib": "^2.8.1"

@@ -531,6 +531,37 @@ describe('SkyCellEditorCurrencyComponent', () => {
         expect(input.focus).toHaveBeenCalled();
         expect(cellEditorParams.api?.stopEditing).not.toHaveBeenCalled();
       }));
+
+      it('should call stopEditing when focusout from input and stopEditingWhenCellsLoseFocus is true', fakeAsync(() => {
+        const api = jasmine.createSpyObj<GridApi>([
+          'getDisplayNameForColumn',
+          'stopEditing',
+          'getGridOption',
+        ]);
+        api.getDisplayNameForColumn.and.returnValue('');
+        api.getGridOption.and.returnValue(true);
+
+        currencyEditorComponent.agInit({
+          ...(cellEditorParams as ICellEditorParams),
+          api,
+        });
+        currencyEditorFixture.detectChanges();
+
+        const input = currencyEditorFixture.nativeElement.querySelector(
+          'input',
+        ) as HTMLInputElement;
+
+        currencyEditorComponent.onFocusOut({
+          target: input,
+          relatedTarget: null,
+        } as unknown as FocusEvent);
+        tick();
+
+        expect(api.getGridOption).toHaveBeenCalledWith(
+          'stopEditingWhenCellsLoseFocus',
+        );
+        expect(api.stopEditing).toHaveBeenCalled();
+      }));
     });
 
     it('returns undefined if the value is not set', () => {
