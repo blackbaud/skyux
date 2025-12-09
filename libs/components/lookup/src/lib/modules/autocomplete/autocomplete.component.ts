@@ -231,7 +231,13 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set searchTextMinimumCharacters(value: number | undefined) {
-    this.#_searchTextMinimumCharacters = value && value > 0 ? value : 1;
+    console.log('min value in autocomplete', value); // 0
+    this.#_searchTextMinimumCharacters =
+      value !== undefined && value >= 0 ? value : 1; // 1
+    console.log(
+      'this.#_searchTextMinimumCharacters',
+      this.#_searchTextMinimumCharacters,
+    );
   }
 
   public get searchTextMinimumCharacters(): number {
@@ -445,6 +451,15 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           this.#hasFocus = true;
           if (this.showActionsArea || this.dropdownHintText) {
             this.#openDropdown();
+          }
+
+          console.log(
+            'this.searchTextMinimumCharacters',
+            this.searchTextMinimumCharacters,
+          );
+          if (this.searchTextMinimumCharacters === 0) {
+            console.log('im here');
+            this.#searchTextChanged('');
           }
         });
     }
@@ -758,6 +773,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
       const isLongEnough =
         searchText.length >= this.searchTextMinimumCharacters;
+      console.log('isLongEnough', isLongEnough);
       const isDifferent = searchText !== this.searchText;
 
       this.searchText = searchText.trim();

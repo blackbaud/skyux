@@ -64,7 +64,7 @@ export class LookupComponent implements OnInit {
 
   public friends: any[] = [this.people[15], this.people[20]];
 
-  public friends2: any[] = [this.people[15], this.people[20]];
+  public friends2: any[] = [];
 
   public bestFriend: any[] = [this.people[15]];
 
