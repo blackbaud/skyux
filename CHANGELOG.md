@@ -1,6 +1,10 @@
 # Changelog
 
 
+## [13.10.1](https://github.com/blackbaud/skyux/compare/12.44.1...13.10.1) (2025-12-09)
+
+
+
 ## [12.44.1](https://github.com/blackbaud/skyux/compare/12.44.0...12.44.1) (2025-12-09)
 
 
