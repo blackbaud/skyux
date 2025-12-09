@@ -103,7 +103,7 @@ describe('SkyCellEditorTextComponent', () => {
     it('initializes the SkyCellEditorTextComponent properties', () => {
       expect(textEditorComponent.editorForm.get('text')?.value).toBeNull();
 
-      textEditorComponent.agInit(cellEditorParams as ICellEditorParams);
+      textEditorComponent.refresh(cellEditorParams as ICellEditorParams);
 
       expect(textEditorComponent.editorForm.get('text')?.value).toEqual(value);
     });
@@ -144,6 +144,37 @@ describe('SkyCellEditorTextComponent', () => {
       tick();
       expect(input).toBeVisible();
       expect(input.focus).toHaveBeenCalled();
+    }));
+
+    it('should call stopEditing when focusout from input and stopEditingWhenCellsLoseFocus is true', fakeAsync(() => {
+      const api = jasmine.createSpyObj<GridApi>([
+        'getDisplayNameForColumn',
+        'stopEditing',
+        'getGridOption',
+      ]);
+      api.getDisplayNameForColumn.and.returnValue('');
+      api.getGridOption.and.returnValue(true);
+
+      textEditorComponent.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        api,
+      });
+      textEditorFixture.detectChanges();
+
+      const input = textEditorFixture.nativeElement.querySelector(
+        'input',
+      ) as HTMLInputElement;
+
+      textEditorComponent.onFocusOut({
+        target: input,
+        relatedTarget: null,
+      } as unknown as FocusEvent);
+      tick();
+
+      expect(api.getGridOption).toHaveBeenCalledWith(
+        'stopEditingWhenCellsLoseFocus',
+      );
+      expect(api.stopEditing).toHaveBeenCalled();
     }));
 
     describe('cellStartedEdit is true', () => {
