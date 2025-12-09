@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+* **components/ag-grid:** cell editors should stop editing on focusout event ([#4117](https://github.com/blackbaud/skyux/issues/4117)) ([#4119](https://github.com/blackbaud/skyux/issues/4119)) ([9770553](https://github.com/blackbaud/skyux/commit/977055311c21322812dba488a275c5b7a859f9a3)), closes [AB#3644316](https://github.com/AB/issues/3644316)
 * update dependencies to address vulnerabilities ([#4113](https://github.com/blackbaud/skyux/issues/4113)) ([#4115](https://github.com/blackbaud/skyux/issues/4115)) ([91743d3](https://github.com/blackbaud/skyux/commit/91743d3995ca6cf5692fd3da7283dc20f8afb362))
 
 
