@@ -1,23 +1,14 @@
 # Changelog
 
 
-# [12.45.0](https://github.com/blackbaud/skyux/compare/12.41.1...12.45.0) (2025-12-09)
+## [12.44.1](https://github.com/blackbaud/skyux/compare/12.44.0...12.44.1) (2025-12-09)
 
 
 ### Bug Fixes
 
 * **components/ag-grid:** cell editors should stop editing on focusout event ([#4117](https://github.com/blackbaud/skyux/issues/4117)) ([9475058](https://github.com/blackbaud/skyux/commit/94750584cceef1ae49a6a47e66e5648f6c2f09dd)), closes [AB#3644316](https://github.com/AB/issues/3644316)
-* **components/autonumeric:** return correct value when typing on an Android device ([#4104](https://github.com/blackbaud/skyux/issues/4104)) ([a888fb8](https://github.com/blackbaud/skyux/commit/a888fb816a85bcdc751e16c5fee951b4c3bc9e69)), closes [AB#3617801](https://github.com/AB/issues/3617801)
-* update dependencies to address vulnerabilities ([#4113](https://github.com/blackbaud/skyux/issues/4113)) ([2c4a81b](https://github.com/blackbaud/skyux/commit/2c4a81bf112c12c4b9d0bc66452db3e5043b457b))
 
-
-### Features
-
-* **components/lists:** add updated testing support for repeater ([#3978](https://github.com/blackbaud/skyux/issues/3978)) ([d668143](https://github.com/blackbaud/skyux/commit/d6681432b5415c566ad3dd1fb2ffb39efe117c2a)), closes [AB#3554647](https://github.com/AB/issues/3554647)
-
-
-
-# [12.44.0](https://github.com/blackbaud/skyux/compare/12.41.1...12.44.0) (2025-12-08)
+# [12.44.0](https://github.com/blackbaud/skyux/compare/12.43.0...12.44.0) (2025-12-08)
 
 
 ### Bug Fixes
@@ -25,26 +16,12 @@
 * **components/autonumeric:** return correct value when typing on an Android device ([#4104](https://github.com/blackbaud/skyux/issues/4104)) ([a888fb8](https://github.com/blackbaud/skyux/commit/a888fb816a85bcdc751e16c5fee951b4c3bc9e69)), closes [AB#3617801](https://github.com/AB/issues/3617801)
 * update dependencies to address vulnerabilities ([#4113](https://github.com/blackbaud/skyux/issues/4113)) ([2c4a81b](https://github.com/blackbaud/skyux/commit/2c4a81bf112c12c4b9d0bc66452db3e5043b457b))
 
-
-### Features
-
-* **components/lists:** add updated testing support for repeater ([#3978](https://github.com/blackbaud/skyux/issues/3978)) ([d668143](https://github.com/blackbaud/skyux/commit/d6681432b5415c566ad3dd1fb2ffb39efe117c2a)), closes [AB#3554647](https://github.com/AB/issues/3554647)
-
-
-
-# [12.43.0](https://github.com/blackbaud/skyux/compare/12.41.1...12.43.0) (2025-12-05)
+# [12.43.0](https://github.com/blackbaud/skyux/compare/12.42.0...12.43.0) (2025-12-05)
 
 
 ### Bug Fixes
 
 * **components/autonumeric:** return correct value when typing on an Android device ([#4104](https://github.com/blackbaud/skyux/issues/4104)) ([a888fb8](https://github.com/blackbaud/skyux/commit/a888fb816a85bcdc751e16c5fee951b4c3bc9e69)), closes [AB#3617801](https://github.com/AB/issues/3617801)
-
-
-### Features
-
-* **components/lists:** add updated testing support for repeater ([#3978](https://github.com/blackbaud/skyux/issues/3978)) ([d668143](https://github.com/blackbaud/skyux/commit/d6681432b5415c566ad3dd1fb2ffb39efe117c2a)), closes [AB#3554647](https://github.com/AB/issues/3554647)
-
-
 
 # [12.42.0](https://github.com/blackbaud/skyux/compare/12.41.1...12.42.0) (2025-09-30)
 
@@ -52,8 +29,6 @@
 ### Features
 
 * **components/lists:** add updated testing support for repeater ([#3978](https://github.com/blackbaud/skyux/issues/3978)) ([d668143](https://github.com/blackbaud/skyux/commit/d6681432b5415c566ad3dd1fb2ffb39efe117c2a)), closes [AB#3554647](https://github.com/AB/issues/3554647)
-
-
 
 ## [12.41.1](https://github.com/blackbaud/skyux/compare/12.41.0...12.41.1) (2025-09-22)
 
