@@ -33,7 +33,6 @@ import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
 export class SkyAgGridCellEditorTextComponent
   implements ICellEditorAngularComp
 {
-  public textInputLabel: string | undefined;
   public columnHeader: string | undefined;
   public editorForm = new UntypedFormGroup({
     text: new UntypedFormControl(),
@@ -53,6 +52,8 @@ export class SkyAgGridCellEditorTextComponent
       // If focus is being set to the grid cell, schedule focus on the input.
       // This happens when the refreshCells API is called.
       this.afterGuiAttached();
+    } else if (event.target === this.input?.nativeElement) {
+      this.#stopEditingOnBlur();
     }
   }
 
@@ -93,6 +94,10 @@ export class SkyAgGridCellEditorTextComponent
     this.rowNumber = this.#params.rowIndex + 1;
   }
 
+  public refresh(params: SkyCellEditorTextParams): void {
+    this.agInit(params);
+  }
+
   /**
    * afterGuiAttached is called by agGrid after the editor is rendered in the DOM. Once it is attached the editor is ready to be focused on.
    */
@@ -115,5 +120,11 @@ export class SkyAgGridCellEditorTextComponent
    */
   public getValue(): string | undefined {
     return this.editorForm.get('text')?.value || undefined;
+  }
+
+  #stopEditingOnBlur(): void {
+    if (this.#params?.api.getGridOption('stopEditingWhenCellsLoseFocus')) {
+      this.#params?.api.stopEditing();
+    }
   }
 }
