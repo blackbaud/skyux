@@ -22,7 +22,12 @@
       }
     },
     "build": {
-      "inputs": ["^buildInputs", "documentationInputs", "buildInputs"],
+      "inputs": [
+        "^buildInputs",
+        "buildInputs",
+        "codeExampleInputs",
+        "documentationInputs"
+      ],
       "executor": "nx:run-commands",
       "outputs": ["{options.outputPath}"],
       "options": {

@@ -18,6 +18,7 @@
     "dev:check-library-dependencies": "skyux-dev check-lib-dependencies",
     "dev:check-library-missing-peers": "skyux-dev check-lib-missing-peers --fix",
     "dev:update-library-dependencies": "nx g @skyux-sdk/tools:update-dependencies",
+    "dev:update-code-example-dependencies": "nx g @skyux-sdk/tools:update-code-example-dependencies && npm -C apps/code-examples/src/assets/stack-blitz install --package-lock-only --force",
     "dev:update-deprecations-snapshot": "npx vite-node ./scripts/postbuild-manifest.mts --update-deprecations-snapshot",
     "dev:cherry-pick": "skyux-dev cherry-pick",
     "dev:commit": "npx cz",
