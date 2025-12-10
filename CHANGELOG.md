@@ -4,6 +4,11 @@
 ## [13.10.1](https://github.com/blackbaud/skyux/compare/12.44.1...13.10.1) (2025-12-10)
 
 
+### Bug Fixes
+
+* **components/code-examples:** update record page with block layout to match demo ([#4116](https://github.com/blackbaud/skyux/issues/4116)) ([16c1e7f](https://github.com/blackbaud/skyux/commit/16c1e7f2a45f2c909594db14d2defc381d052216)), closes [AB#3642784](https://github.com/AB/issues/3642784)
+
+
 
 ## [12.44.1](https://github.com/blackbaud/skyux/compare/12.44.0...12.44.1) (2025-12-09)
 
