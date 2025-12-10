@@ -1,6 +1,28 @@
 # Changelog
 
 
+## [12.44.1](https://github.com/blackbaud/skyux/compare/12.44.0...12.44.1) (2025-12-09)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** cell editors should stop editing on focusout event ([#4117](https://github.com/blackbaud/skyux/issues/4117)) ([9475058](https://github.com/blackbaud/skyux/commit/94750584cceef1ae49a6a47e66e5648f6c2f09dd)), closes [AB#3644316](https://github.com/AB/issues/3644316)
+
+# [12.44.0](https://github.com/blackbaud/skyux/compare/12.43.0...12.44.0) (2025-12-08)
+
+
+### Bug Fixes
+
+* **components/autonumeric:** return correct value when typing on an Android device ([#4104](https://github.com/blackbaud/skyux/issues/4104)) ([a888fb8](https://github.com/blackbaud/skyux/commit/a888fb816a85bcdc751e16c5fee951b4c3bc9e69)), closes [AB#3617801](https://github.com/AB/issues/3617801)
+* update dependencies to address vulnerabilities ([#4113](https://github.com/blackbaud/skyux/issues/4113)) ([2c4a81b](https://github.com/blackbaud/skyux/commit/2c4a81bf112c12c4b9d0bc66452db3e5043b457b))
+
+# [12.43.0](https://github.com/blackbaud/skyux/compare/12.42.0...12.43.0) (2025-12-05)
+
+
+### Bug Fixes
+
+* **components/autonumeric:** return correct value when typing on an Android device ([#4104](https://github.com/blackbaud/skyux/issues/4104)) ([a888fb8](https://github.com/blackbaud/skyux/commit/a888fb816a85bcdc751e16c5fee951b4c3bc9e69)), closes [AB#3617801](https://github.com/AB/issues/3617801)
+
 # [13.10.0](https://github.com/blackbaud/skyux/compare/13.9.1...13.10.0) (2025-12-02)
 
 
@@ -8,8 +30,6 @@
 
 * update ag grid package versions ([#4095](https://github.com/blackbaud/skyux/issues/4095)) ([aa50bb4](https://github.com/blackbaud/skyux/commit/aa50bb451ddae6600f67b7add78dabd79998c287))
 * update design tokens to 3.3.0 ([#4098](https://github.com/blackbaud/skyux/issues/4098)) ([5f5fc9c](https://github.com/blackbaud/skyux/commit/5f5fc9cb8913fe32ef18214ae3c0dd20afd51156))
-
-
 
 ## [13.9.1](https://github.com/blackbaud/skyux/compare/13.9.0...13.9.1) (2025-12-02)
 

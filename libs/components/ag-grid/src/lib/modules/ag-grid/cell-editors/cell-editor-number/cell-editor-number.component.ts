@@ -55,6 +55,8 @@ export class SkyAgGridCellEditorNumberComponent
       // If focus is being set to the grid cell, schedule focus on the input.
       // This happens when the refreshCells API is called.
       this.afterGuiAttached();
+    } else if (event.target === this.input?.nativeElement) {
+      this.#stopEditingOnBlur();
     }
   }
 
@@ -99,6 +101,10 @@ export class SkyAgGridCellEditorNumberComponent
     this.rowHeightWithoutBorders = (this.#params.node.rowHeight as number) - 4;
   }
 
+  public refresh(params: SkyCellEditorNumberParams): void {
+    this.agInit(params);
+  }
+
   /**
    * afterGuiAttached is called by agGrid after the editor is rendered in the DOM. Once it is attached the editor is ready to be focused on.
    */
@@ -122,5 +128,11 @@ export class SkyAgGridCellEditorNumberComponent
   public getValue(): number | undefined {
     const val = this.editorForm.get('number')?.value;
     return val !== undefined && val !== null ? val : undefined;
+  }
+
+  #stopEditingOnBlur(): void {
+    if (this.#params?.api.getGridOption('stopEditingWhenCellsLoseFocus')) {
+      this.#params?.api.stopEditing();
+    }
   }
 }
