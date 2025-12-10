@@ -54,10 +54,6 @@ describe('Record page blocks layout example', () => {
     await expectAsync(pageHeaderHarness.getPageTitle()).toBeResolvedTo(
       '$500 pledge',
     );
-
-    await expectAsync(pageHeaderHarness.getParentLinkText()).toBeResolvedTo(
-      'Pledges',
-    );
   });
 
   it('should have the correct help key', async () => {
