@@ -12,17 +12,4 @@ import { RecordPageContentComponent } from './record-page-content.component';
   templateUrl: './example.component.html',
   imports: [RecordPageContentComponent, SkyPageModule],
 })
-export class PagesPageRecordPageBlocksLayoutExampleComponent {
-  protected readonly recentLinks = [
-    {
-      label: 'Gift Management',
-      permalink: { url: '' },
-      lastAccessed: new Date(2024, 1, 1),
-    },
-    {
-      label: 'Reporting',
-      permalink: { url: '' },
-      lastAccessed: new Date(2024, 1, 2),
-    },
-  ];
-}
+export class PagesPageRecordPageBlocksLayoutExampleComponent {}
