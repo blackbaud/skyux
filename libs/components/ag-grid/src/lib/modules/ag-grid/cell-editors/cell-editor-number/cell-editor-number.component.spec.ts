@@ -102,7 +102,7 @@ describe('SkyCellEditorNumberComponent', () => {
       expect(numberEditorComponent.editorForm.get('number')?.value).toBeNull();
       expect(numberEditorComponent.columnWidth).toBeUndefined();
 
-      numberEditorComponent.agInit(cellEditorParams as ICellEditorParams);
+      numberEditorComponent.refresh(cellEditorParams as ICellEditorParams);
 
       expect(numberEditorComponent.editorForm.get('number')?.value).toEqual(
         value,
@@ -407,6 +407,37 @@ describe('SkyCellEditorNumberComponent', () => {
         tick();
         expect(input).toBeVisible();
         expect(input.focus).toHaveBeenCalled();
+      }));
+
+      it('should call stopEditing when focusout from input and stopEditingWhenCellsLoseFocus is true', fakeAsync(() => {
+        const api = jasmine.createSpyObj<GridApi>([
+          'getDisplayNameForColumn',
+          'stopEditing',
+          'getGridOption',
+        ]);
+        api.getDisplayNameForColumn.and.returnValue('');
+        api.getGridOption.and.returnValue(true);
+
+        numberEditorComponent.agInit({
+          ...(cellEditorParams as ICellEditorParams),
+          api,
+        });
+        numberEditorFixture.detectChanges();
+
+        const input = numberEditorFixture.nativeElement.querySelector(
+          'input',
+        ) as HTMLInputElement;
+
+        numberEditorComponent.onFocusOut({
+          target: input,
+          relatedTarget: null,
+        } as unknown as FocusEvent);
+        tick();
+
+        expect(api.getGridOption).toHaveBeenCalledWith(
+          'stopEditingWhenCellsLoseFocus',
+        );
+        expect(api.stopEditing).toHaveBeenCalled();
       }));
 
       describe('cellStartedEdit is true', () => {
