@@ -1,12 +1,17 @@
 # Changelog
 
 
-## [13.10.1](https://github.com/blackbaud/skyux/compare/12.44.1...13.10.1) (2025-12-10)
+# [13.11.0](https://github.com/blackbaud/skyux/compare/12.44.1...13.11.0) (2025-12-10)
 
 
 ### Bug Fixes
 
 * **components/code-examples:** update record page with block layout to match demo ([#4116](https://github.com/blackbaud/skyux/issues/4116)) ([16c1e7f](https://github.com/blackbaud/skyux/commit/16c1e7f2a45f2c909594db14d2defc381d052216)), closes [AB#3642784](https://github.com/AB/issues/3642784)
+
+
+### Features
+
+* update design tokens to 4.0.2 ([#4106](https://github.com/blackbaud/skyux/issues/4106)) ([bba8c12](https://github.com/blackbaud/skyux/commit/bba8c12840442b395770e7ab9e9f755bf6b4e630))
 
 
 
