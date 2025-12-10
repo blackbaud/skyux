@@ -1,12 +1,13 @@
 # Changelog
 
 
-# [13.11.0](https://github.com/blackbaud/skyux/compare/12.44.1...13.11.0) (2025-12-10)
+# [13.11.0](https://github.com/blackbaud/skyux/compare/13.10.0...13.11.0) (2025-12-10)
 
 
 ### Bug Fixes
 
 * **components/code-examples:** update record page with block layout to match demo ([#4116](https://github.com/blackbaud/skyux/issues/4116)) ([16c1e7f](https://github.com/blackbaud/skyux/commit/16c1e7f2a45f2c909594db14d2defc381d052216)), closes [AB#3642784](https://github.com/AB/issues/3642784)
+* **components/ag-grid:** cell editors should stop editing on focusout event ([#4117](https://github.com/blackbaud/skyux/issues/4117)) ([#4119](https://github.com/blackbaud/skyux/issues/4119)) ([9770553](https://github.com/blackbaud/skyux/commit/977055311c21322812dba488a275c5b7a859f9a3)), closes [AB#3644316](https://github.com/AB/issues/3644316)
 
 
 ### Features
