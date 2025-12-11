@@ -1,17 +1,20 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  Input,
-  OnDestroy,
-  OnInit,
+  computed,
+  effect,
   inject,
+  input,
+  linkedSignal,
+  signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
+  SkyDataManagerColumnPickerOption,
+  SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
-  SkyDataViewConfig,
 } from '@skyux/data-manager';
 import { SkyFilterBarFilterState } from '@skyux/filter-bar';
 
@@ -20,16 +23,13 @@ import {
   AllCommunityModule,
   ColDef,
   GridApi,
-  GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   RowSelectedEvent,
-  SortChangedEvent,
 } from 'ag-grid-community';
-import { Subject, Subscription, fromEvent, of, takeUntil } from 'rxjs';
+import { of } from 'rxjs';
 
 import { DataManagerDemoRow } from './data';
-import { FruitTypeLookupItem } from './example.service';
+import { filterItems } from './filters';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -37,26 +37,17 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'app-view-grid',
   templateUrl: './view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, SkyAgGridModule],
+  imports: [AgGridModule, SkyAgGridModule, SkyDataManagerModule],
 })
-export class ViewGridComponent implements OnInit, OnDestroy {
-  @Input()
-  public items: DataManagerDemoRow[] = [];
-
-  protected displayedItems: DataManagerDemoRow[] = [];
-  protected gridOptions: GridOptions;
-  protected isActive = false;
-  protected isGridInitialized = false;
-  protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
+export class ViewGridComponent {
+  public readonly items = input<DataManagerDemoRow[]>([]);
 
   protected readonly viewId = 'gridView';
 
-  #columnDefs: ColDef[] = [
+  readonly #columnDefs: ColDef[] = [
     {
       colId: 'selected',
       field: 'selected',
-      headerName: '',
-      maxWidth: 50,
       type: SkyCellType.RowSelector,
       suppressMovable: true,
       lockPosition: true,
@@ -78,238 +69,84 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       headerName: 'Description',
     },
   ];
-
-  #dataState = new SkyDataManagerState({});
-  #gridApi: GridApi | undefined;
-  #ngUnsubscribe = new Subject<void>();
-
-  #viewConfig: SkyDataViewConfig = {
-    id: this.viewId,
-    name: 'Grid View',
-    iconName: 'table',
-    searchEnabled: true,
-    columnPickerEnabled: true,
-    columnOptions: [
-      {
-        id: 'selected',
-        alwaysDisplayed: true,
-        label: 'selected',
-      },
-      {
-        id: 'name',
-        label: 'Fruit name',
-        description: 'The name of the fruit.',
-      },
-      {
-        id: 'description',
-        label: 'Description',
-        description: 'Some information about the fruit.',
-      },
-    ],
-  };
-
-  readonly #agGridSvc = inject(SkyAgGridService);
-  readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dataManagerSvc = inject(SkyDataManagerService);
+  readonly #dataState = toSignal(
+    this.#dataManagerSvc.getDataStateUpdates(this.viewId),
+    { initialValue: new SkyDataManagerState({}) },
+  );
+  readonly #gridApi = signal<GridApi | undefined>(undefined);
+  readonly #selectedItems = linkedSignal(
+    () => this.#dataState().selectedIds ?? [],
+  );
+
+  protected readonly displayedItems = computed(() => {
+    const dataState = this.#dataState();
+    return filterItems(
+      this.items(),
+      dataState.filterData?.filters as SkyFilterBarFilterState | undefined,
+      dataState.searchText,
+    ).map((item) => ({
+      ...item,
+      selected: this.#selectedItems().includes(item.id),
+    }));
+  });
+  protected readonly gridOptions = inject(SkyAgGridService).getGridOptions({
+    gridOptions: {
+      columnDefs: this.#columnDefs,
+      onGridReady: (params) => {
+        this.#gridApi.set(params.api);
+      },
+      onGridPreDestroyed: () => {
+        this.#gridApi.set(undefined);
+      },
+    },
+  });
 
   constructor() {
-    this.gridOptions = this.#agGridSvc.getGridOptions({
-      gridOptions: {
-        columnDefs: this.#columnDefs,
-        onGridReady: (args) => {
-          this.#onGridReady(args);
+    effect(() => {
+      this.#dataManagerSvc.updateDataSummary(
+        {
+          totalItems: this.items().length,
+          itemsMatching: this.displayedItems().length,
         },
-      },
+        this.viewId,
+      );
     });
-  }
-
-  public ngOnInit(): void {
-    this.displayedItems = this.items;
-
-    this.#dataManagerSvc.initDataView(this.#viewConfig);
-
-    this.#dataManagerSvc
-      .getDataStateUpdates(this.viewId)
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((state) => {
-        this.#dataState = state;
-        this.#setInitialColumnOrder();
-        this.#updateData();
-        this.#changeDetector.markForCheck();
-      });
-
-    this.#dataManagerSvc
-      .getActiveViewIdUpdates()
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((id) => {
-        this.isActive = id === this.viewId;
-        this.#changeDetector.markForCheck();
-      });
-  }
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
+    effect(() => {
+      const gridApi = this.#gridApi();
+      const rowData = this.displayedItems();
+      gridApi?.setGridOption('rowData', rowData);
+    });
+    this.#dataManagerSvc.initDataView({
+      id: this.viewId,
+      name: 'Grid View',
+      iconName: 'table',
+      searchEnabled: true,
+      columnPickerEnabled: true,
+      columnOptions: this.#columnDefs.map(
+        (colDef): SkyDataManagerColumnPickerOption => ({
+          id: colDef.colId!,
+          label: colDef.headerName ?? colDef.colId!,
+          alwaysDisplayed: !!colDef.lockVisible,
+        }),
+      ),
+    });
   }
 
   protected onRowSelected(
     rowSelectedEvent: RowSelectedEvent<DataManagerDemoRow>,
   ): void {
     if (!rowSelectedEvent.data?.selected) {
-      this.#updateData();
-    }
-  }
-
-  #filterItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
-    let filteredItems = items;
-    const filterState = this.#dataState.filterData?.filters as
-      | SkyFilterBarFilterState
-      | undefined;
-
-    if (filterState?.appliedFilters) {
-      const filters = filterState.appliedFilters;
-      const hideOrange = !!filters.find(
-        (f) => f.filterId === 'hideOrange' && f.filterValue?.value,
+      this.#selectedItems.update((ids) =>
+        ids.filter((id) => id !== rowSelectedEvent.data?.id),
       );
-      const fruitTypeFilter = filters.find((f) => f.filterId === 'fruitType');
-      const selectedTypes: string[] = Array.isArray(
-        fruitTypeFilter?.filterValue?.value,
-      )
-        ? (fruitTypeFilter.filterValue.value as FruitTypeLookupItem[]).map(
-            (v) => v.id,
-          )
-        : [];
-
-      filteredItems = items.filter((item) => {
-        if (hideOrange && item.color === 'orange') {
-          return false;
-        }
-        if (selectedTypes.length && !selectedTypes.includes(item.type)) {
-          return false;
-        }
-        return true;
-      });
-    }
-
-    return filteredItems;
-  }
-
-  #onGridReady(event: GridReadyEvent): void {
-    this.#gridApi = event.api;
-    this.#updateData();
-
-    // When the grid is destroyed, unsubscribe from all grid events.
-    const gridSubscription = new Subscription();
-    gridSubscription.add(
-      fromEvent(this.#gridApi, 'gridPreDestroyed').subscribe(() => {
-        gridSubscription.unsubscribe();
-      }),
-    );
-
-    // Keep the data manager sort option in sync with grid sort changes.
-    gridSubscription.add(
-      fromEvent<SortChangedEvent>(this.#gridApi, 'sortChanged').subscribe(
-        (sortChanged) => {
-          const sortOption = (
-            this.#dataManagerSvc.getCurrentDataManagerConfig().sortOptions ?? []
-          ).find((option) =>
-            (sortChanged.columns ?? []).some(
-              (col) => col.getColId() === option.propertyName,
-            ),
-          );
-          const state = new SkyDataManagerState(this.#dataState);
-          state.activeSortOption = sortOption;
-          this.#dataManagerSvc.updateDataState(state, this.viewId);
-        },
-      ),
-    );
-  }
-
-  #searchItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
-    let searchedItems = items;
-    const searchText = this.#dataState && this.#dataState.searchText;
-
-    if (searchText) {
-      searchedItems = items.filter((item: DataManagerDemoRow) => {
-        let property: keyof typeof item;
-
-        for (property in item) {
-          if (
-            Object.prototype.hasOwnProperty.call(item, property) &&
-            (property === 'name' || property === 'description')
-          ) {
-            const propertyText = item[property].toLowerCase();
-            if (propertyText.includes(searchText)) {
-              return true;
-            }
-          }
-        }
-
-        return false;
-      });
-    }
-    return searchedItems;
-  }
-
-  #setInitialColumnOrder(): void {
-    const viewState = this.#dataState.getViewStateById(this.viewId);
-    const visibleColumns = viewState?.displayedColumnIds ?? [];
-
-    this.#columnDefs.sort((col1, col2) => {
-      const col1Index = visibleColumns.findIndex(
-        (colId: string) => colId === col1.colId,
-      );
-      const col2Index = visibleColumns.findIndex(
-        (colId: string) => colId === col2.colId,
-      );
-
-      if (col1Index === -1) {
-        col1.hide = true;
-        return 0;
-      } else if (col2Index === -1) {
-        col2.hide = true;
-        return 0;
-      } else {
-        return col1Index - col2Index;
-      }
-    });
-
-    // Update the grid's initial sort based on the data state's active sort option.
-    const field = this.#dataState.activeSortOption?.propertyName;
-    const descending = this.#dataState.activeSortOption?.descending ?? false;
-    this.#columnDefs.forEach((column) => {
-      column.initialSort =
-        field && field === column.field
-          ? descending
-            ? 'desc'
-            : 'asc'
-          : undefined;
-    });
-
-    this.isGridInitialized = true;
-  }
-
-  #updateData(): void {
-    this.displayedItems = this.#filterItems(this.#searchItems(this.items));
-
-    if (this.#dataState.onlyShowSelected) {
-      this.displayedItems = this.displayedItems.filter((item) => item.selected);
-    }
-
-    if (!this.isActive) {
-      // Do nothing if the grid is not the active view.
-    } else if (this.displayedItems.length > 0) {
-      this.#gridApi?.hideOverlay();
     } else {
-      this.#gridApi?.showNoRowsOverlay();
+      this.#selectedItems.update((ids) => {
+        if (rowSelectedEvent.data && !ids.includes(rowSelectedEvent.data.id)) {
+          return ids.concat([rowSelectedEvent.data.id]);
+        }
+        return ids;
+      });
     }
-
-    this.#dataManagerSvc.updateDataSummary(
-      {
-        totalItems: this.items.length,
-        itemsMatching: this.displayedItems.length,
-      },
-      this.viewId,
-    );
   }
 }

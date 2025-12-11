@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   inject,
+  signal,
 } from '@angular/core';
 import {
   SkyAgGridAutocompleteProperties,
@@ -17,10 +17,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   AllCommunityModule,
-  ColDef,
   GridApi,
-  GridOptions,
-  GridReadyEvent,
   ICellEditorParams,
   IRowNode,
   ModuleRegistry,
@@ -38,138 +35,126 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   imports: [AgGridModule, SkyAgGridModule, SkyModalModule],
 })
 export class EditModalComponent {
-  protected gridData: AgGridDemoRow[];
-  protected gridOptions: GridOptions;
+  readonly #gridApi = signal<GridApi | undefined>(undefined);
 
-  #columnDefs: ColDef[];
-  #gridApi: GridApi | undefined;
-
-  protected readonly instance = inject(SkyModalInstance);
-  readonly #agGridService = inject(SkyAgGridService);
-  readonly #changeDetector = inject(ChangeDetectorRef);
-  readonly #context = inject(EditModalContext);
-
-  constructor() {
-    this.#columnDefs = [
-      {
-        field: 'name',
-        headerName: 'Name',
-      },
-      {
-        field: 'age',
-        headerName: 'Age',
-        type: SkyCellType.Number,
-        maxWidth: 60,
-        editable: true,
-      },
-      {
-        field: 'startDate',
-        headerName: 'Start date',
-        type: SkyCellType.Date,
-        sort: 'asc',
-      },
-      {
-        field: 'endDate',
-        headerName: 'End date',
-        type: SkyCellType.Date,
-        editable: true,
-        cellEditorParams: (
-          params: ICellEditorParams<AgGridDemoRow>,
-        ): { skyComponentProperties: SkyAgGridDatepickerProperties } => {
-          return {
-            skyComponentProperties: {
-              minDate: params.data.startDate,
-            },
-          };
+  protected readonly gridData = inject(EditModalContext).gridData;
+  protected readonly gridOptions = inject(
+    SkyAgGridService,
+  ).getEditableGridOptions({
+    gridOptions: {
+      columnDefs: [
+        {
+          field: 'name',
+          headerName: 'Name',
         },
-      },
-      {
-        field: 'department',
-        headerName: 'Department',
-        type: SkyCellType.Autocomplete,
-        editable: true,
-        cellEditorParams: (
-          params: ICellEditorParams<AgGridDemoRow>,
-        ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
-          return {
-            skyComponentProperties: {
-              data: DEPARTMENTS,
-              selectionChange: (change): void => {
-                this.#departmentSelectionChange(change, params.node);
+        {
+          field: 'age',
+          headerName: 'Age',
+          type: SkyCellType.Number,
+          maxWidth: 60,
+          editable: true,
+        },
+        {
+          field: 'startDate',
+          headerName: 'Start date',
+          type: SkyCellType.Date,
+          sort: 'asc',
+        },
+        {
+          field: 'endDate',
+          headerName: 'End date',
+          type: SkyCellType.Date,
+          editable: true,
+          cellEditorParams: (
+            params: ICellEditorParams<AgGridDemoRow>,
+          ): { skyComponentProperties: SkyAgGridDatepickerProperties } => {
+            return {
+              skyComponentProperties: {
+                minDate: params.data.startDate,
               },
-            },
-          };
-        },
-        onCellValueChanged: (event): void => {
-          if (event.newValue !== event.oldValue) {
-            this.#clearJobTitle(event.node);
-          }
-        },
-      },
-      {
-        field: 'jobTitle',
-        headerName: 'Title',
-        type: SkyCellType.Autocomplete,
-        editable: true,
-        cellEditorParams: (
-          params: ICellEditorParams<AgGridDemoRow>,
-        ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
-          const selectedDepartment = params.data?.department?.name;
-
-          const editParams: {
-            skyComponentProperties: SkyAgGridAutocompleteProperties;
-          } = { skyComponentProperties: { data: [] } };
-
-          if (selectedDepartment) {
-            editParams.skyComponentProperties.data =
-              JOB_TITLES[selectedDepartment];
-          }
-
-          return editParams;
-        },
-      },
-      {
-        colId: 'validationCurrency',
-        field: 'validationCurrency',
-        headerName: 'Validation currency',
-        type: [SkyCellType.CurrencyValidator],
-        editable: true,
-      },
-      {
-        colId: 'validationDate',
-        field: 'validationDate',
-        headerName: 'Validation date',
-        type: [SkyCellType.Date, SkyCellType.Validator],
-        cellRendererParams: {
-          skyComponentProperties: {
-            validator: (value: Date): boolean =>
-              !!value && value > new Date(1985, 9, 26),
-            validatorMessage: 'Enter a future date.',
+            };
           },
         },
-        editable: true,
+        {
+          field: 'department',
+          headerName: 'Department',
+          type: SkyCellType.Autocomplete,
+          editable: true,
+          cellEditorParams: (
+            params: ICellEditorParams<AgGridDemoRow>,
+          ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
+            return {
+              skyComponentProperties: {
+                data: DEPARTMENTS,
+                selectionChange: (change): void => {
+                  this.#departmentSelectionChange(change, params.node);
+                },
+              },
+            };
+          },
+          onCellValueChanged: (event): void => {
+            if (event.newValue !== event.oldValue) {
+              this.#clearJobTitle(event.node);
+            }
+          },
+        },
+        {
+          field: 'jobTitle',
+          headerName: 'Title',
+          type: SkyCellType.Autocomplete,
+          editable: true,
+          cellEditorParams: (
+            params: ICellEditorParams<AgGridDemoRow>,
+          ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
+            const selectedDepartment = params.data?.department?.name;
+
+            const editParams: {
+              skyComponentProperties: SkyAgGridAutocompleteProperties;
+            } = { skyComponentProperties: { data: [] } };
+
+            if (selectedDepartment) {
+              editParams.skyComponentProperties.data =
+                JOB_TITLES[selectedDepartment];
+            }
+
+            return editParams;
+          },
+        },
+        {
+          colId: 'validationCurrency',
+          field: 'validationCurrency',
+          headerName: 'Validation currency',
+          type: [SkyCellType.CurrencyValidator],
+          editable: true,
+        },
+        {
+          colId: 'validationDate',
+          field: 'validationDate',
+          headerName: 'Validation date',
+          type: [SkyCellType.Date, SkyCellType.Validator],
+          cellRendererParams: {
+            skyComponentProperties: {
+              validator: (value: Date): boolean =>
+                !!value && value > new Date(1985, 9, 26),
+              validatorMessage: 'Enter a future date.',
+            },
+          },
+          editable: true,
+        },
+      ],
+      onGridReady: (params) => {
+        this.#gridApi.set(params.api);
       },
-    ];
-
-    this.gridData = this.#context.gridData;
-
-    const gridOptions: GridOptions = {
-      columnDefs: this.#columnDefs,
-      onGridReady: (gridReadyEvent): void => {
-        this.onGridReady(gridReadyEvent);
+      onGridPreDestroyed: () => {
+        this.#gridApi.set(undefined);
       },
-    };
+      rowData: this.gridData,
+    },
+  });
+  protected readonly instance = inject(SkyModalInstance);
 
-    this.gridOptions = this.#agGridService.getEditableGridOptions({
-      gridOptions,
-    });
-
-    this.#changeDetector.markForCheck();
-  }
-
-  public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.#gridApi = gridReadyEvent.api;
-    this.#changeDetector.markForCheck();
+  protected saveData(): void {
+    this.instance.save(this.gridData);
   }
 
   #departmentSelectionChange(
@@ -184,14 +169,7 @@ export class EditModalComponent {
   #clearJobTitle(node: IRowNode<AgGridDemoRow> | null): void {
     if (node?.data) {
       node.data.jobTitle = undefined;
-
-      if (this.#gridApi) {
-        this.#gridApi.refreshCells({
-          rowNodes: [node],
-        });
-      }
+      this.#gridApi()?.applyTransaction({ update: [node.data] });
     }
-
-    this.#changeDetector.markForCheck();
   }
 }

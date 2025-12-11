@@ -1,26 +1,24 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  Input,
-  OnDestroy,
-  OnInit,
+  computed,
+  effect,
   inject,
+  input,
+  linkedSignal,
+  untracked,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
-  SkyDataViewConfig,
 } from '@skyux/data-manager';
 import { SkyFilterBarFilterState } from '@skyux/filter-bar';
 import { SkyRepeaterModule } from '@skyux/lists';
 
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
 import { DataManagerDemoRow } from './data';
-import { FruitTypeLookupItem } from './example.service';
+import { filterItems } from './filters';
 
 @Component({
   selector: 'app-view-repeater',
@@ -28,217 +26,97 @@ import { FruitTypeLookupItem } from './example.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyDataManagerModule, SkyRepeaterModule],
 })
-export class ViewRepeaterComponent implements OnInit, OnDestroy {
-  @Input()
-  public items: DataManagerDemoRow[] = [];
-
-  protected displayedItems: DataManagerDemoRow[] = [];
-  protected isActive = false;
+export class ViewRepeaterComponent {
+  public readonly items = input<DataManagerDemoRow[]>([]);
 
   protected readonly viewId = 'repeaterView';
 
-  #dataState = new SkyDataManagerState({});
-  #ngUnsubscribe = new Subject<void>();
-
-  #viewConfig: SkyDataViewConfig = {
-    id: this.viewId,
-    name: 'Repeater View',
-    iconName: 'text-bullet-list',
-    searchEnabled: true,
-    sortEnabled: true,
-    multiselectToolbarEnabled: true,
-    onClearAllClick: () => {
-      this.#clearAll();
-    },
-    onSelectAllClick: () => {
-      this.#selectAll();
-    },
-  };
-
-  readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dataManagerSvc = inject(SkyDataManagerService);
+  readonly #dataState = toSignal(
+    this.#dataManagerSvc.getDataStateUpdates(this.viewId),
+    { initialValue: new SkyDataManagerState({}) },
+  );
 
-  public ngOnInit(): void {
-    this.displayedItems = this.items;
-
-    this.#dataManagerSvc.initDataView(this.#viewConfig);
-
-    this.#dataManagerSvc
-      .getDataStateUpdates(this.viewId)
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((state) => {
-        this.#dataState = state;
-        this.#updateData();
-      });
-
-    this.#dataManagerSvc
-      .getActiveViewIdUpdates()
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((id) => {
-        this.isActive = id === this.viewId;
-        this.#changeDetector.markForCheck();
-      });
-  }
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
-  }
-
-  protected onItemSelect(isSelected: boolean, item: DataManagerDemoRow): void {
-    const selectedItems = this.#dataState.selectedIds ?? [];
-    const itemIndex = selectedItems.indexOf(item.id);
-
-    if (isSelected && itemIndex === -1) {
-      selectedItems.push(item.id);
-    } else if (!isSelected && itemIndex !== -1) {
-      selectedItems.splice(itemIndex, 1);
-    }
-
-    this.#dataState.selectedIds = selectedItems;
-    this.#dataManagerSvc.updateDataState(this.#dataState, this.viewId);
-
-    if (this.#dataState.onlyShowSelected && this.displayedItems) {
-      this.displayedItems = this.displayedItems.filter((itm) => itm.selected);
-      this.#changeDetector.markForCheck();
-    }
-  }
-
-  #updateData(): void {
-    const selectedIds = this.#dataState.selectedIds ?? [];
-
-    this.items.forEach((item) => {
-      item.selected = selectedIds.includes(item.id);
-    });
-
-    this.displayedItems = this.#filterItems(this.#searchItems(this.items));
-
-    if (this.#dataState.onlyShowSelected) {
-      this.displayedItems = this.displayedItems.filter((item) => item.selected);
-    }
-
-    const sortOption = this.#dataState.activeSortOption;
+  protected readonly selectedItems = linkedSignal(
+    () => this.#dataState().selectedIds ?? [],
+  );
+  protected readonly displayedItems = computed(() => {
+    const dataState = this.#dataState();
+    const selectedItems = this.selectedItems();
+    const items = filterItems(
+      this.items(),
+      dataState.filterData?.filters as SkyFilterBarFilterState | undefined,
+      dataState.searchText,
+    );
+    const sortOption = dataState.activeSortOption;
     if (sortOption?.propertyName) {
       const field = sortOption.propertyName as keyof DataManagerDemoRow;
       const descending = sortOption.descending ?? false;
 
-      this.displayedItems.sort(
-        (a: DataManagerDemoRow, b: DataManagerDemoRow) => {
-          const aValue = String(a[field]);
-          const bValue = String(b[field]);
-          if (descending) {
-            return bValue.localeCompare(aValue);
-          }
-          return aValue.localeCompare(bValue);
+      items.sort((a: DataManagerDemoRow, b: DataManagerDemoRow) => {
+        const aValue = String(a[field]);
+        const bValue = String(b[field]);
+        if (descending) {
+          return bValue.localeCompare(aValue);
+        }
+        return aValue.localeCompare(bValue);
+      });
+    }
+    if (dataState.onlyShowSelected) {
+      return items.filter((item) => selectedItems.includes(item.id));
+    }
+    return items;
+  });
+
+  constructor() {
+    effect(() => {
+      this.#dataManagerSvc.updateDataSummary(
+        {
+          totalItems: this.items().length,
+          itemsMatching: this.displayedItems().length,
         },
+        this.viewId,
       );
-    }
-
-    this.#dataManagerSvc.updateDataSummary(
-      {
-        totalItems: this.items.length,
-        itemsMatching: this.displayedItems.length,
+    });
+    effect(() => {
+      const selectedItems = this.selectedItems();
+      const dataState = untracked(this.#dataState);
+      const currentSelectedIds = dataState.selectedIds ?? [];
+      if (
+        selectedItems.length !== currentSelectedIds.length ||
+        !selectedItems.every((id) => currentSelectedIds.includes(id))
+      ) {
+        dataState.selectedIds = selectedItems;
+        this.#dataManagerSvc.updateDataState(dataState, this.viewId);
+      }
+    });
+    this.#dataManagerSvc.initDataView({
+      id: this.viewId,
+      name: 'Repeater View',
+      iconName: 'text-bullet-list',
+      searchEnabled: true,
+      sortEnabled: true,
+      multiselectToolbarEnabled: true,
+      onClearAllClick: () => {
+        this.selectedItems.set([]);
       },
-      this.viewId,
-    );
-
-    this.#changeDetector.markForCheck();
+      onSelectAllClick: () => {
+        this.selectedItems.set(this.items().map((item) => item.id));
+      },
+    });
   }
 
-  #searchItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
-    let searchedItems = items;
-    const searchText =
-      this.#dataState && this.#dataState.searchText?.toUpperCase();
-
-    if (searchText) {
-      searchedItems = items.filter((item: DataManagerDemoRow) => {
-        let property: keyof typeof item;
-
-        for (property in item) {
-          if (
-            Object.prototype.hasOwnProperty.call(item, property) &&
-            (property === 'name' || property === 'description')
-          ) {
-            const propertyText = item[property].toUpperCase();
-            if (propertyText.includes(searchText)) {
-              return true;
-            }
-          }
+  protected onItemSelect(isSelected: boolean, item: DataManagerDemoRow): void {
+    if (!isSelected) {
+      this.selectedItems.update((ids) => ids.filter((id) => id !== item.id));
+    } else {
+      this.selectedItems.update((ids) => {
+        if (!ids.includes(item.id)) {
+          return ids.concat([item.id]);
         }
-
-        return false;
+        return ids;
       });
     }
-
-    return searchedItems;
-  }
-
-  #filterItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
-    let filteredItems = items;
-    const filterState = this.#dataState.filterData?.filters as
-      | SkyFilterBarFilterState
-      | undefined;
-
-    if (filterState?.appliedFilters) {
-      const filters = filterState.appliedFilters;
-      const hideOrange = !!filters.find(
-        (f) => f.filterId === 'hideOrange' && f.filterValue?.value,
-      );
-      const fruitTypeFilter = filters.find((f) => f.filterId === 'fruitType');
-      const selectedTypes: string[] = Array.isArray(
-        fruitTypeFilter?.filterValue?.value,
-      )
-        ? (fruitTypeFilter.filterValue.value as FruitTypeLookupItem[]).map(
-            (v) => v.id,
-          )
-        : [];
-
-      filteredItems = items.filter((item) => {
-        if (hideOrange && item.color === 'orange') {
-          return false;
-        }
-        if (selectedTypes.length && !selectedTypes.includes(item.type)) {
-          return false;
-        }
-        return true;
-      });
-    }
-
-    return filteredItems;
-  }
-
-  #selectAll(): void {
-    const selectedIds = this.#dataState.selectedIds ?? [];
-
-    this.displayedItems.forEach((item) => {
-      if (!item.selected) {
-        item.selected = true;
-        selectedIds.push(item.id);
-      }
-    });
-
-    this.#dataState.selectedIds = selectedIds;
-    this.#dataManagerSvc.updateDataState(this.#dataState, this.viewId);
-    this.#changeDetector.markForCheck();
-  }
-
-  #clearAll(): void {
-    const selectedIds = this.#dataState.selectedIds ?? [];
-
-    this.displayedItems.forEach((item) => {
-      if (item.selected) {
-        const itemIndex = selectedIds.indexOf(item.id);
-        item.selected = false;
-        selectedIds.splice(itemIndex, 1);
-      }
-    });
-
-    if (this.#dataState.onlyShowSelected) {
-      this.displayedItems = [];
-    }
-
-    this.#dataState.selectedIds = selectedIds;
-    this.#dataManagerSvc.updateDataState(this.#dataState, this.viewId);
-    this.#changeDetector.markForCheck();
+    item.selected = isSelected;
   }
 }
