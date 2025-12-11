@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.11.1](https://github.com/blackbaud/skyux/compare/13.11.0...13.11.1) (2025-12-11)
+
+
+### Bug Fixes
+
+* **components/docs-tools:** allow for code examples without specifying `componentType` ([#4124](https://github.com/blackbaud/skyux/issues/4124)) ([780643f](https://github.com/blackbaud/skyux/commit/780643fd837324c06753c72e2d898f3ef38ea776)), closes [AB#3583748](https://github.com/AB/issues/3583748)
+
+
+
 # [13.11.0](https://github.com/blackbaud/skyux/compare/13.10.0...13.11.0) (2025-12-10)
 
 
