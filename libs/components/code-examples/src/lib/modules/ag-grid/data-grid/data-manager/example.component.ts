@@ -95,6 +95,10 @@ export class AgGridDataGridDataManagerExampleComponent {
   }
 
   public onJobTitleSearchAsync(args: SkyFilterItemLookupSearchAsyncArgs): void {
+    // In a real-world application the search service might return an Observable
+    // created by calling HttpClient.get(). Assigning that Observable to the result
+    // allows the lookup component to cancel the web request if it does not complete
+    // before the user searches again.
     args.result = this.#exampleSvc.search(args.searchText);
   }
 }

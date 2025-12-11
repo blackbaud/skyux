@@ -178,10 +178,8 @@ export class AgGridDataEntryGridBasicExampleComponent {
         alert('Edits canceled!');
       } else {
         this.gridData.set(result.data as AgGridDemoRow[]);
-        this.#gridApi?.refreshCells();
         alert('Saving data!');
       }
-      this.#changeDetectorRef.markForCheck();
     });
   }
 

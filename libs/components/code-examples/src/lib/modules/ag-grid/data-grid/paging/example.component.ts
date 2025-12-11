@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   effect,
   inject,
@@ -89,7 +88,6 @@ export class AgGridDataGridPagingExampleComponent {
 
   readonly #activatedRoute = inject(ActivatedRoute);
   readonly #agGridSvc = inject(SkyAgGridService);
-  readonly #changeDetectorRef = inject(ChangeDetectorRef);
   readonly #router = inject(Router);
 
   readonly #pageFromRoute = toSignal(
@@ -125,7 +123,6 @@ export class AgGridDataGridPagingExampleComponent {
       const page = this.#pageFromRoute();
       this.currentPage = page;
       this.#gridApi?.paginationGoToPage(this.currentPage - 1);
-      this.#changeDetectorRef.markForCheck();
     });
 
     effect(() => {
@@ -134,7 +131,6 @@ export class AgGridDataGridPagingExampleComponent {
       if (page) {
         this.currentPage = Number(page);
         this.#gridApi?.paginationGoToPage(this.currentPage - 1);
-        this.#changeDetectorRef.markForCheck();
       }
     });
   }
