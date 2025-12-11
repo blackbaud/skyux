@@ -19,8 +19,7 @@ import { SkyI18nModule } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
-import { fromEvent } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { first, fromEvent } from 'rxjs';
 
 import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
 import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';

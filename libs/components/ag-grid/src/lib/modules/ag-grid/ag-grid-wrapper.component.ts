@@ -373,7 +373,7 @@ export class SkyAgGridWrapperComponent
     const skyAgGridTheme = getSkyAgGridTheme(
       hasEditableClass ? 'data-entry-grid' : 'data-grid',
     );
-    this.agGrid?.api.setGridOption('theme', skyAgGridTheme);
+    this.agGrid?.api?.setGridOption('theme', skyAgGridTheme);
     const skyAgGridThemeClassName = getSkyAgGridThemeClassName(
       hasEditableClass,
       themeSettings,
