@@ -3,15 +3,12 @@ import {
   ChangeDetectorRef,
   Component,
   inject,
+  signal,
 } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
-import {
-  SkyModalCloseArgs,
-  SkyModalConfigurationInterface,
-  SkyModalService,
-} from '@skyux/modals';
+import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -43,7 +40,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   imports: [AgGridModule, SkyAgGridModule, SkySearchModule, SkyToolbarModule],
 })
 export class AgGridDataEntryGridInlineHelpExampleComponent {
-  protected gridData = AG_GRID_DEMO_DATA;
+  protected readonly gridData = signal<AgGridDemoRow[]>(AG_GRID_DEMO_DATA);
   protected gridOptions: GridOptions;
   protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
   protected searchText = '';
@@ -185,7 +182,7 @@ export class AgGridDataEntryGridInlineHelpExampleComponent {
 
   protected openModal(): void {
     const context = new EditModalContext();
-    context.gridData = this.gridData;
+    context.gridData = structuredClone(this.gridData());
 
     const options: SkyModalConfigurationInterface = {
       providers: [
@@ -200,15 +197,15 @@ export class AgGridDataEntryGridInlineHelpExampleComponent {
 
     const modalInstance = this.#modalSvc.open(EditModalComponent, options);
 
-    modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
+    modalInstance.closed.subscribe((result) => {
       if (result.reason === 'cancel' || result.reason === 'close') {
         alert('Edits canceled!');
       } else {
-        this.gridData = result.data as AgGridDemoRow[];
+        this.gridData.set(result.data as AgGridDemoRow[]);
         this.#gridApi?.refreshCells();
-
         alert('Saving data!');
       }
+      this.#changeDetectorRef.markForCheck();
     });
   }
 
