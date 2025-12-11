@@ -17,7 +17,7 @@
     <div
       class="sky-docs-code-example-viewer-demo sky-padding-even-md sky-margin-stacked-lg"
     >
-      @if (!demoHidden()) {
+      @if (!demoHidden() && componentType()) {
         <ng-template [ngComponentOutlet]="componentType()" />
       } @else {
         {{
