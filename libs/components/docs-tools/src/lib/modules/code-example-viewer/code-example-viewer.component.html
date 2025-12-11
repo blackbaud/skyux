@@ -17,8 +17,9 @@
     <div
       class="sky-docs-code-example-viewer-demo sky-padding-even-md sky-margin-stacked-lg"
     >
-      @if (!demoHidden() && componentType()) {
-        <ng-template [ngComponentOutlet]="componentType()" />
+      @let component = componentType();
+      @if (!demoHidden() && component) {
+        <ng-template [ngComponentOutlet]="component" />
       } @else {
         {{
           'sky_docs_code_example_viewer_demo_hidden_message' | skyLibResources
