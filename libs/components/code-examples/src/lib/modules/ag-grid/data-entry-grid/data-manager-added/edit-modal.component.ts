@@ -142,10 +142,10 @@ export class EditModalComponent {
           editable: true,
         },
       ],
-      onGridReady: (params) => {
-        this.#gridApi.set(params.api);
+      onGridReady: (gridReadyEvent): void => {
+        this.#gridApi.set(gridReadyEvent.api);
       },
-      onGridPreDestroyed: () => {
+      onGridPreDestroyed: (): void => {
         this.#gridApi.set(undefined);
       },
       rowData: this.gridData,

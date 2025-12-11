@@ -98,9 +98,7 @@ export class AgGridDataGridPagingExampleComponent {
   );
 
   readonly #navigationEnd = toSignal(
-    this.#router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-    ),
+    this.#router.events.pipe(filter((event) => event instanceof NavigationEnd)),
   );
 
   constructor() {
