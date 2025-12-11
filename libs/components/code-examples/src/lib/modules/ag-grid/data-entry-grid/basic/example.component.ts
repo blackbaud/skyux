@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   inject,
+  signal,
 } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyToolbarModule } from '@skyux/layout';
@@ -38,7 +39,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   imports: [AgGridModule, SkyAgGridModule, SkySearchModule, SkyToolbarModule],
 })
 export class AgGridDataEntryGridBasicExampleComponent {
-  protected gridData = AG_GRID_DEMO_DATA;
+  protected readonly gridData = signal<AgGridDemoRow[]>(AG_GRID_DEMO_DATA);
   protected gridOptions: GridOptions;
   protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
   protected searchText = '';
@@ -157,8 +158,7 @@ export class AgGridDataEntryGridBasicExampleComponent {
 
   protected openModal(): void {
     const context = new EditModalContext();
-
-    context.gridData = this.gridData;
+    context.gridData = structuredClone(this.gridData());
 
     const options: SkyModalConfigurationInterface = {
       ariaDescribedBy: 'docs-edit-grid-modal-content',
@@ -177,12 +177,7 @@ export class AgGridDataEntryGridBasicExampleComponent {
       if (result.reason === 'cancel' || result.reason === 'close') {
         alert('Edits canceled!');
       } else {
-        this.gridData = result.data as AgGridDemoRow[];
-
-        if (this.#gridApi) {
-          this.#gridApi.refreshCells();
-        }
-
+        this.gridData.set(result.data as AgGridDemoRow[]);
         alert('Saving data!');
       }
     });
