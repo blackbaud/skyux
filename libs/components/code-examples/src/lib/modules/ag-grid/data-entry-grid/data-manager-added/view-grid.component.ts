@@ -124,7 +124,7 @@ export class ViewGridComponent {
   protected readonly displayedItems = computed(() =>
     this.#filterItems(this.#searchItems(this.items())),
   );
-  protected gridOptions = inject(SkyAgGridService).getEditableGridOptions({
+  protected gridOptions = inject(SkyAgGridService).getGridOptions({
     gridOptions: {
       columnDefs: this.#columnDefs,
       onGridReady: (params) => {

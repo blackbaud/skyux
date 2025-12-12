@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyAgGridModule, SkyAgGridService } from '@skyux/ag-grid';
 import {
   SkyDataManagerModule,
@@ -10,7 +11,8 @@ import { SkyIconModule } from '@skyux/icon';
 import { SkyListSummaryModule } from '@skyux/lists';
 
 import { AgGridModule } from 'ag-grid-angular';
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+import { AllCommunityModule, GridApi, ModuleRegistry } from 'ag-grid-community';
+import { map } from 'rxjs/operators';
 
 import { DashboardLinkCellRendererComponent } from './dashboard-link-cell-renderer.component';
 import { DashboardGridContextMenuComponent } from './dashboards-grid-context-menu.component';
@@ -92,10 +94,17 @@ export class ListPageContentComponent {
           headerName: 'Last Updated',
         },
       ],
+      onGridReady: (params) => {
+        this.#gridApi.set(params.api);
+      },
+      onGridPreDestroyed: () => {
+        this.#gridApi.set(undefined);
+      },
       rowData: this.items,
     },
   });
 
+  readonly #gridApi = signal<GridApi | undefined>(undefined);
   readonly #viewConfig: SkyDataViewConfig = {
     id: 'gridView',
     name: 'Grid View',
@@ -122,5 +131,15 @@ export class ListPageContentComponent {
       }),
     });
     dataManagerService.initDataView(this.#viewConfig);
+    const searchText = toSignal(
+      dataManagerService
+        .getDataStateUpdates(`${this.#viewConfig.id}-searchText`)
+        .pipe(map((state) => state.searchText ?? '')),
+      { initialValue: '' },
+    );
+    effect(() => {
+      const text = searchText();
+      this.#gridApi()?.setGridOption('quickFilterText', text);
+    });
   }
 }

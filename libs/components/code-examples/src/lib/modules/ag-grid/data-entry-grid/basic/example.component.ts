@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  effect,
   inject,
   signal,
 } from '@angular/core';
@@ -15,8 +15,6 @@ import {
   AllCommunityModule,
   ColDef,
   GridApi,
-  GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   ValueFormatterParams,
 } from 'ag-grid-community';
@@ -40,11 +38,8 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 })
 export class AgGridDataEntryGridBasicExampleComponent {
   protected readonly gridData = signal<AgGridDemoRow[]>(AG_GRID_DEMO_DATA);
-  protected gridOptions: GridOptions;
-  protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
-  protected searchText = '';
 
-  #columnDefs: ColDef[] = [
+  readonly #columnDefs: ColDef[] = [
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
@@ -130,30 +125,26 @@ export class AgGridDataEntryGridBasicExampleComponent {
     },
   ];
 
-  #gridApi: GridApi | undefined;
-
-  readonly #agGridSvc = inject(SkyAgGridService);
-  readonly #changeDetectorRef = inject(ChangeDetectorRef);
   readonly #modalSvc = inject(SkyModalService);
+  readonly #gridApi = signal<GridApi | undefined>(undefined);
+
+  protected gridOptions = inject(SkyAgGridService).getGridOptions({
+    gridOptions: {
+      columnDefs: this.#columnDefs,
+      onGridReady: (params) => {
+        this.#gridApi.set(params.api);
+      },
+      onGridPreDestroyed: () => {
+        this.#gridApi.set(undefined);
+      },
+    },
+  });
 
   constructor() {
-    const gridOptions: GridOptions = {
-      columnDefs: this.#columnDefs,
-      onGridReady: (gridReadyEvent): void => {
-        this.onGridReady(gridReadyEvent);
-      },
-    };
-
-    this.gridOptions = this.#agGridSvc.getEditableGridOptions({
-      gridOptions,
+    effect(() => {
+      const rowData = this.gridData();
+      this.#gridApi()?.setGridOption('rowData', rowData);
     });
-
-    this.#changeDetectorRef.markForCheck();
-  }
-
-  public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.#gridApi = gridReadyEvent.api;
-    this.#changeDetectorRef.markForCheck();
   }
 
   protected openModal(): void {
@@ -161,7 +152,6 @@ export class AgGridDataEntryGridBasicExampleComponent {
     context.gridData = structuredClone(this.gridData());
 
     const options: SkyModalConfigurationInterface = {
-      ariaDescribedBy: 'docs-edit-grid-modal-content',
       providers: [
         {
           provide: EditModalContext,
@@ -183,19 +173,7 @@ export class AgGridDataEntryGridBasicExampleComponent {
   }
 
   protected searchApplied(searchText: string | void): void {
-    this.searchText = searchText ?? '';
-
-    if (this.#gridApi) {
-      this.#gridApi.updateGridOptions({ quickFilterText: this.searchText });
-
-      const displayedRowCount = this.#gridApi.getDisplayedRowCount();
-
-      if (displayedRowCount > 0) {
-        this.#gridApi.hideOverlay();
-      } else {
-        this.#gridApi.showNoRowsOverlay();
-      }
-    }
+    this.#gridApi()?.setGridOption('quickFilterText', searchText ?? '');
   }
 
   #endDateFormatter(params: ValueFormatterParams<AgGridDemoRow, Date>): string {
