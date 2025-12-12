@@ -5,7 +5,6 @@ import {
   effect,
   inject,
   input,
-  linkedSignal,
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -24,7 +23,6 @@ import {
   ColDef,
   GridApi,
   ModuleRegistry,
-  RowSelectedEvent,
 } from 'ag-grid-community';
 import { of } from 'rxjs';
 
@@ -71,24 +69,17 @@ export class ViewGridComponent {
   ];
   readonly #dataManagerSvc = inject(SkyDataManagerService);
   readonly #dataState = toSignal(
-    this.#dataManagerSvc.getDataStateUpdates(this.viewId),
+    this.#dataManagerSvc.getDataStateUpdates(`${this.viewId}-data-state`),
     { initialValue: new SkyDataManagerState({}) },
   );
   readonly #gridApi = signal<GridApi | undefined>(undefined);
-  readonly #selectedItems = linkedSignal(
-    () => this.#dataState().selectedIds ?? [],
-  );
-
   protected readonly displayedItems = computed(() => {
     const dataState = this.#dataState();
     return filterItems(
       this.items(),
       dataState.filterData?.filters as SkyFilterBarFilterState | undefined,
       dataState.searchText,
-    ).map((item) => ({
-      ...item,
-      selected: this.#selectedItems().includes(item.id),
-    }));
+    );
   });
   protected readonly gridOptions = inject(SkyAgGridService).getGridOptions({
     gridOptions: {
@@ -131,22 +122,5 @@ export class ViewGridComponent {
         }),
       ),
     });
-  }
-
-  protected onRowSelected(
-    rowSelectedEvent: RowSelectedEvent<DataManagerDemoRow>,
-  ): void {
-    if (!rowSelectedEvent.data?.selected) {
-      this.#selectedItems.update((ids) =>
-        ids.filter((id) => id !== rowSelectedEvent.data?.id),
-      );
-    } else {
-      this.#selectedItems.update((ids) => {
-        if (rowSelectedEvent.data && !ids.includes(rowSelectedEvent.data.id)) {
-          return ids.concat([rowSelectedEvent.data.id]);
-        }
-        return ids;
-      });
-    }
   }
 }

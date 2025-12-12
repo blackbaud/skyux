@@ -5,7 +5,6 @@ import {
   effect,
   inject,
   input,
-  linkedSignal,
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -23,7 +22,6 @@ import {
   ColDef,
   GridApi,
   ModuleRegistry,
-  RowSelectedEvent,
   ValueFormatterParams,
 } from 'ag-grid-community';
 import { of } from 'rxjs';
@@ -104,15 +102,9 @@ export class ViewGridComponent {
     { initialValue: new SkyDataManagerState({}) },
   );
   readonly #gridApi = signal<GridApi | undefined>(undefined);
-  readonly #selectedItems = linkedSignal(
-    () => this.#dataState().selectedIds ?? [],
-  );
 
   protected readonly displayedItems = computed(() =>
-    this.#filterItems(this.#searchItems(this.items())).map((item) => ({
-      ...item,
-      selected: this.#selectedItems().includes(item.id),
-    })),
+    this.#filterItems(this.#searchItems(this.items())),
   );
   protected readonly gridOptions = inject(SkyAgGridService).getGridOptions({
     gridOptions: {
@@ -190,23 +182,6 @@ export class ViewGridComponent {
         },
       ],
     });
-  }
-
-  protected onRowSelected(
-    rowSelectedEvent: RowSelectedEvent<AgGridDemoRow>,
-  ): void {
-    if (!rowSelectedEvent.data?.selected) {
-      this.#selectedItems.update((ids) =>
-        ids.filter((id) => id !== rowSelectedEvent.data?.id),
-      );
-    } else {
-      this.#selectedItems.update((ids) => {
-        if (rowSelectedEvent.data && !ids.includes(rowSelectedEvent.data.id)) {
-          return ids.concat([rowSelectedEvent.data.id]);
-        }
-        return ids;
-      });
-    }
   }
 
   #endDateFormatter(params: ValueFormatterParams<AgGridDemoRow, Date>): string {

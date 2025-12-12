@@ -149,6 +149,7 @@ export class EditModalComponent {
         this.#gridApi.set(undefined);
       },
       rowData: this.gridData,
+      stopEditingWhenCellsLoseFocus: true,
     },
   });
   protected readonly instance = inject(SkyModalInstance);

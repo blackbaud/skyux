@@ -5,7 +5,6 @@ import {
   effect,
   inject,
   input,
-  linkedSignal,
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -120,16 +119,10 @@ export class ViewGridComponent {
     this.#dataManagerSvc.getDataStateUpdates(this.viewId),
     { initialValue: new SkyDataManagerState({}) },
   );
-  readonly #selectedItems = linkedSignal(
-    () => this.#dataState().selectedIds ?? [],
-  );
   readonly #gridApi = signal<GridApi | undefined>(undefined);
 
   protected readonly displayedItems = computed(() =>
-    this.#filterItems(this.#searchItems(this.items())).map((item) => ({
-      ...item,
-      selected: this.#selectedItems().includes(item.id),
-    })),
+    this.#filterItems(this.#searchItems(this.items())),
   );
   protected gridOptions = inject(SkyAgGridService).getEditableGridOptions({
     gridOptions: {

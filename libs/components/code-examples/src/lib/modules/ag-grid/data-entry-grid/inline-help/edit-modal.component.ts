@@ -16,7 +16,8 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
-  AllCommunityModule, ColDef,
+  AllCommunityModule,
+  ColDef,
   GridApi,
   ICellEditorParams,
   IRowNode,
@@ -38,7 +39,7 @@ export class EditModalComponent {
   protected gridData = inject(EditModalContext).gridData;
   protected gridOptions = inject(SkyAgGridService).getEditableGridOptions({
     gridOptions: {
-      columnDefs: <ColDef<AgGridDemoRow>[]>[
+      columnDefs: [
         {
           field: 'name',
           headerName: 'Name',
@@ -158,13 +159,14 @@ export class EditModalComponent {
           },
           editable: true,
         },
-      ],
+      ] as ColDef<AgGridDemoRow>[],
       onGridReady: (gridReadyEvent): void => {
         this.#gridApi.set(gridReadyEvent.api);
       },
       onGridPreDestroyed: (): void => {
         this.#gridApi.set(undefined);
       },
+      stopEditingWhenCellsLoseFocus: true,
     },
   });
   readonly #gridApi = signal<GridApi | undefined>(undefined);

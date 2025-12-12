@@ -40,9 +40,8 @@ export class ViewRepeaterComponent {
   protected readonly selectedItems = linkedSignal(
     () => this.#dataState().selectedIds ?? [],
   );
-  protected readonly displayedItems = computed(() => {
+  protected readonly filteredItems = computed(() => {
     const dataState = this.#dataState();
-    const selectedItems = this.selectedItems();
     const items = filterItems(
       this.items(),
       dataState.filterData?.filters as SkyFilterBarFilterState | undefined,
@@ -62,6 +61,12 @@ export class ViewRepeaterComponent {
         return aValue.localeCompare(bValue);
       });
     }
+    return items;
+  });
+  protected readonly displayedItems = computed(() => {
+    const dataState = this.#dataState();
+    const selectedItems = this.selectedItems();
+    const items = this.filteredItems();
     if (dataState.onlyShowSelected) {
       return items.filter((item) => selectedItems.includes(item.id));
     }
@@ -86,8 +91,9 @@ export class ViewRepeaterComponent {
         selectedItems.length !== currentSelectedIds.length ||
         !selectedItems.every((id) => currentSelectedIds.includes(id))
       ) {
-        dataState.selectedIds = selectedItems;
-        this.#dataManagerSvc.updateDataState(dataState, this.viewId);
+        const dataStateUpdate = new SkyDataManagerState(dataState);
+        dataStateUpdate.selectedIds = selectedItems;
+        this.#dataManagerSvc.updateDataState(dataStateUpdate, this.viewId);
       }
     });
     this.#dataManagerSvc.initDataView({
@@ -101,7 +107,7 @@ export class ViewRepeaterComponent {
         this.selectedItems.set([]);
       },
       onSelectAllClick: () => {
-        this.selectedItems.set(this.items().map((item) => item.id));
+        this.selectedItems.set(this.filteredItems().map((item) => item.id));
       },
     });
   }

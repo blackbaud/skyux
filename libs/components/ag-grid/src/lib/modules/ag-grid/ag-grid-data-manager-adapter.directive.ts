@@ -1,12 +1,15 @@
 import {
-  AfterContentInit,
   ChangeDetectorRef,
   Directive,
-  Input,
   OnDestroy,
+  computed,
   contentChildren,
   effect,
   inject,
+  input,
+  linkedSignal,
+  signal,
+  untracked,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyBreakpoint, SkyMediaQueryService } from '@skyux/core';
@@ -14,7 +17,6 @@ import {
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewColumnWidths,
-  SkyDataViewConfig,
 } from '@skyux/data-manager';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -27,8 +29,7 @@ import {
   IColumnLimit,
   RowSelectedEvent,
 } from 'ag-grid-community';
-import { Subject, Subscription, fromEvent, of, switchMap } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { Subject, filter, fromEvent, of, switchMap, takeUntil } from 'rxjs';
 
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
 
@@ -40,11 +41,8 @@ function toColumnWidthName(breakpoint: SkyBreakpoint): 'xs' | 'sm' {
  * @internal
  */
 @Directive({ selector: '[skyAgGridDataManagerAdapter]' })
-export class SkyAgGridDataManagerAdapterDirective
-  implements AfterContentInit, OnDestroy
-{
-  @Input()
-  public viewId: string | undefined;
+export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
+  public readonly viewId = input<string>();
 
   public readonly agGridList = contentChildren<AgGridAngular>(AgGridAngular, {
     descendants: true,
@@ -54,26 +52,46 @@ export class SkyAgGridDataManagerAdapterDirective
     descendants: true,
   });
 
-  #currentAgGrid: AgGridAngular | undefined;
+  readonly #currentAgGrid = signal<AgGridAngular | undefined>(undefined);
+  readonly #isAgGridReady = linkedSignal(
+    computed(() => {
+      this.#currentAgGrid();
+      return false;
+    }),
+  );
+  readonly #currentAgGridReady = computed(() => {
+    const agGrid = this.#currentAgGrid();
+    if (this.#isAgGridReady()) {
+      return agGrid;
+    }
+    return undefined;
+  });
   #currentDataState: SkyDataManagerState | undefined;
   #currentSkyAgGridWrapper: SkyAgGridWrapperComponent | undefined;
-  #dataStateSub: Subscription | undefined;
-  #viewConfig: SkyDataViewConfig | undefined;
-  #ngUnsubscribe = new Subject<void>();
-  #changeDetector: ChangeDetectorRef;
-  #dataManagerSvc: SkyDataManagerService;
+  readonly #ngUnsubscribe = new Subject<void>();
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dataManagerSvc = inject(SkyDataManagerService);
+  readonly #viewConfigs = toSignal(this.#dataManagerSvc.getDataViewsUpdates(), {
+    initialValue: [],
+  });
+  readonly #viewConfig = computed(() => {
+    const viewId = this.viewId();
+    return this.#viewConfigs().find((vc) => vc.id === viewId);
+  });
+  readonly #activeView = toSignal(
+    this.#dataManagerSvc.getActiveViewIdUpdates(),
+  );
+  readonly #isActiveView = computed(() => {
+    const activeViewId = this.#activeView();
+    const viewId = this.viewId();
+    return activeViewId === viewId;
+  });
 
   readonly #breakpoint = toSignal(
     inject(SkyMediaQueryService).breakpointChange,
   );
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    dataManagerSvc: SkyDataManagerService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#dataManagerSvc = dataManagerSvc;
-
+  constructor() {
     effect(() => {
       const list = this.agGridList();
 
@@ -93,13 +111,29 @@ export class SkyAgGridDataManagerAdapterDirective
         this.#applyColumnWidths(breakpoint);
       }
     });
-  }
 
-  public ngAfterContentInit(): void {
-    if (this.viewId) {
-      this.#dataManagerSvc.setViewkeeperClasses(this.viewId, ['.ag-header']);
-      this.#viewConfig = this.#dataManagerSvc.getViewById(this.viewId);
-    }
+    effect(() => {
+      const viewId = this.viewId();
+      const agGrid = this.#currentAgGridReady();
+      if (viewId && agGrid) {
+        if (agGrid.api.getGridOption('context')?.enableTopScroll) {
+          this.#dataManagerSvc.setViewkeeperClasses(viewId, [
+            '.ag-header',
+            '.ag-body-horizontal-scroll',
+          ]);
+        } else {
+          this.#dataManagerSvc.setViewkeeperClasses(viewId, ['.ag-header']);
+        }
+      }
+    });
+
+    effect(() => {
+      const isActiveView = this.#isActiveView();
+      const agGrid = untracked(this.#currentAgGridReady);
+      if (isActiveView && agGrid) {
+        agGrid.api.refreshCells();
+      }
+    });
   }
 
   public ngOnDestroy(): void {
@@ -112,7 +146,7 @@ export class SkyAgGridDataManagerAdapterDirective
     const agGridCount = agGridList.length;
 
     if (agGrid) {
-      if (agGrid !== this.#currentAgGrid) {
+      if (agGrid !== this.#currentAgGrid()) {
         this.#registerAgGrid(agGrid);
       }
 
@@ -144,12 +178,7 @@ export class SkyAgGridDataManagerAdapterDirective
 
   #unregisterAgGrid(): void {
     this.#ngUnsubscribe.next();
-    this.#currentAgGrid = undefined;
-
-    /* istanbul ignore if */
-    if (this.#dataStateSub) {
-      this.#dataStateSub.unsubscribe();
-    }
+    this.#currentAgGrid.set(undefined);
   }
 
   #unregisterSkyAgGridWrapper(): void {
@@ -170,30 +199,21 @@ export class SkyAgGridDataManagerAdapterDirective
   #registerAgGrid(agGrid: AgGridAngular): void {
     this.#unregisterAgGrid();
 
-    this.#currentAgGrid = agGrid;
+    this.#currentAgGrid.set(agGrid);
 
     if (agGrid) {
-      this.#dataStateSub = agGrid.gridReady
+      agGrid.gridReady
         .pipe(
           takeUntil(this.#ngUnsubscribe),
           switchMap(() => {
-            if (this.#viewConfig && this.viewId) {
-              this.#viewConfig.onSelectAllClick = (): void =>
-                agGrid.api.selectAll();
-              this.#viewConfig.onClearAllClick = (): void =>
-                agGrid.api.deselectAll();
-              this.#dataManagerSvc.updateViewConfig(this.#viewConfig);
-              if (agGrid.gridOptions?.context?.enableTopScroll) {
-                this.#dataManagerSvc.setViewkeeperClasses(this.viewId, [
-                  '.ag-header',
-                  '.ag-body-horizontal-scroll',
-                ]);
-              }
+            const viewConfig = this.#viewConfig();
+            if (viewConfig) {
+              viewConfig.onSelectAllClick = (): void => agGrid.api.selectAll();
+              viewConfig.onClearAllClick = (): void => agGrid.api.deselectAll();
+              this.#dataManagerSvc.updateViewConfig(viewConfig);
 
               this.#applyColumnWidths();
-              return this.#dataManagerSvc.getDataStateUpdates(
-                this.#viewConfig.id,
-              );
+              return this.#dataManagerSvc.getDataStateUpdates(viewConfig.id);
             }
             /* istanbul ignore next */
             return of(undefined);
@@ -204,6 +224,7 @@ export class SkyAgGridDataManagerAdapterDirective
           this.#currentDataState = dataState;
           this.#displayColumns(dataState);
           this.#applySort(dataState);
+          this.#isAgGridReady.set(true);
         });
 
       agGrid.gridReady
@@ -258,7 +279,8 @@ export class SkyAgGridDataManagerAdapterDirective
       agGrid.rowSelected
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((event: RowSelectedEvent) => {
-          if (this.#viewConfig && this.#currentDataState) {
+          const viewConfig = this.#viewConfig();
+          if (viewConfig && this.#currentDataState) {
             const row = event.node;
             const selectedIds = this.#currentDataState.selectedIds || [];
             const rowIndex = selectedIds.indexOf(row.data.id);
@@ -272,7 +294,7 @@ export class SkyAgGridDataManagerAdapterDirective
             this.#currentDataState.selectedIds = selectedIds;
             this.#dataManagerSvc.updateDataState(
               this.#currentDataState,
-              this.#viewConfig.id,
+              viewConfig.id,
             );
 
             this.#changeDetector.markForCheck();
@@ -281,6 +303,7 @@ export class SkyAgGridDataManagerAdapterDirective
 
       agGrid.sortChanged.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
         const gridColumnStates: ColumnState[] = agGrid.api.getColumnState();
+        const viewConfig = this.#viewConfig();
 
         const activeSortColumnState =
           gridColumnStates?.find(
@@ -288,7 +311,7 @@ export class SkyAgGridDataManagerAdapterDirective
           ) ??
           gridColumnStates?.find((aGridColumnState) => aGridColumnState.sort);
 
-        if (this.#viewConfig && this.#currentDataState) {
+        if (viewConfig && this.#currentDataState) {
           if (activeSortColumnState) {
             const activeSortColumnDef = agGrid.api.getColumnDef(
               activeSortColumnState.colId,
@@ -304,7 +327,7 @@ export class SkyAgGridDataManagerAdapterDirective
           }
           this.#dataManagerSvc.updateDataState(
             this.#currentDataState,
-            this.#viewConfig.id,
+            viewConfig.id,
           );
         }
       });
@@ -312,12 +335,11 @@ export class SkyAgGridDataManagerAdapterDirective
   }
 
   #updateColumnsInCurrentDataState(api: GridApi): void {
-    if (this.#viewConfig && this.#currentDataState) {
+    const viewConfig = this.#viewConfig();
+    if (viewConfig && this.#currentDataState) {
       const columnOrder = this.#getColumnOrder(api);
 
-      const viewState = this.#currentDataState.getViewStateById(
-        this.#viewConfig.id,
-      );
+      const viewState = this.#currentDataState.getViewStateById(viewConfig.id);
 
       if (
         viewState &&
@@ -327,11 +349,8 @@ export class SkyAgGridDataManagerAdapterDirective
         viewState.displayedColumnIds = columnOrder;
 
         this.#dataManagerSvc.updateDataState(
-          this.#currentDataState.addOrUpdateView(
-            this.#viewConfig.id,
-            viewState,
-          ),
-          this.#viewConfig.id,
+          this.#currentDataState.addOrUpdateView(viewConfig.id, viewState),
+          viewConfig.id,
         );
       }
     }
@@ -345,10 +364,11 @@ export class SkyAgGridDataManagerAdapterDirective
   }
 
   #displayColumns(dataState: SkyDataManagerState): void {
-    const agGrid = this.#currentAgGrid;
+    const agGrid = this.#currentAgGrid();
+    const viewConfig = this.#viewConfig();
 
-    if (agGrid && this.#viewConfig) {
-      const viewState = dataState.getViewStateById(this.#viewConfig.id);
+    if (agGrid && viewConfig) {
+      const viewState = dataState.getViewStateById(viewConfig.id);
       let displayedColumnIds: string[] = [];
 
       /*istanbul ignore else*/
@@ -377,7 +397,7 @@ export class SkyAgGridDataManagerAdapterDirective
   }
 
   #applySort(dataState: SkyDataManagerState): void {
-    const agGrid = this.#currentAgGrid;
+    const agGrid = this.#currentAgGrid();
     const activeSort = dataState.activeSortOption;
 
     if (activeSort) {
@@ -398,26 +418,28 @@ export class SkyAgGridDataManagerAdapterDirective
     width: number,
     breakpoint: SkyBreakpoint,
   ): void {
+    const viewId = this.viewId();
     const viewState =
-      this.viewId && this.#currentDataState?.getViewStateById(this.viewId);
-    if (viewState && this.viewId && this.#currentDataState) {
+      viewId && this.#currentDataState?.getViewStateById(viewId);
+    if (viewState && viewId && this.#currentDataState) {
       const currentWidths = viewState?.columnWidths;
 
       currentWidths[toColumnWidthName(breakpoint)][colId] = width;
 
       viewState.columnWidths = currentWidths;
       this.#dataManagerSvc.updateDataState(
-        this.#currentDataState.addOrUpdateView(this.viewId, viewState),
-        this.viewId,
+        this.#currentDataState.addOrUpdateView(viewId, viewState),
+        viewId,
       );
     }
   }
 
   #removeColumnWidths(colIds: string[]): void {
+    const viewId = this.viewId();
     const viewState =
-      this.viewId && this.#currentDataState?.getViewStateById(this.viewId);
+      viewId && this.#currentDataState?.getViewStateById(viewId);
 
-    if (viewState && this.viewId && this.#currentDataState) {
+    if (viewState && viewId && this.#currentDataState) {
       const currentWidths = viewState?.columnWidths;
 
       for (const colId of colIds) {
@@ -427,18 +449,20 @@ export class SkyAgGridDataManagerAdapterDirective
 
       viewState.columnWidths = currentWidths;
       this.#dataManagerSvc.updateDataState(
-        this.#currentDataState.addOrUpdateView(this.viewId, viewState),
-        this.viewId,
+        this.#currentDataState.addOrUpdateView(viewId, viewState),
+        viewId,
       );
     }
   }
 
   #applyColumnWidths(breakpoint?: SkyBreakpoint): void {
     breakpoint ??= this.#breakpoint();
+    const currentAgGrid = this.#currentAgGrid();
+    const viewId = this.viewId();
 
     if (breakpoint) {
       const viewState =
-        this.viewId && this.#currentDataState?.getViewStateById(this.viewId);
+        viewId && this.#currentDataState?.getViewStateById(viewId);
 
       if (viewState && viewState.columnWidths && viewState.displayedColumnIds) {
         const columnLimits = this.#getGridColumnLimits(
@@ -447,7 +471,7 @@ export class SkyAgGridDataManagerAdapterDirective
           toColumnWidthName(breakpoint),
         );
 
-        this.#currentAgGrid?.api.sizeColumnsToFit({ columnLimits });
+        currentAgGrid?.api.sizeColumnsToFit({ columnLimits });
       }
     }
   }

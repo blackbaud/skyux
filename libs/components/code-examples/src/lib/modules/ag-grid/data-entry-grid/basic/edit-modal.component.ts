@@ -189,6 +189,7 @@ export class EditModalComponent {
       onGridPreDestroyed: (): void => {
         this.#gridApi.set(undefined);
       },
+      stopEditingWhenCellsLoseFocus: true,
     },
   });
   readonly #gridApi = signal<GridApi | undefined>(undefined);
