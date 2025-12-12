@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, TemplateRef } from '@angular/core';
+import { Component, Signal, TemplateRef, isSignal } from '@angular/core';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
@@ -13,6 +13,11 @@ type CellState =
       context: CellRendererTemplateContext;
     }
   | {
+      hasTemplate: 'signal';
+      template: Signal<TemplateRef<CellRendererTemplateContext>>;
+      context: CellRendererTemplateContext;
+    }
+  | {
       hasTemplate: false;
       template: undefined;
       context?: unknown;
@@ -20,9 +25,15 @@ type CellState =
 
 @Component({
   selector: 'sky-ag-grid-cell-renderer-template',
-  template: `@if (state.hasTemplate) {
-    <ng-container *ngTemplateOutlet="state.template; context: state.context" />
-  }`,
+  template: `@if (state.hasTemplate === 'signal') {
+      <ng-container
+        *ngTemplateOutlet="state.template(); context: state.context"
+      />
+    } @else if (state.hasTemplate) {
+      <ng-container
+        *ngTemplateOutlet="state.template; context: state.context"
+      />
+    }`,
   imports: [NgTemplateOutlet],
 })
 export class SkyAgGridCellRendererTemplateComponent
@@ -40,13 +51,16 @@ export class SkyAgGridCellRendererTemplateComponent
       'template' in params.colDef.cellRendererParams &&
       params.colDef.cellRendererParams.template
     );
-    const template: TemplateRef<CellRendererTemplateContext> | undefined =
-      hasTemplate
-        ? (params.colDef?.cellRendererParams
-            .template as TemplateRef<CellRendererTemplateContext>)
-        : undefined;
+    const template:
+      | TemplateRef<CellRendererTemplateContext>
+      | Signal<TemplateRef<CellRendererTemplateContext>>
+      | undefined = hasTemplate
+      ? (params.colDef?.cellRendererParams.template as
+          | TemplateRef<CellRendererTemplateContext>
+          | Signal<TemplateRef<CellRendererTemplateContext>>)
+      : undefined;
     this.state = {
-      hasTemplate,
+      hasTemplate: isSignal(template) ? 'signal' : hasTemplate,
       template,
       context: { value: params.value, row: params.data },
     } as CellState;

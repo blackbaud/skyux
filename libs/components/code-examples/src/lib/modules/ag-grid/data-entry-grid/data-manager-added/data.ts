@@ -86,6 +86,7 @@ export const JOB_TITLES: Record<string, AutocompleteOption[]> = {
 };
 
 export interface AgGridDemoRow {
+  id: string;
   selected?: boolean;
   name: string;
   age: number;
@@ -93,10 +94,13 @@ export interface AgGridDemoRow {
   endDate?: Date;
   department: AutocompleteOption;
   jobTitle?: AutocompleteOption;
+  validationCurrency?: string;
+  validationDate?: string;
 }
 
 export const AG_GRID_DEMO_DATA: AgGridDemoRow[] = [
   {
+    id: '4b7f07b6-d8d3-41cd-84ad-f3ed51cee5c0',
     selected: true,
     name: 'Billy Bob',
     age: 55,
@@ -105,6 +109,7 @@ export const AG_GRID_DEMO_DATA: AgGridDemoRow[] = [
     jobTitle: JOB_TITLES['Customer Support'][1],
   },
   {
+    id: 'aea50a38-aa1e-44e0-94b5-52d3f577767f',
     selected: false,
     name: 'Jane Deere',
     age: 33,
@@ -113,6 +118,7 @@ export const AG_GRID_DEMO_DATA: AgGridDemoRow[] = [
     jobTitle: JOB_TITLES['Engineering'][2],
   },
   {
+    id: 'e74afbe4-5016-4a20-9803-30a301835c4f',
     selected: false,
     name: 'John Doe',
     age: 38,
@@ -122,6 +128,7 @@ export const AG_GRID_DEMO_DATA: AgGridDemoRow[] = [
     jobTitle: JOB_TITLES['Sales'][1],
   },
   {
+    id: '0274faf9-388e-497d-bced-f2bef3eafcfd',
     selected: false,
     name: 'David Smith',
     age: 51,
@@ -131,6 +138,7 @@ export const AG_GRID_DEMO_DATA: AgGridDemoRow[] = [
     jobTitle: JOB_TITLES['Engineering'][4],
   },
   {
+    id: '09b7da69-0272-4fe0-ace3-658a6d8f175c',
     selected: true,
     name: 'Emily Johnson',
     age: 41,
@@ -139,6 +147,7 @@ export const AG_GRID_DEMO_DATA: AgGridDemoRow[] = [
     jobTitle: JOB_TITLES['Marketing'][2],
   },
   {
+    id: '3accf076-fff1-4229-bad3-7d2d42d2c42a',
     selected: false,
     name: 'Nicole Davidson',
     age: 22,
@@ -147,6 +156,7 @@ export const AG_GRID_DEMO_DATA: AgGridDemoRow[] = [
     jobTitle: JOB_TITLES['Engineering'][0],
   },
   {
+    id: 'a8456cf4-4f8d-40ee-a91a-ece9c2327fe4',
     selected: false,
     name: 'Carl Roberts',
     age: 23,
