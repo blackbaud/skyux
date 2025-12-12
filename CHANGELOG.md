@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [13.11.1](https://github.com/blackbaud/skyux/compare/13.11.0...13.11.1) (2025-12-11)
+## [13.11.1](https://github.com/blackbaud/skyux/compare/13.11.0...13.11.1) (2025-12-12)
 
 
 ### Bug Fixes
