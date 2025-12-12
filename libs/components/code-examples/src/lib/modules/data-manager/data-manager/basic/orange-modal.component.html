@@ -1,6 +1,6 @@
 <sky-modal [headingText]="modalLabel">
   <sky-modal-content>
-    <sky-checkbox labelText="Hide orange fruits" [(ngModel)]="hideOrange" />
+    <sky-checkbox labelText="Hide orange fruits" [formControl]="hideOrange" />
   </sky-modal-content>
   <sky-modal-footer>
     <button

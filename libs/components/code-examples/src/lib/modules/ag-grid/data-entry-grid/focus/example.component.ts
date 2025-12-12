@@ -23,7 +23,6 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   imports: [AgGridModule, SkyAgGridModule, SkyInputBoxModule],
 })
 export class AgGridDataEntryGridFocusExampleComponent {
-  protected gridData = AG_GRID_DEMO_DATA;
   protected gridOptions = inject(SkyAgGridService).getEditableGridOptions({
     gridOptions: {
       columnDefs: [
@@ -109,6 +108,7 @@ export class AgGridDataEntryGridFocusExampleComponent {
         });
         return true;
       },
+      rowData: AG_GRID_DEMO_DATA,
     },
   });
 
