@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+* **components/code-examples:** simplify data manager code examples ([#4122](https://github.com/blackbaud/skyux/issues/4122)) ([77198c8](https://github.com/blackbaud/skyux/commit/77198c8dd31e1033b3e852da13031c6e6b495bae))
 * **components/docs-tools:** allow for code examples without specifying `componentType` ([#4124](https://github.com/blackbaud/skyux/issues/4124)) ([780643f](https://github.com/blackbaud/skyux/commit/780643fd837324c06753c72e2d898f3ef38ea776)), closes [AB#3583748](https://github.com/AB/issues/3583748)
 
 
