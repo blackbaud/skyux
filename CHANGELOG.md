@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [13.11.2](https://github.com/blackbaud/skyux/compare/13.11.1...13.11.2) (2025-12-16)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** wait for grid to be ready before applying data manager column sizes ([#4128](https://github.com/blackbaud/skyux/issues/4128)) ([4e28b1a](https://github.com/blackbaud/skyux/commit/4e28b1ad66acbd6485c3326f7616e3b57f475425)), closes [AB#3652352](https://github.com/AB/issues/3652352)
+* **components/data-manager:** cleanup observable subscription ([#4126](https://github.com/blackbaud/skyux/issues/4126)) ([b61a72b](https://github.com/blackbaud/skyux/commit/b61a72b2dbd54a373622c0d8635535ecca5f8227)), closes [AB#3597884](https://github.com/AB/issues/3597884)
+
+
+
 ## [13.11.1](https://github.com/blackbaud/skyux/compare/13.11.0...13.11.1) (2025-12-15)
 
 
