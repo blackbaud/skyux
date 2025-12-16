@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.11.3](https://github.com/blackbaud/skyux/compare/13.11.2...13.11.3) (2025-12-16)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** wait for grid to be ready before api call ([#4129](https://github.com/blackbaud/skyux/issues/4129)) ([12e1f17](https://github.com/blackbaud/skyux/commit/12e1f17494a0654fc1ff6efc20dc377764fd4759)), closes [AB#3652352](https://github.com/AB/issues/3652352)
+
+
+
 ## [13.11.2](https://github.com/blackbaud/skyux/compare/13.11.1...13.11.2) (2025-12-16)
 
 
