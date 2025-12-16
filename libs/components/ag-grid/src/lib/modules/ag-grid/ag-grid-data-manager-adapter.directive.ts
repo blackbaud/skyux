@@ -1,21 +1,37 @@
-import { ChangeDetectorRef, Directive, OnDestroy, computed, contentChildren, effect, inject, input, linkedSignal, signal, untracked } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Directive,
+  OnDestroy,
+  computed,
+  contentChildren,
+  effect,
+  inject,
+  input,
+  linkedSignal,
+  signal,
+  untracked,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyBreakpoint, SkyMediaQueryService } from '@skyux/core';
-import { SkyDataManagerService, SkyDataManagerState, SkyDataViewColumnWidths } from '@skyux/data-manager';
-
-
+import {
+  SkyDataManagerService,
+  SkyDataManagerState,
+  SkyDataViewColumnWidths,
+} from '@skyux/data-manager';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColumnMovedEvent, ColumnResizedEvent, ColumnState, DragStoppedEvent, GridApi, IColumnLimit, RowSelectedEvent } from 'ag-grid-community';
+import {
+  ColumnMovedEvent,
+  ColumnResizedEvent,
+  ColumnState,
+  DragStoppedEvent,
+  GridApi,
+  IColumnLimit,
+  RowSelectedEvent,
+} from 'ag-grid-community';
 import { Subject, filter, fromEvent, of, switchMap, takeUntil } from 'rxjs';
 
-
-
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
-
-
-
-
 
 function toColumnWidthName(breakpoint: SkyBreakpoint): 'xs' | 'sm' {
   return breakpoint === 'xs' ? 'xs' : 'sm';

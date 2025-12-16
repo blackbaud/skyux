@@ -2,23 +2,32 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect } from '@skyux-sdk/testing';
-import { SkyMediaQueryTestingController, provideSkyMediaQueryTesting } from '@skyux/core/testing';
-import { SkyDataManagerService, SkyDataManagerState } from '@skyux/data-manager';
-
-
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
+import {
+  SkyDataManagerService,
+  SkyDataManagerState,
+} from '@skyux/data-manager';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { BeanCollection, Column, ColumnMovedEvent, ColumnResizedEvent, ColumnState, DragStartedEvent, DragStoppedEvent, GridApi, RowNode, RowSelectedEvent } from 'ag-grid-community';
-
-
+import {
+  BeanCollection,
+  Column,
+  ColumnMovedEvent,
+  ColumnResizedEvent,
+  ColumnState,
+  DragStartedEvent,
+  DragStoppedEvent,
+  GridApi,
+  RowNode,
+  RowSelectedEvent,
+} from 'ag-grid-community';
 
 import { SkyAgGridDataManagerAdapterDirective } from './ag-grid-data-manager-adapter.directive';
 import { SkyAgGridDataManagerFixtureComponent } from './fixtures/ag-grid-data-manager.component.fixture';
 import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
-
-
-
-
 
 describe('SkyAgGridDataManagerAdapterDirective', () => {
   let agGridDataManagerFixture: ComponentFixture<SkyAgGridDataManagerFixtureComponent>;
