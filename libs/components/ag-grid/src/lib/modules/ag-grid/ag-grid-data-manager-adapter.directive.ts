@@ -114,9 +114,9 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
 
     effect(() => {
       const viewId = this.viewId();
-      const agGrid = this.#currentAgGridReady();
-      if (viewId && agGrid) {
-        if (agGrid.api.getGridOption('context')?.enableTopScroll) {
+      const agGridApi = this.#currentAgGridReady()?.api;
+      if (viewId && agGridApi) {
+        if (agGridApi.getGridOption('context')?.enableTopScroll) {
           this.#dataManagerSvc.setViewkeeperClasses(viewId, [
             '.ag-header',
             '.ag-body-horizontal-scroll',
@@ -130,8 +130,8 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
     effect(() => {
       const isActiveView = this.#isActiveView();
       const agGrid = untracked(this.#currentAgGridReady);
-      if (isActiveView && agGrid) {
-        agGrid.api.refreshCells();
+      if (isActiveView) {
+        agGrid?.api?.refreshCells();
       }
     });
   }
