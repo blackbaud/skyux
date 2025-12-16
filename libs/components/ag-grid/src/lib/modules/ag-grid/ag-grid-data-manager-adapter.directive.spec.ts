@@ -235,6 +235,18 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     );
   });
 
+  it('should not apply data state column widths when grid is not present', async () => {
+    agGridDataManagerFixtureComponent.displayFirstGrid = false;
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+    expect(agGridDataManagerDirective.agGridList().length).toBe(0);
+    mediaQueryController.setBreakpoint('sm');
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+    // No errors should be thrown
+    expect(agGridDataManagerFixtureComponent).toBeTruthy();
+  });
+
   it('should update the data state when a column is moved', async () => {
     await agGridDataManagerFixture.whenStable();
 
