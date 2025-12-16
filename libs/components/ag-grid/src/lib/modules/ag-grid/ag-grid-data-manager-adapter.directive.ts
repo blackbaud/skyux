@@ -397,11 +397,11 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
   }
 
   #applySort(dataState: SkyDataManagerState): void {
-    const agGrid = this.#currentAgGrid();
+    const agGridApi = this.#currentAgGrid()?.api;
     const activeSort = dataState.activeSortOption;
 
-    if (activeSort) {
-      agGrid?.api.applyColumnState({
+    if (agGridApi && activeSort) {
+      agGridApi.applyColumnState({
         state: [
           {
             colId: activeSort.id,
@@ -457,10 +457,10 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
 
   #applyColumnWidths(breakpoint?: SkyBreakpoint): void {
     breakpoint ??= this.#breakpoint();
-    const currentAgGrid = this.#currentAgGrid();
+    const currentAgGridApi = this.#currentAgGridReady()?.api;
     const viewId = this.viewId();
 
-    if (breakpoint) {
+    if (breakpoint && currentAgGridApi) {
       const viewState =
         viewId && this.#currentDataState?.getViewStateById(viewId);
 
@@ -471,7 +471,7 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
           toColumnWidthName(breakpoint),
         );
 
-        currentAgGrid?.api.sizeColumnsToFit({ columnLimits });
+        currentAgGridApi.sizeColumnsToFit({ columnLimits });
       }
     }
   }
